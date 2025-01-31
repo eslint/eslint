@@ -199,7 +199,7 @@ function generateRuleIndexPage() {
             if (rule.meta.deprecated) {
                 ruleTypesData.deprecated.push({
                     name: basename,
-                    replacedBy: rule.meta.deprecated.replacedBy?.map(replacement => (replacement.rule.name !== "function-call-spacing" ? replacement.rule.name : "func-call-spacing")) ?? [],
+                    replacedBy: rule.meta.deprecated.replacedBy?.map(({ rule }) => rule) ?? [],
                     fixable: !!rule.meta.fixable,
                     hasSuggestions: !!rule.meta.hasSuggestions
                 });

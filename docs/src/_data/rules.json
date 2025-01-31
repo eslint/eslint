@@ -1587,7 +1587,10 @@
         {
             "name": "array-bracket-newline",
             "replacedBy": [
-                "array-bracket-newline"
+                {
+                    "name": "array-bracket-newline",
+                    "url": "https://eslint.style/rules/js/array-bracket-newline"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1595,7 +1598,10 @@
         {
             "name": "array-bracket-spacing",
             "replacedBy": [
-                "array-bracket-spacing"
+                {
+                    "name": "array-bracket-spacing",
+                    "url": "https://eslint.style/rules/js/array-bracket-spacing"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1603,7 +1609,10 @@
         {
             "name": "array-element-newline",
             "replacedBy": [
-                "array-element-newline"
+                {
+                    "name": "array-element-newline",
+                    "url": "https://eslint.style/rules/js/array-element-newline"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1611,7 +1620,10 @@
         {
             "name": "arrow-parens",
             "replacedBy": [
-                "arrow-parens"
+                {
+                    "name": "arrow-parens",
+                    "url": "https://eslint.style/rules/js/arrow-parens"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1619,7 +1631,10 @@
         {
             "name": "arrow-spacing",
             "replacedBy": [
-                "arrow-parens"
+                {
+                    "name": "arrow-parens",
+                    "url": "https://eslint.style/rules/js/arrow-parens"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1627,7 +1642,10 @@
         {
             "name": "block-spacing",
             "replacedBy": [
-                "block-spacing"
+                {
+                    "name": "block-spacing",
+                    "url": "https://eslint.style/rules/js/block-spacing"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1635,7 +1653,10 @@
         {
             "name": "brace-style",
             "replacedBy": [
-                "brace-style"
+                {
+                    "name": "brace-style",
+                    "url": "https://eslint.style/rules/js/brace-style"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1643,7 +1664,10 @@
         {
             "name": "callback-return",
             "replacedBy": [
-                "callback-return"
+                {
+                    "name": "callback-return",
+                    "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/callback-return.md"
+                }
             ],
             "fixable": false,
             "hasSuggestions": false
@@ -1651,7 +1675,10 @@
         {
             "name": "comma-dangle",
             "replacedBy": [
-                "comma-dangle"
+                {
+                    "name": "comma-dangle",
+                    "url": "https://eslint.style/rules/js/comma-dangle"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1659,7 +1686,10 @@
         {
             "name": "comma-spacing",
             "replacedBy": [
-                "comma-spacing"
+                {
+                    "name": "comma-spacing",
+                    "url": "https://eslint.style/rules/js/comma-spacing"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1667,7 +1697,10 @@
         {
             "name": "comma-style",
             "replacedBy": [
-                "comma-style"
+                {
+                    "name": "comma-style",
+                    "url": "https://eslint.style/rules/js/comma-style"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1675,7 +1708,10 @@
         {
             "name": "computed-property-spacing",
             "replacedBy": [
-                "computed-property-spacing"
+                {
+                    "name": "computed-property-spacing",
+                    "url": "https://eslint.style/rules/js/computed-property-spacing"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1683,7 +1719,10 @@
         {
             "name": "dot-location",
             "replacedBy": [
-                "dot-location"
+                {
+                    "name": "dot-location",
+                    "url": "https://eslint.style/rules/js/dot-location"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1691,7 +1730,10 @@
         {
             "name": "eol-last",
             "replacedBy": [
-                "eol-last"
+                {
+                    "name": "eol-last",
+                    "url": "https://eslint.style/rules/js/eol-last"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1699,7 +1741,10 @@
         {
             "name": "func-call-spacing",
             "replacedBy": [
-                "func-call-spacing"
+                {
+                    "name": "function-call-spacing",
+                    "url": "https://eslint.style/rules/js/function-call-spacing"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1707,7 +1752,10 @@
         {
             "name": "function-call-argument-newline",
             "replacedBy": [
-                "function-call-argument-newline"
+                {
+                    "name": "function-call-argument-newline",
+                    "url": "https://eslint.style/rules/js/function-call-argument-newline"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1715,7 +1763,10 @@
         {
             "name": "function-paren-newline",
             "replacedBy": [
-                "function-paren-newline"
+                {
+                    "name": "function-paren-newline",
+                    "url": "https://eslint.style/rules/js/function-paren-newline"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1723,7 +1774,10 @@
         {
             "name": "generator-star-spacing",
             "replacedBy": [
-                "generator-star-spacing"
+                {
+                    "name": "generator-star-spacing",
+                    "url": "https://eslint.style/rules/js/generator-star-spacing"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1731,7 +1785,10 @@
         {
             "name": "global-require",
             "replacedBy": [
-                "global-require"
+                {
+                    "name": "global-require",
+                    "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/global-require.md"
+                }
             ],
             "fixable": false,
             "hasSuggestions": false
@@ -1739,7 +1796,10 @@
         {
             "name": "handle-callback-err",
             "replacedBy": [
-                "handle-callback-err"
+                {
+                    "name": "handle-callback-err",
+                    "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/handle-callback-err.md"
+                }
             ],
             "fixable": false,
             "hasSuggestions": false
@@ -1747,7 +1807,10 @@
         {
             "name": "id-blacklist",
             "replacedBy": [
-                "id-denylist"
+                {
+                    "name": "id-denylist",
+                    "url": "https://eslint.org/docs/rules/id-denylist"
+                }
             ],
             "fixable": false,
             "hasSuggestions": false
@@ -1755,7 +1818,10 @@
         {
             "name": "implicit-arrow-linebreak",
             "replacedBy": [
-                "implicit-arrow-linebreak"
+                {
+                    "name": "implicit-arrow-linebreak",
+                    "url": "https://eslint.style/rules/js/implicit-arrow-linebreak"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1763,7 +1829,10 @@
         {
             "name": "indent",
             "replacedBy": [
-                "indent"
+                {
+                    "name": "indent",
+                    "url": "https://eslint.style/rules/js/indent"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1771,7 +1840,10 @@
         {
             "name": "indent-legacy",
             "replacedBy": [
-                "indent"
+                {
+                    "name": "indent",
+                    "url": "https://eslint.style/rules/js/indent"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1779,7 +1851,10 @@
         {
             "name": "jsx-quotes",
             "replacedBy": [
-                "jsx-quotes"
+                {
+                    "name": "jsx-quotes",
+                    "url": "https://eslint.style/rules/js/jsx-quotes"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1787,7 +1862,10 @@
         {
             "name": "key-spacing",
             "replacedBy": [
-                "key-spacing"
+                {
+                    "name": "key-spacing",
+                    "url": "https://eslint.style/rules/js/key-spacing"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1795,7 +1873,10 @@
         {
             "name": "keyword-spacing",
             "replacedBy": [
-                "keyword-spacing"
+                {
+                    "name": "keyword-spacing",
+                    "url": "https://eslint.style/rules/js/keyword-spacing"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1803,7 +1884,10 @@
         {
             "name": "line-comment-position",
             "replacedBy": [
-                "line-comment-position"
+                {
+                    "name": "line-comment-position",
+                    "url": "https://eslint.style/rules/js/line-comment-position"
+                }
             ],
             "fixable": false,
             "hasSuggestions": false
@@ -1811,7 +1895,10 @@
         {
             "name": "linebreak-style",
             "replacedBy": [
-                "linebreak-style"
+                {
+                    "name": "linebreak-style",
+                    "url": "https://eslint.style/rules/js/linebreak-style"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1819,7 +1906,10 @@
         {
             "name": "lines-around-comment",
             "replacedBy": [
-                "lines-around-comment"
+                {
+                    "name": "lines-around-comment",
+                    "url": "https://eslint.style/rules/js/lines-around-comment"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1827,7 +1917,10 @@
         {
             "name": "lines-around-directive",
             "replacedBy": [
-                "padding-line-between-statements"
+                {
+                    "name": "padding-line-between-statements",
+                    "url": "https://eslint.style/rules/js/padding-line-between-statements"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1835,7 +1928,10 @@
         {
             "name": "lines-between-class-members",
             "replacedBy": [
-                "lines-between-class-members"
+                {
+                    "name": "lines-between-class-members",
+                    "url": "https://eslint.style/rules/js/lines-between-class-members"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1843,7 +1939,10 @@
         {
             "name": "max-len",
             "replacedBy": [
-                "max-len"
+                {
+                    "name": "max-len",
+                    "url": "https://eslint.style/rules/js/max-len"
+                }
             ],
             "fixable": false,
             "hasSuggestions": false
@@ -1851,7 +1950,10 @@
         {
             "name": "max-statements-per-line",
             "replacedBy": [
-                "max-statements-per-line"
+                {
+                    "name": "max-statements-per-line",
+                    "url": "https://eslint.style/rules/js/max-statements-per-line"
+                }
             ],
             "fixable": false,
             "hasSuggestions": false
@@ -1859,7 +1961,10 @@
         {
             "name": "multiline-comment-style",
             "replacedBy": [
-                "no-mixed-operators"
+                {
+                    "name": "no-mixed-operators",
+                    "url": "https://eslint.style/rules/js/no-mixed-operators"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1867,7 +1972,10 @@
         {
             "name": "multiline-ternary",
             "replacedBy": [
-                "multiline-ternary"
+                {
+                    "name": "multiline-ternary",
+                    "url": "https://eslint.style/rules/js/multiline-ternary"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1875,7 +1983,10 @@
         {
             "name": "new-parens",
             "replacedBy": [
-                "new-parens"
+                {
+                    "name": "new-parens",
+                    "url": "https://eslint.style/rules/js/new-parens"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1883,7 +1994,10 @@
         {
             "name": "newline-after-var",
             "replacedBy": [
-                "padding-line-between-statements"
+                {
+                    "name": "padding-line-between-statements",
+                    "url": "https://eslint.style/rules/js/padding-line-between-statements"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1891,7 +2005,10 @@
         {
             "name": "newline-before-return",
             "replacedBy": [
-                "padding-line-between-statements"
+                {
+                    "name": "padding-line-between-statements",
+                    "url": "https://eslint.style/rules/js/padding-line-between-statements"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1899,7 +2016,10 @@
         {
             "name": "newline-per-chained-call",
             "replacedBy": [
-                "newline-per-chained-call"
+                {
+                    "name": "newline-per-chained-call",
+                    "url": "https://eslint.style/rules/js/newline-per-chained-call"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1907,7 +2027,10 @@
         {
             "name": "no-buffer-constructor",
             "replacedBy": [
-                "no-buffer-constructor"
+                {
+                    "name": "no-buffer-constructor",
+                    "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-buffer-constructor.md"
+                }
             ],
             "fixable": false,
             "hasSuggestions": false
@@ -1915,7 +2038,10 @@
         {
             "name": "no-catch-shadow",
             "replacedBy": [
-                "no-shadow"
+                {
+                    "name": "no-shadow",
+                    "url": "https://eslint.org/docs/rules/no-shadow"
+                }
             ],
             "fixable": false,
             "hasSuggestions": false
@@ -1923,7 +2049,10 @@
         {
             "name": "no-confusing-arrow",
             "replacedBy": [
-                "no-confusing-arrow"
+                {
+                    "name": "no-confusing-arrow",
+                    "url": "https://eslint.style/rules/js/no-confusing-arrow"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1931,7 +2060,10 @@
         {
             "name": "no-extra-parens",
             "replacedBy": [
-                "no-extra-parens"
+                {
+                    "name": "no-extra-parens",
+                    "url": "https://eslint.style/rules/js/no-extra-parens"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1939,7 +2071,10 @@
         {
             "name": "no-extra-semi",
             "replacedBy": [
-                "no-extra-semi"
+                {
+                    "name": "no-extra-semi",
+                    "url": "https://eslint.style/rules/js/no-extra-semi"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1947,7 +2082,10 @@
         {
             "name": "no-floating-decimal",
             "replacedBy": [
-                "no-floating-decimal"
+                {
+                    "name": "no-floating-decimal",
+                    "url": "https://eslint.style/rules/js/no-floating-decimal"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1955,7 +2093,10 @@
         {
             "name": "no-mixed-operators",
             "replacedBy": [
-                "no-mixed-operators"
+                {
+                    "name": "no-mixed-operators",
+                    "url": "https://eslint.style/rules/js/no-mixed-operators"
+                }
             ],
             "fixable": false,
             "hasSuggestions": false
@@ -1963,7 +2104,10 @@
         {
             "name": "no-mixed-requires",
             "replacedBy": [
-                "no-mixed-requires"
+                {
+                    "name": "no-mixed-requires",
+                    "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-mixed-requires.md"
+                }
             ],
             "fixable": false,
             "hasSuggestions": false
@@ -1971,7 +2115,10 @@
         {
             "name": "no-mixed-spaces-and-tabs",
             "replacedBy": [
-                "no-mixed-spaces-and-tabs"
+                {
+                    "name": "no-mixed-spaces-and-tabs",
+                    "url": "https://eslint.style/rules/js/no-mixed-spaces-and-tabs"
+                }
             ],
             "fixable": false,
             "hasSuggestions": false
@@ -1979,7 +2126,10 @@
         {
             "name": "no-multi-spaces",
             "replacedBy": [
-                "no-multi-spaces"
+                {
+                    "name": "no-multi-spaces",
+                    "url": "https://eslint.style/rules/js/no-multi-spaces"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1987,7 +2137,10 @@
         {
             "name": "no-multiple-empty-lines",
             "replacedBy": [
-                "no-multiple-empty-lines"
+                {
+                    "name": "no-multiple-empty-lines",
+                    "url": "https://eslint.style/rules/js/no-multiple-empty-lines"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -1995,7 +2148,10 @@
         {
             "name": "no-native-reassign",
             "replacedBy": [
-                "no-global-assign"
+                {
+                    "name": "no-global-assign",
+                    "url": "https://eslint.org/docs/rules/no-global-assign"
+                }
             ],
             "fixable": false,
             "hasSuggestions": false
@@ -2003,7 +2159,10 @@
         {
             "name": "no-negated-in-lhs",
             "replacedBy": [
-                "no-unsafe-negation"
+                {
+                    "name": "no-unsafe-negation",
+                    "url": "https://eslint.org/docs/rules/no-unsafe-negation"
+                }
             ],
             "fixable": false,
             "hasSuggestions": false
@@ -2011,7 +2170,10 @@
         {
             "name": "no-new-object",
             "replacedBy": [
-                "no-object-constructor"
+                {
+                    "name": "no-object-constructor",
+                    "url": "https://eslint.org/docs/rules/no-object-constructor"
+                }
             ],
             "fixable": false,
             "hasSuggestions": false
@@ -2019,7 +2181,10 @@
         {
             "name": "no-new-require",
             "replacedBy": [
-                "no-new-require"
+                {
+                    "name": "no-new-require",
+                    "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-new-require.md"
+                }
             ],
             "fixable": false,
             "hasSuggestions": false
@@ -2027,7 +2192,10 @@
         {
             "name": "no-new-symbol",
             "replacedBy": [
-                "no-object-constructor"
+                {
+                    "name": "no-object-constructor",
+                    "url": "https://eslint.org/docs/latest/rules/no-object-constructor"
+                }
             ],
             "fixable": false,
             "hasSuggestions": false
@@ -2035,7 +2203,10 @@
         {
             "name": "no-path-concat",
             "replacedBy": [
-                "no-path-concat"
+                {
+                    "name": "no-path-concat",
+                    "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-path-concat.md"
+                }
             ],
             "fixable": false,
             "hasSuggestions": false
@@ -2043,7 +2214,10 @@
         {
             "name": "no-process-env",
             "replacedBy": [
-                "no-process-env"
+                {
+                    "name": "no-process-env",
+                    "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-process-env.md"
+                }
             ],
             "fixable": false,
             "hasSuggestions": false
@@ -2051,7 +2225,10 @@
         {
             "name": "no-process-exit",
             "replacedBy": [
-                "no-process-exit"
+                {
+                    "name": "no-process-exit",
+                    "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-process-exit.md"
+                }
             ],
             "fixable": false,
             "hasSuggestions": false
@@ -2059,7 +2236,10 @@
         {
             "name": "no-restricted-modules",
             "replacedBy": [
-                "no-restricted-modules"
+                {
+                    "name": "no-restricted-modules",
+                    "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-restricted-modules.md"
+                }
             ],
             "fixable": false,
             "hasSuggestions": false
@@ -2073,7 +2253,10 @@
         {
             "name": "no-spaced-func",
             "replacedBy": [
-                "func-call-spacing"
+                {
+                    "name": "function-call-spacing",
+                    "url": "https://eslint.style/rules/js/function-call-spacing"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -2081,7 +2264,10 @@
         {
             "name": "no-sync",
             "replacedBy": [
-                "no-sync"
+                {
+                    "name": "no-sync",
+                    "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-sync.md"
+                }
             ],
             "fixable": false,
             "hasSuggestions": false
@@ -2089,7 +2275,10 @@
         {
             "name": "no-tabs",
             "replacedBy": [
-                "no-tabs"
+                {
+                    "name": "no-tabs",
+                    "url": "https://eslint.style/rules/js/no-tabs"
+                }
             ],
             "fixable": false,
             "hasSuggestions": false
@@ -2097,7 +2286,10 @@
         {
             "name": "no-trailing-spaces",
             "replacedBy": [
-                "no-trailing-spaces"
+                {
+                    "name": "no-trailing-spaces",
+                    "url": "https://eslint.style/rules/js/no-trailing-spaces"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -2105,7 +2297,10 @@
         {
             "name": "no-whitespace-before-property",
             "replacedBy": [
-                "no-whitespace-before-property"
+                {
+                    "name": "no-whitespace-before-property",
+                    "url": "https://eslint.style/rules/js/no-whitespace-before-property"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -2113,7 +2308,10 @@
         {
             "name": "nonblock-statement-body-position",
             "replacedBy": [
-                "nonblock-statement-body-position"
+                {
+                    "name": "nonblock-statement-body-position",
+                    "url": "https://eslint.style/rules/js/nonblock-statement-body-position"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -2121,7 +2319,10 @@
         {
             "name": "object-curly-newline",
             "replacedBy": [
-                "object-curly-newline"
+                {
+                    "name": "object-curly-newline",
+                    "url": "https://eslint.style/rules/js/object-curly-newline"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -2129,7 +2330,10 @@
         {
             "name": "object-curly-spacing",
             "replacedBy": [
-                "object-curly-spacing"
+                {
+                    "name": "object-curly-spacing",
+                    "url": "https://eslint.style/rules/js/object-curly-spacing"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -2137,7 +2341,10 @@
         {
             "name": "object-property-newline",
             "replacedBy": [
-                "object-property-newline"
+                {
+                    "name": "object-property-newline",
+                    "url": "https://eslint.style/rules/js/object-property-newline"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -2145,7 +2352,10 @@
         {
             "name": "one-var-declaration-per-line",
             "replacedBy": [
-                "one-var-declaration-per-line"
+                {
+                    "name": "one-var-declaration-per-line",
+                    "url": "https://eslint.style/rules/js/one-var-declaration-per-line"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -2153,7 +2363,10 @@
         {
             "name": "operator-linebreak",
             "replacedBy": [
-                "operator-linebreak"
+                {
+                    "name": "operator-linebreak",
+                    "url": "https://eslint.style/rules/js/operator-linebreak"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -2161,7 +2374,10 @@
         {
             "name": "padded-blocks",
             "replacedBy": [
-                "padded-blocks"
+                {
+                    "name": "padded-blocks",
+                    "url": "https://eslint.style/rules/js/padded-blocks"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -2169,7 +2385,10 @@
         {
             "name": "padding-line-between-statements",
             "replacedBy": [
-                "padding-line-between-statements"
+                {
+                    "name": "padding-line-between-statements",
+                    "url": "https://eslint.style/rules/js/padding-line-between-statements"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -2183,7 +2402,10 @@
         {
             "name": "quote-props",
             "replacedBy": [
-                "quote-props"
+                {
+                    "name": "quote-props",
+                    "url": "https://eslint.style/rules/js/quote-props"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -2191,7 +2413,10 @@
         {
             "name": "quotes",
             "replacedBy": [
-                "quotes"
+                {
+                    "name": "quotes",
+                    "url": "https://eslint.style/rules/js/quotes"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -2199,7 +2424,10 @@
         {
             "name": "rest-spread-spacing",
             "replacedBy": [
-                "rest-spread-spacing"
+                {
+                    "name": "rest-spread-spacing",
+                    "url": "https://eslint.style/rules/js/rest-spread-spacing"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -2207,7 +2435,10 @@
         {
             "name": "semi",
             "replacedBy": [
-                "semi"
+                {
+                    "name": "semi",
+                    "url": "https://eslint.style/rules/js/semi"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -2215,7 +2446,10 @@
         {
             "name": "semi-spacing",
             "replacedBy": [
-                "semi-spacing"
+                {
+                    "name": "semi-spacing",
+                    "url": "https://eslint.style/rules/js/semi-spacing"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -2223,7 +2457,10 @@
         {
             "name": "semi-style",
             "replacedBy": [
-                "semi-style"
+                {
+                    "name": "semi-style",
+                    "url": "https://eslint.style/rules/js/semi-style"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -2231,7 +2468,10 @@
         {
             "name": "space-before-blocks",
             "replacedBy": [
-                "space-before-blocks"
+                {
+                    "name": "space-before-blocks",
+                    "url": "https://eslint.style/rules/js/space-before-blocks"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -2239,7 +2479,10 @@
         {
             "name": "space-before-function-paren",
             "replacedBy": [
-                "space-before-function-paren"
+                {
+                    "name": "space-before-function-paren",
+                    "url": "https://eslint.style/rules/js/space-before-function-paren"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -2247,7 +2490,10 @@
         {
             "name": "space-in-parens",
             "replacedBy": [
-                "space-in-parens"
+                {
+                    "name": "space-in-parens",
+                    "url": "https://eslint.style/rules/js/space-in-parens"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -2255,7 +2501,10 @@
         {
             "name": "space-infix-ops",
             "replacedBy": [
-                "space-infix-ops"
+                {
+                    "name": "space-infix-ops",
+                    "url": "https://eslint.style/rules/js/space-infix-ops"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -2263,7 +2512,10 @@
         {
             "name": "space-unary-ops",
             "replacedBy": [
-                "space-unary-ops"
+                {
+                    "name": "space-unary-ops",
+                    "url": "https://eslint.style/rules/js/space-unary-ops"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -2271,7 +2523,10 @@
         {
             "name": "spaced-comment",
             "replacedBy": [
-                "spaced-comment"
+                {
+                    "name": "spaced-comment",
+                    "url": "https://eslint.style/rules/js/spaced-comment"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -2279,7 +2534,10 @@
         {
             "name": "switch-colon-spacing",
             "replacedBy": [
-                "switch-colon-spacing"
+                {
+                    "name": "switch-colon-spacing",
+                    "url": "https://eslint.style/rules/js/switch-colon-spacing"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -2287,7 +2545,10 @@
         {
             "name": "template-curly-spacing",
             "replacedBy": [
-                "template-curly-spacing"
+                {
+                    "name": "template-curly-spacing",
+                    "url": "https://eslint.style/rules/js/template-curly-spacing"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -2295,7 +2556,10 @@
         {
             "name": "template-tag-spacing",
             "replacedBy": [
-                "template-tag-spacing"
+                {
+                    "name": "template-tag-spacing",
+                    "url": "https://eslint.style/rules/js/template-tag-spacing"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -2303,7 +2567,10 @@
         {
             "name": "wrap-iife",
             "replacedBy": [
-                "wrap-iife"
+                {
+                    "name": "wrap-iife",
+                    "url": "https://eslint.style/rules/js/wrap-iife"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -2311,7 +2578,10 @@
         {
             "name": "wrap-regex",
             "replacedBy": [
-                "wrap-regex"
+                {
+                    "name": "wrap-regex",
+                    "url": "https://eslint.style/rules/js/wrap-regex"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
@@ -2319,7 +2589,10 @@
         {
             "name": "yield-star-spacing",
             "replacedBy": [
-                "yield-star-spacing"
+                {
+                    "name": "yield-star-spacing",
+                    "url": "https://eslint.style/rules/js/yield-star-spacing"
+                }
             ],
             "fixable": true,
             "hasSuggestions": false
