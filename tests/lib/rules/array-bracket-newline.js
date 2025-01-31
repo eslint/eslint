@@ -12,7 +12,6 @@
 const rule = require("../../../lib/rules/array-bracket-newline");
 const RuleTester = require("../../../lib/rule-tester/rule-tester");
 
-
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
@@ -20,9 +19,7 @@ const RuleTester = require("../../../lib/rule-tester/rule-tester");
 const ruleTester = new RuleTester();
 
 ruleTester.run("array-bracket-newline", rule, {
-
     valid: [
-
         /*
          * ArrayExpression
          * "default" { multiline: true }
@@ -439,7 +436,6 @@ ruleTester.run("array-bracket-newline", rule, {
     ],
 
     invalid: [
-
         // default : { multiline : true}
         {
             code: `var foo = [

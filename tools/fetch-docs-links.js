@@ -47,7 +47,7 @@ if (filenames.length === 0) {
     filenames = glob.sync("docs/src/rules/*.md", { cwd: BASE_DIR });
 }
 
-filenames = filenames.map(filename => path.resolve(BASE_DIR, filename));
+filenames = filenames.map((filename) => path.resolve(BASE_DIR, filename));
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -61,7 +61,7 @@ filenames = filenames.map(filename => path.resolve(BASE_DIR, filename));
 async function fetchLinkMeta(url) {
     const { body: html, url: returnedURL } = await got(url);
     const metadata = await metascraper({ html, url: returnedURL });
-    const domain = (new URL(returnedURL)).hostname;
+    const domain = new URL(returnedURL).hostname;
 
     return {
         domain,
@@ -72,24 +72,20 @@ async function fetchLinkMeta(url) {
     };
 }
 
-
 //-----------------------------------------------------------------------------
 // Main
 //-----------------------------------------------------------------------------
 
 (async () => {
-
     // First read in the current data file
     const links = JSON.parse(await fs.readFile(DATA_FILE_PATH, "utf8"));
 
     // check each file
     for (const filename of filenames) {
-
         const text = await fs.readFile(filename, "utf8");
         const frontmatter = matter(text).data;
 
         if (frontmatter.further_reading) {
-
             for (const url of frontmatter.further_reading) {
                 if (!links[url]) {
                     try {
@@ -103,7 +99,6 @@ async function fetchLinkMeta(url) {
                     }
                 }
             }
-
         }
     }
 

@@ -19,70 +19,231 @@ const resolvePath = require("node:path").resolve,
 const ruleTester = new RuleTester();
 
 ruleTester.run("object-curly-spacing", rule, {
-
     valid: [
-
         // always - object literals
         { code: "var obj = { foo: bar, baz: qux };", options: ["always"] },
-        { code: "var obj = { foo: { bar: quxx }, baz: qux };", options: ["always"] },
+        {
+            code: "var obj = { foo: { bar: quxx }, baz: qux };",
+            options: ["always"]
+        },
         { code: "var obj = {\nfoo: bar,\nbaz: qux\n};", options: ["always"] },
         { code: "var obj = { /**/foo:bar/**/ };", options: ["always"] },
         { code: "var obj = { //\nfoo:bar };", options: ["always"] },
 
         // always - destructuring
-        { code: "var { x } = y", options: ["always"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var { x, y } = y", options: ["always"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var { x,y } = y", options: ["always"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var {\nx,y } = y", options: ["always"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var {\nx,y\n} = z", options: ["always"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var { /**/x/**/ } = y", options: ["always"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var { //\nx } = y", options: ["always"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var { x = 10, y } = y", options: ["always"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var { x: { z }, y } = y", options: ["always"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var {\ny,\n} = x", options: ["always"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var { y, } = x", options: ["always"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var { y: x } = x", options: ["always"], languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "var { x } = y",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var { x, y } = y",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var { x,y } = y",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var {\nx,y } = y",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var {\nx,y\n} = z",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var { /**/x/**/ } = y",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var { //\nx } = y",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var { x = 10, y } = y",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var { x: { z }, y } = y",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var {\ny,\n} = x",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var { y, } = x",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var { y: x } = x",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6 }
+        },
 
         // always - import / export
-        { code: "import door from 'room'", options: ["always"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import * as door from 'room'", options: ["always"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import { door } from 'room'", options: ["always"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import {\ndoor } from 'room'", options: ["always"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import { /**/door/**/ } from 'room'", options: ["always"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import { //\ndoor } from 'room'", options: ["always"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export { door } from 'room'", options: ["always"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import { house, mouse } from 'caravan'", options: ["always"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import house, { mouse } from 'caravan'", options: ["always"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import door, { house, mouse } from 'caravan'", options: ["always"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "var door = 0;export { door }", options: ["always"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import 'room'", options: ["always"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import { bar as x } from 'foo';", options: ["always"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import { x, } from 'foo';", options: ["always"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import {\nx,\n} from 'foo';", options: ["always"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export { x, } from 'foo';", options: ["always"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export {\nx,\n} from 'foo';", options: ["always"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export { /**/x/**/ } from 'foo';", options: ["always"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export { //\nx } from 'foo';", options: ["always"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "var x = 1;\nexport { /**/x/**/ };", options: ["always"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "var x = 1;\nexport { //\nx };", options: ["always"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        {
+            code: "import door from 'room'",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import * as door from 'room'",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import { door } from 'room'",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import {\ndoor } from 'room'",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import { /**/door/**/ } from 'room'",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import { //\ndoor } from 'room'",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "export { door } from 'room'",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import { house, mouse } from 'caravan'",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import house, { mouse } from 'caravan'",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import door, { house, mouse } from 'caravan'",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "var door = 0;export { door }",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import 'room'",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import { bar as x } from 'foo';",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import { x, } from 'foo';",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import {\nx,\n} from 'foo';",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "export { x, } from 'foo';",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "export {\nx,\n} from 'foo';",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "export { /**/x/**/ } from 'foo';",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "export { //\nx } from 'foo';",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "var x = 1;\nexport { /**/x/**/ };",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "var x = 1;\nexport { //\nx };",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
 
         // always - empty object
         { code: "var foo = {};", options: ["always"] },
 
         // always - objectsInObjects
-        { code: "var obj = { 'foo': { 'bar': 1, 'baz': 2 }};", options: ["always", { objectsInObjects: false }] },
-        { code: "var a = { noop: function () {} };", options: ["always", { objectsInObjects: false }] },
-        { code: "var { y: { z }} = x", options: ["always", { objectsInObjects: false }], languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "var obj = { 'foo': { 'bar': 1, 'baz': 2 }};",
+            options: ["always", { objectsInObjects: false }]
+        },
+        {
+            code: "var a = { noop: function () {} };",
+            options: ["always", { objectsInObjects: false }]
+        },
+        {
+            code: "var { y: { z }} = x",
+            options: ["always", { objectsInObjects: false }],
+            languageOptions: { ecmaVersion: 6 }
+        },
 
         // always - arraysInObjects
-        { code: "var obj = { 'foo': [ 1, 2 ]};", options: ["always", { arraysInObjects: false }] },
-        { code: "var a = { thingInList: list[0] };", options: ["always", { arraysInObjects: false }] },
+        {
+            code: "var obj = { 'foo': [ 1, 2 ]};",
+            options: ["always", { arraysInObjects: false }]
+        },
+        {
+            code: "var a = { thingInList: list[0] };",
+            options: ["always", { arraysInObjects: false }]
+        },
 
         // always - arraysInObjects, objectsInObjects
-        { code: "var obj = { 'qux': [ 1, 2 ], 'foo': { 'bar': 1, 'baz': 2 }};", options: ["always", { arraysInObjects: false, objectsInObjects: false }] },
+        {
+            code: "var obj = { 'qux': [ 1, 2 ], 'foo': { 'bar': 1, 'baz': 2 }};",
+            options: [
+                "always",
+                { arraysInObjects: false, objectsInObjects: false }
+            ]
+        },
 
         // always - arraysInObjects, objectsInObjects (reverse)
-        { code: "var obj = { 'foo': { 'bar': 1, 'baz': 2 }, 'qux': [ 1, 2 ]};", options: ["always", { arraysInObjects: false, objectsInObjects: false }] },
+        {
+            code: "var obj = { 'foo': { 'bar': 1, 'baz': 2 }, 'qux': [ 1, 2 ]};",
+            options: [
+                "always",
+                { arraysInObjects: false, objectsInObjects: false }
+            ]
+        },
 
         // never
         { code: "var obj = {foo: bar,\nbaz: qux\n};", options: ["never"] },
@@ -91,66 +252,245 @@ ruleTester.run("object-curly-spacing", rule, {
         // never - object literals
         { code: "var obj = {foo: bar, baz: qux};", options: ["never"] },
         { code: "var obj = {foo: {bar: quxx}, baz: qux};", options: ["never"] },
-        { code: "var obj = {foo: {\nbar: quxx}, baz: qux\n};", options: ["never"] },
-        { code: "var obj = {foo: {\nbar: quxx\n}, baz: qux};", options: ["never"] },
+        {
+            code: "var obj = {foo: {\nbar: quxx}, baz: qux\n};",
+            options: ["never"]
+        },
+        {
+            code: "var obj = {foo: {\nbar: quxx\n}, baz: qux};",
+            options: ["never"]
+        },
         { code: "var obj = {\nfoo: bar,\nbaz: qux\n};", options: ["never"] },
         { code: "var obj = {foo: bar, baz: qux /* */};", options: ["never"] },
         { code: "var obj = {/* */ foo: bar, baz: qux};", options: ["never"] },
         { code: "var obj = {//\n foo: bar};", options: ["never"] },
-        { code: "var obj = { // line comment exception\n foo: bar};", options: ["never"] },
+        {
+            code: "var obj = { // line comment exception\n foo: bar};",
+            options: ["never"]
+        },
 
         // never - destructuring
-        { code: "var {x} = y", options: ["never"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var {x, y} = y", options: ["never"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var {x,y} = y", options: ["never"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var {\nx,y\n} = y", options: ["never"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var {x = 10} = y", options: ["never"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var {x = 10, y} = y", options: ["never"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var {x: {z}, y} = y", options: ["never"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var {\nx: {z\n}, y} = y", options: ["never"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var {\ny,\n} = x", options: ["never"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var {y,} = x", options: ["never"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var {y:x} = x", options: ["never"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var {/* */ y} = x", options: ["never"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var {y /* */} = x", options: ["never"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var {//\n y} = x", options: ["never"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var { // line comment exception\n y} = x", options: ["never"], languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "var {x} = y",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var {x, y} = y",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var {x,y} = y",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var {\nx,y\n} = y",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var {x = 10} = y",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var {x = 10, y} = y",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var {x: {z}, y} = y",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var {\nx: {z\n}, y} = y",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var {\ny,\n} = x",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var {y,} = x",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var {y:x} = x",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var {/* */ y} = x",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var {y /* */} = x",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var {//\n y} = x",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var { // line comment exception\n y} = x",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
 
         // never - import / export
-        { code: "import door from 'room'", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import * as door from 'room'", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import {door} from 'room'", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export {door} from 'room'", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import {/* */ door} from 'room'", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export {/* */ door} from 'room'", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import {door /* */} from 'room'", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export {door /* */} from 'room'", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import {//\n door} from 'room'", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export {//\n door} from 'room'", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "var door = foo;\nexport {//\n door}", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import { // line comment exception\n door} from 'room'", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export { // line comment exception\n door} from 'room'", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "var door = foo; export { // line comment exception\n door}", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import {\ndoor} from 'room'", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export {\ndoor\n} from 'room'", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import {house,mouse} from 'caravan'", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import {house, mouse} from 'caravan'", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "var door = 0;export {door}", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import 'room'", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import x, {bar} from 'foo';", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import x, {bar, baz} from 'foo';", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import {bar as y} from 'foo';", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import {x,} from 'foo';", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "import {\nx,\n} from 'foo';", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export {x,} from 'foo';", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export {\nx,\n} from 'foo';", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-
+        {
+            code: "import door from 'room'",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import * as door from 'room'",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import {door} from 'room'",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "export {door} from 'room'",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import {/* */ door} from 'room'",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "export {/* */ door} from 'room'",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import {door /* */} from 'room'",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "export {door /* */} from 'room'",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import {//\n door} from 'room'",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "export {//\n door} from 'room'",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "var door = foo;\nexport {//\n door}",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import { // line comment exception\n door} from 'room'",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "export { // line comment exception\n door} from 'room'",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "var door = foo; export { // line comment exception\n door}",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import {\ndoor} from 'room'",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "export {\ndoor\n} from 'room'",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import {house,mouse} from 'caravan'",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import {house, mouse} from 'caravan'",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "var door = 0;export {door}",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import 'room'",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import x, {bar} from 'foo';",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import x, {bar, baz} from 'foo';",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import {bar as y} from 'foo';",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import {x,} from 'foo';",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import {\nx,\n} from 'foo';",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "export {x,} from 'foo';",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "export {\nx,\n} from 'foo';",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
 
         // never - empty object
         { code: "var foo = {};", options: ["never"] },
 
         // never - objectsInObjects
-        { code: "var obj = {'foo': {'bar': 1, 'baz': 2} };", options: ["never", { objectsInObjects: true }] },
+        {
+            code: "var obj = {'foo': {'bar': 1, 'baz': 2} };",
+            options: ["never", { objectsInObjects: true }]
+        },
 
         /*
          * https://github.com/eslint/eslint/issues/3658
@@ -160,23 +500,65 @@ ruleTester.run("object-curly-spacing", rule, {
         { code: "var [] = foo;", languageOptions: { ecmaVersion: 6 } },
         { code: "var {a: {}} = foo;", languageOptions: { ecmaVersion: 6 } },
         { code: "var {a: []} = foo;", languageOptions: { ecmaVersion: 6 } },
-        { code: "import {} from 'foo';", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export {} from 'foo';", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export {};", languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "var {} = foo;", options: ["never"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var [] = foo;", options: ["never"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var {a: {}} = foo;", options: ["never"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var {a: []} = foo;", options: ["never"], languageOptions: { ecmaVersion: 6 } },
-        { code: "import {} from 'foo';", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export {} from 'foo';", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export {};", options: ["never"], languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        {
+            code: "import {} from 'foo';",
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "export {} from 'foo';",
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "export {};",
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "var {} = foo;",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var [] = foo;",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var {a: {}} = foo;",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var {a: []} = foo;",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "import {} from 'foo';",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "export {} from 'foo';",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "export {};",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
 
         // https://github.com/eslint/eslint/issues/6940
         {
             code: "function foo ({a, b}: Props) {\n}",
             options: ["never"],
             languageOptions: {
-                parser: require(resolvePath(__dirname, "../../fixtures/parsers/object-curly-spacing/flow-stub-parser-never-valid"))
+                parser: require(
+                    resolvePath(
+                        __dirname,
+                        "../../fixtures/parsers/object-curly-spacing/flow-stub-parser-never-valid"
+                    )
+                )
             }
         }
     ],
@@ -283,7 +665,6 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 17
                 }
-
             ]
         },
         {
@@ -352,7 +733,6 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 22
                 }
-
             ]
         },
         {
@@ -379,7 +759,6 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 16
                 }
-
             ]
         },
         {
@@ -432,7 +811,6 @@ ruleTester.run("object-curly-spacing", rule, {
                     endLine: 1,
                     endColumn: 14
                 }
-
             ]
         },
         {
@@ -1397,7 +1775,12 @@ ruleTester.run("object-curly-spacing", rule, {
             output: "function foo ({a, b}: Props) {\n}",
             options: ["never"],
             languageOptions: {
-                parser: require(resolvePath(__dirname, "../../fixtures/parsers/object-curly-spacing/flow-stub-parser-never-invalid"))
+                parser: require(
+                    resolvePath(
+                        __dirname,
+                        "../../fixtures/parsers/object-curly-spacing/flow-stub-parser-never-invalid"
+                    )
+                )
             },
             errors: [
                 {

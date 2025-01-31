@@ -19,7 +19,6 @@ const jslang = require("../../../lib/languages/js");
 //------------------------------------------------------------------------------
 
 describe("createReportTranslator", () => {
-
     /**
      * Creates a SourceCode instance out of JavaScript text
      * @param {string} text Source text
@@ -28,16 +27,13 @@ describe("createReportTranslator", () => {
     function createSourceCode(text) {
         return new SourceCode(
             text,
-            espree.parse(
-                text.replace(/^\uFEFF/u, ""),
-                {
-                    loc: true,
-                    range: true,
-                    raw: true,
-                    tokens: true,
-                    comment: true
-                }
-            )
+            espree.parse(text.replace(/^\uFEFF/u, ""), {
+                loc: true,
+                range: true,
+                raw: true,
+                tokens: true,
+                comment: true
+            })
         );
     }
 
@@ -82,19 +78,16 @@ describe("createReportTranslator", () => {
 
     describe("old-style call without location", () => {
         it("should use the start location and end location of the node", () => {
-            assert.deepStrictEqual(
-                translateReport(node, message, {}),
-                {
-                    ruleId: "foo-rule",
-                    severity: 2,
-                    message: "foo",
-                    line: 1,
-                    column: 1,
-                    endLine: 1,
-                    endColumn: 4,
-                    nodeType: "ExpressionStatement"
-                }
-            );
+            assert.deepStrictEqual(translateReport(node, message, {}), {
+                ruleId: "foo-rule",
+                severity: 2,
+                message: "foo",
+                line: 1,
+                column: 1,
+                endLine: 1,
+                endColumn: 4,
+                nodeType: "ExpressionStatement"
+            });
         });
     });
 
@@ -105,37 +98,40 @@ describe("createReportTranslator", () => {
                 loc: location,
                 message,
                 fix: () => ({ range: [1, 2], text: "foo" }),
-                suggest: [{
-                    desc: "suggestion 1",
-                    fix: () => ({ range: [2, 3], text: "s1" })
-                }, {
-                    desc: "suggestion 2",
-                    fix: () => ({ range: [3, 4], text: "s2" })
-                }]
+                suggest: [
+                    {
+                        desc: "suggestion 1",
+                        fix: () => ({ range: [2, 3], text: "s1" })
+                    },
+                    {
+                        desc: "suggestion 2",
+                        fix: () => ({ range: [3, 4], text: "s2" })
+                    }
+                ]
             };
 
-            assert.deepStrictEqual(
-                translateReport(reportDescriptor),
-                {
-                    ruleId: "foo-rule",
-                    severity: 2,
-                    message: "foo",
-                    line: 2,
-                    column: 1,
-                    nodeType: "ExpressionStatement",
-                    fix: {
-                        range: [1, 2],
-                        text: "foo"
-                    },
-                    suggestions: [{
+            assert.deepStrictEqual(translateReport(reportDescriptor), {
+                ruleId: "foo-rule",
+                severity: 2,
+                message: "foo",
+                line: 2,
+                column: 1,
+                nodeType: "ExpressionStatement",
+                fix: {
+                    range: [1, 2],
+                    text: "foo"
+                },
+                suggestions: [
+                    {
                         desc: "suggestion 1",
                         fix: { range: [2, 3], text: "s1" }
-                    }, {
+                    },
+                    {
                         desc: "suggestion 2",
                         fix: { range: [3, 4], text: "s2" }
-                    }]
-                }
-            );
+                    }
+                ]
+            });
         });
 
         it("should translate the messageId into a message", () => {
@@ -146,22 +142,19 @@ describe("createReportTranslator", () => {
                 fix: () => ({ range: [1, 2], text: "foo" })
             };
 
-            assert.deepStrictEqual(
-                translateReport(reportDescriptor),
-                {
-                    ruleId: "foo-rule",
-                    severity: 2,
-                    message: "foo",
-                    messageId: "testMessage",
-                    line: 2,
-                    column: 1,
-                    nodeType: "ExpressionStatement",
-                    fix: {
-                        range: [1, 2],
-                        text: "foo"
-                    }
+            assert.deepStrictEqual(translateReport(reportDescriptor), {
+                ruleId: "foo-rule",
+                severity: 2,
+                message: "foo",
+                messageId: "testMessage",
+                line: 2,
+                column: 1,
+                nodeType: "ExpressionStatement",
+                fix: {
+                    range: [1, 2],
+                    text: "foo"
                 }
-            );
+            });
         });
 
         it("should throw when both messageId and message are provided", () => {
@@ -210,37 +203,40 @@ describe("createReportTranslator", () => {
                 node,
                 loc: location,
                 message,
-                suggest: [{
-                    messageId: "suggestion1",
-                    fix: () => ({ range: [2, 3], text: "s1" })
-                }, {
-                    messageId: "suggestion2",
-                    data: { interpolated: "'interpolated value'" },
-                    fix: () => ({ range: [3, 4], text: "s2" })
-                }]
+                suggest: [
+                    {
+                        messageId: "suggestion1",
+                        fix: () => ({ range: [2, 3], text: "s1" })
+                    },
+                    {
+                        messageId: "suggestion2",
+                        data: { interpolated: "'interpolated value'" },
+                        fix: () => ({ range: [3, 4], text: "s2" })
+                    }
+                ]
             };
 
-            assert.deepStrictEqual(
-                translateReport(reportDescriptor),
-                {
-                    ruleId: "foo-rule",
-                    severity: 2,
-                    message: "foo",
-                    line: 2,
-                    column: 1,
-                    nodeType: "ExpressionStatement",
-                    suggestions: [{
+            assert.deepStrictEqual(translateReport(reportDescriptor), {
+                ruleId: "foo-rule",
+                severity: 2,
+                message: "foo",
+                line: 2,
+                column: 1,
+                nodeType: "ExpressionStatement",
+                suggestions: [
+                    {
                         messageId: "suggestion1",
                         desc: "First suggestion",
                         fix: { range: [2, 3], text: "s1" }
-                    }, {
+                    },
+                    {
                         messageId: "suggestion2",
                         data: { interpolated: "'interpolated value'" },
                         desc: "Second suggestion 'interpolated value'",
                         fix: { range: [3, 4], text: "s2" }
-                    }]
-                }
-            );
+                    }
+                ]
+            });
         });
 
         it("should throw when a suggestion defines both a desc and messageId", () => {
@@ -248,11 +244,13 @@ describe("createReportTranslator", () => {
                 node,
                 loc: location,
                 message,
-                suggest: [{
-                    desc: "The description",
-                    messageId: "suggestion1",
-                    fix: () => ({ range: [2, 3], text: "s1" })
-                }]
+                suggest: [
+                    {
+                        desc: "The description",
+                        messageId: "suggestion1",
+                        fix: () => ({ range: [2, 3], text: "s1" })
+                    }
+                ]
             };
 
             assert.throws(
@@ -267,10 +265,12 @@ describe("createReportTranslator", () => {
                 node,
                 loc: location,
                 message,
-                suggest: [{
-                    messageId: "noMatchingMessage",
-                    fix: () => ({ range: [2, 3], text: "s1" })
-                }]
+                suggest: [
+                    {
+                        messageId: "noMatchingMessage",
+                        fix: () => ({ range: [2, 3], text: "s1" })
+                    }
+                ]
             };
 
             assert.throws(
@@ -285,9 +285,11 @@ describe("createReportTranslator", () => {
                 node,
                 loc: location,
                 message,
-                suggest: [{
-                    fix: () => ({ range: [2, 3], text: "s1" })
-                }]
+                suggest: [
+                    {
+                        fix: () => ({ range: [2, 3], text: "s1" })
+                    }
+                ]
             };
 
             assert.throws(
@@ -302,10 +304,12 @@ describe("createReportTranslator", () => {
                 node,
                 loc: location,
                 message,
-                suggest: [{
-                    desc: "The description",
-                    fix: false
-                }]
+                suggest: [
+                    {
+                        desc: "The description",
+                        fix: false
+                    }
+                ]
             };
 
             assert.throws(
@@ -322,24 +326,24 @@ describe("createReportTranslator", () => {
                 node,
                 loc: location,
                 message,
-                fix: () => [{ range: [1, 2], text: "foo" }, { range: [4, 5], text: "bar" }]
+                fix: () => [
+                    { range: [1, 2], text: "foo" },
+                    { range: [4, 5], text: "bar" }
+                ]
             };
 
-            assert.deepStrictEqual(
-                translateReport(reportDescriptor),
-                {
-                    ruleId: "foo-rule",
-                    severity: 2,
-                    message: "foo",
-                    line: 2,
-                    column: 1,
-                    nodeType: "ExpressionStatement",
-                    fix: {
-                        range: [1, 5],
-                        text: "fooo\nbar"
-                    }
+            assert.deepStrictEqual(translateReport(reportDescriptor), {
+                ruleId: "foo-rule",
+                severity: 2,
+                message: "foo",
+                line: 2,
+                column: 1,
+                nodeType: "ExpressionStatement",
+                fix: {
+                    range: [1, 5],
+                    text: "fooo\nbar"
                 }
-            );
+            });
         });
 
         it("should merge fixes to one if 'fix' function returns an iterator of fixes.", () => {
@@ -353,21 +357,18 @@ describe("createReportTranslator", () => {
                 }
             };
 
-            assert.deepStrictEqual(
-                translateReport(reportDescriptor),
-                {
-                    ruleId: "foo-rule",
-                    severity: 2,
-                    message: "foo",
-                    line: 2,
-                    column: 1,
-                    nodeType: "ExpressionStatement",
-                    fix: {
-                        range: [1, 5],
-                        text: "fooo\nbar"
-                    }
+            assert.deepStrictEqual(translateReport(reportDescriptor), {
+                ruleId: "foo-rule",
+                severity: 2,
+                message: "foo",
+                line: 2,
+                column: 1,
+                nodeType: "ExpressionStatement",
+                fix: {
+                    range: [1, 5],
+                    text: "fooo\nbar"
                 }
-            );
+            });
         });
 
         it("should respect ranges of empty insertions when merging fixes to one.", () => {
@@ -382,21 +383,18 @@ describe("createReportTranslator", () => {
                 }
             };
 
-            assert.deepStrictEqual(
-                translateReport(reportDescriptor),
-                {
-                    ruleId: "foo-rule",
-                    severity: 2,
-                    message: "foo",
-                    line: 2,
-                    column: 1,
-                    nodeType: "ExpressionStatement",
-                    fix: {
-                        range: [2, 7],
-                        text: "o\ncdar"
-                    }
+            assert.deepStrictEqual(translateReport(reportDescriptor), {
+                ruleId: "foo-rule",
+                severity: 2,
+                message: "foo",
+                line: 2,
+                column: 1,
+                nodeType: "ExpressionStatement",
+                fix: {
+                    range: [2, 7],
+                    text: "o\ncdar"
                 }
-            );
+            });
         });
 
         it("should pass through fixes if only one is present", () => {
@@ -407,21 +405,18 @@ describe("createReportTranslator", () => {
                 fix: () => [{ range: [1, 2], text: "foo" }]
             };
 
-            assert.deepStrictEqual(
-                translateReport(reportDescriptor),
-                {
-                    ruleId: "foo-rule",
-                    severity: 2,
-                    message: "foo",
-                    line: 2,
-                    column: 1,
-                    nodeType: "ExpressionStatement",
-                    fix: {
-                        range: [1, 2],
-                        text: "foo"
-                    }
+            assert.deepStrictEqual(translateReport(reportDescriptor), {
+                ruleId: "foo-rule",
+                severity: 2,
+                message: "foo",
+                line: 2,
+                column: 1,
+                nodeType: "ExpressionStatement",
+                fix: {
+                    range: [1, 2],
+                    text: "foo"
                 }
-            );
+            });
         });
 
         it("should handle inserting BOM correctly.", () => {
@@ -429,26 +424,25 @@ describe("createReportTranslator", () => {
                 node,
                 loc: location,
                 message,
-                fix: () => [{ range: [0, 3], text: "\uFEFFfoo" }, { range: [4, 5], text: "x" }]
+                fix: () => [
+                    { range: [0, 3], text: "\uFEFFfoo" },
+                    { range: [4, 5], text: "x" }
+                ]
             };
 
-            assert.deepStrictEqual(
-                translateReport(reportDescriptor),
-                {
-                    ruleId: "foo-rule",
-                    severity: 2,
-                    message: "foo",
-                    line: 2,
-                    column: 1,
-                    nodeType: "ExpressionStatement",
-                    fix: {
-                        range: [0, 5],
-                        text: "\uFEFFfoo\nx"
-                    }
+            assert.deepStrictEqual(translateReport(reportDescriptor), {
+                ruleId: "foo-rule",
+                severity: 2,
+                message: "foo",
+                line: 2,
+                column: 1,
+                nodeType: "ExpressionStatement",
+                fix: {
+                    range: [0, 5],
+                    text: "\uFEFFfoo\nx"
                 }
-            );
+            });
         });
-
 
         it("should handle removing BOM correctly.", () => {
             const sourceCode = createSourceCode("\uFEFFfoo\nbar");
@@ -458,12 +452,18 @@ describe("createReportTranslator", () => {
             const reportDescriptor = {
                 node,
                 message,
-                fix: () => [{ range: [-1, 3], text: "foo" }, { range: [4, 5], text: "x" }]
+                fix: () => [
+                    { range: [-1, 3], text: "foo" },
+                    { range: [4, 5], text: "x" }
+                ]
             };
 
             assert.deepStrictEqual(
                 createReportTranslator({
-                    language: jslang, ruleId: "foo-rule", severity: 1, sourceCode
+                    language: jslang,
+                    ruleId: "foo-rule",
+                    severity: 1,
+                    sourceCode
                 })(reportDescriptor),
                 {
                     ruleId: "foo-rule",
@@ -487,7 +487,10 @@ describe("createReportTranslator", () => {
                 node,
                 loc: location,
                 message,
-                fix: () => [{ range: [0, 3], text: "\uFEFFfoo" }, { range: [2, 5], text: "x" }]
+                fix: () => [
+                    { range: [0, 3], text: "\uFEFFfoo" },
+                    { range: [2, 5], text: "x" }
+                ]
             };
 
             assert.throws(
@@ -527,33 +530,36 @@ describe("createReportTranslator", () => {
                 node,
                 loc: location,
                 message,
-                suggest: [{
-                    desc: "A first suggestion for the issue",
-                    fix: () => [{ range: [1, 2], text: "foo" }]
-                }, {
-                    desc: "A different suggestion for the issue",
-                    fix: () => [{ range: [1, 3], text: "foobar" }]
-                }]
+                suggest: [
+                    {
+                        desc: "A first suggestion for the issue",
+                        fix: () => [{ range: [1, 2], text: "foo" }]
+                    },
+                    {
+                        desc: "A different suggestion for the issue",
+                        fix: () => [{ range: [1, 3], text: "foobar" }]
+                    }
+                ]
             };
 
-            assert.deepStrictEqual(
-                translateReport(reportDescriptor),
-                {
-                    ruleId: "foo-rule",
-                    severity: 2,
-                    message: "foo",
-                    line: 2,
-                    column: 1,
-                    nodeType: "ExpressionStatement",
-                    suggestions: [{
+            assert.deepStrictEqual(translateReport(reportDescriptor), {
+                ruleId: "foo-rule",
+                severity: 2,
+                message: "foo",
+                line: 2,
+                column: 1,
+                nodeType: "ExpressionStatement",
+                suggestions: [
+                    {
                         desc: "A first suggestion for the issue",
                         fix: { range: [1, 2], text: "foo" }
-                    }, {
+                    },
+                    {
                         desc: "A different suggestion for the issue",
                         fix: { range: [1, 3], text: "foobar" }
-                    }]
-                }
-            );
+                    }
+                ]
+            });
         });
 
         it("should merge suggestion fixes to one if 'fix' function returns an array of fixes.", () => {
@@ -561,30 +567,34 @@ describe("createReportTranslator", () => {
                 node,
                 loc: location,
                 message,
-                suggest: [{
-                    desc: "A suggestion for the issue",
-                    fix: () => [{ range: [1, 2], text: "foo" }, { range: [4, 5], text: "bar" }]
-                }]
+                suggest: [
+                    {
+                        desc: "A suggestion for the issue",
+                        fix: () => [
+                            { range: [1, 2], text: "foo" },
+                            { range: [4, 5], text: "bar" }
+                        ]
+                    }
+                ]
             };
 
-            assert.deepStrictEqual(
-                translateReport(reportDescriptor),
-                {
-                    ruleId: "foo-rule",
-                    severity: 2,
-                    message: "foo",
-                    line: 2,
-                    column: 1,
-                    nodeType: "ExpressionStatement",
-                    suggestions: [{
+            assert.deepStrictEqual(translateReport(reportDescriptor), {
+                ruleId: "foo-rule",
+                severity: 2,
+                message: "foo",
+                line: 2,
+                column: 1,
+                nodeType: "ExpressionStatement",
+                suggestions: [
+                    {
                         desc: "A suggestion for the issue",
                         fix: {
                             range: [1, 5],
                             text: "fooo\nbar"
                         }
-                    }]
-                }
-            );
+                    }
+                ]
+            });
         });
 
         it("should remove the whole suggestion if 'fix' function returned `null`.", () => {
@@ -592,23 +602,22 @@ describe("createReportTranslator", () => {
                 node,
                 loc: location,
                 message,
-                suggest: [{
-                    desc: "A suggestion for the issue",
-                    fix: () => null
-                }]
+                suggest: [
+                    {
+                        desc: "A suggestion for the issue",
+                        fix: () => null
+                    }
+                ]
             };
 
-            assert.deepStrictEqual(
-                translateReport(reportDescriptor),
-                {
-                    ruleId: "foo-rule",
-                    severity: 2,
-                    message: "foo",
-                    line: 2,
-                    column: 1,
-                    nodeType: "ExpressionStatement"
-                }
-            );
+            assert.deepStrictEqual(translateReport(reportDescriptor), {
+                ruleId: "foo-rule",
+                severity: 2,
+                message: "foo",
+                line: 2,
+                column: 1,
+                nodeType: "ExpressionStatement"
+            });
         });
 
         it("should remove the whole suggestion if 'fix' function returned an empty array.", () => {
@@ -616,23 +625,22 @@ describe("createReportTranslator", () => {
                 node,
                 loc: location,
                 message,
-                suggest: [{
-                    desc: "A suggestion for the issue",
-                    fix: () => []
-                }]
+                suggest: [
+                    {
+                        desc: "A suggestion for the issue",
+                        fix: () => []
+                    }
+                ]
             };
 
-            assert.deepStrictEqual(
-                translateReport(reportDescriptor),
-                {
-                    ruleId: "foo-rule",
-                    severity: 2,
-                    message: "foo",
-                    line: 2,
-                    column: 1,
-                    nodeType: "ExpressionStatement"
-                }
-            );
+            assert.deepStrictEqual(translateReport(reportDescriptor), {
+                ruleId: "foo-rule",
+                severity: 2,
+                message: "foo",
+                line: 2,
+                column: 1,
+                nodeType: "ExpressionStatement"
+            });
         });
 
         it("should remove the whole suggestion if 'fix' function returned an empty sequence.", () => {
@@ -640,23 +648,22 @@ describe("createReportTranslator", () => {
                 node,
                 loc: location,
                 message,
-                suggest: [{
-                    desc: "A suggestion for the issue",
-                    *fix() {}
-                }]
+                suggest: [
+                    {
+                        desc: "A suggestion for the issue",
+                        *fix() {}
+                    }
+                ]
             };
 
-            assert.deepStrictEqual(
-                translateReport(reportDescriptor),
-                {
-                    ruleId: "foo-rule",
-                    severity: 2,
-                    message: "foo",
-                    line: 2,
-                    column: 1,
-                    nodeType: "ExpressionStatement"
-                }
-            );
+            assert.deepStrictEqual(translateReport(reportDescriptor), {
+                ruleId: "foo-rule",
+                severity: 2,
+                message: "foo",
+                line: 2,
+                column: 1,
+                nodeType: "ExpressionStatement"
+            });
         });
 
         // This isn't officially supported, but autofix works the same way
@@ -665,23 +672,22 @@ describe("createReportTranslator", () => {
                 node,
                 loc: location,
                 message,
-                suggest: [{
-                    desc: "A suggestion for the issue",
-                    fix() {}
-                }]
+                suggest: [
+                    {
+                        desc: "A suggestion for the issue",
+                        fix() {}
+                    }
+                ]
             };
 
-            assert.deepStrictEqual(
-                translateReport(reportDescriptor),
-                {
-                    ruleId: "foo-rule",
-                    severity: 2,
-                    message: "foo",
-                    line: 2,
-                    column: 1,
-                    nodeType: "ExpressionStatement"
-                }
-            );
+            assert.deepStrictEqual(translateReport(reportDescriptor), {
+                ruleId: "foo-rule",
+                severity: 2,
+                message: "foo",
+                line: 2,
+                column: 1,
+                nodeType: "ExpressionStatement"
+            });
         });
 
         it("should keep suggestion before a removed suggestion.", () => {
@@ -689,30 +695,32 @@ describe("createReportTranslator", () => {
                 node,
                 loc: location,
                 message,
-                suggest: [{
-                    desc: "Suggestion with a fix",
-                    fix: () => ({ range: [1, 2], text: "foo" })
-                }, {
-                    desc: "Suggestion without a fix",
-                    fix: () => null
-                }]
+                suggest: [
+                    {
+                        desc: "Suggestion with a fix",
+                        fix: () => ({ range: [1, 2], text: "foo" })
+                    },
+                    {
+                        desc: "Suggestion without a fix",
+                        fix: () => null
+                    }
+                ]
             };
 
-            assert.deepStrictEqual(
-                translateReport(reportDescriptor),
-                {
-                    ruleId: "foo-rule",
-                    severity: 2,
-                    message: "foo",
-                    line: 2,
-                    column: 1,
-                    nodeType: "ExpressionStatement",
-                    suggestions: [{
+            assert.deepStrictEqual(translateReport(reportDescriptor), {
+                ruleId: "foo-rule",
+                severity: 2,
+                message: "foo",
+                line: 2,
+                column: 1,
+                nodeType: "ExpressionStatement",
+                suggestions: [
+                    {
                         desc: "Suggestion with a fix",
                         fix: { range: [1, 2], text: "foo" }
-                    }]
-                }
-            );
+                    }
+                ]
+            });
         });
 
         it("should keep suggestion after a removed suggestion.", () => {
@@ -720,30 +728,32 @@ describe("createReportTranslator", () => {
                 node,
                 loc: location,
                 message,
-                suggest: [{
-                    desc: "Suggestion without a fix",
-                    fix: () => null
-                }, {
-                    desc: "Suggestion with a fix",
-                    fix: () => ({ range: [1, 2], text: "foo" })
-                }]
+                suggest: [
+                    {
+                        desc: "Suggestion without a fix",
+                        fix: () => null
+                    },
+                    {
+                        desc: "Suggestion with a fix",
+                        fix: () => ({ range: [1, 2], text: "foo" })
+                    }
+                ]
             };
 
-            assert.deepStrictEqual(
-                translateReport(reportDescriptor),
-                {
-                    ruleId: "foo-rule",
-                    severity: 2,
-                    message: "foo",
-                    line: 2,
-                    column: 1,
-                    nodeType: "ExpressionStatement",
-                    suggestions: [{
+            assert.deepStrictEqual(translateReport(reportDescriptor), {
+                ruleId: "foo-rule",
+                severity: 2,
+                message: "foo",
+                line: 2,
+                column: 1,
+                nodeType: "ExpressionStatement",
+                suggestions: [
+                    {
                         desc: "Suggestion with a fix",
                         fix: { range: [1, 2], text: "foo" }
-                    }]
-                }
-            );
+                    }
+                ]
+            });
         });
 
         it("should remove multiple suggestions that didn't provide a fix and keep those that did.", () => {
@@ -751,65 +761,77 @@ describe("createReportTranslator", () => {
                 node,
                 loc: location,
                 message,
-                suggest: [{
-                    desc: "Keep #1",
-                    fix: () => ({ range: [1, 2], text: "foo" })
-                }, {
-                    desc: "Remove #1",
-                    fix() {
-                        return null;
+                suggest: [
+                    {
+                        desc: "Keep #1",
+                        fix: () => ({ range: [1, 2], text: "foo" })
+                    },
+                    {
+                        desc: "Remove #1",
+                        fix() {
+                            return null;
+                        }
+                    },
+                    {
+                        desc: "Keep #2",
+                        fix: () => ({ range: [1, 2], text: "bar" })
+                    },
+                    {
+                        desc: "Remove #2",
+                        fix() {
+                            return [];
+                        }
+                    },
+                    {
+                        desc: "Keep #3",
+                        fix: () => ({ range: [1, 2], text: "baz" })
+                    },
+                    {
+                        desc: "Remove #3",
+                        *fix() {}
+                    },
+                    {
+                        desc: "Keep #4",
+                        fix: () => ({ range: [1, 2], text: "quux" })
                     }
-                }, {
-                    desc: "Keep #2",
-                    fix: () => ({ range: [1, 2], text: "bar" })
-                }, {
-                    desc: "Remove #2",
-                    fix() {
-                        return [];
-                    }
-                }, {
-                    desc: "Keep #3",
-                    fix: () => ({ range: [1, 2], text: "baz" })
-                }, {
-                    desc: "Remove #3",
-                    *fix() {}
-                }, {
-                    desc: "Keep #4",
-                    fix: () => ({ range: [1, 2], text: "quux" })
-                }]
+                ]
             };
 
-            assert.deepStrictEqual(
-                translateReport(reportDescriptor),
-                {
-                    ruleId: "foo-rule",
-                    severity: 2,
-                    message: "foo",
-                    line: 2,
-                    column: 1,
-                    nodeType: "ExpressionStatement",
-                    suggestions: [{
+            assert.deepStrictEqual(translateReport(reportDescriptor), {
+                ruleId: "foo-rule",
+                severity: 2,
+                message: "foo",
+                line: 2,
+                column: 1,
+                nodeType: "ExpressionStatement",
+                suggestions: [
+                    {
                         desc: "Keep #1",
                         fix: { range: [1, 2], text: "foo" }
-                    }, {
+                    },
+                    {
                         desc: "Keep #2",
                         fix: { range: [1, 2], text: "bar" }
-                    }, {
+                    },
+                    {
                         desc: "Keep #3",
                         fix: { range: [1, 2], text: "baz" }
-                    }, {
+                    },
+                    {
                         desc: "Keep #4",
                         fix: { range: [1, 2], text: "quux" }
-                    }]
-                }
-            );
+                    }
+                ]
+            });
         });
     });
 
     describe("message interpolation", () => {
         it("should correctly parse a message when being passed all options in an old-style report", () => {
             assert.deepStrictEqual(
-                translateReport(node, node.loc.end, "hello {{dynamic}}", { dynamic: node.type }),
+                translateReport(node, node.loc.end, "hello {{dynamic}}", {
+                    dynamic: node.type
+                }),
                 {
                     severity: 2,
                     ruleId: "foo-rule",
@@ -823,7 +845,12 @@ describe("createReportTranslator", () => {
 
         it("should correctly parse a message when being passed all options in a new-style report", () => {
             assert.deepStrictEqual(
-                translateReport({ node, loc: node.loc.end, message: "hello {{dynamic}}", data: { dynamic: node.type } }),
+                translateReport({
+                    node,
+                    loc: node.loc.end,
+                    message: "hello {{dynamic}}",
+                    data: { dynamic: node.type }
+                }),
                 {
                     severity: 2,
                     ruleId: "foo-rule",
@@ -837,35 +864,44 @@ describe("createReportTranslator", () => {
 
         it("should correctly parse a message with object keys as numbers", () => {
             assert.strictEqual(
-                translateReport(node, "my message {{name}}{{0}}", { 0: "!", name: "testing" }).message,
+                translateReport(node, "my message {{name}}{{0}}", {
+                    0: "!",
+                    name: "testing"
+                }).message,
                 "my message testing!"
             );
         });
 
         it("should correctly parse a message with array", () => {
             assert.strictEqual(
-                translateReport(node, "my message {{1}}{{0}}", ["!", "testing"]).message,
+                translateReport(node, "my message {{1}}{{0}}", ["!", "testing"])
+                    .message,
                 "my message testing!"
             );
         });
 
         it("should allow template parameter with inner whitespace", () => {
             assert.strictEqual(
-                translateReport(node, "message {{parameter name}}", { "parameter name": "yay!" }).message,
+                translateReport(node, "message {{parameter name}}", {
+                    "parameter name": "yay!"
+                }).message,
                 "message yay!"
             );
         });
 
         it("should allow template parameter with non-identifier characters", () => {
             assert.strictEqual(
-                translateReport(node, "message {{parameter-name}}", { "parameter-name": "yay!" }).message,
+                translateReport(node, "message {{parameter-name}}", {
+                    "parameter-name": "yay!"
+                }).message,
                 "message yay!"
             );
         });
 
         it("should allow template parameter wrapped in braces", () => {
             assert.strictEqual(
-                translateReport(node, "message {{{param}}}", { param: "yay!" }).message,
+                translateReport(node, "message {{{param}}}", { param: "yay!" })
+                    .message,
                 "message {yay!}"
             );
         });
@@ -879,28 +915,40 @@ describe("createReportTranslator", () => {
 
         it("should handle leading whitespace in template parameter", () => {
             assert.strictEqual(
-                translateReport({ node, message: "message {{ parameter}}", data: { parameter: "yay!" } }).message,
+                translateReport({
+                    node,
+                    message: "message {{ parameter}}",
+                    data: { parameter: "yay!" }
+                }).message,
                 "message yay!"
             );
         });
 
         it("should handle trailing whitespace in template parameter", () => {
             assert.strictEqual(
-                translateReport({ node, message: "message {{parameter }}", data: { parameter: "yay!" } }).message,
+                translateReport({
+                    node,
+                    message: "message {{parameter }}",
+                    data: { parameter: "yay!" }
+                }).message,
                 "message yay!"
             );
         });
 
         it("should still allow inner whitespace as well as leading/trailing", () => {
             assert.strictEqual(
-                translateReport(node, "message {{ parameter name }}", { "parameter name": "yay!" }).message,
+                translateReport(node, "message {{ parameter name }}", {
+                    "parameter name": "yay!"
+                }).message,
                 "message yay!"
             );
         });
 
         it("should still allow non-identifier characters as well as leading/trailing whitespace", () => {
             assert.strictEqual(
-                translateReport(node, "message {{ parameter-name }}", { "parameter-name": "yay!" }).message,
+                translateReport(node, "message {{ parameter-name }}", {
+                    "parameter-name": "yay!"
+                }).message,
                 "message yay!"
             );
         });
@@ -923,7 +971,11 @@ describe("createReportTranslator", () => {
 
         it("should use the provided location when given in an new-style call", () => {
             assert.deepStrictEqual(
-                translateReport({ node, loc: { line: 42, column: 13 }, message: "hello world" }),
+                translateReport({
+                    node,
+                    loc: { line: 42, column: 13 },
+                    message: "hello world"
+                }),
                 {
                     severity: 2,
                     ruleId: "foo-rule",
@@ -936,19 +988,16 @@ describe("createReportTranslator", () => {
         });
 
         it("should extract the start and end locations from a node if no location is provided", () => {
-            assert.deepStrictEqual(
-                translateReport(node, "hello world"),
-                {
-                    severity: 2,
-                    ruleId: "foo-rule",
-                    message: "hello world",
-                    nodeType: "ExpressionStatement",
-                    line: 1,
-                    column: 1,
-                    endLine: 1,
-                    endColumn: 4
-                }
-            );
+            assert.deepStrictEqual(translateReport(node, "hello world"), {
+                severity: 2,
+                ruleId: "foo-rule",
+                message: "hello world",
+                nodeType: "ExpressionStatement",
+                line: 1,
+                column: 1,
+                endLine: 1,
+                endColumn: 4
+            });
         });
 
         it("should have 'endLine' and 'endColumn' when 'loc' property has 'end' property.", () => {
@@ -969,7 +1018,10 @@ describe("createReportTranslator", () => {
 
         it("should not have 'endLine' and 'endColumn' when 'loc' property does not have 'end' property.", () => {
             assert.deepStrictEqual(
-                translateReport({ loc: node.loc.start, message: "hello world" }),
+                translateReport({
+                    loc: node.loc.start,
+                    message: "hello world"
+                }),
                 {
                     severity: 2,
                     ruleId: "foo-rule",
@@ -1001,7 +1053,12 @@ describe("createReportTranslator", () => {
     describe("converting old-style calls", () => {
         it("should include a fix passed as the last argument when location is not passed", () => {
             assert.deepStrictEqual(
-                translateReport(node, "my message {{1}}{{0}}", ["!", "testing"], () => ({ range: [1, 1], text: "" })),
+                translateReport(
+                    node,
+                    "my message {{1}}{{0}}",
+                    ["!", "testing"],
+                    () => ({ range: [1, 1], text: "" })
+                ),
                 {
                     severity: 2,
                     ruleId: "foo-rule",
@@ -1018,14 +1075,12 @@ describe("createReportTranslator", () => {
     });
 
     describe("validation", () => {
-
         it("should throw an error if node is not an object", () => {
             assert.throws(
                 () => translateReport("not a node", "hello world"),
                 "Node must be an object"
             );
         });
-
 
         it("should not throw an error if location is provided and node is not in an old-style call", () => {
             assert.deepStrictEqual(
@@ -1043,7 +1098,10 @@ describe("createReportTranslator", () => {
 
         it("should not throw an error if location is provided and node is not in a new-style call", () => {
             assert.deepStrictEqual(
-                translateReport({ loc: { line: 1, column: 1 }, message: "hello world" }),
+                translateReport({
+                    loc: { line: 1, column: 1 },
+                    message: "hello world"
+                }),
                 {
                     severity: 2,
                     ruleId: "foo-rule",
@@ -1064,23 +1122,39 @@ describe("createReportTranslator", () => {
 
         it("should throw an error if fix range is invalid", () => {
             assert.throws(
-                () => translateReport({ node, messageId: "testMessage", fix: () => ({ text: "foo" }) }),
+                () =>
+                    translateReport({
+                        node,
+                        messageId: "testMessage",
+                        fix: () => ({ text: "foo" })
+                    }),
                 "Fix has invalid range"
             );
 
-            for (const badRange of [[0], [0, null], [null, 0], [void 0, 1], [0, void 0], [void 0, void 0], []]) {
+            for (const badRange of [
+                [0],
+                [0, null],
+                [null, 0],
+                [void 0, 1],
+                [0, void 0],
+                [void 0, void 0],
+                []
+            ]) {
                 assert.throws(
                     // eslint-disable-next-line no-loop-func -- Using arrow functions
-                    () => translateReport(
-                        { node, messageId: "testMessage", fix: () => ({ range: badRange, text: "foo" }) }
-                    ),
+                    () =>
+                        translateReport({
+                            node,
+                            messageId: "testMessage",
+                            fix: () => ({ range: badRange, text: "foo" })
+                        }),
                     "Fix has invalid range"
                 );
 
                 assert.throws(
                     // eslint-disable-next-line no-loop-func -- Using arrow functions
-                    () => translateReport(
-                        {
+                    () =>
+                        translateReport({
                             node,
                             messageId: "testMessage",
                             fix: () => [
@@ -1088,8 +1162,7 @@ describe("createReportTranslator", () => {
                                 { range: badRange, text: "bar" },
                                 { range: [1, 1], text: "baz" }
                             ]
-                        }
-                    ),
+                        }),
                     "Fix has invalid range"
                 );
             }
@@ -1137,7 +1210,10 @@ describe("createReportTranslator", () => {
             assert.notStrictEqual(translatedReport.fix, fix);
             assert.notStrictEqual(translatedReport.fix.range, fix.range);
             assert.notStrictEqual(translatedReport.fix, additionalFix);
-            assert.notStrictEqual(translatedReport.fix.range, additionalFix.range);
+            assert.notStrictEqual(
+                translatedReport.fix.range,
+                additionalFix.range
+            );
         });
 
         it("should create a new fix object with a new range array when `fix()` generator yields a single item", () => {
@@ -1167,89 +1243,129 @@ describe("createReportTranslator", () => {
             assert.notStrictEqual(translatedReport.fix, fix);
             assert.notStrictEqual(translatedReport.fix.range, fix.range);
             assert.notStrictEqual(translatedReport.fix, additionalFix);
-            assert.notStrictEqual(translatedReport.fix.range, additionalFix.range);
+            assert.notStrictEqual(
+                translatedReport.fix.range,
+                additionalFix.range
+            );
         });
 
         it("should deep clone returned suggestion fix object", () => {
             const translatedReport = translateReport({
                 node,
                 messageId: "testMessage",
-                suggest: [{
-                    messageId: "suggestion1",
-                    fix: () => fix
-                }]
+                suggest: [
+                    {
+                        messageId: "suggestion1",
+                        fix: () => fix
+                    }
+                ]
             });
 
             assert.deepStrictEqual(translatedReport.suggestions[0].fix, fix);
             assert.notStrictEqual(translatedReport.suggestions[0].fix, fix);
-            assert.notStrictEqual(translatedReport.suggestions[0].fix.range, fix.range);
+            assert.notStrictEqual(
+                translatedReport.suggestions[0].fix.range,
+                fix.range
+            );
         });
 
         it("should create a new fix object with a new range array when suggestion `fix()` returns an array with a single item", () => {
             const translatedReport = translateReport({
                 node,
                 messageId: "testMessage",
-                suggest: [{
-                    messageId: "suggestion1",
-                    fix: () => [fix]
-                }]
+                suggest: [
+                    {
+                        messageId: "suggestion1",
+                        fix: () => [fix]
+                    }
+                ]
             });
 
             assert.deepStrictEqual(translatedReport.suggestions[0].fix, fix);
             assert.notStrictEqual(translatedReport.suggestions[0].fix, fix);
-            assert.notStrictEqual(translatedReport.suggestions[0].fix.range, fix.range);
+            assert.notStrictEqual(
+                translatedReport.suggestions[0].fix.range,
+                fix.range
+            );
         });
 
         it("should create a new fix object with a new range array when suggestion `fix()` returns an array with multiple items", () => {
             const translatedReport = translateReport({
                 node,
                 messageId: "testMessage",
-                suggest: [{
-                    messageId: "suggestion1",
-                    fix: () => [fix, additionalFix]
-                }]
+                suggest: [
+                    {
+                        messageId: "suggestion1",
+                        fix: () => [fix, additionalFix]
+                    }
+                ]
             });
 
             assert.notStrictEqual(translatedReport.suggestions[0].fix, fix);
-            assert.notStrictEqual(translatedReport.suggestions[0].fix.range, fix.range);
-            assert.notStrictEqual(translatedReport.suggestions[0].fix, additionalFix);
-            assert.notStrictEqual(translatedReport.suggestions[0].fix.range, additionalFix.range);
+            assert.notStrictEqual(
+                translatedReport.suggestions[0].fix.range,
+                fix.range
+            );
+            assert.notStrictEqual(
+                translatedReport.suggestions[0].fix,
+                additionalFix
+            );
+            assert.notStrictEqual(
+                translatedReport.suggestions[0].fix.range,
+                additionalFix.range
+            );
         });
 
         it("should create a new fix object with a new range array when suggestion `fix()` generator yields a single item", () => {
             const translatedReport = translateReport({
                 node,
                 messageId: "testMessage",
-                suggest: [{
-                    messageId: "suggestion1",
-                    *fix() {
-                        yield fix;
+                suggest: [
+                    {
+                        messageId: "suggestion1",
+                        *fix() {
+                            yield fix;
+                        }
                     }
-                }]
+                ]
             });
 
             assert.deepStrictEqual(translatedReport.suggestions[0].fix, fix);
             assert.notStrictEqual(translatedReport.suggestions[0].fix, fix);
-            assert.notStrictEqual(translatedReport.suggestions[0].fix.range, fix.range);
+            assert.notStrictEqual(
+                translatedReport.suggestions[0].fix.range,
+                fix.range
+            );
         });
 
         it("should create a new fix object with a new range array when suggestion `fix()` generator yields multiple items", () => {
             const translatedReport = translateReport({
                 node,
                 messageId: "testMessage",
-                suggest: [{
-                    messageId: "suggestion1",
-                    *fix() {
-                        yield fix;
-                        yield additionalFix;
+                suggest: [
+                    {
+                        messageId: "suggestion1",
+                        *fix() {
+                            yield fix;
+                            yield additionalFix;
+                        }
                     }
-                }]
+                ]
             });
 
             assert.notStrictEqual(translatedReport.suggestions[0].fix, fix);
-            assert.notStrictEqual(translatedReport.suggestions[0].fix.range, fix.range);
-            assert.notStrictEqual(translatedReport.suggestions[0].fix, additionalFix);
-            assert.notStrictEqual(translatedReport.suggestions[0].fix.range, additionalFix.range);
+            assert.notStrictEqual(
+                translatedReport.suggestions[0].fix.range,
+                fix.range
+            );
+            assert.notStrictEqual(
+                translatedReport.suggestions[0].fix,
+                additionalFix
+            );
+            assert.notStrictEqual(
+                translatedReport.suggestions[0].fix.range,
+                additionalFix.range
+            );
         });
 
         it("should create different instances of range arrays when suggestions reuse the same instance", () => {
@@ -1269,9 +1385,18 @@ describe("createReportTranslator", () => {
                 ]
             });
 
-            assert.deepStrictEqual(translatedReport.suggestions[0].fix.range, range);
-            assert.deepStrictEqual(translatedReport.suggestions[1].fix.range, range);
-            assert.notStrictEqual(translatedReport.suggestions[0].fix.range, translatedReport.suggestions[1].fix.range);
+            assert.deepStrictEqual(
+                translatedReport.suggestions[0].fix.range,
+                range
+            );
+            assert.deepStrictEqual(
+                translatedReport.suggestions[1].fix.range,
+                range
+            );
+            assert.notStrictEqual(
+                translatedReport.suggestions[0].fix.range,
+                translatedReport.suggestions[1].fix.range
+            );
         });
     });
 });

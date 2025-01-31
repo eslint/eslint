@@ -16,7 +16,9 @@ const rule = require("../../../lib/rules/prefer-rest-params"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 6, sourceType: "script" } });
+const ruleTester = new RuleTester({
+    languageOptions: { ecmaVersion: 6, sourceType: "script" }
+});
 
 ruleTester.run("prefer-rest-params", rule, {
     valid: [
@@ -29,9 +31,21 @@ ruleTester.run("prefer-rest-params", rule, {
         "function foo() { arguments.callee; }"
     ],
     invalid: [
-        { code: "function foo() { arguments; }", errors: [{ type: "Identifier", messageId: "preferRestParams" }] },
-        { code: "function foo() { arguments[0]; }", errors: [{ type: "Identifier", messageId: "preferRestParams" }] },
-        { code: "function foo() { arguments[1]; }", errors: [{ type: "Identifier", messageId: "preferRestParams" }] },
-        { code: "function foo() { arguments[Symbol.iterator]; }", errors: [{ type: "Identifier", messageId: "preferRestParams" }] }
+        {
+            code: "function foo() { arguments; }",
+            errors: [{ type: "Identifier", messageId: "preferRestParams" }]
+        },
+        {
+            code: "function foo() { arguments[0]; }",
+            errors: [{ type: "Identifier", messageId: "preferRestParams" }]
+        },
+        {
+            code: "function foo() { arguments[1]; }",
+            errors: [{ type: "Identifier", messageId: "preferRestParams" }]
+        },
+        {
+            code: "function foo() { arguments[Symbol.iterator]; }",
+            errors: [{ type: "Identifier", messageId: "preferRestParams" }]
+        }
     ]
 });

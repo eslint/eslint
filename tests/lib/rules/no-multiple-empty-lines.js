@@ -74,7 +74,6 @@ function getExpectedErrorBOF(lines) {
 const ruleTester = new RuleTester();
 
 ruleTester.run("no-multiple-empty-lines", rule, {
-
     valid: [
         {
             code: "// valid 1\nvar a = 5;\nvar b = 3;\n\n",
@@ -273,8 +272,7 @@ ruleTester.run("no-multiple-empty-lines", rule, {
             code: "\n\n\n// invalid 19\nvar a = 5;\n\n",
             output: "// invalid 19\nvar a = 5;\n",
             options: [{ max: 2, maxBOF: 0, maxEOF: 0 }],
-            errors: [getExpectedErrorBOF(0),
-                getExpectedErrorEOF(0)]
+            errors: [getExpectedErrorBOF(0), getExpectedErrorEOF(0)]
         },
         {
             code: "// invalid 20\r\n// windows line endings\r\nvar a = 5;\r\nvar b = 3;\r\n\r\n\r\n",
@@ -289,17 +287,8 @@ ruleTester.run("no-multiple-empty-lines", rule, {
             errors: [getExpectedErrorEOF(1)]
         },
         {
-            code:
-            "'foo';\n" +
-            "\n" +
-            "\n" +
-            "`bar`;\n" +
-            "`baz`;",
-            output:
-            "'foo';\n" +
-            "\n" +
-            "`bar`;\n" +
-            "`baz`;",
+            code: "'foo';\n" + "\n" + "\n" + "`bar`;\n" + "`baz`;",
+            output: "'foo';\n" + "\n" + "`bar`;\n" + "`baz`;",
             options: [{ max: 1 }],
             languageOptions: { ecmaVersion: 6 },
             errors: [getExpectedError(1)]
@@ -312,14 +301,12 @@ ruleTester.run("no-multiple-empty-lines", rule, {
             errors: [getExpectedError(1)]
         },
         {
-
             // https://github.com/eslint/eslint/issues/7893
             code: `a\n\n\n\n${"a".repeat(1e5)}`,
             output: `a\n\n\n${"a".repeat(1e5)}`,
             errors: [getExpectedError(2)]
         },
         {
-
             // https://github.com/eslint/eslint/issues/8401
             code: "foo\n ",
             output: "foo\n",
@@ -327,38 +314,40 @@ ruleTester.run("no-multiple-empty-lines", rule, {
             errors: [getExpectedErrorEOF(0)]
         },
         {
-
             // https://github.com/eslint/eslint/pull/12594
             code: "var a;\n\n\n\n\nvar b;",
             output: "var a;\n\nvar b;",
             options: [{ max: 1 }],
-            errors: [{
-                messageId: "consecutiveBlank",
-                data: {
-                    max: 1,
-                    pluralizedLines: "line"
-                },
-                type: "Program",
-                line: 3,
-                column: 1
-            }]
+            errors: [
+                {
+                    messageId: "consecutiveBlank",
+                    data: {
+                        max: 1,
+                        pluralizedLines: "line"
+                    },
+                    type: "Program",
+                    line: 3,
+                    column: 1
+                }
+            ]
         },
         {
-
             // https://github.com/eslint/eslint/pull/12594
             code: "var a;\n\n\n\n\nvar b;",
             output: "var a;\n\n\nvar b;",
             options: [{ max: 2 }],
-            errors: [{
-                messageId: "consecutiveBlank",
-                data: {
-                    max: 2,
-                    pluralizedLines: "lines"
-                },
-                type: "Program",
-                line: 4,
-                column: 1
-            }]
+            errors: [
+                {
+                    messageId: "consecutiveBlank",
+                    data: {
+                        max: 2,
+                        pluralizedLines: "lines"
+                    },
+                    type: "Program",
+                    line: 4,
+                    column: 1
+                }
+            ]
         }
     ]
 });

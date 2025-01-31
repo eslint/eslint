@@ -65,9 +65,7 @@
     },
     "arrow-body-style": {
         "type": "suggestion",
-        "defaultOptions": [
-            "as-needed"
-        ],
+        "defaultOptions": ["as-needed"],
         "docs": {
             "description": "Require braces around arrow function bodies",
             "recommended": false,
@@ -215,9 +213,7 @@
     },
     "complexity": {
         "type": "suggestion",
-        "defaultOptions": [
-            20
-        ],
+        "defaultOptions": [20],
         "docs": {
             "description": "Enforce a maximum cyclomatic complexity allowed in a program",
             "recommended": false,
@@ -256,9 +252,7 @@
             "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/consistent-this"
         },
-        "defaultOptions": [
-            "that"
-        ]
+        "defaultOptions": ["that"]
     },
     "constructor-super": {
         "type": "problem",
@@ -276,16 +270,12 @@
             "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/curly"
         },
-        "defaultOptions": [
-            "all"
-        ],
+        "defaultOptions": ["all"],
         "fixable": "code"
     },
     "default-case": {
         "type": "suggestion",
-        "defaultOptions": [
-            {}
-        ],
+        "defaultOptions": [{}],
         "docs": {
             "description": "Require `default` cases in `switch` statements",
             "recommended": false,
@@ -387,10 +377,7 @@
     },
     "func-names": {
         "type": "suggestion",
-        "defaultOptions": [
-            "always",
-            {}
-        ],
+        "defaultOptions": ["always", {}],
         "docs": {
             "description": "Require or disallow named `function` expressions",
             "recommended": false,
@@ -472,9 +459,7 @@
     },
     "grouped-accessor-pairs": {
         "type": "suggestion",
-        "defaultOptions": [
-            "anyOrder"
-        ],
+        "defaultOptions": ["anyOrder"],
         "docs": {
             "description": "Require grouped accessor pairs in object literals and classes",
             "recommended": false,
@@ -501,9 +486,7 @@
     },
     "id-blacklist": {
         "deprecated": true,
-        "replacedBy": [
-            "id-denylist"
-        ],
+        "replacedBy": ["id-denylist"],
         "type": "suggestion",
         "docs": {
             "description": "Disallow specified identifiers",
@@ -586,9 +569,7 @@
             "url": "https://eslint.org/docs/latest/rules/indent-legacy"
         },
         "deprecated": true,
-        "replacedBy": [
-            "indent"
-        ],
+        "replacedBy": ["indent"],
         "fixable": "whitespace"
     },
     "init-declarations": {
@@ -674,9 +655,7 @@
         },
         "fixable": "whitespace",
         "deprecated": true,
-        "replacedBy": [
-            "padding-line-between-statements"
-        ]
+        "replacedBy": ["padding-line-between-statements"]
     },
     "lines-between-class-members": {
         "deprecated": true,
@@ -847,9 +826,7 @@
         },
         "fixable": "whitespace",
         "deprecated": true,
-        "replacedBy": [
-            "padding-line-between-statements"
-        ]
+        "replacedBy": ["padding-line-between-statements"]
     },
     "newline-before-return": {
         "type": "layout",
@@ -860,9 +837,7 @@
         },
         "fixable": "whitespace",
         "deprecated": true,
-        "replacedBy": [
-            "padding-line-between-statements"
-        ]
+        "replacedBy": ["padding-line-between-statements"]
     },
     "newline-per-chained-call": {
         "deprecated": true,
@@ -957,9 +932,7 @@
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-catch-shadow"
         },
-        "replacedBy": [
-            "no-shadow"
-        ],
+        "replacedBy": ["no-shadow"],
         "deprecated": true
     },
     "no-class-assign": {
@@ -981,9 +954,7 @@
     },
     "no-cond-assign": {
         "type": "problem",
-        "defaultOptions": [
-            "except-parens"
-        ],
+        "defaultOptions": ["except-parens"],
         "docs": {
             "description": "Disallow assignment operators in conditional expressions",
             "recommended": true,
@@ -1003,9 +974,7 @@
     },
     "no-console": {
         "type": "suggestion",
-        "defaultOptions": [
-            {}
-        ],
+        "defaultOptions": [{}],
         "docs": {
             "description": "Disallow the use of `console`",
             "recommended": false,
@@ -1272,9 +1241,7 @@
     },
     "no-extra-boolean-cast": {
         "type": "suggestion",
-        "defaultOptions": [
-            {}
-        ],
+        "defaultOptions": [{}],
         "docs": {
             "description": "Disallow unnecessary boolean casts",
             "recommended": true,
@@ -1412,9 +1379,7 @@
     },
     "no-inline-comments": {
         "type": "suggestion",
-        "defaultOptions": [
-            {}
-        ],
+        "defaultOptions": [{}],
         "docs": {
             "description": "Disallow inline comments after code",
             "recommended": false,
@@ -1438,9 +1403,7 @@
     },
     "no-invalid-regexp": {
         "type": "problem",
-        "defaultOptions": [
-            {}
-        ],
+        "defaultOptions": [{}],
         "docs": {
             "description": "Disallow invalid regular expression strings in `RegExp` constructors",
             "recommended": true,
@@ -1643,9 +1606,7 @@
             "url": "https://eslint.org/docs/latest/rules/no-native-reassign"
         },
         "deprecated": true,
-        "replacedBy": [
-            "no-global-assign"
-        ]
+        "replacedBy": ["no-global-assign"]
     },
     "no-negated-condition": {
         "type": "suggestion",
@@ -1663,9 +1624,7 @@
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-negated-in-lhs"
         },
-        "replacedBy": [
-            "no-unsafe-negation"
-        ],
+        "replacedBy": ["no-unsafe-negation"],
         "deprecated": true
     },
     "no-nested-ternary": {
@@ -1709,9 +1668,7 @@
             "url": "https://eslint.org/docs/latest/rules/no-new-object"
         },
         "deprecated": true,
-        "replacedBy": [
-            "no-object-constructor"
-        ]
+        "replacedBy": ["no-object-constructor"]
     },
     "no-new-require": {
         "deprecated": true,
@@ -1731,9 +1688,7 @@
             "url": "https://eslint.org/docs/latest/rules/no-new-symbol"
         },
         "deprecated": true,
-        "replacedBy": [
-            "no-new-native-nonconstructor"
-        ]
+        "replacedBy": ["no-new-native-nonconstructor"]
     },
     "no-new-wrappers": {
         "type": "suggestion",
@@ -1942,9 +1897,7 @@
     },
     "no-return-assign": {
         "type": "suggestion",
-        "defaultOptions": [
-            "except-parens"
-        ],
+        "defaultOptions": ["except-parens"],
         "docs": {
             "description": "Disallow assignment operators in `return` statements",
             "recommended": false,
@@ -2045,9 +1998,7 @@
             "url": "https://eslint.org/docs/latest/rules/no-spaced-func"
         },
         "deprecated": true,
-        "replacedBy": [
-            "func-call-spacing"
-        ],
+        "replacedBy": ["func-call-spacing"],
         "fixable": "whitespace"
     },
     "no-sparse-arrays": {
@@ -2450,11 +2401,7 @@
         "defaultOptions": [
             {
                 "location": "start",
-                "terms": [
-                    "todo",
-                    "fixme",
-                    "xxx"
-                ]
+                "terms": ["todo", "fixme", "xxx"]
             }
         ],
         "docs": {
@@ -2560,9 +2507,7 @@
     },
     "operator-assignment": {
         "type": "suggestion",
-        "defaultOptions": [
-            "always"
-        ],
+        "defaultOptions": ["always"],
         "docs": {
             "description": "Require or disallow assignment operator shorthand where possible",
             "recommended": false,
@@ -2783,9 +2728,7 @@
     },
     "radix": {
         "type": "suggestion",
-        "defaultOptions": [
-            "always"
-        ],
+        "defaultOptions": ["always"],
         "docs": {
             "description": "Enforce the consistent use of the radix argument when using `parseInt()`",
             "recommended": false,
@@ -2885,12 +2828,7 @@
                 "ignoreCase": false,
                 "ignoreDeclarationSort": false,
                 "ignoreMemberSort": false,
-                "memberSyntaxSortOrder": [
-                    "none",
-                    "all",
-                    "multiple",
-                    "single"
-                ]
+                "memberSyntaxSortOrder": ["none", "all", "multiple", "single"]
             }
         ],
         "docs": {
@@ -3003,9 +2941,7 @@
     },
     "strict": {
         "type": "suggestion",
-        "defaultOptions": [
-            "safe"
-        ],
+        "defaultOptions": ["safe"],
         "docs": {
             "description": "Require or disallow strict mode directives",
             "recommended": false,
@@ -3057,9 +2993,7 @@
     },
     "unicode-bom": {
         "type": "layout",
-        "defaultOptions": [
-            "never"
-        ],
+        "defaultOptions": ["never"],
         "docs": {
             "description": "Require or disallow Unicode byte order mark (BOM)",
             "recommended": false,

@@ -27,15 +27,15 @@ const error = { messageId: "restricted", type: "Identifier" };
 ruleTester.run("id-denylist", rule, {
     valid: [
         {
-            code: "foo = \"bar\"",
+            code: 'foo = "bar"',
             options: ["bar"]
         },
         {
-            code: "bar = \"bar\"",
+            code: 'bar = "bar"',
             options: ["foo"]
         },
         {
-            code: "foo = \"bar\"",
+            code: 'foo = "bar"',
             options: ["f", "fo", "fooo", "bar"]
         },
         {
@@ -267,141 +267,139 @@ ruleTester.run("id-denylist", rule, {
     ],
     invalid: [
         {
-            code: "foo = \"bar\"",
+            code: 'foo = "bar"',
             options: ["foo"],
-            errors: [
-                error
-            ]
+            errors: [error]
         },
         {
-            code: "bar = \"bar\"",
+            code: 'bar = "bar"',
             options: ["bar"],
-            errors: [
-                error
-            ]
+            errors: [error]
         },
         {
-            code: "foo = \"bar\"",
+            code: 'foo = "bar"',
             options: ["f", "fo", "foo", "bar"],
-            errors: [
-                error
-            ]
+            errors: [error]
         },
         {
             code: "function foo(){}",
             options: ["f", "fo", "foo", "bar"],
-            errors: [
-                error
-            ]
+            errors: [error]
         },
         {
             code: "import foo from 'mod'",
             options: ["foo"],
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [
-                error
-            ]
+            errors: [error]
         },
         {
             code: "import * as foo from 'mod'",
             options: ["foo"],
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [
-                error
-            ]
+            errors: [error]
         },
         {
             code: "export * as foo from 'mod'",
             options: ["foo"],
             languageOptions: { ecmaVersion: 2020, sourceType: "module" },
-            errors: [
-                error
-            ]
+            errors: [error]
         },
         {
             code: "import { foo } from 'mod'",
             options: ["foo"],
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [
-                error
-            ]
+            errors: [error]
         },
         {
             code: "import { foo as bar } from 'mod'",
             options: ["bar"],
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [{
-                messageId: "restricted",
-                data: { name: "bar" },
-                type: "Identifier",
-                column: 17
-            }]
+            errors: [
+                {
+                    messageId: "restricted",
+                    data: { name: "bar" },
+                    type: "Identifier",
+                    column: 17
+                }
+            ]
         },
         {
             code: "import { foo as bar } from 'mod'",
             options: ["foo", "bar"],
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [{
-                messageId: "restricted",
-                data: { name: "bar" },
-                type: "Identifier",
-                column: 17
-            }]
+            errors: [
+                {
+                    messageId: "restricted",
+                    data: { name: "bar" },
+                    type: "Identifier",
+                    column: 17
+                }
+            ]
         },
         {
             code: "import { foo as foo } from 'mod'",
             options: ["foo"],
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [{
-                messageId: "restricted",
-                data: { name: "foo" },
-                type: "Identifier",
-                column: 17
-            }]
+            errors: [
+                {
+                    messageId: "restricted",
+                    data: { name: "foo" },
+                    type: "Identifier",
+                    column: 17
+                }
+            ]
         },
         {
             code: "import { foo, foo as bar } from 'mod'",
             options: ["foo"],
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [{
-                messageId: "restricted",
-                data: { name: "foo" },
-                type: "Identifier",
-                column: 10
-            }]
+            errors: [
+                {
+                    messageId: "restricted",
+                    data: { name: "foo" },
+                    type: "Identifier",
+                    column: 10
+                }
+            ]
         },
         {
             code: "import { foo as bar, foo } from 'mod'",
             options: ["foo"],
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [{
-                messageId: "restricted",
-                data: { name: "foo" },
-                type: "Identifier",
-                column: 22
-            }]
+            errors: [
+                {
+                    messageId: "restricted",
+                    data: { name: "foo" },
+                    type: "Identifier",
+                    column: 22
+                }
+            ]
         },
         {
             code: "import foo, { foo as bar } from 'mod'",
             options: ["foo"],
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [{
-                messageId: "restricted",
-                data: { name: "foo" },
-                type: "Identifier",
-                column: 8
-            }]
+            errors: [
+                {
+                    messageId: "restricted",
+                    data: { name: "foo" },
+                    type: "Identifier",
+                    column: 8
+                }
+            ]
         },
         {
             code: "var foo; export { foo as bar };",
             options: ["bar"],
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [{
-                messageId: "restricted",
-                data: { name: "bar" },
-                type: "Identifier",
-                column: 26
-            }]
+            errors: [
+                {
+                    messageId: "restricted",
+                    data: { name: "bar" },
+                    type: "Identifier",
+                    column: 26
+                }
+            ]
         },
         {
             code: "var foo; export { foo };",
@@ -497,194 +495,174 @@ ruleTester.run("id-denylist", rule, {
             code: "export { foo } from 'mod'",
             options: ["foo"],
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [
-                error
-            ]
+            errors: [error]
         },
         {
             code: "export { foo as bar } from 'mod'",
             options: ["bar"],
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [{
-                messageId: "restricted",
-                data: { name: "bar" },
-                type: "Identifier",
-                column: 17
-            }]
+            errors: [
+                {
+                    messageId: "restricted",
+                    data: { name: "bar" },
+                    type: "Identifier",
+                    column: 17
+                }
+            ]
         },
         {
             code: "export { foo as bar } from 'mod'",
             options: ["foo", "bar"],
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [{
-                messageId: "restricted",
-                data: { name: "bar" },
-                type: "Identifier",
-                column: 17
-            }]
+            errors: [
+                {
+                    messageId: "restricted",
+                    data: { name: "bar" },
+                    type: "Identifier",
+                    column: 17
+                }
+            ]
         },
         {
             code: "export { foo as foo } from 'mod'",
             options: ["foo"],
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [{
-                messageId: "restricted",
-                data: { name: "foo" },
-                type: "Identifier",
-                column: 17
-            }]
+            errors: [
+                {
+                    messageId: "restricted",
+                    data: { name: "foo" },
+                    type: "Identifier",
+                    column: 17
+                }
+            ]
         },
         {
             code: "export { foo, foo as bar } from 'mod'",
             options: ["foo"],
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [{
-                messageId: "restricted",
-                data: { name: "foo" },
-                type: "Identifier",
-                column: 10
-            }]
+            errors: [
+                {
+                    messageId: "restricted",
+                    data: { name: "foo" },
+                    type: "Identifier",
+                    column: 10
+                }
+            ]
         },
         {
             code: "export { foo as bar, foo } from 'mod'",
             options: ["foo"],
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [{
-                messageId: "restricted",
-                data: { name: "foo" },
-                type: "Identifier",
-                column: 22
-            }]
+            errors: [
+                {
+                    messageId: "restricted",
+                    data: { name: "foo" },
+                    type: "Identifier",
+                    column: 22
+                }
+            ]
         },
         {
             code: "foo.bar()",
             options: ["f", "fo", "foo", "b", "ba", "baz"],
-            errors: [
-                error
-            ]
+            errors: [error]
         },
         {
             code: "foo[bar] = baz;",
             options: ["bar"],
-            errors: [{
-                messageId: "restricted",
-                data: { name: "bar" },
-                type: "Identifier"
-            }]
+            errors: [
+                {
+                    messageId: "restricted",
+                    data: { name: "bar" },
+                    type: "Identifier"
+                }
+            ]
         },
         {
             code: "baz = foo[bar];",
             options: ["bar"],
-            errors: [{
-                messageId: "restricted",
-                data: { name: "bar" },
-                type: "Identifier"
-            }]
+            errors: [
+                {
+                    messageId: "restricted",
+                    data: { name: "bar" },
+                    type: "Identifier"
+                }
+            ]
         },
         {
             code: "var foo = bar.baz;",
             options: ["f", "fo", "foo", "b", "ba", "barr", "bazz"],
-            errors: [
-                error
-            ]
+            errors: [error]
         },
         {
             code: "var foo = bar.baz;",
             options: ["f", "fo", "fooo", "b", "ba", "bar", "bazz"],
-            errors: [
-                error
-            ]
+            errors: [error]
         },
         {
             code: "if (foo.bar) {}",
             options: ["f", "fo", "foo", "b", "ba", "barr", "bazz", "bingg"],
-            errors: [
-                error
-            ]
+            errors: [error]
         },
         {
             code: "var obj = { key: foo.bar };",
             options: ["obj"],
-            errors: [
-                error
-            ]
+            errors: [error]
         },
         {
             code: "var obj = { key: foo.bar };",
             options: ["key"],
-            errors: [
-                error
-            ]
+            errors: [error]
         },
         {
             code: "var obj = { key: foo.bar };",
             options: ["foo"],
-            errors: [
-                error
-            ]
+            errors: [error]
         },
         {
             code: "var arr = [foo.bar];",
             options: ["arr"],
-            errors: [
-                error
-            ]
+            errors: [error]
         },
         {
             code: "var arr = [foo.bar];",
             options: ["foo"],
-            errors: [
-                error
-            ]
+            errors: [error]
         },
         {
             code: "[foo.bar]",
             options: ["f", "fo", "foo", "b", "ba", "barr", "bazz", "bingg"],
-            errors: [
-                error
-            ]
+            errors: [error]
         },
         {
             code: "if (foo.bar === bar.baz) { [bing.baz] }",
             options: ["f", "fo", "foo", "b", "ba", "barr", "bazz", "bingg"],
-            errors: [
-                error
-            ]
+            errors: [error]
         },
         {
             code: "if (foo.bar === bar.baz) { [foo.bar] }",
             options: ["f", "fo", "fooo", "b", "ba", "bar", "bazz", "bingg"],
-            errors: [
-                error
-            ]
+            errors: [error]
         },
         {
             code: "var myArray = new Array(); var myDate = new Date();",
             options: ["array", "date", "myDate", "myarray", "new", "var"],
-            errors: [
-                error
-            ]
+            errors: [error]
         },
         {
             code: "var myArray = new Array(); var myDate = new Date();",
             options: ["array", "date", "mydate", "myArray", "new", "var"],
-            errors: [
-                error
-            ]
+            errors: [error]
         },
         {
             code: "foo.bar = 1",
             options: ["bar"],
-            errors: [
-                error
-            ]
+            errors: [error]
         },
         {
             code: "foo.bar.baz = 1",
             options: ["bar", "baz"],
-            errors: [
-                error
-            ]
+            errors: [error]
         },
         {
             code: "const {foo} = baz",
@@ -1442,7 +1420,6 @@ ruleTester.run("id-denylist", rule, {
                     type: "PrivateIdentifier"
                 }
             ]
-
         },
         {
             code: "class C { snake_case; #snake_case() {}; #snake_case2() {} }",
@@ -1460,7 +1437,6 @@ ruleTester.run("id-denylist", rule, {
                     type: "PrivateIdentifier"
                 }
             ]
-
         },
 
         // Not an import attribute key

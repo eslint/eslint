@@ -1,6 +1,6 @@
 "use strict";
 
-module.exports = function(it) {
+module.exports = function (it) {
     const { pluginId, plugins } = it;
 
     let result = `ESLint couldn't determine the plugin "${pluginId}" uniquely.

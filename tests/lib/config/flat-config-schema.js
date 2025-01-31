@@ -7,7 +7,9 @@
 
 const { flatConfigSchema } = require("../../../lib/config/flat-config-schema");
 const { assert } = require("chai");
-const { Legacy: { ConfigArray } } = require("@eslint/eslintrc");
+const {
+    Legacy: { ConfigArray }
+} = require("@eslint/eslintrc");
 
 /**
  * This function checks the result of merging two values in eslintrc config.
@@ -31,7 +33,6 @@ function confirmLegacyMergeResult(first, second, expectedResult) {
 }
 
 describe("merge", () => {
-
     const { merge } = flatConfigSchema.settings;
 
     it("merges two objects", () => {
@@ -196,7 +197,11 @@ describe("merge", () => {
         const second = { foo: void 0, baz: void 0 };
         const result = merge(first, second);
 
-        assert.deepStrictEqual(result, { foo: void 0, bar: void 0, baz: void 0 });
+        assert.deepStrictEqual(result, {
+            foo: void 0,
+            bar: void 0,
+            baz: void 0
+        });
     });
 
     it("considers only own enumerable properties", () => {
@@ -212,20 +217,23 @@ describe("merge", () => {
         };
 
         // non-enumerable properties are not considered
-        Object.defineProperty(first, "notMerged2", { enumerable: false, value: { first: true } });
-        Object.defineProperty(second, "notMerged1", { enumerable: false, value: { second: true } });
+        Object.defineProperty(first, "notMerged2", {
+            enumerable: false,
+            value: { first: true }
+        });
+        Object.defineProperty(second, "notMerged1", {
+            enumerable: false,
+            value: { second: true }
+        });
 
         const result = merge(first, second);
 
-        assert.deepStrictEqual(
-            result,
-            {
-                included1: "B",
-                included2: "D",
-                notMerged1: { first: true },
-                notMerged2: { second: true }
-            }
-        );
+        assert.deepStrictEqual(result, {
+            included1: "B",
+            included2: "D",
+            notMerged1: { first: true },
+            notMerged2: { second: true }
+        });
         confirmLegacyMergeResult(first, second, result);
     });
 
@@ -296,7 +304,11 @@ describe("merge", () => {
 
         assert.strictEqual(result, result.reference.reference);
 
-        const expected = { foo: 42, bar: "baz", reference: { foo: 42, bar: "baz" } };
+        const expected = {
+            foo: 42,
+            bar: "baz",
+            reference: { foo: 42, bar: "baz" }
+        };
 
         expected.reference.reference = expected;
         assert.deepStrictEqual(result, expected);

@@ -4,7 +4,6 @@ eleventyNavigation:
     key: maintain eslint
     title: Maintain ESLint
     order: 5
-
 ---
 
 This guide is intended for those who work as part of the ESLint project team.

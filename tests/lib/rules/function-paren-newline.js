@@ -14,21 +14,27 @@ const RuleTester = require("../../../lib/rule-tester/rule-tester");
 const { unIndent } = require("../../_utils");
 const fixtureParser = require("../../fixtures/fixture-parser");
 
-
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 const LEFT_MISSING_ERROR = { messageId: "expectedAfter", type: "Punctuator" };
-const LEFT_UNEXPECTED_ERROR = { messageId: "unexpectedAfter", type: "Punctuator" };
+const LEFT_UNEXPECTED_ERROR = {
+    messageId: "unexpectedAfter",
+    type: "Punctuator"
+};
 const RIGHT_MISSING_ERROR = { messageId: "expectedBefore", type: "Punctuator" };
-const RIGHT_UNEXPECTED_ERROR = { messageId: "unexpectedBefore", type: "Punctuator" };
+const RIGHT_UNEXPECTED_ERROR = {
+    messageId: "unexpectedBefore",
+    type: "Punctuator"
+};
 const EXPECTED_BETWEEN = { messageId: "expectedBetween", type: "Identifier" };
 
-const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 6, sourceType: "script" } });
+const ruleTester = new RuleTester({
+    languageOptions: { ecmaVersion: 6, sourceType: "script" }
+});
 
 ruleTester.run("function-paren-newline", rule, {
-
     valid: [
         "new new Foo();",
 
@@ -603,13 +609,17 @@ ruleTester.run("function-paren-newline", rule, {
             `,
             options: ["multiline"],
             languageOptions: {
-                parser: require(fixtureParser("function-paren-newline", "arrow-function-return-type"))
+                parser: require(
+                    fixtureParser(
+                        "function-paren-newline",
+                        "arrow-function-return-type"
+                    )
+                )
             }
         }
     ],
 
     invalid: [
-
         // multiline option (default)
         {
             code: `
@@ -1495,7 +1505,12 @@ ruleTester.run("function-paren-newline", rule, {
             `,
             options: ["never"],
             languageOptions: {
-                parser: require(fixtureParser("function-paren-newline", "arrow-function-return-type"))
+                parser: require(
+                    fixtureParser(
+                        "function-paren-newline",
+                        "arrow-function-return-type"
+                    )
+                )
             },
             errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR]
         }

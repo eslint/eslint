@@ -18,7 +18,6 @@ const rule = require("../../../lib/rules/no-process-env"),
 const ruleTester = new RuleTester();
 
 ruleTester.run("no-process-env", rule, {
-
     valid: [
         "Process.env",
         "process[env]",
@@ -29,24 +28,30 @@ ruleTester.run("no-process-env", rule, {
     invalid: [
         {
             code: "process.env",
-            errors: [{
-                messageId: "unexpectedProcessEnv",
-                type: "MemberExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unexpectedProcessEnv",
+                    type: "MemberExpression"
+                }
+            ]
         },
         {
             code: "process.env.ENV",
-            errors: [{
-                messageId: "unexpectedProcessEnv",
-                type: "MemberExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unexpectedProcessEnv",
+                    type: "MemberExpression"
+                }
+            ]
         },
         {
             code: "f(process.env)",
-            errors: [{
-                messageId: "unexpectedProcessEnv",
-                type: "MemberExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unexpectedProcessEnv",
+                    type: "MemberExpression"
+                }
+            ]
         }
     ]
 });

@@ -1,6 +1,6 @@
 "use strict";
 
-module.exports = function(it) {
+module.exports = function (it) {
     const { path, message } = it;
 
     return `

@@ -40,28 +40,33 @@ describe("rules", () => {
         });
     });
 
-
     describe("when a rule is not found", () => {
         it("should report a linting error if the rule is unknown", () => {
-
             const linter = new Linter();
 
-            assert.throws(() => {
-                linter.verify("foo", { rules: { "test-rule": "error" } });
-            }, TypeError, "Could not find \"test-rule\" in plugin \"@\".");
-
+            assert.throws(
+                () => {
+                    linter.verify("foo", { rules: { "test-rule": "error" } });
+                },
+                TypeError,
+                'Could not find "test-rule" in plugin "@".'
+            );
         });
-
 
         it("should report a linting error that lists replacements if a rule is known to have been replaced", () => {
             const linter = new Linter();
 
-            assert.throws(() => {
-                linter.verify("foo", { rules: { "no-arrow-condition": "error" } });
-            }, TypeError, "Key \"rules\": Key \"no-arrow-condition\": Rule \"no-arrow-condition\" was removed and replaced by \"no-confusing-arrow,no-constant-condition\".");
+            assert.throws(
+                () => {
+                    linter.verify("foo", {
+                        rules: { "no-arrow-condition": "error" }
+                    });
+                },
+                TypeError,
+                'Key "rules": Key "no-arrow-condition": Rule "no-arrow-condition" was removed and replaced by "no-confusing-arrow,no-constant-condition".'
+            );
         });
     });
-
 
     describe("when loading all rules", () => {
         it("should iterate all rules", () => {

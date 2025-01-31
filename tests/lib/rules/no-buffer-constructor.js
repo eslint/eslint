@@ -33,7 +33,6 @@ const CONSTRUCT_ERROR = {
 const ruleTester = new RuleTester();
 
 ruleTester.run("no-buffer-constructor", rule, {
-
     valid: [
         "Buffer.alloc(5)",
         "Buffer.allocUnsafe(5)",

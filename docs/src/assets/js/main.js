@@ -4,7 +4,7 @@
     const options = {
         root: null,
         rootMargin: `0px 0px -90% 0px`,
-        threshold: 1.0,
+        threshold: 1.0
     };
     const activeClassName = "active";
     const observer = new IntersectionObserver((entries) => {
@@ -37,7 +37,7 @@
     }
 })();
 
-(function() {
+(function () {
     var toc_trigger = document.getElementById("js-toc-label"),
         toc = document.getElementById("js-toc-panel"),
         body = document.getElementsByTagName("body")[0],
@@ -45,7 +45,7 @@
 
     if (toc && matchMedia) {
         const mq = window.matchMedia("(max-width: 1023px)");
-        mq.addEventListener('change', WidthChange);
+        mq.addEventListener("change", WidthChange);
         WidthChange(mq);
     }
 
@@ -65,10 +65,9 @@
             toc_trigger.setAttribute("aria-expanded", "false");
             headingButton.addEventListener("click", toggleTOC, true);
         } else {
-            toc_trigger.innerHTML = 'Table of Contents';
+            toc_trigger.innerHTML = "Table of Contents";
             toc.setAttribute("data-open", "true");
         }
-
     }
 
     function toggleTOC(e) {
@@ -84,7 +83,7 @@
     }
 })();
 
-(function() {
+(function () {
     var nav_trigger = document.getElementById("nav-toggle"),
         nav = document.getElementById("nav-panel"),
         body = document.getElementsByTagName("body")[0],
@@ -92,7 +91,7 @@
 
     if (matchMedia) {
         const mq = window.matchMedia("(max-width: 1023px)");
-        mq.addEventListener('change', WidthChange);
+        mq.addEventListener("change", WidthChange);
         WidthChange(mq);
     }
 
@@ -108,7 +107,6 @@
             nav_trigger.setAttribute("hidden", "");
             nav_trigger.setAttribute("aria-expanded", "true");
         }
-
     }
 
     function togglenav(e) {
@@ -124,7 +122,7 @@
     }
 })();
 
-(function() {
+(function () {
     var index_trigger = document.getElementById("js-docs-index-toggle"),
         index = document.getElementById("js-docs-index-panel"),
         body = document.getElementsByTagName("body")[0],
@@ -132,7 +130,7 @@
 
     if (matchMedia) {
         const mq = window.matchMedia("(max-width: 1023px)");
-        mq.addEventListener('change', WidthChange);
+        mq.addEventListener("change", WidthChange);
         WidthChange(mq);
     }
 
@@ -153,8 +151,7 @@
     }
 
     function initIndex() {
-        if(index_trigger) {
-
+        if (index_trigger) {
             index_trigger.removeAttribute("hidden");
             index_trigger.setAttribute("aria-expanded", "false");
             index.setAttribute("data-open", "false");
@@ -165,29 +162,27 @@
     }
 })();
 
-
-
-(function() {
-    var switchers = document.querySelectorAll('.switcher'),
-        fallbacks = document.querySelectorAll('.switcher-fallback');
+(function () {
+    var switchers = document.querySelectorAll(".switcher"),
+        fallbacks = document.querySelectorAll(".switcher-fallback");
 
     if (fallbacks != null) {
-        fallbacks.forEach(el => {
-            el.setAttribute('hidden', '');
+        fallbacks.forEach((el) => {
+            el.setAttribute("hidden", "");
         });
     }
 
     if (switchers != null) {
-        switchers.forEach(element => {
-            element.removeAttribute('hidden');
-            const select = element.querySelector('select');
+        switchers.forEach((element) => {
+            element.removeAttribute("hidden");
+            const select = element.querySelector("select");
 
-            select.addEventListener('change', function() {
+            select.addEventListener("change", function () {
                 var selected = this.options[this.selectedIndex];
-                url = selected.getAttribute('data-url');
+                url = selected.getAttribute("data-url");
 
                 window.location.href = url;
-            })
+            });
         });
     }
 })();
@@ -204,60 +199,64 @@ var util = {
         ENTER: 13,
         SPACE: 32,
         DELETE: 46,
-        TAB: 9,
+        TAB: 9
     },
 
-    generateID: function(base) {
+    generateID: function (base) {
         return base + Math.floor(Math.random() * 999);
     },
 
-    getDirectChildren: function(elm, selector) {
-        return Array.prototype.filter.call(elm.children, function(child) {
+    getDirectChildren: function (elm, selector) {
+        return Array.prototype.filter.call(elm.children, function (child) {
             return child.matches(selector);
         });
-    },
+    }
 };
 
-(function(w, doc, undefined) {
+(function (w, doc, undefined) {
     var CollapsibleIndexOptions = {
         allCollapsed: false,
-        icon: '<svg class="index-icon" width="12" height="8" aria-hidden="true" focusable="false" viewBox="0 0 12 8"><g fill="none"><path fill="currentColor" d="M1.41.59l4.59 4.58 4.59-4.58 1.41 1.41-6 6-6-6z"/><path d="M-6-8h24v24h-24z"/></g></svg>',
+        icon: '<svg class="index-icon" width="12" height="8" aria-hidden="true" focusable="false" viewBox="0 0 12 8"><g fill="none"><path fill="currentColor" d="M1.41.59l4.59 4.58 4.59-4.58 1.41 1.41-6 6-6-6z"/><path d="M-6-8h24v24h-24z"/></g></svg>'
     };
-    var CollapsibleIndex = function(inst, options) {
+    var CollapsibleIndex = function (inst, options) {
         var _options = Object.assign(CollapsibleIndexOptions, options);
         var el = inst;
-        var indexToggles = el.querySelectorAll(".docs-index .docs__index__panel > ul > .docs-index__item[data-has-children] > a"); // only top-most level
-        var indexPanels = el.querySelectorAll(".docs-index .docs__index__panel > ul > .docs-index__item>[data-child-list]"); // the list
+        var indexToggles = el.querySelectorAll(
+            ".docs-index .docs__index__panel > ul > .docs-index__item[data-has-children] > a"
+        ); // only top-most level
+        var indexPanels = el.querySelectorAll(
+            ".docs-index .docs__index__panel > ul > .docs-index__item>[data-child-list]"
+        ); // the list
         var accID = util.generateID("c-index-");
 
-        var init = function() {
+        var init = function () {
             el.classList.add("index-js");
 
             setupindexToggles(indexToggles);
             setupindexPanels(indexPanels);
         };
 
-
-        var setupindexToggles = function(indexToggles) {
-            Array.from(indexToggles).forEach(function(item, index) {
+        var setupindexToggles = function (indexToggles) {
+            Array.from(indexToggles).forEach(function (item, index) {
                 var $this = item;
 
-                $this.setAttribute('role', 'button');
+                $this.setAttribute("role", "button");
                 $this.setAttribute("id", accID + "__item-" + index);
                 $this.innerHTML += _options.icon;
 
-                if (_options.allCollapsed) $this.setAttribute("aria-expanded", "false");
+                if (_options.allCollapsed)
+                    $this.setAttribute("aria-expanded", "false");
                 else $this.setAttribute("aria-expanded", "true");
 
-                $this.addEventListener("click", function(e) {
+                $this.addEventListener("click", function (e) {
                     e.preventDefault();
                     togglePanel($this);
                 });
             });
         };
 
-        var setupindexPanels = function(indexPanels) {
-            Array.from(indexPanels).forEach(function(item, index) {
+        var setupindexPanels = function (indexPanels) {
+            Array.from(indexPanels).forEach(function (item, index) {
                 let $this = item;
 
                 $this.setAttribute("id", accID + "__list-" + index);
@@ -265,12 +264,13 @@ var util = {
                     "aria-labelledby",
                     accID + "__item-" + index
                 );
-                if (_options.allCollapsed) $this.setAttribute("aria-hidden", "true");
+                if (_options.allCollapsed)
+                    $this.setAttribute("aria-hidden", "true");
                 else $this.setAttribute("aria-hidden", "false");
             });
         };
 
-        var togglePanel = function(toggleButton) {
+        var togglePanel = function (toggleButton) {
             var thepanel = toggleButton.nextElementSibling;
 
             if (toggleButton.getAttribute("aria-expanded") == "true") {
@@ -282,7 +282,6 @@ var util = {
             }
         };
 
-
         init.call(this);
         return this;
     }; // CollapsibleIndex()
@@ -291,7 +290,7 @@ var util = {
 })(window, document);
 
 // init
-var index = document.getElementById('docs-index');
+var index = document.getElementById("docs-index");
 if (index) {
     index = new CollapsibleIndex(index, {
         allCollapsed: false
@@ -299,5 +298,7 @@ if (index) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    anchors.add(".docs-content h2:not(.c-toc__label), .docs-content h3, .docs-content h4");
+    anchors.add(
+        ".docs-content h2:not(.c-toc__label), .docs-content h3, .docs-content h4"
+    );
 });

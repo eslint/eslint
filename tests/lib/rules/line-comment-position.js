@@ -18,7 +18,6 @@ const rule = require("../../../lib/rules/line-comment-position"),
 const ruleTester = new RuleTester();
 
 ruleTester.run("line-comment-position", rule, {
-
     valid: [
         "// valid comment\n1 + 1;",
         "/* block comments are skipped */\n1 + 1;",
@@ -90,90 +89,118 @@ ruleTester.run("line-comment-position", rule, {
     invalid: [
         {
             code: "1 + 1; // invalid comment",
-            errors: [{
-                messageId: "above",
-                type: "Line",
-                line: 1,
-                column: 8
-            }]
+            errors: [
+                {
+                    messageId: "above",
+                    type: "Line",
+                    line: 1,
+                    column: 8
+                }
+            ]
         },
         {
             code: "1 + 1; // globalization is a word",
-            errors: [{
-                messageId: "above",
-                type: "Line",
-                line: 1,
-                column: 8
-            }]
+            errors: [
+                {
+                    messageId: "above",
+                    type: "Line",
+                    line: 1,
+                    column: 8
+                }
+            ]
         },
         {
             code: "// jscs: disable\n1 + 1;",
-            options: [{ position: "beside", applyDefaultIgnorePatterns: false }],
-            errors: [{
-                messageId: "beside",
-                type: "Line",
-                line: 1,
-                column: 1
-            }]
+            options: [
+                { position: "beside", applyDefaultIgnorePatterns: false }
+            ],
+            errors: [
+                {
+                    messageId: "beside",
+                    type: "Line",
+                    line: 1,
+                    column: 1
+                }
+            ]
         },
-        { // deprecated option still works
+        {
+            // deprecated option still works
             code: "// jscs: disable\n1 + 1;",
             options: [{ position: "beside", applyDefaultPatterns: false }],
-            errors: [{
-                messageId: "beside",
-                type: "Line",
-                line: 1,
-                column: 1
-            }]
+            errors: [
+                {
+                    messageId: "beside",
+                    type: "Line",
+                    line: 1,
+                    column: 1
+                }
+            ]
         },
-        { // new option name takes precedence
+        {
+            // new option name takes precedence
             code: "// jscs: disable\n1 + 1;",
-            options: [{ position: "beside", applyDefaultIgnorePatterns: false, applyDefaultPatterns: true }],
-            errors: [{
-                messageId: "beside",
-                type: "Line",
-                line: 1,
-                column: 1
-            }]
+            options: [
+                {
+                    position: "beside",
+                    applyDefaultIgnorePatterns: false,
+                    applyDefaultPatterns: true
+                }
+            ],
+            errors: [
+                {
+                    messageId: "beside",
+                    type: "Line",
+                    line: 1,
+                    column: 1
+                }
+            ]
         },
         {
             code: "1 + 1; // mentioning falls through",
-            errors: [{
-                messageId: "above",
-                type: "Line",
-                line: 1,
-                column: 8
-            }]
+            errors: [
+                {
+                    messageId: "above",
+                    type: "Line",
+                    line: 1,
+                    column: 8
+                }
+            ]
         },
         {
             code: "// invalid comment\n1 + 1;",
             options: ["beside"],
-            errors: [{
-                messageId: "beside",
-                type: "Line",
-                line: 1,
-                column: 1
-            }]
+            errors: [
+                {
+                    messageId: "beside",
+                    type: "Line",
+                    line: 1,
+                    column: 1
+                }
+            ]
         },
         {
             code: "// pragma\n// invalid\n1 + 1;",
             options: [{ position: "beside", ignorePattern: "pragma" }],
-            errors: [{
-                messageId: "beside",
-                type: "Line",
-                line: 2,
-                column: 1
-            }]
+            errors: [
+                {
+                    messageId: "beside",
+                    type: "Line",
+                    line: 2,
+                    column: 1
+                }
+            ]
         },
         {
             code: "1 + 1; // linter\n2 + 2; // invalid comment",
             options: [{ position: "above", ignorePattern: "linter" }],
-            errors: [{
-                messageId: "above",
-                type: "Line",
-                line: 2,
-                column: 8
-            }]
+            errors: [
+                {
+                    messageId: "above",
+                    type: "Line",
+                    line: 2,
+                    column: 8
+                }
+            ]
         }
     ]
 });

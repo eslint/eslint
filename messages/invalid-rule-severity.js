@@ -2,7 +2,7 @@
 
 const { stringifyValueForError } = require("./shared");
 
-module.exports = function({ ruleId, value }) {
+module.exports = function ({ ruleId, value }) {
     return `
 Configuration for rule "${ruleId}" is invalid. Expected severity of "off", 0, "warn", 1, "error", or 2.
 

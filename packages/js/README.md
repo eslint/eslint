@@ -8,8 +8,8 @@ The beginnings of separating out JavaScript-specific functionality from ESLint.
 
 Right now, this plugin contains two configurations:
 
-* `recommended` - enables the rules recommended by the ESLint team (the replacement for `"eslint:recommended"`)
-* `all` - enables all ESLint rules (the replacement for `"eslint:all"`)
+-   `recommended` - enables the rules recommended by the ESLint team (the replacement for `"eslint:recommended"`)
+-   `all` - enables all ESLint rules (the replacement for `"eslint:all"`)
 
 ## Installation
 
@@ -25,7 +25,6 @@ Use in your `eslint.config.js` file anytime you want to extend one of the config
 import js from "@eslint/js";
 
 export default [
-
     // apply recommended rules to JS files
     {
         name: "your-project/recommended-rules",
@@ -40,7 +39,7 @@ export default [
         rules: {
             ...js.configs.recommended.rules,
             "no-unused-vars": "warn"
-        } 
+        }
     },
 
     // apply all rules to JS files
@@ -50,9 +49,9 @@ export default [
         rules: {
             ...js.configs.all.rules,
             "no-unused-vars": "warn"
-        } 
+        }
     }
-]
+];
 ```
 
 ## License

@@ -12,7 +12,6 @@
 const rule = require("../../../lib/rules/array-element-newline");
 const RuleTester = require("../../../lib/rule-tester/rule-tester");
 
-
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
@@ -20,9 +19,7 @@ const RuleTester = require("../../../lib/rule-tester/rule-tester");
 const ruleTester = new RuleTester();
 
 ruleTester.run("array-element-newline", rule, {
-
     valid: [
-
         /*
          * ArrayExpression
          * "always"
@@ -55,7 +52,10 @@ ruleTester.run("array-element-newline", rule, {
         { code: "var foo = [// any comment \n1,\n2];", options: ["always"] },
         { code: "var foo = [1,\n2 // any comment\n];", options: ["always"] },
         { code: "var foo = [1,\n2,\n3];", options: ["always"] },
-        { code: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];", options: ["always"] },
+        {
+            code: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];",
+            options: ["always"]
+        },
         { code: "var foo = [\n[1,\n2],\n3,\n[\n4]]", options: ["always"] },
 
         // "never"
@@ -67,7 +67,10 @@ ruleTester.run("array-element-newline", rule, {
         { code: "var foo = /* any comment */ [1, 2];", options: ["never"] },
         { code: "var foo = [1, 2, 3];", options: ["never"] },
         { code: "var foo = [1, (\n2\n), 3];", options: ["never"] },
-        { code: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];", options: ["never"] },
+        {
+            code: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];",
+            options: ["never"]
+        },
         { code: "var foo = [\n[1,2],3,[4]\n]", options: ["never"] },
         { code: "var foo = [[1,2\n],3,[4\n]\n]", options: ["never"] },
 
@@ -80,13 +83,28 @@ ruleTester.run("array-element-newline", rule, {
         { code: "var foo = [1,\n2,\n3];", options: ["consistent"] },
         { code: "var foo = [1,\n2,\n,\n3];", options: ["consistent"] },
         { code: "var foo = [1, // any comment\n2];", options: ["consistent"] },
-        { code: "var foo = [/* any comment */ 1, 2];", options: ["consistent"] },
+        {
+            code: "var foo = [/* any comment */ 1, 2];",
+            options: ["consistent"]
+        },
         { code: "var foo = [1, (\n2\n), 3];", options: ["consistent"] },
         { code: "var foo = [1,\n(2)\n, 3];", options: ["consistent"] },
-        { code: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];", options: ["consistent"] },
-        { code: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];", options: ["consistent"] },
-        { code: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}];", options: ["consistent"] },
-        { code: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}, function bar() {\ndosomething();\n}];", options: ["consistent"] },
+        {
+            code: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];",
+            options: ["consistent"]
+        },
+        {
+            code: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];",
+            options: ["consistent"]
+        },
+        {
+            code: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}];",
+            options: ["consistent"]
+        },
+        {
+            code: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}, function bar() {\ndosomething();\n}];",
+            options: ["consistent"]
+        },
         { code: "var foo = [1,\n[\n2,3,\n]\n];", options: ["consistent"] },
         { code: "var foo = [\n1,\n[2\n,3\n,]\n];", options: ["consistent"] },
         { code: "var foo = [\n1,[2,\n3]];", options: ["consistent"] },
@@ -96,40 +114,76 @@ ruleTester.run("array-element-newline", rule, {
         { code: "var foo = [1];", options: [{ multiline: true }] },
         { code: "var foo = [1, 2];", options: [{ multiline: true }] },
         { code: "var foo = [1, 2, 3];", options: [{ multiline: true }] },
-        { code: "var f = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];", options: [{ multiline: true }] },
-        { code: "var foo = [\n1,\n2,\n3,\n[\n]\n];", options: [{ multiline: true }] },
+        {
+            code: "var f = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];",
+            options: [{ multiline: true }]
+        },
+        {
+            code: "var foo = [\n1,\n2,\n3,\n[\n]\n];",
+            options: [{ multiline: true }]
+        },
 
         // { minItems: null }
         { code: "var foo = [];", options: [{ minItems: null }] },
         { code: "var foo = [1];", options: [{ minItems: null }] },
         { code: "var foo = [1, 2];", options: [{ minItems: null }] },
         { code: "var foo = [1, 2, 3];", options: [{ minItems: null }] },
-        { code: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];", options: [{ minItems: null }] },
-        { code: "var foo = [1, 2, 3, [[],1,[[]]]];", options: [{ minItems: null }] },
+        {
+            code: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];",
+            options: [{ minItems: null }]
+        },
+        {
+            code: "var foo = [1, 2, 3, [[],1,[[]]]];",
+            options: [{ minItems: null }]
+        },
 
         // { minItems: 0 }
         { code: "var foo = [];", options: [{ minItems: 0 }] },
         { code: "var foo = [1];", options: [{ minItems: 0 }] },
         { code: "var foo = [1,\n2];", options: [{ minItems: 0 }] },
         { code: "var foo = [1,\n2,\n3];", options: [{ minItems: 0 }] },
-        { code: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];", options: [{ minItems: 0 }] },
-        { code: "var foo = [\n1, \n2, \n3,\n[\n[],\n[]],\n[]];", options: [{ minItems: 0 }] },
+        {
+            code: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];",
+            options: [{ minItems: 0 }]
+        },
+        {
+            code: "var foo = [\n1, \n2, \n3,\n[\n[],\n[]],\n[]];",
+            options: [{ minItems: 0 }]
+        },
 
         // { minItems: 3 }
         { code: "var foo = [];", options: [{ minItems: 3 }] },
         { code: "var foo = [1];", options: [{ minItems: 3 }] },
         { code: "var foo = [1, 2];", options: [{ minItems: 3 }] },
         { code: "var foo = [1,\n2,\n3];", options: [{ minItems: 3 }] },
-        { code: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];", options: [{ minItems: 3 }] },
-        { code: "var foo = [[1,2],[[\n1,\n2,\n3]]];", options: [{ minItems: 3 }] },
+        {
+            code: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];",
+            options: [{ minItems: 3 }]
+        },
+        {
+            code: "var foo = [[1,2],[[\n1,\n2,\n3]]];",
+            options: [{ minItems: 3 }]
+        },
 
         // { multiline: true, minItems: 3 }
         { code: "var foo = [];", options: [{ multiline: true, minItems: 3 }] },
         { code: "var foo = [1];", options: [{ multiline: true, minItems: 3 }] },
-        { code: "var foo = [1, 2];", options: [{ multiline: true, minItems: 3 }] },
-        { code: "var foo = [1, // any comment\n2,\n, 3];", options: [{ multiline: true, minItems: 3 }] },
-        { code: "var foo = [1,\n2,\n// any comment\n, 3];", options: [{ multiline: true, minItems: 3 }] },
-        { code: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];", options: [{ multiline: true, minItems: 3 }] },
+        {
+            code: "var foo = [1, 2];",
+            options: [{ multiline: true, minItems: 3 }]
+        },
+        {
+            code: "var foo = [1, // any comment\n2,\n, 3];",
+            options: [{ multiline: true, minItems: 3 }]
+        },
+        {
+            code: "var foo = [1,\n2,\n// any comment\n, 3];",
+            options: [{ multiline: true, minItems: 3 }]
+        },
+        {
+            code: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];",
+            options: [{ multiline: true, minItems: 3 }]
+        },
 
         /*
          * ArrayPattern
@@ -138,26 +192,63 @@ ruleTester.run("array-element-newline", rule, {
         { code: "var [] = foo;", languageOptions: { ecmaVersion: 6 } },
         { code: "var [a] = foo;", languageOptions: { ecmaVersion: 6 } },
         { code: "var [a,\nb] = foo;", languageOptions: { ecmaVersion: 6 } },
-        { code: "var [a, // any comment\nb] = foo;", languageOptions: { ecmaVersion: 6 } },
-        { code: "var [// any comment \na,\nb] = foo;", languageOptions: { ecmaVersion: 6 } },
-        { code: "var [a,\nb // any comment\n] = foo;", languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "var [a, // any comment\nb] = foo;",
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var [// any comment \na,\nb] = foo;",
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var [a,\nb // any comment\n] = foo;",
+            languageOptions: { ecmaVersion: 6 }
+        },
         { code: "var [a,\nb,\nb] = foo;", languageOptions: { ecmaVersion: 6 } },
-        { code: "var [\na,\n[\nb,\nc]] = foo;", languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "var [\na,\n[\nb,\nc]] = foo;",
+            languageOptions: { ecmaVersion: 6 }
+        },
 
         // "never"
-        { code: "var [a,[b,c]] = foo;", options: ["never"], languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "var [a,[b,c]] = foo;",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
 
         // { minItems: 3 }
-        { code: "var [] = foo;", options: [{ minItems: 3 }], languageOptions: { ecmaVersion: 6 } },
-        { code: "var [a] = foo;", options: [{ minItems: 3 }], languageOptions: { ecmaVersion: 6 } },
-        { code: "var [a, b] = foo;", options: [{ minItems: 3 }], languageOptions: { ecmaVersion: 6 } },
-        { code: "var [a,\nb,\nc] = foo;", options: [{ minItems: 3 }], languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "var [] = foo;",
+            options: [{ minItems: 3 }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var [a] = foo;",
+            options: [{ minItems: 3 }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var [a, b] = foo;",
+            options: [{ minItems: 3 }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var [a,\nb,\nc] = foo;",
+            options: [{ minItems: 3 }],
+            languageOptions: { ecmaVersion: 6 }
+        },
 
         /*
          * ArrayExpression & ArrayPattern
          * { ArrayExpression: "always", ArrayPattern: "never" }
          */
-        { code: "var [a, b] = [1,\n2]", options: [{ ArrayExpression: "always", ArrayPattern: "never" }], languageOptions: { ecmaVersion: 6 } }],
+        {
+            code: "var [a, b] = [1,\n2]",
+            options: [{ ArrayExpression: "always", ArrayPattern: "never" }],
+            languageOptions: { ecmaVersion: 6 }
+        }
+    ],
 
     invalid: [
         {
@@ -969,5 +1060,4 @@ ruleTester.run("array-element-newline", rule, {
             ]
         }
     ]
-
 });

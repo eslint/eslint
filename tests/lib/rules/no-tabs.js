@@ -20,9 +20,7 @@ const ruleTester = new RuleTester();
 ruleTester.run("no-tabs", rule, {
     valid: [
         "function test(){\n}",
-        "function test(){\n" +
-        "  //   sdfdsf \n" +
-        "}",
+        "function test(){\n" + "  //   sdfdsf \n" + "}",
 
         {
             code: "\tdoSomething();",
@@ -36,55 +34,54 @@ ruleTester.run("no-tabs", rule, {
     invalid: [
         {
             code: "function test(){\t}",
-            errors: [{
-                messageId: "unexpectedTab",
-                line: 1,
-                column: 17,
-                endLine: 1,
-                endColumn: 18
-            }]
+            errors: [
+                {
+                    messageId: "unexpectedTab",
+                    line: 1,
+                    column: 17,
+                    endLine: 1,
+                    endColumn: 18
+                }
+            ]
         },
         {
             code: "/** \t comment test */",
-            errors: [{
-                messageId: "unexpectedTab",
-                line: 1,
-                column: 5,
-                endLine: 1,
-                endColumn: 6
-            }]
+            errors: [
+                {
+                    messageId: "unexpectedTab",
+                    line: 1,
+                    column: 5,
+                    endLine: 1,
+                    endColumn: 6
+                }
+            ]
         },
         {
-            code:
-            "function test(){\n" +
-            "  //\tsdfdsf \n" +
-            "}",
-            errors: [{
-                messageId: "unexpectedTab",
-                line: 2,
-                column: 5,
-                endLine: 2,
-                endColumn: 6
-            }]
+            code: "function test(){\n" + "  //\tsdfdsf \n" + "}",
+            errors: [
+                {
+                    messageId: "unexpectedTab",
+                    line: 2,
+                    column: 5,
+                    endLine: 2,
+                    endColumn: 6
+                }
+            ]
         },
         {
-            code:
-            "function\ttest(){\n" +
-            "  //sdfdsf \n" +
-            "}",
-            errors: [{
-                messageId: "unexpectedTab",
-                line: 1,
-                column: 9,
-                endLine: 1,
-                endColumn: 10
-            }]
+            code: "function\ttest(){\n" + "  //sdfdsf \n" + "}",
+            errors: [
+                {
+                    messageId: "unexpectedTab",
+                    line: 1,
+                    column: 9,
+                    endLine: 1,
+                    endColumn: 10
+                }
+            ]
         },
         {
-            code:
-            "function test(){\n" +
-            "  //\tsdfdsf \n" +
-            "\t}",
+            code: "function test(){\n" + "  //\tsdfdsf \n" + "\t}",
             errors: [
                 {
                     messageId: "unexpectedTab",
@@ -105,13 +102,15 @@ ruleTester.run("no-tabs", rule, {
         {
             code: "\t// Comment with leading tab \t and inline tab",
             options: [{ allowIndentationTabs: true }],
-            errors: [{
-                messageId: "unexpectedTab",
-                line: 1,
-                column: 30,
-                endLine: 1,
-                endColumn: 31
-            }]
+            errors: [
+                {
+                    messageId: "unexpectedTab",
+                    line: 1,
+                    column: 30,
+                    endLine: 1,
+                    endColumn: 31
+                }
+            ]
         },
         {
             code: "\t\ta =\t\t\tb +\tc\t\t;\t\t",

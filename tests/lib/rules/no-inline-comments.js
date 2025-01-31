@@ -36,7 +36,6 @@ const ruleTester = new RuleTester({
     };
 
 ruleTester.run("no-inline-comments", rule, {
-
     valid: [
         "// A valid comment before code\nvar a = 1;",
         "var a = 2;\n// A valid comment after code",

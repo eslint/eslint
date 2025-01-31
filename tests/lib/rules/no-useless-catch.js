@@ -114,7 +114,6 @@ ruleTester.run("no-useless-catch", rule, {
             `,
             languageOptions: { ecmaVersion: 2019 }
         }
-
     ],
     invalid: [
         {
@@ -125,10 +124,12 @@ ruleTester.run("no-useless-catch", rule, {
                     throw err;
                 }
             `,
-            errors: [{
-                messageId: "unnecessaryCatch",
-                type: "TryStatement"
-            }]
+            errors: [
+                {
+                    messageId: "unnecessaryCatch",
+                    type: "TryStatement"
+                }
+            ]
         },
         {
             code: `
@@ -140,10 +141,12 @@ ruleTester.run("no-useless-catch", rule, {
                     foo();
                 }
             `,
-            errors: [{
-                messageId: "unnecessaryCatchClause",
-                type: "CatchClause"
-            }]
+            errors: [
+                {
+                    messageId: "unnecessaryCatchClause",
+                    type: "CatchClause"
+                }
+            ]
         },
         {
             code: `
@@ -154,10 +157,12 @@ ruleTester.run("no-useless-catch", rule, {
                     throw err;
                 }
             `,
-            errors: [{
-                messageId: "unnecessaryCatch",
-                type: "TryStatement"
-            }]
+            errors: [
+                {
+                    messageId: "unnecessaryCatch",
+                    type: "TryStatement"
+                }
+            ]
         },
         {
             code: `
@@ -170,10 +175,12 @@ ruleTester.run("no-useless-catch", rule, {
                     foo();
                 }
             `,
-            errors: [{
-                messageId: "unnecessaryCatchClause",
-                type: "CatchClause"
-            }]
+            errors: [
+                {
+                    messageId: "unnecessaryCatchClause",
+                    type: "CatchClause"
+                }
+            ]
         },
         {
             code: `
@@ -186,10 +193,12 @@ ruleTester.run("no-useless-catch", rule, {
                 }
             `,
             languageOptions: { ecmaVersion: 8 },
-            errors: [{
-                messageId: "unnecessaryCatch",
-                type: "TryStatement"
-            }]
+            errors: [
+                {
+                    messageId: "unnecessaryCatch",
+                    type: "TryStatement"
+                }
+            ]
         }
     ]
 });

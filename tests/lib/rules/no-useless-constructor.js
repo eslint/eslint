@@ -48,93 +48,129 @@ ruleTester.run("no-useless-constructor", rule, {
     invalid: [
         {
             code: "class A { constructor(){} }",
-            errors: [{
-                ...error,
-                suggestions: [{
-                    messageId: "removeConstructor",
-                    output: "class A {  }"
-                }]
-            }]
+            errors: [
+                {
+                    ...error,
+                    suggestions: [
+                        {
+                            messageId: "removeConstructor",
+                            output: "class A {  }"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "class A { 'constructor'(){} }",
-            errors: [{
-                ...error,
-                suggestions: [{
-                    messageId: "removeConstructor",
-                    output: "class A {  }"
-                }]
-            }]
+            errors: [
+                {
+                    ...error,
+                    suggestions: [
+                        {
+                            messageId: "removeConstructor",
+                            output: "class A {  }"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "class A extends B { constructor() { super(); } }",
-            errors: [{
-                ...error,
-                suggestions: [{
-                    messageId: "removeConstructor",
-                    output: "class A extends B {  }"
-                }]
-            }]
+            errors: [
+                {
+                    ...error,
+                    suggestions: [
+                        {
+                            messageId: "removeConstructor",
+                            output: "class A extends B {  }"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "class A extends B { constructor(foo){ super(foo); } }",
-            errors: [{
-                ...error,
-                suggestions: [{
-                    messageId: "removeConstructor",
-                    output: "class A extends B {  }"
-                }]
-            }]
+            errors: [
+                {
+                    ...error,
+                    suggestions: [
+                        {
+                            messageId: "removeConstructor",
+                            output: "class A extends B {  }"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "class A extends B { constructor(foo, bar){ super(foo, bar); } }",
-            errors: [{
-                ...error,
-                suggestions: [{
-                    messageId: "removeConstructor",
-                    output: "class A extends B {  }"
-                }]
-            }]
+            errors: [
+                {
+                    ...error,
+                    suggestions: [
+                        {
+                            messageId: "removeConstructor",
+                            output: "class A extends B {  }"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "class A extends B { constructor(...args){ super(...args); } }",
-            errors: [{
-                ...error,
-                suggestions: [{
-                    messageId: "removeConstructor",
-                    output: "class A extends B {  }"
-                }]
-            }]
+            errors: [
+                {
+                    ...error,
+                    suggestions: [
+                        {
+                            messageId: "removeConstructor",
+                            output: "class A extends B {  }"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "class A extends B.C { constructor() { super(...arguments); } }",
-            errors: [{
-                ...error,
-                suggestions: [{
-                    messageId: "removeConstructor",
-                    output: "class A extends B.C {  }"
-                }]
-            }]
+            errors: [
+                {
+                    ...error,
+                    suggestions: [
+                        {
+                            messageId: "removeConstructor",
+                            output: "class A extends B.C {  }"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "class A extends B { constructor(a, b, ...c) { super(...arguments); } }",
-            errors: [{
-                ...error,
-                suggestions: [{
-                    messageId: "removeConstructor",
-                    output: "class A extends B {  }"
-                }]
-            }]
+            errors: [
+                {
+                    ...error,
+                    suggestions: [
+                        {
+                            messageId: "removeConstructor",
+                            output: "class A extends B {  }"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "class A extends B { constructor(a, b, ...c) { super(a, b, ...c); } }",
-            errors: [{
-                ...error,
-                suggestions: [{
-                    messageId: "removeConstructor",
-                    output: "class A extends B {  }"
-                }]
-            }]
+            errors: [
+                {
+                    ...error,
+                    suggestions: [
+                        {
+                            messageId: "removeConstructor",
+                            output: "class A extends B {  }"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: unIndent`
@@ -144,18 +180,22 @@ ruleTester.run("no-useless-constructor", rule, {
                 [0]() { }
               }`,
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{
-                ...error,
-                suggestions: [{
-                    messageId: "removeConstructor",
-                    output: unIndent`
+            errors: [
+                {
+                    ...error,
+                    suggestions: [
+                        {
+                            messageId: "removeConstructor",
+                            output: unIndent`
                     class A {
                       foo = 'bar'
                       ;
                       [0]() { }
                     }`
-                }]
-            }]
+                        }
+                    ]
+                }
+            ]
         }
     ]
 });

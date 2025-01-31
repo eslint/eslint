@@ -19,7 +19,6 @@ function getPropertyFromObject(property, node) {
     const properties = node.properties;
 
     if (!Array.isArray(properties)) {
-
         return null;
     }
 
@@ -81,7 +80,10 @@ function checkMetaValidity(context, exportsNode) {
     }
 
     if (!hasMetaDocsRecommended(metaProperty)) {
-        context.report({ node: metaProperty, messageId: "missingMetaDocsRecommended" });
+        context.report({
+            node: metaProperty,
+            messageId: "missingMetaDocsRecommended"
+        });
     }
 }
 
@@ -100,8 +102,10 @@ module.exports = {
         messages: {
             missingMeta: "Rule is missing a meta property.",
             missingMetaDocs: "Rule is missing a meta.docs property.",
-            missingMetaDocsRecommended: "Rule is missing a meta.docs.recommended property.",
-            noExport: "Rule does not export anything. Make sure rule exports an object according to new rule format."
+            missingMetaDocsRecommended:
+                "Rule is missing a meta.docs.recommended property.",
+            noExport:
+                "Rule does not export anything. Make sure rule exports an object according to new rule format."
         }
     },
 
@@ -110,12 +114,13 @@ module.exports = {
 
         return {
             AssignmentExpression(node) {
-                if (node.left &&
+                if (
+                    node.left &&
                     node.right &&
                     node.left.type === "MemberExpression" &&
                     node.left.object.name === "module" &&
-                    node.left.property.name === "exports") {
-
+                    node.left.property.name === "exports"
+                ) {
                     exportsNode = node.right;
                 }
             },

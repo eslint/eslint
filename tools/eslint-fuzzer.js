@@ -53,12 +53,29 @@ function sample(array) {
  *     the parsing error object that was thrown when parsing the autofixed code.
  */
 function fuzz(options) {
-    assert.strictEqual(typeof options, "object", "An options object must be provided");
-    assert.strictEqual(typeof options.count, "number", "The number of iterations (options.count) must be provided");
-    assert.strictEqual(typeof options.linter, "object", "An linter object (options.linter) must be provided");
+    assert.strictEqual(
+        typeof options,
+        "object",
+        "An options object must be provided"
+    );
+    assert.strictEqual(
+        typeof options.count,
+        "number",
+        "The number of iterations (options.count) must be provided"
+    );
+    assert.strictEqual(
+        typeof options.linter,
+        "object",
+        "An linter object (options.linter) must be provided"
+    );
 
     const linter = options.linter;
-    const codeGenerator = options.codeGenerator || (genOptions => eslump.generateRandomJS(Object.assign({ comments: true, whitespace: true }, genOptions)));
+    const codeGenerator =
+        options.codeGenerator ||
+        ((genOptions) =>
+            eslump.generateRandomJS(
+                Object.assign({ comments: true, whitespace: true }, genOptions)
+            ));
     const checkAutofixes = options.checkAutofixes !== false;
     const progressCallback = options.progressCallback || (() => {});
 
@@ -72,7 +89,9 @@ function fuzz(options) {
      */
     function isolateBadConfig(text, config, problemType) {
         for (const ruleId of Object.keys(config.rules)) {
-            const reducedConfig = Object.assign({}, config, { rules: { [ruleId]: config.rules[ruleId] } });
+            const reducedConfig = Object.assign({}, config, {
+                rules: { [ruleId]: config.rules[ruleId] }
+            });
             let fixResult;
 
             try {
@@ -81,7 +100,11 @@ function fuzz(options) {
                 return reducedConfig;
             }
 
-            if (fixResult.messages.length === 1 && fixResult.messages[0].fatal && problemType === "autofix") {
+            if (
+                fixResult.messages.length === 1 &&
+                fixResult.messages[0].fatal &&
+                problemType === "autofix"
+            ) {
                 return reducedConfig;
             }
         }
@@ -112,7 +135,10 @@ function fuzz(options) {
             }
 
             previousText = currentText;
-            currentText = SourceCodeFixer.applyFixes(currentText, messages).output;
+            currentText = SourceCodeFixer.applyFixes(
+                currentText,
+                messages
+            ).output;
         } while (previousText !== currentText);
 
         return currentText;
@@ -126,14 +152,15 @@ function fuzz(options) {
      * @returns {Parser} a parser
      */
     function getParser({ parserOptions }) {
-        return sourceText => espree.parse(sourceText, {
-            ...parserOptions,
-            loc: true,
-            range: true,
-            raw: true,
-            tokens: true,
-            comment: true
-        });
+        return (sourceText) =>
+            espree.parse(sourceText, {
+                ...parserOptions,
+                loc: true,
+                range: true,
+                raw: true,
+                tokens: true,
+                comment: true
+            });
     }
 
     for (let i = 0; i < options.count; progressCallback(problems.length), i++) {
@@ -162,7 +189,9 @@ function fuzz(options) {
                 linter.verify(text, config);
             }
         } catch (err) {
-            const lastGoodText = checkAutofixes ? isolateBadAutofixPass(text, config) : text;
+            const lastGoodText = checkAutofixes
+                ? isolateBadAutofixPass(text, config)
+                : text;
             const smallConfig = isolateBadConfig(lastGoodText, config, "crash");
             const smallText = sampleMinimizer({
                 sourceText: lastGoodText,
@@ -177,22 +206,43 @@ function fuzz(options) {
                 }
             });
 
-            problems.push({ type: "crash", text: smallText, config: smallConfig, error: err.stack });
+            problems.push({
+                type: "crash",
+                text: smallText,
+                config: smallConfig,
+                error: err.stack
+            });
 
             continue;
         }
 
-        if (checkAutofixes && autofixResult.fixed && autofixResult.messages.length === 1 && autofixResult.messages[0].fatal) {
+        if (
+            checkAutofixes &&
+            autofixResult.fixed &&
+            autofixResult.messages.length === 1 &&
+            autofixResult.messages[0].fatal
+        ) {
             const lastGoodText = isolateBadAutofixPass(text, config);
-            const smallConfig = isolateBadConfig(lastGoodText, config, "autofix");
+            const smallConfig = isolateBadConfig(
+                lastGoodText,
+                config,
+                "autofix"
+            );
             const smallText = sampleMinimizer({
                 sourceText: lastGoodText,
                 parser: { parse: getParser(smallConfig) },
                 predicate(reducedText) {
                     try {
-                        const smallFixResult = linter.verifyAndFix(reducedText, smallConfig);
+                        const smallFixResult = linter.verifyAndFix(
+                            reducedText,
+                            smallConfig
+                        );
 
-                        return smallFixResult.fixed && smallFixResult.messages.length === 1 && smallFixResult.messages[0].fatal;
+                        return (
+                            smallFixResult.fixed &&
+                            smallFixResult.messages.length === 1 &&
+                            smallFixResult.messages[0].fatal
+                        );
                     } catch {
                         return false;
                     }

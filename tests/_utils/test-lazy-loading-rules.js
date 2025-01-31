@@ -15,10 +15,8 @@ const path = require("node:path");
 const assert = require("node:assert");
 const { addHook } = require("pirates");
 
-const {
-    dir: rulesDirectoryPath,
-    name: rulesDirectoryIndexFilename
-} = path.parse(require.resolve("../../lib/rules"));
+const { dir: rulesDirectoryPath, name: rulesDirectoryIndexFilename } =
+    path.parse(require.resolve("../../lib/rules"));
 
 // Show full stack trace. The default 10 is usually not enough to find the root cause of this problem.
 Error.stackTraceLimit = Infinity;
@@ -37,18 +35,19 @@ addHook(
         throw new Error(`Unexpected attempt to load unused rule ${filename}`);
     },
     {
-
         // returns `true` if the hook (the function passed in as the first argument) should be called for this filename
         matcher(filename) {
             const { dir, name } = path.parse(filename);
 
-            if (dir === rulesDirectoryPath && ![rulesDirectoryIndexFilename, ...usedRules].includes(name)) {
+            if (
+                dir === rulesDirectoryPath &&
+                ![rulesDirectoryIndexFilename, ...usedRules].includes(name)
+            ) {
                 return true;
             }
 
             return false;
         }
-
     }
 );
 

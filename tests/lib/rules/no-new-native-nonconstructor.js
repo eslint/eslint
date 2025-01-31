@@ -20,7 +20,6 @@ const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2022 } });
 
 ruleTester.run("no-new-native-nonconstructor", rule, {
     valid: [
-
         // Symbol
         "var foo = Symbol('foo');",
         "function bar(Symbol) { var baz = new Symbol('baz');}",
@@ -36,33 +35,40 @@ ruleTester.run("no-new-native-nonconstructor", rule, {
         "new foo(bar, BigInt);"
     ],
     invalid: [
-
         // Symbol
         {
             code: "var foo = new Symbol('foo');",
-            errors: [{
-                message: "`Symbol` cannot be called as a constructor."
-            }]
+            errors: [
+                {
+                    message: "`Symbol` cannot be called as a constructor."
+                }
+            ]
         },
         {
             code: "function bar() { return function Symbol() {}; } var baz = new Symbol('baz');",
-            errors: [{
-                message: "`Symbol` cannot be called as a constructor."
-            }]
+            errors: [
+                {
+                    message: "`Symbol` cannot be called as a constructor."
+                }
+            ]
         },
 
         // BigInt
         {
             code: "var foo = new BigInt(9007199254740991);",
-            errors: [{
-                message: "`BigInt` cannot be called as a constructor."
-            }]
+            errors: [
+                {
+                    message: "`BigInt` cannot be called as a constructor."
+                }
+            ]
         },
         {
             code: "function bar() { return function BigInt() {}; } var baz = new BigInt(9007199254740991);",
-            errors: [{
-                message: "`BigInt` cannot be called as a constructor."
-            }]
+            errors: [
+                {
+                    message: "`BigInt` cannot be called as a constructor."
+                }
+            ]
         }
     ]
 });

@@ -25,62 +25,117 @@ const ruleTester = new RuleTester({
 
 ruleTester.run("prefer-reflect", rule, {
     valid: [
-
         // Reflect.apply
         "Reflect.apply(function(){}, null, 1, 2);",
-        { code: "Reflect.apply(function(){}, null, 1, 2);", options: [{ exceptions: ["apply"] }] },
-        { code: "(function(){}).apply(null, [1, 2]);", options: [{ exceptions: ["apply"] }] },
-        { code: "(function(){}).call(null, 1, 2);", options: [{ exceptions: ["call"] }] },
+        {
+            code: "Reflect.apply(function(){}, null, 1, 2);",
+            options: [{ exceptions: ["apply"] }]
+        },
+        {
+            code: "(function(){}).apply(null, [1, 2]);",
+            options: [{ exceptions: ["apply"] }]
+        },
+        {
+            code: "(function(){}).call(null, 1, 2);",
+            options: [{ exceptions: ["call"] }]
+        },
 
         // Reflect.defineProperty
         "Reflect.defineProperty({}, 'foo', {value: 1})",
-        { code: "Reflect.defineProperty({}, 'foo', {value: 1})", options: [{ exceptions: ["defineProperty"] }] },
-        { code: "Object.defineProperty({}, 'foo', {value: 1})", options: [{ exceptions: ["defineProperty"] }] },
+        {
+            code: "Reflect.defineProperty({}, 'foo', {value: 1})",
+            options: [{ exceptions: ["defineProperty"] }]
+        },
+        {
+            code: "Object.defineProperty({}, 'foo', {value: 1})",
+            options: [{ exceptions: ["defineProperty"] }]
+        },
 
         // Reflect.getOwnPropertyDescriptor
         "Reflect.getOwnPropertyDescriptor({}, 'foo');",
-        { code: "Reflect.getOwnPropertyDescriptor({}, 'foo');", options: [{ exceptions: ["getOwnPropertyDescriptor"] }] },
-        { code: "Object.getOwnPropertyDescriptor({}, 'foo');", options: [{ exceptions: ["getOwnPropertyDescriptor"] }] },
+        {
+            code: "Reflect.getOwnPropertyDescriptor({}, 'foo');",
+            options: [{ exceptions: ["getOwnPropertyDescriptor"] }]
+        },
+        {
+            code: "Object.getOwnPropertyDescriptor({}, 'foo');",
+            options: [{ exceptions: ["getOwnPropertyDescriptor"] }]
+        },
 
         // Reflect.getPrototypeOf
         "Reflect.getPrototypeOf({});",
-        { code: "Reflect.getPrototypeOf({});", options: [{ exceptions: ["getPrototypeOf"] }] },
-        { code: "Object.getPrototypeOf({});", options: [{ exceptions: ["getPrototypeOf"] }] },
+        {
+            code: "Reflect.getPrototypeOf({});",
+            options: [{ exceptions: ["getPrototypeOf"] }]
+        },
+        {
+            code: "Object.getPrototypeOf({});",
+            options: [{ exceptions: ["getPrototypeOf"] }]
+        },
 
         // Reflect.setPrototypeOf
         "Reflect.setPrototypeOf({}, Object.prototype);",
-        { code: "Reflect.setPrototypeOf({}, Object.prototype);", options: [{ exceptions: ["setPrototypeOf"] }] },
-        { code: "Object.setPrototypeOf({}, Object.prototype);", options: [{ exceptions: ["setPrototypeOf"] }] },
+        {
+            code: "Reflect.setPrototypeOf({}, Object.prototype);",
+            options: [{ exceptions: ["setPrototypeOf"] }]
+        },
+        {
+            code: "Object.setPrototypeOf({}, Object.prototype);",
+            options: [{ exceptions: ["setPrototypeOf"] }]
+        },
 
         // Reflect.isExtensible
         "Reflect.isExtensible({});",
-        { code: "Reflect.isExtensible({});", options: [{ exceptions: ["isExtensible"] }] },
-        { code: "Object.isExtensible({});", options: [{ exceptions: ["isExtensible"] }] },
+        {
+            code: "Reflect.isExtensible({});",
+            options: [{ exceptions: ["isExtensible"] }]
+        },
+        {
+            code: "Object.isExtensible({});",
+            options: [{ exceptions: ["isExtensible"] }]
+        },
 
         // Reflect.getOwnPropertyNames
         "Reflect.getOwnPropertyNames({});",
-        { code: "Reflect.getOwnPropertyNames({});", options: [{ exceptions: ["getOwnPropertyNames"] }] },
-        { code: "Object.getOwnPropertyNames({});", options: [{ exceptions: ["getOwnPropertyNames"] }] },
+        {
+            code: "Reflect.getOwnPropertyNames({});",
+            options: [{ exceptions: ["getOwnPropertyNames"] }]
+        },
+        {
+            code: "Object.getOwnPropertyNames({});",
+            options: [{ exceptions: ["getOwnPropertyNames"] }]
+        },
 
         // Reflect.getOwnPropertyNames
         "Reflect.preventExtensions({});",
-        { code: "Reflect.preventExtensions({});", options: [{ exceptions: ["preventExtensions"] }] },
-        { code: "Object.preventExtensions({});", options: [{ exceptions: ["preventExtensions"] }] },
+        {
+            code: "Reflect.preventExtensions({});",
+            options: [{ exceptions: ["preventExtensions"] }]
+        },
+        {
+            code: "Object.preventExtensions({});",
+            options: [{ exceptions: ["preventExtensions"] }]
+        },
 
         // Reflect.getOwnPropertyNames
         "Reflect.deleteProperty({}, 'foo');",
-        { code: "Reflect.deleteProperty({}, 'foo');", options: [{ exceptions: ["delete"] }] },
+        {
+            code: "Reflect.deleteProperty({}, 'foo');",
+            options: [{ exceptions: ["delete"] }]
+        },
         "delete foo;",
         { code: "delete ({}).foo", options: [{ exceptions: ["delete"] }] }
     ],
     invalid: [
-
         {
             code: "(function(){}).apply(null, [1, 2])",
             errors: [
                 {
                     messageId: "preferReflect",
-                    data: { existing: "Function.prototype.apply", substitute: "Reflect.apply" },
+                    data: {
+                        existing: "Function.prototype.apply",
+                        substitute: "Reflect.apply"
+                    },
                     type: "CallExpression"
                 }
             ]
@@ -91,7 +146,10 @@ ruleTester.run("prefer-reflect", rule, {
             errors: [
                 {
                     messageId: "preferReflect",
-                    data: { existing: "Function.prototype.apply", substitute: "Reflect.apply" },
+                    data: {
+                        existing: "Function.prototype.apply",
+                        substitute: "Reflect.apply"
+                    },
                     type: "CallExpression"
                 }
             ]
@@ -101,7 +159,10 @@ ruleTester.run("prefer-reflect", rule, {
             errors: [
                 {
                     messageId: "preferReflect",
-                    data: { existing: "Function.prototype.call", substitute: "Reflect.apply" },
+                    data: {
+                        existing: "Function.prototype.call",
+                        substitute: "Reflect.apply"
+                    },
                     type: "CallExpression"
                 }
             ]
@@ -112,7 +173,10 @@ ruleTester.run("prefer-reflect", rule, {
             errors: [
                 {
                     messageId: "preferReflect",
-                    data: { existing: "Function.prototype.call", substitute: "Reflect.apply" },
+                    data: {
+                        existing: "Function.prototype.call",
+                        substitute: "Reflect.apply"
+                    },
                     type: "CallExpression"
                 }
             ]
@@ -122,7 +186,10 @@ ruleTester.run("prefer-reflect", rule, {
             errors: [
                 {
                     messageId: "preferReflect",
-                    data: { existing: "Object.defineProperty", substitute: "Reflect.defineProperty" },
+                    data: {
+                        existing: "Object.defineProperty",
+                        substitute: "Reflect.defineProperty"
+                    },
                     type: "CallExpression"
                 }
             ]
@@ -133,7 +200,10 @@ ruleTester.run("prefer-reflect", rule, {
             errors: [
                 {
                     messageId: "preferReflect",
-                    data: { existing: "Object.defineProperty", substitute: "Reflect.defineProperty" },
+                    data: {
+                        existing: "Object.defineProperty",
+                        substitute: "Reflect.defineProperty"
+                    },
                     type: "CallExpression"
                 }
             ]
@@ -143,7 +213,10 @@ ruleTester.run("prefer-reflect", rule, {
             errors: [
                 {
                     messageId: "preferReflect",
-                    data: { existing: "Object.getOwnPropertyDescriptor", substitute: "Reflect.getOwnPropertyDescriptor" },
+                    data: {
+                        existing: "Object.getOwnPropertyDescriptor",
+                        substitute: "Reflect.getOwnPropertyDescriptor"
+                    },
                     type: "CallExpression"
                 }
             ]
@@ -154,7 +227,10 @@ ruleTester.run("prefer-reflect", rule, {
             errors: [
                 {
                     messageId: "preferReflect",
-                    data: { existing: "Object.getOwnPropertyDescriptor", substitute: "Reflect.getOwnPropertyDescriptor" },
+                    data: {
+                        existing: "Object.getOwnPropertyDescriptor",
+                        substitute: "Reflect.getOwnPropertyDescriptor"
+                    },
                     type: "CallExpression"
                 }
             ]
@@ -164,7 +240,10 @@ ruleTester.run("prefer-reflect", rule, {
             errors: [
                 {
                     messageId: "preferReflect",
-                    data: { existing: "Object.getPrototypeOf", substitute: "Reflect.getPrototypeOf" },
+                    data: {
+                        existing: "Object.getPrototypeOf",
+                        substitute: "Reflect.getPrototypeOf"
+                    },
                     type: "CallExpression"
                 }
             ]
@@ -175,7 +254,10 @@ ruleTester.run("prefer-reflect", rule, {
             errors: [
                 {
                     messageId: "preferReflect",
-                    data: { existing: "Object.getPrototypeOf", substitute: "Reflect.getPrototypeOf" },
+                    data: {
+                        existing: "Object.getPrototypeOf",
+                        substitute: "Reflect.getPrototypeOf"
+                    },
                     type: "CallExpression"
                 }
             ]
@@ -185,7 +267,10 @@ ruleTester.run("prefer-reflect", rule, {
             errors: [
                 {
                     messageId: "preferReflect",
-                    data: { existing: "Object.setPrototypeOf", substitute: "Reflect.setPrototypeOf" },
+                    data: {
+                        existing: "Object.setPrototypeOf",
+                        substitute: "Reflect.setPrototypeOf"
+                    },
                     type: "CallExpression"
                 }
             ]
@@ -196,7 +281,10 @@ ruleTester.run("prefer-reflect", rule, {
             errors: [
                 {
                     messageId: "preferReflect",
-                    data: { existing: "Object.setPrototypeOf", substitute: "Reflect.setPrototypeOf" },
+                    data: {
+                        existing: "Object.setPrototypeOf",
+                        substitute: "Reflect.setPrototypeOf"
+                    },
                     type: "CallExpression"
                 }
             ]
@@ -206,7 +294,10 @@ ruleTester.run("prefer-reflect", rule, {
             errors: [
                 {
                     messageId: "preferReflect",
-                    data: { existing: "Object.isExtensible", substitute: "Reflect.isExtensible" },
+                    data: {
+                        existing: "Object.isExtensible",
+                        substitute: "Reflect.isExtensible"
+                    },
                     type: "CallExpression"
                 }
             ]
@@ -217,7 +308,10 @@ ruleTester.run("prefer-reflect", rule, {
             errors: [
                 {
                     messageId: "preferReflect",
-                    data: { existing: "Object.isExtensible", substitute: "Reflect.isExtensible" },
+                    data: {
+                        existing: "Object.isExtensible",
+                        substitute: "Reflect.isExtensible"
+                    },
                     type: "CallExpression"
                 }
             ]
@@ -227,7 +321,10 @@ ruleTester.run("prefer-reflect", rule, {
             errors: [
                 {
                     messageId: "preferReflect",
-                    data: { existing: "Object.getOwnPropertyNames", substitute: "Reflect.getOwnPropertyNames" },
+                    data: {
+                        existing: "Object.getOwnPropertyNames",
+                        substitute: "Reflect.getOwnPropertyNames"
+                    },
                     type: "CallExpression"
                 }
             ]
@@ -238,7 +335,10 @@ ruleTester.run("prefer-reflect", rule, {
             errors: [
                 {
                     messageId: "preferReflect",
-                    data: { existing: "Object.getOwnPropertyNames", substitute: "Reflect.getOwnPropertyNames" },
+                    data: {
+                        existing: "Object.getOwnPropertyNames",
+                        substitute: "Reflect.getOwnPropertyNames"
+                    },
                     type: "CallExpression"
                 }
             ]
@@ -248,7 +348,10 @@ ruleTester.run("prefer-reflect", rule, {
             errors: [
                 {
                     messageId: "preferReflect",
-                    data: { existing: "Object.preventExtensions", substitute: "Reflect.preventExtensions" },
+                    data: {
+                        existing: "Object.preventExtensions",
+                        substitute: "Reflect.preventExtensions"
+                    },
                     type: "CallExpression"
                 }
             ]
@@ -259,7 +362,10 @@ ruleTester.run("prefer-reflect", rule, {
             errors: [
                 {
                     messageId: "preferReflect",
-                    data: { existing: "Object.preventExtensions", substitute: "Reflect.preventExtensions" },
+                    data: {
+                        existing: "Object.preventExtensions",
+                        substitute: "Reflect.preventExtensions"
+                    },
                     type: "CallExpression"
                 }
             ]
@@ -269,7 +375,10 @@ ruleTester.run("prefer-reflect", rule, {
             errors: [
                 {
                     messageId: "preferReflect",
-                    data: { existing: "the delete keyword", substitute: "Reflect.deleteProperty" },
+                    data: {
+                        existing: "the delete keyword",
+                        substitute: "Reflect.deleteProperty"
+                    },
                     type: "UnaryExpression"
                 }
             ]
@@ -280,11 +389,13 @@ ruleTester.run("prefer-reflect", rule, {
             errors: [
                 {
                     messageId: "preferReflect",
-                    data: { existing: "the delete keyword", substitute: "Reflect.deleteProperty" },
+                    data: {
+                        existing: "the delete keyword",
+                        substitute: "Reflect.deleteProperty"
+                    },
                     type: "UnaryExpression"
                 }
             ]
         }
-
     ]
 });

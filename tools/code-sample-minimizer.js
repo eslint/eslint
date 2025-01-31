@@ -11,10 +11,12 @@ const assert = require("node:assert");
  * @returns {boolean} `true` if the node could be an expression
  */
 function isMaybeExpression(node) {
-    return node.type.endsWith("Expression") ||
+    return (
+        node.type.endsWith("Expression") ||
         node.type === "Identifier" ||
         node.type === "MetaProperty" ||
-        node.type.endsWith("Literal");
+        node.type.endsWith("Literal")
+    );
 }
 
 /**
@@ -65,7 +67,7 @@ function reduceBadExampleSize({
      * @returns {string} A name for a new identifier
      */
     function generateNewIdentifierName() {
-        return `$${(counter++)}`;
+        return `$${counter++}`;
     }
 
     /**
@@ -83,7 +85,10 @@ function reduceBadExampleSize({
         return predicate(updatedSourceText);
     }
 
-    assert(reproducesBadCase(sourceText), "Original source text should reproduce issue");
+    assert(
+        reproducesBadCase(sourceText),
+        "Original source text should reproduce issue"
+    );
     const parseResult = recast.parse(sourceText, { parser });
 
     /**
@@ -107,17 +112,23 @@ function reduceBadExampleSize({
                     }
                 }
             } else if (typeof node[key] === "object" && node[key] !== null) {
-
                 const childNode = node[key];
 
                 if (isMaybeExpression(childNode)) {
-                    node[key] = { type: "Identifier", name: generateNewIdentifierName(), range: childNode.range };
+                    node[key] = {
+                        type: "Identifier",
+                        name: generateNewIdentifierName(),
+                        range: childNode.range
+                    };
                     if (!reproducesBadCase(recast.print(parseResult).code)) {
                         node[key] = childNode;
                         pruneIrrelevantSubtrees(childNode);
                     }
                 } else if (isStatement(childNode)) {
-                    node[key] = { type: "EmptyStatement", range: childNode.range };
+                    node[key] = {
+                        type: "EmptyStatement",
+                        range: childNode.range
+                    };
                     if (!reproducesBadCase(recast.print(parseResult).code)) {
                         node[key] = childNode;
                         pruneIrrelevantSubtrees(childNode);
@@ -133,8 +144,9 @@ function reduceBadExampleSize({
      * @returns {ASTNode} A descendent of `node` which is also bad
      */
     function extractRelevantChild(node) {
-        const childNodes = visitorKeys[node.type]
-            .flatMap(key => (Array.isArray(node[key]) ? node[key] : [node[key]]));
+        const childNodes = visitorKeys[node.type].flatMap((key) =>
+            Array.isArray(node[key]) ? node[key] : [node[key]]
+        );
 
         for (const childNode of childNodes) {
             if (!childNode) {
@@ -145,7 +157,6 @@ function reduceBadExampleSize({
                 if (reproducesBadCase(recast.print(childNode).code)) {
                     return extractRelevantChild(childNode);
                 }
-
             } else if (isStatement(childNode)) {
                 if (reproducesBadCase(recast.print(childNode).code)) {
                     return extractRelevantChild(childNode);
@@ -172,7 +183,6 @@ function reduceBadExampleSize({
         if (ast.comments) {
             for (const comment of ast.comments) {
                 for (const potentialSimplification of [
-
                     // Try deleting the comment
                     `${text.slice(0, comment.range[0])}${text.slice(comment.range[1])}`,
 
@@ -180,10 +190,17 @@ function reduceBadExampleSize({
                     `${text.slice(0, comment.range[0])} ${text.slice(comment.range[1])}`,
 
                     // Try deleting the contents of the comment
-                    text.slice(0, comment.range[0] + 2) + text.slice(comment.type === "Block" ? comment.range[1] - 2 : comment.range[1])
+                    text.slice(0, comment.range[0] + 2) +
+                        text.slice(
+                            comment.type === "Block"
+                                ? comment.range[1] - 2
+                                : comment.range[1]
+                        )
                 ]) {
                     if (reproducesBadCase(potentialSimplification)) {
-                        return removeIrrelevantComments(potentialSimplification);
+                        return removeIrrelevantComments(
+                            potentialSimplification
+                        );
                     }
                 }
             }
@@ -193,12 +210,20 @@ function reduceBadExampleSize({
     }
 
     pruneIrrelevantSubtrees(parseResult.program);
-    const relevantChild = recast.print(extractRelevantChild(parseResult.program)).code;
+    const relevantChild = recast.print(
+        extractRelevantChild(parseResult.program)
+    ).code;
 
-    assert(reproducesBadCase(relevantChild), "Extracted relevant source text should reproduce issue");
+    assert(
+        reproducesBadCase(relevantChild),
+        "Extracted relevant source text should reproduce issue"
+    );
     const result = removeIrrelevantComments(relevantChild);
 
-    assert(reproducesBadCase(result), "Source text with irrelevant comments removed should reproduce issue");
+    assert(
+        reproducesBadCase(result),
+        "Source text with irrelevant comments removed should reproduce issue"
+    );
     return result;
 }
 

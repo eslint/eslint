@@ -16,19 +16,26 @@ const RuleTester = require("../../../lib/rule-tester/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const errors = [{
-    messageId: "preferArrowCallback",
-    type: "FunctionExpression"
-}];
+const errors = [
+    {
+        messageId: "preferArrowCallback",
+        type: "FunctionExpression"
+    }
+];
 
-const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2020, sourceType: "script" } });
+const ruleTester = new RuleTester({
+    languageOptions: { ecmaVersion: 2020, sourceType: "script" }
+});
 
 ruleTester.run("prefer-arrow-callback", rule, {
     valid: [
         "foo(a => a);",
         "foo(function*() {});",
         "foo(function() { this; });",
-        { code: "foo(function bar() {});", options: [{ allowNamedFunctions: true }] },
+        {
+            code: "foo(function bar() {});",
+            options: [{ allowNamedFunctions: true }]
+        },
         "foo(function() { (() => this); });",
         "foo(function() { this; }.bind(obj));",
         "foo(function() { this; }.call(this));",

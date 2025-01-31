@@ -23,9 +23,18 @@ const ruleTester = new RuleTester({
     }
 });
 
-const wrapInvocationError = { messageId: "wrapInvocation", type: "CallExpression" };
-const wrapExpressionError = { messageId: "wrapExpression", type: "CallExpression" };
-const moveInvocationError = { messageId: "moveInvocation", type: "CallExpression" };
+const wrapInvocationError = {
+    messageId: "wrapInvocation",
+    type: "CallExpression"
+};
+const wrapExpressionError = {
+    messageId: "wrapExpression",
+    type: "CallExpression"
+};
+const moveInvocationError = {
+    messageId: "moveInvocation",
+    type: "CallExpression"
+};
 
 ruleTester.run("wrap-iife", rule, {
     valid: [
@@ -487,7 +496,6 @@ ruleTester.run("wrap-iife", rule, {
             errors: [wrapExpressionError]
         },
         {
-
             // Ensure all comments get preserved when autofixing.
             code: "( /* a */ function /* b */ foo /* c */ ( /* d */ bar /* e */ ) /* f */ { /* g */ return; /* h */ } /* i */ ( /* j */ baz /* k */) /* l */ ) /* m */ ;",
             output: "( /* a */ function /* b */ foo /* c */ ( /* d */ bar /* e */ ) /* f */ { /* g */ return; /* h */ }) /* i */ ( /* j */ baz /* k */) /* l */  /* m */ ;",

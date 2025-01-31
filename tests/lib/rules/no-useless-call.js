@@ -20,7 +20,6 @@ const ruleTester = new RuleTester();
 
 ruleTester.run("no-useless-call", rule, {
     valid: [
-
         // `this` binding is different.
         "foo.apply(obj, 1, 2);",
         "obj.foo.apply(null, 1, 2);",
@@ -59,129 +58,158 @@ ruleTester.run("no-useless-call", rule, {
         }
     ],
     invalid: [
-
         // call.
         {
             code: "foo.call(undefined, 1, 2);",
-            errors: [{
-                messageId: "unnecessaryCall",
-                data: { name: "call" },
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unnecessaryCall",
+                    data: { name: "call" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "foo.call(void 0, 1, 2);",
-            errors: [{
-                messageId: "unnecessaryCall",
-                data: { name: "call" },
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unnecessaryCall",
+                    data: { name: "call" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "foo.call(null, 1, 2);",
-            errors: [{
-                messageId: "unnecessaryCall",
-                data: { name: "call" },
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unnecessaryCall",
+                    data: { name: "call" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "obj.foo.call(obj, 1, 2);",
-            errors: [{
-                messageId: "unnecessaryCall",
-                data: { name: "call" },
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unnecessaryCall",
+                    data: { name: "call" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "a.b.c.foo.call(a.b.c, 1, 2);",
-            errors: [{
-                messageId: "unnecessaryCall",
-                data: { name: "call" },
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unnecessaryCall",
+                    data: { name: "call" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "a.b(x, y).c.foo.call(a.b(x, y).c, 1, 2);",
-            errors: [{
-                messageId: "unnecessaryCall",
-                data: { name: "call" },
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unnecessaryCall",
+                    data: { name: "call" },
+                    type: "CallExpression"
+                }
+            ]
         },
 
         // apply.
         {
             code: "foo.apply(undefined, [1, 2]);",
-            errors: [{
-                messageId: "unnecessaryCall",
-                data: { name: "apply" },
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unnecessaryCall",
+                    data: { name: "apply" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "foo.apply(void 0, [1, 2]);",
-            errors: [{
-                messageId: "unnecessaryCall",
-                data: { name: "apply" },
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unnecessaryCall",
+                    data: { name: "apply" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "foo.apply(null, [1, 2]);",
-            errors: [{
-                messageId: "unnecessaryCall",
-                data: { name: "apply" },
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unnecessaryCall",
+                    data: { name: "apply" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "obj.foo.apply(obj, [1, 2]);",
-            errors: [{
-                messageId: "unnecessaryCall",
-                data: { name: "apply" },
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unnecessaryCall",
+                    data: { name: "apply" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "a.b.c.foo.apply(a.b.c, [1, 2]);",
-            errors: [{
-                messageId: "unnecessaryCall",
-                data: { name: "apply" },
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unnecessaryCall",
+                    data: { name: "apply" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "a.b(x, y).c.foo.apply(a.b(x, y).c, [1, 2]);",
-            errors: [{
-                messageId: "unnecessaryCall",
-                data: { name: "apply" },
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unnecessaryCall",
+                    data: { name: "apply" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "[].concat.apply([ ], [1, 2]);",
-            errors: [{
-                messageId: "unnecessaryCall",
-                data: { name: "apply" },
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unnecessaryCall",
+                    data: { name: "apply" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "[].concat.apply([\n/*empty*/\n], [1, 2]);",
-            errors: [{
-                messageId: "unnecessaryCall",
-                data: { name: "apply" },
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unnecessaryCall",
+                    data: { name: "apply" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
-            code: "abc.get(\"foo\", 0).concat.apply(abc . get(\"foo\",  0 ), [1, 2]);",
-            errors: [{
-                messageId: "unnecessaryCall",
-                data: { name: "apply" },
-                type: "CallExpression"
-            }]
+            code: 'abc.get("foo", 0).concat.apply(abc . get("foo",  0 ), [1, 2]);',
+            errors: [
+                {
+                    messageId: "unnecessaryCall",
+                    data: { name: "apply" },
+                    type: "CallExpression"
+                }
+            ]
         },
 
         // Optional chaining
@@ -203,65 +231,79 @@ ruleTester.run("no-useless-call", rule, {
         {
             code: "obj.foo.call?.(obj, 1, 2);",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{
-                messageId: "unnecessaryCall",
-                data: { name: "call" },
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unnecessaryCall",
+                    data: { name: "call" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "obj?.foo.call(obj, 1, 2);",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{
-                messageId: "unnecessaryCall",
-                data: { name: "call" },
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unnecessaryCall",
+                    data: { name: "call" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "(obj?.foo).call(obj, 1, 2);",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{
-                messageId: "unnecessaryCall",
-                data: { name: "call" },
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unnecessaryCall",
+                    data: { name: "call" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "(obj?.foo.call)(obj, 1, 2);",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{
-                messageId: "unnecessaryCall",
-                data: { name: "call" },
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unnecessaryCall",
+                    data: { name: "call" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "obj?.foo.bar.call(obj?.foo, 1, 2);",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{
-                messageId: "unnecessaryCall",
-                data: { name: "call" },
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unnecessaryCall",
+                    data: { name: "call" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "(obj?.foo).bar.call(obj?.foo, 1, 2);",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{
-                messageId: "unnecessaryCall",
-                data: { name: "call" },
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unnecessaryCall",
+                    data: { name: "call" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "obj.foo?.bar.call(obj.foo, 1, 2);",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{
-                messageId: "unnecessaryCall",
-                data: { name: "call" },
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unnecessaryCall",
+                    data: { name: "call" },
+                    type: "CallExpression"
+                }
+            ]
         }
     ]
 });

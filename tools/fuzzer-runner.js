@@ -48,7 +48,12 @@ function run({ amount = 300, fuzzBrokenAutofixes = true } = {}) {
      */
     const progressBar = new ProgressBar(
         "Fuzzing rules [:bar] :percent, :elapseds elapsed, eta :etas, errors so far: :elapsedErrors",
-        { width: 30, total: crashTestCount + autofixTestCount * ESTIMATED_CRASH_AUTOFIX_PERFORMANCE_RATIO }
+        {
+            width: 30,
+            total:
+                crashTestCount +
+                autofixTestCount * ESTIMATED_CRASH_AUTOFIX_PERFORMANCE_RATIO
+        }
     );
 
     // Start displaying the progress bar.
@@ -69,13 +74,14 @@ function run({ amount = 300, fuzzBrokenAutofixes = true } = {}) {
         count: autofixTestCount,
         checkAutofixes: true,
         progressCallback(elapsedErrors) {
-            progressBar.tick(ESTIMATED_CRASH_AUTOFIX_PERFORMANCE_RATIO, { elapsedErrors: crashTestResults.length + elapsedErrors });
+            progressBar.tick(ESTIMATED_CRASH_AUTOFIX_PERFORMANCE_RATIO, {
+                elapsedErrors: crashTestResults.length + elapsedErrors
+            });
             progressBar.render();
         }
     });
 
     return crashTestResults.concat(autofixTestResults);
-
 }
 
 module.exports = { run };

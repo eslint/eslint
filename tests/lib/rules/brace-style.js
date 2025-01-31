@@ -17,18 +17,20 @@ const rule = require("../../../lib/rules/brace-style"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 6, sourceType: "script" } });
+const ruleTester = new RuleTester({
+    languageOptions: { ecmaVersion: 6, sourceType: "script" }
+});
 
 ruleTester.run("brace-style", rule, {
     valid: [
         "function f() {\n" +
-        "   if (true)\n" +
-        "       return {x: 1}\n" +
-        "   else {\n" +
-        "       var y = 2\n" +
-        "       return y\n" +
-        "   }\n" +
-        "}",
+            "   if (true)\n" +
+            "       return {x: 1}\n" +
+            "   else {\n" +
+            "       var y = 2\n" +
+            "       return y\n" +
+            "   }\n" +
+            "}",
         "if (tag === 1) glyph.id = pbf.readVarint();\nelse if (tag === 2) glyph.bitmap = pbf.readBytes();",
         "function foo () { \nreturn; \n}",
         "function a(b,\nc,\nd) { }",
@@ -39,7 +41,7 @@ ruleTester.run("brace-style", rule, {
         "while (foo) { \n bar();\n }",
         "for (;;) { \n bar(); \n}",
         "with (foo) { \n bar(); \n}",
-        "switch (foo) { \n case \"bar\": break;\n }",
+        'switch (foo) { \n case "bar": break;\n }',
         "try { \n bar();\n } catch (e) {\n baz(); \n }",
         "do { \n bar();\n } while (true)",
         "for (foo in bar) { \n baz(); \n }",
@@ -57,32 +59,103 @@ ruleTester.run("brace-style", rule, {
         `,
         { code: "if (foo) {\n}\nelse {\n}", options: ["stroustrup"] },
         { code: "if (foo)\n{\n}\nelse\n{\n}", options: ["allman"] },
-        { code: "try { \n bar();\n }\ncatch (e) {\n baz(); \n }", options: ["stroustrup"] },
-        { code: "try\n{\n bar();\n}\ncatch (e)\n{\n baz(); \n}", options: ["allman"] },
+        {
+            code: "try { \n bar();\n }\ncatch (e) {\n baz(); \n }",
+            options: ["stroustrup"]
+        },
+        {
+            code: "try\n{\n bar();\n}\ncatch (e)\n{\n baz(); \n}",
+            options: ["allman"]
+        },
 
         // allowSingleLine: true
-        { code: "function foo () { return; }", options: ["1tbs", { allowSingleLine: true }] },
-        { code: "function foo () { a(); b(); return; }", options: ["1tbs", { allowSingleLine: true }] },
-        { code: "function a(b,c,d) { }", options: ["1tbs", { allowSingleLine: true }] },
-        { code: "!function foo () { return; }", options: ["1tbs", { allowSingleLine: true }] },
-        { code: "!function a(b,c,d) { }", options: ["1tbs", { allowSingleLine: true }] },
-        { code: "if (foo) {  bar(); }", options: ["1tbs", { allowSingleLine: true }] },
-        { code: "if (a) { b(); } else { c(); }", options: ["1tbs", { allowSingleLine: true }] },
-        { code: "while (foo) {  bar(); }", options: ["1tbs", { allowSingleLine: true }] },
-        { code: "for (;;) {  bar(); }", options: ["1tbs", { allowSingleLine: true }] },
-        { code: "with (foo) {  bar(); }", options: ["1tbs", { allowSingleLine: true }] },
-        { code: "switch (foo) {  case \"bar\": break; }", options: ["1tbs", { allowSingleLine: true }] },
-        { code: "try {  bar(); } catch (e) { baz();  }", options: ["1tbs", { allowSingleLine: true }] },
-        { code: "do {  bar(); } while (true)", options: ["1tbs", { allowSingleLine: true }] },
-        { code: "for (foo in bar) {  baz();  }", options: ["1tbs", { allowSingleLine: true }] },
-        { code: "if (a && b && c) {  }", options: ["1tbs", { allowSingleLine: true }] },
+        {
+            code: "function foo () { return; }",
+            options: ["1tbs", { allowSingleLine: true }]
+        },
+        {
+            code: "function foo () { a(); b(); return; }",
+            options: ["1tbs", { allowSingleLine: true }]
+        },
+        {
+            code: "function a(b,c,d) { }",
+            options: ["1tbs", { allowSingleLine: true }]
+        },
+        {
+            code: "!function foo () { return; }",
+            options: ["1tbs", { allowSingleLine: true }]
+        },
+        {
+            code: "!function a(b,c,d) { }",
+            options: ["1tbs", { allowSingleLine: true }]
+        },
+        {
+            code: "if (foo) {  bar(); }",
+            options: ["1tbs", { allowSingleLine: true }]
+        },
+        {
+            code: "if (a) { b(); } else { c(); }",
+            options: ["1tbs", { allowSingleLine: true }]
+        },
+        {
+            code: "while (foo) {  bar(); }",
+            options: ["1tbs", { allowSingleLine: true }]
+        },
+        {
+            code: "for (;;) {  bar(); }",
+            options: ["1tbs", { allowSingleLine: true }]
+        },
+        {
+            code: "with (foo) {  bar(); }",
+            options: ["1tbs", { allowSingleLine: true }]
+        },
+        {
+            code: 'switch (foo) {  case "bar": break; }',
+            options: ["1tbs", { allowSingleLine: true }]
+        },
+        {
+            code: "try {  bar(); } catch (e) { baz();  }",
+            options: ["1tbs", { allowSingleLine: true }]
+        },
+        {
+            code: "do {  bar(); } while (true)",
+            options: ["1tbs", { allowSingleLine: true }]
+        },
+        {
+            code: "for (foo in bar) {  baz();  }",
+            options: ["1tbs", { allowSingleLine: true }]
+        },
+        {
+            code: "if (a && b && c) {  }",
+            options: ["1tbs", { allowSingleLine: true }]
+        },
         { code: "switch(0) {}", options: ["1tbs", { allowSingleLine: true }] },
-        { code: "if (foo) {}\nelse {}", options: ["stroustrup", { allowSingleLine: true }] },
-        { code: "try {  bar(); }\ncatch (e) { baz();  }", options: ["stroustrup", { allowSingleLine: true }] },
-        { code: "var foo = () => { return; }", options: ["stroustrup", { allowSingleLine: true }], languageOptions: { ecmaVersion: 6 } },
-        { code: "if (foo) {}\nelse {}", options: ["allman", { allowSingleLine: true }] },
-        { code: "try {  bar(); }\ncatch (e) { baz();  }", options: ["allman", { allowSingleLine: true }] },
-        { code: "var foo = () => { return; }", options: ["allman", { allowSingleLine: true }], languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "if (foo) {}\nelse {}",
+            options: ["stroustrup", { allowSingleLine: true }]
+        },
+        {
+            code: "try {  bar(); }\ncatch (e) { baz();  }",
+            options: ["stroustrup", { allowSingleLine: true }]
+        },
+        {
+            code: "var foo = () => { return; }",
+            options: ["stroustrup", { allowSingleLine: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "if (foo) {}\nelse {}",
+            options: ["allman", { allowSingleLine: true }]
+        },
+        {
+            code: "try {  bar(); }\ncatch (e) { baz();  }",
+            options: ["allman", { allowSingleLine: true }]
+        },
+        {
+            code: "var foo = () => { return; }",
+            options: ["allman", { allowSingleLine: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
         {
             code: "if (foo) { baz(); } else {\n  boom();\n}",
             options: ["1tbs", { allowSingleLine: true }]
@@ -336,52 +409,83 @@ ruleTester.run("brace-style", rule, {
             code: "var foo = () => { return; }",
             output: "var foo = () => {\n return; \n}",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "blockSameLine", type: "Punctuator" }, { messageId: "singleLineClose", type: "Punctuator" }]
+            errors: [
+                { messageId: "blockSameLine", type: "Punctuator" },
+                { messageId: "singleLineClose", type: "Punctuator" }
+            ]
         },
         {
             code: "function foo() { return; }",
             output: "function foo() {\n return; \n}",
-            errors: [{ messageId: "blockSameLine", type: "Punctuator" }, { messageId: "singleLineClose", type: "Punctuator" }]
+            errors: [
+                { messageId: "blockSameLine", type: "Punctuator" },
+                { messageId: "singleLineClose", type: "Punctuator" }
+            ]
         },
         {
             code: "function foo() \n { \n return; }",
             output: "function foo() { \n return; \n}",
-            errors: [{ messageId: "nextLineOpen", type: "Punctuator" }, { messageId: "singleLineClose", type: "Punctuator" }]
+            errors: [
+                { messageId: "nextLineOpen", type: "Punctuator" },
+                { messageId: "singleLineClose", type: "Punctuator" }
+            ]
         },
         {
             code: "!function foo() \n { \n return; }",
             output: "!function foo() { \n return; \n}",
-            errors: [{ messageId: "nextLineOpen", type: "Punctuator" }, { messageId: "singleLineClose", type: "Punctuator" }]
+            errors: [
+                { messageId: "nextLineOpen", type: "Punctuator" },
+                { messageId: "singleLineClose", type: "Punctuator" }
+            ]
         },
         {
             code: "if (foo) \n { \n bar(); }",
             output: "if (foo) { \n bar(); \n}",
-            errors: [{ messageId: "nextLineOpen", type: "Punctuator" }, { messageId: "singleLineClose", type: "Punctuator" }]
+            errors: [
+                { messageId: "nextLineOpen", type: "Punctuator" },
+                { messageId: "singleLineClose", type: "Punctuator" }
+            ]
         },
         {
             code: "if (a) { \nb();\n } else \n { c(); }",
             output: "if (a) { \nb();\n } else {\n c(); \n}",
-            errors: [{ messageId: "nextLineOpen", type: "Punctuator" }, { messageId: "blockSameLine", type: "Punctuator" }, { messageId: "singleLineClose", type: "Punctuator" }]
+            errors: [
+                { messageId: "nextLineOpen", type: "Punctuator" },
+                { messageId: "blockSameLine", type: "Punctuator" },
+                { messageId: "singleLineClose", type: "Punctuator" }
+            ]
         },
         {
             code: "while (foo) \n { \n bar(); }",
             output: "while (foo) { \n bar(); \n}",
-            errors: [{ messageId: "nextLineOpen", type: "Punctuator" }, { messageId: "singleLineClose", type: "Punctuator" }]
+            errors: [
+                { messageId: "nextLineOpen", type: "Punctuator" },
+                { messageId: "singleLineClose", type: "Punctuator" }
+            ]
         },
         {
             code: "for (;;) \n { \n bar(); }",
             output: "for (;;) { \n bar(); \n}",
-            errors: [{ messageId: "nextLineOpen", type: "Punctuator" }, { messageId: "singleLineClose", type: "Punctuator" }]
+            errors: [
+                { messageId: "nextLineOpen", type: "Punctuator" },
+                { messageId: "singleLineClose", type: "Punctuator" }
+            ]
         },
         {
             code: "with (foo) \n { \n bar(); }",
             output: "with (foo) { \n bar(); \n}",
-            errors: [{ messageId: "nextLineOpen", type: "Punctuator" }, { messageId: "singleLineClose", type: "Punctuator" }]
+            errors: [
+                { messageId: "nextLineOpen", type: "Punctuator" },
+                { messageId: "singleLineClose", type: "Punctuator" }
+            ]
         },
         {
-            code: "switch (foo) \n { \n case \"bar\": break; }",
-            output: "switch (foo) { \n case \"bar\": break; \n}",
-            errors: [{ messageId: "nextLineOpen", type: "Punctuator" }, { messageId: "singleLineClose", type: "Punctuator" }]
+            code: 'switch (foo) \n { \n case "bar": break; }',
+            output: 'switch (foo) { \n case "bar": break; \n}',
+            errors: [
+                { messageId: "nextLineOpen", type: "Punctuator" },
+                { messageId: "singleLineClose", type: "Punctuator" }
+            ]
         },
         {
             code: "switch (foo) \n { }",
@@ -516,17 +620,13 @@ ruleTester.run("brace-style", rule, {
             code: "if (foo)\n{\n  bar(); }",
             output: "if (foo)\n{\n  bar(); \n}",
             options: ["allman"],
-            errors: [
-                { messageId: "singleLineClose", type: "Punctuator" }
-            ]
+            errors: [{ messageId: "singleLineClose", type: "Punctuator" }]
         },
         {
             code: "try\n{\n  somethingRisky();\n} catch (e)\n{\n  handleError()\n}",
             output: "try\n{\n  somethingRisky();\n}\n catch (e)\n{\n  handleError()\n}",
             options: ["allman"],
-            errors: [
-                { messageId: "sameLineClose", type: "Punctuator" }
-            ]
+            errors: [{ messageId: "sameLineClose", type: "Punctuator" }]
         },
 
         // allowSingleLine: true
@@ -591,10 +691,13 @@ ruleTester.run("brace-style", rule, {
             errors: [{ messageId: "blockSameLine", type: "Punctuator" }]
         },
         {
-            code: "switch (foo) \n { \n case \"bar\": break; }",
-            output: "switch (foo) { \n case \"bar\": break; \n}",
+            code: 'switch (foo) \n { \n case "bar": break; }',
+            output: 'switch (foo) { \n case "bar": break; \n}',
             options: ["1tbs", { allowSingleLine: true }],
-            errors: [{ messageId: "nextLineOpen", type: "Punctuator" }, { messageId: "singleLineClose", type: "Punctuator" }]
+            errors: [
+                { messageId: "nextLineOpen", type: "Punctuator" },
+                { messageId: "singleLineClose", type: "Punctuator" }
+            ]
         },
         {
             code: "switch (foo) \n { }",
@@ -704,7 +807,10 @@ ruleTester.run("brace-style", rule, {
             code: "if (foo) { bar\n.baz }",
             output: "if (foo) {\n bar\n.baz \n}",
             options: ["1tbs", { allowSingleLine: true }],
-            errors: [{ messageId: "blockSameLine", type: "Punctuator" }, { messageId: "singleLineClose", type: "Punctuator" }]
+            errors: [
+                { messageId: "blockSameLine", type: "Punctuator" },
+                { messageId: "singleLineClose", type: "Punctuator" }
+            ]
         },
         {
             code: "if (foo) { bar\n.baz }",
@@ -810,9 +916,7 @@ ruleTester.run("brace-style", rule, {
             `,
             options: ["1tbs"],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [
-                { messageId: "nextLineOpen", type: "Punctuator" }
-            ]
+            errors: [{ messageId: "nextLineOpen", type: "Punctuator" }]
         },
         {
             code: unIndent`
@@ -830,9 +934,7 @@ ruleTester.run("brace-style", rule, {
             `,
             options: ["1tbs"],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [
-                { messageId: "blockSameLine", type: "Punctuator" }
-            ]
+            errors: [{ messageId: "blockSameLine", type: "Punctuator" }]
         },
         {
             code: unIndent`
@@ -850,9 +952,7 @@ ruleTester.run("brace-style", rule, {
             `,
             options: ["1tbs"],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [
-                { messageId: "singleLineClose", type: "Punctuator" }
-            ]
+            errors: [{ messageId: "singleLineClose", type: "Punctuator" }]
         },
         {
             code: unIndent`
@@ -890,9 +990,7 @@ ruleTester.run("brace-style", rule, {
             `,
             options: ["1tbs"],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [
-                { messageId: "nextLineOpen", type: "Punctuator" }
-            ]
+            errors: [{ messageId: "nextLineOpen", type: "Punctuator" }]
         },
         {
             code: unIndent`
@@ -912,9 +1010,7 @@ ruleTester.run("brace-style", rule, {
             `,
             options: ["stroustrup"],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [
-                { messageId: "nextLineOpen", type: "Punctuator" }
-            ]
+            errors: [{ messageId: "nextLineOpen", type: "Punctuator" }]
         },
         {
             code: unIndent`
@@ -932,9 +1028,7 @@ ruleTester.run("brace-style", rule, {
             `,
             options: ["stroustrup"],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [
-                { messageId: "blockSameLine", type: "Punctuator" }
-            ]
+            errors: [{ messageId: "blockSameLine", type: "Punctuator" }]
         },
         {
             code: unIndent`
@@ -952,9 +1046,7 @@ ruleTester.run("brace-style", rule, {
             `,
             options: ["stroustrup"],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [
-                { messageId: "singleLineClose", type: "Punctuator" }
-            ]
+            errors: [{ messageId: "singleLineClose", type: "Punctuator" }]
         },
         {
             code: unIndent`
@@ -992,9 +1084,7 @@ ruleTester.run("brace-style", rule, {
             `,
             options: ["stroustrup"],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [
-                { messageId: "nextLineOpen", type: "Punctuator" }
-            ]
+            errors: [{ messageId: "nextLineOpen", type: "Punctuator" }]
         },
         {
             code: unIndent`
@@ -1016,9 +1106,7 @@ ruleTester.run("brace-style", rule, {
             `,
             options: ["allman"],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [
-                { messageId: "sameLineOpen", type: "Punctuator" }
-            ]
+            errors: [{ messageId: "sameLineOpen", type: "Punctuator" }]
         },
         {
             code: unIndent`
@@ -1040,9 +1128,7 @@ ruleTester.run("brace-style", rule, {
             `,
             options: ["allman"],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [
-                { messageId: "blockSameLine", type: "Punctuator" }
-            ]
+            errors: [{ messageId: "blockSameLine", type: "Punctuator" }]
         },
         {
             code: unIndent`
@@ -1064,9 +1150,7 @@ ruleTester.run("brace-style", rule, {
             `,
             options: ["allman"],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [
-                { messageId: "singleLineClose", type: "Punctuator" }
-            ]
+            errors: [{ messageId: "singleLineClose", type: "Punctuator" }]
         },
         {
             code: unIndent`
@@ -1108,9 +1192,7 @@ ruleTester.run("brace-style", rule, {
             `,
             options: ["allman"],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [
-                { messageId: "sameLineOpen", type: "Punctuator" }
-            ]
+            errors: [{ messageId: "sameLineOpen", type: "Punctuator" }]
         }
     ]
 });

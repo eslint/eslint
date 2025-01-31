@@ -5,7 +5,6 @@ eleventyNavigation:
     parent: create plugins
     title: Migration to Flat Config
     order: 5
-
 ---
 
 Beginning in ESLint v9.0.0, the default configuration system will be the new flat config system. In order for your plugins to work with flat config files, you'll need to make some changes to your existing plugins.
@@ -72,7 +71,6 @@ const plugin = {
     configs: {},
     rules: {},
     processors: {
-
         // no longer supported
         ".md": {
             preprocess() {},
@@ -95,9 +93,8 @@ const plugin = {
     configs: {},
     rules: {},
     processors: {
-
         // works in both old and new config systems
-        "markdown": {
+        markdown: {
             preprocess() {},
             postprocess() {}
         }
@@ -173,7 +170,7 @@ Object.assign(plugin.configs, {
             "example/rule2": "error"
         }
     }
-})
+});
 
 // for ESM
 export default plugin;
@@ -188,7 +185,6 @@ Your users can then use this exported config like this:
 import example from "eslint-plugin-example";
 
 export default [
-
     // use recommended config
     example.configs.recommended,
 
@@ -216,8 +212,8 @@ module.exports = {
                     "example/rule2": "error"
                 }
             }
-        ],
-    },
+        ]
+    }
 };
 ```
 
@@ -232,7 +228,7 @@ import example from "eslint-plugin-example";
 
 export default [
     example.configs.recommended, // Object, so don't spread
-    ...example.configs.extendedConfig, // Array, so needs spreading
+    ...example.configs.extendedConfig // Array, so needs spreading
 ];
 ```
 
@@ -283,7 +279,7 @@ Object.assign(plugin.configs, {
             }
         }
     }
-})
+});
 
 // for ESM
 export default plugin;
@@ -298,7 +294,6 @@ Your users can then use this exported config like this:
 import example from "eslint-plugin-example";
 
 export default [
-
     // use the mocha globals
     example.configs.mocha,
 
@@ -325,6 +320,6 @@ If your plugin needs to work with both the old and new configuration systems, th
 
 ## Further Reading
 
-* [Overview of the flat config file format blog post](https://eslint.org/blog/2022/08/new-config-system-part-2/)
-* [API usage of new configuration system blog post](https://eslint.org/blog/2022/08/new-config-system-part-3/)
-* [Background to new configuration system blog post](https://eslint.org/blog/2022/08/new-config-system-part-1/)
+-   [Overview of the flat config file format blog post](https://eslint.org/blog/2022/08/new-config-system-part-2/)
+-   [API usage of new configuration system blog post](https://eslint.org/blog/2022/08/new-config-system-part-3/)
+-   [Background to new configuration system blog post](https://eslint.org/blog/2022/08/new-config-system-part-1/)

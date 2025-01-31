@@ -72,7 +72,9 @@ h3 {
 }
 
 code {
-    font: 12pt Courier, monospace;
+    font:
+        12pt Courier,
+        monospace;
 }
 
 blockquote {
@@ -110,11 +112,12 @@ a:visited {
 // }
 
 abbr[title]::after {
-    content: " ("attr(title) ")";
+    content: " (" attr(title) ")";
 }
 
 /* Don't show linked images  */
-a[href^="http://"] {
+a[href^="http://"]
+{
     color: #000;
 }
 
@@ -122,7 +125,7 @@ a[href$=".jpg"]::after,
 a[href$=".jpeg"]::after,
 a[href$=".gif"]::after,
 a[href$=".png"]::after {
-    content: " ("attr(href) ") ";
+    content: " (" attr(href) ") ";
     display: none;
 }
 
@@ -184,7 +187,7 @@ button,
 }
 
 a[href^="http"]:not([href*="eslint.org"])::after {
-    content: " ("attr(href) ")";
+    content: " (" attr(href) ")";
 }
 
 .resource a::after {

@@ -19,14 +19,8 @@ const RuleTester = require("../../../lib/rule-tester/rule-tester");
 const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2018 } });
 
 const loopTemplates = {
-    WhileStatement: [
-        "while (a) <body>",
-        "while (a && b) <body>"
-    ],
-    DoWhileStatement: [
-        "do <body> while (a)",
-        "do <body> while (a && b)"
-    ],
+    WhileStatement: ["while (a) <body>", "while (a && b) <body>"],
+    DoWhileStatement: ["do <body> while (a)", "do <body> while (a && b)"],
     ForStatement: [
         "for (a; b; c) <body>",
         "for (var i = 0; i < a.length; i++) <body>",
@@ -150,17 +144,19 @@ const invalidLoopBodies = [
 function getSourceCode(template, body) {
     const loop = template.replace("<body>", body);
 
-    return body.includes("return") && !template.includes("function") ? `function someFunc() { ${loop} }` : loop;
+    return body.includes("return") && !template.includes("function")
+        ? `function someFunc() { ${loop} }`
+        : loop;
 }
 
 /**
  * Generates basic valid tests from `loopTemplates` and `validLoopBodies`
  * @returns {IterableIterator<string>} The list of source code strings.
  */
-function *getBasicValidTests() {
+function* getBasicValidTests() {
     for (const templates of Object.values(loopTemplates)) {
         for (const template of templates) {
-            yield* validLoopBodies.map(body => getSourceCode(template, body));
+            yield* validLoopBodies.map((body) => getSourceCode(template, body));
         }
     }
 }
@@ -169,22 +165,19 @@ function *getBasicValidTests() {
  * Generates basic invalid tests from `loopTemplates` and `invalidLoopBodies`
  * @returns {IterableIterator<Object>} The list of objects for the invalid[] array.
  */
-function *getBasicInvalidTests() {
+function* getBasicInvalidTests() {
     for (const [type, templates] of Object.entries(loopTemplates)) {
         for (const template of templates) {
-            yield* invalidLoopBodies.map(
-                body => ({
-                    code: getSourceCode(template, body),
-                    errors: [{ type, messageId: "invalid" }]
-                })
-            );
+            yield* invalidLoopBodies.map((body) => ({
+                code: getSourceCode(template, body),
+                errors: [{ type, messageId: "invalid" }]
+            }));
         }
     }
 }
 
 ruleTester.run("no-unreachable-loop", rule, {
     valid: [
-
         ...getBasicValidTests(),
 
         // out of scope for the code path analysis and consequently out of scope for this rule
@@ -229,7 +222,6 @@ ruleTester.run("no-unreachable-loop", rule, {
     ],
 
     invalid: [
-
         ...getBasicInvalidTests(),
 
         // invalid loop nested in a valid loop (valid in valid, and valid in invalid are covered by basic tests)

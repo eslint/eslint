@@ -18,33 +18,34 @@ const rule = require("../../../lib/rules/no-sparse-arrays"),
 const ruleTester = new RuleTester();
 
 ruleTester.run("no-sparse-arrays", rule, {
-
-    valid: [
-        "var a = [ 1, 2, ]"
-    ],
+    valid: ["var a = [ 1, 2, ]"],
 
     invalid: [
         {
             code: "var a = [,];",
-            errors: [{
-                messageId: "unexpectedSparseArray",
-                type: "ArrayExpression",
-                line: 1,
-                column: 10,
-                endLine: 1,
-                endColumn: 11
-            }]
+            errors: [
+                {
+                    messageId: "unexpectedSparseArray",
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 10,
+                    endLine: 1,
+                    endColumn: 11
+                }
+            ]
         },
         {
             code: "var a = [ 1,, 2];",
-            errors: [{
-                messageId: "unexpectedSparseArray",
-                type: "ArrayExpression",
-                line: 1,
-                column: 13,
-                endLine: 1,
-                endColumn: 14
-            }]
+            errors: [
+                {
+                    messageId: "unexpectedSparseArray",
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 13,
+                    endLine: 1,
+                    endColumn: 14
+                }
+            ]
         },
         {
             code: "[\r\n\t/* comment */,\n// comment\n ,];",

@@ -33,7 +33,7 @@
     a:not(.c-btn) {
         text-decoration: none;
         color: inherit;
-        transition: color .2s linear;
+        transition: color 0.2s linear;
         display: block;
 
         &:hover {
@@ -79,9 +79,9 @@
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    margin-left: .5rem;
+    margin-left: 0.5rem;
     margin-right: -10px;
-    margin-inline-start: .5rem;
+    margin-inline-start: 0.5rem;
     margin-inline-end: -10px;
 
     svg {
@@ -97,7 +97,7 @@
     #ham-top,
     #ham-middle,
     #ham-bottom {
-        transition: all .2s linear;
+        transition: all 0.2s linear;
     }
 
     #ham-top {

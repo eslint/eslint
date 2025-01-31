@@ -72,14 +72,25 @@ function markdownItRuleExample({ open, close }) {
                 return typeof text === "string" ? text : "";
             }
 
-            const { type, languageOptionsJSON } = /^\s*(?<type>\S+)(\s+(?<languageOptionsJSON>\S.*?))?\s*$/u.exec(tagToken.info).groups;
-            const languageOptions = languageOptionsJSON ? JSON.parse(languageOptionsJSON) : void 0;
+            const { type, languageOptionsJSON } =
+                /^\s*(?<type>\S+)(\s+(?<languageOptionsJSON>\S.*?))?\s*$/u.exec(
+                    tagToken.info
+                ).groups;
+            const languageOptions = languageOptionsJSON
+                ? JSON.parse(languageOptionsJSON)
+                : void 0;
             const codeBlockToken = tokens[index + 1];
 
             // Remove trailing newline and presentational `⏎` characters (https://github.com/eslint/eslint/issues/17627):
             const code = docsExampleCodeToParsableCode(codeBlockToken.content);
 
-            const text = open({ type, code, languageOptions, codeBlockToken, env });
+            const text = open({
+                type,
+                code,
+                languageOptions,
+                codeBlockToken,
+                env
+            });
 
             // Return an empty string to avoid appending unexpected text to the output.
             return typeof text === "string" ? text : "";

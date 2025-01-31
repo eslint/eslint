@@ -65,7 +65,6 @@ function escapeForMultilineComment(line) {
     return line.replaceAll(
         /(`*)([^`]+)\1/gu,
         (substring, backticks, capture) => {
-
             // In a TSDoc comment, the sequence `*/` ("*" + "/") must be escaped as `*\/`.
             // But escaping inside a markdown code block is not possible, so discard the backticks.
             if (capture.includes("*/")) {
@@ -132,8 +131,12 @@ function getConsideredRuleIds(args) {
         const ruleDir = join(__dirname, "../lib/rules");
 
         ruleIds = args
-            .filter(arg => relative(arg, ruleDir) === ".." && basename(arg) !== "index.js")
-            .map(ruleFile => basename(ruleFile, ".js"));
+            .filter(
+                (arg) =>
+                    relative(arg, ruleDir) === ".." &&
+                    basename(arg) !== "index.js"
+            )
+            .map((ruleFile) => basename(ruleFile, ".js"));
     } else {
         ruleIds = rules.keys();
     }
@@ -153,7 +156,10 @@ function getTSDocRangeMap(sourceText, consideredRuleIds) {
     const ast = ts.createSourceFile("", sourceText);
 
     for (const statement of ast.statements) {
-        if (statement.kind === ts.SyntaxKind.InterfaceDeclaration && extendsRulesRecord(statement)) {
+        if (
+            statement.kind === ts.SyntaxKind.InterfaceDeclaration &&
+            extendsRulesRecord(statement)
+        ) {
             const { members } = statement;
 
             for (const member of members) {
@@ -216,7 +222,10 @@ function createTSDoc(ruleId, currentTSDoc) {
     const ruleMeta = rules.get(ruleId).meta;
     const ruleDocs = ruleMeta.docs;
     const since = added[ruleId];
-    const lines = [escapeForMultilineComment(paraphraseDescription(ruleDocs.description)), ""];
+    const lines = [
+        escapeForMultilineComment(paraphraseDescription(ruleDocs.description)),
+        ""
+    ];
 
     if (ruleDocs.recommended) {
         lines.push(
@@ -229,9 +238,14 @@ function createTSDoc(ruleId, currentTSDoc) {
         lines.push(`@since ${since}`);
     }
     if (ruleMeta.deprecated) {
-        const deprecationNotice = createDeprecationNotice(currentTSDoc, ruleMeta);
+        const deprecationNotice = createDeprecationNotice(
+            currentTSDoc,
+            ruleMeta
+        );
 
-        lines.push(`@deprecated${deprecationNotice ? ` ${deprecationNotice}` : ""}`);
+        lines.push(
+            `@deprecated${deprecationNotice ? ` ${deprecationNotice}` : ""}`
+        );
     }
     lines.push(`@see ${ruleDocs.url}`);
     const newTSDoc = formatTSDoc(lines);
@@ -268,7 +282,9 @@ async function updateTypeDeclaration(ruleTypeFile, consideredRuleIds, check) {
 
     if (newSourceText !== sourceText) {
         if (check) {
-            throw new Error("The rule types are not up-to-date. Please, run `node tools/update-rule-type-headers.js` to fix.");
+            throw new Error(
+                "The rule types are not up-to-date. Please, run `node tools/update-rule-type-headers.js` to fix."
+            );
         }
         await writeFile(ruleTypeFile, newSourceText);
     }
@@ -281,7 +297,7 @@ async function updateTypeDeclaration(ruleTypeFile, consideredRuleIds, check) {
 
 (async () => {
     let check = false;
-    const args = process.argv.slice(2).filter(arg => {
+    const args = process.argv.slice(2).filter((arg) => {
         if (arg === "--check") {
             check = true;
             return false;
@@ -290,26 +306,30 @@ async function updateTypeDeclaration(ruleTypeFile, consideredRuleIds, check) {
     });
     const consideredRuleIds = getConsideredRuleIds(args);
     const ruleTypeDir = join(__dirname, "../lib/types/rules");
-    const fileNames = (await readdir(ruleTypeDir)).filter(fileName => extname(fileName) === ".ts");
+    const fileNames = (await readdir(ruleTypeDir)).filter(
+        (fileName) => extname(fileName) === ".ts"
+    );
     const typedRuleIds = new Set();
     const repeatedRuleIds = new Set();
     const untypedRuleIds = [];
 
     console.log(`Considering ${consideredRuleIds.size} rule(s).`);
     await Promise.all(
-        fileNames.map(
-            async fileName => {
-                const ruleIds = await updateTypeDeclaration(join(ruleTypeDir, fileName), consideredRuleIds, check);
+        fileNames.map(async (fileName) => {
+            const ruleIds = await updateTypeDeclaration(
+                join(ruleTypeDir, fileName),
+                consideredRuleIds,
+                check
+            );
 
-                for (const ruleId of ruleIds) {
-                    if (typedRuleIds.has(ruleId)) {
-                        repeatedRuleIds.add(ruleId);
-                    } else {
-                        typedRuleIds.add(ruleId);
-                    }
+            for (const ruleId of ruleIds) {
+                if (typedRuleIds.has(ruleId)) {
+                    repeatedRuleIds.add(ruleId);
+                } else {
+                    typedRuleIds.add(ruleId);
                 }
             }
-        )
+        })
     );
     for (const ruleId of consideredRuleIds) {
         if (!typedRuleIds.has(ruleId)) {
@@ -319,14 +339,14 @@ async function updateTypeDeclaration(ruleTypeFile, consideredRuleIds, check) {
     if (repeatedRuleIds.size) {
         console.warn(
             "The following rules have multiple type definition:%s",
-            [...repeatedRuleIds].map(ruleId => `\n* ${ruleId}`).join("")
+            [...repeatedRuleIds].map((ruleId) => `\n* ${ruleId}`).join("")
         );
         process.exitCode = 1;
     }
     if (untypedRuleIds.length) {
         console.warn(
             "The following rules have no type definition:%s",
-            untypedRuleIds.map(ruleId => `\n* ${ruleId}`).join("")
+            untypedRuleIds.map((ruleId) => `\n* ${ruleId}`).join("")
         );
         process.exitCode = 1;
     }

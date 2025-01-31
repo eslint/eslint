@@ -3,5 +3,5 @@
   entry: eslint
   description: "An AST-based pattern checker for JavaScript."
   language: node
-  types: ['javascript']
+  types: ["javascript"]
   require_serial: false

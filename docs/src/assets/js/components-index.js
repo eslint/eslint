@@ -1,4 +1,4 @@
-(function() {
+(function () {
     var index_trigger = document.getElementById("js-index-toggle"),
         index = document.getElementById("js-index-list"),
         body = document.getElementsByTagName("body")[0],
@@ -6,7 +6,7 @@
 
     if (matchMedia) {
         const mq = window.matchMedia("(max-width: 1023px)");
-        mq.addEventListener('change', WidthChange);
+        mq.addEventListener("change", WidthChange);
         WidthChange(mq);
     }
 

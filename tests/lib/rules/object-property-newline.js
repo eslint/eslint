@@ -19,9 +19,7 @@ const rule = require("../../../lib/rules/object-property-newline"),
 const ruleTester = new RuleTester();
 
 ruleTester.run("object-property-newline", rule, {
-
     valid: [
-
         // default-case
         "var obj = {\nk1: 'val1',\nk2: 'val2',\nk3: 'val3',\nk4: 'val4'\n};",
         "var obj = {\nk1: 'val1'\n, k2: 'val2'\n, k3: 'val3'\n, k4: 'val4'\n};",
@@ -30,45 +28,129 @@ ruleTester.run("object-property-newline", rule, {
         "var obj = { k1: 'val1' };",
         "var obj = {\nk1: 'val1'\n};",
         "var obj = {};",
-        { code: "var obj = {\n[bar]: 'baz',\nbaz\n};", languageOptions: { ecmaVersion: 6 } },
-        { code: "var obj = {\nk1: 'val1',\nk2: 'val2',\n...{}\n};", languageOptions: { ecmaVersion: 2018 } },
-        { code: "var obj = { k1: 'val1',\nk2: 'val2',\n...{} };", languageOptions: { ecmaVersion: 2018 } },
-        { code: "var obj = { ...{} };", languageOptions: { ecmaVersion: 2018 } },
+        {
+            code: "var obj = {\n[bar]: 'baz',\nbaz\n};",
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var obj = {\nk1: 'val1',\nk2: 'val2',\n...{}\n};",
+            languageOptions: { ecmaVersion: 2018 }
+        },
+        {
+            code: "var obj = { k1: 'val1',\nk2: 'val2',\n...{} };",
+            languageOptions: { ecmaVersion: 2018 }
+        },
+        {
+            code: "var obj = { ...{} };",
+            languageOptions: { ecmaVersion: 2018 }
+        },
         "foo({ k1: 'val1',\nk2: 'val2' });",
         "foo({\nk1: 'val1',\nk2: 'val2'\n});",
         { code: "foo({\na,\nb\n});", languageOptions: { ecmaVersion: 6 } },
         { code: "foo({\na,\nb,\n});", languageOptions: { ecmaVersion: 6 } },
-        { code: "foo({\nbar() {},\nbaz\n});", languageOptions: { ecmaVersion: 6 } },
-        { code: "foo({\n[bar]: 'baz',\nbaz \n})", languageOptions: { ecmaVersion: 6 } },
-        { code: "foo({\nk1: 'val1',\nk2: 'val2',\n...{}\n});", languageOptions: { ecmaVersion: 2018 } },
-        { code: "foo({ k1: 'val1',\nk2: 'val2',\n...{} });", languageOptions: { ecmaVersion: 2018 } },
+        {
+            code: "foo({\nbar() {},\nbaz\n});",
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "foo({\n[bar]: 'baz',\nbaz \n})",
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "foo({\nk1: 'val1',\nk2: 'val2',\n...{}\n});",
+            languageOptions: { ecmaVersion: 2018 }
+        },
+        {
+            code: "foo({ k1: 'val1',\nk2: 'val2',\n...{} });",
+            languageOptions: { ecmaVersion: 2018 }
+        },
         { code: "foo({ ...{} });", languageOptions: { ecmaVersion: 2018 } },
 
         // allowAllPropertiesOnSameLine: true
-        { code: "var obj = { k1: 'val1', k2: 'val2', k3: 'val3' };", options: [{ allowAllPropertiesOnSameLine: true }] },
-        { code: "var obj = {\nk1: 'val1', k2: 'val2', k3: 'val3'\n};", options: [{ allowAllPropertiesOnSameLine: true }] },
-        { code: "var obj = { k1: 'val1' };", options: [{ allowAllPropertiesOnSameLine: true }] },
-        { code: "var obj = {\nk1: 'val1'\n};", options: [{ allowAllPropertiesOnSameLine: true }] },
-        { code: "var obj = {};", options: [{ allowAllPropertiesOnSameLine: true }] },
-        { code: "var obj = { 'k1': 'val1', k2: 'val2', ...{} };", options: [{ allowAllPropertiesOnSameLine: true }], languageOptions: { ecmaVersion: 2018 } },
-        { code: "var obj = {\n'k1': 'val1', k2: 'val2', ...{}\n};", options: [{ allowAllPropertiesOnSameLine: true }], languageOptions: { ecmaVersion: 2018 } },
-        { code: "foo({ k1: 'val1', k2: 'val2' });", options: [{ allowAllPropertiesOnSameLine: true }] },
-        { code: "foo({\nk1: 'val1', k2: 'val2'\n});", options: [{ allowAllPropertiesOnSameLine: true }] },
-        { code: "foo({ a, b });", options: [{ allowAllPropertiesOnSameLine: true }], languageOptions: { ecmaVersion: 6 } },
-        { code: "foo({ bar() {}, baz });", options: [{ allowAllPropertiesOnSameLine: true }], languageOptions: { ecmaVersion: 6 } },
-        { code: "foo({ [bar]: 'baz', baz })", options: [{ allowAllPropertiesOnSameLine: true }], languageOptions: { ecmaVersion: 6 } },
-        { code: "foo({ 'k1': 'val1', k2: 'val2', ...{} });", options: [{ allowAllPropertiesOnSameLine: true }], languageOptions: { ecmaVersion: 2018 } },
-        { code: "foo({\n'k1': 'val1', k2: 'val2', ...{}\n});", options: [{ allowAllPropertiesOnSameLine: true }], languageOptions: { ecmaVersion: 2018 } },
-        { code: "var obj = {k1: ['foo', 'bar'], k2: 'val1', k3: 'val2'};", options: [{ allowAllPropertiesOnSameLine: true }] },
-        { code: "var obj = {\nk1: ['foo', 'bar'], k2: 'val1', k3: 'val2'\n};", options: [{ allowAllPropertiesOnSameLine: true }] },
-        { code: "var obj = {\nk1: 'val1', k2: {e1: 'foo', e2: 'bar'}, k3: 'val2'\n};", options: [{ allowAllPropertiesOnSameLine: true }] },
+        {
+            code: "var obj = { k1: 'val1', k2: 'val2', k3: 'val3' };",
+            options: [{ allowAllPropertiesOnSameLine: true }]
+        },
+        {
+            code: "var obj = {\nk1: 'val1', k2: 'val2', k3: 'val3'\n};",
+            options: [{ allowAllPropertiesOnSameLine: true }]
+        },
+        {
+            code: "var obj = { k1: 'val1' };",
+            options: [{ allowAllPropertiesOnSameLine: true }]
+        },
+        {
+            code: "var obj = {\nk1: 'val1'\n};",
+            options: [{ allowAllPropertiesOnSameLine: true }]
+        },
+        {
+            code: "var obj = {};",
+            options: [{ allowAllPropertiesOnSameLine: true }]
+        },
+        {
+            code: "var obj = { 'k1': 'val1', k2: 'val2', ...{} };",
+            options: [{ allowAllPropertiesOnSameLine: true }],
+            languageOptions: { ecmaVersion: 2018 }
+        },
+        {
+            code: "var obj = {\n'k1': 'val1', k2: 'val2', ...{}\n};",
+            options: [{ allowAllPropertiesOnSameLine: true }],
+            languageOptions: { ecmaVersion: 2018 }
+        },
+        {
+            code: "foo({ k1: 'val1', k2: 'val2' });",
+            options: [{ allowAllPropertiesOnSameLine: true }]
+        },
+        {
+            code: "foo({\nk1: 'val1', k2: 'val2'\n});",
+            options: [{ allowAllPropertiesOnSameLine: true }]
+        },
+        {
+            code: "foo({ a, b });",
+            options: [{ allowAllPropertiesOnSameLine: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "foo({ bar() {}, baz });",
+            options: [{ allowAllPropertiesOnSameLine: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "foo({ [bar]: 'baz', baz })",
+            options: [{ allowAllPropertiesOnSameLine: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "foo({ 'k1': 'val1', k2: 'val2', ...{} });",
+            options: [{ allowAllPropertiesOnSameLine: true }],
+            languageOptions: { ecmaVersion: 2018 }
+        },
+        {
+            code: "foo({\n'k1': 'val1', k2: 'val2', ...{}\n});",
+            options: [{ allowAllPropertiesOnSameLine: true }],
+            languageOptions: { ecmaVersion: 2018 }
+        },
+        {
+            code: "var obj = {k1: ['foo', 'bar'], k2: 'val1', k3: 'val2'};",
+            options: [{ allowAllPropertiesOnSameLine: true }]
+        },
+        {
+            code: "var obj = {\nk1: ['foo', 'bar'], k2: 'val1', k3: 'val2'\n};",
+            options: [{ allowAllPropertiesOnSameLine: true }]
+        },
+        {
+            code: "var obj = {\nk1: 'val1', k2: {e1: 'foo', e2: 'bar'}, k3: 'val2'\n};",
+            options: [{ allowAllPropertiesOnSameLine: true }]
+        },
 
         // allowMultiplePropertiesPerLine: true (deprecated)
-        { code: "var obj = { k1: 'val1', k2: 'val2', k3: 'val3' };", options: [{ allowMultiplePropertiesPerLine: true }] }
+        {
+            code: "var obj = { k1: 'val1', k2: 'val2', k3: 'val3' };",
+            options: [{ allowMultiplePropertiesPerLine: true }]
+        }
     ],
 
     invalid: [
-
         // default-case
         {
             code: "var obj = { k1: 'val1', k2: 'val2', k3: 'val3' };",

@@ -25,10 +25,10 @@ const ruleTester = new RuleTester({
 
 ruleTester.run("camelcase", rule, {
     valid: [
-        "firstName = \"Nicholas\"",
-        "FIRST_NAME = \"Nicholas\"",
-        "__myPrivateVariable = \"Patrick\"",
-        "myPrivateVariable_ = \"Patrick\"",
+        'firstName = "Nicholas"',
+        'FIRST_NAME = "Nicholas"',
+        '__myPrivateVariable = "Patrick"',
+        'myPrivateVariable_ = "Patrick"',
         "function doSomething(){}",
         "do_something()",
         "new do_something",
@@ -137,31 +137,31 @@ ruleTester.run("camelcase", rule, {
             languageOptions: { ecmaVersion: 6 }
         },
         {
-            code: "import { camelCased } from \"external module\";",
+            code: 'import { camelCased } from "external module";',
             languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
-            code: "import { _leading } from \"external module\";",
+            code: 'import { _leading } from "external module";',
             languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
-            code: "import { trailing_ } from \"external module\";",
+            code: 'import { trailing_ } from "external module";',
             languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
-            code: "import { no_camelcased as camelCased } from \"external-module\";",
+            code: 'import { no_camelcased as camelCased } from "external-module";',
             languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
-            code: "import { no_camelcased as _leading } from \"external-module\";",
+            code: 'import { no_camelcased as _leading } from "external-module";',
             languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
-            code: "import { no_camelcased as trailing_ } from \"external-module\";",
+            code: 'import { no_camelcased as trailing_ } from "external-module";',
             languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
-            code: "import { no_camelcased as camelCased, anotherCamelCased } from \"external-module\";",
+            code: 'import { no_camelcased as camelCased, anotherCamelCased } from "external-module";',
             languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
@@ -233,7 +233,13 @@ ruleTester.run("camelcase", rule, {
         {
             code: "( { foo: a_global_variable.bar } = baz )",
             options: [{ ignoreGlobals: true }],
-            languageOptions: { ecmaVersion: 6, globals: { a_global_variable: "readonly" } } // eslint-disable-line camelcase -- Testing non-CamelCase
+            languageOptions: {
+                ecmaVersion: 6,
+                globals: {
+                    // eslint-disable-next-line camelcase -- Testing non-CamelCase
+                    a_global_variable: "readonly"
+                }
+            }
         },
         {
             code: "a_global_variable = foo",
@@ -248,27 +254,57 @@ ruleTester.run("camelcase", rule, {
         {
             code: "({ a_global_variable } = foo)",
             options: [{ ignoreGlobals: true }],
-            languageOptions: { ecmaVersion: 6, globals: { a_global_variable: "writable" } } // eslint-disable-line camelcase -- Testing non-CamelCase
+            languageOptions: {
+                ecmaVersion: 6,
+                globals: {
+                    // eslint-disable-next-line camelcase -- Testing non-CamelCase
+                    a_global_variable: "writable"
+                }
+            }
         },
         {
             code: "({ snake_cased: a_global_variable } = foo)",
             options: [{ ignoreGlobals: true }],
-            languageOptions: { ecmaVersion: 6, globals: { a_global_variable: "writable" } } // eslint-disable-line camelcase -- Testing non-CamelCase
+            languageOptions: {
+                ecmaVersion: 6,
+                globals: {
+                    // eslint-disable-next-line camelcase -- Testing non-CamelCase
+                    a_global_variable: "writable"
+                }
+            }
         },
         {
             code: "({ snake_cased: a_global_variable = foo } = bar)",
             options: [{ ignoreGlobals: true }],
-            languageOptions: { ecmaVersion: 6, globals: { a_global_variable: "writable" } } // eslint-disable-line camelcase -- Testing non-CamelCase
+            languageOptions: {
+                ecmaVersion: 6,
+                globals: {
+                    // eslint-disable-next-line camelcase -- Testing non-CamelCase
+                    a_global_variable: "writable"
+                }
+            }
         },
         {
             code: "[a_global_variable] = bar",
             options: [{ ignoreGlobals: true }],
-            languageOptions: { ecmaVersion: 6, globals: { a_global_variable: "writable" } } // eslint-disable-line camelcase -- Testing non-CamelCase
+            languageOptions: {
+                ecmaVersion: 6,
+                globals: {
+                    // eslint-disable-next-line camelcase -- Testing non-CamelCase
+                    a_global_variable: "writable"
+                }
+            }
         },
         {
             code: "[a_global_variable = foo] = bar",
             options: [{ ignoreGlobals: true }],
-            languageOptions: { ecmaVersion: 6, globals: { a_global_variable: "writable" } } // eslint-disable-line camelcase -- Testing non-CamelCase
+            languageOptions: {
+                ecmaVersion: 6,
+                globals: {
+                    // eslint-disable-next-line camelcase -- Testing non-CamelCase
+                    a_global_variable: "writable"
+                }
+            }
         },
         {
             code: "foo[a_global_variable] = bar",
@@ -278,12 +314,24 @@ ruleTester.run("camelcase", rule, {
         {
             code: "var foo = { [a_global_variable]: bar }",
             options: [{ ignoreGlobals: true }],
-            languageOptions: { ecmaVersion: 6, globals: { a_global_variable: "readonly" } } // eslint-disable-line camelcase -- Testing non-CamelCase
+            languageOptions: {
+                ecmaVersion: 6,
+                globals: {
+                    // eslint-disable-next-line camelcase -- Testing non-CamelCase
+                    a_global_variable: "readonly"
+                }
+            }
         },
         {
             code: "var { [a_global_variable]: foo } = bar",
             options: [{ ignoreGlobals: true }],
-            languageOptions: { ecmaVersion: 6, globals: { a_global_variable: "readonly" } } // eslint-disable-line camelcase -- Testing non-CamelCase
+            languageOptions: {
+                ecmaVersion: 6,
+                globals: {
+                    // eslint-disable-next-line camelcase -- Testing non-CamelCase
+                    a_global_variable: "readonly"
+                }
+            }
         },
         {
             code: "function foo({ no_camelcased: camelCased }) {};",
@@ -450,58 +498,72 @@ ruleTester.run("camelcase", rule, {
         // Import attribute keys
         {
             code: "import foo from 'foo.json' with { my_type: 'json' }",
-            options: [{
-                properties: "always",
-                ignoreImports: false
-            }],
+            options: [
+                {
+                    properties: "always",
+                    ignoreImports: false
+                }
+            ],
             languageOptions: { ecmaVersion: 2025, sourceType: "module" }
         },
         {
             code: "export * from 'foo.json' with { my_type: 'json' }",
-            options: [{
-                properties: "always",
-                ignoreImports: false
-            }],
+            options: [
+                {
+                    properties: "always",
+                    ignoreImports: false
+                }
+            ],
             languageOptions: { ecmaVersion: 2025, sourceType: "module" }
         },
         {
             code: "export { default } from 'foo.json' with { my_type: 'json' }",
-            options: [{
-                properties: "always",
-                ignoreImports: false
-            }],
+            options: [
+                {
+                    properties: "always",
+                    ignoreImports: false
+                }
+            ],
             languageOptions: { ecmaVersion: 2025, sourceType: "module" }
         },
         {
             code: "import('foo.json', { my_with: { my_type: 'json' } })",
-            options: [{
-                properties: "always",
-                ignoreImports: false
-            }],
+            options: [
+                {
+                    properties: "always",
+                    ignoreImports: false
+                }
+            ],
             languageOptions: { ecmaVersion: 2025 }
         },
         {
             code: "import('foo.json', { 'with': { my_type: 'json' } })",
-            options: [{
-                properties: "always",
-                ignoreImports: false
-            }],
+            options: [
+                {
+                    properties: "always",
+                    ignoreImports: false
+                }
+            ],
             languageOptions: { ecmaVersion: 2025 }
         },
         {
             code: "import('foo.json', { my_with: { my_type } })",
-            options: [{
-                properties: "always",
-                ignoreImports: false
-            }],
+            options: [
+                {
+                    properties: "always",
+                    ignoreImports: false
+                }
+            ],
             languageOptions: { ecmaVersion: 2025 }
         },
         {
             code: "import('foo.json', { my_with: { my_type } })",
-            options: [{
-                properties: "always",
-                ignoreImports: false
-            }],
+            options: [
+                {
+                    properties: "always",
+                    ignoreImports: false
+                }
+            ],
             languageOptions: {
                 ecmaVersion: 2025,
                 globals: {
@@ -512,7 +574,7 @@ ruleTester.run("camelcase", rule, {
     ],
     invalid: [
         {
-            code: "first_name = \"Nicholas\"",
+            code: 'first_name = "Nicholas"',
             errors: [
                 {
                     messageId: "notCamelCase",
@@ -522,7 +584,7 @@ ruleTester.run("camelcase", rule, {
             ]
         },
         {
-            code: "__private_first_name = \"Patrick\"",
+            code: '__private_first_name = "Patrick"',
             errors: [
                 {
                     messageId: "notCamelCase",
@@ -736,7 +798,7 @@ ruleTester.run("camelcase", rule, {
             ]
         },
         {
-            code: "import no_camelcased from \"external-module\";",
+            code: 'import no_camelcased from "external-module";',
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
@@ -747,7 +809,7 @@ ruleTester.run("camelcase", rule, {
             ]
         },
         {
-            code: "import * as no_camelcased from \"external-module\";",
+            code: 'import * as no_camelcased from "external-module";',
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
@@ -758,7 +820,7 @@ ruleTester.run("camelcase", rule, {
             ]
         },
         {
-            code: "import { no_camelcased } from \"external-module\";",
+            code: 'import { no_camelcased } from "external-module";',
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
@@ -769,7 +831,7 @@ ruleTester.run("camelcase", rule, {
             ]
         },
         {
-            code: "import { no_camelcased as no_camel_cased } from \"external module\";",
+            code: 'import { no_camelcased as no_camel_cased } from "external module";',
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
@@ -780,7 +842,7 @@ ruleTester.run("camelcase", rule, {
             ]
         },
         {
-            code: "import { camelCased as no_camel_cased } from \"external module\";",
+            code: 'import { camelCased as no_camel_cased } from "external module";',
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
@@ -814,7 +876,7 @@ ruleTester.run("camelcase", rule, {
             ]
         },
         {
-            code: "import { camelCased, no_camelcased } from \"external-module\";",
+            code: 'import { camelCased, no_camelcased } from "external-module";',
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
@@ -825,7 +887,7 @@ ruleTester.run("camelcase", rule, {
             ]
         },
         {
-            code: "import { no_camelcased as camelCased, another_no_camelcased } from \"external-module\";",
+            code: 'import { no_camelcased as camelCased, another_no_camelcased } from "external-module";',
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
@@ -836,7 +898,7 @@ ruleTester.run("camelcase", rule, {
             ]
         },
         {
-            code: "import camelCased, { no_camelcased } from \"external-module\";",
+            code: 'import camelCased, { no_camelcased } from "external-module";',
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
@@ -847,7 +909,7 @@ ruleTester.run("camelcase", rule, {
             ]
         },
         {
-            code: "import no_camelcased, { another_no_camelcased as camelCased } from \"external-module\";",
+            code: 'import no_camelcased, { another_no_camelcased as camelCased } from "external-module";',
             languageOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
@@ -1004,7 +1066,13 @@ ruleTester.run("camelcase", rule, {
         {
             code: "var foo = { a_global_variable() {} }",
             options: [{ ignoreGlobals: true }],
-            languageOptions: { ecmaVersion: 6, globals: { a_global_variable: "writable" } }, // eslint-disable-line camelcase -- Testing non-CamelCase
+            languageOptions: {
+                ecmaVersion: 6,
+                globals: {
+                    // eslint-disable-next-line camelcase -- Testing non-CamelCase
+                    a_global_variable: "writable"
+                }
+            },
             errors: [
                 {
                     messageId: "notCamelCase",
@@ -1016,7 +1084,13 @@ ruleTester.run("camelcase", rule, {
         {
             code: "class Foo { a_global_variable() {} }",
             options: [{ ignoreGlobals: true }],
-            languageOptions: { ecmaVersion: 6, globals: { a_global_variable: "writable" } }, // eslint-disable-line camelcase -- Testing non-CamelCase
+            languageOptions: {
+                ecmaVersion: 6,
+                globals: {
+                    // eslint-disable-next-line camelcase -- Testing non-CamelCase
+                    a_global_variable: "writable"
+                }
+            },
             errors: [
                 {
                     messageId: "notCamelCase",
@@ -1040,7 +1114,13 @@ ruleTester.run("camelcase", rule, {
         {
             code: "if (foo) { let a_global_variable; a_global_variable = bar; }",
             options: [{ ignoreGlobals: true }],
-            languageOptions: { ecmaVersion: 6, globals: { a_global_variable: "writable" } }, // eslint-disable-line camelcase -- Testing non-CamelCase
+            languageOptions: {
+                ecmaVersion: 6,
+                globals: {
+                    // eslint-disable-next-line camelcase -- Testing non-CamelCase
+                    a_global_variable: "writable"
+                }
+            },
             errors: [
                 {
                     messageId: "notCamelCase",
@@ -1059,7 +1139,13 @@ ruleTester.run("camelcase", rule, {
         {
             code: "function foo(a_global_variable) { foo = a_global_variable; }",
             options: [{ ignoreGlobals: true }],
-            languageOptions: { ecmaVersion: 6, globals: { a_global_variable: "writable" } }, // eslint-disable-line camelcase -- Testing non-CamelCase
+            languageOptions: {
+                ecmaVersion: 6,
+                globals: {
+                    // eslint-disable-next-line camelcase -- Testing non-CamelCase
+                    a_global_variable: "writable"
+                }
+            },
             errors: [
                 {
                     messageId: "notCamelCase",
@@ -1102,7 +1188,13 @@ ruleTester.run("camelcase", rule, {
         {
             code: "const a_global_variable = foo; bar = a_global_variable",
             options: [{ ignoreGlobals: true }],
-            languageOptions: { ecmaVersion: 6, globals: { a_global_variable: "writable" } }, // eslint-disable-line camelcase -- Testing non-CamelCase
+            languageOptions: {
+                ecmaVersion: 6,
+                globals: {
+                    // eslint-disable-next-line camelcase -- Testing non-CamelCase
+                    a_global_variable: "writable"
+                }
+            },
             errors: [
                 {
                     messageId: "notCamelCase",
@@ -1121,7 +1213,13 @@ ruleTester.run("camelcase", rule, {
         {
             code: "bar = a_global_variable; var a_global_variable;",
             options: [{ ignoreGlobals: true }],
-            languageOptions: { ecmaVersion: 6, globals: { a_global_variable: "writable" } }, // eslint-disable-line camelcase -- Testing non-CamelCase
+            languageOptions: {
+                ecmaVersion: 6,
+                globals: {
+                    // eslint-disable-next-line camelcase -- Testing non-CamelCase
+                    a_global_variable: "writable"
+                }
+            },
             errors: [
                 {
                     messageId: "notCamelCase",
@@ -1140,7 +1238,13 @@ ruleTester.run("camelcase", rule, {
         {
             code: "var foo = { a_global_variable }",
             options: [{ ignoreGlobals: true }],
-            languageOptions: { ecmaVersion: 6, globals: { a_global_variable: "readonly" } }, // eslint-disable-line camelcase -- Testing non-CamelCase
+            languageOptions: {
+                ecmaVersion: 6,
+                globals: {
+                    // eslint-disable-next-line camelcase -- Testing non-CamelCase
+                    a_global_variable: "readonly"
+                }
+            },
             errors: [
                 {
                     messageId: "notCamelCase",
@@ -1483,13 +1587,17 @@ ruleTester.run("camelcase", rule, {
             code: "obj.o_k.non_camelcase = 0",
             options: [{ properties: "always" }],
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "notCamelCase", data: { name: "non_camelcase" } }]
+            errors: [
+                { messageId: "notCamelCase", data: { name: "non_camelcase" } }
+            ]
         },
         {
             code: "(obj?.o_k).non_camelcase = 0",
             options: [{ properties: "always" }],
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "notCamelCase", data: { name: "non_camelcase" } }]
+            errors: [
+                { messageId: "notCamelCase", data: { name: "non_camelcase" } }
+            ]
         },
 
         // class public/private fields, private methods.
@@ -1497,19 +1605,32 @@ ruleTester.run("camelcase", rule, {
             code: "class C { snake_case; }",
             options: [{ properties: "always" }],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{ messageId: "notCamelCase", data: { name: "snake_case" } }]
+            errors: [
+                { messageId: "notCamelCase", data: { name: "snake_case" } }
+            ]
         },
         {
             code: "class C { #snake_case; foo() { this.#snake_case; } }",
             options: [{ properties: "always" }],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{ messageId: "notCamelCasePrivate", data: { name: "snake_case" }, column: 11 }]
+            errors: [
+                {
+                    messageId: "notCamelCasePrivate",
+                    data: { name: "snake_case" },
+                    column: 11
+                }
+            ]
         },
         {
             code: "class C { #snake_case() {} }",
             options: [{ properties: "always" }],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{ messageId: "notCamelCasePrivate", data: { name: "snake_case" } }]
+            errors: [
+                {
+                    messageId: "notCamelCasePrivate",
+                    data: { name: "snake_case" }
+                }
+            ]
         },
 
         // Combinations of `properties` and `ignoreDestructuring`
@@ -1587,10 +1708,12 @@ ruleTester.run("camelcase", rule, {
         // Not an import attribute key
         {
             code: "import('foo.json', { my_with: { [my_type]: 'json' } })",
-            options: [{
-                properties: "always",
-                ignoreImports: false
-            }],
+            options: [
+                {
+                    properties: "always",
+                    ignoreImports: false
+                }
+            ],
             languageOptions: { ecmaVersion: 2025 },
             errors: [
                 {
@@ -1602,10 +1725,12 @@ ruleTester.run("camelcase", rule, {
         },
         {
             code: "import('foo.json', { my_with: { my_type: my_json } })",
-            options: [{
-                properties: "always",
-                ignoreImports: false
-            }],
+            options: [
+                {
+                    properties: "always",
+                    ignoreImports: false
+                }
+            ],
             languageOptions: { ecmaVersion: 2025 },
             errors: [
                 {

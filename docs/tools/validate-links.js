@@ -30,8 +30,9 @@ const skipPatterns = [
  * @returns {boolean} `true` if the report contains any of `skipPatterns`.
  */
 function skipFilter(report) {
-    return Object.values(report).some(value =>
-        skipPatterns.some(pattern => String(value).includes(pattern)));
+    return Object.values(report).some((value) =>
+        skipPatterns.some((pattern) => String(value).includes(pattern))
+    );
 }
 
 (async () => {

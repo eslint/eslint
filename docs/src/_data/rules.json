@@ -1706,9 +1706,7 @@
         },
         {
             "name": "id-blacklist",
-            "replacedBy": [
-                "id-denylist"
-            ],
+            "replacedBy": ["id-denylist"],
             "fixable": false,
             "hasSuggestions": false
         },
@@ -1726,9 +1724,7 @@
         },
         {
             "name": "indent-legacy",
-            "replacedBy": [
-                "indent"
-            ],
+            "replacedBy": ["indent"],
             "fixable": true,
             "hasSuggestions": false
         },
@@ -1770,9 +1766,7 @@
         },
         {
             "name": "lines-around-directive",
-            "replacedBy": [
-                "padding-line-between-statements"
-            ],
+            "replacedBy": ["padding-line-between-statements"],
             "fixable": true,
             "hasSuggestions": false
         },
@@ -1814,17 +1808,13 @@
         },
         {
             "name": "newline-after-var",
-            "replacedBy": [
-                "padding-line-between-statements"
-            ],
+            "replacedBy": ["padding-line-between-statements"],
             "fixable": true,
             "hasSuggestions": false
         },
         {
             "name": "newline-before-return",
-            "replacedBy": [
-                "padding-line-between-statements"
-            ],
+            "replacedBy": ["padding-line-between-statements"],
             "fixable": true,
             "hasSuggestions": false
         },
@@ -1842,9 +1832,7 @@
         },
         {
             "name": "no-catch-shadow",
-            "replacedBy": [
-                "no-shadow"
-            ],
+            "replacedBy": ["no-shadow"],
             "fixable": false,
             "hasSuggestions": false
         },
@@ -1904,25 +1892,19 @@
         },
         {
             "name": "no-native-reassign",
-            "replacedBy": [
-                "no-global-assign"
-            ],
+            "replacedBy": ["no-global-assign"],
             "fixable": false,
             "hasSuggestions": false
         },
         {
             "name": "no-negated-in-lhs",
-            "replacedBy": [
-                "no-unsafe-negation"
-            ],
+            "replacedBy": ["no-unsafe-negation"],
             "fixable": false,
             "hasSuggestions": false
         },
         {
             "name": "no-new-object",
-            "replacedBy": [
-                "no-object-constructor"
-            ],
+            "replacedBy": ["no-object-constructor"],
             "fixable": false,
             "hasSuggestions": false
         },
@@ -1934,9 +1916,7 @@
         },
         {
             "name": "no-new-symbol",
-            "replacedBy": [
-                "no-new-native-nonconstructor"
-            ],
+            "replacedBy": ["no-new-native-nonconstructor"],
             "fixable": false,
             "hasSuggestions": false
         },
@@ -1972,9 +1952,7 @@
         },
         {
             "name": "no-spaced-func",
-            "replacedBy": [
-                "func-call-spacing"
-            ],
+            "replacedBy": ["func-call-spacing"],
             "fixable": true,
             "hasSuggestions": false
         },
@@ -2168,113 +2146,75 @@
     "removed": [
         {
             "removed": "generator-star",
-            "replacedBy": [
-                "generator-star-spacing"
-            ]
+            "replacedBy": ["generator-star-spacing"]
         },
         {
             "removed": "global-strict",
-            "replacedBy": [
-                "strict"
-            ]
+            "replacedBy": ["strict"]
         },
         {
             "removed": "no-arrow-condition",
-            "replacedBy": [
-                "no-confusing-arrow",
-                "no-constant-condition"
-            ]
+            "replacedBy": ["no-confusing-arrow", "no-constant-condition"]
         },
         {
             "removed": "no-comma-dangle",
-            "replacedBy": [
-                "comma-dangle"
-            ]
+            "replacedBy": ["comma-dangle"]
         },
         {
             "removed": "no-empty-class",
-            "replacedBy": [
-                "no-empty-character-class"
-            ]
+            "replacedBy": ["no-empty-character-class"]
         },
         {
             "removed": "no-empty-label",
-            "replacedBy": [
-                "no-labels"
-            ]
+            "replacedBy": ["no-labels"]
         },
         {
             "removed": "no-extra-strict",
-            "replacedBy": [
-                "strict"
-            ]
+            "replacedBy": ["strict"]
         },
         {
             "removed": "no-reserved-keys",
-            "replacedBy": [
-                "quote-props"
-            ]
+            "replacedBy": ["quote-props"]
         },
         {
             "removed": "no-space-before-semi",
-            "replacedBy": [
-                "semi-spacing"
-            ]
+            "replacedBy": ["semi-spacing"]
         },
         {
             "removed": "no-wrap-func",
-            "replacedBy": [
-                "no-extra-parens"
-            ]
+            "replacedBy": ["no-extra-parens"]
         },
         {
             "removed": "space-after-function-name",
-            "replacedBy": [
-                "space-before-function-paren"
-            ]
+            "replacedBy": ["space-before-function-paren"]
         },
         {
             "removed": "space-after-keywords",
-            "replacedBy": [
-                "keyword-spacing"
-            ]
+            "replacedBy": ["keyword-spacing"]
         },
         {
             "removed": "space-before-function-parentheses",
-            "replacedBy": [
-                "space-before-function-paren"
-            ]
+            "replacedBy": ["space-before-function-paren"]
         },
         {
             "removed": "space-before-keywords",
-            "replacedBy": [
-                "keyword-spacing"
-            ]
+            "replacedBy": ["keyword-spacing"]
         },
         {
             "removed": "space-in-brackets",
-            "replacedBy": [
-                "object-curly-spacing",
-                "array-bracket-spacing"
-            ]
+            "replacedBy": ["object-curly-spacing", "array-bracket-spacing"]
         },
         {
             "removed": "space-return-throw-case",
-            "replacedBy": [
-                "keyword-spacing"
-            ]
+            "replacedBy": ["keyword-spacing"]
         },
         {
             "removed": "space-unary-word-ops",
-            "replacedBy": [
-                "space-unary-ops"
-            ]
+            "replacedBy": ["space-unary-ops"]
         },
         {
             "removed": "spaced-line-comment",
-            "replacedBy": [
-                "spaced-comment"
-            ]
+            "replacedBy": ["spaced-comment"]
         },
         {
             "removed": "valid-jsdoc",

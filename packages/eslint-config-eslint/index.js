@@ -8,11 +8,11 @@ const { esmConfigs, cjsConfigs } = require("./nodejs");
  */
 module.exports = [
     ...baseConfigs,
-    ...esmConfigs.map(config => ({
+    ...esmConfigs.map((config) => ({
         files: ["**/*.js"],
         ...config
     })),
-    ...cjsConfigs.map(config => ({
+    ...cjsConfigs.map((config) => ({
         files: ["**/*.cjs"],
         ...config
     }))

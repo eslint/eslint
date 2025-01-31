@@ -77,7 +77,7 @@ describe("serialization", () => {
             });
 
             it("array with function", () => {
-                assert.isFalse(isSerializable([function() {}]));
+                assert.isFalse(isSerializable([function () {}]));
             });
 
             it("array with RegExp", () => {
@@ -85,7 +85,13 @@ describe("serialization", () => {
             });
 
             it("array with plain/nested objects", () => {
-                assert.isTrue(isSerializable([{ a: 1 }, { b: 2 }, { c: { nested: true } }]));
+                assert.isTrue(
+                    isSerializable([
+                        { a: 1 },
+                        { b: 2 },
+                        { c: { nested: true } }
+                    ])
+                );
             });
 
             it("array with object with nested function", () => {

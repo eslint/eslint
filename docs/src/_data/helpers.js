@@ -1,7 +1,6 @@
 "use strict";
 
 module.exports = {
-
     /**
      * Returns some attributes based on whether the link is active or
      * a parent of an active item
@@ -25,12 +24,11 @@ module.exports = {
     excludeThis(arr, pageUrl) {
         const newArray = [];
 
-        arr.forEach(item => {
+        arr.forEach((item) => {
             if (item.url !== pageUrl) {
                 newArray.push(item);
             }
         });
         return newArray;
     }
-
 };

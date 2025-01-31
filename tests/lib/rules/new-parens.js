@@ -24,7 +24,6 @@ const ruleTester = new RuleTester();
 
 ruleTester.run("new-parens", rule, {
     valid: [
-
         // Default (Always)
         "var a = new Date();",
         "var a = new Date(function() {});",
@@ -58,7 +57,6 @@ ruleTester.run("new-parens", rule, {
         { code: "var a = new ((Person))('Name');", options: ["never"] }
     ],
     invalid: [
-
         // Default (Always)
         {
             code: "var a = new Date;",
@@ -86,7 +84,6 @@ ruleTester.run("new-parens", rule, {
             errors: [error]
         },
         {
-
             // This `()` is `CallExpression`'s. This is a call of the result of `new Date`.
             code: "var a = (new Date)()",
             output: "var a = (new Date())()",

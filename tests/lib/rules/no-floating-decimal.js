@@ -21,10 +21,7 @@ const leadingError = { messageId: "leading", type: "Literal" };
 const trailingError = { messageId: "trailing", type: "Literal" };
 
 ruleTester.run("no-floating-decimal", rule, {
-    valid: [
-        "var x = 2.5;",
-        "var x = \"2.5\";"
-    ],
+    valid: ["var x = 2.5;", 'var x = "2.5";'],
     invalid: [
         {
             code: "var x = .5;",

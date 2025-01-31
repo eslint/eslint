@@ -5,7 +5,6 @@ eleventyNavigation:
     parent: extend eslint
     title: Create Plugins
     order: 2
-
 ---
 
 ESLint plugins extend ESLint with additional functionality. In most cases, you'll extend ESLint by creating plugins that encapsulate the additional functionality you want to share across multiple projects.
@@ -14,10 +13,10 @@ ESLint plugins extend ESLint with additional functionality. In most cases, you'l
 
 A plugin is a JavaScript object that exposes certain properties to ESLint:
 
-* `meta` - information about the plugin.
-* `configs` - an object containing named configurations.
-* `rules` - an object containing the definitions of custom rules.
-* `processors` - an object containing named processors.
+-   `meta` - information about the plugin.
+-   `configs` - an object containing named configurations.
+-   `rules` - an object containing the definitions of custom rules.
+-   `processors` - an object containing named processors.
 
 To get started, create a JavaScript file and export an object containing the properties you'd like ESLint to use. To make your plugin as easy to maintain as possible, we recommend that you format your plugin entrypoint file to look like this:
 
@@ -44,7 +43,6 @@ For easier debugging and more effective caching of plugins, it's recommended to 
 
 ```js
 const plugin = {
-
     // preferred location of name and version
     meta: {
         name: "eslint-plugin-example",
@@ -67,10 +65,11 @@ The `meta.name` property should match the npm package name for your plugin and t
 ```js
 import fs from "fs";
 
-const pkg = JSON.parse(fs.readFileSync(new URL("./package.json", import.meta.url), "utf8"));
+const pkg = JSON.parse(
+    fs.readFileSync(new URL("./package.json", import.meta.url), "utf8")
+);
 
 const plugin = {
-
     // preferred location of name and version
     meta: {
         name: pkg.name,
@@ -87,15 +86,14 @@ export default plugin;
 ::: tip
 While there are no restrictions on plugin names, it helps others to find your plugin on [npm](https://npmjs.com) when you follow these naming conventions:
 
-* **Unscoped:** If your npm package name won't be scoped (doesn't begin with `@`), then the plugin name should begin with `eslint-plugin-`, such as `eslint-plugin-example`.
-* **Scoped:** If your npm package name will be scoped, then the plugin name should be in the format of `@<scope>/eslint-plugin-<plugin-name>` such as `@jquery/eslint-plugin-jquery` or even `@<scope>/eslint-plugin` such as `@jquery/eslint-plugin`.
-:::
+-   **Unscoped:** If your npm package name won't be scoped (doesn't begin with `@`), then the plugin name should begin with `eslint-plugin-`, such as `eslint-plugin-example`.
+-   **Scoped:** If your npm package name will be scoped, then the plugin name should be in the format of `@<scope>/eslint-plugin-<plugin-name>` such as `@jquery/eslint-plugin-jquery` or even `@<scope>/eslint-plugin` such as `@jquery/eslint-plugin`.
+    :::
 
 As an alternative, you can also expose `name` and `version` properties at the root of your plugin, such as:
 
 ```js
 const plugin = {
-
     // alternate location of name and version
     name: "eslint-plugin-example",
     version: "1.2.3",
@@ -175,8 +173,12 @@ const plugin = {
     },
     processors: {
         "processor-name": {
-            preprocess(text, filename) {/* ... */},
-            postprocess(messages, filename) { /* ... */ },
+            preprocess(text, filename) {
+                /* ... */
+            },
+            postprocess(messages, filename) {
+                /* ... */
+            }
         }
     }
 };
@@ -228,24 +230,26 @@ const plugin = {
 
 // assign configs here so we can reference `plugin`
 Object.assign(plugin.configs, {
-    recommended: [{
-        plugins: {
-            example: plugin
-        },
-        rules: {
-            "example/dollar-sign": "error"
-        },
-        languageOptions: {
-            globals: {
-                myGlobal: "readonly"
+    recommended: [
+        {
+            plugins: {
+                example: plugin
             },
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true
+            rules: {
+                "example/dollar-sign": "error"
+            },
+            languageOptions: {
+                globals: {
+                    myGlobal: "readonly"
+                },
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
                 }
             }
         }
-    }]
+    ]
 });
 
 // for ESM
@@ -263,9 +267,7 @@ In order to use a config from a plugin in a configuration file, import the plugi
 // eslint.config.js
 import example from "eslint-plugin-example";
 
-export default [
-    ...example.configs.recommended
-];
+export default [...example.configs.recommended];
 ```
 
 ::: important
@@ -280,9 +282,9 @@ ESLint provides the [`RuleTester`](../integrate/nodejs-api#ruletester) utility t
 
 ESLint plugins should be linted too! It's suggested to lint your plugin with the `recommended` configurations of:
 
-* [eslint](https://www.npmjs.com/package/eslint)
-* [eslint-plugin-eslint-plugin](https://www.npmjs.com/package/eslint-plugin-eslint-plugin)
-* [eslint-plugin-n](https://www.npmjs.com/package/eslint-plugin-n)
+-   [eslint](https://www.npmjs.com/package/eslint)
+-   [eslint-plugin-eslint-plugin](https://www.npmjs.com/package/eslint-plugin-eslint-plugin)
+-   [eslint-plugin-n](https://www.npmjs.com/package/eslint-plugin-n)
 
 ## Share Plugins
 

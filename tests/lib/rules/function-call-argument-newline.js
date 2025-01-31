@@ -15,7 +15,6 @@ const ruleTester = new RuleTester();
 
 ruleTester.run("function-call-argument-newline", rule, {
     valid: [
-
         /* early return */
         "fn()",
         "fn(a)",
@@ -47,7 +46,11 @@ ruleTester.run("function-call-argument-newline", rule, {
             languageOptions: { ecmaVersion: 6 }
         },
         { code: "fn({\n\ta: 1\n},\n\tb,\n\tc)", options: ["always"] },
-        { code: "fn(`\n`,\n\ta)", options: ["always"], languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "fn(`\n`,\n\ta)",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6 }
+        },
 
         /* "never" */
         { code: "fn(a, b)", options: ["never"] },
@@ -62,18 +65,29 @@ ruleTester.run("function-call-argument-newline", rule, {
             languageOptions: { ecmaVersion: 6 }
         },
         { code: "fn({\n\ta: 1\n}, b)", options: ["never"] },
-        { code: "fn(`\n`, a)", options: ["never"], languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "fn(`\n`, a)",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
 
         /* "consistent" */
         { code: "fn(a, b, c)", options: ["consistent"] },
         { code: "fn(a,\n\tb,\n\tc)", options: ["consistent"] },
         { code: "fn({\n\ta: 1\n}, b, c)", options: ["consistent"] },
         { code: "fn({\n\ta: 1\n},\n\tb,\n\tc)", options: ["consistent"] },
-        { code: "fn(`\n`, b, c)", options: ["consistent"], languageOptions: { ecmaVersion: 6 } },
-        { code: "fn(`\n`,\n\tb,\n\tc)", options: ["consistent"], languageOptions: { ecmaVersion: 6 } }
+        {
+            code: "fn(`\n`, b, c)",
+            options: ["consistent"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "fn(`\n`,\n\tb,\n\tc)",
+            options: ["consistent"],
+            languageOptions: { ecmaVersion: 6 }
+        }
     ],
     invalid: [
-
         /* default ("always") */
         {
             code: "fn(a, b)",

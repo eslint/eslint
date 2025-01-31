@@ -3,7 +3,6 @@
 /* eslint consistent-return: 0 -- no default case */
 
 const messages = {
-
     env: `
 A config object is using the "env" key, which is not supported in flat config system.
 
@@ -113,7 +112,6 @@ Flat configs always act as if they are the root config file, so this key can be 
 `
 };
 
-module.exports = function({ key }) {
-
+module.exports = function ({ key }) {
     return messages[key].trim();
 };

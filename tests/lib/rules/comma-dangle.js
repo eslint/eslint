@@ -24,10 +24,12 @@ const path = require("node:path"),
  * @returns {Object} The parser object.
  */
 function parser(name) {
-    return require(path.resolve(
-        __dirname,
-        `../../fixtures/parsers/comma-dangle/${name}.js`
-    ));
+    return require(
+        path.resolve(
+            __dirname,
+            `../../fixtures/parsers/comma-dangle/${name}.js`
+        )
+    );
 }
 
 //------------------------------------------------------------------------------
@@ -46,14 +48,22 @@ const ruleTester = new RuleTester({
                         return {
                             ImportDeclaration(node) {
                                 const sourceCode = context.sourceCode;
-                                const closingBrace = sourceCode.getLastToken(node, token => token.value === "}");
-                                const addComma = sourceCode.getTokenBefore(closingBrace).value !== ",";
+                                const closingBrace = sourceCode.getLastToken(
+                                    node,
+                                    (token) => token.value === "}"
+                                );
+                                const addComma =
+                                    sourceCode.getTokenBefore(closingBrace)
+                                        .value !== ",";
 
                                 context.report({
                                     message: "Add I18nManager.",
                                     node,
                                     fix(fixer) {
-                                        return fixer.insertTextBefore(closingBrace, `${addComma ? "," : ""}I18nManager`);
+                                        return fixer.insertTextBefore(
+                                            closingBrace,
+                                            `${addComma ? "," : ""}I18nManager`
+                                        );
                                     }
                                 });
                             }
@@ -69,7 +79,6 @@ const ruleTester = new RuleTester({
     }
 });
 
-
 ruleTester.run("comma-dangle", rule, {
     valid: [
         "var foo = { bar: 'baz' }",
@@ -82,14 +91,33 @@ ruleTester.run("comma-dangle", rule, {
         "[\n,\n]",
         "[]",
         "[\n]",
-        { code: "var foo = [\n      (bar ? baz : qux),\n    ];", options: ["always-multiline"] },
+        {
+            code: "var foo = [\n      (bar ? baz : qux),\n    ];",
+            options: ["always-multiline"]
+        },
         { code: "var foo = { bar: 'baz' }", options: ["never"] },
         { code: "var foo = {\nbar: 'baz'\n}", options: ["never"] },
         { code: "var foo = [ 'baz' ]", options: ["never"] },
-        { code: "var { a, b } = foo;", options: ["never"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var [ a, b ] = foo;", options: ["never"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var { a,\n b, \n} = foo;", options: ["only-multiline"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var [ a,\n b, \n] = foo;", options: ["only-multiline"], languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "var { a, b } = foo;",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var [ a, b ] = foo;",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var { a,\n b, \n} = foo;",
+            options: ["only-multiline"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var [ a,\n b, \n] = foo;",
+            options: ["only-multiline"],
+            languageOptions: { ecmaVersion: 6 }
+        },
 
         { code: "[(1),]", options: ["always"] },
         { code: "var x = { foo: (1),};", options: ["always"] },
@@ -116,14 +144,38 @@ ruleTester.run("comma-dangle", rule, {
         { code: "var foo = [\n'baz',\n]", options: ["only-multiline"] },
         { code: "var foo = { bar:\n\n'bar' }", options: ["always-multiline"] },
         { code: "var foo = { bar:\n\n'bar' }", options: ["only-multiline"] },
-        { code: "var foo = {a: 1, b: 2, c: 3, d: 4}", options: ["always-multiline"] },
-        { code: "var foo = {a: 1, b: 2, c: 3, d: 4}", options: ["only-multiline"] },
-        { code: "var foo = {a: 1, b: 2,\n c: 3, d: 4}", options: ["always-multiline"] },
-        { code: "var foo = {a: 1, b: 2,\n c: 3, d: 4}", options: ["only-multiline"] },
-        { code: "var foo = {x: {\nfoo: 'bar',\n}}", options: ["always-multiline"] },
-        { code: "var foo = {x: {\nfoo: 'bar',\n}}", options: ["only-multiline"] },
-        { code: "var foo = new Map([\n[key, {\na: 1,\nb: 2,\nc: 3,\n}],\n])", options: ["always-multiline"] },
-        { code: "var foo = new Map([\n[key, {\na: 1,\nb: 2,\nc: 3,\n}],\n])", options: ["only-multiline"] },
+        {
+            code: "var foo = {a: 1, b: 2, c: 3, d: 4}",
+            options: ["always-multiline"]
+        },
+        {
+            code: "var foo = {a: 1, b: 2, c: 3, d: 4}",
+            options: ["only-multiline"]
+        },
+        {
+            code: "var foo = {a: 1, b: 2,\n c: 3, d: 4}",
+            options: ["always-multiline"]
+        },
+        {
+            code: "var foo = {a: 1, b: 2,\n c: 3, d: 4}",
+            options: ["only-multiline"]
+        },
+        {
+            code: "var foo = {x: {\nfoo: 'bar',\n}}",
+            options: ["always-multiline"]
+        },
+        {
+            code: "var foo = {x: {\nfoo: 'bar',\n}}",
+            options: ["only-multiline"]
+        },
+        {
+            code: "var foo = new Map([\n[key, {\na: 1,\nb: 2,\nc: 3,\n}],\n])",
+            options: ["always-multiline"]
+        },
+        {
+            code: "var foo = new Map([\n[key, {\na: 1,\nb: 2,\nc: 3,\n}],\n])",
+            options: ["only-multiline"]
+        },
 
         // https://github.com/eslint/eslint/issues/3627
         {
@@ -579,7 +631,6 @@ ruleTester.run("comma-dangle", rule, {
                 ecmaVersion: 2016
             }
         }
-
     ],
     invalid: [
         {
@@ -668,7 +719,6 @@ ruleTester.run("comma-dangle", rule, {
                 }
             ]
         },
-
 
         {
             code: "var foo = { bar: 'baz', }",
@@ -793,7 +843,6 @@ ruleTester.run("comma-dangle", rule, {
                     column: 30,
                     endLine: 1,
                     endColumn: 31
-
                 }
             ]
         },
@@ -881,19 +930,19 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code:
-            "var foo = [\n" +
-            "  bar,\n" +
-            "  (\n" +
-            "    baz\n" +
-            "  )\n" +
-            "];",
+                "var foo = [\n" +
+                "  bar,\n" +
+                "  (\n" +
+                "    baz\n" +
+                "  )\n" +
+                "];",
             output:
-            "var foo = [\n" +
-            "  bar,\n" +
-            "  (\n" +
-            "    baz\n" +
-            "  ),\n" +
-            "];",
+                "var foo = [\n" +
+                "  bar,\n" +
+                "  (\n" +
+                "    baz\n" +
+                "  ),\n" +
+                "];",
             options: ["always"],
             errors: [
                 {
@@ -906,19 +955,19 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code:
-            "var foo = {\n" +
-            "  foo: 'bar',\n" +
-            "  baz: (\n" +
-            "    qux\n" +
-            "  )\n" +
-            "};",
+                "var foo = {\n" +
+                "  foo: 'bar',\n" +
+                "  baz: (\n" +
+                "    qux\n" +
+                "  )\n" +
+                "};",
             output:
-            "var foo = {\n" +
-            "  foo: 'bar',\n" +
-            "  baz: (\n" +
-            "    qux\n" +
-            "  ),\n" +
-            "};",
+                "var foo = {\n" +
+                "  foo: 'bar',\n" +
+                "  baz: (\n" +
+                "    qux\n" +
+                "  ),\n" +
+                "};",
             options: ["always"],
             errors: [
                 {
@@ -930,22 +979,21 @@ ruleTester.run("comma-dangle", rule, {
             ]
         },
         {
-
             // https://github.com/eslint/eslint/issues/7291
             code:
-            "var foo = [\n" +
-            "  (bar\n" +
-            "    ? baz\n" +
-            "    : qux\n" +
-            "  )\n" +
-            "];",
+                "var foo = [\n" +
+                "  (bar\n" +
+                "    ? baz\n" +
+                "    : qux\n" +
+                "  )\n" +
+                "];",
             output:
-            "var foo = [\n" +
-            "  (bar\n" +
-            "    ? baz\n" +
-            "    : qux\n" +
-            "  ),\n" +
-            "];",
+                "var foo = [\n" +
+                "  (bar\n" +
+                "    ? baz\n" +
+                "    : qux\n" +
+                "  ),\n" +
+                "];",
             options: ["always"],
             errors: [
                 {
@@ -1716,13 +1764,15 @@ let [b,] = [1,];
 import {c,} from "foo";
 let d = 0;export {d,};
 (function foo(e,) {})(f,);`,
-            options: [{
-                objects: "never",
-                arrays: "ignore",
-                imports: "ignore",
-                exports: "ignore",
-                functions: "ignore"
-            }],
+            options: [
+                {
+                    objects: "never",
+                    arrays: "ignore",
+                    imports: "ignore",
+                    exports: "ignore",
+                    functions: "ignore"
+                }
+            ],
             languageOptions: { ecmaVersion: 8, sourceType: "module" },
             errors: [
                 { messageId: "unexpected", line: 1 },
@@ -1740,13 +1790,15 @@ let [b] = [1];
 import {c,} from "foo";
 let d = 0;export {d,};
 (function foo(e,) {})(f,);`,
-            options: [{
-                objects: "ignore",
-                arrays: "never",
-                imports: "ignore",
-                exports: "ignore",
-                functions: "ignore"
-            }],
+            options: [
+                {
+                    objects: "ignore",
+                    arrays: "never",
+                    imports: "ignore",
+                    exports: "ignore",
+                    functions: "ignore"
+                }
+            ],
             languageOptions: { ecmaVersion: 8, sourceType: "module" },
             errors: [
                 { messageId: "unexpected", line: 2 },
@@ -1764,17 +1816,17 @@ let [b,] = [1,];
 import {c} from "foo";
 let d = 0;export {d,};
 (function foo(e,) {})(f,);`,
-            options: [{
-                objects: "ignore",
-                arrays: "ignore",
-                imports: "never",
-                exports: "ignore",
-                functions: "ignore"
-            }],
+            options: [
+                {
+                    objects: "ignore",
+                    arrays: "ignore",
+                    imports: "never",
+                    exports: "ignore",
+                    functions: "ignore"
+                }
+            ],
             languageOptions: { ecmaVersion: 8, sourceType: "module" },
-            errors: [
-                { messageId: "unexpected", line: 3 }
-            ]
+            errors: [{ messageId: "unexpected", line: 3 }]
         },
         {
             code: `let {a,} = {a: 1,};
@@ -1787,17 +1839,17 @@ let [b,] = [1,];
 import {c,} from "foo";
 let d = 0;export {d};
 (function foo(e,) {})(f,);`,
-            options: [{
-                objects: "ignore",
-                arrays: "ignore",
-                imports: "ignore",
-                exports: "never",
-                functions: "ignore"
-            }],
+            options: [
+                {
+                    objects: "ignore",
+                    arrays: "ignore",
+                    imports: "ignore",
+                    exports: "never",
+                    functions: "ignore"
+                }
+            ],
             languageOptions: { ecmaVersion: 8, sourceType: "module" },
-            errors: [
-                { messageId: "unexpected", line: 4 }
-            ]
+            errors: [{ messageId: "unexpected", line: 4 }]
         },
         {
             code: `let {a,} = {a: 1,};
@@ -1810,13 +1862,15 @@ let [b,] = [1,];
 import {c,} from "foo";
 let d = 0;export {d,};
 (function foo(e) {})(f);`,
-            options: [{
-                objects: "ignore",
-                arrays: "ignore",
-                imports: "ignore",
-                exports: "ignore",
-                functions: "never"
-            }],
+            options: [
+                {
+                    objects: "ignore",
+                    arrays: "ignore",
+                    imports: "ignore",
+                    exports: "ignore",
+                    functions: "never"
+                }
+            ],
             languageOptions: { ecmaVersion: 8, sourceType: "module" },
             errors: [
                 { messageId: "unexpected", line: 5 },
@@ -1938,12 +1992,14 @@ let d = 0;export {d,};
             languageOptions: {
                 ecmaVersion: 2017
             },
-            errors: [{
-                messageId: "missing",
-                type: "Identifier",
-                line: 3,
-                column: 3
-            }]
+            errors: [
+                {
+                    messageId: "missing",
+                    type: "Identifier",
+                    line: 3,
+                    column: 3
+                }
+            ]
         },
         {
             code: "f(\n a,\n b\n);",
@@ -1952,12 +2008,14 @@ let d = 0;export {d,};
             languageOptions: {
                 ecmaVersion: 2017
             },
-            errors: [{
-                messageId: "missing",
-                type: "Identifier",
-                line: 3,
-                column: 3
-            }]
+            errors: [
+                {
+                    messageId: "missing",
+                    type: "Identifier",
+                    line: 3,
+                    column: 3
+                }
+            ]
         },
         {
             code: "function f(\n a,\n b\n) {}",
@@ -1966,12 +2024,14 @@ let d = 0;export {d,};
             languageOptions: {
                 ecmaVersion: "latest"
             },
-            errors: [{
-                messageId: "missing",
-                type: "Identifier",
-                line: 3,
-                column: 3
-            }]
+            errors: [
+                {
+                    messageId: "missing",
+                    type: "Identifier",
+                    line: 3,
+                    column: 3
+                }
+            ]
         },
         {
             code: "f(\n a,\n b\n);",
@@ -1980,12 +2040,14 @@ let d = 0;export {d,};
             languageOptions: {
                 ecmaVersion: "latest"
             },
-            errors: [{
-                messageId: "missing",
-                type: "Identifier",
-                line: 3,
-                column: 3
-            }]
+            errors: [
+                {
+                    messageId: "missing",
+                    type: "Identifier",
+                    line: 3,
+                    column: 3
+                }
+            ]
         }
     ]
 });

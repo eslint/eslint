@@ -10,7 +10,7 @@
         display: block;
         color: inherit;
         text-decoration: none;
-        padding: .625rem .875rem;
+        padding: 0.625rem 0.875rem;
         font-size: var(--step-0);
         border-radius: var(--border-radius);
 
@@ -30,10 +30,10 @@
     cursor: pointer;
     display: flex;
     width: 100%;
-    padding: .75rem 1.125rem;
+    padding: 0.75rem 1.125rem;
     align-items: center;
     justify-content: space-between;
-    gap: .5rem;
+    gap: 0.5rem;
     font-weight: 500;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
@@ -62,7 +62,7 @@
     #ham-top,
     #ham-middle,
     #ham-bottom {
-        transition: all .2s linear;
+        transition: all 0.2s linear;
     }
 
     #ham-top {

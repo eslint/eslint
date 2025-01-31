@@ -13,30 +13,30 @@
         "install": "add",
         "init": "init",
         "init-create": "create"
-     },
-     "toYarnArgs": {
+    },
+    "toYarnArgs": {
         "--global": "global",
         "--save-dev": "--dev",
         "-y": "-y"
-     },
-     "toPnpmCommands" : {
+    },
+    "toPnpmCommands": {
         "install": "add",
         "init": "init",
         "init-create": "create"
-     },
-     "toPnpmArgs" : {
+    },
+    "toPnpmArgs": {
         "--global": "--global",
         "--save-dev": "--save-dev",
         "-y": "-y"
-     } ,
-     "toBunCommands" : {
+    },
+    "toBunCommands": {
         "install": "add",
         "init": "init",
         "init-create": "create"
-     },
-     "toBunArgs" : {
+    },
+    "toBunArgs": {
         "--global": "--global",
         "--save-dev": "--dev",
         "-y": "-y"
-     }
+    }
 }

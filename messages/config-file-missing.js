@@ -1,6 +1,6 @@
 "use strict";
 
-module.exports = function() {
+module.exports = function () {
     return `
 ESLint couldn't find an eslint.config.(js|mjs|cjs) file.
 

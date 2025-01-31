@@ -39,11 +39,12 @@ function error(column, type = "ReturnStatement") {
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2022, sourceType: "script" } });
+const ruleTester = new RuleTester({
+    languageOptions: { ecmaVersion: 2022, sourceType: "script" }
+});
 
 ruleTester.run("no-setter-return", rule, {
     valid: [
-
         //------------------------------------------------------------------------------
         // General
         //------------------------------------------------------------------------------
@@ -71,7 +72,10 @@ ruleTester.run("no-setter-return", rule, {
         },
         {
             code: "return 1;",
-            languageOptions: { sourceType: "script", parserOptions: { ecmaFeatures: { globalReturn: true } } }
+            languageOptions: {
+                sourceType: "script",
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            }
         },
         {
             code: "return 1; function foo(){ return 1; } return 1;",
@@ -248,7 +252,6 @@ ruleTester.run("no-setter-return", rule, {
     ],
 
     invalid: [
-
         //------------------------------------------------------------------------------
         // Object literals and classes
         //------------------------------------------------------------------------------
@@ -256,7 +259,14 @@ ruleTester.run("no-setter-return", rule, {
         // full error test
         {
             code: "({ set a(val){ return val + 1; } })",
-            errors: [{ messageId: "returnsValue", type: "ReturnStatement", column: 16, endColumn: 31 }]
+            errors: [
+                {
+                    messageId: "returnsValue",
+                    type: "ReturnStatement",
+                    column: 16,
+                    endColumn: 31
+                }
+            ]
         },
 
         // basic tests
@@ -476,10 +486,7 @@ ruleTester.run("no-setter-return", rule, {
         },
         {
             code: "Object.create({}, { baz: { set(val) { return 1; } }, bar: { set: (val) => 1 } })",
-            errors: [
-                error(39),
-                error(75, "Literal")
-            ]
+            errors: [error(39), error(75, "Literal")]
         },
 
         // various syntax for properties

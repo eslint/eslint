@@ -5,7 +5,6 @@ eleventyNavigation:
     parent: configure
     title: Debug Your Configuration
     order: 8
-
 ---
 
 {%- from 'components/npx_tabs.macro.html' import npx_tabs %}
@@ -55,9 +54,7 @@ This outputs a JSON representation of the file's calculated config, such as:
         "sourceType": "module",
         "ecmaVersion": "latest"
     },
-    "plugins": [
-        "@"
-    ],
+    "plugins": ["@"],
     "rules": {
         "prefer-const": 2
     }

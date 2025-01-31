@@ -17,13 +17,31 @@ const { unIndent } = require("../../_utils");
 // Tests
 //------------------------------------------------------------------------------
 
-const PROPERTY_ERROR = { messageId: "expectedPropertyShorthand", type: "Property" };
+const PROPERTY_ERROR = {
+    messageId: "expectedPropertyShorthand",
+    type: "Property"
+};
 const METHOD_ERROR = { messageId: "expectedMethodShorthand", type: "Property" };
-const LONGFORM_PROPERTY_ERROR = { messageId: "expectedPropertyLongform", type: "Property" };
-const LONGFORM_METHOD_ERROR = { messageId: "expectedMethodLongform", type: "Property" };
-const LONGFORM_METHOD_STRING_LITERAL_ERROR = { messageId: "expectedLiteralMethodLongform", type: "Property" };
-const ALL_SHORTHAND_ERROR = { messageId: "expectedAllPropertiesShorthanded", type: "ObjectExpression" };
-const MIXED_SHORTHAND_ERROR = { messageId: "unexpectedMix", type: "ObjectExpression" };
+const LONGFORM_PROPERTY_ERROR = {
+    messageId: "expectedPropertyLongform",
+    type: "Property"
+};
+const LONGFORM_METHOD_ERROR = {
+    messageId: "expectedMethodLongform",
+    type: "Property"
+};
+const LONGFORM_METHOD_STRING_LITERAL_ERROR = {
+    messageId: "expectedLiteralMethodLongform",
+    type: "Property"
+};
+const ALL_SHORTHAND_ERROR = {
+    messageId: "expectedAllPropertiesShorthanded",
+    type: "ObjectExpression"
+};
+const MIXED_SHORTHAND_ERROR = {
+    messageId: "unexpectedMix",
+    type: "ObjectExpression"
+};
 
 const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2018 } });
 
@@ -204,7 +222,13 @@ ruleTester.run("object-shorthand", rule, {
         },
         {
             code: "var x = { foo: () => { return 5; }  }",
-            options: ["always", { methodsIgnorePattern: "^foo$", avoidExplicitReturnArrows: true }]
+            options: [
+                "always",
+                {
+                    methodsIgnorePattern: "^foo$",
+                    avoidExplicitReturnArrows: true
+                }
+            ]
         },
         {
             code: "var x = { 'foo': function() {}  }",
@@ -825,7 +849,6 @@ ruleTester.run("object-shorthand", rule, {
             errors: [METHOD_ERROR]
         },
         {
-
             // https://github.com/eslint/eslint/issues/11595
             code: "var x = {_y: function() {}}",
             output: "var x = {_y() {}}",
@@ -833,7 +856,6 @@ ruleTester.run("object-shorthand", rule, {
             errors: [METHOD_ERROR]
         },
         {
-
             // https://github.com/eslint/eslint/issues/11595
             code: "var x = {$y: function() {}}",
             output: "var x = {$y() {}}",
@@ -841,7 +863,6 @@ ruleTester.run("object-shorthand", rule, {
             errors: [METHOD_ERROR]
         },
         {
-
             // https://github.com/eslint/eslint/issues/11595
             code: "var x = {__y: function() {}}",
             output: "var x = {__y() {}}",
@@ -849,7 +870,6 @@ ruleTester.run("object-shorthand", rule, {
             errors: [METHOD_ERROR]
         },
         {
-
             // https://github.com/eslint/eslint/issues/11595
             code: "var x = {_0y: function() {}}",
             output: "var x = {_0y() {}}",
@@ -966,7 +986,6 @@ ruleTester.run("object-shorthand", rule, {
             output: null,
             options: ["consistent-as-needed"],
             errors: [MIXED_SHORTHAND_ERROR]
-
         },
         {
             code: "var x = {foo: function() {}}",
@@ -1131,7 +1150,6 @@ ruleTester.run("object-shorthand", rule, {
             errors: [METHOD_ERROR]
         },
         {
-
             // https://github.com/eslint/eslint/issues/11305
             code: "({ key: (arg = () => {}) => {} })",
             output: "({ key(arg = () => {}) {} })",

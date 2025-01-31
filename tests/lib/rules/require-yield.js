@@ -49,19 +49,23 @@ ruleTester.run("require-yield", rule, {
         },
         {
             code: "function* foo() { function* bar() { yield 0; } }",
-            errors: [{
-                messageId: "missingYield",
-                type: "FunctionDeclaration",
-                column: 1
-            }]
+            errors: [
+                {
+                    messageId: "missingYield",
+                    type: "FunctionDeclaration",
+                    column: 1
+                }
+            ]
         },
         {
             code: "function* foo() { function* bar() { return 0; } yield 0; }",
-            errors: [{
-                messageId: "missingYield",
-                type: "FunctionDeclaration",
-                column: 19
-            }]
+            errors: [
+                {
+                    messageId: "missingYield",
+                    type: "FunctionDeclaration",
+                    column: 19
+                }
+            ]
         }
     ]
 });

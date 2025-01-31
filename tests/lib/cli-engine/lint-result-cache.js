@@ -69,10 +69,10 @@ describe("LintResultCache", () => {
         );
     });
 
-    afterEach(done => {
+    afterEach((done) => {
         sandbox.reset();
 
-        fs.unlink(cacheFileLocation, err => {
+        fs.unlink(cacheFileLocation, (err) => {
             if (err && err.code !== "ENOENT") {
                 return done(err);
             }
@@ -106,7 +106,10 @@ describe("LintResultCache", () => {
         it("should successfully create an instance if cache file location and cache strategy provided", () => {
             const instance = new LintResultCache(cacheFileLocation, "metadata");
 
-            assert.ok(instance, "Instance should have been created successfully");
+            assert.ok(
+                instance,
+                "Instance should have been created successfully"
+            );
         });
     });
 
@@ -131,9 +134,10 @@ describe("LintResultCache", () => {
         beforeEach(() => {
             cacheEntry = {
                 meta: {
-
                     // Serialized results will have null source
-                    results: Object.assign({}, fakeErrorResults, { source: null }),
+                    results: Object.assign({}, fakeErrorResults, {
+                        source: null
+                    }),
 
                     hashOfConfig
                 }
@@ -143,17 +147,26 @@ describe("LintResultCache", () => {
 
             fakeConfig = {};
 
-            lintResultsCache = new LintResultCache(cacheFileLocation, "metadata");
+            lintResultsCache = new LintResultCache(
+                cacheFileLocation,
+                "metadata"
+            );
         });
 
         describe("when calculating the hashing", () => {
             it("contains eslint version during hashing", () => {
                 const version = "eslint-=-version";
-                const NewLintResultCache = proxyquire("../../../lib/cli-engine/lint-result-cache.js", {
-                    "../../package.json": { version },
-                    "./hash": hashStub
-                });
-                const newLintResultCache = new NewLintResultCache(cacheFileLocation, "metadata");
+                const NewLintResultCache = proxyquire(
+                    "../../../lib/cli-engine/lint-result-cache.js",
+                    {
+                        "../../package.json": { version },
+                        "./hash": hashStub
+                    }
+                );
+                const newLintResultCache = new NewLintResultCache(
+                    cacheFileLocation,
+                    "metadata"
+                );
 
                 newLintResultCache.getCachedLintResults(filePath, fakeConfig);
                 assert.ok(hashStub.calledOnce);
@@ -163,15 +176,26 @@ describe("LintResultCache", () => {
             it("contains node version during hashing", () => {
                 const version = "node-=-version";
 
-                const versionStub = sandbox.stub(process, "version").value(version);
+                const versionStub = sandbox
+                    .stub(process, "version")
+                    .value(version);
 
                 try {
-                    const NewLintResultCache = proxyquire("../../../lib/cli-engine/lint-result-cache.js", {
-                        "./hash": hashStub
-                    });
-                    const newLintResultCache = new NewLintResultCache(cacheFileLocation, "metadata");
+                    const NewLintResultCache = proxyquire(
+                        "../../../lib/cli-engine/lint-result-cache.js",
+                        {
+                            "./hash": hashStub
+                        }
+                    );
+                    const newLintResultCache = new NewLintResultCache(
+                        cacheFileLocation,
+                        "metadata"
+                    );
 
-                    newLintResultCache.getCachedLintResults(filePath, fakeConfig);
+                    newLintResultCache.getCachedLintResults(
+                        filePath,
+                        fakeConfig
+                    );
 
                     assert.ok(hashStub.calledOnce);
                     assert.ok(hashStub.calledWithMatch(version));
@@ -280,7 +304,10 @@ describe("LintResultCache", () => {
 
             hashStub.returns(hashOfConfig);
 
-            lintResultsCache = new LintResultCache(cacheFileLocation, "metadata");
+            lintResultsCache = new LintResultCache(
+                cacheFileLocation,
+                "metadata"
+            );
         });
 
         describe("When lint result has output property", () => {
@@ -327,11 +354,18 @@ describe("LintResultCache", () => {
             });
 
             it("stores results (except source) in file entry", () => {
-                const expectedCachedResults = Object.assign({}, fakeErrorResults, {
-                    source: null
-                });
+                const expectedCachedResults = Object.assign(
+                    {},
+                    fakeErrorResults,
+                    {
+                        source: null
+                    }
+                );
 
-                assert.deepStrictEqual(cacheEntry.meta.results, expectedCachedResults);
+                assert.deepStrictEqual(
+                    cacheEntry.meta.results,
+                    expectedCachedResults
+                );
             });
         });
 
@@ -349,11 +383,18 @@ describe("LintResultCache", () => {
             });
 
             it("stores results (except source) in file entry", () => {
-                const expectedCachedResults = Object.assign({}, fakeErrorResults, {
-                    source: null
-                });
+                const expectedCachedResults = Object.assign(
+                    {},
+                    fakeErrorResults,
+                    {
+                        source: null
+                    }
+                );
 
-                assert.deepStrictEqual(cacheEntry.meta.results, expectedCachedResults);
+                assert.deepStrictEqual(
+                    cacheEntry.meta.results,
+                    expectedCachedResults
+                );
             });
         });
     });
@@ -374,7 +415,10 @@ describe("LintResultCache", () => {
         });
 
         beforeEach(() => {
-            lintResultsCache = new LintResultCache(cacheFileLocation, "metadata");
+            lintResultsCache = new LintResultCache(
+                cacheFileLocation,
+                "metadata"
+            );
         });
 
         it("calls reconcile on the underlying cache", () => {

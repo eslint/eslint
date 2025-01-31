@@ -55,7 +55,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
                  * @default false
                  */
                 allowImplicit: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -110,7 +110,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
         [
             Partial<{
                 allow: Array<keyof Console>;
-            }>,
+            }>
         ]
     >;
 
@@ -141,7 +141,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
                  * @default true
                  */
                 checkLoops: boolean;
-            },
+            }
         ]
     >;
 
@@ -235,7 +235,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
                  * @default false
                  */
                 allowEmptyCatch: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -291,7 +291,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
                    */
                   enforceForLogicalOperands: boolean;
                   enforceForInnerExpressions: never;
-              }>,
+              }>
         ]
     >;
 
@@ -304,32 +304,32 @@ export interface PossibleErrors extends Linter.RulesRecord {
      */
     "no-extra-parens":
         | Linter.RuleEntry<
-            [
-                "all",
-                Partial<{
-                    /**
-                     * @default true,
-                     */
-                    conditionalAssign: boolean;
-                    /**
-                     * @default true
-                     */
-                    returnAssign: boolean;
-                    /**
-                     * @default true
-                     */
-                    nestedBinaryExpressions: boolean;
-                    /**
-                     * @default 'none'
-                     */
-                    ignoreJSX: "none" | "all" | "multi-line" | "single-line";
-                    /**
-                     * @default true
-                     */
-                    enforceForArrowConditionals: boolean;
-                }>,
-            ]
-        >
+              [
+                  "all",
+                  Partial<{
+                      /**
+                       * @default true,
+                       */
+                      conditionalAssign: boolean;
+                      /**
+                       * @default true
+                       */
+                      returnAssign: boolean;
+                      /**
+                       * @default true
+                       */
+                      nestedBinaryExpressions: boolean;
+                      /**
+                       * @default 'none'
+                       */
+                      ignoreJSX: "none" | "all" | "multi-line" | "single-line";
+                      /**
+                       * @default true
+                       */
+                      enforceForArrowConditionals: boolean;
+                  }>
+              ]
+          >
         | Linter.RuleEntry<["functions"]>;
 
     /**
@@ -373,7 +373,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
         [
             Partial<{
                 allowConstructorFlags: string[];
-            }>,
+            }>
         ]
     >;
 
@@ -405,7 +405,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
                  * @default false
                  */
                 skipTemplates: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -437,7 +437,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
                  * @default false
                  */
                 allowEscape: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -458,14 +458,16 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * @since 7.3.0
      * @see https://eslint.org/docs/latest/rules/no-promise-executor-return
      */
-    "no-promise-executor-return": Linter.RuleEntry<[
-        {
-            /**
-             * @default false
-             */
-            allowVoid?: boolean;
-        },
-    ]>;
+    "no-promise-executor-return": Linter.RuleEntry<
+        [
+            {
+                /**
+                 * @default false
+                 */
+                allowVoid?: boolean;
+            }
+        ]
+    >;
 
     /**
      * Rule to disallow calling some `Object.prototype` methods directly on objects.
@@ -553,8 +555,13 @@ export interface PossibleErrors extends Linter.RulesRecord {
                 /**
                  * @default []
                  */
-                ignore: "WhileStatement" | "DoWhileStatement" | "ForStatement" | "ForInStatement" | "ForOfStatement";
-            }>,
+                ignore:
+                    | "WhileStatement"
+                    | "DoWhileStatement"
+                    | "ForStatement"
+                    | "ForInStatement"
+                    | "ForOfStatement";
+            }>
         ]
     >;
 
@@ -586,7 +593,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
                  * @default false
                  */
                 enforceForOrderingRelations: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -606,7 +613,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
                  * @default false
                  */
                 disallowArithmeticOperators: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -635,7 +642,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
                  * @default false
                  */
                 allowProperties: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -659,7 +666,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
                  * @default true
                  */
                 enforceForIndexOf: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -679,7 +686,7 @@ export interface PossibleErrors extends Linter.RulesRecord {
                  * @default false
                  */
                 requireStringLiterals: boolean;
-            }>,
+            }>
         ]
     >;
 }

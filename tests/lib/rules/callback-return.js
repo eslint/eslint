@@ -19,7 +19,6 @@ const ruleTester = new RuleTester();
 
 ruleTester.run("callback-return", rule, {
     valid: [
-
         // callbacks inside of functions should return
         "function a(err) { if (err) return callback (err); }",
         "function a(err) { if (err) return callback (err); callback(); }",
@@ -66,7 +65,8 @@ ruleTester.run("callback-return", rule, {
         {
             code: "class x { horse() { callback(); } } ",
             languageOptions: { ecmaVersion: 6 }
-        }, {
+        },
+        {
             code: "class x { horse() { if (err) { return callback(); } callback(); } } ",
             languageOptions: { ecmaVersion: 6 }
         },
@@ -150,166 +150,196 @@ ruleTester.run("callback-return", rule, {
         //  known bad examples that we know we are ignoring
         "function x(err) { if (err) { setTimeout(callback, 0); } callback(); }", // callback() called twice
         "function x(err) { if (err) { process.nextTick(function(err) { callback(); }); } callback(); }" // callback() called twice
-
     ],
     invalid: [
         {
             code: "function a(err) { if (err) { callback (err); } }",
-            errors: [{
-                messageId: "missingReturn",
-                line: 1,
-                column: 30,
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "missingReturn",
+                    line: 1,
+                    column: 30,
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "function a(callback) { if (typeof callback !== 'undefined') { callback(); } }",
-            errors: [{
-                messageId: "missingReturn",
-                line: 1,
-                column: 63,
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "missingReturn",
+                    line: 1,
+                    column: 63,
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "function a(callback) { if (typeof callback !== 'undefined') callback();  }",
-            errors: [{
-                messageId: "missingReturn",
-                line: 1,
-                column: 61,
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "missingReturn",
+                    line: 1,
+                    column: 61,
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "function a(callback) { if (err) { callback(); horse && horse(); } }",
-            errors: [{
-                messageId: "missingReturn",
-                line: 1,
-                column: 35,
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "missingReturn",
+                    line: 1,
+                    column: 35,
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "var x = (err) => { if (err) { callback (err); } }",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "missingReturn",
-                line: 1,
-                column: 31,
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "missingReturn",
+                    line: 1,
+                    column: 31,
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "var x = { x(err) { if (err) { callback (err); } } }",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "missingReturn",
-                line: 1,
-                column: 31,
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "missingReturn",
+                    line: 1,
+                    column: 31,
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "function x(err) { if (err) {\n log();\n callback(err); } }",
-            errors: [{
-                messageId: "missingReturn",
-                line: 3,
-                column: 2,
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "missingReturn",
+                    line: 3,
+                    column: 2,
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "var x = { x(err) { if (err) { callback && callback (err); } } }",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "missingReturn",
-                line: 1,
-                column: 43,
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "missingReturn",
+                    line: 1,
+                    column: 43,
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "function a(err) { callback (err); callback(); }",
-            errors: [{
-                messageId: "missingReturn",
-                line: 1,
-                column: 19,
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "missingReturn",
+                    line: 1,
+                    column: 19,
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "function a(err) { callback (err); horse(); }",
-            errors: [{
-                messageId: "missingReturn",
-                line: 1,
-                column: 19,
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "missingReturn",
+                    line: 1,
+                    column: 19,
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "function a(err) { if (err) { callback (err); horse(); return; } }",
-            errors: [{
-                messageId: "missingReturn",
-                line: 1,
-                column: 30,
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "missingReturn",
+                    line: 1,
+                    column: 30,
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "var a = (err) => { callback (err); callback(); }",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "missingReturn",
-                line: 1,
-                column: 20,
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "missingReturn",
+                    line: 1,
+                    column: 20,
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "function a(err) { if (err) { callback (err); } else if (x) { callback(err); return; } }",
-            errors: [{
-                messageId: "missingReturn",
-                line: 1,
-                column: 30,
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "missingReturn",
+                    line: 1,
+                    column: 30,
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "function x(err) { if (err) { return callback(); }\nelse if (abc) {\ncallback(); }\nelse {\nreturn callback(); } }",
-            errors: [{
-                messageId: "missingReturn",
-                line: 3,
-                column: 1,
-                type: "CallExpression"
-
-            }]
+            errors: [
+                {
+                    messageId: "missingReturn",
+                    line: 3,
+                    column: 1,
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "class x { horse() { if (err) { callback(); } callback(); } } ",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "missingReturn",
-                line: 1,
-                column: 32,
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "missingReturn",
+                    line: 1,
+                    column: 32,
+                    type: "CallExpression"
+                }
+            ]
         },
-
 
         // generally good behavior which we must not allow to keep the rule simple
         {
             code: "function x(err) { if (err) { callback() } else { callback() } }",
-            errors: [{
-                messageId: "missingReturn",
-                line: 1,
-                column: 30,
-                type: "CallExpression"
-            }, {
-                messageId: "missingReturn",
-                line: 1,
-                column: 50,
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "missingReturn",
+                    line: 1,
+                    column: 30,
+                    type: "CallExpression"
+                },
+                {
+                    messageId: "missingReturn",
+                    line: 1,
+                    column: 50,
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "function x(err) { if (err) return callback(); else callback(); }",

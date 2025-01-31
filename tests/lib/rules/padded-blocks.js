@@ -34,61 +34,142 @@ ruleTester.run("padded-blocks", rule, {
 
         "{\n\na();\n\n/* comment */ }",
         { code: "{\n\na();\n\n/* comment */ }", options: ["always"] },
-        { code: "{\n\na();\n\n/* comment */ }", options: [{ blocks: "always" }] },
-
+        {
+            code: "{\n\na();\n\n/* comment */ }",
+            options: [{ blocks: "always" }]
+        },
 
         { code: "switch (a) {}", options: [{ switches: "always" }] },
-        { code: "switch (a) {\n\ncase 0: foo();\ncase 1: bar();\n\n}", options: ["always"] },
-        { code: "switch (a) {\n\ncase 0: foo();\ncase 1: bar();\n\n}", options: [{ switches: "always" }] },
-        { code: "switch (a) {\n\n//comment\ncase 0: foo();//comment\n\n}", options: [{ switches: "always" }] },
-        { code: "switch (a) {//comment\n\ncase 0: foo();\ncase 1: bar();\n\n/* comment */}", options: [{ switches: "always" }] },
+        {
+            code: "switch (a) {\n\ncase 0: foo();\ncase 1: bar();\n\n}",
+            options: ["always"]
+        },
+        {
+            code: "switch (a) {\n\ncase 0: foo();\ncase 1: bar();\n\n}",
+            options: [{ switches: "always" }]
+        },
+        {
+            code: "switch (a) {\n\n//comment\ncase 0: foo();//comment\n\n}",
+            options: [{ switches: "always" }]
+        },
+        {
+            code: "switch (a) {//comment\n\ncase 0: foo();\ncase 1: bar();\n\n/* comment */}",
+            options: [{ switches: "always" }]
+        },
 
-        { code: "class A{\n\nfoo(){}\n\n}", languageOptions: { ecmaVersion: 6 } },
-        { code: "class A{\n\nfoo(){}\n\n}", options: ["always"], languageOptions: { ecmaVersion: 6 } },
-        { code: "class A{}", options: [{ classes: "always" }], languageOptions: { ecmaVersion: 6 } },
-        { code: "class A{\n\n}", options: [{ classes: "always" }], languageOptions: { ecmaVersion: 6 } },
-        { code: "class A{\n\nfoo(){}\n\n}", options: [{ classes: "always" }], languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "class A{\n\nfoo(){}\n\n}",
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "class A{\n\nfoo(){}\n\n}",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "class A{}",
+            options: [{ classes: "always" }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "class A{\n\n}",
+            options: [{ classes: "always" }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "class A{\n\nfoo(){}\n\n}",
+            options: [{ classes: "always" }],
+            languageOptions: { ecmaVersion: 6 }
+        },
 
         { code: "{\na();\n}", options: ["never"] },
         { code: "{\na();}", options: ["never"] },
         { code: "{a();\n}", options: ["never"] },
         { code: "{a();}", options: ["never"] },
-        { code: "{a();}", options: ["always", { allowSingleLineBlocks: true }] },
-        { code: "{\n\na();\n\n}", options: ["always", { allowSingleLineBlocks: true }] },
+        {
+            code: "{a();}",
+            options: ["always", { allowSingleLineBlocks: true }]
+        },
+        {
+            code: "{\n\na();\n\n}",
+            options: ["always", { allowSingleLineBlocks: true }]
+        },
         { code: "{//comment\na();}", options: ["never"] },
         { code: "{\n//comment\na()\n}", options: ["never"] },
         { code: "{a();//comment\n}", options: ["never"] },
         { code: "{\na();\n//comment\n}", options: ["never"] },
         { code: "{\na()\n//comment\n}", options: ["never"] },
         { code: "{\na()\n//comment\nb()\n}", options: ["never"] },
-        { code: "function a() {\n/* comment */\nreturn;\n/* comment*/\n}", options: ["never"] },
+        {
+            code: "function a() {\n/* comment */\nreturn;\n/* comment*/\n}",
+            options: ["never"]
+        },
         { code: "{\n// comment\ndebugger;\n// comment\n}", options: ["never"] },
-        { code: "{\n\n// comment\nif (\n// comment\n a) {}\n\n }", options: ["always"] },
-        { code: "{\n// comment\nif (\n// comment\n a) {}\n }", options: ["never"] },
-        { code: "{\n// comment\nif (\n// comment\n a) {}\n }", options: [{ blocks: "never" }] },
+        {
+            code: "{\n\n// comment\nif (\n// comment\n a) {}\n\n }",
+            options: ["always"]
+        },
+        {
+            code: "{\n// comment\nif (\n// comment\n a) {}\n }",
+            options: ["never"]
+        },
+        {
+            code: "{\n// comment\nif (\n// comment\n a) {}\n }",
+            options: [{ blocks: "never" }]
+        },
 
         { code: "switch (a) {\ncase 0: foo();\n}", options: ["never"] },
-        { code: "switch (a) {\ncase 0: foo();\n}", options: [{ switches: "never" }] },
+        {
+            code: "switch (a) {\ncase 0: foo();\n}",
+            options: [{ switches: "never" }]
+        },
 
+        {
+            code: "class A{\nfoo(){}\n}",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "class A{\nfoo(){}\n}",
+            options: [{ classes: "never" }],
+            languageOptions: { ecmaVersion: 6 }
+        },
 
-        { code: "class A{\nfoo(){}\n}", options: ["never"], languageOptions: { ecmaVersion: 6 } },
-        { code: "class A{\nfoo(){}\n}", options: [{ classes: "never" }], languageOptions: { ecmaVersion: 6 } },
-
-        { code: "class A{\n\nfoo;\n\n}", languageOptions: { ecmaVersion: 2022 } },
-        { code: "class A{\nfoo;\n}", options: ["never"], languageOptions: { ecmaVersion: 2022 } },
+        {
+            code: "class A{\n\nfoo;\n\n}",
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class A{\nfoo;\n}",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 2022 }
+        },
 
         // Ignore block statements if not configured
         { code: "{\na();\n}", options: [{ switches: "always" }] },
         { code: "{\n\na();\n\n}", options: [{ switches: "never" }] },
 
         // Ignore switch statements if not configured
-        { code: "switch (a) {\ncase 0: foo();\ncase 1: bar();\n}", options: [{ blocks: "always", classes: "always" }] },
-        { code: "switch (a) {\n\ncase 0: foo();\ncase 1: bar();\n\n}", options: [{ blocks: "never", classes: "never" }] },
-
+        {
+            code: "switch (a) {\ncase 0: foo();\ncase 1: bar();\n}",
+            options: [{ blocks: "always", classes: "always" }]
+        },
+        {
+            code: "switch (a) {\n\ncase 0: foo();\ncase 1: bar();\n\n}",
+            options: [{ blocks: "never", classes: "never" }]
+        },
 
         // Ignore class statements if not configured
-        { code: "class A{\nfoo(){}\n}", options: [{ blocks: "always" }], languageOptions: { ecmaVersion: 6 } },
-        { code: "class A{\n\nfoo(){}\n\n}", options: [{ blocks: "never" }], languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "class A{\nfoo(){}\n}",
+            options: [{ blocks: "always" }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "class A{\n\nfoo(){}\n\n}",
+            options: [{ blocks: "never" }],
+            languageOptions: { ecmaVersion: 6 }
+        },
 
         // class static blocks
         {
@@ -191,7 +272,6 @@ ruleTester.run("padded-blocks", rule, {
             options: [{ classes: "never" }], // if there's no "blocks" in the object option, static blocks are ignored
             languageOptions: { ecmaVersion: 2022 }
         }
-
     ],
     invalid: [
         {
@@ -840,32 +920,47 @@ ruleTester.run("padded-blocks", rule, {
             code: "function foo() { /* a\n */\n/* b\n */\n  bar;\n}",
             output: "function foo() { /* a\n */\n\n/* b\n */\n  bar;\n\n}",
             options: ["always"],
-            errors: [{ messageId: "alwaysPadBlock" }, { messageId: "alwaysPadBlock" }]
+            errors: [
+                { messageId: "alwaysPadBlock" },
+                { messageId: "alwaysPadBlock" }
+            ]
         },
         {
             code: "function foo() { /* a\n */ /* b\n */\n  bar;\n}",
             output: "function foo() { /* a\n */ /* b\n */\n\n  bar;\n\n}",
             options: ["always"],
-            errors: [{ messageId: "alwaysPadBlock" }, { messageId: "alwaysPadBlock" }]
+            errors: [
+                { messageId: "alwaysPadBlock" },
+                { messageId: "alwaysPadBlock" }
+            ]
         },
         {
             code: "function foo() { /* a\n */ /* b\n */\n  bar;\n/* c\n *//* d\n */}",
             output: "function foo() { /* a\n */ /* b\n */\n\n  bar;\n\n/* c\n *//* d\n */}",
             options: ["always"],
-            errors: [{ messageId: "alwaysPadBlock" }, { messageId: "alwaysPadBlock" }]
+            errors: [
+                { messageId: "alwaysPadBlock" },
+                { messageId: "alwaysPadBlock" }
+            ]
         },
         {
             code: "class A{\nfoo;\n}",
             output: "class A{\n\nfoo;\n\n}",
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{ messageId: "alwaysPadBlock" }, { messageId: "alwaysPadBlock" }]
+            errors: [
+                { messageId: "alwaysPadBlock" },
+                { messageId: "alwaysPadBlock" }
+            ]
         },
         {
             code: "class A{\n\nfoo;\n\n}",
             output: "class A{\nfoo;\n}",
             options: ["never"],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{ messageId: "neverPadBlock" }, { messageId: "neverPadBlock" }]
+            errors: [
+                { messageId: "neverPadBlock" },
+                { messageId: "neverPadBlock" }
+            ]
         },
 
         // class static blocks

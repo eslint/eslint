@@ -15,10 +15,11 @@ const RuleTester = require("../../../lib/rule-tester/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2022, sourceType: "script" } });
+const ruleTester = new RuleTester({
+    languageOptions: { ecmaVersion: 2022, sourceType: "script" }
+});
 
 ruleTester.run("prefer-promise-reject-errors", rule, {
-
     valid: [
         "Promise.resolve(5)",
         "Foo.reject(5)",
@@ -122,10 +123,17 @@ ruleTester.run("prefer-promise-reject-errors", rule, {
         // evaluates either to a falsy value of `foo` (which, then, cannot be an Error object), or to `5`
         "Promise.reject(foo && 5)",
         "Promise.reject(foo &&= 5)"
+    ].map((invalidCase) => {
+        const errors = {
+            errors: [{ messageId: "rejectAnError", type: "CallExpression" }]
+        };
 
-    ].map(invalidCase => {
-        const errors = { errors: [{ messageId: "rejectAnError", type: "CallExpression" }] };
-
-        return Object.assign({}, errors, typeof invalidCase === "string" ? { code: invalidCase } : invalidCase);
+        return Object.assign(
+            {},
+            errors,
+            typeof invalidCase === "string"
+                ? { code: invalidCase }
+                : invalidCase
+        );
     })
 });

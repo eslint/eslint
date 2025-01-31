@@ -27,7 +27,7 @@ ruleTester.run("no-unexpected-multiline", rule, {
         "var a = b\nvoid (x || y).doSomething()",
         "var a = b;\n[1, 2, 3].forEach(console.log)",
         "var a = b\nvoid [1, 2, 3].forEach(console.log)",
-        "\"abc\\\n(123)\"",
+        '"abc\\\n(123)"',
         "var a = (\n(123)\n)",
         "f(\n(x)\n)",
         "(\nfunction () {}\n)[1]",
@@ -162,13 +162,11 @@ ruleTester.run("no-unexpected-multiline", rule, {
             languageOptions: { ecmaVersion: 2022 }
         },
         {
-
             // ArrowFunctionExpression doesn't connect to computed properties.
             code: "class C { field1 = () => {}\n[field2]; }",
             languageOptions: { ecmaVersion: 2022 }
         },
         {
-
             // ArrowFunctionExpression doesn't connect to binary operators.
             code: "class C { field1 = () => {}\n*gen() {} }",
             languageOptions: { ecmaVersion: 2022 }
@@ -177,172 +175,196 @@ ruleTester.run("no-unexpected-multiline", rule, {
     invalid: [
         {
             code: "var a = b\n(x || y).doSomething()",
-            errors: [{
-                messageId: "function",
-                line: 2,
-                column: 1,
-                endLine: 2,
-                endColumn: 2
-            }]
+            errors: [
+                {
+                    messageId: "function",
+                    line: 2,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 2
+                }
+            ]
         },
         {
             code: "var a = (a || b)\n(x || y).doSomething()",
-            errors: [{
-                line: 2,
-                column: 1,
-                endLine: 2,
-                endColumn: 2,
-                messageId: "function"
-            }]
+            errors: [
+                {
+                    line: 2,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 2,
+                    messageId: "function"
+                }
+            ]
         },
         {
             code: "var a = (a || b)\n(x).doSomething()",
-            errors: [{
-                line: 2,
-                column: 1,
-                endLine: 2,
-                endColumn: 2,
-                messageId: "function"
-            }]
+            errors: [
+                {
+                    line: 2,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 2,
+                    messageId: "function"
+                }
+            ]
         },
         {
             code: "var a = b\n[a, b, c].forEach(doSomething)",
-            errors: [{
-                line: 2,
-                column: 1,
-                endLine: 2,
-                endColumn: 2,
-                messageId: "property"
-            }]
+            errors: [
+                {
+                    line: 2,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 2,
+                    messageId: "property"
+                }
+            ]
         },
         {
             code: "var a = b\n    (x || y).doSomething()",
-            errors: [{
-                line: 2,
-                column: 5,
-                endLine: 2,
-                endColumn: 6,
-                messageId: "function"
-            }]
+            errors: [
+                {
+                    line: 2,
+                    column: 5,
+                    endLine: 2,
+                    endColumn: 6,
+                    messageId: "function"
+                }
+            ]
         },
         {
             code: "var a = b\n  [a, b, c].forEach(doSomething)",
-            errors: [{
-                line: 2,
-                column: 3,
-                endLine: 2,
-                endColumn: 4,
-                messageId: "property"
-            }]
+            errors: [
+                {
+                    line: 2,
+                    column: 3,
+                    endLine: 2,
+                    endColumn: 4,
+                    messageId: "property"
+                }
+            ]
         },
         {
             code: "let x = function() {}\n `hello`",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{
-                line: 2,
-                column: 2,
-                endLine: 2,
-                endColumn: 3,
-                messageId: "taggedTemplate"
-            }]
+            errors: [
+                {
+                    line: 2,
+                    column: 2,
+                    endLine: 2,
+                    endColumn: 3,
+                    messageId: "taggedTemplate"
+                }
+            ]
         },
         {
             code: "let x = function() {}\nx\n`hello`",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{
-                line: 3,
-                column: 1,
-                endLine: 3,
-                endColumn: 2,
-                messageId: "taggedTemplate"
-            }]
+            errors: [
+                {
+                    line: 3,
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 2,
+                    messageId: "taggedTemplate"
+                }
+            ]
         },
         {
             code: "x\n.y\nz\n`Invalid Test Case`",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{
-                line: 4,
-                column: 1,
-                endLine: 4,
-                endColumn: 2,
-                messageId: "taggedTemplate"
-            }]
+            errors: [
+                {
+                    line: 4,
+                    column: 1,
+                    endLine: 4,
+                    endColumn: 2,
+                    messageId: "taggedTemplate"
+                }
+            ]
         },
         {
             code: `
                 foo
                 / bar /gym
             `,
-            errors: [{
-                line: 3,
-                column: 17,
-                endLine: 3,
-                endColumn: 18,
-                messageId: "division"
-            }]
+            errors: [
+                {
+                    line: 3,
+                    column: 17,
+                    endLine: 3,
+                    endColumn: 18,
+                    messageId: "division"
+                }
+            ]
         },
         {
             code: `
                 foo
                 / bar /g
             `,
-            errors: [{
-                line: 3,
-                column: 17,
-                endLine: 3,
-                endColumn: 18,
-                messageId: "division"
-            }]
+            errors: [
+                {
+                    line: 3,
+                    column: 17,
+                    endLine: 3,
+                    endColumn: 18,
+                    messageId: "division"
+                }
+            ]
         },
         {
             code: `
                 foo
                 / bar /g.test(baz)
             `,
-            errors: [{
-                line: 3,
-                column: 17,
-                endLine: 3,
-                endColumn: 18,
-                messageId: "division"
-            }]
+            errors: [
+                {
+                    line: 3,
+                    column: 17,
+                    endLine: 3,
+                    endColumn: 18,
+                    messageId: "division"
+                }
+            ]
         },
         {
             code: `
                 foo
                 /bar/gimuygimuygimuy.test(baz)
             `,
-            errors: [{
-                line: 3,
-                column: 17,
-                endLine: 3,
-                endColumn: 18,
-                messageId: "division"
-            }]
+            errors: [
+                {
+                    line: 3,
+                    column: 17,
+                    endLine: 3,
+                    endColumn: 18,
+                    messageId: "division"
+                }
+            ]
         },
         {
             code: `
                 foo
                 /bar/s.test(baz)
             `,
-            errors: [{
-                line: 3,
-                column: 17,
-                endLine: 3,
-                endColumn: 18,
-                messageId: "division"
-            }]
+            errors: [
+                {
+                    line: 3,
+                    column: 17,
+                    endLine: 3,
+                    endColumn: 18,
+                    messageId: "division"
+                }
+            ]
         },
 
         // https://github.com/eslint/eslint/issues/11650
         {
-            code: [
-                "const x = aaaa<",
-                "  test",
-                ">/*",
-                "test",
-                "*/`foo`"
-            ].join("\n"),
+            code: ["const x = aaaa<", "  test", ">/*", "test", "*/`foo`"].join(
+                "\n"
+            ),
             languageOptions: {
                 parser: require("../../fixtures/parsers/typescript-parsers/tagged-template-with-generic/tagged-template-with-generic-and-comment")
             },

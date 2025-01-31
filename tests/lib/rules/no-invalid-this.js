@@ -21,7 +21,6 @@ const RuleTester = require("../../../lib/rule-tester/rule-tester");
  * @returns {void}
  */
 function NORMAL() {
-
     // do nothing.
 }
 
@@ -44,8 +43,10 @@ function USE_STRICT(pattern) {
 function IMPLIED_STRICT(pattern) {
     pattern.code = `/* implied strict mode */ ${pattern.code}`;
     pattern.languageOptions = pattern.languageOptions || {};
-    pattern.languageOptions.parserOptions = pattern.languageOptions.parserOptions || {};
-    pattern.languageOptions.parserOptions.ecmaFeatures = pattern.languageOptions.parserOptions.ecmaFeatures || {};
+    pattern.languageOptions.parserOptions =
+        pattern.languageOptions.parserOptions || {};
+    pattern.languageOptions.parserOptions.ecmaFeatures =
+        pattern.languageOptions.parserOptions.ecmaFeatures || {};
     pattern.languageOptions.parserOptions.ecmaFeatures.impliedStrict = true;
 }
 
@@ -67,22 +68,23 @@ function MODULES(pattern) {
  * @returns {Object[]} Test patterns.
  */
 function extractPatterns(patterns, type) {
-
     // Clone and apply the pattern environment.
-    const patternsList = patterns.map(pattern => pattern[type].map(applyCondition => {
-        const { valid, invalid, ...rest } = pattern; // eslint-disable-line no-unused-vars -- `valid` and `invalid` are used just to exclude properties
-        const thisPattern = structuredClone(rest);
+    const patternsList = patterns.map((pattern) =>
+        pattern[type].map((applyCondition) => {
+            const { valid, invalid, ...rest } = pattern; // eslint-disable-line no-unused-vars -- `valid` and `invalid` are used just to exclude properties
+            const thisPattern = structuredClone(rest);
 
-        applyCondition(thisPattern);
+            applyCondition(thisPattern);
 
-        if (type === "valid") {
-            thisPattern.errors = [];
-        } else {
-            thisPattern.code += " /* should error */";
-        }
+            if (type === "valid") {
+                thisPattern.errors = [];
+            } else {
+                thisPattern.code += " /* should error */";
+            }
 
-        return thisPattern;
-    }));
+            return thisPattern;
+        })
+    );
 
     return patternsList.flat();
 }
@@ -97,7 +99,6 @@ const errors = [
 ];
 
 const patterns = [
-
     // Global.
     {
         code: "console.log(this); z(x => console.log(x, this));",
@@ -174,14 +175,14 @@ const patterns = [
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
     },
     {
-        code: "function foo() { \"use strict\"; console.log(this); z(x => console.log(x, this)); }",
+        code: 'function foo() { "use strict"; console.log(this); z(x => console.log(x, this)); }',
         languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [],
         invalid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES]
     },
     {
-        code: "function Foo() { \"use strict\"; console.log(this); z(x => console.log(x, this)); }",
+        code: 'function Foo() { "use strict"; console.log(this); z(x => console.log(x, this)); }',
         languageOptions: { ecmaVersion: 6 },
         options: [{ capIsConstructor: false }],
         errors,
@@ -231,7 +232,7 @@ const patterns = [
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
     },
     {
-        code: "var obj = {foo: function() { \"use strict\"; return function() { console.log(this); z(x => console.log(x, this)); }; }};",
+        code: 'var obj = {foo: function() { "use strict"; return function() { console.log(this); z(x => console.log(x, this)); }; }};',
         languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [],
@@ -245,7 +246,7 @@ const patterns = [
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
     },
     {
-        code: "obj.foo = function() { \"use strict\"; return function() { console.log(this); z(x => console.log(x, this)); }; };",
+        code: 'obj.foo = function() { "use strict"; return function() { console.log(this); z(x => console.log(x, this)); }; };',
         languageOptions: { ecmaVersion: 6 },
         errors,
         valid: [],
@@ -334,7 +335,7 @@ const patterns = [
         invalid: []
     },
     {
-        code: "Object.defineProperty(obj, \"foo\", {value: function() { console.log(this); z(x => console.log(x, this)); }})",
+        code: 'Object.defineProperty(obj, "foo", {value: function() { console.log(this); z(x => console.log(x, this)); }})',
         languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
@@ -490,7 +491,7 @@ const patterns = [
         "forEach",
         "map",
         "some"
-    ].map(methodName => ({
+    ].map((methodName) => ({
         code: `foo.${methodName}(function() { console.log(this); z(x => console.log(x, this)); });`,
         languageOptions: { ecmaVersion: 6 },
         errors,
@@ -514,7 +515,7 @@ const patterns = [
         "forEach",
         "map",
         "some"
-    ].map(methodName => ({
+    ].map((methodName) => ({
         code: `foo.${methodName}(function() { console.log(this); z(x => console.log(x, this)); }, obj);`,
         languageOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],

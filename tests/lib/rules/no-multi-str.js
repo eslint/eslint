@@ -34,38 +34,48 @@ ruleTester.run("no-multi-str", rule, {
     invalid: [
         {
             code: "var x = 'Line 1 \\\n Line 2'",
-            errors: [{
-                messageId: "multilineString",
-                type: "Literal"
-            }]
+            errors: [
+                {
+                    messageId: "multilineString",
+                    type: "Literal"
+                }
+            ]
         },
         {
             code: "test('Line 1 \\\n Line 2');",
-            errors: [{
-                messageId: "multilineString",
-                type: "Literal"
-            }]
+            errors: [
+                {
+                    messageId: "multilineString",
+                    type: "Literal"
+                }
+            ]
         },
         {
             code: "'foo\\\rbar';",
-            errors: [{
-                messageId: "multilineString",
-                type: "Literal"
-            }]
+            errors: [
+                {
+                    messageId: "multilineString",
+                    type: "Literal"
+                }
+            ]
         },
         {
             code: "'foo\\\u2028bar';",
-            errors: [{
-                messageId: "multilineString",
-                type: "Literal"
-            }]
+            errors: [
+                {
+                    messageId: "multilineString",
+                    type: "Literal"
+                }
+            ]
         },
         {
             code: "'foo\\\u2029ar';",
-            errors: [{
-                messageId: "multilineString",
-                type: "Literal"
-            }]
+            errors: [
+                {
+                    messageId: "multilineString",
+                    type: "Literal"
+                }
+            ]
         }
     ]
 });

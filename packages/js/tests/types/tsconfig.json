@@ -1,10 +1,7 @@
 {
     "compilerOptions": {
         "module": "node16",
-        "lib": [
-            "dom",
-            "es6"
-        ],
+        "lib": ["dom", "es6"],
         "noImplicitAny": true,
         "noImplicitThis": true,
         "strictNullChecks": true,
@@ -14,8 +11,5 @@
         "forceConsistentCasingInFileNames": true,
         "exactOptionalPropertyTypes": true
     },
-    "files": [
-        "../../types/index.d.ts",
-        "types.test.ts"
-    ]
+    "files": ["../../types/index.d.ts", "types.test.ts"]
 }

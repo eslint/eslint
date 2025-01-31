@@ -18,7 +18,6 @@ const rule = require("../../../lib/rules/no-trailing-spaces"),
 const ruleTester = new RuleTester();
 
 ruleTester.run("no-trailing-spaces", rule, {
-
     valid: [
         {
             code: "var a = 5;",
@@ -100,250 +99,293 @@ ruleTester.run("no-trailing-spaces", rule, {
     invalid: [
         {
             code:
-            "var short2 = true;\r\n" +
-            "\r\n" +
-            "module.exports = {\r\n" +
-            "  short: short,    \r\n" +
-            "  short2: short\r\n" +
-            "}",
+                "var short2 = true;\r\n" +
+                "\r\n" +
+                "module.exports = {\r\n" +
+                "  short: short,    \r\n" +
+                "  short2: short\r\n" +
+                "}",
             output:
-            "var short2 = true;\r\n" +
-            "\r\n" +
-            "module.exports = {\r\n" +
-            "  short: short,\r\n" +
-            "  short2: short\r\n" +
-            "}",
-            errors: [{
-                messageId: "trailingSpace",
-                type: "Program"
-            }]
+                "var short2 = true;\r\n" +
+                "\r\n" +
+                "module.exports = {\r\n" +
+                "  short: short,\r\n" +
+                "  short2: short\r\n" +
+                "}",
+            errors: [
+                {
+                    messageId: "trailingSpace",
+                    type: "Program"
+                }
+            ]
         },
         {
             code:
-            "var short2 = true;\n" +
-            "\r\n" +
-            "module.exports = {\r\n" +
-            "  short: short,    \r\n" +
-            "  short2: short\n" +
-            "}",
+                "var short2 = true;\n" +
+                "\r\n" +
+                "module.exports = {\r\n" +
+                "  short: short,    \r\n" +
+                "  short2: short\n" +
+                "}",
             output:
-            "var short2 = true;\n" +
-            "\r\n" +
-            "module.exports = {\r\n" +
-            "  short: short,\r\n" +
-            "  short2: short\n" +
-            "}",
-            errors: [{
-                messageId: "trailingSpace",
-                type: "Program"
-            }]
+                "var short2 = true;\n" +
+                "\r\n" +
+                "module.exports = {\r\n" +
+                "  short: short,\r\n" +
+                "  short2: short\n" +
+                "}",
+            errors: [
+                {
+                    messageId: "trailingSpace",
+                    type: "Program"
+                }
+            ]
         },
         {
             code:
-            "var short2 = true;\n" +
-            "\n" +
-            "module.exports = {\n" +
-            "  short: short,    \n" +
-            "  short2: short\n" +
-            "}\n",
+                "var short2 = true;\n" +
+                "\n" +
+                "module.exports = {\n" +
+                "  short: short,    \n" +
+                "  short2: short\n" +
+                "}\n",
             output:
-            "var short2 = true;\n" +
-            "\n" +
-            "module.exports = {\n" +
-            "  short: short,\n" +
-            "  short2: short\n" +
-            "}\n",
-            errors: [{
-                messageId: "trailingSpace",
-                type: "Program"
-            }]
+                "var short2 = true;\n" +
+                "\n" +
+                "module.exports = {\n" +
+                "  short: short,\n" +
+                "  short2: short\n" +
+                "}\n",
+            errors: [
+                {
+                    messageId: "trailingSpace",
+                    type: "Program"
+                }
+            ]
         },
         {
             code:
-            "var short2 = true;\n" +
-            "\n" +
-            "module.exports = {\n" +
-            "  short,    \n" +
-            "  short2\n" +
-            "}\n",
+                "var short2 = true;\n" +
+                "\n" +
+                "module.exports = {\n" +
+                "  short,    \n" +
+                "  short2\n" +
+                "}\n",
             output:
-            "var short2 = true;\n" +
-            "\n" +
-            "module.exports = {\n" +
-            "  short,\n" +
-            "  short2\n" +
-            "}\n",
+                "var short2 = true;\n" +
+                "\n" +
+                "module.exports = {\n" +
+                "  short,\n" +
+                "  short2\n" +
+                "}\n",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "trailingSpace",
-                type: "Program"
-            }]
+            errors: [
+                {
+                    messageId: "trailingSpace",
+                    type: "Program"
+                }
+            ]
         },
         {
             code:
-            "\n" +
-            "measAr.push(\"<dl></dl>\",  \n" +
-            "         \" </dt><dd class ='pta-res'>\");",
+                "\n" +
+                'measAr.push("<dl></dl>",  \n' +
+                "         \" </dt><dd class ='pta-res'>\");",
             output:
-            "\n" +
-            "measAr.push(\"<dl></dl>\",\n" +
-            "         \" </dt><dd class ='pta-res'>\");",
-            errors: [{
-                messageId: "trailingSpace",
-                type: "Program"
-            }]
+                "\n" +
+                'measAr.push("<dl></dl>",\n' +
+                "         \" </dt><dd class ='pta-res'>\");",
+            errors: [
+                {
+                    messageId: "trailingSpace",
+                    type: "Program"
+                }
+            ]
         },
         {
             code:
-            "measAr.push(\"<dl></dl>\",  \n" +
-            "         \" </dt><dd class ='pta-res'>\");",
+                'measAr.push("<dl></dl>",  \n' +
+                "         \" </dt><dd class ='pta-res'>\");",
             output:
-            "measAr.push(\"<dl></dl>\",\n" +
-            "         \" </dt><dd class ='pta-res'>\");",
-            errors: [{
-                messageId: "trailingSpace",
-                type: "Program"
-            }]
+                'measAr.push("<dl></dl>",\n' +
+                "         \" </dt><dd class ='pta-res'>\");",
+            errors: [
+                {
+                    messageId: "trailingSpace",
+                    type: "Program"
+                }
+            ]
         },
         {
             code: "var a = 5;      \n",
             output: "var a = 5;\n",
-            errors: [{
-                messageId: "trailingSpace",
-                type: "Program"
-            }]
+            errors: [
+                {
+                    messageId: "trailingSpace",
+                    type: "Program"
+                }
+            ]
         },
         {
             code: "var a = 5; \n b = 3; ",
             output: "var a = 5;\n b = 3;",
-            errors: [{
-                messageId: "trailingSpace",
-                type: "Program"
-            }, {
-                messageId: "trailingSpace",
-                type: "Program"
-            }]
+            errors: [
+                {
+                    messageId: "trailingSpace",
+                    type: "Program"
+                },
+                {
+                    messageId: "trailingSpace",
+                    type: "Program"
+                }
+            ]
         },
         {
             code: "var a = 5; \n\n b = 3; ",
             output: "var a = 5;\n\n b = 3;",
-            errors: [{
-                messageId: "trailingSpace",
-                type: "Program"
-            }, {
-                messageId: "trailingSpace",
-                type: "Program"
-            }]
+            errors: [
+                {
+                    messageId: "trailingSpace",
+                    type: "Program"
+                },
+                {
+                    messageId: "trailingSpace",
+                    type: "Program"
+                }
+            ]
         },
         {
             code: "var a = 5;\t\n  b = 3;",
             output: "var a = 5;\n  b = 3;",
-            errors: [{
-                messageId: "trailingSpace",
-                type: "Program"
-            }]
+            errors: [
+                {
+                    messageId: "trailingSpace",
+                    type: "Program"
+                }
+            ]
         },
         {
             code: "     \n    var c = 1;",
             output: "\n    var c = 1;",
-            errors: [{
-                messageId: "trailingSpace",
-                type: "Program"
-            }]
+            errors: [
+                {
+                    messageId: "trailingSpace",
+                    type: "Program"
+                }
+            ]
         },
         {
             code: "\t\n\tvar c = 2;",
             output: "\n\tvar c = 2;",
-            errors: [{
-                messageId: "trailingSpace",
-                type: "Program"
-            }]
+            errors: [
+                {
+                    messageId: "trailingSpace",
+                    type: "Program"
+                }
+            ]
         },
         {
             code: "var a = 5;      \n",
             output: "var a = 5;\n",
             options: [{}],
-            errors: [{
-                messageId: "trailingSpace",
-                type: "Program"
-            }]
+            errors: [
+                {
+                    messageId: "trailingSpace",
+                    type: "Program"
+                }
+            ]
         },
         {
             code: "var a = 5; \n b = 3; ",
             output: "var a = 5;\n b = 3;",
             options: [{}],
-            errors: [{
-                messageId: "trailingSpace",
-                type: "Program",
-                line: 1,
-                column: 11,
-                endLine: 1,
-                endColumn: 12
-            }, {
-                messageId: "trailingSpace",
-                type: "Program",
-                line: 2,
-                column: 8,
-                endLine: 2,
-                endColumn: 9
-            }]
+            errors: [
+                {
+                    messageId: "trailingSpace",
+                    type: "Program",
+                    line: 1,
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 12
+                },
+                {
+                    messageId: "trailingSpace",
+                    type: "Program",
+                    line: 2,
+                    column: 8,
+                    endLine: 2,
+                    endColumn: 9
+                }
+            ]
         },
         {
             code: "var a = 5;\t\n  b = 3;",
             output: "var a = 5;\n  b = 3;",
             options: [{}],
-            errors: [{
-                messageId: "trailingSpace",
-                type: "Program",
-                line: 1,
-                column: 11,
-                endLine: 1,
-                endColumn: 12
-            }]
+            errors: [
+                {
+                    messageId: "trailingSpace",
+                    type: "Program",
+                    line: 1,
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 12
+                }
+            ]
         },
         {
             code: "     \n    var c = 1;",
             output: "\n    var c = 1;",
             options: [{}],
-            errors: [{
-                messageId: "trailingSpace",
-                type: "Program",
-                line: 1,
-                column: 1,
-                endLine: 1,
-                endColumn: 6
-            }]
+            errors: [
+                {
+                    messageId: "trailingSpace",
+                    type: "Program",
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 6
+                }
+            ]
         },
         {
             code: "\t\n\tvar c = 2;",
             output: "\n\tvar c = 2;",
             options: [{}],
-            errors: [{
-                messageId: "trailingSpace",
-                type: "Program"
-            }]
+            errors: [
+                {
+                    messageId: "trailingSpace",
+                    type: "Program"
+                }
+            ]
         },
         {
             code: "var a = 'bar';  \n \n\t",
             output: "var a = 'bar';\n \n\t",
-            options: [{
-                skipBlankLines: true
-            }],
-            errors: [{
-                messageId: "trailingSpace",
-                type: "Program",
-                line: 1,
-                column: 15, // there are invalid spaces in columns 15 and 16
-                endLine: 1,
-                endColumn: 17
-            }]
+            options: [
+                {
+                    skipBlankLines: true
+                }
+            ],
+            errors: [
+                {
+                    messageId: "trailingSpace",
+                    type: "Program",
+                    line: 1,
+                    column: 15, // there are invalid spaces in columns 15 and 16
+                    endLine: 1,
+                    endColumn: 17
+                }
+            ]
         },
         {
             code: "var a = 'foo';   \nvar b = 'bar';  \n  \n",
             output: "var a = 'foo';\nvar b = 'bar';\n  \n",
-            options: [{
-                skipBlankLines: true
-            }],
+            options: [
+                {
+                    skipBlankLines: true
+                }
+            ],
             errors: [
                 {
                     messageId: "trailingSpace",
@@ -367,14 +409,16 @@ ruleTester.run("no-trailing-spaces", rule, {
             code: "let str = `${a}\n  \n${b}`;  \n",
             output: "let str = `${a}\n  \n${b}`;\n",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "trailingSpace",
-                type: "Program",
-                line: 3,
-                column: 7,
-                endLine: 3,
-                endColumn: 9
-            }]
+            errors: [
+                {
+                    messageId: "trailingSpace",
+                    type: "Program",
+                    line: 3,
+                    column: 7,
+                    endLine: 3,
+                    endColumn: 9
+                }
+            ]
         },
         {
             code: "let str = `\n${a}\n  \n${b}`;  \n\t",
@@ -417,9 +461,11 @@ ruleTester.run("no-trailing-spaces", rule, {
         {
             code: "let str = `${a}\n  \n${b}`;  \n  \n",
             output: "let str = `${a}\n  \n${b}`;\n  \n",
-            options: [{
-                skipBlankLines: true
-            }],
+            options: [
+                {
+                    skipBlankLines: true
+                }
+            ],
             languageOptions: { ecmaVersion: 6 },
             errors: [
                 {

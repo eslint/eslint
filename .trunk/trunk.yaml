@@ -5,7 +5,7 @@ cli:
     version: 1.22.3
 
 repo:
-  trunk_remote_hint: github.com/eslint/eslint
+    trunk_remote_hint: github.com/eslint/eslint
 
 # Trunk provides extensibility via plugins. (https://docs.trunk.io/plugins)
 plugins:
@@ -54,13 +54,15 @@ lint:
         - yamllint
         - trufflehog # Requires the network to run.
     ignore:
-        - linters: [markdownlint]
+        - linters: [markdownlint, prettier]
           paths:
               - CHANGELOG.md
         - linters: [prettier]
           paths:
-              - "**" # Ignore all files
-              - "!conf/**/*.json" # Except for json files in conf/
+              - docs/src/_includes
+              - docs/src/rules/*.md
+              - packages/js/src/configs/eslint-all.js
+              - tests/fixtures
 actions:
     disabled:
         - trunk-announce

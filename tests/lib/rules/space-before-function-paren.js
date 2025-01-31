@@ -19,7 +19,6 @@ const baseParser = require("../../fixtures/fixture-parser");
 const ruleTester = new RuleTester();
 
 ruleTester.run("space-before-function-paren", rule, {
-
     valid: [
         "function foo () {}",
         "var foo = function () {}",
@@ -35,7 +34,10 @@ ruleTester.run("space-before-function-paren", rule, {
             languageOptions: { ecmaVersion: 6 }
         },
         { code: "function* foo () {}", languageOptions: { ecmaVersion: 6 } },
-        { code: "var foo = function *() {};", languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "var foo = function *() {};",
+            languageOptions: { ecmaVersion: 6 }
+        },
 
         { code: "function foo() {}", options: ["never"] },
         { code: "var foo = function() {}", options: ["never"] },
@@ -43,7 +45,10 @@ ruleTester.run("space-before-function-paren", rule, {
         { code: "var foo = function/* */() {}", options: ["never"] },
         { code: "var foo = function/* *//*  */() {}", options: ["never"] },
         { code: "var bar = function foo() {}", options: ["never"] },
-        { code: "var obj = { get foo() {}, set foo(val) {} };", options: ["never"] },
+        {
+            code: "var obj = { get foo() {}, set foo(val) {} };",
+            options: ["never"]
+        },
         {
             code: "var obj = { foo() {} };",
             options: ["never"],
@@ -111,22 +116,56 @@ ruleTester.run("space-before-function-paren", rule, {
         {
             code: "type TransformFunction = (el: ASTElement, code: string) => string;",
             languageOptions: {
-                parser: require(baseParser("babel-eslint7", "function-type-annotation"))
+                parser: require(
+                    baseParser("babel-eslint7", "function-type-annotation")
+                )
             }
         },
 
         // Async arrow functions
         { code: "() => 1", languageOptions: { ecmaVersion: 6 } },
         { code: "async a => a", languageOptions: { ecmaVersion: 8 } },
-        { code: "async a => a", options: [{ asyncArrow: "always" }], languageOptions: { ecmaVersion: 8 } },
-        { code: "async a => a", options: [{ asyncArrow: "never" }], languageOptions: { ecmaVersion: 8 } },
-        { code: "async () => 1", options: [{ asyncArrow: "always" }], languageOptions: { ecmaVersion: 8 } },
-        { code: "async() => 1", options: [{ asyncArrow: "never" }], languageOptions: { ecmaVersion: 8 } },
-        { code: "async () => 1", options: [{ asyncArrow: "ignore" }], languageOptions: { ecmaVersion: 8 } },
-        { code: "async() => 1", options: [{ asyncArrow: "ignore" }], languageOptions: { ecmaVersion: 8 } },
+        {
+            code: "async a => a",
+            options: [{ asyncArrow: "always" }],
+            languageOptions: { ecmaVersion: 8 }
+        },
+        {
+            code: "async a => a",
+            options: [{ asyncArrow: "never" }],
+            languageOptions: { ecmaVersion: 8 }
+        },
+        {
+            code: "async () => 1",
+            options: [{ asyncArrow: "always" }],
+            languageOptions: { ecmaVersion: 8 }
+        },
+        {
+            code: "async() => 1",
+            options: [{ asyncArrow: "never" }],
+            languageOptions: { ecmaVersion: 8 }
+        },
+        {
+            code: "async () => 1",
+            options: [{ asyncArrow: "ignore" }],
+            languageOptions: { ecmaVersion: 8 }
+        },
+        {
+            code: "async() => 1",
+            options: [{ asyncArrow: "ignore" }],
+            languageOptions: { ecmaVersion: 8 }
+        },
         { code: "async () => 1", languageOptions: { ecmaVersion: 8 } },
-        { code: "async () => 1", options: ["always"], languageOptions: { ecmaVersion: 8 } },
-        { code: "async() => 1", options: ["never"], languageOptions: { ecmaVersion: 8 } }
+        {
+            code: "async () => 1",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 8 }
+        },
+        {
+            code: "async() => 1",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 8 }
+        }
     ],
 
     invalid: [
@@ -606,21 +645,30 @@ ruleTester.run("space-before-function-paren", rule, {
             code: "async() => 1",
             output: "async () => 1",
             languageOptions: { ecmaVersion: 8 },
-            errors: [{ messageId: "missingSpace", type: "ArrowFunctionExpression" }]
+            errors: [
+                { messageId: "missingSpace", type: "ArrowFunctionExpression" }
+            ]
         },
         {
             code: "async() => 1",
             output: "async () => 1",
             options: ["always"],
             languageOptions: { ecmaVersion: 8 },
-            errors: [{ messageId: "missingSpace", type: "ArrowFunctionExpression" }]
+            errors: [
+                { messageId: "missingSpace", type: "ArrowFunctionExpression" }
+            ]
         },
         {
             code: "async () => 1",
             output: "async() => 1",
             options: ["never"],
             languageOptions: { ecmaVersion: 8 },
-            errors: [{ messageId: "unexpectedSpace", type: "ArrowFunctionExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedSpace",
+                    type: "ArrowFunctionExpression"
+                }
+            ]
         }
     ]
 });

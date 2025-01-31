@@ -80,8 +80,10 @@ describe("FixTracker", () => {
         it("allows an unspecified retained range", () => {
             const sourceCode = createSourceCode("abcdefghij");
             const ruleFixer = new RuleFixer({ sourceCode });
-            const result = new FixTracker(ruleFixer, sourceCode)
-                .replaceTextRange([4, 8], "123");
+            const result = new FixTracker(
+                ruleFixer,
+                sourceCode
+            ).replaceTextRange([4, 8], "123");
 
             assert.deepStrictEqual(result, {
                 range: [4, 8],
@@ -108,7 +110,8 @@ describe("FixTracker", () => {
     describe("retainEnclosingFunction", () => {
         it("handles a normal enclosing function", () => {
             const sourceCode = createSourceCode("f = function() { return x; }");
-            const xNode = sourceCode.ast.body[0].expression.right.body.body[0].argument;
+            const xNode =
+                sourceCode.ast.body[0].expression.right.body.body[0].argument;
             const ruleFixer = new RuleFixer({ sourceCode });
             const result = new FixTracker(ruleFixer, sourceCode)
                 .retainEnclosingFunction(xNode)

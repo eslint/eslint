@@ -20,7 +20,6 @@ const ruleTester = new RuleTester();
 
 ruleTester.run("no-dupe-else-if", rule, {
     valid: [
-
         // different test conditions
         "if (a) {} else if (b) {}",
         "if (a); else if (b); else if (c);",
@@ -67,51 +66,72 @@ ruleTester.run("no-dupe-else-if", rule, {
     ],
 
     invalid: [
-
         // basic tests
         {
             code: "if (a) {} else if (a) {}",
-            errors: [{ messageId: "unexpected", type: "Identifier", column: 20 }]
+            errors: [
+                { messageId: "unexpected", type: "Identifier", column: 20 }
+            ]
         },
         {
             code: "if (a); else if (a);",
-            errors: [{ messageId: "unexpected", type: "Identifier", column: 18 }]
+            errors: [
+                { messageId: "unexpected", type: "Identifier", column: 18 }
+            ]
         },
         {
             code: "if (a) {} else if (a) {} else {}",
-            errors: [{ messageId: "unexpected", type: "Identifier", column: 20 }]
+            errors: [
+                { messageId: "unexpected", type: "Identifier", column: 20 }
+            ]
         },
         {
             code: "if (a) {} else if (b) {} else if (a) {} else if (c) {}",
-            errors: [{ messageId: "unexpected", type: "Identifier", column: 35 }]
+            errors: [
+                { messageId: "unexpected", type: "Identifier", column: 35 }
+            ]
         },
         {
             code: "if (a) {} else if (b) {} else if (a) {}",
-            errors: [{ messageId: "unexpected", type: "Identifier", column: 35 }]
+            errors: [
+                { messageId: "unexpected", type: "Identifier", column: 35 }
+            ]
         },
         {
             code: "if (a) {} else if (b) {} else if (c) {} else if (a) {}",
-            errors: [{ messageId: "unexpected", type: "Identifier", column: 50 }]
+            errors: [
+                { messageId: "unexpected", type: "Identifier", column: 50 }
+            ]
         },
         {
             code: "if (a) {} else if (b) {} else if (b) {}",
-            errors: [{ messageId: "unexpected", type: "Identifier", column: 35 }]
+            errors: [
+                { messageId: "unexpected", type: "Identifier", column: 35 }
+            ]
         },
         {
             code: "if (a) {} else if (b) {} else if (b) {} else {}",
-            errors: [{ messageId: "unexpected", type: "Identifier", column: 35 }]
+            errors: [
+                { messageId: "unexpected", type: "Identifier", column: 35 }
+            ]
         },
         {
             code: "if (a) {} else if (b) {} else if (c) {} else if (b) {}",
-            errors: [{ messageId: "unexpected", type: "Identifier", column: 50 }]
+            errors: [
+                { messageId: "unexpected", type: "Identifier", column: 50 }
+            ]
         },
         {
             code: "if (a); else if (b); else if (c); else if (b); else if (d); else;",
-            errors: [{ messageId: "unexpected", type: "Identifier", column: 44 }]
+            errors: [
+                { messageId: "unexpected", type: "Identifier", column: 44 }
+            ]
         },
         {
             code: "if (a); else if (b); else if (c); else if (d); else if (b); else if (e);",
-            errors: [{ messageId: "unexpected", type: "Identifier", column: 57 }]
+            errors: [
+                { messageId: "unexpected", type: "Identifier", column: 57 }
+            ]
         },
 
         // multiple duplicates of the same condition
@@ -136,17 +156,31 @@ ruleTester.run("no-dupe-else-if", rule, {
         // inner if statements do not affect chain
         {
             code: "if (a) { if (b) {} } else if (a) {}",
-            errors: [{ messageId: "unexpected", type: "Identifier", column: 31 }]
+            errors: [
+                { messageId: "unexpected", type: "Identifier", column: 31 }
+            ]
         },
 
         // various kinds of test conditions
         {
             code: "if (a === 1) {} else if (a === 1) {}",
-            errors: [{ messageId: "unexpected", type: "BinaryExpression", column: 26 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "BinaryExpression",
+                    column: 26
+                }
+            ]
         },
         {
             code: "if (1 < a) {} else if (1 < a) {}",
-            errors: [{ messageId: "unexpected", type: "BinaryExpression", column: 24 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "BinaryExpression",
+                    column: 24
+                }
+            ]
         },
         {
             code: "if (true) {} else if (true) {}",
@@ -154,37 +188,71 @@ ruleTester.run("no-dupe-else-if", rule, {
         },
         {
             code: "if (a && b) {} else if (a && b) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 25 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 25
+                }
+            ]
         },
         {
             code: "if (a && b || c)  {} else if (a && b || c) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 31 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 31
+                }
+            ]
         },
         {
             code: "if (f(a)) {} else if (f(a)) {}",
-            errors: [{ messageId: "unexpected", type: "CallExpression", column: 23 }]
+            errors: [
+                { messageId: "unexpected", type: "CallExpression", column: 23 }
+            ]
         },
 
         // spaces and comments do not affect comparison
         {
             code: "if (a === 1) {} else if (a===1) {}",
-            errors: [{ messageId: "unexpected", type: "BinaryExpression", column: 26 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "BinaryExpression",
+                    column: 26
+                }
+            ]
         },
         {
             code: "if (a === 1) {} else if (a === /* comment */ 1) {}",
-            errors: [{ messageId: "unexpected", type: "BinaryExpression", column: 26 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "BinaryExpression",
+                    column: 26
+                }
+            ]
         },
 
         // extra parens around the whole test condition do not affect comparison
         {
             code: "if (a === 1) {} else if ((a === 1)) {}",
-            errors: [{ messageId: "unexpected", type: "BinaryExpression", column: 27 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "BinaryExpression",
+                    column: 27
+                }
+            ]
         },
 
         // more complex errors with `||` and `&&`
         {
             code: "if (a || b) {} else if (a) {}",
-            errors: [{ messageId: "unexpected", type: "Identifier", column: 25 }]
+            errors: [
+                { messageId: "unexpected", type: "Identifier", column: 25 }
+            ]
         },
         {
             code: "if (a || b) {} else if (a) {} else if (b) {}",
@@ -195,123 +263,295 @@ ruleTester.run("no-dupe-else-if", rule, {
         },
         {
             code: "if (a || b) {} else if (b || a) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 25 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 25
+                }
+            ]
         },
         {
             code: "if (a) {} else if (b) {} else if (a || b) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 35 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 35
+                }
+            ]
         },
         {
             code: "if (a || b) {} else if (c || d) {} else if (a || d) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 45 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 45
+                }
+            ]
         },
         {
             code: "if ((a === b && fn(c)) || d) {} else if (fn(c) && a === b) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 42 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 42
+                }
+            ]
         },
         {
             code: "if (a) {} else if (a && b) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 20 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 20
+                }
+            ]
         },
         {
             code: "if (a && b) {} else if (b && a) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 25 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 25
+                }
+            ]
         },
         {
             code: "if (a && b) {} else if (a && b && c) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 25 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 25
+                }
+            ]
         },
         {
             code: "if (a || c) {} else if (a && b || c) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 25 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 25
+                }
+            ]
         },
         {
             code: "if (a) {} else if (b) {} else if (c && a || b) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 35 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 35
+                }
+            ]
         },
         {
             code: "if (a) {} else if (b) {} else if (c && (a || b)) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 35 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 35
+                }
+            ]
         },
         {
             code: "if (a) {} else if (b && c) {} else if (d && (a || e && c && b)) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 40 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 40
+                }
+            ]
         },
         {
             code: "if (a || b && c) {} else if (b && c && d) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 30 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 30
+                }
+            ]
         },
         {
             code: "if (a || b) {} else if (b && c) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 25 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 25
+                }
+            ]
         },
         {
             code: "if (a) {} else if (b) {} else if ((a || b) && c) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 35 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 35
+                }
+            ]
         },
         {
             code: "if ((a && (b || c)) || d) {} else if ((c || b) && e && a) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 39 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 39
+                }
+            ]
         },
         {
             code: "if (a && b || b && c) {} else if (a && b && c) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 35 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 35
+                }
+            ]
         },
         {
             code: "if (a) {} else if (b && c) {} else if (d && (c && e && b || a)) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 40 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 40
+                }
+            ]
         },
         {
             code: "if (a || (b && (c || d))) {} else if ((d || c) && b) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 39 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 39
+                }
+            ]
         },
         {
             code: "if (a || b) {} else if ((b || a) && c) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 25 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 25
+                }
+            ]
         },
         {
             code: "if (a || b) {} else if (c) {} else if (d) {} else if (b && (a || c)) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 55 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 55
+                }
+            ]
         },
         {
             code: "if (a || b || c) {} else if (a || (b && d) || (c && e)) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 30 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 30
+                }
+            ]
         },
         {
             code: "if (a || (b || c)) {} else if (a || (b && c)) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 32 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 32
+                }
+            ]
         },
         {
             code: "if (a || b) {} else if (c) {} else if (d) {} else if ((a || c) && (b || d)) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 55 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 55
+                }
+            ]
         },
         {
             code: "if (a) {} else if (b) {} else if (c && (a || d && b)) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 35 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 35
+                }
+            ]
         },
         {
             code: "if (a) {} else if (a || a) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 20 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 20
+                }
+            ]
         },
         {
             code: "if (a || a) {} else if (a || a) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 25 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 25
+                }
+            ]
         },
         {
             code: "if (a || a) {} else if (a) {}",
-            errors: [{ messageId: "unexpected", type: "Identifier", column: 25 }]
+            errors: [
+                { messageId: "unexpected", type: "Identifier", column: 25 }
+            ]
         },
         {
             code: "if (a) {} else if (a && a) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 20 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 20
+                }
+            ]
         },
         {
             code: "if (a && a) {} else if (a && a) {}",
-            errors: [{ messageId: "unexpected", type: "LogicalExpression", column: 25 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "LogicalExpression",
+                    column: 25
+                }
+            ]
         },
         {
             code: "if (a && a) {} else if (a) {}",
-            errors: [{ messageId: "unexpected", type: "Identifier", column: 25 }]
+            errors: [
+                { messageId: "unexpected", type: "Identifier", column: 25 }
+            ]
         }
     ]
 });

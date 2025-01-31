@@ -22,46 +22,62 @@ ruleTester.run("no-iterator", rule, {
     valid: [
         "var a = test[__iterator__];",
         "var __iterator__ = null;",
-        { code: "foo[`__iterator`] = null;", languageOptions: { ecmaVersion: 6 } },
-        { code: "foo[`__iterator__\n`] = null;", languageOptions: { ecmaVersion: 6 } }
+        {
+            code: "foo[`__iterator`] = null;",
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "foo[`__iterator__\n`] = null;",
+            languageOptions: { ecmaVersion: 6 }
+        }
     ],
     invalid: [
         {
             code: "var a = test.__iterator__;",
-            errors: [{
-                messageId: "noIterator",
-                type: "MemberExpression"
-            }]
+            errors: [
+                {
+                    messageId: "noIterator",
+                    type: "MemberExpression"
+                }
+            ]
         },
         {
             code: "Foo.prototype.__iterator__ = function() {};",
-            errors: [{
-                messageId: "noIterator",
-                type: "MemberExpression"
-            }]
+            errors: [
+                {
+                    messageId: "noIterator",
+                    type: "MemberExpression"
+                }
+            ]
         },
         {
             code: "var a = test['__iterator__'];",
-            errors: [{
-                messageId: "noIterator",
-                type: "MemberExpression"
-            }]
+            errors: [
+                {
+                    messageId: "noIterator",
+                    type: "MemberExpression"
+                }
+            ]
         },
         {
             code: "var a = test[`__iterator__`];",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "noIterator",
-                type: "MemberExpression"
-            }]
+            errors: [
+                {
+                    messageId: "noIterator",
+                    type: "MemberExpression"
+                }
+            ]
         },
         {
             code: "test[`__iterator__`] = function () {};",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "noIterator",
-                type: "MemberExpression"
-            }]
+            errors: [
+                {
+                    messageId: "noIterator",
+                    type: "MemberExpression"
+                }
+            ]
         }
     ]
 });

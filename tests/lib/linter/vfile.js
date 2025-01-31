@@ -17,9 +17,7 @@ const assert = require("chai").assert;
 //------------------------------------------------------------------------------
 
 describe("VFile", () => {
-
     describe("new VFile()", () => {
-
         it("should create a new instance", () => {
             const vfile = new VFile("foo.js", "var foo = bar;");
 
@@ -41,7 +39,9 @@ describe("VFile", () => {
         });
 
         it("should create a new instance with a physicalPath", () => {
-            const vfile = new VFile("foo.js", "var foo = bar;", { physicalPath: "foo/bar" });
+            const vfile = new VFile("foo.js", "var foo = bar;", {
+                physicalPath: "foo/bar"
+            });
 
             assert.strictEqual(vfile.path, "foo.js");
             assert.strictEqual(vfile.physicalPath, "foo/bar");
@@ -73,7 +73,5 @@ describe("VFile", () => {
             assert.deepStrictEqual(vfile.rawBody, body);
             assert.isTrue(vfile.bom);
         });
-
     });
-
 });

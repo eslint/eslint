@@ -28,11 +28,8 @@ const flatOptions = createOptions(true);
  */
 
 describe("options", () => {
-
     describe("Common options", () => {
-
-        [eslintrcOptions, flatOptions].forEach(options => {
-
+        [eslintrcOptions, flatOptions].forEach((options) => {
             describe("--help", () => {
                 it("should return true for .help when passed", () => {
                     const currentOptions = options.parse("--help");
@@ -126,7 +123,9 @@ describe("options", () => {
 
             describe("--ignore-pattern", () => {
                 it("should return a string array for .ignorePattern when passed", () => {
-                    const currentOptions = options.parse("--ignore-pattern *.js");
+                    const currentOptions = options.parse(
+                        "--ignore-pattern *.js"
+                    );
 
                     assert.ok(currentOptions.ignorePattern);
                     assert.strictEqual(currentOptions.ignorePattern.length, 1);
@@ -134,7 +133,9 @@ describe("options", () => {
                 });
 
                 it("should return a string array for multiple values", () => {
-                    const currentOptions = options.parse("--ignore-pattern *.js --ignore-pattern *.ts");
+                    const currentOptions = options.parse(
+                        "--ignore-pattern *.js --ignore-pattern *.ts"
+                    );
 
                     assert.ok(currentOptions.ignorePattern);
                     assert.strictEqual(currentOptions.ignorePattern.length, 2);
@@ -143,12 +144,17 @@ describe("options", () => {
                 });
 
                 it("should return a string array of properly parsed values, when those values include commas", () => {
-                    const currentOptions = options.parse("--ignore-pattern *.js --ignore-pattern foo-{bar,baz}.js");
+                    const currentOptions = options.parse(
+                        "--ignore-pattern *.js --ignore-pattern foo-{bar,baz}.js"
+                    );
 
                     assert.ok(currentOptions.ignorePattern);
                     assert.strictEqual(currentOptions.ignorePattern.length, 2);
                     assert.strictEqual(currentOptions.ignorePattern[0], "*.js");
-                    assert.strictEqual(currentOptions.ignorePattern[1], "foo-{bar,baz}.js");
+                    assert.strictEqual(
+                        currentOptions.ignorePattern[1],
+                        "foo-{bar,baz}.js"
+                    );
                 });
             });
 
@@ -176,7 +182,9 @@ describe("options", () => {
 
             describe("--stdin-filename", () => {
                 it("should return a string for .stdinFilename when passed", () => {
-                    const currentOptions = options.parse("--stdin-filename test.js");
+                    const currentOptions = options.parse(
+                        "--stdin-filename test.js"
+                    );
 
                     assert.strictEqual(currentOptions.stdinFilename, "test.js");
                 });
@@ -201,7 +209,9 @@ describe("options", () => {
                 });
 
                 it("should not split on colons", () => {
-                    const currentOptions = options.parse("--global foo:false,bar:true");
+                    const currentOptions = options.parse(
+                        "--global foo:false,bar:true"
+                    );
 
                     assert.isArray(currentOptions.global);
                     assert.strictEqual(currentOptions.global.length, 2);
@@ -210,7 +220,9 @@ describe("options", () => {
                 });
 
                 it("should concatenate successive occurrences", () => {
-                    const currentOptions = options.parse("--global foo:true --global bar:false");
+                    const currentOptions = options.parse(
+                        "--global foo:true --global bar:false"
+                    );
 
                     assert.isArray(currentOptions.global);
                     assert.strictEqual(currentOptions.global.length, 2);
@@ -218,7 +230,6 @@ describe("options", () => {
                     assert.strictEqual(currentOptions.global[1], "bar:false");
                 });
             });
-
 
             describe("--quiet", () => {
                 it("should return true for .quiet when passed", () => {
@@ -273,7 +284,9 @@ describe("options", () => {
                 });
 
                 it("should return two values when --fix-type is passed twice", () => {
-                    const currentOptions = options.parse("--fix-type problem --fix-type suggestion");
+                    const currentOptions = options.parse(
+                        "--fix-type problem --fix-type suggestion"
+                    );
 
                     assert.strictEqual(currentOptions.fixType.length, 2);
                     assert.strictEqual(currentOptions.fixType[0], "problem");
@@ -281,7 +294,9 @@ describe("options", () => {
                 });
 
                 it("should return two values when --fix-type is passed a comma-separated value", () => {
-                    const currentOptions = options.parse("--fix-type problem,suggestion");
+                    const currentOptions = options.parse(
+                        "--fix-type problem,suggestion"
+                    );
 
                     assert.strictEqual(currentOptions.fixType.length, 2);
                     assert.strictEqual(currentOptions.fixType[0], "problem");
@@ -313,15 +328,15 @@ describe("options", () => {
 
             describe("--print-config", () => {
                 it("should return file path when passed --print-config", () => {
-                    const currentOptions = options.parse("--print-config file.js");
+                    const currentOptions = options.parse(
+                        "--print-config file.js"
+                    );
 
                     assert.strictEqual(currentOptions.printConfig, "file.js");
                 });
             });
         });
-
     });
-
 
     describe("--ext", () => {
         it("should return an array with one item when passed .jsx", () => {
@@ -332,7 +347,9 @@ describe("options", () => {
         });
 
         it("should return an array with two items when passed .js and .jsx", () => {
-            const currentOptions = eslintrcOptions.parse("--ext .jsx --ext .js");
+            const currentOptions = eslintrcOptions.parse(
+                "--ext .jsx --ext .js"
+            );
 
             assert.isArray(currentOptions.ext);
             assert.strictEqual(currentOptions.ext[0], ".jsx");
@@ -356,7 +373,9 @@ describe("options", () => {
 
     describe("--rulesdir", () => {
         it("should return a string for .rulesdir when passed a string", () => {
-            const currentOptions = eslintrcOptions.parse("--rulesdir /morerules");
+            const currentOptions = eslintrcOptions.parse(
+                "--rulesdir /morerules"
+            );
 
             assert.isArray(currentOptions.rulesdir);
             assert.deepStrictEqual(currentOptions.rulesdir, ["/morerules"]);
@@ -365,7 +384,9 @@ describe("options", () => {
 
     describe("--ignore-path", () => {
         it("should return a string for .ignorePath when passed", () => {
-            const currentOptions = eslintrcOptions.parse("--ignore-path .gitignore");
+            const currentOptions = eslintrcOptions.parse(
+                "--ignore-path .gitignore"
+            );
 
             assert.strictEqual(currentOptions.ignorePath, ".gitignore");
         });
@@ -398,7 +419,9 @@ describe("options", () => {
         });
 
         it("should return an array when passed multiple times", () => {
-            const currentOptions = eslintrcOptions.parse("--plugin foo --plugin bar");
+            const currentOptions = eslintrcOptions.parse(
+                "--plugin foo --plugin bar"
+            );
 
             assert.isArray(currentOptions.plugin);
             assert.strictEqual(currentOptions.plugin.length, 2);
@@ -409,7 +432,9 @@ describe("options", () => {
 
     describe("--no-config-lookup", () => {
         it("should return a boolean for .configLookup when passed a string", () => {
-            const currentOptions = flatOptions.parse("--no-config-lookup foo.js");
+            const currentOptions = flatOptions.parse(
+                "--no-config-lookup foo.js"
+            );
 
             assert.isFalse(currentOptions.configLookup);
         });
@@ -461,10 +486,14 @@ describe("options", () => {
         });
 
         it("should return multi-item array when --flag is passed multiple times", () => {
-            const currentOptions = flatOptions.parse("--flag x_feature --flag y_feature");
+            const currentOptions = flatOptions.parse(
+                "--flag x_feature --flag y_feature"
+            );
 
-            assert.deepStrictEqual(currentOptions.flag, ["x_feature", "y_feature"]);
+            assert.deepStrictEqual(currentOptions.flag, [
+                "x_feature",
+                "y_feature"
+            ]);
         });
     });
-
 });

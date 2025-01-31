@@ -39,14 +39,38 @@ ruleTester.run("require-unicode-regexp", rule, {
         "function f(flags) { return new RegExp('', flags) }",
         "function f(RegExp) { return new RegExp('foo') }",
         "function f(patternAndFlags) { return new RegExp(...patternAndFlags) }",
-        { code: "new globalThis.RegExp('foo')", languageOptions: { ecmaVersion: 6 } },
-        { code: "new globalThis.RegExp('foo')", languageOptions: { ecmaVersion: 2017 } },
-        { code: "new globalThis.RegExp('foo', 'u')", languageOptions: { ecmaVersion: 2020 } },
-        { code: "globalThis.RegExp('foo', 'u')", languageOptions: { ecmaVersion: 2020 } },
-        { code: "const flags = 'u'; new globalThis.RegExp('', flags)", languageOptions: { ecmaVersion: 2020 } },
-        { code: "const flags = 'g'; new globalThis.RegExp('', flags + 'u')", languageOptions: { ecmaVersion: 2020 } },
-        { code: "const flags = 'gimu'; new globalThis.RegExp('foo', flags[3])", languageOptions: { ecmaVersion: 2020 } },
-        { code: "class C { #RegExp; foo() { new globalThis.#RegExp('foo') } }", languageOptions: { ecmaVersion: 2022 } },
+        {
+            code: "new globalThis.RegExp('foo')",
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "new globalThis.RegExp('foo')",
+            languageOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: "new globalThis.RegExp('foo', 'u')",
+            languageOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "globalThis.RegExp('foo', 'u')",
+            languageOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "const flags = 'u'; new globalThis.RegExp('', flags)",
+            languageOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "const flags = 'g'; new globalThis.RegExp('', flags + 'u')",
+            languageOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "const flags = 'gimu'; new globalThis.RegExp('foo', flags[3])",
+            languageOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "class C { #RegExp; foo() { new globalThis.#RegExp('foo') } }",
+            languageOptions: { ecmaVersion: 2022 }
+        },
         { code: "/foo/u", options: [{ requireFlag: "u" }] },
         { code: "new RegExp('foo', 'u')", options: [{ requireFlag: "u" }] },
 
@@ -58,449 +82,549 @@ ruleTester.run("require-unicode-regexp", rule, {
         { code: "new RegExp('', 'v')", languageOptions: { ecmaVersion: 2024 } },
         { code: "RegExp('', 'gimvy')", languageOptions: { ecmaVersion: 2024 } },
         { code: "RegExp('', `gimvy`)", languageOptions: { ecmaVersion: 2024 } },
-        { code: "new RegExp('', 'gimvy')", languageOptions: { ecmaVersion: 2024 } },
-        { code: "const flags = 'v'; new RegExp('', flags)", languageOptions: { ecmaVersion: 2024 } },
-        { code: "const flags = 'g'; new RegExp('', flags + 'v')", languageOptions: { ecmaVersion: 2024 } },
-        { code: "const flags = 'gimv'; new RegExp('foo', flags[3])", languageOptions: { ecmaVersion: 2024 } },
-        { code: "/foo/v", options: [{ requireFlag: "v" }], languageOptions: { ecmaVersion: 2024 } },
-        { code: "new RegExp('foo', 'v')", options: [{ requireFlag: "v" }], languageOptions: { ecmaVersion: 2024 } }
+        {
+            code: "new RegExp('', 'gimvy')",
+            languageOptions: { ecmaVersion: 2024 }
+        },
+        {
+            code: "const flags = 'v'; new RegExp('', flags)",
+            languageOptions: { ecmaVersion: 2024 }
+        },
+        {
+            code: "const flags = 'g'; new RegExp('', flags + 'v')",
+            languageOptions: { ecmaVersion: 2024 }
+        },
+        {
+            code: "const flags = 'gimv'; new RegExp('foo', flags[3])",
+            languageOptions: { ecmaVersion: 2024 }
+        },
+        {
+            code: "/foo/v",
+            options: [{ requireFlag: "v" }],
+            languageOptions: { ecmaVersion: 2024 }
+        },
+        {
+            code: "new RegExp('foo', 'v')",
+            options: [{ requireFlag: "v" }],
+            languageOptions: { ecmaVersion: 2024 }
+        }
     ],
     invalid: [
         {
             code: "/\\a/",
-            errors: [{
-                messageId: "requireUFlag",
-                suggestions: null
-            }]
+            errors: [
+                {
+                    messageId: "requireUFlag",
+                    suggestions: null
+                }
+            ]
         },
         {
             code: "/foo/",
-            errors: [{
-                messageId: "requireUFlag",
-                suggestions: [
-                    {
-                        messageId: "addUFlag",
-                        output: "/foo/u"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "requireUFlag",
+                    suggestions: [
+                        {
+                            messageId: "addUFlag",
+                            output: "/foo/u"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "/foo/gimy",
-            errors: [{
-                messageId: "requireUFlag",
-                suggestions: [
-                    {
-                        messageId: "addUFlag",
-                        output: "/foo/gimyu"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "requireUFlag",
+                    suggestions: [
+                        {
+                            messageId: "addUFlag",
+                            output: "/foo/gimyu"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp()",
-            errors: [{
-                messageId: "requireUFlag",
-                suggestions: null
-            }]
+            errors: [
+                {
+                    messageId: "requireUFlag",
+                    suggestions: null
+                }
+            ]
         },
         {
             code: "RegExp('foo')",
-            errors: [{
-                messageId: "requireUFlag",
-                suggestions: [
-                    {
-                        messageId: "addUFlag",
-                        output: "RegExp('foo', \"u\")"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "requireUFlag",
+                    suggestions: [
+                        {
+                            messageId: "addUFlag",
+                            output: "RegExp('foo', \"u\")"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp('\\\\a')",
-            errors: [{
-                messageId: "requireUFlag",
-                suggestions: null
-            }]
+            errors: [
+                {
+                    messageId: "requireUFlag",
+                    suggestions: null
+                }
+            ]
         },
         {
             code: "RegExp('foo', '')",
-            errors: [{
-                messageId: "requireUFlag",
-                suggestions: [
-                    {
-                        messageId: "addUFlag",
-                        output: "RegExp('foo', 'u')"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "requireUFlag",
+                    suggestions: [
+                        {
+                            messageId: "addUFlag",
+                            output: "RegExp('foo', 'u')"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp('foo', 'gimy')",
-            errors: [{
-                messageId: "requireUFlag",
-                suggestions: [
-                    {
-                        messageId: "addUFlag",
-                        output: "RegExp('foo', 'gimyu')"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "requireUFlag",
+                    suggestions: [
+                        {
+                            messageId: "addUFlag",
+                            output: "RegExp('foo', 'gimyu')"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "RegExp('foo', `gimy`)",
-            errors: [{
-                messageId: "requireUFlag",
-                suggestions: [
-                    {
-                        messageId: "addUFlag",
-                        output: "RegExp('foo', `gimyu`)"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "requireUFlag",
+                    suggestions: [
+                        {
+                            messageId: "addUFlag",
+                            output: "RegExp('foo', `gimyu`)"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp('foo')",
-            errors: [{
-                messageId: "requireUFlag",
-                suggestions: [
-                    {
-                        messageId: "addUFlag",
-                        output: "new RegExp('foo', \"u\")"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "requireUFlag",
+                    suggestions: [
+                        {
+                            messageId: "addUFlag",
+                            output: "new RegExp('foo', \"u\")"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp('foo',)",
             languageOptions: {
                 ecmaVersion: 2017
             },
-            errors: [{
-                messageId: "requireUFlag",
-                suggestions: [
-                    {
-                        messageId: "addUFlag",
-                        output: "new RegExp('foo', \"u\",)"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "requireUFlag",
+                    suggestions: [
+                        {
+                            messageId: "addUFlag",
+                            output: "new RegExp('foo', \"u\",)"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp('foo', false)",
-            errors: [{
-                messageId: "requireUFlag",
-                suggestions: null
-            }]
+            errors: [
+                {
+                    messageId: "requireUFlag",
+                    suggestions: null
+                }
+            ]
         },
         {
             code: "new RegExp('foo', 1)",
-            errors: [{
-                messageId: "requireUFlag",
-                suggestions: null
-            }]
+            errors: [
+                {
+                    messageId: "requireUFlag",
+                    suggestions: null
+                }
+            ]
         },
         {
             code: "new RegExp('foo', '')",
-            errors: [{
-                messageId: "requireUFlag",
-                suggestions: [
-                    {
-                        messageId: "addUFlag",
-                        output: "new RegExp('foo', 'u')"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "requireUFlag",
+                    suggestions: [
+                        {
+                            messageId: "addUFlag",
+                            output: "new RegExp('foo', 'u')"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp('foo', 'gimy')",
-            errors: [{
-                messageId: "requireUFlag",
-                suggestions: [
-                    {
-                        messageId: "addUFlag",
-                        output: "new RegExp('foo', 'gimyu')"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "requireUFlag",
+                    suggestions: [
+                        {
+                            messageId: "addUFlag",
+                            output: "new RegExp('foo', 'gimyu')"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp(('foo'))",
-            errors: [{
-                messageId: "requireUFlag",
-                suggestions: [
-                    {
-                        messageId: "addUFlag",
-                        output: "new RegExp(('foo'), \"u\")"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "requireUFlag",
+                    suggestions: [
+                        {
+                            messageId: "addUFlag",
+                            output: "new RegExp(('foo'), \"u\")"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp(('unrelated', 'foo'))",
-            errors: [{
-                messageId: "requireUFlag",
-                suggestions: [
-                    {
-                        messageId: "addUFlag",
-                        output: "new RegExp(('unrelated', 'foo'), \"u\")"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "requireUFlag",
+                    suggestions: [
+                        {
+                            messageId: "addUFlag",
+                            output: "new RegExp(('unrelated', 'foo'), \"u\")"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "const flags = 'gi'; new RegExp('foo', flags)",
-            errors: [{
-                messageId: "requireUFlag",
-                suggestions: null
-            }]
+            errors: [
+                {
+                    messageId: "requireUFlag",
+                    suggestions: null
+                }
+            ]
         },
         {
             code: "const flags = 'gi'; new RegExp('foo', ('unrelated', flags))",
-            errors: [{
-                messageId: "requireUFlag",
-                suggestions: null
-            }]
+            errors: [
+                {
+                    messageId: "requireUFlag",
+                    suggestions: null
+                }
+            ]
         },
         {
             code: "let flags; new RegExp('foo', flags = 'g')",
-            errors: [{
-                messageId: "requireUFlag",
-                suggestions: null
-            }]
+            errors: [
+                {
+                    messageId: "requireUFlag",
+                    suggestions: null
+                }
+            ]
         },
         {
             code: "const flags = `gi`; new RegExp(`foo`, (`unrelated`, flags))",
-            errors: [{
-                messageId: "requireUFlag",
-                suggestions: null
-            }]
+            errors: [
+                {
+                    messageId: "requireUFlag",
+                    suggestions: null
+                }
+            ]
         },
         {
             code: "const flags = 'gimu'; new RegExp('foo', flags[0])",
-            errors: [{
-                messageId: "requireUFlag",
-                suggestions: null
-            }]
+            errors: [
+                {
+                    messageId: "requireUFlag",
+                    suggestions: null
+                }
+            ]
         },
         {
             code: "new window.RegExp('foo')",
             languageOptions: { globals: globals.browser },
-            errors: [{
-                messageId: "requireUFlag",
-                suggestions: [
-                    {
-                        messageId: "addUFlag",
-                        output: "new window.RegExp('foo', \"u\")"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "requireUFlag",
+                    suggestions: [
+                        {
+                            messageId: "addUFlag",
+                            output: "new window.RegExp('foo', \"u\")"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new global.RegExp('foo')",
             languageOptions: { sourceType: "commonjs" },
-            errors: [{
-                messageId: "requireUFlag",
-                suggestions: [
-                    {
-                        messageId: "addUFlag",
-                        output: "new global.RegExp('foo', \"u\")"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "requireUFlag",
+                    suggestions: [
+                        {
+                            messageId: "addUFlag",
+                            output: "new global.RegExp('foo', \"u\")"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new globalThis.RegExp('foo')",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{
-                messageId: "requireUFlag",
-                suggestions: [
-                    {
-                        messageId: "addUFlag",
-                        output: "new globalThis.RegExp('foo', \"u\")"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "requireUFlag",
+                    suggestions: [
+                        {
+                            messageId: "addUFlag",
+                            output: "new globalThis.RegExp('foo', \"u\")"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "/foo/",
             options: [{ requireFlag: "v" }],
             languageOptions: { ecmaVersion: 2024 },
-            errors: [{
-                messageId: "requireVFlag",
-                suggestions: [
-                    {
-                        messageId: "addVFlag",
-                        output: "/foo/v"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "requireVFlag",
+                    suggestions: [
+                        {
+                            messageId: "addVFlag",
+                            output: "/foo/v"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "/foo/u",
             options: [{ requireFlag: "v" }],
             languageOptions: { ecmaVersion: 2024 },
-            errors: [{
-                messageId: "requireVFlag",
-                suggestions: [
-                    {
-                        messageId: "addVFlag",
-                        output: "/foo/v"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "requireVFlag",
+                    suggestions: [
+                        {
+                            messageId: "addVFlag",
+                            output: "/foo/v"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "/foo/u",
             options: [{ requireFlag: "v" }],
             languageOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "requireVFlag",
-                suggestions: null
-            }]
+            errors: [
+                {
+                    messageId: "requireVFlag",
+                    suggestions: null
+                }
+            ]
         },
         {
             code: "/[[a]/u",
             options: [{ requireFlag: "v" }],
             languageOptions: { ecmaVersion: 2024 },
-            errors: [{
-                messageId: "requireVFlag",
-                suggestions: null
-            }]
+            errors: [
+                {
+                    messageId: "requireVFlag",
+                    suggestions: null
+                }
+            ]
         },
         {
             code: "new RegExp('foo', 'u')",
             options: [{ requireFlag: "v" }],
             languageOptions: { ecmaVersion: 2024 },
-            errors: [{
-                messageId: "requireVFlag",
-                suggestions: [
-                    {
-                        messageId: "addVFlag",
-                        output: "new RegExp('foo', 'v')"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "requireVFlag",
+                    suggestions: [
+                        {
+                            messageId: "addVFlag",
+                            output: "new RegExp('foo', 'v')"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp('[[a]', 'u')",
             options: [{ requireFlag: "v" }],
             languageOptions: { ecmaVersion: 2024 },
-            errors: [{
-                messageId: "requireVFlag",
-                suggestions: null
-            }]
+            errors: [
+                {
+                    messageId: "requireVFlag",
+                    suggestions: null
+                }
+            ]
         },
         {
-            code: "new RegExp(\"foo\", \"\\u0067\")",
+            code: 'new RegExp("foo", "\\u0067")',
             options: [{ requireFlag: "v" }],
             languageOptions: { ecmaVersion: 2024 },
-            errors: [{
-                messageId: "requireVFlag",
-                suggestions: [
-                    {
-                        messageId: "addVFlag",
-                        output: "new RegExp(\"foo\", \"\\u0067v\")"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "requireVFlag",
+                    suggestions: [
+                        {
+                            messageId: "addVFlag",
+                            output: 'new RegExp("foo", "\\u0067v")'
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: "new RegExp(\"foo\", `\\u0067`)",
+            code: 'new RegExp("foo", `\\u0067`)',
             options: [{ requireFlag: "v" }],
             languageOptions: { ecmaVersion: 2024 },
-            errors: [{
-                messageId: "requireVFlag",
-                suggestions: [
-                    {
-                        messageId: "addVFlag",
-                        output: "new RegExp(\"foo\", `\\u0067v`)"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "requireVFlag",
+                    suggestions: [
+                        {
+                            messageId: "addVFlag",
+                            output: 'new RegExp("foo", `\\u0067v`)'
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: "new RegExp(\"foo\", \"\\u0075\")",
+            code: 'new RegExp("foo", "\\u0075")',
             options: [{ requireFlag: "v" }],
             languageOptions: { ecmaVersion: 2024 },
-            errors: [{
-                messageId: "requireVFlag",
-                suggestions: null
-            }]
+            errors: [
+                {
+                    messageId: "requireVFlag",
+                    suggestions: null
+                }
+            ]
         },
         {
-            code: "new RegExp(\"foo\", `\\u0075`)",
+            code: 'new RegExp("foo", `\\u0075`)',
             options: [{ requireFlag: "v" }],
             languageOptions: { ecmaVersion: 2024 },
-            errors: [{
-                messageId: "requireVFlag",
-                suggestions: null
-            }]
+            errors: [
+                {
+                    messageId: "requireVFlag",
+                    suggestions: null
+                }
+            ]
         },
         {
-            code: "const regularFlags = \"sm\"; new RegExp(\"foo\", `${regularFlags}g`)",
+            code: 'const regularFlags = "sm"; new RegExp("foo", `${regularFlags}g`)',
             options: [{ requireFlag: "v" }],
             languageOptions: { ecmaVersion: 2024 },
-            errors: [{
-                messageId: "requireVFlag",
-                suggestions: [
-                    {
-                        messageId: "addVFlag",
-                        output: "const regularFlags = \"sm\"; new RegExp(\"foo\", `${regularFlags}gv`)"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "requireVFlag",
+                    suggestions: [
+                        {
+                            messageId: "addVFlag",
+                            output: 'const regularFlags = "sm"; new RegExp("foo", `${regularFlags}gv`)'
+                        }
+                    ]
+                }
+            ]
         },
         {
-            code: "const regularFlags = \"smu\"; new RegExp(\"foo\", `${regularFlags}g`)",
+            code: 'const regularFlags = "smu"; new RegExp("foo", `${regularFlags}g`)',
             options: [{ requireFlag: "v" }],
             languageOptions: { ecmaVersion: 2024 },
-            errors: [{
-                messageId: "requireVFlag",
-                suggestions: null
-            }]
+            errors: [
+                {
+                    messageId: "requireVFlag",
+                    suggestions: null
+                }
+            ]
         },
         {
             code: "/foo/v",
             options: [{ requireFlag: "u" }],
             languageOptions: { ecmaVersion: 2024 },
-            errors: [{
-                messageId: "requireUFlag",
-                suggestions: [
-                    {
-                        messageId: "addUFlag",
-                        output: "/foo/u"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "requireUFlag",
+                    suggestions: [
+                        {
+                            messageId: "addUFlag",
+                            output: "/foo/u"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp('foo')",
             options: [{ requireFlag: "v" }],
             languageOptions: { ecmaVersion: 2024 },
-            errors: [{
-                messageId: "requireVFlag",
-                suggestions: [
-                    {
-                        messageId: "addVFlag",
-                        output: "new RegExp('foo', \"v\")"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "requireVFlag",
+                    suggestions: [
+                        {
+                            messageId: "addVFlag",
+                            output: "new RegExp('foo', \"v\")"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "new RegExp('foo', 'v')",
             options: [{ requireFlag: "u" }],
             languageOptions: { ecmaVersion: 2024 },
-            errors: [{
-                messageId: "requireUFlag",
-                suggestions: [
-                    {
-                        messageId: "addUFlag",
-                        output: "new RegExp('foo', 'u')"
-                    }
-                ]
-            }]
+            errors: [
+                {
+                    messageId: "requireUFlag",
+                    suggestions: [
+                        {
+                            messageId: "addUFlag",
+                            output: "new RegExp('foo', 'u')"
+                        }
+                    ]
+                }
+            ]
         }
     ]
 });

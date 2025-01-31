@@ -84,7 +84,7 @@ const lineNumberPlugin = (md) => {
         const finalCode = rawCode
             .replace(/<\/pre>\n/, `${lineNumbersWrapperCode}</pre>`)
             .replace(/"(language-\S*?)"/, '"$1 line-numbers-mode"')
-            .replace(/<code>/, `<code class="language-${lang}">`)
+            .replace(/<code>/, `<code class="language-${lang}">`);
 
         return finalCode;
     };

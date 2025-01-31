@@ -57,10 +57,20 @@ ruleTester.run("dot-notation", rule, {
         { code: "a[null];", options: [{ allowKeywords: false }] },
         { code: "a.true;", options: [{ allowKeywords: true }] },
         { code: "a.null;", options: [{ allowKeywords: true }] },
-        { code: "a['snake_case'];", options: [{ allowPattern: "^[a-z]+(_[a-z]+)+$" }] },
-        { code: "a['lots_of_snake_case'];", options: [{ allowPattern: "^[a-z]+(_[a-z]+)+$" }] },
+        {
+            code: "a['snake_case'];",
+            options: [{ allowPattern: "^[a-z]+(_[a-z]+)+$" }]
+        },
+        {
+            code: "a['lots_of_snake_case'];",
+            options: [{ allowPattern: "^[a-z]+(_[a-z]+)+$" }]
+        },
         { code: "a[`time${range}`];", languageOptions: { ecmaVersion: 6 } },
-        { code: "a[`while`];", options: [{ allowKeywords: false }], languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "a[`while`];",
+            options: [{ allowKeywords: false }],
+            languageOptions: { ecmaVersion: 6 }
+        },
         { code: "a[`time range`];", languageOptions: { ecmaVersion: 6 } },
         "a.true;",
         "a.null;",
@@ -68,7 +78,10 @@ ruleTester.run("dot-notation", rule, {
         "a[void 0];",
         "a[b()];",
         { code: "a[/(?<zero>0)/];", languageOptions: { ecmaVersion: 2018 } },
-        { code: "class C { foo() { this['#a'] } }", languageOptions: { ecmaVersion: 2022 } },
+        {
+            code: "class C { foo() { this['#a'] } }",
+            languageOptions: { ecmaVersion: 2022 }
+        },
         {
             code: "class C { #in; foo() { this.#in; } }",
             options: [{ allowKeywords: false }],
@@ -78,7 +91,7 @@ ruleTester.run("dot-notation", rule, {
     invalid: [
         {
             code: "a.true;",
-            output: "a[\"true\"];",
+            output: 'a["true"];',
             options: [{ allowKeywords: false }],
             errors: [{ messageId: "useBrackets", data: { key: "true" } }]
         },
@@ -131,32 +144,30 @@ ruleTester.run("dot-notation", rule, {
             errors: [{ messageId: "useDot", data: { key: q("SHOUT_CASE") } }]
         },
         {
-            code:
-                "a\n" +
-                "  ['SHOUT_CASE'];",
-            output:
-                "a\n" +
-                "  .SHOUT_CASE;",
-            errors: [{
-                messageId: "useDot",
-                data: { key: q("SHOUT_CASE") },
-                line: 2,
-                column: 4
-            }]
+            code: "a\n" + "  ['SHOUT_CASE'];",
+            output: "a\n" + "  .SHOUT_CASE;",
+            errors: [
+                {
+                    messageId: "useDot",
+                    data: { key: q("SHOUT_CASE") },
+                    line: 2,
+                    column: 4
+                }
+            ]
         },
         {
             code:
-            "getResource()\n" +
-            "    .then(function(){})\n" +
-            "    [\"catch\"](function(){})\n" +
-            "    .then(function(){})\n" +
-            "    [\"catch\"](function(){});",
+                "getResource()\n" +
+                "    .then(function(){})\n" +
+                '    ["catch"](function(){})\n' +
+                "    .then(function(){})\n" +
+                '    ["catch"](function(){});',
             output:
-            "getResource()\n" +
-            "    .then(function(){})\n" +
-            "    .catch(function(){})\n" +
-            "    .then(function(){})\n" +
-            "    .catch(function(){});",
+                "getResource()\n" +
+                "    .then(function(){})\n" +
+                "    .catch(function(){})\n" +
+                "    .then(function(){})\n" +
+                "    .catch(function(){});",
             errors: [
                 {
                     messageId: "useDot",
@@ -173,12 +184,8 @@ ruleTester.run("dot-notation", rule, {
             ]
         },
         {
-            code:
-            "foo\n" +
-            "  .while;",
-            output:
-            "foo\n" +
-            "  [\"while\"];",
+            code: "foo\n" + "  .while;",
+            output: "foo\n" + '  ["while"];',
             options: [{ allowKeywords: false }],
             errors: [{ messageId: "useBrackets", data: { key: "while" } }]
         },
@@ -309,14 +316,14 @@ ruleTester.run("dot-notation", rule, {
         },
         {
             code: "obj?.true",
-            output: "obj?.[\"true\"]",
+            output: 'obj?.["true"]',
             options: [{ allowKeywords: false }],
             languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "useBrackets", data: { key: "true" } }]
         },
         {
             code: "let?.true",
-            output: "let?.[\"true\"]",
+            output: 'let?.["true"]',
             options: [{ allowKeywords: false }],
             languageOptions: { ecmaVersion: 2020 },
             errors: [{ messageId: "useBrackets", data: { key: "true" } }]

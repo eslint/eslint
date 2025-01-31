@@ -33,8 +33,16 @@ ruleTester.run("semi-style", rule, {
         { code: "for(a;b;c);", options: ["last"] },
         { code: "for(a;\nb;\nc);", options: ["last"] },
         { code: "for((a\n);\n(b\n);\n(c));", options: ["last"] },
-        { code: "class C { a; b; }", options: ["last"], languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C {\na;\nb;\n}", options: ["last"], languageOptions: { ecmaVersion: 2022 } },
+        {
+            code: "class C { a; b; }",
+            options: ["last"],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C {\na;\nb;\n}",
+            options: ["last"],
+            languageOptions: { ecmaVersion: 2022 }
+        },
         { code: "if(a)foo;\nbar", options: ["last"] },
         { code: ";", options: ["first"] },
         { code: ";foo;bar;baz;", options: ["first"] },
@@ -42,8 +50,16 @@ ruleTester.run("semi-style", rule, {
         { code: "for(a;b;c);", options: ["first"] },
         { code: "for(a;\nb;\nc);", options: ["first"] },
         { code: "for((a\n);\n(b\n);\n(c));", options: ["first"] },
-        { code: "class C { a ;b }", options: ["first"], languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C {\na\n;b\n}", options: ["first"], languageOptions: { ecmaVersion: 2022 } },
+        {
+            code: "class C { a ;b }",
+            options: ["first"],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C {\na\n;b\n}",
+            options: ["first"],
+            languageOptions: { ecmaVersion: 2022 }
+        },
 
         // edge cases
         {
@@ -329,261 +345,309 @@ ruleTester.run("semi-style", rule, {
         {
             code: "foo\n;bar",
             output: "foo;\nbar",
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the end of the previous line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the end of the previous line"
+                    }
                 }
-            }]
+            ]
         },
         {
             code: "if(a)foo\n;bar",
             output: "if(a)foo;\nbar",
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the end of the previous line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the end of the previous line"
+                    }
                 }
-            }]
+            ]
         },
         {
             code: "var foo\n;bar",
             output: "var foo;\nbar",
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the end of the previous line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the end of the previous line"
+                    }
                 }
-            }]
+            ]
         },
         {
             code: "foo\n;\nbar",
             output: "foo;\nbar",
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the end of the previous line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the end of the previous line"
+                    }
                 }
-            }]
+            ]
         },
         {
             code: "for(a\n;b;c)d",
             output: "for(a;\nb;c)d",
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the end of the previous line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the end of the previous line"
+                    }
                 }
-            }]
+            ]
         },
         {
             code: "for(a;b\n;c)d",
             output: "for(a;b;\nc)d",
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the end of the previous line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the end of the previous line"
+                    }
                 }
-            }]
+            ]
         },
         {
             code: "do;while(a)\n;b",
             output: "do;while(a);\nb",
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the end of the previous line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the end of the previous line"
+                    }
                 }
-            }]
+            ]
         },
 
         {
             code: "foo\n;bar",
             output: "foo;\nbar",
             options: ["last"],
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the end of the previous line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the end of the previous line"
+                    }
                 }
-            }]
+            ]
         },
         {
             code: "if(a)foo\n;bar",
             output: "if(a)foo;\nbar",
             options: ["last"],
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the end of the previous line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the end of the previous line"
+                    }
                 }
-            }]
+            ]
         },
         {
             code: "var foo\n;bar",
             output: "var foo;\nbar",
             options: ["last"],
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the end of the previous line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the end of the previous line"
+                    }
                 }
-            }]
+            ]
         },
         {
             code: "foo\n;\nbar",
             output: "foo;\nbar",
             options: ["last"],
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the end of the previous line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the end of the previous line"
+                    }
                 }
-            }]
+            ]
         },
         {
             code: "for(a\n;b;c)d",
             output: "for(a;\nb;c)d",
             options: ["last"],
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the end of the previous line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the end of the previous line"
+                    }
                 }
-            }]
+            ]
         },
         {
             code: "for(a;b\n;c)d",
             output: "for(a;b;\nc)d",
             options: ["last"],
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the end of the previous line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the end of the previous line"
+                    }
                 }
-            }]
+            ]
         },
         {
             code: "foo()\n;",
             output: "foo();\n",
             options: ["last"],
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the end of the previous line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the end of the previous line"
+                    }
                 }
-            }]
+            ]
         },
 
         {
             code: "foo;\nbar",
             output: "foo\n;bar",
             options: ["first"],
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the beginning of the next line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the beginning of the next line"
+                    }
                 }
-            }]
+            ]
         },
         {
             code: "if(a)foo;\nbar",
             output: "if(a)foo\n;bar",
             options: ["first"],
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the beginning of the next line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the beginning of the next line"
+                    }
                 }
-            }]
+            ]
         },
         {
             code: "var foo;\nbar",
             output: "var foo\n;bar",
             options: ["first"],
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the beginning of the next line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the beginning of the next line"
+                    }
                 }
-            }]
+            ]
         },
         {
             code: "foo\n;\nbar",
             output: "foo\n;bar",
             options: ["first"],
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the beginning of the next line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the beginning of the next line"
+                    }
                 }
-            }]
+            ]
         },
         {
             code: "for(a\n;b;c)d",
             output: "for(a;\nb;c)d",
             options: ["first"],
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the end of the previous line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the end of the previous line"
+                    }
                 }
-            }]
+            ]
         },
         {
             code: "for(a;b\n;c)d",
             output: "for(a;b;\nc)d",
             options: ["first"],
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the end of the previous line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the end of the previous line"
+                    }
                 }
-            }]
+            ]
         },
 
         {
             code: "foo\n;/**/bar",
             output: null,
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the end of the previous line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the end of the previous line"
+                    }
                 }
-            }]
+            ]
         },
         {
             code: "foo\n/**/;bar",
             output: null,
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the end of the previous line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the end of the previous line"
+                    }
                 }
-            }]
+            ]
         },
 
         {
             code: "foo;\n/**/bar",
             output: null,
             options: ["first"],
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the beginning of the next line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the beginning of the next line"
+                    }
                 }
-            }]
+            ]
         },
         {
             code: "foo/**/;\nbar",
             output: null,
             options: ["first"],
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the beginning of the next line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the beginning of the next line"
+                    }
                 }
-            }]
+            ]
         },
 
         // Class fields
@@ -592,24 +656,28 @@ ruleTester.run("semi-style", rule, {
             output: "class C { foo;\nbar }",
             options: ["last"],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the end of the previous line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the end of the previous line"
+                    }
                 }
-            }]
+            ]
         },
         {
             code: "class C { foo;\nbar }",
             output: "class C { foo\n;bar }",
             options: ["first"],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the beginning of the next line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the beginning of the next line"
+                    }
                 }
-            }]
+            ]
         },
 
         // Class static blocks
@@ -618,48 +686,56 @@ ruleTester.run("semi-style", rule, {
             output: "class C { static { foo;\n} }",
             options: ["last"],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the end of the previous line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the end of the previous line"
+                    }
                 }
-            }]
+            ]
         },
         {
             code: "class C { static { foo\n ;bar } }",
             output: "class C { static { foo;\nbar } }",
             options: ["last"],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the end of the previous line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the end of the previous line"
+                    }
                 }
-            }]
+            ]
         },
         {
             code: "class C { static { foo;\nbar\n ; } }",
             output: "class C { static { foo;\nbar;\n} }",
             options: ["last"],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the end of the previous line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the end of the previous line"
+                    }
                 }
-            }]
+            ]
         },
         {
             code: "class C { static { foo;\nbar } }",
             output: "class C { static { foo\n;bar } }",
             options: ["first"],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{
-                messageId: "expectedSemiColon",
-                data: {
-                    pos: "the beginning of the next line"
+            errors: [
+                {
+                    messageId: "expectedSemiColon",
+                    data: {
+                        pos: "the beginning of the next line"
+                    }
                 }
-            }]
+            ]
         }
     ]
 });

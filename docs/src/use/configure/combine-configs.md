@@ -78,7 +78,7 @@ You can apply a config array to just a subset of files by using the `map()` meth
 import exampleConfigs from "eslint-config-example";
 
 export default [
-    ...exampleConfigs.map(config => ({
+    ...exampleConfigs.map((config) => ({
         ...config,
         files: ["**/src/safe/*.js"]
     })),

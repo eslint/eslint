@@ -34,7 +34,10 @@ ruleTester.run("no-extra-label", rule, {
         "A: for (;;) { while (b) { break A; } }",
         "A: do { switch (b) { case 0: break A; break; } } while (a);",
         "A: for (a in obj) { while (b) { break A; } }",
-        { code: "A: for (a of ary) { switch (b) { case 0: break A; } }", languageOptions: { ecmaVersion: 6 } }
+        {
+            code: "A: for (a of ary) { switch (b) { case 0: break A; } }",
+            languageOptions: { ecmaVersion: 6 }
+        }
     ],
     invalid: [
         {
@@ -105,7 +108,14 @@ ruleTester.run("no-extra-label", rule, {
                     }
                 }
             `,
-            errors: [{ messageId: "unexpected", data: { name: "A" }, type: "Identifier", line: 2 }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: { name: "A" },
+                    type: "Identifier",
+                    line: 2
+                }
+            ]
         },
 
         // Should not autofix if it would remove comments

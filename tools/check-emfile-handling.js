@@ -45,7 +45,6 @@ if (os.platform() !== "win32") {
             FILE_COUNT = Math.min(FILE_COUNT, 100000);
         }
     } catch {
-
         // ignore error and use default
     }
 }
@@ -55,8 +54,11 @@ if (os.platform() !== "win32") {
  * @returns {void}
  */
 function generateFiles() {
-
-    fs.rmSync(OUTPUT_DIRECTORY, { recursive: true, force: true, maxRetries: 8 });
+    fs.rmSync(OUTPUT_DIRECTORY, {
+        recursive: true,
+        force: true,
+        maxRetries: 8
+    });
     fs.mkdirSync(OUTPUT_DIRECTORY, { recursive: true });
 
     for (let i = 0; i < FILE_COUNT; i++) {
@@ -65,7 +67,6 @@ function generateFiles() {
 
         fs.writeFileSync(`${OUTPUT_DIRECTORY}/${fileName}`, fileContent);
     }
-
 }
 
 /**
@@ -95,15 +96,20 @@ console.log(`Generating ${FILE_COUNT} files in ${OUTPUT_DIRECTORY}...`);
 generateFiles();
 
 console.log("Running ESLint...");
-execSync(`node bin/eslint.js ${OUTPUT_DIRECTORY} -c ${CONFIG_DIRECTORY}/eslint.config.js`, { stdio: "inherit" });
+execSync(
+    `node bin/eslint.js ${OUTPUT_DIRECTORY} -c ${CONFIG_DIRECTORY}/eslint.config.js`,
+    { stdio: "inherit" }
+);
 console.log("✅ No errors encountered running ESLint.");
 
-console.log("Checking that this number of files would cause an EMFILE error...");
+console.log(
+    "Checking that this number of files would cause an EMFILE error..."
+);
 generateEmFileError()
     .then(() => {
         throw new Error("EMFILE error not encountered.");
     })
-    .catch(error => {
+    .catch((error) => {
         if (error.code === "EMFILE") {
             console.log("✅ EMFILE error encountered:", error.message);
         } else if (error.code === "ENFILE") {
@@ -114,5 +120,9 @@ generateEmFileError()
         }
     })
     .finally(() => {
-        fs.rmSync(OUTPUT_DIRECTORY, { recursive: true, force: true, maxRetries: 8 });
+        fs.rmSync(OUTPUT_DIRECTORY, {
+            recursive: true,
+            force: true,
+            maxRetries: 8
+        });
     });

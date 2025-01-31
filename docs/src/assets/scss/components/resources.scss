@@ -5,10 +5,10 @@
     background-color: var(--lightest-background-color);
     align-items: stretch;
     overflow: hidden;
-    margin-bottom: .5rem;
-    margin-block-end: .5rem;
+    margin-bottom: 0.5rem;
+    margin-block-end: 0.5rem;
     position: relative;
-    transition: all .2s linear;
+    transition: all 0.2s linear;
 
     &:hover {
         background-color: var(--lighter-background-color);
@@ -19,7 +19,7 @@
     flex: 1 0 5.5rem;
     max-width: 5.5rem;
     overflow: hidden;
-    padding: .25rem;
+    padding: 0.25rem;
 
     img {
         display: block;
@@ -31,15 +31,16 @@
 
 .resource__content {
     flex: 4;
-    padding: .75rem;
+    padding: 0.75rem;
     align-self: center;
 }
 
-.resource__title { // a
+.resource__title {
+    // a
     text-decoration: none;
     color: var(--headings-color);
     font-weight: 500;
-    margin-bottom: .125rem;
+    margin-bottom: 0.125rem;
 
     &::after {
         content: "";
@@ -57,7 +58,7 @@
 .resource__domain a {
     text-decoration: none;
     color: var(--body-text-color);
-    font-size: .875rem;
+    font-size: 0.875rem;
 }
 
 .resource__icon {

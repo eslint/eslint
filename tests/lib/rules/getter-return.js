@@ -18,13 +18,14 @@ const RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2022 } });
 const expectedError = { messageId: "expected", data: { name: "getter 'bar'" } };
-const expectedAlwaysError = { messageId: "expectedAlways", data: { name: "getter 'bar'" } };
+const expectedAlwaysError = {
+    messageId: "expectedAlways",
+    data: { name: "getter 'bar'" }
+};
 const options = [{ allowImplicit: true }];
 
 ruleTester.run("getter-return", rule, {
-
     valid: [
-
         /*
          * test obj: get
          * option: {allowImplicit: false}
@@ -34,7 +35,10 @@ ruleTester.run("getter-return", rule, {
         // option: {allowImplicit: true}
         { code: "var foo = { get bar() {return;} };", options },
         { code: "var foo = { get bar(){return true;} };", options },
-        { code: "var foo = { get bar(){if(bar) {return;} return true;} };", options },
+        {
+            code: "var foo = { get bar(){if(bar) {return;} return true;} };",
+            options
+        },
 
         /*
          * test class: get
@@ -52,8 +56,8 @@ ruleTester.run("getter-return", rule, {
          * test object.defineProperty(s)
          * option: {allowImplicit: false}
          */
-        "Object.defineProperty(foo, \"bar\", { get: function () {return true;}});",
-        "Object.defineProperty(foo, \"bar\", { get: function () { ~function (){ return true; }();return true;}});",
+        'Object.defineProperty(foo, "bar", { get: function () {return true;}});',
+        'Object.defineProperty(foo, "bar", { get: function () { ~function (){ return true; }();return true;}});',
         "Object.defineProperties(foo, { bar: { get: function () {return true;}} });",
         "Object.defineProperties(foo, { bar: { get: function () { ~function (){ return true; }(); return true;}} });",
 
@@ -61,8 +65,8 @@ ruleTester.run("getter-return", rule, {
          * test reflect.defineProperty(s)
          * option: {allowImplicit: false}
          */
-        "Reflect.defineProperty(foo, \"bar\", { get: function () {return true;}});",
-        "Reflect.defineProperty(foo, \"bar\", { get: function () { ~function (){ return true; }();return true;}});",
+        'Reflect.defineProperty(foo, "bar", { get: function () {return true;}});',
+        'Reflect.defineProperty(foo, "bar", { get: function () { ~function (){ return true; }();return true;}});',
 
         /*
          * test object.create(s)
@@ -73,11 +77,26 @@ ruleTester.run("getter-return", rule, {
         "Object.create(foo, { bar: { get: () => {return true;} } });",
 
         // option: {allowImplicit: true}
-        { code: "Object.defineProperty(foo, \"bar\", { get: function () {return true;}});", options },
-        { code: "Object.defineProperty(foo, \"bar\", { get: function (){return;}});", options },
-        { code: "Object.defineProperties(foo, { bar: { get: function () {return true;}} });", options },
-        { code: "Object.defineProperties(foo, { bar: { get: function () {return;}} });", options },
-        { code: "Reflect.defineProperty(foo, \"bar\", { get: function () {return true;}});", options },
+        {
+            code: 'Object.defineProperty(foo, "bar", { get: function () {return true;}});',
+            options
+        },
+        {
+            code: 'Object.defineProperty(foo, "bar", { get: function (){return;}});',
+            options
+        },
+        {
+            code: "Object.defineProperties(foo, { bar: { get: function () {return true;}} });",
+            options
+        },
+        {
+            code: "Object.defineProperties(foo, { bar: { get: function () {return;}} });",
+            options
+        },
+        {
+            code: 'Reflect.defineProperty(foo, "bar", { get: function () {return true;}});',
+            options
+        },
 
         // not getter.
         "var get = function(){};",
@@ -96,65 +115,82 @@ ruleTester.run("getter-return", rule, {
     ],
 
     invalid: [
-
         /*
          * test obj: get
          * option: {allowImplicit: false}
          */
         {
             code: "var foo = { get bar() {} };",
-            errors: [{
-                ...expectedError,
-                line: 1,
-                column: 13,
-                endLine: 1,
-                endColumn: 20
-            }]
+            errors: [
+                {
+                    ...expectedError,
+                    line: 1,
+                    column: 13,
+                    endLine: 1,
+                    endColumn: 20
+                }
+            ]
         },
         {
             code: "var foo = { get\n bar () {} };",
-            errors: [{
-                ...expectedError,
-                line: 1,
-                column: 13,
-                endLine: 2,
-                endColumn: 6
-            }]
+            errors: [
+                {
+                    ...expectedError,
+                    line: 1,
+                    column: 13,
+                    endLine: 2,
+                    endColumn: 6
+                }
+            ]
         },
         {
             code: "var foo = { get bar(){if(baz) {return true;}} };",
-            errors: [{
-                ...expectedAlwaysError,
-                line: 1,
-                column: 13,
-                endLine: 1,
-                endColumn: 20
-            }]
+            errors: [
+                {
+                    ...expectedAlwaysError,
+                    line: 1,
+                    column: 13,
+                    endLine: 1,
+                    endColumn: 20
+                }
+            ]
         },
         {
             code: "var foo = { get bar() { ~function () {return true;}} };",
-            errors: [{
-                ...expectedError,
-                line: 1,
-                column: 13,
-                endLine: 1,
-                endColumn: 20
-            }]
+            errors: [
+                {
+                    ...expectedError,
+                    line: 1,
+                    column: 13,
+                    endLine: 1,
+                    endColumn: 20
+                }
+            ]
         },
         {
             code: "var foo = { get bar() { return; } };",
-            errors: [{
-                ...expectedError,
-                line: 1,
-                column: 25,
-                endLine: 1,
-                endColumn: 32
-            }]
+            errors: [
+                {
+                    ...expectedError,
+                    line: 1,
+                    column: 25,
+                    endLine: 1,
+                    endColumn: 32
+                }
+            ]
         },
 
         // option: {allowImplicit: true}
-        { code: "var foo = { get bar() {} };", options, errors: [expectedError] },
-        { code: "var foo = { get bar() {if (baz) {return;}} };", options, errors: [expectedAlwaysError] },
+        {
+            code: "var foo = { get bar() {} };",
+            options,
+            errors: [expectedError]
+        },
+        {
+            code: "var foo = { get bar() {if (baz) {return;}} };",
+            options,
+            errors: [expectedAlwaysError]
+        },
 
         /*
          * test class: get
@@ -162,31 +198,45 @@ ruleTester.run("getter-return", rule, {
          */
         {
             code: "class foo { get bar(){} }",
-            errors: [{
-                ...expectedError,
-                line: 1,
-                column: 13,
-                endLine: 1,
-                endColumn: 20
-            }]
+            errors: [
+                {
+                    ...expectedError,
+                    line: 1,
+                    column: 13,
+                    endLine: 1,
+                    endColumn: 20
+                }
+            ]
         },
         {
             code: "var foo = class {\n  static get\nbar(){} }",
-            errors: [{
-                messageId: "expected",
-                data: { name: "static getter 'bar'" },
-                line: 2,
-                column: 3,
-                endLine: 3,
-                endColumn: 4
-            }]
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { name: "static getter 'bar'" },
+                    line: 2,
+                    column: 3,
+                    endLine: 3,
+                    endColumn: 4
+                }
+            ]
         },
-        { code: "class foo { get bar(){ if (baz) { return true; }}}", errors: [expectedAlwaysError] },
-        { code: "class foo { get bar(){ ~function () { return true; }()}}", errors: [expectedError] },
+        {
+            code: "class foo { get bar(){ if (baz) { return true; }}}",
+            errors: [expectedAlwaysError]
+        },
+        {
+            code: "class foo { get bar(){ ~function () { return true; }()}}",
+            errors: [expectedError]
+        },
 
         // option: {allowImplicit: true}
         { code: "class foo { get bar(){} }", options, errors: [expectedError] },
-        { code: "class foo { get bar(){if (baz) {return true;} } }", options, errors: [expectedAlwaysError] },
+        {
+            code: "class foo { get bar(){if (baz) {return true;} } }",
+            options,
+            errors: [expectedAlwaysError]
+        },
 
         /*
          * test object.defineProperty(s)
@@ -194,50 +244,64 @@ ruleTester.run("getter-return", rule, {
          */
         {
             code: "Object.defineProperty(foo, 'bar', { get: function (){}});",
-            errors: [{
-                messageId: "expected",
-                data: { name: "method 'get'" },
-                line: 1,
-                column: 37,
-                endLine: 1,
-                endColumn: 51
-            }]
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { name: "method 'get'" },
+                    line: 1,
+                    column: 37,
+                    endLine: 1,
+                    endColumn: 51
+                }
+            ]
         },
         {
             code: "Object.defineProperty(foo, 'bar', { get: function getfoo (){}});",
-            errors: [{
-                messageId: "expected",
-                data: { name: "method 'get'" },
-                line: 1,
-                column: 37,
-                endLine: 1,
-                endColumn: 58
-            }]
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { name: "method 'get'" },
+                    line: 1,
+                    column: 37,
+                    endLine: 1,
+                    endColumn: 58
+                }
+            ]
         },
         {
             code: "Object.defineProperty(foo, 'bar', { get(){} });",
-            errors: [{
-                messageId: "expected",
-                data: { name: "method 'get'" },
-                line: 1,
-                column: 37,
-                endLine: 1,
-                endColumn: 40
-            }]
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { name: "method 'get'" },
+                    line: 1,
+                    column: 37,
+                    endLine: 1,
+                    endColumn: 40
+                }
+            ]
         },
         {
             code: "Object.defineProperty(foo, 'bar', { get: () => {}});",
-            errors: [{
-                messageId: "expected",
-                data: { name: "method 'get'" },
-                line: 1,
-                column: 37,
-                endLine: 1,
-                endColumn: 42
-            }]
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { name: "method 'get'" },
+                    line: 1,
+                    column: 37,
+                    endLine: 1,
+                    endColumn: 42
+                }
+            ]
         },
-        { code: "Object.defineProperty(foo, \"bar\", { get: function (){if(bar) {return true;}}});", errors: [{ messageId: "expectedAlways" }] },
-        { code: "Object.defineProperty(foo, \"bar\", { get: function (){ ~function () { return true; }()}});", errors: [{ messageId: "expected" }] },
+        {
+            code: 'Object.defineProperty(foo, "bar", { get: function (){if(bar) {return true;}}});',
+            errors: [{ messageId: "expectedAlways" }]
+        },
+        {
+            code: 'Object.defineProperty(foo, "bar", { get: function (){ ~function () { return true; }()}});',
+            errors: [{ messageId: "expected" }]
+        },
 
         /*
          * test reflect.defineProperty(s)
@@ -245,14 +309,16 @@ ruleTester.run("getter-return", rule, {
          */
         {
             code: "Reflect.defineProperty(foo, 'bar', { get: function (){}});",
-            errors: [{
-                messageId: "expected",
-                data: { name: "method 'get'" },
-                line: 1,
-                column: 38,
-                endLine: 1,
-                endColumn: 52
-            }]
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { name: "method 'get'" },
+                    line: 1,
+                    column: 38,
+                    endLine: 1,
+                    endColumn: 52
+                }
+            ]
         },
 
         /*
@@ -261,45 +327,75 @@ ruleTester.run("getter-return", rule, {
          */
         {
             code: "Object.create(foo, { bar: { get: function() {} } })",
-            errors: [{
-                messageId: "expected",
-                data: { name: "method 'get'" },
-                line: 1,
-                column: 29,
-                endLine: 1,
-                endColumn: 42
-            }]
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { name: "method 'get'" },
+                    line: 1,
+                    column: 29,
+                    endLine: 1,
+                    endColumn: 42
+                }
+            ]
         },
         {
             code: "Object.create(foo, { bar: { get() {} } })",
-            errors: [{
-                messageId: "expected",
-                data: { name: "method 'get'" },
-                line: 1,
-                column: 29,
-                endLine: 1,
-                endColumn: 32
-            }]
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { name: "method 'get'" },
+                    line: 1,
+                    column: 29,
+                    endLine: 1,
+                    endColumn: 32
+                }
+            ]
         },
         {
             code: "Object.create(foo, { bar: { get: () => {} } })",
-            errors: [{
-                messageId: "expected",
-                data: { name: "method 'get'" },
-                line: 1,
-                column: 29,
-                endLine: 1,
-                endColumn: 34
-            }]
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { name: "method 'get'" },
+                    line: 1,
+                    column: 29,
+                    endLine: 1,
+                    endColumn: 34
+                }
+            ]
         },
 
         // option: {allowImplicit: true}
-        { code: "Object.defineProperties(foo, { bar: { get: function () {}} });", options, errors: [{ messageId: "expected" }] },
-        { code: "Object.defineProperties(foo, { bar: { get: function (){if(bar) {return true;}}}});", options, errors: [{ messageId: "expectedAlways" }] },
-        { code: "Object.defineProperties(foo, { bar: { get: function () {~function () { return true; }()}} });", options, errors: [{ messageId: "expected" }] },
-        { code: "Object.defineProperty(foo, \"bar\", { get: function (){}});", options, errors: [{ messageId: "expected" }] },
-        { code: "Object.create(foo, { bar: { get: function (){} } });", options, errors: [{ messageId: "expected" }] },
-        { code: "Reflect.defineProperty(foo, \"bar\", { get: function (){}});", options, errors: [{ messageId: "expected" }] },
+        {
+            code: "Object.defineProperties(foo, { bar: { get: function () {}} });",
+            options,
+            errors: [{ messageId: "expected" }]
+        },
+        {
+            code: "Object.defineProperties(foo, { bar: { get: function (){if(bar) {return true;}}}});",
+            options,
+            errors: [{ messageId: "expectedAlways" }]
+        },
+        {
+            code: "Object.defineProperties(foo, { bar: { get: function () {~function () { return true; }()}} });",
+            options,
+            errors: [{ messageId: "expected" }]
+        },
+        {
+            code: 'Object.defineProperty(foo, "bar", { get: function (){}});',
+            options,
+            errors: [{ messageId: "expected" }]
+        },
+        {
+            code: "Object.create(foo, { bar: { get: function (){} } });",
+            options,
+            errors: [{ messageId: "expected" }]
+        },
+        {
+            code: 'Reflect.defineProperty(foo, "bar", { get: function (){}});',
+            options,
+            errors: [{ messageId: "expected" }]
+        },
 
         // Optional chaining
         {

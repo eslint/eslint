@@ -96,23 +96,33 @@ ruleTester.run("newline-before-return", rule, {
         "function a() {\nif (b) { return; }\n\n/*multi-line\ncomment*/ return c;\n}",
         {
             code: "return;",
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            }
         },
         {
             code: "var a;\n\nreturn;",
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            }
         },
         {
             code: "// comment\nreturn;",
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            }
         },
         {
             code: "/* comment */\nreturn;",
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            }
         },
         {
             code: "/* multi-line\ncomment */\nreturn;",
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            }
         }
     ],
 
@@ -196,13 +206,17 @@ ruleTester.run("newline-before-return", rule, {
         {
             code: "var a;\nreturn;",
             output: "var a;\n\nreturn;",
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
             errors: [error]
         },
         {
             code: "var a; return;",
             output: "var a; \n\nreturn;",
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
             errors: [error]
         },
         {

@@ -26,24 +26,30 @@ ruleTester.run("no-label-var", rule, {
     invalid: [
         {
             code: "var x = foo; function bar() { x: for(;;) { break x; } }",
-            errors: [{
-                messageId: "identifierClashWithLabel",
-                type: "LabeledStatement"
-            }]
+            errors: [
+                {
+                    messageId: "identifierClashWithLabel",
+                    type: "LabeledStatement"
+                }
+            ]
         },
         {
             code: "function bar() { var x = foo; x: for(;;) { break x; } }",
-            errors: [{
-                messageId: "identifierClashWithLabel",
-                type: "LabeledStatement"
-            }]
+            errors: [
+                {
+                    messageId: "identifierClashWithLabel",
+                    type: "LabeledStatement"
+                }
+            ]
         },
         {
             code: "function bar(x) { x: for(;;) { break x; } }",
-            errors: [{
-                messageId: "identifierClashWithLabel",
-                type: "LabeledStatement"
-            }]
+            errors: [
+                {
+                    messageId: "identifierClashWithLabel",
+                    type: "LabeledStatement"
+                }
+            ]
         }
     ]
 });

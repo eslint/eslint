@@ -18,7 +18,9 @@ const path = require("node:path");
 // Data
 //------------------------------------------------------------------------------
 
-const EXECUTABLE_PATH = path.resolve(path.join(__dirname, "../../bin/eslint.js"));
+const EXECUTABLE_PATH = path.resolve(
+    path.join(__dirname, "../../bin/eslint.js")
+);
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -30,7 +32,7 @@ const EXECUTABLE_PATH = path.resolve(path.join(__dirname, "../../bin/eslint.js")
  * @returns {Promise<number>} A Promise that fulfills with the exit code when the child process exits
  */
 function awaitExit(exitingProcess) {
-    return new Promise(resolve => exitingProcess.once("exit", resolve));
+    return new Promise((resolve) => exitingProcess.once("exit", resolve));
 }
 
 /**
@@ -40,8 +42,12 @@ function awaitExit(exitingProcess) {
  * @returns {Promise<void>} A Promise that fulfills if the exit code ends up matching, and rejects otherwise.
  */
 function assertExitCode(exitingProcess, expectedExitCode) {
-    return awaitExit(exitingProcess).then(exitCode => {
-        assert.strictEqual(exitCode, expectedExitCode, `Expected an exit code of ${expectedExitCode} but got ${exitCode}.`);
+    return awaitExit(exitingProcess).then((exitCode) => {
+        assert.strictEqual(
+            exitCode,
+            expectedExitCode,
+            `Expected an exit code of ${expectedExitCode} but got ${exitCode}.`
+        );
     });
 }
 
@@ -55,8 +61,8 @@ function getOutput(runningProcess) {
     let stdout = "";
     let stderr = "";
 
-    runningProcess.stdout.on("data", data => (stdout += data));
-    runningProcess.stderr.on("data", data => (stderr += data));
+    runningProcess.stdout.on("data", (data) => (stdout += data));
+    runningProcess.stderr.on("data", (data) => (stderr += data));
     return awaitExit(runningProcess).then(() => ({ stdout, stderr }));
 }
 
@@ -74,7 +80,11 @@ describe("bin/eslint.js", () => {
      * @returns {ChildProcess} The resulting child process
      */
     function runESLint(args, options) {
-        const newProcess = childProcess.fork(EXECUTABLE_PATH, args, Object.assign({ silent: true }, options));
+        const newProcess = childProcess.fork(
+            EXECUTABLE_PATH,
+            args,
+            Object.assign({ silent: true }, options)
+        );
 
         forkedProcesses.add(newProcess);
         return newProcess;
@@ -101,7 +111,6 @@ describe("bin/eslint.js", () => {
                     "json"
                 ],
                 {
-
                     // Use the tests directory as the CWD to suppress the ESLintIgnoreWarning
                     cwd: path.resolve(__dirname, "../")
                 }
@@ -128,7 +137,7 @@ describe("bin/eslint.js", () => {
             ]);
 
             const exitCodePromise = assertExitCode(child, 0);
-            const stdoutPromise = getOutput(child).then(output => {
+            const stdoutPromise = getOutput(child).then((output) => {
                 assert.strictEqual(output.stdout.trim(), expectedOutput);
                 assert.strictEqual(output.stderr, "");
             });
@@ -148,7 +157,11 @@ describe("bin/eslint.js", () => {
         });
 
         it("has exit code 2 if a syntax error is thrown when exit-on-fatal-error is true", () => {
-            const child = runESLint(["--stdin", "--no-config-lookup", "--exit-on-fatal-error"]);
+            const child = runESLint([
+                "--stdin",
+                "--no-config-lookup",
+                "--exit-on-fatal-error"
+            ]);
 
             child.stdin.write("This is not valid JS syntax.\n");
             child.stdin.end();
@@ -156,56 +169,57 @@ describe("bin/eslint.js", () => {
         });
 
         it("has exit code 1 if a linting error occurs", () => {
-            const child = runESLint(["--stdin", "--no-config-lookup", "--rule", "semi:2"]);
+            const child = runESLint([
+                "--stdin",
+                "--no-config-lookup",
+                "--rule",
+                "semi:2"
+            ]);
 
             child.stdin.write("var foo = bar // <-- no semicolon\n");
             child.stdin.end();
             return assertExitCode(child, 1);
         });
 
-        it(
-            "gives a detailed error message if no config file is found in /",
-            () => {
-                if (
-                    fs.readdirSync("/").includes(
-                        "eslint.config.js"
-                    )
-                ) {
-                    return Promise.resolve(true);
-                }
-                const child = runESLint(
-                    ["--stdin"], { cwd: "/", env: { HOME: "/" } }
-                );
-
-                const exitCodePromise = assertExitCode(child, 2);
-                const stderrPromise = getOutput(child).then(output => {
-                    assert.match(
-                        output.stderr,
-                        /couldn't find an eslint\.config/u
-                    );
-                });
-
-                child.stdin.write("1 < 3;\n");
-                child.stdin.end();
-                return Promise.all([exitCodePromise, stderrPromise]);
+        it("gives a detailed error message if no config file is found in /", () => {
+            if (fs.readdirSync("/").includes("eslint.config.js")) {
+                return Promise.resolve(true);
             }
-        );
+            const child = runESLint(["--stdin"], {
+                cwd: "/",
+                env: { HOME: "/" }
+            });
+
+            const exitCodePromise = assertExitCode(child, 2);
+            const stderrPromise = getOutput(child).then((output) => {
+                assert.match(output.stderr, /couldn't find an eslint\.config/u);
+            });
+
+            child.stdin.write("1 < 3;\n");
+            child.stdin.end();
+            return Promise.all([exitCodePromise, stderrPromise]);
+        });
 
         it("successfully reads from an asynchronous pipe", () => {
             const child = runESLint(["--stdin", "--no-config-lookup"]);
 
             child.stdin.write("var foo = bar;\n");
-            return new Promise(resolve => setTimeout(resolve, 300)).then(() => {
-                child.stdin.write("var baz = qux;\n");
-                child.stdin.end();
+            return new Promise((resolve) => setTimeout(resolve, 300)).then(
+                () => {
+                    child.stdin.write("var baz = qux;\n");
+                    child.stdin.end();
 
-                return assertExitCode(child, 0);
-            });
+                    return assertExitCode(child, 0);
+                }
+            );
         });
 
         it("successfully handles more than 4k data via stdin", () => {
             const child = runESLint(["--stdin", "--no-config-lookup"]);
-            const large = fs.createReadStream(path.join(__dirname, "../bench/large.js"), "utf8");
+            const large = fs.createReadStream(
+                path.join(__dirname, "../bench/large.js"),
+                "utf8"
+            );
 
             large.pipe(child.stdin);
 
@@ -214,49 +228,120 @@ describe("bin/eslint.js", () => {
     });
 
     describe("running on files", () => {
-        it("has exit code 0 if no linting errors occur", () => assertExitCode(runESLint(["bin/eslint.js", "--no-config-lookup"]), 0));
-        it("has exit code 0 if a linting warning is reported", () => assertExitCode(runESLint(["bin/eslint.js", "--no-config-lookup", "--rule", "semi: [1, never]"]), 0));
-        it("has exit code 1 if a linting error is reported", () => assertExitCode(runESLint(["bin/eslint.js", "--no-config-lookup", "--rule", "semi: [2, never]"]), 1));
-        it("has exit code 1 if a syntax error is thrown", () => assertExitCode(runESLint(["tests/fixtures/exit-on-fatal-error/fatal-error.js", "--no-config-lookup"]), 1));
+        it("has exit code 0 if no linting errors occur", () =>
+            assertExitCode(
+                runESLint(["bin/eslint.js", "--no-config-lookup"]),
+                0
+            ));
+        it("has exit code 0 if a linting warning is reported", () =>
+            assertExitCode(
+                runESLint([
+                    "bin/eslint.js",
+                    "--no-config-lookup",
+                    "--rule",
+                    "semi: [1, never]"
+                ]),
+                0
+            ));
+        it("has exit code 1 if a linting error is reported", () =>
+            assertExitCode(
+                runESLint([
+                    "bin/eslint.js",
+                    "--no-config-lookup",
+                    "--rule",
+                    "semi: [2, never]"
+                ]),
+                1
+            ));
+        it("has exit code 1 if a syntax error is thrown", () =>
+            assertExitCode(
+                runESLint([
+                    "tests/fixtures/exit-on-fatal-error/fatal-error.js",
+                    "--no-config-lookup"
+                ]),
+                1
+            ));
     });
 
     describe("automatically fixing files", () => {
-        const fixturesPath = path.join(__dirname, "../fixtures/autofix-integration");
+        const fixturesPath = path.join(
+            __dirname,
+            "../fixtures/autofix-integration"
+        );
         const tempFilePath = `${fixturesPath}/temp.js`;
-        const startingText = fs.readFileSync(`${fixturesPath}/left-pad.js`).toString();
-        const expectedFixedText = fs.readFileSync(`${fixturesPath}/left-pad-expected.js`).toString();
-        const expectedFixedTextQuiet = fs.readFileSync(`${fixturesPath}/left-pad-expected-quiet.js`).toString();
+        const startingText = fs
+            .readFileSync(`${fixturesPath}/left-pad.js`)
+            .toString();
+        const expectedFixedText = fs
+            .readFileSync(`${fixturesPath}/left-pad-expected.js`)
+            .toString();
+        const expectedFixedTextQuiet = fs
+            .readFileSync(`${fixturesPath}/left-pad-expected-quiet.js`)
+            .toString();
 
         beforeEach(() => {
             fs.writeFileSync(tempFilePath, startingText);
         });
 
         it("has exit code 0 and fixes a file if all rules can be fixed", () => {
-            const child = runESLint(["--fix", "--no-config-lookup", "--no-ignore", tempFilePath]);
+            const child = runESLint([
+                "--fix",
+                "--no-config-lookup",
+                "--no-ignore",
+                tempFilePath
+            ]);
             const exitCodeAssertion = assertExitCode(child, 0);
             const outputFileAssertion = awaitExit(child).then(() => {
-                assert.strictEqual(fs.readFileSync(tempFilePath).toString(), expectedFixedText);
+                assert.strictEqual(
+                    fs.readFileSync(tempFilePath).toString(),
+                    expectedFixedText
+                );
             });
 
             return Promise.all([exitCodeAssertion, outputFileAssertion]);
         });
 
         it("has exit code 0, fixes errors in a file, and does not report or fix warnings if --quiet and --fix are used", () => {
-            const child = runESLint(["--fix", "--quiet", "--no-config-lookup", "--no-ignore", tempFilePath]);
+            const child = runESLint([
+                "--fix",
+                "--quiet",
+                "--no-config-lookup",
+                "--no-ignore",
+                tempFilePath
+            ]);
             const exitCodeAssertion = assertExitCode(child, 0);
-            const stdoutAssertion = getOutput(child).then(output => assert.strictEqual(output.stdout, ""));
+            const stdoutAssertion = getOutput(child).then((output) =>
+                assert.strictEqual(output.stdout, "")
+            );
             const outputFileAssertion = awaitExit(child).then(() => {
-                assert.strictEqual(fs.readFileSync(tempFilePath).toString(), expectedFixedTextQuiet);
+                assert.strictEqual(
+                    fs.readFileSync(tempFilePath).toString(),
+                    expectedFixedTextQuiet
+                );
             });
 
-            return Promise.all([exitCodeAssertion, stdoutAssertion, outputFileAssertion]);
+            return Promise.all([
+                exitCodeAssertion,
+                stdoutAssertion,
+                outputFileAssertion
+            ]);
         });
 
         it("has exit code 1 and fixes a file if not all rules can be fixed", () => {
-            const child = runESLint(["--fix", "--no-config-lookup", "--no-ignore", "--rule", "max-len: [2, 10]", tempFilePath]);
+            const child = runESLint([
+                "--fix",
+                "--no-config-lookup",
+                "--no-ignore",
+                "--rule",
+                "max-len: [2, 10]",
+                tempFilePath
+            ]);
             const exitCodeAssertion = assertExitCode(child, 1);
             const outputFileAssertion = awaitExit(child).then(() => {
-                assert.strictEqual(fs.readFileSync(tempFilePath).toString(), expectedFixedText);
+                assert.strictEqual(
+                    fs.readFileSync(tempFilePath).toString(),
+                    expectedFixedText
+                );
             });
 
             return Promise.all([exitCodeAssertion, outputFileAssertion]);
@@ -270,7 +355,13 @@ describe("bin/eslint.js", () => {
     describe("cache files", () => {
         const CACHE_PATH = ".temp-eslintcache";
         const SOURCE_PATH = "tests/fixtures/cache/src/test-file.js";
-        const ARGS_WITHOUT_CACHE = ["--no-config-lookup", "--no-ignore", SOURCE_PATH, "--cache-location", CACHE_PATH];
+        const ARGS_WITHOUT_CACHE = [
+            "--no-config-lookup",
+            "--no-ignore",
+            SOURCE_PATH,
+            "--cache-location",
+            CACHE_PATH
+        ];
         const ARGS_WITH_CACHE = ARGS_WITHOUT_CACHE.concat("--cache");
 
         describe("when no cache file exists", () => {
@@ -278,7 +369,10 @@ describe("bin/eslint.js", () => {
                 const child = runESLint(ARGS_WITH_CACHE);
 
                 return assertExitCode(child, 0).then(() => {
-                    assert.isTrue(fs.existsSync(CACHE_PATH), "Cache file should exist at the given location");
+                    assert.isTrue(
+                        fs.existsSync(CACHE_PATH),
+                        "Cache file should exist at the given location"
+                    );
 
                     // Cache file should contain valid JSON
                     JSON.parse(fs.readFileSync(CACHE_PATH, "utf8"));
@@ -291,37 +385,52 @@ describe("bin/eslint.js", () => {
                 const child = runESLint(ARGS_WITH_CACHE);
 
                 return assertExitCode(child, 0).then(() => {
-                    assert.isTrue(fs.existsSync(CACHE_PATH), "Cache file should exist at the given location");
+                    assert.isTrue(
+                        fs.existsSync(CACHE_PATH),
+                        "Cache file should exist at the given location"
+                    );
                 });
             });
             it("can lint with an existing cache file and the --cache flag", () => {
                 const child = runESLint(ARGS_WITH_CACHE);
 
                 return assertExitCode(child, 0).then(() => {
-
                     // Note: This doesn't actually verify that the cache file is used for anything.
-                    assert.isTrue(fs.existsSync(CACHE_PATH), "Cache file should still exist after linting with --cache");
+                    assert.isTrue(
+                        fs.existsSync(CACHE_PATH),
+                        "Cache file should still exist after linting with --cache"
+                    );
                 });
             });
             it("updates the cache file when the source file is modified", () => {
                 const initialCacheContent = fs.readFileSync(CACHE_PATH, "utf8");
 
                 // Update the file to change its mtime
-                fs.writeFileSync(SOURCE_PATH, fs.readFileSync(SOURCE_PATH, "utf8"));
+                fs.writeFileSync(
+                    SOURCE_PATH,
+                    fs.readFileSync(SOURCE_PATH, "utf8")
+                );
 
                 const child = runESLint(ARGS_WITH_CACHE);
 
                 return assertExitCode(child, 0).then(() => {
                     const newCacheContent = fs.readFileSync(CACHE_PATH, "utf8");
 
-                    assert.notStrictEqual(initialCacheContent, newCacheContent, "Cache file should change after source is modified");
+                    assert.notStrictEqual(
+                        initialCacheContent,
+                        newCacheContent,
+                        "Cache file should change after source is modified"
+                    );
                 });
             });
             it("deletes the cache file when run without the --cache argument", () => {
                 const child = runESLint(ARGS_WITHOUT_CACHE);
 
                 return assertExitCode(child, 0).then(() => {
-                    assert.isFalse(fs.existsSync(CACHE_PATH), "Cache file should be deleted after running ESLint without the --cache argument");
+                    assert.isFalse(
+                        fs.existsSync(CACHE_PATH),
+                        "Cache file should be deleted after running ESLint without the --cache argument"
+                    );
                 });
             });
         });
@@ -344,7 +453,10 @@ describe("bin/eslint.js", () => {
                 const child = runESLint(ARGS_WITH_CACHE);
 
                 return assertExitCode(child, 0).then(() => {
-                    assert.isTrue(fs.existsSync(CACHE_PATH), "Cache file should exist at the given location");
+                    assert.isTrue(
+                        fs.existsSync(CACHE_PATH),
+                        "Cache file should exist at the given location"
+                    );
 
                     // Cache file should contain valid JSON
                     JSON.parse(fs.readFileSync(CACHE_PATH, "utf8"));
@@ -355,7 +467,10 @@ describe("bin/eslint.js", () => {
                 const child = runESLint(ARGS_WITHOUT_CACHE);
 
                 return assertExitCode(child, 0).then(() => {
-                    assert.isFalse(fs.existsSync(CACHE_PATH), "Cache file should be deleted after running ESLint without the --cache argument");
+                    assert.isFalse(
+                        fs.existsSync(CACHE_PATH),
+                        "Cache file should be deleted after running ESLint without the --cache argument"
+                    );
                 });
             });
         });
@@ -369,9 +484,13 @@ describe("bin/eslint.js", () => {
 
     describe("handling crashes", () => {
         it("prints the error message to stderr in the event of a crash", () => {
-            const child = runESLint(["--rule=no-restricted-syntax:[error, 'Invalid Selector [[[']", "--no-config-lookup", "Makefile.js"]);
+            const child = runESLint([
+                "--rule=no-restricted-syntax:[error, 'Invalid Selector [[[']",
+                "--no-config-lookup",
+                "Makefile.js"
+            ]);
             const exitCodeAssertion = assertExitCode(child, 2);
-            const outputAssertion = getOutput(child).then(output => {
+            const outputAssertion = getOutput(child).then((output) => {
                 const expectedSubstring = "Syntax error in selector";
 
                 assert.strictEqual(output.stdout, "");
@@ -382,28 +501,37 @@ describe("bin/eslint.js", () => {
         });
 
         it("prints the error message exactly once to stderr in the event of a crash", () => {
-            const child = runESLint(["--rule=no-restricted-syntax:[error, 'Invalid Selector [[[']", "--no-config-lookup", "Makefile.js"]);
+            const child = runESLint([
+                "--rule=no-restricted-syntax:[error, 'Invalid Selector [[[']",
+                "--no-config-lookup",
+                "Makefile.js"
+            ]);
             const exitCodeAssertion = assertExitCode(child, 2);
-            const outputAssertion = getOutput(child).then(output => {
+            const outputAssertion = getOutput(child).then((output) => {
                 const expectedSubstring = "Syntax error in selector";
 
                 assert.strictEqual(output.stdout, "");
                 assert.include(output.stderr, expectedSubstring);
 
                 // The message should appear exactly once in stderr
-                assert.strictEqual(output.stderr.indexOf(expectedSubstring), output.stderr.lastIndexOf(expectedSubstring));
+                assert.strictEqual(
+                    output.stderr.indexOf(expectedSubstring),
+                    output.stderr.lastIndexOf(expectedSubstring)
+                );
             });
 
             return Promise.all([exitCodeAssertion, outputAssertion]);
         });
 
         it("does not exit with zero when there is an error in the next tick", () => {
-            const config = path.join(__dirname, "../fixtures/bin/eslint.config-promise-tick-throws.js");
+            const config = path.join(
+                __dirname,
+                "../fixtures/bin/eslint.config-promise-tick-throws.js"
+            );
             const file = path.join(__dirname, "../fixtures/bin/empty.js");
             const child = runESLint(["--config", config, file]);
             const exitCodeAssertion = assertExitCode(child, 2);
-            const outputAssertion = getOutput(child).then(output => {
-
+            const outputAssertion = getOutput(child).then((output) => {
                 // ensure the expected error was printed
                 assert.include(output.stderr, "test_error_stack");
 
@@ -417,28 +545,39 @@ describe("bin/eslint.js", () => {
 
         // https://github.com/eslint/eslint/issues/17560
         describe("does not print duplicate errors in the event of a crash", () => {
-
             it("when there is an invalid config read from a config file", () => {
-                const config = path.join(__dirname, "../fixtures/bin/eslint.config-invalid.js");
+                const config = path.join(
+                    __dirname,
+                    "../fixtures/bin/eslint.config-invalid.js"
+                );
                 const child = runESLint(["--config", config, "conf", "tools"]);
                 const exitCodeAssertion = assertExitCode(child, 2);
-                const outputAssertion = getOutput(child).then(output => {
-
+                const outputAssertion = getOutput(child).then((output) => {
                     // The error text should appear exactly once in stderr
-                    assert.strictEqual(output.stderr.match(/A config object is using the "globals" key/gu).length, 1);
+                    assert.strictEqual(
+                        output.stderr.match(
+                            /A config object is using the "globals" key/gu
+                        ).length,
+                        1
+                    );
                 });
 
                 return Promise.all([exitCodeAssertion, outputAssertion]);
             });
 
             it("when there is an error in the next tick", () => {
-                const config = path.join(__dirname, "../fixtures/bin/eslint.config-tick-throws.js");
+                const config = path.join(
+                    __dirname,
+                    "../fixtures/bin/eslint.config-tick-throws.js"
+                );
                 const child = runESLint(["--config", config, "Makefile.js"]);
                 const exitCodeAssertion = assertExitCode(child, 2);
-                const outputAssertion = getOutput(child).then(output => {
-
+                const outputAssertion = getOutput(child).then((output) => {
                     // The error text should appear exactly once in stderr
-                    assert.strictEqual(output.stderr.match(/test_error_stack/gu).length, 1);
+                    assert.strictEqual(
+                        output.stderr.match(/test_error_stack/gu).length,
+                        1
+                    );
                 });
 
                 return Promise.all([exitCodeAssertion, outputAssertion]);
@@ -447,21 +586,28 @@ describe("bin/eslint.js", () => {
 
         // https://github.com/eslint/eslint/issues/17960
         it("should include key information in the error message when there is an invalid config", () => {
-
             // The error message should include the key name
-            const config = path.join(__dirname, "../fixtures/bin/eslint.config-invalid-key.js");
+            const config = path.join(
+                __dirname,
+                "../fixtures/bin/eslint.config-invalid-key.js"
+            );
             const child = runESLint(["--config", config, "conf", "tools"]);
             const exitCodeAssertion = assertExitCode(child, 2);
-            const outputAssertion = getOutput(child).then(output => {
-                assert.include(output.stderr, "Key \"linterOptions\": Key \"reportUnusedDisableDirectives\"");
+            const outputAssertion = getOutput(child).then((output) => {
+                assert.include(
+                    output.stderr,
+                    'Key "linterOptions": Key "reportUnusedDisableDirectives"'
+                );
             });
 
             return Promise.all([exitCodeAssertion, outputAssertion]);
-
         });
 
         it("prints the error message pointing to line of code", () => {
-            const invalidConfig = path.join(__dirname, "../fixtures/bin/eslint.config.js");
+            const invalidConfig = path.join(
+                __dirname,
+                "../fixtures/bin/eslint.config.js"
+            );
             const child = runESLint(["--no-ignore", "-c", invalidConfig]);
 
             return assertExitCode(child, 2);
@@ -469,9 +615,8 @@ describe("bin/eslint.js", () => {
     });
 
     afterEach(() => {
-
         // Clean up all the processes after every test.
-        forkedProcesses.forEach(child => child.kill());
+        forkedProcesses.forEach((child) => child.kill());
         forkedProcesses.clear();
     });
 });

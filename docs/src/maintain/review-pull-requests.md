@@ -5,7 +5,6 @@ eleventyNavigation:
     parent: maintain eslint
     title: Review Pull Requests
     order: 3
-
 ---
 
 Pull requests are submitted frequently and represent our best opportunity to interact with the community. As such, it's important that pull requests are well-reviewed before being merged and that interactions on pull requests are positive.
@@ -30,8 +29,8 @@ Once the bot checks have been satisfied, you check the following:
 1. If the pull request makes a change to core, ensure that an issue exists and the pull request references the issue in the commit message.
 1. Does the code follow our conventions (including header comments, JSDoc comments, etc.)? If not, please leave that feedback and reference the [Code Conventions](../contribute/code-conventions) documentation.
 1. For code changes:
-    * Are there tests that verify the change? If not, please ask for them.
-    * Is documentation needed for the change? If yes, please ask the submitter to add the necessary documentation.
+    - Are there tests that verify the change? If not, please ask for them.
+    - Is documentation needed for the change? If yes, please ask the submitter to add the necessary documentation.
 1. Are there any automated testing errors? If yes, please ask the submitter to check on them.
 1. If you've reviewed the pull request and there are no outstanding issues, leave a comment "LGTM" to indicate your approval. If you would like someone else to verify the change, comment "LGTM but would like someone else to verify."
 
@@ -65,8 +64,8 @@ If the pull request does not have a related issue, then it should be moved throu
 
 If the pull request does have a related issue, then:
 
-* If the issue is accepted, move the pull request to the "Implementing" column.
-* If the issue is not accepted, move the pull request to the "Evaluating" column until the issue is marked as accepted, at which point move the pull request to "Implementing".
+-   If the issue is accepted, move the pull request to the "Implementing" column.
+-   If the issue is not accepted, move the pull request to the "Evaluating" column until the issue is marked as accepted, at which point move the pull request to "Implementing".
 
 Once the pull request has one approval, one of three things can happen:
 
@@ -105,8 +104,8 @@ Team members may merge a pull request immediately if it:
 
 Otherwise, team members should observe a waiting period before merging a pull request:
 
-* Wait **2 days** if the pull request was opened Monday through Friday.
-* Wait **3 days** if the pull request was opened on Saturday or Sunday.
+-   Wait **2 days** if the pull request was opened Monday through Friday.
+-   Wait **3 days** if the pull request was opened on Saturday or Sunday.
 
 The waiting period ensures that other team members have a chance to review the pull request before it is merged.
 

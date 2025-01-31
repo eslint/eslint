@@ -25,13 +25,13 @@
     ul {
         li {
             display: inline-block;
-            margin-right: .5rem;
-            margin-inline-end: .5rem;
+            margin-right: 0.5rem;
+            margin-inline-end: 0.5rem;
 
             &:not(:last-of-type)::after {
                 content: "|";
-                margin-left: .5rem;
-                margin-inline-start: .5rem;
+                margin-left: 0.5rem;
+                margin-inline-start: 0.5rem;
             }
         }
     }

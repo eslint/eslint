@@ -1,6 +1,6 @@
 "use strict";
 
-module.exports = eleventy => {
+module.exports = (eleventy) => {
     const PATH_PREFIX = eleventy.PATH_PREFIX;
 
     return {
@@ -14,7 +14,8 @@ module.exports = eleventy => {
         },
         layout: {
             displayName: "Layout & Formatting",
-            description: "These rules care about how the code looks rather than how it executes:"
+            description:
+                "These rules care about how the code looks rather than how it executes:"
         },
         deprecated: {
             displayName: "Deprecated",

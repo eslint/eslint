@@ -14,10 +14,10 @@ You can specify a formatter using the `--format` or `-f` flag in the CLI. For ex
 
 The built-in formatter options are:
 
-* [html](#html)
-* [json-with-metadata](#json-with-metadata)
-* [json](#json)
-* [stylish](#stylish)
+-   [html](#html)
+-   [json-with-metadata](#json-with-metadata)
+-   [json](#json)
+-   [stylish](#stylish)
 
 ## Example Source
 
@@ -28,11 +28,11 @@ Examples of each formatter were created from linting `fullOfProblems.js` using t
 ```js
 function addOne(i) {
     if (i != NaN) {
-        return i ++
+        return i++;
     } else {
-      return
+        return;
     }
-};
+}
 ```
 
 `.eslintrc.json`:
@@ -42,10 +42,10 @@ function addOne(i) {
     "extends": "eslint:recommended",
     "rules": {
         "consistent-return": 2,
-        "indent"           : [1, 4],
-        "no-else-return"   : 1,
-        "semi"             : [1, "always"],
-        "space-unary-ops"  : 2
+        "indent": [1, 4],
+        "no-else-return": 1,
+        "semi": [1, "always"],
+        "space-unary-ops": 2
     }
 }
 ```
@@ -97,10 +97,7 @@ Example output (formatted for easier reading):
                                 "varName": "addOne"
                             },
                             "fix": {
-                                "range": [
-                                    0,
-                                    94
-                                ],
+                                "range": [0, 94],
                                 "text": ""
                             },
                             "desc": "Remove unused variable 'addOne'."
@@ -121,10 +118,7 @@ Example output (formatted for easier reading):
                         {
                             "messageId": "replaceWithIsNaN",
                             "fix": {
-                                "range": [
-                                    29,
-                                    37
-                                ],
+                                "range": [29, 37],
                                 "text": "!Number.isNaN(i)"
                             },
                             "desc": "Replace with Number.isNaN."
@@ -132,10 +126,7 @@ Example output (formatted for easier reading):
                         {
                             "messageId": "replaceWithCastingAndIsNaN",
                             "fix": {
-                                "range": [
-                                    29,
-                                    37
-                                ],
+                                "range": [29, 37],
                                 "text": "!Number.isNaN(Number(i))"
                             },
                             "desc": "Replace with Number.isNaN and cast to a Number."
@@ -153,10 +144,7 @@ Example output (formatted for easier reading):
                     "endLine": 3,
                     "endColumn": 20,
                     "fix": {
-                        "range": [
-                            57,
-                            58
-                        ],
+                        "range": [57, 58],
                         "text": ""
                     }
                 },
@@ -171,10 +159,7 @@ Example output (formatted for easier reading):
                     "endLine": 4,
                     "endColumn": 1,
                     "fix": {
-                        "range": [
-                            60,
-                            60
-                        ],
+                        "range": [60, 60],
                         "text": ";"
                     }
                 },
@@ -189,10 +174,7 @@ Example output (formatted for easier reading):
                     "endLine": 6,
                     "endColumn": 6,
                     "fix": {
-                        "range": [
-                            0,
-                            94
-                        ],
+                        "range": [0, 94],
                         "text": "function addOne(i) {\n    if (i != NaN) {\n        return i ++\n    } \n      return\n    \n}"
                     }
                 },
@@ -207,10 +189,7 @@ Example output (formatted for easier reading):
                     "endLine": 5,
                     "endColumn": 7,
                     "fix": {
-                        "range": [
-                            74,
-                            80
-                        ],
+                        "range": [74, 80],
                         "text": "        "
                     }
                 },
@@ -236,10 +215,7 @@ Example output (formatted for easier reading):
                     "endLine": 6,
                     "endColumn": 1,
                     "fix": {
-                        "range": [
-                            86,
-                            86
-                        ],
+                        "range": [86, 86],
                         "text": ";"
                     }
                 }
@@ -298,9 +274,7 @@ Example output (formatted for easier reading):
                     {
                         "oneOf": [
                             {
-                                "enum": [
-                                    "tab"
-                                ]
+                                "enum": ["tab"]
                             },
                             {
                                 "type": "integer",
@@ -325,10 +299,7 @@ Example output (formatted for easier reading):
                                                 "minimum": 0
                                             },
                                             {
-                                                "enum": [
-                                                    "first",
-                                                    "off"
-                                                ]
+                                                "enum": ["first", "off"]
                                             }
                                         ]
                                     },
@@ -342,10 +313,7 @@ Example output (formatted for easier reading):
                                                         "minimum": 0
                                                     },
                                                     {
-                                                        "enum": [
-                                                            "first",
-                                                            "off"
-                                                        ]
+                                                        "enum": ["first", "off"]
                                                     }
                                                 ]
                                             },
@@ -356,10 +324,7 @@ Example output (formatted for easier reading):
                                                         "minimum": 0
                                                     },
                                                     {
-                                                        "enum": [
-                                                            "first",
-                                                            "off"
-                                                        ]
+                                                        "enum": ["first", "off"]
                                                     }
                                                 ]
                                             },
@@ -370,10 +335,7 @@ Example output (formatted for easier reading):
                                                         "minimum": 0
                                                     },
                                                     {
-                                                        "enum": [
-                                                            "first",
-                                                            "off"
-                                                        ]
+                                                        "enum": ["first", "off"]
                                                     }
                                                 ]
                                             }
@@ -389,9 +351,7 @@ Example output (formatted for easier reading):
                                         "minimum": 0
                                     },
                                     {
-                                        "enum": [
-                                            "off"
-                                        ]
+                                        "enum": ["off"]
                                     }
                                 ]
                             },
@@ -402,9 +362,7 @@ Example output (formatted for easier reading):
                                         "minimum": 0
                                     },
                                     {
-                                        "enum": [
-                                            "off"
-                                        ]
+                                        "enum": ["off"]
                                     }
                                 ]
                             },
@@ -418,10 +376,7 @@ Example output (formatted for easier reading):
                                                 "minimum": 0
                                             },
                                             {
-                                                "enum": [
-                                                    "first",
-                                                    "off"
-                                                ]
+                                                "enum": ["first", "off"]
                                             }
                                         ]
                                     },
@@ -442,10 +397,7 @@ Example output (formatted for easier reading):
                                                 "minimum": 0
                                             },
                                             {
-                                                "enum": [
-                                                    "first",
-                                                    "off"
-                                                ]
+                                                "enum": ["first", "off"]
                                             }
                                         ]
                                     },
@@ -476,10 +428,7 @@ Example output (formatted for easier reading):
                                                 "minimum": 0
                                             },
                                             {
-                                                "enum": [
-                                                    "first",
-                                                    "off"
-                                                ]
+                                                "enum": ["first", "off"]
                                             }
                                         ]
                                     }
@@ -493,10 +442,7 @@ Example output (formatted for easier reading):
                                         "minimum": 0
                                     },
                                     {
-                                        "enum": [
-                                            "first",
-                                            "off"
-                                        ]
+                                        "enum": ["first", "off"]
                                     }
                                 ]
                             },
@@ -507,10 +453,7 @@ Example output (formatted for easier reading):
                                         "minimum": 0
                                     },
                                     {
-                                        "enum": [
-                                            "first",
-                                            "off"
-                                        ]
+                                        "enum": ["first", "off"]
                                     }
                                 ]
                             },
@@ -521,10 +464,7 @@ Example output (formatted for easier reading):
                                         "minimum": 0
                                     },
                                     {
-                                        "enum": [
-                                            "first",
-                                            "off"
-                                        ]
+                                        "enum": ["first", "off"]
                                     }
                                 ]
                             },
@@ -614,19 +554,13 @@ Example output (formatted for easier reading):
                             "type": "array",
                             "items": [
                                 {
-                                    "enum": [
-                                        "never"
-                                    ]
+                                    "enum": ["never"]
                                 },
                                 {
                                     "type": "object",
                                     "properties": {
                                         "beforeStatementContinuationChars": {
-                                            "enum": [
-                                                "always",
-                                                "any",
-                                                "never"
-                                            ]
+                                            "enum": ["always", "any", "never"]
                                         }
                                     },
                                     "additionalProperties": false
@@ -639,9 +573,7 @@ Example output (formatted for easier reading):
                             "type": "array",
                             "items": [
                                 {
-                                    "enum": [
-                                        "always"
-                                    ]
+                                    "enum": ["always"]
                                 },
                                 {
                                     "type": "object",
@@ -730,10 +662,7 @@ Example output (formatted for easier reading):
                             "varName": "addOne"
                         },
                         "fix": {
-                            "range": [
-                                0,
-                                94
-                            ],
+                            "range": [0, 94],
                             "text": ""
                         },
                         "desc": "Remove unused variable 'addOne'."
@@ -754,10 +683,7 @@ Example output (formatted for easier reading):
                     {
                         "messageId": "replaceWithIsNaN",
                         "fix": {
-                            "range": [
-                                29,
-                                37
-                            ],
+                            "range": [29, 37],
                             "text": "!Number.isNaN(i)"
                         },
                         "desc": "Replace with Number.isNaN."
@@ -765,10 +691,7 @@ Example output (formatted for easier reading):
                     {
                         "messageId": "replaceWithCastingAndIsNaN",
                         "fix": {
-                            "range": [
-                                29,
-                                37
-                            ],
+                            "range": [29, 37],
                             "text": "!Number.isNaN(Number(i))"
                         },
                         "desc": "Replace with Number.isNaN and cast to a Number."
@@ -786,10 +709,7 @@ Example output (formatted for easier reading):
                 "endLine": 3,
                 "endColumn": 20,
                 "fix": {
-                    "range": [
-                        57,
-                        58
-                    ],
+                    "range": [57, 58],
                     "text": ""
                 }
             },
@@ -804,10 +724,7 @@ Example output (formatted for easier reading):
                 "endLine": 4,
                 "endColumn": 1,
                 "fix": {
-                    "range": [
-                        60,
-                        60
-                    ],
+                    "range": [60, 60],
                     "text": ";"
                 }
             },
@@ -822,10 +739,7 @@ Example output (formatted for easier reading):
                 "endLine": 6,
                 "endColumn": 6,
                 "fix": {
-                    "range": [
-                        0,
-                        94
-                    ],
+                    "range": [0, 94],
                     "text": "function addOne(i) {\n    if (i != NaN) {\n        return i ++\n    } \n      return\n    \n}"
                 }
             },
@@ -840,10 +754,7 @@ Example output (formatted for easier reading):
                 "endLine": 5,
                 "endColumn": 7,
                 "fix": {
-                    "range": [
-                        74,
-                        80
-                    ],
+                    "range": [74, 80],
                     "text": "        "
                 }
             },
@@ -869,10 +780,7 @@ Example output (formatted for easier reading):
                 "endLine": 6,
                 "endColumn": 1,
                 "fix": {
-                    "range": [
-                        86,
-                        86
-                    ],
+                    "range": [86, 86],
                     "text": ";"
                 }
             }

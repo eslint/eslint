@@ -1,7 +1,7 @@
 .theme-switcher {
     display: inline-flex;
     align-items: center;
-    gap: .5rem;
+    gap: 0.5rem;
     position: relative;
 }
 
@@ -22,21 +22,21 @@
 .theme-switcher__button {
     flex-wrap: wrap;
     box-shadow: var(--shadow-xs);
-    padding: .625rem .675rem;
+    padding: 0.625rem 0.675rem;
     display: inline-flex;
     align-items: center;
     margin: 0;
-    gap: .25rem;
+    gap: 0.25rem;
     color: inherit;
 
     &:first-of-type {
-        border-right: .5px solid var(--border-color);
-        border-inline-end: .5px solid var(--border-color);
+        border-right: 0.5px solid var(--border-color);
+        border-inline-end: 0.5px solid var(--border-color);
     }
 
     &:last-of-type {
-        border-left: .5px solid var(--border-color);
-        border-inline-start: .5px solid var(--border-color);
+        border-left: 0.5px solid var(--border-color);
+        border-inline-start: 0.5px solid var(--border-color);
     }
 
     .theme-switcher__icon {
