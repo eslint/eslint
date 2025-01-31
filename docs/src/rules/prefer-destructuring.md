@@ -51,8 +51,8 @@ const foo = array[0];
 bar.baz = array[0];
 
 // With `object` enabled
-const obj1 = object.foo;
-const obj2 = object['foo'];
+const qux = object.qux;
+const quux = object['quux'];
 ```
 
 :::
