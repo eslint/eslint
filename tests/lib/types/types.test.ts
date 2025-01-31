@@ -129,14 +129,16 @@ sourceCode.getTokenByRangeStart(0, { includeComments: false as boolean }); // $E
 sourceCode.getFirstToken(AST); // $ExpectType Token | null
 sourceCode.getFirstToken(AST, 0);
 sourceCode.getFirstToken(AST, { skip: 0 });
+// $ExpectType (Token & { type: "Identifier"; }) | null
 sourceCode.getFirstToken(
     AST,
     (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier"
-); // $ExpectType (Token & { type: "Identifier"; }) | null
+);
+// $ExpectType (Token & { type: "Identifier"; }) | null
 sourceCode.getFirstToken(AST, {
     filter: (t): t is AST.Token & { type: "Identifier" } =>
         t.type === "Identifier"
-}); // $ExpectType (Token & { type: "Identifier"; }) | null
+});
 sourceCode.getFirstToken(AST, {
     skip: 0,
     filter: (t) => t.type === "Identifier"
@@ -153,14 +155,16 @@ sourceCode.getFirstToken(AST, { // $ExpectType (Token & { type: "Identifier"; })
 sourceCode.getFirstTokens(AST); // $ExpectType Token[]
 sourceCode.getFirstTokens(AST, 0); // $ExpectType Token[]
 sourceCode.getFirstTokens(AST, { count: 0 });
+// $ExpectType (Token & { type: "Identifier"; })[]
 sourceCode.getFirstTokens(
     AST,
     (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier"
-); // $ExpectType (Token & { type: "Identifier"; })[]
+);
+// $ExpectType (Token & { type: "Identifier"; })[]
 sourceCode.getFirstTokens(AST, {
     filter: (t): t is AST.Token & { type: "Identifier" } =>
         t.type === "Identifier"
-}); // $ExpectType (Token & { type: "Identifier"; })[]
+});
 // prettier-ignore
 sourceCode.getFirstTokens(AST, { // $ExpectType (Token & { type: "Identifier"; })[]
     count: 0,
@@ -288,11 +292,12 @@ sourceCode.getTokensAfter(COMMENT, 0);
 sourceCode.getFirstTokenBetween(AST, AST); // $ExpectType Token | null
 sourceCode.getFirstTokenBetween(AST, AST, 0);
 sourceCode.getFirstTokenBetween(AST, AST, { skip: 0 });
+// $ExpectType (Token & { type: "Identifier"; }) | null
 sourceCode.getFirstTokenBetween(
     AST,
     AST,
     (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier"
-); // $ExpectType (Token & { type: "Identifier"; }) | null
+);
 // prettier-ignore
 sourceCode.getFirstTokenBetween(AST, AST, { // $ExpectType (Token & { type: "Identifier"; }) | null
     filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
@@ -314,11 +319,12 @@ sourceCode.getFirstTokenBetween(AST, AST, { // $ExpectType (Token & { type: "Ide
 sourceCode.getFirstTokensBetween(AST, AST); // $ExpectType Token[]
 sourceCode.getFirstTokensBetween(AST, AST, 0);
 sourceCode.getFirstTokensBetween(AST, AST, { count: 0 });
+// $ExpectType (Token & { type: "Identifier"; })[]
 sourceCode.getFirstTokensBetween(
     AST,
     AST,
     (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier"
-); // $ExpectType (Token & { type: "Identifier"; })[]
+);
 // prettier-ignore
 sourceCode.getFirstTokensBetween(AST, AST, { // $ExpectType (Token & { type: "Identifier"; })[]
     filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
@@ -380,14 +386,16 @@ sourceCode.getTokensBetween(AST, AST, 0);
 sourceCode.getTokens(AST); // $ExpectType Token[]
 sourceCode.getTokens(AST, 0);
 sourceCode.getTokens(AST, 0, 0);
+// $ExpectType (Token & { type: "Identifier"; })[]
 sourceCode.getTokens(
     AST,
     (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier"
-); // $ExpectType (Token & { type: "Identifier"; })[]
+);
+// $ExpectType (Token & { type: "Identifier"; })[]
 sourceCode.getTokens(AST, {
     filter: (t): t is AST.Token & { type: "Identifier" } =>
         t.type === "Identifier"
-}); // $ExpectType (Token & { type: "Identifier"; })[]
+});
 sourceCode.getTokens(AST, { includeComments: true }); // $ExpectType (Comment | Token)[]
 // prettier-ignore
 sourceCode.getTokens(AST, { // $ExpectType (Token & { type: "Identifier"; })[]
@@ -1792,16 +1800,16 @@ ruleTester.run("simple-valid-test", rule, {
     linterOptions: { reportUnusedDisableDirectives: false }
 });
 
-// @ts-expect-error
 (): Linter.Config => ({
+    // @ts-expect-error
     linterOptions: { reportUnusedDisableDirectives: "on" }
 });
 
 // @ts-expect-error
 (): Linter.Config => ({ linterOptions: { reportUnusedDisableDirectives: 3 } });
 
-// @ts-expect-error
 (): Linter.Config => ({
+    // @ts-expect-error
     linterOptions: { reportUnusedDisableDirectives: null }
 });
 
