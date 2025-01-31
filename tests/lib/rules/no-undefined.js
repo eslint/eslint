@@ -46,10 +46,22 @@ ruleTester.run("no-undefined", rule, {
         "({ undefined() {} })",
         "class Foo { undefined() {} }",
         "(class { undefined() {} })",
-        { code: "import { undefined as a } from 'foo'", languageOptions: ES6_MODULE },
-        { code: "export { undefined } from 'foo'", languageOptions: ES6_MODULE },
-        { code: "export { undefined as a } from 'foo'", languageOptions: ES6_MODULE },
-        { code: "export { a as undefined } from 'foo'", languageOptions: ES6_MODULE }
+        {
+            code: "import { undefined as a } from 'foo'",
+            languageOptions: ES6_MODULE
+        },
+        {
+            code: "export { undefined } from 'foo'",
+            languageOptions: ES6_MODULE
+        },
+        {
+            code: "export { undefined as a } from 'foo'",
+            languageOptions: ES6_MODULE
+        },
+        {
+            code: "export { a as undefined } from 'foo'",
+            languageOptions: ES6_MODULE
+        }
     ],
     invalid: [
         { code: "undefined", errors },
@@ -83,13 +95,16 @@ ruleTester.run("no-undefined", rule, {
         { code: "(class { [undefined]() {} })", errors },
         {
             code: "var undefined = true; undefined = false;",
-            errors: [{
-                messageId: "unexpectedUndefined",
-                column: 5
-            }, {
-                messageId: "unexpectedUndefined",
-                column: 23
-            }]
+            errors: [
+                {
+                    messageId: "unexpectedUndefined",
+                    column: 5
+                },
+                {
+                    messageId: "unexpectedUndefined",
+                    column: 23
+                }
+            ]
         },
         {
             code: "import undefined from 'foo'",

@@ -21,9 +21,7 @@ const UNEXPECTED_LINEBREAK = { messageId: "expectNoLinebreak" };
 const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("nonblock-statement-body-position", rule, {
-
     valid: [
-
         // 'beside' option
         "if (foo) bar;",
         "while (foo) bar;",
@@ -150,7 +148,18 @@ ruleTester.run("nonblock-statement-body-position", rule, {
         },
         {
             code: " ",
-            options: ["any", { overrides: { if: "any", else: "any", for: "any", while: "any", do: "any" } }]
+            options: [
+                "any",
+                {
+                    overrides: {
+                        if: "any",
+                        else: "any",
+                        for: "any",
+                        while: "any",
+                        do: "any"
+                    }
+                }
+            ]
         },
 
         // ignore 'else if'
@@ -185,7 +194,6 @@ ruleTester.run("nonblock-statement-body-position", rule, {
     ],
 
     invalid: [
-
         // 'beside' option
         {
             code: `

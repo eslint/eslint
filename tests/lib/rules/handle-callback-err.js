@@ -18,8 +18,14 @@ const rule = require("../../../lib/rules/handle-callback-err"),
 
 const ruleTester = new RuleTester();
 
-const expectedFunctionDeclarationError = { messageId: "expected", type: "FunctionDeclaration" };
-const expectedFunctionExpressionError = { messageId: "expected", type: "FunctionExpression" };
+const expectedFunctionDeclarationError = {
+    messageId: "expected",
+    type: "FunctionDeclaration"
+};
+const expectedFunctionExpressionError = {
+    messageId: "expected",
+    type: "FunctionExpression"
+};
 
 ruleTester.run("handle-callback-err", rule, {
     valid: [
@@ -40,35 +46,131 @@ ruleTester.run("handle-callback-err", rule, {
         "function help() { function userHandler(err) {function tester() { err; process.nextTick(function() { err; }); } } }",
         "function help(done) { var err = new Error('error'); done(); }",
         { code: "var test = err => err;", languageOptions: { ecmaVersion: 6 } },
-        { code: "var test = err => !err;", languageOptions: { ecmaVersion: 6 } },
-        { code: "var test = err => err.message;", languageOptions: { ecmaVersion: 6 } },
-        { code: "var test = function(error) {if(error){/* do nothing */}};", options: ["error"] },
-        { code: "var test = (error) => {if(error){/* do nothing */}};", options: ["error"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var test = function(error) {if(! error){doSomethingHere();}};", options: ["error"] },
-        { code: "var test = function(err) { console.log(err); };", options: ["^(err|error)$"] },
-        { code: "var test = function(error) { console.log(error); };", options: ["^(err|error)$"] },
-        { code: "var test = function(anyError) { console.log(anyError); };", options: ["^.+Error$"] },
-        { code: "var test = function(any_error) { console.log(anyError); };", options: ["^.+Error$"] },
-        { code: "var test = function(any_error) { console.log(any_error); };", options: ["^.+(e|E)rror$"] }
+        {
+            code: "var test = err => !err;",
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var test = err => err.message;",
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var test = function(error) {if(error){/* do nothing */}};",
+            options: ["error"]
+        },
+        {
+            code: "var test = (error) => {if(error){/* do nothing */}};",
+            options: ["error"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var test = function(error) {if(! error){doSomethingHere();}};",
+            options: ["error"]
+        },
+        {
+            code: "var test = function(err) { console.log(err); };",
+            options: ["^(err|error)$"]
+        },
+        {
+            code: "var test = function(error) { console.log(error); };",
+            options: ["^(err|error)$"]
+        },
+        {
+            code: "var test = function(anyError) { console.log(anyError); };",
+            options: ["^.+Error$"]
+        },
+        {
+            code: "var test = function(any_error) { console.log(anyError); };",
+            options: ["^.+Error$"]
+        },
+        {
+            code: "var test = function(any_error) { console.log(any_error); };",
+            options: ["^.+(e|E)rror$"]
+        }
     ],
     invalid: [
-        { code: "function test(err) {}", errors: [expectedFunctionDeclarationError] },
-        { code: "function test(err, data) {}", errors: [expectedFunctionDeclarationError] },
-        { code: "function test(err) {errorLookingWord();}", errors: [expectedFunctionDeclarationError] },
-        { code: "function test(err) {try{} catch(err) {}}", errors: [expectedFunctionDeclarationError] },
-        { code: "function test(err, callback) { foo(function(err, callback) {}); }", errors: [expectedFunctionDeclarationError, expectedFunctionExpressionError] },
-        { code: "var test = (err) => {};", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "expected" }] },
-        { code: "var test = function(err) {};", errors: [expectedFunctionExpressionError] },
-        { code: "var test = function test(err, data) {};", errors: [expectedFunctionExpressionError] },
-        { code: "var test = function test(err) {/* if(err){} */};", errors: [expectedFunctionExpressionError] },
-        { code: "function test(err) {doSomethingHere(function(err){console.log(err);})}", errors: [expectedFunctionDeclarationError] },
-        { code: "function test(error) {}", options: ["error"], errors: [expectedFunctionDeclarationError] },
-        { code: "getData(function(err, data) {getMoreDataWith(data, function(err, moreData) {if (err) {}getEvenMoreDataWith(moreData, function(err, allOfTheThings) {if (err) {}});}); });", errors: [expectedFunctionExpressionError] },
-        { code: "getData(function(err, data) {getMoreDataWith(data, function(err, moreData) {getEvenMoreDataWith(moreData, function(err, allOfTheThings) {if (err) {}});}); });", errors: [expectedFunctionExpressionError, expectedFunctionExpressionError] },
-        { code: "function userHandler(err) {logThisAction(function(err) {if (err) { console.log(err); } })}", errors: [expectedFunctionDeclarationError] },
-        { code: "function help() { function userHandler(err) {function tester(err) { err; process.nextTick(function() { err; }); } } }", errors: [expectedFunctionDeclarationError] },
-        { code: "var test = function(anyError) { console.log(otherError); };", options: ["^.+Error$"], errors: [expectedFunctionExpressionError] },
-        { code: "var test = function(anyError) { };", options: ["^.+Error$"], errors: [expectedFunctionExpressionError] },
-        { code: "var test = function(err) { console.log(error); };", options: ["^(err|error)$"], errors: [expectedFunctionExpressionError] }
+        {
+            code: "function test(err) {}",
+            errors: [expectedFunctionDeclarationError]
+        },
+        {
+            code: "function test(err, data) {}",
+            errors: [expectedFunctionDeclarationError]
+        },
+        {
+            code: "function test(err) {errorLookingWord();}",
+            errors: [expectedFunctionDeclarationError]
+        },
+        {
+            code: "function test(err) {try{} catch(err) {}}",
+            errors: [expectedFunctionDeclarationError]
+        },
+        {
+            code: "function test(err, callback) { foo(function(err, callback) {}); }",
+            errors: [
+                expectedFunctionDeclarationError,
+                expectedFunctionExpressionError
+            ]
+        },
+        {
+            code: "var test = (err) => {};",
+            languageOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "expected" }]
+        },
+        {
+            code: "var test = function(err) {};",
+            errors: [expectedFunctionExpressionError]
+        },
+        {
+            code: "var test = function test(err, data) {};",
+            errors: [expectedFunctionExpressionError]
+        },
+        {
+            code: "var test = function test(err) {/* if(err){} */};",
+            errors: [expectedFunctionExpressionError]
+        },
+        {
+            code: "function test(err) {doSomethingHere(function(err){console.log(err);})}",
+            errors: [expectedFunctionDeclarationError]
+        },
+        {
+            code: "function test(error) {}",
+            options: ["error"],
+            errors: [expectedFunctionDeclarationError]
+        },
+        {
+            code: "getData(function(err, data) {getMoreDataWith(data, function(err, moreData) {if (err) {}getEvenMoreDataWith(moreData, function(err, allOfTheThings) {if (err) {}});}); });",
+            errors: [expectedFunctionExpressionError]
+        },
+        {
+            code: "getData(function(err, data) {getMoreDataWith(data, function(err, moreData) {getEvenMoreDataWith(moreData, function(err, allOfTheThings) {if (err) {}});}); });",
+            errors: [
+                expectedFunctionExpressionError,
+                expectedFunctionExpressionError
+            ]
+        },
+        {
+            code: "function userHandler(err) {logThisAction(function(err) {if (err) { console.log(err); } })}",
+            errors: [expectedFunctionDeclarationError]
+        },
+        {
+            code: "function help() { function userHandler(err) {function tester(err) { err; process.nextTick(function() { err; }); } } }",
+            errors: [expectedFunctionDeclarationError]
+        },
+        {
+            code: "var test = function(anyError) { console.log(otherError); };",
+            options: ["^.+Error$"],
+            errors: [expectedFunctionExpressionError]
+        },
+        {
+            code: "var test = function(anyError) { };",
+            options: ["^.+Error$"],
+            errors: [expectedFunctionExpressionError]
+        },
+        {
+            code: "var test = function(err) { console.log(error); };",
+            options: ["^(err|error)$"],
+            errors: [expectedFunctionExpressionError]
+        }
     ]
 });

@@ -26,10 +26,12 @@ ruleTester.run("no-new", rule, {
     invalid: [
         {
             code: "new Date()",
-            errors: [{
-                messageId: "noNewStatement",
-                type: "ExpressionStatement"
-            }]
+            errors: [
+                {
+                    messageId: "noNewStatement",
+                    type: "ExpressionStatement"
+                }
+            ]
         }
     ]
 });

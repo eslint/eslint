@@ -61,18 +61,48 @@ ruleTester.run("no-obj-calls", rule, {
         },
 
         { code: "globalThis.Math();", languageOptions: { ecmaVersion: 6 } },
-        { code: "var x = globalThis.Math();", languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "var x = globalThis.Math();",
+            languageOptions: { ecmaVersion: 6 }
+        },
         { code: "f(globalThis.Math());", languageOptions: { ecmaVersion: 6 } },
         { code: "globalThis.Math().foo;", languageOptions: { ecmaVersion: 6 } },
-        { code: "var x = globalThis.JSON();", languageOptions: { ecmaVersion: 6 } },
-        { code: "x = globalThis.JSON(str);", languageOptions: { ecmaVersion: 6 } },
-        { code: "globalThis.Math( globalThis.JSON() );", languageOptions: { ecmaVersion: 6 } },
-        { code: "var x = globalThis.Reflect();", languageOptions: { ecmaVersion: 6 } },
-        { code: "var x = globalThis.Reflect();", languageOptions: { ecmaVersion: 2017 } },
-        { code: "/*globals Reflect: true*/ globalThis.Reflect();", languageOptions: { ecmaVersion: 2017 } },
-        { code: "var x = globalThis.Atomics();", languageOptions: { ecmaVersion: 2017 } },
-        { code: "var x = globalThis.Atomics();", languageOptions: { ecmaVersion: 2017, globals: { Atomics: false } } },
-        { code: "var x = globalThis.Intl();", languageOptions: { ecmaVersion: 2015 } },
+        {
+            code: "var x = globalThis.JSON();",
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "x = globalThis.JSON(str);",
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "globalThis.Math( globalThis.JSON() );",
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var x = globalThis.Reflect();",
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var x = globalThis.Reflect();",
+            languageOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: "/*globals Reflect: true*/ globalThis.Reflect();",
+            languageOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: "var x = globalThis.Atomics();",
+            languageOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: "var x = globalThis.Atomics();",
+            languageOptions: { ecmaVersion: 2017, globals: { Atomics: false } }
+        },
+        {
+            code: "var x = globalThis.Intl();",
+            languageOptions: { ecmaVersion: 2015 }
+        },
 
         // non-existing variables
         "/*globals Math: off*/ Math();",
@@ -135,7 +165,7 @@ ruleTester.run("no-obj-calls", rule, {
             languageOptions: { globals: { Atomics: false } }
         },
         {
-            code: "var construct = typeof Reflect !== \"undefined\" ? Reflect.construct : undefined; construct();",
+            code: 'var construct = typeof Reflect !== "undefined" ? Reflect.construct : undefined; construct();',
             languageOptions: { globals: { Reflect: false } }
         },
         {
@@ -154,252 +184,586 @@ ruleTester.run("no-obj-calls", rule, {
     invalid: [
         {
             code: "Math();",
-            errors: [{ messageId: "unexpectedCall", data: { name: "Math" }, type: "CallExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Math" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "var x = Math();",
-            errors: [{ messageId: "unexpectedCall", data: { name: "Math" }, type: "CallExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Math" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "f(Math());",
-            errors: [{ messageId: "unexpectedCall", data: { name: "Math" }, type: "CallExpression", column: 3, endColumn: 9 }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Math" },
+                    type: "CallExpression",
+                    column: 3,
+                    endColumn: 9
+                }
+            ]
         },
         {
             code: "Math().foo;",
-            errors: [{ messageId: "unexpectedCall", data: { name: "Math" }, type: "CallExpression", column: 1, endColumn: 7 }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Math" },
+                    type: "CallExpression",
+                    column: 1,
+                    endColumn: 7
+                }
+            ]
         },
         {
             code: "new Math;",
-            errors: [{ messageId: "unexpectedCall", data: { name: "Math" }, type: "NewExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Math" },
+                    type: "NewExpression"
+                }
+            ]
         },
         {
             code: "new Math();",
-            errors: [{ messageId: "unexpectedCall", data: { name: "Math" }, type: "NewExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Math" },
+                    type: "NewExpression"
+                }
+            ]
         },
         {
             code: "new Math(foo);",
-            errors: [{ messageId: "unexpectedCall", data: { name: "Math" }, type: "NewExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Math" },
+                    type: "NewExpression"
+                }
+            ]
         },
         {
             code: "new Math().foo;",
-            errors: [{ messageId: "unexpectedCall", data: { name: "Math" }, type: "NewExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Math" },
+                    type: "NewExpression"
+                }
+            ]
         },
         {
             code: "(new Math).foo();",
-            errors: [{ messageId: "unexpectedCall", data: { name: "Math" }, type: "NewExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Math" },
+                    type: "NewExpression"
+                }
+            ]
         },
         {
             code: "var x = JSON();",
-            errors: [{ messageId: "unexpectedCall", data: { name: "JSON" }, type: "CallExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "JSON" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "x = JSON(str);",
-            errors: [{ messageId: "unexpectedCall", data: { name: "JSON" }, type: "CallExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "JSON" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "var x = new JSON();",
-            errors: [{ messageId: "unexpectedCall", data: { name: "JSON" }, type: "NewExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "JSON" },
+                    type: "NewExpression"
+                }
+            ]
         },
         {
             code: "Math( JSON() );",
             errors: [
-                { messageId: "unexpectedCall", data: { name: "Math" }, type: "CallExpression", column: 1, endColumn: 15 },
-                { messageId: "unexpectedCall", data: { name: "JSON" }, type: "CallExpression", column: 7, endColumn: 13 }
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Math" },
+                    type: "CallExpression",
+                    column: 1,
+                    endColumn: 15
+                },
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "JSON" },
+                    type: "CallExpression",
+                    column: 7,
+                    endColumn: 13
+                }
             ]
         },
         {
             code: "var x = Reflect();",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unexpectedCall", data: { name: "Reflect" }, type: "CallExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Reflect" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "var x = new Reflect();",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unexpectedCall", data: { name: "Reflect" }, type: "NewExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Reflect" },
+                    type: "NewExpression"
+                }
+            ]
         },
         {
             code: "var x = Reflect();",
             languageOptions: { ecmaVersion: 2017 },
-            errors: [{ messageId: "unexpectedCall", data: { name: "Reflect" }, type: "CallExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Reflect" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "/*globals Reflect: true*/ Reflect();",
-            errors: [{ messageId: "unexpectedCall", data: { name: "Reflect" }, type: "CallExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Reflect" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "/*globals Reflect: true*/ new Reflect();",
-            errors: [{ messageId: "unexpectedCall", data: { name: "Reflect" }, type: "NewExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Reflect" },
+                    type: "NewExpression"
+                }
+            ]
         },
         {
             code: "var x = Atomics();",
             languageOptions: { ecmaVersion: 2017 },
-            errors: [{ messageId: "unexpectedCall", data: { name: "Atomics" }, type: "CallExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Atomics" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "var x = new Atomics();",
             languageOptions: { ecmaVersion: 2017 },
-            errors: [{ messageId: "unexpectedCall", data: { name: "Atomics" }, type: "NewExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Atomics" },
+                    type: "NewExpression"
+                }
+            ]
         },
         {
             code: "var x = Atomics();",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unexpectedCall", data: { name: "Atomics" }, type: "CallExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Atomics" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "var x = Atomics();",
             languageOptions: { globals: { Atomics: false } },
-            errors: [{ messageId: "unexpectedCall", data: { name: "Atomics" }, type: "CallExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Atomics" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "var x = new Atomics();",
             languageOptions: { globals: { Atomics: "writable" } },
-            errors: [{ messageId: "unexpectedCall", data: { name: "Atomics" }, type: "NewExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Atomics" },
+                    type: "NewExpression"
+                }
+            ]
         },
         {
             code: "var x = Intl();",
             languageOptions: { ecmaVersion: 2015 },
-            errors: [{ messageId: "unexpectedCall", data: { name: "Intl" }, type: "CallExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Intl" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "var x = new Intl();",
             languageOptions: { ecmaVersion: 2015 },
-            errors: [{ messageId: "unexpectedCall", data: { name: "Intl" }, type: "NewExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Intl" },
+                    type: "NewExpression"
+                }
+            ]
         },
         {
             code: "/*globals Intl: true*/ Intl();",
-            errors: [{ messageId: "unexpectedCall", data: { name: "Intl" }, type: "CallExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Intl" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "/*globals Intl: true*/ new Intl();",
-            errors: [{ messageId: "unexpectedCall", data: { name: "Intl" }, type: "NewExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Intl" },
+                    type: "NewExpression"
+                }
+            ]
         },
         {
             code: "var x = globalThis.Math();",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unexpectedCall", data: { name: "Math" }, type: "CallExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Math" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "var x = new globalThis.Math();",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unexpectedCall", data: { name: "Math" }, type: "NewExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Math" },
+                    type: "NewExpression"
+                }
+            ]
         },
         {
             code: "f(globalThis.Math());",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unexpectedCall", data: { name: "Math" }, type: "CallExpression", column: 3, endColumn: 20 }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Math" },
+                    type: "CallExpression",
+                    column: 3,
+                    endColumn: 20
+                }
+            ]
         },
         {
             code: "globalThis.Math().foo;",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unexpectedCall", data: { name: "Math" }, type: "CallExpression", column: 1, endColumn: 18 }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Math" },
+                    type: "CallExpression",
+                    column: 1,
+                    endColumn: 18
+                }
+            ]
         },
         {
             code: "new globalThis.Math().foo;",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unexpectedCall", data: { name: "Math" }, type: "NewExpression", column: 1, endColumn: 22 }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Math" },
+                    type: "NewExpression",
+                    column: 1,
+                    endColumn: 22
+                }
+            ]
         },
         {
             code: "var x = globalThis.JSON();",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unexpectedCall", data: { name: "JSON" }, type: "CallExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "JSON" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "x = globalThis.JSON(str);",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unexpectedCall", data: { name: "JSON" }, type: "CallExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "JSON" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "globalThis.Math( globalThis.JSON() );",
             languageOptions: { ecmaVersion: 2020 },
             errors: [
-                { messageId: "unexpectedCall", data: { name: "Math" }, type: "CallExpression", column: 1, endColumn: 37 },
-                { messageId: "unexpectedCall", data: { name: "JSON" }, type: "CallExpression", column: 18, endColumn: 35 }
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Math" },
+                    type: "CallExpression",
+                    column: 1,
+                    endColumn: 37
+                },
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "JSON" },
+                    type: "CallExpression",
+                    column: 18,
+                    endColumn: 35
+                }
             ]
         },
         {
             code: "var x = globalThis.Reflect();",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unexpectedCall", data: { name: "Reflect" }, type: "CallExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Reflect" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "var x = new globalThis.Reflect;",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unexpectedCall", data: { name: "Reflect" }, type: "NewExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Reflect" },
+                    type: "NewExpression"
+                }
+            ]
         },
         {
             code: "/*globals Reflect: true*/ Reflect();",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unexpectedCall", data: { name: "Reflect" }, type: "CallExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Reflect" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "var x = globalThis.Atomics();",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unexpectedCall", data: { name: "Atomics" }, type: "CallExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Atomics" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "var x = globalThis.Intl();",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unexpectedCall", data: { name: "Intl" }, type: "CallExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Intl" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "var x = new globalThis.Intl;",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unexpectedCall", data: { name: "Intl" }, type: "NewExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Intl" },
+                    type: "NewExpression"
+                }
+            ]
         },
         {
             code: "/*globals Intl: true*/ Intl();",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unexpectedCall", data: { name: "Intl" }, type: "CallExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Intl" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "var foo = bar ? baz: JSON; foo();",
-            errors: [{ messageId: "unexpectedRefCall", data: { name: "foo", ref: "JSON" }, type: "CallExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedRefCall",
+                    data: { name: "foo", ref: "JSON" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "var foo = bar ? baz: JSON; new foo();",
-            errors: [{ messageId: "unexpectedRefCall", data: { name: "foo", ref: "JSON" }, type: "NewExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedRefCall",
+                    data: { name: "foo", ref: "JSON" },
+                    type: "NewExpression"
+                }
+            ]
         },
         {
             code: "var foo = bar ? baz: globalThis.JSON; foo();",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unexpectedRefCall", data: { name: "foo", ref: "JSON" }, type: "CallExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedRefCall",
+                    data: { name: "foo", ref: "JSON" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "var foo = bar ? baz: globalThis.JSON; new foo();",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unexpectedRefCall", data: { name: "foo", ref: "JSON" }, type: "NewExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedRefCall",
+                    data: { name: "foo", ref: "JSON" },
+                    type: "NewExpression"
+                }
+            ]
         },
         {
             code: "var foo = window.Atomics; foo();",
             languageOptions: { ecmaVersion: 2020, globals: globals.browser },
-            errors: [{ messageId: "unexpectedRefCall", data: { name: "foo", ref: "Atomics" }, type: "CallExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedRefCall",
+                    data: { name: "foo", ref: "Atomics" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "var foo = window.Atomics; new foo;",
             languageOptions: { ecmaVersion: 2020, globals: globals.browser },
-            errors: [{ messageId: "unexpectedRefCall", data: { name: "foo", ref: "Atomics" }, type: "NewExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedRefCall",
+                    data: { name: "foo", ref: "Atomics" },
+                    type: "NewExpression"
+                }
+            ]
         },
         {
             code: "var foo = window.Intl; foo();",
             languageOptions: { ecmaVersion: 2020, globals: globals.browser },
-            errors: [{ messageId: "unexpectedRefCall", data: { name: "foo", ref: "Intl" }, type: "CallExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedRefCall",
+                    data: { name: "foo", ref: "Intl" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "var foo = window.Intl; new foo;",
             languageOptions: { ecmaVersion: 2020, globals: globals.browser },
-            errors: [{ messageId: "unexpectedRefCall", data: { name: "foo", ref: "Intl" }, type: "NewExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedRefCall",
+                    data: { name: "foo", ref: "Intl" },
+                    type: "NewExpression"
+                }
+            ]
         },
 
         // Optional chaining
         {
             code: "var x = globalThis?.Reflect();",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unexpectedCall", data: { name: "Reflect" }, type: "CallExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Reflect" },
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "var x = (globalThis?.Reflect)();",
             languageOptions: { ecmaVersion: 2020 },
-            errors: [{ messageId: "unexpectedCall", data: { name: "Reflect" }, type: "CallExpression" }]
+            errors: [
+                {
+                    messageId: "unexpectedCall",
+                    data: { name: "Reflect" },
+                    type: "CallExpression"
+                }
+            ]
         }
     ]
 });

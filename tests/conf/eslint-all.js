@@ -22,7 +22,6 @@ describe("eslint-all", () => {
         const ruleNames = Object.keys(rules);
 
         assert.notInclude(ruleNames, ".eslintrc.yml");
-
     });
 
     it("should return all rules", () => {
@@ -36,7 +35,9 @@ describe("eslint-all", () => {
 
     it("should configure all rules as errors", () => {
         const ruleNames = Object.keys(rules);
-        const nonErrorRules = ruleNames.filter(ruleName => rules[ruleName] !== "error");
+        const nonErrorRules = ruleNames.filter(
+            (ruleName) => rules[ruleName] !== "error"
+        );
 
         assert.strictEqual(nonErrorRules.length, 0);
     });

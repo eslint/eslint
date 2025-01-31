@@ -68,7 +68,6 @@ function getOrderOfTraversing(codePath, options, callback) {
 //------------------------------------------------------------------------------
 
 describe("CodePathAnalyzer", () => {
-
     /*
      * If you need to output the code paths and DOT graph information for a
      * particular piece of code, update and uncomment the following test and
@@ -84,7 +83,6 @@ describe("CodePathAnalyzer", () => {
      */
 
     describe("CodePath#origin", () => {
-
         it("should be 'program' when code path starts at root node", () => {
             const codePath = parseCodePaths("foo(); bar(); baz();")[0];
 
@@ -110,14 +108,15 @@ describe("CodePathAnalyzer", () => {
         });
 
         it("should be 'class-static-block' when code path starts inside a class static block", () => {
-            const codePath = parseCodePaths("class Foo { static { this.a=1; } }")[1];
+            const codePath = parseCodePaths(
+                "class Foo { static { this.a=1; } }"
+            )[1];
 
             assert.strictEqual(codePath.origin, "class-static-block");
         });
     });
 
     describe(".traverseSegments()", () => {
-
         describe("should traverse segments from the first to the end:", () => {
             /* eslint-disable internal-rules/multiline-comment-style -- Commenting out */
             it("simple", () => {
@@ -138,7 +137,9 @@ describe("CodePathAnalyzer", () => {
             });
 
             it("if", () => {
-                const codePath = parseCodePaths("if (a) foo(); else bar(); baz();")[0];
+                const codePath = parseCodePaths(
+                    "if (a) foo(); else bar(); baz();"
+                )[0];
                 const order = getOrderOfTraversing(codePath);
 
                 assert.deepStrictEqual(order, ["s1_1", "s1_2", "s1_3", "s1_4"]);
@@ -159,10 +160,18 @@ describe("CodePathAnalyzer", () => {
             });
 
             it("switch", () => {
-                const codePath = parseCodePaths("switch (a) { case 0: foo(); break; case 1: bar(); } baz();")[0];
+                const codePath = parseCodePaths(
+                    "switch (a) { case 0: foo(); break; case 1: bar(); } baz();"
+                )[0];
                 const order = getOrderOfTraversing(codePath);
 
-                assert.deepStrictEqual(order, ["s1_1", "s1_2", "s1_4", "s1_5", "s1_6"]);
+                assert.deepStrictEqual(order, [
+                    "s1_1",
+                    "s1_2",
+                    "s1_4",
+                    "s1_5",
+                    "s1_6"
+                ]);
 
                 /*
                 digraph {
@@ -204,10 +213,18 @@ describe("CodePathAnalyzer", () => {
             });
 
             it("for", () => {
-                const codePath = parseCodePaths("for (var i = 0; i < 10; ++i) foo(i); bar();")[0];
+                const codePath = parseCodePaths(
+                    "for (var i = 0; i < 10; ++i) foo(i); bar();"
+                )[0];
                 const order = getOrderOfTraversing(codePath);
 
-                assert.deepStrictEqual(order, ["s1_1", "s1_2", "s1_3", "s1_4", "s1_5"]);
+                assert.deepStrictEqual(order, [
+                    "s1_1",
+                    "s1_2",
+                    "s1_3",
+                    "s1_4",
+                    "s1_5"
+                ]);
 
                 /*
                 digraph {
@@ -225,10 +242,18 @@ describe("CodePathAnalyzer", () => {
             });
 
             it("for-in", () => {
-                const codePath = parseCodePaths("for (var key in obj) foo(key); bar();")[0];
+                const codePath = parseCodePaths(
+                    "for (var key in obj) foo(key); bar();"
+                )[0];
                 const order = getOrderOfTraversing(codePath);
 
-                assert.deepStrictEqual(order, ["s1_1", "s1_3", "s1_2", "s1_4", "s1_5"]);
+                assert.deepStrictEqual(order, [
+                    "s1_1",
+                    "s1_3",
+                    "s1_2",
+                    "s1_4",
+                    "s1_5"
+                ]);
 
                 /*
                 digraph {
@@ -248,7 +273,9 @@ describe("CodePathAnalyzer", () => {
             });
 
             it("try-catch", () => {
-                const codePath = parseCodePaths("try { foo(); } catch (e) { bar(); } baz();")[0];
+                const codePath = parseCodePaths(
+                    "try { foo(); } catch (e) { bar(); } baz();"
+                )[0];
                 const order = getOrderOfTraversing(codePath);
 
                 assert.deepStrictEqual(order, ["s1_1", "s1_2", "s1_3", "s1_4"]);
@@ -271,7 +298,9 @@ describe("CodePathAnalyzer", () => {
         });
 
         it("should traverse segments from `options.first` to `options.last`.", () => {
-            const codePath = parseCodePaths("if (a) { if (b) { foo(); } bar(); } else { out1(); } out2();")[0];
+            const codePath = parseCodePaths(
+                "if (a) { if (b) { foo(); } bar(); } else { out1(); } out2();"
+            )[0];
             const order = getOrderOfTraversing(codePath, {
                 first: codePath.initialSegment.nextSegments[0],
                 last: codePath.initialSegment.nextSegments[0].nextSegments[1]
@@ -299,12 +328,18 @@ describe("CodePathAnalyzer", () => {
         });
 
         it("should stop immediately when 'controller.break()' was called.", () => {
-            const codePath = parseCodePaths("if (a) { if (b) { foo(); } bar(); } else { out1(); } out2();")[0];
-            const order = getOrderOfTraversing(codePath, null, (segment, controller) => {
-                if (segment.id === "s1_2") {
-                    controller.break();
+            const codePath = parseCodePaths(
+                "if (a) { if (b) { foo(); } bar(); } else { out1(); } out2();"
+            )[0];
+            const order = getOrderOfTraversing(
+                codePath,
+                null,
+                (segment, controller) => {
+                    if (segment.id === "s1_2") {
+                        controller.break();
+                    }
                 }
-            });
+            );
 
             assert.deepStrictEqual(order, ["s1_1", "s1_2"]);
 
@@ -328,12 +363,18 @@ describe("CodePathAnalyzer", () => {
         });
 
         it("should skip the current branch when 'controller.skip()' was called.", () => {
-            const codePath = parseCodePaths("if (a) { if (b) { foo(); } bar(); } else { out1(); } out2();")[0];
-            const order = getOrderOfTraversing(codePath, null, (segment, controller) => {
-                if (segment.id === "s1_2") {
-                    controller.skip();
+            const codePath = parseCodePaths(
+                "if (a) { if (b) { foo(); } bar(); } else { out1(); } out2();"
+            )[0];
+            const order = getOrderOfTraversing(
+                codePath,
+                null,
+                (segment, controller) => {
+                    if (segment.id === "s1_2") {
+                        controller.skip();
+                    }
                 }
-            });
+            );
 
             assert.deepStrictEqual(order, ["s1_1", "s1_2", "s1_5", "s1_6"]);
 
@@ -357,14 +398,26 @@ describe("CodePathAnalyzer", () => {
         });
 
         it("should not skip the next branch when 'controller.skip()' was called.", () => {
-            const codePath = parseCodePaths("if (a) { if (b) { foo(); } bar(); } out1();")[0];
-            const order = getOrderOfTraversing(codePath, null, (segment, controller) => {
-                if (segment.id === "s1_4") {
-                    controller.skip(); // Since s1_5 is connected from s1_1, we expect it not to be skipped.
+            const codePath = parseCodePaths(
+                "if (a) { if (b) { foo(); } bar(); } out1();"
+            )[0];
+            const order = getOrderOfTraversing(
+                codePath,
+                null,
+                (segment, controller) => {
+                    if (segment.id === "s1_4") {
+                        controller.skip(); // Since s1_5 is connected from s1_1, we expect it not to be skipped.
+                    }
                 }
-            });
+            );
 
-            assert.deepStrictEqual(order, ["s1_1", "s1_2", "s1_3", "s1_4", "s1_5"]);
+            assert.deepStrictEqual(order, [
+                "s1_1",
+                "s1_2",
+                "s1_3",
+                "s1_4",
+                "s1_5"
+            ]);
 
             /*
             digraph {
@@ -387,11 +440,15 @@ describe("CodePathAnalyzer", () => {
         it("should skip the next branch when 'controller.skip()' was called at top segment.", () => {
             const codePath = parseCodePaths("a; while (b) { c; }")[0];
 
-            const order = getOrderOfTraversing(codePath, null, (segment, controller) => {
-                if (segment.id === "s1_1") {
-                    controller.skip();
+            const order = getOrderOfTraversing(
+                codePath,
+                null,
+                (segment, controller) => {
+                    if (segment.id === "s1_1") {
+                        controller.skip();
+                    }
                 }
-            });
+            );
 
             assert.deepStrictEqual(order, ["s1_1"]);
 

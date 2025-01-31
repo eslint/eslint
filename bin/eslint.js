@@ -67,7 +67,6 @@ function readStdin() {
  * @returns {string} The error message.
  */
 function getErrorMessage(error) {
-
     // Lazy loading because this is used only if an error happened.
     const util = require("node:util");
 
@@ -83,7 +82,6 @@ function getErrorMessage(error) {
 
             return template(error.messageData || {});
         } catch {
-
             // Ignore template error then fallback to use `error.stack`.
         }
     }
@@ -143,13 +141,17 @@ ${getErrorMessage(error)}`;
 
     // Call the config initializer if `--init` is present.
     if (process.argv.includes("--init")) {
-
         // `eslint --init` has been moved to `@eslint/create-config`
-        console.warn("You can also run this command directly using 'npm init @eslint/config@latest'.");
+        console.warn(
+            "You can also run this command directly using 'npm init @eslint/config@latest'."
+        );
 
         const spawn = require("cross-spawn");
 
-        spawn.sync("npm", ["init", "@eslint/config@latest"], { encoding: "utf8", stdio: "inherit" });
+        spawn.sync("npm", ["init", "@eslint/config@latest"], {
+            encoding: "utf8",
+            stdio: "inherit"
+        });
         return;
     }
 
@@ -176,4 +178,4 @@ ${getErrorMessage(error)}`;
     if (!hadFatalError) {
         process.exitCode = exitCode;
     }
-}()).catch(onFatalError);
+})().catch(onFatalError);

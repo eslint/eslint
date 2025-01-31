@@ -42,8 +42,7 @@ ruleTester.run("no-spaced-func", rule, {
         {
             code: "f ();",
             output: "f();",
-            errors: [
-                { messageId: "noSpacedFunction", type: "CallExpression" }]
+            errors: [{ messageId: "noSpacedFunction", type: "CallExpression" }]
         },
         {
             code: "f (a, b);",
@@ -58,12 +57,24 @@ ruleTester.run("no-spaced-func", rule, {
         {
             code: "f.b ();",
             output: "f.b();",
-            errors: [{ messageId: "noSpacedFunction", type: "CallExpression", column: 3 }]
+            errors: [
+                {
+                    messageId: "noSpacedFunction",
+                    type: "CallExpression",
+                    column: 3
+                }
+            ]
         },
         {
             code: "f.b().c ();",
             output: "f.b().c();",
-            errors: [{ messageId: "noSpacedFunction", type: "CallExpression", column: 7 }]
+            errors: [
+                {
+                    messageId: "noSpacedFunction",
+                    type: "CallExpression",
+                    column: 7
+                }
+            ]
         },
         {
             code: "f() ()",

@@ -162,7 +162,14 @@ ruleTester.run("no-mixed-operators", rule, {
         },
         {
             code: "a && b + c - d / e || f",
-            options: [{ groups: [["&&", "||"], ["+", "-", "*", "/"]] }],
+            options: [
+                {
+                    groups: [
+                        ["&&", "||"],
+                        ["+", "-", "*", "/"]
+                    ]
+                }
+            ],
             errors: [
                 {
                     column: 3,
@@ -200,7 +207,15 @@ ruleTester.run("no-mixed-operators", rule, {
         },
         {
             code: "a && b + c - d / e || f",
-            options: [{ groups: [["&&", "||"], ["+", "-", "*", "/"]], allowSamePrecedence: true }],
+            options: [
+                {
+                    groups: [
+                        ["&&", "||"],
+                        ["+", "-", "*", "/"]
+                    ],
+                    allowSamePrecedence: true
+                }
+            ],
             errors: [
                 {
                     column: 3,

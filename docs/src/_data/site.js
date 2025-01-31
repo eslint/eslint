@@ -17,8 +17,7 @@ const yaml = require("js-yaml");
 // Exports
 //-----------------------------------------------------------------------------
 
-module.exports = function(eleventy) {
-
+module.exports = function (eleventy) {
     const siteName = eleventy.site_name;
     const siteDataFile = path.resolve(__dirname, `sites/${siteName}.yml`);
 

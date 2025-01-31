@@ -59,15 +59,39 @@ ruleTester.run("complexity", rule, {
         "function a(x) {}",
         { code: "function b(x) {}", options: [1] },
         { code: "function a(x) {if (true) {return x;}}", options: [2] },
-        { code: "function a(x) {if (true) {return x;} else {return x+1;}}", options: [2] },
-        { code: "function a(x) {if (true) {return x;} else if (false) {return x+1;} else {return 4;}}", options: [3] },
-        { code: "function a(x) {for(var i = 0; i < 5; i ++) {x ++;} return x;}", options: [2] },
-        { code: "function a(obj) {for(var i in obj) {obj[i] = 3;}}", options: [2] },
-        { code: "function a(x) {for(var i = 0; i < 5; i ++) {if(i % 2 === 0) {x ++;}} return x;}", options: [3] },
-        { code: "function a(obj) {if(obj){ for(var x in obj) {try {x.getThis();} catch (e) {x.getThat();}}} else {return false;}}", options: [4] },
-        { code: "function a(x) {try {x.getThis();} catch (e) {x.getThat();}}", options: [2] },
+        {
+            code: "function a(x) {if (true) {return x;} else {return x+1;}}",
+            options: [2]
+        },
+        {
+            code: "function a(x) {if (true) {return x;} else if (false) {return x+1;} else {return 4;}}",
+            options: [3]
+        },
+        {
+            code: "function a(x) {for(var i = 0; i < 5; i ++) {x ++;} return x;}",
+            options: [2]
+        },
+        {
+            code: "function a(obj) {for(var i in obj) {obj[i] = 3;}}",
+            options: [2]
+        },
+        {
+            code: "function a(x) {for(var i = 0; i < 5; i ++) {if(i % 2 === 0) {x ++;}} return x;}",
+            options: [3]
+        },
+        {
+            code: "function a(obj) {if(obj){ for(var x in obj) {try {x.getThis();} catch (e) {x.getThat();}}} else {return false;}}",
+            options: [4]
+        },
+        {
+            code: "function a(x) {try {x.getThis();} catch (e) {x.getThat();}}",
+            options: [2]
+        },
         { code: "function a(x) {return x === 4 ? 3 : 5;}", options: [2] },
-        { code: "function a(x) {return x === 4 ? 3 : (x === 3 ? 2 : 1);}", options: [3] },
+        {
+            code: "function a(x) {return x === 4 ? 3 : (x === 3 ? 2 : 1);}",
+            options: [3]
+        },
         { code: "function a(x) {return x || 4;}", options: [2] },
         { code: "function a(x) {x && 4;}", options: [2] },
         { code: "function a(x) {x ?? 4;}", options: [2] },
@@ -82,103 +106,344 @@ ruleTester.run("complexity", rule, {
         { code: "function a(x) {x >>>= 4;}", options: [1] },
         { code: "function a(x) {x == 4;}", options: [1] },
         { code: "function a(x) {x === 4;}", options: [1] },
-        { code: "function a(x) {switch(x){case 1: 1; break; case 2: 2; break; default: 3;}}", options: [3] },
-        { code: "function a(x) {switch(x){case 1: 1; break; case 2: 2; break; default: if(x == 'foo') {5;};}}", options: [4] },
+        {
+            code: "function a(x) {switch(x){case 1: 1; break; case 2: 2; break; default: 3;}}",
+            options: [3]
+        },
+        {
+            code: "function a(x) {switch(x){case 1: 1; break; case 2: 2; break; default: if(x == 'foo') {5;};}}",
+            options: [4]
+        },
         { code: "function a(x) {while(true) {'foo';}}", options: [2] },
         { code: "function a(x) {do {'foo';} while (true)}", options: [2] },
         { code: "if (foo) { bar(); }", options: [3] },
-        { code: "var a = (x) => {do {'foo';} while (true)}", options: [2], languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "var a = (x) => {do {'foo';} while (true)}",
+            options: [2],
+            languageOptions: { ecmaVersion: 6 }
+        },
 
         // modified complexity
-        { code: "function a(x) {switch(x){case 1: 1; break; case 2: 2; break; default: 3;}}", options: [{ max: 2, variant: "modified" }] },
-        { code: "function a(x) {switch(x){case 1: 1; break; case 2: 2; break; default: if(x == 'foo') {5;};}}", options: [{ max: 3, variant: "modified" }] },
+        {
+            code: "function a(x) {switch(x){case 1: 1; break; case 2: 2; break; default: 3;}}",
+            options: [{ max: 2, variant: "modified" }]
+        },
+        {
+            code: "function a(x) {switch(x){case 1: 1; break; case 2: 2; break; default: if(x == 'foo') {5;};}}",
+            options: [{ max: 3, variant: "modified" }]
+        },
 
         // class fields
-        { code: "function foo() { class C { x = a || b; y = c || d; } }", options: [2], languageOptions: { ecmaVersion: 2022 } },
-        { code: "function foo() { class C { static x = a || b; static y = c || d; } }", options: [2], languageOptions: { ecmaVersion: 2022 } },
-        { code: "function foo() { class C { x = a || b; y = c || d; } e || f; }", options: [2], languageOptions: { ecmaVersion: 2022 } },
-        { code: "function foo() { a || b; class C { x = c || d; y = e || f; } }", options: [2], languageOptions: { ecmaVersion: 2022 } },
-        { code: "function foo() { class C { [x || y] = a || b; } }", options: [2], languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C { x = a || b; y() { c || d; } z = e || f; }", options: [2], languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C { x() { a || b; } y = c || d; z() { e || f; } }", options: [2], languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C { x = (() => { a || b }) || (() => { c || d }) }", options: [2], languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C { x = () => { a || b }; y = () => { c || d } }", options: [2], languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C { x = a || (() => { b || c }); }", options: [2], languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C { x = class { y = a || b; z = c || d; }; }", options: [2], languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C { x = a || class { y = b || c; z = d || e; }; }", options: [2], languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C { x; y = a; static z; static q = b; }", options: [1], languageOptions: { ecmaVersion: 2022 } },
+        {
+            code: "function foo() { class C { x = a || b; y = c || d; } }",
+            options: [2],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "function foo() { class C { static x = a || b; static y = c || d; } }",
+            options: [2],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "function foo() { class C { x = a || b; y = c || d; } e || f; }",
+            options: [2],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "function foo() { a || b; class C { x = c || d; y = e || f; } }",
+            options: [2],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "function foo() { class C { [x || y] = a || b; } }",
+            options: [2],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { x = a || b; y() { c || d; } z = e || f; }",
+            options: [2],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { x() { a || b; } y = c || d; z() { e || f; } }",
+            options: [2],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { x = (() => { a || b }) || (() => { c || d }) }",
+            options: [2],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { x = () => { a || b }; y = () => { c || d } }",
+            options: [2],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { x = a || (() => { b || c }); }",
+            options: [2],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { x = class { y = a || b; z = c || d; }; }",
+            options: [2],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { x = a || class { y = b || c; z = d || e; }; }",
+            options: [2],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { x; y = a; static z; static q = b; }",
+            options: [1],
+            languageOptions: { ecmaVersion: 2022 }
+        },
 
         // class static blocks
-        { code: "function foo() { class C { static { a || b; } static { c || d; } } }", options: [2], languageOptions: { ecmaVersion: 2022 } },
-        { code: "function foo() { a || b; class C { static { c || d; } } }", options: [2], languageOptions: { ecmaVersion: 2022 } },
-        { code: "function foo() { class C { static { a || b; } } c || d; }", options: [2], languageOptions: { ecmaVersion: 2022 } },
-        { code: "function foo() { class C { static { a || b; } } class D { static { c || d; } } }", options: [2], languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { a || b; } static { c || d; } }", options: [2], languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { a || b; } static { c || d; } static { e || f; } }", options: [2], languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { () => a || b; c || d; } }", options: [2], languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { a || b; () => c || d; } static { c || d; } }", options: [2], languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { a } }", options: [1], languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { a } static { b } }", options: [1], languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { a || b; } } class D { static { c || d; } }", options: [2], languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { a || b; } static c = d || e; }", options: [2], languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static a = b || c; static { c || d; } }", options: [2], languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { a || b; } c = d || e; }", options: [2], languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C { a = b || c; static { d || e; } }", options: [2], languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { a || b; c || d; } }", options: [3], languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { if (a || b) c = d || e; } }", options: [4], languageOptions: { ecmaVersion: 2022 } },
+        {
+            code: "function foo() { class C { static { a || b; } static { c || d; } } }",
+            options: [2],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "function foo() { a || b; class C { static { c || d; } } }",
+            options: [2],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "function foo() { class C { static { a || b; } } c || d; }",
+            options: [2],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "function foo() { class C { static { a || b; } } class D { static { c || d; } } }",
+            options: [2],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { a || b; } static { c || d; } }",
+            options: [2],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { a || b; } static { c || d; } static { e || f; } }",
+            options: [2],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { () => a || b; c || d; } }",
+            options: [2],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { a || b; () => c || d; } static { c || d; } }",
+            options: [2],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { a } }",
+            options: [1],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { a } static { b } }",
+            options: [1],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { a || b; } } class D { static { c || d; } }",
+            options: [2],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { a || b; } static c = d || e; }",
+            options: [2],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static a = b || c; static { c || d; } }",
+            options: [2],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { a || b; } c = d || e; }",
+            options: [2],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { a = b || c; static { d || e; } }",
+            options: [2],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { a || b; c || d; } }",
+            options: [3],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { if (a || b) c = d || e; } }",
+            options: [4],
+            languageOptions: { ecmaVersion: 2022 }
+        },
 
         // object property options
         { code: "function b(x) {}", options: [{ max: 1 }] },
 
         // optional chaining
         {
-            code: "function a(b) { b?.c; }", options: [{ max: 2 }]
+            code: "function a(b) { b?.c; }",
+            options: [{ max: 2 }]
         },
 
         // default function parameter values
         {
-            code: "function a(b = '') {}", options: [{ max: 2 }]
+            code: "function a(b = '') {}",
+            options: [{ max: 2 }]
         },
 
         // default destructuring values
         {
-            code: "function a(b) { const { c = '' } = b; }", options: [{ max: 2 }]
+            code: "function a(b) { const { c = '' } = b; }",
+            options: [{ max: 2 }]
         },
         {
-            code: "function a(b) { const [ c = '' ] = b; }", options: [{ max: 2 }]
+            code: "function a(b) { const [ c = '' ] = b; }",
+            options: [{ max: 2 }]
         }
     ],
     invalid: [
-        { code: "function a(x) {}", options: [0], errors: [makeError("Function 'a'", 1, 0)] },
-        { code: "var func = function () {}", options: [0], errors: [makeError("Function", 1, 0)] },
-        { code: "var obj = { a(x) {} }", options: [0], languageOptions: { ecmaVersion: 6 }, errors: [makeError("Method 'a'", 1, 0)] },
-        { code: "class Test { a(x) {} }", options: [0], languageOptions: { ecmaVersion: 6 }, errors: [makeError("Method 'a'", 1, 0)] },
-        { code: "var a = (x) => {if (true) {return x;}}", options: [1], languageOptions: { ecmaVersion: 6 }, errors: 1 },
-        { code: "function a(x) {if (true) {return x;}}", options: [1], errors: 1 },
-        { code: "function a(x) {if (true) {return x;} else {return x+1;}}", options: [1], errors: 1 },
-        { code: "function a(x) {if (true) {return x;} else if (false) {return x+1;} else {return 4;}}", options: [2], errors: 1 },
-        { code: "function a(x) {for(var i = 0; i < 5; i ++) {x ++;} return x;}", options: [1], errors: 1 },
-        { code: "function a(obj) {for(var i in obj) {obj[i] = 3;}}", options: [1], errors: 1 },
-        { code: "function a(obj) {for(var i of obj) {obj[i] = 3;}}", options: [1], languageOptions: { ecmaVersion: 6 }, errors: 1 },
-        { code: "function a(x) {for(var i = 0; i < 5; i ++) {if(i % 2 === 0) {x ++;}} return x;}", options: [2], errors: 1 },
-        { code: "function a(obj) {if(obj){ for(var x in obj) {try {x.getThis();} catch (e) {x.getThat();}}} else {return false;}}", options: [3], errors: 1 },
-        { code: "function a(x) {try {x.getThis();} catch (e) {x.getThat();}}", options: [1], errors: 1 },
-        { code: "function a(x) {return x === 4 ? 3 : 5;}", options: [1], errors: 1 },
-        { code: "function a(x) {return x === 4 ? 3 : (x === 3 ? 2 : 1);}", options: [2], errors: 1 },
+        {
+            code: "function a(x) {}",
+            options: [0],
+            errors: [makeError("Function 'a'", 1, 0)]
+        },
+        {
+            code: "var func = function () {}",
+            options: [0],
+            errors: [makeError("Function", 1, 0)]
+        },
+        {
+            code: "var obj = { a(x) {} }",
+            options: [0],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [makeError("Method 'a'", 1, 0)]
+        },
+        {
+            code: "class Test { a(x) {} }",
+            options: [0],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [makeError("Method 'a'", 1, 0)]
+        },
+        {
+            code: "var a = (x) => {if (true) {return x;}}",
+            options: [1],
+            languageOptions: { ecmaVersion: 6 },
+            errors: 1
+        },
+        {
+            code: "function a(x) {if (true) {return x;}}",
+            options: [1],
+            errors: 1
+        },
+        {
+            code: "function a(x) {if (true) {return x;} else {return x+1;}}",
+            options: [1],
+            errors: 1
+        },
+        {
+            code: "function a(x) {if (true) {return x;} else if (false) {return x+1;} else {return 4;}}",
+            options: [2],
+            errors: 1
+        },
+        {
+            code: "function a(x) {for(var i = 0; i < 5; i ++) {x ++;} return x;}",
+            options: [1],
+            errors: 1
+        },
+        {
+            code: "function a(obj) {for(var i in obj) {obj[i] = 3;}}",
+            options: [1],
+            errors: 1
+        },
+        {
+            code: "function a(obj) {for(var i of obj) {obj[i] = 3;}}",
+            options: [1],
+            languageOptions: { ecmaVersion: 6 },
+            errors: 1
+        },
+        {
+            code: "function a(x) {for(var i = 0; i < 5; i ++) {if(i % 2 === 0) {x ++;}} return x;}",
+            options: [2],
+            errors: 1
+        },
+        {
+            code: "function a(obj) {if(obj){ for(var x in obj) {try {x.getThis();} catch (e) {x.getThat();}}} else {return false;}}",
+            options: [3],
+            errors: 1
+        },
+        {
+            code: "function a(x) {try {x.getThis();} catch (e) {x.getThat();}}",
+            options: [1],
+            errors: 1
+        },
+        {
+            code: "function a(x) {return x === 4 ? 3 : 5;}",
+            options: [1],
+            errors: 1
+        },
+        {
+            code: "function a(x) {return x === 4 ? 3 : (x === 3 ? 2 : 1);}",
+            options: [2],
+            errors: 1
+        },
         { code: "function a(x) {return x || 4;}", options: [1], errors: 1 },
         { code: "function a(x) {x && 4;}", options: [1], errors: 1 },
         { code: "function a(x) {x ?? 4;}", options: [1], errors: 1 },
         { code: "function a(x) {x ||= 4;}", options: [1], errors: 1 },
         { code: "function a(x) {x &&= 4;}", options: [1], errors: 1 },
         { code: "function a(x) {x ??= 4;}", options: [1], errors: 1 },
-        { code: "function a(x) {switch(x){case 1: 1; break; case 2: 2; break; default: 3;}}", options: [2], errors: 1 },
-        { code: "function a(x) {switch(x){case 1: 1; break; case 2: 2; break; default: if(x == 'foo') {5;};}}", options: [3], errors: 1 },
-        { code: "function a(x) {while(true) {'foo';}}", options: [1], errors: 1 },
-        { code: "function a(x) {do {'foo';} while (true)}", options: [1], errors: 1 },
-        { code: "function a(x) {(function() {while(true){'foo';}})(); (function() {while(true){'bar';}})();}", options: [1], errors: 2 },
-        { code: "function a(x) {(function() {while(true){'foo';}})(); (function() {'bar';})();}", options: [1], errors: 1 },
-        { code: "var obj = { a(x) { return x ? 0 : 1; } };", options: [1], languageOptions: { ecmaVersion: 6 }, errors: [makeError("Method 'a'", 2, 1)] },
-        { code: "var obj = { a: function b(x) { return x ? 0 : 1; } };", options: [1], errors: [makeError("Method 'a'", 2, 1)] },
+        {
+            code: "function a(x) {switch(x){case 1: 1; break; case 2: 2; break; default: 3;}}",
+            options: [2],
+            errors: 1
+        },
+        {
+            code: "function a(x) {switch(x){case 1: 1; break; case 2: 2; break; default: if(x == 'foo') {5;};}}",
+            options: [3],
+            errors: 1
+        },
+        {
+            code: "function a(x) {while(true) {'foo';}}",
+            options: [1],
+            errors: 1
+        },
+        {
+            code: "function a(x) {do {'foo';} while (true)}",
+            options: [1],
+            errors: 1
+        },
+        {
+            code: "function a(x) {(function() {while(true){'foo';}})(); (function() {while(true){'bar';}})();}",
+            options: [1],
+            errors: 2
+        },
+        {
+            code: "function a(x) {(function() {while(true){'foo';}})(); (function() {'bar';})();}",
+            options: [1],
+            errors: 1
+        },
+        {
+            code: "var obj = { a(x) { return x ? 0 : 1; } };",
+            options: [1],
+            languageOptions: { ecmaVersion: 6 },
+            errors: [makeError("Method 'a'", 2, 1)]
+        },
+        {
+            code: "var obj = { a: function b(x) { return x ? 0 : 1; } };",
+            options: [1],
+            errors: [makeError("Method 'a'", 2, 1)]
+        },
         {
             code: createComplexity(21),
             errors: [makeError("Function 'test'", 21, 20)]
@@ -190,8 +455,16 @@ ruleTester.run("complexity", rule, {
         },
 
         // modified complexity
-        { code: "function a(x) {switch(x){case 1: 1; break; case 2: 2; break; default: 3;}}", options: [{ max: 1, variant: "modified" }], errors: [makeError("Function 'a'", 2, 1)] },
-        { code: "function a(x) {switch(x){case 1: 1; break; case 2: 2; break; default: if(x == 'foo') {5;};}}", options: [{ max: 2, variant: "modified" }], errors: [makeError("Function 'a'", 3, 2)] },
+        {
+            code: "function a(x) {switch(x){case 1: 1; break; case 2: 2; break; default: 3;}}",
+            options: [{ max: 1, variant: "modified" }],
+            errors: [makeError("Function 'a'", 2, 1)]
+        },
+        {
+            code: "function a(x) {switch(x){case 1: 1; break; case 2: 2; break; default: if(x == 'foo') {5;};}}",
+            options: [{ max: 2, variant: "modified" }],
+            errors: [makeError("Function 'a'", 3, 2)]
+        },
 
         // class fields
         {
@@ -300,13 +573,15 @@ ruleTester.run("complexity", rule, {
             code: "class C { x = a || b; y = b || c || d; z = e || f; }",
             options: [2],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{
-                ...makeError("Class field initializer", 3, 2),
-                line: 1,
-                column: 27,
-                endLine: 1,
-                endColumn: 38
-            }]
+            errors: [
+                {
+                    ...makeError("Class field initializer", 3, 2),
+                    line: 1,
+                    column: 27,
+                    endLine: 1,
+                    endColumn: 38
+                }
+            ]
         },
         {
             code: "class C { x = a || b || c; y = d || e; z = f || g || h; }",
@@ -503,31 +778,37 @@ ruleTester.run("complexity", rule, {
             code: "class C { static { a || b; } static x = c || d || e; static { f || g; } }",
             options: [2],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{
-                ...makeError("Class field initializer", 3, 2),
-                column: 41,
-                endColumn: 52
-            }]
+            errors: [
+                {
+                    ...makeError("Class field initializer", 3, 2),
+                    column: 41,
+                    endColumn: 52
+                }
+            ]
         },
         {
             code: "class C { static { a || b || c || d; } static { e || f || g; } }",
             options: [3],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{
-                ...makeError("Class static block", 4, 3),
-                column: 11,
-                endColumn: 39
-            }]
+            errors: [
+                {
+                    ...makeError("Class static block", 4, 3),
+                    column: 11,
+                    endColumn: 39
+                }
+            ]
         },
         {
             code: "class C { static { a || b || c; } static { d || e || f || g; } }",
             options: [3],
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{
-                ...makeError("Class static block", 4, 3),
-                column: 35,
-                endColumn: 63
-            }]
+            errors: [
+                {
+                    ...makeError("Class static block", 4, 3),
+                    column: 35,
+                    endColumn: 63
+                }
+            ]
         },
         {
             code: "class C { static { a || b || c || d; } static { e || f || g || h; } }",
@@ -548,7 +829,11 @@ ruleTester.run("complexity", rule, {
         },
 
         // object property options
-        { code: "function a(x) {}", options: [{ max: 0 }], errors: [makeError("Function 'a'", 1, 0)] },
+        {
+            code: "function a(x) {}",
+            options: [{ max: 0 }],
+            errors: [makeError("Function 'a'", 1, 0)]
+        },
 
         // optional chaining
         {

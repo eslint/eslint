@@ -5,7 +5,6 @@ eleventyNavigation:
     parent: extend eslint
     title: Share Configurations
     order: 3
-
 ---
 
 To share your ESLint configuration, create a **shareable config**. You can publish your shareable config on [npm](https://www.npmjs.com/) so that others can download and use it in their ESLint projects.
@@ -22,8 +21,8 @@ Shareable configs are simply npm packages that export a configuration object or 
 
 While you can name the package in any way that you'd like, we recommend using one of the following conventions to make your package easier to identify:
 
-* Begin with `eslint-config-`, such as `eslint-config-myconfig`.
-* For an npm [scoped module](https://docs.npmjs.com/misc/scope), name or prefix the module with `@scope/eslint-config`, such as `@scope/eslint-config` or `@scope/eslint-config-myconfig`.
+-   Begin with `eslint-config-`, such as `eslint-config-myconfig`.
+-   For an npm [scoped module](https://docs.npmjs.com/misc/scope), name or prefix the module with `@scope/eslint-config`, such as `@scope/eslint-config` or `@scope/eslint-config-myconfig`.
 
 In your module, export the shareable config from the module's [`main`](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#main) entry point file. The default main entry point is `index.js`. For example:
 
@@ -40,7 +39,6 @@ export default [
         rules: {
             semi: [2, "always"]
         }
-
     }
 ];
 ```
@@ -75,9 +73,7 @@ To use a shareable config, import the package inside of an `eslint.config.js` fi
 // eslint.config.js
 import myconfig from "eslint-config-myconfig";
 
-export default [
-    ...myconfig
-];
+export default [...myconfig];
 ```
 
 ::: warning
@@ -145,4 +141,4 @@ We strongly recommend always including a default export for your package to avoi
 
 ## Further Reading
 
-* [npm Developer Guide](https://docs.npmjs.com/misc/developers)
+-   [npm Developer Guide](https://docs.npmjs.com/misc/developers)

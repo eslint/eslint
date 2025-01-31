@@ -20,15 +20,33 @@ const rule = require("../../../lib/rules/space-before-blocks"),
 const ruleTester = new RuleTester(),
     alwaysArgs = ["always"],
     neverArgs = ["never"],
-    functionsOnlyArgs = [{ functions: "always", keywords: "never", classes: "never" }],
-    keywordOnlyArgs = [{ functions: "never", keywords: "always", classes: "never" }],
-    classesOnlyArgs = [{ functions: "never", keywords: "never", classes: "always" }],
-    functionsAlwaysOthersOffArgs = [{ functions: "always", keywords: "off", classes: "off" }],
-    keywordAlwaysOthersOffArgs = [{ functions: "off", keywords: "always", classes: "off" }],
-    classesAlwaysOthersOffArgs = [{ functions: "off", keywords: "off", classes: "always" }],
-    functionsNeverOthersOffArgs = [{ functions: "never", keywords: "off", classes: "off" }],
-    keywordNeverOthersOffArgs = [{ functions: "off", keywords: "never", classes: "off" }],
-    classesNeverOthersOffArgs = [{ functions: "off", keywords: "off", classes: "never" }],
+    functionsOnlyArgs = [
+        { functions: "always", keywords: "never", classes: "never" }
+    ],
+    keywordOnlyArgs = [
+        { functions: "never", keywords: "always", classes: "never" }
+    ],
+    classesOnlyArgs = [
+        { functions: "never", keywords: "never", classes: "always" }
+    ],
+    functionsAlwaysOthersOffArgs = [
+        { functions: "always", keywords: "off", classes: "off" }
+    ],
+    keywordAlwaysOthersOffArgs = [
+        { functions: "off", keywords: "always", classes: "off" }
+    ],
+    classesAlwaysOthersOffArgs = [
+        { functions: "off", keywords: "off", classes: "always" }
+    ],
+    functionsNeverOthersOffArgs = [
+        { functions: "never", keywords: "off", classes: "off" }
+    ],
+    keywordNeverOthersOffArgs = [
+        { functions: "off", keywords: "never", classes: "off" }
+    ],
+    classesNeverOthersOffArgs = [
+        { functions: "off", keywords: "off", classes: "never" }
+    ],
     expectedSpacingError = { messageId: "missingSpace" },
     expectedNoSpacingError = { messageId: "unexpectedSpace" };
 
@@ -71,8 +89,16 @@ ruleTester.run("space-before-blocks", rule, {
             options: keywordOnlyArgs,
             languageOptions: { ecmaVersion: 6, sourceType: "module" }
         },
-        { code: "export function a(){}", options: keywordOnlyArgs, languageOptions: { ecmaVersion: 6, sourceType: "module" } },
-        { code: "export function a() {}", options: functionsOnlyArgs, languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        {
+            code: "export function a(){}",
+            options: keywordOnlyArgs,
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "export function a() {}",
+            options: functionsOnlyArgs,
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
         { code: "function a(){}", options: keywordOnlyArgs },
         { code: "function a() {}", options: functionsOnlyArgs },
         { code: "function a(){ if(b) {} }", options: keywordOnlyArgs },
@@ -80,8 +106,14 @@ ruleTester.run("space-before-blocks", rule, {
         "switch(a.b(c < d)) { case 'foo': foo(); break; default: if (a) { bar(); } }",
         "switch(a) { }",
         "switch(a)  {}",
-        { code: "switch(a.b(c < d)){ case 'foo': foo(); break; default: if (a){ bar(); } }", options: neverArgs },
-        { code: "switch(a.b(c < d)){ case 'foo': foo(); break; default: if (a){ bar(); } }", options: functionsOnlyArgs },
+        {
+            code: "switch(a.b(c < d)){ case 'foo': foo(); break; default: if (a){ bar(); } }",
+            options: neverArgs
+        },
+        {
+            code: "switch(a.b(c < d)){ case 'foo': foo(); break; default: if (a){ bar(); } }",
+            options: functionsOnlyArgs
+        },
         { code: "switch(a){}", options: neverArgs },
         { code: "switch(a){}", options: functionsOnlyArgs },
         { code: "switch(a) {}", options: keywordOnlyArgs },
@@ -89,8 +121,14 @@ ruleTester.run("space-before-blocks", rule, {
         { code: "try{}catch(a){}", options: neverArgs },
         { code: "try{}catch(a){}", options: functionsOnlyArgs },
         { code: "try {} catch(a) {}", options: keywordOnlyArgs },
-        { code: "try{ function b() {} }catch(a){}", options: functionsOnlyArgs },
-        { code: "try { function b(){} } catch(a) {}", options: keywordOnlyArgs },
+        {
+            code: "try{ function b() {} }catch(a){}",
+            options: functionsOnlyArgs
+        },
+        {
+            code: "try { function b(){} } catch(a) {}",
+            options: keywordOnlyArgs
+        },
         "for(;;) {}",
         { code: "for(;;){}", options: neverArgs },
         { code: "for(;;){}", options: functionsOnlyArgs },
@@ -138,9 +176,18 @@ ruleTester.run("space-before-blocks", rule, {
             languageOptions: { ecmaVersion: 6 }
         },
         { code: "function a(){if(b) {}}", options: keywordAlwaysOthersOffArgs },
-        { code: "function a() {if(b) {}}", options: keywordAlwaysOthersOffArgs },
-        { code: "function a() {if(b){}}", options: functionsAlwaysOthersOffArgs },
-        { code: "function a() {if(b) {}}", options: functionsAlwaysOthersOffArgs },
+        {
+            code: "function a() {if(b) {}}",
+            options: keywordAlwaysOthersOffArgs
+        },
+        {
+            code: "function a() {if(b){}}",
+            options: functionsAlwaysOthersOffArgs
+        },
+        {
+            code: "function a() {if(b) {}}",
+            options: functionsAlwaysOthersOffArgs
+        },
         {
             code: "class test { constructor(){if(a){}} }",
             options: classesAlwaysOthersOffArgs,
@@ -164,7 +211,10 @@ ruleTester.run("space-before-blocks", rule, {
         { code: "function a(){if(b){}}", options: keywordNeverOthersOffArgs },
         { code: "function a() {if(b){}}", options: keywordNeverOthersOffArgs },
         { code: "function a(){if(b){}}", options: functionsNeverOthersOffArgs },
-        { code: "function a(){if(b) {}}", options: functionsNeverOthersOffArgs },
+        {
+            code: "function a(){if(b) {}}",
+            options: functionsNeverOthersOffArgs
+        },
         {
             code: "class test{ constructor(){if(a){}} }",
             options: classesNeverOthersOffArgs,
@@ -187,14 +237,26 @@ ruleTester.run("space-before-blocks", rule, {
         },
 
         // https://github.com/eslint/eslint/issues/3769
-        { code: "()=>{};", options: ["always"], languageOptions: { ecmaVersion: 6 } },
-        { code: "() => {};", options: ["never"], languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "()=>{};",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "() => {};",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
 
         // https://github.com/eslint/eslint/issues/1338
         "if(a) {}else{}",
         { code: "if(a){}else {}", options: neverArgs },
         { code: "try {}catch(a){}", options: functionsOnlyArgs },
-        { code: "export default class{}", options: classesOnlyArgs, languageOptions: { ecmaVersion: 6, sourceType: "module" } },
+        {
+            code: "export default class{}",
+            options: classesOnlyArgs,
+            languageOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
 
         // https://github.com/eslint/eslint/issues/15082
         { code: "switch(x) { case 9:{ break; } }", options: alwaysArgs },
@@ -584,7 +646,12 @@ ruleTester.run("space-before-blocks", rule, {
             code: "class A { foo(bar: string): void{} }",
             output: "class A { foo(bar: string): void {} }",
             languageOptions: {
-                parser: require(fixtureParser("space-before-blocks", "return-type-keyword-1"))
+                parser: require(
+                    fixtureParser(
+                        "space-before-blocks",
+                        "return-type-keyword-1"
+                    )
+                )
             },
             errors: [expectedSpacingError]
         },
@@ -593,7 +660,12 @@ ruleTester.run("space-before-blocks", rule, {
             output: "function foo(): null{}",
             options: neverArgs,
             languageOptions: {
-                parser: require(fixtureParser("space-before-blocks", "return-type-keyword-2"))
+                parser: require(
+                    fixtureParser(
+                        "space-before-blocks",
+                        "return-type-keyword-2"
+                    )
+                )
             },
             errors: [expectedNoSpacingError]
         },

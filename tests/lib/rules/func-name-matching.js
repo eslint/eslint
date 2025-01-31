@@ -29,9 +29,18 @@ ruleTester.run("func-name-matching", rule, {
         "foo = function foo() {};",
         { code: "foo = function foo() {};", options: ["always"] },
         { code: "foo = function bar() {};", options: ["never"] },
-        { code: "foo &&= function foo() {};", languageOptions: { ecmaVersion: 2021 } },
-        { code: "obj.foo ||= function foo() {};", languageOptions: { ecmaVersion: 2021 } },
-        { code: "obj['foo'] ??= function foo() {};", languageOptions: { ecmaVersion: 2021 } },
+        {
+            code: "foo &&= function foo() {};",
+            languageOptions: { ecmaVersion: 2021 }
+        },
+        {
+            code: "obj.foo ||= function foo() {};",
+            languageOptions: { ecmaVersion: 2021 }
+        },
+        {
+            code: "obj['foo'] ??= function foo() {};",
+            languageOptions: { ecmaVersion: 2021 }
+        },
         "obj.foo = function foo() {};",
         { code: "obj.foo = function foo() {};", options: ["always"] },
         { code: "obj.foo = function bar() {};", options: ["never"] },
@@ -57,16 +66,34 @@ ruleTester.run("func-name-matching", rule, {
         { code: "var obj = {'foo': function foo() {}};", options: ["always"] },
         { code: "var obj = {'foo': function bar() {}};", options: ["never"] },
         "var obj = {'foo//bar': function foo() {}};",
-        { code: "var obj = {'foo//bar': function foo() {}};", options: ["always"] },
-        { code: "var obj = {'foo//bar': function foo() {}};", options: ["never"] },
+        {
+            code: "var obj = {'foo//bar': function foo() {}};",
+            options: ["always"]
+        },
+        {
+            code: "var obj = {'foo//bar': function foo() {}};",
+            options: ["never"]
+        },
         "var obj = {foo: function() {}};",
         { code: "var obj = {foo: function() {}};", options: ["always"] },
         { code: "var obj = {foo: function() {}};", options: ["never"] },
-        { code: "var obj = {[foo]: function bar() {}} ", languageOptions: { ecmaVersion: 6 } },
-        { code: "var obj = {['x' + 2]: function bar(){}};", languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "var obj = {[foo]: function bar() {}} ",
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var obj = {['x' + 2]: function bar(){}};",
+            languageOptions: { ecmaVersion: 6 }
+        },
         "obj['x' + 2] = function bar(){};",
-        { code: "var [ bar ] = [ function bar(){} ];", languageOptions: { ecmaVersion: 6 } },
-        { code: "function a(foo = function bar() {}) {}", languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "var [ bar ] = [ function bar(){} ];",
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "function a(foo = function bar() {}) {}",
+            languageOptions: { ecmaVersion: 6 }
+        },
         "module.exports = function foo(name) {};",
         "module['exports'] = function foo(name) {};",
         {
@@ -512,7 +539,6 @@ ruleTester.run("func-name-matching", rule, {
                 sourceType: "script"
             }
         }
-
     ],
     invalid: [
         {
@@ -520,84 +546,120 @@ ruleTester.run("func-name-matching", rule, {
             options: ["always"],
             languageOptions: { ecmaVersion: 6 },
             errors: [
-                { messageId: "matchVariable", data: { funcName: "bar", name: "foo" } }
+                {
+                    messageId: "matchVariable",
+                    data: { funcName: "bar", name: "foo" }
+                }
             ]
         },
         {
             code: "let foo = function bar() {};",
             languageOptions: { ecmaVersion: 6 },
             errors: [
-                { messageId: "matchVariable", data: { funcName: "bar", name: "foo" } }
+                {
+                    messageId: "matchVariable",
+                    data: { funcName: "bar", name: "foo" }
+                }
             ]
         },
         {
             code: "foo = function bar() {};",
             languageOptions: { ecmaVersion: 6 },
             errors: [
-                { messageId: "matchVariable", data: { funcName: "bar", name: "foo" } }
+                {
+                    messageId: "matchVariable",
+                    data: { funcName: "bar", name: "foo" }
+                }
             ]
         },
         {
             code: "foo &&= function bar() {};",
             languageOptions: { ecmaVersion: 2021 },
             errors: [
-                { messageId: "matchVariable", data: { funcName: "bar", name: "foo" } }
+                {
+                    messageId: "matchVariable",
+                    data: { funcName: "bar", name: "foo" }
+                }
             ]
         },
         {
             code: "obj.foo ||= function bar() {};",
             languageOptions: { ecmaVersion: 2021 },
             errors: [
-                { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
+                {
+                    messageId: "matchProperty",
+                    data: { funcName: "bar", name: "foo" }
+                }
             ]
         },
         {
             code: "obj['foo'] ??= function bar() {};",
             languageOptions: { ecmaVersion: 2021 },
             errors: [
-                { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
+                {
+                    messageId: "matchProperty",
+                    data: { funcName: "bar", name: "foo" }
+                }
             ]
         },
         {
             code: "obj.foo = function bar() {};",
             languageOptions: { ecmaVersion: 6 },
             errors: [
-                { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
+                {
+                    messageId: "matchProperty",
+                    data: { funcName: "bar", name: "foo" }
+                }
             ]
         },
         {
             code: "obj.bar.foo = function bar() {};",
             languageOptions: { ecmaVersion: 6 },
             errors: [
-                { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
+                {
+                    messageId: "matchProperty",
+                    data: { funcName: "bar", name: "foo" }
+                }
             ]
         },
         {
             code: "obj['foo'] = function bar() {};",
             languageOptions: { ecmaVersion: 6 },
             errors: [
-                { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
+                {
+                    messageId: "matchProperty",
+                    data: { funcName: "bar", name: "foo" }
+                }
             ]
         },
         {
             code: "let obj = {foo: function bar() {}};",
             languageOptions: { ecmaVersion: 6 },
             errors: [
-                { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
+                {
+                    messageId: "matchProperty",
+                    data: { funcName: "bar", name: "foo" }
+                }
             ]
         },
         {
             code: "let obj = {'foo': function bar() {}};",
             languageOptions: { ecmaVersion: 6 },
             errors: [
-                { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
+                {
+                    messageId: "matchProperty",
+                    data: { funcName: "bar", name: "foo" }
+                }
             ]
         },
         {
             code: "({['foo']: function bar() {}})",
             languageOptions: { ecmaVersion: 6 },
             errors: [
-                { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
+                {
+                    messageId: "matchProperty",
+                    data: { funcName: "bar", name: "foo" }
+                }
             ]
         },
         {
@@ -605,7 +667,10 @@ ruleTester.run("func-name-matching", rule, {
             options: [{ includeCommonJSModuleExports: true }],
             languageOptions: { ecmaVersion: 6 },
             errors: [
-                { messageId: "matchProperty", data: { funcName: "foo", name: "exports" } }
+                {
+                    messageId: "matchProperty",
+                    data: { funcName: "foo", name: "exports" }
+                }
             ]
         },
         {
@@ -613,7 +678,10 @@ ruleTester.run("func-name-matching", rule, {
             options: ["always", { includeCommonJSModuleExports: true }],
             languageOptions: { ecmaVersion: 6 },
             errors: [
-                { messageId: "matchProperty", data: { funcName: "foo", name: "exports" } }
+                {
+                    messageId: "matchProperty",
+                    data: { funcName: "foo", name: "exports" }
+                }
             ]
         },
         {
@@ -621,7 +689,10 @@ ruleTester.run("func-name-matching", rule, {
             options: ["never", { includeCommonJSModuleExports: true }],
             languageOptions: { ecmaVersion: 6 },
             errors: [
-                { messageId: "notMatchProperty", data: { funcName: "exports", name: "exports" } }
+                {
+                    messageId: "notMatchProperty",
+                    data: { funcName: "exports", name: "exports" }
+                }
             ]
         },
         {
@@ -629,7 +700,10 @@ ruleTester.run("func-name-matching", rule, {
             options: [{ includeCommonJSModuleExports: true }],
             languageOptions: { ecmaVersion: 6 },
             errors: [
-                { messageId: "matchProperty", data: { funcName: "foo", name: "exports" } }
+                {
+                    messageId: "matchProperty",
+                    data: { funcName: "foo", name: "exports" }
+                }
             ]
         },
         {
@@ -637,7 +711,10 @@ ruleTester.run("func-name-matching", rule, {
             options: ["always", { includeCommonJSModuleExports: true }],
             languageOptions: { ecmaVersion: 6 },
             errors: [
-                { messageId: "matchProperty", data: { funcName: "foo", name: "exports" } }
+                {
+                    messageId: "matchProperty",
+                    data: { funcName: "foo", name: "exports" }
+                }
             ]
         },
         {
@@ -645,91 +722,130 @@ ruleTester.run("func-name-matching", rule, {
             options: ["never", { includeCommonJSModuleExports: true }],
             languageOptions: { ecmaVersion: 6 },
             errors: [
-                { messageId: "notMatchProperty", data: { funcName: "exports", name: "exports" } }
+                {
+                    messageId: "notMatchProperty",
+                    data: { funcName: "exports", name: "exports" }
+                }
             ]
         },
         {
             code: "var foo = function foo(name) {};",
             options: ["never"],
             errors: [
-                { messageId: "notMatchVariable", data: { funcName: "foo", name: "foo" } }
+                {
+                    messageId: "notMatchVariable",
+                    data: { funcName: "foo", name: "foo" }
+                }
             ]
         },
         {
             code: "obj.foo = function foo(name) {};",
             options: ["never"],
             errors: [
-                { messageId: "notMatchProperty", data: { funcName: "foo", name: "foo" } }
+                {
+                    messageId: "notMatchProperty",
+                    data: { funcName: "foo", name: "foo" }
+                }
             ]
         },
         {
             code: "Object.defineProperty(foo, 'bar', { value: function baz() {} })",
             options: ["always", { considerPropertyDescriptor: true }],
             errors: [
-                { messageId: "matchProperty", data: { funcName: "baz", name: "bar" } }
+                {
+                    messageId: "matchProperty",
+                    data: { funcName: "baz", name: "bar" }
+                }
             ]
         },
         {
             code: "Object.defineProperties(foo, { bar: { value: function baz() {} } })",
             options: ["always", { considerPropertyDescriptor: true }],
             errors: [
-                { messageId: "matchProperty", data: { funcName: "baz", name: "bar" } }
+                {
+                    messageId: "matchProperty",
+                    data: { funcName: "baz", name: "bar" }
+                }
             ]
         },
         {
             code: "Object.create(proto, { bar: { value: function baz() {} } })",
             options: ["always", { considerPropertyDescriptor: true }],
             errors: [
-                { messageId: "matchProperty", data: { funcName: "baz", name: "bar" } }
+                {
+                    messageId: "matchProperty",
+                    data: { funcName: "baz", name: "bar" }
+                }
             ]
         },
         {
             code: "var obj = { value: function foo(name) {} }",
             options: ["always", { considerPropertyDescriptor: true }],
             errors: [
-                { messageId: "matchProperty", data: { funcName: "foo", name: "value" } }
+                {
+                    messageId: "matchProperty",
+                    data: { funcName: "foo", name: "value" }
+                }
             ]
         },
         {
             code: "Object.defineProperty(foo, 'bar', { value: function bar() {} })",
             options: ["never", { considerPropertyDescriptor: true }],
             errors: [
-                { messageId: "notMatchProperty", data: { funcName: "bar", name: "bar" } }
+                {
+                    messageId: "notMatchProperty",
+                    data: { funcName: "bar", name: "bar" }
+                }
             ]
         },
         {
             code: "Object.defineProperties(foo, { bar: { value: function bar() {} } })",
             options: ["never", { considerPropertyDescriptor: true }],
             errors: [
-                { messageId: "notMatchProperty", data: { funcName: "bar", name: "bar" } }
+                {
+                    messageId: "notMatchProperty",
+                    data: { funcName: "bar", name: "bar" }
+                }
             ]
         },
         {
             code: "Object.create(proto, { bar: { value: function bar() {} } })",
             options: ["never", { considerPropertyDescriptor: true }],
             errors: [
-                { messageId: "notMatchProperty", data: { funcName: "bar", name: "bar" } }
+                {
+                    messageId: "notMatchProperty",
+                    data: { funcName: "bar", name: "bar" }
+                }
             ]
         },
         {
             code: "Reflect.defineProperty(foo, 'bar', { value: function baz() {} })",
             options: ["always", { considerPropertyDescriptor: true }],
             errors: [
-                { messageId: "matchProperty", data: { funcName: "baz", name: "bar" } }
+                {
+                    messageId: "matchProperty",
+                    data: { funcName: "baz", name: "bar" }
+                }
             ]
         },
         {
             code: "Reflect.defineProperty(foo, 'bar', { value: function bar() {} })",
             options: ["never", { considerPropertyDescriptor: true }],
             errors: [
-                { messageId: "notMatchProperty", data: { funcName: "bar", name: "bar" } }
+                {
+                    messageId: "notMatchProperty",
+                    data: { funcName: "bar", name: "bar" }
+                }
             ]
         },
         {
             code: "foo({ value: function bar() {} })",
             options: ["always", { considerPropertyDescriptor: true }],
             errors: [
-                { messageId: "matchProperty", data: { funcName: "bar", name: "value" } }
+                {
+                    messageId: "matchProperty",
+                    data: { funcName: "bar", name: "value" }
+                }
             ]
         },
 
@@ -738,7 +854,10 @@ ruleTester.run("func-name-matching", rule, {
             code: "(obj?.aaa).foo = function bar() {};",
             languageOptions: { ecmaVersion: 2020 },
             errors: [
-                { messageId: "matchProperty", data: { funcName: "bar", name: "foo" } }
+                {
+                    messageId: "matchProperty",
+                    data: { funcName: "bar", name: "foo" }
+                }
             ]
         },
         {
@@ -746,7 +865,10 @@ ruleTester.run("func-name-matching", rule, {
             options: ["always", { considerPropertyDescriptor: true }],
             languageOptions: { ecmaVersion: 2020 },
             errors: [
-                { messageId: "matchProperty", data: { funcName: "baz", name: "bar" } }
+                {
+                    messageId: "matchProperty",
+                    data: { funcName: "baz", name: "bar" }
+                }
             ]
         },
         {
@@ -754,7 +876,10 @@ ruleTester.run("func-name-matching", rule, {
             options: ["always", { considerPropertyDescriptor: true }],
             languageOptions: { ecmaVersion: 2020 },
             errors: [
-                { messageId: "matchProperty", data: { funcName: "baz", name: "bar" } }
+                {
+                    messageId: "matchProperty",
+                    data: { funcName: "baz", name: "bar" }
+                }
             ]
         },
         {
@@ -762,7 +887,10 @@ ruleTester.run("func-name-matching", rule, {
             options: ["never", { considerPropertyDescriptor: true }],
             languageOptions: { ecmaVersion: 2020 },
             errors: [
-                { messageId: "notMatchProperty", data: { funcName: "bar", name: "bar" } }
+                {
+                    messageId: "notMatchProperty",
+                    data: { funcName: "bar", name: "bar" }
+                }
             ]
         },
         {
@@ -770,7 +898,10 @@ ruleTester.run("func-name-matching", rule, {
             options: ["never", { considerPropertyDescriptor: true }],
             languageOptions: { ecmaVersion: 2020 },
             errors: [
-                { messageId: "notMatchProperty", data: { funcName: "bar", name: "bar" } }
+                {
+                    messageId: "notMatchProperty",
+                    data: { funcName: "bar", name: "bar" }
+                }
             ]
         },
         {
@@ -778,7 +909,10 @@ ruleTester.run("func-name-matching", rule, {
             options: ["always", { considerPropertyDescriptor: true }],
             languageOptions: { ecmaVersion: 2020 },
             errors: [
-                { messageId: "matchProperty", data: { funcName: "baz", name: "bar" } }
+                {
+                    messageId: "matchProperty",
+                    data: { funcName: "baz", name: "bar" }
+                }
             ]
         },
         {
@@ -786,7 +920,10 @@ ruleTester.run("func-name-matching", rule, {
             options: ["always", { considerPropertyDescriptor: true }],
             languageOptions: { ecmaVersion: 2020 },
             errors: [
-                { messageId: "matchProperty", data: { funcName: "baz", name: "bar" } }
+                {
+                    messageId: "matchProperty",
+                    data: { funcName: "baz", name: "bar" }
+                }
             ]
         },
         {
@@ -794,7 +931,10 @@ ruleTester.run("func-name-matching", rule, {
             options: ["never", { considerPropertyDescriptor: true }],
             languageOptions: { ecmaVersion: 2020 },
             errors: [
-                { messageId: "notMatchProperty", data: { funcName: "bar", name: "bar" } }
+                {
+                    messageId: "notMatchProperty",
+                    data: { funcName: "bar", name: "bar" }
+                }
             ]
         },
         {
@@ -802,7 +942,10 @@ ruleTester.run("func-name-matching", rule, {
             options: ["never", { considerPropertyDescriptor: true }],
             languageOptions: { ecmaVersion: 2020 },
             errors: [
-                { messageId: "notMatchProperty", data: { funcName: "bar", name: "bar" } }
+                {
+                    messageId: "notMatchProperty",
+                    data: { funcName: "bar", name: "bar" }
+                }
             ]
         },
 
@@ -812,7 +955,10 @@ ruleTester.run("func-name-matching", rule, {
             options: ["always"],
             languageOptions: { ecmaVersion: 2022 },
             errors: [
-                { messageId: "matchProperty", data: { funcName: "y", name: "x" } }
+                {
+                    messageId: "matchProperty",
+                    data: { funcName: "y", name: "x" }
+                }
             ]
         },
         {
@@ -820,7 +966,10 @@ ruleTester.run("func-name-matching", rule, {
             options: ["never"],
             languageOptions: { ecmaVersion: 2022 },
             errors: [
-                { messageId: "notMatchProperty", data: { funcName: "x", name: "x" } }
+                {
+                    messageId: "notMatchProperty",
+                    data: { funcName: "x", name: "x" }
+                }
             ]
         },
         {
@@ -828,7 +977,10 @@ ruleTester.run("func-name-matching", rule, {
             options: ["always"],
             languageOptions: { ecmaVersion: 2022 },
             errors: [
-                { messageId: "matchProperty", data: { funcName: "y", name: "x" } }
+                {
+                    messageId: "matchProperty",
+                    data: { funcName: "y", name: "x" }
+                }
             ]
         },
         {
@@ -836,7 +988,10 @@ ruleTester.run("func-name-matching", rule, {
             options: ["never"],
             languageOptions: { ecmaVersion: 2022 },
             errors: [
-                { messageId: "notMatchProperty", data: { funcName: "x", name: "x" } }
+                {
+                    messageId: "notMatchProperty",
+                    data: { funcName: "x", name: "x" }
+                }
             ]
         },
         {
@@ -844,7 +999,10 @@ ruleTester.run("func-name-matching", rule, {
             options: ["always"],
             languageOptions: { ecmaVersion: 2022 },
             errors: [
-                { messageId: "matchProperty", data: { funcName: "y", name: "x" } }
+                {
+                    messageId: "matchProperty",
+                    data: { funcName: "y", name: "x" }
+                }
             ]
         },
         {
@@ -852,7 +1010,10 @@ ruleTester.run("func-name-matching", rule, {
             options: ["never"],
             languageOptions: { ecmaVersion: 2022 },
             errors: [
-                { messageId: "notMatchProperty", data: { funcName: "x", name: "x" } }
+                {
+                    messageId: "notMatchProperty",
+                    data: { funcName: "x", name: "x" }
+                }
             ]
         },
         {
@@ -860,7 +1021,10 @@ ruleTester.run("func-name-matching", rule, {
             options: ["always"],
             languageOptions: { ecmaVersion: 2022 },
             errors: [
-                { messageId: "matchProperty", data: { funcName: "y", name: "x" } }
+                {
+                    messageId: "matchProperty",
+                    data: { funcName: "y", name: "x" }
+                }
             ]
         },
         {
@@ -868,7 +1032,10 @@ ruleTester.run("func-name-matching", rule, {
             options: ["never"],
             languageOptions: { ecmaVersion: 2022 },
             errors: [
-                { messageId: "notMatchProperty", data: { funcName: "x", name: "x" } }
+                {
+                    messageId: "notMatchProperty",
+                    data: { funcName: "x", name: "x" }
+                }
             ]
         },
         {
@@ -876,7 +1043,10 @@ ruleTester.run("func-name-matching", rule, {
             options: ["always"],
             languageOptions: { ecmaVersion: 2022 },
             errors: [
-                { messageId: "matchProperty", data: { funcName: "y", name: "x" } }
+                {
+                    messageId: "matchProperty",
+                    data: { funcName: "y", name: "x" }
+                }
             ]
         },
         {
@@ -884,14 +1054,20 @@ ruleTester.run("func-name-matching", rule, {
             options: ["never"],
             languageOptions: { ecmaVersion: 2022 },
             errors: [
-                { messageId: "notMatchProperty", data: { funcName: "x", name: "x" } }
+                {
+                    messageId: "notMatchProperty",
+                    data: { funcName: "x", name: "x" }
+                }
             ]
         },
         {
             code: "var obj = { '\\u1885': function foo() {} };", // valid identifier in es2015
             languageOptions: { ecmaVersion: 6 },
             errors: [
-                { messageId: "matchProperty", data: { funcName: "foo", name: "\u1885" } }
+                {
+                    messageId: "matchProperty",
+                    data: { funcName: "foo", name: "\u1885" }
+                }
             ]
         }
     ]

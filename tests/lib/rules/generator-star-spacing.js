@@ -20,13 +20,17 @@ const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2018 } });
 
 const missingBeforeError = { messageId: "missingBefore", type: "Punctuator" };
 const missingAfterError = { messageId: "missingAfter", type: "Punctuator" };
-const unexpectedBeforeError = { messageId: "unexpectedBefore", type: "Punctuator" };
-const unexpectedAfterError = { messageId: "unexpectedAfter", type: "Punctuator" };
+const unexpectedBeforeError = {
+    messageId: "unexpectedBefore",
+    type: "Punctuator"
+};
+const unexpectedAfterError = {
+    messageId: "unexpectedAfter",
+    type: "Punctuator"
+};
 
 ruleTester.run("generator-star-spacing", rule, {
-
     valid: [
-
         // Default ("before")
         "function foo(){}",
         "function *foo(){}",
@@ -450,7 +454,13 @@ ruleTester.run("generator-star-spacing", rule, {
         // ensure using object-type override works
         {
             code: "function * foo(){}",
-            options: [{ before: false, after: false, named: { before: true, after: true } }]
+            options: [
+                {
+                    before: false,
+                    after: false,
+                    named: { before: true, after: true }
+                }
+            ]
         },
 
         // unspecified option uses default
@@ -487,7 +497,6 @@ ruleTester.run("generator-star-spacing", rule, {
     ],
 
     invalid: [
-
         // Default ("before")
         {
             code: "function*foo(){}",
@@ -971,7 +980,13 @@ ruleTester.run("generator-star-spacing", rule, {
         {
             code: "function*foo(){}",
             output: "function * foo(){}",
-            options: [{ before: false, after: false, named: { before: true, after: true } }],
+            options: [
+                {
+                    before: false,
+                    after: false,
+                    named: { before: true, after: true }
+                }
+            ],
             errors: [missingBeforeError, missingAfterError]
         },
 
@@ -1020,7 +1035,5 @@ ruleTester.run("generator-star-spacing", rule, {
             options: [{ before: true, after: true }],
             errors: [missingBeforeError, missingAfterError]
         }
-
     ]
-
 });

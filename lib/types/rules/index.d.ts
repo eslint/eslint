@@ -25,7 +25,6 @@
  * SOFTWARE
  */
 
-
 import { Linter } from "../index";
 
 import { BestPractices } from "./best-practices";
@@ -38,13 +37,12 @@ import { StylisticIssues } from "./stylistic-issues";
 import { Variables } from "./variables";
 
 export interface ESLintRules
-    extends
-    Linter.RulesRecord,
-    PossibleErrors,
-    BestPractices,
-    StrictMode,
-    Variables,
-    NodeJSAndCommonJS,
-    StylisticIssues,
-    ECMAScript6,
-    Deprecated { }
+    extends Linter.RulesRecord,
+        PossibleErrors,
+        BestPractices,
+        StrictMode,
+        Variables,
+        NodeJSAndCommonJS,
+        StylisticIssues,
+        ECMAScript6,
+        Deprecated {}

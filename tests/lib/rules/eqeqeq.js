@@ -50,60 +50,456 @@ ruleTester.run("eqeqeq", rule, {
         { code: "null != null", options: ["always", { null: "never" }] },
 
         // https://github.com/eslint/eslint/issues/8020
-        { code: "foo === /abc/u", options: ["always", { null: "never" }], languageOptions: { ecmaVersion: 2015 } },
+        {
+            code: "foo === /abc/u",
+            options: ["always", { null: "never" }],
+            languageOptions: { ecmaVersion: 2015 }
+        },
 
         // bigint
-        { code: "foo === 1n", options: ["always", { null: "never" }], languageOptions: { ecmaVersion: 2020 } }
+        {
+            code: "foo === 1n",
+            options: ["always", { null: "never" }],
+            languageOptions: { ecmaVersion: 2020 }
+        }
     ],
     invalid: [
-        { code: "a == b", errors: [{ messageId: "unexpected", data: wantedEqEqEq, type: "BinaryExpression" }] },
-        { code: "a != b", errors: [{ messageId: "unexpected", data: wantedNotEqEq, type: "BinaryExpression" }] },
-        { code: "typeof a == 'number'", output: "typeof a === 'number'", errors: [{ messageId: "unexpected", data: wantedEqEqEq, type: "BinaryExpression" }] },
-        { code: "typeof a == 'number'", output: "typeof a === 'number'", options: ["always"], errors: [{ messageId: "unexpected", data: wantedEqEqEq, type: "BinaryExpression" }] },
-        { code: "'string' != typeof a", output: "'string' !== typeof a", errors: [{ messageId: "unexpected", data: wantedNotEqEq, type: "BinaryExpression" }] },
-        { code: "true == true", output: "true === true", errors: [{ messageId: "unexpected", data: wantedEqEqEq, type: "BinaryExpression" }] },
-        { code: "2 == 3", output: "2 === 3", errors: [{ messageId: "unexpected", data: wantedEqEqEq, type: "BinaryExpression" }] },
-        { code: "2 == 3", output: "2 === 3", options: ["always"], errors: [{ messageId: "unexpected", data: wantedEqEqEq, type: "BinaryExpression" }] },
-        { code: "'hello' != 'world'", output: "'hello' !== 'world'", errors: [{ messageId: "unexpected", data: wantedNotEqEq, type: "BinaryExpression" }] },
-        { code: "'hello' != 'world'", output: "'hello' !== 'world'", options: ["always"], errors: [{ messageId: "unexpected", data: wantedNotEqEq, type: "BinaryExpression" }] },
-        { code: "a == null", errors: [{ messageId: "unexpected", data: wantedEqEqEq, type: "BinaryExpression" }] },
-        { code: "a == null", options: ["always"], errors: [{ messageId: "unexpected", data: wantedEqEqEq, type: "BinaryExpression" }] },
-        { code: "null != a", errors: [{ messageId: "unexpected", data: wantedNotEqEq, type: "BinaryExpression" }] },
-        { code: "true == 1", options: ["smart"], errors: [{ messageId: "unexpected", data: wantedEqEqEq, type: "BinaryExpression" }] },
-        { code: "0 != '1'", options: ["smart"], errors: [{ messageId: "unexpected", data: wantedNotEqEq, type: "BinaryExpression" }] },
-        { code: "'wee' == /wee/", options: ["smart"], errors: [{ messageId: "unexpected", data: wantedEqEqEq, type: "BinaryExpression" }] },
-        { code: "typeof a == 'number'", output: "typeof a === 'number'", options: ["allow-null"], errors: [{ messageId: "unexpected", data: wantedEqEqEq, type: "BinaryExpression" }] },
-        { code: "'string' != typeof a", output: "'string' !== typeof a", options: ["allow-null"], errors: [{ messageId: "unexpected", data: wantedNotEqEq, type: "BinaryExpression" }] },
-        { code: "'hello' != 'world'", output: "'hello' !== 'world'", options: ["allow-null"], errors: [{ messageId: "unexpected", data: wantedNotEqEq, type: "BinaryExpression" }] },
-        { code: "2 == 3", output: "2 === 3", options: ["allow-null"], errors: [{ messageId: "unexpected", data: wantedEqEqEq, type: "BinaryExpression" }] },
-        { code: "true == true", output: "true === true", options: ["allow-null"], errors: [{ messageId: "unexpected", data: wantedEqEqEq, type: "BinaryExpression" }] },
-        { code: "true == null", options: ["always", { null: "always" }], errors: [{ messageId: "unexpected", data: wantedEqEqEq, type: "BinaryExpression" }] },
-        { code: "true != null", options: ["always", { null: "always" }], errors: [{ messageId: "unexpected", data: wantedNotEqEq, type: "BinaryExpression" }] },
-        { code: "null == null", output: "null === null", options: ["always", { null: "always" }], errors: [{ messageId: "unexpected", data: wantedEqEqEq, type: "BinaryExpression" }] },
-        { code: "null != null", output: "null !== null", options: ["always", { null: "always" }], errors: [{ messageId: "unexpected", data: wantedNotEqEq, type: "BinaryExpression" }] },
-        { code: "true === null", options: ["always", { null: "never" }], errors: [{ messageId: "unexpected", data: wantedEqEq, type: "BinaryExpression" }] },
-        { code: "true !== null", options: ["always", { null: "never" }], errors: [{ messageId: "unexpected", data: wantedNotEq, type: "BinaryExpression" }] },
-        { code: "null === null", output: "null == null", options: ["always", { null: "never" }], errors: [{ messageId: "unexpected", data: wantedEqEq, type: "BinaryExpression" }] },
-        { code: "null !== null", output: "null != null", options: ["always", { null: "never" }], errors: [{ messageId: "unexpected", data: wantedNotEq, type: "BinaryExpression" }] },
-        { code: "a\n==\nb", errors: [{ messageId: "unexpected", data: wantedEqEqEq, type: "BinaryExpression", line: 2 }] },
-        { code: "(a) == b", errors: [{ messageId: "unexpected", data: wantedEqEqEq, type: "BinaryExpression", line: 1 }] },
-        { code: "(a) != b", errors: [{ messageId: "unexpected", data: wantedNotEqEq, type: "BinaryExpression", line: 1 }] },
-        { code: "a == (b)", errors: [{ messageId: "unexpected", data: wantedEqEqEq, type: "BinaryExpression", line: 1 }] },
-        { code: "a != (b)", errors: [{ messageId: "unexpected", data: wantedNotEqEq, type: "BinaryExpression", line: 1 }] },
-        { code: "(a) == (b)", errors: [{ messageId: "unexpected", data: wantedEqEqEq, type: "BinaryExpression", line: 1 }] },
-        { code: "(a) != (b)", errors: [{ messageId: "unexpected", data: wantedNotEqEq, type: "BinaryExpression", line: 1 }] },
+        {
+            code: "a == b",
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedEqEqEq,
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "a != b",
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedNotEqEq,
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "typeof a == 'number'",
+            output: "typeof a === 'number'",
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedEqEqEq,
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "typeof a == 'number'",
+            output: "typeof a === 'number'",
+            options: ["always"],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedEqEqEq,
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "'string' != typeof a",
+            output: "'string' !== typeof a",
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedNotEqEq,
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "true == true",
+            output: "true === true",
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedEqEqEq,
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "2 == 3",
+            output: "2 === 3",
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedEqEqEq,
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "2 == 3",
+            output: "2 === 3",
+            options: ["always"],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedEqEqEq,
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "'hello' != 'world'",
+            output: "'hello' !== 'world'",
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedNotEqEq,
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "'hello' != 'world'",
+            output: "'hello' !== 'world'",
+            options: ["always"],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedNotEqEq,
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "a == null",
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedEqEqEq,
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "a == null",
+            options: ["always"],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedEqEqEq,
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "null != a",
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedNotEqEq,
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "true == 1",
+            options: ["smart"],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedEqEqEq,
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "0 != '1'",
+            options: ["smart"],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedNotEqEq,
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "'wee' == /wee/",
+            options: ["smart"],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedEqEqEq,
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "typeof a == 'number'",
+            output: "typeof a === 'number'",
+            options: ["allow-null"],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedEqEqEq,
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "'string' != typeof a",
+            output: "'string' !== typeof a",
+            options: ["allow-null"],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedNotEqEq,
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "'hello' != 'world'",
+            output: "'hello' !== 'world'",
+            options: ["allow-null"],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedNotEqEq,
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "2 == 3",
+            output: "2 === 3",
+            options: ["allow-null"],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedEqEqEq,
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "true == true",
+            output: "true === true",
+            options: ["allow-null"],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedEqEqEq,
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "true == null",
+            options: ["always", { null: "always" }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedEqEqEq,
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "true != null",
+            options: ["always", { null: "always" }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedNotEqEq,
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "null == null",
+            output: "null === null",
+            options: ["always", { null: "always" }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedEqEqEq,
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "null != null",
+            output: "null !== null",
+            options: ["always", { null: "always" }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedNotEqEq,
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "true === null",
+            options: ["always", { null: "never" }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedEqEq,
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "true !== null",
+            options: ["always", { null: "never" }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedNotEq,
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "null === null",
+            output: "null == null",
+            options: ["always", { null: "never" }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedEqEq,
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "null !== null",
+            output: "null != null",
+            options: ["always", { null: "never" }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedNotEq,
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "a\n==\nb",
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedEqEqEq,
+                    type: "BinaryExpression",
+                    line: 2
+                }
+            ]
+        },
+        {
+            code: "(a) == b",
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedEqEqEq,
+                    type: "BinaryExpression",
+                    line: 1
+                }
+            ]
+        },
+        {
+            code: "(a) != b",
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedNotEqEq,
+                    type: "BinaryExpression",
+                    line: 1
+                }
+            ]
+        },
+        {
+            code: "a == (b)",
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedEqEqEq,
+                    type: "BinaryExpression",
+                    line: 1
+                }
+            ]
+        },
+        {
+            code: "a != (b)",
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedNotEqEq,
+                    type: "BinaryExpression",
+                    line: 1
+                }
+            ]
+        },
+        {
+            code: "(a) == (b)",
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedEqEqEq,
+                    type: "BinaryExpression",
+                    line: 1
+                }
+            ]
+        },
+        {
+            code: "(a) != (b)",
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedNotEqEq,
+                    type: "BinaryExpression",
+                    line: 1
+                }
+            ]
+        },
         {
             code: "(a == b) == (c)",
             errors: [
-                { messageId: "unexpected", data: wantedEqEqEq, type: "BinaryExpression", line: 1 },
-                { messageId: "unexpected", data: wantedEqEqEq, type: "BinaryExpression", line: 1 }
+                {
+                    messageId: "unexpected",
+                    data: wantedEqEqEq,
+                    type: "BinaryExpression",
+                    line: 1
+                },
+                {
+                    messageId: "unexpected",
+                    data: wantedEqEqEq,
+                    type: "BinaryExpression",
+                    line: 1
+                }
             ]
         },
         {
             code: "(a != b) != (c)",
             errors: [
-                { messageId: "unexpected", data: wantedNotEqEq, type: "BinaryExpression", line: 1 },
-                { messageId: "unexpected", data: wantedNotEqEq, type: "BinaryExpression", line: 1 }
+                {
+                    messageId: "unexpected",
+                    data: wantedNotEqEq,
+                    type: "BinaryExpression",
+                    line: 1
+                },
+                {
+                    messageId: "unexpected",
+                    data: wantedNotEqEq,
+                    type: "BinaryExpression",
+                    line: 1
+                }
             ]
         },
 
@@ -170,6 +566,6 @@ ruleTester.run("eqeqeq", rule, {
             ]
         }
 
-    // If no output is provided, assert that no output is produced.
-    ].map(invalidCase => Object.assign({ output: null }, invalidCase))
+        // If no output is provided, assert that no output is produced.
+    ].map((invalidCase) => Object.assign({ output: null }, invalidCase))
 });

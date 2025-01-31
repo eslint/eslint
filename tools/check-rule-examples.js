@@ -32,7 +32,10 @@ const STANDARD_LANGUAGE_TAGS = new Set(["javascript", "js", "jsx"]);
 const VALID_ECMA_VERSIONS = new Set([
     3,
     5,
-    ...Array.from({ length: LATEST_ECMA_VERSION - 2015 + 1 }, (_, index) => index + 2015) // 2015, 2016, ..., LATEST_ECMA_VERSION
+    ...Array.from(
+        { length: LATEST_ECMA_VERSION - 2015 + 1 },
+        (_, index) => index + 2015
+    ) // 2015, 2016, ..., LATEST_ECMA_VERSION
 ]);
 
 const commentParser = new ConfigCommentParser();
@@ -52,14 +55,15 @@ async function findProblems(filename) {
             const languageTag = codeBlockToken.info;
 
             if (!STANDARD_LANGUAGE_TAGS.has(languageTag)) {
-
                 /*
                  * Missing language tags are also reported by Markdownlint rule MD040 for all code blocks,
                  * but the message we output here is more specific.
                  */
-                const message = `${languageTag
-                    ? `Nonstandard language tag '${languageTag}'`
-                    : "Missing language tag"}: use one of 'javascript', 'js' or 'jsx'`;
+                const message = `${
+                    languageTag
+                        ? `Nonstandard language tag '${languageTag}'`
+                        : "Missing language tag"
+                }: use one of 'javascript', 'js' or 'jsx'`;
 
                 problems.push({
                     fatal: false,
@@ -75,7 +79,8 @@ async function findProblems(filename) {
                 let ecmaVersionErrorMessage;
 
                 if (ecmaVersion === "latest") {
-                    ecmaVersionErrorMessage = 'Remove unnecessary "ecmaVersion":"latest".';
+                    ecmaVersionErrorMessage =
+                        'Remove unnecessary "ecmaVersion":"latest".';
                 } else if (typeof ecmaVersion !== "number") {
                     ecmaVersionErrorMessage = '"ecmaVersion" must be a number.';
                 } else if (!VALID_ECMA_VERSIONS.has(ecmaVersion)) {
@@ -114,23 +119,32 @@ async function findProblems(filename) {
 
             // for removed rules, leave only parsing errors
             if (isRuleRemoved) {
-                lintMessages = lintMessages.filter(lintMessage => lintMessage.fatal);
+                lintMessages = lintMessages.filter(
+                    (lintMessage) => lintMessage.fatal
+                );
             } else {
-
                 if (type === "incorrect") {
                     const { length } = lintMessages;
 
                     // filter out errors reported by the rule as they are expected in incorrect examples
-                    lintMessages = lintMessages.filter(lintMessage =>
-                        lintMessage.ruleId !== title ||
-                        lintMessage.fatal ||
-                        lintMessage.message.includes(`Inline configuration for rule "${title}" is invalid`));
+                    lintMessages = lintMessages.filter(
+                        (lintMessage) =>
+                            lintMessage.ruleId !== title ||
+                            lintMessage.fatal ||
+                            lintMessage.message.includes(
+                                `Inline configuration for rule "${title}" is invalid`
+                            )
+                    );
 
-                    if (lintMessages.length === length && !lintMessages.some(lintMessage => lintMessage.fatal)) {
+                    if (
+                        lintMessages.length === length &&
+                        !lintMessages.some((lintMessage) => lintMessage.fatal)
+                    ) {
                         problems.push({
                             fatal: false,
                             severity: 2,
-                            message: "Incorrect examples should have at least one error reported by the rule.",
+                            message:
+                                "Incorrect examples should have at least one error reported by the rule.",
                             line: codeBlockToken.map[0] + 2,
                             column: 1
                         });
@@ -138,11 +152,13 @@ async function findProblems(filename) {
                 }
             }
 
-            problems.push(...lintMessages.map(lintMessage => ({
-                ...lintMessage,
-                message: `Unexpected lint error found: ${lintMessage.message}`,
-                line: codeBlockToken.map[0] + 1 + lintMessage.line
-            })));
+            problems.push(
+                ...lintMessages.map((lintMessage) => ({
+                    ...lintMessage,
+                    message: `Unexpected lint error found: ${lintMessage.message}`,
+                    line: codeBlockToken.map[0] + 1 + lintMessage.line
+                }))
+            );
 
             const sourceCode = linter.getSourceCode();
 
@@ -151,30 +167,48 @@ async function findProblems(filename) {
                 let hasRuleConfigComment = false;
 
                 for (const comment of ast.comments) {
-
-                    if (comment.type === "Block" && /^\s*eslint-env(?!\S)/u.test(comment.value)) {
+                    if (
+                        comment.type === "Block" &&
+                        /^\s*eslint-env(?!\S)/u.test(comment.value)
+                    ) {
                         problems.push({
                             fatal: false,
                             severity: 2,
-                            message: "/* eslint-env */ comments are no longer supported. Remove the comment.",
-                            line: codeBlockToken.map[0] + 1 + comment.loc.start.line,
+                            message:
+                                "/* eslint-env */ comments are no longer supported. Remove the comment.",
+                            line:
+                                codeBlockToken.map[0] +
+                                1 +
+                                comment.loc.start.line,
                             column: comment.loc.start.column + 1
                         });
                     }
 
-                    if (comment.type !== "Block" || !/^\s*eslint(?!\S)/u.test(comment.value)) {
+                    if (
+                        comment.type !== "Block" ||
+                        !/^\s*eslint(?!\S)/u.test(comment.value)
+                    ) {
                         continue;
                     }
-                    const { value } = commentParser.parseDirective(comment.value);
-                    const parseResult = commentParser.parseJSONLikeConfig(value);
+                    const { value } = commentParser.parseDirective(
+                        comment.value
+                    );
+                    const parseResult =
+                        commentParser.parseJSONLikeConfig(value);
 
-                    if (parseResult.ok && Object.hasOwn(parseResult.config, title)) {
+                    if (
+                        parseResult.ok &&
+                        Object.hasOwn(parseResult.config, title)
+                    ) {
                         if (hasRuleConfigComment) {
                             problems.push({
                                 fatal: false,
                                 severity: 2,
                                 message: `Duplicate /* eslint ${title} */ configuration comment. Each example should contain only one. Split this example into multiple examples.`,
-                                line: codeBlockToken.map[0] + 1 + comment.loc.start.line,
+                                line:
+                                    codeBlockToken.map[0] +
+                                    1 +
+                                    comment.loc.start.line,
                                 column: comment.loc.start.column + 1
                             });
                         }
@@ -194,8 +228,6 @@ async function findProblems(filename) {
                     });
                 }
             }
-
-
         }
     });
 
@@ -219,11 +251,13 @@ async function checkFile(filename) {
         problems = await findProblems(filename);
     } catch (error) {
         fatalErrorCount = 1;
-        problems = [{
-            fatal: true,
-            severity: 2,
-            message: `Error checking file: ${error.message}`
-        }];
+        problems = [
+            {
+                fatal: true,
+                severity: 2,
+                message: `Error checking file: ${error.message}`
+            }
+        ];
     }
     return {
         filePath: filename,
@@ -240,8 +274,7 @@ async function checkFile(filename) {
 
 const patterns = process.argv.slice(2);
 
-(async function() {
-
+(async function () {
     // determine which files to check
     const filenames = await glob(patterns);
 
@@ -252,7 +285,7 @@ const patterns = process.argv.slice(2);
     }
     const results = await Promise.all(filenames.map(checkFile));
 
-    if (results.every(result => result.errorCount === 0)) {
+    if (results.every((result) => result.errorCount === 0)) {
         return;
     }
 
@@ -261,4 +294,4 @@ const patterns = process.argv.slice(2);
 
     console.error(output);
     process.exitCode = 1;
-}());
+})();

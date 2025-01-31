@@ -18,7 +18,6 @@ const RuleTester = require("../../../lib/rule-tester/rule-tester");
 const ruleTester = new RuleTester();
 
 ruleTester.run("no-compare-neg-zero", rule, {
-
     valid: [
         "x === 0",
         "0 === x",
@@ -52,99 +51,123 @@ ruleTester.run("no-compare-neg-zero", rule, {
     invalid: [
         {
             code: "x === -0",
-            errors: [{
-                messageId: "unexpected",
-                data: { operator: "===" },
-                type: "BinaryExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: { operator: "===" },
+                    type: "BinaryExpression"
+                }
+            ]
         },
         {
             code: "-0 === x",
-            errors: [{
-                messageId: "unexpected",
-                data: { operator: "===" },
-                type: "BinaryExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: { operator: "===" },
+                    type: "BinaryExpression"
+                }
+            ]
         },
         {
             code: "x == -0",
-            errors: [{
-                messageId: "unexpected",
-                data: { operator: "==" },
-                type: "BinaryExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: { operator: "==" },
+                    type: "BinaryExpression"
+                }
+            ]
         },
         {
             code: "-0 == x",
-            errors: [{
-                messageId: "unexpected",
-                data: { operator: "==" },
-                type: "BinaryExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: { operator: "==" },
+                    type: "BinaryExpression"
+                }
+            ]
         },
         {
             code: "x > -0",
-            errors: [{
-                messageId: "unexpected",
-                data: { operator: ">" },
-                type: "BinaryExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: { operator: ">" },
+                    type: "BinaryExpression"
+                }
+            ]
         },
         {
             code: "-0 > x",
-            errors: [{
-                messageId: "unexpected",
-                data: { operator: ">" },
-                type: "BinaryExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: { operator: ">" },
+                    type: "BinaryExpression"
+                }
+            ]
         },
         {
             code: "x >= -0",
-            errors: [{
-                messageId: "unexpected",
-                data: { operator: ">=" },
-                type: "BinaryExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: { operator: ">=" },
+                    type: "BinaryExpression"
+                }
+            ]
         },
         {
             code: "-0 >= x",
-            errors: [{
-                messageId: "unexpected",
-                data: { operator: ">=" },
-                type: "BinaryExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: { operator: ">=" },
+                    type: "BinaryExpression"
+                }
+            ]
         },
         {
             code: "x < -0",
-            errors: [{
-                messageId: "unexpected",
-                data: { operator: "<" },
-                type: "BinaryExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: { operator: "<" },
+                    type: "BinaryExpression"
+                }
+            ]
         },
         {
             code: "-0 < x",
-            errors: [{
-                messageId: "unexpected",
-                data: { operator: "<" },
-                type: "BinaryExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: { operator: "<" },
+                    type: "BinaryExpression"
+                }
+            ]
         },
         {
             code: "x <= -0",
-            errors: [{
-                messageId: "unexpected",
-                data: { operator: "<=" },
-                type: "BinaryExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: { operator: "<=" },
+                    type: "BinaryExpression"
+                }
+            ]
         },
         {
             code: "-0 <= x",
-            errors: [{
-                messageId: "unexpected",
-                data: { operator: "<=" },
-                type: "BinaryExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: { operator: "<=" },
+                    type: "BinaryExpression"
+                }
+            ]
         }
     ]
 });

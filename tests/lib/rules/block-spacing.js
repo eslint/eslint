@@ -20,7 +20,6 @@ const ruleTester = new RuleTester();
 
 ruleTester.run("block-spacing", rule, {
     valid: [
-
         // default/always
         { code: "{ foo(); }", options: ["always"] },
         "{ foo(); }",
@@ -35,16 +34,28 @@ ruleTester.run("block-spacing", rule, {
         "do { foo(); } while (a);",
         "for (;;) { foo(); }",
         "for (var a in b) { foo(); }",
-        { code: "for (var a of b) { foo(); }", languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "for (var a of b) { foo(); }",
+            languageOptions: { ecmaVersion: 6 }
+        },
         "try { foo(); } catch (e) { foo(); }",
         "function foo() { bar(); }",
         "(function() { bar(); });",
         { code: "(() => { bar(); });", languageOptions: { ecmaVersion: 6 } },
         "if (a) { /* comment */ foo(); /* comment */ }",
         "if (a) { //comment\n foo(); }",
-        { code: "class C { static {} }", languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { foo; } }", languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { /* comment */foo;/* comment */ } }", languageOptions: { ecmaVersion: 2022 } },
+        {
+            code: "class C { static {} }",
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { foo; } }",
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { /* comment */foo;/* comment */ } }",
+            languageOptions: { ecmaVersion: 2022 }
+        },
 
         // never
         { code: "{foo();}", options: ["never"] },
@@ -59,123 +70,289 @@ ruleTester.run("block-spacing", rule, {
         { code: "do {foo();} while (a);", options: ["never"] },
         { code: "for (;;) {foo();}", options: ["never"] },
         { code: "for (var a in b) {foo();}", options: ["never"] },
-        { code: "for (var a of b) {foo();}", options: ["never"], languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "for (var a of b) {foo();}",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
         { code: "try {foo();} catch (e) {foo();}", options: ["never"] },
         { code: "function foo() {bar();}", options: ["never"] },
         { code: "(function() {bar();});", options: ["never"] },
-        { code: "(() => {bar();});", options: ["never"], languageOptions: { ecmaVersion: 6 } },
-        { code: "if (a) {/* comment */ foo(); /* comment */}", options: ["never"] },
+        {
+            code: "(() => {bar();});",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "if (a) {/* comment */ foo(); /* comment */}",
+            options: ["never"]
+        },
         { code: "if (a) { //comment\n foo();}", options: ["never"] },
-        { code: "class C { static { } }", options: ["never"], languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static {foo;} }", options: ["never"], languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static {/* comment */ foo; /* comment */} }", options: ["never"], languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { // line comment is allowed\n foo;\n} }", options: ["never"], languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static {\nfoo;\n} }", options: ["never"], languageOptions: { ecmaVersion: 2022 } },
-        { code: "class C { static { \n foo; \n } }", options: ["never"], languageOptions: { ecmaVersion: 2022 } }
+        {
+            code: "class C { static { } }",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static {foo;} }",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static {/* comment */ foo; /* comment */} }",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { // line comment is allowed\n foo;\n} }",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static {\nfoo;\n} }",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+            code: "class C { static { \n foo; \n } }",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 2022 }
+        }
     ],
 
     invalid: [
-
         // default/always
         {
             code: "{foo();}",
             output: "{ foo(); }",
             options: ["always"],
             errors: [
-                { type: "BlockStatement", line: 1, column: 1, messageId: "missing", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 8, messageId: "missing", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 1,
+                    messageId: "missing",
+                    data: { location: "after", token: "{" }
+                },
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 8,
+                    messageId: "missing",
+                    data: { location: "before", token: "}" }
+                }
             ]
         },
         {
             code: "{foo();}",
             output: "{ foo(); }",
             errors: [
-                { type: "BlockStatement", line: 1, column: 1, messageId: "missing", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 8, messageId: "missing", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 1,
+                    messageId: "missing",
+                    data: { location: "after", token: "{" }
+                },
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 8,
+                    messageId: "missing",
+                    data: { location: "before", token: "}" }
+                }
             ]
         },
         {
             code: "{ foo();}",
             output: "{ foo(); }",
             errors: [
-                { type: "BlockStatement", line: 1, column: 9, messageId: "missing", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 9,
+                    messageId: "missing",
+                    data: { location: "before", token: "}" }
+                }
             ]
         },
         {
             code: "{foo(); }",
             output: "{ foo(); }",
             errors: [
-                { type: "BlockStatement", line: 1, column: 1, messageId: "missing", data: { location: "after", token: "{" } }
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 1,
+                    messageId: "missing",
+                    data: { location: "after", token: "{" }
+                }
             ]
         },
         {
             code: "{\nfoo();}",
             output: "{\nfoo(); }",
             errors: [
-                { type: "BlockStatement", line: 2, column: 7, messageId: "missing", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    line: 2,
+                    column: 7,
+                    messageId: "missing",
+                    data: { location: "before", token: "}" }
+                }
             ]
         },
         {
             code: "{foo();\n}",
             output: "{ foo();\n}",
             errors: [
-                { type: "BlockStatement", line: 1, column: 1, messageId: "missing", data: { location: "after", token: "{" } }
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 1,
+                    messageId: "missing",
+                    data: { location: "after", token: "{" }
+                }
             ]
         },
         {
             code: "if (a) {foo();}",
             output: "if (a) { foo(); }",
             errors: [
-                { type: "BlockStatement", line: 1, column: 8, messageId: "missing", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 15, messageId: "missing", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 8,
+                    messageId: "missing",
+                    data: { location: "after", token: "{" }
+                },
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 15,
+                    messageId: "missing",
+                    data: { location: "before", token: "}" }
+                }
             ]
         },
         {
             code: "if (a) {} else {foo();}",
             output: "if (a) {} else { foo(); }",
             errors: [
-                { type: "BlockStatement", line: 1, column: 16, messageId: "missing", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 23, messageId: "missing", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 16,
+                    messageId: "missing",
+                    data: { location: "after", token: "{" }
+                },
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 23,
+                    messageId: "missing",
+                    data: { location: "before", token: "}" }
+                }
             ]
         },
         {
             code: "switch (a) {case 0: foo();}",
             output: "switch (a) { case 0: foo(); }",
             errors: [
-                { type: "SwitchStatement", line: 1, column: 12, messageId: "missing", data: { location: "after", token: "{" } },
-                { type: "SwitchStatement", line: 1, column: 27, messageId: "missing", data: { location: "before", token: "}" } }
+                {
+                    type: "SwitchStatement",
+                    line: 1,
+                    column: 12,
+                    messageId: "missing",
+                    data: { location: "after", token: "{" }
+                },
+                {
+                    type: "SwitchStatement",
+                    line: 1,
+                    column: 27,
+                    messageId: "missing",
+                    data: { location: "before", token: "}" }
+                }
             ]
         },
         {
             code: "while (a) {foo();}",
             output: "while (a) { foo(); }",
             errors: [
-                { type: "BlockStatement", line: 1, column: 11, messageId: "missing", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 18, messageId: "missing", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 11,
+                    messageId: "missing",
+                    data: { location: "after", token: "{" }
+                },
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 18,
+                    messageId: "missing",
+                    data: { location: "before", token: "}" }
+                }
             ]
         },
         {
             code: "do {foo();} while (a);",
             output: "do { foo(); } while (a);",
             errors: [
-                { type: "BlockStatement", line: 1, column: 4, messageId: "missing", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 11, messageId: "missing", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 4,
+                    messageId: "missing",
+                    data: { location: "after", token: "{" }
+                },
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 11,
+                    messageId: "missing",
+                    data: { location: "before", token: "}" }
+                }
             ]
         },
         {
             code: "for (;;) {foo();}",
             output: "for (;;) { foo(); }",
             errors: [
-                { type: "BlockStatement", line: 1, column: 10, messageId: "missing", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 17, messageId: "missing", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 10,
+                    messageId: "missing",
+                    data: { location: "after", token: "{" }
+                },
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 17,
+                    messageId: "missing",
+                    data: { location: "before", token: "}" }
+                }
             ]
         },
         {
             code: "for (var a in b) {foo();}",
             output: "for (var a in b) { foo(); }",
             errors: [
-                { type: "BlockStatement", line: 1, column: 18, messageId: "missing", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 25, messageId: "missing", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 18,
+                    messageId: "missing",
+                    data: { location: "after", token: "{" }
+                },
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 25,
+                    messageId: "missing",
+                    data: { location: "before", token: "}" }
+                }
             ]
         },
         {
@@ -183,8 +360,20 @@ ruleTester.run("block-spacing", rule, {
             output: "for (var a of b) { foo(); }",
             languageOptions: { ecmaVersion: 6 },
             errors: [
-                { type: "BlockStatement", line: 1, column: 18, messageId: "missing", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 25, messageId: "missing", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 18,
+                    messageId: "missing",
+                    data: { location: "after", token: "{" }
+                },
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 25,
+                    messageId: "missing",
+                    data: { location: "before", token: "}" }
+                }
             ]
         },
         {
@@ -251,16 +440,40 @@ ruleTester.run("block-spacing", rule, {
             code: "function foo() {bar();}",
             output: "function foo() { bar(); }",
             errors: [
-                { type: "BlockStatement", line: 1, column: 16, messageId: "missing", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 23, messageId: "missing", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 16,
+                    messageId: "missing",
+                    data: { location: "after", token: "{" }
+                },
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 23,
+                    messageId: "missing",
+                    data: { location: "before", token: "}" }
+                }
             ]
         },
         {
             code: "(function() {bar();});",
             output: "(function() { bar(); });",
             errors: [
-                { type: "BlockStatement", line: 1, column: 13, messageId: "missing", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 20, messageId: "missing", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 13,
+                    messageId: "missing",
+                    data: { location: "after", token: "{" }
+                },
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 20,
+                    messageId: "missing",
+                    data: { location: "before", token: "}" }
+                }
             ]
         },
         {
@@ -268,8 +481,20 @@ ruleTester.run("block-spacing", rule, {
             output: "(() => { bar(); });",
             languageOptions: { ecmaVersion: 6 },
             errors: [
-                { type: "BlockStatement", line: 1, column: 8, messageId: "missing", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 15, messageId: "missing", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 8,
+                    messageId: "missing",
+                    data: { location: "after", token: "{" }
+                },
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 15,
+                    messageId: "missing",
+                    data: { location: "before", token: "}" }
+                }
             ]
         },
         {
@@ -277,8 +502,20 @@ ruleTester.run("block-spacing", rule, {
             output: "if (a) { /* comment */ foo(); /* comment */ }",
             languageOptions: { ecmaVersion: 6 },
             errors: [
-                { type: "BlockStatement", line: 1, column: 8, messageId: "missing", data: { location: "after", token: "{" } },
-                { type: "BlockStatement", line: 1, column: 43, messageId: "missing", data: { location: "before", token: "}" } }
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 8,
+                    messageId: "missing",
+                    data: { location: "after", token: "{" }
+                },
+                {
+                    type: "BlockStatement",
+                    line: 1,
+                    column: 43,
+                    messageId: "missing",
+                    data: { location: "before", token: "}" }
+                }
             ]
         },
         {

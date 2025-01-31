@@ -43,46 +43,95 @@ const ruleTester = new RuleTester();
 
 ruleTester.run("max-nested-callbacks", rule, {
     valid: [
-        { code: "foo(function() { bar(thing, function(data) {}); });", options: [3] },
-        { code: "var foo = function() {}; bar(function(){ baz(function() { qux(foo); }) });", options: [2] },
+        {
+            code: "foo(function() { bar(thing, function(data) {}); });",
+            options: [3]
+        },
+        {
+            code: "var foo = function() {}; bar(function(){ baz(function() { qux(foo); }) });",
+            options: [2]
+        },
         { code: "fn(function(){}, function(){}, function(){});", options: [2] },
-        { code: "fn(() => {}, function(){}, function(){});", options: [2], languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "fn(() => {}, function(){}, function(){});",
+            options: [2],
+            languageOptions: { ecmaVersion: 6 }
+        },
         nestFunctions(10),
 
         // object property options
-        { code: "foo(function() { bar(thing, function(data) {}); });", options: [{ max: 3 }] }
+        {
+            code: "foo(function() { bar(thing, function(data) {}); });",
+            options: [{ max: 3 }]
+        }
     ],
     invalid: [
         {
             code: "foo(function() { bar(thing, function(data) { baz(function() {}); }); });",
             options: [2],
-            errors: [{ messageId: "exceed", data: { num: 3, max: 2 }, type: "FunctionExpression" }]
+            errors: [
+                {
+                    messageId: "exceed",
+                    data: { num: 3, max: 2 },
+                    type: "FunctionExpression"
+                }
+            ]
         },
         {
             code: "foo(function() { bar(thing, (data) => { baz(function() {}); }); });",
             options: [2],
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "exceed", data: { num: 3, max: 2 }, type: "FunctionExpression" }]
+            errors: [
+                {
+                    messageId: "exceed",
+                    data: { num: 3, max: 2 },
+                    type: "FunctionExpression"
+                }
+            ]
         },
         {
             code: "foo(() => { bar(thing, (data) => { baz( () => {}); }); });",
             options: [2],
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "exceed", data: { num: 3, max: 2 }, type: "ArrowFunctionExpression" }]
+            errors: [
+                {
+                    messageId: "exceed",
+                    data: { num: 3, max: 2 },
+                    type: "ArrowFunctionExpression"
+                }
+            ]
         },
         {
             code: "foo(function() { if (isTrue) { bar(function(data) { baz(function() {}); }); } });",
             options: [2],
-            errors: [{ messageId: "exceed", data: { num: 3, max: 2 }, type: "FunctionExpression" }]
+            errors: [
+                {
+                    messageId: "exceed",
+                    data: { num: 3, max: 2 },
+                    type: "FunctionExpression"
+                }
+            ]
         },
         {
             code: nestFunctions(11),
-            errors: [{ messageId: "exceed", data: { num: 11, max: 10 }, type: "FunctionExpression" }]
+            errors: [
+                {
+                    messageId: "exceed",
+                    data: { num: 11, max: 10 },
+                    type: "FunctionExpression"
+                }
+            ]
         },
         {
             code: nestFunctions(11),
             options: [{}],
-            errors: [{ messageId: "exceed", data: { num: 11, max: 10 }, type: "FunctionExpression" }]
+            errors: [
+                {
+                    messageId: "exceed",
+                    data: { num: 11, max: 10 },
+                    type: "FunctionExpression"
+                }
+            ]
         },
         {
             code: "foo(function() {})",
@@ -94,7 +143,13 @@ ruleTester.run("max-nested-callbacks", rule, {
         {
             code: "foo(function() { bar(thing, function(data) { baz(function() {}); }); });",
             options: [{ max: 2 }],
-            errors: [{ messageId: "exceed", data: { num: 3, max: 2 }, type: "FunctionExpression" }]
+            errors: [
+                {
+                    messageId: "exceed",
+                    data: { num: 3, max: 2 },
+                    type: "FunctionExpression"
+                }
+            ]
         }
     ]
 });

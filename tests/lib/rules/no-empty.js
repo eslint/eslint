@@ -40,133 +40,175 @@ ruleTester.run("no-empty", rule, {
         "if (foo) { bar() } else { // nothing in me \n}",
         "if (foo) { bar() } else { /**/ \n}",
         "if (foo) { bar() } else { // \n}",
-        { code: "try { foo(); } catch (ex) {}", options: [{ allowEmptyCatch: true }] },
-        { code: "try { foo(); } catch (ex) {} finally { bar(); }", options: [{ allowEmptyCatch: true }] }
+        {
+            code: "try { foo(); } catch (ex) {}",
+            options: [{ allowEmptyCatch: true }]
+        },
+        {
+            code: "try { foo(); } catch (ex) {} finally { bar(); }",
+            options: [{ allowEmptyCatch: true }]
+        }
     ],
     invalid: [
         {
             code: "try {} catch (ex) {throw ex}",
-            errors: [{
-                messageId: "unexpected",
-                data: { type: "block" },
-                type: "BlockStatement",
-                suggestions: [{
-                    messageId: "suggestComment",
+            errors: [
+                {
+                    messageId: "unexpected",
                     data: { type: "block" },
-                    output: "try { /* empty */ } catch (ex) {throw ex}"
-                }]
-            }]
+                    type: "BlockStatement",
+                    suggestions: [
+                        {
+                            messageId: "suggestComment",
+                            data: { type: "block" },
+                            output: "try { /* empty */ } catch (ex) {throw ex}"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "try { foo() } catch (ex) {}",
-            errors: [{
-                messageId: "unexpected",
-                data: { type: "block" },
-                type: "BlockStatement",
-                suggestions: [{
-                    messageId: "suggestComment",
+            errors: [
+                {
+                    messageId: "unexpected",
                     data: { type: "block" },
-                    output: "try { foo() } catch (ex) { /* empty */ }"
-                }]
-            }]
+                    type: "BlockStatement",
+                    suggestions: [
+                        {
+                            messageId: "suggestComment",
+                            data: { type: "block" },
+                            output: "try { foo() } catch (ex) { /* empty */ }"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "try { foo() } catch (ex) {throw ex} finally {}",
-            errors: [{
-                messageId: "unexpected",
-                data: { type: "block" },
-                type: "BlockStatement",
-                suggestions: [{
-                    messageId: "suggestComment",
+            errors: [
+                {
+                    messageId: "unexpected",
                     data: { type: "block" },
-                    output: "try { foo() } catch (ex) {throw ex} finally { /* empty */ }"
-                }]
-            }]
+                    type: "BlockStatement",
+                    suggestions: [
+                        {
+                            messageId: "suggestComment",
+                            data: { type: "block" },
+                            output: "try { foo() } catch (ex) {throw ex} finally { /* empty */ }"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "if (foo) {}",
-            errors: [{
-                messageId: "unexpected",
-                data: { type: "block" },
-                type: "BlockStatement",
-                suggestions: [{
-                    messageId: "suggestComment",
+            errors: [
+                {
+                    messageId: "unexpected",
                     data: { type: "block" },
-                    output: "if (foo) { /* empty */ }"
-                }]
-            }]
+                    type: "BlockStatement",
+                    suggestions: [
+                        {
+                            messageId: "suggestComment",
+                            data: { type: "block" },
+                            output: "if (foo) { /* empty */ }"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "while (foo) {}",
-            errors: [{
-                messageId: "unexpected",
-                data: { type: "block" },
-                type: "BlockStatement",
-                suggestions: [{
-                    messageId: "suggestComment",
+            errors: [
+                {
+                    messageId: "unexpected",
                     data: { type: "block" },
-                    output: "while (foo) { /* empty */ }"
-                }]
-            }]
+                    type: "BlockStatement",
+                    suggestions: [
+                        {
+                            messageId: "suggestComment",
+                            data: { type: "block" },
+                            output: "while (foo) { /* empty */ }"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "for (;foo;) {}",
-            errors: [{
-                messageId: "unexpected",
-                data: { type: "block" },
-                type: "BlockStatement",
-                suggestions: [{
-                    messageId: "suggestComment",
+            errors: [
+                {
+                    messageId: "unexpected",
                     data: { type: "block" },
-                    output: "for (;foo;) { /* empty */ }"
-                }]
-            }]
+                    type: "BlockStatement",
+                    suggestions: [
+                        {
+                            messageId: "suggestComment",
+                            data: { type: "block" },
+                            output: "for (;foo;) { /* empty */ }"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "switch(foo) {}",
-            errors: [{
-                messageId: "unexpected",
-                data: { type: "switch" },
-                type: "SwitchStatement",
-                suggestions: null
-            }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: { type: "switch" },
+                    type: "SwitchStatement",
+                    suggestions: null
+                }
+            ]
         },
         {
             code: "switch (foo) { /* empty */ }",
-            errors: [{
-                messageId: "unexpected",
-                data: { type: "switch" },
-                type: "SwitchStatement",
-                suggestions: null
-            }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: { type: "switch" },
+                    type: "SwitchStatement",
+                    suggestions: null
+                }
+            ]
         },
         {
             code: "try {} catch (ex) {}",
             options: [{ allowEmptyCatch: true }],
-            errors: [{
-                messageId: "unexpected",
-                data: { type: "block" },
-                type: "BlockStatement",
-                suggestions: [{
-                    messageId: "suggestComment",
+            errors: [
+                {
+                    messageId: "unexpected",
                     data: { type: "block" },
-                    output: "try { /* empty */ } catch (ex) {}"
-                }]
-            }]
+                    type: "BlockStatement",
+                    suggestions: [
+                        {
+                            messageId: "suggestComment",
+                            data: { type: "block" },
+                            output: "try { /* empty */ } catch (ex) {}"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "try { foo(); } catch (ex) {} finally {}",
             options: [{ allowEmptyCatch: true }],
-            errors: [{
-                messageId: "unexpected",
-                data: { type: "block" },
-                type: "BlockStatement",
-                suggestions: [{
-                    messageId: "suggestComment",
+            errors: [
+                {
+                    messageId: "unexpected",
                     data: { type: "block" },
-                    output: "try { foo(); } catch (ex) {} finally { /* empty */ }"
-                }]
-            }]
+                    type: "BlockStatement",
+                    suggestions: [
+                        {
+                            messageId: "suggestComment",
+                            data: { type: "block" },
+                            output: "try { foo(); } catch (ex) {} finally { /* empty */ }"
+                        }
+                    ]
+                }
+            ]
         },
         {
             code: "try {} catch (ex) {} finally {}",

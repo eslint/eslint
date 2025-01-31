@@ -23,7 +23,6 @@ const ruleTester = new RuleTester({
 });
 
 ruleTester.run("consistent-return", rule, {
-
     valid: [
         "function foo() { return; }",
         "function foo() { if (true) return; }",
@@ -38,18 +37,51 @@ ruleTester.run("consistent-return", rule, {
         "function Foo() { if (!(this instanceof Foo)) return new Foo(); }",
         "function foo() { if (true) return 5; else return undefined; }",
         "function foo() { if (true) return 5; else return void 0; }",
-        { code: "function foo() { if (true) return; else return undefined; }", options: [{ treatUndefinedAsUnspecified: true }] },
-        { code: "function foo() { if (true) return; else return void 0; }", options: [{ treatUndefinedAsUnspecified: true }] },
-        { code: "function foo() { if (true) return undefined; else return; }", options: [{ treatUndefinedAsUnspecified: true }] },
-        { code: "function foo() { if (true) return undefined; else return void 0; }", options: [{ treatUndefinedAsUnspecified: true }] },
-        { code: "function foo() { if (true) return void 0; else return; }", options: [{ treatUndefinedAsUnspecified: true }] },
-        { code: "function foo() { if (true) return void 0; else return undefined; }", options: [{ treatUndefinedAsUnspecified: true }] },
-        { code: "var x = () => {  return {}; };", languageOptions: { ecmaVersion: 6 } },
-        { code: "if (true) { return 1; } return 0;", languageOptions: { ecmaVersion: 6, parserOptions: { ecmaFeatures: { globalReturn: true } } } },
+        {
+            code: "function foo() { if (true) return; else return undefined; }",
+            options: [{ treatUndefinedAsUnspecified: true }]
+        },
+        {
+            code: "function foo() { if (true) return; else return void 0; }",
+            options: [{ treatUndefinedAsUnspecified: true }]
+        },
+        {
+            code: "function foo() { if (true) return undefined; else return; }",
+            options: [{ treatUndefinedAsUnspecified: true }]
+        },
+        {
+            code: "function foo() { if (true) return undefined; else return void 0; }",
+            options: [{ treatUndefinedAsUnspecified: true }]
+        },
+        {
+            code: "function foo() { if (true) return void 0; else return; }",
+            options: [{ treatUndefinedAsUnspecified: true }]
+        },
+        {
+            code: "function foo() { if (true) return void 0; else return undefined; }",
+            options: [{ treatUndefinedAsUnspecified: true }]
+        },
+        {
+            code: "var x = () => {  return {}; };",
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "if (true) { return 1; } return 0;",
+            languageOptions: {
+                ecmaVersion: 6,
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            }
+        },
 
         // https://github.com/eslint/eslint/issues/7790
-        { code: "class Foo { constructor() { if (true) return foo; } }", languageOptions: { ecmaVersion: 6 } },
-        { code: "var Foo = class { constructor() { if (true) return foo; } }", languageOptions: { ecmaVersion: 6 } }
+        {
+            code: "class Foo { constructor() { if (true) return foo; } }",
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var Foo = class { constructor() { if (true) return foo; } }",
+            languageOptions: { ecmaVersion: 6 }
+        }
     ],
 
     invalid: [
@@ -201,7 +233,9 @@ ruleTester.run("consistent-return", rule, {
         },
         {
             code: "if (true) { return 1; } return;",
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
             errors: [
                 {
                     messageId: "missingReturnValue",
@@ -317,7 +351,9 @@ ruleTester.run("consistent-return", rule, {
         },
         {
             code: "if (a) return true;",
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
             errors: [
                 {
                     messageId: "missingReturn",

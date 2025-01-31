@@ -18,7 +18,6 @@ const rule = require("../../../lib/rules/default-case"),
 const ruleTester = new RuleTester();
 
 ruleTester.run("default-case", rule, {
-
     valid: [
         "switch (a) { case 1: break; default: break; }",
         "switch (a) { case 1: break; case 2: default: break; }",
@@ -35,81 +34,107 @@ ruleTester.run("default-case", rule, {
         "switch (a) { }",
         {
             code: "switch (a) { case 1: break; default: break; }",
-            options: [{
-                commentPattern: "default case omitted"
-            }]
+            options: [
+                {
+                    commentPattern: "default case omitted"
+                }
+            ]
         },
         {
             code: "switch (a) { case 1: break; \n // skip default case \n }",
-            options: [{
-                commentPattern: "^skip default"
-            }]
+            options: [
+                {
+                    commentPattern: "^skip default"
+                }
+            ]
         },
         {
             code: "switch (a) { case 1: break; \n /*\nTODO:\n throw error in default case\n*/ \n }",
-            options: [{
-                commentPattern: "default"
-            }]
+            options: [
+                {
+                    commentPattern: "default"
+                }
+            ]
         },
         {
             code: "switch (a) { case 1: break; \n// \n }",
-            options: [{
-                commentPattern: ".?"
-            }]
+            options: [
+                {
+                    commentPattern: ".?"
+                }
+            ]
         }
     ],
 
     invalid: [
         {
             code: "switch (a) { case 1: break; }",
-            errors: [{
-                messageId: "missingDefaultCase",
-                type: "SwitchStatement"
-            }]
+            errors: [
+                {
+                    messageId: "missingDefaultCase",
+                    type: "SwitchStatement"
+                }
+            ]
         },
         {
             code: "switch (a) { \n // no default \n case 1: break;  }",
-            errors: [{
-                messageId: "missingDefaultCase",
-                type: "SwitchStatement"
-            }]
+            errors: [
+                {
+                    messageId: "missingDefaultCase",
+                    type: "SwitchStatement"
+                }
+            ]
         },
         {
             code: "switch (a) { case 1: break; \n // no default \n // nope \n  }",
-            errors: [{
-                messageId: "missingDefaultCase",
-                type: "SwitchStatement"
-            }]
+            errors: [
+                {
+                    messageId: "missingDefaultCase",
+                    type: "SwitchStatement"
+                }
+            ]
         },
         {
             code: "switch (a) { case 1: break; \n // no default \n }",
-            options: [{
-                commentPattern: "skipped default case"
-            }],
-            errors: [{
-                messageId: "missingDefaultCase",
-                type: "SwitchStatement"
-            }]
+            options: [
+                {
+                    commentPattern: "skipped default case"
+                }
+            ],
+            errors: [
+                {
+                    messageId: "missingDefaultCase",
+                    type: "SwitchStatement"
+                }
+            ]
         },
         {
             code: "switch (a) {\ncase 1: break; \n// default omitted intentionally \n// TODO: add default case \n}",
-            options: [{
-                commentPattern: "default omitted"
-            }],
-            errors: [{
-                messageId: "missingDefaultCase",
-                type: "SwitchStatement"
-            }]
+            options: [
+                {
+                    commentPattern: "default omitted"
+                }
+            ],
+            errors: [
+                {
+                    messageId: "missingDefaultCase",
+                    type: "SwitchStatement"
+                }
+            ]
         },
         {
             code: "switch (a) {\ncase 1: break;\n}",
-            options: [{
-                commentPattern: ".?"
-            }],
-            errors: [{
-                messageId: "missingDefaultCase",
-                type: "SwitchStatement"
-            }]
+            options: [
+                {
+                    commentPattern: ".?"
+                }
+            ],
+            errors: [
+                {
+                    messageId: "missingDefaultCase",
+                    type: "SwitchStatement"
+                }
+            ]
         }
     ]
 });

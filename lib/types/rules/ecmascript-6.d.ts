@@ -33,10 +33,11 @@ export interface NoRestrictedImportPathCommonOptions {
 }
 
 export type EitherImportNamesOrAllowImportName =
-  | { importNames?: string[]; allowImportNames?: never }
-  | { allowImportNames?: string[]; importNames?: never }
+    | { importNames?: string[]; allowImportNames?: never }
+    | { allowImportNames?: string[]; importNames?: never };
 
-export type ValidNoRestrictedImportPathOptions = NoRestrictedImportPathCommonOptions & EitherImportNamesOrAllowImportName;
+export type ValidNoRestrictedImportPathOptions =
+    NoRestrictedImportPathCommonOptions & EitherImportNamesOrAllowImportName;
 
 export interface NoRestrictedImportPatternCommonOptions {
     message?: string;
@@ -45,18 +46,41 @@ export interface NoRestrictedImportPatternCommonOptions {
 
 // Base type for group or regex constraint, ensuring mutual exclusivity
 export type EitherGroupOrRegEx =
-  | { group: string[]; regex?: never }
-  | { regex: string; group?: never };
+    | { group: string[]; regex?: never }
+    | { regex: string; group?: never };
 
 // Base type for import name specifiers, ensuring mutual exclusivity
-export type EitherNameSpecifiers = 
-    | { importNames: string[]; allowImportNames?: never; importNamePattern?: never; allowImportNamePattern?: never }
-    | { importNamePattern: string; allowImportNames?: never; importNames?: never; allowImportNamePattern?: never }
-    | { allowImportNames: string[]; importNames?: never; importNamePattern?: never; allowImportNamePattern?: never }
-    | { allowImportNamePattern: string; importNames?: never; allowImportNames?: never; importNamePattern?: never }
+export type EitherNameSpecifiers =
+    | {
+          importNames: string[];
+          allowImportNames?: never;
+          importNamePattern?: never;
+          allowImportNamePattern?: never;
+      }
+    | {
+          importNamePattern: string;
+          allowImportNames?: never;
+          importNames?: never;
+          allowImportNamePattern?: never;
+      }
+    | {
+          allowImportNames: string[];
+          importNames?: never;
+          importNamePattern?: never;
+          allowImportNamePattern?: never;
+      }
+    | {
+          allowImportNamePattern: string;
+          importNames?: never;
+          allowImportNames?: never;
+          importNamePattern?: never;
+      };
 
 // Adds oneOf and not constraints, ensuring group or regex are present and mutually exclusive sets for importNames, allowImportNames, etc., as per the schema.
-export type ValidNoRestrictedImportPatternOptions = NoRestrictedImportPatternCommonOptions & EitherGroupOrRegEx & EitherNameSpecifiers;
+export type ValidNoRestrictedImportPatternOptions =
+    NoRestrictedImportPatternCommonOptions &
+        EitherGroupOrRegEx &
+        EitherNameSpecifiers;
 
 export interface ECMAScript6 extends Linter.RulesRecord {
     /**
@@ -67,16 +91,16 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      */
     "arrow-body-style":
         | Linter.RuleEntry<
-            [
-                "as-needed",
-                Partial<{
-                    /**
-                     * @default false
-                     */
-                    requireReturnForObjectLiteral: boolean;
-                }>,
-            ]
-        >
+              [
+                  "as-needed",
+                  Partial<{
+                      /**
+                       * @default false
+                       */
+                      requireReturnForObjectLiteral: boolean;
+                  }>
+              ]
+          >
         | Linter.RuleEntry<["always" | "never"]>;
 
     /**
@@ -89,16 +113,16 @@ export interface ECMAScript6 extends Linter.RulesRecord {
     "arrow-parens":
         | Linter.RuleEntry<["always"]>
         | Linter.RuleEntry<
-            [
-                "as-needed",
-                Partial<{
-                    /**
-                     * @default false
-                     */
-                    requireForBlockBody: boolean;
-                }>,
-            ]
-        >;
+              [
+                  "as-needed",
+                  Partial<{
+                      /**
+                       * @default false
+                       */
+                      requireForBlockBody: boolean;
+                  }>
+              ]
+          >;
 
     /**
      * Rule to enforce consistent spacing before and after the arrow in arrow functions.
@@ -130,40 +154,40 @@ export interface ECMAScript6 extends Linter.RulesRecord {
     "generator-star-spacing": Linter.RuleEntry<
         [
             | Partial<{
-                before: boolean;
-                after: boolean;
-                named:
-                    | Partial<{
-                        before: boolean;
-                        after: boolean;
-                    }>
-                    | "before"
-                    | "after"
-                    | "both"
-                    | "neither";
-                anonymous:
-                    | Partial<{
-                        before: boolean;
-                        after: boolean;
-                    }>
-                    | "before"
-                    | "after"
-                    | "both"
-                    | "neither";
-                method:
-                    | Partial<{
-                        before: boolean;
-                        after: boolean;
-                    }>
-                    | "before"
-                    | "after"
-                    | "both"
-                    | "neither";
-            }>
+                  before: boolean;
+                  after: boolean;
+                  named:
+                      | Partial<{
+                            before: boolean;
+                            after: boolean;
+                        }>
+                      | "before"
+                      | "after"
+                      | "both"
+                      | "neither";
+                  anonymous:
+                      | Partial<{
+                            before: boolean;
+                            after: boolean;
+                        }>
+                      | "before"
+                      | "after"
+                      | "both"
+                      | "neither";
+                  method:
+                      | Partial<{
+                            before: boolean;
+                            after: boolean;
+                        }>
+                      | "before"
+                      | "after"
+                      | "both"
+                      | "neither";
+              }>
             | "before"
             | "after"
             | "both"
-            | "neither",
+            | "neither"
         ]
     >;
 
@@ -175,16 +199,16 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      */
     "logical-assignment-operators":
         | Linter.RuleEntry<
-            [
-                "always",
-                Partial<{
-                    /**
-                     * @default false
-                     */
-                    enforceForIfStatements: boolean;
-                }>,
-            ]
-        >
+              [
+                  "always",
+                  Partial<{
+                      /**
+                       * @default false
+                       */
+                      enforceForIfStatements: boolean;
+                  }>
+              ]
+          >
         | Linter.RuleEntry<["never"]>;
 
     /**
@@ -212,7 +236,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
                  * @default true
                  */
                 allowParens: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -251,7 +275,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
                  * @default false
                  */
                 includeExports: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -308,7 +332,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
                      */
                     namespaceFrom: boolean;
                 }>;
-            }>,
+            }>
         ]
     >;
 
@@ -325,7 +349,9 @@ export interface ECMAScript6 extends Linter.RulesRecord {
                 | ValidNoRestrictedImportPathOptions
                 | Partial<{
                       paths: Array<string | ValidNoRestrictedImportPathOptions>;
-                      patterns: Array<string | ValidNoRestrictedImportPatternOptions>;
+                      patterns: Array<
+                          string | ValidNoRestrictedImportPatternOptions
+                      >;
                   }>
             >
         ]
@@ -355,7 +381,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
                  * @default true
                  */
                 enforceForClassMembers: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -388,7 +414,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
                  * @default false
                  */
                 ignoreDestructuring: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -408,39 +434,39 @@ export interface ECMAScript6 extends Linter.RulesRecord {
      */
     "object-shorthand":
         | Linter.RuleEntry<
-            [
-                "always" | "methods",
-                Partial<{
-                    /**
-                     * @default false
-                     */
-                    avoidQuotes: boolean;
-                    /**
-                     * @default false
-                     */
-                    ignoreConstructors: boolean;
-                    /**
-                     * @since 8.22.0
-                     */
-                    methodsIgnorePattern: string;
-                    /**
-                     * @default false
-                     */
-                    avoidExplicitReturnArrows: boolean;
-                }>,
-            ]
-        >
+              [
+                  "always" | "methods",
+                  Partial<{
+                      /**
+                       * @default false
+                       */
+                      avoidQuotes: boolean;
+                      /**
+                       * @default false
+                       */
+                      ignoreConstructors: boolean;
+                      /**
+                       * @since 8.22.0
+                       */
+                      methodsIgnorePattern: string;
+                      /**
+                       * @default false
+                       */
+                      avoidExplicitReturnArrows: boolean;
+                  }>
+              ]
+          >
         | Linter.RuleEntry<
-            [
-                "properties",
-                Partial<{
-                    /**
-                     * @default false
-                     */
-                    avoidQuotes: boolean;
-                }>,
-            ]
-        >
+              [
+                  "properties",
+                  Partial<{
+                      /**
+                       * @default false
+                       */
+                      avoidQuotes: boolean;
+                  }>
+              ]
+          >
         | Linter.RuleEntry<["never" | "consistent" | "consistent-as-needed"]>;
 
     /**
@@ -460,7 +486,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
                  * @default true
                  */
                 allowUnboundThis: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -481,7 +507,7 @@ export interface ECMAScript6 extends Linter.RulesRecord {
                  * @default false
                  */
                 ignoreReadBeforeAssign: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -495,23 +521,23 @@ export interface ECMAScript6 extends Linter.RulesRecord {
         [
             Partial<
                 | {
-                    VariableDeclarator: Partial<{
-                        array: boolean;
-                        object: boolean;
-                    }>;
-                    AssignmentExpression: Partial<{
-                        array: boolean;
-                        object: boolean;
-                    }>;
-                }
+                      VariableDeclarator: Partial<{
+                          array: boolean;
+                          object: boolean;
+                      }>;
+                      AssignmentExpression: Partial<{
+                          array: boolean;
+                          object: boolean;
+                      }>;
+                  }
                 | {
-                    array: boolean;
-                    object: boolean;
-                }
+                      array: boolean;
+                      object: boolean;
+                  }
             >,
             Partial<{
                 enforceForRenamedProperties: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -599,12 +625,14 @@ export interface ECMAScript6 extends Linter.RulesRecord {
                 /**
                  * @default ['none', 'all', 'multiple', 'single']
                  */
-                memberSyntaxSortOrder: Array<"none" | "all" | "multiple" | "single">;
+                memberSyntaxSortOrder: Array<
+                    "none" | "all" | "multiple" | "single"
+                >;
                 /**
                  * @default false
                  */
                 allowSeparatedGroups: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -635,13 +663,13 @@ export interface ECMAScript6 extends Linter.RulesRecord {
     "yield-star-spacing": Linter.RuleEntry<
         [
             | Partial<{
-                before: boolean;
-                after: boolean;
-            }>
+                  before: boolean;
+                  after: boolean;
+              }>
             | "before"
             | "after"
             | "both"
-            | "neither",
+            | "neither"
         ]
     >;
 }

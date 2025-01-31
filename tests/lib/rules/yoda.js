@@ -19,7 +19,6 @@ const ruleTester = new RuleTester();
 
 ruleTester.run("yoda", rule, {
     valid: [
-
         // "never" mode
         { code: 'if (value === "red") {}', options: ["never"] },
         { code: "if (value === value) {}", options: ["never"] },
@@ -145,8 +144,7 @@ ruleTester.run("yoda", rule, {
             languageOptions: { ecmaVersion: 2015 }
         },
         {
-            code:
-                "if (a < 4 || (b[c[0]].d['e'] < 0 || 1 <= b[c[0]].d['e'])) {}",
+            code: "if (a < 4 || (b[c[0]].d['e'] < 0 || 1 <= b[c[0]].d['e'])) {}",
             options: ["never", { exceptRange: true }]
         },
         {

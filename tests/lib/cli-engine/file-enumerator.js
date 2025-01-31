@@ -15,9 +15,7 @@ const { assert } = require("chai");
 const sh = require("shelljs");
 const sinon = require("sinon");
 const {
-    Legacy: {
-        CascadingConfigArrayFactory
-    }
+    Legacy: { CascadingConfigArrayFactory }
 } = require("@eslint/eslintrc");
 const { createCustomTeardown } = require("../../_utils");
 const { FileEnumerator } = require("../../../lib/cli-engine/file-enumerator");
@@ -48,7 +46,10 @@ describe("FileEnumerator", () => {
                     }
                 })
             };
-            const { prepare, cleanup, getPath } = createCustomTeardown({ cwd: root, files });
+            const { prepare, cleanup, getPath } = createCustomTeardown({
+                cwd: root,
+                files
+            });
 
             /** @type {FileEnumerator} */
             let enumerator;
@@ -65,7 +66,6 @@ describe("FileEnumerator", () => {
             });
 
             describe("if 'lib/*.js' was given,", () => {
-
                 /** @type {Array<{config:(typeof import('../../../lib/cli-engine')).ConfigArray, filePath:string, ignored:boolean}>} */
                 let list;
 
@@ -79,7 +79,7 @@ describe("FileEnumerator", () => {
 
                 it("should list 'lib/one.js' and 'lib/two.js'.", () => {
                     assert.deepStrictEqual(
-                        list.map(entry => entry.filePath),
+                        list.map((entry) => entry.filePath),
                         [
                             path.join(root, "lib/one.js"),
                             path.join(root, "lib/two.js")
@@ -90,14 +90,22 @@ describe("FileEnumerator", () => {
                 it("should use the config '.eslintrc.json' for both files.", () => {
                     assert.strictEqual(list[0].config, list[1].config);
                     assert.strictEqual(list[0].config.length, 3);
-                    assert.strictEqual(list[0].config[0].name, "DefaultIgnorePattern");
-                    assert.strictEqual(list[0].config[1].filePath, path.join(root, ".eslintrc.json"));
-                    assert.strictEqual(list[0].config[2].filePath, path.join(root, ".eslintignore"));
+                    assert.strictEqual(
+                        list[0].config[0].name,
+                        "DefaultIgnorePattern"
+                    );
+                    assert.strictEqual(
+                        list[0].config[1].filePath,
+                        path.join(root, ".eslintrc.json")
+                    );
+                    assert.strictEqual(
+                        list[0].config[2].filePath,
+                        path.join(root, ".eslintignore")
+                    );
                 });
             });
 
             describe("if 'lib/**/*.js' was given,", () => {
-
                 /** @type {Array<{config:(typeof import('../../../lib/cli-engine')).ConfigArray, filePath:string, ignored:boolean}>} */
                 let list;
 
@@ -111,7 +119,7 @@ describe("FileEnumerator", () => {
 
                 it("should list 'lib/nested/one.js', 'lib/nested/two.js', 'lib/one.js', 'lib/two.js'.", () => {
                     assert.deepStrictEqual(
-                        list.map(entry => entry.filePath),
+                        list.map((entry) => entry.filePath),
                         [
                             path.join(root, "lib/nested/one.js"),
                             path.join(root, "lib/nested/two.js"),
@@ -124,28 +132,50 @@ describe("FileEnumerator", () => {
                 it("should use the merged config of '.eslintrc.json' and 'lib/nested/.eslintrc.yml' for 'lib/nested/one.js' and 'lib/nested/two.js'.", () => {
                     assert.strictEqual(list[0].config, list[1].config);
                     assert.strictEqual(list[0].config.length, 4);
-                    assert.strictEqual(list[0].config[0].name, "DefaultIgnorePattern");
-                    assert.strictEqual(list[0].config[1].filePath, path.join(root, ".eslintrc.json"));
-                    assert.strictEqual(list[0].config[2].filePath, path.join(root, "lib/nested/.eslintrc.yml"));
-                    assert.strictEqual(list[0].config[3].filePath, path.join(root, ".eslintignore"));
+                    assert.strictEqual(
+                        list[0].config[0].name,
+                        "DefaultIgnorePattern"
+                    );
+                    assert.strictEqual(
+                        list[0].config[1].filePath,
+                        path.join(root, ".eslintrc.json")
+                    );
+                    assert.strictEqual(
+                        list[0].config[2].filePath,
+                        path.join(root, "lib/nested/.eslintrc.yml")
+                    );
+                    assert.strictEqual(
+                        list[0].config[3].filePath,
+                        path.join(root, ".eslintignore")
+                    );
                 });
 
                 it("should use the config '.eslintrc.json' for 'lib/one.js' and 'lib/two.js'.", () => {
                     assert.strictEqual(list[2].config, list[3].config);
                     assert.strictEqual(list[2].config.length, 3);
-                    assert.strictEqual(list[2].config[0].name, "DefaultIgnorePattern");
-                    assert.strictEqual(list[2].config[1].filePath, path.join(root, ".eslintrc.json"));
-                    assert.strictEqual(list[2].config[2].filePath, path.join(root, ".eslintignore"));
+                    assert.strictEqual(
+                        list[2].config[0].name,
+                        "DefaultIgnorePattern"
+                    );
+                    assert.strictEqual(
+                        list[2].config[1].filePath,
+                        path.join(root, ".eslintrc.json")
+                    );
+                    assert.strictEqual(
+                        list[2].config[2].filePath,
+                        path.join(root, ".eslintignore")
+                    );
                 });
             });
 
             describe("if 'lib/*.js' and 'test/*.js' were given,", () => {
-
                 /** @type {Array<{config:(typeof import('../../../lib/cli-engine')).ConfigArray, filePath:string, ignored:boolean}>} */
                 let list;
 
                 beforeEach(() => {
-                    list = [...enumerator.iterateFiles(["lib/*.js", "test/*.js"])];
+                    list = [
+                        ...enumerator.iterateFiles(["lib/*.js", "test/*.js"])
+                    ];
                 });
 
                 it("should list four files.", () => {
@@ -154,7 +184,7 @@ describe("FileEnumerator", () => {
 
                 it("should list 'lib/one.js', 'lib/two.js', 'test/one.js', 'test/two.js'.", () => {
                     assert.deepStrictEqual(
-                        list.map(entry => entry.filePath),
+                        list.map((entry) => entry.filePath),
                         [
                             path.join(root, "lib/one.js"),
                             path.join(root, "lib/two.js"),
@@ -167,18 +197,39 @@ describe("FileEnumerator", () => {
                 it("should use the config '.eslintrc.json' for 'lib/one.js' and 'lib/two.js'.", () => {
                     assert.strictEqual(list[0].config, list[1].config);
                     assert.strictEqual(list[0].config.length, 3);
-                    assert.strictEqual(list[0].config[0].name, "DefaultIgnorePattern");
-                    assert.strictEqual(list[0].config[1].filePath, path.join(root, ".eslintrc.json"));
-                    assert.strictEqual(list[0].config[2].filePath, path.join(root, ".eslintignore"));
+                    assert.strictEqual(
+                        list[0].config[0].name,
+                        "DefaultIgnorePattern"
+                    );
+                    assert.strictEqual(
+                        list[0].config[1].filePath,
+                        path.join(root, ".eslintrc.json")
+                    );
+                    assert.strictEqual(
+                        list[0].config[2].filePath,
+                        path.join(root, ".eslintignore")
+                    );
                 });
 
                 it("should use the merged config of '.eslintrc.json' and 'test/.eslintrc.yml' for 'test/one.js' and 'test/two.js'.", () => {
                     assert.strictEqual(list[2].config, list[3].config);
                     assert.strictEqual(list[2].config.length, 4);
-                    assert.strictEqual(list[2].config[0].name, "DefaultIgnorePattern");
-                    assert.strictEqual(list[2].config[1].filePath, path.join(root, ".eslintrc.json"));
-                    assert.strictEqual(list[2].config[2].filePath, path.join(root, "test/.eslintrc.yml"));
-                    assert.strictEqual(list[2].config[3].filePath, path.join(root, ".eslintignore"));
+                    assert.strictEqual(
+                        list[2].config[0].name,
+                        "DefaultIgnorePattern"
+                    );
+                    assert.strictEqual(
+                        list[2].config[1].filePath,
+                        path.join(root, ".eslintrc.json")
+                    );
+                    assert.strictEqual(
+                        list[2].config[2].filePath,
+                        path.join(root, "test/.eslintrc.yml")
+                    );
+                    assert.strictEqual(
+                        list[2].config[3].filePath,
+                        path.join(root, ".eslintignore")
+                    );
                 });
             });
         });
@@ -232,16 +283,23 @@ describe("FileEnumerator", () => {
                     ];
 
                     // should enter the directory '{lib}/server/src' directly
-                    assert.strictEqual(spy.getCall(0).firstArg, path.join(root, "{lib}/server/src"));
+                    assert.strictEqual(
+                        spy.getCall(0).firstArg,
+                        path.join(root, "{lib}/server/src")
+                    );
                     assert.strictEqual(list.length, 1);
                     assert.strictEqual(list[0].config.length, 2);
-                    assert.strictEqual(list[0].config[0].name, "DefaultIgnorePattern");
-                    assert.strictEqual(list[0].config[1].filePath, getPath("{lib}/server/.eslintrc.json"));
+                    assert.strictEqual(
+                        list[0].config[0].name,
+                        "DefaultIgnorePattern"
+                    );
+                    assert.strictEqual(
+                        list[0].config[1].filePath,
+                        getPath("{lib}/server/.eslintrc.json")
+                    );
                     assert.deepStrictEqual(
-                        list.map(entry => entry.filePath),
-                        [
-                            path.join(root, "{lib}/server/src/two.js")
-                        ]
+                        list.map((entry) => entry.filePath),
+                        [path.join(root, "{lib}/server/src/two.js")]
                     );
 
                     // destroy the spy
@@ -285,8 +343,7 @@ describe("FileEnumerator", () => {
                 );
             }
 
-            before(function() {
-
+            before(function () {
                 /*
                  * GitHub Actions Windows and macOS runners occasionally
                  * exhibit extremely slow filesystem operations, during which
@@ -306,25 +363,43 @@ describe("FileEnumerator", () => {
 
             describe("listFilesToProcess()", () => {
                 it("should return an array with a resolved (absolute) filename", () => {
-                    const patterns = [getFixturePath("glob-util", "one-js-file", "**/*.js")];
+                    const patterns = [
+                        getFixturePath("glob-util", "one-js-file", "**/*.js")
+                    ];
                     const result = listFiles(patterns, {
                         cwd: getFixturePath()
                     });
 
-                    const file1 = getFixturePath("glob-util", "one-js-file", "baz.js");
+                    const file1 = getFixturePath(
+                        "glob-util",
+                        "one-js-file",
+                        "baz.js"
+                    );
 
                     assert.isArray(result);
-                    assert.deepStrictEqual(result, [{ filename: file1, ignored: false }]);
+                    assert.deepStrictEqual(result, [
+                        { filename: file1, ignored: false }
+                    ]);
                 });
 
                 it("should return all files matching a glob pattern", () => {
-                    const patterns = [getFixturePath("glob-util", "two-js-files", "**/*.js")];
+                    const patterns = [
+                        getFixturePath("glob-util", "two-js-files", "**/*.js")
+                    ];
                     const result = listFiles(patterns, {
                         cwd: getFixturePath()
                     });
 
-                    const file1 = getFixturePath("glob-util", "two-js-files", "bar.js");
-                    const file2 = getFixturePath("glob-util", "two-js-files", "foo.js");
+                    const file1 = getFixturePath(
+                        "glob-util",
+                        "two-js-files",
+                        "bar.js"
+                    );
+                    const file2 = getFixturePath(
+                        "glob-util",
+                        "two-js-files",
+                        "foo.js"
+                    );
 
                     assert.strictEqual(result.length, 2);
                     assert.deepStrictEqual(result, [
@@ -342,9 +417,21 @@ describe("FileEnumerator", () => {
                         cwd: getFixturePath()
                     });
 
-                    const file1 = getFixturePath("glob-util", "two-js-files", "bar.js");
-                    const file2 = getFixturePath("glob-util", "two-js-files", "foo.js");
-                    const file3 = getFixturePath("glob-util", "one-js-file", "baz.js");
+                    const file1 = getFixturePath(
+                        "glob-util",
+                        "two-js-files",
+                        "bar.js"
+                    );
+                    const file2 = getFixturePath(
+                        "glob-util",
+                        "two-js-files",
+                        "foo.js"
+                    );
+                    const file3 = getFixturePath(
+                        "glob-util",
+                        "one-js-file",
+                        "baz.js"
+                    );
 
                     assert.strictEqual(result.length, 3);
                     assert.deepStrictEqual(result, [
@@ -355,7 +442,9 @@ describe("FileEnumerator", () => {
                 });
 
                 it("should ignore hidden files for standard glob patterns", () => {
-                    const patterns = [getFixturePath("glob-util", "hidden", "**/*.js")];
+                    const patterns = [
+                        getFixturePath("glob-util", "hidden", "**/*.js")
+                    ];
 
                     assert.throws(() => {
                         listFiles(patterns, {
@@ -365,12 +454,18 @@ describe("FileEnumerator", () => {
                 });
 
                 it("should return hidden files if included in glob pattern", () => {
-                    const patterns = [getFixturePath("glob-util", "hidden", "**/.*.js")];
+                    const patterns = [
+                        getFixturePath("glob-util", "hidden", "**/.*.js")
+                    ];
                     const result = listFiles(patterns, {
                         cwd: getFixturePath()
                     });
 
-                    const file1 = getFixturePath("glob-util", "hidden", ".foo.js");
+                    const file1 = getFixturePath(
+                        "glob-util",
+                        "hidden",
+                        ".foo.js"
+                    );
 
                     assert.strictEqual(result.length, 1);
                     assert.deepStrictEqual(result, [
@@ -390,14 +485,21 @@ describe("FileEnumerator", () => {
                 });
 
                 it("should ignore and warn for default ignored files when passed explicitly", () => {
-                    const filename = getFixturePath("glob-util", "hidden", ".foo.js");
+                    const filename = getFixturePath(
+                        "glob-util",
+                        "hidden",
+                        ".foo.js"
+                    );
                     const patterns = [filename];
                     const result = listFiles(patterns, {
                         cwd: getFixturePath()
                     });
 
                     assert.strictEqual(result.length, 1);
-                    assert.deepStrictEqual(result[0], { filename, ignored: true });
+                    assert.deepStrictEqual(result[0], {
+                        filename,
+                        ignored: true
+                    });
                 });
 
                 it("should ignore default ignored files if not passed explicitly even if ignore is false", () => {
@@ -413,7 +515,11 @@ describe("FileEnumerator", () => {
                 });
 
                 it("should not ignore default ignored files when passed explicitly if ignore is false", () => {
-                    const filename = getFixturePath("glob-util", "hidden", ".foo.js");
+                    const filename = getFixturePath(
+                        "glob-util",
+                        "hidden",
+                        ".foo.js"
+                    );
                     const patterns = [filename];
                     const result = listFiles(patterns, {
                         cwd: getFixturePath(),
@@ -421,11 +527,18 @@ describe("FileEnumerator", () => {
                     });
 
                     assert.strictEqual(result.length, 1);
-                    assert.deepStrictEqual(result[0], { filename, ignored: false });
+                    assert.deepStrictEqual(result[0], {
+                        filename,
+                        ignored: false
+                    });
                 });
 
                 it("should throw an error for a file which does not exist", () => {
-                    const filename = getFixturePath("glob-util", "hidden", "bar.js");
+                    const filename = getFixturePath(
+                        "glob-util",
+                        "hidden",
+                        "bar.js"
+                    );
                     const patterns = [filename];
 
                     assert.throws(() => {
@@ -449,7 +562,14 @@ describe("FileEnumerator", () => {
 
                 it("should throw if only ignored files match a glob", () => {
                     const pattern = getFixturePath("glob-util", "ignored");
-                    const options = { ignore: true, ignorePath: getFixturePath("glob-util", "ignored", ".eslintignore") };
+                    const options = {
+                        ignore: true,
+                        ignorePath: getFixturePath(
+                            "glob-util",
+                            "ignored",
+                            ".eslintignore"
+                        )
+                    };
 
                     assert.throws(() => {
                         listFiles([pattern], options);
@@ -460,21 +580,34 @@ describe("FileEnumerator", () => {
                     const patterns = ["dir-does-not-exist/**/*.js"];
 
                     assert.throws(() => {
-                        listFiles(patterns, { cwd: getFixturePath("ignored-paths") });
+                        listFiles(patterns, {
+                            cwd: getFixturePath("ignored-paths")
+                        });
                     }, `No files matching '${patterns[0]}' were found.`);
                 });
 
                 it("should return an ignored file, if ignore option is turned off", () => {
                     const options = { ignore: false };
-                    const patterns = [getFixturePath("glob-util", "ignored", "**/*.js")];
+                    const patterns = [
+                        getFixturePath("glob-util", "ignored", "**/*.js")
+                    ];
                     const result = listFiles(patterns, options);
 
                     assert.strictEqual(result.length, 1);
                 });
 
                 it("should ignore a file from a glob if it matches a pattern in an ignore file", () => {
-                    const options = { ignore: true, ignorePath: getFixturePath("glob-util", "ignored", ".eslintignore") };
-                    const patterns = [getFixturePath("glob-util", "ignored", "**/*.js")];
+                    const options = {
+                        ignore: true,
+                        ignorePath: getFixturePath(
+                            "glob-util",
+                            "ignored",
+                            ".eslintignore"
+                        )
+                    };
+                    const patterns = [
+                        getFixturePath("glob-util", "ignored", "**/*.js")
+                    ];
 
                     assert.throws(() => {
                         listFiles(patterns, options);
@@ -482,8 +615,14 @@ describe("FileEnumerator", () => {
                 });
 
                 it("should ignore a file from a glob if matching a specified ignore pattern", () => {
-                    const options = { ignore: true, cliConfig: { ignorePatterns: ["foo.js"] }, cwd: getFixturePath() };
-                    const patterns = [getFixturePath("glob-util", "ignored", "**/*.js")];
+                    const options = {
+                        ignore: true,
+                        cliConfig: { ignorePatterns: ["foo.js"] },
+                        cwd: getFixturePath()
+                    };
+                    const patterns = [
+                        getFixturePath("glob-util", "ignored", "**/*.js")
+                    ];
 
                     assert.throws(() => {
                         listFiles(patterns, options);
@@ -499,7 +638,11 @@ describe("FileEnumerator", () => {
                         cwd: path.join(fixtureDir, "..")
                     });
 
-                    const file1 = getFixturePath("glob-util", "one-js-file", "baz.js");
+                    const file1 = getFixturePath(
+                        "glob-util",
+                        "one-js-file",
+                        "baz.js"
+                    );
 
                     assert.isArray(result);
                     assert.deepStrictEqual(result, [
@@ -508,8 +651,16 @@ describe("FileEnumerator", () => {
                 });
 
                 it("should set 'ignored: true' for files that are explicitly specified but ignored", () => {
-                    const options = { ignore: true, cliConfig: { ignorePatterns: ["foo.js"] }, cwd: getFixturePath() };
-                    const filename = getFixturePath("glob-util", "ignored", "foo.js");
+                    const options = {
+                        ignore: true,
+                        cliConfig: { ignorePatterns: ["foo.js"] },
+                        cwd: getFixturePath()
+                    };
+                    const filename = getFixturePath(
+                        "glob-util",
+                        "ignored",
+                        "foo.js"
+                    );
                     const patterns = [filename];
                     const result = listFiles(patterns, options);
 
@@ -524,43 +675,87 @@ describe("FileEnumerator", () => {
                     const glob = getFixturePath("glob-util", "**/*.js");
                     const patterns = [glob];
                     const result = listFiles(patterns, options);
-                    const resultFilenames = result.map(resultObj => resultObj.filename);
+                    const resultFilenames = result.map(
+                        (resultObj) => resultObj.filename
+                    );
 
-                    assert.notInclude(resultFilenames, getFixturePath("glob-util", "node_modules", "dependency.js"));
+                    assert.notInclude(
+                        resultFilenames,
+                        getFixturePath(
+                            "glob-util",
+                            "node_modules",
+                            "dependency.js"
+                        )
+                    );
                 });
 
                 it("should return unignored files from default ignored folders", () => {
-                    const options = { cliConfig: { ignorePatterns: ["!/node_modules/dependency.js"] }, cwd: getFixturePath("glob-util") };
+                    const options = {
+                        cliConfig: {
+                            ignorePatterns: ["!/node_modules/dependency.js"]
+                        },
+                        cwd: getFixturePath("glob-util")
+                    };
                     const glob = getFixturePath("glob-util", "**/*.js");
                     const patterns = [glob];
                     const result = listFiles(patterns, options);
-                    const unignoredFilename = getFixturePath("glob-util", "node_modules", "dependency.js");
+                    const unignoredFilename = getFixturePath(
+                        "glob-util",
+                        "node_modules",
+                        "dependency.js"
+                    );
 
-                    assert.includeDeepMembers(result, [{ filename: unignoredFilename, ignored: false }]);
+                    assert.includeDeepMembers(result, [
+                        { filename: unignoredFilename, ignored: false }
+                    ]);
                 });
 
                 it("should return unignored files from folders unignored in .eslintignore", () => {
-                    const options = { cwd: getFixturePath("glob-util", "unignored"), ignore: true };
-                    const glob = getFixturePath("glob-util", "unignored", "**/*.js");
+                    const options = {
+                        cwd: getFixturePath("glob-util", "unignored"),
+                        ignore: true
+                    };
+                    const glob = getFixturePath(
+                        "glob-util",
+                        "unignored",
+                        "**/*.js"
+                    );
                     const patterns = [glob];
                     const result = listFiles(patterns, options);
 
-                    const filename = getFixturePath("glob-util", "unignored", "dir", "foo.js");
+                    const filename = getFixturePath(
+                        "glob-util",
+                        "unignored",
+                        "dir",
+                        "foo.js"
+                    );
 
                     assert.strictEqual(result.length, 1);
-                    assert.deepStrictEqual(result, [{ filename, ignored: false }]);
+                    assert.deepStrictEqual(result, [
+                        { filename, ignored: false }
+                    ]);
                 });
 
                 it("should return unignored files from folders unignored in .eslintignore for explicitly specified folder", () => {
-                    const options = { cwd: getFixturePath("glob-util", "unignored"), ignore: true };
+                    const options = {
+                        cwd: getFixturePath("glob-util", "unignored"),
+                        ignore: true
+                    };
                     const dir = getFixturePath("glob-util", "unignored", "dir");
                     const patterns = [dir];
                     const result = listFiles(patterns, options);
 
-                    const filename = getFixturePath("glob-util", "unignored", "dir", "foo.js");
+                    const filename = getFixturePath(
+                        "glob-util",
+                        "unignored",
+                        "dir",
+                        "foo.js"
+                    );
 
                     assert.strictEqual(result.length, 1);
-                    assert.deepStrictEqual(result, [{ filename, ignored: false }]);
+                    assert.deepStrictEqual(result, [
+                        { filename, ignored: false }
+                    ]);
                 });
             });
         });
@@ -574,20 +769,33 @@ describe("FileEnumerator", () => {
                 ".eslintrc.json": JSON.stringify({ rules: {} })
             };
             const dir2 = path.join(root, "dir2");
-            const { prepare, cleanup } = createCustomTeardown({ cwd: root, files });
+            const { prepare, cleanup } = createCustomTeardown({
+                cwd: root,
+                files
+            });
 
             beforeEach(async () => {
                 await prepare();
                 fs.mkdirSync(dir2);
-                fs.symlinkSync(path.join(root, "top-level.js"), path.join(dir2, "top.js"), "file");
-                fs.symlinkSync(path.join(root, "dir1"), path.join(dir2, "nested"), "dir");
+                fs.symlinkSync(
+                    path.join(root, "top-level.js"),
+                    path.join(dir2, "top.js"),
+                    "file"
+                );
+                fs.symlinkSync(
+                    path.join(root, "dir1"),
+                    path.join(dir2, "nested"),
+                    "dir"
+                );
             });
 
             afterEach(cleanup);
 
             it("should resolve", () => {
                 const enumerator = new FileEnumerator({ cwd: root });
-                const list = Array.from(enumerator.iterateFiles(["dir2/**/*.js"])).map(({ filePath }) => filePath);
+                const list = Array.from(
+                    enumerator.iterateFiles(["dir2/**/*.js"])
+                ).map(({ filePath }) => filePath);
 
                 assert.deepStrictEqual(list, [
                     path.join(dir2, "nested", "1.js"),
@@ -600,7 +808,9 @@ describe("FileEnumerator", () => {
                 fs.unlinkSync(path.join(root, "top-level.js"));
 
                 const enumerator = new FileEnumerator({ cwd: root });
-                const list = Array.from(enumerator.iterateFiles(["dir2/**/*.js"])).map(({ filePath }) => filePath);
+                const list = Array.from(
+                    enumerator.iterateFiles(["dir2/**/*.js"])
+                ).map(({ filePath }) => filePath);
 
                 assert.deepStrictEqual(list, [
                     path.join(dir2, "nested", "1.js"),
@@ -619,8 +829,10 @@ describe("FileEnumerator", () => {
                 extends: ["eslint:recommended", "eslint:all"]
             })
         };
-        const { prepare, cleanup, getPath } = createCustomTeardown({ cwd: root, files });
-
+        const { prepare, cleanup, getPath } = createCustomTeardown({
+            cwd: root,
+            files
+        });
 
         /** @type {FileEnumerator} */
         let enumerator;

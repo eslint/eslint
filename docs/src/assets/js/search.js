@@ -14,15 +14,17 @@ import algoliasearch from "./algoliasearch.js";
 //-----------------------------------------------------------------------------
 
 // search
-const client = algoliasearch('L633P0C2IR', 'bb6bbd2940351f3afc18844a6b06a6e8');
-const index = client.initIndex('eslint');
+const client = algoliasearch("L633P0C2IR", "bb6bbd2940351f3afc18844a6b06a6e8");
+const index = client.initIndex("eslint");
 
 // page
-const resultsElement = document.querySelector('#search-results');
-const resultsLiveRegion = document.querySelector('#search-results-announcement');
-const searchInput = document.querySelector('#search');
-const searchClearBtn = document.querySelector('#search__clear-btn');
-const poweredByLink = document.querySelector('.search_powered-by-wrapper');
+const resultsElement = document.querySelector("#search-results");
+const resultsLiveRegion = document.querySelector(
+    "#search-results-announcement"
+);
+const searchInput = document.querySelector("#search");
+const searchClearBtn = document.querySelector("#search__clear-btn");
+const poweredByLink = document.querySelector(".search_powered-by-wrapper");
 let activeIndex = -1;
 let searchQuery;
 
@@ -36,9 +38,11 @@ let searchQuery;
  * @returns {Promise<Array<object>>} The search results.
  */
 function fetchSearchResults(query) {
-    return index.search(query, {
-        facetFilters: ["tags:docs"]
-    }).then(({ hits }) => hits);
+    return index
+        .search(query, {
+            facetFilters: ["tags:docs"]
+        })
+        .then(({ hits }) => hits);
 }
 
 /**
@@ -50,7 +54,7 @@ function fetchSearchResults(query) {
 function clearSearchResults(removeEventListener = false) {
     resultsElement.innerHTML = "";
     if (removeEventListener && document.clickEventAdded) {
-        document.removeEventListener('click', handleDocumentClick);
+        document.removeEventListener("click", handleDocumentClick);
         document.clickEventAdded = false;
     }
 }
@@ -63,7 +67,7 @@ function clearSearchResults(removeEventListener = false) {
 function showNoResults() {
     resultsLiveRegion.innerHTML = "No results found.";
     resultsElement.innerHTML = "No results found.";
-    resultsElement.setAttribute('data-results', 'false');
+    resultsElement.setAttribute("data-results", "false");
 }
 
 /**
@@ -81,35 +85,34 @@ function clearNoResults() {
  * @returns {void}
  */
 function displaySearchResults(results) {
-
     clearSearchResults();
 
     if (results.length) {
-
         const list = document.createElement("ul");
-        list.setAttribute('role', 'list');
-        list.classList.add('search-results__list');
+        list.setAttribute("role", "list");
+        list.classList.add("search-results__list");
         resultsElement.append(list);
-        resultsElement.setAttribute('data-results', 'true');
+        resultsElement.setAttribute("data-results", "true");
         activeIndex = -1;
 
         for (const result of results) {
-            const listItem = document.createElement('li');
-            listItem.classList.add('search-results__item');
-            const maxLvl = Math.max(...Object.keys(result._highlightResult.hierarchy).map(k => Number(k.substring(3))));
+            const listItem = document.createElement("li");
+            listItem.classList.add("search-results__item");
+            const maxLvl = Math.max(
+                ...Object.keys(result._highlightResult.hierarchy).map((k) =>
+                    Number(k.substring(3))
+                )
+            );
             listItem.innerHTML = `
                 <h2 class="search-results__item__title"><a href="${result.url}">${result.hierarchy.lvl0}</a></h2>
-                <p class="search-results__item__context">${typeof result._highlightResult.content !== 'undefined' ? result._highlightResult.content.value : result._highlightResult.hierarchy[`lvl${maxLvl}`].value}</p>
+                <p class="search-results__item__context">${typeof result._highlightResult.content !== "undefined" ? result._highlightResult.content.value : result._highlightResult.hierarchy[`lvl${maxLvl}`].value}</p>
             `.trim();
             list.append(listItem);
         }
-
     } else {
         showNoResults();
     }
-
 }
-
 
 // Check if an element is currently scrollable
 function isScrollable(element) {
@@ -122,15 +125,13 @@ function maintainScrollVisibility(activeElement, scrollParent) {
     const { offsetHeight: parentOffsetHeight, scrollTop } = scrollParent;
 
     const isAbove = offsetTop < scrollTop;
-    const isBelow = (offsetTop + offsetHeight) > (scrollTop + parentOffsetHeight);
+    const isBelow = offsetTop + offsetHeight > scrollTop + parentOffsetHeight;
 
     if (isAbove) {
         scrollParent.scrollTo(0, offsetTop);
-    }
-    else if (isBelow) {
+    } else if (isBelow) {
         scrollParent.scrollTo(0, offsetTop - parentOffsetHeight + offsetHeight);
     }
-
 }
 
 /**
@@ -144,7 +145,7 @@ function debounce(callback, delay) {
     return (...args) => {
         if (timer) clearTimeout(timer);
         timer = setTimeout(() => callback.apply(this, args), delay);
-    }
+    };
 }
 
 /**
@@ -158,9 +159,10 @@ function debounce(callback, delay) {
 const debouncedFetchSearchResults = debounce((query) => {
     fetchSearchResults(query)
         .then(displaySearchResults)
-        .catch(() => { clearSearchResults(true) });
+        .catch(() => {
+            clearSearchResults(true);
+        });
 }, 300);
-
 
 /**
  * Handles the document click event to clear search results if the user clicks outside of the search input or results element.
@@ -171,8 +173,7 @@ const handleDocumentClick = (e) => {
     if (e.target !== resultsElement && e.target !== searchInput) {
         clearSearchResults(true);
     }
-}
-
+};
 
 //-----------------------------------------------------------------------------
 // Event Handlers
@@ -180,64 +181,63 @@ const handleDocumentClick = (e) => {
 
 // listen for input changes
 if (searchInput)
-    searchInput.addEventListener('keyup', function (e) {
+    searchInput.addEventListener("keyup", function (e) {
         const query = searchInput.value;
 
         if (query === searchQuery) return;
 
-        if (query.length) searchClearBtn.removeAttribute('hidden');
-        else searchClearBtn.setAttribute('hidden', '');
+        if (query.length) searchClearBtn.removeAttribute("hidden");
+        else searchClearBtn.setAttribute("hidden", "");
 
         if (query.length > 2) {
             debouncedFetchSearchResults(query);
             if (!document.clickEventAdded) {
-                document.addEventListener('click', handleDocumentClick);
+                document.addEventListener("click", handleDocumentClick);
                 document.clickEventAdded = true;
             }
         } else {
             clearSearchResults(true);
         }
 
-        searchQuery = query
-
+        searchQuery = query;
     });
 
-
 if (searchClearBtn)
-    searchClearBtn.addEventListener('click', function (e) {
-        searchInput.value = '';
+    searchClearBtn.addEventListener("click", function (e) {
+        searchInput.value = "";
         searchInput.focus();
         clearSearchResults(true);
-        searchClearBtn.setAttribute('hidden', '');
+        searchClearBtn.setAttribute("hidden", "");
     });
 
 if (poweredByLink) {
-    poweredByLink.addEventListener('focus', function () {
-       clearSearchResults();
+    poweredByLink.addEventListener("focus", function () {
+        clearSearchResults();
     });
 }
 
-document.addEventListener('keydown', function (e) {
-
-    const searchResults = Array.from(document.querySelectorAll('.search-results__item'));
+document.addEventListener("keydown", function (e) {
+    const searchResults = Array.from(
+        document.querySelectorAll(".search-results__item")
+    );
 
     if (e.key === "Escape") {
         e.preventDefault();
         if (searchResults.length) {
             clearSearchResults(true);
             searchInput.focus();
-        } else if (
-            document.activeElement === searchInput
-        ) {
+        } else if (document.activeElement === searchInput) {
             clearNoResults();
             searchInput.blur();
         }
     }
 
-    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         e.preventDefault();
         searchInput.focus();
-        document.querySelector('.search').scrollIntoView({ behavior: "smooth", block: "start" });
+        document
+            .querySelector(".search")
+            .scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
     if (!searchResults.length) return;
@@ -245,17 +245,21 @@ document.addEventListener('keydown', function (e) {
     switch (e.key) {
         case "ArrowUp":
             e.preventDefault();
-            activeIndex = activeIndex - 1 < 0 ? searchResults.length - 1 : activeIndex - 1;
+            activeIndex =
+                activeIndex - 1 < 0
+                    ? searchResults.length - 1
+                    : activeIndex - 1;
             break;
         case "ArrowDown":
             e.preventDefault();
-            activeIndex = activeIndex + 1 < searchResults.length ? activeIndex + 1 : 0;
+            activeIndex =
+                activeIndex + 1 < searchResults.length ? activeIndex + 1 : 0;
             break;
     }
 
     if (activeIndex === -1) return;
     const activeSearchResult = searchResults[activeIndex];
-    activeSearchResult.querySelector('a').focus();
+    activeSearchResult.querySelector("a").focus();
     if (isScrollable(resultsElement)) {
         maintainScrollVisibility(activeSearchResult, resultsElement);
     }

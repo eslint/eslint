@@ -62,20 +62,24 @@ ruleTester.run("no-restricted-globals", rule, {
         {
             code: "foo",
             options: ["foo"],
-            errors: [{
-                messageId: "defaultMessage",
-                data: { name: "foo" },
-                type: "Identifier"
-            }]
+            errors: [
+                {
+                    messageId: "defaultMessage",
+                    data: { name: "foo" },
+                    type: "Identifier"
+                }
+            ]
         },
         {
             code: "function fn() { foo; }",
             options: ["foo"],
-            errors: [{
-                messageId: "defaultMessage",
-                data: { name: "foo" },
-                type: "Identifier"
-            }]
+            errors: [
+                {
+                    messageId: "defaultMessage",
+                    data: { name: "foo" },
+                    type: "Identifier"
+                }
+            ]
         },
         {
             code: "function fn() { foo; }",
@@ -83,21 +87,25 @@ ruleTester.run("no-restricted-globals", rule, {
             languageOptions: {
                 globals: { foo: false }
             },
-            errors: [{
-                messageId: "defaultMessage",
-                data: { name: "foo" },
-                type: "Identifier"
-            }]
+            errors: [
+                {
+                    messageId: "defaultMessage",
+                    data: { name: "foo" },
+                    type: "Identifier"
+                }
+            ]
         },
         {
             code: "event",
             options: ["foo", "event"],
             languageOptions: { globals: globals.browser },
-            errors: [{
-                messageId: "defaultMessage",
-                data: { name: "event" },
-                type: "Identifier"
-            }]
+            errors: [
+                {
+                    messageId: "defaultMessage",
+                    data: { name: "event" },
+                    type: "Identifier"
+                }
+            ]
         },
         {
             code: "foo",
@@ -105,47 +113,57 @@ ruleTester.run("no-restricted-globals", rule, {
             languageOptions: {
                 globals: { foo: false }
             },
-            errors: [{
-                messageId: "defaultMessage",
-                data: { name: "foo" },
-                type: "Identifier"
-            }]
+            errors: [
+                {
+                    messageId: "defaultMessage",
+                    data: { name: "foo" },
+                    type: "Identifier"
+                }
+            ]
         },
         {
             code: "foo()",
             options: ["foo"],
-            errors: [{
-                messageId: "defaultMessage",
-                data: { name: "foo" },
-                type: "Identifier"
-            }]
+            errors: [
+                {
+                    messageId: "defaultMessage",
+                    data: { name: "foo" },
+                    type: "Identifier"
+                }
+            ]
         },
         {
             code: "foo.bar()",
             options: ["foo"],
-            errors: [{
-                messageId: "defaultMessage",
-                data: { name: "foo" },
-                type: "Identifier"
-            }]
+            errors: [
+                {
+                    messageId: "defaultMessage",
+                    data: { name: "foo" },
+                    type: "Identifier"
+                }
+            ]
         },
         {
             code: "foo",
             options: [{ name: "foo" }],
-            errors: [{
-                messageId: "defaultMessage",
-                data: { name: "foo" },
-                type: "Identifier"
-            }]
+            errors: [
+                {
+                    messageId: "defaultMessage",
+                    data: { name: "foo" },
+                    type: "Identifier"
+                }
+            ]
         },
         {
             code: "function fn() { foo; }",
             options: [{ name: "foo" }],
-            errors: [{
-                messageId: "defaultMessage",
-                data: { name: "foo" },
-                type: "Identifier"
-            }]
+            errors: [
+                {
+                    messageId: "defaultMessage",
+                    data: { name: "foo" },
+                    type: "Identifier"
+                }
+            ]
         },
         {
             code: "function fn() { foo; }",
@@ -153,21 +171,25 @@ ruleTester.run("no-restricted-globals", rule, {
             languageOptions: {
                 globals: { foo: false }
             },
-            errors: [{
-                messageId: "defaultMessage",
-                data: { name: "foo" },
-                type: "Identifier"
-            }]
+            errors: [
+                {
+                    messageId: "defaultMessage",
+                    data: { name: "foo" },
+                    type: "Identifier"
+                }
+            ]
         },
         {
             code: "event",
             options: ["foo", { name: "event" }],
             languageOptions: { globals: globals.browser },
-            errors: [{
-                messageId: "defaultMessage",
-                data: { name: "event" },
-                type: "Identifier"
-            }]
+            errors: [
+                {
+                    messageId: "defaultMessage",
+                    data: { name: "event" },
+                    type: "Identifier"
+                }
+            ]
         },
         {
             code: "foo",
@@ -175,47 +197,57 @@ ruleTester.run("no-restricted-globals", rule, {
             languageOptions: {
                 globals: { foo: false }
             },
-            errors: [{
-                messageId: "defaultMessage",
-                data: { name: "foo" },
-                type: "Identifier"
-            }]
+            errors: [
+                {
+                    messageId: "defaultMessage",
+                    data: { name: "foo" },
+                    type: "Identifier"
+                }
+            ]
         },
         {
             code: "foo()",
             options: [{ name: "foo" }],
-            errors: [{
-                messageId: "defaultMessage",
-                data: { name: "foo" },
-                type: "Identifier"
-            }]
+            errors: [
+                {
+                    messageId: "defaultMessage",
+                    data: { name: "foo" },
+                    type: "Identifier"
+                }
+            ]
         },
         {
             code: "foo.bar()",
             options: [{ name: "foo" }],
-            errors: [{
-                messageId: "defaultMessage",
-                data: { name: "foo" },
-                type: "Identifier"
-            }]
+            errors: [
+                {
+                    messageId: "defaultMessage",
+                    data: { name: "foo" },
+                    type: "Identifier"
+                }
+            ]
         },
         {
             code: "foo",
             options: [{ name: "foo", message: customMessage }],
-            errors: [{
-                messageId: "customMessage",
-                data: { name: "foo", customMessage },
-                type: "Identifier"
-            }]
+            errors: [
+                {
+                    messageId: "customMessage",
+                    data: { name: "foo", customMessage },
+                    type: "Identifier"
+                }
+            ]
         },
         {
             code: "function fn() { foo; }",
             options: [{ name: "foo", message: customMessage }],
-            errors: [{
-                messageId: "customMessage",
-                data: { name: "foo", customMessage },
-                type: "Identifier"
-            }]
+            errors: [
+                {
+                    messageId: "customMessage",
+                    data: { name: "foo", customMessage },
+                    type: "Identifier"
+                }
+            ]
         },
         {
             code: "function fn() { foo; }",
@@ -223,21 +255,31 @@ ruleTester.run("no-restricted-globals", rule, {
             languageOptions: {
                 globals: { foo: false }
             },
-            errors: [{
-                messageId: "customMessage",
-                data: { name: "foo", customMessage },
-                type: "Identifier"
-            }]
+            errors: [
+                {
+                    messageId: "customMessage",
+                    data: { name: "foo", customMessage },
+                    type: "Identifier"
+                }
+            ]
         },
         {
             code: "event",
-            options: ["foo", { name: "event", message: "Use local event parameter." }],
+            options: [
+                "foo",
+                { name: "event", message: "Use local event parameter." }
+            ],
             languageOptions: { globals: globals.browser },
-            errors: [{
-                messageId: "customMessage",
-                data: { name: "event", customMessage: "Use local event parameter." },
-                type: "Identifier"
-            }]
+            errors: [
+                {
+                    messageId: "customMessage",
+                    data: {
+                        name: "event",
+                        customMessage: "Use local event parameter."
+                    },
+                    type: "Identifier"
+                }
+            ]
         },
         {
             code: "foo",
@@ -245,39 +287,47 @@ ruleTester.run("no-restricted-globals", rule, {
             languageOptions: {
                 globals: { foo: false }
             },
-            errors: [{
-                messageId: "customMessage",
-                data: { name: "foo", customMessage },
-                type: "Identifier"
-            }]
+            errors: [
+                {
+                    messageId: "customMessage",
+                    data: { name: "foo", customMessage },
+                    type: "Identifier"
+                }
+            ]
         },
         {
             code: "foo()",
             options: [{ name: "foo", message: customMessage }],
-            errors: [{
-                messageId: "customMessage",
-                data: { name: "foo", customMessage },
-                type: "Identifier"
-            }]
+            errors: [
+                {
+                    messageId: "customMessage",
+                    data: { name: "foo", customMessage },
+                    type: "Identifier"
+                }
+            ]
         },
         {
             code: "foo.bar()",
             options: [{ name: "foo", message: customMessage }],
-            errors: [{
-                messageId: "customMessage",
-                data: { name: "foo", customMessage },
-                type: "Identifier"
-            }]
+            errors: [
+                {
+                    messageId: "customMessage",
+                    data: { name: "foo", customMessage },
+                    type: "Identifier"
+                }
+            ]
         },
         {
             code: "var foo = obj => hasOwnProperty(obj, 'name');",
             options: ["hasOwnProperty"],
             languageOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "defaultMessage",
-                data: { name: "hasOwnProperty" },
-                type: "Identifier"
-            }]
+            errors: [
+                {
+                    messageId: "defaultMessage",
+                    data: { name: "hasOwnProperty" },
+                    type: "Identifier"
+                }
+            ]
         }
     ]
 });

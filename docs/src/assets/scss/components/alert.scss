@@ -3,11 +3,11 @@
     display: grid;
     grid-template-columns: auto 1fr;
     padding: 1rem;
-    gap: .75rem;
+    gap: 0.75rem;
     margin-bottom: 1.5rem;
     margin-block-end: 1.5rem;
     align-items: start;
-    font-size: .875rem;
+    font-size: 0.875rem;
     border: 1px solid currentColor;
     border-radius: var(--border-radius);
 
@@ -41,8 +41,8 @@
 .alert__type {
     display: block;
     font-weight: 500;
-    margin-bottom: .25rem;
-    margin-block-end: .25rem;
+    margin-bottom: 0.25rem;
+    margin-block-end: 0.25rem;
 
     .alert--warning & {
         color: var(--alert-warning-heading-color);
@@ -60,8 +60,8 @@
 .alert__learn-more {
     display: block;
     font-weight: 500;
-    margin-top: .75rem;
-    margin-block-start: .75rem;
+    margin-top: 0.75rem;
+    margin-block-start: 0.75rem;
 
     .alert--warning & {
         color: var(--color-rose-700);

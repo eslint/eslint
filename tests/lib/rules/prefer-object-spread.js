@@ -189,8 +189,7 @@ ruleTester.run("prefer-object-spread", rule, {
         },
 
         {
-            code:
-                "Object.assign({ foo: 'bar' }, Object.assign({ bar: 'foo' }, baz))",
+            code: "Object.assign({ foo: 'bar' }, Object.assign({ bar: 'foo' }, baz))",
             output: "({foo: 'bar', ...Object.assign({ bar: 'foo' }, baz)})",
             errors: [
                 {
@@ -208,8 +207,7 @@ ruleTester.run("prefer-object-spread", rule, {
             ]
         },
         {
-            code:
-                "Object.assign({ foo: 'bar' }, Object.assign({ bar: 'foo' }, Object.assign({}, { superNested: 'butwhy' })))",
+            code: "Object.assign({ foo: 'bar' }, Object.assign({ bar: 'foo' }, Object.assign({}, { superNested: 'butwhy' })))",
             output: "({foo: 'bar', ...Object.assign({ bar: 'foo' }, Object.assign({}, { superNested: 'butwhy' }))})",
             errors: [
                 {
@@ -377,7 +375,6 @@ ruleTester.run("prefer-object-spread", rule, {
             ]
         },
 
-
         {
             code: `const test = Object.assign({ ...bar }, {
                 /**
@@ -400,7 +397,6 @@ ruleTester.run("prefer-object-spread", rule, {
                 }
             ]
         },
-
 
         /*
          * This is a special case where Object.assign is called with a single argument

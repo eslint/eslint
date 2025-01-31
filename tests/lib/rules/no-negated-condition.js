@@ -18,7 +18,6 @@ const rule = require("../../../lib/rules/no-negated-condition"),
 const ruleTester = new RuleTester();
 
 ruleTester.run("no-negated-condition", rule, {
-
     // Examples of code that should not trigger the rule
     valid: [
         "if (a) {}",
@@ -40,45 +39,57 @@ ruleTester.run("no-negated-condition", rule, {
     invalid: [
         {
             code: "if (!a) {;} else {;}",
-            errors: [{
-                messageId: "unexpectedNegated",
-                type: "IfStatement"
-            }]
+            errors: [
+                {
+                    messageId: "unexpectedNegated",
+                    type: "IfStatement"
+                }
+            ]
         },
         {
             code: "if (a != b) {;} else {;}",
-            errors: [{
-                messageId: "unexpectedNegated",
-                type: "IfStatement"
-            }]
+            errors: [
+                {
+                    messageId: "unexpectedNegated",
+                    type: "IfStatement"
+                }
+            ]
         },
         {
             code: "if (a !== b) {;} else {;}",
-            errors: [{
-                messageId: "unexpectedNegated",
-                type: "IfStatement"
-            }]
+            errors: [
+                {
+                    messageId: "unexpectedNegated",
+                    type: "IfStatement"
+                }
+            ]
         },
         {
             code: "!a ? b : c",
-            errors: [{
-                messageId: "unexpectedNegated",
-                type: "ConditionalExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unexpectedNegated",
+                    type: "ConditionalExpression"
+                }
+            ]
         },
         {
             code: "a != b ? c : d",
-            errors: [{
-                messageId: "unexpectedNegated",
-                type: "ConditionalExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unexpectedNegated",
+                    type: "ConditionalExpression"
+                }
+            ]
         },
         {
             code: "a !== b ? c : d",
-            errors: [{
-                messageId: "unexpectedNegated",
-                type: "ConditionalExpression"
-            }]
+            errors: [
+                {
+                    messageId: "unexpectedNegated",
+                    type: "ConditionalExpression"
+                }
+            ]
         }
     ]
 });

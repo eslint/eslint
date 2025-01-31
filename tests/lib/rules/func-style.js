@@ -103,11 +103,17 @@ ruleTester.run("func-style", rule, {
         },
         {
             code: "export function foo() {};",
-            options: ["expression", { overrides: { namedExports: "declaration" } }]
+            options: [
+                "expression",
+                { overrides: { namedExports: "declaration" } }
+            ]
         },
         {
             code: "export function foo() {};",
-            options: ["declaration", { overrides: { namedExports: "declaration" } }]
+            options: [
+                "declaration",
+                { overrides: { namedExports: "declaration" } }
+            ]
         },
         {
             code: "export function foo() {};",
@@ -123,11 +129,17 @@ ruleTester.run("func-style", rule, {
         },
         {
             code: "export var foo = function(){};",
-            options: ["declaration", { overrides: { namedExports: "expression" } }]
+            options: [
+                "declaration",
+                { overrides: { namedExports: "expression" } }
+            ]
         },
         {
             code: "export var foo = function(){};",
-            options: ["expression", { overrides: { namedExports: "expression" } }]
+            options: [
+                "expression",
+                { overrides: { namedExports: "expression" } }
+            ]
         },
         {
             code: "export var foo = function(){};",
@@ -139,11 +151,17 @@ ruleTester.run("func-style", rule, {
         },
         {
             code: "export var foo = () => {};",
-            options: ["expression", { overrides: { namedExports: "expression" } }]
+            options: [
+                "expression",
+                { overrides: { namedExports: "expression" } }
+            ]
         },
         {
             code: "export var foo = () => {};",
-            options: ["declaration", { overrides: { namedExports: "expression" } }]
+            options: [
+                "declaration",
+                { overrides: { namedExports: "expression" } }
+            ]
         },
         {
             code: "export var foo = () => {};",
@@ -155,15 +173,33 @@ ruleTester.run("func-style", rule, {
         },
         {
             code: "export var foo = () => {};",
-            options: ["declaration", { allowArrowFunctions: true, overrides: { namedExports: "expression" } }]
+            options: [
+                "declaration",
+                {
+                    allowArrowFunctions: true,
+                    overrides: { namedExports: "expression" }
+                }
+            ]
         },
         {
             code: "export var foo = () => {};",
-            options: ["expression", { allowArrowFunctions: true, overrides: { namedExports: "expression" } }]
+            options: [
+                "expression",
+                {
+                    allowArrowFunctions: true,
+                    overrides: { namedExports: "expression" }
+                }
+            ]
         },
         {
             code: "export var foo = () => {};",
-            options: ["declaration", { allowArrowFunctions: true, overrides: { namedExports: "ignore" } }]
+            options: [
+                "declaration",
+                {
+                    allowArrowFunctions: true,
+                    overrides: { namedExports: "ignore" }
+                }
+            ]
         }
     ],
 
@@ -233,7 +269,10 @@ ruleTester.run("func-style", rule, {
         },
         {
             code: "export function foo() {};",
-            options: ["declaration", { overrides: { namedExports: "expression" } }],
+            options: [
+                "declaration",
+                { overrides: { namedExports: "expression" } }
+            ],
             errors: [
                 {
                     messageId: "expression",
@@ -243,7 +282,10 @@ ruleTester.run("func-style", rule, {
         },
         {
             code: "export function foo() {};",
-            options: ["expression", { overrides: { namedExports: "expression" } }],
+            options: [
+                "expression",
+                { overrides: { namedExports: "expression" } }
+            ],
             errors: [
                 {
                     messageId: "expression",
@@ -264,7 +306,10 @@ ruleTester.run("func-style", rule, {
         },
         {
             code: "export var foo = function(){};",
-            options: ["expression", { overrides: { namedExports: "declaration" } }],
+            options: [
+                "expression",
+                { overrides: { namedExports: "declaration" } }
+            ],
             languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -275,7 +320,10 @@ ruleTester.run("func-style", rule, {
         },
         {
             code: "export var foo = function(){};",
-            options: ["declaration", { overrides: { namedExports: "declaration" } }],
+            options: [
+                "declaration",
+                { overrides: { namedExports: "declaration" } }
+            ],
             languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -297,7 +345,10 @@ ruleTester.run("func-style", rule, {
         },
         {
             code: "export var b = () => {};",
-            options: ["expression", { overrides: { namedExports: "declaration" } }],
+            options: [
+                "expression",
+                { overrides: { namedExports: "declaration" } }
+            ],
             languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -308,7 +359,10 @@ ruleTester.run("func-style", rule, {
         },
         {
             code: "export var c = () => {};",
-            options: ["declaration", { overrides: { namedExports: "declaration" } }],
+            options: [
+                "declaration",
+                { overrides: { namedExports: "declaration" } }
+            ],
             languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -319,7 +373,10 @@ ruleTester.run("func-style", rule, {
         },
         {
             code: "function foo() {};",
-            options: ["expression", { overrides: { namedExports: "declaration" } }],
+            options: [
+                "expression",
+                { overrides: { namedExports: "declaration" } }
+            ],
             languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -330,7 +387,10 @@ ruleTester.run("func-style", rule, {
         },
         {
             code: "var foo = function() {};",
-            options: ["declaration", { overrides: { namedExports: "expression" } }],
+            options: [
+                "declaration",
+                { overrides: { namedExports: "expression" } }
+            ],
             languageOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -341,7 +401,10 @@ ruleTester.run("func-style", rule, {
         },
         {
             code: "var foo = () => {};",
-            options: ["declaration", { overrides: { namedExports: "expression" } }],
+            options: [
+                "declaration",
+                { overrides: { namedExports: "expression" } }
+            ],
             languageOptions: { ecmaVersion: 6 },
             errors: [
                 {

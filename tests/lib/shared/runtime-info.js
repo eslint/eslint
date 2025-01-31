@@ -32,9 +32,8 @@ function setupSpawnSyncStubReturnVals(stub, returnVals) {
     let stubChain = stub;
 
     for (const [i, val] of returnVals.entries()) {
-        const returnVal = val instanceof Error
-            ? { error: val }
-            : { stdout: val };
+        const returnVal =
+            val instanceof Error ? { error: val } : { stdout: val };
 
         stubChain = stubChain.onCall(i).returns(returnVal);
     }
@@ -46,8 +45,10 @@ function setupSpawnSyncStubReturnVals(stub, returnVals) {
 // Tests
 //------------------------------------------------------------------------------
 
-const LOCAL_ESLINT_BIN_PATH = "/Users/username/code/project/node_modules/eslint/bin/eslint.js";
-const GLOBAL_ESLINT_BIN_PATH = "/usr/local/bin/npm/node_modules/eslint/bin/eslint.js";
+const LOCAL_ESLINT_BIN_PATH =
+    "/Users/username/code/project/node_modules/eslint/bin/eslint.js";
+const GLOBAL_ESLINT_BIN_PATH =
+    "/usr/local/bin/npm/node_modules/eslint/bin/eslint.js";
 const NPM_BIN_PATH = "/usr/local/bin/npm";
 
 describe("RuntimeInfo", () => {
@@ -103,7 +104,6 @@ describe("RuntimeInfo", () => {
             os.release = originalOsRelease;
         });
 
-
         it("should return a string containing environment information when running local installation", () => {
             setupSpawnSyncStubReturnVals(spawnSyncStub, spawnSyncStubArgs);
 
@@ -140,12 +140,16 @@ describe("RuntimeInfo", () => {
         });
 
         it("should return a string containing environment information when not installed locally", () => {
-            spawnSyncStubArgs.splice(2, 2, unIndent`
+            spawnSyncStubArgs.splice(
+                2,
+                2,
+                unIndent`
                 {
                     "name": "project",
                     "version": "1.0.0"
                 }
-            `);
+            `
+            );
             spawnSyncStubArgs.push(NPM_BIN_PATH);
             setupSpawnSyncStubReturnVals(spawnSyncStub, spawnSyncStubArgs);
             process.argv[1] = GLOBAL_ESLINT_BIN_PATH;
@@ -189,7 +193,10 @@ describe("RuntimeInfo", () => {
             setupSpawnSyncStubReturnVals(spawnSyncStub, spawnSyncStubArgs);
 
             assert.throws(RuntimeInfo.environment, expectedErr);
-            assert.strictEqual(logErrorStub.args[0][0], "Error finding npm version running the command `npm --version`");
+            assert.strictEqual(
+                logErrorStub.args[0][0],
+                "Error finding npm version running the command `npm --version`"
+            );
         });
 
         it("log and throw an error when npm binary path can not be found", () => {
@@ -199,29 +206,47 @@ describe("RuntimeInfo", () => {
             setupSpawnSyncStubReturnVals(spawnSyncStub, spawnSyncStubArgs);
 
             assert.throws(RuntimeInfo.environment, expectedErr);
-            assert.strictEqual(logErrorStub.args[0][0], "Error finding npm binary path when running command `npm bin -g`");
+            assert.strictEqual(
+                logErrorStub.args[0][0],
+                "Error finding npm binary path when running command `npm bin -g`"
+            );
         });
 
         it("log and throw an error when checking for local ESLint version when returned output of command is malformed", () => {
             spawnSyncStubArgs[2] = "This is not JSON";
             setupSpawnSyncStubReturnVals(spawnSyncStub, spawnSyncStubArgs);
 
-            assert.throws(RuntimeInfo.environment, /^Unexpected token .*T.* JSON/u);
-            assert.strictEqual(logErrorStub.args[0][0], "Error finding eslint version running the command `npm ls --depth=0 --json eslint`");
+            assert.throws(
+                RuntimeInfo.environment,
+                /^Unexpected token .*T.* JSON/u
+            );
+            assert.strictEqual(
+                logErrorStub.args[0][0],
+                "Error finding eslint version running the command `npm ls --depth=0 --json eslint`"
+            );
         });
 
         it("log and throw an error when checking for global ESLint version when returned output of command is malformed", () => {
             spawnSyncStubArgs[4] = "This is not JSON";
             setupSpawnSyncStubReturnVals(spawnSyncStub, spawnSyncStubArgs);
 
-            assert.throws(RuntimeInfo.environment, /^Unexpected token .*T.* JSON/u);
-            assert.strictEqual(logErrorStub.args[0][0], "Error finding eslint version running the command `npm ls --depth=0 --json eslint -g`");
+            assert.throws(
+                RuntimeInfo.environment,
+                /^Unexpected token .*T.* JSON/u
+            );
+            assert.strictEqual(
+                logErrorStub.args[0][0],
+                "Error finding eslint version running the command `npm ls --depth=0 --json eslint -g`"
+            );
         });
     });
 
     describe("version()", () => {
         it("should return the version of the package defined in package.json", () => {
-            assert.strictEqual(RuntimeInfo.version(), `v${packageJson.version}`);
+            assert.strictEqual(
+                RuntimeInfo.version(),
+                `v${packageJson.version}`
+            );
         });
     });
 });

@@ -15,7 +15,9 @@ const RuleTester = require("../../../lib/rule-tester/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2022, sourceType: "script" } });
+const ruleTester = new RuleTester({
+    languageOptions: { ecmaVersion: 2022, sourceType: "script" }
+});
 
 const VARIABLE_ERROR = {
     messageId: "nonAtomicUpdate",
@@ -42,7 +44,6 @@ const PRIVATE_PROPERTY_ERROR = {
 };
 
 ruleTester.run("require-atomic-updates", rule, {
-
     valid: [
         "let foo; async function x() { foo += bar; }",
         "let foo; async function x() { foo = foo + bar; }",
@@ -59,7 +60,6 @@ ruleTester.run("require-atomic-updates", rule, {
         "async function x() { let foo; bar(() => { let foo; blah(foo); }); foo += await result; }",
         "let foo; async function x() { foo = foo + 1; await bar; }",
         "async function x() { foo += await bar; }",
-
 
         /*
          * Ensure rule doesn't take exponential time in the number of branches
@@ -365,7 +365,10 @@ ruleTester.run("require-atomic-updates", rule, {
                     }
               };
             `,
-            languageOptions: { sourceType: "commonjs", globals: { process: "readonly" } },
+            languageOptions: {
+                sourceType: "commonjs",
+                globals: { process: "readonly" }
+            },
             errors: [
                 {
                     messageId: "nonAtomicObjectUpdate",
@@ -413,7 +416,6 @@ ruleTester.run("require-atomic-updates", rule, {
             `,
             options: [{}],
             errors: [STATIC_PROPERTY_ERROR]
-
         },
         {
             code: `
@@ -436,7 +438,6 @@ ruleTester.run("require-atomic-updates", rule, {
             `,
             options: [{ allowProperties: false }],
             errors: [STATIC_PROPERTY_ERROR]
-
         },
         {
             code: `
@@ -460,7 +461,6 @@ ruleTester.run("require-atomic-updates", rule, {
             `,
             options: [{ allowProperties: true }],
             errors: [VARIABLE_ERROR]
-
         },
         {
             code: `

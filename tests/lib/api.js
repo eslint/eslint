@@ -18,7 +18,6 @@ const assert = require("chai").assert,
 //-----------------------------------------------------------------------------
 
 describe("api", () => {
-
     it("should have ESLint exposed", () => {
         assert.isFunction(api.ESLint);
     });
@@ -44,7 +43,6 @@ describe("api", () => {
     });
 
     describe("loadESLint", () => {
-
         afterEach(() => {
             delete process.env.ESLINT_USE_FLAT_CONFIG;
         });
@@ -58,11 +56,17 @@ describe("api", () => {
         });
 
         it("should return ESLint when useFlatConfig is true", async () => {
-            assert.strictEqual(await api.loadESLint({ useFlatConfig: true }), api.ESLint);
+            assert.strictEqual(
+                await api.loadESLint({ useFlatConfig: true }),
+                api.ESLint
+            );
         });
 
         it("should return LegacyESLint when useFlatConfig is false", async () => {
-            assert.strictEqual(await api.loadESLint({ useFlatConfig: false }), LegacyESLint);
+            assert.strictEqual(
+                await api.loadESLint({ useFlatConfig: false }),
+                LegacyESLint
+            );
         });
 
         it("should return ESLint when useFlatConfig is not provided", async () => {
@@ -79,5 +83,4 @@ describe("api", () => {
             assert.strictEqual(await api.loadESLint(), api.ESLint);
         });
     });
-
 });

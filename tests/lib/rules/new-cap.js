@@ -55,23 +55,59 @@ ruleTester.run("new-cap", rule, {
         { code: "var x = new foo(42)", options: [{ newIsCap: false }] },
         "var o = { 1: function() {} }; o[1]();",
         "var o = { 1: function() {} }; new o[1]();",
-        { code: "var x = Foo(42);", options: [{ capIsNew: true, capIsNewExceptions: ["Foo"] }] },
-        { code: "var x = Foo(42);", options: [{ capIsNewExceptionPattern: "^Foo" }] },
-        { code: "var x = new foo(42);", options: [{ newIsCap: true, newIsCapExceptions: ["foo"] }] },
-        { code: "var x = new foo(42);", options: [{ newIsCapExceptionPattern: "^foo" }] },
-        { code: "var x = Object(42);", options: [{ capIsNewExceptions: ["Foo"] }] },
+        {
+            code: "var x = Foo(42);",
+            options: [{ capIsNew: true, capIsNewExceptions: ["Foo"] }]
+        },
+        {
+            code: "var x = Foo(42);",
+            options: [{ capIsNewExceptionPattern: "^Foo" }]
+        },
+        {
+            code: "var x = new foo(42);",
+            options: [{ newIsCap: true, newIsCapExceptions: ["foo"] }]
+        },
+        {
+            code: "var x = new foo(42);",
+            options: [{ newIsCapExceptionPattern: "^foo" }]
+        },
+        {
+            code: "var x = Object(42);",
+            options: [{ capIsNewExceptions: ["Foo"] }]
+        },
 
-        { code: "var x = Foo.Bar(42);", options: [{ capIsNewExceptions: ["Bar"] }] },
-        { code: "var x = Foo.Bar(42);", options: [{ capIsNewExceptions: ["Foo.Bar"] }] },
+        {
+            code: "var x = Foo.Bar(42);",
+            options: [{ capIsNewExceptions: ["Bar"] }]
+        },
+        {
+            code: "var x = Foo.Bar(42);",
+            options: [{ capIsNewExceptions: ["Foo.Bar"] }]
+        },
 
-        { code: "var x = Foo.Bar(42);", options: [{ capIsNewExceptionPattern: "^Foo\\.." }] },
-        { code: "var x = new foo.bar(42);", options: [{ newIsCapExceptions: ["bar"] }] },
-        { code: "var x = new foo.bar(42);", options: [{ newIsCapExceptions: ["foo.bar"] }] },
+        {
+            code: "var x = Foo.Bar(42);",
+            options: [{ capIsNewExceptionPattern: "^Foo\\.." }]
+        },
+        {
+            code: "var x = new foo.bar(42);",
+            options: [{ newIsCapExceptions: ["bar"] }]
+        },
+        {
+            code: "var x = new foo.bar(42);",
+            options: [{ newIsCapExceptions: ["foo.bar"] }]
+        },
 
-        { code: "var x = new foo.bar(42);", options: [{ newIsCapExceptionPattern: "^foo\\.." }] },
+        {
+            code: "var x = new foo.bar(42);",
+            options: [{ newIsCapExceptionPattern: "^foo\\.." }]
+        },
         { code: "var x = new foo.bar(42);", options: [{ properties: false }] },
         { code: "var x = Foo.bar(42);", options: [{ properties: false }] },
-        { code: "var x = foo.Bar(42);", options: [{ capIsNew: false, properties: false }] },
+        {
+            code: "var x = foo.Bar(42);",
+            options: [{ capIsNew: false, properties: false }]
+        },
 
         // Optional chaining
         {
@@ -108,102 +144,120 @@ ruleTester.run("new-cap", rule, {
     invalid: [
         {
             code: "var x = new c();",
-            errors: [{
-                messageId: "lower",
-                type: "NewExpression",
-                line: 1,
-                column: 13,
-                endLine: 1,
-                endColumn: 14
-            }]
+            errors: [
+                {
+                    messageId: "lower",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 13,
+                    endLine: 1,
+                    endColumn: 14
+                }
+            ]
         },
         {
             code: "var x = new φ;",
-            errors: [{
-                messageId: "lower",
-                type: "NewExpression",
-                line: 1,
-                column: 13,
-                endLine: 1,
-                endColumn: 14
-            }]
+            errors: [
+                {
+                    messageId: "lower",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 13,
+                    endLine: 1,
+                    endColumn: 14
+                }
+            ]
         },
         {
             code: "var x = new a.b.c;",
-            errors: [{
-                messageId: "lower",
-                type: "NewExpression",
-                line: 1,
-                column: 17,
-                endLine: 1,
-                endColumn: 18
-            }]
+            errors: [
+                {
+                    messageId: "lower",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 17,
+                    endLine: 1,
+                    endColumn: 18
+                }
+            ]
         },
         {
             code: "var x = new a.b['c'];",
-            errors: [{
-                messageId: "lower",
-                type: "NewExpression",
-                line: 1,
-                column: 17,
-                endLine: 1,
-                endColumn: 20
-            }]
+            errors: [
+                {
+                    messageId: "lower",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 17,
+                    endLine: 1,
+                    endColumn: 20
+                }
+            ]
         },
         {
             code: "var b = Foo();",
-            errors: [{
-                messageId: "upper",
-                type: "CallExpression",
-                line: 1,
-                column: 9,
-                endLine: 1,
-                endColumn: 12
-            }]
+            errors: [
+                {
+                    messageId: "upper",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 9,
+                    endLine: 1,
+                    endColumn: 12
+                }
+            ]
         },
         {
             code: "var b = a.Foo();",
-            errors: [{
-                messageId: "upper",
-                type: "CallExpression",
-                line: 1,
-                column: 11,
-                endLine: 1,
-                endColumn: 14
-            }]
+            errors: [
+                {
+                    messageId: "upper",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 14
+                }
+            ]
         },
         {
             code: "var b = a['Foo']();",
-            errors: [{
-                messageId: "upper",
-                type: "CallExpression",
-                line: 1,
-                column: 11,
-                endLine: 1,
-                endColumn: 16
-            }]
+            errors: [
+                {
+                    messageId: "upper",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 16
+                }
+            ]
         },
         {
             code: "var b = a.Date.UTC();",
-            errors: [{
-                messageId: "upper",
-                type: "CallExpression",
-                line: 1,
-                column: 16,
-                endLine: 1,
-                endColumn: 19
-            }]
+            errors: [
+                {
+                    messageId: "upper",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 16,
+                    endLine: 1,
+                    endColumn: 19
+                }
+            ]
         },
         {
             code: "var b = UTC();",
-            errors: [{
-                messageId: "upper",
-                type: "CallExpression",
-                line: 1,
-                column: 9,
-                endLine: 1,
-                endColumn: 12
-            }]
+            errors: [
+                {
+                    messageId: "upper",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 9,
+                    endLine: 1,
+                    endColumn: 12
+                }
+            ]
         },
         {
             code: "var a = B.C();",

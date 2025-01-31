@@ -23,11 +23,13 @@
     font-weight: 500;
     font-size: var(--step-0);
     display: inline-flex;
-    padding: .75rem 1.125rem;
+    padding: 0.75rem 1.125rem;
     align-items: center;
     justify-content: center;
     border-radius: var(--border-radius) var(--border-radius) 0 0;
-    transition: background-color .2s linear, border-color .2s linear;
+    transition:
+        background-color 0.2s linear,
+        border-color 0.2s linear;
 
     &:hover {
         color: var(--link-color);
@@ -43,7 +45,8 @@
     margin-bottom: 2rem;
     margin-block-end: 2rem;
     background-color: var(--lightest-background-color);
-    border-radius: 0 var(--border-radius) var(--border-radius) var(--border-radius);
+    border-radius: 0 var(--border-radius) var(--border-radius)
+        var(--border-radius);
 
     .js-tabs & {
         margin-bottom: 0;

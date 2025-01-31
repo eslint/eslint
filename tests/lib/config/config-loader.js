@@ -12,7 +12,10 @@
 const assert = require("node:assert");
 const path = require("node:path");
 const sinon = require("sinon");
-const { ConfigLoader, LegacyConfigLoader } = require("../../../lib/config/config-loader");
+const {
+    ConfigLoader,
+    LegacyConfigLoader
+} = require("../../../lib/config/config-loader");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -29,15 +32,19 @@ describe("Config loaders", () => {
         sinon.restore();
     });
 
-    [ConfigLoader, LegacyConfigLoader].forEach(ConfigLoaderClass => {
+    [ConfigLoader, LegacyConfigLoader].forEach((ConfigLoaderClass) => {
         describe(`${ConfigLoaderClass.name} class`, () => {
-
             describe("findConfigFileForPath()", () => {
-
                 it("should lookup config file only once for multiple files in same directory", async () => {
-                    const cwd = path.resolve(fixtureDir, "simple-valid-project-2");
+                    const cwd = path.resolve(
+                        fixtureDir,
+                        "simple-valid-project-2"
+                    );
 
-                    const locateConfigFileToUse = sinon.spy(ConfigLoader, "locateConfigFileToUse");
+                    const locateConfigFileToUse = sinon.spy(
+                        ConfigLoader,
+                        "locateConfigFileToUse"
+                    );
 
                     const configLoader = new ConfigLoaderClass({
                         cwd,
@@ -45,8 +52,12 @@ describe("Config loaders", () => {
                     });
 
                     const [path1, path2] = await Promise.all([
-                        configLoader.findConfigFileForPath(path.resolve(cwd, "foo.js")),
-                        configLoader.findConfigFileForPath(path.resolve(cwd, "bar.js"))
+                        configLoader.findConfigFileForPath(
+                            path.resolve(cwd, "foo.js")
+                        ),
+                        configLoader.findConfigFileForPath(
+                            path.resolve(cwd, "bar.js")
+                        )
                     ]);
 
                     const configFile = path.resolve(cwd, "eslint.config.js");
@@ -54,18 +65,30 @@ describe("Config loaders", () => {
                     assert.strictEqual(path1, configFile);
                     assert.strictEqual(path2, configFile);
 
-                    assert.strictEqual(locateConfigFileToUse.callCount, 1, "Expected `ConfigLoader.locateConfigFileToUse` to be called exactly once");
+                    assert.strictEqual(
+                        locateConfigFileToUse.callCount,
+                        1,
+                        "Expected `ConfigLoader.locateConfigFileToUse` to be called exactly once"
+                    );
                 });
             });
 
             describe("loadConfigArrayForFile()", () => {
-
                 // https://github.com/eslint/eslint/issues/19025
                 it("should lookup config file only once and create config array only once for multiple files in same directory", async () => {
-                    const cwd = path.resolve(fixtureDir, "simple-valid-project-2");
+                    const cwd = path.resolve(
+                        fixtureDir,
+                        "simple-valid-project-2"
+                    );
 
-                    const locateConfigFileToUse = sinon.spy(ConfigLoader, "locateConfigFileToUse");
-                    const calculateConfigArray = sinon.spy(ConfigLoader, "calculateConfigArray");
+                    const locateConfigFileToUse = sinon.spy(
+                        ConfigLoader,
+                        "locateConfigFileToUse"
+                    );
+                    const calculateConfigArray = sinon.spy(
+                        ConfigLoader,
+                        "calculateConfigArray"
+                    );
 
                     const configLoader = new ConfigLoaderClass({
                         cwd,
@@ -73,24 +96,44 @@ describe("Config loaders", () => {
                     });
 
                     const [configArray1, configArray2] = await Promise.all([
-                        configLoader.loadConfigArrayForFile(path.resolve(cwd, "foo.js")),
-                        configLoader.loadConfigArrayForFile(path.resolve(cwd, "bar.js"))
+                        configLoader.loadConfigArrayForFile(
+                            path.resolve(cwd, "foo.js")
+                        ),
+                        configLoader.loadConfigArrayForFile(
+                            path.resolve(cwd, "bar.js")
+                        )
                     ]);
 
-                    assert(Array.isArray(configArray1), "Expected `loadConfigArrayForFile()` to return a config array");
-                    assert(configArray1 === configArray2, "Expected config array instances for `foo.js` and `bar.js` to be the same");
+                    assert(
+                        Array.isArray(configArray1),
+                        "Expected `loadConfigArrayForFile()` to return a config array"
+                    );
+                    assert(
+                        configArray1 === configArray2,
+                        "Expected config array instances for `foo.js` and `bar.js` to be the same"
+                    );
 
-                    assert.strictEqual(locateConfigFileToUse.callCount, 1, "Expected `ConfigLoader.locateConfigFileToUse` to be called exactly once");
-                    assert.strictEqual(calculateConfigArray.callCount, 1, "Expected `ConfigLoader.calculateConfigArray` to be called exactly once");
+                    assert.strictEqual(
+                        locateConfigFileToUse.callCount,
+                        1,
+                        "Expected `ConfigLoader.locateConfigFileToUse` to be called exactly once"
+                    );
+                    assert.strictEqual(
+                        calculateConfigArray.callCount,
+                        1,
+                        "Expected `ConfigLoader.calculateConfigArray` to be called exactly once"
+                    );
                 });
             });
 
             describe("getCachedConfigArrayForFile()", () => {
-
                 it("should throw an error if calculating the config array is not yet complete", async () => {
                     let error;
 
-                    const cwd = path.resolve(fixtureDir, "simple-valid-project-2");
+                    const cwd = path.resolve(
+                        fixtureDir,
+                        "simple-valid-project-2"
+                    );
                     const filePath = path.resolve(cwd, "foo.js");
 
                     const configLoader = new ConfigLoaderClass({
@@ -98,20 +141,24 @@ describe("Config loaders", () => {
                         ignoreEnabled: true
                     });
 
-                    const originalCalculateConfigArray = ConfigLoader.calculateConfigArray;
+                    const originalCalculateConfigArray =
+                        ConfigLoader.calculateConfigArray;
 
-                    sinon.stub(ConfigLoader, "calculateConfigArray").callsFake((...args) => {
-                        process.nextTick(() => {
-                            try {
-                                configLoader.getCachedConfigArrayForFile(filePath);
-                            } catch (e) {
-                                error = e;
-                            }
+                    sinon
+                        .stub(ConfigLoader, "calculateConfigArray")
+                        .callsFake((...args) => {
+                            process.nextTick(() => {
+                                try {
+                                    configLoader.getCachedConfigArrayForFile(
+                                        filePath
+                                    );
+                                } catch (e) {
+                                    error = e;
+                                }
+                            });
+
+                            return originalCalculateConfigArray(...args);
                         });
-
-                        return originalCalculateConfigArray(...args);
-
-                    });
 
                     await configLoader.loadConfigArrayForFile(filePath);
 
@@ -119,7 +166,6 @@ describe("Config loaders", () => {
                     assert.match(error.message, /has not yet been calculated/u);
                 });
             });
-
         });
     });
 });

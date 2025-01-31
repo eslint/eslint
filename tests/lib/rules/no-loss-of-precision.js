@@ -61,22 +61,58 @@ ruleTester.run("no-loss-of-precision", rule, {
         { code: "var x = 12_3e-3_4", languageOptions: { ecmaVersion: 2021 } },
         { code: "var x = 12_3.0e-3_4", languageOptions: { ecmaVersion: 2021 } },
         { code: "var x = -1_23e-3_4", languageOptions: { ecmaVersion: 2021 } },
-        { code: "var x = -1_23.8e-3_4", languageOptions: { ecmaVersion: 2021 } },
-        { code: "var x = 1_230000000_00000000_00000_000", languageOptions: { ecmaVersion: 2021 } },
-        { code: "var x = -1_230000000_00000000_00000_000", languageOptions: { ecmaVersion: 2021 } },
-        { code: "var x = 0.0_00_000000000_000000000_00123", languageOptions: { ecmaVersion: 2021 } },
-        { code: "var x = -0.0_00_000000000_000000000_00123", languageOptions: { ecmaVersion: 2021 } },
+        {
+            code: "var x = -1_23.8e-3_4",
+            languageOptions: { ecmaVersion: 2021 }
+        },
+        {
+            code: "var x = 1_230000000_00000000_00000_000",
+            languageOptions: { ecmaVersion: 2021 }
+        },
+        {
+            code: "var x = -1_230000000_00000000_00000_000",
+            languageOptions: { ecmaVersion: 2021 }
+        },
+        {
+            code: "var x = 0.0_00_000000000_000000000_00123",
+            languageOptions: { ecmaVersion: 2021 }
+        },
+        {
+            code: "var x = -0.0_00_000000000_000000000_00123",
+            languageOptions: { ecmaVersion: 2021 }
+        },
         { code: "var x = 0e5_3", languageOptions: { ecmaVersion: 2021 } },
 
-        { code: "var x = 0b11111111111111111111111111111111111111111111111111111", languageOptions: { ecmaVersion: 6 } },
-        { code: "var x = 0b111_111_111_111_1111_11111_111_11111_1111111111_11111111_111_111", languageOptions: { ecmaVersion: 2021 } },
+        {
+            code: "var x = 0b11111111111111111111111111111111111111111111111111111",
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var x = 0b111_111_111_111_1111_11111_111_11111_1111111111_11111111_111_111",
+            languageOptions: { ecmaVersion: 2021 }
+        },
 
-        { code: "var x = 0B11111111111111111111111111111111111111111111111111111", languageOptions: { ecmaVersion: 6 } },
-        { code: "var x = 0B111_111_111_111_1111_11111_111_11111_1111111111_11111111_111_111", languageOptions: { ecmaVersion: 2021 } },
+        {
+            code: "var x = 0B11111111111111111111111111111111111111111111111111111",
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var x = 0B111_111_111_111_1111_11111_111_11111_1111111111_11111111_111_111",
+            languageOptions: { ecmaVersion: 2021 }
+        },
 
-        { code: "var x = 0o377777777777777777", languageOptions: { ecmaVersion: 6 } },
-        { code: "var x = 0o3_77_777_777_777_777_777", languageOptions: { ecmaVersion: 2021 } },
-        { code: "var x = 0O377777777777777777", languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "var x = 0o377777777777777777",
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var x = 0o3_77_777_777_777_777_777",
+            languageOptions: { ecmaVersion: 2021 }
+        },
+        {
+            code: "var x = 0O377777777777777777",
+            languageOptions: { ecmaVersion: 6 }
+        },
 
         "var x = 0377777777777777777",
         "var x = 0x1FFFFFFFFFFFFF",
@@ -91,8 +127,14 @@ ruleTester.run("no-loss-of-precision", rule, {
         "var x = new Date()",
         "var x = '9007199254740993'",
 
-        { code: "var x = 0x1FFF_FFFF_FFF_FFF", languageOptions: { ecmaVersion: 2021 } },
-        { code: "var x = 0X1_FFF_FFFF_FFF_FFF", languageOptions: { ecmaVersion: 2021 } }
+        {
+            code: "var x = 0x1FFF_FFFF_FFF_FFF",
+            languageOptions: { ecmaVersion: 2021 }
+        },
+        {
+            code: "var x = 0X1_FFF_FFFF_FFF_FFF",
+            languageOptions: { ecmaVersion: 2021 }
+        }
     ],
     invalid: [
         {

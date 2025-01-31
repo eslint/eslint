@@ -19,7 +19,6 @@ const ruleTester = new RuleTester(),
     validShebangProgram = "#!/path/to/node\nvar a = 3;";
 
 ruleTester.run("spaced-comment", rule, {
-
     valid: [
         {
             code: "// A valid comment starting with space\nvar a = 1;",
@@ -37,106 +36,154 @@ ruleTester.run("spaced-comment", rule, {
         // exceptions - line comments
         {
             code: "//-----------------------\n// A comment\n//-----------------------",
-            options: ["always", {
-                exceptions: ["-", "=", "*", "#", "!@#"]
-            }]
+            options: [
+                "always",
+                {
+                    exceptions: ["-", "=", "*", "#", "!@#"]
+                }
+            ]
         },
         {
             code: "//-----------------------\n// A comment\n//-----------------------",
-            options: ["always", {
-                line: { exceptions: ["-", "=", "*", "#", "!@#"] }
-            }]
+            options: [
+                "always",
+                {
+                    line: { exceptions: ["-", "=", "*", "#", "!@#"] }
+                }
+            ]
         },
         {
             code: "//===========\n// A comment\n//*************",
-            options: ["always", {
-                exceptions: ["-", "=", "*", "#", "!@#"]
-            }]
+            options: [
+                "always",
+                {
+                    exceptions: ["-", "=", "*", "#", "!@#"]
+                }
+            ]
         },
         {
             code: "//######\n// A comment",
-            options: ["always", {
-                exceptions: ["-", "=", "*", "#", "!@#"]
-            }]
+            options: [
+                "always",
+                {
+                    exceptions: ["-", "=", "*", "#", "!@#"]
+                }
+            ]
         },
         {
             code: "//!@#!@#!@#\n// A comment\n//!@#",
-            options: ["always", {
-                exceptions: ["-", "=", "*", "#", "!@#"]
-            }]
+            options: [
+                "always",
+                {
+                    exceptions: ["-", "=", "*", "#", "!@#"]
+                }
+            ]
         },
 
         // exceptions - block comments
         {
             code: "var a = 1; /*######*/",
-            options: ["always", {
-                exceptions: ["-", "=", "*", "#", "!@#"]
-            }]
+            options: [
+                "always",
+                {
+                    exceptions: ["-", "=", "*", "#", "!@#"]
+                }
+            ]
         },
         {
             code: "var a = 1; /*######*/",
-            options: ["always", {
-                block: { exceptions: ["-", "=", "*", "#", "!@#"] }
-            }]
+            options: [
+                "always",
+                {
+                    block: { exceptions: ["-", "=", "*", "#", "!@#"] }
+                }
+            ]
         },
         {
             code: "/*****************\n * A comment\n *****************/",
-            options: ["always", {
-                exceptions: ["*"]
-            }]
+            options: [
+                "always",
+                {
+                    exceptions: ["*"]
+                }
+            ]
         },
         {
             code: "/*++++++++++++++\n * A comment\n +++++++++++++++++*/",
-            options: ["always", {
-                exceptions: ["+"]
-            }]
+            options: [
+                "always",
+                {
+                    exceptions: ["+"]
+                }
+            ]
         },
         {
             code: "/*++++++++++++++\n + A comment\n * B comment\n - C comment\n----------------*/",
-            options: ["always", {
-                exceptions: ["+", "-"]
-            }]
+            options: [
+                "always",
+                {
+                    exceptions: ["+", "-"]
+                }
+            ]
         },
 
         // markers - line comments
         {
             code: "//!< docblock style comment",
-            options: ["always", {
-                markers: ["/", "!<"]
-            }]
+            options: [
+                "always",
+                {
+                    markers: ["/", "!<"]
+                }
+            ]
         },
         {
             code: "//!< docblock style comment",
-            options: ["always", {
-                line: { markers: ["/", "!<"] }
-            }]
+            options: [
+                "always",
+                {
+                    line: { markers: ["/", "!<"] }
+                }
+            ]
         },
         {
             code: "//----\n// a comment\n//----\n/// xmldoc style comment\n//!< docblock style comment",
-            options: ["always", {
-                exceptions: ["-"],
-                markers: ["/", "!<"]
-            }]
+            options: [
+                "always",
+                {
+                    exceptions: ["-"],
+                    markers: ["/", "!<"]
+                }
+            ]
         },
         {
             code: "/*\u2028x*/",
-            options: ["always", {
-                markers: ["/", "!<"]
-            }]
+            options: [
+                "always",
+                {
+                    markers: ["/", "!<"]
+                }
+            ]
         },
         {
             code: "///xmldoc style comment",
-            options: ["never", {
-                markers: ["/", "!<"]
-            }]
+            options: [
+                "never",
+                {
+                    markers: ["/", "!<"]
+                }
+            ]
         },
 
         // markers - block comments
         {
             code: "var a = 1; /*# This is an example of a marker in a block comment\nsubsequent lines do not count*/",
-            options: ["always", {
-                markers: ["#"]
-            }]
+            options: [
+                "always",
+                {
+                    markers: ["#"]
+                }
+            ]
         },
         {
             code: "/*!\n *comment\n */",
@@ -164,7 +211,10 @@ ruleTester.run("spaced-comment", rule, {
         },
         {
             code: "/*eslint-disable no-alert, no-console */\nalert()\nconsole.log()\n/*eslint-enable no-alert */",
-            options: ["always", { markers: ["eslint-enable", "eslint-disable"] }]
+            options: [
+                "always",
+                { markers: ["eslint-enable", "eslint-disable"] }
+            ]
         },
 
         // misc. variations
@@ -270,17 +320,23 @@ ruleTester.run("spaced-comment", rule, {
         },
         {
             code: "var a = 1; /*######*/",
-            options: ["always", {
-                exceptions: ["-", "=", "*", "#", "!@#"],
-                block: { balanced: true }
-            }]
+            options: [
+                "always",
+                {
+                    exceptions: ["-", "=", "*", "#", "!@#"],
+                    block: { balanced: true }
+                }
+            ]
         },
         {
             code: "/*****************\n * A comment\n *****************/",
-            options: ["always", {
-                exceptions: ["*"],
-                block: { balanced: true }
-            }]
+            options: [
+                "always",
+                {
+                    exceptions: ["*"],
+                    block: { balanced: true }
+                }
+            ]
         },
         {
             code: "/*! comment */",
@@ -296,7 +352,10 @@ ruleTester.run("spaced-comment", rule, {
         },
         {
             code: "/*global ABC */",
-            options: ["always", { markers: ["global"], block: { balanced: true } }]
+            options: [
+                "always",
+                { markers: ["global"], block: { balanced: true } }
+            ]
         },
 
         // markers & exceptions
@@ -306,7 +365,10 @@ ruleTester.run("spaced-comment", rule, {
         },
         {
             code: "///--------\r\n/// test\r\n///--------\r\n/* blah */",
-            options: ["always", { markers: ["/"], exceptions: ["-"], block: { markers: [] } }]
+            options: [
+                "always",
+                { markers: ["/"], exceptions: ["-"], block: { markers: [] } }
+            ]
         },
         {
             code: "/***\u2028*/",
@@ -357,34 +419,39 @@ ruleTester.run("spaced-comment", rule, {
             code: "//An invalid comment NOT starting with space\nvar a = 1;",
             output: "// An invalid comment NOT starting with space\nvar a = 1;",
             options: ["always"],
-            errors: [{
-                messageId: "expectedSpaceAfter",
-                data: { refChar: "//" },
-                type: "Line"
-            }]
+            errors: [
+                {
+                    messageId: "expectedSpaceAfter",
+                    data: { refChar: "//" },
+                    type: "Line"
+                }
+            ]
         },
         {
             code: "// An invalid comment starting with space\nvar a = 2;",
             output: "//An invalid comment starting with space\nvar a = 2;",
             options: ["never"],
-            errors: [{
-                messageId: "unexpectedSpaceAfter",
-                data: { refChar: "//" },
-                type: "Line"
-            }]
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: { refChar: "//" },
+                    type: "Line"
+                }
+            ]
         },
         {
             code: "//   An invalid comment starting with tab\nvar a = 2;",
             output: "//An invalid comment starting with tab\nvar a = 2;",
             options: ["never"],
-            errors: [{
-                messageId: "unexpectedSpaceAfter",
-                data: { refChar: "//" },
-                type: "Line"
-            }]
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: { refChar: "//" },
+                    type: "Line"
+                }
+            ]
         },
         {
-
             /*
              * note that the first line in the comment is not a valid exception
              * block pattern because of the minus sign at the end of the line:
@@ -392,21 +459,29 @@ ruleTester.run("spaced-comment", rule, {
              */
             code: "//*********************-\n// Comment Block 3\n//***********************",
             output: "//* ********************-\n// Comment Block 3\n//***********************",
-            options: ["always", {
-                exceptions: ["-", "=", "*", "#", "!@#"]
-            }],
-            errors: [{
-                messageId: "expectedExceptionAfter",
-                data: { refChar: "//*" },
-                type: "Line"
-            }]
+            options: [
+                "always",
+                {
+                    exceptions: ["-", "=", "*", "#", "!@#"]
+                }
+            ],
+            errors: [
+                {
+                    messageId: "expectedExceptionAfter",
+                    data: { refChar: "//*" },
+                    type: "Line"
+                }
+            ]
         },
         {
             code: "//-=-=-=-=-=-=\n// A comment\n//-=-=-=-=-=-=",
             output: "// -=-=-=-=-=-=\n// A comment\n// -=-=-=-=-=-=",
-            options: ["always", {
-                exceptions: ["-", "=", "*", "#", "!@#"]
-            }],
+            options: [
+                "always",
+                {
+                    exceptions: ["-", "=", "*", "#", "!@#"]
+                }
+            ],
             errors: [
                 {
                     messageId: "expectedExceptionAfter",
@@ -423,163 +498,220 @@ ruleTester.run("spaced-comment", rule, {
         {
             code: "//!<docblock style comment",
             output: "//!< docblock style comment",
-            options: ["always", {
-                markers: ["/", "!<"]
-            }],
+            options: [
+                "always",
+                {
+                    markers: ["/", "!<"]
+                }
+            ],
             errors: 1
         },
         {
             code: "//!< docblock style comment",
             output: "//!<docblock style comment",
-            options: ["never", {
-                markers: ["/", "!<"]
-            }],
+            options: [
+                "never",
+                {
+                    markers: ["/", "!<"]
+                }
+            ],
             errors: 1
         },
         {
             code: "var a = 1; /* A valid comment starting with space */",
             output: "var a = 1; /*A valid comment starting with space */",
             options: ["never"],
-            errors: [{
-                messageId: "unexpectedSpaceAfter",
-                data: { refChar: "/*" },
-                type: "Block"
-            }]
-        },
-        {
-            code: "var a = 1; /*######*/",
-            output: "var a = 1; /* ######*/",
-            options: ["always", {
-                exceptions: ["-", "=", "*", "!@#"]
-            }],
-            errors: [{
-                messageId: "expectedExceptionAfter",
-                data: { refChar: "/*" },
-                type: "Block"
-            }]
-        },
-        {
-            code: "var a = 1; /*A valid comment NOT starting with space */",
-            output: "var a = 1; /* A valid comment NOT starting with space */",
-            options: ["always"],
-            errors: [{
-                messageId: "expectedSpaceAfter",
-                data: { refChar: "/*" },
-                type: "Block"
-            }]
-        },
-        {
-            code: "function foo(/* height */a) { \n }",
-            output: "function foo(/*height */a) { \n }",
-            options: ["never"],
-            errors: [{
-                messageId: "unexpectedSpaceAfter",
-                data: { refChar: "/*" },
-                type: "Block"
-            }]
-        },
-        {
-            code: "function foo(/*height */a) { \n }",
-            output: "function foo(/* height */a) { \n }",
-            options: ["always"],
-            errors: [{
-                messageId: "expectedSpaceAfter",
-                data: { refChar: "/*" },
-                type: "Block"
-            }]
-        },
-        {
-            code: "function foo(a/*height */) { \n }",
-            output: "function foo(a/* height */) { \n }",
-            options: ["always"],
-            errors: [{
-                messageId: "expectedSpaceAfter",
-                data: { refChar: "/*" },
-                type: "Block"
-            }]
-        },
-        {
-            code: "/*     \n *Test\n */",
-            output: "/*\n *Test\n */",
-            options: ["never"],
-            errors: [{
-                messageId: "unexpectedSpaceAfter",
-                data: { refChar: "/*" },
-                type: "Block"
-            }]
-        },
-        {
-            code: "//-----------------------\n// A comment\n//-----------------------",
-            output: "// -----------------------\n// A comment\n// -----------------------",
-            options: ["always", {
-                block: { exceptions: ["-", "=", "*", "#", "!@#"] }
-            }],
             errors: [
-                { messageId: "expectedSpaceAfter", data: { refChar: "//" }, type: "Line" },
-                { messageId: "expectedSpaceAfter", data: { refChar: "//" }, type: "Line" }
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: { refChar: "/*" },
+                    type: "Block"
+                }
             ]
         },
         {
             code: "var a = 1; /*######*/",
             output: "var a = 1; /* ######*/",
-            options: ["always", {
-                line: { exceptions: ["-", "=", "*", "#", "!@#"] }
-            }],
-            errors: [{
-                messageId: "expectedSpaceAfter",
-                data: { refChar: "/*" },
-                type: "Block"
-            }]
+            options: [
+                "always",
+                {
+                    exceptions: ["-", "=", "*", "!@#"]
+                }
+            ],
+            errors: [
+                {
+                    messageId: "expectedExceptionAfter",
+                    data: { refChar: "/*" },
+                    type: "Block"
+                }
+            ]
+        },
+        {
+            code: "var a = 1; /*A valid comment NOT starting with space */",
+            output: "var a = 1; /* A valid comment NOT starting with space */",
+            options: ["always"],
+            errors: [
+                {
+                    messageId: "expectedSpaceAfter",
+                    data: { refChar: "/*" },
+                    type: "Block"
+                }
+            ]
+        },
+        {
+            code: "function foo(/* height */a) { \n }",
+            output: "function foo(/*height */a) { \n }",
+            options: ["never"],
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: { refChar: "/*" },
+                    type: "Block"
+                }
+            ]
+        },
+        {
+            code: "function foo(/*height */a) { \n }",
+            output: "function foo(/* height */a) { \n }",
+            options: ["always"],
+            errors: [
+                {
+                    messageId: "expectedSpaceAfter",
+                    data: { refChar: "/*" },
+                    type: "Block"
+                }
+            ]
+        },
+        {
+            code: "function foo(a/*height */) { \n }",
+            output: "function foo(a/* height */) { \n }",
+            options: ["always"],
+            errors: [
+                {
+                    messageId: "expectedSpaceAfter",
+                    data: { refChar: "/*" },
+                    type: "Block"
+                }
+            ]
+        },
+        {
+            code: "/*     \n *Test\n */",
+            output: "/*\n *Test\n */",
+            options: ["never"],
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: { refChar: "/*" },
+                    type: "Block"
+                }
+            ]
+        },
+        {
+            code: "//-----------------------\n// A comment\n//-----------------------",
+            output: "// -----------------------\n// A comment\n// -----------------------",
+            options: [
+                "always",
+                {
+                    block: { exceptions: ["-", "=", "*", "#", "!@#"] }
+                }
+            ],
+            errors: [
+                {
+                    messageId: "expectedSpaceAfter",
+                    data: { refChar: "//" },
+                    type: "Line"
+                },
+                {
+                    messageId: "expectedSpaceAfter",
+                    data: { refChar: "//" },
+                    type: "Line"
+                }
+            ]
+        },
+        {
+            code: "var a = 1; /*######*/",
+            output: "var a = 1; /* ######*/",
+            options: [
+                "always",
+                {
+                    line: { exceptions: ["-", "=", "*", "#", "!@#"] }
+                }
+            ],
+            errors: [
+                {
+                    messageId: "expectedSpaceAfter",
+                    data: { refChar: "/*" },
+                    type: "Block"
+                }
+            ]
         },
         {
             code: "//!< docblock style comment",
             output: "// !< docblock style comment",
-            options: ["always", {
-                block: { markers: ["/", "!<"] }
-            }],
-            errors: [{
-                messageId: "expectedSpaceAfter",
-                data: { refChar: "//" },
-                type: "Line"
-            }]
+            options: [
+                "always",
+                {
+                    block: { markers: ["/", "!<"] }
+                }
+            ],
+            errors: [
+                {
+                    messageId: "expectedSpaceAfter",
+                    data: { refChar: "//" },
+                    type: "Line"
+                }
+            ]
         },
         {
             code: "/*!\n *comment\n */",
             output: "/* !\n *comment\n */",
             options: ["always", { line: { markers: ["!"] } }],
-            errors: [{
-                messageId: "expectedSpaceAfter",
-                data: { refChar: "/*" },
-                type: "Block"
-            }]
+            errors: [
+                {
+                    messageId: "expectedSpaceAfter",
+                    data: { refChar: "/*" },
+                    type: "Block"
+                }
+            ]
         },
         {
             code: "///--------\r\n/// test\r\n///--------\r\n/*/ blah *//*-----*/",
             output: "///--------\r\n/// test\r\n///--------\r\n/* / blah *//*-----*/",
-            options: ["always", { markers: ["/"], exceptions: ["-"], block: { markers: [] } }],
-            errors: [{
-                messageId: "expectedExceptionAfter",
-                data: { refChar: "/*" },
-                type: "Block"
-            }]
+            options: [
+                "always",
+                { markers: ["/"], exceptions: ["-"], block: { markers: [] } }
+            ],
+            errors: [
+                {
+                    messageId: "expectedExceptionAfter",
+                    data: { refChar: "/*" },
+                    type: "Block"
+                }
+            ]
         },
         {
             code: "///--------\r\n/// test\r\n///--------\r\n/*/ blah */ /*-----*/",
             output: "///--------\r\n/// test\r\n///--------\r\n/* / blah */ /* -----*/",
-            options: ["always", { line: { markers: ["/"], exceptions: ["-"] } }],
-            errors: [{
-                messageId: "expectedSpaceAfter",
-                data: { refChar: "/*" },
-                type: "Block",
-                line: 4,
-                column: 1
-            }, {
-                messageId: "expectedSpaceAfter",
-                data: { refChar: "/*" },
-                type: "Block",
-                line: 4,
-                column: 13
-            }]
+            options: [
+                "always",
+                { line: { markers: ["/"], exceptions: ["-"] } }
+            ],
+            errors: [
+                {
+                    messageId: "expectedSpaceAfter",
+                    data: { refChar: "/*" },
+                    type: "Block",
+                    line: 4,
+                    column: 1
+                },
+                {
+                    messageId: "expectedSpaceAfter",
+                    data: { refChar: "/*" },
+                    type: "Block",
+                    line: 4,
+                    column: 13
+                }
+            ]
         },
 
         // balanced block comments
@@ -587,61 +719,73 @@ ruleTester.run("spaced-comment", rule, {
             code: "var a = 1; /* A balanced comment starting with space*/",
             output: "var a = 1; /* A balanced comment starting with space */",
             options: ["always", { block: { balanced: true } }],
-            errors: [{
-                messageId: "expectedSpaceBefore",
-                data: { refChar: "/**" },
-                type: "Block"
-            }]
+            errors: [
+                {
+                    messageId: "expectedSpaceBefore",
+                    data: { refChar: "/**" },
+                    type: "Block"
+                }
+            ]
         },
         {
             code: "var a = 1; /*A balanced comment NOT starting with space */",
             output: "var a = 1; /*A balanced comment NOT starting with space*/",
             options: ["never", { block: { balanced: true } }],
-            errors: [{
-                messageId: "unexpectedSpaceBefore",
-                data: { refChar: "*/" },
-                type: "Block"
-            }]
+            errors: [
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: { refChar: "*/" },
+                    type: "Block"
+                }
+            ]
         },
         {
             code: "function foo(/* height*/a) { \n }",
             output: "function foo(/* height */a) { \n }",
             options: ["always", { block: { balanced: true } }],
-            errors: [{
-                messageId: "expectedSpaceBefore",
-                data: { refChar: "/**" },
-                type: "Block"
-            }]
+            errors: [
+                {
+                    messageId: "expectedSpaceBefore",
+                    data: { refChar: "/**" },
+                    type: "Block"
+                }
+            ]
         },
         {
             code: "function foo(/*height */a) { \n }",
             output: "function foo(/*height*/a) { \n }",
             options: ["never", { block: { balanced: true } }],
-            errors: [{
-                messageId: "unexpectedSpaceBefore",
-                data: { refChar: "*/" },
-                type: "Block"
-            }]
+            errors: [
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: { refChar: "*/" },
+                    type: "Block"
+                }
+            ]
         },
         {
             code: "/*! comment*/",
             output: "/*! comment */",
             options: ["always", { markers: ["!"], block: { balanced: true } }],
-            errors: [{
-                messageId: "expectedSpaceBefore",
-                data: { refChar: "/**" },
-                type: "Block"
-            }]
+            errors: [
+                {
+                    messageId: "expectedSpaceBefore",
+                    data: { refChar: "/**" },
+                    type: "Block"
+                }
+            ]
         },
         {
             code: "/*!comment */",
             output: "/*!comment*/",
             options: ["never", { markers: ["!"], block: { balanced: true } }],
-            errors: [{
-                messageId: "unexpectedSpaceBefore",
-                data: { refChar: "*/" },
-                type: "Block"
-            }]
+            errors: [
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: { refChar: "*/" },
+                    type: "Block"
+                }
+            ]
         },
 
         // not a marker-only comment, regression tests for https://github.com/eslint/eslint/issues/12036
@@ -649,31 +793,37 @@ ruleTester.run("spaced-comment", rule, {
             code: "//#endregionfoo",
             output: "//#endregion foo",
             options: ["always", { line: { markers: ["#endregion"] } }],
-            errors: [{
-                messageId: "expectedSpaceAfter",
-                data: { refChar: "//#endregion" },
-                type: "Line"
-            }]
+            errors: [
+                {
+                    messageId: "expectedSpaceAfter",
+                    data: { refChar: "//#endregion" },
+                    type: "Line"
+                }
+            ]
         },
         {
             code: "/*#endregion*/",
             output: "/* #endregion*/", // not an allowed marker for block comments
             options: ["always", { line: { markers: ["#endregion"] } }],
-            errors: [{
-                messageId: "expectedSpaceAfter",
-                data: { refChar: "/*" },
-                type: "Block"
-            }]
+            errors: [
+                {
+                    messageId: "expectedSpaceAfter",
+                    data: { refChar: "/*" },
+                    type: "Block"
+                }
+            ]
         },
         {
             code: "/****/",
             output: "/** **/",
             options: ["always"],
-            errors: [{
-                messageId: "expectedSpaceAfter",
-                data: { refChar: "/**" },
-                type: "Block"
-            }]
+            errors: [
+                {
+                    messageId: "expectedSpaceAfter",
+                    data: { refChar: "/**" },
+                    type: "Block"
+                }
+            ]
         },
         {
             code: "/****/",
@@ -710,5 +860,4 @@ ruleTester.run("spaced-comment", rule, {
             ]
         }
     ]
-
 });

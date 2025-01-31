@@ -80,7 +80,10 @@ ruleTester.run("no-else-return", rule, {
         {
             code: "function foo4() { if (true) { if (false) return x; else return y; } else { return z; } }",
             output: "function foo4() { if (true) { if (false) return x; return y; } else { return z; } }", // Other case is fixed in the second pass.
-            errors: [{ messageId: "unexpected", type: "ReturnStatement" }, { messageId: "unexpected", type: "BlockStatement" }]
+            errors: [
+                { messageId: "unexpected", type: "ReturnStatement" },
+                { messageId: "unexpected", type: "BlockStatement" }
+            ]
         },
         {
             code: "function foo5() { if (true) { if (false) { if (true) return x; else { w = y; } } else { w = x; } } else { return z; } }",
@@ -306,9 +309,7 @@ ruleTester.run("no-else-return", rule, {
             code: "function foo(a) { if (bar) { return true; } else { let a; } }",
             output: null,
             languageOptions: { ecmaVersion: 6 },
-            errors: [
-                { messageId: "unexpected", type: "BlockStatement" }
-            ]
+            errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
             code: "function foo(a = 1) { if (bar) { return true; } else { let a; } }",

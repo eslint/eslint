@@ -23,7 +23,6 @@ try {
     astUtils = require("../../lib/shared/ast-utils");
     isAvailable = true;
 } catch {
-
     // ignore
 }
 
@@ -57,7 +56,6 @@ function addContentMustBeMarked(content, options) {
  * @returns {void}
  */
 function installPrismESLintMarkerHook() {
-
     /**
      * A token type for marking the range reported by a rule.
      * This is also used for the `class` attribute of `<span>`.
@@ -101,19 +99,19 @@ function installPrismESLintMarkerHook() {
         return messageId;
     }
 
-
     const linter = new Linter({ configType: "flat" });
 
-    Prism.hooks.add("after-tokenize", env => {
+    Prism.hooks.add("after-tokenize", (env) => {
         messageMap.clear();
 
         if (contentMustBeMarked !== env.code) {
-
             // Ignore unmarked content.
             return;
         }
         contentMustBeMarked = void 0;
-        const config = contentLanguageOptions ? { languageOptions: contentLanguageOptions } : {};
+        const config = contentLanguageOptions
+            ? { languageOptions: contentLanguageOptions }
+            : {};
 
         const code = env.code;
 
@@ -145,19 +143,17 @@ function installPrismESLintMarkerHook() {
          * Run lint to extract the error range.
          */
         const lintMessages = linter.verify(
-
             // Remove trailing newline and presentational `⏎` characters
             docsExampleCodeToParsableCode(code),
             config,
             { filename: "code.js" }
         );
 
-        if (lintMessages.some(m => m.fatal)) {
-
+        if (lintMessages.some((m) => m.fatal)) {
             // ESLint fatal error.
             return;
         }
-        const messages = lintMessages.map(message => {
+        const messages = lintMessages.map((message) => {
             const start = getIndexFromLoc({
                 line: message.line,
                 column: message.column
@@ -170,9 +166,9 @@ function installPrismESLintMarkerHook() {
                     typeof message.endLine === "undefined"
                         ? start
                         : getIndexFromLoc({
-                            line: message.endLine,
-                            column: message.endColumn
-                        })
+                              line: message.endLine,
+                              column: message.endColumn
+                          })
                 ]
             };
         });
@@ -211,12 +207,10 @@ function installPrismESLintMarkerHook() {
          * @returns {SplitTokenResult} Splitted tokens
          */
         function splitToken({ token, range, message, tokenStart }) {
-
             const content = getTokenContent(token);
             const tokenEnd = tokenStart + content.length;
 
             if (range[0] <= tokenStart && tokenEnd <= range[1]) {
-
                 // The token is in range.
                 const marked = new Prism.Token(
                     TOKEN_TYPE_ESLINT_MARKED,
@@ -224,39 +218,76 @@ function installPrismESLintMarkerHook() {
                     [getMessageIdFromMessage(message)]
                 );
 
-                return { before: null, marked: { token: marked, canBeMerged: true }, after: null };
+                return {
+                    before: null,
+                    marked: { token: marked, canBeMerged: true },
+                    after: null
+                };
             }
 
             let buildToken;
 
             if (typeof token === "string") {
-                buildToken = newContent => newContent;
+                buildToken = (newContent) => newContent;
             } else {
                 if (typeof token.content !== "string") {
-                    if (token.content.every(childContent => typeof childContent === "string")) {
-
+                    if (
+                        token.content.every(
+                            (childContent) => typeof childContent === "string"
+                        )
+                    ) {
                         // It can be flatten.
-                        buildToken = newContent => new Prism.Token(token.type, newContent, token.alias);
+                        buildToken = (newContent) =>
+                            new Prism.Token(
+                                token.type,
+                                newContent,
+                                token.alias
+                            );
                     } else {
                         // eslint-disable-next-line no-use-before-define -- Safe
-                        token.content = [...convertMarked({ tokens: token.content, range, message, tokenStart })];
-                        return { before: null, marked: { token, canBeMerged: false }, after: null };
+                        token.content = [
+                            ...convertMarked({
+                                tokens: token.content,
+                                range,
+                                message,
+                                tokenStart
+                            })
+                        ];
+                        return {
+                            before: null,
+                            marked: { token, canBeMerged: false },
+                            after: null
+                        };
                     }
                 } else {
-                    buildToken = newContent => new Prism.Token(token.type, newContent, token.alias);
+                    buildToken = (newContent) =>
+                        new Prism.Token(token.type, newContent, token.alias);
                 }
             }
 
-            const before = tokenStart < range[0] ? buildToken(content.slice(0, range[0] - tokenStart)) : null;
-            const mark = content.slice(before ? range[0] - tokenStart : 0, range[1] - tokenStart);
+            const before =
+                tokenStart < range[0]
+                    ? buildToken(content.slice(0, range[0] - tokenStart))
+                    : null;
+            const mark = content.slice(
+                before ? range[0] - tokenStart : 0,
+                range[1] - tokenStart
+            );
             const marked = new Prism.Token(
                 TOKEN_TYPE_ESLINT_MARKED,
                 mark ? [buildToken(mark)] : mark,
                 [getMessageIdFromMessage(message)]
             );
-            const after = range[1] - tokenStart < content.length ? buildToken(content.slice(range[1] - tokenStart)) : null;
+            const after =
+                range[1] - tokenStart < content.length
+                    ? buildToken(content.slice(range[1] - tokenStart))
+                    : null;
 
-            return { before, marked: { token: marked, canBeMerged: true }, after };
+            return {
+                before,
+                marked: { token: marked, canBeMerged: true },
+                after
+            };
         }
 
         /**
@@ -267,34 +298,52 @@ function installPrismESLintMarkerHook() {
          * @param {Prism.Token} token Token to be split
          * @returns {IterableIterator<Prism.Token>} Splitted tokens
          */
-        function *splitMarkedTokenByLineFeed(token) {
+        function* splitMarkedTokenByLineFeed(token) {
             for (const contentToken of [token.content].flat()) {
                 if (typeof contentToken !== "string") {
                     const content = getTokenContent(contentToken);
 
                     if (/[\r\n]/u.test(content)) {
-                        yield new Prism.Token(token.type, [...splitMarkedTokenByLineFeed(contentToken)], token.alias);
+                        yield new Prism.Token(
+                            token.type,
+                            [...splitMarkedTokenByLineFeed(contentToken)],
+                            token.alias
+                        );
                     } else {
-                        yield new Prism.Token(token.type, [contentToken], token.alias);
+                        yield new Prism.Token(
+                            token.type,
+                            [contentToken],
+                            token.alias
+                        );
                     }
                     continue;
                 }
                 if (!/[\r\n]/u.test(contentToken)) {
-                    yield new Prism.Token(token.type, [contentToken], token.alias);
+                    yield new Prism.Token(
+                        token.type,
+                        [contentToken],
+                        token.alias
+                    );
                     continue;
                 }
                 const contents = [];
-                const reLineFeed = /\r\n?|\n/ug;
+                const reLineFeed = /\r\n?|\n/gu;
                 let startIndex = 0;
                 let matchLineFeed;
 
                 while ((matchLineFeed = reLineFeed.exec(contentToken))) {
-                    contents.push(contentToken.slice(startIndex, matchLineFeed.index));
+                    contents.push(
+                        contentToken.slice(startIndex, matchLineFeed.index)
+                    );
                     contents.push(matchLineFeed[0]);
                     startIndex = reLineFeed.lastIndex;
                 }
                 contents.push(contentToken.slice(startIndex));
-                yield* contents.filter(Boolean).map(str => new Prism.Token(token.type, [str], token.alias));
+                yield* contents
+                    .filter(Boolean)
+                    .map(
+                        (str) => new Prism.Token(token.type, [str], token.alias)
+                    );
             }
         }
 
@@ -303,7 +352,7 @@ function installPrismESLintMarkerHook() {
          * @param {Prism.Token[]} tokens Token to be Separate
          * @returns {IterableIterator<Prism.Token>} Splitted tokens
          */
-        function *splitTokensByLineFeed(tokens) {
+        function* splitTokensByLineFeed(tokens) {
             for (const token of tokens) {
                 if (typeof token === "string") {
                     yield token;
@@ -322,7 +371,9 @@ function installPrismESLintMarkerHook() {
                 }
 
                 if (typeof token.content !== "string") {
-                    token.content = [...splitTokensByLineFeed([token.content].flat())];
+                    token.content = [
+                        ...splitTokensByLineFeed([token.content].flat())
+                    ];
                 }
                 yield token;
             }
@@ -337,7 +388,7 @@ function installPrismESLintMarkerHook() {
          * @param {number} params.tokenStart Starting position of the tokens
          * @returns {IterableIterator<string | Prism.Token>} converted tokens
          */
-        function *convertMarked({ tokens, range, message, tokenStart = 0 }) {
+        function* convertMarked({ tokens, range, message, tokenStart = 0 }) {
             let start = tokenStart;
 
             const buffer = [tokens].flat();
@@ -362,7 +413,12 @@ function installPrismESLintMarkerHook() {
             }
 
             // Mark the token.
-            const { before, marked, after } = splitToken({ token, range, message, tokenStart: start });
+            const { before, marked, after } = splitToken({
+                token,
+                range,
+                message,
+                tokenStart: start
+            });
 
             if (before) {
                 yield before;
@@ -371,7 +427,6 @@ function installPrismESLintMarkerHook() {
                 yield* splitTokensByLineFeed([marked.token]);
                 yield after;
             } else {
-
                 // Subsequent tokens may still be present in the range.
                 let nextTokenStartIndex = start + getTokenContent(token).length;
                 let prevMarked = marked;
@@ -379,10 +434,17 @@ function installPrismESLintMarkerHook() {
 
                 while (nextTokenStartIndex < range[1] && buffer.length) {
                     const nextToken = buffer.shift();
-                    const next = splitToken({ token: nextToken, range, message, tokenStart: nextTokenStartIndex });
+                    const next = splitToken({
+                        token: nextToken,
+                        range,
+                        message,
+                        tokenStart: nextTokenStartIndex
+                    });
 
                     if (prevMarked.canBeMerged && next.marked.canBeMerged) {
-                        prevMarked.token.content.push(...next.marked.token.content);
+                        prevMarked.token.content.push(
+                            ...next.marked.token.content
+                        );
                     } else {
                         yield* splitTokensByLineFeed([prevMarked.token]);
                         prevMarked = next.marked;
@@ -403,22 +465,21 @@ function installPrismESLintMarkerHook() {
         }
 
         for (const { range, message } of messages) {
-            env.tokens = [...convertMarked({ tokens: env.tokens, range, message })];
+            env.tokens = [
+                ...convertMarked({ tokens: env.tokens, range, message })
+            ];
         }
     });
 
-    Prism.hooks.add("wrap", env => {
+    Prism.hooks.add("wrap", (env) => {
         if (env.type === TOKEN_TYPE_ESLINT_MARKED) {
-            const messageId = env.classes.find(c => messageMap.has(c));
+            const messageId = env.classes.find((c) => messageMap.has(c));
 
             if (messageId) {
                 env.attributes.title = messageMap.get(messageId);
             }
 
-            if (
-                env.content === "" ||
-                env.content === "\ufeff"
-            ) {
+            if (env.content === "" || env.content === "\ufeff") {
                 env.classes.push(CLASS_ESLINT_MARKED_ON_ZERO_WIDTH);
             } else if (
                 env.content === "\n" ||
@@ -431,8 +492,15 @@ function installPrismESLintMarkerHook() {
     });
 }
 
-
 module.exports = {
-    installPrismESLintMarkerHook: isAvailable ? installPrismESLintMarkerHook : () => { /* noop */ },
-    addContentMustBeMarked: isAvailable ? addContentMustBeMarked : () => { /* noop */ }
+    installPrismESLintMarkerHook: isAvailable
+        ? installPrismESLintMarkerHook
+        : () => {
+              /* noop */
+          },
+    addContentMustBeMarked: isAvailable
+        ? addContentMustBeMarked
+        : () => {
+              /* noop */
+          }
 };

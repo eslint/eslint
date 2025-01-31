@@ -17,7 +17,6 @@ const assert = require("node:assert"),
     createEmitter = require("../../../lib/linter/safe-emitter"),
     NodeEventGenerator = require("../../../lib/linter/node-event-generator");
 
-
 //------------------------------------------------------------------------------
 // Constants
 //------------------------------------------------------------------------------
@@ -30,7 +29,10 @@ const ESPREE_CONFIG = {
     loc: true
 };
 
-const STANDARD_ESQUERY_OPTION = { visitorKeys: vk.KEYS, fallback: Traverser.getKeys };
+const STANDARD_ESQUERY_OPTION = {
+    visitorKeys: vk.KEYS,
+    fallback: Traverser.getKeys
+};
 
 //------------------------------------------------------------------------------
 // Tests
@@ -45,10 +47,17 @@ describe("NodeEventGenerator", () => {
         let emitter, generator;
 
         beforeEach(() => {
-            emitter = Object.create(createEmitter(), { emit: { value: sinon.spy() } });
+            emitter = Object.create(createEmitter(), {
+                emit: { value: sinon.spy() }
+            });
 
-            ["Foo", "Bar", "Foo > Bar", "Foo:exit"].forEach(selector => emitter.on(selector, () => {}));
-            generator = new NodeEventGenerator(emitter, STANDARD_ESQUERY_OPTION);
+            ["Foo", "Bar", "Foo > Bar", "Foo:exit"].forEach((selector) =>
+                emitter.on(selector, () => {})
+            );
+            generator = new NodeEventGenerator(
+                emitter,
+                STANDARD_ESQUERY_OPTION
+            );
         });
 
         it("should generate events for entering AST node.", () => {
@@ -84,7 +93,6 @@ describe("NodeEventGenerator", () => {
     });
 
     describe("traversing the entire AST", () => {
-
         /**
          * Gets a list of emitted types/selectors from the generator, in emission order
          * @param {ASTNode} ast The AST to traverse
@@ -100,8 +108,11 @@ describe("NodeEventGenerator", () => {
                 }
             });
 
-            possibleQueries.forEach(query => emitter.on(query, () => {}));
-            const generator = new NodeEventGenerator(emitter, STANDARD_ESQUERY_OPTION);
+            possibleQueries.forEach((query) => emitter.on(query, () => {}));
+            const generator = new NodeEventGenerator(
+                emitter,
+                STANDARD_ESQUERY_OPTION
+            );
 
             Traverser.traverse(ast, {
                 enter(node) {
@@ -125,11 +136,16 @@ describe("NodeEventGenerator", () => {
          * This should only include emissions that appear in possibleQueries.
          * @returns {void}
          */
-        function assertEmissions(sourceText, possibleQueries, expectedEmissions) {
+        function assertEmissions(
+            sourceText,
+            possibleQueries,
+            expectedEmissions
+        ) {
             it(possibleQueries.join("; "), () => {
                 const ast = espree.parse(sourceText, ESPREE_CONFIG);
-                const emissions = getEmissions(ast, possibleQueries)
-                    .filter(emission => possibleQueries.includes(emission[0]));
+                const emissions = getEmissions(ast, possibleQueries).filter(
+                    (emission) => possibleQueries.includes(emission[0])
+                );
 
                 assert.deepStrictEqual(emissions, expectedEmissions(ast));
             });
@@ -137,8 +153,17 @@ describe("NodeEventGenerator", () => {
 
         assertEmissions(
             "foo + bar;",
-            ["Program", "Program:exit", "ExpressionStatement", "ExpressionStatement:exit", "BinaryExpression", "BinaryExpression:exit", "Identifier", "Identifier:exit"],
-            ast => [
+            [
+                "Program",
+                "Program:exit",
+                "ExpressionStatement",
+                "ExpressionStatement:exit",
+                "BinaryExpression",
+                "BinaryExpression:exit",
+                "Identifier",
+                "Identifier:exit"
+            ],
+            (ast) => [
                 ["Program", ast], // entering program
                 ["ExpressionStatement", ast.body[0]], // entering 'foo + bar;'
                 ["BinaryExpression", ast.body[0].expression], // entering 'foo + bar'
@@ -161,10 +186,13 @@ describe("NodeEventGenerator", () => {
                 "BinaryExpression > Identifier:exit",
                 "BinaryExpression:exit"
             ],
-            ast => [
+            (ast) => [
                 ["BinaryExpression", ast.body[0].expression], // foo + 5
                 ["BinaryExpression > Identifier", ast.body[0].expression.left], // foo
-                ["BinaryExpression > Identifier:exit", ast.body[0].expression.left], // exiting foo
+                [
+                    "BinaryExpression > Identifier:exit",
+                    ast.body[0].expression.left
+                ], // exiting foo
                 ["BinaryExpression Literal:exit", ast.body[0].expression.right], // exiting 5
                 ["BinaryExpression:exit", ast.body[0].expression] // exiting foo + 5
             ]
@@ -173,32 +201,31 @@ describe("NodeEventGenerator", () => {
         assertEmissions(
             "foo + 5",
             ["BinaryExpression > *[name='foo']"],
-            ast => [["BinaryExpression > *[name='foo']", ast.body[0].expression.left]] // entering foo
+            (ast) => [
+                [
+                    "BinaryExpression > *[name='foo']",
+                    ast.body[0].expression.left
+                ]
+            ] // entering foo
         );
 
-        assertEmissions(
-            "foo",
-            ["*"],
-            ast => [
-                ["*", ast], // Program
-                ["*", ast.body[0]], // ExpressionStatement
-                ["*", ast.body[0].expression] // Identifier
-            ]
-        );
+        assertEmissions("foo", ["*"], (ast) => [
+            ["*", ast], // Program
+            ["*", ast.body[0]], // ExpressionStatement
+            ["*", ast.body[0].expression] // Identifier
+        ]);
 
-        assertEmissions(
-            "foo",
-            ["*:not(ExpressionStatement)"],
-            ast => [
-                ["*:not(ExpressionStatement)", ast], // Program
-                ["*:not(ExpressionStatement)", ast.body[0].expression] // Identifier
-            ]
-        );
+        assertEmissions("foo", ["*:not(ExpressionStatement)"], (ast) => [
+            ["*:not(ExpressionStatement)", ast], // Program
+            ["*:not(ExpressionStatement)", ast.body[0].expression] // Identifier
+        ]);
 
         assertEmissions(
             "foo()",
             ["CallExpression[callee.name='foo']"],
-            ast => [["CallExpression[callee.name='foo']", ast.body[0].expression]] // foo()
+            (ast) => [
+                ["CallExpression[callee.name='foo']", ast.body[0].expression]
+            ] // foo()
         );
 
         assertEmissions(
@@ -215,39 +242,60 @@ describe("NodeEventGenerator", () => {
 
         assertEmissions(
             "foo + bar + baz",
-            [":matches(Identifier[name='foo'], Identifier[name='bar'], Identifier[name='baz'])"],
-            ast => [
-                [":matches(Identifier[name='foo'], Identifier[name='bar'], Identifier[name='baz'])", ast.body[0].expression.left.left], // foo
-                [":matches(Identifier[name='foo'], Identifier[name='bar'], Identifier[name='baz'])", ast.body[0].expression.left.right], // bar
-                [":matches(Identifier[name='foo'], Identifier[name='bar'], Identifier[name='baz'])", ast.body[0].expression.right] // baz
+            [
+                ":matches(Identifier[name='foo'], Identifier[name='bar'], Identifier[name='baz'])"
+            ],
+            (ast) => [
+                [
+                    ":matches(Identifier[name='foo'], Identifier[name='bar'], Identifier[name='baz'])",
+                    ast.body[0].expression.left.left
+                ], // foo
+                [
+                    ":matches(Identifier[name='foo'], Identifier[name='bar'], Identifier[name='baz'])",
+                    ast.body[0].expression.left.right
+                ], // bar
+                [
+                    ":matches(Identifier[name='foo'], Identifier[name='bar'], Identifier[name='baz'])",
+                    ast.body[0].expression.right
+                ] // baz
             ]
         );
 
         assertEmissions(
             "foo + 5 + 6",
             ["Identifier, Literal[value=5]"],
-            ast => [
-                ["Identifier, Literal[value=5]", ast.body[0].expression.left.left], // foo
-                ["Identifier, Literal[value=5]", ast.body[0].expression.left.right] // 5
+            (ast) => [
+                [
+                    "Identifier, Literal[value=5]",
+                    ast.body[0].expression.left.left
+                ], // foo
+                [
+                    "Identifier, Literal[value=5]",
+                    ast.body[0].expression.left.right
+                ] // 5
             ]
         );
 
         assertEmissions(
             "[foo, 5, foo]",
             ["Identifier + Literal"],
-            ast => [["Identifier + Literal", ast.body[0].expression.elements[1]]] // 5
+            (ast) => [
+                ["Identifier + Literal", ast.body[0].expression.elements[1]]
+            ] // 5
         );
 
         assertEmissions(
             "[foo, {}, 5]",
             ["Identifier + Literal", "Identifier ~ Literal"],
-            ast => [["Identifier ~ Literal", ast.body[0].expression.elements[2]]] // 5
+            (ast) => [
+                ["Identifier ~ Literal", ast.body[0].expression.elements[2]]
+            ] // 5
         );
 
         assertEmissions(
             "foo; bar + baz; qux()",
             [":expression", ":statement"],
-            ast => [
+            (ast) => [
                 [":statement", ast.body[0]],
                 [":expression", ast.body[0].expression],
                 [":statement", ast.body[1]],
@@ -262,13 +310,23 @@ describe("NodeEventGenerator", () => {
 
         assertEmissions(
             "function foo(){} var x; (function (p){}); () => {};",
-            [":function", "ExpressionStatement > :function", "VariableDeclaration, :function[params.length=1]"],
-            ast => [
+            [
+                ":function",
+                "ExpressionStatement > :function",
+                "VariableDeclaration, :function[params.length=1]"
+            ],
+            (ast) => [
                 [":function", ast.body[0]], // function foo(){}
-                ["VariableDeclaration, :function[params.length=1]", ast.body[1]], // var x;
+                [
+                    "VariableDeclaration, :function[params.length=1]",
+                    ast.body[1]
+                ], // var x;
                 [":function", ast.body[2].expression], // function (p){}
                 ["ExpressionStatement > :function", ast.body[2].expression], // function (p){}
-                ["VariableDeclaration, :function[params.length=1]", ast.body[2].expression], // function (p){}
+                [
+                    "VariableDeclaration, :function[params.length=1]",
+                    ast.body[2].expression
+                ], // function (p){}
                 [":function", ast.body[3].expression], // () => {}
                 ["ExpressionStatement > :function", ast.body[3].expression] // () => {}
             ]
@@ -293,7 +351,7 @@ describe("NodeEventGenerator", () => {
                 ":not(Program, ExpressionStatement)",
                 ":not(Program, Identifier) > [name.length=3]"
             ],
-            ast => [
+            (ast) => [
                 ["*", ast], // Program
                 ["*", ast.body[0]], // ExpressionStatement
 
@@ -309,7 +367,10 @@ describe("NodeEventGenerator", () => {
                 ["[name='foo']", ast.body[0].expression], // 1 pseudoclass, 0 identifiers
                 ["ExpressionStatement > [name='foo']", ast.body[0].expression], // 1 attribute, 1 identifier
                 ["Identifier[name='foo']", ast.body[0].expression], // 1 attribute, 1 identifier
-                [":not(Program, Identifier) > [name.length=3]", ast.body[0].expression], // 1 attribute, 2 identifiers
+                [
+                    ":not(Program, Identifier) > [name.length=3]",
+                    ast.body[0].expression
+                ], // 1 attribute, 2 identifiers
                 ["[name='foo'][name.length=3]", ast.body[0].expression] // 2 attributes, 0 identifiers
             ]
         );
@@ -317,33 +378,27 @@ describe("NodeEventGenerator", () => {
         assertEmissions(
             "foo(); bar; baz;",
             ["CallExpression, [name='bar']"],
-            ast => [
+            (ast) => [
                 ["CallExpression, [name='bar']", ast.body[0].expression],
                 ["CallExpression, [name='bar']", ast.body[1].expression]
             ]
         );
 
-        assertEmissions(
-            "foo; bar;",
-            ["[name.length=3]:exit"],
-            ast => [
-                ["[name.length=3]:exit", ast.body[0].expression],
-                ["[name.length=3]:exit", ast.body[1].expression]
-            ]
-        );
+        assertEmissions("foo; bar;", ["[name.length=3]:exit"], (ast) => [
+            ["[name.length=3]:exit", ast.body[0].expression],
+            ["[name.length=3]:exit", ast.body[1].expression]
+        ]);
 
         // https://github.com/eslint/eslint/issues/14799
-        assertEmissions(
-            "const {a = 1} = b;",
-            ["Property > .key"],
-            ast => [
-                ["Property > .key", ast.body[0].declarations[0].id.properties[0].key]
+        assertEmissions("const {a = 1} = b;", ["Property > .key"], (ast) => [
+            [
+                "Property > .key",
+                ast.body[0].declarations[0].id.properties[0].key
             ]
-        );
+        ]);
     });
 
     describe("traversing the entire non-standard AST", () => {
-
         /**
          * Gets a list of emitted types/selectors from the generator, in emission order
          * @param {ASTNode} ast The AST to traverse
@@ -360,8 +415,11 @@ describe("NodeEventGenerator", () => {
                 }
             });
 
-            possibleQueries.forEach(query => emitter.on(query, () => {}));
-            const generator = new NodeEventGenerator(emitter, { visitorKeys, fallback: Traverser.getKeys });
+            possibleQueries.forEach((query) => emitter.on(query, () => {}));
+            const generator = new NodeEventGenerator(emitter, {
+                visitorKeys,
+                fallback: Traverser.getKeys
+            });
 
             Traverser.traverse(ast, {
                 visitorKeys,
@@ -387,27 +445,37 @@ describe("NodeEventGenerator", () => {
          * This should only include emissions that appear in possibleQueries.
          * @returns {void}
          */
-        function assertEmissions(ast, visitorKeys, possibleQueries, expectedEmissions) {
+        function assertEmissions(
+            ast,
+            visitorKeys,
+            possibleQueries,
+            expectedEmissions
+        ) {
             it(possibleQueries.join("; "), () => {
-                const emissions = getEmissions(ast, visitorKeys, possibleQueries)
-                    .filter(emission => possibleQueries.includes(emission[0]));
+                const emissions = getEmissions(
+                    ast,
+                    visitorKeys,
+                    possibleQueries
+                ).filter((emission) => possibleQueries.includes(emission[0]));
 
                 assert.deepStrictEqual(emissions, expectedEmissions(ast));
             });
         }
 
         assertEmissions(
-            espree.parse("const foo = [<div/>, <div/>]", { ...ESPREE_CONFIG, ecmaFeatures: { jsx: true } }),
+            espree.parse("const foo = [<div/>, <div/>]", {
+                ...ESPREE_CONFIG,
+                ecmaFeatures: { jsx: true }
+            }),
             vk.KEYS,
             ["* ~ *"],
-            ast => [
+            (ast) => [
                 ["* ~ *", ast.body[0].declarations[0].init.elements[1]] // entering second JSXElement
             ]
         );
 
         assertEmissions(
             {
-
                 // Parse `class A implements B {}` with typescript-eslint.
                 type: "Program",
                 errors: [],
@@ -439,7 +507,6 @@ describe("NodeEventGenerator", () => {
                 ]
             },
             vk.unionWith({
-
                 // see https://github.com/typescript-eslint/typescript-eslint/blob/e4d737b47574ff2c53cabab22853035dfe48c1ed/packages/visitor-keys/src/visitor-keys.ts#L27
                 ClassDeclaration: [
                     "decorators",
@@ -452,7 +519,7 @@ describe("NodeEventGenerator", () => {
                 ]
             }),
             [":first-child"],
-            ast => [
+            (ast) => [
                 [":first-child", ast.body[0]], // entering first ClassDeclaration
                 [":first-child", ast.body[0].implements[0]] // entering first ClassImplements
             ]

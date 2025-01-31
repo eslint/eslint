@@ -19,8 +19,8 @@ ESLint ships experimental and future breaking changes behind feature flags to le
 
 The prefix of a flag indicates its status:
 
-* `unstable_` indicates that the feature is experimental and the implementation may change before the feature is stabilized. This is a "use at your own risk" feature.
-* `v##_` indicates that the feature is stabilized and will be available in the next major release. For example, `v10_some_feature` indicates that this is a breaking change that will be formally released in ESLint v10.0.0. These flags are removed each major release.
+-   `unstable_` indicates that the feature is experimental and the implementation may change before the feature is stabilized. This is a "use at your own risk" feature.
+-   `v##_` indicates that the feature is stabilized and will be available in the next major release. For example, `v10_some_feature` indicates that this is a breaking change that will be formally released in ESLint v10.0.0. These flags are removed each major release.
 
 A feature may move from unstable to stable without a major release if it is a non-breaking change.
 
@@ -95,7 +95,7 @@ To enable flags in the VS Code ESLint Extension for the editor, specify the flag
 
 ```json
 {
-  "eslint.options": { "flags": ["flag_one", "flag_two"] }
+    "eslint.options": { "flags": ["flag_one", "flag_two"] }
 }
 ```
 
@@ -103,7 +103,7 @@ To enable flags in the VS Code ESLint Extension for a lint task, specify the `es
 
 ```json
 {
-  "eslint.lintTask.options": "--flag flag_one --flag flag_two ."
+    "eslint.lintTask.options": "--flag flag_one --flag flag_two ."
 }
 ```
 

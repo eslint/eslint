@@ -20,7 +20,6 @@ const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2021 } });
 
 ruleTester.run("constructor-super", rule, {
     valid: [
-
         // non derived classes.
         "class A { }",
         "class A { constructor() { } }",
@@ -157,7 +156,6 @@ ruleTester.run("constructor-super", rule, {
         `
     ],
     invalid: [
-
         // inherit from non constructors.
         {
             code: "class A extends null { constructor() { super(); } }",
@@ -184,7 +182,6 @@ ruleTester.run("constructor-super", rule, {
             errors: [{ messageId: "badSuper", type: "CallExpression" }]
         },
         {
-
             // `B &&= 5` evaluates either to a falsy value of `B` (which, then, cannot be a constructor), or to '5'
             code: "class A extends (B &&= 5) { constructor() { super(); } }",
             errors: [{ messageId: "badSuper", type: "CallExpression" }]
@@ -235,19 +232,43 @@ ruleTester.run("constructor-super", rule, {
         },
         {
             code: "class A extends B { constructor() { class C extends D { constructor() { super(); } } } }",
-            errors: [{ messageId: "missingAll", type: "MethodDefinition", column: 21 }]
+            errors: [
+                {
+                    messageId: "missingAll",
+                    type: "MethodDefinition",
+                    column: 21
+                }
+            ]
         },
         {
             code: "class A extends B { constructor() { var C = class extends D { constructor() { super(); } } } }",
-            errors: [{ messageId: "missingAll", type: "MethodDefinition", column: 21 }]
+            errors: [
+                {
+                    messageId: "missingAll",
+                    type: "MethodDefinition",
+                    column: 21
+                }
+            ]
         },
         {
             code: "class A extends B { constructor() { super(); class C extends D { constructor() { } } } }",
-            errors: [{ messageId: "missingAll", type: "MethodDefinition", column: 66 }]
+            errors: [
+                {
+                    messageId: "missingAll",
+                    type: "MethodDefinition",
+                    column: 66
+                }
+            ]
         },
         {
             code: "class A extends B { constructor() { super(); var C = class extends D { constructor() { } } } }",
-            errors: [{ messageId: "missingAll", type: "MethodDefinition", column: 72 }]
+            errors: [
+                {
+                    messageId: "missingAll",
+                    type: "MethodDefinition",
+                    column: 72
+                }
+            ]
         },
 
         // lacked in some code path.
@@ -287,19 +308,27 @@ ruleTester.run("constructor-super", rule, {
         // duplicate.
         {
             code: "class A extends B { constructor() { super(); super(); } }",
-            errors: [{ messageId: "duplicate", type: "CallExpression", column: 46 }]
+            errors: [
+                { messageId: "duplicate", type: "CallExpression", column: 46 }
+            ]
         },
         {
             code: "class A extends B { constructor() { super() || super(); } }",
-            errors: [{ messageId: "duplicate", type: "CallExpression", column: 48 }]
+            errors: [
+                { messageId: "duplicate", type: "CallExpression", column: 48 }
+            ]
         },
         {
             code: "class A extends B { constructor() { if (a) super(); super(); } }",
-            errors: [{ messageId: "duplicate", type: "CallExpression", column: 53 }]
+            errors: [
+                { messageId: "duplicate", type: "CallExpression", column: 53 }
+            ]
         },
         {
             code: "class A extends B { constructor() { switch (a) { case 0: super(); default: super(); } } }",
-            errors: [{ messageId: "duplicate", type: "CallExpression", column: 76 }]
+            errors: [
+                { messageId: "duplicate", type: "CallExpression", column: 76 }
+            ]
         },
         {
             code: "class A extends B { constructor(a) { while (a) super(); } }",

@@ -13,7 +13,6 @@ describe("universal", () => {
         assert.ok(Linter);
         assert.ok(typeof Linter === "function");
 
-
         const linter = new Linter();
 
         assert.ok(linter);

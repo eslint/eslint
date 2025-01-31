@@ -45,7 +45,7 @@ You must be connected to the Internet for this step to work. You'll see a lot of
 
 ## Step 3: Add the Upstream Source
 
-The *upstream source* is the main ESLint repository where active development happens. While you won't have push access to upstream, you will have pull access, allowing you to pull in the latest code whenever you want.
+The _upstream source_ is the main ESLint repository where active development happens. While you won't have push access to upstream, you will have pull access, allowing you to pull in the latest code whenever you want.
 
 To add the upstream source for ESLint, run the following in your repository:
 
@@ -91,16 +91,16 @@ The testing takes a few minutes to complete. If any tests fail, that likely mean
 
 The ESLint directory and file structure is as follows:
 
-* `bin` - executable files that are available when ESLint is installed.
-* `conf` - default configuration information.
-* `docs` - documentation for the project.
-* `lib` - contains the source code.
-    * `formatters` - all source files defining formatters.
-    * `rules` - all source files defining rules.
-* `tests` - the main unit test folder.
-    * `lib` - tests for the source code.
-        * `formatters` - tests for the formatters.
-        * `rules` - tests for the rules.
+-   `bin` - executable files that are available when ESLint is installed.
+-   `conf` - default configuration information.
+-   `docs` - documentation for the project.
+-   `lib` - contains the source code.
+    -   `formatters` - all source files defining formatters.
+    -   `rules` - all source files defining rules.
+-   `tests` - the main unit test folder.
+    -   `lib` - tests for the source code.
+        -   `formatters` - tests for the formatters.
+        -   `rules` - tests for the rules.
 
 ### Workflow
 

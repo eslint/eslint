@@ -20,7 +20,6 @@ const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2022 } });
 
 ruleTester.run("no-this-before-super", rule, {
     valid: [
-
         /*
          * if the class has no extends or `extends null`, just ignore.
          * those classes cannot call `super()`.
@@ -124,86 +123,189 @@ ruleTester.run("no-this-before-super", rule, {
         "class C extends B { field = this.foo(); constructor() { } }" // < in this case, initializers are never evaluated.
     ],
     invalid: [
-
         // disallows all `this`/`super` if `super()` is missing.
         {
             code: "class A extends B { constructor() { this.c = 0; } }",
-            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
+            errors: [
+                {
+                    messageId: "noBeforeSuper",
+                    data: { kind: "this" },
+                    type: "ThisExpression"
+                }
+            ]
         },
         {
             code: "class A extends B { constructor() { this.c(); } }",
-            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
+            errors: [
+                {
+                    messageId: "noBeforeSuper",
+                    data: { kind: "this" },
+                    type: "ThisExpression"
+                }
+            ]
         },
         {
             code: "class A extends B { constructor() { super.c(); } }",
-            errors: [{ messageId: "noBeforeSuper", data: { kind: "super" }, type: "Super" }]
+            errors: [
+                {
+                    messageId: "noBeforeSuper",
+                    data: { kind: "super" },
+                    type: "Super"
+                }
+            ]
         },
 
         // disallows `this`/`super` before `super()`.
         {
             code: "class A extends B { constructor() { this.c = 0; super(); } }",
-            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
+            errors: [
+                {
+                    messageId: "noBeforeSuper",
+                    data: { kind: "this" },
+                    type: "ThisExpression"
+                }
+            ]
         },
         {
             code: "class A extends B { constructor() { this.c(); super(); } }",
-            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
+            errors: [
+                {
+                    messageId: "noBeforeSuper",
+                    data: { kind: "this" },
+                    type: "ThisExpression"
+                }
+            ]
         },
         {
             code: "class A extends B { constructor() { super.c(); super(); } }",
-            errors: [{ messageId: "noBeforeSuper", data: { kind: "super" }, type: "Super" }]
+            errors: [
+                {
+                    messageId: "noBeforeSuper",
+                    data: { kind: "super" },
+                    type: "Super"
+                }
+            ]
         },
 
         // disallows `this`/`super` in arguments of `super()`.
         {
             code: "class A extends B { constructor() { super(this.c); } }",
-            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
+            errors: [
+                {
+                    messageId: "noBeforeSuper",
+                    data: { kind: "this" },
+                    type: "ThisExpression"
+                }
+            ]
         },
         {
             code: "class A extends B { constructor() { super(this.c()); } }",
-            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
+            errors: [
+                {
+                    messageId: "noBeforeSuper",
+                    data: { kind: "this" },
+                    type: "ThisExpression"
+                }
+            ]
         },
         {
             code: "class A extends B { constructor() { super(super.c()); } }",
-            errors: [{ messageId: "noBeforeSuper", data: { kind: "super" }, type: "Super" }]
+            errors: [
+                {
+                    messageId: "noBeforeSuper",
+                    data: { kind: "super" },
+                    type: "Super"
+                }
+            ]
         },
 
         // even if is nested, reports correctly.
         {
             code: "class A extends B { constructor() { class C extends D { constructor() { super(); this.e(); } } this.f(); super(); } }",
-            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression", column: 96 }]
+            errors: [
+                {
+                    messageId: "noBeforeSuper",
+                    data: { kind: "this" },
+                    type: "ThisExpression",
+                    column: 96
+                }
+            ]
         },
         {
             code: "class A extends B { constructor() { class C extends D { constructor() { this.e(); super(); } } super(); this.f(); } }",
-            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression", column: 73 }]
+            errors: [
+                {
+                    messageId: "noBeforeSuper",
+                    data: { kind: "this" },
+                    type: "ThisExpression",
+                    column: 73
+                }
+            ]
         },
 
         // multi code path.
         {
             code: "class A extends B { constructor() { if (a) super(); this.a(); } }",
-            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
+            errors: [
+                {
+                    messageId: "noBeforeSuper",
+                    data: { kind: "this" },
+                    type: "ThisExpression"
+                }
+            ]
         },
         {
             code: "class A extends B { constructor() { try { super(); } finally { this.a; } } }",
-            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
+            errors: [
+                {
+                    messageId: "noBeforeSuper",
+                    data: { kind: "this" },
+                    type: "ThisExpression"
+                }
+            ]
         },
         {
             code: "class A extends B { constructor() { try { super(); } catch (err) { } this.a; } }",
-            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
+            errors: [
+                {
+                    messageId: "noBeforeSuper",
+                    data: { kind: "this" },
+                    type: "ThisExpression"
+                }
+            ]
         },
         {
             code: "class A extends B { constructor() { foo &&= super().a; this.c(); } }",
             languageOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
+            errors: [
+                {
+                    messageId: "noBeforeSuper",
+                    data: { kind: "this" },
+                    type: "ThisExpression"
+                }
+            ]
         },
         {
             code: "class A extends B { constructor() { foo ||= super().a; this.c(); } }",
             languageOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
+            errors: [
+                {
+                    messageId: "noBeforeSuper",
+                    data: { kind: "this" },
+                    type: "ThisExpression"
+                }
+            ]
         },
         {
             code: "class A extends B { constructor() { foo ??= super().a; this.c(); } }",
             languageOptions: { ecmaVersion: 2021 },
-            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
+            errors: [
+                {
+                    messageId: "noBeforeSuper",
+                    data: { kind: "this" },
+                    type: "ThisExpression"
+                }
+            ]
         },
         {
             code: `
@@ -216,7 +318,13 @@ ruleTester.run("no-this-before-super", rule, {
                     this.a();
                 }
             }`,
-            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
+            errors: [
+                {
+                    messageId: "noBeforeSuper",
+                    data: { kind: "this" },
+                    type: "ThisExpression"
+                }
+            ]
         },
         {
             code: `
@@ -229,7 +337,13 @@ ruleTester.run("no-this-before-super", rule, {
                     this.a();
                 }
             }`,
-            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
+            errors: [
+                {
+                    messageId: "noBeforeSuper",
+                    data: { kind: "this" },
+                    type: "ThisExpression"
+                }
+            ]
         },
         {
             code: `
@@ -242,7 +356,13 @@ ruleTester.run("no-this-before-super", rule, {
                     }
                 }
             }`,
-            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
+            errors: [
+                {
+                    messageId: "noBeforeSuper",
+                    data: { kind: "this" },
+                    type: "ThisExpression"
+                }
+            ]
         },
         {
             code: `
@@ -254,7 +374,13 @@ ruleTester.run("no-this-before-super", rule, {
                     this.a();
                 }
             }`,
-            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
+            errors: [
+                {
+                    messageId: "noBeforeSuper",
+                    data: { kind: "this" },
+                    type: "ThisExpression"
+                }
+            ]
         },
         {
             code: `
@@ -266,7 +392,13 @@ ruleTester.run("no-this-before-super", rule, {
                     }
                 }
             }`,
-            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
+            errors: [
+                {
+                    messageId: "noBeforeSuper",
+                    data: { kind: "this" },
+                    type: "ThisExpression"
+                }
+            ]
         },
         {
             code: `
@@ -280,7 +412,13 @@ ruleTester.run("no-this-before-super", rule, {
                     }
                 }
             }`,
-            errors: [{ messageId: "noBeforeSuper", data: { kind: "this" }, type: "ThisExpression" }]
+            errors: [
+                {
+                    messageId: "noBeforeSuper",
+                    data: { kind: "this" },
+                    type: "ThisExpression"
+                }
+            ]
         }
     ]
 });

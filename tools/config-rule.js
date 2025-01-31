@@ -46,8 +46,8 @@ function combineArrays(arr1, arr2) {
     if (arr2.length === 0) {
         return explodeArray(arr1);
     }
-    arr1.forEach(x1 => {
-        arr2.forEach(x2 => {
+    arr1.forEach((x1) => {
+        arr2.forEach((x2) => {
             res.push([].concat(x1, x2));
         });
     });
@@ -77,13 +77,14 @@ function groupByProperty(objects) {
     const groupedObj = objects.reduce((accumulator, obj) => {
         const prop = Object.keys(obj)[0];
 
-        accumulator[prop] = accumulator[prop] ? accumulator[prop].concat(obj) : [obj];
+        accumulator[prop] = accumulator[prop]
+            ? accumulator[prop].concat(obj)
+            : [obj];
         return accumulator;
     }, {});
 
-    return Object.keys(groupedObj).map(prop => groupedObj[prop]);
+    return Object.keys(groupedObj).map((prop) => groupedObj[prop]);
 }
-
 
 //------------------------------------------------------------------------------
 // Private
@@ -111,7 +112,6 @@ function groupByProperty(objects) {
  * }
  * @typedef rulesConfig
  */
-
 
 /**
  * Create valid rule configurations by combining two arrays,
@@ -144,16 +144,16 @@ function combinePropertyObjects(objArr1, objArr2) {
     if (objArr2.length === 0) {
         return objArr1;
     }
-    objArr1.forEach(obj1 => {
-        objArr2.forEach(obj2 => {
+    objArr1.forEach((obj1) => {
+        objArr2.forEach((obj2) => {
             const combinedObj = {};
             const obj1Props = Object.keys(obj1);
             const obj2Props = Object.keys(obj2);
 
-            obj1Props.forEach(prop1 => {
+            obj1Props.forEach((prop1) => {
                 combinedObj[prop1] = obj1[prop1];
             });
-            obj2Props.forEach(prop2 => {
+            obj2Props.forEach((prop2) => {
                 combinedObj[prop2] = obj2[prop2];
             });
             res.push(combinedObj);
@@ -173,12 +173,10 @@ function combinePropertyObjects(objArr1, objArr2) {
  * Rule configuration set class
  */
 class RuleConfigSet {
-
     /**
      * @param {ruleConfig[]} configs Valid rule configurations
      */
     constructor(configs) {
-
         /**
          * Stored valid rule configurations for this instance
          * @type {Array}
@@ -194,7 +192,7 @@ class RuleConfigSet {
     addErrorSeverity() {
         const severity = 2;
 
-        this.ruleConfigs = this.ruleConfigs.map(config => {
+        this.ruleConfigs = this.ruleConfigs.map((config) => {
             config.unshift(severity);
             return config;
         });
@@ -209,7 +207,9 @@ class RuleConfigSet {
      * @returns {void}
      */
     addEnums(enums) {
-        this.ruleConfigs = this.ruleConfigs.concat(combineArrays(this.ruleConfigs, enums));
+        this.ruleConfigs = this.ruleConfigs.concat(
+            combineArrays(this.ruleConfigs, enums)
+        );
     }
 
     /**
@@ -230,7 +230,11 @@ class RuleConfigSet {
             },
 
             combine() {
-                this.objectConfigs = groupByProperty(this.objectConfigs).reduce((accumulator, objArr) => combinePropertyObjects(accumulator, objArr), []);
+                this.objectConfigs = groupByProperty(this.objectConfigs).reduce(
+                    (accumulator, objArr) =>
+                        combinePropertyObjects(accumulator, objArr),
+                    []
+                );
             }
         };
 
@@ -238,18 +242,23 @@ class RuleConfigSet {
          * The object schema could have multiple independent properties.
          * If any contain enums or booleans, they can be added and then combined
          */
-        Object.keys(obj.properties).forEach(prop => {
+        Object.keys(obj.properties).forEach((prop) => {
             if (obj.properties[prop].enum) {
                 objectConfigSet.add(prop, obj.properties[prop].enum);
             }
-            if (obj.properties[prop].type && obj.properties[prop].type === "boolean") {
+            if (
+                obj.properties[prop].type &&
+                obj.properties[prop].type === "boolean"
+            ) {
                 objectConfigSet.add(prop, [true, false]);
             }
         });
         objectConfigSet.combine();
 
         if (objectConfigSet.objectConfigs.length > 0) {
-            this.ruleConfigs = this.ruleConfigs.concat(combineArrays(this.ruleConfigs, objectConfigSet.objectConfigs));
+            this.ruleConfigs = this.ruleConfigs.concat(
+                combineArrays(this.ruleConfigs, objectConfigSet.objectConfigs)
+            );
             return true;
         }
 
@@ -274,9 +283,8 @@ function generateConfigsFromSchema(schema) {
                     break;
                 }
 
-            // TODO (IanVS): support oneOf
+                // TODO (IanVS): support oneOf
             } else {
-
                 // If we don't know how to fill in this option, don't fill in any of the following options.
                 break;
             }
@@ -304,7 +312,6 @@ function createCoreRuleConfigs(noDeprecated = false) {
         return accumulator;
     }, {});
 }
-
 
 //------------------------------------------------------------------------------
 // Public Interface

@@ -25,7 +25,16 @@
  * SOFTWARE
  */
 
-import { AST, ESLint, Linter, loadESLint, Rule, RuleTester, Scope, SourceCode } from "eslint";
+import {
+    AST,
+    ESLint,
+    Linter,
+    loadESLint,
+    Rule,
+    RuleTester,
+    Scope,
+    SourceCode
+} from "eslint";
 import { ESLintRules } from "eslint/rules";
 import { Linter as ESLinter } from "eslint/universal";
 import {
@@ -33,9 +42,15 @@ import {
     FileEnumerator,
     FlatESLint,
     LegacyESLint,
-    shouldUseFlatConfig,
+    shouldUseFlatConfig
 } from "eslint/use-at-your-own-risk";
-import { Comment, PrivateIdentifier, PropertyDefinition, StaticBlock, WhileStatement } from "estree";
+import {
+    Comment,
+    PrivateIdentifier,
+    PropertyDefinition,
+    StaticBlock,
+    WhileStatement
+} from "estree";
 import { Language } from "@eslint/core";
 
 const SOURCE = `var foo = bar;`;
@@ -48,9 +63,9 @@ const AST: AST.Program = {
     tokens: [],
     loc: {
         start: { line: 0, column: 0 },
-        end: { line: 0, column: 0 },
+        end: { line: 0, column: 0 }
     },
-    range: [0, 0],
+    range: [0, 0]
 };
 
 const TOKEN: AST.Token = {
@@ -58,9 +73,9 @@ const TOKEN: AST.Token = {
     value: "foo",
     loc: {
         start: { line: 0, column: 0 },
-        end: { line: 0, column: 3 },
+        end: { line: 0, column: 3 }
     },
-    range: [0, 3],
+    range: [0, 3]
 };
 
 const COMMENT: Comment = {
@@ -68,9 +83,9 @@ const COMMENT: Comment = {
     value: "foo",
     loc: {
         start: { line: 0, column: 0 },
-        end: { line: 0, column: 0 },
+        end: { line: 0, column: 0 }
     },
-    range: [0, 0],
+    range: [0, 0]
 };
 
 // #region SourceCode
@@ -114,9 +129,18 @@ sourceCode.getTokenByRangeStart(0, { includeComments: false as boolean }); // $E
 sourceCode.getFirstToken(AST); // $ExpectType Token | null
 sourceCode.getFirstToken(AST, 0);
 sourceCode.getFirstToken(AST, { skip: 0 });
-sourceCode.getFirstToken(AST, (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier"); // $ExpectType (Token & { type: "Identifier"; }) | null
-sourceCode.getFirstToken(AST, { filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier" }); // $ExpectType (Token & { type: "Identifier"; }) | null
-sourceCode.getFirstToken(AST, { skip: 0, filter: t => t.type === "Identifier" });
+sourceCode.getFirstToken(
+    AST,
+    (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier"
+); // $ExpectType (Token & { type: "Identifier"; }) | null
+sourceCode.getFirstToken(AST, {
+    filter: (t): t is AST.Token & { type: "Identifier" } =>
+        t.type === "Identifier"
+}); // $ExpectType (Token & { type: "Identifier"; }) | null
+sourceCode.getFirstToken(AST, {
+    skip: 0,
+    filter: (t) => t.type === "Identifier"
+});
 sourceCode.getFirstToken(AST, { includeComments: true }); // $ExpectType Comment | Token | null
 sourceCode.getFirstToken(AST, { includeComments: true, skip: 0 });
 // prettier-ignore
@@ -129,8 +153,14 @@ sourceCode.getFirstToken(AST, { // $ExpectType (Token & { type: "Identifier"; })
 sourceCode.getFirstTokens(AST); // $ExpectType Token[]
 sourceCode.getFirstTokens(AST, 0); // $ExpectType Token[]
 sourceCode.getFirstTokens(AST, { count: 0 });
-sourceCode.getFirstTokens(AST, (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier"); // $ExpectType (Token & { type: "Identifier"; })[]
-sourceCode.getFirstTokens(AST, { filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier" }); // $ExpectType (Token & { type: "Identifier"; })[]
+sourceCode.getFirstTokens(
+    AST,
+    (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier"
+); // $ExpectType (Token & { type: "Identifier"; })[]
+sourceCode.getFirstTokens(AST, {
+    filter: (t): t is AST.Token & { type: "Identifier" } =>
+        t.type === "Identifier"
+}); // $ExpectType (Token & { type: "Identifier"; })[]
 // prettier-ignore
 sourceCode.getFirstTokens(AST, { // $ExpectType (Token & { type: "Identifier"; })[]
     count: 0,
@@ -148,82 +178,129 @@ sourceCode.getFirstTokens(AST, { // $ExpectType (Token & { type: "Identifier"; }
 sourceCode.getLastToken(AST);
 sourceCode.getLastToken(AST, 0);
 sourceCode.getLastToken(AST, { skip: 0 });
-sourceCode.getLastToken(AST, t => t.type === "Identifier");
-sourceCode.getLastToken(AST, { filter: t => t.type === "Identifier" });
-sourceCode.getLastToken(AST, { skip: 0, filter: t => t.type === "Identifier" });
+sourceCode.getLastToken(AST, (t) => t.type === "Identifier");
+sourceCode.getLastToken(AST, { filter: (t) => t.type === "Identifier" });
+sourceCode.getLastToken(AST, {
+    skip: 0,
+    filter: (t) => t.type === "Identifier"
+});
 sourceCode.getLastToken(AST, { includeComments: true });
 sourceCode.getLastToken(AST, { includeComments: true, skip: 0 });
-sourceCode.getLastToken(AST, { includeComments: true, skip: 0, filter: t => t.type === "Identifier" });
+sourceCode.getLastToken(AST, {
+    includeComments: true,
+    skip: 0,
+    filter: (t) => t.type === "Identifier"
+});
 
 sourceCode.getLastTokens(AST);
 sourceCode.getLastTokens(AST, 0);
 sourceCode.getLastTokens(AST, { count: 0 });
-sourceCode.getLastTokens(AST, t => t.type === "Identifier");
-sourceCode.getLastTokens(AST, { filter: t => t.type === "Identifier" });
-sourceCode.getLastTokens(AST, { count: 0, filter: t => t.type === "Identifier" });
+sourceCode.getLastTokens(AST, (t) => t.type === "Identifier");
+sourceCode.getLastTokens(AST, { filter: (t) => t.type === "Identifier" });
+sourceCode.getLastTokens(AST, {
+    count: 0,
+    filter: (t) => t.type === "Identifier"
+});
 sourceCode.getLastTokens(AST, { includeComments: true });
 sourceCode.getLastTokens(AST, { includeComments: true, count: 0 });
-sourceCode.getLastTokens(AST, { includeComments: true, count: 0, filter: t => t.type === "Identifier" });
+sourceCode.getLastTokens(AST, {
+    includeComments: true,
+    count: 0,
+    filter: (t) => t.type === "Identifier"
+});
 
 sourceCode.getTokenBefore(AST);
 sourceCode.getTokenBefore(AST, 0);
 sourceCode.getTokenBefore(AST, { skip: 0 });
-sourceCode.getTokenBefore(AST, t => t.type === "Identifier");
-sourceCode.getTokenBefore(AST, { filter: t => t.type === "Identifier" });
-sourceCode.getTokenBefore(AST, { skip: 0, filter: t => t.type === "Identifier" });
+sourceCode.getTokenBefore(AST, (t) => t.type === "Identifier");
+sourceCode.getTokenBefore(AST, { filter: (t) => t.type === "Identifier" });
+sourceCode.getTokenBefore(AST, {
+    skip: 0,
+    filter: (t) => t.type === "Identifier"
+});
 sourceCode.getTokenBefore(AST, { includeComments: true });
 sourceCode.getTokenBefore(AST, { includeComments: true, skip: 0 });
-sourceCode.getTokenBefore(AST, { includeComments: true, skip: 0, filter: t => t.type === "Identifier" });
+sourceCode.getTokenBefore(AST, {
+    includeComments: true,
+    skip: 0,
+    filter: (t) => t.type === "Identifier"
+});
 sourceCode.getTokenBefore(TOKEN, 0);
 sourceCode.getTokenBefore(COMMENT, 0);
 
 sourceCode.getTokensBefore(AST);
 sourceCode.getTokensBefore(AST, 0);
 sourceCode.getTokensBefore(AST, { count: 0 });
-sourceCode.getTokensBefore(AST, t => t.type === "Identifier");
-sourceCode.getTokensBefore(AST, { filter: t => t.type === "Identifier" });
-sourceCode.getTokensBefore(AST, { count: 0, filter: t => t.type === "Identifier" });
+sourceCode.getTokensBefore(AST, (t) => t.type === "Identifier");
+sourceCode.getTokensBefore(AST, { filter: (t) => t.type === "Identifier" });
+sourceCode.getTokensBefore(AST, {
+    count: 0,
+    filter: (t) => t.type === "Identifier"
+});
 sourceCode.getTokensBefore(AST, { includeComments: true });
 sourceCode.getTokensBefore(AST, { includeComments: true, count: 0 });
-sourceCode.getTokensBefore(AST, { includeComments: true, count: 0, filter: t => t.type === "Identifier" });
+sourceCode.getTokensBefore(AST, {
+    includeComments: true,
+    count: 0,
+    filter: (t) => t.type === "Identifier"
+});
 sourceCode.getTokensBefore(TOKEN, 0);
 sourceCode.getTokensBefore(COMMENT, 0);
 
 sourceCode.getTokenAfter(AST);
 sourceCode.getTokenAfter(AST, 0);
 sourceCode.getTokenAfter(AST, { skip: 0 });
-sourceCode.getTokenAfter(AST, t => t.type === "Identifier");
-sourceCode.getTokenAfter(AST, { filter: t => t.type === "Identifier" });
-sourceCode.getTokenAfter(AST, { skip: 0, filter: t => t.type === "Identifier" });
+sourceCode.getTokenAfter(AST, (t) => t.type === "Identifier");
+sourceCode.getTokenAfter(AST, { filter: (t) => t.type === "Identifier" });
+sourceCode.getTokenAfter(AST, {
+    skip: 0,
+    filter: (t) => t.type === "Identifier"
+});
 sourceCode.getTokenAfter(AST, { includeComments: true });
 sourceCode.getTokenAfter(AST, { includeComments: true, skip: 0 });
-sourceCode.getTokenAfter(AST, { includeComments: true, skip: 0, filter: t => t.type === "Identifier" });
+sourceCode.getTokenAfter(AST, {
+    includeComments: true,
+    skip: 0,
+    filter: (t) => t.type === "Identifier"
+});
 sourceCode.getTokenAfter(TOKEN, 0);
 sourceCode.getTokenAfter(COMMENT, 0);
 
 sourceCode.getTokensAfter(AST);
 sourceCode.getTokensAfter(AST, 0);
 sourceCode.getTokensAfter(AST, { count: 0 });
-sourceCode.getTokensAfter(AST, t => t.type === "Identifier");
-sourceCode.getTokensAfter(AST, { filter: t => t.type === "Identifier" });
-sourceCode.getTokensAfter(AST, { count: 0, filter: t => t.type === "Identifier" });
+sourceCode.getTokensAfter(AST, (t) => t.type === "Identifier");
+sourceCode.getTokensAfter(AST, { filter: (t) => t.type === "Identifier" });
+sourceCode.getTokensAfter(AST, {
+    count: 0,
+    filter: (t) => t.type === "Identifier"
+});
 sourceCode.getTokensAfter(AST, { includeComments: true });
 sourceCode.getTokensAfter(AST, { includeComments: true, count: 0 });
-sourceCode.getTokensAfter(AST, { includeComments: true, count: 0, filter: t => t.type === "Identifier" });
+sourceCode.getTokensAfter(AST, {
+    includeComments: true,
+    count: 0,
+    filter: (t) => t.type === "Identifier"
+});
 sourceCode.getTokensAfter(TOKEN, 0);
 sourceCode.getTokensAfter(COMMENT, 0);
 
 sourceCode.getFirstTokenBetween(AST, AST); // $ExpectType Token | null
 sourceCode.getFirstTokenBetween(AST, AST, 0);
 sourceCode.getFirstTokenBetween(AST, AST, { skip: 0 });
-sourceCode.getFirstTokenBetween(AST, AST, (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier"); // $ExpectType (Token & { type: "Identifier"; }) | null
+sourceCode.getFirstTokenBetween(
+    AST,
+    AST,
+    (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier"
+); // $ExpectType (Token & { type: "Identifier"; }) | null
 // prettier-ignore
 sourceCode.getFirstTokenBetween(AST, AST, { // $ExpectType (Token & { type: "Identifier"; }) | null
     filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
 });
 sourceCode.getFirstTokenBetween(AST, AST, {
     skip: 0,
-    filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
+    filter: (t): t is AST.Token & { type: "Identifier" } =>
+        t.type === "Identifier"
 });
 sourceCode.getFirstTokenBetween(AST, AST, { includeComments: true }); // $ExpectType Comment | Token | null
 sourceCode.getFirstTokenBetween(AST, AST, { includeComments: true, skip: 0 });
@@ -237,12 +314,19 @@ sourceCode.getFirstTokenBetween(AST, AST, { // $ExpectType (Token & { type: "Ide
 sourceCode.getFirstTokensBetween(AST, AST); // $ExpectType Token[]
 sourceCode.getFirstTokensBetween(AST, AST, 0);
 sourceCode.getFirstTokensBetween(AST, AST, { count: 0 });
-sourceCode.getFirstTokensBetween(AST, AST, (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier"); // $ExpectType (Token & { type: "Identifier"; })[]
+sourceCode.getFirstTokensBetween(
+    AST,
+    AST,
+    (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier"
+); // $ExpectType (Token & { type: "Identifier"; })[]
 // prettier-ignore
 sourceCode.getFirstTokensBetween(AST, AST, { // $ExpectType (Token & { type: "Identifier"; })[]
     filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
 });
-sourceCode.getFirstTokensBetween(AST, AST, { count: 0, filter: t => t.type === "Identifier" });
+sourceCode.getFirstTokensBetween(AST, AST, {
+    count: 0,
+    filter: (t) => t.type === "Identifier"
+});
 sourceCode.getFirstTokensBetween(AST, AST, { includeComments: true }); // $ExpectType (Comment | Token)[]
 sourceCode.getFirstTokensBetween(AST, AST, { includeComments: true, count: 0 });
 // prettier-ignore
@@ -255,22 +339,40 @@ sourceCode.getFirstTokensBetween(AST, AST, { // $ExpectType (Token & { type: "Id
 sourceCode.getLastTokenBetween(AST, AST);
 sourceCode.getLastTokenBetween(AST, AST, 0);
 sourceCode.getLastTokenBetween(AST, AST, { skip: 0 });
-sourceCode.getLastTokenBetween(AST, AST, t => t.type === "Identifier");
-sourceCode.getLastTokenBetween(AST, AST, { filter: t => t.type === "Identifier" });
-sourceCode.getLastTokenBetween(AST, AST, { skip: 0, filter: t => t.type === "Identifier" });
+sourceCode.getLastTokenBetween(AST, AST, (t) => t.type === "Identifier");
+sourceCode.getLastTokenBetween(AST, AST, {
+    filter: (t) => t.type === "Identifier"
+});
+sourceCode.getLastTokenBetween(AST, AST, {
+    skip: 0,
+    filter: (t) => t.type === "Identifier"
+});
 sourceCode.getLastTokenBetween(AST, AST, { includeComments: true });
 sourceCode.getLastTokenBetween(AST, AST, { includeComments: true, skip: 0 });
-sourceCode.getLastTokenBetween(AST, AST, { includeComments: true, skip: 0, filter: t => t.type === "Identifier" });
+sourceCode.getLastTokenBetween(AST, AST, {
+    includeComments: true,
+    skip: 0,
+    filter: (t) => t.type === "Identifier"
+});
 
 sourceCode.getLastTokensBetween(AST, AST);
 sourceCode.getLastTokensBetween(AST, AST, 0);
 sourceCode.getLastTokensBetween(AST, AST, { count: 0 });
-sourceCode.getLastTokensBetween(AST, AST, t => t.type === "Identifier");
-sourceCode.getLastTokensBetween(AST, AST, { filter: t => t.type === "Identifier" });
-sourceCode.getLastTokensBetween(AST, AST, { count: 0, filter: t => t.type === "Identifier" });
+sourceCode.getLastTokensBetween(AST, AST, (t) => t.type === "Identifier");
+sourceCode.getLastTokensBetween(AST, AST, {
+    filter: (t) => t.type === "Identifier"
+});
+sourceCode.getLastTokensBetween(AST, AST, {
+    count: 0,
+    filter: (t) => t.type === "Identifier"
+});
 sourceCode.getLastTokensBetween(AST, AST, { includeComments: true });
 sourceCode.getLastTokensBetween(AST, AST, { includeComments: true, count: 0 });
-sourceCode.getLastTokensBetween(AST, AST, { includeComments: true, count: 0, filter: t => t.type === "Identifier" });
+sourceCode.getLastTokensBetween(AST, AST, {
+    includeComments: true,
+    count: 0,
+    filter: (t) => t.type === "Identifier"
+});
 
 sourceCode.getTokensBetween(AST, AST);
 sourceCode.getTokensBetween(AST, AST, 0);
@@ -278,8 +380,14 @@ sourceCode.getTokensBetween(AST, AST, 0);
 sourceCode.getTokens(AST); // $ExpectType Token[]
 sourceCode.getTokens(AST, 0);
 sourceCode.getTokens(AST, 0, 0);
-sourceCode.getTokens(AST, (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier"); // $ExpectType (Token & { type: "Identifier"; })[]
-sourceCode.getTokens(AST, { filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier" }); // $ExpectType (Token & { type: "Identifier"; })[]
+sourceCode.getTokens(
+    AST,
+    (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier"
+); // $ExpectType (Token & { type: "Identifier"; })[]
+sourceCode.getTokens(AST, {
+    filter: (t): t is AST.Token & { type: "Identifier" } =>
+        t.type === "Identifier"
+}); // $ExpectType (Token & { type: "Identifier"; })[]
 sourceCode.getTokens(AST, { includeComments: true }); // $ExpectType (Comment | Token)[]
 // prettier-ignore
 sourceCode.getTokens(AST, { // $ExpectType (Token & { type: "Identifier"; })[]
@@ -318,7 +426,7 @@ const scopeManager: Scope.ScopeManager = {
     },
     getDeclaredVariables() {
         return [];
-    },
+    }
 };
 
 const scope = scopeManager.scopes[0];
@@ -362,63 +470,13 @@ rule = oldStyleRule;
 rule = {
     create(context) {
         return {};
-    },
+    }
 };
 rule = {
     create(context) {
         return {};
     },
-    meta: {},
-};
-rule = {
-    create(context) {
-        return {};
-    },
-    meta: {
-        docs: {
-            description: "disallow the use of `console`",
-            category: "Possible Errors",
-            recommended: true,
-            url: "https://eslint.org/docs/rules/no-console",
-        },
-        hasSuggestions: true,
-    },
-};
-rule = {
-    create(context) {
-        return {};
-    },
-    meta: { fixable: "whitespace" },
-};
-rule = {
-    create(context) {
-        return {};
-    },
-    meta: { fixable: "code" },
-};
-rule = {
-    create(context) {
-        return {};
-    },
-    meta: { schema: [{ enum: ["always", "never"] }] },
-};
-rule = {
-    create(context) {
-        return {};
-    },
-    meta: { schema: false },
-};
-rule = {
-    create(context) {
-        return {};
-    },
-    meta: { deprecated: true, replacedBy: ["other-rule-name"] },
-};
-rule = {
-    create(context) {
-        return {};
-    },
-    meta: { type: "layout" },
+    meta: {}
 };
 rule = {
     create(context) {
@@ -429,10 +487,60 @@ rule = {
             description: "disallow the use of `console`",
             category: "Possible Errors",
             recommended: true,
-            url: "https://eslint.org/docs/rules/no-console",
+            url: "https://eslint.org/docs/rules/no-console"
         },
-        hasSuggestions: true,
+        hasSuggestions: true
+    }
+};
+rule = {
+    create(context) {
+        return {};
     },
+    meta: { fixable: "whitespace" }
+};
+rule = {
+    create(context) {
+        return {};
+    },
+    meta: { fixable: "code" }
+};
+rule = {
+    create(context) {
+        return {};
+    },
+    meta: { schema: [{ enum: ["always", "never"] }] }
+};
+rule = {
+    create(context) {
+        return {};
+    },
+    meta: { schema: false }
+};
+rule = {
+    create(context) {
+        return {};
+    },
+    meta: { deprecated: true, replacedBy: ["other-rule-name"] }
+};
+rule = {
+    create(context) {
+        return {};
+    },
+    meta: { type: "layout" }
+};
+rule = {
+    create(context) {
+        return {};
+    },
+    meta: {
+        docs: {
+            description: "disallow the use of `console`",
+            category: "Possible Errors",
+            recommended: true,
+            url: "https://eslint.org/docs/rules/no-console"
+        },
+        hasSuggestions: true
+    }
 };
 
 rule = {
@@ -471,12 +579,16 @@ rule = {
         context.report({ message: "foo", loc: { line: 0, column: 0 } });
         context.report({ message: "foo", node: AST, data: { foo: "bar" } });
         context.report({ message: "foo", node: AST, fix: () => null });
-        context.report({ message: "foo", node: AST, fix: ruleFixer => ruleFixer.replaceText(AST, "foo") });
+        context.report({
+            message: "foo",
+            node: AST,
+            fix: (ruleFixer) => ruleFixer.replaceText(AST, "foo")
+        });
 
         context.report({
             message: "foo",
             node: AST,
-            fix: ruleFixer => {
+            fix: (ruleFixer) => {
                 ruleFixer.insertTextAfter(AST, "foo");
                 ruleFixer.insertTextAfter(TOKEN, "foo");
 
@@ -498,15 +610,18 @@ rule = {
                 ruleFixer.replaceTextRange([0, 0], "foo");
 
                 return null;
-            },
+            }
         });
 
         context.report({
             message: "foo",
             node: AST,
-            fix: ruleFixer => {
-                return [ruleFixer.insertTextAfter(AST, "foo"), ruleFixer.insertTextAfter(TOKEN, "foo")];
-            },
+            fix: (ruleFixer) => {
+                return [
+                    ruleFixer.insertTextAfter(AST, "foo"),
+                    ruleFixer.insertTextAfter(TOKEN, "foo")
+                ];
+            }
         });
 
         context.report({
@@ -515,21 +630,27 @@ rule = {
             suggest: [
                 {
                     desc: "foo",
-                    fix: ruleFixer => {
-                        return [ruleFixer.insertTextAfter(AST, "foo"), ruleFixer.insertTextAfter(TOKEN, "foo")];
-                    },
+                    fix: (ruleFixer) => {
+                        return [
+                            ruleFixer.insertTextAfter(AST, "foo"),
+                            ruleFixer.insertTextAfter(TOKEN, "foo")
+                        ];
+                    }
                 },
                 {
                     messageId: "foo",
-                    fix: ruleFixer => {
-                        return [ruleFixer.insertTextAfter(AST, "foo"), ruleFixer.insertTextAfter(TOKEN, "foo")];
-                    },
+                    fix: (ruleFixer) => {
+                        return [
+                            ruleFixer.insertTextAfter(AST, "foo"),
+                            ruleFixer.insertTextAfter(TOKEN, "foo")
+                        ];
+                    }
                 },
                 {
                     desc: "foo",
-                    fix: ruleFixer => null,
-                },
-            ],
+                    fix: (ruleFixer) => null
+                }
+            ]
         });
 
         return {
@@ -556,23 +677,25 @@ rule = {
             "IfStatement:exit"(node) {
                 node.parent;
             },
-            "MemberExpression[object.name=\"req\"]": (node: Rule.Node) => {
+            'MemberExpression[object.name="req"]': (node: Rule.Node) => {
                 node.parent;
             },
             PrivateIdentifier(node) {
-                const expected: PrivateIdentifier & Rule.NodeParentExtension = node;
+                const expected: PrivateIdentifier & Rule.NodeParentExtension =
+                    node;
                 expected.parent;
             },
             PropertyDefinition(node) {
-                const expected: PropertyDefinition & Rule.NodeParentExtension = node;
+                const expected: PropertyDefinition & Rule.NodeParentExtension =
+                    node;
                 expected.parent;
             },
             StaticBlock(node) {
                 const expected: StaticBlock & Rule.NodeParentExtension = node;
                 expected.parent;
-            },
+            }
         };
-    },
+    }
 };
 
 // #endregion
@@ -592,8 +715,8 @@ linter.verify(SOURCE, {}, {});
 linter.verify(SOURCE, {}, { filename: "test.js" });
 linter.verify(SOURCE, {}, { allowInlineConfig: false });
 linter.verify(SOURCE, {}, { reportUnusedDisableDirectives: true });
-linter.verify(SOURCE, {}, { preprocess: input => input.split(" ") });
-linter.verify(SOURCE, {}, { postprocess: problemList => problemList[0] });
+linter.verify(SOURCE, {}, { preprocess: (input) => input.split(" ") });
+linter.verify(SOURCE, {}, { postprocess: (problemList) => problemList[0] });
 
 linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2021 } }, "test.js");
 linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2022 } }, "test.js");
@@ -601,11 +724,20 @@ linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2023 } }, "test.js");
 linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2024 } }, "test.js");
 linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2025 } }, "test.js");
 linter.verify(SOURCE, { parserOptions: { ecmaVersion: "latest" } }, "test.js");
-linter.verify(SOURCE, { parserOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } } }, "test.js");
 linter.verify(
     SOURCE,
-    { parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } } },
-    "test.js",
+    { parserOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } } },
+    "test.js"
+);
+linter.verify(
+    SOURCE,
+    {
+        parserOptions: {
+            ecmaVersion: 6,
+            ecmaFeatures: { experimentalObjectRestSpread: true }
+        }
+    },
+    "test.js"
 );
 linter.verify(SOURCE, { env: { node: true } }, "test.js");
 linter.verify(SOURCE, { globals: { foo: true } }, "test.js");
@@ -620,12 +752,20 @@ linter.verify(SOURCE, { processor: "a-plugin/a-processor" }, "test.js");
 linter.verify(SOURCE, { plugins: ["a-plugin"] }, "test.js");
 linter.verify(SOURCE, { root: true }, "test.js");
 linter.verify(SOURCE, { extends: "eslint-config-bad-guy" }, "test.js");
-linter.verify(SOURCE, { extends: ["eslint-config-bad-guy", "eslint-config-roblox"] }, "test.js");
+linter.verify(
+    SOURCE,
+    { extends: ["eslint-config-bad-guy", "eslint-config-roblox"] },
+    "test.js"
+);
 
 linter.verify(SOURCE, { rules: {} }, "test.js");
 linter.verify(SOURCE, { rules: { quotes: 2 } }, "test.js");
 linter.verify(SOURCE, { rules: { quotes: [2, "double"] } }, "test.js");
-linter.verify(SOURCE, { rules: { "no-unused-vars": [2, { vars: "all" }] } }, "test.js");
+linter.verify(
+    SOURCE,
+    { rules: { "no-unused-vars": [2, { vars: "all" }] } },
+    "test.js"
+);
 linter.verify(SOURCE, { rules: { "no-console": 1 } }, "test.js");
 linter.verify(SOURCE, { rules: { "no-console": 0 } }, "test.js");
 linter.verify(SOURCE, { rules: { "no-console": "error" } }, "test.js");
@@ -639,16 +779,20 @@ linter.verify(
                 excludedFiles: ["*-test.js", "*.spec.js"],
                 files: ["*-test.js", "*.spec.js"],
                 rules: {
-                    "no-unused-expressions": "off",
-                },
-            },
-        ],
+                    "no-unused-expressions": "off"
+                }
+            }
+        ]
     },
-    "test.js",
+    "test.js"
 );
 linter.verify(SOURCE, { rules: { "no-console": "warn" } }, "test.js");
 linter.verify(SOURCE, { rules: { "no-console": "off" } }, "test.js");
-linter.verify(SOURCE, { rules: { "no-void": [2, { allowAsStatement: true }] } }, "test.js");
+linter.verify(
+    SOURCE,
+    { rules: { "no-void": [2, { allowAsStatement: true }] } },
+    "test.js"
+);
 
 const lintingResult = linter.verify(SOURCE, {});
 
@@ -702,7 +846,7 @@ linter.defineRule("test", rule);
 
 linter.defineRules({
     foo: rule,
-    bar: rule,
+    bar: rule
 });
 
 linter.getRules();
@@ -712,44 +856,44 @@ linter.defineParser("custom-parser", {
     version: "1.2.3",
     meta: {
         name: "foo",
-        version: "1.2.3",
+        version: "1.2.3"
     },
-    parse: (src, opts) => AST,
+    parse: (src, opts) => AST
 });
 linter.defineParser("custom-parser", {
     name: "foo",
     version: "1.2.3",
     meta: {
         name: "foo",
-        version: "1.2.3",
+        version: "1.2.3"
     },
     parseForESLint(src, opts) {
         return {
             ast: AST,
             visitorKeys: {},
             parserServices: {},
-            scopeManager,
+            scopeManager
         };
-    },
+    }
 });
 
 linter.getFixPassCount(); // $ExpectType number
 
-((index: number, ruleId: string) => {
+(index: number, ruleId: string) => {
     const pass = linter.getTimes().passes[index];
     pass.fix.total; // $ExpectType number
     pass.parse.total; // $ExpectType number
     pass.rules![ruleId].total; // $ExpectType number
     delete pass.rules;
     pass.total; // $ExpectType number
-});
+};
 
 const _processor: Linter.Processor = {
     name: "foo",
     version: "1.2.3",
     meta: {
         name: "foo",
-        version: "1.2.3",
+        version: "1.2.3"
     },
     supportsAutofix: true,
     preprocess(text, filename) {
@@ -757,13 +901,13 @@ const _processor: Linter.Processor = {
             text,
             {
                 text: "",
-                filename: "1.js",
-            },
+                filename: "1.js"
+            }
         ];
     },
     postprocess(messages, filename) {
         return ([] as Linter.LintMessage[]).concat(...messages);
-    },
+    }
 };
 
 // #region Linter with flat config
@@ -779,61 +923,140 @@ linterWithFlatConfig.verify(SOURCE, [{}], "test.js");
 linterWithFlatConfig.verify(SOURCE, [{}], {});
 linterWithFlatConfig.verify(SOURCE, [{}], { filename: "test.js" });
 linterWithFlatConfig.verify(SOURCE, [{}], { allowInlineConfig: false });
-linterWithFlatConfig.verify(SOURCE, [{}], { reportUnusedDisableDirectives: true });
-linterWithFlatConfig.verify(SOURCE, [{}], { preprocess: input => input.split(" ") });
-linterWithFlatConfig.verify(SOURCE, [{}], { postprocess: problemList => problemList[0] });
+linterWithFlatConfig.verify(SOURCE, [{}], {
+    reportUnusedDisableDirectives: true
+});
+linterWithFlatConfig.verify(SOURCE, [{}], {
+    preprocess: (input) => input.split(" ")
+});
+linterWithFlatConfig.verify(SOURCE, [{}], {
+    postprocess: (problemList) => problemList[0]
+});
 
-linterWithFlatConfig.verify(SOURCE, [{ languageOptions: { ecmaVersion: 2021 } }], "test.js");
-linterWithFlatConfig.verify(SOURCE, [{ languageOptions: { ecmaVersion: 2022 } }], "test.js");
-linterWithFlatConfig.verify(SOURCE, [{ languageOptions: { ecmaVersion: 2023 } }], "test.js");
-linterWithFlatConfig.verify(SOURCE, [{ languageOptions: { ecmaVersion: 2024 } }], "test.js");
-linterWithFlatConfig.verify(SOURCE, [{ languageOptions: { ecmaVersion: 2025 } }], "test.js");
-linterWithFlatConfig.verify(SOURCE, [{ languageOptions: { ecmaVersion: "latest" } }], "test.js");
-linterWithFlatConfig.verify(SOURCE, [{ languageOptions: { ecmaVersion: 6 } }], "test.js");
 linterWithFlatConfig.verify(
     SOURCE,
-    [{
-        languageOptions: {
-            ecmaVersion: 6,
-            globals: {
-                true: true,
-                false: false,
-                foo: "readonly",
-                bar: "writable",
-                baz: "off",
-            },
-        },
-    }],
-    "test.js",
+    [{ languageOptions: { ecmaVersion: 2021 } }],
+    "test.js"
+);
+linterWithFlatConfig.verify(
+    SOURCE,
+    [{ languageOptions: { ecmaVersion: 2022 } }],
+    "test.js"
+);
+linterWithFlatConfig.verify(
+    SOURCE,
+    [{ languageOptions: { ecmaVersion: 2023 } }],
+    "test.js"
+);
+linterWithFlatConfig.verify(
+    SOURCE,
+    [{ languageOptions: { ecmaVersion: 2024 } }],
+    "test.js"
+);
+linterWithFlatConfig.verify(
+    SOURCE,
+    [{ languageOptions: { ecmaVersion: 2025 } }],
+    "test.js"
+);
+linterWithFlatConfig.verify(
+    SOURCE,
+    [{ languageOptions: { ecmaVersion: "latest" } }],
+    "test.js"
+);
+linterWithFlatConfig.verify(
+    SOURCE,
+    [{ languageOptions: { ecmaVersion: 6 } }],
+    "test.js"
+);
+linterWithFlatConfig.verify(
+    SOURCE,
+    [
+        {
+            languageOptions: {
+                ecmaVersion: 6,
+                globals: {
+                    true: true,
+                    false: false,
+                    foo: "readonly",
+                    bar: "writable",
+                    baz: "off"
+                }
+            }
+        }
+    ],
+    "test.js"
 );
 
 linterWithFlatConfig.verify(SOURCE, [{ rules: {} }], "test.js");
 linterWithFlatConfig.verify(SOURCE, [{ rules: { quotes: 2 } }], "test.js");
-linterWithFlatConfig.verify(SOURCE, [{ rules: { quotes: [2, "double"] } }], "test.js");
-linterWithFlatConfig.verify(SOURCE, [{ rules: { "no-unused-vars": [2, { vars: "all" }] } }], "test.js");
-linterWithFlatConfig.verify(SOURCE, [{ rules: { "no-console": 1 } }], "test.js");
-linterWithFlatConfig.verify(SOURCE, [{ rules: { "no-console": 0 } }], "test.js");
-linterWithFlatConfig.verify(SOURCE, [{ rules: { "no-console": "error" } }], "test.js");
 linterWithFlatConfig.verify(
     SOURCE,
-    [{
-        rules: { "no-console": "error" },
-    }, {
-        files: ["*-test.js", "*.spec.js"],
-        rules: {
-            "no-unused-expressions": "off",
-        },
-    }],
-    "test.js",
+    [{ rules: { quotes: [2, "double"] } }],
+    "test.js"
 );
-linterWithFlatConfig.verify(SOURCE, [{ rules: { "no-console": "warn" } }], "test.js");
-linterWithFlatConfig.verify(SOURCE, [{ rules: { "no-console": "off" } }], "test.js");
-linterWithFlatConfig.verify(SOURCE, [{ rules: { "no-void": [2, { allowAsStatement: true }] } }], "test.js");
+linterWithFlatConfig.verify(
+    SOURCE,
+    [{ rules: { "no-unused-vars": [2, { vars: "all" }] } }],
+    "test.js"
+);
+linterWithFlatConfig.verify(
+    SOURCE,
+    [{ rules: { "no-console": 1 } }],
+    "test.js"
+);
+linterWithFlatConfig.verify(
+    SOURCE,
+    [{ rules: { "no-console": 0 } }],
+    "test.js"
+);
+linterWithFlatConfig.verify(
+    SOURCE,
+    [{ rules: { "no-console": "error" } }],
+    "test.js"
+);
+linterWithFlatConfig.verify(
+    SOURCE,
+    [
+        {
+            rules: { "no-console": "error" }
+        },
+        {
+            files: ["*-test.js", "*.spec.js"],
+            rules: {
+                "no-unused-expressions": "off"
+            }
+        }
+    ],
+    "test.js"
+);
+linterWithFlatConfig.verify(
+    SOURCE,
+    [{ rules: { "no-console": "warn" } }],
+    "test.js"
+);
+linterWithFlatConfig.verify(
+    SOURCE,
+    [{ rules: { "no-console": "off" } }],
+    "test.js"
+);
+linterWithFlatConfig.verify(
+    SOURCE,
+    [{ rules: { "no-void": [2, { allowAsStatement: true }] } }],
+    "test.js"
+);
 
 linterWithFlatConfig.verify(SOURCE, { linterOptions: {} }, "test.js");
-linterWithFlatConfig.verify(SOURCE, { linterOptions: {} }, { filename: "test.js" });
+linterWithFlatConfig.verify(
+    SOURCE,
+    { linterOptions: {} },
+    { filename: "test.js" }
+);
 linterWithFlatConfig.verifyAndFix(SOURCE, { linterOptions: {} }, "test.js");
-linterWithFlatConfig.verifyAndFix(SOURCE, { linterOptions: {} }, { filename: "test.js" });
+linterWithFlatConfig.verifyAndFix(
+    SOURCE,
+    { linterOptions: {} },
+    { filename: "test.js" }
+);
 
 // #endregion Linter with flat config
 
@@ -850,48 +1073,141 @@ linterWithEslintrcConfig.verify(SOURCE, {}, "test.js");
 linterWithEslintrcConfig.verify(SOURCE, {}, {});
 linterWithEslintrcConfig.verify(SOURCE, {}, { filename: "test.js" });
 linterWithEslintrcConfig.verify(SOURCE, {}, { allowInlineConfig: false });
-linterWithEslintrcConfig.verify(SOURCE, {}, { reportUnusedDisableDirectives: true });
-linterWithEslintrcConfig.verify(SOURCE, {}, { preprocess: input => input.split(" ") });
-linterWithEslintrcConfig.verify(SOURCE, {}, { postprocess: problemList => problemList[0] });
-
-linterWithEslintrcConfig.verify(SOURCE, { parserOptions: { ecmaVersion: 2021 } }, "test.js");
-linterWithEslintrcConfig.verify(SOURCE, { parserOptions: { ecmaVersion: 2022 } }, "test.js");
-linterWithEslintrcConfig.verify(SOURCE, { parserOptions: { ecmaVersion: 2023 } }, "test.js");
-linterWithEslintrcConfig.verify(SOURCE, { parserOptions: { ecmaVersion: 2024 } }, "test.js");
-linterWithEslintrcConfig.verify(SOURCE, { parserOptions: { ecmaVersion: 2025 } }, "test.js");
-linterWithEslintrcConfig.verify(SOURCE, { parserOptions: { ecmaVersion: "latest" } }, "test.js");
 linterWithEslintrcConfig.verify(
     SOURCE,
-    { parserOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } } },
-    "test.js",
+    {},
+    { reportUnusedDisableDirectives: true }
 );
 linterWithEslintrcConfig.verify(
     SOURCE,
-    { parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } } },
-    "test.js",
+    {},
+    { preprocess: (input) => input.split(" ") }
+);
+linterWithEslintrcConfig.verify(
+    SOURCE,
+    {},
+    { postprocess: (problemList) => problemList[0] }
+);
+
+linterWithEslintrcConfig.verify(
+    SOURCE,
+    { parserOptions: { ecmaVersion: 2021 } },
+    "test.js"
+);
+linterWithEslintrcConfig.verify(
+    SOURCE,
+    { parserOptions: { ecmaVersion: 2022 } },
+    "test.js"
+);
+linterWithEslintrcConfig.verify(
+    SOURCE,
+    { parserOptions: { ecmaVersion: 2023 } },
+    "test.js"
+);
+linterWithEslintrcConfig.verify(
+    SOURCE,
+    { parserOptions: { ecmaVersion: 2024 } },
+    "test.js"
+);
+linterWithEslintrcConfig.verify(
+    SOURCE,
+    { parserOptions: { ecmaVersion: 2025 } },
+    "test.js"
+);
+linterWithEslintrcConfig.verify(
+    SOURCE,
+    { parserOptions: { ecmaVersion: "latest" } },
+    "test.js"
+);
+linterWithEslintrcConfig.verify(
+    SOURCE,
+    { parserOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } } },
+    "test.js"
+);
+linterWithEslintrcConfig.verify(
+    SOURCE,
+    {
+        parserOptions: {
+            ecmaVersion: 6,
+            ecmaFeatures: { experimentalObjectRestSpread: true }
+        }
+    },
+    "test.js"
 );
 linterWithEslintrcConfig.verify(SOURCE, { env: { node: true } }, "test.js");
 linterWithEslintrcConfig.verify(SOURCE, { globals: { foo: true } }, "test.js");
 linterWithEslintrcConfig.verify(SOURCE, { globals: { foo: "off" } }, "test.js");
-linterWithEslintrcConfig.verify(SOURCE, { globals: { foo: "readonly" } }, "test.js");
-linterWithEslintrcConfig.verify(SOURCE, { globals: { foo: "readable" } }, "test.js");
-linterWithEslintrcConfig.verify(SOURCE, { globals: { foo: "writable" } }, "test.js");
-linterWithEslintrcConfig.verify(SOURCE, { globals: { foo: "writeable" } }, "test.js");
+linterWithEslintrcConfig.verify(
+    SOURCE,
+    { globals: { foo: "readonly" } },
+    "test.js"
+);
+linterWithEslintrcConfig.verify(
+    SOURCE,
+    { globals: { foo: "readable" } },
+    "test.js"
+);
+linterWithEslintrcConfig.verify(
+    SOURCE,
+    { globals: { foo: "writable" } },
+    "test.js"
+);
+linterWithEslintrcConfig.verify(
+    SOURCE,
+    { globals: { foo: "writeable" } },
+    "test.js"
+);
 linterWithEslintrcConfig.verify(SOURCE, { parser: "custom-parser" }, "test.js");
-linterWithEslintrcConfig.verify(SOURCE, { settings: { info: "foo" } }, "test.js");
-linterWithEslintrcConfig.verify(SOURCE, { processor: "a-plugin/a-processor" }, "test.js");
+linterWithEslintrcConfig.verify(
+    SOURCE,
+    { settings: { info: "foo" } },
+    "test.js"
+);
+linterWithEslintrcConfig.verify(
+    SOURCE,
+    { processor: "a-plugin/a-processor" },
+    "test.js"
+);
 linterWithEslintrcConfig.verify(SOURCE, { plugins: ["a-plugin"] }, "test.js");
 linterWithEslintrcConfig.verify(SOURCE, { root: true }, "test.js");
-linterWithEslintrcConfig.verify(SOURCE, { extends: "eslint-config-bad-guy" }, "test.js");
-linterWithEslintrcConfig.verify(SOURCE, { extends: ["eslint-config-bad-guy", "eslint-config-roblox"] }, "test.js");
+linterWithEslintrcConfig.verify(
+    SOURCE,
+    { extends: "eslint-config-bad-guy" },
+    "test.js"
+);
+linterWithEslintrcConfig.verify(
+    SOURCE,
+    { extends: ["eslint-config-bad-guy", "eslint-config-roblox"] },
+    "test.js"
+);
 
 linterWithEslintrcConfig.verify(SOURCE, { rules: {} }, "test.js");
 linterWithEslintrcConfig.verify(SOURCE, { rules: { quotes: 2 } }, "test.js");
-linterWithEslintrcConfig.verify(SOURCE, { rules: { quotes: [2, "double"] } }, "test.js");
-linterWithEslintrcConfig.verify(SOURCE, { rules: { "no-unused-vars": [2, { vars: "all" }] } }, "test.js");
-linterWithEslintrcConfig.verify(SOURCE, { rules: { "no-console": 1 } }, "test.js");
-linterWithEslintrcConfig.verify(SOURCE, { rules: { "no-console": 0 } }, "test.js");
-linterWithEslintrcConfig.verify(SOURCE, { rules: { "no-console": "error" } }, "test.js");
+linterWithEslintrcConfig.verify(
+    SOURCE,
+    { rules: { quotes: [2, "double"] } },
+    "test.js"
+);
+linterWithEslintrcConfig.verify(
+    SOURCE,
+    { rules: { "no-unused-vars": [2, { vars: "all" }] } },
+    "test.js"
+);
+linterWithEslintrcConfig.verify(
+    SOURCE,
+    { rules: { "no-console": 1 } },
+    "test.js"
+);
+linterWithEslintrcConfig.verify(
+    SOURCE,
+    { rules: { "no-console": 0 } },
+    "test.js"
+);
+linterWithEslintrcConfig.verify(
+    SOURCE,
+    { rules: { "no-console": "error" } },
+    "test.js"
+);
 linterWithEslintrcConfig.verify(
     SOURCE,
     {
@@ -902,16 +1218,28 @@ linterWithEslintrcConfig.verify(
                 excludedFiles: ["*-test.js", "*.spec.js"],
                 files: ["*-test.js", "*.spec.js"],
                 rules: {
-                    "no-unused-expressions": "off",
-                },
-            },
-        ],
+                    "no-unused-expressions": "off"
+                }
+            }
+        ]
     },
-    "test.js",
+    "test.js"
 );
-linterWithEslintrcConfig.verify(SOURCE, { rules: { "no-console": "warn" } }, "test.js");
-linterWithEslintrcConfig.verify(SOURCE, { rules: { "no-console": "off" } }, "test.js");
-linterWithEslintrcConfig.verify(SOURCE, { rules: { "no-void": [2, { allowAsStatement: true }] } }, "test.js");
+linterWithEslintrcConfig.verify(
+    SOURCE,
+    { rules: { "no-console": "warn" } },
+    "test.js"
+);
+linterWithEslintrcConfig.verify(
+    SOURCE,
+    { rules: { "no-console": "off" } },
+    "test.js"
+);
+linterWithEslintrcConfig.verify(
+    SOURCE,
+    { rules: { "no-void": [2, { allowAsStatement: true }] } },
+    "test.js"
+);
 
 linterWithEslintrcConfig.getRules();
 
@@ -933,7 +1261,7 @@ linterWithEslintrcConfig.getRules();
     eslint = new ESLint({ cwd: "foo" });
     eslint = new ESLint({ errorOnUnmatchedPattern: true });
     eslint = new ESLint({ fix: true });
-    eslint = new ESLint({ fix: message => false });
+    eslint = new ESLint({ fix: (message) => false });
     eslint = new ESLint({ fixTypes: ["directive", "problem"] });
     eslint = new ESLint({ flags: ["foo", "bar"] });
     eslint = new ESLint({ globInputPaths: true });
@@ -951,7 +1279,7 @@ linterWithEslintrcConfig.getRules();
     eslint = new ESLint({
         ruleFilter({ severity }) {
             return severity === 1;
-        },
+        }
     });
     eslint = new ESLint({ stats: true });
     eslint = new ESLint({
@@ -961,17 +1289,17 @@ linterWithEslintrcConfig.getRules();
                 version: "1.0.0",
                 meta: {
                     name: "bar",
-                    version: "1.0.0",
+                    version: "1.0.0"
                 },
                 configs: {
                     myConfig: {
-                        noInlineConfig: true,
+                        noInlineConfig: true
                     },
                     production: {
                         languageOptions: {
-                            ecmaVersion: 6,
-                        },
-                    },
+                            ecmaVersion: 6
+                        }
+                    }
                 },
                 processors: {
                     myProcessor: {
@@ -979,21 +1307,21 @@ linterWithEslintrcConfig.getRules();
                         version: "1.2.3",
                         meta: {
                             name: "blah",
-                            version: "1.2.3",
+                            version: "1.2.3"
                         },
-                        supportsAutofix: false,
-                    },
+                        supportsAutofix: false
+                    }
                 },
                 rules: {
                     myRule: {
                         create(context) {
                             return {};
                         },
-                        meta: {},
-                    },
-                },
-            },
-        },
+                        meta: {}
+                    }
+                }
+            }
+        }
     });
 
     let resultsPromise = eslint.lintFiles(["myfile.js", "lib/"]);
@@ -1010,7 +1338,9 @@ linterWithEslintrcConfig.getRules();
     formatterPromise = eslint.loadFormatter();
 
     const customFormatter1: ESLint.Formatter = { format: () => "ok" };
-    const customFormatter2: ESLint.Formatter = { format: () => Promise.resolve("ok") };
+    const customFormatter2: ESLint.Formatter = {
+        format: () => Promise.resolve("ok")
+    };
 
     let resultsMeta: ESLint.ResultsMeta;
     const meta: Rule.RuleMetaData = {
@@ -1019,16 +1349,18 @@ linterWithEslintrcConfig.getRules();
             description: "disallow unnecessary semicolons",
             category: "Possible Errors",
             recommended: true,
-            url: "https://eslint.org/docs/rules/no-extra-semi",
+            url: "https://eslint.org/docs/rules/no-extra-semi"
         },
         fixable: "code",
         schema: [],
         messages: {
-            unexpected: "Unnecessary semicolon.",
-        },
+            unexpected: "Unnecessary semicolon."
+        }
     };
 
-    resultsMeta = { maxWarningsExceeded: { maxWarnings: 42, foundWarnings: 43 } };
+    resultsMeta = {
+        maxWarningsExceeded: { maxWarnings: 42, foundWarnings: 43 }
+    };
 
     const version: string = ESLint.version;
 
@@ -1067,7 +1399,7 @@ linterWithEslintrcConfig.getRules();
     eslint = new LegacyESLint({ errorOnUnmatchedPattern: true });
     eslint = new LegacyESLint({ extensions: ["js"] });
     eslint = new LegacyESLint({ fix: true });
-    eslint = new LegacyESLint({ fix: message => false });
+    eslint = new LegacyESLint({ fix: (message) => false });
     eslint = new LegacyESLint({ fixTypes: ["directive", "problem"] });
     eslint = new LegacyESLint({ flags: ["foo", "bar"] });
     eslint = new LegacyESLint({ globInputPaths: true });
@@ -1082,19 +1414,19 @@ linterWithEslintrcConfig.getRules();
                 version: "1.0.0",
                 meta: {
                     name: "bar",
-                    version: "1.0.0",
+                    version: "1.0.0"
                 },
                 configs: {
                     myConfig: {
-                        noInlineConfig: true,
-                    },
+                        noInlineConfig: true
+                    }
                 },
                 environments: {
                     production: {
                         parserOptions: {
-                            ecmaVersion: 6,
-                        },
-                    },
+                            ecmaVersion: 6
+                        }
+                    }
                 },
                 processors: {
                     myProcessor: {
@@ -1102,21 +1434,21 @@ linterWithEslintrcConfig.getRules();
                         version: "1.2.3",
                         meta: {
                             name: "blah",
-                            version: "1.2.3",
+                            version: "1.2.3"
                         },
-                        supportsAutofix: false,
-                    },
+                        supportsAutofix: false
+                    }
                 },
                 rules: {
                     myRule: {
                         create(context) {
                             return {};
                         },
-                        meta: {},
-                    },
-                },
-            },
-        },
+                        meta: {}
+                    }
+                }
+            }
+        }
     });
     eslint = new LegacyESLint({ reportUnusedDisableDirectives: "error" });
     // @ts-expect-error
@@ -1138,7 +1470,9 @@ linterWithEslintrcConfig.getRules();
     formatterPromise = eslint.loadFormatter();
 
     const customFormatter1: ESLint.Formatter = { format: () => "ok" };
-    const customFormatter2: ESLint.Formatter = { format: () => Promise.resolve("ok") };
+    const customFormatter2: ESLint.Formatter = {
+        format: () => Promise.resolve("ok")
+    };
 
     let resultsMeta: ESLint.ResultsMeta;
     const meta: Rule.RuleMetaData = {
@@ -1147,16 +1481,18 @@ linterWithEslintrcConfig.getRules();
             description: "disallow unnecessary semicolons",
             category: "Possible Errors",
             recommended: true,
-            url: "https://eslint.org/docs/rules/no-extra-semi",
+            url: "https://eslint.org/docs/rules/no-extra-semi"
         },
         fixable: "code",
         schema: [],
         messages: {
-            unexpected: "Unnecessary semicolon.",
-        },
+            unexpected: "Unnecessary semicolon."
+        }
     };
 
-    resultsMeta = { maxWarningsExceeded: { maxWarnings: 42, foundWarnings: 43 } };
+    resultsMeta = {
+        maxWarningsExceeded: { maxWarnings: 42, foundWarnings: 43 }
+    };
 
     const version: string = LegacyESLint.version;
 
@@ -1182,11 +1518,14 @@ linterWithEslintrcConfig.getRules();
 
 function jsonFormatter(results: ESLint.LintResult[]) {
     return JSON.stringify(results, null, 2);
-};
+}
 
 const customFormatter: ESLint.FormatterFunction = jsonFormatter;
 
-function wrapperFormatter(results: ESLint.LintResult[], { cwd, maxWarningsExceeded, rulesMeta }: ESLint.LintResultData) {
+function wrapperFormatter(
+    results: ESLint.LintResult[],
+    { cwd, maxWarningsExceeded, rulesMeta }: ESLint.LintResultData
+) {
     customFormatter(results, { cwd, maxWarningsExceeded, rulesMeta });
 }
 
@@ -1211,17 +1550,20 @@ for (const result of results) {
     result.stats = {
         fixPasses: 2,
         times: {
-            passes: [{
-                parse: { total: 1 },
-                fix: { total: 2 },
-                total: 3,
-            }, {
-                parse: { total: 4 },
-                rules: { foo: { total: 0.5 } },
-                fix: { total: 5 },
-                total: 9,
-            }],
-        },
+            passes: [
+                {
+                    parse: { total: 1 },
+                    fix: { total: 2 },
+                    total: 3
+                },
+                {
+                    parse: { total: 4 },
+                    rules: { foo: { total: 0.5 } },
+                    fix: { total: 5 },
+                    total: 9
+                }
+            ]
+        }
     };
     delete result.stats;
 
@@ -1233,8 +1575,8 @@ for (const result of results) {
         suppressedMessage.suppressions = [
             {
                 kind: "foo",
-                justification: "just cuz",
-            },
+                justification: "just cuz"
+            }
         ];
     }
 }
@@ -1249,39 +1591,51 @@ eslintConfig = {
     rules: {
         "capitalized-comments": [2, "always", { ignorePattern: "const|let" }],
         "no-promise-executor-return": [2, { allowVoid: true }],
-        "sort-keys": [2, "asc", { allowLineSeparatedGroups: true }],
+        "sort-keys": [2, "asc", { allowLineSeparatedGroups: true }]
     },
-    overrides: [{
-        files: "*.json",
-        rules: {
-            "max-len": 0,
+    overrides: [
+        {
+            files: "*.json",
+            rules: {
+                "max-len": 0
+            }
         },
-    }, {
-        files: "*.ts",
-        rules: {
-            "@typescript-eslint/no-invalid-void-type": [2, { allowAsThisParameter: true }],
-        },
-    }],
+        {
+            files: "*.ts",
+            rules: {
+                "@typescript-eslint/no-invalid-void-type": [
+                    2,
+                    { allowAsThisParameter: true }
+                ]
+            }
+        }
+    ]
 };
 
 eslintConfig.rules; // $ExpectType Partial<ESLintRules> | undefined
 eslintConfig.overrides?.[0].rules; // $ExpectType Partial<ESLintRules> | undefined
 
 interface TSLinterRules {
-    "@typescript-eslint/no-invalid-void-type"?: Linter.RuleEntry<[
-        Partial<{
-            allowInGenericTypeArguments: boolean | string[];
-            allowAsThisParameter: boolean;
-        }>,
-    ]>;
+    "@typescript-eslint/no-invalid-void-type"?: Linter.RuleEntry<
+        [
+            Partial<{
+                allowInGenericTypeArguments: boolean | string[];
+                allowAsThisParameter: boolean;
+            }>
+        ]
+    >;
 }
 
-const eslintConfig2: Linter.LegacyConfig<ESLintRules, ESLintRules & TSLinterRules> = eslintConfig;
+const eslintConfig2: Linter.LegacyConfig<
+    ESLintRules,
+    ESLintRules & TSLinterRules
+> = eslintConfig;
 
 eslintConfig2.rules; // $ExpectType Partial<ESLintRules> | undefined
 eslintConfig2.overrides?.[1].rules; // $ExpectType Partial<ESLintRules & TSLinterRules> | undefined
 
-const eslintConfig3: Linter.LegacyConfig<ESLintRules & TSLinterRules> = eslintConfig2;
+const eslintConfig3: Linter.LegacyConfig<ESLintRules & TSLinterRules> =
+    eslintConfig2;
 
 eslintConfig3.rules; // $ExpectType Partial<ESLintRules & TSLinterRules> | undefined
 eslintConfig3.overrides?.[1].rules; // $ExpectType Partial<ESLintRules & TSLinterRules> | undefined
@@ -1299,7 +1653,7 @@ ruleTester.run("my-rule", rule, {
         { code: "foo", filename: "test.js" },
         { code: "foo", languageOptions: { globals: { foo: true } } },
         { code: "foo", settings: { foo: true } },
-        RuleTester.only("foo"),
+        RuleTester.only("foo")
     ],
 
     invalid: [
@@ -1318,15 +1672,15 @@ ruleTester.run("my-rule", rule, {
                     suggestions: [
                         {
                             desc: "foo",
-                            output: "foo",
+                            output: "foo"
                         },
                         {
                             messageId: "foo",
-                            output: "foo",
-                        },
-                    ],
-                },
-            ],
+                            output: "foo"
+                        }
+                    ]
+                }
+            ]
         },
         { code: "foo", errors: 1, only: true },
         // @ts-expect-error // `message` cannot be `undefined`
@@ -1342,126 +1696,146 @@ ruleTester.run("my-rule", rule, {
                         // @ts-expect-error // `desc` cannot be `undefined`
                         { desc: undefined, output: "foo" },
                         // @ts-expect-error // `messageId` cannot be `undefined`
-                        { messageId: undefined, output: "foo" },
-                    ],
-                },
-            ],
-        },
-    ],
+                        { messageId: undefined, output: "foo" }
+                    ]
+                }
+            ]
+        }
+    ]
 });
 
 RuleTester.describe = null;
 
-RuleTester.it = RuleTester.itOnly = function(text: string, fn: () => Promise<void>) {};
+RuleTester.it = RuleTester.itOnly = function (
+    text: string,
+    fn: () => Promise<void>
+) {};
 
 ruleTester.run("simple-valid-test", rule, {
     valid: ["foo", "bar", { code: "foo", options: [{ allowFoo: true }] }],
-    invalid: [{ code: "bar", errors: ["baz"] }],
+    invalid: [{ code: "bar", errors: ["baz"] }]
 });
 
 // #endregion
 
 // #region Config
 
-((): Linter.Config => ({
+(): Linter.Config => ({
     language: "js/js"
-}));
+});
 
-((): Linter.Config => ({
+(): Linter.Config => ({
     // @ts-expect-error
     language: null
-}));
+});
 
-((): Linter.Config => ({
+(): Linter.Config => ({
     languageOptions: {
         parser: {
-            parse: () => AST,
-        },
-    },
-}));
+            parse: () => AST
+        }
+    }
+});
 
-((): Linter.Config => ({
+(): Linter.Config => ({
     languageOptions: {
         parser: {
-            parseForESLint: () => ({ ast: AST }),
-        },
-    },
-}));
+            parseForESLint: () => ({ ast: AST })
+        }
+    }
+});
 
-((): Linter.Config => ({
+(): Linter.Config => ({
     languageOptions: {
         // @ts-expect-error
-        parser: "foo-parser",
-    },
-}));
+        parser: "foo-parser"
+    }
+});
 
-((): Linter.Config => ({ files: ["abc"] }));
-((): Linter.Config => ({ files: [["abc"]] }));
+(): Linter.Config => ({ files: ["abc"] });
+(): Linter.Config => ({ files: [["abc"]] });
 
-((): Linter.Config => ({
+(): Linter.Config => ({
     // @ts-expect-error // Second level of nesting is not allowed
-    files: ["abc", ["abc"], [["abc"]]],
-}));
+    files: ["abc", ["abc"], [["abc"]]]
+});
 
-((): Linter.Config => ({ ignores: ["abc"] }));
+(): Linter.Config => ({ ignores: ["abc"] });
 
-((): Linter.Config => ({
+(): Linter.Config => ({
     // @ts-expect-error // No nesting
-    ignores: ["abc", ["abc"]],
-}));
+    ignores: ["abc", ["abc"]]
+});
 
 // @ts-expect-error // Must be an array
-((): Linter.Config => ({ files: "abc" }));
+(): Linter.Config => ({ files: "abc" });
 
 // @ts-expect-error // Must be an array
-((): Linter.Config => ({ ignores: "abc" }));
+(): Linter.Config => ({ ignores: "abc" });
 
-((): Linter.Config => ({ linterOptions: { reportUnusedDisableDirectives: "error" } }));
-((): Linter.Config => ({ linterOptions: { reportUnusedDisableDirectives: "warn" } }));
-((): Linter.Config => ({ linterOptions: { reportUnusedDisableDirectives: "off" } }));
-((): Linter.Config => ({ linterOptions: { reportUnusedDisableDirectives: 2 } }));
-((): Linter.Config => ({ linterOptions: { reportUnusedDisableDirectives: 1 } }));
-((): Linter.Config => ({ linterOptions: { reportUnusedDisableDirectives: 0 } }));
-((): Linter.Config => ({ linterOptions: { reportUnusedDisableDirectives: true } }));
-((): Linter.Config => ({ linterOptions: { reportUnusedDisableDirectives: false } }));
+(): Linter.Config => ({
+    linterOptions: { reportUnusedDisableDirectives: "error" }
+});
+(): Linter.Config => ({
+    linterOptions: { reportUnusedDisableDirectives: "warn" }
+});
+(): Linter.Config => ({
+    linterOptions: { reportUnusedDisableDirectives: "off" }
+});
+(): Linter.Config => ({ linterOptions: { reportUnusedDisableDirectives: 2 } });
+(): Linter.Config => ({ linterOptions: { reportUnusedDisableDirectives: 1 } });
+(): Linter.Config => ({ linterOptions: { reportUnusedDisableDirectives: 0 } });
+(): Linter.Config => ({
+    linterOptions: { reportUnusedDisableDirectives: true }
+});
+(): Linter.Config => ({
+    linterOptions: { reportUnusedDisableDirectives: false }
+});
 
 // @ts-expect-error
-((): Linter.Config => ({ linterOptions: { reportUnusedDisableDirectives: "on" } }));
+(): Linter.Config => ({
+    linterOptions: { reportUnusedDisableDirectives: "on" }
+});
 
 // @ts-expect-error
-((): Linter.Config => ({ linterOptions: { reportUnusedDisableDirectives: 3 } }));
+(): Linter.Config => ({ linterOptions: { reportUnusedDisableDirectives: 3 } });
 
 // @ts-expect-error
-((): Linter.Config => ({ linterOptions: { reportUnusedDisableDirectives: null } }));
+(): Linter.Config => ({
+    linterOptions: { reportUnusedDisableDirectives: null }
+});
 
-((): Linter.Config => ({ name: "eslint:js" }));
+(): Linter.Config => ({ name: "eslint:js" });
 
 // @ts-expect-error // Generic passed in does not match the RuleEntry schema
-((): Linter.Config<{ foo?: "bar" }> => ({
-    rules: {},
-}));
+(): Linter.Config<{ foo?: "bar" }> => ({
+    rules: {}
+});
 
-((): Linter.Config<{ foo?: Linter.RuleEntry<[1 | 2]> }> => ({
+(): Linter.Config<{ foo?: Linter.RuleEntry<[1 | 2]> }> => ({
     rules: {
-        foo: "error",
-    },
-}));
+        foo: "error"
+    }
+});
 
-((): Linter.Config<{ foo?: Linter.RuleEntry<[1 | 2]> }> => ({
+(): Linter.Config<{ foo?: Linter.RuleEntry<[1 | 2]> }> => ({
     rules: {
         // @ts-expect-error // Invalid value
-        foo: ["error", 3],
-    },
-}));
+        foo: ["error", 3]
+    }
+});
 
-((): Linter.Config<{ foo?: Linter.RuleEntry }> => ({
+(): Linter.Config<{ foo?: Linter.RuleEntry }> => ({
     rules: {
         // @ts-expect-error // Unspecified value
-        bar: "error",
-    },
-}));
+        bar: "error"
+    }
+});
 
-((): Linter.Config<{ foo: Linter.RuleEntry<[1 | 2]>; [x: string]: Linter.RuleEntry }> => ({
+(): Linter.Config<{
+    foo: Linter.RuleEntry<[1 | 2]>;
+    [x: string]: Linter.RuleEntry;
+}> => ({
     rules: {
         // @ts-expect-error // Invalid value
         foo: ["error", 3],
@@ -1469,21 +1843,21 @@ ruleTester.run("simple-valid-test", rule, {
         bar: 2,
         baz: "off",
         // @ts-expect-error // Invalid value
-        "foo/bar": "bar",
-    },
-}));
+        "foo/bar": "bar"
+    }
+});
 
 // The following are only errors when `exactOptionalPropertyTypes` is `true`.
 // The error can't be enforced on consumers.
 // @ts-expect-error
-((): Linter.Config => ({ files: undefined }));
+(): Linter.Config => ({ files: undefined });
 // @ts-expect-error
-((): Linter.Config => ({ ignores: undefined }));
+(): Linter.Config => ({ ignores: undefined });
 
-((): ESLint.Plugin => ({
+(): ESLint.Plugin => ({
     configs: {
         "old-style": {
-            parser: "foo-parser",
+            parser: "foo-parser"
         },
 
         // @ts-expect-error
@@ -1492,20 +1866,22 @@ ruleTester.run("simple-valid-test", rule, {
         "new-style": {
             languageOptions: {
                 parser: {
-                    parseForESLint: () => ({ ast: AST }),
-                },
-            },
+                    parseForESLint: () => ({ ast: AST })
+                }
+            }
         },
 
-        "new-style-array": [{
-            languageOptions: {
-                parser: {
-                    parseForESLint: () => ({ ast: AST }),
-                },
-            },
-        }],
-    },
-}));
+        "new-style-array": [
+            {
+                languageOptions: {
+                    parser: {
+                        parseForESLint: () => ({ ast: AST })
+                    }
+                }
+            }
+        ]
+    }
+});
 
 let config!: Linter.Config;
 let flatConfig!: Linter.FlatConfig;
@@ -1516,15 +1892,15 @@ flatConfig = config;
 
 // #region Plugins
 
-((): ESLint.Plugin => ({
+(): ESLint.Plugin => ({
     languages: {
-        "js": {} as Language
+        js: {} as Language
     }
-}));
+});
 
 // #endregion Plugins
 
-(async (useFlatConfig?: boolean) => {
+async (useFlatConfig?: boolean) => {
     await loadESLint(); // $ExpectType typeof ESLint | typeof LegacyESLint
     await loadESLint({}); // $ExpectType typeof ESLint | typeof LegacyESLint
     await loadESLint({ useFlatConfig: undefined }); // $ExpectType typeof ESLint | typeof LegacyESLint
@@ -1538,7 +1914,7 @@ flatConfig = config;
     } else {
         const eslint = new DefaultESLint({ useEslintrc: false }); // $ExpectType LegacyESLint
     }
-});
+};
 
 // #region use-at-your-own-risk
 

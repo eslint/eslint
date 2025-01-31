@@ -9,8 +9,7 @@
 // Exports
 //-----------------------------------------------------------------------------
 
-module.exports = function() {
-
+module.exports = function () {
     const { activeFlags, inactiveFlags } = require("../../../lib/shared/flags");
 
     return {

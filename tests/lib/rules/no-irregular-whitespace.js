@@ -18,16 +18,20 @@ const rule = require("../../../lib/rules/no-irregular-whitespace"),
 
 const ruleTester = new RuleTester();
 
-const expectedErrors = [{
-    messageId: "noIrregularWhitespace",
-    type: "Program"
-}];
-const expectedCommentErrors = [{
-    messageId: "noIrregularWhitespace",
-    type: "Program",
-    line: 1,
-    column: 4
-}];
+const expectedErrors = [
+    {
+        messageId: "noIrregularWhitespace",
+        type: "Program"
+    }
+];
+const expectedCommentErrors = [
+    {
+        messageId: "noIrregularWhitespace",
+        type: "Program",
+        line: 1,
+        column: 4
+    }
+];
 
 ruleTester.run("no-irregular-whitespace", rule, {
     valid: [
@@ -142,56 +146,248 @@ ruleTester.run("no-irregular-whitespace", rule, {
         { code: "/\u202F/", options: [{ skipRegExps: true }] },
         { code: "/\u205f/", options: [{ skipRegExps: true }] },
         { code: "/\u3000/", options: [{ skipRegExps: true }] },
-        { code: "`\u000B`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
-        { code: "`\u000C`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
-        { code: "`\u0085`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
-        { code: "`\u00A0`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
-        { code: "`\u180E`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
-        { code: "`\ufeff`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
-        { code: "`\u2000`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
-        { code: "`\u2001`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
-        { code: "`\u2002`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
-        { code: "`\u2003`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
-        { code: "`\u2004`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
-        { code: "`\u2005`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
-        { code: "`\u2006`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
-        { code: "`\u2007`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
-        { code: "`\u2008`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
-        { code: "`\u2009`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
-        { code: "`\u200A`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
-        { code: "`\u200B`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
-        { code: "`\u202F`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
-        { code: "`\u205f`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
-        { code: "`\u3000`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "`\u000B`",
+            options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "`\u000C`",
+            options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "`\u0085`",
+            options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "`\u00A0`",
+            options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "`\u180E`",
+            options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "`\ufeff`",
+            options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "`\u2000`",
+            options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "`\u2001`",
+            options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "`\u2002`",
+            options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "`\u2003`",
+            options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "`\u2004`",
+            options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "`\u2005`",
+            options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "`\u2006`",
+            options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "`\u2007`",
+            options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "`\u2008`",
+            options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "`\u2009`",
+            options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "`\u200A`",
+            options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "`\u200B`",
+            options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "`\u202F`",
+            options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "`\u205f`",
+            options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "`\u3000`",
+            options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
 
-        { code: "`\u3000${foo}\u3000`", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
-        { code: "const error = ` \u3000 `;", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
-        { code: "const error = `\n\u3000`;", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
-        { code: "const error = `\u3000\n`;", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
-        { code: "const error = `\n\u3000\n`;", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
-        { code: "const error = `foo\u3000bar\nfoo\u3000bar`;", options: [{ skipTemplates: true }], languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "`\u3000${foo}\u3000`",
+            options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "const error = ` \u3000 `;",
+            options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "const error = `\n\u3000`;",
+            options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "const error = `\u3000\n`;",
+            options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "const error = `\n\u3000\n`;",
+            options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "const error = `foo\u3000bar\nfoo\u3000bar`;",
+            options: [{ skipTemplates: true }],
+            languageOptions: { ecmaVersion: 6 }
+        },
 
-        { code: "<div>\u000B</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
-        { code: "<div>\u000C</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
-        { code: "<div>\u0085</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
-        { code: "<div>\u00A0</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
-        { code: "<div>\u180E</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
-        { code: "<div>\ufeff</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
-        { code: "<div>\u2000</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
-        { code: "<div>\u2001</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
-        { code: "<div>\u2002</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
-        { code: "<div>\u2003</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
-        { code: "<div>\u2004</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
-        { code: "<div>\u2005</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
-        { code: "<div>\u2006</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
-        { code: "<div>\u2007</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
-        { code: "<div>\u2008</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
-        { code: "<div>\u2009</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
-        { code: "<div>\u200A</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
-        { code: "<div>\u200B</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
-        { code: "<div>\u202F</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
-        { code: "<div>\u205f</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
-        { code: "<div>\u3000</div>;", options: [{ skipJSXText: true }], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+        {
+            code: "<div>\u000B</div>;",
+            options: [{ skipJSXText: true }],
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
+        },
+        {
+            code: "<div>\u000C</div>;",
+            options: [{ skipJSXText: true }],
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
+        },
+        {
+            code: "<div>\u0085</div>;",
+            options: [{ skipJSXText: true }],
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
+        },
+        {
+            code: "<div>\u00A0</div>;",
+            options: [{ skipJSXText: true }],
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
+        },
+        {
+            code: "<div>\u180E</div>;",
+            options: [{ skipJSXText: true }],
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
+        },
+        {
+            code: "<div>\ufeff</div>;",
+            options: [{ skipJSXText: true }],
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
+        },
+        {
+            code: "<div>\u2000</div>;",
+            options: [{ skipJSXText: true }],
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
+        },
+        {
+            code: "<div>\u2001</div>;",
+            options: [{ skipJSXText: true }],
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
+        },
+        {
+            code: "<div>\u2002</div>;",
+            options: [{ skipJSXText: true }],
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
+        },
+        {
+            code: "<div>\u2003</div>;",
+            options: [{ skipJSXText: true }],
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
+        },
+        {
+            code: "<div>\u2004</div>;",
+            options: [{ skipJSXText: true }],
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
+        },
+        {
+            code: "<div>\u2005</div>;",
+            options: [{ skipJSXText: true }],
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
+        },
+        {
+            code: "<div>\u2006</div>;",
+            options: [{ skipJSXText: true }],
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
+        },
+        {
+            code: "<div>\u2007</div>;",
+            options: [{ skipJSXText: true }],
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
+        },
+        {
+            code: "<div>\u2008</div>;",
+            options: [{ skipJSXText: true }],
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
+        },
+        {
+            code: "<div>\u2009</div>;",
+            options: [{ skipJSXText: true }],
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
+        },
+        {
+            code: "<div>\u200A</div>;",
+            options: [{ skipJSXText: true }],
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
+        },
+        {
+            code: "<div>\u200B</div>;",
+            options: [{ skipJSXText: true }],
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
+        },
+        {
+            code: "<div>\u202F</div>;",
+            options: [{ skipJSXText: true }],
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
+        },
+        {
+            code: "<div>\u205f</div>;",
+            options: [{ skipJSXText: true }],
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
+        },
+        {
+            code: "<div>\u3000</div>;",
+            options: [{ skipJSXText: true }],
+            languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
+        },
 
         // Unicode BOM.
         "\uFEFFconsole.log('hello BOM');"

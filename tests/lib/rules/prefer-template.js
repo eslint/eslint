@@ -16,12 +16,16 @@ const RuleTester = require("../../../lib/rule-tester/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const errors = [{
-    messageId: "unexpectedStringConcatenation",
-    type: "BinaryExpression"
-}];
+const errors = [
+    {
+        messageId: "unexpectedStringConcatenation",
+        type: "BinaryExpression"
+    }
+];
 
-const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 6, sourceType: "script" } });
+const ruleTester = new RuleTester({
+    languageOptions: { ecmaVersion: 6, sourceType: "script" }
+});
 
 ruleTester.run("prefer-template", rule, {
     valid: [
@@ -34,8 +38,8 @@ ruleTester.run("prefer-template", rule, {
         "var foo = `hello, ${name}!`;",
 
         // https://github.com/eslint/eslint/issues/3507
-        "var foo = `foo` + `bar` + \"hoge\";",
-        "var foo = `foo` +\n    `bar` +\n    \"hoge\";"
+        'var foo = `foo` + `bar` + "hoge";',
+        'var foo = `foo` +\n    `bar` +\n    "hoge";'
     ],
     invalid: [
         {
@@ -125,13 +129,13 @@ ruleTester.run("prefer-template", rule, {
         },
         {
             code:
-            "var foo = 'favorites: ' + favorites.map(f => {\n" +
-            "    return f.name;\n" +
-            "}) + ';';",
+                "var foo = 'favorites: ' + favorites.map(f => {\n" +
+                "    return f.name;\n" +
+                "}) + ';';",
             output:
-            "var foo = `favorites: ${  favorites.map(f => {\n" +
-            "    return f.name;\n" +
-            "})  };`;",
+                "var foo = `favorites: ${  favorites.map(f => {\n" +
+                "    return f.name;\n" +
+                "})  };`;",
             errors
         },
         {
@@ -141,17 +145,17 @@ ruleTester.run("prefer-template", rule, {
         },
         {
             code:
-            "var foo = 'favorites: ' +\n" +
-            "    favorites.map(f => {\n" +
-            "        return f.name;\n" +
-            "    }) +\n" +
-            "';';",
+                "var foo = 'favorites: ' +\n" +
+                "    favorites.map(f => {\n" +
+                "        return f.name;\n" +
+                "    }) +\n" +
+                "';';",
             output:
-            "var foo = `favorites: ${ \n" +
-            "    favorites.map(f => {\n" +
-            "        return f.name;\n" +
-            "    }) \n" +
-            "};`;",
+                "var foo = `favorites: ${ \n" +
+                "    favorites.map(f => {\n" +
+                "        return f.name;\n" +
+                "    }) \n" +
+                "};`;",
             errors
         },
         {
@@ -170,17 +174,17 @@ ruleTester.run("prefer-template", rule, {
             errors
         },
         {
-            code: "foo + \"unescapes an escaped double quote in a double-quoted string: \\\"\"",
-            output: "`${foo  }unescapes an escaped double quote in a double-quoted string: \"`",
+            code: 'foo + "unescapes an escaped double quote in a double-quoted string: \\""',
+            output: '`${foo  }unescapes an escaped double quote in a double-quoted string: "`',
             errors
         },
         {
             code: "foo + 'does not unescape an escaped double quote in a single-quoted string: \\\"'",
-            output: "`${foo  }does not unescape an escaped double quote in a single-quoted string: \\\"`",
+            output: '`${foo  }does not unescape an escaped double quote in a single-quoted string: \\"`',
             errors
         },
         {
-            code: "foo + \"does not unescape an escaped single quote in a double-quoted string: \\'\"",
+            code: 'foo + "does not unescape an escaped single quote in a double-quoted string: \\\'"',
             output: "`${foo  }does not unescape an escaped single quote in a double-quoted string: \\'`",
             errors
         },
@@ -391,17 +395,17 @@ ruleTester.run("prefer-template", rule, {
             errors
         },
         {
-            code: "var foo = \"Hello \" + \"world \" + \"another \" + test",
+            code: 'var foo = "Hello " + "world " + "another " + test',
             output: "var foo = `Hello ` + `world ` + `another ${  test}`",
             errors
         },
         {
             code: "'Hello ' + '\"world\" ' + test",
-            output: "`Hello ` + `\"world\" ${  test}`",
+            output: '`Hello ` + `"world" ${  test}`',
             errors
         },
         {
-            code: "\"Hello \" + \"'world' \" + test",
+            code: '"Hello " + "\'world\' " + test',
             output: "`Hello ` + `'world' ${  test}`",
             errors
         }

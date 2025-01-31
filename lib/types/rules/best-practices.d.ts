@@ -49,7 +49,7 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default true
                  */
                 enforceForClassMembers: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -74,7 +74,7 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default false
                  */
                 allowVoid: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -96,7 +96,7 @@ export interface BestPractices extends Linter.RulesRecord {
         [
             Partial<{
                 exceptMethods: string[];
-            }>,
+            }>
         ]
     >;
 
@@ -109,22 +109,22 @@ export interface BestPractices extends Linter.RulesRecord {
     complexity: Linter.RuleEntry<
         [
             | Partial<{
-                /**
-                 * @default 20
-                 */
-                max: number;
-                /**
-                 * @deprecated
-                 * @default 20
-                 */
-                maximum: number;
-                /**
-                 * @default "classic"
-                 * @since 9.12.0
-                 */
-                variant: "classic" | "modified";
-            }>
-            | number,
+                  /**
+                   * @default 20
+                   */
+                  max: number;
+                  /**
+                   * @deprecated
+                   * @default 20
+                   */
+                  maximum: number;
+                  /**
+                   * @default "classic"
+                   * @since 9.12.0
+                   */
+                  variant: "classic" | "modified";
+              }>
+            | number
         ]
     >;
 
@@ -141,7 +141,7 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default false
                  */
                 treatUndefinedAsUnspecified: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -151,7 +151,9 @@ export interface BestPractices extends Linter.RulesRecord {
      * @since 0.0.2
      * @see https://eslint.org/docs/latest/rules/curly
      */
-    curly: Linter.RuleEntry<["all" | "multi" | "multi-line" | "multi-or-nest" | "consistent"]>;
+    curly: Linter.RuleEntry<
+        ["all" | "multi" | "multi-line" | "multi-or-nest" | "consistent"]
+    >;
 
     /**
      * Rule to require `default` cases in `switch` statements.
@@ -166,7 +168,7 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default '^no default$'
                  */
                 commentPattern: string;
-            }>,
+            }>
         ]
     >;
 
@@ -209,7 +211,7 @@ export interface BestPractices extends Linter.RulesRecord {
                  */
                 allowKeywords: boolean;
                 allowPattern: string;
-            }>,
+            }>
         ]
     >;
 
@@ -221,16 +223,16 @@ export interface BestPractices extends Linter.RulesRecord {
      */
     eqeqeq:
         | Linter.RuleEntry<
-            [
-                "always",
-                Partial<{
-                    /**
-                     * @default 'always'
-                     */
-                    null: "always" | "never" | "ignore";
-                }>,
-            ]
-        >
+              [
+                  "always",
+                  Partial<{
+                      /**
+                       * @default 'always'
+                       */
+                      null: "always" | "never" | "ignore";
+                  }>
+              ]
+          >
         | Linter.RuleEntry<["smart" | "allow-null"]>;
 
     /**
@@ -239,7 +241,9 @@ export interface BestPractices extends Linter.RulesRecord {
      * @since 6.7.0
      * @see https://eslint.org/docs/latest/rules/grouped-accessor-pairs
      */
-    "grouped-accessor-pairs": Linter.RuleEntry<["anyOrder" | "getBeforeSet" | "setBeforeGet"]>;
+    "grouped-accessor-pairs": Linter.RuleEntry<
+        ["anyOrder" | "getBeforeSet" | "setBeforeGet"]
+    >;
 
     /**
      * Rule to require `for-in` loops to include an `if` statement.
@@ -305,7 +309,7 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default true
                  */
                 allowElseIf: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -333,7 +337,7 @@ export interface BestPractices extends Linter.RulesRecord {
                     | "asyncFunctions"
                     | "asyncMethods"
                 >;
-            }>,
+            }>
         ]
     >;
 
@@ -380,7 +384,7 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default false
                  */
                 allowIndirect: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -394,7 +398,7 @@ export interface BestPractices extends Linter.RulesRecord {
         [
             Partial<{
                 exceptions: string[];
-            }>,
+            }>
         ]
     >;
 
@@ -438,7 +442,7 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default false
                  */
                 reportUnusedFallthroughComment: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -464,7 +468,7 @@ export interface BestPractices extends Linter.RulesRecord {
         [
             Partial<{
                 exceptions: string[];
-            }>,
+            }>
         ]
     >;
 
@@ -497,7 +501,7 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default []
                  */
                 allow: Array<"~" | "!!" | "+" | "- -" | "-" | "*">;
-            }>,
+            }>
         ]
     >;
 
@@ -541,7 +545,7 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default true
                  */
                 capIsConstructor: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -570,7 +574,7 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default false
                  */
                 allowSwitch: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -615,7 +619,7 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default false
                  */
                 detectObjects: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -637,7 +641,7 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default { Property: true }
                  */
                 exceptions: Record<string, boolean>;
-            }>,
+            }>
         ]
     >;
 
@@ -726,7 +730,7 @@ export interface BestPractices extends Linter.RulesRecord {
                    * @default []
                    */
                   ignorePropertyModificationsForRegex: string[];
-              }>),
+              }>)
         ]
     >;
 
@@ -754,7 +758,7 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default true
                  */
                 builtinGlobals: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -768,15 +772,15 @@ export interface BestPractices extends Linter.RulesRecord {
         [
             ...Array<
                 | {
-                    object: string;
-                    property?: string | undefined;
-                    message?: string | undefined;
-                }
+                      object: string;
+                      property?: string | undefined;
+                      message?: string | undefined;
+                  }
                 | {
-                    property: string;
-                    message?: string | undefined;
-                }
-            >,
+                      property: string;
+                      message?: string | undefined;
+                  }
+            >
         ]
     >;
 
@@ -838,7 +842,7 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default true
                  */
                 allowInParentheses: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -884,7 +888,7 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default false
                  */
                 enforceForJSX: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -977,7 +981,7 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default false
                  */
                 allowAsStatement: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -998,7 +1002,7 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default 'start'
                  */
                 location: "start" | "anywhere";
-            },
+            }
         ]
     >;
 
@@ -1042,7 +1046,7 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default false
                  */
                 allowEmptyReject: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -1059,7 +1063,7 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default false
                  */
                 disallowRedundantWrapping: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -1092,7 +1096,7 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default false
                  */
                 requireFlag: "u" | "v";
-            }>,
+            }>
         ]
     >;
 
@@ -1119,7 +1123,7 @@ export interface BestPractices extends Linter.RulesRecord {
                  * @default false
                  */
                 functionPrototypeMethods: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -1131,13 +1135,13 @@ export interface BestPractices extends Linter.RulesRecord {
      */
     yoda:
         | Linter.RuleEntry<
-            [
-                "never",
-                Partial<{
-                    exceptRange: boolean;
-                    onlyEquality: boolean;
-                }>,
-            ]
-        >
+              [
+                  "never",
+                  Partial<{
+                      exceptRange: boolean;
+                      onlyEquality: boolean;
+                  }>
+              ]
+          >
         | Linter.RuleEntry<["always"]>;
 }

@@ -24,10 +24,9 @@ const ruleTester = new RuleTester({
 });
 
 ruleTester.run("symbol-description", rule, {
-
     valid: [
-        "Symbol(\"Foo\");",
-        "var foo = \"foo\"; Symbol(foo);",
+        'Symbol("Foo");',
+        'var foo = "foo"; Symbol(foo);',
 
         // Ignore if it's shadowed.
         "var Symbol = function () {}; Symbol();",
@@ -41,17 +40,21 @@ ruleTester.run("symbol-description", rule, {
     invalid: [
         {
             code: "Symbol();",
-            errors: [{
-                messageId: "expected",
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "expected",
+                    type: "CallExpression"
+                }
+            ]
         },
         {
             code: "Symbol(); Symbol = function () {};",
-            errors: [{
-                messageId: "expected",
-                type: "CallExpression"
-            }]
+            errors: [
+                {
+                    messageId: "expected",
+                    type: "CallExpression"
+                }
+            ]
         }
     ]
 });

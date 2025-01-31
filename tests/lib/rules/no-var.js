@@ -16,7 +16,9 @@ const rule = require("../../../lib/rules/no-var"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 6, sourceType: "script" } });
+const ruleTester = new RuleTester({
+    languageOptions: { ecmaVersion: 6, sourceType: "script" }
+});
 
 ruleTester.run("no-var", rule, {
     valid: [
@@ -24,11 +26,15 @@ ruleTester.run("no-var", rule, {
         "let moo = 'car';",
         {
             code: "const JOE = 'schmoe';",
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            }
         },
         {
             code: "let moo = 'car';",
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            }
         }
     ],
 
@@ -36,7 +42,9 @@ ruleTester.run("no-var", rule, {
         {
             code: "var foo = bar;",
             output: "let foo = bar;",
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
             errors: [
                 {
                     messageId: "unexpectedVar",
@@ -47,7 +55,9 @@ ruleTester.run("no-var", rule, {
         {
             code: "var foo = bar, toast = most;",
             output: "let foo = bar, toast = most;",
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
             errors: [
                 {
                     messageId: "unexpectedVar",
@@ -58,7 +68,9 @@ ruleTester.run("no-var", rule, {
         {
             code: "var foo = bar; let toast = most;",
             output: "let foo = bar; let toast = most;",
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
             errors: [
                 {
                     messageId: "unexpectedVar",
@@ -69,7 +81,9 @@ ruleTester.run("no-var", rule, {
         {
             code: "for (var a of b) { console.log(a); }",
             output: "for (let a of b) { console.log(a); }",
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
             errors: [
                 {
                     messageId: "unexpectedVar",
@@ -80,7 +94,9 @@ ruleTester.run("no-var", rule, {
         {
             code: "for (var a in b) { console.log(a); }",
             output: "for (let a in b) { console.log(a); }",
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
             errors: [
                 {
                     messageId: "unexpectedVar",
@@ -91,7 +107,9 @@ ruleTester.run("no-var", rule, {
         {
             code: "for (let a of b) { var c = 1; console.log(c); }",
             output: "for (let a of b) { let c = 1; console.log(c); }",
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
             errors: [
                 {
                     messageId: "unexpectedVar",
@@ -102,7 +120,9 @@ ruleTester.run("no-var", rule, {
         {
             code: "for (var i = 0; i < list.length; ++i) { foo(i) }",
             output: "for (let i = 0; i < list.length; ++i) { foo(i) }",
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
             errors: [
                 { messageId: "unexpectedVar", type: "VariableDeclaration" }
             ]
@@ -110,7 +130,9 @@ ruleTester.run("no-var", rule, {
         {
             code: "for (var i = 0, i = 0; false;);",
             output: null,
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
             errors: [
                 { messageId: "unexpectedVar", type: "VariableDeclaration" }
             ]
@@ -118,7 +140,9 @@ ruleTester.run("no-var", rule, {
         {
             code: "var i = 0; for (var i = 1; false;); console.log(i);",
             output: null,
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
             errors: [
                 { messageId: "unexpectedVar", type: "VariableDeclaration" },
                 { messageId: "unexpectedVar", type: "VariableDeclaration" }
@@ -129,7 +153,9 @@ ruleTester.run("no-var", rule, {
         {
             code: "var a, b, c; var a;",
             output: null,
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
             errors: [
                 { messageId: "unexpectedVar" },
                 { messageId: "unexpectedVar" }
@@ -138,7 +164,9 @@ ruleTester.run("no-var", rule, {
         {
             code: "var a; if (b) { var a; }",
             output: null,
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
             errors: [
                 { messageId: "unexpectedVar" },
                 { messageId: "unexpectedVar" }
@@ -147,107 +175,114 @@ ruleTester.run("no-var", rule, {
         {
             code: "if (foo) { var a, b, c; } a;",
             output: null,
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
-            errors: [
-                { messageId: "unexpectedVar" }
-            ]
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
+            errors: [{ messageId: "unexpectedVar" }]
         },
         {
             code: "for (var i = 0; i < 10; ++i) {} i;",
             output: null,
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
-            errors: [
-                { messageId: "unexpectedVar" }
-            ]
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
+            errors: [{ messageId: "unexpectedVar" }]
         },
         {
             code: "for (var a in obj) {} a;",
             output: null,
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
-            errors: [
-                { messageId: "unexpectedVar" }
-            ]
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
+            errors: [{ messageId: "unexpectedVar" }]
         },
         {
             code: "for (var a of list) {} a;",
             output: null,
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
-            errors: [
-                { messageId: "unexpectedVar" }
-            ]
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
+            errors: [{ messageId: "unexpectedVar" }]
         },
         {
             code: "switch (a) { case 0: var b = 1 }",
             output: null,
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
-            errors: [
-                { messageId: "unexpectedVar" }
-            ]
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
+            errors: [{ messageId: "unexpectedVar" }]
         },
 
         // Don't fix if the variable is in a loop and the behavior might change.
         {
             code: "for (var a of b) { arr.push(() => a); }",
             output: null,
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
-            errors: [
-                { messageId: "unexpectedVar" }
-            ]
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
+            errors: [{ messageId: "unexpectedVar" }]
         },
         {
             code: "for (let a of b) { var c; console.log(c); c = 'hello'; }",
             output: null,
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
-            errors: [
-                { messageId: "unexpectedVar" }
-            ]
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
+            errors: [{ messageId: "unexpectedVar" }]
         },
 
         // https://github.com/eslint/eslint/issues/7950
         {
             code: "var a = a",
             output: null,
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
-            errors: [
-                { messageId: "unexpectedVar" }
-            ]
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
+            errors: [{ messageId: "unexpectedVar" }]
         },
         {
             code: "var {a = a} = {}",
             output: null,
-            languageOptions: { ecmaVersion: 2015, parserOptions: { ecmaFeatures: { globalReturn: true } } },
-            errors: [
-                { messageId: "unexpectedVar" }
-            ]
+            languageOptions: {
+                ecmaVersion: 2015,
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
+            errors: [{ messageId: "unexpectedVar" }]
         },
         {
             code: "var {a = b, b} = {}",
             output: null,
-            languageOptions: { ecmaVersion: 2015, parserOptions: { ecmaFeatures: { globalReturn: true } } },
-            errors: [
-                { messageId: "unexpectedVar" }
-            ]
+            languageOptions: {
+                ecmaVersion: 2015,
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
+            errors: [{ messageId: "unexpectedVar" }]
         },
         {
             code: "var {a, b = a} = {}",
             output: "let {a, b = a} = {}",
-            languageOptions: { ecmaVersion: 2015, parserOptions: { ecmaFeatures: { globalReturn: true } } },
-            errors: [
-                { messageId: "unexpectedVar" }
-            ]
+            languageOptions: {
+                ecmaVersion: 2015,
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
+            errors: [{ messageId: "unexpectedVar" }]
         },
         {
             code: "var a = b, b = 1",
             output: null,
-            languageOptions: { ecmaVersion: 2015, parserOptions: { ecmaFeatures: { globalReturn: true } } },
-            errors: [
-                { messageId: "unexpectedVar" }
-            ]
+            languageOptions: {
+                ecmaVersion: 2015,
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
+            errors: [{ messageId: "unexpectedVar" }]
         },
         {
             code: "var a = b; var b = 1",
             output: "let a = b; var b = 1",
-            languageOptions: { ecmaVersion: 2015, parserOptions: { ecmaFeatures: { globalReturn: true } } },
+            languageOptions: {
+                ecmaVersion: 2015,
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
             errors: [
                 { messageId: "unexpectedVar" },
                 { messageId: "unexpectedVar" }
@@ -261,17 +296,20 @@ ruleTester.run("no-var", rule, {
         {
             code: "function foo() { a } var a = 1; foo()",
             output: null,
-            languageOptions: { ecmaVersion: 2015, parserOptions: { ecmaFeatures: { globalReturn: true } } },
-            errors: [
-                { messageId: "unexpectedVar" }
-            ]
+            languageOptions: {
+                ecmaVersion: 2015,
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
+            errors: [{ messageId: "unexpectedVar" }]
         },
 
         // https://github.com/eslint/eslint/issues/7961
         {
             code: "if (foo) var bar = 1;",
             output: null,
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } },
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            },
             errors: [
                 { messageId: "unexpectedVar", type: "VariableDeclaration" }
             ]

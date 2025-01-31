@@ -41,7 +41,12 @@ ruleTester.run("internal-rules/multiline-comment-style", rule, {
                  * bar
                  */
             `,
-            errors: [{ message: "Expected a block comment instead of consecutive line comments." }]
+            errors: [
+                {
+                    message:
+                        "Expected a block comment instead of consecutive line comments."
+                }
+            ]
         }
     ]
 });

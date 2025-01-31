@@ -40,7 +40,7 @@ describe("containsDifferentProperty", () => {
         [[null], [0], true],
         [[null], [null], false],
         [[0], [null], true],
-        [{ }, { a: 0 }, true],
+        [{}, { a: 0 }, true],
         [{ a: null }, { a: null }, false],
         [{ a: null }, { a: void 0 }, true],
         [{ a: null }, { a: 0 }, true],
@@ -51,9 +51,9 @@ describe("containsDifferentProperty", () => {
         [{ a: 0 }, { a: 1 }, true],
         [{ a: 1 }, { a: 0 }, true],
         [{ a: 0 }, {}, true],
-        [{ }, { a: [0] }, true],
-        [{ }, { a: null }, true],
-        [{ }, { a: void 0 }, true],
+        [{}, { a: [0] }, true],
+        [{}, { a: null }, true],
+        [{}, { a: void 0 }, true],
         [{ a: [null] }, { a: [null] }, false],
         [{ a: [null] }, { a: [void 0] }, true],
         [{ a: [null] }, { a: [0] }, true],
@@ -74,36 +74,12 @@ describe("containsDifferentProperty", () => {
         [["error", { a: true }], ["error", { a: false }], true],
         [["error", { a: false }], ["error", { a: false }], false],
         [["error", { a: false }], ["error", { a: true }], true],
-        [
-            ["foo"],
-            ["foo", "bar"],
-            true
-        ],
-        [
-            ["foo", "bar"],
-            ["foo"],
-            true
-        ],
-        [
-            ["foo", "bar"],
-            ["foo", "bar"],
-            false
-        ],
-        [
-            { a: "b" },
-            { a: "b", c: "d" },
-            true
-        ],
-        [
-            { a: "b", c: "d" },
-            { a: "b" },
-            true
-        ],
-        [
-            { a: "b", c: "d" },
-            { a: "b", c: "d" },
-            false
-        ]
+        [["foo"], ["foo", "bar"], true],
+        [["foo", "bar"], ["foo"], true],
+        [["foo", "bar"], ["foo", "bar"], false],
+        [{ a: "b" }, { a: "b", c: "d" }, true],
+        [{ a: "b", c: "d" }, { a: "b" }, true],
+        [{ a: "b", c: "d" }, { a: "b", c: "d" }, false]
     ].forEach(([input, original, expected]) => {
         it(`${JSON.stringify(input)} and ${JSON.stringify(original)}`, () => {
             assert.strictEqual(

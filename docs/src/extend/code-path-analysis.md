@@ -1,6 +1,5 @@
 ---
 title: Code Path Analysis Details
-
 ---
 
 ESLint's rules can use code paths.
@@ -35,14 +34,14 @@ This has references of both the initial segment and the final segments of a code
 
 `CodePath` has the following properties:
 
-* `id` (`string`) - A unique string. Respective rules can use `id` to save additional information for each code path.
-* `origin` (`string`) - The reason that the code path was started. May be `"program"`, `"function"`, `"class-field-initializer"`, or `"class-static-block"`.
-* `initialSegment` (`CodePathSegment`) - The initial segment of this code path.
-* `finalSegments` (`CodePathSegment[]`) - The final segments which includes both returned and thrown.
-* `returnedSegments` (`CodePathSegment[]`) - The final segments which includes only returned.
-* `thrownSegments` (`CodePathSegment[]`) - The final segments which includes only thrown.
-* `upper` (`CodePath|null`) - The code path of the upper function/global scope.
-* `childCodePaths` (`CodePath[]`) - Code paths of functions this code path contains.
+-   `id` (`string`) - A unique string. Respective rules can use `id` to save additional information for each code path.
+-   `origin` (`string`) - The reason that the code path was started. May be `"program"`, `"function"`, `"class-field-initializer"`, or `"class-static-block"`.
+-   `initialSegment` (`CodePathSegment`) - The initial segment of this code path.
+-   `finalSegments` (`CodePathSegment[]`) - The final segments which includes both returned and thrown.
+-   `returnedSegments` (`CodePathSegment[]`) - The final segments which includes only returned.
+-   `thrownSegments` (`CodePathSegment[]`) - The final segments which includes only thrown.
+-   `upper` (`CodePath|null`) - The code path of the upper function/global scope.
+-   `childCodePaths` (`CodePath[]`) - Code paths of functions this code path contains.
 
 ### `CodePathSegment`
 
@@ -52,10 +51,10 @@ Difference from doubly linked list is what there are forking and merging (the ne
 
 `CodePathSegment` has the following properties:
 
-* `id` (`string`) - A unique string. Respective rules can use `id` to save additional information for each segment.
-* `nextSegments` (`CodePathSegment[]`) - The next segments. If forking, there are two or more. If final, there is nothing.
-* `prevSegments` (`CodePathSegment[]`) - The previous segments. If merging, there are two or more. If initial, there is nothing.
-* `reachable` (`boolean`) - A flag which shows whether or not it's reachable. This becomes `false` when preceded by `return`, `throw`, `break`, or `continue`.
+-   `id` (`string`) - A unique string. Respective rules can use `id` to save additional information for each segment.
+-   `nextSegments` (`CodePathSegment[]`) - The next segments. If forking, there are two or more. If final, there is nothing.
+-   `prevSegments` (`CodePathSegment[]`) - The previous segments. If merging, there are two or more. If initial, there is nothing.
+-   `reachable` (`boolean`) - A flag which shows whether or not it's reachable. This becomes `false` when preceded by `return`, `throw`, `break`, or `continue`.
 
 ## Events
 
@@ -67,7 +66,6 @@ module.exports = {
         // ...
     },
     create(context) {
-
         return {
             /**
              * This is called at the start of analyzing a code path.
@@ -160,9 +158,8 @@ module.exports = {
                 // do something with segment
             }
         };
-
     }
-}
+};
 ```
 
 ### About `onCodePathSegmentLoop`
@@ -182,7 +179,7 @@ bar();
 1. First, the analysis advances to the end of loop.
 
 :::img-container
-   ![Loop Event's Example 1](../assets/images/code-path-analysis/loop-event-example-while-1.svg)
+![Loop Event's Example 1](../assets/images/code-path-analysis/loop-event-example-while-1.svg)
 :::
 
 2. Second, it creates the looping path.
@@ -190,13 +187,13 @@ bar();
    It fires `onCodePathSegmentLoop` instead.
 
 :::img-container
-   ![Loop Event's Example 2](../assets/images/code-path-analysis/loop-event-example-while-2.svg)
+![Loop Event's Example 2](../assets/images/code-path-analysis/loop-event-example-while-2.svg)
 :::
 
 3. Last, it advances to the end.
 
 :::img-container
-   ![Loop Event's Example 3](../assets/images/code-path-analysis/loop-event-example-while-3.svg)
+![Loop Event's Example 3](../assets/images/code-path-analysis/loop-event-example-while-3.svg)
 :::
 
 For example 2:
@@ -213,7 +210,7 @@ bar();
    The `update` segment is hovered at first.
 
 :::img-container
-   ![Loop Event's Example 1](../assets/images/code-path-analysis/loop-event-example-for-1.svg)
+![Loop Event's Example 1](../assets/images/code-path-analysis/loop-event-example-for-1.svg)
 :::
 
 2. Second, it advances to `ForStatement.body`.
@@ -221,7 +218,7 @@ bar();
    It keeps the `update` segment hovering.
 
 :::img-container
-   ![Loop Event's Example 2](../assets/images/code-path-analysis/loop-event-example-for-2.svg)
+![Loop Event's Example 2](../assets/images/code-path-analysis/loop-event-example-for-2.svg)
 :::
 
 3. Third, it creates the looping path from `body` segment to `update` segment.
@@ -229,7 +226,7 @@ bar();
    It fires `onCodePathSegmentLoop` instead.
 
 :::img-container
-   ![Loop Event's Example 3](../assets/images/code-path-analysis/loop-event-example-for-3.svg)
+![Loop Event's Example 3](../assets/images/code-path-analysis/loop-event-example-for-3.svg)
 :::
 
 4. Fourth, also it creates the looping path from `update` segment to `test` segment.
@@ -237,13 +234,13 @@ bar();
    It fires `onCodePathSegmentLoop` instead.
 
 :::img-container
-   ![Loop Event's Example 4](../assets/images/code-path-analysis/loop-event-example-for-4.svg)
+![Loop Event's Example 4](../assets/images/code-path-analysis/loop-event-example-for-4.svg)
 :::
 
 5. Last, it advances to the end.
 
 :::img-container
-   ![Loop Event's Example 5](../assets/images/code-path-analysis/loop-event-example-for-5.svg)
+![Loop Event's Example 5](../assets/images/code-path-analysis/loop-event-example-for-5.svg)
 :::
 
 ## Usage Examples
@@ -258,7 +255,6 @@ module.exports = {
         // ...
     },
     create(context) {
-
         // tracks the code path we are currently in
         let currentCodePath;
 
@@ -269,7 +265,6 @@ module.exports = {
         const allCurrentSegments = [];
 
         return {
-
             onCodePathStart(codePath) {
                 currentCodePath = codePath;
                 allCurrentSegments.push(currentSegments);
@@ -297,7 +292,6 @@ module.exports = {
                 currentSegments.delete(segment);
             }
         };
-
     }
 };
 ```
@@ -326,7 +320,6 @@ module.exports = {
         // ...
     },
     create(context) {
-
         // tracks the code path we are currently in
         let currentCodePath;
 
@@ -337,7 +330,6 @@ module.exports = {
         const allCurrentSegments = [];
 
         return {
-
             onCodePathStart(codePath) {
                 currentCodePath = codePath;
                 allCurrentSegments.push(currentSegments);
@@ -366,15 +358,12 @@ module.exports = {
             },
 
             ExpressionStatement(node) {
-
                 // check all the code path segments that led to this node
                 if (!areAnySegmentsReachable(currentSegments)) {
                     context.report({ message: "Unreachable!", node });
                 }
             }
-
         };
-
     }
 };
 ```
@@ -395,7 +384,7 @@ Please use a map of information instead.
 function hasCb(node, context) {
     if (node.type.indexOf("Function") !== -1) {
         const sourceCode = context.sourceCode;
-        return sourceCode.getDeclaredVariables(node).some(function(v) {
+        return sourceCode.getDeclaredVariables(node).some(function (v) {
             return v.type === "Parameter" && v.name === "cb";
         });
     }
@@ -411,7 +400,6 @@ module.exports = {
         // ...
     },
     create(context) {
-
         let funcInfo;
         const funcInfoStack = [];
         const segmentInfoMap = Object.create(null);
@@ -432,10 +420,12 @@ module.exports = {
                 funcInfo = funcInfoStack.pop();
 
                 // Checks `cb` was called in every paths.
-                const cbCalled = codePath.finalSegments.every(function(segment) {
-                    const info = segmentInfoMap[segment.id];
-                    return info.cbCalled;
-                });
+                const cbCalled = codePath.finalSegments.every(
+                    function (segment) {
+                        const info = segmentInfoMap[segment.id];
+                        return info.cbCalled;
+                    }
+                );
 
                 if (!cbCalled) {
                     context.report({
@@ -447,7 +437,6 @@ module.exports = {
 
             // Manages state of code paths and tracks traversed segments
             onCodePathSegmentStart(segment) {
-
                 funcInfo.currentSegments.add(segment);
 
                 // Ignores if `cb` doesn't exist.
@@ -456,9 +445,9 @@ module.exports = {
                 }
 
                 // Initialize state of this path.
-                const info = segmentInfoMap[segment.id] = {
+                const info = (segmentInfoMap[segment.id] = {
                     cbCalled: false
-                };
+                });
 
                 // If there are the previous paths, merges state.
                 // Checks `cb` was called in every previous path.
@@ -484,7 +473,6 @@ module.exports = {
 
             // Checks reachable or not.
             CallExpression(node) {
-
                 // Ignores if `cb` doesn't exist.
                 if (!funcInfo.hasCb) {
                     return;
@@ -493,7 +481,7 @@ module.exports = {
                 // Sets marks that `cb` was called.
                 const callee = node.callee;
                 if (callee.type === "Identifier" && callee.name === "cb") {
-                    funcInfo.currentSegments.forEach(segment => {
+                    funcInfo.currentSegments.forEach((segment) => {
                         const info = segmentInfoMap[segment.id];
                         info.cbCalled = true;
                     });
@@ -561,7 +549,7 @@ switch (a) {
     case 1:
     case 2:
         bar();
-        // fallthrough
+    // fallthrough
 
     case 3:
         hoge();
@@ -584,7 +572,7 @@ switch (a) {
     case 1:
     case 2:
         bar();
-        // fallthrough
+    // fallthrough
 
     case 3:
         hoge();
@@ -617,9 +605,9 @@ last();
 
 It creates the paths from `try` block to `catch` block at:
 
-* `throw` statements.
-* The first throwable node (e.g. a function call) in the `try` block.
-* The end of the `try` block.
+-   `throw` statements.
+-   The first throwable node (e.g. a function call) in the `try` block.
+-   The end of the `try` block.
 
 :::img-container
 ![`TryStatement` (try-catch)](../assets/images/code-path-analysis/example-trystatement-try-catch.svg)
@@ -748,14 +736,14 @@ foo(false);
 
 It creates two code paths.
 
-* The global's
+-   The global's
 
 :::img-container
-  ![When there is a function](../assets/images/code-path-analysis/example-when-there-is-a-function-g.svg)
+![When there is a function](../assets/images/code-path-analysis/example-when-there-is-a-function-g.svg)
 :::
 
-* The function's
+-   The function's
 
 :::img-container
-  ![When there is a function](../assets/images/code-path-analysis/example-when-there-is-a-function-f.svg)
+![When there is a function](../assets/images/code-path-analysis/example-when-there-is-a-function-f.svg)
 :::

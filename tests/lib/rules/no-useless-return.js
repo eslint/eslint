@@ -11,7 +11,6 @@
 const rule = require("../../../lib/rules/no-useless-return"),
     RuleTester = require("../../../lib/rule-tester/rule-tester");
 
-
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
@@ -148,7 +147,9 @@ ruleTester.run("no-useless-return", rule, {
         },
         {
             code: "if (foo) { return; } doSomething();",
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            }
         },
 
         // https://github.com/eslint/eslint/issues/7477
@@ -244,12 +245,16 @@ ruleTester.run("no-useless-return", rule, {
         {
             code: "foo(); return;",
             output: "foo(); ",
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            }
         },
         {
             code: "if (foo) { bar(); return; } else { baz(); }",
             output: "if (foo) { bar();  } else { baz(); }",
-            languageOptions: { parserOptions: { ecmaFeatures: { globalReturn: true } } }
+            languageOptions: {
+                parserOptions: { ecmaFeatures: { globalReturn: true } }
+            }
         },
         {
             code: `
@@ -591,7 +596,7 @@ ruleTester.run("no-useless-return", rule, {
                 }
             ]
         }
-    ].map(invalidCase =>
+    ].map((invalidCase) =>
         Object.assign(
             {
                 errors: [
@@ -599,5 +604,6 @@ ruleTester.run("no-useless-return", rule, {
                 ]
             },
             invalidCase
-        ))
+        )
+    )
 });

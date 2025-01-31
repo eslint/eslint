@@ -30,9 +30,17 @@ describe("deepMerge", () => {
         [[], ["abc"], ["abc"]],
         [[undefined], ["abc"], ["abc"]],
         [[undefined, undefined], ["abc"], ["abc", undefined]],
-        [[undefined, undefined], ["abc", "def"], ["abc", "def"]],
+        [
+            [undefined, undefined],
+            ["abc", "def"],
+            ["abc", "def"]
+        ],
         [[undefined, null], ["abc"], ["abc", null]],
-        [[undefined, null], ["abc", "def"], ["abc", "def"]],
+        [
+            [undefined, null],
+            ["abc", "def"],
+            ["abc", "def"]
+        ],
         [[null], ["abc"], ["abc"]],
         [[123], [undefined], [123]],
         [[123], [null], [null]],
@@ -56,16 +64,8 @@ describe("deepMerge", () => {
         [[{ a: 0 }], ["abc"], ["abc"]],
         [[{ a: 0 }], [123], [123]],
         [[[{ a: 0 }]], [123], [123]],
-        [
-            [{ a: ["b"] }],
-            [{ a: ["c"] }],
-            [{ a: ["c"] }]
-        ],
-        [
-            [{ a: [{ b: "c" }] }],
-            [{ a: [{ d: "e" }] }],
-            [{ a: [{ d: "e" }] }]
-        ],
+        [[{ a: ["b"] }], [{ a: ["c"] }], [{ a: ["c"] }]],
+        [[{ a: [{ b: "c" }] }], [{ a: [{ d: "e" }] }], [{ a: [{ d: "e" }] }]],
         [
             [{ a: { b: "c" }, d: true }],
             [{ a: { e: "f" } }],
@@ -81,52 +81,40 @@ describe("deepMerge", () => {
             [{ a: { e: "f" } }, { f: 123 }],
             [{ a: { b: "c", e: "f" } }, { d: true, f: 123 }]
         ],
-        [
-            [{ hasOwnProperty: true }],
-            [{}],
-            [{ hasOwnProperty: true }]
-        ],
-        [
-            [{ hasOwnProperty: false }],
-            [{}],
-            [{ hasOwnProperty: false }]
-        ],
-        [
-            [{ hasOwnProperty: null }],
-            [{}],
-            [{ hasOwnProperty: null }]
-        ],
+        [[{ hasOwnProperty: true }], [{}], [{ hasOwnProperty: true }]],
+        [[{ hasOwnProperty: false }], [{}], [{ hasOwnProperty: false }]],
+        [[{ hasOwnProperty: null }], [{}], [{ hasOwnProperty: null }]],
         [
             [{ hasOwnProperty: undefined }],
             [{}],
             [{ hasOwnProperty: undefined }]
         ],
-        [
-            [{}],
-            [{ hasOwnProperty: null }],
-            [{ hasOwnProperty: null }]
-        ],
+        [[{}], [{ hasOwnProperty: null }], [{ hasOwnProperty: null }]],
         [
             [{}],
             [{ hasOwnProperty: undefined }],
             [{ hasOwnProperty: undefined }]
         ],
         [
-            [{
-                allow: [],
-                ignoreDestructuring: false,
-                ignoreGlobals: false,
-                ignoreImports: false,
-                properties: "always"
-            }],
+            [
+                {
+                    allow: [],
+                    ignoreDestructuring: false,
+                    ignoreGlobals: false,
+                    ignoreImports: false,
+                    properties: "always"
+                }
+            ],
             [],
-            [{
-                allow: [],
-                ignoreDestructuring: false,
-                ignoreGlobals: false,
-                ignoreImports: false,
-                properties: "always"
-            }]
+            [
+                {
+                    allow: [],
+                    ignoreDestructuring: false,
+                    ignoreGlobals: false,
+                    ignoreImports: false,
+                    properties: "always"
+                }
+            ]
         ]
     ]) {
         it(`${toTestCaseName(first)}, ${toTestCaseName(second)}`, () => {

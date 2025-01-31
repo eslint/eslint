@@ -18,7 +18,6 @@ const rule = require("../../../lib/rules/no-mixed-spaces-and-tabs"),
 const ruleTester = new RuleTester();
 
 ruleTester.run("no-mixed-spaces-and-tabs", rule, {
-
     valid: [
         "foo",
         "foo \t",

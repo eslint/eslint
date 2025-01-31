@@ -1,7 +1,6 @@
 "use strict";
 
-module.exports = function({ plugins }) {
-
+module.exports = function ({ plugins }) {
     const isArrayOfStrings = typeof plugins[0] === "string";
 
     return `

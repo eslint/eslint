@@ -11,7 +11,6 @@
 const rule = require("../../../lib/rules/no-useless-concat"),
     RuleTester = require("../../../lib/rule-tester/rule-tester");
 
-
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
@@ -19,7 +18,6 @@ const rule = require("../../../lib/rules/no-useless-concat"),
 const ruleTester = new RuleTester();
 
 ruleTester.run("no-useless-concat", rule, {
-
     valid: [
         "var a = 1 + 1;",
         "var a = 1 * '2';",
@@ -64,9 +62,7 @@ ruleTester.run("no-useless-concat", rule, {
         },
         {
             code: "foo + 'a' + 'b'",
-            errors: [
-                { messageId: "unexpectedConcat" }
-            ]
+            errors: [{ messageId: "unexpectedConcat" }]
         },
         {
             code: "'a' + 'b' + 'c'",
@@ -97,23 +93,17 @@ ruleTester.run("no-useless-concat", rule, {
         {
             code: "`a` + 'b'",
             languageOptions: { ecmaVersion: 6 },
-            errors: [
-                { messageId: "unexpectedConcat" }
-            ]
+            errors: [{ messageId: "unexpectedConcat" }]
         },
         {
             code: "`a` + `b`",
             languageOptions: { ecmaVersion: 6 },
-            errors: [
-                { messageId: "unexpectedConcat" }
-            ]
+            errors: [{ messageId: "unexpectedConcat" }]
         },
         {
             code: "foo + `a` + `b`",
             languageOptions: { ecmaVersion: 6 },
-            errors: [
-                { messageId: "unexpectedConcat" }
-            ]
+            errors: [{ messageId: "unexpectedConcat" }]
         }
     ]
 });

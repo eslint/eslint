@@ -166,11 +166,13 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
               bar %= ((await obj?.foo) ?? baz);
               bar **= ((await obj?.foo) ?? baz);
             }`
-        ].map(code => ({
+        ].map((code) => ({
             code,
-            options: [{
-                disallowArithmeticOperators: true
-            }]
+            options: [
+                {
+                    disallowArithmeticOperators: true
+                }
+            ]
         })),
         {
             code: "obj?.foo - bar;",
@@ -178,9 +180,11 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
         },
         {
             code: "obj?.foo - bar;",
-            options: [{
-                disallowArithmeticOperators: false
-            }]
+            options: [
+                {
+                    disallowArithmeticOperators: false
+                }
+            ]
         }
     ],
 
@@ -273,9 +277,11 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
             "async function foo() { (await (a ? obj?.foo : b))[1]; }",
             "async function foo() { (await (a ? b : obj?.foo)).bar; }",
             "async function foo() { (a ? b : await obj?.foo).bar; }"
-        ].map(code => ({
+        ].map((code) => ({
             code,
-            errors: [{ messageId: "unsafeOptionalChain", type: "ChainExpression" }]
+            errors: [
+                { messageId: "unsafeOptionalChain", type: "ChainExpression" }
+            ]
         })),
         {
             code: "(obj?.foo && obj?.baz).bar",
@@ -372,7 +378,7 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
             "async function foo() { await obj?.foo + bar; }",
             "async function foo() { (foo || await obj?.foo) + bar;}",
             "async function foo() { bar + (foo || await obj?.foo); }"
-        ].map(code => ({
+        ].map((code) => ({
             code,
             options: [{ disallowArithmeticOperators: true }],
             errors: [{ messageId: "unsafeArithmetic", type: "ChainExpression" }]

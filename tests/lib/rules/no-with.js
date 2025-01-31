@@ -24,10 +24,11 @@ const ruleTester = new RuleTester({
 });
 
 ruleTester.run("no-with", rule, {
-    valid: [
-        "foo.bar()"
-    ],
+    valid: ["foo.bar()"],
     invalid: [
-        { code: "with(foo) { bar() }", errors: [{ messageId: "unexpectedWith", type: "WithStatement" }] }
+        {
+            code: "with(foo) { bar() }",
+            errors: [{ messageId: "unexpectedWith", type: "WithStatement" }]
+        }
     ]
 });

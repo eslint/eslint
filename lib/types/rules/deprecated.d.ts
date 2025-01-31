@@ -28,7 +28,6 @@
 import { Linter } from "../index";
 
 export interface Deprecated extends Linter.RulesRecord {
-
     /**
      * Rule to enforce line breaks between arguments of a function call.
      *
@@ -65,19 +64,19 @@ export interface Deprecated extends Linter.RulesRecord {
                  */
                 VariableDeclarator:
                     | Partial<{
-                        /**
-                         * @default 1
-                         */
-                        var: number | "first";
-                        /**
-                         * @default 1
-                         */
-                        let: number | "first";
-                        /**
-                         * @default 1
-                         */
-                        const: number | "first";
-                    }>
+                          /**
+                           * @default 1
+                           */
+                          var: number | "first";
+                          /**
+                           * @default 1
+                           */
+                          let: number | "first";
+                          /**
+                           * @default 1
+                           */
+                          const: number | "first";
+                      }>
                     | number
                     | "first";
                 /**
@@ -144,7 +143,7 @@ export interface Deprecated extends Linter.RulesRecord {
                  * @default false
                  */
                 ignoreComments: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -195,7 +194,7 @@ export interface Deprecated extends Linter.RulesRecord {
         [
             Partial<{
                 exceptions: string[];
-            }>,
+            }>
         ]
     >;
 
@@ -246,7 +245,7 @@ export interface Deprecated extends Linter.RulesRecord {
         [
             Partial<{
                 exceptions: string[];
-            }>,
+            }>
         ]
     >;
 }

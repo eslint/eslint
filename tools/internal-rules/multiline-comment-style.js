@@ -17,9 +17,18 @@ const multilineCommentStyle = require("../../lib/rules/multiline-comment-style")
 module.exports = ruleComposer.filterReports(
     multilineCommentStyle,
     (problem, metadata) => {
-        const problemIndex = metadata.sourceCode.getIndexFromLoc(problem.loc.start);
-        const reportedToken = metadata.sourceCode.getTokenByRangeStart(problemIndex, { includeComments: true });
+        const problemIndex = metadata.sourceCode.getIndexFromLoc(
+            problem.loc.start
+        );
+        const reportedToken = metadata.sourceCode.getTokenByRangeStart(
+            problemIndex,
+            { includeComments: true }
+        );
 
-        return !(reportedToken && reportedToken.type === "Line" && /^-{2,}$/u.test(reportedToken.value));
+        return !(
+            reportedToken &&
+            reportedToken.type === "Line" &&
+            /^-{2,}$/u.test(reportedToken.value)
+        );
     }
 );

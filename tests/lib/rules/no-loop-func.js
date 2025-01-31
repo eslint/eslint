@@ -208,125 +208,259 @@ ruleTester.run("no-loop-func", rule, {
             `,
             languageOptions: { ecmaVersion: 6 }
         }
-
     ],
     invalid: [
         {
             code: "for (var i=0; i<l; i++) { (function() { i; }) }",
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "FunctionExpression" }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'i'" },
+                    type: "FunctionExpression"
+                }
+            ]
         },
         {
             code: "for (var i=0; i<l; i++) { for (var j=0; j<m; j++) { (function() { i+j; }) } }",
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i', 'j'" }, type: "FunctionExpression" }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'i', 'j'" },
+                    type: "FunctionExpression"
+                }
+            ]
         },
         {
             code: "for (var i in {}) { (function() { i; }) }",
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "FunctionExpression" }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'i'" },
+                    type: "FunctionExpression"
+                }
+            ]
         },
         {
             code: "for (var i of {}) { (function() { i; }) }",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "FunctionExpression" }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'i'" },
+                    type: "FunctionExpression"
+                }
+            ]
         },
         {
             code: "for (var i=0; i < l; i++) { (() => { i; }) }",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "ArrowFunctionExpression" }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'i'" },
+                    type: "ArrowFunctionExpression"
+                }
+            ]
         },
         {
             code: "for (var i=0; i < l; i++) { var a = function() { i; } }",
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "FunctionExpression" }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'i'" },
+                    type: "FunctionExpression"
+                }
+            ]
         },
         {
             code: "for (var i=0; i < l; i++) { function a() { i; }; a(); }",
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "FunctionDeclaration" }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'i'" },
+                    type: "FunctionDeclaration"
+                }
+            ]
         },
 
         // Warns functions which are using modified variables.
         {
             code: "let a; for (let i=0; i<l; i++) { a = 1; (function() { a; });}",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'a'" }, type: "FunctionExpression" }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'a'" },
+                    type: "FunctionExpression"
+                }
+            ]
         },
         {
             code: "let a; for (let i in {}) { (function() { a; }); a = 1; }",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'a'" }, type: "FunctionExpression" }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'a'" },
+                    type: "FunctionExpression"
+                }
+            ]
         },
         {
             code: "let a; for (let i of {}) { (function() { a; }); } a = 1; ",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'a'" }, type: "FunctionExpression" }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'a'" },
+                    type: "FunctionExpression"
+                }
+            ]
         },
         {
             code: "let a; for (let i=0; i<l; i++) { (function() { (function() { a; }); }); a = 1; }",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'a'" }, type: "FunctionExpression" }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'a'" },
+                    type: "FunctionExpression"
+                }
+            ]
         },
         {
             code: "let a; for (let i in {}) { a = 1; function foo() { (function() { a; }); } }",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'a'" }, type: "FunctionDeclaration" }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'a'" },
+                    type: "FunctionDeclaration"
+                }
+            ]
         },
         {
             code: "let a; for (let i of {}) { (() => { (function() { a; }); }); } a = 1;",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'a'" }, type: "ArrowFunctionExpression" }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'a'" },
+                    type: "ArrowFunctionExpression"
+                }
+            ]
         },
         {
             code: "for (var i = 0; i < 10; ++i) { for (let x in xs.filter(x => x != i)) {  } }",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "ArrowFunctionExpression" }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'i'" },
+                    type: "ArrowFunctionExpression"
+                }
+            ]
         },
         {
             code: "for (let x of xs) { let a; for (let y of ys) { a = 1; (function() { a; }); } }",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'a'" }, type: "FunctionExpression" }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'a'" },
+                    type: "FunctionExpression"
+                }
+            ]
         },
         {
             code: "for (var x of xs) { for (let y of ys) { (function() { x; }); } }",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'x'" }, type: "FunctionExpression" }]
-
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'x'" },
+                    type: "FunctionExpression"
+                }
+            ]
         },
         {
             code: "for (var x of xs) { (function() { x; }); }",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'x'" }, type: "FunctionExpression" }]
-
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'x'" },
+                    type: "FunctionExpression"
+                }
+            ]
         },
         {
             code: "var a; for (let x of xs) { a = 1; (function() { a; }); }",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'a'" }, type: "FunctionExpression" }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'a'" },
+                    type: "FunctionExpression"
+                }
+            ]
         },
         {
             code: "var a; for (let x of xs) { (function() { a; }); a = 1; }",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'a'" }, type: "FunctionExpression" }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'a'" },
+                    type: "FunctionExpression"
+                }
+            ]
         },
         {
             code: "let a; function foo() { a = 10; } for (let x of xs) { (function() { a; }); } foo();",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'a'" }, type: "FunctionExpression" }]
-
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'a'" },
+                    type: "FunctionExpression"
+                }
+            ]
         },
         {
             code: "let a; function foo() { a = 10; for (let x of xs) { (function() { a; }); } } foo();",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'a'" }, type: "FunctionExpression" }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'a'" },
+                    type: "FunctionExpression"
+                }
+            ]
         },
 
         // IIFE
         {
             code: "let a; for (var i=0; i<l; i++) { (function* (){i;})() }",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "FunctionExpression" }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'i'" },
+                    type: "FunctionExpression"
+                }
+            ]
         },
         {
             code: "let a; for (var i=0; i<l; i++) { (async function (){i;})() }",
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "FunctionExpression" }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'i'" },
+                    type: "FunctionExpression"
+                }
+            ]
         },
         {
             code: `
@@ -342,7 +476,13 @@ ruleTester.run("no-loop-func", rule, {
             }
             `,
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'current'" }, type: "FunctionExpression" }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'current'" },
+                    type: "FunctionExpression"
+                }
+            ]
         },
         {
             code: `
@@ -356,7 +496,13 @@ ruleTester.run("no-loop-func", rule, {
             }
             `,
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "FunctionExpression" }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'i'" },
+                    type: "FunctionExpression"
+                }
+            ]
         },
         {
             code: `
@@ -373,7 +519,13 @@ ruleTester.run("no-loop-func", rule, {
             }
             `,
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'current'" }, type: "ArrowFunctionExpression" }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'current'" },
+                    type: "ArrowFunctionExpression"
+                }
+            ]
         },
         {
             code: `
@@ -386,7 +538,14 @@ ruleTester.run("no-loop-func", rule, {
             }
             `,
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "ArrowFunctionExpression", line: 6 }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'i'" },
+                    type: "ArrowFunctionExpression",
+                    line: 6
+                }
+            ]
         },
         {
             code: `
@@ -399,7 +558,14 @@ ruleTester.run("no-loop-func", rule, {
             }
             `,
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "ArrowFunctionExpression", line: 6 }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'i'" },
+                    type: "ArrowFunctionExpression",
+                    line: 6
+                }
+            ]
         },
         {
             code: `
@@ -412,7 +578,14 @@ ruleTester.run("no-loop-func", rule, {
             }
             `,
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "ArrowFunctionExpression", line: 6 }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'i'" },
+                    type: "ArrowFunctionExpression",
+                    line: 6
+                }
+            ]
         },
         {
             code: `
@@ -427,7 +600,14 @@ ruleTester.run("no-loop-func", rule, {
             }
             `,
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "ArrowFunctionExpression", line: 6 }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'i'" },
+                    type: "ArrowFunctionExpression",
+                    line: 6
+                }
+            ]
         },
         {
             code: `
@@ -441,7 +621,14 @@ ruleTester.run("no-loop-func", rule, {
             }
             `,
             languageOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "ArrowFunctionExpression", line: 6 }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'i'" },
+                    type: "ArrowFunctionExpression",
+                    line: 6
+                }
+            ]
         },
         {
             code: `
@@ -457,7 +644,14 @@ ruleTester.run("no-loop-func", rule, {
             }
             `,
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "ArrowFunctionExpression", line: 6 }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'i'" },
+                    type: "ArrowFunctionExpression",
+                    line: 6
+                }
+            ]
         },
         {
             code: `
@@ -476,7 +670,13 @@ ruleTester.run("no-loop-func", rule, {
             }
             `,
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "FunctionExpression" }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'i'" },
+                    type: "FunctionExpression"
+                }
+            ]
         },
         {
             code: `
@@ -490,7 +690,14 @@ ruleTester.run("no-loop-func", rule, {
             }
             `,
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'j'" }, type: "ArrowFunctionExpression", line: 7 }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'j'" },
+                    type: "ArrowFunctionExpression",
+                    line: 7
+                }
+            ]
         },
         {
             code: `
@@ -506,7 +713,14 @@ ruleTester.run("no-loop-func", rule, {
             }
             `,
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "ArrowFunctionExpression", line: 7 }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'i'" },
+                    type: "ArrowFunctionExpression",
+                    line: 7
+                }
+            ]
         },
         {
             code: `
@@ -517,7 +731,14 @@ ruleTester.run("no-loop-func", rule, {
             }
             `,
             languageOptions: { ecmaVersion: 2022 },
-            errors: [{ messageId: "unsafeRefs", data: { varNames: "'i'" }, type: "ArrowFunctionExpression", line: 3 }]
+            errors: [
+                {
+                    messageId: "unsafeRefs",
+                    data: { varNames: "'i'" },
+                    type: "ArrowFunctionExpression",
+                    line: 3
+                }
+            ]
         }
     ]
 });

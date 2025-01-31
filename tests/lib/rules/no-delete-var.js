@@ -24,10 +24,11 @@ const ruleTester = new RuleTester({
 });
 
 ruleTester.run("no-delete-var", rule, {
-    valid: [
-        "delete x.prop;"
-    ],
+    valid: ["delete x.prop;"],
     invalid: [
-        { code: "delete x", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] }
+        {
+            code: "delete x",
+            errors: [{ messageId: "unexpected", type: "UnaryExpression" }]
+        }
     ]
 });

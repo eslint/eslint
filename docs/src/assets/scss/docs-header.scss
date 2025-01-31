@@ -1,5 +1,5 @@
 .site-header {
-    padding: .75rem 0;
+    padding: 0.75rem 0;
     border-top: 4px solid var(--link-color);
     border-bottom: 1px solid var(--divider-color);
     border-block-start: 4px solid var(--link-color);
@@ -30,7 +30,7 @@
     place-content: center;
     grid-column: 1 / -1;
     grid-row: 1;
-    padding: .5rem 0;
+    padding: 0.5rem 0;
 }
 
 .logo svg {

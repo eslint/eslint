@@ -39,10 +39,20 @@ const ruleTester = new RuleTester({
                         return {
                             JSXIdentifier(node) {
                                 const scope = sourceCode.getScope(node);
-                                const variable = scope.variables.find(v => v.name === node.name);
+                                const variable = scope.variables.find(
+                                    (v) => v.name === node.name
+                                );
 
-                                variable.references.push(new Reference(node, scope, Reference.READ, null, false, null));
-
+                                variable.references.push(
+                                    new Reference(
+                                        node,
+                                        scope,
+                                        Reference.READ,
+                                        null,
+                                        false,
+                                        null
+                                    )
+                                );
                             }
                         };
                     }
@@ -52,10 +62,8 @@ const ruleTester = new RuleTester({
     }
 });
 
-
 ruleTester.run("no-useless-assignment", rule, {
     valid: [
-
         // Basic tests
         `let v = 'used';
         console.log(v);
@@ -157,8 +165,7 @@ ruleTester.run("no-useless-assignment", rule, {
         console.log(foo);
         foo = 'unused like but exported';`,
         {
-            code:
-            `/* exported foo */
+            code: `/* exported foo */
             let foo = 'used';
             console.log(foo);
             foo = 'unused like but exported with directive';`,
@@ -423,8 +430,7 @@ ruleTester.run("no-useless-assignment", rule, {
     ],
     invalid: [
         {
-            code:
-            `let v = 'used';
+            code: `let v = 'used';
             console.log(v);
             v = 'unused'`,
             errors: [
@@ -436,8 +442,7 @@ ruleTester.run("no-useless-assignment", rule, {
             ]
         },
         {
-            code:
-            `function foo() {
+            code: `function foo() {
                 let v = 'used';
                 console.log(v);
                 v = 'unused';
@@ -451,8 +456,7 @@ ruleTester.run("no-useless-assignment", rule, {
             ]
         },
         {
-            code:
-            `function foo() {
+            code: `function foo() {
                 let v = 'used';
                 if (condition) {
                     v = 'unused';
@@ -469,8 +473,7 @@ ruleTester.run("no-useless-assignment", rule, {
             ]
         },
         {
-            code:
-            `function foo() {
+            code: `function foo() {
                 let v = 'used';
                 if (condition) {
                     console.log(v);
@@ -487,8 +490,7 @@ ruleTester.run("no-useless-assignment", rule, {
             ]
         },
         {
-            code:
-            `var foo = function () {
+            code: `var foo = function () {
                 let v = 'used';
                 console.log(v);
                 v = 'unused'
@@ -502,8 +504,7 @@ ruleTester.run("no-useless-assignment", rule, {
             ]
         },
         {
-            code:
-            `var foo = () => {
+            code: `var foo = () => {
                 let v = 'used';
                 console.log(v);
                 v = 'unused'
@@ -517,8 +518,7 @@ ruleTester.run("no-useless-assignment", rule, {
             ]
         },
         {
-            code:
-            `class foo {
+            code: `class foo {
                 static {
                     let v = 'used';
                     console.log(v);
@@ -534,8 +534,7 @@ ruleTester.run("no-useless-assignment", rule, {
             ]
         },
         {
-            code:
-            `function foo() {
+            code: `function foo() {
                 let v = 'unused';
                 if (condition) {
                     v = 'used';
@@ -552,8 +551,7 @@ ruleTester.run("no-useless-assignment", rule, {
             ]
         },
         {
-            code:
-            `function foo() {
+            code: `function foo() {
                 let v = 'used';
                 console.log(v);
                 v = 'unused';
@@ -573,8 +571,7 @@ ruleTester.run("no-useless-assignment", rule, {
             ]
         },
         {
-            code:
-            `function foo() {
+            code: `function foo() {
                 let v = 'used';
                 console.log(v);
                 v = 'unused';
@@ -610,8 +607,7 @@ ruleTester.run("no-useless-assignment", rule, {
             ]
         },
         {
-            code:
-            `function foo() {
+            code: `function foo() {
                 let v = 'used';
                 console.log(v);
                 v = 'unused';
@@ -633,8 +629,7 @@ ruleTester.run("no-useless-assignment", rule, {
             ]
         },
         {
-            code:
-            `function foo() {
+            code: `function foo() {
                 let v = 'unused';
                 if (condition) {
                     if (condition2) {
@@ -656,8 +651,7 @@ ruleTester.run("no-useless-assignment", rule, {
             ]
         },
         {
-            code:
-            `function foo() {
+            code: `function foo() {
                 let v;
                 if (condition) {
                     v = 'unused';
@@ -680,8 +674,7 @@ ruleTester.run("no-useless-assignment", rule, {
             ]
         },
         {
-            code:
-            `function foo() {
+            code: `function foo() {
                 let v = 'used';
                 if (condition) {
                     v = 'unused';
@@ -706,8 +699,7 @@ ruleTester.run("no-useless-assignment", rule, {
 
         // Update
         {
-            code:
-            `function foo() {
+            code: `function foo() {
                 let a = 42;
                 console.log(a);
                 a++;
@@ -721,8 +713,7 @@ ruleTester.run("no-useless-assignment", rule, {
             ]
         },
         {
-            code:
-            `function foo() {
+            code: `function foo() {
                 let a = 42;
                 console.log(a);
                 a--;
@@ -738,8 +729,7 @@ ruleTester.run("no-useless-assignment", rule, {
 
         // Assign to complex patterns
         {
-            code:
-            `function foo() {
+            code: `function foo() {
                 let a = 'used', b = 'used', c = 'used', d = 'used';
                 console.log(a, b, c, d);
                 ({ a, arr: [b, c,, ...d] } = fn());
@@ -764,8 +754,7 @@ ruleTester.run("no-useless-assignment", rule, {
             ]
         },
         {
-            code:
-            `function foo() {
+            code: `function foo() {
                 let a = 'used', b = 'used', c = 'used';
                 console.log(a, b, c);
                 ({ a = 'unused', foo: b, ...c } = fn());
@@ -791,8 +780,7 @@ ruleTester.run("no-useless-assignment", rule, {
 
         // Variable used in other scopes, but write only.
         {
-            code:
-            `function foo () {
+            code: `function foo () {
                 let v = 'used';
                 console.log(v);
                 setTimeout(() => v = 42, 1);
@@ -809,8 +797,7 @@ ruleTester.run("no-useless-assignment", rule, {
 
         // Code Path Segment End Statements
         {
-            code:
-            `function foo() {
+            code: `function foo() {
                 let v = 'used';
                 if (condition) {
                     let v = 'used';
@@ -834,8 +821,7 @@ ruleTester.run("no-useless-assignment", rule, {
             ]
         },
         {
-            code:
-            `function foo() {
+            code: `function foo() {
                 let v = 'used';
                 if (condition) {
                     console.log(v);
@@ -858,8 +844,7 @@ ruleTester.run("no-useless-assignment", rule, {
             ]
         },
         {
-            code:
-            `function foo () {
+            code: `function foo () {
                 let v = 'used';
                 console.log(v);
                 v = 'unused';
@@ -875,8 +860,7 @@ ruleTester.run("no-useless-assignment", rule, {
             ]
         },
         {
-            code:
-            `function foo () {
+            code: `function foo () {
                 let v = 'used';
                 console.log(v);
                 v = 'unused';
@@ -892,8 +876,7 @@ ruleTester.run("no-useless-assignment", rule, {
             ]
         },
         {
-            code:
-            `function foo () {
+            code: `function foo () {
                 let v = 'used';
                 console.log(v);
                 for (let i = 0; i < 10; i++) {
@@ -925,8 +908,7 @@ ruleTester.run("no-useless-assignment", rule, {
             ]
         },
         {
-            code:
-            `function foo () {
+            code: `function foo () {
                 let v = 'used';
                 console.log(v);
                 for (let i = 0; i < 10; i++) {
@@ -948,8 +930,7 @@ ruleTester.run("no-useless-assignment", rule, {
 
         // Try catch
         {
-            code:
-            `let message = 'unused';
+            code: `let message = 'unused';
             try {
                 const result = call();
                 message = result.message;
@@ -966,8 +947,7 @@ ruleTester.run("no-useless-assignment", rule, {
             ]
         },
         {
-            code:
-            `let message = 'unused';
+            code: `let message = 'unused';
             try {
                 message = 'used';
                 console.log(message)
@@ -982,8 +962,7 @@ ruleTester.run("no-useless-assignment", rule, {
             ]
         },
         {
-            code:
-            `let message = 'unused';
+            code: `let message = 'unused';
             try {
                 message = call();
             } catch (e) {
@@ -999,8 +978,7 @@ ruleTester.run("no-useless-assignment", rule, {
             ]
         },
         {
-            code:
-            `let v = 'unused';
+            code: `let v = 'unused';
             try {
                 v = callA();
                 try {

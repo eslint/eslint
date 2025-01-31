@@ -18,7 +18,6 @@ const rule = require("../../../lib/rules/valid-typeof"),
 const ruleTester = new RuleTester();
 
 ruleTester.run("valid-typeof", rule, {
-
     valid: [
         "typeof foo === 'string'",
         "typeof foo === 'object'",
@@ -51,7 +50,7 @@ ruleTester.run("valid-typeof", rule, {
             options: [{ requireStringLiterals: true }]
         },
         {
-            code: "typeof foo === \"number\"",
+            code: 'typeof foo === "number"',
             options: [{ requireStringLiterals: true }]
         },
         {
@@ -150,7 +149,8 @@ ruleTester.run("valid-typeof", rule, {
                             output: 'if (typeof bar !== "undefined") {}'
                         }
                     ]
-                }]
+                }
+            ]
         },
         {
             code: "typeof foo == Object",
@@ -171,7 +171,8 @@ ruleTester.run("valid-typeof", rule, {
                             output: 'typeof foo === "undefined"'
                         }
                     ]
-                }]
+                }
+            ]
         },
         {
             code: "undefined === typeof foo",
@@ -187,7 +188,8 @@ ruleTester.run("valid-typeof", rule, {
                             output: '"undefined" === typeof foo'
                         }
                     ]
-                }]
+                }
+            ]
         },
         {
             code: "undefined == typeof foo",
@@ -203,7 +205,8 @@ ruleTester.run("valid-typeof", rule, {
                             output: '"undefined" == typeof foo'
                         }
                     ]
-                }]
+                }
+            ]
         },
         {
             code: "typeof foo === `undefined${foo}`",

@@ -9,7 +9,7 @@ eleventyNavigation:
 
 {%- from 'components/npx_tabs.macro.html' import npx_tabs %}
 
-While an analysis of the overall rule performance for an ESLint run can be carried out by setting the [TIMING](./custom-rules#profile-rule-performance) environment variable, it can sometimes be useful to acquire more *granular* timing data (lint time per file per rule) or collect other measures of interest. In particular, when developing new [custom plugins](./plugins) and evaluating/benchmarking new languages or rule sets. For these use cases, you can optionally collect runtime statistics from ESLint.
+While an analysis of the overall rule performance for an ESLint run can be carried out by setting the [TIMING](./custom-rules#profile-rule-performance) environment variable, it can sometimes be useful to acquire more _granular_ timing data (lint time per file per rule) or collect other measures of interest. In particular, when developing new [custom plugins](./plugins) and evaluating/benchmarking new languages or rule sets. For these use cases, you can optionally collect runtime statistics from ESLint.
 
 ## Enable stats collection
 
@@ -26,18 +26,17 @@ As such, it is not available via stdout but made easily ingestible via a formatt
 
 The `Stats` value is the timing information of each lint run. The `stats` property of the [LintResult](../integrate/nodejs-api#-lintresult-type) type contains it. It has the following properties:
 
-* `fixPasses` (`number`)<br>
-  The number of times ESLint has applied at least one fix after linting.
-* `times` (`{ passes: TimePass[] }`)<br>
-  The times spent on (parsing, fixing, linting) a file, where the linting refers to the timing information for each rule.
-    * `TimePass` (`{ parse: ParseTime, rules?: Record<string, RuleTime>, fix: FixTime, total: number }`)<br>
-    An object containing the times spent on (parsing, fixing, linting)
-        * `ParseTime` (`{ total: number }`)<br>
-          The total time that is spent when parsing a file.
-        * `RuleTime` (`{ total: number }`)<be>
-          The total time that is spent on a rule.
-        * `FixTime` (`{ total: number }`)<be>
-          The total time that is spent on applying fixes to the code.
+-   `fixPasses` (`number`)<br>
+    The number of times ESLint has applied at least one fix after linting.
+-   `times` (`{ passes: TimePass[] }`)<br>
+    The times spent on (parsing, fixing, linting) a file, where the linting refers to the timing information for each rule.
+    -   `TimePass` (`{ parse: ParseTime, rules?: Record<string, RuleTime>, fix: FixTime, total: number }`)<br>
+        An object containing the times spent on (parsing, fixing, linting)
+        _ `ParseTime` (`{ total: number }`)<br>
+        The total time that is spent when parsing a file.
+        _ `RuleTime` (`{ total: number }`)<be>
+        The total time that is spent on a rule. \* `FixTime` (`{ total: number }`)<be>
+        The total time that is spent on applying fixes to the code.
 
 ### CLI usage
 

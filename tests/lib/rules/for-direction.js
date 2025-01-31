@@ -21,7 +21,6 @@ const incorrectDirection = { messageId: "incorrectDirection" };
 
 ruleTester.run("for-direction", rule, {
     valid: [
-
         // test if '++', '--'
         "for(var i = 0; i < 10; i++){}",
         "for(var i = 0; i <= 10; i++){}",
@@ -84,34 +83,93 @@ ruleTester.run("for-direction", rule, {
         "for(var i = 0; i != 10; i+=1){}"
     ],
     invalid: [
-
         // test if '++', '--'
         { code: "for(var i = 0; i < 10; i--){}", errors: [incorrectDirection] },
-        { code: "for(var i = 0; i <= 10; i--){}", errors: [incorrectDirection] },
-        { code: "for(var i = 10; i > 10; i++){}", errors: [incorrectDirection] },
-        { code: "for(var i = 10; i >= 0; i++){}", errors: [incorrectDirection] },
+        {
+            code: "for(var i = 0; i <= 10; i--){}",
+            errors: [incorrectDirection]
+        },
+        {
+            code: "for(var i = 10; i > 10; i++){}",
+            errors: [incorrectDirection]
+        },
+        {
+            code: "for(var i = 10; i >= 0; i++){}",
+            errors: [incorrectDirection]
+        },
 
         // test if '++', '--' with counter 'i' on the right side of test condition
         { code: "for(var i = 0; 10 > i; i--){}", errors: [incorrectDirection] },
-        { code: "for(var i = 0; 10 >= i; i--){}", errors: [incorrectDirection] },
-        { code: "for(var i = 10; 10 < i; i++){}", errors: [incorrectDirection] },
-        { code: "for(var i = 10; 0 <= i; i++){}", errors: [incorrectDirection] },
+        {
+            code: "for(var i = 0; 10 >= i; i--){}",
+            errors: [incorrectDirection]
+        },
+        {
+            code: "for(var i = 10; 10 < i; i++){}",
+            errors: [incorrectDirection]
+        },
+        {
+            code: "for(var i = 10; 0 <= i; i++){}",
+            errors: [incorrectDirection]
+        },
 
         // test if '+=', '-='
-        { code: "for(var i = 0; i < 10; i-=1){}", errors: [incorrectDirection] },
-        { code: "for(var i = 0; i <= 10; i-=1){}", errors: [incorrectDirection] },
-        { code: "for(var i = 10; i > 10; i+=1){}", errors: [incorrectDirection] },
-        { code: "for(var i = 10; i >= 0; i+=1){}", errors: [incorrectDirection] },
-        { code: "for(var i = 0; i < 10; i+=-1){}", errors: [incorrectDirection] },
-        { code: "for(var i = 0; i <= 10; i+=-1){}", errors: [incorrectDirection] },
-        { code: "for(var i = 10; i > 10; i-=-1){}", errors: [incorrectDirection] },
-        { code: "for(var i = 10; i >= 0; i-=-1){}", errors: [incorrectDirection] },
-        { code: "for(var i = 0n; i > l; i+=1n){}", errors: [incorrectDirection] },
-        { code: "for(var i = 0n; i < l; i+=-1n){}", errors: [incorrectDirection] },
-        { code: "for(var i = MIN; i <= MAX; i-=true){}", errors: [incorrectDirection] },
-        { code: "for(var i = 0; i < 10; i-=+5e-7){}", errors: [incorrectDirection] },
-        { code: "for(var i = 0; i < MAX; i += (2 - 3));", errors: [incorrectDirection] },
-        { code: "var n = -2; for(var i = 0; i < 10; i += n);", errors: [incorrectDirection] },
+        {
+            code: "for(var i = 0; i < 10; i-=1){}",
+            errors: [incorrectDirection]
+        },
+        {
+            code: "for(var i = 0; i <= 10; i-=1){}",
+            errors: [incorrectDirection]
+        },
+        {
+            code: "for(var i = 10; i > 10; i+=1){}",
+            errors: [incorrectDirection]
+        },
+        {
+            code: "for(var i = 10; i >= 0; i+=1){}",
+            errors: [incorrectDirection]
+        },
+        {
+            code: "for(var i = 0; i < 10; i+=-1){}",
+            errors: [incorrectDirection]
+        },
+        {
+            code: "for(var i = 0; i <= 10; i+=-1){}",
+            errors: [incorrectDirection]
+        },
+        {
+            code: "for(var i = 10; i > 10; i-=-1){}",
+            errors: [incorrectDirection]
+        },
+        {
+            code: "for(var i = 10; i >= 0; i-=-1){}",
+            errors: [incorrectDirection]
+        },
+        {
+            code: "for(var i = 0n; i > l; i+=1n){}",
+            errors: [incorrectDirection]
+        },
+        {
+            code: "for(var i = 0n; i < l; i+=-1n){}",
+            errors: [incorrectDirection]
+        },
+        {
+            code: "for(var i = MIN; i <= MAX; i-=true){}",
+            errors: [incorrectDirection]
+        },
+        {
+            code: "for(var i = 0; i < 10; i-=+5e-7){}",
+            errors: [incorrectDirection]
+        },
+        {
+            code: "for(var i = 0; i < MAX; i += (2 - 3));",
+            errors: [incorrectDirection]
+        },
+        {
+            code: "var n = -2; for(var i = 0; i < 10; i += n);",
+            errors: [incorrectDirection]
+        },
 
         // test if '+=', '-=' with counter 'i' on the right side of test condition
         { code: "for(var i = 0; 10 > i; i-=1){}", errors: [incorrectDirection] }

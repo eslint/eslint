@@ -21,22 +21,40 @@ const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 6 } });
 ruleTester.run("no-confusing-arrow", rule, {
     valid: [
         "a => { return 1 ? 2 : 3; }",
-        { code: "a => { return 1 ? 2 : 3; }", options: [{ allowParens: false }] },
+        {
+            code: "a => { return 1 ? 2 : 3; }",
+            options: [{ allowParens: false }]
+        },
 
         "var x = a => { return 1 ? 2 : 3; }",
-        { code: "var x = a => { return 1 ? 2 : 3; }", options: [{ allowParens: false }] },
+        {
+            code: "var x = a => { return 1 ? 2 : 3; }",
+            options: [{ allowParens: false }]
+        },
 
         "var x = (a) => { return 1 ? 2 : 3; }",
-        { code: "var x = (a) => { return 1 ? 2 : 3; }", options: [{ allowParens: false }] },
+        {
+            code: "var x = (a) => { return 1 ? 2 : 3; }",
+            options: [{ allowParens: false }]
+        },
 
         "var x = a => (1 ? 2 : 3)",
         { code: "var x = a => (1 ? 2 : 3)", options: [{ allowParens: true }] },
 
         "var x = (a,b) => (1 ? 2 : 3)",
         { code: "() => 1 ? 2 : 3", options: [{ onlyOneSimpleParam: true }] },
-        { code: "(a, b) => 1 ? 2 : 3", options: [{ onlyOneSimpleParam: true }] },
-        { code: "(a = b) => 1 ? 2 : 3", options: [{ onlyOneSimpleParam: true }] },
-        { code: "({ a }) => 1 ? 2 : 3", options: [{ onlyOneSimpleParam: true }] },
+        {
+            code: "(a, b) => 1 ? 2 : 3",
+            options: [{ onlyOneSimpleParam: true }]
+        },
+        {
+            code: "(a = b) => 1 ? 2 : 3",
+            options: [{ onlyOneSimpleParam: true }]
+        },
+        {
+            code: "({ a }) => 1 ? 2 : 3",
+            options: [{ onlyOneSimpleParam: true }]
+        },
         { code: "([a]) => 1 ? 2 : 3", options: [{ onlyOneSimpleParam: true }] },
         { code: "(...a) => 1 ? 2 : 3", options: [{ onlyOneSimpleParam: true }] }
     ],

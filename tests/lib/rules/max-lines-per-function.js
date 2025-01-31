@@ -19,7 +19,6 @@ const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("max-lines-per-function", rule, {
     valid: [
-
         // Test code in global scope doesn't count
         {
             code: "var x = 5;\nvar x = 2;\n",
@@ -113,7 +112,14 @@ function
 }
 )
 ()`,
-            options: [{ max: 4, skipComments: true, skipBlankLines: false, IIFEs: true }]
+            options: [
+                {
+                    max: 4,
+                    skipComments: true,
+                    skipBlankLines: false,
+                    IIFEs: true
+                }
+            ]
         },
 
         // Nested function validity test
@@ -152,7 +158,14 @@ if ( x === y ) {
     let foo = {};
     return bar;
 }());`,
-            options: [{ max: 7, skipComments: true, skipBlankLines: false, IIFEs: true }]
+            options: [
+                {
+                    max: 7,
+                    skipComments: true,
+                    skipBlankLines: false,
+                    IIFEs: true
+                }
+            ]
         },
 
         // IIFEs should not be recognized if IIFEs: false
@@ -164,7 +177,14 @@ if ( x === y ) {
     let foo = {};
     return bar;
 }());`,
-            options: [{ max: 2, skipComments: true, skipBlankLines: false, IIFEs: false }]
+            options: [
+                {
+                    max: 2,
+                    skipComments: true,
+                    skipBlankLines: false,
+                    IIFEs: false
+                }
+            ]
         },
 
         // Arrow IIFEs should be recognized if IIFEs: true
@@ -176,7 +196,14 @@ if ( x === y ) {
     let foo = {};
     return bar;
 })();`,
-            options: [{ max: 7, skipComments: true, skipBlankLines: false, IIFEs: true }]
+            options: [
+                {
+                    max: 7,
+                    skipComments: true,
+                    skipBlankLines: false,
+                    IIFEs: true
+                }
+            ]
         },
 
         // Arrow IIFEs should not be recognized if IIFEs: false
@@ -188,18 +215,27 @@ if ( x === y ) {
     let foo = {};
     return bar;
 })();`,
-            options: [{ max: 2, skipComments: true, skipBlankLines: false, IIFEs: false }]
+            options: [
+                {
+                    max: 2,
+                    skipComments: true,
+                    skipBlankLines: false,
+                    IIFEs: false
+                }
+            ]
         }
     ],
 
     invalid: [
-
         // Test simple standalone function is recognized
         {
             code: "function name() {\n}",
             options: [1],
             errors: [
-                { messageId: "exceed", data: { name: "Function 'name'", lineCount: 2, maxLines: 1 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Function 'name'", lineCount: 2, maxLines: 1 }
+                }
             ]
         },
 
@@ -208,7 +244,10 @@ if ( x === y ) {
             code: "var func = function() {\n}",
             options: [1],
             errors: [
-                { messageId: "exceed", data: { name: "Function", lineCount: 2, maxLines: 1 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Function", lineCount: 2, maxLines: 1 }
+                }
             ]
         },
 
@@ -217,7 +256,10 @@ if ( x === y ) {
             code: "const bar = () => {\nconst x = 2 + 1;\nreturn x;\n}",
             options: [3],
             errors: [
-                { messageId: "exceed", data: { name: "Arrow function", lineCount: 4, maxLines: 3 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Arrow function", lineCount: 4, maxLines: 3 }
+                }
             ]
         },
 
@@ -226,7 +268,10 @@ if ( x === y ) {
             code: "const bar = () =>\n 2",
             options: [1],
             errors: [
-                { messageId: "exceed", data: { name: "Arrow function", lineCount: 2, maxLines: 1 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Arrow function", lineCount: 2, maxLines: 1 }
+                }
             ]
         },
 
@@ -235,7 +280,14 @@ if ( x === y ) {
             code: `() => {${"foo\n".repeat(60)}}`,
             options: [{}],
             errors: [
-                { messageId: "exceed", data: { name: "Arrow function", lineCount: 61, maxLines: 50 } }
+                {
+                    messageId: "exceed",
+                    data: {
+                        name: "Arrow function",
+                        lineCount: 61,
+                        maxLines: 50
+                    }
+                }
             ]
         },
 
@@ -244,7 +296,10 @@ if ( x === y ) {
             code: "function name() {\nvar x = 5;\n\t\n \n\nvar x = 2;\n}",
             options: [{ max: 6, skipComments: false, skipBlankLines: false }],
             errors: [
-                { messageId: "exceed", data: { name: "Function 'name'", lineCount: 7, maxLines: 6 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Function 'name'", lineCount: 7, maxLines: 6 }
+                }
             ]
         },
 
@@ -253,7 +308,10 @@ if ( x === y ) {
             code: "function name() {\r\nvar x = 5;\r\n\t\r\n \r\n\r\nvar x = 2;\r\n}",
             options: [{ max: 6, skipComments: true, skipBlankLines: false }],
             errors: [
-                { messageId: "exceed", data: { name: "Function 'name'", lineCount: 7, maxLines: 6 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Function 'name'", lineCount: 7, maxLines: 6 }
+                }
             ]
         },
 
@@ -262,7 +320,10 @@ if ( x === y ) {
             code: "function name() {\nvar x = 5;\n\t\n \n\nvar x = 2;\n}",
             options: [{ max: 2, skipComments: true, skipBlankLines: true }],
             errors: [
-                { messageId: "exceed", data: { name: "Function 'name'", lineCount: 4, maxLines: 2 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Function 'name'", lineCount: 4, maxLines: 2 }
+                }
             ]
         },
 
@@ -271,7 +332,10 @@ if ( x === y ) {
             code: "function name() {\r\nvar x = 5;\r\n\t\r\n \r\n\r\nvar x = 2;\r\n}",
             options: [{ max: 2, skipComments: true, skipBlankLines: true }],
             errors: [
-                { messageId: "exceed", data: { name: "Function 'name'", lineCount: 4, maxLines: 2 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Function 'name'", lineCount: 4, maxLines: 2 }
+                }
             ]
         },
 
@@ -280,7 +344,10 @@ if ( x === y ) {
             code: "function name() { // end of line comment\nvar x = 5; /* mid line comment */\n\t// single line comment taking up whole line\n\t\n \n\nvar x = 2;\n}",
             options: [{ max: 6, skipComments: true, skipBlankLines: false }],
             errors: [
-                { messageId: "exceed", data: { name: "Function 'name'", lineCount: 7, maxLines: 6 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Function 'name'", lineCount: 7, maxLines: 6 }
+                }
             ]
         },
 
@@ -289,7 +356,10 @@ if ( x === y ) {
             code: "function name() { // end of line comment\nvar x = 5; /* mid line comment */\n\t// single line comment taking up whole line\n\t\n \n\nvar x = 2;\n}",
             options: [{ max: 1, skipComments: true, skipBlankLines: true }],
             errors: [
-                { messageId: "exceed", data: { name: "Function 'name'", lineCount: 4, maxLines: 1 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Function 'name'", lineCount: 4, maxLines: 1 }
+                }
             ]
         },
 
@@ -298,7 +368,10 @@ if ( x === y ) {
             code: "function name() { // end of line comment\nvar x = 5; /* mid line comment */\n\t// single line comment taking up whole line\n\t\n \n\nvar x = 2;\n}",
             options: [{ max: 1, skipComments: false, skipBlankLines: true }],
             errors: [
-                { messageId: "exceed", data: { name: "Function 'name'", lineCount: 5, maxLines: 1 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Function 'name'", lineCount: 5, maxLines: 1 }
+                }
             ]
         },
 
@@ -313,7 +386,10 @@ if ( x === y ) {
 }`,
             options: [{ max: 2, skipComments: true, skipBlankLines: false }],
             errors: [
-                { messageId: "exceed", data: { name: "Function 'foo'", lineCount: 7, maxLines: 2 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Function 'foo'", lineCount: 7, maxLines: 2 }
+                }
             ]
         },
 
@@ -326,9 +402,19 @@ function
 }
 )
 ()`,
-            options: [{ max: 2, skipComments: true, skipBlankLines: false, IIFEs: true }],
+            options: [
+                {
+                    max: 2,
+                    skipComments: true,
+                    skipBlankLines: false,
+                    IIFEs: true
+                }
+            ],
             errors: [
-                { messageId: "exceed", data: { name: "Function", lineCount: 4, maxLines: 2 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Function", lineCount: 4, maxLines: 2 }
+                }
             ]
         },
 
@@ -346,7 +432,14 @@ if ( x === y ) {
 }`,
             options: [{ max: 9, skipComments: true, skipBlankLines: false }],
             errors: [
-                { messageId: "exceed", data: { name: "Function 'parent'", lineCount: 10, maxLines: 9 } }
+                {
+                    messageId: "exceed",
+                    data: {
+                        name: "Function 'parent'",
+                        lineCount: 10,
+                        maxLines: 9
+                    }
+                }
             ]
         },
 
@@ -364,8 +457,22 @@ if ( x === y ) {
 }`,
             options: [{ max: 2, skipComments: true, skipBlankLines: false }],
             errors: [
-                { messageId: "exceed", data: { name: "Function 'parent'", lineCount: 10, maxLines: 2 } },
-                { messageId: "exceed", data: { name: "Function 'nested'", lineCount: 4, maxLines: 2 } }
+                {
+                    messageId: "exceed",
+                    data: {
+                        name: "Function 'parent'",
+                        lineCount: 10,
+                        maxLines: 2
+                    }
+                },
+                {
+                    messageId: "exceed",
+                    data: {
+                        name: "Function 'nested'",
+                        lineCount: 4,
+                        maxLines: 2
+                    }
+                }
             ]
         },
 
@@ -380,7 +487,10 @@ if ( x === y ) {
 }`,
             options: [{ max: 2, skipComments: true, skipBlankLines: false }],
             errors: [
-                { messageId: "exceed", data: { name: "Method 'method'", lineCount: 5, maxLines: 2 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Method 'method'", lineCount: 5, maxLines: 2 }
+                }
             ]
         },
 
@@ -395,7 +505,14 @@ if ( x === y ) {
 }`,
             options: [{ max: 2, skipComments: true, skipBlankLines: false }],
             errors: [
-                { messageId: "exceed", data: { name: "Static method 'foo'", lineCount: 5, maxLines: 2 } }
+                {
+                    messageId: "exceed",
+                    data: {
+                        name: "Static method 'foo'",
+                        lineCount: 5,
+                        maxLines: 2
+                    }
+                }
             ]
         },
 
@@ -410,7 +527,10 @@ if ( x === y ) {
 }`,
             options: [{ max: 2, skipComments: true, skipBlankLines: false }],
             errors: [
-                { messageId: "exceed", data: { name: "Getter 'foo'", lineCount: 5, maxLines: 2 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Getter 'foo'", lineCount: 5, maxLines: 2 }
+                }
             ]
         },
 
@@ -425,7 +545,10 @@ if ( x === y ) {
 }`,
             options: [{ max: 2, skipComments: true, skipBlankLines: false }],
             errors: [
-                { messageId: "exceed", data: { name: "Setter 'foo'", lineCount: 5, maxLines: 2 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Setter 'foo'", lineCount: 5, maxLines: 2 }
+                }
             ]
         },
 
@@ -443,7 +566,10 @@ if ( x === y ) {
 }`,
             options: [{ max: 2, skipComments: true, skipBlankLines: false }],
             errors: [
-                { messageId: "exceed", data: { name: "Static method", lineCount: 8, maxLines: 2 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Static method", lineCount: 8, maxLines: 2 }
+                }
             ]
         },
 
@@ -456,9 +582,19 @@ if ( x === y ) {
     let foo = {};
     return bar;
 }());`,
-            options: [{ max: 2, skipComments: true, skipBlankLines: false, IIFEs: true }],
+            options: [
+                {
+                    max: 2,
+                    skipComments: true,
+                    skipBlankLines: false,
+                    IIFEs: true
+                }
+            ],
             errors: [
-                { messageId: "exceed", data: { name: "Function", lineCount: 7, maxLines: 2 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Function", lineCount: 7, maxLines: 2 }
+                }
             ]
         },
 
@@ -471,9 +607,19 @@ if ( x === y ) {
     let foo = {};
     return bar;
 })();`,
-            options: [{ max: 2, skipComments: true, skipBlankLines: false, IIFEs: true }],
+            options: [
+                {
+                    max: 2,
+                    skipComments: true,
+                    skipBlankLines: false,
+                    IIFEs: true
+                }
+            ],
             errors: [
-                { messageId: "exceed", data: { name: "Arrow function", lineCount: 7, maxLines: 2 } }
+                {
+                    messageId: "exceed",
+                    data: { name: "Arrow function", lineCount: 7, maxLines: 2 }
+                }
             ]
         }
     ]

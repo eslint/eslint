@@ -18,7 +18,6 @@ const rule = require("../../../lib/rules/space-in-parens"),
 const ruleTester = new RuleTester();
 
 ruleTester.run("space-in-parens", rule, {
-
     valid: [
         { code: "foo()", options: ["never"] },
         { code: "foo()", options: ["always"] },
@@ -34,18 +33,42 @@ ruleTester.run("space-in-parens", rule, {
         { code: "var x = ( 1 + 2 ) * 3", options: ["always"] },
         { code: "var x = 'foo(bar)'", options: ["always"] },
         { code: "var x = 'bar( baz )'", options: ["always"] },
-        { code: "var foo = `(bar)`;", options: ["always"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `(bar ${baz})`;", options: ["always"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `(bar ${( 1 + 2 )})`;", options: ["always"], languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "var foo = `(bar)`;",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = `(bar ${baz})`;",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = `(bar ${( 1 + 2 )})`;",
+            options: ["always"],
+            languageOptions: { ecmaVersion: 6 }
+        },
         { code: "bar(baz)", options: ["never"] },
         { code: "var x = (4 + 5) * 6", options: ["never"] },
         { code: "foo\n(\nbar\n)\n", options: ["never"] },
         { code: "foo\n(  \nbar\n )\n", options: ["never"] },
         { code: "foo\n(\n bar  \n)\n", options: ["never"] },
         { code: "foo\n( \n  bar \n  )\n", options: ["never"] },
-        { code: "var foo = `( bar )`;", options: ["never"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `( bar ${baz} )`;", options: ["never"], languageOptions: { ecmaVersion: 6 } },
-        { code: "var foo = `(bar ${(1 + 2)})`;", options: ["never"], languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "var foo = `( bar )`;",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = `( bar ${baz} )`;",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = `(bar ${(1 + 2)})`;",
+            options: ["never"],
+            languageOptions: { ecmaVersion: 6 }
+        },
 
         // comments
         { code: "foo( /* bar */ )", options: ["always"] },
@@ -60,63 +83,170 @@ ruleTester.run("space-in-parens", rule, {
         { code: "foo( //some comment\nbar\n)\n", options: ["never"] },
 
         // exceptions
-        { code: "foo({ bar: 'baz' })", options: ["always", { exceptions: ["{}"] }] },
-        { code: "foo( { bar: 'baz' } )", options: ["always", { exceptions: ["[]", "()"] }] },
-        { code: "( (foo(bar() ) ) );", options: ["never", { exceptions: ["()"] }] },
-        { code: "foo( 1, { bar: 'baz' })", options: ["always", { exceptions: ["{}"] }] },
-        { code: "foo({ bar: 'baz' }, 1 )", options: ["always", { exceptions: ["{}"] }] },
-        { code: "foo({\nbar: 'baz',\nbaz: 'bar'\n})", options: ["always", { exceptions: ["{}"] }] },
-        { code: "foo({ bar: 'baz' })", options: ["never", { exceptions: ["[]", "()"] }] },
-        { code: "foo( { bar: 'baz' } )", options: ["never", { exceptions: ["{}"] }] },
-        { code: "foo(1, { bar: 'baz' } )", options: ["never", { exceptions: ["{}"] }] },
-        { code: "foo( { bar: 'baz' }, 1)", options: ["never", { exceptions: ["{}"] }] },
-        { code: "foo( {\nbar: 'baz',\nbaz: 'bar'\n} )", options: ["never", { exceptions: ["{}"] }] },
+        {
+            code: "foo({ bar: 'baz' })",
+            options: ["always", { exceptions: ["{}"] }]
+        },
+        {
+            code: "foo( { bar: 'baz' } )",
+            options: ["always", { exceptions: ["[]", "()"] }]
+        },
+        {
+            code: "( (foo(bar() ) ) );",
+            options: ["never", { exceptions: ["()"] }]
+        },
+        {
+            code: "foo( 1, { bar: 'baz' })",
+            options: ["always", { exceptions: ["{}"] }]
+        },
+        {
+            code: "foo({ bar: 'baz' }, 1 )",
+            options: ["always", { exceptions: ["{}"] }]
+        },
+        {
+            code: "foo({\nbar: 'baz',\nbaz: 'bar'\n})",
+            options: ["always", { exceptions: ["{}"] }]
+        },
+        {
+            code: "foo({ bar: 'baz' })",
+            options: ["never", { exceptions: ["[]", "()"] }]
+        },
+        {
+            code: "foo( { bar: 'baz' } )",
+            options: ["never", { exceptions: ["{}"] }]
+        },
+        {
+            code: "foo(1, { bar: 'baz' } )",
+            options: ["never", { exceptions: ["{}"] }]
+        },
+        {
+            code: "foo( { bar: 'baz' }, 1)",
+            options: ["never", { exceptions: ["{}"] }]
+        },
+        {
+            code: "foo( {\nbar: 'baz',\nbaz: 'bar'\n} )",
+            options: ["never", { exceptions: ["{}"] }]
+        },
 
         { code: "foo([ 1, 2 ])", options: ["always", { exceptions: ["[]"] }] },
-        { code: "foo( [ 1, 2 ] )", options: ["always", { exceptions: ["{}"] }] },
-        { code: "foo( 1, [ 1, 2 ])", options: ["always", { exceptions: ["[]"] }] },
-        { code: "foo([ 1, 2 ], 1 )", options: ["always", { exceptions: ["[]"] }] },
-        { code: "foo([\n1,\n2\n])", options: ["always", { exceptions: ["[]"] }] },
+        {
+            code: "foo( [ 1, 2 ] )",
+            options: ["always", { exceptions: ["{}"] }]
+        },
+        {
+            code: "foo( 1, [ 1, 2 ])",
+            options: ["always", { exceptions: ["[]"] }]
+        },
+        {
+            code: "foo([ 1, 2 ], 1 )",
+            options: ["always", { exceptions: ["[]"] }]
+        },
+        {
+            code: "foo([\n1,\n2\n])",
+            options: ["always", { exceptions: ["[]"] }]
+        },
         { code: "foo([ 1, 2 ])", options: ["never", { exceptions: ["{}"] }] },
         { code: "foo( [ 1, 2 ] )", options: ["never", { exceptions: ["[]"] }] },
-        { code: "foo(1, [ 1, 2 ] )", options: ["never", { exceptions: ["[]"] }] },
-        { code: "foo( [ 1, 2 ], 1)", options: ["never", { exceptions: ["[]"] }] },
-        { code: "foo( [\n1,\n2\n] )", options: ["never", { exceptions: ["[]"] }] },
+        {
+            code: "foo(1, [ 1, 2 ] )",
+            options: ["never", { exceptions: ["[]"] }]
+        },
+        {
+            code: "foo( [ 1, 2 ], 1)",
+            options: ["never", { exceptions: ["[]"] }]
+        },
+        {
+            code: "foo( [\n1,\n2\n] )",
+            options: ["never", { exceptions: ["[]"] }]
+        },
 
         { code: "foo(( 1 + 2 ))", options: ["always", { exceptions: ["()"] }] },
-        { code: "foo( ( 1 + 2 ) )", options: ["always", { exceptions: ["{}"] }] },
-        { code: "foo( 1 / ( 1 + 2 ))", options: ["always", { exceptions: ["()"] }] },
-        { code: "foo(( 1 + 2 ) / 1 )", options: ["always", { exceptions: ["()"] }] },
-        { code: "foo((\n1 + 2\n))", options: ["always", { exceptions: ["()"] }] },
+        {
+            code: "foo( ( 1 + 2 ) )",
+            options: ["always", { exceptions: ["{}"] }]
+        },
+        {
+            code: "foo( 1 / ( 1 + 2 ))",
+            options: ["always", { exceptions: ["()"] }]
+        },
+        {
+            code: "foo(( 1 + 2 ) / 1 )",
+            options: ["always", { exceptions: ["()"] }]
+        },
+        {
+            code: "foo((\n1 + 2\n))",
+            options: ["always", { exceptions: ["()"] }]
+        },
         { code: "foo((1 + 2))", options: ["never", { exceptions: ["{}"] }] },
         { code: "foo( (1 + 2) )", options: ["never", { exceptions: ["()"] }] },
-        { code: "foo(1 / (1 + 2) )", options: ["never", { exceptions: ["()"] }] },
-        { code: "foo( (1 + 2) / 1)", options: ["never", { exceptions: ["()"] }] },
-        { code: "foo( (\n1 + 2\n) )", options: ["never", { exceptions: ["()"] }] },
+        {
+            code: "foo(1 / (1 + 2) )",
+            options: ["never", { exceptions: ["()"] }]
+        },
+        {
+            code: "foo( (1 + 2) / 1)",
+            options: ["never", { exceptions: ["()"] }]
+        },
+        {
+            code: "foo( (\n1 + 2\n) )",
+            options: ["never", { exceptions: ["()"] }]
+        },
 
         { code: "foo()", options: ["never", { exceptions: ["{}"] }] },
         { code: "foo( )", options: ["never", { exceptions: ["empty"] }] },
         { code: "foo()", options: ["always", { exceptions: ["empty"] }] },
         { code: "foo( )", options: ["always", { exceptions: ["[]"] }] },
-        { code: "foo(( x, {bar:'baz'} ))", options: ["always", { exceptions: ["empty", "()"] }] },
-        { code: "foo( [1, 2], 1 )", options: ["always", { exceptions: ["empty", "()"] }] },
-        { code: "foo(\n1 + 2\n)", options: ["always", { exceptions: ["empty"] }] },
-        { code: "foo( \n1 + 2\n )", options: ["never", { exceptions: ["empty"] }] },
+        {
+            code: "foo(( x, {bar:'baz'} ))",
+            options: ["always", { exceptions: ["empty", "()"] }]
+        },
+        {
+            code: "foo( [1, 2], 1 )",
+            options: ["always", { exceptions: ["empty", "()"] }]
+        },
+        {
+            code: "foo(\n1 + 2\n)",
+            options: ["always", { exceptions: ["empty"] }]
+        },
+        {
+            code: "foo( \n1 + 2\n )",
+            options: ["never", { exceptions: ["empty"] }]
+        },
 
-        { code: "foo({ bar: 'baz' }, [ 1, 2 ])", options: ["always", { exceptions: ["{}", "[]"] }] },
-        { code: "foo({\nbar: 'baz'\n}, [\n1,\n2\n])", options: ["always", { exceptions: ["{}", "[]"] }] },
-        { code: "foo(); bar({bar:'baz'}); baz([1,2])", options: ["always", { exceptions: ["{}", "[]", "()", "empty"] }] },
-        { code: "foo( { bar: 'baz' }, [ 1, 2 ] )", options: ["never", { exceptions: ["{}", "[]"] }] },
-        { code: "foo( {\nbar: 'baz'\n}, [\n1,\n2\n] )", options: ["never", { exceptions: ["{}", "[]"] }] },
-        { code: "foo( ); bar( {bar:'baz'} ); baz( [1,2] )", options: ["never", { exceptions: ["{}", "[]", "empty"] }] },
+        {
+            code: "foo({ bar: 'baz' }, [ 1, 2 ])",
+            options: ["always", { exceptions: ["{}", "[]"] }]
+        },
+        {
+            code: "foo({\nbar: 'baz'\n}, [\n1,\n2\n])",
+            options: ["always", { exceptions: ["{}", "[]"] }]
+        },
+        {
+            code: "foo(); bar({bar:'baz'}); baz([1,2])",
+            options: ["always", { exceptions: ["{}", "[]", "()", "empty"] }]
+        },
+        {
+            code: "foo( { bar: 'baz' }, [ 1, 2 ] )",
+            options: ["never", { exceptions: ["{}", "[]"] }]
+        },
+        {
+            code: "foo( {\nbar: 'baz'\n}, [\n1,\n2\n] )",
+            options: ["never", { exceptions: ["{}", "[]"] }]
+        },
+        {
+            code: "foo( ); bar( {bar:'baz'} ); baz( [1,2] )",
+            options: ["never", { exceptions: ["{}", "[]", "empty"] }]
+        },
 
         // faulty exceptions option
-        { code: "foo( { bar: 'baz' } )", options: ["always", { exceptions: [] }] },
+        {
+            code: "foo( { bar: 'baz' } )",
+            options: ["always", { exceptions: [] }]
+        },
         { code: "foo( { bar: 'baz' } )", options: ["always", {}] }
     ],
 
     invalid: [
-
         // methods and functions
         {
             code: "bar(baz )",
@@ -129,8 +259,18 @@ ruleTester.run("space-in-parens", rule, {
             output: "bar(baz)",
             options: ["never"],
             errors: [
-                { messageId: "rejectedOpeningSpace", line: 1, column: 5, endColumn: 6 },
-                { messageId: "rejectedClosingSpace", line: 1, column: 9, endColumn: 10 }
+                {
+                    messageId: "rejectedOpeningSpace",
+                    line: 1,
+                    column: 5,
+                    endColumn: 6
+                },
+                {
+                    messageId: "rejectedClosingSpace",
+                    line: 1,
+                    column: 9,
+                    endColumn: 10
+                }
             ]
         },
         {
@@ -138,8 +278,18 @@ ruleTester.run("space-in-parens", rule, {
             output: "bar(baz)",
             options: ["never"],
             errors: [
-                { messageId: "rejectedOpeningSpace", line: 1, column: 5, endColumn: 7 },
-                { messageId: "rejectedClosingSpace", line: 1, column: 10, endColumn: 12 }
+                {
+                    messageId: "rejectedOpeningSpace",
+                    line: 1,
+                    column: 5,
+                    endColumn: 7
+                },
+                {
+                    messageId: "rejectedClosingSpace",
+                    line: 1,
+                    column: 10,
+                    endColumn: 12
+                }
             ]
         },
         {
@@ -147,8 +297,18 @@ ruleTester.run("space-in-parens", rule, {
             output: "foo()",
             options: ["never"],
             errors: [
-                { messageId: "rejectedOpeningSpace", line: 1, column: 5, endColumn: 6 },
-                { messageId: "rejectedClosingSpace", line: 1, column: 5, endColumn: 6 }
+                {
+                    messageId: "rejectedOpeningSpace",
+                    line: 1,
+                    column: 5,
+                    endColumn: 6
+                },
+                {
+                    messageId: "rejectedClosingSpace",
+                    line: 1,
+                    column: 5,
+                    endColumn: 6
+                }
             ]
         },
         {
@@ -156,8 +316,18 @@ ruleTester.run("space-in-parens", rule, {
             output: "foo()",
             options: ["never"],
             errors: [
-                { messageId: "rejectedOpeningSpace", line: 1, column: 5, endColumn: 7 },
-                { messageId: "rejectedClosingSpace", line: 1, column: 5, endColumn: 7 }
+                {
+                    messageId: "rejectedOpeningSpace",
+                    line: 1,
+                    column: 5,
+                    endColumn: 7
+                },
+                {
+                    messageId: "rejectedClosingSpace",
+                    line: 1,
+                    column: 5,
+                    endColumn: 7
+                }
             ]
         },
         {
@@ -189,8 +359,18 @@ ruleTester.run("space-in-parens", rule, {
             output: "foo( bar )",
             options: ["always"],
             errors: [
-                { messageId: "missingOpeningSpace", line: 1, column: 4, endColumn: 5 },
-                { messageId: "missingClosingSpace", line: 1, column: 8, endColumn: 9 }
+                {
+                    messageId: "missingOpeningSpace",
+                    line: 1,
+                    column: 4,
+                    endColumn: 5
+                },
+                {
+                    messageId: "missingClosingSpace",
+                    line: 1,
+                    column: 8,
+                    endColumn: 9
+                }
             ]
         },
 
@@ -302,17 +482,13 @@ ruleTester.run("space-in-parens", rule, {
             code: "foo( bar() )",
             output: "foo( bar())",
             options: ["always", { exceptions: ["()", "empty"] }],
-            errors: [
-                { messageId: "rejectedClosingSpace", line: 1, column: 11 }
-            ]
+            errors: [{ messageId: "rejectedClosingSpace", line: 1, column: 11 }]
         },
         {
             code: "foo(bar())",
             output: "foo(bar() )",
             options: ["never", { exceptions: ["()"] }],
-            errors: [
-                { messageId: "missingClosingSpace", line: 1, column: 10 }
-            ]
+            errors: [{ messageId: "missingClosingSpace", line: 1, column: 10 }]
         },
         {
             code: "foo( bar() )",
@@ -516,25 +692,19 @@ ruleTester.run("space-in-parens", rule, {
             code: "((1 + 2) )",
             output: "( (1 + 2) )",
             options: ["never", { exceptions: ["()"] }],
-            errors: [
-                { messageId: "missingOpeningSpace", line: 1, column: 1 }
-            ]
+            errors: [{ messageId: "missingOpeningSpace", line: 1, column: 1 }]
         },
         {
             code: "var result = ( 1 / ( 1 + 2 ) ) + 3",
             output: "var result = ( 1 / ( 1 + 2 )) + 3",
             options: ["always", { exceptions: ["()"] }],
-            errors: [
-                { messageId: "rejectedClosingSpace", line: 1, column: 29 }
-            ]
+            errors: [{ messageId: "rejectedClosingSpace", line: 1, column: 29 }]
         },
         {
             code: "var result = (1 / (1 + 2)) + 3",
             output: "var result = (1 / (1 + 2) ) + 3",
             options: ["never", { exceptions: ["()"] }],
-            errors: [
-                { messageId: "missingClosingSpace", line: 1, column: 26 }
-            ]
+            errors: [{ messageId: "missingClosingSpace", line: 1, column: 26 }]
         },
         {
             code: "var result = (1 / ( 1 + 2) ) + 3",

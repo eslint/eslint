@@ -6,9 +6,12 @@
         "color-function-notation": "legacy",
         "custom-property-empty-line-before": null,
         "custom-property-pattern": null,
-        "declaration-block-no-duplicate-properties": [true, {
-            "ignore": ["consecutive-duplicates-with-different-values"]
-        }],
+        "declaration-block-no-duplicate-properties": [
+            true,
+            {
+                "ignore": ["consecutive-duplicates-with-different-values"]
+            }
+        ],
         "declaration-block-no-redundant-longhand-properties": null,
         "hue-degree-notation": "number",
         "no-descending-specificity": null,
@@ -19,9 +22,7 @@
     },
     "overrides": [
         {
-            "files": [
-                "**/*.html"
-            ],
+            "files": ["**/*.html"],
             "extends": [
                 "stylelint-config-html/html",
                 "stylelint-config-standard",
@@ -29,15 +30,11 @@
             ]
         },
         {
-            "files": [
-                "**/*.scss"
-            ],
+            "files": ["**/*.scss"],
             "rules": {
                 "scss/operator-no-newline-after": null
             }
         }
     ],
-    "ignoreFiles": [
-        "_site/**"
-    ]
-  }
+    "ignoreFiles": ["_site/**"]
+}

@@ -21,54 +21,72 @@ const errors = [{ messageId: "unexpected", type: "CallExpression" }];
 ruleTester.run("no-extra-bind", rule, {
     valid: [
         "var a = function(b) { return b }.bind(c, d)",
-        { code: "var a = function(b) { return b }.bind(...c)", languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "var a = function(b) { return b }.bind(...c)",
+            languageOptions: { ecmaVersion: 6 }
+        },
         "var a = function() { this.b }()",
         "var a = function() { this.b }.foo()",
         "var a = f.bind(a)",
         "var a = function() { return this.b }.bind(c)",
-        { code: "var a = (() => { return b }).bind(c, d)", languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "var a = (() => { return b }).bind(c, d)",
+            languageOptions: { ecmaVersion: 6 }
+        },
         "(function() { (function() { this.b }.bind(this)) }.bind(c))",
         "var a = function() { return 1; }[bind](b)",
-        { code: "var a = function() { return 1; }[`bi${n}d`](b)", languageOptions: { ecmaVersion: 6 } },
-        { code: "var a = function() { return () => this; }.bind(b)", languageOptions: { ecmaVersion: 6 } }
+        {
+            code: "var a = function() { return 1; }[`bi${n}d`](b)",
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var a = function() { return () => this; }.bind(b)",
+            languageOptions: { ecmaVersion: 6 }
+        }
     ],
     invalid: [
         {
             code: "var a = function() { return 1; }.bind(b)",
             output: "var a = function() { return 1; }",
-            errors: [{
-                messageId: "unexpected",
-                type: "CallExpression",
-                line: 1,
-                column: 34,
-                endLine: 1,
-                endColumn: 38
-            }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 34,
+                    endLine: 1,
+                    endColumn: 38
+                }
+            ]
         },
         {
             code: "var a = function() { return 1; }['bind'](b)",
             output: "var a = function() { return 1; }",
-            errors: [{
-                messageId: "unexpected",
-                type: "CallExpression",
-                line: 1,
-                column: 34,
-                endLine: 1,
-                endColumn: 40
-            }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 34,
+                    endLine: 1,
+                    endColumn: 40
+                }
+            ]
         },
         {
             code: "var a = function() { return 1; }[`bind`](b)",
             output: "var a = function() { return 1; }",
             languageOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "unexpected",
-                type: "CallExpression",
-                line: 1,
-                column: 34,
-                endLine: 1,
-                endColumn: 40
-            }]
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 34,
+                    endLine: 1,
+                    endColumn: 40
+                }
+            ]
         },
         {
             code: "var a = (() => { return 1; }).bind(b)",
@@ -100,7 +118,9 @@ ruleTester.run("no-extra-bind", rule, {
         {
             code: "var a = function() { (function(){ (function(){ this.d }.bind(c)) }) }.bind(b)",
             output: "var a = function() { (function(){ (function(){ this.d }.bind(c)) }) }",
-            errors: [{ messageId: "unexpected", type: "CallExpression", column: 71 }]
+            errors: [
+                { messageId: "unexpected", type: "CallExpression", column: 71 }
+            ]
         },
         {
             code: "var a = (function() { return 1; }).bind(this)",

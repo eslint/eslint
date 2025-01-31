@@ -35,8 +35,16 @@ ruleTester.run("sort-vars", rule, {
         { code: "var A, a;", options: ignoreCaseArgs },
         { code: "var a, B, c;", options: ignoreCaseArgs },
         { code: "var A, b, C;", options: ignoreCaseArgs },
-        { code: "var {a, b, c} = x;", options: ignoreCaseArgs, languageOptions: { ecmaVersion: 6 } },
-        { code: "var {A, b, C} = x;", options: ignoreCaseArgs, languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "var {a, b, c} = x;",
+            options: ignoreCaseArgs,
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var {A, b, C} = x;",
+            options: ignoreCaseArgs,
+            languageOptions: { ecmaVersion: 6 }
+        },
         { code: "var test = [1,2,3];", languageOptions: { ecmaVersion: 6 } },
         { code: "var {a,b} = [1,2];", languageOptions: { ecmaVersion: 6 } },
         {
@@ -60,28 +68,49 @@ ruleTester.run("sort-vars", rule, {
             languageOptions: { ecmaVersion: 6 }
         },
         {
-            code: "const {a, b, c} = {a: 1, b: true, c: \"Moo\"};",
+            code: 'const {a, b, c} = {a: 1, b: true, c: "Moo"};',
             options: ignoreCaseArgs,
             languageOptions: { ecmaVersion: 6 }
         },
         {
-            code: "const [a, b, c] = [1, true, \"Moo\"];",
+            code: 'const [a, b, c] = [1, true, "Moo"];',
             options: ignoreCaseArgs,
             languageOptions: { ecmaVersion: 6 }
         },
         {
-            code: "const [c, a, b] = [1, true, \"Moo\"];",
+            code: 'const [c, a, b] = [1, true, "Moo"];',
             options: ignoreCaseArgs,
             languageOptions: { ecmaVersion: 6 }
         },
-        { code: "var {a, x: {b, c}} = {};", languageOptions: { ecmaVersion: 6 } },
-        { code: "var {c, x: {a, c}} = {};", languageOptions: { ecmaVersion: 6 } },
-        { code: "var {a, x: [b, c]} = {};", languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "var {a, x: {b, c}} = {};",
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var {c, x: {a, c}} = {};",
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var {a, x: [b, c]} = {};",
+            languageOptions: { ecmaVersion: 6 }
+        },
         { code: "var [a, {b, c}] = {};", languageOptions: { ecmaVersion: 6 } },
-        { code: "var [a, {x: {b, c}}] = {};", languageOptions: { ecmaVersion: 6 } },
-        { code: "var a = 42, {b, c } = {};", languageOptions: { ecmaVersion: 6 } },
-        { code: "var b = 42, {a, c } = {};", languageOptions: { ecmaVersion: 6 } },
-        { code: "var [b, {x: {a, c}}] = {};", languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "var [a, {x: {b, c}}] = {};",
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var a = 42, {b, c } = {};",
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var b = 42, {a, c } = {};",
+            languageOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var [b, {x: {a, c}}] = {};",
+            languageOptions: { ecmaVersion: 6 }
+        },
         { code: "var [b, d, a, c] = {};", languageOptions: { ecmaVersion: 6 } },
         { code: "var e, [a, c, d] = {};", languageOptions: { ecmaVersion: 6 } },
         {
@@ -89,7 +118,10 @@ ruleTester.run("sort-vars", rule, {
             options: ignoreCaseArgs,
             languageOptions: { ecmaVersion: 6 }
         },
-        { code: "var a, f, [e, c, d] = [1,2,3];", languageOptions: { ecmaVersion: 6 } },
+        {
+            code: "var a, f, [e, c, d] = [1,2,3];",
+            languageOptions: { ecmaVersion: 6 }
+        },
         {
             code: [
                 "export default class {",
@@ -123,14 +155,8 @@ ruleTester.run("sort-vars", rule, {
             errors: [expectedError]
         },
         {
-            code: [
-                "var b,",
-                "    a;"
-            ].join("\n"),
-            output: [
-                "var a,",
-                "    b;"
-            ].join("\n"),
+            code: ["var b,", "    a;"].join("\n"),
+            output: ["var a,", "    b;"].join("\n"),
             errors: [expectedError]
         },
         {

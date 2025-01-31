@@ -205,7 +205,10 @@ class Second {}`,
     #firstUnusedMemberInSameClass = 5;
     #secondUnusedMemberInSameClass = 5;
 }`,
-            errors: [definedError("firstUnusedMemberInSameClass"), definedError("secondUnusedMemberInSameClass")]
+            errors: [
+                definedError("firstUnusedMemberInSameClass"),
+                definedError("secondUnusedMemberInSameClass")
+            ]
         },
         {
             code: `class Foo {
@@ -381,10 +384,12 @@ class Second {}`,
         }
     }
 }`,
-            errors: [{
-                ...definedError("usedOnlyInTheSecondInnerClass"),
-                line: 2
-            }]
+            errors: [
+                {
+                    ...definedError("usedOnlyInTheSecondInnerClass"),
+                    line: 2
+                }
+            ]
         }
     ]
 });

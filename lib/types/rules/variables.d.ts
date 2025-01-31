@@ -37,13 +37,13 @@ export interface Variables extends Linter.RulesRecord {
     "init-declarations":
         | Linter.RuleEntry<["always"]>
         | Linter.RuleEntry<
-            [
-                "never",
-                Partial<{
-                    ignoreForLoopInit: boolean;
-                }>,
-            ]
-        >;
+              [
+                  "never",
+                  Partial<{
+                      ignoreForLoopInit: boolean;
+                  }>
+              ]
+          >;
 
     /**
      * Rule to disallow deleting variables.
@@ -75,10 +75,10 @@ export interface Variables extends Linter.RulesRecord {
             ...Array<
                 | string
                 | {
-                    name: string;
-                    message?: string | undefined;
-                }
-            >,
+                      name: string;
+                      message?: string | undefined;
+                  }
+            >
         ]
     >;
 
@@ -105,7 +105,7 @@ export interface Variables extends Linter.RulesRecord {
                  * @default false
                  */
                 ignoreOnInitialization: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -136,7 +136,7 @@ export interface Variables extends Linter.RulesRecord {
                  * @default false
                  */
                 typeof: boolean;
-            }>,
+            }>
         ]
     >;
 
@@ -170,35 +170,35 @@ export interface Variables extends Linter.RulesRecord {
             | "all"
             | "local"
             | Partial<{
-                /**
-                 * @default 'all'
-                 */
-                vars: "all" | "local";
-                varsIgnorePattern: string;
-                /**
-                 * @default 'after-used'
-                 */
-                args: "after-used" | "all" | "none";
-                /**
-                 * @default false
-                 */
-                ignoreRestSiblings: boolean;
-                argsIgnorePattern: string;
-                /**
-                 * @default 'all'
-                 */
-                caughtErrors: "none" | "all";
-                caughtErrorsIgnorePattern: string;
-                destructuredArrayIgnorePattern: string;
-                /**
-                 * @default false
-                 */
-                ignoreClassWithStaticInitBlock: boolean;
-                /**
-                 * @default false
-                 */
-                reportUsedIgnorePattern: boolean;
-            }>,
+                  /**
+                   * @default 'all'
+                   */
+                  vars: "all" | "local";
+                  varsIgnorePattern: string;
+                  /**
+                   * @default 'after-used'
+                   */
+                  args: "after-used" | "all" | "none";
+                  /**
+                   * @default false
+                   */
+                  ignoreRestSiblings: boolean;
+                  argsIgnorePattern: string;
+                  /**
+                   * @default 'all'
+                   */
+                  caughtErrors: "none" | "all";
+                  caughtErrorsIgnorePattern: string;
+                  destructuredArrayIgnorePattern: string;
+                  /**
+                   * @default false
+                   */
+                  ignoreClassWithStaticInitBlock: boolean;
+                  /**
+                   * @default false
+                   */
+                  reportUsedIgnorePattern: boolean;
+              }>
         ]
     >;
 
@@ -211,24 +211,24 @@ export interface Variables extends Linter.RulesRecord {
     "no-use-before-define": Linter.RuleEntry<
         [
             | Partial<{
-                /**
-                 * @default true
-                 */
-                functions: boolean;
-                /**
-                 * @default true
-                 */
-                classes: boolean;
-                /**
-                 * @default true
-                 */
-                variables: boolean;
-                /**
-                 * @default false
-                 */
-                allowNamedExports: boolean;
-            }>
-            | "nofunc",
+                  /**
+                   * @default true
+                   */
+                  functions: boolean;
+                  /**
+                   * @default true
+                   */
+                  classes: boolean;
+                  /**
+                   * @default true
+                   */
+                  variables: boolean;
+                  /**
+                   * @default false
+                   */
+                  allowNamedExports: boolean;
+              }>
+            | "nofunc"
         ]
     >;
 }

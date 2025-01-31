@@ -5,7 +5,6 @@ eleventyNavigation:
     parent: configure
     title: Configure Plugins
     order: 4
-
 ---
 
 ::: tip
@@ -14,9 +13,9 @@ This page explains how to configure plugins using the flat config format. For th
 
 You can extend ESLint with plugins in a variety of different ways. Plugins can include:
 
-* Custom rules to validate if your code meets a certain expectation, and what to do if it does not meet that expectation.
-* Custom configurations. Please refer to the plugin's documentation for details on how to use these configurations.
-* Custom processors to extract JavaScript code from other kinds of files or preprocess code before linting.
+-   Custom rules to validate if your code meets a certain expectation, and what to do if it does not meet that expectation.
+-   Custom configurations. Please refer to the plugin's documentation for details on how to use these configurations.
+-   Custom processors to extract JavaScript code from other kinds of files or preprocess code before linting.
 
 ## Configure Plugins
 
@@ -186,7 +185,6 @@ Processors may make named code blocks such as `0.js` and `1.js`. ESLint handles 
 import markdown from "@eslint/markdown";
 
 export default [
-
     // applies to all JavaScript files
     {
         rules: {
@@ -220,7 +218,6 @@ ESLint only lints named code blocks when they are JavaScript files or if they ma
 import markdown from "@eslint/markdown";
 
 export default [
-
     // applies to Markdown files
     {
         files: ["**/*.md"],
@@ -274,5 +271,5 @@ When you specify a `language` in a config object, `languageOptions` becomes spec
 
 ## Common Problems
 
-* [Plugin rules using the ESLint < v9.0.0 API](../troubleshooting/v9-rule-api-changes)
-* [Plugin configurations have not been upgraded to flat config](migration-guide#using-eslintrc-configs-in-flat-config)
+-   [Plugin rules using the ESLint < v9.0.0 API](../troubleshooting/v9-rule-api-changes)
+-   [Plugin configurations have not been upgraded to flat config](migration-guide#using-eslintrc-configs-in-flat-config)
