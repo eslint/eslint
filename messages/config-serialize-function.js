@@ -11,7 +11,7 @@ representation. Please open an issue with the maintainer of the custom parser
 and share this link:
 
 https://eslint.org/docs/latest/extend/custom-parsers#meta-data-in-custom-parsers
-`.trimStart();
+`.trim();
 
     return `
 The requested operation requires ESLint to serialize configuration data,
