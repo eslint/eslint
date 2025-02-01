@@ -22,11 +22,11 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint sort-vars: "error"*/
 
-var b, a;
+let b, a;
 
-var a, B, c;
+let c, D, e;
 
-var a, A;
+let f, F;
 ```
 
 :::
@@ -38,14 +38,14 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint sort-vars: "error"*/
 
-var a, b, c, d;
+let a, b, c, d;
 
-var _a = 10;
-var _b = 20;
+let _a = 10;
+let _b = 20;
 
-var A, a;
+let E, e;
 
-var B, a, c;
+let G, f, h;
 ```
 
 :::
@@ -55,7 +55,7 @@ Alphabetical list is maintained starting from the first variable and excluding a
 ```js
 /*eslint sort-vars: "error"*/
 
-var c, d, a, b;
+let c, d, a, b;
 ```
 
 But this one, will only produce one:
@@ -63,7 +63,7 @@ But this one, will only produce one:
 ```js
 /*eslint sort-vars: "error"*/
 
-var c, d, a, e;
+let c, d, a, e;
 ```
 
 ## Options
@@ -81,9 +81,9 @@ Examples of **correct** code for this rule with the `{ "ignoreCase": true }` opt
 ```js
 /*eslint sort-vars: ["error", { "ignoreCase": true }]*/
 
-var a, A;
+let a, A;
 
-var a, B, c;
+let c, D, e;
 ```
 
 :::
