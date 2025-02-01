@@ -81,9 +81,9 @@ Examples of **correct** code for this rule with the `{ "ignoreCase": true }` opt
 ```js
 /*eslint sort-vars: ["error", { "ignoreCase": true }]*/
 
-var a, A;
+let a, A;
 
-var c, D, e;
+let c, D, e;
 ```
 
 :::
