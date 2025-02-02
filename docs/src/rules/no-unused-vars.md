@@ -16,11 +16,11 @@ This rule is aimed at eliminating unused variables, functions, and function para
 A variable `foo` is considered to be used if any of the following are true:
 
 * It is called (`foo()`) or constructed (`new foo()`)
-* It is read (`var bar = foo`)
+* It is read (`let bar = foo`)
 * It is passed into a function as an argument (`doSomething(foo)`)
 * It is read inside of a function that is passed to another function (`doSomething(function() { foo(); })`)
 
-A variable is *not* considered to be used if it is only ever declared (`var foo = 5`) or assigned to (`foo = 7`).
+A variable is *not* considered to be used if it is only ever declared (`let foo = 5`) or assigned to (`foo = 7`).
 
 Examples of **incorrect** code for this rule:
 
@@ -33,14 +33,14 @@ Examples of **incorrect** code for this rule:
 // It checks variables you have defined as global
 some_unused_var = 42;
 
-var x;
+let x;
 
 // Write-only variables are not considered as used.
-var y = 10;
+let y = 10;
 y = 5;
 
 // A read for a modification of itself is not considered as used.
-var z = 0;
+let z = 0;
 z = z + 1;
 
 // By default, unused arguments cause warnings.
@@ -70,7 +70,7 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-unused-vars: "error"*/
 
-var x = 10;
+const x = 10;
 alert(x);
 
 // foo is considered used here
@@ -111,7 +111,7 @@ The line comment `// exported variableName` will not work as `exported` is not l
 ```js
 /* exported global_var */
 
-var global_var = 42;
+const global_var = 42;
 ```
 
 Examples of **correct** code for `/* exported variableName */` operation with `no-unused-vars`:
@@ -122,7 +122,7 @@ Examples of **correct** code for `/* exported variableName */` operation with `n
 /*eslint no-unused-vars: "error"*/
 /* exported global_var */
 
-var global_var = 42;
+const global_var = 42;
 ```
 
 :::
@@ -180,8 +180,8 @@ Examples of **correct** code for the `{ "varsIgnorePattern": "[iI]gnored" }` opt
 ```js
 /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "[iI]gnored" }]*/
 
-var firstVarIgnored = 1;
-var secondVar = 2;
+const firstVarIgnored = 1;
+const secondVar = 2;
 console.log(secondVar);
 ```
 
@@ -404,12 +404,12 @@ Examples of **correct** code for the `{ "ignoreRestSiblings": true }` option:
 /*eslint no-unused-vars: ["error", { "ignoreRestSiblings": true }]*/
 
 // 'foo' and 'bar' were ignored because they have a rest property sibling.
-var { foo, ...rest } = data;
+const { foo, ...rest } = data;
 console.log(rest);
 
 // OR
 
-var bar;
+let bar;
 ({ bar, ...rest } = data);
 ```
 
@@ -474,8 +474,8 @@ Examples of **incorrect** code for the `{ "reportUsedIgnorePattern": true }` opt
 ```js
 /*eslint no-unused-vars: ["error", { "reportUsedIgnorePattern": true, "varsIgnorePattern": "[iI]gnored" }]*/
 
-var firstVarIgnored = 1;
-var secondVar = 2;
+const firstVarIgnored = 1;
+const secondVar = 2;
 console.log(firstVarIgnored, secondVar);
 ```
 
@@ -488,8 +488,8 @@ Examples of **correct** code for the `{ "reportUsedIgnorePattern": true }` optio
 ```js
 /*eslint no-unused-vars: ["error", { "reportUsedIgnorePattern": true, "varsIgnorePattern": "[iI]gnored" }]*/
 
-var firstVar = 1;
-var secondVar = 2;
+const firstVar = 1;
+const secondVar = 2;
 console.log(firstVar, secondVar);
 ```
 

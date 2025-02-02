@@ -53,7 +53,7 @@ foo(a => a); // OK
 foo(function*() { yield; }); // OK
 
 // function expression not used as callback or function argument
-var foo = function foo(a) { return a; }; // OK
+const foo = function foo(a) { return a; }; // OK
 
 // unbound function expression callback
 foo(function() { return this.a; }); // OK
