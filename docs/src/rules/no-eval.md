@@ -23,7 +23,7 @@ This rule is aimed at preventing potentially dangerous, unnecessary, and slow co
 
 Examples of **incorrect** code for this rule:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-eval: "error"*/
@@ -71,7 +71,7 @@ global.eval("const a = 0");
 
 Examples of **correct** code for this rule:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-eval: "error"*/
