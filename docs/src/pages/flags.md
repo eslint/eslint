@@ -59,11 +59,12 @@ The following flags were once used but are no longer active.
         <tr>
             <th>Flag</th>
             <th>Description</th>
+            <th>Inactivity Reason</th>
         </tr>
     </thead>
     <tbody>
 {%- for name, data in flags.inactive -%}
-        <tr><td><code>{{name}}</code></td><td>{{data.description}}</td></tr>
+        <tr><td><code>{{name}}</code></td><td>{{data.description}}</td><td>{{data.inactivityReason}}</td></tr>
 {%- endfor -%}
     </tbody>
 </table>

@@ -363,7 +363,7 @@ describe("ESLint", () => {
                 assert.deepStrictEqual(
                     processStub.getCall(0).args,
                     [
-                        "The flag 'test_only_replaced' is inactive: Used only for testing flags that have been replaced by other flags.",
+                        "The flag 'test_only_replaced' is inactive: This flag has been renamed 'test_only' to reflect its stabilization. Please use 'test_only' instead.",
                         "ESLintInactiveFlag_test_only_replaced"
                     ]
                 );
@@ -377,7 +377,7 @@ describe("ESLint", () => {
                 assert.deepStrictEqual(
                     processStub.getCall(0).args,
                     [
-                        "The flag 'test_only_enabled_by_default' is inactive: Used only for testing flags whose features have been enabled by default.",
+                        "The flag 'test_only_enabled_by_default' is inactive: This feature is now enabled by default.",
                         "ESLintInactiveFlag_test_only_enabled_by_default"
                     ]
                 );
@@ -387,7 +387,7 @@ describe("ESLint", () => {
 
                 assert.throws(() => {
                     eslint = new ESLint({ cwd: getFixturePath(), flags: ["test_only_abandoned"] });
-                }, /The flag 'test_only_abandoned' is inactive: Used only for testing flags whose features have been abandoned/u);
+                }, /The flag 'test_only_abandoned' is inactive: This feature has been abandoned/u);
 
             });
 
@@ -416,7 +416,7 @@ describe("ESLint", () => {
                 assert.deepStrictEqual(
                     processStub.getCall(0).args,
                     [
-                        "The flag 'unstable_ts_config' is inactive: This flag is no longer required to enable TypeScript configuration files.",
+                        "The flag 'unstable_ts_config' is inactive: This feature is now enabled by default.",
                         "ESLintInactiveFlag_unstable_ts_config"
                     ]
                 );

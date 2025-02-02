@@ -8067,7 +8067,7 @@ describe("Linter with FlatConfigArray", () => {
                 assert.deepStrictEqual(
                     processStub.getCall(0).args,
                     [
-                        "The flag 'test_only_replaced' is inactive: Used only for testing flags that have been replaced by other flags.",
+                        "The flag 'test_only_replaced' is inactive: This flag has been renamed 'test_only' to reflect its stabilization. Please use 'test_only' instead.",
                         "ESLintInactiveFlag_test_only_replaced"
                     ]
                 );
@@ -8085,7 +8085,7 @@ describe("Linter with FlatConfigArray", () => {
                 assert.deepStrictEqual(
                     processStub.getCall(0).args,
                     [
-                        "The flag 'test_only_enabled_by_default' is inactive: Used only for testing flags whose features have been enabled by default.",
+                        "The flag 'test_only_enabled_by_default' is inactive: This feature is now enabled by default.",
                         "ESLintInactiveFlag_test_only_enabled_by_default"
                     ]
                 );
@@ -8096,7 +8096,7 @@ describe("Linter with FlatConfigArray", () => {
             assert.throws(() => {
                 // eslint-disable-next-line no-new -- needed for test
                 new Linter({ configType: "flat", flags: ["test_only_abandoned"] });
-            }, /The flag 'test_only_abandoned' is inactive: Used only for testing flags whose features have been abandoned/u);
+            }, /The flag 'test_only_abandoned' is inactive: This feature has been abandoned/u);
         });
 
         it("should throw an error if an unknown flag is present", () => {
