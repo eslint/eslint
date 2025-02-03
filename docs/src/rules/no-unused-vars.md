@@ -111,7 +111,7 @@ The line comment `// exported variableName` will not work as `exported` is not l
 ```js
 /* exported global_var */
 
-const global_var = 42;
+var global_var = 42;
 ```
 
 Examples of **correct** code for `/* exported variableName */` operation with `no-unused-vars`:
@@ -122,7 +122,7 @@ Examples of **correct** code for `/* exported variableName */` operation with `n
 /*eslint no-unused-vars: "error"*/
 /* exported global_var */
 
-const global_var = 42;
+var global_var = 42;
 ```
 
 :::
