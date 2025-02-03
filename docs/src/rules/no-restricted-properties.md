@@ -81,7 +81,7 @@ Examples of **incorrect** code for this rule:
     "property": "disallowedPropertyName"
 }] */
 
-var example = disallowedObjectName.disallowedPropertyName; /*error Disallowed object property: disallowedObjectName.disallowedPropertyName.*/
+const example = disallowedObjectName.disallowedPropertyName; /*error Disallowed object property: disallowedObjectName.disallowedPropertyName.*/
 
 disallowedObjectName.disallowedPropertyName(); /*error Disallowed object property: disallowedObjectName.disallowedPropertyName.*/
 ```
@@ -126,7 +126,7 @@ Examples of **correct** code for this rule:
     "property": "disallowedPropertyName"
 }] */
 
-var example = disallowedObjectName.somePropertyName;
+const example = disallowedObjectName.somePropertyName;
 
 allowedObjectName.disallowedPropertyName();
 ```

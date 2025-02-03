@@ -37,15 +37,15 @@ Examples of **incorrect** code for this rule:
 
 function foo() {}
 
-var bar = function() {};
+const bar = function() {};
 
-var bar = () => {};
+const bar1 = () => {};
 
 function* baz() {}
 
-var bar = function*() {};
+const bar2 = function*() {};
 
-var obj = {
+const obj = {
     foo: function() {},
 
     foo: function*() {},
@@ -93,11 +93,11 @@ function foo() {
     // do nothing.
 }
 
-var baz = function() {
+const baz = function() {
     // any clear comments.
 };
 
-var baz = () => {
+const baz1 = () => {
     bar();
 };
 
@@ -105,11 +105,11 @@ function* foobar() {
     // do nothing.
 }
 
-var baz = function*() {
+const baz2 = function*() {
     // do nothing.
 };
 
-var obj = {
+const obj = {
     foo: function() {
         // do nothing.
     },
@@ -203,9 +203,9 @@ Examples of **correct** code for the `{ "allow": ["functions"] }` option:
 
 function foo() {}
 
-var bar = function() {};
+const bar = function() {};
 
-var obj = {
+const obj = {
     foo: function() {}
 };
 ```
@@ -221,7 +221,7 @@ Examples of **correct** code for the `{ "allow": ["arrowFunctions"] }` option:
 ```js
 /*eslint no-empty-function: ["error", { "allow": ["arrowFunctions"] }]*/
 
-var foo = () => {};
+const foo = () => {};
 ```
 
 :::
@@ -237,9 +237,9 @@ Examples of **correct** code for the `{ "allow": ["generatorFunctions"] }` optio
 
 function* foo() {}
 
-var bar = function*() {};
+const bar = function*() {};
 
-var obj = {
+const obj = {
     foo: function*() {}
 };
 ```
@@ -255,7 +255,7 @@ Examples of **correct** code for the `{ "allow": ["methods"] }` option:
 ```js
 /*eslint no-empty-function: ["error", { "allow": ["methods"] }]*/
 
-var obj = {
+const obj = {
     foo() {}
 };
 
@@ -276,7 +276,7 @@ Examples of **correct** code for the `{ "allow": ["generatorMethods"] }` option:
 ```js
 /*eslint no-empty-function: ["error", { "allow": ["generatorMethods"] }]*/
 
-var obj = {
+const obj = {
     *foo() {}
 };
 
@@ -297,7 +297,7 @@ Examples of **correct** code for the `{ "allow": ["getters"] }` option:
 ```js
 /*eslint no-empty-function: ["error", { "allow": ["getters"] }]*/
 
-var obj = {
+const obj = {
     get foo() {}
 };
 
@@ -318,7 +318,7 @@ Examples of **correct** code for the `{ "allow": ["setters"] }` option:
 ```js
 /*eslint no-empty-function: ["error", { "allow": ["setters"] }]*/
 
-var obj = {
+const obj = {
     set foo(value) {}
 };
 
@@ -369,7 +369,7 @@ Examples of **correct** code for the `{ "allow": ["asyncMethods"] }` options:
 ```js
 /*eslint no-empty-function: ["error", { "allow": ["asyncMethods"] }]*/
 
-var obj = {
+const obj = {
     async foo() {}
 };
 
