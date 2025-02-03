@@ -83,6 +83,57 @@ describe("Config loaders", () => {
                     assert.strictEqual(locateConfigFileToUse.callCount, 1, "Expected `ConfigLoader.locateConfigFileToUse` to be called exactly once");
                     assert.strictEqual(calculateConfigArray.callCount, 1, "Expected `ConfigLoader.calculateConfigArray` to be called exactly once");
                 });
+
+                it("should not error when loading an empty CommonJS config file", async () => {
+                    const cwd = path.resolve(fixtureDir, "empty-config-file");
+
+                    const configLoader = new ConfigLoaderClass({
+                        cwd,
+                        ignoreEnabled: true,
+                        configFile: "cjs/eslint.config.cjs"
+                    });
+
+                    const emitWarning = sinon.stub(process, "emitWarning");
+                    const configArray = await configLoader.loadConfigArrayForFile(path.resolve(cwd, "cjs/foo.js"));
+
+                    assert(Array.isArray(configArray), "Expected `loadConfigArrayForFile()` to return a config array");
+                    assert(emitWarning.called, "Expected `process.emitWarning` to be called");
+                    assert.strictEqual(emitWarning.args[0][1], "ESLintEmptyConfigWarning", "Expected `process.emitWarning` to be called with 'ESLintEmptyConfigWarning' as the second argument");
+                });
+
+                it("should not error when loading an empty ESM config file", async () => {
+                    const cwd = path.resolve(fixtureDir, "empty-config-file");
+
+                    const configLoader = new ConfigLoaderClass({
+                        cwd,
+                        ignoreEnabled: true,
+                        configFile: "esm/eslint.config.mjs"
+                    });
+
+                    const emitWarning = sinon.stub(process, "emitWarning");
+                    const configArray = await configLoader.loadConfigArrayForFile(path.resolve(cwd, "esm/foo.js"));
+
+                    assert(Array.isArray(configArray), "Expected `loadConfigArrayForFile()` to return a config array");
+                    assert(emitWarning.called, "Expected `process.emitWarning` to be called");
+                    assert.strictEqual(emitWarning.args[0][1], "ESLintEmptyConfigWarning", "Expected `process.emitWarning` to be called with 'ESLintEmptyConfigWarning' as the second argument");
+                });
+
+                it("should not error when loading an ESM config file with an empty array", async () => {
+                    const cwd = path.resolve(fixtureDir, "empty-config-file");
+
+                    const configLoader = new ConfigLoaderClass({
+                        cwd,
+                        ignoreEnabled: true,
+                        configFile: "esm/eslint.config.empty-array.mjs"
+                    });
+
+                    const emitWarning = sinon.stub(process, "emitWarning");
+                    const configArray = await configLoader.loadConfigArrayForFile(path.resolve(cwd, "mjs/foo.js"));
+
+                    assert(Array.isArray(configArray), "Expected `loadConfigArrayForFile()` to return a config array");
+                    assert(emitWarning.called, "Expected `process.emitWarning` to be called");
+                    assert.strictEqual(emitWarning.args[0][1], "ESLintEmptyConfigWarning", "Expected `process.emitWarning` to be called with 'ESLintEmptyConfigWarning' as the second argument");
+                });
             });
 
             describe("getCachedConfigArrayForFile()", () => {
