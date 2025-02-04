@@ -134,6 +134,48 @@ describe("Config loaders", () => {
                     assert(emitWarning.called, "Expected `process.emitWarning` to be called");
                     assert.strictEqual(emitWarning.args[0][1], "ESLintEmptyConfigWarning", "Expected `process.emitWarning` to be called with 'ESLintEmptyConfigWarning' as the second argument");
                 });
+
+                it("should throw an error when loading an ESM config file with null", async () => {
+                    const cwd = path.resolve(fixtureDir, "empty-config-file");
+
+                    const configLoader = new ConfigLoaderClass({
+                        cwd,
+                        ignoreEnabled: true,
+                        configFile: "esm/eslint.config.null.mjs"
+                    });
+
+                    let error;
+
+                    try {
+                        await configLoader.loadConfigArrayForFile(path.resolve(cwd, "mjs/foo.js"));
+                    } catch (err) {
+                        error = err;
+                    }
+
+                    assert(error);
+                    assert.strictEqual(error.message, "Config (unnamed): Unexpected null config at user-defined index 0.");
+                });
+
+                it("should throw an error when loading an ESM config with 0", async () => {
+                    const cwd = path.resolve(fixtureDir, "empty-config-file");
+
+                    const configLoader = new ConfigLoaderClass({
+                        cwd,
+                        ignoreEnabled: true,
+                        configFile: "esm/eslint.config.zero.mjs"
+                    });
+
+                    let error;
+
+                    try {
+                        await configLoader.loadConfigArrayForFile(path.resolve(cwd, "mjs/foo.js"));
+                    } catch (err) {
+                        error = err;
+                    }
+
+                    assert(error);
+                    assert.strictEqual(error.message, "Config (unnamed): Unexpected non-object config at user-defined index 0.");
+                });
             });
 
             describe("getCachedConfigArrayForFile()", () => {
