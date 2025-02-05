@@ -2051,7 +2051,7 @@ describe("cli", () => {
                     );
                 });
 
-                it("should include multiple additional extension when specified by repeating the option", async () => {
+                it("should include multiple additional extensions when specified by repeating the option", async () => {
                     const exitCode = await cli.execute("-f json --ext .ts --ext tsx .", null, true);
 
                     assert.strictEqual(exitCode, 0, "exit code should be 0");
@@ -2064,7 +2064,7 @@ describe("cli", () => {
                     );
                 });
 
-                it("should include multiple additional extension when specified with comma-delimited list", async () => {
+                it("should include multiple additional extensions when specified with comma-delimited list", async () => {
                     const exitCode = await cli.execute("-f json --ext .ts,.tsx .", null, true);
 
                     assert.strictEqual(exitCode, 0, "exit code should be 0");
