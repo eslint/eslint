@@ -30,13 +30,13 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-extra-boolean-cast: "error"*/
 
-var foo = !!!bar;
+const foo = !!!bar;
 
-var foo = !!bar ? baz : bat;
+const foo1 = !!bar ? baz : bat;
 
-var foo = Boolean(!!bar);
+const foo2 = Boolean(!!bar);
 
-var foo = new Boolean(!!bar);
+const foo3 = new Boolean(!!bar);
 
 if (!!foo) {
     // ...
@@ -68,14 +68,14 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-extra-boolean-cast: "error"*/
 
-var foo = !!bar;
-var foo = Boolean(bar);
+const foo = !!bar;
+const foo1 = Boolean(bar);
 
 function qux() {
     return !!bar;
 }
 
-var foo = bar ? !!baz : !!bat;
+foo = bar ? !!baz : !!bat;
 ```
 
 :::
@@ -109,7 +109,7 @@ if ((!!foo || bar) && !!baz) {
     //...
 }
 
-var foo = new Boolean(!!bar || baz);
+const foo = new Boolean(!!bar || baz);
 
 foo && Boolean(bar) ? baz : bat;
 
@@ -134,9 +134,9 @@ Examples of **correct** code for this rule with `"enforceForInnerExpressions"` o
 ```js
 /*eslint no-extra-boolean-cast: ["error", {"enforceForInnerExpressions": true}]*/
 
-// Note that `||` and `&&` alone aren't a boolean context for either operand 
+// Note that `||` and `&&` alone aren't a boolean context for either operand
 // since the resultant value need not be a boolean without casting.
-var foo = !!bar || baz;
+const foo = !!bar || baz;
 
 if (foo || bar) {
     //...
@@ -150,7 +150,7 @@ if ((foo || bar) && baz) {
     //...
 }
 
-var foo = new Boolean(bar || baz);
+const foo1 = new Boolean(bar || baz);
 
 foo && bar ? baz : bat;
 

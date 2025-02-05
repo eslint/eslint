@@ -13,13 +13,13 @@ related_rules:
 Regular expressions can be very complex and difficult to understand, which is why it's important to keep them as simple as possible in order to avoid mistakes. One of the more error-prone things you can do with a regular expression is to use more than one space, such as:
 
 ```js
-var re = /foo   bar/;
+const re = /foo   bar/;
 ```
 
 In this regular expression, it's very hard to tell how many spaces are intended to be matched. It's better to use only one space and then specify how many spaces are expected, such as:
 
 ```js
-var re = /foo {3}bar/;
+const re = /foo {3}bar/;
 ```
 
 Now it is very clear that three spaces are expected to be matched.
@@ -35,8 +35,8 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-regex-spaces: "error"*/
 
-var re = /foo   bar/;
-var re = new RegExp("foo   bar");
+const re = /foo   bar/;
+const re1 = new RegExp("foo   bar");
 ```
 
 :::
@@ -48,8 +48,8 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-regex-spaces: "error"*/
 
-var re = /foo {3}bar/;
-var re = new RegExp("foo {3}bar");
+const re = /foo {3}bar/;
+const re1 = new RegExp("foo {3}bar");
 ```
 
 :::
