@@ -1389,9 +1389,12 @@ describe("ESLint", () => {
                     );
                 });
 
-                it("should fail to load a CommonJS TS config file that exports undefined with a helpful error message", async () => {
+                it("should fail to load a CommonJS TS config file that exports undefined with a helpful warning message", async () => {
+
+                    sinon.restore();
 
                     const cwd = getFixturePath("ts-config-files", "ts");
+                    const processStub = sinon.stub(process, "emitWarning");
 
                     eslint = new ESLint({
                         cwd,
@@ -1399,10 +1402,10 @@ describe("ESLint", () => {
                         overrideConfigFile: "eslint.undefined.config.ts"
                     });
 
-                    await assert.rejects(
-                        eslint.lintText("foo"),
-                        { message: "Config (unnamed): Unexpected undefined config at user-defined index 0." }
-                    );
+                    await eslint.lintText("foo");
+
+                    assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
+                    assert.strictEqual(processStub.getCall(0).args[1], "ESLintEmptyConfigWarning");
 
                 });
 
@@ -5975,9 +5978,12 @@ describe("ESLint", () => {
                     );
                 });
 
-                it("should fail to load a CommonJS TS config file that exports undefined with a helpful error message", async () => {
+                it("should fail to load a CommonJS TS config file that exports undefined with a helpful warning message", async () => {
+
+                    sinon.restore();
 
                     const cwd = getFixturePath("ts-config-files", "ts");
+                    const processStub = sinon.stub(process, "emitWarning");
 
                     eslint = new ESLint({
                         cwd,
@@ -5985,10 +5991,11 @@ describe("ESLint", () => {
                         overrideConfigFile: "eslint.undefined.config.ts"
                     });
 
-                    await assert.rejects(
-                        eslint.lintFiles("foo.js"),
-                        { message: "Config (unnamed): Unexpected undefined config at user-defined index 0." }
-                    );
+                    await eslint.lintFiles("foo.js");
+
+                    assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
+                    assert.strictEqual(processStub.getCall(0).args[1], "ESLintEmptyConfigWarning");
+
 
                 });
 
