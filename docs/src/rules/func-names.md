@@ -113,7 +113,7 @@ Examples of **correct** code for this rule with the `"as-needed"` option:
 ```js
 /*eslint func-names: ["error", "as-needed"]*/
 
-var bar = function() {};
+const bar = function() {};
 
 const cat = {
   meow: function() {}
@@ -192,7 +192,7 @@ Examples of **correct** code for this rule with the `"always", { "generators": "
 ```js
 /*eslint func-names: ["error", "always", { "generators": "as-needed" }]*/
 
-var foo = function*() {};
+const foo = function*() {};
 ```
 
 :::
@@ -204,7 +204,7 @@ Examples of **incorrect** code for this rule with the `"always", { "generators":
 ```js
 /*eslint func-names: ["error", "always", { "generators": "never" }]*/
 
-var foo = bar(function *baz() {});
+const foo = bar(function *baz() {});
 ```
 
 :::
@@ -216,7 +216,7 @@ Examples of **correct** code for this rule with the `"always", { "generators": "
 ```js
 /*eslint func-names: ["error", "always", { "generators": "never" }]*/
 
-var foo = bar(function *() {});
+const foo = bar(function *() {});
 ```
 
 :::
@@ -228,7 +228,7 @@ Examples of **incorrect** code for this rule with the `"as-needed", { "generator
 ```js
 /*eslint func-names: ["error", "as-needed", { "generators": "never" }]*/
 
-var foo = bar(function *baz() {});
+const foo = bar(function *baz() {});
 ```
 
 :::
@@ -240,7 +240,7 @@ Examples of **correct** code for this rule with the `"as-needed", { "generators"
 ```js
 /*eslint func-names: ["error", "as-needed", { "generators": "never" }]*/
 
-var foo = bar(function *() {});
+const foo = bar(function *() {});
 ```
 
 :::
@@ -252,7 +252,7 @@ Examples of **incorrect** code for this rule with the `"never", { "generators": 
 ```js
 /*eslint func-names: ["error", "never", { "generators": "always" }]*/
 
-var foo = bar(function *() {});
+const foo = bar(function *() {});
 ```
 
 :::
@@ -264,7 +264,7 @@ Examples of **correct** code for this rule with the `"never", { "generators": "a
 ```js
 /*eslint func-names: ["error", "never", { "generators": "always" }]*/
 
-var foo = bar(function *baz() {});
+const foo = bar(function *baz() {});
 ```
 
 :::

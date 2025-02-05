@@ -39,7 +39,7 @@ For function expressions, you must define the function before it is used, otherw
 ```js
 doSomething();  // error!
 
-var doSomething = function() {
+const doSomething = function() {
     // ...
 };
 ```
@@ -93,11 +93,11 @@ Examples of **correct** code for this rule with the default `"expression"` optio
 ```js
 /*eslint func-style: ["error", "expression"]*/
 
-var foo = function() {
+const foo = function() {
     // ...
 };
 
-var foo = () => {};
+const foo1 = () => {};
 
 // allowed as allowArrowFunctions : false is applied only for declaration
 ```
@@ -113,11 +113,11 @@ Examples of **incorrect** code for this rule with the `"declaration"` option:
 ```js
 /*eslint func-style: ["error", "declaration"]*/
 
-var foo = function() {
+const foo = function() {
     // ...
 };
 
-var foo = () => {};
+const foo1 = () => {};
 ```
 
 :::
@@ -150,7 +150,7 @@ Examples of additional **correct** code for this rule with the `"declaration", {
 ```js
 /*eslint func-style: ["error", "declaration", { "allowArrowFunctions": true }]*/
 
-var foo = () => {};
+const foo = () => {};
 ```
 
 :::
@@ -182,11 +182,11 @@ Examples of **correct** code for this rule with the `"declaration"` and `{"overr
 ```js
 /*eslint func-style: ["error", "declaration", { "overrides": { "namedExports": "expression" } }]*/
 
-export var foo = function() {
+export const foo = function() {
     // ...
 };
 
-export var bar = () => {};
+export const bar = () => {};
 ```
 
 :::
@@ -200,11 +200,11 @@ Examples of **incorrect** code for this rule with the `"expression"` and `{"over
 ```js
 /*eslint func-style: ["error", "expression", { "overrides": { "namedExports": "declaration" } }]*/
 
-export var foo = function() {
+export const foo = function() {
     // ...
 };
 
-export var bar = () => {};
+export const bar = () => {};
 ```
 
 :::
@@ -232,11 +232,11 @@ Examples of **correct** code for this rule with the `{"overrides": { "namedExpor
 ```js
 /*eslint func-style: ["error", "expression", { "overrides": { "namedExports": "ignore" } }]*/
 
-export var foo = function() {
+export const foo = function() {
     // ...
 };
 
-export var bar = () => {};
+export const bar = () => {};
 
 export function baz() {
     // ...
