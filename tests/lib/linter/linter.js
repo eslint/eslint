@@ -8035,6 +8035,20 @@ describe("Linter with FlatConfigArray", () => {
 
     describe("hasFlag()", () => {
 
+        let processStub;
+
+        beforeEach(() => {
+
+            // in the browser test, `process.emitWarning` is not defined
+            if (typeof process !== "undefined" && typeof process.emitWarning !== "undefined") {
+                processStub = sinon.stub(process, "emitWarning").withArgs(sinon.match.any, sinon.match(/^ESLintInactiveFlag_/u)).returns();
+            }
+        });
+
+        afterEach(() => {
+            sinon.restore();
+        });
+
         it("should return true if an active flag is present", () => {
             assert.strictEqual(
                 new Linter({ configType: "flat", flags: ["test_only"] }).hasFlag("test_only"),
@@ -8042,11 +8056,47 @@ describe("Linter with FlatConfigArray", () => {
             );
         });
 
-        it("should throw an error if an inactive flag is present", () => {
+        it("should return true for the replacement flag if an inactive flag that has been replaced is used", () => {
+            assert.strictEqual(
+                new Linter({ configType: "flat", flags: ["test_only_replaced"] }).hasFlag("test_only"),
+                true
+            );
+
+            if (processStub) {
+                assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` for flags once");
+                assert.deepStrictEqual(
+                    processStub.getCall(0).args,
+                    [
+                        "The flag 'test_only_replaced' is inactive: This flag has been renamed 'test_only' to reflect its stabilization. Please use 'test_only' instead.",
+                        "ESLintInactiveFlag_test_only_replaced"
+                    ]
+                );
+            }
+        });
+
+        it("should return false if an inactive flag whose feature is enabled by default is used", () => {
+            assert.strictEqual(
+                new Linter({ configType: "flat", flags: ["test_only_enabled_by_default"] }).hasFlag("test_only_enabled_by_default"),
+                false
+            );
+
+            if (processStub) {
+                assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` for flags once");
+                assert.deepStrictEqual(
+                    processStub.getCall(0).args,
+                    [
+                        "The flag 'test_only_enabled_by_default' is inactive: This feature is now enabled by default.",
+                        "ESLintInactiveFlag_test_only_enabled_by_default"
+                    ]
+                );
+            }
+        });
+
+        it("should throw an error if an inactive flag whose feature has been abandoned is used", () => {
             assert.throws(() => {
                 // eslint-disable-next-line no-new -- needed for test
-                new Linter({ configType: "flat", flags: ["test_only_old"] });
-            }, /The flag 'test_only_old' is inactive: Used only for testing/u);
+                new Linter({ configType: "flat", flags: ["test_only_abandoned"] });
+            }, /The flag 'test_only_abandoned' is inactive: This feature has been abandoned/u);
         });
 
         it("should throw an error if an unknown flag is present", () => {

@@ -335,15 +335,6 @@ describe("ESLint", () => {
 
                 processStub.restore();
             });
-
-            it("should throw an error if the flag 'unstable_ts_config' is used", () => {
-                assert.throws(
-                    () => new ESLint({
-                        flags: [...flags, "unstable_ts_config"]
-                    }),
-                    { message: "The flag 'unstable_ts_config' is inactive: This flag is no longer required to enable TypeScript configuration files." }
-                );
-            });
         });
 
         describe("hasFlag", () => {
@@ -351,17 +342,60 @@ describe("ESLint", () => {
             /** @type {InstanceType<ESLint>} */
             let eslint;
 
+            let processStub;
+
+            beforeEach(() => {
+                sinon.restore();
+                processStub = sinon.stub(process, "emitWarning").withArgs(sinon.match.any, sinon.match(/^ESLintInactiveFlag_/u)).returns();
+            });
+
             it("should return true if the flag is present and active", () => {
                 eslint = new ESLint({ cwd: getFixturePath(), flags: ["test_only"] });
 
                 assert.strictEqual(eslint.hasFlag("test_only"), true);
             });
 
-            it("should throw an error if the flag is inactive", () => {
+            it("should return true for the replacement flag if an inactive flag that has been replaced is used", () => {
+                eslint = new ESLint({ cwd: getFixturePath(), flags: ["test_only_replaced"] });
+
+                assert.strictEqual(eslint.hasFlag("test_only"), true);
+                assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` for flags once");
+                assert.deepStrictEqual(
+                    processStub.getCall(0).args,
+                    [
+                        "The flag 'test_only_replaced' is inactive: This flag has been renamed 'test_only' to reflect its stabilization. Please use 'test_only' instead.",
+                        "ESLintInactiveFlag_test_only_replaced"
+                    ]
+                );
+            });
+
+            it("should return false if an inactive flag whose feature is enabled by default is used", () => {
+                eslint = new ESLint({ cwd: getFixturePath(), flags: ["test_only_enabled_by_default"] });
+
+                assert.strictEqual(eslint.hasFlag("test_only_enabled_by_default"), false);
+                assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` for flags once");
+                assert.deepStrictEqual(
+                    processStub.getCall(0).args,
+                    [
+                        "The flag 'test_only_enabled_by_default' is inactive: This feature is now enabled by default.",
+                        "ESLintInactiveFlag_test_only_enabled_by_default"
+                    ]
+                );
+            });
+
+            it("should throw an error if an inactive flag whose feature has been abandoned is used", () => {
 
                 assert.throws(() => {
-                    eslint = new ESLint({ cwd: getFixturePath(), flags: ["test_only_old"] });
-                }, /The flag 'test_only_old' is inactive/u);
+                    eslint = new ESLint({ cwd: getFixturePath(), flags: ["test_only_abandoned"] });
+                }, /The flag 'test_only_abandoned' is inactive: This feature has been abandoned/u);
+
+            });
+
+            it("should throw an error if the flag is unknown", () => {
+
+                assert.throws(() => {
+                    eslint = new ESLint({ cwd: getFixturePath(), flags: ["foo_bar"] });
+                }, /Unknown flag 'foo_bar'/u);
 
             });
 
@@ -369,6 +403,23 @@ describe("ESLint", () => {
                 eslint = new ESLint({ cwd: getFixturePath() });
 
                 assert.strictEqual(eslint.hasFlag("x_feature"), false);
+            });
+
+            // TODO: Remove in ESLint v10 when the flag is removed
+            it("should not throw an error if the flag 'unstable_ts_config' is used", () => {
+                eslint = new ESLint({
+                    flags: [...flags, "unstable_ts_config"]
+                });
+
+                assert.strictEqual(eslint.hasFlag("unstable_ts_config"), false);
+                assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` for flags once");
+                assert.deepStrictEqual(
+                    processStub.getCall(0).args,
+                    [
+                        "The flag 'unstable_ts_config' is inactive: This feature is now enabled by default.",
+                        "ESLintInactiveFlag_unstable_ts_config"
+                    ]
+                );
             });
         });
 
