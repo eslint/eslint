@@ -19,9 +19,9 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-proto: "error"*/
 
-var a = obj.__proto__;
+const a = obj.__proto__;
 
-var a = obj["__proto__"];
+const a1 = obj["__proto__"];
 
 obj.__proto__ = b;
 
@@ -37,11 +37,11 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-proto: "error"*/
 
-var a = Object.getPrototypeOf(obj);
+const a = Object.getPrototypeOf(obj);
 
 Object.setPrototypeOf(obj, b);
 
-var c = { __proto__: a };
+const c = { __proto__: a };
 ```
 
 :::

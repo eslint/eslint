@@ -71,7 +71,7 @@ with (me) {
     dontMess();
 }
 
-var doSomething = function () {};
+const doSomething = function () {};
 
 foo in bar;
 ```
