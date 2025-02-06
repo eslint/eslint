@@ -8091,6 +8091,17 @@ describe("Linter with FlatConfigArray", () => {
         return new FlatConfigArray(value, options);
     }
 
+    let processStub;
+
+    beforeEach(() => {
+        sinon.restore();
+        processStub = sinon.stub(process, "emitWarning");
+    });
+
+    afterEach(() => {
+        processStub.restore();
+    });
+
     beforeEach(() => {
         linter = new Linter({ configType: "flat" });
     });
@@ -16750,6 +16761,14 @@ var a = "test2";
             assert.strictEqual(fixResult.output, "-a", "Output should match the original input due to circular fixes.");
             assert.strictEqual(fixResult.messages.length, 2, "There should be two remaining lint messages after detecting circular fixes.");
             assert.strictEqual(fixResult.messages[0].message, "Adding leading hyphen", "Message should match the last fix attempt.");
+
+            // Verify the warning was emitted
+            assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
+            assert.strictEqual(
+                processStub.firstCall.args[0],
+                "Circular fixes detected while fixing text. It is likely that you have conflicting rules in your configuration."
+            );
+            assert.strictEqual(processStub.firstCall.args[1], "ESLintCircularFixesWarning");
 
             const suppressedMessages = linter.getSuppressedMessages();
 
