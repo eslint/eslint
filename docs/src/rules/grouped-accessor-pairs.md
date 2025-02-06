@@ -318,7 +318,7 @@ might require or miss to require grouping or order for getters/setters that have
 ```js
 /*eslint grouped-accessor-pairs: "error"*/
 
-const a = 1;
+let a = 1;
 
 // false warning (false positive)
 const foo = {
