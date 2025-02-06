@@ -4543,7 +4543,7 @@ describe("ESLint", () => {
                             "b.js": "",
                             "ab.js": "",
                             "[ab].js": "",
-                            "eslint.config.js": "module.exports = [];"
+                            "eslint.config.js": "module.exports = [{}];"
                         }
                     });
 
@@ -4564,7 +4564,7 @@ describe("ESLint", () => {
                             "a.js": "",
                             "b.js": "",
                             "ab.js": "",
-                            "eslint.config.js": "module.exports = [];"
+                            "eslint.config.js": "module.exports = [{}];"
                         }
                     });
 
