@@ -468,7 +468,7 @@ rule = {
         context.markVariableAsUsed("foo");
 
         context.report({ message: "foo", node: AST });
-        context.report({ message: "foo", loc: { line: 0, column: 0 } });
+        context.report({ message: "foo", loc: { start: {line: 0, column: 0}, end: { line: 1, column: 1 } } });
         context.report({ message: "foo", node: AST, data: { foo: "bar" } });
         context.report({ message: "foo", node: AST, fix: () => null });
         context.report({ message: "foo", node: AST, fix: ruleFixer => ruleFixer.replaceText(AST, "foo") });
