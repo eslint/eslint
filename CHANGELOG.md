@@ -1,3 +1,29 @@
+v9.20.0 - February 7, 2025
+
+* [`979097a`](https://github.com/eslint/eslint/commit/979097a3b4c656e2d9faabd4a52010d6647911f6) chore: upgrade @eslint/js@9.20.0 (#19412) (Francesco Trotta)
+* [`031734e`](https://github.com/eslint/eslint/commit/031734efcb27e0d800da7ec32f5d5dae55f80564) chore: package.json update for @eslint/js release (Jenkins)
+* [`91d4d9f`](https://github.com/eslint/eslint/commit/91d4d9f62095e302c71595cc04c47073f366315c) fix: Bring types in sync with @eslint/core (#19157) (Nicholas C. Zakas)
+* [`b7012c8`](https://github.com/eslint/eslint/commit/b7012c85f3c0f683baeffb6d856faf86c4d41702) docs: rewrite examples with var using let and const (#19407) (Mueez Javaid Hashmi)
+* [`d4c47c3`](https://github.com/eslint/eslint/commit/d4c47c3738f2bf53b4f6a1cf505861b35875ac5f) test: avoid empty config warning in test output (#19408) (Milos Djermanovic)
+* [`e89a54a`](https://github.com/eslint/eslint/commit/e89a54a3090f3503daf5e36b02b0035c993e3fd1) feat: change behavior of inactive flags (#19386) (Milos Djermanovic)
+* [`fa25c7a`](https://github.com/eslint/eslint/commit/fa25c7a79edee280f275fbc35b83bcde906d1480) fix: Emit warning when empty config file is used (#19399) (Nicholas C. Zakas)
+* [`6406376`](https://github.com/eslint/eslint/commit/64063765afa5bf29855d996ccabfaa93b19bd458) docs: Update README (GitHub Actions Bot)
+* [`350f2b9`](https://github.com/eslint/eslint/commit/350f2b9349bc8d2230cd953c14b77071f2961f47) docs: rewrite some examples with var using let and const (#19404) (Mueez Javaid Hashmi)
+* [`93c325a`](https://github.com/eslint/eslint/commit/93c325a7a841d0fe4b5bf79efdec832e7c8f805f) docs: rewrite examples with var using let and const (#19398) (Mueez Javaid Hashmi)
+* [`56ff404`](https://github.com/eslint/eslint/commit/56ff4048e053374db39201e7e880bde4c930e19f) docs: replace var with let or const in rules docs (#19396) (Daniel Harbrueger)
+* [`4053226`](https://github.com/eslint/eslint/commit/4053226996bbdec1ffdef8af1b9d7f5aa4b11b86) docs: change `sourceType` in `no-eval` examples (#19393) (Milos Djermanovic)
+* [`1324af0`](https://github.com/eslint/eslint/commit/1324af027986d655848ee1a9dcb89a527917ea3e) docs: replace var with let and const in rules docs (#19392) (Daniel Harbrueger)
+* [`8b87e00`](https://github.com/eslint/eslint/commit/8b87e007bb2ba59b73061d22ef34baffb5656b79) docs: replace `var` with `const` and `let` in rules (#19389) (Tanuj Kanti)
+* [`31a9fd0`](https://github.com/eslint/eslint/commit/31a9fd03d23aecf2b1e0c9b3df27554aff245723) fix: Clearer error message for wrong plugin format (#19380) (Nicholas C. Zakas)
+* [`61d99e3`](https://github.com/eslint/eslint/commit/61d99e38f248f4d9abc09d970c4eebddd1af86ca) fix: Better error message for unserializable parser (#19384) (Nicholas C. Zakas)
+* [`758c66b`](https://github.com/eslint/eslint/commit/758c66bc8d83cd4eda9639b0745f0d0fb70f04f4) docs: Explain what frozen rules mean (#19382) (Nicholas C. Zakas)
+* [`67dd82a`](https://github.com/eslint/eslint/commit/67dd82ab88d784b6f36e471b6a5c6f64e37f9485) chore: update dependency @eslint/json to ^0.10.0 (#19387) (renovate[bot])
+* [`db1b9a6`](https://github.com/eslint/eslint/commit/db1b9a66e387e573f45885687dfefc04ab2877fe) fix: Ensure module scope is checked for references in `consistent-this` (#19383) (Nicholas C. Zakas)
+* [`8bcd820`](https://github.com/eslint/eslint/commit/8bcd820f37f2361e4f7261a9876f52d21bd9de8f) fix: `arrow-body-style` crash with single-token body (#19379) (Milos Djermanovic)
+* [`15ac0e1`](https://github.com/eslint/eslint/commit/15ac0e182486f32d63171a310050383e15767697) chore: add permissions: read-all to stale.yml workflow (#19374) (Josh Goldberg ✨)
+* [`0ef8bb8`](https://github.com/eslint/eslint/commit/0ef8bb859c988e558683c2d8bd9c9606f22e456c) docs: additional checks for rule examples (#19358) (Milos Djermanovic)
+* [`58ab2f6`](https://github.com/eslint/eslint/commit/58ab2f69d2d4cf9b49bf3fd303795040ec761ebd) docs: fix order of installation steps in getting started (#19326) (Tanuj Kanti)
+
 v9.19.0 - January 24, 2025
 
 * [`9b9cb05`](https://github.com/eslint/eslint/commit/9b9cb0584867916d50aa2e9590b132e2ef8ca59c) chore: upgrade @eslint/js@9.19.0 (#19371) (Milos Djermanovic)
