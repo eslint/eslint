@@ -257,9 +257,5 @@ document.addEventListener('keydown', function (e) {
             }
         }
     }
-
-    if (e.key === "Tab" && document.activeElement.classList.contains("search-results__item__title")) {
-        return;
-    }
 });
 
