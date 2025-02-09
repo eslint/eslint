@@ -4,7 +4,8 @@ eleventyNavigation:
     key: integrations
     parent: use eslint
     title: Integrations
-    order: 8
+    order: 9
+
 ---
 
 This page contains community projects that have integrated ESLint. The projects on this page are not maintained by the ESLint team.
