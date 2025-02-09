@@ -504,6 +504,7 @@ describe("bin/eslint.js", () => {
 
     describe("suppress violations", () => {
         const SUPPRESSIONS_PATH = ".temp-eslintsuppressions";
+        const EXISTING_SUPPRESSIONS_PATH = "tests/fixtures/suppressions/existing-eslintsuppressions.json";
         const SOURCE_PATH = "tests/fixtures/suppressions/test-file.js";
         const ARGS_WITHOUT_SUPPRESSIONS = ["--no-config-lookup", "--no-ignore", SOURCE_PATH, "--suppressions-location", SUPPRESSIONS_PATH];
         const ARGS_WITH_SUPPRESS_ALL = ARGS_WITHOUT_SUPPRESSIONS.concat("--suppress-all");
@@ -618,17 +619,15 @@ describe("bin/eslint.js", () => {
                 }
             });
 
-            it("overwrites the invalid suppressions file with a valid one when the --suppress-all argument is used", () => {
+            it("gives an error when the --suppress-all argument is used", () => {
                 const child = runESLint(ARGS_WITH_SUPPRESS_ALL);
 
-                return assertExitCode(child, 0).then(() => {
-                    assert.isTrue(fs.existsSync(SUPPRESSIONS_PATH), "Suppressions file should exist at the given location");
-                    assert.deepStrictEqual(
-                        JSON.parse(fs.readFileSync(SUPPRESSIONS_PATH, "utf8")),
-                        SUPPRESSIONS_FILE_WITH_INDENT_AND_NO_UNDEF,
-                        "Suppressions file should contain the expected contents"
-                    );
+                const exitCodeAssertion = assertExitCode(child, 2);
+                const outputAssertion = getOutput(child).then(output => {
+                    assert.include(output.stderr, "Failed to parse suppressions file at");
                 });
+
+                return Promise.all([exitCodeAssertion, outputAssertion]);
             });
 
             it("gives an error when the --suppress-all argument is not used", () => {
@@ -671,6 +670,19 @@ describe("bin/eslint.js", () => {
                     fs.unlinkSync(SUPPRESSIONS_PATH);
                 }
             });
+
+            it("doesn't remove suppressions from the suppressions file when the --suppress-all flag is used", () => {
+                fs.copyFileSync(EXISTING_SUPPRESSIONS_PATH, SUPPRESSIONS_PATH);
+
+                const child = runESLint(ARGS_WITH_SUPPRESS_ALL);
+
+                return assertExitCode(child, 0).then(() => {
+                    const suppressions = JSON.parse(fs.readFileSync(SUPPRESSIONS_PATH, "utf8"));
+
+                    assert.property(suppressions, "tests/fixtures/suppressions/extra-file.js");
+                });
+            });
+
             it("suppresses the violations from the suppressions file, without passing --suppress-all", () => {
                 fs.writeFileSync(SUPPRESSIONS_PATH, JSON.stringify(SUPPRESSIONS_FILE_WITH_INDENT_AND_NO_UNDEF, null, 2));
 
@@ -714,7 +726,6 @@ describe("bin/eslint.js", () => {
 
                 suppressions[SOURCE_PATH].indent.count = 10;
                 suppressions[SOURCE_PATH].ruleThatDoesntExist = { count: 1 };
-                suppressions["file-that-doesnt-exist.js"] = { indent: { count: 1 } };
                 fs.writeFileSync(SUPPRESSIONS_PATH, JSON.stringify(suppressions, null, 2));
 
                 const child = runESLint(ARGS_WITH_PRUNE_SUPPRESSIONS);
