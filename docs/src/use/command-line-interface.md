@@ -705,7 +705,7 @@ npx eslint "src/**/*.js" --cache --cache-strategy content
 
 #### `--suppress-all`
 
-Suppresses existing violations, so that they are not being reported in subsequent runs. It allows you to enable one or more lint rules and be notified only when new violations show up. The suppressions are stored in `.eslint-suppressions.json` by default, unless otherwise specified by `--suppressions-location`. In any case, the file gets overwritten, if it already exists.
+Suppresses existing violations, so that they are not being reported in subsequent runs. It allows you to enable one or more lint rules and be notified only when new violations show up. The suppressions are stored in `.eslint-suppressions.json` by default, unless otherwise specified by `--suppressions-location`. The file gets updated with the new suppressions.
 
 * **Argument Type**: No argument.
 
@@ -744,7 +744,7 @@ npx eslint "src/**/*.js" --suppressions-location ".eslint-suppressions-example.j
 
 #### `--prune-suppressions`
 
-Prune unused suppressions from the suppressions file. This option is useful when you want to remove suppressions for rules that are no longer enabled or when you want to remove suppressions for files that no longer exist.
+Prune unused suppressions from the suppressions file. This option is useful when you addressed one or more of the suppressed violations.
 
 * **Argument Type**: No argument.
 
