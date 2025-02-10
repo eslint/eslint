@@ -16,6 +16,6 @@
     },
     "files": [
         "../../../lib/types/index.d.ts",
-        "types.test.ts"
+        "types.test.mts"
     ]
 }

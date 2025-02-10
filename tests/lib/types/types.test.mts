@@ -37,6 +37,7 @@ import {
 } from "eslint/use-at-your-own-risk";
 import { Comment, PrivateIdentifier, PropertyDefinition, StaticBlock, WhileStatement } from "estree";
 import { Language } from "@eslint/core";
+import { FlatCompat } from "@eslint/eslintrc";
 
 const SOURCE = `var foo = bar;`;
 
@@ -1549,5 +1550,13 @@ new FileEnumerator();
 FlatESLint; // $ExpectType typeof ESLint
 
 shouldUseFlatConfig(); // $ExpectType Promise<boolean>
+
+// #endregion
+
+// #region FlatCompat
+
+const compat = new FlatCompat();
+
+export default [...compat.extends()] as const satisfies Linter.Config[];
 
 // #endregion
