@@ -56,6 +56,17 @@ After that, you can run ESLint on any file or directory like this:
 npx eslint yourfile.js
 ```
 
+### pnpm Installation
+
+To use ESLint with pnpm, we recommend setting up a `.npmrc` file with at least the following settings:
+
+```text
+auto-install-peers=true
+node-linker=hoisted
+```
+
+This ensures that pnpm installs dependencies in a way that is more compatible with npm and is less likely to produce errors.
+
 ## Configuration
 
 You can configure rules in your `eslint.config.js` files as in this example:
