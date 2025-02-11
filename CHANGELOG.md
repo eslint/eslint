@@ -1,3 +1,11 @@
+v9.20.1 - February 11, 2025
+
+* [`fe3ccb2`](https://github.com/eslint/eslint/commit/fe3ccb2ff43a9f20a7801c679f7d41f6a7ed3ddc) docs: allow typing in search box while dropdown is open (#19424) (Amaresh  S M)
+* [`274f054`](https://github.com/eslint/eslint/commit/274f054f19f5f490d9496c6eee4bcd8620d2f4be) fix: fix `RuleContext` type (#19417) (Francesco Trotta)
+* [`93c78a5`](https://github.com/eslint/eslint/commit/93c78a5c58edb7ead9bff87c874d2ff9b824ec04) docs: Add instructions for pnpm compat (#19422) (Nicholas C. Zakas)
+* [`b476a93`](https://github.com/eslint/eslint/commit/b476a930bb3a6d644c482747d985f5da0d89e1e9) docs: Fix Keyboard Navigation for Search Results (#19416) (Amaresh  S M)
+* [`ccb60c0`](https://github.com/eslint/eslint/commit/ccb60c0b1452e73750e3734c9cd7c7b12c473827) docs: Update README (GitHub Actions Bot)
+
 v9.20.0 - February 7, 2025
 
 * [`979097a`](https://github.com/eslint/eslint/commit/979097a3b4c656e2d9faabd4a52010d6647911f6) chore: upgrade @eslint/js@9.20.0 (#19412) (Francesco Trotta)
