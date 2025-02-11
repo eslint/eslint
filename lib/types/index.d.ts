@@ -34,7 +34,8 @@ import type {
     TraversalStep,
     LanguageOptions as GenericLanguageOptions,
     RuleDefinition,
-    RuleContext as CoreRuleContext
+    RuleContext as CoreRuleContext,
+    RuleContextTypeOptions
 } from "@eslint/core";
 import { JSONSchema4 } from "json-schema";
 import { LegacyESLint } from "./use-at-your-own-risk.js";
@@ -800,7 +801,10 @@ export namespace Rule {
         hasSuggestions?: boolean | undefined;
     }
 
-    interface RuleContext extends CoreRuleContext {
+    interface RuleContext extends CoreRuleContext<RuleContextTypeOptions & {
+        LangOptions: Linter.LanguageOptions;
+        Code: SourceCode;
+        Node: ESTree.Node; }> {
         // report(descriptor: ReportDescriptor): void;
     }
 
