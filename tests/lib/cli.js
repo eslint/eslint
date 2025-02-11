@@ -2076,6 +2076,35 @@ describe("cli", () => {
                         ["a.js", "b.mjs", "c.cjs", "d.jsx", "eslint.config.js", "f.ts", "g.tsx"].map(filename => path.resolve(filename))
                     );
                 });
+
+                it('should fail when passing --ext ""', async () => {
+
+                    // When passing "" on command line, its corresponding item in process.argv[] is an empty string
+                    const exitCode = await cli.execute(["argv0", "argv1", "--ext", ""], null, true);
+
+                    assert.strictEqual(exitCode, 2, "exit code should be 2");
+                    assert.strictEqual(log.info.callCount, 0, "log.info should not be called");
+                    assert.strictEqual(log.error.callCount, 1, "log.error should be called once");
+                    assert.deepStrictEqual(log.error.firstCall.args[0], "The --ext option value cannot be empty.");
+                });
+
+                it("should fail when passing --ext ,ts", async () => {
+                    const exitCode = await cli.execute("--ext ,ts", null, true);
+
+                    assert.strictEqual(exitCode, 2, "exit code should be 2");
+                    assert.strictEqual(log.info.callCount, 0, "log.info should not be called");
+                    assert.strictEqual(log.error.callCount, 1, "log.error should be called once");
+                    assert.deepStrictEqual(log.error.firstCall.args[0], "The --ext option arguments cannot be empty strings. Found an empty string at index 0.");
+                });
+
+                it("should fail when passing --ext ts,,tsx", async () => {
+                    const exitCode = await cli.execute("--ext ts,,tsx", null, true);
+
+                    assert.strictEqual(exitCode, 2, "exit code should be 2");
+                    assert.strictEqual(log.info.callCount, 0, "log.info should not be called");
+                    assert.strictEqual(log.error.callCount, 1, "log.error should be called once");
+                    assert.deepStrictEqual(log.error.firstCall.args[0], "The --ext option arguments cannot be empty strings. Found an empty string at index 1.");
+                });
             });
 
             describe("unstable_config_lookup_from_file", () => {
