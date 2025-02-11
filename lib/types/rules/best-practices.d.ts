@@ -905,7 +905,6 @@ export interface BestPractices extends Linter.RulesRecord {
      * @since 9.0.0-alpha.1
      * @see https://eslint.org/docs/latest/rules/no-useless-assignment
      */
-    
     "no-useless-assignment": Linter.RuleEntry<[]>;
 
     /**
