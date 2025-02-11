@@ -1588,8 +1588,16 @@
             "name": "array-bracket-newline",
             "replacedBy": [
                 {
-                    "name": "array-bracket-newline",
-                    "url": "https://eslint.style/rules/js/array-bracket-newline"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "array-bracket-newline",
+                        "url": "https://eslint.style/rules/js/array-bracket-newline"
+                    }
                 }
             ],
             "fixable": true,
@@ -1599,8 +1607,16 @@
             "name": "array-bracket-spacing",
             "replacedBy": [
                 {
-                    "name": "array-bracket-spacing",
-                    "url": "https://eslint.style/rules/js/array-bracket-spacing"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "array-bracket-spacing",
+                        "url": "https://eslint.style/rules/js/array-bracket-spacing"
+                    }
                 }
             ],
             "fixable": true,
@@ -1610,8 +1626,16 @@
             "name": "array-element-newline",
             "replacedBy": [
                 {
-                    "name": "array-element-newline",
-                    "url": "https://eslint.style/rules/js/array-element-newline"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "array-element-newline",
+                        "url": "https://eslint.style/rules/js/array-element-newline"
+                    }
                 }
             ],
             "fixable": true,
@@ -1621,8 +1645,16 @@
             "name": "arrow-parens",
             "replacedBy": [
                 {
-                    "name": "arrow-parens",
-                    "url": "https://eslint.style/rules/js/arrow-parens"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "arrow-parens",
+                        "url": "https://eslint.style/rules/js/arrow-parens"
+                    }
                 }
             ],
             "fixable": true,
@@ -1632,8 +1664,16 @@
             "name": "arrow-spacing",
             "replacedBy": [
                 {
-                    "name": "arrow-parens",
-                    "url": "https://eslint.style/rules/js/arrow-parens"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "arrow-parens",
+                        "url": "https://eslint.style/rules/js/arrow-parens"
+                    }
                 }
             ],
             "fixable": true,
@@ -1643,8 +1683,16 @@
             "name": "block-spacing",
             "replacedBy": [
                 {
-                    "name": "block-spacing",
-                    "url": "https://eslint.style/rules/js/block-spacing"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "block-spacing",
+                        "url": "https://eslint.style/rules/js/block-spacing"
+                    }
                 }
             ],
             "fixable": true,
@@ -1654,8 +1702,16 @@
             "name": "brace-style",
             "replacedBy": [
                 {
-                    "name": "brace-style",
-                    "url": "https://eslint.style/rules/js/brace-style"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "brace-style",
+                        "url": "https://eslint.style/rules/js/brace-style"
+                    }
                 }
             ],
             "fixable": true,
@@ -1665,8 +1721,15 @@
             "name": "callback-return",
             "replacedBy": [
                 {
-                    "name": "callback-return",
-                    "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/callback-return.md"
+                    "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
+                    "plugin": {
+                        "name": "@eslint-community/eslint-plugin-n",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n"
+                    },
+                    "rule": {
+                        "name": "callback-return",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/callback-return.md"
+                    }
                 }
             ],
             "fixable": false,
@@ -1676,8 +1739,16 @@
             "name": "comma-dangle",
             "replacedBy": [
                 {
-                    "name": "comma-dangle",
-                    "url": "https://eslint.style/rules/js/comma-dangle"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "comma-dangle",
+                        "url": "https://eslint.style/rules/js/comma-dangle"
+                    }
                 }
             ],
             "fixable": true,
@@ -1687,8 +1758,16 @@
             "name": "comma-spacing",
             "replacedBy": [
                 {
-                    "name": "comma-spacing",
-                    "url": "https://eslint.style/rules/js/comma-spacing"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "comma-spacing",
+                        "url": "https://eslint.style/rules/js/comma-spacing"
+                    }
                 }
             ],
             "fixable": true,
@@ -1698,8 +1777,16 @@
             "name": "comma-style",
             "replacedBy": [
                 {
-                    "name": "comma-style",
-                    "url": "https://eslint.style/rules/js/comma-style"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "comma-style",
+                        "url": "https://eslint.style/rules/js/comma-style"
+                    }
                 }
             ],
             "fixable": true,
@@ -1709,8 +1796,16 @@
             "name": "computed-property-spacing",
             "replacedBy": [
                 {
-                    "name": "computed-property-spacing",
-                    "url": "https://eslint.style/rules/js/computed-property-spacing"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "computed-property-spacing",
+                        "url": "https://eslint.style/rules/js/computed-property-spacing"
+                    }
                 }
             ],
             "fixable": true,
@@ -1720,8 +1815,16 @@
             "name": "dot-location",
             "replacedBy": [
                 {
-                    "name": "dot-location",
-                    "url": "https://eslint.style/rules/js/dot-location"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "dot-location",
+                        "url": "https://eslint.style/rules/js/dot-location"
+                    }
                 }
             ],
             "fixable": true,
@@ -1731,8 +1834,16 @@
             "name": "eol-last",
             "replacedBy": [
                 {
-                    "name": "eol-last",
-                    "url": "https://eslint.style/rules/js/eol-last"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "eol-last",
+                        "url": "https://eslint.style/rules/js/eol-last"
+                    }
                 }
             ],
             "fixable": true,
@@ -1742,8 +1853,16 @@
             "name": "func-call-spacing",
             "replacedBy": [
                 {
-                    "name": "function-call-spacing",
-                    "url": "https://eslint.style/rules/js/function-call-spacing"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "function-call-spacing",
+                        "url": "https://eslint.style/rules/js/function-call-spacing"
+                    }
                 }
             ],
             "fixable": true,
@@ -1753,8 +1872,16 @@
             "name": "function-call-argument-newline",
             "replacedBy": [
                 {
-                    "name": "function-call-argument-newline",
-                    "url": "https://eslint.style/rules/js/function-call-argument-newline"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "function-call-argument-newline",
+                        "url": "https://eslint.style/rules/js/function-call-argument-newline"
+                    }
                 }
             ],
             "fixable": true,
@@ -1764,8 +1891,16 @@
             "name": "function-paren-newline",
             "replacedBy": [
                 {
-                    "name": "function-paren-newline",
-                    "url": "https://eslint.style/rules/js/function-paren-newline"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "function-paren-newline",
+                        "url": "https://eslint.style/rules/js/function-paren-newline"
+                    }
                 }
             ],
             "fixable": true,
@@ -1775,8 +1910,16 @@
             "name": "generator-star-spacing",
             "replacedBy": [
                 {
-                    "name": "generator-star-spacing",
-                    "url": "https://eslint.style/rules/js/generator-star-spacing"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "generator-star-spacing",
+                        "url": "https://eslint.style/rules/js/generator-star-spacing"
+                    }
                 }
             ],
             "fixable": true,
@@ -1786,8 +1929,15 @@
             "name": "global-require",
             "replacedBy": [
                 {
-                    "name": "global-require",
-                    "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/global-require.md"
+                    "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
+                    "plugin": {
+                        "name": "@eslint-community/eslint-plugin-n",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n"
+                    },
+                    "rule": {
+                        "name": "global-require",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/global-require.md"
+                    }
                 }
             ],
             "fixable": false,
@@ -1797,8 +1947,15 @@
             "name": "handle-callback-err",
             "replacedBy": [
                 {
-                    "name": "handle-callback-err",
-                    "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/handle-callback-err.md"
+                    "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
+                    "plugin": {
+                        "name": "@eslint-community/eslint-plugin-n",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n"
+                    },
+                    "rule": {
+                        "name": "handle-callback-err",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/handle-callback-err.md"
+                    }
                 }
             ],
             "fixable": false,
@@ -1808,8 +1965,10 @@
             "name": "id-blacklist",
             "replacedBy": [
                 {
-                    "name": "id-denylist",
-                    "url": "https://eslint.org/docs/rules/id-denylist"
+                    "rule": {
+                        "name": "id-denylist",
+                        "url": "https://eslint.org/docs/rules/id-denylist"
+                    }
                 }
             ],
             "fixable": false,
@@ -1819,8 +1978,16 @@
             "name": "implicit-arrow-linebreak",
             "replacedBy": [
                 {
-                    "name": "implicit-arrow-linebreak",
-                    "url": "https://eslint.style/rules/js/implicit-arrow-linebreak"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "implicit-arrow-linebreak",
+                        "url": "https://eslint.style/rules/js/implicit-arrow-linebreak"
+                    }
                 }
             ],
             "fixable": true,
@@ -1830,8 +1997,16 @@
             "name": "indent",
             "replacedBy": [
                 {
-                    "name": "indent",
-                    "url": "https://eslint.style/rules/js/indent"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "indent",
+                        "url": "https://eslint.style/rules/js/indent"
+                    }
                 }
             ],
             "fixable": true,
@@ -1841,8 +2016,16 @@
             "name": "indent-legacy",
             "replacedBy": [
                 {
-                    "name": "indent",
-                    "url": "https://eslint.style/rules/js/indent"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "indent",
+                        "url": "https://eslint.style/rules/js/indent"
+                    }
                 }
             ],
             "fixable": true,
@@ -1852,8 +2035,16 @@
             "name": "jsx-quotes",
             "replacedBy": [
                 {
-                    "name": "jsx-quotes",
-                    "url": "https://eslint.style/rules/js/jsx-quotes"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "jsx-quotes",
+                        "url": "https://eslint.style/rules/js/jsx-quotes"
+                    }
                 }
             ],
             "fixable": true,
@@ -1863,8 +2054,16 @@
             "name": "key-spacing",
             "replacedBy": [
                 {
-                    "name": "key-spacing",
-                    "url": "https://eslint.style/rules/js/key-spacing"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "key-spacing",
+                        "url": "https://eslint.style/rules/js/key-spacing"
+                    }
                 }
             ],
             "fixable": true,
@@ -1874,8 +2073,16 @@
             "name": "keyword-spacing",
             "replacedBy": [
                 {
-                    "name": "keyword-spacing",
-                    "url": "https://eslint.style/rules/js/keyword-spacing"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "keyword-spacing",
+                        "url": "https://eslint.style/rules/js/keyword-spacing"
+                    }
                 }
             ],
             "fixable": true,
@@ -1885,8 +2092,16 @@
             "name": "line-comment-position",
             "replacedBy": [
                 {
-                    "name": "line-comment-position",
-                    "url": "https://eslint.style/rules/js/line-comment-position"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "line-comment-position",
+                        "url": "https://eslint.style/rules/js/line-comment-position"
+                    }
                 }
             ],
             "fixable": false,
@@ -1896,8 +2111,16 @@
             "name": "linebreak-style",
             "replacedBy": [
                 {
-                    "name": "linebreak-style",
-                    "url": "https://eslint.style/rules/js/linebreak-style"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "linebreak-style",
+                        "url": "https://eslint.style/rules/js/linebreak-style"
+                    }
                 }
             ],
             "fixable": true,
@@ -1907,8 +2130,16 @@
             "name": "lines-around-comment",
             "replacedBy": [
                 {
-                    "name": "lines-around-comment",
-                    "url": "https://eslint.style/rules/js/lines-around-comment"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "lines-around-comment",
+                        "url": "https://eslint.style/rules/js/lines-around-comment"
+                    }
                 }
             ],
             "fixable": true,
@@ -1918,8 +2149,16 @@
             "name": "lines-around-directive",
             "replacedBy": [
                 {
-                    "name": "padding-line-between-statements",
-                    "url": "https://eslint.style/rules/js/padding-line-between-statements"
+                    "message": "The new rule moved to a plugin.",
+                    "url": "https://eslint.org/docs/latest/rules/padding-line-between-statements#examples",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "padding-line-between-statements",
+                        "url": "https://eslint.style/rules/js/padding-line-between-statements"
+                    }
                 }
             ],
             "fixable": true,
@@ -1929,8 +2168,16 @@
             "name": "lines-between-class-members",
             "replacedBy": [
                 {
-                    "name": "lines-between-class-members",
-                    "url": "https://eslint.style/rules/js/lines-between-class-members"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "lines-between-class-members",
+                        "url": "https://eslint.style/rules/js/lines-between-class-members"
+                    }
                 }
             ],
             "fixable": true,
@@ -1940,8 +2187,16 @@
             "name": "max-len",
             "replacedBy": [
                 {
-                    "name": "max-len",
-                    "url": "https://eslint.style/rules/js/max-len"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "max-len",
+                        "url": "https://eslint.style/rules/js/max-len"
+                    }
                 }
             ],
             "fixable": false,
@@ -1951,8 +2206,16 @@
             "name": "max-statements-per-line",
             "replacedBy": [
                 {
-                    "name": "max-statements-per-line",
-                    "url": "https://eslint.style/rules/js/max-statements-per-line"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "max-statements-per-line",
+                        "url": "https://eslint.style/rules/js/max-statements-per-line"
+                    }
                 }
             ],
             "fixable": false,
@@ -1962,8 +2225,16 @@
             "name": "multiline-comment-style",
             "replacedBy": [
                 {
-                    "name": "no-mixed-operators",
-                    "url": "https://eslint.style/rules/js/no-mixed-operators"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "no-mixed-operators",
+                        "url": "https://eslint.style/rules/js/no-mixed-operators"
+                    }
                 }
             ],
             "fixable": true,
@@ -1973,8 +2244,16 @@
             "name": "multiline-ternary",
             "replacedBy": [
                 {
-                    "name": "multiline-ternary",
-                    "url": "https://eslint.style/rules/js/multiline-ternary"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "multiline-ternary",
+                        "url": "https://eslint.style/rules/js/multiline-ternary"
+                    }
                 }
             ],
             "fixable": true,
@@ -1984,8 +2263,16 @@
             "name": "new-parens",
             "replacedBy": [
                 {
-                    "name": "new-parens",
-                    "url": "https://eslint.style/rules/js/new-parens"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "new-parens",
+                        "url": "https://eslint.style/rules/js/new-parens"
+                    }
                 }
             ],
             "fixable": true,
@@ -1995,8 +2282,16 @@
             "name": "newline-after-var",
             "replacedBy": [
                 {
-                    "name": "padding-line-between-statements",
-                    "url": "https://eslint.style/rules/js/padding-line-between-statements"
+                    "message": "The new rule moved to a plugin.",
+                    "url": "https://eslint.org/docs/latest/rules/padding-line-between-statements#examples",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "padding-line-between-statements",
+                        "url": "https://eslint.style/rules/js/padding-line-between-statements"
+                    }
                 }
             ],
             "fixable": true,
@@ -2006,8 +2301,16 @@
             "name": "newline-before-return",
             "replacedBy": [
                 {
-                    "name": "padding-line-between-statements",
-                    "url": "https://eslint.style/rules/js/padding-line-between-statements"
+                    "message": "The new rule moved to a plugin.",
+                    "url": "https://eslint.org/docs/latest/rules/padding-line-between-statements#examples",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "padding-line-between-statements",
+                        "url": "https://eslint.style/rules/js/padding-line-between-statements"
+                    }
                 }
             ],
             "fixable": true,
@@ -2017,8 +2320,16 @@
             "name": "newline-per-chained-call",
             "replacedBy": [
                 {
-                    "name": "newline-per-chained-call",
-                    "url": "https://eslint.style/rules/js/newline-per-chained-call"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "newline-per-chained-call",
+                        "url": "https://eslint.style/rules/js/newline-per-chained-call"
+                    }
                 }
             ],
             "fixable": true,
@@ -2028,8 +2339,15 @@
             "name": "no-buffer-constructor",
             "replacedBy": [
                 {
-                    "name": "no-buffer-constructor",
-                    "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-buffer-constructor.md"
+                    "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
+                    "plugin": {
+                        "name": "@eslint-community/eslint-plugin-n",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n"
+                    },
+                    "rule": {
+                        "name": "no-buffer-constructor",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-buffer-constructor.md"
+                    }
                 }
             ],
             "fixable": false,
@@ -2039,8 +2357,10 @@
             "name": "no-catch-shadow",
             "replacedBy": [
                 {
-                    "name": "no-shadow",
-                    "url": "https://eslint.org/docs/rules/no-shadow"
+                    "rule": {
+                        "name": "no-shadow",
+                        "url": "https://eslint.org/docs/rules/no-shadow"
+                    }
                 }
             ],
             "fixable": false,
@@ -2050,8 +2370,16 @@
             "name": "no-confusing-arrow",
             "replacedBy": [
                 {
-                    "name": "no-confusing-arrow",
-                    "url": "https://eslint.style/rules/js/no-confusing-arrow"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "no-confusing-arrow",
+                        "url": "https://eslint.style/rules/js/no-confusing-arrow"
+                    }
                 }
             ],
             "fixable": true,
@@ -2061,8 +2389,16 @@
             "name": "no-extra-parens",
             "replacedBy": [
                 {
-                    "name": "no-extra-parens",
-                    "url": "https://eslint.style/rules/js/no-extra-parens"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "no-extra-parens",
+                        "url": "https://eslint.style/rules/js/no-extra-parens"
+                    }
                 }
             ],
             "fixable": true,
@@ -2072,8 +2408,16 @@
             "name": "no-extra-semi",
             "replacedBy": [
                 {
-                    "name": "no-extra-semi",
-                    "url": "https://eslint.style/rules/js/no-extra-semi"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "no-extra-semi",
+                        "url": "https://eslint.style/rules/js/no-extra-semi"
+                    }
                 }
             ],
             "fixable": true,
@@ -2083,8 +2427,16 @@
             "name": "no-floating-decimal",
             "replacedBy": [
                 {
-                    "name": "no-floating-decimal",
-                    "url": "https://eslint.style/rules/js/no-floating-decimal"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "no-floating-decimal",
+                        "url": "https://eslint.style/rules/js/no-floating-decimal"
+                    }
                 }
             ],
             "fixable": true,
@@ -2094,8 +2446,16 @@
             "name": "no-mixed-operators",
             "replacedBy": [
                 {
-                    "name": "no-mixed-operators",
-                    "url": "https://eslint.style/rules/js/no-mixed-operators"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "no-mixed-operators",
+                        "url": "https://eslint.style/rules/js/no-mixed-operators"
+                    }
                 }
             ],
             "fixable": false,
@@ -2105,8 +2465,15 @@
             "name": "no-mixed-requires",
             "replacedBy": [
                 {
-                    "name": "no-mixed-requires",
-                    "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-mixed-requires.md"
+                    "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
+                    "plugin": {
+                        "name": "@eslint-community/eslint-plugin-n",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n"
+                    },
+                    "rule": {
+                        "name": "no-mixed-requires",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-mixed-requires.md"
+                    }
                 }
             ],
             "fixable": false,
@@ -2116,8 +2483,16 @@
             "name": "no-mixed-spaces-and-tabs",
             "replacedBy": [
                 {
-                    "name": "no-mixed-spaces-and-tabs",
-                    "url": "https://eslint.style/rules/js/no-mixed-spaces-and-tabs"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "no-mixed-spaces-and-tabs",
+                        "url": "https://eslint.style/rules/js/no-mixed-spaces-and-tabs"
+                    }
                 }
             ],
             "fixable": false,
@@ -2127,8 +2502,16 @@
             "name": "no-multi-spaces",
             "replacedBy": [
                 {
-                    "name": "no-multi-spaces",
-                    "url": "https://eslint.style/rules/js/no-multi-spaces"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "no-multi-spaces",
+                        "url": "https://eslint.style/rules/js/no-multi-spaces"
+                    }
                 }
             ],
             "fixable": true,
@@ -2138,8 +2521,16 @@
             "name": "no-multiple-empty-lines",
             "replacedBy": [
                 {
-                    "name": "no-multiple-empty-lines",
-                    "url": "https://eslint.style/rules/js/no-multiple-empty-lines"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "no-multiple-empty-lines",
+                        "url": "https://eslint.style/rules/js/no-multiple-empty-lines"
+                    }
                 }
             ],
             "fixable": true,
@@ -2149,8 +2540,10 @@
             "name": "no-native-reassign",
             "replacedBy": [
                 {
-                    "name": "no-global-assign",
-                    "url": "https://eslint.org/docs/rules/no-global-assign"
+                    "rule": {
+                        "name": "no-global-assign",
+                        "url": "https://eslint.org/docs/rules/no-global-assign"
+                    }
                 }
             ],
             "fixable": false,
@@ -2160,8 +2553,10 @@
             "name": "no-negated-in-lhs",
             "replacedBy": [
                 {
-                    "name": "no-unsafe-negation",
-                    "url": "https://eslint.org/docs/rules/no-unsafe-negation"
+                    "rule": {
+                        "name": "no-unsafe-negation",
+                        "url": "https://eslint.org/docs/rules/no-unsafe-negation"
+                    }
                 }
             ],
             "fixable": false,
@@ -2171,8 +2566,10 @@
             "name": "no-new-object",
             "replacedBy": [
                 {
-                    "name": "no-object-constructor",
-                    "url": "https://eslint.org/docs/rules/no-object-constructor"
+                    "rule": {
+                        "name": "no-object-constructor",
+                        "url": "https://eslint.org/docs/rules/no-object-constructor"
+                    }
                 }
             ],
             "fixable": false,
@@ -2182,8 +2579,15 @@
             "name": "no-new-require",
             "replacedBy": [
                 {
-                    "name": "no-new-require",
-                    "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-new-require.md"
+                    "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
+                    "plugin": {
+                        "name": "@eslint-community/eslint-plugin-n",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n"
+                    },
+                    "rule": {
+                        "name": "no-new-require",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-new-require.md"
+                    }
                 }
             ],
             "fixable": false,
@@ -2193,8 +2597,10 @@
             "name": "no-new-symbol",
             "replacedBy": [
                 {
-                    "name": "no-object-constructor",
-                    "url": "https://eslint.org/docs/latest/rules/no-object-constructor"
+                    "rule": {
+                        "name": "no-object-constructor",
+                        "url": "https://eslint.org/docs/latest/rules/no-object-constructor"
+                    }
                 }
             ],
             "fixable": false,
@@ -2204,8 +2610,15 @@
             "name": "no-path-concat",
             "replacedBy": [
                 {
-                    "name": "no-path-concat",
-                    "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-path-concat.md"
+                    "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
+                    "plugin": {
+                        "name": "@eslint-community/eslint-plugin-n",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n"
+                    },
+                    "rule": {
+                        "name": "no-path-concat",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-path-concat.md"
+                    }
                 }
             ],
             "fixable": false,
@@ -2215,8 +2628,15 @@
             "name": "no-process-env",
             "replacedBy": [
                 {
-                    "name": "no-process-env",
-                    "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-process-env.md"
+                    "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
+                    "plugin": {
+                        "name": "@eslint-community/eslint-plugin-n",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n"
+                    },
+                    "rule": {
+                        "name": "no-process-env",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-process-env.md"
+                    }
                 }
             ],
             "fixable": false,
@@ -2226,8 +2646,15 @@
             "name": "no-process-exit",
             "replacedBy": [
                 {
-                    "name": "no-process-exit",
-                    "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-process-exit.md"
+                    "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
+                    "plugin": {
+                        "name": "@eslint-community/eslint-plugin-n",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n"
+                    },
+                    "rule": {
+                        "name": "no-process-exit",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-process-exit.md"
+                    }
                 }
             ],
             "fixable": false,
@@ -2237,8 +2664,15 @@
             "name": "no-restricted-modules",
             "replacedBy": [
                 {
-                    "name": "no-restricted-modules",
-                    "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-restricted-modules.md"
+                    "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
+                    "plugin": {
+                        "name": "@eslint-community/eslint-plugin-n",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n"
+                    },
+                    "rule": {
+                        "name": "no-restricted-modules",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-restricted-modules.md"
+                    }
                 }
             ],
             "fixable": false,
@@ -2254,8 +2688,16 @@
             "name": "no-spaced-func",
             "replacedBy": [
                 {
-                    "name": "function-call-spacing",
-                    "url": "https://eslint.style/rules/js/function-call-spacing"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "function-call-spacing",
+                        "url": "https://eslint.style/rules/js/function-call-spacing"
+                    }
                 }
             ],
             "fixable": true,
@@ -2265,8 +2707,15 @@
             "name": "no-sync",
             "replacedBy": [
                 {
-                    "name": "no-sync",
-                    "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-sync.md"
+                    "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
+                    "plugin": {
+                        "name": "@eslint-community/eslint-plugin-n",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n"
+                    },
+                    "rule": {
+                        "name": "no-sync",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-sync.md"
+                    }
                 }
             ],
             "fixable": false,
@@ -2276,8 +2725,16 @@
             "name": "no-tabs",
             "replacedBy": [
                 {
-                    "name": "no-tabs",
-                    "url": "https://eslint.style/rules/js/no-tabs"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "no-tabs",
+                        "url": "https://eslint.style/rules/js/no-tabs"
+                    }
                 }
             ],
             "fixable": false,
@@ -2287,8 +2744,16 @@
             "name": "no-trailing-spaces",
             "replacedBy": [
                 {
-                    "name": "no-trailing-spaces",
-                    "url": "https://eslint.style/rules/js/no-trailing-spaces"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "no-trailing-spaces",
+                        "url": "https://eslint.style/rules/js/no-trailing-spaces"
+                    }
                 }
             ],
             "fixable": true,
@@ -2298,8 +2763,16 @@
             "name": "no-whitespace-before-property",
             "replacedBy": [
                 {
-                    "name": "no-whitespace-before-property",
-                    "url": "https://eslint.style/rules/js/no-whitespace-before-property"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "no-whitespace-before-property",
+                        "url": "https://eslint.style/rules/js/no-whitespace-before-property"
+                    }
                 }
             ],
             "fixable": true,
@@ -2309,8 +2782,16 @@
             "name": "nonblock-statement-body-position",
             "replacedBy": [
                 {
-                    "name": "nonblock-statement-body-position",
-                    "url": "https://eslint.style/rules/js/nonblock-statement-body-position"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "nonblock-statement-body-position",
+                        "url": "https://eslint.style/rules/js/nonblock-statement-body-position"
+                    }
                 }
             ],
             "fixable": true,
@@ -2320,8 +2801,16 @@
             "name": "object-curly-newline",
             "replacedBy": [
                 {
-                    "name": "object-curly-newline",
-                    "url": "https://eslint.style/rules/js/object-curly-newline"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "object-curly-newline",
+                        "url": "https://eslint.style/rules/js/object-curly-newline"
+                    }
                 }
             ],
             "fixable": true,
@@ -2331,8 +2820,16 @@
             "name": "object-curly-spacing",
             "replacedBy": [
                 {
-                    "name": "object-curly-spacing",
-                    "url": "https://eslint.style/rules/js/object-curly-spacing"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "object-curly-spacing",
+                        "url": "https://eslint.style/rules/js/object-curly-spacing"
+                    }
                 }
             ],
             "fixable": true,
@@ -2342,8 +2839,16 @@
             "name": "object-property-newline",
             "replacedBy": [
                 {
-                    "name": "object-property-newline",
-                    "url": "https://eslint.style/rules/js/object-property-newline"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "object-property-newline",
+                        "url": "https://eslint.style/rules/js/object-property-newline"
+                    }
                 }
             ],
             "fixable": true,
@@ -2353,8 +2858,16 @@
             "name": "one-var-declaration-per-line",
             "replacedBy": [
                 {
-                    "name": "one-var-declaration-per-line",
-                    "url": "https://eslint.style/rules/js/one-var-declaration-per-line"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "one-var-declaration-per-line",
+                        "url": "https://eslint.style/rules/js/one-var-declaration-per-line"
+                    }
                 }
             ],
             "fixable": true,
@@ -2364,8 +2877,16 @@
             "name": "operator-linebreak",
             "replacedBy": [
                 {
-                    "name": "operator-linebreak",
-                    "url": "https://eslint.style/rules/js/operator-linebreak"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "operator-linebreak",
+                        "url": "https://eslint.style/rules/js/operator-linebreak"
+                    }
                 }
             ],
             "fixable": true,
@@ -2375,8 +2896,16 @@
             "name": "padded-blocks",
             "replacedBy": [
                 {
-                    "name": "padded-blocks",
-                    "url": "https://eslint.style/rules/js/padded-blocks"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "padded-blocks",
+                        "url": "https://eslint.style/rules/js/padded-blocks"
+                    }
                 }
             ],
             "fixable": true,
@@ -2386,8 +2915,16 @@
             "name": "padding-line-between-statements",
             "replacedBy": [
                 {
-                    "name": "padding-line-between-statements",
-                    "url": "https://eslint.style/rules/js/padding-line-between-statements"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "padding-line-between-statements",
+                        "url": "https://eslint.style/rules/js/padding-line-between-statements"
+                    }
                 }
             ],
             "fixable": true,
@@ -2403,8 +2940,16 @@
             "name": "quote-props",
             "replacedBy": [
                 {
-                    "name": "quote-props",
-                    "url": "https://eslint.style/rules/js/quote-props"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "quote-props",
+                        "url": "https://eslint.style/rules/js/quote-props"
+                    }
                 }
             ],
             "fixable": true,
@@ -2414,8 +2959,16 @@
             "name": "quotes",
             "replacedBy": [
                 {
-                    "name": "quotes",
-                    "url": "https://eslint.style/rules/js/quotes"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "quotes",
+                        "url": "https://eslint.style/rules/js/quotes"
+                    }
                 }
             ],
             "fixable": true,
@@ -2425,8 +2978,16 @@
             "name": "rest-spread-spacing",
             "replacedBy": [
                 {
-                    "name": "rest-spread-spacing",
-                    "url": "https://eslint.style/rules/js/rest-spread-spacing"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "rest-spread-spacing",
+                        "url": "https://eslint.style/rules/js/rest-spread-spacing"
+                    }
                 }
             ],
             "fixable": true,
@@ -2436,8 +2997,16 @@
             "name": "semi",
             "replacedBy": [
                 {
-                    "name": "semi",
-                    "url": "https://eslint.style/rules/js/semi"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "semi",
+                        "url": "https://eslint.style/rules/js/semi"
+                    }
                 }
             ],
             "fixable": true,
@@ -2447,8 +3016,16 @@
             "name": "semi-spacing",
             "replacedBy": [
                 {
-                    "name": "semi-spacing",
-                    "url": "https://eslint.style/rules/js/semi-spacing"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "semi-spacing",
+                        "url": "https://eslint.style/rules/js/semi-spacing"
+                    }
                 }
             ],
             "fixable": true,
@@ -2458,8 +3035,16 @@
             "name": "semi-style",
             "replacedBy": [
                 {
-                    "name": "semi-style",
-                    "url": "https://eslint.style/rules/js/semi-style"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "semi-style",
+                        "url": "https://eslint.style/rules/js/semi-style"
+                    }
                 }
             ],
             "fixable": true,
@@ -2469,8 +3054,16 @@
             "name": "space-before-blocks",
             "replacedBy": [
                 {
-                    "name": "space-before-blocks",
-                    "url": "https://eslint.style/rules/js/space-before-blocks"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "space-before-blocks",
+                        "url": "https://eslint.style/rules/js/space-before-blocks"
+                    }
                 }
             ],
             "fixable": true,
@@ -2480,8 +3073,16 @@
             "name": "space-before-function-paren",
             "replacedBy": [
                 {
-                    "name": "space-before-function-paren",
-                    "url": "https://eslint.style/rules/js/space-before-function-paren"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "space-before-function-paren",
+                        "url": "https://eslint.style/rules/js/space-before-function-paren"
+                    }
                 }
             ],
             "fixable": true,
@@ -2491,8 +3092,16 @@
             "name": "space-in-parens",
             "replacedBy": [
                 {
-                    "name": "space-in-parens",
-                    "url": "https://eslint.style/rules/js/space-in-parens"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "space-in-parens",
+                        "url": "https://eslint.style/rules/js/space-in-parens"
+                    }
                 }
             ],
             "fixable": true,
@@ -2502,8 +3111,16 @@
             "name": "space-infix-ops",
             "replacedBy": [
                 {
-                    "name": "space-infix-ops",
-                    "url": "https://eslint.style/rules/js/space-infix-ops"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "space-infix-ops",
+                        "url": "https://eslint.style/rules/js/space-infix-ops"
+                    }
                 }
             ],
             "fixable": true,
@@ -2513,8 +3130,16 @@
             "name": "space-unary-ops",
             "replacedBy": [
                 {
-                    "name": "space-unary-ops",
-                    "url": "https://eslint.style/rules/js/space-unary-ops"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "space-unary-ops",
+                        "url": "https://eslint.style/rules/js/space-unary-ops"
+                    }
                 }
             ],
             "fixable": true,
@@ -2524,8 +3149,16 @@
             "name": "spaced-comment",
             "replacedBy": [
                 {
-                    "name": "spaced-comment",
-                    "url": "https://eslint.style/rules/js/spaced-comment"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "spaced-comment",
+                        "url": "https://eslint.style/rules/js/spaced-comment"
+                    }
                 }
             ],
             "fixable": true,
@@ -2535,8 +3168,16 @@
             "name": "switch-colon-spacing",
             "replacedBy": [
                 {
-                    "name": "switch-colon-spacing",
-                    "url": "https://eslint.style/rules/js/switch-colon-spacing"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "switch-colon-spacing",
+                        "url": "https://eslint.style/rules/js/switch-colon-spacing"
+                    }
                 }
             ],
             "fixable": true,
@@ -2546,8 +3187,16 @@
             "name": "template-curly-spacing",
             "replacedBy": [
                 {
-                    "name": "template-curly-spacing",
-                    "url": "https://eslint.style/rules/js/template-curly-spacing"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "template-curly-spacing",
+                        "url": "https://eslint.style/rules/js/template-curly-spacing"
+                    }
                 }
             ],
             "fixable": true,
@@ -2557,8 +3206,16 @@
             "name": "template-tag-spacing",
             "replacedBy": [
                 {
-                    "name": "template-tag-spacing",
-                    "url": "https://eslint.style/rules/js/template-tag-spacing"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "template-tag-spacing",
+                        "url": "https://eslint.style/rules/js/template-tag-spacing"
+                    }
                 }
             ],
             "fixable": true,
@@ -2568,8 +3225,16 @@
             "name": "wrap-iife",
             "replacedBy": [
                 {
-                    "name": "wrap-iife",
-                    "url": "https://eslint.style/rules/js/wrap-iife"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "wrap-iife",
+                        "url": "https://eslint.style/rules/js/wrap-iife"
+                    }
                 }
             ],
             "fixable": true,
@@ -2579,8 +3244,16 @@
             "name": "wrap-regex",
             "replacedBy": [
                 {
-                    "name": "wrap-regex",
-                    "url": "https://eslint.style/rules/js/wrap-regex"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "wrap-regex",
+                        "url": "https://eslint.style/rules/js/wrap-regex"
+                    }
                 }
             ],
             "fixable": true,
@@ -2590,8 +3263,16 @@
             "name": "yield-star-spacing",
             "replacedBy": [
                 {
-                    "name": "yield-star-spacing",
-                    "url": "https://eslint.style/rules/js/yield-star-spacing"
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin-js",
+                        "url": "https://eslint.style/packages/js"
+                    },
+                    "rule": {
+                        "name": "yield-star-spacing",
+                        "url": "https://eslint.style/rules/js/yield-star-spacing"
+                    }
                 }
             ],
             "fixable": true,

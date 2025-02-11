@@ -3,5 +3,8 @@
 {%- endmacro -%}
 
 {%- macro externalRuleList(params) -%}
-    {% for specifier in params.specifiers %}<a href="{{ specifier.url | url }}" class="rule-list-item"><code>{{ specifier.name }}</code></a>{% endfor %}
+    {% for specifier in params.specifiers %}
+        <a href="{{ specifier.rule.url | url }}" class="rule-list-item"><code>{{ specifier.rule.name }}</code></a>
+        {% if specifier.plugin %}<span> in <a href="{{ specifier.plugin.url | url }}"><code>{{ specifier.plugin.name }}</code></a> {% endif %}
+    {% endfor %}
 {%- endmacro -%}
