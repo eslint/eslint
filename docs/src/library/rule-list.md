@@ -10,16 +10,16 @@ The rule list is a macro defined in `components/rule-list.macro.html`. The macro
 
 ```html
 <!-- import the macro -->
-{% from 'components/rule-list.macro.html' import ruleList %}
+{% from 'components/rule-list.macro.html' import replacementRuleList %}
 
 <!-- use the macro -->
-{{ ruleList({ rules: ['accessor-pairs', 'no-undef'] }) }}
+{{ replacementRuleList({ specifiers: [{ rule: { name: 'global-require', url: '...' }, plugin: { name: '@eslint-comunnity/eslint-plugin-n', url: '...' } }] }) }}
 ```
 
 {% endraw %}
 
 ## Examples
 
-{% from 'components/rule-list.macro.html' import ruleList %}
+{% from 'components/rule-list.macro.html' import replacementRuleList %}
 
-{{ ruleList({ rules: ['accessor-pairs', 'no-undef'] }) }}
+{{ replacementRuleList({ specifiers: [{ rule: { name: 'global-require', url: '...' }, plugin: { name: '@eslint-comunnity/eslint-plugin-n', url: '...' } }] }) }}
