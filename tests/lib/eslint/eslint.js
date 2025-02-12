@@ -3876,6 +3876,75 @@ describe("ESLint", () => {
 
                 });
 
+                // https://github.com/eslint/markdown/blob/main/rfcs/configure-file-name-from-block-meta.md#name-uniqueness
+                it("should allow processors to return filenames with a slash and treat them as subpaths", async () => {
+                    eslint = new ESLint({
+                        flags,
+                        overrideConfigFile: true,
+                        overrideConfig: [
+                            {
+                                plugins: {
+                                    test: {
+                                        processors: {
+                                            txt: {
+                                                preprocess(input) {
+                                                    return input.split(" ").map((text, index) => ({
+                                                        filename: `example-${index}/a.js`,
+                                                        text
+                                                    }));
+                                                },
+                                                postprocess(messagesList) {
+                                                    return messagesList.flat();
+                                                }
+                                            }
+                                        },
+                                        rules: {
+                                            "test-rule": {
+                                                meta: {},
+                                                create(context) {
+                                                    return {
+                                                        Identifier(node) {
+                                                            context.report({
+                                                                node,
+                                                                message: `filename: ${context.filename} physicalFilename: ${context.physicalFilename} identifier: ${node.name}`
+                                                            });
+                                                        }
+                                                    };
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                files: ["**/*.txt"],
+                                processor: "test/txt"
+                            },
+                            {
+                                files: ["**/a.js"],
+                                rules: {
+                                    "test/test-rule": "error"
+                                }
+                            }
+                        ],
+                        cwd: path.join(fixtureDir, "..")
+                    });
+                    const filename = getFixturePath("processors", "test", "test-subpath.txt");
+                    const [result] = await eslint.lintFiles([filename]);
+
+                    assert.strictEqual(result.messages.length, 3);
+
+                    assert.strictEqual(result.messages[0].ruleId, "test/test-rule");
+                    assert.strictEqual(result.messages[0].message, `filename: ${path.join(filename, "0_example-0", "a.js")} physicalFilename: ${filename} identifier: foo`);
+                    assert.strictEqual(result.messages[1].ruleId, "test/test-rule");
+                    assert.strictEqual(result.messages[1].message, `filename: ${path.join(filename, "1_example-1", "a.js")} physicalFilename: ${filename} identifier: bar`);
+                    assert.strictEqual(result.messages[2].ruleId, "test/test-rule");
+                    assert.strictEqual(result.messages[2].message, `filename: ${path.join(filename, "2_example-2", "a.js")} physicalFilename: ${filename} identifier: baz`);
+
+                    assert.strictEqual(result.suppressedMessages.length, 0);
+
+                });
+
                 describe("autofixing with processors", () => {
                     const HTML_PROCESSOR = Object.freeze({
                         preprocess(text) {
