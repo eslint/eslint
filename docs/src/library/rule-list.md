@@ -1,8 +1,8 @@
 ---
-title: Rule list
+title: Replacement Rule list
 ---
 
-The rule list is a macro defined in `components/rule-list.macro.html`. The macro accepts a list of rule names and renders comma-separated links.
+The rule list is a macro defined in `components/rule-list.macro.html`. The macro accepts a list of `ReplacedByInfo` and renders them as or-separated links.
 
 ## Usage
 
