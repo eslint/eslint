@@ -16,13 +16,13 @@ In JavaScript regular expressions, it's syntactically valid to define a backrefe
 Backreferences that always successfully match zero-length and cannot match anything else are useless. They are basically ignored and can be removed without changing the behavior of the regular expression.
 
 ```js
-var regex = /^(?:(a)|\1b)$/;
+const regex = /^(?:(a)|\1b)$/;
 
 regex.test("a"); // true
 regex.test("b"); // true!
 regex.test("ab"); // false
 
-var equivalentRegex = /^(?:(a)|b)$/;
+const equivalentRegex = /^(?:(a)|b)$/;
 
 equivalentRegex.test("a"); // true
 equivalentRegex.test("b"); // true

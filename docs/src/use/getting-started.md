@@ -102,6 +102,17 @@ It is also possible to install ESLint globally, rather than locally, using `npm 
 
 You can also manually set up ESLint in your project.
 
+::: important
+If you are using [pnpm](https://pnpm.io), be sure to create a `.npmrc` file with at least the following settings:
+
+```text
+auto-install-peers=true
+node-linker=hoisted
+```
+
+This ensures that pnpm installs dependencies in a way that is more compatible with npm and is less likely to produce errors.
+:::
+
 Before you begin, you must already have a `package.json` file. If you don't, make sure to run `npm init` or `yarn init` to create the file beforehand.
 
 1. Install the ESLint packages in your project:
@@ -112,14 +123,14 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
     args: ["--save-dev"]
 }) }}
 
-1. Add an `eslint.config.js` file:
+2. Add an `eslint.config.js` file:
 
    ```shell
    # Create JavaScript configuration file
    touch eslint.config.js
    ```
 
-1. Add configuration to the `eslint.config.js` file. Refer to the [Configure ESLint documentation](configure/) to learn how to add rules, custom configurations, plugins, and more.
+3. Add configuration to the `eslint.config.js` file. Refer to the [Configure ESLint documentation](configure/) to learn how to add rules, custom configurations, plugins, and more.
 
    ```js
    import pluginJs from "@eslint/js";
@@ -136,7 +147,7 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
    ];
    ```
 
-1. Lint code using the ESLint CLI:
+4. Lint code using the ESLint CLI:
 
 {{ npx_tabs({
     package: "eslint",

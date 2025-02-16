@@ -13,16 +13,16 @@ Here are some examples:
 
 ```js
 // Bad
-var isYes = answer === 1 ? true : false;
+const isYes = answer === 1 ? true : false;
 
 // Good
-var isYes = answer === 1;
+const isYes = answer === 1;
 
 // Bad
-var isNo = answer === 1 ? false : true;
+const isNo = answer === 1 ? false : true;
 
 // Good
-var isNo = answer !== 1;
+const isNo = answer !== 1;
 ```
 
 Another common mistake is using a single variable as both the conditional test and the consequent. In such cases, the logical `OR` can be used to provide the same functionality.
@@ -47,9 +47,9 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-unneeded-ternary: "error"*/
 
-var a = x === 2 ? true : false;
+const a = x === 2 ? true : false;
 
-var a = x ? true : false;
+const b = x ? true : false;
 ```
 
 :::
@@ -61,13 +61,13 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-unneeded-ternary: "error"*/
 
-var a = x === 2 ? "Yes" : "No";
+const a = x === 2 ? "Yes" : "No";
 
-var a = x !== false;
+const b = x !== false;
 
-var a = x ? "Yes" : "No";
+const c = x ? "Yes" : "No";
 
-var a = x ? y : x;
+const d = x ? y : x;
 
 f(x ? x : 1); // default assignment - would be disallowed if defaultAssignment option set to false. See option details below.
 ```
@@ -92,7 +92,7 @@ Examples of additional **incorrect** code for this rule with the `{ "defaultAssi
 ```js
 /*eslint no-unneeded-ternary: ["error", { "defaultAssignment": false }]*/
 
-var a = x ? x : 1;
+const a = x ? x : 1;
 
 f(x ? x : 1);
 ```

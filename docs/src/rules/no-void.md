@@ -43,7 +43,7 @@ foo = undefined;
 When used with IIFE (immediately-invoked function expression), `void` can be used to force the function keyword to be treated as an expression instead of a declaration:
 
 ```js
-var foo = 1;
+let foo = 1;
 void function(){ foo = 1; }() // will assign foo a value of 1
 +function(){ foo = 1; }() // same as above
 ```
@@ -68,7 +68,7 @@ Examples of **incorrect** code for this rule:
 void foo
 void someFunction();
 
-var foo = void bar();
+const foo = void bar();
 function baz() {
     return void 0;
 }
@@ -93,7 +93,7 @@ Examples of **incorrect** code for `{ "allowAsStatement": true }`:
 ```js
 /*eslint no-void: ["error", { "allowAsStatement": true }]*/
 
-var foo = void bar();
+const foo = void bar();
 function baz() {
     return void 0;
 }

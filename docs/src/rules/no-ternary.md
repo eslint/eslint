@@ -10,7 +10,7 @@ related_rules:
 The ternary operator is used to conditionally assign a value to a variable. Some believe that the use of ternary operators leads to unclear code.
 
 ```js
-var foo = isBar ? baz : qux;
+const foo = isBar ? baz : qux;
 ```
 
 ## Rule Details
@@ -24,7 +24,7 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-ternary: "error"*/
 
-var foo = isBar ? baz : qux;
+const foo = isBar ? baz : qux;
 
 function quux() {
   return foo ? bar() : baz();
@@ -40,7 +40,7 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-ternary: "error"*/
 
-var foo;
+let foo;
 
 if (isBar) {
     foo = baz;

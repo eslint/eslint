@@ -7,7 +7,7 @@ rule_type: suggestion
 The use of bitwise operators in JavaScript is very rare and often `&` or `|` is simply a mistyped `&&` or `||`, which will lead to unexpected behavior.
 
 ```js
-var x = y | z;
+const x = y | z;
 ```
 
 ## Rule Details
@@ -21,19 +21,19 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-bitwise: "error"*/
 
-var x = y | z;
+let x = y | z;
 
-var x = y & z;
+const x1 = y & z;
 
-var x = y ^ z;
+const x2 = y ^ z;
 
-var x = ~ z;
+const x3 = ~ z;
 
-var x = y << z;
+const x4 = y << z;
 
-var x = y >> z;
+const x5 = y >> z;
 
-var x = y >>> z;
+const x6 = y >>> z;
 
 x |= y;
 
@@ -57,13 +57,13 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-bitwise: "error"*/
 
-var x = y || z;
+let x = y || z;
 
-var x = y && z;
+const x1 = y && z;
 
-var x = y > z;
+const x2 = y > z;
 
-var x = y < z;
+const x3 = y < z;
 
 x += y;
 ```
@@ -100,7 +100,7 @@ Examples of **correct** code for this rule with the `{ "int32Hint": true }` opti
 ```js
 /*eslint no-bitwise: ["error", { "int32Hint": true }] */
 
-var b = a|0;
+const b = a|0;
 ```
 
 :::

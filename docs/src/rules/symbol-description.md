@@ -9,16 +9,16 @@ further_reading:
 The `Symbol` function may have an optional description:
 
 ```js
-var foo = Symbol("some description");
+const foo = Symbol("some description");
 
-var someString = "some description";
-var bar = Symbol(someString);
+const someString = "some description";
+const bar = Symbol(someString);
 ```
 
 Using `description` promotes easier debugging: when a symbol is logged the description is used:
 
 ```js
-var foo = Symbol("some description");
+const foo = Symbol("some description");
 
 > console.log(foo);
 // Symbol(some description)
@@ -39,7 +39,7 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint symbol-description: "error"*/
 
-var foo = Symbol();
+const foo = Symbol();
 ```
 
 :::
@@ -51,10 +51,10 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint symbol-description: "error"*/
 
-var foo = Symbol("some description");
+const foo = Symbol("some description");
 
-var someString = "some description";
-var bar = Symbol(someString);
+const someString = "some description";
+const bar = Symbol(someString);
 ```
 
 :::

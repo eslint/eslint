@@ -41,18 +41,21 @@ Examples of **correct** code for this rule:
 
 // 丈 Non-Latin character at beginning of comment
 
-/* eslint semi:off */
-/* eslint-disable */
-/* eslint-enable */
 /* istanbul ignore next */
 /* jscs:enable */
 /* jshint asi:true */
 /* global foo */
 /* globals foo */
 /* exported myVar */
-// eslint-disable-line
-// eslint-disable-next-line
 // https://github.com
+
+/* eslint semi:2 */
+/* eslint-disable */
+foo
+/* eslint-enable */
+// eslint-disable-next-line
+baz
+bar // eslint-disable-line
 
 ```
 
@@ -116,18 +119,21 @@ Examples of **correct** code for this rule:
 
 // 丈 Non-Latin character at beginning of comment
 
-/* eslint semi:off */
-/* eslint-disable */
-/* eslint-enable */
 /* istanbul ignore next */
 /* jscs:enable */
 /* jshint asi:true */
 /* global foo */
 /* globals foo */
 /* exported myVar */
-// eslint-disable-line
-// eslint-disable-next-line
 // https://github.com
+
+/* eslint semi:2 */
+/* eslint-disable */
+foo
+/* eslint-enable */
+// eslint-disable-next-line
+baz
+bar // eslint-disable-line
 
 ```
 

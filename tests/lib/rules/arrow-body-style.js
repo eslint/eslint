@@ -535,6 +535,14 @@ ruleTester.run("arrow-body-style", rule, {
             ]
         },
         {
+            code: "var foo = () => { bar };",
+            output: null, // not fixed
+            options: ["never"],
+            errors: [
+                { line: 1, column: 17, type: "ArrowFunctionExpression", messageId: "unexpectedOtherBlock" }
+            ]
+        },
+        {
             code: "var foo = () => { return 0; };",
             output: "var foo = () => 0;",
             options: ["as-needed", { requireReturnForObjectLiteral: true }],

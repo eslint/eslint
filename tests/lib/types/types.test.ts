@@ -484,7 +484,7 @@ rule = {
 };
 
 rule = {
-    create(context) {
+    create(context: Rule.RuleContext) {
         context.getAncestors();
 
         context.getDeclaredVariables(AST);
@@ -501,9 +501,14 @@ rule = {
 
         context.getCwd();
 
+        context.languageOptions;
+        context.languageOptions.ecmaVersion satisfies Linter.LanguageOptions["ecmaVersion"];
+
         context.sourceCode;
+        context.sourceCode.getLocFromIndex(42);
 
         context.getSourceCode();
+        context.getSourceCode().getLocFromIndex(42);
 
         context.getScope();
 
@@ -515,8 +520,11 @@ rule = {
 
         context.markVariableAsUsed("foo");
 
+        // @ts-expect-error wrong `node` type
+        context.report({ message: "foo", node: {} });
+
         context.report({ message: "foo", node: AST });
-        context.report({ message: "foo", loc: { line: 0, column: 0 } });
+        context.report({ message: "foo", loc: { start: {line: 0, column: 0}, end: { line: 1, column: 1 } } });
         context.report({ message: "foo", node: AST, data: { foo: "bar" } });
         context.report({ message: "foo", node: AST, fix: () => null });
         context.report({ message: "foo", node: AST, fix: ruleFixer => ruleFixer.replaceText(AST, "foo") });

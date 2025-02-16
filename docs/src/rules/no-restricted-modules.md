@@ -77,8 +77,8 @@ Examples of **incorrect** code for this rule  with sample `"fs", "cluster", "lod
 ```js
 /*eslint no-restricted-modules: ["error", "fs", "cluster"]*/
 
-var fs = require('fs');
-var cluster = require('cluster');
+const fs = require('fs');
+const cluster = require('cluster');
 ```
 
 :::
@@ -88,7 +88,7 @@ var cluster = require('cluster');
 ```js
 /*eslint no-restricted-modules: ["error", {"paths": ["cluster"] }]*/
 
-var cluster = require('cluster');
+const cluster = require('cluster');
 ```
 
 :::
@@ -98,7 +98,7 @@ var cluster = require('cluster');
 ```js
 /*eslint no-restricted-modules: ["error", { "patterns": ["lodash/*"] }]*/
 
-var pick = require('lodash/pick');
+const pick = require('lodash/pick');
 ```
 
 :::
@@ -110,7 +110,7 @@ Examples of **correct** code for this rule with sample `"fs", "cluster", "lodash
 ```js
 /*eslint no-restricted-modules: ["error", "fs", "cluster"]*/
 
-var crypto = require('crypto');
+const crypto = require('crypto');
 ```
 
 :::
@@ -123,8 +123,8 @@ var crypto = require('crypto');
     "patterns": ["lodash/*", "!lodash/pick"]
 }]*/
 
-var crypto = require('crypto');
-var pick = require('lodash/pick');
+const crypto = require('crypto');
+const pick = require('lodash/pick');
 ```
 
 :::

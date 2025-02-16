@@ -8,7 +8,7 @@ rule_type: problem
 The optional chaining (`?.`) expression can short-circuit with a return value of `undefined`. Therefore, treating an evaluated optional chaining expression as a function, object, number, etc., can cause TypeError or unexpected results. For example:
 
 ```js
-var obj = undefined;
+const obj = undefined;
 
 1 in obj?.foo;  // TypeError
 with (obj?.foo);  // TypeError
@@ -20,7 +20,7 @@ const { bar } = obj?.foo;  // TypeError
 Also, parentheses limit the scope of short-circuiting in chains. For example:
 
 ```js
-var obj = undefined;
+const obj = undefined;
 
 (obj?.foo)(); // TypeError
 (obj?.foo).bar; // TypeError
@@ -77,7 +77,7 @@ with (obj?.foo);
 
 class A extends obj?.foo {}
 
-var a = class A extends obj?.foo {};
+const a = class A extends obj?.foo {};
 
 async function foo () {
     const { bar } = await obj?.foo;
@@ -111,7 +111,7 @@ foo?.()?.bar;
 
 new (obj?.foo ?? bar)();
 
-var baz = {...obj?.foo};
+const baz = {...obj?.foo};
 
 const { bar } = obj?.foo || baz;
 

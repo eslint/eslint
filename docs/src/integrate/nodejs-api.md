@@ -143,7 +143,7 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
 * `options.baseConfig` (`ConfigData | ConfigData[] | null`)<br>
   Default is `null`. [Configuration object], extended by all configurations used with this instance. You can use this option to define the default settings that will be used if your configuration files don't configure it.
 * `options.overrideConfig` (`ConfigData | ConfigData[] | null`)<br>
-  Default is `null`. [Configuration object], overrides all configurations used with this instance. You can use this option to define the settings that will be used even if your configuration files configure it.
+  Default is `null`. [Configuration object], added after any existing configuration and therefore applies after what's contained in your configuration file (if used).
 * `options.overrideConfigFile` (`null | true | string`)<br>
   Default is `null`. By default, ESLint searches for a configuration file. When this option is set to `true`, ESLint does not search for a configuration file. When this option is set to a `string` value, ESLint does not search for a configuration file, and uses the provided value as the path to the configuration file.
 * `options.plugins` (`Record<string, Plugin> | null`)<br>

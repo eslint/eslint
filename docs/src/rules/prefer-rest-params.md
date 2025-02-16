@@ -29,12 +29,12 @@ function foo() {
 }
 
 function foo(action) {
-    var args = Array.prototype.slice.call(arguments, 1);
+    const args = Array.prototype.slice.call(arguments, 1);
     action.apply(null, args);
 }
 
 function foo(action) {
-    var args = [].slice.call(arguments, 1);
+    const args = [].slice.call(arguments, 1);
     action.apply(null, args);
 }
 ```
@@ -61,7 +61,7 @@ function foo(arguments) {
     console.log(arguments); // This is the first argument.
 }
 function foo() {
-    var arguments = 0;
+    const arguments = 0;
     console.log(arguments); // This is a local variable.
 }
 ```

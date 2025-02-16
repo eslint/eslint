@@ -7,8 +7,8 @@ rule_type: suggestion
 Because the unary `++` and `--` operators are subject to automatic semicolon insertion, differences in whitespace can change semantics of source code.
 
 ```js
-var i = 10;
-var j = 20;
+let i = 10;
+let j = 20;
 
 i ++
 j
@@ -16,8 +16,8 @@ j
 ```
 
 ```js
-var i = 10;
-var j = 20;
+let i = 10;
+let j = 20;
 
 i
 ++
@@ -36,10 +36,10 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-plusplus: "error"*/
 
-var foo = 0;
+let foo = 0;
 foo++;
 
-var bar = 42;
+let bar = 42;
 bar--;
 
 for (i = 0; i < l; i++) {
@@ -56,10 +56,10 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-plusplus: "error"*/
 
-var foo = 0;
+let foo = 0;
 foo += 1;
 
-var bar = 42;
+let bar = 42;
 bar -= 1;
 
 for (i = 0; i < l; i += 1) {
