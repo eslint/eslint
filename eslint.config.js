@@ -15,7 +15,6 @@ const eslintPluginRulesRecommendedConfig = require("eslint-plugin-eslint-plugin/
 const eslintPluginTestsRecommendedConfig = require("eslint-plugin-eslint-plugin/configs/tests-recommended");
 const globals = require("globals");
 const eslintConfigESLintCJS = require("eslint-config-eslint/cjs");
-const eslintConfigESLintFormatting = require("eslint-config-eslint/formatting");
 const eslintPluginYml = require("eslint-plugin-yml");
 const json = require("@eslint/json").default;
 const expectType = require("eslint-plugin-expect-type");
@@ -79,11 +78,6 @@ module.exports = [
         name: `eslint/${config.name}`,
         files: [ALL_JS_FILES]
     })),
-    {
-        ...eslintConfigESLintFormatting,
-        name: "eslint/formatting",
-        files: [ALL_JS_FILES]
-    },
     {
         name: "eslint/global-ignores",
         ignores: [
@@ -163,7 +157,8 @@ module.exports = [
                     "errors"
                 ]
             ],
-            "eslint-plugin/test-case-shorthand-strings": "error"
+            "eslint-plugin/test-case-shorthand-strings": "error",
+            "no-useless-concat": "off"
         }
     },
     {
