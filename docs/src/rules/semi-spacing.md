@@ -8,9 +8,6 @@ related_rules:
 - block-spacing
 - space-in-parens
 ---
-
-This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/semi-spacing) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
-
 JavaScript allows you to place unnecessary spaces before or after a semicolon.
 
 Disallowing or enforcing space around a semicolon can improve the readability of your program.

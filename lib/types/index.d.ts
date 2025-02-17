@@ -35,7 +35,8 @@ import type {
     LanguageOptions as GenericLanguageOptions,
     RuleDefinition,
     RuleContext as CoreRuleContext,
-    RuleContextTypeOptions
+    RuleContextTypeOptions,
+    DeprecatedInfo
 } from "@eslint/core";
 import { JSONSchema4 } from "json-schema";
 import { LegacyESLint } from "./use-at-your-own-risk.js";
@@ -780,9 +781,12 @@ export namespace Rule {
         /** Any default options to be recursively merged on top of any user-provided options. */
         defaultOptions?: unknown[];
 
-        /** Indicates whether the rule has been deprecated. Omit if not deprecated. */
-        deprecated?: boolean | undefined;
-        /** The name of the rule(s) this rule was replaced by, if it was deprecated. */
+        /** Indicates whether the rule has been deprecated or provides additional metadata about the deprecation. Omit if not deprecated. */
+        deprecated?: boolean | DeprecatedInfo | undefined;
+        /**
+         * @deprecated Use deprecated.replacedBy instead.
+         * The name of the rule(s) this rule was replaced by, if it was deprecated.
+         */
         replacedBy?: readonly string[];
 
         /**

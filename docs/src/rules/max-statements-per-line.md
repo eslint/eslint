@@ -10,9 +10,6 @@ related_rules:
 - max-params
 - max-statements
 ---
-
-This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/max-statements-per-line) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
-
 A line of code containing too many statements can be difficult to read. Code is generally read from the top down, especially when scanning, so limiting the number of statements allowed on a single line can be very beneficial for readability and maintainability.
 
 ```js

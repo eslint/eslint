@@ -5,10 +5,6 @@ related_rules:
 - newline-after-var
 ---
 
-
-
-This rule was **deprecated** in ESLint v4.0.0 and replaced by the [padding-line-between-statements](padding-line-between-statements) rule.
-
 There is no hard and fast rule about whether empty lines should precede `return` statements in JavaScript. However, clearly delineating where a function is returning can greatly increase the readability and clarity of the code. For example:
 
 ```js

@@ -836,7 +836,7 @@ describe("CLIEngine", () => {
 
             assert.deepStrictEqual(
                 report.usedDeprecatedRules,
-                [{ ruleId: "indent-legacy", replacedBy: ["indent"] }]
+                [{ ruleId: "indent-legacy", replacedBy: [] }]
             );
             assert.strictEqual(report.results[0].suppressedMessages.length, 0);
         });
@@ -1768,7 +1768,7 @@ describe("CLIEngine", () => {
             assert.sameDeepMembers(
                 report.usedDeprecatedRules,
                 [
-                    { ruleId: "indent-legacy", replacedBy: ["indent"] },
+                    { ruleId: "indent-legacy", replacedBy: [] },
                     { ruleId: "callback-return", replacedBy: [] }
                 ]
             );
@@ -1799,7 +1799,7 @@ describe("CLIEngine", () => {
 
             assert.deepStrictEqual(
                 report.usedDeprecatedRules,
-                [{ ruleId: "indent-legacy", replacedBy: ["indent"] }]
+                [{ ruleId: "indent-legacy", replacedBy: [] }]
             );
             assert.strictEqual(report.results[0].suppressedMessages.length, 0);
         });
