@@ -747,7 +747,7 @@ describe("ESLint", () => {
                         usedDeprecatedRules: [
                             {
                                 ruleId: "semi",
-                                replacedBy: ["@stylistic/eslint-plugin-js/semi"],
+                                replacedBy: ["@stylistic/js/semi"],
                                 info: coreRules.get("semi").meta.deprecated
                             }
                         ]
@@ -1005,7 +1005,7 @@ describe("ESLint", () => {
 
                 assert.deepStrictEqual(
                     result.usedDeprecatedRules,
-                    [{ ruleId: "indent-legacy", replacedBy: ["@stylistic/eslint-plugin-js/indent"], info: coreRules.get("indent-legacy")?.meta.deprecated }]
+                    [{ ruleId: "indent-legacy", replacedBy: ["@stylistic/js/indent"], info: coreRules.get("indent-legacy")?.meta.deprecated }]
                 );
             });
 
@@ -3431,7 +3431,7 @@ describe("ESLint", () => {
 
                     assert.deepStrictEqual(
                         results[0].usedDeprecatedRules,
-                        [{ ruleId: "indent-legacy", replacedBy: ["@stylistic/eslint-plugin-js/indent"], info: coreRules.get("indent-legacy").meta.deprecated }]
+                        [{ ruleId: "indent-legacy", replacedBy: ["@stylistic/js/indent"], info: coreRules.get("indent-legacy").meta.deprecated }]
                     );
                 });
 
@@ -3550,17 +3550,17 @@ describe("ESLint", () => {
                             usedDeprecatedRules: [
                                 {
                                     ruleId: "semi",
-                                    replacedBy: ["@stylistic/eslint-plugin-js/semi"],
+                                    replacedBy: ["@stylistic/js/semi"],
                                     info: coreRules.get("semi").meta.deprecated
                                 },
                                 {
                                     ruleId: "quotes",
-                                    replacedBy: ["@stylistic/eslint-plugin-js/quotes"],
+                                    replacedBy: ["@stylistic/js/quotes"],
                                     info: coreRules.get("quotes").meta.deprecated
                                 },
                                 {
                                     ruleId: "space-infix-ops",
-                                    replacedBy: ["@stylistic/eslint-plugin-js/space-infix-ops"],
+                                    replacedBy: ["@stylistic/js/space-infix-ops"],
                                     info: coreRules.get("space-infix-ops").meta.deprecated
                                 }
                             ]
@@ -3577,17 +3577,17 @@ describe("ESLint", () => {
                             usedDeprecatedRules: [
                                 {
                                     ruleId: "semi",
-                                    replacedBy: ["@stylistic/eslint-plugin-js/semi"],
+                                    replacedBy: ["@stylistic/js/semi"],
                                     info: coreRules.get("semi").meta.deprecated
                                 },
                                 {
                                     ruleId: "quotes",
-                                    replacedBy: ["@stylistic/eslint-plugin-js/quotes"],
+                                    replacedBy: ["@stylistic/js/quotes"],
                                     info: coreRules.get("quotes").meta.deprecated
                                 },
                                 {
                                     ruleId: "space-infix-ops",
-                                    replacedBy: ["@stylistic/eslint-plugin-js/space-infix-ops"],
+                                    replacedBy: ["@stylistic/js/space-infix-ops"],
                                     info: coreRules.get("space-infix-ops").meta.deprecated
                                 }
                             ]
@@ -3617,17 +3617,17 @@ describe("ESLint", () => {
                             usedDeprecatedRules: [
                                 {
                                     ruleId: "semi",
-                                    replacedBy: ["@stylistic/eslint-plugin-js/semi"],
+                                    replacedBy: ["@stylistic/js/semi"],
                                     info: coreRules.get("semi").meta.deprecated
                                 },
                                 {
                                     ruleId: "quotes",
-                                    replacedBy: ["@stylistic/eslint-plugin-js/quotes"],
+                                    replacedBy: ["@stylistic/js/quotes"],
                                     info: coreRules.get("quotes").meta.deprecated
                                 },
                                 {
                                     ruleId: "space-infix-ops",
-                                    replacedBy: ["@stylistic/eslint-plugin-js/space-infix-ops"],
+                                    replacedBy: ["@stylistic/js/space-infix-ops"],
                                     info: coreRules.get("space-infix-ops").meta.deprecated
                                 }
                             ]
@@ -3657,17 +3657,17 @@ describe("ESLint", () => {
                             usedDeprecatedRules: [
                                 {
                                     ruleId: "semi",
-                                    replacedBy: ["@stylistic/eslint-plugin-js/semi"],
+                                    replacedBy: ["@stylistic/js/semi"],
                                     info: coreRules.get("semi").meta.deprecated
                                 },
                                 {
                                     ruleId: "quotes",
-                                    replacedBy: ["@stylistic/eslint-plugin-js/quotes"],
+                                    replacedBy: ["@stylistic/js/quotes"],
                                     info: coreRules.get("quotes").meta.deprecated
                                 },
                                 {
                                     ruleId: "space-infix-ops",
-                                    replacedBy: ["@stylistic/eslint-plugin-js/space-infix-ops"],
+                                    replacedBy: ["@stylistic/js/space-infix-ops"],
                                     info: coreRules.get("space-infix-ops").meta.deprecated
                                 }
                             ]

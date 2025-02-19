@@ -121,7 +121,7 @@ describe("bin/eslint.js", () => {
                     usedDeprecatedRules: [
                         {
                             ruleId: "no-extra-semi",
-                            replacedBy: ["@stylistic/eslint-plugin-js/no-extra-semi"],
+                            replacedBy: ["@stylistic/js/no-extra-semi"],
                             info: {
                                 message: "Formatting rules are being moved out of ESLint core.",
                                 url: "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
