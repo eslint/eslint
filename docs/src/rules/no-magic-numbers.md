@@ -8,7 +8,7 @@ rule_type: suggestion
 They should preferably be replaced by named constants.
 
 ```js
-var now = Date.now(),
+const now = Date.now(),
     inOneHour = now + (60 * 60 * 1000);
 ```
 
@@ -24,7 +24,7 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-magic-numbers: "error"*/
 
-var dutyFreePrice = 100,
+const dutyFreePrice = 100,
     finalPrice = dutyFreePrice + (dutyFreePrice * 0.25);
 ```
 
@@ -35,9 +35,9 @@ var dutyFreePrice = 100,
 ```js
 /*eslint no-magic-numbers: "error"*/
 
-var data = ['foo', 'bar', 'baz'];
+const data = ['foo', 'bar', 'baz'];
 
-var dataLast = data[2];
+const dataLast = data[2];
 ```
 
 :::
@@ -47,7 +47,7 @@ var dataLast = data[2];
 ```js
 /*eslint no-magic-numbers: "error"*/
 
-var SECONDS;
+let SECONDS;
 
 SECONDS = 60;
 ```
@@ -61,9 +61,9 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-magic-numbers: "error"*/
 
-var TAX = 0.25;
+const TAX = 0.25;
 
-var dutyFreePrice = 100,
+const dutyFreePrice = 100,
     finalPrice = dutyFreePrice + (dutyFreePrice * TAX);
 ```
 
@@ -86,8 +86,8 @@ Examples of **correct** code for the sample `{ "ignore": [1] }` option:
 ```js
 /*eslint no-magic-numbers: ["error", { "ignore": [1] }]*/
 
-var data = ['foo', 'bar', 'baz'];
-var dataLast = data.length && data[data.length - 1];
+const data = ['foo', 'bar', 'baz'];
+const dataLast = data.length && data[data.length - 1];
 ```
 
 :::
@@ -121,7 +121,7 @@ Examples of **correct** code for the `{ "ignoreArrayIndexes": true }` option:
 ```js
 /*eslint no-magic-numbers: ["error", { "ignoreArrayIndexes": true }]*/
 
-var item = data[2];
+const item = data[2];
 
 data[100] = a;
 
@@ -243,9 +243,9 @@ Examples of **incorrect** code for the `{ "enforceConst": true }` option:
 ```js
 /*eslint no-magic-numbers: ["error", { "enforceConst": true }]*/
 
-var TAX = 0.25;
+let TAX = 0.25;
 
-var dutyFreePrice = 100,
+let dutyFreePrice = 100,
     finalPrice = dutyFreePrice + (dutyFreePrice * TAX);
 ```
 
@@ -262,11 +262,11 @@ Examples of **incorrect** code for the `{ "detectObjects": true }` option:
 ```js
 /*eslint no-magic-numbers: ["error", { "detectObjects": true }]*/
 
-var magic = {
+const magic = {
   tax: 0.25
 };
 
-var dutyFreePrice = 100,
+const dutyFreePrice = 100,
     finalPrice = dutyFreePrice + (dutyFreePrice * magic.tax);
 ```
 
@@ -279,13 +279,13 @@ Examples of **correct** code for the `{ "detectObjects": true }` option:
 ```js
 /*eslint no-magic-numbers: ["error", { "detectObjects": true }]*/
 
-var TAX = 0.25;
+const TAX = 0.25;
 
-var magic = {
+const magic = {
   tax: TAX
 };
 
-var dutyFreePrice = 100,
+const dutyFreePrice = 100,
     finalPrice = dutyFreePrice + (dutyFreePrice * magic.tax);
 ```
 
