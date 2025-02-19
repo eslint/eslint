@@ -6158,6 +6158,54 @@ describe("ESLint", () => {
                 assert.strictEqual(createCallCount, 1);
             });
 
+            // https://github.com/eslint/eslint/issues/19243
+            it("should not exit the process unexpectedly after a rule crashes", async () => {
+                const cwd = getFixturePath();
+
+                /*
+                 * Mocha attaches `unhandledRejection` event handlers to the current process.
+                 * To test without global handlers, we must launch a new process.
+                 */
+                const teardown = createCustomTeardown({
+                    cwd,
+                    files: {
+                        "test.js": `
+                        const { ESLint } = require(${JSON.stringify(require.resolve("eslint"))});
+
+                        const eslint = new ESLint({
+                            flags: ${JSON.stringify(flags)},
+                            overrideConfigFile: true,
+                            plugins: {
+                                boom: {
+                                    rules: {
+                                        boom: {
+                                            create: () => ({
+                                                "*"() {
+                                                    throw "Boom!";
+                                                },
+                                            }),
+                                        }
+                                    }
+                                }
+                            },
+                            baseConfig: {
+                                rules: {
+                                    "boom/boom": "error"
+                                }
+                            }
+                        });
+
+                        eslint.lintFiles("passing.js").catch(() => { });
+                        `
+                    }
+                });
+
+                await teardown.prepare();
+                const execFile = util.promisify(require("node:child_process").execFile);
+
+                await execFile(process.execPath, ["test.js"], { cwd });
+            });
+
             describe("Error while globbing", () => {
 
                 it("should throw an error with a glob pattern if an invalid config was provided", async () => {
