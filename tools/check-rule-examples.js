@@ -11,10 +11,10 @@ const markdownIt = require("markdown-it");
 const markdownItContainer = require("markdown-it-container");
 const markdownItRuleExample = require("../docs/tools/markdown-it-rule-example");
 const { ConfigCommentParser } = require("@eslint/plugin-kit");
+const tsParser = require("@typescript-eslint/parser");
 const rules = require("../lib/rules");
 const { LATEST_ECMA_VERSION } = require("../conf/ecma-version");
 const { Linter } = require("../lib/linter");
-const tseslint = require("@typescript-eslint/parser");
 
 //------------------------------------------------------------------------------
 // Typedefs
@@ -99,7 +99,7 @@ async function findProblems(filename) {
             }
 
             if (TYPESCRIPT_LANGUAGE_TAGS.has(languageTag)) {
-                languageOptions.parser = tseslint;
+                languageOptions.parser = tsParser;
             }
 
             const linter = new Linter();
