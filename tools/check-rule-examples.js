@@ -62,7 +62,7 @@ async function findProblems(filename) {
                  */
                 const message = `${languageTag
                     ? `Nonstandard language tag '${languageTag}'`
-                    : "Missing language tag"}: use one of 'javascript', 'js' or 'jsx'`;
+                    : "Missing language tag"}: use one of 'javascript', 'js', 'jsx', 'ts', or 'tsx'`;
 
                 problems.push({
                     fatal: false,
