@@ -14,6 +14,7 @@ const { ConfigCommentParser } = require("@eslint/plugin-kit");
 const rules = require("../lib/rules");
 const { LATEST_ECMA_VERSION } = require("../conf/ecma-version");
 const { Linter } = require("../lib/linter");
+const tseslint = require("@typescript-eslint/parser");
 
 //------------------------------------------------------------------------------
 // Typedefs
@@ -27,7 +28,9 @@ const { Linter } = require("../lib/linter");
 // Helpers
 //------------------------------------------------------------------------------
 
-const STANDARD_LANGUAGE_TAGS = new Set(["javascript", "js", "jsx"]);
+const TYPESCRIPT_LANGUAGE_TAGS = new Set(["ts", "tsx"]);
+const STANDARD_LANGUAGE_TAGS = new Set(["javascript", "js", "jsx", ...TYPESCRIPT_LANGUAGE_TAGS]);
+
 
 const VALID_ECMA_VERSIONS = new Set([
     3,
@@ -93,6 +96,10 @@ async function findProblems(filename) {
 
                     return;
                 }
+            }
+
+            if (TYPESCRIPT_LANGUAGE_TAGS.has(languageTag)) {
+                languageOptions.parser = tseslint;
             }
 
             const linter = new Linter();
