@@ -370,6 +370,21 @@ ruleTester.run("no-useless-assignment", rule, {
         console.log(a, b);`,
         `let { a, b: {c = a} = {} } = obj;
         console.log(c);`,
+
+        // variable used in catch block
+        `function foo(){
+            let bar;
+            try {
+                bar = 2;
+                unsafeFn();
+                return { error: undefined };
+            } catch {
+                return { bar }; 
+            }
+        }   
+        function unsafeFn() {
+            throw new Error();
+        }`,
         {
             code: `/*eslint test/jsx:1*/
                 function App() {
