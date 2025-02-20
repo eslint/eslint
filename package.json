@@ -108,7 +108,7 @@
     "@eslint/plugin-kit": "^0.2.5",
     "@humanfs/node": "^0.16.6",
     "@humanwhocodes/module-importer": "^1.0.1",
-    "@humanwhocodes/retry": "^0.4.1",
+    "@humanwhocodes/retry": "^0.4.2",
     "@types/estree": "^1.0.6",
     "@types/json-schema": "^7.0.15",
     "ajv": "^6.12.4",
