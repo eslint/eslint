@@ -49,4 +49,4 @@ Every property is optional.
 * `name` (`string`)<br>
   The package name for `plugin` and the rule id for `rule`.
 * `url` (`string`)<br>
-  An URL pointing to additional information, for example an announcement post or migration guide.
+  An URL pointing to documentation for the plugin / rule..
