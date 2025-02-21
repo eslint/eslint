@@ -101,7 +101,7 @@ layout: base.html
                             {% elif rule_meta.deprecated.replacedBy[0].plugin %}
                                 Please use the <a href="{{ rule_meta.deprecated.replacedBy[0].rule.url }}">corresponding rule</a> in <a href="{{ rule_meta.deprecated.replacedBy[0].plugin.url }}">{{ rule_meta.deprecated.replacedBy[0].plugin.name }}</a>.
                             {% else %}
-                                Please replace the rule with <a href="{{ rule_meta.deprecated.replacedBy[0].rule.name }}">{{ rule_meta.deprecated.replacedBy[0].rule.name }}</a>
+                                Please replace the rule with <a href="{{ rule_meta.deprecated.replacedBy[0].rule.name }}">{{ rule_meta.deprecated.replacedBy[0].rule.name }}</a>.
                             {% endif %}
                         {% endset %}
 
