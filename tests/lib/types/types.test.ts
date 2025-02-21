@@ -418,6 +418,54 @@ rule = {
     create(context) {
         return {};
     },
+    meta: { deprecated: { message: 'message', url: 'https://example.com' } },
+};
+rule = {
+    create(context) {
+        return {};
+    },
+    meta: { deprecated: { availableUntil: '10.0.0' } },
+};
+rule = {
+    create(context) {
+        return {};
+    },
+    meta: { deprecated: { availableUntil: null } },
+};
+rule = {
+    create(context) {
+        return {};
+    },
+    meta: { deprecated: { deprecatedSince: '9.0.0' } },
+};
+rule = {
+    create(context) {
+        return {};
+    },
+    meta: { deprecated: { replacedBy: [] } },
+};
+rule = {
+    create(context) {
+        return {};
+    },
+    meta: { deprecated: { replacedBy: [{ message: 'message', url: 'https://example.com' }] } },
+};
+rule = {
+    create(context) {
+        return {};
+    },
+    meta: { deprecated: { replacedBy: [{ plugin: { name: 'eslint-plugin-example' } }] } },
+};
+rule = {
+    create(context) {
+        return {};
+    },
+    meta: { deprecated: { replacedBy: [{ rule: { name: 'rule-id', url: 'https://example.com' } }] } },
+};
+rule = {
+    create(context) {
+        return {};
+    },
     meta: { type: "layout" },
 };
 rule = {

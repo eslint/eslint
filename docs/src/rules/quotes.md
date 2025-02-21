@@ -2,9 +2,6 @@
 title: quotes
 rule_type: layout
 ---
-
-This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/quotes) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
-
 JavaScript allows you to define strings in one of three ways: double quotes, single quotes, and backticks (as of ECMAScript 6). For example:
 
 ```js
