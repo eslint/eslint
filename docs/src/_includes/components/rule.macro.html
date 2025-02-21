@@ -17,7 +17,7 @@
             {{ params.name }}
             <span class="rule__status">removed</span>
         </p>
-        {%- if params.replacedBy -%}
+        {%- if params.replacedBy|length -%}
         <p class="rule__description">Replaced by {{ replacementRuleList({ specifiers: params.replacedBy }) }}</p>
         {%- else -%}<p class="rule__description">{{ params.description }}</p>
         {%- endif -%}
