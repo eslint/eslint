@@ -1,3 +1,23 @@
+v9.21.0 - February 21, 2025
+
+* [`a8c9a9f`](https://github.com/eslint/eslint/commit/a8c9a9f1b30db08094b145dd79921ae302b6ae24) chore: update `@eslint/eslintrc` and `@eslint/js` (#19453) (Francesco Trotta)
+* [`265e0cf`](https://github.com/eslint/eslint/commit/265e0cf6d03df44f0e65ce5bcb0bac382189486a) chore: package.json update for @eslint/js release (Jenkins)
+* [`418717f`](https://github.com/eslint/eslint/commit/418717f1150bb794c40014eca60c9116de2b0488) feat: introduce new deprecated types for rules (#19238) (fnx)
+* [`3401b85`](https://github.com/eslint/eslint/commit/3401b85faaf75629900b7592433169fc00d8b224) test: add test for `Rule.ReportDescriptor` type (#19449) (Francesco Trotta)
+* [`e497aa7`](https://github.com/eslint/eslint/commit/e497aa75f5441406985d417303081944f24acf6f) chore: update rewrite dependencies (#19448) (Francesco Trotta)
+* [`c5561ea`](https://github.com/eslint/eslint/commit/c5561ea7fcc9d48f7c8017f51fb64fcdf13ff832) docs: Update README (GitHub Actions Bot)
+* [`db5340d`](https://github.com/eslint/eslint/commit/db5340d57bff6b6e3a148f0f2bb56c7da6614ec0) fix: update missing plugin message template (#19445) (Milos Djermanovic)
+* [`d8ffdd4`](https://github.com/eslint/eslint/commit/d8ffdd4e51ac46cef51b4118aa3d97195b38de63) fix: do not exit process on rule crash (#19436) (Francesco Trotta)
+* [`dab5478`](https://github.com/eslint/eslint/commit/dab5478e8628447dbf9eaaa8b6f36d7ca253ed48) chore: better error message for missing plugin in config (#19402) (Tanuj Kanti)
+* [`80b0485`](https://github.com/eslint/eslint/commit/80b048535e1d951692e838fe502fb0edb72c837f) docs: replace `var` with `let` and `const` in rule example (#19434) (Tanuj Kanti)
+* [`ebfe2eb`](https://github.com/eslint/eslint/commit/ebfe2ebc3d8b8f2d84caf309b2fc6bc8fd66fc22) chore: set js language for bug report issue config block (#19439) (Josh Goldberg ✨)
+* [`f67d5e8`](https://github.com/eslint/eslint/commit/f67d5e875324a9d899598b11807a9c7624021432) docs: Update README (GitHub Actions Bot)
+* [`75afc61`](https://github.com/eslint/eslint/commit/75afc61ff89c8c38a31877d1302584af9266f6d3) docs: Update README (GitHub Actions Bot)
+* [`5fd211d`](https://github.com/eslint/eslint/commit/5fd211d00b6f0fc58cf587196a432325b7b88ec2) test: processors can return subpaths (#19425) (Milos Djermanovic)
+* [`0636cab`](https://github.com/eslint/eslint/commit/0636caba7dd7c77c1845a69257bda68d5287a097) docs: Update Eleventy from v2 to v3 (#19415) (Amaresh  S M)
+* [`5c5b802`](https://github.com/eslint/eslint/commit/5c5b8025d3e2a2a796909bdf7866fdce2a2f334c) feat: Add `--ext` CLI option (#19405) (Milos Djermanovic)
+* [`dd7d930`](https://github.com/eslint/eslint/commit/dd7d93063418a9a9064a0e7cb7f556f5b8b6e96b) docs: Update README (GitHub Actions Bot)
+
 v9.20.1 - February 11, 2025
 
 * [`fe3ccb2`](https://github.com/eslint/eslint/commit/fe3ccb2ff43a9f20a7801c679f7d41f6a7ed3ddc) docs: allow typing in search box while dropdown is open (#19424) (Amaresh  S M)
