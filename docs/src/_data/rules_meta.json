@@ -174,8 +174,8 @@
                         "url": "https://eslint.style/packages/js"
                     },
                     "rule": {
-                        "name": "arrow-parens",
-                        "url": "https://eslint.style/rules/js/arrow-parens"
+                        "name": "arrow-spacing",
+                        "url": "https://eslint.style/rules/js/arrow-spacing"
                     }
                 }
             ]
@@ -1387,8 +1387,8 @@
                         "url": "https://eslint.style/packages/js"
                     },
                     "rule": {
-                        "name": "no-mixed-operators",
-                        "url": "https://eslint.style/rules/js/no-mixed-operators"
+                        "name": "multiline-comment-style",
+                        "url": "https://eslint.style/rules/js/multiline-comment-style"
                     }
                 }
             ]
@@ -1637,8 +1637,8 @@
                         "url": "https://github.com/eslint-community/eslint-plugin-n"
                     },
                     "rule": {
-                        "name": "no-buffer-constructor",
-                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-buffer-constructor.md"
+                        "name": "no-deprecated-api",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-deprecated-api.md"
                     }
                 }
             ]
@@ -2617,7 +2617,7 @@
             "url": "https://eslint.org/docs/latest/rules/no-new-object"
         },
         "deprecated": {
-            "message": "The rule was replaced with a more general rule.",
+            "message": "The new rule flags more situations where object literal syntax can be used, and it does not report a problem when the `Object` constructor is invoked with an argument.",
             "url": "https://eslint.org/blog/2023/09/eslint-v8.50.0-released/",
             "deprecatedSince": "8.50.0",
             "availableUntil": null,
@@ -2924,8 +2924,8 @@
                         "url": "https://github.com/eslint-community/eslint-plugin-n"
                     },
                     "rule": {
-                        "name": "no-restricted-modules",
-                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-restricted-modules.md"
+                        "name": "no-restricted-require",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-restricted-require.md"
                     }
                 }
             ]

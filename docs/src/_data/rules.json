@@ -1671,8 +1671,8 @@
                         "url": "https://eslint.style/packages/js"
                     },
                     "rule": {
-                        "name": "arrow-parens",
-                        "url": "https://eslint.style/rules/js/arrow-parens"
+                        "name": "arrow-spacing",
+                        "url": "https://eslint.style/rules/js/arrow-spacing"
                     }
                 }
             ],
@@ -2232,8 +2232,8 @@
                         "url": "https://eslint.style/packages/js"
                     },
                     "rule": {
-                        "name": "no-mixed-operators",
-                        "url": "https://eslint.style/rules/js/no-mixed-operators"
+                        "name": "multiline-comment-style",
+                        "url": "https://eslint.style/rules/js/multiline-comment-style"
                     }
                 }
             ],
@@ -2345,8 +2345,8 @@
                         "url": "https://github.com/eslint-community/eslint-plugin-n"
                     },
                     "rule": {
-                        "name": "no-buffer-constructor",
-                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-buffer-constructor.md"
+                        "name": "no-deprecated-api",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-deprecated-api.md"
                     }
                 }
             ],
@@ -2670,8 +2670,8 @@
                         "url": "https://github.com/eslint-community/eslint-plugin-n"
                     },
                     "rule": {
-                        "name": "no-restricted-modules",
-                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-restricted-modules.md"
+                        "name": "no-restricted-require",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-restricted-require.md"
                     }
                 }
             ],
@@ -3283,111 +3283,191 @@
         {
             "removed": "generator-star",
             "replacedBy": [
-                "generator-star-spacing"
+                {
+                    "rule": {
+                        "name": "generator-star-spacing"
+                    }
+                }
             ]
         },
         {
             "removed": "global-strict",
             "replacedBy": [
-                "strict"
+                {
+                    "rule": {
+                        "name": "strict"
+                    }
+                }
             ]
         },
         {
             "removed": "no-arrow-condition",
             "replacedBy": [
-                "no-confusing-arrow",
-                "no-constant-condition"
+                {
+                    "rule": {
+                        "name": "no-confusing-arrow"
+                    }
+                },
+                {
+                    "rule": {
+                        "name": "no-constant-condition"
+                    }
+                }
             ]
         },
         {
             "removed": "no-comma-dangle",
             "replacedBy": [
-                "comma-dangle"
+                {
+                    "rule": {
+                        "name": "comma-dangle"
+                    }
+                }
             ]
         },
         {
             "removed": "no-empty-class",
             "replacedBy": [
-                "no-empty-character-class"
+                {
+                    "rule": {
+                        "name": "no-empty-character-class"
+                    }
+                }
             ]
         },
         {
             "removed": "no-empty-label",
             "replacedBy": [
-                "no-labels"
+                {
+                    "rule": {
+                        "name": "no-labels"
+                    }
+                }
             ]
         },
         {
             "removed": "no-extra-strict",
             "replacedBy": [
-                "strict"
+                {
+                    "rule": {
+                        "name": "strict"
+                    }
+                }
             ]
         },
         {
             "removed": "no-reserved-keys",
             "replacedBy": [
-                "quote-props"
+                {
+                    "rule": {
+                        "name": "quote-props"
+                    }
+                }
             ]
         },
         {
             "removed": "no-space-before-semi",
             "replacedBy": [
-                "semi-spacing"
+                {
+                    "rule": {
+                        "name": "semi-spacing"
+                    }
+                }
             ]
         },
         {
             "removed": "no-wrap-func",
             "replacedBy": [
-                "no-extra-parens"
+                {
+                    "rule": {
+                        "name": "no-extra-parens"
+                    }
+                }
             ]
         },
         {
             "removed": "space-after-function-name",
             "replacedBy": [
-                "space-before-function-paren"
+                {
+                    "rule": {
+                        "name": "space-before-function-paren"
+                    }
+                }
             ]
         },
         {
             "removed": "space-after-keywords",
             "replacedBy": [
-                "keyword-spacing"
+                {
+                    "rule": {
+                        "name": "keyword-spacing"
+                    }
+                }
             ]
         },
         {
             "removed": "space-before-function-parentheses",
             "replacedBy": [
-                "space-before-function-paren"
+                {
+                    "rule": {
+                        "name": "space-before-function-paren"
+                    }
+                }
             ]
         },
         {
             "removed": "space-before-keywords",
             "replacedBy": [
-                "keyword-spacing"
+                {
+                    "rule": {
+                        "name": "keyword-spacing"
+                    }
+                }
             ]
         },
         {
             "removed": "space-in-brackets",
             "replacedBy": [
-                "object-curly-spacing",
-                "array-bracket-spacing"
+                {
+                    "rule": {
+                        "name": "object-curly-spacing"
+                    }
+                },
+                {
+                    "rule": {
+                        "name": "array-bracket-spacing"
+                    }
+                }
             ]
         },
         {
             "removed": "space-return-throw-case",
             "replacedBy": [
-                "keyword-spacing"
+                {
+                    "rule": {
+                        "name": "keyword-spacing"
+                    }
+                }
             ]
         },
         {
             "removed": "space-unary-word-ops",
             "replacedBy": [
-                "space-unary-ops"
+                {
+                    "rule": {
+                        "name": "space-unary-ops"
+                    }
+                }
             ]
         },
         {
             "removed": "spaced-line-comment",
             "replacedBy": [
-                "spaced-comment"
+                {
+                    "rule": {
+                        "name": "spaced-comment"
+                    }
+                }
             ]
         },
         {
