@@ -2598,8 +2598,8 @@
             "replacedBy": [
                 {
                     "rule": {
-                        "name": "no-object-constructor",
-                        "url": "https://eslint.org/docs/latest/rules/no-object-constructor"
+                        "name": "no-new-native-nonconstructor",
+                        "url": "https://eslint.org/docs/latest/rules/no-new-native-nonconstructor"
                     }
                 }
             ],

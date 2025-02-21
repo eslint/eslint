@@ -285,8 +285,26 @@ Example output (formatted for easier reading):
                 }
             },
             "indent": {
-                "deprecated": true,
-                "replacedBy": [],
+                "deprecated": {
+                    "message": "Formatting rules are being moved out of ESLint core.",
+                    "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
+                    "deprecatedSince": "8.53.0",
+                    "availableUntil": "10.0.0",
+                    "replacedBy": [
+                        {
+                            "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                            "url": "https://eslint.style/guide/migration",
+                            "plugin": {
+                                "name": "@stylistic/eslint-plugin-js",
+                                "url": "https://eslint.style/packages/js"
+                            },
+                            "rule": {
+                                "name": "indent",
+                                "url": "https://eslint.style/rules/js/indent"
+                            }
+                        }
+                    ]
+                },
                 "type": "layout",
                 "docs": {
                     "description": "Enforce consistent indentation",
@@ -558,8 +576,26 @@ Example output (formatted for easier reading):
                 }
             },
             "space-unary-ops": {
-                "deprecated": true,
-                "replacedBy": [],
+                "deprecated": {
+                    "message": "Formatting rules are being moved out of ESLint core.",
+                    "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
+                    "deprecatedSince": "8.53.0",
+                    "availableUntil": "10.0.0",
+                    "replacedBy": [
+                        {
+                            "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                            "url": "https://eslint.style/guide/migration",
+                            "plugin": {
+                                "name": "@stylistic/eslint-plugin-js",
+                                "url": "https://eslint.style/packages/js"
+                            },
+                            "rule": {
+                                "name": "space-unary-ops",
+                                "url": "https://eslint.style/rules/js/space-unary-ops"
+                            }
+                        }
+                    ]
+                },
                 "type": "layout",
                 "docs": {
                     "description": "Enforce consistent spacing before or after unary operators",
@@ -599,8 +635,26 @@ Example output (formatted for easier reading):
                 }
             },
             "semi": {
-                "deprecated": true,
-                "replacedBy": [],
+                "deprecated": {
+                    "message": "Formatting rules are being moved out of ESLint core.",
+                    "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
+                    "deprecatedSince": "8.53.0",
+                    "availableUntil": "10.0.0",
+                    "replacedBy": [
+                        {
+                            "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                            "url": "https://eslint.style/guide/migration",
+                            "plugin": {
+                                "name": "@stylistic/eslint-plugin-js",
+                                "url": "https://eslint.style/packages/js"
+                            },
+                            "rule": {
+                                "name": "semi",
+                                "url": "https://eslint.style/rules/js/semi"
+                            }
+                        }
+                    ]
+                },
                 "type": "layout",
                 "docs": {
                     "description": "Require or disallow semicolons instead of ASI",

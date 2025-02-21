@@ -2673,8 +2673,8 @@
             "replacedBy": [
                 {
                     "rule": {
-                        "name": "no-object-constructor",
-                        "url": "https://eslint.org/docs/latest/rules/no-object-constructor"
+                        "name": "no-new-native-nonconstructor",
+                        "url": "https://eslint.org/docs/latest/rules/no-new-native-nonconstructor"
                     }
                 }
             ]
@@ -3065,7 +3065,7 @@
         "deprecated": {
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2016/08/eslint-v3.3.0-released/#deprecated-rules",
-            "deprecatedSince": "8.53.0",
+            "deprecatedSince": "3.3.0",
             "availableUntil": "10.0.0",
             "replacedBy": [
                 {
