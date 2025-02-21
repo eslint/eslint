@@ -540,6 +540,8 @@ rule = {
             ],
         });
 
+        (violation: Rule.ReportDescriptor) => context.report(violation);
+
         return {
             onCodePathStart(codePath, node) {
                 const origin: Rule.CodePathOrigin = codePath.origin;
