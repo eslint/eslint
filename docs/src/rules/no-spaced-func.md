@@ -3,10 +3,6 @@ title: no-spaced-func
 rule_type: layout
 ---
 
-
-
-This rule was **deprecated** in ESLint v3.3.0 and replaced by the [func-call-spacing](func-call-spacing) rule.
-
 While it's possible to have whitespace between the name of a function and the parentheses that execute it, such patterns tend to look more like errors.
 
 ## Rule Details
