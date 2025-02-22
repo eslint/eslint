@@ -44,6 +44,7 @@ module.exports = defineConfig({
             "linter.js"
         ),
         supportFile: false,
-        reporter: "min"
+        reporter: "progress",
+        screenshotOnRunFailure: false
     }
 });
