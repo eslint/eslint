@@ -25,6 +25,7 @@ const searchClearBtn = document.querySelector('#search__clear-btn');
 const poweredByLink = document.querySelector('.search_powered-by-wrapper');
 let activeIndex = -1;
 let searchQuery;
+let caretPosition = 0;
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -202,17 +203,29 @@ if (searchInput)
     });
 
 
-if (searchClearBtn)
-    searchClearBtn.addEventListener('click', function (e) {
+if (searchClearBtn) {
+    searchClearBtn.addEventListener('click', function () {
         searchInput.value = '';
         searchInput.focus();
         clearSearchResults(true);
         searchClearBtn.setAttribute('hidden', '');
     });
 
+    searchInput.addEventListener("blur", function () {
+        caretPosition = searchInput.selectionStart;
+    });
+
+    searchInput.addEventListener("focus", function () {
+        if (searchInput.selectionStart !== caretPosition) {
+            searchInput.setSelectionRange(caretPosition, caretPosition);
+        }
+    });
+
+}
+
 if (poweredByLink) {
     poweredByLink.addEventListener('focus', function () {
-       clearSearchResults();
+        clearSearchResults();
     });
 }
 
@@ -220,7 +233,6 @@ if (resultsElement) {
     resultsElement.addEventListener('keydown', (e) => {
         if (e.key !== "ArrowUp" && e.key !== "ArrowDown" && e.key !== "Tab" && e.key !== 'Shift') {
             searchInput.focus();
-            searchInput.setSelectionRange(searchInput.value.length, searchInput.value.length);
         }
     });
 }
