@@ -90,6 +90,33 @@ describe("SourceCode", () => {
             assert.strictEqual(sourceCode.lines[1], "bar;");
         });
 
+        it("should throw an error when called with a false AST", () => {
+
+            assert.throws(
+                () => new SourceCode("foo;", false),
+                /AST is false/u
+            );
+
+        });
+
+        it("should throw an error when called with a null AST", () => {
+
+            assert.throws(
+                () => new SourceCode("foo;", null),
+                /AST is null/u
+            );
+
+        });
+
+        it("should throw an error when called with a undefined AST", () => {
+
+            assert.throws(
+                () => new SourceCode("foo;", void 0),
+                /AST is undefined/u
+            );
+
+        });
+
         it("should throw an error when called with an AST that's missing tokens", () => {
 
             assert.throws(
