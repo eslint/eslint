@@ -299,7 +299,9 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Rule to disallow unnecessary parentheses.
      *
      * @since 0.1.4
-     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/no-extra-parens) in `@stylistic/eslint-plugin-js`.
+     * @deprecated since 8.53.0.
+     * Formatting rules are being moved out of ESLint core.
+     * Please, use [`no-extra-parens`](https://eslint.style/rules/js/no-extra-parens) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
      * @see https://eslint.org/docs/latest/rules/no-extra-parens
      */
     "no-extra-parens":
@@ -336,7 +338,9 @@ export interface PossibleErrors extends Linter.RulesRecord {
      * Rule to disallow unnecessary semicolons.
      *
      * @since 0.0.9
-     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/no-extra-semi) in `@stylistic/eslint-plugin-js`.
+     * @deprecated since 8.53.0.
+     * Formatting rules are being moved out of ESLint core.
+     * Please, use [`no-extra-semi`](https://eslint.style/rules/js/no-extra-semi) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
      * @see https://eslint.org/docs/latest/rules/no-extra-semi
      */
     "no-extra-semi": Linter.RuleEntry<[]>;

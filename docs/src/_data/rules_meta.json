@@ -2531,7 +2531,7 @@
             "url": "https://eslint.org/docs/latest/rules/no-native-reassign"
         },
         "deprecated": {
-            "message": "Renamed rule",
+            "message": "Renamed rule.",
             "url": "https://eslint.org/blog/2016/08/eslint-v3.3.0-released/#deprecated-rules",
             "deprecatedSince": "3.3.0",
             "availableUntil": null,
@@ -2562,7 +2562,7 @@
             "url": "https://eslint.org/docs/latest/rules/no-negated-in-lhs"
         },
         "deprecated": {
-            "message": "Renamed rule",
+            "message": "Renamed rule.",
             "url": "https://eslint.org/blog/2016/08/eslint-v3.3.0-released/#deprecated-rules",
             "deprecatedSince": "3.3.0",
             "availableUntil": null,

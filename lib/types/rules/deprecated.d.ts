@@ -33,7 +33,9 @@ export interface Deprecated extends Linter.RulesRecord {
      * Rule to enforce line breaks between arguments of a function call.
      *
      * @since 6.2.0
-     * @deprecated since 8.53.0, please use the [corresponding rule](https://eslint.style/rules/js/function-call-argument-newline) in `@stylistic/eslint-plugin-js`.
+     * @deprecated since 8.53.0.
+     * Formatting rules are being moved out of ESLint core.
+     * Please, use [`function-call-argument-newline`](https://eslint.style/rules/js/function-call-argument-newline) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
      * @see https://eslint.org/docs/latest/rules/function-call-argument-newline
      */
     "function-call-argument-newline": Linter.RuleEntry<
@@ -49,7 +51,9 @@ export interface Deprecated extends Linter.RulesRecord {
      * Rule to enforce consistent indentation.
      *
      * @since 4.0.0-alpha.0
-     * @deprecated since 4.0.0, use [`indent`](https://eslint.org/docs/rules/indent) instead.
+     * @deprecated since 4.0.0.
+     * Formatting rules are being moved out of ESLint core.
+     * Please, use [`indent`](https://eslint.style/rules/js/indent) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
      * @see https://eslint.org/docs/latest/rules/indent-legacy
      */
     "indent-legacy": Linter.RuleEntry<
@@ -152,7 +156,9 @@ export interface Deprecated extends Linter.RulesRecord {
      * Rule to require or disallow newlines around directives.
      *
      * @since 3.5.0
-     * @deprecated since 4.0.0, use [`padding-line-between-statements`](https://eslint.org/docs/rules/padding-line-between-statements) instead.
+     * @deprecated since 4.0.0.
+     * The rule was replaced with a more general rule.
+     * Please, use [`padding-line-between-statements`](https://eslint.style/rules/js/padding-line-between-statements) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
      * @see https://eslint.org/docs/latest/rules/lines-around-directive
      */
     "lines-around-directive": Linter.RuleEntry<["always" | "never"]>;
@@ -161,7 +167,9 @@ export interface Deprecated extends Linter.RulesRecord {
      * Rule to require or disallow an empty line after variable declarations.
      *
      * @since 0.18.0
-     * @deprecated since 4.0.0, use [`padding-line-between-statements`](https://eslint.org/docs/rules/padding-line-between-statements) instead.
+     * @deprecated since 4.0.0.
+     * The rule was replaced with a more general rule.
+     * Please, use [`padding-line-between-statements`](https://eslint.style/rules/js/padding-line-between-statements) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
      * @see https://eslint.org/docs/latest/rules/newline-after-var
      */
     "newline-after-var": Linter.RuleEntry<["always" | "never"]>;
@@ -170,7 +178,9 @@ export interface Deprecated extends Linter.RulesRecord {
      * Rule to require an empty line before `return` statements.
      *
      * @since 2.3.0
-     * @deprecated since 4.0.0, use [`padding-line-between-statements`](https://eslint.org/docs/rules/padding-line-between-statements) instead.
+     * @deprecated since 4.0.0.
+     * The rule was replaced with a more general rule.
+     * Please, use [`padding-line-between-statements`](https://eslint.style/rules/js/padding-line-between-statements) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
      * @see https://eslint.org/docs/latest/rules/newline-before-return
      */
     "newline-before-return": Linter.RuleEntry<[]>;
@@ -179,7 +189,9 @@ export interface Deprecated extends Linter.RulesRecord {
      * Rule to disallow `catch` clause parameters from shadowing variables in the outer scope.
      *
      * @since 0.0.9
-     * @deprecated since 5.1.0, use [`no-shadow`](https://eslint.org/docs/rules/no-shadow) instead.
+     * @deprecated since 5.1.0.
+     * This rule was renamed.
+     * Please, use [`no-shadow`](https://eslint.org/docs/rules/no-shadow).
      * @see https://eslint.org/docs/latest/rules/no-catch-shadow
      */
     "no-catch-shadow": Linter.RuleEntry<[]>;
@@ -188,7 +200,9 @@ export interface Deprecated extends Linter.RulesRecord {
      * Rule to disallow assignments to native objects or read-only global variables.
      *
      * @since 0.0.9
-     * @deprecated since 3.3.0, use [`no-global-assign`](https://eslint.org/docs/rules/no-global-assign) instead.
+     * @deprecated since 3.3.0.
+     * Renamed rule.
+     * Please, use [`no-global-assign`](https://eslint.org/docs/rules/no-global-assign).
      * @see https://eslint.org/docs/latest/rules/no-native-reassign
      */
     "no-native-reassign": Linter.RuleEntry<
@@ -203,7 +217,9 @@ export interface Deprecated extends Linter.RulesRecord {
      * Rule to disallow negating the left operand in `in` expressions.
      *
      * @since 0.1.2
-     * @deprecated since 3.3.0, use [`no-unsafe-negation`](https://eslint.org/docs/rules/no-unsafe-negation) instead.
+     * @deprecated since 3.3.0.
+     * Renamed rule.
+     * Please, use [`no-unsafe-negation`](https://eslint.org/docs/rules/no-unsafe-negation).
      * @see https://eslint.org/docs/latest/rules/no-negated-in-lhs
      */
     "no-negated-in-lhs": Linter.RuleEntry<[]>;
@@ -212,7 +228,9 @@ export interface Deprecated extends Linter.RulesRecord {
      * Rule to disallow `Object` constructors.
      *
      * @since 0.0.9
-     * @deprecated since 8.50.0, use [`no-object-constructor`](https://eslint.org/docs/rules/no-object-constructor) instead.
+     * @deprecated since 8.50.0.
+     * The new rule flags more situations where object literal syntax can be used, and it does not report a problem when the `Object` constructor is invoked with an argument.
+     * Please, use [`no-object-constructor`](https://eslint.org/docs/rules/no-object-constructor).
      * @see https://eslint.org/docs/latest/rules/no-new-object
      */
     "no-new-object": Linter.RuleEntry<[]>;
@@ -221,7 +239,9 @@ export interface Deprecated extends Linter.RulesRecord {
      * Rule to disallow `new` operators with the `Symbol` object.
      *
      * @since 2.0.0-beta.1
-     * @deprecated since 8.27.0, use [`no-new-native-nonconstructor`](https://eslint.org/docs/rules/no-new-native-nonconstructor) instead.
+     * @deprecated since 9.0.0.
+     * The rule was replaced with a more general rule.
+     * Please, use [`no-new-native-nonconstructor`](https://eslint.org/docs/latest/rules/no-new-native-nonconstructor).
      * @see https://eslint.org/docs/latest/rules/no-new-symbol
      */
     "no-new-symbol": Linter.RuleEntry<[]>;
@@ -230,7 +250,9 @@ export interface Deprecated extends Linter.RulesRecord {
      * Rule to disallow spacing between function identifiers and their applications (deprecated).
      *
      * @since 0.1.2
-     * @deprecated since 3.3.0, use [`func-call-spacing`](https://eslint.org/docs/rules/func-call-spacing) instead.
+     * @deprecated since 3.3.0.
+     * Formatting rules are being moved out of ESLint core.
+     * Please, use [`function-call-spacing`](https://eslint.style/rules/js/function-call-spacing) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
      * @see https://eslint.org/docs/latest/rules/no-spaced-func
      */
     "no-spaced-func": Linter.RuleEntry<[]>;
@@ -239,7 +261,8 @@ export interface Deprecated extends Linter.RulesRecord {
      * Rule to require `Reflect` methods where applicable.
      *
      * @since 1.0.0-rc-2
-     * @deprecated since 3.9.0
+     * @deprecated since 3.9.0.
+     * The original intention of this rule was misguided.
      * @see https://eslint.org/docs/latest/rules/prefer-reflect
      */
     "prefer-reflect": Linter.RuleEntry<

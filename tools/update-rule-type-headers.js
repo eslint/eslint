@@ -24,37 +24,13 @@ const ts = require("typescript");
 // Typedefs
 //------------------------------------------------------------------------------
 
+/** @typedef {import("@eslint/core").ExternalSpecifier} ExternalSpecifier */
 /** @typedef {import("eslint").AST.Range} Range */
 /** @typedef {import("eslint").Rule.RuleMetaData} RuleMetaData */
 
 //-----------------------------------------------------------------------------
 // Helpers
 //-----------------------------------------------------------------------------
-
-/**
- * Returns the deprecation notice for a rule.
- * If the provided TSDoc comment contains a `@deprecated` tag followed by some text, the deprecation notice is extracted from there;
- * otherwise, a standard notice will be created from the name of the replacement rule, if one exists.
- * @param {string} tsDoc The text of the existing TSDoc comment.
- * @param {RuleMetaData} ruleMeta The rule's `meta` object.
- * @returns {string} The deprecation notice for the specified rule.
- */
-function createDeprecationNotice(tsDoc, ruleMeta) {
-    const match = /\n *\* *@deprecated +(?<notice>.+)\n/u.exec(tsDoc);
-
-    if (match) {
-        return match.groups.notice;
-    }
-    const { replacedBy } = ruleMeta;
-
-    if (replacedBy && replacedBy.length === 1) {
-        const replacement = replacedBy[0];
-        const replacementURL = rules.get(replacement).meta.docs.url;
-
-        return `please use [\`${replacement}\`](${replacementURL}).`;
-    }
-    return "";
-}
 
 /**
  * Escapes a line of markdown text so it can be safely inserted into a TSDoc comment.
@@ -102,6 +78,15 @@ function extendsRulesRecord(node) {
         }
     }
     return false;
+}
+
+/**
+ * Returns a markdown link with name and URL of a rule or plugin.
+ * @param {ExternalSpecifier} specifier Name and URL of the rule or plugin.
+ * @returns {string} The markdown link.
+ */
+function formatNameAndURL({ name, url }) {
+    return `[\`${name}\`](${url})`;
 }
 
 /**
@@ -207,12 +192,35 @@ function paraphraseDescription(description) {
 }
 
 /**
+ * Returns the deprecation notice for a rule, prefixed by a `@deprecated` tag.
+ * @param {RuleMetaData} ruleMeta The rule's `meta` object.
+ * @returns {string[]} The deprecation notice for the specified rule.
+ */
+function createDeprecationNotice({ deprecated }) {
+    const deprecationNotice = [`@deprecated since ${deprecated.deprecatedSince}.`];
+
+    deprecationNotice.push(escapeForMultilineComment(deprecated.message));
+    if (deprecated.replacedBy?.length) {
+        const replacements = deprecated.replacedBy.map(replacedBy => {
+            let replacement = formatNameAndURL(replacedBy.rule);
+
+            if (replacedBy.plugin) {
+                replacement += ` in ${formatNameAndURL(replacedBy.plugin)}`;
+            }
+            return replacement;
+        }).join(" or ");
+
+        deprecationNotice.push(`Please, use ${replacements}.`);
+    }
+    return deprecationNotice;
+}
+
+/**
  * Creates the TSDoc header comment for a rule.
  * @param {string} ruleId The rule name.
- * @param {string} currentTSDoc The current TSDoc comment, if any.
- * @returns {string} The updated TSDoc comment.
+ * @returns {string} The TSDoc comment.
  */
-function createTSDoc(ruleId, currentTSDoc) {
+function createTSDoc(ruleId) {
     const ruleMeta = rules.get(ruleId).meta;
     const ruleDocs = ruleMeta.docs;
     const since = added[ruleId];
@@ -229,14 +237,14 @@ function createTSDoc(ruleId, currentTSDoc) {
         lines.push(`@since ${since}`);
     }
     if (ruleMeta.deprecated) {
-        const deprecationNotice = createDeprecationNotice(currentTSDoc, ruleMeta);
+        const deprecationNotice = createDeprecationNotice(ruleMeta);
 
-        lines.push(`@deprecated${deprecationNotice ? ` ${deprecationNotice}` : ""}`);
+        lines.push(...deprecationNotice);
     }
     lines.push(`@see ${ruleDocs.url}`);
-    const newTSDoc = formatTSDoc(lines);
+    const tsDoc = formatTSDoc(lines);
 
-    return newTSDoc;
+    return tsDoc;
 }
 
 /**
@@ -254,10 +262,9 @@ async function updateTypeDeclaration(ruleTypeFile, consideredRuleIds, check) {
 
     for (const [ruleId, [tsDocStart, tsDocEnd]] of tsDocRangeMap) {
         const textBeforeTSDoc = sourceText.slice(lastPos, tsDocStart);
-        const currentTSDoc = sourceText.slice(tsDocStart, tsDocEnd);
-        const newTSDoc = createTSDoc(ruleId, currentTSDoc);
+        const tsDoc = createTSDoc(ruleId);
 
-        chunks.push(textBeforeTSDoc, newTSDoc);
+        chunks.push(textBeforeTSDoc, tsDoc);
         if (sourceText[tsDocEnd] !== "\n") {
             chunks.push("\n    ");
         }
