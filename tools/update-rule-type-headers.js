@@ -25,8 +25,8 @@ const ts = require("typescript");
 //------------------------------------------------------------------------------
 
 /** @typedef {import("@eslint/core").ExternalSpecifier} ExternalSpecifier */
-/** @typedef {import("eslint").AST.Range} Range */
 /** @typedef {import("eslint").Rule.RuleMetaData} RuleMetaData */
+/** @typedef {{ tsDocStart: number; tsDocEnd: number; typeEnd: number; }} TextPositions */
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -117,7 +117,7 @@ function getConsideredRuleIds(args) {
         const ruleDir = join(__dirname, "../lib/rules");
 
         ruleIds = args
-            .filter(arg => relative(arg, ruleDir) === ".." && basename(arg) !== "index.js")
+            .filter(arg => relative(arg, ruleDir) === "..")
             .map(ruleFile => basename(ruleFile, ".js"));
     } else {
         ruleIds = rules.keys();
@@ -126,15 +126,15 @@ function getConsideredRuleIds(args) {
 }
 
 /**
- * Returns the locations of the TSDoc header comments for each rule in a type declaration file.
+ * Returns the locations of the TSDoc header comments and the end of the type definition for each rule in a type declaration file.
  * If a rule has no header comment the location returned is the start position of the rule name.
  * @param {string} sourceText The source text of the type declaration file.
  * @param {Set<string>} consideredRuleIds The names of the rules to be considered for the current run.
- * @returns {Map<string, Range>} A map of rule names to ranges.
- * The ranges indicate the locations of the TSDoc header comments in the source.
+ * @returns {Map<string, TextPositions>} A map of rule names to text positions.
+ * The text positions indicate the locations of the TSDoc header comments and the end of the type definition in the source.
  */
-function getTSDocRangeMap(sourceText, consideredRuleIds) {
-    const tsDocRangeMap = new Map();
+function getTextPositionsMap(sourceText, consideredRuleIds) {
+    const textPositionsMap = new Map();
     const ast = ts.createSourceFile("", sourceText);
 
     for (const statement of ast.statements) {
@@ -146,28 +146,29 @@ function getTSDocRangeMap(sourceText, consideredRuleIds) {
                     const ruleId = member.name.text;
 
                     if (consideredRuleIds.has(ruleId)) {
-                        let tsDocRange;
+                        let textPositions;
 
                         // Only the last TSDoc comment is regarded.
                         const tsDoc = member.jsDoc?.at(-1);
 
                         if (tsDoc) {
-                            tsDocRange = [tsDoc.pos, tsDoc.end];
+                            textPositions = { tsDocStart: tsDoc.pos, tsDocEnd: tsDoc.end };
                         } else {
                             const regExp = /\S/gu;
 
                             regExp.lastIndex = member.pos;
                             const { index } = regExp.exec(sourceText);
 
-                            tsDocRange = [index, index];
+                            textPositions = { tsDocStart: index, tsDocEnd: index };
                         }
-                        tsDocRangeMap.set(ruleId, tsDocRange);
+                        textPositions.typeEnd = member.end;
+                        textPositionsMap.set(ruleId, textPositions);
                     }
                 }
             }
         }
     }
-    return tsDocRangeMap;
+    return textPositionsMap;
 }
 
 /**
@@ -256,19 +257,24 @@ function createTSDoc(ruleId) {
  */
 async function updateTypeDeclaration(ruleTypeFile, consideredRuleIds, check) {
     const sourceText = await readFile(ruleTypeFile, "utf-8");
-    const tsDocRangeMap = getTSDocRangeMap(sourceText, consideredRuleIds);
+    const textPositionsMap = getTextPositionsMap(sourceText, consideredRuleIds);
+    const sortedRuleIds = [...textPositionsMap.keys()].sort();
     const chunks = [];
     let lastPos = 0;
 
-    for (const [ruleId, [tsDocStart, tsDocEnd]] of tsDocRangeMap) {
-        const textBeforeTSDoc = sourceText.slice(lastPos, tsDocStart);
+    for (const [, { tsDocStart: insertStart, typeEnd: insertEnd }] of textPositionsMap) {
+        const textBeforeTSDoc = sourceText.slice(lastPos, insertStart);
+        const ruleId = sortedRuleIds.shift();
+        const { tsDocEnd, typeEnd } = textPositionsMap.get(ruleId);
         const tsDoc = createTSDoc(ruleId);
+        const ruleText = sourceText.slice(tsDocEnd, typeEnd);
 
         chunks.push(textBeforeTSDoc, tsDoc);
         if (sourceText[tsDocEnd] !== "\n") {
             chunks.push("\n    ");
         }
-        lastPos = tsDocEnd;
+        chunks.push(ruleText);
+        lastPos = insertEnd;
     }
     chunks.push(sourceText.slice(Math.max(0, lastPos)));
     const newSourceText = chunks.join("");
@@ -279,7 +285,7 @@ async function updateTypeDeclaration(ruleTypeFile, consideredRuleIds, check) {
         }
         await writeFile(ruleTypeFile, newSourceText);
     }
-    return tsDocRangeMap.keys();
+    return textPositionsMap.keys();
 }
 
 //-----------------------------------------------------------------------------
