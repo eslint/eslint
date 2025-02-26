@@ -14,8 +14,8 @@
 // Requirements
 //-----------------------------------------------------------------------------
 
-const { readdir, readFile, writeFile } = require("node:fs/promises");
-const { basename, extname, join, relative } = require("node:path");
+const { readFile, writeFile } = require("node:fs/promises");
+const { basename, join, relative } = require("node:path");
 const { added } = require("../docs/src/_data/rule_versions.json");
 const rules = require("../lib/rules");
 const ts = require("typescript");
@@ -249,7 +249,7 @@ function createTSDoc(ruleId) {
 }
 
 /**
- * Updates rule header comments in a `.d.ts` file or checks is a `.d.ts` file is up-to-date.
+ * Updates rule header comments in a `.d.ts` file or checks if a `.d.ts` file is up-to-date.
  * @param {string} ruleTypeFile Pathname of the `.d.ts` file.
  * @param {Set<string>} consideredRuleIds The names of the rules to be considered for the current run.
  * @param {boolean} check Whether to throw an error if the `.d.ts` file is not up-to-date.
@@ -302,39 +302,17 @@ async function updateTypeDeclaration(ruleTypeFile, consideredRuleIds, check) {
         return true;
     });
     const consideredRuleIds = getConsideredRuleIds(args);
-    const ruleTypeDir = join(__dirname, "../lib/types/rules");
-    const fileNames = (await readdir(ruleTypeDir)).filter(fileName => extname(fileName) === ".ts");
-    const typedRuleIds = new Set();
-    const repeatedRuleIds = new Set();
+    const ruleTypeFile = join(__dirname, "../lib/types/rules.d.ts");
     const untypedRuleIds = [];
 
     console.log(`Considering ${consideredRuleIds.size} rule(s).`);
-    await Promise.all(
-        fileNames.map(
-            async fileName => {
-                const ruleIds = await updateTypeDeclaration(join(ruleTypeDir, fileName), consideredRuleIds, check);
+    const ruleIds = await updateTypeDeclaration(ruleTypeFile, consideredRuleIds, check);
+    const typedRuleIds = new Set(ruleIds);
 
-                for (const ruleId of ruleIds) {
-                    if (typedRuleIds.has(ruleId)) {
-                        repeatedRuleIds.add(ruleId);
-                    } else {
-                        typedRuleIds.add(ruleId);
-                    }
-                }
-            }
-        )
-    );
     for (const ruleId of consideredRuleIds) {
         if (!typedRuleIds.has(ruleId)) {
             untypedRuleIds.push(ruleId);
         }
-    }
-    if (repeatedRuleIds.size) {
-        console.warn(
-            "The following rules have multiple type definition:%s",
-            [...repeatedRuleIds].map(ruleId => `\n* ${ruleId}`).join("")
-        );
-        process.exitCode = 1;
     }
     if (untypedRuleIds.length) {
         console.warn(

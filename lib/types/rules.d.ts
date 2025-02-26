@@ -25,8 +25,15 @@
  * SOFTWARE
  */
 
+//------------------------------------------------------------------------------
+// Imports
+//------------------------------------------------------------------------------
 
-import { Linter } from "../index";
+import { Linter } from "./index";
+
+//-----------------------------------------------------------------------------
+// Helper types
+//-----------------------------------------------------------------------------
 
 interface NoRestrictedImportPathCommonOptions {
     name: string;
@@ -58,6 +65,10 @@ type EitherNameSpecifiers =
 
 // Adds oneOf and not constraints, ensuring group or regex are present and mutually exclusive sets for importNames, allowImportNames, etc., as per the schema.
 type ValidNoRestrictedImportPatternOptions = NoRestrictedImportPatternCommonOptions & EitherGroupOrRegEx & EitherNameSpecifiers;
+
+//-----------------------------------------------------------------------------
+// Public types
+//-----------------------------------------------------------------------------
 
 export interface ESLintRules extends Linter.RulesRecord {
 
