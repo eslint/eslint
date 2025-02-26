@@ -117,7 +117,7 @@ function getConsideredRuleIds(args) {
         const ruleDir = join(__dirname, "../lib/rules");
 
         ruleIds = args
-            .filter(arg => relative(arg, ruleDir) === "..")
+            .filter(arg => relative(arg, ruleDir) === ".." && basename(arg) !== "index.js")
             .map(ruleFile => basename(ruleFile, ".js"));
     } else {
         ruleIds = rules.keys();
