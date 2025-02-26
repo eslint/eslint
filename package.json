@@ -20,7 +20,7 @@
       "default": "./lib/unsupported-api.js"
     },
     "./rules": {
-      "types": "./lib/types/rules/index.d.ts"
+      "types": "./lib/types/rules.d.ts"
     },
     "./universal": {
       "types": "./lib/types/universal.d.ts",
@@ -33,7 +33,7 @@
         "./lib/types/use-at-your-own-risk.d.ts"
       ],
       "rules": [
-        "./lib/types/rules/index.d.ts"
+        "./lib/types/rules.d.ts"
       ],
       "universal": [
         "./lib/types/universal.d.ts"
@@ -77,7 +77,7 @@
     "lib/rules/*.js": [
       "node tools/update-eslint-all.js",
       "node tools/update-rule-type-headers.js",
-      "git add packages/js/src/configs/eslint-all.js \"lib/types/rules/*.ts\""
+      "git add packages/js/src/configs/eslint-all.js lib/types/rules.d.ts"
     ],
     "docs/src/rules/*.md": [
       "node tools/check-rule-examples.js",
