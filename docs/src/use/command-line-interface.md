@@ -93,6 +93,7 @@ Basic configuration:
   -c, --config path::String       Use this configuration instead of eslint.config.js, eslint.config.mjs, or
                                   eslint.config.cjs
   --inspect-config                Open the config inspector with the current configuration
+  --ext [String]                  Specify additional file extensions to lint
   --global [String]               Define global variables
   --parser String                 Specify the parser to be used
   --parser-options Object         Specify parser options
@@ -219,34 +220,32 @@ Details about the global variables defined by each environment are available in 
 
 #### `--ext`
 
-**eslintrc Mode Only.** If you are using flat config (`eslint.config.js`), please see [migration guide](./configure/migration-guide#--ext).
-
-This option allows you to specify which file extensions ESLint uses when searching for target files in the directories you specify.
+This option allows you to specify additional file extensions to lint.
 
 * **Argument Type**: String. File extension.
 * **Multiple Arguments**: Yes
-* **Default Value**: `.js` and the files that match the `overrides` entries of your configuration.
+* **Default Value**: By default, ESLint lints files with extensions `.js`, `.mjs`, `.cjs`, and additional extensions [specified in the configuration file](configure/configuration-files#specifying-files-with-arbitrary-extensions).
 
-`--ext` is only used when the patterns to lint are directories. If you use glob patterns or file names, then `--ext` is ignored. For example, `npx eslint "lib/*" --ext .js` matches all files within the `lib/` directory, regardless of extension.
+This option is primarely intended for use in combination with the `--no-config-lookup` option, since in that case there is no configuration file in which the additional extensions would be specified.
 
 ##### `--ext` example
 
 {{ npx_tabs ({
     package: "eslint",
     args: [".", "--ext", ".ts"],
-    comment: "Use only .ts extension"
+    comment: "Include .ts files"
 }) }}
 
 {{ npx_tabs ({
     package: "eslint",
-    args: [".", "--ext", ".js", "--ext", ".ts"],
-    comment: "Use both .js and .ts"
+    args: [".", "--ext", ".ts", "--ext", ".tsx"],
+    comment: "Include .ts and .tsx files"
 }) }}
 
 {{ npx_tabs ({
     package: "eslint",
-    args: [".", "--ext", ".js,.ts"],
-    comment: "Also use both .js and .ts"
+    args: [".", "--ext", ".ts,.tsx"],
+    comment: "Also include .ts and .tsx files"
 }) }}
 
 #### `--global`

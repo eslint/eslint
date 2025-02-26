@@ -747,7 +747,8 @@ describe("ESLint", () => {
                         usedDeprecatedRules: [
                             {
                                 ruleId: "semi",
-                                replacedBy: []
+                                replacedBy: ["@stylistic/js/semi"],
+                                info: coreRules.get("semi").meta.deprecated
                             }
                         ]
                     }
@@ -1004,7 +1005,7 @@ describe("ESLint", () => {
 
                 assert.deepStrictEqual(
                     result.usedDeprecatedRules,
-                    [{ ruleId: "indent-legacy", replacedBy: ["indent"] }]
+                    [{ ruleId: "indent-legacy", replacedBy: ["@stylistic/js/indent"], info: coreRules.get("indent-legacy")?.meta.deprecated }]
                 );
             });
 
@@ -1086,7 +1087,7 @@ describe("ESLint", () => {
                     flags,
                     cwd: getFixturePath("promise-config")
                 });
-                const results = await eslint.lintText('var foo = "bar";');
+                const results = await eslint.lintText("var foo = \"bar\";");
 
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 1);
@@ -3375,9 +3376,23 @@ describe("ESLint", () => {
                         cwd: originalDir,
                         overrideConfigFile: true,
                         overrideConfig: {
+                            plugins: {
+                                test: {
+                                    rules: {
+                                        "deprecated-with-replacement": {
+                                            meta: { deprecated: true, replacedBy: ["replacement"] },
+                                            create: () => ({})
+                                        },
+                                        "deprecated-without-replacement": {
+                                            meta: { deprecated: true },
+                                            create: () => ({})
+                                        }
+                                    }
+                                }
+                            },
                             rules: {
-                                "indent-legacy": 1,
-                                "callback-return": 1
+                                "test/deprecated-with-replacement": "error",
+                                "test/deprecated-without-replacement": "error"
                             }
                         }
                     });
@@ -3386,8 +3401,8 @@ describe("ESLint", () => {
                     assert.deepStrictEqual(
                         results[0].usedDeprecatedRules,
                         [
-                            { ruleId: "indent-legacy", replacedBy: ["indent"] },
-                            { ruleId: "callback-return", replacedBy: [] }
+                            { ruleId: "test/deprecated-with-replacement", replacedBy: ["replacement"], info: void 0 },
+                            { ruleId: "test/deprecated-without-replacement", replacedBy: [], info: void 0 }
                         ]
                     );
                 });
@@ -3416,7 +3431,42 @@ describe("ESLint", () => {
 
                     assert.deepStrictEqual(
                         results[0].usedDeprecatedRules,
-                        [{ ruleId: "indent-legacy", replacedBy: ["indent"] }]
+                        [{ ruleId: "indent-legacy", replacedBy: ["@stylistic/js/indent"], info: coreRules.get("indent-legacy").meta.deprecated }]
+                    );
+                });
+
+                it("should add the plugin name to the replacement if available", async () => {
+                    const deprecated = {
+                        message: "Deprecation",
+                        url: "https://example.com",
+                        replacedBy: [{ message: "Replacement", plugin: { name: "plugin" }, rule: { name: "name" } }]
+                    };
+
+                    eslint = new ESLint({
+                        flags,
+                        cwd: originalDir,
+                        overrideConfigFile: true,
+                        overrideConfig: {
+                            plugins: {
+                                test: {
+                                    rules: {
+                                        deprecated: {
+                                            meta: { deprecated },
+                                            create: () => ({})
+                                        }
+                                    }
+                                }
+                            },
+                            rules: {
+                                "test/deprecated": "error"
+                            }
+                        }
+                    });
+                    const results = await eslint.lintFiles(["lib/cli*.js"]);
+
+                    assert.deepStrictEqual(
+                        results[0].usedDeprecatedRules,
+                        [{ ruleId: "test/deprecated", replacedBy: ["plugin/name"], info: deprecated }]
                     );
                 });
             });
@@ -3499,16 +3549,19 @@ describe("ESLint", () => {
                             output: "true ? \"yes\" : \"no\";\n",
                             usedDeprecatedRules: [
                                 {
-                                    replacedBy: [],
-                                    ruleId: "semi"
+                                    ruleId: "semi",
+                                    replacedBy: ["@stylistic/js/semi"],
+                                    info: coreRules.get("semi").meta.deprecated
                                 },
                                 {
-                                    replacedBy: [],
-                                    ruleId: "quotes"
+                                    ruleId: "quotes",
+                                    replacedBy: ["@stylistic/js/quotes"],
+                                    info: coreRules.get("quotes").meta.deprecated
                                 },
                                 {
-                                    replacedBy: [],
-                                    ruleId: "space-infix-ops"
+                                    ruleId: "space-infix-ops",
+                                    replacedBy: ["@stylistic/js/space-infix-ops"],
+                                    info: coreRules.get("space-infix-ops").meta.deprecated
                                 }
                             ]
                         },
@@ -3523,16 +3576,19 @@ describe("ESLint", () => {
                             fixableWarningCount: 0,
                             usedDeprecatedRules: [
                                 {
-                                    replacedBy: [],
-                                    ruleId: "semi"
+                                    ruleId: "semi",
+                                    replacedBy: ["@stylistic/js/semi"],
+                                    info: coreRules.get("semi").meta.deprecated
                                 },
                                 {
-                                    replacedBy: [],
-                                    ruleId: "quotes"
+                                    ruleId: "quotes",
+                                    replacedBy: ["@stylistic/js/quotes"],
+                                    info: coreRules.get("quotes").meta.deprecated
                                 },
                                 {
-                                    replacedBy: [],
-                                    ruleId: "space-infix-ops"
+                                    ruleId: "space-infix-ops",
+                                    replacedBy: ["@stylistic/js/space-infix-ops"],
+                                    info: coreRules.get("space-infix-ops").meta.deprecated
                                 }
                             ]
                         },
@@ -3560,16 +3616,19 @@ describe("ESLint", () => {
                             output: "var msg = \"hi\";\nif (msg == \"hi\") {\n\n}\n",
                             usedDeprecatedRules: [
                                 {
-                                    replacedBy: [],
-                                    ruleId: "semi"
+                                    ruleId: "semi",
+                                    replacedBy: ["@stylistic/js/semi"],
+                                    info: coreRules.get("semi").meta.deprecated
                                 },
                                 {
-                                    replacedBy: [],
-                                    ruleId: "quotes"
+                                    ruleId: "quotes",
+                                    replacedBy: ["@stylistic/js/quotes"],
+                                    info: coreRules.get("quotes").meta.deprecated
                                 },
                                 {
-                                    replacedBy: [],
-                                    ruleId: "space-infix-ops"
+                                    ruleId: "space-infix-ops",
+                                    replacedBy: ["@stylistic/js/space-infix-ops"],
+                                    info: coreRules.get("space-infix-ops").meta.deprecated
                                 }
                             ]
                         },
@@ -3597,16 +3656,19 @@ describe("ESLint", () => {
                             output: "var msg = \"hi\" + foo;\n",
                             usedDeprecatedRules: [
                                 {
-                                    replacedBy: [],
-                                    ruleId: "semi"
+                                    ruleId: "semi",
+                                    replacedBy: ["@stylistic/js/semi"],
+                                    info: coreRules.get("semi").meta.deprecated
                                 },
                                 {
-                                    replacedBy: [],
-                                    ruleId: "quotes"
+                                    ruleId: "quotes",
+                                    replacedBy: ["@stylistic/js/quotes"],
+                                    info: coreRules.get("quotes").meta.deprecated
                                 },
                                 {
-                                    replacedBy: [],
-                                    ruleId: "space-infix-ops"
+                                    ruleId: "space-infix-ops",
+                                    replacedBy: ["@stylistic/js/space-infix-ops"],
+                                    info: coreRules.get("space-infix-ops").meta.deprecated
                                 }
                             ]
                         }
@@ -3873,6 +3935,75 @@ describe("ESLint", () => {
                     assert.strictEqual(results[0].messages[0].message, "'b' is defined but never used.");
                     assert.strictEqual(results[0].messages[0].ruleId, "post-processed");
                     assert.strictEqual(results[0].suppressedMessages.length, 0);
+
+                });
+
+                // https://github.com/eslint/markdown/blob/main/rfcs/configure-file-name-from-block-meta.md#name-uniqueness
+                it("should allow processors to return filenames with a slash and treat them as subpaths", async () => {
+                    eslint = new ESLint({
+                        flags,
+                        overrideConfigFile: true,
+                        overrideConfig: [
+                            {
+                                plugins: {
+                                    test: {
+                                        processors: {
+                                            txt: {
+                                                preprocess(input) {
+                                                    return input.split(" ").map((text, index) => ({
+                                                        filename: `example-${index}/a.js`,
+                                                        text
+                                                    }));
+                                                },
+                                                postprocess(messagesList) {
+                                                    return messagesList.flat();
+                                                }
+                                            }
+                                        },
+                                        rules: {
+                                            "test-rule": {
+                                                meta: {},
+                                                create(context) {
+                                                    return {
+                                                        Identifier(node) {
+                                                            context.report({
+                                                                node,
+                                                                message: `filename: ${context.filename} physicalFilename: ${context.physicalFilename} identifier: ${node.name}`
+                                                            });
+                                                        }
+                                                    };
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                files: ["**/*.txt"],
+                                processor: "test/txt"
+                            },
+                            {
+                                files: ["**/a.js"],
+                                rules: {
+                                    "test/test-rule": "error"
+                                }
+                            }
+                        ],
+                        cwd: path.join(fixtureDir, "..")
+                    });
+                    const filename = getFixturePath("processors", "test", "test-subpath.txt");
+                    const [result] = await eslint.lintFiles([filename]);
+
+                    assert.strictEqual(result.messages.length, 3);
+
+                    assert.strictEqual(result.messages[0].ruleId, "test/test-rule");
+                    assert.strictEqual(result.messages[0].message, `filename: ${path.join(filename, "0_example-0", "a.js")} physicalFilename: ${filename} identifier: foo`);
+                    assert.strictEqual(result.messages[1].ruleId, "test/test-rule");
+                    assert.strictEqual(result.messages[1].message, `filename: ${path.join(filename, "1_example-1", "a.js")} physicalFilename: ${filename} identifier: bar`);
+                    assert.strictEqual(result.messages[2].ruleId, "test/test-rule");
+                    assert.strictEqual(result.messages[2].message, `filename: ${path.join(filename, "2_example-2", "a.js")} physicalFilename: ${filename} identifier: baz`);
+
+                    assert.strictEqual(result.suppressedMessages.length, 0);
 
                 });
 
@@ -6087,6 +6218,54 @@ describe("ESLint", () => {
                     await timers.setImmediate();
                 }
                 assert.strictEqual(createCallCount, 1);
+            });
+
+            // https://github.com/eslint/eslint/issues/19243
+            it("should not exit the process unexpectedly after a rule crashes", async () => {
+                const cwd = getFixturePath();
+
+                /*
+                 * Mocha attaches `unhandledRejection` event handlers to the current process.
+                 * To test without global handlers, we must launch a new process.
+                 */
+                const teardown = createCustomTeardown({
+                    cwd,
+                    files: {
+                        "test.js": `
+                        const { ESLint } = require(${JSON.stringify(require.resolve("eslint"))});
+
+                        const eslint = new ESLint({
+                            flags: ${JSON.stringify(flags)},
+                            overrideConfigFile: true,
+                            plugins: {
+                                boom: {
+                                    rules: {
+                                        boom: {
+                                            create: () => ({
+                                                "*"() {
+                                                    throw "Boom!";
+                                                },
+                                            }),
+                                        }
+                                    }
+                                }
+                            },
+                            baseConfig: {
+                                rules: {
+                                    "boom/boom": "error"
+                                }
+                            }
+                        });
+
+                        eslint.lintFiles("passing.js").catch(() => { });
+                        `
+                    }
+                });
+
+                await teardown.prepare();
+                const execFile = util.promisify(require("node:child_process").execFile);
+
+                await execFile(process.execPath, ["test.js"], { cwd });
             });
 
             describe("Error while globbing", () => {

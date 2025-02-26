@@ -6,9 +6,6 @@ related_rules:
 further_reading:
 - https://gist.github.com/isaacs/357981
 ---
-
-This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/comma-style) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
-
 The Comma Style rule enforces styles for comma-separated lists. There are two comma styles primarily used in JavaScript:
 
 * The standard style, in which commas are placed at the end of the current line

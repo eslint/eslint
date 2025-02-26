@@ -2373,7 +2373,7 @@ describe("FlatConfigArray", () => {
                             "doesnt-exist/match": "error"
                         }
                     }
-                ], /Key "rules": Key "doesnt-exist\/match": Could not find plugin "doesnt-exist"\./u);
+                ], /Key "rules": Key "doesnt-exist\/match": Could not find plugin "doesnt-exist" in configuration\./u);
             });
 
             it("should error when rule options don't match schema", async () => {

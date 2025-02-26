@@ -218,9 +218,9 @@ describe("cli", () => {
                 it(`should use it when an eslint.config.js is present and useFlatConfig is true:${configType}`, async () => {
                     process.cwd = getFixturePath;
 
-                    const exitCode = await cli.execute(`--no-ignore --ext .js ${getFixturePath("files")}`, null, useFlatConfig);
+                    const exitCode = await cli.execute(`--no-ignore --env es2024 ${getFixturePath("files")}`, null, useFlatConfig);
 
-                    // When flat config is used, we get an exit code of 2 because the --ext option is unrecognized.
+                    // When flat config is used, we get an exit code of 2 because the --env option is unrecognized.
                     assert.strictEqual(exitCode, useFlatConfig ? 2 : 0);
                 });
 
@@ -228,7 +228,7 @@ describe("cli", () => {
                     process.env.ESLINT_USE_FLAT_CONFIG = "false";
                     process.cwd = getFixturePath;
 
-                    const exitCode = await cli.execute(`--no-ignore --ext .js ${getFixturePath("files")}`, null, useFlatConfig);
+                    const exitCode = await cli.execute(`--no-ignore --env es2024 ${getFixturePath("files")}`, null, useFlatConfig);
 
                     assert.strictEqual(exitCode, 0);
 
@@ -245,9 +245,9 @@ describe("cli", () => {
                     // Set the CWD to outside the fixtures/ directory so that no eslint.config.js is found
                     process.cwd = () => getFixturePath("..");
 
-                    const exitCode = await cli.execute(`--no-ignore --ext .js ${getFixturePath("files")}`, null, useFlatConfig);
+                    const exitCode = await cli.execute(`--no-ignore --env es2024 ${getFixturePath("files")}`, null, useFlatConfig);
 
-                    // When flat config is used, we get an exit code of 2 because the --ext option is unrecognized.
+                    // When flat config is used, we get an exit code of 2 because the --env option is unrecognized.
                     assert.strictEqual(exitCode, useFlatConfig ? 2 : 0);
                 });
             });
@@ -2024,6 +2024,129 @@ describe("cli", () => {
 
                     assert.deepStrictEqual(log.error.firstCall.args, [lines.join("\n")], "has the right text to log.error");
                     assert.strictEqual(exitCode, 2, "exit code should be 2");
+                });
+            });
+
+            describe("--ext option", () => {
+
+                let originalCwd;
+
+                beforeEach(() => {
+                    originalCwd = process.cwd();
+                    process.chdir(getFixturePath("file-extensions"));
+                });
+
+                afterEach(() => {
+                    process.chdir(originalCwd);
+                    originalCwd = void 0;
+                });
+
+                it("when not provided, without config file only default extensions should be linted", async () => {
+                    const exitCode = await cli.execute("--no-config-lookup -f json .", null, true);
+
+                    assert.strictEqual(exitCode, 0, "exit code should be 0");
+
+                    const results = JSON.parse(log.info.args[0][0]);
+
+                    assert.deepStrictEqual(
+                        results.map(({ filePath }) => filePath).sort(),
+                        ["a.js", "b.mjs", "c.cjs", "eslint.config.js"].map(filename => path.resolve(filename))
+                    );
+                });
+
+                it("when not provided, only default extensions and extensions from the config file should be linted", async () => {
+                    const exitCode = await cli.execute("-f json .", null, true);
+
+                    assert.strictEqual(exitCode, 0, "exit code should be 0");
+
+                    const results = JSON.parse(log.info.args[0][0]);
+
+                    assert.deepStrictEqual(
+                        results.map(({ filePath }) => filePath).sort(),
+                        ["a.js", "b.mjs", "c.cjs", "d.jsx", "eslint.config.js"].map(filename => path.resolve(filename))
+                    );
+                });
+
+                it("should include an additional extension when specified with dot", async () => {
+                    const exitCode = await cli.execute("-f json --ext .ts .", null, true);
+
+                    assert.strictEqual(exitCode, 0, "exit code should be 0");
+
+                    const results = JSON.parse(log.info.args[0][0]);
+
+                    assert.deepStrictEqual(
+                        results.map(({ filePath }) => filePath).sort(),
+                        ["a.js", "b.mjs", "c.cjs", "d.jsx", "eslint.config.js", "f.ts"].map(filename => path.resolve(filename))
+                    );
+                });
+
+                it("should include an additional extension when specified without dot", async () => {
+                    const exitCode = await cli.execute("-f json --ext ts .", null, true);
+
+                    assert.strictEqual(exitCode, 0, "exit code should be 0");
+
+                    const results = JSON.parse(log.info.args[0][0]);
+
+                    // should not include "foots"
+                    assert.deepStrictEqual(
+                        results.map(({ filePath }) => filePath).sort(),
+                        ["a.js", "b.mjs", "c.cjs", "d.jsx", "eslint.config.js", "f.ts"].map(filename => path.resolve(filename))
+                    );
+                });
+
+                it("should include multiple additional extensions when specified by repeating the option", async () => {
+                    const exitCode = await cli.execute("-f json --ext .ts --ext tsx .", null, true);
+
+                    assert.strictEqual(exitCode, 0, "exit code should be 0");
+
+                    const results = JSON.parse(log.info.args[0][0]);
+
+                    assert.deepStrictEqual(
+                        results.map(({ filePath }) => filePath).sort(),
+                        ["a.js", "b.mjs", "c.cjs", "d.jsx", "eslint.config.js", "f.ts", "g.tsx"].map(filename => path.resolve(filename))
+                    );
+                });
+
+                it("should include multiple additional extensions when specified with comma-delimited list", async () => {
+                    const exitCode = await cli.execute("-f json --ext .ts,.tsx .", null, true);
+
+                    assert.strictEqual(exitCode, 0, "exit code should be 0");
+
+                    const results = JSON.parse(log.info.args[0][0]);
+
+                    assert.deepStrictEqual(
+                        results.map(({ filePath }) => filePath).sort(),
+                        ["a.js", "b.mjs", "c.cjs", "d.jsx", "eslint.config.js", "f.ts", "g.tsx"].map(filename => path.resolve(filename))
+                    );
+                });
+
+                it('should fail when passing --ext ""', async () => {
+
+                    // When passing "" on command line, its corresponding item in process.argv[] is an empty string
+                    const exitCode = await cli.execute(["argv0", "argv1", "--ext", ""], null, true);
+
+                    assert.strictEqual(exitCode, 2, "exit code should be 2");
+                    assert.strictEqual(log.info.callCount, 0, "log.info should not be called");
+                    assert.strictEqual(log.error.callCount, 1, "log.error should be called once");
+                    assert.deepStrictEqual(log.error.firstCall.args[0], "The --ext option value cannot be empty.");
+                });
+
+                it("should fail when passing --ext ,ts", async () => {
+                    const exitCode = await cli.execute("--ext ,ts", null, true);
+
+                    assert.strictEqual(exitCode, 2, "exit code should be 2");
+                    assert.strictEqual(log.info.callCount, 0, "log.info should not be called");
+                    assert.strictEqual(log.error.callCount, 1, "log.error should be called once");
+                    assert.deepStrictEqual(log.error.firstCall.args[0], "The --ext option arguments cannot be empty strings. Found an empty string at index 0.");
+                });
+
+                it("should fail when passing --ext ts,,tsx", async () => {
+                    const exitCode = await cli.execute("--ext ts,,tsx", null, true);
+
+                    assert.strictEqual(exitCode, 2, "exit code should be 2");
+                    assert.strictEqual(log.info.callCount, 0, "log.info should not be called");
+                    assert.strictEqual(log.error.callCount, 1, "log.error should be called once");
+                    assert.deepStrictEqual(log.error.firstCall.args[0], "The --ext option arguments cannot be empty strings. Found an empty string at index 1.");
                 });
             });
 

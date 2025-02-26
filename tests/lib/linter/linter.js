@@ -16945,6 +16945,55 @@ var a = "test2";
                     }
                 ]);
             });
+
+            // https://github.com/eslint/markdown/blob/main/rfcs/configure-file-name-from-block-meta.md#name-uniqueness
+            it("should allow preprocessor to return filenames with a slash and treat them as subpaths.", () => {
+                const problems = linter.verify(
+                    "foo bar baz",
+                    [
+                        {
+                            files: [filename],
+                            processor: {
+                                preprocess(input) {
+                                    return input.split(" ").map(text => ({
+                                        filename: "example/block.js",
+                                        text
+                                    }));
+                                },
+                                postprocess(messagesList) {
+                                    return messagesList.flat();
+                                }
+                            }
+                        },
+                        extraConfig,
+                        {
+                            files: ["**/block.js"],
+                            rules: {
+                                "test/report-original-text": "error"
+                            }
+                        }
+                    ],
+                    {
+                        filename
+                    }
+                );
+                const suppressedMessages = linter.getSuppressedMessages();
+
+                assert.strictEqual(problems.length, 3);
+                assert.deepStrictEqual(problems.map(problem => problem.message), ["foo", "bar", "baz"]);
+
+                assert.strictEqual(suppressedMessages.length, 0);
+
+                // filename
+                assert.strictEqual(receivedFilenames.length, 3);
+                assert.match(receivedFilenames[0], /^filename\.js[/\\]0_example[/\\]block\.js/u);
+                assert.match(receivedFilenames[1], /^filename\.js[/\\]1_example[/\\]block\.js/u);
+                assert.match(receivedFilenames[2], /^filename\.js[/\\]2_example[/\\]block\.js/u);
+
+                // physical filename
+                assert.strictEqual(receivedPhysicalFilenames.length, 3);
+                assert.strictEqual(receivedPhysicalFilenames.every(name => name === filename), true);
+            });
         });
 
         describe("postprocessors", () => {
