@@ -94,7 +94,7 @@ describe("SourceCode", () => {
 
             assert.throws(
                 () => new SourceCode("foo;", false),
-                /AST is false/u
+                /Unexpected empty AST\. \(false\)/u
             );
 
         });
@@ -103,7 +103,7 @@ describe("SourceCode", () => {
 
             assert.throws(
                 () => new SourceCode("foo;", null),
-                /AST is null/u
+                /Unexpected empty AST\. \(null\)/u
             );
 
         });
@@ -112,7 +112,7 @@ describe("SourceCode", () => {
 
             assert.throws(
                 () => new SourceCode("foo;", void 0),
-                /AST is undefined/u
+                /Unexpected empty AST\. \(undefined\)/u
             );
 
         });
