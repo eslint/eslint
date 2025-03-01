@@ -41,7 +41,7 @@ eslint --fix --suppress-rule no-unused-expressions --suppress-rule no-unsafe-ass
 
 ## Suppressions File
 
-When you suppress violations, ESLint creates a `.eslint-suppressions.json` file in the root of the project. This file contains the list of rules that have been suppressed. You can should commit this file to the repository so that the suppressions are shared with all the developers.
+When you suppress violations, ESLint creates a `eslint-suppressions.json` file in the root of the project. This file contains the list of rules that have been suppressed. You can should commit this file to the repository so that the suppressions are shared with all the developers.
 
 If necessary, you can change the location of the suppressions file by using the `--suppressions-location` argument. Note that the argument must be provided not only when suppressing violations but also when running ESLint. This is necessary so that ESLint picks up the correct suppressions file.
 
