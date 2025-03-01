@@ -7589,6 +7589,76 @@ var a = "test2";
                 linter.verify("0", { rules: { "test-rule": "error" } });
             }, /Fixable rules must set the `meta\.fixable` property/u);
         });
+
+        it("should stop fixing if a circular fix is detected", () => {
+            linter.defineRule("add-leading-hyphen", {
+                meta: {
+                    fixable: "whitespace"
+                },
+                create(context) {
+                    return {
+                        Program(node) {
+                            const sourceCode = context.getSourceCode();
+                            const hasLeadingHyphen = sourceCode.getText(node).startsWith("-");
+
+                            context.report({
+                                node,
+                                message: "Adding leading hyphen",
+                                fix(fixer) {
+                                    if (hasLeadingHyphen) {
+                                        return;
+                                    }
+
+                                    fixer.insertTextBefore(node, "-");
+                                }
+                            });
+                        }
+                    };
+                }
+            });
+            linter.defineRule("remove-leading-hyphen", {
+                meta: {
+                    fixable: "whitespace"
+                },
+                create(context) {
+                    return {
+                        Program(node) {
+                            const sourceCode = context.getSourceCode();
+                            const hasLeadingHyphen = sourceCode.getText(node).startsWith("-");
+
+                            context.report({
+                                node,
+                                message: "Removing leading hyphen",
+                                fix(fixer) {
+                                    if (!hasLeadingHyphen) {
+                                        return;
+                                    }
+
+                                    fixer.removeRange([0, 1]);
+                                }
+                            });
+                        }
+                    };
+                }
+            });
+
+            const initialCode = "-a";
+            const fixResult = linter.verifyAndFix(initialCode, {
+                rules: {
+                    "add-leading-hyphen": "error",
+                    "remove-leading-hyphen": "error"
+                }
+            });
+
+            assert.strictEqual(fixResult.fixed, false, "Fixing was not applied due to circular fixes.");
+            assert.strictEqual(fixResult.output, "-a", "Output should match the original input due to circular fixes.");
+            assert.strictEqual(fixResult.messages.length, 2, "There should be two remaining lint messages after detecting circular fixes.");
+            assert.strictEqual(fixResult.messages[0].message, "Adding leading hyphen", "Message should match the last fix attempt.");
+
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.strictEqual(suppressedMessages.length, 0, "No suppressed messages should exist.");
+        });
     });
 
     describe("Edge cases", () => {
@@ -8020,6 +8090,17 @@ describe("Linter with FlatConfigArray", () => {
     function createFlatConfigArray(value, options) {
         return new FlatConfigArray(value, options);
     }
+
+    let processStub;
+
+    beforeEach(() => {
+        sinon.restore();
+        processStub = sinon.stub(process, "emitWarning");
+    });
+
+    afterEach(() => {
+        processStub.restore();
+    });
 
     beforeEach(() => {
         linter = new Linter({ configType: "flat" });
@@ -16607,6 +16688,91 @@ var a = "test2";
             assert.throws(() => {
                 linter.verify("0", config);
             }, /Fixable rules must set the `meta\.fixable` property/u);
+        });
+
+        it("should stop fixing if a circular fix is detected", () => {
+            const config = {
+                plugins: {
+                    test: {
+                        rules: {
+                            "add-leading-hyphen": {
+                                meta: {
+                                    fixable: "whitespace"
+                                },
+                                create(context) {
+                                    return {
+                                        Program(node) {
+                                            const sourceCode = context.getSourceCode();
+                                            const hasLeadingHyphen = sourceCode.getText(node).startsWith("-");
+
+                                            context.report({
+                                                node,
+                                                message: "Adding leading hyphen",
+                                                fix(fixer) {
+                                                    if (hasLeadingHyphen) {
+                                                        return;
+                                                    }
+
+                                                    fixer.insertTextBefore(node, "-");
+                                                }
+                                            });
+                                        }
+                                    };
+                                }
+                            },
+                            "remove-leading-hyphen": {
+                                meta: {
+                                    fixable: "whitespace"
+                                },
+                                create(context) {
+                                    return {
+                                        Program(node) {
+                                            const sourceCode = context.getSourceCode();
+                                            const hasLeadingHyphen = sourceCode.getText(node).startsWith("-");
+
+                                            context.report({
+                                                node,
+                                                message: "Removing leading hyphen",
+                                                fix(fixer) {
+                                                    if (!hasLeadingHyphen) {
+                                                        return;
+                                                    }
+
+                                                    fixer.removeRange([0, 1]);
+                                                }
+                                            });
+                                        }
+                                    };
+                                }
+                            }
+                        }
+                    }
+                },
+                rules: {
+                    "test/add-leading-hyphen": "error",
+                    "test/remove-leading-hyphen": "error"
+                }
+            };
+
+            const initialCode = "-a";
+            const fixResult = linter.verifyAndFix(initialCode, config);
+
+            assert.strictEqual(fixResult.fixed, false, "Fixing was not applied due to circular fixes.");
+            assert.strictEqual(fixResult.output, "-a", "Output should match the original input due to circular fixes.");
+            assert.strictEqual(fixResult.messages.length, 2, "There should be two remaining lint messages after detecting circular fixes.");
+            assert.strictEqual(fixResult.messages[0].message, "Adding leading hyphen", "Message should match the last fix attempt.");
+
+            // Verify the warning was emitted
+            assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` once");
+            assert.strictEqual(
+                processStub.firstCall.args[0],
+                "Circular fixes detected while fixing text. It is likely that you have conflicting rules in your configuration."
+            );
+            assert.strictEqual(processStub.firstCall.args[1], "ESLintCircularFixesWarning");
+
+            const suppressedMessages = linter.getSuppressedMessages();
+
+            assert.strictEqual(suppressedMessages.length, 0, "No suppressed messages should exist.");
         });
     });
 
