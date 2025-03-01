@@ -12,9 +12,11 @@ Enabling a new lint rule as `error` can be challenging when the codebase has man
 
 To address this, ESLint provides a way to suppress existing violations for one or more rules. While the rule will be enforced for new code, the existing violations will not be reported. This way, you can address the existing violations at your own pace.
 
-Please note that this feature is only available for rules that are enabled as `error`. If a rule is enabled as `warn`, ESLint will not suppress the violations.
+::: important
+Only rules configured as `"error"` are suppressed. If a rule is enabled as `warn`, ESLint will not suppress the violations.
+:::
 
-## Suppressing Violations
+After you enable a rule as `"error"` in your configuration file, you can suppress all the existing violations at once by using the `--suppress-all` flag. It is recommended to execute the command with the `--fix` flag so that you don't suppress violations that can be auto-fixed.
 
 After you enable a rule as `"error"` in your configuration file, you can suppress all the existing violations at once by using the `--suppress-all` flag. It is recommended to execute the command with the `--fix` flag so that you don't suppress violations that can be auto-fixed.
 
@@ -25,6 +27,7 @@ eslint --fix --suppress-all
 This command will suppress all the existing violations of all the rules that are enabled as `"error"`. Running the `eslint` command again will not report these violations.
 
 If you would like to suppress violations of a specific rule, you can use the `--suppress-rule` flag.
+eslint --fix --suppress-rule no-unused-expressions
 
 ```bash
 eslint --fix --suppress-rule no-explicit-any
