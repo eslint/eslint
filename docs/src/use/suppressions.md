@@ -8,7 +8,7 @@ eleventyNavigation:
 
 ---
 
-Enabling a new lint rule as `error` can be counterintuitive when the codebase has many violations and the rule isn't auto-fixable. A good example is [`@typescript-eslint/no-explicit-any`](https://typescript-eslint.io/rules/no-explicit-any/). Unless the rule is enabled during the early stages of the project, it becomes harder and harder to enable it as the codebase grows. Existing violations must be resolved before enabling the rule, but while doing that other violations might creep in.
+Enabling a new lint rule as `error` can be challenging when the codebase has many violations and the rule isn't auto-fixable.  Unless the rule is enabled during the early stages of the project, it becomes harder and harder to enable it as the codebase grows. Existing violations must be resolved before enabling the rule, but while doing that other violations may occur.
 
 To address this, ESLint provides a way to suppress existing violations for one or more rules. While the rule will be enforced for new code, the existing violations will not be reported. This way, you can address the existing violations at your own pace.
 
@@ -16,13 +16,13 @@ Please note that this feature is only available for rules that are enabled as `e
 
 ## Suppressing Violations
 
-After you enable a rule as `error`, you can suppress all the existing violations at once by using the `--suppress-all` flag. It is recommended to execute the command with the `--fix` flag first so that you don't suppress violations that can be auto-fixed.
+After you enable a rule as `"error"` in your configuration file, you can suppress all the existing violations at once by using the `--suppress-all` flag. It is recommended to execute the command with the `--fix` flag so that you don't suppress violations that can be auto-fixed.
 
 ```bash
 eslint --fix --suppress-all
 ```
 
-This command will suppress all the existing violations of all the rules that are enabled as `error`. Running the `eslint` command again will not report these violations.
+This command will suppress all the existing violations of all the rules that are enabled as `"error"`. Running the `eslint` command again will not report these violations.
 
 If you would like to suppress violations of a specific rule, you can use the `--suppress-rule` flag.
 
@@ -33,7 +33,7 @@ eslint --fix --suppress-rule no-explicit-any
 You can also suppress violations of multiple rules by providing multiple rule names.
 
 ```bash
-eslint --fix --suppress-rule no-explicit-any --suppress-rule no-unsafe-assignment
+eslint --fix --suppress-rule no-unused-expressions --suppress-rule no-unsafe-assignment
 ```
 
 ## Suppressions File
