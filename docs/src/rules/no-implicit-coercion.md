@@ -11,26 +11,26 @@ Some of them might be hard to read and understand.
 Such as:
 
 ```js
-var b = !!foo;
-var b = ~foo.indexOf(".");
-var n = +foo;
-var n = -(-foo);
-var n = foo - 0;
-var n = 1 * foo;
-var s = "" + foo;
+const b = !!foo;
+const b1 = ~foo.indexOf(".");
+const n = +foo;
+const n1 = -(-foo);
+const n2 = foo - 0;
+const n3 = 1 * foo;
+const s = "" + foo;
 foo += ``;
 ```
 
 Those can be replaced with the following code:
 
 ```js
-var b = Boolean(foo);
-var b = foo.indexOf(".") !== -1;
-var n = Number(foo);
-var n = Number(foo);
-var n = Number(foo);
-var n = Number(foo);
-var s = String(foo);
+const b = Boolean(foo);
+const b1 = foo.indexOf(".") !== -1;
+const n = Number(foo);
+const n1 = Number(foo);
+const n2 = Number(foo);
+const n3 = Number(foo);
+const s = String(foo);
 foo = String(foo);
 ```
 
@@ -59,8 +59,8 @@ Examples of **incorrect** code for the default `{ "boolean": true }` option:
 ```js
 /*eslint no-implicit-coercion: "error"*/
 
-var b = !!foo;
-var b = ~foo.indexOf(".");
+const b = !!foo;
+const b1 = ~foo.indexOf(".");
 // bitwise not is incorrect only with `indexOf`/`lastIndexOf` method calling.
 ```
 
@@ -73,10 +73,10 @@ Examples of **correct** code for the default `{ "boolean": true }` option:
 ```js
 /*eslint no-implicit-coercion: "error"*/
 
-var b = Boolean(foo);
-var b = foo.indexOf(".") !== -1;
+const b = Boolean(foo);
+const b1 = foo.indexOf(".") !== -1;
 
-var n = ~foo; // This is a just bitwise not.
+const n = ~foo; // This is a just bitwise not.
 ```
 
 :::
@@ -90,10 +90,10 @@ Examples of **incorrect** code for the default `{ "number": true }` option:
 ```js
 /*eslint no-implicit-coercion: "error"*/
 
-var n = +foo;
-var n = -(-foo);
-var n = foo - 0;
-var n = 1 * foo;
+const n = +foo;
+const n1 = -(-foo);
+const n2 = foo - 0;
+const n3 = 1 * foo;
 ```
 
 :::
@@ -105,11 +105,11 @@ Examples of **correct** code for the default `{ "number": true }` option:
 ```js
 /*eslint no-implicit-coercion: "error"*/
 
-var n = Number(foo);
-var n = parseFloat(foo);
-var n = parseInt(foo, 10);
+const n = Number(foo);
+const n1 = parseFloat(foo);
+const n2 = parseInt(foo, 10);
 
-var n = foo * 1/4; // `* 1` is allowed when followed by the `/` operator
+const n3 = foo * 1/4; // `* 1` is allowed when followed by the `/` operator
 ```
 
 :::
@@ -123,8 +123,8 @@ Examples of **incorrect** code for the default `{ "string": true }` option:
 ```js
 /*eslint no-implicit-coercion: "error"*/
 
-var s = "" + foo;
-var s = `` + foo;
+const s = "" + foo;
+const s1 = `` + foo;
 foo += "";
 foo += ``;
 ```
@@ -138,7 +138,7 @@ Examples of **correct** code for the default `{ "string": true }` option:
 ```js
 /*eslint no-implicit-coercion: "error"*/
 
-var s = String(foo);
+const s = String(foo);
 foo = String(foo);
 ```
 
@@ -155,7 +155,7 @@ Examples of **incorrect** code for the `{ "disallowTemplateShorthand": true }` o
 ```js
 /*eslint no-implicit-coercion: ["error", { "disallowTemplateShorthand": true }]*/
 
-var s = `${foo}`;
+const s = `${foo}`;
 ```
 
 :::
@@ -167,15 +167,15 @@ Examples of **correct** code for the `{ "disallowTemplateShorthand": true }` opt
 ```js
 /*eslint no-implicit-coercion: ["error", { "disallowTemplateShorthand": true }]*/
 
-var s = String(foo);
+const s = String(foo);
 
-var s = `a${foo}`;
+const s1 = `a${foo}`;
 
-var s = `${foo}b`;
+const s2 = `${foo}b`;
 
-var s = `${foo}${bar}`;
+const s3 = `${foo}${bar}`;
 
-var s = tag`${foo}`;
+const s4 = tag`${foo}`;
 ```
 
 :::
@@ -187,7 +187,7 @@ Examples of **correct** code for the default `{ "disallowTemplateShorthand": fal
 ```js
 /*eslint no-implicit-coercion: ["error", { "disallowTemplateShorthand": false }]*/
 
-var s = `${foo}`;
+const s = `${foo}`;
 ```
 
 :::
@@ -203,8 +203,8 @@ Examples of **correct** code for the sample `{ "allow": ["!!", "~"] }` option:
 ```js
 /*eslint no-implicit-coercion: [2, { "allow": ["!!", "~"] } ]*/
 
-var b = !!foo;
-var b = ~foo.indexOf(".");
+const b = !!foo;
+const b1 = ~foo.indexOf(".");
 ```
 
 :::
