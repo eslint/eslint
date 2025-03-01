@@ -8,12 +8,12 @@ eleventyNavigation:
 
 ---
 
-Enabling a new lint rule as `error` can be challenging when the codebase has many violations and the rule isn't auto-fixable.  Unless the rule is enabled during the early stages of the project, it becomes harder and harder to enable it as the codebase grows. Existing violations must be resolved before enabling the rule, but while doing that other violations may occur.
+Enabling a new lint rule as `"error"` can be challenging when the codebase has many violations and the rule isn't auto-fixable.  Unless the rule is enabled during the early stages of the project, it becomes harder and harder to enable it as the codebase grows. Existing violations must be resolved before enabling the rule, but while doing that other violations may occur.
 
 To address this, ESLint provides a way to suppress existing violations for one or more rules. While the rule will be enforced for new code, the existing violations will not be reported. This way, you can address the existing violations at your own pace.
 
 ::: important
-Only rules configured as `"error"` are suppressed. If a rule is enabled as `warn`, ESLint will not suppress the violations.
+Only rules configured as `"error"` are suppressed. If a rule is enabled as `"warn"`, ESLint will not suppress the violations.
 :::
 
 After you enable a rule as `"error"` in your configuration file, you can suppress all the existing violations at once by using the `--suppress-all` flag. It is recommended to execute the command with the `--fix` flag so that you don't suppress violations that can be auto-fixed.
