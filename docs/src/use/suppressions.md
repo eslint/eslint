@@ -18,8 +18,6 @@ Only rules configured as `"error"` are suppressed. If a rule is enabled as `"war
 
 After you enable a rule as `"error"` in your configuration file, you can suppress all the existing violations at once by using the `--suppress-all` flag. It is recommended to execute the command with the `--fix` flag so that you don't suppress violations that can be auto-fixed.
 
-After you enable a rule as `"error"` in your configuration file, you can suppress all the existing violations at once by using the `--suppress-all` flag. It is recommended to execute the command with the `--fix` flag so that you don't suppress violations that can be auto-fixed.
-
 ```bash
 eslint --fix --suppress-all
 ```
@@ -27,10 +25,9 @@ eslint --fix --suppress-all
 This command will suppress all the existing violations of all the rules that are enabled as `"error"`. Running the `eslint` command again will not report these violations.
 
 If you would like to suppress violations of a specific rule, you can use the `--suppress-rule` flag.
-eslint --fix --suppress-rule no-unused-expressions
 
 ```bash
-eslint --fix --suppress-rule no-explicit-any
+eslint --fix --suppress-rule no-unused-expressions
 ```
 
 You can also suppress violations of multiple rules by providing multiple rule names.
@@ -41,12 +38,12 @@ eslint --fix --suppress-rule no-unused-expressions --suppress-rule no-unsafe-ass
 
 ## Suppressions File
 
-When you suppress violations, ESLint creates a `eslint-suppressions.json` file in the root of the project. This file contains the list of rules that have been suppressed. You can should commit this file to the repository so that the suppressions are shared with all the developers.
+When you suppress violations, ESLint creates a `eslint-suppressions.json` file in the root of the project. This file contains the list of rules that have been suppressed. You should commit this file to the repository so that the suppressions are shared with all the developers.
 
 If necessary, you can change the location of the suppressions file by using the `--suppressions-location` argument. Note that the argument must be provided not only when suppressing violations but also when running ESLint. This is necessary so that ESLint picks up the correct suppressions file.
 
 ```bash
-eslint --suppressions-location .github/.eslint-suppress
+eslint --suppressions-location .github/.eslint-suppressions
 ```
 
 ## Resolving Suppressions
