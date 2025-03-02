@@ -14,8 +14,8 @@
 // Requirements
 //-----------------------------------------------------------------------------
 
-const { readdir, readFile, writeFile } = require("node:fs/promises");
-const { basename, extname, join, relative } = require("node:path");
+const { readFile, writeFile } = require("node:fs/promises");
+const { basename, join, relative } = require("node:path");
 const { added } = require("../docs/src/_data/rule_versions.json");
 const rules = require("../lib/rules");
 const ts = require("typescript");
@@ -24,37 +24,13 @@ const ts = require("typescript");
 // Typedefs
 //------------------------------------------------------------------------------
 
-/** @typedef {import("eslint").AST.Range} Range */
+/** @typedef {import("@eslint/core").ExternalSpecifier} ExternalSpecifier */
 /** @typedef {import("eslint").Rule.RuleMetaData} RuleMetaData */
+/** @typedef {{ tsDocStart: number; tsDocEnd: number; typeEnd: number; }} TextPositions */
 
 //-----------------------------------------------------------------------------
 // Helpers
 //-----------------------------------------------------------------------------
-
-/**
- * Returns the deprecation notice for a rule.
- * If the provided TSDoc comment contains a `@deprecated` tag followed by some text, the deprecation notice is extracted from there;
- * otherwise, a standard notice will be created from the name of the replacement rule, if one exists.
- * @param {string} tsDoc The text of the existing TSDoc comment.
- * @param {RuleMetaData} ruleMeta The rule's `meta` object.
- * @returns {string} The deprecation notice for the specified rule.
- */
-function createDeprecationNotice(tsDoc, ruleMeta) {
-    const match = /\n *\* *@deprecated +(?<notice>.+)\n/u.exec(tsDoc);
-
-    if (match) {
-        return match.groups.notice;
-    }
-    const { replacedBy } = ruleMeta;
-
-    if (replacedBy && replacedBy.length === 1) {
-        const replacement = replacedBy[0];
-        const replacementURL = rules.get(replacement).meta.docs.url;
-
-        return `please use [\`${replacement}\`](${replacementURL}).`;
-    }
-    return "";
-}
 
 /**
  * Escapes a line of markdown text so it can be safely inserted into a TSDoc comment.
@@ -105,6 +81,15 @@ function extendsRulesRecord(node) {
 }
 
 /**
+ * Returns a markdown link with name and URL of a rule or plugin.
+ * @param {ExternalSpecifier} specifier Name and URL of the rule or plugin.
+ * @returns {string} The markdown link.
+ */
+function formatNameAndURL({ name, url }) {
+    return `[\`${name}\`](${url})`;
+}
+
+/**
  * Creates a TSDoc comment from a list of lines.
  * @param {ReadonlyArray<string>} lines The lines of the TSDoc comments.
  * @returns {string} The formatted text of the TSDoc comment.
@@ -141,15 +126,15 @@ function getConsideredRuleIds(args) {
 }
 
 /**
- * Returns the locations of the TSDoc header comments for each rule in a type declaration file.
+ * Returns the locations of the TSDoc header comments and the end of the type definition for each rule in a type declaration file.
  * If a rule has no header comment the location returned is the start position of the rule name.
  * @param {string} sourceText The source text of the type declaration file.
  * @param {Set<string>} consideredRuleIds The names of the rules to be considered for the current run.
- * @returns {Map<string, Range>} A map of rule names to ranges.
- * The ranges indicate the locations of the TSDoc header comments in the source.
+ * @returns {Map<string, TextPositions>} A map of rule names to text positions.
+ * The text positions indicate the locations of the TSDoc header comments and the end of the type definition in the source.
  */
-function getTSDocRangeMap(sourceText, consideredRuleIds) {
-    const tsDocRangeMap = new Map();
+function getTextPositionsMap(sourceText, consideredRuleIds) {
+    const textPositionsMap = new Map();
     const ast = ts.createSourceFile("", sourceText);
 
     for (const statement of ast.statements) {
@@ -161,28 +146,29 @@ function getTSDocRangeMap(sourceText, consideredRuleIds) {
                     const ruleId = member.name.text;
 
                     if (consideredRuleIds.has(ruleId)) {
-                        let tsDocRange;
+                        let textPositions;
 
                         // Only the last TSDoc comment is regarded.
                         const tsDoc = member.jsDoc?.at(-1);
 
                         if (tsDoc) {
-                            tsDocRange = [tsDoc.pos, tsDoc.end];
+                            textPositions = { tsDocStart: tsDoc.pos, tsDocEnd: tsDoc.end };
                         } else {
                             const regExp = /\S/gu;
 
                             regExp.lastIndex = member.pos;
                             const { index } = regExp.exec(sourceText);
 
-                            tsDocRange = [index, index];
+                            textPositions = { tsDocStart: index, tsDocEnd: index };
                         }
-                        tsDocRangeMap.set(ruleId, tsDocRange);
+                        textPositions.typeEnd = member.end;
+                        textPositionsMap.set(ruleId, textPositions);
                     }
                 }
             }
         }
     }
-    return tsDocRangeMap;
+    return textPositionsMap;
 }
 
 /**
@@ -207,12 +193,35 @@ function paraphraseDescription(description) {
 }
 
 /**
+ * Returns the deprecation notice for a rule, prefixed by a `@deprecated` tag.
+ * @param {RuleMetaData} ruleMeta The rule's `meta` object.
+ * @returns {string[]} The deprecation notice for the specified rule.
+ */
+function createDeprecationNotice({ deprecated }) {
+    const deprecationNotice = [`@deprecated since ${deprecated.deprecatedSince}.`];
+
+    deprecationNotice.push(escapeForMultilineComment(deprecated.message));
+    if (deprecated.replacedBy?.length) {
+        const replacements = deprecated.replacedBy.map(replacedBy => {
+            let replacement = formatNameAndURL(replacedBy.rule);
+
+            if (replacedBy.plugin) {
+                replacement += ` in ${formatNameAndURL(replacedBy.plugin)}`;
+            }
+            return replacement;
+        }).join(" or ");
+
+        deprecationNotice.push(`Please, use ${replacements}.`);
+    }
+    return deprecationNotice;
+}
+
+/**
  * Creates the TSDoc header comment for a rule.
  * @param {string} ruleId The rule name.
- * @param {string} currentTSDoc The current TSDoc comment, if any.
- * @returns {string} The updated TSDoc comment.
+ * @returns {string} The TSDoc comment.
  */
-function createTSDoc(ruleId, currentTSDoc) {
+function createTSDoc(ruleId) {
     const ruleMeta = rules.get(ruleId).meta;
     const ruleDocs = ruleMeta.docs;
     const since = added[ruleId];
@@ -229,18 +238,18 @@ function createTSDoc(ruleId, currentTSDoc) {
         lines.push(`@since ${since}`);
     }
     if (ruleMeta.deprecated) {
-        const deprecationNotice = createDeprecationNotice(currentTSDoc, ruleMeta);
+        const deprecationNotice = createDeprecationNotice(ruleMeta);
 
-        lines.push(`@deprecated${deprecationNotice ? ` ${deprecationNotice}` : ""}`);
+        lines.push(...deprecationNotice);
     }
     lines.push(`@see ${ruleDocs.url}`);
-    const newTSDoc = formatTSDoc(lines);
+    const tsDoc = formatTSDoc(lines);
 
-    return newTSDoc;
+    return tsDoc;
 }
 
 /**
- * Updates rule header comments in a `.d.ts` file or checks is a `.d.ts` file is up-to-date.
+ * Updates rule header comments in a `.d.ts` file or checks if a `.d.ts` file is up-to-date.
  * @param {string} ruleTypeFile Pathname of the `.d.ts` file.
  * @param {Set<string>} consideredRuleIds The names of the rules to be considered for the current run.
  * @param {boolean} check Whether to throw an error if the `.d.ts` file is not up-to-date.
@@ -248,20 +257,24 @@ function createTSDoc(ruleId, currentTSDoc) {
  */
 async function updateTypeDeclaration(ruleTypeFile, consideredRuleIds, check) {
     const sourceText = await readFile(ruleTypeFile, "utf-8");
-    const tsDocRangeMap = getTSDocRangeMap(sourceText, consideredRuleIds);
+    const textPositionsMap = getTextPositionsMap(sourceText, consideredRuleIds);
+    const sortedRuleIds = [...textPositionsMap.keys()].sort();
     const chunks = [];
     let lastPos = 0;
 
-    for (const [ruleId, [tsDocStart, tsDocEnd]] of tsDocRangeMap) {
-        const textBeforeTSDoc = sourceText.slice(lastPos, tsDocStart);
-        const currentTSDoc = sourceText.slice(tsDocStart, tsDocEnd);
-        const newTSDoc = createTSDoc(ruleId, currentTSDoc);
+    for (const [, { tsDocStart: insertStart, typeEnd: insertEnd }] of textPositionsMap) {
+        const textBeforeTSDoc = sourceText.slice(lastPos, insertStart);
+        const ruleId = sortedRuleIds.shift();
+        const { tsDocEnd, typeEnd } = textPositionsMap.get(ruleId);
+        const tsDoc = createTSDoc(ruleId);
+        const ruleText = sourceText.slice(tsDocEnd, typeEnd);
 
-        chunks.push(textBeforeTSDoc, newTSDoc);
+        chunks.push(textBeforeTSDoc, tsDoc);
         if (sourceText[tsDocEnd] !== "\n") {
             chunks.push("\n    ");
         }
-        lastPos = tsDocEnd;
+        chunks.push(ruleText);
+        lastPos = insertEnd;
     }
     chunks.push(sourceText.slice(Math.max(0, lastPos)));
     const newSourceText = chunks.join("");
@@ -272,7 +285,7 @@ async function updateTypeDeclaration(ruleTypeFile, consideredRuleIds, check) {
         }
         await writeFile(ruleTypeFile, newSourceText);
     }
-    return tsDocRangeMap.keys();
+    return textPositionsMap.keys();
 }
 
 //-----------------------------------------------------------------------------
@@ -289,39 +302,17 @@ async function updateTypeDeclaration(ruleTypeFile, consideredRuleIds, check) {
         return true;
     });
     const consideredRuleIds = getConsideredRuleIds(args);
-    const ruleTypeDir = join(__dirname, "../lib/types/rules");
-    const fileNames = (await readdir(ruleTypeDir)).filter(fileName => extname(fileName) === ".ts");
-    const typedRuleIds = new Set();
-    const repeatedRuleIds = new Set();
+    const ruleTypeFile = join(__dirname, "../lib/types/rules.d.ts");
     const untypedRuleIds = [];
 
     console.log(`Considering ${consideredRuleIds.size} rule(s).`);
-    await Promise.all(
-        fileNames.map(
-            async fileName => {
-                const ruleIds = await updateTypeDeclaration(join(ruleTypeDir, fileName), consideredRuleIds, check);
+    const ruleIds = await updateTypeDeclaration(ruleTypeFile, consideredRuleIds, check);
+    const typedRuleIds = new Set(ruleIds);
 
-                for (const ruleId of ruleIds) {
-                    if (typedRuleIds.has(ruleId)) {
-                        repeatedRuleIds.add(ruleId);
-                    } else {
-                        typedRuleIds.add(ruleId);
-                    }
-                }
-            }
-        )
-    );
     for (const ruleId of consideredRuleIds) {
         if (!typedRuleIds.has(ruleId)) {
             untypedRuleIds.push(ruleId);
         }
-    }
-    if (repeatedRuleIds.size) {
-        console.warn(
-            "The following rules have multiple type definition:%s",
-            [...repeatedRuleIds].map(ruleId => `\n* ${ruleId}`).join("")
-        );
-        process.exitCode = 1;
     }
     if (untypedRuleIds.length) {
         console.warn(
