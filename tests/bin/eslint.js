@@ -564,22 +564,13 @@ describe("bin/eslint.js", () => {
 
                 return Promise.all([exitCodeAssertion, outputAssertion]);
             });
-            it("creates an empty suppressions file when the --prune-suppressions flag is used, and all violations are reported", () => {
+            it("displays an error when the suppressions file doesn't exist", () => {
                 const child = runESLint(ARGS_WITH_PRUNE_SUPPRESSIONS);
-
-                const exitCodeAssertion = assertExitCode(child, 1).then(() => {
-                    assert.isTrue(fs.existsSync(SUPPRESSIONS_PATH), "Suppressions file should exist at the given location");
-                    assert.deepStrictEqual(
-                        JSON.parse(fs.readFileSync(SUPPRESSIONS_PATH, "utf8")),
-                        {},
-                        "Suppressions file should be empty"
-                    );
+                const exitCodeAssertion = assertExitCode(child, 2).then(() => {
+                    assert.isTrue(!fs.existsSync(SUPPRESSIONS_PATH), "Suppressions file must not exist at the given location");
                 });
                 const outputAssertion = getOutput(child).then(output => {
-                    assert.include(output.stdout, "'b' is not defined");
-                    assert.include(output.stdout, "'c' is not defined");
-                    assert.include(output.stdout, "'d' is not defined");
-                    assert.include(output.stdout, "Expected indentation of 2 spaces but found 4");
+                    assert.include(output.stderr, "The suppressions file does not exist");
                 });
 
                 return Promise.all([exitCodeAssertion, outputAssertion]);
