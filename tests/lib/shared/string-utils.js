@@ -57,7 +57,6 @@ describe("upperCaseFirst", () => {
 });
 
 describe("getGraphemeCount", () => {
-    /* eslint-disable quote-props -- Make consistent here for readability */
     const expectedResults = {
         "": 0,
         "a": 1,
@@ -79,7 +78,6 @@ describe("getGraphemeCount", () => {
         "👶🏽👨‍👩‍👦": 2,
         "👩‍🦰👩‍👩‍👦‍👦🏳️‍🌈": 3 // 3 grapheme, 14 code points, 22 code units
     };
-    /* eslint-enable quote-props -- Make consistent here for readability */
 
     Object.entries(expectedResults).forEach(([key, value]) => {
         it(`should return ${value} for ${escapeControlCharacters(key)}`, () => {
