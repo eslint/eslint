@@ -392,7 +392,7 @@ ruleTester.run("no-useless-assignment", rule, {
                 unsafeFn();
                 return { error: undefined };
             } catch {
-               baz = bar; 
+               baz = bar;
             }
             return baz;
         }   
