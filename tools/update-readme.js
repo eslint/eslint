@@ -56,7 +56,6 @@ async function fetchTeamData() {
  * @returns {string} The HTML for the members list.
  */
 function formatTeamMembers(members) {
-    /* eslint-disable indent -- Allow deeper template substitution indent */
     return stripIndents`
         <table><tbody><tr>${members
             .map(
@@ -70,7 +69,6 @@ function formatTeamMembers(members) {
             </td>${(index + 1) % 9 === 0 ? "</tr><tr>" : ""}`
             )
             .join("")}</tr></tbody></table>`;
-    /* eslint-enable indent -- Allow deeper template substitution indent */
 }
 
 //-----------------------------------------------------------------------------
