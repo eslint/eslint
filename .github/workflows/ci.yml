@@ -98,6 +98,8 @@ jobs:
   test_on_browser:
     name: Browser Test
     runs-on: ubuntu-latest
+    env:
+      TERM: xterm-256color
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
