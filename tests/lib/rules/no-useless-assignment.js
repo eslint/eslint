@@ -385,6 +385,20 @@ ruleTester.run("no-useless-assignment", rule, {
         function unsafeFn() {
             throw new Error();
         }`,
+        `function foo(){
+            let bar, baz;
+            try {
+                bar = 2;
+                unsafeFn();
+                return { error: undefined };
+            } catch {
+                bar = baz; 
+            }
+            return baz;
+        }   
+        function unsafeFn() {
+            throw new Error();
+        }`,
         {
             code: `/*eslint test/jsx:1*/
                 function App() {
