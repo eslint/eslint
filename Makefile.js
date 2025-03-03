@@ -375,7 +375,7 @@ function generateRelease({ prereleaseId, packageTag }) {
     updateRuleTypeHeaders();
 
     echo("Updating commit with docs data and rule types");
-    exec("git add lib/types/rules/ docs/ && git commit --amend --no-edit");
+    exec("git add lib/types/rules.d.ts docs/ && git commit --amend --no-edit");
     exec(`git tag -a -f v${releaseInfo.version} -m ${releaseInfo.version}`);
 }
 
