@@ -20,6 +20,7 @@ If you would like to recommend an integration to be added to this page, [submit 
 * Vim:
     * [ALE](https://github.com/dense-analysis/ale)
     * [Syntastic](https://github.com/vim-syntastic/syntastic/tree/master/syntax_checkers/javascript)
+    * Since Vim 9.0, the built-in "compiler script" for ESLint can be enabled with `:compiler eslint` and used with `:make %`. See `:help quickfix`.
 * Emacs: [Flycheck](http://www.flycheck.org/) supports ESLint with the [javascript-eslint](http://www.flycheck.org/en/latest/languages.html#javascript) checker.
 * Eclipse Orion: ESLint is the [default linter](https://dev.eclipse.org/mhonarc/lists/orion-dev/msg02718.html)
 * Eclipse IDE: [Tern ESLint linter](https://github.com/angelozerr/tern.java/wiki/Tern-Linter-ESLint)
