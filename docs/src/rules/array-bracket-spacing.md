@@ -10,11 +10,11 @@ A number of style guides require or disallow spaces between array brackets and o
 applies to both array literals and destructuring assignments (ECMAScript 6).
 
 ```js
-var arr = [ 'foo', 'bar' ];
-var [ x, y ] = z;
+const arr = [ 'foo', 'bar' ];
+const [ x, y ] = z;
 
-var arr = ['foo', 'bar'];
-var [x,y] = z;
+const arr = ['foo', 'bar'];
+const [x,y] = z;
 ```
 
 ## Rule Details
@@ -54,17 +54,17 @@ Examples of **incorrect** code for this rule with the default `"never"` option:
 ```js
 /*eslint array-bracket-spacing: ["error", "never"]*/
 
-var arr = [ 'foo', 'bar' ];
-var arr = ['foo', 'bar' ];
-var arr = [ ['foo'], 'bar'];
-var arr = [[ 'foo' ], 'bar'];
-var arr = [ 'foo',
+const arr = [ 'foo', 'bar' ];
+const arr = ['foo', 'bar' ];
+const arr = [ ['foo'], 'bar'];
+const arr = [[ 'foo' ], 'bar'];
+const arr = [ 'foo',
   'bar'
 ];
-var [ x, y ] = z;
-var [ x,y ] = z;
-var [ x, ...y ] = z;
-var [ ,,x, ] = z;
+const [ x, y ] = z;
+const [ x,y ] = z;
+const [ x, ...y ] = z;
+const [ ,,x, ] = z;
 ```
 
 :::
@@ -76,25 +76,25 @@ Examples of **correct** code for this rule with the default `"never"` option:
 ```js
 /*eslint array-bracket-spacing: ["error", "never"]*/
 
-var arr = [];
-var arr = ['foo', 'bar', 'baz'];
-var arr = [['foo'], 'bar', 'baz'];
-var arr = [
+const arr = [];
+const arr = ['foo', 'bar', 'baz'];
+const arr = [['foo'], 'bar', 'baz'];
+const arr = [
   'foo',
   'bar',
   'baz'
 ];
-var arr = ['foo',
+const arr = ['foo',
   'bar'
 ];
-var arr = [
+const arr = [
   'foo',
   'bar'];
 
-var [x, y] = z;
-var [x,y] = z;
-var [x, ...y] = z;
-var [,,x,] = z;
+const [x, y] = z;
+const [x,y] = z;
+const [x, ...y] = z;
+const [,,x,] = z;
 ```
 
 :::
@@ -108,20 +108,20 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 ```js
 /*eslint array-bracket-spacing: ["error", "always"]*/
 
-var arr = ['foo', 'bar'];
-var arr = ['foo', 'bar' ];
-var arr = [ ['foo'], 'bar' ];
-var arr = ['foo',
+const arr = ['foo', 'bar'];
+const arr = ['foo', 'bar' ];
+const arr = [ ['foo'], 'bar' ];
+const arr = ['foo',
   'bar'
 ];
-var arr = [
+const arr = [
   'foo',
   'bar'];
 
-var [x, y] = z;
-var [x,y] = z;
-var [x, ...y] = z;
-var [,,x,] = z;
+const [x, y] = z;
+const [x,y] = z;
+const [x, ...y] = z;
+const [,,x,] = z;
 ```
 
 :::
@@ -133,25 +133,25 @@ Examples of **correct** code for this rule with the `"always"` option:
 ```js
 /*eslint array-bracket-spacing: ["error", "always"]*/
 
-var arr = [];
-var arr = [ 'foo', 'bar', 'baz' ];
-var arr = [ [ 'foo' ], 'bar', 'baz' ];
-var arr = [ 'foo',
+const arr = [];
+const arr = [ 'foo', 'bar', 'baz' ];
+const arr = [ [ 'foo' ], 'bar', 'baz' ];
+const arr = [ 'foo',
   'bar'
 ];
-var arr = [
+const arr = [
   'foo',
   'bar' ];
-var arr = [
+const arr = [
   'foo',
   'bar',
   'baz'
 ];
 
-var [ x, y ] = z;
-var [ x,y ] = z;
-var [ x, ...y ] = z;
-var [ ,,x, ] = z;
+const [ x, y ] = z;
+const [ x,y ] = z;
+const [ x, ...y ] = z;
+const [ ,,x, ] = z;
 ```
 
 :::
@@ -165,14 +165,14 @@ Examples of **incorrect** code for this rule with the `"always", { "singleValue"
 ```js
 /*eslint array-bracket-spacing: ["error", "always", { "singleValue": false }]*/
 
-var foo = [ 'foo' ];
-var foo = [ 'foo'];
-var foo = ['foo' ];
-var foo = [ 1 ];
-var foo = [ 1];
-var foo = [1 ];
-var foo = [ [ 1, 2 ] ];
-var foo = [ { 'foo': 'bar' } ];
+const foo = [ 'foo' ];
+const foo = [ 'foo'];
+const foo = ['foo' ];
+const foo = [ 1 ];
+const foo = [ 1];
+const foo = [1 ];
+const foo = [ [ 1, 2 ] ];
+const foo = [ { 'foo': 'bar' } ];
 ```
 
 :::
@@ -184,10 +184,10 @@ Examples of **correct** code for this rule with the `"always", { "singleValue": 
 ```js
 /*eslint array-bracket-spacing: ["error", "always", { "singleValue": false }]*/
 
-var foo = ['foo'];
-var foo = [1];
-var foo = [[ 1, 1 ]];
-var foo = [{ 'foo': 'bar' }];
+const foo = ['foo'];
+const foo = [1];
+const foo = [[ 1, 1 ]];
+const foo = [{ 'foo': 'bar' }];
 ```
 
 :::
@@ -201,8 +201,8 @@ Examples of **incorrect** code for this rule with the `"always", { "objectsInArr
 ```js
 /*eslint array-bracket-spacing: ["error", "always", { "objectsInArrays": false }]*/
 
-var arr = [ { 'foo': 'bar' } ];
-var arr = [ {
+const arr = [ { 'foo': 'bar' } ];
+const arr = [ {
   'foo': 'bar'
 } ]
 ```
@@ -216,8 +216,8 @@ Examples of **correct** code for this rule with the `"always", { "objectsInArray
 ```js
 /*eslint array-bracket-spacing: ["error", "always", { "objectsInArrays": false }]*/
 
-var arr = [{ 'foo': 'bar' }];
-var arr = [{
+const arr = [{ 'foo': 'bar' }];
+const arr = [{
   'foo': 'bar'
 }];
 ```
@@ -233,8 +233,8 @@ Examples of **incorrect** code for this rule with the `"always", { "arraysInArra
 ```js
 /*eslint array-bracket-spacing: ["error", "always", { "arraysInArrays": false }]*/
 
-var arr = [ [ 1, 2 ], 2, 3, 4 ];
-var arr = [ [ 1, 2 ], 2, [ 3, 4 ] ];
+const arr = [ [ 1, 2 ], 2, 3, 4 ];
+const arr = [ [ 1, 2 ], 2, [ 3, 4 ] ];
 ```
 
 :::
@@ -246,8 +246,8 @@ Examples of **correct** code for this rule with the `"always", { "arraysInArrays
 ```js
 /*eslint array-bracket-spacing: ["error", "always", { "arraysInArrays": false }]*/
 
-var arr = [[ 1, 2 ], 2, 3, 4 ];
-var arr = [[ 1, 2 ], 2, [ 3, 4 ]];
+const arr = [[ 1, 2 ], 2, 3, 4 ];
+const arr = [[ 1, 2 ], 2, [ 3, 4 ]];
 ```
 
 :::
