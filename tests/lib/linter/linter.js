@@ -7607,10 +7607,10 @@ var a = "test2";
                                 message: "Adding leading hyphen",
                                 fix(fixer) {
                                     if (hasLeadingHyphen) {
-                                        return;
+                                        return fixer;
                                     }
 
-                                    fixer.insertTextBefore(node, "-");
+                                    return fixer.insertTextBefore(node, "-");
                                 }
                             });
                         }
@@ -7632,10 +7632,10 @@ var a = "test2";
                                 message: "Removing leading hyphen",
                                 fix(fixer) {
                                     if (!hasLeadingHyphen) {
-                                        return;
+                                        return fixer;
                                     }
 
-                                    fixer.removeRange([0, 1]);
+                                    return fixer.removeRange([0, 1]);
                                 }
                             });
                         }
@@ -16523,10 +16523,10 @@ var a = "test2";
                                                 message: "Adding leading hyphen",
                                                 fix(fixer) {
                                                     if (hasLeadingHyphen) {
-                                                        return;
+                                                        return fixer;
                                                     }
 
-                                                    fixer.insertTextBefore(node, "-");
+                                                    return fixer.insertTextBefore(node, "-");
                                                 }
                                             });
                                         }
@@ -16548,10 +16548,10 @@ var a = "test2";
                                                 message: "Removing leading hyphen",
                                                 fix(fixer) {
                                                     if (!hasLeadingHyphen) {
-                                                        return;
+                                                        return fixer;
                                                     }
 
-                                                    fixer.removeRange([0, 1]);
+                                                    return fixer.removeRange([0, 1]);
                                                 }
                                             });
                                         }
