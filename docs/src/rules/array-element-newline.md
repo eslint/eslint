@@ -85,12 +85,12 @@ const c = [1,
 const d = [1,
     2,
     3];
-const d = [
+const e = [
   1, 
   2, 
   3
 ];
-const e = [
+const f = [
     function foo() {
         dosomething();
     },
