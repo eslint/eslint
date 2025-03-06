@@ -54,11 +54,11 @@ Examples of **incorrect** code for this rule with the default `"never"` option:
 ```js
 /*eslint array-bracket-spacing: ["error", "never"]*/
 
-const arr = [ 'foo', 'bar' ];
-const arr = ['foo', 'bar' ];
-const arr = [ ['foo'], 'bar'];
-const arr = [[ 'foo' ], 'bar'];
-const arr = [ 'foo',
+let arr = [ 'foo', 'bar' ];
+let arr = ['foo', 'bar' ];
+let arr = [ ['foo'], 'bar'];
+let arr = [[ 'foo' ], 'bar'];
+let arr = [ 'foo',
   'bar'
 ];
 const [ x, y ] = z;
@@ -76,18 +76,18 @@ Examples of **correct** code for this rule with the default `"never"` option:
 ```js
 /*eslint array-bracket-spacing: ["error", "never"]*/
 
-const arr = [];
-const arr = ['foo', 'bar', 'baz'];
-const arr = [['foo'], 'bar', 'baz'];
-const arr = [
+let arr = [];
+let arr = ['foo', 'bar', 'baz'];
+let arr = [['foo'], 'bar', 'baz'];
+let arr = [
   'foo',
   'bar',
   'baz'
 ];
-const arr = ['foo',
+let arr = ['foo',
   'bar'
 ];
-const arr = [
+let arr = [
   'foo',
   'bar'];
 
@@ -108,13 +108,13 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 ```js
 /*eslint array-bracket-spacing: ["error", "always"]*/
 
-const arr = ['foo', 'bar'];
-const arr = ['foo', 'bar' ];
-const arr = [ ['foo'], 'bar' ];
-const arr = ['foo',
+let arr = ['foo', 'bar'];
+let arr = ['foo', 'bar' ];
+let arr = [ ['foo'], 'bar' ];
+let arr = ['foo',
   'bar'
 ];
-const arr = [
+let arr = [
   'foo',
   'bar'];
 
@@ -133,16 +133,16 @@ Examples of **correct** code for this rule with the `"always"` option:
 ```js
 /*eslint array-bracket-spacing: ["error", "always"]*/
 
-const arr = [];
-const arr = [ 'foo', 'bar', 'baz' ];
-const arr = [ [ 'foo' ], 'bar', 'baz' ];
-const arr = [ 'foo',
+let arr = [];
+let arr = [ 'foo', 'bar', 'baz' ];
+let arr = [ [ 'foo' ], 'bar', 'baz' ];
+let arr = [ 'foo',
   'bar'
 ];
-const arr = [
+let arr = [
   'foo',
   'bar' ];
-const arr = [
+let arr = [
   'foo',
   'bar',
   'baz'
@@ -165,14 +165,14 @@ Examples of **incorrect** code for this rule with the `"always", { "singleValue"
 ```js
 /*eslint array-bracket-spacing: ["error", "always", { "singleValue": false }]*/
 
-const foo = [ 'foo' ];
-const foo = [ 'foo'];
-const foo = ['foo' ];
-const foo = [ 1 ];
-const foo = [ 1];
-const foo = [1 ];
-const foo = [ [ 1, 2 ] ];
-const foo = [ { 'foo': 'bar' } ];
+let foo = [ 'foo' ];
+let foo = [ 'foo'];
+let foo = ['foo' ];
+let foo = [ 1 ];
+let foo = [ 1];
+let foo = [1 ];
+let foo = [ [ 1, 2 ] ];
+let foo = [ { 'foo': 'bar' } ];
 ```
 
 :::
@@ -184,10 +184,10 @@ Examples of **correct** code for this rule with the `"always", { "singleValue": 
 ```js
 /*eslint array-bracket-spacing: ["error", "always", { "singleValue": false }]*/
 
-const foo = ['foo'];
-const foo = [1];
-const foo = [[ 1, 1 ]];
-const foo = [{ 'foo': 'bar' }];
+let foo = ['foo'];
+let foo = [1];
+let foo = [[ 1, 1 ]];
+let foo = [{ 'foo': 'bar' }];
 ```
 
 :::
@@ -201,8 +201,8 @@ Examples of **incorrect** code for this rule with the `"always", { "objectsInArr
 ```js
 /*eslint array-bracket-spacing: ["error", "always", { "objectsInArrays": false }]*/
 
-const arr = [ { 'foo': 'bar' } ];
-const arr = [ {
+let arr = [ { 'foo': 'bar' } ];
+let arr = [ {
   'foo': 'bar'
 } ]
 ```
@@ -216,8 +216,8 @@ Examples of **correct** code for this rule with the `"always", { "objectsInArray
 ```js
 /*eslint array-bracket-spacing: ["error", "always", { "objectsInArrays": false }]*/
 
-const arr = [{ 'foo': 'bar' }];
-const arr = [{
+let arr = [{ 'foo': 'bar' }];
+let arr = [{
   'foo': 'bar'
 }];
 ```
@@ -233,8 +233,8 @@ Examples of **incorrect** code for this rule with the `"always", { "arraysInArra
 ```js
 /*eslint array-bracket-spacing: ["error", "always", { "arraysInArrays": false }]*/
 
-const arr = [ [ 1, 2 ], 2, 3, 4 ];
-const arr = [ [ 1, 2 ], 2, [ 3, 4 ] ];
+let arr = [ [ 1, 2 ], 2, 3, 4 ];
+let arr = [ [ 1, 2 ], 2, [ 3, 4 ] ];
 ```
 
 :::
@@ -246,8 +246,8 @@ Examples of **correct** code for this rule with the `"always", { "arraysInArrays
 ```js
 /*eslint array-bracket-spacing: ["error", "always", { "arraysInArrays": false }]*/
 
-const arr = [[ 1, 2 ], 2, 3, 4 ];
-const arr = [[ 1, 2 ], 2, [ 3, 4 ]];
+let arr = [[ 1, 2 ], 2, 3, 4 ];
+let arr = [[ 1, 2 ], 2, [ 3, 4 ]];
 ```
 
 :::
