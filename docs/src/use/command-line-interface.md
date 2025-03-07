@@ -879,7 +879,7 @@ Suppresses violations for specific rules, so that they are not being reported in
 
 Specify the path to the suppressions location. Can be a file or a directory.
 
-* **Argument Type**: String. Path to file. If a directory is specified, a cache file is created inside the specified folder. The name of the file is based on the hash of the current working directory, e.g.: `.suppressions_hashOfCWD`
+* **Argument Type**: String. Path to file. If a directory is specified, a cache file is created inside the specified folder. The name of the file is based on the hash of the current working directory, e.g.: `suppressions_hashOfCWD`
 * **Multiple Arguments**: No
 * **Default Value**: If no location is specified, `eslint-suppressions.json` is used. The file is created in the directory where the `eslint` command is executed.
 
