@@ -896,9 +896,10 @@ Prune unused suppressions from the suppressions file. This option is useful when
 
 ##### `--prune-suppressions` example
 
-```shell
-npx eslint "src/**/*.js" --prune-suppressions
-```
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["\"src/**/*.js\"", "--prune-suppressions"]
+}) }}
 
 ### Miscellaneous
 
