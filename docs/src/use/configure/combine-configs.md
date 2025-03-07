@@ -32,7 +32,7 @@ Here, the `js.configs.recommended` predefined configuration is applied first and
 
 ### Apply a Configuration to a Subset of Files
 
-You can apply a config object to just a subset of files by creating a new object with a `files` key and using the object spread operator to merge in the rest of the properties from the config object. For example:
+You can apply a config object to just a subset of files by creating a new object with a `files` key and using the `extends` key to merge in the rest of the properties from the config object. For example:
 
 ```js
 // eslint.config.js
@@ -54,7 +54,7 @@ Here, the `js/recommended` config object is applied only to files that match the
 
 ## Apply a Config Array
 
-If you are importing an array from another module, you can use the array spread operator to insert the items from that array into your exported array. Here's an example:
+If you are importing an array from another module, insert the array directly into your exported array. Here's an example:
 
 ```js
 // eslint.config.js
@@ -100,7 +100,7 @@ export default defineConfig([
 
 ### Apply a Config Array to a Subset of Files
 
-You can apply a config array to just a subset of files by using the `map()` method to add a `files` key to each config object. For example:
+You can apply a config array to just a subset of files by using the `extends` key. For example:
 
 ```js
 // eslint.config.js
