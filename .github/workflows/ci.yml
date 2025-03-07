@@ -78,7 +78,6 @@ jobs:
         include:
           - os: windows-latest
             node: "lts/*"
-            NODE_OPTIONS: "--experimental-strip-types --experimental-transform-types"
           - os: macOS-latest
             node: "lts/*"
           - os: ubuntu-latest
