@@ -870,9 +870,10 @@ Suppresses violations for specific rules, so that they are not being reported in
 
 ##### `--suppress-rule` example
 
-```shell
-npx eslint "src/**/*.js" --suppress-rule no-console --suppress-rule indent
-```
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["\"src/**/*.js\"", "--suppress-rule", "no-console", "--suppress-rule", "indent"]
+}) }}
 
 #### `--suppressions-location`
 
