@@ -1,3 +1,18 @@
+v9.22.0 - March 7, 2025
+
+* [`97f788b`](https://github.com/eslint/eslint/commit/97f788b02e5742445887b4499a6dba9abb879a79) chore: upgrade @eslint/js@9.22.0 (#19489) (Milos Djermanovic)
+* [`eed409a`](https://github.com/eslint/eslint/commit/eed409a64bfe2ae1123086aaf1652c8124e49b7c) chore: package.json update for @eslint/js release (Jenkins)
+* [`f9a56d3`](https://github.com/eslint/eslint/commit/f9a56d337881300c94093e38804ba929ee09f7e9) chore: upgrade eslint-scope@8.3.0 (#19488) (Milos Djermanovic)
+* [`7ddb095`](https://github.com/eslint/eslint/commit/7ddb095419203d0efc883a6b3fdd3ac20128400a) feat: Export defineConfig, globalIgnores (#19487) (Nicholas C. Zakas)
+* [`86c5f37`](https://github.com/eslint/eslint/commit/86c5f37bc7300157d9f19b633197135d2a7a2645) docs: Update README (GitHub Actions Bot)
+* [`19c0127`](https://github.com/eslint/eslint/commit/19c0127e79c37dba8d389733024be7326e540767) fix: improve message for `no-console` suggestions (#19483) (Francesco Trotta)
+* [`fbdeff0`](https://github.com/eslint/eslint/commit/fbdeff08f3bf4edd7f686af91d9ac0ed6e295080) docs: Update README (GitHub Actions Bot)
+* [`c9e8510`](https://github.com/eslint/eslint/commit/c9e85105300069f4aa60526ca2de4d67d1eebe1d) docs: generate deprecation notice in TSDoc comments from rule metadata (#19461) (Francesco Trotta)
+* [`2f386ad`](https://github.com/eslint/eslint/commit/2f386ad203a672832c91e72c285a25bd64d48d9d) docs: replace `var` with `const` in rule examples (#19469) (Tanuj Kanti)
+* [`0e688e3`](https://github.com/eslint/eslint/commit/0e688e3a0d53bad991d2b4ae3bda926cc29bd54b) docs: Update README (GitHub Actions Bot)
+* [`49e624f`](https://github.com/eslint/eslint/commit/49e624f4a02e03762232cce2047febb36b1bcf4c) fix: improve error message for falsy parsed JS AST (#19458) (Josh Goldberg ✨)
+* [`06b596d`](https://github.com/eslint/eslint/commit/06b596d221a2b4af644824bd10e0194e7237b6f2) docs: Restore the carrot to the position where the search input was lost (#19459) (Amaresh  S M)
+
 v9.21.0 - February 21, 2025
 
 * [`a8c9a9f`](https://github.com/eslint/eslint/commit/a8c9a9f1b30db08094b145dd79921ae302b6ae24) chore: update `@eslint/eslintrc` and `@eslint/js` (#19453) (Francesco Trotta)
