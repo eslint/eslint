@@ -41,6 +41,9 @@
       ],
       "universal": [
         "./lib/types/universal.d.ts"
+      ],
+      "config": [
+        "./lib/types/config-api.d.ts"
       ]
     }
   },

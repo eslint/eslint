@@ -3,4 +3,6 @@
  * @author Nicholas C. Zakas
  */
 
-export { defineConfig, globalIgnores } from "@eslint/config-helpers";
+import { defineConfig, globalIgnores } from "@eslint/config-helpers";
+
+export { defineConfig, globalIgnores };
