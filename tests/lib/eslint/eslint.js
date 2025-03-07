@@ -1461,6 +1461,78 @@ describe("ESLint", () => {
 
                 });
 
+                // eslint-disable-next-line n/no-unsupported-features/node-builtins -- it's still an experimental feature.
+                (typeof process.features.typescript === "string" ? it : it.skip)("should load a TS config file when --experimental-strip-types is enabled", async () => {
+
+                    const cwd = getFixturePath("ts-config-files", "ts", "native");
+
+                    const configFileContent = `import type { FlatConfig } from "./helper.ts";\nexport default ${
+                        JSON.stringify([
+                            { rules: { "no-undef": 2 } }
+                        ], null, 2)} satisfies FlatConfig[];`;
+
+                    const teardown = createCustomTeardown({
+                        cwd,
+                        files: {
+                            "eslint.config.ts": configFileContent,
+                            "foo.js": "foo;",
+                            "helper.ts": "import { Linter } from \"eslint\";\nexport type FlatConfig = Linter.Config;\n"
+                        }
+                    });
+
+                    await teardown.prepare();
+
+                    eslint = new ESLint({
+                        cwd,
+                        overrideConfigFile: "eslint.config.ts",
+                        flags: ["unstable_native_nodejs_ts_config"]
+                    });
+
+                    const results = await eslint.lintText("foo;");
+
+                    assert.strictEqual(results.length, 1);
+                    assert.strictEqual(results[0].messages.length, 1);
+                    assert.strictEqual(results[0].messages[0].severity, 2);
+                    assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+
+                });
+
+                // eslint-disable-next-line n/no-unsupported-features/node-builtins -- it's still an experimental feature.
+                (process.features.typescript === "transform" ? it : it.skip)("should load a TS config file when --experimental-transform-types is enabled", async () => {
+
+                    const cwd = getFixturePath("ts-config-files", "ts", "native");
+
+                    const configFileContent = "import { ESLintNameSpace } from \"./helper.ts\";\nexport default [ { rules: { \"no-undef\": ESLintNameSpace.StringSeverity.Error } }];\n";
+
+                    const teardown = createCustomTeardown({
+                        cwd,
+                        files: {
+                            "eslint.config.ts": configFileContent,
+                            "foo.js": "foo;",
+                            "helper.ts": "export namespace ESLintNameSpace {\n  export const enum StringSeverity {\n    \"Off\" = \"off\",\n    \"Warn\" = \"warn\",\n    \"Error\" = \"error\",\n  }\n}\n"
+                        }
+                    });
+
+                    await teardown.prepare();
+
+                    eslint = new ESLint({
+                        cwd,
+                        overrideConfigFile: "eslint.config.ts",
+                        flags: ["unstable_native_nodejs_ts_config"]
+                    });
+
+                    const results = await eslint.lintText("foo;");
+
+                    assert.strictEqual(results.length, 1);
+                    assert.strictEqual(results[0].messages.length, 1);
+                    assert.strictEqual(results[0].messages[0].severity, 2);
+                    assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+
+                });
+
+
             });
 
             it("should pass BOM through processors", async () => {
@@ -6179,6 +6251,117 @@ describe("ESLint", () => {
                     assert.strictEqual(processStub.getCall(0).args[1], "ESLintEmptyConfigWarning");
 
 
+                });
+
+                // eslint-disable-next-line n/no-unsupported-features/node-builtins -- it's still an experimental feature.
+                (typeof process.features.typescript === "string" ? it : it.skip)("should load a TS config file when --experimental-strip-types is enabled", async () => {
+
+                    const cwd = getFixturePath("ts-config-files", "ts", "native");
+
+                    const configFileContent = `import type { FlatConfig } from "./helper.ts";\nexport default ${
+                        JSON.stringify([
+                            { rules: { "no-undef": 2 } }
+                        ], null, 2)} satisfies FlatConfig[];`;
+
+                    const teardown = createCustomTeardown({
+                        cwd,
+                        files: {
+                            "package.json": typeModule,
+                            "eslint.config.ts": configFileContent,
+                            "foo.js": "foo;",
+                            "helper.ts": "import { Linter } from \"eslint\";\nexport type FlatConfig = Linter.Config;\n"
+                        }
+                    });
+
+                    await teardown.prepare();
+
+                    eslint = new ESLint({
+                        cwd,
+                        overrideConfigFile: "eslint.config.ts",
+                        flags: ["unstable_native_nodejs_ts_config"]
+                    });
+
+                    const results = await eslint.lintFiles(["foo*.js"]);
+
+                    assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
+                    assert.strictEqual(results.length, 1);
+                    assert.strictEqual(results[0].filePath, path.join(cwd, "foo.js"));
+                    assert.strictEqual(results[0].messages.length, 1);
+                    assert.strictEqual(results[0].messages[0].severity, 2);
+                    assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+
+                });
+
+                // eslint-disable-next-line n/no-unsupported-features/node-builtins -- it's still an experimental feature.
+                (process.features.typescript === "transform" ? it : it.skip)("should load a TS config file when --experimental-transform-types is enabled", async () => {
+
+                    const cwd = getFixturePath("ts-config-files", "ts", "native");
+
+                    const configFileContent = "import { ESLintNameSpace } from \"./helper.ts\";\nexport default [ { rules: { \"no-undef\": ESLintNameSpace.StringSeverity.Error } }];\n";
+
+                    const teardown = createCustomTeardown({
+                        cwd,
+                        files: {
+                            "package.json": typeModule,
+                            "eslint.config.ts": configFileContent,
+                            "foo.js": "foo;",
+                            "helper.ts": "export namespace ESLintNameSpace {\n  export const enum StringSeverity {\n    \"Off\" = \"off\",\n    \"Warn\" = \"warn\",\n    \"Error\" = \"error\",\n  }\n}\n"
+                        }
+                    });
+
+                    await teardown.prepare();
+
+                    eslint = new ESLint({
+                        cwd,
+                        overrideConfigFile: "eslint.config.ts",
+                        flags: ["unstable_native_nodejs_ts_config"]
+                    });
+
+                    const results = await eslint.lintFiles(["foo*.js"]);
+
+                    assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
+                    assert.strictEqual(results.length, 1);
+                    assert.strictEqual(results[0].filePath, path.join(cwd, "foo.js"));
+                    assert.strictEqual(results[0].messages.length, 1);
+                    assert.strictEqual(results[0].messages[0].severity, 2);
+                    assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+
+                });
+
+                // eslint-disable-next-line n/no-unsupported-features/node-builtins -- it's still an experimental feature.
+                (typeof process.features.typescript === "string" ? it.skip : it)("should throw an error if unstable_native_nodejs_ts_config is set but --experimental-strip-types is not enabled", async () => {
+
+                    const cwd = getFixturePath("ts-config-files", "ts", "native");
+
+                    const configFileContent = `import type { FlatConfig } from "./helper.ts";\nexport default ${
+                        JSON.stringify([
+                            { rules: { "no-undef": 2 } }
+                        ], null, 2)} satisfies FlatConfig[];`;
+
+                    const teardown = createCustomTeardown({
+                        cwd,
+                        files: {
+                            "package.json": typeModule,
+                            "eslint.config.ts": configFileContent,
+                            "foo.js": "foo;",
+                            "helper.ts": "import { Linter } from \"eslint\";\nexport type FlatConfig = Linter.Config;\n"
+                        }
+                    });
+
+                    await teardown.prepare();
+
+                    eslint = new ESLint({
+                        cwd,
+                        overrideConfigFile: "eslint.config.ts",
+                        flags: ["unstable_native_nodejs_ts_config"]
+                    });
+
+                    await assert.rejects(
+                        eslint.lintFiles(["foo*.js"]),
+                        { message: "The unstable_native_nodejs_ts_config flag is enabled, but native TypeScript support is not enabled in the current Node.js process. You need to either enable native TypeScript support by passing --experimental-strip-types or remove the unstable_native_nodejs_ts_config flag." }
+                    );
                 });
 
             });
