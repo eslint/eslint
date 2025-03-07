@@ -856,9 +856,10 @@ Suppresses existing violations, so that they are not being reported in subsequen
 
 ##### `--suppress-all` example
 
-```shell
-npx eslint "src/**/*.js" --suppress-all
-```
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["\"src/**/*.js\"", "--suppress-all"]
+}) }}
 
 #### `--suppress-rule`
 
