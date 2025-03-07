@@ -884,9 +884,10 @@ Specify the path to the suppressions location. Can be a file or a directory.
 
 ##### `--suppressions-location` example
 
-```shell
-npx eslint "src/**/*.js" --suppressions-location ".eslint-suppressions-example.json"
-```
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["\"src/**/*.js\"", "--suppressions-location", "\".eslint-suppressions-example.json\""]
+}) }}
 
 #### `--prune-suppressions`
 
