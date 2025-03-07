@@ -7791,7 +7791,7 @@ describe("ESLint", () => {
 
                     await assert.rejects(
                         eslint.lintFiles(["foo*.js"]),
-                        { message: "The unstable_native_nodejs_ts_config flag is enabled, but native TypeScript support is not enabled in the current Node.js process. You need to either enable native TypeScript support by passing --experimental-strip-types or disable the unstable_native_nodejs_ts_config flag." }
+                        { message: "The unstable_native_nodejs_ts_config flag is enabled, but native TypeScript support is not enabled in the current Node.js process. You need to either enable native TypeScript support by passing --experimental-strip-types or remove the unstable_native_nodejs_ts_config flag." }
                     );
                 });
 
