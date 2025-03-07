@@ -26,6 +26,7 @@
  */
 
 import { AST, ESLint, Linter, loadESLint, Rule, RuleTester, Scope, SourceCode } from "eslint";
+import { defineConfig, globalIgnores } from "eslint/config";
 import { ESLintRules } from "eslint/rules";
 import { Linter as ESLinter } from "eslint/universal";
 import {
@@ -1609,3 +1610,31 @@ FlatESLint; // $ExpectType typeof ESLint
 shouldUseFlatConfig(); // $ExpectType Promise<boolean>
 
 // #endregion
+
+// #region defineConfig
+
+defineConfig([
+    {
+        files: ["*.js"],
+        rules: {
+            "no-console": "error",
+        },
+    }
+]);
+
+
+defineConfig([
+    globalIgnores(["*.js"]),
+    {
+        files: ["*.js"],
+        rules: {
+            "no-console": "error",
+        },
+    },
+    {
+        files: ["*.ts"],
+        rules: {
+            "@typescript-eslint/no-unused-vars": "error",
+        },
+    }
+]);

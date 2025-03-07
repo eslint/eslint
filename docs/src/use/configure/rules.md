@@ -79,13 +79,15 @@ To report unused `eslint` inline config comments (those that don't change anythi
 
 ```js
 // eslint.config.js
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
     {
         linterOptions: {
             reportUnusedInlineConfigs: "error"
         }
     }
-];
+]);
 ```
 
 This setting defaults to `"off"`.
@@ -97,7 +99,10 @@ This setting is similar to the [`--report-unused-inline-configs`](../command-lin
 To configure rules inside of a [configuration file](./configuration-files#configuration-file), use the `rules` key along with an error level and any options you want to use. For example:
 
 ```js
-export default [
+// eslint.config.js
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
     {
         rules: {
             eqeqeq: "off",
@@ -105,13 +110,15 @@ export default [
             "prefer-const": ["error", { "ignoreReadBeforeAssign": true }]
         }
     }
-];
+]);
 ```
 
 When more than one configuration object specifies the same rule, the rule configuration is merged with the later object taking precedence over any previous objects. For example:
 
 ```js
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
     {
         rules: {
             semi: ["error", "never"]
@@ -122,13 +129,15 @@ export default [
             semi: ["warn", "always"]
         }
     }
-];
+]);
 ```
 
 Using this configuration, the final rule configuration for `semi` is `["warn", "always"]` because it appears last in the array. The array indicates that the configuration is for the severity and any options. You can change just the severity by defining only a string or number, as in this example:
 
 ```js
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
     {
         rules: {
             semi: ["error", "never"]
@@ -139,7 +148,7 @@ export default [
             semi: "warn"
         }
     }
-];
+]);
 ```
 
 Here, the second configuration object only overrides the severity, so the final configuration for `semi` is `["warn", "never"]`.
@@ -157,8 +166,9 @@ In a [configuration file](./configuration-files#configuration-file), for example
 ```js
 // eslint.config.js
 import example from "eslint-plugin-example";
+import { defineConfig } from "eslint/config";
 
-export default [
+export default defineConfig([
     {
         plugins: {
             example
@@ -167,7 +177,7 @@ export default [
             "example/rule1": "warn"
         }
     }
-];
+]);
 ```
 
 In this configuration file, the rule `example/rule1` comes from the plugin named `eslint-plugin-example`.
@@ -327,7 +337,9 @@ To disable rules inside of a [configuration file](./configuration-files#configur
 
 ```js
 // eslint.config.js
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
     {
         rules: {
             "no-unused-expressions": "error"
@@ -339,7 +351,7 @@ export default [
             "no-unused-expressions": "off"
         }
     }
-];
+]);
 ```
 
 ### Disabling Inline Comments
@@ -348,7 +360,9 @@ To disable all inline config comments, use the `noInlineConfig` setting in your 
 
 ```js
 // eslint.config.js
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
     {
         linterOptions: {
             noInlineConfig: true
@@ -357,7 +371,7 @@ export default [
             "no-unused-expressions": "error"
         }
     }
-];
+]);
 ```
 
 You can also use the [`--no-inline-config`](../command-line-interface#--no-inline-config) CLI option to disable rule comments, in addition to other in-line configuration.
@@ -368,13 +382,15 @@ To report unused `eslint-disable` comments (those that disable rules which would
 
 ```js
 // eslint.config.js
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
     {
         linterOptions: {
             reportUnusedDisableDirectives: "error"
         }
     }
-];
+]);
 ```
 
 This setting defaults to `"warn"`.

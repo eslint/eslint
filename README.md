@@ -72,7 +72,9 @@ This ensures that pnpm installs dependencies in a way that is more compatible wi
 You can configure rules in your `eslint.config.js` files as in this example:
 
 ```js
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
     {
         files: ["**/*.js", "**/*.cjs", "**/*.mjs"],
         rules: {
@@ -80,7 +82,7 @@ export default [
             "no-constant-binary-expression": "error"
         }
     }
-];
+]);
 ```
 
 The names `"prefer-const"` and `"no-constant-binary-expression"` are the names of [rules](https://eslint.org/docs/rules) in ESLint. The first value is the error level of the rule and can be one of these values:

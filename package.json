@@ -14,6 +14,10 @@
       "types": "./lib/types/index.d.ts",
       "default": "./lib/api.js"
     },
+    "./config": {
+      "types": "./lib/types/config-api.d.ts",
+      "default": "./lib/config-api.js"
+    },
     "./package.json": "./package.json",
     "./use-at-your-own-risk": {
       "types": "./lib/types/use-at-your-own-risk.d.ts",
@@ -37,6 +41,9 @@
       ],
       "universal": [
         "./lib/types/universal.d.ts"
+      ],
+      "config": [
+        "./lib/types/config-api.d.ts"
       ]
     }
   },
@@ -102,6 +109,7 @@
     "@eslint-community/eslint-utils": "^4.2.0",
     "@eslint-community/regexpp": "^4.12.1",
     "@eslint/config-array": "^0.19.2",
+    "@eslint/config-helpers": "^0.1.0",
     "@eslint/core": "^0.12.0",
     "@eslint/eslintrc": "^3.3.0",
     "@eslint/js": "9.21.0",
