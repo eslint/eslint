@@ -371,7 +371,7 @@ ruleTester.run("no-useless-assignment", rule, {
         `let { a, b: {c = a} = {} } = obj;
         console.log(c);`,
 
-        // variable used in catch block
+        // ignore assignments in try block
         `function foo(){
             let bar;
             try {
@@ -399,6 +399,53 @@ ruleTester.run("no-useless-assignment", rule, {
         function unsafeFn() {
             throw new Error();
         }`,
+        `function foo(){
+            let bar;
+            try {
+                bar = 2;
+                unsafeFn();
+                bar = 4;
+            } catch {
+               // handle error
+            }
+            return bar;
+        }   
+        function unsafeFn() {
+            throw new Error();
+        }`,
+        `let v = 'unused';
+        try {
+            v = callA();
+            try {
+                v = callB();
+            } catch (e) {
+                // ignore
+            }
+        } catch (e) {
+            v = 'used';
+        }
+        console.log(v)`,
+        `let message = 'unused';
+        try {
+            message = call();
+        } catch (e) {
+            message = 'used';
+        }
+        console.log(message)`,
+        `let message = 'unused';
+        try {
+            message = 'used';
+            console.log(message)
+        } catch (e) {
+        }`,
+        `let message = 'unused';
+        try {
+            const result = call();
+            message = result.message;
+        } catch (e) {
+            message = 'used';
+        }
+        console.log(message)`,
         {
             code: `/*eslint test/jsx:1*/
                 function App() {
@@ -971,81 +1018,6 @@ ruleTester.run("no-useless-assignment", rule, {
                     messageId: "unnecessaryAssignment",
                     line: 6,
                     column: 25
-                }
-            ]
-        },
-
-        // Try catch
-        {
-            code:
-            `let message = 'unused';
-            try {
-                const result = call();
-                message = result.message;
-            } catch (e) {
-                message = 'used';
-            }
-            console.log(message)`,
-            errors: [
-                {
-                    messageId: "unnecessaryAssignment",
-                    line: 1,
-                    column: 5
-                }
-            ]
-        },
-        {
-            code:
-            `let message = 'unused';
-            try {
-                message = 'used';
-                console.log(message)
-            } catch (e) {
-            }`,
-            errors: [
-                {
-                    messageId: "unnecessaryAssignment",
-                    line: 1,
-                    column: 5
-                }
-            ]
-        },
-        {
-            code:
-            `let message = 'unused';
-            try {
-                message = call();
-            } catch (e) {
-                message = 'used';
-            }
-            console.log(message)`,
-            errors: [
-                {
-                    messageId: "unnecessaryAssignment",
-                    line: 1,
-                    column: 5
-                }
-            ]
-        },
-        {
-            code:
-            `let v = 'unused';
-            try {
-                v = callA();
-                try {
-                    v = callB();
-                } catch (e) {
-                    // ignore
-                }
-            } catch (e) {
-                v = 'used';
-            }
-            console.log(v)`,
-            errors: [
-                {
-                    messageId: "unnecessaryAssignment",
-                    line: 1,
-                    column: 5
                 }
             ]
         },
