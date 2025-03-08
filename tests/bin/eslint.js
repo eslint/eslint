@@ -565,6 +565,17 @@ describe("bin/eslint.js", () => {
                 return Promise.all([exitCodeAssertion, outputAssertion]);
             });
             it("displays an error when the suppressions file doesn't exist", () => {
+                const child = runESLint(ARGS_WITHOUT_SUPPRESSIONS);
+                const exitCodeAssertion = assertExitCode(child, 2).then(() => {
+                    assert.isTrue(!fs.existsSync(SUPPRESSIONS_PATH), "Suppressions file must not exist at the given location");
+                });
+                const outputAssertion = getOutput(child).then(output => {
+                    assert.include(output.stderr, "The suppressions file does not exist");
+                });
+
+                return Promise.all([exitCodeAssertion, outputAssertion]);
+            });
+            it("displays an error when the --prune-suppressions flag used, and the suppressions file doesn't exist", () => {
                 const child = runESLint(ARGS_WITH_PRUNE_SUPPRESSIONS);
                 const exitCodeAssertion = assertExitCode(child, 2).then(() => {
                     assert.isTrue(!fs.existsSync(SUPPRESSIONS_PATH), "Suppressions file must not exist at the given location");
