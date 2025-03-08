@@ -517,11 +517,23 @@ describe("bin/eslint.js", () => {
             it("creates the suppressions file when the --suppress-all flag is used, and reports no violations", () => {
                 const child = runESLint(ARGS_WITH_SUPPRESS_ALL);
 
-                return assertExitCode(child, 0).then(() => {
+                const exitCodeAssertion = assertExitCode(child, 0).then(() => {
                     assert.isTrue(fs.existsSync(SUPPRESSIONS_PATH), "Suppressions file should exist at the given location");
-
                     JSON.parse(fs.readFileSync(SUPPRESSIONS_PATH, "utf8"));
                 });
+
+                const outputAssertion = getOutput(child).then(output => {
+
+                    // Warnings
+                    assert.include(output.stdout, "'e' is assigned a value but never used");
+
+                    // Suppressed errors
+                    assert.notInclude(output.stdout, "is not defined");
+                    assert.notInclude(output.stdout, "Expected indentation of 2 spaces but found 4");
+                    assert.notInclude(output.stdout, "Unexpected comma in middle of array");
+                });
+
+                return Promise.all([exitCodeAssertion, outputAssertion]);
             });
             it("creates the suppressions file when the --suppress-rule flag is used, and reports some violations", () => {
                 const child = runESLint(ARGS_WITH_SUPPRESS_RULE_INDENT);
@@ -535,9 +547,16 @@ describe("bin/eslint.js", () => {
                     );
                 });
                 const outputAssertion = getOutput(child).then(output => {
-                    assert.include(output.stdout, "'b' is not defined");
-                    assert.include(output.stdout, "'c' is not defined");
-                    assert.include(output.stdout, "'d' is not defined");
+
+                    // Warnings
+                    assert.include(output.stdout, "'e' is assigned a value but never used");
+
+                    // Un-suppressed errors
+                    assert.include(output.stdout, "is not defined");
+                    assert.include(output.stdout, "Unexpected comma in middle of array");
+
+
+                    // Suppressed errors
                     assert.notInclude(output.stdout, "Expected indentation of 2 spaces but found 4");
                 });
 
@@ -555,9 +574,16 @@ describe("bin/eslint.js", () => {
                     );
                 });
                 const outputAssertion = getOutput(child).then(output => {
+
+                    // Warnings
+                    assert.include(output.stdout, "'e' is assigned a value but never used");
+
+                    // Un-suppressed errors
                     assert.include(output.stdout, "is not defined");
-                    assert.notInclude(output.stdout, "Unexpected comma in middle of array");
+
+                    // Suppressed errors
                     assert.notInclude(output.stdout, "Expected indentation of 2 spaces but found 4");
+                    assert.notInclude(output.stdout, "Unexpected comma in middle of array");
                 });
 
                 return Promise.all([exitCodeAssertion, outputAssertion]);
@@ -676,11 +702,24 @@ describe("bin/eslint.js", () => {
 
                 const child = runESLint(ARGS_WITH_SUPPRESS_ALL);
 
-                return assertExitCode(child, 0).then(() => {
+                const exitCodeAssertion = assertExitCode(child, 0).then(() => {
                     const suppressions = JSON.parse(fs.readFileSync(SUPPRESSIONS_PATH, "utf8"));
 
                     assert.property(suppressions, "tests/fixtures/suppressions/extra-file.js");
                 });
+
+                const outputAssertion = getOutput(child).then(output => {
+
+                    // Warnings
+                    assert.include(output.stdout, "'e' is assigned a value but never used");
+
+                    // Suppressed errors
+                    assert.notInclude(output.stdout, "is not defined");
+                    assert.notInclude(output.stdout, "Unexpected comma in middle of array");
+                    assert.notInclude(output.stdout, "Expected indentation of 2 spaces but found 4");
+                });
+
+                return Promise.all([exitCodeAssertion, outputAssertion]);
             });
 
             it("suppresses the violations from the suppressions file, without passing --suppress-all", () => {
@@ -688,7 +727,20 @@ describe("bin/eslint.js", () => {
 
                 const child = runESLint(ARGS_WITHOUT_SUPPRESSIONS);
 
-                return assertExitCode(child, 0);
+                const exitCodeAssertion = assertExitCode(child, 0);
+
+                const outputAssertion = getOutput(child).then(output => {
+
+                    // Warnings
+                    assert.include(output.stdout, "'e' is assigned a value but never used");
+
+                    // Suppressed errors
+                    assert.notInclude(output.stdout, "is not defined");
+                    assert.notInclude(output.stdout, "Unexpected comma in middle of array");
+                    assert.notInclude(output.stdout, "Expected indentation of 2 spaces but found 4");
+                });
+
+                return Promise.all([exitCodeAssertion, outputAssertion]);
             });
 
             it("displays all the violations, when there is at least one left unmatched", () => {
@@ -701,9 +753,16 @@ describe("bin/eslint.js", () => {
 
                 const exitCodeAssertion = assertExitCode(child, 1);
                 const outputAssertion = getOutput(child).then(output => {
-                    assert.include(output.stdout, "'b' is not defined");
-                    assert.include(output.stdout, "'c' is not defined");
-                    assert.include(output.stdout, "'d' is not defined");
+
+                    // Warnings
+                    assert.include(output.stdout, "'e' is assigned a value but never used");
+
+                    // Suppressed errors (but displayed because there is at least one left unmatched)
+                    assert.include(output.stdout, "is not defined");
+
+                    // Suppressed errors
+                    assert.notInclude(output.stdout, "Unexpected comma in middle of array");
+                    assert.notInclude(output.stdout, "Expected indentation of 2 spaces but found 4");
                 });
 
                 return Promise.all([exitCodeAssertion, outputAssertion]);
