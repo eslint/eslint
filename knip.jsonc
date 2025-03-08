@@ -24,8 +24,6 @@
             ],
             "ignoreDependencies": [
                 "c8",
-                "@wdio/cli",
-                "rollup-plugin-node-polyfills",
                 // Optional peer dependency used for loading TypeScript configuration files
                 "jiti"
             ]
