@@ -509,6 +509,7 @@ describe("bin/eslint.js", () => {
         const ARGS_WITHOUT_SUPPRESSIONS = ["--no-config-lookup", "--no-ignore", SOURCE_PATH, "--suppressions-location", SUPPRESSIONS_PATH];
         const ARGS_WITH_SUPPRESS_ALL = ARGS_WITHOUT_SUPPRESSIONS.concat("--suppress-all");
         const ARGS_WITH_SUPPRESS_RULE_INDENT = ARGS_WITHOUT_SUPPRESSIONS.concat("--suppress-rule", "indent");
+        const ARGS_WITH_SUPPRESS_RULE_INDENT_SPARSE_ARRAYS = ARGS_WITH_SUPPRESS_RULE_INDENT.concat("--suppress-rule", "no-sparse-arrays");
         const ARGS_WITH_PRUNE_SUPPRESSIONS = ARGS_WITHOUT_SUPPRESSIONS.concat("--prune-suppressions");
 
         const SUPPRESSIONS_FILE_WITH_INDENT = {
@@ -519,16 +520,109 @@ describe("bin/eslint.js", () => {
             }
         };
 
-        const SUPPRESSIONS_FILE_WITH_INDENT_AND_NO_UNDEF = {
+        const SUPPRESSIONS_FILE_WITH_INDENT_SPARSE_ARRAYS = {
             [SOURCE_PATH]: {
                 indent: {
                     count: 1
+                },
+                "no-sparse-arrays": {
+                    count: 2
+                }
+            }
+        };
+
+        const SUPPRESSIONS_FILE_ALL_ERRORS = {
+            [SOURCE_PATH]: {
+                indent: {
+                    count: 1
+                },
+                "no-sparse-arrays": {
+                    count: 2
                 },
                 "no-undef": {
                     count: 3
                 }
             }
         };
+
+        describe("arguments combinations", () => {
+            it("displays an error when the --suppress-all and --suppress-rule flags are used together", () => {
+                const child = runESLint(ARGS_WITH_SUPPRESS_ALL.concat("--suppress-rule", "indent"));
+
+                const exitCodeAssertion = assertExitCode(child, 2);
+                const outputAssertion = getOutput(child).then(output => {
+                    assert.include(output.stderr, "The --suppress-all option and the --suppress-rule option cannot be used together.");
+                });
+
+                return Promise.all([exitCodeAssertion, outputAssertion]);
+            });
+
+            it("displays an error when the --suppress-all and --prune-suppressions flags are used together", () => {
+                const child = runESLint(ARGS_WITH_SUPPRESS_ALL.concat("--prune-suppressions"));
+
+                const exitCodeAssertion = assertExitCode(child, 2);
+                const outputAssertion = getOutput(child).then(output => {
+                    assert.include(output.stderr, "The --suppress-all option and the --prune-suppressions option cannot be used together.");
+                });
+
+                return Promise.all([exitCodeAssertion, outputAssertion]);
+            });
+
+            it("displays an error when the --suppress-rule and --prune-suppressions flags are used together", () => {
+                const child = runESLint(ARGS_WITH_SUPPRESS_RULE_INDENT.concat("--prune-suppressions"));
+
+                const exitCodeAssertion = assertExitCode(child, 2);
+                const outputAssertion = getOutput(child).then(output => {
+                    assert.include(output.stderr, "The --suppress-rule option and the --prune-suppressions option cannot be used together.");
+                });
+
+                return Promise.all([exitCodeAssertion, outputAssertion]);
+            });
+        });
+
+        describe("stdin", () => {
+            it("displays an error when the --suppress-all flag is used", () => {
+                const child = runESLint(["--stdin", "--no-config-lookup", "--suppress-all"]);
+
+                child.stdin.write("var foo = bar;\n");
+                child.stdin.end();
+
+                const exitCodeAssertion = assertExitCode(child, 2);
+                const outputAssertion = getOutput(child).then(output => {
+                    assert.include(output.stderr, "The --suppress-all, --suppress-rule, and --prune-suppressions options cannot be used with piped-in code.");
+                });
+
+                return Promise.all([exitCodeAssertion, outputAssertion]);
+            });
+
+            it("displays an error when the --suppress-rule flag is used", () => {
+                const child = runESLint(["--stdin", "--no-config-lookup", "--suppress-rule", "indent"]);
+
+                child.stdin.write("var foo = bar;\n");
+                child.stdin.end();
+
+                const exitCodeAssertion = assertExitCode(child, 2);
+                const outputAssertion = getOutput(child).then(output => {
+                    assert.include(output.stderr, "The --suppress-all, --suppress-rule, and --prune-suppressions options cannot be used with piped-in code.");
+                });
+
+                return Promise.all([exitCodeAssertion, outputAssertion]);
+            });
+
+            it("displays an error when the --prune-suppressions flag is used", () => {
+                const child = runESLint(["--stdin", "--no-config-lookup", "--prune-suppressions"]);
+
+                child.stdin.write("var foo = bar;\n");
+                child.stdin.end();
+
+                const exitCodeAssertion = assertExitCode(child, 2);
+                const outputAssertion = getOutput(child).then(output => {
+                    assert.include(output.stderr, "The --suppress-all, --suppress-rule, and --prune-suppressions options cannot be used with piped-in code.");
+                });
+
+                return Promise.all([exitCodeAssertion, outputAssertion]);
+            });
+        });
 
         describe("when no suppression file exists", () => {
             beforeEach(() => {
@@ -559,6 +653,25 @@ describe("bin/eslint.js", () => {
                     assert.include(output.stdout, "'b' is not defined");
                     assert.include(output.stdout, "'c' is not defined");
                     assert.include(output.stdout, "'d' is not defined");
+                    assert.notInclude(output.stdout, "Expected indentation of 2 spaces but found 4");
+                });
+
+                return Promise.all([exitCodeAssertion, outputAssertion]);
+            });
+            it("creates the suppressions file when multiple --suppress-rule flags are used, and reports some violations", () => {
+                const child = runESLint(ARGS_WITH_SUPPRESS_RULE_INDENT_SPARSE_ARRAYS);
+
+                const exitCodeAssertion = assertExitCode(child, 1).then(() => {
+                    assert.isTrue(fs.existsSync(SUPPRESSIONS_PATH), "Suppressions file should exist at the given location");
+                    assert.deepStrictEqual(
+                        JSON.parse(fs.readFileSync(SUPPRESSIONS_PATH, "utf8")),
+                        SUPPRESSIONS_FILE_WITH_INDENT_SPARSE_ARRAYS,
+                        "Suppressions file should contain the expected contents"
+                    );
+                });
+                const outputAssertion = getOutput(child).then(output => {
+                    assert.include(output.stdout, "is not defined");
+                    assert.notInclude(output.stdout, "Unexpected comma in middle of array");
                     assert.notInclude(output.stdout, "Expected indentation of 2 spaces but found 4");
                 });
 
@@ -686,7 +799,7 @@ describe("bin/eslint.js", () => {
             });
 
             it("suppresses the violations from the suppressions file, without passing --suppress-all", () => {
-                fs.writeFileSync(SUPPRESSIONS_PATH, JSON.stringify(SUPPRESSIONS_FILE_WITH_INDENT_AND_NO_UNDEF, null, 2));
+                fs.writeFileSync(SUPPRESSIONS_PATH, JSON.stringify(SUPPRESSIONS_FILE_ALL_ERRORS, null, 2));
 
                 const child = runESLint(ARGS_WITHOUT_SUPPRESSIONS);
 
@@ -694,7 +807,7 @@ describe("bin/eslint.js", () => {
             });
 
             it("displays all the violations, when there is at least one left unmatched", () => {
-                const suppressions = structuredClone(SUPPRESSIONS_FILE_WITH_INDENT_AND_NO_UNDEF);
+                const suppressions = structuredClone(SUPPRESSIONS_FILE_ALL_ERRORS);
 
                 suppressions[SOURCE_PATH]["no-undef"].count = 1;
                 fs.writeFileSync(SUPPRESSIONS_PATH, JSON.stringify(suppressions, null, 2));
@@ -712,7 +825,7 @@ describe("bin/eslint.js", () => {
             });
 
             it("exits with code 2, when there are unused violations", () => {
-                const suppressions = structuredClone(SUPPRESSIONS_FILE_WITH_INDENT_AND_NO_UNDEF);
+                const suppressions = structuredClone(SUPPRESSIONS_FILE_ALL_ERRORS);
 
                 suppressions[SOURCE_PATH].indent.count = 10;
                 fs.writeFileSync(SUPPRESSIONS_PATH, JSON.stringify(suppressions, null, 2));
@@ -724,7 +837,7 @@ describe("bin/eslint.js", () => {
             });
 
             it("prunes the suppressions file, when the --prune-suppressions flag is used", () => {
-                const suppressions = structuredClone(SUPPRESSIONS_FILE_WITH_INDENT_AND_NO_UNDEF);
+                const suppressions = structuredClone(SUPPRESSIONS_FILE_ALL_ERRORS);
 
                 suppressions[SOURCE_PATH].indent.count = 10;
                 suppressions[SOURCE_PATH].ruleThatDoesntExist = { count: 1 };
@@ -735,7 +848,7 @@ describe("bin/eslint.js", () => {
                 return assertExitCode(child, 0).then(() => {
                     assert.deepStrictEqual(
                         JSON.parse(fs.readFileSync(SUPPRESSIONS_PATH, "utf8")),
-                        SUPPRESSIONS_FILE_WITH_INDENT_AND_NO_UNDEF,
+                        SUPPRESSIONS_FILE_ALL_ERRORS,
                         "Suppressions file should contain the expected contents"
                     );
                 });
