@@ -14,34 +14,39 @@ const { RuleTester } = require("../../../lib/rule-tester");
 const ruleTester = new RuleTester();
 
 ruleTester.run("internal-rules/multiline-comment-style", rule, {
-    valid: [
-        `
+	valid: [
+		`
             //----------------
             // Rule Description
             //----------------
         `,
-        `
+		`
             /*
              * Block comment
              */
         `,
-        `
+		`
             // single-line comment
-        `
-    ],
-    invalid: [
-        {
-            code: `
+        `,
+	],
+	invalid: [
+		{
+			code: `
                 // foo
                 // bar
             `,
-            output: `
+			output: `
                 /*
                  * foo
                  * bar
                  */
             `,
-            errors: [{ message: "Expected a block comment instead of consecutive line comments." }]
-        }
-    ]
+			errors: [
+				{
+					message:
+						"Expected a block comment instead of consecutive line comments.",
+				},
+			],
+		},
+	],
 });

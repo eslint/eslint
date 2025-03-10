@@ -5,7 +5,6 @@ eleventyNavigation:
     parent: configure
     title: Configure Rules
     order: 3
-
 ---
 
 ::: tip
@@ -20,9 +19,9 @@ ESLint comes with a large number of [built-in rules](../../rules/) and you can a
 
 To change a rule's severity, set the rule ID equal to one of these values:
 
-* `"off"` or `0` - turn the rule off.
-* `"warn"` or `1` - turn the rule on as a warning (doesn't affect exit code).
-* `"error"` or `2` - turn the rule on as an error (exit code is 1 when triggered).
+-   `"off"` or `0` - turn the rule off.
+-   `"warn"` or `1` - turn the rule on as a warning (doesn't affect exit code).
+-   `"error"` or `2` - turn the rule on as an error (exit code is 1 when triggered).
 
 Rules are typically set to `"error"` to enforce compliance with the rule during continuous integration testing, pre-commit checks, and pull request merging because doing so causes ESLint to exit with a non-zero exit code.
 
@@ -82,11 +81,11 @@ To report unused `eslint` inline config comments (those that don't change anythi
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
-    {
-        linterOptions: {
-            reportUnusedInlineConfigs: "error"
-        }
-    }
+	{
+		linterOptions: {
+			reportUnusedInlineConfigs: "error",
+		},
+	},
 ]);
 ```
 
@@ -103,13 +102,13 @@ To configure rules inside of a [configuration file](./configuration-files#config
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
-    {
-        rules: {
-            eqeqeq: "off",
-            "no-unused-vars": "error",
-            "prefer-const": ["error", { "ignoreReadBeforeAssign": true }]
-        }
-    }
+	{
+		rules: {
+			eqeqeq: "off",
+			"no-unused-vars": "error",
+			"prefer-const": ["error", { ignoreReadBeforeAssign: true }],
+		},
+	},
 ]);
 ```
 
@@ -119,16 +118,16 @@ When more than one configuration object specifies the same rule, the rule config
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
-    {
-        rules: {
-            semi: ["error", "never"]
-        }
-    },
-    {
-        rules: {
-            semi: ["warn", "always"]
-        }
-    }
+	{
+		rules: {
+			semi: ["error", "never"],
+		},
+	},
+	{
+		rules: {
+			semi: ["warn", "always"],
+		},
+	},
 ]);
 ```
 
@@ -138,16 +137,16 @@ Using this configuration, the final rule configuration for `semi` is `["warn", "
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
-    {
-        rules: {
-            semi: ["error", "never"]
-        }
-    },
-    {
-        rules: {
-            semi: "warn"
-        }
-    }
+	{
+		rules: {
+			semi: ["error", "never"],
+		},
+	},
+	{
+		rules: {
+			semi: "warn",
+		},
+	},
 ]);
 ```
 
@@ -169,14 +168,14 @@ import example from "eslint-plugin-example";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
-    {
-        plugins: {
-            example
-        },
-        rules: {
-            "example/rule1": "warn"
-        }
-    }
+	{
+		plugins: {
+			example,
+		},
+		rules: {
+			"example/rule1": "warn",
+		},
+	},
 ]);
 ```
 
@@ -196,23 +195,23 @@ In order to use plugin rules in configuration comments, your configuration file 
 
 ### Using configuration comments
 
-* **Use with Caution.** Disabling ESLint rules inline should be restricted and used only in situations with a clear and
-      valid reason for doing so. Disabling rules inline should not be the default solution to resolve linting errors.
-* **Document the Reason.** Provide a comment explaining the reason for disabling a particular rule after the `--` section of the comment. This
-      documentation should clarify why the rule is being disabled and why it is necessary in that specific situation.
-* **Temporary Solutions.** If a disable comment is added as a temporary measure to address a pressing issue, create a follow-up task to address the underlying problem adequately. This ensures that the
-      disable comment is revisited and resolved at a later stage.
-* **Code Reviews and Pair Programming.** Encourage team members to review each other's code regularly. Code reviews can help
-      identify the reasons behind disable comments and ensure that they are used appropriately.
-* **Configurations.** Whenever possible, prefer using ESLint configuration files over disable comments. Configuration
-      files allow for consistent and project-wide rule handling.
+-   **Use with Caution.** Disabling ESLint rules inline should be restricted and used only in situations with a clear and
+    valid reason for doing so. Disabling rules inline should not be the default solution to resolve linting errors.
+-   **Document the Reason.** Provide a comment explaining the reason for disabling a particular rule after the `--` section of the comment. This
+    documentation should clarify why the rule is being disabled and why it is necessary in that specific situation.
+-   **Temporary Solutions.** If a disable comment is added as a temporary measure to address a pressing issue, create a follow-up task to address the underlying problem adequately. This ensures that the
+    disable comment is revisited and resolved at a later stage.
+-   **Code Reviews and Pair Programming.** Encourage team members to review each other's code regularly. Code reviews can help
+    identify the reasons behind disable comments and ensure that they are used appropriately.
+-   **Configurations.** Whenever possible, prefer using ESLint configuration files over disable comments. Configuration
+    files allow for consistent and project-wide rule handling.
 
 To disable rule warnings in a part of a file, use block comments in the following format:
 
 ```js
 /* eslint-disable */
 
-alert('foo');
+alert("foo");
 
 /* eslint-enable */
 ```
@@ -222,8 +221,8 @@ You can also disable or enable warnings for specific rules:
 ```js
 /* eslint-disable no-alert, no-console */
 
-alert('foo');
-console.log('bar');
+alert("foo");
+console.log("bar");
 
 /* eslint-enable no-alert, no-console */
 ```
@@ -237,7 +236,7 @@ To disable rule warnings in an entire file, put a `/* eslint-disable */` block c
 ```js
 /* eslint-disable */
 
-alert('foo');
+alert("foo");
 ```
 
 You can also disable or enable specific rules for an entire file:
@@ -245,7 +244,7 @@ You can also disable or enable specific rules for an entire file:
 ```js
 /* eslint-disable no-alert */
 
-alert('foo');
+alert("foo");
 ```
 
 To ensure that a rule is never applied (regardless of any future enable/disable lines):
@@ -253,56 +252,56 @@ To ensure that a rule is never applied (regardless of any future enable/disable 
 ```js
 /* eslint no-alert: "off" */
 
-alert('foo');
+alert("foo");
 ```
 
 To disable all rules on a specific line, use a line or block comment in one of the following formats:
 
 ```js
-alert('foo'); // eslint-disable-line
+alert("foo"); // eslint-disable-line
 
 // eslint-disable-next-line
-alert('foo');
+alert("foo");
 
 /* eslint-disable-next-line */
-alert('foo');
+alert("foo");
 
-alert('foo'); /* eslint-disable-line */
+alert("foo"); /* eslint-disable-line */
 ```
 
 To disable a specific rule on a specific line:
 
 ```js
-alert('foo'); // eslint-disable-line no-alert
+alert("foo"); // eslint-disable-line no-alert
 
 // eslint-disable-next-line no-alert
-alert('foo');
+alert("foo");
 
-alert('foo'); /* eslint-disable-line no-alert */
+alert("foo"); /* eslint-disable-line no-alert */
 
 /* eslint-disable-next-line no-alert */
-alert('foo');
+alert("foo");
 ```
 
 To disable multiple rules on a specific line:
 
 ```js
-alert('foo'); // eslint-disable-line no-alert, quotes, semi
+alert("foo"); // eslint-disable-line no-alert, quotes, semi
 
 // eslint-disable-next-line no-alert, quotes, semi
-alert('foo');
+alert("foo");
 
-alert('foo'); /* eslint-disable-line no-alert, quotes, semi */
+alert("foo"); /* eslint-disable-line no-alert, quotes, semi */
 
 /* eslint-disable-next-line no-alert, quotes, semi */
-alert('foo');
+alert("foo");
 
 /* eslint-disable-next-line
   no-alert,
   quotes,
   semi
 */
-alert('foo');
+alert("foo");
 ```
 
 All of the above methods also work for plugin rules. For example, to disable `eslint-plugin-example`'s `rule-name` rule, combine the plugin's name (`example`) and the rule's name (`rule-name`) into `example/rule-name`:
@@ -322,13 +321,13 @@ Configuration comments can include descriptions to explain why disabling or re-e
 
 ```js
 // eslint-disable-next-line no-console -- Here's a description about why this configuration is necessary.
-console.log('hello');
+console.log("hello");
 
 /* eslint-disable-next-line no-console --
  * Here's a very long description about why this configuration is necessary
  * along with some additional information
-**/
-console.log('hello');
+ **/
+console.log("hello");
 ```
 
 ### Using configuration files
@@ -340,17 +339,17 @@ To disable rules inside of a [configuration file](./configuration-files#configur
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
-    {
-        rules: {
-            "no-unused-expressions": "error"
-        }
-    },
-    {
-        files: ["*-test.js","*.spec.js"],
-        rules: {
-            "no-unused-expressions": "off"
-        }
-    }
+	{
+		rules: {
+			"no-unused-expressions": "error",
+		},
+	},
+	{
+		files: ["*-test.js", "*.spec.js"],
+		rules: {
+			"no-unused-expressions": "off",
+		},
+	},
 ]);
 ```
 
@@ -363,14 +362,14 @@ To disable all inline config comments, use the `noInlineConfig` setting in your 
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
-    {
-        linterOptions: {
-            noInlineConfig: true
-        },
-        rules: {
-            "no-unused-expressions": "error"
-        }
-    }
+	{
+		linterOptions: {
+			noInlineConfig: true,
+		},
+		rules: {
+			"no-unused-expressions": "error",
+		},
+	},
 ]);
 ```
 
@@ -385,11 +384,11 @@ To report unused `eslint-disable` comments (those that disable rules which would
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
-    {
-        linterOptions: {
-            reportUnusedDisableDirectives: "error"
-        }
-    }
+	{
+		linterOptions: {
+			reportUnusedDisableDirectives: "error",
+		},
+	},
 ]);
 ```
 

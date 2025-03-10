@@ -2,96 +2,96 @@ name: "\U0001F41E Report a problem"
 description: "Report an issue with ESLint or rules bundled with ESLint"
 title: "Bug: (fill in)"
 labels:
-  - bug
-  - "repro:needed"
+    - bug
+    - "repro:needed"
 body:
-- type: markdown
-  attributes:
-    value: By opening an issue, you agree to abide by the [OpenJS Foundation Code of Conduct](https://eslint.org/conduct).
-- type: textarea
-  id: environment
-  attributes:
-    label: Environment
-    description: |
-      Please tell us about how you're running ESLint (Run `npx eslint --env-info`.)
-    value: |
-        Node version:
-        npm version:
-        Local ESLint version:
-        Global ESLint version:
-        Operating System:
-  validations:
-    required: true
-- type: dropdown
-  id: parser
-  attributes:
-    label: What parser are you using?
-    description: |
-      Please keep in mind that some problems are parser-specific.
-    options:
-      - "Default (Espree)"
-      - "@typescript-eslint/parser"
-      - "@babel/eslint-parser"
-      - "vue-eslint-parser"
-      - "@angular-eslint/template-parser"
-      - Other
-  validations:
-    required: true
-- type: textarea
-  id: description
-  attributes:
-    label: What did you do?
-    description: |
-      Please include a *minimal* reproduction case. If possible, include a link to a reproduction of the problem in the [ESLint demo](https://eslint.org/demo). Otherwise, include source code, configuration file(s), and any other information about how you're using ESLint. You can use Markdown in this field.
-    value: |
-      <details>
-      <summary>Configuration</summary>
+    - type: markdown
+      attributes:
+          value: By opening an issue, you agree to abide by the [OpenJS Foundation Code of Conduct](https://eslint.org/conduct).
+    - type: textarea
+      id: environment
+      attributes:
+          label: Environment
+          description: |
+              Please tell us about how you're running ESLint (Run `npx eslint --env-info`.)
+          value: |
+              Node version:
+              npm version:
+              Local ESLint version:
+              Global ESLint version:
+              Operating System:
+      validations:
+          required: true
+    - type: dropdown
+      id: parser
+      attributes:
+          label: What parser are you using?
+          description: |
+              Please keep in mind that some problems are parser-specific.
+          options:
+              - "Default (Espree)"
+              - "@typescript-eslint/parser"
+              - "@babel/eslint-parser"
+              - "vue-eslint-parser"
+              - "@angular-eslint/template-parser"
+              - Other
+      validations:
+          required: true
+    - type: textarea
+      id: description
+      attributes:
+          label: What did you do?
+          description: |
+              Please include a *minimal* reproduction case. If possible, include a link to a reproduction of the problem in the [ESLint demo](https://eslint.org/demo). Otherwise, include source code, configuration file(s), and any other information about how you're using ESLint. You can use Markdown in this field.
+          value: |
+              <details>
+              <summary>Configuration</summary>
 
-      ```js
-      <!-- Paste your configuration here -->
-      ```
-      </details>
+              ```js
+              <!-- Paste your configuration here -->
+              ```
+              </details>
 
-      ```js
-      <!-- Paste your code here -->
-      ```
-  validations:
-    required: true
-- type: textarea
-  id: expectation
-  attributes:
-    label: What did you expect to happen?
-    description: |
-      You can use Markdown in this field.
-  validations:
-    required: true
-- type: textarea
-  id: lint-output
-  attributes:
-    label: What actually happened?
-    description: |
-      Please copy-paste the actual ESLint output. You can use Markdown in this field.
-  validations:
-    required: true
-- type: input
-  id: repro-url
-  attributes:
-    label: Link to Minimal Reproducible Example
-    description: 'Link to a [playground](https://eslint.org/play), [StackBlitz](https://stackblitz.com), or GitHub repo with a minimal reproduction of the problem. **A minimal reproduction is required** so that others can help debug your issue. If a report is vague (e.g. just a generic error message) and has no reproduction, it may be auto-closed.'
-    placeholder: 'https://stackblitz.com/abcd1234'
-  validations:
-    required: true
-- type: checkboxes
-  attributes:
-    label: Participation
-    options:
-      - label: I am willing to submit a pull request for this issue.
-        required: false
-- type: markdown
-  attributes:
-    value: Please **do not** open a pull request until this issue has been accepted by the team.
-- type: textarea
-  id: comments
-  attributes:
-    label: Additional comments
-    description: Is there anything else that's important for the team to know?
+              ```js
+              <!-- Paste your code here -->
+              ```
+      validations:
+          required: true
+    - type: textarea
+      id: expectation
+      attributes:
+          label: What did you expect to happen?
+          description: |
+              You can use Markdown in this field.
+      validations:
+          required: true
+    - type: textarea
+      id: lint-output
+      attributes:
+          label: What actually happened?
+          description: |
+              Please copy-paste the actual ESLint output. You can use Markdown in this field.
+      validations:
+          required: true
+    - type: input
+      id: repro-url
+      attributes:
+          label: Link to Minimal Reproducible Example
+          description: "Link to a [playground](https://eslint.org/play), [StackBlitz](https://stackblitz.com), or GitHub repo with a minimal reproduction of the problem. **A minimal reproduction is required** so that others can help debug your issue. If a report is vague (e.g. just a generic error message) and has no reproduction, it may be auto-closed."
+          placeholder: "https://stackblitz.com/abcd1234"
+      validations:
+          required: true
+    - type: checkboxes
+      attributes:
+          label: Participation
+          options:
+              - label: I am willing to submit a pull request for this issue.
+                required: false
+    - type: markdown
+      attributes:
+          value: Please **do not** open a pull request until this issue has been accepted by the team.
+    - type: textarea
+      id: comments
+      attributes:
+          label: Additional comments
+          description: Is there anything else that's important for the team to know?

@@ -35,19 +35,18 @@ let FILE_COUNT = DEFAULT_FILE_COUNT;
 
 // if the platform isn't windows, get the ulimit to see what the actual limit is
 if (os.platform() !== "win32") {
-    try {
-        FILE_COUNT = parseInt(execSync("ulimit -n").toString().trim(), 10) + 1;
+	try {
+		FILE_COUNT = parseInt(execSync("ulimit -n").toString().trim(), 10) + 1;
 
-        console.log(`Detected Linux file limit of ${FILE_COUNT}.`);
+		console.log(`Detected Linux file limit of ${FILE_COUNT}.`);
 
-        // if we're on a Mac, make sure the limit isn't high enough to cause a call stack error
-        if (os.platform() === "darwin") {
-            FILE_COUNT = Math.min(FILE_COUNT, 100000);
-        }
-    } catch {
-
-        // ignore error and use default
-    }
+		// if we're on a Mac, make sure the limit isn't high enough to cause a call stack error
+		if (os.platform() === "darwin") {
+			FILE_COUNT = Math.min(FILE_COUNT, 100000);
+		}
+	} catch {
+		// ignore error and use default
+	}
 }
 
 /**
@@ -55,17 +54,19 @@ if (os.platform() !== "win32") {
  * @returns {void}
  */
 function generateFiles() {
+	fs.rmSync(OUTPUT_DIRECTORY, {
+		recursive: true,
+		force: true,
+		maxRetries: 8,
+	});
+	fs.mkdirSync(OUTPUT_DIRECTORY, { recursive: true });
 
-    fs.rmSync(OUTPUT_DIRECTORY, { recursive: true, force: true, maxRetries: 8 });
-    fs.mkdirSync(OUTPUT_DIRECTORY, { recursive: true });
+	for (let i = 0; i < FILE_COUNT; i++) {
+		const fileName = `file_${i}.js`;
+		const fileContent = `// This is file ${i}`;
 
-    for (let i = 0; i < FILE_COUNT; i++) {
-        const fileName = `file_${i}.js`;
-        const fileContent = `// This is file ${i}`;
-
-        fs.writeFileSync(`${OUTPUT_DIRECTORY}/${fileName}`, fileContent);
-    }
-
+		fs.writeFileSync(`${OUTPUT_DIRECTORY}/${fileName}`, fileContent);
+	}
 }
 
 /**
@@ -73,18 +74,18 @@ function generateFiles() {
  * @returns {undefined}
  */
 async function generateEmFileError() {
-    const results = await Promise.allSettled(
-        Array.from({ length: FILE_COUNT }, (_, i) => {
-            const fileName = `file_${i}.js`;
+	const results = await Promise.allSettled(
+		Array.from({ length: FILE_COUNT }, (_, i) => {
+			const fileName = `file_${i}.js`;
 
-            return readFile(`${OUTPUT_DIRECTORY}/${fileName}`);
-        })
-    );
-    const failedResult = results.find(({ status }) => status === "rejected");
+			return readFile(`${OUTPUT_DIRECTORY}/${fileName}`);
+		}),
+	);
+	const failedResult = results.find(({ status }) => status === "rejected");
 
-    if (failedResult?.reason) {
-        throw failedResult.reason;
-    }
+	if (failedResult?.reason) {
+		throw failedResult.reason;
+	}
 }
 
 //------------------------------------------------------------------------------
@@ -95,24 +96,33 @@ console.log(`Generating ${FILE_COUNT} files in ${OUTPUT_DIRECTORY}...`);
 generateFiles();
 
 console.log("Running ESLint...");
-execSync(`node bin/eslint.js ${OUTPUT_DIRECTORY} -c ${CONFIG_DIRECTORY}/eslint.config.js`, { stdio: "inherit" });
+execSync(
+	`node bin/eslint.js ${OUTPUT_DIRECTORY} -c ${CONFIG_DIRECTORY}/eslint.config.js`,
+	{ stdio: "inherit" },
+);
 console.log("✅ No errors encountered running ESLint.");
 
-console.log("Checking that this number of files would cause an EMFILE error...");
+console.log(
+	"Checking that this number of files would cause an EMFILE error...",
+);
 generateEmFileError()
-    .then(() => {
-        throw new Error("EMFILE error not encountered.");
-    })
-    .catch(error => {
-        if (error.code === "EMFILE") {
-            console.log("✅ EMFILE error encountered:", error.message);
-        } else if (error.code === "ENFILE") {
-            console.log("✅ ENFILE error encountered:", error.message);
-        } else {
-            console.error("❌ Unexpected error encountered:", error.message);
-            throw error;
-        }
-    })
-    .finally(() => {
-        fs.rmSync(OUTPUT_DIRECTORY, { recursive: true, force: true, maxRetries: 8 });
-    });
+	.then(() => {
+		throw new Error("EMFILE error not encountered.");
+	})
+	.catch(error => {
+		if (error.code === "EMFILE") {
+			console.log("✅ EMFILE error encountered:", error.message);
+		} else if (error.code === "ENFILE") {
+			console.log("✅ ENFILE error encountered:", error.message);
+		} else {
+			console.error("❌ Unexpected error encountered:", error.message);
+			throw error;
+		}
+	})
+	.finally(() => {
+		fs.rmSync(OUTPUT_DIRECTORY, {
+			recursive: true,
+			force: true,
+			maxRetries: 8,
+		});
+	});

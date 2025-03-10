@@ -15,64 +15,63 @@ const eleventyFetch = require("@11ty/eleventy-fetch");
 // Exports
 //-----------------------------------------------------------------------------
 
-module.exports = async function() {
+module.exports = async function () {
+	const thisBranch = process.env.BRANCH;
+	const thisVersion = require("../../package.json").version;
 
-    const thisBranch = process.env.BRANCH;
-    const thisVersion = require("../../package.json").version;
+	// Fetch the current list of ESLint versions from the `main` branch on GitHub
+	const url =
+		"https://raw.githubusercontent.com/eslint/eslint/main/docs/src/_data/versions.json";
 
-    // Fetch the current list of ESLint versions from the `main` branch on GitHub
-    const url = "https://raw.githubusercontent.com/eslint/eslint/main/docs/src/_data/versions.json";
+	const data = await eleventyFetch(url, {
+		duration: "1d", // Cache for local development. Netlify does not keep this cache and will therefore always fetch from GitHub.
+		type: "json",
+	});
 
-    const data = await eleventyFetch(url, {
-        duration: "1d", // Cache for local development. Netlify does not keep this cache and will therefore always fetch from GitHub.
-        type: "json"
-    });
+	const { items } = data;
 
-    const { items } = data;
+	let foundItemForThisBranch = false;
+	let isPrereleasePhase = false;
 
-    let foundItemForThisBranch = false;
-    let isPrereleasePhase = false;
+	for (const item of items) {
+		const isItemForThisBranch = item.branch === thisBranch;
 
-    for (const item of items) {
-        const isItemForThisBranch = item.branch === thisBranch;
+		foundItemForThisBranch ||= isItemForThisBranch;
 
-        foundItemForThisBranch ||= isItemForThisBranch;
+		const isNumberVersion = /^\d/u.test(item.version); // `false` for HEAD
 
-        const isNumberVersion = /^\d/u.test(item.version); // `false` for HEAD
+		if (isNumberVersion) {
+			// Make sure the version is correct
+			if (isItemForThisBranch) {
+				item.version = thisVersion;
+			}
 
-        if (isNumberVersion) {
+			item.display = `v${item.version}`;
+		} else {
+			item.display = item.version;
+		}
 
-            // Make sure the version is correct
-            if (isItemForThisBranch) {
-                item.version = thisVersion;
-            }
+		if (isItemForThisBranch) {
+			item.selected = true;
+		}
 
-            item.display = `v${item.version}`;
-        } else {
-            item.display = item.version;
-        }
+		if (item.branch === "next") {
+			isPrereleasePhase = true;
+		}
+	}
 
-        if (isItemForThisBranch) {
-            item.selected = true;
-        }
+	// Add an empty item if this is not a production branch
+	if (!foundItemForThisBranch) {
+		items.unshift({
+			version: "",
+			branch: "",
+			display: "",
+			path: "",
+			selected: true,
+		});
+	}
 
-        if (item.branch === "next") {
-            isPrereleasePhase = true;
-        }
-    }
+	data.isPrereleasePhase = isPrereleasePhase;
 
-    // Add an empty item if this is not a production branch
-    if (!foundItemForThisBranch) {
-        items.unshift({
-            version: "",
-            branch: "",
-            display: "",
-            path: "",
-            selected: true
-        });
-    }
-
-    data.isPrereleasePhase = isPrereleasePhase;
-
-    return data;
+	return data;
 };

@@ -5,7 +5,7 @@ cli:
     version: 1.22.3
 
 repo:
-  trunk_remote_hint: github.com/eslint/eslint
+    trunk_remote_hint: github.com/eslint/eslint
 
 # Trunk provides extensibility via plugins. (https://docs.trunk.io/plugins)
 plugins:

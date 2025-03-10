@@ -5,7 +5,6 @@ eleventyNavigation:
     parent: configure
     title: Configure Plugins
     order: 4
-
 ---
 
 ::: tip
@@ -14,9 +13,9 @@ This page explains how to configure plugins using the flat config format. For th
 
 You can extend ESLint with plugins in a variety of different ways. Plugins can include:
 
-* Custom rules to validate if your code meets a certain expectation, and what to do if it does not meet that expectation.
-* Custom configurations. Please refer to the plugin's documentation for details on how to use these configurations.
-* Custom processors to extract JavaScript code from other kinds of files or preprocess code before linting.
+-   Custom rules to validate if your code meets a certain expectation, and what to do if it does not meet that expectation.
+-   Custom configurations. Please refer to the plugin's documentation for details on how to use these configurations.
+-   Custom processors to extract JavaScript code from other kinds of files or preprocess code before linting.
 
 ## Configure Plugins
 
@@ -30,14 +29,14 @@ import example from "eslint-plugin-example";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
-    {
-        plugins: {
-            example
-        },
-        rules: {
-            "example/rule1": "warn"
-        }
-    }
+	{
+		plugins: {
+			example,
+		},
+		rules: {
+			"example/rule1": "warn",
+		},
+	},
 ]);
 ```
 
@@ -55,14 +54,14 @@ import local from "./my-local-plugin.js";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
-    {
-        plugins: {
-            local
-        },
-        rules: {
-            "local/rule1": "warn"
-        }
-    }
+	{
+		plugins: {
+			local,
+		},
+		rules: {
+			"local/rule1": "warn",
+		},
+	},
 ]);
 ```
 
@@ -78,18 +77,18 @@ import myRule from "./rules/my-rule.js";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
-    {
-        plugins: {
-            local: {
-                rules: {
-                    "my-rule": myRule
-                }
-            }
-        },
-        rules: {
-            "local/my-rule": "warn"
-        }
-    }
+	{
+		plugins: {
+			local: {
+				rules: {
+					"my-rule": myRule,
+				},
+			},
+		},
+		rules: {
+			"local/my-rule": "warn",
+		},
+	},
 ]);
 ```
 
@@ -107,16 +106,16 @@ import jsdoc from "eslint-plugin-jsdoc";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
-    {
-        files: ["**/*.js"],
-        plugins: {
-            jsdoc: jsdoc
-        },
-        rules: {
-            "jsdoc/require-description": "error",
-            "jsdoc/check-values": "error"
-        }
-    }
+	{
+		files: ["**/*.js"],
+		plugins: {
+			jsdoc: jsdoc,
+		},
+		rules: {
+			"jsdoc/require-description": "error",
+			"jsdoc/check-values": "error",
+		},
+	},
 ]);
 ```
 
@@ -129,16 +128,16 @@ import jsdoc from "eslint-plugin-jsdoc";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
-    {
-        files: ["**/*.js"],
-        plugins: {
-            jsdoc
-        },
-        rules: {
-            "jsdoc/require-description": "error",
-            "jsdoc/check-values": "error"
-        }
-    }
+	{
+		files: ["**/*.js"],
+		plugins: {
+			jsdoc,
+		},
+		rules: {
+			"jsdoc/require-description": "error",
+			"jsdoc/check-values": "error",
+		},
+	},
 ]);
 ```
 
@@ -149,16 +148,16 @@ import jsdoc from "eslint-plugin-jsdoc";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
-    {
-        files: ["**/*.js"],
-        plugins: {
-            jsd: jsdoc
-        },
-        rules: {
-            "jsd/require-description": "error",
-            "jsd/check-values": "error"
-        }
-    }
+	{
+		files: ["**/*.js"],
+		plugins: {
+			jsd: jsdoc,
+		},
+		rules: {
+			"jsd/require-description": "error",
+			"jsd/check-values": "error",
+		},
+	},
 ]);
 ```
 
@@ -176,13 +175,13 @@ import markdown from "@eslint/markdown";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
-    {
-        files: ["**/*.md"],
-        plugins: {
-            markdown
-        },
-        processor: "markdown/markdown"
-    }
+	{
+		files: ["**/*.md"],
+		plugins: {
+			markdown,
+		},
+		processor: "markdown/markdown",
+	},
 ]);
 ```
 
@@ -194,29 +193,29 @@ import markdown from "@eslint/markdown";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
-    // applies to all JavaScript files
-    {
-        rules: {
-            strict: "error"
-        }
-    },
+	// applies to all JavaScript files
+	{
+		rules: {
+			strict: "error",
+		},
+	},
 
-    // applies to Markdown files
-    {
-        files: ["**/*.md"],
-        plugins: {
-            markdown
-        },
-        processor: "markdown/markdown"
-    },
+	// applies to Markdown files
+	{
+		files: ["**/*.md"],
+		plugins: {
+			markdown,
+		},
+		processor: "markdown/markdown",
+	},
 
-    // applies only to JavaScript blocks inside of Markdown files
-    {
-        files: ["**/*.md/*.js"],
-        rules: {
-            strict: "off"
-        }
-    }
+	// applies only to JavaScript blocks inside of Markdown files
+	{
+		files: ["**/*.md/*.js"],
+		rules: {
+			strict: "off",
+		},
+	},
 ]);
 ```
 
@@ -228,31 +227,31 @@ import markdown from "@eslint/markdown";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
-    // applies to Markdown files
-    {
-        files: ["**/*.md"],
-        plugins: {
-            markdown
-        },
-        processor: "markdown/markdown"
-    },
+	// applies to Markdown files
+	{
+		files: ["**/*.md"],
+		plugins: {
+			markdown,
+		},
+		processor: "markdown/markdown",
+	},
 
-    // applies to all .jsx files, including jsx blocks inside of Markdown files
-    {
-        files: ["**/*.jsx"],
-        languageOptions: {
-            parserOptions: {
-                ecmaFeatures: {
-                    jsx: true
-                }
-            }
-        }
-    },
+	// applies to all .jsx files, including jsx blocks inside of Markdown files
+	{
+		files: ["**/*.jsx"],
+		languageOptions: {
+			parserOptions: {
+				ecmaFeatures: {
+					jsx: true,
+				},
+			},
+		},
+	},
 
-    // ignore jsx blocks inside of test.md files
-    {
-        ignores: ["**/test.md/*.jsx"]
-    }
+	// ignore jsx blocks inside of test.md files
+	{
+		ignores: ["**/test.md/*.jsx"],
+	},
 ]);
 ```
 
@@ -266,13 +265,13 @@ import json from "@eslint/json";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
-    {
-        files: ["**/*.json"],
-        plugins: {
-            json
-        },
-        language: "json/jsonc"
-    }
+	{
+		files: ["**/*.json"],
+		plugins: {
+			json,
+		},
+		language: "json/jsonc",
+	},
 ]);
 ```
 
@@ -282,5 +281,5 @@ When you specify a `language` in a config object, `languageOptions` becomes spec
 
 ## Common Problems
 
-* [Plugin rules using the ESLint < v9.0.0 API](../troubleshooting/v9-rule-api-changes)
-* [Plugin configurations have not been upgraded to flat config](migration-guide#using-eslintrc-configs-in-flat-config)
+-   [Plugin rules using the ESLint < v9.0.0 API](../troubleshooting/v9-rule-api-changes)
+-   [Plugin configurations have not been upgraded to flat config](migration-guide#using-eslintrc-configs-in-flat-config)

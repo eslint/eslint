@@ -10,26 +10,26 @@ The lists below are ordered roughly by the number of users each change is expect
 
 ### Breaking changes for users
 
-* [Node.js 10, 13, and 15 are no longer supported](#drop-old-node)
-* [Removed `codeframe` and `table` formatters](#removed-formatters)
-* [`comma-dangle` rule schema is stricter](#comma-dangle)
-* [Unused disable directives are now fixable](#directives)
-* [`eslint:recommended` has been updated](#eslint-recommended)
+-   [Node.js 10, 13, and 15 are no longer supported](#drop-old-node)
+-   [Removed `codeframe` and `table` formatters](#removed-formatters)
+-   [`comma-dangle` rule schema is stricter](#comma-dangle)
+-   [Unused disable directives are now fixable](#directives)
+-   [`eslint:recommended` has been updated](#eslint-recommended)
 
 ### Breaking changes for plugin developers
 
-* [Node.js 10, 13, and 15 are no longer supported](#drop-old-node)
-* [Rules require `meta.hasSuggestions` to provide suggestions](#suggestions)
-* [Rules require `meta.fixable` to provide fixes](#fixes)
-* [`SourceCode#getComments()` fails in `RuleTester`](#get-comments)
-* [Changes to shorthand property AST format](#ast-format)
+-   [Node.js 10, 13, and 15 are no longer supported](#drop-old-node)
+-   [Rules require `meta.hasSuggestions` to provide suggestions](#suggestions)
+-   [Rules require `meta.fixable` to provide fixes](#fixes)
+-   [`SourceCode#getComments()` fails in `RuleTester`](#get-comments)
+-   [Changes to shorthand property AST format](#ast-format)
 
 ### Breaking changes for integration developers
 
-* [Node.js 10, 13, and 15 are no longer supported](#drop-old-node)
-* [The `CLIEngine` class has been removed](#remove-cliengine)
-* [The `linter` object has been removed](#remove-linter)
-* [The `/lib` entrypoint has been removed](#remove-lib)
+-   [Node.js 10, 13, and 15 are no longer supported](#drop-old-node)
+-   [The `CLIEngine` class has been removed](#remove-cliengine)
+-   [The `linter` object has been removed](#remove-linter)
+-   [The `/lib` entrypoint has been removed](#remove-lib)
 
 ---
 
@@ -37,9 +37,9 @@ The lists below are ordered roughly by the number of users each change is expect
 
 Node.js 10, 13, 15 all reached end of life either in 2020 or early 2021. ESLint is officially dropping support for these versions of Node.js starting with ESLint v8.0.0. ESLint now supports the following versions of Node.js:
 
-* Node.js 12.22 and above
-* Node.js 14 and above
-* Node.js 16 and above
+-   Node.js 12.22 and above
+-   Node.js 14 and above
+-   Node.js 16 and above
 
 **To address:** Make sure you upgrade to at least Node.js `12.22.0` when using ESLint v8.0.0. One important thing to double check is the Node.js version supported by your editor when using ESLint via editor integrations. If you are unable to upgrade, we recommend continuing to use ESLint 7 until you are able to upgrade Node.js.
 
@@ -59,9 +59,9 @@ In ESLint v7.0.0, the `comma-dangle` rule could be configured like this without 
 
 ```json
 {
-    "rules": {
-        "comma-dangle": ["error", "never", { "arrays": "always" }]
-    }
+	"rules": {
+		"comma-dangle": ["error", "never", { "arrays": "always" }]
+	}
 }
 ```
 
@@ -71,7 +71,7 @@ With this configuration, the rule would ignore the third element in the array be
 
 ```json
 {
-    "comma-dangle": ["error", "never"],
+	"comma-dangle": ["error", "never"]
 }
 ```
 
@@ -79,13 +79,16 @@ or
 
 ```json
 {
-    "comma-dangle": ["error", {
-        "arrays": "never",
-        "objects": "never",
-        "imports": "never",
-        "exports": "never",
-        "functions": "never"
-    }]
+	"comma-dangle": [
+		"error",
+		{
+			"arrays": "never",
+			"objects": "never",
+			"imports": "never",
+			"exports": "never",
+			"functions": "never"
+		}
+	]
 }
 ```
 
@@ -103,10 +106,10 @@ In ESLint v7.0.0, using both `--report-unused-disable-directives` and `--fix` on
 
 Four new rules have been enabled in the `eslint:recommended` preset.
 
-* [`no-loss-of-precision`](../rules/no-loss-of-precision)
-* [`no-nonoctal-decimal-escape`](../rules/no-nonoctal-decimal-escape)
-* [`no-unsafe-optional-chaining`](../rules/no-unsafe-optional-chaining)
-* [`no-useless-backreference`](../rules/no-useless-backreference)
+-   [`no-loss-of-precision`](../rules/no-loss-of-precision)
+-   [`no-nonoctal-decimal-escape`](../rules/no-nonoctal-decimal-escape)
+-   [`no-unsafe-optional-chaining`](../rules/no-unsafe-optional-chaining)
+-   [`no-useless-backreference`](../rules/no-useless-backreference)
 
 **To address:** Fix errors or disable these rules.
 
@@ -120,12 +123,12 @@ In ESLint v7.0.0, rules that [provided suggestions](../extend/custom-rules#provi
 
 ```js
 module.exports = {
-    meta: {
-        hasSuggestions: true
-    },
-    create(context) {
-        // your rule
-    }
+	meta: {
+		hasSuggestions: true,
+	},
+	create(context) {
+		// your rule
+	},
 };
 ```
 
@@ -140,8 +143,8 @@ In ESLint v7.0.0, rules that were written as a function (rather than object) wer
 **To address:** If your rule makes fixes and is written as a function, such as:
 
 ```js
-module.exports = function(context) {
-    // your rule
+module.exports = function (context) {
+	// your rule
 };
 ```
 
@@ -149,12 +152,12 @@ Then rewrite your rule in this format:
 
 ```js
 module.exports = {
-    meta: {
-        fixable: "code" // or "whitespace"
-    },
-    create(context) {
-        // your rule
-    }
+	meta: {
+		fixable: "code", // or "whitespace"
+	},
+	create(context) {
+		// your rule
+	},
 };
 ```
 
@@ -183,7 +186,7 @@ ESLint v8.0.0 includes an upgrade to Espree v8.0.0 to support new syntax. This E
 ```js
 const version = 8;
 const x = {
-    version
+	version,
 };
 ```
 
@@ -191,19 +194,19 @@ This code creates a property node that looks like this:
 
 ```json
 {
-    "type": "Property",
-    "method": false,
-    "shorthand": true,
-    "computed": false,
-    "key": {
-        "type": "Identifier",
-        "name": "version"
-    },
-    "kind": "init",
-    "value": {
-        "type": "Identifier",
-        "name": "version"
-    }
+	"type": "Property",
+	"method": false,
+	"shorthand": true,
+	"computed": false,
+	"key": {
+		"type": "Identifier",
+		"name": "version"
+	},
+	"kind": "init",
+	"value": {
+		"type": "Identifier",
+		"name": "version"
+	}
 }
 ```
 
@@ -212,7 +215,7 @@ Note that both the `key` and the `value` properties contain the same information
 ```js
 // true in ESLint v7.x, false in ESLint v8.0.0
 if (propertyNode.key === propertyNode.value) {
-    // do something
+	// do something
 }
 ```
 
@@ -240,14 +243,14 @@ The `CLIEngine` class has been removed and replaced by the [`ESLint` class](../i
 | `isPathIgnored(filePath)`                    | `isPathIgnored(filePath)`          |
 | `static outputFixes(results)`                | `static outputFixes(results)`      |
 | `static getErrorResults(results)`            | `static getErrorResults(results)`  |
-| `static getFormatter(name)`                  | (removed ※1)                      |
+| `static getFormatter(name)`                  | (removed ※1)                       |
 | `addPlugin(pluginId, definition)`            | the `plugins` constructor option   |
-| `getRules()`                                 | (removed ※2)                      |
-| `resolveFileGlobPatterns()`                  | (removed ※3)                      |
+| `getRules()`                                 | (removed ※2)                       |
+| `resolveFileGlobPatterns()`                  | (removed ※3)                       |
 
-* ※1 The `engine.getFormatter()` method currently returns the object of loaded packages as-is, which made it difficult to add new features to formatters for backward compatibility reasons. The new `eslint.loadFormatter()` method returns an adapter object that wraps the object of loaded packages, to ease the process of adding new features. Additionally, the adapter object has access to the `ESLint` instance to calculate default data (using loaded plugin rules to make `rulesMeta`, for example). As a result, the `ESLint` class only implements an instance version of the `loadFormatter()` method.
-* ※2 The `CLIEngine#getRules()` method had side effects and so was removed. If you were using `CLIEngine#getRules()` to retrieve meta information about rules based on linting results, use `ESLint#getRulesMetaForResults()` instead. If you were using `CLIEngine#getRules()` to retrieve all built-in rules, import `builtinRules` from `eslint/use-at-your-own-risk` for an unsupported API that allows access to internal rules.
-* ※3 Since ESLint v6.0.0, ESLint uses different logic from the `resolveFileGlobPatterns()` method to iterate files, making this method obsolete.
+-   ※1 The `engine.getFormatter()` method currently returns the object of loaded packages as-is, which made it difficult to add new features to formatters for backward compatibility reasons. The new `eslint.loadFormatter()` method returns an adapter object that wraps the object of loaded packages, to ease the process of adding new features. Additionally, the adapter object has access to the `ESLint` instance to calculate default data (using loaded plugin rules to make `rulesMeta`, for example). As a result, the `ESLint` class only implements an instance version of the `loadFormatter()` method.
+-   ※2 The `CLIEngine#getRules()` method had side effects and so was removed. If you were using `CLIEngine#getRules()` to retrieve meta information about rules based on linting results, use `ESLint#getRulesMetaForResults()` instead. If you were using `CLIEngine#getRules()` to retrieve all built-in rules, import `builtinRules` from `eslint/use-at-your-own-risk` for an unsupported API that allows access to internal rules.
+-   ※3 Since ESLint v6.0.0, ESLint uses different logic from the `resolveFileGlobPatterns()` method to iterate files, making this method obsolete.
 
 **Related issue(s):** [RFC80](https://github.com/eslint/rfcs/tree/main/designs/2021-package-exports), [#14716](https://github.com/eslint/eslint/pull/14716), [#13654](https://github.com/eslint/eslint/issues/13654)
 

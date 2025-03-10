@@ -12,5 +12,5 @@
 const LATEST_ECMA_VERSION = 2025;
 
 module.exports = {
-    LATEST_ECMA_VERSION
+	LATEST_ECMA_VERSION,
 };

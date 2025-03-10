@@ -10,331 +10,366 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-object-constructor"),
-    RuleTester = require("../../../lib/rule-tester/rule-tester");
+	RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: "latest", sourceType: "script" } });
+const ruleTester = new RuleTester({
+	languageOptions: { ecmaVersion: "latest", sourceType: "script" },
+});
 
 ruleTester.run("no-object-constructor", rule, {
-    valid: [
-        "new Object(x)",
-        "Object(x)",
-        "new globalThis.Object",
-        "const createObject = Object => new Object()",
-        "var Object; new Object;",
-        {
-            code: "new Object()",
-            languageOptions: {
-                globals: {
-                    Object: "off"
-                }
-            }
-        }
-    ],
-    invalid: [
-        {
-            code: "new Object",
-            errors: [{
-                messageId: "preferLiteral",
-                type: "NewExpression",
-                suggestions: [{
-                    messageId: "useLiteral",
-                    output: "({})"
-                }]
-            }]
-        },
-        {
-            code: "Object()",
-            errors: [{
-                messageId: "preferLiteral",
-                type: "CallExpression",
-                suggestions: [{
-                    messageId: "useLiteral",
-                    output: "({})"
-                }]
-            }]
-        },
-        {
-            code: "const fn = () => Object();",
-            errors: [{
-                messageId: "preferLiteral",
-                type: "CallExpression",
-                suggestions: [{
-                    messageId: "useLiteral",
-                    output: "const fn = () => ({});"
-                }]
-            }]
-        },
-        {
-            code: "Object() instanceof Object;",
-            errors: [{
-                messageId: "preferLiteral",
-                type: "CallExpression",
-                suggestions: [{
-                    messageId: "useLiteral",
-                    output: "({}) instanceof Object;"
-                }]
-            }]
-        },
-        {
-            code: "const obj = Object?.();",
-            errors: [{
-                messageId: "preferLiteral",
-                type: "CallExpression",
-                suggestions: [{
-                    messageId: "useLiteral",
-                    output: "const obj = {};"
-                }]
-            }]
-        },
-        {
-            code: "(new Object() instanceof Object);",
-            errors: [{
-                messageId: "preferLiteral",
-                type: "NewExpression",
-                suggestions: [{
-                    messageId: "useLiteral",
-                    output: "({} instanceof Object);"
-                }]
-            }]
-        },
+	valid: [
+		"new Object(x)",
+		"Object(x)",
+		"new globalThis.Object",
+		"const createObject = Object => new Object()",
+		"var Object; new Object;",
+		{
+			code: "new Object()",
+			languageOptions: {
+				globals: {
+					Object: "off",
+				},
+			},
+		},
+	],
+	invalid: [
+		{
+			code: "new Object",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					type: "NewExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "({})",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "Object()",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					type: "CallExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "({})",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "const fn = () => Object();",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					type: "CallExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "const fn = () => ({});",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "Object() instanceof Object;",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					type: "CallExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "({}) instanceof Object;",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "const obj = Object?.();",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					type: "CallExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "const obj = {};",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "(new Object() instanceof Object);",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					type: "NewExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "({} instanceof Object);",
+						},
+					],
+				},
+			],
+		},
 
-        ...[
-
-            // Semicolon required before `({})` to compensate for ASI
-            {
-                code: `
+		...[
+			// Semicolon required before `({})` to compensate for ASI
+			{
+				code: `
                 foo
                 Object()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 foo()
                 Object()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 new foo
                 Object()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 (a++)
                 Object()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 ++a
                 Object()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 const foo = function() {}
                 Object()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 const foo = class {}
                 Object()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 foo = this.return
                 Object()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 var yield = bar.yield
                 Object()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 var foo = { bar: baz }
                 Object()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 <foo />
                 Object()
                 `,
-                languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
-            },
-            {
-                code: `
+				languageOptions: {
+					parserOptions: { ecmaFeatures: { jsx: true } },
+				},
+			},
+			{
+				code: `
                 <foo></foo>
                 Object()
                 `,
-                languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
-            }
-        ].map(props => ({
-            ...props,
-            errors: [{
-                messageId: "preferLiteral",
-                suggestions: [{
-                    messageId: "useLiteralAfterSemicolon",
-                    output: props.code.replace(/(new )?Object\(\)/u, ";({})")
-                }]
-            }]
-        })),
+				languageOptions: {
+					parserOptions: { ecmaFeatures: { jsx: true } },
+				},
+			},
+		].map(props => ({
+			...props,
+			errors: [
+				{
+					messageId: "preferLiteral",
+					suggestions: [
+						{
+							messageId: "useLiteralAfterSemicolon",
+							output: props.code.replace(
+								/(new )?Object\(\)/u,
+								";({})",
+							),
+						},
+					],
+				},
+			],
+		})),
 
-        ...[
-
-            // No semicolon required before `({})` because ASI does not occur
-            {
-                code: `
+		...[
+			// No semicolon required before `({})` because ASI does not occur
+			{
+				code: `
                 {}
                 Object()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 function foo() {}
                 Object()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 class Foo {}
                 Object()
-                `
-            },
-            { code: "foo: Object();" },
-            { code: "foo();Object();" },
-            { code: "{ Object(); }" },
-            { code: "if (a) Object();" },
-            { code: "if (a); else Object();" },
-            { code: "while (a) Object();" },
-            {
-                code: `
+                `,
+			},
+			{ code: "foo: Object();" },
+			{ code: "foo();Object();" },
+			{ code: "{ Object(); }" },
+			{ code: "if (a) Object();" },
+			{ code: "if (a); else Object();" },
+			{ code: "while (a) Object();" },
+			{
+				code: `
                 do Object();
                 while (a);
-                `
-            },
-            { code: "for (let i = 0; i < 10; i++) Object();" },
-            { code: "for (const prop in obj) Object();" },
-            { code: "for (const element of iterable) Object();" },
-            { code: "with (obj) Object();" },
+                `,
+			},
+			{ code: "for (let i = 0; i < 10; i++) Object();" },
+			{ code: "for (const prop in obj) Object();" },
+			{ code: "for (const element of iterable) Object();" },
+			{ code: "with (obj) Object();" },
 
-            // No semicolon required before `({})` because ASI still occurs
-            {
-                code: `
+			// No semicolon required before `({})` because ASI still occurs
+			{
+				code: `
                 const foo = () => {}
                 Object()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 a++
                 Object()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 a--
                 Object()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 function foo() {
                     return
                     Object();
                 }
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 function * foo() {
                     yield
                     Object();
                 }
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 do {}
                 while (a)
                 Object()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 debugger
                 Object()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 for (;;) {
                     break
                     Object()
                 }
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 for (;;) {
                     continue
                     Object()
                 }
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 foo: break foo
                 Object()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 foo: while (true) continue foo
                 Object()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 const foo = bar
                 export { foo }
                 Object()
                 `,
-                languageOptions: { sourceType: "module" }
-            },
-            {
-                code: `
+				languageOptions: { sourceType: "module" },
+			},
+			{
+				code: `
                 export { foo } from 'bar'
                 Object()
                 `,
-                languageOptions: { sourceType: "module" }
-            },
-            {
-                code: `
+				languageOptions: { sourceType: "module" },
+			},
+			{
+				code: `
                 export * as foo from 'bar'
                 Object()
                 `,
-                languageOptions: { sourceType: "module" }
-            },
-            {
-                code: `
+				languageOptions: { sourceType: "module" },
+			},
+			{
+				code: `
                 import foo from 'bar'
                 Object()
                 `,
-                languageOptions: { sourceType: "module" }
-            },
-            {
-                code: `
+				languageOptions: { sourceType: "module" },
+			},
+			{
+				code: `
                 var yield = 5;
 
                 yield: while (foo) {
@@ -342,17 +377,24 @@ ruleTester.run("no-object-constructor", rule, {
                         break yield
                     new Object();
                 }
-                `
-            }
-        ].map(props => ({
-            ...props,
-            errors: [{
-                messageId: "preferLiteral",
-                suggestions: [{
-                    messageId: "useLiteral",
-                    output: props.code.replace(/(new )?Object\(\)/u, "({})")
-                }]
-            }]
-        }))
-    ]
+                `,
+			},
+		].map(props => ({
+			...props,
+			errors: [
+				{
+					messageId: "preferLiteral",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: props.code.replace(
+								/(new )?Object\(\)/u,
+								"({})",
+							),
+						},
+					],
+				},
+			],
+		})),
+	],
 });

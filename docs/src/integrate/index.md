@@ -4,15 +4,14 @@ eleventyNavigation:
     key: integrate eslint
     title: integrate ESLint
     order: 3
-
 ---
 
 This guide is intended for those who wish to integrate the functionality of ESLint into other applications by using the ESLint API.
 
 In order to integrate ESLint, it's recommended that:
 
-* You know JavaScript since ESLint is written in JavaScript.
-* You have some familiarity with Node.js since ESLint runs on it.
+-   You know JavaScript since ESLint is written in JavaScript.
+-   You have some familiarity with Node.js since ESLint runs on it.
 
 If that sounds like you, then continue reading to get started.
 

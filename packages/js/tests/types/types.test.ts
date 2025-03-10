@@ -41,36 +41,36 @@ config = [js.configs.all];
 config = [js.configs.recommended, js.configs.all];
 
 config = [
-    {
-        ...js.configs.recommended,
-        files: ["blah"],
-    },
-    {
-        ...js.configs.all,
-        files: ["meh"],
-    },
-    {
-        files: ["foo"],
-    },
+	{
+		...js.configs.recommended,
+		files: ["blah"],
+	},
+	{
+		...js.configs.all,
+		files: ["meh"],
+	},
+	{
+		files: ["foo"],
+	},
 ];
 
 config = [
-    {
-        files: ["**/*.js"],
-        rules: js.configs.recommended.rules,
-    },
-    {
-        files: ["**/*.js"],
-        rules: {
-            ...js.configs.recommended.rules,
-            "no-unused-vars": "warn",
-        },
-    },
-    {
-        files: ["**/*.js"],
-        rules: {
-            ...js.configs.all.rules,
-            "no-unused-vars": "warn",
-        },
-    },
+	{
+		files: ["**/*.js"],
+		rules: js.configs.recommended.rules,
+	},
+	{
+		files: ["**/*.js"],
+		rules: {
+			...js.configs.recommended.rules,
+			"no-unused-vars": "warn",
+		},
+	},
+	{
+		files: ["**/*.js"],
+		rules: {
+			...js.configs.all.rules,
+			"no-unused-vars": "warn",
+		},
+	},
 ];

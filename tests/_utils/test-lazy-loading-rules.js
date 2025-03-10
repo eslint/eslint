@@ -15,10 +15,8 @@ const path = require("node:path");
 const assert = require("node:assert");
 const { addHook } = require("pirates");
 
-const {
-    dir: rulesDirectoryPath,
-    name: rulesDirectoryIndexFilename
-} = path.parse(require.resolve("../../lib/rules"));
+const { dir: rulesDirectoryPath, name: rulesDirectoryIndexFilename } =
+	path.parse(require.resolve("../../lib/rules"));
 
 // Show full stack trace. The default 10 is usually not enough to find the root cause of this problem.
 Error.stackTraceLimit = Infinity;
@@ -33,34 +31,35 @@ const usedRules = usedRulesCommaSeparated.split(",");
 
 // `require()` hook
 addHook(
-    (_code, filename) => {
-        throw new Error(`Unexpected attempt to load unused rule ${filename}`);
-    },
-    {
+	(_code, filename) => {
+		throw new Error(`Unexpected attempt to load unused rule ${filename}`);
+	},
+	{
+		// returns `true` if the hook (the function passed in as the first argument) should be called for this filename
+		matcher(filename) {
+			const { dir, name } = path.parse(filename);
 
-        // returns `true` if the hook (the function passed in as the first argument) should be called for this filename
-        matcher(filename) {
-            const { dir, name } = path.parse(filename);
+			if (
+				dir === rulesDirectoryPath &&
+				![rulesDirectoryIndexFilename, ...usedRules].includes(name)
+			) {
+				return true;
+			}
 
-            if (dir === rulesDirectoryPath && ![rulesDirectoryIndexFilename, ...usedRules].includes(name)) {
-                return true;
-            }
-
-            return false;
-        }
-
-    }
+			return false;
+		},
+	},
 );
 
 /*
  * Everything related to loading any ESLint modules should be in this IIFE
  */
 (async () => {
-    const { LegacyESLint } = require("../../lib/unsupported-api");
-    const eslint = new LegacyESLint({ cwd });
+	const { LegacyESLint } = require("../../lib/unsupported-api");
+	const eslint = new LegacyESLint({ cwd });
 
-    await eslint.lintFiles([pattern]);
+	await eslint.lintFiles([pattern]);
 })().catch(({ message, stack }) => {
-    process.send({ message, stack });
-    process.exit(1); // eslint-disable-line n/no-process-exit -- this is a child process
+	process.send({ message, stack });
+	process.exit(1); // eslint-disable-line n/no-process-exit -- this is a child process
 });

@@ -16,586 +16,1384 @@ const RuleTester = require("../../../lib/rule-tester/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2025, sourceType: "script" } });
+const ruleTester = new RuleTester({
+	languageOptions: { ecmaVersion: 2025, sourceType: "script" },
+});
 
 ruleTester.run("no-useless-backreference", rule, {
-    valid: [
+	valid: [
+		// not a regular expression
+		String.raw`'\1(a)'`,
+		String.raw`regExp('\\1(a)')`,
+		String.raw`new Regexp('\\1(a)', 'u')`,
+		String.raw`RegExp.foo('\\1(a)', 'u')`,
+		String.raw`new foo.RegExp('\\1(a)')`,
 
-        // not a regular expression
-        String.raw`'\1(a)'`,
-        String.raw`regExp('\\1(a)')`,
-        String.raw`new Regexp('\\1(a)', 'u')`,
-        String.raw`RegExp.foo('\\1(a)', 'u')`,
-        String.raw`new foo.RegExp('\\1(a)')`,
+		// unknown pattern
+		String.raw`RegExp(p)`,
+		String.raw`new RegExp(p, 'u')`,
+		String.raw`RegExp('\\1(a)' + suffix)`,
+		"new RegExp(`${prefix}\\\\1(a)`)",
 
-        // unknown pattern
-        String.raw`RegExp(p)`,
-        String.raw`new RegExp(p, 'u')`,
-        String.raw`RegExp('\\1(a)' + suffix)`,
-        "new RegExp(`${prefix}\\\\1(a)`)",
+		// not the global RegExp
+		String.raw`let RegExp; new RegExp('\\1(a)');`,
+		String.raw`function foo() { var RegExp; RegExp('\\1(a)', 'u'); }`,
+		String.raw`function foo(RegExp) { new RegExp('\\1(a)'); }`,
+		String.raw`if (foo) { const RegExp = bar; RegExp('\\1(a)'); }`,
+		String.raw`/* globals RegExp:off */ new RegExp('\\1(a)');`,
+		{
+			code: String.raw`RegExp('\\1(a)');`,
+			languageOptions: {
+				globals: { RegExp: "off" },
+			},
+		},
 
-        // not the global RegExp
-        String.raw`let RegExp; new RegExp('\\1(a)');`,
-        String.raw`function foo() { var RegExp; RegExp('\\1(a)', 'u'); }`,
-        String.raw`function foo(RegExp) { new RegExp('\\1(a)'); }`,
-        String.raw`if (foo) { const RegExp = bar; RegExp('\\1(a)'); }`,
-        String.raw`/* globals RegExp:off */ new RegExp('\\1(a)');`,
-        {
-            code: String.raw`RegExp('\\1(a)');`,
-            languageOptions: {
-                globals: { RegExp: "off" }
-            }
-        },
+		// no capturing groups
+		String.raw`/(?:)/`,
+		String.raw`/(?:a)/`,
+		String.raw`new RegExp('')`,
+		String.raw`RegExp('(?:a)|(?:b)*')`,
+		String.raw`/^ab|[cd].\n$/`,
 
-        // no capturing groups
-        String.raw`/(?:)/`,
-        String.raw`/(?:a)/`,
-        String.raw`new RegExp('')`,
-        String.raw`RegExp('(?:a)|(?:b)*')`,
-        String.raw`/^ab|[cd].\n$/`,
+		// no backreferences
+		String.raw`/(a)/`,
+		String.raw`RegExp('(a)|(b)')`,
+		String.raw`new RegExp('\\n\\d(a)')`,
+		String.raw`/\0(a)/`,
+		String.raw`/\0(a)/u`,
+		String.raw`/(?<=(a))(b)(?=(c))/`,
+		String.raw`/(?<!(a))(b)(?!(c))/`,
+		String.raw`/(?<foo>a)/`,
 
-        // no backreferences
-        String.raw`/(a)/`,
-        String.raw`RegExp('(a)|(b)')`,
-        String.raw`new RegExp('\\n\\d(a)')`,
-        String.raw`/\0(a)/`,
-        String.raw`/\0(a)/u`,
-        String.raw`/(?<=(a))(b)(?=(c))/`,
-        String.raw`/(?<!(a))(b)(?!(c))/`,
-        String.raw`/(?<foo>a)/`,
+		// not really a backreference
+		String.raw`RegExp('\1(a)')`, // string octal escape
+		String.raw`RegExp('\\\\1(a)')`, // escaped backslash
+		String.raw`/\\1(a)/`, // // escaped backslash
+		String.raw`/\1/`, // group 1 doesn't exist, this is a regex octal escape
+		String.raw`/^\1$/`, // group 1 doesn't exist, this is a regex octal escape
+		String.raw`/\2(a)/`, // group 2 doesn't exist, this is a regex octal escape
+		String.raw`/\1(?:a)/`, // group 1 doesn't exist, this is a regex octal escape
+		String.raw`/\1(?=a)/`, // group 1 doesn't exist, this is a regex octal escape
+		String.raw`/\1(?!a)/`, // group 1 doesn't exist, this is a regex octal escape
+		String.raw`/^[\1](a)$/`, // \N in a character class is a regex octal escape
+		String.raw`new RegExp('[\\1](a)')`, // \N in a character class is a regex octal escape
+		String.raw`/\11(a)/`, // regex octal escape \11, regex matches "\x09a"
+		String.raw`/\k<foo>(a)/`, // without the 'u' flag and any named groups this isn't a syntax error, matches "k<foo>a"
+		String.raw`/^(a)\1\2$/`, // \1 is a backreference, \2 is an octal escape sequence.
 
-        // not really a backreference
-        String.raw`RegExp('\1(a)')`, // string octal escape
-        String.raw`RegExp('\\\\1(a)')`, // escaped backslash
-        String.raw`/\\1(a)/`, // // escaped backslash
-        String.raw`/\1/`, // group 1 doesn't exist, this is a regex octal escape
-        String.raw`/^\1$/`, // group 1 doesn't exist, this is a regex octal escape
-        String.raw`/\2(a)/`, // group 2 doesn't exist, this is a regex octal escape
-        String.raw`/\1(?:a)/`, // group 1 doesn't exist, this is a regex octal escape
-        String.raw`/\1(?=a)/`, // group 1 doesn't exist, this is a regex octal escape
-        String.raw`/\1(?!a)/`, // group 1 doesn't exist, this is a regex octal escape
-        String.raw`/^[\1](a)$/`, // \N in a character class is a regex octal escape
-        String.raw`new RegExp('[\\1](a)')`, // \N in a character class is a regex octal escape
-        String.raw`/\11(a)/`, // regex octal escape \11, regex matches "\x09a"
-        String.raw`/\k<foo>(a)/`, // without the 'u' flag and any named groups this isn't a syntax error, matches "k<foo>a"
-        String.raw`/^(a)\1\2$/`, // \1 is a backreference, \2 is an octal escape sequence.
+		// Valid backreferences: correct position, after the group
+		String.raw`/(a)\1/`,
+		String.raw`/(a).\1/`,
+		String.raw`RegExp('(a)\\1(b)')`,
+		String.raw`/(a)(b)\2(c)/`,
+		String.raw`/(?<foo>a)\k<foo>/`,
+		String.raw`new RegExp('(.)\\1')`,
+		String.raw`RegExp('(a)\\1(?:b)')`,
+		String.raw`/(a)b\1/`,
+		String.raw`/((a)\2)/`,
+		String.raw`/((a)b\2c)/`,
+		String.raw`/^(?:(a)\1)$/`,
+		String.raw`/^((a)\2)$/`,
+		String.raw`/^(((a)\3))|b$/`,
+		String.raw`/a(?<foo>(.)b\2)/`,
+		String.raw`/(a)?(b)*(\1)(c)/`,
+		String.raw`/(a)?(b)*(\2)(c)/`,
+		String.raw`/(?<=(a))b\1/`,
+		String.raw`/(?<=(?=(a)\1))b/`,
 
-        // Valid backreferences: correct position, after the group
-        String.raw`/(a)\1/`,
-        String.raw`/(a).\1/`,
-        String.raw`RegExp('(a)\\1(b)')`,
-        String.raw`/(a)(b)\2(c)/`,
-        String.raw`/(?<foo>a)\k<foo>/`,
-        String.raw`new RegExp('(.)\\1')`,
-        String.raw`RegExp('(a)\\1(?:b)')`,
-        String.raw`/(a)b\1/`,
-        String.raw`/((a)\2)/`,
-        String.raw`/((a)b\2c)/`,
-        String.raw`/^(?:(a)\1)$/`,
-        String.raw`/^((a)\2)$/`,
-        String.raw`/^(((a)\3))|b$/`,
-        String.raw`/a(?<foo>(.)b\2)/`,
-        String.raw`/(a)?(b)*(\1)(c)/`,
-        String.raw`/(a)?(b)*(\2)(c)/`,
-        String.raw`/(?<=(a))b\1/`,
-        String.raw`/(?<=(?=(a)\1))b/`,
+		// Valid backreferences: correct position before the group when they're both in the same lookbehind
+		String.raw`/(?<!\1(a))b/`,
+		String.raw`/(?<=\1(a))b/`,
+		String.raw`/(?<!\1.(a))b/`,
+		String.raw`/(?<=\1.(a))b/`,
+		String.raw`/(?<=(?:\1.(a)))b/`,
+		String.raw`/(?<!(?:\1)((a)))b/`,
+		String.raw`/(?<!(?:\2)((a)))b/`,
+		String.raw`/(?=(?<=\1(a)))b/`,
+		String.raw`/(?=(?<!\1(a)))b/`,
+		String.raw`/(.)(?<=\2(a))b/`,
 
-        // Valid backreferences: correct position before the group when they're both in the same lookbehind
-        String.raw`/(?<!\1(a))b/`,
-        String.raw`/(?<=\1(a))b/`,
-        String.raw`/(?<!\1.(a))b/`,
-        String.raw`/(?<=\1.(a))b/`,
-        String.raw`/(?<=(?:\1.(a)))b/`,
-        String.raw`/(?<!(?:\1)((a)))b/`,
-        String.raw`/(?<!(?:\2)((a)))b/`,
-        String.raw`/(?=(?<=\1(a)))b/`,
-        String.raw`/(?=(?<!\1(a)))b/`,
-        String.raw`/(.)(?<=\2(a))b/`,
+		// Valid backreferences: not a reference into another alternative
+		String.raw`/^(a)\1|b/`,
+		String.raw`/^a|(b)\1/`,
+		String.raw`/^a|(b|c)\1/`,
+		String.raw`/^(a)|(b)\2/`,
+		String.raw`/^(?:(a)|(b)\2)$/`,
+		String.raw`/^a|(?:.|(b)\1)/`,
+		String.raw`/^a|(?:.|(b).(\1))/`,
+		String.raw`/^a|(?:.|(?:(b)).(\1))/`,
+		String.raw`/^a|(?:.|(?:(b)|c).(\1))/`,
+		String.raw`/^a|(?:.|(?:(b)).(\1|c))/`,
+		String.raw`/^a|(?:.|(?:(b)|c).(\1|d))/`,
 
-        // Valid backreferences: not a reference into another alternative
-        String.raw`/^(a)\1|b/`,
-        String.raw`/^a|(b)\1/`,
-        String.raw`/^a|(b|c)\1/`,
-        String.raw`/^(a)|(b)\2/`,
-        String.raw`/^(?:(a)|(b)\2)$/`,
-        String.raw`/^a|(?:.|(b)\1)/`,
-        String.raw`/^a|(?:.|(b).(\1))/`,
-        String.raw`/^a|(?:.|(?:(b)).(\1))/`,
-        String.raw`/^a|(?:.|(?:(b)|c).(\1))/`,
-        String.raw`/^a|(?:.|(?:(b)).(\1|c))/`,
-        String.raw`/^a|(?:.|(?:(b)|c).(\1|d))/`,
+		// Valid backreferences: not a reference into a negative lookaround (reference from within the same lookaround is allowed)
+		String.raw`/.(?=(b))\1/`,
+		String.raw`/.(?<=(b))\1/`,
+		String.raw`/a(?!(b)\1)./`,
+		String.raw`/a(?<!\1(b))./`,
+		String.raw`/a(?!(b)(\1))./`,
+		String.raw`/a(?!(?:(b)\1))./`,
+		String.raw`/a(?!(?:(b))\1)./`,
+		String.raw`/a(?<!(?:\1)(b))./`,
+		String.raw`/a(?<!(?:(?:\1)(b)))./`,
+		String.raw`/(?<!(a))(b)(?!(c))\2/`,
+		String.raw`/a(?!(b|c)\1)./`,
 
-        // Valid backreferences: not a reference into a negative lookaround (reference from within the same lookaround is allowed)
-        String.raw`/.(?=(b))\1/`,
-        String.raw`/.(?<=(b))\1/`,
-        String.raw`/a(?!(b)\1)./`,
-        String.raw`/a(?<!\1(b))./`,
-        String.raw`/a(?!(b)(\1))./`,
-        String.raw`/a(?!(?:(b)\1))./`,
-        String.raw`/a(?!(?:(b))\1)./`,
-        String.raw`/a(?<!(?:\1)(b))./`,
-        String.raw`/a(?<!(?:(?:\1)(b)))./`,
-        String.raw`/(?<!(a))(b)(?!(c))\2/`,
-        String.raw`/a(?!(b|c)\1)./`,
+		// ignore regular expressions with syntax errors
+		String.raw`RegExp('\\1(a)[')`, // \1 would be an error, but the unterminated [ is a syntax error
+		String.raw`new RegExp('\\1(a){', 'u')`, // \1 would be an error, but the unterminated { is a syntax error because of the 'u' flag
+		String.raw`new RegExp('\\1(a)\\2', 'ug')`, // \1 would be an error, but \2 is syntax error because of the 'u' flag
+		String.raw`const flags = 'gus'; RegExp('\\1(a){', flags);`, // \1 would be an error, but the rule is aware of the 'u' flag so this is a syntax error
+		String.raw`RegExp('\\1(a)\\k<foo>', 'u')`, // \1 would be an error, but \k<foo> produces syntax error because of the u flag
+		String.raw`new RegExp('\\k<foo>(?<foo>a)\\k<bar>')`, // \k<foo> would be an error, but \k<bar> produces syntax error because group <bar> doesn't exist
 
-        // ignore regular expressions with syntax errors
-        String.raw`RegExp('\\1(a)[')`, // \1 would be an error, but the unterminated [ is a syntax error
-        String.raw`new RegExp('\\1(a){', 'u')`, // \1 would be an error, but the unterminated { is a syntax error because of the 'u' flag
-        String.raw`new RegExp('\\1(a)\\2', 'ug')`, // \1 would be an error, but \2 is syntax error because of the 'u' flag
-        String.raw`const flags = 'gus'; RegExp('\\1(a){', flags);`, // \1 would be an error, but the rule is aware of the 'u' flag so this is a syntax error
-        String.raw`RegExp('\\1(a)\\k<foo>', 'u')`, // \1 would be an error, but \k<foo> produces syntax error because of the u flag
-        String.raw`new RegExp('\\k<foo>(?<foo>a)\\k<bar>')`, // \k<foo> would be an error, but \k<bar> produces syntax error because group <bar> doesn't exist
+		// ES2024
+		String.raw`new RegExp('([[A--B]])\\1', 'v')`,
+		String.raw`new RegExp('[[]\\1](a)', 'v')`, // SyntaxError
 
-        // ES2024
-        String.raw`new RegExp('([[A--B]])\\1', 'v')`,
-        String.raw`new RegExp('[[]\\1](a)', 'v')`, // SyntaxError
+		// ES2025
+		String.raw`/((?<foo>bar)\k<foo>|(?<foo>baz))/`,
+	],
 
+	invalid: [
+		// full message tests
+		{
+			code: String.raw`/(b)(\2a)/`,
+			errors: [
+				{
+					message: String.raw`Backreference '\2' will be ignored. It references group '(\2a)' from within that group.`,
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/\k<foo>(?<foo>bar)/`,
+			errors: [
+				{
+					message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>bar)' which appears later in the pattern.`,
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`RegExp('(a|bc)|\\1')`,
+			errors: [
+				{
+					message: String.raw`Backreference '\1' will be ignored. It references group '(a|bc)' which is in another alternative.`,
+					type: "CallExpression",
+				},
+			],
+		},
+		{
+			code: String.raw`new RegExp('(?!(?<foo>\\n))\\1')`,
+			errors: [
+				{
+					message: String.raw`Backreference '\1' will be ignored. It references group '(?<foo>\n)' which is in a negative lookaround.`,
+					type: "NewExpression",
+				},
+			],
+		},
+		{
+			code: String.raw`/(?<!(a)\1)b/`,
+			errors: [
+				{
+					message: String.raw`Backreference '\1' will be ignored. It references group '(a)' which appears before in the same lookbehind.`,
+					type: "Literal",
+				},
+			],
+		},
 
-        // ES2025
-        String.raw`/((?<foo>bar)\k<foo>|(?<foo>baz))/`
-    ],
+		// nested
+		{
+			code: String.raw`new RegExp('(\\1)')`,
+			errors: [
+				{
+					messageId: "nested",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(\1)`,
+						otherGroups: "",
+					},
+					type: "NewExpression",
+				},
+			],
+		},
+		{
+			code: String.raw`/^(a\1)$/`,
+			errors: [
+				{
+					messageId: "nested",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a\1)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/^((a)\1)$/`,
+			errors: [
+				{
+					messageId: "nested",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`((a)\1)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`new RegExp('^(a\\1b)$')`,
+			errors: [
+				{
+					messageId: "nested",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a\1b)`,
+						otherGroups: "",
+					},
+					type: "NewExpression",
+				},
+			],
+		},
+		{
+			code: String.raw`RegExp('^((\\1))$')`,
+			errors: [
+				{
+					messageId: "nested",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`((\1))`,
+						otherGroups: "",
+					},
+					type: "CallExpression",
+				},
+			],
+		},
+		{
+			code: String.raw`/((\2))/`,
+			errors: [
+				{
+					messageId: "nested",
+					data: {
+						bref: String.raw`\2`,
+						group: String.raw`(\2)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/a(?<foo>(.)b\1)/`,
+			errors: [
+				{
+					messageId: "nested",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(?<foo>(.)b\1)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/a(?<foo>\k<foo>)b/`,
+			errors: [
+				{
+					messageId: "nested",
+					data: {
+						bref: String.raw`\k<foo>`,
+						group: String.raw`(?<foo>\k<foo>)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/^(\1)*$/`,
+			errors: [
+				{
+					messageId: "nested",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(\1)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/^(?:a)(?:((?:\1)))*$/`,
+			errors: [
+				{
+					messageId: "nested",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`((?:\1))`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/(?!(\1))/`,
+			errors: [
+				{
+					messageId: "nested",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(\1)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/a|(b\1c)/`,
+			errors: [
+				{
+					messageId: "nested",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(b\1c)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/(a|(\1))/`,
+			errors: [
+				{
+					messageId: "nested",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a|(\1))`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/(a|(\2))/`,
+			errors: [
+				{
+					messageId: "nested",
+					data: {
+						bref: String.raw`\2`,
+						group: String.raw`(\2)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/(?:a|(\1))/`,
+			errors: [
+				{
+					messageId: "nested",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(\1)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/(a)?(b)*(\3)/`,
+			errors: [
+				{
+					messageId: "nested",
+					data: {
+						bref: String.raw`\3`,
+						group: String.raw`(\3)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/(?<=(a\1))b/`,
+			errors: [
+				{
+					messageId: "nested",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a\1)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
 
-    invalid: [
+		// forward
+		{
+			code: String.raw`/\1(a)/`,
+			errors: [
+				{
+					messageId: "forward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/\1.(a)/`,
+			errors: [
+				{
+					messageId: "forward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/(?:\1)(?:(a))/`,
+			errors: [
+				{
+					messageId: "forward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/(?:\1)(?:((a)))/`,
+			errors: [
+				{
+					messageId: "forward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`((a))`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/(?:\2)(?:((a)))/`,
+			errors: [
+				{
+					messageId: "forward",
+					data: {
+						bref: String.raw`\2`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/(?:\1)(?:((?:a)))/`,
+			errors: [
+				{
+					messageId: "forward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`((?:a))`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/(\2)(a)/`,
+			errors: [
+				{
+					messageId: "forward",
+					data: {
+						bref: String.raw`\2`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`RegExp('(a)\\2(b)')`,
+			errors: [
+				{
+					messageId: "forward",
+					data: {
+						bref: String.raw`\2`,
+						group: String.raw`(b)`,
+						otherGroups: "",
+					},
+					type: "CallExpression",
+				},
+			],
+		},
+		{
+			code: String.raw`/(?:a)(b)\2(c)/`,
+			errors: [
+				{
+					messageId: "forward",
+					data: {
+						bref: String.raw`\2`,
+						group: String.raw`(c)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/\k<foo>(?<foo>a)/`,
+			errors: [
+				{
+					messageId: "forward",
+					data: {
+						bref: String.raw`\k<foo>`,
+						group: String.raw`(?<foo>a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/(?:a(b)\2)(c)/`,
+			errors: [
+				{
+					messageId: "forward",
+					data: {
+						bref: String.raw`\2`,
+						group: String.raw`(c)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`new RegExp('(a)(b)\\3(c)')`,
+			errors: [
+				{
+					messageId: "forward",
+					data: {
+						bref: String.raw`\3`,
+						group: String.raw`(c)`,
+						otherGroups: "",
+					},
+					type: "NewExpression",
+				},
+			],
+		},
+		{
+			code: String.raw`/\1(?<=(a))./`,
+			errors: [
+				{
+					messageId: "forward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/\1(?<!(a))./`,
+			errors: [
+				{
+					messageId: "forward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/(?<=\1)(?<=(a))/`,
+			errors: [
+				{
+					messageId: "forward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/(?<!\1)(?<!(a))/`,
+			errors: [
+				{
+					messageId: "forward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/(?=\1(a))./`,
+			errors: [
+				{
+					messageId: "forward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/(?!\1(a))./`,
+			errors: [
+				{
+					messageId: "forward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
 
-        // full message tests
-        {
-            code: String.raw`/(b)(\2a)/`,
-            errors: [{
-                message: String.raw`Backreference '\2' will be ignored. It references group '(\2a)' from within that group.`,
-                type: "Literal"
-            }]
-        },
-        {
-            code: String.raw`/\k<foo>(?<foo>bar)/`,
-            errors: [{
-                message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>bar)' which appears later in the pattern.`,
-                type: "Literal"
-            }]
-        },
-        {
-            code: String.raw`RegExp('(a|bc)|\\1')`,
-            errors: [{
-                message: String.raw`Backreference '\1' will be ignored. It references group '(a|bc)' which is in another alternative.`,
-                type: "CallExpression"
-            }]
-        },
-        {
-            code: String.raw`new RegExp('(?!(?<foo>\\n))\\1')`,
-            errors: [{
-                message: String.raw`Backreference '\1' will be ignored. It references group '(?<foo>\n)' which is in a negative lookaround.`,
-                type: "NewExpression"
-            }]
-        },
-        {
-            code: String.raw`/(?<!(a)\1)b/`,
-            errors: [{
-                message: String.raw`Backreference '\1' will be ignored. It references group '(a)' which appears before in the same lookbehind.`,
-                type: "Literal"
-            }]
-        },
+		// backward in the same lookbehind
+		{
+			code: String.raw`/(?<=(a)\1)b/`,
+			errors: [
+				{
+					messageId: "backward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/(?<!.(a).\1.)b/`,
+			errors: [
+				{
+					messageId: "backward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/(.)(?<!(b|c)\2)d/`,
+			errors: [
+				{
+					messageId: "backward",
+					data: {
+						bref: String.raw`\2`,
+						group: String.raw`(b|c)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/(?<=(?:(a)\1))b/`,
+			errors: [
+				{
+					messageId: "backward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/(?<=(?:(a))\1)b/`,
+			errors: [
+				{
+					messageId: "backward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/(?<=(a)(?:\1))b/`,
+			errors: [
+				{
+					messageId: "backward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/(?<!(?:(a))(?:\1))b/`,
+			errors: [
+				{
+					messageId: "backward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/(?<!(?:(a))(?:\1)|.)b/`,
+			errors: [
+				{
+					messageId: "backward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/.(?!(?<!(a)\1))./`,
+			errors: [
+				{
+					messageId: "backward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/.(?=(?<!(a)\1))./`,
+			errors: [
+				{
+					messageId: "backward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/.(?!(?<=(a)\1))./`,
+			errors: [
+				{
+					messageId: "backward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/.(?=(?<=(a)\1))./`,
+			errors: [
+				{
+					messageId: "backward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
 
-        // nested
-        {
-            code: String.raw`new RegExp('(\\1)')`,
-            errors: [{ messageId: "nested", data: { bref: String.raw`\1`, group: String.raw`(\1)`, otherGroups: "" }, type: "NewExpression" }]
-        },
-        {
-            code: String.raw`/^(a\1)$/`,
-            errors: [{ messageId: "nested", data: { bref: String.raw`\1`, group: String.raw`(a\1)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/^((a)\1)$/`,
-            errors: [{ messageId: "nested", data: { bref: String.raw`\1`, group: String.raw`((a)\1)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`new RegExp('^(a\\1b)$')`,
-            errors: [{ messageId: "nested", data: { bref: String.raw`\1`, group: String.raw`(a\1b)`, otherGroups: "" }, type: "NewExpression" }]
-        },
-        {
-            code: String.raw`RegExp('^((\\1))$')`,
-            errors: [{ messageId: "nested", data: { bref: String.raw`\1`, group: String.raw`((\1))`, otherGroups: "" }, type: "CallExpression" }]
-        },
-        {
-            code: String.raw`/((\2))/`,
-            errors: [{ messageId: "nested", data: { bref: String.raw`\2`, group: String.raw`(\2)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/a(?<foo>(.)b\1)/`,
-            errors: [{ messageId: "nested", data: { bref: String.raw`\1`, group: String.raw`(?<foo>(.)b\1)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/a(?<foo>\k<foo>)b/`,
-            errors: [{ messageId: "nested", data: { bref: String.raw`\k<foo>`, group: String.raw`(?<foo>\k<foo>)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/^(\1)*$/`,
-            errors: [{ messageId: "nested", data: { bref: String.raw`\1`, group: String.raw`(\1)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/^(?:a)(?:((?:\1)))*$/`,
-            errors: [{ messageId: "nested", data: { bref: String.raw`\1`, group: String.raw`((?:\1))`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/(?!(\1))/`,
-            errors: [{ messageId: "nested", data: { bref: String.raw`\1`, group: String.raw`(\1)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/a|(b\1c)/`,
-            errors: [{ messageId: "nested", data: { bref: String.raw`\1`, group: String.raw`(b\1c)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/(a|(\1))/`,
-            errors: [{ messageId: "nested", data: { bref: String.raw`\1`, group: String.raw`(a|(\1))`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/(a|(\2))/`,
-            errors: [{ messageId: "nested", data: { bref: String.raw`\2`, group: String.raw`(\2)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/(?:a|(\1))/`,
-            errors: [{ messageId: "nested", data: { bref: String.raw`\1`, group: String.raw`(\1)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/(a)?(b)*(\3)/`,
-            errors: [{ messageId: "nested", data: { bref: String.raw`\3`, group: String.raw`(\3)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/(?<=(a\1))b/`,
-            errors: [{ messageId: "nested", data: { bref: String.raw`\1`, group: String.raw`(a\1)`, otherGroups: "" }, type: "Literal" }]
-        },
+		// into another alternative
+		{
+			code: String.raw`/(a)|\1b/`,
+			errors: [
+				{
+					messageId: "disjunctive",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/^(?:(a)|\1b)$/`,
+			errors: [
+				{
+					messageId: "disjunctive",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/^(?:(a)|b(?:c|\1))$/`,
+			errors: [
+				{
+					messageId: "disjunctive",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/^(?:a|b(?:(c)|\1))$/`,
+			errors: [
+				{
+					messageId: "disjunctive",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(c)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/^(?:(a(?!b))|\1b)+$/`,
+			errors: [
+				{
+					messageId: "disjunctive",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a(?!b))`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/^(?:(?:(a)(?!b))|\1b)+$/`,
+			errors: [
+				{
+					messageId: "disjunctive",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/^(?:(a(?=a))|\1b)+$/`,
+			errors: [
+				{
+					messageId: "disjunctive",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a(?=a))`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/^(?:(a)(?=a)|\1b)+$/`,
+			errors: [
+				{
+					messageId: "disjunctive",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/.(?:a|(b)).|(?:(\1)|c)./`,
+			errors: [
+				{
+					messageId: "disjunctive",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(b)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/.(?!(a)|\1)./`,
+			errors: [
+				{
+					messageId: "disjunctive",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/.(?<=\1|(a))./`,
+			errors: [
+				{
+					messageId: "disjunctive",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
 
-        // forward
-        {
-            code: String.raw`/\1(a)/`,
-            errors: [{ messageId: "forward", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/\1.(a)/`,
-            errors: [{ messageId: "forward", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/(?:\1)(?:(a))/`,
-            errors: [{ messageId: "forward", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/(?:\1)(?:((a)))/`,
-            errors: [{ messageId: "forward", data: { bref: String.raw`\1`, group: String.raw`((a))`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/(?:\2)(?:((a)))/`,
-            errors: [{ messageId: "forward", data: { bref: String.raw`\2`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/(?:\1)(?:((?:a)))/`,
-            errors: [{ messageId: "forward", data: { bref: String.raw`\1`, group: String.raw`((?:a))`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/(\2)(a)/`,
-            errors: [{ messageId: "forward", data: { bref: String.raw`\2`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`RegExp('(a)\\2(b)')`,
-            errors: [{ messageId: "forward", data: { bref: String.raw`\2`, group: String.raw`(b)`, otherGroups: "" }, type: "CallExpression" }]
-        },
-        {
-            code: String.raw`/(?:a)(b)\2(c)/`,
-            errors: [{ messageId: "forward", data: { bref: String.raw`\2`, group: String.raw`(c)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/\k<foo>(?<foo>a)/`,
-            errors: [{ messageId: "forward", data: { bref: String.raw`\k<foo>`, group: String.raw`(?<foo>a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/(?:a(b)\2)(c)/`,
-            errors: [{ messageId: "forward", data: { bref: String.raw`\2`, group: String.raw`(c)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`new RegExp('(a)(b)\\3(c)')`,
-            errors: [{ messageId: "forward", data: { bref: String.raw`\3`, group: String.raw`(c)`, otherGroups: "" }, type: "NewExpression" }]
-        },
-        {
-            code: String.raw`/\1(?<=(a))./`,
-            errors: [{ messageId: "forward", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/\1(?<!(a))./`,
-            errors: [{ messageId: "forward", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/(?<=\1)(?<=(a))/`,
-            errors: [{ messageId: "forward", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/(?<!\1)(?<!(a))/`,
-            errors: [{ messageId: "forward", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/(?=\1(a))./`,
-            errors: [{ messageId: "forward", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/(?!\1(a))./`,
-            errors: [{ messageId: "forward", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
+		// into a negative lookaround
+		{
+			code: String.raw`/a(?!(b)).\1/`,
+			errors: [
+				{
+					messageId: "intoNegativeLookaround",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(b)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/(?<!(a))b\1/`,
+			errors: [
+				{
+					messageId: "intoNegativeLookaround",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/(?<!(a))(?:\1)/`,
+			errors: [
+				{
+					messageId: "intoNegativeLookaround",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/.(?<!a|(b)).\1/`,
+			errors: [
+				{
+					messageId: "intoNegativeLookaround",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(b)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/.(?!(a)).(?!\1)./`,
+			errors: [
+				{
+					messageId: "intoNegativeLookaround",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/.(?<!(a)).(?<!\1)./`,
+			errors: [
+				{
+					messageId: "intoNegativeLookaround",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/.(?=(?!(a))\1)./`,
+			errors: [
+				{
+					messageId: "intoNegativeLookaround",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/.(?<!\1(?!(a)))/`,
+			errors: [
+				{
+					messageId: "intoNegativeLookaround",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
 
-        // backward in the same lookbehind
-        {
-            code: String.raw`/(?<=(a)\1)b/`,
-            errors: [{ messageId: "backward", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/(?<!.(a).\1.)b/`,
-            errors: [{ messageId: "backward", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/(.)(?<!(b|c)\2)d/`,
-            errors: [{ messageId: "backward", data: { bref: String.raw`\2`, group: String.raw`(b|c)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/(?<=(?:(a)\1))b/`,
-            errors: [{ messageId: "backward", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/(?<=(?:(a))\1)b/`,
-            errors: [{ messageId: "backward", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/(?<=(a)(?:\1))b/`,
-            errors: [{ messageId: "backward", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/(?<!(?:(a))(?:\1))b/`,
-            errors: [{ messageId: "backward", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/(?<!(?:(a))(?:\1)|.)b/`,
-            errors: [{ messageId: "backward", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/.(?!(?<!(a)\1))./`,
-            errors: [{ messageId: "backward", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/.(?=(?<!(a)\1))./`,
-            errors: [{ messageId: "backward", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/.(?!(?<=(a)\1))./`,
-            errors: [{ messageId: "backward", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/.(?=(?<=(a)\1))./`,
-            errors: [{ messageId: "backward", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
+		// valid and invalid
+		{
+			code: String.raw`/\1(a)(b)\2/`,
+			errors: [
+				{
+					messageId: "forward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/\1(a)\1/`,
+			errors: [
+				{
+					messageId: "forward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
 
-        // into another alternative
-        {
-            code: String.raw`/(a)|\1b/`,
-            errors: [{ messageId: "disjunctive", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/^(?:(a)|\1b)$/`,
-            errors: [{ messageId: "disjunctive", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/^(?:(a)|b(?:c|\1))$/`,
-            errors: [{ messageId: "disjunctive", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/^(?:a|b(?:(c)|\1))$/`,
-            errors: [{ messageId: "disjunctive", data: { bref: String.raw`\1`, group: String.raw`(c)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/^(?:(a(?!b))|\1b)+$/`,
-            errors: [{ messageId: "disjunctive", data: { bref: String.raw`\1`, group: String.raw`(a(?!b))`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/^(?:(?:(a)(?!b))|\1b)+$/`,
-            errors: [{ messageId: "disjunctive", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/^(?:(a(?=a))|\1b)+$/`,
-            errors: [{ messageId: "disjunctive", data: { bref: String.raw`\1`, group: String.raw`(a(?=a))`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/^(?:(a)(?=a)|\1b)+$/`,
-            errors: [{ messageId: "disjunctive", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/.(?:a|(b)).|(?:(\1)|c)./`,
-            errors: [{ messageId: "disjunctive", data: { bref: String.raw`\1`, group: String.raw`(b)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/.(?!(a)|\1)./`,
-            errors: [{ messageId: "disjunctive", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/.(?<=\1|(a))./`,
-            errors: [{ messageId: "disjunctive", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
+		// multiple invalid
+		{
+			code: String.raw`/\1(a)\2(b)/`,
+			errors: [
+				{
+					messageId: "forward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+				{
+					messageId: "forward",
+					data: {
+						bref: String.raw`\2`,
+						group: String.raw`(b)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/\1.(?<=(a)\1)/`,
+			errors: [
+				{
+					messageId: "forward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+				{
+					messageId: "backward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/(?!\1(a)).\1/`,
+			errors: [
+				{
+					messageId: "forward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+				{
+					messageId: "intoNegativeLookaround",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/(a)\2(b)/; RegExp('(\\1)');`,
+			errors: [
+				{
+					messageId: "forward",
+					data: {
+						bref: String.raw`\2`,
+						group: String.raw`(b)`,
+						otherGroups: "",
+					},
+					type: "Literal",
+				},
+				{
+					messageId: "nested",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(\1)`,
+						otherGroups: "",
+					},
+					type: "CallExpression",
+				},
+			],
+		},
 
-        // into a negative lookaround
-        {
-            code: String.raw`/a(?!(b)).\1/`,
-            errors: [{ messageId: "intoNegativeLookaround", data: { bref: String.raw`\1`, group: String.raw`(b)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/(?<!(a))b\1/`,
-            errors: [{ messageId: "intoNegativeLookaround", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/(?<!(a))(?:\1)/`,
-            errors: [{ messageId: "intoNegativeLookaround", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/.(?<!a|(b)).\1/`,
-            errors: [{ messageId: "intoNegativeLookaround", data: { bref: String.raw`\1`, group: String.raw`(b)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/.(?!(a)).(?!\1)./`,
-            errors: [{ messageId: "intoNegativeLookaround", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/.(?<!(a)).(?<!\1)./`,
-            errors: [{ messageId: "intoNegativeLookaround", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/.(?=(?!(a))\1)./`,
-            errors: [{ messageId: "intoNegativeLookaround", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/.(?<!\1(?!(a)))/`,
-            errors: [{ messageId: "intoNegativeLookaround", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
+		// when flags cannot be evaluated, it is assumed that the regex doesn't have 'u' flag set, so this will be a correct regex with a useless backreference
+		{
+			code: String.raw`RegExp('\\1(a){', flags);`,
+			errors: [
+				{
+					messageId: "forward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "CallExpression",
+				},
+			],
+		},
 
-        // valid and invalid
-        {
-            code: String.raw`/\1(a)(b)\2/`,
-            errors: [{ messageId: "forward", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
-        {
-            code: String.raw`/\1(a)\1/`,
-            errors: [{ messageId: "forward", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }]
-        },
+		// able to evaluate some statically known expressions
+		{
+			code: String.raw`const r = RegExp, p = '\\1', s = '(a)'; new r(p + s);`,
+			errors: [
+				{
+					messageId: "forward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`(a)`,
+						otherGroups: "",
+					},
+					type: "NewExpression",
+				},
+			],
+		},
 
-        // multiple invalid
-        {
-            code: String.raw`/\1(a)\2(b)/`,
-            errors: [
-                { messageId: "forward", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" },
-                { messageId: "forward", data: { bref: String.raw`\2`, group: String.raw`(b)`, otherGroups: "" }, type: "Literal" }
-            ]
-        },
-        {
-            code: String.raw`/\1.(?<=(a)\1)/`,
-            errors: [
-                { messageId: "forward", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" },
-                { messageId: "backward", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }
-            ]
-        },
-        {
-            code: String.raw`/(?!\1(a)).\1/`,
-            errors: [
-                { messageId: "forward", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" },
-                { messageId: "intoNegativeLookaround", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "Literal" }
-            ]
-        },
-        {
-            code: String.raw`/(a)\2(b)/; RegExp('(\\1)');`,
-            errors: [
-                { messageId: "forward", data: { bref: String.raw`\2`, group: String.raw`(b)`, otherGroups: "" }, type: "Literal" },
-                { messageId: "nested", data: { bref: String.raw`\1`, group: String.raw`(\1)`, otherGroups: "" }, type: "CallExpression" }
-            ]
-        },
+		// ES2024
+		{
+			code: String.raw`new RegExp('\\1([[A--B]])', 'v')`,
+			errors: [
+				{
+					messageId: "forward",
+					data: {
+						bref: String.raw`\1`,
+						group: String.raw`([[A--B]])`,
+						otherGroups: "",
+					},
+					type: "NewExpression",
+				},
+			],
+		},
 
-        // when flags cannot be evaluated, it is assumed that the regex doesn't have 'u' flag set, so this will be a correct regex with a useless backreference
-        {
-            code: String.raw`RegExp('\\1(a){', flags);`,
-            errors: [{ messageId: "forward", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "CallExpression" }]
-        },
-
-        // able to evaluate some statically known expressions
-        {
-            code: String.raw`const r = RegExp, p = '\\1', s = '(a)'; new r(p + s);`,
-            errors: [{ messageId: "forward", data: { bref: String.raw`\1`, group: String.raw`(a)`, otherGroups: "" }, type: "NewExpression" }]
-        },
-
-
-        // ES2024
-        {
-            code: String.raw`new RegExp('\\1([[A--B]])', 'v')`,
-            errors: [{ messageId: "forward", data: { bref: String.raw`\1`, group: String.raw`([[A--B]])`, otherGroups: "" }, type: "NewExpression" }]
-        },
-
-        // ES2025
-        {
-            code: String.raw`/\k<foo>((?<foo>bar)|(?<foo>baz))/`,
-            errors: [{
-                message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>bar)' and another group which appears later in the pattern.`,
-                type: "Literal"
-            }]
-        },
-        {
-            code: String.raw`/((?<foo>bar)|\k<foo>(?<foo>baz))/`,
-            errors: [{
-                message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>baz)' which appears later in the pattern.`,
-                type: "Literal"
-            }]
-        },
-        {
-            code: String.raw`/\k<foo>((?<foo>bar)|(?<foo>baz)|(?<foo>qux))/`,
-            errors: [{
-                message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>bar)' and other 2 groups which appears later in the pattern.`,
-                type: "Literal"
-            }]
-        },
-        {
-            code: String.raw`/((?<foo>bar)|\k<foo>(?<foo>baz)|(?<foo>qux))/`,
-            errors: [{
-                message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>baz)' which appears later in the pattern.`,
-                type: "Literal"
-            }]
-        },
-        {
-            code: String.raw`/((?<foo>bar)|\k<foo>|(?<foo>baz))/`,
-            errors: [{
-                message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>bar)' and another group which is in another alternative.`,
-                type: "Literal"
-            }]
-        },
-        {
-            code: String.raw`/((?<foo>bar)|\k<foo>|(?<foo>baz)|(?<foo>qux))/`,
-            errors: [{
-                message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>bar)' and other 2 groups which is in another alternative.`,
-                type: "Literal"
-            }]
-        },
-        {
-            code: String.raw`/((?<foo>bar)|(?<foo>baz\k<foo>)|(?<foo>qux\k<foo>))/`,
-            errors: [
-                {
-                    message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>baz\k<foo>)' from within that group.`,
-                    type: "Literal"
-                },
-                {
-                    message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>qux\k<foo>)' from within that group.`,
-                    type: "Literal"
-                }
-            ]
-        },
-        {
-            code: String.raw`/(?<=((?<foo>bar)|(?<foo>baz))\k<foo>)/`,
-            errors: [{
-                message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>bar)' and another group which appears before in the same lookbehind.`,
-                type: "Literal"
-            }]
-        },
-        {
-            code: String.raw`/((?!(?<foo>bar))|(?!(?<foo>baz)))\k<foo>/`,
-            errors: [{
-                message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>bar)' and another group which is in a negative lookaround.`,
-                type: "Literal"
-            }]
-        }
-    ]
+		// ES2025
+		{
+			code: String.raw`/\k<foo>((?<foo>bar)|(?<foo>baz))/`,
+			errors: [
+				{
+					message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>bar)' and another group which appears later in the pattern.`,
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/((?<foo>bar)|\k<foo>(?<foo>baz))/`,
+			errors: [
+				{
+					message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>baz)' which appears later in the pattern.`,
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/\k<foo>((?<foo>bar)|(?<foo>baz)|(?<foo>qux))/`,
+			errors: [
+				{
+					message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>bar)' and other 2 groups which appears later in the pattern.`,
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/((?<foo>bar)|\k<foo>(?<foo>baz)|(?<foo>qux))/`,
+			errors: [
+				{
+					message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>baz)' which appears later in the pattern.`,
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/((?<foo>bar)|\k<foo>|(?<foo>baz))/`,
+			errors: [
+				{
+					message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>bar)' and another group which is in another alternative.`,
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/((?<foo>bar)|\k<foo>|(?<foo>baz)|(?<foo>qux))/`,
+			errors: [
+				{
+					message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>bar)' and other 2 groups which is in another alternative.`,
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/((?<foo>bar)|(?<foo>baz\k<foo>)|(?<foo>qux\k<foo>))/`,
+			errors: [
+				{
+					message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>baz\k<foo>)' from within that group.`,
+					type: "Literal",
+				},
+				{
+					message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>qux\k<foo>)' from within that group.`,
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/(?<=((?<foo>bar)|(?<foo>baz))\k<foo>)/`,
+			errors: [
+				{
+					message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>bar)' and another group which appears before in the same lookbehind.`,
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: String.raw`/((?!(?<foo>bar))|(?!(?<foo>baz)))\k<foo>/`,
+			errors: [
+				{
+					message: String.raw`Backreference '\k<foo>' will be ignored. It references group '(?<foo>bar)' and another group which is in a negative lookaround.`,
+					type: "Literal",
+				},
+			],
+		},
+	],
 });

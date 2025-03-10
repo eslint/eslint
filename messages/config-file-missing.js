@@ -1,7 +1,7 @@
 "use strict";
 
-module.exports = function() {
-    return `
+module.exports = function () {
+	return `
 ESLint couldn't find an eslint.config.(js|mjs|cjs) file.
 
 From ESLint v9.0.0, the default configuration file is now eslint.config.js.

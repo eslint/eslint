@@ -12,7 +12,12 @@
  * @returns {string} The value, stringified.
  */
 function stringifyValueForError(value, indentation) {
-    return value ? JSON.stringify(value, null, 4).replace(/\n/gu, `\n${" ".repeat(indentation)}`) : `${value}`;
+	return value
+		? JSON.stringify(value, null, 4).replace(
+				/\n/gu,
+				`\n${" ".repeat(indentation)}`,
+			)
+		: `${value}`;
 }
 
 module.exports = { stringifyValueForError };

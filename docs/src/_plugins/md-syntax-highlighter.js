@@ -38,21 +38,21 @@ prismESLintHook.installPrismESLintMarkerHook();
  * @returns {string} highlighted result wrapped in pre
  */
 const highlighter = function (md, str, lang) {
-    let result = "";
-    if (lang) {
-        try {
-            loadLanguages([lang]);
-            result = Prism.highlight(str, Prism.languages[lang], lang);
-        } catch (err) {
-            console.log(lang, err);
-            // we still want to wrap the result later
-            result = md.utils.escapeHtml(str);
-        }
-    } else {
-        result = md.utils.escapeHtml(str);
-    }
+	let result = "";
+	if (lang) {
+		try {
+			loadLanguages([lang]);
+			result = Prism.highlight(str, Prism.languages[lang], lang);
+		} catch (err) {
+			console.log(lang, err);
+			// we still want to wrap the result later
+			result = md.utils.escapeHtml(str);
+		}
+	} else {
+		result = md.utils.escapeHtml(str);
+	}
 
-    return `<pre class="language-${lang}"><code>${result}</code></pre>`;
+	return `<pre class="language-${lang}"><code>${result}</code></pre>`;
 };
 
 /**
@@ -61,33 +61,33 @@ const highlighter = function (md, str, lang) {
  * @param {MarkdownIt} md
  * @license MIT License. See file header.
  */
-const lineNumberPlugin = (md) => {
-    const fence = md.renderer.rules.fence;
-    md.renderer.rules.fence = (...args) => {
-        const [tokens, idx] = args;
-        const lang = tokens[idx].info.trim();
-        const rawCode = fence(...args);
-        const code = rawCode.slice(
-            rawCode.indexOf("<code>"),
-            rawCode.indexOf("</code>")
-        );
-        const lines = code.split("\n");
-        const lineNumbersCode = [...Array(lines.length - 1)]
-            .map(
-                (line, index) =>
-                    `<span class="line-number">${index + 1}</span><br>`
-            )
-            .join("");
+const lineNumberPlugin = md => {
+	const fence = md.renderer.rules.fence;
+	md.renderer.rules.fence = (...args) => {
+		const [tokens, idx] = args;
+		const lang = tokens[idx].info.trim();
+		const rawCode = fence(...args);
+		const code = rawCode.slice(
+			rawCode.indexOf("<code>"),
+			rawCode.indexOf("</code>"),
+		);
+		const lines = code.split("\n");
+		const lineNumbersCode = [...Array(lines.length - 1)]
+			.map(
+				(line, index) =>
+					`<span class="line-number">${index + 1}</span><br>`,
+			)
+			.join("");
 
-        const lineNumbersWrapperCode = `<div class="line-numbers-wrapper" aria-hidden="true">${lineNumbersCode}</div>`;
+		const lineNumbersWrapperCode = `<div class="line-numbers-wrapper" aria-hidden="true">${lineNumbersCode}</div>`;
 
-        const finalCode = rawCode
-            .replace(/<\/pre>\n/, `${lineNumbersWrapperCode}</pre>`)
-            .replace(/"(language-\S*?)"/, '"$1 line-numbers-mode"')
-            .replace(/<code>/, `<code class="language-${lang}">`)
+		const finalCode = rawCode
+			.replace(/<\/pre>\n/, `${lineNumbersWrapperCode}</pre>`)
+			.replace(/"(language-\S*?)"/, '"$1 line-numbers-mode"')
+			.replace(/<code>/, `<code class="language-${lang}">`);
 
-        return finalCode;
-    };
+		return finalCode;
+	};
 };
 
 module.exports.highlighter = highlighter;

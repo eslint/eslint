@@ -12,8 +12,8 @@ const reduceBadExampleSize = require("../../tools/code-sample-minimizer");
 //------------------------------------------------------------------------------
 
 describe("reduceBadExampleSize()", () => {
-    it("extracts relevant part of deeply nested code", () => {
-        const initialCode = `
+	it("extracts relevant part of deeply nested code", () => {
+		const initialCode = `
             if (true) {
                 while (false) {
                     for (let i = 1; i < 10; i++) {
@@ -25,19 +25,20 @@ describe("reduceBadExampleSize()", () => {
             }
         `;
 
-        const expectedFinalCode = "THIS_EXPRESSION_CAUSES_A_BUG";
+		const expectedFinalCode = "THIS_EXPRESSION_CAUSES_A_BUG";
 
-        assert.strictEqual(
-            reduceBadExampleSize({
-                sourceText: initialCode,
-                predicate: code => code.includes("THIS_EXPRESSION_CAUSES_A_BUG")
-            }),
-            expectedFinalCode
-        );
-    });
+		assert.strictEqual(
+			reduceBadExampleSize({
+				sourceText: initialCode,
+				predicate: code =>
+					code.includes("THIS_EXPRESSION_CAUSES_A_BUG"),
+			}),
+			expectedFinalCode,
+		);
+	});
 
-    it("removes irrelevant parts of AST nodes with many children", () => {
-        const initialCode = `
+	it("removes irrelevant parts of AST nodes with many children", () => {
+		const initialCode = `
             foo;
             bar;
             baz;
@@ -52,30 +53,32 @@ describe("reduceBadExampleSize()", () => {
             quux;
         `;
 
-        const expectedFinalCode = "THIS_EXPRESSION_CAUSES_A_BUG";
+		const expectedFinalCode = "THIS_EXPRESSION_CAUSES_A_BUG";
 
-        assert.strictEqual(
-            reduceBadExampleSize({
-                sourceText: initialCode,
-                predicate: code => code.includes("THIS_EXPRESSION_CAUSES_A_BUG")
-            }),
-            expectedFinalCode
-        );
-    });
+		assert.strictEqual(
+			reduceBadExampleSize({
+				sourceText: initialCode,
+				predicate: code =>
+					code.includes("THIS_EXPRESSION_CAUSES_A_BUG"),
+			}),
+			expectedFinalCode,
+		);
+	});
 
-    it("removes irrelevant comments from the source code", () => {
-        const initialCode = `
+	it("removes irrelevant comments from the source code", () => {
+		const initialCode = `
         var /* aaa */foo = bar;
     `;
 
-        const expectedFinalCode = "var foo = bar;";
+		const expectedFinalCode = "var foo = bar;";
 
-        assert.strictEqual(
-            reduceBadExampleSize({
-                sourceText: initialCode,
-                predicate: code => code.includes("var") && code.includes("foo = bar")
-            }),
-            expectedFinalCode
-        );
-    });
+		assert.strictEqual(
+			reduceBadExampleSize({
+				sourceText: initialCode,
+				predicate: code =>
+					code.includes("var") && code.includes("foo = bar"),
+			}),
+			expectedFinalCode,
+		);
+	});
 });

@@ -16,20 +16,19 @@
  * @returns {ASTNode} The Property node or null if not found.
  */
 function getPropertyFromObject(property, node) {
-    const properties = node.properties;
+	const properties = node.properties;
 
-    if (!Array.isArray(properties)) {
+	if (!Array.isArray(properties)) {
+		return null;
+	}
 
-        return null;
-    }
+	for (let i = 0; i < properties.length; i++) {
+		if (properties[i].key.name === property) {
+			return properties[i];
+		}
+	}
 
-    for (let i = 0; i < properties.length; i++) {
-        if (properties[i].key.name === property) {
-            return properties[i];
-        }
-    }
-
-    return null;
+	return null;
 }
 
 /**
@@ -38,7 +37,7 @@ function getPropertyFromObject(property, node) {
  * @returns {ASTNode} The `meta` Property node or null if not found.
  */
 function getMetaPropertyFromExportsNode(exportsNode) {
-    return getPropertyFromObject("meta", exportsNode);
+	return getPropertyFromObject("meta", exportsNode);
 }
 
 /**
@@ -47,7 +46,7 @@ function getMetaPropertyFromExportsNode(exportsNode) {
  * @returns {boolean} `true` if a `docs` property exists.
  */
 function hasMetaDocs(metaPropertyNode) {
-    return Boolean(getPropertyFromObject("docs", metaPropertyNode.value));
+	return Boolean(getPropertyFromObject("docs", metaPropertyNode.value));
 }
 
 /**
@@ -56,9 +55,9 @@ function hasMetaDocs(metaPropertyNode) {
  * @returns {boolean} `true` if a `docs.recommended` property exists.
  */
 function hasMetaDocsRecommended(metaPropertyNode) {
-    const metaDocs = getPropertyFromObject("docs", metaPropertyNode.value);
+	const metaDocs = getPropertyFromObject("docs", metaPropertyNode.value);
 
-    return metaDocs && getPropertyFromObject("recommended", metaDocs.value);
+	return metaDocs && getPropertyFromObject("recommended", metaDocs.value);
 }
 
 /**
@@ -68,21 +67,24 @@ function hasMetaDocsRecommended(metaPropertyNode) {
  * @returns {void}
  */
 function checkMetaValidity(context, exportsNode) {
-    const metaProperty = getMetaPropertyFromExportsNode(exportsNode);
+	const metaProperty = getMetaPropertyFromExportsNode(exportsNode);
 
-    if (!metaProperty) {
-        context.report({ node: exportsNode, messageId: "missingMeta" });
-        return;
-    }
+	if (!metaProperty) {
+		context.report({ node: exportsNode, messageId: "missingMeta" });
+		return;
+	}
 
-    if (!hasMetaDocs(metaProperty)) {
-        context.report({ node: metaProperty, messageId: "missingMetaDocs" });
-        return;
-    }
+	if (!hasMetaDocs(metaProperty)) {
+		context.report({ node: metaProperty, messageId: "missingMetaDocs" });
+		return;
+	}
 
-    if (!hasMetaDocsRecommended(metaProperty)) {
-        context.report({ node: metaProperty, messageId: "missingMetaDocsRecommended" });
-    }
+	if (!hasMetaDocsRecommended(metaProperty)) {
+		context.report({
+			node: metaProperty,
+			messageId: "missingMetaDocsRecommended",
+		});
+	}
 }
 
 //------------------------------------------------------------------------------
@@ -90,46 +92,49 @@ function checkMetaValidity(context, exportsNode) {
 //------------------------------------------------------------------------------
 
 module.exports = {
-    meta: {
-        docs: {
-            description: "Enforce correct use of `meta` property in core rules",
-            recommended: false
-        },
-        type: "problem",
-        schema: [],
-        messages: {
-            missingMeta: "Rule is missing a meta property.",
-            missingMetaDocs: "Rule is missing a meta.docs property.",
-            missingMetaDocsRecommended: "Rule is missing a meta.docs.recommended property.",
-            noExport: "Rule does not export anything. Make sure rule exports an object according to new rule format."
-        }
-    },
+	meta: {
+		docs: {
+			description: "Enforce correct use of `meta` property in core rules",
+			recommended: false,
+		},
+		type: "problem",
+		schema: [],
+		messages: {
+			missingMeta: "Rule is missing a meta property.",
+			missingMetaDocs: "Rule is missing a meta.docs property.",
+			missingMetaDocsRecommended:
+				"Rule is missing a meta.docs.recommended property.",
+			noExport:
+				"Rule does not export anything. Make sure rule exports an object according to new rule format.",
+		},
+	},
 
-    create(context) {
-        let exportsNode;
+	create(context) {
+		let exportsNode;
 
-        return {
-            AssignmentExpression(node) {
-                if (node.left &&
-                    node.right &&
-                    node.left.type === "MemberExpression" &&
-                    node.left.object.name === "module" &&
-                    node.left.property.name === "exports") {
+		return {
+			AssignmentExpression(node) {
+				if (
+					node.left &&
+					node.right &&
+					node.left.type === "MemberExpression" &&
+					node.left.object.name === "module" &&
+					node.left.property.name === "exports"
+				) {
+					exportsNode = node.right;
+				}
+			},
 
-                    exportsNode = node.right;
-                }
-            },
-
-            "Program:exit"(node) {
-                if (!exportsNode) {
-                    context.report({
-                        node,
-                        messageId: "noExport"
-                    });
-                } else {
-                    checkMetaValidity(context, exportsNode);
-                }
-            }
-        };
-    }
+			"Program:exit"(node) {
+				if (!exportsNode) {
+					context.report({
+						node,
+						messageId: "noExport",
+					});
+				} else {
+					checkMetaValidity(context, exportsNode);
+				}
+			},
+		};
+	},
 };
