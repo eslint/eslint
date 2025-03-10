@@ -10,7 +10,7 @@ related_rules:
 Nesting ternary expressions can make code more difficult to understand.
 
 ```js
-var foo = bar ? baz : qux === quxx ? bing : bam;
+const foo = bar ? baz : qux === quxx ? bing : bam;
 ```
 
 ## Rule Details
@@ -24,7 +24,7 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-nested-ternary: "error"*/
 
-var thing = foo ? bar : baz === qux ? quxx : foobar;
+const thing = foo ? bar : baz === qux ? quxx : foobar;
 
 foo ? baz === qux ? quxx() : foobar() : bar();
 ```
@@ -38,16 +38,16 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-nested-ternary: "error"*/
 
-var thing = foo ? bar : foobar;
+const thing = foo ? bar : foobar;
 
-var thing;
+let otherThing;
 
 if (foo) {
-  thing = bar;
+  otherThing = bar;
 } else if (baz === qux) {
-  thing = quxx;
+  otherThing = quxx;
 } else {
-  thing = foobar;
+  otherThing = foobar;
 }
 ```
 

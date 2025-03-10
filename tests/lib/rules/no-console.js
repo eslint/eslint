@@ -426,6 +426,28 @@ ruleTester.run("no-console", rule, {
                 }]
             }]
         },
+        {
+            code: "console[foo](bar)",
+            errors: [{
+                messageId: "unexpected",
+                type: "MemberExpression",
+                suggestions: [{
+                    messageId: "removeMethodCall",
+                    output: ""
+                }]
+            }]
+        },
+        {
+            code: "console[0](foo)",
+            errors: [{
+                messageId: "unexpected",
+                type: "MemberExpression",
+                suggestions: [{
+                    messageId: "removeMethodCall",
+                    output: ""
+                }]
+            }]
+        },
 
         // In case that implicit global variable of 'console' exists
         {

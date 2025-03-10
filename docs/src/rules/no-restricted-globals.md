@@ -87,7 +87,7 @@ import event from "event-module";
 /*global event*/
 /*eslint no-restricted-globals: ["error", "event"]*/
 
-var event = 1;
+const event = 1;
 ```
 
 :::

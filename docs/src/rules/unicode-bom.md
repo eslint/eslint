@@ -35,7 +35,7 @@ Example of **correct** code for this rule with the `"always"` option:
 
 /*eslint unicode-bom: ["error", "always"]*/
 
-var abc;
+let abc;
 ```
 
 :::
@@ -47,7 +47,7 @@ Example of **incorrect** code for this rule with the `"always"` option:
 ```js
 /*eslint unicode-bom: ["error", "always"]*/
 
-var abc;
+let abc;
 ```
 
 :::
@@ -61,7 +61,7 @@ Example of **correct** code for this rule with the default `"never"` option:
 ```js
 /*eslint unicode-bom: ["error", "never"]*/
 
-var abc;
+let abc;
 ```
 
 :::
@@ -75,7 +75,7 @@ Example of **incorrect** code for this rule with the `"never"` option:
 
 /*eslint unicode-bom: ["error", "never"]*/
 
-var abc;
+let abc;
 ```
 
 :::

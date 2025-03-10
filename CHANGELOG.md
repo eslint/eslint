@@ -1,3 +1,72 @@
+v9.22.0 - March 7, 2025
+
+* [`97f788b`](https://github.com/eslint/eslint/commit/97f788b02e5742445887b4499a6dba9abb879a79) chore: upgrade @eslint/js@9.22.0 (#19489) (Milos Djermanovic)
+* [`eed409a`](https://github.com/eslint/eslint/commit/eed409a64bfe2ae1123086aaf1652c8124e49b7c) chore: package.json update for @eslint/js release (Jenkins)
+* [`f9a56d3`](https://github.com/eslint/eslint/commit/f9a56d337881300c94093e38804ba929ee09f7e9) chore: upgrade eslint-scope@8.3.0 (#19488) (Milos Djermanovic)
+* [`7ddb095`](https://github.com/eslint/eslint/commit/7ddb095419203d0efc883a6b3fdd3ac20128400a) feat: Export defineConfig, globalIgnores (#19487) (Nicholas C. Zakas)
+* [`86c5f37`](https://github.com/eslint/eslint/commit/86c5f37bc7300157d9f19b633197135d2a7a2645) docs: Update README (GitHub Actions Bot)
+* [`19c0127`](https://github.com/eslint/eslint/commit/19c0127e79c37dba8d389733024be7326e540767) fix: improve message for `no-console` suggestions (#19483) (Francesco Trotta)
+* [`fbdeff0`](https://github.com/eslint/eslint/commit/fbdeff08f3bf4edd7f686af91d9ac0ed6e295080) docs: Update README (GitHub Actions Bot)
+* [`c9e8510`](https://github.com/eslint/eslint/commit/c9e85105300069f4aa60526ca2de4d67d1eebe1d) docs: generate deprecation notice in TSDoc comments from rule metadata (#19461) (Francesco Trotta)
+* [`2f386ad`](https://github.com/eslint/eslint/commit/2f386ad203a672832c91e72c285a25bd64d48d9d) docs: replace `var` with `const` in rule examples (#19469) (Tanuj Kanti)
+* [`0e688e3`](https://github.com/eslint/eslint/commit/0e688e3a0d53bad991d2b4ae3bda926cc29bd54b) docs: Update README (GitHub Actions Bot)
+* [`49e624f`](https://github.com/eslint/eslint/commit/49e624f4a02e03762232cce2047febb36b1bcf4c) fix: improve error message for falsy parsed JS AST (#19458) (Josh Goldberg ✨)
+* [`06b596d`](https://github.com/eslint/eslint/commit/06b596d221a2b4af644824bd10e0194e7237b6f2) docs: Restore the carrot to the position where the search input was lost (#19459) (Amaresh  S M)
+
+v9.21.0 - February 21, 2025
+
+* [`a8c9a9f`](https://github.com/eslint/eslint/commit/a8c9a9f1b30db08094b145dd79921ae302b6ae24) chore: update `@eslint/eslintrc` and `@eslint/js` (#19453) (Francesco Trotta)
+* [`265e0cf`](https://github.com/eslint/eslint/commit/265e0cf6d03df44f0e65ce5bcb0bac382189486a) chore: package.json update for @eslint/js release (Jenkins)
+* [`418717f`](https://github.com/eslint/eslint/commit/418717f1150bb794c40014eca60c9116de2b0488) feat: introduce new deprecated types for rules (#19238) (fnx)
+* [`3401b85`](https://github.com/eslint/eslint/commit/3401b85faaf75629900b7592433169fc00d8b224) test: add test for `Rule.ReportDescriptor` type (#19449) (Francesco Trotta)
+* [`e497aa7`](https://github.com/eslint/eslint/commit/e497aa75f5441406985d417303081944f24acf6f) chore: update rewrite dependencies (#19448) (Francesco Trotta)
+* [`c5561ea`](https://github.com/eslint/eslint/commit/c5561ea7fcc9d48f7c8017f51fb64fcdf13ff832) docs: Update README (GitHub Actions Bot)
+* [`db5340d`](https://github.com/eslint/eslint/commit/db5340d57bff6b6e3a148f0f2bb56c7da6614ec0) fix: update missing plugin message template (#19445) (Milos Djermanovic)
+* [`d8ffdd4`](https://github.com/eslint/eslint/commit/d8ffdd4e51ac46cef51b4118aa3d97195b38de63) fix: do not exit process on rule crash (#19436) (Francesco Trotta)
+* [`dab5478`](https://github.com/eslint/eslint/commit/dab5478e8628447dbf9eaaa8b6f36d7ca253ed48) chore: better error message for missing plugin in config (#19402) (Tanuj Kanti)
+* [`80b0485`](https://github.com/eslint/eslint/commit/80b048535e1d951692e838fe502fb0edb72c837f) docs: replace `var` with `let` and `const` in rule example (#19434) (Tanuj Kanti)
+* [`ebfe2eb`](https://github.com/eslint/eslint/commit/ebfe2ebc3d8b8f2d84caf309b2fc6bc8fd66fc22) chore: set js language for bug report issue config block (#19439) (Josh Goldberg ✨)
+* [`f67d5e8`](https://github.com/eslint/eslint/commit/f67d5e875324a9d899598b11807a9c7624021432) docs: Update README (GitHub Actions Bot)
+* [`75afc61`](https://github.com/eslint/eslint/commit/75afc61ff89c8c38a31877d1302584af9266f6d3) docs: Update README (GitHub Actions Bot)
+* [`5fd211d`](https://github.com/eslint/eslint/commit/5fd211d00b6f0fc58cf587196a432325b7b88ec2) test: processors can return subpaths (#19425) (Milos Djermanovic)
+* [`0636cab`](https://github.com/eslint/eslint/commit/0636caba7dd7c77c1845a69257bda68d5287a097) docs: Update Eleventy from v2 to v3 (#19415) (Amaresh  S M)
+* [`5c5b802`](https://github.com/eslint/eslint/commit/5c5b8025d3e2a2a796909bdf7866fdce2a2f334c) feat: Add `--ext` CLI option (#19405) (Milos Djermanovic)
+* [`dd7d930`](https://github.com/eslint/eslint/commit/dd7d93063418a9a9064a0e7cb7f556f5b8b6e96b) docs: Update README (GitHub Actions Bot)
+
+v9.20.1 - February 11, 2025
+
+* [`fe3ccb2`](https://github.com/eslint/eslint/commit/fe3ccb2ff43a9f20a7801c679f7d41f6a7ed3ddc) docs: allow typing in search box while dropdown is open (#19424) (Amaresh  S M)
+* [`274f054`](https://github.com/eslint/eslint/commit/274f054f19f5f490d9496c6eee4bcd8620d2f4be) fix: fix `RuleContext` type (#19417) (Francesco Trotta)
+* [`93c78a5`](https://github.com/eslint/eslint/commit/93c78a5c58edb7ead9bff87c874d2ff9b824ec04) docs: Add instructions for pnpm compat (#19422) (Nicholas C. Zakas)
+* [`b476a93`](https://github.com/eslint/eslint/commit/b476a930bb3a6d644c482747d985f5da0d89e1e9) docs: Fix Keyboard Navigation for Search Results (#19416) (Amaresh  S M)
+* [`ccb60c0`](https://github.com/eslint/eslint/commit/ccb60c0b1452e73750e3734c9cd7c7b12c473827) docs: Update README (GitHub Actions Bot)
+
+v9.20.0 - February 7, 2025
+
+* [`979097a`](https://github.com/eslint/eslint/commit/979097a3b4c656e2d9faabd4a52010d6647911f6) chore: upgrade @eslint/js@9.20.0 (#19412) (Francesco Trotta)
+* [`031734e`](https://github.com/eslint/eslint/commit/031734efcb27e0d800da7ec32f5d5dae55f80564) chore: package.json update for @eslint/js release (Jenkins)
+* [`91d4d9f`](https://github.com/eslint/eslint/commit/91d4d9f62095e302c71595cc04c47073f366315c) fix: Bring types in sync with @eslint/core (#19157) (Nicholas C. Zakas)
+* [`b7012c8`](https://github.com/eslint/eslint/commit/b7012c85f3c0f683baeffb6d856faf86c4d41702) docs: rewrite examples with var using let and const (#19407) (Mueez Javaid Hashmi)
+* [`d4c47c3`](https://github.com/eslint/eslint/commit/d4c47c3738f2bf53b4f6a1cf505861b35875ac5f) test: avoid empty config warning in test output (#19408) (Milos Djermanovic)
+* [`e89a54a`](https://github.com/eslint/eslint/commit/e89a54a3090f3503daf5e36b02b0035c993e3fd1) feat: change behavior of inactive flags (#19386) (Milos Djermanovic)
+* [`fa25c7a`](https://github.com/eslint/eslint/commit/fa25c7a79edee280f275fbc35b83bcde906d1480) fix: Emit warning when empty config file is used (#19399) (Nicholas C. Zakas)
+* [`6406376`](https://github.com/eslint/eslint/commit/64063765afa5bf29855d996ccabfaa93b19bd458) docs: Update README (GitHub Actions Bot)
+* [`350f2b9`](https://github.com/eslint/eslint/commit/350f2b9349bc8d2230cd953c14b77071f2961f47) docs: rewrite some examples with var using let and const (#19404) (Mueez Javaid Hashmi)
+* [`93c325a`](https://github.com/eslint/eslint/commit/93c325a7a841d0fe4b5bf79efdec832e7c8f805f) docs: rewrite examples with var using let and const (#19398) (Mueez Javaid Hashmi)
+* [`56ff404`](https://github.com/eslint/eslint/commit/56ff4048e053374db39201e7e880bde4c930e19f) docs: replace var with let or const in rules docs (#19396) (Daniel Harbrueger)
+* [`4053226`](https://github.com/eslint/eslint/commit/4053226996bbdec1ffdef8af1b9d7f5aa4b11b86) docs: change `sourceType` in `no-eval` examples (#19393) (Milos Djermanovic)
+* [`1324af0`](https://github.com/eslint/eslint/commit/1324af027986d655848ee1a9dcb89a527917ea3e) docs: replace var with let and const in rules docs (#19392) (Daniel Harbrueger)
+* [`8b87e00`](https://github.com/eslint/eslint/commit/8b87e007bb2ba59b73061d22ef34baffb5656b79) docs: replace `var` with `const` and `let` in rules (#19389) (Tanuj Kanti)
+* [`31a9fd0`](https://github.com/eslint/eslint/commit/31a9fd03d23aecf2b1e0c9b3df27554aff245723) fix: Clearer error message for wrong plugin format (#19380) (Nicholas C. Zakas)
+* [`61d99e3`](https://github.com/eslint/eslint/commit/61d99e38f248f4d9abc09d970c4eebddd1af86ca) fix: Better error message for unserializable parser (#19384) (Nicholas C. Zakas)
+* [`758c66b`](https://github.com/eslint/eslint/commit/758c66bc8d83cd4eda9639b0745f0d0fb70f04f4) docs: Explain what frozen rules mean (#19382) (Nicholas C. Zakas)
+* [`67dd82a`](https://github.com/eslint/eslint/commit/67dd82ab88d784b6f36e471b6a5c6f64e37f9485) chore: update dependency @eslint/json to ^0.10.0 (#19387) (renovate[bot])
+* [`db1b9a6`](https://github.com/eslint/eslint/commit/db1b9a66e387e573f45885687dfefc04ab2877fe) fix: Ensure module scope is checked for references in `consistent-this` (#19383) (Nicholas C. Zakas)
+* [`8bcd820`](https://github.com/eslint/eslint/commit/8bcd820f37f2361e4f7261a9876f52d21bd9de8f) fix: `arrow-body-style` crash with single-token body (#19379) (Milos Djermanovic)
+* [`15ac0e1`](https://github.com/eslint/eslint/commit/15ac0e182486f32d63171a310050383e15767697) chore: add permissions: read-all to stale.yml workflow (#19374) (Josh Goldberg ✨)
+* [`0ef8bb8`](https://github.com/eslint/eslint/commit/0ef8bb859c988e558683c2d8bd9c9606f22e456c) docs: additional checks for rule examples (#19358) (Milos Djermanovic)
+* [`58ab2f6`](https://github.com/eslint/eslint/commit/58ab2f69d2d4cf9b49bf3fd303795040ec761ebd) docs: fix order of installation steps in getting started (#19326) (Tanuj Kanti)
+
 v9.19.0 - January 24, 2025
 
 * [`9b9cb05`](https://github.com/eslint/eslint/commit/9b9cb0584867916d50aa2e9590b132e2ef8ca59c) chore: upgrade @eslint/js@9.19.0 (#19371) (Milos Djermanovic)

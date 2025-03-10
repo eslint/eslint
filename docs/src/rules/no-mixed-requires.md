@@ -3,9 +3,6 @@ title: no-mixed-requires
 rule_type: suggestion
 ---
 
-
-This rule was **deprecated** in ESLint v7.0.0. Please use the corresponding rule in [`eslint-plugin-n`](https://github.com/eslint-community/eslint-plugin-n).
-
 In the Node.js community it is often customary to separate initializations with calls to `require` modules from other variable declarations, sometimes also grouping them by the type of module. This rule helps you enforce this convention.
 
 ## Rule Details

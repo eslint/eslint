@@ -1,7 +1,7 @@
 {
     "name": "docs-eslint",
     "private": true,
-    "version": "9.19.0",
+    "version": "9.22.0",
     "description": "",
     "main": "index.js",
     "keywords": [],
@@ -23,7 +23,7 @@
         "start": "npm-run-all build:sass build:postcss --parallel *:*:watch"
     },
     "devDependencies": {
-        "@11ty/eleventy": "^2.0.1",
+        "@11ty/eleventy": "^3.0.0",
         "@11ty/eleventy-fetch": "^4.0.0",
         "@11ty/eleventy-img": "^3.1.1",
         "@11ty/eleventy-navigation": "^0.3.5",
@@ -54,6 +54,7 @@
         "stylelint-config-standard": "^29.0.0",
         "stylelint-config-prettier": "^9.0.5",
         "stylelint-config-standard-scss": "^5.0.0",
+        "stylelint-config-prettier": "^9.0.5",
         "tap-spot": "^1.1.2"
     },
     "engines": {

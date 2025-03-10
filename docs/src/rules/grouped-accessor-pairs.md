@@ -17,7 +17,7 @@ A getter and setter for the same property don't necessarily have to be defined a
 For example, the following statements would create the same object:
 
 ```js
-var o = {
+const o = {
     get a() {
         return this.val;
     },
@@ -27,7 +27,7 @@ var o = {
     b: 1
 };
 
-var o = {
+const o1 = {
     get a() {
         return this.val;
     },
@@ -57,7 +57,7 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint grouped-accessor-pairs: "error"*/
 
-var foo = {
+const foo = {
     get a() {
         return this.val;
     },
@@ -67,7 +67,7 @@ var foo = {
     }
 };
 
-var bar = {
+const bar = {
     set b(value) {
         this.val = value;
     },
@@ -107,7 +107,7 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint grouped-accessor-pairs: "error"*/
 
-var foo = {
+const foo = {
     get a() {
         return this.val;
     },
@@ -117,7 +117,7 @@ var foo = {
     b: 1
 };
 
-var bar = {
+const bar = {
     set b(value) {
         this.val = value;
     },
@@ -167,7 +167,7 @@ Examples of **incorrect** code for this rule with the `"getBeforeSet"` option:
 ```js
 /*eslint grouped-accessor-pairs: ["error", "getBeforeSet"]*/
 
-var foo = {
+const foo = {
     set a(value) {
         this.val = value;
     },
@@ -204,7 +204,7 @@ Examples of **correct** code for this rule with the `"getBeforeSet"` option:
 ```js
 /*eslint grouped-accessor-pairs: ["error", "getBeforeSet"]*/
 
-var foo = {
+const foo = {
     get a() {
         return this.val;
     },
@@ -243,7 +243,7 @@ Examples of **incorrect** code for this rule with the `"setBeforeGet"` option:
 ```js
 /*eslint grouped-accessor-pairs: ["error", "setBeforeGet"]*/
 
-var foo = {
+const foo = {
     get a() {
         return this.val;
     },
@@ -280,7 +280,7 @@ Examples of **correct** code for this rule with the `"setBeforeGet"` option:
 ```js
 /*eslint grouped-accessor-pairs: ["error", "setBeforeGet"]*/
 
-var foo = {
+const foo = {
     set a(value) {
         this.val = value;
     },
@@ -318,10 +318,10 @@ might require or miss to require grouping or order for getters/setters that have
 ```js
 /*eslint grouped-accessor-pairs: "error"*/
 
-var a = 1;
+let a = 1;
 
 // false warning (false positive)
-var foo = {
+const foo = {
     get [a++]() {
         return this.val;
     },
@@ -332,7 +332,7 @@ var foo = {
 };
 
 // missed warning (false negative)
-var bar = {
+const bar = {
     get [++a]() {
         return this.val;
     },

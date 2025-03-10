@@ -5,8 +5,6 @@ further_reading:
 - https://leanpub.com/understandinges6/read/#leanpub-auto-generators
 ---
 
-This rule was **deprecated** in ESLint v8.53.0. Please use the [corresponding rule](https://eslint.style/rules/js/yield-star-spacing) in [`@stylistic/eslint-plugin-js`](https://eslint.style/packages/js).
-
 ## Rule Details
 
 This rule enforces spacing around the `*` in `yield*` expressions.

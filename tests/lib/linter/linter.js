@@ -8035,6 +8035,20 @@ describe("Linter with FlatConfigArray", () => {
 
     describe("hasFlag()", () => {
 
+        let processStub;
+
+        beforeEach(() => {
+
+            // in the browser test, `process.emitWarning` is not defined
+            if (typeof process !== "undefined" && typeof process.emitWarning !== "undefined") {
+                processStub = sinon.stub(process, "emitWarning").withArgs(sinon.match.any, sinon.match(/^ESLintInactiveFlag_/u)).returns();
+            }
+        });
+
+        afterEach(() => {
+            sinon.restore();
+        });
+
         it("should return true if an active flag is present", () => {
             assert.strictEqual(
                 new Linter({ configType: "flat", flags: ["test_only"] }).hasFlag("test_only"),
@@ -8042,11 +8056,47 @@ describe("Linter with FlatConfigArray", () => {
             );
         });
 
-        it("should throw an error if an inactive flag is present", () => {
+        it("should return true for the replacement flag if an inactive flag that has been replaced is used", () => {
+            assert.strictEqual(
+                new Linter({ configType: "flat", flags: ["test_only_replaced"] }).hasFlag("test_only"),
+                true
+            );
+
+            if (processStub) {
+                assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` for flags once");
+                assert.deepStrictEqual(
+                    processStub.getCall(0).args,
+                    [
+                        "The flag 'test_only_replaced' is inactive: This flag has been renamed 'test_only' to reflect its stabilization. Please use 'test_only' instead.",
+                        "ESLintInactiveFlag_test_only_replaced"
+                    ]
+                );
+            }
+        });
+
+        it("should return false if an inactive flag whose feature is enabled by default is used", () => {
+            assert.strictEqual(
+                new Linter({ configType: "flat", flags: ["test_only_enabled_by_default"] }).hasFlag("test_only_enabled_by_default"),
+                false
+            );
+
+            if (processStub) {
+                assert.strictEqual(processStub.callCount, 1, "calls `process.emitWarning()` for flags once");
+                assert.deepStrictEqual(
+                    processStub.getCall(0).args,
+                    [
+                        "The flag 'test_only_enabled_by_default' is inactive: This feature is now enabled by default.",
+                        "ESLintInactiveFlag_test_only_enabled_by_default"
+                    ]
+                );
+            }
+        });
+
+        it("should throw an error if an inactive flag whose feature has been abandoned is used", () => {
             assert.throws(() => {
                 // eslint-disable-next-line no-new -- needed for test
-                new Linter({ configType: "flat", flags: ["test_only_old"] });
-            }, /The flag 'test_only_old' is inactive: Used only for testing/u);
+                new Linter({ configType: "flat", flags: ["test_only_abandoned"] });
+            }, /The flag 'test_only_abandoned' is inactive: This feature has been abandoned/u);
         });
 
         it("should throw an error if an unknown flag is present", () => {
@@ -16894,6 +16944,55 @@ var a = "test2";
                         nodeType: null
                     }
                 ]);
+            });
+
+            // https://github.com/eslint/markdown/blob/main/rfcs/configure-file-name-from-block-meta.md#name-uniqueness
+            it("should allow preprocessor to return filenames with a slash and treat them as subpaths.", () => {
+                const problems = linter.verify(
+                    "foo bar baz",
+                    [
+                        {
+                            files: [filename],
+                            processor: {
+                                preprocess(input) {
+                                    return input.split(" ").map(text => ({
+                                        filename: "example/block.js",
+                                        text
+                                    }));
+                                },
+                                postprocess(messagesList) {
+                                    return messagesList.flat();
+                                }
+                            }
+                        },
+                        extraConfig,
+                        {
+                            files: ["**/block.js"],
+                            rules: {
+                                "test/report-original-text": "error"
+                            }
+                        }
+                    ],
+                    {
+                        filename
+                    }
+                );
+                const suppressedMessages = linter.getSuppressedMessages();
+
+                assert.strictEqual(problems.length, 3);
+                assert.deepStrictEqual(problems.map(problem => problem.message), ["foo", "bar", "baz"]);
+
+                assert.strictEqual(suppressedMessages.length, 0);
+
+                // filename
+                assert.strictEqual(receivedFilenames.length, 3);
+                assert.match(receivedFilenames[0], /^filename\.js[/\\]0_example[/\\]block\.js/u);
+                assert.match(receivedFilenames[1], /^filename\.js[/\\]1_example[/\\]block\.js/u);
+                assert.match(receivedFilenames[2], /^filename\.js[/\\]2_example[/\\]block\.js/u);
+
+                // physical filename
+                assert.strictEqual(receivedPhysicalFilenames.length, 3);
+                assert.strictEqual(receivedPhysicalFilenames.every(name => name === filename), true);
             });
         });
 

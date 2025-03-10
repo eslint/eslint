@@ -66,7 +66,7 @@ function foo() {
     baz(() => this);
 }
 
-var foo = function() {
+const bar = function() {
     this.a = 0;
     baz(() => this);
 };
@@ -76,7 +76,7 @@ foo(function() {
     baz(() => this);
 });
 
-var obj = {
+const obj = {
     aaa: function() {
         return function foo() {
             // There is in a method `aaa`, but `foo` is not a method.
@@ -120,28 +120,28 @@ class Bar {
     }
 }
 
-var obj = {
+const obj = {
     foo: function foo() {
         // OK, this is in a method (this function is on object literal).
         this.a = 0;
     }
 };
 
-var obj = {
+const obj1 = {
     foo() {
         // OK, this is in a method (this function is on object literal).
         this.a = 0;
     }
 };
 
-var obj = {
+const obj2 = {
     get foo() {
         // OK, this is in a method (this function is on object literal).
         return this.a;
     }
 };
 
-var obj = Object.create(null, {
+const obj3 = Object.create(null, {
     foo: {value: function foo() {
         // OK, this is in a method (this function is on object literal).
         this.a = 0;
@@ -207,7 +207,7 @@ class Baz {
     }
 }
 
-var foo = (function foo() {
+const bar = (function foo() {
     // OK, the `bind` method of this function is called directly.
     this.a = 0;
 }).bind(obj);
@@ -252,11 +252,11 @@ function Foo() {
     this.a = 0;
 }
 
-var bar = function Foo() {
+const bar = function Foo() {
     this.a = 0;
 }
 
-var Bar = function() {
+const Bar = function() {
     this.a = 0;
 };
 

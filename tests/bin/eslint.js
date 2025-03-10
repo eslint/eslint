@@ -121,7 +121,27 @@ describe("bin/eslint.js", () => {
                     usedDeprecatedRules: [
                         {
                             ruleId: "no-extra-semi",
-                            replacedBy: []
+                            replacedBy: ["@stylistic/js/no-extra-semi"],
+                            info: {
+                                message: "Formatting rules are being moved out of ESLint core.",
+                                url: "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
+                                deprecatedSince: "8.53.0",
+                                availableUntil: "10.0.0",
+                                replacedBy: [
+                                    {
+                                        message: "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                                        url: "https://eslint.style/guide/migration",
+                                        plugin: {
+                                            name: "@stylistic/eslint-plugin-js",
+                                            url: "https://eslint.style/packages/js"
+                                        },
+                                        rule: {
+                                            name: "no-extra-semi",
+                                            url: "https://eslint.style/rules/js/no-extra-semi"
+                                        }
+                                    }
+                                ]
+                            }
                         }
                     ]
                 }

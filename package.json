@@ -1,6 +1,6 @@
 {
   "name": "eslint",
-  "version": "9.19.0",
+  "version": "9.22.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "type": "commonjs",
@@ -14,13 +14,17 @@
       "types": "./lib/types/index.d.ts",
       "default": "./lib/api.js"
     },
+    "./config": {
+      "types": "./lib/types/config-api.d.ts",
+      "default": "./lib/config-api.js"
+    },
     "./package.json": "./package.json",
     "./use-at-your-own-risk": {
       "types": "./lib/types/use-at-your-own-risk.d.ts",
       "default": "./lib/unsupported-api.js"
     },
     "./rules": {
-      "types": "./lib/types/rules/index.d.ts"
+      "types": "./lib/types/rules.d.ts"
     },
     "./universal": {
       "types": "./lib/types/universal.d.ts",
@@ -33,10 +37,13 @@
         "./lib/types/use-at-your-own-risk.d.ts"
       ],
       "rules": [
-        "./lib/types/rules/index.d.ts"
+        "./lib/types/rules.d.ts"
       ],
       "universal": [
         "./lib/types/universal.d.ts"
+      ],
+      "config": [
+        "./lib/types/config-api.d.ts"
       ]
     }
   },
@@ -76,7 +83,7 @@
     "lib/rules/*.js": [
       "node tools/update-eslint-all.js",
       "node tools/update-rule-type-headers.js",
-      "git add packages/js/src/configs/eslint-all.js \"lib/types/rules/*.ts\""
+      "git add packages/js/src/configs/eslint-all.js lib/types/rules.d.ts"
     ],
     "docs/src/rules/*.md": [
       "node tools/check-rule-examples.js",
@@ -99,14 +106,15 @@
   "dependencies": {
     "@eslint-community/eslint-utils": "^4.2.0",
     "@eslint-community/regexpp": "^4.12.1",
-    "@eslint/config-array": "^0.19.0",
-    "@eslint/core": "^0.10.0",
-    "@eslint/eslintrc": "^3.2.0",
-    "@eslint/js": "9.19.0",
-    "@eslint/plugin-kit": "^0.2.5",
+    "@eslint/config-array": "^0.19.2",
+    "@eslint/config-helpers": "^0.1.0",
+    "@eslint/core": "^0.12.0",
+    "@eslint/eslintrc": "^3.3.0",
+    "@eslint/js": "9.22.0",
+    "@eslint/plugin-kit": "^0.2.7",
     "@humanfs/node": "^0.16.6",
     "@humanwhocodes/module-importer": "^1.0.1",
-    "@humanwhocodes/retry": "^0.4.1",
+    "@humanwhocodes/retry": "^0.4.2",
     "@types/estree": "^1.0.6",
     "@types/json-schema": "^7.0.15",
     "ajv": "^6.12.4",
@@ -114,7 +122,7 @@
     "cross-spawn": "^7.0.6",
     "debug": "^4.3.2",
     "escape-string-regexp": "^4.0.0",
-    "eslint-scope": "^8.2.0",
+    "eslint-scope": "^8.3.0",
     "eslint-visitor-keys": "^4.2.0",
     "espree": "^10.3.0",
     "esquery": "^1.5.0",

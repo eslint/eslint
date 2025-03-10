@@ -7,11 +7,11 @@ rule_type: suggestion
 It's possible to create functions in JavaScript from strings at runtime using the `Function` constructor, such as:
 
 ```js
-var x = new Function("a", "b", "return a + b");
-var x = Function("a", "b", "return a + b");
-var x = Function.call(null, "a", "b", "return a + b");
-var x = Function.apply(null, ["a", "b", "return a + b"]);
-var x = Function.bind(null, "a", "b", "return a + b")();
+const a = new Function("a", "b", "return a + b");
+const b = Function("a", "b", "return a + b");
+const c = Function.call(null, "a", "b", "return a + b");
+const d = Function.apply(null, ["a", "b", "return a + b"]);
+const x = Function.bind(null, "a", "b", "return a + b")();
 ```
 
 This is considered by many to be a bad practice due to the difficulty in debugging and reading these types of functions. In addition, Content-Security-Policy (CSP) directives may disallow the use of `eval()` and similar methods for creating code from strings.
@@ -27,12 +27,12 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-new-func: "error"*/
 
-var x = new Function("a", "b", "return a + b");
-var x = Function("a", "b", "return a + b");
-var x = Function.call(null, "a", "b", "return a + b");
-var x = Function.apply(null, ["a", "b", "return a + b"]);
-var x = Function.bind(null, "a", "b", "return a + b")();
-var f = Function.bind(null, "a", "b", "return a + b"); // assuming that the result of Function.bind(...) will be eventually called.
+const a = new Function("a", "b", "return a + b");
+const b = Function("a", "b", "return a + b");
+const c = Function.call(null, "a", "b", "return a + b");
+const d = Function.apply(null, ["a", "b", "return a + b"]);
+const x = Function.bind(null, "a", "b", "return a + b")();
+const y = Function.bind(null, "a", "b", "return a + b"); // assuming that the result of Function.bind(...) will be eventually called.
 ```
 
 :::
@@ -44,7 +44,7 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-new-func: "error"*/
 
-var x = function (a, b) {
+const x = function (a, b) {
     return a + b;
 };
 ```

@@ -26,9 +26,42 @@
  */
 
 import * as ESTree from "estree";
-import { Language } from "@eslint/core";
+import type {
+    RuleVisitor,
+    TextSourceCode,
+    Language,
+    SourceRange,
+    TraversalStep,
+    LanguageOptions as GenericLanguageOptions,
+    RuleDefinition,
+    RuleContext as CoreRuleContext,
+    RuleContextTypeOptions,
+    DeprecatedInfo
+} from "@eslint/core";
 import { JSONSchema4 } from "json-schema";
 import { LegacyESLint } from "./use-at-your-own-risk.js";
+
+/*
+ * Need to extend the `RuleContext` interface to include the
+ * deprecated methods that have not yet been removed.
+ * TODO: Remove in v10.0.0.
+ */
+declare module "@eslint/core" {
+    interface RuleContext {
+
+        /** @deprecated Use `sourceCode.getAncestors()` instead */
+        getAncestors(): ESTree.Node[];
+
+        /** @deprecated Use `sourceCode.getDeclaredVariables()` instead */
+        getDeclaredVariables(node: ESTree.Node): Scope.Variable[];
+
+        /** @deprecated Use `sourceCode.getScope()` instead */
+        getScope(): Scope.Scope;
+
+        /** @deprecated Use `sourceCode.markVariableAsUsed()` instead */
+        markVariableAsUsed(name: string): boolean;
+    }
+}
 
 export namespace AST {
     type TokenType =
@@ -149,7 +182,12 @@ export namespace Scope {
 
 // #region SourceCode
 
-export class SourceCode {
+export class SourceCode implements TextSourceCode<{
+    LangOptions: Linter.LanguageOptions;
+    RootNode: AST.Program;
+    SyntaxElementWithLoc: AST.Token | ESTree.Node;
+    ConfigNode: ESTree.Comment;
+}> {
     text: string;
     ast: AST.Program;
     lines: string[];
@@ -162,6 +200,9 @@ export class SourceCode {
     constructor(config: SourceCode.Config);
 
     static splitLines(text: string): string[];
+
+    getLoc(syntaxElement: AST.Token | ESTree.Node): ESTree.SourceLocation;
+    getRange(syntaxElement: AST.Token | ESTree.Node): SourceRange;
 
     getText(node?: ESTree.Node, beforeCount?: number, afterCount?: number): string;
 
@@ -238,6 +279,8 @@ export class SourceCode {
     ): boolean;
 
     markVariableAsUsed(name: string, refNode?: ESTree.Node): boolean;
+
+    traverse(): Iterable<TraversalStep>;
 }
 
 export namespace SourceCode {
@@ -507,21 +550,25 @@ export namespace SourceCode {
 // #endregion
 
 export namespace Rule {
-    interface RuleModule {
-        create(context: RuleContext): RuleListener;
-        meta?: RuleMetaData | undefined;
-    }
+
+    type RuleModule = RuleDefinition<{
+        LangOptions: Linter.LanguageOptions,
+        Code: SourceCode,
+        RuleOptions: any[],
+        Visitor: NodeListener,
+        Node: ESTree.Node,
+        MessageIds: string,
+        ExtRuleDocs: {}
+    }>;
 
     type NodeTypes = ESTree.Node["type"];
-    interface NodeListener {
+    interface NodeListener extends RuleVisitor {
         ArrayExpression?: ((node: ESTree.ArrayExpression & NodeParentExtension) => void) | undefined;
         "ArrayExpression:exit"?: ((node: ESTree.ArrayExpression & NodeParentExtension) => void) | undefined;
         ArrayPattern?: ((node: ESTree.ArrayPattern & NodeParentExtension) => void) | undefined;
         "ArrayPattern:exit"?: ((node: ESTree.ArrayPattern & NodeParentExtension) => void) | undefined;
         ArrowFunctionExpression?: ((node: ESTree.ArrowFunctionExpression & NodeParentExtension) => void) | undefined;
-        "ArrowFunctionExpression:exit"?:
-        | ((node: ESTree.ArrowFunctionExpression & NodeParentExtension) => void)
-        | undefined;
+        "ArrowFunctionExpression:exit"?: ((node: ESTree.ArrowFunctionExpression & NodeParentExtension) => void) | undefined;
         AssignmentExpression?: ((node: ESTree.AssignmentExpression & NodeParentExtension) => void) | undefined;
         "AssignmentExpression:exit"?: ((node: ESTree.AssignmentExpression & NodeParentExtension) => void) | undefined;
         AssignmentPattern?: ((node: ESTree.AssignmentPattern & NodeParentExtension) => void) | undefined;
@@ -559,13 +606,9 @@ export namespace Rule {
         ExportAllDeclaration?: ((node: ESTree.ExportAllDeclaration & NodeParentExtension) => void) | undefined;
         "ExportAllDeclaration:exit"?: ((node: ESTree.ExportAllDeclaration & NodeParentExtension) => void) | undefined;
         ExportDefaultDeclaration?: ((node: ESTree.ExportDefaultDeclaration & NodeParentExtension) => void) | undefined;
-        "ExportDefaultDeclaration:exit"?:
-        | ((node: ESTree.ExportDefaultDeclaration & NodeParentExtension) => void)
-        | undefined;
+        "ExportDefaultDeclaration:exit"?: ((node: ESTree.ExportDefaultDeclaration & NodeParentExtension) => void) | undefined;
         ExportNamedDeclaration?: ((node: ESTree.ExportNamedDeclaration & NodeParentExtension) => void) | undefined;
-        "ExportNamedDeclaration:exit"?:
-        | ((node: ESTree.ExportNamedDeclaration & NodeParentExtension) => void)
-        | undefined;
+        "ExportNamedDeclaration:exit"?: ((node: ESTree.ExportNamedDeclaration & NodeParentExtension) => void) | undefined;
         ExportSpecifier?: ((node: ESTree.ExportSpecifier & NodeParentExtension) => void) | undefined;
         "ExportSpecifier:exit"?: ((node: ESTree.ExportSpecifier & NodeParentExtension) => void) | undefined;
         ExpressionStatement?: ((node: ESTree.ExpressionStatement & NodeParentExtension) => void) | undefined;
@@ -587,15 +630,11 @@ export namespace Rule {
         ImportDeclaration?: ((node: ESTree.ImportDeclaration & NodeParentExtension) => void) | undefined;
         "ImportDeclaration:exit"?: ((node: ESTree.ImportDeclaration & NodeParentExtension) => void) | undefined;
         ImportDefaultSpecifier?: ((node: ESTree.ImportDefaultSpecifier & NodeParentExtension) => void) | undefined;
-        "ImportDefaultSpecifier:exit"?:
-        | ((node: ESTree.ImportDefaultSpecifier & NodeParentExtension) => void)
-        | undefined;
+        "ImportDefaultSpecifier:exit"?: ((node: ESTree.ImportDefaultSpecifier & NodeParentExtension) => void) | undefined;
         ImportExpression?: ((node: ESTree.ImportExpression & NodeParentExtension) => void) | undefined;
         "ImportExpression:exit"?: ((node: ESTree.ImportExpression & NodeParentExtension) => void) | undefined;
         ImportNamespaceSpecifier?: ((node: ESTree.ImportNamespaceSpecifier & NodeParentExtension) => void) | undefined;
-        "ImportNamespaceSpecifier:exit"?:
-        | ((node: ESTree.ImportNamespaceSpecifier & NodeParentExtension) => void)
-        | undefined;
+        "ImportNamespaceSpecifier:exit"?: ((node: ESTree.ImportNamespaceSpecifier & NodeParentExtension) => void) | undefined;
         ImportSpecifier?: ((node: ESTree.ImportSpecifier & NodeParentExtension) => void) | undefined;
         "ImportSpecifier:exit"?: ((node: ESTree.ImportSpecifier & NodeParentExtension) => void) | undefined;
         LabeledStatement?: ((node: ESTree.LabeledStatement & NodeParentExtension) => void) | undefined;
@@ -641,9 +680,7 @@ export namespace Rule {
         SwitchStatement?: ((node: ESTree.SwitchStatement & NodeParentExtension) => void) | undefined;
         "SwitchStatement:exit"?: ((node: ESTree.SwitchStatement & NodeParentExtension) => void) | undefined;
         TaggedTemplateExpression?: ((node: ESTree.TaggedTemplateExpression & NodeParentExtension) => void) | undefined;
-        "TaggedTemplateExpression:exit"?:
-        | ((node: ESTree.TaggedTemplateExpression & NodeParentExtension) => void)
-        | undefined;
+        "TaggedTemplateExpression:exit"?: ((node: ESTree.TaggedTemplateExpression & NodeParentExtension) => void) | undefined;
         TemplateElement?: ((node: ESTree.TemplateElement & NodeParentExtension) => void) | undefined;
         "TemplateElement:exit"?: ((node: ESTree.TemplateElement & NodeParentExtension) => void) | undefined;
         TemplateLiteral?: ((node: ESTree.TemplateLiteral & NodeParentExtension) => void) | undefined;
@@ -744,9 +781,12 @@ export namespace Rule {
         /** Any default options to be recursively merged on top of any user-provided options. */
         defaultOptions?: unknown[];
 
-        /** Indicates whether the rule has been deprecated. Omit if not deprecated. */
-        deprecated?: boolean | undefined;
-        /** The name of the rule(s) this rule was replaced by, if it was deprecated. */
+        /** Indicates whether the rule has been deprecated or provides additional metadata about the deprecation. Omit if not deprecated. */
+        deprecated?: boolean | DeprecatedInfo | undefined;
+        /**
+         * @deprecated Use deprecated.replacedBy instead.
+         * The name of the rule(s) this rule was replaced by, if it was deprecated.
+         */
         replacedBy?: readonly string[];
 
         /**
@@ -765,39 +805,11 @@ export namespace Rule {
         hasSuggestions?: boolean | undefined;
     }
 
-    interface RuleContext {
-        id: string;
-        options: any[];
-        settings: { [name: string]: any };
-        parserPath: string | undefined;
-        languageOptions: Linter.LanguageOptions;
-        parserOptions: Linter.ParserOptions;
-        cwd: string;
-        filename: string;
-        physicalFilename: string;
-        sourceCode: SourceCode;
-
-        getAncestors(): ESTree.Node[];
-
-        getDeclaredVariables(node: ESTree.Node): Scope.Variable[];
-
-        /** @deprecated Use property `filename` directly instead */
-        getFilename(): string;
-
-        /** @deprecated Use property `physicalFilename` directly instead */
-        getPhysicalFilename(): string;
-
-        /** @deprecated Use property `cwd` directly instead */
-        getCwd(): string;
-
-        getScope(): Scope.Scope;
-
-        /** @deprecated Use property `sourceCode` directly instead */
-        getSourceCode(): SourceCode;
-
-        markVariableAsUsed(name: string): boolean;
-
-        report(descriptor: ReportDescriptor): void;
+    interface RuleContext extends CoreRuleContext<RuleContextTypeOptions & {
+        LangOptions: Linter.LanguageOptions;
+        Code: SourceCode;
+        Node: ESTree.Node; }> {
+        // report(descriptor: ReportDescriptor): void;
     }
 
     type ReportFixer = (fixer: RuleFixer) => null | Fix | IterableIterator<Fix> | Fix[];
@@ -1325,7 +1337,7 @@ export namespace Linter {
         [name: string]: GlobalConf;
     }
 
-    interface LanguageOptions {
+    interface LanguageOptions extends GenericLanguageOptions {
         /**
          * The version of ECMAScript to support. May be any year (i.e., 2022) or
          * version (i.e., 5). Set to "latest" for the most recent supported version.
@@ -1469,7 +1481,7 @@ export namespace ESLint {
         environments?: Record<string, Environment> | undefined;
         languages?: Record<string, Language> | undefined;
         processors?: Record<string, Linter.Processor> | undefined;
-        rules?: Record<string, Rule.RuleModule> | undefined;
+        rules?: Record<string, RuleDefinition> | undefined;
     }
 
     type FixType = "directive" | "problem" | "suggestion" | "layout";
