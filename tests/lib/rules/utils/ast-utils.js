@@ -451,8 +451,6 @@ describe("ast-utils", () => {
     });
 
     describe("getStaticStringValue", () => {
-
-        /* eslint-disable quote-props -- Make consistent here for readability */
         const expectedResults = {
 
             // string literals
@@ -516,7 +514,6 @@ describe("ast-utils", () => {
             "this": null,
             "(function () {})": null
         };
-        /* eslint-enable quote-props -- Make consistent here for readability */
 
         Object.keys(expectedResults).forEach(key => {
             it(`should return ${expectedResults[key]} for ${key}`, () => {
@@ -1070,8 +1067,6 @@ describe("ast-utils", () => {
     });
 
     describe("getNextLocation", () => {
-
-        /* eslint-disable quote-props -- Make consistent here for readability */
         const expectedResults = {
             "": [[1, 0], null],
             "\n": [[1, 0], [2, 0], null],
@@ -1093,7 +1088,6 @@ describe("ast-utils", () => {
             "a\t": [[1, 0], [1, 1], [1, 2], null],
             "a \n": [[1, 0], [1, 1], [1, 2], [2, 0], null]
         };
-        /* eslint-enable quote-props -- Make consistent here for readability */
 
         Object.keys(expectedResults).forEach(code => {
             it(`should return expected locations for "${code}".`, () => {
@@ -1721,8 +1715,6 @@ describe("ast-utils", () => {
     });
 
     describe("hasOctalOrNonOctalDecimalEscapeSequence", () => {
-
-        /* eslint-disable quote-props -- Make consistent here for readability */
         const expectedResults = {
             "\\1": true,
             "\\2": true,
@@ -1794,7 +1786,6 @@ describe("ast-utils", () => {
             "foo\\\nbar": false,
             "128\\\n349": false
         };
-        /* eslint-enable quote-props -- Make consistent here for readability */
 
         Object.keys(expectedResults).forEach(key => {
             it(`should return ${expectedResults[key]} for ${key}`, () => {
