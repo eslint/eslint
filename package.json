@@ -79,8 +79,7 @@
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": "trunk check --fix --filter=eslint",
-    "*.md": "trunk check --fix --filter=markdownlint",
+    "*": "trunk check --fix",
     "lib/rules/*.js": [
       "node tools/update-eslint-all.js",
       "node tools/update-rule-type-headers.js",
@@ -90,8 +89,7 @@
       "node tools/check-rule-examples.js",
       "node tools/fetch-docs-links.js",
       "git add docs/src/_data/further_reading_links.json"
-    ],
-    "docs/**/*.svg": "trunk check --fix --filter=svgo"
+    ]
   },
   "files": [
     "LICENSE",
