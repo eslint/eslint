@@ -97,9 +97,9 @@ function formatTSDoc(lines) {
 	const formattedLines = ["/**"];
 
 	for (const line of lines) {
-		formattedLines.push(`     *${line ? ` ${line}` : ""}`);
+		formattedLines.push(`\t *${line ? ` ${line}` : ""}`);
 	}
-	formattedLines.push("     */");
+	formattedLines.push("\t */");
 	return formattedLines.join("\n");
 }
 
