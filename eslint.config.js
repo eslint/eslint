@@ -19,6 +19,7 @@ const eslintPluginYml = require("eslint-plugin-yml");
 const json = require("@eslint/json").default;
 const expectType = require("eslint-plugin-expect-type");
 const tsParser = require("@typescript-eslint/parser");
+const { defineConfig, globalIgnores } = require("./lib/config-api.js");
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -72,30 +73,27 @@ function createInternalFilesPatterns(pattern = null) {
 /**
  * @type {import("./lib/types/index.js").Linter.Config[]}
  */
-module.exports = [
-    ...eslintConfigESLintCJS.map(config => ({
-        ...config,
-        name: `eslint/${config.name}`,
-        files: [ALL_JS_FILES]
-    })),
+module.exports = defineConfig([
     {
-        name: "eslint/global-ignores",
-        ignores: [
-            "build/**",
-            "coverage/**",
-            "docs/!(src|tools)/",
-            "docs/src/!(_data)",
-            "jsdoc/**",
-            "lib/types/**/*.ts",
-            "templates/**",
-            "tests/bench/**",
-            "tests/fixtures/**",
-            "tests/performance/**",
-            "tmp/**",
-            "**/test.js",
-            ".vscode"
-        ]
+        name: "eslint/cjs",
+        files: [ALL_JS_FILES],
+        extends: [eslintConfigESLintCJS]
     },
+    globalIgnores([
+        "build/**",
+        "coverage/**",
+        "docs/!(src|tools)/",
+        "docs/src/!(_data)",
+        "jsdoc/**",
+        "lib/types/**/*.ts",
+        "templates/**",
+        "tests/bench/**",
+        "tests/fixtures/**",
+        "tests/performance/**",
+        "tmp/**",
+        "**/test.js",
+        ".vscode"
+    ], "eslint/global-ignores"),
     {
         name: "eslint/internal-rules",
         files: [ALL_JS_FILES],
@@ -121,9 +119,8 @@ module.exports = [
         name: "eslint/rules",
         files: ["lib/rules/*.js", "tools/internal-rules/*.js"],
         ignores: ["**/index.js"],
-        ...eslintPluginRulesRecommendedConfig,
+        extends: [eslintPluginRulesRecommendedConfig],
         rules: {
-            ...eslintPluginRulesRecommendedConfig.rules,
             "eslint-plugin/prefer-placeholders": "error",
             "eslint-plugin/prefer-replace-text": "error",
             "eslint-plugin/report-message-format": ["error", "[^a-z].*\\.$"],
@@ -142,9 +139,8 @@ module.exports = [
     {
         name: "eslint/rules-tests",
         files: ["tests/lib/rules/*.js", "tests/tools/internal-rules/*.js"],
-        ...eslintPluginTestsRecommendedConfig,
+        extends: [eslintPluginTestsRecommendedConfig],
         rules: {
-            ...eslintPluginTestsRecommendedConfig.rules,
             "eslint-plugin/test-case-property-ordering": [
                 "error",
                 [
@@ -182,24 +178,27 @@ module.exports = [
         name: "eslint/json",
         files: ["**/*.json", ".c8rc"],
         ignores: ["**/package-lock.json"],
+        plugins: { json },
         language: "json/json",
-        ...json.configs.recommended
+        extends: ["json/recommended"]
     },
 
     // JSONC files
     {
         name: "eslint/jsonc",
         files: ["knip.jsonc"],
+        plugins: { json },
         language: "json/jsonc",
-        ...json.configs.recommended
+        extends: ["json/recommended"]
     },
 
     // JSON5 files
     {
         name: "eslint/json5",
         files: ["**/*.json5"],
+        plugins: { json },
         language: "json/json5",
-        ...json.configs.recommended
+        extends: ["json/recommended"]
     },
 
     // Restrict relative path imports
@@ -316,4 +315,4 @@ module.exports = [
             "n/no-unsupported-features/node-builtins": [2, { ignores: ["module.enableCompileCache"] }]
         }
     }
-];
+]);

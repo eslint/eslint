@@ -27,14 +27,16 @@ Here's an example [configuration file](./configuration-files#configuration-file)
 
 ```js
 // eslint.config.js
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
     {
         languageOptions: {
             ecmaVersion: 5,
             sourceType: "script"
         }
     }
-];
+]);
 ```
 
 ## Specifying Parser Options
@@ -51,7 +53,9 @@ Here's an example [configuration file](./configuration-files#configuration-file)
 
 ```js
 // eslint.config.js
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
     {
         languageOptions: {
             parserOptions: {
@@ -61,7 +65,7 @@ export default [
             }
         }
     }
-];
+]);
 ```
 
 ::: important
@@ -92,7 +96,9 @@ To configure global variables inside of a [configuration file](./configuration-f
 
 ```js
 // eslint.config.js
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
     {
         languageOptions: {
             globals: {
@@ -101,7 +107,7 @@ export default [
             }
         }
     }
-];
+]);
 ```
 
 This configuration allows `var1` to be overwritten in your code, but disallow it for `var2`.
@@ -110,7 +116,9 @@ Globals can be disabled by setting their value to `"off"`. For example, in an en
 
 ```js
 // eslint.config.js
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
     {
         languageOptions: {
             globals: {
@@ -118,7 +126,7 @@ export default [
             }
         }
     }
-];
+]);
 ```
 
 ::: tip
@@ -132,8 +140,9 @@ Apart from the ECMAScript standard built-in globals, which are automatically ena
 ```js
 // eslint.config.js
 import globals from "globals";
+import { defineConfig } from "eslint/config";
 
-export default [
+export default defineConfig([
     {
         languageOptions: {
             globals: {
@@ -141,7 +150,7 @@ export default [
             }
         }
     }
-];
+]);
 ```
 
 You can include multiple different collections of globals in the same way. The following example includes globals both for web browsers and for [Jest](https://jestjs.io/):
@@ -149,8 +158,9 @@ You can include multiple different collections of globals in the same way. The f
 ```js
 // eslint.config.js
 import globals from "globals";
+import { defineConfig } from "eslint/config";
 
-export default [
+export default defineConfig([
     {
         languageOptions: {
             globals: {
@@ -159,5 +169,5 @@ export default [
             }
         }
     }
-];
+]);
 ```

@@ -1,6 +1,6 @@
 {
   "name": "eslint",
-  "version": "9.21.0",
+  "version": "9.22.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "type": "commonjs",
@@ -13,6 +13,10 @@
     ".": {
       "types": "./lib/types/index.d.ts",
       "default": "./lib/api.js"
+    },
+    "./config": {
+      "types": "./lib/types/config-api.d.ts",
+      "default": "./lib/config-api.js"
     },
     "./package.json": "./package.json",
     "./use-at-your-own-risk": {
@@ -37,6 +41,9 @@
       ],
       "universal": [
         "./lib/types/universal.d.ts"
+      ],
+      "config": [
+        "./lib/types/config-api.d.ts"
       ]
     }
   },
@@ -102,9 +109,10 @@
     "@eslint-community/eslint-utils": "^4.2.0",
     "@eslint-community/regexpp": "^4.12.1",
     "@eslint/config-array": "^0.19.2",
+    "@eslint/config-helpers": "^0.1.0",
     "@eslint/core": "^0.12.0",
     "@eslint/eslintrc": "^3.3.0",
-    "@eslint/js": "9.21.0",
+    "@eslint/js": "9.22.0",
     "@eslint/plugin-kit": "^0.2.7",
     "@humanfs/node": "^0.16.6",
     "@humanwhocodes/module-importer": "^1.0.1",
@@ -116,7 +124,7 @@
     "cross-spawn": "^7.0.6",
     "debug": "^4.3.2",
     "escape-string-regexp": "^4.0.0",
-    "eslint-scope": "^8.2.0",
+    "eslint-scope": "^8.3.0",
     "eslint-visitor-keys": "^4.2.0",
     "espree": "^10.3.0",
     "esquery": "^1.5.0",

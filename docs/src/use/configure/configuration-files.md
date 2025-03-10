@@ -32,30 +32,34 @@ It should be placed in the root directory of your project and export an array of
 
 ```js
 // eslint.config.js
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
     {
         rules: {
             semi: "error",
             "prefer-const": "error"
         }
     }
-];
+]);
 ```
 
-In this example, the configuration array contains just one configuration object. The configuration object enables two rules: `semi` and `prefer-const`. These rules are applied to all of the files ESLint processes using this config file.
+In this example, the `defineConfig()` helper is used to define a configuration array with just one configuration object. The configuration object enables two rules: `semi` and `prefer-const`. These rules are applied to all of the files ESLint processes using this config file.
 
 If your project does not specify `"type":"module"` in its `package.json` file, then `eslint.config.js` must be in CommonJS format, such as:
 
 ```js
 // eslint.config.js
-module.exports = [
+const { defineConfig } = require("eslint/config");
+
+module.exports = defineConfig([
     {
         rules: {
             semi: "error",
             "prefer-const": "error"
         }
     }
-];
+]);
 ```
 
 ## Configuration Objects
@@ -91,13 +95,15 @@ Because config objects that don't specify `files` or `ignores` apply to all file
 
 ```js
 // eslint.config.js
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
     {
         rules: {
             semi: "error"
         }
     }
-];
+]);
 ```
 
 With this configuration, the `semi` rule is enabled for all files that match the default files in ESLint. So if you pass `example.js` to ESLint, the `semi` rule is applied. If you pass a non-JavaScript file, like `example.txt`, the `semi` rule is not applied because there are no other configuration objects that match that filename. (ESLint outputs an error message letting you know that the file was ignored due to missing configuration.)
@@ -108,20 +114,24 @@ You can limit which files a configuration object applies to by specifying a comb
 
 ```js
 // eslint.config.js
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
     {
         files: ["src/**/*.js"],
         rules: {
             semi: "error"
         }
     }
-];
+]);
 ```
 
 Here, only the JavaScript files in the `src` directory have the `semi` rule applied. If you run ESLint on files in another directory, this configuration object is skipped. By adding `ignores`, you can also remove some of the files in `src` from this configuration object:
 
 ```js
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
     {
         files: ["src/**/*.js"],
         ignores: ["**/*.config.js"],
@@ -129,13 +139,15 @@ export default [
             semi: "error"
         }
     }
-];
+]);
 ```
 
 This configuration object matches all JavaScript files in the `src` directory except those that end with `.config.js`. You can also use negation patterns in `ignores` to exclude files from the ignore patterns, such as:
 
 ```js
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
     {
         files: ["src/**/*.js"],
         ignores: ["**/*.config.js", "!**/eslint.config.js"],
@@ -143,7 +155,7 @@ export default [
             semi: "error"
         }
     }
-];
+]);
 ```
 
 Here, the configuration object excludes files ending with `.config.js` except for `eslint.config.js`. That file still has `semi` applied.
@@ -153,14 +165,16 @@ Non-global `ignores` patterns can only match file names. A pattern like `"dir-to
 If `ignores` is used without `files` and there are other keys (such as `rules`), then the configuration object applies to all linted files except the ones excluded by `ignores`, for example:
 
 ```js
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
     {
         ignores: ["**/*.config.js"],
         rules: {
             semi: "error"
         }
     }
-];
+]);
 ```
 
 This configuration object applies to all JavaScript files except those ending with `.config.js`. Effectively, this is like having `files` set to `**/*`. In general, it's a good idea to always include `files` if you are specifying `ignores`.
@@ -179,7 +193,9 @@ For example, to lint TypeScript files with `.ts`, `.cts` and `.mts` extensions, 
 
 ```js
 // eslint.config.js
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
     {
         files: [
             "**/*.ts",
@@ -188,7 +204,7 @@ export default [
         ]
     },
     // ...other config
-];
+]);
 ```
 
 #### Specifying files without extension
@@ -197,12 +213,14 @@ Files without an extension can be matched with the pattern `!(*.*)`. For example
 
 ```js
 // eslint.config.js
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
     {
         files: ["**/!(*.*)"]
     },
     // ...other config
-];
+]);
 ```
 
 The above config lints files without extension besides the default `.js`, `.cjs` and `.mjs` extensions in all directories.
@@ -229,18 +247,19 @@ For all uses of `ignores`:
 
 ```js
 // eslint.config.js
+import { defineConfig } from "eslint/config";
 
 // Example of global ignores
-export default [
+export default defineConfig([
     {
       ignores: [".config/", "dist/", "tsconfig.json"] // acts as global ignores, due to the absence of other properties
     },
     { ... }, // ... other configuration object, inherit global ignores
     { ... }, // ... other configuration object inherit global ignores
-];
+]);
 
 // Example of non-global ignores
-export default [
+export default defineConfig([
     {
       ignores: [".config/**", "dir1/script1.js"],
       rules: { ... } // the presence of this property dictates non-global ignores
@@ -249,7 +268,33 @@ export default [
       ignores: ["other-dir/**", "dist/script2.js"],
       rules: { ... } // the presence of this property dictates non-global ignores
     },
-];
+]);
+```
+
+To avoid confusion, use the `globalIgnores()` helper function to clearly indicate which ignores are meant to be global. Here's the previous example rewritten to use `globalIgnores()`:
+
+```js
+// eslint.config.js
+import { defineConfig, globalIgnores } from "eslint/config";
+
+// Example of global ignores
+export default defineConfig([
+    globalIgnores([".config/", "dist/", "tsconfig.json"]),
+    { ... }, // ... other configuration object, inherit global ignores
+    { ... }, // ... other configuration object inherit global ignores
+]);
+
+// Example of non-global ignores
+export default defineConfig([
+    {
+      ignores: [".config/**", "dir1/script1.js"],
+      rules: { ... } // the presence of this property dictates non-global ignores
+    },
+    {
+      ignores: ["other-dir/**", "dist/script2.js"],
+      rules: { ... } // the presence of this property dictates non-global ignores
+    },
+]);
 ```
 
 For more information and examples on configuring rules regarding `ignores`, see [Ignore Files](ignore).
@@ -260,7 +305,9 @@ When more than one configuration object matches a given filename, the configurat
 
 ```js
 // eslint.config.js
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
     {
         files: ["**/*.js"],
         languageOptions: {
@@ -278,7 +325,7 @@ export default [
             }
         }
     }
-];
+]);
 ```
 
 Using this configuration, all JavaScript files define a custom global object defined called `MY_CUSTOM_GLOBAL` while those JavaScript files in the `tests` directory have `it` and `describe` defined as global objects in addition to `MY_CUSTOM_GLOBAL`. For any JavaScript file in the tests directory, both configuration objects are applied, so `languageOptions.globals` are merged to create a final result.
@@ -293,14 +340,16 @@ Inline configuration is implemented using an `/*eslint*/` comment, such as `/*es
 
 ```js
 // eslint.config.js
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
     {
         files: ["**/*.js"],
         linterOptions: {
             noInlineConfig: true
         }
     }
-];
+]);
 ```
 
 #### Reporting Unused Disable Directives
@@ -309,14 +358,16 @@ Disable and enable directives such as `/*eslint-disable*/`, `/*eslint-enable*/` 
 
 ```js
 // eslint.config.js
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
     {
         files: ["**/*.js"],
         linterOptions: {
             reportUnusedDisableDirectives: "error"
         }
     }
-];
+]);
 ```
 
 This setting defaults to `"warn"`.
@@ -333,14 +384,16 @@ You can enable reporting of these unused inline config comments by setting the `
 
 ```js
 // eslint.config.js
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
     {
         files: ["**/*.js"],
         linterOptions: {
             reportUnusedInlineConfigs: "error"
         }
     }
-];
+]);
 ```
 
 You can override this setting using the [`--report-unused-inline-configs`](../command-line-interface#--report-unused-inline-configs) command line option.
@@ -351,26 +404,30 @@ You can configure any number of rules in a configuration object by add a `rules`
 
 ```js
 // eslint.config.js
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
     {
         rules: {
             semi: "error"
         }
     }
-];
+]);
 ```
 
 This configuration object specifies that the [`semi`](../../rules/semi) rule should be enabled with a severity of `"error"`. You can also provide options to a rule by specifying an array where the first item is the severity and each item after that is an option for the rule. For example, you can switch the `semi` rule to disallow semicolons by passing `"never"` as an option:
 
 ```js
 // eslint.config.js
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
     {
         rules: {
             semi: ["error", "never"]
         }
     }
-];
+]);
 ```
 
 Each rule specifies its own options and can be any valid JSON data type. Please check the documentation for the rule you want to configure for more information about its available options.
@@ -383,7 +440,9 @@ ESLint supports adding shared settings into configuration files. When you add a 
 
 ```js
 // eslint.config.js
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
     {
         settings: {
             sharedData: "Hello"
@@ -409,35 +468,110 @@ export default [
             "customPlugin/my-rule": "error"
         }
     }
-];
+]);
 ```
 
-### Using Predefined Configurations
+### Extending Configurations
+
+A configuration object uses `extends` to inherit all the traits of another configuration object or array (including rules, plugins, and language options) and can then modify all the options. The `extends` key is an array of values indicating which configurations to extend from. The elements of the `extends` array can be one of three values:
+
+* a string that specifies the name of a configuration in a plugin
+* a configuration object
+* a configuration array
+
+#### Using Configurations from Plugins
+
+ESLint plugins can export predefined configurations. These configurations are referenced using a string and follow the pattern `pluginName/configName`. The plugin must be specified in the `plugins` key first. Here's an example:
+
+```js
+// eslint.config.js
+import examplePlugin from "eslint-plugin-example";
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
+    {
+        plugins: {
+            example: examplePlugin
+        },
+        extends: ["example/recommended"]
+    }
+]);
+```
+
+In this example, the configuration named `recommended` from `eslint-plugin-example` is loaded. The plugin configurations can also be referenced by name inside of the configuration array.
+
+You can also insert plugin configurations directly into the `extends` array. For example:
+
+```js
+// eslint.config.js
+import pluginExample from "eslint-plugin-example";
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
+    {
+        plugins: {
+            example: pluginExample
+        },
+        extends: [pluginExample.configs.recommended]
+    }
+]);
+```
+
+In this case, the configuration named `recommended` from `eslint-plugin-example` is accessed directly through the plugin object's `configs` property.
+
+#### Using Predefined Configurations
 
 ESLint has two predefined configurations for JavaScript:
 
-* `js.configs.recommended` - enables the rules that ESLint recommends everyone use to avoid potential errors.
-* `js.configs.all` - enables all of the rules shipped with ESLint. This configuration is **not recommended** for production use because it changes with every minor and major version of ESLint. Use at your own risk.
+* `js/recommended` - enables the rules that ESLint recommends everyone use to avoid potential errors.
+* `js/all` - enables all of the rules shipped with ESLint. This configuration is **not recommended** for production use because it changes with every minor and major version of ESLint. Use at your own risk.
 
 To include these predefined configurations, install the `@eslint/js` package and then make any modifications to other properties in subsequent configuration objects:
 
 ```js
 // eslint.config.js
 import js from "@eslint/js";
+import { defineConfig } from "eslint/config";
 
-export default [
-    js.configs.recommended,
+export default defineConfig([
     {
+        plugins: {
+            js
+        },
+        extends: ["js/recommended"],
         rules: {
             "no-unused-vars": "warn"
         }
     }
-];
+]);
 ```
 
-Here, the `js.configs.recommended` predefined configuration is applied first and then another configuration object adds the desired configuration for `no-unused-vars`.
+Here, the `js/recommended` predefined configuration is applied first and then another configuration object adds the desired configuration for `no-unused-vars`.
 
 For more information on how to combine predefined configs with your preferences, please see [Combine Configs](combine-configs).
+
+#### Using a Shareable Configuration Package
+
+A sharable configuration is an npm package that exports a configuration object or array. This package should be installed as a dependency in your project and then referenced from inside of your `eslint.config.js` file. For example, to use a shareable configuration named `eslint-config-example`, your configuration file would look like this:
+
+```js
+// eslint.config.js
+import exampleConfig from "eslint-config-example";
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
+    {
+        extends: [exampleConfig],
+        rules: {
+            "no-unused-vars": "warn"
+        }
+    }
+]);
+```
+
+In this example, `exampleConfig` can be either an object or an array, and either way it can be inserted directly into the `extends` array.
+
+For more information on how to combine shareable configs with your preferences, please see [Combine Configs](combine-configs).
 
 ### Configuration Naming Conventions
 
@@ -490,50 +624,6 @@ export default {
 }
 ```
 
-## Using a Shareable Configuration Package
-
-A sharable configuration is an npm package that exports a configuration object or array. This package should be installed as a dependency in your project and then referenced from inside of your `eslint.config.js` file. For example, to use a shareable configuration named `eslint-config-example`, your configuration file would look like this:
-
-```js
-// eslint.config.js
-import exampleConfig from "eslint-config-example";
-
-export default [
-    exampleConfig,
-
-    // your modifications
-    {
-        rules: {
-            "no-unused-vars": "warn"
-        }
-    }
-];
-```
-
-In this example, `exampleConfig` is an object, so you insert it directly into the configuration array.
-
-Some shareable configurations will export an array instead, in which case you'll need to use the spread operator to insert those items into the configuration array. For example:
-
-```js
-// eslint.config.js
-import exampleConfigs from "eslint-config-example";
-
-export default [
-    ...exampleConfigs,
-
-    // your modifications
-    {
-        rules: {
-            "no-unused-vars": "warn"
-        }
-    }
-];
-```
-
-Please refer to the documentation for the shareable configuration package you're using to determine whether it is exporting an object or an array.
-
-For more information on how to combine shareable configs with your preferences, please see [Combine Configs](combine-configs).
-
 ## Configuration File Resolution
 
 When ESLint is run on the command line, it first checks the current working directory for `eslint.config.js`. If that file is found, then the search stops, otherwise it checks for `eslint.config.mjs`. If that file is found, then the search stops, otherwise it checks for `eslint.config.cjs`. If none of the files are found, it checks the parent directory for each file. This search continues until either a config file is found or the root directory is reached.
@@ -573,39 +663,7 @@ For Deno and Bun, TypeScript configuration files are natively supported; for Nod
     args: ["--save-dev"]
 }) }}
 
-You can then create a configuration file with a `.ts`, `.mts`, or `.cts` extension, and export an array of [configuration objects](#configuration-objects). Here's an example in ESM format:
-
-```ts
-import js from "@eslint/js";
-import type { Linter } from "eslint";
-
-export default [
-  js.configs.recommended,
-  {
-    rules: {
-      "no-console": [0],
-    },
-  },
-] satisfies Linter.Config[];
-```
-
-Here's an example in CommonJS format:
-
-```ts
-import type { Linter } from "eslint";
-const eslint = require("@eslint/js");
-
-const config: Linter.Config[] = [
-  eslint.configs.recommended,
-  {
-    rules: {
-      "no-console": [0],
-    },
-  },
-];
-
-module.exports = config;
-```
+You can then create a configuration file with a `.ts`, `.mts`, or `.cts` extension, and export an array of [configuration objects](#configuration-objects).
 
 ::: important
 ESLint does not perform type checking on your configuration file and does not apply any settings from `tsconfig.json`.
