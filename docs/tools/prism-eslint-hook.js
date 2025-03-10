@@ -146,7 +146,7 @@ function installPrismESLintMarkerHook() {
 			// Remove trailing newline and presentational `⏎` characters
 			docsExampleCodeToParsableCode(code),
 			config,
-			{ filename: "code.js" },
+			{ filename: "code.js" }
 		);
 
 		if (lintMessages.some(m => m.fatal)) {
@@ -168,7 +168,7 @@ function installPrismESLintMarkerHook() {
 						: getIndexFromLoc({
 								line: message.endLine,
 								column: message.endColumn,
-							}),
+						  }),
 				],
 			};
 		});
@@ -215,7 +215,7 @@ function installPrismESLintMarkerHook() {
 				const marked = new Prism.Token(
 					TOKEN_TYPE_ESLINT_MARKED,
 					[token],
-					[getMessageIdFromMessage(message)],
+					[getMessageIdFromMessage(message)]
 				);
 
 				return {
@@ -233,7 +233,7 @@ function installPrismESLintMarkerHook() {
 				if (typeof token.content !== "string") {
 					if (
 						token.content.every(
-							childContent => typeof childContent === "string",
+							childContent => typeof childContent === "string"
 						)
 					) {
 						// It can be flatten.
@@ -241,11 +241,11 @@ function installPrismESLintMarkerHook() {
 							new Prism.Token(
 								token.type,
 								newContent,
-								token.alias,
+								token.alias
 							);
 					} else {
-						// eslint-disable-next-line no-use-before-define -- Safe
 						token.content = [
+							// eslint-disable-next-line no-use-before-define -- Safe
 							...convertMarked({
 								tokens: token.content,
 								range,
@@ -271,12 +271,12 @@ function installPrismESLintMarkerHook() {
 					: null;
 			const mark = content.slice(
 				before ? range[0] - tokenStart : 0,
-				range[1] - tokenStart,
+				range[1] - tokenStart
 			);
 			const marked = new Prism.Token(
 				TOKEN_TYPE_ESLINT_MARKED,
 				mark ? [buildToken(mark)] : mark,
-				[getMessageIdFromMessage(message)],
+				[getMessageIdFromMessage(message)]
 			);
 			const after =
 				range[1] - tokenStart < content.length
@@ -307,13 +307,13 @@ function installPrismESLintMarkerHook() {
 						yield new Prism.Token(
 							token.type,
 							[...splitMarkedTokenByLineFeed(contentToken)],
-							token.alias,
+							token.alias
 						);
 					} else {
 						yield new Prism.Token(
 							token.type,
 							[contentToken],
-							token.alias,
+							token.alias
 						);
 					}
 					continue;
@@ -322,7 +322,7 @@ function installPrismESLintMarkerHook() {
 					yield new Prism.Token(
 						token.type,
 						[contentToken],
-						token.alias,
+						token.alias
 					);
 					continue;
 				}
@@ -333,7 +333,7 @@ function installPrismESLintMarkerHook() {
 
 				while ((matchLineFeed = reLineFeed.exec(contentToken))) {
 					contents.push(
-						contentToken.slice(startIndex, matchLineFeed.index),
+						contentToken.slice(startIndex, matchLineFeed.index)
 					);
 					contents.push(matchLineFeed[0]);
 					startIndex = reLineFeed.lastIndex;
@@ -342,7 +342,7 @@ function installPrismESLintMarkerHook() {
 				yield* contents
 					.filter(Boolean)
 					.map(
-						str => new Prism.Token(token.type, [str], token.alias),
+						str => new Prism.Token(token.type, [str], token.alias)
 					);
 			}
 		}
@@ -443,7 +443,7 @@ function installPrismESLintMarkerHook() {
 
 					if (prevMarked.canBeMerged && next.marked.canBeMerged) {
 						prevMarked.token.content.push(
-							...next.marked.token.content,
+							...next.marked.token.content
 						);
 					} else {
 						yield* splitTokensByLineFeed([prevMarked.token]);
@@ -497,10 +497,10 @@ module.exports = {
 		? installPrismESLintMarkerHook
 		: () => {
 				/* noop */
-			},
+		  },
 	addContentMustBeMarked: isAvailable
 		? addContentMustBeMarked
 		: () => {
 				/* noop */
-			},
+		  },
 };
