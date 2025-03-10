@@ -58,33 +58,44 @@ const { docsExampleCodeToParsableCode } = require("./code-block-utils");
  *
  */
 function markdownItRuleExample({ open, close }) {
-    return {
-        validate(info) {
-            return /^\s*(?:in)?correct(?!\S)/u.test(info);
-        },
-        render(tokens, index, options, env) {
-            const tagToken = tokens[index];
+	return {
+		validate(info) {
+			return /^\s*(?:in)?correct(?!\S)/u.test(info);
+		},
+		render(tokens, index, options, env) {
+			const tagToken = tokens[index];
 
-            if (tagToken.nesting < 0) {
-                const text = close ? close() : void 0;
+			if (tagToken.nesting < 0) {
+				const text = close ? close() : void 0;
 
-                // Return an empty string to avoid appending unexpected text to the output.
-                return typeof text === "string" ? text : "";
-            }
+				// Return an empty string to avoid appending unexpected text to the output.
+				return typeof text === "string" ? text : "";
+			}
 
-            const { type, languageOptionsJSON } = /^\s*(?<type>\S+)(\s+(?<languageOptionsJSON>\S.*?))?\s*$/u.exec(tagToken.info).groups;
-            const languageOptions = languageOptionsJSON ? JSON.parse(languageOptionsJSON) : void 0;
-            const codeBlockToken = tokens[index + 1];
+			const { type, languageOptionsJSON } =
+				/^\s*(?<type>\S+)(\s+(?<languageOptionsJSON>\S.*?))?\s*$/u.exec(
+					tagToken.info,
+				).groups;
+			const languageOptions = languageOptionsJSON
+				? JSON.parse(languageOptionsJSON)
+				: void 0;
+			const codeBlockToken = tokens[index + 1];
 
-            // Remove trailing newline and presentational `⏎` characters (https://github.com/eslint/eslint/issues/17627):
-            const code = docsExampleCodeToParsableCode(codeBlockToken.content);
+			// Remove trailing newline and presentational `⏎` characters (https://github.com/eslint/eslint/issues/17627):
+			const code = docsExampleCodeToParsableCode(codeBlockToken.content);
 
-            const text = open({ type, code, languageOptions, codeBlockToken, env });
+			const text = open({
+				type,
+				code,
+				languageOptions,
+				codeBlockToken,
+				env,
+			});
 
-            // Return an empty string to avoid appending unexpected text to the output.
-            return typeof text === "string" ? text : "";
-        }
-    };
+			// Return an empty string to avoid appending unexpected text to the output.
+			return typeof text === "string" ? text : "";
+		},
+	};
 }
 
 module.exports = markdownItRuleExample;

@@ -10,17 +10,17 @@ const tapRenderInstance = new TapRender();
 tapRenderInstance.pipe(spot()).pipe(process.stdout);
 
 const skipPatterns = [
-    "https://",
-    "fragment-redirect",
-    "migrating-to",
-    "/blog",
-    "/play",
-    "/team",
-    "/donate",
-    "/docs/latest",
-    "/docs/next",
-    "/docs/v8.x",
-    'src="null"'
+	"https://",
+	"fragment-redirect",
+	"migrating-to",
+	"/blog",
+	"/play",
+	"/team",
+	"/donate",
+	"/docs/latest",
+	"/docs/next",
+	"/docs/v8.x",
+	'src="null"',
 ];
 
 /**
@@ -30,30 +30,31 @@ const skipPatterns = [
  * @returns {boolean} `true` if the report contains any of `skipPatterns`.
  */
 function skipFilter(report) {
-    return Object.values(report).some(value =>
-        skipPatterns.some(pattern => String(value).includes(pattern)));
+	return Object.values(report).some(value =>
+		skipPatterns.some(pattern => String(value).includes(pattern)),
+	);
 }
 
 (async () => {
-    try {
-        await hyperlink(
-            {
-                inputUrls: ["../_site/index.html"],
-                root: path.resolve(__dirname, "../_site"),
-                canonicalRoot: "https://eslint.org/docs/head/",
-                recursive: true,
-                internalOnly: true,
-                pretty: true,
-                concurrency: 25,
-                skipFilter
-            },
-            tapRenderInstance
-        );
-    } catch (err) {
-        console.log(err.stack);
-        process.exit(1);
-    }
-    const results = tapRenderInstance.close();
+	try {
+		await hyperlink(
+			{
+				inputUrls: ["../_site/index.html"],
+				root: path.resolve(__dirname, "../_site"),
+				canonicalRoot: "https://eslint.org/docs/head/",
+				recursive: true,
+				internalOnly: true,
+				pretty: true,
+				concurrency: 25,
+				skipFilter,
+			},
+			tapRenderInstance,
+		);
+	} catch (err) {
+		console.log(err.stack);
+		process.exit(1);
+	}
+	const results = tapRenderInstance.close();
 
-    process.exit(results.fail ? 1 : 0);
+	process.exit(results.fail ? 1 : 0);
 })();

@@ -14,15 +14,17 @@ import algoliasearch from "./algoliasearch.js";
 //-----------------------------------------------------------------------------
 
 // search
-const client = algoliasearch('L633P0C2IR', 'bb6bbd2940351f3afc18844a6b06a6e8');
-const index = client.initIndex('eslint');
+const client = algoliasearch("L633P0C2IR", "bb6bbd2940351f3afc18844a6b06a6e8");
+const index = client.initIndex("eslint");
 
 // page
-const resultsElement = document.querySelector('#search-results');
-const resultsLiveRegion = document.querySelector('#search-results-announcement');
-const searchInput = document.querySelector('#search');
-const searchClearBtn = document.querySelector('#search__clear-btn');
-const poweredByLink = document.querySelector('.search_powered-by-wrapper');
+const resultsElement = document.querySelector("#search-results");
+const resultsLiveRegion = document.querySelector(
+	"#search-results-announcement",
+);
+const searchInput = document.querySelector("#search");
+const searchClearBtn = document.querySelector("#search__clear-btn");
+const poweredByLink = document.querySelector(".search_powered-by-wrapper");
 let activeIndex = -1;
 let searchQuery;
 let caretPosition = 0;
@@ -37,9 +39,11 @@ let caretPosition = 0;
  * @returns {Promise<Array<object>>} The search results.
  */
 function fetchSearchResults(query) {
-    return index.search(query, {
-        facetFilters: ["tags:docs"]
-    }).then(({ hits }) => hits);
+	return index
+		.search(query, {
+			facetFilters: ["tags:docs"],
+		})
+		.then(({ hits }) => hits);
 }
 
 /**
@@ -49,11 +53,11 @@ function fetchSearchResults(query) {
  * @returns {void} - This function doesn't return anything.
  */
 function clearSearchResults(removeEventListener = false) {
-    resultsElement.innerHTML = "";
-    if (removeEventListener && document.clickEventAdded) {
-        document.removeEventListener('click', handleDocumentClick);
-        document.clickEventAdded = false;
-    }
+	resultsElement.innerHTML = "";
+	if (removeEventListener && document.clickEventAdded) {
+		document.removeEventListener("click", handleDocumentClick);
+		document.clickEventAdded = false;
+	}
 }
 
 /**
@@ -62,9 +66,9 @@ function clearSearchResults(removeEventListener = false) {
  * @returns {void} - This function doesn't return anything.
  */
 function showNoResults() {
-    resultsLiveRegion.innerHTML = "No results found.";
-    resultsElement.innerHTML = "No results found.";
-    resultsElement.setAttribute('data-results', 'false');
+	resultsLiveRegion.innerHTML = "No results found.";
+	resultsElement.innerHTML = "No results found.";
+	resultsElement.setAttribute("data-results", "false");
 }
 
 /**
@@ -72,8 +76,8 @@ function showNoResults() {
  * @returns {void} - This function doesn't return anything.
  */
 function clearNoResults() {
-    resultsLiveRegion.innerHTML = "";
-    resultsElement.innerHTML = "";
+	resultsLiveRegion.innerHTML = "";
+	resultsElement.innerHTML = "";
 }
 
 /**
@@ -82,56 +86,53 @@ function clearNoResults() {
  * @returns {void}
  */
 function displaySearchResults(results) {
+	clearSearchResults();
 
-    clearSearchResults();
+	if (results.length) {
+		const list = document.createElement("ul");
+		list.setAttribute("role", "list");
+		list.classList.add("search-results__list");
+		resultsElement.append(list);
+		resultsElement.setAttribute("data-results", "true");
+		activeIndex = -1;
 
-    if (results.length) {
-
-        const list = document.createElement("ul");
-        list.setAttribute('role', 'list');
-        list.classList.add('search-results__list');
-        resultsElement.append(list);
-        resultsElement.setAttribute('data-results', 'true');
-        activeIndex = -1;
-
-        for (const result of results) {
-            const listItem = document.createElement('li');
-            listItem.classList.add('search-results__item');
-            const maxLvl = Math.max(...Object.keys(result._highlightResult.hierarchy).map(k => Number(k.substring(3))));
-            listItem.innerHTML = `
+		for (const result of results) {
+			const listItem = document.createElement("li");
+			listItem.classList.add("search-results__item");
+			const maxLvl = Math.max(
+				...Object.keys(result._highlightResult.hierarchy).map(k =>
+					Number(k.substring(3)),
+				),
+			);
+			listItem.innerHTML = `
                 <h2 class="search-results__item__title"><a href="${result.url}">${result.hierarchy.lvl0}</a></h2>
-                <p class="search-results__item__context">${typeof result._highlightResult.content !== 'undefined' ? result._highlightResult.content.value : result._highlightResult.hierarchy[`lvl${maxLvl}`].value}</p>
+                <p class="search-results__item__context">${typeof result._highlightResult.content !== "undefined" ? result._highlightResult.content.value : result._highlightResult.hierarchy[`lvl${maxLvl}`].value}</p>
             `.trim();
-            list.append(listItem);
-        }
-
-    } else {
-        showNoResults();
-    }
-
+			list.append(listItem);
+		}
+	} else {
+		showNoResults();
+	}
 }
-
 
 // Check if an element is currently scrollable
 function isScrollable(element) {
-    return element && element.clientHeight < element.scrollHeight;
+	return element && element.clientHeight < element.scrollHeight;
 }
 
 // Ensure given child element is within the parent's visible scroll area
 function maintainScrollVisibility(activeElement, scrollParent) {
-    const { offsetHeight, offsetTop } = activeElement;
-    const { offsetHeight: parentOffsetHeight, scrollTop } = scrollParent;
+	const { offsetHeight, offsetTop } = activeElement;
+	const { offsetHeight: parentOffsetHeight, scrollTop } = scrollParent;
 
-    const isAbove = offsetTop < scrollTop;
-    const isBelow = (offsetTop + offsetHeight) > (scrollTop + parentOffsetHeight);
+	const isAbove = offsetTop < scrollTop;
+	const isBelow = offsetTop + offsetHeight > scrollTop + parentOffsetHeight;
 
-    if (isAbove) {
-        scrollParent.scrollTo(0, offsetTop);
-    }
-    else if (isBelow) {
-        scrollParent.scrollTo(0, offsetTop - parentOffsetHeight + offsetHeight);
-    }
-
+	if (isAbove) {
+		scrollParent.scrollTo(0, offsetTop);
+	} else if (isBelow) {
+		scrollParent.scrollTo(0, offsetTop - parentOffsetHeight + offsetHeight);
+	}
 }
 
 /**
@@ -141,11 +142,11 @@ function maintainScrollVisibility(activeElement, scrollParent) {
  * @returns {Function} Returns the new debounced function.
  */
 function debounce(callback, delay) {
-    let timer;
-    return (...args) => {
-        if (timer) clearTimeout(timer);
-        timer = setTimeout(() => callback.apply(this, args), delay);
-    }
+	let timer;
+	return (...args) => {
+		if (timer) clearTimeout(timer);
+		timer = setTimeout(() => callback.apply(this, args), delay);
+	};
 }
 
 /**
@@ -156,24 +157,24 @@ function debounce(callback, delay) {
  * @returns {void} - No return value.
  * @see debounce - Limits the number of requests during rapid typing.
  */
-const debouncedFetchSearchResults = debounce((query) => {
-    fetchSearchResults(query)
-        .then(displaySearchResults)
-        .catch(() => { clearSearchResults(true) });
+const debouncedFetchSearchResults = debounce(query => {
+	fetchSearchResults(query)
+		.then(displaySearchResults)
+		.catch(() => {
+			clearSearchResults(true);
+		});
 }, 300);
-
 
 /**
  * Handles the document click event to clear search results if the user clicks outside of the search input or results element.
  * @param {MouseEvent} e - The event object representing the click event.
  * @returns {void} - This function does not return any value. It directly interacts with the UI by clearing search results.
  */
-const handleDocumentClick = (e) => {
-    if (e.target !== resultsElement && e.target !== searchInput) {
-        clearSearchResults(true);
-    }
-}
-
+const handleDocumentClick = e => {
+	if (e.target !== resultsElement && e.target !== searchInput) {
+		clearSearchResults(true);
+	}
+};
 
 //-----------------------------------------------------------------------------
 // Event Handlers
@@ -181,102 +182,112 @@ const handleDocumentClick = (e) => {
 
 // listen for input changes
 if (searchInput)
-    searchInput.addEventListener('keyup', function (e) {
-        const query = searchInput.value;
+	searchInput.addEventListener("keyup", function (e) {
+		const query = searchInput.value;
 
-        if (query === searchQuery) return;
+		if (query === searchQuery) return;
 
-        if (query.length) searchClearBtn.removeAttribute('hidden');
-        else searchClearBtn.setAttribute('hidden', '');
+		if (query.length) searchClearBtn.removeAttribute("hidden");
+		else searchClearBtn.setAttribute("hidden", "");
 
-        if (query.length > 2) {
-            debouncedFetchSearchResults(query);
-            if (!document.clickEventAdded) {
-                document.addEventListener('click', handleDocumentClick);
-                document.clickEventAdded = true;
-            }
-        } else {
-            clearSearchResults(true);
-        }
+		if (query.length > 2) {
+			debouncedFetchSearchResults(query);
+			if (!document.clickEventAdded) {
+				document.addEventListener("click", handleDocumentClick);
+				document.clickEventAdded = true;
+			}
+		} else {
+			clearSearchResults(true);
+		}
 
-        searchQuery = query
-    });
-
+		searchQuery = query;
+	});
 
 if (searchClearBtn) {
-    searchClearBtn.addEventListener('click', function () {
-        searchInput.value = '';
-        searchInput.focus();
-        clearSearchResults(true);
-        searchClearBtn.setAttribute('hidden', '');
-    });
+	searchClearBtn.addEventListener("click", function () {
+		searchInput.value = "";
+		searchInput.focus();
+		clearSearchResults(true);
+		searchClearBtn.setAttribute("hidden", "");
+	});
 
-    searchInput.addEventListener("blur", function () {
-        caretPosition = searchInput.selectionStart;
-    });
+	searchInput.addEventListener("blur", function () {
+		caretPosition = searchInput.selectionStart;
+	});
 
-    searchInput.addEventListener("focus", function () {
-        if (searchInput.selectionStart !== caretPosition) {
-            searchInput.setSelectionRange(caretPosition, caretPosition);
-        }
-    });
-
+	searchInput.addEventListener("focus", function () {
+		if (searchInput.selectionStart !== caretPosition) {
+			searchInput.setSelectionRange(caretPosition, caretPosition);
+		}
+	});
 }
 
 if (poweredByLink) {
-    poweredByLink.addEventListener('focus', function () {
-        clearSearchResults();
-    });
+	poweredByLink.addEventListener("focus", function () {
+		clearSearchResults();
+	});
 }
 
 if (resultsElement) {
-    resultsElement.addEventListener('keydown', (e) => {
-        if (e.key !== "ArrowUp" && e.key !== "ArrowDown" && e.key !== "Tab" && e.key !== 'Shift') {
-            searchInput.focus();
-        }
-    });
+	resultsElement.addEventListener("keydown", e => {
+		if (
+			e.key !== "ArrowUp" &&
+			e.key !== "ArrowDown" &&
+			e.key !== "Tab" &&
+			e.key !== "Shift"
+		) {
+			searchInput.focus();
+		}
+	});
 }
 
-document.addEventListener('keydown', function (e) {
-    const searchResults = Array.from(document.querySelectorAll('.search-results__item'));
-    const isArrowKey = e.key === "ArrowUp" || e.key === "ArrowDown";
+document.addEventListener("keydown", function (e) {
+	const searchResults = Array.from(
+		document.querySelectorAll(".search-results__item"),
+	);
+	const isArrowKey = e.key === "ArrowUp" || e.key === "ArrowDown";
 
-    if (e.key === "Escape") {
-        e.preventDefault();
-        if (searchResults.length) {
-            clearSearchResults(true);
-            searchInput.focus();
-        } else if (document.activeElement === searchInput) {
-            clearNoResults();
-            searchInput.blur();
-        }
-    }
+	if (e.key === "Escape") {
+		e.preventDefault();
+		if (searchResults.length) {
+			clearSearchResults(true);
+			searchInput.focus();
+		} else if (document.activeElement === searchInput) {
+			clearNoResults();
+			searchInput.blur();
+		}
+	}
 
-    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
-        searchInput.focus();
-        document.querySelector('.search').scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+	if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+		e.preventDefault();
+		searchInput.focus();
+		document
+			.querySelector(".search")
+			.scrollIntoView({ behavior: "smooth", block: "start" });
+	}
 
-    if (!searchResults.length) return;
+	if (!searchResults.length) return;
 
-    if (isArrowKey) {
-        e.preventDefault();
+	if (isArrowKey) {
+		e.preventDefault();
 
-        if (e.key === "ArrowUp") {
-            activeIndex = activeIndex - 1 < 0 ? searchResults.length - 1 : activeIndex - 1;
-        } else if (e.key === "ArrowDown") {
-            activeIndex = activeIndex + 1 < searchResults.length ? activeIndex + 1 : 0;
-        }
+		if (e.key === "ArrowUp") {
+			activeIndex =
+				activeIndex - 1 < 0
+					? searchResults.length - 1
+					: activeIndex - 1;
+		} else if (e.key === "ArrowDown") {
+			activeIndex =
+				activeIndex + 1 < searchResults.length ? activeIndex + 1 : 0;
+		}
 
-        if (activeIndex !== -1) {
-            const activeSearchResult = searchResults[activeIndex];
-            activeSearchResult.querySelector('a').focus();
+		if (activeIndex !== -1) {
+			const activeSearchResult = searchResults[activeIndex];
+			activeSearchResult.querySelector("a").focus();
 
-            if (isScrollable(resultsElement)) {
-                maintainScrollVisibility(activeSearchResult, resultsElement);
-            }
-        }
-    }
+			if (isScrollable(resultsElement)) {
+				maintainScrollVisibility(activeSearchResult, resultsElement);
+			}
+		}
+	}
 });
-

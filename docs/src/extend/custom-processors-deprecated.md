@@ -14,36 +14,37 @@ In order to create a custom processor, the object exported from your module has 
 
 ```js
 module.exports = {
-    processors: {
-        "processor-name": {
-            meta: {
-                name: "eslint-processor-name",
-                version: "1.2.3"
-            },
-            // takes text of the file and filename
-            preprocess: function(text, filename) {
-                // here, you can strip out any non-JS content
-                // and split into multiple strings to lint
+	processors: {
+		"processor-name": {
+			meta: {
+				name: "eslint-processor-name",
+				version: "1.2.3",
+			},
+			// takes text of the file and filename
+			preprocess: function (text, filename) {
+				// here, you can strip out any non-JS content
+				// and split into multiple strings to lint
 
-                return [ // return an array of code blocks to lint
-                    { text: code1, filename: "0.js" },
-                    { text: code2, filename: "1.js" },
-                ];
-            },
+				return [
+					// return an array of code blocks to lint
+					{ text: code1, filename: "0.js" },
+					{ text: code2, filename: "1.js" },
+				];
+			},
 
-            // takes a Message[][] and filename
-            postprocess: function(messages, filename) {
-                // `messages` argument contains two-dimensional array of Message objects
-                // where each top-level array item contains array of lint messages related
-                // to the text that was returned in array from preprocess() method
+			// takes a Message[][] and filename
+			postprocess: function (messages, filename) {
+				// `messages` argument contains two-dimensional array of Message objects
+				// where each top-level array item contains array of lint messages related
+				// to the text that was returned in array from preprocess() method
 
-                // you need to return a one-dimensional array of the messages you want to keep
-                return [].concat(...messages);
-            },
+				// you need to return a one-dimensional array of the messages you want to keep
+				return [].concat(...messages);
+			},
 
-            supportsAutofix: true // (optional, defaults to false)
-        }
-    }
+			supportsAutofix: true, // (optional, defaults to false)
+		},
+	},
 };
 ```
 
@@ -59,49 +60,47 @@ Reported problems have the following location information in each lint message:
 
 ```typescript
 type LintMessage = {
+	/// The 1-based line number where the message occurs.
+	line?: number;
 
-  /// The 1-based line number where the message occurs.
-  line?: number;
+	/// The 1-based column number where the message occurs.
+	column?: number;
 
-   /// The 1-based column number where the message occurs.
-  column?: number;
+	/// The 1-based line number of the end location.
+	endLine?: number;
 
-  /// The 1-based line number of the end location.
-  endLine?: number;
+	/// The 1-based column number of the end location.
+	endColumn?: number;
 
-  /// The 1-based column number of the end location.
-  endColumn?: number;
+	/// If `true`, this is a fatal error.
+	fatal?: boolean;
 
-  /// If `true`, this is a fatal error.
-  fatal?: boolean;
+	/// Information for an autofix.
+	fix: Fix;
 
-  /// Information for an autofix.
-  fix: Fix;
+	/// The error message.
+	message: string;
 
-  /// The error message.
-  message: string;
+	/// The ID of the rule which generated the message, or `null` if not applicable.
+	ruleId: string | null;
 
-  /// The ID of the rule which generated the message, or `null` if not applicable.
-  ruleId: string | null;
+	/// The severity of the message.
+	severity: 0 | 1 | 2;
 
-  /// The severity of the message.
-  severity: 0 | 1 | 2;
-
-  /// Information for suggestions.
-  suggestions?: Suggestion[];
+	/// Information for suggestions.
+	suggestions?: Suggestion[];
 };
 
 type Fix = {
-    range: [number, number];
-    text: string;
-}
+	range: [number, number];
+	text: string;
+};
 
 type Suggestion = {
-    desc?: string;
-    messageId?: string;
-    fix: Fix;
-}
-
+	desc?: string;
+	messageId?: string;
+	fix: Fix;
+};
 ```
 
 By default, ESLint does not perform autofixes when a custom processor is used, even when the `--fix` flag is enabled on the command line. To allow ESLint to autofix code when using your processor, you should take the following additional steps:
@@ -133,10 +132,10 @@ For example:
 
 ```yml
 plugins:
-  - a-plugin
+    - a-plugin
 overrides:
-  - files: "*.md"
-    processor: a-plugin/markdown
+    - files: "*.md"
+      processor: a-plugin/markdown
 ```
 
 See [Specify a Processor](../use/configure/plugins#specify-a-processor) in the Plugin Configuration documentation for more details.
@@ -174,14 +173,16 @@ module.exports = {
 You can also use the same custom processor with multiple filename extensions. The following example shows using the same processor for both `.md` and `.mdx` files:
 
 ```js
-const myCustomProcessor = { /* processor methods */ };
+const myCustomProcessor = {
+	/* processor methods */
+};
 
 module.exports = {
-    // The same custom processor is applied to both
-    // `.md` and `.mdx` files.
-    processors: {
-        ".md": myCustomProcessor,
-        ".mdx": myCustomProcessor
-    }
-}
+	// The same custom processor is applied to both
+	// `.md` and `.mdx` files.
+	processors: {
+		".md": myCustomProcessor,
+		".mdx": myCustomProcessor,
+	},
+};
 ```

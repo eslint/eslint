@@ -39,43 +39,49 @@ const CRASH_AUTOFIX_TEST_COUNT_RATIO = 3;
  * schema as objects returned from eslint-fuzzer.
  */
 function run({ amount = 300, fuzzBrokenAutofixes = true } = {}) {
-    const crashTestCount = amount * CRASH_AUTOFIX_TEST_COUNT_RATIO;
-    const autofixTestCount = fuzzBrokenAutofixes ? amount : 0;
+	const crashTestCount = amount * CRASH_AUTOFIX_TEST_COUNT_RATIO;
+	const autofixTestCount = fuzzBrokenAutofixes ? amount : 0;
 
-    /*
-     * To keep the progress bar moving at a roughly constant speed, apply a different weight for finishing
-     * a crash-only fuzzer run versus an autofix fuzzer run.
-     */
-    const progressBar = new ProgressBar(
-        "Fuzzing rules [:bar] :percent, :elapseds elapsed, eta :etas, errors so far: :elapsedErrors",
-        { width: 30, total: crashTestCount + autofixTestCount * ESTIMATED_CRASH_AUTOFIX_PERFORMANCE_RATIO }
-    );
+	/*
+	 * To keep the progress bar moving at a roughly constant speed, apply a different weight for finishing
+	 * a crash-only fuzzer run versus an autofix fuzzer run.
+	 */
+	const progressBar = new ProgressBar(
+		"Fuzzing rules [:bar] :percent, :elapseds elapsed, eta :etas, errors so far: :elapsedErrors",
+		{
+			width: 30,
+			total:
+				crashTestCount +
+				autofixTestCount * ESTIMATED_CRASH_AUTOFIX_PERFORMANCE_RATIO,
+		},
+	);
 
-    // Start displaying the progress bar.
-    progressBar.tick(0, { elapsedErrors: 0 });
+	// Start displaying the progress bar.
+	progressBar.tick(0, { elapsedErrors: 0 });
 
-    const crashTestResults = fuzz({
-        linter,
-        count: crashTestCount,
-        checkAutofixes: false,
-        progressCallback(elapsedErrors) {
-            progressBar.tick(1, { elapsedErrors });
-            progressBar.render();
-        }
-    });
+	const crashTestResults = fuzz({
+		linter,
+		count: crashTestCount,
+		checkAutofixes: false,
+		progressCallback(elapsedErrors) {
+			progressBar.tick(1, { elapsedErrors });
+			progressBar.render();
+		},
+	});
 
-    const autofixTestResults = fuzz({
-        linter,
-        count: autofixTestCount,
-        checkAutofixes: true,
-        progressCallback(elapsedErrors) {
-            progressBar.tick(ESTIMATED_CRASH_AUTOFIX_PERFORMANCE_RATIO, { elapsedErrors: crashTestResults.length + elapsedErrors });
-            progressBar.render();
-        }
-    });
+	const autofixTestResults = fuzz({
+		linter,
+		count: autofixTestCount,
+		checkAutofixes: true,
+		progressCallback(elapsedErrors) {
+			progressBar.tick(ESTIMATED_CRASH_AUTOFIX_PERFORMANCE_RATIO, {
+				elapsedErrors: crashTestResults.length + elapsedErrors,
+			});
+			progressBar.render();
+		},
+	});
 
-    return crashTestResults.concat(autofixTestResults);
-
+	return crashTestResults.concat(autofixTestResults);
 }
 
 module.exports = { run };

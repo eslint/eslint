@@ -1,9 +1,9 @@
 "use strict";
 
-module.exports = function(it) {
-    const { pattern } = it;
+module.exports = function (it) {
+	const { pattern } = it;
 
-    return `
+	return `
 You are linting "${pattern}", but all of the files matching the glob pattern "${pattern}" are ignored.
 
 If you don't want to lint these files, remove the pattern "${pattern}" from the list of arguments passed to ESLint.
