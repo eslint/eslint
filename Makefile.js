@@ -613,10 +613,10 @@ target.mocha = () => {
     }
 };
 
-target.wdio = () => {
+target.cypress = () => {
     echo("Running unit tests on browsers");
     target.webpack("production");
-    const lastReturn = exec(`${getBinFile("wdio")} run wdio.conf.js`);
+    const lastReturn = exec(`${getBinFile("cypress")} run --no-runner-ui`);
 
     if (lastReturn.code !== 0) {
         exit(1);
