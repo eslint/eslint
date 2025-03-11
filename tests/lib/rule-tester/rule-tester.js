@@ -2223,8 +2223,15 @@ describe("RuleTester", () => {
         ];
 
         ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
-            valid: filenames.map(filename => ({code: 'foo', filename})),
-            invalid: filenames.map(filename => ({ code: "eval(foo)", errors: [{ message: "eval sucks.", type: "CallExpression" }] })),
+            valid: filenames.map((filename, index) => ({
+                code: `Eval(foo${index})`,
+                filename,
+            })),
+            invalid: filenames.map((filename, index) => ({
+                code: `eval(foo${index})`,
+                errors: [{ message: "eval sucks.", type: "CallExpression" }],
+                filename,
+            })),
         });
     })
 
