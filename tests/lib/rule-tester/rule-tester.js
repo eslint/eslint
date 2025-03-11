@@ -2213,11 +2213,15 @@ describe("RuleTester", () => {
 
     it("should allow test any file", () => {
         const filenames = [
+
             // Ignored by default
-            'node_modules/foo.js',
-            '.git/foo.js',
-            // Absolute paths
-            // https://github.com/eslint/eslint/issues/17962
+            "node_modules/foo.js",
+            ".git/foo.js",
+
+            /*
+             * Absolute paths
+             * https://github.com/eslint/eslint/issues/17962
+             */
             "/an-absolute-path/foo.js",
             "C:\\an-absolute-path\\foo.js"
         ];
@@ -2225,15 +2229,15 @@ describe("RuleTester", () => {
         ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
             valid: filenames.map((filename, index) => ({
                 code: `Eval(foo${index})`,
-                filename,
+                filename
             })),
             invalid: filenames.map((filename, index) => ({
                 code: `eval(foo${index})`,
                 errors: [{ message: "eval sucks.", type: "CallExpression" }],
-                filename,
-            })),
+                filename
+            }))
         });
-    })
+    });
 
     describe("suggestions", () => {
         it("should throw if suggestions are available but not specified", () => {
