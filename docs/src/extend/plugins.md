@@ -145,9 +145,10 @@ In order to use a rule from a plugin in a configuration file, import the plugin 
 
 ```js
 // eslint.config.js
+import { defineConfig } from "eslint/config";
 import example from "eslint-plugin-example";
 
-export default [
+export default defineConfig([
     {
         plugins: {
             example
@@ -156,7 +157,7 @@ export default [
             "example/dollar-sign": "error"
         }
     }
-];
+]);
 ```
 
 ::: warning
@@ -192,16 +193,18 @@ In order to use a processor from a plugin in a configuration file, import the pl
 
 ```js
 // eslint.config.js
+import { defineConfig } from "eslint/config";
 import example from "eslint-plugin-example";
 
-export default [
+export default defineConfig([
     {
+        files: ["**/*.txt"],
         plugins: {
             example
         },
         processor: "example/processor-name"
     }
-];
+]);
 ```
 
 ### Configs in Plugins
@@ -257,14 +260,25 @@ module.exports = plugin;
 
 This plugin exports a `recommended` config that is an array with one config object. When there is just one config object, you can also export just the object without an enclosing array.
 
-In order to use a config from a plugin in a configuration file, import the plugin and access the config directly through the plugin object. Assuming the config is an array, use the spread operator to add it into the array returned from the configuration file, like this:
+::: tip
+Your plugin can export both current (flat config) and legacy (eslintrc) config objects in the `configs` key. When exporting legacy configs, we recommend prefixing the name with `"legacy-"` (for example, `"legacy-recommended"`) to make it clear how the config should be used.
+:::
+
+In order to use a config from a plugin in a configuration file, import the plugin and use the `extends` key to reference the name of the config, like this:
 
 ```js
 // eslint.config.js
+import { defineConfig } from "eslint/config";
 import example from "eslint-plugin-example";
 
-export default [
-    ...example.configs.recommended
+export default defineConfig[
+    {
+        files: ["**/*.js"],  // any patterns you want to apply the config to
+        plugins: {
+            example
+        },
+        extends: ["example/recommended"]
+    }
 ];
 ```
 

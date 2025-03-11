@@ -22,37 +22,37 @@ npm install @eslint/js -D
 Use in your `eslint.config.js` file anytime you want to extend one of the configs:
 
 ```js
+import { defineConfig } from "eslint/config";
 import js from "@eslint/js";
 
-export default [
-
+export default defineConfig([
     // apply recommended rules to JS files
     {
         name: "your-project/recommended-rules",
         files: ["**/*.js"],
-        rules: js.configs.recommended.rules
+        extends: ["js/recommended"]
     },
 
     // apply recommended rules to JS files with an override
     {
         name: "your-project/recommended-rules-with-override",
         files: ["**/*.js"],
+        extends: ["js/recommended"],
         rules: {
-            ...js.configs.recommended.rules,
             "no-unused-vars": "warn"
-        } 
+        }
     },
 
     // apply all rules to JS files
     {
         name: "your-project/all-rules",
         files: ["**/*.js"],
+        extends: ["js/all"]
         rules: {
-            ...js.configs.all.rules,
             "no-unused-vars": "warn"
-        } 
+        }
     }
-]
+]);
 ```
 
 ## License

@@ -152,17 +152,19 @@ Example:
 
 ```js
 // eslint.config.js
+import { defineConfig } from "eslint/config";
 import example from "eslint-plugin-example";
 
-export default [
+export default defineConfig([
     {
+        files: ["**/*.txt"], // apply processor to text files
         plugins: {
             example
         },
         processor: "example/processor-name"
     },
     // ... other configs
-];
+]);
 ```
 
 In this example, the processor name is `"example/processor-name"`, and that's the value that will be used for serializing configurations.
@@ -175,14 +177,16 @@ Example:
 
 ```js
 // eslint.config.js
+import { defineConfig } from "eslint/config";
 import example from "eslint-plugin-example";
 
-export default [
+export default defineConfig([
     {
+        files: ["**/*.txt"],
         processor: example.processors["processor-name"]
     },
     // ... other configs
-];
+]);
 ```
 
 In this example, specifying `example.processors["processor-name"]` directly uses the processor's own `meta` object, which must be defined to ensure proper handling when the processor is not referenced through the plugin name.
@@ -197,16 +201,18 @@ In order to use a processor from a plugin in a configuration file, import the pl
 
 ```js
 // eslint.config.js
+import { defineConfig } from "eslint/config";
 import example from "eslint-plugin-example";
 
-export default [
+export default defineConfig([
     {
+        files: ["**/*.txt"],
         plugins: {
             example
         },
         processor: "example/processor-name"
     }
-];
+]);
 ```
 
 See [Specify a Processor](../use/configure/plugins#specify-a-processor) in the Plugin Configuration documentation for more details.
