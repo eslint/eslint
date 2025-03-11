@@ -2046,7 +2046,7 @@ describe("RuleTester", () => {
                 valid: [],
                 invalid: [{ code: "foo", errors: [{ message: "something" }] }]
             });
-        }, /Avoid using variables named/u);
+        }, assertErrorMatches("Avoid using variables named 'foo'.", "something"));
 
         ruleTester.run("foo", require("../../fixtures/testers/rule-tester/messageId").withMessageOnly, {
             valid: [],
