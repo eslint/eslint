@@ -1,5 +1,5 @@
 {
-    "extends": ["stylelint-config-standard-scss"],
+    "extends": ["stylelint-config-standard-scss", "stylelint-config-prettier"],
     "rules": {
         "alpha-value-notation": "number",
         "at-rule-empty-line-before": null,
@@ -11,8 +11,6 @@
         }],
         "declaration-block-no-redundant-longhand-properties": null,
         "hue-degree-notation": "number",
-        "indentation": 4,
-        "max-line-length": null,
         "no-descending-specificity": null,
         "number-leading-zero": null,
         "number-no-trailing-zeros": null,
@@ -24,7 +22,19 @@
             "files": [
                 "**/*.html"
             ],
-            "extends": ["stylelint-config-html/html", "stylelint-config-standard"]
+            "extends": [
+                "stylelint-config-html/html",
+                "stylelint-config-standard",
+                "stylelint-config-prettier"
+            ]
+        },
+        {
+            "files": [
+                "**/*.scss"
+            ],
+            "rules": {
+                "scss/operator-no-newline-after": null
+            }
         }
     ],
     "ignoreFiles": [
