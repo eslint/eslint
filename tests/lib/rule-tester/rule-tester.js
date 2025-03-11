@@ -2211,10 +2211,13 @@ describe("RuleTester", () => {
         }, /Fixable rules must set the `meta\.fixable` property/u);
     });
 
-    it("should allow test any file", () => {
+    it("should allow testing of any file", () => {
         const filenames = [
 
-            // Ignored by default
+            /*
+             * Ignored by default
+             * https://github.com/eslint/eslint/issues/19471
+             */
             "node_modules/foo.js",
             ".git/foo.js",
 
