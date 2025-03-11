@@ -2211,26 +2211,22 @@ describe("RuleTester", () => {
         }, /Fixable rules must set the `meta\.fixable` property/u);
     });
 
-    // https://github.com/eslint/eslint/issues/17962
-    it("should not throw an error in case of absolute paths", () => {
+    it("should allow test any file", () => {
+        const filenames = [
+            // Ignored by default
+            'node_modules/foo.js',
+            '.git/foo.js',
+            // Absolute paths
+            // https://github.com/eslint/eslint/issues/17962
+            "/an-absolute-path/foo.js",
+            "C:\\an-absolute-path\\foo.js"
+        ];
+
         ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
-            valid: [
-                "Eval(foo)"
-            ],
-            invalid: [
-                {
-                    code: "eval(foo)",
-                    filename: "/an-absolute-path/foo.js",
-                    errors: [{ message: "eval sucks.", type: "CallExpression" }]
-                },
-                {
-                    code: "eval(bar)",
-                    filename: "C:\\an-absolute-path\\foo.js",
-                    errors: [{ message: "eval sucks.", type: "CallExpression" }]
-                }
-            ]
+            valid: filenames.map(filename => ({code: 'foo', filename})),
+            invalid: filenames.map(filename => ({ code: "eval(foo)", errors: [{ message: "eval sucks.", type: "CallExpression" }] })),
         });
-    });
+    })
 
     describe("suggestions", () => {
         it("should throw if suggestions are available but not specified", () => {
