@@ -2042,15 +2042,11 @@ describe("RuleTester", () => {
     // Nominal message/messageId use cases
     it("should assert match if message provided in both test and result.", () => {
         assert.throws(() => {
-            try {
-                ruleTester.run("foo", require("../../fixtures/testers/rule-tester/messageId").withMessageOnly, {
-                    valid: [],
-                    invalid: [{ code: "foo", errors: [{ message: "something" }] }]
-                });
-            } catch (error) {
-                throw new Error(`Expect message to be "${error.expected}", got "${error.actual}"`);
-            }
-        }, 'Expect message to be "something", got "Avoid using variables named \'foo\'."');
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/messageId").withMessageOnly, {
+                valid: [],
+                invalid: [{ code: "foo", errors: [{ message: "something" }] }]
+            });
+        }, assertErrorMatches("Avoid using variables named 'foo'.", "something"));
 
         ruleTester.run("foo", require("../../fixtures/testers/rule-tester/messageId").withMessageOnly, {
             valid: [],
