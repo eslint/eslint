@@ -76,7 +76,7 @@ To use a shareable config, import the package inside of an `eslint.config.js` fi
 import { defineConfig } from "eslint/config";
 import myconfig from "eslint-config-myconfig";
 
-export default [
+export default defineConfig([
     {
         files: ["**/*.js"],
         extends: [myconfig]
