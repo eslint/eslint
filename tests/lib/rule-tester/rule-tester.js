@@ -2046,7 +2046,7 @@ describe("RuleTester", () => {
                 valid: [],
                 invalid: [{ code: "foo", errors: [{ message: "something" }] }]
             });
-        }, /Avoid using variables named/u);
+        }, assertErrorMatches("Avoid using variables named 'foo'.", "something"));
 
         ruleTester.run("foo", require("../../fixtures/testers/rule-tester/messageId").withMessageOnly, {
             valid: [],
@@ -2211,24 +2211,34 @@ describe("RuleTester", () => {
         }, /Fixable rules must set the `meta\.fixable` property/u);
     });
 
-    // https://github.com/eslint/eslint/issues/17962
-    it("should not throw an error in case of absolute paths", () => {
+    it("should allow testing of any file", () => {
+        const filenames = [
+
+            /*
+             * Ignored by default
+             * https://github.com/eslint/eslint/issues/19471
+             */
+            "node_modules/foo.js",
+            ".git/foo.js",
+
+            /*
+             * Absolute paths
+             * https://github.com/eslint/eslint/issues/17962
+             */
+            "/an-absolute-path/foo.js",
+            "C:\\an-absolute-path\\foo.js"
+        ];
+
         ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
-            valid: [
-                "Eval(foo)"
-            ],
-            invalid: [
-                {
-                    code: "eval(foo)",
-                    filename: "/an-absolute-path/foo.js",
-                    errors: [{ message: "eval sucks.", type: "CallExpression" }]
-                },
-                {
-                    code: "eval(bar)",
-                    filename: "C:\\an-absolute-path\\foo.js",
-                    errors: [{ message: "eval sucks.", type: "CallExpression" }]
-                }
-            ]
+            valid: filenames.map((filename, index) => ({
+                code: `Eval(foo${index})`,
+                filename
+            })),
+            invalid: filenames.map((filename, index) => ({
+                code: `eval(foo${index})`,
+                errors: [{ message: "eval sucks.", type: "CallExpression" }],
+                filename
+            }))
         });
     });
 

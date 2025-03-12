@@ -98,6 +98,8 @@ jobs:
   test_on_browser:
     name: Browser Test
     runs-on: ubuntu-latest
+    env:
+      TERM: xterm-256color
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -106,15 +108,9 @@ jobs:
       - name: Install Packages
         run: npm install
       - name: Test
-        run: node Makefile wdio
+        run: node Makefile cypress
       - name: Fuzz Test
         run: node Makefile fuzz
-      - uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: logs
-          path: |
-            wdio-logs/*.log
 
   test_types:
     name: Test Types of ${{ matrix.package.name }}
