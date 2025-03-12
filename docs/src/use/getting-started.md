@@ -142,7 +142,7 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
             plugins: {
                 js
             },
-            extends: ["js/recommended"]
+            extends: ["js/recommended"],
             rules: {
                 "no-unused-vars": "warn",
                 "no-undef": "warn"
