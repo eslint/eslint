@@ -271,7 +271,7 @@ In order to use a config from a plugin in a configuration file, import the plugi
 import { defineConfig } from "eslint/config";
 import example from "eslint-plugin-example";
 
-export default defineConfig[
+export default defineConfig([
     {
         files: ["**/*.js"],  // any patterns you want to apply the config to
         plugins: {
@@ -279,7 +279,7 @@ export default defineConfig[
         },
         extends: ["example/recommended"]
     }
-];
+]);
 ```
 
 ::: important
