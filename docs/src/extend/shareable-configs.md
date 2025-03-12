@@ -97,7 +97,7 @@ You can override settings from the shareable config by adding them directly into
 import { defineConfig } from "eslint/config";
 import myconfig from "eslint-config-myconfig";
 
-export default [
+export default defineConfig([
     {
         files: ["**/*.js"],
         extends: [myconfig],
@@ -107,7 +107,7 @@ export default [
             "no-unused-vars": "warn"
         }
     }
-];
+]);
 ```
 
 ## Sharing Multiple Configs
