@@ -37,6 +37,9 @@ export default defineConfig([
     {
         name: "your-project/recommended-rules-with-override",
         files: ["**/*.js"],
+        plugins: {
+            js
+        },
         extends: ["js/recommended"],
         rules: {
             "no-unused-vars": "warn"
