@@ -100,7 +100,7 @@ import myconfig from "eslint-config-myconfig";
 export default [
     {
         files: ["**/*.js"],
-        extends: [myconfig]
+        extends: [myconfig],
 
         // anything from here will override myconfig
         rules: {
