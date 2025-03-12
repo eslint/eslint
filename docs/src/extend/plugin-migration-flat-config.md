@@ -192,10 +192,7 @@ import example from "eslint-plugin-example";
 
 export default defineConfig([
 
-    // use recommended config
-    example.configs.recommended,
-
-    // and provide your own overrides
+    // use recommended config and provide your own overrides
     {
         files: ["**/*.js"],
         plugins: {
