@@ -45,6 +45,14 @@ ruleTester.run("no-dupe-keys", rule, {
         { code: "var x = { ['__proto__']: null, __proto__: null };", languageOptions: { ecmaVersion: 6 } },
         { code: "var x = { '__proto__': null, ['__proto__']: null };", languageOptions: { ecmaVersion: 6 } },
         { code: "var x = { ['__proto__']: null, '__proto__': null };", languageOptions: { ecmaVersion: 6 } },
+        { code: "var x = { __proto__: null, __proto__ };", languageOptions: { ecmaVersion: 6 } },
+        { code: "var x = { __proto__, __proto__: null };", languageOptions: { ecmaVersion: 6 } },
+        { code: "var x = { __proto__: null, __proto__() {} };", languageOptions: { ecmaVersion: 6 } },
+        { code: "var x = { __proto__() {}, __proto__: null };", languageOptions: { ecmaVersion: 6 } },
+        { code: "var x = { __proto__: null, get __proto__() {} };", languageOptions: { ecmaVersion: 6 } },
+        { code: "var x = { get __proto__() {}, __proto__: null };", languageOptions: { ecmaVersion: 6 } },
+        { code: "var x = { __proto__: null, set __proto__(value) {} };", languageOptions: { ecmaVersion: 6 } },
+        { code: "var x = { set __proto__(value) {}, __proto__: null };", languageOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         { code: "var x = { a: b, ['a']: b };", languageOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpected", data: { name: "a" }, type: "ObjectExpression" }] },
