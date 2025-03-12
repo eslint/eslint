@@ -92,13 +92,13 @@ function foo() {
 
 function bar() {
     return x;
-    const x;
+     x;
 }
 
 switch (foo) {
     case 1:
         break;
-        const x;
+        x;
 }
 ```
 
