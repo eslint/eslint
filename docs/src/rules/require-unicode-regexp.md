@@ -58,24 +58,6 @@ Therefore, the `u` and `v` flags let us work better with regular expressions.
 
 This rule aims to enforce the use of `u` or `v` flag on regular expressions.
 
-### Exception: When `i` flag and `\w` are used together
-
-If a regular expression uses both the `i` flag and the `\w` character class, adding the `u` flag may change its behavior due to Unicode case folding rules.
-
-For example:
-
-```js
-const regexWithoutU = /^\w+$/i;
-const regexWithU = /^\w+$/iu;
-
-const str = "\u017f\u212a"; // Example Unicode characters
-
-console.log(regexWithoutU.test(str)); // true
-console.log(regexWithU.test(str)); // false
-```
-
-In such cases, this rule does not enforce adding the u flag, as it can lead to unintended changes in pattern matching.
-
 Examples of **incorrect** code for this rule:
 
 ::: incorrect
@@ -200,3 +182,27 @@ const fooRegexp = new RegExp('foo', 'v');
 ## When Not To Use It
 
 If you don't want to warn on regular expressions without either a `u` or a `v` flag, then it's safe to disable this rule.
+
+### Note on `i` flag and `\w`
+
+In some cases, adding the `u` flag to a regular expression using both the `i` flag and the `\w` character class can change its behavior due to Unicode case folding.
+
+For example:
+
+```js
+const regexWithoutU = /^\w+$/i;
+const regexWithU = /^\w+$/iu;
+
+const str = "\u017f\u212a"; // Example Unicode characters
+
+console.log(regexWithoutU.test(str)); // true
+console.log(regexWithU.test(str)); // false
+```
+
+If you prefer to use a non-Unicode-aware regex in this specific case, you can disable this rule using an `eslint-disable` comment:
+
+```js
+/* eslint-disable require-unicode-regexp */
+const regex = /^\w+$/i;
+/* eslint-enable require-unicode-regexp */
+```
