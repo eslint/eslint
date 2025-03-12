@@ -136,7 +136,7 @@ import mySpecialConfig from "eslint-config-myconfig/my-special-config.js";
 export default defineConfig([
     {
         files: ["**/*.js"],
-        extends: [myconfig, mySpecialConfig]
+        extends: [myconfig, mySpecialConfig],
 
         // anything from here will override myconfig
         rules: {
