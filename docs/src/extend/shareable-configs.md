@@ -81,7 +81,7 @@ export default defineConfig([
         files: ["**/*.js"],
         extends: [myconfig]
     }
-];
+]);
 ```
 
 ::: warning
