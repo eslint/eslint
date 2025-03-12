@@ -195,8 +195,8 @@ const regexWithU = /^\w+$/iu;
 
 const str = "\u017f\u212a"; // Example Unicode characters
 
-console.log(regexWithoutU.test(str)); // true
-console.log(regexWithU.test(str)); // false
+console.log(regexWithoutU.test(str)); // false
+console.log(regexWithU.test(str)); // true
 ```
 
 If you prefer to use a non-Unicode-aware regex in this specific case, you can disable this rule using an `eslint-disable` comment:
