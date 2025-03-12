@@ -30,6 +30,9 @@ export default defineConfig([
     {
         name: "your-project/recommended-rules",
         files: ["**/*.js"],
+        plugins: {
+            js
+        },
         extends: ["js/recommended"]
     },
 
