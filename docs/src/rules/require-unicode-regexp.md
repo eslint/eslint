@@ -73,6 +73,7 @@ const str = "\u017f\u212a"; // Example Unicode characters
 console.log(regexWithoutU.test(str)); // true
 console.log(regexWithU.test(str)); // false
 ```
+
 In such cases, this rule does not enforce adding the u flag, as it can lead to unintended changes in pattern matching.
 
 Examples of **incorrect** code for this rule:
