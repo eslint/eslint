@@ -56,26 +56,26 @@ When you run `npm init @eslint/config`, you'll be asked a series of questions to
 For example, one of the questions is "Where does your code run?" If you select "Browser" then your configuration file will contain the definitions for global variables found in web browsers. Here's an example:
 
 ```js
+import { defineConfig } from "eslint/config";
 import globals from "globals";
-import pluginJs from "@eslint/js";
+import js from "@eslint/js";
 
-
-/** @type {import('eslint').Linter.Config[]} */
-export default [
-  {languageOptions: { globals: globals.browser }},
-  pluginJs.configs.recommended,
-];
+export default defineConfig([
+    { files: ["**/*.js"], languageOptions: { globals: globals.browser } },
+    { files: ["**/*.js"], plugins: { js }, extends: ["js/recommended"] }
+]);
 ```
 
-The `pluginJs.configs.recommended` object contains configuration to ensure that all of the rules marked as recommended on the [rules page](../rules) will be turned on.  Alternatively, you can use configurations that others have created by searching for "eslint-config" on [npmjs.com](https://www.npmjs.com/search?q=eslint-config).  ESLint will not lint your code unless you extend from a shared configuration or explicitly turn rules on in your configuration.
+The `"js/recommended"` configuration ensures all of the rules marked as recommended on the [rules page](../rules) will be turned on.  Alternatively, you can use configurations that others have created by searching for "eslint-config" on [npmjs.com](https://www.npmjs.com/search?q=eslint-config).  ESLint will not lint your code unless you extend from a shared configuration or explicitly turn rules on in your configuration.
 
 You can configure rules individually by defining a new object with a `rules` key, as in this example:
 
 ```js
-import pluginJs from "@eslint/js";
+import { defineConfig } from "eslint/config";
+import js from "@eslint/js";
 
-export default [
-    pluginJs.configs.recommended,
+export default defineConfig([
+    { files: ["**/*.js"], plugins: { js }, extends: ["js/recommended"] },
 
     {
         rules: {
@@ -83,7 +83,7 @@ export default [
             "no-undef": "warn"
         }
     }
-];
+]);
 ```
 
 The names `"no-unused-vars"` and `"no-undef"` are the names of [rules](../rules) in ESLint. The first value is the error level of the rule and can be one of these values:
@@ -133,18 +133,22 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
 3. Add configuration to the `eslint.config.js` file. Refer to the [Configure ESLint documentation](configure/) to learn how to add rules, custom configurations, plugins, and more.
 
    ```js
-   import pluginJs from "@eslint/js";
+   import { defineConfig } from "eslint/config";
+   import js from "@eslint/js";
 
-   export default [
-       pluginJs.configs.recommended,
-
-      {
-          rules: {
-              "no-unused-vars": "warn",
-              "no-undef": "warn"
-          }
-      }
-   ];
+   export default defineConfig([
+        {
+            files: ["**/*.js"],
+            plugins: {
+                js
+            },
+            extends: ["js/recommended"],
+            rules: {
+                "no-unused-vars": "warn",
+                "no-undef": "warn"
+            }
+        }
+   ]);
    ```
 
 4. Lint code using the ESLint CLI:

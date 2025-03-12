@@ -69,6 +69,7 @@ Each configuration object contains all of the information ESLint needs to execut
 * `name` - A name for the configuration object. This is used in error messages and config inspector to help identify which configuration object is being used. ([Naming Convention](#configuration-naming-conventions))
 * `files` - An array of glob patterns indicating the files that the configuration object should apply to. If not specified, the configuration object applies to all files matched by any other configuration object.
 * `ignores` - An array of glob patterns indicating the files that the configuration object should not apply to. If not specified, the configuration object applies to all files matched by `files`. If `ignores` is used without any other keys in the configuration object, then the patterns act as [global ignores](#globally-ignoring-files-with-ignores) and it gets applied to every configuration object.
+* `extends` - An array of strings, configuration objects, or configuration arrays that contain additional configuration to apply.
 * `languageOptions` - An object containing settings related to how JavaScript is configured for linting.
     * `ecmaVersion` - The version of ECMAScript to support. May be any year (i.e., `2022`) or version (i.e., `5`). Set to `"latest"` for the most recent supported version. (default: `"latest"`)
     * `sourceType` - The type of JavaScript source code. Possible values are `"script"` for traditional script files, `"module"` for ECMAScript modules (ESM), and `"commonjs"` for CommonJS files. (default: `"module"` for `.js` and `.mjs` files; `"commonjs"` for `.cjs` files)
@@ -490,6 +491,7 @@ import { defineConfig } from "eslint/config";
 
 export default defineConfig([
     {
+        files: ["**/*.js"],
         plugins: {
             example: examplePlugin
         },
@@ -509,6 +511,7 @@ import { defineConfig } from "eslint/config";
 
 export default defineConfig([
     {
+        files: ["**/*.js"],
         plugins: {
             example: pluginExample
         },
@@ -518,6 +521,10 @@ export default defineConfig([
 ```
 
 In this case, the configuration named `recommended` from `eslint-plugin-example` is accessed directly through the plugin object's `configs` property.
+
+::: important
+It's recommended to always use a `files` key when you use the `extends` key to ensure that your configuration applies to the correct files. By omitting the `files` key, the extended configuration may end up applied to all files.
+:::
 
 #### Using Predefined Configurations
 
@@ -535,6 +542,7 @@ import { defineConfig } from "eslint/config";
 
 export default defineConfig([
     {
+        files: ["**/*.js"],
         plugins: {
             js
         },
@@ -561,6 +569,7 @@ import { defineConfig } from "eslint/config";
 
 export default defineConfig([
     {
+        files: ["**/*.js"],
         extends: [exampleConfig],
         rules: {
             "no-unused-vars": "warn"
