@@ -50,7 +50,10 @@ export default defineConfig([
     {
         name: "your-project/all-rules",
         files: ["**/*.js"],
-        extends: ["js/all"]
+        plugins: {
+            js
+        },
+        extends: ["js/all"],
         rules: {
             "no-unused-vars": "warn"
         }
