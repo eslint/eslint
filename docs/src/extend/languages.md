@@ -129,7 +129,7 @@ import example from "eslint-plugin-example";
 
 export default defineConfig([
     {
-        files: ["**/*.js"],
+        files: ["**/*.my"],
         plugins: {
             example
         },
