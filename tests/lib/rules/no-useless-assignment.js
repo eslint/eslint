@@ -1007,7 +1007,7 @@ ruleTester.run("no-useless-assignment", rule, {
                     column: 5
                 }
             ]
-        },        
+        },
         {
             code:
             `let message = 'unused';
