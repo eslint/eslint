@@ -17,6 +17,7 @@ const {
 const markdownIt = require("markdown-it");
 const markdownItRuleExample = require("./tools/markdown-it-rule-example");
 const prismESLintHook = require("./tools/prism-eslint-hook");
+const preWrapperPlugin = require("./src/_plugins/pre-wrapper.js");
 
 module.exports = function(eleventyConfig) {
 
@@ -254,6 +255,7 @@ module.exports = function(eleventyConfig) {
             }
         })
         .use(lineNumberPlugin)
+        .use(preWrapperPlugin)
         .disable("code");
 
     eleventyConfig.setLibrary("md", md);
