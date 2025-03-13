@@ -80,9 +80,6 @@ jobs:
           - os: ubuntu-latest
             node: 22.x
             NODE_OPTIONS: "--experimental-transform-types"
-          - os: ubuntu-latest
-            node: 23.x
-            NODE_OPTIONS: "--experimental-transform-types"
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
