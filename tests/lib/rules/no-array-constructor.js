@@ -454,21 +454,18 @@ ruleTesterTypeScript.run("no-array-constructor", rule, {
         "new Array<Foo>(1, 2, 3);",
         "new Array<Foo>();",
         "Array<Foo>(1, 2, 3);",
-        "Array<Foo>();"
+        "Array<Foo>();",
 
-        /*
-         * optional chain
-         * 'Array?.(x);',
-         * 'Array?.(9);',
-         * 'foo?.Array();',
-         * 'Array?.foo();',
-         * 'foo.Array?.();',
-         * 'Array.foo?.();',
-         * 'Array?.<Foo>(1, 2, 3);',
-         * 'Array?.<Foo>();',
-         * 'Array?.(0, 1, 2);',
-         * 'Array?.(x, y);',
-         */
+        
+        //optional chain
+        'Array?.(x);',
+        'Array?.(9);',
+        'foo?.Array();',
+        'Array?.foo();',
+        'foo.Array?.();',
+        'Array.foo?.();',
+        'Array?.<Foo>(1, 2, 3);',
+        'Array?.<Foo>();',
     ],
 
     invalid: [
@@ -529,6 +526,26 @@ ruleTesterTypeScript.run("no-array-constructor", rule, {
                 suggestions: [{
                     messageId: "useLiteral",
                     output: "[0, 1, 2];"
+                }]
+            }]
+        },
+        {
+            code: "Array?.(0, 1, 2);",
+            errors: [{
+                messageId: "preferLiteral",
+                suggestions: [{
+                    messageId: "useLiteral",
+                    output: "[0, 1, 2];"
+                }]
+            }]
+        },
+        {
+            code: "Array?.(x, y);",
+            errors: [{
+                messageId: "preferLiteral",
+                suggestions: [{
+                    messageId: "useLiteral",
+                    output: "[x, y];"
                 }]
             }]
         }
