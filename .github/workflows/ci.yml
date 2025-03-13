@@ -71,6 +71,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         node: [23.x, 22.x, 21.x, 20.x, 18.x, "18.18.0"]
+        NODE_OPTIONS: [""]
         include:
           - os: windows-latest
             node: "lts/*"
