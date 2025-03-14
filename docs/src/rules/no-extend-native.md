@@ -15,13 +15,13 @@ For example here we are overriding a builtin method that will then affect all Ob
 Object.prototype.extra = 55;
 
 // loop through some userIds
-var users = {
+const users = {
     "123": "Stan",
     "456": "David"
 };
 
 // not what you'd expect
-for (var id in users) {
+for (const id in users) {
     console.log(id); // "123", "456", "extra"
 }
 ```
@@ -68,7 +68,7 @@ Object.prototype.a = "a";
 This rule *does not* report any of the following less obvious approaches to modify the prototype of builtin objects:
 
 ```js
-var x = Object;
+const x = Object;
 x.prototype.thing = a;
 
 eval("Array.prototype.forEach = 'muhahaha'");
