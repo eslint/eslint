@@ -1,37 +1,37 @@
-@import "tokens/themes";
-@import "tokens/spacing";
-@import "tokens/typography";
-@import "tokens/ui";
-@import "tokens/opacity";
+@use "tokens/themes";
+@use "tokens/spacing";
+@use "tokens/typography";
+@use "tokens/ui";
+@use "tokens/opacity";
 
-@import "foundations";
-@import "syntax-highlighter";
-@import "docs-header";
-@import "docs-footer";
-@import "eslint-site-footer";
-@import "eslint-site-header";
-@import "forms";
-@import "docs";
-@import "versions";
-@import "languages";
+@use "foundations";
+@use "syntax-highlighter";
+@use "docs-header";
+@use "docs-footer";
+@use "eslint-site-footer";
+@use "eslint-site-header";
+@use "forms";
+@use "docs";
+@use "versions";
+@use "languages";
 
-@import "components/buttons";
-@import "components/docs-navigation";
-@import "components/toc";
-@import "components/search";
-@import "components/alert";
-@import "components/rules";
-@import "components/social-icons";
-@import "components/hero";
-@import "components/theme-switcher";
-@import "components/version-switcher";
-@import "components/language-switcher";
-@import "components/docs-index"; // docs index on the main docs pages
-@import "components/index"; // used in component library
-@import "components/tabs";
-@import "components/resources";
-@import "components/logo";
+@use "components/buttons";
+@use "components/docs-navigation";
+@use "components/toc";
+@use "components/search";
+@use "components/alert";
+@use "components/rules";
+@use "components/social-icons";
+@use "components/hero";
+@use "components/theme-switcher";
+@use "components/version-switcher";
+@use "components/language-switcher";
+@use "components/docs-index"; // docs index on the main docs pages
+@use "components/index"; // used in component library
+@use "components/tabs";
+@use "components/resources";
+@use "components/logo";
 
-@import "ads";
+@use "ads";
 
-@import "utilities";
+@use "utilities";
