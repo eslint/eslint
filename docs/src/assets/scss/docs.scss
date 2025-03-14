@@ -214,3 +214,61 @@ pre[class*="language-"] {
         right: 25px;
     }
 }
+
+.code-wrapper {
+	position: relative;
+
+	> pre {
+		padding-right: 3.5rem;
+	}
+}
+
+.copy-btn {
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
+	padding: 0.5rem;
+	border-radius: var(--border-radius);
+	color: var(--body-text-color);
+	background-color: var(--color-neutral-100);
+	border: 1px solid var(--border-color);
+	transition: background-color 0.1s linear;
+
+	&:hover {
+		background-color: var(--color-neutral-200);
+	}
+
+	[data-theme="dark"] & {
+		background-color: var(--color-neutral-700);
+
+		&:hover {
+			background-color: var(--color-neutral-600);
+		}
+	}
+
+	&::after {
+		content: "Copied!";
+		padding: 0.5rem 0.75rem;
+		font-size: var(--step--1);
+		border-radius: var(--border-radius);
+		position: absolute;
+		top: 0;
+		right: 2.5rem;
+		height: 2.25rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background-color: var(--color-neutral-100);
+		border: 1px solid var(--border-color);
+		opacity: 0;
+		pointer-events: none;
+
+		[data-theme="dark"] & {
+			background-color: var(--color-neutral-700);
+		}
+	}
+
+	&[data-copied="true"]::after {
+		opacity: 1;
+	}
+}
