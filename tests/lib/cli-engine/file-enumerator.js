@@ -12,6 +12,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const os = require("node:os");
 const { assert } = require("chai");
+const chalk = require("chalk");
 const sh = require("shelljs");
 const sinon = require("sinon");
 const {
@@ -565,7 +566,33 @@ describe("FileEnumerator", () => {
             });
         });
 
-        describe("if contains symbolic links", async () => {
+        const shouldSkipSymlinkTest = (() => {
+            if (process.platform !== "win32") {
+                return false;
+            }
+
+            const root = path.join(os.tmpdir(), "eslint/windows-symlink-test");
+
+            fs.mkdirSync(root, { recursive: true });
+            fs.writeFileSync(path.join(root, "file"), "");
+            try {
+                fs.symlinkSync(path.join(root, "file"), path.join(root, "symlink"), "file");
+            } catch (error) {
+                if (error.code === "EPERM" && error.syscall === "symlink") {
+                    // eslint-disable-next-line no-console -- Display help information
+                    console.warn(chalk.yellow("'if contains symbolic links' test can not run on this machine, active 'Developer Mode' may help.\nSee https://learn.microsoft.com/en-us/windows/apps/get-started/enable-your-device-for-development#activate-developer-mode"));
+                    return true;
+                }
+                throw error;
+            } finally {
+                fs.rmSync(root, { recursive: true, force: true });
+            }
+
+            return false;
+
+        })();
+
+        (shouldSkipSymlinkTest ? describe.skip : describe)("if contains symbolic links", () => {
             const root = path.join(os.tmpdir(), "eslint/file-enumerator");
             const files = {
                 "dir1/1.js": "",
