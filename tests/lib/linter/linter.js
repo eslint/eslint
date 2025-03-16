@@ -17765,7 +17765,7 @@ var a = "test2";
                 assert.strictEqual(linter.getSuppressedMessages().length, 0);
             });
 
-            it("should correctly report problem for a a non-existent rule in disable directive", () => {
+            it("should correctly report problem for a non-existent rule in disable directive", () => {
                 const messages = linter.verify(`${"\n".repeat(4)}${" ".repeat(7)}/* eslint-disable \n${" ".repeat(8)}test/foo */  \n`, config);
 
                 assert.strictEqual(messages.length, 1);
