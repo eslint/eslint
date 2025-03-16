@@ -7872,7 +7872,7 @@ describe("ESLint", () => {
                 });
 
                 // eslint-disable-next-line n/no-unsupported-features/node-builtins -- it's still an experimental feature.
-                ;(typeof process.features.typescript === "string" ? it.skip : it)("should throw an error if unstable_native_nodejs_ts_config is set but --experimental-strip-types is not enabled", async () => {
+                ;(typeof process.features.typescript === "undefined" ? it : it.skip)("should throw an error if unstable_native_nodejs_ts_config is set but --experimental-strip-types is not enabled", async () => {
                   const cwd = getFixturePath("ts-config-files", "ts", "native");
 
                   const configFileContent = `import type { FlatConfig } from "./helper.ts";\nexport default ${
@@ -7900,7 +7900,7 @@ describe("ESLint", () => {
 
                   await assert.rejects(
                     eslint.lintFiles(["foo*.js"]),
-                    { message: "The unstable_native_nodejs_ts_config flag is enabled, but native TypeScript support is not enabled in the current Node.js process. You need to either enable native TypeScript support by passing --experimental-strip-types or remove the unstable_native_nodejs_ts_config flag." }
+                    { message: "The unstable_native_nodejs_ts_config is not supported in older versions of Node.js." }
                   );
                 });
 
