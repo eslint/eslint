@@ -244,8 +244,34 @@ ruleTesterTypeScript.run("class-methods-use-this", rule, {
         { code: "class A { #bar() {} }", options: [{ exceptMethods: ["#bar"] }] },
         { code: "class A { foo = function () {} }", options: [{ enforceForClassFields: false }] },
         { code: "class A { foo = () => {} }", options: [{ enforceForClassFields: false }] },
+        { code: "class A { override foo = () => {} }", options: [{ enforceForClassFields: false }] },
         "class A { foo() { return class { [this.foo] = 1 }; } }",
-        "class A { static {} }"
+        "class A { static {} }",
+        { code: "class Foo { override method() {} }", options: [{ ignoreOverrideMethods: true }] },
+        { code: "class Foo { private override method() {} }", options: [{ ignoreOverrideMethods: true }] },
+        { code: "class Foo { protected override method() {} }", options: [{ ignoreOverrideMethods: true }] },
+        { code: "class Foo { override accessor method = () => {} }", options: [{ ignoreOverrideMethods: true }] },
+        { code: "class Foo { override get getter(): number {} }", options: [{ ignoreOverrideMethods: true }] },
+        { code: "class Foo { private override get getter(): number {} }", options: [{ ignoreOverrideMethods: true }] },
+        { code: "class Foo { protected override get getter(): number {} }", options: [{ ignoreOverrideMethods: true }] },
+        { code: "class Foo { override set setter(v: number) {} }", options: [{ ignoreOverrideMethods: true }] },
+        { code: "class Foo { private override set setter(v: number) {} }", options: [{ ignoreOverrideMethods: true }] },
+        { code: "class Foo { protected override set setter(v: number) {} }", options: [{ ignoreOverrideMethods: true }] },
+        { code: "class Foo implements Bar { override method() {} }", options: [{ ignoreOverrideMethods: true }] },
+        { code: "class Foo implements Bar { private override method() {} }", options: [{ ignoreOverrideMethods: true }] },
+        { code: "class Foo implements Bar { protected override method() {} }", options: [{ ignoreOverrideMethods: true }] },
+        { code: "class Foo implements Bar { override get getter(): number {} }", options: [{ ignoreOverrideMethods: true }] },
+        { code: "class Foo implements Bar { private override get getter(): number {} }", options: [{ ignoreOverrideMethods: true }] },
+        { code: "class Foo implements Bar { protected override get getter(): number {} }", options: [{ ignoreOverrideMethods: true }] },
+        { code: "class Foo implements Bar { override set setter(v: number) {} }", options: [{ ignoreOverrideMethods: true }] },
+        { code: "class Foo implements Bar { private override set setter(v: number) {} }", options: [{ ignoreOverrideMethods: true }] },
+        { code: "class Foo implements Bar { protected override set setter(v: number) {} }", options: [{ ignoreOverrideMethods: true }] },
+        { code: "class Foo { override property = () => {} }", options: [{ ignoreOverrideMethods: true }] },
+        { code: "class Foo { private override property = () => {} }", options: [{ ignoreOverrideMethods: true }] },
+        { code: "class Foo { protected override property = () => {} }", options: [{ ignoreOverrideMethods: true }] },
+        { code: "class Foo implements Bar { override property = () => {} }", options: [{ ignoreOverrideMethods: true }] },
+        { code: "class Foo implements Bar { private override property = () => {} }", options: [{ ignoreOverrideMethods: true }] },
+        { code: "class Foo implements Bar { protected override property = () => {} }", options: [{ ignoreOverrideMethods: true }] },
     ],
     invalid: [
         {
@@ -444,6 +470,102 @@ ruleTesterTypeScript.run("class-methods-use-this", rule, {
                     messageId: "missingThis"
                 }
             ]
-        }
+        },
+        {
+            code: `
+  class Foo {
+    override method() {}
+  }
+        `,
+            errors: [
+                {
+                    messageId: 'missingThis',
+                }
+            ]
+        },
+        {
+            code: `
+  class Foo {
+    override get getter(): number {}
+  }
+        `,
+            errors: [
+                {
+                    messageId: 'missingThis',
+                }
+            ]
+        },
+        {
+            code: `
+  class Foo {
+    override set setter(v: number) {}
+  }
+        `,
+            errors: [
+                {
+                    messageId: 'missingThis',
+                }
+            ]
+        },
+        {
+            code: `
+  class Foo implements Bar {
+    override method() {}
+  }
+        `,
+            errors: [
+                {
+                    messageId: 'missingThis',
+                }
+            ]
+        },
+        {
+            code: `
+  class Foo implements Bar {
+    override get getter(): number {}
+  }
+        `,
+            errors: [
+                {
+                    messageId: 'missingThis',
+                }
+            ]
+        },
+        {
+            code: `
+  class Foo implements Bar {
+    override set setter(v: number) {}
+  }
+            `,
+            errors: [
+                {
+                    messageId: 'missingThis',
+                }
+            ]
+        },
+        {
+            code: `
+  class Foo {
+    override property = () => {};
+  }
+        `,
+            errors: [
+                {
+                    messageId: 'missingThis',
+                }
+            ]
+        },
+        {
+            code: `
+  class Foo implements Bar {
+    override property = () => {};
+  }
+        `,
+            errors: [
+                {
+                    messageId: 'missingThis',
+                }
+            ]
+        },
     ]
 });

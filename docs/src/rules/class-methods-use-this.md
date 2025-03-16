@@ -106,10 +106,11 @@ class C {
 
 ## Options
 
-This rule has two options:
+This rule has three options:
 
 * `"exceptMethods"` allows specified method names to be ignored with this rule.
 * `"enforceForClassFields"` enforces that functions used as instance field initializers utilize `this`. (default: `true`)
+* `"ignoreOverrideMethods"` ignores members that are marked with the `override` modifier. (default: `false`)
 
 ### exceptMethods
 
@@ -196,6 +197,58 @@ Examples of **correct** code for this rule with the `{ "enforceForClassFields": 
 
 class A {
     foo = () => {}
+}
+```
+
+:::
+
+### ignoreOverrideMethods
+
+```js
+"class-methods-use-this": [<enabled>, { "ignoreOverrideMethods": true | false }]
+```
+
+The `ignoreOverrideMethods` option ignores members that are marked with the `override` modifier. (default: `false`)
+
+Examples of **incorrect** TypeScript code for this rule with the `{ "ignoreOverrideMethods": false }` option (default):
+
+::: incorrect
+
+```ts
+/*eslint class-methods-use-this: ["error", { "ignoreOverrideMethods": false }] */
+
+class Derived extends Base {
+    override foo() {};
+}
+```
+
+:::
+
+Examples of **correct** TypeScript code for this rule with the `{ "ignoreOverrideMethods": false }` option (default):
+
+::: correct
+
+```ts
+/*eslint class-methods-use-this: ["error", { "ignoreOverrideMethods": false }] */
+
+class Derived extends Base {
+    override foo() {
+        this.bar = "Hello World";
+    };
+}
+```
+
+:::
+
+Examples of **correct** TypeScript code for this rule with the `{ "ignoreOverrideMethods": true }` option:
+
+::: correct
+
+```ts
+/*eslint class-methods-use-this: ["error", { "ignoreOverrideMethods": true }] */
+
+class Derived extends Base {
+    override foo() {};
 }
 ```
 
