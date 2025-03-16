@@ -106,11 +106,12 @@ class C {
 
 ## Options
 
-This rule has three options:
+This rule has four options:
 
 * `"exceptMethods"` allows specified method names to be ignored with this rule.
 * `"enforceForClassFields"` enforces that functions used as instance field initializers utilize `this`. (default: `true`)
 * `"ignoreOverrideMethods"` ignores members that are marked with the `override` modifier. (default: `false`)
+* `"ignoreClassesWithImplements"` ignores class members that are defined within a class that `implements` an interface.
 
 ### exceptMethods
 
@@ -249,6 +250,77 @@ Examples of **correct** TypeScript code for this rule with the `{ "ignoreOverrid
 
 class Derived extends Base {
     override foo() {};
+}
+```
+
+:::
+
+### ignoreClassesWithImplements
+
+```js
+"class-methods-use-this": [<enabled>, { "ignoreClassesWithImplements": "all" | "public-fields" }]
+```
+
+The `ignoreClassesWithImplements` ignores class members that are defined within a class that `implements` an interface. The option accepts two possible values:
+
+* `"all"` - Ignores all classes that implement interfaces
+* `"public-fields"` - Only ignores public fields in classes that implement interfaces
+
+Examples of **incorrect** TypeScript code for this rule with the `{ "ignoreClassesWithImplements": "all" }`:
+
+::: incorrect
+
+```ts
+/*eslint class-methods-use-this: ["error", { "ignoreClassesWithImplements": "all" }] */
+
+class A {
+    foo() {}
+}
+```
+
+:::
+
+Examples of **correct** TypeScript code for this rule with the `{ "ignoreClassesWithImplements": "all" }` option:
+
+::: correct
+
+```ts
+/*eslint class-methods-use-this: ["error", { "ignoreClassesWithImplements": "all" }] */
+
+class Derived extends Base {
+    foo() {};
+}
+```
+
+:::
+
+Examples of **incorrect** TypeScript code for this rule with the `{ "ignoreClassesWithImplements": "public-fields" }` option:
+
+::: incorrect
+
+```ts
+/*eslint class-methods-use-this: ["error", { "ignoreClassesWithImplements": "public-fields" }] */
+
+class Derived implements Base {
+    foo() {}
+    private bar() {}
+    protected baz() {}
+}
+```
+
+:::
+
+Examples of **correct** TypeScript code for this rule with the `{ "ignoreClassesWithImplements": "public-fields" }` option:
+
+::: correct
+
+```ts
+/*eslint class-methods-use-this: ["error", { "ignoreClassesWithImplements": "public-fields" }] */
+
+class Derived implements Base {
+    foo() {}
+    bar() {}
+    baz() {}
 }
 ```
 
