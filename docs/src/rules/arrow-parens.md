@@ -96,8 +96,8 @@ a.then((foo) => { if (true) {} });
 One of the benefits of this option is that it prevents the incorrect use of arrow functions in conditionals:
 
 ```js
-var a = 1;
-var b = 2;
+let a = 1;
+let b = 2;
 // ...
 if (a => b) {
  console.log('bigger');
@@ -112,8 +112,8 @@ The contents of the `if` statement is an arrow function, not a comparison.
 If the arrow function is intentional, it should be wrapped in parens to remove ambiguity.
 
 ```js
-var a = 1;
-var b = 0;
+let a = 1;
+let b = 0;
 // ...
 if ((a) => b) {
  console.log('truthy value returned');
@@ -126,8 +126,8 @@ if ((a) => b) {
 The following is another example of this behavior:
 
 ```js
-var a = 1, b = 2, c = 3, d = 4;
-var f = a => b ? c: d;
+let a = 1, b = 2, c = 3, d = 4;
+let f = a => b ? c: d;
 // f = ?
 ```
 
@@ -136,8 +136,8 @@ var f = a => b ? c: d;
 This should be rewritten like so:
 
 ```js
-var a = 1, b = 2, c = 3, d = 4;
-var f = (a) => b ? c: d;
+let a = 1, b = 2, c = 3, d = 4;
+let f = (a) => b ? c: d;
 ```
 
 ### as-needed

@@ -53,14 +53,14 @@ Examples of **incorrect** code for this rule with the default `"always"` option:
 ```js
 /*eslint array-element-newline: ["error", "always"]*/
 
-var c = [1, 2];
-var d = [1, 2, 3];
-var e = [1, 2, 3
+let c = [1, 2];
+let d = [1, 2, 3];
+let e = [1, 2, 3
 ];
-var f = [
+let f = [
   1, 2, 3
 ];
-var g = [
+let g = [
     function foo() {
         dosomething();
     }, function bar() {
@@ -78,19 +78,19 @@ Examples of **correct** code for this rule with the default `"always"` option:
 ```js
 /*eslint array-element-newline: ["error", "always"]*/
 
-var a = [];
-var b = [1];
-var c = [1,
+let a = [];
+let b = [1];
+let c = [1,
     2];
-var d = [1,
+let d = [1,
     2,
     3];
-var d = [
+let d = [
   1, 
   2, 
   3
 ];
-var e = [
+let e = [
     function foo() {
         dosomething();
     },
@@ -111,16 +111,16 @@ Examples of **incorrect** code for this rule with the `"never"` option:
 ```js
 /*eslint array-element-newline: ["error", "never"]*/
 
-var c = [
+let c = [
     1,
     2
 ];
-var d = [
+let d = [
     1,
     2,
     3
 ];
-var e = [
+let e = [
     function foo() {
         dosomething();
     },
@@ -139,16 +139,16 @@ Examples of **correct** code for this rule with the `"never"` option:
 ```js
 /*eslint array-element-newline: ["error", "never"]*/
 
-var a = [];
-var b = [1];
-var c = [1, 2];
-var d = [1, 2, 3];
-var e = [
+let a = [];
+let b = [1];
+let c = [1, 2];
+let d = [1, 2, 3];
+let e = [
     1, 2, 3];
-var f = [
+let f = [
   1, 2, 3
 ];
-var g = [
+let g = [
     function foo() {
         dosomething();
     }, function bar() {
@@ -168,11 +168,11 @@ Examples of **incorrect** code for this rule with the `"consistent"` option:
 ```js
 /*eslint array-element-newline: ["error", "consistent"]*/
 
-var a = [
+let a = [
     1, 2,
     3
 ];
-var b = [
+let b = [
     function foo() {
         dosomething();
     }, function bar() {
@@ -193,20 +193,20 @@ Examples of **correct** code for this rule with the `"consistent"` option:
 ```js
 /*eslint array-element-newline: ["error", "consistent"]*/
 
-var a = [];
-var b = [1];
-var c = [1, 2];
-var d = [1, 2, 3];
-var e = [
+let a = [];
+let b = [1];
+let c = [1, 2];
+let d = [1, 2, 3];
+let e = [
     1,
     2
 ];
-var f = [
+let f = [
     1,
     2,
     3
 ];
-var g = [
+let g = [
     function foo() {
         dosomething();
     }, function bar() {
@@ -215,7 +215,7 @@ var g = [
         dosomething();
     }
 ];
-var h = [
+let h = [
     function foo() {
         dosomething();
     },
@@ -239,9 +239,9 @@ Examples of **incorrect** code for this rule with the `{ "multiline": true }` op
 ```js
 /*eslint array-element-newline: ["error", { "multiline": true }]*/
 
-var d = [1,
+let d = [1,
     2, 3];
-var e = [
+let e = [
     function foo() {
         dosomething();
     }, function bar() {
@@ -259,11 +259,11 @@ Examples of **correct** code for this rule with the `{ "multiline": true }` opti
 ```js
 /*eslint array-element-newline: ["error", { "multiline": true }]*/
 
-var a = [];
-var b = [1];
-var c = [1, 2];
-var d = [1, 2, 3];
-var e = [
+let a = [];
+let b = [1];
+let c = [1, 2];
+let d = [1, 2, 3];
+let e = [
     function foo() {
         dosomething();
     },
@@ -284,10 +284,10 @@ Examples of **incorrect** code for this rule with the `{ "minItems": 3 }` option
 ```js
 /*eslint array-element-newline: ["error", { "minItems": 3 }]*/
 
-var c = [1,
+let c = [1,
     2];
-var d = [1, 2, 3];
-var e = [
+let d = [1, 2, 3];
+let e = [
     function foo() {
         dosomething();
     },
@@ -306,13 +306,13 @@ Examples of **correct** code for this rule with the `{ "minItems": 3 }` option:
 ```js
 /*eslint array-element-newline: ["error", { "minItems": 3 }]*/
 
-var a = [];
-var b = [1];
-var c = [1, 2];
-var d = [1,
+let a = [];
+let b = [1];
+let c = [1, 2];
+let d = [1,
     2,
     3];
-var e = [
+let e = [
     function foo() {
         dosomething();
     }, function bar() {
@@ -332,10 +332,10 @@ Examples of **incorrect** code for this rule with the `{ "multiline": true, "min
 ```js
 /*eslint array-element-newline: ["error", { "multiline": true, "minItems": 3 }]*/
 
-var c = [1,
+let c = [1,
 2];
-var d = [1, 2, 3];
-var e = [
+let d = [1, 2, 3];
+let e = [
     function foo() {
         dosomething();
     }, function bar() {
@@ -353,13 +353,13 @@ Examples of **correct** code for this rule with the `{ "multiline": true, "minIt
 ```js
 /*eslint array-element-newline: ["error", { "multiline": true, "minItems": 3 }]*/
 
-var a = [];
-var b = [1];
-var c = [1, 2];
-var d = [1,
+let a = [];
+let b = [1];
+let c = [1, 2];
+let d = [1,
     2,
     3];
-var e = [
+let e = [
     function foo() {
         dosomething();
     },
@@ -380,9 +380,9 @@ Examples of **incorrect** code for this rule with the `{ "ArrayExpression": "alw
 ```js
 /*eslint array-element-newline: ["error", { "ArrayExpression": "always", "ArrayPattern": "never" }]*/
 
-var a = [1, 2];
-var b = [1, 2, 3];
-var c = [
+let a = [1, 2];
+let b = [1, 2, 3];
+let c = [
     function foo() {
         dosomething();
     }, function bar() {
@@ -390,12 +390,12 @@ var c = [
     }
 ];
 
-var [d,
+let [d,
     e] = arr;
-var [f,
+let [f,
     g,
     h] = arr;
-var [i = function foo() {
+let [i = function foo() {
   dosomething()
 },
 j = function bar() {
@@ -412,12 +412,12 @@ Examples of **correct** code for this rule with the `{ "ArrayExpression": "alway
 ```js
 /*eslint array-element-newline: ["error", { "ArrayExpression": "always", "ArrayPattern": "never" }]*/
 
-var a = [1,
+let a = [1,
     2];
-var b = [1,
+let b = [1,
     2,
     3];
-var c = [
+let c = [
     function foo() {
         dosomething();
     },
@@ -426,9 +426,9 @@ var c = [
     }
 ];
 
-var [d, e] = arr
-var [f, g, h] = arr
-var [i = function foo() {
+let [d, e] = arr
+let [f, g, h] = arr
+let [i = function foo() {
     dosomething()
 }, j = function bar() {
     dosomething()

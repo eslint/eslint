@@ -5,7 +5,7 @@ rule_type: layout
 Trailing commas in object literals are valid according to the ECMAScript 5 (and ECMAScript 3!) spec. However, IE8 (when not in IE8 document mode) and below will throw an error when it encounters trailing commas in JavaScript.
 
 ```js
-var foo = {
+let foo = {
     bar: "baz",
     qux: "quux",
 };
@@ -17,7 +17,7 @@ Another argument in favor of trailing commas is that it improves the clarity of 
 Less clear:
 
 ```diff
- var foo = {
+ let foo = {
 -    bar: "baz",
 -    qux: "quux"
 +    bar: "baz"
@@ -27,7 +27,7 @@ Less clear:
 More clear:
 
 ```diff
- var foo = {
+ let foo = {
      bar: "baz",
 -    qux: "quux",
  };
@@ -80,12 +80,12 @@ Examples of **incorrect** code for this rule with the default `"never"` option:
 ```js
 /*eslint comma-dangle: ["error", "never"]*/
 
-var foo = {
+let foo = {
     bar: "baz",
     qux: "quux",
 };
 
-var arr = [1,2,];
+let arr = [1,2,];
 
 foo({
   bar: "baz",
@@ -102,12 +102,12 @@ Examples of **correct** code for this rule with the default `"never"` option:
 ```js
 /*eslint comma-dangle: ["error", "never"]*/
 
-var foo = {
+let foo = {
     bar: "baz",
     qux: "quux"
 };
 
-var arr = [1,2];
+let arr = [1,2];
 
 foo({
   bar: "baz",
@@ -126,12 +126,12 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 ```js
 /*eslint comma-dangle: ["error", "always"]*/
 
-var foo = {
+let foo = {
     bar: "baz",
     qux: "quux"
 };
 
-var arr = [1,2];
+let arr = [1,2];
 
 foo({
   bar: "baz",
@@ -148,12 +148,12 @@ Examples of **correct** code for this rule with the `"always"` option:
 ```js
 /*eslint comma-dangle: ["error", "always"]*/
 
-var foo = {
+let foo = {
     bar: "baz",
     qux: "quux",
 };
 
-var arr = [1,2,];
+let arr = [1,2,];
 
 foo({
   bar: "baz",
@@ -172,19 +172,19 @@ Examples of **incorrect** code for this rule with the `"always-multiline"` optio
 ```js
 /*eslint comma-dangle: ["error", "always-multiline"]*/
 
-var foo = {
+let foo = {
     bar: "baz",
     qux: "quux"
 };
 
-var foo = { bar: "baz", qux: "quux", };
+let foo = { bar: "baz", qux: "quux", };
 
-var arr = [1,2,];
+let arr = [1,2,];
 
-var arr = [1,
+let arr = [1,
     2,];
 
-var arr = [
+let arr = [
     1,
     2
 ];
@@ -204,18 +204,18 @@ Examples of **correct** code for this rule with the `"always-multiline"` option:
 ```js
 /*eslint comma-dangle: ["error", "always-multiline"]*/
 
-var foo = {
+let foo = {
     bar: "baz",
     qux: "quux",
 };
 
-var foo = {bar: "baz", qux: "quux"};
-var arr = [1,2];
+let foo = {bar: "baz", qux: "quux"};
+let arr = [1,2];
 
-var arr = [1,
+let arr = [1,
     2];
 
-var arr = [
+let arr = [
     1,
     2,
 ];
@@ -237,11 +237,11 @@ Examples of **incorrect** code for this rule with the `"only-multiline"` option:
 ```js
 /*eslint comma-dangle: ["error", "only-multiline"]*/
 
-var foo = { bar: "baz", qux: "quux", };
+let foo = { bar: "baz", qux: "quux", };
 
-var arr = [1,2,];
+let arr = [1,2,];
 
-var arr = [1,
+let arr = [1,
     2,];
 
 ```
@@ -255,28 +255,28 @@ Examples of **correct** code for this rule with the `"only-multiline"` option:
 ```js
 /*eslint comma-dangle: ["error", "only-multiline"]*/
 
-var foo = {
+let foo = {
     bar: "baz",
     qux: "quux",
 };
 
-var foo = {
+let foo = {
     bar: "baz",
     qux: "quux"
 };
 
-var foo = {bar: "baz", qux: "quux"};
-var arr = [1,2];
+let foo = {bar: "baz", qux: "quux"};
+let arr = [1,2];
 
-var arr = [1,
+let arr = [1,
     2];
 
-var arr = [
+let arr = [
     1,
     2,
 ];
 
-var arr = [
+let arr = [
     1,
     2
 ];
