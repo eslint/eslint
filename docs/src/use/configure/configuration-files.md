@@ -690,3 +690,14 @@ To override this behavior, use the `--config` or `-c` command line option to spe
     package: "eslint",
     args: ["--config", "eslint.config.ts"]
 }) }}
+
+### Native TypeScript Support
+
+If you're using **Node.js >= 22.6.0**, you can load TypeScript configuration files natively without requiring [`jiti`](https://github.com/unjs/jiti). This is possible thanks to the [**`--experimental-strip-types`**](https://nodejs.org/docs/latest-v22.x/api/cli.html#--experimental-strip-types) flag.
+
+Since this feature is still experimental, you must also enable the `unstable_native_nodejs_ts_config` flag.
+
+{{ npx_tabs({
+package: "eslint",
+args: ["--flag", "unstable_native_nodejs_ts_config", "--config", "eslint.config.ts"]
+}) }}
