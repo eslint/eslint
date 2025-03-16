@@ -7689,220 +7689,220 @@ describe("ESLint", () => {
 
                   it("should load a TS config file when --experimental-strip-types is enabled", async () => {
 
-                      const cwd = getFixturePath("ts-config-files", "ts", "native");
+                    const cwd = getFixturePath("ts-config-files", "ts", "native");
 
-                      const configFileContent = `import type { FlatConfig } from "./helper.ts";\nexport default ${
-                          JSON.stringify([
-                              { rules: { "no-undef": 2 } }
-                          ], null, 2)} satisfies FlatConfig[];`;
-
-                      const teardown = createCustomTeardown({
-                          cwd,
-                          files: {
-                              "package.json": typeModule,
-                              "eslint.config.ts": configFileContent,
-                              "foo.js": "foo;",
-                              "helper.ts": "import { Linter } from \"eslint\";\nexport type FlatConfig = Linter.Config;\n"
-                          }
-                      });
-
-                      await teardown.prepare();
-
-                      eslint = new ESLint({
-                          cwd,
-                          overrideConfigFile: "eslint.config.ts",
-                          flags: ["unstable_native_nodejs_ts_config"]
-                      });
-
-                      const results = await eslint.lintFiles(["foo*.js"]);
-
-                      assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
-                      assert.strictEqual(results.length, 1);
-                      assert.strictEqual(results[0].filePath, path.join(cwd, "foo.js"));
-                      assert.strictEqual(results[0].messages.length, 1);
-                      assert.strictEqual(results[0].messages[0].severity, 2);
-                      assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
-
-                  });
-
-                    // eslint-disable-next-line n/no-unsupported-features/node-builtins -- it's still an experimental feature.
-                      ;(process.features.typescript === "transform" ? describe : describe.skip)("should load a TS config file when --experimental-transform-types is enabled", () => {
-
-                      it("with \"type\": \"commonjs\" in `package.json` and CJS syntax", async () => {
-
-                      const cwd = getFixturePath("ts-config-files", "ts", "native", "with-type-commonjs", "CJS-syntax");
-
-                      const configFileContent = "import ESLintNameSpace = require(\"./helper.ts\");\n\nconst eslintConfig = [ { rules: { \"no-undef\": ESLintNameSpace.StringSeverity.Error } }]\n\nexport = eslintConfig;\n";
-
-                      const teardown = createCustomTeardown({
-                          cwd,
-                          files: {
-                              "package.json": typeCommonJS,
-                              "eslint.config.ts": configFileContent,
-                              "foo.js": "foo;",
-                              "helper.ts": "namespace ESLintNameSpace {\n  export const enum StringSeverity {\n    \"Off\" = \"off\",\n    \"Warn\" = \"warn\",\n    \"Error\" = \"error\",\n  }\n}\n\nexport = ESLintNameSpace\n"
-                          }
-                      });
-
-                      await teardown.prepare();
-
-                      eslint = new ESLint({
-                          cwd,
-                          overrideConfigFile: "eslint.config.ts",
-                          flags: ["unstable_native_nodejs_ts_config"]
-                      });
-
-                      const results = await eslint.lintFiles(["foo*.js"]);
-
-                      assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
-                      assert.strictEqual(results.length, 1);
-                      assert.strictEqual(results[0].filePath, path.join(cwd, "foo.js"));
-                      assert.strictEqual(results[0].messages.length, 1);
-                      assert.strictEqual(results[0].messages[0].severity, 2);
-                      assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
-
-                  });
-
-                  it("with \"type\": \"commonjs\" in `package.json` and ESM syntax", async () => {
-
-                    const cwd = getFixturePath("ts-config-files", "ts", "native", "with-type-commonjs", "ESM-syntax");
-
-                    const configFileContent = "import ESLintNameSpace from \"./helper.ts\";\n\nconst eslintConfig = [ { rules: { \"no-undef\": ESLintNameSpace.StringSeverity.Error } }]\n\nexport default eslintConfig;\n";
+                    const configFileContent = `import type { FlatConfig } from "./helper.ts";\nexport default ${
+                      JSON.stringify([
+                        { rules: { "no-undef": 2 } }
+                      ], null, 2)} satisfies FlatConfig[];`;
 
                     const teardown = createCustomTeardown({
-                        cwd,
-                        files: {
-                            "package.json": typeCommonJS,
-                            "eslint.config.mts": configFileContent,
-                            "foo.js": "foo;",
-                            "helper.ts": "namespace ESLintNameSpace {\n  export const enum StringSeverity {\n    \"Off\" = \"off\",\n    \"Warn\" = \"warn\",\n    \"Error\" = \"error\",\n  }\n}\n\nexport = ESLintNameSpace\n"
-                        }
+                      cwd,
+                      files: {
+                        "package.json": typeModule,
+                        "eslint.config.ts": configFileContent,
+                        "foo.js": "foo;",
+                        "helper.ts": "import { Linter } from \"eslint\";\nexport type FlatConfig = Linter.Config;\n"
+                      }
                     });
 
                     await teardown.prepare();
 
                     eslint = new ESLint({
-                        cwd,
-                        overrideConfigFile: "eslint.config.mts",
-                        flags: ["unstable_native_nodejs_ts_config"]
+                      cwd,
+                      overrideConfigFile: "eslint.config.ts",
+                      flags: ["unstable_native_nodejs_ts_config"]
                     });
 
                     const results = await eslint.lintFiles(["foo*.js"]);
 
-                    assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.mts"));
+                    assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
                     assert.strictEqual(results.length, 1);
                     assert.strictEqual(results[0].filePath, path.join(cwd, "foo.js"));
                     assert.strictEqual(results[0].messages.length, 1);
                     assert.strictEqual(results[0].messages[0].severity, 2);
                     assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
 
-                });
-
-                it("with \"type\": \"module\" in `package.json` and CJS syntax", async () => {
-
-                  const cwd = getFixturePath("ts-config-files", "ts", "native", "with-type-module", "CJS-syntax");
-
-                  const configFileContent = "import ESLintNameSpace = require(\"./helper.cts\");\n\nconst eslintConfig = [ { rules: { \"no-undef\": ESLintNameSpace.StringSeverity.Error } }]\n\nexport = eslintConfig;\n";
-
-                  const teardown = createCustomTeardown({
-                      cwd,
-                      files: {
-                          "package.json": typeModule,
-                          "eslint.config.cts": configFileContent,
-                          "foo.js": "foo;",
-                          "helper.cts": "namespace ESLintNameSpace {\n  export const enum StringSeverity {\n    \"Off\" = \"off\",\n    \"Warn\" = \"warn\",\n    \"Error\" = \"error\",\n  }\n}\n\nexport = ESLintNameSpace\n"
-                      }
                   });
-
-                  await teardown.prepare();
-
-                  eslint = new ESLint({
-                      cwd,
-                      overrideConfigFile: "eslint.config.cts",
-                      flags: ["unstable_native_nodejs_ts_config"]
-                  });
-
-                  const results = await eslint.lintFiles(["foo*.js"]);
-
-                  assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.cts"));
-                  assert.strictEqual(results.length, 1);
-                  assert.strictEqual(results[0].filePath, path.join(cwd, "foo.js"));
-                  assert.strictEqual(results[0].messages.length, 1);
-                  assert.strictEqual(results[0].messages[0].severity, 2);
-                  assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
-
-              });
-
-              it("with \"type\": \"module\" in `package.json` and ESM syntax", async () => {
-
-                const cwd = getFixturePath("ts-config-files", "ts", "native", "with-type-module", "ESM-syntax");
-
-                const configFileContent = "import ESLintNameSpace from \"./helper.ts\";\n\nconst eslintConfig = [ { rules: { \"no-undef\": ESLintNameSpace.StringSeverity.Error } }]\n\nexport default eslintConfig;\n";
-
-                const teardown = createCustomTeardown({
-                    cwd,
-                    files: {
-                        "package.json": typeModule,
-                        "eslint.config.ts": configFileContent,
-                        "foo.js": "foo;",
-                        "helper.ts": "namespace ESLintNameSpace {\n  export const enum StringSeverity {\n    \"Off\" = \"off\",\n    \"Warn\" = \"warn\",\n    \"Error\" = \"error\",\n  }\n}\n\nexport default ESLintNameSpace\n"
-                    }
-                });
-
-                await teardown.prepare();
-
-                eslint = new ESLint({
-                    cwd,
-                    overrideConfigFile: "eslint.config.ts",
-                    flags: ["unstable_native_nodejs_ts_config"]
-                });
-
-                const results = await eslint.lintFiles(["foo*.js"]);
-
-                assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
-                assert.strictEqual(results.length, 1);
-                assert.strictEqual(results[0].filePath, path.join(cwd, "foo.js"));
-                assert.strictEqual(results[0].messages.length, 1);
-                assert.strictEqual(results[0].messages[0].severity, 2);
-                assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
-
-            });
-                })
-
-                })
 
                   // eslint-disable-next-line n/no-unsupported-features/node-builtins -- it's still an experimental feature.
-                  ;(typeof process.features.typescript === "string" ? it.skip : it)("should throw an error if unstable_native_nodejs_ts_config is set but --experimental-strip-types is not enabled", async () => {
-                      const cwd = getFixturePath("ts-config-files", "ts", "native");
+                  ;(process.features.typescript === "transform" ? describe : describe.skip)("should load a TS config file when --experimental-transform-types is enabled", () => {
 
-                      const configFileContent = `import type { FlatConfig } from "./helper.ts";\nexport default ${
-                          JSON.stringify([
-                              { rules: { "no-undef": 2 } }
-                          ], null, 2)} satisfies FlatConfig[];`;
+                    it("with \"type\": \"commonjs\" in `package.json` and CJS syntax", async () => {
+
+                      const cwd = getFixturePath("ts-config-files", "ts", "native", "with-type-commonjs", "CJS-syntax");
+
+                      const configFileContent = "import ESLintNameSpace = require(\"./helper.ts\");\n\nconst eslintConfig = [ { rules: { \"no-undef\": ESLintNameSpace.StringSeverity.Error } }]\n\nexport = eslintConfig;\n";
 
                       const teardown = createCustomTeardown({
-                          cwd,
-                          files: {
-                              "package.json": typeModule,
-                              "eslint.config.ts": configFileContent,
-                              "foo.js": "foo;",
-                              "helper.ts": "import { Linter } from \"eslint\";\nexport type FlatConfig = Linter.Config;\n"
-                          }
+                        cwd,
+                        files: {
+                          "package.json": typeCommonJS,
+                          "eslint.config.ts": configFileContent,
+                          "foo.js": "foo;",
+                          "helper.ts": "namespace ESLintNameSpace {\n  export const enum StringSeverity {\n    \"Off\" = \"off\",\n    \"Warn\" = \"warn\",\n    \"Error\" = \"error\",\n  }\n}\n\nexport = ESLintNameSpace\n"
+                        }
                       });
 
                       await teardown.prepare();
 
                       eslint = new ESLint({
-                          cwd,
-                          overrideConfigFile: "eslint.config.ts",
-                          flags: ["unstable_native_nodejs_ts_config"]
+                        cwd,
+                        overrideConfigFile: "eslint.config.ts",
+                        flags: ["unstable_native_nodejs_ts_config"]
                       });
 
-                      await assert.rejects(
-                          eslint.lintFiles(["foo*.js"]),
-                          { message: "The unstable_native_nodejs_ts_config flag is enabled, but native TypeScript support is not enabled in the current Node.js process. You need to either enable native TypeScript support by passing --experimental-strip-types or remove the unstable_native_nodejs_ts_config flag." }
-                      );
+                      const results = await eslint.lintFiles(["foo*.js"]);
+
+                      assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
+                      assert.strictEqual(results.length, 1);
+                      assert.strictEqual(results[0].filePath, path.join(cwd, "foo.js"));
+                      assert.strictEqual(results[0].messages.length, 1);
+                      assert.strictEqual(results[0].messages[0].severity, 2);
+                      assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+                    });
+
+                    it("with \"type\": \"commonjs\" in `package.json` and ESM syntax", async () => {
+
+                      const cwd = getFixturePath("ts-config-files", "ts", "native", "with-type-commonjs", "ESM-syntax");
+
+                      const configFileContent = "import ESLintNameSpace from \"./helper.ts\";\n\nconst eslintConfig = [ { rules: { \"no-undef\": ESLintNameSpace.StringSeverity.Error } }]\n\nexport default eslintConfig;\n";
+
+                      const teardown = createCustomTeardown({
+                        cwd,
+                        files: {
+                          "package.json": typeCommonJS,
+                          "eslint.config.mts": configFileContent,
+                          "foo.js": "foo;",
+                          "helper.ts": "namespace ESLintNameSpace {\n  export const enum StringSeverity {\n    \"Off\" = \"off\",\n    \"Warn\" = \"warn\",\n    \"Error\" = \"error\",\n  }\n}\n\nexport = ESLintNameSpace\n"
+                        }
+                      });
+
+                      await teardown.prepare();
+
+                      eslint = new ESLint({
+                        cwd,
+                        overrideConfigFile: "eslint.config.mts",
+                        flags: ["unstable_native_nodejs_ts_config"]
+                      });
+
+                      const results = await eslint.lintFiles(["foo*.js"]);
+
+                      assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.mts"));
+                      assert.strictEqual(results.length, 1);
+                      assert.strictEqual(results[0].filePath, path.join(cwd, "foo.js"));
+                      assert.strictEqual(results[0].messages.length, 1);
+                      assert.strictEqual(results[0].messages[0].severity, 2);
+                      assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+                    });
+
+                    it("with \"type\": \"module\" in `package.json` and CJS syntax", async () => {
+
+                      const cwd = getFixturePath("ts-config-files", "ts", "native", "with-type-module", "CJS-syntax");
+
+                      const configFileContent = "import ESLintNameSpace = require(\"./helper.cts\");\n\nconst eslintConfig = [ { rules: { \"no-undef\": ESLintNameSpace.StringSeverity.Error } }]\n\nexport = eslintConfig;\n";
+
+                      const teardown = createCustomTeardown({
+                        cwd,
+                        files: {
+                          "package.json": typeModule,
+                          "eslint.config.cts": configFileContent,
+                          "foo.js": "foo;",
+                          "helper.cts": "namespace ESLintNameSpace {\n  export const enum StringSeverity {\n    \"Off\" = \"off\",\n    \"Warn\" = \"warn\",\n    \"Error\" = \"error\",\n  }\n}\n\nexport = ESLintNameSpace\n"
+                        }
+                      });
+
+                      await teardown.prepare();
+
+                      eslint = new ESLint({
+                        cwd,
+                        overrideConfigFile: "eslint.config.cts",
+                        flags: ["unstable_native_nodejs_ts_config"]
+                      });
+
+                      const results = await eslint.lintFiles(["foo*.js"]);
+
+                      assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.cts"));
+                      assert.strictEqual(results.length, 1);
+                      assert.strictEqual(results[0].filePath, path.join(cwd, "foo.js"));
+                      assert.strictEqual(results[0].messages.length, 1);
+                      assert.strictEqual(results[0].messages[0].severity, 2);
+                      assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+                    });
+
+                    it("with \"type\": \"module\" in `package.json` and ESM syntax", async () => {
+
+                      const cwd = getFixturePath("ts-config-files", "ts", "native", "with-type-module", "ESM-syntax");
+
+                      const configFileContent = "import ESLintNameSpace from \"./helper.ts\";\n\nconst eslintConfig = [ { rules: { \"no-undef\": ESLintNameSpace.StringSeverity.Error } }]\n\nexport default eslintConfig;\n";
+
+                      const teardown = createCustomTeardown({
+                        cwd,
+                        files: {
+                          "package.json": typeModule,
+                          "eslint.config.ts": configFileContent,
+                          "foo.js": "foo;",
+                          "helper.ts": "namespace ESLintNameSpace {\n  export const enum StringSeverity {\n    \"Off\" = \"off\",\n    \"Warn\" = \"warn\",\n    \"Error\" = \"error\",\n  }\n}\n\nexport default ESLintNameSpace\n"
+                        }
+                      });
+
+                      await teardown.prepare();
+
+                      eslint = new ESLint({
+                        cwd,
+                        overrideConfigFile: "eslint.config.ts",
+                        flags: ["unstable_native_nodejs_ts_config"]
+                      });
+
+                      const results = await eslint.lintFiles(["foo*.js"]);
+
+                      assert.strictEqual(await eslint.findConfigFile(), path.join(cwd, "eslint.config.ts"));
+                      assert.strictEqual(results.length, 1);
+                      assert.strictEqual(results[0].filePath, path.join(cwd, "foo.js"));
+                      assert.strictEqual(results[0].messages.length, 1);
+                      assert.strictEqual(results[0].messages[0].severity, 2);
+                      assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+
+                    });
                   });
+
+                });
+
+                // eslint-disable-next-line n/no-unsupported-features/node-builtins -- it's still an experimental feature.
+                ;(typeof process.features.typescript === "string" ? it.skip : it)("should throw an error if unstable_native_nodejs_ts_config is set but --experimental-strip-types is not enabled", async () => {
+                  const cwd = getFixturePath("ts-config-files", "ts", "native");
+
+                  const configFileContent = `import type { FlatConfig } from "./helper.ts";\nexport default ${
+                    JSON.stringify([
+                      { rules: { "no-undef": 2 } }
+                    ], null, 2)} satisfies FlatConfig[];`;
+
+                  const teardown = createCustomTeardown({
+                    cwd,
+                    files: {
+                      "package.json": typeModule,
+                      "eslint.config.ts": configFileContent,
+                      "foo.js": "foo;",
+                      "helper.ts": "import { Linter } from \"eslint\";\nexport type FlatConfig = Linter.Config;\n"
+                    }
+                  });
+
+                  await teardown.prepare();
+
+                  eslint = new ESLint({
+                    cwd,
+                    overrideConfigFile: "eslint.config.ts",
+                    flags: ["unstable_native_nodejs_ts_config"]
+                  });
+
+                  await assert.rejects(
+                    eslint.lintFiles(["foo*.js"]),
+                    { message: "The unstable_native_nodejs_ts_config flag is enabled, but native TypeScript support is not enabled in the current Node.js process. You need to either enable native TypeScript support by passing --experimental-strip-types or remove the unstable_native_nodejs_ts_config flag." }
+                  );
+                });
 
             });
 
