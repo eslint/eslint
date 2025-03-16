@@ -53,7 +53,7 @@ ruleTester.run("lines-around-comment", rule, {
 
         // block comments
         {
-            code: "bar()\n\n/** A Block comment with a an empty line after\n *\n */\nvar a = 1;",
+            code: "bar()\n\n/** A Block comment with an empty line after\n *\n */\nvar a = 1;",
             options: [{ afterBlockComment: false, beforeBlockComment: true }]
         },
         {
@@ -71,11 +71,11 @@ ruleTester.run("lines-around-comment", rule, {
 
         // inline comments (should not ever warn)
         {
-            code: "foo() // An inline comment with a an empty line after\nvar a = 1;",
+            code: "foo() // An inline comment with an empty line after\nvar a = 1;",
             options: [{ afterLineComment: true, beforeLineComment: true }]
         },
         {
-            code: "foo();\nbar() /* An inline block comment with a an empty line after\n *\n */\nvar a = 1;",
+            code: "foo();\nbar() /* An inline block comment with an empty line after\n *\n */\nvar a = 1;",
             options: [{ beforeBlockComment: true }]
         },
 
