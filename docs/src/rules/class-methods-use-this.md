@@ -110,8 +110,8 @@ This rule has four options:
 
 * `"exceptMethods"` allows specified method names to be ignored with this rule.
 * `"enforceForClassFields"` enforces that functions used as instance field initializers utilize `this`. (default: `true`)
-* `"ignoreOverrideMethods"` ignores members that are marked with the `override` modifier. (default: `false`)
-* `"ignoreClassesWithImplements"` ignores class members that are defined within a class that `implements` an interface.
+* `"ignoreOverrideMethods"` ignores members that are marked with the `override` modifier. (TypeScript only, default: `false`)
+* `"ignoreClassesWithImplements"` ignores class members that are defined within a class that `implements` an interface. (TypeScript only)
 
 ### exceptMethods
 
