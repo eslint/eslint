@@ -5,6 +5,7 @@ eleventyNavigation:
     parent: use eslint
     title: Getting Started
     order: 1
+
 ---
 
 {%- from 'components/npm_tabs.macro.html' import npm_tabs with context %}
@@ -55,40 +56,41 @@ When you run `npm init @eslint/config`, you'll be asked a series of questions to
 For example, one of the questions is "Where does your code run?" If you select "Browser" then your configuration file will contain the definitions for global variables found in web browsers. Here's an example:
 
 ```js
+import { defineConfig } from "eslint/config";
 import globals from "globals";
-import pluginJs from "@eslint/js";
+import js from "@eslint/js";
 
-/** @type {import('eslint').Linter.Config[]} */
-export default [
-	{ languageOptions: { globals: globals.browser } },
-	pluginJs.configs.recommended,
-];
+export default defineConfig([
+    { files: ["**/*.js"], languageOptions: { globals: globals.browser } },
+    { files: ["**/*.js"], plugins: { js }, extends: ["js/recommended"] }
+]);
 ```
 
-The `pluginJs.configs.recommended` object contains configuration to ensure that all of the rules marked as recommended on the [rules page](../rules) will be turned on. Alternatively, you can use configurations that others have created by searching for "eslint-config" on [npmjs.com](https://www.npmjs.com/search?q=eslint-config). ESLint will not lint your code unless you extend from a shared configuration or explicitly turn rules on in your configuration.
+The `"js/recommended"` configuration ensures all of the rules marked as recommended on the [rules page](../rules) will be turned on.  Alternatively, you can use configurations that others have created by searching for "eslint-config" on [npmjs.com](https://www.npmjs.com/search?q=eslint-config).  ESLint will not lint your code unless you extend from a shared configuration or explicitly turn rules on in your configuration.
 
 You can configure rules individually by defining a new object with a `rules` key, as in this example:
 
 ```js
-import pluginJs from "@eslint/js";
+import { defineConfig } from "eslint/config";
+import js from "@eslint/js";
 
-export default [
-	pluginJs.configs.recommended,
+export default defineConfig([
+    { files: ["**/*.js"], plugins: { js }, extends: ["js/recommended"] },
 
-	{
-		rules: {
-			"no-unused-vars": "warn",
-			"no-undef": "warn",
-		},
-	},
-];
+    {
+        rules: {
+            "no-unused-vars": "warn",
+            "no-undef": "warn"
+        }
+    }
+]);
 ```
 
 The names `"no-unused-vars"` and `"no-undef"` are the names of [rules](../rules) in ESLint. The first value is the error level of the rule and can be one of these values:
 
--   "off" or 0 - turn the rule off
--   "warn" or 1 - turn the rule on as a warning (doesn’t affect exit code)
--   "error" or 2 - turn the rule on as an error (exit code will be 1)
+* "off" or 0 - turn the rule off
+* "warn" or 1 - turn the rule on as a warning (doesn’t affect exit code)
+* "error" or 2 - turn the rule on as an error (exit code will be 1)
 
 The three error levels allow you fine-grained control over how ESLint applies rules (for more configuration options and details, see the configuration docs).
 
@@ -123,27 +125,31 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
 
 2. Add an `eslint.config.js` file:
 
-    ```shell
-    # Create JavaScript configuration file
-    touch eslint.config.js
-    ```
+   ```shell
+   # Create JavaScript configuration file
+   touch eslint.config.js
+   ```
 
 3. Add configuration to the `eslint.config.js` file. Refer to the [Configure ESLint documentation](configure/) to learn how to add rules, custom configurations, plugins, and more.
 
-    ```js
-    import pluginJs from "@eslint/js";
+   ```js
+   import { defineConfig } from "eslint/config";
+   import js from "@eslint/js";
 
-    export default [
-    	pluginJs.configs.recommended,
-
-    	{
-    		rules: {
-    			"no-unused-vars": "warn",
-    			"no-undef": "warn",
-    		},
-    	},
-    ];
-    ```
+   export default defineConfig([
+        {
+            files: ["**/*.js"],
+            plugins: {
+                js
+            },
+            extends: ["js/recommended"],
+            rules: {
+                "no-unused-vars": "warn",
+                "no-undef": "warn"
+            }
+        }
+   ]);
+   ```
 
 4. Lint code using the ESLint CLI:
 
@@ -152,14 +158,14 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
     args: ["project-dir/", "file.js"]
 }) }}
 
-For more information on the available CLI options, refer to [Command Line Interface](./command-line-interface).
+   For more information on the available CLI options, refer to [Command Line Interface](./command-line-interface).
 
 ---
 
 ## Next Steps
 
--   Learn about [advanced configuration](configure/) of ESLint.
--   Get familiar with the [command line options](command-line-interface).
--   Explore [ESLint integrations](integrations) into other tools like editors, build systems, and more.
--   Can't find just the right rule? Make your own [custom rule](../extend/custom-rules).
--   Make ESLint even better by [contributing](../contribute/).
+* Learn about [advanced configuration](configure/) of ESLint.
+* Get familiar with the [command line options](command-line-interface).
+* Explore [ESLint integrations](integrations) into other tools like editors, build systems, and more.
+* Can't find just the right rule?  Make your own [custom rule](../extend/custom-rules).
+* Make ESLint even better by [contributing](../contribute/).

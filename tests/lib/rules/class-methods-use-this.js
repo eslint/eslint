@@ -453,3 +453,236 @@ ruleTester.run("class-methods-use-this", rule, {
 		},
 	],
 });
+
+const ruleTesterTypeScript = new RuleTester({
+    languageOptions: {
+        parser: require("@typescript-eslint/parser")
+    }
+});
+
+ruleTesterTypeScript.run("class-methods-use-this", rule, {
+    valid: [
+        "class A { constructor() {} }",
+        "class A { foo() {this} }",
+        "class A { foo() {this.bar = 'bar';} }",
+        "class A { foo() {bar(this);} }",
+        "class A extends B { foo() {super.foo();} }",
+        "class A { foo() { if(true) { return this; } } }",
+        "class A { static foo() {} }",
+        "({ a(){} });",
+        "class A { foo() { () => this; } }",
+        "({ a: function () {} });",
+        { code: "class A { foo() {this} bar() {} }", options: [{ exceptMethods: ["bar"] }] },
+        { code: "class A { \"foo\"() { } }", options: [{ exceptMethods: ["foo"] }] },
+        { code: "class A { 42() { } }", options: [{ exceptMethods: ["42"] }] },
+        "class A { foo = function() {this} }",
+        "class A { foo = () => {this} }",
+        "class A { foo = () => {super.toString} }",
+        "class A { static foo = function() {} }",
+        "class A { static foo = () => {} }",
+        { code: "class A { #bar() {} }", options: [{ exceptMethods: ["#bar"] }] },
+        { code: "class A { foo = function () {} }", options: [{ enforceForClassFields: false }] },
+        { code: "class A { foo = () => {} }", options: [{ enforceForClassFields: false }] },
+        "class A { foo() { return class { [this.foo] = 1 }; } }",
+        "class A { static {} }"
+    ],
+    invalid: [
+        {
+            code: `
+  class Foo {
+    method() {}
+  }
+        `,
+            errors: [
+                {
+                    messageId: "missingThis"
+                }
+            ]
+        },
+        {
+            code: `
+  class Foo {
+    private method() {}
+  }
+        `,
+            errors: [
+                {
+                    messageId: "missingThis"
+                }
+            ]
+        },
+        {
+            code: `
+  class Foo {
+    protected method() {}
+  }
+        `,
+            errors: [
+                {
+                    messageId: "missingThis"
+                }
+            ]
+        },
+        {
+            code: `
+  class Derived extends Base {
+    override method() {}
+  }
+        `,
+            errors: [
+                {
+                    messageId: "missingThis"
+                }
+            ]
+        },
+        {
+            code: `
+  class Derived extends Base {
+    property = () => {}
+  }
+        `,
+            errors: [
+                {
+                    messageId: "missingThis"
+                }
+            ]
+        },
+        {
+            code: `
+  class Derived extends Base {
+    public property = () => {}
+  }
+        `,
+            errors: [
+                {
+                    messageId: "missingThis"
+                }
+            ]
+        },
+        {
+            code: `
+  class Derived extends Base {
+    override property = () => {}
+  }
+        `,
+            errors: [
+                {
+                    messageId: "missingThis"
+                }
+            ]
+        },
+        {
+            code: `
+  class Foo {
+    #method() {}
+  }
+        `,
+            errors: [
+                {
+                    messageId: "missingThis"
+                }
+            ]
+        },
+        {
+            code: `
+  class Foo {
+    get getter(): number {}
+  }
+        `,
+            errors: [
+                {
+                    messageId: "missingThis"
+                }
+            ]
+        },
+        {
+            code: `
+  class Foo {
+    private get getter(): number {}
+  }
+        `,
+            errors: [
+                {
+                    messageId: "missingThis"
+                }
+            ]
+        },
+        {
+            code: `
+  class Foo {
+    protected get getter(): number {}
+  }
+        `,
+            errors: [
+                {
+                    messageId: "missingThis"
+                }
+            ]
+        },
+        {
+            code: `
+  class Foo {
+    get #getter(): number {}
+  }
+        `,
+            errors: [
+                {
+                    messageId: "missingThis"
+                }
+            ]
+        },
+        {
+            code: `
+  class Foo {
+    private set setter(b: number) {}
+  }
+        `,
+            errors: [
+                {
+                    messageId: "missingThis"
+                }
+            ]
+        },
+        {
+            code: `
+  class Foo {
+    protected set setter(b: number) {}
+  }
+        `,
+            errors: [
+                {
+                    messageId: "missingThis"
+                }
+            ]
+        },
+        {
+            code: `
+  class Foo {
+    set #setter(b: number) {}
+  }
+        `,
+            errors: [
+                {
+                    messageId: "missingThis"
+                }
+            ]
+        },
+
+        {
+            code: `
+  function fn() {
+    this.foo = 303;
+
+    class Foo {
+      method() {}
+    }
+  }
+        `,
+            errors: [
+                {
+                    messageId: "missingThis"
+                }
+            ]
+        }
+    ]
+});

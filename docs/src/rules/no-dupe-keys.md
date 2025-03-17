@@ -55,6 +55,11 @@ const foo = {
     bar: "baz",
     quxx: "qux"
 };
+
+const obj = {
+    "__proto__": baz, // defines object's prototype
+    ["__proto__"]: qux // defines a property named "__proto__"
+};
 ```
 
 :::

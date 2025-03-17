@@ -29,11 +29,6 @@
             "matchPackagePrefixes": ["@babel", "babel-"]
         },
         {
-            "description": "Group wdio packages into a single PR.",
-            "groupName": "wdio",
-            "matchPackagePrefixes": ["@wdio"]
-        },
-        {
             "description": "Group metascraper packages into a single PR.",
             "groupName": "metascraper",
             "matchPackagePrefixes": ["metascraper"]
