@@ -28,7 +28,7 @@ How to find the conflicting rules:
 
 1. Open the file specified in the warning in an editor that supports applying individual fixes (for example, VS Code).
 1. In the list of lint problems, find a fixable rule. That is one of the conflicting rules.
-1. Apply the fix ("Fix this rule-name problem" action in VS Code).
+1. Apply the fix ("Fix this (rule-name) problem" action in VS Code).
 1. Check what new lint problem has appeared in the list. That is the other conflicting rule.
 
 ## Resources
