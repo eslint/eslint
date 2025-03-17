@@ -152,22 +152,29 @@ layout: base.html
 
 <script>
     (function() {
-        const copyBtns = document.querySelectorAll("#copyBtn");
+        const copyBtns = document.querySelectorAll(".copy-btn");
         const announcementRegion = document.getElementById("copy-announcement");
 
         for (const copyBtn of copyBtns) {
-            const copyText = copyBtn.previousElementSibling.firstChild.cloneNode(true).textContent;
+            const copyText = copyBtn.previousElementSibling.firstChild.textContent;
 
             copyBtn.onclick = () => {
-                navigator.clipboard.writeText(copyText);
-                announcementRegion.innerHTML = "Copied!";
-                copyBtn.setAttribute("data-copied", 'true');
+                navigator.clipboard
+                    .writeText(copyText)
+                    .then(() => {
+                        announcementRegion.innerHTML = "Copied!";
+                        copyBtn.setAttribute("data-copied", "true");
 
-                setTimeout(() => {
-                    copyBtn.removeAttribute("data-copied");
-                    announcementRegion.innerHTML = "";
-                }, 2000);
-            }
+                        setTimeout(() => {
+                            copyBtn.removeAttribute("data-copied");
+                            announcementRegion.innerHTML = "";
+                        }, 2000);
+                    })
+                    .catch((err) => {
+                        announcementRegion.innerHTML = "Failed to copy!";
+                        console.error("Clipboard write failed: ", err);
+                    });
+            };
         }
     })();
 </script>
