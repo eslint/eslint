@@ -16,7 +16,7 @@ ESLintCircularFixesWarning: Circular fixes detected while fixing path/to/file. I
 
 ## Cause
 
-You have conflicting fixable rules in your configuration. ESLint autofixes code in mulitple passes. In one pass, one of the rules changes the code, and in the following pass, another rule changes the new code back to the previous version. ESLint detects that autofix is going in circles and emits this warning.
+You have conflicting fixable rules in your configuration. ESLint autofixes code in multiple passes, meaning it's possible that a fix in one pass is undone in a subsequent pass. For example, in the first pass a rules removes a trailing comma and in the following pass a different rule adds a trailing comma in the same place, effectively changing the code back to the previous version. ESLint emits a warning when it detects cycles like this.
 
 ## Resolution
 
