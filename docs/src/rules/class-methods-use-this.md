@@ -287,7 +287,7 @@ Examples of **correct** TypeScript code for this rule with the `{ "ignoreClasses
 ```ts
 /*eslint class-methods-use-this: ["error", { "ignoreClassesWithImplements": "all" }] */
 
-class Derived extends Base {
+class Derived implements Base {
     foo() {};
 }
 ```
