@@ -14,6 +14,7 @@ const { ConfigCommentParser } = require("@eslint/plugin-kit");
 const rules = require("../lib/rules");
 const { LATEST_ECMA_VERSION } = require("../conf/ecma-version");
 const { Linter } = require("../lib/linter");
+const tsParser = require("@typescript-eslint/parser");
 
 //------------------------------------------------------------------------------
 // Typedefs
@@ -27,7 +28,13 @@ const { Linter } = require("../lib/linter");
 // Helpers
 //------------------------------------------------------------------------------
 
-const STANDARD_LANGUAGE_TAGS = new Set(["javascript", "js", "jsx"]);
+const TYPESCRIPT_LANGUAGE_TAGS = new Set(["typescript", "ts", "tsx"]);
+const STANDARD_LANGUAGE_TAGS = new Set([
+    "javascript",
+    "js",
+    "jsx",
+    ...TYPESCRIPT_LANGUAGE_TAGS,
+]);
 
 const VALID_ECMA_VERSIONS = new Set([
     3,
@@ -57,9 +64,11 @@ async function findProblems(filename) {
                  * Missing language tags are also reported by Markdownlint rule MD040 for all code blocks,
                  * but the message we output here is more specific.
                  */
-                const message = `${languageTag
-                    ? `Nonstandard language tag '${languageTag}'`
-                    : "Missing language tag"}: use one of 'javascript', 'js' or 'jsx'`;
+                const message = `${
+                    languageTag
+                        ? `Nonstandard language tag '${languageTag}'`
+                        : "Missing language tag"
+                }: use one of 'javascript', 'js', 'jsx', 'typescript', 'ts' or 'tsx'`;
 
                 problems.push({
                     fatal: false,
@@ -93,6 +102,10 @@ async function findProblems(filename) {
 
                     return;
                 }
+            }
+
+            if (TYPESCRIPT_LANGUAGE_TAGS.has(languageTag)) {
+                languageOptions.parser = tsParser;
             }
 
             const linter = new Linter();

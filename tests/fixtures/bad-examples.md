@@ -17,7 +17,7 @@ export default "foo";
 
 :::correct
 
-````ts
+````bad
 const foo = "bar";
 
 const foo = "baz";
