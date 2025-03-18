@@ -11,6 +11,7 @@ const markdownIt = require("markdown-it");
 const markdownItContainer = require("markdown-it-container");
 const markdownItRuleExample = require("../docs/tools/markdown-it-rule-example");
 const { ConfigCommentParser } = require("@eslint/plugin-kit");
+const tsParser = require("@typescript-eslint/parser");
 const rules = require("../lib/rules");
 const { LATEST_ECMA_VERSION } = require("../conf/ecma-version");
 const { Linter } = require("../lib/linter");
@@ -27,7 +28,9 @@ const { Linter } = require("../lib/linter");
 // Helpers
 //------------------------------------------------------------------------------
 
-const STANDARD_LANGUAGE_TAGS = new Set(["javascript", "js", "jsx"]);
+const TYPESCRIPT_LANGUAGE_TAGS = new Set(["ts", "tsx"]);
+const STANDARD_LANGUAGE_TAGS = new Set(["javascript", "js", "jsx", ...TYPESCRIPT_LANGUAGE_TAGS]);
+
 
 const VALID_ECMA_VERSIONS = new Set([
     3,
@@ -59,7 +62,7 @@ async function findProblems(filename) {
                  */
                 const message = `${languageTag
                     ? `Nonstandard language tag '${languageTag}'`
-                    : "Missing language tag"}: use one of 'javascript', 'js' or 'jsx'`;
+                    : "Missing language tag"}: use one of 'javascript', 'js', 'jsx', 'ts', or 'tsx'`;
 
                 problems.push({
                     fatal: false,
@@ -93,6 +96,10 @@ async function findProblems(filename) {
 
                     return;
                 }
+            }
+
+            if (TYPESCRIPT_LANGUAGE_TAGS.has(languageTag)) {
+                languageOptions.parser = tsParser;
             }
 
             const linter = new Linter();
