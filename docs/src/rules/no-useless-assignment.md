@@ -151,6 +151,41 @@ function fn() {
 
 :::
 
+## Known Limitations
+
+This rule does not report certain variable reassignments when they occur inside the `try` block. This is intentional because such assignments may still be observed within the corresponding `catch` block or after the `try-catch` structure, due to potential early exits or error handling logic.
+
+```js
+function foo() {
+    let bar;
+    try {
+        bar = 2;
+        unsafeFn();
+        return { error: undefined };
+    } catch {
+        return { bar }; // `bar` is observed in the catch block
+    }
+}   
+function unsafeFn() {
+    throw new Error();
+}
+
+function foo() {
+    let bar;
+    try {
+        bar = 2; // This assignment is relevant if unsafeFn() throws an error
+        unsafeFn();
+        bar = 4;
+    } catch {
+        // Error handling
+    }
+    return bar;
+}   
+function unsafeFn() {
+    throw new Error();
+}
+```
+
 ## When Not To Use It
 
 If you don't want to be notified about values that are never read, you can safely disable this rule.
