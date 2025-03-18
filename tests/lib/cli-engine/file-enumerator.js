@@ -12,7 +12,6 @@ const fs = require("node:fs");
 const path = require("node:path");
 const os = require("node:os");
 const { assert } = require("chai");
-const chalk = require("chalk");
 const sh = require("shelljs");
 const sinon = require("sinon");
 const {
@@ -566,75 +565,51 @@ describe("FileEnumerator", () => {
             });
         });
 
-        const shouldSkipSymlinkTest = (() => {
-            if (process.platform !== "win32") {
-                return false;
-            }
+        if (process.platform !== "win32") {
+            describe("if contains symbolic links", () => {
+                const root = path.join(os.tmpdir(), "eslint/file-enumerator");
+                const files = {
+                    "dir1/1.js": "",
+                    "dir1/2.js": "",
+                    "top-level.js": "",
+                    ".eslintrc.json": JSON.stringify({ rules: {} })
+                };
+                const dir2 = path.join(root, "dir2");
+                const { prepare, cleanup } = createCustomTeardown({ cwd: root, files });
 
-            const root = path.join(os.tmpdir(), "eslint/windows-symlink-test");
+                beforeEach(async () => {
+                    await prepare();
+                    fs.mkdirSync(dir2);
+                    fs.symlinkSync(path.join(root, "top-level.js"), path.join(dir2, "top.js"), "file");
+                    fs.symlinkSync(path.join(root, "dir1"), path.join(dir2, "nested"), "dir");
+                });
 
-            fs.mkdirSync(root, { recursive: true });
-            fs.writeFileSync(path.join(root, "file"), "");
-            try {
-                fs.symlinkSync(path.join(root, "file"), path.join(root, "symlink"), "file");
-            } catch (error) {
-                if (error.code === "EPERM" && error.syscall === "symlink") {
-                    // eslint-disable-next-line no-console -- Display help information
-                    console.warn(chalk.yellow("'if contains symbolic links' test can not run on this machine, active 'Developer Mode' may help.\nSee https://learn.microsoft.com/en-us/windows/apps/get-started/enable-your-device-for-development#activate-developer-mode"));
-                    return true;
-                }
-                throw error;
-            } finally {
-                fs.rmSync(root, { recursive: true, force: true });
-            }
+                afterEach(cleanup);
 
-            return false;
+                it("should resolve", () => {
+                    const enumerator = new FileEnumerator({ cwd: root });
+                    const list = Array.from(enumerator.iterateFiles(["dir2/**/*.js"])).map(({ filePath }) => filePath);
 
-        })();
+                    assert.deepStrictEqual(list, [
+                        path.join(dir2, "nested", "1.js"),
+                        path.join(dir2, "nested", "2.js"),
+                        path.join(dir2, "top.js")
+                    ]);
+                });
 
-        (shouldSkipSymlinkTest ? describe.skip : describe)("if contains symbolic links", () => {
-            const root = path.join(os.tmpdir(), "eslint/file-enumerator");
-            const files = {
-                "dir1/1.js": "",
-                "dir1/2.js": "",
-                "top-level.js": "",
-                ".eslintrc.json": JSON.stringify({ rules: {} })
-            };
-            const dir2 = path.join(root, "dir2");
-            const { prepare, cleanup } = createCustomTeardown({ cwd: root, files });
+                it("should ignore broken links", () => {
+                    fs.unlinkSync(path.join(root, "top-level.js"));
 
-            beforeEach(async () => {
-                await prepare();
-                fs.mkdirSync(dir2);
-                fs.symlinkSync(path.join(root, "top-level.js"), path.join(dir2, "top.js"), "file");
-                fs.symlinkSync(path.join(root, "dir1"), path.join(dir2, "nested"), "dir");
+                    const enumerator = new FileEnumerator({ cwd: root });
+                    const list = Array.from(enumerator.iterateFiles(["dir2/**/*.js"])).map(({ filePath }) => filePath);
+
+                    assert.deepStrictEqual(list, [
+                        path.join(dir2, "nested", "1.js"),
+                        path.join(dir2, "nested", "2.js")
+                    ]);
+                });
             });
-
-            afterEach(cleanup);
-
-            it("should resolve", () => {
-                const enumerator = new FileEnumerator({ cwd: root });
-                const list = Array.from(enumerator.iterateFiles(["dir2/**/*.js"])).map(({ filePath }) => filePath);
-
-                assert.deepStrictEqual(list, [
-                    path.join(dir2, "nested", "1.js"),
-                    path.join(dir2, "nested", "2.js"),
-                    path.join(dir2, "top.js")
-                ]);
-            });
-
-            it("should ignore broken links", () => {
-                fs.unlinkSync(path.join(root, "top-level.js"));
-
-                const enumerator = new FileEnumerator({ cwd: root });
-                const list = Array.from(enumerator.iterateFiles(["dir2/**/*.js"])).map(({ filePath }) => filePath);
-
-                assert.deepStrictEqual(list, [
-                    path.join(dir2, "nested", "1.js"),
-                    path.join(dir2, "nested", "2.js")
-                ]);
-            });
-        });
+        }
     });
 
     // https://github.com/eslint/eslint/issues/13789
