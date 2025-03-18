@@ -260,10 +260,6 @@ module.exports = plugin;
 
 This plugin exports a `recommended` config that is an array with one config object. When there is just one config object, you can also export just the object without an enclosing array.
 
-::: tip
-Your plugin can export both current (flat config) and legacy (eslintrc) config objects in the `configs` key. When exporting legacy configs, we recommend prefixing the name with `"legacy-"` (for example, `"legacy-recommended"`) to make it clear how the config should be used.
-:::
-
 In order to use a config from a plugin in a configuration file, import the plugin and use the `extends` key to reference the name of the config, like this:
 
 ```js
@@ -285,6 +281,77 @@ export default defineConfig([
 ::: important
 Plugins cannot force a specific configuration to be used. Users must manually include a plugin's configurations in their configuration file.
 :::
+
+#### Backwards Compatibility for Legacy Configs
+
+If your plugin needs to export configs that work both with the current (flat config) system and the old (eslintrc) system, you can export both config types from the `configs` key. When exporting legacy configs, we recommend prefixing the name with `"legacy-"` (for example, `"legacy-recommended"`) to make it clear how the config should be used.
+
+If you're working on a plugin that has existed prior to ESLint v9.0.0, then you may already have legacy configs with names such as `"recommended"`. If you don't want to update the config name, you can also create an additional entry in the `configs` object prefixed with `"flat/"` (for example, `"flat/recommended"`). Here's an example:
+
+```js
+const plugin = {
+    meta: {
+        name: "eslint-plugin-example",
+        version: "1.2.3"
+    },
+    configs: {},
+    rules: {
+        "dollar-sign": {
+            create(context) {
+                // rule implementation ...
+            }
+        }
+    }
+};
+
+// assign configs here so we can reference `plugin`
+Object.assign(plugin.configs, {
+
+    // flat config format
+    "flat/recommended": [{
+        plugins: {
+            example: plugin
+        },
+        rules: {
+            "example/dollar-sign": "error"
+        },
+        languageOptions: {
+            globals: {
+                myGlobal: "readonly"
+            },
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            }
+        }
+    }],
+
+    // eslintrc format
+    recommended: {
+        plugins: ["example"],
+        rules: {
+            "example/dollar-sign": "error"
+        },
+        globals: {
+            myGlobal: "readonly"
+        },
+        parserOptions: {
+            ecmaFeatures: {
+                jsx: true
+            }
+        }
+    }
+});
+
+// for ESM
+export default plugin;
+
+// OR for CommonJS
+module.exports = plugin;
+```
+
+With this approach, both configuration systems recognize `"recommended"`. The old config system uses the `recommended` key while the current config system uses the `flat/recommended` key. The `defineConfig()` helper first looks at the `recommended` key, and if that is not in the correct format, it looks for the `flat/recommended` key. This allows you an upgrade path if you'd later like to rename `flat/recommended` to `recommended` when you no longer need to support the old config system.
 
 ## Testing a Plugin
 
