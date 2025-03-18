@@ -2640,6 +2640,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 1.0.0-rc-2
 	 * @see https://eslint.org/docs/latest/rules/no-invalid-this
 	 */
+    
     "no-invalid-this": Linter.RuleEntry<
         [
             Partial<{
