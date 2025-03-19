@@ -1,5 +1,5 @@
 ---
-title: Buttons 
+title: Buttons
 ---
 
 {% from 'components/button.macro.html' import button %}
@@ -13,7 +13,6 @@ The button macro will default to `link`, which will render an <code>&lt;a&gt;</c
 ## Usage
 
 ```html
-
 <!-- import the macro in the page(s) you want to render the button(s) in -->
 {% from 'components/button.macro.html' import button %}
 
@@ -22,7 +21,8 @@ The button macro will default to `link`, which will render an <code>&lt;a&gt;</c
 { { button({ behavior: "action", type: "primary", text: "Do Something" }) } }
 
 <!-- defaults to behavior: link -->
-{ { button({ type: "primary", text: "Go somewhere", url: "/url/to/somewhere/" }) } }
+{ { button({ type: "primary", text: "Go somewhere", url: "/url/to/somewhere/" })
+} }
 ```
 
 ## Examples

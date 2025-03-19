@@ -29,18 +29,18 @@ If you want to run just one or a subset of `RuleTester` test cases, add `only: t
 
 ```js
 ruleTester.run("my-rule", myRule, {
-    valid: [
-        RuleTester.only("const valid = 42;"),
-        // Other valid cases
-    ],
-    invalid: [
-        {
-            code: "const invalid = 42;",
-            only: true,
-        },
-        // Other invalid cases
-    ]
-})
+	valid: [
+		RuleTester.only("const valid = 42;"),
+		// Other valid cases
+	],
+	invalid: [
+		{
+			code: "const invalid = 42;",
+			only: true,
+		},
+		// Other invalid cases
+	],
+});
 ```
 
 Running individual tests is useful when you're working on a specific bug and iterating on the solution. You should be sure to run `npm test` before submitting a pull request. `npm test` uses Mocha's `--forbid-only` option to prevent `only` tests from passing full test runs.

@@ -16,58 +16,57 @@ const RuleTester = require("../../../lib/rule-tester/rule-tester");
 //------------------------------------------------------------------------------
 
 const CALL_ERROR = {
-    messageId: "deprecated",
-    data: {
-        expr: "Buffer()"
-    },
-    type: "CallExpression"
+	messageId: "deprecated",
+	data: {
+		expr: "Buffer()",
+	},
+	type: "CallExpression",
 };
 const CONSTRUCT_ERROR = {
-    messageId: "deprecated",
-    data: {
-        expr: "new Buffer()"
-    },
-    type: "NewExpression"
+	messageId: "deprecated",
+	data: {
+		expr: "new Buffer()",
+	},
+	type: "NewExpression",
 };
 
 const ruleTester = new RuleTester();
 
 ruleTester.run("no-buffer-constructor", rule, {
+	valid: [
+		"Buffer.alloc(5)",
+		"Buffer.allocUnsafe(5)",
+		"new Buffer.Foo()",
+		"Buffer.from([1, 2, 3])",
+		"foo(Buffer)",
+		"Buffer.alloc(res.body.amount)",
+		"Buffer.from(res.body.values)",
+	],
 
-    valid: [
-        "Buffer.alloc(5)",
-        "Buffer.allocUnsafe(5)",
-        "new Buffer.Foo()",
-        "Buffer.from([1, 2, 3])",
-        "foo(Buffer)",
-        "Buffer.alloc(res.body.amount)",
-        "Buffer.from(res.body.values)"
-    ],
-
-    invalid: [
-        {
-            code: "Buffer(5)",
-            errors: [CALL_ERROR]
-        },
-        {
-            code: "new Buffer(5)",
-            errors: [CONSTRUCT_ERROR]
-        },
-        {
-            code: "Buffer([1, 2, 3])",
-            errors: [CALL_ERROR]
-        },
-        {
-            code: "new Buffer([1, 2, 3])",
-            errors: [CONSTRUCT_ERROR]
-        },
-        {
-            code: "new Buffer(res.body.amount)",
-            errors: [CONSTRUCT_ERROR]
-        },
-        {
-            code: "new Buffer(res.body.values)",
-            errors: [CONSTRUCT_ERROR]
-        }
-    ]
+	invalid: [
+		{
+			code: "Buffer(5)",
+			errors: [CALL_ERROR],
+		},
+		{
+			code: "new Buffer(5)",
+			errors: [CONSTRUCT_ERROR],
+		},
+		{
+			code: "Buffer([1, 2, 3])",
+			errors: [CALL_ERROR],
+		},
+		{
+			code: "new Buffer([1, 2, 3])",
+			errors: [CONSTRUCT_ERROR],
+		},
+		{
+			code: "new Buffer(res.body.amount)",
+			errors: [CONSTRUCT_ERROR],
+		},
+		{
+			code: "new Buffer(res.body.values)",
+			errors: [CONSTRUCT_ERROR],
+		},
+	],
 });

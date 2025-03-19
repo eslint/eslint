@@ -20,11 +20,11 @@
 
 const matter = require("gray-matter");
 const metascraper = require("metascraper")([
-    require("metascraper-image")(),
-    require("metascraper-logo")(),
-    require("metascraper-logo-favicon")(),
-    require("metascraper-title")(),
-    require("metascraper-description")()
+	require("metascraper-image")(),
+	require("metascraper-logo")(),
+	require("metascraper-logo-favicon")(),
+	require("metascraper-title")(),
+	require("metascraper-description")(),
 ]);
 const got = require("got");
 const path = require("node:path");
@@ -44,7 +44,7 @@ const DATA_FILE_PATH = path.resolve(DATA_DIR, "further_reading_links.json");
 let filenames = process.argv.slice(2);
 
 if (filenames.length === 0) {
-    filenames = glob.sync("docs/src/rules/*.md", { cwd: BASE_DIR });
+	filenames = glob.sync("docs/src/rules/*.md", { cwd: BASE_DIR });
 }
 
 filenames = filenames.map(filename => path.resolve(BASE_DIR, filename));
@@ -59,54 +59,49 @@ filenames = filenames.map(filename => path.resolve(BASE_DIR, filename));
  * @returns {Promise<object>} An object with metadata info.
  */
 async function fetchLinkMeta(url) {
-    const { body: html, url: returnedURL } = await got(url);
-    const metadata = await metascraper({ html, url: returnedURL });
-    const domain = (new URL(returnedURL)).hostname;
+	const { body: html, url: returnedURL } = await got(url);
+	const metadata = await metascraper({ html, url: returnedURL });
+	const domain = new URL(returnedURL).hostname;
 
-    return {
-        domain,
-        url,
-        logo: metadata.logo,
-        title: metadata.title,
-        description: metadata.description
-    };
+	return {
+		domain,
+		url,
+		logo: metadata.logo,
+		title: metadata.title,
+		description: metadata.description,
+	};
 }
-
 
 //-----------------------------------------------------------------------------
 // Main
 //-----------------------------------------------------------------------------
 
 (async () => {
+	// First read in the current data file
+	const links = JSON.parse(await fs.readFile(DATA_FILE_PATH, "utf8"));
 
-    // First read in the current data file
-    const links = JSON.parse(await fs.readFile(DATA_FILE_PATH, "utf8"));
+	// check each file
+	for (const filename of filenames) {
+		const text = await fs.readFile(filename, "utf8");
+		const frontmatter = matter(text).data;
 
-    // check each file
-    for (const filename of filenames) {
+		if (frontmatter.further_reading) {
+			for (const url of frontmatter.further_reading) {
+				if (!links[url]) {
+					try {
+						links[url] = await fetchLinkMeta(url);
+					} catch (ex) {
+						console.error("Error in ", filename);
+						console.error("Could not fetch data for", url);
+						console.error(ex.message);
+						console.error(ex.stack);
+						process.exit(1);
+					}
+				}
+			}
+		}
+	}
 
-        const text = await fs.readFile(filename, "utf8");
-        const frontmatter = matter(text).data;
-
-        if (frontmatter.further_reading) {
-
-            for (const url of frontmatter.further_reading) {
-                if (!links[url]) {
-                    try {
-                        links[url] = await fetchLinkMeta(url);
-                    } catch (ex) {
-                        console.error("Error in ", filename);
-                        console.error("Could not fetch data for", url);
-                        console.error(ex.message);
-                        console.error(ex.stack);
-                        process.exit(1);
-                    }
-                }
-            }
-
-        }
-    }
-
-    // Last write new data into the current data file
-    await fs.writeFile(DATA_FILE_PATH, JSON.stringify(links, null, 4), "utf8");
+	// Last write new data into the current data file
+	await fs.writeFile(DATA_FILE_PATH, JSON.stringify(links, null, 4), "utf8");
 })();

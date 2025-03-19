@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-unused-private-class-members"),
-    RuleTester = require("../../../lib/rule-tester/rule-tester");
+	RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -24,50 +24,50 @@ const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2022 } });
  * @returns {Object} An expected error object
  */
 function definedError(classMemberName) {
-    return {
-        messageId: "unusedPrivateClassMember",
-        data: {
-            classMemberName: `#${classMemberName}`
-        }
-    };
+	return {
+		messageId: "unusedPrivateClassMember",
+		data: {
+			classMemberName: `#${classMemberName}`,
+		},
+	};
 }
 
 ruleTester.run("no-unused-private-class-members", rule, {
-    valid: [
-        "class Foo {}",
-        `class Foo {
+	valid: [
+		"class Foo {}",
+		`class Foo {
     publicMember = 42;
 }`,
-        `class Foo {
+		`class Foo {
     #usedMember = 42;
     method() {
         return this.#usedMember;
     }
 }`,
-        `class Foo {
+		`class Foo {
     #usedMember = 42;
     anotherMember = this.#usedMember;
 }`,
-        `class Foo {
+		`class Foo {
     #usedMember = 42;
     foo() {
         anotherMember = this.#usedMember;
     }
 }`,
-        `class C {
+		`class C {
     #usedMember;
 
     foo() {
         bar(this.#usedMember += 1);
     }
 }`,
-        `class Foo {
+		`class Foo {
     #usedMember = 42;
     method() {
         return someGlobalMethod(this.#usedMember);
     }
 }`,
-        `class C {
+		`class C {
     #usedInOuterClass;
 
     foo() {
@@ -78,7 +78,7 @@ ruleTester.run("no-unused-private-class-members", rule, {
         return this.#usedInOuterClass;
     }
 }`,
-        `class Foo {
+		`class Foo {
     #usedInForInLoop;
     method() {
         for (const bar in this.#usedInForInLoop) {
@@ -86,7 +86,7 @@ ruleTester.run("no-unused-private-class-members", rule, {
         }
     }
 }`,
-        `class Foo {
+		`class Foo {
     #usedInForOfLoop;
     method() {
         for (const bar of this.#usedInForOfLoop) {
@@ -94,32 +94,32 @@ ruleTester.run("no-unused-private-class-members", rule, {
         }
     }
 }`,
-        `class Foo {
+		`class Foo {
     #usedInAssignmentPattern;
     method() {
         [bar = 1] = this.#usedInAssignmentPattern;
     }
 }`,
-        `class Foo {
+		`class Foo {
     #usedInArrayPattern;
     method() {
         [bar] = this.#usedInArrayPattern;
     }
 }`,
-        `class Foo {
+		`class Foo {
     #usedInAssignmentPattern;
     method() {
         [bar] = this.#usedInAssignmentPattern;
     }
 }`,
-        `class C {
+		`class C {
     #usedInObjectAssignment;
 
     method() {
         ({ [this.#usedInObjectAssignment]: a } = foo);
     }
 }`,
-        `class C {
+		`class C {
     set #accessorWithSetterFirst(value) {
         doSomething(value);
     }
@@ -130,14 +130,14 @@ ruleTester.run("no-unused-private-class-members", rule, {
         this.#accessorWithSetterFirst += 1;
     }
 }`,
-        `class Foo {
+		`class Foo {
     set #accessorUsedInMemberAccess(value) {}
 
     method(a) {
         [this.#accessorUsedInMemberAccess] = a;
     }
 }`,
-        `class C {
+		`class C {
     get #accessorWithGetterFirst() {
         return something();
     }
@@ -148,7 +148,7 @@ ruleTester.run("no-unused-private-class-members", rule, {
         this.#accessorWithGetterFirst += 1;
     }
 }`,
-        `class C {
+		`class C {
     #usedInInnerClass;
 
     method(a) {
@@ -158,10 +158,10 @@ ruleTester.run("no-unused-private-class-members", rule, {
     }
 }`,
 
-        //--------------------------------------------------------------------------
-        // Method definitions
-        //--------------------------------------------------------------------------
-        `class Foo {
+		//--------------------------------------------------------------------------
+		// Method definitions
+		//--------------------------------------------------------------------------
+		`class Foo {
     #usedMethod() {
         return 42;
     }
@@ -169,7 +169,7 @@ ruleTester.run("no-unused-private-class-members", rule, {
         return this.#usedMethod();
     }
 }`,
-        `class C {
+		`class C {
     set #x(value) {
         doSomething(value);
     }
@@ -177,66 +177,69 @@ ruleTester.run("no-unused-private-class-members", rule, {
     foo() {
         this.#x = 1;
     }
-}`
-    ],
-    invalid: [
-        {
-            code: `class Foo {
+}`,
+	],
+	invalid: [
+		{
+			code: `class Foo {
     #unusedMember = 5;
 }`,
-            errors: [definedError("unusedMember")]
-        },
-        {
-            code: `class First {}
+			errors: [definedError("unusedMember")],
+		},
+		{
+			code: `class First {}
 class Second {
     #unusedMemberInSecondClass = 5;
 }`,
-            errors: [definedError("unusedMemberInSecondClass")]
-        },
-        {
-            code: `class First {
+			errors: [definedError("unusedMemberInSecondClass")],
+		},
+		{
+			code: `class First {
     #unusedMemberInFirstClass = 5;
 }
 class Second {}`,
-            errors: [definedError("unusedMemberInFirstClass")]
-        },
-        {
-            code: `class First {
+			errors: [definedError("unusedMemberInFirstClass")],
+		},
+		{
+			code: `class First {
     #firstUnusedMemberInSameClass = 5;
     #secondUnusedMemberInSameClass = 5;
 }`,
-            errors: [definedError("firstUnusedMemberInSameClass"), definedError("secondUnusedMemberInSameClass")]
-        },
-        {
-            code: `class Foo {
+			errors: [
+				definedError("firstUnusedMemberInSameClass"),
+				definedError("secondUnusedMemberInSameClass"),
+			],
+		},
+		{
+			code: `class Foo {
     #usedOnlyInWrite = 5;
     method() {
         this.#usedOnlyInWrite = 42;
     }
 }`,
-            errors: [definedError("usedOnlyInWrite")]
-        },
-        {
-            code: `class Foo {
+			errors: [definedError("usedOnlyInWrite")],
+		},
+		{
+			code: `class Foo {
     #usedOnlyInWriteStatement = 5;
     method() {
         this.#usedOnlyInWriteStatement += 42;
     }
 }`,
-            errors: [definedError("usedOnlyInWriteStatement")]
-        },
-        {
-            code: `class C {
+			errors: [definedError("usedOnlyInWriteStatement")],
+		},
+		{
+			code: `class C {
     #usedOnlyInIncrement;
 
     foo() {
         this.#usedOnlyInIncrement++;
     }
 }`,
-            errors: [definedError("usedOnlyInIncrement")]
-        },
-        {
-            code: `class C {
+			errors: [definedError("usedOnlyInIncrement")],
+		},
+		{
+			code: `class C {
     #unusedInOuterClass;
 
     foo() {
@@ -249,10 +252,10 @@ class Second {}`,
         };
     }
 }`,
-            errors: [definedError("unusedInOuterClass")]
-        },
-        {
-            code: `class C {
+			errors: [definedError("unusedInOuterClass")],
+		},
+		{
+			code: `class C {
     #unusedOnlyInSecondNestedClass;
 
     foo() {
@@ -275,20 +278,20 @@ class Second {}`,
         }
     }
 }`,
-            errors: [definedError("unusedOnlyInSecondNestedClass")]
-        },
+			errors: [definedError("unusedOnlyInSecondNestedClass")],
+		},
 
-        //--------------------------------------------------------------------------
-        // Unused method definitions
-        //--------------------------------------------------------------------------
-        {
-            code: `class Foo {
+		//--------------------------------------------------------------------------
+		// Unused method definitions
+		//--------------------------------------------------------------------------
+		{
+			code: `class Foo {
     #unusedMethod() {}
 }`,
-            errors: [definedError("unusedMethod")]
-        },
-        {
-            code: `class Foo {
+			errors: [definedError("unusedMethod")],
+		},
+		{
+			code: `class Foo {
     #unusedMethod() {}
     #usedMethod() {
         return 42;
@@ -297,16 +300,16 @@ class Second {}`,
         return this.#usedMethod();
     }
 }`,
-            errors: [definedError("unusedMethod")]
-        },
-        {
-            code: `class Foo {
+			errors: [definedError("unusedMethod")],
+		},
+		{
+			code: `class Foo {
     set #unusedSetter(value) {}
 }`,
-            errors: [definedError("unusedSetter")]
-        },
-        {
-            code: `class Foo {
+			errors: [definedError("unusedSetter")],
+		},
+		{
+			code: `class Foo {
     #unusedForInLoop;
     method() {
         for (this.#unusedForInLoop in bar) {
@@ -314,10 +317,10 @@ class Second {}`,
         }
     }
 }`,
-            errors: [definedError("unusedForInLoop")]
-        },
-        {
-            code: `class Foo {
+			errors: [definedError("unusedForInLoop")],
+		},
+		{
+			code: `class Foo {
     #unusedForOfLoop;
     method() {
         for (this.#unusedForOfLoop of bar) {
@@ -325,46 +328,46 @@ class Second {}`,
         }
     }
 }`,
-            errors: [definedError("unusedForOfLoop")]
-        },
-        {
-            code: `class Foo {
+			errors: [definedError("unusedForOfLoop")],
+		},
+		{
+			code: `class Foo {
     #unusedInDestructuring;
     method() {
         ({ x: this.#unusedInDestructuring } = bar);
     }
 }`,
-            errors: [definedError("unusedInDestructuring")]
-        },
-        {
-            code: `class Foo {
+			errors: [definedError("unusedInDestructuring")],
+		},
+		{
+			code: `class Foo {
     #unusedInRestPattern;
     method() {
         [...this.#unusedInRestPattern] = bar;
     }
 }`,
-            errors: [definedError("unusedInRestPattern")]
-        },
-        {
-            code: `class Foo {
+			errors: [definedError("unusedInRestPattern")],
+		},
+		{
+			code: `class Foo {
     #unusedInAssignmentPattern;
     method() {
         [this.#unusedInAssignmentPattern = 1] = bar;
     }
 }`,
-            errors: [definedError("unusedInAssignmentPattern")]
-        },
-        {
-            code: `class Foo {
+			errors: [definedError("unusedInAssignmentPattern")],
+		},
+		{
+			code: `class Foo {
     #unusedInAssignmentPattern;
     method() {
         [this.#unusedInAssignmentPattern] = bar;
     }
 }`,
-            errors: [definedError("unusedInAssignmentPattern")]
-        },
-        {
-            code: `class C {
+			errors: [definedError("unusedInAssignmentPattern")],
+		},
+		{
+			code: `class C {
     #usedOnlyInTheSecondInnerClass;
 
     method(a) {
@@ -381,10 +384,12 @@ class Second {}`,
         }
     }
 }`,
-            errors: [{
-                ...definedError("usedOnlyInTheSecondInnerClass"),
-                line: 2
-            }]
-        }
-    ]
+			errors: [
+				{
+					...definedError("usedOnlyInTheSecondInnerClass"),
+					line: 2,
+				},
+			],
+		},
+	],
 });
