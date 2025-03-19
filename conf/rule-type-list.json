@@ -17,8 +17,8 @@
     {
       "removed": "no-arrow-condition",
       "replacedBy": [
-      { "rule": { "name": "no-confusing-arrow" } },
-      { "rule": { "name": "no-constant-condition" } }
+        { "rule": { "name": "no-confusing-arrow" } },
+        { "rule": { "name": "no-constant-condition" } }
       ]
     },
     {
@@ -68,8 +68,8 @@
     {
       "removed": "space-in-brackets",
       "replacedBy": [
-      { "rule": { "name": "object-curly-spacing" } },
-      { "rule": { "name": "array-bracket-spacing" } }
+        { "rule": { "name": "object-curly-spacing" } },
+        { "rule": { "name": "array-bracket-spacing" } }
       ]
     },
     {
