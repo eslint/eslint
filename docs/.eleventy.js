@@ -17,6 +17,7 @@ const {
 const markdownIt = require("markdown-it");
 const markdownItRuleExample = require("./tools/markdown-it-rule-example");
 const prismESLintHook = require("./tools/prism-eslint-hook");
+const preWrapperPlugin = require("./src/_plugins/pre-wrapper.js");
 
 module.exports = function(eleventyConfig) {
 
@@ -201,6 +202,14 @@ module.exports = function(eleventyConfig) {
     const ruleExampleOptions = markdownItRuleExample({
         open({ type, code, languageOptions, env, codeBlockToken }) {
 
+            /*
+             * TypeScript isn't yet supported on the playground:
+             * https://github.com/eslint/eslint.org/issues/709
+             */
+            if (codeBlockToken.info === "ts") {
+                return `<div class="${type}">`;
+            }
+
             prismESLintHook.addContentMustBeMarked(codeBlockToken.content, languageOptions);
 
             const isRuleRemoved = !Object.hasOwn(env.rules_meta, env.title);
@@ -254,6 +263,7 @@ module.exports = function(eleventyConfig) {
             }
         })
         .use(lineNumberPlugin)
+        .use(preWrapperPlugin)
         .disable("code");
 
     eleventyConfig.setLibrary("md", md);

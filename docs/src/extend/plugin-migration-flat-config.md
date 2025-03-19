@@ -114,16 +114,18 @@ module.exports = plugin;
 In order to use this renamed processor, you'll also need to manually specify it inside of a config, such as:
 
 ```js
+import { defineConfig } from "eslint/config";
 import example from "eslint-plugin-example";
 
-export default [
+export default defineConfig([
     {
+        files: ["**/*.md"],
         plugins: {
             example
         },
         processor: "example/markdown"
     }
-];
+]);
 ```
 
 You should update your plugin's documentation to advise your users if you have renamed a file extension-named processor.
@@ -185,20 +187,23 @@ module.exports = plugin;
 Your users can then use this exported config like this:
 
 ```js
+import { defineConfig } from "eslint/config";
 import example from "eslint-plugin-example";
 
-export default [
+export default defineConfig([
 
-    // use recommended config
-    example.configs.recommended,
-
-    // and provide your own overrides
+    // use recommended config and provide your own overrides
     {
+        files: ["**/*.js"],
+        plugins: {
+            example
+        },
+        extends: ["example/recommended"],
         rules: {
             "example/rule1": "warn"
         }
     }
-];
+]);
 ```
 
 If your config extends other configs, you can export an array:
@@ -222,19 +227,6 @@ module.exports = {
 ```
 
 You should update your documentation so your plugin users know how to reference the exported configs.
-
-If your exported config is an object, then your users can insert it directly into the config array; if your exported config is an array, then your users should use the spread operator (`...`) to insert the array's items into the config array.
-
-Here's an example with both an object config and an array config:
-
-```js
-import example from "eslint-plugin-example";
-
-export default [
-    example.configs.recommended, // Object, so don't spread
-    ...example.configs.extendedConfig, // Array, so needs spreading
-];
-```
 
 For more information, see the [full documentation](https://eslint.org/docs/latest/extend/plugins#configs-in-plugins).
 
@@ -295,22 +287,27 @@ module.exports = plugin;
 Your users can then use this exported config like this:
 
 ```js
+import { defineConfig } from "eslint/config";
 import example from "eslint-plugin-example";
 
-export default [
-
-    // use the mocha globals
-    example.configs.mocha,
-
-    // and provide your own overrides
+export default defineConfig([
     {
+        files: ["**/tests/*.js"],
+        plugins: {
+            example
+        },
+
+        // use the mocha globals
+        extends: ["example/mocha"],
+
+        // and provide your own overrides
         languageOptions: {
             globals: {
                 it: "readonly"
             }
         }
     }
-];
+]);
 ```
 
 You should update your documentation so your plugin users know how to reference the exported configs.

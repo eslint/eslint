@@ -75,9 +75,9 @@ describe("check-rule-examples", () => {
                 const expectedStderr =
                 "\x1B[0m\x1B[0m\n" +
                 "\x1B[0m\x1B[4mbad-examples.md\x1B[24m\x1B[0m\n" +
-                "\x1B[0m   \x1B[2m11:4\x1B[22m  \x1B[31merror\x1B[39m  Missing language tag: use one of 'javascript', 'js' or 'jsx'\x1B[0m\n" +
+                "\x1B[0m   \x1B[2m11:4\x1B[22m  \x1B[31merror\x1B[39m  Missing language tag: use one of 'javascript', 'js', 'jsx', 'ts', or 'tsx'\x1B[0m\n" +
                 "\x1B[0m   \x1B[2m12:1\x1B[22m  \x1B[31merror\x1B[39m  Unexpected lint error found: Parsing error: 'import' and 'export' may appear only with 'sourceType: module'\x1B[0m\n" +
-                "\x1B[0m   \x1B[2m20:5\x1B[22m  \x1B[31merror\x1B[39m  Nonstandard language tag 'ts': use one of 'javascript', 'js' or 'jsx'\x1B[0m\n" +
+                "\x1B[0m   \x1B[2m20:5\x1B[22m  \x1B[31merror\x1B[39m  Nonstandard language tag 'rs': use one of 'javascript', 'js', 'jsx', 'ts', or 'tsx'\x1B[0m\n" +
                 "\x1B[0m   \x1B[2m23:7\x1B[22m  \x1B[31merror\x1B[39m  Unexpected lint error found: Parsing error: Identifier 'foo' has already been declared\x1B[0m\n" +
                 "\x1B[0m   \x1B[2m31:1\x1B[22m  \x1B[31merror\x1B[39m  Example code should contain a configuration comment like /* eslint no-restricted-syntax: \"error\" */\x1B[0m\n" +
                 "\x1B[0m   \x1B[2m41:1\x1B[22m  \x1B[31merror\x1B[39m  Unexpected lint error found: Failed to parse JSON from 'doesn't allow this comment'\x1B[0m\n" +

@@ -69,15 +69,19 @@ If your shareable config depends on a plugin or a custom parser, you should spec
 
 ## Using a Shareable Config
 
-To use a shareable config, import the package inside of an `eslint.config.js` file and add it into the exported array, like this:
+To use a shareable config, import the package inside of an `eslint.config.js` file and add it into the exported array using `extends`, like this:
 
 ```js
 // eslint.config.js
+import { defineConfig } from "eslint/config";
 import myconfig from "eslint-config-myconfig";
 
-export default [
-    ...myconfig
-];
+export default defineConfig([
+    {
+        files: ["**/*.js"],
+        extends: [myconfig]
+    }
+]);
 ```
 
 ::: warning
@@ -90,18 +94,20 @@ You can override settings from the shareable config by adding them directly into
 
 ```js
 // eslint.config.js
+import { defineConfig } from "eslint/config";
 import myconfig from "eslint-config-myconfig";
 
-export default [
-    ...myconfig,
-
-    // anything from here will override myconfig
+export default defineConfig([
     {
+        files: ["**/*.js"],
+        extends: [myconfig],
+
+        // anything from here will override myconfig
         rules: {
             "no-unused-vars": "warn"
         }
     }
-];
+]);
 ```
 
 ## Sharing Multiple Configs
@@ -123,20 +129,21 @@ Then, assuming you're using the package name `eslint-config-myconfig`, you can a
 
 ```js
 // eslint.config.js
+import { defineConfig } from "eslint/config";
 import myconfig from "eslint-config-myconfig";
 import mySpecialConfig from "eslint-config-myconfig/my-special-config.js";
 
-export default [
-    ...myconfig,
-    mySpecialConfig,
-
-    // anything from here will override myconfig and mySpecialConfig
+export default defineConfig([
     {
+        files: ["**/*.js"],
+        extends: [myconfig, mySpecialConfig],
+
+        // anything from here will override myconfig
         rules: {
             "no-unused-vars": "warn"
         }
     }
-];
+]);
 ```
 
 ::: important

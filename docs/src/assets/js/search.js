@@ -231,7 +231,7 @@ if (poweredByLink) {
 
 if (resultsElement) {
     resultsElement.addEventListener('keydown', (e) => {
-        if (e.key !== "ArrowUp" && e.key !== "ArrowDown" && e.key !== "Tab" && e.key !== 'Shift') {
+        if (e.key !== "ArrowUp" && e.key !== "ArrowDown" && e.key !== "Tab" && e.key !== 'Shift' && e.key !== "Enter") {
             searchInput.focus();
         }
     });
