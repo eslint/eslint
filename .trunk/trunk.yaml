@@ -45,6 +45,7 @@ lint:
         - checkov@3.2.228
         - markdownlint@0.41.0
         - oxipng@9.1.2
+        - prettier@3.3.3
         - renovate@38.37.1
         - shellcheck@0.10.0
         - shfmt@3.6.0
@@ -53,9 +54,15 @@ lint:
         - yamllint
         - trufflehog # Requires the network to run.
     ignore:
-        - linters: [markdownlint]
+        - linters: [markdownlint, prettier]
           paths:
               - CHANGELOG.md
+        - linters: [prettier]
+          paths:
+              - docs/src/_includes
+              - docs/src/rules/*.md
+              - packages/js/src/configs/eslint-all.js
+              - tests/fixtures
 actions:
     disabled:
         - trunk-announce
