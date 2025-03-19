@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const assert = require("node:assert"),
-    { Linter } = require("../../../../lib/linter");
+	{ Linter } = require("../../../../lib/linter");
 const linter = new Linter({ configType: "eslintrc" });
 
 //------------------------------------------------------------------------------
@@ -23,22 +23,22 @@ const linter = new Linter({ configType: "eslintrc" });
  * @returns {CodePath[]} A list of created code paths.
  */
 function parseCodePaths(code) {
-    const retv = [];
+	const retv = [];
 
-    linter.defineRule("test", {
-        create: () => ({
-            onCodePathStart(codePath) {
-                retv.push(codePath);
-            }
-        })
-    });
+	linter.defineRule("test", {
+		create: () => ({
+			onCodePathStart(codePath) {
+				retv.push(codePath);
+			},
+		}),
+	});
 
-    linter.verify(code, {
-        rules: { test: 2 },
-        parserOptions: { ecmaVersion: "latest" }
-    });
+	linter.verify(code, {
+		rules: { test: 2 },
+		parserOptions: { ecmaVersion: "latest" },
+	});
 
-    return retv;
+	return retv;
 }
 
 /**
@@ -51,16 +51,16 @@ function parseCodePaths(code) {
  * @returns {string[]} The list of segment's ids in the order traversed.
  */
 function getOrderOfTraversing(codePath, options, callback) {
-    const retv = [];
+	const retv = [];
 
-    codePath.traverseSegments(options, (segment, controller) => {
-        retv.push(segment.id);
-        if (callback) {
-            callback(segment, controller); // eslint-disable-line n/callback-return -- At end of inner function
-        }
-    });
+	codePath.traverseSegments(options, (segment, controller) => {
+		retv.push(segment.id);
+		if (callback) {
+			callback(segment, controller); // eslint-disable-line n/callback-return -- At end of inner function
+		}
+	});
 
-    return retv;
+	return retv;
 }
 
 //------------------------------------------------------------------------------
@@ -68,65 +68,64 @@ function getOrderOfTraversing(codePath, options, callback) {
 //------------------------------------------------------------------------------
 
 describe("CodePathAnalyzer", () => {
+	/*
+	 * If you need to output the code paths and DOT graph information for a
+	 * particular piece of code, update and uncomment the following test and
+	 * then run:
+	 * DEBUG=eslint:code-path npx mocha tests/lib/linter/code-path-analysis/
+	 *
+	 * All the information you need will be output to the console.
+	 */
+	/*
+	 * it.only("test", () => {
+	 *     const codePaths = parseCodePaths("class Foo { a = () => b }");
+	 * });
+	 */
 
-    /*
-     * If you need to output the code paths and DOT graph information for a
-     * particular piece of code, update and uncomment the following test and
-     * then run:
-     * DEBUG=eslint:code-path npx mocha tests/lib/linter/code-path-analysis/
-     *
-     * All the information you need will be output to the console.
-     */
-    /*
-     * it.only("test", () => {
-     *     const codePaths = parseCodePaths("class Foo { a = () => b }");
-     * });
-     */
+	describe("CodePath#origin", () => {
+		it("should be 'program' when code path starts at root node", () => {
+			const codePath = parseCodePaths("foo(); bar(); baz();")[0];
 
-    describe("CodePath#origin", () => {
+			assert.strictEqual(codePath.origin, "program");
+		});
 
-        it("should be 'program' when code path starts at root node", () => {
-            const codePath = parseCodePaths("foo(); bar(); baz();")[0];
+		it("should be 'function' when code path starts inside a function", () => {
+			const codePath = parseCodePaths("function foo() {}")[1];
 
-            assert.strictEqual(codePath.origin, "program");
-        });
+			assert.strictEqual(codePath.origin, "function");
+		});
 
-        it("should be 'function' when code path starts inside a function", () => {
-            const codePath = parseCodePaths("function foo() {}")[1];
+		it("should be 'function' when code path starts inside an arrow function", () => {
+			const codePath = parseCodePaths("let foo = () => {}")[1];
 
-            assert.strictEqual(codePath.origin, "function");
-        });
+			assert.strictEqual(codePath.origin, "function");
+		});
 
-        it("should be 'function' when code path starts inside an arrow function", () => {
-            const codePath = parseCodePaths("let foo = () => {}")[1];
+		it("should be 'class-field-initializer' when code path starts inside a class field initializer", () => {
+			const codePath = parseCodePaths("class Foo { a=1; }")[1];
 
-            assert.strictEqual(codePath.origin, "function");
-        });
+			assert.strictEqual(codePath.origin, "class-field-initializer");
+		});
 
-        it("should be 'class-field-initializer' when code path starts inside a class field initializer", () => {
-            const codePath = parseCodePaths("class Foo { a=1; }")[1];
+		it("should be 'class-static-block' when code path starts inside a class static block", () => {
+			const codePath = parseCodePaths(
+				"class Foo { static { this.a=1; } }",
+			)[1];
 
-            assert.strictEqual(codePath.origin, "class-field-initializer");
-        });
+			assert.strictEqual(codePath.origin, "class-static-block");
+		});
+	});
 
-        it("should be 'class-static-block' when code path starts inside a class static block", () => {
-            const codePath = parseCodePaths("class Foo { static { this.a=1; } }")[1];
+	describe(".traverseSegments()", () => {
+		describe("should traverse segments from the first to the end:", () => {
+			/* eslint-disable internal-rules/multiline-comment-style -- Commenting out */
+			it("simple", () => {
+				const codePath = parseCodePaths("foo(); bar(); baz();")[0];
+				const order = getOrderOfTraversing(codePath);
 
-            assert.strictEqual(codePath.origin, "class-static-block");
-        });
-    });
+				assert.deepStrictEqual(order, ["s1_1"]);
 
-    describe(".traverseSegments()", () => {
-
-        describe("should traverse segments from the first to the end:", () => {
-            /* eslint-disable internal-rules/multiline-comment-style -- Commenting out */
-            it("simple", () => {
-                const codePath = parseCodePaths("foo(); bar(); baz();")[0];
-                const order = getOrderOfTraversing(codePath);
-
-                assert.deepStrictEqual(order, ["s1_1"]);
-
-                /*
+				/*
                 digraph {
                     node[shape=box,style="rounded,filled",fillcolor=white];
                     initial[label="",shape=circle,style=filled,fillcolor=black,width=0.25,height=0.25];
@@ -135,15 +134,17 @@ describe("CodePathAnalyzer", () => {
                     initial->s1_1->final;
                 }
                 */
-            });
+			});
 
-            it("if", () => {
-                const codePath = parseCodePaths("if (a) foo(); else bar(); baz();")[0];
-                const order = getOrderOfTraversing(codePath);
+			it("if", () => {
+				const codePath = parseCodePaths(
+					"if (a) foo(); else bar(); baz();",
+				)[0];
+				const order = getOrderOfTraversing(codePath);
 
-                assert.deepStrictEqual(order, ["s1_1", "s1_2", "s1_3", "s1_4"]);
+				assert.deepStrictEqual(order, ["s1_1", "s1_2", "s1_3", "s1_4"]);
 
-                /*
+				/*
                 digraph {
                     node[shape=box,style="rounded,filled",fillcolor=white];
                     initial[label="",shape=circle,style=filled,fillcolor=black,width=0.25,height=0.25];
@@ -156,15 +157,23 @@ describe("CodePathAnalyzer", () => {
                     s1_1->s1_3->s1_4->final;
                 }
                 */
-            });
+			});
 
-            it("switch", () => {
-                const codePath = parseCodePaths("switch (a) { case 0: foo(); break; case 1: bar(); } baz();")[0];
-                const order = getOrderOfTraversing(codePath);
+			it("switch", () => {
+				const codePath = parseCodePaths(
+					"switch (a) { case 0: foo(); break; case 1: bar(); } baz();",
+				)[0];
+				const order = getOrderOfTraversing(codePath);
 
-                assert.deepStrictEqual(order, ["s1_1", "s1_2", "s1_4", "s1_5", "s1_6"]);
+				assert.deepStrictEqual(order, [
+					"s1_1",
+					"s1_2",
+					"s1_4",
+					"s1_5",
+					"s1_6",
+				]);
 
-                /*
+				/*
                 digraph {
                     node[shape=box,style="rounded,filled",fillcolor=white];
                     initial[label="",shape=circle,style=filled,fillcolor=black,width=0.25,height=0.25];
@@ -181,15 +190,15 @@ describe("CodePathAnalyzer", () => {
                     s1_4->s1_6->final;
                 }
                 */
-            });
+			});
 
-            it("while", () => {
-                const codePath = parseCodePaths("while (a) foo(); bar();")[0];
-                const order = getOrderOfTraversing(codePath);
+			it("while", () => {
+				const codePath = parseCodePaths("while (a) foo(); bar();")[0];
+				const order = getOrderOfTraversing(codePath);
 
-                assert.deepStrictEqual(order, ["s1_1", "s1_2", "s1_3", "s1_4"]);
+				assert.deepStrictEqual(order, ["s1_1", "s1_2", "s1_3", "s1_4"]);
 
-                /*
+				/*
                 digraph {
                     node[shape=box,style="rounded,filled",fillcolor=white];
                     initial[label="",shape=circle,style=filled,fillcolor=black,width=0.25,height=0.25];
@@ -201,15 +210,23 @@ describe("CodePathAnalyzer", () => {
                     initial->s1_1->s1_2->s1_3->s1_2->s1_4->final;
                 }
                 */
-            });
+			});
 
-            it("for", () => {
-                const codePath = parseCodePaths("for (var i = 0; i < 10; ++i) foo(i); bar();")[0];
-                const order = getOrderOfTraversing(codePath);
+			it("for", () => {
+				const codePath = parseCodePaths(
+					"for (var i = 0; i < 10; ++i) foo(i); bar();",
+				)[0];
+				const order = getOrderOfTraversing(codePath);
 
-                assert.deepStrictEqual(order, ["s1_1", "s1_2", "s1_3", "s1_4", "s1_5"]);
+				assert.deepStrictEqual(order, [
+					"s1_1",
+					"s1_2",
+					"s1_3",
+					"s1_4",
+					"s1_5",
+				]);
 
-                /*
+				/*
                 digraph {
                     node[shape=box,style="rounded,filled",fillcolor=white];
                     initial[label="",shape=circle,style=filled,fillcolor=black,width=0.25,height=0.25];
@@ -222,15 +239,23 @@ describe("CodePathAnalyzer", () => {
                     initial->s1_1->s1_2->s1_3->s1_4->s1_2->s1_5->final;
                 }
                 */
-            });
+			});
 
-            it("for-in", () => {
-                const codePath = parseCodePaths("for (var key in obj) foo(key); bar();")[0];
-                const order = getOrderOfTraversing(codePath);
+			it("for-in", () => {
+				const codePath = parseCodePaths(
+					"for (var key in obj) foo(key); bar();",
+				)[0];
+				const order = getOrderOfTraversing(codePath);
 
-                assert.deepStrictEqual(order, ["s1_1", "s1_3", "s1_2", "s1_4", "s1_5"]);
+				assert.deepStrictEqual(order, [
+					"s1_1",
+					"s1_3",
+					"s1_2",
+					"s1_4",
+					"s1_5",
+				]);
 
-                /*
+				/*
                 digraph {
                     node[shape=box,style="rounded,filled",fillcolor=white];
                     initial[label="",shape=circle,style=filled,fillcolor=black,width=0.25,height=0.25];
@@ -245,15 +270,17 @@ describe("CodePathAnalyzer", () => {
                     s1_4->s1_5->final;
                 }
                 */
-            });
+			});
 
-            it("try-catch", () => {
-                const codePath = parseCodePaths("try { foo(); } catch (e) { bar(); } baz();")[0];
-                const order = getOrderOfTraversing(codePath);
+			it("try-catch", () => {
+				const codePath = parseCodePaths(
+					"try { foo(); } catch (e) { bar(); } baz();",
+				)[0];
+				const order = getOrderOfTraversing(codePath);
 
-                assert.deepStrictEqual(order, ["s1_1", "s1_2", "s1_3", "s1_4"]);
+				assert.deepStrictEqual(order, ["s1_1", "s1_2", "s1_3", "s1_4"]);
 
-                /*
+				/*
                 digraph {
                     node[shape=box,style="rounded,filled",fillcolor=white];
                     initial[label="",shape=circle,style=filled,fillcolor=black,width=0.25,height=0.25];
@@ -267,19 +294,21 @@ describe("CodePathAnalyzer", () => {
                     s1_2->s1_4->final;
                 }
                 */
-            });
-        });
+			});
+		});
 
-        it("should traverse segments from `options.first` to `options.last`.", () => {
-            const codePath = parseCodePaths("if (a) { if (b) { foo(); } bar(); } else { out1(); } out2();")[0];
-            const order = getOrderOfTraversing(codePath, {
-                first: codePath.initialSegment.nextSegments[0],
-                last: codePath.initialSegment.nextSegments[0].nextSegments[1]
-            });
+		it("should traverse segments from `options.first` to `options.last`.", () => {
+			const codePath = parseCodePaths(
+				"if (a) { if (b) { foo(); } bar(); } else { out1(); } out2();",
+			)[0];
+			const order = getOrderOfTraversing(codePath, {
+				first: codePath.initialSegment.nextSegments[0],
+				last: codePath.initialSegment.nextSegments[0].nextSegments[1],
+			});
 
-            assert.deepStrictEqual(order, ["s1_2", "s1_3", "s1_4"]);
+			assert.deepStrictEqual(order, ["s1_2", "s1_3", "s1_4"]);
 
-            /*
+			/*
             digraph {
                 node[shape=box,style="rounded,filled",fillcolor=white];
                 initial[label="",shape=circle,style=filled,fillcolor=black,width=0.25,height=0.25];
@@ -296,19 +325,25 @@ describe("CodePathAnalyzer", () => {
                 s1_6->final;
             }
             */
-        });
+		});
 
-        it("should stop immediately when 'controller.break()' was called.", () => {
-            const codePath = parseCodePaths("if (a) { if (b) { foo(); } bar(); } else { out1(); } out2();")[0];
-            const order = getOrderOfTraversing(codePath, null, (segment, controller) => {
-                if (segment.id === "s1_2") {
-                    controller.break();
-                }
-            });
+		it("should stop immediately when 'controller.break()' was called.", () => {
+			const codePath = parseCodePaths(
+				"if (a) { if (b) { foo(); } bar(); } else { out1(); } out2();",
+			)[0];
+			const order = getOrderOfTraversing(
+				codePath,
+				null,
+				(segment, controller) => {
+					if (segment.id === "s1_2") {
+						controller.break();
+					}
+				},
+			);
 
-            assert.deepStrictEqual(order, ["s1_1", "s1_2"]);
+			assert.deepStrictEqual(order, ["s1_1", "s1_2"]);
 
-            /*
+			/*
             digraph {
                 node[shape=box,style="rounded,filled",fillcolor=white];
                 initial[label="",shape=circle,style=filled,fillcolor=black,width=0.25,height=0.25];
@@ -325,19 +360,25 @@ describe("CodePathAnalyzer", () => {
                 s1_6->final;
             }
             */
-        });
+		});
 
-        it("should skip the current branch when 'controller.skip()' was called.", () => {
-            const codePath = parseCodePaths("if (a) { if (b) { foo(); } bar(); } else { out1(); } out2();")[0];
-            const order = getOrderOfTraversing(codePath, null, (segment, controller) => {
-                if (segment.id === "s1_2") {
-                    controller.skip();
-                }
-            });
+		it("should skip the current branch when 'controller.skip()' was called.", () => {
+			const codePath = parseCodePaths(
+				"if (a) { if (b) { foo(); } bar(); } else { out1(); } out2();",
+			)[0];
+			const order = getOrderOfTraversing(
+				codePath,
+				null,
+				(segment, controller) => {
+					if (segment.id === "s1_2") {
+						controller.skip();
+					}
+				},
+			);
 
-            assert.deepStrictEqual(order, ["s1_1", "s1_2", "s1_5", "s1_6"]);
+			assert.deepStrictEqual(order, ["s1_1", "s1_2", "s1_5", "s1_6"]);
 
-            /*
+			/*
             digraph {
                 node[shape=box,style="rounded,filled",fillcolor=white];
                 initial[label="",shape=circle,style=filled,fillcolor=black,width=0.25,height=0.25];
@@ -354,19 +395,31 @@ describe("CodePathAnalyzer", () => {
                 s1_6->final;
             }
             */
-        });
+		});
 
-        it("should not skip the next branch when 'controller.skip()' was called.", () => {
-            const codePath = parseCodePaths("if (a) { if (b) { foo(); } bar(); } out1();")[0];
-            const order = getOrderOfTraversing(codePath, null, (segment, controller) => {
-                if (segment.id === "s1_4") {
-                    controller.skip(); // Since s1_5 is connected from s1_1, we expect it not to be skipped.
-                }
-            });
+		it("should not skip the next branch when 'controller.skip()' was called.", () => {
+			const codePath = parseCodePaths(
+				"if (a) { if (b) { foo(); } bar(); } out1();",
+			)[0];
+			const order = getOrderOfTraversing(
+				codePath,
+				null,
+				(segment, controller) => {
+					if (segment.id === "s1_4") {
+						controller.skip(); // Since s1_5 is connected from s1_1, we expect it not to be skipped.
+					}
+				},
+			);
 
-            assert.deepStrictEqual(order, ["s1_1", "s1_2", "s1_3", "s1_4", "s1_5"]);
+			assert.deepStrictEqual(order, [
+				"s1_1",
+				"s1_2",
+				"s1_3",
+				"s1_4",
+				"s1_5",
+			]);
 
-            /*
+			/*
             digraph {
                 node[shape=box,style="rounded,filled",fillcolor=white];
                 initial[label="",shape=circle,style=filled,fillcolor=black,width=0.25,height=0.25];
@@ -382,20 +435,24 @@ describe("CodePathAnalyzer", () => {
                 s1_5->final;
             }
             */
-        });
+		});
 
-        it("should skip the next branch when 'controller.skip()' was called at top segment.", () => {
-            const codePath = parseCodePaths("a; while (b) { c; }")[0];
+		it("should skip the next branch when 'controller.skip()' was called at top segment.", () => {
+			const codePath = parseCodePaths("a; while (b) { c; }")[0];
 
-            const order = getOrderOfTraversing(codePath, null, (segment, controller) => {
-                if (segment.id === "s1_1") {
-                    controller.skip();
-                }
-            });
+			const order = getOrderOfTraversing(
+				codePath,
+				null,
+				(segment, controller) => {
+					if (segment.id === "s1_1") {
+						controller.skip();
+					}
+				},
+			);
 
-            assert.deepStrictEqual(order, ["s1_1"]);
+			assert.deepStrictEqual(order, ["s1_1"]);
 
-            /*
+			/*
             digraph {
                 node[shape=box,style="rounded,filled",fillcolor=white];
                 initial[label="",shape=circle,style=filled,fillcolor=black,width=0.25,height=0.25];
@@ -407,7 +464,7 @@ describe("CodePathAnalyzer", () => {
                 initial->s1_1->s1_2->s1_3->s1_2->s1_4->final;
             }
             */
-        });
-        /* eslint-enable internal-rules/multiline-comment-style -- Commenting out */
-    });
+		});
+		/* eslint-enable internal-rules/multiline-comment-style -- Commenting out */
+	});
 });

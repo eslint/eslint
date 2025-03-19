@@ -23,9 +23,9 @@ const got = require("got");
 //-----------------------------------------------------------------------------
 
 const SPONSORS_URL =
-    "https://raw.githubusercontent.com/eslint/eslint.org/main/includes/sponsors.md";
+	"https://raw.githubusercontent.com/eslint/eslint.org/main/includes/sponsors.md";
 const TEAM_URL =
-    "https://raw.githubusercontent.com/eslint/eslint.org/main/src/_data/team.json";
+	"https://raw.githubusercontent.com/eslint/eslint.org/main/src/_data/team.json";
 const README_FILE_PATH = "./README.md";
 
 const readme = fs.readFileSync(README_FILE_PATH, "utf8");
@@ -39,7 +39,7 @@ const readme = fs.readFileSync(README_FILE_PATH, "utf8");
  * @returns {Promise<string>}} Prerendered sponsors markdown.
  */
 async function fetchSponsorsMarkdown() {
-    return got(SPONSORS_URL).text();
+	return got(SPONSORS_URL).text();
 }
 
 /**
@@ -47,7 +47,7 @@ async function fetchSponsorsMarkdown() {
  * @returns {Object} The sponsors data object.
  */
 async function fetchTeamData() {
-    return got(TEAM_URL).json();
+	return got(TEAM_URL).json();
 }
 
 /**
@@ -56,19 +56,19 @@ async function fetchTeamData() {
  * @returns {string} The HTML for the members list.
  */
 function formatTeamMembers(members) {
-    return stripIndents`
+	return stripIndents`
         <table><tbody><tr>${members
-            .map(
-                (member, index) => `<td align="center" valign="top" width="11%">
+			.map(
+				(member, index) => `<td align="center" valign="top" width="11%">
             <a href="https://github.com/${member.username}">
                 <img src="https://github.com/${
-                    member.username
-                }.png?s=75" width="75" height="75" alt="${member.name.trim()}'s Avatar"><br />
+					member.username
+				}.png?s=75" width="75" height="75" alt="${member.name.trim()}'s Avatar"><br />
                 ${member.name.trim()}
             </a>
-            </td>${(index + 1) % 9 === 0 ? "</tr><tr>" : ""}`
-            )
-            .join("")}</tr></tbody></table>`;
+            </td>${(index + 1) % 9 === 0 ? "</tr><tr>" : ""}`,
+			)
+			.join("")}</tr></tbody></table>`;
 }
 
 //-----------------------------------------------------------------------------
@@ -115,28 +115,28 @@ const HTML_TEMPLATE = stripIndents`
 `;
 
 (async () => {
-    const [allSponsors, team] = await Promise.all([
-        fetchSponsorsMarkdown(),
-        fetchTeamData()
-    ]);
+	const [allSponsors, team] = await Promise.all([
+		fetchSponsorsMarkdown(),
+		fetchTeamData(),
+	]);
 
-    // replace all of the section
-    let newReadme = readme.replace(
-        /<!--teamstart-->[\w\W]*?<!--teamend-->/u,
-        ejs.render(HTML_TEMPLATE, {
-            team,
-            formatTeamMembers
-        })
-    );
+	// replace all of the section
+	let newReadme = readme.replace(
+		/<!--teamstart-->[\w\W]*?<!--teamend-->/u,
+		ejs.render(HTML_TEMPLATE, {
+			team,
+			formatTeamMembers,
+		}),
+	);
 
-    newReadme = newReadme.replace(
-        /<!--sponsorsstart-->[\w\W]*?<!--sponsorsend-->/u,
-        `<!--sponsorsstart-->\n${allSponsors}\n<!--sponsorsend-->`
-    );
+	newReadme = newReadme.replace(
+		/<!--sponsorsstart-->[\w\W]*?<!--sponsorsend-->/u,
+		`<!--sponsorsstart-->\n${allSponsors}\n<!--sponsorsend-->`,
+	);
 
-    // replace multiple consecutive blank lines with just one blank line
-    newReadme = newReadme.replace(/(?<=^|\n)\n{2,}/gu, "\n");
+	// replace multiple consecutive blank lines with just one blank line
+	newReadme = newReadme.replace(/(?<=^|\n)\n{2,}/gu, "\n");
 
-    // output to the file
-    fs.writeFileSync(README_FILE_PATH, newReadme, "utf8");
+	// output to the file
+	fs.writeFileSync(README_FILE_PATH, newReadme, "utf8");
 })();

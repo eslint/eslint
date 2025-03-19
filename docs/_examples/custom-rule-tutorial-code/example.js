@@ -1,7 +1,7 @@
-/** 
+/**
  * @fileoverview Example of a file that will fail the custom rule in this tutorial.
  * @author Ben Perlmutter
-*/
+ */
 "use strict";
 
 /* eslint-disable no-unused-vars -- Disable other rule causing problem for this file */
@@ -13,10 +13,9 @@
 // npx eslint example.js --fix
 
 function correctFooBar() {
-  const foo = "bar";
+	const foo = "bar";
 }
 
-function incorrectFoo(){
-  const foo = "baz"; // Problem!
+function incorrectFoo() {
+	const foo = "baz"; // Problem!
 }
-

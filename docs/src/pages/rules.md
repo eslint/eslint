@@ -52,6 +52,7 @@ Rules in ESLint are grouped by type to help you understand their purpose. Each r
             }
     }) }}
     {%- endfor -%}
+
 {%- endfor -%}
 
 {%- if rules.deprecated -%}
@@ -61,11 +62,11 @@ Rules in ESLint are grouped by type to help you understand their purpose. Each r
 {{ rules_categories.deprecated.description | safe }}
 
 {%- for the_rule in rules.deprecated -%}
-    {%- set name_value = the_rule.name -%}
-    {%- set isReplacedBy = the_rule.replacedBy -%}
-    {%- set isRecommended = the_rule.recommended -%}
-    {%- set isFixable = the_rule.fixable -%}
-    {%- set isHasSuggestions = the_rule.hasSuggestions -%}
+{%- set name_value = the_rule.name -%}
+{%- set isReplacedBy = the_rule.replacedBy -%}
+{%- set isRecommended = the_rule.recommended -%}
+{%- set isFixable = the_rule.fixable -%}
+{%- set isHasSuggestions = the_rule.hasSuggestions -%}
 
     {{ rule({
             name: name_value,
@@ -77,6 +78,7 @@ Rules in ESLint are grouped by type to help you understand their purpose. Each r
                 hasSuggestions: isHasSuggestions
             }
     }) }}
+
 {%- endfor -%}
 {%- endif -%}
 
@@ -87,14 +89,15 @@ Rules in ESLint are grouped by type to help you understand their purpose. Each r
 {{ rules_categories.removed.description | safe }}
 
 {%- for the_rule in rules.removed -%}
-    {%- set name_value = the_rule.removed -%}
-    {%- set isReplacedBy = the_rule.replacedBy -%}
+{%- set name_value = the_rule.removed -%}
+{%- set isReplacedBy = the_rule.replacedBy -%}
 
     {{ rule({
             name: name_value,
             removed: true,
             replacedBy: isReplacedBy
     }) }}
+
 {%- endfor -%}
 {%- endif -%}
 

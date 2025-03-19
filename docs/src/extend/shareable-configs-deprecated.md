@@ -16,23 +16,21 @@ Shareable configs are simply npm packages that export a configuration object. To
 
 The module name must take one of the following forms:
 
-* Begin with `eslint-config-`, such as `eslint-config-myconfig`.
-* Be an npm [scoped module](https://docs.npmjs.com/misc/scope). To create a scoped module, name or prefix the module with `@scope/eslint-config`, such as `@scope/eslint-config` or `@scope/eslint-config-myconfig`.
+-   Begin with `eslint-config-`, such as `eslint-config-myconfig`.
+-   Be an npm [scoped module](https://docs.npmjs.com/misc/scope). To create a scoped module, name or prefix the module with `@scope/eslint-config`, such as `@scope/eslint-config` or `@scope/eslint-config-myconfig`.
 
 In your module, export the shareable config from the module's [`main`](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#main) entry point file. The default main entry point is `index.js`. For example:
 
 ```js
 // index.js
 module.exports = {
+	globals: {
+		MyGlobal: true,
+	},
 
-    globals: {
-        MyGlobal: true
-    },
-
-    rules: {
-        semi: [2, "always"]
-    }
-
+	rules: {
+		semi: [2, "always"],
+	},
 };
 ```
 
@@ -46,9 +44,9 @@ You should declare your dependency on ESLint in the `package.json` using the [pe
 
 ```json
 {
-    "peerDependencies": {
-        "eslint": ">= 3"
-    }
+	"peerDependencies": {
+		"eslint": ">= 3"
+	}
 }
 ```
 
@@ -74,7 +72,7 @@ To use a shareable config, include the config name in the `extends` field of a c
 
 ```json
 {
-    "extends": "eslint-config-myconfig"
+	"extends": "eslint-config-myconfig"
 }
 ```
 
@@ -82,7 +80,7 @@ You can also omit the `eslint-config-` and it is automatically assumed by ESLint
 
 ```json
 {
-    "extends": "myconfig"
+	"extends": "myconfig"
 }
 ```
 
@@ -96,7 +94,7 @@ You can use the module name:
 
 ```json
 {
-    "extends": "@scope/eslint-config"
+	"extends": "@scope/eslint-config"
 }
 ```
 
@@ -104,7 +102,7 @@ You can also omit the `eslint-config` and it is automatically assumed by ESLint:
 
 ```json
 {
-    "extends": "@scope"
+	"extends": "@scope"
 }
 ```
 
@@ -112,7 +110,7 @@ The module name can also be customized. For example, if you have a package named
 
 ```json
 {
-    "extends": "@scope/eslint-config-myconfig"
+	"extends": "@scope/eslint-config-myconfig"
 }
 ```
 
@@ -120,7 +118,7 @@ You could also omit `eslint-config` to specify the configuration as:
 
 ```json
 {
-    "extends": "@scope/myconfig"
+	"extends": "@scope/myconfig"
 }
 ```
 
@@ -137,9 +135,9 @@ As an example, you can create a file called `my-special-config.js` in the root o
 ```js
 // my-special-config.js
 module.exports = {
-    rules: {
-        quotes: [2, "double"]
-    }
+	rules: {
+		quotes: [2, "double"],
+	},
 };
 ```
 
@@ -147,7 +145,7 @@ Then, assuming you're using the package name `eslint-config-myconfig`, you can a
 
 ```json
 {
-    "extends": "myconfig/my-special-config"
+	"extends": "myconfig/my-special-config"
 }
 ```
 
@@ -155,7 +153,7 @@ When using [scoped modules](https://docs.npmjs.com/misc/scope) it is not possibl
 
 ```json
 {
-    "extends": "@scope/eslint-config/my-special-config"
+	"extends": "@scope/eslint-config/my-special-config"
 }
 ```
 
@@ -185,33 +183,33 @@ myconfig
 In the `index.js` file, you can do something like this:
 
 ```js
-module.exports = require('./lib/ci.js');
+module.exports = require("./lib/ci.js");
 ```
 
 Now inside the package you have `/lib/defaults.js`, which contains:
 
 ```js
 module.exports = {
-    rules: {
-        'no-console': 1
-    }
+	rules: {
+		"no-console": 1,
+	},
 };
 ```
 
 Inside `/lib/ci.js` you have:
 
 ```js
-module.exports = require('./ci/backend');
+module.exports = require("./ci/backend");
 ```
 
 Inside `/lib/ci/common.js`:
 
 ```js
 module.exports = {
-    rules: {
-        'no-alert': 2
-    },
-    extends: 'myconfig/lib/defaults'
+	rules: {
+		"no-alert": 2,
+	},
+	extends: "myconfig/lib/defaults",
 };
 ```
 
@@ -221,10 +219,10 @@ Now inside `/lib/ci/backend.js`:
 
 ```js
 module.exports = {
-    rules: {
-        'no-console': 1
-    },
-    extends: 'myconfig/lib/ci/common'
+	rules: {
+		"no-console": 1,
+	},
+	extends: "myconfig/lib/ci/common",
 };
 ```
 
@@ -232,4 +230,4 @@ In the last file, once again see that to properly resolve your config, you need 
 
 ## Further Reading
 
-* [npm Developer Guide](https://docs.npmjs.com/misc/developers)
+-   [npm Developer Guide](https://docs.npmjs.com/misc/developers)

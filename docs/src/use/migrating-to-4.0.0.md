@@ -1,6 +1,5 @@
 ---
 title: Migrating to v4.0.0
-
 ---
 
 ESLint v4.0.0 is the fourth major version release. We have made several breaking changes in this release; however, we expect that most of the changes will only affect a very small percentage of users. This guide is intended to walk you through the changes.
@@ -37,19 +36,19 @@ The lists below are ordered roughly by the number of users each change is expect
 
 Two new rules have been added to the [`eslint:recommended`](configure#using-eslintrecommended) config:
 
-* [`no-compare-neg-zero`](../rules/no-compare-neg-zero) disallows comparisons to `-0`
-* [`no-useless-escape`](../rules/no-useless-escape) disallows uselessly-escaped characters in strings and regular expressions
+-   [`no-compare-neg-zero`](../rules/no-compare-neg-zero) disallows comparisons to `-0`
+-   [`no-useless-escape`](../rules/no-useless-escape) disallows uselessly-escaped characters in strings and regular expressions
 
 **To address:** To mimic the `eslint:recommended` behavior from 3.x, you can disable these rules in a config file:
 
 ```json
 {
-  "extends": "eslint:recommended",
+	"extends": "eslint:recommended",
 
-  "rules": {
-    "no-compare-neg-zero": "off",
-    "no-useless-escape": "off"
-  }
+	"rules": {
+		"no-compare-neg-zero": "off",
+		"no-useless-escape": "off"
+	}
 }
 ```
 
@@ -98,13 +97,16 @@ By default, the [`space-before-function-paren`](../rules/space-before-function-p
 
 ```json
 {
-  "rules": {
-    "space-before-function-paren": ["error", {
-      "anonymous": "always",
-      "named": "always",
-      "asyncArrow": "ignore"
-    }]
-  }
+	"rules": {
+		"space-before-function-paren": [
+			"error",
+			{
+				"anonymous": "always",
+				"named": "always",
+				"asyncArrow": "ignore"
+			}
+		]
+	}
 }
 ```
 
@@ -116,9 +118,9 @@ By default, the [`no-multi-spaces`](../rules/no-multi-spaces) rule will now disa
 
 ```json
 {
-  "rules": {
-    "no-multi-spaces": ["error", {"ignoreEOLComments": true}]
-  }
+	"rules": {
+		"no-multi-spaces": ["error", { "ignoreEOLComments": true }]
+	}
 }
 ```
 
@@ -128,12 +130,10 @@ In 3.x, there was a bug where references to scoped NPM packages as plugins in co
 
 ```json
 {
-  "plugins": [
-    "@my-organization/foo"
-  ],
-  "rules": {
-    "foo/some-rule": "error"
-  }
+	"plugins": ["@my-organization/foo"],
+	"rules": {
+		"foo/some-rule": "error"
+	}
 }
 ```
 
@@ -143,12 +143,10 @@ To avoid this ambiguity, in 4.0 references to scoped plugins must include the sc
 
 ```json
 {
-  "plugins": [
-    "@my-organization/foo"
-  ],
-  "rules": {
-    "@my-organization/foo/some-rule": "error"
-  }
+	"plugins": ["@my-organization/foo"],
+	"rules": {
+		"@my-organization/foo/some-rule": "error"
+	}
 }
 ```
 
@@ -176,16 +174,16 @@ For rule authors concerned about supporting ESLint v3.0 in addition to v4.0, the
 
 Finally, please note that the following `SourceCode` methods have been deprecated and will be removed in a future version of ESLint:
 
-* `getComments()` - replaced by `getCommentsBefore()`, `getCommentsAfter()`, and `getCommentsInside()`
-* `getTokenOrCommentBefore()` - replaced by `getTokenBefore()` with the `{ includeComments: true }` option
-* `getTokenOrCommentAfter()` - replaced by `getTokenAfter()` with the `{ includeComments: true }` option
+-   `getComments()` - replaced by `getCommentsBefore()`, `getCommentsAfter()`, and `getCommentsInside()`
+-   `getTokenOrCommentBefore()` - replaced by `getTokenBefore()` with the `{ includeComments: true }` option
+-   `getTokenOrCommentAfter()` - replaced by `getTokenAfter()` with the `{ includeComments: true }` option
 
 ## <a name="event-comments"></a> `LineComment` and `BlockComment` events will no longer be emitted during AST traversal
 
 Starting in 4.0, `LineComment` and `BlockComments` events will not be emitted during AST traversal. There are two reasons for this:
 
-* This behavior was relying on comment attachment happening at the parser level, which does not happen anymore, to ensure that all comments would be accounted for.
-* Thinking of comments in the context of tokens is more predictable and easier to reason about than thinking about comment tokens in the context of AST nodes.
+-   This behavior was relying on comment attachment happening at the parser level, which does not happen anymore, to ensure that all comments would be accounted for.
+-   Thinking of comments in the context of tokens is more predictable and easier to reason about than thinking about comment tokens in the context of AST nodes.
 
 **To address:** Instead of relying on `LineComment` and `BlockComment`, rules can now use `sourceCode.getAllComments()` to get all comments in a file. To check all comments of a specific type, rules can use the following pattern:
 
@@ -216,7 +214,7 @@ Previously, the `linter.verify()` API accepted a `global` config option, which w
 
 ## <a name="report-locations"></a> More report messages now have full location ranges
 
-Starting in 3.1.0, rules have been able to specify the *end* location of a reported problem, in addition to the start location, by explicitly specifying an end location in the `report` call. This is useful for tools like editor integrations, which can use the range to precisely display where a reported problem occurs. Starting in 4.0, if a *node* is reported rather than a location, the end location of the range will automatically be inferred from the end location of the node. As a result, many more reported problems will have end locations.
+Starting in 3.1.0, rules have been able to specify the _end_ location of a reported problem, in addition to the start location, by explicitly specifying an end location in the `report` call. This is useful for tools like editor integrations, which can use the range to precisely display where a reported problem occurs. Starting in 4.0, if a _node_ is reported rather than a location, the end location of the range will automatically be inferred from the end location of the node. As a result, many more reported problems will have end locations.
 
 This is not expected to cause breakage. However, it will likely result in larger report locations than before. For example, if a rule reports the root node of the AST, the reported problem's range will be the entire program. In some integrations, this could result in a poor user experience (e.g. if the entire program is highlighted to indicate an error).
 
