@@ -210,7 +210,7 @@ function foo() {
     }
 }());
 
-var foo = (function() {
+const foo2 = (function() {
     "use strict";
 
     return function foo(a = 1) {

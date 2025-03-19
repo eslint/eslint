@@ -11,9 +11,9 @@ further_reading:
 Shadowing is the process by which a local variable shares the same name as a variable in its containing scope. For example:
 
 ```js
-var a = 3;
+const a = 3;
 function b() {
-    var a = 10;
+    const a = 10;
 }
 ```
 
@@ -30,13 +30,13 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-shadow: "error"*/
 
-var a = 3;
+const a = 3;
 function b() {
-    var a = 10;
+    const a = 10;
 }
 
-var c = function () {
-    var a = 10;
+const c = function () {
+    const a = 10;
 }
 
 function d(a) {
@@ -74,7 +74,7 @@ Examples of **incorrect** code for the `{ "builtinGlobals": true }` option:
 /*eslint no-shadow: ["error", { "builtinGlobals": true }]*/
 
 function foo() {
-    var Object = 0;
+    const Object = 0;
 }
 ```
 
@@ -207,7 +207,7 @@ Examples of **incorrect** code for the `{ "ignoreOnInitialization": "true" }` op
 ```js
 /*eslint no-shadow: ["error", { "ignoreOnInitialization": true }]*/
 
-var x = x => x;
+const x = x => x;
 ```
 
 :::
@@ -221,9 +221,9 @@ Examples of **correct** code for the `{ "ignoreOnInitialization": true }` option
 ```js
 /*eslint no-shadow: ["error", { "ignoreOnInitialization": true }]*/
 
-var x = foo(x => x)
+const x = foo(x => x)
 
-var y = (y => y)()
+const y = (y => y)()
 ```
 
 :::

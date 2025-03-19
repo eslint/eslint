@@ -6,7 +6,7 @@ rule_type: suggestion
 As far as naming conventions for identifiers go, dangling underscores may be the most polarizing in JavaScript. Dangling underscores are underscores at either the beginning or end of an identifier, such as:
 
 ```js
-var _foo;
+let _foo;
 ```
 
 There is a long history of marking "private" members with dangling underscores in JavaScript, beginning with SpiderMonkey adding nonstandard methods such as `__defineGetter__()`. Since that time, using a single underscore prefix has become the most popular convention for indicating a member is not part of the public interface of an object.
@@ -26,8 +26,8 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-underscore-dangle: "error"*/
 
-var foo_;
-var __proto__ = {};
+let foo_;
+const __proto__ = {};
 foo._bar();
 ```
 
@@ -40,10 +40,10 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-underscore-dangle: "error"*/
 
-var _ = require('underscore');
-var obj = _.contains(items, item);
+const _ = require('underscore');
+const obj = _.contains(items, item);
 obj.__proto__ = {};
-var file = __filename;
+const file = __filename;
 function foo(_bar) {};
 const bar = { onClick(_bar) {} };
 const baz = (_bar) => {};
@@ -74,7 +74,7 @@ Examples of additional **correct** code for this rule with the `{ "allow": ["foo
 ```js
 /*eslint no-underscore-dangle: ["error", { "allow": ["foo_", "_bar"] }]*/
 
-var foo_;
+let foo_;
 foo._bar();
 ```
 
@@ -89,7 +89,7 @@ Examples of **correct** code for this rule with the `{ "allowAfterThis": true }`
 ```js
 /*eslint no-underscore-dangle: ["error", { "allowAfterThis": true }]*/
 
-var a = this.foo_;
+const a = this.foo_;
 this._bar();
 ```
 
@@ -106,7 +106,7 @@ Examples of **correct** code for this rule with the `{ "allowAfterSuper": true }
 
 class Foo extends Bar {
   doSomething() {
-    var a = super.foo_;
+    const a = super.foo_;
     super._bar();
   }
 }
@@ -123,7 +123,7 @@ Examples of **correct** code for this rule with the `{ "allowAfterThisConstructo
 ```js
 /*eslint no-underscore-dangle: ["error", { "allowAfterThisConstructor": true }]*/
 
-var a = this.constructor.foo_;
+const a = this.constructor.foo_;
 this.constructor._bar();
 ```
 
