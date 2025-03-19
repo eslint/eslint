@@ -35,7 +35,8 @@ The `Stats` value is the timing information of each lint run. The `stats` proper
         -   `ParseTime` (`{ total: number }`)<br>
             The total time that is spent when parsing a file.
         -   `RuleTime` (`{ total: number }`)<be>
-            The total time that is spent on a rule. \* `FixTime` (`{ total: number }`)<be>
+            The total time that is spent on a rule.
+        -   `FixTime` (`{ total: number }`)<be>
             The total time that is spent on applying fixes to the code.
 
 ### CLI usage
