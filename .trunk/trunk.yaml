@@ -26,9 +26,16 @@ tools:
 
 # This is the section where you manage your linters. (https://docs.trunk.io/check/configuration)
 lint:
+    files:
+        - name: json
+          extensions:
+              - json
+              - jsonc
+              - json5
+              - c8rc
     definitions:
         - name: eslint
-          files: [typescript, javascript, yaml] # Add YAML to default files.
+          files: [typescript, javascript, yaml, json] # Add YAML and JSON to default files.
           hold_the_line: false
           commands:
               - name: lint

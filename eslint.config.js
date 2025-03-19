@@ -202,6 +202,7 @@ module.exports = defineConfig([
 		files: ["knip.jsonc"],
 		plugins: { json },
 		language: "json/jsonc",
+		languageOptions: { allowTrailingCommas: true },
 		extends: ["json/recommended"],
 	},
 
