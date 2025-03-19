@@ -11,6 +11,7 @@ This page serves as a reference for common issues working with ESLint.
 
 ## Configuration
 
+-   [`Circular fixes detected …`](./circular-fixes)
 -   [`TypeError: context.getScope is not a function`](./v9-rule-api-changes)
 
 ## Legacy (eslintrc) Configuration

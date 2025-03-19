@@ -5,7 +5,6 @@ eleventyNavigation:
     parent: create plugins
     title: Migration to Flat Config
     order: 5
-
 ---
 
 Beginning in ESLint v9.0.0, the default configuration system will be the new flat config system. In order for your plugins to work with flat config files, you'll need to make some changes to your existing plugins.
@@ -16,10 +15,10 @@ To make it easier to work with your plugin in the flat config system, it's recom
 
 ```js
 const plugin = {
-    meta: {},
-    configs: {},
-    rules: {},
-    processors: {}
+	meta: {},
+	configs: {},
+	rules: {},
+	processors: {},
 };
 
 // for ESM
@@ -37,13 +36,13 @@ With the old eslintrc configuration system, ESLint could pull information about 
 
 ```js
 const plugin = {
-    meta: {
-        name: "eslint-plugin-example",
-        version: "1.0.0"
-    },
-    configs: {},
-    rules: {},
-    processors: {}
+	meta: {
+		name: "eslint-plugin-example",
+		version: "1.0.0",
+	},
+	configs: {},
+	rules: {},
+	processors: {},
 };
 
 // for ESM
@@ -69,16 +68,15 @@ No other changes are necessary for the `processors` key in your plugin as long a
 
 ```js
 const plugin = {
-    configs: {},
-    rules: {},
-    processors: {
-
-        // no longer supported
-        ".md": {
-            preprocess() {},
-            postprocess() {}
-        }
-    }
+	configs: {},
+	rules: {},
+	processors: {
+		// no longer supported
+		".md": {
+			preprocess() {},
+			postprocess() {},
+		},
+	},
 };
 
 // for ESM
@@ -92,16 +90,15 @@ The name `".md"` is no longer valid for a processor, so it must be replaced with
 
 ```js
 const plugin = {
-    configs: {},
-    rules: {},
-    processors: {
-
-        // works in both old and new config systems
-        "markdown": {
-            preprocess() {},
-            postprocess() {}
-        }
-    }
+	configs: {},
+	rules: {},
+	processors: {
+		// works in both old and new config systems
+		markdown: {
+			preprocess() {},
+			postprocess() {},
+		},
+	},
 };
 
 // for ESM
@@ -118,13 +115,13 @@ import { defineConfig } from "eslint/config";
 import example from "eslint-plugin-example";
 
 export default defineConfig([
-    {
-        files: ["**/*.md"],
-        plugins: {
-            example
-        },
-        processor: "example/markdown"
-    }
+	{
+		files: ["**/*.md"],
+		plugins: {
+			example,
+		},
+		processor: "example/markdown",
+	},
 ]);
 ```
 
@@ -159,23 +156,23 @@ To migrate to flat config format, you'll need to move the configs to after the d
 
 ```js
 const plugin = {
-    configs: {},
-    rules: {},
-    processors: {}
+	configs: {},
+	rules: {},
+	processors: {},
 };
 
 // assign configs here so we can reference `plugin`
 Object.assign(plugin.configs, {
-    recommended: {
-        plugins: {
-            example: plugin
-        },
-        rules: {
-            "example/rule1": "error",
-            "example/rule2": "error"
-        }
-    }
-})
+	recommended: {
+		plugins: {
+			example: plugin,
+		},
+		rules: {
+			"example/rule1": "error",
+			"example/rule2": "error",
+		},
+	},
+});
 
 // for ESM
 export default plugin;
@@ -191,18 +188,17 @@ import { defineConfig } from "eslint/config";
 import example from "eslint-plugin-example";
 
 export default defineConfig([
-
-    // use recommended config and provide your own overrides
-    {
-        files: ["**/*.js"],
-        plugins: {
-            example
-        },
-        extends: ["example/recommended"],
-        rules: {
-            "example/rule1": "warn"
-        }
-    }
+	// use recommended config and provide your own overrides
+	{
+		files: ["**/*.js"],
+		plugins: {
+			example,
+		},
+		extends: ["example/recommended"],
+		rules: {
+			"example/rule1": "warn",
+		},
+	},
 ]);
 ```
 
@@ -212,17 +208,17 @@ If your config extends other configs, you can export an array:
 const baseConfig = require("./base-config");
 
 module.exports = {
-    configs: {
-        extendedConfig: [
-            baseConfig,
-            {
-                rules: {
-                    "example/rule1": "error",
-                    "example/rule2": "error"
-                }
-            }
-        ],
-    },
+	configs: {
+		extendedConfig: [
+			baseConfig,
+			{
+				rules: {
+					"example/rule1": "error",
+					"example/rule2": "error",
+				},
+			},
+		],
+	},
 };
 ```
 
@@ -258,24 +254,24 @@ To migrate this environment into a config, you need to add a new key in the `plu
 
 ```js
 const plugin = {
-    configs: {},
-    rules: {},
-    processors: {}
+	configs: {},
+	rules: {},
+	processors: {},
 };
 
 // assign configs here so we can reference `plugin`
 Object.assign(plugin.configs, {
-    mocha: {
-        languageOptions: {
-            globals: {
-                it: "writeable",
-                xit: "writeable",
-                describe: "writeable",
-                xdescribe: "writeable"
-            }
-        }
-    }
-})
+	mocha: {
+		languageOptions: {
+			globals: {
+				it: "writeable",
+				xit: "writeable",
+				describe: "writeable",
+				xdescribe: "writeable",
+			},
+		},
+	},
+});
 
 // for ESM
 export default plugin;
@@ -291,22 +287,22 @@ import { defineConfig } from "eslint/config";
 import example from "eslint-plugin-example";
 
 export default defineConfig([
-    {
-        files: ["**/tests/*.js"],
-        plugins: {
-            example
-        },
+	{
+		files: ["**/tests/*.js"],
+		plugins: {
+			example,
+		},
 
-        // use the mocha globals
-        extends: ["example/mocha"],
+		// use the mocha globals
+		extends: ["example/mocha"],
 
-        // and provide your own overrides
-        languageOptions: {
-            globals: {
-                it: "readonly"
-            }
-        }
-    }
+		// and provide your own overrides
+		languageOptions: {
+			globals: {
+				it: "readonly",
+			},
+		},
+	},
 ]);
 ```
 
@@ -322,6 +318,6 @@ If your plugin needs to work with both the old and new configuration systems, th
 
 ## Further Reading
 
-* [Overview of the flat config file format blog post](https://eslint.org/blog/2022/08/new-config-system-part-2/)
-* [API usage of new configuration system blog post](https://eslint.org/blog/2022/08/new-config-system-part-3/)
-* [Background to new configuration system blog post](https://eslint.org/blog/2022/08/new-config-system-part-1/)
+-   [Overview of the flat config file format blog post](https://eslint.org/blog/2022/08/new-config-system-part-2/)
+-   [API usage of new configuration system blog post](https://eslint.org/blog/2022/08/new-config-system-part-3/)
+-   [Background to new configuration system blog post](https://eslint.org/blog/2022/08/new-config-system-part-1/)

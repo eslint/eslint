@@ -377,6 +377,49 @@ ruleTester.run("no-useless-assignment", rule, {
         console.log(a, b);`,
 		`let { a, b: {c = a} = {} } = obj;
         console.log(c);`,
+
+		// ignore assignments in try block
+		`function foo(){
+            let bar;
+            try {
+                bar = 2;
+                unsafeFn();
+                return { error: undefined };
+            } catch {
+                return { bar }; 
+            }
+        }   
+        function unsafeFn() {
+            throw new Error();
+        }`,
+		`function foo(){
+            let bar, baz;
+            try {
+                bar = 2;
+                unsafeFn();
+                return { error: undefined };
+            } catch {
+               baz = bar;
+            }
+            return baz;
+        }   
+        function unsafeFn() {
+            throw new Error();
+        }`,
+		`function foo(){
+            let bar;
+            try {
+                bar = 2;
+                unsafeFn();
+                bar = 4;
+            } catch {
+               // handle error
+            }
+            return bar;
+        }   
+        function unsafeFn() {
+            throw new Error();
+        }`,
 		{
 			code: `/*eslint test/jsx:1*/
                 function App() {
