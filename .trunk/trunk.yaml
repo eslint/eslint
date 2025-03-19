@@ -45,7 +45,6 @@ lint:
         - checkov@3.2.228
         - markdownlint@0.41.0
         - oxipng@9.1.2
-        - prettier@3.3.3
         - renovate@38.37.1
         - shellcheck@0.10.0
         - shfmt@3.6.0
@@ -57,10 +56,6 @@ lint:
         - linters: [markdownlint]
           paths:
               - CHANGELOG.md
-        - linters: [prettier]
-          paths:
-              - "**" # Ignore all files
-              - "!conf/**/*.json" # Except for json files in conf/
 actions:
     disabled:
         - trunk-announce
