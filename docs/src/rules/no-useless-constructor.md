@@ -77,6 +77,46 @@ class D extends A {
 
 :::
 
+This rule additionally supports TypeScript type syntax.
+
+Examples of **incorrect** TypeScript code for this rule:
+
+::: incorrect
+
+```ts
+/* eslint no-useless-constructor: "error" */
+
+class A {
+    public constructor() {}
+}
+```
+
+:::
+
+Examples of **correct** TypeScript code for this rule:
+
+::: correct
+
+```ts
+/* eslint no-useless-constructor: "error" */
+
+class A {
+    protected constructor() {}
+}
+
+// ...
+
+class B extends A {
+    public constructor() {
+        super();
+    }
+}
+
+class C {
+    constructor(@decorated param) {}
+}
+```
+
 ## When Not To Use It
 
 If you don't want to be notified about unnecessary constructors, you can safely disable this rule.
