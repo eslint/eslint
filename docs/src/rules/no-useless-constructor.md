@@ -104,8 +104,6 @@ class A {
     protected constructor() {}
 }
 
-// ...
-
 class B extends A {
     public constructor() {
         super();
