@@ -565,7 +565,7 @@ describe("FileEnumerator", () => {
             });
         });
 
-        if (process.platform !== "win32") {
+        if (process.platform !== "win32" || process.env.CI === "true") {
             describe("if contains symbolic links", () => {
                 const root = path.join(os.tmpdir(), "eslint/file-enumerator");
                 const files = {
