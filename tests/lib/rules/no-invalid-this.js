@@ -1069,29 +1069,6 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       }
     }
         `,
-    
-        // Class Properties.
-        `
-    class A {
-      b = 0;
-      c = this.b;
-    }
-        `,
-    
-        `
-    class A {
-      b = new Array(this, 1, 2, 3);
-    }
-        `,
-    
-        `
-    class A {
-      b = () => {
-        console.log(this);
-      };
-    }
-        `,
-    
         // Array methods.
     
         `
@@ -1207,23 +1184,52 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       },
     ] = a;
         `,
-    
-        // Static
-    
-        `
-    class A {
-      static foo() {
-        console.log(this);
-        z(x => console.log(x, this));
-      }
-    }
-        `,
+        // Class Properties.
         {
           code: `
           class A {
             a = 5;
             b = this.a;
             accessor c = this.a;
+          }
+          `,
+          languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+          code: `
+          class A {
+            b = 0;
+            c = this.b;
+          }
+          `,
+          languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+          code: `
+          class A {
+            b = new Array(this, 1, 2, 3);
+          }
+          `,
+          languageOptions: { ecmaVersion: 2022 }
+        },
+        {
+          code: `
+          class A {
+            b = () => {
+            console.log(this);
+            };
+          }
+          `,
+          languageOptions: { ecmaVersion: 2022 }
+        },
+        // Static
+        {
+          code: `
+          class A {
+            static foo() {
+            console.log(this);
+            z(x => console.log(x, this));
+            }
           }
           `,
           languageOptions: { ecmaVersion: 2022 }
@@ -1456,6 +1462,7 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       });
     }
           `,
+          languageOptions: { ecmaVersion: 2022 },
           errors,
         },
     
@@ -1470,6 +1477,7 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       };
     }
           `,
+          languageOptions: { ecmaVersion: 2022 },
           errors,
         },
     
