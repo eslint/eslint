@@ -30,15 +30,13 @@ In your `eslint.config.js` file, add:
 import { defineConfig } from "eslint/config";
 import eslintConfigESLint from "eslint-config-eslint";
 
-export default defineConfig([
-    eslintConfigESLint
-]);
+export default defineConfig([eslintConfigESLint]);
 ```
 
 **Note**: This configuration array contains configuration objects with the `files` property.
 
-* `files: ["**/*.js"]`: ESM-specific configurations.
-* `files: ["**/*.cjs"]`: CommonJS-specific configurations.
+-   `files: ["**/*.js"]`: ESM-specific configurations.
+-   `files: ["**/*.cjs"]`: CommonJS-specific configurations.
 
 ### CommonJS projects
 
@@ -47,9 +45,7 @@ In your `eslint.config.js` file, add:
 ```js
 const eslintConfigESLintCJS = require("eslint-config-eslint/cjs");
 
-module.exports = [
-    ...eslintConfigESLintCJS
-];
+module.exports = [...eslintConfigESLintCJS];
 ```
 
 ### Base config
@@ -64,14 +60,14 @@ const eslintConfigESLintBase = require("eslint-config-eslint/base");
 const eslintConfigESLintCJS = require("eslint-config-eslint/cjs");
 
 module.exports = defineConfig([
-    {
-        files: ["scripts/*.js"],
-        extends: [eslintConfigESLintBase]
-    },
-    {
-        files: ["eslint.config.js", ".eleventy.js", "tools/*.js"],
-        extends: [eslintConfigESLintCJS]
-    }
+	{
+		files: ["scripts/*.js"],
+		extends: [eslintConfigESLintBase],
+	},
+	{
+		files: ["eslint.config.js", ".eleventy.js", "tools/*.js"],
+		extends: [eslintConfigESLintCJS],
+	},
 ]);
 ```
 
@@ -84,10 +80,7 @@ import { defineConfig } from "eslint/config";
 import eslintConfigESLint from "eslint-config-eslint";
 import eslintConfigESLintFormatting from "eslint-config-eslint/formatting";
 
-export default defineConfig([
-    eslintConfigESLint,
-    eslintConfigESLintFormatting
-]);
+export default defineConfig([eslintConfigESLint, eslintConfigESLintFormatting]);
 ```
 
 ### Where to ask for help?

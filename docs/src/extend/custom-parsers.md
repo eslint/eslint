@@ -5,7 +5,6 @@ eleventyNavigation:
     parent: extend eslint
     title: Custom Parsers
     order: 5
-
 ---
 
 {%- from 'components/npm_tabs.macro.html' import npm_tabs with context %}
@@ -27,12 +26,12 @@ const espree = require("espree");
 
 // Logs the duration it takes to parse each file.
 function parse(code, options) {
-    const label = `Parsing file "${options.filePath}"`;
-    console.time(label);
-    const ast = espree.parse(code, options);
-    console.timeEnd(label);
-    return ast; // Only the AST is returned.
-};
+	const label = `Parsing file "${options.filePath}"`;
+	console.time(label);
+	const ast = espree.parse(code, options);
+	console.timeEnd(label);
+	return ast; // Only the AST is returned.
+}
 
 module.exports = { parse };
 ```
@@ -45,12 +44,12 @@ The `parse` method should simply return the [AST](#ast-specification) object.
 
 The `parseForESLint` method should return an object that contains the required property `ast` and optional properties `services`, `scopeManager`, and `visitorKeys`.
 
-* `ast` should contain the [AST](#ast-specification) object.
-* `services` can contain any parser-dependent services (such as type checkers for nodes). The value of the `services` property is available to rules as `context.sourceCode.parserServices`. Default is an empty object.
-* `scopeManager` can be a [ScopeManager](./scope-manager-interface) object. Custom parsers can use customized scope analysis for experimental/enhancement syntaxes. The default is the `ScopeManager` object which is created by [eslint-scope](https://github.com/eslint/js/tree/main/packages/eslint-scope).
-    * Support for `scopeManager` was added in ESLint v4.14.0. ESLint versions that support `scopeManager` will provide an `eslintScopeManager: true` property in `parserOptions`, which can be used for feature detection.
-* `visitorKeys` can be an object to customize AST traversal. The keys of the object are the type of AST nodes. Each value is an array of the property names which should be traversed. The default is [KEYS of `eslint-visitor-keys`](https://github.com/eslint/js/tree/main/packages/eslint-visitor-keys#evkkeys).
-    * Support for `visitorKeys` was added in ESLint v4.14.0. ESLint versions that support `visitorKeys` will provide an `eslintVisitorKeys: true` property in `parserOptions`, which can be used for feature detection.
+-   `ast` should contain the [AST](#ast-specification) object.
+-   `services` can contain any parser-dependent services (such as type checkers for nodes). The value of the `services` property is available to rules as `context.sourceCode.parserServices`. Default is an empty object.
+-   `scopeManager` can be a [ScopeManager](./scope-manager-interface) object. Custom parsers can use customized scope analysis for experimental/enhancement syntaxes. The default is the `ScopeManager` object which is created by [eslint-scope](https://github.com/eslint/js/tree/main/packages/eslint-scope).
+    -   Support for `scopeManager` was added in ESLint v4.14.0. ESLint versions that support `scopeManager` will provide an `eslintScopeManager: true` property in `parserOptions`, which can be used for feature detection.
+-   `visitorKeys` can be an object to customize AST traversal. The keys of the object are the type of AST nodes. Each value is an array of the property names which should be traversed. The default is [KEYS of `eslint-visitor-keys`](https://github.com/eslint/js/tree/main/packages/eslint-visitor-keys#evkkeys).
+    -   Support for `visitorKeys` was added in ESLint v4.14.0. ESLint versions that support `visitorKeys` will provide an `eslintVisitorKeys: true` property in `parserOptions`, which can be used for feature detection.
 
 ### Meta Data in Custom Parsers
 
@@ -59,10 +58,10 @@ For easier debugging and more effective caching of custom parsers, it's recommen
 ```js
 // preferred location of name and version
 module.exports = {
-    meta: {
-        name: "eslint-parser-custom",
-        version: "1.2.3"
-    }
+	meta: {
+		name: "eslint-parser-custom",
+		version: "1.2.3",
+	},
 };
 ```
 
@@ -76,8 +75,8 @@ The AST that custom parsers should create is based on [ESTree](https://github.co
 
 All nodes must have `range` property.
 
-* `range` (`number[]`) is an array of two numbers. Both numbers are a 0-based index which is the position in the array of source code characters. The first is the start position of the node, the second is the end position of the node. `code.slice(node.range[0], node.range[1])` must be the text of the node. This range does not include spaces/parentheses which are around the node.
-* `loc` (`SourceLocation`) must not be `null`. [The `loc` property is defined as nullable by ESTree](https://github.com/estree/estree/blob/25834f7247d44d3156030f8e8a2d07644d771fdb/es5.md#node-objects), but ESLint requires this property. The `SourceLocation#source` property can be `undefined`. ESLint does not use the `SourceLocation#source` property.
+-   `range` (`number[]`) is an array of two numbers. Both numbers are a 0-based index which is the position in the array of source code characters. The first is the start position of the node, the second is the end position of the node. `code.slice(node.range[0], node.range[1])` must be the text of the node. This range does not include spaces/parentheses which are around the node.
+-   `loc` (`SourceLocation`) must not be `null`. [The `loc` property is defined as nullable by ESTree](https://github.com/estree/estree/blob/25834f7247d44d3156030f8e8a2d07644d771fdb/es5.md#node-objects), but ESLint requires this property. The `SourceLocation#source` property can be `undefined`. ESLint does not use the `SourceLocation#source` property.
 
 The `parent` property of all nodes must be rewritable. Before any rules have access to the AST, ESLint sets each node's `parent` property to its parent node while traversing.
 
@@ -87,16 +86,16 @@ The `Program` node must have `tokens` and `comments` properties. Both properties
 
 ```ts
 interface Token {
-    type: string;
-    loc: SourceLocation;
-    // See the "All Nodes" section for details of the `range` property.
-    range: [number, number];
-    value: string;
+	type: string;
+	loc: SourceLocation;
+	// See the "All Nodes" section for details of the `range` property.
+	range: [number, number];
+	value: string;
 }
 ```
 
-* `tokens` (`Token[]`) is the array of tokens which affect the behavior of programs. Arbitrary spaces can exist between tokens, so rules check the `Token#range` to detect spaces between tokens. This must be sorted by `Token#range[0]`.
-* `comments` (`Token[]`) is the array of comment tokens. This must be sorted by `Token#range[0]`.
+-   `tokens` (`Token[]`) is the array of tokens which affect the behavior of programs. Arbitrary spaces can exist between tokens, so rules check the `Token#range` to detect spaces between tokens. This must be sorted by `Token#range[0]`.
+-   `comments` (`Token[]`) is the array of comment tokens. This must be sorted by `Token#range[0]`.
 
 The range indexes of all tokens and comments must not overlap with the range of other tokens and comments.
 
@@ -104,7 +103,7 @@ The range indexes of all tokens and comments must not overlap with the range of 
 
 The `Literal` node must have `raw` property.
 
-* `raw` (`string`) is the source code of this literal. This is the same as `code.slice(node.range[0], node.range[1])`.
+-   `raw` (`string`) is the source code of this literal. This is the same as `code.slice(node.range[0], node.range[1])`.
 
 ## Packaging a Custom Parser
 
@@ -132,12 +131,14 @@ Then add the custom parser to your ESLint configuration file with the `languageO
 
 const myparser = require("eslint-parser-myparser");
 
-module.exports = [{
-    languageOptions: {
-        parser: myparser
-    },
-    // ... rest of configuration
-}];
+module.exports = [
+	{
+		languageOptions: {
+			parser: myparser,
+		},
+		// ... rest of configuration
+	},
+];
 ```
 
 When using legacy configuration, specify the `parser` property as a string:
@@ -146,8 +147,8 @@ When using legacy configuration, specify the `parser` property as a string:
 // .eslintrc.js
 
 module.exports = {
-    parser: "eslint-parser-myparser",
-    // ... rest of configuration
+	parser: "eslint-parser-myparser",
+	// ... rest of configuration
 };
 ```
 
@@ -163,17 +164,17 @@ A simple custom parser that provides a `context.sourceCode.parserServices.foo()`
 // awesome-custom-parser.js
 var espree = require("espree");
 function parseForESLint(code, options) {
-    return {
-        ast: espree.parse(code, options),
-        services: {
-            foo: function() {
-                console.log("foo");
-            }
-        },
-        scopeManager: null,
-        visitorKeys: null
-    };
-};
+	return {
+		ast: espree.parse(code, options),
+		services: {
+			foo: function () {
+				console.log("foo");
+			},
+		},
+		scopeManager: null,
+		visitorKeys: null,
+	};
+}
 
 module.exports = { parseForESLint };
 ```
@@ -182,11 +183,13 @@ Include the custom parser in an ESLint configuration file:
 
 ```js
 // eslint.config.js
-module.exports = [{
-    languageOptions: {
-        parser: require("./path/to/awesome-custom-parser")
-    }
-}];
+module.exports = [
+	{
+		languageOptions: {
+			parser: require("./path/to/awesome-custom-parser"),
+		},
+	},
+];
 ```
 
 Or if using legacy configuration:

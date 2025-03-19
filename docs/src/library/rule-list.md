@@ -13,7 +13,9 @@ The rule list is a macro defined in `components/rule-list.macro.html`. The macro
 {% from 'components/rule-list.macro.html' import replacementRuleList %}
 
 <!-- use the macro -->
-{{ replacementRuleList({ specifiers: [{ rule: { name: 'global-require', url: '...' }, plugin: { name: '@eslint-comunnity/eslint-plugin-n', url: '...' } }] }) }}
+{{ replacementRuleList({ specifiers: [{ rule: { name: 'global-require', url:
+'...' }, plugin: { name: '@eslint-comunnity/eslint-plugin-n', url: '...' } }] })
+}}
 ```
 
 {% endraw %}

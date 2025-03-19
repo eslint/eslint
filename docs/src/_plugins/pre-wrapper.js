@@ -1,14 +1,14 @@
-module.exports = (md) => {
-    const defaultFenceRenderer = md.renderer.rules.fence;
+module.exports = md => {
+	const defaultFenceRenderer = md.renderer.rules.fence;
 
-    md.renderer.rules.fence = (...args) => {
-        const [tokens, index] = args;
+	md.renderer.rules.fence = (...args) => {
+		const [tokens, index] = args;
 
-        if (/^\s*(?:in)?correct(?!\S)/u.test(tokens[index - 1].info)) {
-            return defaultFenceRenderer(...args);
-        }
+		if (/^\s*(?:in)?correct(?!\S)/u.test(tokens[index - 1].info)) {
+			return defaultFenceRenderer(...args);
+		}
 
-        return `
+		return `
 <div class="code-wrapper">
     ${defaultFenceRenderer(...args)}
     <button class="copy-btn" aria-labelledby="copy-button-label">
@@ -19,5 +19,5 @@ module.exports = (md) => {
     </button>
 </div>
 `;
-    };
+	};
 };

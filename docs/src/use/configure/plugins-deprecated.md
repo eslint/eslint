@@ -1,16 +1,17 @@
 ---
 title: Configure Plugins (Deprecated)
 ---
+
 ::: warning
 This documentation is for configuring plugins using the deprecated eslintrc configuration format. [View the updated documentation](plugins).
 :::
 
 You can extend ESLint with plugins in a variety of different ways. Plugins can include:
 
-* Custom rules to validate if your code meets a certain expectation, and what to do if it does not meet that expectation.
-* Custom configurations.
-* Custom environments.
-* Custom processors to extract JavaScript code from other kinds of files or preprocess code before linting.
+-   Custom rules to validate if your code meets a certain expectation, and what to do if it does not meet that expectation.
+-   Custom configurations.
+-   Custom environments.
+-   Custom processors to extract JavaScript code from other kinds of files or preprocess code before linting.
 
 ## Configure Plugins
 
@@ -20,10 +21,7 @@ To configure plugins inside of a configuration file, use the `plugins` key, whic
 
 ```json
 {
-    "plugins": [
-        "plugin1",
-        "eslint-plugin-plugin2"
-    ]
+	"plugins": ["plugin1", "eslint-plugin-plugin2"]
 }
 ```
 
@@ -31,7 +29,7 @@ And in YAML:
 
 ```yaml
 ---
-  plugins:
+plugins:
     - plugin1
     - eslint-plugin-plugin2
 ```
@@ -76,9 +74,9 @@ A scoped package:
 
 Rules, environments, and configurations defined in plugins must be referenced with the following convention:
 
-* `eslint-plugin-foo` → `foo/a-rule`
-* `@foo/eslint-plugin` → `@foo/a-config`
-* `@foo/eslint-plugin-bar` → `@foo/bar/a-environment`
+-   `eslint-plugin-foo` → `foo/a-rule`
+-   `@foo/eslint-plugin` → `@foo/a-config`
+-   `@foo/eslint-plugin-bar` → `@foo/bar/a-environment`
 
 For example:
 
@@ -116,8 +114,8 @@ To specify processors in a configuration file, use the `processor` key with the 
 
 ```json
 {
-    "plugins": ["a-plugin"],
-    "processor": "a-plugin/a-processor"
+	"plugins": ["a-plugin"],
+	"processor": "a-plugin/a-processor"
 }
 ```
 
@@ -125,13 +123,13 @@ To specify processors for specific kinds of files, use the combination of the `o
 
 ```json
 {
-    "plugins": ["a-plugin"],
-    "overrides": [
-        {
-            "files": ["*.md"],
-            "processor": "a-plugin/markdown"
-        }
-    ]
+	"plugins": ["a-plugin"],
+	"overrides": [
+		{
+			"files": ["*.md"],
+			"processor": "a-plugin/markdown"
+		}
+	]
 }
 ```
 
@@ -139,19 +137,19 @@ Processors may make named code blocks such as `0.js` and `1.js`. ESLint handles 
 
 ```json
 {
-    "plugins": ["a-plugin"],
-    "overrides": [
-        {
-            "files": ["*.md"],
-            "processor": "a-plugin/markdown"
-        },
-        {
-            "files": ["**/*.md/*.js"],
-            "rules": {
-                "strict": "off"
-            }
-        }
-    ]
+	"plugins": ["a-plugin"],
+	"overrides": [
+		{
+			"files": ["*.md"],
+			"processor": "a-plugin/markdown"
+		},
+		{
+			"files": ["**/*.md/*.js"],
+			"rules": {
+				"strict": "off"
+			}
+		}
+	]
 }
 ```
 

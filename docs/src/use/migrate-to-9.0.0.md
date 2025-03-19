@@ -5,7 +5,6 @@ eleventyNavigation:
     parent: use eslint
     title: Migrate to v9.x
     order: 9
-
 ---
 
 ESLint v9.0.0 is a major release of ESLint, and as such, has several breaking changes that you need to be aware of. This guide is intended to walk you through the breaking changes.
@@ -16,45 +15,45 @@ The lists below are ordered roughly by the number of users each change is expect
 
 ### Breaking changes for users
 
-* [Node.js < v18.18, v19 are no longer supported](#drop-old-node)
-* [New default config format (`eslint.config.js`)](#flat-config)
-* [Removed multiple formatters](#removed-formatters)
-* [Removed `require-jsdoc` and `valid-jsdoc` rules](#remove-jsdoc-rules)
-* [`eslint:recommended` has been updated](#eslint-recommended)
-* [`--quiet` no longer runs rules set to `"warn"`](#quiet-warn)
-* [`--output-file` now writes a file to disk even with an empty output](#output-file)
-* [Change in behavior when no patterns are passed to CLI](#cli-empty-patterns)
-* [`/* eslint */` comments with only severity now retain options from the config file](#eslint-comment-options)
-* [Multiple `/* eslint */` comments for the same rule are now disallowed](#multiple-eslint-comments)
-* [Stricter `/* exported */` parsing](#exported-parsing)
-* [`no-constructor-return` and `no-sequences` rule schemas are stricter](#stricter-rule-schemas)
-* [New checks in `no-implicit-coercion` by default](#no-implicit-coercion)
-* [Case-sensitive flags in `no-invalid-regexp`](#no-invalid-regexp)
-* [`varsIgnorePattern` option of `no-unused-vars` no longer applies to catch arguments](#vars-ignore-pattern)
-* [`no-restricted-imports` now accepts multiple config entries with the same `name`](#no-restricted-imports)
-* [`"eslint:recommended"` and `"eslint:all"` strings no longer accepted in flat config](#string-config)
-* [`no-inner-declarations` has a new default behavior with a new option](#no-inner-declarations)
-* [`no-unused-vars` now defaults `caughtErrors` to `"all"`](#no-unused-vars)
-* [`no-useless-computed-key` flags unnecessary computed member names in classes by default](#no-useless-computed-key)
-* [`camelcase` allow option only accepts an array of strings](#camelcase)
+-   [Node.js < v18.18, v19 are no longer supported](#drop-old-node)
+-   [New default config format (`eslint.config.js`)](#flat-config)
+-   [Removed multiple formatters](#removed-formatters)
+-   [Removed `require-jsdoc` and `valid-jsdoc` rules](#remove-jsdoc-rules)
+-   [`eslint:recommended` has been updated](#eslint-recommended)
+-   [`--quiet` no longer runs rules set to `"warn"`](#quiet-warn)
+-   [`--output-file` now writes a file to disk even with an empty output](#output-file)
+-   [Change in behavior when no patterns are passed to CLI](#cli-empty-patterns)
+-   [`/* eslint */` comments with only severity now retain options from the config file](#eslint-comment-options)
+-   [Multiple `/* eslint */` comments for the same rule are now disallowed](#multiple-eslint-comments)
+-   [Stricter `/* exported */` parsing](#exported-parsing)
+-   [`no-constructor-return` and `no-sequences` rule schemas are stricter](#stricter-rule-schemas)
+-   [New checks in `no-implicit-coercion` by default](#no-implicit-coercion)
+-   [Case-sensitive flags in `no-invalid-regexp`](#no-invalid-regexp)
+-   [`varsIgnorePattern` option of `no-unused-vars` no longer applies to catch arguments](#vars-ignore-pattern)
+-   [`no-restricted-imports` now accepts multiple config entries with the same `name`](#no-restricted-imports)
+-   [`"eslint:recommended"` and `"eslint:all"` strings no longer accepted in flat config](#string-config)
+-   [`no-inner-declarations` has a new default behavior with a new option](#no-inner-declarations)
+-   [`no-unused-vars` now defaults `caughtErrors` to `"all"`](#no-unused-vars)
+-   [`no-useless-computed-key` flags unnecessary computed member names in classes by default](#no-useless-computed-key)
+-   [`camelcase` allow option only accepts an array of strings](#camelcase)
 
 ### Breaking changes for plugin developers
 
-* [Node.js < v18.18, v19 are no longer supported](#drop-old-node)
-* [Removed multiple `context` methods](#removed-context-methods)
-* [Removed `sourceCode.getComments()`](#removed-sourcecode-getcomments)
-* [Removed `CodePath#currentSegments`](#removed-codepath-currentsegments)
-* [Code paths are now precalculated](#codepath-precalc)
-* [Function-style rules are no longer supported](#drop-function-style-rules)
-* [`meta.schema` is required for rules with options](#meta-schema-required)
-* [`FlatRuleTester` is now `RuleTester`](#flat-rule-tester)
-* [Stricter `RuleTester` checks](#stricter-rule-tester)
+-   [Node.js < v18.18, v19 are no longer supported](#drop-old-node)
+-   [Removed multiple `context` methods](#removed-context-methods)
+-   [Removed `sourceCode.getComments()`](#removed-sourcecode-getcomments)
+-   [Removed `CodePath#currentSegments`](#removed-codepath-currentsegments)
+-   [Code paths are now precalculated](#codepath-precalc)
+-   [Function-style rules are no longer supported](#drop-function-style-rules)
+-   [`meta.schema` is required for rules with options](#meta-schema-required)
+-   [`FlatRuleTester` is now `RuleTester`](#flat-rule-tester)
+-   [Stricter `RuleTester` checks](#stricter-rule-tester)
 
 ### Breaking changes for integration developers
 
-* [Node.js < v18.18, v19 are no longer supported](#drop-old-node)
-* [`FlatESLint` is now `ESLint`](#flat-eslint)
-* [`Linter` now expects flat config format](#flat-linter)
+-   [Node.js < v18.18, v19 are no longer supported](#drop-old-node)
+-   [`FlatESLint` is now `ESLint`](#flat-eslint)
+-   [`Linter` now expects flat config format](#flat-linter)
 
 ---
 
@@ -62,9 +61,9 @@ The lists below are ordered roughly by the number of users each change is expect
 
 ESLint is officially dropping support for these versions of Node.js starting with ESLint v9.0.0. ESLint now supports the following versions of Node.js:
 
-* Node.js v18.18.0 and above
-* Node.js v20.9.0 and above
-* Node.js v21 and above
+-   Node.js v18.18.0 and above
+-   Node.js v20.9.0 and above
+-   Node.js v21 and above
 
 **To address:** Make sure you upgrade to at least Node.js v18.18.0 when using ESLint v9.0.0. One important thing to double check is the Node.js version supported by your editor when using ESLint via editor integrations. If you are unable to upgrade, we recommend continuing to use ESLint v8.56.0 until you are able to upgrade Node.js.
 
@@ -82,15 +81,15 @@ As announced in our [blog post](/blog/2023/10/flat-config-rollout-plans/), in ES
 
 ESLint v9.0.0 has removed the following formatters from the core:
 
-| **Removed Formatter** | **Replacement npm Package** |
-|-----------------------|-----------------------------|
-| `checkstyle` | `eslint-formatter-checkstyle` |
-| `compact` | `eslint-formatter-compact` |
-| `jslint-xml` | `eslint-formatter-jslint-xml` |
-| `junit` | `eslint-formatter-junit` |
-| `tap` | `eslint-formatter-tap` |
-| `unix` | `eslint-formatter-unix` |
-| `visualstudio` | `eslint-formatter-visualstudio` |
+| **Removed Formatter** | **Replacement npm Package**     |
+| --------------------- | ------------------------------- |
+| `checkstyle`          | `eslint-formatter-checkstyle`   |
+| `compact`             | `eslint-formatter-compact`      |
+| `jslint-xml`          | `eslint-formatter-jslint-xml`   |
+| `junit`               | `eslint-formatter-junit`        |
+| `tap`                 | `eslint-formatter-tap`          |
+| `unix`                | `eslint-formatter-unix`         |
+| `visualstudio`        | `eslint-formatter-visualstudio` |
 
 **To address:** If you are using any of these formatters via the `-f` command line flag, you'll need to install the respective package for the formatter.
 
@@ -108,17 +107,17 @@ The `require-jsdoc` and `valid-jsdoc` rules have been removed in ESLint v9.0.0. 
 
 Four new rules have been enabled in `eslint:recommended`:
 
-* [`no-constant-binary-expression`](../rules/no-constant-binary-expression)
-* [`no-empty-static-block`](../rules/no-empty-static-block)
-* [`no-new-native-nonconstructor`](../rules/no-new-native-nonconstructor)
-* [`no-unused-private-class-members`](../rules/no-unused-private-class-members)
+-   [`no-constant-binary-expression`](../rules/no-constant-binary-expression)
+-   [`no-empty-static-block`](../rules/no-empty-static-block)
+-   [`no-new-native-nonconstructor`](../rules/no-new-native-nonconstructor)
+-   [`no-unused-private-class-members`](../rules/no-unused-private-class-members)
 
 Additionally, the following rules have been removed from `eslint:recommended`:
 
-* [`no-extra-semi`](../rules/no-extra-semi)
-* [`no-inner-declarations`](../rules/no-inner-declarations)
-* [`no-mixed-spaces-and-tabs`](../rules/no-mixed-spaces-and-tabs)
-* [`no-new-symbol`](../rules/no-new-symbol)
+-   [`no-extra-semi`](../rules/no-extra-semi)
+-   [`no-inner-declarations`](../rules/no-inner-declarations)
+-   [`no-mixed-spaces-and-tabs`](../rules/no-mixed-spaces-and-tabs)
+-   [`no-new-symbol`](../rules/no-new-symbol)
 
 **To address:** Fix errors or disable these rules.
 
@@ -146,8 +145,8 @@ Prior to ESLint v9.0.0, the `--output-file` flag would skip writing a file to di
 
 Prior to ESLint v9.0.0, running the ESLint CLI without any file or directory patterns would result in no files being linted and would exit with code 0. This was confusing because it wasn't clear that nothing had actually happened. In ESLint v9.0.0, this behavior has been updated:
 
-* **Flat config.** If you are using flat config, you can run `npx eslint` or `eslint` (if globally installed) and ESLint will assume you want to lint the current directory. Effectively, passing no patterns is equivalent to passing `.`.
-* **eslintrc.** If you are using the deprecated eslintrc config, you'll now receive an error when running the CLI without any patterns.
+-   **Flat config.** If you are using flat config, you can run `npx eslint` or `eslint` (if globally installed) and ESLint will assume you want to lint the current directory. Effectively, passing no patterns is equivalent to passing `.`.
+-   **eslintrc.** If you are using the deprecated eslintrc config, you'll now receive an error when running the CLI without any patterns.
 
 **To address:** In most cases, no change is necessary, and you may find some locations where you thought ESLint was running but it wasn't. If you'd like to keep the v8.x behavior, where passing no patterns results in ESLint exiting with code 0, add the `--pass-on-no-patterns` flag to the CLI call.
 
@@ -164,11 +163,13 @@ For example, if you have the following config file:
 ```js
 // eslint.config.js
 
-export default [{
-    rules: {
-        curly: ["error", "multi"]
-    }
-}];
+export default [
+	{
+		rules: {
+			curly: ["error", "multi"],
+		},
+	},
+];
 ```
 
 and the following configuration comment:
@@ -201,7 +202,7 @@ Prior to ESLint v9.0.0, if the file being linted contained multiple `/* eslint *
 /* eslint semi: ["error", "always"] */
 /* eslint semi: ["error", "never"] */
 
-foo() // valid, because the configuration is "never"
+foo(); // valid, because the configuration is "never"
 ```
 
 In ESLint v9.0.0, the first one is applied, while the others are reported as lint errors:
@@ -210,7 +211,7 @@ In ESLint v9.0.0, the first one is applied, while the others are reported as lin
 /* eslint semi: ["error", "always"] */
 /* eslint semi: ["error", "never"] */ // error: Rule "semi" is already configured by another configuration comment in the preceding code. This configuration is ignored.
 
-foo() // error: Missing semicolon
+foo(); // error: Missing semicolon
 ```
 
 **To address:** Remove duplicate `/* eslint */` comments.
@@ -247,15 +248,15 @@ In previous versions of ESLint, `no-constructor-return` and `no-sequences` rules
 
 This has been fixed in ESLint v9.0.0:
 
-* The `no-constructor-return` rule does not accept any options.
-* The `no-sequences` rule can take one option, an object with a property `"allowInParentheses"` (boolean).
+-   The `no-constructor-return` rule does not accept any options.
+-   The `no-sequences` rule can take one option, an object with a property `"allowInParentheses"` (boolean).
 
 ```json
 {
-    "rules": {
-        "no-constructor-return": ["error"],
-        "no-sequences": ["error", { "allowInParentheses": false }]
-    }
+	"rules": {
+		"no-constructor-return": ["error"],
+		"no-sequences": ["error", { "allowInParentheses": false }]
+	}
 }
 ```
 
@@ -276,9 +277,9 @@ foo - 0;
 
 ```json
 {
-    "rules": {
-        "no-implicit-coercion": [2, { "allow": ["-", "- -"] } ],
-    }
+	"rules": {
+		"no-implicit-coercion": [2, { "allow": ["-", "- -"] }]
+	}
 }
 ```
 
@@ -300,11 +301,11 @@ In previous versions of ESLint, the `varsIgnorePattern` option of `no-unused-var
 /*eslint no-unused-vars: ["error", { "caughtErrors": "all", "varsIgnorePattern": "^err" }]*/
 
 try {
-    //...
-} catch (err) { // 'err' will be reported.
-    console.error("errors");
+	//...
+} catch (err) {
+	// 'err' will be reported.
+	console.error("errors");
 }
-
 ```
 
 **To address:** If you want to specify ignore patterns for `catch` clause variable names, use the `caughtErrorsIgnorePattern` option in addition to `varsIgnorePattern`.
@@ -352,10 +353,7 @@ In ESLint v8.x, `eslint.config.js` could refer to `"eslint:recommended"` and `"e
 
 ```js
 // eslint.config.js
-export default [
-    "eslint:recommended",
-    "eslint:all"
-];
+export default ["eslint:recommended", "eslint:all"];
 ```
 
 In ESLint v9.0.0, this format is no longer supported and will result in an error.
@@ -366,10 +364,7 @@ In ESLint v9.0.0, this format is no longer supported and will result in an error
 // eslint.config.js
 import js from "@eslint/js";
 
-export default [
-    js.configs.recommended,
-    js.configs.all
-];
+export default [js.configs.recommended, js.configs.all];
 ```
 
 **Related issue(s):** [#17488](https://github.com/eslint/eslint/issues/17488)
@@ -383,7 +378,7 @@ ESLint v9.0.0 introduces a new option in `no-inner-declarations` rule called `bl
 "use strict";
 
 if (test) {
-    function foo () { }  // no error
+	function foo() {} // no error
 }
 ```
 
@@ -399,9 +394,9 @@ It now defaults to `"all"` to check caught errors for being used.
 
 ```js
 /*eslint no-unused-vars: "error"*/
-try {}
-catch (error) {
-    // 'error' is defined but never used
+try {
+} catch (error) {
+	// 'error' is defined but never used
 }
 ```
 
@@ -410,9 +405,9 @@ Otherwise, delete the unused caught errors.
 
 ```js
 /*eslint no-unused-vars: "error"*/
-try {}
-catch {
-    // no error
+try {
+} catch {
+	// no error
 }
 ```
 
@@ -427,7 +422,7 @@ The effect of this change is that unnecessary computed member names in classes w
 /*eslint no-useless-computed-key: "error"*/
 
 class SomeClass {
-    ["someMethod"]() {} // ok in ESLint v8, error in ESLint v9.
+	["someMethod"]() {} // ok in ESLint v8, error in ESLint v9.
 }
 ```
 
@@ -447,38 +442,38 @@ Previously the camelcase rule didn't enforce the `allow` option to be an array o
 
 ESLint v9.0.0 removes multiple deprecated methods from the `context` object and moves them onto the `SourceCode` object:
 
-|**Removed on `context`**|**Replacement(s) on `SourceCode`**|
-|-----------------------|--------------------------|
-|`context.getSource()`|`sourceCode.getText()`|
-|`context.getSourceLines()`|`sourceCode.getLines()`|
-|`context.getAllComments()`|`sourceCode.getAllComments()`|
-|`context.getNodeByRangeIndex()`|`sourceCode.getNodeByRangeIndex()`|
-|`context.getComments()`|`sourceCode.getCommentsBefore()`, `sourceCode.getCommentsAfter()`, `sourceCode.getCommentsInside()`|
-|`context.getCommentsBefore()`|`sourceCode.getCommentsBefore()`|
-|`context.getCommentsAfter()`|`sourceCode.getCommentsAfter()`|
-|`context.getCommentsInside()`|`sourceCode.getCommentsInside()`|
-|`context.getJSDocComment()`|`sourceCode.getJSDocComment()`|
-|`context.getFirstToken()`|`sourceCode.getFirstToken()`|
-|`context.getFirstTokens()`|`sourceCode.getFirstTokens()`|
-|`context.getLastToken()`|`sourceCode.getLastToken()`|
-|`context.getLastTokens()`|`sourceCode.getLastTokens()`|
-|`context.getTokenAfter()`|`sourceCode.getTokenAfter()`|
-|`context.getTokenBefore()`|`sourceCode.getTokenBefore()`|
-|`context.getTokenByRangeStart()`|`sourceCode.getTokenByRangeStart()`|
-|`context.getTokens()`|`sourceCode.getTokens()`|
-|`context.getTokensAfter()`|`sourceCode.getTokensAfter()`|
-|`context.getTokensBefore()`|`sourceCode.getTokensBefore()`|
-|`context.getTokensBetween()`|`sourceCode.getTokensBetween()`|
-|`context.parserServices`|`sourceCode.parserServices`|
-|`context.getDeclaredVariables()`|`sourceCode.getDeclaredVariables()`|
+| **Removed on `context`**         | **Replacement(s) on `SourceCode`**                                                                  |
+| -------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `context.getSource()`            | `sourceCode.getText()`                                                                              |
+| `context.getSourceLines()`       | `sourceCode.getLines()`                                                                             |
+| `context.getAllComments()`       | `sourceCode.getAllComments()`                                                                       |
+| `context.getNodeByRangeIndex()`  | `sourceCode.getNodeByRangeIndex()`                                                                  |
+| `context.getComments()`          | `sourceCode.getCommentsBefore()`, `sourceCode.getCommentsAfter()`, `sourceCode.getCommentsInside()` |
+| `context.getCommentsBefore()`    | `sourceCode.getCommentsBefore()`                                                                    |
+| `context.getCommentsAfter()`     | `sourceCode.getCommentsAfter()`                                                                     |
+| `context.getCommentsInside()`    | `sourceCode.getCommentsInside()`                                                                    |
+| `context.getJSDocComment()`      | `sourceCode.getJSDocComment()`                                                                      |
+| `context.getFirstToken()`        | `sourceCode.getFirstToken()`                                                                        |
+| `context.getFirstTokens()`       | `sourceCode.getFirstTokens()`                                                                       |
+| `context.getLastToken()`         | `sourceCode.getLastToken()`                                                                         |
+| `context.getLastTokens()`        | `sourceCode.getLastTokens()`                                                                        |
+| `context.getTokenAfter()`        | `sourceCode.getTokenAfter()`                                                                        |
+| `context.getTokenBefore()`       | `sourceCode.getTokenBefore()`                                                                       |
+| `context.getTokenByRangeStart()` | `sourceCode.getTokenByRangeStart()`                                                                 |
+| `context.getTokens()`            | `sourceCode.getTokens()`                                                                            |
+| `context.getTokensAfter()`       | `sourceCode.getTokensAfter()`                                                                       |
+| `context.getTokensBefore()`      | `sourceCode.getTokensBefore()`                                                                      |
+| `context.getTokensBetween()`     | `sourceCode.getTokensBetween()`                                                                     |
+| `context.parserServices`         | `sourceCode.parserServices`                                                                         |
+| `context.getDeclaredVariables()` | `sourceCode.getDeclaredVariables()`                                                                 |
 
 In addition to the methods in the above table, there are several other methods that are also moved but required different method signatures:
 
-|**Removed on `context`**|**Replacement(s) on `SourceCode`**|
-|-----------------------|--------------------------|
-|`context.getAncestors()`|`sourceCode.getAncestors(node)`|
-|`context.getScope()`|`sourceCode.getScope(node)`|
-|`context.markVariableAsUsed(name)`|`sourceCode.markVariableAsUsed(name, node)`|
+| **Removed on `context`**           | **Replacement(s) on `SourceCode`**          |
+| ---------------------------------- | ------------------------------------------- |
+| `context.getAncestors()`           | `sourceCode.getAncestors(node)`             |
+| `context.getScope()`               | `sourceCode.getScope(node)`                 |
+| `context.markVariableAsUsed(name)` | `sourceCode.markVariableAsUsed(name, node)` |
 
 **To address:** Use the automated upgrade tool as recommended in the [blog post](https://eslint.org/blog/2023/09/preparing-custom-rules-eslint-v9/#automatically-update-your-rules).
 
@@ -508,8 +503,8 @@ ESLint v9.0.0 now precalculates code path information before the traversal used 
 
 **To address:** If you are accessing any array properties on `CodePath` or `CodePathSegment`, you'll need to update your code. Specifically:
 
-* If you are checking the `length` of any array properties, ensure you are using relative comparison operators like `<`, `>`, `<=`, and `>=` instead of equals.
-* If you are accessing the `nextSegments`, `prevSegments`, `allNextSegments`, or `allPrevSegments` properties on a `CodePathSegment`, or `CodePath#childCodePaths`, verify that your code will still work as expected. To be backwards compatible, consider moving the logic that checks these properties into `onCodePathEnd`.
+-   If you are checking the `length` of any array properties, ensure you are using relative comparison operators like `<`, `>`, `<=`, and `>=` instead of equals.
+-   If you are accessing the `nextSegments`, `prevSegments`, `allNextSegments`, or `allPrevSegments` properties on a `CodePathSegment`, or `CodePath#childCodePaths`, verify that your code will still work as expected. To be backwards compatible, consider moving the logic that checks these properties into `onCodePathEnd`.
 
 **Related Issues(s):** [#16999](https://github.com/eslint/eslint/issues/16999)
 
@@ -529,9 +524,9 @@ As of ESLint v9.0.0, an error will be thrown if any options are [passed](../use/
 
 **To address:**
 
-* If your rule expects [options](../extend/custom-rules#accessing-options-passed-to-a-rule), set [`meta.schema`](../extend/custom-rules#options-schemas) property to a JSON Schema format description of the rule’s options. This schema will be used by ESLint to validate configured options and prevent invalid or unexpected inputs to your rule.
-* If your rule doesn't expect any options, there is no action required. This change ensures that end users will not mistakenly configure options for rules that don't expect options.
-* **(not recommended)** you can also set `meta.schema` to `false` to disable this validation, but it is highly recommended to provide a schema if the rule expects options and omit the schema (or set `[]`) if the rule doesn't expect options so that ESLint can ensure that your users' configurations are valid.
+-   If your rule expects [options](../extend/custom-rules#accessing-options-passed-to-a-rule), set [`meta.schema`](../extend/custom-rules#options-schemas) property to a JSON Schema format description of the rule’s options. This schema will be used by ESLint to validate configured options and prevent invalid or unexpected inputs to your rule.
+-   If your rule doesn't expect any options, there is no action required. This change ensures that end users will not mistakenly configure options for rules that don't expect options.
+-   **(not recommended)** you can also set `meta.schema` to `false` to disable this validation, but it is highly recommended to provide a schema if the rule expects options and omit the schema (or set `[]`) if the rule doesn't expect options so that ESLint can ensure that your users' configurations are valid.
 
 The [eslint-plugin/require-meta-schema](https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/require-meta-schema.md) rule can help enforce that rules have schemas when required.
 
@@ -543,47 +538,47 @@ As announced in our [blog post](/blog/2023/10/flat-config-rollout-plans/), the t
 
 **To address:** Update your rule tests to use the new `RuleTester`. To do so, here are some of the common changes you'll need to make:
 
-* **Be aware of new defaults for `ecmaVersion` and `sourceType`.** By default, `RuleTester` uses the flat config default of `ecmaVersion: "latest"` and `sourceType: "module"`. This may cause some tests to break if they were expecting the old default of `ecmaVersion: 5` and `sourceType: "script"`. If you'd like to use the old default, you'll need to manually specify that in your `RuleTester` like this:
+-   **Be aware of new defaults for `ecmaVersion` and `sourceType`.** By default, `RuleTester` uses the flat config default of `ecmaVersion: "latest"` and `sourceType: "module"`. This may cause some tests to break if they were expecting the old default of `ecmaVersion: 5` and `sourceType: "script"`. If you'd like to use the old default, you'll need to manually specify that in your `RuleTester` like this:
 
     ```js
     // use eslintrc defaults
     const ruleTester = new RuleTester({
-        languageOptions: {
-            ecmaVersion: 5,
-            sourceType: "script"
-        }
+    	languageOptions: {
+    		ecmaVersion: 5,
+    		sourceType: "script",
+    	},
     });
     ```
 
-* **Change `parserOptions` to `languageOptions`.** If you're setting `ecmaVersion` or `sourceType` on your tests, move those from `parserOptions` to `languageOptions`, like this:
+-   **Change `parserOptions` to `languageOptions`.** If you're setting `ecmaVersion` or `sourceType` on your tests, move those from `parserOptions` to `languageOptions`, like this:
 
     ```js
     ruleTester.run("my-rule", myRule, {
-        valid: [
-            {
-                code: "foo",
-                parserOptions: {
-                    ecmaVersion: 6
-                }
-            }
-        ]
+    	valid: [
+    		{
+    			code: "foo",
+    			parserOptions: {
+    				ecmaVersion: 6,
+    			},
+    		},
+    	],
     });
 
     // becomes
 
     ruleTester.run("my-rule", myRule, {
-        valid: [
-            {
-                code: "foo",
-                languageOptions: {
-                    ecmaVersion: 6
-                }
-            }
-        ]
+    	valid: [
+    		{
+    			code: "foo",
+    			languageOptions: {
+    				ecmaVersion: 6,
+    			},
+    		},
+    	],
     });
     ```
 
-* **Translate other config keys.** Keys such as `env` and `parser` that used to run on the eslintrc config system must be translated into the flat config system. Please refer to the [Configuration Migration Guide](configure/migration-guide) for details on translating other keys you may be using.
+-   **Translate other config keys.** Keys such as `env` and `parser` that used to run on the eslintrc config system must be translated into the flat config system. Please refer to the [Configuration Migration Guide](configure/migration-guide) for details on translating other keys you may be using.
 
 **Related Issues(s):** [#13481](https://github.com/eslint/eslint/issues/13481)
 
@@ -591,7 +586,7 @@ As announced in our [blog post](/blog/2023/10/flat-config-rollout-plans/), the t
 
 In order to aid in the development of high-quality custom rules that are free from common bugs, ESLint v9.0.0 implements several changes to `RuleTester`:
 
-1. **Test case `output` must be different from `code`.** In ESLint v8.x, if  `output` is the same as `code`, it asserts that there was no autofix. When looking at a test case, it's not always immediately clear whether `output` differs from `code`, especially if the strings are longer or multiline, making it difficult for developers to determine whether or not the test case expects an autofix. In ESLint v9.0.0, to avoid this ambiguity, `RuleTester` now throws an error if the test `output` has the same value as the test `code`. Therefore, specifying `output` now necessarily means that the test case expects an autofix and asserts its result. If the test case doesn't expect an autofix, omit the `output` property or set it to `null`. This asserts that there was no autofix.
+1. **Test case `output` must be different from `code`.** In ESLint v8.x, if `output` is the same as `code`, it asserts that there was no autofix. When looking at a test case, it's not always immediately clear whether `output` differs from `code`, especially if the strings are longer or multiline, making it difficult for developers to determine whether or not the test case expects an autofix. In ESLint v9.0.0, to avoid this ambiguity, `RuleTester` now throws an error if the test `output` has the same value as the test `code`. Therefore, specifying `output` now necessarily means that the test case expects an autofix and asserts its result. If the test case doesn't expect an autofix, omit the `output` property or set it to `null`. This asserts that there was no autofix.
 1. **Test error objects must specify `message` or `messageId`.** To improve the quality of test coverage, `RuleTester` now throws an error if neither `message` nor `messageId` is specified on test error objects.
 1. **Test error object must specify `suggestions` if the actual error provides suggestions.** In ESLint v8.x, if the `suggestions` property was omitted from test error objects, `RuleTester` wasn't performing any checks related to suggestions, so it was easy to forget to assert if a test case produces suggestions. In ESLint v9.0.0, omitting the `suggestions` property asserts that the actual error does not provide suggestions, while you need to specify the `suggestions` property if the actual error does provide suggestions. We highly recommend that you test suggestions in detail by specifying an array of test suggestion objects, but you can also specify `suggestions: <number>` to assert just the number of suggestions.
 1. **Test suggestion objects must specify `output`.** To improve the quality of test coverage, `RuleTester` now throws an error if `output` property is not specified on test suggestion objects.
@@ -634,16 +629,16 @@ If you're passing configuration objects that are incompatible with the flat conf
 ```js
 // eslintrc config format
 linter.verify(code, {
-    parserOptions: {
-        ecmaVersion: 6
-    }
+	parserOptions: {
+		ecmaVersion: 6,
+	},
 });
 
 // flat config format
 linter.verify(code, {
-    languageOptions: {
-        ecmaVersion: 6
-    }
+	languageOptions: {
+		ecmaVersion: 6,
+	},
 });
 ```
 
@@ -655,42 +650,42 @@ Rules and parsers can be defined directly in the configuration.
 // eslintrc mode
 linter.defineRule("my-rule1", myRule1);
 linter.defineRules({
-    "my-rule2": myRule2,
-    "my-rule3": myRule3
+	"my-rule2": myRule2,
+	"my-rule3": myRule3,
 });
 linter.defineParser("my-parser", myParser);
 linter.verify(code, {
-    rules: {
-        "my-rule1": "error",
-        "my-rule2": "error",
-        "my-rule3": "error"
-    },
-    parser: "my-parser"
+	rules: {
+		"my-rule1": "error",
+		"my-rule2": "error",
+		"my-rule3": "error",
+	},
+	parser: "my-parser",
 });
 
 // flat config mode
 linter.verify(code, {
-    plugins: {
-        "my-plugin-foo": {
-            rules: {
-                "my-rule1": myRule1
-            }
-        },
-        "my-plugin-bar": {
-            rules: {
-                "my-rule2": myRule2,
-                "my-rule3": myRule3
-            }
-        }
-    },
-    rules: {
-        "my-plugin-foo/my-rule1": "error",
-        "my-plugin-bar/my-rule2": "error",
-        "my-plugin-bar/my-rule3": "error"
-    },
-    languageOptions: {
-        parser: myParser
-    }
+	plugins: {
+		"my-plugin-foo": {
+			rules: {
+				"my-rule1": myRule1,
+			},
+		},
+		"my-plugin-bar": {
+			rules: {
+				"my-rule2": myRule2,
+				"my-rule3": myRule3,
+			},
+		},
+	},
+	rules: {
+		"my-plugin-foo/my-rule1": "error",
+		"my-plugin-bar/my-rule2": "error",
+		"my-plugin-bar/my-rule3": "error",
+	},
+	languageOptions: {
+		parser: myParser,
+	},
 });
 ```
 
@@ -700,9 +695,9 @@ If you still need the v8.x `Linter` functionality, pass `configType: "eslintrc"`
 const linter = new Linter({ configType: "eslintrc" });
 
 linter.verify(code, {
-    parserOptions: {
-        ecmaVersion: 6
-    }
+	parserOptions: {
+		ecmaVersion: 6,
+	},
 });
 
 linter.getRules();

@@ -19,9 +19,9 @@ const builtInRules = require("../lib/rules");
 const allRules = {};
 
 for (const [ruleId, rule] of builtInRules) {
-    if (!rule.meta.deprecated) {
-        allRules[ruleId] = "error";
-    }
+	if (!rule.meta.deprecated) {
+		allRules[ruleId] = "error";
+	}
 }
 
 //-----------------------------------------------------------------------------
