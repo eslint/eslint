@@ -199,6 +199,7 @@ ruleTester.run("no-useless-constructor", rule, {
 		},
 	],
 });
+
 const ruleTesterTypeScript = new RuleTester({
 	languageOptions: {
 		parser: require("@typescript-eslint/parser"),
