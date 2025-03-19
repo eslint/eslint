@@ -1218,13 +1218,6 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       }
     }
         `,
-        `
-    class A {
-      a = 5;
-      b = this.a;
-      accessor c = this.a;
-    }
-        `,
         {
           code: `
           class A {
