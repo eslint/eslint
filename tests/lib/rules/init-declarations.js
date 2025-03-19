@@ -430,22 +430,18 @@ ruleTesterTypeScript.run("init-declarations", rule, {
 			code: "const foo: string = 'hello';",
 			options: ["never"],
 		},
-		{
-			code: `
+		`
 	  const class1 = class NAME {
 		constructor() {
 		  var name1: string = 'hello';
 		}
 	  };
 			`,
-		},
-		{
-			code: `
+		`
 	  const class1 = class NAME {
 		static pi: number = 3.14;
 	  };
 			`,
-		},
 		{
 			code: `
 	  const class1 = class NAME {
