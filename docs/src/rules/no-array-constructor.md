@@ -55,6 +55,8 @@ const createArray = Array => new Array();
 
 This rule additionally supports TypeScript type syntax.
 
+Examples of **correct** code for this rule:
+
 :::correct
 
 ```ts
