@@ -461,66 +461,237 @@ const ruleTesterTypeScript = new RuleTester({
 });
 
 ruleTesterTypeScript.run("class-methods-use-this", rule, {
-    valid: [
-        "class A { constructor() {} }",
-        "class A { foo() {this} }",
-        "class A { foo() {this.bar = 'bar';} }",
-        "class A { foo() {bar(this);} }",
-        "class A extends B { foo() {super.foo();} }",
-        "class A { foo() { if(true) { return this; } } }",
-        "class A { static foo() {} }",
-        "({ a(){} });",
-        "class A { foo() { () => this; } }",
-        "({ a: function () {} });",
-        { code: "class A { foo() {this} bar() {} }", options: [{ exceptMethods: ["bar"] }] },
-        { code: "class A { \"foo\"() { } }", options: [{ exceptMethods: ["foo"] }] },
-        { code: "class A { 42() { } }", options: [{ exceptMethods: ["42"] }] },
-        "class A { foo = function() {this} }",
-        "class A { foo = () => {this} }",
-        "class A { foo = () => {super.toString} }",
-        "class A { static foo = function() {} }",
-        "class A { static foo = () => {} }",
-        { code: "class A { #bar() {} }", options: [{ exceptMethods: ["#bar"] }] },
-        { code: "class A { foo = function () {} }", options: [{ enforceForClassFields: false }] },
-        { code: "class A { foo = () => {} }", options: [{ enforceForClassFields: false }] },
-        { code: "class A { override foo = () => {} }", options: [{ enforceForClassFields: false }] },
-        { code: "class Foo implements Bar { property = () => {} }", options: [{ enforceForClassFields: false }] },
-        "class A { foo() { return class { [this.foo] = 1 }; } }",
-        "class A { static {} }",
-        { code: "class Foo { override method() {} }", options: [{ ignoreOverrideMethods: true }] },
-        { code: "class Foo { private override method() {} }", options: [{ ignoreOverrideMethods: true }] },
-        { code: "class Foo { protected override method() {} }", options: [{ ignoreOverrideMethods: true }] },
-        { code: "class Foo { override accessor method = () => {} }", options: [{ ignoreOverrideMethods: true }] },
-        { code: "class Foo { override get getter(): number {} }", options: [{ ignoreOverrideMethods: true }] },
-        { code: "class Foo { private override get getter(): number {} }", options: [{ ignoreOverrideMethods: true }] },
-        { code: "class Foo { protected override get getter(): number {} }", options: [{ ignoreOverrideMethods: true }] },
-        { code: "class Foo { override set setter(v: number) {} }", options: [{ ignoreOverrideMethods: true }] },
-        { code: "class Foo { private override set setter(v: number) {} }", options: [{ ignoreOverrideMethods: true }] },
-        { code: "class Foo { protected override set setter(v: number) {} }", options: [{ ignoreOverrideMethods: true }] },
-        { code: "class Foo implements Bar { override method() {} }", options: [{ ignoreOverrideMethods: true, ignoreClassesWithImplements: "all" }] },
-        { code: "class Foo implements Bar { private override method() {} }", options: [{ ignoreOverrideMethods: true, ignoreClassesWithImplements: "public-fields" }] },
-        { code: "class Foo implements Bar { protected override method() {} }", options: [{ ignoreOverrideMethods: true, ignoreClassesWithImplements: "public-fields" }] },
-        { code: "class Foo implements Bar { override get getter(): number {} }", options: [{ ignoreOverrideMethods: true, ignoreClassesWithImplements: "all" }] },
-        { code: "class Foo implements Bar { private override get getter(): number {} }", options: [{ ignoreOverrideMethods: true, ignoreClassesWithImplements: "public-fields" }] },
-        { code: "class Foo implements Bar { protected override get getter(): number {} }", options: [{ ignoreOverrideMethods: true, ignoreClassesWithImplements: "public-fields" }] },
-        { code: "class Foo implements Bar { override set setter(v: number) {} }", options: [{ ignoreOverrideMethods: true, ignoreClassesWithImplements: "all" }] },
-        { code: "class Foo implements Bar { private override set setter(v: number) {} }", options: [{ ignoreOverrideMethods: true, ignoreClassesWithImplements: "public-fields" }] },
-        { code: "class Foo implements Bar { protected override set setter(v: number) {} }", options: [{ ignoreOverrideMethods: true, ignoreClassesWithImplements: "public-fields" }] },
-        { code: "class Foo { override property = () => {} }", options: [{ ignoreOverrideMethods: true }] },
-        { code: "class Foo { private override property = () => {} }", options: [{ ignoreOverrideMethods: true }] },
-        { code: "class Foo { protected override property = () => {} }", options: [{ ignoreOverrideMethods: true }] },
-        { code: "class Foo implements Bar { override property = () => {} }", options: [{ ignoreOverrideMethods: true, ignoreClassesWithImplements: "all" }] },
-        { code: "class Foo implements Bar { private override property = () => {} }", options: [{ ignoreOverrideMethods: true, ignoreClassesWithImplements: "public-fields" }] },
-        { code: "class Foo implements Bar { protected override property = () => {} }", options: [{ ignoreOverrideMethods: true, ignoreClassesWithImplements: "public-fields" }] },
-        { code: "class Foo implements Bar { method() {} }", options: [{ ignoreClassesWithImplements: "all" }] },
-        { code: "class Foo implements Bar { accessor method = () => {} }", options: [{ ignoreClassesWithImplements: "all" }] },
-        { code: "class Foo implements Bar { get getter() {} }", options: [{ ignoreClassesWithImplements: "all" }] },
-        { code: "class Foo implements Bar { set setter() {} }", options: [{ ignoreClassesWithImplements: "all" }] },
-        { code: "class Foo implements Bar { property = () => {} }", options: [{ ignoreClassesWithImplements: "all" }] },
-    ],
-    invalid: [
-        {
-            code: `
+	valid: [
+		"class A { constructor() {} }",
+		"class A { foo() {this} }",
+		"class A { foo() {this.bar = 'bar';} }",
+		"class A { foo() {bar(this);} }",
+		"class A extends B { foo() {super.foo();} }",
+		"class A { foo() { if(true) { return this; } } }",
+		"class A { static foo() {} }",
+		"({ a(){} });",
+		"class A { foo() { () => this; } }",
+		"({ a: function () {} });",
+		{
+			code: "class A { foo() {this} bar() {} }",
+			options: [{ exceptMethods: ["bar"] }],
+		},
+		{
+			code: 'class A { "foo"() { } }',
+			options: [{ exceptMethods: ["foo"] }],
+		},
+		{ code: "class A { 42() { } }", options: [{ exceptMethods: ["42"] }] },
+		"class A { foo = function() {this} }",
+		"class A { foo = () => {this} }",
+		"class A { foo = () => {super.toString} }",
+		"class A { static foo = function() {} }",
+		"class A { static foo = () => {} }",
+		{
+			code: "class A { #bar() {} }",
+			options: [{ exceptMethods: ["#bar"] }],
+		},
+		{
+			code: "class A { foo = function () {} }",
+			options: [{ enforceForClassFields: false }],
+		},
+		{
+			code: "class A { foo = () => {} }",
+			options: [{ enforceForClassFields: false }],
+		},
+		{
+			code: "class A { override foo = () => {} }",
+			options: [{ enforceForClassFields: false }],
+		},
+		{
+			code: "class Foo implements Bar { property = () => {} }",
+			options: [{ enforceForClassFields: false }],
+		},
+		"class A { foo() { return class { [this.foo] = 1 }; } }",
+		"class A { static {} }",
+		{
+			code: "class Foo { override method() {} }",
+			options: [{ ignoreOverrideMethods: true }],
+		},
+		{
+			code: "class Foo { private override method() {} }",
+			options: [{ ignoreOverrideMethods: true }],
+		},
+		{
+			code: "class Foo { protected override method() {} }",
+			options: [{ ignoreOverrideMethods: true }],
+		},
+		{
+			code: "class Foo { override accessor method = () => {} }",
+			options: [{ ignoreOverrideMethods: true }],
+		},
+		{
+			code: "class Foo { override get getter(): number {} }",
+			options: [{ ignoreOverrideMethods: true }],
+		},
+		{
+			code: "class Foo { private override get getter(): number {} }",
+			options: [{ ignoreOverrideMethods: true }],
+		},
+		{
+			code: "class Foo { protected override get getter(): number {} }",
+			options: [{ ignoreOverrideMethods: true }],
+		},
+		{
+			code: "class Foo { override set setter(v: number) {} }",
+			options: [{ ignoreOverrideMethods: true }],
+		},
+		{
+			code: "class Foo { private override set setter(v: number) {} }",
+			options: [{ ignoreOverrideMethods: true }],
+		},
+		{
+			code: "class Foo { protected override set setter(v: number) {} }",
+			options: [{ ignoreOverrideMethods: true }],
+		},
+		{
+			code: "class Foo implements Bar { override method() {} }",
+			options: [
+				{
+					ignoreOverrideMethods: true,
+					ignoreClassesWithImplements: "all",
+				},
+			],
+		},
+		{
+			code: "class Foo implements Bar { private override method() {} }",
+			options: [
+				{
+					ignoreOverrideMethods: true,
+					ignoreClassesWithImplements: "public-fields",
+				},
+			],
+		},
+		{
+			code: "class Foo implements Bar { protected override method() {} }",
+			options: [
+				{
+					ignoreOverrideMethods: true,
+					ignoreClassesWithImplements: "public-fields",
+				},
+			],
+		},
+		{
+			code: "class Foo implements Bar { override get getter(): number {} }",
+			options: [
+				{
+					ignoreOverrideMethods: true,
+					ignoreClassesWithImplements: "all",
+				},
+			],
+		},
+		{
+			code: "class Foo implements Bar { private override get getter(): number {} }",
+			options: [
+				{
+					ignoreOverrideMethods: true,
+					ignoreClassesWithImplements: "public-fields",
+				},
+			],
+		},
+		{
+			code: "class Foo implements Bar { protected override get getter(): number {} }",
+			options: [
+				{
+					ignoreOverrideMethods: true,
+					ignoreClassesWithImplements: "public-fields",
+				},
+			],
+		},
+		{
+			code: "class Foo implements Bar { override set setter(v: number) {} }",
+			options: [
+				{
+					ignoreOverrideMethods: true,
+					ignoreClassesWithImplements: "all",
+				},
+			],
+		},
+		{
+			code: "class Foo implements Bar { private override set setter(v: number) {} }",
+			options: [
+				{
+					ignoreOverrideMethods: true,
+					ignoreClassesWithImplements: "public-fields",
+				},
+			],
+		},
+		{
+			code: "class Foo implements Bar { protected override set setter(v: number) {} }",
+			options: [
+				{
+					ignoreOverrideMethods: true,
+					ignoreClassesWithImplements: "public-fields",
+				},
+			],
+		},
+		{
+			code: "class Foo { override property = () => {} }",
+			options: [{ ignoreOverrideMethods: true }],
+		},
+		{
+			code: "class Foo { private override property = () => {} }",
+			options: [{ ignoreOverrideMethods: true }],
+		},
+		{
+			code: "class Foo { protected override property = () => {} }",
+			options: [{ ignoreOverrideMethods: true }],
+		},
+		{
+			code: "class Foo implements Bar { override property = () => {} }",
+			options: [
+				{
+					ignoreOverrideMethods: true,
+					ignoreClassesWithImplements: "all",
+				},
+			],
+		},
+		{
+			code: "class Foo implements Bar { private override property = () => {} }",
+			options: [
+				{
+					ignoreOverrideMethods: true,
+					ignoreClassesWithImplements: "public-fields",
+				},
+			],
+		},
+		{
+			code: "class Foo implements Bar { protected override property = () => {} }",
+			options: [
+				{
+					ignoreOverrideMethods: true,
+					ignoreClassesWithImplements: "public-fields",
+				},
+			],
+		},
+		{
+			code: "class Foo implements Bar { method() {} }",
+			options: [{ ignoreClassesWithImplements: "all" }],
+		},
+		{
+			code: "class Foo implements Bar { accessor method = () => {} }",
+			options: [{ ignoreClassesWithImplements: "all" }],
+		},
+		{
+			code: "class Foo implements Bar { get getter() {} }",
+			options: [{ ignoreClassesWithImplements: "all" }],
+		},
+		{
+			code: "class Foo implements Bar { set setter() {} }",
+			options: [{ ignoreClassesWithImplements: "all" }],
+		},
+		{
+			code: "class Foo implements Bar { property = () => {} }",
+			options: [{ ignoreClassesWithImplements: "all" }],
+		},
+	],
+	invalid: [
+		{
+			code: `
   class Foo {
     method() {}
   }
@@ -710,407 +881,407 @@ ruleTesterTypeScript.run("class-methods-use-this", rule, {
     }
   }
         `,
-            errors: [
-                {
-                    messageId: "missingThis"
-                }
-            ]
-        },
-        {
-            code: `
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
   class Foo {
     override method() {}
   }
         `,
-            errors: [
-                {
-                    messageId: 'missingThis',
-                }
-            ]
-        },
-        {
-            code: `
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
   class Foo {
     override get getter(): number {}
   }
         `,
-            errors: [
-                {
-                    messageId: 'missingThis',
-                }
-            ]
-        },
-        {
-            code: `
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
   class Foo {
     override set setter(v: number) {}
   }
         `,
-            errors: [
-                {
-                    messageId: 'missingThis',
-                }
-            ]
-        },
-        {
-            code: `
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
   class Foo implements Bar {
     override method() {}
   }
         `,
-            errors: [
-                {
-                    messageId: 'missingThis',
-                }
-            ]
-        },
-        {
-            code: `
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
   class Foo implements Bar {
     override get getter(): number {}
   }
         `,
-            errors: [
-                {
-                    messageId: 'missingThis',
-                }
-            ]
-        },
-        {
-            code: `
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
   class Foo implements Bar {
     override set setter(v: number) {}
   }
             `,
-            errors: [
-                {
-                    messageId: 'missingThis',
-                }
-            ]
-        },
-        {
-            code: `
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
   class Foo {
     override property = () => {};
   }
         `,
-            errors: [
-                {
-                    messageId: 'missingThis',
-                }
-            ]
-        },
-        {
-            code: `
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
   class Foo implements Bar {
     override property = () => {};
   }
         `,
-            errors: [
-                {
-                    messageId: 'missingThis',
-                }
-            ]
-        },
-        {
-            code: `
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
   class Foo implements Bar {
     method() {}
   }
         `,
-            errors: [
-                {
-                    messageId: 'missingThis',
-                }
-            ]
-        },
-        {
-            code: `
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
   class Foo implements Bar {
     #method() {}
   }
         `,
-            errors: [
-                {
-                    messageId: 'missingThis',
-                }
-            ]
-        },
-        {
-            code: `
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
   class Foo implements Bar {
     #method() {}
   }
         `,
-            options: [
-                {
-                    ignoreClassesWithImplements: 'public-fields',
-                }
-            ],
-            errors: [
-                {
-                    messageId: 'missingThis',
-                }
-            ]
-        },
-        {
-            code: `
+			options: [
+				{
+					ignoreClassesWithImplements: "public-fields",
+				},
+			],
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
   class Foo implements Bar {
     private method() {}
   }
         `,
-            options: [
-                {
-                    ignoreClassesWithImplements: 'public-fields',
-                }
-            ],
-            errors: [
-                {
-                    messageId: 'missingThis',
-                }
-            ]
-        },
-        {
-            code: `
+			options: [
+				{
+					ignoreClassesWithImplements: "public-fields",
+				},
+			],
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
   class Foo implements Bar {
     protected method() {}
   }
         `,
-            options: [
-                {
-                    ignoreClassesWithImplements: 'public-fields',
-                }
-            ],
-            errors: [
-                {
-                    messageId: 'missingThis',
-                }
-            ]
-        },
-        {
-            code: `
+			options: [
+				{
+					ignoreClassesWithImplements: "public-fields",
+				},
+			],
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
   class Foo implements Bar {
     get getter(): number {}
   }
         `,
-            errors: [
-                {
-                    messageId: 'missingThis',
-                }
-            ]
-        },
-        {
-            code: `
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
   class Foo implements Bar {
     get #getter(): number {}
   }
         `,
-            errors: [
-                {
-                    messageId: 'missingThis',
-                }
-            ]
-        },
-        {
-            code: `
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
   class Foo implements Bar {
     get #getter(): number {}
   }
         `,
-            options: [
-                {
-                    ignoreClassesWithImplements: 'public-fields',
-                }
-            ],
-            errors: [
-                {
-                    messageId: 'missingThis',
-                }
-            ]
-        },
-        {
-            code: `
+			options: [
+				{
+					ignoreClassesWithImplements: "public-fields",
+				},
+			],
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
   class Foo implements Bar {
     private get getter(): number {}
   }
         `,
-            options: [
-                {
-                    ignoreClassesWithImplements: 'public-fields',
-                }
-            ],
-            errors: [
-                {
-                    messageId: 'missingThis',
-                }
-            ]
-        },
-        {
-            code: `
+			options: [
+				{
+					ignoreClassesWithImplements: "public-fields",
+				},
+			],
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
   class Foo implements Bar {
     protected get getter(): number {}
   }
         `,
-            options: [
-                {
-                    ignoreClassesWithImplements: 'public-fields',
-                }
-            ],
-            errors: [
-                {
-                    messageId: 'missingThis',
-                }
-            ]
-        },
-        {
-            code: `
+			options: [
+				{
+					ignoreClassesWithImplements: "public-fields",
+				},
+			],
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
   class Foo implements Bar {
     set setter(v: number) {}
   }
         `,
-            errors: [
-                {
-                    messageId: 'missingThis',
-                }
-            ]
-        },
-        {
-            code: `
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
   class Foo implements Bar {
     set #setter(v: number) {}
   }
         `,
-            errors: [
-                {
-                    messageId: 'missingThis',
-                }
-            ]
-        },
-        {
-            code: `
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
   class Foo implements Bar {
     set #setter(v: number) {}
   }
         `,
-            options: [
-                {
-                    ignoreClassesWithImplements: 'public-fields',
-                }
-            ],
-            errors: [
-                {
-                    messageId: 'missingThis',
-                }
-            ]
-        },
-        {
-            code: `
+			options: [
+				{
+					ignoreClassesWithImplements: "public-fields",
+				},
+			],
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
   class Foo implements Bar {
     private set setter(v: number) {}
   }
         `,
-            options: [
-                {
-                    ignoreClassesWithImplements: 'public-fields',
-                }
-            ],
-            errors: [
-                {
-                    messageId: 'missingThis',
-                }
-            ],
-        },
-        {
-            code: `
+			options: [
+				{
+					ignoreClassesWithImplements: "public-fields",
+				},
+			],
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
   class Foo implements Bar {
     protected set setter(v: number) {}
   }
         `,
-            options: [
-                {
-                    ignoreClassesWithImplements: 'public-fields',
-                }
-            ],
-            errors: [
-                {
-                    messageId: 'missingThis',
-                }
-            ],
-        },
-        {
-            code: `
+			options: [
+				{
+					ignoreClassesWithImplements: "public-fields",
+				},
+			],
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
   class Foo implements Bar {
     property = () => {};
   }
         `,
-            errors: [
-                {
-                    messageId: 'missingThis',
-                }
-            ]
-        },
-        {
-            code: `
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
   class Foo implements Bar {
     #property = () => {};
   }
         `,
-            errors: [
-                {
-                    messageId: 'missingThis',
-                }
-            ]
-        },
-        {
-            code: `
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
   class Foo implements Bar {
     #property = () => {};
   }
         `,
-            options: [
-                {
-                    ignoreClassesWithImplements: 'public-fields',
-                }
-            ],
-            errors: [
-                {
-                    messageId: 'missingThis',
-                }
-            ]
-        },
-        {
-            code: `
+			options: [
+				{
+					ignoreClassesWithImplements: "public-fields",
+				},
+			],
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
   class Foo implements Bar {
     private property = () => {};
   }
         `,
-            options: [
-                {
-                    ignoreClassesWithImplements: 'public-fields',
-                }
-            ],
-            errors: [
-                {
-                    messageId: 'missingThis',
-                }
-            ],
-        },
-        {
-            code: `
+			options: [
+				{
+					ignoreClassesWithImplements: "public-fields",
+				},
+			],
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
   class Foo implements Bar {
     protected property = () => {};
   }
         `,
-            options: [
-                {
-                    ignoreClassesWithImplements: 'public-fields',
-                }
-            ],
-            errors: [
-                {
-                    messageId: 'missingThis',
-                }
-            ]
-        },
-    ]
+			options: [
+				{
+					ignoreClassesWithImplements: "public-fields",
+				},
+			],
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+	],
 });
