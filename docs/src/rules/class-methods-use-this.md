@@ -219,7 +219,8 @@ Examples of **incorrect** TypeScript code for this rule with the `{ "ignoreOverr
 /*eslint class-methods-use-this: ["error", { "ignoreOverrideMethods": false }] */
 
 class Derived extends Base {
-    override foo() {};
+    override foo() {}
+    override bar = () => {};
 }
 ```
 
@@ -236,6 +237,9 @@ class Derived extends Base {
     override foo() {
         this.bar = "Hello World";
     };
+    override bar = () => {
+        this;
+    };
 }
 ```
 
@@ -249,7 +253,8 @@ Examples of **correct** TypeScript code for this rule with the `{ "ignoreOverrid
 /*eslint class-methods-use-this: ["error", { "ignoreOverrideMethods": true }] */
 
 class Derived extends Base {
-    override foo() {};
+    override foo() {}
+    override bar = () => {};
 }
 ```
 
@@ -275,6 +280,7 @@ Examples of **incorrect** TypeScript code for this rule with the `{ "ignoreClass
 
 class A {
     foo() {}
+    bar = () => {};
 }
 ```
 
@@ -288,7 +294,8 @@ Examples of **correct** TypeScript code for this rule with the `{ "ignoreClasses
 /*eslint class-methods-use-this: ["error", { "ignoreClassesWithImplements": "all" }] */
 
 class Derived implements Base {
-    foo() {};
+    foo() {}
+    bar = () => {};
 }
 ```
 
@@ -303,8 +310,11 @@ Examples of **incorrect** TypeScript code for this rule with the `{ "ignoreClass
 
 class Derived implements Base {
     foo() {}
-    private bar() {}
-    protected baz() {}
+    bar = () => {};
+    private privateFoo() {}
+    private privateBar = () => {};
+    protected protectedFoo() {};
+    protected protectedBar = () => {};
 }
 ```
 
@@ -319,8 +329,7 @@ Examples of **correct** TypeScript code for this rule with the `{ "ignoreClasses
 
 class Derived implements Base {
     foo() {}
-    bar() {}
-    baz() {}
+    bar = () => {};
 }
 ```
 

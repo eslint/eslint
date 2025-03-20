@@ -600,6 +600,23 @@ ruleTesterTypeScript.run("class-methods-use-this", rule, {
         {
             code: `
   class Foo implements Bar {
+    #method() {}
+  }
+        `,
+            options: [
+                {
+                    ignoreClassesWithImplements: 'public-fields',
+                }
+            ],
+            errors: [
+                {
+                    messageId: 'missingThis',
+                }
+            ]
+        },
+        {
+            code: `
+  class Foo implements Bar {
     private method() {}
   }
         `,
@@ -649,6 +666,23 @@ ruleTesterTypeScript.run("class-methods-use-this", rule, {
     get #getter(): number {}
   }
         `,
+            errors: [
+                {
+                    messageId: 'missingThis',
+                }
+            ]
+        },
+        {
+            code: `
+  class Foo implements Bar {
+    get #getter(): number {}
+  }
+        `,
+            options: [
+                {
+                    ignoreClassesWithImplements: 'public-fields',
+                }
+            ],
             errors: [
                 {
                     messageId: 'missingThis',
@@ -716,6 +750,23 @@ ruleTesterTypeScript.run("class-methods-use-this", rule, {
         {
             code: `
   class Foo implements Bar {
+    set #setter(v: number) {}
+  }
+        `,
+            options: [
+                {
+                    ignoreClassesWithImplements: 'public-fields',
+                }
+            ],
+            errors: [
+                {
+                    messageId: 'missingThis',
+                }
+            ]
+        },
+        {
+            code: `
+  class Foo implements Bar {
     private set setter(v: number) {}
   }
         `,
@@ -765,6 +816,23 @@ ruleTesterTypeScript.run("class-methods-use-this", rule, {
     #property = () => {};
   }
         `,
+            errors: [
+                {
+                    messageId: 'missingThis',
+                }
+            ]
+        },
+        {
+            code: `
+  class Foo implements Bar {
+    #property = () => {};
+  }
+        `,
+            options: [
+                {
+                    ignoreClassesWithImplements: 'public-fields',
+                }
+            ],
             errors: [
                 {
                     messageId: 'missingThis',
