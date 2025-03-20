@@ -5,7 +5,7 @@
 
   "overrides": [
     {
-      "files": ["*.json"],
+      "files": ["*.{json,jsonc,json5}", ".c8rc"],
       "options": {
         "tabWidth": 2,
         "useTabs": false
