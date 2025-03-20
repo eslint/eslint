@@ -53,6 +53,24 @@ const createArray = Array => new Array();
 
 :::
 
+This rule additionally supports TypeScript type syntax.
+
+:::correct
+
+```ts
+/*eslint no-array-constructor: "error"*/
+
+new Array<number>(1, 2, 3);
+
+new Array<Foo>();
+
+Array<number>(1, 2, 3);
+
+Array<Foo>();
+```
+
+:::
+
 ## When Not To Use It
 
 This rule enforces a nearly universal stylistic concern. That being said, this
