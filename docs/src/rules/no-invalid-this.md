@@ -284,6 +284,51 @@ obj.Foo = function Foo() {
 
 :::
 
+This rule additionally supports TypeScript type syntax.
+
+Examples of **incorrect** TypeScript code for this rule:
+
+:::incorrect
+
+```ts
+/*eslint no-invalid-this: "error"*/
+
+interface SomeType {
+    prop: string;
+}
+
+function foo(bar: string) {
+    this.prop;
+    console.log(bar)
+}
+```
+
+:::
+
+Examples of **correct** TypeScript code for this rule:
+
+:::correct
+
+```ts
+/*eslint no-invalid-this: "error"*/
+
+interface SomeType {
+    prop: string;
+}
+
+function foo(this: SomeType) {
+    this.prop;
+}
+
+class A {
+    a = 5;
+    b = this.a;
+    accessor c = this.a;
+}
+```
+
+:::
+
 ## When Not To Use It
 
 If you don't want to be notified about usage of `this` keyword outside of classes or class-like objects, you can safely disable this rule.
