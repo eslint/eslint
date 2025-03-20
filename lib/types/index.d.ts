@@ -41,27 +41,6 @@ import type {
 import { JSONSchema4 } from "json-schema";
 import { LegacyESLint } from "./use-at-your-own-risk.js";
 
-/*
- * Need to extend the `RuleContext` interface to include the
- * deprecated methods that have not yet been removed.
- * TODO: Remove in v10.0.0.
- */
-declare module "@eslint/core" {
-	interface RuleContext {
-		/** @deprecated Use `sourceCode.getAncestors()` instead */
-		getAncestors(): ESTree.Node[];
-
-		/** @deprecated Use `sourceCode.getDeclaredVariables()` instead */
-		getDeclaredVariables(node: ESTree.Node): Scope.Variable[];
-
-		/** @deprecated Use `sourceCode.getScope()` instead */
-		getScope(): Scope.Scope;
-
-		/** @deprecated Use `sourceCode.markVariableAsUsed()` instead */
-		markVariableAsUsed(name: string): boolean;
-	}
-}
-
 export namespace AST {
 	type TokenType =
 		| "Boolean"
@@ -607,15 +586,18 @@ export namespace SourceCode {
 // #endregion
 
 export namespace Rule {
-	type RuleModule = RuleDefinition<{
-		LangOptions: Linter.LanguageOptions;
-		Code: SourceCode;
-		RuleOptions: any[];
-		Visitor: NodeListener;
-		Node: ESTree.Node;
-		MessageIds: string;
-		ExtRuleDocs: {};
-	}>;
+	interface RuleModule
+		extends RuleDefinition<{
+			LangOptions: Linter.LanguageOptions;
+			Code: SourceCode;
+			RuleOptions: any[];
+			Visitor: NodeListener;
+			Node: ESTree.Node;
+			MessageIds: string;
+			ExtRuleDocs: {};
+		}> {
+		create(context: RuleContext): NodeListener;
+	}
 
 	type NodeTypes = ESTree.Node["type"];
 	interface NodeListener extends RuleVisitor {
@@ -1199,7 +1181,23 @@ export namespace Rule {
 				Node: ESTree.Node;
 			}
 		> {
-		// report(descriptor: ReportDescriptor): void;
+		/*
+		 * Need to extend the `RuleContext` interface to include the
+		 * deprecated methods that have not yet been removed.
+		 * TODO: Remove in v10.0.0.
+		 */
+
+		/** @deprecated Use `sourceCode.getAncestors()` instead */
+		getAncestors(): ESTree.Node[];
+
+		/** @deprecated Use `sourceCode.getDeclaredVariables()` instead */
+		getDeclaredVariables(node: ESTree.Node): Scope.Variable[];
+
+		/** @deprecated Use `sourceCode.getScope()` instead */
+		getScope(): Scope.Scope;
+
+		/** @deprecated Use `sourceCode.markVariableAsUsed()` instead */
+		markVariableAsUsed(name: string): boolean;
 	}
 
 	type ReportFixer = (
