@@ -838,14 +838,14 @@ ruleTester.run("no-invalid-this", rule, {
 });
 
 const ruleTesterTypeScript = new RuleTester({
-    languageOptions: {
-        parser: require("@typescript-eslint/parser")
-    }
+	languageOptions: {
+		parser: require("@typescript-eslint/parser"),
+	},
 });
 
-ruleTesterTypeScript.run("no-invalid-this", rule,  {
-    valid: [
-        `
+ruleTesterTypeScript.run("no-invalid-this", rule, {
+	valid: [
+		`
     describe('foo', () => {
       it('does something', function (this: Mocha.Context) {
         this.timeout(100);
@@ -853,7 +853,7 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       });
     });
         `,
-        `
+		`
           interface SomeType {
             prop: string;
           }
@@ -861,18 +861,18 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
             this.prop;
           }
         `,
-        `
+		`
     function foo(this: prop) {
       this.propMethod();
     }
         `,
-        `
+		`
     z(function (x, this: context) {
       console.log(x, this);
     });
         `,
-    
-        `
+
+		`
     function foo() {
       /** @this Obj*/ return function bar() {
         console.log(this);
@@ -880,44 +880,44 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       };
     }
         `,
-        `
+		`
     var Ctor = function () {
       console.log(this);
       z(x => console.log(x, this));
     };
         `,
-        // Constructors.
-        `
+		// Constructors.
+		`
     function Foo() {
       console.log(this);
       z(x => console.log(x, this));
     }
           `,
-        {
-          code: `
+		{
+			code: `
     function Foo() {
       console.log(this);
       z(x => console.log(x, this));
     }
           `,
-          options: [{}], // test the default value in schema
-        },
-        {
-          code: `
+			options: [{}], // test the default value in schema
+		},
+		{
+			code: `
     function Foo() {
       console.log(this);
       z(x => console.log(x, this));
     }
           `,
-          options: [{ capIsConstructor: true }], // test explicitly set option to the default value
-        },
-        `
+			options: [{ capIsConstructor: true }], // test explicitly set option to the default value
+		},
+		`
     var Foo = function Foo() {
       console.log(this);
       z(x => console.log(x, this));
     };
           `,
-        `
+		`
     class A {
       constructor() {
         console.log(this);
@@ -925,9 +925,9 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       }
     }
           `,
-    
-        // On a property.
-        `
+
+		// On a property.
+		`
     var obj = {
       foo: function () {
         console.log(this);
@@ -935,7 +935,7 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       },
     };
           `,
-        `
+		`
     var obj = {
       foo() {
         console.log(this);
@@ -943,7 +943,7 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       },
     };
           `,
-        `
+		`
     var obj = {
       foo:
         foo ||
@@ -953,7 +953,7 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
         },
     };
           `,
-        `
+		`
     var obj = {
       foo: hasNative
         ? foo
@@ -963,7 +963,7 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
           },
     };
           `,
-        `
+		`
     var obj = {
       foo: (function () {
         return function () {
@@ -973,7 +973,7 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       })(),
     };
           `,
-        `
+		`
     Object.defineProperty(obj, 'foo', {
       value: function () {
         console.log(this);
@@ -981,7 +981,7 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       },
     });
           `,
-        `
+		`
     Object.defineProperties(obj, {
       foo: {
         value: function () {
@@ -991,15 +991,15 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       },
     });
           `,
-    
-        // Assigns to a property.
-        `
+
+		// Assigns to a property.
+		`
     obj.foo = function () {
       console.log(this);
       z(x => console.log(x, this));
     };
           `,
-        `
+		`
     obj.foo =
       foo ||
       function () {
@@ -1007,7 +1007,7 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
         z(x => console.log(x, this));
       };
           `,
-        `
+		`
     obj.foo = foo
       ? bar
       : function () {
@@ -1015,7 +1015,7 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
           z(x => console.log(x, this));
         };
           `,
-        `
+		`
     obj.foo = (function () {
       return function () {
         console.log(this);
@@ -1023,28 +1023,28 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       };
     })();
           `,
-        `
+		`
     obj.foo = (() =>
       function () {
         console.log(this);
         z(x => console.log(x, this));
       })();
           `,
-    
-        // Bind/Call/Apply
-        `
+
+		// Bind/Call/Apply
+		`
     (function () {
       console.log(this);
       z(x => console.log(x, this));
     }).call(obj);
         `,
-        `
+		`
     var foo = function () {
       console.log(this);
       z(x => console.log(x, this));
     }.bind(obj);
         `,
-        `
+		`
     Reflect.apply(
       function () {
         console.log(this);
@@ -1054,15 +1054,15 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       [],
     );
         `,
-        `
+		`
     (function () {
       console.log(this);
       z(x => console.log(x, this));
     }).apply(obj);
         `,
-    
-        // Class Instance Methods.
-        `
+
+		// Class Instance Methods.
+		`
     class A {
       foo() {
         console.log(this);
@@ -1070,9 +1070,9 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       }
     }
         `,
-        // Array methods.
-    
-        `
+		// Array methods.
+
+		`
     Array.from(
       [],
       function () {
@@ -1082,66 +1082,66 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       obj,
     );
         `,
-    
-        `
+
+		`
     foo.every(function () {
       console.log(this);
       z(x => console.log(x, this));
     }, obj);
         `,
-    
-        `
+
+		`
     foo.filter(function () {
       console.log(this);
       z(x => console.log(x, this));
     }, obj);
         `,
-    
-        `
+
+		`
     foo.find(function () {
       console.log(this);
       z(x => console.log(x, this));
     }, obj);
         `,
-    
-        `
+
+		`
     foo.findIndex(function () {
       console.log(this);
       z(x => console.log(x, this));
     }, obj);
         `,
-    
-        `
+
+		`
     foo.forEach(function () {
       console.log(this);
       z(x => console.log(x, this));
     }, obj);
         `,
-    
-        `
+
+		`
     foo.map(function () {
       console.log(this);
       z(x => console.log(x, this));
     }, obj);
         `,
-    
-        `
+
+		`
     foo.some(function () {
       console.log(this);
       z(x => console.log(x, this));
     }, obj);
         `,
-    
-        // @this tag.
-    
-        `
+
+		// @this tag.
+
+		`
     /** @this Obj */ function foo() {
       console.log(this);
       z(x => console.log(x, this));
     }
         `,
-    
-        `
+
+		`
     foo(
       /* @this Obj */ function () {
         console.log(this);
@@ -1149,8 +1149,8 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       },
     );
         `,
-    
-        `
+
+		`
     /**
      * @returns {void}
      * @this Obj
@@ -1160,15 +1160,15 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       z(x => console.log(x, this));
     }
         `,
-    
-        `
+
+		`
     Ctor = function () {
       console.log(this);
       z(x => console.log(x, this));
     };
         `,
-    
-        `
+
+		`
     function foo(
       Ctor = function () {
         console.log(this);
@@ -1176,8 +1176,8 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       },
     ) {}
         `,
-    
-        `
+
+		`
     [
       obj.method = function () {
         console.log(this);
@@ -1185,47 +1185,47 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       },
     ] = a;
         `,
-        // Class Properties.
-        {
-          code: `
+		// Class Properties.
+		{
+			code: `
           class A {
             a = 5;
             b = this.a;
             accessor c = this.a;
           }
           `,
-          languageOptions: { ecmaVersion: 2022 }
-        },
-        {
-          code: `
+			languageOptions: { ecmaVersion: 2022 },
+		},
+		{
+			code: `
           class A {
             b = 0;
             c = this.b;
           }
           `,
-          languageOptions: { ecmaVersion: 2022 }
-        },
-        {
-          code: `
+			languageOptions: { ecmaVersion: 2022 },
+		},
+		{
+			code: `
           class A {
             b = new Array(this, 1, 2, 3);
           }
           `,
-          languageOptions: { ecmaVersion: 2022 }
-        },
-        {
-          code: `
+			languageOptions: { ecmaVersion: 2022 },
+		},
+		{
+			code: `
           class A {
             b = () => {
             console.log(this);
             };
           }
           `,
-          languageOptions: { ecmaVersion: 2022 }
-        },
-        // Static
-        {
-          code: `
+			languageOptions: { ecmaVersion: 2022 },
+		},
+		// Static
+		{
+			code: `
           class A {
             static foo() {
             console.log(this);
@@ -1233,13 +1233,13 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
             }
           }
           `,
-          languageOptions: { ecmaVersion: 2022 }
-        }
-      ],
-    
-      invalid: [
-        {
-          code: `
+			languageOptions: { ecmaVersion: 2022 },
+		},
+	],
+
+	invalid: [
+		{
+			code: `
     interface SomeType {
       prop: string;
     }
@@ -1247,118 +1247,118 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       this.prop;
     }
           `,
-          errors: [{ messageId: 'unexpectedThis' }],
-        },
-        // Global.
-        {
-          code: `
+			errors: [{ messageId: "unexpectedThis" }],
+		},
+		// Global.
+		{
+			code: `
     console.log(this);
     z(x => console.log(x, this));
           `,
-          errors,
-        },
-        {
-          code: `
+			errors,
+		},
+		{
+			code: `
     console.log(this);
     z(x => console.log(x, this));
           `,
-          languageOptions: {
-            parserOptions: {
-              ecmaFeatures: { globalReturn: true },
-            },
-          },
-          errors,
-        },
-    
-        // IIFE.
-        {
-          code: `
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: { globalReturn: true },
+				},
+			},
+			errors,
+		},
+
+		// IIFE.
+		{
+			code: `
     (function () {
       console.log(this);
       z(x => console.log(x, this));
     })();
           `,
-          errors,
-        },
-    
-        // Just functions.
-        {
-          code: `
+			errors,
+		},
+
+		// Just functions.
+		{
+			code: `
     function foo() {
       console.log(this);
       z(x => console.log(x, this));
     }
           `,
-          errors,
-        },
-        {
-          code: `
+			errors,
+		},
+		{
+			code: `
     function foo() {
       console.log(this);
       z(x => console.log(x, this));
     }
           `,
-          options: [{ capIsConstructor: false }],
-          errors, // test that the option doesn't reverse the logic and mistakenly allows lowercase functions
-        },
-        {
-          code: `
+			options: [{ capIsConstructor: false }],
+			errors, // test that the option doesn't reverse the logic and mistakenly allows lowercase functions
+		},
+		{
+			code: `
     function Foo() {
       console.log(this);
       z(x => console.log(x, this));
     }
           `,
-          options: [{ capIsConstructor: false }],
-          errors,
-        },
-        {
-          code: `
+			options: [{ capIsConstructor: false }],
+			errors,
+		},
+		{
+			code: `
     function foo() {
       'use strict';
       console.log(this);
       z(x => console.log(x, this));
     }
           `,
-          errors,
-        },
-        {
-          code: `
+			errors,
+		},
+		{
+			code: `
     function Foo() {
       'use strict';
       console.log(this);
       z(x => console.log(x, this));
     }
           `,
-          options: [{ capIsConstructor: false }],
-          errors,
-        },
-        {
-          code: `
+			options: [{ capIsConstructor: false }],
+			errors,
+		},
+		{
+			code: `
     return function () {
       console.log(this);
       z(x => console.log(x, this));
     };
           `,
-          languageOptions: {
-            parserOptions: {
-              ecmaFeatures: { globalReturn: true },
-            },
-          },
-          errors,
-        },
-        {
-          code: `
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: { globalReturn: true },
+				},
+			},
+			errors,
+		},
+		{
+			code: `
     var foo = function () {
       console.log(this);
       z(x => console.log(x, this));
     }.bar(obj);
           `,
-          errors,
-        },
-    
-        // Functions in methods.
-        {
-          code: `
+			errors,
+		},
+
+		// Functions in methods.
+		{
+			code: `
     var obj = {
       foo: function () {
         function foo() {
@@ -1369,10 +1369,10 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       },
     };
           `,
-          errors,
-        },
-        {
-          code: `
+			errors,
+		},
+		{
+			code: `
     var obj = {
       foo() {
         function foo() {
@@ -1383,10 +1383,10 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       },
     };
           `,
-          errors,
-        },
-        {
-          code: `
+			errors,
+		},
+		{
+			code: `
     var obj = {
       foo: function () {
         return function () {
@@ -1396,10 +1396,10 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       },
     };
           `,
-          errors,
-        },
-        {
-          code: `
+			errors,
+		},
+		{
+			code: `
     var obj = {
       foo: function () {
         'use strict';
@@ -1410,10 +1410,10 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       },
     };
           `,
-          errors,
-        },
-        {
-          code: `
+			errors,
+		},
+		{
+			code: `
     obj.foo = function () {
       return function () {
         console.log(this);
@@ -1421,10 +1421,10 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       };
     };
           `,
-          errors,
-        },
-        {
-          code: `
+			errors,
+		},
+		{
+			code: `
     obj.foo = function () {
       'use strict';
       return function () {
@@ -1433,13 +1433,13 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       };
     };
           `,
-          errors,
-        },
-    
-        // Class Methods.
-    
-        {
-          code: `
+			errors,
+		},
+
+		// Class Methods.
+
+		{
+			code: `
     class A {
       foo() {
         return function () {
@@ -1449,13 +1449,13 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       }
     }
           `,
-          errors,
-        },
-    
-        // Class Properties.
-    
-        {
-          code: `
+			errors,
+		},
+
+		// Class Properties.
+
+		{
+			code: `
     class A {
       b = new Array(1, 2, function () {
         console.log(this);
@@ -1463,12 +1463,12 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       });
     }
           `,
-          languageOptions: { ecmaVersion: 2022 },
-          errors,
-        },
-    
-        {
-          code: `
+			languageOptions: { ecmaVersion: 2022 },
+			errors,
+		},
+
+		{
+			code: `
     class A {
       b = () => {
         function c() {
@@ -1478,14 +1478,14 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       };
     }
           `,
-          languageOptions: { ecmaVersion: 2022 },
-          errors,
-        },
-    
-        // Class Static methods.
-    
-        {
-          code: `
+			languageOptions: { ecmaVersion: 2022 },
+			errors,
+		},
+
+		// Class Static methods.
+
+		{
+			code: `
     obj.foo = (function () {
       return () => {
         console.log(this);
@@ -1493,216 +1493,216 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       };
     })();
           `,
-          errors,
-        },
-        {
-          code: `
+			errors,
+		},
+		{
+			code: `
     obj.foo = (() => () => {
       console.log(this);
       z(x => console.log(x, this));
     })();
           `,
-          errors,
-        },
-        // Bind/Call/Apply
-    
-        {
-          code: `
+			errors,
+		},
+		// Bind/Call/Apply
+
+		{
+			code: `
     var foo = function () {
       console.log(this);
       z(x => console.log(x, this));
     }.bind(null);
           `,
-          errors,
-        },
-    
-        {
-          code: `
+			errors,
+		},
+
+		{
+			code: `
     (function () {
       console.log(this);
       z(x => console.log(x, this));
     }).call(undefined);
           `,
-          errors,
-        },
-    
-        {
-          code: `
+			errors,
+		},
+
+		{
+			code: `
     (function () {
       console.log(this);
       z(x => console.log(x, this));
     }).apply(void 0);
           `,
-          errors,
-        },
-    
-        // Array methods.
-        {
-          code: `
+			errors,
+		},
+
+		// Array methods.
+		{
+			code: `
     Array.from([], function () {
       console.log(this);
       z(x => console.log(x, this));
     });
           `,
-          errors,
-        },
-        {
-          code: `
+			errors,
+		},
+		{
+			code: `
     foo.every(function () {
       console.log(this);
       z(x => console.log(x, this));
     });
           `,
-          errors,
-        },
-        {
-          code: `
+			errors,
+		},
+		{
+			code: `
     foo.filter(function () {
       console.log(this);
       z(x => console.log(x, this));
     });
           `,
-          errors,
-        },
-        {
-          code: `
+			errors,
+		},
+		{
+			code: `
     foo.find(function () {
       console.log(this);
       z(x => console.log(x, this));
     });
           `,
-          errors,
-        },
-        {
-          code: `
+			errors,
+		},
+		{
+			code: `
     foo.findIndex(function () {
       console.log(this);
       z(x => console.log(x, this));
     });
           `,
-          errors,
-        },
-        {
-          code: `
+			errors,
+		},
+		{
+			code: `
     foo.forEach(function () {
       console.log(this);
       z(x => console.log(x, this));
     });
           `,
-          errors,
-        },
-        {
-          code: `
+			errors,
+		},
+		{
+			code: `
     foo.map(function () {
       console.log(this);
       z(x => console.log(x, this));
     });
           `,
-          errors,
-        },
-        {
-          code: `
+			errors,
+		},
+		{
+			code: `
     foo.some(function () {
       console.log(this);
       z(x => console.log(x, this));
     });
           `,
-          errors,
-        },
-    
-        {
-          code: `
+			errors,
+		},
+
+		{
+			code: `
     foo.forEach(function () {
       console.log(this);
       z(x => console.log(x, this));
     }, null);
           `,
-          errors,
-        },
-    
-        // @this tag.
-    
-        {
-          code: `
+			errors,
+		},
+
+		// @this tag.
+
+		{
+			code: `
     /** @returns {void} */ function foo() {
       console.log(this);
       z(x => console.log(x, this));
     }
           `,
-          errors,
-        },
-        {
-          code: `
+			errors,
+		},
+		{
+			code: `
     /** @this Obj */ foo(function () {
       console.log(this);
       z(x => console.log(x, this));
     });
           `,
-          errors,
-        },
-    
-        {
-          code: `
+			errors,
+		},
+
+		{
+			code: `
     var Ctor = function () {
       console.log(this);
       z(x => console.log(x, this));
     };
           `,
-          options: [{ capIsConstructor: false }],
-          errors,
-        },
-        {
-          code: `
+			options: [{ capIsConstructor: false }],
+			errors,
+		},
+		{
+			code: `
     var func = function () {
       console.log(this);
       z(x => console.log(x, this));
     };
           `,
-          errors,
-        },
-        {
-          code: `
+			errors,
+		},
+		{
+			code: `
     var func = function () {
       console.log(this);
       z(x => console.log(x, this));
     };
           `,
-          options: [{ capIsConstructor: false }],
-          errors,
-        },
-    
-        {
-          code: `
+			options: [{ capIsConstructor: false }],
+			errors,
+		},
+
+		{
+			code: `
     Ctor = function () {
       console.log(this);
       z(x => console.log(x, this));
     };
           `,
-          options: [{ capIsConstructor: false }],
-          errors,
-        },
-        {
-          code: `
+			options: [{ capIsConstructor: false }],
+			errors,
+		},
+		{
+			code: `
     func = function () {
       console.log(this);
       z(x => console.log(x, this));
     };
           `,
-          errors,
-        },
-        {
-          code: `
+			errors,
+		},
+		{
+			code: `
     func = function () {
       console.log(this);
       z(x => console.log(x, this));
     };
           `,
-          options: [{ capIsConstructor: false }],
-          errors,
-        },
-    
-        {
-          code: `
+			options: [{ capIsConstructor: false }],
+			errors,
+		},
+
+		{
+			code: `
     function foo(
       func = function () {
         console.log(this);
@@ -1710,11 +1710,11 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       },
     ) {}
           `,
-          errors,
-        },
-    
-        {
-          code: `
+			errors,
+		},
+
+		{
+			code: `
     [
       func = function () {
         console.log(this);
@@ -1722,7 +1722,7 @@ ruleTesterTypeScript.run("no-invalid-this", rule,  {
       },
     ] = a;
           `,
-          errors,
-        },
-    ]
+			errors,
+		},
+	],
 });
