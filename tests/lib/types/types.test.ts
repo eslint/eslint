@@ -52,7 +52,7 @@ import {
 	StaticBlock,
 	WhileStatement,
 } from "estree";
-import { Language } from "@eslint/core";
+import { Language, RuleDefinition } from "@eslint/core";
 
 const SOURCE = `var foo = bar;`;
 
@@ -782,6 +782,23 @@ rule = {
 		};
 	},
 };
+
+type DeprecatedRuleContextKeys =
+	| "getAncestors"
+	| "getDeclaredVariables"
+	| "getScope"
+	| "markVariableAsUsed";
+(): RuleDefinition => ({
+	create(context) {
+		// Ensure that deprecated RuleContext methods are not defined when using RuleDefinition
+		context satisfies {
+			[Key in keyof typeof context]: Key extends DeprecatedRuleContextKeys
+				? never
+				: (typeof context)[Key];
+		};
+		return {};
+	},
+});
 
 // #endregion
 
