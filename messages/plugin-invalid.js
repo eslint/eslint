@@ -1,9 +1,9 @@
 "use strict";
 
-module.exports = function(it) {
-    const { configName, importerName } = it;
+module.exports = function (it) {
+	const { configName, importerName } = it;
 
-    return `
+	return `
 "${configName}" is invalid syntax for a config specifier.
 
 * If your intention is to extend from a configuration exported from the plugin, add the configuration name after a slash: e.g. "${configName}/myConfig".

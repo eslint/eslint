@@ -79,8 +79,7 @@
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": "trunk check --fix --filter=eslint",
-    "*.md": "trunk check --fix --filter=markdownlint",
+    "*": "trunk check --fix",
     "lib/rules/*.js": [
       "node tools/update-eslint-all.js",
       "node tools/update-rule-type-headers.js",
@@ -90,8 +89,7 @@
       "node tools/check-rule-examples.js",
       "node tools/fetch-docs-links.js",
       "git add docs/src/_data/further_reading_links.json"
-    ],
-    "docs/**/*.svg": "trunk check --fix --filter=svgo"
+    ]
   },
   "files": [
     "LICENSE",
@@ -109,7 +107,7 @@
     "@eslint-community/eslint-utils": "^4.2.0",
     "@eslint-community/regexpp": "^4.12.1",
     "@eslint/config-array": "^0.19.2",
-    "@eslint/config-helpers": "^0.1.0",
+    "@eslint/config-helpers": "^0.2.0",
     "@eslint/core": "^0.12.0",
     "@eslint/eslintrc": "^3.3.0",
     "@eslint/js": "9.22.0",
@@ -196,7 +194,7 @@
     "recast": "^0.23.0",
     "regenerator-runtime": "^0.14.0",
     "semver": "^7.5.3",
-    "shelljs": "^0.8.5",
+    "shelljs": "^0.9.0",
     "sinon": "^11.0.0",
     "typescript": "^5.3.3",
     "webpack": "^5.23.0",

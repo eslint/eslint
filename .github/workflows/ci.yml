@@ -1,148 +1,141 @@
 name: CI
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
 
 permissions:
-  contents: read
+    contents: read
 
 jobs:
-  verify_files:
-    name: Verify Files
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "lts/*"
-      - name: Install Packages
-        run: npm install
+    verify_files:
+        name: Verify Files
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: "lts/*"
+            - name: Install Packages
+              run: npm install
 
-      - name: Install Docs Packages
-        working-directory: docs
-        run: npm install
+            - name: Install Docs Packages
+              working-directory: docs
+              run: npm install
 
-      - name: Lint Files (eslint)
-        uses: trunk-io/trunk-action@v1
-        with:
+            - name: Lint Files (eslint)
+              uses: trunk-io/trunk-action@v1
+              with:
+                  # Run on everything except the docs folder.
+                  arguments: --ignore=docs/** --filter=eslint
+                  check-mode: all
 
-          # Run on everything except the docs folder.
-          arguments: --ignore=docs/** --filter=eslint
-          check-mode: all
+            - name: Lint Files (other)
+              uses: trunk-io/trunk-action@v1
+              with:
+                  # Run on everything except the docs folder.
+                  arguments: --ignore=docs/** --filter=-eslint
 
-      - name: Lint Files (other)
-        uses: trunk-io/trunk-action@v1
-        with:
+            - name: Check Rule Files
+              run: node Makefile checkRuleFiles
 
-          # Run on everything except the docs folder.
-          arguments: --ignore=docs/** --filter=-eslint
+            - name: Check Licenses
+              run: node Makefile checkLicenses
 
-      - name: Check Rule Files
-        run: node Makefile checkRuleFiles
+            - name: Lint Docs Files (eslint)
+              uses: trunk-io/trunk-action@v1
+              with:
+                  # Run only on the docs folder.
+                  arguments: --ignore=** --ignore=!docs/** --filter=eslint
+                  check-mode: all
 
-      - name: Check Licenses
-        run: node Makefile checkLicenses
+            - name: Lint Docs Files (other)
+              uses: trunk-io/trunk-action@v1
+              with:
+                  # Run only on the docs folder.
+                  arguments: --ignore=** --ignore=!docs/** --filter=-eslint
 
-      - name: Lint Docs Files (eslint)
-        uses: trunk-io/trunk-action@v1
-        with:
+            - name: Check Rule Examples
+              run: node Makefile checkRuleExamples
 
-          # Run only on the docs folder.
-          arguments: --ignore=** --ignore=!docs/** --filter=eslint
-          check-mode: all
+            - name: Check Rule Types
+              run: npm run lint:rule-types
 
-      - name: Lint Docs Files (other)
-        uses: trunk-io/trunk-action@v1
-        with:
+            - name: Lint Files, Dependencies, & Exports
+              run: npm run lint:unused
 
-          # Run only on the docs folder.
-          arguments: --ignore=** --ignore=!docs/** --filter=-eslint
+    test_on_node:
+        name: Test
+        strategy:
+            matrix:
+                os: [ubuntu-latest]
+                node: [23.x, 22.x, 21.x, 20.x, 18.x, "18.18.0"]
+                include:
+                    - os: windows-latest
+                      node: "lts/*"
+                    - os: macOS-latest
+                      node: "lts/*"
+        runs-on: ${{ matrix.os }}
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ matrix.node }}
+            - name: Install Packages
+              run: npm install
+            - name: Test
+              run: node Makefile mocha
+            - name: Fuzz Test
+              run: node Makefile fuzz
+            - name: Test EMFILE Handling
+              run: npm run test:emfile
 
-      - name: Check Rule Examples
-        run: node Makefile checkRuleExamples
+    test_on_browser:
+        name: Browser Test
+        runs-on: ubuntu-latest
+        env:
+            TERM: xterm-256color
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: "20" # Should be the same as the version used on Netlify to build the ESLint Playground
+            - name: Install Packages
+              run: npm install
+            - name: Test
+              run: node Makefile cypress
+            - name: Fuzz Test
+              run: node Makefile fuzz
 
-      - name: Check Rule Types
-        run: npm run lint:rule-types
+    test_types:
+        name: Test Types of ${{ matrix.package.name }}
+        runs-on: ubuntu-latest
 
-      - name: Lint Files, Dependencies, & Exports
-        run: npm run lint:unused
+        strategy:
+            matrix:
+                package:
+                    [
+                        { name: eslint, directory: . },
+                        {
+                            name: eslint-config-eslint,
+                            directory: packages/eslint-config-eslint,
+                        },
+                        { name: "@eslint/js", directory: packages/js },
+                    ]
 
-  test_on_node:
-    name: Test
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        node: [23.x, 22.x, 21.x, 20.x, 18.x, "18.18.0"]
-        include:
-          - os: windows-latest
-            node: "lts/*"
-          - os: macOS-latest
-            node: "lts/*"
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node }}
-      - name: Install Packages
-        run: npm install
-      - name: Test
-        run: node Makefile mocha
-      - name: Fuzz Test
-        run: node Makefile fuzz
-      - name: Test EMFILE Handling
-        run: npm run test:emfile
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: "lts/*"
+            - name: Install Packages
+              run: npm install
 
-  test_on_browser:
-    name: Browser Test
-    runs-on: ubuntu-latest
-    env:
-      TERM: xterm-256color
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20" # Should be the same as the version used on Netlify to build the ESLint Playground
-      - name: Install Packages
-        run: npm install
-      - name: Test
-        run: node Makefile cypress
-      - name: Fuzz Test
-        run: node Makefile fuzz
+            - name: Install Packages for ${{ matrix.package.name }}
+              working-directory: ${{ matrix.package.directory }}
+              run: npm install
 
-  test_types:
-    name: Test Types of ${{ matrix.package.name }}
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        package:
-          [
-            { name: eslint, directory: . },
-            {
-              name: eslint-config-eslint,
-              directory: packages/eslint-config-eslint,
-            },
-            {
-              name: '@eslint/js',
-              directory: packages/js,
-            },
-          ]
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "lts/*"
-      - name: Install Packages
-        run: npm install
-
-      - name: Install Packages for ${{ matrix.package.name }}
-        working-directory: ${{ matrix.package.directory }}
-        run: npm install
-
-      - name: Test types for ${{ matrix.package.name }}
-        working-directory: ${{ matrix.package.directory }}
-        run: npm run test:types
+            - name: Test types for ${{ matrix.package.name }}
+              working-directory: ${{ matrix.package.directory }}
+              run: npm run test:types

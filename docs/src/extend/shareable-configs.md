@@ -5,7 +5,6 @@ eleventyNavigation:
     parent: extend eslint
     title: Share Configurations
     order: 3
-
 ---
 
 To share your ESLint configuration, create a **shareable config**. You can publish your shareable config on [npm](https://www.npmjs.com/) so that others can download and use it in their ESLint projects.
@@ -22,26 +21,25 @@ Shareable configs are simply npm packages that export a configuration object or 
 
 While you can name the package in any way that you'd like, we recommend using one of the following conventions to make your package easier to identify:
 
-* Begin with `eslint-config-`, such as `eslint-config-myconfig`.
-* For an npm [scoped module](https://docs.npmjs.com/misc/scope), name or prefix the module with `@scope/eslint-config`, such as `@scope/eslint-config` or `@scope/eslint-config-myconfig`.
+-   Begin with `eslint-config-`, such as `eslint-config-myconfig`.
+-   For an npm [scoped module](https://docs.npmjs.com/misc/scope), name or prefix the module with `@scope/eslint-config`, such as `@scope/eslint-config` or `@scope/eslint-config-myconfig`.
 
 In your module, export the shareable config from the module's [`main`](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#main) entry point file. The default main entry point is `index.js`. For example:
 
 ```js
 // index.js
 export default [
-    {
-        languageOptions: {
-            globals: {
-                MyGlobal: true
-            }
-        },
+	{
+		languageOptions: {
+			globals: {
+				MyGlobal: true,
+			},
+		},
 
-        rules: {
-            semi: [2, "always"]
-        }
-
-    }
+		rules: {
+			semi: [2, "always"],
+		},
+	},
 ];
 ```
 
@@ -59,9 +57,9 @@ You should declare your dependency on ESLint in the `package.json` using the [pe
 
 ```json
 {
-    "peerDependencies": {
-        "eslint": ">= 9"
-    }
+	"peerDependencies": {
+		"eslint": ">= 9"
+	}
 }
 ```
 
@@ -77,10 +75,10 @@ import { defineConfig } from "eslint/config";
 import myconfig from "eslint-config-myconfig";
 
 export default defineConfig([
-    {
-        files: ["**/*.js"],
-        extends: [myconfig]
-    }
+	{
+		files: ["**/*.js"],
+		extends: [myconfig],
+	},
 ]);
 ```
 
@@ -98,15 +96,15 @@ import { defineConfig } from "eslint/config";
 import myconfig from "eslint-config-myconfig";
 
 export default defineConfig([
-    {
-        files: ["**/*.js"],
-        extends: [myconfig],
+	{
+		files: ["**/*.js"],
+		extends: [myconfig],
 
-        // anything from here will override myconfig
-        rules: {
-            "no-unused-vars": "warn"
-        }
-    }
+		// anything from here will override myconfig
+		rules: {
+			"no-unused-vars": "warn",
+		},
+	},
 ]);
 ```
 
@@ -119,9 +117,9 @@ As an example, you can create a file called `my-special-config.js` in the root o
 ```js
 // my-special-config.js
 export default {
-    rules: {
-        quotes: [2, "double"]
-    }
+	rules: {
+		quotes: [2, "double"],
+	},
 };
 ```
 
@@ -134,15 +132,15 @@ import myconfig from "eslint-config-myconfig";
 import mySpecialConfig from "eslint-config-myconfig/my-special-config.js";
 
 export default defineConfig([
-    {
-        files: ["**/*.js"],
-        extends: [myconfig, mySpecialConfig],
+	{
+		files: ["**/*.js"],
+		extends: [myconfig, mySpecialConfig],
 
-        // anything from here will override myconfig
-        rules: {
-            "no-unused-vars": "warn"
-        }
-    }
+		// anything from here will override myconfig
+		rules: {
+			"no-unused-vars": "warn",
+		},
+	},
 ]);
 ```
 
@@ -152,4 +150,4 @@ We strongly recommend always including a default export for your package to avoi
 
 ## Further Reading
 
-* [npm Developer Guide](https://docs.npmjs.com/misc/developers)
+-   [npm Developer Guide](https://docs.npmjs.com/misc/developers)

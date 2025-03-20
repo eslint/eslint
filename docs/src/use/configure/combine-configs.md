@@ -19,12 +19,12 @@ import js from "@eslint/js";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
-    js.configs.recommended,
-    {
-        rules: {
-            "no-unused-vars": "warn"
-        }
-    }
+	js.configs.recommended,
+	{
+		rules: {
+			"no-unused-vars": "warn",
+		},
+	},
 ]);
 ```
 
@@ -40,13 +40,13 @@ import js from "@eslint/js";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
-    {
-        files: ["**/src/safe/*.js"],
-        plugins: {
-            js
-        },
-        extends: ["js/recommended"]
-    }
+	{
+		files: ["**/src/safe/*.js"],
+		plugins: {
+			js,
+		},
+		extends: ["js/recommended"],
+	},
 ]);
 ```
 
@@ -62,16 +62,15 @@ import exampleConfigs from "eslint-config-example";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
+	// insert array directly
+	exampleConfigs,
 
-    // insert array directly
-    exampleConfigs,
-
-    // your modifications
-    {
-        rules: {
-            "no-unused-vars": "warn"
-        }
-    }
+	// your modifications
+	{
+		rules: {
+			"no-unused-vars": "warn",
+		},
+	},
 ]);
 ```
 
@@ -83,18 +82,17 @@ import exampleConfigs from "eslint-config-example";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
+	// insert individual elements instead of an array
+	exampleConfigs[0],
+	exampleConfigs[1],
+	exampleConfigs[2],
 
-    // insert individual elements instead of an array
-    exampleConfigs[0],
-    exampleConfigs[1],
-    exampleConfigs[2],
-
-    // your modifications
-    {
-        rules: {
-            "no-unused-vars": "warn"
-        }
-    }
+	// your modifications
+	{
+		rules: {
+			"no-unused-vars": "warn",
+		},
+	},
 ]);
 ```
 
@@ -108,13 +106,13 @@ import exampleConfigs from "eslint-config-example";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
-    {
-        files: ["**/src/safe/*.js"],
-        extends: [exampleConfigs],
-        rules: {
-            "no-unused-vars": "warn"
-        }
-    }
+	{
+		files: ["**/src/safe/*.js"],
+		extends: [exampleConfigs],
+		rules: {
+			"no-unused-vars": "warn",
+		},
+	},
 ]);
 ```
 

@@ -1,6 +1,5 @@
 ---
 title: Migrating to v5.0.0
-
 ---
 
 ESLint v5.0.0 is the fifth major version release. We have made a few breaking changes in this release, but we expect that most users will be able to upgrade without any modifications to their build. This guide is intended to walk you through the breaking changes.
@@ -42,9 +41,9 @@ The lists below are ordered roughly by the number of users each change is expect
 
 As of April 30th, 2018, Node.js 4 will be at EOL and will no longer be receiving security updates. As a result, we have decided to drop support for it in ESLint v5. We now support the following versions of Node.js:
 
-* Node.js 6 (6.14.0 and above)
-* Node.js 8 (8.10.0 and above)
-* Anything above Node.js 9.10.0
+-   Node.js 6 (6.14.0 and above)
+-   Node.js 8 (8.10.0 and above)
+-   Anything above Node.js 9.10.0
 
 **To address:** Make sure you upgrade to at least Node.js 6 when using ESLint v5. If you are unable to upgrade, we recommend continuing to use ESLint v4.x until you are able to upgrade Node.js.
 
@@ -52,19 +51,19 @@ As of April 30th, 2018, Node.js 4 will be at EOL and will no longer be receiving
 
 Two new rules have been added to the [`eslint:recommended`](configure/configuration-files#using-eslintrecommended) config:
 
-* [`for-direction`](../rules/for-direction) enforces that a `for` loop update clause moves the counter in the right direction.
-* [`getter-return`](../rules/getter-return) enforces that a `return` statement is present in property getters.
+-   [`for-direction`](../rules/for-direction) enforces that a `for` loop update clause moves the counter in the right direction.
+-   [`getter-return`](../rules/getter-return) enforces that a `return` statement is present in property getters.
 
 **To address:** To mimic the `eslint:recommended` behavior from 4.x, you can disable these rules in a config file:
 
 ```json
 {
-  "extends": "eslint:recommended",
+	"extends": "eslint:recommended",
 
-  "rules": {
-    "for-direction": "off",
-    "getter-return": "off"
-  }
+	"rules": {
+		"for-direction": "off",
+		"getter-return": "off"
+	}
 }
 ```
 
@@ -74,11 +73,11 @@ Previously, when using the default parser it was possible to use the `experiment
 
 ```json
 {
-  "parserOptions": {
-    "ecmaFeatures": {
-      "experimentalObjectRestSpread": true
-    }
-  }
+	"parserOptions": {
+		"ecmaFeatures": {
+			"experimentalObjectRestSpread": true
+		}
+	}
 }
 ```
 
@@ -86,9 +85,9 @@ Object rest/spread is now an official part of the JavaScript language, so our su
 
 ```json
 {
-  "parserOptions": {
-    "ecmaVersion": 2018
-  }
+	"parserOptions": {
+		"ecmaVersion": 2018
+	}
 }
 ```
 
@@ -110,8 +109,8 @@ Many users found this behavior confusing, because if they made a typo in a filen
 
 ESLint v5 will report a fatal error when either of the following conditions is met:
 
-* A file provided on the command line does not exist.
-* A glob or folder provided on the command line does not match any lintable files.
+-   A file provided on the command line does not exist.
+-   A glob or folder provided on the command line does not match any lintable files.
 
 Note that this also affects the [`CLIEngine.executeOnFiles()`](../integrate/nodejs-api#cliengineexecuteonfiles) API.
 
@@ -121,17 +120,17 @@ If you use a boilerplate generator that relies on this behavior (e.g. to generat
 
 ## <a name="rule-default-changes"></a> The default options for some rules have changed
 
-* The default options for the [`object-curly-newline`](../rules/object-curly-newline) rule have changed from `{ multiline: true }` to `{ consistent: true }`.
-* The default options object for the [`no-self-assign`](../rules/no-self-assign) rule has changed from `{ props: false }` to `{ props: true }`.
+-   The default options for the [`object-curly-newline`](../rules/object-curly-newline) rule have changed from `{ multiline: true }` to `{ consistent: true }`.
+-   The default options object for the [`no-self-assign`](../rules/no-self-assign) rule has changed from `{ props: false }` to `{ props: true }`.
 
 **To address:** To restore the rule behavior from ESLint v4, you can update your config file to include the previous options:
 
 ```json
 {
-  "rules": {
-    "object-curly-newline": ["error", { "multiline": true }],
-    "no-self-assign": ["error", { "props": false }]
-  }
+	"rules": {
+		"object-curly-newline": ["error", { "multiline": true }],
+		"no-self-assign": ["error", { "props": false }]
+	}
 }
 ```
 
@@ -143,12 +142,12 @@ Some global variables have been deprecated or removed for code running in Node.j
 
 ```json
 {
-  "env": {
-    "browser": true
-  },
-  "globals": {
-    "SVGAltGlyphElement": false
-  }
+	"env": {
+		"browser": true
+	},
+	"globals": {
+		"SVGAltGlyphElement": false
+	}
 }
 ```
 
@@ -173,8 +172,9 @@ When ESLint v5 encounters a plugin name in a config starting with `@`, the plugi
 `eslint-disable-line` and `eslint-disable-next-line` directive comments are only allowed to span a single line. For example, the following directive comment is invalid:
 
 ```js
-alert('foo'); /* eslint-disable-line
-   no-alert */ alert('bar');
+alert("foo");
+/* eslint-disable-line
+   no-alert */ alert("bar");
 
 // (which line is the rule disabled on?)
 ```
@@ -257,8 +257,8 @@ As announced in [October 2016](/blog/2016/10/eslint-v3.8.0-released#additional-p
 
 When using ESLint v4, both of the following scenarios resulted in an exit code of 1 when running ESLint on the command line:
 
-* Linting completed successfully, but there are some linting errors
-* Linting was unsuccessful due to a fatal error (e.g. an invalid config file)
+-   Linting completed successfully, but there are some linting errors
+-   Linting was unsuccessful due to a fatal error (e.g. an invalid config file)
 
 As a result, it was difficult for an integration to distinguish between the two cases to determine whether it should try to extract linting results from the output.
 

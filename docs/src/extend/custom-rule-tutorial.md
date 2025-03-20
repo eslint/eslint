@@ -16,8 +16,8 @@ You can create custom rules to validate if your code meets a certain expectation
 
 To learn more about custom rules and plugins refer to the following documentation:
 
-* [Custom Rules](custom-rules)
-* [Plugins](plugins)
+-   [Custom Rules](custom-rules)
+-   [Plugins](plugins)
 
 ## Why Create a Custom Rule?
 
@@ -29,8 +29,8 @@ Before creating a custom rule that isn't specific to your company or project, it
 
 Before you begin, make sure you have the following installed in your development environment:
 
-* [Node.js](https://nodejs.org/en/download/)
-* [npm](https://www.npmjs.com/)
+-   [Node.js](https://nodejs.org/en/download/)
+-   [npm](https://www.npmjs.com/)
 
 This tutorial also assumes that you have a basic understanding of ESLint and ESLint rules.
 
@@ -73,14 +73,14 @@ In the `enforce-foo-bar.js` file, add some scaffolding for the `enforce-foo-bar`
 // enforce-foo-bar.js
 
 module.exports = {
-    meta: {
-       // TODO: add metadata
-    },
-    create(context) {
-        return {
-            // TODO: add callback function(s)
-        };
-    }
+	meta: {
+		// TODO: add metadata
+	},
+	create(context) {
+		return {
+			// TODO: add callback function(s)
+		};
+	},
 };
 ```
 
@@ -94,19 +94,20 @@ Start by exporting an object with a `meta` property containing the rule's metada
 // enforce-foo-bar.js
 
 module.exports = {
-    meta: {
-        type: "problem",
-        docs: {
-            description: "Enforce that a variable named `foo` can only be assigned a value of 'bar'.",
-        },
-        fixable: "code",
-        schema: []
-    },
-    create(context) {
-        return {
-            // TODO: add callback function(s)
-        };
-    }
+	meta: {
+		type: "problem",
+		docs: {
+			description:
+				"Enforce that a variable named `foo` can only be assigned a value of 'bar'.",
+		},
+		fixable: "code",
+		schema: [],
+	},
+	create(context) {
+		return {
+			// TODO: add callback function(s)
+		};
+	},
 };
 ```
 
@@ -221,31 +222,36 @@ The `RuleTester#run()` method tests the rule against valid and invalid test case
 
 ```javascript
 // enforce-foo-bar.test.js
-const {RuleTester} = require("eslint");
+const { RuleTester } = require("eslint");
 const fooBarRule = require("./enforce-foo-bar");
 
 const ruleTester = new RuleTester({
-  // Must use at least ecmaVersion 2015 because
-  // that's when `const` variables were introduced.
-  languageOptions: { ecmaVersion: 2015 }
+	// Must use at least ecmaVersion 2015 because
+	// that's when `const` variables were introduced.
+	languageOptions: { ecmaVersion: 2015 },
 });
 
 // Throws error if the tests in ruleTester.run() do not pass
 ruleTester.run(
-  "enforce-foo-bar", // rule name
-  fooBarRule, // rule code
-  { // checks
-    // 'valid' checks cases that should pass
-    valid: [{
-      code: "const foo = 'bar';",
-    }],
-    // 'invalid' checks cases that should not pass
-    invalid: [{
-      code: "const foo = 'baz';",
-      output: 'const foo = "bar";',
-      errors: 1,
-    }],
-  }
+	"enforce-foo-bar", // rule name
+	fooBarRule, // rule code
+	{
+		// checks
+		// 'valid' checks cases that should pass
+		valid: [
+			{
+				code: "const foo = 'bar';",
+			},
+		],
+		// 'invalid' checks cases that should not pass
+		invalid: [
+			{
+				code: "const foo = 'baz';",
+				output: 'const foo = "bar";',
+				errors: 1,
+			},
+		],
+	},
 );
 
 console.log("All tests passed!");
@@ -291,8 +297,8 @@ You can use a locally defined plugin to execute the custom rule in your project.
 
 You might want to use a locally defined plugin in one of the following scenarios:
 
-* You want to test the plugin before publishing it to npm.
-* You want to use a plugin, but do not want to publish it to npm.
+-   You want to test the plugin before publishing it to npm.
+-   You want to use a plugin, but do not want to publish it to npm.
 
 Before you can add the plugin to the project, create an ESLint configuration for your project using a [flat configuration file](../use/configure/configuration-files), `eslint.config.js`:
 
@@ -310,19 +316,19 @@ Then, add the following code to `eslint.config.js`:
 const eslintPluginExample = require("./eslint-plugin-example");
 
 module.exports = [
-    {
-        files: ["**/*.js"],
-        languageOptions: {
-            sourceType: "commonjs",
-            ecmaVersion: "latest",
-        },
-        // Using the eslint-plugin-example plugin defined locally
-        plugins: {"example": eslintPluginExample},
-        rules: {
-            "example/enforce-foo-bar": "error",
-        },
-    }
-]
+	{
+		files: ["**/*.js"],
+		languageOptions: {
+			sourceType: "commonjs",
+			ecmaVersion: "latest",
+		},
+		// Using the eslint-plugin-example plugin defined locally
+		plugins: { example: eslintPluginExample },
+		rules: {
+			"example/enforce-foo-bar": "error",
+		},
+	},
+];
 ```
 
 Before you can test the rule, you must create a file to test the rule on.
@@ -339,11 +345,11 @@ Add the following code to `example.js`:
 // example.js
 
 function correctFooBar() {
-  const foo = "bar";
+	const foo = "bar";
 }
 
-function incorrectFoo(){
-  const foo = "baz"; // Problem!
+function incorrectFoo() {
+	const foo = "baz"; // Problem!
 }
 ```
 
@@ -472,8 +478,8 @@ There is no error output in the terminal when you run this, but you can see the 
 
 // ... rest of file
 
-function incorrectFoo(){
-  const foo = "bar"; // Fixed!
+function incorrectFoo() {
+	const foo = "bar"; // Fixed!
 }
 ```
 
