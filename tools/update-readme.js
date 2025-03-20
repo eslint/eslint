@@ -131,7 +131,7 @@ const HTML_TEMPLATE = stripIndents`
 
 	newReadme = newReadme.replace(
 		/<!--sponsorsstart-->[\w\W]*?<!--sponsorsend-->/u,
-		`<!--sponsorsstart-->\n${allSponsors}\n<!--sponsorsend-->`,
+		`<!--sponsorsstart-->\n\n${allSponsors}\n\n<!--sponsorsend-->`,
 	);
 
 	// replace multiple consecutive blank lines with just one blank line
