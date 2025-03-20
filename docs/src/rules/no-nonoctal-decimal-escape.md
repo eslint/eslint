@@ -39,13 +39,13 @@ Examples of **incorrect** code for this rule:
 
 "\9";
 
-var foo = "w\8less";
+const foo = "w\8less";
 
-var bar = "December 1\9";
+const bar = "December 1\9";
 
-var baz = "Don't use \8 and \9 escapes.";
+const baz = "Don't use \8 and \9 escapes.";
 
-var quux = "\0\8";
+const quux = "\0\8";
 ```
 
 :::
@@ -61,13 +61,13 @@ Examples of **correct** code for this rule:
 
 "9";
 
-var foo = "w8less";
+const foo = "w8less";
 
-var bar = "December 19";
+const bar = "December 19";
 
-var baz = "Don't use \\8 and \\9 escapes.";
+const baz = "Don't use \\8 and \\9 escapes.";
 
-var quux = "\0\u0038";
+const quux = "\0\u0038";
 ```
 
 :::

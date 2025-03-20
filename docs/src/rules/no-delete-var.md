@@ -20,7 +20,7 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-delete-var: "error"*/
 
-var x;
+let x;
 delete x;
 ```
 

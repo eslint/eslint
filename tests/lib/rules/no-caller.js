@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-caller"),
-    RuleTester = require("../../../lib/rule-tester/rule-tester");
+	RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -19,14 +19,32 @@ const rule = require("../../../lib/rules/no-caller"),
 const ruleTester = new RuleTester();
 
 ruleTester.run("no-caller", rule, {
-    valid: [
-        "var x = arguments.length",
-        "var x = arguments",
-        "var x = arguments[0]",
-        "var x = arguments[caller]"
-    ],
-    invalid: [
-        { code: "var x = arguments.callee", errors: [{ messageId: "unexpected", data: { prop: "callee" }, type: "MemberExpression" }] },
-        { code: "var x = arguments.caller", errors: [{ messageId: "unexpected", data: { prop: "caller" }, type: "MemberExpression" }] }
-    ]
+	valid: [
+		"var x = arguments.length",
+		"var x = arguments",
+		"var x = arguments[0]",
+		"var x = arguments[caller]",
+	],
+	invalid: [
+		{
+			code: "var x = arguments.callee",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: { prop: "callee" },
+					type: "MemberExpression",
+				},
+			],
+		},
+		{
+			code: "var x = arguments.caller",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: { prop: "caller" },
+					type: "MemberExpression",
+				},
+			],
+		},
+	],
 });

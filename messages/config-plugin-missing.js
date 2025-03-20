@@ -1,9 +1,9 @@
 "use strict";
 
-module.exports = function(it) {
-    const { pluginName, ruleId } = it;
+module.exports = function (it) {
+	const { pluginName, ruleId } = it;
 
-    return `
+	return `
 A configuration object specifies rule "${ruleId}", but could not find plugin "${pluginName}".
 
 Common causes of this problem include:

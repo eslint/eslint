@@ -5,7 +5,6 @@ eleventyNavigation:
     parent: configure
     title: Ignore Files
     order: 7
-
 ---
 
 {%- from 'components/npx_tabs.macro.html' import npx_tabs %}
@@ -19,8 +18,8 @@ This page explains how to use the `globalIgnores()` function to completely ignor
 :::
 You can configure ESLint to ignore certain files and directories while linting by specifying one or more glob patterns in the following ways:
 
-* Inside of your `eslint.config.js` file.
-* On the command line using `--ignore-pattern`.
+-   Inside of your `eslint.config.js` file.
+-   On the command line using `--ignore-pattern`.
 
 ## Ignoring Files
 
@@ -30,9 +29,7 @@ In your `eslint.config.js` file, if an `ignores` key is used without any other k
 // eslint.config.js
 import { defineConfig, globalIgnores } from "eslint/config";
 
-export default defineConfig([
-    globalIgnores([".config/*"])
-]);
+export default defineConfig([globalIgnores([".config/*"])]);
 ```
 
 This configuration specifies that all of the files in the `.config` directory should be ignored. This pattern is added after the default patterns, which are `["**/node_modules/", ".git/"]`.
@@ -52,9 +49,7 @@ Ignoring directories works the same way as ignoring files, by placing a pattern 
 // eslint.config.js
 import { defineConfig, globalIgnores } from "eslint/config";
 
-export default defineConfig([
-    globalIgnores([".config/"])
-]);
+export default defineConfig([globalIgnores([".config/"])]);
 ```
 
 Unlike `.gitignore`, an ignore pattern like `.config` will only ignore the `.config` directory in the same directory as the configuration file. If you want to recursively ignore all directories named `.config`, you need to use `**/.config/`, as in this example:
@@ -63,9 +58,7 @@ Unlike `.gitignore`, an ignore pattern like `.config` will only ignore the `.con
 // eslint.config.js
 import { defineConfig, globalIgnores } from "eslint/config";
 
-export default defineConfig([
-    globalIgnores(["**/.config/"])
-]);
+export default defineConfig([globalIgnores(["**/.config/"])]);
 ```
 
 ## Unignoring Files and Directories
@@ -77,27 +70,27 @@ You can also unignore files and directories that are ignored by previous pattern
 import { defineConfig, globalIgnores } from "eslint/config";
 
 export default defineConfig([
-    globalIgnores([
-        "!node_modules/",           // unignore `node_modules/` directory
-        "node_modules/*",           // ignore its content
-        "!node_modules/mylibrary/"  // unignore `node_modules/mylibrary` directory
-    ])
+	globalIgnores([
+		"!node_modules/", // unignore `node_modules/` directory
+		"node_modules/*", // ignore its content
+		"!node_modules/mylibrary/", // unignore `node_modules/mylibrary` directory
+	]),
 ]);
 ```
 
 If you'd like to ignore a directory except for specific files or subdirectories, then the ignore pattern `directory/**/*` must be used instead of `directory/**`. The pattern `directory/**` ignores the entire directory and its contents, so traversal will skip over the directory completely and you cannot unignore anything inside.
 
-For example,  `build/**` ignores directory `build` and its contents, whereas `build/**/*` ignores only its contents. If you'd like to ignore everything in the `build` directory except for `build/test.js`, you'd need to create a config like this:
+For example, `build/**` ignores directory `build` and its contents, whereas `build/**/*` ignores only its contents. If you'd like to ignore everything in the `build` directory except for `build/test.js`, you'd need to create a config like this:
 
 ```js
 // eslint.config.js
 import { defineConfig, globalIgnores } from "eslint/config";
 
 export default defineConfig([
-    globalIgnores([
-        "build/**/*",     // ignore all contents in and under `build/` directory but not the `build/` directory itself
-        "!build/test.js"  // unignore `!build/test.js`
-    ])
+	globalIgnores([
+		"build/**/*", // ignore all contents in and under `build/` directory but not the `build/` directory itself
+		"!build/test.js", // unignore `!build/test.js`
+	]),
 ]);
 ```
 
@@ -110,11 +103,11 @@ For example, this config ignores all files in and under `build` directory except
 import { defineConfig, globalIgnores } from "eslint/config";
 
 export default defineConfig([
-    globalIgnores([
-        "build/**/*",        // ignore all contents in and under `build/` directory but not the `build/` directory itself
-        "!build/**/*/",      // unignore all subdirectories
-        "!build/**/test.js"  // unignore `test.js` files
-    ])
+	globalIgnores([
+		"build/**/*", // ignore all contents in and under `build/` directory but not the `build/` directory itself
+		"!build/**/*/", // unignore all subdirectories
+		"!build/**/test.js", // unignore `test.js` files
+	]),
 ]);
 ```
 
@@ -147,7 +140,7 @@ By default, `globalIgnores()` will assign a name to the config that represents y
 import { defineConfig, globalIgnores } from "eslint/config";
 
 export default defineConfig([
-    globalIgnores(["build/**/*"], "Ignore build directory")
+	globalIgnores(["build/**/*"], "Ignore build directory"),
 ]);
 ```
 
@@ -161,9 +154,7 @@ When you pass directories to the ESLint CLI, files and directories are silently 
 // eslint.config.js
 import { defineConfig, globalIgnores } from "eslint/config";
 
-export default defineConfig([
-    globalIgnores(["foo.js"])
-]);
+export default defineConfig([globalIgnores(["foo.js"])]);
 ```
 
 And then you run:
@@ -200,10 +191,10 @@ const __dirname = path.dirname(__filename);
 const gitignorePath = path.resolve(__dirname, ".gitignore");
 
 export default defineConfig([
-    includeIgnoreFile(gitignorePath),
-    {
-        // your overrides
-    }
+	includeIgnoreFile(gitignorePath),
+	{
+		// your overrides
+	},
 ]);
 ```
 

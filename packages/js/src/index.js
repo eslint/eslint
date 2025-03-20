@@ -12,12 +12,12 @@ const { name, version } = require("../package.json");
 //------------------------------------------------------------------------------
 
 module.exports = {
-    meta: {
-        name,
-        version
-    },
-    configs: {
-        all: require("./configs/eslint-all"),
-        recommended: require("./configs/eslint-recommended")
-    }
+	meta: {
+		name,
+		version,
+	},
+	configs: {
+		all: require("./configs/eslint-all"),
+		recommended: require("./configs/eslint-recommended"),
+	},
 };

@@ -182,3 +182,27 @@ const fooRegexp = new RegExp('foo', 'v');
 ## When Not To Use It
 
 If you don't want to warn on regular expressions without either a `u` or a `v` flag, then it's safe to disable this rule.
+
+### Note on `i` flag and `\w`
+
+In some cases, adding the `u` flag to a regular expression using both the `i` flag and the `\w` character class can change its behavior due to Unicode case folding.
+
+For example:
+
+```js
+const regexWithoutU = /^\w+$/i;
+const regexWithU = /^\w+$/iu;
+
+const str = "\u017f\u212a"; // Example Unicode characters
+
+console.log(regexWithoutU.test(str)); // false
+console.log(regexWithU.test(str)); // true
+```
+
+If you prefer to use a non-Unicode-aware regex in this specific case, you can disable this rule using an `eslint-disable` comment:
+
+```js
+/* eslint-disable require-unicode-regexp */
+const regex = /^\w+$/i;
+/* eslint-enable require-unicode-regexp */
+```

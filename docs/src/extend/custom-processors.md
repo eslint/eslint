@@ -5,7 +5,6 @@ eleventyNavigation:
     parent: create plugins
     title: Custom Processors
     order: 3
-
 ---
 
 You can also create custom processors that tell ESLint how to process files other than standard JavaScript. For example, you could write a custom processor to extract and process JavaScript from Markdown files ([@eslint/markdown](https://www.npmjs.com/package/@eslint/markdown) includes a custom processor for this).
@@ -20,41 +19,41 @@ In order to create a custom processor, the object exported from your module has 
 
 ```js
 const plugin = {
+	meta: {
+		name: "eslint-plugin-example",
+		version: "1.2.3",
+	},
+	processors: {
+		"processor-name": {
+			meta: {
+				name: "eslint-processor-name",
+				version: "1.2.3",
+			},
+			// takes text of the file and filename
+			preprocess(text, filename) {
+				// here, you can strip out any non-JS content
+				// and split into multiple strings to lint
 
-    meta: {
-        name: "eslint-plugin-example",
-        version: "1.2.3"
-    },
-    processors: {
-        "processor-name": {
-            meta: {
-                name: "eslint-processor-name",
-                version: "1.2.3"
-            },
-            // takes text of the file and filename
-            preprocess(text, filename) {
-                // here, you can strip out any non-JS content
-                // and split into multiple strings to lint
+				return [
+					// return an array of code blocks to lint
+					{ text: code1, filename: "0.js" },
+					{ text: code2, filename: "1.js" },
+				];
+			},
 
-                return [ // return an array of code blocks to lint
-                    { text: code1, filename: "0.js" },
-                    { text: code2, filename: "1.js" },
-                ];
-            },
+			// takes a Message[][] and filename
+			postprocess(messages, filename) {
+				// `messages` argument contains two-dimensional array of Message objects
+				// where each top-level array item contains array of lint messages related
+				// to the text that was returned in array from preprocess() method
 
-            // takes a Message[][] and filename
-            postprocess(messages, filename) {
-                // `messages` argument contains two-dimensional array of Message objects
-                // where each top-level array item contains array of lint messages related
-                // to the text that was returned in array from preprocess() method
+				// you need to return a one-dimensional array of the messages you want to keep
+				return [].concat(...messages);
+			},
 
-                // you need to return a one-dimensional array of the messages you want to keep
-                return [].concat(...messages);
-            },
-
-            supportsAutofix: true // (optional, defaults to false)
-        }
-    }
+			supportsAutofix: true, // (optional, defaults to false)
+		},
+	},
 };
 
 // for ESM
@@ -76,49 +75,47 @@ Reported problems have the following location information in each lint message:
 
 ```typescript
 type LintMessage = {
+	/// The 1-based line number where the message occurs.
+	line?: number;
 
-  /// The 1-based line number where the message occurs.
-  line?: number;
+	/// The 1-based column number where the message occurs.
+	column?: number;
 
-   /// The 1-based column number where the message occurs.
-  column?: number;
+	/// The 1-based line number of the end location.
+	endLine?: number;
 
-  /// The 1-based line number of the end location.
-  endLine?: number;
+	/// The 1-based column number of the end location.
+	endColumn?: number;
 
-  /// The 1-based column number of the end location.
-  endColumn?: number;
+	/// If `true`, this is a fatal error.
+	fatal?: boolean;
 
-  /// If `true`, this is a fatal error.
-  fatal?: boolean;
+	/// Information for an autofix.
+	fix: Fix;
 
-  /// Information for an autofix.
-  fix: Fix;
+	/// The error message.
+	message: string;
 
-  /// The error message.
-  message: string;
+	/// The ID of the rule which generated the message, or `null` if not applicable.
+	ruleId: string | null;
 
-  /// The ID of the rule which generated the message, or `null` if not applicable.
-  ruleId: string | null;
+	/// The severity of the message.
+	severity: 0 | 1 | 2;
 
-  /// The severity of the message.
-  severity: 0 | 1 | 2;
-
-  /// Information for suggestions.
-  suggestions?: Suggestion[];
+	/// Information for suggestions.
+	suggestions?: Suggestion[];
 };
 
 type Fix = {
-    range: [number, number];
-    text: string;
-}
+	range: [number, number];
+	text: string;
+};
 
 type Suggestion = {
-    desc?: string;
-    messageId?: string;
-    fix: Fix;
-}
-
+	desc?: string;
+	messageId?: string;
+	fix: Fix;
+};
 ```
 
 By default, ESLint does not perform autofixes when a custom processor is used, even when the `--fix` flag is enabled on the command line. To allow ESLint to autofix code when using your processor, you should take the following additional steps:
@@ -152,17 +149,19 @@ Example:
 
 ```js
 // eslint.config.js
+import { defineConfig } from "eslint/config";
 import example from "eslint-plugin-example";
 
-export default [
-    {
-        plugins: {
-            example
-        },
-        processor: "example/processor-name"
-    },
-    // ... other configs
-];
+export default defineConfig([
+	{
+		files: ["**/*.txt"], // apply processor to text files
+		plugins: {
+			example,
+		},
+		processor: "example/processor-name",
+	},
+	// ... other configs
+]);
 ```
 
 In this example, the processor name is `"example/processor-name"`, and that's the value that will be used for serializing configurations.
@@ -175,14 +174,16 @@ Example:
 
 ```js
 // eslint.config.js
+import { defineConfig } from "eslint/config";
 import example from "eslint-plugin-example";
 
-export default [
-    {
-        processor: example.processors["processor-name"]
-    },
-    // ... other configs
-];
+export default defineConfig([
+	{
+		files: ["**/*.txt"],
+		processor: example.processors["processor-name"],
+	},
+	// ... other configs
+]);
 ```
 
 In this example, specifying `example.processors["processor-name"]` directly uses the processor's own `meta` object, which must be defined to ensure proper handling when the processor is not referenced through the plugin name.
@@ -197,16 +198,18 @@ In order to use a processor from a plugin in a configuration file, import the pl
 
 ```js
 // eslint.config.js
+import { defineConfig } from "eslint/config";
 import example from "eslint-plugin-example";
 
-export default [
-    {
-        plugins: {
-            example
-        },
-        processor: "example/processor-name"
-    }
-];
+export default defineConfig([
+	{
+		files: ["**/*.txt"],
+		plugins: {
+			example,
+		},
+		processor: "example/processor-name",
+	},
+]);
 ```
 
 See [Specify a Processor](../use/configure/plugins#specify-a-processor) in the Plugin Configuration documentation for more details.

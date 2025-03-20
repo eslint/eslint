@@ -8,7 +8,7 @@ The use of `arguments.caller` and `arguments.callee` make several code optimizat
 
 ```js
 function foo() {
-    var callee = arguments.callee;
+    const callee = arguments.callee;
 }
 ```
 

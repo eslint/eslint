@@ -15,11 +15,11 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint func-name-matching: "error"*/
 
-var foo = function bar() {};
+let foo = function bar() {};
 foo = function bar() {};
+const obj = {foo: function bar() {}};
 obj.foo = function bar() {};
 obj['foo'] = function bar() {};
-var obj = {foo: function bar() {}};
 ({['foo']: function bar() {}});
 
 class C {
@@ -34,11 +34,11 @@ class C {
 ```js
 /*eslint func-name-matching: ["error", "never"] */
 
-var foo = function foo() {};
+let foo = function foo() {};
 foo = function foo() {};
+const obj = {foo: function foo() {}};
 obj.foo = function foo() {};
 obj['foo'] = function foo() {};
-var obj = {foo: function foo() {}};
 ({['foo']: function foo() {}});
 
 class C {
@@ -56,23 +56,23 @@ Examples of **correct** code for this rule:
 /*eslint func-name-matching: "error"*/
 // equivalent to /*eslint func-name-matching: ["error", "always"]*/
 
-var foo = function foo() {};
-var foo = function() {};
-var foo = () => {};
+const foo = function foo() {};
+const foo1 = function() {};
+const foo2 = () => {};
 foo = function foo() {};
 
+const obj = {foo: function foo() {}};
 obj.foo = function foo() {};
 obj['foo'] = function foo() {};
 obj['foo//bar'] = function foo() {};
 obj[foo] = function bar() {};
 
-var obj = {foo: function foo() {}};
-var obj = {[foo]: function bar() {}};
-var obj = {'foo//bar': function foo() {}};
-var obj = {foo: function() {}};
+const obj1 = {[foo]: function bar() {}};
+const obj2 = {'foo//bar': function foo() {}};
+const obj3 = {foo: function() {}};
 
 obj['x' + 2] = function bar(){};
-var [ bar ] = [ function bar(){} ];
+const [ bar ] = [ function bar(){} ];
 ({[foo]: function bar() {}})
 
 class C {
@@ -101,23 +101,24 @@ module['exports'] = function foo(name) {};
 ```js
 /*eslint func-name-matching: ["error", "never"] */
 
-var foo = function bar() {};
-var foo = function() {};
-var foo = () => {};
+let foo = function bar() {};
+const foo1 = function() {};
+const foo2 = () => {};
 foo = function bar() {};
 
+const obj = {foo: function bar() {}};
 obj.foo = function bar() {};
 obj['foo'] = function bar() {};
 obj['foo//bar'] = function foo() {};
 obj[foo] = function foo() {};
 
-var obj = {foo: function bar() {}};
-var obj = {[foo]: function foo() {}};
-var obj = {'foo//bar': function foo() {}};
-var obj = {foo: function() {}};
+const obj1 = {foo: function bar() {}};
+const obj2 = {[foo]: function foo() {}};
+const obj3 = {'foo//bar': function foo() {}};
+const obj4 = {foo: function() {}};
 
 obj['x' + 2] = function bar(){};
-var [ bar ] = [ function bar(){} ];
+const [ bar ] = [ function bar(){} ];
 ({[foo]: function bar() {}})
 
 class C {
@@ -156,7 +157,7 @@ Examples of **correct** code for the `{ considerPropertyDescriptor: true }` opti
 ```js
 /*eslint func-name-matching: ["error", { "considerPropertyDescriptor": true }]*/
 // equivalent to /*eslint func-name-matching: ["error", "always", { "considerPropertyDescriptor": true }]*/
-var obj = {};
+const obj = {};
 Object.create(obj, {foo:{value: function foo() {}}});
 Object.defineProperty(obj, 'bar', {value: function bar() {}});
 Object.defineProperties(obj, {baz:{value: function baz() {} }});
@@ -172,7 +173,7 @@ Examples of **incorrect** code for the `{ considerPropertyDescriptor: true }` op
 ```js
 /*eslint func-name-matching: ["error", { "considerPropertyDescriptor": true }]*/
 // equivalent to /*eslint func-name-matching: ["error", "always", { "considerPropertyDescriptor": true }]*/
-var obj = {};
+const obj = {};
 Object.create(obj, {foo:{value: function bar() {}}});
 Object.defineProperty(obj, 'bar', {value: function baz() {}});
 Object.defineProperties(obj, {baz:{value: function foo() {} }});

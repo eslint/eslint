@@ -1,43 +1,43 @@
 name: CI
 on:
-  push:
-    branches: [main]
-    paths:
-        - 'docs/**'
+    push:
+        branches: [main]
+        paths:
+            - "docs/**"
 
-  pull_request:
-    branches: [main]
-    paths:
-        - 'docs/**'
+    pull_request:
+        branches: [main]
+        paths:
+            - "docs/**"
 
 permissions:
-  contents: read
+    contents: read
 
 jobs:
-  verify_files:
-    name: Verify Docs Files
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 'lts/*'
+    verify_files:
+        name: Verify Docs Files
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: "lts/*"
 
-    - name: Install Docs Packages
-      working-directory: docs
-      run: npm install
+            - name: Install Docs Packages
+              working-directory: docs
+              run: npm install
 
-    - name: Install Packages
-      run: npm install
+            - name: Install Packages
+              run: npm install
 
-    - name: Stylelint Docs
-      working-directory: docs
-      run: npm run lint:scss
+            - name: Stylelint Docs
+              working-directory: docs
+              run: npm run lint:scss
 
-    - name: Build Docs Website
-      working-directory: docs
-      run: npm run build
+            - name: Build Docs Website
+              working-directory: docs
+              run: npm run build
 
-    - name: Validate internal links
-      working-directory: docs
-      run: npm run lint:links
+            - name: Validate internal links
+              working-directory: docs
+              run: npm run lint:links
