@@ -35,6 +35,7 @@ import {
 	Scope,
 	SourceCode,
 } from "eslint";
+import { defineConfig, globalIgnores } from "eslint/config";
 import { ESLintRules } from "eslint/rules";
 import { Linter as ESLinter } from "eslint/universal";
 import {
@@ -534,6 +535,68 @@ rule = {
 	create(context) {
 		return {};
 	},
+	meta: { deprecated: { message: "message", url: "https://example.com" } },
+};
+rule = {
+	create(context) {
+		return {};
+	},
+	meta: { deprecated: { availableUntil: "10.0.0" } },
+};
+rule = {
+	create(context) {
+		return {};
+	},
+	meta: { deprecated: { availableUntil: null } },
+};
+rule = {
+	create(context) {
+		return {};
+	},
+	meta: { deprecated: { deprecatedSince: "9.0.0" } },
+};
+rule = {
+	create(context) {
+		return {};
+	},
+	meta: { deprecated: { replacedBy: [] } },
+};
+rule = {
+	create(context) {
+		return {};
+	},
+	meta: {
+		deprecated: {
+			replacedBy: [{ message: "message", url: "https://example.com" }],
+		},
+	},
+};
+rule = {
+	create(context) {
+		return {};
+	},
+	meta: {
+		deprecated: {
+			replacedBy: [{ plugin: { name: "eslint-plugin-example" } }],
+		},
+	},
+};
+rule = {
+	create(context) {
+		return {};
+	},
+	meta: {
+		deprecated: {
+			replacedBy: [
+				{ rule: { name: "rule-id", url: "https://example.com" } },
+			],
+		},
+	},
+};
+rule = {
+	create(context) {
+		return {};
+	},
 	meta: { type: "layout" },
 };
 rule = {
@@ -552,7 +615,7 @@ rule = {
 };
 
 rule = {
-	create(context) {
+	create(context: Rule.RuleContext) {
 		context.getAncestors();
 
 		context.getDeclaredVariables(AST);
@@ -569,9 +632,15 @@ rule = {
 
 		context.getCwd();
 
+		context.languageOptions;
+		context.languageOptions
+			.ecmaVersion satisfies Linter.LanguageOptions["ecmaVersion"];
+
 		context.sourceCode;
+		context.sourceCode.getLocFromIndex(42);
 
 		context.getSourceCode();
+		context.getSourceCode().getLocFromIndex(42);
 
 		context.getScope();
 
@@ -583,8 +652,14 @@ rule = {
 
 		context.markVariableAsUsed("foo");
 
+		// @ts-expect-error wrong `node` type
+		context.report({ message: "foo", node: {} });
+
 		context.report({ message: "foo", node: AST });
-		context.report({ message: "foo", loc: { line: 0, column: 0 } });
+		context.report({
+			message: "foo",
+			loc: { start: { line: 0, column: 0 }, end: { line: 1, column: 1 } },
+		});
 		context.report({ message: "foo", node: AST, data: { foo: "bar" } });
 		context.report({ message: "foo", node: AST, fix: () => null });
 		context.report({
@@ -660,6 +735,8 @@ rule = {
 				},
 			],
 		});
+
+		(violation: Rule.ReportDescriptor) => context.report(violation);
 
 		return {
 			onCodePathStart(codePath, node) {
@@ -1933,5 +2010,34 @@ new FileEnumerator();
 FlatESLint; // $ExpectType typeof ESLint
 
 shouldUseFlatConfig(); // $ExpectType Promise<boolean>
+
+// #endregion
+
+// #region defineConfig
+
+defineConfig([
+	{
+		files: ["*.js"],
+		rules: {
+			"no-console": "error",
+		},
+	},
+]);
+
+defineConfig([
+	globalIgnores(["*.js"]),
+	{
+		files: ["*.js"],
+		rules: {
+			"no-console": "error",
+		},
+	},
+	{
+		files: ["*.ts"],
+		rules: {
+			"@typescript-eslint/no-unused-vars": "error",
+		},
+	},
+]);
 
 // #endregion
