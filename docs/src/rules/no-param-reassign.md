@@ -21,19 +21,19 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-param-reassign: "error"*/
 
-var foo = function(bar) {
+const foo = function(bar) {
     bar = 13;
 }
 
-var foo = function(bar) {
+const foo1 = function(bar) {
     bar++;
 }
 
-var foo = function(bar) {
+const foo2 = function(bar) {
     for (bar in baz) {}
 }
 
-var foo = function(bar) {
+const foo3 = function(bar) {
     for (bar of baz) {}
 }
 ```
@@ -47,8 +47,8 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-param-reassign: "error"*/
 
-var foo = function(bar) {
-    var baz = bar;
+const foo = function(bar) {
+    const baz = bar;
 }
 ```
 
@@ -67,23 +67,23 @@ Examples of **correct** code for the default `{ "props": false }` option:
 ```js
 /*eslint no-param-reassign: ["error", { "props": false }]*/
 
-var foo = function(bar) {
+const foo = function(bar) {
     bar.prop = "value";
 }
 
-var foo = function(bar) {
+const foo1 = function(bar) {
     delete bar.aaa;
 }
 
-var foo = function(bar) {
+const foo2 = function(bar) {
     bar.aaa++;
 }
 
-var foo = function(bar) {
+const foo3 = function(bar) {
     for (bar.aaa in baz) {}
 }
 
-var foo = function(bar) {
+const foo4 = function(bar) {
     for (bar.aaa of baz) {}
 }
 ```
@@ -97,23 +97,23 @@ Examples of **incorrect** code for the `{ "props": true }` option:
 ```js
 /*eslint no-param-reassign: ["error", { "props": true }]*/
 
-var foo = function(bar) {
+const foo = function(bar) {
     bar.prop = "value";
 }
 
-var foo = function(bar) {
+const foo1 = function(bar) {
     delete bar.aaa;
 }
 
-var foo = function(bar) {
+const foo2 = function(bar) {
     bar.aaa++;
 }
 
-var foo = function(bar) {
+const foo3 = function(bar) {
     for (bar.aaa in baz) {}
 }
 
-var foo = function(bar) {
+const foo4 = function(bar) {
     for (bar.aaa of baz) {}
 }
 ```
@@ -127,23 +127,23 @@ Examples of **correct** code for the `{ "props": true }` option with `"ignorePro
 ```js
 /*eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["bar"] }]*/
 
-var foo = function(bar) {
+const foo = function(bar) {
     bar.prop = "value";
 }
 
-var foo = function(bar) {
+const foo1 = function(bar) {
     delete bar.aaa;
 }
 
-var foo = function(bar) {
+const foo2 = function(bar) {
     bar.aaa++;
 }
 
-var foo = function(bar) {
+const foo3 = function(bar) {
     for (bar.aaa in baz) {}
 }
 
-var foo = function(bar) {
+const foo4 = function(bar) {
     for (bar.aaa of baz) {}
 }
 ```
@@ -157,23 +157,23 @@ Examples of **correct** code for the `{ "props": true }` option with `"ignorePro
 ```js
 /*eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsForRegex": ["^bar"] }]*/
 
-var foo = function(barVar) {
+const foo = function(barVar) {
     barVar.prop = "value";
 }
 
-var foo = function(barrito) {
+const foo1 = function(barrito) {
     delete barrito.aaa;
 }
 
-var foo = function(bar_) {
+const foo2 = function(bar_) {
     bar_.aaa++;
 }
 
-var foo = function(barBaz) {
+const foo3 = function(barBaz) {
     for (barBaz.aaa in baz) {}
 }
 
-var foo = function(barBaz) {
+const foo4 = function(barBaz) {
     for (barBaz.aaa of baz) {}
 }
 ```

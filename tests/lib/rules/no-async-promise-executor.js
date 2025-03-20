@@ -11,7 +11,6 @@
 const rule = require("../../../lib/rules/no-async-promise-executor");
 const RuleTester = require("../../../lib/rule-tester/rule-tester");
 
-
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
@@ -19,43 +18,48 @@ const RuleTester = require("../../../lib/rule-tester/rule-tester");
 const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 8 } });
 
 ruleTester.run("no-async-promise-executor", rule, {
+	valid: [
+		"new Promise((resolve, reject) => {})",
+		"new Promise((resolve, reject) => {}, async function unrelated() {})",
+		"new Foo(async (resolve, reject) => {})",
+	],
 
-    valid: [
-        "new Promise((resolve, reject) => {})",
-        "new Promise((resolve, reject) => {}, async function unrelated() {})",
-        "new Foo(async (resolve, reject) => {})"
-    ],
-
-    invalid: [
-        {
-            code: "new Promise(async function foo(resolve, reject) {})",
-            errors: [{
-                messageId: "async",
-                line: 1,
-                column: 13,
-                endLine: 1,
-                endColumn: 18
-            }]
-        },
-        {
-            code: "new Promise(async (resolve, reject) => {})",
-            errors: [{
-                messageId: "async",
-                line: 1,
-                column: 13,
-                endLine: 1,
-                endColumn: 18
-            }]
-        },
-        {
-            code: "new Promise(((((async () => {})))))",
-            errors: [{
-                messageId: "async",
-                line: 1,
-                column: 17,
-                endLine: 1,
-                endColumn: 22
-            }]
-        }
-    ]
+	invalid: [
+		{
+			code: "new Promise(async function foo(resolve, reject) {})",
+			errors: [
+				{
+					messageId: "async",
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 18,
+				},
+			],
+		},
+		{
+			code: "new Promise(async (resolve, reject) => {})",
+			errors: [
+				{
+					messageId: "async",
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 18,
+				},
+			],
+		},
+		{
+			code: "new Promise(((((async () => {})))))",
+			errors: [
+				{
+					messageId: "async",
+					line: 1,
+					column: 17,
+					endLine: 1,
+					endColumn: 22,
+				},
+			],
+		},
+	],
 });

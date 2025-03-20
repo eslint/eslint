@@ -9,22 +9,22 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert,
-    espree = require("espree"),
-    FixTracker = require("../../../../lib/rules/utils/fix-tracker"),
-    { RuleFixer } = require("../../../../lib/linter/rule-fixer"),
-    { SourceCode } = require("../../../../lib/languages/js/source-code"),
-    Traverser = require("../../../../lib/shared/traverser");
+	espree = require("espree"),
+	FixTracker = require("../../../../lib/rules/utils/fix-tracker"),
+	{ RuleFixer } = require("../../../../lib/linter/rule-fixer"),
+	{ SourceCode } = require("../../../../lib/languages/js/source-code"),
+	Traverser = require("../../../../lib/shared/traverser");
 
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
 
 const DEFAULT_CONFIG = {
-    ecmaVersion: 6,
-    comment: true,
-    tokens: true,
-    range: true,
-    loc: true
+	ecmaVersion: 6,
+	comment: true,
+	tokens: true,
+	range: true,
+	loc: true,
 };
 
 /**
@@ -34,15 +34,15 @@ const DEFAULT_CONFIG = {
  * @returns {SourceCode} The SourceCode.
  */
 function createSourceCode(text) {
-    const ast = espree.parse(text, DEFAULT_CONFIG);
+	const ast = espree.parse(text, DEFAULT_CONFIG);
 
-    Traverser.traverse(ast, {
-        enter(node, parent) {
-            node.parent = parent;
-        }
-    });
+	Traverser.traverse(ast, {
+		enter(node, parent) {
+			node.parent = parent;
+		},
+	});
 
-    return new SourceCode(text, ast);
+	return new SourceCode(text, ast);
 }
 
 //------------------------------------------------------------------------------
@@ -50,104 +50,107 @@ function createSourceCode(text) {
 //------------------------------------------------------------------------------
 
 describe("FixTracker", () => {
-    describe("replaceTextRange", () => {
-        it("should expand to include an explicitly retained range", () => {
-            const sourceCode = createSourceCode("var foo = +bar;");
-            const ruleFixer = new RuleFixer({ sourceCode });
-            const result = new FixTracker(ruleFixer, sourceCode)
-                .retainRange([4, 14])
-                .replaceTextRange([10, 11], "-");
+	describe("replaceTextRange", () => {
+		it("should expand to include an explicitly retained range", () => {
+			const sourceCode = createSourceCode("var foo = +bar;");
+			const ruleFixer = new RuleFixer({ sourceCode });
+			const result = new FixTracker(ruleFixer, sourceCode)
+				.retainRange([4, 14])
+				.replaceTextRange([10, 11], "-");
 
-            assert.deepStrictEqual(result, {
-                range: [4, 14],
-                text: "foo = -bar"
-            });
-        });
+			assert.deepStrictEqual(result, {
+				range: [4, 14],
+				text: "foo = -bar",
+			});
+		});
 
-        it("ignores a retained range that's smaller than the replaced range", () => {
-            const sourceCode = createSourceCode("abcdefghij");
-            const ruleFixer = new RuleFixer({ sourceCode });
-            const result = new FixTracker(ruleFixer, sourceCode)
-                .retainRange([5, 7])
-                .replaceTextRange([4, 8], "123");
+		it("ignores a retained range that's smaller than the replaced range", () => {
+			const sourceCode = createSourceCode("abcdefghij");
+			const ruleFixer = new RuleFixer({ sourceCode });
+			const result = new FixTracker(ruleFixer, sourceCode)
+				.retainRange([5, 7])
+				.replaceTextRange([4, 8], "123");
 
-            assert.deepStrictEqual(result, {
-                range: [4, 8],
-                text: "123"
-            });
-        });
+			assert.deepStrictEqual(result, {
+				range: [4, 8],
+				text: "123",
+			});
+		});
 
-        it("allows an unspecified retained range", () => {
-            const sourceCode = createSourceCode("abcdefghij");
-            const ruleFixer = new RuleFixer({ sourceCode });
-            const result = new FixTracker(ruleFixer, sourceCode)
-                .replaceTextRange([4, 8], "123");
+		it("allows an unspecified retained range", () => {
+			const sourceCode = createSourceCode("abcdefghij");
+			const ruleFixer = new RuleFixer({ sourceCode });
+			const result = new FixTracker(
+				ruleFixer,
+				sourceCode,
+			).replaceTextRange([4, 8], "123");
 
-            assert.deepStrictEqual(result, {
-                range: [4, 8],
-                text: "123"
-            });
-        });
-    });
+			assert.deepStrictEqual(result, {
+				range: [4, 8],
+				text: "123",
+			});
+		});
+	});
 
-    describe("remove", () => {
-        it("should expand to include an explicitly retained range", () => {
-            const sourceCode = createSourceCode("a = b + +c");
-            const ruleFixer = new RuleFixer({ sourceCode });
-            const result = new FixTracker(ruleFixer, sourceCode)
-                .retainRange([4, 10])
-                .remove(sourceCode.ast.tokens[4]);
+	describe("remove", () => {
+		it("should expand to include an explicitly retained range", () => {
+			const sourceCode = createSourceCode("a = b + +c");
+			const ruleFixer = new RuleFixer({ sourceCode });
+			const result = new FixTracker(ruleFixer, sourceCode)
+				.retainRange([4, 10])
+				.remove(sourceCode.ast.tokens[4]);
 
-            assert.deepStrictEqual(result, {
-                range: [4, 10],
-                text: "b + c"
-            });
-        });
-    });
+			assert.deepStrictEqual(result, {
+				range: [4, 10],
+				text: "b + c",
+			});
+		});
+	});
 
-    describe("retainEnclosingFunction", () => {
-        it("handles a normal enclosing function", () => {
-            const sourceCode = createSourceCode("f = function() { return x; }");
-            const xNode = sourceCode.ast.body[0].expression.right.body.body[0].argument;
-            const ruleFixer = new RuleFixer({ sourceCode });
-            const result = new FixTracker(ruleFixer, sourceCode)
-                .retainEnclosingFunction(xNode)
-                .replaceTextRange(xNode.range, "y");
+	describe("retainEnclosingFunction", () => {
+		it("handles a normal enclosing function", () => {
+			const sourceCode = createSourceCode("f = function() { return x; }");
+			const xNode =
+				sourceCode.ast.body[0].expression.right.body.body[0].argument;
+			const ruleFixer = new RuleFixer({ sourceCode });
+			const result = new FixTracker(ruleFixer, sourceCode)
+				.retainEnclosingFunction(xNode)
+				.replaceTextRange(xNode.range, "y");
 
-            assert.deepStrictEqual(result, {
-                range: [4, 28],
-                text: "function() { return y; }"
-            });
-        });
+			assert.deepStrictEqual(result, {
+				range: [4, 28],
+				text: "function() { return y; }",
+			});
+		});
 
-        it("handles the case when there is no enclosing function", () => {
-            const sourceCode = createSourceCode("const a = b;");
-            const bNode = sourceCode.ast.body[0].declarations[0].init;
-            const ruleFixer = new RuleFixer({ sourceCode });
-            const result = new FixTracker(ruleFixer, sourceCode)
-                .retainEnclosingFunction(bNode)
-                .replaceTextRange(bNode.range, "c");
+		it("handles the case when there is no enclosing function", () => {
+			const sourceCode = createSourceCode("const a = b;");
+			const bNode = sourceCode.ast.body[0].declarations[0].init;
+			const ruleFixer = new RuleFixer({ sourceCode });
+			const result = new FixTracker(ruleFixer, sourceCode)
+				.retainEnclosingFunction(bNode)
+				.replaceTextRange(bNode.range, "c");
 
-            assert.deepStrictEqual(result, {
-                range: [0, 12],
-                text: "const a = c;"
-            });
-        });
-    });
+			assert.deepStrictEqual(result, {
+				range: [0, 12],
+				text: "const a = c;",
+			});
+		});
+	});
 
-    describe("retainSurroundingTokens", () => {
-        it("handles a change to a binary operator", () => {
-            const sourceCode = createSourceCode("const i = j + k;");
-            const plusToken = sourceCode.ast.tokens[4];
-            const ruleFixer = new RuleFixer({ sourceCode });
-            const result = new FixTracker(ruleFixer, sourceCode)
-                .retainSurroundingTokens(plusToken)
-                .replaceTextRange(plusToken.range, "*");
+	describe("retainSurroundingTokens", () => {
+		it("handles a change to a binary operator", () => {
+			const sourceCode = createSourceCode("const i = j + k;");
+			const plusToken = sourceCode.ast.tokens[4];
+			const ruleFixer = new RuleFixer({ sourceCode });
+			const result = new FixTracker(ruleFixer, sourceCode)
+				.retainSurroundingTokens(plusToken)
+				.replaceTextRange(plusToken.range, "*");
 
-            assert.deepStrictEqual(result, {
-                range: [10, 15],
-                text: "j * k"
-            });
-        });
-    });
+			assert.deepStrictEqual(result, {
+				range: [10, 15],
+				text: "j * k",
+			});
+		});
+	});
 });

@@ -1,9 +1,6 @@
 "use strict";
 
 module.exports = {
-    plugins: [
-        require("autoprefixer"),
-        require("cssnano")
-    ],
-    map: false
+	plugins: [require("autoprefixer"), require("cssnano")],
+	map: false,
 };

@@ -1,6 +1,5 @@
 ---
 title: Migrating to v6.0.0
-
 ---
 
 ESLint v6.0.0 is a major release of ESLint. We have made a few breaking changes in this release. This guide is intended to walk you through the breaking changes.
@@ -41,9 +40,9 @@ The lists below are ordered roughly by the number of users each change is expect
 
 As of April 2019, Node.js 6 will be at EOL and will no longer be receiving security updates. As a result, we have decided to drop support for it in ESLint v6. We now support the following versions of Node.js:
 
-* Node.js 8 (8.10.0 and above)
-* Node.js 10 (10.13.0 and above)
-* Anything above Node.js 11.10.1
+-   Node.js 8 (8.10.0 and above)
+-   Node.js 10 (10.13.0 and above)
+-   Anything above Node.js 11.10.1
 
 **To address:** Make sure you upgrade to at least Node.js 8 when using ESLint v6. If you are unable to upgrade, we recommend continuing to use ESLint v5.x until you are able to upgrade Node.js.
 
@@ -53,17 +52,17 @@ As of April 2019, Node.js 6 will be at EOL and will no longer be receiving secur
 
 The following rules have been added to the [`eslint:recommended`](../use/configure#using-eslintrecommended) config:
 
-* [`no-async-promise-executor`](../rules/no-async-promise-executor) disallows using an `async` function as the argument to the `Promise` constructor, which is usually a bug.
-* [`no-misleading-character-class`](../rules/no-misleading-character-class) reports character classes in regular expressions that might not behave as expected.
-* [`no-prototype-builtins`](../rules/no-prototype-builtins) reports method calls like `foo.hasOwnProperty("bar")` (which are a frequent source of bugs), and suggests that they be replaced with `Object.prototype.hasOwnProperty.call(foo, "bar")` instead.
-* [`no-shadow-restricted-names`](../rules/no-shadow-restricted-names) disallows shadowing variables like `undefined` (e.g. with code like `let undefined = 5;`), since is likely to confuse readers.
-* [`no-useless-catch`](../rules/no-useless-catch) reports `catch` clauses that are redundant and can be removed from the code without changing its behavior.
-* [`no-with`](../rules/no-with) disallows use of the [`with` statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/with), which can make code difficult to understand and cause compatibility problems.
-* [`require-atomic-updates`](../rules/require-atomic-updates) reports race condition bugs that can occur when reassigning variables in async functions.
+-   [`no-async-promise-executor`](../rules/no-async-promise-executor) disallows using an `async` function as the argument to the `Promise` constructor, which is usually a bug.
+-   [`no-misleading-character-class`](../rules/no-misleading-character-class) reports character classes in regular expressions that might not behave as expected.
+-   [`no-prototype-builtins`](../rules/no-prototype-builtins) reports method calls like `foo.hasOwnProperty("bar")` (which are a frequent source of bugs), and suggests that they be replaced with `Object.prototype.hasOwnProperty.call(foo, "bar")` instead.
+-   [`no-shadow-restricted-names`](../rules/no-shadow-restricted-names) disallows shadowing variables like `undefined` (e.g. with code like `let undefined = 5;`), since is likely to confuse readers.
+-   [`no-useless-catch`](../rules/no-useless-catch) reports `catch` clauses that are redundant and can be removed from the code without changing its behavior.
+-   [`no-with`](../rules/no-with) disallows use of the [`with` statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/with), which can make code difficult to understand and cause compatibility problems.
+-   [`require-atomic-updates`](../rules/require-atomic-updates) reports race condition bugs that can occur when reassigning variables in async functions.
 
-Additionally, the following rule has been *removed* from `eslint:recommended`:
+Additionally, the following rule has been _removed_ from `eslint:recommended`:
 
-* [`no-console`](../rules/no-console) disallows calling functions like `console.log`. While this rule is useful in many cases (e.g. to avoid inadvertently leaving debugging statements in production code), it is not as broadly applicable as the other rules in `eslint:recommended`, and it was a source of false positives in cases where `console.log` is acceptable (e.g. in CLI applications).
+-   [`no-console`](../rules/no-console) disallows calling functions like `console.log`. While this rule is useful in many cases (e.g. to avoid inadvertently leaving debugging statements in production code), it is not as broadly applicable as the other rules in `eslint:recommended`, and it was a source of false positives in cases where `console.log` is acceptable (e.g. in CLI applications).
 
 Finally, in ESLint v5 `eslint:recommended` would explicitly disable all core rules that were not considered "recommended". This could cause confusing behavior if `eslint:recommended` was loaded after another config, since `eslint:recommended` would have the effect of turning off some rules. In ESLint v6, `eslint:recommended` has no effect on non-recommended rules.
 
@@ -71,19 +70,19 @@ Finally, in ESLint v5 `eslint:recommended` would explicitly disable all core rul
 
 ```json
 {
-  "extends": "eslint:recommended",
+	"extends": "eslint:recommended",
 
-  "rules": {
-    "no-async-promise-executor": "off",
-    "no-misleading-character-class": "off",
-    "no-prototype-builtins": "off",
-    "no-shadow-restricted-names": "off",
-    "no-useless-catch": "off",
-    "no-with": "off",
-    "require-atomic-updates": "off",
+	"rules": {
+		"no-async-promise-executor": "off",
+		"no-misleading-character-class": "off",
+		"no-prototype-builtins": "off",
+		"no-shadow-restricted-names": "off",
+		"no-useless-catch": "off",
+		"no-with": "off",
+		"require-atomic-updates": "off",
 
-    "no-console": "error"
-  }
+		"no-console": "error"
+	}
 }
 ```
 
@@ -107,9 +106,9 @@ If you use a config file located outside of a local project (with the `--config`
 
 `espree`, the default parser used by ESLint, will now raise an error in the following cases:
 
-* The `ecmaVersion` parser option is set to something other than a number, such as the string `"2015"`. (Previously, a non-number option would simply be ignored.)
-* The `sourceType: "module"` parser option is set while `ecmaVersion` is set to `5` or left unspecified. (Previously, setting `sourceType: "module"` would implicitly cause `ecmaVersion` to be set to a minimum of 2015, which could be surprising.)
-* The `sourceType` is set to anything other than `"script"` or `"module"`.
+-   The `ecmaVersion` parser option is set to something other than a number, such as the string `"2015"`. (Previously, a non-number option would simply be ignored.)
+-   The `sourceType: "module"` parser option is set while `ecmaVersion` is set to `5` or left unspecified. (Previously, setting `sourceType: "module"` would implicitly cause `ecmaVersion` to be set to a minimum of 2015, which could be surprising.)
+-   The `sourceType` is set to anything other than `"script"` or `"module"`.
 
 **To address:** If your config sets `ecmaVersion` to something other than a number, you can restore the previous behavior by removing `ecmaVersion`. (However, you may want to double-check that your config is actually working as expected.) If your config sets `parserOptions: { sourceType: "module" }` without also setting `parserOptions.ecmaVersion`, you should add `parserOptions: { ecmaVersion: 2015 }` to restore the previous behavior.
 
@@ -119,13 +118,13 @@ If you use a config file located outside of a local project (with the `--config`
 
 To catch config errors earlier, ESLint v6 will report a linting error if you are trying to configure a non-existent rule.
 
-config | ESLint v5 | ESLint v6
-------------- | ------------- | -------------
-`/*eslint-enable foo*/`  | no error | linting error
-`/*eslint-disable(-line) foo*/`  | no error | linting error
-`/*eslint foo: 0*/` | no error | linting error
-`{rules: {foo: 0}}` | no error | no error
-`{rules: {foo: 1}` | linting warning | linting error
+| config                          | ESLint v5       | ESLint v6     |
+| ------------------------------- | --------------- | ------------- |
+| `/*eslint-enable foo*/`         | no error        | linting error |
+| `/*eslint-disable(-line) foo*/` | no error        | linting error |
+| `/*eslint foo: 0*/`             | no error        | linting error |
+| `{rules: {foo: 0}}`             | no error        | no error      |
+| `{rules: {foo: 1}`              | linting warning | linting error |
 
 **To address:** You can remove the non-existent rule in your (inline) config.
 
@@ -141,9 +140,9 @@ To restore the previous options for the rule, you can configure it as follows:
 
 ```json
 {
-  "rules": {
-    "no-redeclare": ["error", { "builtinGlobals": false }]
-  }
+	"rules": {
+		"no-redeclare": ["error", { "builtinGlobals": false }]
+	}
 }
 ```
 
@@ -159,15 +158,18 @@ Previously, the [`comma-dangle`](../rules/comma-dangle) rule would ignore traili
 
 ```json
 {
-  "rules": {
-    "comma-dangle": ["error", {
-        "arrays": "never",
-        "objects": "never",
-        "imports": "never",
-        "exports": "never",
-        "functions": "ignore"
-    }]
-  }
+	"rules": {
+		"comma-dangle": [
+			"error",
+			{
+				"arrays": "never",
+				"objects": "never",
+				"imports": "never",
+				"exports": "never",
+				"functions": "ignore"
+			}
+		]
+	}
 }
 ```
 
@@ -183,9 +185,9 @@ The default options for the [`no-confusing-arrow`](../rules/no-confusing-arrow) 
 
 ```json
 {
-  "rules": {
-    "no-confusing-arrow": ["error", { "allowParens": false }]
-  }
+	"rules": {
+		"no-confusing-arrow": ["error", { "allowParens": false }]
+	}
 }
 ```
 
@@ -206,22 +208,22 @@ Due to a bug, it was previously the case that an `overrides` block in a shareabl
 ```js
 // .eslintrc.js
 module.exports = {
-  extends: ["foo"],
-  rules: {
-    semi: "off"
-  }
+	extends: ["foo"],
+	rules: {
+		semi: "off",
+	},
 };
 ```
 
 ```js
 // eslint-config-foo/index.js
 module.exports = {
-  overrides: {
-    files: ["*.js"],
-    rules: {
-      semi: "error"
-    }
-  }
+	overrides: {
+		files: ["*.js"],
+		rules: {
+			semi: "error",
+		},
+	},
 };
 ```
 
@@ -238,11 +240,11 @@ Previously, when configuring a set of global variables with an object, it was po
 ```js
 // .eslintrc.js
 module.exports = {
-  globals: {
-    foo: "readonly",
-    bar: "writable",
-    baz: "hello!" // ???
-  }
+	globals: {
+		foo: "readonly",
+		bar: "writable",
+		baz: "hello!", // ???
+	},
 };
 ```
 
@@ -256,11 +258,11 @@ Previously, when using the default parser, a config could use the `experimentalO
 
 ```json
 {
-  "parserOptions": {
-    "ecmaFeatures": {
-      "experimentalObjectRestSpread": true
-    }
-  }
+	"parserOptions": {
+		"ecmaFeatures": {
+			"experimentalObjectRestSpread": true
+		}
+	}
 }
 ```
 
@@ -270,9 +272,9 @@ Since ESLint v5, `ecmaFeatures: { experimentalObjectRestSpread: true }` has been
 
 ```json
 {
-  "parserOptions": {
-    "ecmaVersion": 2018
-  }
+	"parserOptions": {
+		"ecmaVersion": 2018
+	}
 }
 ```
 

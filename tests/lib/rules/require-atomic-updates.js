@@ -15,57 +15,57 @@ const RuleTester = require("../../../lib/rule-tester/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2022, sourceType: "script" } });
+const ruleTester = new RuleTester({
+	languageOptions: { ecmaVersion: 2022, sourceType: "script" },
+});
 
 const VARIABLE_ERROR = {
-    messageId: "nonAtomicUpdate",
-    data: { value: "foo" },
-    type: "AssignmentExpression"
+	messageId: "nonAtomicUpdate",
+	data: { value: "foo" },
+	type: "AssignmentExpression",
 };
 
 const STATIC_PROPERTY_ERROR = {
-    messageId: "nonAtomicObjectUpdate",
-    data: { value: "foo.bar", object: "foo" },
-    type: "AssignmentExpression"
+	messageId: "nonAtomicObjectUpdate",
+	data: { value: "foo.bar", object: "foo" },
+	type: "AssignmentExpression",
 };
 
 const COMPUTED_PROPERTY_ERROR = {
-    messageId: "nonAtomicObjectUpdate",
-    data: { value: "foo[bar].baz", object: "foo" },
-    type: "AssignmentExpression"
+	messageId: "nonAtomicObjectUpdate",
+	data: { value: "foo[bar].baz", object: "foo" },
+	type: "AssignmentExpression",
 };
 
 const PRIVATE_PROPERTY_ERROR = {
-    messageId: "nonAtomicObjectUpdate",
-    data: { value: "foo.#bar", object: "foo" },
-    type: "AssignmentExpression"
+	messageId: "nonAtomicObjectUpdate",
+	data: { value: "foo.#bar", object: "foo" },
+	type: "AssignmentExpression",
 };
 
 ruleTester.run("require-atomic-updates", rule, {
+	valid: [
+		"let foo; async function x() { foo += bar; }",
+		"let foo; async function x() { foo = foo + bar; }",
+		"let foo; async function x() { foo = await bar + foo; }",
+		"async function x() { let foo; foo += await bar; }",
+		"let foo; async function x() { foo = (await result)(foo); }",
+		"let foo; async function x() { foo = bar(await something, foo) }",
+		"function* x() { let foo; foo += yield bar; }",
+		"const foo = {}; async function x() { foo.bar = await baz; }",
+		"const foo = []; async function x() { foo[x] += 1;  }",
+		"let foo; function* x() { foo = bar + foo; }",
+		"async function x() { let foo; bar(() => baz += 1); foo += await amount; }",
+		"let foo; async function x() { foo = condition ? foo : await bar; }",
+		"async function x() { let foo; bar(() => { let foo; blah(foo); }); foo += await result; }",
+		"let foo; async function x() { foo = foo + 1; await bar; }",
+		"async function x() { foo += await bar; }",
 
-    valid: [
-        "let foo; async function x() { foo += bar; }",
-        "let foo; async function x() { foo = foo + bar; }",
-        "let foo; async function x() { foo = await bar + foo; }",
-        "async function x() { let foo; foo += await bar; }",
-        "let foo; async function x() { foo = (await result)(foo); }",
-        "let foo; async function x() { foo = bar(await something, foo) }",
-        "function* x() { let foo; foo += yield bar; }",
-        "const foo = {}; async function x() { foo.bar = await baz; }",
-        "const foo = []; async function x() { foo[x] += 1;  }",
-        "let foo; function* x() { foo = bar + foo; }",
-        "async function x() { let foo; bar(() => baz += 1); foo += await amount; }",
-        "let foo; async function x() { foo = condition ? foo : await bar; }",
-        "async function x() { let foo; bar(() => { let foo; blah(foo); }); foo += await result; }",
-        "let foo; async function x() { foo = foo + 1; await bar; }",
-        "async function x() { foo += await bar; }",
-
-
-        /*
-         * Ensure rule doesn't take exponential time in the number of branches
-         * (see https://github.com/eslint/eslint/issues/10893)
-         */
-        `
+		/*
+		 * Ensure rule doesn't take exponential time in the number of branches
+		 * (see https://github.com/eslint/eslint/issues/10893)
+		 */
+		`
             async function foo() {
                 if (1);
                 if (2);
@@ -89,7 +89,7 @@ ruleTester.run("require-atomic-updates", rule, {
                 if (20);
             }
         `,
-        `
+		`
             async function foo() {
                 return [
                     1 ? a : b,
@@ -116,8 +116,8 @@ ruleTester.run("require-atomic-updates", rule, {
             }
         `,
 
-        // https://github.com/eslint/eslint/issues/11194
-        `
+		// https://github.com/eslint/eslint/issues/11194
+		`
             async function f() {
                 let records
                 records = await a.records
@@ -125,8 +125,8 @@ ruleTester.run("require-atomic-updates", rule, {
             }
         `,
 
-        // https://github.com/eslint/eslint/issues/11687
-        `
+		// https://github.com/eslint/eslint/issues/11687
+		`
             async function f() {
                 try {
                     this.foo = doSomething();
@@ -137,20 +137,20 @@ ruleTester.run("require-atomic-updates", rule, {
             }
         `,
 
-        // https://github.com/eslint/eslint/issues/11723
-        `
+		// https://github.com/eslint/eslint/issues/11723
+		`
             async function f(foo) {
                 let bar = await get(foo.id);
                 bar.prop = foo.prop;
             }
         `,
-        `
+		`
             async function f(foo) {
                 let bar = await get(foo.id);
                 foo = bar.prop;
             }
         `,
-        `
+		`
             async function f() {
                 let foo = {}
                 let bar = await get(foo.id);
@@ -158,8 +158,8 @@ ruleTester.run("require-atomic-updates", rule, {
             }
         `,
 
-        // https://github.com/eslint/eslint/issues/11954
-        `
+		// https://github.com/eslint/eslint/issues/11954
+		`
             let count = 0
             let queue = []
             async function A(...args) {
@@ -170,8 +170,8 @@ ruleTester.run("require-atomic-updates", rule, {
             }
         `,
 
-        // https://github.com/eslint/eslint/issues/14208
-        `
+		// https://github.com/eslint/eslint/issues/14208
+		`
             async function foo(e) {
             }
 
@@ -194,7 +194,7 @@ ruleTester.run("require-atomic-updates", rule, {
             }
         `,
 
-        `
+		`
             async function run() {
               {
                 let entry;
@@ -209,152 +209,152 @@ ruleTester.run("require-atomic-updates", rule, {
             }
         `,
 
-        `
+		`
             async function run() {
                 await a;
                 b = 1;
             }
         `,
 
-        // allowProperties
-        {
-            code: `
+		// allowProperties
+		{
+			code: `
                 async function a(foo) {
                     if (foo.bar) {
                         foo.bar = await something;
                     }
                 }
             `,
-            options: [{ allowProperties: true }]
-        },
-        {
-            code: `
+			options: [{ allowProperties: true }],
+		},
+		{
+			code: `
                 function* g(foo) {
                     baz = foo.bar;
                     yield something;
                     foo.bar = 1;
                 }
             `,
-            options: [{ allowProperties: true }]
-        }
-    ],
+			options: [{ allowProperties: true }],
+		},
+	],
 
-    invalid: [
-        {
-            code: "let foo; async function x() { foo += await amount; }",
-            errors: [{ messageId: "nonAtomicUpdate", data: { value: "foo" } }]
-        },
-        {
-            code: "if (1); let foo; async function x() { foo += await amount; }",
-            errors: [{ messageId: "nonAtomicUpdate", data: { value: "foo" } }]
-        },
-        {
-            code: "let foo; async function x() { while (condition) { foo += await amount; } }",
-            errors: [VARIABLE_ERROR]
-        },
-        {
-            code: "let foo; async function x() { foo = foo + await amount; }",
-            errors: [VARIABLE_ERROR]
-        },
-        {
-            code: "let foo; async function x() { foo = foo + (bar ? baz : await amount); }",
-            errors: [VARIABLE_ERROR]
-        },
-        {
-            code: "let foo; async function x() { foo = foo + (bar ? await amount : baz); }",
-            errors: [VARIABLE_ERROR]
-        },
-        {
-            code: "let foo; async function x() { foo = condition ? foo + await amount : somethingElse; }",
-            errors: [VARIABLE_ERROR]
-        },
-        {
-            code: "let foo; async function x() { foo = (condition ? foo : await bar) + await bar; }",
-            errors: [VARIABLE_ERROR]
-        },
-        {
-            code: "let foo; async function x() { foo += bar + await amount; }",
-            errors: [VARIABLE_ERROR]
-        },
-        {
-            code: "async function x() { let foo; bar(() => foo); foo += await amount; }",
-            errors: [VARIABLE_ERROR]
-        },
-        {
-            code: "let foo; function* x() { foo += yield baz }",
-            errors: [VARIABLE_ERROR]
-        },
-        {
-            code: "let foo; async function x() { foo = bar(foo, await something) }",
-            errors: [VARIABLE_ERROR]
-        },
-        {
-            code: "const foo = {}; async function x() { foo.bar += await baz }",
-            errors: [STATIC_PROPERTY_ERROR]
-        },
-        {
-            code: "const foo = []; async function x() { foo[bar].baz += await result;  }",
-            errors: [COMPUTED_PROPERTY_ERROR]
-        },
-        {
-            code: "const foo = {}; class C { #bar; async wrap() { foo.#bar += await baz } }",
-            errors: [PRIVATE_PROPERTY_ERROR]
-        },
-        {
-            code: "let foo; async function* x() { foo = (yield foo) + await bar; }",
-            errors: [VARIABLE_ERROR]
-        },
-        {
-            code: "let foo; async function x() { foo = foo + await result(foo); }",
-            errors: [VARIABLE_ERROR]
-        },
-        {
-            code: "let foo; async function x() { foo = await result(foo, await somethingElse); }",
-            errors: [VARIABLE_ERROR]
-        },
-        {
-            code: "function* x() { let foo; yield async function y() { foo += await bar; } }",
-            errors: [VARIABLE_ERROR]
-        },
-        {
-            code: "let foo; async function* x() { foo = await foo + (yield bar); }",
-            errors: [VARIABLE_ERROR]
-        },
-        {
-            code: "let foo; async function x() { foo = bar + await foo; }",
-            errors: [VARIABLE_ERROR]
-        },
-        {
-            code: "let foo = {}; async function x() { foo[bar].baz = await (foo.bar += await foo[bar].baz) }",
-            errors: [COMPUTED_PROPERTY_ERROR, STATIC_PROPERTY_ERROR]
-        },
-        {
-            code: "let foo = ''; async function x() { foo += await bar; }",
-            errors: [VARIABLE_ERROR]
-        },
-        {
-            code: "let foo = 0; async function x() { foo = (a ? b : foo) + await bar; if (baz); }",
-            errors: [VARIABLE_ERROR]
-        },
-        {
-            code: "let foo = 0; async function x() { foo = (a ? b ? c ? d ? foo : e : f : g : h) + await bar; if (baz); }",
-            errors: [VARIABLE_ERROR]
-        },
+	invalid: [
+		{
+			code: "let foo; async function x() { foo += await amount; }",
+			errors: [{ messageId: "nonAtomicUpdate", data: { value: "foo" } }],
+		},
+		{
+			code: "if (1); let foo; async function x() { foo += await amount; }",
+			errors: [{ messageId: "nonAtomicUpdate", data: { value: "foo" } }],
+		},
+		{
+			code: "let foo; async function x() { while (condition) { foo += await amount; } }",
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: "let foo; async function x() { foo = foo + await amount; }",
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: "let foo; async function x() { foo = foo + (bar ? baz : await amount); }",
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: "let foo; async function x() { foo = foo + (bar ? await amount : baz); }",
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: "let foo; async function x() { foo = condition ? foo + await amount : somethingElse; }",
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: "let foo; async function x() { foo = (condition ? foo : await bar) + await bar; }",
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: "let foo; async function x() { foo += bar + await amount; }",
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: "async function x() { let foo; bar(() => foo); foo += await amount; }",
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: "let foo; function* x() { foo += yield baz }",
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: "let foo; async function x() { foo = bar(foo, await something) }",
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: "const foo = {}; async function x() { foo.bar += await baz }",
+			errors: [STATIC_PROPERTY_ERROR],
+		},
+		{
+			code: "const foo = []; async function x() { foo[bar].baz += await result;  }",
+			errors: [COMPUTED_PROPERTY_ERROR],
+		},
+		{
+			code: "const foo = {}; class C { #bar; async wrap() { foo.#bar += await baz } }",
+			errors: [PRIVATE_PROPERTY_ERROR],
+		},
+		{
+			code: "let foo; async function* x() { foo = (yield foo) + await bar; }",
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: "let foo; async function x() { foo = foo + await result(foo); }",
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: "let foo; async function x() { foo = await result(foo, await somethingElse); }",
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: "function* x() { let foo; yield async function y() { foo += await bar; } }",
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: "let foo; async function* x() { foo = await foo + (yield bar); }",
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: "let foo; async function x() { foo = bar + await foo; }",
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: "let foo = {}; async function x() { foo[bar].baz = await (foo.bar += await foo[bar].baz) }",
+			errors: [COMPUTED_PROPERTY_ERROR, STATIC_PROPERTY_ERROR],
+		},
+		{
+			code: "let foo = ''; async function x() { foo += await bar; }",
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: "let foo = 0; async function x() { foo = (a ? b : foo) + await bar; if (baz); }",
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: "let foo = 0; async function x() { foo = (a ? b ? c ? d ? foo : e : f : g : h) + await bar; if (baz); }",
+			errors: [VARIABLE_ERROR],
+		},
 
-        // https://github.com/eslint/eslint/issues/11723
-        {
-            code: `
+		// https://github.com/eslint/eslint/issues/11723
+		{
+			code: `
                 async function f(foo) {
                     let buz = await get(foo.id);
                     foo.bar = buz.bar;
                 }
             `,
-            errors: [STATIC_PROPERTY_ERROR]
-        },
+			errors: [STATIC_PROPERTY_ERROR],
+		},
 
-        // https://github.com/eslint/eslint/issues/15076
-        {
-            code: `
+		// https://github.com/eslint/eslint/issues/15076
+		{
+			code: `
                 async () => {
                     opts.spec = process.stdin;
                     try {
@@ -365,92 +365,93 @@ ruleTester.run("require-atomic-updates", rule, {
                     }
               };
             `,
-            languageOptions: { sourceType: "commonjs", globals: { process: "readonly" } },
-            errors: [
-                {
-                    messageId: "nonAtomicObjectUpdate",
-                    data: { value: "process.exitCode", object: "process" },
-                    type: "AssignmentExpression",
-                    line: 6
-                },
-                {
-                    messageId: "nonAtomicObjectUpdate",
-                    data: { value: "process.exitCode", object: "process" },
-                    type: "AssignmentExpression",
-                    line: 8
-                }
-            ]
-        },
+			languageOptions: {
+				sourceType: "commonjs",
+				globals: { process: "readonly" },
+			},
+			errors: [
+				{
+					messageId: "nonAtomicObjectUpdate",
+					data: { value: "process.exitCode", object: "process" },
+					type: "AssignmentExpression",
+					line: 6,
+				},
+				{
+					messageId: "nonAtomicObjectUpdate",
+					data: { value: "process.exitCode", object: "process" },
+					type: "AssignmentExpression",
+					line: 8,
+				},
+			],
+		},
 
-        // allowProperties
-        {
-            code: `
+		// allowProperties
+		{
+			code: `
                 async function a(foo) {
                     if (foo.bar) {
                         foo.bar = await something;
                     }
                 }
             `,
-            errors: [STATIC_PROPERTY_ERROR]
-        },
-        {
-            code: `
+			errors: [STATIC_PROPERTY_ERROR],
+		},
+		{
+			code: `
                 function* g(foo) {
                     baz = foo.bar;
                     yield something;
                     foo.bar = 1;
                 }
             `,
-            errors: [STATIC_PROPERTY_ERROR]
-        },
-        {
-            code: `
+			errors: [STATIC_PROPERTY_ERROR],
+		},
+		{
+			code: `
                 async function a(foo) {
                     if (foo.bar) {
                         foo.bar = await something;
                     }
                 }
             `,
-            options: [{}],
-            errors: [STATIC_PROPERTY_ERROR]
-
-        },
-        {
-            code: `
+			options: [{}],
+			errors: [STATIC_PROPERTY_ERROR],
+		},
+		{
+			code: `
                 function* g(foo) {
                     baz = foo.bar;
                     yield something;
                     foo.bar = 1;
                 }
             `,
-            options: [{}],
-            errors: [STATIC_PROPERTY_ERROR]
-        },
-        {
-            code: `
+			options: [{}],
+			errors: [STATIC_PROPERTY_ERROR],
+		},
+		{
+			code: `
                 async function a(foo) {
                     if (foo.bar) {
                         foo.bar = await something;
                     }
                 }
             `,
-            options: [{ allowProperties: false }],
-            errors: [STATIC_PROPERTY_ERROR]
-
-        },
-        {
-            code: `
+			options: [{ allowProperties: false }],
+			errors: [STATIC_PROPERTY_ERROR],
+		},
+		{
+			code: `
                 function* g(foo) {
                     baz = foo.bar;
                     yield something;
                     foo.bar = 1;
                 }
             `,
-            options: [{ allowProperties: false }],
-            errors: [STATIC_PROPERTY_ERROR]
-        },
-        {
-            code: `
+			options: [{ allowProperties: false }],
+			errors: [STATIC_PROPERTY_ERROR],
+		},
+		{
+			code: `
                 let foo;
                 async function a() {
                     if (foo) {
@@ -458,12 +459,11 @@ ruleTester.run("require-atomic-updates", rule, {
                     }
                 }
             `,
-            options: [{ allowProperties: true }],
-            errors: [VARIABLE_ERROR]
-
-        },
-        {
-            code: `
+			options: [{ allowProperties: true }],
+			errors: [VARIABLE_ERROR],
+		},
+		{
+			code: `
                 let foo;
                 function* g() {
                     baz = foo;
@@ -471,8 +471,8 @@ ruleTester.run("require-atomic-updates", rule, {
                     foo = 1;
                 }
             `,
-            options: [{ allowProperties: true }],
-            errors: [VARIABLE_ERROR]
-        }
-    ]
+			options: [{ allowProperties: true }],
+			errors: [VARIABLE_ERROR],
+		},
+	],
 });

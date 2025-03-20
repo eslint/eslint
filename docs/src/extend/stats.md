@@ -9,7 +9,7 @@ eleventyNavigation:
 
 {%- from 'components/npx_tabs.macro.html' import npx_tabs %}
 
-While an analysis of the overall rule performance for an ESLint run can be carried out by setting the [TIMING](./custom-rules#profile-rule-performance) environment variable, it can sometimes be useful to acquire more *granular* timing data (lint time per file per rule) or collect other measures of interest. In particular, when developing new [custom plugins](./plugins) and evaluating/benchmarking new languages or rule sets. For these use cases, you can optionally collect runtime statistics from ESLint.
+While an analysis of the overall rule performance for an ESLint run can be carried out by setting the [TIMING](./custom-rules#profile-rule-performance) environment variable, it can sometimes be useful to acquire more _granular_ timing data (lint time per file per rule) or collect other measures of interest. In particular, when developing new [custom plugins](./plugins) and evaluating/benchmarking new languages or rule sets. For these use cases, you can optionally collect runtime statistics from ESLint.
 
 ## Enable stats collection
 
@@ -26,18 +26,18 @@ As such, it is not available via stdout but made easily ingestible via a formatt
 
 The `Stats` value is the timing information of each lint run. The `stats` property of the [LintResult](../integrate/nodejs-api#-lintresult-type) type contains it. It has the following properties:
 
-* `fixPasses` (`number`)<br>
-  The number of times ESLint has applied at least one fix after linting.
-* `times` (`{ passes: TimePass[] }`)<br>
-  The times spent on (parsing, fixing, linting) a file, where the linting refers to the timing information for each rule.
-    * `TimePass` (`{ parse: ParseTime, rules?: Record<string, RuleTime>, fix: FixTime, total: number }`)<br>
-    An object containing the times spent on (parsing, fixing, linting)
-        * `ParseTime` (`{ total: number }`)<br>
-          The total time that is spent when parsing a file.
-        * `RuleTime` (`{ total: number }`)<be>
-          The total time that is spent on a rule.
-        * `FixTime` (`{ total: number }`)<be>
-          The total time that is spent on applying fixes to the code.
+-   `fixPasses` (`number`)<br>
+    The number of times ESLint has applied at least one fix after linting.
+-   `times` (`{ passes: TimePass[] }`)<br>
+    The times spent on (parsing, fixing, linting) a file, where the linting refers to the timing information for each rule.
+    -   `TimePass` (`{ parse: ParseTime, rules?: Record<string, RuleTime>, fix: FixTime, total: number }`)<br>
+        An object containing the times spent on (parsing, fixing, linting)
+        -   `ParseTime` (`{ total: number }`)<br>
+            The total time that is spent when parsing a file.
+        -   `RuleTime` (`{ total: number }`)<be>
+            The total time that is spent on a rule.
+        -   `FixTime` (`{ total: number }`)<be>
+            The total time that is spent on applying fixes to the code.
 
 ### CLI usage
 
@@ -47,7 +47,7 @@ Let's consider the following example:
 /*eslint no-regex-spaces: "error", wrap-regex: "error"*/
 
 function a() {
-    return / foo/.test("bar");
+	return / foo/.test("bar");
 }
 ```
 
@@ -62,45 +62,45 @@ This yields the following `stats` entry as part of the formatted lint results ob
 
 ```json
 {
-    "times": {
-        "passes": [
-            {
-                "parse": {
-                    "total": 3.975959
-                },
-                "rules": {
-                    "no-regex-spaces": {
-                        "total": 0.160792
-                    },
-                    "wrap-regex": {
-                        "total": 0.422626
-                    }
-                },
-                "fix": {
-                    "total": 0.080208
-                },
-                "total": 12.765959
-            },
-            {
-                "parse": {
-                    "total": 0.623542
-                },
-                "rules": {
-                    "no-regex-spaces": {
-                        "total": 0.043084
-                    },
-                    "wrap-regex": {
-                        "total": 0.007959
-                    }
-                },
-                "fix": {
-                    "total": 0
-                },
-                "total": 1.148875
-            }
-        ]
-    },
-    "fixPasses": 1
+	"times": {
+		"passes": [
+			{
+				"parse": {
+					"total": 3.975959
+				},
+				"rules": {
+					"no-regex-spaces": {
+						"total": 0.160792
+					},
+					"wrap-regex": {
+						"total": 0.422626
+					}
+				},
+				"fix": {
+					"total": 0.080208
+				},
+				"total": 12.765959
+			},
+			{
+				"parse": {
+					"total": 0.623542
+				},
+				"rules": {
+					"no-regex-spaces": {
+						"total": 0.043084
+					},
+					"wrap-regex": {
+						"total": 0.007959
+					}
+				},
+				"fix": {
+					"total": 0
+				},
+				"total": 1.148875
+			}
+		]
+	},
+	"fixPasses": 1
 }
 ```
 
@@ -123,20 +123,20 @@ You can achieve the same thing using the Node.js API by passing`stats: true` as 
 const { ESLint } = require("eslint");
 
 (async function main() {
-    // 1. Create an instance.
-    const eslint = new ESLint({ stats: true, fix: true });
+	// 1. Create an instance.
+	const eslint = new ESLint({ stats: true, fix: true });
 
-    // 2. Lint files.
-    const results = await eslint.lintFiles(["file-to-fix.js"]);
+	// 2. Lint files.
+	const results = await eslint.lintFiles(["file-to-fix.js"]);
 
-    // 3. Format the results.
-    const formatter = await eslint.loadFormatter("json");
-    const resultText = formatter.format(results);
+	// 3. Format the results.
+	const formatter = await eslint.loadFormatter("json");
+	const resultText = formatter.format(results);
 
-    // 4. Output it.
-    console.log(resultText);
-})().catch((error) => {
-    process.exitCode = 1;
-    console.error(error);
+	// 4. Output it.
+	console.log(resultText);
+})().catch(error => {
+	process.exitCode = 1;
+	console.error(error);
 });
 ```

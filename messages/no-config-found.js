@@ -1,9 +1,9 @@
 "use strict";
 
-module.exports = function(it) {
-    const { directoryPath } = it;
+module.exports = function (it) {
+	const { directoryPath } = it;
 
-    return `
+	return `
 ESLint couldn't find a configuration file. To set up a configuration file for this project, please run:
 
     npm init @eslint/config@latest
