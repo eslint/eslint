@@ -488,120 +488,151 @@ ruleTester.run("no-array-constructor", rule, {
 });
 
 const ruleTesterTypeScript = new RuleTester({
-    languageOptions: {
-        parser: require("@typescript-eslint/parser")
-    }
+	languageOptions: {
+		parser: require("@typescript-eslint/parser"),
+	},
 });
 
 ruleTesterTypeScript.run("no-array-constructor", rule, {
-    valid: [
-        "new Array(x);",
-        "Array(x);",
-        "new Array(9);",
-        "Array(9);",
-        "new foo.Array();",
-        "foo.Array();",
-        "new Array.foo();",
-        "Array.foo();",
+	valid: [
+		"new Array(x);",
+		"Array(x);",
+		"new Array(9);",
+		"Array(9);",
+		"new foo.Array();",
+		"foo.Array();",
+		"new Array.foo();",
+		"Array.foo();",
 
-        // TypeScript
-        "new Array<Foo>(1, 2, 3);",
-        "new Array<Foo>();",
-        "Array<Foo>(1, 2, 3);",
-        "Array<Foo>();",
+		// TypeScript
+		"new Array<Foo>(1, 2, 3);",
+		"new Array<Foo>();",
+		"Array<Foo>(1, 2, 3);",
+		"Array<Foo>();",
 
-        
-        //optional chain
-        'Array?.(x);',
-        'Array?.(9);',
-        'foo?.Array();',
-        'Array?.foo();',
-        'foo.Array?.();',
-        'Array.foo?.();',
-        'Array?.<Foo>(1, 2, 3);',
-        'Array?.<Foo>();',
-    ],
+		//optional chain
+		"Array?.(x);",
+		"Array?.(9);",
+		"foo?.Array();",
+		"Array?.foo();",
+		"foo.Array?.();",
+		"Array.foo?.();",
+		"Array?.<Foo>(1, 2, 3);",
+		"Array?.<Foo>();",
+	],
 
-    invalid: [
-        {
-            code: "new Array();",
-            errors: [{
-                messageId: "preferLiteral",
-                suggestions: [{
-                    messageId: "useLiteral",
-                    output: "[];"
-                }]
-            }]
-        },
-        {
-            code: "Array();",
-            errors: [{
-                messageId: "preferLiteral",
-                suggestions: [{
-                    messageId: "useLiteral",
-                    output: "[];"
-                }]
-            }]
-        },
-        {
-            code: "new Array(x, y);",
-            errors: [{
-                messageId: "preferLiteral",
-                suggestions: [{
-                    messageId: "useLiteral",
-                    output: "[x, y];"
-                }]
-            }]
-        },
-        {
-            code: "Array(x, y);",
-            errors: [{
-                messageId: "preferLiteral",
-                suggestions: [{
-                    messageId: "useLiteral",
-                    output: "[x, y];"
-                }]
-            }]
-        },
-        {
-            code: "new Array(0, 1, 2);",
-            errors: [{
-                messageId: "preferLiteral",
-                suggestions: [{
-                    messageId: "useLiteral",
-                    output: "[0, 1, 2];"
-                }]
-            }]
-        },
-        {
-            code: "Array(0, 1, 2);",
-            errors: [{
-                messageId: "preferLiteral",
-                suggestions: [{
-                    messageId: "useLiteral",
-                    output: "[0, 1, 2];"
-                }]
-            }]
-        },
-        {
-            code: "Array?.(0, 1, 2);",
-            errors: [{
-                messageId: "preferLiteral",
-                suggestions: [{
-                    messageId: "useLiteral",
-                    output: "[0, 1, 2];"
-                }]
-            }]
-        },
-        {
-            code: "Array?.(x, y);",
-            errors: [{
-                messageId: "preferLiteral",
-                suggestions: [{
-                    messageId: "useLiteral",
-                    output: "[x, y];"
-                }]
-            }]
-        }
-    ]
+	invalid: [
+		{
+			code: "new Array();",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[];",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "Array();",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[];",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "new Array(x, y);",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[x, y];",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "Array(x, y);",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[x, y];",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "new Array(0, 1, 2);",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[0, 1, 2];",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "Array(0, 1, 2);",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[0, 1, 2];",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "Array?.(0, 1, 2);",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[0, 1, 2];",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "Array?.(x, y);",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[x, y];",
+						},
+					],
+				},
+			],
+		},
+	],
 });
