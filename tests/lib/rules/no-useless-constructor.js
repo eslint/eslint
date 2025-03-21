@@ -199,3 +199,169 @@ ruleTester.run("no-useless-constructor", rule, {
 		},
 	],
 });
+
+const ruleTesterTypeScript = new RuleTester({
+	languageOptions: {
+		parser: require("@typescript-eslint/parser"),
+	},
+});
+
+ruleTesterTypeScript.run("no-useless-constructor", rule, {
+	valid: [
+		`
+      declare class A {
+        constructor();
+      }
+          `,
+		`
+      class A {
+        constructor();
+      }
+          `,
+		`
+      abstract class A {
+        constructor();
+      }
+          `,
+		`
+      class A {
+        constructor(private name: string) {}
+      }
+          `,
+		`
+      class A {
+        constructor(public name: string) {}
+      }
+          `,
+		`
+      class A {
+        constructor(protected name: string) {}
+      }
+          `,
+		`
+      class A {
+        private constructor() {}
+      }
+          `,
+		`
+      class A {
+        protected constructor() {}
+      }
+          `,
+		`
+      class A extends B {
+        public constructor() {}
+      }
+          `,
+		`
+      class A extends B {
+        public constructor() {
+            super();
+        }
+      }
+          `,
+		`
+      class A extends B {
+        protected constructor(foo, bar) {
+          super(bar);
+        }
+      }
+          `,
+		`
+      class A extends B {
+        private constructor(foo, bar) {
+          super(bar);
+        }
+      }
+          `,
+		`
+      class A extends B {
+        public constructor(foo) {
+          super(foo);
+        }
+      }
+          `,
+		`
+      class A extends B {
+        public constructor(foo) {}
+      }
+          `,
+		`
+      class A {
+        constructor(foo);
+      }
+          `,
+		`
+      class A {
+        constructor(@Foo foo) {}
+      }
+          `,
+		`
+      class A {
+        constructor(@Foo foo: string) {}
+      }
+          `,
+		`
+      class A extends Object {
+        constructor(@Foo foo: string) {
+          super(foo);
+        }
+      }
+          `,
+		`
+      class A extends Object {
+        constructor(foo: string, @Bar() bar) {
+          super(foo, bar);
+        }
+      }
+          `,
+	],
+	invalid: [
+		{
+			code: `
+            class A {
+                constructor() {}
+            }
+              `,
+			errors: [
+				{
+					messageId: "noUselessConstructor",
+					suggestions: [
+						{
+							messageId: "removeConstructor",
+							output: `
+            class A {
+              ${"  "}
+            }
+              `,
+						},
+					],
+					type: "MethodDefinition",
+				},
+			],
+		},
+		{
+			code: `
+            class A {
+                public constructor() {}
+            }
+        `,
+			errors: [
+				{
+					messageId: "noUselessConstructor",
+					suggestions: [
+						{
+							messageId: "removeConstructor",
+							output: `
+            class A {
+              ${"  "}
+            }
+        `,
+						},
+					],
+					type: "MethodDefinition",
+				},
+			],
+		},
+	],
+});
