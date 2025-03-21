@@ -19,6 +19,7 @@ const markdownIt = require("markdown-it");
 const markdownItRuleExample = require("./tools/markdown-it-rule-example");
 const prismESLintHook = require("./tools/prism-eslint-hook");
 const preWrapperPlugin = require("./src/_plugins/pre-wrapper.js");
+const typescriptESLintParser = require("@typescript-eslint/parser");
 
 module.exports = function (eleventyConfig) {
 	/*
@@ -206,22 +207,23 @@ module.exports = function (eleventyConfig) {
 	// markdown-it plugin options for playground-linked code blocks in rule examples.
 	const ruleExampleOptions = markdownItRuleExample({
 		open({ type, code, languageOptions, env, codeBlockToken }) {
-			/*
-			 * TypeScript isn't yet supported on the playground:
-			 * https://github.com/eslint/eslint.org/issues/709
-			 */
-			if (codeBlockToken.info === "ts") {
-				return `<div class="${type}">`;
-			}
+			const isTypeScriptCode =
+				codeBlockToken.info === "ts" || codeBlockToken.info === "tsx";
 
 			prismESLintHook.addContentMustBeMarked(
 				codeBlockToken.content,
-				languageOptions,
+				isTypeScriptCode
+					? { ...languageOptions, parser: typescriptESLintParser }
+					: languageOptions,
 			);
 
 			const isRuleRemoved = !Object.hasOwn(env.rules_meta, env.title);
 
-			if (isRuleRemoved) {
+			/*
+			 * TypeScript isn't yet supported on the playground:
+			 * https://github.com/eslint/eslint.org/issues/709
+			 */
+			if (isRuleRemoved || isTypeScriptCode) {
 				return `<div class="${type}">`;
 			}
 
