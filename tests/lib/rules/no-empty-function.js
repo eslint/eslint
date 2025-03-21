@@ -27,6 +27,10 @@ const ALLOW_OPTIONS = Object.freeze([
 	"constructors",
 	"asyncFunctions",
 	"asyncMethods",
+	"privateConstructors",
+	"protectedConstructors",
+	"decoratedFunctions",
+	"overrideMethods",
 ]);
 
 /**
@@ -384,5 +388,319 @@ ruleTester.run(
 				],
 			},
 		],
+	}),
+);
+
+const ruleTesterTypeScript = new RuleTester({
+	languageOptions: {
+		parser: require("@typescript-eslint/parser"),
+	},
+});
+
+ruleTesterTypeScript.run(
+	"no-empty-function",
+	rule,
+	[
+		{
+			code: "function foo() {}",
+			messageId: "unexpected",
+			data: { name: "function 'foo'" },
+			allow: "functions",
+		},
+		{
+			code: "var foo = function(param: string) {};",
+			messageId: "unexpected",
+			data: { name: "function" },
+			allow: "functions",
+		},
+		{
+			code: "var obj = {foo: function(param: string) {}};",
+			messageId: "unexpected",
+			data: { name: "method 'foo'" },
+			allow: "functions",
+		},
+		{
+			code: "var foo = (param: string) => {};",
+			messageId: "unexpected",
+			data: { name: "arrow function" },
+			allow: "arrowFunctions",
+		},
+		{
+			code: "function* foo(param: string) {}",
+			messageId: "unexpected",
+			data: { name: "generator function 'foo'" },
+			allow: "generatorFunctions",
+		},
+		{
+			code: "var foo = function*(param: string) {};",
+			messageId: "unexpected",
+			data: { name: "generator function" },
+			allow: "generatorFunctions",
+		},
+		{
+			code: "var obj = {foo: function*(param: string) {}};",
+			messageId: "unexpected",
+			data: { name: "generator method 'foo'" },
+			allow: "generatorFunctions",
+		},
+		{
+			code: "var obj = {foo(param: string) {}};",
+			messageId: "unexpected",
+			data: { name: "method 'foo'" },
+			allow: "methods",
+		},
+		{
+			code: "class A { foo(param: string) {} }",
+			messageId: "unexpected",
+			data: { name: "method 'foo'" },
+			allow: "methods",
+		},
+		{
+			code: "class A { private foo() {} }",
+			messageId: "unexpected",
+			data: { name: "method 'foo'" },
+			allow: "methods",
+		},
+		{
+			code: "class A { protected foo() {} }",
+			messageId: "unexpected",
+			data: { name: "method 'foo'" },
+			allow: "methods",
+		},
+		{
+			code: "class A { static foo(param: string) {} }",
+			messageId: "unexpected",
+			data: { name: "static method 'foo'" },
+			allow: "methods",
+		},
+		{
+			code: "class A { private static foo() {} }",
+			messageId: "unexpected",
+			data: { name: "static method 'foo'" },
+			allow: "methods",
+		},
+		{
+			code: "class A { protected static foo() {} }",
+			messageId: "unexpected",
+			data: { name: "static method 'foo'" },
+			allow: "methods",
+		},
+		{
+			code: "var A = class {foo(param: string) {}};",
+			messageId: "unexpected",
+			data: { name: "method 'foo'" },
+			allow: "methods",
+		},
+		{
+			code: "var A = class {static foo(param: string) {}};",
+			messageId: "unexpected",
+			data: { name: "static method 'foo'" },
+			allow: "methods",
+		},
+		{
+			code: "var A = class {private static foo() {}};",
+			messageId: "unexpected",
+			data: { name: "static method 'foo'" },
+			allow: "methods",
+		},
+		{
+			code: "var A = class {protected static foo() {}};",
+			messageId: "unexpected",
+			data: { name: "static method 'foo'" },
+			allow: "methods",
+		},
+		{
+			code: "var obj = {*foo(param: string) {}};",
+			messageId: "unexpected",
+			data: { name: "generator method 'foo'" },
+			allow: "generatorMethods",
+		},
+		{
+			code: "class A { *foo(param: string) {} }",
+			messageId: "unexpected",
+			data: { name: "generator method 'foo'" },
+			allow: "generatorMethods",
+		},
+		{
+			code: "class A {static *foo(param: string) {}}",
+			messageId: "unexpected",
+			data: { name: "static generator method 'foo'" },
+			allow: "generatorMethods",
+		},
+		{
+			code: "class A {private static *foo() {}}",
+			messageId: "unexpected",
+			data: { name: "static generator method 'foo'" },
+			allow: "generatorMethods",
+		},
+		{
+			code: "class A {protected static *foo() {}}",
+			messageId: "unexpected",
+			data: { name: "static generator method 'foo'" },
+			allow: "generatorMethods",
+		},
+		{
+			code: "var A = class {*foo(param: string) {}};",
+			messageId: "unexpected",
+			data: { name: "generator method 'foo'" },
+			allow: "generatorMethods",
+		},
+		{
+			code: "var A = class {static *foo(param: string) {}};",
+			messageId: "unexpected",
+			data: { name: "static generator method 'foo'" },
+			allow: "generatorMethods",
+		},
+		{
+			code: "var obj = {get foo(): string {}};",
+			messageId: "unexpected",
+			data: { name: "getter 'foo'" },
+			allow: "getters",
+		},
+		{
+			code: "class A {get foo(): string {}}",
+			messageId: "unexpected",
+			data: { name: "getter 'foo'" },
+			allow: "getters",
+		},
+		{
+			code: "class A {static get foo(): string {}}",
+			messageId: "unexpected",
+			data: { name: "static getter 'foo'" },
+			allow: "getters",
+		},
+		{
+			code: "var A = class {get foo(): string {}};",
+			messageId: "unexpected",
+			data: { name: "getter 'foo'" },
+			allow: "getters",
+		},
+		{
+			code: "var A = class {static get foo(): string {}};",
+			messageId: "unexpected",
+			data: { name: "static getter 'foo'" },
+			allow: "getters",
+		},
+		{
+			code: "var obj = {set foo(value: string) {}};",
+			messageId: "unexpected",
+			data: { name: "setter 'foo'" },
+			allow: "setters",
+		},
+		{
+			code: "class A {set foo(value: string) {}}",
+			messageId: "unexpected",
+			data: { name: "setter 'foo'" },
+			allow: "setters",
+		},
+		{
+			code: "class A {static set foo(value: string) {}}",
+			messageId: "unexpected",
+			data: { name: "static setter 'foo'" },
+			allow: "setters",
+		},
+		{
+			code: "var A = class {set foo(value: string) {}};",
+			messageId: "unexpected",
+			data: { name: "setter 'foo'" },
+			allow: "setters",
+		},
+		{
+			code: "var A = class {static set foo(value: string) {}};",
+			messageId: "unexpected",
+			data: { name: "static setter 'foo'" },
+			allow: "setters",
+		},
+		{
+			code: "class A { constructor(param: string) {} }",
+			messageId: "unexpected",
+			data: { name: "constructor" },
+			allow: "constructors",
+		},
+		{
+			code: "var A = class {constructor(param: string) {}};",
+			messageId: "unexpected",
+			data: { name: "constructor" },
+			allow: "constructors",
+		},
+		{
+			code: "const foo = { async method(param: string) {} }",
+			allow: "asyncMethods",
+			messageId: "unexpected",
+			data: { name: "async method 'method'" },
+		},
+		{
+			code: "async function a(param: string){}",
+			allow: "asyncFunctions",
+			messageId: "unexpected",
+			data: { name: "async function 'a'" },
+		},
+		{
+			code: "const foo = async function(param: string) {}",
+			messageId: "unexpected",
+			data: { name: "async function" },
+			allow: "asyncFunctions",
+		},
+		{
+			code: "class A { async foo(param: string) {} }",
+			messageId: "unexpected",
+			data: { name: "async method 'foo'" },
+			allow: "asyncMethods",
+		},
+		{
+			code: "const foo = async (): Promise<void> => {};",
+			messageId: "unexpected",
+			data: { name: "async arrow function" },
+			allow: "arrowFunctions",
+		},
+		{
+			code: "class A { private constructor() {} }",
+			messageId: "unexpected",
+			data: { name: "constructor" },
+			allow: "privateConstructors",
+		},
+		{
+			code: "var A = class { private constructor() {} };",
+			messageId: "unexpected",
+			data: { name: "constructor" },
+			allow: "privateConstructors",
+		},
+		{
+			code: "class A { protected constructor() {} }",
+			messageId: "unexpected",
+			data: { name: "constructor" },
+			allow: "protectedConstructors",
+		},
+		{
+			code: "var A = class { protected constructor() {} };",
+			messageId: "unexpected",
+			data: { name: "constructor" },
+			allow: "protectedConstructors",
+		},
+		{
+			code: "class A { @decorator() foo() {} }",
+			messageId: "unexpected",
+			data: { name: "method 'foo'" },
+			allow: "decoratedFunctions",
+		},
+		{
+			code: "var A = class { @decorator() foo() {} }",
+			messageId: "unexpected",
+			data: { name: "method 'foo'" },
+			allow: "decoratedFunctions",
+		},
+		{
+			code: "class A extends B { override foo() {} }",
+			messageId: "unexpected",
+			data: { name: "method 'foo'" },
+			allow: "overrideMethods",
+		},
+	].reduce(toValidInvalid, {
+		valid: [
+			{
+				code: "class A { constructor(private param: string) {} }",
+			},
+		],
+		invalid: [],
 	}),
 );
