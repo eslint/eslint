@@ -218,9 +218,14 @@ Examples of **incorrect** TypeScript code for this rule with the `{ "ignoreOverr
 ```ts
 /*eslint class-methods-use-this: ["error", { "ignoreOverrideMethods": false }] */
 
+abstract class Base {
+    abstract method(): void;
+    abstract property: () => void;
+}
+
 class Derived extends Base {
-    override foo() {}
-    override bar = () => {};
+    override method() {}
+    override property = () => {};
 }
 ```
 
@@ -233,11 +238,16 @@ Examples of **correct** TypeScript code for this rule with the `{ "ignoreOverrid
 ```ts
 /*eslint class-methods-use-this: ["error", { "ignoreOverrideMethods": false }] */
 
+abstract class Base {
+    abstract method(): void;
+    abstract property: () => void;
+}
+
 class Derived extends Base {
-    override foo() {
-        this.bar = "Hello World";
+    override method() {
+        this.foo = "Hello World";
     };
-    override bar = () => {
+    override property = () => {
         this;
     };
 }
@@ -252,9 +262,14 @@ Examples of **correct** TypeScript code for this rule with the `{ "ignoreOverrid
 ```ts
 /*eslint class-methods-use-this: ["error", { "ignoreOverrideMethods": true }] */
 
+abstract class Base {
+    abstract method(): void;
+    abstract property: () => void;
+}
+
 class Derived extends Base {
-    override foo() {}
-    override bar = () => {};
+    override method() {}
+    override property = () => {};
 }
 ```
 
@@ -278,9 +293,9 @@ Examples of **incorrect** TypeScript code for this rule with the `{ "ignoreClass
 ```ts
 /*eslint class-methods-use-this: ["error", { "ignoreClassesWithImplements": "all" }] */
 
-class A {
-    foo() {}
-    bar = () => {};
+class Standalone {
+    method() {}
+    property = () => {};
 }
 ```
 
@@ -293,9 +308,13 @@ Examples of **correct** TypeScript code for this rule with the `{ "ignoreClasses
 ```ts
 /*eslint class-methods-use-this: ["error", { "ignoreClassesWithImplements": "all" }] */
 
+interface Base {
+    method(): void;
+}
+
 class Derived implements Base {
-    foo() {}
-    bar = () => {};
+    method() {}
+    property = () => {};
 }
 ```
 
@@ -308,13 +327,19 @@ Examples of **incorrect** TypeScript code for this rule with the `{ "ignoreClass
 ```ts
 /*eslint class-methods-use-this: ["error", { "ignoreClassesWithImplements": "public-fields" }] */
 
+interface Base {
+    method(): void;
+}
+
 class Derived implements Base {
-    foo() {}
-    bar = () => {};
-    private privateFoo() {}
-    private privateBar = () => {};
-    protected protectedFoo() {};
-    protected protectedBar = () => {};
+    method() {}
+    property = () => {};
+
+    private privateMethod() {}
+    private privateProperty = () => {};
+
+    protected protectedMethod() {}
+    protected protectedProperty = () => {};
 }
 ```
 
@@ -327,9 +352,13 @@ Examples of **correct** TypeScript code for this rule with the `{ "ignoreClasses
 ```ts
 /*eslint class-methods-use-this: ["error", { "ignoreClassesWithImplements": "public-fields" }] */
 
+interface Base {
+    method(): void;
+}
+
 class Derived implements Base {
-    foo() {}
-    bar = () => {};
+    method() {}
+    property = () => {};
 }
 ```
 
