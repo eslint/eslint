@@ -115,7 +115,7 @@ This rule has four options:
 
 ### exceptMethods
 
-```js
+```ts
 "class-methods-use-this": [<enabled>, { "exceptMethods": [<...exceptions>] }]
 ```
 
@@ -155,7 +155,7 @@ class A {
 
 ### enforceForClassFields
 
-```js
+```ts
 "class-methods-use-this": [<enabled>, { "enforceForClassFields": true | false }]
 ```
 
@@ -205,7 +205,7 @@ class A {
 
 ### ignoreOverrideMethods
 
-```js
+```ts
 "class-methods-use-this": [<enabled>, { "ignoreOverrideMethods": true | false }]
 ```
 
@@ -277,7 +277,7 @@ class Derived extends Base {
 
 ### ignoreClassesWithImplements
 
-```js
+```ts
 "class-methods-use-this": [<enabled>, { "ignoreClassesWithImplements": "all" | "public-fields" }]
 ```
 
