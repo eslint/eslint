@@ -742,3 +742,63 @@ ruleTester.run("no-loop-func", rule, {
 		},
 	],
 });
+
+const ruleTesterTypeScript = new RuleTester({
+	languageOptions: {
+		parser: require("@typescript-eslint/parser"),
+	},
+});
+
+ruleTesterTypeScript.run("no-loop-func", rule, {
+	valid: [
+		`
+  for (let i = 0; i < 10; i++) {
+	function foo() {
+	  console.log('A');
+	}
+  }
+	  `,
+		`
+  let someArray: MyType[] = [];
+  for (let i = 0; i < 10; i += 1) {
+	someArray = someArray.filter((item: MyType) => !!item);
+  }
+	  `,
+		{
+			code: `
+  let someArray: MyType[] = [];
+  for (let i = 0; i < 10; i += 1) {
+	someArray = someArray.filter((item: MyType) => !!item);
+  }
+		`,
+			languageOptions: {
+				globals: {
+					MyType: "readonly",
+				},
+			},
+		},
+		{
+			code: `
+  let someArray: MyType[] = [];
+  for (let i = 0; i < 10; i += 1) {
+	someArray = someArray.filter((item: MyType) => !!item);
+  }
+		`,
+			languageOptions: {
+				globals: {
+					MyType: "writable",
+				},
+			},
+		},
+		`
+  type MyType = 1;
+  let someArray: MyType[] = [];
+  for (let i = 0; i < 10; i += 1) {
+	someArray = someArray.filter((item: MyType) => !!item);
+  }
+	  `,
+	],
+	invalid: [
+		// Invalid TS code
+	],
+});
