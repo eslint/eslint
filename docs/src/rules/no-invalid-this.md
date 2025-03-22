@@ -284,6 +284,60 @@ obj.Foo = function Foo() {
 
 :::
 
+This rule additionally supports TypeScript type syntax.
+
+Examples of **incorrect** TypeScript code for this rule:
+
+:::incorrect
+
+```ts
+/*eslint no-invalid-this: "error"*/
+
+interface SomeType {
+    prop: string;
+}
+
+function foo(bar: string) {
+    this.prop;
+    console.log(bar)
+}
+
+/** @this Obj */
+foo(function() {
+    console.log(this);
+    z(x => console.log(x, this));
+});
+
+```
+
+:::
+
+Examples of **correct** TypeScript code for this rule:
+
+:::correct
+
+```ts
+/*eslint no-invalid-this: "error"*/
+
+interface SomeType {
+    prop: string;
+}
+
+function foo(this: SomeType) {
+    this.prop;
+}
+
+class A {
+    a = 5;
+    b = this.a;
+    accessor c = this.a;
+}
+```
+
+:::
+
 ## When Not To Use It
 
 If you don't want to be notified about usage of `this` keyword outside of classes or class-like objects, you can safely disable this rule.
+
+The TypeScript compiler already checks for the issues addressed by this ESLint rule. Therefore, enabling this rule in new TypeScript projects is generally unnecessary. You should only enable it if you prefer ESLint's error messages over the TypeScript compiler's or if you're using it to lint JavaScript code.
