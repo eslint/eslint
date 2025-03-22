@@ -146,6 +146,98 @@ for (let i = 0; i < 1; i++) {}
 
 :::
 
+This rule additionally supports TypeScript type syntax.
+
+Examples of **incorrect** TypeScript code for this rule:
+
+::: incorrect
+
+```ts
+/* eslint init-declarations: ["error", "never"] */
+
+let arr: string[] = ['arr', 'ar'];
+
+const class1 = class NAME {
+	constructor() {
+	  var name1: string = 'hello';
+	}
+};
+
+namespace myLib {
+	let numberOfGreetings: number = 2;
+}
+
+```
+
+:::
+
+::: incorrect
+
+```ts
+/* eslint init-declarations: ["error", "always"] */
+
+namespace myLib {
+	let numberOfGreetings: number;
+}
+
+namespace myLib1 {
+	const foo: number;
+	namespace myLib2 {
+	  let bar: string;
+	  namespace myLib3 {
+		let baz: object;
+	  }
+	}
+}
+
+```
+
+:::
+
+Examples of **correct** TypeScript code for this rule:
+
+::: correct
+
+```ts
+/* eslint init-declarations: ["error", "never"] */
+
+declare const foo: number;
+
+declare namespace myLib {
+	let numberOfGreetings: number;
+}
+
+interface GreetingSettings {
+	greeting: string;
+	duration?: number;
+	color?: string;
+}
+```
+
+:::
+
+::: correct
+
+```ts
+/* eslint init-declarations: ["error", "always"] */
+
+declare const foo: number;
+
+declare namespace myLib {
+	let numberOfGreetings: number;
+}
+
+interface GreetingSettings {
+	greeting: string;
+	duration?: number;
+	color?: string;
+}
+
+```
+
+:::
+
+
 ## When Not To Use It
 
 When you are indifferent as to how your variables are initialized.
