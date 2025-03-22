@@ -301,6 +301,13 @@ function foo(bar: string) {
     this.prop;
     console.log(bar)
 }
+
+/** @this Obj */
+foo(function() {
+    console.log(this);
+    z(x => console.log(x, this));
+});
+
 ```
 
 :::
@@ -328,6 +335,10 @@ class A {
 ```
 
 :::
+
+**Note:** The code problem checked by this ESLint rule is automatically checked by the TypeScript compiler. Thus, it is not recommended to turn on this rule in new TypeScript projects. You only need to enable this rule if you prefer the ESLint error messages over the TypeScript compiler error messages or using it to lint JavaScript code.
+
+(Note that technically, TypeScript will only catch this if you have the strict or noImplicitThis flags enabled. These are enabled in most TypeScript projects, since they are considered to be best practice.)
 
 ## When Not To Use It
 
