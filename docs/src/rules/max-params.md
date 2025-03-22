@@ -80,9 +80,17 @@ Examples of **incorrect** TypeScript code for this rule with the `{ "countVoidTh
 :::incorrect
 
 ```ts
-/*eslint max-params: ["error", { "max": 2, "countVoidThis":  }]*/
+/*eslint max-params: ["error", { "max": 2, "countVoidThis": true }]*/
 
 function hasNoThis(this: void, first: string, second: string) {
+	// ...
+}
+```
+
+```ts
+/*eslint max-params: ["error", { "max": 2, "countVoidThis": false }]*/
+
+function hasNoThis(this: void, first: string, second: string, third: string) {
 	// ...
 }
 ```
@@ -97,6 +105,14 @@ Examples of **correct** TypeScript code for this rule with the `{ "countVoidThis
 /*eslint max-params: ["error", { "max": 2, "countVoidThis": false }]*/
 
 function hasNoThis(this: void, first: string, second: string) {
+	// ...
+}
+```
+
+```ts
+/*eslint max-params: ["error", { "max": 2, "countVoidThis": true }]*/
+
+function hasThis(this: void, first: string) {
 	// ...
 }
 ```
