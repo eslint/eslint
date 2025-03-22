@@ -716,3 +716,677 @@ ruleTester.run("no-redeclare", rule, {
 		},
 	],
 });
+
+const ruleTesterTypeScript = new RuleTester({
+	languageOptions: {
+		parser: require("@typescript-eslint/parser"),
+	},
+});
+
+ruleTesterTypeScript.run('no-redeclare', rule, {
+	valid: [
+	  `
+  var a = 3;
+  var b = function () {
+	var a = 10;
+  };
+	  `,
+	  `
+  var a = 3;
+  a = 10;
+	  `,
+	  {
+		code: `
+  if (true) {
+	let b = 2;
+  } else {
+	let b = 3;
+  }
+		`,
+		languageOptions: {
+		  parserOptions: {
+			ecmaVersion: 6,
+		  },
+		},
+	  },
+	  { code: 'var Object = 0;', options: [{ builtinGlobals: false }] },
+	  {
+		code: 'var Object = 0;',
+		options: [{ builtinGlobals: true }],
+		languageOptions: { parserOptions: { sourceType: 'module' } },
+	  },
+	  {
+		code: 'var Object = 0;',
+		options: [{ builtinGlobals: true }],
+		languageOptions: {
+		  parserOptions: { ecmaFeatures: { globalReturn: true } },
+		},
+	  },
+	  {
+		code: 'var top = 0;',
+		options: [{ builtinGlobals: false }],
+	  },
+	  { code: 'var top = 0;', options: [{ builtinGlobals: true }] },
+	  {
+		code: 'var top = 0;',
+		options: [{ builtinGlobals: true }],
+		languageOptions: {
+		  parserOptions: { ecmaFeatures: { globalReturn: true } },
+		},
+	  },
+	  {
+		code: 'var top = 0;',
+		options: [{ builtinGlobals: true }],
+		languageOptions: { parserOptions: { sourceType: 'module' } },
+	  },
+	  {
+		code: 'var self = 1;',
+		options: [{ builtinGlobals: true }],
+	  },
+	  // https://github.com/eslint/typescript-eslint-parser/issues/535
+	  `
+  function foo({ bar }: { bar: string }) {
+	console.log(bar);
+  }
+	  `,
+	  `
+  type AST<T extends ParserOptions> = TSESTree.Program &
+	(T['range'] extends true ? { range: [number, number] } : {}) &
+	(T['tokens'] extends true ? { tokens: TSESTree.Token[] } : {}) &
+	(T['comment'] extends true ? { comments: TSESTree.Comment[] } : {});
+  interface ParseAndGenerateServicesResult<T extends ParserOptions> {
+	ast: AST<T>;
+	services: ParserServices;
+  }
+	  `,
+	  `
+  function A<T>() {}
+  interface B<T> {}
+  type C<T> = Array<T>;
+  class D<T> {}
+	  `,
+	  `
+  function a(): string;
+  function a(): number;
+  function a() {}
+	  `,
+	  {
+		code: `
+  interface A {}
+  interface A {}
+		`,
+		options: [{ ignoreDeclarationMerge: true }],
+	  },
+	  {
+		code: `
+  interface A {}
+  class A {}
+		`,
+		options: [{ ignoreDeclarationMerge: true }],
+	  },
+	  {
+		code: `
+  class A {}
+  namespace A {}
+		`,
+		options: [{ ignoreDeclarationMerge: true }],
+	  },
+	  {
+		code: `
+  interface A {}
+  class A {}
+  namespace A {}
+		`,
+		options: [{ ignoreDeclarationMerge: true }],
+	  },
+	  {
+		code: `
+  enum A {}
+  namespace A {}
+		`,
+		options: [{ ignoreDeclarationMerge: true }],
+	  },
+	  {
+		code: `
+  function A() {}
+  namespace A {}
+		`,
+		options: [{ ignoreDeclarationMerge: true }],
+	  },
+	],
+	invalid: [
+	  {
+		code: `
+  var a = 3;
+  var a = 10;
+		`,
+		languageOptions: { parserOptions: { ecmaVersion: 6 } },
+		errors: [
+		  {
+			data: {
+			  id: 'a',
+			},
+			messageId: 'redeclared',
+			type: "Identifier",
+		  },
+		],
+	  },
+	  {
+		code: `
+  switch (foo) {
+	case a:
+	  var b = 3;
+	case b:
+	  var b = 4;
+  }
+		`,
+		errors: [
+		  {
+			data: {
+			  id: 'b',
+			},
+			messageId: 'redeclared',
+			type: "Identifier",
+		  },
+		],
+	  },
+	  {
+		code: `
+  var a = 3;
+  var a = 10;
+		`,
+		errors: [
+		  {
+			data: {
+			  id: 'a',
+			},
+			messageId: 'redeclared',
+			type: "Identifier",
+		  },
+		],
+	  },
+	  {
+		code: `
+  var a = {};
+  var a = [];
+		`,
+		errors: [
+		  {
+			data: {
+			  id: 'a',
+			},
+			messageId: 'redeclared',
+			type: "Identifier",
+		  },
+		],
+	  },
+	  {
+		code: `
+  var a;
+  function a() {}
+		`,
+		errors: [
+		  {
+			data: {
+			  id: 'a',
+			},
+			messageId: 'redeclared',
+			type: "Identifier",
+		  },
+		],
+	  },
+	  {
+		code: `
+  function a() {}
+  function a() {}
+		`,
+		errors: [
+		  {
+			data: {
+			  id: 'a',
+			},
+			messageId: 'redeclared',
+			type: "Identifier",
+		  },
+		],
+	  },
+	  {
+		code: `
+  var a = function () {};
+  var a = function () {};
+		`,
+		errors: [
+		  {
+			data: {
+			  id: 'a',
+			},
+			messageId: 'redeclared',
+			type: "Identifier",
+		  },
+		],
+	  },
+	  {
+		code: `
+  var a = function () {};
+  var a = new Date();
+		`,
+		errors: [
+		  {
+			data: {
+			  id: 'a',
+			},
+			messageId: 'redeclared',
+			type: "Identifier",
+		  },
+		],
+	  },
+	  {
+		code: `
+  var a = 3;
+  var a = 10;
+  var a = 15;
+		`,
+		errors: [
+		  {
+			data: {
+			  id: 'a',
+			},
+			messageId: 'redeclared',
+			type: "Identifier",
+		  },
+		  {
+			data: {
+			  id: 'a',
+			},
+			messageId: 'redeclared',
+			type: "Identifier",
+		  },
+		],
+	  },
+	  {
+		code: `
+  var a;
+  var a;
+		`,
+		languageOptions: { parserOptions: { sourceType: 'module' } },
+		errors: [
+		  {
+			data: {
+			  id: 'a',
+			},
+			messageId: 'redeclared',
+			type: "Identifier",
+		  },
+		],
+	  },
+	  {
+		code: `
+  export var a;
+  var a;
+		`,
+		languageOptions: { parserOptions: { sourceType: 'module' } },
+		errors: [
+		  {
+			data: {
+			  id: 'a',
+			},
+			messageId: 'redeclared',
+			type: "Identifier",
+		  },
+		],
+	  },
+	  {
+		code: 'var Object = 0;',
+		options: [{ builtinGlobals: true }],
+		errors: [
+		  {
+			data: {
+			  id: 'Object',
+			},
+			messageId: 'redeclaredAsBuiltin',
+			type: "Identifier",
+		  },
+		],
+	  },
+	  {
+		code: 'var top = 0;',
+		options: [{ builtinGlobals: true }],
+		languageOptions: {
+		  globals: { top: 'readonly' },
+		},
+		errors: [
+		  {
+			data: {
+			  id: 'top',
+			},
+			messageId: 'redeclaredAsBuiltin',
+			type: "Identifier",
+		  },
+		],
+	  },
+	  {
+		code: `
+  var a;
+  var { a = 0, b: Object = 0 } = {};
+		`,
+		options: [{ builtinGlobals: true }],
+		languageOptions: { parserOptions: { ecmaVersion: 6 } },
+		errors: [
+		  {
+			data: {
+			  id: 'a',
+			},
+			messageId: 'redeclared',
+			type: "Identifier",
+		  },
+		  {
+			data: {
+			  id: 'Object',
+			},
+			messageId: 'redeclaredAsBuiltin',
+			type: "Identifier",
+		  },
+		],
+	  },
+	  {
+		code: `
+  var a;
+  var { a = 0, b: Object = 0 } = {};
+		`,
+		options: [{ builtinGlobals: true }],
+		languageOptions: {
+		  parserOptions: { ecmaVersion: 6, sourceType: 'module' },
+		},
+		errors: [
+		  {
+			data: {
+			  id: 'a',
+			},
+			messageId: 'redeclared',
+			type: "Identifier",
+		  },
+		],
+	  },
+	  {
+		code: `
+  var a;
+  var { a = 0, b: Object = 0 } = {};
+		`,
+		options: [{ builtinGlobals: true }],
+		languageOptions: {
+		  parserOptions: { ecmaFeatures: { globalReturn: true }, ecmaVersion: 6 },
+		},
+		errors: [
+		  {
+			data: {
+			  id: 'a',
+			},
+			messageId: 'redeclared',
+			type: "Identifier",
+		  },
+		],
+	  },
+	  {
+		code: `
+  var a;
+  var { a = 0, b: Object = 0 } = {};
+		`,
+		options: [{ builtinGlobals: false }],
+		languageOptions: { parserOptions: { ecmaVersion: 6 } },
+		errors: [
+		  {
+			data: {
+			  id: 'a',
+			},
+			messageId: 'redeclared',
+			type: "Identifier",
+		  },
+		],
+	  },
+  
+	  // Notifications of readonly are moved from no-undef: https://github.com/eslint/eslint/issues/4504
+	  {
+		code: '/*global b:false*/ var b = 1;',
+		options: [{ builtinGlobals: true }],
+		errors: [
+		  {
+			data: {
+			  id: 'b',
+			},
+			messageId: 'redeclaredBySyntax',
+			type: "Identifier",
+		  },
+		],
+	  },
+  
+	  {
+		code: `
+  type T = 1;
+  type T = 2;
+		`,
+		errors: [
+		  {
+			data: {
+			  id: 'T',
+			},
+			line: 3,
+			messageId: 'redeclared',
+		  },
+		],
+	  },
+	  {
+		code: `
+  type NodeListOf = 1;
+		`,
+		options: [{ builtinGlobals: true }],
+		languageOptions: {
+		  parserOptions: {
+			lib: ['dom'],
+			sourceType: 'script',
+		  },
+		},
+		errors: [
+		  {
+			data: {
+			  id: 'NodeListOf',
+			},
+			messageId: 'redeclaredAsBuiltin',
+		  },
+		],
+	  },
+	  {
+		code: `
+  interface A {}
+  interface A {}
+		`,
+		options: [{ ignoreDeclarationMerge: false }],
+		errors: [
+		  {
+			data: {
+			  id: 'A',
+			},
+			line: 3,
+			messageId: 'redeclared',
+		  },
+		],
+	  },
+	  {
+		code: `
+  interface A {}
+  class A {}
+		`,
+		options: [{ ignoreDeclarationMerge: false }],
+		errors: [
+		  {
+			data: {
+			  id: 'A',
+			},
+			line: 3,
+			messageId: 'redeclared',
+		  },
+		],
+	  },
+	  {
+		code: `
+  class A {}
+  namespace A {}
+		`,
+		options: [{ ignoreDeclarationMerge: false }],
+		errors: [
+		  {
+			data: {
+			  id: 'A',
+			},
+			line: 3,
+			messageId: 'redeclared',
+		  },
+		],
+	  },
+	  {
+		code: `
+  interface A {}
+  class A {}
+  namespace A {}
+		`,
+		options: [{ ignoreDeclarationMerge: false }],
+		errors: [
+		  {
+			data: {
+			  id: 'A',
+			},
+			line: 3,
+			messageId: 'redeclared',
+		  },
+		  {
+			data: {
+			  id: 'A',
+			},
+			line: 4,
+			messageId: 'redeclared',
+		  },
+		],
+	  },
+	  {
+		code: `
+  class A {}
+  class A {}
+  namespace A {}
+		`,
+		options: [{ ignoreDeclarationMerge: true }],
+		errors: [
+		  {
+			data: {
+			  id: 'A',
+			},
+			line: 3,
+			messageId: 'redeclared',
+		  },
+		],
+	  },
+	  {
+		code: `
+  function A() {}
+  namespace A {}
+		`,
+		options: [{ ignoreDeclarationMerge: false }],
+		errors: [
+		  {
+			data: {
+			  id: 'A',
+			},
+			line: 3,
+			messageId: 'redeclared',
+		  },
+		],
+	  },
+	  {
+		code: `
+  function A() {}
+  function A() {}
+  namespace A {}
+		`,
+		options: [{ ignoreDeclarationMerge: true }],
+		errors: [
+		  {
+			data: {
+			  id: 'A',
+			},
+			line: 3,
+			messageId: 'redeclared',
+		  },
+		],
+	  },
+	  {
+		code: `
+  function A() {}
+  class A {}
+		`,
+		options: [{ ignoreDeclarationMerge: false }],
+		errors: [
+		  {
+			data: {
+			  id: 'A',
+			},
+			line: 3,
+			messageId: 'redeclared',
+		  },
+		],
+	  },
+	  {
+		code: `
+  enum A {}
+  namespace A {}
+  enum A {}
+		`,
+		options: [{ ignoreDeclarationMerge: true }],
+		errors: [
+		  {
+			data: {
+			  id: 'A',
+			},
+			line: 4,
+			messageId: 'redeclared',
+		  },
+		],
+	  },
+	  {
+		code: `
+  function A() {}
+  class A {}
+  namespace A {}
+		`,
+		options: [{ ignoreDeclarationMerge: false }],
+		errors: [
+		  {
+			data: {
+			  id: 'A',
+			},
+			line: 3,
+			messageId: 'redeclared',
+		  },
+		  {
+			data: {
+			  id: 'A',
+			},
+			line: 4,
+			messageId: 'redeclared',
+		  },
+		],
+	  },
+	  {
+		code: `
+  type something = string;
+  const something = 2;
+		`,
+		errors: [
+		  {
+			data: {
+			  id: 'something',
+			},
+			line: 3,
+			messageId: 'redeclared',
+		  },
+		],
+	  },
+	],
+  });
