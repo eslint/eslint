@@ -509,6 +509,7 @@ ruleTesterTypeScript.run("no-array-constructor", rule, {
 		"new Array<Foo>();",
 		"Array<Foo>(1, 2, 3);",
 		"Array<Foo>();",
+		"Array<Foo>(3);",
 
 		//optional chain
 		"Array?.(x);",
