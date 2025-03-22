@@ -329,15 +329,13 @@ Best practices for fixes:
     - For example, suppose a fixer would like to surround an object key with quotes, but it's not sure whether the user would prefer single or double quotes.
 
         ```js
-        ({ foo: 1 })(
-        	// should get fixed to either
+        { foo: 1 }
 
-        	{ foo: 1 },
-        )(
-        	// or
+        // should get fixed to either
+        { 'foo': 1 }
 
-        	{ foo: 1 },
-        );
+        // or
+        { "foo": 1 }
         ```
 
     - This fixer can just select a quote type arbitrarily. If it guesses wrong, the resulting code will be automatically reported and fixed by the [`quotes`](../rules/quotes) rule.
