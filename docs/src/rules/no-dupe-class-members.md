@@ -4,15 +4,17 @@ rule_type: problem
 handled_by_typescript: true
 ---
 
-
-
 If there are declarations of the same name in class members, the last declaration overwrites other declarations silently.
 It can cause unexpected behaviors.
 
 ```js
 class Foo {
-  bar() { console.log("hello"); }
-  bar() { console.log("goodbye"); }
+	bar() {
+		console.log("hello");
+	}
+	bar() {
+		console.log("goodbye");
+	}
 }
 
 const foo = new Foo();
@@ -33,28 +35,28 @@ Examples of **incorrect** code for this rule:
 /*eslint no-dupe-class-members: "error"*/
 
 class A {
-  bar() { }
-  bar() { }
+	bar() {}
+	bar() {}
 }
 
 class B {
-  bar() { }
-  get bar() { }
+	bar() {}
+	get bar() {}
 }
 
 class C {
-  bar;
-  bar;
+	bar;
+	bar;
 }
 
 class D {
-  bar;
-  bar() { }
+	bar;
+	bar() {}
 }
 
 class E {
-  static bar() { }
-  static bar() { }
+	static bar() {}
+	static bar() {}
 }
 ```
 
@@ -68,28 +70,44 @@ Examples of **correct** code for this rule:
 /*eslint no-dupe-class-members: "error"*/
 
 class A {
-  bar() { }
-  qux() { }
+	bar() {}
+	qux() {}
 }
 
 class B {
-  get bar() { }
-  set bar(value) { }
+	get bar() {}
+	set bar(value) {}
 }
 
 class C {
-  bar;
-  qux;
+	bar;
+	qux;
 }
 
 class D {
-  bar;
-  qux() { }
+	bar;
+	qux() {}
 }
 
 class E {
-  static bar() { }
-  bar() { }
+	static bar() {}
+	bar() {}
+}
+```
+
+:::
+
+This rule additionally supports TypeScript type syntax. It has support for TypeScript's method overload definitions.
+
+Examples of **correct** TypeScript code for this rule:
+
+::: correct
+
+```ts
+class A {
+	foo(value: string): void;
+	foo(value: number): void;
+	foo(value: string | number) {} // ✅ This is the actual implementation.
 }
 ```
 
@@ -100,3 +118,5 @@ class E {
 This rule should not be used in ES3/5 environments.
 
 In ES2015 (ES6) or later, if you don't want to be notified about duplicate names in class members, you can safely disable this rule.
+
+The TypeScript compiler already checks for the issues addressed by this ESLint rule. Therefore, enabling this rule in new TypeScript projects is generally unnecessary. You should only enable it if you prefer ESLint's error messages over the TypeScript compiler's or if you're using it to lint JavaScript code.
