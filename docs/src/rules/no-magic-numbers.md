@@ -290,3 +290,131 @@ const dutyFreePrice = 100,
 ```
 
 :::
+
+### ignoreEnums (TypeScript only)
+
+Whether enums used in TypeScript are considered okay. `false` by default.
+
+Examples of **incorrect** code for the `{ "ignoreEnums": false }` option:
+
+::: incorrect
+
+```ts
+/*eslint no-magic-numbers: ["error", { "ignoreEnums": false }]*/
+
+enum foo {
+  SECOND = 1000,
+}
+```
+
+:::
+
+Examples of **correct** code for the `{ "ignoreEnums": true }` option:
+
+::: correct
+
+```ts
+/*eslint no-magic-numbers: ["error", { "ignoreEnums": true }]*/
+
+enum foo {
+  SECOND = 1000,
+}
+```
+
+:::
+
+### ignoreNumericLiteralTypes (TypeScript only)
+
+Whether numbers used in TypeScript numeric literal types are considered okay. `false` by default.
+
+Examples of **incorrect** code for the `{ "ignoreNumericLiteralTypes": false }` option:
+
+::: incorrect
+
+```ts
+/*eslint no-magic-numbers: ["error", { "ignoreNumericLiteralTypes": false }]*/
+
+type Foo = 1 | 2 | 3;
+```
+
+:::
+
+Examples of **correct** code for the `{ "ignoreNumericLiteralTypes": true }` option:
+
+::: correct
+
+```ts
+/*eslint no-magic-numbers: ["error", { "ignoreNumericLiteralTypes": true }]*/
+
+type Foo = 1 | 2 | 3;
+```
+
+:::
+
+### ignoreReadonlyClassProperties (TypeScript only)
+
+Whether numbers used in TypeScript readonly class properties are considered okay. `false` by default.
+
+Examples of **incorrect** code for the `{ "ignoreReadonlyClassProperties": false }` option:
+
+::: incorrect
+
+```ts
+/*eslint no-magic-numbers: ["error", { "ignoreReadonlyClassProperties": false }]*/
+
+class Foo {
+  readonly A = 1;
+  readonly B = 2;
+  public static readonly C = 1;
+  static readonly D = 1;
+}
+```
+
+:::
+
+Examples of **correct** code for the `{ "ignoreReadonlyClassProperties": true }` option:
+
+::: correct
+
+```ts
+/*eslint no-magic-numbers: ["error", { "ignoreReadonlyClassProperties": true }]*/
+
+class Foo {
+  readonly A = 1;
+  readonly B = 2;
+  public static readonly C = 1;
+  static readonly D = 1;
+}
+```
+
+:::
+
+### ignoreTypeIndexes (TypeScript only)
+
+Whether numbers used to index types are okay. `false` by default.
+
+Examples of **incorrect** code for the `{ "ignoreTypeIndexes": false }` option:
+
+::: incorrect
+
+```ts
+/*eslint no-magic-numbers: ["error", { "ignoreTypeIndexes": false }]*/
+
+type Foo = Bar[0];
+type Baz = Parameters<Foo>[2];
+```
+
+:::
+
+Examples of **correct** code for the `{ "ignoreTypeIndexes": true }` option:
+
+::: correct
+
+```ts
+/*eslint no-magic-numbers: ["error", { "ignoreTypeIndexes": true }]*/
+
+type Foo = Bar[0];
+type Baz = Parameters<Foo>[2];
+```
+
+:::
