@@ -90,11 +90,11 @@ function foo() {
 
 The `hoist` option has five settings:
 
-* `functions` (by default) - reports shadowing before the outer functions are defined.
-* `all` - reports all shadowing before the outer variables/functions are defined.
-* `never` - never report shadowing before the outer variables/functions are defined.
-* `types` (TypeScript only) - reports shadowing before the outer types are defined.
-* `functions-and-types` (TypeScript only) - reports shadowing before the outer functions and types are defined.
+- `functions` (by default) - reports shadowing before the outer functions are defined.
+- `all` - reports all shadowing before the outer variables/functions are defined.
+- `never` - never report shadowing before the outer variables/functions are defined.
+- `types` (TypeScript only) - reports shadowing before the outer types are defined.
+- `functions-and-types` (TypeScript only) - reports shadowing before the outer functions and types are defined.
 
 #### hoist: functions
 
