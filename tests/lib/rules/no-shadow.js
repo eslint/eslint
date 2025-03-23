@@ -1501,372 +1501,372 @@ const ruleTesterTypeScript = new RuleTester({
 	},
 });
 
-ruleTesterTypeScript.run('no-shadow', rule, {
+ruleTesterTypeScript.run("no-shadow", rule, {
 	invalid: [
-	  {
-		code: `
+		{
+			code: `
   type T = 1;
   {
 	type T = 2;
   }
 		`,
-		errors: [
-		  {
-			data: {
-			  name: 'T',
-			  shadowedColumn: 8,
-			  shadowedLine: 2,
-			},
-			messageId: 'noShadow',
-		  },
-		],
-	  },
-	  {
-		code: `
+			errors: [
+				{
+					data: {
+						name: "T",
+						shadowedColumn: 8,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+				},
+			],
+		},
+		{
+			code: `
   type T = 1;
   function foo<T>(arg: T) {}
 		`,
-		errors: [
-		  {
-			data: {
-			  name: 'T',
-			  shadowedColumn: 8,
-			  shadowedLine: 2,
-			},
-			messageId: 'noShadow',
-		  },
-		],
-	  },
-	  {
-		code: `
+			errors: [
+				{
+					data: {
+						name: "T",
+						shadowedColumn: 8,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+				},
+			],
+		},
+		{
+			code: `
   function foo<T>() {
 	return function <T>() {};
   }
 		`,
-		errors: [
-		  {
-			data: {
-			  name: 'T',
-			  shadowedColumn: 16,
-			  shadowedLine: 2,
-			},
-			messageId: 'noShadow',
-		  },
-		],
-	  },
-	  {
-		code: `
+			errors: [
+				{
+					data: {
+						name: "T",
+						shadowedColumn: 16,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+				},
+			],
+		},
+		{
+			code: `
   type T = string;
   function foo<T extends (arg: any) => void>(arg: T) {}
 		`,
-		errors: [
-		  {
-			data: {
-			  name: 'T',
-			  shadowedColumn: 8,
-			  shadowedLine: 2,
-			},
-			messageId: 'noShadow',
-		  },
-		],
-	  },
-	  {
-		code: `
+			errors: [
+				{
+					data: {
+						name: "T",
+						shadowedColumn: 8,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+				},
+			],
+		},
+		{
+			code: `
   const x = 1;
   {
 	type x = string;
   }
 		`,
-		options: [{ ignoreTypeValueShadow: false }],
-		errors: [
-		  {
-			data: {
-			  name: 'x',
-			  shadowedColumn: 9,
-			  shadowedLine: 2,
-			},
-			messageId: 'noShadow',
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ ignoreTypeValueShadow: false }],
+			errors: [
+				{
+					data: {
+						name: "x",
+						shadowedColumn: 9,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+				},
+			],
+		},
+		{
+			code: `
   type Foo = 1;
 		`,
-		options: [
-		  {
-			builtinGlobals: true,
-			ignoreTypeValueShadow: false,
-		  },
-		],
-		languageOptions: {
-		  globals: {
-			Foo: 'writable',
-		  },
-		},
-		errors: [
-		  {
-			data: {
-			  name: 'Foo',
+			options: [
+				{
+					builtinGlobals: true,
+					ignoreTypeValueShadow: false,
+				},
+			],
+			languageOptions: {
+				globals: {
+					Foo: "writable",
+				},
 			},
-			messageId: 'noShadowGlobal',
-		  },
-		],
-	  },
-	  // https://github.com/typescript-eslint/typescript-eslint/issues/2447
-	  {
-		code: `
+			errors: [
+				{
+					data: {
+						name: "Foo",
+					},
+					messageId: "noShadowGlobal",
+				},
+			],
+		},
+		// https://github.com/typescript-eslint/typescript-eslint/issues/2447
+		{
+			code: `
   const test = 1;
   type Fn = (test: string) => typeof test;
 		`,
-		options: [{ ignoreFunctionTypeParameterNameValueShadow: false }],
-		errors: [
-		  {
-			data: {
-			  name: 'test',
-			  shadowedColumn: 9,
-			  shadowedLine: 2,
-			},
-			messageId: 'noShadow',
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ ignoreFunctionTypeParameterNameValueShadow: false }],
+			errors: [
+				{
+					data: {
+						name: "test",
+						shadowedColumn: 9,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+				},
+			],
+		},
+		{
+			code: `
   type Fn = (Foo: string) => typeof Foo;
 		`,
-		options: [
-		  {
-			builtinGlobals: true,
-			ignoreFunctionTypeParameterNameValueShadow: false,
-		  },
-		],
-		languageOptions: {
-		  globals: {
-			Foo: 'writable',
-		  },
-		},
-		errors: [
-		  {
-			data: {
-			  name: 'Foo',
+			options: [
+				{
+					builtinGlobals: true,
+					ignoreFunctionTypeParameterNameValueShadow: false,
+				},
+			],
+			languageOptions: {
+				globals: {
+					Foo: "writable",
+				},
 			},
-			messageId: 'noShadowGlobal',
-		  },
-		],
-	  },
-  
-	  // https://github.com/typescript-eslint/typescript-eslint/issues/6098
-	  {
-		code: `
+			errors: [
+				{
+					data: {
+						name: "Foo",
+					},
+					messageId: "noShadowGlobal",
+				},
+			],
+		},
+
+		// https://github.com/typescript-eslint/typescript-eslint/issues/6098
+		{
+			code: `
   const arg = 0;
   
   interface Test {
 	(arg: string): typeof arg;
   }
 		`,
-		options: [{ ignoreFunctionTypeParameterNameValueShadow: false }],
-		errors: [
-		  {
-			data: {
-			  name: 'arg',
-			  shadowedColumn: 9,
-			  shadowedLine: 2,
-			},
-			messageId: 'noShadow',
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ ignoreFunctionTypeParameterNameValueShadow: false }],
+			errors: [
+				{
+					data: {
+						name: "arg",
+						shadowedColumn: 9,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+				},
+			],
+		},
+		{
+			code: `
   const arg = 0;
   
   interface Test {
 	p1(arg: string): typeof arg;
   }
 		`,
-		options: [{ ignoreFunctionTypeParameterNameValueShadow: false }],
-		errors: [
-		  {
-			data: {
-			  name: 'arg',
-			  shadowedColumn: 9,
-			  shadowedLine: 2,
-			},
-			messageId: 'noShadow',
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ ignoreFunctionTypeParameterNameValueShadow: false }],
+			errors: [
+				{
+					data: {
+						name: "arg",
+						shadowedColumn: 9,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+				},
+			],
+		},
+		{
+			code: `
   const arg = 0;
   
   declare function test(arg: string): typeof arg;
 		`,
-		options: [{ ignoreFunctionTypeParameterNameValueShadow: false }],
-		errors: [
-		  {
-			data: {
-			  name: 'arg',
-			  shadowedColumn: 9,
-			  shadowedLine: 2,
-			},
-			messageId: 'noShadow',
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ ignoreFunctionTypeParameterNameValueShadow: false }],
+			errors: [
+				{
+					data: {
+						name: "arg",
+						shadowedColumn: 9,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+				},
+			],
+		},
+		{
+			code: `
   const arg = 0;
   
   declare const test: (arg: string) => typeof arg;
 		`,
-		options: [{ ignoreFunctionTypeParameterNameValueShadow: false }],
-		errors: [
-		  {
-			data: {
-			  name: 'arg',
-			  shadowedColumn: 9,
-			  shadowedLine: 2,
-			},
-			messageId: 'noShadow',
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ ignoreFunctionTypeParameterNameValueShadow: false }],
+			errors: [
+				{
+					data: {
+						name: "arg",
+						shadowedColumn: 9,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+				},
+			],
+		},
+		{
+			code: `
   const arg = 0;
   
   declare class Test {
 	p1(arg: string): typeof arg;
   }
 		`,
-		options: [{ ignoreFunctionTypeParameterNameValueShadow: false }],
-		errors: [
-		  {
-			data: {
-			  name: 'arg',
-			  shadowedColumn: 9,
-			  shadowedLine: 2,
-			},
-			messageId: 'noShadow',
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ ignoreFunctionTypeParameterNameValueShadow: false }],
+			errors: [
+				{
+					data: {
+						name: "arg",
+						shadowedColumn: 9,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+				},
+			],
+		},
+		{
+			code: `
   const arg = 0;
   
   declare const Test: {
 	new (arg: string): typeof arg;
   };
 		`,
-		options: [{ ignoreFunctionTypeParameterNameValueShadow: false }],
-		errors: [
-		  {
-			data: {
-			  name: 'arg',
-			  shadowedColumn: 9,
-			  shadowedLine: 2,
-			},
-			messageId: 'noShadow',
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ ignoreFunctionTypeParameterNameValueShadow: false }],
+			errors: [
+				{
+					data: {
+						name: "arg",
+						shadowedColumn: 9,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+				},
+			],
+		},
+		{
+			code: `
   const arg = 0;
   
   type Bar = new (arg: number) => typeof arg;
 		`,
-		options: [{ ignoreFunctionTypeParameterNameValueShadow: false }],
-		errors: [
-		  {
-			data: {
-			  name: 'arg',
-			  shadowedColumn: 9,
-			  shadowedLine: 2,
-			},
-			messageId: 'noShadow',
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ ignoreFunctionTypeParameterNameValueShadow: false }],
+			errors: [
+				{
+					data: {
+						name: "arg",
+						shadowedColumn: 9,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+				},
+			],
+		},
+		{
+			code: `
   const arg = 0;
   
   declare namespace Lib {
 	function test(arg: string): typeof arg;
   }
 		`,
-		options: [{ ignoreFunctionTypeParameterNameValueShadow: false }],
-		errors: [
-		  {
-			data: {
-			  name: 'arg',
-			  shadowedColumn: 9,
-			  shadowedLine: 2,
-			},
-			messageId: 'noShadow',
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ ignoreFunctionTypeParameterNameValueShadow: false }],
+			errors: [
+				{
+					data: {
+						name: "arg",
+						shadowedColumn: 9,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+				},
+			],
+		},
+		{
+			code: `
   import type { foo } from './foo';
   function doThing(foo: number) {}
 		`,
-		options: [{ ignoreTypeValueShadow: false }],
-		errors: [
-		  {
-			data: {
-			  name: 'foo',
-			  shadowedColumn: 17,
-			  shadowedLine: 2,
-			},
-			messageId: 'noShadow',
-			type: "Identifier",
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ ignoreTypeValueShadow: false }],
+			errors: [
+				{
+					data: {
+						name: "foo",
+						shadowedColumn: 17,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
   import { type foo } from './foo';
   function doThing(foo: number) {}
 		`,
-		options: [{ ignoreTypeValueShadow: false }],
-		errors: [
-		  {
-			data: {
-			  name: 'foo',
-			  shadowedColumn: 17,
-			  shadowedLine: 2,
-			},
-			messageId: 'noShadow',
-			type: "Identifier",
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ ignoreTypeValueShadow: false }],
+			errors: [
+				{
+					data: {
+						name: "foo",
+						shadowedColumn: 17,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
   import { foo } from './foo';
   function doThing(foo: number, bar: number) {}
 		`,
-		options: [{ ignoreTypeValueShadow: true }],
-		errors: [
-		  {
-			data: {
-			  name: 'foo',
-			  shadowedColumn: 12,
-			  shadowedLine: 2,
-			},
-			messageId: 'noShadow',
-			type: "Identifier",
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ ignoreTypeValueShadow: true }],
+			errors: [
+				{
+					data: {
+						name: "foo",
+						shadowedColumn: 12,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
   interface Foo {}
   
   declare module 'bar' {
@@ -1875,20 +1875,20 @@ ruleTesterTypeScript.run('no-shadow', rule, {
 	}
   }
 		`,
-		errors: [
-		  {
-			data: {
-			  name: 'Foo',
-			  shadowedColumn: 13,
-			  shadowedLine: 2,
-			},
-			messageId: 'noShadow',
-			type: "Identifier",
-		  },
-		],
-	  },
-	  {
-		code: `
+			errors: [
+				{
+					data: {
+						name: "Foo",
+						shadowedColumn: 13,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
   import type { Foo } from 'bar';
   
   declare module 'baz' {
@@ -1897,20 +1897,20 @@ ruleTesterTypeScript.run('no-shadow', rule, {
 	}
   }
 		`,
-		errors: [
-		  {
-			data: {
-			  name: 'Foo',
-			  shadowedColumn: 17,
-			  shadowedLine: 2,
-			},
-			messageId: 'noShadow',
-			type: "Identifier",
-		  },
-		],
-	  },
-	  {
-		code: `
+			errors: [
+				{
+					data: {
+						name: "Foo",
+						shadowedColumn: 17,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
   import { type Foo } from 'bar';
   
   declare module 'baz' {
@@ -1919,514 +1919,514 @@ ruleTesterTypeScript.run('no-shadow', rule, {
 	}
   }
 		`,
-		errors: [
-		  {
-			data: {
-			  name: 'Foo',
-			  shadowedColumn: 17,
-			  shadowedLine: 2,
-			},
-			messageId: 'noShadow',
-			type: "Identifier",
-		  },
-		],
-	  },
-	  {
-		code: `
+			errors: [
+				{
+					data: {
+						name: "Foo",
+						shadowedColumn: 17,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
   let x = foo((x, y) => {});
   let y;
 		`,
-		options: [{ hoist: 'all' }],
-		languageOptions: { parserOptions: { ecmaVersion: 6 } },
-		errors: [
-		  {
-			data: {
-			  name: 'x',
-			  shadowedColumn: 7,
-			  shadowedLine: 2,
-			},
-			messageId: 'noShadow',
-			type: "Identifier",
-		  },
-		  {
-			data: {
-			  name: 'y',
-			  shadowedColumn: 7,
-			  shadowedLine: 3,
-			},
-			messageId: 'noShadow',
-			type: "Identifier",
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ hoist: "all" }],
+			languageOptions: { parserOptions: { ecmaVersion: 6 } },
+			errors: [
+				{
+					data: {
+						name: "x",
+						shadowedColumn: 7,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+				{
+					data: {
+						name: "y",
+						shadowedColumn: 7,
+						shadowedLine: 3,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
   let x = foo((x, y) => {});
   let y;
 		`,
-		options: [{ hoist: 'functions' }],
-		languageOptions: { parserOptions: { ecmaVersion: 6 } },
-		errors: [
-		  {
-			data: {
-			  name: 'x',
-			  shadowedColumn: 7,
-			  shadowedLine: 2,
-			},
-			messageId: 'noShadow',
-			type: "Identifier",
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ hoist: "functions" }],
+			languageOptions: { parserOptions: { ecmaVersion: 6 } },
+			errors: [
+				{
+					data: {
+						name: "x",
+						shadowedColumn: 7,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
   type Foo<A> = 1;
   type A = 1;
 		`,
-		options: [{ hoist: 'types' }],
-		errors: [
-		  {
-			data: {
-			  name: 'A',
-			  shadowedColumn: 8,
-			  shadowedLine: 3,
-			},
-			messageId: 'noShadow',
-			type: "Identifier",
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ hoist: "types" }],
+			errors: [
+				{
+					data: {
+						name: "A",
+						shadowedColumn: 8,
+						shadowedLine: 3,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
   interface Foo<A> {}
   type A = 1;
 		`,
-		options: [{ hoist: 'types' }],
-		errors: [
-		  {
-			data: {
-			  name: 'A',
-			  shadowedColumn: 8,
-			  shadowedLine: 3,
-			},
-			messageId: 'noShadow',
-			type: "Identifier",
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ hoist: "types" }],
+			errors: [
+				{
+					data: {
+						name: "A",
+						shadowedColumn: 8,
+						shadowedLine: 3,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
   interface Foo<A> {}
   interface A {}
 		`,
-		options: [{ hoist: 'types' }],
-		errors: [
-		  {
-			data: {
-			  name: 'A',
-			  shadowedColumn: 13,
-			  shadowedLine: 3,
-			},
-			messageId: 'noShadow',
-			type: "Identifier",
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ hoist: "types" }],
+			errors: [
+				{
+					data: {
+						name: "A",
+						shadowedColumn: 13,
+						shadowedLine: 3,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
   type Foo<A> = 1;
   interface A {}
 		`,
-		options: [{ hoist: 'types' }],
-		errors: [
-		  {
-			data: {
-			  name: 'A',
-			  shadowedColumn: 13,
-			  shadowedLine: 3,
-			},
-			messageId: 'noShadow',
-			type: "Identifier",
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ hoist: "types" }],
+			errors: [
+				{
+					data: {
+						name: "A",
+						shadowedColumn: 13,
+						shadowedLine: 3,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
   {
 	type A = 1;
   }
   type A = 1;
 		`,
-		options: [{ hoist: 'types' }],
-		errors: [
-		  {
-			data: {
-			  name: 'A',
-			  shadowedColumn: 8,
-			  shadowedLine: 5,
-			},
-			messageId: 'noShadow',
-			type: "Identifier",
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ hoist: "types" }],
+			errors: [
+				{
+					data: {
+						name: "A",
+						shadowedColumn: 8,
+						shadowedLine: 5,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
   {
 	interface A {}
   }
   type A = 1;
 		`,
-		options: [{ hoist: 'types' }],
-		errors: [
-		  {
-			data: {
-			  name: 'A',
-			  shadowedColumn: 8,
-			  shadowedLine: 5,
-			},
-			messageId: 'noShadow',
-			type: "Identifier",
-		  },
-		],
-	  },
-  
-	  {
-		code: `
+			options: [{ hoist: "types" }],
+			errors: [
+				{
+					data: {
+						name: "A",
+						shadowedColumn: 8,
+						shadowedLine: 5,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+			],
+		},
+
+		{
+			code: `
   type Foo<A> = 1;
   type A = 1;
 		`,
-		options: [{ hoist: 'all' }],
-		errors: [
-		  {
-			data: {
-			  name: 'A',
-			  shadowedColumn: 8,
-			  shadowedLine: 3,
-			},
-			messageId: 'noShadow',
-			type: "Identifier",
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ hoist: "all" }],
+			errors: [
+				{
+					data: {
+						name: "A",
+						shadowedColumn: 8,
+						shadowedLine: 3,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
   interface Foo<A> {}
   type A = 1;
 		`,
-		options: [{ hoist: 'all' }],
-		errors: [
-		  {
-			data: {
-			  name: 'A',
-			  shadowedColumn: 8,
-			  shadowedLine: 3,
-			},
-			messageId: 'noShadow',
-			type: "Identifier",
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ hoist: "all" }],
+			errors: [
+				{
+					data: {
+						name: "A",
+						shadowedColumn: 8,
+						shadowedLine: 3,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
   interface Foo<A> {}
   interface A {}
 		`,
-		options: [{ hoist: 'all' }],
-		errors: [
-		  {
-			data: {
-			  name: 'A',
-			  shadowedColumn: 13,
-			  shadowedLine: 3,
-			},
-			messageId: 'noShadow',
-			type: "Identifier",
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ hoist: "all" }],
+			errors: [
+				{
+					data: {
+						name: "A",
+						shadowedColumn: 13,
+						shadowedLine: 3,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
   type Foo<A> = 1;
   interface A {}
 		`,
-		options: [{ hoist: 'all' }],
-		errors: [
-		  {
-			data: {
-			  name: 'A',
-			  shadowedColumn: 13,
-			  shadowedLine: 3,
-			},
-			messageId: 'noShadow',
-			type: "Identifier",
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ hoist: "all" }],
+			errors: [
+				{
+					data: {
+						name: "A",
+						shadowedColumn: 13,
+						shadowedLine: 3,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
   {
 	type A = 1;
   }
   type A = 1;
 		`,
-		options: [{ hoist: 'all' }],
-		errors: [
-		  {
-			data: {
-			  name: 'A',
-			  shadowedColumn: 8,
-			  shadowedLine: 5,
-			},
-			messageId: 'noShadow',
-			type: "Identifier",
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ hoist: "all" }],
+			errors: [
+				{
+					data: {
+						name: "A",
+						shadowedColumn: 8,
+						shadowedLine: 5,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
   {
 	interface A {}
   }
   type A = 1;
 		`,
-		options: [{ hoist: 'all' }],
-		errors: [
-		  {
-			data: {
-			  name: 'A',
-			  shadowedColumn: 8,
-			  shadowedLine: 5,
-			},
-			messageId: 'noShadow',
-			type: "Identifier",
-		  },
-		],
-	  },
-  
-	  {
-		code: `
+			options: [{ hoist: "all" }],
+			errors: [
+				{
+					data: {
+						name: "A",
+						shadowedColumn: 8,
+						shadowedLine: 5,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+			],
+		},
+
+		{
+			code: `
   type Foo<A> = 1;
   type A = 1;
 		`,
-		options: [{ hoist: 'functions-and-types' }],
-		errors: [
-		  {
-			data: {
-			  name: 'A',
-			  shadowedColumn: 8,
-			  shadowedLine: 3,
-			},
-			messageId: 'noShadow',
-			type: "Identifier",
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ hoist: "functions-and-types" }],
+			errors: [
+				{
+					data: {
+						name: "A",
+						shadowedColumn: 8,
+						shadowedLine: 3,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
   interface Foo<A> {}
   type A = 1;
 		`,
-		options: [{ hoist: 'functions-and-types' }],
-		errors: [
-		  {
-			data: {
-			  name: 'A',
-			  shadowedColumn: 8,
-			  shadowedLine: 3,
-			},
-			messageId: 'noShadow',
-			type: "Identifier",
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ hoist: "functions-and-types" }],
+			errors: [
+				{
+					data: {
+						name: "A",
+						shadowedColumn: 8,
+						shadowedLine: 3,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
   interface Foo<A> {}
   interface A {}
 		`,
-		options: [{ hoist: 'functions-and-types' }],
-		errors: [
-		  {
-			data: {
-			  name: 'A',
-			  shadowedColumn: 13,
-			  shadowedLine: 3,
-			},
-			messageId: 'noShadow',
-			type: "Identifier",
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ hoist: "functions-and-types" }],
+			errors: [
+				{
+					data: {
+						name: "A",
+						shadowedColumn: 13,
+						shadowedLine: 3,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
   type Foo<A> = 1;
   interface A {}
 		`,
-		options: [{ hoist: 'functions-and-types' }],
-		errors: [
-		  {
-			data: {
-			  name: 'A',
-			  shadowedColumn: 13,
-			  shadowedLine: 3,
-			},
-			messageId: 'noShadow',
-			type: "Identifier",
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ hoist: "functions-and-types" }],
+			errors: [
+				{
+					data: {
+						name: "A",
+						shadowedColumn: 13,
+						shadowedLine: 3,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
   {
 	type A = 1;
   }
   type A = 1;
 		`,
-		options: [{ hoist: 'functions-and-types' }],
-		errors: [
-		  {
-			data: {
-			  name: 'A',
-			  shadowedColumn: 8,
-			  shadowedLine: 5,
-			},
-			messageId: 'noShadow',
-			type: "Identifier",
-		  },
-		],
-	  },
-	  {
-		code: `
+			options: [{ hoist: "functions-and-types" }],
+			errors: [
+				{
+					data: {
+						name: "A",
+						shadowedColumn: 8,
+						shadowedLine: 5,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
   {
 	interface A {}
   }
   type A = 1;
 		`,
-		options: [{ hoist: 'functions-and-types' }],
-		errors: [
-		  {
-			data: {
-			  name: 'A',
-			  shadowedColumn: 8,
-			  shadowedLine: 5,
-			},
-			messageId: 'noShadow',
-			type: "Identifier",
-		  },
-		],
-	  },
-  
-	  {
-		code: `
+			options: [{ hoist: "functions-and-types" }],
+			errors: [
+				{
+					data: {
+						name: "A",
+						shadowedColumn: 8,
+						shadowedLine: 5,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+			],
+		},
+
+		{
+			code: `
   function foo<T extends (...args: any[]) => any>(fn: T, args: any[]) {}
 		`,
-		options: [
-		  {
-			builtinGlobals: true,
-			ignoreTypeValueShadow: false,
-		  },
-		],
-		languageOptions: {
-		  globals: {
-			args: 'writable',
-		  },
-		},
-		errors: [
-		  {
-			data: {
-			  name: 'args',
-			  shadowedColumn: 5,
-			  shadowedLine: 2,
+			options: [
+				{
+					builtinGlobals: true,
+					ignoreTypeValueShadow: false,
+				},
+			],
+			languageOptions: {
+				globals: {
+					args: "writable",
+				},
 			},
-			messageId: 'noShadowGlobal',
-		  },
-		],
-	  },
-	  {
-		code: `
+			errors: [
+				{
+					data: {
+						name: "args",
+						shadowedColumn: 5,
+						shadowedLine: 2,
+					},
+					messageId: "noShadowGlobal",
+				},
+			],
+		},
+		{
+			code: `
   declare const has = (environment: 'dev' | 'prod' | 'test') => boolean;
 		`,
-		options: [{ builtinGlobals: true }],
-		languageOptions: {
-		  globals: {
-			has: false,
-		  },
-		},
-		errors: [
-		  {
-			data: {
-			  name: 'has',
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					has: false,
+				},
 			},
-			messageId: 'noShadowGlobal',
-		  },
-		],
-	  },
-	  {
-		filename: 'foo.d.ts',
-		code: `
+			errors: [
+				{
+					data: {
+						name: "has",
+					},
+					messageId: "noShadowGlobal",
+				},
+			],
+		},
+		{
+			filename: "foo.d.ts",
+			code: `
   declare const has: (environment: 'dev' | 'prod' | 'test') => boolean;
   const fn = (has: string) => {};
 		`,
-		options: [{ builtinGlobals: true }],
-		languageOptions: {
-		  globals: {
-			has: false,
-		  },
-		},
-		errors: [
-		  {
-			data: {
-			  name: 'has',
-			  shadowedColumn: 17,
-			  shadowedLine: 2,
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					has: false,
+				},
 			},
-			messageId: 'noShadow',
-		  },
-		],
-	  },
+			errors: [
+				{
+					data: {
+						name: "has",
+						shadowedColumn: 17,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+				},
+			],
+		},
 	],
 	valid: [
-	  'function foo<T = (arg: any) => any>(arg: T) {}',
-	  'function foo<T = ([arg]: [any]) => any>(arg: T) {}',
-	  'function foo<T = ({ args }: { args: any }) => any>(arg: T) {}',
-	  'function foo<T = (...args: any[]) => any>(fn: T, args: any[]) {}',
-	  'function foo<T extends (...args: any[]) => any>(fn: T, args: any[]) {}',
-	  'function foo<T extends (...args: any[]) => any>(fn: T, ...args: any[]) {}',
-	  'function foo<T extends ([args]: any[]) => any>(fn: T, args: any[]) {}',
-	  'function foo<T extends ([...args]: any[]) => any>(fn: T, args: any[]) {}',
-	  'function foo<T extends ({ args }: { args: any }) => any>(fn: T, args: any) {}',
-	  `
+		"function foo<T = (arg: any) => any>(arg: T) {}",
+		"function foo<T = ([arg]: [any]) => any>(arg: T) {}",
+		"function foo<T = ({ args }: { args: any }) => any>(arg: T) {}",
+		"function foo<T = (...args: any[]) => any>(fn: T, args: any[]) {}",
+		"function foo<T extends (...args: any[]) => any>(fn: T, args: any[]) {}",
+		"function foo<T extends (...args: any[]) => any>(fn: T, ...args: any[]) {}",
+		"function foo<T extends ([args]: any[]) => any>(fn: T, args: any[]) {}",
+		"function foo<T extends ([...args]: any[]) => any>(fn: T, args: any[]) {}",
+		"function foo<T extends ({ args }: { args: any }) => any>(fn: T, args: any) {}",
+		`
   function foo<T extends (id: string, ...args: any[]) => any>(
 	fn: T,
 	...args: any[]
   ) {}
 	  `,
-	  `
+		`
   type Args = 1;
   function foo<T extends (Args: any) => void>(arg: T) {}
 	  `,
-	  // nested conditional types
-	  `
+		// nested conditional types
+		`
   export type ArrayInput<Func> = Func extends (arg0: Array<infer T>) => any
 	? T[]
 	: Func extends (...args: infer T) => any
 	  ? T
 	  : never;
 	  `,
-	  `
+		`
   function foo() {
 	var Object = 0;
   }
 	  `,
-	  // this params
-	  `
+		// this params
+		`
   function test(this: Foo) {
 	function test2(this: Bar) {}
   }
 	  `,
-	  // declaration merging
-	  `
+		// declaration merging
+		`
   class Foo {
 	prop = 1;
   }
@@ -2434,13 +2434,13 @@ ruleTesterTypeScript.run('no-shadow', rule, {
 	export const v = 2;
   }
 	  `,
-	  `
+		`
   function Foo() {}
   namespace Foo {
 	export const v = 2;
   }
 	  `,
-	  `
+		`
   class Foo {
 	prop = 1;
   }
@@ -2448,7 +2448,7 @@ ruleTesterTypeScript.run('no-shadow', rule, {
 	prop2: string;
   }
 	  `,
-	  `
+		`
   import type { Foo } from 'bar';
   
   declare module 'bar' {
@@ -2457,161 +2457,161 @@ ruleTesterTypeScript.run('no-shadow', rule, {
 	}
   }
 	  `,
-	  // type value shadowing
-	  `
+		// type value shadowing
+		`
   const x = 1;
   type x = string;
 	  `,
-	  `
+		`
   const x = 1;
   {
 	type x = string;
   }
 	  `,
-	  {
-		code: `
+		{
+			code: `
   type Foo = 1;
 		`,
-		options: [{ ignoreTypeValueShadow: true }],
-		languageOptions: {
-		  globals: {
-			Foo: 'writable',
-		  },
+			options: [{ ignoreTypeValueShadow: true }],
+			languageOptions: {
+				globals: {
+					Foo: "writable",
+				},
+			},
 		},
-	  },
-	  {
-		code: `
+		{
+			code: `
   type Foo = 1;
 		`,
-		options: [
-		  {
-			builtinGlobals: false,
-			ignoreTypeValueShadow: false,
-		  },
-		],
-		languageOptions: {
-		  globals: {
-			Foo: 'writable',
-		  },
+			options: [
+				{
+					builtinGlobals: false,
+					ignoreTypeValueShadow: false,
+				},
+			],
+			languageOptions: {
+				globals: {
+					Foo: "writable",
+				},
+			},
 		},
-	  },
-	  // https://github.com/typescript-eslint/typescript-eslint/issues/2360
-	  `
+		// https://github.com/typescript-eslint/typescript-eslint/issues/2360
+		`
   enum Direction {
 	left = 'left',
 	right = 'right',
   }
 	  `,
-	  // https://github.com/typescript-eslint/typescript-eslint/issues/2447
-	  {
-		code: `
+		// https://github.com/typescript-eslint/typescript-eslint/issues/2447
+		{
+			code: `
   const test = 1;
   type Fn = (test: string) => typeof test;
 		`,
-		options: [{ ignoreFunctionTypeParameterNameValueShadow: true }],
-	  },
-	  {
-		code: `
+			options: [{ ignoreFunctionTypeParameterNameValueShadow: true }],
+		},
+		{
+			code: `
   type Fn = (Foo: string) => typeof Foo;
 		`,
-		options: [
-		  {
-			builtinGlobals: false,
-			ignoreFunctionTypeParameterNameValueShadow: true,
-		  },
-		],
-		languageOptions: {
-		  globals: {
-			Foo: 'writable',
-		  },
+			options: [
+				{
+					builtinGlobals: false,
+					ignoreFunctionTypeParameterNameValueShadow: true,
+				},
+			],
+			languageOptions: {
+				globals: {
+					Foo: "writable",
+				},
+			},
 		},
-	  },
-	  // https://github.com/typescript-eslint/typescript-eslint/issues/6098
-	  {
-		code: `
+		// https://github.com/typescript-eslint/typescript-eslint/issues/6098
+		{
+			code: `
   const arg = 0;
   
   interface Test {
 	(arg: string): typeof arg;
   }
 		`,
-		options: [{ ignoreFunctionTypeParameterNameValueShadow: true }],
-	  },
-	  {
-		code: `
+			options: [{ ignoreFunctionTypeParameterNameValueShadow: true }],
+		},
+		{
+			code: `
   const arg = 0;
   
   interface Test {
 	p1(arg: string): typeof arg;
   }
 		`,
-		options: [{ ignoreFunctionTypeParameterNameValueShadow: true }],
-	  },
-	  {
-		code: `
+			options: [{ ignoreFunctionTypeParameterNameValueShadow: true }],
+		},
+		{
+			code: `
   const arg = 0;
   
   declare function test(arg: string): typeof arg;
 		`,
-		options: [{ ignoreFunctionTypeParameterNameValueShadow: true }],
-	  },
-	  {
-		code: `
+			options: [{ ignoreFunctionTypeParameterNameValueShadow: true }],
+		},
+		{
+			code: `
   const arg = 0;
   
   declare const test: (arg: string) => typeof arg;
 		`,
-		options: [{ ignoreFunctionTypeParameterNameValueShadow: true }],
-	  },
-	  {
-		code: `
+			options: [{ ignoreFunctionTypeParameterNameValueShadow: true }],
+		},
+		{
+			code: `
   const arg = 0;
   
   declare class Test {
 	p1(arg: string): typeof arg;
   }
 		`,
-		options: [{ ignoreFunctionTypeParameterNameValueShadow: true }],
-	  },
-	  {
-		code: `
+			options: [{ ignoreFunctionTypeParameterNameValueShadow: true }],
+		},
+		{
+			code: `
   const arg = 0;
   
   declare const Test: {
 	new (arg: string): typeof arg;
   };
 		`,
-		options: [{ ignoreFunctionTypeParameterNameValueShadow: true }],
-	  },
-	  {
-		code: `
+			options: [{ ignoreFunctionTypeParameterNameValueShadow: true }],
+		},
+		{
+			code: `
   const arg = 0;
   
   type Bar = new (arg: number) => typeof arg;
 		`,
-		options: [{ ignoreFunctionTypeParameterNameValueShadow: true }],
-	  },
-	  {
-		code: `
+			options: [{ ignoreFunctionTypeParameterNameValueShadow: true }],
+		},
+		{
+			code: `
   const arg = 0;
   
   declare namespace Lib {
 	function test(arg: string): typeof arg;
   }
 		`,
-		options: [{ ignoreFunctionTypeParameterNameValueShadow: true }],
-	  },
-	  // https://github.com/typescript-eslint/typescript-eslint/issues/2724
-	  {
-		code: `
+			options: [{ ignoreFunctionTypeParameterNameValueShadow: true }],
+		},
+		// https://github.com/typescript-eslint/typescript-eslint/issues/2724
+		{
+			code: `
 		  declare global {
 			interface ArrayConstructor {}
 		  }
 		  export {};
 		`,
-		options: [{ builtinGlobals: true }],
-	  },
-	  `
+			options: [{ builtinGlobals: true }],
+		},
+		`
 		declare global {
 		  const a: string;
   
@@ -2621,8 +2621,8 @@ ruleTesterTypeScript.run('no-shadow', rule, {
 		}
 		export {};
 	  `,
-	  {
-		code: `
+		{
+			code: `
 		  declare global {
 			type A = 'foo';
   
@@ -2632,19 +2632,19 @@ ruleTesterTypeScript.run('no-shadow', rule, {
 		  }
 		  export {};
 		`,
-		options: [{ ignoreTypeValueShadow: false }],
-	  },
-	  {
-		code: `
+			options: [{ ignoreTypeValueShadow: false }],
+		},
+		{
+			code: `
 		  declare global {
 			const foo: string;
 			type Fn = (foo: number) => void;
 		  }
 		  export {};
 		`,
-		options: [{ ignoreFunctionTypeParameterNameValueShadow: false }],
-	  },
-	  `
+			options: [{ ignoreFunctionTypeParameterNameValueShadow: false }],
+		},
+		`
   export class Wrapper<Wrapped> {
 	private constructor(private readonly wrapped: Wrapped) {}
   
@@ -2657,7 +2657,7 @@ ruleTesterTypeScript.run('no-shadow', rule, {
 	}
   }
 	  `,
-	  `
+		`
   function makeA() {
 	return class A<T> {
 	  constructor(public value: T) {}
@@ -2668,9 +2668,9 @@ ruleTesterTypeScript.run('no-shadow', rule, {
 	};
   }
 	  `,
-	  {
-		// https://github.com/typescript-eslint/typescript-eslint/issues/3862
-		code: `
+		{
+			// https://github.com/typescript-eslint/typescript-eslint/issues/3862
+			code: `
   import type { foo } from './foo';
   type bar = number;
   
@@ -2678,269 +2678,269 @@ ruleTesterTypeScript.run('no-shadow', rule, {
   // 'bar' is fine
   function doThing(foo: number, bar: number) {}
 		`,
-		options: [{ ignoreTypeValueShadow: true }],
-	  },
-	  {
-		code: `
+			options: [{ ignoreTypeValueShadow: true }],
+		},
+		{
+			code: `
   import { type foo } from './foo';
   
   // 'foo' is already declared in the upper scope
   function doThing(foo: number) {}
 		`,
-		options: [{ ignoreTypeValueShadow: true }],
-	  },
-	  {
-		code: 'const a = [].find(a => a);',
-		options: [{ ignoreOnInitialization: true }],
-	  },
-	  {
-		code: `
+			options: [{ ignoreTypeValueShadow: true }],
+		},
+		{
+			code: "const a = [].find(a => a);",
+			options: [{ ignoreOnInitialization: true }],
+		},
+		{
+			code: `
   const a = [].find(function (a) {
 	return a;
   });
 		`,
-		options: [{ ignoreOnInitialization: true }],
-	  },
-	  {
-		code: 'const [a = [].find(a => true)] = dummy;',
-		options: [{ ignoreOnInitialization: true }],
-	  },
-	  {
-		code: 'const { a = [].find(a => true) } = dummy;',
-		options: [{ ignoreOnInitialization: true }],
-	  },
-	  {
-		code: 'function func(a = [].find(a => true)) {}',
-		options: [{ ignoreOnInitialization: true }],
-	  },
-	  {
-		code: `
+			options: [{ ignoreOnInitialization: true }],
+		},
+		{
+			code: "const [a = [].find(a => true)] = dummy;",
+			options: [{ ignoreOnInitialization: true }],
+		},
+		{
+			code: "const { a = [].find(a => true) } = dummy;",
+			options: [{ ignoreOnInitialization: true }],
+		},
+		{
+			code: "function func(a = [].find(a => true)) {}",
+			options: [{ ignoreOnInitialization: true }],
+		},
+		{
+			code: `
   for (const a in [].find(a => true)) {
   }
 		`,
-		options: [{ ignoreOnInitialization: true }],
-	  },
-	  {
-		code: `
+			options: [{ ignoreOnInitialization: true }],
+		},
+		{
+			code: `
   for (const a of [].find(a => true)) {
   }
 		`,
-		options: [{ ignoreOnInitialization: true }],
-	  },
-	  {
-		code: "const a = [].map(a => true).filter(a => a === 'b');",
-		options: [{ ignoreOnInitialization: true }],
-	  },
-	  {
-		code: `
+			options: [{ ignoreOnInitialization: true }],
+		},
+		{
+			code: "const a = [].map(a => true).filter(a => a === 'b');",
+			options: [{ ignoreOnInitialization: true }],
+		},
+		{
+			code: `
   const a = []
 	.map(a => true)
 	.filter(a => a === 'b')
 	.find(a => a === 'c');
 		`,
-		options: [{ ignoreOnInitialization: true }],
-	  },
-	  {
-		code: 'const { a } = (({ a }) => ({ a }))();',
-		options: [{ ignoreOnInitialization: true }],
-	  },
-	  {
-		code: `
+			options: [{ ignoreOnInitialization: true }],
+		},
+		{
+			code: "const { a } = (({ a }) => ({ a }))();",
+			options: [{ ignoreOnInitialization: true }],
+		},
+		{
+			code: `
   const person = people.find(item => {
 	const person = item.name;
 	return person === 'foo';
   });
 		`,
-		options: [{ ignoreOnInitialization: true }],
-	  },
-	  {
-		code: 'var y = bar || foo(y => y);',
-		options: [{ ignoreOnInitialization: true }],
-	  },
-	  {
-		code: 'var y = bar && foo(y => y);',
-		options: [{ ignoreOnInitialization: true }],
-	  },
-	  {
-		code: 'var z = bar(foo(z => z));',
-		options: [{ ignoreOnInitialization: true }],
-	  },
-	  {
-		code: 'var z = boo(bar(foo(z => z)));',
-		options: [{ ignoreOnInitialization: true }],
-	  },
-	  {
-		code: `
+			options: [{ ignoreOnInitialization: true }],
+		},
+		{
+			code: "var y = bar || foo(y => y);",
+			options: [{ ignoreOnInitialization: true }],
+		},
+		{
+			code: "var y = bar && foo(y => y);",
+			options: [{ ignoreOnInitialization: true }],
+		},
+		{
+			code: "var z = bar(foo(z => z));",
+			options: [{ ignoreOnInitialization: true }],
+		},
+		{
+			code: "var z = boo(bar(foo(z => z)));",
+			options: [{ ignoreOnInitialization: true }],
+		},
+		{
+			code: `
   var match = function (person) {
 	return person.name === 'foo';
   };
   const person = [].find(match);
 		`,
-		options: [{ ignoreOnInitialization: true }],
-	  },
-	  {
-		code: 'const a = foo(x || (a => {}));',
-		options: [{ ignoreOnInitialization: true }],
-	  },
-	  {
-		code: 'const { a = 1 } = foo(a => {});',
-		options: [{ ignoreOnInitialization: true }],
-	  },
-	  {
-		code: "const person = { ...people.find(person => person.firstName.startsWith('s')) };",
-		options: [{ ignoreOnInitialization: true }],
-		languageOptions: { parserOptions: { ecmaVersion: 2021 } },
-	  },
-	  {
-		code: `
+			options: [{ ignoreOnInitialization: true }],
+		},
+		{
+			code: "const a = foo(x || (a => {}));",
+			options: [{ ignoreOnInitialization: true }],
+		},
+		{
+			code: "const { a = 1 } = foo(a => {});",
+			options: [{ ignoreOnInitialization: true }],
+		},
+		{
+			code: "const person = { ...people.find(person => person.firstName.startsWith('s')) };",
+			options: [{ ignoreOnInitialization: true }],
+			languageOptions: { parserOptions: { ecmaVersion: 2021 } },
+		},
+		{
+			code: `
   const person = {
 	firstName: people
 	  .filter(person => person.firstName.startsWith('s'))
 	  .map(person => person.firstName)[0],
   };
 		`,
-		options: [{ ignoreOnInitialization: true }],
-		languageOptions: { parserOptions: { ecmaVersion: 2021 } },
-	  },
-	  {
-		code: `
+			options: [{ ignoreOnInitialization: true }],
+			languageOptions: { parserOptions: { ecmaVersion: 2021 } },
+		},
+		{
+			code: `
   () => {
 	const y = foo(y => y);
   };
 		`,
-		options: [{ ignoreOnInitialization: true }],
-	  },
-	  {
-		code: 'const x = (x => x)();',
-		options: [{ ignoreOnInitialization: true }],
-	  },
-	  {
-		code: 'var y = bar || (y => y)();',
-		options: [{ ignoreOnInitialization: true }],
-	  },
-	  {
-		code: 'var y = bar && (y => y)();',
-		options: [{ ignoreOnInitialization: true }],
-	  },
-	  {
-		code: 'var x = (x => x)((y => y)());',
-		options: [{ ignoreOnInitialization: true }],
-	  },
-	  {
-		code: 'const { a = 1 } = (a => {})();',
-		options: [{ ignoreOnInitialization: true }],
-	  },
-	  {
-		code: `
+			options: [{ ignoreOnInitialization: true }],
+		},
+		{
+			code: "const x = (x => x)();",
+			options: [{ ignoreOnInitialization: true }],
+		},
+		{
+			code: "var y = bar || (y => y)();",
+			options: [{ ignoreOnInitialization: true }],
+		},
+		{
+			code: "var y = bar && (y => y)();",
+			options: [{ ignoreOnInitialization: true }],
+		},
+		{
+			code: "var x = (x => x)((y => y)());",
+			options: [{ ignoreOnInitialization: true }],
+		},
+		{
+			code: "const { a = 1 } = (a => {})();",
+			options: [{ ignoreOnInitialization: true }],
+		},
+		{
+			code: `
   () => {
 	const y = (y => y)();
   };
 		`,
-		options: [{ ignoreOnInitialization: true }],
-	  },
-	  'const [x = y => y] = [].map(y => y);',
-  
-	  {
-		code: `
+			options: [{ ignoreOnInitialization: true }],
+		},
+		"const [x = y => y] = [].map(y => y);",
+
+		{
+			code: `
   type Foo<A> = 1;
   type A = 1;
 		`,
-		options: [{ hoist: 'never' }],
-	  },
-	  {
-		code: `
+			options: [{ hoist: "never" }],
+		},
+		{
+			code: `
   interface Foo<A> {}
   type A = 1;
 		`,
-		options: [{ hoist: 'never' }],
-	  },
-	  {
-		code: `
+			options: [{ hoist: "never" }],
+		},
+		{
+			code: `
   interface Foo<A> {}
   interface A {}
 		`,
-		options: [{ hoist: 'never' }],
-	  },
-	  {
-		code: `
+			options: [{ hoist: "never" }],
+		},
+		{
+			code: `
   type Foo<A> = 1;
   interface A {}
 		`,
-		options: [{ hoist: 'never' }],
-	  },
-	  {
-		code: `
+			options: [{ hoist: "never" }],
+		},
+		{
+			code: `
   {
 	type A = 1;
   }
   type A = 1;
 		`,
-		options: [{ hoist: 'never' }],
-	  },
-	  {
-		code: `
+			options: [{ hoist: "never" }],
+		},
+		{
+			code: `
   {
 	interface Foo<A> {}
   }
   type A = 1;
 		`,
-		options: [{ hoist: 'never' }],
-	  },
-  
-	  {
-		code: `
+			options: [{ hoist: "never" }],
+		},
+
+		{
+			code: `
   type Foo<A> = 1;
   type A = 1;
 		`,
-		options: [{ hoist: 'functions' }],
-	  },
-	  {
-		code: `
+			options: [{ hoist: "functions" }],
+		},
+		{
+			code: `
   interface Foo<A> {}
   type A = 1;
 		`,
-		options: [{ hoist: 'functions' }],
-	  },
-	  {
-		code: `
+			options: [{ hoist: "functions" }],
+		},
+		{
+			code: `
   interface Foo<A> {}
   interface A {}
 		`,
-		options: [{ hoist: 'functions' }],
-	  },
-	  {
-		code: `
+			options: [{ hoist: "functions" }],
+		},
+		{
+			code: `
   type Foo<A> = 1;
   interface A {}
 		`,
-		options: [{ hoist: 'functions' }],
-	  },
-	  {
-		code: `
+			options: [{ hoist: "functions" }],
+		},
+		{
+			code: `
   {
 	type A = 1;
   }
   type A = 1;
 		`,
-		options: [{ hoist: 'functions' }],
-	  },
-	  {
-		code: `
+			options: [{ hoist: "functions" }],
+		},
+		{
+			code: `
   {
 	interface Foo<A> {}
   }
   type A = 1;
 		`,
-		options: [{ hoist: 'functions' }],
-	  },
-	  `
+			options: [{ hoist: "functions" }],
+		},
+		`
   import type { Foo } from 'bar';
   
   declare module 'bar' {
 	export type Foo = string;
   }
 		`,
-	  `
+		`
   import type { Foo } from 'bar';
   
   declare module 'bar' {
@@ -2949,14 +2949,14 @@ ruleTesterTypeScript.run('no-shadow', rule, {
 	}
   }
 		`,
-	  `
+		`
   import { type Foo } from 'bar';
   
   declare module 'bar' {
 	export type Foo = string;
   }
 		`,
-	  `
+		`
   import { type Foo } from 'bar';
   
   declare module 'bar' {
@@ -2965,14 +2965,14 @@ ruleTesterTypeScript.run('no-shadow', rule, {
 	}
   }
 		`,
-	  `
+		`
   import { type Foo } from 'bar';
   
   declare module 'bar' {
 	type Foo = string;
   }
 		`,
-	  `
+		`
   import { type Foo } from 'bar';
   
   declare module 'bar' {
@@ -2981,134 +2981,134 @@ ruleTesterTypeScript.run('no-shadow', rule, {
 	}
   }
 		`,
-	  {
-		filename: 'baz.d.ts',
-		code: `
+		{
+			filename: "baz.d.ts",
+			code: `
   declare const foo1: boolean;
 		`,
-		options: [{ builtinGlobals: true }],
-		languageOptions: {
-		  globals: {
-			foo1: false,
-		  },
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					foo1: false,
+				},
+			},
 		},
-	  },
-	  {
-		filename: 'baz.d.ts',
-		code: `
+		{
+			filename: "baz.d.ts",
+			code: `
   declare let foo2: boolean;
 		`,
-		options: [{ builtinGlobals: true }],
-		languageOptions: {
-		  globals: {
-			foo2: false,
-		  },
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					foo2: false,
+				},
+			},
 		},
-	  },
-	  {
-		filename: 'baz.d.ts',
-		code: `
+		{
+			filename: "baz.d.ts",
+			code: `
   declare var foo3: boolean;
 		`,
-		options: [{ builtinGlobals: true }],
-		languageOptions: {
-		  globals: {
-			foo3: false,
-		  },
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					foo3: false,
+				},
+			},
 		},
-	  },
-	  {
-		filename: 'baz.d.ts',
-		code: `
+		{
+			filename: "baz.d.ts",
+			code: `
   function foo4(name: string): void;
 		`,
-		options: [{ builtinGlobals: true }],
-		languageOptions: {
-		  globals: {
-			foo4: false,
-		  },
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					foo4: false,
+				},
+			},
 		},
-	  },
-	  {
-		filename: 'baz.d.ts',
-		code: `
+		{
+			filename: "baz.d.ts",
+			code: `
   declare class Foopy1 {
 	name: string;
   }
 		`,
-		options: [{ builtinGlobals: true }],
-		languageOptions: {
-		  globals: {
-			Foopy1: false,
-		  },
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					Foopy1: false,
+				},
+			},
 		},
-	  },
-	  {
-		filename: 'baz.d.ts',
-		code: `
+		{
+			filename: "baz.d.ts",
+			code: `
   declare interface Foopy2 {
 	name: string;
   }
 		`,
-		options: [{ builtinGlobals: true }],
-		languageOptions: {
-		  globals: {
-			Foopy2: false,
-		  },
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					Foopy2: false,
+				},
+			},
 		},
-	  },
-	  {
-		filename: 'baz.d.ts',
-		code: `
+		{
+			filename: "baz.d.ts",
+			code: `
   declare type Foopy3 = {
 	x: number;
   };
 		`,
-		options: [{ builtinGlobals: true }],
-		languageOptions: {
-		  globals: {
-			Foopy3: false,
-		  },
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					Foopy3: false,
+				},
+			},
 		},
-	  },
-	  {
-		filename: 'baz.d.ts',
-		code: `
+		{
+			filename: "baz.d.ts",
+			code: `
   declare enum Foopy4 {
 	x,
   }
 		`,
-		options: [{ builtinGlobals: true }],
-		languageOptions: {
-		  globals: {
-			Foopy4: false,
-		  },
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					Foopy4: false,
+				},
+			},
 		},
-	  },
-	  {
-		filename: 'baz.d.ts',
-		code: `
+		{
+			filename: "baz.d.ts",
+			code: `
   declare namespace Foopy5 {}
 		`,
-		options: [{ builtinGlobals: true }],
-		languageOptions: {
-		  globals: {
-			Foopy5: false,
-		  },
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					Foopy5: false,
+				},
+			},
 		},
-	  },
-	  {
-		filename: 'baz.d.ts',
-		code: `
+		{
+			filename: "baz.d.ts",
+			code: `
   declare;
   foo5: boolean;
 		`,
-		options: [{ builtinGlobals: true }],
-		languageOptions: {
-		  globals: {
-			foo5: false,
-		  },
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					foo5: false,
+				},
+			},
 		},
-	  },
 	],
-  });
+});
