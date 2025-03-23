@@ -276,3 +276,70 @@ const myFragment = <></>;
 ```
 
 :::
+
+### TypeScript Support
+
+This rule supports TypeScript-specific expressions and follows these guidelines:
+
+1. Directives (like 'use strict') are allowed in module and namespace declarations
+2. Type-related expressions are treated as unused if their wrapped value expressions are unused:
+   * Type assertions (`x as number`, `<number>x`)
+   * Non-null assertions (`x!`)
+   * Type instantiations (`Set<number>`)
+
+Note: Although type expressions never have runtime side effects (e.g., `x!` is equivalent to `x` at runtime), they can be used to assert types for testing purposes.
+
+Examples of **correct** code for this rule when using TypeScript:
+
+::: correct
+
+```ts
+/* eslint no-unused-expressions: "error" */
+
+// Function calls are allowed
+function getSet() {
+    return Set;
+}
+
+// Type expressions wrapping function calls are allowed
+getSet()<number>();
+getSet() as Set<unknown>;
+getSet()!;
+
+// Directives in modules and namespaces
+module Foo {
+    'use strict';
+}
+
+namespace Bar {
+    'use strict';
+    export class Baz {}
+}
+```
+
+:::
+
+Examples of **incorrect** code for this rule when using TypeScript:
+
+::: incorrect
+
+```ts
+/* eslint no-unused-expressions: "error" */
+
+// Standalone type expressions
+Set<number>;
+1 as number;
+window!;
+
+// Non-directive expressions in modules/namespaces
+module Foo {
+    'hello world';
+}
+
+namespace Bar {
+    123;
+    export class Baz {}
+}
+```
+
+:::
