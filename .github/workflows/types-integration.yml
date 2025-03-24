@@ -35,8 +35,7 @@ jobs:
             - name: Install Packages (eslint-webpack-plugin)
               working-directory: webpack
               run: |
-                  npm install
-                  npm install ../eslint
+                  npm install --no-package-lock ../eslint
 
             - name: Run TSC
               working-directory: webpack
