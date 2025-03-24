@@ -296,12 +296,10 @@ Examples of **correct** code for this rule when using TypeScript:
 ```ts
 /* eslint no-unused-expressions: "error" */
 
-// Function calls are allowed
+// Type expressions wrapping function calls are allowed
 function getSet() {
     return Set;
 }
-
-// Type expressions wrapping function calls are allowed
 getSet()<number>();
 getSet() as Set<unknown>;
 getSet()!;
