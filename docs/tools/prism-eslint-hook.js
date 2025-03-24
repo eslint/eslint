@@ -146,7 +146,6 @@ function installPrismESLintMarkerHook() {
 			// Remove trailing newline and presentational `⏎` characters
 			docsExampleCodeToParsableCode(code),
 			config,
-			{ filename: "code.js" },
 		);
 
 		if (lintMessages.some(m => m.fatal)) {
