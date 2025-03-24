@@ -104,6 +104,8 @@ Examples of **correct** TypeScript code for this rule:
 ::: correct
 
 ```ts
+/* eslint no-dupe-class-members: "error" */
+
 class A {
 	foo(value: string): void;
 	foo(value: number): void;
