@@ -1897,42 +1897,42 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 		  options: [{ typedefs: false }],
 		},
 		// https://github.com/typescript-eslint/typescript-eslint/issues/2572
-	// 	{
-	// 	  code: `
-	// interface Bar {
-	//   type: typeof Foo;
-	// }
+		{
+		  code: `
+	interface Bar {
+	  type: typeof Foo;
+	}
 	
-	// const Foo = 2;
-	// 	  `,
-	// 	  options: [{ ignoreTypeReferences: true }],
-	// 	},
-	// 	{
-	// 	  code: `
-	// interface Bar {
-	//   type: typeof Foo.FOO;
-	// }
+	const Foo = 2;
+		  `,
+		  options: [{ ignoreTypeReferences: true }],
+		},
+		{
+		  code: `
+	interface Bar {
+	  type: typeof Foo.FOO;
+	}
 	
-	// class Foo {
-	//   public static readonly FOO = '';
-	// }
-	// 	  `,
-	// 	  options: [{ ignoreTypeReferences: true }],
-	// 	},
-	// 	{
-	// 	  code: `
-	// interface Bar {
-	//   type: typeof Foo.Bar.Baz;
-	// }
+	class Foo {
+	  public static readonly FOO = '';
+	}
+		  `,
+		  options: [{ ignoreTypeReferences: true }],
+		},
+		{
+		  code: `
+	interface Bar {
+	  type: typeof Foo.Bar.Baz;
+	}
 	
-	// const Foo = {
-	//   Bar: {
-	// 	Baz: 1,
-	//   },
-	// };
-	// 	  `,
-	// 	  options: [{ ignoreTypeReferences: true }],
-	// 	},
+	const Foo = {
+	  Bar: {
+		Baz: 1,
+	  },
+	};
+		  `,
+		  options: [{ ignoreTypeReferences: true }],
+		},
 		// https://github.com/bradzacher/eslint-plugin-typescript/issues/141
 		{
 		  code: `
@@ -2077,20 +2077,20 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 		  languageOptions: { parserOptions },
 		  options: [{ allowNamedExports: true }],
 		},
-	// 	{
-	// 	  code: `
-	// export { Foo, baz };
+		{
+		  code: `
+	export { Foo, baz };
 	
-	// enum Foo {
-	//   BAR,
-	// }
+	enum Foo {
+	  BAR,
+	}
 	
-	// let baz: Enum;
-	// enum Enum {}
-	// 	  `,
-	// 	  languageOptions: { parserOptions },
-	// 	  options: [{ allowNamedExports: true }],
-	// 	},
+	let baz: Enum;
+	enum Enum {}
+		  `,
+		  languageOptions: { parserOptions },
+		  options: [{ allowNamedExports: true }],
+		},
 		// https://github.com/typescript-eslint/typescript-eslint/issues/2502
 		{
 		  code: `
@@ -2168,39 +2168,39 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 	}
 		`,
 		// https://github.com/typescript-eslint/typescript-eslint/issues/2824
-	// 	`
-	// @Directive({
-	//   selector: '[rcCidrIpPattern]',
-	//   providers: [
-	// 	{
-	// 	  provide: NG_VALIDATORS,
-	// 	  useExisting: CidrIpPatternDirective,
-	// 	  multi: true,
-	// 	},
-	//   ],
-	// })
-	// export class CidrIpPatternDirective implements Validator {}
-	// 	`,
-	// 	{
-	// 	  code: `
-	// @Directive({
-	//   selector: '[rcCidrIpPattern]',
-	//   providers: [
-	// 	{
-	// 	  provide: NG_VALIDATORS,
-	// 	  useExisting: CidrIpPatternDirective,
-	// 	  multi: true,
-	// 	},
-	//   ],
-	// })
-	// export class CidrIpPatternDirective implements Validator {}
-	// 	  `,
-	// 	  options: [
-	// 		{
-	// 		  classes: false,
-	// 		},
-	// 	  ],
-	// 	},
+		`
+	@Directive({
+	  selector: '[rcCidrIpPattern]',
+	  providers: [
+		{
+		  provide: NG_VALIDATORS,
+		  useExisting: CidrIpPatternDirective,
+		  multi: true,
+		},
+	  ],
+	})
+	export class CidrIpPatternDirective implements Validator {}
+		`,
+		{
+		  code: `
+	@Directive({
+	  selector: '[rcCidrIpPattern]',
+	  providers: [
+		{
+		  provide: NG_VALIDATORS,
+		  useExisting: CidrIpPatternDirective,
+		  multi: true,
+		},
+	  ],
+	})
+	export class CidrIpPatternDirective implements Validator {}
+		  `,
+		  options: [
+			{
+			  classes: false,
+			},
+		  ],
+		},
 		// https://github.com/typescript-eslint/typescript-eslint/issues/2941
 		`
 	class A {
@@ -2215,52 +2215,52 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 	  }
 	}
 		`,
-	// 	{
-	// 	  code: `
-	// const obj = {
-	//   foo: 'foo-value',
-	//   bar: 'bar-value',
-	// } satisfies {
-	//   [key in 'foo' | 'bar']: \`\${key}-value\`;
-	// };
-	// 	  `,
-	// 	  options: [{ ignoreTypeReferences: false }],
-	// 	},
-	// 	{
-	// 	  code: `
-	// const obj = {
-	//   foo: 'foo-value',
-	//   bar: 'bar-value',
-	// } as {
-	//   [key in 'foo' | 'bar']: \`\${key}-value\`;
-	// };
-	// 	  `,
-	// 	  options: [{ ignoreTypeReferences: false }],
-	// 	},
-	// 	{
-	// 	  code: `
-	// const obj = {
-	//   foo: {
-	// 	foo: 'foo',
-	//   } as {
-	// 	[key in 'foo' | 'bar']: key;
-	//   },
-	// };
-	// 	  `,
-	// 	  options: [{ ignoreTypeReferences: false }],
-	// 	},
-	// 	{
-	// 	  code: `
-	// const foo = {
-	//   bar: 'bar',
-	// } satisfies {
-	//   bar: typeof baz;
-	// };
+		{
+		  code: `
+	const obj = {
+	  foo: 'foo-value',
+	  bar: 'bar-value',
+	} satisfies {
+	  [key in 'foo' | 'bar']: \`\${key}-value\`;
+	};
+		  `,
+		  options: [{ ignoreTypeReferences: false }],
+		},
+		{
+		  code: `
+	const obj = {
+	  foo: 'foo-value',
+	  bar: 'bar-value',
+	} as {
+	  [key in 'foo' | 'bar']: \`\${key}-value\`;
+	};
+		  `,
+		  options: [{ ignoreTypeReferences: false }],
+		},
+		{
+		  code: `
+	const obj = {
+	  foo: {
+		foo: 'foo',
+	  } as {
+		[key in 'foo' | 'bar']: key;
+	  },
+	};
+		  `,
+		  options: [{ ignoreTypeReferences: false }],
+		},
+		{
+		  code: `
+	const foo = {
+	  bar: 'bar',
+	} satisfies {
+	  bar: typeof baz;
+	};
 	
-	// const baz = '';
-	// 	  `,
-	// 	  options: [{ ignoreTypeReferences: true }],
-	// 	},
+	const baz = '';
+		  `,
+		  options: [{ ignoreTypeReferences: true }],
+		},
 	// 	`
 	// namespace A.X.Y {}
 	
@@ -2867,46 +2867,46 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 		  languageOptions: { parserOptions },
 		  options: [{ variables: false }],
 		},
-	// 	{
-	// 	  code: `
-	// class Test {
-	//   foo(args: Foo): Foo {
-	// 	return Foo.FOO;
-	//   }
-	// }
+		{
+		  code: `
+	class Test {
+	  foo(args: Foo): Foo {
+		return Foo.FOO;
+	  }
+	}
 	
-	// enum Foo {
-	//   FOO,
-	// }
-	// 	  `,
-	// 	  errors: [
-	// 		{
-	// 		  data: { name: 'Foo' },
-	// 		  line: 4,
-	// 		  messageId: 'usedBeforeDefined',
-	// 		},
-	// 	  ],
-	// 	  options: [{ enums: true }],
-	// 	},
-	// 	{
-	// 	  code: `
-	// function foo(): Foo {
-	//   return Foo.FOO;
-	// }
+	enum Foo {
+	  FOO,
+	}
+		  `,
+		  errors: [
+			{
+			  data: { name: 'Foo' },
+			  line: 4,
+			  messageId: 'usedBeforeDefined',
+			},
+		  ],
+		  options: [{ enums: true }],
+		},
+		{
+		  code: `
+	function foo(): Foo {
+	  return Foo.FOO;
+	}
 	
-	// enum Foo {
-	//   FOO,
-	// }
-	// 	  `,
-	// 	  errors: [
-	// 		{
-	// 		  data: { name: 'Foo' },
-	// 		  line: 3,
-	// 		  messageId: 'usedBeforeDefined',
-	// 		},
-	// 	  ],
-	// 	  options: [{ enums: true }],
-	// 	},
+	enum Foo {
+	   FOO,
+	 }
+	`,
+		  errors: [
+			{
+			  data: { name: 'Foo' },
+			  line: 3,
+			  messageId: 'usedBeforeDefined',
+			},
+		  ],
+		  options: [{ enums: true }],
+		},
 		{
 		  code: `
 	const foo = Foo.Foo;
@@ -3129,30 +3129,30 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 		  ],
 		  languageOptions: { parserOptions },
 		},
-	// 	{
-	// 	  code: `
-	// export { Foo, baz };
+		{
+		  code: `
+	export { Foo, baz };
 	
-	// enum Foo {
-	//   BAR,
-	// }
+	enum Foo {
+	  BAR,
+	}
 	
-	// let baz: Enum;
-	// enum Enum {}
-	// 	  `,
-	// 	  errors: [
-	// 		{
-	// 		  data: { name: 'Foo' },
-	// 		  messageId: 'usedBeforeDefined',
-	// 		},
-	// 		{
-	// 		  data: { name: 'baz' },
-	// 		  messageId: 'usedBeforeDefined',
-	// 		},
-	// 	  ],
-	// 	  languageOptions: { parserOptions },
-	// 	  options: [{ allowNamedExports: false, ignoreTypeReferences: true }],
-	// 	},
+	let baz: Enum;
+	enum Enum {}
+		  `,
+		  errors: [
+			{
+			  data: { name: 'Foo' },
+			  messageId: 'usedBeforeDefined',
+			},
+			{
+			  data: { name: 'baz' },
+			  messageId: 'usedBeforeDefined',
+			},
+		  ],
+		  languageOptions: { parserOptions },
+		  options: [{ allowNamedExports: false, ignoreTypeReferences: true }],
+		},
 		{
 		  code: `
 	f();
