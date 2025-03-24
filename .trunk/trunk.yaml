@@ -75,8 +75,6 @@ lint:
               - docs/src/use/formatters/html-formatter-example.html
               - docs/src/use/formatters/index.md
               - docs/src/rules/*.md
-              - package.json
-              - packages/*/package.json
               - packages/js/src/configs/eslint-all.js
               - tests/fixtures
 actions:
