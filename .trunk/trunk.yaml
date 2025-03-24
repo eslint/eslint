@@ -61,22 +61,9 @@ lint:
         - yamllint
         - trufflehog # Requires the network to run.
     ignore:
-        - linters: [markdownlint, prettier]
+        - linters: [markdownlint]
           paths:
               - CHANGELOG.md
-        - linters: [prettier]
-          paths:
-              - docs/package.json
-              - docs/src/_data/rule_versions.json
-              - docs/src/_data/rules.json
-              - docs/src/_data/rules_meta.json
-              - docs/src/_data/versions.json
-              - docs/src/_includes
-              - docs/src/use/formatters/html-formatter-example.html
-              - docs/src/use/formatters/index.md
-              - docs/src/rules/*.md
-              - packages/js/src/configs/eslint-all.js
-              - tests/fixtures
 actions:
     disabled:
         - trunk-announce
