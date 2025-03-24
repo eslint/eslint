@@ -66,31 +66,31 @@ jobs:
               run: npm run lint:unused
 
     test_on_node:
-    name: Test
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        node: [23.x, 22.x, 21.x, 20.x, 18.x, "18.18.0"]
-        NODE_OPTIONS: [""]
-        include:
-          - os: windows-latest
-            node: "lts/*"
-          - os: macOS-latest
-            node: "lts/*"
-          - os: ubuntu-latest
-            node: 22.x
-            NODE_OPTIONS: "--experimental-transform-types"
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node }}
-      - name: Install Packages
-        run: npm install
-      - name: Test
-        env:
-          NODE_OPTIONS: ${{ matrix.NODE_OPTIONS }}
+        name: Test
+        strategy:
+            matrix:
+                os: [ubuntu-latest]
+                node: [23.x, 22.x, 21.x, 20.x, 18.x, "18.18.0"]
+                NODE_OPTIONS: [""]
+                include:
+                    - os: windows-latest
+                      node: "lts/*"
+                    - os: macOS-latest
+                      node: "lts/*"
+                    - os: ubuntu-latest
+                      node: 22.x
+                      NODE_OPTIONS: "--experimental-transform-types"
+        runs-on: ${{ matrix.os }}
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ matrix.node }}
+            - name: Install Packages
+              run: npm install
+            - name: Test
+              env:
+                  NODE_OPTIONS: ${{ matrix.NODE_OPTIONS }}
               run: node Makefile mocha
             - name: Fuzz Test
               run: node Makefile fuzz
