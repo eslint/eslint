@@ -3110,5 +3110,263 @@ ruleTesterTypeScript.run("no-shadow", rule, {
 				},
 			},
 		},
+		{
+			filename: "baz.d.cts",
+			code: `
+  declare const foo1: boolean;
+		`,
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					foo1: false,
+				},
+			},
+		},
+		{
+			filename: "baz.d.cts",
+			code: `
+  declare let foo2: boolean;
+		`,
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					foo2: false,
+				},
+			},
+		},
+		{
+			filename: "baz.d.cts",
+			code: `
+  declare var foo3: boolean;
+		`,
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					foo3: false,
+				},
+			},
+		},
+		{
+			filename: "baz.d.cts",
+			code: `
+  function foo4(name: string): void;
+		`,
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					foo4: false,
+				},
+			},
+		},
+		{
+			filename: "baz.d.cts",
+			code: `
+  declare class Foopy1 {
+	name: string;
+  }
+		`,
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					Foopy1: false,
+				},
+			},
+		},
+		{
+			filename: "baz.d.cts",
+			code: `
+  declare interface Foopy2 {
+	name: string;
+  }
+		`,
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					Foopy2: false,
+				},
+			},
+		},
+		{
+			filename: "baz.d.cts",
+			code: `
+  declare type Foopy3 = {
+	x: number;
+  };
+		`,
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					Foopy3: false,
+				},
+			},
+		},
+		{
+			filename: "baz.d.cts",
+			code: `
+  declare enum Foopy4 {
+	x,
+  }
+		`,
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					Foopy4: false,
+				},
+			},
+		},
+		{
+			filename: "baz.d.cts",
+			code: `
+  declare namespace Foopy5 {}
+		`,
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					Foopy5: false,
+				},
+			},
+		},
+		{
+			filename: "baz.d.cts",
+			code: `
+  declare;
+  foo5: boolean;
+		`,
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					foo5: false,
+				},
+			},
+		},
+		{
+			filename: "baz.d.mts",
+			code: `
+  declare const foo1: boolean;
+		`,
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					foo1: false,
+				},
+			},
+		},
+		{
+			filename: "baz.d.mts",
+			code: `
+  declare let foo2: boolean;
+		`,
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					foo2: false,
+				},
+			},
+		},
+		{
+			filename: "baz.d.mts",
+			code: `
+  declare var foo3: boolean;
+		`,
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					foo3: false,
+				},
+			},
+		},
+		{
+			filename: "baz.d.mts",
+			code: `
+  function foo4(name: string): void;
+		`,
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					foo4: false,
+				},
+			},
+		},
+		{
+			filename: "baz.d.mts",
+			code: `
+  declare class Foopy1 {
+	name: string;
+  }
+		`,
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					Foopy1: false,
+				},
+			},
+		},
+		{
+			filename: "baz.d.mts",
+			code: `
+  declare interface Foopy2 {
+	name: string;
+  }
+		`,
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					Foopy2: false,
+				},
+			},
+		},
+		{
+			filename: "baz.d.mts",
+			code: `
+  declare type Foopy3 = {
+	x: number;
+  };
+		`,
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					Foopy3: false,
+				},
+			},
+		},
+		{
+			filename: "baz.d.mts",
+			code: `
+  declare enum Foopy4 {
+	x,
+  }
+		`,
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					Foopy4: false,
+				},
+			},
+		},
+		{
+			filename: "baz.d.mts",
+			code: `
+  declare namespace Foopy5 {}
+		`,
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					Foopy5: false,
+				},
+			},
+		},
+		{
+			filename: "baz.d.mts",
+			code: `
+  declare;
+  foo5: boolean;
+		`,
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: {
+					foo5: false,
+				},
+			},
+		},
 	],
 });
