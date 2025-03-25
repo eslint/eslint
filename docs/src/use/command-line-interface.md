@@ -852,7 +852,7 @@ The `content` strategy can be useful in cases where the modification time of you
 
 Suppresses existing violations, so that they are not being reported in subsequent runs. It allows you to enable one or more lint rules and be notified only when new violations show up. The suppressions are stored in `eslint-suppressions.json` by default, unless otherwise specified by `--suppressions-location`. The file gets updated with the new suppressions.
 
-* **Argument Type**: No argument.
+-   **Argument Type**: No argument.
 
 ##### `--suppress-all` example
 
@@ -865,8 +865,8 @@ Suppresses existing violations, so that they are not being reported in subsequen
 
 Suppresses violations for specific rules, so that they are not being reported in subsequent runs. Similar to `--suppress-all`, the suppressions are stored in `eslint-suppressions.json` by default, unless otherwise specified by `--suppressions-location`. The file gets updated with the new suppressions.
 
-* **Argument Type**: String. Rule ID.
-* **Multiple Arguments**: Yes
+-   **Argument Type**: String. Rule ID.
+-   **Multiple Arguments**: Yes
 
 ##### `--suppress-rule` example
 
@@ -879,9 +879,9 @@ Suppresses violations for specific rules, so that they are not being reported in
 
 Specify the path to the suppressions location. Can be a file or a directory.
 
-* **Argument Type**: String. Path to file. If a directory is specified, a cache file is created inside the specified folder. The name of the file is based on the hash of the current working directory, e.g.: `suppressions_hashOfCWD`
-* **Multiple Arguments**: No
-* **Default Value**: If no location is specified, `eslint-suppressions.json` is used. The file is created in the directory where the `eslint` command is executed.
+-   **Argument Type**: String. Path to file. If a directory is specified, a cache file is created inside the specified folder. The name of the file is based on the hash of the current working directory, e.g.: `suppressions_hashOfCWD`
+-   **Multiple Arguments**: No
+-   **Default Value**: If no location is specified, `eslint-suppressions.json` is used. The file is created in the directory where the `eslint` command is executed.
 
 ##### `--suppressions-location` example
 
@@ -894,7 +894,7 @@ Specify the path to the suppressions location. Can be a file or a directory.
 
 Prune unused suppressions from the suppressions file. This option is useful when you addressed one or more of the suppressed violations.
 
-* **Argument Type**: No argument.
+-   **Argument Type**: No argument.
 
 ##### `--prune-suppressions` example
 

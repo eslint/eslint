@@ -5,10 +5,9 @@ eleventyNavigation:
     parent: use eslint
     title: Bulk Suppressions
     order: 8
-
 ---
 
-Enabling a new lint rule as `"error"` can be challenging when the codebase has many violations and the rule isn't auto-fixable.  Unless the rule is enabled during the early stages of the project, it becomes harder and harder to enable it as the codebase grows. Existing violations must be resolved before enabling the rule, but while doing that other violations may occur.
+Enabling a new lint rule as `"error"` can be challenging when the codebase has many violations and the rule isn't auto-fixable. Unless the rule is enabled during the early stages of the project, it becomes harder and harder to enable it as the codebase grows. Existing violations must be resolved before enabling the rule, but while doing that other violations may occur.
 
 To address this, ESLint provides a way to suppress existing violations for one or more rules. While the rule will be enforced for new code, the existing violations will not be reported. This way, you can address the existing violations at your own pace.
 
