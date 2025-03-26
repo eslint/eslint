@@ -720,7 +720,7 @@ ruleTester.run("no-redeclare", rule, {
 const ruleTesterTypeScript = new RuleTester({
 	languageOptions: {
 		parser: require("@typescript-eslint/parser"),
-		// sourceType: "script",
+		sourceType: "script",
 	},
 });
 
