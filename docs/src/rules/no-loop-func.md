@@ -3,13 +3,14 @@ title: no-loop-func
 rule_type: suggestion
 ---
 
+
 Writing functions within loops tends to result in errors due to the way the function creates a closure around the loop. For example:
 
 ```js
 for (var i = 0; i < 10; i++) {
-	funcs[i] = function () {
-		return i;
-	};
+    funcs[i] = function() {
+        return i;
+    };
 }
 ```
 
@@ -19,9 +20,9 @@ In this case, you would expect each function created within the loop to return a
 
 ```js
 for (let i = 0; i < 10; i++) {
-	funcs[i] = function () {
-		return i;
-	};
+    funcs[i] = function() {
+        return i;
+    };
 }
 ```
 
@@ -41,57 +42,51 @@ Examples of **incorrect** code for this rule:
 /*eslint no-loop-func: "error"*/
 
 var i = 0;
-while (i < 5) {
-	var a = function () {
-		return i;
-	};
-	a();
+while(i < 5) {
+    var a = function() { return i; };
+    a();
 
-	i++;
+    i++;
 }
 
 var i = 0;
 do {
-	function a() {
-		return i;
-	}
-	a();
+    function a() { return i; };
+    a();
 
-	i++;
+    i++
 } while (i < 5);
 
 let foo = 0;
 for (let i = 0; i < 10; ++i) {
-	//Bad, `foo` is not in the loop-block's scope and `foo` is modified in/after the loop
-	setTimeout(() => console.log(foo));
-	foo += 1;
+    //Bad, `foo` is not in the loop-block's scope and `foo` is modified in/after the loop
+    setTimeout(() => console.log(foo));
+    foo += 1;
 }
 
 for (let i = 0; i < 10; ++i) {
-	//Bad, `foo` is not in the loop-block's scope and `foo` is modified in/after the loop
-	setTimeout(() => console.log(foo));
+    //Bad, `foo` is not in the loop-block's scope and `foo` is modified in/after the loop
+    setTimeout(() => console.log(foo));
 }
 foo = 100;
 
 var arr = [];
 
 for (var i = 0; i < 5; i++) {
-	arr.push((f => f)(() => i));
+    arr.push((f => f)(() => i));
 }
 
 for (var i = 0; i < 5; i++) {
-	arr.push(
-		(() => {
-			return () => i;
-		})()
-	);
+    arr.push((() => {
+        return () => i;
+    })());
 }
 
 for (var i = 0; i < 5; i++) {
-	(function fun() {
-		if (arr.includes(fun)) return i;
-		else arr.push(fun);
-	})();
+    (function fun () {
+        if (arr.includes(fun)) return i;
+        else arr.push(fun);
+    })();
 }
 ```
 
@@ -104,51 +99,43 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-loop-func: "error"*/
 
-var a = function () {};
+var a = function() {};
 
-for (var i = 10; i; i--) {
-	a();
+for (var i=10; i; i--) {
+    a();
 }
 
-for (var i = 10; i; i--) {
-	var a = function () {}; // OK, no references to variables in the outer scopes.
-	a();
+for (var i=10; i; i--) {
+    var a = function() {}; // OK, no references to variables in the outer scopes.
+    a();
 }
 
-for (let i = 10; i; i--) {
-	var a = function () {
-		return i;
-	}; // OK, all references are referring to block scoped variables in the loop.
-	a();
+for (let i=10; i; i--) {
+    var a = function() { return i; }; // OK, all references are referring to block scoped variables in the loop.
+    a();
 }
 
 var foo = 100;
-for (let i = 10; i; i--) {
-	var a = function () {
-		return foo;
-	}; // OK, all references are referring to never modified variables.
-	a();
+for (let i=10; i; i--) {
+    var a = function() { return foo; }; // OK, all references are referring to never modified variables.
+    a();
 }
 //... no modifications of foo after this loop ...
 
 var arr = [];
 
-for (var i = 10; i; i--) {
-	(function () {
-		return i;
-	})();
+for (var i=10; i; i--) {
+    (function() { return i; })();
 }
 
 for (var i = 0; i < 5; i++) {
-	arr.push((f => f)((() => i)()));
+    arr.push((f => f)((() => i)()));
 }
 
 for (var i = 0; i < 5; i++) {
-	arr.push(
-		(() => {
-			return (() => i)();
-		})()
-	);
+    arr.push((() => {
+        return (() => i)();
+    })());
 }
 ```
 
@@ -180,8 +167,8 @@ The rule cannot identify whether the function instance is just immediately invok
 const foo = [1, 2, 3, 4];
 var i = 0;
 
-while (foo.some(e => e > i)) {
-	i += 1;
+while(foo.some(e => e > i)){
+    i += 1;
 }
 ```
 
