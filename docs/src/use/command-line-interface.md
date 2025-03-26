@@ -231,7 +231,7 @@ This option allows you to specify additional file extensions to lint.
 -   **Multiple Arguments**: Yes
 -   **Default Value**: By default, ESLint lints files with extensions `.js`, `.mjs`, `.cjs`, and additional extensions [specified in the configuration file](configure/configuration-files#specifying-files-with-arbitrary-extensions).
 
-This option is primarely intended for use in combination with the `--no-config-lookup` option, since in that case there is no configuration file in which the additional extensions would be specified.
+This option is primarily intended for use in combination with the `--no-config-lookup` option, since in that case there is no configuration file in which the additional extensions would be specified.
 
 ##### `--ext` example
 
@@ -307,7 +307,7 @@ This option allows you to specify parser options to be used by ESLint. The avail
 {{ npx_tabs ({
     package: "eslint",
     args: ["--stdin", "--parser-options", "ecmaVersion:7"],
-    comment: "succeds, yay!",
+    comment: "succeeds, yay!",
     previousCommands: ["echo \'3 ** 4\'"]
 }) }}
 
