@@ -3672,61 +3672,55 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 	invalid: [
 		{
 			code: "import foo from 'import1';",
+			options: ["import1", "import2"],
 			errors: [
 				{
 					messageId: "path",
 					type: "ImportDeclaration",
 				},
 			],
-			options: ["import1", "import2"],
 		},
 		{
 			code: "import foo = require('import1');",
+			options: ["import1", "import2"],
 			errors: [
 				{
 					messageId: "path",
 				},
 			],
-			options: ["import1", "import2"],
 		},
 		{
 			code: "export { foo } from 'import1';",
+			options: ["import1", "import2"],
 			errors: [
 				{
 					messageId: "path",
 					type: "ExportNamedDeclaration",
 				},
 			],
-			options: ["import1", "import2"],
 		},
 		{
 			code: "import foo from 'import1';",
+			options: [{ paths: ["import1", "import2"] }],
 			errors: [
 				{
 					messageId: "path",
 					type: "ImportDeclaration",
 				},
 			],
-			options: [{ paths: ["import1", "import2"] }],
 		},
 		{
 			code: "export { foo } from 'import1';",
+			options: [{ paths: ["import1", "import2"] }],
 			errors: [
 				{
 					messageId: "path",
 					type: "ExportNamedDeclaration",
 				},
 			],
-			options: [{ paths: ["import1", "import2"] }],
 		},
 		{
 			code: "import foo from 'import1/private/foo';",
-			errors: [
-				{
-					messageId: "patterns",
-					type: "ImportDeclaration",
-				},
-			],
 			options: [
 				{
 					paths: ["import1", "import2"],
@@ -3735,17 +3729,17 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 						"import2/*",
 						"!import2/good",
 					],
+				},
+			],
+			errors: [
+				{
+					messageId: "patterns",
+					type: "ImportDeclaration",
 				},
 			],
 		},
 		{
 			code: "export { foo } from 'import1/private/foo';",
-			errors: [
-				{
-					messageId: "patterns",
-					type: "ExportNamedDeclaration",
-				},
-			],
 			options: [
 				{
 					paths: ["import1", "import2"],
@@ -3756,15 +3750,15 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 					],
 				},
 			],
+			errors: [
+				{
+					messageId: "patterns",
+					type: "ExportNamedDeclaration",
+				},
+			],
 		},
 		{
 			code: "import foo from 'import-foo';",
-			errors: [
-				{
-					messageId: "pathWithCustomMessage",
-					type: "ImportDeclaration",
-				},
-			],
 			options: [
 				{
 					paths: [
@@ -3777,17 +3771,17 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 							name: "import-baz",
 						},
 					],
+				},
+			],
+			errors: [
+				{
+					messageId: "pathWithCustomMessage",
+					type: "ImportDeclaration",
 				},
 			],
 		},
 		{
 			code: "export { foo } from 'import-foo';",
-			errors: [
-				{
-					messageId: "pathWithCustomMessage",
-					type: "ExportNamedDeclaration",
-				},
-			],
 			options: [
 				{
 					paths: [
@@ -3802,15 +3796,36 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 					],
 				},
 			],
+			errors: [
+				{
+					messageId: "pathWithCustomMessage",
+					type: "ExportNamedDeclaration",
+				},
+			],
 		},
 		{
 			code: "import { Bar } from 'import-foo';",
+			options: [
+				{
+					paths: [
+						{
+							importNames: ["Bar"],
+							message:
+								"Please use Bar from /import-bar/baz/ instead.",
+							name: "import-foo",
+						},
+					],
+				},
+			],
 			errors: [
 				{
 					messageId: "importNameWithCustomMessage",
 					type: "ImportDeclaration",
 				},
 			],
+		},
+		{
+			code: "export { Bar } from 'import-foo';",
 			options: [
 				{
 					paths: [
@@ -3823,36 +3838,15 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 					],
 				},
 			],
-		},
-		{
-			code: "export { Bar } from 'import-foo';",
 			errors: [
 				{
 					messageId: "importNameWithCustomMessage",
 					type: "ExportNamedDeclaration",
-				},
-			],
-			options: [
-				{
-					paths: [
-						{
-							importNames: ["Bar"],
-							message:
-								"Please use Bar from /import-bar/baz/ instead.",
-							name: "import-foo",
-						},
-					],
 				},
 			],
 		},
 		{
 			code: "import foo from 'import1/private/foo';",
-			errors: [
-				{
-					messageId: "patternWithCustomMessage",
-					type: "ImportDeclaration",
-				},
-			],
 			options: [
 				{
 					patterns: [
@@ -3867,17 +3861,17 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 								"import2 is deprecated, except the modules in import2/good.",
 						},
 					],
+				},
+			],
+			errors: [
+				{
+					messageId: "patternWithCustomMessage",
+					type: "ImportDeclaration",
 				},
 			],
 		},
 		{
 			code: "export { foo } from 'import1/private/foo';",
-			errors: [
-				{
-					messageId: "patternWithCustomMessage",
-					type: "ExportNamedDeclaration",
-				},
-			],
 			options: [
 				{
 					patterns: [
@@ -3894,15 +3888,15 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 					],
 				},
 			],
+			errors: [
+				{
+					messageId: "patternWithCustomMessage",
+					type: "ExportNamedDeclaration",
+				},
+			],
 		},
 		{
 			code: "import 'import-foo';",
-			errors: [
-				{
-					messageId: "path",
-					type: "ImportDeclaration",
-				},
-			],
 			options: [
 				{
 					paths: [
@@ -3912,15 +3906,15 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 					],
 				},
 			],
-		},
-		{
-			code: "import 'import-foo';",
 			errors: [
 				{
 					messageId: "path",
 					type: "ImportDeclaration",
 				},
 			],
+		},
+		{
+			code: "import 'import-foo';",
 			options: [
 				{
 					paths: [
@@ -3929,17 +3923,17 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 							name: "import-foo",
 						},
 					],
+				},
+			],
+			errors: [
+				{
+					messageId: "path",
+					type: "ImportDeclaration",
 				},
 			],
 		},
 		{
 			code: "import foo from 'import-foo';",
-			errors: [
-				{
-					messageId: "pathWithCustomMessage",
-					type: "ImportDeclaration",
-				},
-			],
 			options: [
 				{
 					paths: [
@@ -3949,16 +3943,17 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 							name: "import-foo",
 						},
 					],
+				},
+			],
+			errors: [
+				{
+					messageId: "pathWithCustomMessage",
+					type: "ImportDeclaration",
 				},
 			],
 		},
 		{
 			code: "import foo = require('import-foo');",
-			errors: [
-				{
-					messageId: "pathWithCustomMessage",
-				},
-			],
 			options: [
 				{
 					paths: [
@@ -3970,15 +3965,14 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 					],
 				},
 			],
+			errors: [
+				{
+					messageId: "pathWithCustomMessage",
+				},
+			],
 		},
 		{
 			code: "import { Bar } from 'import-foo';",
-			errors: [
-				{
-					messageId: "importNameWithCustomMessage",
-					type: "ImportDeclaration",
-				},
-			],
 			options: [
 				{
 					paths: [
@@ -3990,17 +3984,17 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 							name: "import-foo",
 						},
 					],
+				},
+			],
+			errors: [
+				{
+					messageId: "importNameWithCustomMessage",
+					type: "ImportDeclaration",
 				},
 			],
 		},
 		{
 			code: "export { Bar } from 'import-foo';",
-			errors: [
-				{
-					messageId: "importNameWithCustomMessage",
-					type: "ExportNamedDeclaration",
-				},
-			],
 			options: [
 				{
 					paths: [
@@ -4014,15 +4008,36 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 					],
 				},
 			],
+			errors: [
+				{
+					messageId: "importNameWithCustomMessage",
+					type: "ExportNamedDeclaration",
+				},
+			],
 		},
 		{
 			code: "import foo from 'import1/private/bar';",
+			options: [
+				{
+					patterns: [
+						{
+							allowTypeImports: true,
+							group: ["import1/private/*"],
+							message:
+								"usage of import1 private modules not allowed.",
+						},
+					],
+				},
+			],
 			errors: [
 				{
 					messageId: "patternWithCustomMessage",
 					type: "ImportDeclaration",
 				},
 			],
+		},
+		{
+			code: "export { foo } from 'import1/private/bar';",
 			options: [
 				{
 					patterns: [
@@ -4035,36 +4050,15 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 					],
 				},
 			],
-		},
-		{
-			code: "export { foo } from 'import1/private/bar';",
 			errors: [
 				{
 					messageId: "patternWithCustomMessage",
 					type: "ExportNamedDeclaration",
 				},
 			],
-			options: [
-				{
-					patterns: [
-						{
-							allowTypeImports: true,
-							group: ["import1/private/*"],
-							message:
-								"usage of import1 private modules not allowed.",
-						},
-					],
-				},
-			],
 		},
 		{
 			code: "export { foo } from 'import1/private/bar';",
-			errors: [
-				{
-					messageId: "patternWithCustomMessage",
-					type: "ExportNamedDeclaration",
-				},
-			],
 			options: [
 				{
 					patterns: [
@@ -4077,15 +4071,15 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 					],
 				},
 			],
-		},
-		{
-			code: "import { foo } from 'import1/private-package';",
 			errors: [
 				{
 					messageId: "patternWithCustomMessage",
-					type: "ImportDeclaration",
+					type: "ExportNamedDeclaration",
 				},
 			],
+		},
+		{
+			code: "import { foo } from 'import1/private-package';",
 			options: [
 				{
 					patterns: [
@@ -4099,43 +4093,39 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 					],
 				},
 			],
+			errors: [
+				{
+					messageId: "patternWithCustomMessage",
+					type: "ImportDeclaration",
+				},
+			],
 		},
 		{
 			code: "export * from 'import1';",
+			options: ["import1"],
 			errors: [
 				{
 					messageId: "path",
 					type: "ExportAllDeclaration",
 				},
 			],
-			options: ["import1"],
 		},
 		{
 			code: "import type { InvalidTestCase } from '@typescript-eslint/utils/dist/ts-eslint';",
+			options: [
+				{
+					patterns: ["@typescript-eslint/utils/dist/*"],
+				},
+			],
 			errors: [
 				{
 					messageId: "patterns",
 					type: "ImportDeclaration",
 				},
 			],
-			options: [
-				{
-					patterns: ["@typescript-eslint/utils/dist/*"],
-				},
-			],
 		},
 		{
 			code: "import { Bar, type Baz } from 'import-foo';",
-			errors: [
-				{
-					messageId: "importNameWithCustomMessage",
-					type: "ImportDeclaration",
-				},
-				{
-					messageId: "importNameWithCustomMessage",
-					type: "ImportDeclaration",
-				},
-			],
 			options: [
 				{
 					paths: [
@@ -4147,21 +4137,21 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 							name: "import-foo",
 						},
 					],
+				},
+			],
+			errors: [
+				{
+					messageId: "importNameWithCustomMessage",
+					type: "ImportDeclaration",
+				},
+				{
+					messageId: "importNameWithCustomMessage",
+					type: "ImportDeclaration",
 				},
 			],
 		},
 		{
 			code: "export { Bar, type Baz } from 'import-foo';",
-			errors: [
-				{
-					messageId: "importNameWithCustomMessage",
-					type: "ExportNamedDeclaration",
-				},
-				{
-					messageId: "importNameWithCustomMessage",
-					type: "ExportNamedDeclaration",
-				},
-			],
 			options: [
 				{
 					paths: [
@@ -4173,6 +4163,16 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 							name: "import-foo",
 						},
 					],
+				},
+			],
+			errors: [
+				{
+					messageId: "importNameWithCustomMessage",
+					type: "ExportNamedDeclaration",
+				},
+				{
+					messageId: "importNameWithCustomMessage",
+					type: "ExportNamedDeclaration",
 				},
 			],
 		},
