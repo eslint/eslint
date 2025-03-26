@@ -1171,14 +1171,6 @@ export namespace Rule {
 		 * Mandatory for rules that provide suggestions.
 		 */
 		hasSuggestions?: boolean | undefined;
-		/**
-		 * Specifies the dialects the rule supports.
-		 */
-		dialects?: ("javascript" | "typescript")[] | undefined;
-		/**
-		 * Specifies the language the rule supports.
-		 */
-		language?: "javascript" | "typescript" | undefined;
 	}
 
 	interface RuleContext
