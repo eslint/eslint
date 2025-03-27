@@ -697,7 +697,6 @@ If you're using **Node.js >= 22.6.0**, you can load TypeScript configuration fil
 
 Since this feature is still experimental, you must also enable the `unstable_native_nodejs_ts_config` flag.
 
-{{ npx_tabs({
-package: "eslint",
-args: ["--flag", "unstable_native_nodejs_ts_config", "--config", "eslint.config.ts"]
-}) }}
+```bash
+npx --node-options='--experimental-strip-types' eslint --flag unstable_native_nodejs_ts_config
+```
