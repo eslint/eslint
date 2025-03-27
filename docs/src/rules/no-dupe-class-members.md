@@ -95,6 +95,24 @@ class E {
 
 :::
 
+This rule additionally supports TypeScript type syntax. It has support for TypeScript's method overload definitions.
+
+Examples of **correct** TypeScript code for this rule:
+
+::: correct
+
+```ts
+/* eslint no-dupe-class-members: "error" */
+
+class A {
+	foo(value: string): void;
+	foo(value: number): void;
+	foo(value: string | number) {} // ✅ This is the actual implementation.
+}
+```
+
+:::
+
 ## When Not To Use It
 
 This rule should not be used in ES3/5 environments.
