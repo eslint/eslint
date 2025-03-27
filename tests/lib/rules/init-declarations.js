@@ -372,6 +372,15 @@ ruleTesterTypeScript.run("init-declarations", rule, {
 			`,
 			options: ["never"],
 		},
+		{
+			code: `
+	  declare namespace myLib {
+		let valueInside: number;
+	  }
+		let valueOutside: number;
+			`,
+			options: ["never"],
+		},
 		`
 	  interface GreetingSettings {
 		greeting: string;
@@ -658,6 +667,25 @@ ruleTesterTypeScript.run("init-declarations", rule, {
 					endColumn: 20,
 					endLine: 7,
 					line: 7,
+					messageId: "initialized",
+				},
+			],
+		},
+		{
+			code: `
+	  declare namespace myLib {
+		let valueInside: number;
+	  }
+		let valueOutside: number;
+			`,
+			options: ["always"],
+			errors: [
+				{
+					column: 7,
+					data: { idName: "valueOutside" },
+					endColumn: 27,
+					endLine: 5,
+					line: 5,
 					messageId: "initialized",
 				},
 			],
