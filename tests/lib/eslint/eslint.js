@@ -8073,7 +8073,7 @@ describe("ESLint", () => {
 
 						await assert.rejects(eslint.lintFiles(["foo*.js"]), {
 							message:
-								"The unstable_native_nodejs_ts_config is not supported in older versions of Node.js.",
+								"The unstable_native_nodejs_ts_config flag is not supported in older versions of Node.js.",
 						});
 					},
 				);
