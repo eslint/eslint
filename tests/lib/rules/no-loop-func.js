@@ -799,6 +799,82 @@ ruleTesterTypeScript.run("no-loop-func", rule, {
 	  `,
 	],
 	invalid: [
-		// Invalid TS code
+		{
+			code: `
+  for (var i = 0; i < 10; i++) {
+    function foo() {
+      console.log(i);
+    }
+  }
+			`,
+			errors: [
+				{
+					messageId: "unsafeRefs",
+					data: { varNames: "'i'" },
+					type: "FunctionDeclaration",
+				},
+			],
+		},
+		{
+			code: `
+  for (var i = 0; i < 10; i++) {
+    const handler = (event: Event) => {
+      console.log(i);
+    };
+  }
+			`,
+			errors: [
+				{
+					messageId: "unsafeRefs",
+					data: { varNames: "'i'" },
+					type: "ArrowFunctionExpression",
+				},
+			],
+		},
+		{
+			code: `
+  interface Item {
+    id: number;
+    name: string;
+  }
+  
+  const items: Item[] = [];
+  for (var i = 0; i < 10; i++) {
+    items.push({
+      id: i,
+      name: "Item " + i
+    });
+    
+    const process = function(callback: (item: Item) => void): void {
+      callback({ id: i, name: "Item " + i });
+    };
+  }
+			`,
+			errors: [
+				{
+					messageId: "unsafeRefs",
+					data: { varNames: "'i', 'i'" },
+					type: "FunctionExpression",
+				},
+			],
+		},
+		{
+			code: `
+  type Processor<T> = (item: T) => void;
+		
+  for (var i = 0; i < 10; i++) {
+    const processor: Processor<number> = (item) => {
+      return item + i;
+    };
+  }
+			`,
+			errors: [
+				{
+					messageId: "unsafeRefs",
+					data: { varNames: "'i'" },
+					type: "ArrowFunctionExpression",
+				},
+			],
+		},
 	],
 });
