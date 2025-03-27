@@ -8038,7 +8038,7 @@ describe("ESLint", () => {
 				(typeof process.features.typescript === "undefined"
 					? it
 					: it.skip)(
-					"should throw an error if unstable_native_nodejs_ts_config is set but --experimental-strip-types is not enabled",
+					"should throw an error if unstable_native_nodejs_ts_config is set but --experimental-strip-types is not enabled and process.features.typescript is undefined",
 					async () => {
 						const cwd = getFixturePath(
 							"ts-config-files",
@@ -8074,6 +8074,48 @@ describe("ESLint", () => {
 						await assert.rejects(eslint.lintFiles(["foo*.js"]), {
 							message:
 								"The unstable_native_nodejs_ts_config is not supported in older versions of Node.js.",
+						});
+					},
+				);
+
+				// eslint-disable-next-line n/no-unsupported-features/node-builtins -- it's still an experimental feature.
+				(process.features.typescript === false ? it : it.skip)(
+					"should throw an error if unstable_native_nodejs_ts_config is set but --experimental-strip-types is not enabled and process.features.typescript is false",
+					async () => {
+						const cwd = getFixturePath(
+							"ts-config-files",
+							"ts",
+							"native",
+						);
+
+						const configFileContent = `import type { FlatConfig } from "./helper.ts";\nexport default ${JSON.stringify(
+							[{ rules: { "no-undef": 2 } }],
+							null,
+							2,
+						)} satisfies FlatConfig[];`;
+
+						const teardown = createCustomTeardown({
+							cwd,
+							files: {
+								"package.json": typeModule,
+								"eslint.config.ts": configFileContent,
+								"foo.js": "foo;",
+								"helper.ts":
+									'import { Linter } from "eslint";\nexport type FlatConfig = Linter.Config;\n',
+							},
+						});
+
+						await teardown.prepare();
+
+						eslint = new ESLint({
+							cwd,
+							overrideConfigFile: "eslint.config.ts",
+							flags: ["unstable_native_nodejs_ts_config"],
+						});
+
+						await assert.rejects(eslint.lintFiles(["foo*.js"]), {
+							message:
+								"The unstable_native_nodejs_ts_config flag is enabled, but native TypeScript support is not enabled in the current Node.js process. You need to either enable native TypeScript support by passing --experimental-strip-types or remove the unstable_native_nodejs_ts_config flag.",
 						});
 					},
 				);
