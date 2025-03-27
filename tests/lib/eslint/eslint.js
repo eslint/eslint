@@ -1777,7 +1777,10 @@ describe("ESLint", () => {
 							eslint = new ESLint({
 								cwd,
 								overrideConfigFile: "eslint.config.ts",
-								flags: ["unstable_native_nodejs_ts_config"],
+								flags: [
+									...flags,
+									"unstable_native_nodejs_ts_config",
+								],
 							});
 
 							const results = await eslint.lintText("foo;");
@@ -1824,7 +1827,10 @@ describe("ESLint", () => {
 								eslint = new ESLint({
 									cwd,
 									overrideConfigFile: "eslint.config.ts",
-									flags: ["unstable_native_nodejs_ts_config"],
+									flags: [
+										...flags,
+										"unstable_native_nodejs_ts_config",
+									],
 								});
 
 								const results = await eslint.lintText("foo;");
@@ -7755,7 +7761,10 @@ describe("ESLint", () => {
 							eslint = new ESLint({
 								cwd,
 								overrideConfigFile: "eslint.config.ts",
-								flags: ["unstable_native_nodejs_ts_config"],
+								flags: [
+									...flags,
+									"unstable_native_nodejs_ts_config",
+								],
 							});
 
 							const results = await eslint.lintFiles(["foo*.js"]);
@@ -7816,6 +7825,7 @@ describe("ESLint", () => {
 										cwd,
 										overrideConfigFile: "eslint.config.ts",
 										flags: [
+											...flags,
 											"unstable_native_nodejs_ts_config",
 										],
 									});
@@ -7877,6 +7887,7 @@ describe("ESLint", () => {
 										cwd,
 										overrideConfigFile: "eslint.config.mts",
 										flags: [
+											...flags,
 											"unstable_native_nodejs_ts_config",
 										],
 									});
@@ -7938,6 +7949,7 @@ describe("ESLint", () => {
 										cwd,
 										overrideConfigFile: "eslint.config.cts",
 										flags: [
+											...flags,
 											"unstable_native_nodejs_ts_config",
 										],
 									});
@@ -7999,6 +8011,7 @@ describe("ESLint", () => {
 										cwd,
 										overrideConfigFile: "eslint.config.ts",
 										flags: [
+											...flags,
 											"unstable_native_nodejs_ts_config",
 										],
 									});
@@ -8068,7 +8081,10 @@ describe("ESLint", () => {
 						eslint = new ESLint({
 							cwd,
 							overrideConfigFile: "eslint.config.ts",
-							flags: ["unstable_native_nodejs_ts_config"],
+							flags: [
+								...flags,
+								"unstable_native_nodejs_ts_config",
+							],
 						});
 
 						await assert.rejects(eslint.lintFiles(["foo*.js"]), {
@@ -8110,7 +8126,10 @@ describe("ESLint", () => {
 						eslint = new ESLint({
 							cwd,
 							overrideConfigFile: "eslint.config.ts",
-							flags: ["unstable_native_nodejs_ts_config"],
+							flags: [
+								...flags,
+								"unstable_native_nodejs_ts_config",
+							],
 						});
 
 						await assert.rejects(eslint.lintFiles(["foo*.js"]), {
