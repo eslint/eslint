@@ -308,6 +308,11 @@ foo(function() {
     z(x => console.log(x, this));
 });
 
+function foo() {
+  class C {
+    accessor [this.a] = foo;
+  }
+}
 ```
 
 :::
@@ -339,5 +344,3 @@ class A {
 ## When Not To Use It
 
 If you don't want to be notified about usage of `this` keyword outside of classes or class-like objects, you can safely disable this rule.
-
-The TypeScript compiler already checks for the issues addressed by this ESLint rule. Therefore, enabling this rule in new TypeScript projects is generally unnecessary. You should only enable it if you prefer ESLint's error messages over the TypeScript compiler's or if you're using it to lint JavaScript code.

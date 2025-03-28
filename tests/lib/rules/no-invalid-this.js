@@ -1724,5 +1724,25 @@ ruleTesterTypeScript.run("no-invalid-this", rule, {
           `,
 			errors,
 		},
+		{
+			code: `
+			function foo() {
+  				class C {
+    				accessor [this.a] = foo;
+  				}
+			}
+          `,
+		  	errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }],
+		},
+		{
+			code: `
+			function foo() {
+  				class C {
+    				accessor [this.a] = this.b;
+  				}
+			}
+          `,
+		  	errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }],
+		},
 	],
 });
