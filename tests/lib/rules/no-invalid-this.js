@@ -1732,7 +1732,7 @@ ruleTesterTypeScript.run("no-invalid-this", rule, {
   				}
 			}
           `,
-		  	errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }],
+			errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }],
 		},
 		{
 			code: `
@@ -1742,7 +1742,7 @@ ruleTesterTypeScript.run("no-invalid-this", rule, {
   				}
 			}
           `,
-		  	errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }],
+			errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }],
 		},
 	],
 });
