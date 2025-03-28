@@ -6,7 +6,4 @@ const { cjsConfigs } = require("./nodejs");
 /**
  * @type {import("eslint").Linter.Config[]}
  */
-module.exports = [
-    ...baseConfigs,
-    ...cjsConfigs
-];
+module.exports = [...baseConfigs, ...cjsConfigs];

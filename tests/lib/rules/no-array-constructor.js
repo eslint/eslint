@@ -10,407 +10,454 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-array-constructor"),
-    RuleTester = require("../../../lib/rule-tester/rule-tester");
+	RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({
-    languageOptions: {
-        sourceType: "script"
-    }
+	languageOptions: {
+		sourceType: "script",
+	},
 });
 
 ruleTester.run("no-array-constructor", rule, {
-    valid: [
-        "new Array(x)",
-        "Array(x)",
-        "new Array(9)",
-        "Array(9)",
-        "new foo.Array()",
-        "foo.Array()",
-        "new Array.foo",
-        "Array.foo()",
-        "new globalThis.Array",
-        "const createArray = Array => new Array()",
-        "var Array; new Array;",
-        {
-            code: "new Array()",
-            languageOptions: {
-                globals: {
-                    Array: "off"
-                }
-            }
-        }
-    ],
-    invalid: [
-        {
-            code: "new Array()",
-            errors: [{
-                messageId: "preferLiteral",
-                type: "NewExpression",
-                suggestions: [{
-                    messageId: "useLiteral",
-                    output: "[]"
-                }]
-            }]
-        },
-        {
-            code: "new Array",
-            errors:
-            [{
-                messageId: "preferLiteral",
-                type: "NewExpression",
-                suggestions: [{
-                    messageId: "useLiteral",
-                    output: "[]"
-                }]
-            }]
-        },
-        {
-            code: "new Array(x, y)",
-            errors: [{
-                messageId: "preferLiteral",
-                type: "NewExpression",
-                suggestions: [{
-                    messageId: "useLiteral",
-                    output: "[x, y]"
-                }]
-            }]
-        },
-        {
-            code: "new Array(0, 1, 2)",
-            errors: [{
-                messageId: "preferLiteral",
-                type: "NewExpression",
-                suggestions: [{
-                    messageId: "useLiteral",
-                    output: "[0, 1, 2]"
-                }]
-            }]
-        },
-        {
-            code: "const array = Array?.();",
-            errors: [{
-                messageId: "preferLiteral",
-                type: "CallExpression",
-                suggestions: [{
-                    messageId: "useLiteral",
-                    output: "const array = [];"
-                }]
-            }]
-        },
-        {
-            code: `
+	valid: [
+		"new Array(x)",
+		"Array(x)",
+		"new Array(9)",
+		"Array(9)",
+		"new foo.Array()",
+		"foo.Array()",
+		"new Array.foo",
+		"Array.foo()",
+		"new globalThis.Array",
+		"const createArray = Array => new Array()",
+		"var Array; new Array;",
+		{
+			code: "new Array()",
+			languageOptions: {
+				globals: {
+					Array: "off",
+				},
+			},
+		},
+	],
+	invalid: [
+		{
+			code: "new Array()",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					type: "NewExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[]",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "new Array",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					type: "NewExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[]",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "new Array(x, y)",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					type: "NewExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[x, y]",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "new Array(0, 1, 2)",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					type: "NewExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[0, 1, 2]",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "const array = Array?.();",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					type: "CallExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "const array = [];",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `
                     const array = (Array)(
                         /* foo */ a,
                         b = c() // bar
                     );
                     `,
-            errors: [{
-                messageId: "preferLiteral",
-                type: "CallExpression",
-                suggestions: [{
-                    messageId: "useLiteral",
-                    output: `
+			errors: [
+				{
+					messageId: "preferLiteral",
+					type: "CallExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: `
                     const array = [
                         /* foo */ a,
                         b = c() // bar
                     ];
-                    `
-                }]
-            }]
-        },
-        {
-            code: "const array = Array(...args);",
-            errors: [{
-                messageId: "preferLiteral",
-                type: "CallExpression",
-                suggestions: [{
-                    messageId: "useLiteral",
-                    output: "const array = [...args];"
-                }]
-            }]
-        },
-        {
-            code: "a = new (Array);",
-            errors: [{
-                messageId: "preferLiteral",
-                type: "NewExpression",
-                suggestions: [{
-                    messageId: "useLiteral",
-                    output: "a = [];"
-                }]
-            }]
-        },
-        {
-            code: "a = new (Array) && (foo);",
-            errors: [{
-                messageId: "preferLiteral",
-                type: "NewExpression",
-                suggestions: [{
-                    messageId: "useLiteral",
-                    output: "a = [] && (foo);"
-                }]
-            }]
-        },
+                    `,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "const array = Array(...args);",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					type: "CallExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "const array = [...args];",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "a = new (Array);",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					type: "NewExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "a = [];",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "a = new (Array) && (foo);",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					type: "NewExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "a = [] && (foo);",
+						},
+					],
+				},
+			],
+		},
 
-        ...[
-
-            // Semicolon required before array literal to compensate for ASI
-            {
-                code: `
+		...[
+			// Semicolon required before array literal to compensate for ASI
+			{
+				code: `
                 foo
                 Array()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 foo()
                 Array(bar, baz)
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 new foo
                 Array()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 (a++)
                 Array()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 ++a
                 Array()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 const foo = function() {}
                 Array()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 const foo = class {}
                 Array("a", "b", "c")
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 foo = this.return
                 Array()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 var yield = bar.yield
                 Array()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 var foo = { bar: baz }
                 Array()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 <foo />
                 Array()
                 `,
-                languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
-            },
-            {
-                code: `
+				languageOptions: {
+					parserOptions: { ecmaFeatures: { jsx: true } },
+				},
+			},
+			{
+				code: `
                 <foo></foo>
                 Array()
                 `,
-                languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } }
-            }
-        ].map(props => ({
-            ...props,
-            errors: [{
-                messageId: "preferLiteral",
-                suggestions: [{
-                    messageId: "useLiteralAfterSemicolon",
-                    output: props.code.replace(/(new )?Array\((?<args>.*?)\)/su, ";[$<args>]")
-                }]
-            }]
-        })),
+				languageOptions: {
+					parserOptions: { ecmaFeatures: { jsx: true } },
+				},
+			},
+		].map(props => ({
+			...props,
+			errors: [
+				{
+					messageId: "preferLiteral",
+					suggestions: [
+						{
+							messageId: "useLiteralAfterSemicolon",
+							output: props.code.replace(
+								/(new )?Array\((?<args>.*?)\)/su,
+								";[$<args>]",
+							),
+						},
+					],
+				},
+			],
+		})),
 
-        ...[
-
-            // No semicolon required before array literal because ASI does not occur
-            { code: "Array()" },
-            {
-                code: `
+		...[
+			// No semicolon required before array literal because ASI does not occur
+			{ code: "Array()" },
+			{
+				code: `
                 {}
                 Array()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 function foo() {}
                 Array()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 class Foo {}
                 Array()
-                `
-            },
-            { code: "foo: Array();" },
-            { code: "foo();Array();" },
-            { code: "{ Array(); }" },
-            { code: "if (a) Array();" },
-            { code: "if (a); else Array();" },
-            { code: "while (a) Array();" },
-            {
-                code: `
+                `,
+			},
+			{ code: "foo: Array();" },
+			{ code: "foo();Array();" },
+			{ code: "{ Array(); }" },
+			{ code: "if (a) Array();" },
+			{ code: "if (a); else Array();" },
+			{ code: "while (a) Array();" },
+			{
+				code: `
                 do Array();
                 while (a);
-                `
-            },
-            { code: "for (let i = 0; i < 10; i++) Array();" },
-            { code: "for (const prop in obj) Array();" },
-            { code: "for (const element of iterable) Array();" },
-            { code: "with (obj) Array();", languageOptions: { sourceType: "script" } },
+                `,
+			},
+			{ code: "for (let i = 0; i < 10; i++) Array();" },
+			{ code: "for (const prop in obj) Array();" },
+			{ code: "for (const element of iterable) Array();" },
+			{
+				code: "with (obj) Array();",
+				languageOptions: { sourceType: "script" },
+			},
 
-            // No semicolon required before array literal because ASI still occurs
-            {
-                code: `
+			// No semicolon required before array literal because ASI still occurs
+			{
+				code: `
                 const foo = () => {}
                 Array()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 a++
                 Array()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 a--
                 Array()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 function foo() {
                     return
                     Array();
                 }
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 function * foo() {
                     yield
                     Array();
                 }
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 do {}
                 while (a)
                 Array()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 debugger
                 Array()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 for (;;) {
                     break
                     Array()
                 }
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 for (;;) {
                     continue
                     Array()
                 }
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 foo: break foo
                 Array()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 foo: while (true) continue foo
                 Array()
-                `
-            },
-            {
-                code: `
+                `,
+			},
+			{
+				code: `
                 const foo = bar
                 export { foo }
                 Array()
                 `,
-                languageOptions: { sourceType: "module" }
-            },
-            {
-                code: `
+				languageOptions: { sourceType: "module" },
+			},
+			{
+				code: `
                 export { foo } from 'bar'
                 Array()
                 `,
-                languageOptions: { sourceType: "module" }
-            },
-            {
-                code: `
+				languageOptions: { sourceType: "module" },
+			},
+			{
+				code: `
                 export { foo } from 'bar' with { type: "json" }
                 Array()
                 `,
-                languageOptions: { sourceType: "module" }
-            },
-            {
-                code: `
+				languageOptions: { sourceType: "module" },
+			},
+			{
+				code: `
                 export * as foo from 'bar'
                 Array()
                 `,
-                languageOptions: { sourceType: "module" }
-            },
-            {
-                code: `
+				languageOptions: { sourceType: "module" },
+			},
+			{
+				code: `
                 export * as foo from 'bar' with { type: "json" }
                 Array()
                 `,
-                languageOptions: { sourceType: "module" }
-            },
-            {
-                code: `
+				languageOptions: { sourceType: "module" },
+			},
+			{
+				code: `
                 import foo from 'bar'
                 Array()
                 `,
-                languageOptions: { sourceType: "module" }
-            },
-            {
-                code: `
+				languageOptions: { sourceType: "module" },
+			},
+			{
+				code: `
                 import foo from 'bar' with { type: "json" }
                 Array()
                 `,
-                languageOptions: { sourceType: "module" }
-            },
-            {
-                code: `
+				languageOptions: { sourceType: "module" },
+			},
+			{
+				code: `
                 var yield = 5;
 
                 yield: while (foo) {
@@ -418,17 +465,175 @@ ruleTester.run("no-array-constructor", rule, {
                         break yield
                     new Array();
                 }
-                `
-            }
-        ].map(props => ({
-            ...props,
-            errors: [{
-                messageId: "preferLiteral",
-                suggestions: [{
-                    messageId: "useLiteral",
-                    output: props.code.replace(/(new )?Array\((?<args>.*?)\)/su, "[$<args>]")
-                }]
-            }]
-        }))
-    ]
+                `,
+			},
+		].map(props => ({
+			...props,
+			errors: [
+				{
+					messageId: "preferLiteral",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: props.code.replace(
+								/(new )?Array\((?<args>.*?)\)/su,
+								"[$<args>]",
+							),
+						},
+					],
+				},
+			],
+		})),
+	],
+});
+
+const ruleTesterTypeScript = new RuleTester({
+	languageOptions: {
+		parser: require("@typescript-eslint/parser"),
+	},
+});
+
+ruleTesterTypeScript.run("no-array-constructor", rule, {
+	valid: [
+		"new Array(x);",
+		"Array(x);",
+		"new Array(9);",
+		"Array(9);",
+		"new foo.Array();",
+		"foo.Array();",
+		"new Array.foo();",
+		"Array.foo();",
+
+		// TypeScript
+		"new Array<Foo>(1, 2, 3);",
+		"new Array<Foo>();",
+		"Array<Foo>(1, 2, 3);",
+		"Array<Foo>();",
+		"Array<Foo>(3);",
+
+		//optional chain
+		"Array?.(x);",
+		"Array?.(9);",
+		"foo?.Array();",
+		"Array?.foo();",
+		"foo.Array?.();",
+		"Array.foo?.();",
+		"Array?.<Foo>(1, 2, 3);",
+		"Array?.<Foo>();",
+	],
+
+	invalid: [
+		{
+			code: "new Array();",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[];",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "Array();",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[];",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "new Array(x, y);",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[x, y];",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "Array(x, y);",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[x, y];",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "new Array(0, 1, 2);",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[0, 1, 2];",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "Array(0, 1, 2);",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[0, 1, 2];",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "Array?.(0, 1, 2);",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[0, 1, 2];",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "Array?.(x, y);",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[x, y];",
+						},
+					],
+				},
+			],
+		},
+	],
 });

@@ -8,7 +8,7 @@ rule_type: suggestion
 Octal literals are numerals that begin with a leading zero, such as:
 
 ```js
-var num = 071;      // 57
+const num = 071;      // 57
 ```
 
 Because the leading zero which identifies an octal literal has been a source of confusion and error in JavaScript code, ECMAScript 5 deprecates the use of octal numeric literals.
@@ -26,8 +26,8 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-octal: "error"*/
 
-var num = 071;
-var result = 5 + 07;
+const num = 071;
+const result = 5 + 07;
 ```
 
 :::
@@ -39,7 +39,7 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-octal: "error"*/
 
-var num  = "071";
+const num  = "071";
 ```
 
 :::

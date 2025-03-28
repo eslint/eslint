@@ -310,6 +310,11 @@
         "fixable": "code"
     },
     "class-methods-use-this": {
+        "dialects": [
+            "javascript",
+            "typescript"
+        ],
+        "language": "javascript",
         "type": "suggestion",
         "defaultOptions": [
             {
@@ -516,6 +521,11 @@
         }
     },
     "default-param-last": {
+        "dialects": [
+            "javascript",
+            "typescript"
+        ],
+        "language": "javascript",
         "type": "suggestion",
         "docs": {
             "description": "Enforce default parameters to be last",
@@ -3467,6 +3477,11 @@
         }
     },
     "no-useless-constructor": {
+        "dialects": [
+            "javascript",
+            "typescript"
+        ],
+        "language": "javascript",
         "type": "suggestion",
         "docs": {
             "description": "Disallow unnecessary constructors",

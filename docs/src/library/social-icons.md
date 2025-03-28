@@ -1,5 +1,5 @@
 ---
-title: Social Icons 
+title: Social Icons
 ---
 
 {% include 'components/social-icons.html' %}

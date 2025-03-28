@@ -13,7 +13,7 @@ further_reading:
 ES5 §15.1.1 Value Properties of the Global Object (`NaN`, `Infinity`, `undefined`) as well as strict mode restricted identifiers `eval` and `arguments` are considered to be restricted names in JavaScript. Defining them to mean something else can have unintended consequences and confuse others reading the code. For example, there's nothing preventing you from writing:
 
 ```js
-var undefined = "foo";
+const undefined = "foo";
 ```
 
 Then any code used within the same scope would not get the global `undefined`, but rather the local version with a very different meaning.
@@ -31,7 +31,7 @@ function NaN(){}
 
 !function(Infinity){};
 
-var undefined = 5;
+const undefined = 5;
 
 try {} catch(eval){}
 ```
@@ -59,12 +59,12 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-shadow-restricted-names: "error"*/
 
-var Object;
+let Object;
 
 function f(a, b){}
 
 // Exception: `undefined` may be shadowed if the variable is never assigned a value.
-var undefined;
+let undefined;
 ```
 
 :::

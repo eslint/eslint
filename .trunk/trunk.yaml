@@ -5,7 +5,7 @@ cli:
     version: 1.22.3
 
 repo:
-  trunk_remote_hint: github.com/eslint/eslint
+    trunk_remote_hint: github.com/eslint/eslint
 
 # Trunk provides extensibility via plugins. (https://docs.trunk.io/plugins)
 plugins:
@@ -26,9 +26,16 @@ tools:
 
 # This is the section where you manage your linters. (https://docs.trunk.io/check/configuration)
 lint:
+    files:
+        - name: json
+          extensions:
+              - json
+              - jsonc
+              - json5
+              - c8rc
     definitions:
         - name: eslint
-          files: [typescript, javascript, yaml] # Add YAML to default files.
+          files: [typescript, javascript, yaml, json] # Add YAML and JSON to default files.
           hold_the_line: false
           commands:
               - name: lint
@@ -57,10 +64,6 @@ lint:
         - linters: [markdownlint]
           paths:
               - CHANGELOG.md
-        - linters: [prettier]
-          paths:
-              - "**" # Ignore all files
-              - "!conf/**/*.json" # Except for json files in conf/
 actions:
     disabled:
         - trunk-announce

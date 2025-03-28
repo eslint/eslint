@@ -57,7 +57,7 @@ Examples of **correct** code for this rule:
 /*eslint no-global-assign: "error"*/
 
 a = 1
-var b = 1
+let b = 1
 b = 2
 ```
 

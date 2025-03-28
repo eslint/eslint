@@ -1,7 +1,7 @@
 {
     "name": "docs-eslint",
     "private": true,
-    "version": "9.22.0",
+    "version": "9.23.0",
     "description": "",
     "main": "index.js",
     "keywords": [],
@@ -31,6 +31,7 @@
         "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.0",
         "@munter/tap-render": "^0.2.0",
         "@types/markdown-it": "^12.2.3",
+        "@typescript-eslint/parser": "^8.27.0",
         "algoliasearch": "^4.12.1",
         "autoprefixer": "^10.4.13",
         "cross-env": "^7.0.3",
@@ -48,9 +49,10 @@
         "postcss-cli": "^10.0.0",
         "postcss-html": "^1.5.0",
         "prismjs": "^1.29.0",
-        "sass": "^1.52.1",
+        "sass": "^1.85.1",
         "stylelint": "^14.13.0",
         "stylelint-config-html": "^1.1.0",
+        "stylelint-config-prettier": "^9.0.5",
         "stylelint-config-standard": "^29.0.0",
         "stylelint-config-standard-scss": "^5.0.0",
         "tap-spot": "^1.1.2"

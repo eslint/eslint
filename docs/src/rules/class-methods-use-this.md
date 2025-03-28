@@ -106,14 +106,16 @@ class C {
 
 ## Options
 
-This rule has two options:
+This rule has four options:
 
 * `"exceptMethods"` allows specified method names to be ignored with this rule.
 * `"enforceForClassFields"` enforces that functions used as instance field initializers utilize `this`. (default: `true`)
+* `"ignoreOverrideMethods"` ignores members that are marked with the `override` modifier. (TypeScript only, default: `false`)
+* `"ignoreClassesWithImplements"` ignores class members that are defined within a class that `implements` an interface. (TypeScript only)
 
 ### exceptMethods
 
-```js
+```ts
 "class-methods-use-this": [<enabled>, { "exceptMethods": [<...exceptions>] }]
 ```
 
@@ -153,7 +155,7 @@ class A {
 
 ### enforceForClassFields
 
-```js
+```ts
 "class-methods-use-this": [<enabled>, { "enforceForClassFields": true | false }]
 ```
 
@@ -196,6 +198,167 @@ Examples of **correct** code for this rule with the `{ "enforceForClassFields": 
 
 class A {
     foo = () => {}
+}
+```
+
+:::
+
+### ignoreOverrideMethods
+
+```ts
+"class-methods-use-this": [<enabled>, { "ignoreOverrideMethods": true | false }]
+```
+
+The `ignoreOverrideMethods` option ignores members that are marked with the `override` modifier. (default: `false`)
+
+Examples of **incorrect** TypeScript code for this rule with the `{ "ignoreOverrideMethods": false }` option (default):
+
+::: incorrect
+
+```ts
+/*eslint class-methods-use-this: ["error", { "ignoreOverrideMethods": false }] */
+
+abstract class Base {
+    abstract method(): void;
+    abstract property: () => void;
+}
+
+class Derived extends Base {
+    override method() {}
+    override property = () => {};
+}
+```
+
+:::
+
+Examples of **correct** TypeScript code for this rule with the `{ "ignoreOverrideMethods": false }` option (default):
+
+::: correct
+
+```ts
+/*eslint class-methods-use-this: ["error", { "ignoreOverrideMethods": false }] */
+
+abstract class Base {
+    abstract method(): void;
+    abstract property: () => void;
+}
+
+class Derived extends Base {
+    override method() {
+        this.foo = "Hello World";
+    };
+    override property = () => {
+        this;
+    };
+}
+```
+
+:::
+
+Examples of **correct** TypeScript code for this rule with the `{ "ignoreOverrideMethods": true }` option:
+
+::: correct
+
+```ts
+/*eslint class-methods-use-this: ["error", { "ignoreOverrideMethods": true }] */
+
+abstract class Base {
+    abstract method(): void;
+    abstract property: () => void;
+}
+
+class Derived extends Base {
+    override method() {}
+    override property = () => {};
+}
+```
+
+:::
+
+### ignoreClassesWithImplements
+
+```ts
+"class-methods-use-this": [<enabled>, { "ignoreClassesWithImplements": "all" | "public-fields" }]
+```
+
+The `ignoreClassesWithImplements` ignores class members that are defined within a class that `implements` an interface. The option accepts two possible values:
+
+* `"all"` - Ignores all classes that implement interfaces
+* `"public-fields"` - Only ignores public fields in classes that implement interfaces
+
+Examples of **incorrect** TypeScript code for this rule with the `{ "ignoreClassesWithImplements": "all" }`:
+
+::: incorrect
+
+```ts
+/*eslint class-methods-use-this: ["error", { "ignoreClassesWithImplements": "all" }] */
+
+class Standalone {
+    method() {}
+    property = () => {};
+}
+```
+
+:::
+
+Examples of **correct** TypeScript code for this rule with the `{ "ignoreClassesWithImplements": "all" }` option:
+
+::: correct
+
+```ts
+/*eslint class-methods-use-this: ["error", { "ignoreClassesWithImplements": "all" }] */
+
+interface Base {
+    method(): void;
+}
+
+class Derived implements Base {
+    method() {}
+    property = () => {};
+}
+```
+
+:::
+
+Examples of **incorrect** TypeScript code for this rule with the `{ "ignoreClassesWithImplements": "public-fields" }` option:
+
+::: incorrect
+
+```ts
+/*eslint class-methods-use-this: ["error", { "ignoreClassesWithImplements": "public-fields" }] */
+
+interface Base {
+    method(): void;
+}
+
+class Derived implements Base {
+    method() {}
+    property = () => {};
+
+    private privateMethod() {}
+    private privateProperty = () => {};
+
+    protected protectedMethod() {}
+    protected protectedProperty = () => {};
+}
+```
+
+:::
+
+Examples of **correct** TypeScript code for this rule with the `{ "ignoreClassesWithImplements": "public-fields" }` option:
+
+::: correct
+
+```ts
+/*eslint class-methods-use-this: ["error", { "ignoreClassesWithImplements": "public-fields" }] */
+
+interface Base {
+    method(): void;
+}
+
+class Derived implements Base {
+    method() {}
+    property = () => {};
 }
 ```
 
