@@ -1174,13 +1174,13 @@ export namespace Rule {
 	}
 
 	interface RuleContext
-		extends CoreRuleContext<
-			RuleContextTypeOptions & {
-				LangOptions: Linter.LanguageOptions;
-				Code: SourceCode;
-				Node: ESTree.Node;
-			}
-		> {
+		extends CoreRuleContext<{
+			LangOptions: Linter.LanguageOptions;
+			Code: SourceCode;
+			RuleOptions: any[];
+			Node: ESTree.Node;
+			MessageIds: string;
+		}> {
 		/*
 		 * Need to extend the `RuleContext` interface to include the
 		 * deprecated methods that have not yet been removed.
