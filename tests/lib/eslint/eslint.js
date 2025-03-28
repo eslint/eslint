@@ -1758,10 +1758,6 @@ describe("ESLint", () => {
 							sinon.stub(ConfigLoader, "loadJiti").resolves({});
 						});
 
-						afterEach(() => {
-							sinon.restore();
-						});
-
 						it("should load a TS config file when --experimental-strip-types is enabled", async () => {
 							const cwd = getFixturePath(
 								"ts-config-files",
