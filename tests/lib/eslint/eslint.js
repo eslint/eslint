@@ -64,6 +64,8 @@ async function sleep(time) {
 //------------------------------------------------------------------------------
 
 describe("ESLint", () => {
+	const { ConfigLoader } = require("../../../lib/config/config-loader.js");
+
 	const examplePluginName = "eslint-plugin-example";
 	const examplePluginNameWithNamespace = "@eslint/eslint-plugin-example";
 	const examplePlugin = {
@@ -1680,11 +1682,9 @@ describe("ESLint", () => {
 				});
 
 				it("should fail to load a TS config file if jiti is not installed", async () => {
-					const {
-						ConfigLoader,
-					} = require("../../../lib/config/config-loader");
-
-					sinon.stub(ConfigLoader, "loadJiti").rejects();
+					const loadJitiStub = sinon
+						.stub(ConfigLoader, "loadJiti")
+						.rejects();
 
 					const cwd = getFixturePath("ts-config-files", "ts");
 
@@ -1697,14 +1697,14 @@ describe("ESLint", () => {
 						message:
 							"The 'jiti' library is required for loading TypeScript configuration files. Make sure to install it.",
 					});
+
+					loadJitiStub.restore();
 				});
 
 				it("should fail to load a TS config file if an outdated version of jiti is installed", async () => {
-					const {
-						ConfigLoader,
-					} = require("../../../lib/config/config-loader");
-
-					sinon.stub(ConfigLoader, "loadJiti").resolves({});
+					const loadJitiStub = sinon
+						.stub(ConfigLoader, "loadJiti")
+						.resolves({});
 
 					const cwd = getFixturePath("ts-config-files", "ts");
 
@@ -1717,6 +1717,8 @@ describe("ESLint", () => {
 						message:
 							"You are using an outdated version of the 'jiti' library. Please update to the latest version of 'jiti' to ensure compatibility and access to the latest features.",
 					});
+
+					loadJitiStub.restore();
 				});
 
 				it("should fail to load a CommonJS TS config file that exports undefined with a helpful warning message", async () => {
@@ -1742,17 +1744,16 @@ describe("ESLint", () => {
 						processStub.getCall(0).args[1],
 						"ESLintEmptyConfigWarning",
 					);
+
+					processStub.restore();
 				});
+
 				// eslint-disable-next-line n/no-unsupported-features/node-builtins -- it's still an experimental feature.
 				(typeof process.features.typescript === "string"
 					? describe
 					: describe.skip)(
 					"Loading TypeScript config files natively",
 					() => {
-						const {
-							ConfigLoader,
-						} = require("../../../lib/config/config-loader");
-
 						beforeEach(() => {
 							sinon.stub(ConfigLoader, "loadJiti").resolves({});
 						});
@@ -7674,11 +7675,9 @@ describe("ESLint", () => {
 				});
 
 				it("should fail to load a TS config file if jiti is not installed", async () => {
-					const {
-						ConfigLoader,
-					} = require("../../../lib/config/config-loader");
-
-					sinon.stub(ConfigLoader, "loadJiti").rejects();
+					const loadJitiStub = sinon
+						.stub(ConfigLoader, "loadJiti")
+						.rejects();
 
 					const cwd = getFixturePath("ts-config-files", "ts");
 
@@ -7691,14 +7690,14 @@ describe("ESLint", () => {
 						message:
 							"The 'jiti' library is required for loading TypeScript configuration files. Make sure to install it.",
 					});
+
+					loadJitiStub.restore();
 				});
 
 				it("should fail to load a TS config file if an outdated version of jiti is installed", async () => {
-					const {
-						ConfigLoader,
-					} = require("../../../lib/config/config-loader");
-
-					sinon.stub(ConfigLoader, "loadJiti").resolves({});
+					const loadJitiStub = sinon
+						.stub(ConfigLoader, "loadJiti")
+						.resolves({});
 
 					const cwd = getFixturePath("ts-config-files", "ts");
 
@@ -7711,6 +7710,8 @@ describe("ESLint", () => {
 						message:
 							"You are using an outdated version of the 'jiti' library. Please update to the latest version of 'jiti' to ensure compatibility and access to the latest features.",
 					});
+
+					loadJitiStub.restore();
 				});
 
 				it("should fail to load a CommonJS TS config file that exports undefined with a helpful warning message", async () => {
@@ -7736,6 +7737,8 @@ describe("ESLint", () => {
 						processStub.getCall(0).args[1],
 						"ESLintEmptyConfigWarning",
 					);
+
+					processStub.restore();
 				});
 
 				// eslint-disable-next-line n/no-unsupported-features/node-builtins -- it's still an experimental feature.
@@ -7744,18 +7747,6 @@ describe("ESLint", () => {
 					: describe.skip)(
 					"Loading TypeScript config files natively",
 					() => {
-						const {
-							ConfigLoader,
-						} = require("../../../lib/config/config-loader");
-
-						beforeEach(() => {
-							sinon.stub(ConfigLoader, "loadJiti").resolves({});
-						});
-
-						afterEach(() => {
-							sinon.restore();
-						});
-
 						// eslint-disable-next-line n/no-unsupported-features/node-builtins -- it's still an experimental feature.
 						(typeof process.features.typescript === "string"
 							? describe
@@ -8264,6 +8255,100 @@ describe("ESLint", () => {
 										results[0].messages[0].ruleId,
 										"no-undef",
 									);
+								});
+
+								it("fails without unstable_native_nodejs_ts_config if jiti is not installed", async () => {
+									sinon.restore();
+
+									const loadJitiStub = sinon
+										.stub(ConfigLoader, "loadJiti")
+										.rejects();
+
+									const cwd = getFixturePath(
+										"ts-config-files",
+										"ts",
+										"native",
+										"edge-case-1",
+									);
+
+									const configFileContent =
+										'import ESLintNameSpace from "./helper.ts";\n\nconst eslintConfig = [ { rules: { "no-undef": ESLintNameSpace.StringSeverity.Error } }]\n\nexport default eslintConfig;\n';
+
+									const teardown = createCustomTeardown({
+										cwd,
+										files: {
+											"package.json": typeModule,
+											"eslint.config.ts":
+												configFileContent,
+											"foo.js": "foo;",
+											"helper.ts":
+												'namespace ESLintNameSpace {\n  export const enum StringSeverity {\n    "Off" = "off",\n    "Warn" = "warn",\n    "Error" = "error",\n  }\n}\n\nexport default ESLintNameSpace\n',
+										},
+									});
+
+									await teardown.prepare();
+
+									eslint = new ESLint({
+										cwd,
+										overrideConfigFile: "eslint.config.ts",
+										flags: [...flags],
+									});
+
+									await assert.rejects(
+										eslint.lintFiles(["foo*.js"]),
+										{
+											message:
+												"The 'jiti' library is required for loading TypeScript configuration files. Make sure to install it.",
+										},
+									);
+
+									loadJitiStub.restore();
+								});
+
+								it("fails without unstable_native_nodejs_ts_config if jiti is outdated", async () => {
+									const loadJitiStub = sinon
+										.stub(ConfigLoader, "loadJiti")
+										.resolves({});
+
+									const cwd = getFixturePath(
+										"ts-config-files",
+										"ts",
+										"native",
+										"edge-case-2",
+									);
+
+									const configFileContent =
+										'import ESLintNameSpace from "./helper.ts";\n\nconst eslintConfig = [ { rules: { "no-undef": ESLintNameSpace.StringSeverity.Error } }]\n\nexport default eslintConfig;\n';
+
+									const teardown = createCustomTeardown({
+										cwd,
+										files: {
+											"package.json": typeModule,
+											"eslint.config.ts":
+												configFileContent,
+											"foo.js": "foo;",
+											"helper.ts":
+												'namespace ESLintNameSpace {\n  export const enum StringSeverity {\n    "Off" = "off",\n    "Warn" = "warn",\n    "Error" = "error",\n  }\n}\n\nexport default ESLintNameSpace\n',
+										},
+									});
+
+									await teardown.prepare();
+
+									eslint = new ESLint({
+										cwd,
+										overrideConfigFile: "eslint.config.ts",
+										flags: [...flags],
+									});
+
+									await assert.rejects(
+										eslint.lintFiles(["foo*.js"]),
+										{
+											message:
+												"You are using an outdated version of the 'jiti' library. Please update to the latest version of 'jiti' to ensure compatibility and access to the latest features.",
+										},
+									);
+
+									loadJitiStub.restore();
 								});
 							},
 						);
