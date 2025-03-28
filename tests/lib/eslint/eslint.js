@@ -1755,7 +1755,7 @@ describe("ESLint", () => {
 					"Loading TypeScript config files natively",
 					() => {
 						beforeEach(() => {
-							sinon.stub(ConfigLoader, "loadJiti").resolves({});
+							sinon.stub(ConfigLoader, "loadJiti").rejects();
 						});
 
 						it("should load a TS config file when --experimental-strip-types is enabled", async () => {
@@ -1777,7 +1777,7 @@ describe("ESLint", () => {
 									"eslint.config.ts": configFileContent,
 									"foo.js": "foo;",
 									"helper.ts":
-										'import { Linter } from "eslint";\nexport type FlatConfig = Linter.Config;\n',
+										'import type { Linter } from "eslint";\nexport type FlatConfig = Linter.Config;\n',
 								},
 							});
 
@@ -7743,6 +7743,10 @@ describe("ESLint", () => {
 					: describe.skip)(
 					"Loading TypeScript config files natively",
 					() => {
+						beforeEach(() => {
+							sinon.stub(ConfigLoader, "loadJiti").rejects();
+						});
+
 						describe("should load a TS config file when --experimental-strip-types is enabled", () => {
 							it('with "type": "commonjs" in `package.json` and CJS syntax', async () => {
 								const cwd = getFixturePath(
@@ -8292,6 +8296,8 @@ describe("ESLint", () => {
 								});
 
 								it("fails without unstable_native_nodejs_ts_config if jiti is outdated", async () => {
+									sinon.restore();
+
 									const loadJitiStub = sinon
 										.stub(ConfigLoader, "loadJiti")
 										.resolves({});
@@ -8366,7 +8372,7 @@ describe("ESLint", () => {
 								"eslint.config.ts": configFileContent,
 								"foo.js": "foo;",
 								"helper.ts":
-									'import { Linter } from "eslint";\nexport type FlatConfig = Linter.Config;\n',
+									'import type { Linter } from "eslint";\nexport type FlatConfig = Linter.Config;\n',
 							},
 						});
 
@@ -8411,7 +8417,7 @@ describe("ESLint", () => {
 								"eslint.config.ts": configFileContent,
 								"foo.js": "foo;",
 								"helper.ts":
-									'import { Linter } from "eslint";\nexport type FlatConfig = Linter.Config;\n',
+									'import type { Linter } from "eslint";\nexport type FlatConfig = Linter.Config;\n',
 							},
 						});
 
