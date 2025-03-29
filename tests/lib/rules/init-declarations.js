@@ -339,3 +339,356 @@ ruleTester.run("init-declarations", rule, {
 		},
 	],
 });
+
+const ruleTesterTypeScript = new RuleTester({
+	languageOptions: {
+		parser: require("@typescript-eslint/parser"),
+	},
+});
+
+ruleTesterTypeScript.run("init-declarations", rule, {
+	valid: [
+		{
+			code: "declare const foo: number;",
+			options: ["always"],
+		},
+		{
+			code: "declare const foo: number;",
+			options: ["never"],
+		},
+		{
+			code: `
+	  declare namespace myLib {
+		let numberOfGreetings: number;
+	  }
+			`,
+			options: ["always"],
+		},
+		{
+			code: `
+	  declare namespace myLib {
+		let numberOfGreetings: number;
+	  }
+			`,
+			options: ["never"],
+		},
+		{
+			code: `
+	  declare namespace myLib {
+		let valueInside: number;
+	  }
+		let valueOutside: number;
+			`,
+			options: ["never"],
+		},
+		`
+	  interface GreetingSettings {
+		greeting: string;
+		duration?: number;
+		color?: string;
+	  }
+			`,
+		{
+			code: `
+	  interface GreetingSettings {
+		greeting: string;
+		duration?: number;
+		color?: string;
+	  }
+			`,
+			options: ["never"],
+		},
+		"type GreetingLike = string | (() => string) | Greeter;",
+		{
+			code: "type GreetingLike = string | (() => string) | Greeter;",
+			options: ["never"],
+		},
+		{
+			code: `
+	  function foo() {
+		var bar: string;
+	  }
+			`,
+			options: ["never"],
+		},
+		{
+			code: "var bar: string;",
+			options: ["never"],
+		},
+		{
+			code: `
+	  var bar: string = function (): string {
+		return 'string';
+	  };
+			`,
+			options: ["always"],
+		},
+		{
+			code: `
+	  var bar: string = function (arg1: stirng): string {
+		return 'string';
+	  };
+			`,
+			options: ["always"],
+		},
+		{
+			code: "function foo(arg1: string = 'string'): void {}",
+			options: ["never"],
+		},
+		{
+			code: "const foo: string = 'hello';",
+			options: ["never"],
+		},
+		`
+	  const class1 = class NAME {
+		constructor() {
+		  var name1: string = 'hello';
+		}
+	  };
+			`,
+		`
+	  const class1 = class NAME {
+		static pi: number = 3.14;
+	  };
+			`,
+		{
+			code: `
+	  const class1 = class NAME {
+		static pi: number = 3.14;
+	  };
+			`,
+			options: ["never"],
+		},
+		`
+	  interface IEmployee {
+		empCode: number;
+		empName: string;
+		getSalary: (number) => number; // arrow function
+		getManagerName(number): string;
+	  }
+			`,
+		{
+			code: `
+	  interface IEmployee {
+		empCode: number;
+		empName: string;
+		getSalary: (number) => number; // arrow function
+		getManagerName(number): string;
+	  }
+			`,
+			options: ["never"],
+		},
+		{
+			code: "const foo: number = 'asd';",
+			options: ["always"],
+		},
+		{
+			code: "const foo: number;",
+			options: ["never"],
+		},
+		{
+			code: `
+	  namespace myLib {
+		let numberOfGreetings: number;
+	  }
+			`,
+			options: ["never"],
+		},
+		{
+			code: `
+	  namespace myLib {
+		let numberOfGreetings: number = 2;
+	  }
+			`,
+			options: ["always"],
+		},
+		{
+			code: `
+	  declare namespace myLib1 {
+		const foo: number;
+		namespace myLib2 {
+		  let bar: string;
+		  namespace myLib3 {
+			let baz: object;
+		  }
+		}
+	  }
+			`,
+			options: ["always"],
+		},
+
+		{
+			code: `
+	  declare namespace myLib1 {
+		const foo: number;
+		namespace myLib2 {
+		  let bar: string;
+		  namespace myLib3 {
+			let baz: object;
+		  }
+		}
+	  }
+			`,
+			options: ["never"],
+		},
+	],
+	invalid: [
+		{
+			code: "let arr: string[] = ['arr', 'ar'];",
+			options: ["never"],
+			errors: [
+				{
+					column: 5,
+					data: { idName: "arr" },
+					endColumn: 34,
+					endLine: 1,
+					line: 1,
+					messageId: "notInitialized",
+				},
+			],
+		},
+		{
+			code: "let arr: string = function () {};",
+			options: ["never"],
+			errors: [
+				{
+					column: 5,
+					data: { idName: "arr" },
+					endColumn: 33,
+					endLine: 1,
+					line: 1,
+					messageId: "notInitialized",
+				},
+			],
+		},
+		{
+			code: `
+	  const class1 = class NAME {
+		constructor() {
+		  var name1: string = 'hello';
+		}
+	  };
+			`,
+			options: ["never"],
+			errors: [
+				{
+					column: 9,
+					data: { idName: "name1" },
+					endColumn: 32,
+					endLine: 4,
+					line: 4,
+					messageId: "notInitialized",
+				},
+			],
+		},
+		{
+			code: "let arr: string;",
+			options: ["always"],
+			errors: [
+				{
+					column: 5,
+					data: { idName: "arr" },
+					endColumn: 16,
+					endLine: 1,
+					line: 1,
+					messageId: "initialized",
+				},
+			],
+		},
+		{
+			code: `
+	  namespace myLib {
+		let numberOfGreetings: number;
+	  }
+			`,
+			options: ["always"],
+			errors: [
+				{
+					column: 7,
+					data: { idName: "numberOfGreetings" },
+					endColumn: 32,
+					endLine: 3,
+					line: 3,
+					messageId: "initialized",
+				},
+			],
+		},
+		{
+			code: `
+	  namespace myLib {
+		let numberOfGreetings: number = 2;
+	  }
+			`,
+			options: ["never"],
+			errors: [
+				{
+					column: 7,
+					data: { idName: "numberOfGreetings" },
+					endColumn: 36,
+					endLine: 3,
+					line: 3,
+					messageId: "notInitialized",
+				},
+			],
+		},
+		{
+			code: `
+		namespace myLib1 {
+		  const foo: number;
+			namespace myLib2 {
+			  let bar: string;
+			  namespace myLib3 {
+				let baz: object;
+			  }
+		  }
+		}
+			`,
+			options: ["always"],
+			errors: [
+				{
+					column: 11,
+					data: { idName: "foo" },
+					endColumn: 22,
+					endLine: 3,
+					line: 3,
+					messageId: "initialized",
+				},
+				{
+					column: 10,
+					data: { idName: "bar" },
+					endColumn: 21,
+					endLine: 5,
+					line: 5,
+					messageId: "initialized",
+				},
+				{
+					column: 9,
+					data: { idName: "baz" },
+					endColumn: 20,
+					endLine: 7,
+					line: 7,
+					messageId: "initialized",
+				},
+			],
+		},
+		{
+			code: `
+	  declare namespace myLib {
+		let valueInside: number;
+	  }
+		let valueOutside: number;
+			`,
+			options: ["always"],
+			errors: [
+				{
+					column: 7,
+					data: { idName: "valueOutside" },
+					endColumn: 27,
+					endLine: 5,
+					line: 5,
+					messageId: "initialized",
+				},
+			],
+		},
+	],
+});
