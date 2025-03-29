@@ -673,6 +673,16 @@ You can then create a configuration file with a `.ts`, `.mts`, or `.cts` extensi
 ESLint does not perform type checking on your configuration file and does not apply any settings from `tsconfig.json`.
 :::
 
+### Native TypeScript Support
+
+If you're using **Node.js >= 22.6.0**, you can load TypeScript configuration files natively without requiring [`jiti`](https://github.com/unjs/jiti). This is possible thanks to the [**`--experimental-strip-types`**](https://nodejs.org/docs/latest-v22.x/api/cli.html#--experimental-strip-types) flag.
+
+Since this feature is still experimental, you must also enable the `unstable_native_nodejs_ts_config` flag.
+
+```bash
+npx --node-options='--experimental-strip-types' eslint --flag unstable_native_nodejs_ts_config
+```
+
 ### Configuration File Precedence
 
 If you have multiple ESLint configuration files, ESLint prioritizes JavaScript files over TypeScript files. The order of precedence is as follows:
