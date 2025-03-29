@@ -7724,16 +7724,18 @@ describe("ESLint", () => {
 				);
 
 				let cleanup;
+				let i = 0;
 
 				beforeEach(() => {
 					cleanup = () => {};
+					i++;
 				});
 
 				afterEach(() => cleanup());
 
 				it("should match patterns with './' prefix in `files` patterns", async () => {
 					const teardown = createCustomTeardown({
-						cwd: root,
+						cwd: `${root}${i}`,
 						files: {
 							"src/foo.js": "undefinedVariable;",
 							"eslint.config.js": `module.exports = [{
@@ -7764,7 +7766,7 @@ describe("ESLint", () => {
 
 				it("should match patterns with './' prefix in `ignores` patterns", async () => {
 					const teardown = createCustomTeardown({
-						cwd: root,
+						cwd: `${root}${i}`,
 						files: {
 							"src/foo.js": "undefinedVariable;",
 							"eslint.config.js": `module.exports = [{
@@ -7791,7 +7793,7 @@ describe("ESLint", () => {
 
 				it("should match patterns with './' prefix in global `ignores` patterns", async () => {
 					const teardown = createCustomTeardown({
-						cwd: root,
+						cwd: `${root}${i}`,
 						files: {
 							"src/foo.js": "undefinedVariable;",
 							"eslint.config.js": `module.exports = [
@@ -7818,7 +7820,7 @@ describe("ESLint", () => {
 
 				it("should match negated `files` patterns with './' prefix", async () => {
 					const teardown = createCustomTeardown({
-						cwd: root,
+						cwd: `${root}${i}`,
 						files: {
 							"src/foo.js": "undefinedVariable;",
 							"eslint.config.js": `module.exports = [{
@@ -7844,7 +7846,7 @@ describe("ESLint", () => {
 
 				it("should match negated `ignores` patterns with './' prefix", async () => {
 					const teardown = createCustomTeardown({
-						cwd: root,
+						cwd: `${root}${i}`,
 						files: {
 							"src/foo.js": "undefinedVariable;",
 							"eslint.config.js": `module.exports = [{
@@ -7876,7 +7878,7 @@ describe("ESLint", () => {
 
 				it("should match negated global `ignores` patterns with './' prefix", async () => {
 					const teardown = createCustomTeardown({
-						cwd: root,
+						cwd: `${root}${i}`,
 						files: {
 							"src/foo.js": "undefinedVariable;",
 							"eslint.config.js": `module.exports = [
@@ -7912,7 +7914,7 @@ describe("ESLint", () => {
 
 				it("should match nested `files` patterns with './' prefix", async () => {
 					const teardown = createCustomTeardown({
-						cwd: root,
+						cwd: `${root}${i}`,
 						files: {
 							"src/foo.js": "undefinedVariable;",
 							"eslint.config.js": `module.exports = [{
