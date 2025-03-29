@@ -282,6 +282,60 @@ import { AllowedObject } from "foo";
 
 :::
 
+#### allowTypeImports (TypeScript only)
+
+Whether to allow [Type-Only Imports](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-8.html#type-only-imports-and-export) for a path. Default: `false`.
+
+```json
+"no-restricted-imports": ["error", {
+  "paths": [{
+    "name": "import-foo",
+    "allowTypeImports": true,
+  }]
+}]
+```
+
+Examples of **incorrect** code for `allowTypeImports` in `paths`:
+
+::: incorrect { "sourceType": "module" }
+
+```ts
+/*eslint no-restricted-imports: ["error", { paths: [{
+    name: "import-foo",
+    allowTypeImports: true,
+    message: "Please use only type-only imports from 'import-foo'."
+}]}]*/
+
+import foo from 'import-foo';
+export { Foo } from 'import-foo';
+
+import baz from 'import-baz';
+export { Baz } from 'import-baz';
+```
+
+:::
+
+Examples of **correct** code for `allowTypeImports` in `paths`:
+
+::: correct { "sourceType": "module" }
+
+```ts
+/*eslint no-restricted-imports: ["error", { paths: [{
+    name: "foo",
+    allowTypeImports: true,
+    message: "Please use only type-only imports from 'import-foo'."
+}]}]*/
+
+import { foo } from 'other-module';
+
+import type foo from 'import-foo';
+export type { Foo } from 'import-foo';
+
+import type foo = require("import-foo");
+```
+
+:::
+
 ### patterns
 
 This is also an object option whose value is an array. This option allows you to specify multiple modules to restrict using `gitignore`-style patterns or regular expressions.
