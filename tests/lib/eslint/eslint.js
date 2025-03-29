@@ -59,6 +59,20 @@ async function sleep(time) {
 	await util.promisify(setTimeout)(time);
 }
 
+/**
+ * An object mapping file extensions to their corresponding
+ * ESLint configuration file names.
+ * @satisfies {Record<string, string>}
+ */
+const eslintConfigFiles = {
+	ts: "eslint.config.ts",
+	mts: "eslint.config.mts",
+	cts: "eslint.config.cts",
+	js: "eslint.config.js",
+	mjs: "eslint.config.mjs",
+	cjs: "eslint.config.cjs",
+};
+
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
@@ -158,6 +172,17 @@ describe("ESLint", () => {
 	});
 
 	[[], ["unstable_config_lookup_from_file"]].forEach(flags => {
+		/**
+		 * Configuration flags for TypeScript integration in Node.js,
+		 * including existing {@linkcode flags} and
+		 * `"unstable_native_nodejs_ts_config"`.
+		 * @satisfies {ESLintOptions['flags']}
+		 */
+		const nativeTSConfigFileFlags = [
+			...flags,
+			"unstable_native_nodejs_ts_config",
+		];
+
 		describe("ESLint constructor function", () => {
 			it("should have a static property indicating the configType being used", () => {
 				assert.strictEqual(ESLint.configType, "flat");
@@ -1758,13 +1783,15 @@ describe("ESLint", () => {
 							sinon.stub(ConfigLoader, "loadJiti").rejects();
 						});
 
-						it("should load a TS config file when --experimental-strip-types is enabled", async () => {
-							const cwd = getFixturePath(
-								"ts-config-files",
-								"ts",
-								"native",
-							);
+						const cwd = getFixturePath(
+							"ts-config-files",
+							"ts",
+							"native",
+						);
 
+						const overrideConfigFile = "eslint.config.ts";
+
+						it("should load a TS config file when --experimental-strip-types is enabled", async () => {
 							const configFileContent = `import type { FlatConfig } from "./helper.ts";\nexport default ${JSON.stringify(
 								[{ rules: { "no-undef": 2 } }],
 								null,
@@ -1774,7 +1801,7 @@ describe("ESLint", () => {
 							const teardown = createCustomTeardown({
 								cwd,
 								files: {
-									"eslint.config.ts": configFileContent,
+									[overrideConfigFile]: configFileContent,
 									"foo.js": "foo;",
 									"helper.ts":
 										'import type { Linter } from "eslint";\nexport type FlatConfig = Linter.Config;\n',
@@ -1785,11 +1812,8 @@ describe("ESLint", () => {
 
 							eslint = new ESLint({
 								cwd,
-								overrideConfigFile: "eslint.config.ts",
-								flags: [
-									...flags,
-									"unstable_native_nodejs_ts_config",
-								],
+								overrideConfigFile,
+								flags: nativeTSConfigFileFlags,
 							});
 
 							const results = await eslint.lintText("foo;");
@@ -1812,19 +1836,13 @@ describe("ESLint", () => {
 							: it.skip)(
 							"should load a TS config file when --experimental-transform-types is enabled",
 							async () => {
-								const cwd = getFixturePath(
-									"ts-config-files",
-									"ts",
-									"native",
-								);
-
 								const configFileContent =
 									'import { ESLintNameSpace } from "./helper.ts";\nexport default [ { rules: { "no-undef": ESLintNameSpace.StringSeverity.Error } }];\n';
 
 								const teardown = createCustomTeardown({
 									cwd,
 									files: {
-										"eslint.config.ts": configFileContent,
+										[overrideConfigFile]: configFileContent,
 										"foo.js": "foo;",
 										"helper.ts":
 											'export namespace ESLintNameSpace {\n  export const enum StringSeverity {\n    "Off" = "off",\n    "Warn" = "warn",\n    "Error" = "error",\n  }\n}\n',
@@ -1835,11 +1853,8 @@ describe("ESLint", () => {
 
 								eslint = new ESLint({
 									cwd,
-									overrideConfigFile: "eslint.config.ts",
-									flags: [
-										...flags,
-										"unstable_native_nodejs_ts_config",
-									],
+									overrideConfigFile,
+									flags: nativeTSConfigFileFlags,
 								});
 
 								const results = await eslint.lintText("foo;");
@@ -7764,7 +7779,8 @@ describe("ESLint", () => {
 									cwd,
 									files: {
 										"package.json": typeCommonJS,
-										"eslint.config.ts": configFileContent,
+										[eslintConfigFiles.ts]:
+											configFileContent,
 										"foo.js": "foo;",
 										"helper.ts":
 											'export type * from "../../../../helper.ts";\n',
@@ -7775,11 +7791,8 @@ describe("ESLint", () => {
 
 								eslint = new ESLint({
 									cwd,
-									overrideConfigFile: "eslint.config.ts",
-									flags: [
-										...flags,
-										"unstable_native_nodejs_ts_config",
-									],
+									overrideConfigFile: eslintConfigFiles.ts,
+									flags: nativeTSConfigFileFlags,
 								});
 
 								const results = await eslint.lintFiles([
@@ -7788,7 +7801,7 @@ describe("ESLint", () => {
 
 								assert.strictEqual(
 									await eslint.findConfigFile(),
-									path.join(cwd, "eslint.config.ts"),
+									path.join(cwd, eslintConfigFiles.ts),
 								);
 								assert.strictEqual(results.length, 1);
 								assert.strictEqual(
@@ -7812,7 +7825,7 @@ describe("ESLint", () => {
 							it('with "type": "commonjs" in `package.json` and ESM syntax', async () => {
 								const cwd = getFixturePath(
 									"ts-config-files",
-									"ts",
+									"mts",
 									"native",
 									"with-type-commonjs",
 									"ESM-syntax",
@@ -7825,7 +7838,8 @@ describe("ESLint", () => {
 									cwd,
 									files: {
 										"package.json": typeCommonJS,
-										"eslint.config.mts": configFileContent,
+										[eslintConfigFiles.mts]:
+											configFileContent,
 										"foo.js": "foo;",
 										"helper.ts":
 											'export type * from "../../../../helper.ts";\n',
@@ -7836,11 +7850,8 @@ describe("ESLint", () => {
 
 								eslint = new ESLint({
 									cwd,
-									overrideConfigFile: "eslint.config.mts",
-									flags: [
-										...flags,
-										"unstable_native_nodejs_ts_config",
-									],
+									overrideConfigFile: eslintConfigFiles.mts,
+									flags: nativeTSConfigFileFlags,
 								});
 
 								const results = await eslint.lintFiles([
@@ -7849,7 +7860,7 @@ describe("ESLint", () => {
 
 								assert.strictEqual(
 									await eslint.findConfigFile(),
-									path.join(cwd, "eslint.config.mts"),
+									path.join(cwd, eslintConfigFiles.mts),
 								);
 								assert.strictEqual(results.length, 1);
 								assert.strictEqual(
@@ -7873,7 +7884,7 @@ describe("ESLint", () => {
 							it('with "type": "module" in `package.json` and CJS syntax', async () => {
 								const cwd = getFixturePath(
 									"ts-config-files",
-									"ts",
+									"cts",
 									"native",
 									"with-type-module",
 									"CJS-syntax",
@@ -7886,7 +7897,8 @@ describe("ESLint", () => {
 									cwd,
 									files: {
 										"package.json": typeModule,
-										"eslint.config.cts": configFileContent,
+										[eslintConfigFiles.cts]:
+											configFileContent,
 										"foo.js": "foo;",
 										"helper.cts":
 											'export type * from "../../../../helper.ts";\n',
@@ -7897,11 +7909,8 @@ describe("ESLint", () => {
 
 								eslint = new ESLint({
 									cwd,
-									overrideConfigFile: "eslint.config.cts",
-									flags: [
-										...flags,
-										"unstable_native_nodejs_ts_config",
-									],
+									overrideConfigFile: eslintConfigFiles.cts,
+									flags: nativeTSConfigFileFlags,
 								});
 
 								const results = await eslint.lintFiles([
@@ -7910,7 +7919,7 @@ describe("ESLint", () => {
 
 								assert.strictEqual(
 									await eslint.findConfigFile(),
-									path.join(cwd, "eslint.config.cts"),
+									path.join(cwd, eslintConfigFiles.cts),
 								);
 								assert.strictEqual(results.length, 1);
 								assert.strictEqual(
@@ -7947,7 +7956,8 @@ describe("ESLint", () => {
 									cwd,
 									files: {
 										"package.json": typeModule,
-										"eslint.config.ts": configFileContent,
+										[eslintConfigFiles.ts]:
+											configFileContent,
 										"foo.js": "foo;",
 										"helper.ts":
 											'export type * from "../../../../helper.ts";\n',
@@ -7958,11 +7968,8 @@ describe("ESLint", () => {
 
 								eslint = new ESLint({
 									cwd,
-									overrideConfigFile: "eslint.config.ts",
-									flags: [
-										...flags,
-										"unstable_native_nodejs_ts_config",
-									],
+									overrideConfigFile: eslintConfigFiles.ts,
+									flags: nativeTSConfigFileFlags,
 								});
 
 								const results = await eslint.lintFiles([
@@ -7971,7 +7978,7 @@ describe("ESLint", () => {
 
 								assert.strictEqual(
 									await eslint.findConfigFile(),
-									path.join(cwd, "eslint.config.ts"),
+									path.join(cwd, eslintConfigFiles.ts),
 								);
 								assert.strictEqual(results.length, 1);
 								assert.strictEqual(
@@ -8015,7 +8022,7 @@ describe("ESLint", () => {
 										cwd,
 										files: {
 											"package.json": typeCommonJS,
-											"eslint.config.ts":
+											[eslintConfigFiles.ts]:
 												configFileContent,
 											"foo.js": "foo;",
 											"helper.ts":
@@ -8027,11 +8034,9 @@ describe("ESLint", () => {
 
 									eslint = new ESLint({
 										cwd,
-										overrideConfigFile: "eslint.config.ts",
-										flags: [
-											...flags,
-											"unstable_native_nodejs_ts_config",
-										],
+										overrideConfigFile:
+											eslintConfigFiles.ts,
+										flags: nativeTSConfigFileFlags,
 									});
 
 									const results = await eslint.lintFiles([
@@ -8040,7 +8045,7 @@ describe("ESLint", () => {
 
 									assert.strictEqual(
 										await eslint.findConfigFile(),
-										path.join(cwd, "eslint.config.ts"),
+										path.join(cwd, eslintConfigFiles.ts),
 									);
 									assert.strictEqual(results.length, 1);
 									assert.strictEqual(
@@ -8077,7 +8082,7 @@ describe("ESLint", () => {
 										cwd,
 										files: {
 											"package.json": typeCommonJS,
-											"eslint.config.mts":
+											[eslintConfigFiles.mts]:
 												configFileContent,
 											"foo.js": "foo;",
 											"helper.ts":
@@ -8089,11 +8094,9 @@ describe("ESLint", () => {
 
 									eslint = new ESLint({
 										cwd,
-										overrideConfigFile: "eslint.config.mts",
-										flags: [
-											...flags,
-											"unstable_native_nodejs_ts_config",
-										],
+										overrideConfigFile:
+											eslintConfigFiles.mts,
+										flags: nativeTSConfigFileFlags,
 									});
 
 									const results = await eslint.lintFiles([
@@ -8102,7 +8105,7 @@ describe("ESLint", () => {
 
 									assert.strictEqual(
 										await eslint.findConfigFile(),
-										path.join(cwd, "eslint.config.mts"),
+										path.join(cwd, eslintConfigFiles.mts),
 									);
 									assert.strictEqual(results.length, 1);
 									assert.strictEqual(
@@ -8126,7 +8129,7 @@ describe("ESLint", () => {
 								it('with "type": "module" in `package.json` and CJS syntax', async () => {
 									const cwd = getFixturePath(
 										"ts-config-files",
-										"ts",
+										"cts",
 										"native",
 										"with-type-module",
 										"CJS-syntax",
@@ -8139,7 +8142,7 @@ describe("ESLint", () => {
 										cwd,
 										files: {
 											"package.json": typeModule,
-											"eslint.config.cts":
+											[eslintConfigFiles.cts]:
 												configFileContent,
 											"foo.js": "foo;",
 											"helper.cts":
@@ -8151,11 +8154,9 @@ describe("ESLint", () => {
 
 									eslint = new ESLint({
 										cwd,
-										overrideConfigFile: "eslint.config.cts",
-										flags: [
-											...flags,
-											"unstable_native_nodejs_ts_config",
-										],
+										overrideConfigFile:
+											eslintConfigFiles.cts,
+										flags: nativeTSConfigFileFlags,
 									});
 
 									const results = await eslint.lintFiles([
@@ -8164,7 +8165,7 @@ describe("ESLint", () => {
 
 									assert.strictEqual(
 										await eslint.findConfigFile(),
-										path.join(cwd, "eslint.config.cts"),
+										path.join(cwd, eslintConfigFiles.cts),
 									);
 									assert.strictEqual(results.length, 1);
 									assert.strictEqual(
@@ -8201,7 +8202,7 @@ describe("ESLint", () => {
 										cwd,
 										files: {
 											"package.json": typeModule,
-											"eslint.config.ts":
+											[eslintConfigFiles.ts]:
 												configFileContent,
 											"foo.js": "foo;",
 											"helper.ts":
@@ -8213,11 +8214,9 @@ describe("ESLint", () => {
 
 									eslint = new ESLint({
 										cwd,
-										overrideConfigFile: "eslint.config.ts",
-										flags: [
-											...flags,
-											"unstable_native_nodejs_ts_config",
-										],
+										overrideConfigFile:
+											eslintConfigFiles.ts,
+										flags: nativeTSConfigFileFlags,
 									});
 
 									const results = await eslint.lintFiles([
@@ -8226,7 +8225,7 @@ describe("ESLint", () => {
 
 									assert.strictEqual(
 										await eslint.findConfigFile(),
-										path.join(cwd, "eslint.config.ts"),
+										path.join(cwd, eslintConfigFiles.ts),
 									);
 									assert.strictEqual(results.length, 1);
 									assert.strictEqual(
@@ -8268,7 +8267,7 @@ describe("ESLint", () => {
 										cwd,
 										files: {
 											"package.json": typeModule,
-											"eslint.config.ts":
+											[eslintConfigFiles.ts]:
 												configFileContent,
 											"foo.js": "foo;",
 											"helper.ts":
@@ -8280,8 +8279,9 @@ describe("ESLint", () => {
 
 									eslint = new ESLint({
 										cwd,
-										overrideConfigFile: "eslint.config.ts",
-										flags: [...flags],
+										overrideConfigFile:
+											eslintConfigFiles.ts,
+										flags,
 									});
 
 									await assert.rejects(
@@ -8316,7 +8316,7 @@ describe("ESLint", () => {
 										cwd,
 										files: {
 											"package.json": typeModule,
-											"eslint.config.ts":
+											[eslintConfigFiles.ts]:
 												configFileContent,
 											"foo.js": "foo;",
 											"helper.ts":
@@ -8328,8 +8328,9 @@ describe("ESLint", () => {
 
 									eslint = new ESLint({
 										cwd,
-										overrideConfigFile: "eslint.config.ts",
-										flags: [...flags],
+										overrideConfigFile:
+											eslintConfigFiles.ts,
+										flags,
 									});
 
 									await assert.rejects(
@@ -8369,7 +8370,7 @@ describe("ESLint", () => {
 							cwd,
 							files: {
 								"package.json": typeModule,
-								"eslint.config.ts": configFileContent,
+								[eslintConfigFiles.ts]: configFileContent,
 								"foo.js": "foo;",
 								"helper.ts":
 									'import type { Linter } from "eslint";\nexport type FlatConfig = Linter.Config;\n',
@@ -8380,11 +8381,8 @@ describe("ESLint", () => {
 
 						eslint = new ESLint({
 							cwd,
-							overrideConfigFile: "eslint.config.ts",
-							flags: [
-								...flags,
-								"unstable_native_nodejs_ts_config",
-							],
+							overrideConfigFile: eslintConfigFiles.ts,
+							flags: nativeTSConfigFileFlags,
 						});
 
 						await assert.rejects(eslint.lintFiles(["foo*.js"]), {
@@ -8414,7 +8412,7 @@ describe("ESLint", () => {
 							cwd,
 							files: {
 								"package.json": typeModule,
-								"eslint.config.ts": configFileContent,
+								[eslintConfigFiles.ts]: configFileContent,
 								"foo.js": "foo;",
 								"helper.ts":
 									'import type { Linter } from "eslint";\nexport type FlatConfig = Linter.Config;\n',
@@ -8425,11 +8423,8 @@ describe("ESLint", () => {
 
 						eslint = new ESLint({
 							cwd,
-							overrideConfigFile: "eslint.config.ts",
-							flags: [
-								...flags,
-								"unstable_native_nodejs_ts_config",
-							],
+							overrideConfigFile: eslintConfigFiles.ts,
+							flags: nativeTSConfigFileFlags,
 						});
 
 						await assert.rejects(eslint.lintFiles(["foo*.js"]), {
