@@ -69,3 +69,51 @@ let foo2 = (bar, baz, qux) => {
 ```
 
 :::
+
+### countVoidThis (TypeScript only)
+
+This rule has a TypeScript-specific option `countVoidThis` that allows you to count a `this` declaration when the type is `void`.
+
+Examples of **incorrect** TypeScript code for this rule with the `{ "countVoidThis": true }` option:
+
+:::incorrect
+
+```ts
+/*eslint max-params: ["error", { "max": 2, "countVoidThis": true }]*/
+
+function hasNoThis(this: void, first: string, second: string) {
+	// ...
+}
+```
+
+```ts
+/*eslint max-params: ["error", { "max": 2, "countVoidThis": false }]*/
+
+function hasNoThis(this: void, first: string, second: string, third: string) {
+	// ...
+}
+```
+
+:::
+
+Examples of **correct** TypeScript code for this rule with the `{ "countVoidThis": true }` option:
+
+:::correct
+
+```ts
+/*eslint max-params: ["error", { "max": 2, "countVoidThis": false }]*/
+
+function hasNoThis(this: void, first: string, second: string) {
+	// ...
+}
+```
+
+```ts
+/*eslint max-params: ["error", { "max": 2, "countVoidThis": true }]*/
+
+function hasThis(this: void, first: string) {
+	// ...
+}
+```
+
+:::
