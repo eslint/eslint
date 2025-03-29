@@ -857,7 +857,7 @@ target.checkRuleFiles = function () {
 		 * @private
 		 */
 		function hasRuleTypeJSDocComment() {
-			const comment = "/** @type {import('../shared/types').Rule} */";
+			const comment = "/** @type {import('../types').Rule.RuleModule} */";
 
 			return ruleCode.includes(comment);
 		}
