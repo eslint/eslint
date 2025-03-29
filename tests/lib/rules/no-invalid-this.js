@@ -1199,6 +1199,15 @@ ruleTesterTypeScript.run("no-invalid-this", rule, {
 		{
 			code: `
           class A {
+            a = 5;
+            accessor b = this.a + 1;
+          }
+          `,
+			languageOptions: { ecmaVersion: 2022 },
+		},
+		{
+			code: `
+          class A {
             b = 0;
             c = this.b;
           }
