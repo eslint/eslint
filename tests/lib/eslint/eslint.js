@@ -7719,16 +7719,18 @@ describe("ESLint", () => {
 			});
 
 			describe("patterns with './' prefix", () => {
-				const root = getFixturePath("cli-engine/patterns-with-dot-prefix");
-			
+				const root = getFixturePath(
+					"cli-engine/patterns-with-dot-prefix",
+				);
+
 				let cleanup;
-			
+
 				beforeEach(() => {
 					cleanup = () => {};
 				});
-			
+
 				afterEach(() => cleanup());
-			
+
 				it("should match patterns with './' prefix in `files` patterns", async () => {
 					const teardown = createCustomTeardown({
 						cwd: root,
@@ -7740,23 +7742,26 @@ describe("ESLint", () => {
 							}];`,
 						},
 					});
-			
+
 					await teardown.prepare();
 					cleanup = teardown.cleanup;
-			
+
 					eslint = new ESLint({ flags, cwd: teardown.getPath() });
 					const results = await eslint.lintFiles("src/**/*.js");
-			
+
 					assert.strictEqual(results.length, 1);
 					assert.strictEqual(
 						results[0].filePath,
-						path.join(teardown.getPath(), "src/foo.js")
+						path.join(teardown.getPath(), "src/foo.js"),
 					);
 					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+					assert.strictEqual(
+						results[0].messages[0].ruleId,
+						"no-undef",
+					);
 					assert.strictEqual(results[0].messages[0].severity, 2);
 				});
-			
+
 				it("should match patterns with './' prefix in `ignores` patterns", async () => {
 					const teardown = createCustomTeardown({
 						cwd: root,
@@ -7769,21 +7774,21 @@ describe("ESLint", () => {
 							}];`,
 						},
 					});
-			
+
 					await teardown.prepare();
 					cleanup = teardown.cleanup;
-			
+
 					eslint = new ESLint({ flags, cwd: teardown.getPath() });
 					const results = await eslint.lintFiles("src/**/*.js");
 
 					assert.strictEqual(results.length, 1);
 					assert.strictEqual(
 						results[0].filePath,
-						path.join(teardown.getPath(), "src/foo.js")
+						path.join(teardown.getPath(), "src/foo.js"),
 					);
 					assert.strictEqual(results[0].messages.length, 0);
 				});
-			
+
 				it("should match patterns with './' prefix in global `ignores` patterns", async () => {
 					const teardown = createCustomTeardown({
 						cwd: root,
@@ -7800,17 +7805,17 @@ describe("ESLint", () => {
 							];`,
 						},
 					});
-			
+
 					await teardown.prepare();
 					cleanup = teardown.cleanup;
-			
+
 					eslint = new ESLint({ flags, cwd: teardown.getPath() });
 
 					await assert.rejects(async () => {
 						await eslint.lintFiles("src/**/*.js");
 					}, /All files matched by 'src\/\*\*\/\*\.js' are ignored\./u);
 				});
-			
+
 				it("should match negated `files` patterns with './' prefix", async () => {
 					const teardown = createCustomTeardown({
 						cwd: root,
@@ -7822,21 +7827,21 @@ describe("ESLint", () => {
 							}];`,
 						},
 					});
-			
+
 					await teardown.prepare();
 					cleanup = teardown.cleanup;
-			
+
 					eslint = new ESLint({ flags, cwd: teardown.getPath() });
 					const results = await eslint.lintFiles("src/**/*.js");
-			
+
 					assert.strictEqual(results.length, 1);
 					assert.strictEqual(
 						results[0].filePath,
-						path.join(teardown.getPath(), "src/foo.js")
+						path.join(teardown.getPath(), "src/foo.js"),
 					);
 					assert.strictEqual(results[0].messages.length, 0);
 				});
-			
+
 				it("should match negated `ignores` patterns with './' prefix", async () => {
 					const teardown = createCustomTeardown({
 						cwd: root,
@@ -7849,23 +7854,26 @@ describe("ESLint", () => {
 							}];`,
 						},
 					});
-			
+
 					await teardown.prepare();
 					cleanup = teardown.cleanup;
-			
+
 					eslint = new ESLint({ flags, cwd: teardown.getPath() });
 					const results = await eslint.lintFiles("src/**/*.js");
-			
+
 					assert.strictEqual(results.length, 1);
 					assert.strictEqual(
 						results[0].filePath,
-						path.join(teardown.getPath(), "src/foo.js")
+						path.join(teardown.getPath(), "src/foo.js"),
 					);
 					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+					assert.strictEqual(
+						results[0].messages[0].ruleId,
+						"no-undef",
+					);
 					assert.strictEqual(results[0].messages[0].severity, 2);
 				});
-			
+
 				it("should match negated global `ignores` patterns with './' prefix", async () => {
 					const teardown = createCustomTeardown({
 						cwd: root,
@@ -7882,23 +7890,26 @@ describe("ESLint", () => {
 							];`,
 						},
 					});
-			
+
 					await teardown.prepare();
 					cleanup = teardown.cleanup;
-			
+
 					eslint = new ESLint({ flags, cwd: teardown.getPath() });
 					const results = await eslint.lintFiles("src/**/*.js");
-			
+
 					assert.strictEqual(results.length, 1);
 					assert.strictEqual(
 						results[0].filePath,
-						path.join(teardown.getPath(), "src/foo.js")
+						path.join(teardown.getPath(), "src/foo.js"),
 					);
 					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+					assert.strictEqual(
+						results[0].messages[0].ruleId,
+						"no-undef",
+					);
 					assert.strictEqual(results[0].messages[0].severity, 2);
 				});
-			
+
 				it("should match nested `files` patterns with './' prefix", async () => {
 					const teardown = createCustomTeardown({
 						cwd: root,
@@ -7910,20 +7921,23 @@ describe("ESLint", () => {
 							}];`,
 						},
 					});
-			
+
 					await teardown.prepare();
 					cleanup = teardown.cleanup;
-			
+
 					eslint = new ESLint({ flags, cwd: teardown.getPath() });
 					const results = await eslint.lintFiles("src/**/*.js");
-			
+
 					assert.strictEqual(results.length, 1);
 					assert.strictEqual(
 						results[0].filePath,
-						path.join(teardown.getPath(), "src/foo.js")
+						path.join(teardown.getPath(), "src/foo.js"),
 					);
 					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].ruleId, "no-undef");
+					assert.strictEqual(
+						results[0].messages[0].ruleId,
+						"no-undef",
+					);
 					assert.strictEqual(results[0].messages[0].severity, 2);
 				});
 			});
