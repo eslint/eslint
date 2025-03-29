@@ -1707,9 +1707,7 @@ describe("ESLint", () => {
 				});
 
 				it("should fail to load a TS config file if jiti is not installed", async () => {
-					const loadJitiStub = sinon
-						.stub(ConfigLoader, "loadJiti")
-						.rejects();
+					sinon.stub(ConfigLoader, "loadJiti").rejects();
 
 					const cwd = getFixturePath("ts-config-files", "ts");
 
@@ -1722,14 +1720,10 @@ describe("ESLint", () => {
 						message:
 							"The 'jiti' library is required for loading TypeScript configuration files. Make sure to install it.",
 					});
-
-					loadJitiStub.restore();
 				});
 
 				it("should fail to load a TS config file if an outdated version of jiti is installed", async () => {
-					const loadJitiStub = sinon
-						.stub(ConfigLoader, "loadJiti")
-						.resolves({});
+					sinon.stub(ConfigLoader, "loadJiti").resolves({});
 
 					const cwd = getFixturePath("ts-config-files", "ts");
 
@@ -1742,8 +1736,6 @@ describe("ESLint", () => {
 						message:
 							"You are using an outdated version of the 'jiti' library. Please update to the latest version of 'jiti' to ensure compatibility and access to the latest features.",
 					});
-
-					loadJitiStub.restore();
 				});
 
 				it("should fail to load a CommonJS TS config file that exports undefined with a helpful warning message", async () => {
@@ -1769,8 +1761,6 @@ describe("ESLint", () => {
 						processStub.getCall(0).args[1],
 						"ESLintEmptyConfigWarning",
 					);
-
-					processStub.restore();
 				});
 
 				// eslint-disable-next-line n/no-unsupported-features/node-builtins -- it's still an experimental feature.
@@ -7686,9 +7676,7 @@ describe("ESLint", () => {
 				});
 
 				it("should fail to load a TS config file if jiti is not installed", async () => {
-					const loadJitiStub = sinon
-						.stub(ConfigLoader, "loadJiti")
-						.rejects();
+					sinon.stub(ConfigLoader, "loadJiti").rejects();
 
 					const cwd = getFixturePath("ts-config-files", "ts");
 
@@ -7701,14 +7689,10 @@ describe("ESLint", () => {
 						message:
 							"The 'jiti' library is required for loading TypeScript configuration files. Make sure to install it.",
 					});
-
-					loadJitiStub.restore();
 				});
 
 				it("should fail to load a TS config file if an outdated version of jiti is installed", async () => {
-					const loadJitiStub = sinon
-						.stub(ConfigLoader, "loadJiti")
-						.resolves({});
+					sinon.stub(ConfigLoader, "loadJiti").resolves({});
 
 					const cwd = getFixturePath("ts-config-files", "ts");
 
@@ -7721,8 +7705,6 @@ describe("ESLint", () => {
 						message:
 							"You are using an outdated version of the 'jiti' library. Please update to the latest version of 'jiti' to ensure compatibility and access to the latest features.",
 					});
-
-					loadJitiStub.restore();
 				});
 
 				it("should fail to load a CommonJS TS config file that exports undefined with a helpful warning message", async () => {
@@ -7748,8 +7730,6 @@ describe("ESLint", () => {
 						processStub.getCall(0).args[1],
 						"ESLintEmptyConfigWarning",
 					);
-
-					processStub.restore();
 				});
 
 				// eslint-disable-next-line n/no-unsupported-features/node-builtins -- it's still an experimental feature.
