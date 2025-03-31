@@ -330,9 +330,9 @@ Set<number>;
 1 as number;
 window!;
 
+// Expressions inside namespaces
 namespace Bar {
     123;
-    export class Baz {}
 }
 ```
 
