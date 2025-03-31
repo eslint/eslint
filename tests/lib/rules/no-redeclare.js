@@ -722,7 +722,7 @@ const ruleTesterTypeScript = new RuleTester({
 		parser: require("@typescript-eslint/parser"),
 		parserOptions: {
 			sourceType: "script",
-		}
+		},
 	},
 });
 
