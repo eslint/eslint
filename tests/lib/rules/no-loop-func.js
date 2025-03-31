@@ -797,6 +797,38 @@ ruleTesterTypeScript.run("no-loop-func", rule, {
 	someArray = someArray.filter((item: MyType) => !!item);
   }
 	  `,
+		// Test case for a global type that hasn't been configured
+		`
+    // UnconfiguredGlobalType is not defined anywhere or configured in globals
+    for (var i = 0; i < 10; i++) {
+      const process = (item: UnconfiguredGlobalType) => {
+        // This is valid because the type reference is considered safe
+        // even though UnconfiguredGlobalType is not configured
+        return item.id;
+      };
+    }
+    `,
+		
+		// Test both configured and unconfigured global types
+		{
+			code: `
+    for (var i = 0; i < 10; i++) {
+      // ConfiguredType is in globals, UnconfiguredType is not
+      // Both should be considered safe as they are type references
+      const process = (configItem: ConfiguredType, unconfigItem: UnconfiguredType) => {
+        return { 
+          config: configItem.value,
+          unconfig: unconfigItem.value
+        };
+      };
+    }
+      `,
+			languageOptions: {
+				globals: {
+					ConfiguredType: "readonly"
+				}
+			}
+		}
 	],
 	invalid: [
 		{
@@ -876,5 +908,24 @@ ruleTesterTypeScript.run("no-loop-func", rule, {
 				},
 			],
 		},
+		// Function uses unconfigured global type but still references loop variable
+		{
+			code: `
+      for (var i = 0; i < 10; i++) {
+        // UnconfiguredGlobalType is not defined anywhere
+        // But the function still references i which makes it unsafe
+        const process = (item: UnconfiguredGlobalType) => {
+          console.log(i, item.value);
+        };
+      }
+      `,
+			errors: [
+				{
+					messageId: "unsafeRefs",
+					data: { varNames: "'i'" },
+					type: "ArrowFunctionExpression",
+				},
+			],
+		}
 	],
 });
