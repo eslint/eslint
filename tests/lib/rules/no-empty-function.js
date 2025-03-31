@@ -67,6 +67,21 @@ function toValidInvalid(patterns, item) {
 		},
 	);
 
+	let relevantOptions = [];
+
+	if (/constructors$/iu.test(item.allow)) {
+		relevantOptions = [
+			"constructors",
+			"privateConstructors",
+			"protectedConstructors",
+		];
+	} else if (
+		/methods$/iu.test(item.allow) ||
+		item.allow === "decoratedFunctions"
+	) {
+		relevantOptions = ["methods", "decoratedFunctions", "overrideMethods"];
+	}
+
 	const error = item.message || {
 		messageId: item.messageId,
 		data: item.data,
@@ -78,7 +93,9 @@ function toValidInvalid(patterns, item) {
 		errors: [error],
 		languageOptions: { ecmaVersion },
 	});
-	ALLOW_OPTIONS.filter(allow => allow !== item.allow).forEach(allow => {
+	ALLOW_OPTIONS.filter(
+		allow => allow !== item.allow && !relevantOptions.includes(allow),
+	).forEach(allow => {
 		// non related "allow" option has no effect.
 		patterns.invalid.push({
 			code: `${item.code} // allow: ${allow}`,
@@ -510,6 +527,24 @@ ruleTesterTypeScript.run(
 			allow: "methods",
 		},
 		{
+			code: "class B { @decorator() foo() {} }",
+			messageId: "unexpected",
+			data: { name: "method 'foo'" },
+			allow: "methods",
+		},
+		{
+			code: "const B = class { @decorator() foo() {} }",
+			messageId: "unexpected",
+			data: { name: "method 'foo'" },
+			allow: "methods",
+		},
+		{
+			code: "class B extends C { override foo() {} }",
+			messageId: "unexpected",
+			data: { name: "method 'foo'" },
+			allow: "methods",
+		},
+		{
 			code: "const obj = {*foo(param: string) {}};",
 			messageId: "unexpected",
 			data: { name: "generator method 'foo'" },
@@ -618,7 +653,31 @@ ruleTesterTypeScript.run(
 			allow: "constructors",
 		},
 		{
+			code: "class B { private constructor() {} }",
+			messageId: "unexpected",
+			data: { name: "constructor" },
+			allow: "constructors",
+		},
+		{
+			code: "class B { protected constructor() {} }",
+			messageId: "unexpected",
+			data: { name: "constructor" },
+			allow: "constructors",
+		},
+		{
 			code: "const A = class {constructor(param: string) {}};",
+			messageId: "unexpected",
+			data: { name: "constructor" },
+			allow: "constructors",
+		},
+		{
+			code: "const B = class { private constructor() {} }",
+			messageId: "unexpected",
+			data: { name: "constructor" },
+			allow: "constructors",
+		},
+		{
+			code: "const B = class { protected constructor() {} }",
 			messageId: "unexpected",
 			data: { name: "constructor" },
 			allow: "constructors",
@@ -698,7 +757,16 @@ ruleTesterTypeScript.run(
 	].reduce(toValidInvalid, {
 		valid: [
 			{
+				code: "class A { constructor(public param: string) {} }",
+			},
+			{
 				code: "class A { constructor(private param: string) {} }",
+			},
+			{
+				code: "class A { constructor(protected param: string) {} }",
+			},
+			{
+				code: "class A { constructor(readonly param: string) {} }",
 			},
 		],
 		invalid: [],
