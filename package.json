@@ -58,7 +58,7 @@
     "lint:docs:rule-examples": "node Makefile.js checkRuleExamples",
     "lint:unused": "knip",
     "lint:fix": "trunk check -y --ignore=docs/**/*.js -a --filter=eslint && trunk check -y --ignore=docs/**/*.js",
-    "lint:fix:docs:js": "trunk check -y --ignore=** --ignore=!docs/**/*.js -a --flter=eslint && trunk check -y --ignore=** --ignore=!docs/**/*.js",
+    "lint:fix:docs:js": "trunk check -y --ignore=** --ignore=!docs/**/*.js -a --filter=eslint && trunk check -y --ignore=** --ignore=!docs/**/*.js",
     "lint:rule-types": "node tools/update-rule-type-headers.js --check",
     "lint:types": "attw --pack",
     "release:generate:alpha": "node Makefile.js generatePrerelease -- alpha",
