@@ -307,6 +307,7 @@ getSet()!;
 // Directives in modules and namespaces
 module Foo {
     'use strict';
+    'hello world';
 }
 
 namespace Bar {
@@ -328,11 +329,6 @@ Examples of **incorrect** code for this rule when using TypeScript:
 Set<number>;
 1 as number;
 window!;
-
-// Non-directive expressions in modules/namespaces
-module Foo {
-    'hello world';
-}
 
 namespace Bar {
     123;
