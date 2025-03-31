@@ -808,7 +808,7 @@ ruleTesterTypeScript.run("no-loop-func", rule, {
       };
     }
     `,
-		
+
 		// Test both configured and unconfigured global types
 		{
 			code: `
@@ -825,10 +825,10 @@ ruleTesterTypeScript.run("no-loop-func", rule, {
       `,
 			languageOptions: {
 				globals: {
-					ConfiguredType: "readonly"
-				}
-			}
-		}
+					ConfiguredType: "readonly",
+				},
+			},
+		},
 	],
 	invalid: [
 		{
@@ -926,6 +926,6 @@ ruleTesterTypeScript.run("no-loop-func", rule, {
 					type: "ArrowFunctionExpression",
 				},
 			],
-		}
+		},
 	],
 });
