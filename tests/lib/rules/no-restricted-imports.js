@@ -4176,5 +4176,43 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 				},
 			],
 		},
+		{
+			code: `
+			  // Both regular and type imports should still be restricted
+			  import { Foo } from 'restricted-path';
+			  import type { Bar } from 'restricted-path';
+			`,
+			options: [
+			  {
+				paths: [
+				  {
+					name: "restricted-path",
+					allowTypeImports: false,
+					message: "This import is restricted."
+				  }
+				]
+			  }
+			],
+			errors: [
+			  {
+				messageId: "pathWithCustomMessage",
+				type: "ImportDeclaration",
+				line: 3,
+				data: {
+				  importSource: "restricted-path",
+				  customMessage: "This import is restricted."
+				}
+			  },
+			  {
+				messageId: "pathWithCustomMessage",
+				type: "ImportDeclaration",
+				line: 4,
+				data: {
+				  importSource: "restricted-path",
+				  customMessage: "This import is restricted."
+				}
+			  }
+			]
+		  },
 	],
 });
