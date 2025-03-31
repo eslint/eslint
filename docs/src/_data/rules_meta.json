@@ -319,8 +319,7 @@
         "defaultOptions": [
             {
                 "enforceForClassFields": true,
-                "exceptMethods": [],
-                "ignoreOverrideMethods": false
+                "exceptMethods": []
             }
         ],
         "docs": {
@@ -1022,11 +1021,6 @@
     },
     "init-declarations": {
         "type": "suggestion",
-        "dialects": [
-            "typescript",
-            "javascript"
-        ],
-        "language": "javascript",
         "docs": {
             "description": "Require or disallow initialization in variable declarations",
             "recommended": false,
@@ -1600,11 +1594,6 @@
         }
     },
     "no-array-constructor": {
-        "dialects": [
-            "javascript",
-            "typescript"
-        ],
-        "language": "javascript",
         "type": "suggestion",
         "docs": {
             "description": "Disallow `Array` constructors",
@@ -1871,11 +1860,6 @@
     },
     "no-dupe-class-members": {
         "type": "problem",
-        "dialects": [
-            "javascript",
-            "typescript"
-        ],
-        "language": "javascript",
         "docs": {
             "description": "Disallow duplicate class members",
             "recommended": true,
@@ -2362,11 +2346,6 @@
     },
     "no-loss-of-precision": {
         "type": "problem",
-        "dialects": [
-            "typescript",
-            "javascript"
-        ],
-        "language": "javascript",
         "docs": {
             "description": "Disallow literal numbers that lose precision",
             "recommended": true,
@@ -3006,7 +2985,7 @@
         "fixable": null,
         "deprecated": {
             "message": "The original assumption of the rule no longer holds true because of engine optimization.",
-            "url": "https://github.com/eslint/eslint/issues/17345",
+            "url": "https://eslint.org/docs/latest/rules/no-return-await",
             "deprecatedSince": "8.46.0",
             "availableUntil": null,
             "replacedBy": []
@@ -4001,7 +3980,7 @@
         },
         "deprecated": {
             "message": "The original intention of this rule was misguided.",
-            "url": "https://github.com/eslint/eslint/issues/7226",
+            "url": "https://eslint.org/docs/latest/rules/prefer-reflect",
             "deprecatedSince": "3.9.0",
             "availableUntil": null,
             "replacedBy": []
