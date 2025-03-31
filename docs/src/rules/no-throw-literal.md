@@ -28,12 +28,12 @@ throw undefined;
 
 throw null;
 
-var err = new Error();
+const err = new Error();
 throw "an " + err;
 // err is recast to a string literal
 
-var err = new Error();
-throw `${err}`
+const er2 = new Error();
+throw `${err2}`
 
 ```
 
@@ -50,7 +50,7 @@ throw new Error();
 
 throw new Error("error");
 
-var e = new Error("error");
+const e = new Error("error");
 throw e;
 
 try {
@@ -73,7 +73,7 @@ Examples of **correct** code for this rule, but which do not throw an `Error` ob
 ```js
 /*eslint no-throw-literal: "error"*/
 
-var err = "error";
+const err = "error";
 throw err;
 
 function foo(bar) {
@@ -83,7 +83,7 @@ throw foo("error");
 
 throw new String("error");
 
-var baz = {
+const baz = {
     bar: "error"
 };
 throw baz.bar;

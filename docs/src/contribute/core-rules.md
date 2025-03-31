@@ -40,7 +40,7 @@ Here is the basic format of the source file for a rule:
 // Rule Definition
 //------------------------------------------------------------------------------
 
-/** @type {import('../shared/types').Rule} */
+/** @type {import('../types').Rule.RuleModule} */
 module.exports = {
 	meta: {
 		type: "suggestion",

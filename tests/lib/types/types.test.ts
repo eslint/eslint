@@ -613,6 +613,13 @@ rule = {
 		hasSuggestions: true,
 	},
 };
+rule = {
+	create(context) {
+		const foo: string = context.options[0];
+		const baz: number = context.options[1]?.baz ?? false;
+		return {};
+	},
+};
 
 rule = {
 	create(context: Rule.RuleContext) {
@@ -635,6 +642,8 @@ rule = {
 		context.languageOptions;
 		context.languageOptions
 			.ecmaVersion satisfies Linter.LanguageOptions["ecmaVersion"];
+
+		context.options; // $ExpectType any[]
 
 		context.sourceCode;
 		context.sourceCode.getLocFromIndex(42);

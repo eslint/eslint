@@ -11,9 +11,9 @@ further_reading:
 Shadowing is the process by which a local variable shares the same name as a variable in its containing scope. For example:
 
 ```js
-var a = 3;
+const a = 3;
 function b() {
-    var a = 10;
+    const a = 10;
 }
 ```
 
@@ -30,13 +30,13 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-shadow: "error"*/
 
-var a = 3;
+const a = 3;
 function b() {
-    var a = 10;
+    const a = 10;
 }
 
-var c = function () {
-    var a = 10;
+const c = function () {
+    const a = 10;
 }
 
 function d(a) {
@@ -45,7 +45,7 @@ function d(a) {
 d(a);
 
 if (true) {
-    let a = 5;
+    const a = 5;
 }
 ```
 
@@ -74,7 +74,7 @@ Examples of **incorrect** code for the `{ "builtinGlobals": true }` option:
 /*eslint no-shadow: ["error", { "builtinGlobals": true }]*/
 
 function foo() {
-    var Object = 0;
+    const Object = 0;
 }
 ```
 
@@ -98,7 +98,7 @@ Examples of **incorrect** code for the default `{ "hoist": "functions" }` option
 /*eslint no-shadow: ["error", { "hoist": "functions" }]*/
 
 if (true) {
-    let b = 6;
+    const b = 6;
 }
 
 function b() {}
@@ -106,7 +106,7 @@ function b() {}
 
 :::
 
-Although `let b` in the `if` statement is before the *function* declaration in the outer scope, it is incorrect.
+Although `const b` in the `if` statement is before the *function* declaration in the outer scope, it is incorrect.
 
 Examples of **correct** code for the default `{ "hoist": "functions" }` option:
 
@@ -116,15 +116,15 @@ Examples of **correct** code for the default `{ "hoist": "functions" }` option:
 /*eslint no-shadow: ["error", { "hoist": "functions" }]*/
 
 if (true) {
-    let a = 3;
+    const a = 3;
 }
 
-let a = 5;
+const a = 5;
 ```
 
 :::
 
-Because `let a` in the `if` statement is before the *variable* declaration in the outer scope, it is correct.
+Because `const a` in the `if` statement is before the *variable* declaration in the outer scope, it is correct.
 
 #### hoist: all
 
@@ -136,11 +136,11 @@ Examples of **incorrect** code for the `{ "hoist": "all" }` option:
 /*eslint no-shadow: ["error", { "hoist": "all" }]*/
 
 if (true) {
-    let a = 3;
-    let b = 6;
+    const a = 3;
+    const b = 6;
 }
 
-let a = 5;
+const a = 5;
 function b() {}
 ```
 
@@ -156,17 +156,17 @@ Examples of **correct** code for the `{ "hoist": "never" }` option:
 /*eslint no-shadow: ["error", { "hoist": "never" }]*/
 
 if (true) {
-    let a = 3;
-    let b = 6;
+    const a = 3;
+    const b = 6;
 }
 
-let a = 5;
+const a = 5;
 function b() {}
 ```
 
 :::
 
-Because `let a` and `let b` in the `if` statement are before the declarations in the outer scope, they are correct.
+Because `const a` and `const b` in the `if` statement are before the declarations in the outer scope, they are correct.
 
 ### allow
 
@@ -207,7 +207,7 @@ Examples of **incorrect** code for the `{ "ignoreOnInitialization": "true" }` op
 ```js
 /*eslint no-shadow: ["error", { "ignoreOnInitialization": true }]*/
 
-var x = x => x;
+const x = x => x;
 ```
 
 :::
@@ -221,9 +221,9 @@ Examples of **correct** code for the `{ "ignoreOnInitialization": true }` option
 ```js
 /*eslint no-shadow: ["error", { "ignoreOnInitialization": true }]*/
 
-var x = foo(x => x)
+const x = foo(x => x)
 
-var y = (y => y)()
+const y = (y => y)()
 ```
 
 :::
