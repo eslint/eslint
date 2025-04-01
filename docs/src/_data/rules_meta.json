@@ -3006,7 +3006,6 @@
         "fixable": null,
         "deprecated": {
             "message": "The original assumption of the rule no longer holds true because of engine optimization.",
-            "url": "https://github.com/eslint/eslint/issues/17345",
             "deprecatedSince": "8.46.0",
             "availableUntil": null,
             "replacedBy": []
@@ -4001,7 +4000,6 @@
         },
         "deprecated": {
             "message": "The original intention of this rule was misguided.",
-            "url": "https://github.com/eslint/eslint/issues/7226",
             "deprecatedSince": "3.9.0",
             "availableUntil": null,
             "replacedBy": []
