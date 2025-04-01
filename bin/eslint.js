@@ -155,6 +155,23 @@ ${getErrorMessage(error)}`;
 		return;
 	}
 
+	// start the MCP server if `--mcp` is present
+	if (process.argv.includes("--mcp")) {
+		const { mcpServer } = require("../lib/mcp/mcp-server");
+		const { StdioServerTransport } = require("@modelcontextprotocol/sdk/server/stdio.js");
+
+
+		await mcpServer.connect(new StdioServerTransport());
+
+		console.log("ESLint MCP server is running.");
+
+		process.on("SIGINT", () => {
+			mcpServer.close(); console.log("HI")
+			process.exitCode = 0;
+		});
+		return;
+	}
+
 	// Otherwise, call the CLI.
 	const cli = require("../lib/cli");
 	const exitCode = await cli.execute(
