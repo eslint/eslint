@@ -1227,6 +1227,24 @@ describe("bin/eslint.js", () => {
 		});
 	});
 
+	describe("MCP server", () => {
+
+		it("should start the MCP server when the --mcp flag is used", done => {
+			const child = runESLint(["--mcp"]);
+
+			// should not have anything on std out
+			child.stdout.on("data", data => {
+				assert.fail(`Unexpected stdout data: ${data}`);
+			});
+
+			child.stderr.on("data", data => {
+				assert.match(data.toString(), /ESLint MCP server is running/u);
+				done();
+			});
+
+		});
+
+	});
 	afterEach(() => {
 		// Clean up all the processes after every test.
 		forkedProcesses.forEach(child => child.kill());
