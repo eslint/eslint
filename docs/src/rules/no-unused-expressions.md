@@ -300,7 +300,7 @@ Examples of **correct** code for this rule when using TypeScript:
 function getSet() {
     return Set;
 }
-getSet()<number>();
+getSet()<number>;
 getSet() as Set<unknown>;
 getSet()!;
 
