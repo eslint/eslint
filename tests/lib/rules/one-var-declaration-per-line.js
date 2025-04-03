@@ -19,8 +19,8 @@ const rule = require("../../../lib/rules/one-var-declaration-per-line"),
 /**
  * Returns an error object at the specified line and column
  * @private
- * @param {int} line line number
- * @param {int} column column number
+ * @param {number} line line number
+ * @param {number} column column number
  * @returns {Object} Error object
  */
 function errorAt(line, column) {
