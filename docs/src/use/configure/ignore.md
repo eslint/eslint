@@ -183,12 +183,9 @@ If you want to include patterns from a `.gitignore` file or any other file with 
 // eslint.config.js
 import { defineConfig } from "eslint/config";
 import { includeIgnoreFile } from "@eslint/compat";
-import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const gitignorePath = path.resolve(__dirname, ".gitignore");
+const gitignorePath = fileURLToPath(new URL(".gitignore", import.meta.url));
 
 export default defineConfig([
 	includeIgnoreFile(gitignorePath),
