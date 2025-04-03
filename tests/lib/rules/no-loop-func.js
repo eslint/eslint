@@ -740,5 +740,28 @@ ruleTester.run("no-loop-func", rule, {
 				},
 			],
 		},
+		{
+			code: `
+            for (var i = 0; i < 10; i++) {
+				items.push({
+					id: i,
+					name: "Item " + i
+				});
+
+				const process = function (callback){
+					callback({ id: i, name: "Item " + i });
+				};
+			}
+            `,
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					messageId: "unsafeRefs",
+					data: { varNames: "'i'" },
+					type: "FunctionExpression",
+					line: 8,
+				},
+			],
+		},
 	],
 });
