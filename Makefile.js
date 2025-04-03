@@ -1056,7 +1056,7 @@ module.exports = [{
 
 /**
  * @callback TimeCallback
- * @param {?number[]} results
+ * @param {number[] | null} results
  * @returns {void}
  */
 
