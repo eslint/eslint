@@ -1,3 +1,32 @@
+v9.24.0 - April 4, 2025
+
+* [`ef67420`](https://github.com/eslint/eslint/commit/ef6742091d49fc1809ad933f1daeff7124f57e93) chore: upgrade @eslint/js@9.24.0 (#19602) (Milos Djermanovic)
+* [`4946847`](https://github.com/eslint/eslint/commit/4946847bb675ee26c3a52bfe3bca63a0dc5e5c61) chore: package.json update for @eslint/js release (Jenkins)
+* [`f857820`](https://github.com/eslint/eslint/commit/f8578206cc9b9fcd03dc5311f8a2d96b7b3359a5) docs: update documentation for `--experimental-strip-types` (#19594) (Nikolas Schröter)
+* [`803e4af`](https://github.com/eslint/eslint/commit/803e4af48e7fc3a2051e8c384f30fe4a318520e3) docs: simplify gitignore path handling in includeIgnoreFile section (#19596) (Thomas Broyer)
+* [`6d979cc`](https://github.com/eslint/eslint/commit/6d979ccc183454e616bc82a598db5402e9d63dcf) docs: Update README (GitHub Actions Bot)
+* [`b23d1c5`](https://github.com/eslint/eslint/commit/b23d1c5f0297c5e2e9a4ff70533f3c0bdbfc34b8) fix: deduplicate variable names in no-loop-func error messages (#19595) (Nitin Kumar)
+* [`556c25b`](https://github.com/eslint/eslint/commit/556c25bbadd640ba9465ca6ec152f10959591666) feat: support loading TS config files using `--experimental-strip-types` (#19401) (Arya Emami)
+* [`82177e4`](https://github.com/eslint/eslint/commit/82177e4108d6b3e63ece6072d923c0a2c08907bf) docs: Update README (GitHub Actions Bot)
+* [`a995acb`](https://github.com/eslint/eslint/commit/a995acbe32471ce8c20cbf9f48b4f3e1d8bc2229) chore: correct 'flter'/'filter' typo in package script (#19587) (Josh Goldberg ✨)
+* [`72650ac`](https://github.com/eslint/eslint/commit/72650acdb715fc25c675dc6368877b0e3f8d3885) feat: support TS syntax in `init-declarations` (#19540) (Nitin Kumar)
+* [`03fb0bc`](https://github.com/eslint/eslint/commit/03fb0bca2be41597fcea7c0e84456bbaf2e5acca) feat: normalize patterns to handle "./" prefix in files and ignores (#19568) (Pixel998)
+* [`b9a5efa`](https://github.com/eslint/eslint/commit/b9a5efa937046f2d3f97e6caabb67a4bc182c983) test: skip symlink test on Windows (#19503) (fisker Cheung)
+* [`46eea6d`](https://github.com/eslint/eslint/commit/46eea6d1cbed41d020cb76841ebba30710b0afd0) chore: remove `Rule` & `FormatterFunction` from `shared/types.js` (#19556) (Nitin Kumar)
+* [`fb8cdb8`](https://github.com/eslint/eslint/commit/fb8cdb842edcc035969e14b7b7e3ee372304f2d7) fix: use `any[]` type for `context.options` (#19584) (Francesco Trotta)
+* [`071dcd3`](https://github.com/eslint/eslint/commit/071dcd3a8e34aeeb52d0b9c23c2c4a1e58b45858) feat: support TS syntax in `no-dupe-class-members` (#19558) (Nitin Kumar)
+* [`e849dc0`](https://github.com/eslint/eslint/commit/e849dc01286cde5b6e2f0e04bf36928710633715) docs: replace existing var with const (#19578) (Sweta Tanwar)
+* [`bdcc91d`](https://github.com/eslint/eslint/commit/bdcc91d5b61ad1b3e55044767362548c906f5462) chore: modify .editorconfig to keep parity with prettier config (#19577) (Sweta Tanwar)
+* [`7790d83`](https://github.com/eslint/eslint/commit/7790d8305a8cef7cc95c331205d59d6b3c2b4e2e) chore: fix some typos in comment (#19576) (todaymoon)
+* [`cd72bcc`](https://github.com/eslint/eslint/commit/cd72bcc0c8d81fbf47ff3c8fe05ae48e1d862246) feat: Introduce a way to suppress violations (#19159) (Iacovos Constantinou)
+* [`2a81578`](https://github.com/eslint/eslint/commit/2a81578ac179b1eeb1484fddee31913ed99042a2) feat: support TS syntax in `no-loss-of-precision` (#19560) (Nitin Kumar)
+* [`366e369`](https://github.com/eslint/eslint/commit/366e3694afd85ab6605adf4fee4dfa1316be8b74) build: re-enable Prettier formatting for `package.json` files (#19569) (Francesco Trotta)
+* [`30ae4ed`](https://github.com/eslint/eslint/commit/30ae4ed093d19e9950d09c2ab57f43d3564e31c9) feat: add new options to class-methods-use-this (#19527) (sethamus)
+* [`b79ade6`](https://github.com/eslint/eslint/commit/b79ade6c1e0765457637f7ddaa52a39eed3aad38) feat: support TypeScript syntax in `no-array-constructor` (#19493) (Tanuj Kanti)
+* [`0c65c62`](https://github.com/eslint/eslint/commit/0c65c628022ff3ce40598c1a6ce95728e7eda317) docs: don't pass filename when linting rule examples (#19571) (Milos Djermanovic)
+* [`76064a6`](https://github.com/eslint/eslint/commit/76064a632438533bbb90e253ec72d172e948d200) test: ignore `package-lock.json` for `eslint-webpack-plugin` (#19572) (Francesco Trotta)
+* [`6be36c9`](https://github.com/eslint/eslint/commit/6be36c99432ecdc72e33b6fb3293cf28f66ab78d) docs: Update custom-rules.md code example of fixer (#19555) (Yifan Pan)
+
 v9.23.0 - March 21, 2025
 
 * [`0ac8ea4`](https://github.com/eslint/eslint/commit/0ac8ea45350fa5819694a3775641e94b1da3282b) chore: update dependencies for v9.23.0 release (#19554) (Francesco Trotta)
