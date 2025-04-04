@@ -399,31 +399,38 @@ const x = Foo.FOO;
 
 ### typedefs (TypeScript only)
 
-Examples of **incorrect** code for the `{ "enums": true }` option:
+Examples of **incorrect** code for the `{ "enums": true }` with `{ "ignoreTypeReferences": false }` option:
 
 ::: incorrect
 
 ```ts
-/*eslint no-use-before-define: ["error", { "typedefs": true }]*/
+/*eslint no-use-before-define: ["error", { "typedefs": true, "ignoreTypeReferences": false }]*/
 
 let myVar: StringOrNumber;
 
 type StringOrNumber = string | number;
 
+const x: Foo = {};
+
+interface Foo {}
 ```
 
 :::
 
-Examples of **correct** code for the `{ "typedefs": true }` option:
+Examples of **correct** code for the `{ "typedefs": true }` with `{ "ignoreTypeReferences": false }` option:
 
 ::: correct
 
 ```ts
-/*eslint no-use-before-define: ["error", { "typedefs": true }]*/
+/*eslint no-use-before-define: ["error", { "typedefs": true, "ignoreTypeReferences": false }]*/
 
 type StringOrNumber = string | number;
 
 let myVar: StringOrNumber;
+
+interface Foo {}
+
+const x: Foo = {};
 ```
 
 :::
@@ -462,6 +469,22 @@ let myVar: StringOrNumber;
 enum Enum {}
 
 let var2: Enum;
+```
+
+Examples of **correct** code for the `{ "ignoreTypeReferences": false }` with `{ "typedefs": false }` option:
+
+::: correct
+
+```ts
+/*eslint no-use-before-define: ["error", { "ignoreTypeReferences": false, "typedefs": false, }]*/
+
+let myVar: StringOrNumber;
+
+type StringOrNumber = string | number;
+
+const x: Foo = {};
+
+interface Foo {}
 ```
 
 :::
