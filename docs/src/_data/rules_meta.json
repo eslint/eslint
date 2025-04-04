@@ -319,7 +319,8 @@
         "defaultOptions": [
             {
                 "enforceForClassFields": true,
-                "exceptMethods": []
+                "exceptMethods": [],
+                "ignoreOverrideMethods": false
             }
         ],
         "docs": {
@@ -1021,6 +1022,11 @@
     },
     "init-declarations": {
         "type": "suggestion",
+        "dialects": [
+            "typescript",
+            "javascript"
+        ],
+        "language": "javascript",
         "docs": {
             "description": "Require or disallow initialization in variable declarations",
             "recommended": false,
@@ -1594,6 +1600,11 @@
         }
     },
     "no-array-constructor": {
+        "dialects": [
+            "javascript",
+            "typescript"
+        ],
+        "language": "javascript",
         "type": "suggestion",
         "docs": {
             "description": "Disallow `Array` constructors",
@@ -1860,6 +1871,11 @@
     },
     "no-dupe-class-members": {
         "type": "problem",
+        "dialects": [
+            "javascript",
+            "typescript"
+        ],
+        "language": "javascript",
         "docs": {
             "description": "Disallow duplicate class members",
             "recommended": true,
@@ -2346,6 +2362,11 @@
     },
     "no-loss-of-precision": {
         "type": "problem",
+        "dialects": [
+            "typescript",
+            "javascript"
+        ],
+        "language": "javascript",
         "docs": {
             "description": "Disallow literal numbers that lose precision",
             "recommended": true,
