@@ -378,7 +378,11 @@ module.exports = function (eleventyConfig) {
             <div class="alert__content">
                 <span class="alert__type">Important</span>
                 <div class="alert__text">${text}</div>
-                <a href="${url}" class="alert__learn-more">Learn more</a>
+                ${
+					url
+						? `<a href="${url}" class="alert__learn-more">Learn more</a>`
+						: ""
+				}
             </div>
         </div>`,
 	);
