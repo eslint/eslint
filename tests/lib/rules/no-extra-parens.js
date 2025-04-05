@@ -22,7 +22,7 @@ const rule = require("../../../lib/rules/no-extra-parens"),
  * @param {string} code source code
  * @param {string} output fixed source code
  * @param {string} type node type
- * @param {int} line line number
+ * @param {number} line line number
  * @param {Object} config rule configuration
  * @returns {Object} result object
  * @private
