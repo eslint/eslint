@@ -293,10 +293,6 @@ Examples of **incorrect** TypeScript code for this rule:
 ```ts
 /*eslint no-invalid-this: "error"*/
 
-interface SomeType {
-    prop: string;
-}
-
 function foo(bar: string) {
     this.prop;
     console.log(bar)
