@@ -809,6 +809,83 @@ type DeprecatedRuleContextKeys =
 	},
 });
 
+// All options optional - JSRuleDefinition, JSRuleDefinition<{}> and RuleModule
+// should be the same type.
+(
+	rule1: Rule.JSRuleDefinition,
+	rule2: Rule.JSRuleDefinition<{}>,
+	rule3: Rule.RuleModule,
+) => {
+	rule1 satisfies typeof rule2 satisfies typeof rule3;
+	rule2 satisfies typeof rule1 satisfies typeof rule3;
+	rule3 satisfies typeof rule1 satisfies typeof rule2;
+};
+
+// Type restrictions should be enforced
+(): Rule.JSRuleDefinition<{
+	RuleOptions: [string, number];
+	MessageIds: "foo" | "bar";
+	ExtRuleDocs: { foo: string; bar: number };
+}> => ({
+	meta: {
+		messages: {
+			foo: "FOO",
+
+			// @ts-expect-error Wrong type for message ID
+			bar: 42,
+		},
+		docs: {
+			foo: "FOO",
+
+			// @ts-expect-error Wrong type for declared property
+			bar: "BAR",
+
+			// @ts-expect-error Wrong type for predefined property
+			description: 42,
+		},
+	},
+	create({ options }) {
+		// Types for rule options
+		options[0] satisfies string;
+		options[1] satisfies number;
+
+		return {};
+	},
+});
+
+// Undeclared properties should produce an error
+(): Rule.JSRuleDefinition<{
+	MessageIds: "foo" | "bar";
+	ExtRuleDocs: { foo: number; bar: string };
+}> => ({
+	meta: {
+		messages: {
+			foo: "FOO",
+
+			// Declared message ID is not required
+			// bar: "BAR",
+
+			// @ts-expect-error Undeclared message ID is not allowed
+			baz: "BAZ",
+		},
+		docs: {
+			foo: 42,
+
+			// Declared property is not required
+			// bar: "BAR",
+
+			// @ts-expect-error Undeclared property key is not allowed
+			baz: "BAZ",
+
+			// Predefined property is allowed
+			description: "Lorem ipsum",
+		},
+	},
+	create() {
+		return {};
+	},
+});
+
 // #endregion
 
 // #region Linter
