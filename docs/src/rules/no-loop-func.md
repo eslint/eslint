@@ -141,6 +141,24 @@ for (var i = 0; i < 5; i++) {
 
 :::
 
+This rule additionally supports TypeScript type syntax.
+
+Examples of **correct** TypeScript code for this rule:
+
+::: correct
+
+```ts
+/*eslint no-loop-func: "error"*/
+
+type MyType = 1;
+let someArray: MyType[] = [];
+for (let i = 0; i < 10; i += 1) {
+	someArray = someArray.filter((item: MyType) => !!item);
+}
+```
+
+:::
+
 ## Known Limitations
 
 The rule cannot identify whether the function instance is just immediately invoked and then discarded, or possibly stored for later use.
