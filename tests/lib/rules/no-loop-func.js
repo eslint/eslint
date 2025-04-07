@@ -908,7 +908,7 @@ ruleTesterTypeScript.run("no-loop-func", rule, {
 			errors: [
 				{
 					messageId: "unsafeRefs",
-					data: { varNames: "'i', 'i'" },
+					data: { varNames: "'i'" },
 					type: "FunctionExpression",
 				},
 			],
