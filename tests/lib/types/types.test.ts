@@ -52,7 +52,7 @@ import {
 	StaticBlock,
 	WhileStatement,
 } from "estree";
-import { Language, RuleDefinition } from "@eslint/core";
+import { Language, RuleDefinition, SettingsConfig } from "@eslint/core";
 
 const SOURCE = `var foo = bar;`;
 
@@ -877,6 +877,21 @@ type DeprecatedRuleContextKeys =
 		},
 	},
 	create() {
+		return {};
+	},
+});
+
+(): Rule.JSRuleDefinition => ({
+	create(context) {
+		context.cwd satisfies string; // $ExpectType string
+		context.filename satisfies string; // $ExpectType string
+		context.id satisfies string; // $ExpectType string
+		context.languageOptions satisfies Linter.LanguageOptions; // $ExpectType LanguageOptions
+		context.options satisfies unknown[]; // $ExpectType unknown[]
+		context.physicalFilename satisfies string; // $ExpectType string
+		context.settings satisfies SettingsConfig; // $ExpectType SettingsConfig
+		context.sourceCode satisfies SourceCode; // $ExpectType SourceCode
+
 		return {};
 	},
 });
