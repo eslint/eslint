@@ -929,7 +929,6 @@ ruleTester.run("no-restricted-properties", rule, {
 				{
 					messageId: "restrictedProperty",
 					data: {
-						objectName: "someObject",
 						propertyName: "disallowedProperty",
 						message: "",
 					},
@@ -950,7 +949,6 @@ ruleTester.run("no-restricted-properties", rule, {
 				{
 					messageId: "restrictedProperty",
 					data: {
-						objectName: "someObject",
 						propertyName: "disallowedProperty",
 						message:
 							" Please use someObject.allowedProperty instead.",
@@ -975,7 +973,6 @@ ruleTester.run("no-restricted-properties", rule, {
 				{
 					messageId: "restrictedProperty",
 					data: {
-						objectName: "someObject",
 						propertyName: "disallowedProperty",
 						message: "",
 					},
@@ -984,7 +981,6 @@ ruleTester.run("no-restricted-properties", rule, {
 				{
 					messageId: "restrictedProperty",
 					data: {
-						objectName: "anotherObject",
 						propertyName: "anotherDisallowedProperty",
 						message: "",
 					},
