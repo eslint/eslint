@@ -809,16 +809,11 @@ type DeprecatedRuleContextKeys =
 	},
 });
 
-// All options optional - JSRuleDefinition, JSRuleDefinition<{}> and RuleModule
+// All options optional - JSRuleDefinition and JSRuleDefinition<{}>
 // should be the same type.
-(
-	rule1: Rule.JSRuleDefinition,
-	rule2: Rule.JSRuleDefinition<{}>,
-	rule3: Rule.RuleModule,
-) => {
-	rule1 satisfies typeof rule2 satisfies typeof rule3;
-	rule2 satisfies typeof rule1 satisfies typeof rule3;
-	rule3 satisfies typeof rule1 satisfies typeof rule2;
+(rule1: Rule.JSRuleDefinition, rule2: Rule.JSRuleDefinition<{}>) => {
+	rule1 satisfies typeof rule2;
+	rule2 satisfies typeof rule1;
 };
 
 // Type restrictions should be enforced
