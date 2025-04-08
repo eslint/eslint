@@ -37,7 +37,7 @@ const ALLOW_OPTIONS = Object.freeze([
  * Folds test items to `{valid: [], invalid: []}`.
  * One item would be converted to 4 valid patterns and 8 invalid patterns.
  * @param {{valid: Object[], invalid: Object[]}} patterns The result.
- * @param {{code: string, message: string, allow: string}} item A test item.
+ * @param {{code: string, message: string, allow: string|string[]}} item A test item.
  * @returns {{valid: Object[], invalid: Object[]}} The result.
  */
 function toValidInvalid(patterns, item) {
@@ -45,6 +45,8 @@ function toValidInvalid(patterns, item) {
 		item.languageOptions && item.languageOptions.ecmaVersion
 			? item.languageOptions.ecmaVersion
 			: 6;
+
+	const allowOptions = Array.isArray(item.allow) ? item.allow : [item.allow];
 
 	// Valid Patterns
 	patterns.valid.push(
@@ -60,31 +62,12 @@ function toValidInvalid(patterns, item) {
 			code: item.code.replace("{}", "{\n    // empty\n}"),
 			languageOptions: { ecmaVersion },
 		},
-		{
-			code: `${item.code} // allow: ${item.allow}`,
-			options: [{ allow: [item.allow] }],
+		...allowOptions.map(allow => ({
+			code: `${item.code} // allow: ${allow}`,
+			options: [{ allow: [allow] }],
 			languageOptions: { ecmaVersion },
-		},
+		})),
 	);
-
-	let relevantOptions = [];
-
-	if (/constructors$/iu.test(item.allow)) {
-		relevantOptions = [
-			"constructors",
-			"privateConstructors",
-			"protectedConstructors",
-		];
-	} else if (/(g|s)etters|decoratedFunctions|methods$/iu.test(item.allow)) {
-		relevantOptions = [
-			"setters",
-			"getters",
-			"methods",
-			"asyncMethods",
-			"decoratedFunctions",
-			"overrideMethods",
-		];
-	}
 
 	const error = item.message || {
 		messageId: item.messageId,
@@ -97,17 +80,17 @@ function toValidInvalid(patterns, item) {
 		errors: [error],
 		languageOptions: { ecmaVersion },
 	});
-	ALLOW_OPTIONS.filter(
-		allow => allow !== item.allow && !relevantOptions.includes(allow),
-	).forEach(allow => {
-		// non related "allow" option has no effect.
-		patterns.invalid.push({
-			code: `${item.code} // allow: ${allow}`,
-			errors: [error],
-			options: [{ allow: [allow] }],
-			languageOptions: { ecmaVersion },
-		});
-	});
+	ALLOW_OPTIONS.filter(allow => !allowOptions.includes(allow)).forEach(
+		allow => {
+			// non related "allow" option has no effect.
+			patterns.invalid.push({
+				code: `${item.code} // allow: ${allow}`,
+				errors: [error],
+				options: [{ allow: [allow] }],
+				languageOptions: { ecmaVersion },
+			});
+		},
+	);
 
 	return patterns;
 }
@@ -534,25 +517,25 @@ ruleTesterTypeScript.run(
 			code: "class B { @decorator() foo() {} }",
 			messageId: "unexpected",
 			data: { name: "method 'foo'" },
-			allow: "methods",
+			allow: ["methods", "decoratedFunctions"],
 		},
 		{
 			code: "const B = class { @decorator() foo() {} }",
 			messageId: "unexpected",
 			data: { name: "method 'foo'" },
-			allow: "methods",
+			allow: ["methods", "decoratedFunctions"],
 		},
 		{
 			code: "class B extends C { override foo() {} }",
 			messageId: "unexpected",
 			data: { name: "method 'foo'" },
-			allow: "methods",
+			allow: ["methods", "overrideMethods"],
 		},
 		{
 			code: "class B extends C { @decorator() override foo() {} }",
 			messageId: "unexpected",
 			data: { name: "method 'foo'" },
-			allow: "methods",
+			allow: ["methods", "decoratedFunctions", "overrideMethods"],
 		},
 		{
 			code: "const obj = {*foo(param: string) {}};",
@@ -630,49 +613,49 @@ ruleTesterTypeScript.run(
 			code: "class A {@decorator() get foo(): string {}}",
 			messageId: "unexpected",
 			data: { name: "getter 'foo'" },
-			allow: "getters",
+			allow: ["getters", "decoratedFunctions"],
 		},
 		{
 			code: "class A {@decorator() static get foo(): string {}}",
 			messageId: "unexpected",
 			data: { name: "static getter 'foo'" },
-			allow: "getters",
+			allow: ["getters", "decoratedFunctions"],
 		},
 		{
 			code: "const A = class {@decorator() get foo(): string {}};",
 			messageId: "unexpected",
 			data: { name: "getter 'foo'" },
-			allow: "getters",
+			allow: ["getters", "decoratedFunctions"],
 		},
 		{
 			code: "const A = class {@decorator() static get foo(): string {}};",
 			messageId: "unexpected",
 			data: { name: "static getter 'foo'" },
-			allow: "getters",
+			allow: ["getters", "decoratedFunctions"],
 		},
 		{
 			code: "class A extends B {override get foo(): string {}}",
 			messageId: "unexpected",
 			data: { name: "getter 'foo'" },
-			allow: "getters",
+			allow: ["getters", "overrideMethods"],
 		},
 		{
 			code: "class A extends B {static override get foo(): string {}}",
 			messageId: "unexpected",
 			data: { name: "static getter 'foo'" },
-			allow: "getters",
+			allow: ["getters", "overrideMethods"],
 		},
 		{
 			code: "const A = class extends B {override get foo(): string {}};",
 			messageId: "unexpected",
 			data: { name: "getter 'foo'" },
-			allow: "getters",
+			allow: ["getters", "overrideMethods"],
 		},
 		{
 			code: "const A = class extends B {static override get foo(): string {}};",
 			messageId: "unexpected",
 			data: { name: "static getter 'foo'" },
-			allow: "getters",
+			allow: ["getters", "overrideMethods"],
 		},
 		{
 			code: "const obj = {set foo(value: string) {}};",
@@ -708,49 +691,49 @@ ruleTesterTypeScript.run(
 			code: "class A {@decorator() set foo(value: string) {}}",
 			messageId: "unexpected",
 			data: { name: "setter 'foo'" },
-			allow: "setters",
+			allow: ["setters", "decoratedFunctions"],
 		},
 		{
 			code: "class A {@decorator() static set foo(value: string) {}}",
 			messageId: "unexpected",
 			data: { name: "static setter 'foo'" },
-			allow: "setters",
+			allow: ["setters", "decoratedFunctions"],
 		},
 		{
 			code: "const A = class {@decorator() set foo(value: string) {}};",
 			messageId: "unexpected",
 			data: { name: "setter 'foo'" },
-			allow: "setters",
+			allow: ["setters", "decoratedFunctions"],
 		},
 		{
 			code: "const A = class {@decorator() static set foo(value: string) {}};",
 			messageId: "unexpected",
 			data: { name: "static setter 'foo'" },
-			allow: "setters",
+			allow: ["setters", "decoratedFunctions"],
 		},
 		{
 			code: "class A extends B {override set foo(value: string) {}}",
 			messageId: "unexpected",
 			data: { name: "setter 'foo'" },
-			allow: "setters",
+			allow: ["setters", "overrideMethods"],
 		},
 		{
 			code: "class A extends B {static override set foo(value: string) {}}",
 			messageId: "unexpected",
 			data: { name: "static setter 'foo'" },
-			allow: "setters",
+			allow: ["setters", "overrideMethods"],
 		},
 		{
 			code: "const A = class extends B {override set foo(value: string) {}};",
 			messageId: "unexpected",
 			data: { name: "setter 'foo'" },
-			allow: "setters",
+			allow: ["setters", "overrideMethods"],
 		},
 		{
 			code: "const A = class extends B {static override set foo(value: string) {}};",
 			messageId: "unexpected",
 			data: { name: "static setter 'foo'" },
-			allow: "setters",
+			allow: ["setters", "overrideMethods"],
 		},
 		{
 			code: "class A { constructor(param: string) {} }",
@@ -762,13 +745,13 @@ ruleTesterTypeScript.run(
 			code: "class B { private constructor() {} }",
 			messageId: "unexpected",
 			data: { name: "constructor" },
-			allow: "constructors",
+			allow: ["constructors", "privateConstructors"],
 		},
 		{
 			code: "class B { protected constructor() {} }",
 			messageId: "unexpected",
 			data: { name: "constructor" },
-			allow: "constructors",
+			allow: ["constructors", "protectedConstructors"],
 		},
 		{
 			code: "const A = class {constructor(param: string) {}};",
@@ -780,13 +763,13 @@ ruleTesterTypeScript.run(
 			code: "const B = class { private constructor() {} }",
 			messageId: "unexpected",
 			data: { name: "constructor" },
-			allow: "constructors",
+			allow: ["constructors", "privateConstructors"],
 		},
 		{
 			code: "const B = class { protected constructor() {} }",
 			messageId: "unexpected",
 			data: { name: "constructor" },
-			allow: "constructors",
+			allow: ["constructors", "protectedConstructors"],
 		},
 		{
 			code: "const foo = { async method(param: string) {} }",
@@ -816,13 +799,13 @@ ruleTesterTypeScript.run(
 			code: "class A { @decorator() async foo(param: string) {} }",
 			messageId: "unexpected",
 			data: { name: "async method 'foo'" },
-			allow: "asyncMethods",
+			allow: ["asyncMethods", "decoratedFunctions"],
 		},
 		{
 			code: "class A extends B { override async foo(param: string) {} }",
 			messageId: "unexpected",
 			data: { name: "async method 'foo'" },
-			allow: "asyncMethods",
+			allow: ["asyncMethods", "overrideMethods"],
 		},
 		{
 			code: "const foo = async (): Promise<void> => {};",
@@ -834,163 +817,163 @@ ruleTesterTypeScript.run(
 			code: "class A { private constructor() {} }",
 			messageId: "unexpected",
 			data: { name: "constructor" },
-			allow: "privateConstructors",
+			allow: ["privateConstructors", "constructors"],
 		},
 		{
 			code: "const A = class { private constructor() {} };",
 			messageId: "unexpected",
 			data: { name: "constructor" },
-			allow: "privateConstructors",
+			allow: ["privateConstructors", "constructors"],
 		},
 		{
 			code: "class A { protected constructor() {} }",
 			messageId: "unexpected",
 			data: { name: "constructor" },
-			allow: "protectedConstructors",
+			allow: ["protectedConstructors", "constructors"],
 		},
 		{
 			code: "const A = class { protected constructor() {} };",
 			messageId: "unexpected",
 			data: { name: "constructor" },
-			allow: "protectedConstructors",
+			allow: ["protectedConstructors", "constructors"],
 		},
 		{
 			code: "class A { @decorator() foo() {} }",
 			messageId: "unexpected",
 			data: { name: "method 'foo'" },
-			allow: "decoratedFunctions",
+			allow: ["decoratedFunctions", "methods"],
 		},
 		{
 			code: "const A = class { @decorator() foo() {} }",
 			messageId: "unexpected",
 			data: { name: "method 'foo'" },
-			allow: "decoratedFunctions",
+			allow: ["decoratedFunctions", "methods"],
 		},
 		{
 			code: "class B {@decorator() get foo(): string {}}",
 			messageId: "unexpected",
 			data: { name: "getter 'foo'" },
-			allow: "decoratedFunctions",
+			allow: ["decoratedFunctions", "getters"],
 		},
 		{
 			code: "class B {@decorator() static get foo(): string {}}",
 			messageId: "unexpected",
 			data: { name: "static getter 'foo'" },
-			allow: "decoratedFunctions",
+			allow: ["decoratedFunctions", "getters"],
 		},
 		{
 			code: "const B = class {@decorator() get foo(): string {}};",
 			messageId: "unexpected",
 			data: { name: "getter 'foo'" },
-			allow: "decoratedFunctions",
+			allow: ["decoratedFunctions", "getters"],
 		},
 		{
 			code: "const B = class {@decorator() static get foo(): string {}};",
 			messageId: "unexpected",
 			data: { name: "static getter 'foo'" },
-			allow: "decoratedFunctions",
+			allow: ["decoratedFunctions", "getters"],
 		},
 		{
 			code: "class B {@decorator() set foo(value: string) {}}",
 			messageId: "unexpected",
 			data: { name: "setter 'foo'" },
-			allow: "decoratedFunctions",
+			allow: ["decoratedFunctions", "setters"],
 		},
 		{
 			code: "class B {@decorator() static set foo(value: string) {}}",
 			messageId: "unexpected",
 			data: { name: "static setter 'foo'" },
-			allow: "decoratedFunctions",
+			allow: ["decoratedFunctions", "setters"],
 		},
 		{
 			code: "const B = class {@decorator() set foo(value: string) {}};",
 			messageId: "unexpected",
 			data: { name: "setter 'foo'" },
-			allow: "decoratedFunctions",
+			allow: ["decoratedFunctions", "setters"],
 		},
 		{
 			code: "const B = class {@decorator() static set foo(value: string) {}};",
 			messageId: "unexpected",
 			data: { name: "static setter 'foo'" },
-			allow: "decoratedFunctions",
+			allow: ["decoratedFunctions", "setters"],
 		},
 		{
 			code: "class B { @decorator() async foo(param: string) {} }",
 			messageId: "unexpected",
 			data: { name: "async method 'foo'" },
-			allow: "decoratedFunctions",
+			allow: ["decoratedFunctions", "asyncMethods"],
 		},
 		{
 			code: "class A extends B { @decorator() override foo() {} }",
 			messageId: "unexpected",
 			data: { name: "method 'foo'" },
-			allow: "decoratedFunctions",
+			allow: ["decoratedFunctions", "methods", "overrideMethods"],
 		},
 		{
 			code: "class B extends C {override get foo(): string {}}",
 			messageId: "unexpected",
 			data: { name: "getter 'foo'" },
-			allow: "overrideMethods",
+			allow: ["overrideMethods", "getters"],
 		},
 		{
 			code: "class B extends C {static override get foo(): string {}}",
 			messageId: "unexpected",
 			data: { name: "static getter 'foo'" },
-			allow: "overrideMethods",
+			allow: ["overrideMethods", "getters"],
 		},
 		{
 			code: "const B = class extends C {override get foo(): string {}};",
 			messageId: "unexpected",
 			data: { name: "getter 'foo'" },
-			allow: "overrideMethods",
+			allow: ["overrideMethods", "getters"],
 		},
 		{
 			code: "const B = class extends C {static override get foo(): string {}};",
 			messageId: "unexpected",
 			data: { name: "static getter 'foo'" },
-			allow: "overrideMethods",
+			allow: ["overrideMethods", "getters"],
 		},
 		{
 			code: "class B extends C {override set foo(value: string) {}}",
 			messageId: "unexpected",
 			data: { name: "setter 'foo'" },
-			allow: "overrideMethods",
+			allow: ["overrideMethods", "setters"],
 		},
 		{
 			code: "class B extends C {static override set foo(value: string) {}}",
 			messageId: "unexpected",
 			data: { name: "static setter 'foo'" },
-			allow: "overrideMethods",
+			allow: ["overrideMethods", "setters"],
 		},
 		{
 			code: "const B = class extends C {override set foo(value: string) {}};",
 			messageId: "unexpected",
 			data: { name: "setter 'foo'" },
-			allow: "overrideMethods",
+			allow: ["overrideMethods", "setters"],
 		},
 		{
 			code: "const B = class extends C {static override set foo(value: string) {}};",
 			messageId: "unexpected",
 			data: { name: "static setter 'foo'" },
-			allow: "overrideMethods",
+			allow: ["overrideMethods", "setters"],
 		},
 		{
 			code: "class B extends C { override async foo(param: string) {} }",
 			messageId: "unexpected",
 			data: { name: "async method 'foo'" },
-			allow: "overrideMethods",
+			allow: ["overrideMethods", "asyncMethods"],
 		},
 		{
 			code: "class C extends D { @decorator() override foo() {} }",
 			messageId: "unexpected",
 			data: { name: "method 'foo'" },
-			allow: "overrideMethods",
+			allow: ["overrideMethods", "methods", "decoratedFunctions"],
 		},
 		{
 			code: "class A extends B { override foo() {} }",
 			messageId: "unexpected",
 			data: { name: "method 'foo'" },
-			allow: "overrideMethods",
+			allow: ["overrideMethods", "methods"],
 		},
 	].reduce(toValidInvalid, {
 		valid: [
