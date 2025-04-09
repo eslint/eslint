@@ -1250,6 +1250,10 @@ ruleTesterTypeScript.run("no-magic-numbers", rule, {
 			options: [{ ignoreNumericLiteralTypes: true }],
 		},
 		{
+			code: "type Nested = ('' | ('' | (1)));",
+			options: [{ ignoreNumericLiteralTypes: true }],
+		},
+		{
 			code: "type Foo = 1 | 2 | 3;",
 			options: [{ ignoreNumericLiteralTypes: true }],
 		},
