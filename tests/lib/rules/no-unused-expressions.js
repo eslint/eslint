@@ -441,7 +441,10 @@ ruleTesterTypeScript.run("no-unused-expressions", rule, {
 		},
 		{
 			code: "<div/> as any",
-			languageOptions: { ecmaVersion: 6, parserOptions: { ecmaFeatures: { jsx: true } } },
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
 		},
 		{
 			code: "foo && foo()!;",
