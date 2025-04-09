@@ -439,6 +439,27 @@ ruleTesterTypeScript.run("no-unused-expressions", rule, {
 			code: "foo ? import('./foo') : import('./bar');",
 			options: [{ allowTernary: true }],
 		},
+		{
+			code: "<div/> as any",
+			languageOptions: { ecmaVersion: 6, parserOptions: { ecmaFeatures: { jsx: true } } },
+		},
+		{
+			code: "foo && foo()!;",
+			options: [{ allowShortCircuit: true }],
+		},
+		{
+			code: `
+				declare const foo:  Function | undefined;
+				<any>(foo && foo()!)
+			`,
+			options: [{ allowShortCircuit: true }],
+		},
+		{
+			code: `
+				(Foo && Foo())<string, number>;
+			`,
+			options: [{ allowShortCircuit: true }],
+		},
 	],
 	invalid: [
 		{
