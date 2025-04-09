@@ -191,6 +191,10 @@ This rule has an option to allow specific kinds of functions to be empty.
     * `"constructors"` - Class constructors.
     * `"asyncFunctions"` - Async functions.
     * `"asyncMethods"` - Async class methods and method shorthands of object literals.
+    * `"privateConstructors"` - Private class constructors. (TypeScript only)
+    * `"protectedConstructors"` - Protected class constructors. (TypeScript only)
+    * `"decoratedFunctions"` - Class methods with decorators. (TypeScript only)
+    * `"overrideMethods"` - Methods that use the override keyword. (TypeScript only)
 
 ### allow: functions
 
@@ -376,6 +380,75 @@ const obj = {
 class A {
     async foo() {}
     static async foo() {}
+}
+```
+
+:::
+
+### allow: privateConstructors
+
+Examples of **correct** TypeScript code for the `{ "allow": ["privateConstructors"] }` option:
+
+::: correct
+
+```ts
+/*eslint no-empty-function: ["error", { "allow": ["privateConstructors"] }]*/
+
+class A {
+    private constructor() {}
+}
+```
+
+:::
+
+### allow: protectedConstructors
+
+Examples of **correct** TypeScript code for the `{ "allow": ["protectedConstructors"] }` option:
+
+::: correct
+
+```ts
+/*eslint no-empty-function: ["error", { "allow": ["protectedConstructors"] }]*/
+
+class A {
+    protected constructor() {}
+}
+```
+
+:::
+
+### allow: decoratedFunctions
+
+Examples of **correct** TypeScript code for the `{ "allow": ["decoratedFunctions"] }` option:
+
+::: correct
+
+```ts
+/*eslint no-empty-function: ["error", { "allow": ["decoratedFunctions"] }]*/
+
+class A {
+    @decorator
+    foo() {}
+}
+```
+
+:::
+
+### allow: overrideMethods
+
+Examples of **correct** TypeScript code for the `{ "allow": ["overrideMethods"] }` option:
+
+::: correct
+
+```ts
+/*eslint no-empty-function: ["error", { "allow": ["overrideMethods"] }]*/
+
+abstract class Base {
+    abstract method(): void;
+}
+
+class Derived extends Base {
+    override method() {}
 }
 ```
 
