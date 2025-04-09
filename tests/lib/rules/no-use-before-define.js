@@ -1902,6 +1902,13 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 		  `,
 			options: [{ typedefs: false }],
 		},
+		{
+			code: `
+	var x: Foo = {};
+	interface Foo {}
+		  `,
+			options: [{ typedefs: false, ignoreTypeReferences: false, }],
+		},
 		// https://github.com/typescript-eslint/typescript-eslint/issues/2572
 		{
 			code: `
@@ -2274,6 +2281,19 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 	
 	const X = 23;
 		`,
+		`
+		namespace A {
+			export namespace X {
+				export namespace Y {
+					export const foo = 40;
+				}
+			}
+		}
+
+		import Z = A.X.Y;
+
+		const X = 23;
+		`
 	],
 	invalid: [
 		{
