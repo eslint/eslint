@@ -71,7 +71,7 @@ If the property name is omitted, accessing any property of the given object is d
 }
 ```
 
-If you want to globally restrict a property but allow specific objects to use it, you can use the `allowObjects` option:
+If you want to restrict a property globally but allow specific objects to use it, you can use the `allowObjects` option:
 
 ```json
 {
