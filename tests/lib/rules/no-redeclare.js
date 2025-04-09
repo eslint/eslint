@@ -853,6 +853,7 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 			code: `
   function A() {}
   namespace A {}
+  namespace A {}
 		`,
 			options: [{ ignoreDeclarationMerge: true }],
 		},
