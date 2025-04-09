@@ -2090,7 +2090,6 @@ ruleTesterTypeScript.run("no-shadow", rule, {
 				},
 			],
 		},
-
 		{
 			code: `
   type Foo<A> = 1;
@@ -2379,6 +2378,25 @@ ruleTesterTypeScript.run("no-shadow", rule, {
 					data: {
 						name: "has",
 						shadowedColumn: 17,
+						shadowedLine: 2,
+					},
+					messageId: "noShadow",
+				},
+			],
+		},
+		{
+			code: `
+			const A = 2;
+			enum Test {
+				A = 1,
+				B = A,
+			}
+		`,
+			errors: [
+				{
+					data: {
+						name: "A",
+						shadowedColumn: 10,
 						shadowedLine: 2,
 					},
 					messageId: "noShadow",
