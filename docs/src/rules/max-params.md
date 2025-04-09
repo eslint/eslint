@@ -29,6 +29,7 @@ This rule enforces a maximum number of parameters allowed in function definition
 This rule has a number or object option:
 
 * `"max"` (default `3`) enforces a maximum number of parameters in function definitions
+* `"countVoidThis"` (default `false`) counts a `this` declaration when the type is `void` (TypeScript only)
 
 **Deprecated:** The object property `maximum` is deprecated; please use the object property `max` instead.
 
@@ -86,6 +87,10 @@ function hasNoThis(this: void, first: string, second: string) {
 }
 ```
 
+:::
+
+:::incorrect
+
 ```ts
 /*eslint max-params: ["error", { "max": 2, "countVoidThis": false }]*/
 
@@ -107,6 +112,10 @@ function hasNoThis(this: void, first: string, second: string) {
 	// ...
 }
 ```
+
+:::
+
+:::correct
 
 ```ts
 /*eslint max-params: ["error", { "max": 2, "countVoidThis": true }]*/
