@@ -284,7 +284,7 @@ import { AllowedObject } from "foo";
 
 #### allowTypeImports (TypeScript only)
 
-Whether to allow [Type-Only Imports](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-8.html#type-only-imports-and-export) for a path. Default: `false`.
+Whether to allow [Type-Only Imports](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-8.html#type-only-imports-and-export) for a path. This includes type-only `export` statements, as they are equivalent to re-exporting an `import`. Default: `false`.
 
 ```json
 "no-restricted-imports": ["error", {

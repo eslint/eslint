@@ -3668,6 +3668,20 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 				},
 			],
 		},
+		{
+			code: "import Bar = Foo.Bar;",
+			options: [
+				{
+					paths: [
+						{
+							allowTypeImports: true,
+							importNames: ["Bar"],
+							name: "import-foo",
+						},
+					],
+				},
+			],
+		},
 	],
 	invalid: [
 		{
