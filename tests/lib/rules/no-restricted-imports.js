@@ -4125,6 +4125,20 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 			],
 		},
 		{
+			code: "export type { InvalidTestCase } from '@typescript-eslint/utils/dist/ts-eslint';",
+			options: [
+				{
+					patterns: ["@typescript-eslint/utils/dist/*"],
+				},
+			],
+			errors: [
+				{
+					messageId: "patterns",
+					type: "ExportNamedDeclaration",
+				},
+			],
+		},
+		{
 			code: "import { Bar, type Baz } from 'import-foo';",
 			options: [
 				{
@@ -4210,6 +4224,44 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 					data: {
 						importSource: "restricted-path",
 						customMessage: "This import is restricted.",
+					},
+				},
+			],
+		},
+		{
+			code: `
+			  // Both regular and type imports should still be restricted
+			  export { Foo } from 'restricted-path';
+			  export type { Bar } from 'restricted-path';
+			`,
+			options: [
+				{
+					paths: [
+						{
+							name: "restricted-path",
+							allowTypeImports: false,
+							message: "This export is restricted.",
+						},
+					],
+				},
+			],
+			errors: [
+				{
+					messageId: "pathWithCustomMessage",
+					type: "ExportNamedDeclaration",
+					line: 3,
+					data: {
+						importSource: "restricted-path",
+						customMessage: "This export is restricted.",
+					},
+				},
+				{
+					messageId: "pathWithCustomMessage",
+					type: "ExportNamedDeclaration",
+					line: 4,
+					data: {
+						importSource: "restricted-path",
+						customMessage: "This export is restricted.",
 					},
 				},
 			],
