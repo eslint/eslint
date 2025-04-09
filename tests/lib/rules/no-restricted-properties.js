@@ -233,6 +233,52 @@ ruleTester.run("no-restricted-properties", rule, {
 			options: [{ property: "#foo" }],
 			languageOptions: { ecmaVersion: 2022 },
 		},
+		{
+			code: "someObject.disallowedProperty",
+			options: [
+				{
+					property: "disallowedProperty",
+					allowObjects: ["someObject"],
+				},
+			],
+		},
+		{
+			code: "someObject.disallowedProperty; anotherObject.disallowedProperty();",
+			options: [
+				{
+					property: "disallowedProperty",
+					allowObjects: ["someObject", "anotherObject"],
+				},
+			],
+		},
+		{
+			code: "someObject.disallowedProperty()",
+			options: [
+				{
+					property: "disallowedProperty",
+					allowObjects: ["someObject"],
+				},
+			],
+		},
+		{
+			code: "someObject['disallowedProperty']()",
+			options: [
+				{
+					property: "disallowedProperty",
+					allowObjects: ["someObject"],
+				},
+			],
+		},
+		{
+			code: "let {bar} = foo;",
+			options: [{ property: "bar", allowObjects: ["foo"] }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "let {baz: bar} = foo;",
+			options: [{ property: "baz", allowObjects: ["foo"] }],
+			languageOptions: { ecmaVersion: 6 },
+		},
 	],
 
 	invalid: [
@@ -868,6 +914,77 @@ ruleTester.run("no-restricted-properties", rule, {
 						propertyName: "bad",
 						message: "",
 					},
+				},
+			],
+		},
+		{
+			code: "someObject.disallowedProperty",
+			options: [
+				{
+					property: "disallowedProperty",
+					allowObjects: ["anotherObject"],
+				},
+			],
+			errors: [
+				{
+					messageId: "restrictedProperty",
+					data: {
+						propertyName: "disallowedProperty",
+						message: "",
+					},
+					type: "MemberExpression",
+				},
+			],
+		},
+		{
+			code: "someObject.disallowedProperty",
+			options: [
+				{
+					property: "disallowedProperty",
+					allowObjects: ["anotherObject"],
+					message: "Please use someObject.allowedProperty instead.",
+				},
+			],
+			errors: [
+				{
+					messageId: "restrictedProperty",
+					data: {
+						propertyName: "disallowedProperty",
+						message:
+							" Please use someObject.allowedProperty instead.",
+					},
+					type: "MemberExpression",
+				},
+			],
+		},
+		{
+			code: "someObject.disallowedProperty; anotherObject.anotherDisallowedProperty()",
+			options: [
+				{
+					property: "disallowedProperty",
+					allowObjects: ["anotherObject"],
+				},
+				{
+					property: "anotherDisallowedProperty",
+					allowObjects: ["someObject"],
+				},
+			],
+			errors: [
+				{
+					messageId: "restrictedProperty",
+					data: {
+						propertyName: "disallowedProperty",
+						message: "",
+					},
+					type: "MemberExpression",
+				},
+				{
+					messageId: "restrictedProperty",
+					data: {
+						propertyName: "anotherDisallowedProperty",
+						message: "",
+					},
+					type: "MemberExpression",
 				},
 			],
 		},
