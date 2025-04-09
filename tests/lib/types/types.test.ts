@@ -31,6 +31,7 @@ import {
 	Linter,
 	loadESLint,
 	Rule,
+	JSRuleDefinition,
 	RuleTester,
 	Scope,
 	SourceCode,
@@ -811,13 +812,13 @@ type DeprecatedRuleContextKeys =
 
 // All options optional - JSRuleDefinition and JSRuleDefinition<{}>
 // should be the same type.
-(rule1: Rule.JSRuleDefinition, rule2: Rule.JSRuleDefinition<{}>) => {
+(rule1: JSRuleDefinition, rule2: JSRuleDefinition<{}>) => {
 	rule1 satisfies typeof rule2;
 	rule2 satisfies typeof rule1;
 };
 
 // Type restrictions should be enforced
-(): Rule.JSRuleDefinition<{
+(): JSRuleDefinition<{
 	RuleOptions: [string, number];
 	MessageIds: "foo" | "bar";
 	ExtRuleDocs: { foo: string; bar: number };
@@ -849,7 +850,7 @@ type DeprecatedRuleContextKeys =
 });
 
 // Undeclared properties should produce an error
-(): Rule.JSRuleDefinition<{
+(): JSRuleDefinition<{
 	MessageIds: "foo" | "bar";
 	ExtRuleDocs: { foo: number; bar: string };
 }> => ({
@@ -881,7 +882,7 @@ type DeprecatedRuleContextKeys =
 	},
 });
 
-(): Rule.JSRuleDefinition => ({
+(): JSRuleDefinition => ({
 	create(context) {
 		context.cwd satisfies string; // $ExpectType string
 		context.filename satisfies string; // $ExpectType string

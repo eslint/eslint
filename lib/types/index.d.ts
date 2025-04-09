@@ -599,29 +599,6 @@ export namespace Rule {
 		create(context: RuleContext): NodeListener;
 	}
 
-	type JSRuleDefinitionTypeOptions = {
-		RuleOptions: unknown[];
-		MessageIds: string;
-		ExtRuleDocs: Record<string, unknown>;
-	};
-
-	type JSRuleDefinition<
-		Options extends Partial<JSRuleDefinitionTypeOptions> = {},
-	> = RuleDefinition<
-		// Language specific type options (non-configurable)
-		{
-			LangOptions: Linter.LanguageOptions;
-			Code: SourceCode;
-			Visitor: NodeListener;
-			Node: ESTree.Node;
-		} & Required<
-			// Rule specific type options (custom)
-			Options &
-				// Rule specific type options (defaults)
-				Omit<JSRuleDefinitionTypeOptions, keyof Options>
-		>
-	>;
-
 	type NodeTypes = ESTree.Node["type"];
 	interface NodeListener extends RuleVisitor {
 		ArrayExpression?:
@@ -1284,6 +1261,29 @@ export namespace Rule {
 		text: string;
 	}
 }
+
+export type JSRuleDefinitionTypeOptions = {
+	RuleOptions: unknown[];
+	MessageIds: string;
+	ExtRuleDocs: Record<string, unknown>;
+};
+
+export type JSRuleDefinition<
+	Options extends Partial<JSRuleDefinitionTypeOptions> = {},
+> = RuleDefinition<
+	// Language specific type options (non-configurable)
+	{
+		LangOptions: Linter.LanguageOptions;
+		Code: SourceCode;
+		Visitor: Rule.NodeListener;
+		Node: ESTree.Node;
+	} & Required<
+		// Rule specific type options (custom)
+		Options &
+			// Rule specific type options (defaults)
+			Omit<JSRuleDefinitionTypeOptions, keyof Options>
+	>
+>;
 
 // #region Linter
 
