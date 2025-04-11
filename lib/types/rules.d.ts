@@ -432,8 +432,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 				ignoreOverrideMethods: boolean;
 				ignoreClassesWithImplements:
 					| "all"
-					| "public-fields"
-					| undefined;
+					| "public-fields";
 			}>,
 		]
 	>;
