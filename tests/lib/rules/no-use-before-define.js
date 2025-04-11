@@ -1909,6 +1909,13 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 		  `,
 			options: [{ typedefs: false, ignoreTypeReferences: false, }],
 		},
+		{
+			code: `
+	let myVar: String;
+	type String = string;
+		  `,
+			options: [{ typedefs: false, ignoreTypeReferences: false, }],
+		},
 		// https://github.com/typescript-eslint/typescript-eslint/issues/2572
 		{
 			code: `
@@ -2211,6 +2218,21 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 			options: [
 				{
 					classes: false,
+				},
+			],
+		},
+		{
+			code: `
+	@decorator
+	class C {
+  		static x = "foo";
+  		[C.x]() { }
+	}
+		  `,
+			errors: [
+				{
+					data: { name: "C" },
+					messageId: "usedBeforeDefined",
 				},
 			],
 		},
