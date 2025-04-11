@@ -422,6 +422,18 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			Partial<{
 				exceptMethods: string[];
+				/**
+				 * @default true
+				 */
+				enforceForClassFields: boolean;
+				/**
+				 * @default false
+				 */
+				ignoreOverrideMethods: boolean;
+				ignoreClassesWithImplements:
+					| "all"
+					| "public-fields"
+					| undefined;
 			}>,
 		]
 	>;
@@ -2350,6 +2362,10 @@ export interface ESLintRules extends Linter.RulesRecord {
 					| "constructors"
 					| "asyncFunctions"
 					| "asyncMethods"
+					| "privateConstructors"
+					| "protectedConstructors"
+					| "decoratedFunctions"
+					| "overrideMethods"
 				>;
 			}>,
 		]
@@ -3430,6 +3446,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 				  }
 				| {
 						property: string;
+						allowObjects?: string[];
 						message?: string | undefined;
 				  }
 			>,
