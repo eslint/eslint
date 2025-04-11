@@ -1907,14 +1907,14 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 	var x: Foo = {};
 	interface Foo {}
 		  `,
-			options: [{ typedefs: false, ignoreTypeReferences: false, }],
+			options: [{ typedefs: false, ignoreTypeReferences: false }],
 		},
 		{
 			code: `
 	let myVar: String;
 	type String = string;
 		  `,
-			options: [{ typedefs: false, ignoreTypeReferences: false, }],
+			options: [{ typedefs: false, ignoreTypeReferences: false }],
 		},
 		// https://github.com/typescript-eslint/typescript-eslint/issues/2572
 		{
@@ -2315,7 +2315,7 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 		import Z = A.X.Y;
 
 		const X = 23;
-		`
+		`,
 	],
 	invalid: [
 		{
