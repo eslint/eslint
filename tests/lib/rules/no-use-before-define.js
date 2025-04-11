@@ -2221,21 +2221,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				},
 			],
 		},
-		{
-			code: `
-	@decorator
-	class C {
-  		static x = "foo";
-  		[C.x]() { }
-	}
-		  `,
-			errors: [
-				{
-					data: { name: "C" },
-					messageId: "usedBeforeDefined",
-				},
-			],
-		},
 		// https://github.com/typescript-eslint/typescript-eslint/issues/2941
 		`
 	class A {
@@ -3262,6 +3247,21 @@ type StringOrNumber = string | number;
 			errors: [
 				{
 					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	@decorator
+	class C {
+  		static x = "foo";
+  		[C.x]() { }
+	}
+		  `,
+			errors: [
+				{
+					data: { name: "C" },
 					messageId: "usedBeforeDefined",
 				},
 			],
