@@ -149,6 +149,7 @@ module.exports = Object.freeze({
         "no-ternary": "error",
         "no-this-before-super": "error",
         "no-throw-literal": "error",
+        "no-unassigned-vars": "error",
         "no-undef": "error",
         "no-undef-init": "error",
         "no-undefined": "error",
