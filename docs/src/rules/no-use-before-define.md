@@ -144,7 +144,7 @@ export { foo };
 * `classes` (`boolean`) -
   The flag which shows whether or not this rule checks class declarations of upper scopes.
   If this is `true`, this rule warns on every reference to a class before the class declaration.
-  Otherwise, it ignores those references if the declaration is in upper function scopes.
+  Otherwise, the rule ignores such references, provided the declaration is in an upper function scope.
   Class declarations are not hoisted, so it might be dangerous to disable this option.
   Default is `true`.
 * `variables` (`boolean`) -
