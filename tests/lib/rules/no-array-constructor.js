@@ -47,76 +47,51 @@ ruleTester.run("no-array-constructor", rule, {
 	invalid: [
 		{
 			code: "new Array()",
+			output: "[]",
 			errors: [
 				{
-					messageId: "preferLiteral",
+					messageId: "useLiteral",
 					type: "NewExpression",
-					suggestions: [
-						{
-							messageId: "useLiteral",
-							output: "[]",
-						},
-					],
 				},
 			],
 		},
 		{
 			code: "new Array",
+			output: "[]",
 			errors: [
 				{
-					messageId: "preferLiteral",
+					messageId: "useLiteral",
 					type: "NewExpression",
-					suggestions: [
-						{
-							messageId: "useLiteral",
-							output: "[]",
-						},
-					],
 				},
 			],
 		},
 		{
 			code: "new Array(x, y)",
+			output: "[x, y]",
 			errors: [
 				{
-					messageId: "preferLiteral",
+					messageId: "useLiteral",
 					type: "NewExpression",
-					suggestions: [
-						{
-							messageId: "useLiteral",
-							output: "[x, y]",
-						},
-					],
 				},
 			],
 		},
 		{
 			code: "new Array(0, 1, 2)",
+			output: "[0, 1, 2]",
 			errors: [
 				{
-					messageId: "preferLiteral",
+					messageId: "useLiteral",
 					type: "NewExpression",
-					suggestions: [
-						{
-							messageId: "useLiteral",
-							output: "[0, 1, 2]",
-						},
-					],
 				},
 			],
 		},
 		{
 			code: "const array = Array?.();",
+			output: "const array = [];",
 			errors: [
 				{
-					messageId: "preferLiteral",
+					messageId: "useLiteral",
 					type: "CallExpression",
-					suggestions: [
-						{
-							messageId: "useLiteral",
-							output: "const array = [];",
-						},
-					],
 				},
 			],
 		},
@@ -127,21 +102,16 @@ ruleTester.run("no-array-constructor", rule, {
                         b = c() // bar
                     );
                     `,
-			errors: [
-				{
-					messageId: "preferLiteral",
-					type: "CallExpression",
-					suggestions: [
-						{
-							messageId: "useLiteral",
-							output: `
+			output: `
                     const array = [
                         /* foo */ a,
                         b = c() // bar
                     ];
                     `,
-						},
-					],
+			errors: [
+				{
+					messageId: "useLiteral",
+					type: "CallExpression",
 				},
 			],
 		},
@@ -162,31 +132,21 @@ ruleTester.run("no-array-constructor", rule, {
 		},
 		{
 			code: "a = new (Array);",
+			output: "a = [];",
 			errors: [
 				{
-					messageId: "preferLiteral",
+					messageId: "useLiteral",
 					type: "NewExpression",
-					suggestions: [
-						{
-							messageId: "useLiteral",
-							output: "a = [];",
-						},
-					],
 				},
 			],
 		},
 		{
 			code: "a = new (Array) && (foo);",
+			output: "a = [] && (foo);",
 			errors: [
 				{
-					messageId: "preferLiteral",
+					messageId: "useLiteral",
 					type: "NewExpression",
-					suggestions: [
-						{
-							messageId: "useLiteral",
-							output: "a = [] && (foo);",
-						},
-					],
 				},
 			],
 		},
@@ -273,18 +233,13 @@ ruleTester.run("no-array-constructor", rule, {
 			},
 		].map(props => ({
 			...props,
+			output: props.code.replace(
+				/(new )?Array\((?<args>.*?)\)/su,
+				";[$<args>]",
+			),
 			errors: [
 				{
-					messageId: "preferLiteral",
-					suggestions: [
-						{
-							messageId: "useLiteralAfterSemicolon",
-							output: props.code.replace(
-								/(new )?Array\((?<args>.*?)\)/su,
-								";[$<args>]",
-							),
-						},
-					],
+					messageId: "useLiteralAfterSemicolon",
 				},
 			],
 		})),
@@ -469,21 +424,74 @@ ruleTester.run("no-array-constructor", rule, {
 			},
 		].map(props => ({
 			...props,
+			output: props.code.replace(
+				/(new )?Array\((?<args>.*?)\)/su,
+				"[$<args>]",
+			),
 			errors: [
 				{
-					messageId: "preferLiteral",
-					suggestions: [
-						{
-							messageId: "useLiteral",
-							output: props.code.replace(
-								/(new )?Array\((?<args>.*?)\)/su,
-								"[$<args>]",
-							),
-						},
-					],
+					messageId: "useLiteral",
 				},
 			],
 		})),
+		{
+			code: "new /*a*/ /*b*/ Array /*c*/ /*d*/ () /*e*/ /*f*/ ; /*g*/ /*h*/",
+			output: " /*a*/ /*b*/ [] /*c*/ /*d*/  /*e*/ /*f*/ ; /*g*/ /*h*/",
+			errors: [
+				{
+					messageId: "useLiteral",
+					type: "NewExpression",
+				},
+			],
+		},
+		{
+			code: "new Array(/*a*/ /*b*/)",
+			output: "[/*a*/ /*b*/]",
+			errors: [
+				{
+					messageId: "useLiteral",
+					type: "NewExpression",
+				},
+			],
+		},
+		{
+			code: "new Array(/*a*/ x /*b*/, /*c*/ y /*d*/)",
+			output: "[/*a*/ x /*b*/, /*c*/ y /*d*/]",
+			errors: [
+				{
+					messageId: "useLiteral",
+					type: "NewExpression",
+				},
+			],
+		},
+		{
+			code: "new /*a*/ Array(/*b*/ x /*c*/, /*d*/ y /*e*/) /*f*/ ; /*g*/",
+			output: " /*a*/ [/*b*/ x /*c*/, /*d*/ y /*e*/] /*f*/ ; /*g*/",
+			errors: [
+				{
+					messageId: "useLiteral",
+					type: "NewExpression",
+				},
+			],
+		},
+		{
+			code: `
+			new // a
+			Array // b
+			()
+			`,
+			output: `
+			 // a
+			[] // b
+			
+			`,
+			errors: [
+				{
+					messageId: "useLiteral",
+					type: "NewExpression",
+				},
+			],
+		},
 	],
 });
 
@@ -525,113 +533,73 @@ ruleTesterTypeScript.run("no-array-constructor", rule, {
 	invalid: [
 		{
 			code: "new Array();",
+			output: "[];",
 			errors: [
 				{
-					messageId: "preferLiteral",
-					suggestions: [
-						{
-							messageId: "useLiteral",
-							output: "[];",
-						},
-					],
+					messageId: "useLiteral",
 				},
 			],
 		},
 		{
 			code: "Array();",
+			output: "[];",
 			errors: [
 				{
-					messageId: "preferLiteral",
-					suggestions: [
-						{
-							messageId: "useLiteral",
-							output: "[];",
-						},
-					],
+					messageId: "useLiteral",
 				},
 			],
 		},
 		{
 			code: "new Array(x, y);",
+			output: "[x, y];",
 			errors: [
 				{
-					messageId: "preferLiteral",
-					suggestions: [
-						{
-							messageId: "useLiteral",
-							output: "[x, y];",
-						},
-					],
+					messageId: "useLiteral",
 				},
 			],
 		},
 		{
 			code: "Array(x, y);",
+			output: "[x, y];",
 			errors: [
 				{
-					messageId: "preferLiteral",
-					suggestions: [
-						{
-							messageId: "useLiteral",
-							output: "[x, y];",
-						},
-					],
+					messageId: "useLiteral",
 				},
 			],
 		},
 		{
 			code: "new Array(0, 1, 2);",
+			output: "[0, 1, 2];",
 			errors: [
 				{
-					messageId: "preferLiteral",
-					suggestions: [
-						{
-							messageId: "useLiteral",
-							output: "[0, 1, 2];",
-						},
-					],
+					messageId: "useLiteral",
 				},
 			],
 		},
 		{
 			code: "Array(0, 1, 2);",
+			output: "[0, 1, 2];",
 			errors: [
 				{
-					messageId: "preferLiteral",
-					suggestions: [
-						{
-							messageId: "useLiteral",
-							output: "[0, 1, 2];",
-						},
-					],
+					messageId: "useLiteral",
 				},
 			],
 		},
 		{
 			code: "Array?.(0, 1, 2);",
+			output: "[0, 1, 2];",
 			errors: [
 				{
-					messageId: "preferLiteral",
-					suggestions: [
-						{
-							messageId: "useLiteral",
-							output: "[0, 1, 2];",
-						},
-					],
+					messageId: "useLiteral",
 				},
 			],
 		},
 		{
 			code: "Array?.(x, y);",
+			output: "[x, y];",
 			errors: [
 				{
-					messageId: "preferLiteral",
-					suggestions: [
-						{
-							messageId: "useLiteral",
-							output: "[x, y];",
-						},
-					],
+					messageId: "useLiteral",
 				},
 			],
 		},
