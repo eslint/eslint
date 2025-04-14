@@ -136,13 +136,13 @@ export { foo };
 ```
 
 * `functions` (`boolean`) -
-  The flag which shows whether or not this rule checks function declarations.
+  This flag determines whether or not this rule checks function declarations.
   If this is `true`, this rule warns on every reference to a function before the function declaration.
   Otherwise, the rule ignores those references.
   Function declarations are hoisted, so it's safe to disable this option (note that some idiomatic patterns, such as [mutual recursion](https://en.wikipedia.org/wiki/Mutual_recursion), are incompatible with enabling this option).
   Default is `true`.
 * `classes` (`boolean`) -
-  The flag which shows whether or not this rule checks class declarations of upper scopes.
+  This flag determines whether or not this rule checks class declarations of upper scopes.
   If this is `true`, this rule warns on every reference to a class before the class declaration.
   Otherwise, the rule ignores such references, provided the declaration is in an upper function scope.
   Class declarations are not hoisted, so it might be dangerous to disable this option.
