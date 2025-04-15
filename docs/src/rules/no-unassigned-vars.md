@@ -18,7 +18,7 @@ Examples of **incorrect** code for this rule:
 
 ::: incorrect
 
-```js
+```ts
 /*eslint no-unassigned-vars: "error"*/
 
 let status;
@@ -46,6 +46,10 @@ let config;
 function init() {
   return config?.enabled;
 }
+
+// In TypeScript:
+let value: number | undefined;
+console.log(value);
 ```
 
 :::
@@ -54,7 +58,7 @@ Examples of **correct** code for this rule:
 
 ::: correct
 
-```js
+```ts
 /*eslint no-unassigned-vars: "error"*/
 
 let message = "hello";
@@ -93,6 +97,10 @@ let one = undefined;
 if (one === two) {
   // Noop
 }
+
+// In TypeScript:
+declare let value: number | undefined;
+console.log(value);
 ```
 
 :::
