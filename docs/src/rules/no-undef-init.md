@@ -80,7 +80,7 @@ class Foo {
 
 ## When Not To Use It
 
-There is one situation where initializing to `undefined` behaves differently than omitting the initialization, and that's when a `var` declaration occurs inside of a loop. For example:
+There are two situations where initializing to `undefined` behaves differently than omitting the initialization, first is when a `var` declaration occurs inside of a loop. For example:
 
 Example of **incorrect** code for this rule:
 
@@ -151,7 +151,7 @@ for (i = 0; i < 10; i++) {
 
 :::
 
-This behavior can also be observed when a variable is redeclared using `var`:
+Secondly, this behavior can also be observed when a variable is redeclared using `var`:
 
 ```js
 function foo() {
