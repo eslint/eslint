@@ -150,3 +150,20 @@ for (i = 0; i < 10; i++) {
 ```
 
 :::
+
+This behavior can also be observed when a variable is redeclared using `var`:
+
+```js
+function foo() {
+    var x = 1;
+    console.log(x); // output: 1
+    
+    var x;
+    console.log(x); // output: 1
+
+    var x = undefined; // output: undefined
+    console.log(x);
+}
+
+foo();
+```
