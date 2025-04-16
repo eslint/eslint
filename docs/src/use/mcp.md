@@ -19,13 +19,13 @@ Create a `.vscode/mcp.json` file in your project with the following configuratio
 
 ```json
 {
-  "servers": {
-    "ESLint": {
-      "type": "stdio",
-      "command": "npx",
-      "args": ["eslint", "--mcp"]
-    }
-  }
+	"servers": {
+		"ESLint": {
+			"type": "stdio",
+			"command": "npx",
+			"args": ["eslint", "--mcp"]
+		}
+	}
 }
 ```
 
@@ -52,9 +52,9 @@ Once your MCP server is configured, you can use it with GitHub Copilot's agent m
 2. Ensure agent mode is enabled (look for the agent icon in the chat input)
 3. Toggle on the ESLint MCP server tools using the "Tools" button in the chat view
 4. Ask Copilot to perform ESLint tasks, such as:
-   - "Check this file for linting errors"
-   - "Fix all ESLint issues in the current file"
-   - "Show me what ESLint rules are being violated"
+    - "Check this file for linting errors"
+    - "Fix all ESLint issues in the current file"
+    - "Show me what ESLint rules are being violated"
 
 ## Troubleshooting
 

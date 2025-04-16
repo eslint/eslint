@@ -1228,7 +1228,6 @@ describe("bin/eslint.js", () => {
 	});
 
 	describe("MCP server", () => {
-
 		it("should start the MCP server when the --mcp flag is used", done => {
 			const child = runESLint(["--mcp"]);
 
@@ -1241,9 +1240,7 @@ describe("bin/eslint.js", () => {
 				assert.match(data.toString(), /ESLint MCP server is running/u);
 				done();
 			});
-
 		});
-
 	});
 	afterEach(() => {
 		// Clean up all the processes after every test.
