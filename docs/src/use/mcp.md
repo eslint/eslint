@@ -65,15 +65,14 @@ If you encounter issues with the ESLint MCP server:
 3. Ensure that ESLint is installed in your project or globally
 4. Verify that your MCP configuration is correct
 
-## Example Interaction
+## Example Prompts
 
-Here's an example of how you might interact with the ESLint MCP server through Copilot:
+Here are some prompts you can use to run ESLint with Copilot:
 
 ```text
-You: Lint the current file and explain any issues found
-Copilot: I'll run ESLint on the current file...
+Lint the current file and explain any issues found
 
-[Copilot shows ESLint results with explanations of each issue]
+Lint and fix #file:index.js
 ```
 
 ## Additional Resources
