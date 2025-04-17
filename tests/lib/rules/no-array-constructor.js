@@ -16,6 +16,17 @@ const rule = require("../../../lib/rules/no-array-constructor"),
 // Tests
 //------------------------------------------------------------------------------
 
+/**
+ * Removes any leading whitespace (spaces, tabs, etc.) that immediately
+ * follows a newline character within a string.
+ * @param {string} str The input string to process.
+ * @returns {string} A new string with leading whitespace removed from
+ * the beginning of each line (after the newline).
+ */
+function stripNewlineIndent(str) {
+	return str.replace(/(\n)\s+/gu, "$1");
+}
+
 const ruleTester = new RuleTester({
 	languageOptions: {
 		sourceType: "script",
@@ -121,6 +132,21 @@ ruleTester.run("no-array-constructor", rule, {
 				{
 					messageId: "preferLiteral",
 					type: "CallExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "const array = [...args];",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "const array = new Array(...args);",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					type: "NewExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -435,12 +461,132 @@ ruleTester.run("no-array-constructor", rule, {
 			],
 		})),
 		{
-			code: "new /*a*/ /*b*/ Array /*c*/ /*d*/ () /*e*/ /*f*/ ; /*g*/ /*h*/",
-			output: " /*a*/ /*b*/ [] /*c*/ /*d*/  /*e*/ /*f*/ ; /*g*/ /*h*/",
+			code: "/*a*/Array()",
+			output: "/*a*/[]",
+			errors: [
+				{
+					messageId: "useLiteral",
+					type: "CallExpression",
+				},
+			],
+		},
+		{
+			code: "/*a*/Array()/*b*/",
+			output: "/*a*/[]/*b*/",
+			errors: [
+				{
+					messageId: "useLiteral",
+					type: "CallExpression",
+				},
+			],
+		},
+		{
+			code: "Array/*a*/()",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					type: "CallExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[]",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "/*a*//*b*/Array/*c*//*d*/()/*e*//*f*/;/*g*//*h*/",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					type: "CallExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "/*a*//*b*/[]/*e*//*f*/;/*g*//*h*/",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "Array(/*a*/ /*b*/)",
+			output: "[/*a*/ /*b*/]",
+			errors: [
+				{
+					messageId: "useLiteral",
+					type: "CallExpression",
+				},
+			],
+		},
+		{
+			code: "Array(/*a*/ x /*b*/, /*c*/ y /*d*/)",
+			output: "[/*a*/ x /*b*/, /*c*/ y /*d*/]",
+			errors: [
+				{
+					messageId: "useLiteral",
+					type: "CallExpression",
+				},
+			],
+		},
+		{
+			code: "/*a*/Array(/*b*/ x /*c*/, /*d*/ y /*e*/)/*f*/;/*g*/",
+			output: "/*a*/[/*b*/ x /*c*/, /*d*/ y /*e*/]/*f*/;/*g*/",
+			errors: [
+				{
+					messageId: "useLiteral",
+					type: "CallExpression",
+				},
+			],
+		},
+		{
+			code: "/*a*/new Array",
+			output: "/*a*/[]",
 			errors: [
 				{
 					messageId: "useLiteral",
 					type: "NewExpression",
+				},
+			],
+		},
+		{
+			code: "/*a*/new Array/*b*/",
+			output: "/*a*/[]/*b*/",
+			errors: [
+				{
+					messageId: "useLiteral",
+					type: "NewExpression",
+				},
+			],
+		},
+		{
+			code: "new/*a*/Array",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					type: "NewExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[]",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "new/*a*//*b*/Array/*c*//*d*/()/*e*//*f*/;/*g*//*h*/",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					type: "NewExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[]/*e*//*f*/;/*g*//*h*/",
+						},
+					],
 				},
 			],
 		},
@@ -465,30 +611,76 @@ ruleTester.run("no-array-constructor", rule, {
 			],
 		},
 		{
-			code: "new /*a*/ Array(/*b*/ x /*c*/, /*d*/ y /*e*/) /*f*/ ; /*g*/",
-			output: " /*a*/ [/*b*/ x /*c*/, /*d*/ y /*e*/] /*f*/ ; /*g*/",
+			code: "new/*a*/Array(/*b*/ x /*c*/, /*d*/ y /*e*/)/*f*/;/*g*/",
 			errors: [
 				{
-					messageId: "useLiteral",
+					messageId: "preferLiteral",
 					type: "NewExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[/*b*/ x /*c*/, /*d*/ y /*e*/]/*f*/;/*g*/",
+						},
+					],
 				},
 			],
 		},
 		{
-			code: `
-			new // a
+			code: stripNewlineIndent(`
+			// a
 			Array // b
-			()
-			`,
-			output: `
-			 // a
-			[] // b
-			
-			`,
+			()`),
 			errors: [
 				{
-					messageId: "useLiteral",
+					messageId: "preferLiteral",
+					type: "CallExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: stripNewlineIndent(`
+							// a
+							[]`),
+						},
+					],
+				},
+			],
+		},
+		{
+			code: stripNewlineIndent(`
+			// a
+			Array // b
+			() // c`),
+			errors: [
+				{
+					messageId: "preferLiteral",
+					type: "CallExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: stripNewlineIndent(`
+							// a
+							[] // c`),
+						},
+					],
+				},
+			],
+		},
+		{
+			code: stripNewlineIndent(`
+			new // a
+			Array // b
+			()`),
+			errors: [
+				{
+					messageId: "preferLiteral",
 					type: "NewExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: stripNewlineIndent(`
+							[]`),
+						},
+					],
 				},
 			],
 		},
