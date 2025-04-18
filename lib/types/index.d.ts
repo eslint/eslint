@@ -35,7 +35,6 @@ import type {
 	LanguageOptions as GenericLanguageOptions,
 	RuleDefinition,
 	RuleContext as CoreRuleContext,
-	RuleContextTypeOptions,
 	DeprecatedInfo,
 } from "@eslint/core";
 import { JSONSchema4 } from "json-schema";
@@ -2121,7 +2120,7 @@ export class RuleTester {
 
 	run(
 		name: string,
-		rule: Rule.RuleModule,
+		rule: RuleDefinition,
 		tests: {
 			valid: Array<string | RuleTester.ValidTestCase>;
 			invalid: RuleTester.InvalidTestCase[];
