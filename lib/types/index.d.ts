@@ -2121,7 +2121,7 @@ export class RuleTester {
 
 	run(
 		name: string,
-		rule: Rule.RuleModule,
+		rule: RuleDefinition,
 		tests: {
 			valid: Array<string | RuleTester.ValidTestCase>;
 			invalid: RuleTester.InvalidTestCase[];
