@@ -35,7 +35,6 @@ import type {
 	LanguageOptions as GenericLanguageOptions,
 	RuleDefinition,
 	RuleContext as CoreRuleContext,
-	RuleContextTypeOptions,
 	DeprecatedInfo,
 } from "@eslint/core";
 import { JSONSchema4 } from "json-schema";
