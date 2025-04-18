@@ -1957,6 +1957,11 @@
         }
     },
     "no-empty-function": {
+        "dialects": [
+            "javascript",
+            "typescript"
+        ],
+        "language": "javascript",
         "type": "suggestion",
         "defaultOptions": [
             {
@@ -2273,6 +2278,11 @@
         }
     },
     "no-invalid-this": {
+        "dialects": [
+            "javascript",
+            "typescript"
+        ],
+        "language": "javascript",
         "type": "suggestion",
         "defaultOptions": [
             {
@@ -2354,6 +2364,11 @@
     },
     "no-loop-func": {
         "type": "suggestion",
+        "dialects": [
+            "typescript",
+            "javascript"
+        ],
+        "language": "javascript",
         "docs": {
             "description": "Disallow function declarations that contain unsafe references inside loop statements",
             "recommended": false,
