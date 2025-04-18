@@ -115,6 +115,7 @@
     "@humanfs/node": "^0.16.6",
     "@humanwhocodes/module-importer": "^1.0.1",
     "@humanwhocodes/retry": "^0.4.2",
+    "@modelcontextprotocol/sdk": "^1.8.0",
     "@types/estree": "^1.0.6",
     "@types/json-schema": "^7.0.15",
     "ajv": "^6.12.4",
@@ -138,7 +139,8 @@
     "lodash.merge": "^4.6.2",
     "minimatch": "^3.1.2",
     "natural-compare": "^1.4.0",
-    "optionator": "^0.9.3"
+    "optionator": "^0.9.3",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.17.0",
