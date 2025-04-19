@@ -3915,6 +3915,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.1.0
 	 * @see https://eslint.org/docs/latest/rules/no-unused-expressions
 	 */
+    
 	"no-unused-expressions": Linter.RuleEntry<
 		[
 			Partial<{
