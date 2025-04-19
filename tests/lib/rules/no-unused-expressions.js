@@ -37,6 +37,10 @@ ruleTester.run("no-unused-expressions", rule, {
 		"delete foo.bar",
 		"void new C",
 		'"use strict";',
+		{
+			code: '"use strict";',
+			languageOptions: { ecmaVersion: 3, sourceType: "script" },
+		},
 		'"directive one"; "directive two"; f();',
 		'function foo() {"use strict"; return true; }',
 		{
