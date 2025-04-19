@@ -7,7 +7,7 @@ related_rules:
 ---
 
 
-This rule flags `let` or `var` declarations that have no initializer and are never assigned any value, but are read/used in the code. These variables will always be `undefined` and are likely a programmer error.
+This rule flags `let` or `var` declarations that are never assigned a value but are still read or used in the code. Since these variables will always be `undefined`, their usage is likely a programming mistake.
 
 This helps catch misleading patterns where a `let` appears mutable but is effectively constant and never written to.
 
