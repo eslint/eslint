@@ -9,8 +9,6 @@ related_rules:
 
 This rule flags `let` or `var` declarations that are never assigned a value but are still read or used in the code. Since these variables will always be `undefined`, their usage is likely a programming mistake.
 
-This helps catch misleading patterns where a `let` appears mutable but is effectively constant and never written to.
-
 
 ## Rule Details
 
@@ -18,7 +16,7 @@ Examples of **incorrect** code for this rule:
 
 ::: incorrect
 
-```ts
+```js
 /*eslint no-unassigned-vars: "error"*/
 
 let status;
@@ -46,8 +44,11 @@ let config;
 function init() {
   return config?.enabled;
 }
+```
 
-// In TypeScript:
+In TypeScript:
+
+```ts
 let value: number | undefined;
 console.log(value);
 ```
@@ -58,7 +59,7 @@ Examples of **correct** code for this rule:
 
 ::: correct
 
-```ts
+```js
 /*eslint no-unassigned-vars: "error"*/
 
 let message = "hello";
@@ -97,8 +98,11 @@ let one = undefined;
 if (one === two) {
   // Noop
 }
+```
 
-// In TypeScript:
+In TypeScript:
+
+```ts
 declare let value: number | undefined;
 console.log(value);
 ```
