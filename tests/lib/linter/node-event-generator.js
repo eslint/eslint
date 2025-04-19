@@ -90,6 +90,31 @@ describe("NodeEventGenerator", () => {
 			assert(emitter.emit.calledWith("Foo > Bar", dummyNode));
 			assert(emitter.emit.calledWith("Bar", dummyNode));
 		});
+
+		it("should use `nodeTypeKey` if provided", () => {
+			generator = new NodeEventGenerator(emitter, {
+				...STANDARD_ESQUERY_OPTION,
+				nodeTypeKey: "kind",
+			});
+
+			const dummyNode = { kind: "Foo" };
+
+			generator.enterNode(dummyNode);
+
+			assert(emitter.emit.calledOnce);
+			assert(emitter.emit.calledWith("Foo", dummyNode));
+		});
+
+		it("should succeed without esqueryOptions", () => {
+			generator = new NodeEventGenerator(emitter);
+
+			const dummyNode = { type: "Foo" };
+
+			generator.enterNode(dummyNode);
+
+			assert(emitter.emit.calledOnce);
+			assert(emitter.emit.calledWith("Foo", dummyNode));
+		});
 	});
 
 	describe("traversing the entire AST", () => {
