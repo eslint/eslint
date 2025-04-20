@@ -9,6 +9,17 @@ related_rules:
 
 This rule flags `let` or `var` declarations that are never assigned a value but are still read or used in the code. Since these variables will always be `undefined`, their usage is likely a programming mistake.
 
+For example, if you check the value of a `status` variable, but it was never given a value, it will always be `undefined`:
+
+```js
+let status;
+
+// ...forgot to assign a value to status...
+
+if (status === 'ready') {
+  console.log('Ready!');
+}
+```
 
 ## Rule Details
 
