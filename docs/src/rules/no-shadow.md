@@ -343,3 +343,23 @@ type Func = (test: string) => typeof test;
 ```
 
 :::
+
+## FAQ
+
+### Why does the rule report on enum members that share the same name as a variable in a parent scope?
+
+This isn't a bug — the rule is working exactly as intended! The report is correct because of a lesser-known aspect of enums: enum members introduce a variable within the enum's own scope, allowing them to be referenced without needing a qualifier.
+
+Here's a simple example to explain:
+
+```ts
+const A = 2;
+enum Test {
+  A = 1,
+  B = A,
+}
+
+console.log(Test.B); // what should be logged?
+```
+
+At first glance, you might think it should log `2`, because the outer variable A's value is `2`. However, it actually logs `1`, the value of `Test.A`. This happens because inside the enum `B = A` is treated as `B = Test.A`. Due to this behavior, the enum member has shadowed the outer variable declaration.
