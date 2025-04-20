@@ -64,6 +64,7 @@ In TypeScript:
 ::: incorrect
 
 ```ts
+/*eslint no-unassigned-vars: "error"*/
 let value: number | undefined;
 console.log(value);
 ```
@@ -122,6 +123,7 @@ In TypeScript:
 ::: correct
 
 ```ts
+/*eslint no-unassigned-vars: "error"*/
 declare let value: number | undefined;
 console.log(value);
 ```
