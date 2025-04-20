@@ -338,6 +338,14 @@
                 "hasSuggestions": false
             },
             {
+                "name": "no-unassigned-vars",
+                "description": "Disallow variable declarations that use `let` or `var` but have no initial value and are never assigned",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
                 "name": "no-undef",
                 "description": "Disallow the use of undeclared variables unless mentioned in `/*global */` comments",
                 "recommended": true,

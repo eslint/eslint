@@ -3254,6 +3254,19 @@
         },
         "fixable": "whitespace"
     },
+    "no-unassigned-vars": {
+        "type": "problem",
+        "dialects": [
+            "typescript",
+            "javascript"
+        ],
+        "language": "javascript",
+        "docs": {
+            "description": "Disallow variable declarations that use `let` or `var` but have no initial value and are never assigned",
+            "recommended": false,
+            "url": "https://eslint.org/docs/latest/rules/no-unassigned-vars"
+        }
+    },
     "no-undef": {
         "type": "problem",
         "defaultOptions": [
