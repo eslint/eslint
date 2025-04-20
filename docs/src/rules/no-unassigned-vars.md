@@ -57,7 +57,11 @@ function init() {
 }
 ```
 
+:::
+
 In TypeScript:
+
+::: incorrect
 
 ```ts
 let value: number | undefined;
@@ -111,7 +115,11 @@ if (one === two) {
 }
 ```
 
+:::
+
 In TypeScript:
+
+::: correct
 
 ```ts
 declare let value: number | undefined;
