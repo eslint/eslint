@@ -3935,6 +3935,10 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default false
 				 */
 				enforceForJSX: boolean;
+				/**
+				 * @default false
+				 */
+				ignoreDirectives: boolean;
 			}>,
 		]
 	>;
