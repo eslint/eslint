@@ -3398,6 +3398,11 @@
         "fixable": null
     },
     "no-unused-expressions": {
+        "dialects": [
+            "javascript",
+            "typescript"
+        ],
+        "language": "javascript",
         "type": "suggestion",
         "docs": {
             "description": "Disallow unused expressions",
