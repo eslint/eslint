@@ -36,6 +36,7 @@ This rule, in its default state, does not require any arguments. If you would li
 * `allowTernary` set to `true` will enable you to use ternary operators in your expressions similarly to short circuit evaluations (Default: `false`).
 * `allowTaggedTemplates` set to `true` will enable you to use tagged template literals in your expressions (Default: `false`).
 * `enforceForJSX` set to `true` will flag unused JSX element expressions (Default: `false`).
+* `ignoreDirectivesForES3` set to `true` will ignore directives in ES3 code (Default: `false`).
 
 These options allow unused expressions *only if all* of the code paths either directly change the state (for example, assignment statement) or could have *side effects* (for example, function call).
 
@@ -273,6 +274,32 @@ Examples of **correct** code for the `{ "enforceForJSX": true }` option:
 const myComponentPartial = <MyComponent />;
 
 const myFragment = <></>;
+```
+
+:::
+
+### ignoreDirectivesForES3
+
+Examples of **correct** code for the `{ "ignoreDirectivesForES3": true }` option:
+
+::: correct
+
+```js
+/*eslint no-unused-expressions: ["error", { "ignoreDirectivesForES3": true }]*/
+
+"use strict";
+```
+
+:::
+
+Examples of **incorrect** code for the `{ "ignoreDirectivesForES3": false }` option:
+
+::: incorrect
+
+```js
+/*eslint no-unused-expressions: ["error", { "ignoreDirectivesForES3": true }]*/
+
+"use strict";
 ```
 
 :::

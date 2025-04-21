@@ -39,6 +39,7 @@ ruleTester.run("no-unused-expressions", rule, {
 		'"use strict";',
 		{
 			code: '"use strict";',
+			options: [{ ignoreDirectivesForES3: true }],
 			languageOptions: { ecmaVersion: 3, sourceType: "script" },
 		},
 		'"directive one"; "directive two"; f();',
@@ -356,6 +357,13 @@ ruleTester.run("no-unused-expressions", rule, {
 					type: "ExpressionStatement",
 					line: 3,
 				},
+			],
+		},
+		{
+			code: '"use strict";',
+			languageOptions: { ecmaVersion: 3, sourceType: "script" },
+			errors: [
+				{ messageId: "unusedExpression", type: "ExpressionStatement" },
 			],
 		},
 	],
