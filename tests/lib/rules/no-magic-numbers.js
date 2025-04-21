@@ -2169,5 +2169,19 @@ ruleTesterTypeScript.run("no-magic-numbers", rule, {
 				},
 			],
 		},
+		{
+			code: "type Foo = { bar: 42 };",
+			options: [{ ignoreNumericLiteralTypes: true }],
+			errors: [
+				{
+					column: 19,
+					data: {
+						raw: "42",
+					},
+					line: 1,
+					messageId: "noMagic",
+				},
+			],
+		},
 	],
 });
