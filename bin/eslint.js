@@ -169,7 +169,6 @@ ${getErrorMessage(error)}`;
 
 		process.on("SIGINT", () => {
 			mcpServer.close();
-			console.log("HI");
 			process.exitCode = 0;
 		});
 		return;
