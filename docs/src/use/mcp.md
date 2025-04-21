@@ -7,7 +7,7 @@ eleventyNavigation:
     order: 5
 ---
 
-Model Context Protocol (MCP) is an open standard that enables AI models to interact with external tools and services through a unified interface. When using GitHub Copilot in VS Code, you can connect ESLint as an MCP server to enhance your coding workflow with ESLint-specific capabilities.
+[Model Context Protocol](https://modelcontextprotocol.io) (MCP) is an open standard that enables AI models to interact with external tools and services through a unified interface. The ESLint CLI contains an MCP server that you can register with your code editor to allow LLMs to use ESLint directly.
 
 ## Setting Up ESLint MCP Server in VS Code
 
@@ -41,6 +41,34 @@ Alternatively, you can use the Command Palette:
 ### 2. Enable MCP Server in User Settings (Optional)
 
 If you want to use the ESLint MCP server across all workspaces, you can follow the previous steps and choose `User Settings` instead of `Workspace Settings` to add the MCP server to your `settings.json` file.
+
+## Setting Up ESLint MCP Server in Cursor
+
+To configure the ESLint MCP server in [Cursor](https://cursor.com), follow these steps:
+
+### 1. Create MCP Configuration File
+
+Create a `.cursor/mcp.json` file in your project directory with the following configuration:
+
+```json
+{
+	"mcpServers": {
+		"eslint": {
+			"command": "npx",
+			"args": ["eslint", "--mcp"],
+			"env": {}
+		}
+	}
+}
+```
+
+### 2. Global Configuration (Optional)
+
+If you want to use the ESLint MCP server across all your Cursor workspaces, create a `~/.cursor/mcp.json` file in your home directory with the same configuration.
+
+### 3. Verify Tool Availability
+
+Once configured, the ESLint MCP server should appear in the "Available Tools" section on the MCP settings page in Cursor.
 
 ## Using the ESLint MCP Server with GitHub Copilot
 
@@ -78,3 +106,4 @@ Lint and fix #file:index.js
 - [Model Context Protocol Documentation](https://modelcontextprotocol.io/introduction)
 - [VS Code MCP Servers Documentation](https://code.visualstudio.com/docs/copilot/chat/mcp-servers)
 - [GitHub Copilot in VS Code Documentation](https://code.visualstudio.com/docs/copilot/copilot-chat)
+- [Model Context Protocol in Cursor documentation](https://docs.cursor.com/context/model-context-protocol)
