@@ -156,7 +156,7 @@ Miscellaneous:
   --print-config path::String     Print the configuration for the given file
   --stats                         Add statistics to the lint report - default: false
   --flag [String]                 Enable a feature flag
-  --mcp                           Start the MCP ESLint server
+  --mcp                           Start the ESLint MCP server
 ```
 
 ### Basic Configuration
