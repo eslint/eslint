@@ -212,6 +212,22 @@ ruleTesterTypeScript.run("max-params", rule, {
 			options: [{ countVoidThis: true, max: 2 }],
 		},
 		{
+			code: `function testD(this: void) {}`,
+			options: [{ max: 1 }],
+		},
+		{
+			code: `function testD(this: void) {}`,
+			options: [{ countVoidThis: true, max: 2 }],
+		},
+		{
+			code: `const testE = function (this: void) {}`,
+			options: [{ max: 1 }],
+		},
+		{
+			code: `const testE = function (this: void) {}`,
+			options: [{ countVoidThis: true, max: 2 }],
+		},
+		{
 			code: `
   declare function makeDate(m: number, d: number, y: number): Date;
 		`,
@@ -257,6 +273,21 @@ ruleTesterTypeScript.run("max-params", rule, {
   }
 		`,
 			options: [{ countVoidThis: true, max: 1 }],
+			errors: [{ messageId: "exceed" }],
+		},
+		{
+			code: `function testD(this: void, a) {}`,
+			options: [{ countVoidThis: true, max: 1 }],
+			errors: [{ messageId: "exceed" }],
+		},
+		{
+			code: `const testE = function (this: void, a) {}`,
+			options: [{ countVoidThis: true, max: 1 }],
+			errors: [{ messageId: "exceed" }],
+		},
+		{
+			code: `function testFunction(test: void, a: number) {}`,
+		    options: [{ countVoidThis: false, max: 1 }],
 			errors: [{ messageId: "exceed" }],
 		},
 		{
