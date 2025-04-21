@@ -11,7 +11,7 @@ Model Context Protocol (MCP) is an open standard that enables AI models to inter
 
 ## Setting Up ESLint MCP Server in VS Code
 
-To add the ESLint MCP server to your VS Code workspace, follow these steps:
+To use MCP servers in VS Code, you must have the [Copilot Chat](https://code.visualstudio.com/docs/copilot/copilot-chat) extension installed. After that, follow these steps so add the ESLint MCP server:
 
 ### 1. Create MCP Configuration File
 
@@ -33,20 +33,18 @@ Alternatively, you can use the Command Palette:
 
 1. Press `Ctrl+Shift+P` (Windows/Linux) or `Cmd+Shift+P` (macOS)
 2. Type and select `MCP: Add Server`
-3. Choose `Workspace Settings` to create or modify the `.vscode/mcp.json` file
-4. Enter the server information as shown above
+3. Select `Command (stdio)` from the dropdown
+4. Enter `npx eslint --mcp` as the command
+5. Type `ESLint` as the server ID
+6. Choose `Workspace Settings` to create the configuration in `.vscode/mcp.json`
 
 ### 2. Enable MCP Server in User Settings (Optional)
 
-If you want to use the ESLint MCP server across all workspaces:
-
-1. Open the Command Palette and run `MCP: Add Server`
-2. Choose `User Settings` instead of `Workspace Settings`
-3. Enter the same server configuration as above
+If you want to use the ESLint MCP server across all workspaces, you can follow the previous steps and choose `User Settings` instead of `Workspace Settings` to add the MCP server to your `settings.json` file.
 
 ## Using the ESLint MCP Server with GitHub Copilot
 
-Once your MCP server is configured, you can use it with GitHub Copilot's agent mode:
+Once your MCP server is configured, you can use it with [GitHub Copilot's agent mode](https://code.visualstudio.com/docs/copilot/chat/chat-agent-mode):
 
 1. Open the Copilot Chat view in VS Code
 2. Ensure agent mode is enabled (look for the agent icon in the chat input)
@@ -77,6 +75,6 @@ Lint and fix #file:index.js
 
 ## Additional Resources
 
-- [Model Context Protocol Documentation](https://github.com/microsoft/mcp)
+- [Model Context Protocol Documentation](https://modelcontextprotocol.io/introduction)
 - [VS Code MCP Servers Documentation](https://code.visualstudio.com/docs/copilot/chat/mcp-servers)
 - [GitHub Copilot in VS Code Documentation](https://code.visualstudio.com/docs/copilot/copilot-chat)
