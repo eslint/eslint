@@ -287,7 +287,7 @@ ruleTesterTypeScript.run("max-params", rule, {
 		},
 		{
 			code: `function testFunction(test: void, a: number) {}`,
-		    options: [{ countVoidThis: false, max: 1 }],
+			options: [{ countVoidThis: false, max: 1 }],
 			errors: [{ messageId: "exceed" }],
 		},
 		{
