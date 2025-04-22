@@ -12541,7 +12541,7 @@ describe("ESLint", () => {
 			await eslint.lintFiles([file]);
 
 			assert(
-				!fsp.unlink.called,
+				fsp.unlink.notCalled,
 				"Expected attempt to delete the cache was not made.",
 			);
 		});
