@@ -133,6 +133,22 @@ ruleTester.run("no-unused-expressions", rule, {
 			options: [{ ignoreDirectives: true }],
 			languageOptions: { ecmaVersion: 3, sourceType: "script" },
 		},
+		{
+			code: '"use strict";',
+			options: [{ ignoreDirectives: true }],
+		},
+		{
+			code: '"directive one"; "directive two"; f();',
+			options: [{ ignoreDirectives: true }],
+		},
+		{
+			code: 'function foo() {"use strict"; return true; }',
+			options: [{ ignoreDirectives: true }],
+		},
+		{
+			code: 'function foo() {"directive one"; "directive two"; f(); }',
+			options: [{ ignoreDirectives: true }],
+		},
 	],
 	invalid: [
 		{

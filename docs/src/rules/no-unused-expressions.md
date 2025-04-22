@@ -307,7 +307,7 @@ function foo() {
 
 :::
 
-Examples of **correct** code for the `{ "ignoreDirectives": true }` option:
+Examples of **correct** code for the `{ "ignoreDirectives": true }` option and `ecmaVersion: 3`:
 
 ::: correct { "ecmaVersion": 3, "sourceType": "script" }
 
