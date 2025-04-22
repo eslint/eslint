@@ -1957,6 +1957,11 @@
         }
     },
     "no-empty-function": {
+        "dialects": [
+            "javascript",
+            "typescript"
+        ],
+        "language": "javascript",
         "type": "suggestion",
         "defaultOptions": [
             {
@@ -2273,6 +2278,11 @@
         }
     },
     "no-invalid-this": {
+        "dialects": [
+            "javascript",
+            "typescript"
+        ],
+        "language": "javascript",
         "type": "suggestion",
         "defaultOptions": [
             {
@@ -2354,6 +2364,11 @@
     },
     "no-loop-func": {
         "type": "suggestion",
+        "dialects": [
+            "typescript",
+            "javascript"
+        ],
+        "language": "javascript",
         "docs": {
             "description": "Disallow function declarations that contain unsafe references inside loop statements",
             "recommended": false,
@@ -3006,7 +3021,6 @@
         "fixable": null,
         "deprecated": {
             "message": "The original assumption of the rule no longer holds true because of engine optimization.",
-            "url": "https://eslint.org/docs/latest/rules/no-return-await",
             "deprecatedSince": "8.46.0",
             "availableUntil": null,
             "replacedBy": []
@@ -3384,6 +3398,11 @@
         "fixable": null
     },
     "no-unused-expressions": {
+        "dialects": [
+            "javascript",
+            "typescript"
+        ],
+        "language": "javascript",
         "type": "suggestion",
         "docs": {
             "description": "Disallow unused expressions",
@@ -4001,7 +4020,6 @@
         },
         "deprecated": {
             "message": "The original intention of this rule was misguided.",
-            "url": "https://eslint.org/docs/latest/rules/prefer-reflect",
             "deprecatedSince": "3.9.0",
             "availableUntil": null,
             "replacedBy": []

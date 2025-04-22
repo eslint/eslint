@@ -1,3 +1,34 @@
+v9.25.1 - April 21, 2025
+
+* [`1f2b057`](https://github.com/eslint/eslint/commit/1f2b057ddcbef4340f78d1314456935054b8d93f) chore: upgrade @eslint/js@9.25.1 (#19642) (Milos Djermanovic)
+* [`771317f`](https://github.com/eslint/eslint/commit/771317fa937a07277201f7155e9b835e6a5658f9) chore: package.json update for @eslint/js release (Jenkins)
+* [`cdc8e8c`](https://github.com/eslint/eslint/commit/cdc8e8c950ddfe1f9d462ea138ad7866da0394da) fix: revert directive detection in no-unused-expressions (#19639) (sethamus)
+
+v9.25.0 - April 18, 2025
+
+* [`88dc196`](https://github.com/eslint/eslint/commit/88dc1965a4f53babec36e0f5bd450dd02467acde) chore: upgrade @eslint/js@9.25.0 (#19636) (Milos Djermanovic)
+* [`345288d`](https://github.com/eslint/eslint/commit/345288d7b270e8c122e922bfa31f219aedc4e63b) chore: package.json update for @eslint/js release (Jenkins)
+* [`910bd13`](https://github.com/eslint/eslint/commit/910bd13c4cb49001f2a9f172229360771b857585) fix: `nodeTypeKey` not being used in `NodeEventGenerator` (#19631) (StyleShit)
+* [`ca7a735`](https://github.com/eslint/eslint/commit/ca7a735dde44120111d56e36ce93ba750b3c3c86) docs: update `no-undef-init` when not to use section (#19624) (Tanuj Kanti)
+* [`affe6be`](https://github.com/eslint/eslint/commit/affe6be0181422a51875a2ad40eb5152d94fc254) chore: upgrade trunk (#19628) (sethamus)
+* [`1b870c9`](https://github.com/eslint/eslint/commit/1b870c9da4b3aa28f4a6f4f62e0437b743344994) docs: use `eslint-config-xo` in the getting started guide (#19629) (Nitin Kumar)
+* [`5d4af16`](https://github.com/eslint/eslint/commit/5d4af16ab170306862dd0c33894044e59e03d041) docs: add types for multiple rule options (#19616) (Tanuj Kanti)
+* [`e8f8d57`](https://github.com/eslint/eslint/commit/e8f8d57bd6c0d95f9f25db8c5b3ff72de42488b7) docs: Update README (GitHub Actions Bot)
+* [`a40348f`](https://github.com/eslint/eslint/commit/a40348f1f67a6c3da320682d683589f91d7e6f7b) docs: no-use-before-define tweaks (#19622) (Kirk Waiblinger)
+* [`0ba3ae3`](https://github.com/eslint/eslint/commit/0ba3ae3e5a2425560baf771c05e7c69c63a1983c) docs: Update README (GitHub Actions Bot)
+* [`865dbfe`](https://github.com/eslint/eslint/commit/865dbfed6cbade8a22756965be256da317801937) docs: ensure "learn more" deprecation links point to useful resource (#19590) (Kirk Waiblinger)
+* [`dcd95aa`](https://github.com/eslint/eslint/commit/dcd95aafa33a95c8102834af85129f6f398fe394) feat: support TypeScript syntax in no-empty-function rule (#19551) (sethamus)
+* [`77d6d5b`](https://github.com/eslint/eslint/commit/77d6d5bc4923012aee34b0a7c3d971f017d65555) feat: support TS syntax in `no-unused-expressions` (#19564) (Sweta Tanwar)
+* [`90228e5`](https://github.com/eslint/eslint/commit/90228e5d57672579cf82bede29880532c2cb8ca9) feat: support `JSRuleDefinition` type (#19604) (루밀LuMir)
+* [`f80b746`](https://github.com/eslint/eslint/commit/f80b746d850021d253c01bb0eae466a701e63055) docs: add known limitations for no-self-compare (#19612) (Nitin Kumar)
+* [`59ba6b7`](https://github.com/eslint/eslint/commit/59ba6b73789835813ab3002c651a7217dd30a8cc) feat: add allowObjects option to no-restricted-properties (#19607) (sethamus)
+* [`db650a0`](https://github.com/eslint/eslint/commit/db650a036baf502c7366a7da633d4cd00719394e) feat: support TypeScript syntax in `no-invalid-this` rule (#19532) (Tanuj Kanti)
+* [`dd20cf2`](https://github.com/eslint/eslint/commit/dd20cf274e285f09f230638184c997c44912485f) test: fix `no-loop-func` test with duplicate variable reports (#19610) (Milos Djermanovic)
+* [`9535cff`](https://github.com/eslint/eslint/commit/9535cffe7b66abe850d90258e702279afabce7fe) feat: support TS syntax in `no-loop-func` (#19559) (Nitin Kumar)
+* [`bd05397`](https://github.com/eslint/eslint/commit/bd05397ef68bb23a6148aeb70088d7167f201bf7) chore: upgrade `@eslint/*` dependencies (#19606) (Milos Djermanovic)
+* [`22ea18b`](https://github.com/eslint/eslint/commit/22ea18b8babe4d60af7b3518b24d1ec31bf09605) chore: replace invalid `int` type with `number` inside JSDocs. (#19597) (Arya Emami)
+* [`865aed6`](https://github.com/eslint/eslint/commit/865aed629318ca1e86e7d371fac49d7de4e7e8a8) docs: Update README (GitHub Actions Bot)
+
 v9.24.0 - April 4, 2025
 
 * [`ef67420`](https://github.com/eslint/eslint/commit/ef6742091d49fc1809ad933f1daeff7124f57e93) chore: upgrade @eslint/js@9.24.0 (#19602) (Milos Djermanovic)

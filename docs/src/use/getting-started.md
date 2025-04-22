@@ -32,9 +32,9 @@ If you want to use a specific shareable config that is hosted on npm, you can us
 
 {{ npm_tabs({
     command: "init-create",
-    packages: ["@eslint/config@latest", "--", "--config", "eslint-config-standard"],
+    packages: ["@eslint/config@latest", "--", "--config", "eslint-config-xo"],
     args: [],
-    comment: "use `eslint-config-standard` shared config - npm 7+"
+    comment: "use `eslint-config-xo` shared config - npm 7+"
 }) }}
 
 **Note:** `npm init @eslint/config` assumes you have a `package.json` file already. If you don't, make sure to run `npm init` or `yarn init` beforehand.
