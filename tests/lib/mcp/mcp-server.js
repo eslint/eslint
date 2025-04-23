@@ -56,61 +56,6 @@ describe("MCP Server", () => {
 		await client.connect(clientTransport);
 	});
 
-	describe("Prompts", () => {
-		it("should list prompts for each tool", async () => {
-			const prompts = await client.listPrompts();
-
-			assert.deepStrictEqual(prompts, {
-				prompts: [
-					{
-						name: "lint-files",
-						description: void 0,
-						arguments: [
-							{
-								name: "filePaths",
-								description: void 0,
-								required: true,
-							},
-						],
-					},
-					{
-						name: "lint-and-fix-files",
-						description: void 0,
-						arguments: [
-							{
-								name: "filePaths",
-								description: void 0,
-								required: true,
-							},
-						],
-					},
-				],
-			});
-		});
-
-		// likely SDK bug: https://github.com/modelcontextprotocol/typescript-sdk/issues/250
-		it.skip("should return lint-files prompt", async () => {
-			const prompt = await client.getPrompt({
-				name: "lint-files",
-				arguments: {
-					filePaths: ["file1.js", "file2.js"],
-				},
-			});
-
-			assert.deepStrictEqual(prompt, {
-				name: "lint-files",
-				description: "Lint files",
-				arguments: [
-					{
-						name: "filePaths",
-						description: void 0,
-						required: true,
-					},
-				],
-			});
-		});
-	});
-
 	describe("Tools", () => {
 		it("should list tools", async () => {
 			const tools = await client.listTools();
@@ -119,12 +64,8 @@ describe("MCP Server", () => {
 				tools: [
 					{
 						name: "lint-files",
-						description: "Lint files",
-						inputSchema: filePathsJsonSchema,
-					},
-					{
-						name: "lint-and-fix-files",
-						description: "Lint and fix files",
+						description:
+							"Lint files using ESLint. This will not modify the files and will report any issues found.",
 						inputSchema: filePathsJsonSchema,
 					},
 				],
