@@ -391,6 +391,13 @@ ruleTester.run("no-unused-expressions", rule, {
 			],
 		},
 		{
+			code: "foo;",
+			options: [{ ignoreDirectives: true }],
+			errors: [
+				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+			],
+		},
+		{
 			code: '"use strict";',
 			languageOptions: { ecmaVersion: 3, sourceType: "script" },
 			errors: [
