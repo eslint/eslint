@@ -12504,7 +12504,7 @@ describe("ESLint", () => {
 			);
 		});
 
-		it("should not throw an error if the cache file to be deleted does not exist on a read-only file system", async () => {
+		it("should not attempt to delete the cache file if it does not exist", async () => {
 			cacheFilePath = getFixturePath(".eslintcache");
 			doDelete(cacheFilePath);
 			assert(
@@ -12512,8 +12512,41 @@ describe("ESLint", () => {
 				"the cache file already exists and wasn't successfully deleted",
 			);
 
+			const spy = sinon.spy(fsp, "unlink");
+
+			const eslintOptions = {
+				overrideConfigFile: true,
+				cache: false,
+				cacheLocation: cacheFilePath,
+				overrideConfig: {
+					rules: {
+						"no-console": 0,
+						"no-unused-vars": 2,
+					},
+				},
+				cwd: path.join(fixtureDir, ".."),
+			};
+
+			eslint = new ESLint(eslintOptions);
+
+			const file = getFixturePath("cache/src", "test-file.js");
+
+			await eslint.lintFiles([file]);
+
+			assert(
+				spy.notCalled,
+				"Expected attempt to delete the cache was not made.",
+			);
+
+			spy.restore();
+		});
+
+		it("should throw an error if the cache file to be deleted exist on a read-only file system", async () => {
+			cacheFilePath = getFixturePath(".eslintcache");
+			fs.writeFileSync(cacheFilePath, "");
+
 			// Simulate a read-only file system.
-			sinon.stub(fsp, "unlink").rejects(
+			const fspStub = sinon.stub(fsp, "unlink").rejects(
 				Object.assign(new Error("read-only file system"), {
 					code: "EROFS",
 				}),
@@ -12538,12 +12571,12 @@ describe("ESLint", () => {
 
 			const file = getFixturePath("cache/src", "test-file.js");
 
-			await eslint.lintFiles([file]);
-
-			assert(
-				fsp.unlink.notCalled,
-				"Expected attempt to delete the cache was not made.",
+			await assert.rejects(
+				async () => await eslint.lintFiles([file]),
+				/read-only file system/u,
 			);
+
+			fspStub.restore();
 		});
 
 		it("should store in the cache a file that has lint messages and a file that doesn't have lint messages", async () => {
