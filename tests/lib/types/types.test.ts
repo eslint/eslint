@@ -793,6 +793,13 @@ rule = {
 	},
 };
 
+let rule2: RuleDefinition;
+rule2 = {
+	create(context) {
+		return {};
+	},
+	meta: {},
+};
 type DeprecatedRuleContextKeys =
 	| "getAncestors"
 	| "getDeclaredVariables"
@@ -1911,6 +1918,11 @@ RuleTester.it = RuleTester.itOnly = function (
 ) {};
 
 ruleTester.run("simple-valid-test", rule, {
+	valid: ["foo", "bar", { code: "foo", options: [{ allowFoo: true }] }],
+	invalid: [{ code: "bar", errors: ["baz"] }],
+});
+
+ruleTester.run("simple-valid-test", rule2, {
 	valid: ["foo", "bar", { code: "foo", options: [{ allowFoo: true }] }],
 	invalid: [{ code: "bar", errors: ["baz"] }],
 });
