@@ -238,7 +238,7 @@ describe("esquery", () => {
 		});
 	});
 
-	describe("matches", () => {
+	describe("matches()", () => {
 		it("should delegate to esquery.matches", () => {
 			const matchesSpy = sinon.stub(esquery, "matches").returns(true);
 			const node = { type: "Identifier", name: "foo" };
@@ -255,6 +255,47 @@ describe("esquery", () => {
 			assert.strictEqual(result, true);
 
 			matchesSpy.restore();
+		});
+	});
+
+	describe("compare()", () => {
+		[
+			["Identifier", "Identifier", -1],
+			["Identifier", "Identifier:exit", -1],
+			["Identifier:exit", "Identifier", 1],
+			["Identifier:exit", "Identifier:exit", -1],
+			["Identifier", "Literal", -1],
+			["Literal", "Identifier", 1],
+			["Literal[name='foo']", "Literal[name='bar']", 1],
+			["Literal[name='bar']", "Literal[name='foo']", -1],
+			["Literal[name='foo']", "Literal[name='foo']", -1],
+			[
+				"FunctionDeclaration[id.name='foo']",
+				"FunctionDeclaration[id.name='bar']",
+				1,
+			],
+			[
+				"FunctionDeclaration[id.name='bar']",
+				"FunctionDeclaration[id.name='foo']",
+				-1,
+			],
+			[
+				"FunctionDeclaration[id.name='foo']",
+				"FunctionDeclaration[id.name='foo']",
+				-1,
+			],
+			["Identifier", "[name]", -1],
+			["Identifier", "Identifier[name]", -1],
+		].forEach(([selectorA, selectorB, expected]) => {
+			it(`compare "${selectorA}" to "${selectorB}" should return ${expected}`, () => {
+				const parsedSelectorA = parse(selectorA);
+				const parsedSelectorB = parse(selectorB);
+
+				assert.strictEqual(
+					parsedSelectorA.compare(parsedSelectorB),
+					expected,
+				);
+			});
 		});
 	});
 });
