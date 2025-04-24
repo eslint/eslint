@@ -26,6 +26,8 @@ const filePathsJsonSchema = {
 		filePaths: {
 			items: {
 				type: "string",
+				description: "Full filesystem path of a file to be analyzed",
+				minLength: 1,
 			},
 			minItems: 1,
 			type: "array",
@@ -85,10 +87,12 @@ describe("MCP Server", () => {
 					process.cwd(),
 					"tests/fixtures/passing.js",
 				);
-				const results = rawResults.map(({ type, text }) => ({
-					type,
-					text: JSON.parse(text),
-				}));
+				const results = rawResults
+					.slice(1, rawResults.length - 1)
+					.map(({ type, text }) => ({
+						type,
+						text: JSON.parse(text),
+					}));
 
 				assert.deepStrictEqual(results, [
 					{
@@ -128,10 +132,12 @@ describe("MCP Server", () => {
 					"tests/fixtures/syntax-error.js",
 				);
 
-				const results = rawResults.map(({ type, text }) => ({
-					type,
-					text: JSON.parse(text),
-				}));
+				const results = rawResults
+					.slice(1, rawResults.length - 1)
+					.map(({ type, text }) => ({
+						type,
+						text: JSON.parse(text),
+					}));
 				assert.deepStrictEqual(results, [
 					{
 						type: "text",

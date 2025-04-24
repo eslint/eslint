@@ -1,0 +1,13 @@
+{
+  "tests/fixtures/suppressions/test-file.js": {
+    "indent": {
+      "count": 1
+    },
+    "no-sparse-arrays": {
+      "count": 2
+    },
+    "no-undef": {
+      "count": 3
+    }
+  }
+}
