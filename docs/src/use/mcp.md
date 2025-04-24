@@ -128,7 +128,6 @@ After adding the configuration, press the refresh button to update the list of a
 Once configured, you can use ESLint tools with Cascade by asking it to:
 
 - Check files for linting errors
-- Fix ESLint issues in specific files
 - Explain ESLint rule violations
 
 Note: MCP tool calls in Windsurf will consume credits regardless of success or failure.
