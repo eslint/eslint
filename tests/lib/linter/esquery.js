@@ -149,6 +149,16 @@ describe("esquery", () => {
 			assert.strictEqual(result.identifierCount, 1);
 		});
 
+		it("should parse a wildcard selector", () => {
+			const result = parse("*");
+			assert.instanceOf(result, ESQueryParsedSelector);
+			assert.strictEqual(result.source, "*");
+			assert.strictEqual(result.isExit, false);
+			assert.strictEqual(result.nodeTypes, null);
+			assert.strictEqual(result.attributeCount, 0);
+			assert.strictEqual(result.identifierCount, 0);
+		});
+
 		it("should recognize exit selectors", () => {
 			const result = parse("Identifier:exit");
 
