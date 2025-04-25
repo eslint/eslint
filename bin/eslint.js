@@ -165,7 +165,7 @@ ${getErrorMessage(error)}`;
 		await mcpServer.connect(new StdioServerTransport());
 
 		// Note: do not use console.log() because stdout is part of the server transport
-		console.error("ESLint MCP server is running.");
+		console.error(`ESLint MCP server is running. cwd: ${process.cwd()}`);
 
 		process.on("SIGINT", () => {
 			mcpServer.close();
