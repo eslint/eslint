@@ -24,8 +24,8 @@ For reference information on these configuration formats, refer to the following
 To get started, use the [configuration migrator](https://npmjs.com/package/@eslint/migrate-config) on your existing configuration file (`.eslintrc`, `.eslintrc.json`, `.eslintrc.yml`), like this:
 
 {{ npx_tabs({
-    package: null,
-    args: ["@eslint/migrate-config", ".eslintrc.json"]
+    package: "@eslint/migrate-config",
+    args: [".eslintrc.json"]
 }) }}
 
 This will create a starting point for your `eslint.config.js` file but is not guaranteed to work immediately without further modification. It will, however, do most of the conversion work mentioned in this guide automatically.
