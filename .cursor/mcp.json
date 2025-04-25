@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "eslint": {
+      "command": "node",
+      "args": ["c:/Users/nzaka/projects/eslint/eslint/bin/eslint.js", "--mcp"],
+      "env": {}
+    }
+  }
+}

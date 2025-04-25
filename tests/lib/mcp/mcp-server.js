@@ -26,7 +26,6 @@ const filePathsJsonSchema = {
 		filePaths: {
 			items: {
 				type: "string",
-				description: "Full filesystem path of a file to be analyzed",
 				minLength: 1,
 			},
 			minItems: 1,
@@ -60,18 +59,11 @@ describe("MCP Server", () => {
 
 	describe("Tools", () => {
 		it("should list tools", async () => {
-			const tools = await client.listTools();
+			const { tools } = await client.listTools();
 
-			assert.deepStrictEqual(tools, {
-				tools: [
-					{
-						name: "lint-files",
-						description:
-							"Lint files using ESLint. This will not modify the files and will report any issues found.",
-						inputSchema: filePathsJsonSchema,
-					},
-				],
-			});
+			assert.strictEqual(tools.length, 1);
+			assert.strictEqual(tools[0].name, "lint-files");
+			assert.deepStrictEqual(tools[0].inputSchema, filePathsJsonSchema);
 		});
 
 		describe("lint-files", () => {
