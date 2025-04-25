@@ -113,6 +113,42 @@ ruleTester.run("no-unused-expressions", rule, {
 			options: [{ enforceForJSX: true }],
 			languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
 		},
+		{
+			code: '"use strict";',
+			options: [{ ignoreDirectives: true }],
+			languageOptions: { ecmaVersion: 3, sourceType: "script" },
+		},
+		{
+			code: '"directive one"; "directive two"; f();',
+			options: [{ ignoreDirectives: true }],
+			languageOptions: { ecmaVersion: 3, sourceType: "script" },
+		},
+		{
+			code: 'function foo() {"use strict"; return true; }',
+			options: [{ ignoreDirectives: true }],
+			languageOptions: { ecmaVersion: 3, sourceType: "script" },
+		},
+		{
+			code: 'function foo() {"directive one"; "directive two"; f(); }',
+			options: [{ ignoreDirectives: true }],
+			languageOptions: { ecmaVersion: 3, sourceType: "script" },
+		},
+		{
+			code: '"use strict";',
+			options: [{ ignoreDirectives: true }],
+		},
+		{
+			code: '"directive one"; "directive two"; f();',
+			options: [{ ignoreDirectives: true }],
+		},
+		{
+			code: 'function foo() {"use strict"; return true; }',
+			options: [{ ignoreDirectives: true }],
+		},
+		{
+			code: 'function foo() {"directive one"; "directive two"; f(); }',
+			options: [{ ignoreDirectives: true }],
+		},
 	],
 	invalid: [
 		{
@@ -352,6 +388,43 @@ ruleTester.run("no-unused-expressions", rule, {
 					type: "ExpressionStatement",
 					line: 3,
 				},
+			],
+		},
+		{
+			code: "foo;",
+			options: [{ ignoreDirectives: true }],
+			errors: [
+				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+			],
+		},
+		{
+			code: '"use strict";',
+			languageOptions: { ecmaVersion: 3, sourceType: "script" },
+			errors: [
+				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+			],
+		},
+		{
+			code: '"directive one"; "directive two"; f();',
+			languageOptions: { ecmaVersion: 3, sourceType: "script" },
+			errors: [
+				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+			],
+		},
+		{
+			code: 'function foo() {"use strict"; return true; }',
+			languageOptions: { ecmaVersion: 3, sourceType: "script" },
+			errors: [
+				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+			],
+		},
+		{
+			code: 'function foo() {"directive one"; "directive two"; f(); }',
+			languageOptions: { ecmaVersion: 3, sourceType: "script" },
+			errors: [
+				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{ messageId: "unusedExpression", type: "ExpressionStatement" },
 			],
 		},
 	],

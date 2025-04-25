@@ -24,7 +24,7 @@ function Thing() { nThings += 1; }
 new Thing(); // constructed object is unused, but nThings changed as a side effect
 ```
 
-This rule does not apply to directives (which are in the form of literal string expressions such as `"use strict";` at the beginning of a script, module, or function).
+This rule does not apply to directives (which are in the form of literal string expressions such as `"use strict";` at the beginning of a script, module, or function) when using ES5+ environments. In ES3 environments, directives are treated as unused expressions by default, but this behavior can be changed using the `ignoreDirectives` option.
 
 Sequence expressions (those using a comma, such as `a = 1, b = 2`) are always considered unused unless their return value is assigned or used in a condition evaluation, or a function call is made with the sequence expression value.
 
@@ -36,6 +36,7 @@ This rule, in its default state, does not require any arguments. If you would li
 * `allowTernary` set to `true` will enable you to use ternary operators in your expressions similarly to short circuit evaluations (Default: `false`).
 * `allowTaggedTemplates` set to `true` will enable you to use tagged template literals in your expressions (Default: `false`).
 * `enforceForJSX` set to `true` will flag unused JSX element expressions (Default: `false`).
+* `ignoreDirectives` set to `true` will prevent directives from being reported as unused expressions when linting with `ecmaVersion: 3` (Default: `false`).
 
 These options allow unused expressions *only if all* of the code paths either directly change the state (for example, assignment statement) or could have *side effects* (for example, function call).
 
@@ -273,6 +274,56 @@ Examples of **correct** code for the `{ "enforceForJSX": true }` option:
 const myComponentPartial = <MyComponent />;
 
 const myFragment = <></>;
+```
+
+:::
+
+### ignoreDirectives
+
+When set to `false` (default), this rule reports directives (like `"use strict"`) as unused expressions when linting with `ecmaVersion: 3`. This default behavior exists because ES3 environments do not formally support directives, meaning such strings are effectively unused expressions in that specific context.
+
+Set this option to `true` to prevent directives from being reported as unused, even when `ecmaVersion: 3` is specified. This option is primarily useful for projects that need to maintain a single codebase containing directives while supporting both older ES3 environments and modern (ES5+) environments.
+
+**Note:** In ES5+ environments, directives are always ignored regardless of this setting.
+
+Examples of **incorrect** code for the `{ "ignoreDirectives": false }` option and `ecmaVersion: 3`:
+
+::: incorrect { "ecmaVersion": 3, "sourceType": "script" }
+
+```js
+/*eslint no-unused-expressions: ["error", { "ignoreDirectives": false }]*/
+
+"use strict";
+"use asm"
+"use stricter";
+"use babel"
+"any other strings like this in the directive prologue";
+"this is still the directive prologue";
+
+function foo() {
+    "bar";
+}
+```
+
+:::
+
+Examples of **correct** code for the `{ "ignoreDirectives": true }` option and `ecmaVersion: 3`:
+
+::: correct { "ecmaVersion": 3, "sourceType": "script" }
+
+```js
+/*eslint no-unused-expressions: ["error", { "ignoreDirectives": true }]*/
+
+"use strict";
+"use asm"
+"use stricter";
+"use babel"
+"any other strings like this in the directive prologue";
+"this is still the directive prologue";
+
+function foo() {
+    "bar";
+}
 ```
 
 :::

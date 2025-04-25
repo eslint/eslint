@@ -1,3 +1,9 @@
+v9.25.1 - April 21, 2025
+
+* [`1f2b057`](https://github.com/eslint/eslint/commit/1f2b057ddcbef4340f78d1314456935054b8d93f) chore: upgrade @eslint/js@9.25.1 (#19642) (Milos Djermanovic)
+* [`771317f`](https://github.com/eslint/eslint/commit/771317fa937a07277201f7155e9b835e6a5658f9) chore: package.json update for @eslint/js release (Jenkins)
+* [`cdc8e8c`](https://github.com/eslint/eslint/commit/cdc8e8c950ddfe1f9d462ea138ad7866da0394da) fix: revert directive detection in no-unused-expressions (#19639) (sethamus)
+
 v9.25.0 - April 18, 2025
 
 * [`88dc196`](https://github.com/eslint/eslint/commit/88dc1965a4f53babec36e0f5bd450dd02467acde) chore: upgrade @eslint/js@9.25.0 (#19636) (Milos Djermanovic)
