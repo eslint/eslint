@@ -724,6 +724,66 @@ ruleTester.run("no-array-constructor", rule, {
 				},
 			],
 		},
+		{
+			code: "new (Array /* a */);",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					type: "NewExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[];",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "(/* a */ Array)(1, 2, 3);",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					type: "CallExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[1, 2, 3];",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "(Array /* a */)(1, 2, 3);",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					type: "CallExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[1, 2, 3];",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "(Array) /* a */ (1, 2, 3);",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					type: "CallExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[1, 2, 3];",
+						},
+					],
+				},
+			],
+		},
 	],
 });
 
@@ -832,6 +892,36 @@ ruleTesterTypeScript.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
+				},
+			],
+		},
+		{
+			code: "Array /*a*/ ?.();",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					type: "CallExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[];",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "Array?./*a*/();",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					type: "CallExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[];",
+						},
+					],
 				},
 			],
 		},
