@@ -6,11 +6,11 @@ The rule component is a macro defined in `/components/rule.macro.html`. The macr
 
 A rule has a:
 
--   name
--   description
--   a flag to indicate whether it's deprecated or removed: `deprecated` and `removed` respectively
--   a replacedBy value indicating the rule it has been replaced with (if applicable)
--   a categories object indicating the rule's category
+- name
+- description
+- a flag to indicate whether it's deprecated or removed: `deprecated` and `removed` respectively
+- a replacedBy value indicating the rule it has been replaced with (if applicable)
+- a categories object indicating the rule's category
 
 ## Usage
 

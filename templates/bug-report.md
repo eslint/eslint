@@ -1,10 +1,10 @@
 **Tell us about your environment (`npx eslint --env-info`):**
 
--   **Node version:**
--   **npm version:**
--   **Local ESLint version:**
--   **Global ESLint version:**
--   **Operating System:**
+- **Node version:**
+- **npm version:**
+- **Local ESLint version:**
+- **Global ESLint version:**
+- **Operating System:**
 
 **What parser are you using (place an "X" next to just one item)?**
 

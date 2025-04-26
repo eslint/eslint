@@ -38,8 +38,8 @@ If the package is not found in any searched `node_modules/`, ESLint will print t
 
 Common reasons for this occurring include:
 
--   Not running `npm install` or the equivalent package manager command
--   Mistyping the case-sensitive name of the plugin
+- Not running `npm install` or the equivalent package manager command
+- Mistyping the case-sensitive name of the plugin
 
 ### Plugin Name Variations
 
@@ -51,15 +51,15 @@ Note that the `eslint-plugin-` plugin name prefix may be omitted for brevity, e.
 
 Common resolutions for this issue include:
 
--   Upgrading all versions of all packages to their latest version.
--   Adding the plugin as a `devDependency` in your `package.json`.
--   Running `npm install` or the equivalent package manager command.
--   Checking that the name in your config file matches the name of the plugin package.
+- Upgrading all versions of all packages to their latest version.
+- Adding the plugin as a `devDependency` in your `package.json`.
+- Running `npm install` or the equivalent package manager command.
+- Checking that the name in your config file matches the name of the plugin package.
 
 ## Resources
 
 For more information, see:
 
--   [Legacy ESLint configuration files](../configure/configuration-files-deprecated#using-a-shareable-configuration-package) for documentation on the legacy ESLint configuration format
--   [Configure Plugins](../configure/plugins) for documentation on how to extend from plugins
--   [Create Plugins](../../extend/plugins#configs-in-plugins) for documentation on how to define plugins
+- [Legacy ESLint configuration files](../configure/configuration-files-deprecated#using-a-shareable-configuration-package) for documentation on the legacy ESLint configuration format
+- [Configure Plugins](../configure/plugins) for documentation on how to extend from plugins
+- [Create Plugins](../../extend/plugins#configs-in-plugins) for documentation on how to define plugins

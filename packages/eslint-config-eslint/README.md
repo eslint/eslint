@@ -35,8 +35,8 @@ export default defineConfig([eslintConfigESLint]);
 
 **Note**: This configuration array contains configuration objects with the `files` property.
 
--   `files: ["**/*.js"]`: ESM-specific configurations.
--   `files: ["**/*.cjs"]`: CommonJS-specific configurations.
+- `files: ["**/*.js"]`: ESM-specific configurations.
+- `files: ["**/*.cjs"]`: CommonJS-specific configurations.
 
 ### CommonJS projects
 

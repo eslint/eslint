@@ -12,11 +12,11 @@ You can put your ESLint project configuration in a configuration file. You can i
 
 ESLint supports configuration files in several formats:
 
--   **JavaScript** - use `.eslintrc.js` and export an object containing your configuration.
--   **JavaScript (ESM)** - use `.eslintrc.cjs` when running ESLint in JavaScript packages that specify `"type":"module"` in their `package.json`. Note that ESLint does not support ESM configuration at this time.
--   **YAML** - use `.eslintrc.yaml` or `.eslintrc.yml` to define the configuration structure.
--   **JSON** - use `.eslintrc.json` to define the configuration structure. ESLint's JSON files also allow JavaScript-style comments.
--   **package.json** - create an `eslintConfig` property in your `package.json` file and define your configuration there.
+- **JavaScript** - use `.eslintrc.js` and export an object containing your configuration.
+- **JavaScript (ESM)** - use `.eslintrc.cjs` when running ESLint in JavaScript packages that specify `"type":"module"` in their `package.json`. Note that ESLint does not support ESM configuration at this time.
+- **YAML** - use `.eslintrc.yaml` or `.eslintrc.yml` to define the configuration structure.
+- **JSON** - use `.eslintrc.json` to define the configuration structure. ESLint's JSON files also allow JavaScript-style comments.
+- **package.json** - create an `eslintConfig` property in your `package.json` file and define your configuration there.
 
 If there are multiple configuration files in the same directory, ESLint only uses one. The priority order is as follows:
 
@@ -194,14 +194,14 @@ Please note that the [home directory of the current user on your preferred opera
 
 A configuration file, once extended, can inherit all the traits of another configuration file (including rules, plugins, and language options) and modify all the options. As a result, there are three configurations, as defined below:
 
--   Base config: the configuration that is extended.
--   Derived config: the configuration that extends the base configuration.
--   Resulting actual config: the result of merging the derived configuration into the base configuration.
+- Base config: the configuration that is extended.
+- Derived config: the configuration that extends the base configuration.
+- Resulting actual config: the result of merging the derived configuration into the base configuration.
 
 The `extends` property value is either:
 
--   a string that specifies a configuration (either a path to a config file, the name of a shareable config, `eslint:recommended`, or `eslint:all`).
--   an array of strings where each additional configuration extends the preceding configurations.
+- a string that specifies a configuration (either a path to a config file, the name of a shareable config, `eslint:recommended`, or `eslint:all`).
+- an array of strings where each additional configuration extends the preceding configurations.
 
 ESLint extends configurations recursively, so a base configuration can also have an `extends` property. Relative paths and shareable config names in an `extends` property are resolved from the location of the config file where they appear.
 
@@ -209,19 +209,19 @@ The `eslint-config-` prefix can be omitted from the configuration name. For exam
 
 The `rules` property can do any of the following to extend (or override) the set of rules:
 
--   enable additional rules
--   change an inherited rule's severity without changing its options:
-    -   Base config: `"eqeqeq": ["error", "allow-null"]`
-    -   Derived config: `"eqeqeq": "warn"`
-    -   Resulting actual config: `"eqeqeq": ["warn", "allow-null"]`
--   override options for rules from base configurations:
-    -   Base config: `"quotes": ["error", "single", "avoid-escape"]`
-    -   Derived config: `"quotes": ["error", "single"]`
-    -   Resulting actual config: `"quotes": ["error", "single"]`
--   override options for rules given as object from base configurations:
-    -   Base config: `"max-lines": ["error", { "max": 200, "skipBlankLines": true, "skipComments": true }]`
-    -   Derived config: `"max-lines": ["error", { "max": 100 }]`
-    -   Resulting actual config: `"max-lines": ["error", { "max": 100 }]` where `skipBlankLines` and `skipComments` default to `false`
+- enable additional rules
+- change an inherited rule's severity without changing its options:
+    - Base config: `"eqeqeq": ["error", "allow-null"]`
+    - Derived config: `"eqeqeq": "warn"`
+    - Resulting actual config: `"eqeqeq": ["warn", "allow-null"]`
+- override options for rules from base configurations:
+    - Base config: `"quotes": ["error", "single", "avoid-escape"]`
+    - Derived config: `"quotes": ["error", "single"]`
+    - Resulting actual config: `"quotes": ["error", "single"]`
+- override options for rules given as object from base configurations:
+    - Base config: `"max-lines": ["error", { "max": 200, "skipBlankLines": true, "skipComments": true }]`
+    - Derived config: `"max-lines": ["error", { "max": 100 }]`
+    - Resulting actual config: `"max-lines": ["error", { "max": 100 }]` where `skipBlankLines` and `skipComments` default to `false`
 
 ### Using a shareable configuration package
 
@@ -278,10 +278,10 @@ The `plugins` [property value](./plugins#configure-plugins) can omit the `eslint
 
 The `extends` property value can consist of:
 
--   `plugin:`
--   the package name (from which you can omit the prefix, for example, `react` is short for `eslint-plugin-react`)
--   `/`
--   the configuration name (for example, `recommended`)
+- `plugin:`
+- the package name (from which you can omit the prefix, for example, `react` is short for `eslint-plugin-react`)
+- `/`
+- the configuration name (for example, `recommended`)
 
 Example of a configuration file in JSON format:
 
@@ -378,13 +378,13 @@ In your `.eslintrc.json`:
 
 Here is how overrides work in a configuration file:
 
--   The patterns are applied against the file path relative to the directory of the config file. For example, if your config file has the path `/Users/john/workspace/any-project/.eslintrc.js` and the file you want to lint has the path `/Users/john/workspace/any-project/lib/util.js`, then the pattern provided in `.eslintrc.js` is executed against the relative path `lib/util.js`.
--   Glob pattern overrides have higher precedence than the regular configuration in the same config file. Multiple overrides within the same config are applied in order. That is, the last override block in a config file always has the highest precedence.
--   A glob specific configuration works almost the same as any other ESLint config. Override blocks can contain any configuration options that are valid in a regular config, with the exception of `root` and `ignorePatterns`.
-    -   A glob specific configuration can have an `extends` setting, but the `root` property in the extended configs is ignored. The `ignorePatterns` property in the extended configs is used only for the files the glob specific configuration matched.
-    -   Nested `overrides` settings are applied only if the glob patterns of both the parent config and the child config are matched. This is the same when the extended configs have an `overrides` setting.
--   Multiple glob patterns can be provided within a single override block. A file must match at least one of the supplied patterns for the configuration to apply.
--   Override blocks can also specify patterns to exclude from matches. If a file matches any of the excluded patterns, the configuration won't apply.
+- The patterns are applied against the file path relative to the directory of the config file. For example, if your config file has the path `/Users/john/workspace/any-project/.eslintrc.js` and the file you want to lint has the path `/Users/john/workspace/any-project/lib/util.js`, then the pattern provided in `.eslintrc.js` is executed against the relative path `lib/util.js`.
+- Glob pattern overrides have higher precedence than the regular configuration in the same config file. Multiple overrides within the same config are applied in order. That is, the last override block in a config file always has the highest precedence.
+- A glob specific configuration works almost the same as any other ESLint config. Override blocks can contain any configuration options that are valid in a regular config, with the exception of `root` and `ignorePatterns`.
+    - A glob specific configuration can have an `extends` setting, but the `root` property in the extended configs is ignored. The `ignorePatterns` property in the extended configs is used only for the files the glob specific configuration matched.
+    - Nested `overrides` settings are applied only if the glob patterns of both the parent config and the child config are matched. This is the same when the extended configs have an `overrides` setting.
+- Multiple glob patterns can be provided within a single override block. A file must match at least one of the supplied patterns for the configuration to apply.
+- Override blocks can also specify patterns to exclude from matches. If a file matches any of the excluded patterns, the configuration won't apply.
 
 ### Relative glob patterns
 
