@@ -3,6 +3,7 @@ title: no-inline-comments
 rule_type: suggestion
 ---
 
+This rule was **deprecated** in ESLint v9.26.0. Please use [Prettier](https://prettier.io/) instead.
 
 Some style guides disallow comments on the same line as code. Code can become difficult to read if comments immediately follow the code on the same line.
 On the other hand, it is sometimes faster and more obvious to put comments immediately following code.
