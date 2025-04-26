@@ -916,14 +916,6 @@
                 "hasSuggestions": false
             },
             {
-                "name": "no-inline-comments",
-                "description": "Disallow inline comments after code",
-                "recommended": false,
-                "fixable": false,
-                "frozen": true,
-                "hasSuggestions": false
-            },
-            {
                 "name": "no-invalid-this",
                 "description": "Disallow use of `this` in contexts where the value of `this` is `undefined`",
                 "recommended": false,
@@ -2440,6 +2432,12 @@
                 }
             ],
             "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "no-inline-comments",
+            "replacedBy": [],
+            "fixable": false,
             "hasSuggestions": false
         },
         {

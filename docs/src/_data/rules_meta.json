@@ -2237,6 +2237,8 @@
     },
     "no-inline-comments": {
         "type": "suggestion",
+        "deprecated": true,
+        "replacedBy": [],
         "defaultOptions": [
             {}
         ],

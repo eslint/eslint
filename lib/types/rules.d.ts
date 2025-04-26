@@ -2662,6 +2662,8 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Rule to disallow inline comments after code.
 	 *
 	 * @since 0.10.0
+	 * @deprecated since 9.26.0.
+	 * Formatting rules are being moved out of ESLint core.
 	 * @see https://eslint.org/docs/latest/rules/no-inline-comments
 	 */
 	"no-inline-comments": Linter.RuleEntry<[]>;
