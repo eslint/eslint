@@ -22,7 +22,7 @@ You have conflicting fixable rules in your configuration. ESLint autofixes code 
 
 Common resolutions for this issue include:
 
--   Remove or reconfigure one of the conflicting rules in your configuration file.
+- Remove or reconfigure one of the conflicting rules in your configuration file.
 
 How to find the conflicting rules:
 
@@ -35,4 +35,4 @@ How to find the conflicting rules:
 
 For more information, see:
 
--   [Configure Rules](../configure/rules) for documentation on how to configure rules
+- [Configure Rules](../configure/rules) for documentation on how to configure rules

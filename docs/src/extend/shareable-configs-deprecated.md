@@ -16,8 +16,8 @@ Shareable configs are simply npm packages that export a configuration object. To
 
 The module name must take one of the following forms:
 
--   Begin with `eslint-config-`, such as `eslint-config-myconfig`.
--   Be an npm [scoped module](https://docs.npmjs.com/misc/scope). To create a scoped module, name or prefix the module with `@scope/eslint-config`, such as `@scope/eslint-config` or `@scope/eslint-config-myconfig`.
+- Begin with `eslint-config-`, such as `eslint-config-myconfig`.
+- Be an npm [scoped module](https://docs.npmjs.com/misc/scope). To create a scoped module, name or prefix the module with `@scope/eslint-config`, such as `@scope/eslint-config` or `@scope/eslint-config-myconfig`.
 
 In your module, export the shareable config from the module's [`main`](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#main) entry point file. The default main entry point is `index.js`. For example:
 
@@ -230,4 +230,4 @@ In the last file, once again see that to properly resolve your config, you need 
 
 ## Further Reading
 
--   [npm Developer Guide](https://docs.npmjs.com/misc/developers)
+- [npm Developer Guide](https://docs.npmjs.com/misc/developers)

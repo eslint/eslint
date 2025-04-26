@@ -9,8 +9,8 @@ This documentation is for ignoring files using the deprecated eslintrc configura
 You can configure ESLint to ignore certain files and directories while linting by specifying one or more glob patterns.
 You can ignore files in the following ways:
 
--   Add `ignorePatterns` to a configuration file.
--   Create a dedicated file that contains the ignore patterns (`.eslintignore` by default).
+- Add `ignorePatterns` to a configuration file.
+- Create a dedicated file that contains the ignore patterns (`.eslintignore` by default).
 
 ## `ignorePatterns` in Config Files
 
@@ -25,9 +25,9 @@ You can tell ESLint to ignore specific files and directories using `ignorePatter
 }
 ```
 
--   Glob patterns in `ignorePatterns` are relative to the directory that the config file is placed in.
--   You cannot write `ignorePatterns` property under `overrides` property.
--   Patterns defined in `.eslintignore` take precedence over the `ignorePatterns` property of config files.
+- Glob patterns in `ignorePatterns` are relative to the directory that the config file is placed in.
+- You cannot write `ignorePatterns` property under `overrides` property.
+- Patterns defined in `.eslintignore` take precedence over the `ignorePatterns` property of config files.
 
 If a glob pattern starts with `/`, the pattern is relative to the base directory of the config file. For example, `/foo.js` in `lib/.eslintrc.json` matches to `lib/foo.js` but not `lib/subdir/foo.js`.
 
@@ -45,10 +45,10 @@ When ESLint is run, it looks in the current working directory to find an `.eslin
 
 Globs are matched using [node-ignore](https://github.com/kaelzhang/node-ignore), so a number of features are available:
 
--   Lines beginning with `#` are treated as comments and do not affect the ignore patterns.
--   Paths are relative to the current working directory. This is also true of paths passed in via the `--ignore-pattern` [command](../command-line-interface#--ignore-pattern).
--   Lines preceded by `!` are negated patterns that re-include a pattern that was ignored by an earlier pattern.
--   Ignore patterns behave according to the `.gitignore` [specification](https://git-scm.com/docs/gitignore).
+- Lines beginning with `#` are treated as comments and do not affect the ignore patterns.
+- Paths are relative to the current working directory. This is also true of paths passed in via the `--ignore-pattern` [command](../command-line-interface#--ignore-pattern).
+- Lines preceded by `!` are negated patterns that re-include a pattern that was ignored by an earlier pattern.
+- Ignore patterns behave according to the `.gitignore` [specification](https://git-scm.com/docs/gitignore).
 
 Of particular note is that like `.gitignore` files, all paths used as patterns for both `.eslintignore` and `--ignore-pattern` must use forward slashes as their path separators.
 
@@ -64,20 +64,20 @@ Please see [`.gitignore`](https://git-scm.com/docs/gitignore)'s specification fo
 
 In addition to any patterns in the `.eslintignore` file, ESLint always follows a couple of implicit ignore rules even if the `--no-ignore` flag is passed. The implicit rules are as follows:
 
--   `node_modules/` is ignored.
--   dot-files (except for `.eslintrc.*`) as well as dot-folders and their contents are ignored.
+- `node_modules/` is ignored.
+- dot-files (except for `.eslintrc.*`) as well as dot-folders and their contents are ignored.
 
 There are also some exceptions to these rules:
 
--   If the path to lint is a glob pattern or directory path and contains a dot-folder, all dot-files and dot-folders are linted. This includes dot-files and dot-folders that are buried deeper in the directory structure.
+- If the path to lint is a glob pattern or directory path and contains a dot-folder, all dot-files and dot-folders are linted. This includes dot-files and dot-folders that are buried deeper in the directory structure.
 
     For example, `eslint .config/` would lint all dot-folders and dot-files in the `.config` directory, including immediate children as well as children that are deeper in the directory structure.
 
--   If the path to lint is a specific file path and the `--no-ignore` flag has been passed, ESLint would lint the file regardless of the implicit ignore rules.
+- If the path to lint is a specific file path and the `--no-ignore` flag has been passed, ESLint would lint the file regardless of the implicit ignore rules.
 
     For example, `eslint .config/my-config-file.js --no-ignore` would cause `my-config-file.js` to be linted. It should be noted that the same command without the `--no-ignore` line would not lint the `my-config-file.js` file.
 
--   Allowlist and denylist rules specified via `--ignore-pattern` or `.eslintignore` are prioritized above implicit ignore rules.
+- Allowlist and denylist rules specified via `--ignore-pattern` or `.eslintignore` are prioritized above implicit ignore rules.
 
     For example, in this scenario, `.build/test.js` is the desired file to allowlist. Because all dot-folders and their children are ignored by default, `.build` must first be allowlisted so that eslint becomes aware of its children. Then, `.build/test.js` must be explicitly allowlisted, while the rest of the content is denylisted. This is done with the following `.eslintignore` file:
 

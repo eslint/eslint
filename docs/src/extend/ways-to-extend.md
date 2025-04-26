@@ -23,9 +23,9 @@ For example, [`eslint-plugin-react`](https://www.npmjs.com/package/eslint-plugin
 
 To learn more about creating the extensions you can include in a plugin, refer to the following documentation:
 
--   [Custom Rules](custom-rules)
--   [Custom Processors](custom-processors)
--   [Configs in Plugins](plugins#configs-in-plugins)
+- [Custom Rules](custom-rules)
+- [Custom Processors](custom-processors)
+- [Configs in Plugins](plugins#configs-in-plugins)
 
 To learn more about bundling these extensions into a plugin, refer to [Plugins](plugins).
 
