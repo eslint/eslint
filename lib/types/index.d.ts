@@ -1933,6 +1933,9 @@ export namespace ESLint {
 	}
 
 	interface Plugin extends ObjectMetaProperties {
+		meta?: ObjectMetaProperties["meta"] & {
+			namespace?: string | undefined;
+		};
 		configs?:
 			| Record<
 					string,

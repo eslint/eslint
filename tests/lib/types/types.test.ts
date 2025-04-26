@@ -1495,6 +1495,7 @@ linterWithEslintrcConfig.getRules();
 				version: "1.0.0",
 				meta: {
 					name: "bar",
+					namespace: "bar",
 					version: "1.0.0",
 				},
 				configs: {
