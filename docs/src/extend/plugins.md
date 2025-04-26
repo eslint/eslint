@@ -88,7 +88,8 @@ While there are no restrictions on plugin names, it helps others to find your pl
 
 - **Unscoped:** If your npm package name won't be scoped (doesn't begin with `@`), then the plugin name should begin with `eslint-plugin-`, such as `eslint-plugin-example`.
 - **Scoped:** If your npm package name will be scoped, then the plugin name should be in the format of `@<scope>/eslint-plugin-<plugin-name>` such as `@jquery/eslint-plugin-jquery` or even `@<scope>/eslint-plugin` such as `@jquery/eslint-plugin`.
-  :::
+
+:::
 
 As an alternative, you can also expose `name` and `version` properties at the root of your plugin, such as:
 
