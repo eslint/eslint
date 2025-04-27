@@ -12546,7 +12546,7 @@ describe("ESLint", () => {
 			fs.writeFileSync(cacheFilePath, "");
 
 			// Simulate a read-only file system.
-			const fspStub = sinon.stub(fsp, "unlink").rejects(
+			const unlinkStub = sinon.stub(fsp, "unlink").rejects(
 				Object.assign(new Error("read-only file system"), {
 					code: "EROFS",
 				}),
@@ -12554,8 +12554,6 @@ describe("ESLint", () => {
 
 			const eslintOptions = {
 				overrideConfigFile: true,
-
-				// specifying cache false the cache will be deleted
 				cache: false,
 				cacheLocation: cacheFilePath,
 				overrideConfig: {
@@ -12576,7 +12574,40 @@ describe("ESLint", () => {
 				/read-only file system/u,
 			);
 
-			fspStub.restore();
+			unlinkStub.restore();
+		});
+
+		it("should not throw an error if deleting fails but cache file no longer exists", async () => {
+			cacheFilePath = getFixturePath(".eslintcache");
+			fs.writeFileSync(cacheFilePath, "");
+
+			const unlinkStub = sinon.stub(fsp, "unlink").callsFake(() => {
+				doDelete(cacheFilePath);
+				throw new Error("Failed to delete cache file");
+			});
+
+			const eslintOptions = {
+				overrideConfigFile: true,
+				cache: false,
+				cacheLocation: cacheFilePath,
+				overrideConfig: {
+					rules: {
+						"no-console": 0,
+						"no-unused-vars": 2,
+					},
+				},
+				cwd: path.join(fixtureDir, ".."),
+			};
+
+			eslint = new ESLint(eslintOptions);
+
+			const file = getFixturePath("cache/src", "test-file.js");
+
+			await eslint.lintFiles([file]);
+
+			assert(unlinkStub.calledWithExactly(cacheFilePath));
+
+			unlinkStub.restore();
 		});
 
 		it("should store in the cache a file that has lint messages and a file that doesn't have lint messages", async () => {
