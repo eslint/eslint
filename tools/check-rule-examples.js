@@ -22,7 +22,6 @@ const { Linter } = require("../lib/linter");
 
 /** @typedef {import("../lib/shared/types").LintMessage} LintMessage */
 /** @typedef {import("../lib/shared/types").LintResult} LintResult */
-/** @typedef {import("../lib/shared/types").LanguageOptions} LanguageOptions */
 
 //------------------------------------------------------------------------------
 // Helpers
