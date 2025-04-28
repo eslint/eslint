@@ -4280,5 +4280,69 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 				},
 			],
 		},
+		{
+			code: `import type { bar } from "mod";`,
+			options: [
+				{
+					paths: [
+						{
+							name: "mod",
+							importNames: ["foo"],
+							allowTypeImports: true,
+							message: "import 'foo' only as type"
+						},
+						{
+							name: "mod",
+							importNames: ["bar"],
+							message: "don't import 'bar' at all"
+						}
+					],
+				},
+			],
+			errors: [
+				{
+					messageId: "importNameWithCustomMessage",
+					type: "ImportDeclaration",
+					line: 1,
+					data: {
+						importName: "bar",
+						importSource: "mod",
+						customMessage: "don't import 'bar' at all",
+					},
+				},
+			],
+		},
+		{
+			code: `export type { bar } from "mod";`,
+			options: [
+				{
+					paths: [
+						{
+							name: "mod",
+							importNames: ["foo"],
+							allowTypeImports: true,
+							message: "import 'foo' only as type"
+						},
+						{
+							name: "mod",
+							importNames: ["bar"],
+							message: "don't import 'bar' at all"
+						}
+					],
+				},
+			],
+			errors: [
+				{
+					messageId: "importNameWithCustomMessage",
+					type: "ExportNamedDeclaration",
+					line: 1,
+					data: {
+						importName: "bar",
+						importSource: "mod",
+						customMessage: "don't import 'bar' at all",
+					},
+				},
+			],
+		},
 	],
 });
