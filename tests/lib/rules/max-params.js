@@ -212,19 +212,19 @@ ruleTesterTypeScript.run("max-params", rule, {
 			options: [{ countVoidThis: true, max: 2 }],
 		},
 		{
-			code: `function testD(this: void) {}`,
+			code: `function testD(this: void, a) {}`,
 			options: [{ max: 1 }],
 		},
 		{
-			code: `function testD(this: void) {}`,
+			code: `function testD(this: void, a) {}`,
 			options: [{ countVoidThis: true, max: 2 }],
 		},
 		{
-			code: `const testE = function (this: void) {}`,
+			code: `const testE = function (this: void, a) {}`,
 			options: [{ max: 1 }],
 		},
 		{
-			code: `const testE = function (this: void) {}`,
+			code: `const testE = function (this: void, a) {}`,
 			options: [{ countVoidThis: true, max: 2 }],
 		},
 		{
