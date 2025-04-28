@@ -2250,7 +2250,6 @@
         "docs": {
             "description": "Disallow inline comments after code",
             "recommended": false,
-            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/no-inline-comments"
         }
     },
