@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("chai").assert;
+const assert = require("node:assert");
 const eslintRecommended = require("../../packages/js").configs.recommended;
 const rules = eslintRecommended.rules;
 
@@ -23,6 +23,6 @@ describe("eslint-recommended", () => {
 	});
 
 	it("should not configure non-recommended rules", () => {
-		assert.notProperty(rules, "camelcase");
+		assert.ok(!("camelcase" in rules));
 	});
 });

@@ -9,7 +9,7 @@
 // Requirements
 //-----------------------------------------------------------------------------
 
-const assert = require("chai").assert;
+const assert = require("node:assert");
 const loadRules = require("../../../lib/cli-engine/load-rules");
 
 //-----------------------------------------------------------------------------

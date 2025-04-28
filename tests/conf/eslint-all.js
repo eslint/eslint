@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("chai").assert;
+const assert = require("node:assert");
 const eslintAll = require("../../packages/js").configs.all;
 const rules = eslintAll.rules;
 
@@ -21,7 +21,7 @@ describe("eslint-all", () => {
 	it("should only include rules", () => {
 		const ruleNames = Object.keys(rules);
 
-		assert.notInclude(ruleNames, ".eslintrc.yml");
+		assert.ok(!ruleNames.includes(".eslintrc.yml"));
 	});
 
 	it("should return all rules", () => {
@@ -29,8 +29,8 @@ describe("eslint-all", () => {
 		const count = ruleNames.length;
 		const someRule = "yoda";
 
-		assert.include(ruleNames, someRule);
-		assert.isBelow(count, 200);
+		assert.ok(ruleNames.includes(someRule));
+		assert.ok(count < 200);
 	});
 
 	it("should configure all rules as errors", () => {

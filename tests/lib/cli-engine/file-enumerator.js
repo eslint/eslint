@@ -11,7 +11,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const os = require("node:os");
-const { assert } = require("chai");
+const assert = require("node:assert");
 const sh = require("shelljs");
 const sinon = require("sinon");
 const {
@@ -19,6 +19,7 @@ const {
 } = require("@eslint/eslintrc");
 const { createCustomTeardown } = require("../../_utils");
 const { FileEnumerator } = require("../../../lib/cli-engine/file-enumerator");
+const escapeRegExp = require("escape-string-regexp");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -379,7 +380,7 @@ describe("FileEnumerator", () => {
 						"baz.js",
 					);
 
-					assert.isArray(result);
+					assert.ok(Array.isArray(result));
 					assert.deepStrictEqual(result, [
 						{ filename: file1, ignored: false },
 					]);
@@ -449,11 +450,17 @@ describe("FileEnumerator", () => {
 						getFixturePath("glob-util", "hidden", "**/*.js"),
 					];
 
-					assert.throws(() => {
-						listFiles(patterns, {
-							cwd: getFixturePath(),
-						});
-					}, `All files matched by '${patterns[0]}' are ignored.`);
+					assert.throws(
+						() => {
+							listFiles(patterns, {
+								cwd: getFixturePath(),
+							});
+						},
+						new RegExp(
+							`All files matched by '${escapeRegExp(patterns[0])}' are ignored.`,
+							"u",
+						),
+					);
 				});
 
 				it("should return hidden files if included in glob pattern", () => {
@@ -480,11 +487,17 @@ describe("FileEnumerator", () => {
 					const directory = getFixturePath("glob-util", "hidden");
 					const patterns = [directory];
 
-					assert.throws(() => {
-						listFiles(patterns, {
-							cwd: getFixturePath(),
-						});
-					}, `All files matched by '${directory}' are ignored.`);
+					assert.throws(
+						() => {
+							listFiles(patterns, {
+								cwd: getFixturePath(),
+							});
+						},
+						new RegExp(
+							`All files matched by '${escapeRegExp(directory)}' are ignored.`,
+							"u",
+						),
+					);
 				});
 
 				it("should ignore and warn for default ignored files when passed explicitly", () => {
@@ -509,12 +522,18 @@ describe("FileEnumerator", () => {
 					const directory = getFixturePath("glob-util", "hidden");
 					const patterns = [directory];
 
-					assert.throws(() => {
-						listFiles(patterns, {
-							cwd: getFixturePath(),
-							ignore: false,
-						});
-					}, `All files matched by '${directory}' are ignored.`);
+					assert.throws(
+						() => {
+							listFiles(patterns, {
+								cwd: getFixturePath(),
+								ignore: false,
+							});
+						},
+						new RegExp(
+							`All files matched by '${escapeRegExp(directory)}' are ignored.`,
+							"u",
+						),
+					);
 				});
 
 				it("should not ignore default ignored files when passed explicitly if ignore is false", () => {
@@ -544,23 +563,35 @@ describe("FileEnumerator", () => {
 					);
 					const patterns = [filename];
 
-					assert.throws(() => {
-						listFiles(patterns, {
-							cwd: getFixturePath(),
-							allowMissingGlobs: true,
-						});
-					}, `No files matching '${filename}' were found.`);
+					assert.throws(
+						() => {
+							listFiles(patterns, {
+								cwd: getFixturePath(),
+								allowMissingGlobs: true,
+							});
+						},
+						new RegExp(
+							`No files matching '${escapeRegExp(filename)}' were found.`,
+							"u",
+						),
+					);
 				});
 
 				it("should throw if a folder that does not have any applicable files is linted", () => {
 					const filename = getFixturePath("glob-util", "empty");
 					const patterns = [filename];
 
-					assert.throws(() => {
-						listFiles(patterns, {
-							cwd: getFixturePath(),
-						});
-					}, `No files matching '${filename}' were found.`);
+					assert.throws(
+						() => {
+							listFiles(patterns, {
+								cwd: getFixturePath(),
+							});
+						},
+						new RegExp(
+							`No files matching '${escapeRegExp(filename)}' were found.`,
+							"u",
+						),
+					);
 				});
 
 				it("should throw if only ignored files match a glob", () => {
@@ -574,19 +605,31 @@ describe("FileEnumerator", () => {
 						),
 					};
 
-					assert.throws(() => {
-						listFiles([pattern], options);
-					}, `All files matched by '${pattern}' are ignored.`);
+					assert.throws(
+						() => {
+							listFiles([pattern], options);
+						},
+						new RegExp(
+							`All files matched by '${escapeRegExp(pattern)}' are ignored.`,
+							"u",
+						),
+					);
 				});
 
 				it("should throw an error if no files match a glob", () => {
 					const patterns = ["dir-does-not-exist/**/*.js"];
 
-					assert.throws(() => {
-						listFiles(patterns, {
-							cwd: getFixturePath("ignored-paths"),
-						});
-					}, `No files matching '${patterns[0]}' were found.`);
+					assert.throws(
+						() => {
+							listFiles(patterns, {
+								cwd: getFixturePath("ignored-paths"),
+							});
+						},
+						new RegExp(
+							`No files matching '${escapeRegExp(patterns[0])}' were found.`,
+							"u",
+						),
+					);
 				});
 
 				it("should return an ignored file, if ignore option is turned off", () => {
@@ -612,9 +655,15 @@ describe("FileEnumerator", () => {
 						getFixturePath("glob-util", "ignored", "**/*.js"),
 					];
 
-					assert.throws(() => {
-						listFiles(patterns, options);
-					}, `All files matched by '${patterns[0]}' are ignored.`);
+					assert.throws(
+						() => {
+							listFiles(patterns, options);
+						},
+						new RegExp(
+							`All files matched by '${escapeRegExp(patterns[0])}' are ignored.`,
+							"u",
+						),
+					);
 				});
 
 				it("should ignore a file from a glob if matching a specified ignore pattern", () => {
@@ -627,9 +676,15 @@ describe("FileEnumerator", () => {
 						getFixturePath("glob-util", "ignored", "**/*.js"),
 					];
 
-					assert.throws(() => {
-						listFiles(patterns, options);
-					}, `All files matched by '${patterns[0]}' are ignored.`);
+					assert.throws(
+						() => {
+							listFiles(patterns, options);
+						},
+						new RegExp(
+							`All files matched by '${escapeRegExp(patterns[0])}' are ignored.`,
+							"u",
+						),
+					);
 				});
 
 				it("should return a file only once if listed in more than 1 pattern", () => {
@@ -647,7 +702,7 @@ describe("FileEnumerator", () => {
 						"baz.js",
 					);
 
-					assert.isArray(result);
+					assert.ok(Array.isArray(result));
 					assert.deepStrictEqual(result, [
 						{ filename: file1, ignored: false },
 					]);
@@ -682,12 +737,13 @@ describe("FileEnumerator", () => {
 						resultObj => resultObj.filename,
 					);
 
-					assert.notInclude(
-						resultFilenames,
-						getFixturePath(
-							"glob-util",
-							"node_modules",
-							"dependency.js",
+					assert.ok(
+						!resultFilenames.includes(
+							getFixturePath(
+								"glob-util",
+								"node_modules",
+								"dependency.js",
+							),
 						),
 					);
 				});
@@ -708,9 +764,16 @@ describe("FileEnumerator", () => {
 						"dependency.js",
 					);
 
-					assert.includeDeepMembers(result, [
-						{ filename: unignoredFilename, ignored: false },
-					]);
+					const expectedObject = {
+						filename: unignoredFilename,
+						ignored: false,
+					};
+					const found = result.some(
+						item =>
+							item.filename === expectedObject.filename &&
+							item.ignored === expectedObject.ignored,
+					);
+					assert.strictEqual(found, true);
 				});
 
 				it("should return unignored files from folders unignored in .eslintignore", () => {

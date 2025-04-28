@@ -14,8 +14,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("chai").assert,
-	stdAssert = require("node:assert"),
+const assert = require("node:assert"),
 	{ ESLint, LegacyESLint } = require("../../lib/eslint"),
 	BuiltinRules = require("../../lib/rules"),
 	path = require("node:path"),
@@ -205,7 +204,7 @@ describe("cli", () => {
 					);
 
 					assert.strictEqual(result, 0);
-					assert.isTrue(log.info.notCalled);
+					assert.strictEqual(log.info.notCalled, true);
 				});
 
 				it(`should exit with console error when passed unsupported arguments with configType:${configType}`, async () => {
@@ -465,7 +464,7 @@ describe("cli", () => {
 								log.info.args[0][0],
 							);
 
-							assert.notProperty(metadata, "maxWarningsExceeded");
+							assert.ok(!("maxWarningsExceeded" in metadata));
 						});
 					});
 				});
@@ -655,8 +654,9 @@ describe("cli", () => {
 						useFlatConfig,
 					);
 
-					assert.isTrue(
+					assert.strictEqual(
 						log.info.called,
+						true,
 						"Log should have been called.",
 					);
 
@@ -667,7 +667,7 @@ describe("cli", () => {
 						null,
 						useFlatConfig,
 					);
-					assert.isTrue(log.info.notCalled);
+					assert.strictEqual(log.info.notCalled, true);
 				});
 			});
 
@@ -779,7 +779,7 @@ describe("cli", () => {
 							useFlatConfig,
 						);
 
-						assert.isTrue(log.info.calledOnce);
+						assert.strictEqual(log.info.calledOnce, true);
 						assert.strictEqual(exit, 1);
 					});
 
@@ -791,7 +791,7 @@ describe("cli", () => {
 							useFlatConfig,
 						);
 
-						assert.isTrue(log.info.notCalled);
+						assert.strictEqual(log.info.notCalled, true);
 						assert.strictEqual(exit, 0);
 					});
 
@@ -803,7 +803,7 @@ describe("cli", () => {
 							useFlatConfig,
 						);
 
-						assert.isTrue(log.info.notCalled);
+						assert.strictEqual(log.info.notCalled, true);
 						assert.strictEqual(exit, 0);
 					});
 				});
@@ -833,9 +833,8 @@ describe("cli", () => {
 
 						const formattedOutput = log.info.firstCall.args[0];
 
-						assert.include(
-							formattedOutput,
-							"(1 error, 0 warnings)",
+						assert.ok(
+							formattedOutput.includes("(1 error, 0 warnings)"),
 						);
 					});
 
@@ -872,7 +871,7 @@ describe("cli", () => {
 							);
 							const cliArgs = `--quiet --max-warnings=1 --config ${configPath}' ${filePath}`;
 
-							await stdAssert.rejects(async () => {
+							await assert.rejects(async () => {
 								await cli.execute(cliArgs, null, useFlatConfig);
 							});
 						});
@@ -889,7 +888,7 @@ describe("cli", () => {
 								filePath = filePath.replace(/\\/gu, "/");
 							}
 
-							await stdAssert.rejects(
+							await assert.rejects(
 								async () => {
 									await cli.execute(
 										`"${filePath}/${globPattern}"`,
@@ -1041,9 +1040,12 @@ describe("cli", () => {
 
 						assert.strictEqual(exitCode, 1);
 						assert.ok(log.error.calledOnce);
-						assert.include(
-							log.error.getCall(0).args[0],
-							"ESLint found too many warnings",
+						assert.ok(
+							log.error
+								.getCall(0)
+								.args[0].includes(
+									"ESLint found too many warnings",
+								),
 						);
 					});
 
@@ -1056,9 +1058,12 @@ describe("cli", () => {
 
 						assert.strictEqual(exitCode, 1);
 						assert.ok(log.error.calledOnce);
-						assert.include(
-							log.error.getCall(0).args[0],
-							"ESLint found too many warnings",
+						assert.ok(
+							log.error
+								.getCall(0)
+								.args[0].includes(
+									"ESLint found too many warnings",
+								),
 						);
 						assert.ok(log.info.notCalled); // didn't print warnings
 					});
@@ -1150,7 +1155,7 @@ describe("cli", () => {
 								? `All files matched by '${filePath.replace(/\\/gu, "/")}' are ignored.`
 								: `All files matched by '${filePath}' are ignored.`;
 
-							await stdAssert.rejects(async () => {
+							await assert.rejects(async () => {
 								await cli.execute(
 									`${options} ${filePath}`,
 									null,
@@ -1173,7 +1178,7 @@ describe("cli", () => {
 							);
 
 							// a warning about the ignored file
-							assert.isTrue(log.info.called);
+							assert.strictEqual(log.info.called, true);
 							assert.strictEqual(exit, 0);
 						});
 
@@ -1189,7 +1194,7 @@ describe("cli", () => {
 							);
 
 							// no warnings
-							assert.isFalse(log.info.called);
+							assert.strictEqual(log.info.called, false);
 							assert.strictEqual(exit, 0);
 						});
 
@@ -1204,7 +1209,7 @@ describe("cli", () => {
 								useFlatConfig,
 							);
 
-							assert.isFalse(log.info.called);
+							assert.strictEqual(log.info.called, false);
 
 							// When eslintrc is used, we get an exit code of 2 because the --no-warn-ignored option is unrecognized.
 							assert.strictEqual(exit, useFlatConfig ? 0 : 2);
@@ -1217,7 +1222,7 @@ describe("cli", () => {
 								useFlatConfig,
 							);
 
-							assert.isFalse(log.info.called);
+							assert.strictEqual(log.info.called, false);
 							assert.strictEqual(exit, 0);
 						});
 
@@ -1232,7 +1237,7 @@ describe("cli", () => {
 								useFlatConfig,
 							);
 
-							assert.isFalse(log.info.called);
+							assert.strictEqual(log.info.called, false);
 
 							// When eslintrc is used, we get an exit code of 2 because the --no-warn-ignored option is unrecognized.
 							assert.strictEqual(exit, useFlatConfig ? 0 : 2);
@@ -1258,7 +1263,7 @@ describe("cli", () => {
 							);
 
 							// warnings about the ignored files
-							assert.isTrue(log.info.called);
+							assert.strictEqual(log.info.called, true);
 							assert.strictEqual(exit, 0);
 						});
 
@@ -1280,7 +1285,7 @@ describe("cli", () => {
 
 							assert.strictEqual(exit, 0);
 
-							await stdAssert.rejects(
+							await assert.rejects(
 								async () =>
 									await cli.execute(
 										"**/*.js --ignore-pattern subsubdir/*.js",
@@ -1297,7 +1302,7 @@ describe("cli", () => {
 									"cli/ignore-pattern-relative/subdir/subsubdir",
 								);
 
-							await stdAssert.rejects(
+							await assert.rejects(
 								async () =>
 									await cli.execute(
 										"**/*.js --ignore-pattern *.js",
@@ -1320,7 +1325,7 @@ describe("cli", () => {
 								);
 
 								// parsing error causes exit code 1
-								assert.isTrue(log.info.called);
+								assert.strictEqual(log.info.called, true);
 								assert.strictEqual(exit, 0);
 							});
 
@@ -1335,7 +1340,7 @@ describe("cli", () => {
 								);
 
 								// parsing error causes exit code 1
-								assert.isTrue(log.info.called);
+								assert.strictEqual(log.info.called, true);
 								assert.strictEqual(exit, 0);
 							});
 						}
@@ -1347,7 +1352,7 @@ describe("cli", () => {
 				it(`should exit with a fatal error if parser is invalid with configType:${configType}`, async () => {
 					const filePath = getFixturePath("passing.js");
 
-					await stdAssert.rejects(
+					await assert.rejects(
 						async () =>
 							await cli.execute(
 								`--no-ignore --parser test111 ${filePath}`,
@@ -1388,14 +1393,15 @@ describe("cli", () => {
 
 					await cli.execute(code, null, useFlatConfig);
 
-					assert.include(
-						fs.readFileSync(
-							"tests/output/eslint-output.txt",
-							"utf8",
-						),
-						filePath,
+					assert.ok(
+						fs
+							.readFileSync(
+								"tests/output/eslint-output.txt",
+								"utf8",
+							)
+							.includes(filePath),
 					);
-					assert.isTrue(log.info.notCalled);
+					assert.strictEqual(log.info.notCalled, true);
 				});
 
 				// https://github.com/eslint/eslint/issues/17660
@@ -1406,8 +1412,9 @@ describe("cli", () => {
 					// TODO: fix this test to: await cli.execute(code, null, useFlatConfig);
 					await cli.execute(code, "var a = 'b'", useFlatConfig);
 
-					assert.isTrue(
+					assert.strictEqual(
 						fs.existsSync("tests/output/eslint-output.txt"),
+						true,
 					);
 					assert.strictEqual(
 						fs.readFileSync(
@@ -1416,7 +1423,7 @@ describe("cli", () => {
 						),
 						"",
 					);
-					assert.isTrue(log.info.notCalled);
+					assert.strictEqual(log.info.notCalled, true);
 				});
 
 				it(`should return an error if the path is a directory with configType:${configType}`, async () => {
@@ -1428,8 +1435,8 @@ describe("cli", () => {
 					const exit = await cli.execute(code, null, useFlatConfig);
 
 					assert.strictEqual(exit, 2);
-					assert.isTrue(log.info.notCalled);
-					assert.isTrue(log.error.calledOnce);
+					assert.strictEqual(log.info.notCalled, true);
+					assert.strictEqual(log.error.calledOnce, true);
 				});
 
 				it(`should return an error if the path could not be written to with configType:${configType}`, async () => {
@@ -1441,8 +1448,8 @@ describe("cli", () => {
 					const exit = await cli.execute(code, null, useFlatConfig);
 
 					assert.strictEqual(exit, 2);
-					assert.isTrue(log.info.notCalled);
-					assert.isTrue(log.error.calledOnce);
+					assert.strictEqual(log.info.notCalled, true);
+					assert.strictEqual(log.error.calledOnce, true);
 				});
 			});
 
@@ -2018,7 +2025,7 @@ describe("cli", () => {
 						useFlatConfig,
 					);
 
-					assert.isTrue(log.info.calledOnce);
+					assert.strictEqual(log.info.calledOnce, true);
 					assert.strictEqual(exitCode, 0);
 				});
 
@@ -2032,8 +2039,8 @@ describe("cli", () => {
 						useFlatConfig,
 					);
 
-					assert.isTrue(log.info.notCalled);
-					assert.isTrue(log.error.calledOnce);
+					assert.strictEqual(log.info.notCalled, true);
+					assert.strictEqual(log.error.calledOnce, true);
 					assert.strictEqual(exitCode, 2);
 				});
 
@@ -2044,8 +2051,8 @@ describe("cli", () => {
 						useFlatConfig,
 					);
 
-					assert.isTrue(log.info.notCalled);
-					assert.isTrue(log.error.calledOnce);
+					assert.strictEqual(log.info.notCalled, true);
+					assert.strictEqual(log.error.calledOnce, true);
 					assert.strictEqual(exitCode, 2);
 				});
 			});
@@ -2494,7 +2501,7 @@ describe("cli", () => {
 					);
 					const code = `--rulesdir ${rulesPath} --config ${configPath} --no-ignore ${filePath}`;
 
-					await stdAssert.rejects(async () => {
+					await assert.rejects(async () => {
 						const exit = await cli.execute(code, null, false);
 
 						assert.strictEqual(exit, 2);
@@ -2513,8 +2520,8 @@ describe("cli", () => {
 
 					await cli.execute(code, null, false);
 
-					assert.isTrue(log.info.calledOnce);
-					assert.isTrue(log.info.neverCalledWith(""));
+					assert.strictEqual(log.info.calledOnce, true);
+					assert.strictEqual(log.info.neverCalledWith(""), true);
 				});
 
 				it("should return warnings from multiple rules in different directories", async () => {
@@ -2533,11 +2540,14 @@ describe("cli", () => {
 
 					const call = log.info.getCall(0);
 
-					assert.isTrue(log.info.calledOnce);
-					assert.isTrue(call.args[0].includes("String!"));
-					assert.isTrue(call.args[0].includes("Literal!"));
-					assert.isTrue(call.args[0].includes("2 problems"));
-					assert.isTrue(log.info.neverCalledWith(""));
+					assert.strictEqual(log.info.calledOnce, true);
+					assert.strictEqual(call.args[0].includes("String!"), true);
+					assert.strictEqual(call.args[0].includes("Literal!"), true);
+					assert.strictEqual(
+						call.args[0].includes("2 problems"),
+						true,
+					);
+					assert.strictEqual(log.info.neverCalledWith(""), true);
 					assert.strictEqual(exit, 1);
 				});
 			});
@@ -2551,7 +2561,7 @@ describe("cli", () => {
 						false,
 					);
 
-					assert.isTrue(log.info.notCalled);
+					assert.strictEqual(log.info.notCalled, true);
 					assert.strictEqual(exit, 0);
 				});
 			});
@@ -2565,7 +2575,7 @@ describe("cli", () => {
 						false,
 					);
 
-					assert.isTrue(log.info.calledOnce);
+					assert.strictEqual(log.info.calledOnce, true);
 					assert.strictEqual(exit, 1);
 				});
 			});
@@ -2641,9 +2651,8 @@ describe("cli", () => {
 
 					assert.strictEqual(exitCode, 1);
 					assert.ok(log.info.calledOnce);
-					assert.include(
-						log.info.firstCall.firstArg,
-						"Hello CommonJS!",
+					assert.ok(
+						log.info.firstCall.firstArg.includes("Hello CommonJS!"),
 					);
 				});
 
@@ -2655,7 +2664,9 @@ describe("cli", () => {
 
 					assert.strictEqual(exitCode, 1);
 					assert.ok(log.info.calledOnce);
-					assert.include(log.info.firstCall.firstArg, "Hello ESM!");
+					assert.ok(
+						log.info.firstCall.firstArg.includes("Hello ESM!"),
+					);
 				});
 
 				it("should load multiple plugins", async () => {
@@ -2666,11 +2677,12 @@ describe("cli", () => {
 
 					assert.strictEqual(exitCode, 1);
 					assert.ok(log.info.calledOnce);
-					assert.include(
-						log.info.firstCall.firstArg,
-						"Hello CommonJS!",
+					assert.ok(
+						log.info.firstCall.firstArg.includes("Hello CommonJS!"),
 					);
-					assert.include(log.info.firstCall.firstArg, "Hello ESM!");
+					assert.ok(
+						log.info.firstCall.firstArg.includes("Hello ESM!"),
+					);
 				});
 
 				it("should resolve plugins specified with 'eslint-plugin-'", async () => {
@@ -2695,10 +2707,10 @@ describe("cli", () => {
 					const code =
 						"--plugin 'example, no-such-plugin' ../passing.js";
 
-					await stdAssert.rejects(
+					await assert.rejects(
 						cli.execute(code, null, true),
 						({ message }) => {
-							assert(
+							assert.ok(
 								message.startsWith(
 									"Cannot find module 'eslint-plugin-no-such-plugin'\n",
 								),
@@ -2713,7 +2725,7 @@ describe("cli", () => {
 					const code =
 						"--plugin 'example, throws-on-load' ../passing.js";
 
-					await stdAssert.rejects(cli.execute(code, null, true), {
+					await assert.rejects(cli.execute(code, null, true), {
 						message: "error thrown while loading this module",
 					});
 				});
@@ -2722,7 +2734,7 @@ describe("cli", () => {
 					const code =
 						"--plugin 'example, no-default-export' ../passing.js";
 
-					await stdAssert.rejects(cli.execute(code, null, true), {
+					await assert.rejects(cli.execute(code, null, true), {
 						message:
 							'"eslint-plugin-no-default-export" cannot be used with the `--plugin` option because its default module does not provide a `default` export',
 					});
@@ -2748,7 +2760,7 @@ describe("cli", () => {
 					const filePath = getFixturePath("passing.js");
 					const input = `--flag test_only_abandoned --config ${configPath} ${filePath}`;
 
-					await stdAssert.rejects(async () => {
+					await assert.rejects(async () => {
 						await cli.execute(input, null, true);
 					}, /The flag 'test_only_abandoned' is inactive: This feature has been abandoned\./u);
 				});
@@ -2758,7 +2770,7 @@ describe("cli", () => {
 					const filePath = getFixturePath("passing.js");
 					const input = `--flag test_only_oldx --config ${configPath} ${filePath}`;
 
-					await stdAssert.rejects(async () => {
+					await assert.rejects(async () => {
 						await cli.execute(input, null, true);
 					}, /Unknown flag 'test_only_oldx'\./u);
 				});
@@ -3125,7 +3137,7 @@ describe("cli", () => {
 				const flag = "unstable_config_lookup_from_file";
 
 				it("should throw an error when text is passed and no config file is found", async () => {
-					await stdAssert.rejects(
+					await assert.rejects(
 						() =>
 							cli.execute(
 								`--flag ${flag} --stdin --stdin-filename /foo.js"`,

@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("chai").assert;
+const assert = require("node:assert");
 const formatter = require("../../../../lib/cli-engine/formatters/html");
 const cheerio = require("cheerio");
 
@@ -24,7 +24,10 @@ const cheerio = require("cheerio");
  * @returns {void}
  */
 function checkOverview($, args) {
-	assert($("#overview").hasClass(args.bgColor), "Check if color is correct");
+	assert.ok(
+		$("#overview").hasClass(args.bgColor),
+		"Check if color is correct",
+	);
 	assert.strictEqual(
 		$("#overview span").text(),
 		args.problems,
@@ -42,7 +45,7 @@ function checkOverview($, args) {
 function checkHeaderRow($, rowObject, args) {
 	const row = $(rowObject);
 
-	assert(
+	assert.ok(
 		row.hasClass(args.bgColor),
 		"Check that background color is correct",
 	);
@@ -78,13 +81,13 @@ function checkHeaderRow($, rowObject, args) {
 function checkContentRow($, rowObject, args) {
 	const row = $(rowObject);
 
-	assert(row.hasClass(args.group), "Check that linked to correct header");
+	assert.ok(row.hasClass(args.group), "Check that linked to correct header");
 	assert.strictEqual(
 		$(row.find("td")[0]).text(),
 		args.lineCol,
 		"Check that line:column is correct",
 	);
-	assert(
+	assert.ok(
 		$(row.find("td")[1]).hasClass(args.color),
 		"Check that severity color is correct",
 	);

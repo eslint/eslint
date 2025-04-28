@@ -10,7 +10,7 @@
 //-----------------------------------------------------------------------------
 
 const { FlatConfigArray } = require("../../../lib/config/flat-config-array");
-const assert = require("chai").assert;
+const assert = require("node:assert");
 const stringify = require("json-stable-stringify-without-jsonify");
 const espree = require("espree");
 const jslang = require("../../../lib/languages/js");
@@ -194,13 +194,13 @@ async function assertMergedResult(values, result) {
 		);
 	}
 
-	assert.deepStrictEqual(config, result);
+	assert.deepStrictEqual({ ...config }, result);
 }
 
 /**
  * Asserts that a given set of configs results in an invalid config.
  * @param {*[]} values An array of configs to use in the config array.
- * @param {string|RegExp} message The expected error message.
+ * @param {RegExp} message The expected error message.
  * @returns {void}
  * @throws {AssertionError} If the config is valid or if the error
  *      has an unexpected message.
@@ -887,14 +887,14 @@ describe("FlatConfigArray", () => {
 		it("should error on 'eslint:recommended' string config", async () => {
 			await assertInvalidConfig(
 				["eslint:recommended"],
-				"Config (unnamed): Unexpected non-object config at original index 0.",
+				/Config \(unnamed\): Unexpected non-object config at original index 0./u,
 			);
 		});
 
 		it("should error on 'eslint:all' string config", async () => {
 			await assertInvalidConfig(
 				["eslint:all"],
-				"Config (unnamed): Unexpected non-object config at original index 0.",
+				/Config \(unnamed\): Unexpected non-object config at original index 0./u,
 			);
 		});
 
@@ -903,7 +903,7 @@ describe("FlatConfigArray", () => {
 
 			assert.throws(() => {
 				configs.normalizeSync();
-			}, "Config (unnamed): Unexpected undefined config at original index 0.");
+			}, /Config \(unnamed\): Unexpected undefined config at original index 0./u);
 		});
 
 		it("should throw an error when undefined original config is normalized asynchronously", async () => {
@@ -925,7 +925,7 @@ describe("FlatConfigArray", () => {
 
 			assert.throws(() => {
 				configs.normalizeSync();
-			}, "Config (unnamed): Unexpected null config at original index 0.");
+			}, /Config \(unnamed\): Unexpected null config at original index 0./u);
 		});
 
 		it("should throw an error when null original config is normalized asynchronously", async () => {
@@ -947,7 +947,7 @@ describe("FlatConfigArray", () => {
 
 			assert.throws(() => {
 				configs.normalizeSync();
-			}, "Config (unnamed): Unexpected undefined config at base index 0.");
+			}, /Config \(unnamed\): Unexpected undefined config at base index 0./u);
 		});
 
 		it("should throw an error when undefined base config is normalized asynchronously", async () => {
@@ -969,7 +969,7 @@ describe("FlatConfigArray", () => {
 
 			assert.throws(() => {
 				configs.normalizeSync();
-			}, "Config (unnamed): Unexpected null config at base index 0.");
+			}, /Config \(unnamed\): Unexpected null config at base index 0./u);
 		});
 
 		it("should throw an error when null base config is normalized asynchronously", async () => {
@@ -993,7 +993,7 @@ describe("FlatConfigArray", () => {
 
 			assert.throws(() => {
 				configs.normalizeSync();
-			}, "Config (unnamed): Unexpected undefined config at user-defined index 0.");
+			}, /Config \(unnamed\): Unexpected undefined config at user-defined index 0./u);
 		});
 
 		it("should throw an error when undefined user-defined config is normalized asynchronously", async () => {
@@ -1019,7 +1019,7 @@ describe("FlatConfigArray", () => {
 
 			assert.throws(() => {
 				configs.normalizeSync();
-			}, "Config (unnamed): Unexpected null config at user-defined index 0.");
+			}, /Config \(unnamed\): Unexpected null config at user-defined index 0./u);
 		});
 
 		it("should throw an error when null user-defined config is normalized asynchronously", async () => {
@@ -1242,7 +1242,7 @@ describe("FlatConfigArray", () => {
 							},
 						},
 					],
-					'Cannot redefine plugin "a".',
+					/Cannot redefine plugin "a"./u,
 				);
 			});
 
@@ -1255,7 +1255,7 @@ describe("FlatConfigArray", () => {
 							},
 						},
 					],
-					'Key "a": Expected an object.',
+					/Key "a": Expected an object./u,
 				);
 			});
 		});
@@ -1330,7 +1330,7 @@ describe("FlatConfigArray", () => {
 							processor: "foo",
 						},
 					],
-					"pluginName/objectName",
+					/pluginName\/objectName/u,
 				);
 			});
 
@@ -1341,7 +1341,7 @@ describe("FlatConfigArray", () => {
 							processor: "",
 						},
 					],
-					"pluginName/objectName",
+					/pluginName\/objectName/u,
 				);
 			});
 
@@ -1352,7 +1352,7 @@ describe("FlatConfigArray", () => {
 							processor: {},
 						},
 					],
-					"Object must have a preprocess() and a postprocess() method.",
+					/Object must have a preprocess\(\) and a postprocess\(\) method./u,
 				);
 			});
 
@@ -1381,7 +1381,7 @@ describe("FlatConfigArray", () => {
 							},
 						},
 					],
-					'Unexpected key "foo" found.',
+					/Unexpected key "foo" found./u,
 				);
 			});
 
@@ -1395,7 +1395,7 @@ describe("FlatConfigArray", () => {
 								},
 							},
 						],
-						"Expected a Boolean.",
+						/Expected a Boolean./u,
 					);
 				});
 
@@ -1586,7 +1586,7 @@ describe("FlatConfigArray", () => {
 							},
 						},
 					],
-					'Unexpected key "foo" found.',
+					/Unexpected key "foo" found./u,
 				);
 			});
 
@@ -1728,7 +1728,10 @@ describe("FlatConfigArray", () => {
 
 				const config = configs.getConfig("file.my");
 
-				assert.isObject(config.languageOptions);
+				assert.ok(
+					config.languageOptions !== null &&
+						typeof config.languageOptions === "object",
+				);
 				assert.strictEqual(
 					Object.keys(config.languageOptions).length,
 					0,
@@ -1829,7 +1832,7 @@ describe("FlatConfigArray", () => {
 								},
 							},
 						],
-						'Expected "script", "module", or "commonjs".',
+						/Expected "script", "module", or "commonjs"./u,
 					);
 				});
 
@@ -1918,7 +1921,7 @@ describe("FlatConfigArray", () => {
 								},
 							},
 						],
-						"Expected an object.",
+						/Expected an object./u,
 					);
 				});
 
@@ -1934,7 +1937,7 @@ describe("FlatConfigArray", () => {
 								},
 							},
 						],
-						'Key "foo": Expected "readonly", "writable", or "off".',
+						/Key "foo": Expected "readonly", "writable", or "off"./u,
 					);
 				});
 
@@ -2124,7 +2127,7 @@ describe("FlatConfigArray", () => {
 								},
 							},
 						],
-						'Key "languageOptions": Key "parser": Expected object with parse() or parseForESLint() method.',
+						/Key "languageOptions": Key "parser": Expected object with parse\(\) or parseForESLint\(\) method./u,
 					);
 				});
 
@@ -2138,7 +2141,7 @@ describe("FlatConfigArray", () => {
 								},
 							},
 						],
-						'Key "languageOptions": Key "parser": Expected object with parse() or parseForESLint() method.',
+						/Key "languageOptions": Key "parser": Expected object with parse\(\) or parseForESLint\(\) method./u,
 					);
 				});
 
@@ -2152,7 +2155,7 @@ describe("FlatConfigArray", () => {
 								},
 							},
 						],
-						'Key "languageOptions": Key "parser": Expected object with parse() or parseForESLint() method.',
+						/Key "languageOptions": Key "parser": Expected object with parse\(\) or parseForESLint\(\) method./u,
 					);
 				});
 
@@ -2166,7 +2169,7 @@ describe("FlatConfigArray", () => {
 								},
 							},
 						],
-						'Key "languageOptions": Key "parser": Expected object with parse() or parseForESLint() method.',
+						/Key "languageOptions": Key "parser": Expected object with parse\(\) or parseForESLint\(\) method./u,
 					);
 				});
 
@@ -2265,7 +2268,7 @@ describe("FlatConfigArray", () => {
 								},
 							},
 						],
-						"Expected an object.",
+						/Expected an object./u,
 					);
 				});
 
@@ -2470,7 +2473,7 @@ describe("FlatConfigArray", () => {
 							rules: true,
 						},
 					],
-					"Expected an object.",
+					/Expected an object./u,
 				);
 			});
 
@@ -2483,7 +2486,7 @@ describe("FlatConfigArray", () => {
 							},
 						},
 					],
-					'Key "rules": Key "foo": Expected severity of "off", 0, "warn", 1, "error", or 2.',
+					/Key "rules": Key "foo": Expected severity of "off", 0, "warn", 1, "error", or 2./u,
 				);
 			});
 
@@ -2496,7 +2499,7 @@ describe("FlatConfigArray", () => {
 							},
 						},
 					],
-					'Key "rules": Key "foo": Expected severity of "off", 0, "warn", 1, "error", or 2.',
+					/Key "rules": Key "foo": Expected severity of "off", 0, "warn", 1, "error", or 2./u,
 				);
 			});
 
@@ -2509,7 +2512,7 @@ describe("FlatConfigArray", () => {
 							},
 						},
 					],
-					'Key "rules": Key "foo": Expected severity of "off", 0, "warn", 1, "error", or 2.',
+					/Key "rules": Key "foo": Expected severity of "off", 0, "warn", 1, "error", or 2./u,
 				);
 			});
 
@@ -2522,7 +2525,7 @@ describe("FlatConfigArray", () => {
 							},
 						},
 					],
-					'Key "rules": Key "foo": Expected severity of "off", 0, "warn", 1, "error", or 2.',
+					/Key "rules": Key "foo": Expected severity of "off", 0, "warn", 1, "error", or 2./u,
 				);
 			});
 
@@ -2612,7 +2615,7 @@ describe("FlatConfigArray", () => {
 								},
 							},
 						],
-						"Error while processing options validation schema of rule 'foo/bar': Rule's `meta.schema` must be an array or object",
+						/Error while processing options validation schema of rule 'foo\/bar': Rule's `meta.schema` must be an array or object/u,
 					);
 				});
 			});
@@ -2637,7 +2640,7 @@ describe("FlatConfigArray", () => {
 							},
 						},
 					],
-					"Error while processing options validation schema of rule 'foo/bar': minItems must be number",
+					/Error while processing options validation schema of rule 'foo\/bar': minItems must be number/u,
 				);
 			});
 
@@ -2980,7 +2983,7 @@ describe("FlatConfigArray", () => {
 							},
 						},
 					],
-					'Unexpected property "destruct". Expected properties: "destructuring", "ignoreReadBeforeAssign"',
+					/Unexpected property "destruct". Expected properties: "destructuring", "ignoreReadBeforeAssign"/u,
 				);
 
 				await assertInvalidConfig(
@@ -2994,7 +2997,7 @@ describe("FlatConfigArray", () => {
 							},
 						},
 					],
-					'Unexpected property "obj". Expected properties: "VariableDeclarator", "AssignmentExpression"',
+					/Unexpected property "obj". Expected properties: "VariableDeclarator", "AssignmentExpression"/u,
 				);
 
 				await assertInvalidConfig(
@@ -3008,7 +3011,7 @@ describe("FlatConfigArray", () => {
 							},
 						},
 					],
-					'Unexpected property "obj". Expected properties: "array", "object"',
+					/Unexpected property "obj". Expected properties: "array", "object"/u,
 				);
 
 				await assertInvalidConfig(
@@ -3023,7 +3026,7 @@ describe("FlatConfigArray", () => {
 							},
 						},
 					],
-					'Unexpected property "enforceRenamedProperties". Expected properties: "enforceForRenamedProperties"',
+					/Unexpected property "enforceRenamedProperties". Expected properties: "enforceForRenamedProperties"/u,
 				);
 			});
 		});
@@ -3048,7 +3051,10 @@ describe("FlatConfigArray", () => {
 								[key]: "foo",
 							},
 						],
-						`Key "${key}": This appears to be in eslintrc format rather than flat config format.`,
+						new RegExp(
+							`Key "${key}": This appears to be in eslintrc format rather than flat config format.`,
+							"u",
+						),
 					);
 				});
 			});
@@ -3060,7 +3066,7 @@ describe("FlatConfigArray", () => {
 							plugins: ["foo"],
 						},
 					],
-					'Key "plugins": This appears to be in eslintrc format (array of strings) rather than flat config format (object).',
+					/Key "plugins": This appears to be in eslintrc format \(array of strings\) rather than flat config format \(object\)./u,
 				);
 			});
 		});

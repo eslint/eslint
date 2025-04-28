@@ -11,7 +11,7 @@
 
 const childProcess = require("node:child_process");
 const fs = require("node:fs");
-const assert = require("chai").assert;
+const assert = require("node:assert");
 const path = require("node:path");
 
 //------------------------------------------------------------------------------
@@ -389,8 +389,9 @@ describe("bin/eslint.js", () => {
 				const child = runESLint(ARGS_WITH_CACHE);
 
 				return assertExitCode(child, 0).then(() => {
-					assert.isTrue(
+					assert.strictEqual(
 						fs.existsSync(CACHE_PATH),
+						true,
 						"Cache file should exist at the given location",
 					);
 
@@ -405,8 +406,9 @@ describe("bin/eslint.js", () => {
 				const child = runESLint(ARGS_WITH_CACHE);
 
 				return assertExitCode(child, 0).then(() => {
-					assert.isTrue(
+					assert.strictEqual(
 						fs.existsSync(CACHE_PATH),
+						true,
 						"Cache file should exist at the given location",
 					);
 				});
@@ -416,8 +418,9 @@ describe("bin/eslint.js", () => {
 
 				return assertExitCode(child, 0).then(() => {
 					// Note: This doesn't actually verify that the cache file is used for anything.
-					assert.isTrue(
+					assert.strictEqual(
 						fs.existsSync(CACHE_PATH),
+						true,
 						"Cache file should still exist after linting with --cache",
 					);
 				});
@@ -447,8 +450,9 @@ describe("bin/eslint.js", () => {
 				const child = runESLint(ARGS_WITHOUT_CACHE);
 
 				return assertExitCode(child, 0).then(() => {
-					assert.isFalse(
+					assert.strictEqual(
 						fs.existsSync(CACHE_PATH),
+						false,
 						"Cache file should be deleted after running ESLint without the --cache argument",
 					);
 				});
@@ -473,8 +477,9 @@ describe("bin/eslint.js", () => {
 				const child = runESLint(ARGS_WITH_CACHE);
 
 				return assertExitCode(child, 0).then(() => {
-					assert.isTrue(
+					assert.strictEqual(
 						fs.existsSync(CACHE_PATH),
+						true,
 						"Cache file should exist at the given location",
 					);
 
@@ -487,8 +492,9 @@ describe("bin/eslint.js", () => {
 				const child = runESLint(ARGS_WITHOUT_CACHE);
 
 				return assertExitCode(child, 0).then(() => {
-					assert.isFalse(
+					assert.strictEqual(
 						fs.existsSync(CACHE_PATH),
+						false,
 						"Cache file should be deleted after running ESLint without the --cache argument",
 					);
 				});
@@ -570,9 +576,10 @@ describe("bin/eslint.js", () => {
 
 				const exitCodeAssertion = assertExitCode(child, 2);
 				const outputAssertion = getOutput(child).then(output => {
-					assert.include(
-						output.stderr,
-						"The --suppress-all option and the --suppress-rule option cannot be used together.",
+					assert.ok(
+						output.stderr.includes(
+							"The --suppress-all option and the --suppress-rule option cannot be used together.",
+						),
 					);
 				});
 
@@ -586,9 +593,10 @@ describe("bin/eslint.js", () => {
 
 				const exitCodeAssertion = assertExitCode(child, 2);
 				const outputAssertion = getOutput(child).then(output => {
-					assert.include(
-						output.stderr,
-						"The --suppress-all option and the --prune-suppressions option cannot be used together.",
+					assert.ok(
+						output.stderr.includes(
+							"The --suppress-all option and the --prune-suppressions option cannot be used together.",
+						),
 					);
 				});
 
@@ -604,9 +612,10 @@ describe("bin/eslint.js", () => {
 
 				const exitCodeAssertion = assertExitCode(child, 2);
 				const outputAssertion = getOutput(child).then(output => {
-					assert.include(
-						output.stderr,
-						"The --suppress-rule option and the --prune-suppressions option cannot be used together.",
+					assert.ok(
+						output.stderr.includes(
+							"The --suppress-rule option and the --prune-suppressions option cannot be used together.",
+						),
 					);
 				});
 
@@ -627,9 +636,10 @@ describe("bin/eslint.js", () => {
 
 				const exitCodeAssertion = assertExitCode(child, 2);
 				const outputAssertion = getOutput(child).then(output => {
-					assert.include(
-						output.stderr,
-						"The --suppress-all, --suppress-rule, and --prune-suppressions options cannot be used with piped-in code.",
+					assert.ok(
+						output.stderr.includes(
+							"The --suppress-all, --suppress-rule, and --prune-suppressions options cannot be used with piped-in code.",
+						),
 					);
 				});
 
@@ -649,9 +659,10 @@ describe("bin/eslint.js", () => {
 
 				const exitCodeAssertion = assertExitCode(child, 2);
 				const outputAssertion = getOutput(child).then(output => {
-					assert.include(
-						output.stderr,
-						"The --suppress-all, --suppress-rule, and --prune-suppressions options cannot be used with piped-in code.",
+					assert.ok(
+						output.stderr.includes(
+							"The --suppress-all, --suppress-rule, and --prune-suppressions options cannot be used with piped-in code.",
+						),
 					);
 				});
 
@@ -670,9 +681,10 @@ describe("bin/eslint.js", () => {
 
 				const exitCodeAssertion = assertExitCode(child, 2);
 				const outputAssertion = getOutput(child).then(output => {
-					assert.include(
-						output.stderr,
-						"The --suppress-all, --suppress-rule, and --prune-suppressions options cannot be used with piped-in code.",
+					assert.ok(
+						output.stderr.includes(
+							"The --suppress-all, --suppress-rule, and --prune-suppressions options cannot be used with piped-in code.",
+						),
 					);
 				});
 
@@ -683,8 +695,9 @@ describe("bin/eslint.js", () => {
 		describe("when no suppression file exists", () => {
 			beforeEach(() => {
 				fs.rmSync(SUPPRESSIONS_PATH, { force: true });
-				assert.isFalse(
+				assert.strictEqual(
 					fs.existsSync(SUPPRESSIONS_PATH),
+					false,
 					"Suppressions file should not exist at the start",
 				);
 			});
@@ -692,8 +705,9 @@ describe("bin/eslint.js", () => {
 				const child = runESLint(ARGS_WITH_SUPPRESS_ALL);
 
 				const exitCodeAssertion = assertExitCode(child, 0).then(() => {
-					assert.isTrue(
+					assert.strictEqual(
 						fs.existsSync(SUPPRESSIONS_PATH),
+						true,
 						"Suppressions file should exist at the given location",
 					);
 					JSON.parse(fs.readFileSync(SUPPRESSIONS_PATH, "utf8"));
@@ -701,20 +715,23 @@ describe("bin/eslint.js", () => {
 
 				const outputAssertion = getOutput(child).then(output => {
 					// Warnings
-					assert.include(
-						output.stdout,
-						"'e' is assigned a value but never used",
+					assert.ok(
+						output.stdout.includes(
+							"'e' is assigned a value but never used",
+						),
 					);
 
 					// Suppressed errors
-					assert.notInclude(output.stdout, "is not defined");
-					assert.notInclude(
-						output.stdout,
-						"Expected indentation of 2 spaces but found 4",
+					assert.ok(!output.stdout.includes("is not defined"));
+					assert.ok(
+						!output.stdout.includes(
+							"Expected indentation of 2 spaces but found 4",
+						),
 					);
-					assert.notInclude(
-						output.stdout,
-						"Unexpected comma in middle of array",
+					assert.ok(
+						!output.stdout.includes(
+							"Unexpected comma in middle of array",
+						),
 					);
 				});
 
@@ -724,8 +741,9 @@ describe("bin/eslint.js", () => {
 				const child = runESLint(ARGS_WITH_SUPPRESS_RULE_INDENT);
 
 				const exitCodeAssertion = assertExitCode(child, 1).then(() => {
-					assert.isTrue(
+					assert.strictEqual(
 						fs.existsSync(SUPPRESSIONS_PATH),
+						true,
 						"Suppressions file should exist at the given location",
 					);
 					assert.deepStrictEqual(
@@ -736,22 +754,25 @@ describe("bin/eslint.js", () => {
 				});
 				const outputAssertion = getOutput(child).then(output => {
 					// Warnings
-					assert.include(
-						output.stdout,
-						"'e' is assigned a value but never used",
+					assert.ok(
+						output.stdout.includes(
+							"'e' is assigned a value but never used",
+						),
 					);
 
 					// Un-suppressed errors
-					assert.include(output.stdout, "is not defined");
-					assert.include(
-						output.stdout,
-						"Unexpected comma in middle of array",
+					assert.ok(output.stdout.includes("is not defined"));
+					assert.ok(
+						output.stdout.includes(
+							"Unexpected comma in middle of array",
+						),
 					);
 
 					// Suppressed errors
-					assert.notInclude(
-						output.stdout,
-						"Expected indentation of 2 spaces but found 4",
+					assert.ok(
+						!output.stdout.includes(
+							"Expected indentation of 2 spaces but found 4",
+						),
 					);
 				});
 
@@ -763,8 +784,9 @@ describe("bin/eslint.js", () => {
 				);
 
 				const exitCodeAssertion = assertExitCode(child, 1).then(() => {
-					assert.isTrue(
+					assert.strictEqual(
 						fs.existsSync(SUPPRESSIONS_PATH),
+						true,
 						"Suppressions file should exist at the given location",
 					);
 					assert.deepStrictEqual(
@@ -775,22 +797,25 @@ describe("bin/eslint.js", () => {
 				});
 				const outputAssertion = getOutput(child).then(output => {
 					// Warnings
-					assert.include(
-						output.stdout,
-						"'e' is assigned a value but never used",
+					assert.ok(
+						output.stdout.includes(
+							"'e' is assigned a value but never used",
+						),
 					);
 
 					// Un-suppressed errors
-					assert.include(output.stdout, "is not defined");
+					assert.ok(output.stdout.includes("is not defined"));
 
 					// Suppressed errors
-					assert.notInclude(
-						output.stdout,
-						"Expected indentation of 2 spaces but found 4",
+					assert.ok(
+						!output.stdout.includes(
+							"Expected indentation of 2 spaces but found 4",
+						),
 					);
-					assert.notInclude(
-						output.stdout,
-						"Unexpected comma in middle of array",
+					assert.ok(
+						!output.stdout.includes(
+							"Unexpected comma in middle of array",
+						),
 					);
 				});
 
@@ -799,15 +824,17 @@ describe("bin/eslint.js", () => {
 			it("displays an error when the suppressions file doesn't exist", () => {
 				const child = runESLint(ARGS_WITHOUT_SUPPRESSIONS);
 				const exitCodeAssertion = assertExitCode(child, 2).then(() => {
-					assert.isTrue(
+					assert.strictEqual(
 						!fs.existsSync(SUPPRESSIONS_PATH),
+						true,
 						"Suppressions file must not exist at the given location",
 					);
 				});
 				const outputAssertion = getOutput(child).then(output => {
-					assert.include(
-						output.stderr,
-						"The suppressions file does not exist",
+					assert.ok(
+						output.stderr.includes(
+							"The suppressions file does not exist",
+						),
 					);
 				});
 
@@ -816,15 +843,17 @@ describe("bin/eslint.js", () => {
 			it("displays an error when the --prune-suppressions flag used, and the suppressions file doesn't exist", () => {
 				const child = runESLint(ARGS_WITH_PRUNE_SUPPRESSIONS);
 				const exitCodeAssertion = assertExitCode(child, 2).then(() => {
-					assert.isTrue(
+					assert.strictEqual(
 						!fs.existsSync(SUPPRESSIONS_PATH),
+						true,
 						"Suppressions file must not exist at the given location",
 					);
 				});
 				const outputAssertion = getOutput(child).then(output => {
-					assert.include(
-						output.stderr,
-						"The suppressions file does not exist",
+					assert.ok(
+						output.stderr.includes(
+							"The suppressions file does not exist",
+						),
 					);
 				});
 
@@ -846,8 +875,9 @@ describe("bin/eslint.js", () => {
 				]);
 
 				return assertExitCode(child, 0).then(() => {
-					assert.isTrue(
+					assert.strictEqual(
 						fs.existsSync(SUPPRESSIONS_PATH),
+						true,
 						"Suppressions file should exist at the given location",
 					);
 
@@ -855,8 +885,10 @@ describe("bin/eslint.js", () => {
 						fs.readFileSync(SUPPRESSIONS_PATH, "utf8"),
 					);
 
-					assert.notExists(
-						suppressionsFiles[tempFilePath].indent,
+					assert.ok(
+						suppressionsFiles[tempFilePath].indent === null ||
+							typeof suppressionsFiles[tempFilePath].indent ===
+								"undefined",
 						"Suppressions file should not contain any suppressions for indent",
 					);
 				});
@@ -887,9 +919,10 @@ describe("bin/eslint.js", () => {
 
 				const exitCodeAssertion = assertExitCode(child, 2);
 				const outputAssertion = getOutput(child).then(output => {
-					assert.include(
-						output.stderr,
-						"Failed to parse suppressions file at",
+					assert.ok(
+						output.stderr.includes(
+							"Failed to parse suppressions file at",
+						),
 					);
 				});
 
@@ -901,9 +934,10 @@ describe("bin/eslint.js", () => {
 
 				const exitCodeAssertion = assertExitCode(child, 2);
 				const outputAssertion = getOutput(child).then(output => {
-					assert.include(
-						output.stderr,
-						"Failed to parse suppressions file at",
+					assert.ok(
+						output.stderr.includes(
+							"Failed to parse suppressions file at",
+						),
 					);
 				});
 
@@ -915,9 +949,10 @@ describe("bin/eslint.js", () => {
 
 				const exitCodeAssertion = assertExitCode(child, 2);
 				const outputAssertion = getOutput(child).then(output => {
-					assert.include(
-						output.stderr,
-						"Failed to parse suppressions file at",
+					assert.ok(
+						output.stderr.includes(
+							"Failed to parse suppressions file at",
+						),
 					);
 				});
 
@@ -929,9 +964,10 @@ describe("bin/eslint.js", () => {
 
 				const exitCodeAssertion = assertExitCode(child, 2);
 				const outputAssertion = getOutput(child).then(output => {
-					assert.include(
-						output.stderr,
-						"Failed to parse suppressions file at",
+					assert.ok(
+						output.stderr.includes(
+							"Failed to parse suppressions file at",
+						),
 					);
 				});
 
@@ -956,28 +992,31 @@ describe("bin/eslint.js", () => {
 						fs.readFileSync(SUPPRESSIONS_PATH, "utf8"),
 					);
 
-					assert.property(
-						suppressions,
-						"tests/fixtures/suppressions/extra-file.js",
+					assert.ok(
+						"tests/fixtures/suppressions/extra-file.js" in
+							suppressions,
 					);
 				});
 
 				const outputAssertion = getOutput(child).then(output => {
 					// Warnings
-					assert.include(
-						output.stdout,
-						"'e' is assigned a value but never used",
+					assert.ok(
+						output.stdout.includes(
+							"'e' is assigned a value but never used",
+						),
 					);
 
 					// Suppressed errors
-					assert.notInclude(output.stdout, "is not defined");
-					assert.notInclude(
-						output.stdout,
-						"Unexpected comma in middle of array",
+					assert.ok(!output.stdout.includes("is not defined"));
+					assert.ok(
+						!output.stdout.includes(
+							"Unexpected comma in middle of array",
+						),
 					);
-					assert.notInclude(
-						output.stdout,
-						"Expected indentation of 2 spaces but found 4",
+					assert.ok(
+						!output.stdout.includes(
+							"Expected indentation of 2 spaces but found 4",
+						),
 					);
 				});
 
@@ -996,20 +1035,23 @@ describe("bin/eslint.js", () => {
 
 				const outputAssertion = getOutput(child).then(output => {
 					// Warnings
-					assert.include(
-						output.stdout,
-						"'e' is assigned a value but never used",
+					assert.ok(
+						output.stdout.includes(
+							"'e' is assigned a value but never used",
+						),
 					);
 
 					// Suppressed errors
-					assert.notInclude(output.stdout, "is not defined");
-					assert.notInclude(
-						output.stdout,
-						"Unexpected comma in middle of array",
+					assert.ok(!output.stdout.includes("is not defined"));
+					assert.ok(
+						!output.stdout.includes(
+							"Unexpected comma in middle of array",
+						),
 					);
-					assert.notInclude(
-						output.stdout,
-						"Expected indentation of 2 spaces but found 4",
+					assert.ok(
+						!output.stdout.includes(
+							"Expected indentation of 2 spaces but found 4",
+						),
 					);
 				});
 
@@ -1032,22 +1074,25 @@ describe("bin/eslint.js", () => {
 				const exitCodeAssertion = assertExitCode(child, 1);
 				const outputAssertion = getOutput(child).then(output => {
 					// Warnings
-					assert.include(
-						output.stdout,
-						"'e' is assigned a value but never used",
+					assert.ok(
+						output.stdout.includes(
+							"'e' is assigned a value but never used",
+						),
 					);
 
 					// Suppressed errors (but displayed because there is at least one left unmatched)
-					assert.include(output.stdout, "is not defined");
+					assert.ok(output.stdout.includes("is not defined"));
 
 					// Suppressed errors
-					assert.notInclude(
-						output.stdout,
-						"Unexpected comma in middle of array",
+					assert.ok(
+						!output.stdout.includes(
+							"Unexpected comma in middle of array",
+						),
 					);
-					assert.notInclude(
-						output.stdout,
-						"Expected indentation of 2 spaces but found 4",
+					assert.ok(
+						!output.stdout.includes(
+							"Expected indentation of 2 spaces but found 4",
+						),
 					);
 				});
 
@@ -1107,7 +1152,7 @@ describe("bin/eslint.js", () => {
 				const expectedSubstring = "Syntax error in selector";
 
 				assert.strictEqual(output.stdout, "");
-				assert.include(output.stderr, expectedSubstring);
+				assert.ok(output.stderr.includes(expectedSubstring));
 			});
 
 			return Promise.all([exitCodeAssertion, outputAssertion]);
@@ -1124,7 +1169,7 @@ describe("bin/eslint.js", () => {
 				const expectedSubstring = "Syntax error in selector";
 
 				assert.strictEqual(output.stdout, "");
-				assert.include(output.stderr, expectedSubstring);
+				assert.ok(output.stderr.includes(expectedSubstring));
 
 				// The message should appear exactly once in stderr
 				assert.strictEqual(
@@ -1146,11 +1191,11 @@ describe("bin/eslint.js", () => {
 			const exitCodeAssertion = assertExitCode(child, 2);
 			const outputAssertion = getOutput(child).then(output => {
 				// ensure the expected error was printed
-				assert.include(output.stderr, "test_error_stack");
+				assert.ok(output.stderr.includes("test_error_stack"));
 
 				// ensure that linting the file did not cause an error
-				assert.notInclude(output.stderr, "empty.js");
-				assert.notInclude(output.stdout, "empty.js");
+				assert.ok(!output.stderr.includes("empty.js"));
+				assert.ok(!output.stdout.includes("empty.js"));
 			});
 
 			return Promise.all([exitCodeAssertion, outputAssertion]);
@@ -1207,9 +1252,10 @@ describe("bin/eslint.js", () => {
 			const child = runESLint(["--config", config, "conf", "tools"]);
 			const exitCodeAssertion = assertExitCode(child, 2);
 			const outputAssertion = getOutput(child).then(output => {
-				assert.include(
-					output.stderr,
-					'Key "linterOptions": Key "reportUnusedDisableDirectives"',
+				assert.ok(
+					output.stderr.includes(
+						'Key "linterOptions": Key "reportUnusedDisableDirectives"',
+					),
 				);
 			});
 

@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const { VFile } = require("../../../lib/linter/vfile");
-const assert = require("chai").assert;
+const assert = require("node:assert");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -25,7 +25,7 @@ describe("VFile", () => {
 			assert.strictEqual(vfile.physicalPath, "foo.js");
 			assert.strictEqual(vfile.body, "var foo = bar;");
 			assert.strictEqual(vfile.rawBody, "var foo = bar;");
-			assert.isFalse(vfile.bom);
+			assert.strictEqual(vfile.bom, false);
 		});
 
 		it("should create a new instance with a BOM", () => {
@@ -35,7 +35,7 @@ describe("VFile", () => {
 			assert.strictEqual(vfile.physicalPath, "foo.js");
 			assert.strictEqual(vfile.body, "var foo = bar;");
 			assert.strictEqual(vfile.rawBody, "\uFEFFvar foo = bar;");
-			assert.isTrue(vfile.bom);
+			assert.strictEqual(vfile.bom, true);
 		});
 
 		it("should create a new instance with a physicalPath", () => {
@@ -47,7 +47,7 @@ describe("VFile", () => {
 			assert.strictEqual(vfile.physicalPath, "foo/bar");
 			assert.strictEqual(vfile.body, "var foo = bar;");
 			assert.strictEqual(vfile.rawBody, "var foo = bar;");
-			assert.isFalse(vfile.bom);
+			assert.strictEqual(vfile.bom, false);
 		});
 
 		it("should create a new instance with a Uint8Array", () => {
@@ -59,7 +59,7 @@ describe("VFile", () => {
 			assert.strictEqual(vfile.physicalPath, "foo.js");
 			assert.deepStrictEqual(vfile.body, body);
 			assert.deepStrictEqual(vfile.rawBody, body);
-			assert.isFalse(vfile.bom);
+			assert.strictEqual(vfile.bom, false);
 		});
 
 		it("should create a new instance with a BOM in a Uint8Array", () => {
@@ -71,7 +71,7 @@ describe("VFile", () => {
 			assert.strictEqual(vfile.physicalPath, "foo.js");
 			assert.deepStrictEqual(vfile.body, body.slice(3));
 			assert.deepStrictEqual(vfile.rawBody, body);
-			assert.isTrue(vfile.bom);
+			assert.strictEqual(vfile.bom, true);
 		});
 	});
 });

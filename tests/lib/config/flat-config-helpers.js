@@ -14,7 +14,7 @@ const {
 	getRuleFromConfig,
 	getRuleOptionsSchema,
 } = require("../../../lib/config/flat-config-helpers");
-const assert = require("chai").assert;
+const assert = require("node:assert");
 
 //-----------------------------------------------------------------------------
 // Tests
@@ -173,7 +173,7 @@ describe("Config Helpers", () => {
 
 				assert.throws(() => {
 					getRuleOptionsSchema(rule);
-				}, "Rule's `meta.schema` must be an array or object");
+				}, /Rule's `meta.schema` must be an array or object/u);
 			});
 		});
 

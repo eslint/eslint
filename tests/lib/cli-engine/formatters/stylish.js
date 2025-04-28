@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("chai").assert,
+const assert = require("node:assert"),
 	chalk = require("chalk"),
 	proxyquire = require("proxyquire"),
 	sinon = require("sinon");
@@ -423,7 +423,7 @@ describe("formatter:stylish", () => {
 
 			const result = formatter(code);
 
-			assert.notInclude(result, "potentially fixable");
+			assert.ok(!result.includes("potentially fixable"));
 		});
 
 		it("should output the fixable problems message when errors are fixable", () => {
@@ -448,9 +448,10 @@ describe("formatter:stylish", () => {
 
 			const result = formatter(code);
 
-			assert.include(
-				result,
-				"  1 error and 0 warnings potentially fixable with the `--fix` option.\n",
+			assert.ok(
+				result.includes(
+					"  1 error and 0 warnings potentially fixable with the `--fix` option.\n",
+				),
 			);
 		});
 
@@ -472,9 +473,10 @@ describe("formatter:stylish", () => {
 
 			const result = formatter(code);
 
-			assert.include(
-				result,
-				"  0 errors and 2 warnings potentially fixable with the `--fix` option.\n",
+			assert.ok(
+				result.includes(
+					"  0 errors and 2 warnings potentially fixable with the `--fix` option.\n",
+				),
 			);
 		});
 
@@ -508,9 +510,10 @@ describe("formatter:stylish", () => {
 
 			const result = formatter(code);
 
-			assert.include(
-				result,
-				"  9 errors and 3 warnings potentially fixable with the `--fix` option.\n",
+			assert.ok(
+				result.includes(
+					"  9 errors and 3 warnings potentially fixable with the `--fix` option.\n",
+				),
 			);
 		});
 	});

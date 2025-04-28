@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("chai").assert;
+const assert = require("node:assert");
 const sinon = require("sinon");
 const spawn = require("cross-spawn");
 const os = require("node:os");
@@ -218,7 +218,7 @@ describe("RuntimeInfo", () => {
 
 			assert.throws(
 				RuntimeInfo.environment,
-				/^Unexpected token .*T.* JSON/u,
+				/SyntaxError: Unexpected token .*T.* JSON/u,
 			);
 			assert.strictEqual(
 				logErrorStub.args[0][0],
@@ -232,7 +232,7 @@ describe("RuntimeInfo", () => {
 
 			assert.throws(
 				RuntimeInfo.environment,
-				/^Unexpected token .*T.* JSON/u,
+				/SyntaxError: Unexpected token .*T.* JSON/u,
 			);
 			assert.strictEqual(
 				logErrorStub.args[0][0],

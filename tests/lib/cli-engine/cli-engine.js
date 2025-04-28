@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("chai").assert,
+const assert = require("node:assert"),
 	path = require("node:path"),
 	sinon = require("sinon"),
 	shell = require("shelljs"),
@@ -23,6 +23,7 @@ const assert = require("chai").assert,
 
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
 const fCache = require("file-entry-cache");
+const escapeRegExp = require("escape-string-regexp");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -120,10 +121,16 @@ describe("CLIEngine", () => {
 		});
 
 		it("should report one fatal message when given a path by --ignore-path that is not a file when ignore is true.", () => {
-			assert.throws(() => {
-				// eslint-disable-next-line no-new -- Testing synchronous throwing
-				new CLIEngine({ ignorePath: fixtureDir });
-			}, `Cannot read .eslintignore file: ${fixtureDir}\nError: EISDIR: illegal operation on a directory, read`);
+			assert.throws(
+				() => {
+					// eslint-disable-next-line no-new -- Testing synchronous throwing
+					new CLIEngine({ ignorePath: fixtureDir });
+				},
+				new RegExp(
+					`Cannot read .eslintignore file: ${escapeRegExp(fixtureDir)}\nError: EISDIR: illegal operation on a directory, read`,
+					"u",
+				),
+			);
 		});
 
 		// https://github.com/eslint/eslint/issues/2380
@@ -267,7 +274,10 @@ describe("CLIEngine", () => {
 			assert.strictEqual(report.fixableWarningCount, 0);
 			assert.strictEqual(report.results[0].messages.length, 1);
 			assert.strictEqual(report.results[0].messages[0].ruleId, "quotes");
-			assert.isUndefined(report.results[0].messages[0].output);
+			assert.strictEqual(
+				typeof report.results[0].messages[0].output,
+				"undefined",
+			);
 			assert.strictEqual(report.results[0].errorCount, 1);
 			assert.strictEqual(report.results[0].fixableErrorCount, 1);
 			assert.strictEqual(report.results[0].warningCount, 0);
@@ -316,7 +326,10 @@ describe("CLIEngine", () => {
 				report.results[0].messages[0].message,
 				'File ignored because of a matching ignore pattern. Use "--no-ignore" to override.',
 			);
-			assert.isUndefined(report.results[0].messages[0].output);
+			assert.strictEqual(
+				typeof report.results[0].messages[0].output,
+				"undefined",
+			);
 			assert.strictEqual(report.results[0].errorCount, 0);
 			assert.strictEqual(report.results[0].warningCount, 1);
 			assert.strictEqual(report.results[0].fatalErrorCount, 0);
@@ -383,7 +396,10 @@ describe("CLIEngine", () => {
 				"no-undef",
 			);
 			assert.strictEqual(report.results[0].messages[0].severity, 2);
-			assert.isUndefined(report.results[0].messages[0].output);
+			assert.strictEqual(
+				typeof report.results[0].messages[0].output,
+				"undefined",
+			);
 			assert.strictEqual(report.results[0].suppressedMessages.length, 0);
 		});
 
@@ -489,7 +505,10 @@ describe("CLIEngine", () => {
 				const inputPath = getFixturePath("fix-types/fix-only-semi.js");
 				const report = engine.executeOnFiles([inputPath]);
 
-				assert.isUndefined(report.results[0].output);
+				assert.strictEqual(
+					typeof report.results[0].output,
+					"undefined",
+				);
 			});
 
 			it("should not fix non-style rules when fixTypes has only 'layout'", () => {
@@ -807,8 +826,8 @@ describe("CLIEngine", () => {
 
 			const report = engine.executeOnText("var foo = 'bar';");
 
-			assert.lengthOf(report.results[0].messages, 0);
-			assert.isUndefined(report.results[0].source);
+			assert.strictEqual(report.results[0].messages.length, 0);
+			assert.strictEqual(typeof report.results[0].source, "undefined");
 		});
 
 		it("should not return a `source` property when fixes are applied", () => {
@@ -823,7 +842,7 @@ describe("CLIEngine", () => {
 
 			const report = engine.executeOnText("var msg = 'hi' + foo\n");
 
-			assert.isUndefined(report.results[0].source);
+			assert.strictEqual(typeof report.results[0].source, "undefined");
 			assert.strictEqual(
 				report.results[0].output,
 				"var msg = 'hi' + foo;\n",
@@ -1079,7 +1098,7 @@ describe("CLIEngine", () => {
 
 			assert.throws(
 				() => engine.executeOnFiles(["lib/cli.js"]),
-				"Cannot find module 'test11'",
+				/Cannot find module 'test11'/u,
 			);
 		});
 
@@ -1181,7 +1200,7 @@ describe("CLIEngine", () => {
 
 			assert.throws(() => {
 				engine.executeOnFiles(["fixtures/files/*"]);
-			}, "No files matching 'fixtures/files/*' were found (glob was disabled).");
+			}, /No files matching 'fixtures\/files\/\*' were found \(glob was disabled\)./u);
 		});
 
 		it("should report on all files passed explicitly, even if ignored by default", () => {
@@ -1231,7 +1250,7 @@ describe("CLIEngine", () => {
 
 			assert.throws(() => {
 				engine.executeOnFiles(["node_modules"]);
-			}, "All files matched by 'node_modules' are ignored.");
+			}, /All files matched by 'node_modules' are ignored./u);
 		});
 
 		// https://github.com/eslint/eslint/issues/5547
@@ -1243,7 +1262,7 @@ describe("CLIEngine", () => {
 
 			assert.throws(() => {
 				engine.executeOnFiles(["node_modules"]);
-			}, "All files matched by 'node_modules' are ignored.");
+			}, /All files matched by 'node_modules' are ignored./u);
 		});
 
 		it("should not check .hidden files if they are passed explicitly without --no-ignore flag", () => {
@@ -1616,7 +1635,10 @@ describe("CLIEngine", () => {
 				() => {
 					engine.executeOnFiles([getFixturePath("./cli-engine/")]);
 				},
-				`All files matched by '${getFixturePath("./cli-engine/")}' are ignored.`,
+				new RegExp(
+					`All files matched by '${escapeRegExp(getFixturePath("./cli-engine/"))}' are ignored.`,
+					"u",
+				),
 			);
 		});
 
@@ -1628,7 +1650,7 @@ describe("CLIEngine", () => {
 
 			assert.throws(() => {
 				engine.executeOnFiles(["tests/fixtures/cli-engine/"]);
-			}, "All files matched by 'tests/fixtures/cli-engine/' are ignored.");
+			}, /All files matched by 'tests\/fixtures\/cli-engine\/' are ignored./u);
 		});
 
 		it("should throw an error when all given files are ignored even with a `./` prefix", () => {
@@ -1639,7 +1661,7 @@ describe("CLIEngine", () => {
 
 			assert.throws(() => {
 				engine.executeOnFiles(["./tests/fixtures/cli-engine/"]);
-			}, "All files matched by './tests/fixtures/cli-engine/' are ignored.");
+			}, /All files matched by '.\/tests\/fixtures\/cli-engine\/' are ignored./u);
 		});
 
 		// https://github.com/eslint/eslint/issues/3788
@@ -1679,7 +1701,7 @@ describe("CLIEngine", () => {
 
 			assert.throws(() => {
 				engine.executeOnFiles(["./tests/fixtures/cli-engine/"]);
-			}, "All files matched by './tests/fixtures/cli-engine/' are ignored.");
+			}, /All files matched by '.\/tests\/fixtures\/cli-engine\/' are ignored./u);
 		});
 
 		it("should throw an error when all given files are ignored via ignore-pattern", () => {
@@ -1690,7 +1712,7 @@ describe("CLIEngine", () => {
 
 			assert.throws(() => {
 				engine.executeOnFiles(["tests/fixtures/*-quoted.js"]);
-			}, "All files matched by 'tests/fixtures/*-quoted.js' are ignored.");
+			}, /All files matched by 'tests\/fixtures\/\*-quoted.js' are ignored./u);
 		});
 
 		it("should return a warning when an explicitly given file is ignored", () => {
@@ -1991,7 +2013,7 @@ describe("CLIEngine", () => {
 
 			const report = engine.executeOnFiles(["lib/cli*.js"]);
 
-			assert.sameDeepMembers(report.usedDeprecatedRules, [
+			assert.deepStrictEqual(report.usedDeprecatedRules, [
 				{ ruleId: "indent-legacy", replacedBy: [] },
 				{ ruleId: "callback-return", replacedBy: [] },
 			]);
@@ -2892,13 +2914,14 @@ describe("CLIEngine", () => {
 				});
 
 				it("should create the cache file inside the provided directory", () => {
-					assert.isFalse(
+					assert.strictEqual(
 						shell.test(
 							"-d",
 							path.resolve(
 								"./tmp/.cacheFileDir/.cache_hashOfCurrentWorkingDirectory",
 							),
 						),
+						false,
 						"the cache for eslint does not exist",
 					);
 
@@ -2920,13 +2943,14 @@ describe("CLIEngine", () => {
 
 					engine.executeOnFiles([file]);
 
-					assert.isTrue(
+					assert.strictEqual(
 						shell.test(
 							"-f",
 							path.resolve(
 								`./tmp/.cacheFileDir/.cache_${hash(process.cwd())}`,
 							),
 						),
+						true,
 						"the cache for eslint was created",
 					);
 
@@ -2935,13 +2959,14 @@ describe("CLIEngine", () => {
 			});
 
 			it("should create the cache file inside the provided directory using the cacheLocation option", () => {
-				assert.isFalse(
+				assert.strictEqual(
 					shell.test(
 						"-d",
 						path.resolve(
 							"./tmp/.cacheFileDir/.cache_hashOfCurrentWorkingDirectory",
 						),
 					),
+					false,
 					"the cache for eslint does not exist",
 				);
 
@@ -2963,13 +2988,14 @@ describe("CLIEngine", () => {
 
 				engine.executeOnFiles([file]);
 
-				assert.isTrue(
+				assert.strictEqual(
 					shell.test(
 						"-f",
 						path.resolve(
 							`./tmp/.cacheFileDir/.cache_${hash(process.cwd())}`,
 						),
 					),
+					true,
 					"the cache for eslint was created",
 				);
 
@@ -2994,15 +3020,17 @@ describe("CLIEngine", () => {
 
 				engine.executeOnFiles([file]);
 
-				assert.isTrue(
+				assert.strictEqual(
 					shell.test("-f", path.resolve(cwd, ".eslintcache")),
+					true,
 					"the cache for eslint was created at provided cwd",
 				);
 			});
 
 			it("should invalidate the cache if the configuration changed between executions", () => {
-				assert.isFalse(
+				assert.strictEqual(
 					shell.test("-f", path.resolve(".eslintcache")),
+					false,
 					"the cache for eslint does not exist",
 				);
 
@@ -3037,8 +3065,9 @@ describe("CLIEngine", () => {
 					file,
 					"the module read the file because is considered changed",
 				);
-				assert.isTrue(
+				assert.strictEqual(
 					shell.test("-f", path.resolve(".eslintcache")),
+					true,
 					"the cache for eslint was created",
 				);
 
@@ -3073,15 +3102,17 @@ describe("CLIEngine", () => {
 					1,
 					"since configuration changed the cache was not used an one error was reported",
 				);
-				assert.isTrue(
+				assert.strictEqual(
 					shell.test("-f", path.resolve(".eslintcache")),
+					true,
 					"the cache for eslint was created",
 				);
 			});
 
 			it("should remember the files from a previous run and do not operate on them if not changed", () => {
-				assert.isFalse(
+				assert.strictEqual(
 					shell.test("-f", path.resolve(".eslintcache")),
+					false,
 					"the cache for eslint does not exist",
 				);
 
@@ -3111,8 +3142,9 @@ describe("CLIEngine", () => {
 					file,
 					"the module read the file because is considered changed",
 				);
-				assert.isTrue(
+				assert.strictEqual(
 					shell.test("-f", path.resolve(".eslintcache")),
+					true,
 					"the cache for eslint was created",
 				);
 
@@ -3144,8 +3176,9 @@ describe("CLIEngine", () => {
 				);
 
 				// assert the file was not processed because the cache was used
-				assert.isFalse(
+				assert.strictEqual(
 					spy.calledWith(file),
+					false,
 					"the file was not loaded because it used the cache",
 				);
 			});
@@ -3166,8 +3199,9 @@ describe("CLIEngine", () => {
 					cwd: path.join(fixtureDir, ".."),
 				};
 
-				assert.isFalse(
+				assert.strictEqual(
 					shell.test("-f", cacheFile),
+					false,
 					"the cache for eslint does not exist",
 				);
 
@@ -3179,8 +3213,9 @@ describe("CLIEngine", () => {
 
 				engine.executeOnFiles([file]);
 
-				assert.isTrue(
+				assert.strictEqual(
 					shell.test("-f", cacheFile),
+					true,
 					"the cache for eslint was created",
 				);
 
@@ -3189,8 +3224,9 @@ describe("CLIEngine", () => {
 
 				engine.executeOnFiles([file]);
 
-				assert.isFalse(
+				assert.strictEqual(
 					shell.test("-f", cacheFile),
+					false,
 					"the cache for eslint was deleted since last run did not used the cache",
 				);
 			});
@@ -3198,8 +3234,9 @@ describe("CLIEngine", () => {
 			it("should store in the cache a file that failed the test", () => {
 				const cacheFile = getFixturePath(".eslintcache");
 
-				assert.isFalse(
+				assert.strictEqual(
 					shell.test("-f", cacheFile),
+					false,
 					"the cache for eslint does not exist",
 				);
 
@@ -3226,21 +3263,24 @@ describe("CLIEngine", () => {
 
 				const result = engine.executeOnFiles([badFile, goodFile]);
 
-				assert.isTrue(
+				assert.strictEqual(
 					shell.test("-f", cacheFile),
+					true,
 					"the cache for eslint was created",
 				);
 
 				const fileCache = fCache.createFromFile(cacheFile);
 				const { cache } = fileCache;
 
-				assert.isTrue(
+				assert.strictEqual(
 					typeof cache.getKey(goodFile) === "object",
+					true,
 					"the entry for the good file is in the cache",
 				);
 
-				assert.isTrue(
+				assert.strictEqual(
 					typeof cache.getKey(badFile) === "object",
+					true,
 					"the entry for the bad file is in the cache",
 				);
 
@@ -3287,8 +3327,9 @@ describe("CLIEngine", () => {
 				const fileCache = fCache.createFromFile(cacheFile);
 				let { cache } = fileCache;
 
-				assert.isTrue(
+				assert.strictEqual(
 					typeof cache.getKey(toBeDeletedFile) === "object",
+					true,
 					"the entry for the file to be deleted is in the cache",
 				);
 
@@ -3303,8 +3344,9 @@ describe("CLIEngine", () => {
 
 				cache = JSON.parse(fs.readFileSync(cacheFile));
 
-				assert.isTrue(
+				assert.strictEqual(
 					typeof cache[toBeDeletedFile] === "undefined",
+					true,
 					"the entry for the file to be deleted is not in the cache",
 				);
 			});
@@ -3343,8 +3385,9 @@ describe("CLIEngine", () => {
 				let fileCache = fCache.createFromFile(cacheFile);
 				let { cache } = fileCache;
 
-				assert.isTrue(
+				assert.strictEqual(
 					typeof cache.getKey(testFile2) === "object",
+					true,
 					"the entry for the test-file2 is in the cache",
 				);
 
@@ -3358,8 +3401,9 @@ describe("CLIEngine", () => {
 				fileCache = fCache.createFromFile(cacheFile);
 				cache = fileCache.cache;
 
-				assert.isTrue(
+				assert.strictEqual(
 					typeof cache.getKey(testFile2) === "object",
+					true,
 					"the entry for the test-file2 is in the cache",
 				);
 			});
@@ -3378,15 +3422,17 @@ describe("CLIEngine", () => {
 					extensions: ["js"],
 				});
 
-				assert.isTrue(
+				assert.strictEqual(
 					shell.test("-f", cacheFile),
+					true,
 					"the cache for eslint exists",
 				);
 
 				engine.executeOnText("var foo = 'bar';");
 
-				assert.isTrue(
+				assert.strictEqual(
 					shell.test("-f", cacheFile),
+					true,
 					"the cache for eslint still exists",
 				);
 			});
@@ -3405,15 +3451,17 @@ describe("CLIEngine", () => {
 					extensions: ["js"],
 				});
 
-				assert.isTrue(
+				assert.strictEqual(
 					shell.test("-f", cacheFile),
+					true,
 					"the cache for eslint exists",
 				);
 
 				engine.executeOnText("var bar = foo;", "fixtures/passing.js");
 
-				assert.isTrue(
+				assert.strictEqual(
 					shell.test("-f", cacheFile),
+					true,
 					"the cache for eslint still exists",
 				);
 			});
@@ -3435,15 +3483,17 @@ describe("CLIEngine", () => {
 
 				const file = getFixturePath("cli-engine", "console.js");
 
-				assert.isTrue(
+				assert.strictEqual(
 					shell.test("-f", cacheFile),
+					true,
 					"the cache for eslint exists",
 				);
 
 				engine.executeOnFiles([file]);
 
-				assert.isTrue(
+				assert.strictEqual(
 					shell.test("-f", cacheFile),
+					true,
 					"the cache for eslint still exists",
 				);
 			});
@@ -3464,15 +3514,17 @@ describe("CLIEngine", () => {
 
 				const file = getFixturePath("cli-engine", "console.js");
 
-				assert.isTrue(
+				assert.strictEqual(
 					shell.test("-f", cacheFile),
+					true,
 					"the cache for eslint exists",
 				);
 
 				engine.executeOnFiles([file]);
 
-				assert.isFalse(
+				assert.strictEqual(
 					shell.test("-f", cacheFile),
+					false,
 					"the cache for eslint has been deleted",
 				);
 			});
@@ -3481,8 +3533,9 @@ describe("CLIEngine", () => {
 				it("should use the specified cache file", () => {
 					const customCacheFile = path.resolve(".cache/custom-cache");
 
-					assert.isFalse(
+					assert.strictEqual(
 						shell.test("-f", customCacheFile),
+						false,
 						"the cache for eslint does not exist",
 					);
 
@@ -3511,21 +3564,24 @@ describe("CLIEngine", () => {
 
 					const result = engine.executeOnFiles([badFile, goodFile]);
 
-					assert.isTrue(
+					assert.strictEqual(
 						shell.test("-f", customCacheFile),
+						true,
 						"the cache for eslint was created",
 					);
 
 					const fileCache = fCache.createFromFile(customCacheFile);
 					const { cache } = fileCache;
 
-					assert.isTrue(
+					assert.strictEqual(
 						typeof cache.getKey(goodFile) === "object",
+						true,
 						"the entry for the good file is in the cache",
 					);
 
-					assert.isTrue(
+					assert.strictEqual(
 						typeof cache.getKey(badFile) === "object",
+						true,
 						"the entry for the bad file is in the cache",
 					);
 
@@ -3577,8 +3633,9 @@ describe("CLIEngine", () => {
 					]);
 
 					entries.forEach(entry => {
-						assert.isFalse(
+						assert.strictEqual(
 							entry.changed,
+							false,
 							`the entry for ${entry.key} is initially unchanged`,
 						);
 					});
@@ -3586,12 +3643,14 @@ describe("CLIEngine", () => {
 					// this should result in a changed entry
 					shell.touch(goodFile);
 					fileCache = fCache.createFromFile(cacheFile, false);
-					assert.isFalse(
+					assert.strictEqual(
 						fileCache.getFileDescriptor(badFile).changed,
+						false,
 						`the entry for ${badFile} is unchanged`,
 					);
-					assert.isTrue(
+					assert.strictEqual(
 						fileCache.getFileDescriptor(goodFile).changed,
+						true,
 						`the entry for ${goodFile} is changed`,
 					);
 				});
@@ -3630,8 +3689,9 @@ describe("CLIEngine", () => {
 					]);
 
 					entries.forEach(entry => {
-						assert.isFalse(
+						assert.strictEqual(
 							entry.changed,
+							false,
 							`the entry for ${entry.key} is initially unchanged`,
 						);
 					});
@@ -3641,8 +3701,9 @@ describe("CLIEngine", () => {
 					fileCache = fCache.createFromFile(cacheFile, true);
 					entries = fileCache.normalizeEntries([badFile, goodFile]);
 					entries.forEach(entry => {
-						assert.isFalse(
+						assert.strictEqual(
 							entry.changed,
+							false,
 							`the entry for ${entry.key} remains unchanged`,
 						);
 					});
@@ -3688,8 +3749,9 @@ describe("CLIEngine", () => {
 					]);
 
 					entries.forEach(entry => {
-						assert.isFalse(
+						assert.strictEqual(
 							entry.changed,
+							false,
 							`the entry for ${entry.key} is initially unchanged`,
 						);
 					});
@@ -3697,12 +3759,14 @@ describe("CLIEngine", () => {
 					// this should result in a changed entry
 					shell.sed("-i", "abc", "xzy", goodFileCopy);
 					fileCache = fCache.createFromFile(cacheFile, true);
-					assert.isFalse(
+					assert.strictEqual(
 						fileCache.getFileDescriptor(badFile).changed,
+						false,
 						`the entry for ${badFile} is unchanged`,
 					);
-					assert.isTrue(
+					assert.strictEqual(
 						fileCache.getFileDescriptor(goodFileCopy).changed,
+						true,
 						`the entry for ${goodFileCopy} is changed`,
 					);
 				});
@@ -4016,7 +4080,11 @@ describe("CLIEngine", () => {
 					);
 
 					assert.strictEqual(report.results[0].messages.length, 1);
-					assert.isFalse(Object.hasOwn(report.results[0], "output"));
+					assert.strictEqual(
+						Object.hasOwn(report.results[0]),
+						false,
+						"output",
+					);
 				});
 
 				it("should not run in autofix mode when `fix: true` is not provided, even if the processor supports autofixing", () => {
@@ -4050,7 +4118,11 @@ describe("CLIEngine", () => {
 					);
 
 					assert.strictEqual(report.results[0].messages.length, 1);
-					assert.isFalse(Object.hasOwn(report.results[0], "output"));
+					assert.strictEqual(
+						Object.hasOwn(report.results[0]),
+						false,
+						"output",
+					);
 				});
 			});
 		});
@@ -4066,31 +4138,31 @@ describe("CLIEngine", () => {
 			it("one file", () => {
 				assert.throws(() => {
 					engine.executeOnFiles(["non-exist.js"]);
-				}, "No files matching 'non-exist.js' were found.");
+				}, /No files matching 'non-exist.js' were found./u);
 			});
 
 			it("should throw if the directory exists and is empty", () => {
 				assert.throws(() => {
 					engine.executeOnFiles(["empty"]);
-				}, "No files matching 'empty' were found.");
+				}, /No files matching 'empty' were found./u);
 			});
 
 			it("one glob pattern", () => {
 				assert.throws(() => {
 					engine.executeOnFiles(["non-exist/**/*.js"]);
-				}, "No files matching 'non-exist/**/*.js' were found.");
+				}, /No files matching 'non-exist\/\*\*\/\*.js' were found./u);
 			});
 
 			it("two files", () => {
 				assert.throws(() => {
 					engine.executeOnFiles(["aaa.js", "bbb.js"]);
-				}, "No files matching 'aaa.js' were found.");
+				}, /No files matching 'aaa.js' were found./u);
 			});
 
 			it("a mix of an existing file and a non-existing file", () => {
 				assert.throws(() => {
 					engine.executeOnFiles(["console.js", "non-exist.js"]);
-				}, "No files matching 'non-exist.js' were found.");
+				}, /No files matching 'non-exist.js' were found./u);
 			});
 		});
 
@@ -5227,8 +5299,8 @@ describe("CLIEngine", () => {
 				cwd: getFixturePath(),
 			});
 
-			assert.isTrue(engine.isPathIgnored("undef.js"));
-			assert.isFalse(engine.isPathIgnored("passing.js"));
+			assert.strictEqual(engine.isPathIgnored("undef.js"), true);
+			assert.strictEqual(engine.isPathIgnored("passing.js"), false);
 		});
 
 		it("should return false if ignoring is disabled", () => {
@@ -5238,7 +5310,7 @@ describe("CLIEngine", () => {
 				cwd: getFixturePath(),
 			});
 
-			assert.isFalse(engine.isPathIgnored("undef.js"));
+			assert.strictEqual(engine.isPathIgnored("undef.js"), false);
 		});
 
 		// https://github.com/eslint/eslint/issues/5547
@@ -5248,7 +5320,10 @@ describe("CLIEngine", () => {
 				cwd: getFixturePath("cli-engine"),
 			});
 
-			assert.isTrue(engine.isPathIgnored("node_modules/foo.js"));
+			assert.strictEqual(
+				engine.isPathIgnored("node_modules/foo.js"),
+				true,
+			);
 		});
 
 		describe("about the default ignore patterns", () => {
@@ -5256,7 +5331,7 @@ describe("CLIEngine", () => {
 				const cwd = getFixturePath("ignored-paths");
 				const engine = new CLIEngine({ cwd });
 
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath(
 							"ignored-paths",
@@ -5264,7 +5339,7 @@ describe("CLIEngine", () => {
 						),
 					),
 				);
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath(
 							"ignored-paths",
@@ -5278,7 +5353,7 @@ describe("CLIEngine", () => {
 				const cwd = getFixturePath("ignored-paths");
 				const engine = new CLIEngine({ ignore: false, cwd });
 
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath(
 							"ignored-paths",
@@ -5286,7 +5361,7 @@ describe("CLIEngine", () => {
 						),
 					),
 				);
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath(
 							"ignored-paths",
@@ -5303,7 +5378,7 @@ describe("CLIEngine", () => {
 					ignorePattern: "!/node_modules/package",
 				});
 
-				assert(
+				assert.ok(
 					!engine.isPathIgnored(
 						getFixturePath(
 							"ignored-paths",
@@ -5325,7 +5400,7 @@ describe("CLIEngine", () => {
 					),
 				});
 
-				assert(
+				assert.ok(
 					!engine.isPathIgnored(
 						getFixturePath(
 							"ignored-paths",
@@ -5341,12 +5416,12 @@ describe("CLIEngine", () => {
 				const cwd = getFixturePath("ignored-paths");
 				const engine = new CLIEngine({ cwd });
 
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath("ignored-paths", ".foo"),
 					),
 				);
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath("ignored-paths", "foo/.bar"),
 					),
@@ -5357,12 +5432,12 @@ describe("CLIEngine", () => {
 				const cwd = getFixturePath("ignored-paths");
 				const engine = new CLIEngine({ cwd });
 
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath("ignored-paths", ".foo/bar"),
 					),
 				);
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath("ignored-paths", "foo/.bar/baz"),
 					),
@@ -5373,12 +5448,12 @@ describe("CLIEngine", () => {
 				const cwd = getFixturePath("ignored-paths");
 				const engine = new CLIEngine({ ignore: false, cwd });
 
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath("ignored-paths", ".foo"),
 					),
 				);
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath("ignored-paths", "foo/.bar"),
 					),
@@ -5389,12 +5464,12 @@ describe("CLIEngine", () => {
 				const cwd = getFixturePath("ignored-paths");
 				const engine = new CLIEngine({ ignore: false, cwd });
 
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath("ignored-paths", ".foo/bar"),
 					),
 				);
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath("ignored-paths", "foo/.bar/baz"),
 					),
@@ -5405,7 +5480,7 @@ describe("CLIEngine", () => {
 				const cwd = getFixturePath("ignored-paths");
 				const engine = new CLIEngine({ cwd });
 
-				assert(
+				assert.ok(
 					!engine.isPathIgnored(
 						`${getFixturePath("ignored-paths", "foo")}/../unignored.js`,
 					),
@@ -5422,7 +5497,7 @@ describe("CLIEngine", () => {
 					cwd,
 				});
 
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath(
 							"ignored-paths",
@@ -5431,7 +5506,7 @@ describe("CLIEngine", () => {
 						),
 					),
 				);
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath(
 							"ignored-paths",
@@ -5447,7 +5522,7 @@ describe("CLIEngine", () => {
 				const cwd = getFixturePath("ignored-paths", "no-ignore-file");
 				const engine = new CLIEngine({ cwd });
 
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath(
 							"ignored-paths",
@@ -5457,7 +5532,7 @@ describe("CLIEngine", () => {
 						),
 					),
 				);
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath(
 							"ignored-paths",
@@ -5477,8 +5552,8 @@ describe("CLIEngine", () => {
 				const engine = new CLIEngine({ cwd });
 
 				// an .eslintignore in parent directories includes `*.js`, but don't load it.
-				assert(!engine.isPathIgnored("foo.js"));
-				assert(engine.isPathIgnored("node_modules/foo.js"));
+				assert.ok(!engine.isPathIgnored("foo.js"));
+				assert.ok(engine.isPathIgnored("node_modules/foo.js"));
 			});
 
 			it("should return false for files outside of the cwd (with no ignore file provided)", () => {
@@ -5487,7 +5562,7 @@ describe("CLIEngine", () => {
 					cwd: getFixturePath("ignored-paths", "no-ignore-file"),
 				});
 
-				assert(
+				assert.ok(
 					!engine.isPathIgnored(
 						getFixturePath("ignored-paths", "undef.js"),
 					),
@@ -5501,7 +5576,7 @@ describe("CLIEngine", () => {
 				const engine = new CLIEngine({ cwd });
 
 				// `${cwd}/.eslintignore` includes `sampleignorepattern`.
-				assert(engine.isPathIgnored("sampleignorepattern"));
+				assert.ok(engine.isPathIgnored("sampleignorepattern"));
 			});
 
 			it("should use package.json's eslintIgnore files if no specified .eslintignore file", () => {
@@ -5511,8 +5586,8 @@ describe("CLIEngine", () => {
 				);
 				const engine = new CLIEngine({ cwd });
 
-				assert(engine.isPathIgnored("hello.js"));
-				assert(engine.isPathIgnored("world.js"));
+				assert.ok(engine.isPathIgnored("hello.js"));
+				assert.ok(engine.isPathIgnored("world.js"));
 			});
 
 			it("should use correct message template if failed to parse package.json", () => {
@@ -5521,7 +5596,7 @@ describe("CLIEngine", () => {
 					"broken-package-json",
 				);
 
-				assert.throw(() => {
+				assert.throws(() => {
 					try {
 						// eslint-disable-next-line no-new -- Check for throwing
 						new CLIEngine({ cwd });
@@ -5543,9 +5618,9 @@ describe("CLIEngine", () => {
 				 * package.json includes `hello.js` and `world.js`.
 				 * .eslintignore includes `sampleignorepattern`.
 				 */
-				assert(!engine.isPathIgnored("hello.js"));
-				assert(!engine.isPathIgnored("world.js"));
-				assert(engine.isPathIgnored("sampleignorepattern"));
+				assert.ok(!engine.isPathIgnored("hello.js"));
+				assert.ok(!engine.isPathIgnored("world.js"));
+				assert.ok(engine.isPathIgnored("sampleignorepattern"));
 			});
 
 			it("should error if package.json's eslintIgnore is not an array of file paths", () => {
@@ -5557,7 +5632,7 @@ describe("CLIEngine", () => {
 				assert.throws(() => {
 					// eslint-disable-next-line no-new -- Check for throwing
 					new CLIEngine({ cwd });
-				}, "Package.json eslintIgnore property requires an array of paths");
+				}, /Package.json eslintIgnore property requires an array of paths/u);
 			});
 		});
 
@@ -5569,7 +5644,7 @@ describe("CLIEngine", () => {
 					cwd,
 				});
 
-				assert(engine.isPathIgnored("ignore-me.txt"));
+				assert.ok(engine.isPathIgnored("ignore-me.txt"));
 			});
 
 			it("should accept an array for options.ignorePattern", () => {
@@ -5578,9 +5653,9 @@ describe("CLIEngine", () => {
 					useEslintrc: false,
 				});
 
-				assert(engine.isPathIgnored("a"));
-				assert(engine.isPathIgnored("b"));
-				assert(!engine.isPathIgnored("c"));
+				assert.ok(engine.isPathIgnored("a"));
+				assert.ok(engine.isPathIgnored("b"));
+				assert.ok(!engine.isPathIgnored("c"));
 			});
 
 			it("should return true for files which match an ignorePattern even if they do not exist on the filesystem", () => {
@@ -5590,7 +5665,7 @@ describe("CLIEngine", () => {
 					cwd,
 				});
 
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath("ignored-paths", "not-a-file"),
 					),
@@ -5604,7 +5679,7 @@ describe("CLIEngine", () => {
 					cwd,
 				});
 
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath("ignored-paths", "undef.js"),
 					),
@@ -5618,7 +5693,7 @@ describe("CLIEngine", () => {
 					cwd,
 				});
 
-				assert(
+				assert.ok(
 					!engine.isPathIgnored(
 						getFixturePath("ignored-paths", "undef.js"),
 					),
@@ -5632,7 +5707,7 @@ describe("CLIEngine", () => {
 					cwd,
 				});
 
-				assert(
+				assert.ok(
 					!engine.isPathIgnored(
 						getFixturePath("ignored-paths", "subdir", "undef.js"),
 					),
@@ -5646,7 +5721,7 @@ describe("CLIEngine", () => {
 					cwd,
 				});
 
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath(
 							"ignored-paths",
@@ -5664,7 +5739,7 @@ describe("CLIEngine", () => {
 					cwd,
 				});
 
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath(
 							"ignored-paths",
@@ -5683,7 +5758,7 @@ describe("CLIEngine", () => {
 					cwd,
 				});
 
-				assert(
+				assert.ok(
 					!engine.isPathIgnored(
 						getFixturePath("ignored-paths", "unignored.js"),
 					),
@@ -5694,32 +5769,32 @@ describe("CLIEngine", () => {
 				const cwd = getFixturePath("ignored-paths");
 				const engine = new CLIEngine({ ignorePattern: "**/*.js", cwd });
 
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath("ignored-paths", "foo.js"),
 					),
 				);
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath("ignored-paths", "foo/bar.js"),
 					),
 				);
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath("ignored-paths", "foo/bar/baz.js"),
 					),
 				);
-				assert(
+				assert.ok(
 					!engine.isPathIgnored(
 						getFixturePath("ignored-paths", "foo.j2"),
 					),
 				);
-				assert(
+				assert.ok(
 					!engine.isPathIgnored(
 						getFixturePath("ignored-paths", "foo/bar.j2"),
 					),
 				);
-				assert(
+				assert.ok(
 					!engine.isPathIgnored(
 						getFixturePath("ignored-paths", "foo/bar/baz.j2"),
 					),
@@ -5733,8 +5808,8 @@ describe("CLIEngine", () => {
 				const engine = new CLIEngine({ ignorePath: false, cwd });
 
 				// an .eslintignore in parent directories includes `*.js`, but don't load it.
-				assert(!engine.isPathIgnored("foo.js"));
-				assert(engine.isPathIgnored("node_modules/foo.js"));
+				assert.ok(!engine.isPathIgnored("foo.js"));
+				assert.ok(engine.isPathIgnored("node_modules/foo.js"));
 			});
 
 			it("initialization with ignorePath should work when cwd is a parent directory", () => {
@@ -5746,7 +5821,7 @@ describe("CLIEngine", () => {
 				);
 				const engine = new CLIEngine({ ignorePath, cwd });
 
-				assert(engine.isPathIgnored("custom-name/foo.js"));
+				assert.ok(engine.isPathIgnored("custom-name/foo.js"));
 			});
 
 			it("initialization with ignorePath should work when the file is in the cwd", () => {
@@ -5758,7 +5833,7 @@ describe("CLIEngine", () => {
 				);
 				const engine = new CLIEngine({ ignorePath, cwd });
 
-				assert(engine.isPathIgnored("foo.js"));
+				assert.ok(engine.isPathIgnored("foo.js"));
 			});
 
 			it("initialization with ignorePath should work when cwd is a subdirectory", () => {
@@ -5774,7 +5849,7 @@ describe("CLIEngine", () => {
 				);
 				const engine = new CLIEngine({ ignorePath, cwd });
 
-				assert(engine.isPathIgnored("../custom-name/foo.js"));
+				assert.ok(engine.isPathIgnored("../custom-name/foo.js"));
 			});
 
 			it("initialization with invalid file should throw error", () => {
@@ -5788,7 +5863,7 @@ describe("CLIEngine", () => {
 				assert.throws(() => {
 					// eslint-disable-next-line no-new -- Check for throwing
 					new CLIEngine({ ignorePath, cwd });
-				}, "Cannot read .eslintignore file");
+				}, /Cannot read .eslintignore file/u);
 			});
 
 			it("should return false for files outside of ignorePath's directory", () => {
@@ -5800,7 +5875,7 @@ describe("CLIEngine", () => {
 				);
 				const engine = new CLIEngine({ ignorePath, cwd });
 
-				assert(
+				assert.ok(
 					!engine.isPathIgnored(
 						getFixturePath("ignored-paths", "undef.js"),
 					),
@@ -5815,12 +5890,12 @@ describe("CLIEngine", () => {
 				);
 				const engine = new CLIEngine({ ignorePath, cwd });
 
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath("ignored-paths", "subdir/undef.js"),
 					),
 				);
-				assert(
+				assert.ok(
 					!engine.isPathIgnored(
 						getFixturePath("ignored-paths", "undef.js"),
 					),
@@ -5835,28 +5910,28 @@ describe("CLIEngine", () => {
 				);
 				const engine = new CLIEngine({ ignorePath, cwd });
 
-				assert(
+				assert.ok(
 					!engine.isPathIgnored(
 						getFixturePath("ignored-paths", "subdir/undef.js"),
 					),
 				);
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath("ignored-paths", "undef.js"),
 					),
 				);
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath("ignored-paths", "foo.js"),
 					),
 				);
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath("ignored-paths", "subdir/foo.js"),
 					),
 				);
 
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath("ignored-paths", "node_modules/bar.js"),
 					),
@@ -5871,12 +5946,12 @@ describe("CLIEngine", () => {
 				);
 				const engine = new CLIEngine({ ignorePath, cwd });
 
-				assert(engine.isPathIgnored("subdir/blah.txt"));
-				assert(engine.isPathIgnored("blah.txt"));
-				assert(engine.isPathIgnored("subdir/bar.txt"));
-				assert(!engine.isPathIgnored("bar.txt"));
-				assert(!engine.isPathIgnored("subdir/baz.txt"));
-				assert(!engine.isPathIgnored("baz.txt"));
+				assert.ok(engine.isPathIgnored("subdir/blah.txt"));
+				assert.ok(engine.isPathIgnored("blah.txt"));
+				assert.ok(engine.isPathIgnored("subdir/bar.txt"));
+				assert.ok(!engine.isPathIgnored("bar.txt"));
+				assert.ok(!engine.isPathIgnored("subdir/baz.txt"));
+				assert.ok(!engine.isPathIgnored("baz.txt"));
 			});
 
 			it("should resolve default ignore patterns from the CWD even when the ignorePath is in a subdirectory", () => {
@@ -5887,7 +5962,7 @@ describe("CLIEngine", () => {
 				);
 				const engine = new CLIEngine({ ignorePath, cwd });
 
-				assert(engine.isPathIgnored("node_modules/blah.js"));
+				assert.ok(engine.isPathIgnored("node_modules/blah.js"));
 			});
 
 			it("should resolve default ignore patterns from the CWD even when the ignorePath is in a parent directory", () => {
@@ -5898,7 +5973,7 @@ describe("CLIEngine", () => {
 				);
 				const engine = new CLIEngine({ ignorePath, cwd });
 
-				assert(engine.isPathIgnored("node_modules/blah.js"));
+				assert.ok(engine.isPathIgnored("node_modules/blah.js"));
 			});
 
 			it("should handle .eslintignore which contains CRLF correctly.", () => {
@@ -5907,7 +5982,7 @@ describe("CLIEngine", () => {
 					"utf8",
 				);
 
-				assert(
+				assert.ok(
 					ignoreFileContent.includes("\r"),
 					"crlf/.eslintignore should contains CR.",
 				);
@@ -5919,17 +5994,17 @@ describe("CLIEngine", () => {
 				);
 				const engine = new CLIEngine({ ignorePath, cwd });
 
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath("ignored-paths", "crlf/hide1/a.js"),
 					),
 				);
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath("ignored-paths", "crlf/hide2/a.js"),
 					),
 				);
-				assert(
+				assert.ok(
 					!engine.isPathIgnored(
 						getFixturePath("ignored-paths", "crlf/hide3/a.js"),
 					),
@@ -5944,8 +6019,8 @@ describe("CLIEngine", () => {
 				);
 				const engine = new CLIEngine({ ignorePath, cwd });
 
-				assert(!engine.isPathIgnored("# should be ignored"));
-				assert(engine.isPathIgnored("this_one_not"));
+				assert.ok(!engine.isPathIgnored("# should be ignored"));
+				assert.ok(engine.isPathIgnored("this_one_not"));
 			});
 
 			it("should ignore a non-negated pattern", () => {
@@ -5956,7 +6031,7 @@ describe("CLIEngine", () => {
 				);
 				const engine = new CLIEngine({ ignorePath, cwd });
 
-				assert(
+				assert.ok(
 					engine.isPathIgnored(
 						getFixturePath(
 							"ignored-paths",
@@ -5975,7 +6050,7 @@ describe("CLIEngine", () => {
 				);
 				const engine = new CLIEngine({ ignorePath, cwd });
 
-				assert(
+				assert.ok(
 					!engine.isPathIgnored(
 						getFixturePath(
 							"ignored-paths",
@@ -5999,7 +6074,7 @@ describe("CLIEngine", () => {
 					cwd,
 				});
 
-				assert(
+				assert.ok(
 					!engine.isPathIgnored(
 						getFixturePath("ignored-paths", "sampleignorepattern"),
 					),
@@ -6013,14 +6088,14 @@ describe("CLIEngine", () => {
 			const engine = new CLIEngine(),
 				formatter = engine.getFormatter("json");
 
-			assert.isFunction(formatter);
+			assert.strictEqual(typeof formatter, "function");
 		});
 
 		it("should return a function when no argument is passed", () => {
 			const engine = new CLIEngine(),
 				formatter = engine.getFormatter();
 
-			assert.isFunction(formatter);
+			assert.strictEqual(typeof formatter, "function");
 		});
 
 		it("should return a function when a custom formatter is requested", () => {
@@ -6029,7 +6104,7 @@ describe("CLIEngine", () => {
 					getFixturePath("formatters", "simple.js"),
 				);
 
-			assert.isFunction(formatter);
+			assert.strictEqual(typeof formatter, "function");
 		});
 
 		it("should return a function when a custom formatter is requested, also if the path has backslashes", () => {
@@ -6040,7 +6115,7 @@ describe("CLIEngine", () => {
 					".\\fixtures\\formatters\\simple.js",
 				);
 
-			assert.isFunction(formatter);
+			assert.strictEqual(typeof formatter, "function");
 		});
 
 		it("should return a function when a formatter prefixed with eslint-formatter is requested", () => {
@@ -6049,7 +6124,7 @@ describe("CLIEngine", () => {
 				}),
 				formatter = engine.getFormatter("bar");
 
-			assert.isFunction(formatter);
+			assert.strictEqual(typeof formatter, "function");
 		});
 
 		it("should return a function when a formatter is requested, also when the eslint-formatter prefix is included in the format argument", () => {
@@ -6058,7 +6133,7 @@ describe("CLIEngine", () => {
 				}),
 				formatter = engine.getFormatter("eslint-formatter-bar");
 
-			assert.isFunction(formatter);
+			assert.strictEqual(typeof formatter, "function");
 		});
 
 		it("should return a function when a formatter is requested within a scoped npm package", () => {
@@ -6067,7 +6142,7 @@ describe("CLIEngine", () => {
 				}),
 				formatter = engine.getFormatter("@somenamespace/foo");
 
-			assert.isFunction(formatter);
+			assert.strictEqual(typeof formatter, "function");
 		});
 
 		it("should return a function when a formatter is requested within a scoped npm package, also when the eslint-formatter prefix is included in the format argument", () => {
@@ -6078,7 +6153,7 @@ describe("CLIEngine", () => {
 					"@somenamespace/eslint-formatter-foo",
 				);
 
-			assert.isFunction(formatter);
+			assert.strictEqual(typeof formatter, "function");
 		});
 
 		it("should return null when a custom formatter doesn't exist", () => {
@@ -6086,9 +6161,15 @@ describe("CLIEngine", () => {
 				formatterPath = getFixturePath("formatters", "doesntexist.js"),
 				fullFormatterPath = path.resolve(formatterPath);
 
-			assert.throws(() => {
-				engine.getFormatter(formatterPath);
-			}, `There was a problem loading formatter: ${fullFormatterPath}\nError: Cannot find module '${fullFormatterPath}'`);
+			assert.throws(
+				() => {
+					engine.getFormatter(formatterPath);
+				},
+				new RegExp(
+					`There was a problem loading formatter: ${escapeRegExp(fullFormatterPath)}\nError: Cannot find module '${escapeRegExp(fullFormatterPath)}'`,
+					"u",
+				),
+			);
 		});
 
 		it("should return null when a built-in formatter doesn't exist", () => {
@@ -6098,9 +6179,15 @@ describe("CLIEngine", () => {
 				"../../../lib/cli-engine/formatters/special",
 			);
 
-			assert.throws(() => {
-				engine.getFormatter("special");
-			}, `There was a problem loading formatter: ${fullFormatterPath}\nError: Cannot find module '${fullFormatterPath}'`);
+			assert.throws(
+				() => {
+					engine.getFormatter("special");
+				},
+				new RegExp(
+					`There was a problem loading formatter: ${escapeRegExp(fullFormatterPath)}\nError: Cannot find module '${escapeRegExp(fullFormatterPath)}'`,
+					"u",
+				),
+			);
 		});
 
 		it("should throw when a built-in formatter no longer exists", () => {
@@ -6108,33 +6195,39 @@ describe("CLIEngine", () => {
 
 			assert.throws(() => {
 				engine.getFormatter("table");
-			}, "The table formatter is no longer part of core ESLint. Install it manually with `npm install -D eslint-formatter-table`");
+			}, /The table formatter is no longer part of core ESLint. Install it manually with `npm install -D eslint-formatter-table`/u);
 
 			assert.throws(() => {
 				engine.getFormatter("codeframe");
-			}, "The codeframe formatter is no longer part of core ESLint. Install it manually with `npm install -D eslint-formatter-codeframe`");
+			}, /The codeframe formatter is no longer part of core ESLint. Install it manually with `npm install -D eslint-formatter-codeframe`/u);
 		});
 
 		it("should throw if the required formatter exists but has an error", () => {
 			const engine = new CLIEngine(),
 				formatterPath = getFixturePath("formatters", "broken.js");
 
-			assert.throws(() => {
-				engine.getFormatter(formatterPath);
-			}, `There was a problem loading formatter: ${formatterPath}\nError: Cannot find module 'this-module-does-not-exist'`);
+			assert.throws(
+				() => {
+					engine.getFormatter(formatterPath);
+				},
+				new RegExp(
+					`There was a problem loading formatter: ${escapeRegExp(formatterPath)}\nError: Cannot find module 'this-module-does-not-exist'`,
+					"u",
+				),
+			);
 		});
 
 		it("should return null when a non-string formatter name is passed", () => {
 			const engine = new CLIEngine(),
 				formatter = engine.getFormatter(5);
 
-			assert.isNull(formatter);
+			assert.strictEqual(formatter, null);
 		});
 
 		it("should return a function when called as a static function on CLIEngine", () => {
 			const formatter = CLIEngine.getFormatter();
 
-			assert.isFunction(formatter);
+			assert.strictEqual(typeof formatter, "function");
 		});
 
 		it("should return a function when called as a static function on CLIEngine and a custom formatter is requested", () => {
@@ -6142,7 +6235,7 @@ describe("CLIEngine", () => {
 				getFixturePath("formatters", "simple.js"),
 			);
 
-			assert.isFunction(formatter);
+			assert.strictEqual(typeof formatter, "function");
 		});
 	});
 
@@ -6168,7 +6261,7 @@ describe("CLIEngine", () => {
 			const report = engine.executeOnText("var foo = 'bar';");
 			const errorResults = CLIEngine.getErrorResults(report.results);
 
-			assert.lengthOf(errorResults[0].messages, 5);
+			assert.strictEqual(errorResults[0].messages.length, 5);
 			assert.strictEqual(errorResults[0].errorCount, 5);
 			assert.strictEqual(errorResults[0].fixableErrorCount, 3);
 			assert.strictEqual(errorResults[0].fixableWarningCount, 0);
@@ -6185,7 +6278,7 @@ describe("CLIEngine", () => {
 			assert.strictEqual(errorResults[0].messages[3].severity, 2);
 			assert.strictEqual(errorResults[0].messages[4].ruleId, "eol-last");
 			assert.strictEqual(errorResults[0].messages[4].severity, 2);
-			assert.lengthOf(errorResults[0].suppressedMessages, 0);
+			assert.strictEqual(errorResults[0].suppressedMessages.length, 0);
 		});
 
 		it("should report no error messages when looking for errors only", () => {
@@ -6211,7 +6304,7 @@ describe("CLIEngine", () => {
 			);
 			const errorResults = CLIEngine.getErrorResults(report.results);
 
-			assert.lengthOf(errorResults, 0);
+			assert.strictEqual(errorResults.length, 0);
 		});
 
 		it("should not mutate passed report.results parameter", () => {
@@ -6231,7 +6324,10 @@ describe("CLIEngine", () => {
 
 			CLIEngine.getErrorResults(report.results);
 
-			assert.lengthOf(report.results[0].messages, reportResultsLength);
+			assert.strictEqual(
+				report.results[0].messages.length,
+				reportResultsLength,
+			);
 		});
 
 		it("should report no suppressed error messages when looking for errors only", () => {
@@ -6255,10 +6351,10 @@ describe("CLIEngine", () => {
 			);
 			const errorResults = CLIEngine.getErrorResults(report.results);
 
-			assert.lengthOf(report.results[0].messages, 3);
-			assert.lengthOf(report.results[0].suppressedMessages, 1);
-			assert.lengthOf(errorResults[0].messages, 3);
-			assert.lengthOf(errorResults[0].suppressedMessages, 0);
+			assert.strictEqual(report.results[0].messages.length, 3);
+			assert.strictEqual(report.results[0].suppressedMessages.length, 1);
+			assert.strictEqual(errorResults[0].messages.length, 3);
+			assert.strictEqual(errorResults[0].suppressedMessages.length, 0);
 		});
 
 		it("should report a warningCount of 0 when looking for errors only", () => {
@@ -6299,8 +6395,8 @@ describe("CLIEngine", () => {
 			);
 			const errorReport = CLIEngine.getErrorResults(report.results);
 
-			assert.lengthOf(errorReport, 0);
-			assert.lengthOf(report.results, 1);
+			assert.strictEqual(errorReport.length, 0);
+			assert.strictEqual(report.results.length, 1);
 			assert.strictEqual(report.errorCount, 0);
 			assert.strictEqual(report.warningCount, 1);
 			assert.strictEqual(report.fatalErrorCount, 0);
@@ -6323,7 +6419,7 @@ describe("CLIEngine", () => {
 			const report = engine.executeOnText("var foo = 'bar';");
 			const errorResults = CLIEngine.getErrorResults(report.results);
 
-			assert.lengthOf(errorResults[0].messages, 1);
+			assert.strictEqual(errorResults[0].messages.length, 1);
 			assert.strictEqual(errorResults[0].source, "var foo = 'bar';");
 		});
 
@@ -6341,7 +6437,7 @@ describe("CLIEngine", () => {
 			const report = engine.executeOnText("console.log('foo')");
 			const errorResults = CLIEngine.getErrorResults(report.results);
 
-			assert.lengthOf(errorResults[0].messages, 1);
+			assert.strictEqual(errorResults[0].messages.length, 1);
 			assert.strictEqual(errorResults[0].output, "console.log('foo');");
 		});
 	});
@@ -6379,12 +6475,14 @@ describe("CLIEngine", () => {
 			localCLIEngine.outputFixes(report);
 
 			assert.strictEqual(spy.callCount, 2);
-			assert.isTrue(
+			assert.strictEqual(
 				spy.firstCall.calledWithExactly("foo.js", "bar"),
+				true,
 				"First call was incorrect.",
 			);
-			assert.isTrue(
+			assert.strictEqual(
 				spy.secondCall.calledWithExactly("bar.js", "baz"),
+				true,
 				"Second call was incorrect.",
 			);
 		});
@@ -6420,12 +6518,14 @@ describe("CLIEngine", () => {
 			localCLIEngine.outputFixes(report);
 
 			assert.strictEqual(spy.callCount, 2);
-			assert.isTrue(
+			assert.strictEqual(
 				spy.firstCall.calledWithExactly("foo.js", "bar"),
+				true,
 				"First call was incorrect.",
 			);
-			assert.isTrue(
+			assert.strictEqual(
 				spy.secondCall.calledWithExactly("bar.js", "baz"),
+				true,
 				"Second call was incorrect.",
 			);
 		});
@@ -6435,7 +6535,7 @@ describe("CLIEngine", () => {
 		it("should expose the list of rules", () => {
 			const engine = new CLIEngine();
 
-			assert(engine.getRules().has("no-eval"), "no-eval is present");
+			assert.ok(engine.getRules().has("no-eval"), "no-eval is present");
 		});
 
 		it("should expose the list of plugin rules", () => {
@@ -6443,7 +6543,7 @@ describe("CLIEngine", () => {
 				plugins: ["eslint-plugin-eslint-plugin"],
 			});
 
-			assert(
+			assert.ok(
 				engine.getRules().has("eslint-plugin/require-meta-schema"),
 				"eslint-plugin/require-meta-schema is present",
 			);
@@ -6461,7 +6561,7 @@ describe("CLIEngine", () => {
 				},
 			);
 
-			assert(
+			assert.ok(
 				engine.getRules().has("foo/no-invalid-meta"),
 				"foo/no-invalid-meta is present",
 			);
@@ -6726,8 +6826,8 @@ describe("CLIEngine", () => {
 			const eslintCLI = require("../../../lib/cli-engine").CLIEngine;
 			const version = eslintCLI.version;
 
-			assert.isString(version);
-			assert.isTrue(parseInt(version[0], 10) >= 3);
+			assert.strictEqual(typeof version, "string");
+			assert.strictEqual(parseInt(version[0], 10) >= 3, true);
 		});
 	});
 
@@ -6783,8 +6883,9 @@ describe("CLIEngine", () => {
 					[1],
 					"example is present for engine 1",
 				);
-				assert.isUndefined(
-					fileConfig2.rules["example/example-rule"],
+				assert.strictEqual(
+					typeof fileConfig2.rules["example/example-rule"],
+					"undefined",
 					"example is not present for engine 2",
 				);
 			});
@@ -7522,7 +7623,7 @@ describe("CLIEngine", () => {
 					const engine = new CLIEngine({ cwd: getPath() });
 
 					engine.executeOnFiles("*.js");
-				}, 'Unexpected top-level property "overrides[0].ignorePatterns"');
+				}, /Unexpected top-level property "overrides\[0\].ignorePatterns"/u);
 			});
 		});
 	});

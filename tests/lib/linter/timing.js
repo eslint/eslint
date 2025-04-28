@@ -5,7 +5,7 @@
 //------------------------------------------------------------------------------
 
 const { getListSize } = require("../../../lib/linter/timing");
-const assert = require("chai").assert;
+const assert = require("node:assert");
 
 //------------------------------------------------------------------------------
 // Tests

@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("chai").assert,
+const assert = require("node:assert"),
 	{ RuleFixer } = require("../../../lib/linter/rule-fixer");
 
 //------------------------------------------------------------------------------

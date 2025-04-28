@@ -4,7 +4,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("chai").assert;
+const assert = require("node:assert");
 const {
 	getPlaceholderMatcher,
 	interpolate,
@@ -30,13 +30,16 @@ describe("getPlaceholderMatcher", () => {
 	it("does not match text without placeholders", () => {
 		const matcher = getPlaceholderMatcher();
 
-		assert.notMatch("no placeholders in sight", matcher);
+		assert.doesNotMatch("no placeholders in sight", matcher);
 	});
 
 	it("captures the text inside the placeholder", () => {
 		const matcher = getPlaceholderMatcher();
 		const text = "{{ placeholder }}";
-		const matches = Array.from(text.matchAll(matcher));
+		const matches = Array.from(text.matchAll(matcher)).map(match => [
+			match[0],
+			match[1],
+		]);
 
 		assert.deepStrictEqual(matches, [[text, " placeholder "]]);
 	});

@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("chai").assert,
+const assert = require("node:assert"),
 	sinon = require("sinon"),
 	SourceCodeFixer = require("../../../lib/linter/source-code-fixer");
 
@@ -161,7 +161,7 @@ describe("SourceCodeFixer", () => {
 					false,
 				);
 
-				assert.isFalse(result.fixed);
+				assert.strictEqual(result.fixed, false);
 				assert.strictEqual(result.output, TEST_CODE);
 			});
 
@@ -170,7 +170,7 @@ describe("SourceCodeFixer", () => {
 					INSERT_AT_END,
 				]);
 
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 			});
 
 			it("should call a function provided as 'shouldFix' for each message", () => {
@@ -181,7 +181,7 @@ describe("SourceCodeFixer", () => {
 					[INSERT_IN_MIDDLE, INSERT_AT_START, INSERT_AT_END],
 					shouldFixSpy,
 				);
-				assert.isTrue(shouldFixSpy.calledThrice);
+				assert.strictEqual(shouldFixSpy.calledThrice, true);
 			});
 
 			it("should provide a message object as an argument to 'shouldFix'", () => {
@@ -206,7 +206,7 @@ describe("SourceCodeFixer", () => {
 					shouldFixSpy,
 				);
 
-				assert.isFalse(result.fixed);
+				assert.strictEqual(result.fixed, false);
 			});
 
 			it("should return original text as output if 'shouldFix' function prevents all fixes", () => {
@@ -242,7 +242,10 @@ describe("SourceCodeFixer", () => {
 					shouldFixSpy,
 				);
 
-				assert.isUndefined(shouldFixSpy.thisValues[0]);
+				assert.strictEqual(
+					typeof shouldFixSpy.thisValues[0],
+					"undefined",
+				);
 			});
 		});
 
@@ -322,7 +325,7 @@ describe("SourceCodeFixer", () => {
 					result.output,
 					TEST_CODE.replace("var", "let"),
 				);
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 			});
 
 			it("should replace text at the beginning of the code", () => {
@@ -335,7 +338,7 @@ describe("SourceCodeFixer", () => {
 					result.output,
 					TEST_CODE.replace("answer", "foo"),
 				);
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 			});
 
 			it("should replace text in the middle of the code", () => {
@@ -345,7 +348,7 @@ describe("SourceCodeFixer", () => {
 
 				assert.strictEqual(result.messages.length, 0);
 				assert.strictEqual(result.output, TEST_CODE.replace("6", "5"));
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 			});
 
 			it("should replace text at the beginning and end of the code", () => {
@@ -357,7 +360,7 @@ describe("SourceCodeFixer", () => {
 
 				assert.strictEqual(result.messages.length, 0);
 				assert.strictEqual(result.output, "let foo = 5 * 7;");
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 			});
 		});
 
@@ -372,7 +375,7 @@ describe("SourceCodeFixer", () => {
 					result.output,
 					TEST_CODE.replace("var ", ""),
 				);
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 			});
 
 			it("should remove text in the middle of the code", () => {
@@ -385,7 +388,7 @@ describe("SourceCodeFixer", () => {
 					result.output,
 					TEST_CODE.replace("answer", "a"),
 				);
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 			});
 
 			it("should remove text towards the end of the code", () => {
@@ -398,7 +401,7 @@ describe("SourceCodeFixer", () => {
 					result.output,
 					TEST_CODE.replace(" * 7", ""),
 				);
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 			});
 
 			it("should remove text at the beginning, middle, and end of the code", () => {
@@ -410,7 +413,7 @@ describe("SourceCodeFixer", () => {
 
 				assert.strictEqual(result.messages.length, 0);
 				assert.strictEqual(result.output, "a = 6;");
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 			});
 		});
 
@@ -423,7 +426,7 @@ describe("SourceCodeFixer", () => {
 				]);
 
 				assert.strictEqual(result.output, "let answer = 6;// end");
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 				assert.strictEqual(result.messages.length, 0);
 			});
 
@@ -439,7 +442,7 @@ describe("SourceCodeFixer", () => {
 				);
 				assert.strictEqual(result.messages.length, 1);
 				assert.strictEqual(result.messages[0].message, "removemiddle");
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 			});
 
 			it("should apply one fix when the end of one range is the same as the start of a previous range overlap", () => {
@@ -454,7 +457,7 @@ describe("SourceCodeFixer", () => {
 				);
 				assert.strictEqual(result.messages.length, 1);
 				assert.strictEqual(result.messages[0].message, "foo");
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 			});
 
 			it("should only apply one fix when ranges overlap and one message has no fix", () => {
@@ -471,7 +474,7 @@ describe("SourceCodeFixer", () => {
 				assert.strictEqual(result.messages.length, 2);
 				assert.strictEqual(result.messages[0].message, "nofix");
 				assert.strictEqual(result.messages[1].message, "removemiddle");
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 			});
 
 			it("should apply the same fix when ranges overlap regardless of order", () => {
@@ -495,7 +498,7 @@ describe("SourceCodeFixer", () => {
 				assert.strictEqual(result.output, TEST_CODE);
 				assert.strictEqual(result.messages.length, 1);
 				assert.strictEqual(result.messages[0].message, "nofix");
-				assert.isFalse(result.fixed);
+				assert.strictEqual(result.fixed, false);
 			});
 
 			it("should sort the no fix messages correctly", () => {
@@ -512,7 +515,7 @@ describe("SourceCodeFixer", () => {
 				assert.strictEqual(result.messages.length, 2);
 				assert.strictEqual(result.messages[0].message, "nofix1");
 				assert.strictEqual(result.messages[1].message, "nofix2");
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 			});
 		});
 
@@ -523,7 +526,7 @@ describe("SourceCodeFixer", () => {
 				]);
 
 				assert.strictEqual(result.output, `\uFEFF${TEST_CODE}`);
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 				assert.strictEqual(result.messages.length, 0);
 			});
 
@@ -536,7 +539,7 @@ describe("SourceCodeFixer", () => {
 					result.output,
 					`\uFEFF// start\n${TEST_CODE}`,
 				);
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 				assert.strictEqual(result.messages.length, 0);
 			});
 
@@ -546,7 +549,7 @@ describe("SourceCodeFixer", () => {
 				]);
 
 				assert.strictEqual(result.output, TEST_CODE);
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 				assert.strictEqual(result.messages.length, 0);
 			});
 
@@ -556,7 +559,7 @@ describe("SourceCodeFixer", () => {
 				]);
 
 				assert.strictEqual(result.output, `// start\n${TEST_CODE}`);
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 				assert.strictEqual(result.messages.length, 0);
 			});
 		});
@@ -567,7 +570,7 @@ describe("SourceCodeFixer", () => {
 					NULL_FIX,
 				]);
 
-				assert.isFalse(result.fixed);
+				assert.strictEqual(result.fixed, false);
 				assert.strictEqual(result.output, TEST_CODE);
 				assert.strictEqual(result.messages.length, 1);
 				assert.strictEqual(result.messages[0].message, "null");
@@ -578,7 +581,7 @@ describe("SourceCodeFixer", () => {
 					UNDEFINED_FIX,
 				]);
 
-				assert.isFalse(result.fixed);
+				assert.strictEqual(result.fixed, false);
 				assert.strictEqual(result.output, TEST_CODE);
 				assert.strictEqual(result.messages.length, 1);
 				assert.strictEqual(result.messages[0].message, "undefined");
@@ -668,7 +671,7 @@ describe("SourceCodeFixer", () => {
 					result.output,
 					`\uFEFF${TEST_CODE.replace("var", "let")}`,
 				);
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 			});
 
 			it("should replace text at the beginning of the code", () => {
@@ -681,7 +684,7 @@ describe("SourceCodeFixer", () => {
 					result.output,
 					`\uFEFF${TEST_CODE.replace("answer", "foo")}`,
 				);
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 			});
 
 			it("should replace text in the middle of the code", () => {
@@ -694,7 +697,7 @@ describe("SourceCodeFixer", () => {
 					result.output,
 					`\uFEFF${TEST_CODE.replace("6", "5")}`,
 				);
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 			});
 
 			it("should replace text at the beginning and end of the code", () => {
@@ -706,7 +709,7 @@ describe("SourceCodeFixer", () => {
 
 				assert.strictEqual(result.messages.length, 0);
 				assert.strictEqual(result.output, "\uFEFFlet foo = 5 * 7;");
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 			});
 		});
 
@@ -721,7 +724,7 @@ describe("SourceCodeFixer", () => {
 					result.output,
 					`\uFEFF${TEST_CODE.replace("var ", "")}`,
 				);
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 			});
 
 			it("should remove text in the middle of the code", () => {
@@ -734,7 +737,7 @@ describe("SourceCodeFixer", () => {
 					result.output,
 					`\uFEFF${TEST_CODE.replace("answer", "a")}`,
 				);
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 			});
 
 			it("should remove text towards the end of the code", () => {
@@ -747,7 +750,7 @@ describe("SourceCodeFixer", () => {
 					result.output,
 					`\uFEFF${TEST_CODE.replace(" * 7", "")}`,
 				);
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 			});
 
 			it("should remove text at the beginning, middle, and end of the code", () => {
@@ -759,7 +762,7 @@ describe("SourceCodeFixer", () => {
 
 				assert.strictEqual(result.messages.length, 0);
 				assert.strictEqual(result.output, "\uFEFFa = 6;");
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 			});
 		});
 
@@ -775,7 +778,7 @@ describe("SourceCodeFixer", () => {
 					result.output,
 					"\uFEFFlet answer = 6;// end",
 				);
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 				assert.strictEqual(result.messages.length, 0);
 			});
 
@@ -791,7 +794,7 @@ describe("SourceCodeFixer", () => {
 				);
 				assert.strictEqual(result.messages.length, 1);
 				assert.strictEqual(result.messages[0].message, "removemiddle");
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 			});
 
 			it("should apply one fix when the end of one range is the same as the start of a previous range overlap", () => {
@@ -806,7 +809,7 @@ describe("SourceCodeFixer", () => {
 				);
 				assert.strictEqual(result.messages.length, 1);
 				assert.strictEqual(result.messages[0].message, "foo");
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 			});
 
 			it("should only apply one fix when ranges overlap and one message has no fix", () => {
@@ -823,7 +826,7 @@ describe("SourceCodeFixer", () => {
 				assert.strictEqual(result.messages.length, 2);
 				assert.strictEqual(result.messages[0].message, "nofix");
 				assert.strictEqual(result.messages[1].message, "removemiddle");
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 			});
 
 			it("should apply the same fix when ranges overlap regardless of order", () => {
@@ -849,7 +852,7 @@ describe("SourceCodeFixer", () => {
 				assert.strictEqual(result.output, `\uFEFF${TEST_CODE}`);
 				assert.strictEqual(result.messages.length, 1);
 				assert.strictEqual(result.messages[0].message, "nofix");
-				assert.isFalse(result.fixed);
+				assert.strictEqual(result.fixed, false);
 			});
 		});
 
@@ -860,7 +863,7 @@ describe("SourceCodeFixer", () => {
 				]);
 
 				assert.strictEqual(result.output, `\uFEFF${TEST_CODE}`);
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 				assert.strictEqual(result.messages.length, 0);
 			});
 
@@ -873,7 +876,7 @@ describe("SourceCodeFixer", () => {
 					result.output,
 					`\uFEFF// start\n${TEST_CODE}`,
 				);
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 				assert.strictEqual(result.messages.length, 0);
 			});
 
@@ -883,7 +886,7 @@ describe("SourceCodeFixer", () => {
 				]);
 
 				assert.strictEqual(result.output, TEST_CODE);
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 				assert.strictEqual(result.messages.length, 0);
 			});
 
@@ -893,7 +896,7 @@ describe("SourceCodeFixer", () => {
 				]);
 
 				assert.strictEqual(result.output, `// start\n${TEST_CODE}`);
-				assert.isTrue(result.fixed);
+				assert.strictEqual(result.fixed, true);
 				assert.strictEqual(result.messages.length, 0);
 			});
 		});

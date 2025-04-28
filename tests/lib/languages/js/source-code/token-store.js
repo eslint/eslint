@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("chai").assert,
+const assert = require("node:assert"),
 	espree = require("espree"),
 	TokenStore = require("../../../../../lib/languages/js/source-code/token-store");
 
@@ -1534,7 +1534,7 @@ describe("TokenStore", () => {
 		it("should return null when token doesn't exist", () => {
 			const result = store.getTokenByRangeStart(10);
 
-			assert.isNull(result);
+			assert.strictEqual(result, null);
 		});
 
 		it("should return a comment token when includeComments is true", () => {
@@ -1551,13 +1551,13 @@ describe("TokenStore", () => {
 				includeComments: false,
 			});
 
-			assert.isNull(result);
+			assert.strictEqual(result, null);
 		});
 
 		it("should not return comment tokens by default", () => {
 			const result = store.getTokenByRangeStart(15);
 
-			assert.isNull(result);
+			assert.strictEqual(result, null);
 		});
 	});
 
@@ -1743,14 +1743,16 @@ describe("TokenStore", () => {
 
 	describe("when calling commentsExistBetween", () => {
 		it("should retrieve false if comments don't exist", () => {
-			assert.isFalse(
+			assert.strictEqual(
 				store.commentsExistBetween(AST.tokens[0], AST.tokens[1]),
+				false,
 			);
 		});
 
 		it("should retrieve true if comments exist", () => {
-			assert.isTrue(
+			assert.strictEqual(
 				store.commentsExistBetween(AST.tokens[1], AST.tokens[2]),
+				true,
 			);
 		});
 	});

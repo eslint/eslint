@@ -4,7 +4,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const { assert } = require("chai");
+const assert = require("node:assert");
 const reduceBadExampleSize = require("../../tools/code-sample-minimizer");
 
 //------------------------------------------------------------------------------

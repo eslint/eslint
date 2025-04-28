@@ -6,7 +6,7 @@
 "use strict";
 
 const { flatConfigSchema } = require("../../../lib/config/flat-config-schema");
-const { assert } = require("chai");
+const assert = require("node:assert");
 const {
 	Legacy: { ConfigArray },
 } = require("@eslint/eslintrc");
@@ -178,7 +178,7 @@ describe("merge", () => {
 		const result = merge(first, second);
 
 		assert.deepStrictEqual(result, second);
-		assert.notProperty(result.someProperty, "foo");
+		assert.ok(!("foo" in result.someProperty));
 		confirmLegacyMergeResult(first, second, result);
 	});
 
@@ -188,7 +188,7 @@ describe("merge", () => {
 		const result = merge(first, second);
 
 		assert.deepStrictEqual(result, second);
-		assert.notProperty(result.someProperty, "foo");
+		assert.ok(!("foo" in result.someProperty));
 		confirmLegacyMergeResult(first, second, result);
 	});
 

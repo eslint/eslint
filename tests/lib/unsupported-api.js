@@ -9,7 +9,7 @@
 // Requirements
 //-----------------------------------------------------------------------------
 
-const assert = require("chai").assert,
+const assert = require("node:assert"),
 	{
 		LazyLoadingRuleMap,
 	} = require("../../lib/rules/utils/lazy-loading-rule-map"),
@@ -21,30 +21,30 @@ const assert = require("chai").assert,
 
 describe("unsupported-api", () => {
 	it("should have FileEnumerator exposed", () => {
-		assert.isFunction(api.FileEnumerator);
+		assert.strictEqual(typeof api.FileEnumerator, "function");
 	});
 
 	it("should have FlatESLint exposed", () => {
-		assert.isFunction(api.FlatESLint);
+		assert.strictEqual(typeof api.FlatESLint, "function");
 	});
 
 	it("should have LegacyESLint exposed", () => {
-		assert.isFunction(api.LegacyESLint);
+		assert.strictEqual(typeof api.LegacyESLint, "function");
 	});
 
 	it("should not have ESLint exposed", () => {
-		assert.isUndefined(api.ESLint);
+		assert.strictEqual(typeof api.ESLint, "undefined");
 	});
 
 	it("should have shouldUseFlatConfig exposed", () => {
-		assert.isFunction(api.shouldUseFlatConfig);
+		assert.strictEqual(typeof api.shouldUseFlatConfig, "function");
 	});
 
 	it("should not have FlatRuleTester exposed", () => {
-		assert.isUndefined(api.FlatRuleTester);
+		assert.strictEqual(typeof api.FlatRuleTester, "undefined");
 	});
 
 	it("should have builtinRules exposed", () => {
-		assert.instanceOf(api.builtinRules, LazyLoadingRuleMap);
+		assert.ok(api.builtinRules instanceof LazyLoadingRuleMap);
 	});
 });

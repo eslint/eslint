@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("chai").assert;
+const assert = require("node:assert");
 
 const {
 	upperCaseFirst,
@@ -38,24 +38,24 @@ function escapeControlCharacters(text) {
 
 describe("upperCaseFirst", () => {
 	it("uppercases the first letter of a string", () => {
-		assert(upperCaseFirst("e") === "E");
-		assert(upperCaseFirst("alphabet") === "Alphabet");
-		assert(upperCaseFirst("one two three") === "One two three");
+		assert.ok(upperCaseFirst("e") === "E");
+		assert.ok(upperCaseFirst("alphabet") === "Alphabet");
+		assert.ok(upperCaseFirst("one two three") === "One two three");
 	});
 
 	it("only changes the case of the first letter", () => {
-		assert(upperCaseFirst("alphaBet") === "AlphaBet");
-		assert(upperCaseFirst("one TWO three") === "One TWO three");
+		assert.ok(upperCaseFirst("alphaBet") === "AlphaBet");
+		assert.ok(upperCaseFirst("one TWO three") === "One TWO three");
 	});
 
 	it("does not change the case if the first letter is already uppercase", () => {
-		assert(upperCaseFirst("E") === "E");
-		assert(upperCaseFirst("Alphabet") === "Alphabet");
-		assert(upperCaseFirst("One Two Three") === "One Two Three");
+		assert.ok(upperCaseFirst("E") === "E");
+		assert.ok(upperCaseFirst("Alphabet") === "Alphabet");
+		assert.ok(upperCaseFirst("One Two Three") === "One Two Three");
 	});
 
 	it("properly handles an empty string", () => {
-		assert(upperCaseFirst("") === "");
+		assert.ok(upperCaseFirst("") === "");
 	});
 });
 

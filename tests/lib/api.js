@@ -9,7 +9,7 @@
 // Requirements
 //-----------------------------------------------------------------------------
 
-const assert = require("chai").assert,
+const assert = require("node:assert"),
 	api = require("../../lib/api"),
 	{ LegacyESLint } = require("../../lib/eslint/legacy-eslint");
 
@@ -19,27 +19,27 @@ const assert = require("chai").assert,
 
 describe("api", () => {
 	it("should have ESLint exposed", () => {
-		assert.isFunction(api.ESLint);
+		assert.strictEqual(typeof api.ESLint, "function");
 	});
 
 	it("should have RuleTester exposed", () => {
-		assert.isFunction(api.RuleTester);
+		assert.strictEqual(typeof api.RuleTester, "function");
 	});
 
 	it("should not have CLIEngine exposed", () => {
-		assert.isUndefined(api.CLIEngine);
+		assert.strictEqual(typeof api.CLIEngine, "undefined");
 	});
 
 	it("should not have linter exposed", () => {
-		assert.isUndefined(api.linter);
+		assert.strictEqual(typeof api.linter, "undefined");
 	});
 
 	it("should have Linter exposed", () => {
-		assert.isFunction(api.Linter);
+		assert.strictEqual(typeof api.Linter, "function");
 	});
 
 	it("should have SourceCode exposed", () => {
-		assert.isFunction(api.SourceCode);
+		assert.strictEqual(typeof api.SourceCode, "function");
 	});
 
 	describe("loadESLint", () => {
@@ -48,11 +48,11 @@ describe("api", () => {
 		});
 
 		it("should be a function", () => {
-			assert.isFunction(api.loadESLint);
+			assert.strictEqual(typeof api.loadESLint, "function");
 		});
 
 		it("should return a Promise", () => {
-			assert.instanceOf(api.loadESLint(), Promise);
+			assert.ok(api.loadESLint() instanceof Promise);
 		});
 
 		it("should return ESLint when useFlatConfig is true", async () => {

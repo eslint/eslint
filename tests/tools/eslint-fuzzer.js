@@ -4,7 +4,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("chai").assert;
+const assert = require("node:assert");
 const eslint = require("../..");
 const espree = require("espree");
 const sinon = require("sinon");

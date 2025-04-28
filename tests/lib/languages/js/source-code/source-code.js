@@ -10,7 +10,7 @@
 
 const fs = require("node:fs"),
 	path = require("node:path"),
-	assert = require("chai").assert,
+	assert = require("node:assert"),
 	espree = require("espree"),
 	eslintScope = require("eslint-scope"),
 	sinon = require("sinon"),
@@ -57,7 +57,7 @@ describe("SourceCode", () => {
 			const ast = { comments: [], tokens: [], loc: {}, range: [] };
 			const sourceCode = new SourceCode("foo;", ast);
 
-			assert.isObject(sourceCode);
+			assert.ok(sourceCode !== null && typeof sourceCode === "object");
 			assert.strictEqual(sourceCode.text, "foo;");
 			assert.strictEqual(sourceCode.ast, ast);
 		});
@@ -75,7 +75,7 @@ describe("SourceCode", () => {
 				visitorKeys,
 			});
 
-			assert.isObject(sourceCode);
+			assert.ok(sourceCode !== null && typeof sourceCode === "object");
 			assert.strictEqual(sourceCode.text, "foo;");
 			assert.strictEqual(sourceCode.ast, ast);
 			assert.strictEqual(sourceCode.parserServices, parserServices);
@@ -87,7 +87,7 @@ describe("SourceCode", () => {
 			const ast = { comments: [], tokens: [], loc: {}, range: [] };
 			const sourceCode = new SourceCode("foo;\nbar;", ast);
 
-			assert.isObject(sourceCode);
+			assert.ok(sourceCode !== null && typeof sourceCode === "object");
 			assert.strictEqual(sourceCode.lines.length, 2);
 			assert.strictEqual(sourceCode.lines[0], "foo;");
 			assert.strictEqual(sourceCode.lines[1], "bar;");
@@ -338,7 +338,11 @@ describe("SourceCode", () => {
 				},
 			});
 			linter.verify(code, { rules: { checker: "error" } });
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
+			assert.strictEqual(
+				spy.calledOnce,
+				true,
+				"Event handler should be called.",
+			);
 		});
 
 		it("should not take a JSDoc comment from a VariableDeclaration parent node when the node is a FunctionExpression inside a NewExpression", () => {
@@ -369,7 +373,11 @@ describe("SourceCode", () => {
 				},
 			});
 			linter.verify(code, { rules: { checker: "error" } });
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
+			assert.strictEqual(
+				spy.calledOnce,
+				true,
+				"Event handler should be called.",
+			);
 		});
 
 		it("should not take a JSDoc comment from a FunctionExpression parent node when the node is a FunctionExpression", () => {
@@ -403,8 +411,9 @@ describe("SourceCode", () => {
 				},
 			});
 			linter.verify(code, { rules: { checker: "error" } });
-			assert.isTrue(
+			assert.strictEqual(
 				spy.calledTwice,
+				true,
 				"Event handler should be called twice.",
 			);
 		});
@@ -443,7 +452,11 @@ describe("SourceCode", () => {
 				},
 			});
 			linter.verify(code, { rules: { checker: "error" } });
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
+			assert.strictEqual(
+				spy.calledOnce,
+				true,
+				"Event handler should be called.",
+			);
 		});
 
 		it("should get JSDoc comment for node when the node is a FunctionDeclaration", () => {
@@ -473,7 +486,11 @@ describe("SourceCode", () => {
 				},
 			});
 			linter.verify(code, { rules: { checker: "error" } });
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
+			assert.strictEqual(
+				spy.calledOnce,
+				true,
+				"Event handler should be called.",
+			);
 		});
 
 		it("should get JSDoc comment for node when the node is a FunctionDeclaration but its parent is an export", () => {
@@ -506,7 +523,11 @@ describe("SourceCode", () => {
 				rules: { checker: "error" },
 				parserOptions: { ecmaVersion: 6, sourceType: "module" },
 			});
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
+			assert.strictEqual(
+				spy.calledOnce,
+				true,
+				"Event handler should be called.",
+			);
 		});
 
 		it("should get JSDoc comment for node when the node is a FunctionDeclaration but not the first statement", () => {
@@ -540,7 +561,11 @@ describe("SourceCode", () => {
 				},
 			});
 			linter.verify(code, { rules: { checker: "error" } });
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
+			assert.strictEqual(
+				spy.calledOnce,
+				true,
+				"Event handler should be called.",
+			);
 		});
 
 		it("should not get JSDoc comment for node when the node is a FunctionDeclaration inside of an IIFE without a JSDoc comment", () => {
@@ -561,7 +586,7 @@ describe("SourceCode", () => {
 				const sourceCode = linter.getSourceCode();
 				const jsdoc = sourceCode.getJSDocComment(node);
 
-				assert.isNull(jsdoc);
+				assert.strictEqual(jsdoc, null);
 			}
 
 			const spy = sinon.spy(assertJSDoc);
@@ -574,7 +599,11 @@ describe("SourceCode", () => {
 				},
 			});
 			linter.verify(code, { rules: { checker: "error" } });
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
+			assert.strictEqual(
+				spy.calledOnce,
+				true,
+				"Event handler should be called.",
+			);
 		});
 
 		it("should get JSDoc comment for node when the node is a FunctionDeclaration and there are multiple comments", () => {
@@ -608,7 +637,11 @@ describe("SourceCode", () => {
 				},
 			});
 			linter.verify(code, { rules: { checker: "error" } });
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
+			assert.strictEqual(
+				spy.calledOnce,
+				true,
+				"Event handler should be called.",
+			);
 		});
 
 		it("should get JSDoc comment for node when the node is a FunctionDeclaration inside of an IIFE", () => {
@@ -644,7 +677,11 @@ describe("SourceCode", () => {
 				},
 			});
 			linter.verify(code, { rules: { checker: "error" } });
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
+			assert.strictEqual(
+				spy.calledOnce,
+				true,
+				"Event handler should be called.",
+			);
 		});
 
 		it("should get JSDoc comment for node when the node is a FunctionExpression inside of an object literal", () => {
@@ -680,7 +717,11 @@ describe("SourceCode", () => {
 				},
 			});
 			linter.verify(code, { rules: { checker: "error" } });
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
+			assert.strictEqual(
+				spy.calledOnce,
+				true,
+				"Event handler should be called.",
+			);
 		});
 
 		it("should get JSDoc comment for node when the node is a ArrowFunctionExpression inside of an object literal", () => {
@@ -719,7 +760,11 @@ describe("SourceCode", () => {
 				rules: { checker: "error" },
 				parserOptions: { ecmaVersion: 6 },
 			});
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
+			assert.strictEqual(
+				spy.calledOnce,
+				true,
+				"Event handler should be called.",
+			);
 		});
 
 		it("should get JSDoc comment for node when the node is a FunctionExpression in an assignment", () => {
@@ -753,7 +798,11 @@ describe("SourceCode", () => {
 				},
 			});
 			linter.verify(code, { rules: { checker: "error" } });
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
+			assert.strictEqual(
+				spy.calledOnce,
+				true,
+				"Event handler should be called.",
+			);
 		});
 
 		it("should get JSDoc comment for node when the node is a FunctionExpression in an assignment inside an IIFE", () => {
@@ -791,7 +840,11 @@ describe("SourceCode", () => {
 				},
 			});
 			linter.verify(code, { rules: { checker: "error" } });
-			assert.isTrue(spy.calledTwice, "Event handler should be called.");
+			assert.strictEqual(
+				spy.calledTwice,
+				true,
+				"Event handler should be called.",
+			);
 		});
 
 		it("should not get JSDoc comment for node when the node is a FunctionExpression in an assignment inside an IIFE without a JSDoc comment", () => {
@@ -814,7 +867,7 @@ describe("SourceCode", () => {
 					const sourceCode = linter.getSourceCode();
 					const jsdoc = sourceCode.getJSDocComment(node);
 
-					assert.isNull(jsdoc);
+					assert.strictEqual(jsdoc, null);
 				}
 			}
 
@@ -828,7 +881,11 @@ describe("SourceCode", () => {
 				},
 			});
 			linter.verify(code, { rules: { checker: "error" } });
-			assert.isTrue(spy.calledTwice, "Event handler should be called.");
+			assert.strictEqual(
+				spy.calledTwice,
+				true,
+				"Event handler should be called.",
+			);
 		});
 
 		it("should not get JSDoc comment for node when the node is a FunctionExpression inside of a CallExpression", () => {
@@ -849,7 +906,7 @@ describe("SourceCode", () => {
 					const sourceCode = linter.getSourceCode();
 					const jsdoc = sourceCode.getJSDocComment(node);
 
-					assert.isNull(jsdoc);
+					assert.strictEqual(jsdoc, null);
 				}
 			}
 
@@ -863,7 +920,11 @@ describe("SourceCode", () => {
 				},
 			});
 			linter.verify(code, { rules: { checker: "error" } });
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
+			assert.strictEqual(
+				spy.calledOnce,
+				true,
+				"Event handler should be called.",
+			);
 		});
 
 		it("should not get JSDoc comment for node when the node is a FunctionExpression in an assignment inside an IIFE without a JSDoc comment", () => {
@@ -892,7 +953,7 @@ describe("SourceCode", () => {
 					const sourceCode = linter.getSourceCode();
 					const jsdoc = sourceCode.getJSDocComment(node);
 
-					assert.isNull(jsdoc);
+					assert.strictEqual(jsdoc, null);
 				}
 			}
 
@@ -906,7 +967,11 @@ describe("SourceCode", () => {
 				},
 			});
 			linter.verify(code, { rules: { checker: "error" } });
-			assert.isTrue(spy.calledTwice, "Event handler should be called.");
+			assert.strictEqual(
+				spy.calledTwice,
+				true,
+				"Event handler should be called.",
+			);
 		});
 
 		it("should get JSDoc comment for node when the node is a ClassExpression", () => {
@@ -946,7 +1011,11 @@ describe("SourceCode", () => {
 				rules: { checker: "error" },
 				parserOptions: { ecmaVersion: 6 },
 			});
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
+			assert.strictEqual(
+				spy.calledOnce,
+				true,
+				"Event handler should be called.",
+			);
 		});
 
 		it("should get JSDoc comment for node when the node is a ClassDeclaration", () => {
@@ -986,7 +1055,11 @@ describe("SourceCode", () => {
 				rules: { checker: "error" },
 				parserOptions: { ecmaVersion: 6 },
 			});
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
+			assert.strictEqual(
+				spy.calledOnce,
+				true,
+				"Event handler should be called.",
+			);
 		});
 
 		it("should not get JSDoc comment for class method even if the class has jsdoc present", () => {
@@ -1007,7 +1080,7 @@ describe("SourceCode", () => {
 				const sourceCode = linter.getSourceCode();
 				const jsdoc = sourceCode.getJSDocComment(node);
 
-				assert.isNull(jsdoc);
+				assert.strictEqual(jsdoc, null);
 			}
 
 			const spy = sinon.spy(assertJSDoc);
@@ -1023,7 +1096,11 @@ describe("SourceCode", () => {
 				rules: { checker: "error" },
 				parserOptions: { ecmaVersion: 6 },
 			});
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
+			assert.strictEqual(
+				spy.calledOnce,
+				true,
+				"Event handler should be called.",
+			);
 		});
 
 		it("should get JSDoc comment for function expression even if function has blank lines on top", () => {
@@ -1067,7 +1144,11 @@ describe("SourceCode", () => {
 				rules: { checker: "error" },
 				parserOptions: { ecmaVersion: 6 },
 			});
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
+			assert.strictEqual(
+				spy.calledOnce,
+				true,
+				"Event handler should be called.",
+			);
 		});
 
 		it("should not get JSDoc comment for function declaration when the function has blank lines on top", () => {
@@ -1090,7 +1171,7 @@ describe("SourceCode", () => {
 				const sourceCode = linter.getSourceCode();
 				const jsdoc = sourceCode.getJSDocComment(node);
 
-				assert.isNull(jsdoc);
+				assert.strictEqual(jsdoc, null);
 			}
 
 			const spy = sinon.spy(assertJSDoc);
@@ -1106,7 +1187,11 @@ describe("SourceCode", () => {
 				rules: { checker: "error" },
 				parserOptions: { ecmaVersion: 6 },
 			});
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
+			assert.strictEqual(
+				spy.calledOnce,
+				true,
+				"Event handler should be called.",
+			);
 		});
 	});
 
@@ -1287,9 +1372,9 @@ describe("SourceCode", () => {
 		it("should return null if the index is outside the range of any node", () => {
 			let node = sourceCode.getNodeByRangeIndex(-1);
 
-			assert.isNull(node);
+			assert.strictEqual(node, null);
 			node = sourceCode.getNodeByRangeIndex(-99);
-			assert.isNull(node);
+			assert.strictEqual(node, null);
 		});
 	});
 
@@ -2827,7 +2912,7 @@ describe("SourceCode", () => {
 			};
 
 			flatLinter.verify(code, config, filename);
-			assert(spy && spy.calledOnce, "Spy was not called.");
+			assert.ok(spy && spy.calledOnce, "Spy was not called.");
 		});
 
 		it("should retrieve empty ancestors for root node", () => {
@@ -2857,7 +2942,7 @@ describe("SourceCode", () => {
 			};
 
 			flatLinter.verify(code, config);
-			assert(spy && spy.calledOnce, "Spy was not called.");
+			assert.ok(spy && spy.calledOnce, "Spy was not called.");
 		});
 
 		it("should throw an error when the argument is missing", () => {
@@ -2887,7 +2972,7 @@ describe("SourceCode", () => {
 			};
 
 			flatLinter.verify(code, config);
-			assert(spy && spy.calledOnce, "Spy was not called.");
+			assert.ok(spy && spy.calledOnce, "Spy was not called.");
 		});
 	});
 
@@ -2971,8 +3056,8 @@ describe("SourceCode", () => {
 							const variables =
 								sourceCode.getDeclaredVariables(node);
 
-							assert(Array.isArray(expectedNames));
-							assert(Array.isArray(variables));
+							assert.ok(Array.isArray(expectedNames));
+							assert.ok(Array.isArray(variables));
 							assert.strictEqual(
 								expectedNames.length,
 								variables.length,
@@ -3144,12 +3229,18 @@ describe("SourceCode", () => {
 					const sourceCode = context.sourceCode;
 
 					spy = sinon.spy(node => {
-						assert.isTrue(sourceCode.markVariableAsUsed("a"));
+						assert.strictEqual(
+							sourceCode.markVariableAsUsed("a"),
+							true,
+						);
 
 						const scope = sourceCode.getScope(node);
 
-						assert.isTrue(getVariable(scope, "a").eslintUsed);
-						assert.notOk(getVariable(scope, "b").eslintUsed);
+						assert.strictEqual(
+							getVariable(scope, "a").eslintUsed,
+							true,
+						);
+						assert.ok(!getVariable(scope, "b").eslintUsed);
 					});
 
 					return { "Program:exit": spy };
@@ -3157,7 +3248,7 @@ describe("SourceCode", () => {
 			});
 
 			linter.verify(code, { rules: { checker: "error" } });
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 
 		it("should mark variables in function args as used", () => {
@@ -3169,12 +3260,18 @@ describe("SourceCode", () => {
 					const sourceCode = context.sourceCode;
 
 					spy = sinon.spy(node => {
-						assert.isTrue(sourceCode.markVariableAsUsed("a", node));
+						assert.strictEqual(
+							sourceCode.markVariableAsUsed("a", node),
+							true,
+						);
 
 						const scope = sourceCode.getScope(node);
 
-						assert.isTrue(getVariable(scope, "a").eslintUsed);
-						assert.notOk(getVariable(scope, "b").eslintUsed);
+						assert.strictEqual(
+							getVariable(scope, "a").eslintUsed,
+							true,
+						);
+						assert.ok(!getVariable(scope, "b").eslintUsed);
 					});
 
 					return { ReturnStatement: spy };
@@ -3182,7 +3279,7 @@ describe("SourceCode", () => {
 			});
 
 			linter.verify(code, { rules: { checker: "error" } });
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 
 		it("should mark variables in higher scopes as used", () => {
@@ -3194,13 +3291,19 @@ describe("SourceCode", () => {
 					const sourceCode = context.sourceCode;
 
 					returnSpy = sinon.spy(node => {
-						assert.isTrue(sourceCode.markVariableAsUsed("a", node));
+						assert.strictEqual(
+							sourceCode.markVariableAsUsed("a", node),
+							true,
+						);
 					});
 					exitSpy = sinon.spy(node => {
 						const scope = sourceCode.getScope(node);
 
-						assert.isTrue(getVariable(scope, "a").eslintUsed);
-						assert.notOk(getVariable(scope, "b").eslintUsed);
+						assert.strictEqual(
+							getVariable(scope, "a").eslintUsed,
+							true,
+						);
+						assert.ok(!getVariable(scope, "b").eslintUsed);
 					});
 
 					return {
@@ -3211,8 +3314,8 @@ describe("SourceCode", () => {
 			});
 
 			linter.verify(code, { rules: { checker: "error" } });
-			assert(returnSpy && returnSpy.calledOnce);
-			assert(exitSpy && exitSpy.calledOnce);
+			assert.ok(returnSpy && returnSpy.calledOnce);
+			assert.ok(exitSpy && exitSpy.calledOnce);
 		});
 
 		it("should mark variables in Node.js environment as used", () => {
@@ -3227,11 +3330,18 @@ describe("SourceCode", () => {
 						const globalScope = sourceCode.getScope(node),
 							childScope = globalScope.childScopes[0];
 
-						assert.isTrue(sourceCode.markVariableAsUsed("a"));
+						assert.strictEqual(
+							sourceCode.markVariableAsUsed("a"),
+							true,
+						);
 
-						assert.isTrue(getVariable(childScope, "a").eslintUsed);
-						assert.isUndefined(
-							getVariable(childScope, "b").eslintUsed,
+						assert.strictEqual(
+							getVariable(childScope, "a").eslintUsed,
+							true,
+						);
+						assert.strictEqual(
+							typeof getVariable(childScope, "b").eslintUsed,
+							"undefined",
 						);
 					});
 
@@ -3243,7 +3353,7 @@ describe("SourceCode", () => {
 				rules: { checker: "error" },
 				env: { node: true },
 			});
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 
 		it("should mark variables in modules as used", () => {
@@ -3258,11 +3368,18 @@ describe("SourceCode", () => {
 						const globalScope = sourceCode.getScope(node),
 							childScope = globalScope.childScopes[0];
 
-						assert.isTrue(sourceCode.markVariableAsUsed("a"));
+						assert.strictEqual(
+							sourceCode.markVariableAsUsed("a"),
+							true,
+						);
 
-						assert.isTrue(getVariable(childScope, "a").eslintUsed);
-						assert.isUndefined(
-							getVariable(childScope, "b").eslintUsed,
+						assert.strictEqual(
+							getVariable(childScope, "a").eslintUsed,
+							true,
+						);
+						assert.strictEqual(
+							typeof getVariable(childScope, "b").eslintUsed,
+							"undefined",
 						);
 					});
 
@@ -3278,7 +3395,7 @@ describe("SourceCode", () => {
 				},
 				filename,
 			);
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 
 		it("should return false if the given variable is not found", () => {
@@ -3290,7 +3407,10 @@ describe("SourceCode", () => {
 					const sourceCode = context.sourceCode;
 
 					spy = sinon.spy(() => {
-						assert.isFalse(sourceCode.markVariableAsUsed("c"));
+						assert.strictEqual(
+							sourceCode.markVariableAsUsed("c"),
+							false,
+						);
 					});
 
 					return { "Program:exit": spy };
@@ -3298,7 +3418,7 @@ describe("SourceCode", () => {
 			});
 
 			linter.verify(code, { rules: { checker: "error" } });
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 	});
 
@@ -3390,7 +3510,7 @@ describe("SourceCode", () => {
 			const globalScope = sourceCode.scopeManager.scopes[0];
 			const variable = globalScope.set.get("Promise");
 
-			assert.isDefined(variable);
+			assert.ok(typeof variable !== "undefined");
 		});
 
 		it("should add custom globals", () => {
@@ -3418,8 +3538,8 @@ describe("SourceCode", () => {
 			const globalScope = sourceCode.scopeManager.scopes[0];
 			const variable = globalScope.set.get("FOO");
 
-			assert.isDefined(variable);
-			assert.isTrue(variable.writeable);
+			assert.ok(typeof variable !== "undefined");
+			assert.strictEqual(variable.writeable, true);
 		});
 
 		it("should add commonjs globals", () => {
@@ -3446,7 +3566,7 @@ describe("SourceCode", () => {
 			const globalScope = sourceCode.scopeManager.scopes[0];
 			const variable = globalScope.set.get("require");
 
-			assert.isDefined(variable);
+			assert.ok(typeof variable !== "undefined");
 		});
 	});
 
@@ -3470,8 +3590,8 @@ describe("SourceCode", () => {
 			const globalScope = sourceCode.scopeManager.scopes[0];
 			const variable = globalScope.set.get("bar");
 
-			assert.isDefined(variable);
-			assert.isTrue(variable.writeable);
+			assert.ok(typeof variable !== "undefined");
+			assert.strictEqual(variable.writeable, true);
 		});
 
 		describe("exported variables", () => {
@@ -3505,9 +3625,9 @@ describe("SourceCode", () => {
 				const globalScope = loadGlobalScope(code);
 				const variable = globalScope.get("foo");
 
-				assert.isDefined(variable);
-				assert.isTrue(variable.eslintUsed);
-				assert.isTrue(variable.eslintExported);
+				assert.ok(typeof variable !== "undefined");
+				assert.strictEqual(variable.eslintUsed, true);
+				assert.strictEqual(variable.eslintExported, true);
 			});
 
 			it("should not mark exported variable with `key: value` pair", () => {
@@ -3515,9 +3635,9 @@ describe("SourceCode", () => {
 				const globalScope = loadGlobalScope(code);
 				const variable = globalScope.get("foo");
 
-				assert.isDefined(variable);
-				assert.notOk(variable.eslintUsed);
-				assert.notOk(variable.eslintExported);
+				assert.ok(typeof variable !== "undefined");
+				assert.ok(!variable.eslintUsed);
+				assert.ok(!variable.eslintExported);
 			});
 
 			it("should mark exported variables with comma", () => {
@@ -3527,9 +3647,9 @@ describe("SourceCode", () => {
 				["foo", "bar"].forEach(name => {
 					const variable = globalScope.get(name);
 
-					assert.isDefined(variable);
-					assert.isTrue(variable.eslintUsed);
-					assert.isTrue(variable.eslintExported);
+					assert.ok(typeof variable !== "undefined");
+					assert.strictEqual(variable.eslintUsed, true);
+					assert.strictEqual(variable.eslintExported, true);
 				});
 			});
 
@@ -3540,9 +3660,9 @@ describe("SourceCode", () => {
 				["foo", "bar"].forEach(name => {
 					const variable = globalScope.get(name);
 
-					assert.isDefined(variable);
-					assert.notOk(variable.eslintUsed);
-					assert.notOk(variable.eslintExported);
+					assert.ok(typeof variable !== "undefined");
+					assert.ok(!variable.eslintUsed);
+					assert.ok(!variable.eslintExported);
 				});
 			});
 		});
@@ -3603,7 +3723,7 @@ describe("SourceCode", () => {
 				problem.message,
 				/Failed to parse JSON from '"some-rule"::,': Unexpected token '?:'?/u,
 			);
-			assert.isNull(problem.ruleId);
+			assert.strictEqual(problem.ruleId, null);
 		});
 	});
 });

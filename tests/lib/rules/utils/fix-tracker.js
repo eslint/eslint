@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("chai").assert,
+const assert = require("node:assert"),
 	espree = require("espree"),
 	FixTracker = require("../../../../lib/rules/utils/fix-tracker"),
 	{ RuleFixer } = require("../../../../lib/linter/rule-fixer"),

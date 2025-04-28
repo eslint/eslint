@@ -4,7 +4,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("chai").assert;
+const assert = require("node:assert");
 const Traverser = require("../../../lib/shared/traverser");
 
 //------------------------------------------------------------------------------

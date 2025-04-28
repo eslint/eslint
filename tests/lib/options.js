@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("chai").assert,
+const assert = require("node:assert"),
 	createOptions = require("../../lib/options");
 
 //-----------------------------------------------------------------------------
@@ -34,7 +34,7 @@ describe("options", () => {
 				it("should return true for .help when passed", () => {
 					const currentOptions = options.parse("--help");
 
-					assert.isTrue(currentOptions.help);
+					assert.strictEqual(currentOptions.help, true);
 				});
 			});
 
@@ -42,7 +42,7 @@ describe("options", () => {
 				it("should return true for .help when passed", () => {
 					const currentOptions = options.parse("-h");
 
-					assert.isTrue(currentOptions.help);
+					assert.strictEqual(currentOptions.help, true);
 				});
 			});
 
@@ -50,7 +50,7 @@ describe("options", () => {
 				it("should return a string for .config when passed a string", () => {
 					const currentOptions = options.parse("--config file");
 
-					assert.isString(currentOptions.config);
+					assert.strictEqual(typeof currentOptions.config, "string");
 					assert.strictEqual(currentOptions.config, "file");
 				});
 			});
@@ -59,7 +59,7 @@ describe("options", () => {
 				it("should return a string for .config when passed a string", () => {
 					const currentOptions = options.parse("-c file");
 
-					assert.isString(currentOptions.config);
+					assert.strictEqual(typeof currentOptions.config, "string");
 					assert.strictEqual(currentOptions.config, "file");
 				});
 			});
@@ -68,14 +68,14 @@ describe("options", () => {
 				it("should return a string for .format when passed a string", () => {
 					const currentOptions = options.parse("--format json");
 
-					assert.isString(currentOptions.format);
+					assert.strictEqual(typeof currentOptions.format, "string");
 					assert.strictEqual(currentOptions.format, "json");
 				});
 
 				it("should return stylish for .format when not passed", () => {
 					const currentOptions = options.parse("");
 
-					assert.isString(currentOptions.format);
+					assert.strictEqual(typeof currentOptions.format, "string");
 					assert.strictEqual(currentOptions.format, "stylish");
 				});
 			});
@@ -84,7 +84,7 @@ describe("options", () => {
 				it("should return a string for .format when passed a string", () => {
 					const currentOptions = options.parse("-f json");
 
-					assert.isString(currentOptions.format);
+					assert.strictEqual(typeof currentOptions.format, "string");
 					assert.strictEqual(currentOptions.format, "json");
 				});
 			});
@@ -93,7 +93,7 @@ describe("options", () => {
 				it("should return true for .version when passed", () => {
 					const currentOptions = options.parse("--version");
 
-					assert.isTrue(currentOptions.version);
+					assert.strictEqual(currentOptions.version, true);
 				});
 			});
 
@@ -101,7 +101,7 @@ describe("options", () => {
 				it("should return true for .version when passed", () => {
 					const currentOptions = options.parse("-v");
 
-					assert.isTrue(currentOptions.version);
+					assert.strictEqual(currentOptions.version, true);
 				});
 			});
 
@@ -109,7 +109,7 @@ describe("options", () => {
 				it("should return string of help text when called", () => {
 					const helpText = options.generateHelp();
 
-					assert.isString(helpText);
+					assert.strictEqual(typeof helpText, "string");
 				});
 			});
 
@@ -117,7 +117,7 @@ describe("options", () => {
 				it("should return false for .ignore when passed", () => {
 					const currentOptions = options.parse("--no-ignore");
 
-					assert.isFalse(currentOptions.ignore);
+					assert.strictEqual(currentOptions.ignore, false);
 				});
 			});
 
@@ -162,13 +162,13 @@ describe("options", () => {
 				it("should return true for .color when passed --color", () => {
 					const currentOptions = options.parse("--color");
 
-					assert.isTrue(currentOptions.color);
+					assert.strictEqual(currentOptions.color, true);
 				});
 
 				it("should return false for .color when passed --no-color", () => {
 					const currentOptions = options.parse("--no-color");
 
-					assert.isFalse(currentOptions.color);
+					assert.strictEqual(currentOptions.color, false);
 				});
 			});
 
@@ -176,7 +176,7 @@ describe("options", () => {
 				it("should return true for .stdin when passed", () => {
 					const currentOptions = options.parse("--stdin");
 
-					assert.isTrue(currentOptions.stdin);
+					assert.strictEqual(currentOptions.stdin, true);
 				});
 			});
 
@@ -194,7 +194,7 @@ describe("options", () => {
 				it("should return an array for a single occurrence", () => {
 					const currentOptions = options.parse("--global foo");
 
-					assert.isArray(currentOptions.global);
+					assert.ok(Array.isArray(currentOptions.global));
 					assert.strictEqual(currentOptions.global.length, 1);
 					assert.strictEqual(currentOptions.global[0], "foo");
 				});
@@ -202,7 +202,7 @@ describe("options", () => {
 				it("should split variable names using commas", () => {
 					const currentOptions = options.parse("--global foo,bar");
 
-					assert.isArray(currentOptions.global);
+					assert.ok(Array.isArray(currentOptions.global));
 					assert.strictEqual(currentOptions.global.length, 2);
 					assert.strictEqual(currentOptions.global[0], "foo");
 					assert.strictEqual(currentOptions.global[1], "bar");
@@ -213,7 +213,7 @@ describe("options", () => {
 						"--global foo:false,bar:true",
 					);
 
-					assert.isArray(currentOptions.global);
+					assert.ok(Array.isArray(currentOptions.global));
 					assert.strictEqual(currentOptions.global.length, 2);
 					assert.strictEqual(currentOptions.global[0], "foo:false");
 					assert.strictEqual(currentOptions.global[1], "bar:true");
@@ -224,7 +224,7 @@ describe("options", () => {
 						"--global foo:true --global bar:false",
 					);
 
-					assert.isArray(currentOptions.global);
+					assert.ok(Array.isArray(currentOptions.global));
 					assert.strictEqual(currentOptions.global.length, 2);
 					assert.strictEqual(currentOptions.global[0], "foo:true");
 					assert.strictEqual(currentOptions.global[1], "bar:false");
@@ -235,7 +235,7 @@ describe("options", () => {
 				it("should return true for .quiet when passed", () => {
 					const currentOptions = options.parse("--quiet");
 
-					assert.isTrue(currentOptions.quiet);
+					assert.strictEqual(currentOptions.quiet, true);
 				});
 			});
 
@@ -263,7 +263,7 @@ describe("options", () => {
 				it("should return true for --init when passed", () => {
 					const currentOptions = options.parse("--init");
 
-					assert.isTrue(currentOptions.init);
+					assert.strictEqual(currentOptions.init, true);
 				});
 			});
 
@@ -271,7 +271,7 @@ describe("options", () => {
 				it("should return true for --fix when passed", () => {
 					const currentOptions = options.parse("--fix");
 
-					assert.isTrue(currentOptions.fix);
+					assert.strictEqual(currentOptions.fix, true);
 				});
 			});
 
@@ -308,7 +308,7 @@ describe("options", () => {
 				it("should return true for --debug when passed", () => {
 					const currentOptions = options.parse("--debug");
 
-					assert.isTrue(currentOptions.debug);
+					assert.strictEqual(currentOptions.debug, true);
 				});
 			});
 
@@ -316,13 +316,13 @@ describe("options", () => {
 				it("should return false when passed --no-inline-config", () => {
 					const currentOptions = options.parse("--no-inline-config");
 
-					assert.isFalse(currentOptions.inlineConfig);
+					assert.strictEqual(currentOptions.inlineConfig, false);
 				});
 
 				it("should return true for --inline-config when empty", () => {
 					const currentOptions = options.parse("");
 
-					assert.isTrue(currentOptions.inlineConfig);
+					assert.strictEqual(currentOptions.inlineConfig, true);
 				});
 			});
 
@@ -340,7 +340,7 @@ describe("options", () => {
 				it("should return an array with one item when passed .jsx", () => {
 					const currentOptions = options.parse("--ext .jsx");
 
-					assert.isArray(currentOptions.ext);
+					assert.ok(Array.isArray(currentOptions.ext));
 					assert.strictEqual(currentOptions.ext[0], ".jsx");
 				});
 
@@ -349,7 +349,7 @@ describe("options", () => {
 						"--ext .jsx --ext .js",
 					);
 
-					assert.isArray(currentOptions.ext);
+					assert.ok(Array.isArray(currentOptions.ext));
 					assert.strictEqual(currentOptions.ext[0], ".jsx");
 					assert.strictEqual(currentOptions.ext[1], ".js");
 				});
@@ -357,7 +357,7 @@ describe("options", () => {
 				it("should return an array with two items when passed .jsx,.js", () => {
 					const currentOptions = options.parse("--ext .jsx,.js");
 
-					assert.isArray(currentOptions.ext);
+					assert.ok(Array.isArray(currentOptions.ext));
 					assert.strictEqual(currentOptions.ext[0], ".jsx");
 					assert.strictEqual(currentOptions.ext[1], ".js");
 				});
@@ -365,7 +365,7 @@ describe("options", () => {
 				it("should not exist when not passed", () => {
 					const currentOptions = options.parse("");
 
-					assert.notProperty(currentOptions, "ext");
+					assert.ok(!("ext" in currentOptions));
 				});
 			});
 		});
@@ -377,7 +377,7 @@ describe("options", () => {
 				"--rulesdir /morerules",
 			);
 
-			assert.isArray(currentOptions.rulesdir);
+			assert.ok(Array.isArray(currentOptions.rulesdir));
 			assert.deepStrictEqual(currentOptions.rulesdir, ["/morerules"]);
 		});
 	});
@@ -404,7 +404,7 @@ describe("options", () => {
 		it("should return an array when passed a single occurrence", () => {
 			const currentOptions = eslintrcOptions.parse("--plugin single");
 
-			assert.isArray(currentOptions.plugin);
+			assert.ok(Array.isArray(currentOptions.plugin));
 			assert.strictEqual(currentOptions.plugin.length, 1);
 			assert.strictEqual(currentOptions.plugin[0], "single");
 		});
@@ -412,7 +412,7 @@ describe("options", () => {
 		it("should return an array when passed a comma-delimited string", () => {
 			const currentOptions = eslintrcOptions.parse("--plugin foo,bar");
 
-			assert.isArray(currentOptions.plugin);
+			assert.ok(Array.isArray(currentOptions.plugin));
 			assert.strictEqual(currentOptions.plugin.length, 2);
 			assert.strictEqual(currentOptions.plugin[0], "foo");
 			assert.strictEqual(currentOptions.plugin[1], "bar");
@@ -423,7 +423,7 @@ describe("options", () => {
 				"--plugin foo --plugin bar",
 			);
 
-			assert.isArray(currentOptions.plugin);
+			assert.ok(Array.isArray(currentOptions.plugin));
 			assert.strictEqual(currentOptions.plugin.length, 2);
 			assert.strictEqual(currentOptions.plugin[0], "foo");
 			assert.strictEqual(currentOptions.plugin[1], "bar");
@@ -436,7 +436,7 @@ describe("options", () => {
 				"--no-config-lookup foo.js",
 			);
 
-			assert.isFalse(currentOptions.configLookup);
+			assert.strictEqual(currentOptions.configLookup, false);
 		});
 	});
 
@@ -444,7 +444,7 @@ describe("options", () => {
 		it("should return a boolean for .passOnNoPatterns when passed a string", () => {
 			const currentOptions = flatOptions.parse("--pass-on-no-patterns");
 
-			assert.isTrue(currentOptions.passOnNoPatterns);
+			assert.strictEqual(currentOptions.passOnNoPatterns, true);
 		});
 	});
 
@@ -452,13 +452,13 @@ describe("options", () => {
 		it("should return false when --no-warn-ignored is passed", () => {
 			const currentOptions = flatOptions.parse("--no-warn-ignored");
 
-			assert.isFalse(currentOptions.warnIgnored);
+			assert.strictEqual(currentOptions.warnIgnored, false);
 		});
 
 		it("should return true when --warn-ignored is passed", () => {
 			const currentOptions = flatOptions.parse("--warn-ignored");
 
-			assert.isTrue(currentOptions.warnIgnored);
+			assert.strictEqual(currentOptions.warnIgnored, true);
 		});
 	});
 
@@ -466,7 +466,7 @@ describe("options", () => {
 		it("should return true --stats is passed", () => {
 			const currentOptions = flatOptions.parse("--stats");
 
-			assert.isTrue(currentOptions.stats);
+			assert.strictEqual(currentOptions.stats, true);
 		});
 	});
 
@@ -474,7 +474,7 @@ describe("options", () => {
 		it("should return true when --inspect-config is passed", () => {
 			const currentOptions = flatOptions.parse("--inspect-config");
 
-			assert.isTrue(currentOptions.inspectConfig);
+			assert.strictEqual(currentOptions.inspectConfig, true);
 		});
 	});
 

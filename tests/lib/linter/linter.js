@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const { assert } = require("chai"),
+const assert = require("node:assert"),
 	sinon = require("sinon"),
 	espree = require("espree"),
 	esprima = require("esprima"),
@@ -96,9 +96,15 @@ describe("Linter", () => {
 				}),
 			});
 
-			assert.throws(() => {
-				linter.verify(code, config, filename);
-			}, `Intentional error.\nOccurred while linting ${filename}:1\nRule: "checker"`);
+			assert.throws(
+				() => {
+					linter.verify(code, config, filename);
+				},
+				new RegExp(
+					`Intentional error.\nOccurred while linting ${filename}:1\nRule: "checker"`,
+					"u",
+				),
+			);
 		});
 
 		it("does not call rule listeners with a `this` value", () => {
@@ -108,7 +114,7 @@ describe("Linter", () => {
 				create: () => ({ Program: spy }),
 			});
 			linter.verify("foo", { rules: { checker: "error" } });
-			assert(spy.calledOnce, "Rule should have been called");
+			assert.ok(spy.calledOnce, "Rule should have been called");
 			assert.strictEqual(
 				spy.firstCall.thisValue,
 				void 0,
@@ -125,7 +131,7 @@ describe("Linter", () => {
 			linter.verify("foo", {
 				rules: { checker: "error", "no-undef": "error" },
 			});
-			assert(spy.notCalled);
+			assert.ok(spy.notCalled);
 		});
 
 		it("has all the `parent` properties on nodes when the rule listeners are created", () => {
@@ -150,7 +156,7 @@ describe("Linter", () => {
 			linter.defineRule("checker", { create: spy });
 
 			linter.verify("foo + bar", { rules: { checker: "error" } });
-			assert(spy.calledOnce);
+			assert.ok(spy.calledOnce);
 		});
 	});
 
@@ -162,9 +168,11 @@ describe("Linter", () => {
 
 			const sourceCode = linter.getSourceCode();
 
-			assert.isObject(sourceCode);
+			assert.ok(sourceCode !== null && typeof sourceCode === "object");
 			assert.strictEqual(sourceCode.text, code);
-			assert.isObject(sourceCode.ast);
+			assert.ok(
+				sourceCode.ast !== null && typeof sourceCode.ast === "object",
+			);
 		});
 
 		it("should retrieve SourceCode object without reset", () => {
@@ -172,9 +180,11 @@ describe("Linter", () => {
 
 			const sourceCode = linter.getSourceCode();
 
-			assert.isObject(sourceCode);
+			assert.ok(sourceCode !== null && typeof sourceCode === "object");
 			assert.strictEqual(sourceCode.text, code);
-			assert.isObject(sourceCode.ast);
+			assert.ok(
+				sourceCode.ast !== null && typeof sourceCode.ast === "object",
+			);
 		});
 	});
 
@@ -350,7 +360,7 @@ describe("Linter", () => {
 						rules: { "function-style-rule": "error" },
 					}),
 				TypeError,
-				"Error while loading rule 'function-style-rule': Rule must be an object with a `create` method",
+				/Error while loading rule 'function-style-rule': Rule must be an object with a `create` method/u,
 			);
 		});
 
@@ -373,7 +383,7 @@ describe("Linter", () => {
 						rules: { "object-rule-without-create": "error" },
 					}),
 				TypeError,
-				"Error while loading rule 'object-rule-without-create': Rule must be an object with a `create` method",
+				/Error while loading rule 'object-rule-without-create': Rule must be an object with a `create` method/u,
 			);
 		});
 
@@ -391,7 +401,7 @@ describe("Linter", () => {
 
 			assert.throws(
 				() => linter.verify("/* eslint rule-with-invalid-schema: 2 */"),
-				"Error while processing options validation schema of rule 'rule-with-invalid-schema': Rule's `meta.schema` must be an array or object",
+				/Error while processing options validation schema of rule 'rule-with-invalid-schema': Rule's `meta.schema` must be an array or object/u,
 			);
 		});
 
@@ -410,7 +420,7 @@ describe("Linter", () => {
 						rules: { "invalid-report": "error" },
 					}),
 				TypeError,
-				"Missing `message` property in report() call; add a message that describes the linting problem.",
+				/Missing `message` property in report\(\) call; add a message that describes the linting problem./u,
 			);
 		});
 	});
@@ -776,7 +786,7 @@ describe("Linter", () => {
 			});
 
 			linter.verify(code, config);
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 	});
 
@@ -808,7 +818,7 @@ describe("Linter", () => {
 			});
 
 			linter.verify(code, config);
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 	});
 
@@ -844,7 +854,7 @@ describe("Linter", () => {
 			});
 
 			linter.verify(code, config);
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 
 		it("variables should be available in global scope with quoted items", () => {
@@ -870,7 +880,7 @@ describe("Linter", () => {
 			});
 
 			linter.verify(code, config);
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 	});
 
@@ -897,7 +907,7 @@ describe("Linter", () => {
 			});
 
 			linter.verify(code, config);
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 	});
 
@@ -920,7 +930,7 @@ describe("Linter", () => {
 						const scope = context.sourceCode.getScope(node),
 							horse = getVariable(scope, "horse");
 
-						assert.isTrue(horse.eslintUsed);
+						assert.strictEqual(horse.eslintUsed, true);
 					});
 
 					return { Program: spy };
@@ -928,7 +938,7 @@ describe("Linter", () => {
 			});
 
 			linter.verify(code, config);
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 
 		it("`key: value` pair variable should not be exported", () => {
@@ -942,7 +952,7 @@ describe("Linter", () => {
 						const scope = context.sourceCode.getScope(node),
 							horse = getVariable(scope, "horse");
 
-						assert.notOk(horse.eslintUsed);
+						assert.ok(!horse.eslintUsed);
 					});
 
 					return { Program: spy };
@@ -950,7 +960,7 @@ describe("Linter", () => {
 			});
 
 			linter.verify(code, config);
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 
 		it("variables with comma should be exported", () => {
@@ -964,7 +974,10 @@ describe("Linter", () => {
 						const scope = context.sourceCode.getScope(node);
 
 						["horse", "dog"].forEach(name => {
-							assert.isTrue(getVariable(scope, name).eslintUsed);
+							assert.strictEqual(
+								getVariable(scope, name).eslintUsed,
+								true,
+							);
 						});
 					});
 
@@ -973,7 +986,7 @@ describe("Linter", () => {
 			});
 
 			linter.verify(code, config);
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 
 		it("variables without comma should not be exported", () => {
@@ -987,7 +1000,7 @@ describe("Linter", () => {
 						const scope = context.sourceCode.getScope(node);
 
 						["horse", "dog"].forEach(name => {
-							assert.notOk(getVariable(scope, name).eslintUsed);
+							assert.ok(!getVariable(scope, name).eslintUsed);
 						});
 					});
 
@@ -996,7 +1009,7 @@ describe("Linter", () => {
 			});
 
 			linter.verify(code, config);
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 
 		it("variables should be exported", () => {
@@ -1018,7 +1031,7 @@ describe("Linter", () => {
 			});
 
 			linter.verify(code, config);
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 
 		it("undefined variables should not be exported", () => {
@@ -1040,7 +1053,7 @@ describe("Linter", () => {
 			});
 
 			linter.verify(code, config);
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 
 		it("variables should be exported in strict mode", () => {
@@ -1063,7 +1076,7 @@ describe("Linter", () => {
 			});
 
 			linter.verify(code, config);
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 
 		it("variables should not be exported in the es6 module environment", () => {
@@ -1088,7 +1101,7 @@ describe("Linter", () => {
 			});
 
 			linter.verify(code, config);
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 
 		it("variables should not be exported when in the node environment", () => {
@@ -1110,7 +1123,7 @@ describe("Linter", () => {
 			});
 
 			linter.verify(code, config);
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 	});
 
@@ -1134,7 +1147,7 @@ describe("Linter", () => {
 			});
 
 			linter.verify(code, config);
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 	});
 
@@ -1161,7 +1174,7 @@ describe("Linter", () => {
 			});
 
 			linter.verify(code, config);
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 	});
 
@@ -1196,7 +1209,7 @@ describe("Linter", () => {
 			});
 
 			linter.verify(code, config);
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 
 		it("ES6 global variables should not be available by default", () => {
@@ -1218,7 +1231,7 @@ describe("Linter", () => {
 			});
 
 			linter.verify(code, config);
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 
 		it("ES6 global variables should be available in the es6 environment", () => {
@@ -1249,7 +1262,7 @@ describe("Linter", () => {
 			});
 
 			linter.verify(code, config);
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 
 		it("ES6 global variables can be disabled when the es6 environment is enabled", () => {
@@ -1275,7 +1288,7 @@ describe("Linter", () => {
 			});
 
 			linter.verify(code, config);
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 	});
 
@@ -1429,7 +1442,7 @@ describe("Linter", () => {
 			assert.strictEqual(messages.length, 1);
 			assert.strictEqual(messages[0].ruleId, "no-alert");
 			assert.strictEqual(messages[0].message, "Unexpected alert.");
-			assert.include(messages[0].nodeType, "CallExpression");
+			assert.ok(messages[0].nodeType.includes("CallExpression"));
 
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
@@ -1445,7 +1458,7 @@ describe("Linter", () => {
 			assert.strictEqual(messages[0].ruleId, "no-alert");
 			assert.strictEqual(messages[0].severity, 2);
 			assert.strictEqual(messages[0].message, "Unexpected alert.");
-			assert.include(messages[0].nodeType, "CallExpression");
+			assert.ok(messages[0].nodeType.includes("CallExpression"));
 
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
@@ -1925,11 +1938,11 @@ describe("Linter", () => {
 				/Failed to parse JSON from '"no-unused-vars": \['/u,
 			);
 			assert.strictEqual(messages[0].severity, 2);
-			assert.isTrue(messages[0].fatal);
-			assert.isNull(messages[0].ruleId);
+			assert.strictEqual(messages[0].fatal, true);
+			assert.strictEqual(messages[0].ruleId, null);
 			assert.strictEqual(messages[0].line, 1);
 			assert.strictEqual(messages[0].column, 1);
-			assert.isNull(messages[0].nodeType);
+			assert.strictEqual(messages[0].nodeType, null);
 
 			assert.deepStrictEqual(messages[1], {
 				severity: 2,
@@ -2050,7 +2063,7 @@ describe("Linter", () => {
 			assert.strictEqual(messages.length, 2);
 			assert.strictEqual(messages[0].ruleId, "no-alert");
 			assert.strictEqual(messages[0].message, "Unexpected alert.");
-			assert.include(messages[0].nodeType, "CallExpression");
+			assert.ok(messages[0].nodeType.includes("CallExpression"));
 			assert.strictEqual(messages[1].ruleId, "no-console");
 
 			assert.strictEqual(suppressedMessages.length, 0);
@@ -2070,7 +2083,7 @@ describe("Linter", () => {
 			assert.strictEqual(messages.length, 1);
 			assert.strictEqual(messages[0].ruleId, "no-alert");
 			assert.strictEqual(messages[0].message, "Unexpected alert.");
-			assert.include(messages[0].nodeType, "CallExpression");
+			assert.ok(messages[0].nodeType.includes("CallExpression"));
 
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
@@ -2332,9 +2345,10 @@ describe("Linter", () => {
 			const suppressedMessages = linter.getSuppressedMessages();
 
 			assert.strictEqual(messages.length, 2);
-			assert.include(
-				messages[0].message,
-				'Configuration for rule "no-foo" is invalid',
+			assert.ok(
+				messages[0].message.includes(
+					'Configuration for rule "no-foo" is invalid',
+				),
 			);
 			assert.strictEqual(
 				messages[1].message,
@@ -2380,7 +2394,7 @@ describe("Linter", () => {
 			assert.strictEqual(messages.length, 1);
 			assert.strictEqual(messages[0].ruleId, "no-alert");
 			assert.strictEqual(messages[0].message, "Unexpected alert.");
-			assert.include(messages[0].nodeType, "CallExpression");
+			assert.ok(messages[0].nodeType.includes("CallExpression"));
 			assert.strictEqual(messages[0].line, 4);
 
 			assert.strictEqual(suppressedMessages.length, 1);
@@ -3453,7 +3467,7 @@ describe("Linter", () => {
 			assert.strictEqual(messages.length, 1);
 			assert.strictEqual(messages[0].ruleId, "no-alert");
 			assert.strictEqual(messages[0].message, "Unexpected alert.");
-			assert.include(messages[0].nodeType, "CallExpression");
+			assert.ok(messages[0].nodeType.includes("CallExpression"));
 
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
@@ -3474,7 +3488,7 @@ describe("Linter", () => {
 				messages[0].message,
 				"Strings must use doublequote.",
 			);
-			assert.include(messages[0].nodeType, "Literal");
+			assert.ok(messages[0].nodeType.includes("Literal"));
 
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
@@ -3495,7 +3509,7 @@ describe("Linter", () => {
 				messages[0].message,
 				"Strings must use doublequote.",
 			);
-			assert.include(messages[0].nodeType, "Literal");
+			assert.ok(messages[0].nodeType.includes("Literal"));
 
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
@@ -3534,7 +3548,7 @@ describe("Linter", () => {
 
 			assert.strictEqual(messages[1].ruleId, "no-alert");
 			assert.strictEqual(messages[1].message, "Unexpected alert.");
-			assert.include(messages[1].nodeType, "CallExpression");
+			assert.ok(messages[1].nodeType.includes("CallExpression"));
 
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
@@ -3571,7 +3585,7 @@ describe("Linter", () => {
 
 			assert.strictEqual(messages[1].ruleId, "no-alert");
 			assert.strictEqual(messages[1].message, "Unexpected alert.");
-			assert.include(messages[1].nodeType, "CallExpression");
+			assert.ok(messages[1].nodeType.includes("CallExpression"));
 
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
@@ -3608,7 +3622,7 @@ describe("Linter", () => {
 
 			assert.strictEqual(messages[1].ruleId, "no-alert");
 			assert.strictEqual(messages[1].message, "Unexpected alert.");
-			assert.include(messages[1].nodeType, "CallExpression");
+			assert.ok(messages[1].nodeType.includes("CallExpression"));
 
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
@@ -3630,7 +3644,7 @@ alert('test');
 				messages[0].message,
 				"This line has a length of 129. Maximum allowed is 100.",
 			);
-			assert.include(messages[0].nodeType, "Program");
+			assert.ok(messages[0].nodeType.includes("Program"));
 
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
@@ -3658,7 +3672,7 @@ var a = "test2";
 			);
 			assert.strictEqual(message1.line, 4);
 			assert.strictEqual(message1.column, 1);
-			assert.include(message1.nodeType, "Program");
+			assert.ok(message1.nodeType.includes("Program"));
 			assert.strictEqual(message2.ruleId, "max-len");
 			assert.strictEqual(
 				message2.message,
@@ -3666,7 +3680,7 @@ var a = "test2";
 			);
 			assert.strictEqual(message2.line, 5);
 			assert.strictEqual(message2.column, 1);
-			assert.include(message2.nodeType, "Program");
+			assert.ok(message2.nodeType.includes("Program"));
 
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
@@ -3700,7 +3714,7 @@ var a = "test2";
 
 			linter.defineRule("checker", { create: spy });
 			linter.verify(code, config);
-			assert(spy.calledOnce);
+			assert.ok(spy.calledOnce);
 		});
 
 		it("should comment hashbang without breaking offset", () => {
@@ -3721,7 +3735,7 @@ var a = "test2";
 			});
 
 			linter.verify(code, config);
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 	});
 
@@ -3734,10 +3748,10 @@ var a = "test2";
 
 			assert.strictEqual(messages.length, 1);
 			assert.strictEqual(messages[0].severity, 2);
-			assert.isNull(messages[0].ruleId);
+			assert.strictEqual(messages[0].ruleId, null);
 			assert.strictEqual(messages[0].line, 1);
 			assert.strictEqual(messages[0].column, 4);
-			assert.isTrue(messages[0].fatal);
+			assert.strictEqual(messages[0].fatal, true);
 			assert.match(messages[0].message, /^Parsing error:/u);
 
 			assert.strictEqual(suppressedMessages.length, 0);
@@ -3750,7 +3764,7 @@ var a = "test2";
 
 			assert.strictEqual(messages.length, 1);
 			assert.strictEqual(messages[0].severity, 2);
-			assert.isTrue(messages[0].fatal);
+			assert.strictEqual(messages[0].fatal, true);
 			assert.match(messages[0].message, /^Parsing error:/u);
 
 			assert.strictEqual(suppressedMessages.length, 0);
@@ -3782,15 +3796,15 @@ var a = "test2";
 		});
 
 		it("should report a problem", () => {
-			assert.isNotNull(result);
-			assert.isArray(results);
-			assert.isObject(result);
-			assert.property(result, "ruleId");
+			assert.notStrictEqual(result, null);
+			assert.ok(Array.isArray(results));
+			assert.ok(result !== null && typeof result === "object");
+			assert.ok("ruleId" in result);
 			assert.strictEqual(result.ruleId, "foobar");
 		});
 
 		it("should report that the rule does not exist", () => {
-			assert.property(result, "message");
+			assert.ok("message" in result);
 			assert.strictEqual(
 				result.message,
 				"Definition for rule 'foobar' was not found.",
@@ -3798,18 +3812,24 @@ var a = "test2";
 		});
 
 		it("should report at the correct severity", () => {
-			assert.property(result, "severity");
+			assert.ok("severity" in result);
 			assert.strictEqual(result.severity, 2);
 			assert.strictEqual(warningResult.severity, 2); // this is 2, since the rulename is very likely to be wrong
 		});
 
 		it("should accept any valid rule configuration", () => {
-			assert.isObject(arrayOptionResults[0]);
-			assert.isObject(objectOptionResults[0]);
+			assert.ok(
+				arrayOptionResults[0] !== null &&
+					typeof arrayOptionResults[0] === "object",
+			);
+			assert.ok(
+				objectOptionResults[0] !== null &&
+					typeof objectOptionResults[0] === "object",
+			);
 		});
 
 		it("should report multiple missing rules", () => {
-			assert.isArray(resultsMultiple);
+			assert.ok(Array.isArray(resultsMultiple));
 
 			assert.deepStrictEqual(resultsMultiple[1], {
 				ruleId: "barfoo",
@@ -3847,8 +3867,11 @@ var a = "test2";
 		it("should return all loaded rules", () => {
 			const rules = linter.getRules();
 
-			assert.isAbove(rules.size, 230);
-			assert.isObject(rules.get("no-alert"));
+			assert.ok(rules.size > 230);
+			assert.ok(
+				rules.get("no-alert") !== null &&
+					typeof rules.get("no-alert") === "object",
+			);
 		});
 	});
 
@@ -3856,8 +3879,8 @@ var a = "test2";
 		it("should return current version number", () => {
 			const version = linter.version;
 
-			assert.isString(version);
-			assert.isTrue(parseInt(version[0], 10) >= 3);
+			assert.strictEqual(typeof version, "string");
+			assert.strictEqual(parseInt(version[0], 10) >= 3, true);
 		});
 	});
 
@@ -4087,7 +4110,7 @@ var a = "test2";
 
 							const foo = getVariable(scope, "foo");
 
-							assert.notOk(foo);
+							assert.ok(!foo);
 
 							ok = true;
 						},
@@ -4096,7 +4119,7 @@ var a = "test2";
 			});
 
 			linter.verify(code, config, { allowInlineConfig: false });
-			assert(ok);
+			assert.ok(ok);
 		});
 
 		it("should report a violation for eslint-disable", () => {
@@ -4268,7 +4291,7 @@ var a = "test2";
 			});
 
 			linterWithOption.verify(code, config);
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 
 		it("should assign process.cwd() to it if cwd is undefined", () => {
@@ -4286,7 +4309,7 @@ var a = "test2";
 			});
 
 			linterWithOption.verify(code, config);
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 
 		it("should assign process.cwd() to it if the option is undefined", () => {
@@ -4303,7 +4326,7 @@ var a = "test2";
 			});
 
 			linter.verify(code, config);
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 	});
 
@@ -5936,7 +5959,7 @@ var a = "test2";
 			});
 
 			linter.verify(code, config);
-			assert(spy && spy.calledOnce);
+			assert.ok(spy && spy.calledOnce);
 		});
 	});
 
@@ -5954,7 +5977,7 @@ var a = "test2";
 					{ rules: { checker: "error" } },
 					{ filename: "foo.js" },
 				);
-				assert(filenameChecker.calledOnce);
+				assert.ok(filenameChecker.calledOnce);
 			});
 
 			it("should allow filename to be passed as third argument", () => {
@@ -5969,7 +5992,7 @@ var a = "test2";
 					{ rules: { checker: "error" } },
 					"bar.js",
 				);
-				assert(filenameChecker.calledOnce);
+				assert.ok(filenameChecker.calledOnce);
 			});
 
 			it("should default filename to <input> when options object doesn't have filename", () => {
@@ -5980,7 +6003,7 @@ var a = "test2";
 
 				linter.defineRule("checker", { create: filenameChecker });
 				linter.verify("foo;", { rules: { checker: "error" } }, {});
-				assert(filenameChecker.calledOnce);
+				assert.ok(filenameChecker.calledOnce);
 			});
 
 			it("should default filename to <input> when only two arguments are passed", () => {
@@ -5991,7 +6014,7 @@ var a = "test2";
 
 				linter.defineRule("checker", { create: filenameChecker });
 				linter.verify("foo;", { rules: { checker: "error" } });
-				assert(filenameChecker.calledOnce);
+				assert.ok(filenameChecker.calledOnce);
 			});
 		});
 
@@ -6014,7 +6037,7 @@ var a = "test2";
 					{ rules: { checker: "error" } },
 					{ filename: "foo.js" },
 				);
-				assert(physicalFilenameChecker.calledOnce);
+				assert.ok(physicalFilenameChecker.calledOnce);
 			});
 
 			it("should default physicalFilename to <input> when options object doesn't have filename", () => {
@@ -6031,7 +6054,7 @@ var a = "test2";
 					create: physicalFilenameChecker,
 				});
 				linter.verify("foo;", { rules: { checker: "error" } }, {});
-				assert(physicalFilenameChecker.calledOnce);
+				assert.ok(physicalFilenameChecker.calledOnce);
 			});
 
 			it("should default physicalFilename to <input> when only two arguments are passed", () => {
@@ -6048,7 +6071,7 @@ var a = "test2";
 					create: physicalFilenameChecker,
 				});
 				linter.verify("foo;", { rules: { checker: "error" } });
-				assert(physicalFilenameChecker.calledOnce);
+				assert.ok(physicalFilenameChecker.calledOnce);
 			});
 		});
 
@@ -6536,7 +6559,7 @@ var a = "test2";
 
 			assert.strictEqual(messages.length, 1);
 			assert.strictEqual(messages[0].severity, 2);
-			assert.isTrue(messages[0].fatal);
+			assert.strictEqual(messages[0].fatal, true);
 			assert.match(messages[0].message, /^Parsing error:.*'char'/u);
 
 			assert.strictEqual(suppressedMessages.length, 0);
@@ -6553,7 +6576,7 @@ var a = "test2";
 
 			assert.strictEqual(messages.length, 1);
 			assert.strictEqual(messages[0].severity, 2);
-			assert.isTrue(messages[0].fatal);
+			assert.strictEqual(messages[0].fatal, true);
 			assert.match(messages[0].message, /^Parsing error:.*'char'/u);
 
 			assert.strictEqual(suppressedMessages.length, 0);
@@ -6570,7 +6593,7 @@ var a = "test2";
 
 			assert.strictEqual(messages.length, 1);
 			assert.strictEqual(messages[0].severity, 2);
-			assert.isTrue(messages[0].fatal);
+			assert.strictEqual(messages[0].fatal, true);
 			assert.match(messages[0].message, /^Parsing error:.*'char'/u);
 
 			assert.strictEqual(suppressedMessages.length, 0);
@@ -6608,7 +6631,7 @@ var a = "test2";
 
 				assert.strictEqual(messages.length, 1);
 				assert.strictEqual(messages[0].severity, 2);
-				assert.isTrue(messages[0].fatal);
+				assert.strictEqual(messages[0].fatal, true);
 				assert.match(messages[0].message, /^Parsing error:.*'enum'/u);
 
 				assert.strictEqual(suppressedMessages.length, 0);
@@ -6657,7 +6680,7 @@ var a = "test2";
 
 				assert.strictEqual(messages.length, 1);
 				assert.strictEqual(messages[0].severity, 2);
-				assert.isTrue(messages[0].fatal);
+				assert.strictEqual(messages[0].fatal, true);
 				assert.match(
 					messages[0].message,
 					/^Parsing error:.*allowReserved/u,
@@ -6759,7 +6782,7 @@ var a = "test2";
 			});
 
 			linter.verify(code, { rules: { test: 2 } });
-			assert(ok);
+			assert.ok(ok);
 		});
 
 		it("should report a linting error when a global is set to an invalid value", () => {
@@ -6888,9 +6911,9 @@ var a = "test2";
 				rules: { "save-ast2": 2 },
 			});
 
-			assert(ast1 !== null);
-			assert(ast2 !== null);
-			assert(ast1 === ast2);
+			assert.ok(ast1 !== null);
+			assert.ok(ast2 !== null);
+			assert.ok(ast1 === ast2);
 		});
 
 		it("should allow 'await' as a property name in modules", () => {
@@ -6899,7 +6922,7 @@ var a = "test2";
 			});
 			const suppressedMessages = linter.getSuppressedMessages();
 
-			assert(result.length === 0);
+			assert.ok(result.length === 0);
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
 
@@ -6918,7 +6941,7 @@ var a = "test2";
 
 			linter.defineRule("foo-bar-baz", { create: spy });
 			linter.verify("x", { rules: { "foo-bar-baz": "error" } });
-			assert(spy.calledOnce);
+			assert.ok(spy.calledOnce);
 		});
 
 		describe("descriptions in directive comments", () => {
@@ -7497,7 +7520,7 @@ var a = "test2";
 				rules: { test: 2 },
 				globals: { e: true, f: false },
 			});
-			assert(ok);
+			assert.ok(ok);
 		});
 
 		afterEach(() => {
@@ -7515,21 +7538,21 @@ var a = "test2";
 		});
 
 		it("Scope#variables should contain global variables", () => {
-			assert(scope.variables.some(v => v.name === "Object"));
-			assert(scope.variables.some(v => v.name === "foo"));
-			assert(scope.variables.some(v => v.name === "c"));
-			assert(scope.variables.some(v => v.name === "d"));
-			assert(scope.variables.some(v => v.name === "e"));
-			assert(scope.variables.some(v => v.name === "f"));
+			assert.ok(scope.variables.some(v => v.name === "Object"));
+			assert.ok(scope.variables.some(v => v.name === "foo"));
+			assert.ok(scope.variables.some(v => v.name === "c"));
+			assert.ok(scope.variables.some(v => v.name === "d"));
+			assert.ok(scope.variables.some(v => v.name === "e"));
+			assert.ok(scope.variables.some(v => v.name === "f"));
 		});
 
 		it("Scope#set should contain global variables", () => {
-			assert(scope.set.get("Object"));
-			assert(scope.set.get("foo"));
-			assert(scope.set.get("c"));
-			assert(scope.set.get("d"));
-			assert(scope.set.get("e"));
-			assert(scope.set.get("f"));
+			assert.ok(scope.set.get("Object"));
+			assert.ok(scope.set.get("foo"));
+			assert.ok(scope.set.get("c"));
+			assert.ok(scope.set.get("d"));
+			assert.ok(scope.set.get("e"));
+			assert.ok(scope.set.get("f"));
 		});
 
 		it("Variables#references should contain their references", () => {
@@ -7774,7 +7797,7 @@ var a = "test2";
 				linter.verify("0", {
 					rules: { "rule-with-suggestions": "error" },
 				});
-			}, "Rules with suggestions must set the `meta.hasSuggestions` property to `true`.");
+			}, /Rules with suggestions must set the `meta.hasSuggestions` property to `true`./u);
 		});
 
 		it("should throw an error if suggestion is passed but `meta.hasSuggestions` property is not enabled and the rule has the obsolete `meta.docs.suggestion` property", () => {
@@ -7801,7 +7824,7 @@ var a = "test2";
 				linter.verify("0", {
 					rules: { "rule-with-meta-docs-suggestion": "error" },
 				});
-			}, "Rules with suggestions must set the `meta.hasSuggestions` property to `true`. `meta.docs.suggestion` is ignored by ESLint.");
+			}, /Rules with suggestions must set the `meta.hasSuggestions` property to `true`. `meta.docs.suggestion` is ignored by ESLint./u);
 		});
 	});
 
@@ -7816,7 +7839,7 @@ var a = "test2";
 
 		describe("rules", () => {
 			it("with no changes, same rules are loaded", () => {
-				assert.sameDeepMembers(
+				assert.deepStrictEqual(
 					Array.from(linter1.getRules().keys()),
 					Array.from(linter2.getRules().keys()),
 				);
@@ -7827,12 +7850,14 @@ var a = "test2";
 					create: () => ({}),
 				});
 
-				assert.isTrue(
+				assert.strictEqual(
 					linter1.getRules().has("mock-rule"),
+					true,
 					"mock rule is present",
 				);
-				assert.isFalse(
+				assert.strictEqual(
 					linter2.getRules().has("mock-rule"),
+					false,
 					"mock rule is not present",
 				);
 			});
@@ -7982,13 +8007,13 @@ var a = "test2";
 
 				// filename
 				assert.strictEqual(receivedFilenames.length, 3);
-				assert(
+				assert.ok(
 					/^filename\.js[/\\]0_block\.js/u.test(receivedFilenames[0]),
 				);
-				assert(
+				assert.ok(
 					/^filename\.js[/\\]1_block\.js/u.test(receivedFilenames[1]),
 				);
-				assert(
+				assert.ok(
 					/^filename\.js[/\\]2_block\.js/u.test(receivedFilenames[2]),
 				);
 
@@ -8200,7 +8225,7 @@ var a = "test2";
 				"var a;",
 				"Fixes were applied correctly",
 			);
-			assert.isTrue(messages.fixed);
+			assert.strictEqual(messages.fixed, true);
 		});
 
 		it("does not require a third argument", () => {
@@ -8584,7 +8609,7 @@ var a = "test2";
 
 			linter.defineRule("test", {
 				create(context) {
-					assert(
+					assert.ok(
 						context.parserOptions.ecmaFeatures.globalReturn,
 						"`ecmaFeatures.globalReturn` of the node environment should not be modified.",
 					);
@@ -8597,7 +8622,7 @@ var a = "test2";
 				rules: { test: 2 },
 			});
 
-			assert(ok);
+			assert.ok(ok);
 		});
 
 		it("should throw when rule's create() function does not return an object", () => {
@@ -8609,7 +8634,7 @@ var a = "test2";
 
 			assert.throws(() => {
 				linter.verify("abc", config, filename);
-			}, "The create() function for rule 'checker' did not return an object.");
+			}, /The create\(\) function for rule 'checker' did not return an object./u);
 
 			linter.defineRule("checker", {
 				create() {},
@@ -8617,7 +8642,7 @@ var a = "test2";
 
 			assert.throws(() => {
 				linter.verify("abc", config, filename);
-			}, "The create() function for rule 'checker' did not return an object.");
+			}, /The create\(\) function for rule 'checker' did not return an object./u);
 		});
 	});
 
@@ -8738,7 +8763,7 @@ var a = "test2";
 			const suppressedMessages = linter.getSuppressedMessages();
 
 			assert.strictEqual(messages.length, 0);
-			assert.isTrue(nodes.length > 0);
+			assert.strictEqual(nodes.length > 0, true);
 
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
@@ -8927,8 +8952,8 @@ var a = "test2";
 					"test.js",
 				);
 
-				assert(scope2 !== null);
-				assert(scope2 === scope);
+				assert.ok(scope2 !== null);
+				assert.ok(scope2 === scope);
 			});
 		});
 
@@ -9497,7 +9522,7 @@ describe("Linter with FlatConfigArray", () => {
 					});
 					const suppressedMessages = linter.getSuppressedMessages();
 
-					assert(result.length === 0);
+					assert.ok(result.length === 0);
 					assert.strictEqual(suppressedMessages.length, 0);
 				});
 			});
@@ -9690,7 +9715,7 @@ describe("Linter with FlatConfigArray", () => {
 					};
 
 					linter.verify("0", config, filename);
-					assert.isTrue(spy.calledOnce);
+					assert.strictEqual(spy.calledOnce, true);
 				});
 
 				describe("Custom Parsers", () => {
@@ -9796,7 +9821,7 @@ describe("Linter with FlatConfigArray", () => {
 							linter.getSuppressedMessages();
 
 						assert.strictEqual(messages.length, 0);
-						assert.isTrue(nodes.length > 0);
+						assert.strictEqual(nodes.length > 0, true);
 						assert.strictEqual(suppressedMessages.length, 0);
 					});
 
@@ -10038,8 +10063,8 @@ describe("Linter with FlatConfigArray", () => {
 
 							linter.verify(sourceCode, config, "test.js");
 
-							assert(scope2 !== null);
-							assert(scope2 === scope);
+							assert.ok(scope2 !== null);
+							assert.ok(scope2 === scope);
 						});
 					});
 
@@ -10060,7 +10085,7 @@ describe("Linter with FlatConfigArray", () => {
 							"filename.js",
 						);
 
-						assert(
+						assert.ok(
 							spy.calledWithMatch(";", {
 								ecmaVersion: LATEST_ECMA_VERSION,
 								sourceType: "module",
@@ -10287,7 +10312,7 @@ describe("Linter with FlatConfigArray", () => {
 
 					assert.strictEqual(messages.length, 1);
 					assert.strictEqual(messages[0].severity, 2);
-					assert.isTrue(messages[0].fatal);
+					assert.strictEqual(messages[0].fatal, true);
 					assert.match(
 						messages[0].message,
 						/^Parsing error:.*'char'/u,
@@ -10309,7 +10334,7 @@ describe("Linter with FlatConfigArray", () => {
 
 					assert.strictEqual(messages.length, 1);
 					assert.strictEqual(messages[0].severity, 2);
-					assert.isTrue(messages[0].fatal);
+					assert.strictEqual(messages[0].fatal, true);
 					assert.match(
 						messages[0].message,
 						/^Parsing error:.*'char'/u,
@@ -10331,7 +10356,7 @@ describe("Linter with FlatConfigArray", () => {
 
 					assert.strictEqual(messages.length, 1);
 					assert.strictEqual(messages[0].severity, 2);
-					assert.isTrue(messages[0].fatal);
+					assert.strictEqual(messages[0].fatal, true);
 					assert.match(
 						messages[0].message,
 						/^Parsing error:.*'char'/u,
@@ -10380,7 +10405,7 @@ describe("Linter with FlatConfigArray", () => {
 
 						assert.strictEqual(messages.length, 1);
 						assert.strictEqual(messages[0].severity, 2);
-						assert.isTrue(messages[0].fatal);
+						assert.strictEqual(messages[0].fatal, true);
 						assert.match(
 							messages[0].message,
 							/^Parsing error:.*'enum'/u,
@@ -10440,7 +10465,7 @@ describe("Linter with FlatConfigArray", () => {
 
 						assert.strictEqual(messages.length, 1);
 						assert.strictEqual(messages[0].severity, 2);
-						assert.isTrue(messages[0].fatal);
+						assert.strictEqual(messages[0].fatal, true);
 						assert.match(
 							messages[0].message,
 							/^Parsing error:.*allowReserved/u,
@@ -10970,8 +10995,9 @@ describe("Linter with FlatConfigArray", () => {
 				};
 
 				linter.verify("code", config, filename);
-				assert.isTrue(
+				assert.strictEqual(
 					spy.notCalled,
+					true,
 					"Rule should not have been called",
 				);
 			});
@@ -11000,9 +11026,15 @@ describe("Linter with FlatConfigArray", () => {
 					rules: { "test/checker": "error" },
 				};
 
-				assert.throws(() => {
-					linter.verify(code, config, filename);
-				}, `Intentional error.\nOccurred while linting ${filename}:1\nRule: "test/checker"`);
+				assert.throws(
+					() => {
+						linter.verify(code, config, filename);
+					},
+					new RegExp(
+						`Intentional error.\nOccurred while linting ${filename}:1\nRule: "test/checker"`,
+						"u",
+					),
+				);
 			});
 
 			it("should not call rule visitor with a `this` value", () => {
@@ -11023,7 +11055,7 @@ describe("Linter with FlatConfigArray", () => {
 				};
 
 				linter.verify("foo", config);
-				assert(spy.calledOnce);
+				assert.ok(spy.calledOnce);
 				assert.strictEqual(spy.firstCall.thisValue, void 0);
 			});
 
@@ -11048,7 +11080,7 @@ describe("Linter with FlatConfigArray", () => {
 				};
 
 				linter.verify("foo", config);
-				assert(spy.notCalled);
+				assert.ok(spy.notCalled);
 			});
 
 			it("should have all the `parent` properties on nodes when the rule visitors are created", () => {
@@ -11088,7 +11120,7 @@ describe("Linter with FlatConfigArray", () => {
 				};
 
 				linter.verify("foo + bar", config);
-				assert(spy.calledOnce);
+				assert.ok(spy.calledOnce);
 			});
 
 			it("events for each node type should fire", () => {
@@ -11164,7 +11196,7 @@ describe("Linter with FlatConfigArray", () => {
 				assert.throws(
 					() => linter.verify("foo", config),
 					TypeError,
-					"Error while loading rule 'test/function-style-rule': Rule must be an object with a `create` method",
+					/Error while loading rule 'test\/function-style-rule': Rule must be an object with a `create` method/u,
 				);
 			});
 
@@ -11193,7 +11225,7 @@ describe("Linter with FlatConfigArray", () => {
 				assert.throws(
 					() => linter.verify("foo", config),
 					TypeError,
-					"Error while loading rule 'test/object-rule-without-create': Rule must be an object with a `create` method",
+					/Error while loading rule 'test\/object-rule-without-create': Rule must be an object with a `create` method/u,
 				);
 			});
 
@@ -11222,7 +11254,7 @@ describe("Linter with FlatConfigArray", () => {
 
 				assert.throws(
 					() => linter.verify("foo", config),
-					"Error while processing options validation schema of rule 'test/rule-with-invalid-schema': Rule's `meta.schema` must be an array or object",
+					/Error while processing options validation schema of rule 'test\/rule-with-invalid-schema': Rule's `meta.schema` must be an array or object/u,
 				);
 			});
 
@@ -11252,7 +11284,7 @@ describe("Linter with FlatConfigArray", () => {
 							"/* eslint test/rule-with-invalid-schema: 2 */",
 							config,
 						),
-					"Error while processing options validation schema of rule 'test/rule-with-invalid-schema': Rule's `meta.schema` must be an array or object",
+					/Error while processing options validation schema of rule 'test\/rule-with-invalid-schema': Rule's `meta.schema` must be an array or object/u,
 				);
 			});
 
@@ -11277,7 +11309,7 @@ describe("Linter with FlatConfigArray", () => {
 				assert.throws(
 					() => linter.verify("foo", config),
 					TypeError,
-					"Missing `message` property in report() call; add a message that describes the linting problem.",
+					/Missing `message` property in report() call; add a message that describes the linting problem./u,
 				);
 			});
 		});
@@ -11524,7 +11556,7 @@ describe("Linter with FlatConfigArray", () => {
 					};
 
 					linterWithOption.verify(code, config, `${cwd}/file.js`);
-					assert(spy && spy.calledOnce);
+					assert.ok(spy && spy.calledOnce);
 				});
 
 				it("should assign process.cwd() to it if cwd is undefined", () => {
@@ -11552,7 +11584,7 @@ describe("Linter with FlatConfigArray", () => {
 					};
 
 					linterWithOption.verify(code, config);
-					assert(spy && spy.calledOnce);
+					assert.ok(spy && spy.calledOnce);
 				});
 
 				it("should assign process.cwd() to it if the option is undefined", () => {
@@ -11579,7 +11611,7 @@ describe("Linter with FlatConfigArray", () => {
 					};
 
 					linter.verify(code, config);
-					assert(spy && spy.calledOnce);
+					assert.ok(spy && spy.calledOnce);
 				});
 			});
 
@@ -11616,7 +11648,7 @@ describe("Linter with FlatConfigArray", () => {
 					};
 
 					linterWithOption.verify(code, config, `${cwd}/file.js`);
-					assert(spy && spy.calledOnce);
+					assert.ok(spy && spy.calledOnce);
 				});
 
 				it("should assign process.cwd() to it if cwd is undefined", () => {
@@ -11648,7 +11680,7 @@ describe("Linter with FlatConfigArray", () => {
 					};
 
 					linterWithOption.verify(code, config);
-					assert(spy && spy.calledOnce);
+					assert.ok(spy && spy.calledOnce);
 				});
 
 				it("should assign process.cwd() to it if the option is undefined", () => {
@@ -11679,7 +11711,7 @@ describe("Linter with FlatConfigArray", () => {
 					};
 
 					linter.verify(code, config);
-					assert(spy && spy.calledOnce);
+					assert.ok(spy && spy.calledOnce);
 				});
 			});
 		});
@@ -11794,7 +11826,7 @@ describe("Linter with FlatConfigArray", () => {
 				};
 
 				linter.verify(code, config);
-				assert(spy.calledOnce);
+				assert.ok(spy.calledOnce);
 			});
 		});
 
@@ -11820,7 +11852,7 @@ describe("Linter with FlatConfigArray", () => {
 					};
 
 					linter.verify("foo;", config, { filename: "foo.js" });
-					assert(filenameChecker.calledOnce);
+					assert.ok(filenameChecker.calledOnce);
 				});
 
 				it("should allow filename to be passed as third argument", () => {
@@ -11843,7 +11875,7 @@ describe("Linter with FlatConfigArray", () => {
 					};
 
 					linter.verify("foo;", config, "bar.js");
-					assert(filenameChecker.calledOnce);
+					assert.ok(filenameChecker.calledOnce);
 				});
 
 				it("should default filename to <input> when options object doesn't have filename", () => {
@@ -11866,7 +11898,7 @@ describe("Linter with FlatConfigArray", () => {
 					};
 
 					linter.verify("foo;", config, {});
-					assert(filenameChecker.calledOnce);
+					assert.ok(filenameChecker.calledOnce);
 				});
 
 				it("should default filename to <input> when only two arguments are passed", () => {
@@ -11889,7 +11921,7 @@ describe("Linter with FlatConfigArray", () => {
 					};
 
 					linter.verify("foo;", config);
-					assert(filenameChecker.calledOnce);
+					assert.ok(filenameChecker.calledOnce);
 				});
 			});
 
@@ -11920,7 +11952,7 @@ describe("Linter with FlatConfigArray", () => {
 					};
 
 					linter.verify("foo;", config, { filename: "foo.js" });
-					assert(physicalFilenameChecker.calledOnce);
+					assert.ok(physicalFilenameChecker.calledOnce);
 				});
 
 				it("should default physicalFilename to <input> when options object doesn't have filename", () => {
@@ -11949,7 +11981,7 @@ describe("Linter with FlatConfigArray", () => {
 					};
 
 					linter.verify("foo;", config, {});
-					assert(physicalFilenameChecker.calledOnce);
+					assert.ok(physicalFilenameChecker.calledOnce);
 				});
 
 				it("should default physicalFilename to <input> when only two arguments are passed", () => {
@@ -11978,7 +12010,7 @@ describe("Linter with FlatConfigArray", () => {
 					};
 
 					linter.verify("foo;", config);
-					assert(physicalFilenameChecker.calledOnce);
+					assert.ok(physicalFilenameChecker.calledOnce);
 				});
 			});
 
@@ -12168,7 +12200,7 @@ describe("Linter with FlatConfigArray", () => {
 						}
 
 						linter.verify(code, config);
-						assert(spy && spy.calledOnce);
+						assert.ok(spy && spy.calledOnce);
 					}
 
 					it("variables should be available in global scope", () => {
@@ -12313,7 +12345,7 @@ describe("Linter with FlatConfigArray", () => {
 						};
 
 						linter.verify(code, config);
-						assert(spy && spy.calledOnce);
+						assert.ok(spy && spy.calledOnce);
 					});
 
 					// https://github.com/eslint/eslint/issues/18363
@@ -12411,7 +12443,7 @@ describe("Linter with FlatConfigArray", () => {
 						};
 
 						linter.verify(code, config);
-						assert(spy && spy.calledOnce);
+						assert.ok(spy && spy.calledOnce);
 					});
 				});
 
@@ -12449,7 +12481,7 @@ describe("Linter with FlatConfigArray", () => {
 						};
 
 						linter.verify(code, config);
-						assert(spy && spy.calledOnce);
+						assert.ok(spy && spy.calledOnce);
 					});
 				});
 
@@ -12502,7 +12534,7 @@ describe("Linter with FlatConfigArray", () => {
 						};
 
 						linter.verify(code, config);
-						assert(spy && spy.calledOnce);
+						assert.ok(spy && spy.calledOnce);
 					});
 				});
 
@@ -12590,7 +12622,7 @@ describe("Linter with FlatConfigArray", () => {
 					};
 
 					linter.verify(code, config);
-					assert(ok);
+					assert.ok(ok);
 				});
 
 				it("should report a linting error when a global is set to an invalid value", () => {
@@ -12657,7 +12689,10 @@ describe("Linter with FlatConfigArray", () => {
 														"horse",
 													);
 
-												assert.isTrue(horse.eslintUsed);
+												assert.strictEqual(
+													horse.eslintUsed,
+													true,
+												);
 											});
 
 											return { Program: spy };
@@ -12673,7 +12708,7 @@ describe("Linter with FlatConfigArray", () => {
 					};
 
 					linter.verify(code, config);
-					assert(spy && spy.calledOnce);
+					assert.ok(spy && spy.calledOnce);
 				});
 
 				it("`key: value` pair variable should not be exported", () => {
@@ -12695,7 +12730,7 @@ describe("Linter with FlatConfigArray", () => {
 														"horse",
 													);
 
-												assert.notOk(horse.eslintUsed);
+												assert.ok(!horse.eslintUsed);
 											});
 
 											return { Program: spy };
@@ -12711,7 +12746,7 @@ describe("Linter with FlatConfigArray", () => {
 					};
 
 					linter.verify(code, config);
-					assert(spy && spy.calledOnce);
+					assert.ok(spy && spy.calledOnce);
 				});
 
 				it("variables with comma should be exported", () => {
@@ -12731,11 +12766,12 @@ describe("Linter with FlatConfigArray", () => {
 
 												["horse", "dog"].forEach(
 													name => {
-														assert.isTrue(
+														assert.strictEqual(
 															getVariable(
 																scope,
 																name,
 															).eslintUsed,
+															true,
 														);
 													},
 												);
@@ -12754,7 +12790,7 @@ describe("Linter with FlatConfigArray", () => {
 					};
 
 					linter.verify(code, config);
-					assert(spy && spy.calledOnce);
+					assert.ok(spy && spy.calledOnce);
 				});
 
 				it("variables without comma should not be exported", () => {
@@ -12774,8 +12810,8 @@ describe("Linter with FlatConfigArray", () => {
 
 												["horse", "dog"].forEach(
 													name => {
-														assert.notOk(
-															getVariable(
+														assert.ok(
+															!getVariable(
 																scope,
 																name,
 															).eslintUsed,
@@ -12797,7 +12833,7 @@ describe("Linter with FlatConfigArray", () => {
 					};
 
 					linter.verify(code, config);
-					assert(spy && spy.calledOnce);
+					assert.ok(spy && spy.calledOnce);
 				});
 
 				it("variables should be exported", () => {
@@ -12839,7 +12875,7 @@ describe("Linter with FlatConfigArray", () => {
 					};
 
 					linter.verify(code, config);
-					assert(spy && spy.calledOnce);
+					assert.ok(spy && spy.calledOnce);
 				});
 
 				it("undefined variables should not be exported", () => {
@@ -12877,7 +12913,7 @@ describe("Linter with FlatConfigArray", () => {
 					};
 
 					linter.verify(code, config);
-					assert(spy && spy.calledOnce);
+					assert.ok(spy && spy.calledOnce);
 				});
 
 				it("variables should be exported in strict mode", () => {
@@ -12919,7 +12955,7 @@ describe("Linter with FlatConfigArray", () => {
 					};
 
 					linter.verify(code, config);
-					assert(spy && spy.calledOnce);
+					assert.ok(spy && spy.calledOnce);
 				});
 
 				it("variables should not be exported in the es6 module environment", () => {
@@ -12958,7 +12994,7 @@ describe("Linter with FlatConfigArray", () => {
 					};
 
 					linter.verify(code, config);
-					assert(spy && spy.calledOnce);
+					assert.ok(spy && spy.calledOnce);
 				});
 
 				it("variables should not be exported when in a commonjs file", () => {
@@ -12996,7 +13032,7 @@ describe("Linter with FlatConfigArray", () => {
 					};
 
 					linter.verify(code, config);
-					assert(spy && spy.calledOnce);
+					assert.ok(spy && spy.calledOnce);
 				});
 			});
 
@@ -13020,7 +13056,9 @@ describe("Linter with FlatConfigArray", () => {
 							messages[0].message,
 							"Unexpected alert.",
 						);
-						assert.include(messages[0].nodeType, "CallExpression");
+						assert.ok(
+							messages[0].nodeType.includes("CallExpression"),
+						);
 
 						assert.strictEqual(
 							suppressedMessages.length,
@@ -13661,11 +13699,11 @@ describe("Linter with FlatConfigArray", () => {
 							/Failed to parse JSON from '"no-unused-vars": \['/u,
 						);
 						assert.strictEqual(messages[0].severity, 2);
-						assert.isTrue(messages[0].fatal);
-						assert.isNull(messages[0].ruleId);
+						assert.strictEqual(messages[0].fatal, true);
+						assert.strictEqual(messages[0].ruleId, null);
 						assert.strictEqual(messages[0].line, 1);
 						assert.strictEqual(messages[0].column, 1);
-						assert.isNull(messages[0].nodeType);
+						assert.strictEqual(messages[0].nodeType, null);
 
 						assert.deepStrictEqual(messages[1], {
 							severity: 2,
@@ -13798,7 +13836,9 @@ describe("Linter with FlatConfigArray", () => {
 							messages[0].message,
 							"Unexpected alert.",
 						);
-						assert.include(messages[0].nodeType, "CallExpression");
+						assert.ok(
+							messages[0].nodeType.includes("CallExpression"),
+						);
 						assert.strictEqual(messages[1].ruleId, "no-console");
 
 						assert.strictEqual(suppressedMessages.length, 0);
@@ -13824,7 +13864,9 @@ describe("Linter with FlatConfigArray", () => {
 							messages[0].message,
 							"Unexpected alert.",
 						);
-						assert.include(messages[0].nodeType, "CallExpression");
+						assert.ok(
+							messages[0].nodeType.includes("CallExpression"),
+						);
 
 						assert.strictEqual(suppressedMessages.length, 0);
 					});
@@ -14162,9 +14204,10 @@ describe("Linter with FlatConfigArray", () => {
 							linter.getSuppressedMessages();
 
 						assert.strictEqual(messages.length, 2);
-						assert.include(
-							messages[0].message,
-							'Inline configuration for rule "test-plugin/no-foo" is invalid',
+						assert.ok(
+							messages[0].message.includes(
+								'Inline configuration for rule "test-plugin/no-foo" is invalid',
+							),
 						);
 						assert.strictEqual(
 							messages[1].message,
@@ -14215,7 +14258,9 @@ describe("Linter with FlatConfigArray", () => {
 							messages[0].message,
 							"Unexpected alert.",
 						);
-						assert.include(messages[0].nodeType, "CallExpression");
+						assert.ok(
+							messages[0].nodeType.includes("CallExpression"),
+						);
 						assert.strictEqual(messages[0].line, 4);
 
 						assert.strictEqual(suppressedMessages.length, 1);
@@ -14351,7 +14396,9 @@ describe("Linter with FlatConfigArray", () => {
 							messages[0].message,
 							"Unexpected alert.",
 						);
-						assert.include(messages[0].nodeType, "CallExpression");
+						assert.ok(
+							messages[0].nodeType.includes("CallExpression"),
+						);
 
 						assert.strictEqual(suppressedMessages.length, 0);
 					});
@@ -14374,7 +14421,7 @@ describe("Linter with FlatConfigArray", () => {
 							messages[0].message,
 							"Strings must use doublequote.",
 						);
-						assert.include(messages[0].nodeType, "Literal");
+						assert.ok(messages[0].nodeType.includes("Literal"));
 
 						assert.strictEqual(suppressedMessages.length, 0);
 					});
@@ -14397,7 +14444,7 @@ describe("Linter with FlatConfigArray", () => {
 							messages[0].message,
 							"Strings must use doublequote.",
 						);
-						assert.include(messages[0].nodeType, "Literal");
+						assert.ok(messages[0].nodeType.includes("Literal"));
 
 						assert.strictEqual(suppressedMessages.length, 0);
 					});
@@ -14440,7 +14487,9 @@ describe("Linter with FlatConfigArray", () => {
 							messages[1].message,
 							"Unexpected alert.",
 						);
-						assert.include(messages[1].nodeType, "CallExpression");
+						assert.ok(
+							messages[1].nodeType.includes("CallExpression"),
+						);
 
 						assert.strictEqual(suppressedMessages.length, 0);
 					});
@@ -14481,7 +14530,9 @@ describe("Linter with FlatConfigArray", () => {
 							messages[1].message,
 							"Unexpected alert.",
 						);
-						assert.include(messages[1].nodeType, "CallExpression");
+						assert.ok(
+							messages[1].nodeType.includes("CallExpression"),
+						);
 
 						assert.strictEqual(suppressedMessages.length, 0);
 					});
@@ -14523,7 +14574,9 @@ describe("Linter with FlatConfigArray", () => {
 							messages[1].message,
 							"Unexpected alert.",
 						);
-						assert.include(messages[1].nodeType, "CallExpression");
+						assert.ok(
+							messages[1].nodeType.includes("CallExpression"),
+						);
 
 						assert.strictEqual(suppressedMessages.length, 0);
 					});
@@ -14546,7 +14599,7 @@ alert('test');
 							messages[0].message,
 							"This line has a length of 129. Maximum allowed is 100.",
 						);
-						assert.include(messages[0].nodeType, "Program");
+						assert.ok(messages[0].nodeType.includes("Program"));
 
 						assert.strictEqual(suppressedMessages.length, 0);
 					});
@@ -14575,7 +14628,7 @@ var a = "test2";
 						);
 						assert.strictEqual(message1.line, 4);
 						assert.strictEqual(message1.column, 1);
-						assert.include(message1.nodeType, "Program");
+						assert.ok(message1.nodeType.includes("Program"));
 						assert.strictEqual(message2.ruleId, "max-len");
 						assert.strictEqual(
 							message2.message,
@@ -14583,7 +14636,7 @@ var a = "test2";
 						);
 						assert.strictEqual(message2.line, 5);
 						assert.strictEqual(message2.column, 1);
-						assert.include(message2.nodeType, "Program");
+						assert.ok(message2.nodeType.includes("Program"));
 
 						assert.strictEqual(suppressedMessages.length, 0);
 					});
@@ -16328,7 +16381,7 @@ var a = "test2";
 														"foo",
 													);
 
-													assert.notOk(foo);
+													assert.ok(!foo);
 
 													ok = true;
 												},
@@ -16345,7 +16398,7 @@ var a = "test2";
 						linter.verify(code, config, {
 							allowInlineConfig: false,
 						});
-						assert(ok);
+						assert.ok(ok);
 					});
 
 					it("should report a violation for eslint-disable", () => {
@@ -16869,7 +16922,7 @@ var a = "test2";
 									reportUnusedDisableDirectives: "foo",
 								},
 							}),
-						'Key "linterOptions": Key "reportUnusedDisableDirectives": Expected one of: "error", "warn", "off", 0, 1, 2, or a boolean.',
+						/Key "linterOptions": Key "reportUnusedDisableDirectives": Expected one of: "error", "warn", "off", 0, 1, 2, or a boolean./u,
 					);
 				});
 
@@ -16881,7 +16934,7 @@ var a = "test2";
 									reportUnusedDisableDirectives: {},
 								},
 							}),
-						'Key "linterOptions": Key "reportUnusedDisableDirectives": Expected one of: "error", "warn", "off", 0, 1, 2, or a boolean.',
+						/Key "linterOptions": Key "reportUnusedDisableDirectives": Expected one of: "error", "warn", "off", 0, 1, 2, or a boolean./u,
 					);
 				});
 
@@ -18355,7 +18408,10 @@ var a = "test2";
 				};
 
 				linter.verify(code, config);
-				assert(spy && spy.calledOnce, "Rule should have been called.");
+				assert.ok(
+					spy && spy.calledOnce,
+					"Rule should have been called.",
+				);
 			});
 
 			it("ES6 global variables should be available by default", () => {
@@ -18401,7 +18457,7 @@ var a = "test2";
 				};
 
 				linter.verify(code, config);
-				assert(spy && spy.calledOnce);
+				assert.ok(spy && spy.calledOnce);
 			});
 		});
 
@@ -18584,7 +18640,7 @@ var a = "test2";
 
 				assert.throws(() => {
 					linter.verify("0", config);
-				}, "Rules with suggestions must set the `meta.hasSuggestions` property to `true`.");
+				}, /Rules with suggestions must set the `meta.hasSuggestions` property to `true`./u);
 			});
 
 			it("should throw an error if suggestion is passed but `meta.hasSuggestions` property is not enabled and the rule has the obsolete `meta.docs.suggestion` property", () => {
@@ -18626,7 +18682,7 @@ var a = "test2";
 
 				assert.throws(() => {
 					linter.verify("0", config);
-				}, "Rules with suggestions must set the `meta.hasSuggestions` property to `true`. `meta.docs.suggestion` is ignored by ESLint.");
+				}, /Rules with suggestions must set the `meta.hasSuggestions` property to `true`. `meta.docs.suggestion` is ignored by ESLint./u);
 			});
 		});
 
@@ -18640,10 +18696,10 @@ var a = "test2";
 
 					assert.strictEqual(messages.length, 1);
 					assert.strictEqual(messages[0].severity, 2);
-					assert.isNull(messages[0].ruleId);
+					assert.strictEqual(messages[0].ruleId, null);
 					assert.strictEqual(messages[0].line, 1);
 					assert.strictEqual(messages[0].column, 4);
-					assert.isTrue(messages[0].fatal);
+					assert.strictEqual(messages[0].fatal, true);
 					assert.match(messages[0].message, /^Parsing error:/u);
 
 					assert.strictEqual(suppressedMessages.length, 0);
@@ -18661,7 +18717,7 @@ var a = "test2";
 
 					assert.strictEqual(messages.length, 1);
 					assert.strictEqual(messages[0].severity, 2);
-					assert.isTrue(messages[0].fatal);
+					assert.strictEqual(messages[0].fatal, true);
 					assert.match(messages[0].message, /^Parsing error:/u);
 
 					assert.strictEqual(suppressedMessages.length, 0);
@@ -18753,9 +18809,11 @@ var a = "test2";
 
 			const sourceCode = linter.getSourceCode();
 
-			assert.isObject(sourceCode);
+			assert.ok(sourceCode !== null && typeof sourceCode === "object");
 			assert.strictEqual(sourceCode.text, code);
-			assert.isObject(sourceCode.ast);
+			assert.ok(
+				sourceCode.ast !== null && typeof sourceCode.ast === "object",
+			);
 		});
 
 		it("should retrieve SourceCode object without reset", () => {
@@ -18763,9 +18821,11 @@ var a = "test2";
 
 			const sourceCode = linter.getSourceCode();
 
-			assert.isObject(sourceCode);
+			assert.ok(sourceCode !== null && typeof sourceCode === "object");
 			assert.strictEqual(sourceCode.text, code);
-			assert.isObject(sourceCode.ast);
+			assert.ok(
+				sourceCode.ast !== null && typeof sourceCode.ast === "object",
+			);
 		});
 	});
 
@@ -18855,8 +18915,8 @@ var a = "test2";
 		it("should return current version number", () => {
 			const version = linter.version;
 
-			assert.isString(version);
-			assert.isTrue(parseInt(version[0], 10) >= 3);
+			assert.strictEqual(typeof version, "string");
+			assert.strictEqual(parseInt(version[0], 10) >= 3, true);
 		});
 	});
 
@@ -18878,7 +18938,7 @@ var a = "test2";
 				"var a;",
 				"Fixes were applied correctly",
 			);
-			assert.isTrue(messages.fixed);
+			assert.strictEqual(messages.fixed, true);
 
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
@@ -19515,13 +19575,13 @@ var a = "test2";
 
 				// filename
 				assert.strictEqual(receivedFilenames.length, 3);
-				assert(
+				assert.ok(
 					/^filename\.js[/\\]0_block\.js/u.test(receivedFilenames[0]),
 				);
-				assert(
+				assert.ok(
 					/^filename\.js[/\\]1_block\.js/u.test(receivedFilenames[1]),
 				);
-				assert(
+				assert.ok(
 					/^filename\.js[/\\]2_block\.js/u.test(receivedFilenames[2]),
 				);
 
@@ -20183,9 +20243,9 @@ var a = "test2";
 				rules: { "test/save-ast2": "error" },
 			});
 
-			assert(ast1 !== null);
-			assert(ast2 !== null);
-			assert(ast1 === ast2);
+			assert.ok(ast1 !== null);
+			assert.ok(ast2 !== null);
+			assert.ok(ast1 === ast2);
 		});
 
 		it("should not modify config object passed as argument", () => {
@@ -20215,7 +20275,7 @@ var a = "test2";
 			};
 
 			linter.verify("x", config);
-			assert(spy.calledOnce);
+			assert.ok(spy.calledOnce);
 		});
 
 		describe("when evaluating an empty string", () => {

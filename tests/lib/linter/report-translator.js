@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("chai").assert;
+const assert = require("node:assert");
 const { SourceCode } = require("../../../lib/languages/js/source-code");
 const espree = require("espree");
 const createReportTranslator = require("../../../lib/linter/report-translator");
@@ -495,7 +495,7 @@ describe("createReportTranslator", () => {
 
 			assert.throws(
 				translateReport.bind(null, reportDescriptor),
-				"Fix objects must not be overlapped in a report.",
+				/Fix objects must not be overlapped in a report./u,
 			);
 		});
 
@@ -1078,7 +1078,7 @@ describe("createReportTranslator", () => {
 		it("should throw an error if node is not an object", () => {
 			assert.throws(
 				() => translateReport("not a node", "hello world"),
-				"Node must be an object",
+				/Node must be an object/u,
 			);
 		});
 
@@ -1116,7 +1116,7 @@ describe("createReportTranslator", () => {
 		it("should throw an error if neither node nor location is provided", () => {
 			assert.throws(
 				() => translateReport(null, "hello world"),
-				"Node must be provided when reporting error if location is not provided",
+				/Node must be provided when reporting error if location is not provided/u,
 			);
 		});
 

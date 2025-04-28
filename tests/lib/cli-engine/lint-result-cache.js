@@ -8,7 +8,7 @@
 // Requirements
 //-----------------------------------------------------------------------------
 
-const assert = require("chai").assert,
+const assert = require("node:assert"),
 	{ CLIEngine } = require("../../../lib/cli-engine"),
 	fs = require("node:fs"),
 	path = require("node:path"),
@@ -218,7 +218,7 @@ describe("LintResultCache", () => {
 				);
 
 				assert.ok(getFileDescriptorStub.calledOnce);
-				assert.isNull(result);
+				assert.strictEqual(result, null);
 			});
 		});
 
@@ -234,7 +234,7 @@ describe("LintResultCache", () => {
 				);
 
 				assert.ok(getFileDescriptorStub.calledOnce);
-				assert.isNull(result);
+				assert.strictEqual(result, null);
 			});
 		});
 
@@ -251,7 +251,7 @@ describe("LintResultCache", () => {
 				);
 
 				assert.ok(getFileDescriptorStub.calledOnce);
-				assert.isNull(result);
+				assert.strictEqual(result, null);
 			});
 		});
 
@@ -318,8 +318,8 @@ describe("LintResultCache", () => {
 					fakeErrorResultsAutofix,
 				);
 
-				assert.notProperty(cacheEntry.meta, "results");
-				assert.notProperty(cacheEntry.meta, "hashOfConfig");
+				assert.ok(!("results" in cacheEntry.meta));
+				assert.ok(!("hashOfConfig" in cacheEntry.meta));
 			});
 		});
 
@@ -335,8 +335,8 @@ describe("LintResultCache", () => {
 					fakeErrorResults,
 				);
 
-				assert.notProperty(cacheEntry.meta, "results");
-				assert.notProperty(cacheEntry.meta, "hashOfConfig");
+				assert.ok(!("results" in cacheEntry.meta));
+				assert.ok(!("hashOfConfig" in cacheEntry.meta));
 			});
 		});
 
@@ -424,7 +424,7 @@ describe("LintResultCache", () => {
 		it("calls reconcile on the underlying cache", () => {
 			lintResultsCache.reconcile();
 
-			assert.isTrue(reconcileStub.calledOnce);
+			assert.strictEqual(reconcileStub.calledOnce, true);
 		});
 	});
 });

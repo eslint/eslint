@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("chai").assert;
+const assert = require("node:assert");
 const sinon = require("sinon");
 const esquery = require("esquery");
 const {
@@ -66,8 +66,8 @@ describe("esquery", () => {
 					1,
 				);
 
-				assert.isAbove(selector1.compare(selector2), 0);
-				assert.isBelow(selector2.compare(selector1), 0);
+				assert.ok(selector1.compare(selector2) > 0);
+				assert.ok(selector2.compare(selector1) < 0);
 			});
 
 			it("should compare based on identifierCount if attributeCount is equal", () => {
@@ -88,8 +88,8 @@ describe("esquery", () => {
 					1,
 				);
 
-				assert.isAbove(selector1.compare(selector2), 0);
-				assert.isBelow(selector2.compare(selector1), 0);
+				assert.ok(selector1.compare(selector2) > 0);
+				assert.ok(selector2.compare(selector1) < 0);
 			});
 
 			it("should compare based on source if attributeCount and identifierCount are equal", () => {
@@ -110,8 +110,8 @@ describe("esquery", () => {
 					1,
 				);
 
-				assert.isAbove(selector1.compare(selector2), 0);
-				assert.isBelow(selector2.compare(selector1), 0);
+				assert.ok(selector1.compare(selector2) > 0);
+				assert.ok(selector2.compare(selector1) < 0);
 			});
 
 			it("should return -1 if sources are equal", () => {
@@ -141,7 +141,7 @@ describe("esquery", () => {
 		it("should parse a simple selector", () => {
 			const result = parse("Identifier");
 
-			assert.instanceOf(result, ESQueryParsedSelector);
+			assert.ok(result instanceof ESQueryParsedSelector);
 			assert.strictEqual(result.source, "Identifier");
 			assert.strictEqual(result.isExit, false);
 			assert.deepStrictEqual(result.nodeTypes, ["Identifier"]);
@@ -151,7 +151,7 @@ describe("esquery", () => {
 
 		it("should parse a wildcard selector", () => {
 			const result = parse("*");
-			assert.instanceOf(result, ESQueryParsedSelector);
+			assert.ok(result instanceof ESQueryParsedSelector);
 			assert.strictEqual(result.source, "*");
 			assert.strictEqual(result.isExit, false);
 			assert.strictEqual(result.nodeTypes, null);
@@ -201,11 +201,9 @@ describe("esquery", () => {
 
 		it("should handle class selectors for functions", () => {
 			const result = parse(":function");
-			assert.includeMembers(result.nodeTypes, [
-				"FunctionDeclaration",
-				"FunctionExpression",
-				"ArrowFunctionExpression",
-			]);
+			assert.ok(result.nodeTypes.includes("FunctionDeclaration"));
+			assert.ok(result.nodeTypes.includes("FunctionExpression"));
+			assert.ok(result.nodeTypes.includes("ArrowFunctionExpression"));
 			assert.strictEqual(result.attributeCount, 0);
 			assert.strictEqual(result.identifierCount, 0);
 		});

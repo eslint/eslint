@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const createEmitter = require("../../../lib/linter/safe-emitter");
-const assert = require("chai").assert;
+const assert = require("node:assert");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -45,7 +45,7 @@ describe("safe-emitter", () => {
 			});
 
 			emitter.emit("foo");
-			assert(called);
+			assert.ok(called);
 		});
 	});
 });

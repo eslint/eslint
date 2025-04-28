@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("chai").assert;
+const assert = require("node:assert");
 const applyDisableDirectives = require("../../../lib/linter/apply-disable-directives");
 const jslang = require("../../../lib/languages/js");
 
@@ -1148,7 +1148,7 @@ describe("apply-disable-directives", () => {
 						],
 						problems: [],
 					}),
-				"Unrecognized directive type 'foo'",
+				/Unrecognized directive type 'foo'/u,
 			);
 		});
 	});

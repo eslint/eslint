@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("chai").assert,
+const assert = require("node:assert"),
 	Rules = require("../../../lib/linter/rules"),
 	{ Linter } = require("../../../lib/linter");
 
@@ -72,8 +72,11 @@ describe("rules", () => {
 		it("should iterate all rules", () => {
 			const allRules = new Map(rules);
 
-			assert.isAbove(allRules.size, 230);
-			assert.isObject(allRules.get("no-alert"));
+			assert.ok(allRules.size > 230);
+			assert.ok(
+				allRules.get("no-alert") !== null &&
+					typeof allRules.get("no-alert") === "object",
+			);
 		});
 	});
 });

@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("chai").assert,
+const assert = require("node:assert"),
 	formatter = require("../../../../lib/cli-engine/formatters/json-with-metadata");
 
 //------------------------------------------------------------------------------
