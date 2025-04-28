@@ -32,5 +32,4 @@ pnpm-lock.yaml
 _site
 /docs/src/assets/css
 
-.temp-eslintsuppressions
 .cursor

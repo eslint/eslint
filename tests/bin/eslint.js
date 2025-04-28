@@ -562,6 +562,10 @@ describe("bin/eslint.js", () => {
 			},
 		};
 
+		after(() => {
+			fs.rmSync(SUPPRESSIONS_PATH, { force: true });
+		});
+
 		describe("arguments combinations", () => {
 			it("displays an error when the --suppress-all and --suppress-rule flags are used together", () => {
 				const child = runESLint(
