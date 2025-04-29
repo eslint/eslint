@@ -8,8 +8,8 @@ The beginnings of separating out JavaScript-specific functionality from ESLint.
 
 Right now, this plugin contains two configurations:
 
--   `recommended` - enables the rules recommended by the ESLint team (the replacement for `"eslint:recommended"`)
--   `all` - enables all ESLint rules (the replacement for `"eslint:all"`)
+- `recommended` - enables the rules recommended by the ESLint team (the replacement for `"eslint:recommended"`)
+- `all` - enables all ESLint rules (the replacement for `"eslint:all"`)
 
 ## Installation
 

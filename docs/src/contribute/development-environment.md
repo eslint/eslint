@@ -91,16 +91,16 @@ The testing takes a few minutes to complete. If any tests fail, that likely mean
 
 The ESLint directory and file structure is as follows:
 
--   `bin` - executable files that are available when ESLint is installed.
--   `conf` - default configuration information.
--   `docs` - documentation for the project.
--   `lib` - contains the source code.
-    -   `formatters` - all source files defining formatters.
-    -   `rules` - all source files defining rules.
--   `tests` - the main unit test folder.
-    -   `lib` - tests for the source code.
-        -   `formatters` - tests for the formatters.
-        -   `rules` - tests for the rules.
+- `bin` - executable files that are available when ESLint is installed.
+- `conf` - default configuration information.
+- `docs` - documentation for the project.
+- `lib` - contains the source code.
+    - `formatters` - all source files defining formatters.
+    - `rules` - all source files defining rules.
+- `tests` - the main unit test folder.
+    - `lib` - tests for the source code.
+        - `formatters` - tests for the formatters.
+        - `rules` - tests for the rules.
 
 ### Workflow
 
