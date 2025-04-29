@@ -2837,6 +2837,22 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default false
 				 */
 				detectObjects: boolean;
+				/**
+				 * @default false
+				 */
+				ignoreEnums?: boolean;
+				/**
+				 * @default false
+				 */
+				ignoreNumericLiteralTypes?: boolean;
+				/**
+				 * @default false
+				 */
+				ignoreReadonlyClassProperties?: boolean;
+				/**
+				 * @default false
+				 */
+				ignoreTypeIndexes?: boolean;
 			}>,
 		]
 	>;
