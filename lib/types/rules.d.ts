@@ -3544,7 +3544,12 @@ export interface ESLintRules extends Linter.RulesRecord {
 				/**
 				 * @default 'functions'
 				 */
-				hoist: "functions" | "all" | "never" | "types" | "functions-and-types";
+				hoist:
+					| "functions"
+					| "all"
+					| "never"
+					| "types"
+					| "functions-and-types";
 				allow: string[];
 				/**
 				 * @since 8.10.0
