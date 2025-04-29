@@ -4289,13 +4289,13 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 							name: "mod",
 							importNames: ["foo"],
 							allowTypeImports: true,
-							message: "import 'foo' only as type"
+							message: "import 'foo' only as type",
 						},
 						{
 							name: "mod",
 							importNames: ["bar"],
-							message: "don't import 'bar' at all"
-						}
+							message: "don't import 'bar' at all",
+						},
 					],
 				},
 			],
@@ -4321,13 +4321,13 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 							name: "mod",
 							importNames: ["foo"],
 							allowTypeImports: true,
-							message: "import 'foo' only as type"
+							message: "import 'foo' only as type",
 						},
 						{
 							name: "mod",
 							importNames: ["bar"],
-							message: "don't import 'bar' at all"
-						}
+							message: "don't import 'bar' at all",
+						},
 					],
 				},
 			],
