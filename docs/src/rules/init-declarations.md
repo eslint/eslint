@@ -1,6 +1,8 @@
 ---
 title: init-declarations
 rule_type: suggestion
+related_rules:
+- no-unused-vars
 ---
 
 

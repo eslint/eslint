@@ -2,8 +2,9 @@
 title: no-unassigned-vars
 rule_type: problem
 related_rules:
-- prefer-const
 - init-declarations
+- no-unused-vars
+- prefer-const
 ---
 
 
