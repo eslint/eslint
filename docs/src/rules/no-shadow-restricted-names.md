@@ -142,7 +142,7 @@ function bar() {
     return globalThis;
 }
 
-import { globalThis as foo } from "bar";
+import { globalThis as baz } from "foo";
 ```
 
 :::
