@@ -3262,7 +3262,7 @@
         ],
         "language": "javascript",
         "docs": {
-            "description": "Disallow variable declarations that use `let` or `var` but have no initial value and are never assigned",
+            "description": "Disallow `let` or `var` variables that are read but never assigned",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-unassigned-vars"
         }

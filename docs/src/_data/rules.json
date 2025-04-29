@@ -339,7 +339,7 @@
             },
             {
                 "name": "no-unassigned-vars",
-                "description": "Disallow variable declarations that use `let` or `var` but have no initial value and are never assigned",
+                "description": "Disallow `let` or `var` variables that are read but never assigned",
                 "recommended": false,
                 "fixable": false,
                 "frozen": false,
