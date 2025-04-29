@@ -1,5 +1,5 @@
 /**
- * @fileoverview Disallow shadowing of NaN, undefined, and Infinity (ES5 section 15.1.1)
+ * @fileoverview Disallow shadowing of globalThis, NaN, undefined, and Infinity (ES2020 section 18.1)
  * @author Michael Ficarra
  */
 
@@ -50,6 +50,26 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 				sourceType: "module",
 				ecmaVersion: 2015,
 			},
+		},
+		{
+			code: "globalThis.foo",
+			options: [{ reportGlobalThis: true }],
+			languageOptions: { ecmaVersion: 2020 },
+		},
+		{
+			code: "const foo = globalThis",
+			options: [{ reportGlobalThis: true }],
+			languageOptions: { ecmaVersion: 2020 },
+		},
+		{
+			code: "function foo() { return globalThis; }",
+			options: [{ reportGlobalThis: true }],
+			languageOptions: { ecmaVersion: 2020 },
+		},
+		{
+			code: "import { globalThis as foo } from 'bar'",
+			options: [{ reportGlobalThis: true }],
+			languageOptions: { ecmaVersion: 2020, sourceType: "module" },
 		},
 	],
 	invalid: [
@@ -430,6 +450,196 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "undefined" },
+					type: "Identifier",
+					column: 13,
+				},
+			],
+		},
+		{
+			code: "function globalThis(globalThis) { var globalThis; !function globalThis(globalThis) { try {} catch(globalThis) {} }; }",
+			options: [{ reportGlobalThis: true }],
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "shadowingRestrictedName",
+					data: { name: "globalThis" },
+					type: "Identifier",
+					column: 10,
+				},
+				{
+					messageId: "shadowingRestrictedName",
+					data: { name: "globalThis" },
+					type: "Identifier",
+					column: 21,
+				},
+				{
+					messageId: "shadowingRestrictedName",
+					data: { name: "globalThis" },
+					type: "Identifier",
+					column: 39,
+				},
+				{
+					messageId: "shadowingRestrictedName",
+					data: { name: "globalThis" },
+					type: "Identifier",
+					column: 61,
+				},
+				{
+					messageId: "shadowingRestrictedName",
+					data: { name: "globalThis" },
+					type: "Identifier",
+					column: 72,
+				},
+				{
+					messageId: "shadowingRestrictedName",
+					data: { name: "globalThis" },
+					type: "Identifier",
+					column: 99,
+				},
+			],
+		},
+		{
+			code: "const [globalThis] = [1]",
+			options: [{ reportGlobalThis: true }],
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "shadowingRestrictedName",
+					data: { name: "globalThis" },
+					type: "Identifier",
+					column: 8,
+				},
+			],
+		},
+		{
+			code: "var {globalThis} = obj; var {a: globalThis} = obj; var {a: {b: {globalThis}}} = obj; var {a, ...globalThis} = obj;",
+			options: [{ reportGlobalThis: true }],
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "shadowingRestrictedName",
+					data: { name: "globalThis" },
+					type: "Identifier",
+					column: 6,
+				},
+				{
+					messageId: "shadowingRestrictedName",
+					data: { name: "globalThis" },
+					type: "Identifier",
+					column: 33,
+				},
+				{
+					messageId: "shadowingRestrictedName",
+					data: { name: "globalThis" },
+					type: "Identifier",
+					column: 65,
+				},
+				{
+					messageId: "shadowingRestrictedName",
+					data: { name: "globalThis" },
+					type: "Identifier",
+					column: 97,
+				},
+			],
+		},
+		{
+			code: "let globalThis; globalThis = 5;",
+			options: [{ reportGlobalThis: true }],
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "shadowingRestrictedName",
+					data: { name: "globalThis" },
+					type: "Identifier",
+					column: 5,
+				},
+			],
+		},
+		{
+			code: "class globalThis {}",
+			options: [{ reportGlobalThis: true }],
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "shadowingRestrictedName",
+					data: { name: "globalThis" },
+					type: "Identifier",
+					column: 7,
+				},
+			],
+		},
+		{
+			code: "(class globalThis {})",
+			options: [{ reportGlobalThis: true }],
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "shadowingRestrictedName",
+					data: { name: "globalThis" },
+					type: "Identifier",
+					column: 8,
+				},
+			],
+		},
+		{
+			code: "import globalThis from 'foo';",
+			options: [{ reportGlobalThis: true }],
+			languageOptions: {
+				ecmaVersion: 2020,
+				sourceType: "module",
+			},
+			errors: [
+				{
+					messageId: "shadowingRestrictedName",
+					data: { name: "globalThis" },
+					type: "Identifier",
+					column: 8,
+				},
+			],
+		},
+		{
+			code: "import { globalThis } from 'foo';",
+			options: [{ reportGlobalThis: true }],
+			languageOptions: {
+				ecmaVersion: 2020,
+				sourceType: "module",
+			},
+			errors: [
+				{
+					messageId: "shadowingRestrictedName",
+					data: { name: "globalThis" },
+					type: "Identifier",
+					column: 10,
+				},
+			],
+		},
+		{
+			code: "import { baz as globalThis } from 'foo';",
+			options: [{ reportGlobalThis: true }],
+			languageOptions: {
+				ecmaVersion: 2020,
+				sourceType: "module",
+			},
+			errors: [
+				{
+					messageId: "shadowingRestrictedName",
+					data: { name: "globalThis" },
+					type: "Identifier",
+					column: 17,
+				},
+			],
+		},
+		{
+			code: "import * as globalThis from 'foo';",
+			options: [{ reportGlobalThis: true }],
+			languageOptions: {
+				ecmaVersion: 2020,
+				sourceType: "module",
+			},
+			errors: [
+				{
+					messageId: "shadowingRestrictedName",
+					data: { name: "globalThis" },
 					type: "Identifier",
 					column: 13,
 				},

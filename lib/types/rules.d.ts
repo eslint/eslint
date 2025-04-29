@@ -3578,7 +3578,16 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.1.4
 	 * @see https://eslint.org/docs/latest/rules/no-shadow-restricted-names
 	 */
-	"no-shadow-restricted-names": Linter.RuleEntry<[]>;
+	"no-shadow-restricted-names": Linter.RuleEntry<
+		[
+			Partial<{
+				/**
+				 * @default false
+				 */
+				reportGlobalThis: boolean;
+			}>,
+		]
+	>;
 
 	/**
 	 * Rule to disallow spacing between function identifiers and their applications (deprecated).

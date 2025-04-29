@@ -4,13 +4,13 @@ rule_type: suggestion
 related_rules:
 - no-shadow
 further_reading:
-- https://es5.github.io/#x15.1.1
-- https://es5.github.io/#C
+- https://262.ecma-international.org/11.0/#sec-value-properties-of-the-global-object
+- https://262.ecma-international.org/11.0/#sec-strict-mode-of-ecmascript
 ---
 
 
 
-ES5 §15.1.1 Value Properties of the Global Object (`NaN`, `Infinity`, `undefined`) as well as strict mode restricted identifiers `eval` and `arguments` are considered to be restricted names in JavaScript. Defining them to mean something else can have unintended consequences and confuse others reading the code. For example, there's nothing preventing you from writing:
+ES2020 §18.1 Value Properties of the Global Object (`globalThis`, `NaN`, `Infinity`, `undefined`) as well as strict mode restricted identifiers `eval` and `arguments` are considered to be restricted names in JavaScript. Defining them to mean something else can have unintended consequences and confuse others reading the code. For example, there's nothing preventing you from writing:
 
 ```js
 const undefined = "foo";
@@ -75,6 +75,74 @@ let undefined;
 /*eslint no-shadow-restricted-names: "error"*/
 
 import { undefined as undef } from "bar";
+```
+
+:::
+
+## Options
+
+This rule has an object option:
+
+* `"reportGlobalThis"`: `true` (default `false`) reports declarations of `globalThis`.
+
+### reportGlobalThis
+
+Examples of **incorrect** code for the `{ "reportGlobalThis": true }` option:
+
+::: incorrect
+
+```js
+/*eslint no-shadow-restricted-names: ["error", { "reportGlobalThis": true }]*/
+
+const globalThis = "foo";
+```
+
+:::
+
+::: incorrect
+
+```js
+/*eslint no-shadow-restricted-names: ["error", { "reportGlobalThis": true }]*/
+
+function globalThis() {}
+```
+
+:::
+
+::: incorrect
+
+```js
+/*eslint no-shadow-restricted-names: ["error", { "reportGlobalThis": true }]*/
+
+import { globalThis } from "bar";
+```
+
+:::
+
+::: incorrect
+
+```js
+/*eslint no-shadow-restricted-names: ["error", { "reportGlobalThis": true }]*/
+
+class globalThis {}
+```
+
+:::
+
+Examples of **correct** code for the `{ "reportGlobalThis": true }` option:
+
+::: correct
+
+```js
+/*eslint no-shadow-restricted-names: ["error", { "reportGlobalThis": true }]*/
+
+const foo = globalThis;
+
+function bar() {
+    return globalThis;
+}
+
+import { globalThis as foo } from "bar";
 ```
 
 :::
