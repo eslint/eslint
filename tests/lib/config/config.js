@@ -20,82 +20,6 @@ const sinon = require("sinon");
 //-----------------------------------------------------------------------------
 
 describe("Config", () => {
-	describe("static parseRuleId()", () => {
-		it("should return plugin name and rule name for core rule", () => {
-			const result = Config.parseRuleId("foo");
-
-			assert.deepStrictEqual(result, {
-				pluginName: "@",
-				ruleName: "foo",
-			});
-		});
-
-		it("should return plugin name and rule name with a/b format", () => {
-			const result = Config.parseRuleId("test/foo");
-
-			assert.deepStrictEqual(result, {
-				pluginName: "test",
-				ruleName: "foo",
-			});
-		});
-
-		it("should return plugin name and rule name with a/b/c format", () => {
-			const result = Config.parseRuleId(
-				"node/no-unsupported-features/es-builtins",
-			);
-
-			assert.deepStrictEqual(result, {
-				pluginName: "node",
-				ruleName: "no-unsupported-features/es-builtins",
-			});
-		});
-
-		it("should return plugin name and rule name with @a/b/c format", () => {
-			const result = Config.parseRuleId("@test/foo/bar");
-
-			assert.deepStrictEqual(result, {
-				pluginName: "@test/foo",
-				ruleName: "bar",
-			});
-		});
-	});
-
-	describe("static getRuleFromConfig", () => {
-		it("should retrieve rule from plugin in config", () => {
-			const rule = {};
-			const config = {
-				plugins: {
-					test: {
-						rules: {
-							one: rule,
-						},
-					},
-				},
-			};
-
-			const result = Config.getRuleFromConfig("test/one", config);
-
-			assert.strictEqual(result, rule);
-		});
-
-		it("should retrieve rule from core in config", () => {
-			const rule = {};
-			const config = {
-				plugins: {
-					"@": {
-						rules: {
-							semi: rule,
-						},
-					},
-				},
-			};
-
-			const result = Config.getRuleFromConfig("semi", config);
-
-			assert.strictEqual(result, rule);
-		});
-	});
-
 	describe("static getRuleOptionsSchema", () => {
 		const noOptionsSchema = {
 			type: "array",
@@ -615,210 +539,112 @@ describe("Config", () => {
 		});
 	});
 
-	describe("static validateRules", () => {
-		it("should throw when config is not provided", () => {
-			assert.throws(() => {
-				Config.validateRules();
-			}, "Config is required for validation.");
-		});
+	describe("validateRulesConfig", () => {
+		let config;
 
-		it("should not validate disabled rules", () => {
-			// This rule has no schema, so validation would fail if attempted
-			const mockRule = {};
-
-			// This should not throw
-			Config.validateRules({
-				plugins: {
-					"@": {
-						rules: {
-							"test-rule": mockRule,
-						},
-					},
-				},
-				rules: {
-					"test-rule": ["off"],
-				},
-			});
-		});
-
-		it("should throw when rule is not found", () => {
-			assert.throws(() => {
-				Config.validateRules({
-					plugins: {},
-					rules: {
-						"test/missing-rule": ["error"],
-					},
-				});
-			}, /Could not find plugin "test" in configuration/u);
-		});
-
-		it("should throw when rule options don't match schema", () => {
-			const mockRule = {
-				meta: {
-					schema: {
-						type: "array",
-						items: [
-							{
-								type: "object",
-								properties: {
-									valid: { type: "boolean" },
-								},
-								additionalProperties: false,
-							},
-						],
-					},
-				},
-			};
-
-			assert.throws(() => {
-				Config.validateRules({
-					plugins: {
-						"@": {
-							rules: {
-								"test-rule": mockRule,
-							},
-						},
-					},
-					rules: {
-						"test-rule": ["error", { invalid: true }],
-					},
-				});
-			}, /Unexpected property "invalid"/u);
-		});
-
-		it("should throw when rule schema is invalid", () => {
-			const mockRule = {
-				meta: {
-					// Invalid schema
-					schema: 123,
-				},
-			};
-
-			assert.throws(() => {
-				Config.validateRules({
-					plugins: {
-						"@": {
-							rules: {
-								"test-rule": mockRule,
-							},
-						},
-					},
-					rules: {
-						"test-rule": ["error"],
-					},
-				});
-			}, /Rule's `meta.schema` must be an array or object/u);
-		});
-
-		it("should validate rule options successfully", () => {
-			const mockRule = {
-				meta: {
-					schema: {
-						type: "array",
-						items: [
-							{
-								type: "object",
-								properties: {
-									valid: { type: "boolean" },
-								},
-							},
-						],
-					},
-				},
-			};
-
-			// This should not throw
-			Config.validateRules({
-				plugins: {
-					"@": {
-						rules: {
-							"test-rule": mockRule,
-						},
-					},
-				},
-				rules: {
-					"test-rule": ["error", { valid: true }],
-				},
-			});
-		});
-
-		it("should skip validation when `meta.schema` is false", () => {
-			const mockRule = {
-				meta: {
-					schema: false,
-				},
-			};
-
-			// This should not throw, even with invalid options
-			Config.validateRules({
-				plugins: {
-					"@": {
-						rules: {
-							"test-rule": mockRule,
-						},
-					},
-				},
-				rules: {
-					"test-rule": ["error", "this", "would", "normally", "fail"],
-				},
-			});
-		});
-
-		it("should validate against each schema in an array schema", () => {
-			const mockRule = {
-				meta: {
-					schema: [
+		const mockRule = {
+			meta: {
+				schema: {
+					type: "array",
+					items: [
 						{
 							type: "object",
 							properties: {
-								prop1: { type: "boolean" },
-							},
-							additionalProperties: false,
-						},
-						{
-							type: "object",
-							properties: {
-								prop2: { type: "string" },
+								valid: { type: "boolean" },
 							},
 							additionalProperties: false,
 						},
 					],
 				},
-			};
+			},
+		};
 
-			// This should not throw with valid options
-			Config.validateRules({
+		beforeEach(() => {
+			config = new Config({
+				language: "test/lang",
 				plugins: {
+					test: {
+						languages: {
+							lang: { validateLanguageOptions() {} },
+						},
+					},
 					"@": {
 						rules: {
+							"error-rule": {},
+							"warn-rule": {},
+							"off-rule": {},
 							"test-rule": mockRule,
+							"test-broken-rule": {
+								meta: { schema: 123 }, // Invalid schema
+							},
+							"test-no-schema": {
+								meta: { schema: false }, // No schema
+							},
 						},
 					},
 				},
 				rules: {
-					"test-rule": ["error", { prop1: true }, { prop2: "value" }],
+					"error-rule": "error",
+					"warn-rule": "warn",
+					"off-rule": "off",
 				},
 			});
+		});
 
-			// This should throw with invalid second option
+		it("should throw when config is not provided", () => {
 			assert.throws(() => {
-				Config.validateRules({
-					plugins: {
-						"@": {
-							rules: {
-								"test-rule": mockRule,
-							},
-						},
-					},
-					rules: {
-						"test-rule": [
-							"error",
-							{ prop1: true },
-							{ invalid: true },
-						],
-					},
+				config.validateRulesConfig();
+			}, "Config is required for validation.");
+		});
+
+		it("should not validate disabled rules", () => {
+			// This should not throw
+			config.validateRulesConfig({
+				"error-rule": ["off"],
+			});
+		});
+
+		it("should throw when rule is not found", () => {
+			assert.throws(() => {
+				config.validateRulesConfig({
+					"test/missing-rule": ["error"],
+				});
+			}, /Could not find "missing-rule" in plugin "test"/u);
+		});
+
+		it("should throw when rule options don't match schema", () => {
+			assert.throws(() => {
+				config.validateRulesConfig({
+					"test-rule": ["error", { invalid: true }],
 				});
 			}, /Unexpected property "invalid"/u);
+		});
+
+		it("should throw when rule schema is invalid", () => {
+			assert.throws(() => {
+				config.validateRulesConfig({
+					"test-broken-rule": ["error"],
+				});
+			}, /Rule's `meta.schema` must be an array or object/u);
+		});
+
+		it("should validate rule options successfully", () => {
+			config.validateRulesConfig({
+				"test-rule": ["error", { valid: true }],
+			});
+		});
+
+		it("should skip validation when `meta.schema` is false", () => {
+			// This should not throw, even with invalid options
+			config.validateRulesConfig({
+				"test-no-schema": [
+					"error",
+					"this",
+					"would",
+					"normally",
+					"fail",
+				],
+			});
 		});
 
 		it("should skip __proto__ in rules", () => {
@@ -827,16 +653,7 @@ describe("Config", () => {
 			/* eslint-disable-next-line no-proto -- Testing __proto__ behavior */
 			rules.__proto__ = ["error"];
 
-			Config.validateRules({
-				plugins: {
-					"@": {
-						rules: {
-							"test-rule": { meta: {} },
-						},
-					},
-				},
-				rules,
-			});
+			config.validateRulesConfig(rules);
 		});
 	});
 });
