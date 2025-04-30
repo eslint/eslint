@@ -784,6 +784,21 @@ ruleTester.run("no-array-constructor", rule, {
 				},
 			],
 		},
+		{
+			code: "(/* a */(Array))();",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					type: "CallExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[];",
+						},
+					],
+				},
+			],
+		},
 	],
 });
 
