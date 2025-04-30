@@ -52,6 +52,21 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 			},
 		},
 		{
+			code: "let globalThis;",
+			languageOptions: { ecmaVersion: 2020 },
+		},
+		{
+			code: "class globalThis {}",
+			languageOptions: { ecmaVersion: 2020 },
+		},
+		{
+			code: "import { baz as globalThis } from 'foo';",
+			languageOptions: {
+				ecmaVersion: 2020,
+				sourceType: "module",
+			},
+		},
+		{
 			code: "globalThis.foo",
 			options: [{ reportGlobalThis: true }],
 			languageOptions: { ecmaVersion: 2020 },
