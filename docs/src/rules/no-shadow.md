@@ -344,8 +344,6 @@ type Func = (test: string) => typeof test;
 
 :::
 
-## FAQ
-
 ### Why does the rule report on enum members that share the same name as a variable in a parent scope?
 
 This isn't a bug — the rule is working exactly as intended! The report is correct because of a lesser-known aspect of enums: enum members introduce a variable within the enum's own scope, allowing them to be referenced without needing a qualifier.
