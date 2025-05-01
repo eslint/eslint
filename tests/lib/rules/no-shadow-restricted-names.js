@@ -473,6 +473,49 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 		{
 			code: "function globalThis(globalThis) { var globalThis; !function globalThis(globalThis) { try {} catch(globalThis) {} }; }",
 			options: [{ reportGlobalThis: true }],
+			languageOptions: { ecmaVersion: 2015 },
+			errors: [
+				{
+					messageId: "shadowingRestrictedName",
+					data: { name: "globalThis" },
+					type: "Identifier",
+					column: 10,
+				},
+				{
+					messageId: "shadowingRestrictedName",
+					data: { name: "globalThis" },
+					type: "Identifier",
+					column: 21,
+				},
+				{
+					messageId: "shadowingRestrictedName",
+					data: { name: "globalThis" },
+					type: "Identifier",
+					column: 39,
+				},
+				{
+					messageId: "shadowingRestrictedName",
+					data: { name: "globalThis" },
+					type: "Identifier",
+					column: 61,
+				},
+				{
+					messageId: "shadowingRestrictedName",
+					data: { name: "globalThis" },
+					type: "Identifier",
+					column: 72,
+				},
+				{
+					messageId: "shadowingRestrictedName",
+					data: { name: "globalThis" },
+					type: "Identifier",
+					column: 99,
+				},
+			],
+		},
+		{
+			code: "function globalThis(globalThis) { var globalThis; !function globalThis(globalThis) { try {} catch(globalThis) {} }; }",
+			options: [{ reportGlobalThis: true }],
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [
 				{
