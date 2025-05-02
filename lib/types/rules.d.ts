@@ -4519,7 +4519,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 1.2.0
 	 * @see https://eslint.org/docs/latest/rules/prefer-arrow-callback
 	 */
-    
 	"prefer-arrow-callback": Linter.RuleEntry<
 		[
 			Partial<{
