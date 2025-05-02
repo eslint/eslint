@@ -1,6 +1,6 @@
 {
   "name": "@eslint/js",
-  "version": "9.25.1",
+  "version": "9.26.0",
   "description": "ESLint JavaScript language implementation",
   "main": "./src/index.js",
   "types": "./types/index.d.ts",
