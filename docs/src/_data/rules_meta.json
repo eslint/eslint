@@ -611,6 +611,7 @@
     },
     "eqeqeq": {
         "type": "suggestion",
+        "hasSuggestions": true,
         "docs": {
             "description": "Require the use of `===` and `!==`",
             "recommended": false,
@@ -3094,6 +3095,11 @@
     },
     "no-shadow-restricted-names": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "reportGlobalThis": false
+            }
+        ],
         "docs": {
             "description": "Disallow identifiers from shadowing restricted names",
             "recommended": true,
@@ -3414,7 +3420,8 @@
                 "allowShortCircuit": false,
                 "allowTernary": false,
                 "allowTaggedTemplates": false,
-                "enforceForJSX": false
+                "enforceForJSX": false,
+                "ignoreDirectives": false
             }
         ]
     },
