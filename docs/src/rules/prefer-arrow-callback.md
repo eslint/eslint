@@ -110,6 +110,36 @@ someArray.map(function(item) { return this.doSomething(item); }, someObject);
 
 :::
 
+This rule additionally supports TypeScript type syntax.
+
+Examples of **incorrect** TypeScript code for this rule:
+
+:::incorrect
+
+```ts
+/*eslint prefer-arrow-callback: "error"*/
+
+foo(function bar(a:string) { a; });
+
+foo(function() { this; });
+```
+
+:::
+
+Examples of **correct** TypeScript code for this rule:
+
+:::correct
+
+```ts
+/*eslint prefer-arrow-callback: "error"*/
+
+foo((a:string) => a);
+
+const foo = function foo(bar:any) {};
+```
+
+:::
+
 ## When Not To Use It
 
 * In environments that have not yet adopted ES6 language features (ES3/5).
