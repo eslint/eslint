@@ -110,7 +110,7 @@ someArray.map(function(item) { return this.doSomething(item); }, someObject);
 
 :::
 
-This rule additionally supports TypeScript type syntax.
+This rule additionally supports TypeScript type syntax, However, it does not autofix callback `functions` that use this as a parameter..
 
 Examples of **incorrect** TypeScript code for this rule:
 
@@ -121,7 +121,7 @@ Examples of **incorrect** TypeScript code for this rule:
 
 foo(function bar(a:string) { a; });
 
-foo(function() { this; });
+test('foo', function (this: any) {});
 ```
 
 :::
