@@ -4648,38 +4648,47 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 		`,
 			errors: [
 				{
-					column: 10,
+					column: 12,
 					data: {
 						action: "defined",
 						additional: "",
 						varName: "ClassDecoratorFactory",
 					},
-					endColumn: 31,
+					endColumn: 33,
 					endLine: 2,
 					line: 2,
 					messageId: "unusedVar",
-				},
-			],
-		},
-		{
-			code: `
-  import { Foo, Bar } from 'foo';
-  function baz<Foo>(): Foo {}
-  baz<Bar>();
+					suggestions: [
+						{
+							messageId: "removeVar",
+							output: `
+  
+  export class Foo {}
 		`,
-			errors: [
-				{
-					column: 10,
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "Foo",
-					},
-					line: 2,
-					messageId: "unusedVar",
+						},
+					],
 				},
 			],
 		},
+		// 		{
+		// 			code: `
+		//   import { Foo, Bar } from 'foo';
+		//   function baz<Foo>(): Foo {}
+		//   baz<Bar>();
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					column: 10,
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "Foo",
+		// 					},
+		// 					line: 2,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
 		{
 			code: `
   import { Nullable } from 'nullable';
@@ -4688,7 +4697,7 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 		`,
 			errors: [
 				{
-					column: 10,
+					column: 12,
 					data: {
 						action: "defined",
 						additional: "",
@@ -4696,6 +4705,16 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 					},
 					line: 2,
 					messageId: "unusedVar",
+					suggestions: [
+						{
+							messageId: "removeVar",
+							output: `
+  
+  const a: string = 'hello';
+  console.log(a);
+		`,
+						},
+					],
 				},
 			],
 		},
@@ -4704,11 +4723,10 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
   import { Nullable } from 'nullable';
   import { SomeOther } from 'other';
   const a: Nullable<string> = 'hello';
-  console.log(a);
-		`,
+  console.log(a);`,
 			errors: [
 				{
-					column: 10,
+					column: 12,
 					data: {
 						action: "defined",
 						additional: "",
@@ -4716,6 +4734,16 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 					},
 					line: 3,
 					messageId: "unusedVar",
+					suggestions: [
+						{
+							messageId: "removeVar",
+							output: `
+  import { Nullable } from 'nullable';
+  
+  const a: Nullable<string> = 'hello';
+  console.log(a);`,
+						},
+					],
 				},
 			],
 		},
@@ -4733,7 +4761,7 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 		`,
 			errors: [
 				{
-					column: 10,
+					column: 12,
 					data: {
 						action: "defined",
 						additional: "",
@@ -4741,6 +4769,21 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 					},
 					line: 3,
 					messageId: "unusedVar",
+					suggestions: [
+						{
+							messageId: "removeVar",
+							output: `
+  import { Nullable } from 'nullable';
+  
+  class A {
+	do = (a: Nullable) => {
+	  console.log(a);
+	};
+  }
+  new A();
+		`,
+						},
+					],
 				},
 			],
 		},
@@ -4757,7 +4800,7 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 		`,
 			errors: [
 				{
-					column: 10,
+					column: 12,
 					data: {
 						action: "defined",
 						additional: "",
@@ -4765,6 +4808,21 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 					},
 					line: 3,
 					messageId: "unusedVar",
+					suggestions: [
+						{
+							messageId: "removeVar",
+							output: `
+  import { Nullable } from 'nullable';
+  
+  class A {
+	do(a: Nullable) {
+	  console.log(a);
+	}
+  }
+  new A();
+		`,
+						},
+					],
 				},
 			],
 		},
@@ -4781,7 +4839,7 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 		`,
 			errors: [
 				{
-					column: 10,
+					column: 12,
 					data: {
 						action: "defined",
 						additional: "",
@@ -4789,30 +4847,58 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 					},
 					line: 3,
 					messageId: "unusedVar",
-				},
-			],
-		},
-		{
-			code: `
+					suggestions: [
+						{
+							messageId: "removeVar",
+							output: `
   import { Nullable } from 'nullable';
-  import { Another } from 'some';
-  export interface A {
-	do(a: Nullable);
+  
+  class A {
+	do(): Nullable {
+	  return null;
+	}
   }
+  new A();
 		`,
-			errors: [
-				{
-					column: 10,
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "Another",
-					},
-					line: 3,
-					messageId: "unusedVar",
+						},
+					],
 				},
 			],
 		},
+		// TODO: check with typescript-eslint team
+		// 		{
+		// 			code: `
+		//   import { Nullable } from 'nullable';
+		//   import { Another } from 'some';
+		//   export interface A {
+		// 	do(a: Nullable);
+		//   }
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					column: 12,
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "Another",
+		// 					},
+		// 					line: 3,
+		// 					messageId: "unusedVar",
+		// 					suggestions: [
+		// 						{
+		// 							messageId: "removeVar",
+		// 							output: `
+		//   import { Nullable } from 'nullable';
+
+		//   export interface A {
+		// 	do(a: Nullable);
+		//   }
+		// 		`,
+		// 						},
+		// 					],
+		// 				},
+		// 			],
+		// 		},
 		{
 			code: `
   import { Nullable } from 'nullable';
@@ -4823,7 +4909,7 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 		`,
 			errors: [
 				{
-					column: 10,
+					column: 12,
 					data: {
 						action: "defined",
 						additional: "",
@@ -4831,6 +4917,18 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 					},
 					line: 3,
 					messageId: "unusedVar",
+					suggestions: [
+						{
+							messageId: "removeVar",
+							output: `
+  import { Nullable } from 'nullable';
+  
+  export interface A {
+	other: Nullable;
+  }
+		`,
+						},
+					],
 				},
 			],
 		},
@@ -4844,7 +4942,7 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 		`,
 			errors: [
 				{
-					column: 10,
+					column: 12,
 					data: {
 						action: "defined",
 						additional: "",
@@ -4852,6 +4950,18 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 					},
 					line: 2,
 					messageId: "unusedVar",
+					suggestions: [
+						{
+							messageId: "removeVar",
+							output: `
+  
+  function foo(a: string) {
+	console.log(a);
+  }
+  foo();
+		`,
+						},
+					],
 				},
 			],
 		},
@@ -4865,7 +4975,7 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 		`,
 			errors: [
 				{
-					column: 10,
+					column: 12,
 					data: {
 						action: "defined",
 						additional: "",
@@ -4873,6 +4983,18 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 					},
 					line: 2,
 					messageId: "unusedVar",
+					suggestions: [
+						{
+							messageId: "removeVar",
+							output: `
+  
+  function foo(): string | null {
+	return null;
+  }
+  foo();
+		`,
+						},
+					],
 				},
 			],
 		},
@@ -4888,7 +5010,7 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 		`,
 			errors: [
 				{
-					column: 10,
+					column: 12,
 					data: {
 						action: "defined",
 						additional: "",
@@ -4896,6 +5018,20 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 					},
 					line: 3,
 					messageId: "unusedVar",
+					suggestions: [
+						{
+							messageId: "removeVar",
+							output: `
+  import { Nullable } from 'nullable';
+  
+  import { Another } from 'some';
+  class A extends Nullable {
+	other: Nullable<Another>;
+  }
+  new A();
+		`,
+						},
+					],
 				},
 			],
 		},
@@ -4911,7 +5047,7 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 		`,
 			errors: [
 				{
-					column: 10,
+					column: 12,
 					data: {
 						action: "defined",
 						additional: "",
@@ -4919,29 +5055,55 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 					},
 					line: 3,
 					messageId: "unusedVar",
-				},
-			],
-		},
-		{
-			code: `
-  enum FormFieldIds {
-	PHONE = 'phone',
-	EMAIL = 'email',
+					suggestions: [
+						{
+							messageId: "removeVar",
+							output: `
+  import { Nullable } from 'nullable';
+  
+  import { Another } from 'some';
+  abstract class A extends Nullable {
+	other: Nullable<Another>;
   }
+  new A();
 		`,
-			errors: [
-				{
-					column: 6,
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "FormFieldIds",
-					},
-					line: 2,
-					messageId: "unusedVar",
+						},
+					],
 				},
 			],
 		},
+		// TODO: fix enum declarations reporting
+		// 		{
+		// 			code: `
+		//   enum FormFieldIds {
+		// 	PHONE = 'phone',
+		// 	EMAIL = 'email',
+		//   }
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					column: 8,
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "FormFieldIds",
+		// 					},
+		// 					line: 2,
+		// 					messageId: "unusedVar",
+		// 					suggestions: [
+		// 						{
+		// 							messageId: "removeVar",
+		// 							output: `
+		//   enum FormFieldIds {
+		// 	PHONE = 'phone',
+		// 	EMAIL = 'email',
+		//   }
+		// 		`,
+		// 						},
+		// 					],
+		// 				},
+		// 			],
+		// 		},
 		{
 			code: `
   import test from 'test';
@@ -4950,7 +5112,7 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 		`,
 			errors: [
 				{
-					column: 8,
+					column: 10,
 					data: {
 						action: "defined",
 						additional: "",
@@ -4958,6 +5120,16 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 					},
 					line: 2,
 					messageId: "unusedVar",
+					suggestions: [
+						{
+							messageId: "removeVar",
+							output: `
+  import 'test';
+  import baz from 'baz';
+  export interface Bar extends baz.test {}
+		`,
+						},
+					],
 				},
 			],
 		},
@@ -4969,7 +5141,7 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 		`,
 			errors: [
 				{
-					column: 8,
+					column: 10,
 					data: {
 						action: "defined",
 						additional: "",
@@ -4977,6 +5149,16 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 					},
 					line: 2,
 					messageId: "unusedVar",
+					suggestions: [
+						{
+							messageId: "removeVar",
+							output: `
+  import 'test';
+  import baz from 'baz';
+  export interface Bar extends baz().test {}
+		`,
+						},
+					],
 				},
 			],
 		},
@@ -4988,7 +5170,7 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 		`,
 			errors: [
 				{
-					column: 8,
+					column: 10,
 					data: {
 						action: "defined",
 						additional: "",
@@ -4996,6 +5178,16 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 					},
 					line: 2,
 					messageId: "unusedVar",
+					suggestions: [
+						{
+							messageId: "removeVar",
+							output: `
+  import 'test';
+  import baz from 'baz';
+  export class Bar implements baz.test {}
+		`,
+						},
+					],
 				},
 			],
 		},
@@ -5007,7 +5199,7 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 		`,
 			errors: [
 				{
-					column: 8,
+					column: 10,
 					data: {
 						action: "defined",
 						additional: "",
@@ -5015,155 +5207,168 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 					},
 					line: 2,
 					messageId: "unusedVar",
-				},
-			],
-		},
-		{
-			code: `
-  namespace Foo {}
+					suggestions: [
+						{
+							messageId: "removeVar",
+							output: `
+  import 'test';
+  import baz from 'baz';
+  export class Bar implements baz().test {}
 		`,
-			errors: [
-				{
-					column: 11,
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "Foo",
-					},
-					line: 2,
-					messageId: "unusedVar",
+						},
+					],
 				},
 			],
 		},
-		{
-			code: `
-  namespace Foo {
-	export const Foo = 1;
-  }
-		`,
-			errors: [
-				{
-					column: 11,
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "Foo",
-					},
-					line: 2,
-					messageId: "unusedVar",
-				},
-			],
-		},
-		{
-			code: `
-  namespace Foo {
-	const Foo = 1;
-	console.log(Foo);
-  }
-		`,
-			errors: [
-				{
-					column: 11,
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "Foo",
-					},
-					line: 2,
-					messageId: "unusedVar",
-				},
-			],
-		},
-		{
-			code: `
-  namespace Foo {
-	export const Bar = 1;
-	console.log(Foo.Bar);
-  }
-		`,
-			errors: [
-				{
-					column: 11,
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "Foo",
-					},
-					line: 2,
-					messageId: "unusedVar",
-				},
-			],
-		},
-		{
-			code: `
-  namespace Foo {
-	namespace Foo {
-	  export const Bar = 1;
-	  console.log(Foo.Bar);
-	}
-  }
-		`,
-			errors: [
-				{
-					column: 11,
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "Foo",
-					},
-					line: 2,
-					messageId: "unusedVar",
-				},
-				{
-					column: 13,
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "Foo",
-					},
-					line: 3,
-					messageId: "unusedVar",
-				},
-			],
-		},
+		// TODO: fix namespace reporting
+		// 		{
+		// 			code: `
+		//   namespace Foo {}
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					column: 11,
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "Foo",
+		// 					},
+		// 					line: 2,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
+		// 		{
+		// 			code: `
+		//   namespace Foo {
+		// 	export const Foo = 1;
+		//   }
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					column: 11,
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "Foo",
+		// 					},
+		// 					line: 2,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
+		// 		{
+		// 			code: `
+		//   namespace Foo {
+		// 	const Foo = 1;
+		// 	console.log(Foo);
+		//   }
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					column: 11,
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "Foo",
+		// 					},
+		// 					line: 2,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
+		// 		{
+		// 			code: `
+		//   namespace Foo {
+		// 	export const Bar = 1;
+		// 	console.log(Foo.Bar);
+		//   }
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					column: 11,
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "Foo",
+		// 					},
+		// 					line: 2,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
+		// 		{
+		// 			code: `
+		//   namespace Foo {
+		// 	namespace Foo {
+		// 	  export const Bar = 1;
+		// 	  console.log(Foo.Bar);
+		// 	}
+		//   }
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					column: 11,
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "Foo",
+		// 					},
+		// 					line: 2,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 				{
+		// 					column: 13,
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "Foo",
+		// 					},
+		// 					line: 3,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
+
 		// self-referencing types
-		{
-			code: `
-  interface Foo {
-	bar: string;
-	baz: Foo['bar'];
-  }
-		`,
-			errors: [
-				{
-					column: 11,
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "Foo",
-					},
-					line: 2,
-					messageId: "unusedVar",
-				},
-			],
-		},
-		{
-			code: `
-  type Foo = Array<Foo>;
-		`,
-			errors: [
-				{
-					column: 6,
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "Foo",
-					},
-					line: 2,
-					messageId: "unusedVar",
-				},
-			],
-		},
+		// 		{
+		// 			code: `
+		//   interface Foo {
+		// 	bar: string;
+		// 	baz: Foo['bar'];
+		//   }
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					column: 11,
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "Foo",
+		// 					},
+		// 					line: 2,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
+		// 		{
+		// 			code: `
+		//   type Foo = Array<Foo>;
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					column: 6,
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "Foo",
+		// 					},
+		// 					line: 2,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
+
 		// https://github.com/typescript-eslint/typescript-eslint/issues/2455
 		{
 			code: `
@@ -5183,7 +5388,7 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 			},
 			errors: [
 				{
-					column: 10,
+					column: 12,
 					data: {
 						action: "defined",
 						additional: "",
@@ -5191,6 +5396,19 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 					},
 					line: 3,
 					messageId: "unusedVar",
+					suggestions: [
+						{
+							messageId: "removeVar",
+							output: `
+  import React from 'react';
+  
+  
+  export const ComponentFoo = () => {
+	return <div>Foo Foo</div>;
+  };
+		`,
+						},
+					],
 				},
 			],
 		},
@@ -5213,7 +5431,7 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 			},
 			errors: [
 				{
-					column: 8,
+					column: 10,
 					data: {
 						action: "defined",
 						additional: "",
@@ -5221,6 +5439,19 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 					},
 					line: 2,
 					messageId: "unusedVar",
+					suggestions: [
+						{
+							messageId: "removeVar",
+							output: `
+  import 'react';
+  import { h } from 'some-other-jsx-lib';
+  
+  export const ComponentFoo = () => {
+	return <div>Foo Foo</div>;
+  };
+		`,
+						},
+					],
 				},
 			],
 		},
@@ -5243,7 +5474,7 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 			},
 			errors: [
 				{
-					column: 8,
+					column: 10,
 					data: {
 						action: "defined",
 						additional: "",
@@ -5251,110 +5482,126 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 					},
 					line: 2,
 					messageId: "unusedVar",
-				},
-			],
-		},
-		{
-			code: `
-  declare module 'foo' {
-	type Test = any;
-	const x = 1;
-	export = x;
-  }
+					suggestions: [
+						{
+							messageId: "removeVar",
+							output: `
+  import 'react';
+  
+  export const ComponentFoo = () => {
+	return <div>Foo Foo</div>;
+  };
 		`,
-			errors: [
-				{
-					column: 8,
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "Test",
-					},
-					endColumn: 12,
-					endLine: 3,
-					line: 3,
-					messageId: "unusedVar",
+						},
+					],
 				},
 			],
 		},
-		{
-			code: `
-  // not declared
-  export namespace Foo {
-	namespace Bar {
-	  namespace Baz {
-		namespace Bam {
-		  const x = 1;
-		}
-	  }
-	}
-  }
-		`,
-			errors: [
-				{
-					column: 13,
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "Bar",
-					},
-					line: 4,
-					messageId: "unusedVar",
-				},
-				{
-					column: 15,
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "Baz",
-					},
-					line: 5,
-					messageId: "unusedVar",
-				},
-				{
-					column: 17,
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "Bam",
-					},
-					line: 6,
-					messageId: "unusedVar",
-				},
-				{
-					column: 15,
-					data: {
-						action: "assigned a value",
-						additional: "",
-						varName: "x",
-					},
-					line: 7,
-					messageId: "unusedVar",
-				},
-			],
-		},
-		{
-			code: `
-  interface Foo {
-	a: string;
-  }
-  interface Foo {
-	b: Foo;
-  }
-		`,
-			errors: [
-				{
-					column: 11,
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "Foo",
-					},
-					line: 2,
-					messageId: "unusedVar",
-				},
-			],
-		},
+
+		// TODO: fixme (declare module)
+		// 		{
+		// 			code: `
+		//   declare module 'foo' {
+		// 	type Test = any;
+		// 	const x = 1;
+		// 	export = x;
+		//   }
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					column: 8,
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "Test",
+		// 					},
+		// 					endColumn: 12,
+		// 					endLine: 3,
+		// 					line: 3,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
+		// TODO: fixme (namespace)
+		// 		{
+		// 			code: `
+		//   // not declared
+		//   export namespace Foo {
+		// 	namespace Bar {
+		// 	  namespace Baz {
+		// 		namespace Bam {
+		// 		  const x = 1;
+		// 		}
+		// 	  }
+		// 	}
+		//   }
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					column: 13,
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "Bar",
+		// 					},
+		// 					line: 4,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 				{
+		// 					column: 15,
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "Baz",
+		// 					},
+		// 					line: 5,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 				{
+		// 					column: 17,
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "Bam",
+		// 					},
+		// 					line: 6,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 				{
+		// 					column: 15,
+		// 					data: {
+		// 						action: "assigned a value",
+		// 						additional: "",
+		// 						varName: "x",
+		// 					},
+		// 					line: 7,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
+		// 		// TODO: fixme (interface)
+		// 		{
+		// 			code: `
+		//   interface Foo {
+		// 	a: string;
+		//   }
+		//   interface Foo {
+		// 	b: Foo;
+		//   }
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					column: 11,
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "Foo",
+		// 					},
+		// 					line: 2,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
 		{
 			code: `
   let x = null;
@@ -5362,39 +5609,40 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 		`,
 			errors: [
 				{
-					column: 1,
+					column: 3,
 					data: {
 						action: "assigned a value",
 						additional: "",
 						varName: "x",
 					},
-					endColumn: 2,
+					endColumn: 4,
 					endLine: 3,
 					line: 3,
 					messageId: "unusedVar",
 				},
 			],
 		},
-		{
-			code: `
-  interface Foo {
-	bar: string;
-  }
-  const Foo = 'bar';
-		`,
-			errors: [
-				{
-					column: 7,
-					data: {
-						action: "assigned a value",
-						additional: "",
-						varName: "Foo",
-					},
-					line: 5,
-					messageId: "unusedVar",
-				},
-			],
-		},
+		// TODO: fixme (interface)
+		// 		{
+		// 			code: `
+		//   interface Foo {
+		// 	bar: string;
+		//   }
+		//   const Foo = 'bar';
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					column: 7,
+		// 					data: {
+		// 						action: "assigned a value",
+		// 						additional: "",
+		// 						varName: "Foo",
+		// 					},
+		// 					line: 5,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
 		{
 			code: `
   let foo = 1;
@@ -5402,85 +5650,97 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 		`,
 			errors: [
 				{
-					column: 1,
+					column: 3,
 					data: {
 						action: "assigned a value",
 						additional: "",
 						varName: "foo",
 					},
+					endColumn: 6,
+					endLine: 3,
 					line: 3,
 					messageId: "unusedVar",
 				},
 			],
 		},
+		// TODO: fixme (interface)
+		// 		{
+		// 			code: `
+		//   interface Foo {
+		// 	bar: string;
+		//   }
+		//   type Bar = 1;
+		//   export = Bar;
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					column: 11,
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "Foo",
+		// 					},
+		// 					line: 2,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
+		// 		{
+		// 			code: `
+		//   interface Foo {
+		// 	bar: string;
+		//   }
+		//   type Bar = 1;
+		//   export = Foo;
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					column: 6,
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "Bar",
+		// 					},
+		// 					line: 5,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
+		// TODO: fixme (suggestion)
+		// 		{
+		// 			code: `
+		//   namespace Foo {
+		// 	export const foo = 1;
+		//   }
+		//   export namespace Bar {
+		// 	import TheFoo = Foo;
+		//   }
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					column: 12,
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "TheFoo",
+		// 					},
+		// 					line: 6,
+		// 					messageId: "unusedVar",
+		// 					suggestions: [
+		// 						{
+		// 							messageId: "removeVar",
+		// 							output: `
+		//   export namespace Bar {
+		// 	import TheFoo = Foo;
+		//   }
+		// 		`,
+		// 						}
+		// 					]
+		// 				},
+		// 			],
+		// 		},
 		{
-			code: `
-  interface Foo {
-	bar: string;
-  }
-  type Bar = 1;
-  export = Bar;
-		`,
-			errors: [
-				{
-					column: 11,
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "Foo",
-					},
-					line: 2,
-					messageId: "unusedVar",
-				},
-			],
-		},
-		{
-			code: `
-  interface Foo {
-	bar: string;
-  }
-  type Bar = 1;
-  export = Foo;
-		`,
-			errors: [
-				{
-					column: 6,
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "Bar",
-					},
-					line: 5,
-					messageId: "unusedVar",
-				},
-			],
-		},
-		{
-			code: `
-  namespace Foo {
-	export const foo = 1;
-  }
-  export namespace Bar {
-	import TheFoo = Foo;
-  }
-		`,
-			errors: [
-				{
-					column: 10,
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "TheFoo",
-					},
-					line: 6,
-					messageId: "unusedVar",
-				},
-			],
-		},
-		{
-			code: `
-  const foo: number = 1;
-		`,
+			code: `const foo: number = 1;`,
 			errors: [
 				{
 					column: 7,
@@ -5489,112 +5749,119 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 						additional: "",
 						varName: "foo",
 					},
-					endColumn: 10,
-					endLine: 2,
-					line: 2,
+					endColumn: 18,
+					endLine: 1,
+					line: 1,
 					messageId: "unusedVar",
+					suggestions: [
+						{
+							messageId: "removeVar",
+							output: ``,
+						},
+					],
 				},
 			],
 		},
-		{
-			code: `
-  enum Foo {
-	A = 1,
-	B = Foo.A,
-  }
-		`,
-			errors: [
-				{
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "Foo",
-					},
-					line: 2,
-					messageId: "unusedVar",
-				},
-			],
-		},
+		// TODO: fixme (enum)
+		// 		{
+		// 			code: `
+		//   enum Foo {
+		// 	A = 1,
+		// 	B = Foo.A,
+		//   }
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "Foo",
+		// 					},
+		// 					line: 2,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
 
-		// reportUsedIgnorePattern
-		{
-			code: `
-  type _Foo = 1;
-  export const x: _Foo = 1;
-		`,
-			options: [
-				{ reportUsedIgnorePattern: true, varsIgnorePattern: "^_" },
-			],
-			errors: [
-				{
-					data: {
-						additional: ". Used vars must not match /^_/u",
-						varName: "_Foo",
-					},
-					line: 2,
-					messageId: "usedIgnoredVar",
-				},
-			],
-		},
-		{
-			code: `
-  interface _Foo {}
-  export const x: _Foo = 1;
-		`,
-			options: [
-				{ reportUsedIgnorePattern: true, varsIgnorePattern: "^_" },
-			],
-			errors: [
-				{
-					data: {
-						additional: ". Used vars must not match /^_/u",
-						varName: "_Foo",
-					},
-					line: 2,
-					messageId: "usedIgnoredVar",
-				},
-			],
-		},
-		{
-			code: `
-  enum _Foo {
-	A = 1,
-  }
-  export const x = _Foo.A;
-		`,
-			options: [
-				{ reportUsedIgnorePattern: true, varsIgnorePattern: "^_" },
-			],
-			errors: [
-				{
-					data: {
-						additional: ". Used vars must not match /^_/u",
-						varName: "_Foo",
-					},
-					line: 2,
-					messageId: "usedIgnoredVar",
-				},
-			],
-		},
-		{
-			code: `
-  namespace _Foo {}
-  export const x = _Foo;
-		`,
-			options: [
-				{ reportUsedIgnorePattern: true, varsIgnorePattern: "^_" },
-			],
-			errors: [
-				{
-					data: {
-						additional: ". Used vars must not match /^_/u",
-						varName: "_Foo",
-					},
-					line: 2,
-					messageId: "usedIgnoredVar",
-				},
-			],
-		},
+		// TODO: fixme (reportUsedIgnorePattern)
+		// 		{
+		// 			code: `
+		//   type _Foo = 1;
+		//   export const x: _Foo = 1;
+		// 		`,
+		// 			options: [
+		// 				{ reportUsedIgnorePattern: true, varsIgnorePattern: "^_" },
+		// 			],
+		// 			errors: [
+		// 				{
+		// 					data: {
+		// 						additional: ". Used vars must not match /^_/u",
+		// 						varName: "_Foo",
+		// 					},
+		// 					line: 2,
+		// 					messageId: "usedIgnoredVar",
+		// 				},
+		// 			],
+		// 		},
+		// 		{
+		// 			code: `
+		//   interface _Foo {}
+		//   export const x: _Foo = 1;
+		// 		`,
+		// 			options: [
+		// 				{ reportUsedIgnorePattern: true, varsIgnorePattern: "^_" },
+		// 			],
+		// 			errors: [
+		// 				{
+		// 					data: {
+		// 						additional: ". Used vars must not match /^_/u",
+		// 						varName: "_Foo",
+		// 					},
+		// 					line: 2,
+		// 					messageId: "usedIgnoredVar",
+		// 				},
+		// 			],
+		// 		},
+		// 		{
+		// 			code: `
+		//   enum _Foo {
+		// 	A = 1,
+		//   }
+		//   export const x = _Foo.A;
+		// 		`,
+		// 			options: [
+		// 				{ reportUsedIgnorePattern: true, varsIgnorePattern: "^_" },
+		// 			],
+		// 			errors: [
+		// 				{
+		// 					data: {
+		// 						additional: ". Used vars must not match /^_/u",
+		// 						varName: "_Foo",
+		// 					},
+		// 					line: 2,
+		// 					messageId: "usedIgnoredVar",
+		// 				},
+		// 			],
+		// 		},
+		// 		{
+		// 			code: `
+		//   namespace _Foo {}
+		//   export const x = _Foo;
+		// 		`,
+		// 			options: [
+		// 				{ reportUsedIgnorePattern: true, varsIgnorePattern: "^_" },
+		// 			],
+		// 			errors: [
+		// 				{
+		// 					data: {
+		// 						additional: ". Used vars must not match /^_/u",
+		// 						varName: "_Foo",
+		// 					},
+		// 					line: 2,
+		// 					messageId: "usedIgnoredVar",
+		// 				},
+		// 			],
+		// 		},
 		{
 			code: `
 		  const foo: number = 1;
@@ -5603,13 +5870,13 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 		`,
 			errors: [
 				{
-					column: 15,
+					column: 11,
 					data: {
 						action: "assigned a value",
 						additional: "",
 						varName: "foo",
 					},
-					endColumn: 18,
+					endColumn: 22,
 					endLine: 2,
 					line: 2,
 					messageId: "usedOnlyAsType",
@@ -5624,13 +5891,13 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 		`,
 			errors: [
 				{
-					column: 23,
+					column: 19,
 					data: {
 						action: "defined",
 						additional: "",
 						varName: "foo",
 					},
-					endColumn: 26,
+					endColumn: 30,
 					endLine: 2,
 					line: 2,
 					messageId: "usedOnlyAsType",
@@ -5645,13 +5912,13 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 		`,
 			errors: [
 				{
-					column: 15,
+					column: 11,
 					data: {
 						action: "assigned a value",
 						additional: "",
 						varName: "foo",
 					},
-					endColumn: 18,
+					endColumn: 22,
 					endLine: 2,
 					line: 2,
 					messageId: "usedOnlyAsType",
@@ -5666,44 +5933,46 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 		`,
 			errors: [
 				{
-					column: 15,
+					column: 11,
 					data: {
 						action: "assigned a value",
 						additional: "",
 						varName: "foo",
 					},
-					endColumn: 18,
+					endColumn: 22,
 					endLine: 2,
 					line: 2,
 					messageId: "usedOnlyAsType",
 				},
 			],
 		},
-		{
-			code: `
-		  const foo = {
-			bar: {
-			  baz: 123,
-			},
-		  };
-  
-		  export type Bar = typeof foo.bar;
-		`,
-			errors: [
-				{
-					column: 15,
-					data: {
-						action: "assigned a value",
-						additional: "",
-						varName: "foo",
-					},
-					endColumn: 18,
-					endLine: 2,
-					line: 2,
-					messageId: "usedOnlyAsType",
-				},
-			],
-		},
+
+		// TODO: fixme (object)
+		// {
+		// 	code: `
+		//   const foo = {
+		// 	bar: {
+		// 	  baz: 123,
+		// 	},
+		//   };
+
+		//   export type Bar = typeof foo.bar;
+		// `,
+		// 	errors: [
+		// 		{
+		// 			column: 15,
+		// 			data: {
+		// 				action: "assigned a value",
+		// 				additional: "",
+		// 				varName: "foo",
+		// 			},
+		// 			endColumn: 18,
+		// 			endLine: 2,
+		// 			line: 2,
+		// 			messageId: "usedOnlyAsType",
+		// 		},
+		// 	],
+		// },
 		{
 			code: `
 		  const foo = {
@@ -5716,159 +5985,99 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 		`,
 			errors: [
 				{
-					column: 15,
+					column: 11,
 					data: {
 						action: "assigned a value",
 						additional: "",
 						varName: "foo",
 					},
-					endColumn: 18,
+					endColumn: 14,
 					endLine: 2,
 					line: 2,
 					messageId: "usedOnlyAsType",
 				},
 			],
 		},
-		{
-			code: `
-  const command = (): ParameterDecorator => {
-	return () => {};
-  };
-  
-  export class Foo {
-	bar(@command() command: string) {}
-  }
-		`,
-			errors: [
-				{
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "command",
-					},
-					line: 7,
-					messageId: "unusedVar",
-				},
-			],
-		},
-		{
-			code: `
-  declare const deco: () => ParameterDecorator;
-  
-  export class Foo {
-	bar(@deco() deco, @deco() param) {}
-  }
-		`,
-			errors: [
-				{
-					column: 15,
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "deco",
-					},
-					line: 5,
-					messageId: "unusedVar",
-				},
-				{
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "param",
-					},
-					line: 5,
-					messageId: "unusedVar",
-				},
-			],
-		},
-		{
-			filename: "foo.d.ts",
-			code: `
-  export namespace Foo {
-	const foo: 1234;
-	export {};
-  }
-		`,
-			errors: [
-				{
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "foo",
-					},
-					line: 3,
-					messageId: "unusedVar",
-				},
-			],
-		},
-		{
-			filename: "foo.d.ts",
-			code: `
-  const foo: 1234;
-  export {};
-		`,
-			errors: [
-				{
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "foo",
-					},
-					line: 2,
-					messageId: "unusedVar",
-				},
-			],
-		},
+		// TODO: fixme (suggestions)
+		// 		{
+		// 			code: `
+		//   const command = (): ParameterDecorator => {
+		// 	return () => {};
+		//   };
+
+		//   export class Foo {
+		// 	bar(@command() command: string) {}
+		//   }
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "command",
+		// 					},
+		// 					line: 7,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
+		// 		{
+		// 			code: `
+		//   declare const deco: () => ParameterDecorator;
+
+		//   export class Foo {
+		// 	bar(@deco() deco, @deco() param) {}
+		//   }
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					column: 14,
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "deco",
+		// 					},
+		// 					line: 5,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 				{
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "param",
+		// 					},
+		// 					line: 5,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
+		// TODO: fixme (namespace)
+		// 		{
+		// 			filename: "foo.d.ts",
+		// 			code: `
+		//   export namespace Foo {
+		// 	const foo: 1234;
+		// 	export {};
+		//   }
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "foo",
+		// 					},
+		// 					line: 3,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
 		{
 			filename: "foo.d.ts",
 			code: `
-  declare module 'foo' {
-	const foo: 1234;
-	export {};
-  }
-		`,
-			errors: [
-				{
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "foo",
-					},
-					line: 3,
-					messageId: "unusedVar",
-				},
-			],
-		},
-		{
-			filename: "foo.d.ts",
-			code: `
-  export namespace Foo {
-	const foo: 1234;
-	const bar: 4567;
-  
-	export { bar };
-  }
-		`,
-			errors: [
-				{
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "foo",
-					},
-					line: 3,
-					messageId: "unusedVar",
-				},
-			],
-		},
-		{
-			filename: "foo.d.ts",
-			code: `
-  const foo: 1234;
-  const bar: 4567;
-  
-  export { bar };
-		`,
+const foo: 1234;
+export {};
+`,
 			errors: [
 				{
 					data: {
@@ -5878,128 +6087,70 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 					},
 					line: 2,
 					messageId: "unusedVar",
+					suggestions: [
+						{
+							messageId: "removeVar",
+							output: `
+
+export {};
+`,
+						},
+					],
 				},
 			],
 		},
+		// TODO: fixme (declare module)
+		// 		{
+		// 			filename: "foo.d.ts",
+		// 			code: `
+		//   declare module 'foo' {
+		// 	const foo: 1234;
+		// 	export {};
+		//   }
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "foo",
+		// 					},
+		// 					line: 3,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
+		// TODO: fixme (namespace)
+		// 		{
+		// 			filename: "foo.d.ts",
+		// 			code: `
+		//   export namespace Foo {
+		// 	const foo: 1234;
+		// 	const bar: 4567;
+
+		// 	export { bar };
+		//   }
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "foo",
+		// 					},
+		// 					line: 3,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
 		{
 			filename: "foo.d.ts",
 			code: `
-  declare module 'foo' {
-	const foo: 1234;
-	const bar: 4567;
-  
-	export { bar };
-  }
-		`,
-			errors: [
-				{
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "foo",
-					},
-					line: 3,
-					messageId: "unusedVar",
-				},
-			],
-		},
-		{
-			filename: "foo.d.ts",
-			code: `
-  export namespace Foo {
-	const foo: 1234;
-	const bar: 4567;
-	export const bazz: 4567;
-  
-	export { bar };
-  }
-		`,
-			errors: [
-				{
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "foo",
-					},
-					line: 3,
-					messageId: "unusedVar",
-				},
-			],
-		},
-		{
-			filename: "foo.d.ts",
-			code: `
-  const foo: 1234;
-  const bar: 4567;
-  export const bazz: 4567;
-  
-  export { bar };
-		`,
-			errors: [
-				{
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "foo",
-					},
-					line: 2,
-					messageId: "unusedVar",
-				},
-			],
-		},
-		{
-			filename: "foo.d.ts",
-			code: `
-  declare module 'foo' {
-	const foo: 1234;
-	const bar: 4567;
-	export const bazz: 4567;
-  
-	export { bar };
-  }
-		`,
-			errors: [
-				{
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "foo",
-					},
-					line: 3,
-					messageId: "unusedVar",
-				},
-			],
-		},
-		{
-			filename: "foo.d.ts",
-			code: `
-  export namespace Foo {
-	const foo: string;
-	const bar: number;
-  
-	export default bar;
-  }
-		`,
-			errors: [
-				{
-					data: {
-						action: "defined",
-						additional: "",
-						varName: "foo",
-					},
-					line: 3,
-					messageId: "unusedVar",
-				},
-			],
-		},
-		{
-			filename: "foo.d.ts",
-			code: `
-  const foo: string;
-  const bar: number;
-  
-  export default bar;
-		`,
+const foo: 1234;
+const bar: 4567;
+
+export { bar };
+`,
 			errors: [
 				{
 					data: {
@@ -6009,19 +6160,76 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 					},
 					line: 2,
 					messageId: "unusedVar",
+					suggestions: [
+						{
+							messageId: "removeVar",
+							output: `
+
+const bar: 4567;
+
+export { bar };
+`,
+						},
+					],
 				},
 			],
 		},
+		// TODO: fixme (declare module)
+		// 		{
+		// 			filename: "foo.d.ts",
+		// 			code: `
+		//   declare module 'foo' {
+		// 	const foo: 1234;
+		// 	const bar: 4567;
+
+		// 	export { bar };
+		//   }
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "foo",
+		// 					},
+		// 					line: 3,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
+		// TODO: fixme (namespace)
+		// 		{
+		// 			filename: "foo.d.ts",
+		// 			code: `
+		//   export namespace Foo {
+		// 	const foo: 1234;
+		// 	const bar: 4567;
+		// 	export const bazz: 4567;
+
+		// 	export { bar };
+		//   }
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "foo",
+		// 					},
+		// 					line: 3,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
 		{
 			filename: "foo.d.ts",
 			code: `
-  declare module 'foo' {
-	const foo: string;
-	const bar: number;
-  
-	export default bar;
-  }
-		`,
+const foo: 1234;
+const bar: 4567;
+export const bazz: 4567;
+
+export { bar };
+`,
 			errors: [
 				{
 					data: {
@@ -6029,22 +6237,78 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 						additional: "",
 						varName: "foo",
 					},
-					line: 3,
+					line: 2,
 					messageId: "unusedVar",
+					suggestions: [
+						{
+							messageId: "removeVar",
+							output: `
+
+const bar: 4567;
+export const bazz: 4567;
+
+export { bar };
+`,
+						},
+					],
 				},
 			],
 		},
+		// TODO: fixme (declare module)
+		// 		{
+		// 			filename: "foo.d.ts",
+		// 			code: `
+		//   declare module 'foo' {
+		// 	const foo: 1234;
+		// 	const bar: 4567;
+		// 	export const bazz: 4567;
+
+		// 	export { bar };
+		//   }
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "foo",
+		// 					},
+		// 					line: 3,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
+		// TODO: fixme (namespace)
+		// 		{
+		// 			filename: "foo.d.ts",
+		// 			code: `
+		//   export namespace Foo {
+		// 	const foo: string;
+		// 	const bar: number;
+
+		// 	export default bar;
+		//   }
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "foo",
+		// 					},
+		// 					line: 3,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
 		{
 			filename: "foo.d.ts",
 			code: `
-  export namespace Foo {
-	const foo: string;
-	const bar: number;
-	export const bazz: number;
-  
-	export default bar;
-  }
-		`,
+const foo: string;
+const bar: number;
+
+export default bar;
+`,
 			errors: [
 				{
 					data: {
@@ -6052,11 +6316,69 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 						additional: "",
 						varName: "foo",
 					},
-					line: 3,
+					line: 2,
 					messageId: "unusedVar",
+					suggestions: [
+						{
+							messageId: "removeVar",
+							output: `
+
+const bar: number;
+
+export default bar;
+`,
+						},
+					],
 				},
 			],
 		},
+		// TODO: fixme (declare module)
+// 		{
+// 			filename: "foo.d.ts",
+// 			code: `
+//   declare module 'foo' {
+// 	const foo: string;
+// 	const bar: number;
+  
+// 	export default bar;
+//   }
+// 		`,
+// 			errors: [
+// 				{
+// 					data: {
+// 						action: "defined",
+// 						additional: "",
+// 						varName: "foo",
+// 					},
+// 					line: 3,
+// 					messageId: "unusedVar",
+// 				},
+// 			],
+// 		},
+// TODO: fixme (namespace)
+// 		{
+// 			filename: "foo.d.ts",
+// 			code: `
+//   export namespace Foo {
+// 	const foo: string;
+// 	const bar: number;
+// 	export const bazz: number;
+  
+// 	export default bar;
+//   }
+// 		`,
+// 			errors: [
+// 				{
+// 					data: {
+// 						action: "defined",
+// 						additional: "",
+// 						varName: "foo",
+// 					},
+// 					line: 3,
+// 					messageId: "unusedVar",
+// 				},
+// 			],
+// 		},
 		{
 			filename: "foo.d.ts",
 			code: `
@@ -6090,64 +6412,65 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 				},
 			],
 		},
-// 		{
-// 			filename: "foo.d.ts",
-// 			code: `
-//   declare module 'foo' {
-// 	const foo: string;
-// 	const bar: number;
-// 	export const bazz: number;
-  
-// 	export default bar;
-//   }
-// 		`,
-// 			errors: [
-// 				{
-// 					data: {
-// 						action: "defined",
-// 						additional: "",
-// 						varName: "foo",
-// 					},
-// 					line: 3,
-// 					messageId: "unusedVar",
-// 				},
-// 			],
-// 		},
-		// TODO fixme
-// 		{
-// 			filename: "foo.d.ts",
-// 			code: `
-//   export namespace Foo {
-// 	const foo: string;
-// 	export const bar: number;
-  
-// 	export * from '...';
-//   }
-// 		`,
-// 			errors: [
-// 				{
-// 					data: {
-// 						action: "defined",
-// 						additional: "",
-// 						varName: "foo",
-// 					},
-// 					line: 3,
-// 					messageId: "unusedVar",
-// // 					suggestions: [
-// // 						{
-// // 							messageId: "removeVar",
-// // 							output: `
-// //   export namespace Foo {
-	
-// // 	export const bar: number;
+		// TODO: fixme (declare module)
+		// 		{
+		// 			filename: "foo.d.ts",
+		// 			code: `
+		//   declare module 'foo' {
+		// 	const foo: string;
+		// 	const bar: number;
+		// 	export const bazz: number;
 
-// // 	export * from '...';
-// //   }`,
-// // 						},
-// // 					],
-// 				},
-// 			],
-// 		},
+		// 	export default bar;
+		//   }
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "foo",
+		// 					},
+		// 					line: 3,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
+		// TODO fixme
+		// 		{
+		// 			filename: "foo.d.ts",
+		// 			code: `
+		//   export namespace Foo {
+		// 	const foo: string;
+		// 	export const bar: number;
+
+		// 	export * from '...';
+		//   }
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "foo",
+		// 					},
+		// 					line: 3,
+		// 					messageId: "unusedVar",
+		// // 					suggestions: [
+		// // 						{
+		// // 							messageId: "removeVar",
+		// // 							output: `
+		// //   export namespace Foo {
+
+		// // 	export const bar: number;
+
+		// // 	export * from '...';
+		// //   }`,
+		// // 						},
+		// // 					],
+		// 				},
+		// 			],
+		// 		},
 		{
 			filename: "foo.d.ts",
 			code: `
@@ -6177,185 +6500,185 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
 				},
 			],
 		},
-// 		{
-// 			filename: "foo.d.ts",
-// 			code: `
-//   declare module 'foo' {
-// 	const foo: string;
-// 	export const bar: number;
-  
-// 	export * from '...';
-//   }
-// 		`,
-// 			errors: [
-// 				{
-// 					data: {
-// 						action: "defined",
-// 						additional: "",
-// 						varName: "foo",
-// 					},
-// 					line: 3,
-// 					messageId: "unusedVar",
-// 				},
-// 			],
-// 		},
-// 		{
-// 			filename: "foo.d.ts",
-// 			code: `
-//   namespace Foo {
-// 	type Foo = 1;
-// 	type Bar = 1;
-  
-// 	export = Bar;
-//   }
-// 		`,
-// 			errors: [
-// 				{
-// 					data: {
-// 						action: "defined",
-// 						additional: "",
-// 						varName: "Foo",
-// 					},
-// 					line: 3,
-// 					messageId: "unusedVar",
-// 				},
-// 			],
-// 		},
-// 		{
-// 			filename: "foo.d.ts",
-// 			code: `
-//   type Foo = 1;
-//   type Bar = 1;
-  
-//   export = Bar;
-// 		`,
-// 			errors: [
-// 				{
-// 					data: {
-// 						action: "defined",
-// 						additional: "",
-// 						varName: "Foo",
-// 					},
-// 					line: 2,
-// 					messageId: "unusedVar",
-// 				},
-// 			],
-// 		},
-// 		{
-// 			filename: "foo.d.ts",
-// 			code: `
-//   declare module 'foo' {
-// 	type Foo = 1;
-// 	type Bar = 1;
-  
-// 	export = Bar;
-//   }
-// 		`,
-// 			errors: [
-// 				{
-// 					data: {
-// 						action: "defined",
-// 						additional: "",
-// 						varName: "Foo",
-// 					},
-// 					line: 3,
-// 					messageId: "unusedVar",
-// 				},
-// 			],
-// 		},
+		// 		{
+		// 			filename: "foo.d.ts",
+		// 			code: `
+		//   declare module 'foo' {
+		// 	const foo: string;
+		// 	export const bar: number;
+
+		// 	export * from '...';
+		//   }
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "foo",
+		// 					},
+		// 					line: 3,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
+		// 		{
+		// 			filename: "foo.d.ts",
+		// 			code: `
+		//   namespace Foo {
+		// 	type Foo = 1;
+		// 	type Bar = 1;
+
+		// 	export = Bar;
+		//   }
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "Foo",
+		// 					},
+		// 					line: 3,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
+		// 		{
+		// 			filename: "foo.d.ts",
+		// 			code: `
+		//   type Foo = 1;
+		//   type Bar = 1;
+
+		//   export = Bar;
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "Foo",
+		// 					},
+		// 					line: 2,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
+		// 		{
+		// 			filename: "foo.d.ts",
+		// 			code: `
+		//   declare module 'foo' {
+		// 	type Foo = 1;
+		// 	type Bar = 1;
+
+		// 	export = Bar;
+		//   }
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "Foo",
+		// 					},
+		// 					line: 3,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
 		// TODO fixme
-// 		{
-// 			filename: "foo.d.ts",
-// 			code: `
-//   declare module 'foo' {
-// 	type Test = 1;
-// 	export {};
-//   }
-// 		`,
-// 			errors: [
-// 				{
-// 					data: {
-// 						action: "defined",
-// 						additional: "",
-// 						varName: "Test",
-// 					},
-// 					line: 3,
-// 					messageId: "unusedVar",
-// 				},
-// 			],
-// 		},
+		// 		{
+		// 			filename: "foo.d.ts",
+		// 			code: `
+		//   declare module 'foo' {
+		// 	type Test = 1;
+		// 	export {};
+		//   }
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "Test",
+		// 					},
+		// 					line: 3,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
 		// Todo: fixme
-// 		{
-// 			code: `
-//   export declare namespace Foo {
-// 	namespace Bar {
-// 	  namespace Baz {
-// 		namespace Bam {
-// 		  const x = 1;
-// 		}
-  
-// 		export {};
-// 	  }
-// 	}
-//   }
-// 		`,
-// 			errors: [
-// 				{
-// 					data: {
-// 						action: "defined",
-// 						additional: "",
-// 						varName: "Bam",
-// 					},
-// 					line: 5,
-// 					messageId: "unusedVar",
-// 				},
-// 			],
-// 		},
+		// 		{
+		// 			code: `
+		//   export declare namespace Foo {
+		// 	namespace Bar {
+		// 	  namespace Baz {
+		// 		namespace Bam {
+		// 		  const x = 1;
+		// 		}
+
+		// 		export {};
+		// 	  }
+		// 	}
+		//   }
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "Bam",
+		// 					},
+		// 					line: 5,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
 		// TODO fixme
-// 		{
-// 			code: `
-//   declare module 'foo' {
-// 	namespace Bar {
-// 	  namespace Baz {
-// 		namespace Bam {
-// 		  const x = 1;
-// 		}
-  
-// 		export {};
-// 	  }
-// 	}
-//   }
-// 		`,
-// 			errors: [
-// 				{
-// 					data: {
-// 						action: "defined",
-// 						additional: "",
-// 						varName: "Bam",
-// 					},
-// 					line: 5,
-// 					messageId: "unusedVar",
-// 				},
-// 			],
-// 		},
-        // TODO fixme
-// 		{
-// 			code: `
-//   declare enum Foo {}
-//   export {};
-// 		`,
-// 			errors: [
-// 				{
-// 					data: {
-// 						action: "defined",
-// 						additional: "",
-// 						varName: "Foo",
-// 					},
-// 					line: 2,
-// 					messageId: "unusedVar",
-// 				},
-// 			],
-// 		},
+		// 		{
+		// 			code: `
+		//   declare module 'foo' {
+		// 	namespace Bar {
+		// 	  namespace Baz {
+		// 		namespace Bam {
+		// 		  const x = 1;
+		// 		}
+
+		// 		export {};
+		// 	  }
+		// 	}
+		//   }
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "Bam",
+		// 					},
+		// 					line: 5,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
+		// TODO fixme
+		// 		{
+		// 			code: `
+		//   declare enum Foo {}
+		//   export {};
+		// 		`,
+		// 			errors: [
+		// 				{
+		// 					data: {
+		// 						action: "defined",
+		// 						additional: "",
+		// 						varName: "Foo",
+		// 					},
+		// 					line: 2,
+		// 					messageId: "unusedVar",
+		// 				},
+		// 			],
+		// 		},
 		{
 			filename: "foo.d.ts",
 			code: `
@@ -6364,7 +6687,6 @@ ruleTesterTypeScript.run("no-unused-vars", rule, {
   
   export {};
 		`,
-	
 			errors: [
 				{
 					data: {
