@@ -156,6 +156,7 @@ Miscellaneous:
   --print-config path::String     Print the configuration for the given file
   --stats                         Add statistics to the lint report - default: false
   --flag [String]                 Enable a feature flag
+  --mcp                           Start the ESLint MCP server
 ```
 
 ### Basic Configuration
@@ -1069,6 +1070,20 @@ This option enables one or more feature flags for ESLint.
 {{ npx_tabs ({
     package: "eslint",
     args: ["--flag", "x_feature", "file.js"]
+}) }}
+
+#### `--mcp`
+
+This option starts the ESLint MCP server for use with AI agents.
+
+- **Argument Type**: No argument.
+- **Multiple Arguments**: No
+
+##### `--mcp` example
+
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--mcp"]
 }) }}
 
 ## Exit Codes

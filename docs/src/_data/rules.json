@@ -593,7 +593,7 @@
                 "recommended": false,
                 "fixable": true,
                 "frozen": false,
-                "hasSuggestions": false
+                "hasSuggestions": true
             },
             {
                 "name": "func-name-matching",

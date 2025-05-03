@@ -2262,6 +2262,20 @@ describe("LegacyESLint", () => {
 								nodeType: "BinaryExpression",
 								ruleId: "eqeqeq",
 								severity: 2,
+								suggestions: [
+									{
+										data: {
+											actualOperator: "==",
+											expectedOperator: "===",
+										},
+										desc: "Use '===' instead of '=='.",
+										fix: {
+											range: [24, 26],
+											text: "===",
+										},
+										messageId: "replaceOperator",
+									},
+								],
 							},
 						],
 						suppressedMessages: [],
@@ -8759,6 +8773,20 @@ describe("LegacyESLint", () => {
 								nodeType: "BinaryExpression",
 								ruleId: "eqeqeq",
 								severity: 2,
+								suggestions: [
+									{
+										data: {
+											actualOperator: "==",
+											expectedOperator: "===",
+										},
+										desc: "Use '===' instead of '=='.",
+										fix: {
+											range: [2, 4],
+											text: "===",
+										},
+										messageId: "replaceOperator",
+									},
+								],
 							},
 						],
 						suppressedMessages: [],
@@ -8881,6 +8909,20 @@ describe("LegacyESLint", () => {
 								nodeType: "BinaryExpression",
 								ruleId: "eqeqeq",
 								severity: 2,
+								suggestions: [
+									{
+										data: {
+											actualOperator: "==",
+											expectedOperator: "===",
+										},
+										desc: "Use '===' instead of '=='.",
+										fix: {
+											range: [2, 4],
+											text: "===",
+										},
+										messageId: "replaceOperator",
+									},
+								],
 							},
 						],
 						suppressedMessages: [],

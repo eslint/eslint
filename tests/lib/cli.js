@@ -2405,8 +2405,6 @@ describe("cli", () => {
 					});
 				});
 			});
-
-			// ---------
 		});
 
 		describe("when given a config file", () => {
