@@ -133,3 +133,9 @@ console.log(value);
 
 :::
 
+## When Not To Use It
+
+You can disable this rule if your code intentionally uses variables that are declared and used, but are never assigned a value. This might be the case in:
+
+- Legacy codebases where uninitialized variables are used as placeholders.
+- Certain TypeScript use cases where variables are declared with a type and intentionally left unassigned (though using `declare` is preferred).
