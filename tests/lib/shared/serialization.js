@@ -68,6 +68,32 @@ describe("serialization", () => {
 				assert.isFalse(isSerializable({ a: /abc/u }));
 				assert.isFalse(isSerializable({ a: { b: /abc/u } }));
 			});
+
+			it("circular references", () => {
+				const obj1 = {};
+				obj1.circular = obj1;
+				assert.isFalse(isSerializable(obj1));
+				assert.isFalse(isSerializable({ a: obj1 }));
+
+				const obj2 = {};
+				obj2.a = { circular: obj2 };
+				assert.isFalse(isSerializable(obj2));
+				assert.isFalse(isSerializable({ b: obj2 }));
+
+				const obj3 = { foo: { bar: "baz" } };
+				assert.isTrue(
+					isSerializable({
+						a: obj3,
+						b: obj3,
+						c: {
+							d: obj3,
+							e: {
+								f: obj3,
+							},
+						},
+					}),
+				);
+			});
 		});
 
 		describe("array", () => {

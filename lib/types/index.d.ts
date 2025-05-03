@@ -35,7 +35,6 @@ import type {
 	LanguageOptions as GenericLanguageOptions,
 	RuleDefinition,
 	RuleContext as CoreRuleContext,
-	RuleContextTypeOptions,
 	DeprecatedInfo,
 } from "@eslint/core";
 import { JSONSchema4 } from "json-schema";
@@ -1262,6 +1261,29 @@ export namespace Rule {
 	}
 }
 
+export type JSRuleDefinitionTypeOptions = {
+	RuleOptions: unknown[];
+	MessageIds: string;
+	ExtRuleDocs: Record<string, unknown>;
+};
+
+export type JSRuleDefinition<
+	Options extends Partial<JSRuleDefinitionTypeOptions> = {},
+> = RuleDefinition<
+	// Language specific type options (non-configurable)
+	{
+		LangOptions: Linter.LanguageOptions;
+		Code: SourceCode;
+		Visitor: Rule.NodeListener;
+		Node: ESTree.Node;
+	} & Required<
+		// Rule specific type options (custom)
+		Options &
+			// Rule specific type options (defaults)
+			Omit<JSRuleDefinitionTypeOptions, keyof Options>
+	>
+>;
+
 // #region Linter
 
 export class Linter {
@@ -1911,6 +1933,9 @@ export namespace ESLint {
 	}
 
 	interface Plugin extends ObjectMetaProperties {
+		meta?: ObjectMetaProperties["meta"] & {
+			namespace?: string | undefined;
+		};
 		configs?:
 			| Record<
 					string,
@@ -2098,7 +2123,7 @@ export class RuleTester {
 
 	run(
 		name: string,
-		rule: Rule.RuleModule,
+		rule: RuleDefinition,
 		tests: {
 			valid: Array<string | RuleTester.ValidTestCase>;
 			invalid: RuleTester.InvalidTestCase[];

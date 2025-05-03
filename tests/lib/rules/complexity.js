@@ -18,7 +18,7 @@ const rule = require("../../../lib/rules/complexity"),
 
 /**
  * Generates a code string with the amount of complexity specified in the parameter
- * @param {int} complexity The level of complexity
+ * @param {number} complexity The level of complexity
  * @returns {string} Code with the amount of complexity specified in the parameter
  * @private
  */

@@ -4565,6 +4565,79 @@ describe("RuleTester", () => {
 				}, "detected duplicate test case");
 			});
 
+			it("throws with duplicate object test cases when they are the same object", () => {
+				const test = { code: "foo" };
+				assert.throws(() => {
+					ruleTester.run(
+						"foo",
+						{
+							meta: {},
+							create() {
+								return {};
+							},
+						},
+						{
+							valid: [test, test],
+							invalid: [],
+						},
+					);
+				}, "detected duplicate test case");
+			});
+
+			it("throws with duplicate object test cases that have multiple references to the same object", () => {
+				const obj1 = { foo: { bar: "baz" } };
+				const obj2 = { foo: { bar: "baz" } };
+
+				assert.throws(() => {
+					ruleTester.run(
+						"foo",
+						{
+							meta: {},
+							create() {
+								return {};
+							},
+						},
+						{
+							valid: [
+								{
+									code: "foo",
+									settings: { qux: obj1, quux: obj1 },
+								},
+								{
+									code: "foo",
+									settings: { qux: obj2, quux: obj2 },
+								},
+							],
+							invalid: [],
+						},
+					);
+				}, "detected duplicate test case");
+			});
+
+			it("does not throw with duplicate object test cases that have circular references", () => {
+				const obj1 = { foo: "bar" };
+				obj1.circular = obj1;
+				const obj2 = { foo: "bar" };
+				obj2.circular = obj2;
+
+				ruleTester.run(
+					"foo",
+					{
+						meta: {},
+						create() {
+							return {};
+						},
+					},
+					{
+						valid: [
+							{ code: "foo", settings: { baz: obj1 } },
+							{ code: "foo", settings: { baz: obj2 } },
+						],
+						invalid: [],
+					},
+				);
+			});
+
 			it("throws with string and object test cases", () => {
 				assert.throws(() => {
 					ruleTester.run(
@@ -4681,6 +4754,105 @@ describe("RuleTester", () => {
 						},
 					);
 				}, "detected duplicate test case");
+			});
+
+			it("throws with duplicate object test cases when they are the same object", () => {
+				const test = {
+					code: "const x = 123;",
+					errors: [{ message: "foo bar" }],
+				};
+
+				assert.throws(() => {
+					ruleTester.run(
+						"foo",
+						{
+							meta: {},
+							create(context) {
+								return {
+									VariableDeclaration(node) {
+										context.report(node, "foo bar");
+									},
+								};
+							},
+						},
+						{
+							valid: ["foo"],
+							invalid: [test, test],
+						},
+					);
+				}, "detected duplicate test case");
+			});
+
+			it("throws with duplicate object test cases that have multiple references to the same object", () => {
+				const obj1 = { foo: { bar: "baz" } };
+				const obj2 = { foo: { bar: "baz" } };
+
+				assert.throws(() => {
+					ruleTester.run(
+						"foo",
+						{
+							meta: {},
+							create(context) {
+								return {
+									VariableDeclaration(node) {
+										context.report(node, "foo bar");
+									},
+								};
+							},
+						},
+						{
+							valid: ["foo"],
+							invalid: [
+								{
+									code: "const x = 123;",
+									settings: { qux: obj1, quux: obj1 },
+									errors: [{ message: "foo bar" }],
+								},
+								{
+									code: "const x = 123;",
+									settings: { qux: obj2, quux: obj2 },
+									errors: [{ message: "foo bar" }],
+								},
+							],
+						},
+					);
+				}, "detected duplicate test case");
+			});
+
+			it("does not throw with duplicate object test cases that have circular references", () => {
+				const obj1 = { foo: "bar" };
+				obj1.circular = obj1;
+				const obj2 = { foo: "bar" };
+				obj2.circular = obj2;
+
+				ruleTester.run(
+					"foo",
+					{
+						meta: {},
+						create(context) {
+							return {
+								VariableDeclaration(node) {
+									context.report(node, "foo bar");
+								},
+							};
+						},
+					},
+					{
+						valid: ["foo"],
+						invalid: [
+							{
+								code: "const x = 123;",
+								settings: { baz: obj1 },
+								errors: [{ message: "foo bar" }],
+							},
+							{
+								code: "const x = 123;",
+								settings: { baz: obj2 },
+								errors: [{ message: "foo bar" }],
+							},
+						],
+					},
+				);
 			});
 
 			it("throws with duplicate object test cases when options is a primitive", () => {

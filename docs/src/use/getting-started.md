@@ -32,9 +32,9 @@ If you want to use a specific shareable config that is hosted on npm, you can us
 
 {{ npm_tabs({
     command: "init-create",
-    packages: ["@eslint/config@latest", "--", "--config", "eslint-config-standard"],
+    packages: ["@eslint/config@latest", "--", "--config", "eslint-config-xo"],
     args: [],
-    comment: "use `eslint-config-standard` shared config - npm 7+"
+    comment: "use `eslint-config-xo` shared config - npm 7+"
 }) }}
 
 **Note:** `npm init @eslint/config` assumes you have a `package.json` file already. If you don't, make sure to run `npm init` or `yarn init` beforehand.
@@ -87,9 +87,9 @@ export default defineConfig([
 
 The names `"no-unused-vars"` and `"no-undef"` are the names of [rules](../rules) in ESLint. The first value is the error level of the rule and can be one of these values:
 
--   "off" or 0 - turn the rule off
--   "warn" or 1 - turn the rule on as a warning (doesn’t affect exit code)
--   "error" or 2 - turn the rule on as an error (exit code will be 1)
+- "off" or 0 - turn the rule off
+- "warn" or 1 - turn the rule on as a warning (doesn’t affect exit code)
+- "error" or 2 - turn the rule on as an error (exit code will be 1)
 
 The three error levels allow you fine-grained control over how ESLint applies rules (for more configuration options and details, see the configuration docs).
 
@@ -163,8 +163,8 @@ For more information on the available CLI options, refer to [Command Line Interf
 
 ## Next Steps
 
--   Learn about [advanced configuration](configure/) of ESLint.
--   Get familiar with the [command line options](command-line-interface).
--   Explore [ESLint integrations](integrations) into other tools like editors, build systems, and more.
--   Can't find just the right rule? Make your own [custom rule](../extend/custom-rules).
--   Make ESLint even better by [contributing](../contribute/).
+- Learn about [advanced configuration](configure/) of ESLint.
+- Get familiar with the [command line options](command-line-interface).
+- Explore [ESLint integrations](integrations) into other tools like editors, build systems, and more.
+- Can't find just the right rule? Make your own [custom rule](../extend/custom-rules).
+- Make ESLint even better by [contributing](../contribute/).

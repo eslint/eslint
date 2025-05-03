@@ -1393,10 +1393,10 @@ var JSHINT;
 									predef: false,
 									quotmark: false, //'single'|'double'|true
 									scope: false,
-									maxstatements: false, // {int} max statements per function
-									maxdepth: false, // {int} max nested block depth per function
-									maxparams: false, // {int} max params per function
-									maxcomplexity: false, // {int} max cyclomatic complexity per function
+									maxstatements: false, // {number} max statements per function
+									maxdepth: false, // {number} max nested block depth per function
+									maxparams: false, // {number} max params per function
+									maxcomplexity: false, // {number} max cyclomatic complexity per function
 									unused: true, // warn if variables are unused. Available options:
 									//   false    - don't check for unused variables
 									//   true     - "vars" + check last function param

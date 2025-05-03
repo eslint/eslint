@@ -40,9 +40,9 @@ The lists below are ordered roughly by the number of users each change is expect
 
 As of April 2019, Node.js 6 will be at EOL and will no longer be receiving security updates. As a result, we have decided to drop support for it in ESLint v6. We now support the following versions of Node.js:
 
--   Node.js 8 (8.10.0 and above)
--   Node.js 10 (10.13.0 and above)
--   Anything above Node.js 11.10.1
+- Node.js 8 (8.10.0 and above)
+- Node.js 10 (10.13.0 and above)
+- Anything above Node.js 11.10.1
 
 **To address:** Make sure you upgrade to at least Node.js 8 when using ESLint v6. If you are unable to upgrade, we recommend continuing to use ESLint v5.x until you are able to upgrade Node.js.
 
@@ -52,17 +52,17 @@ As of April 2019, Node.js 6 will be at EOL and will no longer be receiving secur
 
 The following rules have been added to the [`eslint:recommended`](../use/configure#using-eslintrecommended) config:
 
--   [`no-async-promise-executor`](../rules/no-async-promise-executor) disallows using an `async` function as the argument to the `Promise` constructor, which is usually a bug.
--   [`no-misleading-character-class`](../rules/no-misleading-character-class) reports character classes in regular expressions that might not behave as expected.
--   [`no-prototype-builtins`](../rules/no-prototype-builtins) reports method calls like `foo.hasOwnProperty("bar")` (which are a frequent source of bugs), and suggests that they be replaced with `Object.prototype.hasOwnProperty.call(foo, "bar")` instead.
--   [`no-shadow-restricted-names`](../rules/no-shadow-restricted-names) disallows shadowing variables like `undefined` (e.g. with code like `let undefined = 5;`), since is likely to confuse readers.
--   [`no-useless-catch`](../rules/no-useless-catch) reports `catch` clauses that are redundant and can be removed from the code without changing its behavior.
--   [`no-with`](../rules/no-with) disallows use of the [`with` statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/with), which can make code difficult to understand and cause compatibility problems.
--   [`require-atomic-updates`](../rules/require-atomic-updates) reports race condition bugs that can occur when reassigning variables in async functions.
+- [`no-async-promise-executor`](../rules/no-async-promise-executor) disallows using an `async` function as the argument to the `Promise` constructor, which is usually a bug.
+- [`no-misleading-character-class`](../rules/no-misleading-character-class) reports character classes in regular expressions that might not behave as expected.
+- [`no-prototype-builtins`](../rules/no-prototype-builtins) reports method calls like `foo.hasOwnProperty("bar")` (which are a frequent source of bugs), and suggests that they be replaced with `Object.prototype.hasOwnProperty.call(foo, "bar")` instead.
+- [`no-shadow-restricted-names`](../rules/no-shadow-restricted-names) disallows shadowing variables like `undefined` (e.g. with code like `let undefined = 5;`), since is likely to confuse readers.
+- [`no-useless-catch`](../rules/no-useless-catch) reports `catch` clauses that are redundant and can be removed from the code without changing its behavior.
+- [`no-with`](../rules/no-with) disallows use of the [`with` statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/with), which can make code difficult to understand and cause compatibility problems.
+- [`require-atomic-updates`](../rules/require-atomic-updates) reports race condition bugs that can occur when reassigning variables in async functions.
 
 Additionally, the following rule has been _removed_ from `eslint:recommended`:
 
--   [`no-console`](../rules/no-console) disallows calling functions like `console.log`. While this rule is useful in many cases (e.g. to avoid inadvertently leaving debugging statements in production code), it is not as broadly applicable as the other rules in `eslint:recommended`, and it was a source of false positives in cases where `console.log` is acceptable (e.g. in CLI applications).
+- [`no-console`](../rules/no-console) disallows calling functions like `console.log`. While this rule is useful in many cases (e.g. to avoid inadvertently leaving debugging statements in production code), it is not as broadly applicable as the other rules in `eslint:recommended`, and it was a source of false positives in cases where `console.log` is acceptable (e.g. in CLI applications).
 
 Finally, in ESLint v5 `eslint:recommended` would explicitly disable all core rules that were not considered "recommended". This could cause confusing behavior if `eslint:recommended` was loaded after another config, since `eslint:recommended` would have the effect of turning off some rules. In ESLint v6, `eslint:recommended` has no effect on non-recommended rules.
 
@@ -106,9 +106,9 @@ If you use a config file located outside of a local project (with the `--config`
 
 `espree`, the default parser used by ESLint, will now raise an error in the following cases:
 
--   The `ecmaVersion` parser option is set to something other than a number, such as the string `"2015"`. (Previously, a non-number option would simply be ignored.)
--   The `sourceType: "module"` parser option is set while `ecmaVersion` is set to `5` or left unspecified. (Previously, setting `sourceType: "module"` would implicitly cause `ecmaVersion` to be set to a minimum of 2015, which could be surprising.)
--   The `sourceType` is set to anything other than `"script"` or `"module"`.
+- The `ecmaVersion` parser option is set to something other than a number, such as the string `"2015"`. (Previously, a non-number option would simply be ignored.)
+- The `sourceType: "module"` parser option is set while `ecmaVersion` is set to `5` or left unspecified. (Previously, setting `sourceType: "module"` would implicitly cause `ecmaVersion` to be set to a minimum of 2015, which could be surprising.)
+- The `sourceType` is set to anything other than `"script"` or `"module"`.
 
 **To address:** If your config sets `ecmaVersion` to something other than a number, you can restore the previous behavior by removing `ecmaVersion`. (However, you may want to double-check that your config is actually working as expected.) If your config sets `parserOptions: { sourceType: "module" }` without also setting `parserOptions.ecmaVersion`, you should add `parserOptions: { ecmaVersion: 2015 }` to restore the previous behavior.
 

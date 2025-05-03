@@ -18,8 +18,8 @@ This page explains how to use the `globalIgnores()` function to completely ignor
 :::
 You can configure ESLint to ignore certain files and directories while linting by specifying one or more glob patterns in the following ways:
 
--   Inside of your `eslint.config.js` file.
--   On the command line using `--ignore-pattern`.
+- Inside of your `eslint.config.js` file.
+- On the command line using `--ignore-pattern`.
 
 ## Ignoring Files
 
@@ -183,12 +183,9 @@ If you want to include patterns from a `.gitignore` file or any other file with 
 // eslint.config.js
 import { defineConfig } from "eslint/config";
 import { includeIgnoreFile } from "@eslint/compat";
-import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const gitignorePath = path.resolve(__dirname, ".gitignore");
+const gitignorePath = fileURLToPath(new URL(".gitignore", import.meta.url));
 
 export default defineConfig([
 	includeIgnoreFile(gitignorePath),

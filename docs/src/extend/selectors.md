@@ -29,24 +29,24 @@ Selectors are not limited to matching against single node types. For example, th
 
 The following selectors are supported:
 
--   AST node type: `ForStatement`
--   wildcard (matches all nodes): `*`
--   attribute existence: `[attr]`
--   attribute value: `[attr="foo"]` or `[attr=123]`
--   attribute regex: `[attr=/foo.*/]` <sub>(with some [known issues](#known-issues))</sub>
--   attribute conditions: `[attr!="foo"]`, `[attr>2]`, `[attr<3]`, `[attr>=2]`, or `[attr<=3]`
--   nested attribute: `[attr.level2="foo"]`
--   field: `FunctionDeclaration > Identifier.id`
--   First or last child: `:first-child` or `:last-child`
--   nth-child (no ax+b support): `:nth-child(2)`
--   nth-last-child (no ax+b support): `:nth-last-child(1)`
--   descendant: `FunctionExpression ReturnStatement`
--   child: `UnaryExpression > Literal`
--   following sibling: `VariableDeclaration ~ VariableDeclaration`
--   adjacent sibling: `ArrayExpression > Literal + SpreadElement`
--   negation: `:not(ForStatement)`
--   matches-any: `:matches([attr] > :first-child, :last-child)`
--   class of AST node: `:statement`, `:expression`, `:declaration`, `:function`, or `:pattern`
+- AST node type: `ForStatement`
+- wildcard (matches all nodes): `*`
+- attribute existence: `[attr]`
+- attribute value: `[attr="foo"]` or `[attr=123]`
+- attribute regex: `[attr=/foo.*/]` <sub>(with some [known issues](#known-issues))</sub>
+- attribute conditions: `[attr!="foo"]`, `[attr>2]`, `[attr<3]`, `[attr>=2]`, or `[attr<=3]`
+- nested attribute: `[attr.level2="foo"]`
+- field: `FunctionDeclaration > Identifier.id`
+- First or last child: `:first-child` or `:last-child`
+- nth-child (no ax+b support): `:nth-child(2)`
+- nth-last-child (no ax+b support): `:nth-last-child(1)`
+- descendant: `FunctionExpression ReturnStatement`
+- child: `UnaryExpression > Literal`
+- following sibling: `VariableDeclaration ~ VariableDeclaration`
+- adjacent sibling: `ArrayExpression > Literal + SpreadElement`
+- negation: `:not(ForStatement)`
+- matches-any: `:matches([attr] > :first-child, :last-child)`
+- class of AST node: `:statement`, `:expression`, `:declaration`, `:function`, or `:pattern`
 
 This syntax is very powerful, and can be used to precisely select many syntactic patterns in your code.
 
@@ -86,8 +86,8 @@ Adding `:exit` to the end of a selector will cause the listener to be called whe
 
 If two or more selectors match the same node, their listeners will be called in order of increasing specificity. The specificity of an AST selector is similar to the specificity of a CSS selector:
 
--   When comparing two selectors, the selector that contains more class selectors, attribute selectors, and pseudo-class selectors (excluding `:not()`) has higher specificity.
--   If the class/attribute/pseudo-class count is tied, the selector that contains more node type selectors has higher specificity.
+- When comparing two selectors, the selector that contains more class selectors, attribute selectors, and pseudo-class selectors (excluding `:not()`) has higher specificity.
+- If the class/attribute/pseudo-class count is tied, the selector that contains more node type selectors has higher specificity.
 
 If multiple selectors have equal specificity, their listeners will be called in alphabetical order for that node.
 

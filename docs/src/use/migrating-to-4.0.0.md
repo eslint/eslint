@@ -36,8 +36,8 @@ The lists below are ordered roughly by the number of users each change is expect
 
 Two new rules have been added to the [`eslint:recommended`](configure#using-eslintrecommended) config:
 
--   [`no-compare-neg-zero`](../rules/no-compare-neg-zero) disallows comparisons to `-0`
--   [`no-useless-escape`](../rules/no-useless-escape) disallows uselessly-escaped characters in strings and regular expressions
+- [`no-compare-neg-zero`](../rules/no-compare-neg-zero) disallows comparisons to `-0`
+- [`no-useless-escape`](../rules/no-useless-escape) disallows uselessly-escaped characters in strings and regular expressions
 
 **To address:** To mimic the `eslint:recommended` behavior from 3.x, you can disable these rules in a config file:
 
@@ -174,16 +174,16 @@ For rule authors concerned about supporting ESLint v3.0 in addition to v4.0, the
 
 Finally, please note that the following `SourceCode` methods have been deprecated and will be removed in a future version of ESLint:
 
--   `getComments()` - replaced by `getCommentsBefore()`, `getCommentsAfter()`, and `getCommentsInside()`
--   `getTokenOrCommentBefore()` - replaced by `getTokenBefore()` with the `{ includeComments: true }` option
--   `getTokenOrCommentAfter()` - replaced by `getTokenAfter()` with the `{ includeComments: true }` option
+- `getComments()` - replaced by `getCommentsBefore()`, `getCommentsAfter()`, and `getCommentsInside()`
+- `getTokenOrCommentBefore()` - replaced by `getTokenBefore()` with the `{ includeComments: true }` option
+- `getTokenOrCommentAfter()` - replaced by `getTokenAfter()` with the `{ includeComments: true }` option
 
 ## <a name="event-comments"></a> `LineComment` and `BlockComment` events will no longer be emitted during AST traversal
 
 Starting in 4.0, `LineComment` and `BlockComments` events will not be emitted during AST traversal. There are two reasons for this:
 
--   This behavior was relying on comment attachment happening at the parser level, which does not happen anymore, to ensure that all comments would be accounted for.
--   Thinking of comments in the context of tokens is more predictable and easier to reason about than thinking about comment tokens in the context of AST nodes.
+- This behavior was relying on comment attachment happening at the parser level, which does not happen anymore, to ensure that all comments would be accounted for.
+- Thinking of comments in the context of tokens is more predictable and easier to reason about than thinking about comment tokens in the context of AST nodes.
 
 **To address:** Instead of relying on `LineComment` and `BlockComment`, rules can now use `sourceCode.getAllComments()` to get all comments in a file. To check all comments of a specific type, rules can use the following pattern:
 

@@ -10,9 +10,9 @@ This guide is intended for those who wish to extend the functionality of ESLint.
 
 In order to extend ESLint, it's recommended that:
 
--   You know JavaScript, since ESLint is written in JavaScript.
--   You have some familiarity with Node.js, since ESLint runs on it.
--   You're comfortable with command-line programs.
+- You know JavaScript, since ESLint is written in JavaScript.
+- You have some familiarity with Node.js, since ESLint runs on it.
+- You're comfortable with command-line programs.
 
 If that sounds like you, then continue reading to get started.
 
