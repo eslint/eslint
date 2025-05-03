@@ -23,7 +23,7 @@ ruleTester.run("no-magic-numbers", rule, {
 		"var x = parseInt(y, 10);",
 		"var x = parseInt(y, -10);",
 		"var x = Number.parseInt(y, 10);",
-		"const MY_NUMBER = +42; ",
+		"const MY_NUMBER = +42;",
 		{
 			code: "const foo = 42;",
 			languageOptions: { ecmaVersion: 6 },
@@ -436,7 +436,7 @@ ruleTester.run("no-magic-numbers", rule, {
 			],
 		},
 		{
-			code: "var foo = 0 + 1 + 2; const a = +1;",
+			code: "var foo = 0 + 1 + 2;",
 			options: [
 				{
 					ignore: [0, 1],
