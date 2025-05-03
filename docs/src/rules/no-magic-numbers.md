@@ -128,6 +128,7 @@ data[100] = a;
 f(data[0]);
 
 a = data[-0]; // same as data[0], -0 will be coerced to "0"
+a = data[+1]; // same as data[1], +1 will be coerced to "1"
 
 a = data[0xAB];
 
@@ -207,6 +208,7 @@ Examples of **correct** code for the `{ "ignoreClassFieldInitialValues": true }`
 class C {
     foo = 2;
     bar = -3;
+    tux = +1;
     #baz = 4;
     static qux = 5;
 }

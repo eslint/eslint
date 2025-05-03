@@ -23,6 +23,7 @@ ruleTester.run("no-magic-numbers", rule, {
 		"var x = parseInt(y, 10);",
 		"var x = parseInt(y, -10);",
 		"var x = Number.parseInt(y, 10);",
+		"const MY_NUMBER = +42; ",
 		{
 			code: "const foo = 42;",
 			languageOptions: { ecmaVersion: 6 },
@@ -342,6 +343,40 @@ ruleTester.run("no-magic-numbers", rule, {
 			options: [{ ignoreClassFieldInitialValues: true }],
 			languageOptions: { ecmaVersion: 2022 },
 		},
+		{
+			code: "foo[+0]", // Consistent with the default behavior, which allows: var foo = +0
+			options: [
+				{
+					ignoreArrayIndexes: true,
+				},
+			],
+		},
+		{
+			code: "foo[+1]", // Consistent with the default behavior, which allows: var foo = +1
+			options: [
+				{
+					ignoreArrayIndexes: true,
+				},
+			],
+		},
+		{
+			code: "foo[+0n]", // Consistent with the default behavior, which allows: var foo = +0n
+			options: [
+				{
+					ignoreArrayIndexes: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 2020 },
+		},
+		{
+			code: "foo[+1n]", // Consistent with the default behavior, which allows: var foo = +1n
+			options: [
+				{
+					ignoreArrayIndexes: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 2020 },
+		},
 	],
 	invalid: [
 		{
@@ -401,7 +436,7 @@ ruleTester.run("no-magic-numbers", rule, {
 			],
 		},
 		{
-			code: "var foo = 0 + 1 + 2;",
+			code: "var foo = 0 + 1 + 2; const a = +1;",
 			options: [
 				{
 					ignore: [0, 1],
@@ -877,36 +912,6 @@ ruleTester.run("no-magic-numbers", rule, {
 			],
 		},
 		{
-			code: "foo[+0]", // Consistent with the default behavior, which doesn't allow: var foo = +0
-			options: [
-				{
-					ignoreArrayIndexes: true,
-				},
-			],
-			errors: [
-				{
-					messageId: "noMagic",
-					data: { raw: "0" },
-					line: 1,
-				},
-			],
-		},
-		{
-			code: "foo[+1]", // Consistent with the default behavior, which doesn't allow: var foo = +1
-			options: [
-				{
-					ignoreArrayIndexes: true,
-				},
-			],
-			errors: [
-				{
-					messageId: "noMagic",
-					data: { raw: "1" },
-					line: 1,
-				},
-			],
-		},
-		{
 			code: "foo[-(-1)]", // Consistent with the default behavior, which doesn't allow: var foo = -(-1)
 			options: [
 				{
@@ -917,38 +922,6 @@ ruleTester.run("no-magic-numbers", rule, {
 				{
 					messageId: "noMagic",
 					data: { raw: "-1" },
-					line: 1,
-				},
-			],
-		},
-		{
-			code: "foo[+0n]", // Consistent with the default behavior, which doesn't allow: var foo = +0n
-			options: [
-				{
-					ignoreArrayIndexes: true,
-				},
-			],
-			languageOptions: { ecmaVersion: 2020 },
-			errors: [
-				{
-					messageId: "noMagic",
-					data: { raw: "0n" },
-					line: 1,
-				},
-			],
-		},
-		{
-			code: "foo[+1n]", // Consistent with the default behavior, which doesn't allow: var foo = +1n
-			options: [
-				{
-					ignoreArrayIndexes: true,
-				},
-			],
-			languageOptions: { ecmaVersion: 2020 },
-			errors: [
-				{
-					messageId: "noMagic",
-					data: { raw: "1n" },
 					line: 1,
 				},
 			],
@@ -1463,6 +1436,22 @@ ruleTesterTypeScript.run("no-magic-numbers", rule, {
 		`,
 			options: [{ ignore: [0, 3], ignoreTypeIndexes: true }],
 		},
+		{
+			code: `
+	class C {
+		readonly foo = +42; 
+		bar = +42; 
+	}
+
+	const MY_NUMBER = +42;
+	`,
+			options: [
+				{
+					ignoreClassFieldInitialValues: true,
+					ignoreReadonlyClassProperties: true,
+				},
+			],
+		},
 	],
 
 	invalid: [
@@ -1592,9 +1581,9 @@ ruleTesterTypeScript.run("no-magic-numbers", rule, {
 					messageId: "noMagic",
 				},
 				{
-					column: 9,
+					column: 8,
 					data: {
-						raw: "1",
+						raw: "+1",
 					},
 					line: 6,
 					messageId: "noMagic",
@@ -1656,9 +1645,9 @@ ruleTesterTypeScript.run("no-magic-numbers", rule, {
 					messageId: "noMagic",
 				},
 				{
-					column: 16,
+					column: 15,
 					data: {
-						raw: "6",
+						raw: "+6",
 					},
 					line: 8,
 					messageId: "noMagic",
