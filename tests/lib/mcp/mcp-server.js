@@ -14,6 +14,7 @@ const assert = require("chai").assert;
 const path = require("node:path");
 const { Client } = require("@modelcontextprotocol/sdk/client/index.js");
 const { InMemoryTransport } = require("@modelcontextprotocol/sdk/inMemory.js");
+const sinon = require("sinon");
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -55,6 +56,14 @@ describe("MCP Server", () => {
 		// Note: must connect server first or else client hangs
 		await mcpServer.connect(serverTransport);
 		await client.connect(clientTransport);
+
+		sinon
+			.stub(process, "emitWarning")
+			.withArgs(sinon.match.any, "ESLintIgnoreWarning");
+	});
+
+	afterEach(async () => {
+		sinon.restore();
 	});
 
 	describe("Tools", () => {
