@@ -53,11 +53,11 @@ module.exports = {
 
 The following rules have been deprecated with new rules created to take their place. The following is a list of the removed rules and their replacements:
 
--   [no-arrow-condition](../rules/no-arrow-condition) is replaced by a combination of [no-confusing-arrow](../rules/no-confusing-arrow) and [no-constant-condition](../rules/no-constant-condition). Turn on both of these rules to get the same functionality as `no-arrow-condition`.
--   [no-empty-label](../rules/no-empty-label) is replaced by [no-labels](../rules/no-labels) with `{"allowLoop": true, "allowSwitch": true}` option.
--   [space-after-keywords](../rules/space-after-keywords) is replaced by [keyword-spacing](../rules/keyword-spacing).
--   [space-before-keywords](../rules/space-before-keywords) is replaced by [keyword-spacing](../rules/keyword-spacing).
--   [space-return-throw-case](../rules/space-return-throw-case) is replaced by [keyword-spacing](../rules/keyword-spacing).
+- [no-arrow-condition](../rules/no-arrow-condition) is replaced by a combination of [no-confusing-arrow](../rules/no-confusing-arrow) and [no-constant-condition](../rules/no-constant-condition). Turn on both of these rules to get the same functionality as `no-arrow-condition`.
+- [no-empty-label](../rules/no-empty-label) is replaced by [no-labels](../rules/no-labels) with `{"allowLoop": true, "allowSwitch": true}` option.
+- [space-after-keywords](../rules/space-after-keywords) is replaced by [keyword-spacing](../rules/keyword-spacing).
+- [space-before-keywords](../rules/space-before-keywords) is replaced by [keyword-spacing](../rules/keyword-spacing).
+- [space-return-throw-case](../rules/space-return-throw-case) is replaced by [keyword-spacing](../rules/keyword-spacing).
 
 **To address:** You'll need to update your rule configurations to use the new rules. ESLint v2.0.0 will also warn you when you're using a rule that has been removed and will suggest the replacement rules. Hopefully, this will result in few surprises during the upgrade process.
 
@@ -89,33 +89,33 @@ Prior to 2.0.0, new global variables that were standardized as part of ES6 such 
 
 Prior to 2.0.0, the way to enable language options was by using `ecmaFeatures` in your configuration. In 2.0.0:
 
--   The `ecmaFeatures` property is now under a top-level `parserOptions` property.
--   All ECMAScript 6 `ecmaFeatures` flags have been removed in favor of a `ecmaVersion` property under `parserOptions` that can be set to 3, 5 (default), or 6.
--   The `ecmaFeatures.modules` flag has been replaced by a `sourceType` property under `parserOptions` which can be set to `"script"` (default) or `"module"` for ES6 modules.
+- The `ecmaFeatures` property is now under a top-level `parserOptions` property.
+- All ECMAScript 6 `ecmaFeatures` flags have been removed in favor of a `ecmaVersion` property under `parserOptions` that can be set to 3, 5 (default), or 6.
+- The `ecmaFeatures.modules` flag has been replaced by a `sourceType` property under `parserOptions` which can be set to `"script"` (default) or `"module"` for ES6 modules.
 
 **To address:** If you are using any ECMAScript 6 feature flags in `ecmaFeatures`, you'll need to use `ecmaVersion: 6` instead. The ECMAScript 6 feature flags are:
 
--   `arrowFunctions` - enable [arrow functions](https://leanpub.com/understandinges6/read#leanpub-auto-arrow-functions)
--   `binaryLiterals` - enable [binary literals](https://leanpub.com/understandinges6/read#leanpub-auto-octal-and-binary-literals)
--   `blockBindings` - enable `let` and `const` (aka [block bindings](https://leanpub.com/understandinges6/read#leanpub-auto-block-bindings))
--   `classes` - enable classes
--   `defaultParams` - enable [default function parameters](https://leanpub.com/understandinges6/read/#leanpub-auto-default-parameters)
--   `destructuring` - enable [destructuring](https://leanpub.com/understandinges6/read#leanpub-auto-destructuring-assignment)
--   `forOf` - enable [`for-of` loops](https://leanpub.com/understandinges6/read#leanpub-auto-iterables-and-for-of)
--   `generators` - enable [generators](https://leanpub.com/understandinges6/read#leanpub-auto-generators)
--   `modules` - enable modules and global strict mode
--   `objectLiteralComputedProperties` - enable [computed object literal property names](https://leanpub.com/understandinges6/read#leanpub-auto-computed-property-names)
--   `objectLiteralDuplicateProperties` - enable [duplicate object literal properties](https://leanpub.com/understandinges6/read#leanpub-auto-duplicate-object-literal-properties) in strict mode
--   `objectLiteralShorthandMethods` - enable [object literal shorthand methods](https://leanpub.com/understandinges6/read#leanpub-auto-method-initializer-shorthand)
--   `objectLiteralShorthandProperties` - enable [object literal shorthand properties](https://leanpub.com/understandinges6/read#leanpub-auto-property-initializer-shorthand)
--   `octalLiterals` - enable [octal literals](https://leanpub.com/understandinges6/read#leanpub-auto-octal-and-binary-literals)
--   `regexUFlag` - enable the [regular expression `u` flag](https://leanpub.com/understandinges6/read#leanpub-auto-the-regular-expression-u-flag)
--   `regexYFlag` - enable the [regular expression `y` flag](https://leanpub.com/understandinges6/read#leanpub-auto-the-regular-expression-y-flag)
--   `restParams` - enable the [rest parameters](https://leanpub.com/understandinges6/read#leanpub-auto-rest-parameters)
--   `spread` - enable the [spread operator](https://leanpub.com/understandinges6/read#leanpub-auto-the-spread-operator) for arrays
--   `superInFunctions` - enable `super` references inside of functions
--   `templateStrings` - enable [template strings](https://leanpub.com/understandinges6/read/#leanpub-auto-template-strings)
--   `unicodeCodePointEscapes` - enable [code point escapes](https://leanpub.com/understandinges6/read/#leanpub-auto-escaping-non-bmp-characters)
+- `arrowFunctions` - enable [arrow functions](https://leanpub.com/understandinges6/read#leanpub-auto-arrow-functions)
+- `binaryLiterals` - enable [binary literals](https://leanpub.com/understandinges6/read#leanpub-auto-octal-and-binary-literals)
+- `blockBindings` - enable `let` and `const` (aka [block bindings](https://leanpub.com/understandinges6/read#leanpub-auto-block-bindings))
+- `classes` - enable classes
+- `defaultParams` - enable [default function parameters](https://leanpub.com/understandinges6/read/#leanpub-auto-default-parameters)
+- `destructuring` - enable [destructuring](https://leanpub.com/understandinges6/read#leanpub-auto-destructuring-assignment)
+- `forOf` - enable [`for-of` loops](https://leanpub.com/understandinges6/read#leanpub-auto-iterables-and-for-of)
+- `generators` - enable [generators](https://leanpub.com/understandinges6/read#leanpub-auto-generators)
+- `modules` - enable modules and global strict mode
+- `objectLiteralComputedProperties` - enable [computed object literal property names](https://leanpub.com/understandinges6/read#leanpub-auto-computed-property-names)
+- `objectLiteralDuplicateProperties` - enable [duplicate object literal properties](https://leanpub.com/understandinges6/read#leanpub-auto-duplicate-object-literal-properties) in strict mode
+- `objectLiteralShorthandMethods` - enable [object literal shorthand methods](https://leanpub.com/understandinges6/read#leanpub-auto-method-initializer-shorthand)
+- `objectLiteralShorthandProperties` - enable [object literal shorthand properties](https://leanpub.com/understandinges6/read#leanpub-auto-property-initializer-shorthand)
+- `octalLiterals` - enable [octal literals](https://leanpub.com/understandinges6/read#leanpub-auto-octal-and-binary-literals)
+- `regexUFlag` - enable the [regular expression `u` flag](https://leanpub.com/understandinges6/read#leanpub-auto-the-regular-expression-u-flag)
+- `regexYFlag` - enable the [regular expression `y` flag](https://leanpub.com/understandinges6/read#leanpub-auto-the-regular-expression-y-flag)
+- `restParams` - enable the [rest parameters](https://leanpub.com/understandinges6/read#leanpub-auto-rest-parameters)
+- `spread` - enable the [spread operator](https://leanpub.com/understandinges6/read#leanpub-auto-the-spread-operator) for arrays
+- `superInFunctions` - enable `super` references inside of functions
+- `templateStrings` - enable [template strings](https://leanpub.com/understandinges6/read/#leanpub-auto-template-strings)
+- `unicodeCodePointEscapes` - enable [code point escapes](https://leanpub.com/understandinges6/read/#leanpub-auto-escaping-non-bmp-characters)
 
 If you're using any of these flags, such as:
 
@@ -209,17 +209,17 @@ If you're not using `ecmaFeatures` in your configuration or your custom/plugin r
 
 In 2.0.0, the following 11 rules were added to `"eslint:recommended"`.
 
--   [constructor-super](../rules/constructor-super)
--   [no-case-declarations](../rules/no-case-declarations)
--   [no-class-assign](../rules/no-class-assign)
--   [no-const-assign](../rules/no-const-assign)
--   [no-dupe-class-members](../rules/no-dupe-class-members)
--   [no-empty-pattern](../rules/no-empty-pattern)
--   [no-new-symbol](../rules/no-new-symbol)
--   [no-self-assign](../rules/no-self-assign)
--   [no-this-before-super](../rules/no-this-before-super)
--   [no-unexpected-multiline](../rules/no-unexpected-multiline)
--   [no-unused-labels](../rules/no-unused-labels)
+- [constructor-super](../rules/constructor-super)
+- [no-case-declarations](../rules/no-case-declarations)
+- [no-class-assign](../rules/no-class-assign)
+- [no-const-assign](../rules/no-const-assign)
+- [no-dupe-class-members](../rules/no-dupe-class-members)
+- [no-empty-pattern](../rules/no-empty-pattern)
+- [no-new-symbol](../rules/no-new-symbol)
+- [no-self-assign](../rules/no-self-assign)
+- [no-this-before-super](../rules/no-this-before-super)
+- [no-unexpected-multiline](../rules/no-unexpected-multiline)
+- [no-unused-labels](../rules/no-unused-labels)
 
 **To address:** If you don't want to be notified by those rules, you can simply disable those rules.
 
@@ -248,15 +248,15 @@ We found some bugs in our scope analysis that needed to be addressed. Specifical
 
 Originally, `Variable` objects and `Reference` objects refer each other:
 
--   `Variable#references` property is an array of `Reference` objects which are referencing the variable.
--   `Reference#resolved` property is a `Variable` object which are referenced.
+- `Variable#references` property is an array of `Reference` objects which are referencing the variable.
+- `Reference#resolved` property is a `Variable` object which are referenced.
 
 But until 1.x, the following variables and references had the wrong value (empty) in those properties:
 
--   `var` declarations in the global.
--   `function` declarations in the global.
--   Variables defined in config files.
--   Variables defined in `/* global */` comments.
+- `var` declarations in the global.
+- `function` declarations in the global.
+- Variables defined in config files.
+- Variables defined in `/* global */` comments.
 
 Now, those variables and references have correct values in these properties.
 
@@ -349,7 +349,7 @@ var sourceCode = new SourceCode(text, ast);
 
 ## Rule Changes
 
--   [`strict`](../rules/strict) - defaults to `"safe"` (previous default was `"function"`)
+- [`strict`](../rules/strict) - defaults to `"safe"` (previous default was `"function"`)
 
 ## Plugins No Longer Have Default Configurations
 

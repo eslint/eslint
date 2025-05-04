@@ -318,6 +318,6 @@ If your plugin needs to work with both the old and new configuration systems, th
 
 ## Further Reading
 
--   [Overview of the flat config file format blog post](https://eslint.org/blog/2022/08/new-config-system-part-2/)
--   [API usage of new configuration system blog post](https://eslint.org/blog/2022/08/new-config-system-part-3/)
--   [Background to new configuration system blog post](https://eslint.org/blog/2022/08/new-config-system-part-1/)
+- [Overview of the flat config file format blog post](https://eslint.org/blog/2022/08/new-config-system-part-2/)
+- [API usage of new configuration system blog post](https://eslint.org/blog/2022/08/new-config-system-part-3/)
+- [Background to new configuration system blog post](https://eslint.org/blog/2022/08/new-config-system-part-1/)

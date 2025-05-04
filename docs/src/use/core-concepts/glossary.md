@@ -70,9 +70,9 @@ The library used by ESLint to parse [selector](#selector) syntax for querying [n
 ESQuery interprets CSS syntax for AST node properties.
 Examples of ESQuery selectors include:
 
--   `BinaryExpression`: selects all nodes of type _BinaryExpression_
--   `BinaryExpression[operator='+']`: selects all _BinaryExpression_ nodes whose _operator_ is `+`
--   `BinaryExpression > Literal[value=1]`: selects all _Literal_ nodes with _value_ `1` whose direct parent is a _BinaryExpression_
+- `BinaryExpression`: selects all nodes of type _BinaryExpression_
+- `BinaryExpression[operator='+']`: selects all _BinaryExpression_ nodes whose _operator_ is `+`
+- `BinaryExpression > Literal[value=1]`: selects all _Literal_ nodes with _value_ `1` whose direct parent is a _BinaryExpression_
 
 See [github.com/estools/esquery](https://github.com/estools/esquery) for more information on the ESQuery format.
 
@@ -329,9 +329,9 @@ What level of reporting a rule is configured to run, if at all.
 
 ESLint supports three levels of severity:
 
--   `"off"` (`0`): Do not run the rule.
--   `"warn"` (`1`): Run the rule, but don't exit with a non-zero status code based on its violations (excluding the [`--max-warnings` flag](../command-line-interface#--max-warnings))
--   `"error"` (`2`): Run the rule, and exit with a non-zero status code if it produces any violations
+- `"off"` (`0`): Do not run the rule.
+- `"warn"` (`1`): Run the rule, but don't exit with a non-zero status code based on its violations (excluding the [`--max-warnings` flag](../command-line-interface#--max-warnings))
+- `"error"` (`2`): Run the rule, and exit with a non-zero status code if it produces any violations
 
 For documentation on configuring rules, see [Configure Rules](../configure/rules).
 

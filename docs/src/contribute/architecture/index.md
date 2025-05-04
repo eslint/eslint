@@ -13,14 +13,14 @@ eleventyNavigation:
 
 At a high level, there are a few key parts to ESLint:
 
--   `bin/eslint.js` - this is the file that actually gets executed with the command line utility. It's a dumb wrapper that does nothing more than bootstrap ESLint, passing the command line arguments to `cli`. This is intentionally small so as not to require heavy testing.
--   `lib/api.js` - this is the entry point of `require("eslint")`. This file exposes an object that contains public classes `Linter`, `ESLint`, `RuleTester`, and `SourceCode`.
--   `lib/cli.js` - this is the heart of the ESLint CLI. It takes an array of arguments and then uses `eslint` to execute the commands. By keeping this as a separate utility, it allows others to effectively call ESLint from within another Node.js program as if it were done on the command line. The main call is `cli.execute()`. This is also the part that does all the file reading, directory traversing, input, and output.
--   `lib/cli-engine/` - this module is `CLIEngine` class that finds source code files and configuration files then does code verifying with the `Linter` class. This includes the loading logic of configuration files, parsers, plugins, and formatters.
--   `lib/linter/` - this module is the core `Linter` class that does code verifying based on configuration options. This file does no file I/O and does not interact with the `console` at all. For other Node.js programs that have JavaScript text to verify, they would be able to use this interface directly.
--   `lib/rule-tester/` - this module is `RuleTester` class that is a wrapper around Mocha so that rules can be unit tested. This class lets us write consistently formatted tests for each rule that is implemented and be confident that each of the rules work. The RuleTester interface was modeled after Mocha and works with Mocha's global testing methods. RuleTester can also be modified to work with other testing frameworks.
--   `lib/source-code/` - this module is `SourceCode` class that is used to represent the parsed source code. It takes in source code and the Program node of the AST representing the code.
--   `lib/rules/` - this contains built-in rules that verify source code.
+- `bin/eslint.js` - this is the file that actually gets executed with the command line utility. It's a dumb wrapper that does nothing more than bootstrap ESLint, passing the command line arguments to `cli`. This is intentionally small so as not to require heavy testing.
+- `lib/api.js` - this is the entry point of `require("eslint")`. This file exposes an object that contains public classes `Linter`, `ESLint`, `RuleTester`, and `SourceCode`.
+- `lib/cli.js` - this is the heart of the ESLint CLI. It takes an array of arguments and then uses `eslint` to execute the commands. By keeping this as a separate utility, it allows others to effectively call ESLint from within another Node.js program as if it were done on the command line. The main call is `cli.execute()`. This is also the part that does all the file reading, directory traversing, input, and output.
+- `lib/cli-engine/` - this module is `CLIEngine` class that finds source code files and configuration files then does code verifying with the `Linter` class. This includes the loading logic of configuration files, parsers, plugins, and formatters.
+- `lib/linter/` - this module is the core `Linter` class that does code verifying based on configuration options. This file does no file I/O and does not interact with the `console` at all. For other Node.js programs that have JavaScript text to verify, they would be able to use this interface directly.
+- `lib/rule-tester/` - this module is `RuleTester` class that is a wrapper around Mocha so that rules can be unit tested. This class lets us write consistently formatted tests for each rule that is implemented and be confident that each of the rules work. The RuleTester interface was modeled after Mocha and works with Mocha's global testing methods. RuleTester can also be modified to work with other testing frameworks.
+- `lib/source-code/` - this module is `SourceCode` class that is used to represent the parsed source code. It takes in source code and the Program node of the AST representing the code.
+- `lib/rules/` - this contains built-in rules that verify source code.
 
 ## The `cli` object
 
@@ -30,17 +30,17 @@ The main method is `cli.execute()`, which accepts an array of strings that repre
 
 This object's responsibilities include:
 
--   Interpreting command line arguments.
--   Reading from the file system.
--   Outputting to the console.
--   Outputting to the filesystem.
--   Use a formatter.
--   Returning the correct exit code.
+- Interpreting command line arguments.
+- Reading from the file system.
+- Outputting to the console.
+- Outputting to the filesystem.
+- Use a formatter.
+- Returning the correct exit code.
 
 This object may not:
 
--   Call `process.exit()` directly.
--   Perform any asynchronous operations.
+- Call `process.exit()` directly.
+- Perform any asynchronous operations.
 
 ## The `CLIEngine` object
 
@@ -50,16 +50,16 @@ The main method of the `CLIEngine` is `executeOnFiles()`, which accepts an array
 
 This object's responsibilities include:
 
--   Managing the execution environment for `Linter`.
--   Reading from the file system.
--   Reading configuration information from config files (including `.eslintrc` and `package.json`).
+- Managing the execution environment for `Linter`.
+- Reading from the file system.
+- Reading configuration information from config files (including `.eslintrc` and `package.json`).
 
 This object may not:
 
--   Call `process.exit()` directly.
--   Perform any asynchronous operations.
--   Output to the console.
--   Use formatters.
+- Call `process.exit()` directly.
+- Perform any asynchronous operations.
+- Output to the console.
+- Use formatters.
 
 ## The `Linter` object
 
@@ -69,18 +69,18 @@ Once the AST is available, `estraverse` is used to traverse the AST from top to 
 
 This object's responsibilities include:
 
--   Inspecting JavaScript code strings.
--   Creating an AST for the code.
--   Executing rules on the AST.
--   Reporting back the results of the execution.
+- Inspecting JavaScript code strings.
+- Creating an AST for the code.
+- Executing rules on the AST.
+- Reporting back the results of the execution.
 
 This object may not:
 
--   Call `process.exit()` directly.
--   Perform any asynchronous operations.
--   Use Node.js-specific features.
--   Access the file system.
--   Call `console.log()` or any other similar method.
+- Call `process.exit()` directly.
+- Perform any asynchronous operations.
+- Use Node.js-specific features.
+- Access the file system.
+- Call `console.log()` or any other similar method.
 
 ## Rules
 
@@ -88,13 +88,13 @@ Individual rules are the most specialized part of the ESLint architecture. Rules
 
 These objects' responsibilities are:
 
--   Inspect the AST for specific patterns.
--   Reporting warnings when certain patterns are found.
+- Inspect the AST for specific patterns.
+- Reporting warnings when certain patterns are found.
 
 These objects may not:
 
--   Call `process.exit()` directly.
--   Perform any asynchronous operations.
--   Use Node.js-specific features.
--   Access the file system.
--   Call `console.log()` or any other similar method.
+- Call `process.exit()` directly.
+- Perform any asynchronous operations.
+- Use Node.js-specific features.
+- Access the file system.
+- Call `console.log()` or any other similar method.

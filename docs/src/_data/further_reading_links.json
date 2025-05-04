@@ -782,5 +782,19 @@
     "logo": "https://wiki.sei.cmu.edu/confluence/s/-ctumb3/9012/tu5x00/7/_/favicon.ico",
     "title": "MSC56-J. Detect and remove superfluous code and values - SEI CERT Oracle Coding Standard for Java - Confluence",
     "description": null
+  },
+  "https://262.ecma-international.org/11.0/#sec-value-properties-of-the-global-object": {
+    "domain": "262.ecma-international.org",
+    "url": "https://262.ecma-international.org/11.0/#sec-value-properties-of-the-global-object",
+    "logo": "https://tc39.es/ecma262/2020/img/favicon.ico",
+    "title": "ECMAScript® 2020 Language Specification",
+    "description": null
+  },
+  "https://262.ecma-international.org/11.0/#sec-strict-mode-of-ecmascript": {
+    "domain": "262.ecma-international.org",
+    "url": "https://262.ecma-international.org/11.0/#sec-strict-mode-of-ecmascript",
+    "logo": "https://tc39.es/ecma262/2020/img/favicon.ico",
+    "title": "ECMAScript® 2020 Language Specification",
+    "description": null
   }
 }

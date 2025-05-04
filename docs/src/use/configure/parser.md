@@ -36,9 +36,9 @@ This configuration ensures that the Babel parser, rather than the default Espree
 
 The following third-party parsers are known to be compatible with ESLint:
 
--   [Esprima](https://www.npmjs.com/package/esprima)
--   [@babel/eslint-parser](https://www.npmjs.com/package/@babel/eslint-parser) - A wrapper around the [Babel](https://babeljs.io) parser that makes it compatible with ESLint.
--   [@typescript-eslint/parser](https://www.npmjs.com/package/@typescript-eslint/parser) - A parser that converts TypeScript into an ESTree-compatible form so it can be used in ESLint.
+- [Esprima](https://www.npmjs.com/package/esprima)
+- [@babel/eslint-parser](https://www.npmjs.com/package/@babel/eslint-parser) - A wrapper around the [Babel](https://babeljs.io) parser that makes it compatible with ESLint.
+- [@typescript-eslint/parser](https://www.npmjs.com/package/@typescript-eslint/parser) - A parser that converts TypeScript into an ESTree-compatible form so it can be used in ESLint.
 
 ::: warning
 There are no guarantees that an external parser works correctly with ESLint. ESLint does not fix bugs related to incompatibilities that affect only third-party parsers.
