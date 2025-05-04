@@ -18,7 +18,7 @@ Here is a summary of the proposal in ABNF.
 ```abnf
 name         = life-cycle / main target? option* ":watch"?
 life-cycle   = "prepare" / "preinstall" / "install" / "postinstall" / "prepublish" / "preprepare" / "prepare" / "postprepare" / "prepack" / "postpack" / "prepublishOnly"
-main         = "build" / "lint" ":fix"? / "release" / "start" / "test" / "fetch"
+main         = "build" / "lint" ":fix"? / "fmt" ":check"? / "release" / "start" / "test" / "fetch"
 target       = ":" word ("-" word)* / extension ("+" extension)*
 option       = ":" word ("-" word)*
 word         = ALPHA +
@@ -27,7 +27,7 @@ extension    = ( ALPHA / DIGIT )+
 
 ## Order
 
-The script names MUST appear in the package.json file in alphabetical order. The other conventions outlined in this document ensure that alphabetical order will coincide with logical groupings.
+The script names MUST appear in the `package.json` file in alphabetical order. The other conventions outlined in this document ensure that alphabetical order will coincide with logical groupings.
 
 ## Main Script Names
 
@@ -47,7 +47,7 @@ If a package contains any `fetch:*` scripts, there MAY be a script named `fetch`
 
 ### Release
 
-Scripts that have public side effects (publishing the web site, committing to Git, etc.) MUST begin with `release`.
+Scripts that have public side effects (publishing the website, committing to Git, etc.) MUST begin with `release`.
 
 ### Lint
 
@@ -56,6 +56,12 @@ Scripts that statically analyze files (mostly, but not limited to running `eslin
 If a package contains any `lint:*` scripts, there SHOULD be a script named `lint` and it MUST run all of the checks that would have been run if each `lint:*` script was called individually.
 
 If fixing is available, a linter MUST NOT apply fixes UNLESS the script contains the `:fix` modifier (see below).
+
+### Fmt
+
+Scripts that format source code MUST have names that begin with `fmt`.
+
+If a package contains any `fmt:*` scripts, there SHOULD be a script named `fmt` that applies formatting fixes to all source files. There SHOULD also be a script named `fmt:check` that validates code formatting without modifying files and exits non-zero if any files are out of compliance.
 
 ### Start
 
@@ -78,6 +84,10 @@ One or more of the following modifiers MAY be appended to the standard script na
 ### Fix
 
 If it's possible for a linter to fix problems that it finds, add a copy of the script with `:fix` appended to the end that also fixes.
+
+### Check
+
+If a script validates code or artifacts without making any modifications, append `:check` to the script name. This modifier is typically used for formatters (e.g., `fmt:check`) to verify that files conform to the expected format and to exit with a non-zero status if any issues are found. Scripts with the `:check` modifier MUST NOT alter any files or outputs.
 
 ### Target
 
