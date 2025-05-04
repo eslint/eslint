@@ -1,3 +1,26 @@
+v9.26.0 - May 2, 2025
+
+* [`5b247c8`](https://github.com/eslint/eslint/commit/5b247c859f1b653297a9b9135d92a59742a669cc) chore: upgrade to `@eslint/js@9.26.0` (#19681) (Francesco Trotta)
+* [`d6fa4ac`](https://github.com/eslint/eslint/commit/d6fa4ac031c2fe24fb778e84940393fbda3ddf77) chore: package.json update for @eslint/js release (Jenkins)
+* [`e9754e7`](https://github.com/eslint/eslint/commit/e9754e7433edf665602ceba4f7f8fbca559c974f) feat: add reportGlobalThis to no-shadow-restricted-names (#19670) (sethamus)
+* [`0fa2b7a`](https://github.com/eslint/eslint/commit/0fa2b7a3666f1eedcc091446dc860037c9bafa5c) feat: add suggestions for `eqeqeq` rule (#19640) (Nitin Kumar)
+* [`dd98d63`](https://github.com/eslint/eslint/commit/dd98d63f09c9324124734206d904d31d433a7c92) docs: Update README (GitHub Actions Bot)
+* [`96e84de`](https://github.com/eslint/eslint/commit/96e84de55ad17c96e5b6f2dece75145542505469) fix: check cache file existence before deletion (#19648) (sethamus)
+* [`c25e858`](https://github.com/eslint/eslint/commit/c25e858d2d7e9bd3e53dcb32c9af5251d6f0569e) docs: Update README (GitHub Actions Bot)
+* [`0958690`](https://github.com/eslint/eslint/commit/09586905be394c05839996a5ea812adfac44d320) chore: disambiguate internal types `LanguageOptions` and `Rule` (#19669) (Francesco Trotta)
+* [`dcbdcc9`](https://github.com/eslint/eslint/commit/dcbdcc9c6be628240269b41f7bb576dde1e6f5b3) feat: Add MCP server (#19592) (Nicholas C. Zakas)
+* [`b2397e9`](https://github.com/eslint/eslint/commit/b2397e9bef5ca7faf7e100ecebc20e457bf0b588) docs: Update README (GitHub Actions Bot)
+* [`d683aeb`](https://github.com/eslint/eslint/commit/d683aebc8e0792e4f80bd1488c705c90f22c317e) fix: don't crash on tests with circular references in `RuleTester` (#19664) (Milos Djermanovic)
+* [`f1c858e`](https://github.com/eslint/eslint/commit/f1c858e3c1e9712ef398588bf5ed68bc19fad3f2) chore: fix internal type references to `Plugin` and `Rule` (#19665) (Francesco Trotta)
+* [`9736d5d`](https://github.com/eslint/eslint/commit/9736d5d15870c9185da7d140becb9a15aa69057d) fix: add `namespace` to `Plugin.meta` type (#19661) (Milos Djermanovic)
+* [`40dd299`](https://github.com/eslint/eslint/commit/40dd2998cedddb75e0514b2c5cc855293c85da41) refactor: One-shot ESQuery selector analysis (#19652) (Nicholas C. Zakas)
+* [`addd0a6`](https://github.com/eslint/eslint/commit/addd0a6a62d1b89dc7ab49cbd08c5a6af3e7da29) docs: fix formatting of unordered lists in Markdown (#19660) (Milos Djermanovic)
+* [`a21b38d`](https://github.com/eslint/eslint/commit/a21b38db0276ab3373c95ebc7b1ef1910b79dfe6) docs: Update README (GitHub Actions Bot)
+* [`c0721a7`](https://github.com/eslint/eslint/commit/c0721a7f34264da0a32ade8432511eeda4a2c1b9) docs: fix double space in command (#19657) (CamWass)
+* [`1cfd702`](https://github.com/eslint/eslint/commit/1cfd7024226cd9c42ceb75732f79e3bc36e8305c) chore: update dependency @eslint/json to ^0.12.0 (#19656) (renovate[bot])
+* [`2dfd83e`](https://github.com/eslint/eslint/commit/2dfd83ef4ee054f748732581c422508c45d6f1bf) feat: add `ignoreDirectives` option in `no-unused-expressions` (#19645) (sethamus)
+* [`17bae69`](https://github.com/eslint/eslint/commit/17bae69e02fff6f26487a3cbd9c3c3218088949c) fix: update `RuleTester.run()` type (#19634) (Nitin Kumar)
+
 v9.25.1 - April 21, 2025
 
 * [`1f2b057`](https://github.com/eslint/eslint/commit/1f2b057ddcbef4340f78d1314456935054b8d93f) chore: upgrade @eslint/js@9.25.1 (#19642) (Milos Djermanovic)

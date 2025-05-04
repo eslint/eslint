@@ -2103,6 +2103,20 @@ describe("CLIEngine", () => {
 								nodeType: "BinaryExpression",
 								ruleId: "eqeqeq",
 								severity: 2,
+								suggestions: [
+									{
+										data: {
+											actualOperator: "==",
+											expectedOperator: "===",
+										},
+										desc: "Use '===' instead of '=='.",
+										fix: {
+											range: [24, 26],
+											text: "===",
+										},
+										messageId: "replaceOperator",
+									},
+								],
 							},
 						],
 						suppressedMessages: [],
@@ -7814,6 +7828,20 @@ describe("CLIEngine", () => {
 								messageId: "unexpected",
 								nodeType: "BinaryExpression",
 								ruleId: "eqeqeq",
+								suggestions: [
+									{
+										data: {
+											actualOperator: "==",
+											expectedOperator: "===",
+										},
+										desc: "Use '===' instead of '=='.",
+										fix: {
+											range: [2, 4],
+											text: "===",
+										},
+										messageId: "replaceOperator",
+									},
+								],
 								severity: 2,
 							},
 						],
@@ -7934,6 +7962,20 @@ describe("CLIEngine", () => {
 								nodeType: "BinaryExpression",
 								ruleId: "eqeqeq",
 								severity: 2,
+								suggestions: [
+									{
+										data: {
+											actualOperator: "==",
+											expectedOperator: "===",
+										},
+										desc: "Use '===' instead of '=='.",
+										fix: {
+											range: [2, 4],
+											text: "===",
+										},
+										messageId: "replaceOperator",
+									},
+								],
 							},
 						],
 						suppressedMessages: [],

@@ -34,14 +34,14 @@ This has references of both the initial segment and the final segments of a code
 
 `CodePath` has the following properties:
 
--   `id` (`string`) - A unique string. Respective rules can use `id` to save additional information for each code path.
--   `origin` (`string`) - The reason that the code path was started. May be `"program"`, `"function"`, `"class-field-initializer"`, or `"class-static-block"`.
--   `initialSegment` (`CodePathSegment`) - The initial segment of this code path.
--   `finalSegments` (`CodePathSegment[]`) - The final segments which includes both returned and thrown.
--   `returnedSegments` (`CodePathSegment[]`) - The final segments which includes only returned.
--   `thrownSegments` (`CodePathSegment[]`) - The final segments which includes only thrown.
--   `upper` (`CodePath|null`) - The code path of the upper function/global scope.
--   `childCodePaths` (`CodePath[]`) - Code paths of functions this code path contains.
+- `id` (`string`) - A unique string. Respective rules can use `id` to save additional information for each code path.
+- `origin` (`string`) - The reason that the code path was started. May be `"program"`, `"function"`, `"class-field-initializer"`, or `"class-static-block"`.
+- `initialSegment` (`CodePathSegment`) - The initial segment of this code path.
+- `finalSegments` (`CodePathSegment[]`) - The final segments which includes both returned and thrown.
+- `returnedSegments` (`CodePathSegment[]`) - The final segments which includes only returned.
+- `thrownSegments` (`CodePathSegment[]`) - The final segments which includes only thrown.
+- `upper` (`CodePath|null`) - The code path of the upper function/global scope.
+- `childCodePaths` (`CodePath[]`) - Code paths of functions this code path contains.
 
 ### `CodePathSegment`
 
@@ -51,10 +51,10 @@ Difference from doubly linked list is what there are forking and merging (the ne
 
 `CodePathSegment` has the following properties:
 
--   `id` (`string`) - A unique string. Respective rules can use `id` to save additional information for each segment.
--   `nextSegments` (`CodePathSegment[]`) - The next segments. If forking, there are two or more. If final, there is nothing.
--   `prevSegments` (`CodePathSegment[]`) - The previous segments. If merging, there are two or more. If initial, there is nothing.
--   `reachable` (`boolean`) - A flag which shows whether or not it's reachable. This becomes `false` when preceded by `return`, `throw`, `break`, or `continue`.
+- `id` (`string`) - A unique string. Respective rules can use `id` to save additional information for each segment.
+- `nextSegments` (`CodePathSegment[]`) - The next segments. If forking, there are two or more. If final, there is nothing.
+- `prevSegments` (`CodePathSegment[]`) - The previous segments. If merging, there are two or more. If initial, there is nothing.
+- `reachable` (`boolean`) - A flag which shows whether or not it's reachable. This becomes `false` when preceded by `return`, `throw`, `break`, or `continue`.
 
 ## Events
 
@@ -605,9 +605,9 @@ last();
 
 It creates the paths from `try` block to `catch` block at:
 
--   `throw` statements.
--   The first throwable node (e.g. a function call) in the `try` block.
--   The end of the `try` block.
+- `throw` statements.
+- The first throwable node (e.g. a function call) in the `try` block.
+- The end of the `try` block.
 
 :::img-container
 ![`TryStatement` (try-catch)](../assets/images/code-path-analysis/example-trystatement-try-catch.svg)
@@ -736,13 +736,13 @@ foo(false);
 
 It creates two code paths.
 
--   The global's
+- The global's
 
 :::img-container
 ![When there is a function](../assets/images/code-path-analysis/example-when-there-is-a-function-g.svg)
 :::
 
--   The function's
+- The function's
 
 :::img-container
 ![When there is a function](../assets/images/code-path-analysis/example-when-there-is-a-function-f.svg)
