@@ -59,7 +59,9 @@ describe("MCP Server", () => {
 
 		sinon
 			.stub(process, "emitWarning")
-			.withArgs(sinon.match.any, "ESLintIgnoreWarning");
+			.callThrough()
+			.withArgs(sinon.match.any, "ESLintIgnoreWarning")
+			.returns();
 	});
 
 	afterEach(() => {
