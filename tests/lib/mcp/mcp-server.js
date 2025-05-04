@@ -62,7 +62,7 @@ describe("MCP Server", () => {
 			.withArgs(sinon.match.any, "ESLintIgnoreWarning");
 	});
 
-	afterEach(async () => {
+	afterEach(() => {
 		sinon.restore();
 	});
 
