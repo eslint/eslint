@@ -17,6 +17,12 @@ const ruleConfigs = require("./config-rule").createCoreRuleConfigs(true);
 const sampleMinimizer = require("./code-sample-minimizer");
 
 //------------------------------------------------------------------------------
+// Typedefs
+//------------------------------------------------------------------------------
+
+/** @typedef {import("../lib/types").ESLint.ConfigData} ConfigData */
+
+//------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
 

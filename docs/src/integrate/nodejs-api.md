@@ -140,9 +140,9 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
 
 - `options.allowInlineConfig` (`boolean`)<br>
   Default is `true`. If `false` is present, ESLint suppresses directive comments in source code. If this option is `false`, it overrides the `noInlineConfig` setting in your configurations.
-- `options.baseConfig` (`ConfigData | ConfigData[] | null`)<br>
+- `options.baseConfig` (`Config | Config[] | null`)<br>
   Default is `null`. [Configuration object], extended by all configurations used with this instance. You can use this option to define the default settings that will be used if your configuration files don't configure it.
-- `options.overrideConfig` (`ConfigData | ConfigData[] | null`)<br>
+- `options.overrideConfig` (`Config | Config[] | null`)<br>
   Default is `null`. [Configuration object], added after any existing configuration and therefore applies after what's contained in your configuration file (if used).
 - `options.overrideConfigFile` (`null | true | string`)<br>
   Default is `null`. By default, ESLint searches for a configuration file. When this option is set to `true`, ESLint does not search for a configuration file. When this option is set to a `string` value, ESLint does not search for a configuration file, and uses the provided value as the path to the configuration file.
