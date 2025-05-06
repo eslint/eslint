@@ -23,7 +23,7 @@ Create a `.vscode/mcp.json` file in your project with the following configuratio
 		"ESLint": {
 			"type": "stdio",
 			"command": "npx",
-			"args": ["eslint", "--mcp"]
+			"args": ["@eslint/mcp"]
 		}
 	}
 }
@@ -34,7 +34,7 @@ Alternatively, you can use the Command Palette:
 1. Press `Ctrl+Shift+P` (Windows/Linux) or `Cmd+Shift+P` (macOS)
 2. Type and select `MCP: Add Server`
 3. Select `Command (stdio)` from the dropdown
-4. Enter `npx eslint --mcp` as the command
+4. Enter `npx @eslint/mcp` as the command
 5. Type `ESLint` as the server ID
 6. Choose `Workspace Settings` to create the configuration in `.vscode/mcp.json`
 
@@ -76,7 +76,7 @@ Create a `.cursor/mcp.json` file in your project directory with the following co
 	"mcpServers": {
 		"eslint": {
 			"command": "npx",
-			"args": ["eslint", "--mcp"],
+			"args": ["@eslint/mcp"],
 			"env": {}
 		}
 	}
@@ -112,7 +112,7 @@ Add the following configuration to your `~/.codeium/windsurf/mcp_config.json` fi
 	"mcpServers": {
 		"eslint": {
 			"command": "npx",
-			"args": ["eslint", "--mcp"],
+			"args": ["@eslint/mcp"],
 			"env": {}
 		}
 	}
