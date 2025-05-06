@@ -98,11 +98,16 @@ ruleTester.run("no-array-constructor", rule, {
 		},
 		{
 			code: "const array = Array?.();",
-			output: "const array = [];",
 			errors: [
 				{
 					messageId: "preferLiteral",
 					type: "CallExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "const array = [];",
+						},
+					],
 				},
 			],
 		},
@@ -894,19 +899,31 @@ ruleTesterTypeScript.run("no-array-constructor", rule, {
 		},
 		{
 			code: "Array?.(0, 1, 2);",
-			output: "[0, 1, 2];",
 			errors: [
 				{
 					messageId: "preferLiteral",
+					type: "CallExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[0, 1, 2];",
+						},
+					],
 				},
 			],
 		},
 		{
 			code: "Array?.(x, y);",
-			output: "[x, y];",
 			errors: [
 				{
 					messageId: "preferLiteral",
+					type: "CallExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[x, y];",
+						},
+					],
 				},
 			],
 		},
