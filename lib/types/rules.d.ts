@@ -1961,7 +1961,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.4.0
 	 * @see https://eslint.org/docs/latest/rules/no-array-constructor
 	 */
-
 	"no-array-constructor": Linter.RuleEntry<[]>;
 
 	/**
