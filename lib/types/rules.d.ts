@@ -1800,6 +1800,10 @@ export interface ESLintRules extends Linter.RulesRecord {
 					 * @default 3
 					 */
 					max: number;
+					/**
+					 * @default false
+					 */
+					countVoidThis: boolean;
 			  }>
 			| number,
 		]
