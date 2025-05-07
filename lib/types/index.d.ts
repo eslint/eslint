@@ -2072,7 +2072,7 @@ export namespace ESLint {
 		replacedBy: string[];
 
 		/**
-		 * The raw deprecated info provided by rule.
+		 * The raw deprecated info provided by the rule.
 		 * Unset if the rule's `meta.deprecated` property is a boolean.
 		 */
 		info?: DeprecatedInfo;
