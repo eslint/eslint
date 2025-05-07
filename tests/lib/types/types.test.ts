@@ -945,6 +945,16 @@ linter.verify(
 	},
 	"test.js",
 );
+linter.verify(
+	SOURCE,
+	{
+		parserOptions: {
+			ecmaVersion: 3,
+			allowReserved: true,
+		},
+	},
+	"test.js",
+);
 linter.verify(SOURCE, { env: { node: true } }, "test.js");
 linter.verify(SOURCE, { globals: { foo: true } }, "test.js");
 linter.verify(SOURCE, { globals: { foo: "off" } }, "test.js");
@@ -1336,6 +1346,16 @@ linterWithEslintrcConfig.verify(
 		parserOptions: {
 			ecmaVersion: 6,
 			ecmaFeatures: { experimentalObjectRestSpread: true },
+		},
+	},
+	"test.js",
+);
+linterWithEslintrcConfig.verify(
+	SOURCE,
+	{
+		parserOptions: {
+			ecmaVersion: 3,
+			allowReserved: true,
 		},
 	},
 	"test.js",
