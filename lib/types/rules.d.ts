@@ -4134,7 +4134,13 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 2.5.0
 	 * @see https://eslint.org/docs/latest/rules/no-useless-escape
 	 */
-	"no-useless-escape": Linter.RuleEntry<[]>;
+	"no-useless-escape": Linter.RuleEntry<
+		[
+			Partial<{
+				allowedCharacters: string[];
+			}>,
+		]
+	>;
 
 	/**
 	 * Rule to disallow renaming import, export, and destructured assignments to the same name.
