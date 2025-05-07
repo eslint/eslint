@@ -2057,9 +2057,25 @@ export namespace ESLint {
 		};
 	}
 
+	/**
+	 * Information about deprecated rules.
+	 */
 	interface DeprecatedRuleUse {
+		/**
+		 * The rule ID.
+		 */
 		ruleId: string;
+
+		/**
+		 * The rule IDs that replace this deprecated rule.
+		 */
 		replacedBy: string[];
+
+		/**
+		 * The raw deprecated info provided by the rule.
+		 * Unset if the rule's `meta.deprecated` property is a boolean.
+		 */
+		info?: DeprecatedInfo;
 	}
 
 	interface ResultsMeta {

@@ -1774,6 +1774,20 @@ for (const result of results) {
 	};
 	delete result.stats;
 
+	const deprecatedRule = result.usedDeprecatedRules[0];
+	deprecatedRule.ruleId = "foo";
+	deprecatedRule.replacedBy = ["bar"];
+	deprecatedRule.info = {
+		message: "use bar instead",
+		replacedBy: [
+			{
+				rule: {
+					name: "bar",
+				},
+			},
+		],
+	};
+
 	for (const message of result.messages) {
 		message.ruleId = "foo";
 	}
