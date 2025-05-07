@@ -804,6 +804,21 @@ ruleTester.run("no-array-constructor", rule, {
 				},
 			],
 		},
+		{
+			code: "Array?.(0, 1, 2).forEach(doSomething);",
+			errors: [
+				{
+					messageId: "preferLiteral",
+					type: "CallExpression",
+					suggestions: [
+						{
+							messageId: "useLiteral",
+							output: "[0, 1, 2].forEach(doSomething);",
+						},
+					],
+				},
+			],
+		},
 	],
 });
 
