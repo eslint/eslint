@@ -88,6 +88,7 @@ const jsConfigs = [
 			"no-sequences": "error",
 			"no-shadow": "error",
 			"no-throw-literal": "error",
+			"no-unassigned-vars": "error",
 			"no-undef": ["error", { typeof: true }],
 			"no-undef-init": "error",
 			"no-undefined": "error",

@@ -3260,6 +3260,19 @@
         },
         "fixable": "whitespace"
     },
+    "no-unassigned-vars": {
+        "type": "problem",
+        "dialects": [
+            "typescript",
+            "javascript"
+        ],
+        "language": "javascript",
+        "docs": {
+            "description": "Disallow `let` or `var` variables that are read but never assigned",
+            "recommended": false,
+            "url": "https://eslint.org/docs/latest/rules/no-unassigned-vars"
+        }
+    },
     "no-undef": {
         "type": "problem",
         "defaultOptions": [

@@ -2,6 +2,7 @@
 title: no-unused-vars
 rule_type: problem
 related_rules:
+- no-unassigned-vars
 - no-useless-assignment
 ---
 
