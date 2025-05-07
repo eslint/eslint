@@ -12,9 +12,9 @@
 const assert = require("node:assert"),
 	fs = require("node:fs"),
 	path = require("node:path"),
+	EventEmitter = require("node:events"),
 	{ Linter } = require("../../../../lib/linter"),
 	EventGeneratorTester = require("../../../../tools/internal-testers/event-generator-tester"),
-	createEmitter = require("../../../../lib/linter/safe-emitter"),
 	debug = require("../../../../lib/linter/code-path-analysis/debug-helpers"),
 	CodePath = require("../../../../lib/linter/code-path-analysis/code-path"),
 	CodePathAnalyzer = require("../../../../lib/linter/code-path-analysis/code-path-analyzer"),
@@ -56,7 +56,7 @@ describe("CodePathAnalyzer", () => {
 		new CodePathAnalyzer({
 			enterNode() {},
 			leaveNode() {},
-			emitter: createEmitter(),
+			emitter: new EventEmitter(),
 		}),
 	);
 

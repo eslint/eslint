@@ -12,7 +12,7 @@ const assert = require("node:assert"),
 	sinon = require("sinon"),
 	espree = require("espree"),
 	vk = require("eslint-visitor-keys"),
-	createEmitter = require("../../../lib/linter/safe-emitter"),
+	{ SourceCodeVisitor } = require("../../../lib/linter/source-code-visitor"),
 	{
 		SourceCodeTraverser,
 	} = require("../../../lib/linter/source-code-traverser"),
@@ -116,15 +116,15 @@ function createMockSourceCode(ast) {
 
 describe("SourceCodeTraverser", () => {
 	describe("traverseSync", () => {
-		let emitter, traverser;
+		let visitor, traverser;
 
 		beforeEach(() => {
-			emitter = Object.create(createEmitter(), {
-				emit: { value: sinon.spy() },
+			visitor = Object.assign(new SourceCodeVisitor(), {
+				callSync: sinon.spy(),
 			});
 
 			["Foo", "Bar", "Foo > Bar", "Foo:exit"].forEach(selector =>
-				emitter.on(selector, () => {}),
+				visitor.add(selector, () => {}),
 			);
 			traverser = SourceCodeTraverser.getInstance(MOCK_LANGUAGE);
 		});
@@ -133,11 +133,13 @@ describe("SourceCodeTraverser", () => {
 			const dummyNode = { type: "Foo", value: 1 };
 			const sourceCode = createMockSourceCode(dummyNode);
 
-			traverser.traverseSync(sourceCode, emitter);
+			traverser.traverseSync(sourceCode, visitor);
 
-			assert(emitter.emit.calledTwice);
-			assert(emitter.emit.firstCall.calledWith("Foo", dummyNode));
-			assert(emitter.emit.secondCall.calledWith("Foo:exit", dummyNode));
+			assert(visitor.callSync.calledTwice);
+			assert(visitor.callSync.firstCall.calledWith("Foo", dummyNode));
+			assert(
+				visitor.callSync.secondCall.calledWith("Foo:exit", dummyNode),
+			);
 		});
 
 		it("should use nodeTypeKey if provided.", () => {
@@ -164,23 +166,26 @@ describe("SourceCodeTraverser", () => {
 
 			const sourceCode = createMockSourceCode(dummyNode);
 
-			traverser.traverseSync(sourceCode, emitter);
+			traverser.traverseSync(sourceCode, visitor);
 
-			assert(emitter.emit.callCount === 4);
+			assert(visitor.callSync.callCount === 4);
 			assert(
-				emitter.emit.firstCall.calledWith("Foo", dummyNode),
+				visitor.callSync.firstCall.calledWith("Foo", dummyNode),
 				"First call was wrong",
 			);
 			assert(
-				emitter.emit.secondCall.calledWith("Bar", dummyNode.child),
+				visitor.callSync.secondCall.calledWith("Bar", dummyNode.child),
 				"Second call was wrong",
 			);
 			assert(
-				emitter.emit.thirdCall.calledWith("Foo > Bar", dummyNode.child),
+				visitor.callSync.thirdCall.calledWith(
+					"Foo > Bar",
+					dummyNode.child,
+				),
 				"Third call was wrong",
 			);
 			assert(
-				emitter.emit.lastCall.calledWith("Foo:exit", dummyNode),
+				visitor.callSync.lastCall.calledWith("Foo:exit", dummyNode),
 				"Last call was wrong",
 			);
 		});
@@ -209,18 +214,20 @@ describe("SourceCodeTraverser", () => {
 				},
 			};
 
-			traverser.traverseSync(sourceCode, emitter);
+			traverser.traverseSync(sourceCode, visitor);
 
-			assert(emitter.emit.calledThrice);
-			assert(emitter.emit.firstCall.calledWith("Foo", dummyNode));
+			assert(visitor.callSync.calledThrice);
+			assert(visitor.callSync.firstCall.calledWith("Foo", dummyNode));
 			assert(
-				emitter.emit.secondCall.calledWith(
+				visitor.callSync.secondCall.calledWith(
 					"customEvent",
 					dummyNode,
 					"extra",
 				),
 			);
-			assert(emitter.emit.thirdCall.calledWith("Foo:exit", dummyNode));
+			assert(
+				visitor.callSync.thirdCall.calledWith("Foo:exit", dummyNode),
+			);
 		});
 
 		it("should use provided steps instead of source code traverse", () => {
@@ -294,23 +301,27 @@ describe("SourceCodeTraverser", () => {
 			};
 
 			assert.throws(
-				() => traverser.traverseSync(sourceCode, emitter),
+				() => traverser.traverseSync(sourceCode, visitor),
 				/Invalid traversal step found:/u,
 			);
 		});
 
 		it("should throw error with currentNode property when error occurs during traversal", () => {
 			const dummyNode = { type: "Foo", value: 1 };
-			const emitterWithError = createEmitter();
-
-			emitterWithError.on("Foo", () => {
-				throw new Error("Test error");
+			const visitorWithError = Object.assign(new SourceCodeVisitor(), {
+				callSync() {
+					throw new Error("Test error");
+				},
 			});
+
+			["Foo"].forEach(selector =>
+				visitorWithError.add(selector, () => {}),
+			);
 
 			const sourceCode = createMockSourceCode(dummyNode);
 
 			try {
-				traverser.traverseSync(sourceCode, emitterWithError);
+				traverser.traverseSync(sourceCode, visitorWithError);
 				assert.fail("Should have thrown error");
 			} catch (err) {
 				assert.strictEqual(err.message, "Test error");
@@ -351,19 +362,19 @@ describe("SourceCodeTraverser", () => {
 		 */
 		function getEmissions(sourceText, possibleQueries) {
 			const emissions = [];
-			const emitter = Object.create(createEmitter(), {
-				emit: {
-					value: (selector, node) => emissions.push([selector, node]),
+			const visitor = Object.assign(new SourceCodeVisitor(), {
+				callSync(selector, node) {
+					emissions.push([selector, node]);
 				},
 			});
 
-			possibleQueries.forEach(query => emitter.on(query, () => {}));
+			possibleQueries.forEach(query => visitor.add(query, () => {}));
 
 			const ast = espree.parse(sourceText, ESPREE_CONFIG);
 			const sourceCode = createMockSourceCode(ast);
 			const traverser = SourceCodeTraverser.getInstance(jslang);
 
-			traverser.traverseSync(sourceCode, emitter);
+			traverser.traverseSync(sourceCode, visitor);
 
 			return emissions.filter(emission =>
 				possibleQueries.includes(emission[0]),
@@ -764,9 +775,9 @@ describe("SourceCodeTraverser", () => {
 
 	describe("parsing an invalid selector", () => {
 		it("throws a useful error", () => {
-			const emitter = createEmitter();
+			const visitor = new SourceCodeVisitor();
 
-			emitter.on("Foo >", () => {});
+			visitor.add("Foo >", () => {});
 
 			assert.throws(() => {
 				const traverser = new SourceCodeTraverser(MOCK_LANGUAGE);
@@ -774,7 +785,7 @@ describe("SourceCodeTraverser", () => {
 					type: "Program",
 					body: [],
 				});
-				traverser.traverseSync(sourceCode, emitter);
+				traverser.traverseSync(sourceCode, visitor);
 			}, /Syntax error in selector "Foo >" at position 5: Expected " ", "!", .*/u);
 		});
 	});
