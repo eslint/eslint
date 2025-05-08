@@ -1668,8 +1668,8 @@ export namespace Linter {
 		messages: LintMessage[];
 	}
 
-	// Temporarily loosen type for just flat config files (see #68232)
-	type NonESTreeParser = Omit<ESTreeParser, "parseForESLint"> &
+	// Temporarily loosen type for just flat config files (see https://github.com/DefinitelyTyped/DefinitelyTyped/pull/68232)
+	type NonESTreeParser = ESLint.ObjectMetaProperties &
 		(
 			| {
 					parse(text: string, options?: any): unknown;
@@ -1694,9 +1694,16 @@ export namespace Linter {
 	type Parser = NonESTreeParser | ESTreeParser;
 
 	interface ESLintParseResult {
+		/** The AST object. */
 		ast: AST.Program;
-		parserServices?: SourceCode.ParserServices | undefined;
+
+		/** The services that the parser provides. */
+		services?: SourceCode.ParserServices | undefined;
+
+		/** The scope manager of the AST. */
 		scopeManager?: Scope.ScopeManager | undefined;
+
+		/** The visitor keys of the AST. */
 		visitorKeys?: SourceCode.VisitorKeys | undefined;
 	}
 
