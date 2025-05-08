@@ -1560,9 +1560,16 @@ export namespace Linter {
 	/**
 	 * Parser options.
 	 *
-	 * @see [Specifying Parser Options](https://eslint.org/docs/latest/use/configure/language-options-deprecated#specifying-parser-options)
+	 * @see [Specifying Parser Options](https://eslint.org/docs/latest/use/configure/language-options#specifying-parser-options)
 	 */
 	interface ParserOptions {
+		/**
+		 * Allow the use of reserved words as identifiers (if `ecmaVersion` is 3).
+		 *
+		 * @default false
+		 */
+		allowReserved?: boolean | undefined;
+
 		/**
 		 * Accepts any valid ECMAScript version number or `'latest'`:
 		 *
