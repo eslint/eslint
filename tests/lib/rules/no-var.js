@@ -36,6 +36,12 @@ ruleTester.run("no-var", rule, {
 				parserOptions: { ecmaFeatures: { globalReturn: true } },
 			},
 		},
+		{
+			code: "declare global { var bar: 'car' }",
+			languageOptions: {
+				parser: require("@typescript-eslint/parser"),
+			},
+		},
 	],
 
 	invalid: [
@@ -428,6 +434,20 @@ ruleTester.run("no-var", rule, {
 				{ messageId: "unexpectedVar" },
 				{ messageId: "unexpectedVar" },
 			],
+		},
+		{
+			code: "declare namespace ns { var bar: 'car' }",
+			languageOptions: {
+				parser: require("@typescript-eslint/parser"),
+			},
+			errors: [{ messageId: "unexpectedVar" }],
+		},
+		{
+			code: "declare module 'module' { var bar: 'car' }",
+			languageOptions: {
+				parser: require("@typescript-eslint/parser"),
+			},
+			errors: [{ messageId: "unexpectedVar" }],
 		},
 	],
 });
