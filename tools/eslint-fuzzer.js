@@ -21,6 +21,7 @@ const sampleMinimizer = require("./code-sample-minimizer");
 //------------------------------------------------------------------------------
 
 /** @typedef {import("../lib/types").ESLint.ConfigData} ConfigData */
+/** @typedef {import("../lib/types").Linter.Parser} Parser */
 
 //------------------------------------------------------------------------------
 // Helpers
