@@ -1083,11 +1083,11 @@ linter.defineParser("custom-parser", {
 		name: "foo",
 		version: "1.2.3",
 	},
-	parseForESLint(src, opts) {
+	parseForESLint(src, opts): Linter.ESLintParseResult {
 		return {
 			ast: AST,
 			visitorKeys: {},
-			parserServices: {},
+			services: {},
 			scopeManager,
 		};
 	},
