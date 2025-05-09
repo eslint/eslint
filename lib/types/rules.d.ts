@@ -4646,6 +4646,13 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"prefer-object-spread": Linter.RuleEntry<[]>;
 
 	/**
+	 * Rule to require using optional chaining instead of &&, || or ternary operators.
+	 *
+	 * @see https://eslint.org/docs/latest/rules/prefer-optional-chaining
+	 */
+	"prefer-optional-chaining": Linter.RuleEntry<[]>;
+
+	/**
 	 * Rule to require using Error objects as Promise rejection reasons.
 	 *
 	 * @since 3.14.0
