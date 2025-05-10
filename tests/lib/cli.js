@@ -2741,10 +2741,27 @@ describe("cli", () => {
 						.returns();
 				});
 
+				afterEach(() => {
+					sinon.restore();
+					delete process.env.ESLINT_FLAGS;
+				});
+
 				it("should throw an error when an inactive flag whose feature has been abandoned is used", async () => {
 					const configPath = getFixturePath("eslint.config.js");
 					const filePath = getFixturePath("passing.js");
 					const input = `--flag test_only_abandoned --config ${configPath} ${filePath}`;
+
+					await stdAssert.rejects(async () => {
+						await cli.execute(input, null, true);
+					}, /The flag 'test_only_abandoned' is inactive: This feature has been abandoned\./u);
+				});
+
+				it("should throw an error when an inactive flag whose feature has been abandoned is used in an environment variable", async () => {
+					const configPath = getFixturePath("eslint.config.js");
+					const filePath = getFixturePath("passing.js");
+
+					process.env.ESLINT_FLAGS = "test_only_abandoned";
+					const input = `--config ${configPath} ${filePath}`;
 
 					await stdAssert.rejects(async () => {
 						await cli.execute(input, null, true);
@@ -2761,10 +2778,44 @@ describe("cli", () => {
 					}, /Unknown flag 'test_only_oldx'\./u);
 				});
 
+				it("should error out when an unknown flag is used in an environment variable", async () => {
+					const configPath = getFixturePath("eslint.config.js");
+					const filePath = getFixturePath("passing.js");
+					const input = `--config ${configPath} ${filePath}`;
+
+					process.env.ESLINT_FLAGS = "test_only_oldx";
+
+					await stdAssert.rejects(async () => {
+						await cli.execute(input, null, true);
+					}, /Unknown flag 'test_only_oldx'\./u);
+				});
+
 				it("should emit a warning and not error out when an inactive flag that has been replaced by another flag is used", async () => {
 					const configPath = getFixturePath("eslint.config.js");
 					const filePath = getFixturePath("passing.js");
 					const input = `--flag test_only_replaced --config ${configPath} ${filePath}`;
+					const exitCode = await cli.execute(input, null, true);
+
+					assert.strictEqual(
+						processStub.callCount,
+						1,
+						"calls `process.emitWarning()` for flags once",
+					);
+					assert.deepStrictEqual(processStub.getCall(0).args, [
+						"The flag 'test_only_replaced' is inactive: This flag has been renamed 'test_only' to reflect its stabilization. Please use 'test_only' instead.",
+						"ESLintInactiveFlag_test_only_replaced",
+					]);
+					sinon.assert.notCalled(log.error);
+					assert.strictEqual(exitCode, 0);
+				});
+
+				it("should emit a warning and not error out when an inactive flag that has been replaced by another flag is used in an environment variable", async () => {
+					const configPath = getFixturePath("eslint.config.js");
+					const filePath = getFixturePath("passing.js");
+					const input = `--config ${configPath} ${filePath}`;
+
+					process.env.ESLINT_FLAGS = "test_only_replaced";
+
 					const exitCode = await cli.execute(input, null, true);
 
 					assert.strictEqual(
@@ -2799,6 +2850,27 @@ describe("cli", () => {
 					assert.strictEqual(exitCode, 0);
 				});
 
+				it("should emit a warning and not error out when an inactive flag whose feature is enabled by default is used in an environment variable", async () => {
+					const configPath = getFixturePath("eslint.config.js");
+					const filePath = getFixturePath("passing.js");
+					const input = `--config ${configPath} ${filePath}`;
+
+					process.env.ESLINT_FLAGS = "test_only_enabled_by_default";
+
+					const exitCode = await cli.execute(input, null, true);
+					assert.strictEqual(
+						processStub.callCount,
+						1,
+						"calls `process.emitWarning()` for flags once",
+					);
+					assert.deepStrictEqual(processStub.getCall(0).args, [
+						"The flag 'test_only_enabled_by_default' is inactive: This feature is now enabled by default.",
+						"ESLintInactiveFlag_test_only_enabled_by_default",
+					]);
+					sinon.assert.notCalled(log.error);
+					assert.strictEqual(exitCode, 0);
+				});
+
 				it("should not error when a valid flag is used", async () => {
 					const configPath = getFixturePath("eslint.config.js");
 					const filePath = getFixturePath("passing.js");
@@ -2807,6 +2879,31 @@ describe("cli", () => {
 
 					sinon.assert.notCalled(log.error);
 					assert.strictEqual(exitCode, 0);
+				});
+
+				it("should not error when a valid flag is used in an environment variable", async () => {
+					const configPath = getFixturePath("eslint.config.js");
+					const filePath = getFixturePath("passing.js");
+					const input = `--config ${configPath} ${filePath}`;
+
+					process.env.ESLINT_FLAGS = "test_only";
+
+					const exitCode = await cli.execute(input, null, true);
+
+					sinon.assert.notCalled(log.error);
+					assert.strictEqual(exitCode, 0);
+				});
+
+				it("should error when a valid flag is used in an environment variable with an abandoned flag", async () => {
+					const configPath = getFixturePath("eslint.config.js");
+					const filePath = getFixturePath("passing.js");
+					const input = `--config ${configPath} ${filePath}`;
+
+					process.env.ESLINT_FLAGS = "test_only,test_only_abandoned";
+
+					await stdAssert.rejects(async () => {
+						await cli.execute(input, null, true);
+					}, /The flag 'test_only_abandoned' is inactive: This feature has been abandoned\./u);
 				});
 			});
 

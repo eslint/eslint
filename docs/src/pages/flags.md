@@ -82,6 +82,16 @@ On the command line, you can specify feature flags using the `--flag` option. Yo
     args: ["--flag", "flag_one", "--flag", "flag_two", "file.js"]
 }) }}
 
+### Enable Feature Flags with Environment Variables
+
+You can also set feature flags using the `ESLINT_FLAGS` environment variable. Multiple flags can be specified as a comma-separated list. For example, here's how you can add feature flags to your `.bashrc` or `.base_profile` files:
+
+```bash
+export ESLINT_FLAGS="flag_one,flag_two"
+```
+
+This approach is especially useful in CI/CD pipelines or when you want to enable the same flags across multiple ESLint commands.
+
 ### Enable Feature Flags with the API
 
 When using the API, you can pass a `flags` array to both the `ESLint` and `Linter` classes:
