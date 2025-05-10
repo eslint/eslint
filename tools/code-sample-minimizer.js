@@ -1,5 +1,7 @@
 "use strict";
 
+/** @typedef {import("../lib/types").Linter.Parser} Parser */
+
 const evk = require("eslint-visitor-keys");
 const recast = require("recast");
 const espree = require("espree");
