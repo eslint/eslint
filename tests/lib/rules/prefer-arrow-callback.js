@@ -269,7 +269,7 @@ ruleTesterTypeScript.run("prefer-arrow-callback", rule, {
 		"foo(function*() {});",
 		"foo(function() { this; });",
 		{
-			code: "foo(function bar() {});",
+			code: "foo(function bar(a:string) {});",
 			options: [{ allowNamedFunctions: true }],
 		},
 		"foo(function() { (() => this); });",
@@ -294,8 +294,8 @@ ruleTesterTypeScript.run("prefer-arrow-callback", rule, {
 			errors,
 		},
 		{
-			code: "foo(function() {});",
-			output: "foo(() => {});",
+			code: "foo(function(a:string) {});",
+			output: "foo((a:string) => {});",
 			options: [{ allowNamedFunctions: true }],
 			errors,
 		},
@@ -356,7 +356,7 @@ ruleTesterTypeScript.run("prefer-arrow-callback", rule, {
 			errors,
 		},
 		{
-			code: "foo(function() { this; });",
+			code: "foo(function(a:string) { this; });",
 			output: null, // No fix applied
 			options: [{ allowUnboundThis: false }],
 			errors,

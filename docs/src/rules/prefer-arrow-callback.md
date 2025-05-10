@@ -64,6 +64,36 @@ foo(function bar(n) { return n && n + bar(n - 1); }); // OK
 
 :::
 
+This rule additionally supports TypeScript type syntax.
+
+Examples of **incorrect** TypeScript code for this rule:
+
+::: incorrect
+
+```ts
+/*eslint prefer-arrow-callback: "error"*/
+
+foo(function bar(a:string) { a; });
+
+test('foo', function (this: any) {});
+```
+
+:::
+
+Examples of **correct** TypeScript code for this rule:
+
+::: correct
+
+```ts
+/*eslint prefer-arrow-callback: "error"*/
+
+foo((a:string) => a);
+
+const foo = function foo(bar:any) {};
+```
+
+:::
+
 ## Options
 
 Access further control over this rule's behavior via an options object.
@@ -84,6 +114,30 @@ Changing this value to `true` will reverse this option's behavior by allowing us
 /* eslint prefer-arrow-callback: [ "error", { "allowNamedFunctions": true } ] */
 
 foo(function bar() {});
+```
+
+:::
+
+Examples of **incorrect** TypeScript code for this rule with `{ "allowNamedFunctions": true }`:
+
+::: incorrect
+
+```ts
+/* eslint prefer-arrow-callback: [ "error", { "allowNamedFunctions": true } ] */
+
+foo(function(a:string) {});
+```
+
+:::
+
+Examples of **correct** TypeScript code for this rule with `{ "allowNamedFunctions": true }`:
+
+::: correct
+
+```ts
+/* eslint prefer-arrow-callback: [ "error", { "allowNamedFunctions": true } ] */
+
+foo(function bar(a:string) {});
 ```
 
 :::
@@ -110,32 +164,16 @@ someArray.map(function(item) { return this.doSomething(item); }, someObject);
 
 :::
 
-This rule additionally supports TypeScript type syntax. However, it does not autofix callback `functions` that use `this` as a parameter.
+Examples of **incorrect** TypeScript code for this rule with `{ "allowUnboundThis": false }`:
 
-Examples of **incorrect** TypeScript code for this rule:
-
-:::incorrect
+::: incorrect
 
 ```ts
-/*eslint prefer-arrow-callback: "error"*/
+/* eslint prefer-arrow-callback: [ "error", { "allowUnboundThis": false } ] */
 
-foo(function bar(a:string) { a; });
+foo(function(a:string) { this; });
 
-test('foo', function (this: any) {});
-```
-
-:::
-
-Examples of **correct** TypeScript code for this rule:
-
-:::correct
-
-```ts
-/*eslint prefer-arrow-callback: "error"*/
-
-foo((a:string) => a);
-
-const foo = function foo(bar:any) {};
+foo(function(a:string) { (() => this); });
 ```
 
 :::
