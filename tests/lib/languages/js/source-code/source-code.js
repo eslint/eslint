@@ -2740,6 +2740,41 @@ describe("SourceCode", () => {
 			);
 		});
 
+		it("should return 'for' scope on ForOfStatement in functions (ES2015)", () => {
+			const { node, scope } = getScope(
+				"function f() { for (let x of xs) {} }",
+				"ForOfStatement",
+				2015,
+			);
+
+			assert.strictEqual(scope.type, "for");
+			assert.strictEqual(scope.block, node);
+			assert.deepStrictEqual(
+				scope.variables.map(v => v.name),
+				["x"],
+			);
+		});
+
+		it("should return 'block' scope on the block body of ForOfStatement in functions (ES2015)", () => {
+			const { node, scope } = getScope(
+				"function f() { for (let x of xs) {} }",
+				"ForOfStatement > BlockStatement",
+				2015,
+			);
+
+			assert.strictEqual(scope.type, "block");
+			assert.strictEqual(scope.upper.type, "for");
+			assert.strictEqual(scope.block, node);
+			assert.deepStrictEqual(
+				scope.variables.map(v => v.name),
+				[],
+			);
+			assert.deepStrictEqual(
+				scope.upper.variables.map(v => v.name),
+				["x"],
+			);
+		});
+
 		it("should shadow the same name variable by the iteration variable.", () => {
 			const { node, scope } = getScope(
 				"let x; for (let x of x) {}",
@@ -3417,7 +3452,7 @@ describe("SourceCode", () => {
 
 	describe("applyInlineConfig()", () => {
 		it("should add inline globals", () => {
-			const code = "/*global bar: true */ foo; bar;";
+			const code = "/*global bar: true */ foo;";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const scopeManager = eslintScope.analyze(ast, {
 				ignoreEval: true,
@@ -3590,7 +3625,8 @@ describe("SourceCode", () => {
 		});
 
 		it("should correctly identify global references", () => {
-			const code = "undefined; globalThis; NaN; Object; Boolean; String; Math; Date; Array; Map; Set; var foo; foo;";
+			const code =
+				"undefined; globalThis; NaN; Object; Boolean; String; Math; Date; Array; Map; Set; var foo; foo;";
 			let identifierSpy;
 
 			const config = {
@@ -3600,20 +3636,39 @@ describe("SourceCode", () => {
 							checker: {
 								create(context) {
 									const sourceCode = context.sourceCode;
-									const globals = new Set(["undefined", "globalThis", "NaN", "Object", "Boolean", "String", "Math", "Date", "Array", "Map", "Set"]);
-									
-									identifierSpy = sinon.spy((node) => {
+									const globals = new Set([
+										"undefined",
+										"globalThis",
+										"NaN",
+										"Object",
+										"Boolean",
+										"String",
+										"Math",
+										"Date",
+										"Array",
+										"Map",
+										"Set",
+									]);
+
+									identifierSpy = sinon.spy(node => {
 										if (globals.has(node.name)) {
 											assert.isTrue(
-												sourceCode.isGlobalReference(node), 
-												`Expected ${node.name} to be identified as a global reference`
+												sourceCode.isGlobalReference(
+													node,
+												),
+												`Expected ${node.name} to be identified as a global reference`,
 											);
 										} else if (node.name === "foo") {
 											// The second "foo" reference (not the declaration) should not be a global reference
-											if (node.parent.type !== "VariableDeclarator") {
+											if (
+												node.parent.type !==
+												"VariableDeclarator"
+											) {
 												assert.isFalse(
-													sourceCode.isGlobalReference(node),
-													"Expected local variable to not be identified as a global reference"
+													sourceCode.isGlobalReference(
+														node,
+													),
+													"Expected local variable to not be identified as a global reference",
 												);
 											}
 										}
@@ -3630,7 +3685,10 @@ describe("SourceCode", () => {
 
 			flatLinter.verify(code, config);
 			assert(identifierSpy.called, "Identifier spy was not called.");
-			assert(identifierSpy.callCount > 10, "Identifier spy was not called enough times.");
+			assert(
+				identifierSpy.callCount > 10,
+				"Identifier spy was not called enough times.",
+			);
 		});
 
 		it("should handle function parameters and shadowed globals", () => {
@@ -3646,18 +3704,33 @@ describe("SourceCode", () => {
 									const sourceCode = context.sourceCode;
 
 									spy = sinon.spy(functionDecl => {
-										const blockStatement = functionDecl.body;
+										const blockStatement =
+											functionDecl.body;
 
 										// Function parameter references
-										const paramRef = blockStatement.body[0].expression;
-										const consoleRef = blockStatement.body[1].expression;
+										const paramRef =
+											blockStatement.body[0].expression;
+										const consoleRef =
+											blockStatement.body[1].expression;
 
-										assert.strictEqual(paramRef.name, "param");
-										assert.strictEqual(consoleRef.name, "console");
+										assert.strictEqual(
+											paramRef.name,
+											"param",
+										);
+										assert.strictEqual(
+											consoleRef.name,
+											"console",
+										);
 
-										assert.isFalse(sourceCode.isGlobalReference(paramRef));
 										assert.isFalse(
-											sourceCode.isGlobalReference(consoleRef),
+											sourceCode.isGlobalReference(
+												paramRef,
+											),
+										);
+										assert.isFalse(
+											sourceCode.isGlobalReference(
+												consoleRef,
+											),
 										);
 									});
 
@@ -3688,10 +3761,18 @@ describe("SourceCode", () => {
 
 									spy = sinon.spy(() => {
 										const program = sourceCode.ast;
-										const mathRef = program.body[0].expression;
+										const mathRef =
+											program.body[0].expression;
 
-										assert.strictEqual(mathRef.name, "Math");
-										assert.isTrue(sourceCode.isGlobalReference(mathRef));
+										assert.strictEqual(
+											mathRef.name,
+											"Math",
+										);
+										assert.isTrue(
+											sourceCode.isGlobalReference(
+												mathRef,
+											),
+										);
 									});
 
 									return { "Program:exit": spy };
@@ -3703,7 +3784,7 @@ describe("SourceCode", () => {
 				rules: { "test/checker": "error" },
 				languageOptions: {
 					ecmaVersion: 2015,
-					sourceType: "module"
+					sourceType: "module",
 				},
 			};
 
@@ -3724,11 +3805,20 @@ describe("SourceCode", () => {
 									const sourceCode = context.sourceCode;
 
 									spy = sinon.spy(functionDecl => {
-										const blockStatement = functionDecl.body;
-										const outerRef = blockStatement.body[0].expression;
+										const blockStatement =
+											functionDecl.body;
+										const outerRef =
+											blockStatement.body[0].expression;
 
-										assert.strictEqual(outerRef.name, "outer");
-										assert.isFalse(sourceCode.isGlobalReference(outerRef));
+										assert.strictEqual(
+											outerRef.name,
+											"outer",
+										);
+										assert.isFalse(
+											sourceCode.isGlobalReference(
+												outerRef,
+											),
+										);
 									});
 
 									return { FunctionDeclaration: spy };
@@ -3755,27 +3845,50 @@ describe("SourceCode", () => {
 							checker: {
 								create(context) {
 									const sourceCode = context.sourceCode;
-									
-									identifierSpy = sinon.spy((node) => {
-										if (node.name === "String" && node.parent.type !== "MemberExpression") {
+
+									identifierSpy = sinon.spy(node => {
+										if (
+											node.name === "String" &&
+											node.parent.type !==
+												"MemberExpression"
+										) {
 											assert.isTrue(
-												sourceCode.isGlobalReference(node),
-												"Expected 'String' to be identified as a global reference"
+												sourceCode.isGlobalReference(
+													node,
+												),
+												"Expected 'String' to be identified as a global reference",
 											);
-										} else if (node.name === "length" && node.parent.type === "MemberExpression") {
+										} else if (
+											node.name === "length" &&
+											node.parent.type ===
+												"MemberExpression"
+										) {
 											assert.isFalse(
-												sourceCode.isGlobalReference(node),
-												"Expected property 'length' to not be identified as a global reference"
+												sourceCode.isGlobalReference(
+													node,
+												),
+												"Expected property 'length' to not be identified as a global reference",
 											);
-										} else if (node.name === "Math" && node.parent.type !== "MemberExpression") {
+										} else if (
+											node.name === "Math" &&
+											node.parent.type !==
+												"MemberExpression"
+										) {
 											assert.isTrue(
-												sourceCode.isGlobalReference(node), 
-												"Expected 'Math' to be identified as a global reference"
+												sourceCode.isGlobalReference(
+													node,
+												),
+												"Expected 'Math' to be identified as a global reference",
 											);
-										} else if (node.name === "Math" && node.parent.object.name === "obj") {
+										} else if (
+											node.name === "Math" &&
+											node.parent.object.name === "obj"
+										) {
 											assert.isFalse(
-												sourceCode.isGlobalReference(node),
-												"Expected 'obj.Math' property to not be identified as a global reference"
+												sourceCode.isGlobalReference(
+													node,
+												),
+												"Expected 'obj.Math' property to not be identified as a global reference",
 											);
 										}
 									});
@@ -3794,7 +3907,8 @@ describe("SourceCode", () => {
 		});
 
 		it("should handle destructuring assignments properly", () => {
-			const code = "const { Math } = obj; Math; const [Array] = list; Array;";
+			const code =
+				"const { Math } = obj; Math; const [Array] = list; Array;";
 			let spy;
 
 			const config = {
@@ -3804,23 +3918,35 @@ describe("SourceCode", () => {
 							checker: {
 								create(context) {
 									const sourceCode = context.sourceCode;
-									
+
 									spy = sinon.spy(() => {
 										// Get the second Math identifier (outside destructuring)
-										const mathRef = sourceCode.ast.body[1].expression;
+										const mathRef =
+											sourceCode.ast.body[1].expression;
 										// Get the second Array identifier (outside destructuring)
-										const arrayRef = sourceCode.ast.body[3].expression;
-										
-										assert.strictEqual(mathRef.name, "Math");
-										assert.strictEqual(arrayRef.name, "Array");
-										
+										const arrayRef =
+											sourceCode.ast.body[3].expression;
+
+										assert.strictEqual(
+											mathRef.name,
+											"Math",
+										);
+										assert.strictEqual(
+											arrayRef.name,
+											"Array",
+										);
+
 										assert.isFalse(
-											sourceCode.isGlobalReference(mathRef),
-											"Destructured 'Math' should not be identified as a global reference"
+											sourceCode.isGlobalReference(
+												mathRef,
+											),
+											"Destructured 'Math' should not be identified as a global reference",
 										);
 										assert.isFalse(
-											sourceCode.isGlobalReference(arrayRef),
-											"Destructured 'Array' should not be identified as a global reference"
+											sourceCode.isGlobalReference(
+												arrayRef,
+											),
+											"Destructured 'Array' should not be identified as a global reference",
 										);
 									});
 
@@ -3839,7 +3965,8 @@ describe("SourceCode", () => {
 		});
 
 		it("should handle imported names that shadow globals", () => {
-			const code = "import { Object, String } from './module'; Object; String;";
+			const code =
+				"import { Object, String } from './module'; Object; String;";
 			let spy;
 
 			const config = {
@@ -3849,21 +3976,33 @@ describe("SourceCode", () => {
 							checker: {
 								create(context) {
 									const sourceCode = context.sourceCode;
-									
+
 									spy = sinon.spy(() => {
-										const objectRef = sourceCode.ast.body[1].expression;
-										const stringRef = sourceCode.ast.body[2].expression;
-										
-										assert.strictEqual(objectRef.name, "Object");
-										assert.strictEqual(stringRef.name, "String");
-										
+										const objectRef =
+											sourceCode.ast.body[1].expression;
+										const stringRef =
+											sourceCode.ast.body[2].expression;
+
+										assert.strictEqual(
+											objectRef.name,
+											"Object",
+										);
+										assert.strictEqual(
+											stringRef.name,
+											"String",
+										);
+
 										assert.isFalse(
-											sourceCode.isGlobalReference(objectRef),
-											"Imported 'Object' should not be identified as a global reference"
+											sourceCode.isGlobalReference(
+												objectRef,
+											),
+											"Imported 'Object' should not be identified as a global reference",
 										);
 										assert.isFalse(
-											sourceCode.isGlobalReference(stringRef),
-											"Imported 'String' should not be identified as a global reference"
+											sourceCode.isGlobalReference(
+												stringRef,
+											),
+											"Imported 'String' should not be identified as a global reference",
 										);
 									});
 
@@ -3891,12 +4030,18 @@ describe("SourceCode", () => {
 							checker: {
 								create(context) {
 									const sourceCode = context.sourceCode;
-									
-									spy = sinon.spy((node) => {
-										if (node.name === "x" && node.parent.type !== "VariableDeclarator") {
+
+									spy = sinon.spy(node => {
+										if (
+											node.name === "x" &&
+											node.parent.type !==
+												"VariableDeclarator"
+										) {
 											assert.isFalse(
-												sourceCode.isGlobalReference(node),
-												"Reference in TDZ should not be identified as a global reference"
+												sourceCode.isGlobalReference(
+													node,
+												),
+												"Reference in TDZ should not be identified as a global reference",
 											);
 										}
 									});
@@ -3926,17 +4071,21 @@ describe("SourceCode", () => {
 							checker: {
 								create(context) {
 									const sourceCode = context.sourceCode;
-									
-									spy = sinon.spy((node) => {
-										if (node.parent.type === "CatchClause") {
+
+									spy = sinon.spy(node => {
+										if (
+											node.parent.type === "CatchClause"
+										) {
 											// Skip the catch parameter declaration
 											return;
 										}
-										
+
 										if (node.name === "Error") {
 											assert.isFalse(
-												sourceCode.isGlobalReference(node),
-												"Error in catch block should not be identified as a global reference"
+												sourceCode.isGlobalReference(
+													node,
+												),
+												"Error in catch block should not be identified as a global reference",
 											);
 										}
 									});
@@ -3955,7 +4104,8 @@ describe("SourceCode", () => {
 		});
 
 		it("should handle class declarations and methods", () => {
-			const code = "class MyClass { method() { Math.random(); this.Math = 5; } }";
+			const code =
+				"class MyClass { method() { Math.random(); this.Math = 5; } }";
 			let spy;
 
 			const config = {
@@ -3965,17 +4115,32 @@ describe("SourceCode", () => {
 							checker: {
 								create(context) {
 									const sourceCode = context.sourceCode;
-									
-									spy = sinon.spy((node) => {
-										if (node.name === "Math" && node.parent.type === "MemberExpression" && !node.parent.object.type === "ThisExpression") {
+
+									spy = sinon.spy(node => {
+										if (
+											node.name === "Math" &&
+											node.parent.type ===
+												"MemberExpression" &&
+											!node.parent.object.type ===
+												"ThisExpression"
+										) {
 											assert.isTrue(
-												sourceCode.isGlobalReference(node),
-												"Math in method should be identified as a global reference"
+												sourceCode.isGlobalReference(
+													node,
+												),
+												"Math in method should be identified as a global reference",
 											);
-										} else if (node.name === "Math" && node.parent.object && node.parent.object.type === "ThisExpression") {
+										} else if (
+											node.name === "Math" &&
+											node.parent.object &&
+											node.parent.object.type ===
+												"ThisExpression"
+										) {
 											assert.isFalse(
-												sourceCode.isGlobalReference(node),
-												"this.Math should not be identified as a global reference"
+												sourceCode.isGlobalReference(
+													node,
+												),
+												"this.Math should not be identified as a global reference",
 											);
 										}
 									});
@@ -3995,7 +4160,8 @@ describe("SourceCode", () => {
 		});
 
 		it("should respect /*globals*/ directive comments", () => {
-			const code = "/*globals customGlobal:writable, String:off */ customGlobal; String;";
+			const code =
+				"/*globals customGlobal:writable, String:off */ customGlobal; String;";
 			let spy;
 
 			const config = {
@@ -4005,17 +4171,21 @@ describe("SourceCode", () => {
 							checker: {
 								create(context) {
 									const sourceCode = context.sourceCode;
-									
-									spy = sinon.spy((node) => {
+
+									spy = sinon.spy(node => {
 										if (node.name === "customGlobal") {
 											assert.isTrue(
-												sourceCode.isGlobalReference(node),
-												"Variable declared in globals directive should be identified as a global reference"
+												sourceCode.isGlobalReference(
+													node,
+												),
+												"Variable declared in globals directive should be identified as a global reference",
 											);
 										} else if (node.name === "String") {
 											assert.isFalse(
-												sourceCode.isGlobalReference(node),
-												"Global turned off in directive should not be identified as a global reference"
+												sourceCode.isGlobalReference(
+													node,
+												),
+												"Global turned off in directive should not be identified as a global reference",
 											);
 										}
 									});
