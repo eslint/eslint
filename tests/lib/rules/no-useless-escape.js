@@ -279,228 +279,228 @@ ruleTester.run("no-useless-escape", rule, {
 		{ code: String.raw`/[\^]/v`, languageOptions: { ecmaVersion: 2024 } },
 		{
 			code: "var foo = /\\#/;",
-			options: [{ allowedCharacters: ["#"] }],
+			options: [{ allowRegexCharacters: ["#"] }],
 		},
 		{
 			code: "var foo = /\\;/;",
-			options: [{ allowedCharacters: [";"] }],
+			options: [{ allowRegexCharacters: [";"] }],
 		},
 		{
 			code: "var foo = /\\#\\;/;",
-			options: [{ allowedCharacters: ["#", ";"] }],
+			options: [{ allowRegexCharacters: ["#", ";"] }],
 		},
 		{
 			code: String.raw`var foo = /[ab\-]/`,
-			options: [{ allowedCharacters: ["-"] }],
+			options: [{ allowRegexCharacters: ["-"] }],
 		},
 		{
 			code: String.raw`var foo = /[\-ab]/`,
-			options: [{ allowedCharacters: ["-"] }],
+			options: [{ allowRegexCharacters: ["-"] }],
 		},
 		{
 			code: String.raw`var foo = /[ab\?]/`,
-			options: [{ allowedCharacters: ["?"] }],
+			options: [{ allowRegexCharacters: ["?"] }],
 		},
 		{
 			code: String.raw`var foo = /[ab\.]/`,
-			options: [{ allowedCharacters: ["."] }],
+			options: [{ allowRegexCharacters: ["."] }],
 		},
 		{
 			code: String.raw`var foo = /[a\|b]/`,
-			options: [{ allowedCharacters: ["|"] }],
+			options: [{ allowRegexCharacters: ["|"] }],
 		},
 		{
 			code: String.raw`var foo = /\-/`,
-			options: [{ allowedCharacters: ["-"] }],
+			options: [{ allowRegexCharacters: ["-"] }],
 		},
 		{
 			code: String.raw`var foo = /[\-]/`,
-			options: [{ allowedCharacters: ["-"] }],
+			options: [{ allowRegexCharacters: ["-"] }],
 		},
 		{
 			code: String.raw`var foo = /[ab\$]/`,
-			options: [{ allowedCharacters: ["$"] }],
+			options: [{ allowRegexCharacters: ["$"] }],
 		},
 		{
 			code: String.raw`var foo = /[\(paren]/`,
-			options: [{ allowedCharacters: ["("] }],
+			options: [{ allowRegexCharacters: ["("] }],
 		},
 		{
 			code: String.raw`var foo = /[\[]/`,
-			options: [{ allowedCharacters: ["["] }],
+			options: [{ allowRegexCharacters: ["["] }],
 		},
 		{
 			code: String.raw`var foo = /[\/]/`,
-			options: [{ allowedCharacters: ["/"] }],
+			options: [{ allowRegexCharacters: ["/"] }],
 		},
 		{
 			code: String.raw`var foo = /[\B]/`,
-			options: [{ allowedCharacters: ["B"] }],
+			options: [{ allowRegexCharacters: ["B"] }],
 		},
 		{
 			code: String.raw`var foo = /[a][\-b]/`,
-			options: [{ allowedCharacters: ["-"] }],
+			options: [{ allowRegexCharacters: ["-"] }],
 		},
 		{
 			code: String.raw`var foo = /\-[]/`,
-			options: [{ allowedCharacters: ["-"] }],
+			options: [{ allowRegexCharacters: ["-"] }],
 		},
 		{
 			code: String.raw`var foo = /[a\^]/`,
-			options: [{ allowedCharacters: ["^"] }],
+			options: [{ allowRegexCharacters: ["^"] }],
 		},
 		{
 			code: String.raw`/[^\^]/`,
-			options: [{ allowedCharacters: ["^"] }],
+			options: [{ allowRegexCharacters: ["^"] }],
 		},
 		{
 			code: String.raw`/[^\^]/u`,
-			options: [{ allowedCharacters: ["^"] }],
+			options: [{ allowRegexCharacters: ["^"] }],
 			languageOptions: { ecmaVersion: 2015 },
 		},
 		{
 			code: String.raw`/[\$]/v`,
-			options: [{ allowedCharacters: ["$"] }],
+			options: [{ allowRegexCharacters: ["$"] }],
 			languageOptions: { ecmaVersion: 2024 },
 		},
 		{
 			code: String.raw`/[\&\&]/v`,
-			options: [{ allowedCharacters: ["&"] }],
+			options: [{ allowRegexCharacters: ["&"] }],
 			languageOptions: { ecmaVersion: 2024 },
 		},
 		{
 			code: String.raw`/[\!!]/v`,
-			options: [{ allowedCharacters: ["!"] }],
+			options: [{ allowRegexCharacters: ["!"] }],
 			languageOptions: { ecmaVersion: 2024 },
 		},
 		{
 			code: String.raw`/[\##]/v`,
-			options: [{ allowedCharacters: ["#"] }],
+			options: [{ allowRegexCharacters: ["#"] }],
 			languageOptions: { ecmaVersion: 2024 },
 		},
 		{
 			code: String.raw`/[\%%]/v`,
-			options: [{ allowedCharacters: ["%"] }],
+			options: [{ allowRegexCharacters: ["%"] }],
 			languageOptions: { ecmaVersion: 2024 },
 		},
 		{
 			code: String.raw`/[\*\*]/v`,
-			options: [{ allowedCharacters: ["*"] }],
+			options: [{ allowRegexCharacters: ["*"] }],
 			languageOptions: { ecmaVersion: 2024 },
 		},
 		{
 			code: String.raw`/[\+\+]/v`,
-			options: [{ allowedCharacters: ["+"] }],
+			options: [{ allowRegexCharacters: ["+"] }],
 			languageOptions: { ecmaVersion: 2024 },
 		},
 		{
 			code: String.raw`/[\,,]/v`,
-			options: [{ allowedCharacters: [","] }],
+			options: [{ allowRegexCharacters: [","] }],
 			languageOptions: { ecmaVersion: 2024 },
 		},
 		{
 			code: String.raw`/[\..]/v`,
-			options: [{ allowedCharacters: ["."] }],
+			options: [{ allowRegexCharacters: ["."] }],
 			languageOptions: { ecmaVersion: 2024 },
 		},
 		{
 			code: String.raw`/[\:\:]/v`,
-			options: [{ allowedCharacters: [":"] }],
+			options: [{ allowRegexCharacters: [":"] }],
 			languageOptions: { ecmaVersion: 2024 },
 		},
 		{
 			code: String.raw`/[\;\;]/v`,
-			options: [{ allowedCharacters: [";"] }],
+			options: [{ allowRegexCharacters: [";"] }],
 			languageOptions: { ecmaVersion: 2024 },
 		},
 		{
 			code: String.raw`/[\<\<]/v`,
-			options: [{ allowedCharacters: ["<"] }],
+			options: [{ allowRegexCharacters: ["<"] }],
 			languageOptions: { ecmaVersion: 2024 },
 		},
 		{
 			code: String.raw`/[\=\=]/v`,
-			options: [{ allowedCharacters: ["="] }],
+			options: [{ allowRegexCharacters: ["="] }],
 			languageOptions: { ecmaVersion: 2024 },
 		},
 		{
 			code: String.raw`/[\>\>]/v`,
-			options: [{ allowedCharacters: [">"] }],
+			options: [{ allowRegexCharacters: [">"] }],
 			languageOptions: { ecmaVersion: 2024 },
 		},
 		{
 			code: String.raw`/[\?\?]/v`,
-			options: [{ allowedCharacters: ["?"] }],
+			options: [{ allowRegexCharacters: ["?"] }],
 			languageOptions: { ecmaVersion: 2024 },
 		},
 		{
 			code: String.raw`/[\@\@]/v`,
-			options: [{ allowedCharacters: ["@"] }],
+			options: [{ allowRegexCharacters: ["@"] }],
 			languageOptions: { ecmaVersion: 2024 },
 		},
 		{
 			code: "/[\\``]/v",
-			options: [{ allowedCharacters: ["`"] }],
+			options: [{ allowRegexCharacters: ["`"] }],
 			languageOptions: { ecmaVersion: 2024 },
 		},
 		{
 			code: String.raw`/[\~\~]/v`,
-			options: [{ allowedCharacters: ["~"] }],
+			options: [{ allowRegexCharacters: ["~"] }],
 			languageOptions: { ecmaVersion: 2024 },
 		},
 		{
 			code: String.raw`/[^\^\^]/v`,
-			options: [{ allowedCharacters: ["^"] }],
+			options: [{ allowRegexCharacters: ["^"] }],
 			languageOptions: { ecmaVersion: 2024 },
 		},
 		{
 			code: String.raw`/[_\^\^]/v`,
-			options: [{ allowedCharacters: ["^"] }],
+			options: [{ allowRegexCharacters: ["^"] }],
 			languageOptions: { ecmaVersion: 2024 },
 		},
 		{
 			code: String.raw`/[\&\&&\&]/v`,
-			options: [{ allowedCharacters: ["&"] }],
+			options: [{ allowRegexCharacters: ["&"] }],
 			languageOptions: { ecmaVersion: 2024 },
 		},
 		{
 			code: String.raw`/[\p{ASCII}--\.]/v`,
-			options: [{ allowedCharacters: ["."] }],
+			options: [{ allowRegexCharacters: ["."] }],
 			languageOptions: { ecmaVersion: 2024 },
 		},
 		{
 			code: String.raw`/[\p{ASCII}&&\.]/v`,
-			options: [{ allowedCharacters: ["."] }],
+			options: [{ allowRegexCharacters: ["."] }],
 			languageOptions: { ecmaVersion: 2024 },
 		},
 		{
 			code: String.raw`/[\.--[.&]]/v`,
-			options: [{ allowedCharacters: ["."] }],
+			options: [{ allowRegexCharacters: ["."] }],
 			languageOptions: { ecmaVersion: 2024 },
 		},
 		{
 			code: String.raw`/[\.&&[.&]]/v`,
-			options: [{ allowedCharacters: ["."] }],
+			options: [{ allowRegexCharacters: ["."] }],
 			languageOptions: { ecmaVersion: 2024 },
 		},
 		{
 			code: String.raw`/[\.--\.--\.]/v`,
-			options: [{ allowedCharacters: ["."] }],
+			options: [{ allowRegexCharacters: ["."] }],
 			languageOptions: { ecmaVersion: 2024 },
 		},
 		{
 			code: String.raw`/[\.&&\.&&\.]/v`,
-			options: [{ allowedCharacters: ["."] }],
+			options: [{ allowRegexCharacters: ["."] }],
 			languageOptions: { ecmaVersion: 2024 },
 		},
 		{
 			code: String.raw`/[[\.&]--[\.&]]/v`,
-			options: [{ allowedCharacters: ["."] }],
+			options: [{ allowRegexCharacters: ["."] }],
 			languageOptions: { ecmaVersion: 2024 },
 		},
 		{
 			code: String.raw`/[[\.&]&&[\.&]]/v`,
-			options: [{ allowedCharacters: ["."] }],
+			options: [{ allowRegexCharacters: ["."] }],
 			languageOptions: { ecmaVersion: 2024 },
 		},
 	],
@@ -2479,7 +2479,7 @@ ruleTester.run("no-useless-escape", rule, {
 		},
 		{
 			code: 'var foo = "\\#/";',
-			options: [{ allowedCharacters: ["#"] }],
+			options: [{ allowRegexCharacters: ["#"] }],
 			errors: [
 				{
 					line: 1,
@@ -2502,7 +2502,7 @@ ruleTester.run("no-useless-escape", rule, {
 		},
 		{
 			code: "var foo = /\\#\\@/;",
-			options: [{ allowedCharacters: ["#"] }],
+			options: [{ allowRegexCharacters: ["#"] }],
 			errors: [
 				{
 					line: 1,
@@ -2525,7 +2525,7 @@ ruleTester.run("no-useless-escape", rule, {
 		},
 		{
 			code: String.raw`var foo = /[a\@b]/`,
-			options: [{ allowedCharacters: ["#"] }],
+			options: [{ allowRegexCharacters: ["#"] }],
 			errors: [
 				{
 					line: 1,
@@ -2548,7 +2548,7 @@ ruleTester.run("no-useless-escape", rule, {
 		},
 		{
 			code: String.raw`/[\@\@]/v`,
-			options: [{ allowedCharacters: ["#"] }],
+			options: [{ allowRegexCharacters: ["#"] }],
 			languageOptions: { ecmaVersion: 2024 },
 			errors: [
 				{

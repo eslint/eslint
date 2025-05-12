@@ -4137,7 +4137,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"no-useless-escape": Linter.RuleEntry<
 		[
 			Partial<{
-				allowedCharacters: string[];
+				allowRegexCharacters: string[];
 			}>,
 		]
 	>;

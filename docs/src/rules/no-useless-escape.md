@@ -71,16 +71,16 @@ Examples of **correct** code for this rule:
 
 This rule has an object option:
 
-* `allowedCharacters` - An array of characters that should be allowed to have unnecessary escapes in regular expressions. This is useful for characters like `-` where escaping can prevent accidental character ranges. For example, in `/[0\-]/`, the escape is technically unnecessary but helps prevent the pattern from becoming a range if another character is added later (e.g., `/[0\-9]/` vs `/[0-9]/`).
+* `allowRegexCharacters` - An array of characters that should be allowed to have unnecessary escapes in regular expressions. This is useful for characters like `-` where escaping can prevent accidental character ranges. For example, in `/[0\-]/`, the escape is technically unnecessary but helps prevent the pattern from becoming a range if another character is added later (e.g., `/[0\-9]/` vs `/[0-9]/`).
 
-### allowedCharacters
+### allowRegexCharacters
 
-Examples of **incorrect** code for the `{ "allowedCharacters": ["-"] }` option:
+Examples of **incorrect** code for the `{ "allowRegexCharacters": ["-"] }` option:
 
 ::: incorrect
 
 ```js
-/*eslint no-useless-escape: ["error", { "allowedCharacters": ["-"] }]*/
+/*eslint no-useless-escape: ["error", { "allowRegexCharacters": ["-"] }]*/
 
 /\!/;
 /\@/;
@@ -89,12 +89,12 @@ Examples of **incorrect** code for the `{ "allowedCharacters": ["-"] }` option:
 
 :::
 
-Examples of **correct** code for the `{ "allowedCharacters": ["-"] }` option:
+Examples of **correct** code for the `{ "allowRegexCharacters": ["-"] }` option:
 
 ::: correct
 
 ```js
-/*eslint no-useless-escape: ["error", { "allowedCharacters": ["-"] }]*/
+/*eslint no-useless-escape: ["error", { "allowRegexCharacters": ["-"] }]*/
 
 /[0\-]/;
 /[a\-z]/;
