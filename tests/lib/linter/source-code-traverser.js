@@ -139,6 +139,21 @@ describe("SourceCodeTraverser", () => {
 			assert(emitter.emit.secondCall.calledWith("Foo:exit", dummyNode));
 		});
 
+		it("should use nodeTypeKey if provided.", () => {
+			traverser = new SourceCodeTraverser({
+				...MOCK_LANGUAGE,
+				nodeTypeKey: "customType",
+			});
+			const dummyNode = { customType: "Foo", value: 1 };
+			const sourceCode = createMockSourceCode(dummyNode);
+
+			traverser.traverseSync(sourceCode, emitter);
+
+			assert(emitter.emit.calledTwice);
+			assert(emitter.emit.firstCall.calledWith("Foo", dummyNode));
+			assert(emitter.emit.secondCall.calledWith("Foo:exit", dummyNode));
+		});
+
 		it("should generate events for nested AST nodes", () => {
 			const dummyNode = {
 				type: "Foo",
