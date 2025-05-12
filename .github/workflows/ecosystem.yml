@@ -14,18 +14,6 @@ jobs:
     test_ecosystem:
         runs-on: ubuntu-latest
 
-        strategy:
-            fail-fast: false
-            matrix:
-                plugin:
-                    - "@eslint/css"
-                    - "@eslint/json"
-                    - "@eslint/markdown"
-                    - "@eslint-community/eslint-plugin-eslint-comments"
-                    - eslint-plugin-unicorn
-                    - eslint-plugin-vue
-                    - typescript-eslint
-
         steps:
             - uses: actions/checkout@v4
             - uses: actions/setup-node@v4
@@ -34,10 +22,10 @@ jobs:
             - run: npm install
             - run: npm install -g ni
             - id: tester
-              run: npm run test:ecosystem -- --plugin ${{ matrix.plugin }}
+              run: npm run test:ecosystem -- --plugin all
             - if: steps.tester.outcome == 'failure' && github.head_ref == 'main'
               env:
                   DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
               uses: Ilshidur/action-discord@0c4b27844ba47cb1c7bee539c8eead5284ce9fa9 # v0.3.2
               with:
-                  args: "The ${{ matrix.plugin }} ecosystem test failed."
+                  args: "Ecosystem tests failed."
