@@ -108,6 +108,61 @@ describe("Config", () => {
 		});
 	});
 
+	describe("static getRuleNumericSeverity", () => {
+		it("should return 0 for 'off'", () => {
+			const result = Config.getRuleNumericSeverity("off");
+			assert.strictEqual(result, 0);
+		});
+
+		it("should return 1 for 'warn'", () => {
+			const result = Config.getRuleNumericSeverity("warn");
+			assert.strictEqual(result, 1);
+		});
+
+		it("should return 2 for 'error'", () => {
+			const result = Config.getRuleNumericSeverity("error");
+			assert.strictEqual(result, 2);
+		});
+
+		it("should return 0 for 0", () => {
+			const result = Config.getRuleNumericSeverity(0);
+			assert.strictEqual(result, 0);
+		});
+
+		it("should return 1 for 1", () => {
+			const result = Config.getRuleNumericSeverity(1);
+			assert.strictEqual(result, 1);
+		});
+
+		it("should return 2 for 2", () => {
+			const result = Config.getRuleNumericSeverity(2);
+			assert.strictEqual(result, 2);
+		});
+
+		it("should handle rule config arrays", () => {
+			const result = Config.getRuleNumericSeverity([
+				"error",
+				{ option: true },
+			]);
+			assert.strictEqual(result, 2);
+		});
+
+		it("should be case-insensitive for string values", () => {
+			const result = Config.getRuleNumericSeverity("ERROR");
+			assert.strictEqual(result, 2);
+		});
+
+		it("should return 0 for invalid severity strings", () => {
+			const result = Config.getRuleNumericSeverity("invalid");
+			assert.strictEqual(result, 0);
+		});
+
+		it("should return 0 for non-severity values", () => {
+			const result = Config.getRuleNumericSeverity(null);
+			assert.strictEqual(result, 0);
+		});
+	});
+
 	describe("constructor", () => {
 		let mockLanguage;
 
@@ -396,54 +451,6 @@ describe("Config", () => {
 
 			const rule = config.getRuleDefinition("core-rule");
 			assert.strictEqual(rule, mockRule);
-		});
-	});
-
-	describe("getRuleNumericSeverity", () => {
-		let config;
-
-		beforeEach(() => {
-			config = new Config({
-				language: "test/lang",
-				plugins: {
-					test: {
-						languages: {
-							lang: { validateLanguageOptions() {} },
-						},
-					},
-					"@": {
-						rules: {
-							"error-rule": {},
-							"warn-rule": {},
-							"off-rule": {},
-						},
-					},
-				},
-				rules: {
-					"error-rule": "error",
-					"warn-rule": "warn",
-					"off-rule": "off",
-				},
-			});
-		});
-
-		it("should return 2 for error rules", () => {
-			assert.strictEqual(config.getRuleNumericSeverity("error-rule"), 2);
-		});
-
-		it("should return 1 for warn rules", () => {
-			assert.strictEqual(config.getRuleNumericSeverity("warn-rule"), 1);
-		});
-
-		it("should return 0 for off rules", () => {
-			assert.strictEqual(config.getRuleNumericSeverity("off-rule"), 0);
-		});
-
-		it("should return 0 for non-existent rules", () => {
-			assert.strictEqual(
-				config.getRuleNumericSeverity("non-existent"),
-				0,
-			);
 		});
 	});
 

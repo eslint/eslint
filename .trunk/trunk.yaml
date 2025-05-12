@@ -7,8 +7,6 @@ cli:
 repo:
     trunk_remote_hint: github.com/eslint/eslint
 
-telemetry: off
-
 # Trunk provides extensibility via plugins. (https://docs.trunk.io/plugins)
 plugins:
     sources:
