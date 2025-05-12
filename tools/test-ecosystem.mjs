@@ -3,7 +3,6 @@
  * @author Josh Goldberg
  */
 
-"use strict";
 
 import chalk from "chalk";
 import { $ } from "execa";
