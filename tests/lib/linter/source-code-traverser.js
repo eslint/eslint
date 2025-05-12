@@ -228,17 +228,11 @@ describe("SourceCodeTraverser", () => {
 
 		it("should throw error with currentNode property when error occurs during traversal", () => {
 			const dummyNode = { type: "Foo", value: 1 };
-			const emitterWithError = Object.create(createEmitter(), {
-				emit: {
-					value() {
-						throw new Error("Test error");
-					},
-				},
-			});
+			const emitterWithError = createEmitter();
 
-			["Foo"].forEach(selector =>
-				emitterWithError.on(selector, () => {}),
-			);
+			emitterWithError.on("Foo", () => {
+				throw new Error("Test error");
+			});
 
 			const sourceCode = createMockSourceCode(dummyNode);
 
