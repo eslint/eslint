@@ -9,8 +9,8 @@ further_reading:
 
 It is NOT recommended to use the `no-return-await` rule anymore because:
 
-- `return await` on a promise will not result in an extra microtask.
-- `return await` yields a better stack trace for debugging.
+* `return await` on a promise will not result in an extra microtask.
+* `return await` yields a better stack trace for debugging.
 
 The following documentation is kept for historical context, and is not necessarily accurate anymore.
 
