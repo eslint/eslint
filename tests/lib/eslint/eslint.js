@@ -428,6 +428,10 @@ describe("ESLint", () => {
 					.returns();
 			});
 
+			afterEach(() => {
+				delete process.env.ESLINT_FLAGS;
+			});
+
 			it("should return true if the flag is present and active", () => {
 				eslint = new ESLint({
 					cwd: getFixturePath(),
@@ -435,6 +439,27 @@ describe("ESLint", () => {
 				});
 
 				assert.strictEqual(eslint.hasFlag("test_only"), true);
+			});
+
+			it("should return true if the flag is present and active with ESLINT_FLAGS", () => {
+				process.env.ESLINT_FLAGS = "test_only";
+				eslint = new ESLint({
+					cwd: getFixturePath(),
+					flags: ["test_only"],
+				});
+				assert.strictEqual(eslint.hasFlag("test_only"), true);
+			});
+
+			it("should return true for multiple flags in ESLINT_FLAGS if the flag is present and active and one is duplicated in the API", () => {
+				process.env.ESLINT_FLAGS = "test_only,test_only_2";
+
+				eslint = new ESLint({
+					cwd: getFixturePath(),
+					flags: ["test_only"], // intentional duplication
+				});
+
+				assert.strictEqual(eslint.hasFlag("test_only"), true);
+				assert.strictEqual(eslint.hasFlag("test_only_2"), true);
 			});
 
 			it("should return true for the replacement flag if an inactive flag that has been replaced is used", () => {
@@ -485,11 +510,29 @@ describe("ESLint", () => {
 				}, /The flag 'test_only_abandoned' is inactive: This feature has been abandoned/u);
 			});
 
+			it("should throw an error if an inactive flag whose feature has been abandoned is used in ESLINT_FLAGS", () => {
+				process.env.ESLINT_FLAGS = "test_only_abandoned";
+				assert.throws(() => {
+					eslint = new ESLint({
+						cwd: getFixturePath(),
+					});
+				}, /The flag 'test_only_abandoned' is inactive: This feature has been abandoned/u);
+			});
+
 			it("should throw an error if the flag is unknown", () => {
 				assert.throws(() => {
 					eslint = new ESLint({
 						cwd: getFixturePath(),
 						flags: ["foo_bar"],
+					});
+				}, /Unknown flag 'foo_bar'/u);
+			});
+
+			it("should throw an error if the flag is unknown in ESLINT_FLAGS", () => {
+				process.env.ESLINT_FLAGS = "foo_bar";
+				assert.throws(() => {
+					eslint = new ESLint({
+						cwd: getFixturePath(),
 					});
 				}, /Unknown flag 'foo_bar'/u);
 			});
