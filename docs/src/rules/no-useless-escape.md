@@ -97,8 +97,8 @@ Examples of **correct** code for the `{ "allowRegexCharacters": ["-"] }` option:
 /*eslint no-useless-escape: ["error", { "allowRegexCharacters": ["-"] }]*/
 
 /[0\-]/;
-/[a\-z]/;
-/[0\-9]/;
+/[\-9]/;
+/a\-b/;
 ```
 
 :::
