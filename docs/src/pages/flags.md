@@ -84,7 +84,7 @@ On the command line, you can specify feature flags using the `--flag` option. Yo
 
 ### Enable Feature Flags with Environment Variables
 
-You can also set feature flags using the `ESLINT_FLAGS` environment variable. Multiple flags can be specified as a comma-separated list. For example, here's how you can add feature flags to your `.bashrc` or `.base_profile` files:
+You can also set feature flags using the `ESLINT_FLAGS` environment variable. Multiple flags can be specified as a comma-separated list. For example, here's how you can add feature flags to your `.bashrc` or `.bash_profile` files:
 
 ```bash
 export ESLINT_FLAGS="flag_one,flag_two"
