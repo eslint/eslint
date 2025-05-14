@@ -448,6 +448,16 @@ describe("ESLint", () => {
 				});
 				assert.strictEqual(eslint.hasFlag("test_only"), true);
 			});
+			
+			it("should merge flags passed through API with flags passed through ESLINT_FLAGS", () => {
+				process.env.ESLINT_FLAGS = "test_only";
+				eslint = new ESLint({
+					cwd: getFixturePath(),
+					flags: ["test_only_2"],
+				});
+				assert.strictEqual(eslint.hasFlag("test_only"), true);
+				assert.strictEqual(eslint.hasFlag("test_only_2"), true);
+			});
 
 			it("should return true for multiple flags in ESLINT_FLAGS if the flag is present and active and one is duplicated in the API", () => {
 				process.env.ESLINT_FLAGS = "test_only,test_only_2";
