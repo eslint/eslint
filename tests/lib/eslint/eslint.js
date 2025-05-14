@@ -448,7 +448,7 @@ describe("ESLint", () => {
 				});
 				assert.strictEqual(eslint.hasFlag("test_only"), true);
 			});
-			
+
 			it("should merge flags passed through API with flags passed through ESLINT_FLAGS", () => {
 				process.env.ESLINT_FLAGS = "test_only";
 				eslint = new ESLint({
