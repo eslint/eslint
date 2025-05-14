@@ -445,7 +445,6 @@ describe("ESLint", () => {
 				process.env.ESLINT_FLAGS = "test_only";
 				eslint = new ESLint({
 					cwd: getFixturePath(),
-					flags: ["test_only"],
 				});
 				assert.strictEqual(eslint.hasFlag("test_only"), true);
 			});
