@@ -12,9 +12,11 @@ It is NOT recommended to use the `no-return-await` rule anymore because:
 * `return await` on a promise will not result in an extra microtask.
 * `return await` yields a better stack trace for debugging.
 
-The following documentation is kept for historical context, and is not necessarily accurate anymore.
+Historical context: When promises were first introduced, calling `return await` introduced an additional microtask, one for the `await` and one for the return value of the async function. Each extra microtask delays the computation of a result and so this rule was added to help avoid this performance trap. Later, [V8 changed the way](https://v8.dev/blog/fast-async) `return await` worked so it would create a single microtask, which means this rule is no longer necessary.
 
-The original intent of this rule was to discourage the use of `return await`, to avoid an extra microtask. However, due to the fact that JavaScript now handles native `Promise`s differently, there is no longer an extra microtask. More technical information can be found in [this V8 blog entry](https://v8.dev/blog/fast-async).
+***
+
+This rule warns on any usage of `return await`.
 
 Using `return await` inside an `async function` keeps the current function in the call stack until the Promise that is being awaited has resolved, at the cost of an extra microtask before resolving the outer Promise. `return await` can also be used in a try/catch statement to catch errors from another function that returns a Promise.
 
