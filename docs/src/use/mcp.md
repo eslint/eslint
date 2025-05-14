@@ -34,7 +34,7 @@ Alternatively, you can use the Command Palette:
 1. Press `Ctrl+Shift+P` (Windows/Linux) or `Cmd+Shift+P` (macOS)
 2. Type and select `MCP: Add Server`
 3. Select `Command (stdio)` from the dropdown
-4. Enter `npx @eslint/mcp` as the command
+4. Enter `npx @eslint/mcp@latest` as the command
 5. Type `ESLint` as the server ID
 6. Choose `Workspace Settings` to create the configuration in `.vscode/mcp.json`
 
