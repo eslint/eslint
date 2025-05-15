@@ -471,6 +471,17 @@ describe("ESLint", () => {
 				assert.strictEqual(eslint.hasFlag("test_only_2"), true);
 			});
 
+			it("should return true for multiple flags in ESLINT_FLAGS if the flag is present and active and there is leading and trailing white space", () => {
+				process.env.ESLINT_FLAGS = " test_only, test_only_2 ";
+
+				eslint = new ESLint({
+					cwd: getFixturePath(),
+				});
+
+				assert.strictEqual(eslint.hasFlag("test_only"), true);
+				assert.strictEqual(eslint.hasFlag("test_only_2"), true);
+			});
+
 			it("should return true for the replacement flag if an inactive flag that has been replaced is used", () => {
 				eslint = new ESLint({
 					cwd: getFixturePath(),
