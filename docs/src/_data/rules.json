@@ -3445,6 +3445,11 @@
                     "rule": {
                         "name": "array-bracket-spacing"
                     }
+                },
+                {
+                    "rule": {
+                        "name": "computed-property-spacing"
+                    }
                 }
             ]
         },
