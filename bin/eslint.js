@@ -157,19 +157,15 @@ ${getErrorMessage(error)}`;
 
 	// start the MCP server if `--mcp` is present
 	if (process.argv.includes("--mcp")) {
-		const { mcpServer } = require("../lib/mcp/mcp-server");
-		const {
-			StdioServerTransport,
-		} = require("@modelcontextprotocol/sdk/server/stdio.js");
+		console.warn(
+			"You can also run this command directly using 'npx @eslint/mcp@latest'.",
+		);
 
-		await mcpServer.connect(new StdioServerTransport());
+		const spawn = require("cross-spawn");
 
-		// Note: do not use console.log() because stdout is part of the server transport
-		console.error(`ESLint MCP server is running. cwd: ${process.cwd()}`);
-
-		process.on("SIGINT", () => {
-			mcpServer.close();
-			process.exitCode = 0;
+		spawn.sync("npx", ["@eslint/mcp@latest"], {
+			encoding: "utf8",
+			stdio: "inherit",
 		});
 		return;
 	}

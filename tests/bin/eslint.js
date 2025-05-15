@@ -1241,7 +1241,7 @@ describe("bin/eslint.js", () => {
 			});
 
 			child.stderr.on("data", data => {
-				assert.match(data.toString(), /ESLint MCP server is running/u);
+				assert.match(data.toString(), /@eslint\/mcp/u);
 				done();
 			});
 		});
