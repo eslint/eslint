@@ -1,8 +1,21 @@
+/**
+ * @fileoverview Unit tests for the WarningService class.
+ * @author Francesco Trotta
+ */
+
 "use strict";
+
+//------------------------------------------------------------------------------
+// Requirements
+//------------------------------------------------------------------------------
 
 const { WarningService } = require("../../../lib/services/warning-service");
 const assert = require("node:assert");
 const sinon = require("sinon");
+
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
 
 describe("WarningService", () => {
 	/** @type {WarningService} */
@@ -101,7 +114,7 @@ describe("WarningService", () => {
 			});
 		}
 
-		// Only methods in LinterWarningService are tested here.
+		// Only methods used by the Linter are tested here.
 
 		it("emitCircularFixesWarning", () => {
 			const filename = "/project/file.js";
