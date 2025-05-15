@@ -18,7 +18,7 @@ Historical context: When promises were first introduced, calling `return await` 
 
 This rule warns on any usage of `return await`.
 
-Using `return await` inside an `async function` keeps the current function in the call stack until the Promise that is being awaited has resolved, at the cost of an extra microtask before resolving the outer Promise. `return await` can also be used in a try/catch statement to catch errors from another function that returns a Promise.
+Using `return await` inside an `async function` keeps the current function in the call stack until the Promise that is being awaited has resolved. `return await` can also be used in a try/catch statement to catch errors from another function that returns a Promise.
 
 You can avoid the extra microtask by not awaiting the return value, with the trade off of the function no longer being a part of the stack trace if an error is thrown asynchronously from the Promise being returned. This can make debugging more difficult.
 
