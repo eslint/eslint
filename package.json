@@ -141,7 +141,7 @@
     "optionator": "^0.9.3"
   },
   "devDependencies": {
-    "@arethetypeswrong/cli": "^0.17.0",
+    "@arethetypeswrong/cli": "^0.18.0",
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
     "@cypress/webpack-preprocessor": "^6.0.2",
