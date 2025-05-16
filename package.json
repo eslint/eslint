@@ -195,7 +195,7 @@
     "recast": "^0.23.0",
     "regenerator-runtime": "^0.14.0",
     "semver": "^7.5.3",
-    "shelljs": "^0.9.0",
+    "shelljs": "^0.10.0",
     "sinon": "^11.0.0",
     "typescript": "^5.3.3",
     "webpack": "^5.23.0",
