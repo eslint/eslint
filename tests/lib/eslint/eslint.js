@@ -1422,16 +1422,14 @@ describe("ESLint", () => {
 				JITI_VERSIONS.forEach(jitiVersion => {
 					describe(`Loading TypeScript config files with ${jitiVersion}`, () => {
 						beforeEach(() => {
-							sinon
-								.stub(ConfigLoader, "loadJiti")
-								.callsFake(() => import(jitiVersion));
-							sinon
-								.stub(ConfigLoader, "getJitiVersion")
-								.callsFake(
-									() =>
-										require(`${jitiVersion}/package.json`)
-											.version,
-								);
+							sinon.stub(ConfigLoader, "loadJiti").callsFake(() =>
+								Promise.resolve({
+									createJiti: require(jitiVersion).createJiti,
+									version: require(
+										`${jitiVersion}/package.json`,
+									).version,
+								}),
+							);
 						});
 
 						afterEach(() => {
@@ -6349,16 +6347,14 @@ describe("ESLint", () => {
 				JITI_VERSIONS.forEach(jitiVersion => {
 					describe(`Loading TypeScript config files with ${jitiVersion}`, () => {
 						beforeEach(() => {
-							sinon
-								.stub(ConfigLoader, "loadJiti")
-								.callsFake(() => import(jitiVersion));
-							sinon
-								.stub(ConfigLoader, "getJitiVersion")
-								.callsFake(
-									() =>
-										require(`${jitiVersion}/package.json`)
-											.version,
-								);
+							sinon.stub(ConfigLoader, "loadJiti").callsFake(() =>
+								Promise.resolve({
+									createJiti: require(jitiVersion).createJiti,
+									version: require(
+										`${jitiVersion}/package.json`,
+									).version,
+								}),
+							);
 						});
 
 						afterEach(() => {
