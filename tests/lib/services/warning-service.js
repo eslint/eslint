@@ -87,12 +87,12 @@ describe("WarningService", () => {
 
 		it("emitInactiveFlagWarning", () => {
 			const flag = "unstable_foo_bar";
-			const inactivityReason = "Lorem ipsum.";
-			warningService.emitInactiveFlagWarning(flag, inactivityReason);
+			const message = `Lorem ipsum ${flag}.`;
+			warningService.emitInactiveFlagWarning(flag, message);
 
 			assert(
 				process.emitWarning.calledOnceWithExactly(
-					`The flag '${flag}' is inactive: ${inactivityReason}`,
+					message,
 					`ESLintInactiveFlag_${flag}`,
 				),
 				"Expected process.emitWarning to be called with the correct arguments",
@@ -123,8 +123,8 @@ describe("WarningService", () => {
 
 		it("emitInactiveFlagWarning", () => {
 			const flag = "unstable_foo_bar";
-			const inactivityReason = "Lorem ipsum.";
-			warningService.emitInactiveFlagWarning(flag, inactivityReason);
+			const message = `Lorem ipsum ${flag}.`;
+			warningService.emitInactiveFlagWarning(flag, message);
 		});
 	});
 });

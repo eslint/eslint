@@ -9004,7 +9004,7 @@ describe("Linter with FlatConfigArray", () => {
 			assert(
 				warningService.emitInactiveFlagWarning.calledOnceWithExactly(
 					"test_only_replaced",
-					"This flag has been renamed 'test_only' to reflect its stabilization. Please use 'test_only' instead.",
+					"The flag 'test_only_replaced' is inactive: This flag has been renamed 'test_only' to reflect its stabilization. Please use 'test_only' instead.",
 				),
 				"calls `warningService.emitInactiveFlagWarning()` once with the correct arguments",
 			);
@@ -9023,7 +9023,7 @@ describe("Linter with FlatConfigArray", () => {
 			assert(
 				warningService.emitInactiveFlagWarning.calledOnceWithExactly(
 					"test_only_enabled_by_default",
-					"This feature is now enabled by default.",
+					"The flag 'test_only_enabled_by_default' is inactive: This feature is now enabled by default.",
 				),
 				"calls `warningService.emitInactiveFlagWarning()` once with the correct arguments",
 			);
