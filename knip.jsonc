@@ -26,6 +26,8 @@
         "c8",
         // Optional peer dependency used for loading TypeScript configuration files
         "jiti",
+        "jiti-v2.0",
+        "jiti-v2.1",
       ],
     },
     "docs": {
