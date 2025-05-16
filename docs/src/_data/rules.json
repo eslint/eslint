@@ -751,7 +751,7 @@
                 "name": "no-array-constructor",
                 "description": "Disallow `Array` constructors",
                 "recommended": false,
-                "fixable": false,
+                "fixable": true,
                 "frozen": false,
                 "hasSuggestions": true
             },

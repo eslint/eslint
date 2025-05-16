@@ -3717,6 +3717,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	/**
 	 * Rule to disallow `let` or `var` variables that are read but never assigned.
 	 *
+	 * @since 9.27.0
 	 * @see https://eslint.org/docs/latest/rules/no-unassigned-vars
 	 */
 	"no-unassigned-vars": Linter.RuleEntry<[]>;

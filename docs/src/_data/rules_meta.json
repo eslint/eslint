@@ -1347,6 +1347,11 @@
     },
     "max-params": {
         "type": "suggestion",
+        "dialects": [
+            "typescript",
+            "javascript"
+        ],
+        "language": "javascript",
         "docs": {
             "description": "Enforce a maximum number of parameters in function definitions",
             "recommended": false,
@@ -1612,6 +1617,7 @@
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-array-constructor"
         },
+        "fixable": "code",
         "hasSuggestions": true
     },
     "no-async-promise-executor": {
@@ -3552,6 +3558,11 @@
     },
     "no-useless-escape": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "allowRegexCharacters": []
+            }
+        ],
         "docs": {
             "description": "Disallow unnecessary escape characters",
             "recommended": true,
