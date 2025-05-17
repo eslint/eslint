@@ -32,6 +32,7 @@ const { shouldUseFlatConfig } = require("../../../lib/eslint/eslint");
 const { defaultConfig } = require("../../../lib/config/default-config");
 const coreRules = require("../../../lib/rules");
 const espree = require("espree");
+const { WarningService } = require("../../../lib/services/warning-service");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -160,11 +161,9 @@ describe("ESLint", () => {
 
 	beforeEach(() => {
 		({ ESLint } = require("../../../lib/eslint/eslint"));
-		sinon
-			.stub(process, "emitWarning")
-			.withArgs(sinon.match.any, "ESLintIgnoreWarning")
-			.returns();
-		process.emitWarning.callThrough();
+
+		// Silence ".eslintignore" warnings for tests
+		sinon.stub(WarningService.prototype, "emitESLintIgnoreWarning");
 	});
 
 	afterEach(() => {
@@ -388,26 +387,18 @@ describe("ESLint", () => {
 				const cwd = getFixturePath("ignored-paths");
 
 				sinon.restore();
-				const processStub = sinon.stub(process, "emitWarning");
+				const emitESLintIgnoreWarningStub = sinon.stub(
+					WarningService.prototype,
+					"emitESLintIgnoreWarning",
+				);
 
 				// eslint-disable-next-line no-new -- for testing purpose only
 				new ESLint({ cwd, flags });
 
-				assert.strictEqual(
-					processStub.callCount,
-					1,
-					"calls `process.emitWarning()` once",
+				assert(
+					emitESLintIgnoreWarningStub.calledOnce,
+					"calls `warningService.emitESLintIgnoreWarning()` once",
 				);
-				assert.strictEqual(
-					processStub.getCall(0).args[0],
-					'The ".eslintignore" file is no longer supported. Switch to using the "ignores" property in "eslint.config.js": https://eslint.org/docs/latest/use/configure/migration-guide#ignoring-files',
-				);
-				assert.strictEqual(
-					processStub.getCall(0).args[1],
-					"ESLintIgnoreWarning",
-				);
-
-				processStub.restore();
 			});
 		});
 
