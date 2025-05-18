@@ -73,7 +73,7 @@ Examples of **incorrect** TypeScript code for this rule:
 ```ts
 /*eslint prefer-arrow-callback: "error"*/
 
-foo(function bar(a:string) { a; });
+foo(function bar(a: string) { a; });
 
 test('foo', function (this: any) {});
 ```
@@ -87,9 +87,9 @@ Examples of **correct** TypeScript code for this rule:
 ```ts
 /*eslint prefer-arrow-callback: "error"*/
 
-foo((a:string) => a);
+foo((a: string) => a);
 
-const foo = function foo(bar:any) {};
+const foo = function foo(bar: any) {};
 ```
 
 :::
@@ -125,7 +125,7 @@ Examples of **incorrect** TypeScript code for this rule with `{ "allowNamedFunct
 ```ts
 /* eslint prefer-arrow-callback: [ "error", { "allowNamedFunctions": true } ] */
 
-foo(function(a:string) {});
+foo(function(a: string) {});
 ```
 
 :::
@@ -137,7 +137,7 @@ Examples of **correct** TypeScript code for this rule with `{ "allowNamedFunctio
 ```ts
 /* eslint prefer-arrow-callback: [ "error", { "allowNamedFunctions": true } ] */
 
-foo(function bar(a:string) {});
+foo(function bar(a: string) {});
 ```
 
 :::
@@ -171,9 +171,9 @@ Examples of **incorrect** TypeScript code for this rule with `{ "allowUnboundThi
 ```ts
 /* eslint prefer-arrow-callback: [ "error", { "allowUnboundThis": false } ] */
 
-foo(function(a:string) { this; });
+foo(function(a: string) { this; });
 
-foo(function(a:string) { (() => this); });
+foo(function(a: string) { (() => this); });
 ```
 
 :::
