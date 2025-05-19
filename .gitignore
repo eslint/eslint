@@ -32,3 +32,5 @@ pnpm-lock.yaml
 # Docs site
 _site
 /docs/src/assets/css
+
+.cursor

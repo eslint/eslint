@@ -8,10 +8,10 @@ This documentation is for configuring plugins using the deprecated eslintrc conf
 
 You can extend ESLint with plugins in a variety of different ways. Plugins can include:
 
--   Custom rules to validate if your code meets a certain expectation, and what to do if it does not meet that expectation.
--   Custom configurations.
--   Custom environments.
--   Custom processors to extract JavaScript code from other kinds of files or preprocess code before linting.
+- Custom rules to validate if your code meets a certain expectation, and what to do if it does not meet that expectation.
+- Custom configurations.
+- Custom environments.
+- Custom processors to extract JavaScript code from other kinds of files or preprocess code before linting.
 
 ## Configure Plugins
 
@@ -74,9 +74,9 @@ A scoped package:
 
 Rules, environments, and configurations defined in plugins must be referenced with the following convention:
 
--   `eslint-plugin-foo` → `foo/a-rule`
--   `@foo/eslint-plugin` → `@foo/a-config`
--   `@foo/eslint-plugin-bar` → `@foo/bar/a-environment`
+- `eslint-plugin-foo` → `foo/a-rule`
+- `@foo/eslint-plugin` → `@foo/a-config`
+- `@foo/eslint-plugin-bar` → `@foo/bar/a-environment`
 
 For example:
 

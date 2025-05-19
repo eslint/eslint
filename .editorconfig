@@ -14,7 +14,7 @@ indent_size = 2
 [docs/rules/linebreak-style.md]
 end_of_line = disabled
 
-[{docs/rules/{indent.md,no-mixed-spaces-and-tabs.md}]
+[docs/rules/{indent.md,no-mixed-spaces-and-tabs.md}]
 indent_style = disabled
 indent_size = disabled
 

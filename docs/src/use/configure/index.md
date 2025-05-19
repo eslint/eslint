@@ -14,9 +14,9 @@ ESLint is designed to be flexible and configurable for your use case. You can tu
 
 Here are some of the options that you can configure in ESLint:
 
--   [**Globals**](./language-options#specifying-globals) - the additional global variables your script accesses during execution.
--   [**Rules**](rules) - which rules are enabled and at what error level.
--   [**Plugins**](plugins) - which third-party plugins define additional rules, languages, configs, etc. for ESLint to use.
+- [**Globals**](./language-options#specifying-globals) - the additional global variables your script accesses during execution.
+- [**Rules**](rules) - which rules are enabled and at what error level.
+- [**Plugins**](plugins) - which third-party plugins define additional rules, languages, configs, etc. for ESLint to use.
 
 All of these options give you fine-grained control over how ESLint treats your code.
 
@@ -24,33 +24,33 @@ All of these options give you fine-grained control over how ESLint treats your c
 
 [**Configuration Files**](configuration-files)
 
--   [Configuration File Format](./configuration-files#configuration-file)
--   [Configuration Objects](./configuration-files#configuration-objects)
--   [Configuring Shared Settings](./configuration-files#configuring-shared-settings)
--   [Configuration File Resolution](./configuration-files#configuration-file-resolution)
+- [Configuration File Format](./configuration-files#configuration-file)
+- [Configuration Objects](./configuration-files#configuration-objects)
+- [Configuring Shared Settings](./configuration-files#configuring-shared-settings)
+- [Configuration File Resolution](./configuration-files#configuration-file-resolution)
 
 [**Configure Language Options**](language-options)
 
--   [Specifying JavaScript Options](./language-options#specifying-javascript-options)
--   [Specifying Globals](./language-options#specifying-globals)
+- [Specifying JavaScript Options](./language-options#specifying-javascript-options)
+- [Specifying Globals](./language-options#specifying-globals)
 
 [**Configure Rules**](rules)
 
--   [Configuring Rules](./rules)
--   [Disabling Rules](./rules#disabling-rules)
+- [Configuring Rules](./rules)
+- [Disabling Rules](./rules#disabling-rules)
 
 [**Configure Plugins**](plugins)
 
--   [Configure Plugins](./plugins#configure-plugins)
--   [Specify a Processor](./plugins#specify-a-processor)
+- [Configure Plugins](./plugins#configure-plugins)
+- [Specify a Processor](./plugins#specify-a-processor)
 
 [**Configure a Parser**](./parser)
 
--   [Configure a Custom Parser](./parser#configure-a-custom-parser)
+- [Configure a Custom Parser](./parser#configure-a-custom-parser)
 
 [**Ignore Files**](ignore)
 
--   [Ignoring Files](./ignore#ignoring-files)
--   [Ignoring Directories](./ignore#ignoring-directories)
--   [Unignoring Files and Directories](./ignore#unignoring-files-and-directories)
--   [Ignored File Warnings](./ignore#ignored-file-warnings)
+- [Ignoring Files](./ignore#ignoring-files)
+- [Ignoring Directories](./ignore#ignoring-directories)
+- [Unignoring Files and Directories](./ignore#unignoring-files-and-directories)
+- [Ignored File Warnings](./ignore#ignored-file-warnings)

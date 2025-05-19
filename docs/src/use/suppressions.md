@@ -47,7 +47,7 @@ eslint --suppressions-location .github/.eslint-suppressions
 
 ## Resolving Suppressions
 
-You can address any of the reported violations by making the necessary changes to the code as usual. If you run ESLint again you will notice that a warning is reported about unused suppressions. This is because the violations have been resolved but the suppressions are still in place.
+You can address any of the reported violations by making the necessary changes to the code as usual. If you run ESLint again you will notice that it exits with a non-zero exit code and an error is reported about unused suppressions. This is because the violations have been resolved but the suppressions are still in place.
 
 ```bash
 > eslint

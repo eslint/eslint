@@ -793,6 +793,13 @@ rule = {
 	},
 };
 
+let rule2: RuleDefinition;
+rule2 = {
+	create(context) {
+		return {};
+	},
+	meta: {},
+};
 type DeprecatedRuleContextKeys =
 	| "getAncestors"
 	| "getDeclaredVariables"
@@ -938,6 +945,16 @@ linter.verify(
 	},
 	"test.js",
 );
+linter.verify(
+	SOURCE,
+	{
+		parserOptions: {
+			ecmaVersion: 3,
+			allowReserved: true,
+		},
+	},
+	"test.js",
+);
 linter.verify(SOURCE, { env: { node: true } }, "test.js");
 linter.verify(SOURCE, { globals: { foo: true } }, "test.js");
 linter.verify(SOURCE, { globals: { foo: "off" } }, "test.js");
@@ -1066,11 +1083,11 @@ linter.defineParser("custom-parser", {
 		name: "foo",
 		version: "1.2.3",
 	},
-	parseForESLint(src, opts) {
+	parseForESLint(src, opts): Linter.ESLintParseResult {
 		return {
 			ast: AST,
 			visitorKeys: {},
-			parserServices: {},
+			services: {},
 			scopeManager,
 		};
 	},
@@ -1333,6 +1350,16 @@ linterWithEslintrcConfig.verify(
 	},
 	"test.js",
 );
+linterWithEslintrcConfig.verify(
+	SOURCE,
+	{
+		parserOptions: {
+			ecmaVersion: 3,
+			allowReserved: true,
+		},
+	},
+	"test.js",
+);
 linterWithEslintrcConfig.verify(SOURCE, { env: { node: true } }, "test.js");
 linterWithEslintrcConfig.verify(SOURCE, { globals: { foo: true } }, "test.js");
 linterWithEslintrcConfig.verify(SOURCE, { globals: { foo: "off" } }, "test.js");
@@ -1488,6 +1515,7 @@ linterWithEslintrcConfig.getRules();
 				version: "1.0.0",
 				meta: {
 					name: "bar",
+					namespace: "bar",
 					version: "1.0.0",
 				},
 				configs: {
@@ -1766,6 +1794,20 @@ for (const result of results) {
 	};
 	delete result.stats;
 
+	const deprecatedRule = result.usedDeprecatedRules[0];
+	deprecatedRule.ruleId = "foo";
+	deprecatedRule.replacedBy = ["bar"];
+	deprecatedRule.info = {
+		message: "use bar instead",
+		replacedBy: [
+			{
+				rule: {
+					name: "bar",
+				},
+			},
+		],
+	};
+
 	for (const message of result.messages) {
 		message.ruleId = "foo";
 	}
@@ -1911,6 +1953,11 @@ RuleTester.it = RuleTester.itOnly = function (
 ) {};
 
 ruleTester.run("simple-valid-test", rule, {
+	valid: ["foo", "bar", { code: "foo", options: [{ allowFoo: true }] }],
+	invalid: [{ code: "bar", errors: ["baz"] }],
+});
+
+ruleTester.run("simple-valid-test", rule2, {
 	valid: ["foo", "bar", { code: "foo", options: [{ allowFoo: true }] }],
 	invalid: [{ code: "bar", errors: ["baz"] }],
 });

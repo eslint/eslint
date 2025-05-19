@@ -611,6 +611,7 @@
     },
     "eqeqeq": {
         "type": "suggestion",
+        "hasSuggestions": true,
         "docs": {
             "description": "Require the use of `===` and `!==`",
             "recommended": false,
@@ -1346,6 +1347,11 @@
     },
     "max-params": {
         "type": "suggestion",
+        "dialects": [
+            "typescript",
+            "javascript"
+        ],
+        "language": "javascript",
         "docs": {
             "description": "Enforce a maximum number of parameters in function definitions",
             "recommended": false,
@@ -1611,6 +1617,7 @@
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-array-constructor"
         },
+        "fixable": "code",
         "hasSuggestions": true
     },
     "no-async-promise-executor": {
@@ -3094,6 +3101,11 @@
     },
     "no-shadow-restricted-names": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "reportGlobalThis": false
+            }
+        ],
         "docs": {
             "description": "Disallow identifiers from shadowing restricted names",
             "recommended": true,
@@ -3253,6 +3265,19 @@
             "url": "https://eslint.org/docs/latest/rules/no-trailing-spaces"
         },
         "fixable": "whitespace"
+    },
+    "no-unassigned-vars": {
+        "type": "problem",
+        "dialects": [
+            "typescript",
+            "javascript"
+        ],
+        "language": "javascript",
+        "docs": {
+            "description": "Disallow `let` or `var` variables that are read but never assigned",
+            "recommended": false,
+            "url": "https://eslint.org/docs/latest/rules/no-unassigned-vars"
+        }
     },
     "no-undef": {
         "type": "problem",
@@ -3414,7 +3439,8 @@
                 "allowShortCircuit": false,
                 "allowTernary": false,
                 "allowTaggedTemplates": false,
-                "enforceForJSX": false
+                "enforceForJSX": false,
+                "ignoreDirectives": false
             }
         ]
     },
@@ -3532,6 +3558,11 @@
     },
     "no-useless-escape": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "allowRegexCharacters": []
+            }
+        ],
         "docs": {
             "description": "Disallow unnecessary escape characters",
             "recommended": true,

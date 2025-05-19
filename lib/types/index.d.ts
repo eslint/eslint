@@ -35,7 +35,6 @@ import type {
 	LanguageOptions as GenericLanguageOptions,
 	RuleDefinition,
 	RuleContext as CoreRuleContext,
-	RuleContextTypeOptions,
 	DeprecatedInfo,
 } from "@eslint/core";
 import { JSONSchema4 } from "json-schema";
@@ -1561,9 +1560,16 @@ export namespace Linter {
 	/**
 	 * Parser options.
 	 *
-	 * @see [Specifying Parser Options](https://eslint.org/docs/latest/use/configure/language-options-deprecated#specifying-parser-options)
+	 * @see [Specifying Parser Options](https://eslint.org/docs/latest/use/configure/language-options#specifying-parser-options)
 	 */
 	interface ParserOptions {
+		/**
+		 * Allow the use of reserved words as identifiers (if `ecmaVersion` is 3).
+		 *
+		 * @default false
+		 */
+		allowReserved?: boolean | undefined;
+
 		/**
 		 * Accepts any valid ECMAScript version number or `'latest'`:
 		 *
@@ -1620,26 +1626,54 @@ export namespace Linter {
 	}
 
 	interface LintSuggestion {
+		/** A short description. */
 		desc: string;
+
+		/** Fix result info. */
 		fix: Rule.Fix;
+
+		/** Id referencing a message for the description. */
 		messageId?: string | undefined;
 	}
 
 	interface LintMessage {
+		/** The 1-based column number. */
 		column: number;
+
+		/** The 1-based line number. */
 		line: number;
+
+		/** The 1-based column number of the end location. */
 		endColumn?: number | undefined;
+
+		/** The 1-based line number of the end location. */
 		endLine?: number | undefined;
+
+		/** The ID of the rule which makes this message. */
 		ruleId: string | null;
+
+		/** The reported message. */
 		message: string;
+
+		/** The ID of the message in the rule's meta. */
 		messageId?: string | undefined;
+
 		/**
+		 * Type of node.
 		 * @deprecated `nodeType` is deprecated and will be removed in the next major version.
 		 */
 		nodeType?: string | undefined;
+
+		/** If `true` then this is a fatal error. */
 		fatal?: true | undefined;
+
+		/** The severity of this message. */
 		severity: Exclude<Severity, 0>;
+
+		/** Information for autofix. */
 		fix?: Rule.Fix | undefined;
+
+		/** Information for suggestions. */
 		suggestions?: LintSuggestion[] | undefined;
 	}
 
@@ -1649,6 +1683,7 @@ export namespace Linter {
 	}
 
 	interface SuppressedLintMessage extends LintMessage {
+		/** The suppression info. */
 		suppressions: LintSuppression[];
 	}
 
@@ -1662,8 +1697,8 @@ export namespace Linter {
 		messages: LintMessage[];
 	}
 
-	// Temporarily loosen type for just flat config files (see #68232)
-	type NonESTreeParser = Omit<ESTreeParser, "parseForESLint"> &
+	// Temporarily loosen type for just flat config files (see https://github.com/DefinitelyTyped/DefinitelyTyped/pull/68232)
+	type NonESTreeParser = ESLint.ObjectMetaProperties &
 		(
 			| {
 					parse(text: string, options?: any): unknown;
@@ -1688,9 +1723,16 @@ export namespace Linter {
 	type Parser = NonESTreeParser | ESTreeParser;
 
 	interface ESLintParseResult {
+		/** The AST object. */
 		ast: AST.Program;
-		parserServices?: SourceCode.ParserServices | undefined;
+
+		/** The services that the parser provides. */
+		services?: SourceCode.ParserServices | undefined;
+
+		/** The scope manager of the AST. */
 		scopeManager?: Scope.ScopeManager | undefined;
+
+		/** The visitor keys of the AST. */
 		visitorKeys?: SourceCode.VisitorKeys | undefined;
 	}
 
@@ -1703,8 +1745,13 @@ export namespace Linter {
 	interface Processor<
 		T extends string | ProcessorFile = string | ProcessorFile,
 	> extends ESLint.ObjectMetaProperties {
+		/** If `true` then it means the processor supports autofix. */
 		supportsAutofix?: boolean | undefined;
+
+		/** The function to extract code blocks. */
 		preprocess?(text: string, filename: string): T[];
+
+		/** The function to merge messages. */
 		postprocess?(
 			messages: LintMessage[][],
 			filename: string,
@@ -1845,6 +1892,9 @@ export namespace Linter {
 		reportUnusedInlineConfigs?: Severity | StringSeverity;
 	}
 
+	/**
+	 * Performance statistics.
+	 */
 	interface Stats {
 		/**
 		 * The number of times ESLint has applied at least one fix after linting.
@@ -1858,9 +1908,24 @@ export namespace Linter {
 	}
 
 	interface TimePass {
+		/**
+		 * The parse object containing all parse time information.
+		 */
 		parse: { total: number };
+
+		/**
+		 * The rules object containing all lint time information for each rule.
+		 */
 		rules?: Record<string, { total: number }>;
+
+		/**
+		 * The fix object containing all fix time information.
+		 */
 		fix: { total: number };
+
+		/**
+		 * The total time that is spent on (parsing, fixing, linting) a file.
+		 */
 		total: number;
 	}
 }
@@ -1916,7 +1981,10 @@ export namespace ESLint {
 		Omit<Linter.LegacyConfig<Rules>, "$schema">;
 
 	interface Environment {
+		/** The definition of global variables. */
 		globals?: Linter.Globals | undefined;
+
+		/** The parser options that will be enabled under this environment. */
 		parserOptions?: Linter.ParserOptions | undefined;
 	}
 
@@ -1934,6 +2002,9 @@ export namespace ESLint {
 	}
 
 	interface Plugin extends ObjectMetaProperties {
+		meta?: ObjectMetaProperties["meta"] & {
+			namespace?: string | undefined;
+		};
 		configs?:
 			| Record<
 					string,
@@ -2020,21 +2091,48 @@ export namespace ESLint {
 		flags?: string[] | undefined;
 	}
 
+	/** A linting result. */
 	interface LintResult {
+		/** The path to the file that was linted. */
 		filePath: string;
+
+		/** All of the messages for the result. */
 		messages: Linter.LintMessage[];
+
+		/** All of the suppressed messages for the result. */
 		suppressedMessages: Linter.SuppressedLintMessage[];
+
+		/** Number of errors for the result. */
 		errorCount: number;
+
+		/** Number of fatal errors for the result. */
 		fatalErrorCount: number;
+
+		/** Number of warnings for the result. */
 		warningCount: number;
+
+		/** Number of fixable errors for the result. */
 		fixableErrorCount: number;
+
+		/** Number of fixable warnings for the result. */
 		fixableWarningCount: number;
+
+		/** The source code of the file that was linted, with as many fixes applied as possible. */
 		output?: string | undefined;
+
+		/** The source code of the file that was linted. */
 		source?: string | undefined;
+
+		/** The performance statistics collected with the `stats` flag. */
 		stats?: Linter.Stats | undefined;
+
+		/** The list of used deprecated rules. */
 		usedDeprecatedRules: DeprecatedRuleUse[];
 	}
 
+	/**
+	 * Information provided when the maximum warning threshold is exceeded.
+	 */
 	interface MaxWarningsExceeded {
 		/**
 		 * Number of warnings to trigger nonzero exit code.
@@ -2055,12 +2153,34 @@ export namespace ESLint {
 		};
 	}
 
+	/**
+	 * Information about deprecated rules.
+	 */
 	interface DeprecatedRuleUse {
+		/**
+		 * The rule ID.
+		 */
 		ruleId: string;
+
+		/**
+		 * The rule IDs that replace this deprecated rule.
+		 */
 		replacedBy: string[];
+
+		/**
+		 * The raw deprecated info provided by the rule.
+		 * Unset if the rule's `meta.deprecated` property is a boolean.
+		 */
+		info?: DeprecatedInfo;
 	}
 
+	/**
+	 * Metadata about results for formatters.
+	 */
 	interface ResultsMeta {
+		/**
+		 * Present if the maxWarnings threshold was exceeded.
+		 */
 		maxWarningsExceeded?: MaxWarningsExceeded | undefined;
 	}
 
@@ -2121,7 +2241,7 @@ export class RuleTester {
 
 	run(
 		name: string,
-		rule: Rule.RuleModule,
+		rule: RuleDefinition,
 		tests: {
 			valid: Array<string | RuleTester.ValidTestCase>;
 			invalid: RuleTester.InvalidTestCase[];

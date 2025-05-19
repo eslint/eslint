@@ -71,6 +71,13 @@ ruleTester.run("eqeqeq", rule, {
 					messageId: "unexpected",
 					data: wantedEqEqEq,
 					type: "BinaryExpression",
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "a === b",
+						},
+					],
 				},
 			],
 		},
@@ -81,6 +88,13 @@ ruleTester.run("eqeqeq", rule, {
 					messageId: "unexpected",
 					data: wantedNotEqEq,
 					type: "BinaryExpression",
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedNotEqEq,
+							output: "a !== b",
+						},
+					],
 				},
 			],
 		},
@@ -182,6 +196,13 @@ ruleTester.run("eqeqeq", rule, {
 					messageId: "unexpected",
 					data: wantedEqEqEq,
 					type: "BinaryExpression",
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "a === null",
+						},
+					],
 				},
 			],
 		},
@@ -193,6 +214,13 @@ ruleTester.run("eqeqeq", rule, {
 					messageId: "unexpected",
 					data: wantedEqEqEq,
 					type: "BinaryExpression",
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "a === null",
+						},
+					],
 				},
 			],
 		},
@@ -203,6 +231,13 @@ ruleTester.run("eqeqeq", rule, {
 					messageId: "unexpected",
 					data: wantedNotEqEq,
 					type: "BinaryExpression",
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedNotEqEq,
+							output: "null !== a",
+						},
+					],
 				},
 			],
 		},
@@ -214,6 +249,13 @@ ruleTester.run("eqeqeq", rule, {
 					messageId: "unexpected",
 					data: wantedEqEqEq,
 					type: "BinaryExpression",
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "true === 1",
+						},
+					],
 				},
 			],
 		},
@@ -225,6 +267,13 @@ ruleTester.run("eqeqeq", rule, {
 					messageId: "unexpected",
 					data: wantedNotEqEq,
 					type: "BinaryExpression",
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedNotEqEq,
+							output: "0 !== '1'",
+						},
+					],
 				},
 			],
 		},
@@ -236,6 +285,13 @@ ruleTester.run("eqeqeq", rule, {
 					messageId: "unexpected",
 					data: wantedEqEqEq,
 					type: "BinaryExpression",
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "'wee' === /wee/",
+						},
+					],
 				},
 			],
 		},
@@ -307,6 +363,13 @@ ruleTester.run("eqeqeq", rule, {
 					messageId: "unexpected",
 					data: wantedEqEqEq,
 					type: "BinaryExpression",
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "true === null",
+						},
+					],
 				},
 			],
 		},
@@ -318,6 +381,13 @@ ruleTester.run("eqeqeq", rule, {
 					messageId: "unexpected",
 					data: wantedNotEqEq,
 					type: "BinaryExpression",
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedNotEqEq,
+							output: "true !== null",
+						},
+					],
 				},
 			],
 		},
@@ -353,6 +423,13 @@ ruleTester.run("eqeqeq", rule, {
 					messageId: "unexpected",
 					data: wantedEqEq,
 					type: "BinaryExpression",
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEq,
+							output: "true == null",
+						},
+					],
 				},
 			],
 		},
@@ -364,6 +441,13 @@ ruleTester.run("eqeqeq", rule, {
 					messageId: "unexpected",
 					data: wantedNotEq,
 					type: "BinaryExpression",
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedNotEq,
+							output: "true != null",
+						},
+					],
 				},
 			],
 		},
@@ -399,6 +483,13 @@ ruleTester.run("eqeqeq", rule, {
 					data: wantedEqEqEq,
 					type: "BinaryExpression",
 					line: 2,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "a\n===\nb",
+						},
+					],
 				},
 			],
 		},
@@ -410,6 +501,13 @@ ruleTester.run("eqeqeq", rule, {
 					data: wantedEqEqEq,
 					type: "BinaryExpression",
 					line: 1,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "(a) === b",
+						},
+					],
 				},
 			],
 		},
@@ -421,6 +519,13 @@ ruleTester.run("eqeqeq", rule, {
 					data: wantedNotEqEq,
 					type: "BinaryExpression",
 					line: 1,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedNotEqEq,
+							output: "(a) !== b",
+						},
+					],
 				},
 			],
 		},
@@ -432,6 +537,13 @@ ruleTester.run("eqeqeq", rule, {
 					data: wantedEqEqEq,
 					type: "BinaryExpression",
 					line: 1,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "a === (b)",
+						},
+					],
 				},
 			],
 		},
@@ -443,6 +555,13 @@ ruleTester.run("eqeqeq", rule, {
 					data: wantedNotEqEq,
 					type: "BinaryExpression",
 					line: 1,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedNotEqEq,
+							output: "a !== (b)",
+						},
+					],
 				},
 			],
 		},
@@ -454,6 +573,13 @@ ruleTester.run("eqeqeq", rule, {
 					data: wantedEqEqEq,
 					type: "BinaryExpression",
 					line: 1,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "(a) === (b)",
+						},
+					],
 				},
 			],
 		},
@@ -465,6 +591,13 @@ ruleTester.run("eqeqeq", rule, {
 					data: wantedNotEqEq,
 					type: "BinaryExpression",
 					line: 1,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedNotEqEq,
+							output: "(a) !== (b)",
+						},
+					],
 				},
 			],
 		},
@@ -476,12 +609,26 @@ ruleTester.run("eqeqeq", rule, {
 					data: wantedEqEqEq,
 					type: "BinaryExpression",
 					line: 1,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "(a === b) == (c)",
+						},
+					],
 				},
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
 					type: "BinaryExpression",
 					line: 1,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "(a == b) === (c)",
+						},
+					],
 				},
 			],
 		},
@@ -493,12 +640,26 @@ ruleTester.run("eqeqeq", rule, {
 					data: wantedNotEqEq,
 					type: "BinaryExpression",
 					line: 1,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedNotEqEq,
+							output: "(a !== b) != (c)",
+						},
+					],
 				},
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
 					type: "BinaryExpression",
 					line: 1,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedNotEqEq,
+							output: "(a != b) !== (c)",
+						},
+					],
 				},
 			],
 		},
@@ -513,6 +674,13 @@ ruleTester.run("eqeqeq", rule, {
 					type: "BinaryExpression",
 					column: 3,
 					endColumn: 5,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "a === b;",
+						},
+					],
 				},
 			],
 		},
@@ -525,6 +693,13 @@ ruleTester.run("eqeqeq", rule, {
 					type: "BinaryExpression",
 					column: 2,
 					endColumn: 4,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedNotEqEq,
+							output: "a!==b;",
+						},
+					],
 				},
 			],
 		},
@@ -537,6 +712,13 @@ ruleTester.run("eqeqeq", rule, {
 					type: "BinaryExpression",
 					column: 9,
 					endColumn: 11,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "(a + b) === c;",
+						},
+					],
 				},
 			],
 		},
@@ -549,6 +731,13 @@ ruleTester.run("eqeqeq", rule, {
 					type: "BinaryExpression",
 					column: 10,
 					endColumn: 12,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedNotEqEq,
+							output: "(a + b)  !==  c;",
+						},
+					],
 				},
 			],
 		},

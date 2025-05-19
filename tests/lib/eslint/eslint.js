@@ -428,6 +428,10 @@ describe("ESLint", () => {
 					.returns();
 			});
 
+			afterEach(() => {
+				delete process.env.ESLINT_FLAGS;
+			});
+
 			it("should return true if the flag is present and active", () => {
 				eslint = new ESLint({
 					cwd: getFixturePath(),
@@ -435,6 +439,47 @@ describe("ESLint", () => {
 				});
 
 				assert.strictEqual(eslint.hasFlag("test_only"), true);
+			});
+
+			it("should return true if the flag is present and active with ESLINT_FLAGS", () => {
+				process.env.ESLINT_FLAGS = "test_only";
+				eslint = new ESLint({
+					cwd: getFixturePath(),
+				});
+				assert.strictEqual(eslint.hasFlag("test_only"), true);
+			});
+
+			it("should merge flags passed through API with flags passed through ESLINT_FLAGS", () => {
+				process.env.ESLINT_FLAGS = "test_only";
+				eslint = new ESLint({
+					cwd: getFixturePath(),
+					flags: ["test_only_2"],
+				});
+				assert.strictEqual(eslint.hasFlag("test_only"), true);
+				assert.strictEqual(eslint.hasFlag("test_only_2"), true);
+			});
+
+			it("should return true for multiple flags in ESLINT_FLAGS if the flag is present and active and one is duplicated in the API", () => {
+				process.env.ESLINT_FLAGS = "test_only,test_only_2";
+
+				eslint = new ESLint({
+					cwd: getFixturePath(),
+					flags: ["test_only"], // intentional duplication
+				});
+
+				assert.strictEqual(eslint.hasFlag("test_only"), true);
+				assert.strictEqual(eslint.hasFlag("test_only_2"), true);
+			});
+
+			it("should return true for multiple flags in ESLINT_FLAGS if the flag is present and active and there is leading and trailing white space", () => {
+				process.env.ESLINT_FLAGS = " test_only, test_only_2 ";
+
+				eslint = new ESLint({
+					cwd: getFixturePath(),
+				});
+
+				assert.strictEqual(eslint.hasFlag("test_only"), true);
+				assert.strictEqual(eslint.hasFlag("test_only_2"), true);
 			});
 
 			it("should return true for the replacement flag if an inactive flag that has been replaced is used", () => {
@@ -485,11 +530,29 @@ describe("ESLint", () => {
 				}, /The flag 'test_only_abandoned' is inactive: This feature has been abandoned/u);
 			});
 
+			it("should throw an error if an inactive flag whose feature has been abandoned is used in ESLINT_FLAGS", () => {
+				process.env.ESLINT_FLAGS = "test_only_abandoned";
+				assert.throws(() => {
+					eslint = new ESLint({
+						cwd: getFixturePath(),
+					});
+				}, /The flag 'test_only_abandoned' is inactive: This feature has been abandoned/u);
+			});
+
 			it("should throw an error if the flag is unknown", () => {
 				assert.throws(() => {
 					eslint = new ESLint({
 						cwd: getFixturePath(),
 						flags: ["foo_bar"],
+					});
+				}, /Unknown flag 'foo_bar'/u);
+			});
+
+			it("should throw an error if the flag is unknown in ESLINT_FLAGS", () => {
+				process.env.ESLINT_FLAGS = "foo_bar";
+				assert.throws(() => {
+					eslint = new ESLint({
+						cwd: getFixturePath(),
 					});
 				}, /Unknown flag 'foo_bar'/u);
 			});
@@ -4437,6 +4500,20 @@ describe("ESLint", () => {
 									nodeType: "BinaryExpression",
 									ruleId: "eqeqeq",
 									severity: 2,
+									suggestions: [
+										{
+											data: {
+												actualOperator: "==",
+												expectedOperator: "===",
+											},
+											desc: "Use '===' instead of '=='.",
+											fix: {
+												range: [24, 26],
+												text: "===",
+											},
+											messageId: "replaceOperator",
+										},
+									],
 								},
 							],
 							suppressedMessages: [],
@@ -11350,6 +11427,20 @@ describe("ESLint", () => {
 									nodeType: "BinaryExpression",
 									ruleId: "eqeqeq",
 									severity: 2,
+									suggestions: [
+										{
+											data: {
+												actualOperator: "==",
+												expectedOperator: "===",
+											},
+											desc: "Use '===' instead of '=='.",
+											fix: {
+												range: [2, 4],
+												text: "===",
+											},
+											messageId: "replaceOperator",
+										},
+									],
 								},
 							],
 							source: "a == b",
@@ -11481,6 +11572,20 @@ describe("ESLint", () => {
 									nodeType: "BinaryExpression",
 									ruleId: "eqeqeq",
 									severity: 2,
+									suggestions: [
+										{
+											data: {
+												actualOperator: "==",
+												expectedOperator: "===",
+											},
+											desc: "Use '===' instead of '=='.",
+											fix: {
+												range: [2, 4],
+												text: "===",
+											},
+											messageId: "replaceOperator",
+										},
+									],
 								},
 							],
 							source: "a == b",
@@ -12504,7 +12609,7 @@ describe("ESLint", () => {
 			);
 		});
 
-		it("should not throw an error if the cache file to be deleted does not exist on a read-only file system", async () => {
+		it("should not attempt to delete the cache file if it does not exist", async () => {
 			cacheFilePath = getFixturePath(".eslintcache");
 			doDelete(cacheFilePath);
 			assert(
@@ -12512,17 +12617,10 @@ describe("ESLint", () => {
 				"the cache file already exists and wasn't successfully deleted",
 			);
 
-			// Simulate a read-only file system.
-			sinon.stub(fsp, "unlink").rejects(
-				Object.assign(new Error("read-only file system"), {
-					code: "EROFS",
-				}),
-			);
+			const spy = sinon.spy(fsp, "unlink");
 
 			const eslintOptions = {
 				overrideConfigFile: true,
-
-				// specifying cache false the cache will be deleted
 				cache: false,
 				cacheLocation: cacheFilePath,
 				overrideConfig: {
@@ -12541,9 +12639,80 @@ describe("ESLint", () => {
 			await eslint.lintFiles([file]);
 
 			assert(
-				fsp.unlink.calledWithExactly(cacheFilePath),
+				spy.notCalled,
 				"Expected attempt to delete the cache was not made.",
 			);
+
+			spy.restore();
+		});
+
+		it("should throw an error if the cache file to be deleted exist on a read-only file system", async () => {
+			cacheFilePath = getFixturePath(".eslintcache");
+			fs.writeFileSync(cacheFilePath, "");
+
+			// Simulate a read-only file system.
+			const unlinkStub = sinon.stub(fsp, "unlink").rejects(
+				Object.assign(new Error("read-only file system"), {
+					code: "EROFS",
+				}),
+			);
+
+			const eslintOptions = {
+				overrideConfigFile: true,
+				cache: false,
+				cacheLocation: cacheFilePath,
+				overrideConfig: {
+					rules: {
+						"no-console": 0,
+						"no-unused-vars": 2,
+					},
+				},
+				cwd: path.join(fixtureDir, ".."),
+			};
+
+			eslint = new ESLint(eslintOptions);
+
+			const file = getFixturePath("cache/src", "test-file.js");
+
+			await assert.rejects(
+				async () => await eslint.lintFiles([file]),
+				/read-only file system/u,
+			);
+
+			unlinkStub.restore();
+		});
+
+		it("should not throw an error if deleting fails but cache file no longer exists", async () => {
+			cacheFilePath = getFixturePath(".eslintcache");
+			fs.writeFileSync(cacheFilePath, "");
+
+			const unlinkStub = sinon.stub(fsp, "unlink").callsFake(() => {
+				doDelete(cacheFilePath);
+				throw new Error("Failed to delete cache file");
+			});
+
+			const eslintOptions = {
+				overrideConfigFile: true,
+				cache: false,
+				cacheLocation: cacheFilePath,
+				overrideConfig: {
+					rules: {
+						"no-console": 0,
+						"no-unused-vars": 2,
+					},
+				},
+				cwd: path.join(fixtureDir, ".."),
+			};
+
+			eslint = new ESLint(eslintOptions);
+
+			const file = getFixturePath("cache/src", "test-file.js");
+
+			await eslint.lintFiles([file]);
+
+			assert(unlinkStub.calledWithExactly(cacheFilePath));
+
+			unlinkStub.restore();
 		});
 
 		it("should store in the cache a file that has lint messages and a file that doesn't have lint messages", async () => {

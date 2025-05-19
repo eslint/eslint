@@ -338,6 +338,14 @@
                 "hasSuggestions": false
             },
             {
+                "name": "no-unassigned-vars",
+                "description": "Disallow `let` or `var` variables that are read but never assigned",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
                 "name": "no-undef",
                 "description": "Disallow the use of undeclared variables unless mentioned in `/*global */` comments",
                 "recommended": true,
@@ -585,7 +593,7 @@
                 "recommended": false,
                 "fixable": true,
                 "frozen": false,
-                "hasSuggestions": false
+                "hasSuggestions": true
             },
             {
                 "name": "func-name-matching",
@@ -743,7 +751,7 @@
                 "name": "no-array-constructor",
                 "description": "Disallow `Array` constructors",
                 "recommended": false,
-                "fixable": false,
+                "fixable": true,
                 "frozen": false,
                 "hasSuggestions": true
             },
@@ -3436,6 +3444,11 @@
                 {
                     "rule": {
                         "name": "array-bracket-spacing"
+                    }
+                },
+                {
+                    "rule": {
+                        "name": "computed-property-spacing"
                     }
                 }
             ]
