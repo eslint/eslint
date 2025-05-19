@@ -223,6 +223,63 @@ describe("SourceCodeTraverser", () => {
 			assert(emitter.emit.thirdCall.calledWith("Foo:exit", dummyNode));
 		});
 
+		it("should use provided steps instead of source code traverse", () => {
+			// Create a source code object with normal traverse behavior
+			const fooNode = { type: "Foo", value: 1 };
+			const barNode = { type: "Bar", value: 2 };
+			const sourceCode = createMockSourceCode(fooNode);
+
+			// Create custom steps that don't match sourceCode.traverse() behavior
+			const customSteps = [
+				{
+					kind: STEP_KIND_VISIT,
+					target: barNode,
+					phase: 1, // enter phase
+				},
+				{
+					kind: STEP_KIND_CALL,
+					target: "customEvent",
+					args: [barNode, "customArg"],
+				},
+				{
+					kind: STEP_KIND_VISIT,
+					target: barNode,
+					phase: 2, // exit phase
+				},
+			];
+
+			// Add a listener for the Bar node type and custom event
+			emitter.on("Bar", () => {});
+			emitter.on("Bar:exit", () => {});
+			emitter.on("customEvent", () => {});
+
+			// Call traverseSync with custom steps
+			traverser.traverseSync(sourceCode, emitter, { steps: customSteps });
+
+			// Verify that our custom steps were used, not the source code's traverse
+			assert(emitter.emit.calledThrice);
+			assert(
+				emitter.emit.firstCall.calledWith("Bar", barNode),
+				"Should call with custom Bar node",
+			);
+			assert(
+				emitter.emit.secondCall.calledWith(
+					"customEvent",
+					barNode,
+					"customArg",
+				),
+				"Should emit custom event",
+			);
+			assert(
+				emitter.emit.thirdCall.calledWith("Bar:exit", barNode),
+				"Should call exit with custom Bar node",
+			);
+			assert(
+				emitter.emit.neverCalledWith("Foo", fooNode),
+				"Should not emit events for original Foo node",
+			);
+		});
+
 		it("should throw error for invalid step kind", () => {
 			const dummyNode = { type: "Foo", value: 1 };
 			const sourceCode = {
@@ -600,7 +657,7 @@ describe("SourceCodeTraverser", () => {
 				},
 			});
 
-			possibleQueries.forEach(query => emitter.on(query, () => { }));
+			possibleQueries.forEach(query => emitter.on(query, () => {}));
 
 			const sourceCode = createMockSourceCode(ast);
 			sourceCode.visitorKeys = visitorKeys;
