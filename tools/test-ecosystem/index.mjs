@@ -53,8 +53,12 @@ async function runTests(pluginKey, pluginSettings) {
 	);
 	console.log(chalk.bold(`Testing ${pluginKey} in ${directory}`));
 
-	/** @param {string} command */
-	/** @param {string[]} args */
+	/**
+	 * Attempts to run a command in the plugin sandbox directory.
+	 * If it fails, any error stdout will be logged in red before a re-throw.
+	 * @param {string} command
+	 * @param {string[]} args
+	 */
 	const runCommand = async (command, ...args) => {
 		console.log(chalk.gray(`[${pluginKey}]`, [command, ...args].join(" ")));
 		try {
