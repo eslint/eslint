@@ -140,6 +140,13 @@ ruleTesterTypeScript.run("no-unassigned-vars", rule, {
 				}
 			}
 		`,
+		unIndent`
+			declare module 'module' {
+				import type { T } from 'module';
+				let x: T;
+				export = x;
+			}
+		`,
 	],
 	invalid: [
 		{
