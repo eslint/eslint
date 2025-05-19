@@ -187,7 +187,7 @@ You can let ESLint know which global variables your code uses with [global decla
 A source code comment that configures a rule to a different severity and/or set of options.
 
 Inline configs use similar syntax as [config files](#config-file-configuration-file) to specify any number of rules by name, their new severity, and optionally new options for the rules.
-For example, the following inline config comment simultaneously disables the [`eqeqeq`](https://eslint.org/docs/latest/rules/eqeqeq) rule and sets the [`curly`](https://eslint.org/docs/latest/rules/curly) rule to `"error"`:
+For example, the following inline config comment simultaneously disables the [`eqeqeq`](../../rules/eqeqeq) rule and sets the [`curly`](../../rules/curly) rule to `"error"`:
 
 ```js
 /* eslint eqeqeq: "off", curly: "error" */
