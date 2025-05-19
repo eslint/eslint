@@ -2172,5 +2172,65 @@ ruleTesterTypeScript.run("no-magic-numbers", rule, {
 				},
 			],
 		},
+		{
+			code: "type Foo = { bar: 2 | 3 };",
+			options: [{ ignoreNumericLiteralTypes: true }],
+			errors: [
+				{
+					column: 19,
+					data: {
+						raw: "2",
+					},
+					line: 1,
+					messageId: "noMagic",
+				},
+				{
+					column: 23,
+					data: {
+						raw: "3",
+					},
+					line: 1,
+					messageId: "noMagic",
+				},
+			],
+		},
+		{
+			code: "type Foo = { bar: Bar[((1 & -2) | 3) | 4] };",
+			options: [{ ignoreNumericLiteralTypes: true }],
+			errors: [
+				{
+					column: 25,
+					data: {
+						raw: "1",
+					},
+					line: 1,
+					messageId: "noMagic",
+				},
+				{
+					column: 29,
+					data: {
+						raw: "-2",
+					},
+					line: 1,
+					messageId: "noMagic",
+				},
+				{
+					column: 35,
+					data: {
+						raw: "3",
+					},
+					line: 1,
+					messageId: "noMagic",
+				},
+				{
+					column: 40,
+					data: {
+						raw: "4",
+					},
+					line: 1,
+					messageId: "noMagic",
+				},
+			],
+		},
 	],
 });
