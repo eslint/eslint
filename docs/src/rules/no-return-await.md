@@ -16,7 +16,7 @@ Historical context: When promises were first introduced, calling `return await` 
 
 ## Rule Details
 
-This rule warns on any usage of `return await`.
+This rule warns on any usage of `return await` except in `try` blocks.
 
 Examples of **incorrect** code for this rule:
 
