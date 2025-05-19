@@ -12,7 +12,7 @@ It is NOT recommended to use the `no-return-await` rule anymore because:
 * `return await` on a promise will not result in an extra microtask.
 * `return await` yields a better stack trace for debugging.
 
-Historical context: When promises were first introduced, calling `return await` introduced an additional microtask, one for the `await` and one for the return value of the async function. Each extra microtask delays the computation of a result and so this rule was added to help avoid this performance trap. Later, [V8 changed the way](https://v8.dev/blog/fast-async) `return await` worked so it would create a single microtask, which means this rule is no longer necessary.
+Historical context: When promises were first introduced, calling `return await` introduced an additional microtask, one for the `await` and one for the return value of the async function. Each extra microtask delays the computation of a result and so this rule was added to help avoid this performance trap. Later, [ECMA-262 changed the way](https://github.com/tc39/ecma262/pull/1250) `return await` worked so it would create a single microtask, which means this rule is no longer necessary.
 
 ## Rule Details
 
