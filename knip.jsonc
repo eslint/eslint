@@ -23,7 +23,7 @@
         "tests/fixtures/**",
       ],
       "ignoreDependencies": [
-        // Used in ecosystem.yml via execa shells
+        // Used in ecosystem.yml via nano-spawn shells
         "@antfu/ni",
         // Underlying code coverage engine used in unit tests
         "c8",

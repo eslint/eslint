@@ -8,10 +8,11 @@
 //-----------------------------------------------------------------------------
 
 import chalk from "chalk";
-import { $ } from "execa";
+import spawn from "nano-spawn";
 import fs from "node:fs/promises";
 import path from "node:path";
 import util from "node:util";
+import plugins from "./plugins.json" with { type: "json" };
 
 //-----------------------------------------------------------------------------
 // Data
@@ -20,34 +21,10 @@ import util from "node:util";
 /**
  * Settings for how to clone, set up, and test an ecosystem plugin.
  * @typedef {Object} PluginSettings
+ * @property {string} commit Hash to check out after cloning the plugin.
  * @property {string} repository Repository URL to clone the plugin from.
+ * @see {@link plugins}
  */
-
-/**
- * Plugins to test against the built ESLint.
- * Keys CLI plugin names to objects with plugin settings.
- * @type {Map<string, PluginSettings>}
- */
-const plugins = new Map([
-	["@eslint/css", { repository: "https://github.com/eslint/css" }],
-	["@eslint/json", { repository: "https://github.com/eslint/json" }],
-	["@eslint/markdown", { repository: "https://github.com/eslint/markdown" }],
-	[
-		"@eslint-community/eslint-plugin-eslint-comments",
-		{
-			repository:
-				"https://github.com/eslint-community/eslint-plugin-eslint-comments",
-		},
-	],
-	[
-		"eslint-plugin-unicorn",
-		{ repository: "https://github.com/sindresorhus/eslint-plugin-unicorn" },
-	],
-	[
-		"eslint-plugin-vue",
-		{ repository: "https://github.com/vuejs/eslint-plugin-vue" },
-	],
-]);
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -56,10 +33,11 @@ const plugins = new Map([
 /**
  * Runs ecosystem tests for a single plugin. It will:
  * 1. Clone the plugin repository into a sandbox directory
- * 2. Install the plugin's dependencies
- * 3. Link the built ESLint into the plugin
- * 4. Build, if the plugin defines a build script
- * 5. Run tests, using test:eslint-compat over test if available
+ * 2. Check out the plugin's commit to test on
+ * 3. Install the plugin's dependencies
+ * 4. Link the built ESLint into the plugin
+ * 5. Build, if the plugin defines a build script
+ * 6. Run tests
  * This intentionally does not try/catch: any errors will be thrown.
  *
  * @param {string} pluginKey
@@ -75,28 +53,44 @@ async function runTests(pluginKey, pluginSettings) {
 	);
 	console.log(chalk.bold(`Testing ${pluginKey} in ${directory}`));
 
-	// 1. Clone the plugin repository into a sandbox directory
-	await fs.mkdir(directory, { force: true });
-	await $`git clone ${pluginSettings.repository} ${directory} --depth 1`;
-
-	const shell = $({
-		cwd: directory,
-		shell: true,
-		stdio: "inherit",
-	});
-
 	/** @param {string} command */
-	const runCommand = async command => {
-		console.log(chalk.gray(`Running command: ${command}`));
-		return await shell(command);
+	/** @param {string[]} args */
+	const runCommand = async (command, ...args) => {
+		console.log(chalk.gray(`[${pluginKey}]`, [command, ...args].join(" ")));
+		try {
+			return await spawn(command, args, {
+				cwd: directory,
+			});
+		} catch (error) {
+			console.error(
+				chalk.red(`[${pluginKey}]`),
+				"stdout" in error ? error.stdout : error,
+			);
+			throw error;
+		}
 	};
 
-	// 2. Install the plugin's dependencies
-	await runCommand(`pwd`);
-	await runCommand(`ni`);
+	// 1. Clone the plugin repository into a sandbox directory
+	await fs.mkdir(directory, { force: true });
+	await runCommand(
+		"git",
+		"clone",
+		pluginSettings.repository,
+		directory,
+		"--depth",
+		"1",
+	);
 
-	// 3. Link the built ESLint into the plugin
-	await runCommand(`npm link eslint`);
+	// 2. Check out the plugin's commit to test on
+	await runCommand("git", "fetch", "origin", pluginSettings.commit);
+	await runCommand("git", "checkout", pluginSettings.commit);
+
+	// 3. Install the plugin's dependencies
+	await runCommand("pwd");
+	await runCommand("ni");
+
+	// 4. Link the built ESLint into the plugin
+	await runCommand("npm", "link", "eslint");
 
 	const packageJsonPath = path.resolve(
 		process.cwd(),
@@ -106,17 +100,13 @@ async function runTests(pluginKey, pluginSettings) {
 		with: { type: "json" },
 	});
 
-	// 4. Build, if the plugin defines a build script
+	// 5. Build, if the plugin defines a build script
 	if (packageJson.default.scripts.build) {
-		await runCommand(`nr build`);
+		await runCommand("nr", "build");
 	}
 
-	// 5. Run tests, using test:eslint-compat over test if available
-	if (packageJson.default.scripts["test:eslint-compat"]) {
-		await runCommand(`nr test:eslint-compat`);
-	} else {
-		await runCommand(`nr test`);
-	}
+	// 6. Run test
+	await runCommand("nr", "test");
 }
 
 //-----------------------------------------------------------------------------
@@ -138,12 +128,7 @@ if (!values.plugin) {
 	process.exit(1);
 }
 
-const pluginsToTest =
-	pluginRequested === "all"
-		? Array.from(plugins)
-		: [[pluginRequested, plugins.get(pluginRequested)]];
-
-if (!pluginsToTest) {
+if (pluginRequested !== "all" && !(pluginRequested in plugins)) {
 	console.error(`The plugin "${values.plugin}" is not supported.`);
 	console.error(
 		`Supported plugins are: ${Array.from(plugins.keys()).join(", ")}`,
@@ -151,6 +136,11 @@ if (!pluginsToTest) {
 	console.error(`Alternately, run with --plugin all to test all plugins.`);
 	process.exit(1);
 }
+
+const pluginsToTest =
+	pluginRequested === "all"
+		? Object.entries(plugins)
+		: [[pluginRequested, plugins[pluginRequested]]];
 
 console.log(
 	"Plugins to test:",
@@ -160,8 +150,12 @@ console.log(
 const SANDBOX_DIRECTORY = path.join(process.cwd(), "ecosystem");
 
 console.log(`Clearing existing sandbox directory: ${SANDBOX_DIRECTORY}`);
-await $`rm -rf ${SANDBOX_DIRECTORY}`;
-await $`mkdir -p ${SANDBOX_DIRECTORY}`;
+await fs.rm(SANDBOX_DIRECTORY, {
+	force: true,
+	maxRetries: 8,
+	recursive: true,
+});
+await fs.mkdir(SANDBOX_DIRECTORY, { recursive: true });
 console.log("");
 
 const errors = [];
@@ -184,7 +178,6 @@ if (errors.length) {
 		console.error(`${chalk.bold.red(pluginKey)}: ${chalk.red(error)}`);
 	}
 	process.exitCode = 1;
+} else {
+	console.log(chalk.green("All tests completed successfully."));
 }
-
-// Otherwise, we had no errors, so report a success
-console.log(chalk.green("All tests completed successfully."));
