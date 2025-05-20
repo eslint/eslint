@@ -286,6 +286,8 @@ ruleTesterTypeScript.run("prefer-arrow-callback", rule, {
 		"foo(function bar() { this; }.bind(this, somethingElse));",
 		"foo((function() {}).bind.bar)",
 		"foo((function() { this.bar(); }).bind(obj).bind(this))",
+		"test('clean', function (this: any) { this.foo = 'Cleaned!';});",
+		"obj.test('clean', function (foo) { this.foo = 'Cleaned!'; });",
 	],
 	invalid: [
 		{
