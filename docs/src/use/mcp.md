@@ -134,7 +134,7 @@ Note: MCP tool calls in Windsurf will consume credits regardless of success or f
 
 ## Example Prompts
 
-Here are some prompts you can use to run ESLint with Copilot:
+Here are some example prompts to an LLM for running ESLint and addressing its findings:
 
 ```text
 Lint the current file and explain any issues found
