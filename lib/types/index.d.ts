@@ -586,7 +586,7 @@ export namespace SourceCode {
 
 type RuleContextNode = {
 	type: string;
-	loc?: ESTree.SourceLocation | null;
+	loc?: ESTree.SourceLocation | null | undefined;
 };
 
 export namespace Rule {
