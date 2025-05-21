@@ -36,7 +36,7 @@ const readme = fs.readFileSync(README_FILE_PATH, "utf8");
 
 /**
  * Fetches the latest sponsors from the website.
- * @returns {Promise<string>}} Prerendered sponsors markdown.
+ * @returns {Promise<string>} Prerendered sponsors markdown.
  */
 async function fetchSponsorsMarkdown() {
 	return got(SPONSORS_URL).text();

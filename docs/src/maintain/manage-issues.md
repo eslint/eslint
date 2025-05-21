@@ -44,7 +44,7 @@ All of ESLint's issues and pull requests, across all GitHub repositories, are ma
 - **Implementing**: There is an open pull request for each of these issues or this is a pull request that has been approved.
 - **Second Review Needed**: Pull requests that already have one approval and the approver is requesting a second review before merging.
 - **Merge Candidates**: Pull requests that already have at least one approval and at least one approver believes the pull request is ready to merge into the next release but would still like a TSC member to verify.
-- **Completed**: The issue has been closed (either via pull request merge or by the team manually closing the issue).
+- **Complete**: The issue has been closed (either via pull request merge or by the team manually closing the issue).
 
 We make every attempt to automate movement between as many columns as we can, but sometimes moving issues needs to be done manually.
 
