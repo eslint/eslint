@@ -1838,6 +1838,29 @@ describe("ESLint", () => {
 					});
 				});
 
+				it("should handle jiti interopDefault edge cases", async () => {
+					const cwd = getFixturePath(
+						"ts-config-files",
+						"ts",
+						"jiti-interopDefault",
+					);
+
+					eslint = new ESLint({
+						cwd,
+						flags,
+					});
+
+					const results = await eslint.lintText("foo");
+
+					assert.strictEqual(results.length, 1);
+					assert.strictEqual(results[0].messages.length, 1);
+					assert.strictEqual(results[0].messages[0].severity, 2);
+					assert.strictEqual(
+						results[0].messages[0].ruleId,
+						"no-undef",
+					);
+				});
+
 				// eslint-disable-next-line n/no-unsupported-features/node-builtins -- it's still an experimental feature.
 				(typeof process.features.typescript === "string"
 					? describe
@@ -7995,6 +8018,29 @@ describe("ESLint", () => {
 						message:
 							"You are using an outdated version of the 'jiti' library. Please update to the latest version of 'jiti' to ensure compatibility and access to the latest features.",
 					});
+				});
+
+				it("should handle jiti interopDefault edge cases", async () => {
+					const cwd = getFixturePath(
+						"ts-config-files",
+						"ts",
+						"jiti-interopDefault",
+					);
+
+					eslint = new ESLint({
+						cwd,
+						flags,
+					});
+
+					const results = await eslint.lintFiles("foo.js");
+
+					assert.strictEqual(results.length, 1);
+					assert.strictEqual(results[0].messages.length, 1);
+					assert.strictEqual(results[0].messages[0].severity, 2);
+					assert.strictEqual(
+						results[0].messages[0].ruleId,
+						"no-undef",
+					);
 				});
 
 				// eslint-disable-next-line n/no-unsupported-features/node-builtins -- it's still an experimental feature.
