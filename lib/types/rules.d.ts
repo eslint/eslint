@@ -2853,7 +2853,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 				/**
 				 * @default false
 				 */
-				ignoreEnum: boolean;
+				ignoreEnums: boolean;
 				/**
 				 * @default false
 				 */
