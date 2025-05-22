@@ -619,7 +619,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @see https://eslint.org/docs/latest/rules/curly
 	 */
 	curly: Linter.RuleEntry<
-		["all" | "multi" | "multi-line" | "multi-or-nest" | "consistent"]
+		["all"] | ["multi" | "multi-line" | "multi-or-nest", "consistent"?]
 	>;
 
 	/**
