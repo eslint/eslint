@@ -3,13 +3,13 @@
 ## Project Structure
 
 - The ESLint project is organized into several directories:
-	- `bin`: Contains the command-line interface (CLI) files
-	- `conf`: Contains configuration data for ESLint
-	- `docs`: Contains the documentation website for ESLint
-	- `lib`: Contains the main source code for ESLint
-	- `messages`: Contains verbose error messages for certain errors in ESLint
-	- `tests`: Contains the test files for ESLint
-	- `tools`: Contains scripts for building, testing, and other tasks
+    - `bin`: Contains the command-line interface (CLI) files
+    - `conf`: Contains configuration data for ESLint
+    - `docs`: Contains the documentation website for ESLint
+    - `lib`: Contains the main source code for ESLint
+    - `messages`: Contains verbose error messages for certain errors in ESLint
+    - `tests`: Contains the test files for ESLint
+    - `tools`: Contains scripts for building, testing, and other tasks
 - Test files mirror the structure of the source code files they're testing
 - Configuration files are in the root directory, including `eslint.config.js`.
 
