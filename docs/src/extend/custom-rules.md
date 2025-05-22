@@ -163,7 +163,7 @@ The main method you'll use when writing custom rules is `context.report()`, whic
 
 - `messageId`: (`string`) The ID of the message (see [messageIds](#messageids)) (recommended over `message`).
 - `message`: (`string`) The problem message (alternative to `messageId`).
-- `node`: (optional `object`) The AST node related to the problem. If present and `loc` is not specified, then the starting location of the node is used as the location of the problem.
+- `node`: (optional `object`) This can be an AST node, a token, or a comment related to the problem. If present and `loc` is not specified, then the starting location of the node is used as the location of the problem.
 - `loc`: (optional `object`) Specifies the location of the problem. If both `loc` and `node` are specified, then the location is used from `loc` instead of `node`.
     - `start`: An object of the start location.
         - `line`: (`number`) The 1-based line number at which the problem occurred.
