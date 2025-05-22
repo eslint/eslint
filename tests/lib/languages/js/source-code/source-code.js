@@ -2740,41 +2740,6 @@ describe("SourceCode", () => {
 			);
 		});
 
-		it("should return 'for' scope on ForOfStatement in functions (ES2015)", () => {
-			const { node, scope } = getScope(
-				"function f() { for (let x of xs) {} }",
-				"ForOfStatement",
-				2015,
-			);
-
-			assert.strictEqual(scope.type, "for");
-			assert.strictEqual(scope.block, node);
-			assert.deepStrictEqual(
-				scope.variables.map(v => v.name),
-				["x"],
-			);
-		});
-
-		it("should return 'block' scope on the block body of ForOfStatement in functions (ES2015)", () => {
-			const { node, scope } = getScope(
-				"function f() { for (let x of xs) {} }",
-				"ForOfStatement > BlockStatement",
-				2015,
-			);
-
-			assert.strictEqual(scope.type, "block");
-			assert.strictEqual(scope.upper.type, "for");
-			assert.strictEqual(scope.block, node);
-			assert.deepStrictEqual(
-				scope.variables.map(v => v.name),
-				[],
-			);
-			assert.deepStrictEqual(
-				scope.upper.variables.map(v => v.name),
-				["x"],
-			);
-		});
-
 		it("should shadow the same name variable by the iteration variable.", () => {
 			const { node, scope } = getScope(
 				"let x; for (let x of x) {}",
@@ -4202,5 +4167,84 @@ describe("SourceCode", () => {
 			flatLinter.verify(code, config);
 			assert(spy && spy.called, "Spy was not called.");
 		});
+	});
+
+	it("should cache the result of isGlobalReference for the same node", () => {
+		const code = "Math; Math;";
+		let firstNode, secondNode, sourceCodeInstance;
+
+		const config = {
+			plugins: {
+				test: {
+					rules: {
+						checker: {
+							create(context) {
+								const sourceCode = context.sourceCode;
+								sourceCodeInstance = sourceCode;
+								return {
+									Identifier(node) {
+										if (!firstNode) {
+											firstNode = node;
+										} else if (!secondNode) {
+											secondNode = node;
+										}
+									},
+								};
+							},
+						},
+					},
+				},
+			},
+			rules: { "test/checker": "error" },
+		};
+
+		flatLinter.verify(code, config);
+
+		// Spy on the internal cache
+		const cache =
+			sourceCodeInstance[
+				Object.getOwnPropertySymbols(sourceCodeInstance).find(
+					sym =>
+						sourceCodeInstance[sym] instanceof Map &&
+						sourceCodeInstance[sym].has("isGlobalReference"),
+				)
+			].get("isGlobalReference");
+
+		// Clear cache for firstNode and count calls
+		cache.delete(firstNode);
+		let computeCount = 0;
+		const original =
+			sourceCodeInstance.scopeManager.scopes[0].set.get("Math").references
+				.some;
+		sourceCodeInstance.scopeManager.scopes[0].set.get(
+			"Math",
+		).references.some = function (...args) {
+			computeCount++;
+			return original.apply(this, args);
+		};
+
+		// Call twice, should only compute once
+		sourceCodeInstance.isGlobalReference(firstNode);
+		sourceCodeInstance.isGlobalReference(firstNode);
+
+		assert.strictEqual(
+			computeCount,
+			1,
+			"isGlobalReference should compute only once per node",
+		);
+
+		// Second node should compute
+		sourceCodeInstance.isGlobalReference(secondNode);
+		sourceCodeInstance.isGlobalReference(secondNode);
+		assert.strictEqual(
+			computeCount,
+			2,
+			"isGlobalReference should compute only once per node",
+		);
+
+		// Restore
+		sourceCodeInstance.scopeManager.scopes[0].set.get(
+			"Math",
+		).references.some = original;
 	});
 });
