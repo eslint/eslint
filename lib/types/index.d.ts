@@ -596,7 +596,7 @@ export namespace Rule {
 			Code: SourceCode;
 			RuleOptions: any[];
 			Visitor: NodeListener;
-			Node: ESTree.Node;
+			Node: RuleContextNode;
 			MessageIds: string;
 			ExtRuleDocs: {};
 		}> {
