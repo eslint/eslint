@@ -64,6 +64,7 @@ This rule has a string option:
 This rule has an object option for two exceptions:
 
 * `"allowArrowFunctions"`: `true` (default `false`) allows the use of arrow functions. This option applies only when the string option is set to `"declaration"` (arrow functions are always allowed when the string option is set to `"expression"`, regardless of this option)
+* `"allowTypeAnnotation"`: `true` (default `false`) allows the use of function expressions and arrow functions when they have type annotations, regardless of the `allowArrowFunctions` option. This option applies only when the string option is set to `"declaration"`. (TypeScript only)
 * `"overrides"`:
     * `"namedExports": "expression" | "declaration" | "ignore"`: used to override function styles in named exports
         * `"expression"`: like string option
@@ -151,6 +152,22 @@ Examples of additional **correct** code for this rule with the `"declaration", {
 /*eslint func-style: ["error", "declaration", { "allowArrowFunctions": true }]*/
 
 const foo = () => {};
+```
+
+:::
+
+### allowTypeAnnotation
+
+Examples of additional **correct** TypeScript code for this rule with the `"declaration", { "allowTypeAnnotation": true }` options:
+
+::: correct
+
+```ts
+/*eslint func-style: ["error", "declaration", { "allowTypeAnnotation": true }]*/
+
+const foo: () => void = function() {};
+
+const bar: () => void = () => {};
 ```
 
 :::

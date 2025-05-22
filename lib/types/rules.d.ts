@@ -807,6 +807,10 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default false
 				 */
 				allowArrowFunctions: boolean;
+				/**
+				 * @default false
+				 */
+				allowTypeAnnotation: boolean;
 				overrides: {
 					namedExports: "declaration" | "expression" | "ignore";
 				};
