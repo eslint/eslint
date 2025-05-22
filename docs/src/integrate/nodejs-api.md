@@ -672,7 +672,7 @@ The information available for each linting message is:
 - `line` - the line on which the error occurred.
 - `message` - the message that should be output.
 - `messageId` - the ID of the message used to generate the message (this property is omitted if the rule does not use message IDs).
-- `nodeType` - (**Deprecated:** This property will be removed in a future version of ESLint.) the node or token type that was reported with the problem.
+- `nodeType` - (**Deprecated:** This property will be removed in a future version of ESLint.) the node, comment, or token type that was reported with the problem.
 - `ruleId` - the ID of the rule that triggered the messages (or null if `fatal` is true).
 - `severity` - either 1 or 2, depending on your configuration.
 - `endColumn` - the end column of the range on which the error occurred (this property is omitted if it's not range).
