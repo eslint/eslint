@@ -150,11 +150,13 @@ describe("SourceCodeTraverser", () => {
 			const dummyNode = { customType: "Foo", value: 1 };
 			const sourceCode = createMockSourceCode(dummyNode);
 
-			traverser.traverseSync(sourceCode, emitter);
+			traverser.traverseSync(sourceCode, visitor);
 
-			assert(emitter.emit.calledTwice);
-			assert(emitter.emit.firstCall.calledWith("Foo", dummyNode));
-			assert(emitter.emit.secondCall.calledWith("Foo:exit", dummyNode));
+			assert(visitor.callSync.calledTwice);
+			assert(visitor.callSync.firstCall.calledWith("Foo", dummyNode));
+			assert(
+				visitor.callSync.secondCall.calledWith("Foo:exit", dummyNode),
+			);
 		});
 
 		it("should generate events for nested AST nodes", () => {
@@ -256,21 +258,21 @@ describe("SourceCodeTraverser", () => {
 			];
 
 			// Add a listener for the Bar node type and custom event
-			emitter.on("Bar", () => {});
-			emitter.on("Bar:exit", () => {});
-			emitter.on("customEvent", () => {});
+			visitor.add("Bar", () => {});
+			visitor.add("Bar:exit", () => {});
+			visitor.add("customEvent", () => {});
 
 			// Call traverseSync with custom steps
-			traverser.traverseSync(sourceCode, emitter, { steps: customSteps });
+			traverser.traverseSync(sourceCode, visitor, { steps: customSteps });
 
 			// Verify that our custom steps were used, not the source code's traverse
-			assert(emitter.emit.calledThrice);
+			assert(visitor.callSync.calledThrice);
 			assert(
-				emitter.emit.firstCall.calledWith("Bar", barNode),
+				visitor.callSync.firstCall.calledWith("Bar", barNode),
 				"Should call with custom Bar node",
 			);
 			assert(
-				emitter.emit.secondCall.calledWith(
+				visitor.callSync.secondCall.calledWith(
 					"customEvent",
 					barNode,
 					"customArg",
@@ -278,11 +280,11 @@ describe("SourceCodeTraverser", () => {
 				"Should emit custom event",
 			);
 			assert(
-				emitter.emit.thirdCall.calledWith("Bar:exit", barNode),
+				visitor.callSync.thirdCall.calledWith("Bar:exit", barNode),
 				"Should call exit with custom Bar node",
 			);
 			assert(
-				emitter.emit.neverCalledWith("Foo", fooNode),
+				visitor.callSync.neverCalledWith("Foo", fooNode),
 				"Should not emit events for original Foo node",
 			);
 		});
@@ -662,19 +664,19 @@ describe("SourceCodeTraverser", () => {
 		 */
 		function getEmissions(ast, visitorKeys, possibleQueries) {
 			const emissions = [];
-			const emitter = Object.create(createEmitter(), {
-				emit: {
-					value: (selector, node) => emissions.push([selector, node]),
+			const visitor = Object.assign(new SourceCodeVisitor(), {
+				callSync(selector, node) {
+					emissions.push([selector, node]);
 				},
 			});
 
-			possibleQueries.forEach(query => emitter.on(query, () => {}));
+			possibleQueries.forEach(query => visitor.add(query, () => {}));
 
 			const sourceCode = createMockSourceCode(ast);
 			sourceCode.visitorKeys = visitorKeys;
 			const traverser = SourceCodeTraverser.getInstance(jslang);
 
-			traverser.traverseSync(sourceCode, emitter);
+			traverser.traverseSync(sourceCode, visitor);
 
 			return emissions.filter(emission =>
 				possibleQueries.includes(emission[0]),
