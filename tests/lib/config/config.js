@@ -504,14 +504,62 @@ describe("Config", () => {
 			});
 
 			const json = config.toJSON();
+			assert.deepStrictEqual(json, {
+				plugins: ["test:testPlugin@1.0.0"],
+				language: "test/lang",
+				processor: "testProcessor@1.0.0",
+				languageOptions: {
+					ecmaVersion: 2022,
+					sourceType: "module",
+					parser: "testParser",
+				},
+			});
+		});
 
-			assert.deepStrictEqual(json.plugins, ["test:testPlugin@1.0.0"]);
-			assert.strictEqual(json.language, "test/lang");
-			assert.strictEqual(json.processor, "testProcessor@1.0.0");
-			assert.deepStrictEqual(json.languageOptions, {
-				ecmaVersion: 2022,
-				sourceType: "module",
-				parser: "testParser",
+		it("should serialize when a language option has a toJSON() method and a function", () => {
+			const mockLanguage = {
+				validateLanguageOptions() {},
+				normalizeLanguageOptions(options) {
+					options.syntax.toJSON = () => "syntax";
+					return options;
+				},
+				meta: {
+					name: "testLang",
+					version: "1.0.0",
+				},
+			};
+
+			const mockPlugin = {
+				meta: {
+					name: "testPlugin",
+					version: "1.0.0",
+				},
+				languages: {
+					lang: mockLanguage,
+				},
+			};
+
+			const config = new Config({
+				language: "test/lang",
+				plugins: {
+					test: mockPlugin,
+				},
+				languageOptions: {
+					syntax: {
+						atrule: {
+							name() {},
+						},
+					},
+				},
+			});
+			const json = config.toJSON();
+			assert.deepStrictEqual(json, {
+				plugins: ["test:testPlugin@1.0.0"],
+				processor: void 0,
+				language: "test/lang",
+				languageOptions: {
+					syntax: "syntax",
+				},
 			});
 		});
 

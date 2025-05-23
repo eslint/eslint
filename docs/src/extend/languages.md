@@ -88,7 +88,7 @@ The following optional members allow you to customize how ESLint interacts with 
 - `visitorKeys` - visitor keys that are specific to the AST or CST. This is used to optimize traversal of the AST or CST inside of ESLint. While not required, it is strongly recommended, especially for AST or CST formats that deviate significantly from ESTree format.
 - `defaultLanguageOptions` - default `languageOptions` when the language is used. User-specified `languageOptions` are merged with this object when calculating the config for the file being linted.
 - `matchesSelectorClass(className, node, ancestry)` - allows you to specify selector classes, such as `:expression`, that match more than one node. This method is called whenever an [esquery](https://github.com/estools/esquery) selector contains a `:` followed by an identifier.
-- `normalizeLanguageOptions(languageOptions)` - takes a validated language options object and normalizes its values. This is helpful for backwards compatibility when language options properties change.
+- `normalizeLanguageOptions(languageOptions)` - takes a validated language options object and normalizes its values. This is helpful for backwards compatibility when language options properties change and also to add custom serialization with a `toJSON()` method.
 
 See [`JSONLanguage`](https://github.com/eslint/json/blob/main/src/languages/json-language.js) as an example of a basic `Language` class.
 
