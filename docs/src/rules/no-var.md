@@ -54,6 +54,42 @@ const CONFIG = {};
 
 :::
 
+This rule additionally supports TypeScript type syntax. There are multiple ways to declare global variables in TypeScript. Only using `var` works for all cases. See this [TypeScript playground](https://www.typescriptlang.org/play/?#code/PQgEB4CcFMDNpgOwMbVAGwJYCMC8AiAEwHsBbfUYAPgFgAoew6ZdAQxlAHN1jtX1QAb3qhRGaABdQAGUkAuUAGcJkTIk4ixAN3agAauwXLV6+ptFqJCWK1SgA6mpIB3IebGjHiIyrUa6HgC+9MEMdGDcvPygtqiKivSyEvQGkPReZuHAoM5OxK6ckvS5iC4AdEnFec5lqVWl+WUZYWAlLkpFdG2NSaC4oADkA-XlqX2Dw13VTWrjQ5kRPHzoACoAFpiKXJ2Ry+ubFTtL-PuKtez0uycbZ830i1GrNx3JdFdPB73982-HH2djb6Td6nGaIOaTe7ZRTQdCwbavGFww6I2Gwc5pOhI9F3LIdOEvejYlEQolojGkrHkryU+jQAAeAAdiJApIJAkA) for reference.
+
+Examples of **incorrect** TypeScript code for this rule:
+
+:::incorrect
+
+```ts
+/*eslint no-var: "error"*/
+
+declare var x: number
+
+declare namespace ns {
+	var x: number
+}
+
+declare module 'module' {
+	var x: number
+}
+```
+
+:::
+
+Examples of **correct** TypeScript code for this rule:
+
+:::correct
+
+```ts
+/*eslint no-var: "error"*/
+
+declare global {
+    declare var x: number
+}
+```
+
+:::
+
 ## When Not To Use It
 
 In addition to non-ES6 environments, existing JavaScript projects that are beginning to introduce ES6 into their
