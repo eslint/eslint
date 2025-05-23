@@ -519,6 +519,10 @@ describe("Config", () => {
 		it("should serialize when a language option has a toJSON() method and a function", () => {
 			const mockLanguage = {
 				validateLanguageOptions() {},
+				normalizeLanguageOptions(options) {
+					options.syntax.toJSON = () => "syntax";
+					return options;
+				},
 				meta: {
 					name: "testLang",
 					version: "1.0.0",
@@ -542,8 +546,8 @@ describe("Config", () => {
 				},
 				languageOptions: {
 					syntax: {
-						toJSON() {
-							return "syntax";
+						atrule: {
+							name() {},
 						},
 					},
 				},
