@@ -344,12 +344,12 @@ describe("SourceCodeTraverser", () => {
 	describe("traversing the entire AST", () => {
 		/**
 		 * Gets a list of emitted types/selectors from the traverser, in emission order
-		 * @param {string} sourceText The source text to parse and traverse
+		 * @param {ASTNode} ast The AST to traverse
 		 * @param {Array<string>|Set<string>} possibleQueries Selectors to detect
 		 * @returns {Array[]} A list of emissions, in the order that they were emitted. Each emission is a two-element
 		 * array where the first element is a string, and the second element is the emitted AST node.
 		 */
-		function getEmissions(sourceText, possibleQueries) {
+		function getEmissions(ast, possibleQueries) {
 			const emissions = [];
 			const emitter = Object.create(createEmitter(), {
 				emit: {
@@ -359,7 +359,6 @@ describe("SourceCodeTraverser", () => {
 
 			possibleQueries.forEach(query => emitter.on(query, () => {}));
 
-			const ast = espree.parse(sourceText, ESPREE_CONFIG);
 			const sourceCode = createMockSourceCode(ast);
 			const traverser = SourceCodeTraverser.getInstance(jslang);
 
@@ -374,7 +373,7 @@ describe("SourceCodeTraverser", () => {
 		 * Creates a test case that asserts a particular sequence of traverser emissions
 		 * @param {string} sourceText The source text that should be parsed and traversed
 		 * @param {string[]} possibleQueries A collection of selectors that rules are listening for
-		 * @param {Array[]} expectedEmissions A function that accepts the AST and returns a list of the emissions that the
+		 * @param {(ast: ASTNode) => Array[]} getExpectedEmissions A function that accepts the AST and returns a list of the emissions that the
 		 * traverser is expected to produce, in order.
 		 * Each element of this list is an array where the first element is a selector (string), and the second is an AST node
 		 * This should only include emissions that appear in possibleQueries.
@@ -383,13 +382,23 @@ describe("SourceCodeTraverser", () => {
 		function assertEmissions(
 			sourceText,
 			possibleQueries,
-			expectedEmissions,
+			getExpectedEmissions,
 		) {
 			it(possibleQueries.join("; "), () => {
 				const ast = espree.parse(sourceText, ESPREE_CONFIG);
-				const emissions = getEmissions(sourceText, possibleQueries);
 
-				assert.deepStrictEqual(emissions, expectedEmissions(ast));
+				const actualEmissions = getEmissions(ast, possibleQueries);
+				const expectedEmissions = getExpectedEmissions(ast);
+
+				assert.deepStrictEqual(actualEmissions, expectedEmissions);
+
+				actualEmissions.forEach((actualEmission, index) => {
+					assert.strictEqual(
+						actualEmission[1],
+						expectedEmissions[index][1],
+						"Expected a node instance from the AST",
+					);
+				});
 			});
 		}
 
@@ -675,7 +684,7 @@ describe("SourceCodeTraverser", () => {
 		 * @param {ASTNode} ast The AST to traverse
 		 * @param {Record<string, string[]>} visitorKeys The custom visitor keys.
 		 * @param {string[]} possibleQueries A collection of selectors that rules are listening for
-		 * @param {Array[]} expectedEmissions A function that accepts the AST and returns a list of the emissions that the
+		 * @param {(ast: ASTNode) => Array[]} getExpectedEmissions A function that accepts the AST and returns a list of the emissions that the
 		 * generator is expected to produce, in order.
 		 * Each element of this list is an array where the first element is a selector (string), and the second is an AST node
 		 * This should only include emissions that appear in possibleQueries.
@@ -685,16 +694,25 @@ describe("SourceCodeTraverser", () => {
 			ast,
 			visitorKeys,
 			possibleQueries,
-			expectedEmissions,
+			getExpectedEmissions,
 		) {
 			it(possibleQueries.join("; "), () => {
-				const emissions = getEmissions(
+				const actualEmissions = getEmissions(
 					ast,
 					visitorKeys,
 					possibleQueries,
-				).filter(emission => possibleQueries.includes(emission[0]));
+				);
+				const expectedEmissions = getExpectedEmissions(ast);
 
-				assert.deepStrictEqual(emissions, expectedEmissions(ast));
+				assert.deepStrictEqual(actualEmissions, expectedEmissions);
+
+				actualEmissions.forEach((actualEmission, index) => {
+					assert.strictEqual(
+						actualEmission[1],
+						expectedEmissions[index][1],
+						"Expected a node instance from the AST",
+					);
+				});
 			});
 		}
 
