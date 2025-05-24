@@ -543,6 +543,7 @@ Once you have an instance of `SourceCode`, you can use the following methods on 
 - `getCommentsAfter(nodeOrToken)`: Returns an array of comment tokens that occur directly after the given node or token (see the [dedicated section](#accessing-comments)).
 - `getCommentsInside(node)`: Returns an array of all comment tokens inside a given node (see the [dedicated section](#accessing-comments)).
 - `isSpaceBetween(nodeOrToken, nodeOrToken)`: Returns true if there is a whitespace character between the two tokens or, if given a node, the last token of the first node and the first token of the second node.
+- `isGlobalReference(node)`: Returns true if the given identifier node is a reference to a global variable.
 - `getFirstToken(node, skipOptions)`: Returns the first token representing the given node.
 - `getFirstTokens(node, countOptions)`: Returns the first `count` tokens representing the given node.
 - `getLastToken(node, skipOptions)`: Returns the last token representing the given node.
