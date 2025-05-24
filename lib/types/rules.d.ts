@@ -3562,13 +3562,26 @@ export interface ESLintRules extends Linter.RulesRecord {
 				/**
 				 * @default 'functions'
 				 */
-				hoist: "functions" | "all" | "never";
+				hoist:
+					| "functions"
+					| "all"
+					| "never"
+					| "types"
+					| "functions-and-types";
 				allow: string[];
 				/**
 				 * @since 8.10.0
 				 * @default false
 				 */
 				ignoreOnInitialization: boolean;
+				/**
+				 * @default true
+				 */
+				ignoreTypeValueShadow: boolean;
+				/**
+				 * @default true
+				 */
+				ignoreFunctionTypeParameterNameValueShadow: boolean;
 			}>,
 		]
 	>;
