@@ -64,6 +64,36 @@ foo(function bar(n) { return n && n + bar(n - 1); }); // OK
 
 :::
 
+This rule additionally supports TypeScript type syntax.
+
+Examples of **incorrect** TypeScript code for this rule:
+
+::: incorrect
+
+```ts
+/*eslint prefer-arrow-callback: "error"*/
+
+foo(function bar(a: string) { a; });
+
+test('foo', function (this: any) {});
+```
+
+:::
+
+Examples of **correct** TypeScript code for this rule:
+
+::: correct
+
+```ts
+/*eslint prefer-arrow-callback: "error"*/
+
+foo((a: string) => a);
+
+const foo = function foo(bar: any) {};
+```
+
+:::
+
 ## Options
 
 Access further control over this rule's behavior via an options object.
@@ -88,6 +118,30 @@ foo(function bar() {});
 
 :::
 
+Examples of **incorrect** TypeScript code for this rule with `{ "allowNamedFunctions": true }`:
+
+::: incorrect
+
+```ts
+/* eslint prefer-arrow-callback: [ "error", { "allowNamedFunctions": true } ] */
+
+foo(function(a: string) {});
+```
+
+:::
+
+Examples of **correct** TypeScript code for this rule with `{ "allowNamedFunctions": true }`:
+
+::: correct
+
+```ts
+/* eslint prefer-arrow-callback: [ "error", { "allowNamedFunctions": true } ] */
+
+foo(function bar(a: string) {});
+```
+
+:::
+
 ### allowUnboundThis
 
 By default `{ "allowUnboundThis": true }`, this `boolean` option allows function expressions containing `this` to be used as callbacks, as long as the function in question has not been explicitly bound.
@@ -106,6 +160,20 @@ foo(function() { this.a; });
 foo(function() { (() => this); });
 
 someArray.map(function(item) { return this.doSomething(item); }, someObject);
+```
+
+:::
+
+Examples of **incorrect** TypeScript code for this rule with `{ "allowUnboundThis": false }`:
+
+::: incorrect
+
+```ts
+/* eslint prefer-arrow-callback: [ "error", { "allowUnboundThis": false } ] */
+
+foo(function(a: string) { this; });
+
+foo(function(a: string) { (() => this); });
 ```
 
 :::
