@@ -14,7 +14,7 @@ The ESLint Command Line Interface (CLI) lets you execute linting from the termin
 
 ## Run the CLI
 
-ESLint requires Node.js for installation. Follow the instructions in the [Getting Started Guide](getting-started) to install ESLint.
+ESLint requires [Node.js](https://nodejs.org/) for installation. Follow the instructions in the [Getting Started Guide](getting-started) to install ESLint.
 
 Most users use [`npx`](https://docs.npmjs.com/cli/v8/commands/npx) to run ESLint on the command line like this:
 
@@ -192,7 +192,7 @@ This example uses the configuration file at `~/my.eslint.config.js`, which is us
 
 #### `--inspect-config`
 
-**Flat Config Mode Only.** This option runs `npx @eslint/config-inspector@latest` to start the config inspector. You can use the config inspector to better understand what your configuration is doing and which files it applies to. When you use this flag, the CLI does not perform linting.
+**Flat Config Mode Only.** This option runs `npx @eslint/config-inspector@latest` to start the config inspector. You can use the [config inspector](https://github.com/eslint/config-inspector) to better understand what your configuration is doing and which files it applies to. When you use this flag, the CLI does not perform linting.
 
 - **Argument Type**: No argument.
 
@@ -838,7 +838,7 @@ Strategy for the cache to use for detecting changed files.
 - **Multiple Arguments**: No
 - **Default Value**: `metadata`
 
-The `content` strategy can be useful in cases where the modification time of your files changes even if their contents have not. For example, this can happen during git operations like `git clone` because git does not track file modification time.
+The `content` strategy can be useful in cases where the modification time of your files changes even if their contents have not. For example, this can happen during git operations like [`git clone`](https://git-scm.com/docs/git-clone) because git does not track file modification time.
 
 ##### `--cache-strategy` example
 
