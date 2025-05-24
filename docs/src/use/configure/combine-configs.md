@@ -32,7 +32,7 @@ Here, the `js.configs.recommended` predefined configuration is applied first and
 
 ### Apply a Configuration to a Subset of Files
 
-You can apply a config object to just a subset of files by creating a new object with a `files` key and using the `extends` key to merge in the rest of the properties from the config object. For example:
+You can apply a [config object](../core-concepts/glossary#config-object) to just a subset of files by creating a new object with a `files` key and using the `extends` key to merge in the rest of the properties from the [config object](../core-concepts/glossary#config-object). For example:
 
 ```js
 // eslint.config.js
@@ -98,7 +98,7 @@ export default defineConfig([
 
 ### Apply a Config Array to a Subset of Files
 
-You can apply a config array to just a subset of files by using the `extends` key. For example:
+You can apply a [config array](../core-concepts/glossary#config-array) to just a subset of files by using the `extends` key. For example:
 
 ```js
 // eslint.config.js
