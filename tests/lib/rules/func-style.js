@@ -201,6 +201,15 @@ ruleTester.run("func-style", rule, {
 				},
 			],
 		},
+		{
+			code: "$1: function $2() { }",
+			options: ["declaration"],
+			languageOptions: { sourceType: "script" },
+		},
+		{
+			code: "switch ($0) { case $1: function $2() { } }",
+			options: ["declaration"],
+		},
 	],
 
 	invalid: [
@@ -531,6 +540,14 @@ ruleTesterTypeScript.run("func-style", rule, {
 		{
 			code: "export const foo: () => void = function(): void {};",
 			options: ["expression", { overrides: { namedExports: "ignore" } }],
+		},
+		{
+			code: "$1: function $2(): void { }",
+			options: ["declaration"],
+		},
+		{
+			code: "switch ($0) { case $1: function $2(): void { } }",
+			options: ["declaration"],
 		},
 		`
 		function test(a: string): string;

@@ -52,7 +52,7 @@ Due to these different behaviors, it is common to have guidelines as to which st
 
 This rule enforces a particular type of function style, either `function` declarations or expressions assigned to variables. You can specify which you prefer in the configuration.
 
-Note: This rule does not apply to *all* functions. For example, a callback function passed as an argument to another function is not considered by this rule. Additionally, this rule does not report errors for overloaded function declarations, which are functions that have multiple declarations with the same name but different parameter types or return types (commonly used in TypeScript to provide type information for different ways of calling the same function).
+Note: This rule does not apply to *all* functions. For example, a callback function passed as an argument to another function is not considered by this rule.
 
 ## Options
 
@@ -100,6 +100,24 @@ const foo = function() {
 const foo1 = () => {};
 
 // allowed as allowArrowFunctions : false is applied only for declaration
+```
+
+:::
+
+Overloaded function declarations are not reported as errors by this rule. These are functions that have multiple declarations with the same name but different parameter types or return types (commonly used in TypeScript to provide type information for different ways of calling the same function).
+
+Examples of **correct** TypeScript code for this rule with the default `"expression"` option:
+
+::: correct
+
+```ts
+/*eslint func-style: ["error", "expression"]*/
+
+function process(value: string): string;
+function process(value: number): number;
+function process(value: unknown) {
+    return value;
+}
 ```
 
 :::
