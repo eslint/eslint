@@ -182,5 +182,22 @@ ruleTesterTypeScript.run("no-unassigned-vars", rule, {
 				},
 			],
 		},
+		{
+			code: unIndent`
+				declare module 'module' {
+					let x: string;
+				}
+				let y: string;
+				console.log(y);
+			`,
+			errors: [
+				{
+					messageId: "unassigned",
+					line: 4,
+					column: 9,
+					data: { name: "y" },
+				},
+			],
+		},
 	],
 });
