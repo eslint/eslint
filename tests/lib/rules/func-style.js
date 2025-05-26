@@ -576,6 +576,27 @@ ruleTesterTypeScript.run("func-style", rule, {
 				{ overrides: { namedExports: "expression" } },
 			],
 		},
+		`
+		switch ($0) {
+			case $1:
+			function test(a: string): string;
+			function test(a: number): number;
+			function test(a: unknown) {
+			return a;
+			}
+		}
+		`,
+		`
+		switch ($0) {
+			case $1:
+			function test(a: string): string;
+			break;
+			case $2:
+			function test(a: unknown) {
+			return a;
+			}
+		}
+		`,
 	],
 	invalid: [
 		{
@@ -815,6 +836,43 @@ ruleTesterTypeScript.run("func-style", rule, {
 				"expression",
 				{ overrides: { namedExports: "expression" } },
 			],
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
+				},
+			],
+		},
+		{
+			code: `
+			switch ($0) {
+				case $1:
+				function test1(a: string): string;
+				function test2(a: number): number;
+				function test3(a: unknown) {
+					return a;
+				}
+			}
+			`,
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
+				},
+			],
+		},
+		{
+			code: `
+			switch ($0) {
+				case $1:
+				function test1(a: string): string;
+				break;
+				case $2:
+				function test2(a: unknown) {
+				return a;
+				}
+			}
+			`,
 			errors: [
 				{
 					messageId: "expression",
