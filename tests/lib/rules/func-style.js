@@ -775,5 +775,52 @@ ruleTesterTypeScript.run("func-style", rule, {
 				},
 			],
 		},
+		{
+			code: `
+			function test1(a: string): string;
+			function test2(a: number): number;
+			function test3(a: unknown) {
+			  return a;
+			}`,
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
+				},
+			],
+		},
+		{
+			code: `
+			export function test1(a: string): string;
+			export function test2(a: number): number;
+			export function test3(a: unknown) {
+			  return a;
+			}`,
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
+				},
+			],
+		},
+		{
+			code: `
+			export function test1(a: string): string;
+		    export function test2(a: number): number;
+		    export function test3(a: unknown) {
+		      return a;
+		    }
+			`,
+			options: [
+				"expression",
+				{ overrides: { namedExports: "expression" } },
+			],
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
+				},
+			],
+		},
 	],
 });
