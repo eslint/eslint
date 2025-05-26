@@ -133,6 +133,24 @@ Those members are defined but not used in ESLint.
 - **Type:** `boolean`
 - **Description:** `true` if this scope is `"function-expression-name"` scope.
 
+#### implicit
+
+This field exists only in the root `Scope` object (the global scope). It provides information about implicit global variables. Implicit global variables are variables that are neither built-in nor explicitly declared, but created implicitly by assigning values to undeclared variables in non-strict code. `Variable` objects for these variables are not present in the root `Scope` object's fields `variables` and `set`.
+
+The value of the `implicit` field is an object with two properties.
+
+##### variables
+
+- **Type:** `Variable[]`
+- **Description:** The array of all implicit global variables.
+
+##### set
+
+- **Type:** `Map<string, Variable>`
+- **Description:** The map from variable names to variable objects for implicit global variables.
+
+> In `Variable` objects that represent implicit global variables, `references` is always an empty array. You can find references to these variables in the `through` field of the root `Scope` object (the global scope), among other unresolved references.
+
 ### Deprecated members
 
 Those members are defined but not used in ESLint.
@@ -354,7 +372,7 @@ Those members are defined but not used in ESLint.
 | `"CatchClause"`            | `CatchClause`                                                              |
 | `"ClassName"`              | `ClassDeclaration` or `ClassExpression`                                    |
 | `"FunctionName"`           | `FunctionDeclaration` or `FunctionExpression`                              |
-| `"ImplicitGlobalVariable"` | `Program`                                                                  |
+| `"ImplicitGlobalVariable"` | `AssignmentExpression`                                                     |
 | `"ImportBinding"`          | `ImportSpecifier`, `ImportDefaultSpecifier`, or `ImportNamespaceSpecifier` |
 | `"Parameter"`              | `FunctionDeclaration`, `FunctionExpression`, or `ArrowFunctionExpression`  |
 | `"Variable"`               | `VariableDeclarator`                                                       |
