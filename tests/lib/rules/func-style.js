@@ -422,6 +422,26 @@ ruleTester.run("func-style", rule, {
 				},
 			],
 		},
+		{
+			code: "$1: function $2() { }",
+			languageOptions: { sourceType: "script" },
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
+				},
+			],
+		},
+		{
+			code: "if (foo) function bar() {}",
+			languageOptions: { sourceType: "script" },
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
+				},
+			],
+		},
 	],
 });
 
@@ -793,6 +813,24 @@ ruleTesterTypeScript.run("func-style", rule, {
 				{
 					messageId: "declaration",
 					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
+			code: "$1: function $2(): void { }",
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
+				},
+			],
+		},
+		{
+			code: "if (foo) function bar(): string {}",
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
 				},
 			],
 		},
