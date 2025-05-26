@@ -908,7 +908,7 @@ Prune unused suppressions from the suppressions file. This option is useful when
 
 #### `--init`
 
-This option runs `npm init @eslint/config` to start the config initialization wizard. It's designed to help new users quickly create an `.eslintrc` file by answering a few questions. When you use this flag, the CLI does not perform linting.
+This option runs `npm init @eslint/config` to start the config initialization wizard. It's designed to help new users quickly create an `eslint.config.js` file by answering a few questions. When you use this flag, the CLI does not perform linting.
 
 - **Argument Type**: No argument.
 
@@ -1091,5 +1091,5 @@ This option starts the ESLint MCP server for use with AI agents.
 When linting files, ESLint exits with one of the following exit codes:
 
 - `0`: Linting was successful and there are no linting errors. If the [`--max-warnings`](#--max-warnings) flag is set to `n`, the number of linting warnings is at most `n`.
-- `1`: Linting was successful and there is at least one linting error, or there are more linting warnings than allowed by the `--max-warnings` option.
+- `1`: Linting was successful and there is at least one linting error, or there are more linting warnings than allowed by the [`--max-warnings`](#--max-warnings) option.
 - `2`: Linting was unsuccessful due to a configuration problem or an internal error.
