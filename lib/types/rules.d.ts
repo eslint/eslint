@@ -3450,6 +3450,11 @@ export interface ESLintRules extends Linter.RulesRecord {
 						allowObjects?: string[];
 						message?: string | undefined;
 				  }
+				| {
+						object: string;
+						allowProperties?: string[];
+						message?: string | undefined;
+				  }
 			>,
 		]
 	>;
