@@ -149,7 +149,9 @@ The value of the `implicit` field is an object with two properties.
 - **Type:** `Map<string, Variable>`
 - **Description:** The map from variable names to variable objects for implicit global variables.
 
-> In `Variable` objects that represent implicit global variables, `references` is always an empty array. You can find references to these variables in the `through` field of the root `Scope` object (the global scope), among other unresolved references.
+::: tip
+In `Variable` objects that represent implicit global variables, `references` is always an empty array. You can find references to these variables in the `through` field of the root `Scope` object (the global scope), among other unresolved references.
+:::
 
 ### Deprecated members
 
