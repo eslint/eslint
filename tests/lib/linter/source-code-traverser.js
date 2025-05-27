@@ -392,6 +392,11 @@ describe("SourceCodeTraverser", () => {
 
 				assert.deepStrictEqual(actualEmissions, expectedEmissions);
 
+				/*
+				 * `assert.deepStrictEqual()` compares objects by their properties.
+				 * Here, we additionally compare node objects by reference to ensure
+				 * the emitted objects are expected instances from the AST.
+				 */
 				actualEmissions.forEach((actualEmission, index) => {
 					assert.strictEqual(
 						actualEmission[1],
@@ -706,6 +711,11 @@ describe("SourceCodeTraverser", () => {
 
 				assert.deepStrictEqual(actualEmissions, expectedEmissions);
 
+				/*
+				 * `assert.deepStrictEqual()` compares objects by their properties.
+				 * Here, we additionally compare node objects by reference to ensure
+				 * the emitted objects are expected instances from the AST.
+				 */
 				actualEmissions.forEach((actualEmission, index) => {
 					assert.strictEqual(
 						actualEmission[1],
