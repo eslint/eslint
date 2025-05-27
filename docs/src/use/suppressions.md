@@ -60,4 +60,10 @@ To remove the suppressions that are no longer needed, you can use the `--prune-s
 eslint --prune-suppressions
 ```
 
+To ignore unused suppressions when calculating the exit code and not report an error about unused suppressions, you can use the `--pass-on-unpruned-suppressions` flag.
+
+```bash
+eslint --pass-on-unpruned-suppressions
+```
+
 For more information on the available CLI options, refer to [Command Line Interface](./command-line-interface).
