@@ -12,8 +12,8 @@
         - `eslint-config-eslint`: Contains the ESLint configuration package
         - `js`: Contains the `@eslint/js` package
     - `templates`: Contains templates tools that generate files
-        - `tests`: Contains the test files for ESLint
-        - `tools`: Contains scripts for building, testing, and other tasks
+    - `tests`: Contains the test files for ESLint
+    - `tools`: Contains scripts for building, testing, and other tasks
 - Test files mirror the structure of the source code files they're testing
 - Configuration files are in the root directory, including `eslint.config.js`.
 
