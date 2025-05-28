@@ -1113,7 +1113,7 @@ describe("bin/eslint.js", () => {
 				return assertExitCode(child, 1);
 			});
 
-			it("exits with code 1 if there are unsupressed lint errors, when there are unused suppressions and the --pass-on-unpruned-suppressions flag is used (2)", () => {
+			it("exits with code 1 if there are unsuppressed lint errors, when there are unused suppressions and the --pass-on-unpruned-suppressions flag is used (2)", () => {
 				const suppressions = structuredClone(
 					SUPPRESSIONS_FILE_ALL_ERRORS,
 				);
