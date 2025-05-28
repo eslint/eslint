@@ -176,7 +176,7 @@ const foo = () => {};
 
 ### allowTypeAnnotation
 
-Examples of additional **correct** TypeScript code for this rule with the `"declaration", { "allowTypeAnnotation": true }` options:
+Examples of **correct** TypeScript code for this rule with the `"declaration", { "allowTypeAnnotation": true }` options:
 
 ::: correct
 
