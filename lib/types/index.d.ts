@@ -584,7 +584,7 @@ export namespace SourceCode {
 
 // #endregion
 
-type JSSyntaxElement = {
+export type JSSyntaxElement = {
 	type: string;
 	loc?: ESTree.SourceLocation | null | undefined;
 };
