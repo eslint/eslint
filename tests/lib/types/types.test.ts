@@ -2095,9 +2095,7 @@ ruleTester.run("simple-valid-test", rule2, {
 
 // The following are only errors when `exactOptionalPropertyTypes` is `true`.
 // The error can't be enforced on consumers.
-// @ts-expect-error
 (): Linter.Config => ({ files: undefined });
-// @ts-expect-error
 (): Linter.Config => ({ ignores: undefined });
 
 (): ESLint.Plugin => ({
