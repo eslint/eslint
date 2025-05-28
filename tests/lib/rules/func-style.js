@@ -201,6 +201,15 @@ ruleTester.run("func-style", rule, {
 				},
 			],
 		},
+		{
+			code: "$1: function $2() { }",
+			options: ["declaration"],
+			languageOptions: { sourceType: "script" },
+		},
+		{
+			code: "switch ($0) { case $1: function $2() { } }",
+			options: ["declaration"],
+		},
 	],
 
 	invalid: [
@@ -424,6 +433,16 @@ ruleTester.run("func-style", rule, {
 			],
 		},
 		{
+			code: "$1: function $2() { }",
+			languageOptions: { sourceType: "script" },
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
+				},
+			],
+		},
+		{
 			code: "const foo = () => {};",
 			options: ["declaration", { allowTypeAnnotation: true }],
 			errors: [
@@ -462,6 +481,16 @@ ruleTester.run("func-style", rule, {
 				{
 					messageId: "declaration",
 					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
+			code: "if (foo) function bar() {}",
+			languageOptions: { sourceType: "script" },
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -620,6 +649,62 @@ ruleTesterTypeScript.run("func-style", rule, {
 				},
 			],
 		},
+		{
+			code: "$1: function $2(): void { }",
+			options: ["declaration"],
+		},
+		{
+			code: "switch ($0) { case $1: function $2(): void { } }",
+			options: ["declaration"],
+		},
+		`
+		function test(a: string): string;
+		function test(a: number): number;
+		function test(a: unknown) {
+		  return a;
+		}
+		`,
+		`
+		export function test(a: string): string;
+		export function test(a: number): number;
+		export function test(a: unknown) {
+		  return a;
+		}
+		`,
+		{
+			code: `
+			export function test(a: string): string;
+		    export function test(a: number): number;
+		    export function test(a: unknown) {
+		      return a;
+		    }
+			`,
+			options: [
+				"expression",
+				{ overrides: { namedExports: "expression" } },
+			],
+		},
+		`
+		switch ($0) {
+			case $1:
+			function test(a: string): string;
+			function test(a: number): number;
+			function test(a: unknown) {
+			return a;
+			}
+		}
+		`,
+		`
+		switch ($0) {
+			case $1:
+			function test(a: string): string;
+			break;
+			case $2:
+			function test(a: unknown) {
+			return a;
+			}
+		}
+		`,
 	],
 	invalid: [
 		{
@@ -816,6 +901,108 @@ ruleTesterTypeScript.run("func-style", rule, {
 				{
 					messageId: "declaration",
 					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
+			code: "$1: function $2(): void { }",
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
+				},
+			],
+		},
+		{
+			code: "if (foo) function bar(): string {}",
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
+				},
+			],
+		},
+		{
+			code: `
+			function test1(a: string): string;
+			function test2(a: number): number;
+			function test3(a: unknown) {
+			  return a;
+			}`,
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
+				},
+			],
+		},
+		{
+			code: `
+			export function test1(a: string): string;
+			export function test2(a: number): number;
+			export function test3(a: unknown) {
+			  return a;
+			}`,
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
+				},
+			],
+		},
+		{
+			code: `
+			export function test1(a: string): string;
+		    export function test2(a: number): number;
+		    export function test3(a: unknown) {
+		      return a;
+		    }
+			`,
+			options: [
+				"expression",
+				{ overrides: { namedExports: "expression" } },
+			],
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
+				},
+			],
+		},
+		{
+			code: `
+			switch ($0) {
+				case $1:
+				function test1(a: string): string;
+				function test2(a: number): number;
+				function test3(a: unknown) {
+					return a;
+				}
+			}
+			`,
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
+				},
+			],
+		},
+		{
+			code: `
+			switch ($0) {
+				case $1:
+				function test1(a: string): string;
+				break;
+				case $2:
+				function test2(a: unknown) {
+				return a;
+				}
+			}
+			`,
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
 				},
 			],
 		},

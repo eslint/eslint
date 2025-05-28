@@ -105,6 +105,24 @@ const foo1 = () => {};
 
 :::
 
+Overloaded function declarations are not reported as errors by this rule. These are functions that have multiple declarations with the same name but different parameter types or return types (commonly used in TypeScript to provide type information for different ways of calling the same function).
+
+Examples of **correct** TypeScript code for this rule with the default `"expression"` option:
+
+::: correct
+
+```ts
+/*eslint func-style: ["error", "expression"]*/
+
+function process(value: string): string;
+function process(value: number): number;
+function process(value: unknown) {
+    return value;
+}
+```
+
+:::
+
 ### declaration
 
 Examples of **incorrect** code for this rule with the `"declaration"` option:
