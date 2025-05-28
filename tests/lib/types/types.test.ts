@@ -35,6 +35,7 @@ import {
 	RuleTester,
 	Scope,
 	SourceCode,
+	JSSyntaxElement,
 } from "eslint";
 import { defineConfig, globalIgnores } from "eslint/config";
 import { ESLintRules } from "eslint/rules";
@@ -2203,7 +2204,7 @@ defineConfig([
 
 // #endregion
 
-// #region RuleContextNode
+// #region JSSyntaxElement
 
 const fooRule1: Rule.RuleModule = {
 	create(context) {
@@ -2235,4 +2236,7 @@ const fooRule2: JSRuleDefinition = {
 	},
 };
 
-// #endregion RuleContextNode
+const SYNTAX_ELEMENT_COMMENT: JSSyntaxElement = COMMENT;
+const SYNTAX_ELEMENT_TOKEN: JSSyntaxElement = TOKEN;
+
+// #endregion JSSyntaxElement
