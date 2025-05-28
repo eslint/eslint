@@ -67,7 +67,7 @@
 - Rules use the visitor pattern to analyze JavaScript AST nodes
 - Helper functions should be defined outside the `create` function to avoid recreating them on each execution
 - Common utilities for working with ASTs are available in `./utils/ast-utils`
-- Rules that need to fix code should implement a fixer function that returns a function to apply corrections
+- Rules that need to fix code should implement a fixer function that returns corrections to apply
 - Rules should avoid duplicate computations by factoring out common checks into helper functions
 - The rule tester configuration now uses flat configuration format (`languageOptions` instead of `parserOptions`)
 
