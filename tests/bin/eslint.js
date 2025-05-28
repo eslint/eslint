@@ -1073,7 +1073,15 @@ describe("bin/eslint.js", () => {
 
 				const child = runESLint(ARGS_WITHOUT_SUPPRESSIONS);
 
-				return assertExitCode(child, 2);
+				const exitCodeAssertion = assertExitCode(child, 2);
+				const outputAssertion = getOutput(child).then(output => {
+					assert.include(
+						output.stderr,
+						"There are suppressions left that do not occur anymore. Consider re-running the command with `--prune-suppressions`.",
+					);
+				});
+
+				return Promise.all([exitCodeAssertion, outputAssertion]);
 			});
 
 			it("exits with code 0, when there are unused suppressions and the --pass-on-unpruned-suppressions flag is used", () => {
@@ -1091,7 +1099,12 @@ describe("bin/eslint.js", () => {
 					ARGS_WITH_PASS_ON_UNPRUNED_SUPPRESSIONS,
 				);
 
-				return assertExitCode(child, 0);
+				const exitCodeAssertion = assertExitCode(child, 0);
+				const outputAssertion = getOutput(child).then(output => {
+					assert.notInclude(output.stderr, "suppressions left");
+				});
+
+				return Promise.all([exitCodeAssertion, outputAssertion]);
 			});
 
 			it("exits with code 1 if there are unsupressed lint errors, when there are unused suppressions and the --pass-on-unpruned-suppressions flag is used (1)", () => {
@@ -1110,7 +1123,12 @@ describe("bin/eslint.js", () => {
 					ARGS_WITH_PASS_ON_UNPRUNED_SUPPRESSIONS,
 				);
 
-				return assertExitCode(child, 1);
+				const exitCodeAssertion = assertExitCode(child, 1);
+				const outputAssertion = getOutput(child).then(output => {
+					assert.notInclude(output.stderr, "suppressions left");
+				});
+
+				return Promise.all([exitCodeAssertion, outputAssertion]);
 			});
 
 			it("exits with code 1 if there are unsuppressed lint errors, when there are unused suppressions and the --pass-on-unpruned-suppressions flag is used (2)", () => {
@@ -1130,7 +1148,12 @@ describe("bin/eslint.js", () => {
 					),
 				);
 
-				return assertExitCode(child, 1);
+				const exitCodeAssertion = assertExitCode(child, 1);
+				const outputAssertion = getOutput(child).then(output => {
+					assert.notInclude(output.stderr, "suppressions left");
+				});
+
+				return Promise.all([exitCodeAssertion, outputAssertion]);
 			});
 
 			it("prunes the suppressions file, when the --prune-suppressions flag is used", () => {
