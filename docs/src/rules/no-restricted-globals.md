@@ -106,3 +106,25 @@ function onClick() {
 ```
 
 :::
+
+Restricted globals used in TypeScript type annotations—such as type references, interface inheritance, or class implementations—are ignored by this rule.
+
+Examples of **correct** TypeScript code for sample "Promise", "Event", and "Window" global variable names:
+
+::: correct
+
+```ts
+/*eslint no-restricted-globals: ["error", "Promise", "Event", "Window"]*/
+
+const fetchData: Promise<string> = window.Promise.resolve("data");
+
+interface CustomEvent extends Event {}
+
+class CustomWindow implements Window {}
+
+function handleClick(event: Event) {
+  console.log(event);
+}
+```
+
+:::
