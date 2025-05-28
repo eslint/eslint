@@ -98,7 +98,7 @@ export default defineConfig([
 
 ### Apply a Config Array to a Subset of Files
 
-You can apply a config array to just a subset of files by using the `extends` key. For example:
+You can apply a config array — that is, an array of configuration objects — to just a subset of files by using the `extends` key. For example:
 
 ```js
 // eslint.config.js
