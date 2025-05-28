@@ -423,12 +423,64 @@ ruleTester.run("func-style", rule, {
 			],
 		},
 		{
+			code: "const foo = function() {};",
+			options: ["declaration", { allowTypeAnnotation: true }],
+			errors: [
+				{
+					messageId: "declaration",
+					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
 			code: "$1: function $2() { }",
 			languageOptions: { sourceType: "script" },
 			errors: [
 				{
 					messageId: "expression",
 					type: "FunctionDeclaration",
+				},
+			],
+		},
+		{
+			code: "const foo = () => {};",
+			options: ["declaration", { allowTypeAnnotation: true }],
+			errors: [
+				{
+					messageId: "declaration",
+					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
+			code: "export const foo = function() {};",
+			options: [
+				"expression",
+				{
+					allowTypeAnnotation: true,
+					overrides: { namedExports: "declaration" },
+				},
+			],
+			errors: [
+				{
+					messageId: "declaration",
+					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
+			code: "export const foo = () => {};",
+			options: [
+				"expression",
+				{
+					allowTypeAnnotation: true,
+					overrides: { namedExports: "declaration" },
+				},
+			],
+			errors: [
+				{
+					messageId: "declaration",
+					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -560,6 +612,42 @@ ruleTesterTypeScript.run("func-style", rule, {
 		{
 			code: "export const foo: () => void = function(): void {};",
 			options: ["expression", { overrides: { namedExports: "ignore" } }],
+		},
+		{
+			code: "const expression: Fn = function () {}",
+			options: ["declaration", { allowTypeAnnotation: true }],
+		},
+		{
+			code: "const arrow: Fn = () => {}",
+			options: ["declaration", { allowTypeAnnotation: true }],
+		},
+		{
+			code: "export const expression: Fn = function () {}",
+			options: ["declaration", { allowTypeAnnotation: true }],
+		},
+		{
+			code: "export const arrow: Fn = () => {}",
+			options: ["declaration", { allowTypeAnnotation: true }],
+		},
+		{
+			code: "export const expression: Fn = function () {}",
+			options: [
+				"expression",
+				{
+					allowTypeAnnotation: true,
+					overrides: { namedExports: "declaration" },
+				},
+			],
+		},
+		{
+			code: "export const arrow: Fn = () => {}",
+			options: [
+				"expression",
+				{
+					allowTypeAnnotation: true,
+					overrides: { namedExports: "declaration" },
+				},
+			],
 		},
 		{
 			code: "$1: function $2(): void { }",
