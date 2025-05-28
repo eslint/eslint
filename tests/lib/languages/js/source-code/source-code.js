@@ -2740,6 +2740,41 @@ describe("SourceCode", () => {
 			);
 		});
 
+		it("should return 'for' scope on ForOfStatement in functions (ES2015)", () => {
+			const { node, scope } = getScope(
+				"function f() { for (let x of xs) {} }",
+				"ForOfStatement",
+				2015,
+			);
+
+			assert.strictEqual(scope.type, "for");
+			assert.strictEqual(scope.block, node);
+			assert.deepStrictEqual(
+				scope.variables.map(v => v.name),
+				["x"],
+			);
+		});
+
+		it("should return 'block' scope on the block body of ForOfStatement in functions (ES2015)", () => {
+			const { node, scope } = getScope(
+				"function f() { for (let x of xs) {} }",
+				"ForOfStatement > BlockStatement",
+				2015,
+			);
+
+			assert.strictEqual(scope.type, "block");
+			assert.strictEqual(scope.upper.type, "for");
+			assert.strictEqual(scope.block, node);
+			assert.deepStrictEqual(
+				scope.variables.map(v => v.name),
+				[],
+			);
+			assert.deepStrictEqual(
+				scope.upper.variables.map(v => v.name),
+				["x"],
+			);
+		});
+
 		it("should shadow the same name variable by the iteration variable.", () => {
 			const { node, scope } = getScope(
 				"let x; for (let x of x) {}",
@@ -3574,17 +3609,17 @@ describe("SourceCode", () => {
 
 	describe("isGlobalReference(node)", () => {
 		it("should throw an error when argument is missing", () => {
-			linter.defineRule("get-scope", {
+			linter.defineRule("is-global-reference", {
 				create: context => ({
 					Program() {
-						context.sourceCode.getScope();
+						context.sourceCode.isGlobalReference();
 					},
 				}),
 			});
 
 			assert.throws(() => {
 				linter.verify("foo", {
-					rules: { "get-scope": 2 },
+					rules: { "is-global-reference": 2 },
 				});
 			}, /Missing required argument: node/u);
 		});
@@ -3595,6 +3630,9 @@ describe("SourceCode", () => {
 			let identifierSpy;
 
 			const config = {
+				languageOptions: {
+					sourceType: "script",
+				},
 				plugins: {
 					test: {
 						rules: {
@@ -3657,7 +3695,7 @@ describe("SourceCode", () => {
 		});
 
 		it("should handle function parameters and shadowed globals", () => {
-			const code = "function test(param, console) { param; console; }";
+			const code = "function test(param, NaN) { param; NaN; }";
 			let spy;
 
 			const config = {
@@ -3675,17 +3713,14 @@ describe("SourceCode", () => {
 										// Function parameter references
 										const paramRef =
 											blockStatement.body[0].expression;
-										const consoleRef =
+										const NaNRef =
 											blockStatement.body[1].expression;
 
 										assert.strictEqual(
 											paramRef.name,
 											"param",
 										);
-										assert.strictEqual(
-											consoleRef.name,
-											"console",
-										);
+										assert.strictEqual(NaNRef.name, "NaN");
 
 										assert.isFalse(
 											sourceCode.isGlobalReference(
@@ -3694,7 +3729,7 @@ describe("SourceCode", () => {
 										);
 										assert.isFalse(
 											sourceCode.isGlobalReference(
-												consoleRef,
+												NaNRef,
 											),
 										);
 									});
@@ -3800,7 +3835,7 @@ describe("SourceCode", () => {
 		});
 
 		it("should distinguish between object property access and global references", () => {
-			const code = "String; String.log; Math; obj.Math;";
+			const code = "String; String.length; Math; obj.Math;";
 			let identifierSpy;
 
 			const config = {
@@ -3812,11 +3847,7 @@ describe("SourceCode", () => {
 									const sourceCode = context.sourceCode;
 
 									identifierSpy = sinon.spy(node => {
-										if (
-											node.name === "String" &&
-											node.parent.type !==
-												"MemberExpression"
-										) {
+										if (node.name === "String") {
 											assert.isTrue(
 												sourceCode.isGlobalReference(
 													node,
@@ -4086,7 +4117,7 @@ describe("SourceCode", () => {
 											node.name === "Math" &&
 											node.parent.type ===
 												"MemberExpression" &&
-											!node.parent.object.type ===
+											node.parent.object.type !==
 												"ThisExpression"
 										) {
 											assert.isTrue(
