@@ -374,7 +374,7 @@ Those members are defined but not used in ESLint.
 | `"CatchClause"`            | `CatchClause`                                                              |
 | `"ClassName"`              | `ClassDeclaration` or `ClassExpression`                                    |
 | `"FunctionName"`           | `FunctionDeclaration` or `FunctionExpression`                              |
-| `"ImplicitGlobalVariable"` | `AssignmentExpression`                                                     |
+| `"ImplicitGlobalVariable"` | `AssignmentExpression` or `ForInStatement` or `ForOfStatement`             |
 | `"ImportBinding"`          | `ImportSpecifier`, `ImportDefaultSpecifier`, or `ImportNamespaceSpecifier` |
 | `"Parameter"`              | `FunctionDeclaration`, `FunctionExpression`, or `ArrowFunctionExpression`  |
 | `"Variable"`               | `VariableDeclarator`                                                       |

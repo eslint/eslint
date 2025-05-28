@@ -3606,4 +3606,155 @@ describe("SourceCode", () => {
 			assert.isNull(problem.ruleId);
 		});
 	});
+
+	describe("finalize()", () => {
+		it("should remove ECMAScript globals from global scope's `implicit`", () => {
+			const code = "Array = 1; Foo = 1; Promise = 1; Array; Foo; Promise";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const scopeManager = eslintScope.analyze(ast, {
+				ignoreEval: true,
+				ecmaVersion: 6,
+			});
+			const sourceCode = new SourceCode({
+				text: code,
+				ast,
+				scopeManager,
+			});
+
+			sourceCode.applyLanguageOptions({
+				ecmaVersion: 2015,
+			});
+
+			sourceCode.finalize();
+
+			const globalScope = sourceCode.scopeManager.scopes[0];
+			const { implicit } = globalScope;
+
+			assert.deepStrictEqual(
+				[...implicit.set].map(([name]) => name),
+				["Foo"],
+			);
+			assert.deepStrictEqual(
+				implicit.variables.map(({ name }) => name),
+				["Foo"],
+			);
+			assert.deepStrictEqual(
+				implicit.left.map(reference => reference.identifier.name),
+				["Foo", "Foo"],
+			);
+		});
+
+		it("should remove custom globals from global scope's `implicit`", () => {
+			const code = "Bar = 1; Foo = 1; Baz = 1; Bar; Foo; Baz";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const scopeManager = eslintScope.analyze(ast, {
+				ignoreEval: true,
+				ecmaVersion: 6,
+			});
+			const sourceCode = new SourceCode({
+				text: code,
+				ast,
+				scopeManager,
+			});
+
+			sourceCode.applyLanguageOptions({
+				ecmaVersion: 2015,
+				globals: {
+					Bar: "writable",
+					Baz: "readonly",
+				},
+			});
+
+			sourceCode.finalize();
+
+			const globalScope = sourceCode.scopeManager.scopes[0];
+			const { implicit } = globalScope;
+
+			assert.deepStrictEqual(
+				[...implicit.set].map(([name]) => name),
+				["Foo"],
+			);
+			assert.deepStrictEqual(
+				implicit.variables.map(({ name }) => name),
+				["Foo"],
+			);
+			assert.deepStrictEqual(
+				implicit.left.map(reference => reference.identifier.name),
+				["Foo", "Foo"],
+			);
+		});
+
+		it("should remove commonjs globals from global scope's `implicit`", () => {
+			const code =
+				"exports = {}; Foo = 1; require = () => {}; exports; Foo; require";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const scopeManager = eslintScope.analyze(ast, {
+				ignoreEval: true,
+				nodejsScope: true,
+				ecmaVersion: 6,
+			});
+			const sourceCode = new SourceCode({
+				text: code,
+				ast,
+				scopeManager,
+			});
+
+			sourceCode.applyLanguageOptions({
+				ecmaVersion: 2015,
+				sourceType: "commonjs",
+			});
+
+			sourceCode.finalize();
+
+			const globalScope = sourceCode.scopeManager.scopes[0];
+			const { implicit } = globalScope;
+
+			assert.deepStrictEqual(
+				[...implicit.set].map(([name]) => name),
+				["Foo"],
+			);
+			assert.deepStrictEqual(
+				implicit.variables.map(({ name }) => name),
+				["Foo"],
+			);
+			assert.deepStrictEqual(
+				implicit.left.map(reference => reference.identifier.name),
+				["Foo", "Foo"],
+			);
+		});
+
+		it("should remove inline globals from global scope's `implicit`", () => {
+			const code =
+				"/* globals Bar: writable, Baz: readonly */ Bar = 1; Foo = 1; Baz = 1; Bar; Foo; Baz";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const scopeManager = eslintScope.analyze(ast, {
+				ignoreEval: true,
+				ecmaVersion: 6,
+			});
+			const sourceCode = new SourceCode({
+				text: code,
+				ast,
+				scopeManager,
+			});
+
+			sourceCode.applyInlineConfig();
+			sourceCode.finalize();
+
+			const globalScope = sourceCode.scopeManager.scopes[0];
+			const { implicit } = globalScope;
+
+			assert.deepStrictEqual(
+				[...implicit.set].map(([name]) => name),
+				["Foo"],
+			);
+			assert.deepStrictEqual(
+				implicit.variables.map(({ name }) => name),
+				["Foo"],
+			);
+			assert.deepStrictEqual(
+				implicit.left.map(reference => reference.identifier.name),
+				["Foo", "Foo"],
+			);
+		});
+	});
 });
