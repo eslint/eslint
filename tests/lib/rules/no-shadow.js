@@ -2223,6 +2223,88 @@ ruleTesterTypeScript.run("no-shadow", rule, {
 		},
 		{
 			code: `
+	if (true) {
+		const foo = 6;
+	}
+
+	function foo() { }
+		`,
+			options: [{ hoist: "functions-and-types" }],
+			errors: [
+				{
+					data: {
+						name: "foo",
+						shadowedColumn: 11,
+						shadowedLine: 6,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
+	// types
+	type Bar<Foo> = 1;
+	type Foo = 1;
+
+	// functions
+	if (true) {
+		const b = 6;
+	}
+
+	function b() { }
+		`,
+			options: [{ hoist: "functions-and-types" }],
+			errors: [
+				{
+					data: {
+						name: "Foo",
+						shadowedColumn: 7,
+						shadowedLine: 4,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+				{
+					data: {
+						name: "b",
+						shadowedColumn: 11,
+						shadowedLine: 11,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
+	// types
+	type Bar<Foo> = 1;
+	type Foo = 1;
+
+	// functions
+	if (true) {
+		const b = 6;
+	}
+
+	function b() { }
+		`,
+			options: [{ hoist: "types" }],
+			errors: [
+				{
+					data: {
+						name: "Foo",
+						shadowedColumn: 7,
+						shadowedLine: 4,
+					},
+					messageId: "noShadow",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
   interface Foo<A> {}
   type A = 1;
 		`,
