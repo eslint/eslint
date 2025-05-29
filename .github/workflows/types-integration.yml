@@ -137,7 +137,7 @@ jobs:
             - name: Install Packages (eslint/js)
               working-directory: eslint-js
               run: |
-                  npm install ../eslint
+                  npm install ../eslint @types/node
 
             - name: Run TSC
               working-directory: eslint-js
