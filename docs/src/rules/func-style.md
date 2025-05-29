@@ -176,6 +176,18 @@ const foo = () => {};
 
 ### allowTypeAnnotation
 
+Examples of **incorrect** TypeScript code for this rule with the `"declaration", { "allowTypeAnnotation": true }` options:
+
+::: incorrect
+
+```ts
+/*eslint func-style: ["error", "declaration", { "allowTypeAnnotation": true }]*/
+
+const foo = function(): void {};
+```
+
+:::
+
 Examples of **correct** TypeScript code for this rule with the `"declaration", { "allowTypeAnnotation": true }` options:
 
 ::: correct
@@ -256,6 +268,18 @@ Examples of **correct** code for this rule with the `"expression"` and `{"overri
 export function foo() {
     // ...
 }
+```
+
+:::
+
+Examples of **correct** code for this rule with the `"expression"` and `{ "allowTypeAnnotation": true, "overrides": { "namedExports": "declaration" }}` option:
+
+::: correct
+
+```ts
+/*eslint func-style: ["error", "expression", { "allowTypeAnnotation": true, "overrides": { "namedExports": "declaration" } }]*/
+
+export const foo: () => void = function () {}
 ```
 
 :::
