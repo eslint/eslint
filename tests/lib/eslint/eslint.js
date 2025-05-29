@@ -389,7 +389,7 @@ describe("ESLint", () => {
 				);
 			});
 
-			it("should warn if .eslintignore file is present", async () => {
+			it("should warn if .eslintignore file is present", () => {
 				const cwd = getFixturePath("ignored-paths");
 
 				sinon.restore();
@@ -404,6 +404,25 @@ describe("ESLint", () => {
 				assert(
 					emitESLintIgnoreWarningStub.calledOnce,
 					"calls `warningService.emitESLintIgnoreWarning()` once",
+				);
+			});
+
+			it("should throw if `concurrency` and uncloneable options are used together", () => {
+				assert.throws(
+					() =>
+						new ESLint({
+							flags,
+							concurrency: 1,
+							baseConfig: { processor: patternProcessor },
+							fix: () => true,
+							plugins: { example: examplePlugin },
+						}),
+					{
+						constructor: TypeError,
+						code: "ESLINT_UNCLONEABLE_OPTIONS",
+						message:
+							'The options "baseConfig", "fix", and "plugins" cannot be cloned. When concurrency is enabled, all options must be cloneable. Remove uncloneable options or use an option module.',
+					},
 				);
 			});
 		});
@@ -2309,19 +2328,11 @@ describe("ESLint", () => {
 					}
 				}
 
+				const { readFile } = fsp;
 				const spy = sinon.spy(
-					(...args) => new PromiseLike(fsp.readFile(...args)),
+					(...args) => new PromiseLike(readFile(...args)),
 				);
-
-				const { ESLint: LocalESLint } = proxyquire(
-					"../../../lib/eslint/eslint",
-					{
-						"node:fs/promises": {
-							readFile: spy,
-							"@noCallThru": false, // allows calling other methods of `fs/promises`
-						},
-					},
-				);
+				sinon.replace(fsp, "readFile", spy);
 
 				const testDir = "tests/fixtures/simple-valid-project";
 				const expectedLintedFiles = [
@@ -2329,7 +2340,7 @@ describe("ESLint", () => {
 					path.resolve(testDir, "src", "foobar.js"),
 				];
 
-				eslint = new LocalESLint({
+				eslint = new ESLint({
 					flags,
 					cwd: originalDir,
 					overrideConfigFile: path.resolve(
@@ -12491,7 +12502,12 @@ describe("ESLint", () => {
 		});
 	});
 
-	describe("cache", () => {
+	/**
+	 * A helper function to test the cache functionality with different concurrency settings.
+	 * @param {undefined | number} concurrency The concurrency option passed to ESLint.
+	 * @returns {void}
+	 */
+	function testCacheWithConcurrency(concurrency) {
 		let eslint;
 
 		/**
@@ -12561,6 +12577,7 @@ describe("ESLint", () => {
 				);
 
 				eslint = new ESLint({
+					concurrency,
 					overrideConfigFile: true,
 					cwd,
 
@@ -12605,6 +12622,7 @@ describe("ESLint", () => {
 				});
 
 				eslint = new ESLint({
+					concurrency,
 					overrideConfigFile: true,
 					cwd,
 
@@ -12649,6 +12667,7 @@ describe("ESLint", () => {
 				});
 
 				eslint = new ESLint({
+					concurrency,
 					overrideConfigFile: true,
 					cwd,
 
@@ -12691,6 +12710,7 @@ describe("ESLint", () => {
 			);
 
 			eslint = new ESLint({
+				concurrency,
 				overrideConfigFile: true,
 				cache: true,
 				cwd,
@@ -12722,6 +12742,7 @@ describe("ESLint", () => {
 			);
 
 			eslint = new ESLint({
+				concurrency,
 				overrideConfigFile: true,
 				cwd,
 
@@ -12736,7 +12757,12 @@ describe("ESLint", () => {
 				ignore: false,
 			});
 
-			let spy = sinon.spy(fs.promises, "readFile");
+			let spy;
+
+			// We can't mock things in a worker thread yet.
+			if (!concurrency) {
+				spy = sinon.spy(fs.promises, "readFile");
+			}
 
 			let file = path.join(cwd, "test-file.js");
 
@@ -12751,10 +12777,12 @@ describe("ESLint", () => {
 				);
 			}
 
-			assert(
-				spy.calledWith(file),
-				"ESLint should have read the file because there was no cache file",
-			);
+			if (!concurrency) {
+				assert(
+					spy.calledWith(file),
+					"ESLint should have read the file because there was no cache file",
+				);
+			}
 			assert(
 				shell.test("-f", cacheFilePath),
 				"the cache for eslint should have been created",
@@ -12764,6 +12792,7 @@ describe("ESLint", () => {
 			sinon.restore();
 
 			eslint = new ESLint({
+				concurrency,
 				overrideConfigFile: true,
 				cwd,
 
@@ -12778,15 +12807,19 @@ describe("ESLint", () => {
 				ignore: false,
 			});
 
-			// create a new spy
-			spy = sinon.spy(fs.promises, "readFile");
+			if (!concurrency) {
+				// create a new spy
+				spy = sinon.spy(fs.promises, "readFile");
+			}
 
 			const [newResult] = await eslint.lintFiles([file]);
 
-			assert(
-				spy.calledWith(file),
-				"ESLint should have read the file again because it's considered changed because the config changed",
-			);
+			if (!concurrency) {
+				assert(
+					spy.calledWith(file),
+					"ESLint should have read the file again because it's considered changed because the config changed",
+				);
+			}
 			assert.strictEqual(
 				newResult.errorCount,
 				1,
@@ -12810,6 +12843,7 @@ describe("ESLint", () => {
 			);
 
 			eslint = new ESLint({
+				concurrency,
 				overrideConfigFile: true,
 				cwd,
 
@@ -12824,7 +12858,12 @@ describe("ESLint", () => {
 				ignore: false,
 			});
 
-			let spy = sinon.spy(fs.promises, "readFile");
+			let spy;
+
+			// We can't mock things in a worker thread yet.
+			if (!concurrency) {
+				spy = sinon.spy(fs.promises, "readFile");
+			}
 
 			let file = getFixturePath("cache/src", "test-file.js");
 
@@ -12832,10 +12871,12 @@ describe("ESLint", () => {
 
 			const result = await eslint.lintFiles([file]);
 
-			assert(
-				spy.calledWith(file),
-				"ESLint should have read the file because there was no cache file",
-			);
+			if (!concurrency) {
+				assert(
+					spy.calledWith(file),
+					"ESLint should have read the file because there was no cache file",
+				);
+			}
 			assert(
 				shell.test("-f", cacheFilePath),
 				"the cache for eslint should have been created",
@@ -12845,6 +12886,7 @@ describe("ESLint", () => {
 			sinon.restore();
 
 			eslint = new ESLint({
+				concurrency,
 				overrideConfigFile: true,
 				cwd,
 
@@ -12859,8 +12901,10 @@ describe("ESLint", () => {
 				ignore: false,
 			});
 
-			// create a new spy
-			spy = sinon.spy(fs.promises, "readFile");
+			if (!concurrency) {
+				// create a new spy
+				spy = sinon.spy(fs.promises, "readFile");
+			}
 
 			const cachedResult = await eslint.lintFiles([file]);
 
@@ -12870,11 +12914,13 @@ describe("ESLint", () => {
 				"the result should have been the same",
 			);
 
-			// assert the file was not processed because the cache was used
-			assert(
-				!spy.calledWith(file),
-				"the file should not have been reloaded",
-			);
+			if (!concurrency) {
+				// assert the file was not processed because the cache was used
+				assert(
+					!spy.calledWith(file),
+					"the file should not have been reloaded",
+				);
+			}
 		});
 
 		it("when `cacheLocation` is specified, should create the cache file with `cache:true` and then delete it with `cache:false`", async () => {
@@ -12886,6 +12932,7 @@ describe("ESLint", () => {
 			);
 
 			const eslintOptions = {
+				concurrency,
 				overrideConfigFile: true,
 
 				// specifying cache true the cache will be created
@@ -12935,6 +12982,7 @@ describe("ESLint", () => {
 			const spy = sinon.spy(fsp, "unlink");
 
 			const eslintOptions = {
+				concurrency,
 				overrideConfigFile: true,
 				cache: false,
 				cacheLocation: cacheFilePath,
@@ -12973,6 +13021,7 @@ describe("ESLint", () => {
 			);
 
 			const eslintOptions = {
+				concurrency,
 				overrideConfigFile: true,
 				cache: false,
 				cacheLocation: cacheFilePath,
@@ -13007,6 +13056,7 @@ describe("ESLint", () => {
 			});
 
 			const eslintOptions = {
+				concurrency,
 				overrideConfigFile: true,
 				cache: false,
 				cacheLocation: cacheFilePath,
@@ -13039,6 +13089,7 @@ describe("ESLint", () => {
 			);
 
 			eslint = new ESLint({
+				concurrency,
 				cwd: path.join(fixtureDir, ".."),
 				overrideConfigFile: true,
 
@@ -13107,6 +13158,7 @@ describe("ESLint", () => {
 				"the cache file already exists and wasn't successfully deleted",
 			);
 			eslint = new ESLint({
+				concurrency,
 				cwd: path.join(fixtureDir, ".."),
 				overrideConfigFile: true,
 
@@ -13126,8 +13178,15 @@ describe("ESLint", () => {
 			const goodFile = fs.realpathSync(
 				getFixturePath("cache/src", "test-file.js"),
 			);
-			const toBeDeletedFile = fs.realpathSync(
-				getFixturePath("cache/src", "file-to-delete.js"),
+			const toBeDeletedFile = getFixturePath(
+				"cache/src",
+				"file-to-delete.js",
+			);
+
+			// Create or overwrite the file to be deleted to ensure it exists if the test is repeated.
+			await fsp.writeFile(
+				toBeDeletedFile,
+				"var abc = 3;\n\nconsole.log(abc);\n",
 			);
 
 			await eslint.lintFiles([badFile, goodFile, toBeDeletedFile]);
@@ -13179,6 +13238,7 @@ describe("ESLint", () => {
 			);
 
 			eslint = new ESLint({
+				concurrency,
 				cwd: path.join(fixtureDir, ".."),
 				overrideConfigFile: true,
 
@@ -13241,6 +13301,7 @@ describe("ESLint", () => {
 			fs.writeFileSync(cacheFilePath, "[]"); // intenationally invalid to additionally make sure it isn't used
 
 			eslint = new ESLint({
+				concurrency,
 				cwd: path.join(fixtureDir, ".."),
 				overrideConfigFile: true,
 				cacheLocation: cacheFilePath,
@@ -13276,6 +13337,7 @@ describe("ESLint", () => {
 			fs.writeFileSync(cacheFilePath, "[]"); // intenationally invalid to additionally make sure it isn't used
 
 			eslint = new ESLint({
+				concurrency,
 				cwd: path.join(fixtureDir, ".."),
 				overrideConfigFile: true,
 				cacheLocation: cacheFilePath,
@@ -13313,6 +13375,7 @@ describe("ESLint", () => {
 			fs.writeFileSync(cacheFilePath, "");
 
 			eslint = new ESLint({
+				concurrency,
 				cwd: path.join(fixtureDir, ".."),
 				overrideConfigFile: true,
 				cache: true,
@@ -13350,6 +13413,7 @@ describe("ESLint", () => {
 			fs.writeFileSync(cacheFilePath, "[]"); // intenationally invalid to additionally make sure it isn't used
 
 			eslint = new ESLint({
+				concurrency,
 				cwd: path.join(fixtureDir, ".."),
 				overrideConfigFile: true,
 				cacheLocation: cacheFilePath,
@@ -13384,6 +13448,7 @@ describe("ESLint", () => {
 			);
 
 			eslint = new ESLint({
+				concurrency,
 				overrideConfigFile: true,
 
 				// specify a custom cache file
@@ -13446,6 +13511,7 @@ describe("ESLint", () => {
 			const deprecatedRuleId = "space-in-parens";
 
 			eslint = new ESLint({
+				concurrency,
 				cwd: path.join(fixtureDir, ".."),
 				overrideConfigFile: true,
 
@@ -13515,6 +13581,7 @@ describe("ESLint", () => {
 			);
 
 			eslint = new ESLint({
+				concurrency,
 				cwd: path.join(fixtureDir, ".."),
 				overrideConfigFile: true,
 
@@ -13583,6 +13650,7 @@ describe("ESLint", () => {
 				);
 
 				eslint = new ESLint({
+					concurrency,
 					cwd: path.join(fixtureDir, ".."),
 					overrideConfigFile: true,
 
@@ -13637,6 +13705,7 @@ describe("ESLint", () => {
 				);
 
 				eslint = new ESLint({
+					concurrency,
 					cwd: path.join(fixtureDir, ".."),
 					overrideConfigFile: true,
 
@@ -13690,6 +13759,7 @@ describe("ESLint", () => {
 				);
 
 				eslint = new ESLint({
+					concurrency,
 					cwd: path.join(fixtureDir, ".."),
 					overrideConfigFile: true,
 
@@ -13744,6 +13814,14 @@ describe("ESLint", () => {
 				);
 			});
 		});
+	}
+
+	describe("cache", () => {
+		testCacheWithConcurrency(void 0);
+	});
+
+	describe("cache with multithreading", () => {
+		testCacheWithConcurrency(2);
 	});
 
 	describe("unstable_config_lookup_from_file", () => {
@@ -14440,6 +14518,26 @@ describe("ESLint", () => {
 				assert.strictEqual(results[1].messages.length, 0);
 				assert.strictEqual(results[1].suppressedMessages.length, 0);
 			});
+		});
+	});
+
+	describe("fromOptionModule", () => {
+		it("should return an instance of ESLint", async () => {
+			const url =
+				"data:text/javascript,export default { flags: ['test_only'] }";
+			const eslint = await ESLint.fromOptionModule(url);
+			assert(
+				eslint instanceof ESLint,
+				"expected fromOptionModule to asynchronously return an instance of ESLint",
+			);
+			assert(
+				eslint.hasFlag("test_only"),
+				"expected eslint instance to have the test_only flag",
+			);
+		});
+
+		it("should throw an error with an invalid argument", async () => {
+			await assert.rejects(() => ESLint.fromOptionModule("invalid-url"));
 		});
 	});
 });
