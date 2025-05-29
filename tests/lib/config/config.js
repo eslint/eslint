@@ -662,6 +662,50 @@ describe("Config", () => {
 			});
 		});
 
+		it("should call languageOptions.toJSON() when present instead of serializing the object", () => {
+			const mockLanguage = {
+				validateLanguageOptions() {},
+				normalizeLanguageOptions(options) {
+					options.toJSON = () => "languageOptions";
+					return options;
+				},
+				meta: {
+					name: "testLang",
+					version: "1.0.0",
+				},
+			};
+
+			const mockPlugin = {
+				meta: {
+					name: "testPlugin",
+					version: "1.0.0",
+				},
+				languages: {
+					lang: mockLanguage,
+				},
+			};
+
+			const config = new Config({
+				language: "test/lang",
+				plugins: {
+					test: mockPlugin,
+				},
+				languageOptions: {
+					syntax: {
+						someValue: "string",
+					},
+				},
+			});
+
+			const json = config.toJSON();
+			assert.deepStrictEqual(json, {
+				plugins: ["test:testPlugin@1.0.0"],
+				processor: void 0,
+				language: "test/lang",
+				languageOptions: "languageOptions",
+			});
+		});
+
 		it("should throw an error when toJSON() returns a function", () => {
 			const mockLanguage = {
 				validateLanguageOptions() {},
@@ -700,6 +744,43 @@ describe("Config", () => {
 			assert.throws(() => {
 				config.toJSON();
 			}, 'Cannot serialize key "syntax" in "languageOptions": Function values are not supported.');
+		});
+
+		it("should throw an error when languageOptions.toJSON() returns a function", () => {
+			const mockLanguage = {
+				validateLanguageOptions() {},
+				normalizeLanguageOptions(options) {
+					options.toJSON = () => () => "function";
+					return options;
+				},
+				meta: {
+					name: "testLang",
+					version: "1.0.0",
+				},
+			};
+			const mockPlugin = {
+				meta: {
+					name: "testPlugin",
+					version: "1.0.0",
+				},
+				languages: {
+					lang: mockLanguage,
+				},
+			};
+			const config = new Config({
+				language: "test/lang",
+				plugins: {
+					test: mockPlugin,
+				},
+				languageOptions: {
+					syntax: {
+						someValue: "string",
+					},
+				},
+			});
+			assert.throws(() => {
+				config.toJSON();
+			}, 'Cannot serialize key "toJSON" in "languageOptions": Function values are not supported.');
 		});
 
 		it("should throw when processor doesn't have meta information", () => {
