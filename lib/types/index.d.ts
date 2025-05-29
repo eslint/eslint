@@ -1974,6 +1974,8 @@ export class ESLint {
 	isPathIgnored(filePath: string): Promise<boolean>;
 
 	loadFormatter(nameOrPath?: string): Promise<ESLint.LoadedFormatter>;
+
+	static fromOptionModule(optionsURL: string | URL): Promise<ESLint>;
 }
 
 export namespace ESLint {
@@ -2055,6 +2057,7 @@ export namespace ESLint {
 		cacheStrategy?: CacheStrategy | undefined;
 
 		// Other Options
+		concurrency?: number | "auto" | "off" | undefined;
 		flags?: string[] | undefined;
 	}
 
