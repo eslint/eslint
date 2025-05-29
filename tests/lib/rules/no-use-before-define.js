@@ -1676,3 +1676,1595 @@ ruleTester.run("no-use-before-define", rule, {
 		},
 	],
 });
+
+const ruleTesterTypeScript = new RuleTester({
+	languageOptions: {
+		parser: require("@typescript-eslint/parser"),
+	},
+});
+
+const parserOptions = { ecmaVersion: 6 };
+
+ruleTesterTypeScript.run("no-use-before-define", rule, {
+	valid: [
+		`
+	type foo = 1;
+	const x: foo = 1;
+		`,
+		`
+	type foo = 1;
+	type bar = foo;
+		`,
+		`
+	interface Foo {}
+	const x: Foo = {};
+		`,
+		`
+	var a = 10;
+	alert(a);
+		`,
+		`
+	function b(a) {
+	  alert(a);
+	}
+		`,
+		"Object.hasOwnProperty.call(a);",
+		`
+	function a() {
+	  alert(arguments);
+	}
+		`,
+		"declare function a();",
+		`
+	declare class a {
+	  foo();
+	}
+		`,
+		"const updatedAt = data?.updatedAt;",
+		`
+	function f() {
+	  return function t() {};
+	}
+	f()?.();
+		`,
+		`
+	var a = { b: 5 };
+	alert(a?.b);
+		`,
+		{
+			code: `
+	a();
+	function a() {
+	  alert(arguments);
+	}
+		  `,
+			options: ["nofunc"],
+		},
+		{
+			code: `
+	(() => {
+	  var a = 42;
+	  alert(a);
+	})();
+		  `,
+			languageOptions: { parserOptions },
+		},
+		`
+	a();
+	try {
+	  throw new Error();
+	} catch (a) {}
+		`,
+		{
+			code: `
+	class A {}
+	new A();
+		  `,
+			languageOptions: { parserOptions },
+		},
+		`
+	var a = 0,
+	  b = a;
+		`,
+		{
+			code: "var { a = 0, b = a } = {};",
+			languageOptions: { parserOptions },
+		},
+		{
+			code: "var [a = 0, b = a] = {};",
+			languageOptions: { parserOptions },
+		},
+		`
+	function foo() {
+	  foo();
+	}
+		`,
+		`
+	var foo = function () {
+	  foo();
+	};
+		`,
+		`
+	var a;
+	for (a in a) {
+	}
+		`,
+		{
+			code: `
+	var a;
+	for (a of a) {
+	}
+		  `,
+			languageOptions: { parserOptions },
+		},
+
+		// Block-level bindings
+		{
+			code: `
+	'use strict';
+	a();
+	{
+	  function a() {}
+	}
+		  `,
+			languageOptions: { parserOptions },
+		},
+		{
+			code: `
+	'use strict';
+	{
+	  a();
+	  function a() {}
+	}
+		  `,
+			options: ["nofunc"],
+			languageOptions: { parserOptions },
+		},
+		{
+			code: `
+	switch (foo) {
+	  case 1: {
+		a();
+	  }
+	  default: {
+		let a;
+	  }
+	}
+		  `,
+			languageOptions: { parserOptions },
+		},
+		{
+			code: `
+	a();
+	{
+	  let a = function () {};
+	}
+		  `,
+			languageOptions: { parserOptions },
+		},
+
+		// object style options
+		{
+			code: `
+	a();
+	function a() {
+	  alert(arguments);
+	}
+		  `,
+			options: [{ functions: false }],
+		},
+		{
+			code: `
+	'use strict';
+	{
+	  a();
+	  function a() {}
+	}
+		  `,
+			options: [{ functions: false }],
+			languageOptions: { parserOptions },
+		},
+		{
+			code: `
+	function foo() {
+	  new A();
+	}
+	class A {}
+		  `,
+			options: [{ classes: false }],
+			languageOptions: { parserOptions },
+		},
+
+		// "variables" option
+		{
+			code: `
+	function foo() {
+	  bar;
+	}
+	var bar;
+		  `,
+			options: [{ variables: false }],
+		},
+		{
+			code: `
+	var foo = () => bar;
+	var bar;
+		  `,
+			options: [{ variables: false }],
+			languageOptions: { parserOptions },
+		},
+
+		// "typedefs" option
+		{
+			code: `
+	var x: Foo = 2;
+	type Foo = string | number;
+		  `,
+			options: [{ typedefs: false }],
+		},
+		{
+			code: `
+	var x: Foo = {};
+	interface Foo {}
+		  `,
+			options: [{ typedefs: false, ignoreTypeReferences: false }],
+		},
+		{
+			code: `
+	let myVar: String;
+	type String = string;
+		  `,
+			options: [{ typedefs: false, ignoreTypeReferences: false }],
+		},
+		// https://github.com/typescript-eslint/typescript-eslint/issues/2572
+		{
+			code: `
+	interface Bar {
+	  type: typeof Foo;
+	}
+	
+	const Foo = 2;
+		  `,
+			options: [{ ignoreTypeReferences: true }],
+		},
+		{
+			code: `
+	interface Bar {
+	  type: typeof Foo.FOO;
+	}
+	
+	class Foo {
+	  public static readonly FOO = '';
+	}
+		  `,
+			options: [{ ignoreTypeReferences: true }],
+		},
+		{
+			code: `
+	interface Bar {
+	  type: typeof Foo.Bar.Baz;
+	}
+	
+	const Foo = {
+	  Bar: {
+		Baz: 1,
+	  },
+	};
+		  `,
+			options: [{ ignoreTypeReferences: true }],
+		},
+		// https://github.com/bradzacher/eslint-plugin-typescript/issues/141
+		{
+			code: `
+	interface ITest {
+	  first: boolean;
+	  second: string;
+	  third: boolean;
+	}
+	
+	let first = () => console.log('first');
+	
+	export let second = () => console.log('second');
+	
+	export namespace Third {
+	  export let third = () => console.log('third');
+	}
+		  `,
+			languageOptions: {
+				parserOptions: { ecmaVersion: 6, sourceType: "module" },
+			},
+		},
+		// https://github.com/eslint/typescript-eslint-parser/issues/550
+		`
+	function test(file: Blob) {
+	  const slice: typeof file.slice =
+		file.slice || (file as any).webkitSlice || (file as any).mozSlice;
+	  return slice;
+	}
+		`,
+		// https://github.com/eslint/typescript-eslint-parser/issues/435
+		`
+	interface Foo {
+	  bar: string;
+	}
+	const bar = 'blah';
+		`,
+		{
+			code: `
+	function foo(): Foo {
+	  return Foo.FOO;
+	}
+	
+	enum Foo {
+	  FOO,
+	}
+		  `,
+			options: [{ enums: false }],
+		},
+		{
+			code: `
+	let foo: Foo;
+	
+	enum Foo {
+	  FOO,
+	}
+		  `,
+			options: [{ enums: false }],
+		},
+		{
+			code: `
+	class Test {
+	  foo(args: Foo): Foo {
+		return Foo.FOO;
+	  }
+	}
+	
+	enum Foo {
+	  FOO,
+	}
+		  `,
+			options: [{ enums: false }],
+		},
+
+		// "allowNamedExports" option
+		{
+			code: `
+	export { a };
+	const a = 1;
+		  `,
+			options: [{ allowNamedExports: true }],
+			languageOptions: { parserOptions },
+		},
+		{
+			code: `
+	export { a as b };
+	const a = 1;
+		  `,
+			options: [{ allowNamedExports: true }],
+			languageOptions: { parserOptions },
+		},
+		{
+			code: `
+	export { a, b };
+	let a, b;
+		  `,
+			options: [{ allowNamedExports: true }],
+			languageOptions: { parserOptions },
+		},
+		{
+			code: `
+	export { a };
+	var a;
+		  `,
+			options: [{ allowNamedExports: true }],
+			languageOptions: { parserOptions },
+		},
+		{
+			code: `
+	export { f };
+	function f() {}
+		  `,
+			options: [{ allowNamedExports: true }],
+			languageOptions: { parserOptions },
+		},
+		{
+			code: `
+	export { C };
+	class C {}
+		  `,
+			options: [{ allowNamedExports: true }],
+			languageOptions: { parserOptions },
+		},
+		{
+			code: `
+	export { Foo };
+	
+	enum Foo {
+	  BAR,
+	}
+		  `,
+			options: [{ allowNamedExports: true }],
+			languageOptions: { parserOptions },
+		},
+		{
+			code: `
+	export { Foo };
+	
+	namespace Foo {
+	  export let bar = () => console.log('bar');
+	}
+		  `,
+			options: [{ allowNamedExports: true }],
+			languageOptions: { parserOptions },
+		},
+		{
+			code: `
+	export { Foo, baz };
+	
+	enum Foo {
+	  BAR,
+	}
+	
+	let baz: Enum;
+	enum Enum {}
+		  `,
+			options: [{ allowNamedExports: true }],
+			languageOptions: { parserOptions },
+		},
+		// https://github.com/typescript-eslint/typescript-eslint/issues/2502
+		{
+			code: `
+	import * as React from 'react';
+	
+	<div />;
+		  `,
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: {
+						jsx: true,
+					},
+					sourceType: "module",
+				},
+			},
+		},
+		{
+			code: `
+	import React from 'react';
+	
+	<div />;
+		  `,
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: {
+						jsx: true,
+					},
+					sourceType: "module",
+				},
+			},
+		},
+		{
+			code: `
+	import { h } from 'preact';
+	
+	<div />;
+		  `,
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: {
+						jsx: true,
+					},
+					jsxPragma: "h",
+					sourceType: "module",
+				},
+			},
+		},
+		{
+			code: `
+	const React = require('react');
+	
+	<div />;
+		  `,
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: {
+						jsx: true,
+					},
+				},
+			},
+		},
+		// https://github.com/typescript-eslint/typescript-eslint/issues/2527
+		`
+	type T = (value: unknown) => value is Id;
+		`,
+		`
+	global.foo = true;
+	
+	declare global {
+	  namespace NodeJS {
+		interface Global {
+		  foo?: boolean;
+		}
+	  }
+	}
+		`,
+		// https://github.com/typescript-eslint/typescript-eslint/issues/2824
+		`
+	@Directive({
+	  selector: '[rcCidrIpPattern]',
+	  providers: [
+		{
+		  provide: NG_VALIDATORS,
+		  useExisting: CidrIpPatternDirective,
+		  multi: true,
+		},
+	  ],
+	})
+	export class CidrIpPatternDirective implements Validator {}
+		`,
+		{
+			code: `
+	@Directive({
+	  selector: '[rcCidrIpPattern]',
+	  providers: [
+		{
+		  provide: NG_VALIDATORS,
+		  useExisting: CidrIpPatternDirective,
+		  multi: true,
+		},
+	  ],
+	})
+	export class CidrIpPatternDirective implements Validator {}
+		  `,
+			options: [
+				{
+					classes: false,
+				},
+			],
+		},
+		// https://github.com/typescript-eslint/typescript-eslint/issues/2941
+		`
+	class A {
+	  constructor(printName) {
+		this.printName = printName;
+	  }
+	
+	  openPort(printerName = this.printerName) {
+		this.tscOcx.ActiveXopenport(printerName);
+	
+		return this;
+	  }
+	}
+		`,
+		{
+			code: `
+	const obj = {
+	  foo: 'foo-value',
+	  bar: 'bar-value',
+	} satisfies {
+	  [key in 'foo' | 'bar']: \`\${key}-value\`;
+	};
+		  `,
+			options: [{ ignoreTypeReferences: false }],
+		},
+		{
+			code: `
+	const obj = {
+	  foo: 'foo-value',
+	  bar: 'bar-value',
+	} as {
+	  [key in 'foo' | 'bar']: \`\${key}-value\`;
+	};
+		  `,
+			options: [{ ignoreTypeReferences: false }],
+		},
+		{
+			code: `
+	const obj = {
+	  foo: {
+		foo: 'foo',
+	  } as {
+		[key in 'foo' | 'bar']: key;
+	  },
+	};
+		  `,
+			options: [{ ignoreTypeReferences: false }],
+		},
+		{
+			code: `
+	const foo = {
+	  bar: 'bar',
+	} satisfies {
+	  bar: typeof baz;
+	};
+	
+	const baz = '';
+		  `,
+			options: [{ ignoreTypeReferences: true }],
+		},
+		`
+	namespace A.X.Y {}
+	
+	import Z = A.X.Y;
+	
+	const X = 23;
+		`,
+		`
+		namespace A {
+			export namespace X {
+				export namespace Y {
+					export const foo = 40;
+				}
+			}
+		}
+
+		import Z = A.X.Y;
+
+		const X = 23;
+		`,
+	],
+	invalid: [
+		{
+			code: `
+	a++;
+	var a = 19;
+		  `,
+			languageOptions: {
+				parserOptions: { sourceType: "module" },
+			},
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
+	a++;
+	var a = 19;
+		  `,
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
+	a++;
+	var a = 19;
+		  `,
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
+	a();
+	var a = function () {};
+		  `,
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
+	alert(a[1]);
+	var a = [1, 3];
+		  `,
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
+	a();
+	function a() {
+	  alert(b);
+	  var b = 10;
+	  a();
+	}
+		  `,
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+				{
+					data: { name: "b" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
+	a();
+	var a = function () {};
+		  `,
+			options: ["nofunc"],
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
+	(() => {
+	  alert(a);
+	  var a = 42;
+	})();
+		  `,
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
+	(() => a())();
+	function a() {}
+		  `,
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
+	a();
+	try {
+	  throw new Error();
+	} catch (foo) {
+	  var a;
+	}
+		  `,
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
+	var f = () => a;
+	var a;
+		  `,
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
+	new A();
+	class A {}
+		  `,
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "A" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
+	function foo() {
+	  new A();
+	}
+	class A {}
+		  `,
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "A" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
+	new A();
+	var A = class {};
+		  `,
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "A" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
+	function foo() {
+	  new A();
+	}
+	var A = class {};
+		  `,
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "A" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+
+		// Block-level bindings
+		{
+			code: `
+	a++;
+	{
+	  var a;
+	}
+		  `,
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
+	'use strict';
+	{
+	  a();
+	  function a() {}
+	}
+		  `,
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
+	{
+	  a;
+	  let a = 1;
+	}
+		  `,
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
+	switch (foo) {
+	  case 1:
+		a();
+	  default:
+		let a;
+	}
+		  `,
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
+	if (true) {
+	  function foo() {
+		a;
+	  }
+	  let a;
+	}
+		  `,
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+
+		// object style options
+		{
+			code: `
+	a();
+	var a = function () {};
+		  `,
+			options: [{ classes: false, functions: false }],
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
+	new A();
+	var A = class {};
+		  `,
+			options: [{ classes: false }],
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "A" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
+	function foo() {
+	  new A();
+	}
+	var A = class {};
+		  `,
+			options: [{ classes: false }],
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "A" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+
+		// invalid initializers
+		{
+			code: "var a = a;",
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "let a = a + b;",
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "const a = foo(a);",
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "function foo(a = a) {}",
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "var { a = a } = [];",
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "var [a = a] = [];",
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "var { b = a, a } = {};",
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "var [b = a, a] = {};",
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "var { a = 0 } = a;",
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "var [a = 0] = a;",
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
+	for (var a in a) {
+	}
+		  `,
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
+	for (var a of a) {
+	}
+		  `,
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+
+		// "ignoreTypeReferences" option
+		{
+			code: `
+	interface Bar {
+	  type: typeof Foo;
+	}
+	
+	const Foo = 2;
+		  `,
+			options: [{ ignoreTypeReferences: false }],
+			errors: [
+				{
+					data: { name: "Foo" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
+	let var1: StringOrNumber;
+
+type StringOrNumber = string | number;
+		  `,
+			options: [{ ignoreTypeReferences: false, typedefs: true }],
+			errors: [
+				{
+					data: { name: "StringOrNumber" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
+	interface Bar {
+	  type: typeof Foo.FOO;
+	}
+	
+	class Foo {
+	  public static readonly FOO = '';
+	}
+		  `,
+			options: [{ ignoreTypeReferences: false }],
+			errors: [
+				{
+					data: { name: "Foo" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
+	interface Bar {
+	  type: typeof Foo.Bar.Baz;
+	}
+	
+	const Foo = {
+	  Bar: {
+		Baz: 1,
+	  },
+	};
+		  `,
+			options: [{ ignoreTypeReferences: false }],
+			errors: [
+				{
+					data: { name: "Foo" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
+	const foo = {
+	  bar: 'bar',
+	} satisfies {
+	  bar: typeof baz;
+	};
+	
+	const baz = '';
+		  `,
+			options: [{ ignoreTypeReferences: false }],
+			errors: [
+				{
+					data: { name: "baz" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+
+		// "variables" option
+		{
+			code: `
+	function foo() {
+	  bar;
+	  var bar = 1;
+	}
+	var bar;
+		  `,
+			options: [{ variables: false }],
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "bar" },
+					messageId: "usedBeforeDefined",
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: `
+	class Test {
+	  foo(args: Foo): Foo {
+		return Foo.FOO;
+	  }
+	}
+	
+	enum Foo {
+	  FOO,
+	}
+		  `,
+			options: [{ enums: true }],
+			errors: [
+				{
+					data: { name: "Foo" },
+					line: 4,
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	function foo(): Foo {
+	  return Foo.FOO;
+	}
+	
+	enum Foo {
+	   FOO,
+	 }
+	`,
+			options: [{ enums: true }],
+			errors: [
+				{
+					data: { name: "Foo" },
+					line: 3,
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	const foo = Foo.Foo;
+	
+	enum Foo {
+	  FOO,
+	}
+		  `,
+			options: [{ enums: true }],
+			errors: [
+				{
+					data: { name: "Foo" },
+					line: 2,
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		// "allowNamedExports" option
+		{
+			code: `
+	export { a };
+	const a = 1;
+		  `,
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	export { a };
+	const a = 1;
+		  `,
+			options: [{}],
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	export { a };
+	const a = 1;
+		  `,
+			options: [{ allowNamedExports: false }],
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	export { a };
+	const a = 1;
+		  `,
+			options: ["nofunc"],
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	export { a as b };
+	const a = 1;
+		  `,
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	export { a, b };
+	let a, b;
+		  `,
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+				},
+				{
+					data: { name: "b" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	export { a };
+	var a;
+		  `,
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	export { f };
+	function f() {}
+		  `,
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "f" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	export { C };
+	class C {}
+		  `,
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "C" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	export const foo = a;
+	const a = 1;
+		  `,
+			options: [{ allowNamedExports: true }],
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	export function foo() {
+	  return a;
+	}
+	const a = 1;
+		  `,
+			options: [{ allowNamedExports: true }],
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	export class C {
+	  foo() {
+		return a;
+	  }
+	}
+	const a = 1;
+		  `,
+			options: [{ allowNamedExports: true }],
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	export { Foo };
+	
+	enum Foo {
+	  BAR,
+	}
+		  `,
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "Foo" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	export { Foo };
+	
+	namespace Foo {
+	  export let bar = () => console.log('bar');
+	}
+		  `,
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "Foo" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	export { Foo, baz };
+	
+	enum Foo {
+	  BAR,
+	}
+	
+	let baz: Enum;
+	enum Enum {}
+		  `,
+			options: [{ allowNamedExports: false, ignoreTypeReferences: true }],
+			languageOptions: { parserOptions },
+			errors: [
+				{
+					data: { name: "Foo" },
+					messageId: "usedBeforeDefined",
+				},
+				{
+					data: { name: "baz" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	f();
+	function f() {}
+		  `,
+			errors: [
+				{
+					data: { name: "f" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	alert(a);
+	var a = 10;
+		  `,
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	f()?.();
+	function f() {
+	  return function t() {};
+	}
+		  `,
+			errors: [
+				{
+					data: { name: "f" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	alert(a?.b);
+	var a = { b: 5 };
+		  `,
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	@decorator
+	class C {
+  		static x = "foo";
+  		[C.x]() { }
+	}
+		  `,
+			errors: [
+				{
+					data: { name: "C" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+	],
+});
