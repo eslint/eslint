@@ -1,5 +1,7 @@
 "use strict";
 
+/** @typedef {import("eslint").Linter.Processor} Processor */
+
 /**
  * Define a processor which extract code blocks `pattern` regexp matched.
  * The defined processor supports autofix, but doesn't have `supportsAutofix` property.

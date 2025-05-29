@@ -31,6 +31,7 @@ import {
 	Linter,
 	loadESLint,
 	Rule,
+	JSRuleDefinition,
 	RuleTester,
 	Scope,
 	SourceCode,
@@ -52,7 +53,7 @@ import {
 	StaticBlock,
 	WhileStatement,
 } from "estree";
-import { Language, RuleDefinition } from "@eslint/core";
+import { Language, RuleDefinition, SettingsConfig } from "@eslint/core";
 
 const SOURCE = `var foo = bar;`;
 
@@ -613,6 +614,13 @@ rule = {
 		hasSuggestions: true,
 	},
 };
+rule = {
+	create(context) {
+		const foo: string = context.options[0];
+		const baz: number = context.options[1]?.baz ?? false;
+		return {};
+	},
+};
 
 rule = {
 	create(context: Rule.RuleContext) {
@@ -635,6 +643,8 @@ rule = {
 		context.languageOptions;
 		context.languageOptions
 			.ecmaVersion satisfies Linter.LanguageOptions["ecmaVersion"];
+
+		context.options; // $ExpectType any[]
 
 		context.sourceCode;
 		context.sourceCode.getLocFromIndex(42);
@@ -783,6 +793,13 @@ rule = {
 	},
 };
 
+let rule2: RuleDefinition;
+rule2 = {
+	create(context) {
+		return {};
+	},
+	meta: {},
+};
 type DeprecatedRuleContextKeys =
 	| "getAncestors"
 	| "getDeclaredVariables"
@@ -796,6 +813,93 @@ type DeprecatedRuleContextKeys =
 				? never
 				: (typeof context)[Key];
 		};
+		return {};
+	},
+});
+
+// All options optional - JSRuleDefinition and JSRuleDefinition<{}>
+// should be the same type.
+(rule1: JSRuleDefinition, rule2: JSRuleDefinition<{}>) => {
+	rule1 satisfies typeof rule2;
+	rule2 satisfies typeof rule1;
+};
+
+// Type restrictions should be enforced
+(): JSRuleDefinition<{
+	RuleOptions: [string, number];
+	MessageIds: "foo" | "bar";
+	ExtRuleDocs: { foo: string; bar: number };
+}> => ({
+	meta: {
+		messages: {
+			foo: "FOO",
+
+			// @ts-expect-error Wrong type for message ID
+			bar: 42,
+		},
+		docs: {
+			foo: "FOO",
+
+			// @ts-expect-error Wrong type for declared property
+			bar: "BAR",
+
+			// @ts-expect-error Wrong type for predefined property
+			description: 42,
+		},
+	},
+	create({ options }) {
+		// Types for rule options
+		options[0] satisfies string;
+		options[1] satisfies number;
+
+		return {};
+	},
+});
+
+// Undeclared properties should produce an error
+(): JSRuleDefinition<{
+	MessageIds: "foo" | "bar";
+	ExtRuleDocs: { foo: number; bar: string };
+}> => ({
+	meta: {
+		messages: {
+			foo: "FOO",
+
+			// Declared message ID is not required
+			// bar: "BAR",
+
+			// @ts-expect-error Undeclared message ID is not allowed
+			baz: "BAZ",
+		},
+		docs: {
+			foo: 42,
+
+			// Declared property is not required
+			// bar: "BAR",
+
+			// @ts-expect-error Undeclared property key is not allowed
+			baz: "BAZ",
+
+			// Predefined property is allowed
+			description: "Lorem ipsum",
+		},
+	},
+	create() {
+		return {};
+	},
+});
+
+(): JSRuleDefinition => ({
+	create(context) {
+		context.cwd satisfies string; // $ExpectType string
+		context.filename satisfies string; // $ExpectType string
+		context.id satisfies string; // $ExpectType string
+		context.languageOptions satisfies Linter.LanguageOptions; // $ExpectType LanguageOptions
+		context.options satisfies unknown[]; // $ExpectType unknown[]
+		context.physicalFilename satisfies string; // $ExpectType string
+		context.settings satisfies SettingsConfig; // $ExpectType SettingsConfig
+		context.sourceCode satisfies SourceCode; // $ExpectType SourceCode
+
 		return {};
 	},
 });
@@ -837,6 +941,16 @@ linter.verify(
 		parserOptions: {
 			ecmaVersion: 6,
 			ecmaFeatures: { experimentalObjectRestSpread: true },
+		},
+	},
+	"test.js",
+);
+linter.verify(
+	SOURCE,
+	{
+		parserOptions: {
+			ecmaVersion: 3,
+			allowReserved: true,
 		},
 	},
 	"test.js",
@@ -969,11 +1083,11 @@ linter.defineParser("custom-parser", {
 		name: "foo",
 		version: "1.2.3",
 	},
-	parseForESLint(src, opts) {
+	parseForESLint(src, opts): Linter.ESLintParseResult {
 		return {
 			ast: AST,
 			visitorKeys: {},
-			parserServices: {},
+			services: {},
 			scopeManager,
 		};
 	},
@@ -1236,6 +1350,16 @@ linterWithEslintrcConfig.verify(
 	},
 	"test.js",
 );
+linterWithEslintrcConfig.verify(
+	SOURCE,
+	{
+		parserOptions: {
+			ecmaVersion: 3,
+			allowReserved: true,
+		},
+	},
+	"test.js",
+);
 linterWithEslintrcConfig.verify(SOURCE, { env: { node: true } }, "test.js");
 linterWithEslintrcConfig.verify(SOURCE, { globals: { foo: true } }, "test.js");
 linterWithEslintrcConfig.verify(SOURCE, { globals: { foo: "off" } }, "test.js");
@@ -1391,6 +1515,7 @@ linterWithEslintrcConfig.getRules();
 				version: "1.0.0",
 				meta: {
 					name: "bar",
+					namespace: "bar",
 					version: "1.0.0",
 				},
 				configs: {
@@ -1669,6 +1794,20 @@ for (const result of results) {
 	};
 	delete result.stats;
 
+	const deprecatedRule = result.usedDeprecatedRules[0];
+	deprecatedRule.ruleId = "foo";
+	deprecatedRule.replacedBy = ["bar"];
+	deprecatedRule.info = {
+		message: "use bar instead",
+		replacedBy: [
+			{
+				rule: {
+					name: "bar",
+				},
+			},
+		],
+	};
+
 	for (const message of result.messages) {
 		message.ruleId = "foo";
 	}
@@ -1814,6 +1953,11 @@ RuleTester.it = RuleTester.itOnly = function (
 ) {};
 
 ruleTester.run("simple-valid-test", rule, {
+	valid: ["foo", "bar", { code: "foo", options: [{ allowFoo: true }] }],
+	invalid: [{ code: "bar", errors: ["baz"] }],
+});
+
+ruleTester.run("simple-valid-test", rule2, {
 	valid: ["foo", "bar", { code: "foo", options: [{ allowFoo: true }] }],
 	invalid: [{ code: "bar", errors: ["baz"] }],
 });

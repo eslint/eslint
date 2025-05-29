@@ -17,12 +17,14 @@ jsdoc/
 .cache
 /packages/**/node_modules
 /.vscode
+*.code-workspace
 .sublimelinterrc
 .eslint-release-info.json
 .nyc_output
 /test-results.xml
 .temp-eslintcache
 /tests/fixtures/autofix-integration/temp.js
+/tests/fixtures/suppressions/temp.js
 yarn.lock
 package-lock.json
 pnpm-lock.yaml
@@ -30,3 +32,5 @@ pnpm-lock.yaml
 # Docs site
 _site
 /docs/src/assets/css
+
+.cursor

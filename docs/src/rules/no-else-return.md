@@ -59,7 +59,7 @@ function foo3() {
     if (x) {
         return y;
     } else {
-        var t = "foo";
+        const t = "foo";
     }
 
     return t;
@@ -110,7 +110,7 @@ function foo2() {
     if (x) {
         return y;
     } else if (z) {
-        var t = "foo";
+        const t = "foo";
     } else {
         return w;
     }

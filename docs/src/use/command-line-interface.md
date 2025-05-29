@@ -137,6 +137,12 @@ Caching:
   --cache-strategy String         Strategy to use for detecting changed files in the cache - either: metadata or
                                   content - default: metadata
 
+Suppressing Violations:
+  --suppress-all                  Suppress all violations - default: false
+  --suppress-rule [String]        Suppress specific rules
+  --suppressions-location path::String  Specify the location of the suppressions file
+  --prune-suppressions            Prune unused suppressions - default: false
+
 Miscellaneous:
   --init                          Run config initialization wizard - default: false
   --env-info                      Output execution environment information - default: false
@@ -150,6 +156,7 @@ Miscellaneous:
   --print-config path::String     Print the configuration for the given file
   --stats                         Add statistics to the lint report - default: false
   --flag [String]                 Enable a feature flag
+  --mcp                           Start the ESLint MCP server
 ```
 
 ### Basic Configuration
@@ -158,7 +165,7 @@ Miscellaneous:
 
 **eslintrc Mode Only.** Disables use of configuration from `.eslintrc.*` and `package.json` files. For flat config mode, use `--no-config-lookup` instead.
 
--   **Argument Type**: No argument.
+- **Argument Type**: No argument.
 
 ##### `--no-eslintrc` example
 
@@ -171,8 +178,8 @@ Miscellaneous:
 
 This option allows you to specify an additional configuration file for ESLint (see [Configure ESLint](configure/) for more).
 
--   **Argument Type**: String. Path to file.
--   **Multiple Arguments**: No
+- **Argument Type**: String. Path to file.
+- **Multiple Arguments**: No
 
 ##### `-c`, `--config` example
 
@@ -187,7 +194,7 @@ This example uses the configuration file at `~/my.eslint.config.js`, which is us
 
 **Flat Config Mode Only.** This option runs `npx @eslint/config-inspector@latest` to start the config inspector. You can use the config inspector to better understand what your configuration is doing and which files it applies to. When you use this flag, the CLI does not perform linting.
 
--   **Argument Type**: No argument.
+- **Argument Type**: No argument.
 
 ##### `--inspect-config` example
 
@@ -200,8 +207,8 @@ This example uses the configuration file at `~/my.eslint.config.js`, which is us
 
 **eslintrc Mode Only.** This option enables specific environments.
 
--   **Argument Type**: String. One of the available environments.
--   **Multiple Arguments**: Yes
+- **Argument Type**: String. One of the available environments.
+- **Multiple Arguments**: Yes
 
 Details about the global variables defined by each environment are available in the [Specifying Environments](configure/language-options-deprecated#specifying-environments) documentation. This option only enables environments. It does not disable environments set in other configuration files. To specify multiple environments, separate them using commas, or use the option multiple times.
 
@@ -221,11 +228,11 @@ Details about the global variables defined by each environment are available in 
 
 This option allows you to specify additional file extensions to lint.
 
--   **Argument Type**: String. File extension.
--   **Multiple Arguments**: Yes
--   **Default Value**: By default, ESLint lints files with extensions `.js`, `.mjs`, `.cjs`, and additional extensions [specified in the configuration file](configure/configuration-files#specifying-files-with-arbitrary-extensions).
+- **Argument Type**: String. File extension.
+- **Multiple Arguments**: Yes
+- **Default Value**: By default, ESLint lints files with extensions `.js`, `.mjs`, `.cjs`, and additional extensions [specified in the configuration file](configure/configuration-files#specifying-files-with-arbitrary-extensions).
 
-This option is primarely intended for use in combination with the `--no-config-lookup` option, since in that case there is no configuration file in which the additional extensions would be specified.
+This option is primarily intended for use in combination with the `--no-config-lookup` option, since in that case there is no configuration file in which the additional extensions would be specified.
 
 ##### `--ext` example
 
@@ -251,8 +258,8 @@ This option is primarely intended for use in combination with the `--no-config-l
 
 This option defines global variables so that they are not flagged as undefined by the [`no-undef`](../rules/no-undef) rule.
 
--   **Argument Type**: String. Name of the global variable. Any specified global variables are assumed to be read-only by default, but appending `:true` to a variable's name ensures that `no-undef` also allows writes.
--   **Multiple Arguments**: Yes
+- **Argument Type**: String. Name of the global variable. Any specified global variables are assumed to be read-only by default, but appending `:true` to a variable's name ensures that `no-undef` also allows writes.
+- **Multiple Arguments**: Yes
 
 ##### `--global` example
 
@@ -270,9 +277,9 @@ This option defines global variables so that they are not flagged as undefined b
 
 This option allows you to specify a parser to be used by ESLint.
 
--   **Argument Type**: String. Parser to be used by ESLint.
--   **Multiple Arguments**: No
--   **Default Value**: `espree`
+- **Argument Type**: String. Parser to be used by ESLint.
+- **Multiple Arguments**: No
+- **Default Value**: `espree`
 
 ##### `--parser` example
 
@@ -286,8 +293,8 @@ This option allows you to specify a parser to be used by ESLint.
 
 This option allows you to specify parser options to be used by ESLint. The available parser options are determined by the parser being used.
 
--   **Argument Type**: Key/value pair separated by colon (`:`).
--   **Multiple Arguments**: Yes
+- **Argument Type**: Key/value pair separated by colon (`:`).
+- **Multiple Arguments**: Yes
 
 ##### `--parser-options` example
 
@@ -301,7 +308,7 @@ This option allows you to specify parser options to be used by ESLint. The avail
 {{ npx_tabs ({
     package: "eslint",
     args: ["--stdin", "--parser-options", "ecmaVersion:7"],
-    comment: "succeds, yay!",
+    comment: "succeeds, yay!",
     previousCommands: ["echo \'3 ** 4\'"]
 }) }}
 
@@ -309,16 +316,16 @@ This option allows you to specify parser options to be used by ESLint. The avail
 
 **eslintrc Mode Only.** Changes the directory where plugins are resolved from.
 
--   **Argument Type**: String. Path to directory.
--   **Multiple Arguments**: No
--   **Default Value**: By default, plugins are resolved from the directory in which your configuration file is found.
+- **Argument Type**: String. Path to directory.
+- **Multiple Arguments**: No
+- **Default Value**: By default, plugins are resolved from the directory in which your configuration file is found.
 
 This option should be used when plugins were installed by someone other than the end user. It should be set to the project directory of the project that has a dependency on the necessary plugins.
 
 For example:
 
--   When using a config file that is located outside of the current project (with the `--config` flag), if the config uses plugins which are installed locally to itself, `--resolve-plugins-relative-to` should be set to the directory containing the config file.
--   If an integration has dependencies on ESLint and a set of plugins, and the tool invokes ESLint on behalf of the user with a preset configuration, the tool should set `--resolve-plugins-relative-to` to the top-level directory of the tool.
+- When using a config file that is located outside of the current project (with the `--config` flag), if the config uses plugins which are installed locally to itself, `--resolve-plugins-relative-to` should be set to the directory containing the config file.
+- If an integration has dependencies on ESLint and a set of plugins, and the tool invokes ESLint on behalf of the user with a preset configuration, the tool should set `--resolve-plugins-relative-to` to the top-level directory of the tool.
 
 ##### `--resolve-plugins-relative-to` example
 
@@ -333,8 +340,8 @@ For example:
 
 This option specifies a plugin to load.
 
--   **Argument Type**: String. Plugin name. You can optionally omit the prefix `eslint-plugin-` from the plugin name.
--   **Multiple Arguments**: Yes
+- **Argument Type**: String. Plugin name. You can optionally omit the prefix `eslint-plugin-` from the plugin name.
+- **Multiple Arguments**: Yes
 
 Before using the plugin, you have to install it using npm.
 
@@ -354,8 +361,8 @@ Before using the plugin, you have to install it using npm.
 
 This option specifies the rules to be used.
 
--   **Argument Type**: Rules and their configuration specified with [levn](https://github.com/gkz/levn#levn--) format.
--   **Multiple Arguments**: Yes
+- **Argument Type**: Rules and their configuration specified with [levn](https://github.com/gkz/levn#levn--) format.
+- **Multiple Arguments**: Yes
 
 These rules are merged with any rules specified with configuration files. If the rule is defined in a plugin, you have to prefix the rule ID with the plugin name and a `/`.
 
@@ -393,8 +400,8 @@ To ignore rules in `.eslintrc` configuration files and only run rules specified 
 
 **eslintrc Mode Only.** This option allows you to specify another directory from which to load rules files. This allows you to dynamically load new rules at run time. This is useful when you have custom rules that aren't suitable for being bundled with ESLint.
 
--   **Argument Type**: String. Path to directory. The rules in your custom rules directory must follow the same format as bundled rules to work properly.
--   **Multiple Arguments**: Yes
+- **Argument Type**: String. Path to directory. The rules in your custom rules directory must follow the same format as bundled rules to work properly.
+- **Multiple Arguments**: Yes
 
 Note that, as with core rules and plugin rules, you still need to enable the rules in configuration or via the `--rule` CLI option in order to actually run those rules during linting. Specifying a rules directory with `--rulesdir` does not automatically enable the rules within that directory.
 
@@ -416,7 +423,7 @@ Note that, as with core rules and plugin rules, you still need to enable the rul
 
 This option instructs ESLint to try to [fix](core-concepts#rule-fixes) as many issues as possible. The fixes are made to the actual files themselves and only the remaining unfixed issues are output.
 
--   **Argument Type**: No argument.
+- **Argument Type**: No argument.
 
 Not all problems are fixable using this option, and the option does not work in these situations:
 
@@ -436,7 +443,7 @@ If you want to fix code from `stdin` or otherwise want to get the fixes without 
 
 This option has the same effect as `--fix` with the difference that the fixes are not saved to the file system. Because the default formatter does not output the fixed code, you'll have to use another formatter (e.g. `--format json`) to get the fixes.
 
--   **Argument Type**: No argument.
+- **Argument Type**: No argument.
 
 This makes it possible to fix code from `stdin` when used with the `--stdin` flag.
 
@@ -454,12 +461,12 @@ This flag can be useful for integrations (e.g. editor plugins) which need to aut
 
 This option allows you to specify the type of fixes to apply when using either `--fix` or `--fix-dry-run`.
 
--   **Argument Type**: String. One of the following fix types:
+- **Argument Type**: String. One of the following fix types:
     1. `problem` - fix potential errors in the code
     1. `suggestion` - apply fixes to the code that improve it
     1. `layout` - apply fixes that do not change the program structure (AST)
     1. `directive` - apply fixes to inline directives such as `// eslint-disable`
--   **Multiple Arguments**: Yes
+- **Multiple Arguments**: Yes
 
 This option is helpful if you are using another program to format your code, but you would still like ESLint to apply other types of fixes.
 
@@ -486,9 +493,9 @@ This option is helpful if you are using another program to format your code, but
 
 **eslintrc Mode Only.** This option allows you to specify the file to use as your `.eslintignore`.
 
--   **Argument Type**: String. Path to file.
--   **Multiple Arguments**: No
--   **Default Value**: By default, ESLint looks for `.eslintignore` in the current working directory.
+- **Argument Type**: String. Path to file.
+- **Multiple Arguments**: No
+- **Default Value**: By default, ESLint looks for `.eslintignore` in the current working directory.
 
 **Note:** `--ignore-path` is only supported when using [deprecated configuration](./configure/configuration-files-deprecated). If you want to include patterns from a `.gitignore` file in your `eslint.config.js` file, please see [including `.gitignore` files](./configure/ignore#including-gitignore-files).
 
@@ -508,7 +515,7 @@ This option is helpful if you are using another program to format your code, but
 
 Disables excluding of files from `.eslintignore` files, `--ignore-path` flags, `--ignore-pattern` flags, and the `ignorePatterns` property in config files.
 
--   **Argument Type**: No argument.
+- **Argument Type**: No argument.
 
 ##### `--no-ignore` example
 
@@ -521,8 +528,8 @@ Disables excluding of files from `.eslintignore` files, `--ignore-path` flags, `
 
 This option allows you to specify patterns of files to ignore. In eslintrc mode, these are in addition to `.eslintignore`.
 
--   **Argument Type**: String. The supported syntax is the same as for [`.eslintignore` files](configure/ignore-deprecated#the-eslintignore-file), which use the same patterns as the [`.gitignore` specification](https://git-scm.com/docs/gitignore). You should quote your patterns in order to avoid shell interpretation of glob patterns.
--   **Multiple Arguments**: Yes
+- **Argument Type**: String. The supported syntax is the same as for [`.eslintignore` files](configure/ignore-deprecated#the-eslintignore-file), which use the same patterns as the [`.gitignore` specification](https://git-scm.com/docs/gitignore). You should quote your patterns in order to avoid shell interpretation of glob patterns.
+- **Multiple Arguments**: Yes
 
 ##### `--ignore-pattern` example
 
@@ -537,7 +544,7 @@ This option allows you to specify patterns of files to ignore. In eslintrc mode,
 
 This option tells ESLint to read and lint source code from STDIN instead of from files. You can use this to pipe code to ESLint.
 
--   **Argument Type**: No argument.
+- **Argument Type**: No argument.
 
 ##### `--stdin` example
 
@@ -551,8 +558,8 @@ This option tells ESLint to read and lint source code from STDIN instead of from
 
 This option allows you to specify a filename to process STDIN as.
 
--   **Argument Type**: String. Path to file.
--   **Multiple Arguments**: No
+- **Argument Type**: String. Path to file.
+- **Multiple Arguments**: No
 
 This is useful when processing files from STDIN and you have rules which depend on the filename.
 
@@ -570,7 +577,7 @@ This is useful when processing files from STDIN and you have rules which depend 
 
 This option allows you to disable reporting on warnings and running of rules set to warn. If you enable this option, only errors are reported by ESLint and only rules set to error will be run.
 
--   **Argument Type**: No argument.
+- **Argument Type**: No argument.
 
 ##### `--quiet` example
 
@@ -583,8 +590,8 @@ This option allows you to disable reporting on warnings and running of rules set
 
 This option allows you to specify a warning threshold, which can be used to force ESLint to exit with an error status if there are too many warning-level rule violations in your project.
 
--   **Argument Type**: Integer. The maximum number of warnings to allow. To prevent this behavior, do not use this option or specify `-1` as the argument.
--   **Multiple Arguments**: No
+- **Argument Type**: Integer. The maximum number of warnings to allow. To prevent this behavior, do not use this option or specify `-1` as the argument.
+- **Multiple Arguments**: No
 
 Normally, if ESLint runs and finds no errors (only warnings), it exits with a success exit status. However, if `--max-warnings` is specified and the total warning count is greater than the specified threshold, ESLint exits with an error status.
 
@@ -605,8 +612,8 @@ When used alongside `--quiet`, this will cause rules marked as warn to still be 
 
 Write the output of linting results to a specified file.
 
--   **Argument Type**: String. Path to file.
--   **Multiple Arguments**: No
+- **Argument Type**: String. Path to file.
+- **Multiple Arguments**: No
 
 ##### `-o`, `--output-file` example
 
@@ -619,9 +626,9 @@ Write the output of linting results to a specified file.
 
 This option specifies the output format for the console.
 
--   **Argument Type**: String. One of the [built-in formatters](formatters/) or a custom formatter.
--   **Multiple Arguments**: No
--   **Default Value**: [`stylish`](formatters/#stylish)
+- **Argument Type**: String. One of the [built-in formatters](formatters/) or a custom formatter.
+- **Multiple Arguments**: No
+- **Default Value**: [`stylish`](formatters/#stylish)
 
 If you are using a custom formatter defined in a local file, you can specify the path to the custom formatter file.
 
@@ -677,7 +684,7 @@ or alternatively
 
 These options force the enabling/disabling of colorized output.
 
--   **Argument Type**: No argument.
+- **Argument Type**: No argument.
 
 You can use these options to override the default behavior, which is to enable colorized output unless no TTY is detected, such as when piping `eslint` through `cat` or `less`.
 
@@ -700,17 +707,17 @@ You can use these options to override the default behavior, which is to enable c
 This option prevents inline comments like `/*eslint-disable*/` or
 `/*global foo*/` from having any effect.
 
--   **Argument Type**: No argument.
+- **Argument Type**: No argument.
 
 This allows you to set an ESLint config without files modifying it. All inline config comments are ignored, such as:
 
--   `/*eslint-disable*/`
--   `/*eslint-enable*/`
--   `/*global*/`
--   `/*eslint*/`
--   `/*eslint-env*/`
--   `// eslint-disable-line`
--   `// eslint-disable-next-line`
+- `/*eslint-disable*/`
+- `/*eslint-enable*/`
+- `/*global*/`
+- `/*eslint*/`
+- `/*eslint-env*/`
+- `// eslint-disable-line`
+- `// eslint-disable-next-line`
 
 ##### `--no-inline-config` example
 
@@ -723,7 +730,7 @@ This allows you to set an ESLint config without files modifying it. All inline c
 
 This option causes ESLint to report directive comments like `// eslint-disable-line` when no errors would have been reported on that line anyway.
 
--   **Argument Type**: No argument.
+- **Argument Type**: No argument.
 
 This can be useful to prevent future errors from unexpectedly being suppressed, by cleaning up old `eslint-disable` and `eslint-enable` comments which are no longer applicable.
 
@@ -744,12 +751,12 @@ For example, suppose a rule has a bug that causes it to report a false positive,
 
 Same as [`--report-unused-disable-directives`](#--report-unused-disable-directives), but allows you to specify the severity level (`error`, `warn`, `off`) of the reported errors. Only one of these two options can be used at a time.
 
--   **Argument Type**: String. One of the following values:
+- **Argument Type**: String. One of the following values:
     1. `off` (or `0`)
     1. `warn` (or `1`)
     1. `error` (or `2`)
--   **Multiple Arguments**: No
--   **Default Value**: By default, `linterOptions.reportUnusedDisableDirectives` configuration setting is used (which defaults to `"warn"`).
+- **Multiple Arguments**: No
+- **Default Value**: By default, `linterOptions.reportUnusedDisableDirectives` configuration setting is used (which defaults to `"warn"`).
 
 ##### `--report-unused-disable-directives-severity` example
 
@@ -762,12 +769,12 @@ Same as [`--report-unused-disable-directives`](#--report-unused-disable-directiv
 
 This option causes ESLint to report inline config comments like `/* eslint rule-name: "error" */` whose rule severity and any options match what's already been configured.
 
--   **Argument Type**: String. One of the following values:
+- **Argument Type**: String. One of the following values:
     1. `off` (or `0`)
     1. `warn` (or `1`)
     1. `error` (or `2`)
--   **Multiple Arguments**: No
--   **Default Value**: By default, `linterOptions.reportUnusedInlineConfigs` configuration setting is used (which defaults to `"off"`).
+- **Multiple Arguments**: No
+- **Default Value**: By default, `linterOptions.reportUnusedInlineConfigs` configuration setting is used (which defaults to `"off"`).
 
 This can be useful to keep files clean and devoid of misleading clutter.
 Inline config comments are meant to change ESLint's behavior in some way: if they change nothing, there is no reason to leave them in.
@@ -785,7 +792,7 @@ npx eslint --report-unused-inline-configs error file.js
 Store the info about processed files in order to only operate on the changed ones. Enabling this option can dramatically improve ESLint's run time performance by ensuring that only changed files are linted.
 The cache is stored in `.eslintcache` by default.
 
--   **Argument Type**: No argument.
+- **Argument Type**: No argument.
 
 If you run ESLint with `--cache` and then run ESLint without `--cache`, the `.eslintcache` file will be deleted. This is necessary because the results of the lint might change and make `.eslintcache` invalid. If you want to control when the cache file is deleted, then use `--cache-location` to specify an alternate location for the cache file.
 
@@ -808,9 +815,9 @@ Path to the cache file. If none specified `.eslintcache` is used. The file is cr
 
 Specify the path to the cache location. Can be a file or a directory.
 
--   **Argument Type**: String. Path to file or directory. If a directory is specified, a cache file is created inside the specified folder. The name of the file is based on the hash of the current working directory, e.g.: `.cache_hashOfCWD`.
--   **Multiple Arguments**: No
--   **Default Value**: If no location is specified, `.eslintcache` is used. The file is created in the directory where the `eslint` command is executed.
+- **Argument Type**: String. Path to file or directory. If a directory is specified, a cache file is created inside the specified folder. The name of the file is based on the hash of the current working directory, e.g.: `.cache_hashOfCWD`.
+- **Multiple Arguments**: No
+- **Default Value**: If no location is specified, `.eslintcache` is used. The file is created in the directory where the `eslint` command is executed.
 
 If the directory for the cache does not exist make sure you add a trailing `/` on \*nix systems or `\` on Windows. Otherwise, the path is assumed to be a file.
 
@@ -825,11 +832,11 @@ If the directory for the cache does not exist make sure you add a trailing `/` o
 
 Strategy for the cache to use for detecting changed files.
 
--   **Argument Type**: String. One of the following values:
+- **Argument Type**: String. One of the following values:
     1. `metadata`
     1. `content`
--   **Multiple Arguments**: No
--   **Default Value**: `metadata`
+- **Multiple Arguments**: No
+- **Default Value**: `metadata`
 
 The `content` strategy can be useful in cases where the modification time of your files changes even if their contents have not. For example, this can happen during git operations like `git clone` because git does not track file modification time.
 
@@ -840,13 +847,70 @@ The `content` strategy can be useful in cases where the modification time of you
     args: ["\"src/**/*.js\"", "--cache", "--cache-strategy", "content"]
 }) }}
 
+### Suppressing Violations
+
+#### `--suppress-all`
+
+Suppresses existing violations, so that they are not being reported in subsequent runs. It allows you to enable one or more lint rules and be notified only when new violations show up. The suppressions are stored in `eslint-suppressions.json` by default, unless otherwise specified by `--suppressions-location`. The file gets updated with the new suppressions.
+
+- **Argument Type**: No argument.
+
+##### `--suppress-all` example
+
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["\"src/**/*.js\"", "--suppress-all"]
+}) }}
+
+#### `--suppress-rule`
+
+Suppresses violations for specific rules, so that they are not being reported in subsequent runs. Similar to `--suppress-all`, the suppressions are stored in `eslint-suppressions.json` by default, unless otherwise specified by `--suppressions-location`. The file gets updated with the new suppressions.
+
+- **Argument Type**: String. Rule ID.
+- **Multiple Arguments**: Yes
+
+##### `--suppress-rule` example
+
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["\"src/**/*.js\"", "--suppress-rule", "no-console", "--suppress-rule", "indent"]
+}) }}
+
+#### `--suppressions-location`
+
+Specify the path to the suppressions location. Can be a file or a directory.
+
+- **Argument Type**: String. Path to file. If a directory is specified, a cache file is created inside the specified folder. The name of the file is based on the hash of the current working directory, e.g.: `suppressions_hashOfCWD`
+- **Multiple Arguments**: No
+- **Default Value**: If no location is specified, `eslint-suppressions.json` is used. The file is created in the directory where the `eslint` command is executed.
+
+##### `--suppressions-location` example
+
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["\"src/**/*.js\"", "--suppressions-location", "\".eslint-suppressions-example.json\""]
+}) }}
+
+#### `--prune-suppressions`
+
+Prune unused suppressions from the suppressions file. This option is useful when you addressed one or more of the suppressed violations.
+
+- **Argument Type**: No argument.
+
+##### `--prune-suppressions` example
+
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["\"src/**/*.js\"", "--prune-suppressions"]
+}) }}
+
 ### Miscellaneous
 
 #### `--init`
 
 This option runs `npm init @eslint/config` to start the config initialization wizard. It's designed to help new users quickly create an `.eslintrc` file by answering a few questions. When you use this flag, the CLI does not perform linting.
 
--   **Argument Type**: No argument.
+- **Argument Type**: No argument.
 
 The resulting configuration file is created in the current directory.
 
@@ -861,7 +925,7 @@ The resulting configuration file is created in the current directory.
 
 This option outputs information about the execution environment, including the version of Node.js, npm, and local and global installations of ESLint.
 
--   **Argument Type**: No argument.
+- **Argument Type**: No argument.
 
 The ESLint team may ask for this information to help solve bugs. When you use this flag, the CLI does not perform linting.
 
@@ -876,7 +940,7 @@ The ESLint team may ask for this information to help solve bugs. When you use th
 
 This option prevents errors when a quoted glob pattern or `--ext` is unmatched. This does not prevent errors when your shell can't match a glob.
 
--   **Argument Type**: No argument.
+- **Argument Type**: No argument.
 
 ##### `--no-error-on-unmatched-pattern` example
 
@@ -889,7 +953,7 @@ This option prevents errors when a quoted glob pattern or `--ext` is unmatched. 
 
 This option causes ESLint to exit with exit code 2 if one or more fatal parsing errors occur. Without this option, ESLint reports fatal parsing errors as rule violations.
 
--   **Argument Type**: No argument.
+- **Argument Type**: No argument.
 
 ##### `--exit-on-fatal-error` example
 
@@ -902,7 +966,7 @@ This option causes ESLint to exit with exit code 2 if one or more fatal parsing 
 
 **Flat Config Mode Only.** This option suppresses both `File ignored by default` and `File ignored because of a matching ignore pattern` warnings when an ignored filename is passed explicitly. It is useful when paired with `--max-warnings 0` as it will prevent exit code 1 due to the aforementioned warning.
 
--   **Argument Type**: No argument.
+- **Argument Type**: No argument.
 
 ##### `--no-warn-ignored` example
 
@@ -915,7 +979,7 @@ This option causes ESLint to exit with exit code 2 if one or more fatal parsing 
 
 This option allows ESLint to exit with code 0 when no file or directory patterns are passed. Without this option, ESLint assumes you want to use `.` as the pattern. (When running in legacy eslintrc mode, ESLint will exit with code 1.)
 
--   **Argument Type**: No argument.
+- **Argument Type**: No argument.
 
 ##### `--pass-on-no-patterns` example
 
@@ -928,7 +992,7 @@ This option allows ESLint to exit with code 0 when no file or directory patterns
 
 This option outputs debugging information to the console. Add this flag to an ESLint command line invocation in order to get extra debugging information while the command runs.
 
--   **Argument Type**: No argument.
+- **Argument Type**: No argument.
 
 This information is useful when you're seeing a problem and having a hard time pinpointing it. The ESLint team may ask for this debugging information to help solve bugs.
 
@@ -943,7 +1007,7 @@ This information is useful when you're seeing a problem and having a hard time p
 
 This option outputs the help menu, displaying all of the available options. All other options are ignored when this is present. When you use this flag, the CLI does not perform linting.
 
--   **Argument Type**: No argument.
+- **Argument Type**: No argument.
 
 ##### `-h`, `--help` example
 
@@ -956,7 +1020,7 @@ This option outputs the help menu, displaying all of the available options. All 
 
 This option outputs the current ESLint version onto the console. All other options are ignored when this is present. When you use this flag, the CLI does not perform linting.
 
--   **Argument Type**: No argument.
+- **Argument Type**: No argument.
 
 ##### `-v`, `--version` example
 
@@ -969,8 +1033,8 @@ This option outputs the current ESLint version onto the console. All other optio
 
 This option outputs the configuration to be used for the file passed. When present, no linting is performed and only config-related options are valid. When you use this flag, the CLI does not perform linting.
 
--   **Argument Type**: String. Path to file.
--   **Multiple Arguments**: No
+- **Argument Type**: String. Path to file.
+- **Multiple Arguments**: No
 
 ##### `--print-config` example
 
@@ -983,7 +1047,7 @@ This option outputs the configuration to be used for the file passed. When prese
 
 This option adds a series of detailed performance statistics (see [Stats type](../extend/stats#-stats-type)) such as the _parse_-, _fix_- and _lint_-times (time per rule) to [`result`](../extend/custom-formatters#the-result-object) objects that are passed to the formatter (see [Stats CLI usage](../extend/stats#cli-usage)).
 
--   **Argument Type**: No argument.
+- **Argument Type**: No argument.
 
 This option is intended for use with custom formatters that display statistics. It can also be used with the built-in `json` formatter.
 
@@ -998,8 +1062,8 @@ This option is intended for use with custom formatters that display statistics. 
 
 This option enables one or more feature flags for ESLint.
 
--   **Argument Type**: String. A feature identifier.
--   **Multiple Arguments**: Yes
+- **Argument Type**: String. A feature identifier.
+- **Multiple Arguments**: Yes
 
 ##### `--flag` example
 
@@ -1008,10 +1072,24 @@ This option enables one or more feature flags for ESLint.
     args: ["--flag", "x_feature", "file.js"]
 }) }}
 
+#### `--mcp`
+
+This option starts the ESLint MCP server for use with AI agents.
+
+- **Argument Type**: No argument.
+- **Multiple Arguments**: No
+
+##### `--mcp` example
+
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--mcp"]
+}) }}
+
 ## Exit Codes
 
 When linting files, ESLint exits with one of the following exit codes:
 
--   `0`: Linting was successful and there are no linting errors. If the [`--max-warnings`](#--max-warnings) flag is set to `n`, the number of linting warnings is at most `n`.
--   `1`: Linting was successful and there is at least one linting error, or there are more linting warnings than allowed by the `--max-warnings` option.
--   `2`: Linting was unsuccessful due to a configuration problem or an internal error.
+- `0`: Linting was successful and there are no linting errors. If the [`--max-warnings`](#--max-warnings) flag is set to `n`, the number of linting warnings is at most `n`.
+- `1`: Linting was successful and there is at least one linting error, or there are more linting warnings than allowed by the `--max-warnings` option.
+- `2`: Linting was unsuccessful due to a configuration problem or an internal error.

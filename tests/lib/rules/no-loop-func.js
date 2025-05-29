@@ -740,5 +740,215 @@ ruleTester.run("no-loop-func", rule, {
 				},
 			],
 		},
+		{
+			code: `
+            for (var i = 0; i < 10; i++) {
+				items.push({
+					id: i,
+					name: "Item " + i
+				});
+
+				const process = function (callback){
+					callback({ id: i, name: "Item " + i });
+				};
+			}
+            `,
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					messageId: "unsafeRefs",
+					data: { varNames: "'i'" },
+					type: "FunctionExpression",
+					line: 8,
+				},
+			],
+		},
+	],
+});
+
+const ruleTesterTypeScript = new RuleTester({
+	languageOptions: {
+		parser: require("@typescript-eslint/parser"),
+	},
+});
+
+ruleTesterTypeScript.run("no-loop-func", rule, {
+	valid: [
+		`
+  for (let i = 0; i < 10; i++) {
+	function foo() {
+	  console.log('A');
+	}
+  }
+	  `,
+		`
+  let someArray: MyType[] = [];
+  for (let i = 0; i < 10; i += 1) {
+	someArray = someArray.filter((item: MyType) => !!item);
+  }
+	  `,
+		{
+			code: `
+  let someArray: MyType[] = [];
+  for (let i = 0; i < 10; i += 1) {
+	someArray = someArray.filter((item: MyType) => !!item);
+  }
+		`,
+			languageOptions: {
+				globals: {
+					MyType: "readonly",
+				},
+			},
+		},
+		{
+			code: `
+  let someArray: MyType[] = [];
+  for (let i = 0; i < 10; i += 1) {
+	someArray = someArray.filter((item: MyType) => !!item);
+  }
+		`,
+			languageOptions: {
+				globals: {
+					MyType: "writable",
+				},
+			},
+		},
+		`
+  type MyType = 1;
+  let someArray: MyType[] = [];
+  for (let i = 0; i < 10; i += 1) {
+	someArray = someArray.filter((item: MyType) => !!item);
+  }
+	  `,
+		// Test case for a global type that hasn't been configured
+		`
+    // UnconfiguredGlobalType is not defined anywhere or configured in globals
+    for (var i = 0; i < 10; i++) {
+      const process = (item: UnconfiguredGlobalType) => {
+        // This is valid because the type reference is considered safe
+        // even though UnconfiguredGlobalType is not configured
+        return item.id;
+      };
+    }
+    `,
+
+		// Test both configured and unconfigured global types
+		{
+			code: `
+    for (var i = 0; i < 10; i++) {
+      // ConfiguredType is in globals, UnconfiguredType is not
+      // Both should be considered safe as they are type references
+      const process = (configItem: ConfiguredType, unconfigItem: UnconfiguredType) => {
+        return { 
+          config: configItem.value,
+          unconfig: unconfigItem.value
+        };
+      };
+    }
+      `,
+			languageOptions: {
+				globals: {
+					ConfiguredType: "readonly",
+				},
+			},
+		},
+	],
+	invalid: [
+		{
+			code: `
+  for (var i = 0; i < 10; i++) {
+    function foo() {
+      console.log(i);
+    }
+  }
+			`,
+			errors: [
+				{
+					messageId: "unsafeRefs",
+					data: { varNames: "'i'" },
+					type: "FunctionDeclaration",
+				},
+			],
+		},
+		{
+			code: `
+  for (var i = 0; i < 10; i++) {
+    const handler = (event: Event) => {
+      console.log(i);
+    };
+  }
+			`,
+			errors: [
+				{
+					messageId: "unsafeRefs",
+					data: { varNames: "'i'" },
+					type: "ArrowFunctionExpression",
+				},
+			],
+		},
+		{
+			code: `
+  interface Item {
+    id: number;
+    name: string;
+  }
+  
+  const items: Item[] = [];
+  for (var i = 0; i < 10; i++) {
+    items.push({
+      id: i,
+      name: "Item " + i
+    });
+    
+    const process = function(callback: (item: Item) => void): void {
+      callback({ id: i, name: "Item " + i });
+    };
+  }
+			`,
+			errors: [
+				{
+					messageId: "unsafeRefs",
+					data: { varNames: "'i'" },
+					type: "FunctionExpression",
+				},
+			],
+		},
+		{
+			code: `
+  type Processor<T> = (item: T) => void;
+		
+  for (var i = 0; i < 10; i++) {
+    const processor: Processor<number> = (item) => {
+      return item + i;
+    };
+  }
+			`,
+			errors: [
+				{
+					messageId: "unsafeRefs",
+					data: { varNames: "'i'" },
+					type: "ArrowFunctionExpression",
+				},
+			],
+		},
+		// Function uses unconfigured global type but still references loop variable
+		{
+			code: `
+      for (var i = 0; i < 10; i++) {
+        // UnconfiguredGlobalType is not defined anywhere
+        // But the function still references i which makes it unsafe
+        const process = (item: UnconfiguredGlobalType) => {
+          console.log(i, item.value);
+        };
+      }
+      `,
+			errors: [
+				{
+					messageId: "unsafeRefs",
+					data: { varNames: "'i'" },
+					type: "ArrowFunctionExpression",
+				},
+			],
+		},
 	],
 });

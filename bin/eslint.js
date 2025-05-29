@@ -155,6 +155,21 @@ ${getErrorMessage(error)}`;
 		return;
 	}
 
+	// start the MCP server if `--mcp` is present
+	if (process.argv.includes("--mcp")) {
+		console.warn(
+			"You can also run this command directly using 'npx @eslint/mcp@latest'.",
+		);
+
+		const spawn = require("cross-spawn");
+
+		spawn.sync("npx", ["@eslint/mcp@latest"], {
+			encoding: "utf8",
+			stdio: "inherit",
+		});
+		return;
+	}
+
 	// Otherwise, call the CLI.
 	const cli = require("../lib/cli");
 	const exitCode = await cli.execute(

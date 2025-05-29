@@ -64,8 +64,8 @@ If the pull request does not have a related issue, then it should be moved throu
 
 If the pull request does have a related issue, then:
 
--   If the issue is accepted, move the pull request to the "Implementing" column.
--   If the issue is not accepted, move the pull request to the "Evaluating" column until the issue is marked as accepted, at which point move the pull request to "Implementing".
+- If the issue is accepted, move the pull request to the "Implementing" column.
+- If the issue is not accepted, move the pull request to the "Evaluating" column until the issue is marked as accepted, at which point move the pull request to "Implementing".
 
 Once the pull request has one approval, one of three things can happen:
 
@@ -104,8 +104,8 @@ Team members may merge a pull request immediately if it:
 
 Otherwise, team members should observe a waiting period before merging a pull request:
 
--   Wait **2 days** if the pull request was opened Monday through Friday.
--   Wait **3 days** if the pull request was opened on Saturday or Sunday.
+- Wait **2 days** if the pull request was opened Monday through Friday.
+- Wait **3 days** if the pull request was opened on Saturday or Sunday.
 
 The waiting period ensures that other team members have a chance to review the pull request before it is merged.
 

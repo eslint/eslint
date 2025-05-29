@@ -32,6 +32,13 @@ const { shouldUseFlatConfig } = require("../../../lib/eslint/eslint");
 const { defaultConfig } = require("../../../lib/config/default-config");
 const coreRules = require("../../../lib/rules");
 const espree = require("espree");
+const { WarningService } = require("../../../lib/services/warning-service");
+
+//------------------------------------------------------------------------------
+// Constants
+//------------------------------------------------------------------------------
+
+const JITI_VERSIONS = ["jiti", "jiti-v2.0", "jiti-v2.1"];
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -59,11 +66,27 @@ async function sleep(time) {
 	await util.promisify(setTimeout)(time);
 }
 
+/**
+ * An object mapping file extensions to their corresponding
+ * ESLint configuration file names.
+ * @satisfies {Record<string, string>}
+ */
+const eslintConfigFiles = {
+	ts: "eslint.config.ts",
+	mts: "eslint.config.mts",
+	cts: "eslint.config.cts",
+	js: "eslint.config.js",
+	mjs: "eslint.config.mjs",
+	cjs: "eslint.config.cjs",
+};
+
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 describe("ESLint", () => {
+	const { ConfigLoader } = require("../../../lib/config/config-loader.js");
+
 	const examplePluginName = "eslint-plugin-example";
 	const examplePluginNameWithNamespace = "@eslint/eslint-plugin-example";
 	const examplePlugin = {
@@ -144,11 +167,9 @@ describe("ESLint", () => {
 
 	beforeEach(() => {
 		({ ESLint } = require("../../../lib/eslint/eslint"));
-		sinon
-			.stub(process, "emitWarning")
-			.withArgs(sinon.match.any, "ESLintIgnoreWarning")
-			.returns();
-		process.emitWarning.callThrough();
+
+		// Silence ".eslintignore" warnings for tests
+		sinon.stub(WarningService.prototype, "emitESLintIgnoreWarning");
 	});
 
 	afterEach(() => {
@@ -156,6 +177,17 @@ describe("ESLint", () => {
 	});
 
 	[[], ["unstable_config_lookup_from_file"]].forEach(flags => {
+		/**
+		 * Configuration flags for TypeScript integration in Node.js,
+		 * including existing {@linkcode flags} and
+		 * `"unstable_native_nodejs_ts_config"`.
+		 * @satisfies {ESLintOptions['flags']}
+		 */
+		const nativeTSConfigFileFlags = [
+			...flags,
+			"unstable_native_nodejs_ts_config",
+		];
+
 		describe("ESLint constructor function", () => {
 			it("should have a static property indicating the configType being used", () => {
 				assert.strictEqual(ESLint.configType, "flat");
@@ -361,26 +393,18 @@ describe("ESLint", () => {
 				const cwd = getFixturePath("ignored-paths");
 
 				sinon.restore();
-				const processStub = sinon.stub(process, "emitWarning");
+				const emitESLintIgnoreWarningStub = sinon.stub(
+					WarningService.prototype,
+					"emitESLintIgnoreWarning",
+				);
 
 				// eslint-disable-next-line no-new -- for testing purpose only
 				new ESLint({ cwd, flags });
 
-				assert.strictEqual(
-					processStub.callCount,
-					1,
-					"calls `process.emitWarning()` once",
+				assert(
+					emitESLintIgnoreWarningStub.calledOnce,
+					"calls `warningService.emitESLintIgnoreWarning()` once",
 				);
-				assert.strictEqual(
-					processStub.getCall(0).args[0],
-					'The ".eslintignore" file is no longer supported. Switch to using the "ignores" property in "eslint.config.js": https://eslint.org/docs/latest/use/configure/migration-guide#ignoring-files',
-				);
-				assert.strictEqual(
-					processStub.getCall(0).args[1],
-					"ESLintIgnoreWarning",
-				);
-
-				processStub.restore();
 			});
 		});
 
@@ -401,6 +425,10 @@ describe("ESLint", () => {
 					.returns();
 			});
 
+			afterEach(() => {
+				delete process.env.ESLINT_FLAGS;
+			});
+
 			it("should return true if the flag is present and active", () => {
 				eslint = new ESLint({
 					cwd: getFixturePath(),
@@ -408,6 +436,47 @@ describe("ESLint", () => {
 				});
 
 				assert.strictEqual(eslint.hasFlag("test_only"), true);
+			});
+
+			it("should return true if the flag is present and active with ESLINT_FLAGS", () => {
+				process.env.ESLINT_FLAGS = "test_only";
+				eslint = new ESLint({
+					cwd: getFixturePath(),
+				});
+				assert.strictEqual(eslint.hasFlag("test_only"), true);
+			});
+
+			it("should merge flags passed through API with flags passed through ESLINT_FLAGS", () => {
+				process.env.ESLINT_FLAGS = "test_only";
+				eslint = new ESLint({
+					cwd: getFixturePath(),
+					flags: ["test_only_2"],
+				});
+				assert.strictEqual(eslint.hasFlag("test_only"), true);
+				assert.strictEqual(eslint.hasFlag("test_only_2"), true);
+			});
+
+			it("should return true for multiple flags in ESLINT_FLAGS if the flag is present and active and one is duplicated in the API", () => {
+				process.env.ESLINT_FLAGS = "test_only,test_only_2";
+
+				eslint = new ESLint({
+					cwd: getFixturePath(),
+					flags: ["test_only"], // intentional duplication
+				});
+
+				assert.strictEqual(eslint.hasFlag("test_only"), true);
+				assert.strictEqual(eslint.hasFlag("test_only_2"), true);
+			});
+
+			it("should return true for multiple flags in ESLINT_FLAGS if the flag is present and active and there is leading and trailing white space", () => {
+				process.env.ESLINT_FLAGS = " test_only, test_only_2 ";
+
+				eslint = new ESLint({
+					cwd: getFixturePath(),
+				});
+
+				assert.strictEqual(eslint.hasFlag("test_only"), true);
+				assert.strictEqual(eslint.hasFlag("test_only_2"), true);
 			});
 
 			it("should return true for the replacement flag if an inactive flag that has been replaced is used", () => {
@@ -458,11 +527,29 @@ describe("ESLint", () => {
 				}, /The flag 'test_only_abandoned' is inactive: This feature has been abandoned/u);
 			});
 
+			it("should throw an error if an inactive flag whose feature has been abandoned is used in ESLINT_FLAGS", () => {
+				process.env.ESLINT_FLAGS = "test_only_abandoned";
+				assert.throws(() => {
+					eslint = new ESLint({
+						cwd: getFixturePath(),
+					});
+				}, /The flag 'test_only_abandoned' is inactive: This feature has been abandoned/u);
+			});
+
 			it("should throw an error if the flag is unknown", () => {
 				assert.throws(() => {
 					eslint = new ESLint({
 						cwd: getFixturePath(),
 						flags: ["foo_bar"],
+					});
+				}, /Unknown flag 'foo_bar'/u);
+			});
+
+			it("should throw an error if the flag is unknown in ESLINT_FLAGS", () => {
+				process.env.ESLINT_FLAGS = "foo_bar";
+				assert.throws(() => {
+					eslint = new ESLint({
+						cwd: getFixturePath(),
 					});
 				}, /Unknown flag 'foo_bar'/u);
 			});
@@ -1386,304 +1473,394 @@ describe("ESLint", () => {
 			});
 
 			describe("TypeScript config files", () => {
-				it("should find and load eslint.config.ts when present", async () => {
-					const cwd = getFixturePath("ts-config-files", "ts");
+				JITI_VERSIONS.forEach(jitiVersion => {
+					describe(`Loading TypeScript config files with ${jitiVersion}`, () => {
+						if (jitiVersion !== "jiti") {
+							beforeEach(() => {
+								sinon
+									.stub(ConfigLoader, "loadJiti")
+									.callsFake(() =>
+										Promise.resolve({
+											createJiti:
+												require(jitiVersion).createJiti,
+											version: require(
+												`${jitiVersion}/package.json`,
+											).version,
+										}),
+									);
+							});
+						}
 
-					eslint = new ESLint({
-						cwd,
-						flags,
+						it("should find and load eslint.config.ts when present", async () => {
+							const cwd = getFixturePath("ts-config-files", "ts");
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintText("foo");
+
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load eslint.config.ts when we have "type": "commonjs" in nearest `package.json`', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"with-type-commonjs",
+							);
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintText("foo");
+
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load eslint.config.ts when we have "type": "module" in nearest `package.json`', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"with-type-module",
+							);
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintText("foo");
+
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it("should load eslint.config.ts with const enums", async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"const-enums",
+							);
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintText("foo");
+
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it("should load eslint.config.ts with local namespace", async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"local-namespace",
+							);
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintText("foo");
+
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it("should allow passing a TS config file to `overrideConfigFile`", async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"custom-config",
+							);
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+								overrideConfigFile: getFixturePath(
+									"ts-config-files",
+									"ts",
+									"custom-config",
+									"eslint.custom.config.ts",
+								),
+							});
+
+							const results = await eslint.lintText("foo");
+
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it("should find and load eslint.config.mts when present", async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"mts",
+							);
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintText("foo");
+
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load eslint.config.mts when we have "type": "commonjs" in nearest `package.json`', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"mts",
+								"with-type-commonjs",
+							);
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintText("foo");
+
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load eslint.config.mts config file when we have "type": "module" in nearest `package.json`', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"mts",
+								"with-type-module",
+							);
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintText("foo");
+
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it("should find and load eslint.config.cts when present", async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"cts",
+							);
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintText("foo");
+
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load eslint.config.cts config file when we have "type": "commonjs" in nearest `package.json`', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"cts",
+								"with-type-commonjs",
+							);
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintText("foo");
+
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load .cts config file when we have "type": "module" in nearest `package.json`', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"cts",
+								"with-type-module",
+							);
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintText("foo");
+
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it("should successfully load a TS config file that exports a promise", async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"exports-promise",
+							);
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintText("foo;");
+
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it("should load a CommonJS TS config file that exports undefined with a helpful warning message", async () => {
+							sinon.restore();
+
+							const cwd = getFixturePath("ts-config-files", "ts");
+							const processStub = sinon.stub(
+								process,
+								"emitWarning",
+							);
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+								overrideConfigFile:
+									"eslint.undefined.config.ts",
+							});
+
+							await eslint.lintText("foo");
+
+							assert.strictEqual(
+								processStub.callCount,
+								1,
+								"calls `process.emitWarning()` once",
+							);
+							assert.strictEqual(
+								processStub.getCall(0).args[1],
+								"ESLintEmptyConfigWarning",
+							);
+						});
 					});
-
-					const results = await eslint.lintText("foo");
-
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load eslint.config.ts when we have "type": "commonjs" in nearest `package.json`', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"with-type-commonjs",
-					);
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintText("foo");
-
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load eslint.config.ts when we have "type": "module" in nearest `package.json`', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"with-type-module",
-					);
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintText("foo");
-
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it("should load eslint.config.ts with const enums", async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"const-enums",
-					);
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintText("foo");
-
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it("should load eslint.config.ts with local namespace", async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"local-namespace",
-					);
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintText("foo");
-
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it("should allow passing a TS config file to `overrideConfigFile`", async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"custom-config",
-					);
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-						overrideConfigFile: getFixturePath(
-							"ts-config-files",
-							"ts",
-							"custom-config",
-							"eslint.custom.config.ts",
-						),
-					});
-
-					const results = await eslint.lintText("foo");
-
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it("should find and load eslint.config.mts when present", async () => {
-					const cwd = getFixturePath("ts-config-files", "mts");
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintText("foo");
-
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load eslint.config.mts when we have "type": "commonjs" in nearest `package.json`', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"mts",
-						"with-type-commonjs",
-					);
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintText("foo");
-
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load eslint.config.mts config file when we have "type": "module" in nearest `package.json`', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"mts",
-						"with-type-module",
-					);
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintText("foo");
-
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it("should find and load eslint.config.cts when present", async () => {
-					const cwd = getFixturePath("ts-config-files", "cts");
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintText("foo");
-
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load eslint.config.cts config file when we have "type": "commonjs" in nearest `package.json`', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"cts",
-						"with-type-commonjs",
-					);
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintText("foo");
-
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load .cts config file when we have "type": "module" in nearest `package.json`', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"cts",
-						"with-type-module",
-					);
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintText("foo");
-
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it("should successfully load a TS config file that exports a promise", async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"exports-promise",
-					);
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintText("foo;");
-
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
 				});
 
 				it("should fail to load a TS config file if jiti is not installed", async () => {
-					const {
-						ConfigLoader,
-					} = require("../../../lib/config/config-loader");
-
 					sinon.stub(ConfigLoader, "loadJiti").rejects();
 
 					const cwd = getFixturePath("ts-config-files", "ts");
@@ -1700,11 +1877,9 @@ describe("ESLint", () => {
 				});
 
 				it("should fail to load a TS config file if an outdated version of jiti is installed", async () => {
-					const {
-						ConfigLoader,
-					} = require("../../../lib/config/config-loader");
-
-					sinon.stub(ConfigLoader, "loadJiti").resolves({});
+					sinon
+						.stub(ConfigLoader, "loadJiti")
+						.resolves({ createJiti: void 0, version: "1.21.7" });
 
 					const cwd = getFixturePath("ts-config-files", "ts");
 
@@ -1719,30 +1894,142 @@ describe("ESLint", () => {
 					});
 				});
 
-				it("should fail to load a CommonJS TS config file that exports undefined with a helpful warning message", async () => {
-					sinon.restore();
+				it("should handle jiti interopDefault edge cases", async () => {
+					const cwd = getFixturePath(
+						"ts-config-files",
+						"ts",
+						"jiti-interopDefault",
+					);
 
-					const cwd = getFixturePath("ts-config-files", "ts");
-					const processStub = sinon.stub(process, "emitWarning");
+					await fsp.writeFile(
+						path.join(cwd, "eslint.config.ts"),
+						`
+						import plugin from "./plugin";
+
+						export default plugin.configs.recommended;
+
+						// Autogenerated on ${new Date().toISOString()}.`,
+					);
 
 					eslint = new ESLint({
 						cwd,
 						flags,
-						overrideConfigFile: "eslint.undefined.config.ts",
 					});
 
-					await eslint.lintText("foo");
+					const results = await eslint.lintText("foo");
 
+					assert.strictEqual(results.length, 1);
+					assert.strictEqual(results[0].messages.length, 1);
+					assert.strictEqual(results[0].messages[0].severity, 2);
 					assert.strictEqual(
-						processStub.callCount,
-						1,
-						"calls `process.emitWarning()` once",
-					);
-					assert.strictEqual(
-						processStub.getCall(0).args[1],
-						"ESLintEmptyConfigWarning",
+						results[0].messages[0].ruleId,
+						"no-undef",
 					);
 				});
+
+				// eslint-disable-next-line n/no-unsupported-features/node-builtins -- it's still an experimental feature.
+				(typeof process.features.typescript === "string"
+					? describe
+					: describe.skip)(
+					"Loading TypeScript config files natively",
+					() => {
+						beforeEach(() => {
+							sinon.stub(ConfigLoader, "loadJiti").rejects();
+						});
+
+						const cwd = getFixturePath(
+							"ts-config-files",
+							"ts",
+							"native",
+						);
+
+						const overrideConfigFile = "eslint.config.ts";
+
+						it("should load a TS config file when --experimental-strip-types is enabled", async () => {
+							const configFileContent = `import type { FlatConfig } from "./helper.ts";\nexport default ${JSON.stringify(
+								[{ rules: { "no-undef": 2 } }],
+								null,
+								2,
+							)} satisfies FlatConfig[];`;
+
+							const teardown = createCustomTeardown({
+								cwd,
+								files: {
+									[overrideConfigFile]: configFileContent,
+									"foo.js": "foo;",
+									"helper.ts":
+										'import type { Linter } from "eslint";\nexport type FlatConfig = Linter.Config;\n',
+								},
+							});
+
+							await teardown.prepare();
+
+							eslint = new ESLint({
+								cwd,
+								overrideConfigFile,
+								flags: nativeTSConfigFileFlags,
+							});
+
+							const results = await eslint.lintText("foo;");
+
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						// eslint-disable-next-line n/no-unsupported-features/node-builtins -- it's still an experimental feature.
+						(process.features.typescript === "transform"
+							? it
+							: it.skip)(
+							"should load a TS config file when --experimental-transform-types is enabled",
+							async () => {
+								const configFileContent =
+									'import { ESLintNameSpace } from "./helper.ts";\nexport default [ { rules: { "no-undef": ESLintNameSpace.StringSeverity.Error } }];\n';
+
+								const teardown = createCustomTeardown({
+									cwd,
+									files: {
+										[overrideConfigFile]: configFileContent,
+										"foo.js": "foo;",
+										"helper.ts":
+											'export namespace ESLintNameSpace {\n  export const enum StringSeverity {\n    "Off" = "off",\n    "Warn" = "warn",\n    "Error" = "error",\n  }\n}\n',
+									},
+								});
+
+								await teardown.prepare();
+
+								eslint = new ESLint({
+									cwd,
+									overrideConfigFile,
+									flags: nativeTSConfigFileFlags,
+								});
+
+								const results = await eslint.lintText("foo;");
+
+								assert.strictEqual(results.length, 1);
+								assert.strictEqual(
+									results[0].messages.length,
+									1,
+								);
+								assert.strictEqual(
+									results[0].messages[0].severity,
+									2,
+								);
+								assert.strictEqual(
+									results[0].messages[0].ruleId,
+									"no-undef",
+								);
+							},
+						);
+					},
+				);
 			});
 
 			it("should pass BOM through processors", async () => {
@@ -4314,6 +4601,20 @@ describe("ESLint", () => {
 									nodeType: "BinaryExpression",
 									ruleId: "eqeqeq",
 									severity: 2,
+									suggestions: [
+										{
+											data: {
+												actualOperator: "==",
+												expectedOperator: "===",
+											},
+											desc: "Use '===' instead of '=='.",
+											fix: {
+												range: [24, 26],
+												text: "===",
+											},
+											messageId: "replaceOperator",
+										},
+									],
 								},
 							],
 							suppressedMessages: [],
@@ -6131,1432 +6432,1629 @@ describe("ESLint", () => {
 					2,
 				);
 
-				it("should find and load eslint.config.ts when present", async () => {
-					const cwd = getFixturePath("ts-config-files", "ts");
+				JITI_VERSIONS.forEach(jitiVersion => {
+					describe(`Loading TypeScript config files with ${jitiVersion}`, () => {
+						if (jitiVersion !== "jiti") {
+							beforeEach(() => {
+								sinon
+									.stub(ConfigLoader, "loadJiti")
+									.callsFake(() =>
+										Promise.resolve({
+											createJiti:
+												require(jitiVersion).createJiti,
+											version: require(
+												`${jitiVersion}/package.json`,
+											).version,
+										}),
+									);
+							});
+						}
 
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
+						it("should find and load eslint.config.ts when present", async () => {
+							const cwd = getFixturePath("ts-config-files", "ts");
 
-					const results = await eslint.lintFiles("foo.js");
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
 
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.ts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
+							const results = await eslint.lintFiles("foo.js");
 
-				it('should load eslint.config.ts when we have "type": "commonjs" in nearest `package.json`', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"with-type-commonjs",
-					);
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.ts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
 
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
+						it('should load eslint.config.ts when we have "type": "commonjs" in nearest `package.json`', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"with-type-commonjs",
+							);
 
-					const results = await eslint.lintFiles("foo.js");
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
 
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.ts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
+							const results = await eslint.lintFiles("foo.js");
 
-				it('should load eslint.config.ts when we have "type": "module" in nearest `package.json`', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"with-type-module",
-					);
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.ts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
 
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
+						it('should load eslint.config.ts when we have "type": "module" in nearest `package.json`', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"with-type-module",
+							);
 
-					const results = await eslint.lintFiles("foo.js");
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
 
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.ts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
+							const results = await eslint.lintFiles("foo.js");
 
-				it('should load eslint.config.ts with ESM syntax and "type": "commonjs" in nearest `package.json`', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"with-type-commonjs",
-						"ESM-syntax",
-					);
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.ts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
 
-					const configFileContent = `import type { FlatConfig } from "../../../helper";\nexport default ${JSON.stringify(
-						[{ rules: { "no-undef": 2 } }],
-						null,
-						2,
-					)} satisfies FlatConfig[];`;
+						it('should load eslint.config.ts with ESM syntax and "type": "commonjs" in nearest `package.json`', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"with-type-commonjs",
+								"ESM-syntax",
+							);
 
-					const teardown = createCustomTeardown({
-						cwd,
-						files: {
-							"package.json": typeCommonJS,
-							"eslint.config.ts": configFileContent,
-							"foo.js": "foo;",
-						},
-					});
-
-					await teardown.prepare();
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles(["foo.js"]);
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.ts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load eslint.config.ts with CJS syntax and "type": "module" in nearest `package.json`', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"with-type-module",
-						"CJS-syntax",
-					);
-
-					const configFileContent = `import type { FlatConfig } from "../../../helper";\nmodule.exports = ${JSON.stringify(
-						[{ rules: { "no-undef": 2 } }],
-						null,
-						2,
-					)} satisfies FlatConfig[];`;
-
-					const teardown = createCustomTeardown({
-						cwd,
-						files: {
-							"package.json": typeModule,
-							"eslint.config.ts": configFileContent,
-							"foo.js": "foo;",
-						},
-					});
-
-					await teardown.prepare();
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles(["foo.js"]);
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.ts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load eslint.config.ts with CJS syntax and "type": "commonjs" in nearest `package.json`', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"with-type-commonjs",
-						"CJS-syntax",
-					);
-
-					const configFileContent = `import type { FlatConfig } from "../../../helper";\nmodule.exports = ${JSON.stringify(
-						[{ rules: { "no-undef": 2 } }],
-						null,
-						2,
-					)} satisfies FlatConfig[];`;
-
-					const teardown = createCustomTeardown({
-						cwd,
-						files: {
-							"package.json": typeCommonJS,
-							"eslint.config.ts": configFileContent,
-							"foo.js": "foo;",
-						},
-					});
-
-					await teardown.prepare();
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles(["foo.js"]);
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.ts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load eslint.config.ts with CJS syntax, "type": "module" in nearest `package.json` and top-level await syntax', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"with-type-module",
-						"CJS-syntax",
-						"top-level-await",
-					);
-
-					const configFileContent = `import type { FlatConfig } from "../../../../helper";\nmodule.exports = await Promise.resolve(${JSON.stringify(
-						[{ rules: { "no-undef": 2 } }],
-						null,
-						2,
-					)}) satisfies FlatConfig[];`;
-
-					const teardown = createCustomTeardown({
-						cwd,
-						files: {
-							"package.json": typeModule,
-							"eslint.config.ts": configFileContent,
-							"foo.js": "foo;",
-						},
-					});
-
-					await teardown.prepare();
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles(["foo.js"]);
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.ts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load eslint.config.ts with CJS syntax, "type": "commonjs" in nearest `package.json` and top-level await syntax', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"with-type-commonjs",
-						"CJS-syntax",
-						"top-level-await",
-					);
-
-					const configFileContent = `import type { FlatConfig } from "../../../../helper";\nmodule.exports = await Promise.resolve(${JSON.stringify(
-						[{ rules: { "no-undef": 2 } }],
-						null,
-						2,
-					)}) satisfies FlatConfig[];`;
-
-					const teardown = createCustomTeardown({
-						cwd,
-						files: {
-							"package.json": typeCommonJS,
-							"eslint.config.ts": configFileContent,
-							"foo.js": "foo;",
-						},
-					});
-
-					await teardown.prepare();
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles(["foo.js"]);
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.ts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load eslint.config.ts with CJS syntax, "type": "module" in nearest `package.json` and top-level await syntax (named import)', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"with-type-module",
-						"top-level-await",
-						"named-import",
-					);
-
-					const configFileContent =
-						'import type { FlatConfig } from "../../../../helper";\nconst { rules } = await import("./rules");\nmodule.exports = [{ rules }] satisfies FlatConfig[];';
-
-					const teardown = createCustomTeardown({
-						cwd,
-						files: {
-							"rules.ts": `export const rules = ${JSON.stringify(
-								{
-									"no-undef": 2,
-								},
+							const configFileContent = `import type { FlatConfig } from "../../../helper";\nexport default ${JSON.stringify(
+								[{ rules: { "no-undef": 2 } }],
 								null,
 								2,
-							)};`,
-							"package.json": typeModule,
-							"eslint.config.ts": configFileContent,
-							"foo.js": "foo;",
-						},
-					});
+							)} satisfies FlatConfig[];`;
 
-					await teardown.prepare();
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles(["foo.js"]);
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.ts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load eslint.config.ts with CJS syntax, "type": "commonjs" in nearest `package.json` and top-level await syntax (named import)', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"with-type-commonjs",
-						"top-level-await",
-						"named-import",
-					);
-
-					const configFileContent =
-						'import type { FlatConfig } from "../../../../helper";\nconst { rules } = await import("./rules");\nmodule.exports = [{ rules }] satisfies FlatConfig[];';
-
-					const teardown = createCustomTeardown({
-						cwd,
-						files: {
-							"rules.ts": `export const rules = ${JSON.stringify(
-								{
-									"no-undef": 2,
+							const teardown = createCustomTeardown({
+								cwd,
+								files: {
+									"package.json": typeCommonJS,
+									"eslint.config.ts": configFileContent,
+									"foo.js": "foo;",
 								},
+							});
+
+							await teardown.prepare();
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles(["foo.js"]);
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.ts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load eslint.config.ts with CJS syntax and "type": "module" in nearest `package.json`', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"with-type-module",
+								"CJS-syntax",
+							);
+
+							const configFileContent = `import type { FlatConfig } from "../../../helper";\nmodule.exports = ${JSON.stringify(
+								[{ rules: { "no-undef": 2 } }],
 								null,
 								2,
-							)};`,
-							"package.json": typeCommonJS,
-							"eslint.config.ts": configFileContent,
-							"foo.js": "foo;",
-						},
-					});
+							)} satisfies FlatConfig[];`;
 
-					await teardown.prepare();
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles(["foo.js"]);
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.ts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load eslint.config.ts with CJS syntax, "type": "module" in nearest `package.json` and top-level await syntax (import default)', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"with-type-module",
-						"top-level-await",
-						"import-default",
-					);
-
-					const configFileContent =
-						'import type { FlatConfig } from "../../../../helper";\nconst { default: rules } = await import("./rules");\nmodule.exports = [{ rules }] satisfies FlatConfig[];';
-
-					const teardown = createCustomTeardown({
-						cwd,
-						files: {
-							"rules.ts": `export default ${JSON.stringify(
-								{
-									"no-undef": 2,
+							const teardown = createCustomTeardown({
+								cwd,
+								files: {
+									"package.json": typeModule,
+									"eslint.config.ts": configFileContent,
+									"foo.js": "foo;",
 								},
+							});
+
+							await teardown.prepare();
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles(["foo.js"]);
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.ts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load eslint.config.ts with CJS syntax and "type": "commonjs" in nearest `package.json`', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"with-type-commonjs",
+								"CJS-syntax",
+							);
+
+							const configFileContent = `import type { FlatConfig } from "../../../helper";\nmodule.exports = ${JSON.stringify(
+								[{ rules: { "no-undef": 2 } }],
 								null,
 								2,
-							)};`,
-							"package.json": typeModule,
-							"eslint.config.ts": configFileContent,
-							"foo.js": "foo;",
-						},
-					});
+							)} satisfies FlatConfig[];`;
 
-					await teardown.prepare();
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles(["foo.js"]);
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.ts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load eslint.config.ts with CJS syntax, "type": "commonjs" in nearest `package.json` and top-level await syntax (import default)', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"with-type-commonjs",
-						"top-level-await",
-						"import-default",
-					);
-
-					const configFileContent =
-						'import type { FlatConfig } from "../../../../helper";\nconst { default: rules } = await import("./rules");\nmodule.exports = [{ rules }] satisfies FlatConfig[];';
-
-					const teardown = createCustomTeardown({
-						cwd,
-						files: {
-							"rules.ts": `export default ${JSON.stringify(
-								{
-									"no-undef": 2,
+							const teardown = createCustomTeardown({
+								cwd,
+								files: {
+									"package.json": typeCommonJS,
+									"eslint.config.ts": configFileContent,
+									"foo.js": "foo;",
 								},
+							});
+
+							await teardown.prepare();
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles(["foo.js"]);
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.ts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load eslint.config.ts with CJS syntax, "type": "module" in nearest `package.json` and top-level await syntax', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"with-type-module",
+								"CJS-syntax",
+								"top-level-await",
+							);
+
+							const configFileContent = `import type { FlatConfig } from "../../../../helper";\nmodule.exports = await Promise.resolve(${JSON.stringify(
+								[{ rules: { "no-undef": 2 } }],
 								null,
 								2,
-							)};`,
-							"package.json": typeCommonJS,
-							"eslint.config.ts": configFileContent,
-							"foo.js": "foo;",
-						},
-					});
+							)}) satisfies FlatConfig[];`;
 
-					await teardown.prepare();
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles(["foo.js"]);
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.ts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load eslint.config.ts with CJS syntax, "type": "module" in nearest `package.json` and top-level await syntax (default and named imports)', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"with-type-module",
-						"top-level-await",
-						"import-default-and-named",
-					);
-
-					const configFileContent =
-						'import type { FlatConfig } from "../../../../helper";\nconst { default: rules, Level } = await import("./rules");\n\nmodule.exports = [{ rules: { ...rules, semi: Level.Error } }] satisfies FlatConfig[];';
-
-					const teardown = createCustomTeardown({
-						cwd,
-						files: {
-							"rules.ts": `import type { RulesRecord } from "../../../../helper";\nexport const enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nexport default ${JSON.stringify(
-								{
-									"no-undef": 2,
+							const teardown = createCustomTeardown({
+								cwd,
+								files: {
+									"package.json": typeModule,
+									"eslint.config.ts": configFileContent,
+									"foo.js": "foo;",
 								},
+							});
+
+							await teardown.prepare();
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles(["foo.js"]);
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.ts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load eslint.config.ts with CJS syntax, "type": "commonjs" in nearest `package.json` and top-level await syntax', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"with-type-commonjs",
+								"CJS-syntax",
+								"top-level-await",
+							);
+
+							const configFileContent = `import type { FlatConfig } from "../../../../helper";\nmodule.exports = await Promise.resolve(${JSON.stringify(
+								[{ rules: { "no-undef": 2 } }],
 								null,
 								2,
-							)} satisfies RulesRecord;`,
-							"package.json": typeModule,
-							"eslint.config.ts": configFileContent,
-							"foo.js": "foo",
-						},
-					});
+							)}) satisfies FlatConfig[];`;
 
-					await teardown.prepare();
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles(["foo.js"]);
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.ts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 2);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(results[0].messages[1].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load eslint.config.ts with TypeScript\'s CJS syntax (import and export assignment), "type": "module" in nearest `package.json`', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"with-type-module",
-						"import-and-export-assignment",
-					);
-
-					const configFileContent =
-						'import type { FlatConfig } from "../../../helper";\nimport rulesModule = require("./rules");\nconst { rules, Level } = rulesModule;\nexport = [{ rules: { ...rules, semi: Level.Error } }] satisfies FlatConfig[];';
-
-					const teardown = createCustomTeardown({
-						cwd,
-						files: {
-							"rules.ts":
-								'import type { RulesRecord } from "../../../helper";\nimport { Severity } from "../../../helper";\nconst enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nexport = { rules: { "no-undef": Severity.Error }, Level } satisfies RulesRecord;',
-							"package.json": typeModule,
-							"eslint.config.ts": configFileContent,
-							"foo.js": "foo",
-						},
-					});
-
-					await teardown.prepare();
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles(["foo.js"]);
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.ts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 2);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(results[0].messages[1].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load eslint.config.ts with TypeScript\'s CJS syntax (import and export assignment), "type": "commonjs" in nearest `package.json`', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"with-type-commonjs",
-						"import-and-export-assignment",
-					);
-
-					const configFileContent =
-						'import type { FlatConfig } from "../../../helper";\nimport rulesModule = require("./rules");\nconst { rules, Level } = rulesModule;\nexport = [{ rules: { ...rules, semi: Level.Error } }] satisfies FlatConfig[];';
-
-					const teardown = createCustomTeardown({
-						cwd,
-						files: {
-							"rules.ts":
-								'import type { RulesRecord } from "../../../helper";\nimport { Severity } from "../../../helper";\nconst enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nexport = { rules: { "no-undef": Severity.Error }, Level } satisfies RulesRecord;',
-							"package.json": typeCommonJS,
-							"eslint.config.ts": configFileContent,
-							"foo.js": "foo",
-						},
-					});
-
-					await teardown.prepare();
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles(["foo.js"]);
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.ts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 2);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(results[0].messages[1].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load eslint.config.ts with wildcard imports, "type": "module" in nearest `package.json`', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"with-type-module",
-						"wildcard-imports",
-					);
-
-					const configFileContent =
-						'import type { FlatConfig } from "../../../helper";\nimport * as rulesModule from "./rules";\nconst { default: rules ,Level } = rulesModule;\nexport = [{ rules: { ...rules, semi: Level.Error } }] satisfies FlatConfig[];';
-
-					const teardown = createCustomTeardown({
-						cwd,
-						files: {
-							"rules.ts":
-								'import type { RulesRecord } from "../../../helper";\nimport { Severity } from "../../../helper";\nexport const enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nexport default { "no-undef": Severity.Error } satisfies RulesRecord;',
-							"package.json": typeModule,
-							"eslint.config.ts": configFileContent,
-							"foo.js": "foo",
-						},
-					});
-
-					await teardown.prepare();
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles(["foo.js"]);
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.ts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 2);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(results[0].messages[1].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load eslint.config.ts with wildcard imports, "type": "commonjs" in nearest `package.json`', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"with-type-commonjs",
-						"wildcard-imports",
-					);
-
-					const configFileContent =
-						'import type { FlatConfig } from "../../../helper";\nimport * as rulesModule from "./rules";\nconst { default: rules ,Level } = rulesModule;\nexport = [{ rules: { ...rules, semi: Level.Error } }] satisfies FlatConfig[];';
-
-					const teardown = createCustomTeardown({
-						cwd,
-						files: {
-							"rules.ts":
-								'import type { RulesRecord } from "../../../helper";\nimport { Severity } from "../../../helper";\nexport const enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nexport default { "no-undef": Severity.Error } satisfies RulesRecord;',
-							"package.json": typeCommonJS,
-							"eslint.config.ts": configFileContent,
-							"foo.js": "foo",
-						},
-					});
-
-					await teardown.prepare();
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles(["foo.js"]);
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.ts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 2);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(results[0].messages[1].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load eslint.config.ts with CJS-ESM mixed syntax (import and module.exports), "type": "module" in nearest `package.json`', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"with-type-module",
-						"CJS-ESM-mixed-syntax",
-						"import-and-module-exports",
-					);
-
-					const configFileContent =
-						'import type { FlatConfig } from "../../../../helper";\nimport rules, { Level } from "./rules";\nmodule.exports = [{ rules: { ...rules, semi: Level.Error } }] satisfies FlatConfig[];';
-
-					const teardown = createCustomTeardown({
-						cwd,
-						files: {
-							"rules.ts": `import type { RulesRecord } from "../../../../helper";\nexport const enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nexport default ${JSON.stringify(
-								{
-									"no-undef": 2,
+							const teardown = createCustomTeardown({
+								cwd,
+								files: {
+									"package.json": typeCommonJS,
+									"eslint.config.ts": configFileContent,
+									"foo.js": "foo;",
 								},
+							});
+
+							await teardown.prepare();
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles(["foo.js"]);
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.ts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load eslint.config.ts with CJS syntax, "type": "module" in nearest `package.json` and top-level await syntax (named import)', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"with-type-module",
+								"top-level-await",
+								"named-import",
+							);
+
+							const configFileContent =
+								'import type { FlatConfig } from "../../../../helper";\nconst { rules } = await import("./rules");\nmodule.exports = [{ rules }] satisfies FlatConfig[];';
+
+							const teardown = createCustomTeardown({
+								cwd,
+								files: {
+									"rules.ts": `export const rules = ${JSON.stringify(
+										{
+											"no-undef": 2,
+										},
+										null,
+										2,
+									)};`,
+									"package.json": typeModule,
+									"eslint.config.ts": configFileContent,
+									"foo.js": "foo;",
+								},
+							});
+
+							await teardown.prepare();
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles(["foo.js"]);
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.ts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load eslint.config.ts with CJS syntax, "type": "commonjs" in nearest `package.json` and top-level await syntax (named import)', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"with-type-commonjs",
+								"top-level-await",
+								"named-import",
+							);
+
+							const configFileContent =
+								'import type { FlatConfig } from "../../../../helper";\nconst { rules } = await import("./rules");\nmodule.exports = [{ rules }] satisfies FlatConfig[];';
+
+							const teardown = createCustomTeardown({
+								cwd,
+								files: {
+									"rules.ts": `export const rules = ${JSON.stringify(
+										{
+											"no-undef": 2,
+										},
+										null,
+										2,
+									)};`,
+									"package.json": typeCommonJS,
+									"eslint.config.ts": configFileContent,
+									"foo.js": "foo;",
+								},
+							});
+
+							await teardown.prepare();
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles(["foo.js"]);
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.ts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load eslint.config.ts with CJS syntax, "type": "module" in nearest `package.json` and top-level await syntax (import default)', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"with-type-module",
+								"top-level-await",
+								"import-default",
+							);
+
+							const configFileContent =
+								'import type { FlatConfig } from "../../../../helper";\nconst { default: rules } = await import("./rules");\nmodule.exports = [{ rules }] satisfies FlatConfig[];';
+
+							const teardown = createCustomTeardown({
+								cwd,
+								files: {
+									"rules.ts": `export default ${JSON.stringify(
+										{
+											"no-undef": 2,
+										},
+										null,
+										2,
+									)};`,
+									"package.json": typeModule,
+									"eslint.config.ts": configFileContent,
+									"foo.js": "foo;",
+								},
+							});
+
+							await teardown.prepare();
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles(["foo.js"]);
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.ts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load eslint.config.ts with CJS syntax, "type": "commonjs" in nearest `package.json` and top-level await syntax (import default)', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"with-type-commonjs",
+								"top-level-await",
+								"import-default",
+							);
+
+							const configFileContent =
+								'import type { FlatConfig } from "../../../../helper";\nconst { default: rules } = await import("./rules");\nmodule.exports = [{ rules }] satisfies FlatConfig[];';
+
+							const teardown = createCustomTeardown({
+								cwd,
+								files: {
+									"rules.ts": `export default ${JSON.stringify(
+										{
+											"no-undef": 2,
+										},
+										null,
+										2,
+									)};`,
+									"package.json": typeCommonJS,
+									"eslint.config.ts": configFileContent,
+									"foo.js": "foo;",
+								},
+							});
+
+							await teardown.prepare();
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles(["foo.js"]);
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.ts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load eslint.config.ts with CJS syntax, "type": "module" in nearest `package.json` and top-level await syntax (default and named imports)', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"with-type-module",
+								"top-level-await",
+								"import-default-and-named",
+							);
+
+							const configFileContent =
+								'import type { FlatConfig } from "../../../../helper";\nconst { default: rules, Level } = await import("./rules");\n\nmodule.exports = [{ rules: { ...rules, semi: Level.Error } }] satisfies FlatConfig[];';
+
+							const teardown = createCustomTeardown({
+								cwd,
+								files: {
+									"rules.ts": `import type { RulesRecord } from "../../../../helper";\nexport const enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nexport default ${JSON.stringify(
+										{
+											"no-undef": 2,
+										},
+										null,
+										2,
+									)} satisfies RulesRecord;`,
+									"package.json": typeModule,
+									"eslint.config.ts": configFileContent,
+									"foo.js": "foo",
+								},
+							});
+
+							await teardown.prepare();
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles(["foo.js"]);
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.ts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 2);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[1].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load eslint.config.ts with TypeScript\'s CJS syntax (import and export assignment), "type": "module" in nearest `package.json`', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"with-type-module",
+								"import-and-export-assignment",
+							);
+
+							const configFileContent =
+								'import type { FlatConfig } from "../../../helper";\nimport rulesModule = require("./rules");\nconst { rules, Level } = rulesModule;\nexport = [{ rules: { ...rules, semi: Level.Error } }] satisfies FlatConfig[];';
+
+							const teardown = createCustomTeardown({
+								cwd,
+								files: {
+									"rules.ts":
+										'import type { RulesRecord } from "../../../helper";\nimport { Severity } from "../../../helper";\nconst enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nexport = { rules: { "no-undef": Severity.Error }, Level } satisfies RulesRecord;',
+									"package.json": typeModule,
+									"eslint.config.ts": configFileContent,
+									"foo.js": "foo",
+								},
+							});
+
+							await teardown.prepare();
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles(["foo.js"]);
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.ts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 2);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[1].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load eslint.config.ts with TypeScript\'s CJS syntax (import and export assignment), "type": "commonjs" in nearest `package.json`', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"with-type-commonjs",
+								"import-and-export-assignment",
+							);
+
+							const configFileContent =
+								'import type { FlatConfig } from "../../../helper";\nimport rulesModule = require("./rules");\nconst { rules, Level } = rulesModule;\nexport = [{ rules: { ...rules, semi: Level.Error } }] satisfies FlatConfig[];';
+
+							const teardown = createCustomTeardown({
+								cwd,
+								files: {
+									"rules.ts":
+										'import type { RulesRecord } from "../../../helper";\nimport { Severity } from "../../../helper";\nconst enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nexport = { rules: { "no-undef": Severity.Error }, Level } satisfies RulesRecord;',
+									"package.json": typeCommonJS,
+									"eslint.config.ts": configFileContent,
+									"foo.js": "foo",
+								},
+							});
+
+							await teardown.prepare();
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles(["foo.js"]);
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.ts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 2);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[1].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load eslint.config.ts with wildcard imports, "type": "module" in nearest `package.json`', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"with-type-module",
+								"wildcard-imports",
+							);
+
+							const configFileContent =
+								'import type { FlatConfig } from "../../../helper";\nimport * as rulesModule from "./rules";\nconst { default: rules ,Level } = rulesModule;\nexport = [{ rules: { ...rules, semi: Level.Error } }] satisfies FlatConfig[];';
+
+							const teardown = createCustomTeardown({
+								cwd,
+								files: {
+									"rules.ts":
+										'import type { RulesRecord } from "../../../helper";\nimport { Severity } from "../../../helper";\nexport const enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nexport default { "no-undef": Severity.Error } satisfies RulesRecord;',
+									"package.json": typeModule,
+									"eslint.config.ts": configFileContent,
+									"foo.js": "foo",
+								},
+							});
+
+							await teardown.prepare();
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles(["foo.js"]);
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.ts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 2);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[1].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load eslint.config.ts with wildcard imports, "type": "commonjs" in nearest `package.json`', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"with-type-commonjs",
+								"wildcard-imports",
+							);
+
+							const configFileContent =
+								'import type { FlatConfig } from "../../../helper";\nimport * as rulesModule from "./rules";\nconst { default: rules ,Level } = rulesModule;\nexport = [{ rules: { ...rules, semi: Level.Error } }] satisfies FlatConfig[];';
+
+							const teardown = createCustomTeardown({
+								cwd,
+								files: {
+									"rules.ts":
+										'import type { RulesRecord } from "../../../helper";\nimport { Severity } from "../../../helper";\nexport const enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nexport default { "no-undef": Severity.Error } satisfies RulesRecord;',
+									"package.json": typeCommonJS,
+									"eslint.config.ts": configFileContent,
+									"foo.js": "foo",
+								},
+							});
+
+							await teardown.prepare();
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles(["foo.js"]);
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.ts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 2);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[1].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load eslint.config.ts with CJS-ESM mixed syntax (import and module.exports), "type": "module" in nearest `package.json`', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"with-type-module",
+								"CJS-ESM-mixed-syntax",
+								"import-and-module-exports",
+							);
+
+							const configFileContent =
+								'import type { FlatConfig } from "../../../../helper";\nimport rules, { Level } from "./rules";\nmodule.exports = [{ rules: { ...rules, semi: Level.Error } }] satisfies FlatConfig[];';
+
+							const teardown = createCustomTeardown({
+								cwd,
+								files: {
+									"rules.ts": `import type { RulesRecord } from "../../../../helper";\nexport const enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nexport default ${JSON.stringify(
+										{
+											"no-undef": 2,
+										},
+										null,
+										2,
+									)} satisfies RulesRecord;`,
+									"package.json": typeModule,
+									"eslint.config.ts": configFileContent,
+									"foo.js": "foo",
+								},
+							});
+
+							await teardown.prepare();
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles(["foo.js"]);
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.ts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 2);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[1].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load eslint.config.ts with CJS-ESM mixed syntax (import and module.exports), "type": "commonjs" in nearest `package.json`', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"with-type-commonjs",
+								"CJS-ESM-mixed-syntax",
+								"import-and-module-exports",
+							);
+
+							const configFileContent =
+								'import type { FlatConfig } from "../../../../helper";\nimport rules, { Level } from "./rules";\nmodule.exports = [{ rules: { ...rules, semi: Level.Error } }] satisfies FlatConfig[];';
+
+							const teardown = createCustomTeardown({
+								cwd,
+								files: {
+									"rules.ts": `import type { RulesRecord } from "../../../../helper";\nexport const enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nexport default ${JSON.stringify(
+										{
+											"no-undef": 2,
+										},
+										null,
+										2,
+									)} satisfies RulesRecord;`,
+									"package.json": typeCommonJS,
+									"eslint.config.ts": configFileContent,
+									"foo.js": "foo",
+								},
+							});
+
+							await teardown.prepare();
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles(["foo.js"]);
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.ts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 2);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[1].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load eslint.config.ts with CJS-ESM mixed syntax (require and export default), "type": "module" in nearest `package.json`', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"with-type-module",
+								"CJS-ESM-mixed-syntax",
+								"require-and-export-default",
+							);
+
+							const configFileContent =
+								'import type { FlatConfig } from "../../../../helper";\nconst { default: rules, Level } = require("./rules");\nexport default [{ rules: { ...rules, semi: Level.Error } }] satisfies FlatConfig[];';
+
+							const teardown = createCustomTeardown({
+								cwd,
+								files: {
+									"rules.ts":
+										'import type { RulesRecord } from "../../../../helper";\nimport { Severity } from "../../../../helper";\nexport const enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nexport default { "no-undef": Severity.Error } satisfies RulesRecord;',
+									"package.json": typeModule,
+									"eslint.config.ts": configFileContent,
+									"foo.js": "foo",
+								},
+							});
+
+							await teardown.prepare();
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles(["foo.js"]);
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.ts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 2);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[1].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load eslint.config.ts with CJS-ESM mixed syntax (require and export default), "type": "commonjs" in nearest `package.json`', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"with-type-commonjs",
+								"CJS-ESM-mixed-syntax",
+								"require-and-export-default",
+							);
+
+							const configFileContent =
+								'import type { FlatConfig } from "../../../../helper";\nconst { default: rules, Level } = require("./rules");\nexport default [{ rules: { ...rules, semi: Level.Error } }] satisfies FlatConfig[];';
+
+							const teardown = createCustomTeardown({
+								cwd,
+								files: {
+									"rules.ts":
+										'import type { RulesRecord } from "../../../../helper";\nimport { Severity } from "../../../../helper";\nexport const enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nexport default { "no-undef": Severity.Error } satisfies RulesRecord;',
+									"package.json": typeCommonJS,
+									"eslint.config.ts": configFileContent,
+									"foo.js": "foo",
+								},
+							});
+
+							await teardown.prepare();
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles(["foo.js"]);
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.ts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 2);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[1].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load eslint.config.ts with CJS-ESM mixed syntax (import assignment and export default), "type": "module" in nearest `package.json`', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"with-type-module",
+								"CJS-ESM-mixed-syntax",
+								"import-assignment-and-export-default",
+							);
+
+							const configFileContent =
+								'import type { FlatConfig } from "../../../../helper";\nimport rulesModule = require("./rules");\nconst { default: rules, Level } = rulesModule;\nexport default [{ rules: { ...rules, semi: Level.Error } }] satisfies FlatConfig[];';
+
+							const teardown = createCustomTeardown({
+								cwd,
+								files: {
+									"rules.ts":
+										'import type { RulesRecord } from "../../../../helper";\nimport { Severity } from "../../../../helper";\nexport const enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nexport default { "no-undef": Severity.Error } satisfies RulesRecord;',
+									"package.json": typeModule,
+									"eslint.config.ts": configFileContent,
+									"foo.js": "foo",
+								},
+							});
+
+							await teardown.prepare();
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles(["foo.js"]);
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.ts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 2);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[1].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load eslint.config.ts with CJS-ESM mixed syntax (import assignment and export default), "type": "commonjs" in nearest `package.json`', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"with-type-commonjs",
+								"CJS-ESM-mixed-syntax",
+								"import-assignment-and-export-default",
+							);
+
+							const configFileContent =
+								'import type { FlatConfig } from "../../../../helper";\nimport rulesModule = require("./rules");\nconst { default: rules, Level } = rulesModule;\nexport default [{ rules: { ...rules, semi: Level.Error } }] satisfies FlatConfig[];';
+
+							const teardown = createCustomTeardown({
+								cwd,
+								files: {
+									"rules.ts":
+										'import type { RulesRecord } from "../../../../helper";\nimport { Severity } from "../../../../helper";\nexport const enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nexport default { "no-undef": Severity.Error } satisfies RulesRecord;',
+									"package.json": typeCommonJS,
+									"eslint.config.ts": configFileContent,
+									"foo.js": "foo",
+								},
+							});
+
+							await teardown.prepare();
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles(["foo.js"]);
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.ts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 2);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[1].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load eslint.config.ts with CJS-ESM mixed syntax (import and export assignment), "type": "module" in nearest `package.json`', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"with-type-module",
+								"CJS-ESM-mixed-syntax",
+								"import-and-export-assignment",
+							);
+
+							const configFileContent =
+								'import helpers = require("../../../../helper");\nimport rulesModule = require("./rules");\nconst { default: rules, Level } = rulesModule;\nconst allExports = [{ rules: { ...rules, semi: Level.Error } }] satisfies helpers.FlatConfig[];\nexport = allExports;';
+
+							const teardown = createCustomTeardown({
+								cwd,
+								files: {
+									"rules.ts":
+										'import helpers = require("../../../../helper");\nconst enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nconst rules = { "no-undef": helpers.Severity.Error } satisfies helpers.RulesRecord;\nconst allExports = { default: rules, Level };\nexport = allExports;',
+									"package.json": typeModule,
+									"eslint.config.ts": configFileContent,
+									"foo.js": "foo",
+								},
+							});
+
+							await teardown.prepare();
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles(["foo.js"]);
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.ts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 2);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[1].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load eslint.config.ts with CJS-ESM mixed syntax (import and export assignment), "type": "commonjs" in nearest `package.json`', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"with-type-commonjs",
+								"CJS-ESM-mixed-syntax",
+								"import-and-export-assignment",
+							);
+
+							const configFileContent =
+								'import helpers = require("../../../../helper");\nimport rulesModule = require("./rules");\nconst { default: rules, Level } = rulesModule;\nconst allExports = [{ rules: { ...rules, semi: Level.Error } }] satisfies helpers.FlatConfig[];\nexport = allExports;';
+
+							const teardown = createCustomTeardown({
+								cwd,
+								files: {
+									"rules.ts":
+										'import helpers = require("../../../../helper");\nconst enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nconst rules = { "no-undef": helpers.Severity.Error } satisfies helpers.RulesRecord;\nconst allExports = { default: rules, Level };\nexport = allExports;',
+									"package.json": typeCommonJS,
+									"eslint.config.ts": configFileContent,
+									"foo.js": "foo",
+								},
+							});
+
+							await teardown.prepare();
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles(["foo.js"]);
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.ts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 2);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[1].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it("should load eslint.config.ts with const enums", async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"const-enums",
+							);
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles("foo.js");
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.ts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it("should load eslint.config.ts with local namespace", async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"local-namespace",
+							);
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles("foo.js");
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.ts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it("should allow passing a TS config file to `overrideConfigFile`", async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"custom-config",
+							);
+
+							const overrideConfigFile = path.join(
+								cwd,
+								"eslint.custom.config.ts",
+							);
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+								overrideConfigFile,
+							});
+
+							const results = await eslint.lintFiles("foo.js");
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								overrideConfigFile,
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it("should find and load eslint.config.mts when present", async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"mts",
+							);
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles("foo.js");
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.mts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load eslint.config.mts when we have "type": "commonjs" in nearest `package.json`', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"mts",
+								"with-type-commonjs",
+							);
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles("foo.js");
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.mts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load eslint.config.mts config file when we have "type": "module" in nearest `package.json`', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"mts",
+								"with-type-module",
+							);
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles("foo.js");
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.mts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it("should find and load eslint.config.cts when present", async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"cts",
+							);
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles("foo.js");
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.cts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load eslint.config.cts config file when we have "type": "commonjs" in nearest `package.json`', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"cts",
+								"with-type-commonjs",
+							);
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles("foo.js");
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.cts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it('should load .cts config file when we have "type": "module" in nearest `package.json`', async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"cts",
+								"with-type-module",
+							);
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles("foo.js");
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.cts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
+								2,
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it("should not load extensions other than .ts, .mts or .cts", async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"wrong-extension",
+							);
+
+							const configFileContent = `import type { FlatConfig } from "../../helper";\nexport default ${JSON.stringify(
+								[{ rules: { "no-undef": 2 } }],
 								null,
 								2,
-							)} satisfies RulesRecord;`,
-							"package.json": typeModule,
-							"eslint.config.ts": configFileContent,
-							"foo.js": "foo",
-						},
-					});
+							)} satisfies FlatConfig[];`;
 
-					await teardown.prepare();
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles(["foo.js"]);
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.ts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 2);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(results[0].messages[1].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load eslint.config.ts with CJS-ESM mixed syntax (import and module.exports), "type": "commonjs" in nearest `package.json`', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"with-type-commonjs",
-						"CJS-ESM-mixed-syntax",
-						"import-and-module-exports",
-					);
-
-					const configFileContent =
-						'import type { FlatConfig } from "../../../../helper";\nimport rules, { Level } from "./rules";\nmodule.exports = [{ rules: { ...rules, semi: Level.Error } }] satisfies FlatConfig[];';
-
-					const teardown = createCustomTeardown({
-						cwd,
-						files: {
-							"rules.ts": `import type { RulesRecord } from "../../../../helper";\nexport const enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nexport default ${JSON.stringify(
-								{
-									"no-undef": 2,
+							const teardown = createCustomTeardown({
+								cwd,
+								files: {
+									"package.json": typeCommonJS,
+									"eslint.config.mcts": configFileContent,
+									"foo.js": "foo;",
 								},
-								null,
+							});
+
+							await teardown.prepare();
+
+							eslint = new ESLint({
+								cwd,
+								overrideConfigFile: "eslint.config.mcts",
+								flags,
+							});
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.mcts"),
+							);
+							await assert.rejects(() =>
+								eslint.lintFiles(["foo.js"]),
+							);
+						});
+
+						it("should successfully load a TS config file that exports a promise", async () => {
+							const cwd = getFixturePath(
+								"ts-config-files",
+								"ts",
+								"exports-promise",
+							);
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+							});
+
+							const results = await eslint.lintFiles(["foo*.js"]);
+
+							assert.strictEqual(
+								await eslint.findConfigFile(),
+								path.join(cwd, "eslint.config.ts"),
+							);
+							assert.strictEqual(results.length, 1);
+							assert.strictEqual(
+								results[0].filePath,
+								path.join(cwd, "foo.js"),
+							);
+							assert.strictEqual(results[0].messages.length, 1);
+							assert.strictEqual(
+								results[0].messages[0].severity,
 								2,
-							)} satisfies RulesRecord;`,
-							"package.json": typeCommonJS,
-							"eslint.config.ts": configFileContent,
-							"foo.js": "foo",
-						},
+							);
+							assert.strictEqual(
+								results[0].messages[0].ruleId,
+								"no-undef",
+							);
+						});
+
+						it("should load a CommonJS TS config file that exports undefined with a helpful warning message", async () => {
+							sinon.restore();
+
+							const cwd = getFixturePath("ts-config-files", "ts");
+							const processStub = sinon.stub(
+								process,
+								"emitWarning",
+							);
+
+							eslint = new ESLint({
+								cwd,
+								flags,
+								overrideConfigFile:
+									"eslint.undefined.config.ts",
+							});
+
+							await eslint.lintFiles("foo.js");
+
+							assert.strictEqual(
+								processStub.callCount,
+								1,
+								"calls `process.emitWarning()` once",
+							);
+							assert.strictEqual(
+								processStub.getCall(0).args[1],
+								"ESLintEmptyConfigWarning",
+							);
+						});
 					});
-
-					await teardown.prepare();
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles(["foo.js"]);
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.ts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 2);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(results[0].messages[1].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load eslint.config.ts with CJS-ESM mixed syntax (require and export default), "type": "module" in nearest `package.json`', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"with-type-module",
-						"CJS-ESM-mixed-syntax",
-						"require-and-export-default",
-					);
-
-					const configFileContent =
-						'import type { FlatConfig } from "../../../../helper";\nconst { default: rules, Level } = require("./rules");\nexport default [{ rules: { ...rules, semi: Level.Error } }] satisfies FlatConfig[];';
-
-					const teardown = createCustomTeardown({
-						cwd,
-						files: {
-							"rules.ts":
-								'import type { RulesRecord } from "../../../../helper";\nimport { Severity } from "../../../../helper";\nexport const enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nexport default { "no-undef": Severity.Error } satisfies RulesRecord;',
-							"package.json": typeModule,
-							"eslint.config.ts": configFileContent,
-							"foo.js": "foo",
-						},
-					});
-
-					await teardown.prepare();
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles(["foo.js"]);
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.ts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 2);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(results[0].messages[1].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load eslint.config.ts with CJS-ESM mixed syntax (require and export default), "type": "commonjs" in nearest `package.json`', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"with-type-commonjs",
-						"CJS-ESM-mixed-syntax",
-						"require-and-export-default",
-					);
-
-					const configFileContent =
-						'import type { FlatConfig } from "../../../../helper";\nconst { default: rules, Level } = require("./rules");\nexport default [{ rules: { ...rules, semi: Level.Error } }] satisfies FlatConfig[];';
-
-					const teardown = createCustomTeardown({
-						cwd,
-						files: {
-							"rules.ts":
-								'import type { RulesRecord } from "../../../../helper";\nimport { Severity } from "../../../../helper";\nexport const enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nexport default { "no-undef": Severity.Error } satisfies RulesRecord;',
-							"package.json": typeCommonJS,
-							"eslint.config.ts": configFileContent,
-							"foo.js": "foo",
-						},
-					});
-
-					await teardown.prepare();
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles(["foo.js"]);
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.ts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 2);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(results[0].messages[1].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load eslint.config.ts with CJS-ESM mixed syntax (import assignment and export default), "type": "module" in nearest `package.json`', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"with-type-module",
-						"CJS-ESM-mixed-syntax",
-						"import-assignment-and-export-default",
-					);
-
-					const configFileContent =
-						'import type { FlatConfig } from "../../../../helper";\nimport rulesModule = require("./rules");\nconst { default: rules, Level } = rulesModule;\nexport default [{ rules: { ...rules, semi: Level.Error } }] satisfies FlatConfig[];';
-
-					const teardown = createCustomTeardown({
-						cwd,
-						files: {
-							"rules.ts":
-								'import type { RulesRecord } from "../../../../helper";\nimport { Severity } from "../../../../helper";\nexport const enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nexport default { "no-undef": Severity.Error } satisfies RulesRecord;',
-							"package.json": typeModule,
-							"eslint.config.ts": configFileContent,
-							"foo.js": "foo",
-						},
-					});
-
-					await teardown.prepare();
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles(["foo.js"]);
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.ts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 2);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(results[0].messages[1].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load eslint.config.ts with CJS-ESM mixed syntax (import assignment and export default), "type": "commonjs" in nearest `package.json`', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"with-type-commonjs",
-						"CJS-ESM-mixed-syntax",
-						"import-assignment-and-export-default",
-					);
-
-					const configFileContent =
-						'import type { FlatConfig } from "../../../../helper";\nimport rulesModule = require("./rules");\nconst { default: rules, Level } = rulesModule;\nexport default [{ rules: { ...rules, semi: Level.Error } }] satisfies FlatConfig[];';
-
-					const teardown = createCustomTeardown({
-						cwd,
-						files: {
-							"rules.ts":
-								'import type { RulesRecord } from "../../../../helper";\nimport { Severity } from "../../../../helper";\nexport const enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nexport default { "no-undef": Severity.Error } satisfies RulesRecord;',
-							"package.json": typeCommonJS,
-							"eslint.config.ts": configFileContent,
-							"foo.js": "foo",
-						},
-					});
-
-					await teardown.prepare();
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles(["foo.js"]);
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.ts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 2);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(results[0].messages[1].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load eslint.config.ts with CJS-ESM mixed syntax (import and export assignment), "type": "module" in nearest `package.json`', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"with-type-module",
-						"CJS-ESM-mixed-syntax",
-						"import-and-export-assignment",
-					);
-
-					const configFileContent =
-						'import helpers = require("../../../../helper");\nimport rulesModule = require("./rules");\nconst { default: rules, Level } = rulesModule;\nconst allExports = [{ rules: { ...rules, semi: Level.Error } }] satisfies helpers.FlatConfig[];\nexport = allExports;';
-
-					const teardown = createCustomTeardown({
-						cwd,
-						files: {
-							"rules.ts":
-								'import helpers = require("../../../../helper");\nconst enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nconst rules = { "no-undef": helpers.Severity.Error } satisfies helpers.RulesRecord;\nconst allExports = { default: rules, Level };\nexport = allExports;',
-							"package.json": typeModule,
-							"eslint.config.ts": configFileContent,
-							"foo.js": "foo",
-						},
-					});
-
-					await teardown.prepare();
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles(["foo.js"]);
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.ts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 2);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(results[0].messages[1].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load eslint.config.ts with CJS-ESM mixed syntax (import and export assignment), "type": "commonjs" in nearest `package.json`', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"with-type-commonjs",
-						"CJS-ESM-mixed-syntax",
-						"import-and-export-assignment",
-					);
-
-					const configFileContent =
-						'import helpers = require("../../../../helper");\nimport rulesModule = require("./rules");\nconst { default: rules, Level } = rulesModule;\nconst allExports = [{ rules: { ...rules, semi: Level.Error } }] satisfies helpers.FlatConfig[];\nexport = allExports;';
-
-					const teardown = createCustomTeardown({
-						cwd,
-						files: {
-							"rules.ts":
-								'import helpers = require("../../../../helper");\nconst enum Level {\nError = 2,\nWarn = 1,\nOff = 0,\n};\nconst rules = { "no-undef": helpers.Severity.Error } satisfies helpers.RulesRecord;\nconst allExports = { default: rules, Level };\nexport = allExports;',
-							"package.json": typeCommonJS,
-							"eslint.config.ts": configFileContent,
-							"foo.js": "foo",
-						},
-					});
-
-					await teardown.prepare();
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles(["foo.js"]);
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.ts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 2);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(results[0].messages[1].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it("should load eslint.config.ts with const enums", async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"const-enums",
-					);
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles("foo.js");
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.ts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it("should load eslint.config.ts with local namespace", async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"local-namespace",
-					);
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles("foo.js");
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.ts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it("should allow passing a TS config file to `overrideConfigFile`", async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"custom-config",
-					);
-
-					const overrideConfigFile = path.join(
-						cwd,
-						"eslint.custom.config.ts",
-					);
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-						overrideConfigFile,
-					});
-
-					const results = await eslint.lintFiles("foo.js");
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						overrideConfigFile,
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it("should find and load eslint.config.mts when present", async () => {
-					const cwd = getFixturePath("ts-config-files", "mts");
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles("foo.js");
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.mts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load eslint.config.mts when we have "type": "commonjs" in nearest `package.json`', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"mts",
-						"with-type-commonjs",
-					);
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles("foo.js");
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.mts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load eslint.config.mts config file when we have "type": "module" in nearest `package.json`', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"mts",
-						"with-type-module",
-					);
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles("foo.js");
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.mts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it("should find and load eslint.config.cts when present", async () => {
-					const cwd = getFixturePath("ts-config-files", "cts");
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles("foo.js");
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.cts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load eslint.config.cts config file when we have "type": "commonjs" in nearest `package.json`', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"cts",
-						"with-type-commonjs",
-					);
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles("foo.js");
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.cts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it('should load .cts config file when we have "type": "module" in nearest `package.json`', async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"cts",
-						"with-type-module",
-					);
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles("foo.js");
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.cts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
-				});
-
-				it("should not load extensions other than .ts, .mts or .cts", async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"wrong-extension",
-					);
-
-					const configFileContent = `import type { FlatConfig } from "../../helper";\nexport default ${JSON.stringify(
-						[{ rules: { "no-undef": 2 } }],
-						null,
-						2,
-					)} satisfies FlatConfig[];`;
-
-					const teardown = createCustomTeardown({
-						cwd,
-						files: {
-							"package.json": typeCommonJS,
-							"eslint.config.mcts": configFileContent,
-							"foo.js": "foo;",
-						},
-					});
-
-					await teardown.prepare();
-
-					eslint = new ESLint({
-						cwd,
-						overrideConfigFile: "eslint.config.mcts",
-						flags,
-					});
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.mcts"),
-					);
-					await assert.rejects(() => eslint.lintFiles(["foo.js"]));
-				});
-
-				it("should successfully load a TS config file that exports a promise", async () => {
-					const cwd = getFixturePath(
-						"ts-config-files",
-						"ts",
-						"exports-promise",
-					);
-
-					eslint = new ESLint({
-						cwd,
-						flags,
-					});
-
-					const results = await eslint.lintFiles(["foo*.js"]);
-
-					assert.strictEqual(
-						await eslint.findConfigFile(),
-						path.join(cwd, "eslint.config.ts"),
-					);
-					assert.strictEqual(results.length, 1);
-					assert.strictEqual(
-						results[0].filePath,
-						path.join(cwd, "foo.js"),
-					);
-					assert.strictEqual(results[0].messages.length, 1);
-					assert.strictEqual(results[0].messages[0].severity, 2);
-					assert.strictEqual(
-						results[0].messages[0].ruleId,
-						"no-undef",
-					);
 				});
 
 				it("should fail to load a TS config file if jiti is not installed", async () => {
-					const {
-						ConfigLoader,
-					} = require("../../../lib/config/config-loader");
-
 					sinon.stub(ConfigLoader, "loadJiti").rejects();
 
 					const cwd = getFixturePath("ts-config-files", "ts");
@@ -7573,11 +8071,9 @@ describe("ESLint", () => {
 				});
 
 				it("should fail to load a TS config file if an outdated version of jiti is installed", async () => {
-					const {
-						ConfigLoader,
-					} = require("../../../lib/config/config-loader");
-
-					sinon.stub(ConfigLoader, "loadJiti").resolves({});
+					sinon
+						.stub(ConfigLoader, "loadJiti")
+						.resolves({ createJiti: void 0, version: "1.21.7" });
 
 					const cwd = getFixturePath("ts-config-files", "ts");
 
@@ -7592,30 +8088,723 @@ describe("ESLint", () => {
 					});
 				});
 
-				it("should fail to load a CommonJS TS config file that exports undefined with a helpful warning message", async () => {
-					sinon.restore();
+				it("should handle jiti interopDefault edge cases", async () => {
+					const cwd = getFixturePath(
+						"ts-config-files",
+						"ts",
+						"jiti-interopDefault",
+					);
 
-					const cwd = getFixturePath("ts-config-files", "ts");
-					const processStub = sinon.stub(process, "emitWarning");
+					await fsp.writeFile(
+						path.join(cwd, "eslint.config.ts"),
+						`
+						import plugin from "./plugin";
+
+						export default plugin.configs.recommended;
+
+						// Autogenerated on ${new Date().toISOString()}.`,
+					);
 
 					eslint = new ESLint({
 						cwd,
 						flags,
-						overrideConfigFile: "eslint.undefined.config.ts",
 					});
 
-					await eslint.lintFiles("foo.js");
+					const results = await eslint.lintFiles("foo.js");
 
+					assert.strictEqual(results.length, 1);
+					assert.strictEqual(results[0].messages.length, 1);
+					assert.strictEqual(results[0].messages[0].severity, 2);
 					assert.strictEqual(
-						processStub.callCount,
-						1,
-						"calls `process.emitWarning()` once",
-					);
-					assert.strictEqual(
-						processStub.getCall(0).args[1],
-						"ESLintEmptyConfigWarning",
+						results[0].messages[0].ruleId,
+						"no-undef",
 					);
 				});
+
+				// eslint-disable-next-line n/no-unsupported-features/node-builtins -- it's still an experimental feature.
+				(typeof process.features.typescript === "string"
+					? describe
+					: describe.skip)(
+					"Loading TypeScript config files natively",
+					() => {
+						beforeEach(() => {
+							sinon.stub(ConfigLoader, "loadJiti").rejects();
+						});
+
+						describe("should load a TS config file when --experimental-strip-types is enabled", () => {
+							it('with "type": "commonjs" in `package.json` and CJS syntax', async () => {
+								const cwd = getFixturePath(
+									"ts-config-files",
+									"ts",
+									"native",
+									"with-type-commonjs",
+									"CJS-syntax",
+								);
+
+								const configFileContent =
+									'import type { FlatConfig, Severity } from "./helper.ts";\n\nconst eslintConfig = [\n  { rules: { "no-undef": 2 satisfies Severity.Error } },\n] satisfies FlatConfig[];\n\nmodule.exports = eslintConfig;\n';
+
+								const teardown = createCustomTeardown({
+									cwd,
+									files: {
+										"package.json": typeCommonJS,
+										[eslintConfigFiles.ts]:
+											configFileContent,
+										"foo.js": "foo;",
+										"helper.ts":
+											'export type * from "../../../../helper.ts";\n',
+									},
+								});
+
+								await teardown.prepare();
+
+								eslint = new ESLint({
+									cwd,
+									overrideConfigFile: eslintConfigFiles.ts,
+									flags: nativeTSConfigFileFlags,
+								});
+
+								const results = await eslint.lintFiles([
+									"foo*.js",
+								]);
+
+								assert.strictEqual(
+									await eslint.findConfigFile(),
+									path.join(cwd, eslintConfigFiles.ts),
+								);
+								assert.strictEqual(results.length, 1);
+								assert.strictEqual(
+									results[0].filePath,
+									path.join(cwd, "foo.js"),
+								);
+								assert.strictEqual(
+									results[0].messages.length,
+									1,
+								);
+								assert.strictEqual(
+									results[0].messages[0].severity,
+									2,
+								);
+								assert.strictEqual(
+									results[0].messages[0].ruleId,
+									"no-undef",
+								);
+							});
+
+							it('with "type": "commonjs" in `package.json` and ESM syntax', async () => {
+								const cwd = getFixturePath(
+									"ts-config-files",
+									"mts",
+									"native",
+									"with-type-commonjs",
+									"ESM-syntax",
+								);
+
+								const configFileContent =
+									'import type { FlatConfig, Severity } from "./helper.ts";\n\nconst eslintConfig = [\n  { rules: { "no-undef": 2 satisfies Severity.Error } },\n] satisfies FlatConfig[];\n\nexport default eslintConfig;\n';
+
+								const teardown = createCustomTeardown({
+									cwd,
+									files: {
+										"package.json": typeCommonJS,
+										[eslintConfigFiles.mts]:
+											configFileContent,
+										"foo.js": "foo;",
+										"helper.ts":
+											'export type * from "../../../../helper.ts";\n',
+									},
+								});
+
+								await teardown.prepare();
+
+								eslint = new ESLint({
+									cwd,
+									overrideConfigFile: eslintConfigFiles.mts,
+									flags: nativeTSConfigFileFlags,
+								});
+
+								const results = await eslint.lintFiles([
+									"foo*.js",
+								]);
+
+								assert.strictEqual(
+									await eslint.findConfigFile(),
+									path.join(cwd, eslintConfigFiles.mts),
+								);
+								assert.strictEqual(results.length, 1);
+								assert.strictEqual(
+									results[0].filePath,
+									path.join(cwd, "foo.js"),
+								);
+								assert.strictEqual(
+									results[0].messages.length,
+									1,
+								);
+								assert.strictEqual(
+									results[0].messages[0].severity,
+									2,
+								);
+								assert.strictEqual(
+									results[0].messages[0].ruleId,
+									"no-undef",
+								);
+							});
+
+							it('with "type": "module" in `package.json` and CJS syntax', async () => {
+								const cwd = getFixturePath(
+									"ts-config-files",
+									"cts",
+									"native",
+									"with-type-module",
+									"CJS-syntax",
+								);
+
+								const configFileContent =
+									'import type { FlatConfig, Severity } from "./helper.cts";\n\nconst eslintConfig = [\n  { rules: { "no-undef": 2 satisfies Severity.Error } },\n] satisfies FlatConfig[];\n\nmodule.exports = eslintConfig;\n';
+
+								const teardown = createCustomTeardown({
+									cwd,
+									files: {
+										"package.json": typeModule,
+										[eslintConfigFiles.cts]:
+											configFileContent,
+										"foo.js": "foo;",
+										"helper.cts":
+											'export type * from "../../../../helper.ts";\n',
+									},
+								});
+
+								await teardown.prepare();
+
+								eslint = new ESLint({
+									cwd,
+									overrideConfigFile: eslintConfigFiles.cts,
+									flags: nativeTSConfigFileFlags,
+								});
+
+								const results = await eslint.lintFiles([
+									"foo*.js",
+								]);
+
+								assert.strictEqual(
+									await eslint.findConfigFile(),
+									path.join(cwd, eslintConfigFiles.cts),
+								);
+								assert.strictEqual(results.length, 1);
+								assert.strictEqual(
+									results[0].filePath,
+									path.join(cwd, "foo.js"),
+								);
+								assert.strictEqual(
+									results[0].messages.length,
+									1,
+								);
+								assert.strictEqual(
+									results[0].messages[0].severity,
+									2,
+								);
+								assert.strictEqual(
+									results[0].messages[0].ruleId,
+									"no-undef",
+								);
+							});
+
+							it('with "type": "module" in `package.json` and ESM syntax', async () => {
+								const cwd = getFixturePath(
+									"ts-config-files",
+									"ts",
+									"native",
+									"with-type-module",
+									"ESM-syntax",
+								);
+
+								const configFileContent =
+									'import type { FlatConfig, Severity } from "./helper.cts";\n\nconst eslintConfig = [\n  { rules: { "no-undef": 2 satisfies Severity.Error } },\n] satisfies FlatConfig[];\n\nexport default eslintConfig;\n';
+
+								const teardown = createCustomTeardown({
+									cwd,
+									files: {
+										"package.json": typeModule,
+										[eslintConfigFiles.ts]:
+											configFileContent,
+										"foo.js": "foo;",
+										"helper.ts":
+											'export type * from "../../../../helper.ts";\n',
+									},
+								});
+
+								await teardown.prepare();
+
+								eslint = new ESLint({
+									cwd,
+									overrideConfigFile: eslintConfigFiles.ts,
+									flags: nativeTSConfigFileFlags,
+								});
+
+								const results = await eslint.lintFiles([
+									"foo*.js",
+								]);
+
+								assert.strictEqual(
+									await eslint.findConfigFile(),
+									path.join(cwd, eslintConfigFiles.ts),
+								);
+								assert.strictEqual(results.length, 1);
+								assert.strictEqual(
+									results[0].filePath,
+									path.join(cwd, "foo.js"),
+								);
+								assert.strictEqual(
+									results[0].messages.length,
+									1,
+								);
+								assert.strictEqual(
+									results[0].messages[0].severity,
+									2,
+								);
+								assert.strictEqual(
+									results[0].messages[0].ruleId,
+									"no-undef",
+								);
+							});
+						});
+
+						// eslint-disable-next-line n/no-unsupported-features/node-builtins -- it's still an experimental feature.
+						(process.features.typescript === "transform"
+							? describe
+							: describe.skip)(
+							"should load a TS config file when --experimental-transform-types is enabled",
+							() => {
+								it('with "type": "commonjs" in `package.json` and CJS syntax', async () => {
+									const cwd = getFixturePath(
+										"ts-config-files",
+										"ts",
+										"native",
+										"with-type-commonjs",
+										"CJS-syntax",
+									);
+
+									const configFileContent =
+										'import ESLintNameSpace = require("./helper.ts");\n\nconst eslintConfig = [ { rules: { "no-undef": ESLintNameSpace.StringSeverity.Error } }]\n\nexport = eslintConfig;\n';
+
+									const teardown = createCustomTeardown({
+										cwd,
+										files: {
+											"package.json": typeCommonJS,
+											[eslintConfigFiles.ts]:
+												configFileContent,
+											"foo.js": "foo;",
+											"helper.ts":
+												'namespace ESLintNameSpace {\n  export const enum StringSeverity {\n    "Off" = "off",\n    "Warn" = "warn",\n    "Error" = "error",\n  }\n}\n\nexport = ESLintNameSpace\n',
+										},
+									});
+
+									await teardown.prepare();
+
+									eslint = new ESLint({
+										cwd,
+										overrideConfigFile:
+											eslintConfigFiles.ts,
+										flags: nativeTSConfigFileFlags,
+									});
+
+									const results = await eslint.lintFiles([
+										"foo*.js",
+									]);
+
+									assert.strictEqual(
+										await eslint.findConfigFile(),
+										path.join(cwd, eslintConfigFiles.ts),
+									);
+									assert.strictEqual(results.length, 1);
+									assert.strictEqual(
+										results[0].filePath,
+										path.join(cwd, "foo.js"),
+									);
+									assert.strictEqual(
+										results[0].messages.length,
+										1,
+									);
+									assert.strictEqual(
+										results[0].messages[0].severity,
+										2,
+									);
+									assert.strictEqual(
+										results[0].messages[0].ruleId,
+										"no-undef",
+									);
+								});
+
+								it('with "type": "commonjs" in `package.json` and ESM syntax', async () => {
+									const cwd = getFixturePath(
+										"ts-config-files",
+										"ts",
+										"native",
+										"with-type-commonjs",
+										"ESM-syntax",
+									);
+
+									const configFileContent =
+										'import ESLintNameSpace from "./helper.ts";\n\nconst eslintConfig = [ { rules: { "no-undef": ESLintNameSpace.StringSeverity.Error } }]\n\nexport default eslintConfig;\n';
+
+									const teardown = createCustomTeardown({
+										cwd,
+										files: {
+											"package.json": typeCommonJS,
+											[eslintConfigFiles.mts]:
+												configFileContent,
+											"foo.js": "foo;",
+											"helper.ts":
+												'namespace ESLintNameSpace {\n  export const enum StringSeverity {\n    "Off" = "off",\n    "Warn" = "warn",\n    "Error" = "error",\n  }\n}\n\nexport = ESLintNameSpace\n',
+										},
+									});
+
+									await teardown.prepare();
+
+									eslint = new ESLint({
+										cwd,
+										overrideConfigFile:
+											eslintConfigFiles.mts,
+										flags: nativeTSConfigFileFlags,
+									});
+
+									const results = await eslint.lintFiles([
+										"foo*.js",
+									]);
+
+									assert.strictEqual(
+										await eslint.findConfigFile(),
+										path.join(cwd, eslintConfigFiles.mts),
+									);
+									assert.strictEqual(results.length, 1);
+									assert.strictEqual(
+										results[0].filePath,
+										path.join(cwd, "foo.js"),
+									);
+									assert.strictEqual(
+										results[0].messages.length,
+										1,
+									);
+									assert.strictEqual(
+										results[0].messages[0].severity,
+										2,
+									);
+									assert.strictEqual(
+										results[0].messages[0].ruleId,
+										"no-undef",
+									);
+								});
+
+								it('with "type": "module" in `package.json` and CJS syntax', async () => {
+									const cwd = getFixturePath(
+										"ts-config-files",
+										"cts",
+										"native",
+										"with-type-module",
+										"CJS-syntax",
+									);
+
+									const configFileContent =
+										'import ESLintNameSpace = require("./helper.cts");\n\nconst eslintConfig = [ { rules: { "no-undef": ESLintNameSpace.StringSeverity.Error } }]\n\nexport = eslintConfig;\n';
+
+									const teardown = createCustomTeardown({
+										cwd,
+										files: {
+											"package.json": typeModule,
+											[eslintConfigFiles.cts]:
+												configFileContent,
+											"foo.js": "foo;",
+											"helper.cts":
+												'namespace ESLintNameSpace {\n  export const enum StringSeverity {\n    "Off" = "off",\n    "Warn" = "warn",\n    "Error" = "error",\n  }\n}\n\nexport = ESLintNameSpace\n',
+										},
+									});
+
+									await teardown.prepare();
+
+									eslint = new ESLint({
+										cwd,
+										overrideConfigFile:
+											eslintConfigFiles.cts,
+										flags: nativeTSConfigFileFlags,
+									});
+
+									const results = await eslint.lintFiles([
+										"foo*.js",
+									]);
+
+									assert.strictEqual(
+										await eslint.findConfigFile(),
+										path.join(cwd, eslintConfigFiles.cts),
+									);
+									assert.strictEqual(results.length, 1);
+									assert.strictEqual(
+										results[0].filePath,
+										path.join(cwd, "foo.js"),
+									);
+									assert.strictEqual(
+										results[0].messages.length,
+										1,
+									);
+									assert.strictEqual(
+										results[0].messages[0].severity,
+										2,
+									);
+									assert.strictEqual(
+										results[0].messages[0].ruleId,
+										"no-undef",
+									);
+								});
+
+								it('with "type": "module" in `package.json` and ESM syntax', async () => {
+									const cwd = getFixturePath(
+										"ts-config-files",
+										"ts",
+										"native",
+										"with-type-module",
+										"ESM-syntax",
+									);
+
+									const configFileContent =
+										'import ESLintNameSpace from "./helper.ts";\n\nconst eslintConfig = [ { rules: { "no-undef": ESLintNameSpace.StringSeverity.Error } }]\n\nexport default eslintConfig;\n';
+
+									const teardown = createCustomTeardown({
+										cwd,
+										files: {
+											"package.json": typeModule,
+											[eslintConfigFiles.ts]:
+												configFileContent,
+											"foo.js": "foo;",
+											"helper.ts":
+												'namespace ESLintNameSpace {\n  export const enum StringSeverity {\n    "Off" = "off",\n    "Warn" = "warn",\n    "Error" = "error",\n  }\n}\n\nexport default ESLintNameSpace\n',
+										},
+									});
+
+									await teardown.prepare();
+
+									eslint = new ESLint({
+										cwd,
+										overrideConfigFile:
+											eslintConfigFiles.ts,
+										flags: nativeTSConfigFileFlags,
+									});
+
+									const results = await eslint.lintFiles([
+										"foo*.js",
+									]);
+
+									assert.strictEqual(
+										await eslint.findConfigFile(),
+										path.join(cwd, eslintConfigFiles.ts),
+									);
+									assert.strictEqual(results.length, 1);
+									assert.strictEqual(
+										results[0].filePath,
+										path.join(cwd, "foo.js"),
+									);
+									assert.strictEqual(
+										results[0].messages.length,
+										1,
+									);
+									assert.strictEqual(
+										results[0].messages[0].severity,
+										2,
+									);
+									assert.strictEqual(
+										results[0].messages[0].ruleId,
+										"no-undef",
+									);
+								});
+
+								it("fails without unstable_native_nodejs_ts_config if jiti is not installed", async () => {
+									sinon.restore();
+
+									const loadJitiStub = sinon
+										.stub(ConfigLoader, "loadJiti")
+										.rejects();
+
+									const cwd = getFixturePath(
+										"ts-config-files",
+										"ts",
+										"native",
+										"edge-case-1",
+									);
+
+									const configFileContent =
+										'import ESLintNameSpace from "./helper.ts";\n\nconst eslintConfig = [ { rules: { "no-undef": ESLintNameSpace.StringSeverity.Error } }]\n\nexport default eslintConfig;\n';
+
+									const teardown = createCustomTeardown({
+										cwd,
+										files: {
+											"package.json": typeModule,
+											[eslintConfigFiles.ts]:
+												configFileContent,
+											"foo.js": "foo;",
+											"helper.ts":
+												'namespace ESLintNameSpace {\n  export const enum StringSeverity {\n    "Off" = "off",\n    "Warn" = "warn",\n    "Error" = "error",\n  }\n}\n\nexport default ESLintNameSpace\n',
+										},
+									});
+
+									await teardown.prepare();
+
+									eslint = new ESLint({
+										cwd,
+										overrideConfigFile:
+											eslintConfigFiles.ts,
+										flags,
+									});
+
+									await assert.rejects(
+										eslint.lintFiles(["foo*.js"]),
+										{
+											message:
+												"The 'jiti' library is required for loading TypeScript configuration files. Make sure to install it.",
+										},
+									);
+
+									loadJitiStub.restore();
+								});
+
+								it("fails without unstable_native_nodejs_ts_config if jiti is outdated", async () => {
+									sinon.restore();
+
+									const loadJitiStub = sinon
+										.stub(ConfigLoader, "loadJiti")
+										.resolves({
+											createJiti: void 0,
+											version: "1.21.7",
+										});
+
+									const cwd = getFixturePath(
+										"ts-config-files",
+										"ts",
+										"native",
+										"edge-case-2",
+									);
+
+									const configFileContent =
+										'import ESLintNameSpace from "./helper.ts";\n\nconst eslintConfig = [ { rules: { "no-undef": ESLintNameSpace.StringSeverity.Error } }]\n\nexport default eslintConfig;\n';
+
+									const teardown = createCustomTeardown({
+										cwd,
+										files: {
+											"package.json": typeModule,
+											[eslintConfigFiles.ts]:
+												configFileContent,
+											"foo.js": "foo;",
+											"helper.ts":
+												'namespace ESLintNameSpace {\n  export const enum StringSeverity {\n    "Off" = "off",\n    "Warn" = "warn",\n    "Error" = "error",\n  }\n}\n\nexport default ESLintNameSpace\n',
+										},
+									});
+
+									await teardown.prepare();
+
+									eslint = new ESLint({
+										cwd,
+										overrideConfigFile:
+											eslintConfigFiles.ts,
+										flags,
+									});
+
+									await assert.rejects(
+										eslint.lintFiles(["foo*.js"]),
+										{
+											message:
+												"You are using an outdated version of the 'jiti' library. Please update to the latest version of 'jiti' to ensure compatibility and access to the latest features.",
+										},
+									);
+
+									loadJitiStub.restore();
+								});
+							},
+						);
+					},
+				);
+
+				// eslint-disable-next-line n/no-unsupported-features/node-builtins -- it's still an experimental feature.
+				(typeof process.features.typescript === "undefined"
+					? it
+					: it.skip)(
+					"should throw an error if unstable_native_nodejs_ts_config is set but --experimental-strip-types is not enabled and process.features.typescript is undefined",
+					async () => {
+						const cwd = getFixturePath(
+							"ts-config-files",
+							"ts",
+							"native",
+						);
+
+						const configFileContent = `import type { FlatConfig } from "./helper.ts";\nexport default ${JSON.stringify(
+							[{ rules: { "no-undef": 2 } }],
+							null,
+							2,
+						)} satisfies FlatConfig[];`;
+
+						const teardown = createCustomTeardown({
+							cwd,
+							files: {
+								"package.json": typeModule,
+								[eslintConfigFiles.ts]: configFileContent,
+								"foo.js": "foo;",
+								"helper.ts":
+									'import type { Linter } from "eslint";\nexport type FlatConfig = Linter.Config;\n',
+							},
+						});
+
+						await teardown.prepare();
+
+						eslint = new ESLint({
+							cwd,
+							overrideConfigFile: eslintConfigFiles.ts,
+							flags: nativeTSConfigFileFlags,
+						});
+
+						await assert.rejects(eslint.lintFiles(["foo*.js"]), {
+							message:
+								"The unstable_native_nodejs_ts_config flag is not supported in older versions of Node.js.",
+						});
+					},
+				);
+
+				// eslint-disable-next-line n/no-unsupported-features/node-builtins -- it's still an experimental feature.
+				(process.features.typescript === false ? it : it.skip)(
+					"should throw an error if unstable_native_nodejs_ts_config is set but --experimental-strip-types is not enabled and process.features.typescript is false",
+					async () => {
+						const cwd = getFixturePath(
+							"ts-config-files",
+							"ts",
+							"native",
+						);
+
+						const configFileContent = `import type { FlatConfig } from "./helper.ts";\nexport default ${JSON.stringify(
+							[{ rules: { "no-undef": 2 } }],
+							null,
+							2,
+						)} satisfies FlatConfig[];`;
+
+						const teardown = createCustomTeardown({
+							cwd,
+							files: {
+								"package.json": typeModule,
+								[eslintConfigFiles.ts]: configFileContent,
+								"foo.js": "foo;",
+								"helper.ts":
+									'import type { Linter } from "eslint";\nexport type FlatConfig = Linter.Config;\n',
+							},
+						});
+
+						await teardown.prepare();
+
+						eslint = new ESLint({
+							cwd,
+							overrideConfigFile: eslintConfigFiles.ts,
+							flags: nativeTSConfigFileFlags,
+						});
+
+						await assert.rejects(eslint.lintFiles(["foo*.js"]), {
+							message:
+								"The unstable_native_nodejs_ts_config flag is enabled, but native TypeScript support is not enabled in the current Node.js process. You need to either enable native TypeScript support by passing --experimental-strip-types or remove the unstable_native_nodejs_ts_config flag.",
+						});
+					},
+				);
 			});
 
 			it("should stop linting files if a rule crashes", async () => {
@@ -7715,6 +8904,232 @@ describe("ESLint", () => {
 					});
 
 					await assert.rejects(eslint.lintFiles("*.js"));
+				});
+			});
+
+			describe("patterns with './' prefix", () => {
+				const root = getFixturePath(
+					"cli-engine/patterns-with-dot-prefix",
+				);
+
+				let cleanup;
+				let i = 0;
+
+				beforeEach(() => {
+					cleanup = () => {};
+					i++;
+				});
+
+				afterEach(() => cleanup());
+
+				it("should match patterns with './' prefix in `files` patterns", async () => {
+					const teardown = createCustomTeardown({
+						cwd: `${root}${i}`,
+						files: {
+							"src/foo.js": "undefinedVariable;",
+							"eslint.config.js": `module.exports = [{
+								files: ["./src/*.js"],
+								rules: { "no-undef": "error" }
+							}];`,
+						},
+					});
+
+					await teardown.prepare();
+					cleanup = teardown.cleanup;
+
+					eslint = new ESLint({ flags, cwd: teardown.getPath() });
+					const results = await eslint.lintFiles("src/**/*.js");
+
+					assert.strictEqual(results.length, 1);
+					assert.strictEqual(
+						results[0].filePath,
+						path.join(teardown.getPath(), "src/foo.js"),
+					);
+					assert.strictEqual(results[0].messages.length, 1);
+					assert.strictEqual(
+						results[0].messages[0].ruleId,
+						"no-undef",
+					);
+					assert.strictEqual(results[0].messages[0].severity, 2);
+				});
+
+				it("should match patterns with './' prefix in `ignores` patterns", async () => {
+					const teardown = createCustomTeardown({
+						cwd: `${root}${i}`,
+						files: {
+							"src/foo.js": "undefinedVariable;",
+							"eslint.config.js": `module.exports = [{
+								files: ["**/*.js"],
+								ignores: ["./src/*.js"],
+								rules: { "no-undef": "error" }
+							}];`,
+						},
+					});
+
+					await teardown.prepare();
+					cleanup = teardown.cleanup;
+
+					eslint = new ESLint({ flags, cwd: teardown.getPath() });
+					const results = await eslint.lintFiles("src/**/*.js");
+
+					assert.strictEqual(results.length, 1);
+					assert.strictEqual(
+						results[0].filePath,
+						path.join(teardown.getPath(), "src/foo.js"),
+					);
+					assert.strictEqual(results[0].messages.length, 0);
+				});
+
+				it("should match patterns with './' prefix in global `ignores` patterns", async () => {
+					const teardown = createCustomTeardown({
+						cwd: `${root}${i}`,
+						files: {
+							"src/foo.js": "undefinedVariable;",
+							"eslint.config.js": `module.exports = [
+								{
+									files: ["**/*.js"],
+									rules: { "no-undef": "error" }
+								},
+								{
+									ignores: ["./src/*.js"]
+								}
+							];`,
+						},
+					});
+
+					await teardown.prepare();
+					cleanup = teardown.cleanup;
+
+					eslint = new ESLint({ flags, cwd: teardown.getPath() });
+
+					await assert.rejects(async () => {
+						await eslint.lintFiles("src/**/*.js");
+					}, /All files matched by 'src\/\*\*\/\*\.js' are ignored\./u);
+				});
+
+				it("should match negated `files` patterns with './' prefix", async () => {
+					const teardown = createCustomTeardown({
+						cwd: `${root}${i}`,
+						files: {
+							"src/foo.js": "undefinedVariable;",
+							"eslint.config.js": `module.exports = [{
+								files: ["!./src/*.js"],
+								rules: { "no-undef": "error" }
+							}];`,
+						},
+					});
+
+					await teardown.prepare();
+					cleanup = teardown.cleanup;
+
+					eslint = new ESLint({ flags, cwd: teardown.getPath() });
+					const results = await eslint.lintFiles("src/**/*.js");
+
+					assert.strictEqual(results.length, 1);
+					assert.strictEqual(
+						results[0].filePath,
+						path.join(teardown.getPath(), "src/foo.js"),
+					);
+					assert.strictEqual(results[0].messages.length, 0);
+				});
+
+				it("should match negated `ignores` patterns with './' prefix", async () => {
+					const teardown = createCustomTeardown({
+						cwd: `${root}${i}`,
+						files: {
+							"src/foo.js": "undefinedVariable;",
+							"eslint.config.js": `module.exports = [{
+								files: ["**/*.js"],
+								ignores: ["**/*.js", "!./src/foo.js"],
+								rules: { "no-undef": "error" }
+							}];`,
+						},
+					});
+
+					await teardown.prepare();
+					cleanup = teardown.cleanup;
+
+					eslint = new ESLint({ flags, cwd: teardown.getPath() });
+					const results = await eslint.lintFiles("src/**/*.js");
+
+					assert.strictEqual(results.length, 1);
+					assert.strictEqual(
+						results[0].filePath,
+						path.join(teardown.getPath(), "src/foo.js"),
+					);
+					assert.strictEqual(results[0].messages.length, 1);
+					assert.strictEqual(
+						results[0].messages[0].ruleId,
+						"no-undef",
+					);
+					assert.strictEqual(results[0].messages[0].severity, 2);
+				});
+
+				it("should match negated global `ignores` patterns with './' prefix", async () => {
+					const teardown = createCustomTeardown({
+						cwd: `${root}${i}`,
+						files: {
+							"src/foo.js": "undefinedVariable;",
+							"eslint.config.js": `module.exports = [
+								{
+									files: ["**/*.js"],
+									rules: { "no-undef": "error" }
+								},
+								{
+									ignores: ["**/*.js", "!./src/*.js"]
+								}
+							];`,
+						},
+					});
+
+					await teardown.prepare();
+					cleanup = teardown.cleanup;
+
+					eslint = new ESLint({ flags, cwd: teardown.getPath() });
+					const results = await eslint.lintFiles("src/**/*.js");
+
+					assert.strictEqual(results.length, 1);
+					assert.strictEqual(
+						results[0].filePath,
+						path.join(teardown.getPath(), "src/foo.js"),
+					);
+					assert.strictEqual(results[0].messages.length, 1);
+					assert.strictEqual(
+						results[0].messages[0].ruleId,
+						"no-undef",
+					);
+					assert.strictEqual(results[0].messages[0].severity, 2);
+				});
+
+				it("should match nested `files` patterns with './' prefix", async () => {
+					const teardown = createCustomTeardown({
+						cwd: `${root}${i}`,
+						files: {
+							"src/foo.js": "undefinedVariable;",
+							"eslint.config.js": `module.exports = [{
+								files: [["./src/*.js"]],
+								rules: { "no-undef": "error" }
+							}];`,
+						},
+					});
+
+					await teardown.prepare();
+					cleanup = teardown.cleanup;
+
+					eslint = new ESLint({ flags, cwd: teardown.getPath() });
+					const results = await eslint.lintFiles("src/**/*.js");
+
+					assert.strictEqual(results.length, 1);
+					assert.strictEqual(
+						results[0].filePath,
+						path.join(teardown.getPath(), "src/foo.js"),
+					);
+					assert.strictEqual(results[0].messages.length, 1);
+					assert.strictEqual(
+						results[0].messages[0].ruleId,
+						"no-undef",
+					);
+					assert.strictEqual(results[0].messages[0].severity, 2);
 				});
 			});
 		});
@@ -10327,6 +11742,20 @@ describe("ESLint", () => {
 									nodeType: "BinaryExpression",
 									ruleId: "eqeqeq",
 									severity: 2,
+									suggestions: [
+										{
+											data: {
+												actualOperator: "==",
+												expectedOperator: "===",
+											},
+											desc: "Use '===' instead of '=='.",
+											fix: {
+												range: [2, 4],
+												text: "===",
+											},
+											messageId: "replaceOperator",
+										},
+									],
 								},
 							],
 							source: "a == b",
@@ -10458,6 +11887,20 @@ describe("ESLint", () => {
 									nodeType: "BinaryExpression",
 									ruleId: "eqeqeq",
 									severity: 2,
+									suggestions: [
+										{
+											data: {
+												actualOperator: "==",
+												expectedOperator: "===",
+											},
+											desc: "Use '===' instead of '=='.",
+											fix: {
+												range: [2, 4],
+												text: "===",
+											},
+											messageId: "replaceOperator",
+										},
+									],
 								},
 							],
 							source: "a == b",
@@ -11481,7 +12924,7 @@ describe("ESLint", () => {
 			);
 		});
 
-		it("should not throw an error if the cache file to be deleted does not exist on a read-only file system", async () => {
+		it("should not attempt to delete the cache file if it does not exist", async () => {
 			cacheFilePath = getFixturePath(".eslintcache");
 			doDelete(cacheFilePath);
 			assert(
@@ -11489,17 +12932,10 @@ describe("ESLint", () => {
 				"the cache file already exists and wasn't successfully deleted",
 			);
 
-			// Simulate a read-only file system.
-			sinon.stub(fsp, "unlink").rejects(
-				Object.assign(new Error("read-only file system"), {
-					code: "EROFS",
-				}),
-			);
+			const spy = sinon.spy(fsp, "unlink");
 
 			const eslintOptions = {
 				overrideConfigFile: true,
-
-				// specifying cache false the cache will be deleted
 				cache: false,
 				cacheLocation: cacheFilePath,
 				overrideConfig: {
@@ -11518,9 +12954,80 @@ describe("ESLint", () => {
 			await eslint.lintFiles([file]);
 
 			assert(
-				fsp.unlink.calledWithExactly(cacheFilePath),
+				spy.notCalled,
 				"Expected attempt to delete the cache was not made.",
 			);
+
+			spy.restore();
+		});
+
+		it("should throw an error if the cache file to be deleted exist on a read-only file system", async () => {
+			cacheFilePath = getFixturePath(".eslintcache");
+			fs.writeFileSync(cacheFilePath, "");
+
+			// Simulate a read-only file system.
+			const unlinkStub = sinon.stub(fsp, "unlink").rejects(
+				Object.assign(new Error("read-only file system"), {
+					code: "EROFS",
+				}),
+			);
+
+			const eslintOptions = {
+				overrideConfigFile: true,
+				cache: false,
+				cacheLocation: cacheFilePath,
+				overrideConfig: {
+					rules: {
+						"no-console": 0,
+						"no-unused-vars": 2,
+					},
+				},
+				cwd: path.join(fixtureDir, ".."),
+			};
+
+			eslint = new ESLint(eslintOptions);
+
+			const file = getFixturePath("cache/src", "test-file.js");
+
+			await assert.rejects(
+				async () => await eslint.lintFiles([file]),
+				/read-only file system/u,
+			);
+
+			unlinkStub.restore();
+		});
+
+		it("should not throw an error if deleting fails but cache file no longer exists", async () => {
+			cacheFilePath = getFixturePath(".eslintcache");
+			fs.writeFileSync(cacheFilePath, "");
+
+			const unlinkStub = sinon.stub(fsp, "unlink").callsFake(() => {
+				doDelete(cacheFilePath);
+				throw new Error("Failed to delete cache file");
+			});
+
+			const eslintOptions = {
+				overrideConfigFile: true,
+				cache: false,
+				cacheLocation: cacheFilePath,
+				overrideConfig: {
+					rules: {
+						"no-console": 0,
+						"no-unused-vars": 2,
+					},
+				},
+				cwd: path.join(fixtureDir, ".."),
+			};
+
+			eslint = new ESLint(eslintOptions);
+
+			const file = getFixturePath("cache/src", "test-file.js");
+
+			await eslint.lintFiles([file]);
+
+			assert(unlinkStub.calledWithExactly(cacheFilePath));
+
+			unlinkStub.restore();
 		});
 
 		it("should store in the cache a file that has lint messages and a file that doesn't have lint messages", async () => {

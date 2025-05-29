@@ -35,8 +35,7 @@ jobs:
             - name: Install Packages (eslint-webpack-plugin)
               working-directory: webpack
               run: |
-                  npm install
-                  npm install ../eslint
+                  npm install --no-package-lock ../eslint
 
             - name: Run TSC
               working-directory: webpack
@@ -68,8 +67,7 @@ jobs:
             - name: Install Packages (neostandard)
               working-directory: neostandard
               run: |
-                  npm install
-                  npm install ../eslint
+                  npm install --no-package-lock ../eslint
 
             - name: Run TSC
               working-directory: neostandard
@@ -98,10 +96,9 @@ jobs:
               working-directory: eslint
               run: npm install
 
-            - name: Install Packages (neostandard)
+            - name: Install Packages (eslint-flat-config-utils)
               working-directory: antfu
               run: |
-                  npm install
                   npm install ../eslint
 
             - name: Run TSC
@@ -140,7 +137,6 @@ jobs:
             - name: Install Packages (eslint/js)
               working-directory: eslint-js
               run: |
-                  npm install
                   npm install ../eslint
 
             - name: Run TSC
@@ -170,7 +166,7 @@ jobs:
               working-directory: eslint
               run: npm install
 
-            - name: Install Packages (neostandard)
+            - name: Install Packages (@eslint/json)
               working-directory: json
               run: |
                   npm install

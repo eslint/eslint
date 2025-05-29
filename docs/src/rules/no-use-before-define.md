@@ -136,20 +136,20 @@ export { foo };
 ```
 
 * `functions` (`boolean`) -
-  The flag which shows whether or not this rule checks function declarations.
-  If this is `true`, this rule warns every reference to a function before the function declaration.
-  Otherwise, ignores those references.
-  Function declarations are hoisted, so it's safe.
+  This flag determines whether or not the rule checks function declarations.
+  If this is `true`, the rule warns on every reference to a function before the function declaration.
+  Otherwise, the rule ignores those references.
+  Function declarations are hoisted, so it's safe to disable this option (note that some idiomatic patterns, such as [mutual recursion](https://en.wikipedia.org/wiki/Mutual_recursion), are incompatible with enabling this option).
   Default is `true`.
 * `classes` (`boolean`) -
-  The flag which shows whether or not this rule checks class declarations of upper scopes.
-  If this is `true`, this rule warns every reference to a class before the class declaration.
-  Otherwise, ignores those references if the declaration is in upper function scopes.
-  Class declarations are not hoisted, so it might be danger.
+  This flag determines whether or not the rule checks class declarations of upper scopes.
+  If this is `true`, the rule warns on every reference to a class before the class declaration.
+  Otherwise, the rule ignores such references, provided the declaration is in an upper function scope.
+  Class declarations are not hoisted, so it might be dangerous to disable this option.
   Default is `true`.
 * `variables` (`boolean`) -
   This flag determines whether or not the rule checks variable declarations in upper scopes.
-  If this is `true`, the rule warns every reference to a variable before the variable declaration.
+  If this is `true`, the rule warns on every reference to a variable before the variable declaration.
   Otherwise, the rule ignores a reference if the declaration is in an upper scope, while still reporting the reference if it's in the same scope as the declaration.
   Default is `true`.
 * `allowNamedExports` (`boolean`) -

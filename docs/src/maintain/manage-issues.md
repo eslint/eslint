@@ -32,19 +32,19 @@ The first goal when evaluating an issue or pull request is to determine which ca
 
 All of ESLint's issues and pull requests, across all GitHub repositories, are managed on our [Triage Project](https://github.com/orgs/eslint/projects/3). Please use the Triage project instead of the issues list when reviewing issues to determine what to work on. The Triage project has several columns:
 
--   **Needs Triage**: Issues and pull requests that have not yet been reviewed by anyone.
--   **Triaging**: Issues and pull requests that someone has reviewed but has not been able to fully triage yet.
--   **Ready for Dev Team**: Issues and pull requests that have been triaged and have all the information necessary for the dev team to take a look.
--   **Evaluating**: The dev team is evaluating these issues and pull requests to determine whether to move forward or not.
--   **Feedback Needed**: A team member is requesting more input from the rest of the team before proceeding.
--   **Waiting for RFC**: The next step in the process is for an RFC to be written.
--   **RFC Opened**: An RFC is opened to address these issues.
--   **Blocked**: The issue can't move forward due to some dependency.
--   **Ready to Implement**: These issues have all the details necessary to start implementation.
--   **Implementing**: There is an open pull request for each of these issues or this is a pull request that has been approved.
--   **Second Review Needed**: Pull requests that already have one approval and the approver is requesting a second review before merging.
--   **Merge Candidates**: Pull requests that already have at least one approval and at least one approver believes the pull request is ready to merge into the next release but would still like a TSC member to verify.
--   **Completed**: The issue has been closed (either via pull request merge or by the team manually closing the issue).
+- **Needs Triage**: Issues and pull requests that have not yet been reviewed by anyone.
+- **Triaging**: Issues and pull requests that someone has reviewed but has not been able to fully triage yet.
+- **Ready for Dev Team**: Issues and pull requests that have been triaged and have all the information necessary for the dev team to take a look.
+- **Evaluating**: The dev team is evaluating these issues and pull requests to determine whether to move forward or not.
+- **Feedback Needed**: A team member is requesting more input from the rest of the team before proceeding.
+- **Waiting for RFC**: The next step in the process is for an RFC to be written.
+- **RFC Opened**: An RFC is opened to address these issues.
+- **Blocked**: The issue can't move forward due to some dependency.
+- **Ready to Implement**: These issues have all the details necessary to start implementation.
+- **Implementing**: There is an open pull request for each of these issues or this is a pull request that has been approved.
+- **Second Review Needed**: Pull requests that already have one approval and the approver is requesting a second review before merging.
+- **Merge Candidates**: Pull requests that already have at least one approval and at least one approver believes the pull request is ready to merge into the next release but would still like a TSC member to verify.
+- **Complete**: The issue has been closed (either via pull request merge or by the team manually closing the issue).
 
 We make every attempt to automate movement between as many columns as we can, but sometimes moving issues needs to be done manually.
 
@@ -109,8 +109,8 @@ When an issue has been moved to the "Ready for Dev Team" column, any dev team me
 
 Issues may be labeled as "accepted" when the issue is:
 
--   A bug that you've been able to reproduce and verify (i.e. you're sure it's a bug).
--   A new rule or rule change that you're championing and [consensus](#consensus) has been reached for its inclusion in the project.
+- A bug that you've been able to reproduce and verify (i.e. you're sure it's a bug).
+- A new rule or rule change that you're championing and [consensus](#consensus) has been reached for its inclusion in the project.
 
 The "accepted" label will be added to other issues by a TSC member if it's appropriate for the roadmap.
 
@@ -120,8 +120,8 @@ When an issue is accepted and implementation can begin, it should be moved to th
 
 New rules and rule changes require a champion. As champion, it's your job to:
 
--   Gain [consensus](#consensus) from the ESLint team on inclusion.
--   Guide the rule creation process until it's complete (so only champion a rule that you have time to implement or help another contributor implement).
+- Gain [consensus](#consensus) from the ESLint team on inclusion.
+- Guide the rule creation process until it's complete (so only champion a rule that you have time to implement or help another contributor implement).
 
 Once consensus has been reached on inclusion, add the "accepted" label. Optionally, add "help wanted" and "good first issue" labels, as necessary.
 
@@ -168,11 +168,11 @@ Team members may close an issue **immediately** if:
 
 Team members may close an issue where the consensus is to not accept the issue after a waiting period (to ensure that other team members have a chance to review the issue before it is closed):
 
--   Wait **2 days** if the issue was opened Monday through Friday.
--   Wait **3 days** if the issue was opened on Saturday or Sunday.
+- Wait **2 days** if the issue was opened Monday through Friday.
+- Wait **3 days** if the issue was opened on Saturday or Sunday.
 
 In an effort to keep the issues backlog manageable, team members may also close an issue if the following conditions are met:
 
--   **Unaccepted**: Close after it has been open for 21 days, as these issues do not have enough support to move forward.
--   **Accepted**: Close after 90 days if no one from the team or the community is willing to step forward and own the work to complete to it.
--   **Help wanted:** Close after 90 days if it has not been completed.
+- **Unaccepted**: Close after it has been open for 21 days, as these issues do not have enough support to move forward.
+- **Accepted**: Close after 90 days if no one from the team or the community is willing to step forward and own the work to complete to it.
+- **Help wanted:** Close after 90 days if it has not been completed.

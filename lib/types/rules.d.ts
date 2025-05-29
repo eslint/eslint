@@ -422,6 +422,15 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			Partial<{
 				exceptMethods: string[];
+				/**
+				 * @default true
+				 */
+				enforceForClassFields: boolean;
+				/**
+				 * @default false
+				 */
+				ignoreOverrideMethods: boolean;
+				ignoreClassesWithImplements: "all" | "public-fields";
 			}>,
 		]
 	>;
@@ -610,7 +619,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @see https://eslint.org/docs/latest/rules/curly
 	 */
 	curly: Linter.RuleEntry<
-		["all" | "multi" | "multi-line" | "multi-or-nest" | "consistent"]
+		["all"] | ["multi" | "multi-line" | "multi-or-nest", "consistent"?]
 	>;
 
 	/**
@@ -798,6 +807,10 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default false
 				 */
 				allowArrowFunctions: boolean;
+				/**
+				 * @default false
+				 */
+				allowTypeAnnotation: boolean;
 				overrides: {
 					namedExports: "declaration" | "expression" | "ignore";
 				};
@@ -1791,6 +1804,10 @@ export interface ESLintRules extends Linter.RulesRecord {
 					 * @default 3
 					 */
 					max: number;
+					/**
+					 * @default false
+					 */
+					countVoidThis: boolean;
 			  }>
 			| number,
 		]
@@ -2350,6 +2367,10 @@ export interface ESLintRules extends Linter.RulesRecord {
 					| "constructors"
 					| "asyncFunctions"
 					| "asyncMethods"
+					| "privateConstructors"
+					| "protectedConstructors"
+					| "decoratedFunctions"
+					| "overrideMethods"
 				>;
 			}>,
 		]
@@ -2837,6 +2858,22 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default false
 				 */
 				detectObjects: boolean;
+				/**
+				 * @default false
+				 */
+				ignoreEnums: boolean;
+				/**
+				 * @default false
+				 */
+				ignoreNumericLiteralTypes: boolean;
+				/**
+				 * @default false
+				 */
+				ignoreReadonlyClassProperties: boolean;
+				/**
+				 * @default false
+				 */
+				ignoreTypeIndexes: boolean;
 			}>,
 		]
 	>;
@@ -3430,6 +3467,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 				  }
 				| {
 						property: string;
+						allowObjects?: string[];
 						message?: string | undefined;
 				  }
 			>,
@@ -3577,7 +3615,16 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.1.4
 	 * @see https://eslint.org/docs/latest/rules/no-shadow-restricted-names
 	 */
-	"no-shadow-restricted-names": Linter.RuleEntry<[]>;
+	"no-shadow-restricted-names": Linter.RuleEntry<
+		[
+			Partial<{
+				/**
+				 * @default false
+				 */
+				reportGlobalThis: boolean;
+			}>,
+		]
+	>;
 
 	/**
 	 * Rule to disallow spacing between function identifiers and their applications (deprecated).
@@ -3699,6 +3746,14 @@ export interface ESLintRules extends Linter.RulesRecord {
 			}>,
 		]
 	>;
+
+	/**
+	 * Rule to disallow `let` or `var` variables that are read but never assigned.
+	 *
+	 * @since 9.27.0
+	 * @see https://eslint.org/docs/latest/rules/no-unassigned-vars
+	 */
+	"no-unassigned-vars": Linter.RuleEntry<[]>;
 
 	/**
 	 * Rule to disallow the use of undeclared variables unless mentioned in \/*global *\/ comments.
@@ -3934,6 +3989,10 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default false
 				 */
 				enforceForJSX: boolean;
+				/**
+				 * @default false
+				 */
+				ignoreDirectives: boolean;
 			}>,
 		]
 	>;
@@ -4116,7 +4175,13 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 2.5.0
 	 * @see https://eslint.org/docs/latest/rules/no-useless-escape
 	 */
-	"no-useless-escape": Linter.RuleEntry<[]>;
+	"no-useless-escape": Linter.RuleEntry<
+		[
+			Partial<{
+				allowRegexCharacters: string[];
+			}>,
+		]
+	>;
 
 	/**
 	 * Rule to disallow renaming import, export, and destructured assignments to the same name.

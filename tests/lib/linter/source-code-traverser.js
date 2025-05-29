@@ -1,6 +1,6 @@
 /**
- * @fileoverview Tests for NodeEventGenerator.
- * @author Toru Nagashima
+ * @fileoverview Tests for SourceCodeTraverser.
+ * @author Nicholas C. Zakas
  */
 "use strict";
 
@@ -12,10 +12,11 @@ const assert = require("node:assert"),
 	sinon = require("sinon"),
 	espree = require("espree"),
 	vk = require("eslint-visitor-keys"),
-	Traverser = require("../../../lib/shared/traverser"),
-	EventGeneratorTester = require("../../../tools/internal-testers/event-generator-tester"),
 	createEmitter = require("../../../lib/linter/safe-emitter"),
-	NodeEventGenerator = require("../../../lib/linter/node-event-generator");
+	{
+		SourceCodeTraverser,
+	} = require("../../../lib/linter/source-code-traverser"),
+	jslang = require("../../../lib/languages/js");
 
 //------------------------------------------------------------------------------
 // Constants
@@ -29,22 +30,93 @@ const ESPREE_CONFIG = {
 	loc: true,
 };
 
-const STANDARD_ESQUERY_OPTION = {
+// Mock Language object for tests
+const MOCK_LANGUAGE = {
 	visitorKeys: vk.KEYS,
-	fallback: Traverser.getKeys,
+	nodeTypeKey: "type",
 };
+
+// Step kinds for source code traversal
+const STEP_KIND_VISIT = 1;
+const STEP_KIND_CALL = 2;
+
+//------------------------------------------------------------------------------
+// Helpers
+//------------------------------------------------------------------------------
+
+const keysToSkip = new Set(["parent", "loc", "tokens", "comments", "range"]);
+
+/**
+ * Create a mock SourceCode object with traversal steps
+ * @param {Object} ast The AST to traverse
+ * @returns {Object} A mock SourceCode object
+ */
+function createMockSourceCode(ast) {
+	const steps = [];
+
+	/**
+	 * Recursively builds traversal steps for the AST
+	 * @param {Object} node The current AST node
+	 * @param {Object[]} ancestors The ancestry of the current node
+	 * @returns {void}
+	 */
+	function buildSteps(node, ancestors = []) {
+		// Enter phase
+		steps.push({
+			kind: STEP_KIND_VISIT,
+			target: node,
+			phase: 1, // enter phase
+		});
+
+		// Visit children
+		const keys = vk.getKeys(node);
+		if (keys) {
+			for (const key of keys) {
+				if (keysToSkip.has(key)) {
+					continue; // Skip keys that should not be traversed
+				}
+
+				const child = node[key];
+				if (Array.isArray(child)) {
+					for (const item of child) {
+						if (item && typeof item === "object") {
+							buildSteps(item, [node, ...ancestors]);
+						}
+					}
+				} else if (child && typeof child === "object") {
+					buildSteps(child, [node, ...ancestors]);
+				}
+			}
+		}
+
+		// Exit phase
+		steps.push({
+			kind: STEP_KIND_VISIT,
+			target: node,
+			phase: 2, // exit phase
+		});
+	}
+
+	buildSteps(ast);
+
+	return {
+		ast,
+		visitorKeys: vk.KEYS,
+		*traverse() {
+			for (const step of steps) {
+				yield step;
+			}
+		},
+	};
+}
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-describe("NodeEventGenerator", () => {
-	EventGeneratorTester.testEventGeneratorInterface(
-		new NodeEventGenerator(createEmitter(), STANDARD_ESQUERY_OPTION),
-	);
-
-	describe("entering a single AST node", () => {
-		let emitter, generator;
+describe("SourceCodeTraverser", () => {
+	describe("traverseSync", () => {
+		let emitter, traverser;
 
 		beforeEach(() => {
 			emitter = Object.create(createEmitter(), {
@@ -54,47 +126,224 @@ describe("NodeEventGenerator", () => {
 			["Foo", "Bar", "Foo > Bar", "Foo:exit"].forEach(selector =>
 				emitter.on(selector, () => {}),
 			);
-			generator = new NodeEventGenerator(
-				emitter,
-				STANDARD_ESQUERY_OPTION,
+			traverser = SourceCodeTraverser.getInstance(MOCK_LANGUAGE);
+		});
+
+		it("should generate events for AST nodes.", () => {
+			const dummyNode = { type: "Foo", value: 1 };
+			const sourceCode = createMockSourceCode(dummyNode);
+
+			traverser.traverseSync(sourceCode, emitter);
+
+			assert(emitter.emit.calledTwice);
+			assert(emitter.emit.firstCall.calledWith("Foo", dummyNode));
+			assert(emitter.emit.secondCall.calledWith("Foo:exit", dummyNode));
+		});
+
+		it("should use nodeTypeKey if provided.", () => {
+			traverser = new SourceCodeTraverser({
+				...MOCK_LANGUAGE,
+				nodeTypeKey: "customType",
+			});
+			const dummyNode = { customType: "Foo", value: 1 };
+			const sourceCode = createMockSourceCode(dummyNode);
+
+			traverser.traverseSync(sourceCode, emitter);
+
+			assert(emitter.emit.calledTwice);
+			assert(emitter.emit.firstCall.calledWith("Foo", dummyNode));
+			assert(emitter.emit.secondCall.calledWith("Foo:exit", dummyNode));
+		});
+
+		it("should generate events for nested AST nodes", () => {
+			const dummyNode = {
+				type: "Foo",
+				value: 1,
+				child: { type: "Bar", value: 2 },
+			};
+
+			const sourceCode = createMockSourceCode(dummyNode);
+
+			traverser.traverseSync(sourceCode, emitter);
+
+			assert(emitter.emit.callCount === 4);
+			assert(
+				emitter.emit.firstCall.calledWith("Foo", dummyNode),
+				"First call was wrong",
+			);
+			assert(
+				emitter.emit.secondCall.calledWith("Bar", dummyNode.child),
+				"Second call was wrong",
+			);
+			assert(
+				emitter.emit.thirdCall.calledWith("Foo > Bar", dummyNode.child),
+				"Third call was wrong",
+			);
+			assert(
+				emitter.emit.lastCall.calledWith("Foo:exit", dummyNode),
+				"Last call was wrong",
 			);
 		});
 
-		it("should generate events for entering AST node.", () => {
+		it("should handle call steps in traverse", () => {
 			const dummyNode = { type: "Foo", value: 1 };
+			const sourceCode = {
+				ast: dummyNode,
+				visitorKeys: vk.KEYS,
+				*traverse() {
+					yield {
+						kind: STEP_KIND_VISIT,
+						target: dummyNode,
+						phase: 1,
+					};
+					yield {
+						kind: STEP_KIND_CALL,
+						target: "customEvent",
+						args: [dummyNode, "extra"],
+					};
+					yield {
+						kind: STEP_KIND_VISIT,
+						target: dummyNode,
+						phase: 2,
+					};
+				},
+			};
 
-			generator.enterNode(dummyNode);
-
-			assert(emitter.emit.calledOnce);
-			assert(emitter.emit.calledWith("Foo", dummyNode));
-		});
-
-		it("should generate events for exiting AST node.", () => {
-			const dummyNode = { type: "Foo", value: 1 };
-
-			generator.leaveNode(dummyNode);
-
-			assert(emitter.emit.calledOnce);
-			assert(emitter.emit.calledWith("Foo:exit", dummyNode));
-		});
-
-		it("should generate events for AST queries", () => {
-			const dummyParent = { type: "Foo" };
-			const dummyNode = { type: "Bar" };
-
-			generator.enterNode(dummyParent);
-			generator.enterNode(dummyNode);
+			traverser.traverseSync(sourceCode, emitter);
 
 			assert(emitter.emit.calledThrice);
-			assert(emitter.emit.calledWith("Foo", dummyParent));
-			assert(emitter.emit.calledWith("Foo > Bar", dummyNode));
-			assert(emitter.emit.calledWith("Bar", dummyNode));
+			assert(emitter.emit.firstCall.calledWith("Foo", dummyNode));
+			assert(
+				emitter.emit.secondCall.calledWith(
+					"customEvent",
+					dummyNode,
+					"extra",
+				),
+			);
+			assert(emitter.emit.thirdCall.calledWith("Foo:exit", dummyNode));
+		});
+
+		it("should use provided steps instead of source code traverse", () => {
+			// Create a source code object with normal traverse behavior
+			const fooNode = { type: "Foo", value: 1 };
+			const barNode = { type: "Bar", value: 2 };
+			const sourceCode = createMockSourceCode(fooNode);
+
+			// Create custom steps that don't match sourceCode.traverse() behavior
+			const customSteps = [
+				{
+					kind: STEP_KIND_VISIT,
+					target: barNode,
+					phase: 1, // enter phase
+				},
+				{
+					kind: STEP_KIND_CALL,
+					target: "customEvent",
+					args: [barNode, "customArg"],
+				},
+				{
+					kind: STEP_KIND_VISIT,
+					target: barNode,
+					phase: 2, // exit phase
+				},
+			];
+
+			// Add a listener for the Bar node type and custom event
+			emitter.on("Bar", () => {});
+			emitter.on("Bar:exit", () => {});
+			emitter.on("customEvent", () => {});
+
+			// Call traverseSync with custom steps
+			traverser.traverseSync(sourceCode, emitter, { steps: customSteps });
+
+			// Verify that our custom steps were used, not the source code's traverse
+			assert(emitter.emit.calledThrice);
+			assert(
+				emitter.emit.firstCall.calledWith("Bar", barNode),
+				"Should call with custom Bar node",
+			);
+			assert(
+				emitter.emit.secondCall.calledWith(
+					"customEvent",
+					barNode,
+					"customArg",
+				),
+				"Should emit custom event",
+			);
+			assert(
+				emitter.emit.thirdCall.calledWith("Bar:exit", barNode),
+				"Should call exit with custom Bar node",
+			);
+			assert(
+				emitter.emit.neverCalledWith("Foo", fooNode),
+				"Should not emit events for original Foo node",
+			);
+		});
+
+		it("should throw error for invalid step kind", () => {
+			const dummyNode = { type: "Foo", value: 1 };
+			const sourceCode = {
+				ast: dummyNode,
+				visitorKeys: vk.KEYS,
+				*traverse() {
+					yield {
+						kind: 999, // Invalid step kind
+						target: dummyNode,
+					};
+				},
+			};
+
+			assert.throws(
+				() => traverser.traverseSync(sourceCode, emitter),
+				/Invalid traversal step found:/u,
+			);
+		});
+
+		it("should throw error with currentNode property when error occurs during traversal", () => {
+			const dummyNode = { type: "Foo", value: 1 };
+			const emitterWithError = createEmitter();
+
+			emitterWithError.on("Foo", () => {
+				throw new Error("Test error");
+			});
+
+			const sourceCode = createMockSourceCode(dummyNode);
+
+			try {
+				traverser.traverseSync(sourceCode, emitterWithError);
+				assert.fail("Should have thrown error");
+			} catch (err) {
+				assert.strictEqual(err.message, "Test error");
+				assert.strictEqual(err.currentNode, dummyNode);
+			}
+		});
+	});
+
+	describe("caching behavior", () => {
+		it("should cache instances per language", () => {
+			const language1 = { ...MOCK_LANGUAGE };
+			const language2 = { ...MOCK_LANGUAGE };
+
+			const instance1a = SourceCodeTraverser.getInstance(language1);
+			const instance1b = SourceCodeTraverser.getInstance(language1);
+			const instance2 = SourceCodeTraverser.getInstance(language2);
+
+			assert.strictEqual(
+				instance1a,
+				instance1b,
+				"Should return same instance for same language",
+			);
+			assert.notStrictEqual(
+				instance1a,
+				instance2,
+				"Should return different instance for different language",
+			);
 		});
 	});
 
 	describe("traversing the entire AST", () => {
 		/**
-		 * Gets a list of emitted types/selectors from the generator, in emission order
+		 * Gets a list of emitted types/selectors from the traverser, in emission order
 		 * @param {ASTNode} ast The AST to traverse
 		 * @param {Array<string>|Set<string>} possibleQueries Selectors to detect
 		 * @returns {Array[]} A list of emissions, in the order that they were emitted. Each emission is a two-element
@@ -109,29 +358,23 @@ describe("NodeEventGenerator", () => {
 			});
 
 			possibleQueries.forEach(query => emitter.on(query, () => {}));
-			const generator = new NodeEventGenerator(
-				emitter,
-				STANDARD_ESQUERY_OPTION,
+
+			const sourceCode = createMockSourceCode(ast);
+			const traverser = SourceCodeTraverser.getInstance(jslang);
+
+			traverser.traverseSync(sourceCode, emitter);
+
+			return emissions.filter(emission =>
+				possibleQueries.includes(emission[0]),
 			);
-
-			Traverser.traverse(ast, {
-				enter(node) {
-					generator.enterNode(node);
-				},
-				leave(node) {
-					generator.leaveNode(node);
-				},
-			});
-
-			return emissions;
 		}
 
 		/**
-		 * Creates a test case that asserts a particular sequence of generator emissions
+		 * Creates a test case that asserts a particular sequence of traverser emissions
 		 * @param {string} sourceText The source text that should be parsed and traversed
 		 * @param {string[]} possibleQueries A collection of selectors that rules are listening for
-		 * @param {Array[]} expectedEmissions A function that accepts the AST and returns a list of the emissions that the
-		 * generator is expected to produce, in order.
+		 * @param {(ast: ASTNode) => Array[]} getExpectedEmissions A function that accepts the AST and returns a list of the emissions that the
+		 * traverser is expected to produce, in order.
 		 * Each element of this list is an array where the first element is a selector (string), and the second is an AST node
 		 * This should only include emissions that appear in possibleQueries.
 		 * @returns {void}
@@ -139,15 +382,28 @@ describe("NodeEventGenerator", () => {
 		function assertEmissions(
 			sourceText,
 			possibleQueries,
-			expectedEmissions,
+			getExpectedEmissions,
 		) {
 			it(possibleQueries.join("; "), () => {
 				const ast = espree.parse(sourceText, ESPREE_CONFIG);
-				const emissions = getEmissions(ast, possibleQueries).filter(
-					emission => possibleQueries.includes(emission[0]),
-				);
 
-				assert.deepStrictEqual(emissions, expectedEmissions(ast));
+				const actualEmissions = getEmissions(ast, possibleQueries);
+				const expectedEmissions = getExpectedEmissions(ast);
+
+				assert.deepStrictEqual(actualEmissions, expectedEmissions);
+
+				/*
+				 * `assert.deepStrictEqual()` compares objects by their properties.
+				 * Here, we additionally compare node objects by reference to ensure
+				 * the emitted objects are expected instances from the AST.
+				 */
+				actualEmissions.forEach((actualEmission, index) => {
+					assert.strictEqual(
+						actualEmission[1],
+						expectedEmissions[index][1],
+						"Expected a node instance from the AST",
+					);
+				});
 			});
 		}
 
@@ -416,22 +672,16 @@ describe("NodeEventGenerator", () => {
 			});
 
 			possibleQueries.forEach(query => emitter.on(query, () => {}));
-			const generator = new NodeEventGenerator(emitter, {
-				visitorKeys,
-				fallback: Traverser.getKeys,
-			});
 
-			Traverser.traverse(ast, {
-				visitorKeys,
-				enter(node) {
-					generator.enterNode(node);
-				},
-				leave(node) {
-					generator.leaveNode(node);
-				},
-			});
+			const sourceCode = createMockSourceCode(ast);
+			sourceCode.visitorKeys = visitorKeys;
+			const traverser = SourceCodeTraverser.getInstance(jslang);
 
-			return emissions;
+			traverser.traverseSync(sourceCode, emitter);
+
+			return emissions.filter(emission =>
+				possibleQueries.includes(emission[0]),
+			);
 		}
 
 		/**
@@ -439,7 +689,7 @@ describe("NodeEventGenerator", () => {
 		 * @param {ASTNode} ast The AST to traverse
 		 * @param {Record<string, string[]>} visitorKeys The custom visitor keys.
 		 * @param {string[]} possibleQueries A collection of selectors that rules are listening for
-		 * @param {Array[]} expectedEmissions A function that accepts the AST and returns a list of the emissions that the
+		 * @param {(ast: ASTNode) => Array[]} getExpectedEmissions A function that accepts the AST and returns a list of the emissions that the
 		 * generator is expected to produce, in order.
 		 * Each element of this list is an array where the first element is a selector (string), and the second is an AST node
 		 * This should only include emissions that appear in possibleQueries.
@@ -449,16 +699,30 @@ describe("NodeEventGenerator", () => {
 			ast,
 			visitorKeys,
 			possibleQueries,
-			expectedEmissions,
+			getExpectedEmissions,
 		) {
 			it(possibleQueries.join("; "), () => {
-				const emissions = getEmissions(
+				const actualEmissions = getEmissions(
 					ast,
 					visitorKeys,
 					possibleQueries,
-				).filter(emission => possibleQueries.includes(emission[0]));
+				);
+				const expectedEmissions = getExpectedEmissions(ast);
 
-				assert.deepStrictEqual(emissions, expectedEmissions(ast));
+				assert.deepStrictEqual(actualEmissions, expectedEmissions);
+
+				/*
+				 * `assert.deepStrictEqual()` compares objects by their properties.
+				 * Here, we additionally compare node objects by reference to ensure
+				 * the emitted objects are expected instances from the AST.
+				 */
+				actualEmissions.forEach((actualEmission, index) => {
+					assert.strictEqual(
+						actualEmission[1],
+						expectedEmissions[index][1],
+						"Expected a node instance from the AST",
+					);
+				});
 			});
 		}
 
@@ -531,10 +795,15 @@ describe("NodeEventGenerator", () => {
 			const emitter = createEmitter();
 
 			emitter.on("Foo >", () => {});
-			assert.throws(
-				() => new NodeEventGenerator(emitter, STANDARD_ESQUERY_OPTION),
-				/Syntax error in selector "Foo >" at position 5: Expected " ", "!", .*/u,
-			);
+
+			assert.throws(() => {
+				const traverser = new SourceCodeTraverser(MOCK_LANGUAGE);
+				const sourceCode = createMockSourceCode({
+					type: "Program",
+					body: [],
+				});
+				traverser.traverseSync(sourceCode, emitter);
+			}, /Syntax error in selector "Foo >" at position 5: Expected " ", "!", .*/u);
 		});
 	});
 });

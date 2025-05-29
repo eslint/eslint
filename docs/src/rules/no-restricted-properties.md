@@ -71,6 +71,22 @@ If the property name is omitted, accessing any property of the given object is d
 }
 ```
 
+If you want to restrict a property globally but allow specific objects to use it, you can use the `allowObjects` option:
+
+```json
+{
+    "rules": {
+        "no-restricted-properties": [2, {
+            "property": "push",
+            "allowObjects": ["router"],
+            "message": "Prefer [...array, newValue] because it does not mutate the array in place."
+        }]
+    }
+}
+```
+
+Note that the `allowObjects` option cannot be used together with the `object` option since they are mutually exclusive.
+
 Examples of **incorrect** code for this rule:
 
 ::: incorrect
@@ -116,6 +132,19 @@ require.resolve('foo');
 
 :::
 
+::: incorrect
+
+```js
+/* eslint no-restricted-properties: [2, {
+    "property": "push",
+    "allowObjects": ["router"],
+}] */
+
+myArray.push(5);
+```
+
+:::
+
 Examples of **correct** code for this rule:
 
 ::: correct
@@ -141,6 +170,20 @@ allowedObjectName.disallowedPropertyName();
 }] */
 
 require('foo');
+```
+
+:::
+
+::: correct
+
+```js
+/* eslint no-restricted-properties: [2, {
+    "property": "push",
+    "allowObjects": ["router", "history"],
+}] */
+
+router.push('/home');
+history.push('/about');
 ```
 
 :::
