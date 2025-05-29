@@ -3789,14 +3789,15 @@ describe("SourceCode", () => {
 				ignoreEval: true,
 				ecmaVersion: 6,
 			});
+
+			const globalScope = scopeManager.scopes[0];
+			delete globalScope.implicit.left;
+
 			const sourceCode = new SourceCode({
 				text: code,
 				ast,
 				scopeManager,
 			});
-
-			const globalScope = sourceCode.scopeManager.scopes[0];
-			delete globalScope.implicit.left;
 
 			sourceCode.applyLanguageOptions({
 				ecmaVersion: 2015,
