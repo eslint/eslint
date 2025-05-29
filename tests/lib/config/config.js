@@ -563,6 +563,145 @@ describe("Config", () => {
 			});
 		});
 
+		it("should pass through the value when toJSON is not a function", () => {
+			const mockLanguage = {
+				validateLanguageOptions() {},
+				normalizeLanguageOptions(options) {
+					options.syntax.toJSON = "not a function";
+					return options;
+				},
+				meta: {
+					name: "testLang",
+					version: "1.0.0",
+				},
+			};
+
+			const mockPlugin = {
+				meta: {
+					name: "testPlugin",
+					version: "1.0.0",
+				},
+				languages: {
+					lang: mockLanguage,
+				},
+			};
+
+			const config = new Config({
+				language: "test/lang",
+				plugins: {
+					test: mockPlugin,
+				},
+				languageOptions: {
+					syntax: {
+						toJSON: "not a function",
+					},
+				},
+			});
+			const json = config.toJSON();
+			assert.deepStrictEqual(json, {
+				plugins: ["test:testPlugin@1.0.0"],
+				processor: void 0,
+				language: "test/lang",
+				languageOptions: {
+					syntax: {
+						toJSON: "not a function",
+					},
+				},
+			});
+		});
+
+		it("should only call toJSON on a parent and not on a child object", () => {
+			const mockLanguage = {
+				validateLanguageOptions() {},
+				normalizeLanguageOptions(options) {
+					options.syntax.block.toJSON = () => "block";
+					options.syntax.block.selector.toJSON = () => "selector";
+					return options;
+				},
+				meta: {
+					name: "testLang",
+					version: "1.0.0",
+				},
+			};
+
+			const mockPlugin = {
+				meta: {
+					name: "testPlugin",
+					version: "1.0.0",
+				},
+				languages: {
+					lang: mockLanguage,
+				},
+			};
+
+			const config = new Config({
+				language: "test/lang",
+				plugins: {
+					test: mockPlugin,
+				},
+				languageOptions: {
+					syntax: {
+						block: {
+							selector: {
+								value: "test",
+							},
+						},
+					},
+				},
+			});
+			const json = config.toJSON();
+			assert.deepStrictEqual(json, {
+				plugins: ["test:testPlugin@1.0.0"],
+				processor: void 0,
+				language: "test/lang",
+				languageOptions: {
+					syntax: {
+						block: "block",
+					},
+				},
+			});
+		});
+
+		it("should throw an error when toJSON() returns a function", () => {
+			const mockLanguage = {
+				validateLanguageOptions() {},
+				normalizeLanguageOptions(options) {
+					options.syntax.toJSON = () => () => "function";
+					return options;
+				},
+				meta: {
+					name: "testLang",
+					version: "1.0.0",
+				},
+			};
+
+			const mockPlugin = {
+				meta: {
+					name: "testPlugin",
+					version: "1.0.0",
+				},
+				languages: {
+					lang: mockLanguage,
+				},
+			};
+
+			const config = new Config({
+				language: "test/lang",
+				plugins: {
+					test: mockPlugin,
+				},
+				languageOptions: {
+					syntax: {
+						someValue: "string",
+					},
+				},
+			});
+
+			assert.throws(() => {
+				config.toJSON();
+			}, 'Cannot serialize key "syntax" in "languageOptions": Function values are not supported.');
+		});
+
 		it("should throw when processor doesn't have meta information", () => {
 			const mockLanguage = {
 				validateLanguageOptions() {},
