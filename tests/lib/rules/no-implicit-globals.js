@@ -372,6 +372,14 @@ ruleTester.run("no-implicit-globals", rule, {
 		"foo",
 		"foo + bar",
 		"foo(bar)",
+		"foo++",
+		"--foo",
+		"foo += 1",
+		{
+			code: "foo ||= 1",
+			languageOptions: { ecmaVersion: 2021 },
+		},
+		"/* global foo: writable*/ foo = bar",
 
 		// Leaks are not possible in strict mode (explicit or implicit). Therefore, rule doesn't report assignments in strict mode.
 		"'use strict';foo = 1;",
@@ -458,6 +466,15 @@ ruleTester.run("no-implicit-globals", rule, {
 		"Array.from = 1;",
 		"Object['assign'] = 1;",
 		"/*global foo:readonly*/ foo.bar = 1;",
+
+		// This rule doesn't disallow updates of readonly globals
+		"/*global foo:readonly*/ foo++;",
+		"/*global foo:readonly*/ --foo;",
+		"/*global foo:readonly*/ foo += 1;",
+		{
+			code: "/*global foo:readonly*/ foo ||= 1;",
+			languageOptions: { ecmaVersion: 2021 },
+		},
 
 		//------------------------------------------------------------------------------
 		// exported
@@ -782,6 +799,7 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: leakMessage,
+					column: 27,
 					type: "AssignmentExpression",
 				},
 			],
@@ -822,6 +840,7 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: leakMessage,
+					column: 24,
 					type: "AssignmentExpression",
 				},
 			],
@@ -855,10 +874,12 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: leakMessage,
+					column: 1,
 					type: "AssignmentExpression",
 				},
 				{
 					message: leakMessage,
+					column: 10,
 					type: "AssignmentExpression",
 				},
 			],
@@ -868,10 +889,12 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: leakMessage,
+					column: 1,
 					type: "AssignmentExpression",
 				},
 				{
 					message: leakMessage,
+					column: 7,
 					type: "AssignmentExpression",
 				},
 			],
@@ -881,6 +904,7 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: leakMessage,
+					column: 31,
 					type: "AssignmentExpression",
 				},
 			],
@@ -890,6 +914,7 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: leakMessage,
+					column: 25,
 					type: "AssignmentExpression",
 				},
 			],
@@ -916,6 +941,7 @@ ruleTester.run("no-implicit-globals", rule, {
 				},
 				{
 					message: leakMessage,
+					column: 11,
 					type: "AssignmentExpression",
 				},
 			],
@@ -925,6 +951,7 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: leakMessage,
+					column: 35,
 					type: "AssignmentExpression",
 				},
 			],
@@ -944,10 +971,12 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: leakMessage,
+					column: 1,
 					type: "AssignmentExpression",
 				},
 				{
 					message: leakMessage,
+					column: 1,
 					type: "AssignmentExpression",
 				},
 			],
@@ -958,6 +987,7 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: leakMessage,
+					column: 25,
 					type: "AssignmentExpression",
 				},
 			],
@@ -968,6 +998,7 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: leakMessage,
+					column: 25,
 					type: "AssignmentExpression",
 				},
 			],
@@ -1047,6 +1078,15 @@ ruleTester.run("no-implicit-globals", rule, {
 			],
 		},
 		{
+			code: "var Array = 1; Array = 2;",
+			errors: [
+				{
+					message: readonlyRedeclarationMessage,
+					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
 			code: "/*global foo:readonly*/ var foo",
 			errors: [
 				{
@@ -1065,6 +1105,53 @@ ruleTester.run("no-implicit-globals", rule, {
 			],
 		},
 		{
+			code: "/*global foo:readonly*/ var foo; foo = 1;",
+			errors: [
+				{
+					message: readonlyRedeclarationMessage,
+					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
+			code: "/*global foo:readonly*/ for (var foo in obj);",
+			errors: [
+				{
+					message: readonlyRedeclarationMessage,
+					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
+			code: "/*global foo:readonly*/ for (var foo in obj); foo = 1;",
+			errors: [
+				{
+					message: readonlyRedeclarationMessage,
+					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
+			code: "/*global foo:readonly*/ for (var foo of arr);",
+			languageOptions: { ecmaVersion: 2015 },
+			errors: [
+				{
+					message: readonlyRedeclarationMessage,
+					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
+			code: "/*global foo:readonly*/ for (var foo of arr); foo = 1;",
+			languageOptions: { ecmaVersion: 2015 },
+			errors: [
+				{
+					message: readonlyRedeclarationMessage,
+					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
 			code: "/*global foo:readonly*/ function foo() {}",
 			errors: [
 				{
@@ -1075,6 +1162,17 @@ ruleTester.run("no-implicit-globals", rule, {
 		},
 		{
 			code: "/*global foo:readonly*/ const foo = 1",
+			options: [{ lexicalBindings: true }],
+			languageOptions: { ecmaVersion: 2015 },
+			errors: [
+				{
+					message: readonlyRedeclarationMessage,
+					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
+			code: "/*global foo:readonly*/ const foo = 1; foo = 2;",
 			options: [{ lexicalBindings: true }],
 			languageOptions: { ecmaVersion: 2015 },
 			errors: [
@@ -1107,6 +1205,17 @@ ruleTester.run("no-implicit-globals", rule, {
 			],
 		},
 		{
+			code: "/*global foo:readonly*/ let foo; foo = 1;",
+			options: [{ lexicalBindings: true }],
+			languageOptions: { ecmaVersion: 2015 },
+			errors: [
+				{
+					message: readonlyRedeclarationMessage,
+					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
 			code: "/*global Foo:readonly*/ class Foo {}",
 			options: [{ lexicalBindings: true }],
 			languageOptions: { ecmaVersion: 2015 },
@@ -1124,10 +1233,12 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyAssignmentMessage,
+					column: 40,
 					type: "AssignmentExpression",
 				},
 				{
 					message: readonlyAssignmentMessage,
+					column: 46,
 					type: "AssignmentExpression",
 				},
 			],
@@ -1137,6 +1248,7 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyAssignmentMessage,
+					column: 46,
 					type: "AssignmentExpression",
 				},
 			],
@@ -1146,6 +1258,7 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyAssignmentMessage,
+					column: 40,
 					type: "AssignmentExpression",
 				},
 			],
@@ -1155,10 +1268,12 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyAssignmentMessage,
+					column: 26,
 					type: "AssignmentExpression",
 				},
 				{
 					message: leakMessage,
+					column: 32,
 					type: "AssignmentExpression",
 				},
 			],
@@ -1168,10 +1283,88 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: leakMessage,
+					column: 26,
 					type: "AssignmentExpression",
 				},
 				{
 					message: readonlyAssignmentMessage,
+					column: 32,
+					type: "AssignmentExpression",
+				},
+			],
+		},
+		{
+			code: "/*global foo*/ [foo] = arr",
+			languageOptions: { ecmaVersion: 2015 },
+			errors: [
+				{
+					message: readonlyAssignmentMessage,
+					column: 16,
+					type: "AssignmentExpression",
+				},
+			],
+		},
+		{
+			code: "/*global foo, bar: readonly*/ [foo, bar] = arr",
+			languageOptions: { ecmaVersion: 2015 },
+			errors: [
+				{
+					message: readonlyAssignmentMessage,
+					column: 31,
+					type: "AssignmentExpression",
+				},
+				{
+					message: readonlyAssignmentMessage,
+					column: 31,
+					type: "AssignmentExpression",
+				},
+			],
+		},
+		{
+			code: "/*global foo: readonly*/ ({ foo } = obj)",
+			languageOptions: { ecmaVersion: 2015 },
+			errors: [
+				{
+					message: readonlyAssignmentMessage,
+					column: 27,
+					type: "AssignmentExpression",
+				},
+			],
+		},
+		{
+			code: "/*global foo: readonly*/ ({ 'a': foo } = obj)",
+			languageOptions: { ecmaVersion: 2015 },
+			errors: [
+				{
+					message: readonlyAssignmentMessage,
+					column: 27,
+					type: "AssignmentExpression",
+				},
+			],
+		},
+		{
+			code: "/*global foo: readonly*/ ({ 'a': { 'b': [foo] } } = obj)",
+			languageOptions: { ecmaVersion: 2015 },
+			errors: [
+				{
+					message: readonlyAssignmentMessage,
+					column: 27,
+					type: "AssignmentExpression",
+				},
+			],
+		},
+		{
+			code: "/*global foo, bar: readonly*/ ({ foo, 'a': bar } = obj)",
+			languageOptions: { ecmaVersion: 2015 },
+			errors: [
+				{
+					message: readonlyAssignmentMessage,
+					column: 32,
+					type: "AssignmentExpression",
+				},
+				{
+					message: readonlyAssignmentMessage,
+					column: 32,
 					type: "AssignmentExpression",
 				},
 			],
@@ -1629,6 +1822,7 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: leakMessage,
+					column: 46,
 					type: "AssignmentExpression",
 				},
 			],
