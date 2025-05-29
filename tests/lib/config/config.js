@@ -16,6 +16,103 @@ const assert = require("chai").assert;
 const sinon = require("sinon");
 
 //-----------------------------------------------------------------------------
+// Helper Functions
+//-----------------------------------------------------------------------------
+
+/**
+ * Creates a mock language object with default properties
+ * @param {Object} overrides Properties to override
+ * @returns {Object} Mock language object
+ */
+function createMockLanguage(overrides = {}) {
+	return {
+		validateLanguageOptions() {},
+		normalizeLanguageOptions: options => options,
+		meta: {
+			name: "testLang",
+			version: "1.0.0",
+		},
+		...overrides,
+	};
+}
+
+/**
+ * Creates a mock plugin object with default properties
+ * @param {Object} overrides Properties to override
+ * @returns {Object} Mock plugin object
+ */
+function createMockPlugin(overrides = {}) {
+	return {
+		meta: {
+			name: "testPlugin",
+			version: "1.0.0",
+		},
+		...overrides,
+	};
+}
+
+/**
+ * Creates a mock processor object with default properties
+ * @param {Object} overrides Properties to override
+ * @returns {Object} Mock processor object
+ */
+function createMockProcessor(overrides = {}) {
+	return {
+		meta: {
+			name: "testProcessor",
+			version: "1.0.0",
+		},
+		preprocess() {},
+		postprocess() {},
+		...overrides,
+	};
+}
+
+/**
+ * Creates a basic config structure for testing
+ * @param {Object} configOptions Config options to merge
+ * @param {Object} mockLanguage Mock language to use
+ * @returns {Object} Config options object
+ */
+function createBasicConfigOptions(configOptions = {}, mockLanguage = null) {
+	const language = mockLanguage || createMockLanguage();
+
+	return {
+		language: "test/lang",
+		plugins: {
+			test: {
+				languages: {
+					lang: language,
+				},
+			},
+		},
+		...configOptions,
+	};
+}
+
+/**
+ * Creates a mock rule object with default schema
+ * @param {Object} overrides Properties to override
+ * @returns {Object} Mock rule object
+ */
+function createMockRule(overrides = {}) {
+	return {
+		meta: {
+			schema: [
+				{
+					type: "object",
+					properties: {
+						option1: { type: "boolean" },
+					},
+				},
+			],
+			...overrides.meta,
+		},
+		...overrides,
+	};
+}
+
+//-----------------------------------------------------------------------------
 // Tests
 //-----------------------------------------------------------------------------
 
@@ -167,10 +264,10 @@ describe("Config", () => {
 		let mockLanguage;
 
 		beforeEach(() => {
-			mockLanguage = {
+			mockLanguage = createMockLanguage({
 				validateLanguageOptions: sinon.stub(),
 				normalizeLanguageOptions: sinon.spy(options => options),
-			};
+			});
 		});
 
 		it("should throw error when language is not provided", () => {
@@ -193,35 +290,27 @@ describe("Config", () => {
 		});
 
 		it("should correctly set up language from plugins", () => {
-			const config = new Config({
-				language: "test/lang",
-				plugins: {
-					test: {
-						languages: {
-							lang: mockLanguage,
-						},
-					},
-				},
-			});
+			const config = new Config(
+				createBasicConfigOptions({}, mockLanguage),
+			);
 
 			assert.strictEqual(config.language, mockLanguage);
 			assert.isTrue(mockLanguage.validateLanguageOptions.called);
 		});
 
 		it("should correctly merge language options with default language options", () => {
-			mockLanguage.defaultLanguageOptions = { parser: "default" };
-
-			const config = new Config({
-				language: "test/lang",
-				languageOptions: { ecmaVersion: 2022 },
-				plugins: {
-					test: {
-						languages: {
-							lang: mockLanguage,
-						},
-					},
-				},
+			const languageWithDefaults = createMockLanguage({
+				defaultLanguageOptions: { parser: "default" },
 			});
+
+			const config = new Config(
+				createBasicConfigOptions(
+					{
+						languageOptions: { ecmaVersion: 2022 },
+					},
+					languageWithDefaults,
+				),
+			);
 
 			assert.deepStrictEqual(config.languageOptions, {
 				parser: "default",
@@ -231,135 +320,116 @@ describe("Config", () => {
 
 		it("should throw error when processor is not found in plugins", () => {
 			assert.throws(() => {
-				new Config({
-					language: "test/lang",
+				new Config(
+					createBasicConfigOptions(
+						{
+							processor: "test/proc",
+						},
+						mockLanguage,
+					),
+				);
+			}, /Could not find "proc" in plugin "test"/u);
+		});
+
+		it("should correctly set up processor from plugins", () => {
+			const mockProcessor = createMockProcessor();
+			const config = new Config(
+				createBasicConfigOptions({
 					plugins: {
 						test: {
 							languages: {
 								lang: mockLanguage,
 							},
+							processors: {
+								proc: mockProcessor,
+							},
 						},
 					},
 					processor: "test/proc",
-				});
-			}, /Could not find "proc" in plugin "test"/u);
-		});
-
-		it("should correctly set up processor from plugins", () => {
-			const mockProcessor = {};
-			const config = new Config({
-				language: "test/lang",
-				plugins: {
-					test: {
-						languages: {
-							lang: mockLanguage,
-						},
-						processors: {
-							proc: mockProcessor,
-						},
-					},
-				},
-				processor: "test/proc",
-			});
+				}),
+			);
 
 			assert.strictEqual(config.processor, mockProcessor);
 		});
 
 		it("should accept processor object directly", () => {
-			const mockProcessor = {
+			const mockProcessor = createMockProcessor({
 				meta: { name: "test-processor" },
-				preprocess() {},
-				postprocess() {},
-			};
-
-			const config = new Config({
-				language: "test/lang",
-				plugins: {
-					test: {
-						languages: {
-							lang: mockLanguage,
-						},
-					},
-				},
-				processor: mockProcessor,
 			});
+
+			const config = new Config(
+				createBasicConfigOptions(
+					{
+						processor: mockProcessor,
+					},
+					mockLanguage,
+				),
+			);
 
 			assert.strictEqual(config.processor, mockProcessor);
 		});
 
 		it("should throw error when processor is not string or object", () => {
 			assert.throws(() => {
-				new Config({
-					language: "test/lang",
-					plugins: {
-						test: {
-							languages: {
-								lang: mockLanguage,
-							},
+				new Config(
+					createBasicConfigOptions(
+						{
+							processor: 123,
 						},
-					},
-					processor: 123,
-				});
+						mockLanguage,
+					),
+				);
 			}, "Expected an object or a string");
 		});
 
 		it("should normalize rules configuration", () => {
 			const mockRule = { meta: {} };
-			const config = new Config({
-				language: "test/lang",
-				plugins: {
-					test: {
-						languages: {
-							lang: mockLanguage,
+			const config = new Config(
+				createBasicConfigOptions({
+					plugins: {
+						test: {
+							languages: {
+								lang: mockLanguage,
+							},
+							rules: {},
 						},
-						rules: {},
-					},
-					"@": {
-						rules: {
-							"test-rule": mockRule,
+						"@": {
+							rules: {
+								"test-rule": mockRule,
+							},
 						},
 					},
-				},
-				rules: {
-					"test-rule": "error",
-				},
-			});
+					rules: {
+						"test-rule": "error",
+					},
+				}),
+			);
 
 			assert.deepStrictEqual(config.rules["test-rule"], [2]);
 		});
 
 		it("should normalize rules with options", () => {
-			const mockRule = {
-				meta: {
-					schema: [
-						{
-							type: "object",
-							properties: {
-								option1: { type: "boolean" },
+			const mockRule = createMockRule();
+			const config = new Config(
+				createBasicConfigOptions({
+					plugins: {
+						test: {
+							languages: {
+								lang: mockLanguage,
+							},
+							rules: {},
+						},
+						"@": {
+							rules: {
+								"test-rule": mockRule,
 							},
 						},
-					],
-				},
-			};
-			const config = new Config({
-				language: "test/lang",
-				plugins: {
-					test: {
-						languages: {
-							lang: mockLanguage,
-						},
-						rules: {},
 					},
-					"@": {
-						rules: {
-							"test-rule": mockRule,
-						},
+					rules: {
+						"test-rule": ["warn", { option1: true }],
 					},
-				},
-				rules: {
-					"test-rule": ["warn", { option1: true }],
-				},
-			});
+				}),
+			);
 
 			assert.deepStrictEqual(config.rules["test-rule"], [
 				1,
@@ -368,7 +438,7 @@ describe("Config", () => {
 		});
 
 		it("should apply rule's defaultOptions when present", () => {
-			const mockRule = {
+			const mockRule = createMockRule({
 				meta: {
 					schema: [
 						{
@@ -381,27 +451,28 @@ describe("Config", () => {
 					],
 					defaultOptions: [{ defaultOption: true }],
 				},
-			};
-
-			const config = new Config({
-				language: "test/lang",
-				plugins: {
-					test: {
-						languages: {
-							lang: mockLanguage,
-						},
-						rules: {},
-					},
-					"@": {
-						rules: {
-							"test-rule": mockRule,
-						},
-					},
-				},
-				rules: {
-					"test-rule": ["error", { option1: true }],
-				},
 			});
+
+			const config = new Config(
+				createBasicConfigOptions({
+					plugins: {
+						test: {
+							languages: {
+								lang: mockLanguage,
+							},
+							rules: {},
+						},
+						"@": {
+							rules: {
+								"test-rule": mockRule,
+							},
+						},
+					},
+					rules: {
+						"test-rule": ["error", { option1: true }],
+					},
+				}),
+			);
 
 			assert.deepStrictEqual(config.rules["test-rule"], [
 				2,
@@ -413,19 +484,20 @@ describe("Config", () => {
 	describe("getRuleDefinition", () => {
 		it("should retrieve rule definition from plugins", () => {
 			const mockRule = { meta: {} };
-			const config = new Config({
-				language: "test/lang",
-				plugins: {
-					test: {
-						languages: {
-							lang: { validateLanguageOptions() {} },
-						},
-						rules: {
-							"test-rule": mockRule,
+			const config = new Config(
+				createBasicConfigOptions({
+					plugins: {
+						test: {
+							languages: {
+								lang: createMockLanguage(),
+							},
+							rules: {
+								"test-rule": mockRule,
+							},
 						},
 					},
-				},
-			});
+				}),
+			);
 
 			const rule = config.getRuleDefinition("test/test-rule");
 			assert.strictEqual(rule, mockRule);
@@ -433,21 +505,22 @@ describe("Config", () => {
 
 		it("should retrieve core rule definition", () => {
 			const mockRule = { meta: {} };
-			const config = new Config({
-				language: "test/lang",
-				plugins: {
-					test: {
-						languages: {
-							lang: { validateLanguageOptions() {} },
+			const config = new Config(
+				createBasicConfigOptions({
+					plugins: {
+						test: {
+							languages: {
+								lang: createMockLanguage(),
+							},
+						},
+						"@": {
+							rules: {
+								"core-rule": mockRule,
+							},
 						},
 					},
-					"@": {
-						rules: {
-							"core-rule": mockRule,
-						},
-					},
-				},
-			});
+				}),
+			);
 
 			const rule = config.getRuleDefinition("core-rule");
 			assert.strictEqual(rule, mockRule);
@@ -456,29 +529,9 @@ describe("Config", () => {
 
 	describe("toJSON", () => {
 		it("should convert config to JSON representation", () => {
-			const mockLanguage = {
-				validateLanguageOptions() {},
-				meta: {
-					name: "testLang",
-					version: "1.0.0",
-				},
-			};
-
-			const mockProcessor = {
-				meta: {
-					name: "testProcessor",
-					version: "1.0.0",
-				},
-				preprocess() {},
-				postprocess() {},
-			};
-
-			const mockPlugin = {
-				meta: {
-					name: "testPlugin",
-					version: "1.0.0",
-				},
-			};
+			const mockLanguage = createMockLanguage();
+			const mockProcessor = createMockProcessor();
+			const mockPlugin = createMockPlugin();
 
 			const config = new Config({
 				language: "test/lang",
@@ -517,27 +570,18 @@ describe("Config", () => {
 		});
 
 		it("should serialize when a language option has a toJSON() method and a function", () => {
-			const mockLanguage = {
-				validateLanguageOptions() {},
+			const mockLanguage = createMockLanguage({
 				normalizeLanguageOptions(options) {
 					options.syntax.toJSON = () => "syntax";
 					return options;
 				},
-				meta: {
-					name: "testLang",
-					version: "1.0.0",
-				},
-			};
+			});
 
-			const mockPlugin = {
-				meta: {
-					name: "testPlugin",
-					version: "1.0.0",
-				},
+			const mockPlugin = createMockPlugin({
 				languages: {
 					lang: mockLanguage,
 				},
-			};
+			});
 
 			const config = new Config({
 				language: "test/lang",
@@ -564,27 +608,18 @@ describe("Config", () => {
 		});
 
 		it("should pass through the value when toJSON is not a function", () => {
-			const mockLanguage = {
-				validateLanguageOptions() {},
+			const mockLanguage = createMockLanguage({
 				normalizeLanguageOptions(options) {
 					options.syntax.toJSON = "not a function";
 					return options;
 				},
-				meta: {
-					name: "testLang",
-					version: "1.0.0",
-				},
-			};
+			});
 
-			const mockPlugin = {
-				meta: {
-					name: "testPlugin",
-					version: "1.0.0",
-				},
+			const mockPlugin = createMockPlugin({
 				languages: {
 					lang: mockLanguage,
 				},
-			};
+			});
 
 			const config = new Config({
 				language: "test/lang",
@@ -611,28 +646,19 @@ describe("Config", () => {
 		});
 
 		it("should only call toJSON on a parent and not on a child object", () => {
-			const mockLanguage = {
-				validateLanguageOptions() {},
+			const mockLanguage = createMockLanguage({
 				normalizeLanguageOptions(options) {
 					options.syntax.block.toJSON = () => "block";
 					options.syntax.block.selector.toJSON = () => "selector";
 					return options;
 				},
-				meta: {
-					name: "testLang",
-					version: "1.0.0",
-				},
-			};
+			});
 
-			const mockPlugin = {
-				meta: {
-					name: "testPlugin",
-					version: "1.0.0",
-				},
+			const mockPlugin = createMockPlugin({
 				languages: {
 					lang: mockLanguage,
 				},
-			};
+			});
 
 			const config = new Config({
 				language: "test/lang",
@@ -663,27 +689,18 @@ describe("Config", () => {
 		});
 
 		it("should call languageOptions.toJSON() when present instead of serializing the object", () => {
-			const mockLanguage = {
-				validateLanguageOptions() {},
+			const mockLanguage = createMockLanguage({
 				normalizeLanguageOptions(options) {
 					options.toJSON = () => "languageOptions";
 					return options;
 				},
-				meta: {
-					name: "testLang",
-					version: "1.0.0",
-				},
-			};
+			});
 
-			const mockPlugin = {
-				meta: {
-					name: "testPlugin",
-					version: "1.0.0",
-				},
+			const mockPlugin = createMockPlugin({
 				languages: {
 					lang: mockLanguage,
 				},
-			};
+			});
 
 			const config = new Config({
 				language: "test/lang",
@@ -707,27 +724,18 @@ describe("Config", () => {
 		});
 
 		it("should throw an error when toJSON() returns a function", () => {
-			const mockLanguage = {
-				validateLanguageOptions() {},
+			const mockLanguage = createMockLanguage({
 				normalizeLanguageOptions(options) {
 					options.syntax.toJSON = () => () => "function";
 					return options;
 				},
-				meta: {
-					name: "testLang",
-					version: "1.0.0",
-				},
-			};
+			});
 
-			const mockPlugin = {
-				meta: {
-					name: "testPlugin",
-					version: "1.0.0",
-				},
+			const mockPlugin = createMockPlugin({
 				languages: {
 					lang: mockLanguage,
 				},
-			};
+			});
 
 			const config = new Config({
 				language: "test/lang",
@@ -747,26 +755,17 @@ describe("Config", () => {
 		});
 
 		it("should throw an error when languageOptions.toJSON() returns a function", () => {
-			const mockLanguage = {
-				validateLanguageOptions() {},
+			const mockLanguage = createMockLanguage({
 				normalizeLanguageOptions(options) {
 					options.toJSON = () => () => "function";
 					return options;
 				},
-				meta: {
-					name: "testLang",
-					version: "1.0.0",
-				},
-			};
-			const mockPlugin = {
-				meta: {
-					name: "testPlugin",
-					version: "1.0.0",
-				},
+			});
+			const mockPlugin = createMockPlugin({
 				languages: {
 					lang: mockLanguage,
 				},
-			};
+			});
 			const config = new Config({
 				language: "test/lang",
 				plugins: {
@@ -784,17 +783,16 @@ describe("Config", () => {
 		});
 
 		it("should throw when processor doesn't have meta information", () => {
-			const mockLanguage = {
-				validateLanguageOptions() {},
+			const mockLanguage = createMockLanguage({
 				meta: {
 					name: "testLang",
 				},
-			};
+			});
 
-			const mockProcessor = {
-				preprocess() {},
-				postprocess() {},
-			}; // Missing meta property
+			const mockProcessor = createMockProcessor({
+				meta: void 0, // Missing meta property
+			});
+			delete mockProcessor.meta; // Completely remove meta
 
 			const config = new Config({
 				language: "test/lang",
@@ -817,7 +815,7 @@ describe("Config", () => {
 	describe("validateRulesConfig", () => {
 		let config;
 
-		const mockRule = {
+		const mockRule = createMockRule({
 			meta: {
 				schema: {
 					type: "array",
@@ -832,38 +830,39 @@ describe("Config", () => {
 					],
 				},
 			},
-		};
+		});
 
 		beforeEach(() => {
-			config = new Config({
-				language: "test/lang",
-				plugins: {
-					test: {
-						languages: {
-							lang: { validateLanguageOptions() {} },
-						},
-					},
-					"@": {
-						rules: {
-							"error-rule": {},
-							"warn-rule": {},
-							"off-rule": {},
-							"test-rule": mockRule,
-							"test-broken-rule": {
-								meta: { schema: 123 }, // Invalid schema
-							},
-							"test-no-schema": {
-								meta: { schema: false }, // No schema
+			config = new Config(
+				createBasicConfigOptions({
+					plugins: {
+						test: {
+							languages: {
+								lang: createMockLanguage(),
 							},
 						},
+						"@": {
+							rules: {
+								"error-rule": {},
+								"warn-rule": {},
+								"off-rule": {},
+								"test-rule": mockRule,
+								"test-broken-rule": {
+									meta: { schema: 123 }, // Invalid schema
+								},
+								"test-no-schema": {
+									meta: { schema: false }, // No schema
+								},
+							},
+						},
 					},
-				},
-				rules: {
-					"error-rule": "error",
-					"warn-rule": "warn",
-					"off-rule": "off",
-				},
-			});
+					rules: {
+						"error-rule": "error",
+						"warn-rule": "warn",
+						"off-rule": "off",
+					},
+				}),
+			);
 		});
 
 		it("should throw when config is not provided", () => {
