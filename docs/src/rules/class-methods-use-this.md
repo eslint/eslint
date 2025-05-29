@@ -109,7 +109,7 @@ class C {
 This rule has four options:
 
 * `"exceptMethods"` allows specified method names to be ignored with this rule.
-* `"enforceForClassFields"` enforces that functions used as instance field initializers utilize `this`. (default: `true`)
+* `"enforceForClassFields"` enforces that arrow functions and function expressions used as instance field initializers utilize `this`. This also applies to auto-accessor fields (fields declared with the `accessor` keyword) in TypeScript. (default: `true`)
 * `"ignoreOverrideMethods"` ignores members that are marked with the `override` modifier. (TypeScript only, default: `false`)
 * `"ignoreClassesWithImplements"` ignores class members that are defined within a class that `implements` an interface. (TypeScript only)
 
@@ -159,7 +159,7 @@ class A {
 "class-methods-use-this": [<enabled>, { "enforceForClassFields": true | false }]
 ```
 
-The `enforceForClassFields` option enforces that arrow functions and function expressions used as instance field initializers utilize `this`. (default: `true`)
+The `enforceForClassFields` option enforces that arrow functions and function expressions used as instance field initializers utilize `this`. This also applies to auto-accessor fields (fields declared with the `accessor` keyword) in TypeScript. (default: `true`)
 
 Examples of **incorrect** code for this rule with the `{ "enforceForClassFields": true }` option (default):
 
@@ -198,6 +198,51 @@ Examples of **correct** code for this rule with the `{ "enforceForClassFields": 
 
 class A {
     foo = () => {}
+}
+```
+
+:::
+
+Examples of **incorrect** TypeScript code for this rule with the `{ "enforceForClassFields": true }` option (default):
+
+::: incorrect
+
+```ts
+/*eslint class-methods-use-this: ["error", { "enforceForClassFields": true }] */
+
+class A {
+    foo = () => {}
+    accessor bar = () => {}
+}
+```
+
+:::
+
+Examples of **correct** TypeScript code for this rule with the `{ "enforceForClassFields": true }` option (default):
+
+::: correct
+
+```ts
+/*eslint class-methods-use-this: ["error", { "enforceForClassFields": true }] */
+
+class A {
+    foo = () => {this;}
+    accessor bar = () => {this;}
+}
+```
+
+:::
+
+Examples of **correct** TypeScript code for this rule with the `{ "enforceForClassFields": false }` option:
+
+::: correct
+
+```ts
+/*eslint class-methods-use-this: ["error", { "enforceForClassFields": false }] */
+
+class A {
+    foo = () => {}
+    accessor bar = () => {}
 }
 ```
 
