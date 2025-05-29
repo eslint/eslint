@@ -142,6 +142,7 @@ Suppressing Violations:
   --suppress-rule [String]        Suppress specific rules
   --suppressions-location path::String  Specify the location of the suppressions file
   --prune-suppressions            Prune unused suppressions - default: false
+  --pass-on-unpruned-suppressions Ignore unused suppressions - default: false
 
 Miscellaneous:
   --init                          Run config initialization wizard - default: false
@@ -902,6 +903,19 @@ Prune unused suppressions from the suppressions file. This option is useful when
 {{ npx_tabs ({
     package: "eslint",
     args: ["\"src/**/*.js\"", "--prune-suppressions"]
+}) }}
+
+#### `--pass-on-unpruned-suppressions`
+
+Ignore unused suppressions. By default, ESLint exits with exit code `2` and displays an error message if there are unused suppressions in the suppressions file. When you use this flag, unused suppressions do not affect the exit code and ESLint doesn't output an error about unused suppressions.
+
+- **Argument Type**: No argument.
+
+##### `--pass-on-unpruned-suppressions` example
+
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["\"src/**/*.js\"", "--pass-on-unpruned-suppressions"]
 }) }}
 
 ### Miscellaneous
