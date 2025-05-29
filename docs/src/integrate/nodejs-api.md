@@ -171,6 +171,8 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
 
 ##### Other Options
 
+- `options.concurrency` (`number | "auto" | "off"`)<br>
+  Default is `"off"`. By default, ESLint lints all files in the calling thread. If this option specifies an integer, ESLint will use up to that number of worker threads to lint files concurrently. `"auto"` chooses a setting automatically. When this option is specified all other options must be [cloneable](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm).
 - `options.flags` (`string[]`)<br>
   Default is `[]`. The feature flags to enable for this instance.
 
@@ -339,6 +341,50 @@ const defaultConfig = ESLint.defaultConfig;
 The default configuration that ESLint uses internally. This is provided for tooling that wants to calculate configurations using the same defaults as ESLint. Keep in mind that the default configuration may change from version to version, so you shouldn't rely on any particular keys or values to be present.
 
 This is a static property.
+
+### ◆ ESLint.fromOptionModule(optionsURL)
+
+```js
+const eslint = await ESLint.fromOptionModule(optionsURL);
+```
+
+This method creates an instance of the `ESLint` class with options loaded from a module, for example:
+
+```js
+// eslint-options.js
+
+import config from "./my-eslint-config.js";
+
+export default {
+	concurrency: "auto",
+	overrideConfig: config,
+	overrideConfigFile: true,
+	stats: true,
+};
+```
+
+```js
+// main.js
+
+...
+const optionsURL = new URL("./eslint-options.js", import.meta.url);
+const eslint = await ESLint.fromOptionModule(optionsURL);
+...
+```
+
+The `concurrency` option requires all other options to be cloneable so that they can be passed to worker threads, but this restriction does not apply when options are loaded from a module, because in that case worker thread are passed the module URL instead of the options object.
+
+This is a static method.
+
+#### Parameters
+
+- `optionsURL` (`string | URL`)<br>
+  The URL of the option module. This can be a file or a data URL.
+
+#### Return Value
+
+- (`Promise<ESLint>`)<br>
+  A new instance of the `ESLint` class.
 
 ### ◆ ESLint.outputFixes(results)
 

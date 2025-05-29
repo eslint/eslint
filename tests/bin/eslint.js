@@ -1355,6 +1355,79 @@ describe("bin/eslint.js", () => {
 			});
 		});
 	});
+
+	describe("Multithread mode", () => {
+		it("should warn only once for an empty config file", async () => {
+			const cwd = path.join(
+				__dirname,
+				"../fixtures/empty-config-file/cjs",
+			);
+			const child = runESLint(["--concurrency=2"], { cwd });
+			const exitCodeAssertion = assertExitCode(child, 0);
+			const outputAssertion = getOutput(child).then(output => {
+				// The warning message should appear exactly once in stderr
+				assert.strictEqual(
+					[
+						...output.stderr.matchAll(
+							"Running ESLint with an empty config",
+						),
+					].length,
+					1,
+				);
+			});
+
+			return Promise.all([exitCodeAssertion, outputAssertion]);
+		});
+
+		it("should warn only once for an empty config file when a file path is passed explicitly", async () => {
+			const cwd = path.join(
+				__dirname,
+				"../fixtures/empty-config-file/cjs",
+			);
+			const child = runESLint(["--concurrency=2", "foo.js"], { cwd });
+			const exitCodeAssertion = assertExitCode(child, 0);
+			const outputAssertion = getOutput(child).then(output => {
+				// The warning message should appear exactly once in stderr
+				assert.strictEqual(
+					[
+						...output.stderr.matchAll(
+							"Running ESLint with an empty config",
+						),
+					].length,
+					1,
+				);
+			});
+
+			return Promise.all([exitCodeAssertion, outputAssertion]);
+		});
+
+		it("should warn only once for an inactive flag", async () => {
+			const cwd = path.join(__dirname, "../fixtures");
+			const child = runESLint(
+				[
+					"--concurrency=2",
+					"--flag=test_only_enabled_by_default",
+					"passing.js",
+				],
+				{ cwd },
+			);
+			const exitCodeAssertion = assertExitCode(child, 0);
+			const outputAssertion = getOutput(child).then(output => {
+				// The warning message should appear exactly once in stderr
+				assert.strictEqual(
+					[
+						...output.stderr.matchAll(
+							"The flag 'test_only_enabled_by_default' is inactive",
+						),
+					].length,
+					1,
+				);
+			});
+
+			return Promise.all([exitCodeAssertion, outputAssertion]);
+		});
+	});
+
 	afterEach(() => {
 		// Clean up all the processes after every test.
 		forkedProcesses.forEach(child => child.kill());
