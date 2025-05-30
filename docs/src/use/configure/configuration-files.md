@@ -138,6 +138,62 @@ With this configuration, the `semi` rule is enabled for all files that match the
 By default, ESLint lints files that match the patterns `**/*.js`, `**/*.cjs`, and `**/*.mjs`. Those files are always matched unless you explicitly exclude them using [global ignores](#globally-ignoring-files-with-ignores).
 :::
 
+#### Specifying files with arbitrary extensions
+
+To lint files with extensions other than the default `.js`, `.cjs` and `.mjs`, include them in `files` with a pattern in the format of `"**/*.extension"`. Any pattern will work except if it is `*` or if it ends with `/*` or `/**`.
+For example, to lint TypeScript files with `.ts`, `.cts` and `.mts` extensions, you would specify a configuration object like this:
+
+```js
+// eslint.config.js
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
+	{
+		files: ["**/*.ts", "**/*.cts", "**.*.mts"],
+	},
+	// ...other config
+]);
+```
+
+#### Specifying files without extension
+
+Files without an extension can be matched with the pattern `!(*.*)`. For example:
+
+```js
+// eslint.config.js
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
+	{
+		files: ["**/!(*.*)"],
+	},
+	// ...other config
+]);
+```
+
+The above config lints files without extension besides the default `.js`, `.cjs` and `.mjs` extensions in all directories.
+::: tip
+Filenames starting with a dot, such as `.gitignore`, are considered to have only an extension without a base name. In the case of `.gitignore`, the extension is `gitignore`, so the file matches the pattern `"**/.gitignore"` but not `"**/*.gitignore"`.
+:::
+
+#### Specifying files with an AND operation
+
+Multiple patterns can be matched against the same file by using an array of strings inside of the `files` array. For example:
+
+```js
+// eslint.config.js
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
+	{
+		files: [["src/*", "**/.js"]],
+	},
+	// ...other config
+]);
+```
+
+The pattern `["src/*", "**/.js"]` matches when a file is both inside of the `src` directory and also ends with `.js`. This approach can be helpful when you're dynamically calculating the value of the `files` array and want to avoid potential errors by trying to combine multiple glob patterns into a single string.
+
 #### Excluding files with `ignores`
 
 You can limit which files a configuration object applies to by specifying a combination of `files` and `ignores` patterns. For example, you may want certain rules to apply only to files in your `src` directory:
@@ -217,44 +273,6 @@ ESLint only lints files that are matched either by default or by a `files` patte
 
 ::: tip
 Use the [config inspector](https://github.com/eslint/config-inspector) (`--inspect-config` in the CLI) to test which config objects apply to a specific file.
-:::
-
-#### Specifying files with arbitrary extensions
-
-To lint files with extensions other than the default `.js`, `.cjs` and `.mjs`, include them in `files` with a pattern in the format of `"**/*.extension"`. Any pattern will work except if it is `*` or if it ends with `/*` or `/**`.
-For example, to lint TypeScript files with `.ts`, `.cts` and `.mts` extensions, you would specify a configuration object like this:
-
-```js
-// eslint.config.js
-import { defineConfig } from "eslint/config";
-
-export default defineConfig([
-	{
-		files: ["**/*.ts", "**/*.cts", "**.*.mts"],
-	},
-	// ...other config
-]);
-```
-
-#### Specifying files without extension
-
-Files without an extension can be matched with the pattern `!(*.*)`. For example:
-
-```js
-// eslint.config.js
-import { defineConfig } from "eslint/config";
-
-export default defineConfig([
-	{
-		files: ["**/!(*.*)"],
-	},
-	// ...other config
-]);
-```
-
-The above config lints files without extension besides the default `.js`, `.cjs` and `.mjs` extensions in all directories.
-::: tip
-Filenames starting with a dot, such as `.gitignore`, are considered to have only an extension without a base name. In the case of `.gitignore`, the extension is `gitignore`, so the file matches the pattern `"**/.gitignore"` but not `"**/*.gitignore"`.
 :::
 
 #### Globally ignoring files with `ignores`
