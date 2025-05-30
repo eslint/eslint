@@ -60,6 +60,6 @@ Common resolutions for this issue include:
 
 For more information, see:
 
-- [Legacy ESLint configuration files](../configure/configuration-files-deprecated#using-a-shareable-configuration-package) for documentation on the legacy ESLint configuration format
-- [Configure Plugins](../configure/plugins) for documentation on how to extend from plugins
-- [Create Plugins](../../extend/plugins#configs-in-plugins) for documentation on how to define plugins
+- [Legacy ESLint configuration files](../configure/configuration-files-deprecated#using-a-shareable-configuration-package) for documentation on the legacy ESLint configuration format.
+- [Configure Plugins](../configure/plugins) for documentation on how to extend from plugins.
+- [Create Plugins](../../extend/plugins#configs-in-plugins) for documentation on how to define plugins.

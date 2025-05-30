@@ -10,7 +10,7 @@
 **Please provide some example JavaScript code that this rule will warn about:**
 
 ```js
-<!-- put your code examples here -->
+/* put your code examples here */
 ```
 
 **Why should this rule be included in ESLint (instead of a plugin)?**

@@ -54,7 +54,7 @@ You can address any of the reported violations by making the necessary changes t
 There are suppressions left that do not occur anymore. Consider re-running the command with `--prune-suppressions`.
 ```
 
-To remove the suppressions that are no longer needed, you can use the `--prune-suppressions` flag.
+To remove the suppressions that are no longer needed, you can use the [`--prune-suppressions`](./command-line-interface#--prune-suppressions) flag.
 
 ```bash
 eslint --prune-suppressions
