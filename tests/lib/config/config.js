@@ -723,6 +723,42 @@ describe("Config", () => {
 			});
 		});
 
+		it("should call toJSON() on language option even when object has meta information", () => {
+			const mockLanguage = createMockLanguage({
+				normalizeLanguageOptions(options) {
+					options.someObject.toJSON = () => "someObject";
+					return options;
+				},
+			});
+			const mockPlugin = createMockPlugin({
+				languages: {
+					lang: mockLanguage,
+				},
+			});
+			const config = new Config({
+				language: "test/lang",
+				plugins: {
+					test: mockPlugin,
+				},
+				languageOptions: {
+					someObject: {
+						meta: {
+							name: "testMeta",
+						},
+					},
+				},
+			});
+			const json = config.toJSON();
+			assert.deepStrictEqual(json, {
+				plugins: ["test:testPlugin@1.0.0"],
+				processor: void 0,
+				language: "test/lang",
+				languageOptions: {
+					someObject: "someObject",
+				},
+			});
+		});
+
 		it("should throw an error when toJSON() returns a function", () => {
 			const mockLanguage = createMockLanguage({
 				normalizeLanguageOptions(options) {
