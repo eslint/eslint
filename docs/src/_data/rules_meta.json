@@ -679,11 +679,17 @@
         }
     },
     "func-style": {
+        "dialects": [
+            "javascript",
+            "typescript"
+        ],
+        "language": "javascript",
         "type": "suggestion",
         "defaultOptions": [
             "expression",
             {
                 "allowArrowFunctions": false,
+                "allowTypeAnnotation": false,
                 "overrides": {}
             }
         ],
@@ -2397,6 +2403,11 @@
     },
     "no-magic-numbers": {
         "type": "suggestion",
+        "dialects": [
+            "typescript",
+            "javascript"
+        ],
+        "language": "javascript",
         "docs": {
             "description": "Disallow magic numbers",
             "recommended": false,
@@ -3085,12 +3096,19 @@
     },
     "no-shadow": {
         "type": "suggestion",
+        "dialects": [
+            "typescript",
+            "javascript"
+        ],
+        "language": "javascript",
         "defaultOptions": [
             {
                 "allow": [],
                 "builtinGlobals": false,
                 "hoist": "functions",
-                "ignoreOnInitialization": false
+                "ignoreOnInitialization": false,
+                "ignoreTypeValueShadow": true,
+                "ignoreFunctionTypeParameterNameValueShadow": true
             }
         ],
         "docs": {
@@ -3482,7 +3500,10 @@
                 "classes": true,
                 "functions": true,
                 "variables": true,
-                "allowNamedExports": false
+                "allowNamedExports": false,
+                "enums": true,
+                "typedefs": true,
+                "ignoreTypeReferences": true
             }
         ]
     },
@@ -3941,6 +3962,11 @@
     },
     "prefer-arrow-callback": {
         "type": "suggestion",
+        "dialects": [
+            "javascript",
+            "typescript"
+        ],
+        "language": "javascript",
         "defaultOptions": [
             {
                 "allowNamedFunctions": false,
