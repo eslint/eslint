@@ -1395,5 +1395,296 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 				},
 			],
 		},
+		{
+			code: `
+    var Foo;
+	namespace Foo {
+		export const a = 2;
+	}
+	namespace Foo {
+		export const b = 4;
+	}
+		`,
+			errors: [
+				{
+					data: {
+						id: "Foo",
+					},
+					line: 3,
+					messageId: "redeclared",
+				},
+				{
+					data: {
+						id: "Foo",
+					},
+					line: 6,
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: `
+		namespace Foo {
+			export const a = 1;
+		}
+
+		namespace Bar {
+			export const a = 1;
+		}
+		`,
+			options: [{ ignoreDeclarationMerge: false }],
+			languageOptions: {
+				globals: {
+					Foo: "readonly",
+					Bar: "readonly",
+				},
+			},
+			errors: [
+				{
+					data: {
+						id: "Foo",
+					},
+					line: 2,
+					messageId: "redeclaredAsBuiltin",
+				},
+				{
+					data: {
+						id: "Bar",
+					},
+					line: 6,
+					messageId: "redeclaredAsBuiltin",
+				},
+			],
+		},
+		{
+			code: `
+		/* global Foo */
+		namespace Foo {
+			export const a = 1;
+		}
+
+		/* global Bar */
+		namespace Bar {
+			export const a = 1;
+		}
+		`,
+			options: [{ ignoreDeclarationMerge: false }],
+			errors: [
+				{
+					data: {
+						id: "Foo",
+					},
+					line: 2,
+					messageId: "redeclaredBySyntax",
+				},
+				{
+					data: {
+						id: "Bar",
+					},
+					line: 7,
+					messageId: "redeclaredBySyntax",
+				},
+			],
+		},
+		{
+			code: `
+		namespace Foo {
+			export const a = 1;
+		}
+
+		/* global Bar */
+		namespace Bar {
+			export const a = 1;
+		}
+		`,
+			options: [{ ignoreDeclarationMerge: false }],
+			languageOptions: {
+				globals: {
+					Foo: "readonly",
+				},
+			},
+			errors: [
+				{
+					data: {
+						id: "Foo",
+					},
+					line: 2,
+					messageId: "redeclaredAsBuiltin",
+				},
+				{
+					data: {
+						id: "Bar",
+					},
+					line: 6,
+					messageId: "redeclaredBySyntax",
+				},
+			],
+		},
+		{
+			code: `
+		namespace Foo {
+			export const a = 1;
+		}
+
+		namespace Bar {
+			export const a = 1;
+		}
+		`,
+			options: [{ ignoreDeclarationMerge: true }],
+			languageOptions: {
+				globals: {
+					Foo: "readonly",
+					Bar: "readonly",
+				},
+			},
+			errors: [
+				{
+					data: {
+						id: "Foo",
+					},
+					line: 2,
+					messageId: "redeclaredAsBuiltin",
+				},
+				{
+					data: {
+						id: "Bar",
+					},
+					line: 6,
+					messageId: "redeclaredAsBuiltin",
+				},
+			],
+		},
+		{
+			code: `
+		/* global Foo */
+		namespace Foo {
+			export const a = 1;
+		}
+
+		/* global Bar */
+		namespace Bar {
+			export const a = 1;
+		}
+		`,
+			options: [{ ignoreDeclarationMerge: true }],
+			errors: [
+				{
+					data: {
+						id: "Foo",
+					},
+					line: 2,
+					messageId: "redeclaredBySyntax",
+				},
+				{
+					data: {
+						id: "Bar",
+					},
+					line: 7,
+					messageId: "redeclaredBySyntax",
+				},
+			],
+		},
+		{
+			code: `
+		namespace Foo {
+			export const a = 1;
+		}
+
+		/* global Bar */
+		namespace Bar {
+			export const a = 1;
+		}
+		`,
+			options: [{ ignoreDeclarationMerge: true }],
+			languageOptions: {
+				globals: {
+					Foo: "readonly",
+				},
+			},
+			errors: [
+				{
+					data: {
+						id: "Foo",
+					},
+					line: 2,
+					messageId: "redeclaredAsBuiltin",
+				},
+				{
+					data: {
+						id: "Bar",
+					},
+					line: 6,
+					messageId: "redeclaredBySyntax",
+				},
+			],
+		},
+		{
+			code: `
+		/* global Bar */
+		namespace Bar {
+			export const a = 1;
+		}
+		namespace Bar {
+			export const b = 1;
+		}
+		`,
+			options: [{ ignoreDeclarationMerge: true }],
+			errors: [
+				{
+					data: {
+						id: "Bar",
+					},
+					line: 2,
+					messageId: "redeclaredBySyntax",
+				},
+			],
+		},
+		{
+			code: `
+		namespace Foo {
+			export const a = 1;
+		}
+		namespace Foo {
+			export const a = 1;
+		}
+
+		/* global Bar */
+		namespace Bar {
+			export const a = 1;
+		}
+		namespace Bar {
+			export const a = 1;
+		}
+		`,
+			options: [{ ignoreDeclarationMerge: true }],
+			languageOptions: {
+				globals: {
+					Foo: "readonly",
+				},
+			},
+			errors: [
+				{
+					data: {
+						id: "Foo",
+					},
+					line: 2,
+					messageId: "redeclaredAsBuiltin",
+				},
+				{
+					data: {
+						id: "Foo",
+					},
+					line: 5,
+					messageId: "redeclaredAsBuiltin",
+				},
+				{
+					data: {
+						id: "Bar",
+					},
+					line: 9,
+					messageId: "redeclaredBySyntax",
+				},
+			],
+		},
 	],
 });
