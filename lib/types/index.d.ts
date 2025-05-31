@@ -289,6 +289,8 @@ export class SourceCode
 		second: ESTree.Node | AST.Token,
 	): boolean;
 
+	isGlobalReference(node: ESTree.Identifier): boolean;
+
 	markVariableAsUsed(name: string, refNode?: ESTree.Node): boolean;
 
 	traverse(): Iterable<TraversalStep>;
