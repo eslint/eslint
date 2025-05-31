@@ -2205,9 +2205,9 @@ describe("SourceCode", () => {
 		});
 
 		it("should return the location of a range index", () => {
-			assert.deepStrictEqual(sourceCode.getLocFromIndex(5), {
-				line: 2,
-				column: 1,
+			assert.deepStrictEqual(sourceCode.getLocFromIndex(0), {
+				line: 1,
+				column: 0,
 			});
 			assert.deepStrictEqual(sourceCode.getLocFromIndex(3), {
 				line: 1,
@@ -2216,6 +2216,14 @@ describe("SourceCode", () => {
 			assert.deepStrictEqual(sourceCode.getLocFromIndex(4), {
 				line: 2,
 				column: 0,
+			});
+			assert.deepStrictEqual(sourceCode.getLocFromIndex(5), {
+				line: 2,
+				column: 1,
+			});
+			assert.deepStrictEqual(sourceCode.getLocFromIndex(15), {
+				line: 4,
+				column: 2,
 			});
 			assert.deepStrictEqual(sourceCode.getLocFromIndex(21), {
 				line: 6,
