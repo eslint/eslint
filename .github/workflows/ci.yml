@@ -24,6 +24,9 @@ jobs:
               working-directory: docs
               run: npm install
 
+            - name: Check Package Size
+              run: npm run test:size
+
             - name: Lint Files (eslint)
               uses: trunk-io/trunk-action@v1
               with:
