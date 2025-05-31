@@ -4344,5 +4344,23 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 				},
 			],
 		},
+		{
+			code: `import fs = require("fs");`,
+			options: [
+				{
+					patterns: [
+						{
+							group: ["f*"],
+						},
+					],
+				},
+			],
+			errors: [
+				{
+					messageId: "patterns",
+					type: "TSImportEqualsDeclaration",
+				},
+			],
+		},
 	],
 });
