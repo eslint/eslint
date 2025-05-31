@@ -4184,10 +4184,14 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 				{
 					messageId: "importNameWithCustomMessage",
 					type: "ImportDeclaration",
-				},
-				{
-					messageId: "importNameWithCustomMessage",
-					type: "ImportDeclaration",
+					line: 1,
+					column: 10,
+					data: {
+						importSource: "import-foo",
+						importName: "Bar",
+						customMessage:
+							"Please use Bar and Baz from /import-bar/baz/ instead.",
+					},
 				},
 			],
 		},
