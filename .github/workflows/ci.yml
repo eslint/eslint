@@ -70,7 +70,7 @@ jobs:
         strategy:
             matrix:
                 os: [ubuntu-latest]
-                node: [23.x, 22.x, 21.x, 20.x, 18.x, "18.18.0"]
+                node: [24.x, 22.x, 20.x, 18.x, "18.18.0"]
                 NODE_OPTIONS: [""]
                 include:
                     - os: windows-latest
@@ -78,9 +78,9 @@ jobs:
                     - os: macOS-latest
                       node: "lts/*"
                     - os: ubuntu-latest
-                      node: 22.x
+                      node: 24.x
 
-                      # `--experimental-strip-types` is enabled by default in Node.js 23.x.
+                      # `--experimental-strip-types` is enabled by default in Node.js 24.x.
                       # This additional environment is necessary only to test `--experimental-transform-types`,
                       # as it is not enabled by default in any Node.js version yet.
                       NODE_OPTIONS: "--experimental-transform-types"

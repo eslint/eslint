@@ -69,7 +69,8 @@
       "removed": "space-in-brackets",
       "replacedBy": [
         { "rule": { "name": "object-curly-spacing" } },
-        { "rule": { "name": "array-bracket-spacing" } }
+        { "rule": { "name": "array-bracket-spacing" } },
+        { "rule": { "name": "computed-property-spacing" } }
       ]
     },
     {

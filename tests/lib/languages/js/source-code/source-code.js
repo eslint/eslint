@@ -3607,6 +3607,218 @@ describe("SourceCode", () => {
 		});
 	});
 
+	describe("finalize()", () => {
+		it("should remove ECMAScript globals from global scope's `implicit`", () => {
+			const code = "Array = 1; Foo = 1; Promise = 1; Array; Foo; Promise";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const scopeManager = eslintScope.analyze(ast, {
+				ignoreEval: true,
+				ecmaVersion: 6,
+			});
+			const sourceCode = new SourceCode({
+				text: code,
+				ast,
+				scopeManager,
+			});
+
+			sourceCode.applyLanguageOptions({
+				ecmaVersion: 2015,
+			});
+
+			sourceCode.finalize();
+
+			const globalScope = sourceCode.scopeManager.scopes[0];
+			const { implicit } = globalScope;
+
+			assert.deepStrictEqual(
+				[...implicit.set].map(([name]) => name),
+				["Foo"],
+			);
+			assert.deepStrictEqual(
+				implicit.variables.map(({ name }) => name),
+				["Foo"],
+			);
+			assert.deepStrictEqual(
+				implicit.left.map(reference => reference.identifier.name),
+				["Foo", "Foo"],
+			);
+		});
+
+		it("should remove custom globals from global scope's `implicit`", () => {
+			const code = "Bar = 1; Foo = 1; Baz = 1; Bar; Foo; Baz";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const scopeManager = eslintScope.analyze(ast, {
+				ignoreEval: true,
+				ecmaVersion: 6,
+			});
+			const sourceCode = new SourceCode({
+				text: code,
+				ast,
+				scopeManager,
+			});
+
+			sourceCode.applyLanguageOptions({
+				ecmaVersion: 2015,
+				globals: {
+					Bar: "writable",
+					Baz: "readonly",
+				},
+			});
+
+			sourceCode.finalize();
+
+			const globalScope = sourceCode.scopeManager.scopes[0];
+			const { implicit } = globalScope;
+
+			assert.deepStrictEqual(
+				[...implicit.set].map(([name]) => name),
+				["Foo"],
+			);
+			assert.deepStrictEqual(
+				implicit.variables.map(({ name }) => name),
+				["Foo"],
+			);
+			assert.deepStrictEqual(
+				implicit.left.map(reference => reference.identifier.name),
+				["Foo", "Foo"],
+			);
+		});
+
+		it("should remove commonjs globals from global scope's `implicit`", () => {
+			const code =
+				"exports = {}; Foo = 1; require = () => {}; exports; Foo; require";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const scopeManager = eslintScope.analyze(ast, {
+				ignoreEval: true,
+				nodejsScope: true,
+				ecmaVersion: 6,
+			});
+			const sourceCode = new SourceCode({
+				text: code,
+				ast,
+				scopeManager,
+			});
+
+			sourceCode.applyLanguageOptions({
+				ecmaVersion: 2015,
+				sourceType: "commonjs",
+			});
+
+			sourceCode.finalize();
+
+			const globalScope = sourceCode.scopeManager.scopes[0];
+			const { implicit } = globalScope;
+
+			assert.deepStrictEqual(
+				[...implicit.set].map(([name]) => name),
+				["Foo"],
+			);
+			assert.deepStrictEqual(
+				implicit.variables.map(({ name }) => name),
+				["Foo"],
+			);
+			assert.deepStrictEqual(
+				implicit.left.map(reference => reference.identifier.name),
+				["Foo", "Foo"],
+			);
+		});
+
+		it("should remove inline globals from global scope's `implicit`", () => {
+			const code =
+				"/* globals Bar: writable, Baz: readonly */ Bar = 1; Foo = 1; Baz = 1; Bar; Foo; Baz";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const scopeManager = eslintScope.analyze(ast, {
+				ignoreEval: true,
+				ecmaVersion: 6,
+			});
+			const sourceCode = new SourceCode({
+				text: code,
+				ast,
+				scopeManager,
+			});
+
+			sourceCode.applyInlineConfig();
+			sourceCode.finalize();
+
+			const globalScope = sourceCode.scopeManager.scopes[0];
+			const { implicit } = globalScope;
+
+			assert.deepStrictEqual(
+				[...implicit.set].map(([name]) => name),
+				["Foo"],
+			);
+			assert.deepStrictEqual(
+				implicit.variables.map(({ name }) => name),
+				["Foo"],
+			);
+			assert.deepStrictEqual(
+				implicit.left.map(reference => reference.identifier.name),
+				["Foo", "Foo"],
+			);
+		});
+
+		it("should not crash if global scope doesn't have `implicit` property", () => {
+			const code = "Array = 1; Foo = 1; Promise = 1; Array; Foo; Promise";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const scopeManager = eslintScope.analyze(ast, {
+				ignoreEval: true,
+				ecmaVersion: 6,
+			});
+
+			const globalScope = scopeManager.scopes[0];
+			delete globalScope.implicit;
+
+			const sourceCode = new SourceCode({
+				text: code,
+				ast,
+				scopeManager,
+			});
+
+			sourceCode.applyLanguageOptions({
+				ecmaVersion: 2015,
+			});
+
+			// should not throw
+			sourceCode.finalize();
+		});
+
+		it("should not crash if global scope doesn't have `implicit.left` property", () => {
+			const code = "Array = 1; Foo = 1; Promise = 1; Array; Foo; Promise";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const scopeManager = eslintScope.analyze(ast, {
+				ignoreEval: true,
+				ecmaVersion: 6,
+			});
+
+			const globalScope = scopeManager.scopes[0];
+			delete globalScope.implicit.left;
+
+			const sourceCode = new SourceCode({
+				text: code,
+				ast,
+				scopeManager,
+			});
+
+			sourceCode.applyLanguageOptions({
+				ecmaVersion: 2015,
+			});
+
+			// should not throw
+			sourceCode.finalize();
+
+			const { implicit } = globalScope;
+
+			assert.deepStrictEqual(
+				[...implicit.set].map(([name]) => name),
+				["Foo"],
+			);
+			assert.deepStrictEqual(
+				implicit.variables.map(({ name }) => name),
+				["Foo"],
+			);
+		});
+	});
+
 	describe("isGlobalReference(node)", () => {
 		it("should throw an error when argument is missing", () => {
 			linter.defineRule("is-global-reference", {
@@ -4198,84 +4410,84 @@ describe("SourceCode", () => {
 			flatLinter.verify(code, config);
 			assert(spy && spy.called, "Spy was not called.");
 		});
-	});
 
-	it("should cache the result of isGlobalReference for the same node", () => {
-		const code = "Math; Math;";
-		let firstNode, secondNode, sourceCodeInstance;
-
-		const config = {
-			plugins: {
-				test: {
-					rules: {
-						checker: {
-							create(context) {
-								const sourceCode = context.sourceCode;
-								sourceCodeInstance = sourceCode;
-								return {
-									Identifier(node) {
-										if (!firstNode) {
-											firstNode = node;
-										} else if (!secondNode) {
-											secondNode = node;
-										}
-									},
-								};
+		it("should cache the result of isGlobalReference for the same node", () => {
+			const code = "Math; Math;";
+			let firstNode, secondNode, sourceCodeInstance;
+	
+			const config = {
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create(context) {
+									const sourceCode = context.sourceCode;
+									sourceCodeInstance = sourceCode;
+									return {
+										Identifier(node) {
+											if (!firstNode) {
+												firstNode = node;
+											} else if (!secondNode) {
+												secondNode = node;
+											}
+										},
+									};
+								},
 							},
 						},
 					},
 				},
-			},
-			rules: { "test/checker": "error" },
-		};
-
-		flatLinter.verify(code, config);
-
-		// Spy on the internal cache
-		const cache =
-			sourceCodeInstance[
-				Object.getOwnPropertySymbols(sourceCodeInstance).find(
-					sym =>
-						sourceCodeInstance[sym] instanceof Map &&
-						sourceCodeInstance[sym].has("isGlobalReference"),
-				)
-			].get("isGlobalReference");
-
-		// Clear cache for firstNode and count calls
-		cache.delete(firstNode);
-		let computeCount = 0;
-		const original =
-			sourceCodeInstance.scopeManager.scopes[0].set.get("Math").references
-				.some;
-		sourceCodeInstance.scopeManager.scopes[0].set.get(
-			"Math",
-		).references.some = function (...args) {
-			computeCount++;
-			return original.apply(this, args);
-		};
-
-		// Call twice, should only compute once
-		sourceCodeInstance.isGlobalReference(firstNode);
-		sourceCodeInstance.isGlobalReference(firstNode);
-
-		assert.strictEqual(
-			computeCount,
-			1,
-			"isGlobalReference should compute only once per node",
-		);
-
-		// Second node should compute
-		sourceCodeInstance.isGlobalReference(secondNode);
-		sourceCodeInstance.isGlobalReference(secondNode);
-		assert.strictEqual(
-			computeCount,
-			2,
-			"isGlobalReference should compute only once per node",
-		);
-
-		// Restore
-		sourceCodeInstance.scopeManager.scopes[0].set.get(
-			"Math",
-		).references.some = original;
+				rules: { "test/checker": "error" },
+			};
+	
+			flatLinter.verify(code, config);
+	
+			// Spy on the internal cache
+			const cache =
+				sourceCodeInstance[
+					Object.getOwnPropertySymbols(sourceCodeInstance).find(
+						sym =>
+							sourceCodeInstance[sym] instanceof Map &&
+							sourceCodeInstance[sym].has("isGlobalReference"),
+					)
+				].get("isGlobalReference");
+	
+			// Clear cache for firstNode and count calls
+			cache.delete(firstNode);
+			let computeCount = 0;
+			const original =
+				sourceCodeInstance.scopeManager.scopes[0].set.get("Math").references
+					.some;
+			sourceCodeInstance.scopeManager.scopes[0].set.get(
+				"Math",
+			).references.some = function (...args) {
+				computeCount++;
+				return original.apply(this, args);
+			};
+	
+			// Call twice, should only compute once
+			sourceCodeInstance.isGlobalReference(firstNode);
+			sourceCodeInstance.isGlobalReference(firstNode);
+	
+			assert.strictEqual(
+				computeCount,
+				1,
+				"isGlobalReference should compute only once per node",
+			);
+	
+			// Second node should compute
+			sourceCodeInstance.isGlobalReference(secondNode);
+			sourceCodeInstance.isGlobalReference(secondNode);
+			assert.strictEqual(
+				computeCount,
+				2,
+				"isGlobalReference should compute only once per node",
+			);
+	
+			// Restore
+			sourceCodeInstance.scopeManager.scopes[0].set.get(
+				"Math",
+			).references.some = original;
+		});
 	});
 });

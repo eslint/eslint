@@ -17,6 +17,7 @@ jsdoc/
 .cache
 /packages/**/node_modules
 /.vscode
+*.code-workspace
 .sublimelinterrc
 .eslint-release-info.json
 .nyc_output

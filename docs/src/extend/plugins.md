@@ -39,7 +39,7 @@ If you plan to distribute your plugin as an npm package, make sure that the modu
 
 ### Meta Data in Plugins
 
-For easier debugging and more effective caching of plugins, it's recommended to provide a `name` and `version` in a `meta` object at the root of your plugin, like this:
+For easier debugging and more effective caching of plugins, it's recommended to provide a `name`, `version`, and `namespace` in a `meta` object at the root of your plugin, like this:
 
 ```js
 const plugin = {
@@ -47,6 +47,7 @@ const plugin = {
 	meta: {
 		name: "eslint-plugin-example",
 		version: "1.2.3",
+		namespace: "example",
 	},
 	rules: {
 		// add rules here
@@ -60,7 +61,9 @@ export default plugin;
 module.exports = plugin;
 ```
 
-The `meta.name` property should match the npm package name for your plugin and the `meta.version` property should match the npm package version for your plugin. The easiest way to accomplish this is by reading this information from your `package.json`, as in this example:
+The `meta.name` property should match the npm package name for your plugin and the `meta.version` property should match the npm package version for your plugin. The `meta.namespace` property should match the prefix you'd like users to use for accessing the plugin's rules, processors, languages, and configs. The namespace is typically what comes after `eslint-plugin-` in your package name, which is why this example uses `"example"`. Providing a namespace allows the `defineConfig()` function to find your plugin even when a user assigns a different namespace in their config file.
+
+The easiest way to add the name and version is by reading this information from your `package.json`, as in this example:
 
 ```js
 import fs from "fs";
@@ -74,6 +77,7 @@ const plugin = {
 	meta: {
 		name: pkg.name,
 		version: pkg.version,
+		namespace: "example",
 	},
 	rules: {
 		// add rules here

@@ -286,6 +286,11 @@ Josh Goldberg ✨
 <img src="https://github.com/Tanujkanti4441.png?s=75" width="75" height="75" alt="Tanuj Kanti's Avatar"><br />
 Tanuj Kanti
 </a>
+</td><td align="center" valign="top" width="11%">
+<a href="https://github.com/lumirlumir">
+<img src="https://github.com/lumirlumir.png?s=75" width="75" height="75" alt="루밀LuMir's Avatar"><br />
+루밀LuMir
+</a>
 </td></tr></tbody></table>
 
 ### Website Team
@@ -320,7 +325,7 @@ The following companies, organizations, and individuals support ESLint's ongoing
 to get your logo on our READMEs and [website](https://eslint.org/sponsors).
 
 <h3>Diamond Sponsors</h3>
-<p><a href="https://www.ag-grid.com/"><img src="https://images.opencollective.com/ag-grid/2c8d545/logo.png" alt="AG Grid" height="128"></a></p><h3>Platinum Sponsors</h3>
+<p><a href="https://www.ag-grid.com/"><img src="https://images.opencollective.com/ag-grid/bec0580/logo.png" alt="AG Grid" height="128"></a></p><h3>Platinum Sponsors</h3>
 <p><a href="https://automattic.com"><img src="https://images.opencollective.com/automattic/d0ef3e1/logo.png" alt="Automattic" height="128"></a> <a href="https://www.airbnb.com/"><img src="https://images.opencollective.com/airbnb/d327d66/logo.png" alt="Airbnb" height="128"></a></p><h3>Gold Sponsors</h3>
 <p><a href="https://qlty.sh/"><img src="https://images.opencollective.com/qltysh/33d157d/logo.png" alt="Qlty Software" height="96"></a> <a href="https://trunk.io/"><img src="https://images.opencollective.com/trunkio/fb92d60/avatar.png" alt="trunk.io" height="96"></a> <a href="https://shopify.engineering/"><img src="https://avatars.githubusercontent.com/u/8085" alt="Shopify" height="96"></a></p><h3>Silver Sponsors</h3>
 <p><a href="https://vite.dev/"><img src="https://images.opencollective.com/vite/e6d15e1/logo.png" alt="Vite" height="64"></a> <a href="https://liftoff.io/"><img src="https://images.opencollective.com/liftoff/5c4fa84/logo.png" alt="Liftoff" height="64"></a> <a href="https://americanexpress.io"><img src="https://avatars.githubusercontent.com/u/3853301" alt="American Express" height="64"></a> <a href="https://stackblitz.com"><img src="https://avatars.githubusercontent.com/u/28635252" alt="StackBlitz" height="64"></a></p><h3>Bronze Sponsors</h3>

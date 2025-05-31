@@ -679,11 +679,17 @@
         }
     },
     "func-style": {
+        "dialects": [
+            "javascript",
+            "typescript"
+        ],
+        "language": "javascript",
         "type": "suggestion",
         "defaultOptions": [
             "expression",
             {
                 "allowArrowFunctions": false,
+                "allowTypeAnnotation": false,
                 "overrides": {}
             }
         ],
@@ -1347,6 +1353,11 @@
     },
     "max-params": {
         "type": "suggestion",
+        "dialects": [
+            "typescript",
+            "javascript"
+        ],
+        "language": "javascript",
         "docs": {
             "description": "Enforce a maximum number of parameters in function definitions",
             "recommended": false,
@@ -1612,6 +1623,7 @@
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-array-constructor"
         },
+        "fixable": "code",
         "hasSuggestions": true
     },
     "no-async-promise-executor": {
@@ -2391,6 +2403,11 @@
     },
     "no-magic-numbers": {
         "type": "suggestion",
+        "dialects": [
+            "typescript",
+            "javascript"
+        ],
+        "language": "javascript",
         "docs": {
             "description": "Disallow magic numbers",
             "recommended": false,
@@ -3079,12 +3096,19 @@
     },
     "no-shadow": {
         "type": "suggestion",
+        "dialects": [
+            "typescript",
+            "javascript"
+        ],
+        "language": "javascript",
         "defaultOptions": [
             {
                 "allow": [],
                 "builtinGlobals": false,
                 "hoist": "functions",
-                "ignoreOnInitialization": false
+                "ignoreOnInitialization": false,
+                "ignoreTypeValueShadow": true,
+                "ignoreFunctionTypeParameterNameValueShadow": true
             }
         ],
         "docs": {
@@ -3259,6 +3283,19 @@
             "url": "https://eslint.org/docs/latest/rules/no-trailing-spaces"
         },
         "fixable": "whitespace"
+    },
+    "no-unassigned-vars": {
+        "type": "problem",
+        "dialects": [
+            "typescript",
+            "javascript"
+        ],
+        "language": "javascript",
+        "docs": {
+            "description": "Disallow `let` or `var` variables that are read but never assigned",
+            "recommended": false,
+            "url": "https://eslint.org/docs/latest/rules/no-unassigned-vars"
+        }
     },
     "no-undef": {
         "type": "problem",
@@ -3463,7 +3500,10 @@
                 "classes": true,
                 "functions": true,
                 "variables": true,
-                "allowNamedExports": false
+                "allowNamedExports": false,
+                "enums": true,
+                "typedefs": true,
+                "ignoreTypeReferences": true
             }
         ]
     },
@@ -3539,6 +3579,11 @@
     },
     "no-useless-escape": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "allowRegexCharacters": []
+            }
+        ],
         "docs": {
             "description": "Disallow unnecessary escape characters",
             "recommended": true,
@@ -3917,6 +3962,11 @@
     },
     "prefer-arrow-callback": {
         "type": "suggestion",
+        "dialects": [
+            "javascript",
+            "typescript"
+        ],
+        "language": "javascript",
         "defaultOptions": [
             {
                 "allowNamedFunctions": false,

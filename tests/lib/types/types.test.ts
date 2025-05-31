@@ -35,6 +35,7 @@ import {
 	RuleTester,
 	Scope,
 	SourceCode,
+	JSSyntaxElement,
 } from "eslint";
 import { defineConfig, globalIgnores } from "eslint/config";
 import { ESLintRules } from "eslint/rules";
@@ -149,9 +150,9 @@ sourceCode.getFirstToken(AST, { includeComments: true }); // $ExpectType Comment
 sourceCode.getFirstToken(AST, { includeComments: true, skip: 0 });
 // prettier-ignore
 sourceCode.getFirstToken(AST, { // $ExpectType (Token & { type: "Identifier"; }) | null
-    includeComments: true,
-    skip: 0,
-    filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
+	includeComments: true,
+	skip: 0,
+	filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
 });
 
 sourceCode.getFirstTokens(AST); // $ExpectType Token[]
@@ -169,16 +170,16 @@ sourceCode.getFirstTokens(AST, {
 });
 // prettier-ignore
 sourceCode.getFirstTokens(AST, { // $ExpectType (Token & { type: "Identifier"; })[]
-    count: 0,
-    filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
+	count: 0,
+	filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
 });
 sourceCode.getFirstTokens(AST, { includeComments: true }); //  $ ExpectType (Comment | Token)[]
 sourceCode.getFirstTokens(AST, { includeComments: true, count: 0 }); //  $ ExpectType (Comment | Token)[]
 // prettier-ignore
 sourceCode.getFirstTokens(AST, { // $ExpectType (Token & { type: "Identifier"; })[]
-    includeComments: true,
-    count: 0,
-    filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
+	includeComments: true,
+	count: 0,
+	filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
 });
 
 sourceCode.getLastToken(AST);
@@ -302,7 +303,7 @@ sourceCode.getFirstTokenBetween(
 );
 // prettier-ignore
 sourceCode.getFirstTokenBetween(AST, AST, { // $ExpectType (Token & { type: "Identifier"; }) | null
-    filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
+	filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
 });
 sourceCode.getFirstTokenBetween(AST, AST, {
 	skip: 0,
@@ -313,9 +314,9 @@ sourceCode.getFirstTokenBetween(AST, AST, { includeComments: true }); // $Expect
 sourceCode.getFirstTokenBetween(AST, AST, { includeComments: true, skip: 0 });
 // prettier-ignore
 sourceCode.getFirstTokenBetween(AST, AST, { // $ExpectType (Token & { type: "Identifier"; }) | null
-    includeComments: true,
-    skip: 0,
-    filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
+	includeComments: true,
+	skip: 0,
+	filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
 });
 
 sourceCode.getFirstTokensBetween(AST, AST); // $ExpectType Token[]
@@ -329,7 +330,7 @@ sourceCode.getFirstTokensBetween(
 );
 // prettier-ignore
 sourceCode.getFirstTokensBetween(AST, AST, { // $ExpectType (Token & { type: "Identifier"; })[]
-    filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
+	filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
 });
 sourceCode.getFirstTokensBetween(AST, AST, {
 	count: 0,
@@ -339,9 +340,9 @@ sourceCode.getFirstTokensBetween(AST, AST, { includeComments: true }); // $Expec
 sourceCode.getFirstTokensBetween(AST, AST, { includeComments: true, count: 0 });
 // prettier-ignore
 sourceCode.getFirstTokensBetween(AST, AST, { // $ExpectType (Token & { type: "Identifier"; })[]
-    includeComments: true,
-    count: 0,
-    filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
+	includeComments: true,
+	count: 0,
+	filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
 });
 
 sourceCode.getLastTokenBetween(AST, AST);
@@ -401,8 +402,8 @@ sourceCode.getTokens(AST, {
 sourceCode.getTokens(AST, { includeComments: true }); // $ExpectType (Comment | Token)[]
 // prettier-ignore
 sourceCode.getTokens(AST, { // $ExpectType (Token & { type: "Identifier"; })[]
-    includeComments: true,
-    filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
+	includeComments: true,
+	filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
 });
 
 sourceCode.commentsExistBetween(AST, AST);
@@ -945,6 +946,16 @@ linter.verify(
 	},
 	"test.js",
 );
+linter.verify(
+	SOURCE,
+	{
+		parserOptions: {
+			ecmaVersion: 3,
+			allowReserved: true,
+		},
+	},
+	"test.js",
+);
 linter.verify(SOURCE, { env: { node: true } }, "test.js");
 linter.verify(SOURCE, { globals: { foo: true } }, "test.js");
 linter.verify(SOURCE, { globals: { foo: "off" } }, "test.js");
@@ -1073,11 +1084,11 @@ linter.defineParser("custom-parser", {
 		name: "foo",
 		version: "1.2.3",
 	},
-	parseForESLint(src, opts) {
+	parseForESLint(src, opts): Linter.ESLintParseResult {
 		return {
 			ast: AST,
 			visitorKeys: {},
-			parserServices: {},
+			services: {},
 			scopeManager,
 		};
 	},
@@ -1336,6 +1347,16 @@ linterWithEslintrcConfig.verify(
 		parserOptions: {
 			ecmaVersion: 6,
 			ecmaFeatures: { experimentalObjectRestSpread: true },
+		},
+	},
+	"test.js",
+);
+linterWithEslintrcConfig.verify(
+	SOURCE,
+	{
+		parserOptions: {
+			ecmaVersion: 3,
+			allowReserved: true,
 		},
 	},
 	"test.js",
@@ -1774,6 +1795,20 @@ for (const result of results) {
 	};
 	delete result.stats;
 
+	const deprecatedRule = result.usedDeprecatedRules[0];
+	deprecatedRule.ruleId = "foo";
+	deprecatedRule.replacedBy = ["bar"];
+	deprecatedRule.info = {
+		message: "use bar instead",
+		replacedBy: [
+			{
+				rule: {
+					name: "bar",
+				},
+			},
+		],
+	};
+
 	for (const message of result.messages) {
 		message.ruleId = "foo";
 	}
@@ -2168,3 +2203,40 @@ defineConfig([
 ]);
 
 // #endregion
+
+// #region JSSyntaxElement
+
+const fooRule1: Rule.RuleModule = {
+	create(context) {
+		return {
+			Program(node) {
+				for (const comment of node.comments ?? []) {
+					context.report({
+						node: comment,
+						messageId: "foo",
+					});
+				}
+			},
+		};
+	},
+};
+
+const fooRule2: JSRuleDefinition = {
+	create(context) {
+		return {
+			Program(node) {
+				for (const comment of node.comments ?? []) {
+					context.report({
+						node: comment,
+						messageId: "foo",
+					});
+				}
+			},
+		};
+	},
+};
+
+const SYNTAX_ELEMENT_COMMENT: JSSyntaxElement = COMMENT;
+const SYNTAX_ELEMENT_TOKEN: JSSyntaxElement = TOKEN;
+
+// #endregion JSSyntaxElement

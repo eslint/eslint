@@ -87,9 +87,9 @@ export default defineConfig([
 
 The names `"no-unused-vars"` and `"no-undef"` are the names of [rules](../rules) in ESLint. The first value is the error level of the rule and can be one of these values:
 
-- "off" or 0 - turn the rule off
-- "warn" or 1 - turn the rule on as a warning (doesn’t affect exit code)
-- "error" or 2 - turn the rule on as an error (exit code will be 1)
+- `"off"` or `0` - turn the rule off
+- `"warn"` or `1` - turn the rule on as a warning (doesn’t affect exit code)
+- `"error"` or `2` - turn the rule on as an error (exit code will be 1)
 
 The three error levels allow you fine-grained control over how ESLint applies rules (for more configuration options and details, see the configuration docs).
 
@@ -118,7 +118,7 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
 
 {{ npm_tabs({
     command: "install",
-    packages: ["eslint", "@eslint/js"],
+    packages: ["eslint@latest", "@eslint/js@latest"],
     args: ["--save-dev"]
 }) }}
 
