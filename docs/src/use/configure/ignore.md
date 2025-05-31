@@ -179,6 +179,8 @@ This message occurs because ESLint is unsure if you wanted to actually lint the 
 
 If you want to include patterns from a `.gitignore` file or any other file with gitignore-style patterns, you can use [`includeIgnoreFile`](https://github.com/eslint/rewrite/tree/main/packages/compat#including-ignore-files) utility from the [`@eslint/compat`](https://www.npmjs.com/package/@eslint/compat) package.
 
+By default, `includeIgnoreFile()` will assign a name to the config that represents your ignores. You can override this name by providing a second argument to `includeIgnoreFile()`, which is the name you'd like to use instead of the default:
+
 ```js
 // eslint.config.js
 import { defineConfig } from "eslint/config";
@@ -188,7 +190,7 @@ import { fileURLToPath } from "node:url";
 const gitignorePath = fileURLToPath(new URL(".gitignore", import.meta.url));
 
 export default defineConfig([
-	includeIgnoreFile(gitignorePath),
+	includeIgnoreFile(gitignorePath, "Imported .gitignore patterns"),
 	{
 		// your overrides
 	},
