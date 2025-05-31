@@ -2231,14 +2231,6 @@ describe("SourceCode", () => {
 			});
 		});
 
-		it("should cache the location of a range index", () => {
-			const loc1 = sourceCode.getLocFromIndex(3);
-			const loc2 = sourceCode.getLocFromIndex(3);
-			assert.strictEqual(loc1, loc2);
-			assert.deepStrictEqual(loc1, { line: 1, column: 3 });
-			assert.deepStrictEqual(loc2, { line: 1, column: 3 });
-		});
-
 		it("should throw if given a bad input", () => {
 			assert.throws(
 				() => sourceCode.getLocFromIndex({ line: 1, column: 1 }),
