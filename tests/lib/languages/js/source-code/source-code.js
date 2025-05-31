@@ -4414,7 +4414,7 @@ describe("SourceCode", () => {
 		it("should cache the result of isGlobalReference for the same node", () => {
 			const code = "Math; Math;";
 			let firstNode, secondNode, sourceCodeInstance;
-	
+
 			const config = {
 				plugins: {
 					test: {
@@ -4439,9 +4439,9 @@ describe("SourceCode", () => {
 				},
 				rules: { "test/checker": "error" },
 			};
-	
+
 			flatLinter.verify(code, config);
-	
+
 			// Spy on the internal cache
 			const cache =
 				sourceCodeInstance[
@@ -4451,30 +4451,30 @@ describe("SourceCode", () => {
 							sourceCodeInstance[sym].has("isGlobalReference"),
 					)
 				].get("isGlobalReference");
-	
+
 			// Clear cache for firstNode and count calls
 			cache.delete(firstNode);
 			let computeCount = 0;
 			const original =
-				sourceCodeInstance.scopeManager.scopes[0].set.get("Math").references
-					.some;
+				sourceCodeInstance.scopeManager.scopes[0].set.get("Math")
+					.references.some;
 			sourceCodeInstance.scopeManager.scopes[0].set.get(
 				"Math",
 			).references.some = function (...args) {
 				computeCount++;
 				return original.apply(this, args);
 			};
-	
+
 			// Call twice, should only compute once
 			sourceCodeInstance.isGlobalReference(firstNode);
 			sourceCodeInstance.isGlobalReference(firstNode);
-	
+
 			assert.strictEqual(
 				computeCount,
 				1,
 				"isGlobalReference should compute only once per node",
 			);
-	
+
 			// Second node should compute
 			sourceCodeInstance.isGlobalReference(secondNode);
 			sourceCodeInstance.isGlobalReference(secondNode);
@@ -4483,7 +4483,7 @@ describe("SourceCode", () => {
 				2,
 				"isGlobalReference should compute only once per node",
 			);
-	
+
 			// Restore
 			sourceCodeInstance.scopeManager.scopes[0].set.get(
 				"Math",
