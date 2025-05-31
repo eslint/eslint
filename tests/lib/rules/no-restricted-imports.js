@@ -3682,6 +3682,19 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 				},
 			],
 		},
+		{
+			code: `export type * from "foo";`,
+			options: [
+				{
+					paths: [
+						{
+							name: "foo",
+							allowTypeImports: true,
+						},
+					],
+				},
+			],
+		},
 	],
 	invalid: [
 		{
@@ -4359,6 +4372,28 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 				{
 					messageId: "patterns",
 					type: "TSImportEqualsDeclaration",
+				},
+			],
+		},
+		{
+			code: `
+			export type * from "foo";
+			export * from "foo";
+			`,
+			options: [
+				{
+					paths: [
+						{
+							name: "foo",
+							allowTypeImports: true,
+						},
+					],
+				},
+			],
+			errors: [
+				{
+					messageId: "path",
+					type: "ExportAllDeclaration",
 				},
 			],
 		},
