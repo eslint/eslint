@@ -1482,6 +1482,11 @@ linterWithEslintrcConfig.getRules();
 	eslint = new ESLint({ cache: true });
 	eslint = new ESLint({ cacheLocation: "foo" });
 	eslint = new ESLint({ cacheStrategy: "content" });
+
+	eslint = new ESLint({ concurrency: 8 });
+	eslint = new ESLint({ concurrency: "auto" });
+	eslint = new ESLint({ concurrency: "off" });
+
 	eslint = new ESLint({ cwd: "foo" });
 	eslint = new ESLint({ errorOnUnmatchedPattern: true });
 	eslint = new ESLint({ fix: true });
@@ -1603,6 +1608,16 @@ linterWithEslintrcConfig.getRules();
 	})();
 
 	const hasFooFlag: boolean = eslint.hasFlag("foo");
+
+	ESLint.fromOptionModule("data:text/javascript,export default [{}];").then(
+		eslint => {
+			eslint; // $ExpectType ESLint
+		},
+	);
+
+	ESLint.fromOptionModule(new URL("file:///path/to/file.js")).then(eslint => {
+		eslint; // $ExpectType ESLint
+	});
 }
 
 // #endregion

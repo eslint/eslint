@@ -4483,24 +4483,27 @@ describe("ESLint", () => {
 					assert.deepStrictEqual(results[0].usedDeprecatedRules, []);
 				});
 
-				it("should warn when deprecated rules are found in a config", async () => {
-					eslint = new ESLint({
-						flags,
-						cwd: originalDir,
-						overrideConfigFile:
-							"tests/fixtures/cli-engine/deprecated-rule-config/eslint.config.js",
-					});
-					const results = await eslint.lintFiles(["lib/cli*.js"]);
+				[void 0, 2].forEach(concurrency =>
+					it(`should warn when deprecated rules are found in a config${concurrency ? " with multithreading" : ""}`, async () => {
+						eslint = new ESLint({
+							flags,
+							cwd: originalDir,
+							overrideConfigFile:
+								"tests/fixtures/cli-engine/deprecated-rule-config/eslint.config.js",
+							concurrency,
+						});
+						const results = await eslint.lintFiles(["lib/cli*.js"]);
 
-					assert.deepStrictEqual(results[0].usedDeprecatedRules, [
-						{
-							ruleId: "indent-legacy",
-							replacedBy: ["@stylistic/indent"],
-							info: coreRules.get("indent-legacy").meta
-								.deprecated,
-						},
-					]);
-				});
+						assert.deepStrictEqual(results[0].usedDeprecatedRules, [
+							{
+								ruleId: "indent-legacy",
+								replacedBy: ["@stylistic/indent"],
+								info: coreRules.get("indent-legacy").meta
+									.deprecated,
+							},
+						]);
+					}),
+				);
 
 				it("should add the plugin name to the replacement if available", async () => {
 					const deprecated = {
@@ -10930,47 +10933,51 @@ describe("ESLint", () => {
 				assert.deepStrictEqual(rulesMeta, {});
 			});
 
-			it("should not throw an error if results contain linted files and one ignored file", async () => {
-				const engine = new ESLint({
-					flags,
-					overrideConfigFile: true,
-					cwd: getFixturePath(),
-					ignorePatterns: ["passing*"],
-					overrideConfig: {
-						rules: {
-							"no-undef": 2,
-							semi: 1,
+			[void 0, 2].forEach(concurrency =>
+				it(`should not throw an error if results contain linted files and one ignored file${concurrency ? " with multithreading" : ""}`, async () => {
+					const engine = new ESLint({
+						flags,
+						overrideConfigFile: true,
+						cwd: getFixturePath(),
+						ignorePatterns: ["passing*"],
+						overrideConfig: {
+							rules: {
+								"no-undef": 2,
+								semi: 1,
+							},
 						},
-					},
-				});
+						concurrency,
+					});
 
-				const results = await engine.lintFiles([
-					"missing-semicolon.js",
-					"passing.js",
-					"undef.js",
-				]);
+					const results = await engine.lintFiles([
+						"missing-semicolon.js",
+						"passing.js",
+						"undef.js",
+					]);
 
-				assert(
-					results.some(({ messages }) =>
-						messages.some(
-							({ message, ruleId }) =>
-								!ruleId && message.startsWith("File ignored"),
+					assert(
+						results.some(({ messages }) =>
+							messages.some(
+								({ message, ruleId }) =>
+									!ruleId &&
+									message.startsWith("File ignored"),
+							),
 						),
-					),
-					"At least one file should be ignored but none is.",
-				);
+						"At least one file should be ignored but none is.",
+					);
 
-				const rulesMeta = engine.getRulesMetaForResults(results);
+					const rulesMeta = engine.getRulesMetaForResults(results);
 
-				assert.deepStrictEqual(
-					rulesMeta["no-undef"],
-					coreRules.get("no-undef").meta,
-				);
-				assert.deepStrictEqual(
-					rulesMeta.semi,
-					coreRules.get("semi").meta,
-				);
-			});
+					assert.deepStrictEqual(
+						rulesMeta["no-undef"],
+						coreRules.get("no-undef").meta,
+					);
+					assert.deepStrictEqual(
+						rulesMeta.semi,
+						coreRules.get("semi").meta,
+					);
+				}),
+			);
 
 			it("should return empty object when there are no linting errors", async () => {
 				const engine = new ESLint({
