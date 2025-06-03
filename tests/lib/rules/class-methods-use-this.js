@@ -485,6 +485,7 @@ ruleTesterTypeScript.run("class-methods-use-this", rule, {
 		"class A { foo = () => {this} }",
 		"class A { accessor foo = function() {this} }",
 		"class A { accessor foo = () => {this} }",
+		"class A { accessor foo = 1; }",
 		"class A { foo = () => {super.toString} }",
 		"class A { static foo = function() {} }",
 		"class A { static foo = () => {} }",
@@ -741,6 +742,18 @@ ruleTesterTypeScript.run("class-methods-use-this", rule, {
 		{
 			code: `
   class Foo {
+	accessor method = function () {}
+  }
+        `,
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
+  class Foo {
     accessor method = () => {}
   }
         `,
@@ -768,6 +781,22 @@ ruleTesterTypeScript.run("class-methods-use-this", rule, {
     protected accessor method = () => {}
   }
         `,
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
+	class A {
+		foo() {
+			return class {
+				accessor bar = this;
+			};
+		}
+	}
+			`,
 			errors: [
 				{
 					messageId: "missingThis",
