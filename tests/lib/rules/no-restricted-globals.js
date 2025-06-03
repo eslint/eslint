@@ -444,7 +444,19 @@ ruleTesterTypeScript.run("no-restricted-globals", rule, {
 		},
 		{
 			code: "let value: NS.Test",
+			options: ["NS"],
+		},
+		{
+			code: "let value: NS.Test",
+			options: ["Test"],
+		},
+		{
+			code: "let value: NS.Test",
 			options: ["NS.Test"],
+		},
+		{
+			code: "let value: typeof Test",
+			options: ["Test"],
 		},
 		{
 			code: "let value: Type<Test>",
