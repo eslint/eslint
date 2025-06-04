@@ -192,7 +192,7 @@ This example uses the configuration file at `~/my.eslint.config.js`, which is us
 
 #### `--inspect-config`
 
-**Flat Config Mode Only.** This option runs `npx @eslint/config-inspector@latest` to start the config inspector. You can use the [config inspector](https://github.com/eslint/config-inspector) to better understand what your configuration is doing and which files it applies to. When you use this flag, the CLI does not perform linting.
+**Flat Config Mode Only.** This option runs `npx @eslint/config-inspector@latest` to start the [config inspector](https://github.com/eslint/config-inspector). You can use the config inspector to better understand what your configuration is doing and which files it applies to. When you use this flag, the CLI does not perform linting.
 
 - **Argument Type**: No argument.
 
