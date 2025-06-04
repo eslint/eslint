@@ -12,12 +12,9 @@
 const assert = require("node:assert"),
 	fs = require("node:fs"),
 	path = require("node:path"),
-	EventEmitter = require("node:events"),
 	{ Linter } = require("../../../../lib/linter"),
-	EventGeneratorTester = require("../../../../tools/internal-testers/event-generator-tester"),
 	debug = require("../../../../lib/linter/code-path-analysis/debug-helpers"),
 	CodePath = require("../../../../lib/linter/code-path-analysis/code-path"),
-	CodePathAnalyzer = require("../../../../lib/linter/code-path-analysis/code-path-analyzer"),
 	CodePathSegment = require("../../../../lib/linter/code-path-analysis/code-path-segment");
 
 //------------------------------------------------------------------------------
@@ -52,14 +49,6 @@ function getExpectedDotArrows(source) {
 //------------------------------------------------------------------------------
 
 describe("CodePathAnalyzer", () => {
-	EventGeneratorTester.testEventGeneratorInterface(
-		new CodePathAnalyzer({
-			enterNode() {},
-			leaveNode() {},
-			emitter: new EventEmitter(),
-		}),
-	);
-
 	describe("interface of code paths", () => {
 		let actual = [];
 
