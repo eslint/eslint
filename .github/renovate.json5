@@ -30,6 +30,13 @@
       matchPackagePrefixes: ["@babel", "babel-"],
     },
     {
+      description: "Update ESLint packages together.",
+      groupName: "eslint",
+      matchPackagePrefixes: ["@eslint/"],
+      matchPackageNames: ["espree", "eslint-scope"],
+      minimumReleaseAge: null, // Don't wait for these packages
+    },
+    {
       description: "Group metascraper packages into a single PR.",
       groupName: "metascraper",
       matchPackagePrefixes: ["metascraper"],
