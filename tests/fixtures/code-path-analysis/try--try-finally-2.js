@@ -1,4 +1,6 @@
-/*eslint-env node*/
+/*languageOptions
+    { "sourceType": "commonjs" }
+*/
 /*expected
 initial->s1_1->s1_2->s1_3;
 s1_1->s1_4;
