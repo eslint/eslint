@@ -52,6 +52,16 @@ ruleTester.run("no-inner-declarations", rule, {
 			options: ["both"],
 			languageOptions: { ecmaVersion: 6 },
 		},
+		{
+			code: "if (test) { using x = 1; }",
+			options: ["both"],
+			languageOptions: { ecmaVersion: 2026, sourceType: "module", parser: require("@typescript-eslint/parser") },
+		},
+		{
+			code: "if (test) { await using x = 1; }",
+			options: ["both"],
+			languageOptions: { ecmaVersion: 2026, sourceType: "module", parser: require("@typescript-eslint/parser") },
+		},
 		"function doSomething() { while (test) { var foo; } }",
 		{ code: "var foo;", options: ["both"] },
 		{ code: "var foo = 42;", options: ["both"] },

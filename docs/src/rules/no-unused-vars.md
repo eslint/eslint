@@ -20,6 +20,7 @@ A variable `foo` is considered to be used if any of the following are true:
 * It is read (`let bar = foo`)
 * It is passed into a function as an argument (`doSomething(foo)`)
 * It is read inside of a function that is passed to another function (`doSomething(function() { foo(); })`)
+* It uses explicit resource management by declaring the variable with `using` or `await using`
 
 A variable is *not* considered to be used if it is only ever declared (`let foo = 5`) or assigned to (`foo = 7`).
 
