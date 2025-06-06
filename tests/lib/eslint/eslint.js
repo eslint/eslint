@@ -115,6 +115,9 @@ describe("ESLint", () => {
 	/** @type {ESLint} */
 	let ESLint;
 
+	/** @type {?BroadcastChannel} */
+	let testChannel = null;
+
 	/**
 	 * Returns the path inside of the fixture directory.
 	 * @param {...string} args file path segments.
@@ -174,6 +177,10 @@ describe("ESLint", () => {
 
 	afterEach(() => {
 		sinon.restore();
+		if (testChannel) {
+			testChannel.close();
+			testChannel = null;
+		}
 	});
 
 	[[], ["v10_config_lookup_from_file"]].forEach(flags => {
@@ -293,6 +300,7 @@ describe("ESLint", () => {
 							baseConfig: "",
 							cache: "",
 							cacheLocation: "",
+							concurrency: "",
 							cwd: "foo",
 							errorOnUnmatchedPattern: "",
 							fix: "",
@@ -314,6 +322,7 @@ describe("ESLint", () => {
 								"- 'baseConfig' must be an object or null.",
 								"- 'cache' must be a boolean.",
 								"- 'cacheLocation' must be a non-empty string.",
+								'- \'concurrency\' must be a positive integer, "auto", or "off".',
 								"- 'cwd' must be an absolute path.",
 								"- 'errorOnUnmatchedPattern' must be a boolean.",
 								"- 'fix' must be a boolean or a function.",
@@ -8940,7 +8949,11 @@ describe("ESLint", () => {
 					},
 				});
 
-				await assert.rejects(eslint.lintFiles("*.js"));
+				await assert.rejects(eslint.lintFiles("*.js"), ({ message }) =>
+					message.includes(
+						"Error while loading rule 'boom/boom': Boom!",
+					),
+				);
 
 				// Wait until all files have been closed.
 				// eslint-disable-next-line n/no-unsupported-features/node-builtins -- it's still an experimental feature.
@@ -8948,6 +8961,62 @@ describe("ESLint", () => {
 					await timers.setImmediate();
 				}
 				assert.strictEqual(createCallCount, 1);
+			});
+
+			it("should stop linting files if a rule crashes with multithreading", async () => {
+				const concurrency = 2;
+				const cwd = getFixturePath();
+				let createCallCount = 0;
+
+				testChannel = new BroadcastChannel("eslint-test");
+				testChannel.onmessage = event => {
+					if (event.data === "Rule created") {
+						createCallCount++;
+					}
+				};
+
+				const optionsSrc = `
+				export default {
+					flags: ${JSON.stringify(flags)},
+					concurrency: ${concurrency},
+					cwd: ${JSON.stringify(cwd)},
+					plugins: {
+						boom: {
+							rules: {
+								boom: {
+									create() {
+										const channel = new BroadcastChannel("eslint-test");
+										channel.postMessage("Rule created");
+										channel.close();
+										throw Error("Boom!");
+									},
+								},
+							},
+						},
+					},
+					baseConfig: {
+						rules: {
+							"boom/boom": "error",
+						},
+					},
+				};
+				`;
+				const optionsURL = `data:text/javascript,${encodeURIComponent(optionsSrc)}`;
+				eslint = await ESLint.fromOptionModule(optionsURL);
+
+				await assert.rejects(eslint.lintFiles("*.js"), ({ message }) =>
+					message.includes(
+						"Error while loading rule 'boom/boom': Boom!",
+					),
+				);
+				assert(
+					createCallCount >= 1,
+					"expected create() to be called at least once",
+				);
+				assert(
+					createCallCount <= concurrency,
+					`expected create() to be called at most ${concurrency} times`,
+				);
 			});
 
 			// https://github.com/eslint/eslint/issues/19243
@@ -15091,7 +15160,7 @@ describe("ESLint", () => {
 		});
 	});
 
-	describe("fromOptionModule", () => {
+	describe("ESLint.fromOptionModule", () => {
 		it("should return an instance of ESLint", async () => {
 			const url =
 				"data:text/javascript,export default { flags: ['test_only'] }";
@@ -15109,5 +15178,57 @@ describe("ESLint", () => {
 		it("should throw an error with an invalid argument", async () => {
 			await assert.rejects(() => ESLint.fromOptionModule("invalid-url"));
 		});
+	});
+
+	describe("caclulateWorkerCount", () => {
+		const { calculateWorkerCount } = require("../../../lib/eslint/eslint");
+
+		/**
+		 * Defines a test for `calculateWorkerCount` with the given parameters.
+		 * @param {number | "auto" | "off"} concurrency The normalized concurrency setting.
+		 * @param {number} fileCount The number of files to lint. An integer greater than 0.
+		 * @param {number} availableCores The number of available cores.
+		 * @param {number} expectedWorkerCount The expected return value of `calculateWorkerCount`.
+		 * @returns {Mocha.TestFunction} A Mocha test function.
+		 */
+		function testCalculateWorkerCount(
+			concurrency,
+			fileCount,
+			availableCores,
+			expectedWorkerCount,
+		) {
+			return it(`should return ${expectedWorkerCount} when concurrency is ${concurrency} with ${fileCount} file(s) and ${availableCores} available core(s)`, () => {
+				const actualWorkerCount = calculateWorkerCount(
+					concurrency,
+					fileCount,
+					{ availableParallelism: () => availableCores },
+				);
+				assert.strictEqual(actualWorkerCount, expectedWorkerCount);
+			});
+		}
+
+		// Returns numeric `concurrency` if the number of files is not less
+		testCalculateWorkerCount(1, 1, 1, 1);
+		testCalculateWorkerCount(1, 10, 8, 1);
+		testCalculateWorkerCount(3, 10, 8, 3);
+		testCalculateWorkerCount(42, 42, 4, 42);
+
+		// Returns the number of files if `concurrency` is larger
+		testCalculateWorkerCount(42, 1, 8, 1);
+		testCalculateWorkerCount(4, 3, 8, 3);
+
+		// Returns 0 if concurrency is "off"
+		testCalculateWorkerCount("off", 1000, 8, 0);
+
+		// Returns 0 if concurrency is "auto" and there are only a few files to lint
+		testCalculateWorkerCount("auto", 15, 8, 0);
+
+		// Returns 0 if concurrency is "auto" and there are less that four available cores
+		testCalculateWorkerCount("auto", 42, 1, 0);
+		testCalculateWorkerCount("auto", 1000, 2, 0);
+		testCalculateWorkerCount("auto", 123, 0, 0);
+
+		// Returns half the number of available cores if concurrency is "auto" and there are many files to lint
+		testCalculateWorkerCount("auto", 1000, 8, 4);
 	});
 });
