@@ -11,7 +11,7 @@
 
 const assert = require("node:assert"),
 	{ Linter } = require("../../../../lib/linter");
-const linter = new Linter({ configType: "eslintrc" });
+const linter = new Linter();
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -25,17 +25,21 @@ const linter = new Linter({ configType: "eslintrc" });
 function parseCodePaths(code) {
 	const retv = [];
 
-	linter.defineRule("test", {
-		create: () => ({
-			onCodePathStart(codePath) {
-				retv.push(codePath);
-			},
-		}),
-	});
-
 	linter.verify(code, {
-		rules: { test: 2 },
-		parserOptions: { ecmaVersion: "latest" },
+		plugins: {
+			"test-plugin": {
+				rules: {
+					"test-rule": {
+						create: () => ({
+							onCodePathStart(codePath) {
+								retv.push(codePath);
+							},
+						}),
+					},
+				},
+			},
+		},
+		rules: { "test-plugin/test-rule": 2 },
 	});
 
 	return retv;
