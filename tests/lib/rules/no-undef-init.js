@@ -29,6 +29,10 @@ ruleTester.run("no-undef-init", rule, {
 			code: "class C { field = undefined; }",
 			languageOptions: { ecmaVersion: 2022 },
 		},
+		{
+			code: "using a = condition ? getDisposableResource() : undefined;",
+			languageOptions: { ecmaVersion: 2026, sourceType: "module", parser: require("@typescript-eslint/parser") },
+		},
 	],
 	invalid: [
 		{
