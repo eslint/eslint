@@ -16,7 +16,7 @@
 **Please provide some example code that this change will affect:**
 
 ```js
-<!-- example code here -->
+/* example code here */
 ```
 
 **What does the rule currently do for this code?**
