@@ -258,19 +258,35 @@ ruleTester.run("prefer-destructuring", rule, {
 		},
 		{
 			code: "using foo = array[0];",
-			languageOptions: { sourceType: "module", ecmaVersion: 2026, parser: require("@typescript-eslint/parser") },
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+				parser: require("@typescript-eslint/parser"),
+			},
 		},
 		{
 			code: "using foo = object.foo;",
-			languageOptions: { sourceType: "module", ecmaVersion: 2026, parser: require("@typescript-eslint/parser") },
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+				parser: require("@typescript-eslint/parser"),
+			},
 		},
-			{
+		{
 			code: "await using foo = array[0];",
-			languageOptions: { sourceType: "module", ecmaVersion: 2026, parser: require("@typescript-eslint/parser") },
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+				parser: require("@typescript-eslint/parser"),
+			},
 		},
 		{
 			code: "await using foo = object.foo;",
-			languageOptions: { sourceType: "module", ecmaVersion: 2026, parser: require("@typescript-eslint/parser") },
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+				parser: require("@typescript-eslint/parser"),
+			},
 		},
 	],
 

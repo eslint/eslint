@@ -31,12 +31,20 @@ ruleTester.run("no-const-assign", rule, {
 		"var x = 0; x = 1;",
 		"let x = 0; x = 1;",
 		{
-			code: 'using resource = fn();',
-			languageOptions: { sourceType: "module", ecmaVersion: 2026, parser: require("@typescript-eslint/parser") },
+			code: "using resource = fn();",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+				parser: require("@typescript-eslint/parser"),
+			},
 		},
 		{
-			code: 'await using resource = fn();',
-			languageOptions: { sourceType: "module", ecmaVersion: 2026, parser: require("@typescript-eslint/parser") },
+			code: "await using resource = fn();",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+				parser: require("@typescript-eslint/parser"),
+			},
 		},
 		"function x() {} x = 1;",
 		"function foo(x) { x = 1; }",

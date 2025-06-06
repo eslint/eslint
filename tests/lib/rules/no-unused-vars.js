@@ -767,16 +767,28 @@ ruleTester.run("no-unused-vars", rule, {
 		},
 		{
 			code: "using resource = getResource();\nresource;",
-			languageOptions: { sourceType: "module", ecmaVersion: 2026, parser: require("@typescript-eslint/parser") }
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+				parser: require("@typescript-eslint/parser"),
+			},
 		},
 		{
 			code: "using resource = getResource();",
-			languageOptions: { sourceType: "module", ecmaVersion: 2026, parser: require("@typescript-eslint/parser") }
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+				parser: require("@typescript-eslint/parser"),
+			},
 		},
 		{
 			code: "await using resource = getResource();",
-			languageOptions: { sourceType: "module", ecmaVersion: 2026, parser: require("@typescript-eslint/parser") }
-		}
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+				parser: require("@typescript-eslint/parser"),
+			},
+		},
 	],
 	invalid: [
 		{

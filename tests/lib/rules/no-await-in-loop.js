@@ -61,21 +61,23 @@ ruleTester.run("no-await-in-loop", rule, {
 				sourceType: "module",
 				ecmaVersion: 2026,
 				parser: require("@typescript-eslint/parser"),
-			}
-		}, {
+			},
+		},
+		{
 			code: "while (true) { using resource = getResource(); }",
 			languageOptions: {
 				sourceType: "module",
 				ecmaVersion: 2026,
 				parser: require("@typescript-eslint/parser"),
-			}
-		}, {
+			},
+		},
+		{
 			code: "async function foo() { while (true) { async function foo() { await using resource = getResource(); } } }",
 			languageOptions: {
 				sourceType: "module",
 				ecmaVersion: 2026,
 				parser: require("@typescript-eslint/parser"),
-			}
+			},
 		},
 	],
 	invalid: [
@@ -154,13 +156,21 @@ ruleTester.run("no-await-in-loop", rule, {
 		// Explicit Resource Management
 		{
 			code: "while (true) { await using resource = getResource(); }",
-			languageOptions: { sourceType: "module", ecmaVersion: 2026, parser: require("@typescript-eslint/parser") },
-			errors: [{ ...error, type: 'VariableDeclaration' }],
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+				parser: require("@typescript-eslint/parser"),
+			},
+			errors: [{ ...error, type: "VariableDeclaration" }],
 		},
 		{
 			code: "for (;;) { await using resource = getResource(); }",
-			languageOptions: { sourceType: "module", ecmaVersion: 2026, parser: require("@typescript-eslint/parser") },
-			errors: [{ ...error, type: 'VariableDeclaration' }],
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+				parser: require("@typescript-eslint/parser"),
+			},
+			errors: [{ ...error, type: "VariableDeclaration" }],
 		},
 	],
 });
