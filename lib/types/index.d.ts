@@ -1831,7 +1831,7 @@ export namespace Linter {
 	}
 
 	/** @deprecated  Use `Config` instead of `FlatConfig` */
-	type FlatConfig = Config;
+	type FlatConfig<Rules extends RulesRecord = RulesRecord> = Config<Rules>;
 
 	type GlobalConf =
 		| boolean
