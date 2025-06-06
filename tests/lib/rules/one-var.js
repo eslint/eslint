@@ -273,12 +273,18 @@ ruleTester.run("one-var", rule, {
 		{
 			code: "using a = 0, b = 1;",
 			options: ["consecutive"],
-			languageOptions: { sourceType: "module", parser: require("@typescript-eslint/parser") },
+			languageOptions: {
+				sourceType: "module",
+				parser: require("@typescript-eslint/parser"),
+			},
 		},
 		{
 			code: "using a = 0; await using b = 1;",
 			options: ["consecutive"],
-			languageOptions: { sourceType: "module", parser: require("@typescript-eslint/parser") },
+			languageOptions: {
+				sourceType: "module",
+				parser: require("@typescript-eslint/parser"),
+			},
 		},
 
 		// https://github.com/eslint/eslint/issues/10784
@@ -650,14 +656,21 @@ ruleTester.run("one-var", rule, {
 		{
 			code: "using a = 0; using b = 1;",
 			options: ["consecutive"],
-			languageOptions: { ecmaVersion: 2026, sourceType: "module", parser: require("@typescript-eslint/parser") },
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+				parser: require("@typescript-eslint/parser"),
+			},
 		},
 		{
 			code: "await using a = 0; await using b = 1;",
 			options: ["consecutive"],
-			languageOptions: { ecmaVersion: 2026, sourceType: "module", parser: require("@typescript-eslint/parser") },
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+				parser: require("@typescript-eslint/parser"),
+			},
 		},
-
 	],
 	invalid: [
 		{

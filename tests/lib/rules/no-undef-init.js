@@ -31,7 +31,11 @@ ruleTester.run("no-undef-init", rule, {
 		},
 		{
 			code: "using a = condition ? getDisposableResource() : undefined;",
-			languageOptions: { ecmaVersion: 2026, sourceType: "module", parser: require("@typescript-eslint/parser") },
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+				parser: require("@typescript-eslint/parser"),
+			},
 		},
 	],
 	invalid: [

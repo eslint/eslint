@@ -90,13 +90,21 @@ ruleTester.run("require-await", rule, {
 			languageOptions: { ecmaVersion: 9 },
 		},
 		{
-			code: 'await using resource = getResource();',
-			languageOptions: { sourceType: "module", ecmaVersion: 2026, parser: require("@typescript-eslint/parser") }
+			code: "await using resource = getResource();",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+				parser: require("@typescript-eslint/parser"),
+			},
 		},
 		{
-			code: 'async function run() { await using resource = getResource(); }',
-			languageOptions: { sourceType: "module", ecmaVersion: 2026, parser: require("@typescript-eslint/parser") }
-		}
+			code: "async function run() { await using resource = getResource(); }",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+				parser: require("@typescript-eslint/parser"),
+			},
+		},
 	],
 	invalid: [
 		{
@@ -344,20 +352,23 @@ ruleTester.run("require-await", rule, {
 			],
 		},
 		{
-			code: 'async function run() { using resource = getResource(); }',
-			languageOptions: { ecmaVersion: 2026, parser: require("@typescript-eslint/parser") },
+			code: "async function run() { using resource = getResource(); }",
+			languageOptions: {
+				ecmaVersion: 2026,
+				parser: require("@typescript-eslint/parser"),
+			},
 			errors: [
 				{
 					messageId: "missingAwait",
 					data: { name: "Async function 'run'" },
 					suggestions: [
 						{
-							output: 'function run() { using resource = getResource(); }',
+							output: "function run() { using resource = getResource(); }",
 							messageId: "removeAsync",
 						},
 					],
 				},
 			],
-		}
+		},
 	],
 });

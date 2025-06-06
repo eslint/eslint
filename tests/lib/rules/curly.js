@@ -177,7 +177,11 @@ ruleTester.run("curly", rule, {
 		{
 			code: "if (foo) { const bar = 'baz'; }",
 			options: ["multi"],
-			languageOptions: { ecmaVersion: 2026, sourceType: "module", parser: require("@typescript-eslint/parser") },
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+				parser: require("@typescript-eslint/parser"),
+			},
 		},
 		{
 			code: "while (foo) { let bar = 'baz'; }",

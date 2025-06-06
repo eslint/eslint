@@ -46,11 +46,19 @@ ruleTester.run("prefer-const", rule, {
 		"let x = 0; x = 1;",
 		{
 			code: "using resource = fn();",
-			languageOptions: { sourceType: "module", ecmaVersion: 2026, parser: require("@typescript-eslint/parser") },
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+				parser: require("@typescript-eslint/parser"),
+			},
 		},
 		{
 			code: "await using resource = fn();",
-			languageOptions: { sourceType: "module", ecmaVersion: 2026, parser: require("@typescript-eslint/parser") },
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+				parser: require("@typescript-eslint/parser"),
+			},
 		},
 		"const x = 0;",
 		"for (let i = 0, end = 10; i < end; ++i) {}",
