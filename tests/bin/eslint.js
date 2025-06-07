@@ -1178,6 +1178,33 @@ describe("bin/eslint.js", () => {
 					);
 				});
 			});
+
+			it("prunes suppressions for files that don't exist", () => {
+				const suppressions = structuredClone(
+					SUPPRESSIONS_FILE_ALL_ERRORS,
+				);
+				const nonExistentFile =
+					"tests/fixtures/suppressions/non-existent-file.js";
+
+				suppressions[nonExistentFile] = {
+					"no-undef": { count: 1 },
+				};
+
+				fs.writeFileSync(
+					SUPPRESSIONS_PATH,
+					JSON.stringify(suppressions, null, 2),
+				);
+
+				const child = runESLint(ARGS_WITH_PRUNE_SUPPRESSIONS);
+
+				return assertExitCode(child, 0).then(() => {
+					assert.deepStrictEqual(
+						JSON.parse(fs.readFileSync(SUPPRESSIONS_PATH, "utf8")),
+						SUPPRESSIONS_FILE_ALL_ERRORS,
+						"Suppressions for existing files should remain unchanged",
+					);
+				});
+			});
 		});
 	});
 
