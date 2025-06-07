@@ -2135,6 +2135,12 @@ let flatConfig!: Linter.FlatConfig;
 config = flatConfig;
 flatConfig = config;
 
+let configWithRules!: Linter.Config<ESLintRules>;
+let flatConfigWithRules!: Linter.FlatConfig<ESLintRules>;
+configWithRules = flatConfigWithRules;
+flatConfigWithRules = configWithRules;
+flatConfigWithRules.rules; // $ExpectType Partial<ESLintRules> | undefined
+
 // #endregion Config
 
 // #region Plugins
