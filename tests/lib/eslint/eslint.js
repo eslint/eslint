@@ -33,6 +33,7 @@ const { defaultConfig } = require("../../../lib/config/default-config");
 const coreRules = require("../../../lib/rules");
 const espree = require("espree");
 const { WarningService } = require("../../../lib/services/warning-service");
+const { pathToFileURL } = require("node:url");
 
 //------------------------------------------------------------------------------
 // Constants
@@ -4513,6 +4514,29 @@ describe("ESLint", () => {
 						]);
 					}),
 				);
+
+				it("should warn about a deprecated rules when a file path is passed explicitly with multithreading", async () => {
+					eslint = new ESLint({
+						flags,
+						cwd: originalDir,
+						overrideConfigFile: true,
+						overrideConfig: {
+							rules: {
+								semi: "error",
+							},
+						},
+						concurrency: 1,
+					});
+					const results = await eslint.lintFiles("lib/cli.js");
+
+					assert.deepStrictEqual(results[0].usedDeprecatedRules, [
+						{
+							ruleId: "semi",
+							replacedBy: ["@stylistic/js/semi"],
+							info: coreRules.get("semi").meta.deprecated,
+						},
+					]);
+				});
 
 				it("should add the plugin name to the replacement if available", async () => {
 					const deprecated = {
@@ -10923,6 +10947,14 @@ describe("ESLint", () => {
 			});
 
 			it("should throw an error when results were created from a different instance", async () => {
+				const teardown = createCustomTeardown({
+					cwd: fixtureDir,
+					files: {
+						"baz/file.js": "3",
+					},
+				});
+				await teardown.prepare();
+
 				const engine1 = new ESLint({
 					flags,
 					overrideConfigFile: true,
@@ -10943,6 +10975,17 @@ describe("ESLint", () => {
 						},
 					},
 				});
+				const engine3 = new ESLint({
+					flags,
+					overrideConfigFile: true,
+					cwd: path.join(fixtureDir, "baz"),
+					overrideConfig: {
+						rules: {
+							semi: 2,
+						},
+					},
+					concurrency: 1,
+				});
 
 				const results1 = await engine1.lintText("1", {
 					filePath: "file.js",
@@ -10950,11 +10993,24 @@ describe("ESLint", () => {
 				const results2 = await engine2.lintText("2", {
 					filePath: "file.js",
 				});
+				const results3 = await engine3.lintFiles("file.js");
 
 				engine1.getRulesMetaForResults(results1); // should not throw an error
 				assert.throws(
 					() => {
 						engine1.getRulesMetaForResults(results2);
+					},
+					{
+						constructor: TypeError,
+						message:
+							"Results object was not created from this ESLint instance.",
+					},
+				);
+
+				engine3.getRulesMetaForResults(results3); // should not throw an error
+				assert.throws(
+					() => {
+						engine3.getRulesMetaForResults(results2);
 					},
 					{
 						constructor: TypeError,
@@ -11048,7 +11104,7 @@ describe("ESLint", () => {
 				}),
 			);
 
-			it("should return empty object when there are no linting errors", async () => {
+			it("should return an empty object when there are no linting errors", async () => {
 				const engine = new ESLint({
 					flags,
 					overrideConfigFile: true,
@@ -11079,6 +11135,29 @@ describe("ESLint", () => {
 				assert.strictEqual(rulesMeta.semi, coreRules.get("semi").meta);
 			});
 
+			it("should return one rule meta when there is a linting error with multithreading", async () => {
+				const engine = new ESLint({
+					flags,
+					overrideConfigFile: true,
+					overrideConfig: {
+						rules: {
+							semi: 2,
+						},
+					},
+					cwd: getFixturePath(),
+					concurrency: 1,
+				});
+
+				const results = await engine.lintFiles("missing-semicolon.js");
+				const rulesMeta = engine.getRulesMetaForResults(results);
+
+				assert.strictEqual(Object.keys(rulesMeta).length, 1);
+				assert.deepStrictEqual(
+					rulesMeta.semi,
+					coreRules.get("semi").meta,
+				);
+			});
+
 			it("should return one rule meta when there is a suppressed linting error", async () => {
 				const engine = new ESLint({
 					flags,
@@ -11099,6 +11178,31 @@ describe("ESLint", () => {
 				assert.strictEqual(rulesMeta.semi, coreRules.get("semi").meta);
 			});
 
+			it("should return one rule meta when there is a suppressed linting error with multithreading", async () => {
+				const engine = new ESLint({
+					flags,
+					overrideConfigFile: true,
+					overrideConfig: {
+						rules: {
+							"no-console": "error",
+						},
+					},
+					concurrency: 1,
+					cwd: getFixturePath(),
+				});
+
+				const results = await engine.lintFiles(
+					"disable-inline-config.js",
+				);
+				const rulesMeta = engine.getRulesMetaForResults(results);
+
+				assert.strictEqual(Object.keys(rulesMeta).length, 1);
+				assert.deepStrictEqual(
+					rulesMeta["no-console"],
+					coreRules.get("no-console").meta,
+				);
+			});
+
 			it("should return multiple rule meta when there are multiple linting errors", async () => {
 				const engine = new ESLint({
 					flags,
@@ -11116,6 +11220,33 @@ describe("ESLint", () => {
 
 				assert.strictEqual(rulesMeta.semi, coreRules.get("semi").meta);
 				assert.strictEqual(
+					rulesMeta.quotes,
+					coreRules.get("quotes").meta,
+				);
+			});
+
+			it("should return multiple rule meta when there are multiple linting errors with multithreading", async () => {
+				const engine = new ESLint({
+					flags,
+					overrideConfigFile: true,
+					overrideConfig: {
+						rules: {
+							"no-console": 2,
+							quotes: [2, "double"],
+						},
+					},
+					cwd: getFixturePath(),
+					concurrency: 1,
+				});
+
+				const results = await engine.lintFiles("single-quoted.js");
+				const rulesMeta = engine.getRulesMetaForResults(results);
+
+				assert.deepStrictEqual(
+					rulesMeta["no-console"],
+					coreRules.get("no-console").meta,
+				);
+				assert.deepStrictEqual(
 					rulesMeta.quotes,
 					coreRules.get("quotes").meta,
 				);
@@ -11153,6 +11284,59 @@ describe("ESLint", () => {
 					coreRules.get("quotes").meta,
 				);
 				assert.strictEqual(
+					rulesMeta["custom-plugin/no-var"],
+					customPlugin.rules["no-var"].meta,
+				);
+			});
+
+			it("should return multiple rule meta when there are multiple linting errors from a plugin with multithreading", async () => {
+				const noVarURL = new URL(
+					"../../lib/rules/no-var.js",
+					pathToFileURL(__dirname),
+				).href;
+				const optionsSrc = `
+				import noVar from ${JSON.stringify(noVarURL)};
+
+				const customPlugin = {
+					rules: {
+						"no-var": noVar,
+					},
+				};
+
+				export { customPlugin };
+				export default {
+					flags: ${JSON.stringify(flags)},
+					overrideConfigFile: true,
+					overrideConfig: {
+						plugins: {
+							"custom-plugin": customPlugin,
+						},
+						rules: {
+							"custom-plugin/no-var": 2,
+							"no-console": 2,
+							"no-undef": 2,
+						},
+					},
+					cwd: ${JSON.stringify(getFixturePath())},
+					concurrency: 1,
+				};
+				`;
+				const optionsURL = `data:text/javascript,${encodeURIComponent(optionsSrc)}`;
+				const { customPlugin } = await import(optionsURL);
+				const engine = await ESLint.fromOptionModule(optionsURL);
+
+				const results = await engine.lintFiles("globals-node.js");
+				const rulesMeta = engine.getRulesMetaForResults(results);
+
+				assert.deepStrictEqual(
+					rulesMeta["no-console"],
+					coreRules.get("no-console").meta,
+				);
+				assert.deepStrictEqual(
+					rulesMeta["no-undef"],
+					coreRules.get("no-undef").meta,
+				);
+				assert.deepStrictEqual(
 					rulesMeta["custom-plugin/no-var"],
 					customPlugin.rules["no-var"].meta,
 				);
@@ -11198,6 +11382,33 @@ describe("ESLint", () => {
 				}
 			});
 
+			it("should ignore messages not related to a rule with multithreading", async () => {
+				const engine = new ESLint({
+					flags,
+					overrideConfigFile: true,
+					ignorePatterns: ["undef.js"],
+					overrideConfig: {
+						rules: {
+							"no-var": "warn",
+						},
+						linterOptions: {
+							reportUnusedDisableDirectives: "warn",
+						},
+					},
+					cwd: getFixturePath(),
+					concurrency: 3,
+				});
+
+				const results = await engine.lintFiles([
+					"disable-inline-config.js",
+					"syntax-error.js",
+					"undef.js",
+				]);
+				const rulesMeta = engine.getRulesMetaForResults(results);
+
+				assert.deepStrictEqual(rulesMeta, {});
+			});
+
 			it("should return a non-empty value if some of the messages are related to a rule", async () => {
 				const engine = new ESLint({
 					flags,
@@ -11220,7 +11431,37 @@ describe("ESLint", () => {
 				});
 			});
 
-			it("should return empty object if all messages are related to unknown rules", async () => {
+			it("should return a non-empty value if some of the messages are related to a rule with multithreading", async () => {
+				const teardown = createCustomTeardown({
+					cwd: fixtureDir,
+					files: {
+						"file.js": "// eslint-disable-line no-var\nvar foo;",
+					},
+				});
+				await teardown.prepare();
+
+				const engine = new ESLint({
+					flags,
+					overrideConfigFile: true,
+					overrideConfig: {
+						rules: { "no-var": "warn" },
+						linterOptions: {
+							reportUnusedDisableDirectives: "warn",
+						},
+					},
+					cwd: fixtureDir,
+					concurrency: 1,
+				});
+
+				const results = await engine.lintFiles("file.js");
+				const rulesMeta = engine.getRulesMetaForResults(results);
+
+				assert.deepStrictEqual(rulesMeta, {
+					"no-var": coreRules.get("no-var").meta,
+				});
+			});
+
+			it("should return an empty object if all messages are related to unknown rules", async () => {
 				const engine = new ESLint({
 					flags,
 					overrideConfigFile: true,
@@ -11243,7 +11484,39 @@ describe("ESLint", () => {
 				assert.strictEqual(Object.keys(rulesMeta).length, 0);
 			});
 
-			it("should return object with meta of known rules if some messages are related to unknown rules", async () => {
+			it("should return an empty object if all messages are related to unknown rules with multithreading", async () => {
+				const teardown = createCustomTeardown({
+					cwd: fixtureDir,
+					files: {
+						"file.js":
+							"// eslint-disable-line foo, bar/baz, bar/baz/qux",
+					},
+				});
+				await teardown.prepare();
+
+				const engine = new ESLint({
+					flags,
+					overrideConfigFile: true,
+					cwd: fixtureDir,
+					concurrency: 1,
+				});
+
+				const results = await engine.lintFiles("file.js");
+
+				assert.strictEqual(results[0].messages.length, 3);
+				assert.strictEqual(results[0].messages[0].ruleId, "foo");
+				assert.strictEqual(results[0].messages[1].ruleId, "bar/baz");
+				assert.strictEqual(
+					results[0].messages[2].ruleId,
+					"bar/baz/qux",
+				);
+
+				const rulesMeta = engine.getRulesMetaForResults(results);
+
+				assert.strictEqual(Object.keys(rulesMeta).length, 0);
+			});
+
+			it("should return an object with meta of known rules if some messages are related to unknown rules", async () => {
 				const engine = new ESLint({
 					flags,
 					overrideConfigFile: true,
@@ -11253,6 +11526,42 @@ describe("ESLint", () => {
 				const results = await engine.lintText(
 					"// eslint-disable-line foo, bar/baz, bar/baz/qux\nvar x;",
 				);
+
+				assert.strictEqual(results[0].messages.length, 4);
+				assert.strictEqual(results[0].messages[0].ruleId, "foo");
+				assert.strictEqual(results[0].messages[1].ruleId, "bar/baz");
+				assert.strictEqual(
+					results[0].messages[2].ruleId,
+					"bar/baz/qux",
+				);
+				assert.strictEqual(results[0].messages[3].ruleId, "no-var");
+
+				const rulesMeta = engine.getRulesMetaForResults(results);
+
+				assert.deepStrictEqual(rulesMeta, {
+					"no-var": coreRules.get("no-var").meta,
+				});
+			});
+
+			it("should return an object with meta of known rules if some messages are related to unknown rules with multithreading", async () => {
+				const teardown = createCustomTeardown({
+					cwd: fixtureDir,
+					files: {
+						"file.js":
+							"// eslint-disable-line foo, bar/baz, bar/baz/qux\nvar x;",
+					},
+				});
+				await teardown.prepare();
+
+				const engine = new ESLint({
+					flags,
+					overrideConfigFile: true,
+					overrideConfig: { rules: { "no-var": "warn" } },
+					cwd: fixtureDir,
+					concurrency: 1,
+				});
+
+				const results = await engine.lintFiles("file.js");
 
 				assert.strictEqual(results[0].messages.length, 4);
 				assert.strictEqual(results[0].messages[0].ruleId, "foo");
