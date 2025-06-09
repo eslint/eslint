@@ -220,6 +220,10 @@ ruleTester.run("no-undef", rule, {
 			code: "class C { static { a; function a() {} } }",
 			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
 		},
+		{
+			code: "[Float16Array, Iterator]",
+			languageOptions: { ecmaVersion: 2025 },
+		},
 	],
 	invalid: [
 		{

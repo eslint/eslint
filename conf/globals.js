@@ -131,6 +131,8 @@ const es2023 = {
 
 const es2024 = {
 	...es2023,
+	Float16Array: false,
+	Iterator: false,
 };
 
 const es2025 = {
