@@ -224,6 +224,10 @@ ruleTester.run("no-undef", rule, {
 			code: "[Float16Array, Iterator]",
 			languageOptions: { ecmaVersion: 2025 },
 		},
+		{
+			code: "AsyncDisposableStack; DisposableStack; SuppressedError",
+			languageOptions: { ecmaVersion: 2026 },
+		},
 	],
 	invalid: [
 		{

@@ -6090,7 +6090,7 @@ var a = "test2";
 			});
 
 			it("supports ECMAScript version 'latest'", () => {
-				const messages = linter.verify("let x = /(?<x>a)|(?<x>b)/;", {
+				const messages = linter.verify("{ using x = foo(); }", {
 					parserOptions: { ecmaVersion: "latest" },
 				});
 				const suppressedMessages = linter.getSuppressedMessages();
@@ -9173,9 +9173,7 @@ describe("Linter with FlatConfigArray", () => {
 				});
 
 				it("ecmaVersion should be 'latest' by default", () => {
-					const messages = linter.verify(
-						"let x = /(?<x>a)|(?<x>b)/;",
-					); // ECMAScript 2025 syntax
+					const messages = linter.verify("{ using x = foo(); }"); // ECMAScript 2026 syntax
 					const suppressedMessages = linter.getSuppressedMessages();
 
 					assert.strictEqual(messages.length, 0); // No parsing errors

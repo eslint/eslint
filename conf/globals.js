@@ -139,6 +139,13 @@ const es2025 = {
 	Iterator: false,
 };
 
+const es2026 = {
+	...es2025,
+	AsyncDisposableStack: false,
+	DisposableStack: false,
+	SuppressedError: false,
+};
+
 //-----------------------------------------------------------------------------
 // Exports
 //-----------------------------------------------------------------------------
@@ -158,4 +165,5 @@ module.exports = {
 	es2023,
 	es2024,
 	es2025,
+	es2026,
 };
