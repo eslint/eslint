@@ -109,7 +109,7 @@ class C {
 This rule has four options:
 
 * `"exceptMethods"` allows specified method names to be ignored with this rule.
-* `"enforceForClassFields"` enforces that arrow functions and function expressions used as instance field initializers utilize `this`. This also applies to auto-accessor fields (fields declared with the `accessor` keyword) in TypeScript. (default: `true`)
+* `"enforceForClassFields"` enforces that arrow functions and function expressions used as instance field initializers utilize `this`. This also applies to auto-accessor fields (fields declared with the `accessor` keyword) which are part of the [stage 3 decorators proposal](https://github.com/tc39/proposal-decorators). (default: `true`)
 * `"ignoreOverrideMethods"` ignores members that are marked with the `override` modifier. (TypeScript only, default: `false`)
 * `"ignoreClassesWithImplements"` ignores class members that are defined within a class that `implements` an interface. (TypeScript only)
 
@@ -159,7 +159,7 @@ class A {
 "class-methods-use-this": [<enabled>, { "enforceForClassFields": true | false }]
 ```
 
-The `enforceForClassFields` option enforces that arrow functions and function expressions used as instance field initializers utilize `this`. This also applies to auto-accessor fields (fields declared with the `accessor` keyword) in TypeScript. (default: `true`)
+The `enforceForClassFields` option enforces that arrow functions and function expressions used as instance field initializers utilize `this`. This also applies to auto-accessor fields (fields declared with the `accessor` keyword) which are part of the [stage 3 decorators proposal](https://github.com/tc39/proposal-decorators). (default: `true`)
 
 Examples of **incorrect** code for this rule with the `{ "enforceForClassFields": true }` option (default):
 
