@@ -228,3 +228,46 @@ ruleTester.run("no-duplicate-imports", rule, {
 		},
 	],
 });
+
+const ruleTesterTypeScript = new RuleTester({
+	languageOptions: {
+		parser: require("@typescript-eslint/parser"),
+	},
+});
+
+ruleTesterTypeScript.run("no-magic-numbers", rule, {
+	valid: [
+		{
+			code: 'import { Foo, type Bar } from "./foo"',
+			options: [{ allowSeparateTypeImports: false }],
+		},
+		{
+			code: 'import { Foo } from "./foo"\nimport type { Bar } from "./foo"',
+			options: [{ allowSeparateTypeImports: true }],
+		},
+	],
+	invalid: [
+		{
+			code: 'import { merge } from "lodash-es";\nimport type { find } from "lodash-es";',
+			options: [{ allowSeparateTypeImports: false }],
+			errors: [
+				{
+					messageId: "import",
+					data: { module: "lodash-es" },
+					type: "ImportDeclaration",
+				},
+			],
+		},
+		{
+			code: 'import "os";\nexport * from "os";',
+			options: [{ includeExports: true }],
+			errors: [
+				{
+					messageId: "exportAs",
+					data: { module: "os" },
+					type: "ExportAllDeclaration",
+				},
+			],
+		},
+	],
+});
