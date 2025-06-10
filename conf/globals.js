@@ -134,9 +134,9 @@ const es2024 = {
 };
 
 const es2025 = {
-    ...es2024,
-    Float16Array: false,
-    Iterator: false,
+	...es2024,
+	Float16Array: false,
+	Iterator: false,
 };
 
 //-----------------------------------------------------------------------------
