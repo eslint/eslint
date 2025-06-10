@@ -1626,7 +1626,10 @@ export namespace Linter {
 		postprocess?:
 			| ((problemLists: LintMessage[][]) => LintMessage[])
 			| undefined;
-		filterCodeBlock?: boolean | undefined;
+		filterCodeBlock?: (
+			filename: string,
+			text: string,
+		) => boolean | undefined;
 		disableFixes?: boolean | undefined;
 		allowInlineConfig?: boolean | undefined;
 		reportUnusedDisableDirectives?: boolean | undefined;
