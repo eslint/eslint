@@ -259,6 +259,28 @@ ruleTesterTypeScript.run("no-magic-numbers", rule, {
 			],
 		},
 		{
+			code: 'import { merge } from "lodash-es";\nimport { find } from "lodash-es";',
+			options: [{ allowSeparateTypeImports: false }],
+			errors: [
+				{
+					messageId: "import",
+					data: { module: "lodash-es" },
+					type: "ImportDeclaration",
+				},
+			],
+		},
+		{
+			code: 'import { merge } from "lodash-es";\nimport { find } from "lodash-es";',
+			options: [{ allowSeparateTypeImports: true }],
+			errors: [
+				{
+					messageId: "import",
+					data: { module: "lodash-es" },
+					type: "ImportDeclaration",
+				},
+			],
+		},
+		{
 			code: 'import "os";\nexport * from "os";',
 			options: [{ includeExports: true }],
 			errors: [
