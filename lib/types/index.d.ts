@@ -36,6 +36,7 @@ import type {
 	RuleDefinition,
 	RuleContext as CoreRuleContext,
 	DeprecatedInfo,
+	RuleConfig,
 	RulesConfig,
 	SettingsConfig,
 } from "@eslint/core";
@@ -1383,9 +1384,7 @@ export namespace Linter {
 	 *
 	 * @see [Rules](https://eslint.org/docs/latest/use/configure/rules)
 	 */
-	type RuleEntry<Options extends any[] = any[]> =
-		| RuleSeverity
-		| RuleSeverityAndOptions<Options>;
+	type RuleEntry<Options extends any[] = any[]> = RuleConfig<Options>;
 
 	/**
 	 * The rules config object is a key/value map of rule names and their severity and options.
