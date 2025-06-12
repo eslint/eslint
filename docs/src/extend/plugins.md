@@ -420,7 +420,7 @@ This example shows how to configure the `eslint-plugin-example` key be an object
 import { defineConfig } from "eslint/config";
 import example from "eslint-plugin-example";
 
-export default defineConfig({
+export default defineConfig([
 	{
 		files: ["**/*.js"],
 		plugins: { example },
@@ -430,7 +430,7 @@ export default defineConfig({
 			}
 		}
 	}
-});
+]);
 ```
 
 ## Testing a Plugin
