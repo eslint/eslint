@@ -2925,6 +2925,107 @@ describe("ESLint", () => {
 				});
 			});
 
+			describe("Globbing based on configs with negated patterns and arrays in `files`", () => {
+				// https://github.com/eslint/eslint/issues/19813
+				it("should not include custom extensions when negated pattern is specified in `files`", async () => {
+					eslint = new ESLint({
+						flags,
+						cwd: getFixturePath("file-extensions"),
+						overrideConfigFile: true,
+						overrideConfig: [
+							{
+								files: ["!foo.js"],
+							},
+							{
+								files: ["!foo.jsx"],
+							},
+							{
+								files: ["!foo.ts"],
+							},
+							{
+								files: ["!g.tsx"],
+							},
+						],
+					});
+					const results = await eslint.lintFiles(["."]);
+
+					// should not include d.jsx, f.ts, and other extensions that are not linted by default
+					assert.strictEqual(results.length, 4);
+					assert.deepStrictEqual(
+						results.map(({ filePath }) => path.basename(filePath)),
+						["a.js", "b.mjs", "c.cjs", "eslint.config.js"],
+					);
+				});
+
+				it("should not include custom extensions when negated pattern is specified in an array in `files`", async () => {
+					eslint = new ESLint({
+						flags,
+						cwd: getFixturePath("file-extensions"),
+						overrideConfigFile: true,
+						overrideConfig: [
+							{
+								files: [["*", "!foo.js"]],
+							},
+							{
+								files: [["!foo.js", "*"]],
+							},
+							{
+								files: [["*", "!foo.ts"]],
+							},
+							{
+								files: [["!foo.ts", "*"]],
+							},
+							{
+								files: [["*", "!g.tsx"]],
+							},
+							{
+								files: [["!g.tsx", "*"]],
+							},
+						],
+					});
+					const results = await eslint.lintFiles(["."]);
+
+					// should not include d.jsx, f.ts, and other extensions that are not linted by default
+					assert.strictEqual(results.length, 4);
+					assert.deepStrictEqual(
+						results.map(({ filePath }) => path.basename(filePath)),
+						["a.js", "b.mjs", "c.cjs", "eslint.config.js"],
+					);
+				});
+
+				// https://github.com/eslint/eslint/issues/19814
+				it("should include custom extensions when matched by a non-universal pattern specified in an array in `files`", async () => {
+					eslint = new ESLint({
+						flags,
+						cwd: getFixturePath("file-extensions", ".."),
+						overrideConfigFile: true,
+						overrideConfig: [
+							{
+								files: [["**/*.jsx", "file-extensions/*"]],
+							},
+							{
+								files: [["file-extensions/*", "**/*.ts"]],
+							},
+						],
+					});
+					const results = await eslint.lintFiles(["file-extensions"]);
+
+					// should include d.jsx and f.ts, but not other extensions that are not linted by default
+					assert.strictEqual(results.length, 6);
+					assert.deepStrictEqual(
+						results.map(({ filePath }) => path.basename(filePath)),
+						[
+							"a.js",
+							"b.mjs",
+							"c.cjs",
+							"d.jsx",
+							"eslint.config.js",
+							"f.ts",
+						],
+					);
+				});
+			});
+
 			it("should report zero messages when given a '**' pattern with a .js and a .js2 file", async () => {
 				eslint = new ESLint({
 					flags,
