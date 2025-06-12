@@ -178,7 +178,7 @@ import type { RuleConfig } from "@eslint/core";
 
 declare module "@eslint/core" {
 	interface RulesConfig {
-		"example/dollar-sign": RuleConfig<["always" | "never"]>;
+		"example/dollar-sign": RuleConfig<Partial<["always" | "never"]>>;
 	}
 }
 ```
