@@ -35,6 +35,7 @@ import {
 	RuleTester,
 	Scope,
 	SourceCode,
+	JSSyntaxElement,
 } from "eslint";
 import { defineConfig, globalIgnores } from "eslint/config";
 import { ESLintRules } from "eslint/rules";
@@ -149,9 +150,9 @@ sourceCode.getFirstToken(AST, { includeComments: true }); // $ExpectType Comment
 sourceCode.getFirstToken(AST, { includeComments: true, skip: 0 });
 // prettier-ignore
 sourceCode.getFirstToken(AST, { // $ExpectType (Token & { type: "Identifier"; }) | null
-    includeComments: true,
-    skip: 0,
-    filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
+	includeComments: true,
+	skip: 0,
+	filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
 });
 
 sourceCode.getFirstTokens(AST); // $ExpectType Token[]
@@ -169,16 +170,16 @@ sourceCode.getFirstTokens(AST, {
 });
 // prettier-ignore
 sourceCode.getFirstTokens(AST, { // $ExpectType (Token & { type: "Identifier"; })[]
-    count: 0,
-    filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
+	count: 0,
+	filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
 });
 sourceCode.getFirstTokens(AST, { includeComments: true }); //  $ ExpectType (Comment | Token)[]
 sourceCode.getFirstTokens(AST, { includeComments: true, count: 0 }); //  $ ExpectType (Comment | Token)[]
 // prettier-ignore
 sourceCode.getFirstTokens(AST, { // $ExpectType (Token & { type: "Identifier"; })[]
-    includeComments: true,
-    count: 0,
-    filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
+	includeComments: true,
+	count: 0,
+	filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
 });
 
 sourceCode.getLastToken(AST);
@@ -302,7 +303,7 @@ sourceCode.getFirstTokenBetween(
 );
 // prettier-ignore
 sourceCode.getFirstTokenBetween(AST, AST, { // $ExpectType (Token & { type: "Identifier"; }) | null
-    filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
+	filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
 });
 sourceCode.getFirstTokenBetween(AST, AST, {
 	skip: 0,
@@ -313,9 +314,9 @@ sourceCode.getFirstTokenBetween(AST, AST, { includeComments: true }); // $Expect
 sourceCode.getFirstTokenBetween(AST, AST, { includeComments: true, skip: 0 });
 // prettier-ignore
 sourceCode.getFirstTokenBetween(AST, AST, { // $ExpectType (Token & { type: "Identifier"; }) | null
-    includeComments: true,
-    skip: 0,
-    filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
+	includeComments: true,
+	skip: 0,
+	filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
 });
 
 sourceCode.getFirstTokensBetween(AST, AST); // $ExpectType Token[]
@@ -329,7 +330,7 @@ sourceCode.getFirstTokensBetween(
 );
 // prettier-ignore
 sourceCode.getFirstTokensBetween(AST, AST, { // $ExpectType (Token & { type: "Identifier"; })[]
-    filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
+	filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
 });
 sourceCode.getFirstTokensBetween(AST, AST, {
 	count: 0,
@@ -339,9 +340,9 @@ sourceCode.getFirstTokensBetween(AST, AST, { includeComments: true }); // $Expec
 sourceCode.getFirstTokensBetween(AST, AST, { includeComments: true, count: 0 });
 // prettier-ignore
 sourceCode.getFirstTokensBetween(AST, AST, { // $ExpectType (Token & { type: "Identifier"; })[]
-    includeComments: true,
-    count: 0,
-    filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
+	includeComments: true,
+	count: 0,
+	filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
 });
 
 sourceCode.getLastTokenBetween(AST, AST);
@@ -401,8 +402,8 @@ sourceCode.getTokens(AST, {
 sourceCode.getTokens(AST, { includeComments: true }); // $ExpectType (Comment | Token)[]
 // prettier-ignore
 sourceCode.getTokens(AST, { // $ExpectType (Token & { type: "Identifier"; })[]
-    includeComments: true,
-    filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
+	includeComments: true,
+	filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
 });
 
 sourceCode.commentsExistBetween(AST, AST);
@@ -1148,6 +1149,11 @@ linterWithFlatConfig.verify(SOURCE, [{}], {
 linterWithFlatConfig.verify(SOURCE, [{}], {
 	postprocess: problemList => problemList[0],
 });
+linterWithFlatConfig.verify(SOURCE, [{}], {
+	filterCodeBlock(filename) {
+		return filename.endsWith(".js");
+	},
+});
 
 linterWithFlatConfig.verify(
 	SOURCE,
@@ -1272,6 +1278,15 @@ linterWithFlatConfig.verifyAndFix(
 	SOURCE,
 	{ linterOptions: {} },
 	{ filename: "test.js" },
+);
+linterWithFlatConfig.verifyAndFix(
+	SOURCE,
+	{ linterOptions: {} },
+	{
+		filterCodeBlock(filename) {
+			return filename.endsWith(".js");
+		},
+	},
 );
 
 // #endregion Linter with flat config
@@ -2134,6 +2149,12 @@ let flatConfig!: Linter.FlatConfig;
 config = flatConfig;
 flatConfig = config;
 
+let configWithRules!: Linter.Config<ESLintRules>;
+let flatConfigWithRules!: Linter.FlatConfig<ESLintRules>;
+configWithRules = flatConfigWithRules;
+flatConfigWithRules = configWithRules;
+flatConfigWithRules.rules; // $ExpectType Partial<ESLintRules> | undefined
+
 // #endregion Config
 
 // #region Plugins
@@ -2202,3 +2223,40 @@ defineConfig([
 ]);
 
 // #endregion
+
+// #region JSSyntaxElement
+
+const fooRule1: Rule.RuleModule = {
+	create(context) {
+		return {
+			Program(node) {
+				for (const comment of node.comments ?? []) {
+					context.report({
+						node: comment,
+						messageId: "foo",
+					});
+				}
+			},
+		};
+	},
+};
+
+const fooRule2: JSRuleDefinition = {
+	create(context) {
+		return {
+			Program(node) {
+				for (const comment of node.comments ?? []) {
+					context.report({
+						node: comment,
+						messageId: "foo",
+					});
+				}
+			},
+		};
+	},
+};
+
+const SYNTAX_ELEMENT_COMMENT: JSSyntaxElement = COMMENT;
+const SYNTAX_ELEMENT_TOKEN: JSSyntaxElement = TOKEN;
+
+// #endregion JSSyntaxElement

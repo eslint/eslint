@@ -34,7 +34,7 @@ export default defineConfig([globalIgnores([".config/*"])]);
 
 This configuration specifies that all of the files in the `.config` directory should be ignored. This pattern is added after the default patterns, which are `["**/node_modules/", ".git/"]`.
 
-You can also ignore files on the command line using `--ignore-pattern`, such as:
+You can also ignore files on the command line using [`--ignore-pattern`](../command-line-interface#--ignore-pattern), such as:
 
 {{ npx_tabs({
     package: "eslint",
@@ -116,7 +116,7 @@ Note that only global `ignores` patterns can match directories.
 `ignores` patterns that are specific to a configuration will only match file names.
 :::
 
-You can also unignore files on the command line using `--ignore-pattern`, such as:
+You can also unignore files on the command line using [`--ignore-pattern`](../command-line-interface#--ignore-pattern), such as:
 
 {{ npx_tabs({
     package: "eslint",
@@ -128,8 +128,8 @@ You can also unignore files on the command line using `--ignore-pattern`, such a
 How glob patterns are evaluated depends on where they are located and how they are used:
 
 1. When using `ignores` in an `eslint.config.js` file, glob patterns are evaluated relative to the `eslint.config.js` file.
-1. When using `ignores` in an alternate configuration file specified using the `--config` command line option, glob patterns are evaluated relative to the current working directory.
-1. When using `--ignore-pattern`, glob patterns are evaluated relative to the current working directory.
+1. When using `ignores` in an alternate configuration file specified using the [`--config`](../command-line-interface#-c---config) command line option, glob patterns are evaluated relative to the current working directory.
+1. When using [`--ignore-pattern`](../command-line-interface#--ignore-pattern), glob patterns are evaluated relative to the current working directory.
 
 ## Name the Global Ignores Config
 
@@ -140,7 +140,7 @@ By default, `globalIgnores()` will assign a name to the config that represents y
 import { defineConfig, globalIgnores } from "eslint/config";
 
 export default defineConfig([
-	globalIgnores(["build/**/*"], "Ignore build directory"),
+	globalIgnores(["build/**/*"], "Ignore Build Directory"),
 ]);
 ```
 
@@ -177,7 +177,7 @@ This message occurs because ESLint is unsure if you wanted to actually lint the 
 
 ## Including `.gitignore` Files
 
-If you want to include patterns from a `.gitignore` file or any other file with gitignore-style patterns, you can use [`includeIgnoreFile`](https://github.com/eslint/rewrite/tree/main/packages/compat#including-ignore-files) utility from the [`@eslint/compat`](https://www.npmjs.com/package/@eslint/compat) package.
+If you want to include patterns from a [`.gitignore`](https://git-scm.com/docs/gitignore) file or any other file with gitignore-style patterns, you can use [`includeIgnoreFile`](https://github.com/eslint/rewrite/tree/main/packages/compat#including-ignore-files) utility from the [`@eslint/compat`](https://www.npmjs.com/package/@eslint/compat) package.
 
 By default, `includeIgnoreFile()` will assign a name to the config that represents your ignores. You can override this name by providing a second argument to `includeIgnoreFile()`, which is the name you'd like to use instead of the default:
 

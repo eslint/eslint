@@ -13,11 +13,8 @@ const assert = require("node:assert"),
 	fs = require("node:fs"),
 	path = require("node:path"),
 	{ Linter } = require("../../../../lib/linter"),
-	EventGeneratorTester = require("../../../../tools/internal-testers/event-generator-tester"),
-	createEmitter = require("../../../../lib/linter/safe-emitter"),
 	debug = require("../../../../lib/linter/code-path-analysis/debug-helpers"),
 	CodePath = require("../../../../lib/linter/code-path-analysis/code-path"),
-	CodePathAnalyzer = require("../../../../lib/linter/code-path-analysis/code-path-analyzer"),
 	CodePathSegment = require("../../../../lib/linter/code-path-analysis/code-path-segment");
 
 //------------------------------------------------------------------------------
@@ -25,8 +22,9 @@ const assert = require("node:assert"),
 //------------------------------------------------------------------------------
 
 const expectedPattern = /\/\*expected\s+((?:.|[\r\n])+?)\s*\*\//gu;
+const languageOptionsPattern = /\/\*languageOptions\s+((?:.|[\r\n])+?)\s*\*\//u;
 const lineEndingPattern = /\r?\n/gu;
-const linter = new Linter({ configType: "eslintrc" });
+const linter = new Linter();
 
 /**
  * Extracts the content of `/*expected` comments from a given source code.
@@ -47,34 +45,50 @@ function getExpectedDotArrows(source) {
 	return retv;
 }
 
+/**
+ * Extracts the content of a `/*languageOptions` comment from a given source code
+ * and parses it as JSON.
+ * @param {string} source A source code text.
+ * @returns {Object} languageOptions configuration for linting the source code text.
+ */
+function getLanguageOptions(source) {
+	const match = languageOptionsPattern.exec(source);
+
+	if (match) {
+		return JSON.parse(match[1]);
+	}
+
+	return {};
+}
+
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 describe("CodePathAnalyzer", () => {
-	EventGeneratorTester.testEventGeneratorInterface(
-		new CodePathAnalyzer({
-			enterNode() {},
-			leaveNode() {},
-			emitter: createEmitter(),
-		}),
-	);
-
 	describe("interface of code paths", () => {
 		let actual = [];
 
 		beforeEach(() => {
 			actual = [];
-			linter.defineRule("test", {
-				create: () => ({
-					onCodePathStart(codePath) {
-						actual.push(codePath);
-					},
-				}),
-			});
 			linter.verify(
 				"function foo(a) { if (a) return 0; else throw new Error(); }",
-				{ rules: { test: 2 } },
+				{
+					plugins: {
+						"test-plugin": {
+							rules: {
+								"test-rule": {
+									create: () => ({
+										onCodePathStart(codePath) {
+											actual.push(codePath);
+										},
+									}),
+								},
+							},
+						},
+					},
+					rules: { "test-plugin/test-rule": 2 },
+				},
 			);
 		});
 
@@ -146,16 +160,24 @@ describe("CodePathAnalyzer", () => {
 
 		beforeEach(() => {
 			actual = [];
-			linter.defineRule("test", {
-				create: () => ({
-					onCodePathSegmentStart(segment) {
-						actual.push(segment);
-					},
-				}),
-			});
 			linter.verify(
 				"function foo(a) { if (a) return 0; else throw new Error(); }",
-				{ rules: { test: 2 } },
+				{
+					plugins: {
+						"test-plugin": {
+							rules: {
+								"test-rule": {
+									create: () => ({
+										onCodePathSegmentStart(segment) {
+											actual.push(segment);
+										},
+									}),
+								},
+							},
+						},
+					},
+					rules: { "test-plugin/test-rule": 2 },
+				},
 			);
 		});
 
@@ -235,42 +257,69 @@ describe("CodePathAnalyzer", () => {
 			let count = 0;
 			let lastCodePathNodeType = null;
 
-			linter.defineRule("test", {
-				create: () => ({
-					onCodePathStart(cp, node) {
-						count += 1;
-						lastCodePathNodeType = node.type;
-
-						assert(cp instanceof CodePath);
-						if (count === 1) {
-							assert(node.type === "Program");
-						} else if (count === 2) {
-							assert(node.type === "FunctionDeclaration");
-						} else if (count === 3) {
-							assert(node.type === "FunctionExpression");
-						} else if (count === 4) {
-							assert(node.type === "ArrowFunctionExpression");
-						}
-					},
-					Program() {
-						assert(lastCodePathNodeType === "Program");
-					},
-					FunctionDeclaration() {
-						assert(lastCodePathNodeType === "FunctionDeclaration");
-					},
-					FunctionExpression() {
-						assert(lastCodePathNodeType === "FunctionExpression");
-					},
-					ArrowFunctionExpression() {
-						assert(
-							lastCodePathNodeType === "ArrowFunctionExpression",
-						);
-					},
-				}),
-			});
 			linter.verify(
-				"foo(); function foo() {} var foo = function() {}; var foo = () => {};",
-				{ rules: { test: 2 }, env: { es6: true } },
+				"foo(); function bar() {} var baz = function() {}; var qux = () => {};",
+				{
+					plugins: {
+						"test-plugin": {
+							rules: {
+								"test-rule": {
+									create: () => ({
+										onCodePathStart(cp, node) {
+											count += 1;
+											lastCodePathNodeType = node.type;
+
+											assert(cp instanceof CodePath);
+											if (count === 1) {
+												assert(node.type === "Program");
+											} else if (count === 2) {
+												assert(
+													node.type ===
+														"FunctionDeclaration",
+												);
+											} else if (count === 3) {
+												assert(
+													node.type ===
+														"FunctionExpression",
+												);
+											} else if (count === 4) {
+												assert(
+													node.type ===
+														"ArrowFunctionExpression",
+												);
+											}
+										},
+										Program() {
+											assert(
+												lastCodePathNodeType ===
+													"Program",
+											);
+										},
+										FunctionDeclaration() {
+											assert(
+												lastCodePathNodeType ===
+													"FunctionDeclaration",
+											);
+										},
+										FunctionExpression() {
+											assert(
+												lastCodePathNodeType ===
+													"FunctionExpression",
+											);
+										},
+										ArrowFunctionExpression() {
+											assert(
+												lastCodePathNodeType ===
+													"ArrowFunctionExpression",
+											);
+										},
+									}),
+								},
+							},
+						},
+					},
+					rules: { "test-plugin/test-rule": 2 },
+				},
 			);
 
 			assert(count === 4);
@@ -282,40 +331,59 @@ describe("CodePathAnalyzer", () => {
 			let count = 0;
 			let lastNodeType = null;
 
-			linter.defineRule("test", {
-				create: () => ({
-					onCodePathEnd(cp, node) {
-						count += 1;
-
-						assert(cp instanceof CodePath);
-						if (count === 4) {
-							assert(node.type === "Program");
-						} else if (count === 1) {
-							assert(node.type === "FunctionDeclaration");
-						} else if (count === 2) {
-							assert(node.type === "FunctionExpression");
-						} else if (count === 3) {
-							assert(node.type === "ArrowFunctionExpression");
-						}
-						assert(node.type === lastNodeType);
-					},
-					"Program:exit"() {
-						lastNodeType = "Program";
-					},
-					"FunctionDeclaration:exit"() {
-						lastNodeType = "FunctionDeclaration";
-					},
-					"FunctionExpression:exit"() {
-						lastNodeType = "FunctionExpression";
-					},
-					"ArrowFunctionExpression:exit"() {
-						lastNodeType = "ArrowFunctionExpression";
-					},
-				}),
-			});
 			linter.verify(
-				"foo(); function foo() {} var foo = function() {}; var foo = () => {};",
-				{ rules: { test: 2 }, env: { es6: true } },
+				"foo(); function bar() {} var baz = function() {}; var qux = () => {};",
+				{
+					plugins: {
+						"test-plugin": {
+							rules: {
+								"test-rule": {
+									create: () => ({
+										onCodePathEnd(cp, node) {
+											count += 1;
+
+											assert(cp instanceof CodePath);
+											if (count === 4) {
+												assert(node.type === "Program");
+											} else if (count === 1) {
+												assert(
+													node.type ===
+														"FunctionDeclaration",
+												);
+											} else if (count === 2) {
+												assert(
+													node.type ===
+														"FunctionExpression",
+												);
+											} else if (count === 3) {
+												assert(
+													node.type ===
+														"ArrowFunctionExpression",
+												);
+											}
+											assert(node.type === lastNodeType);
+										},
+										"Program:exit"() {
+											lastNodeType = "Program";
+										},
+										"FunctionDeclaration:exit"() {
+											lastNodeType =
+												"FunctionDeclaration";
+										},
+										"FunctionExpression:exit"() {
+											lastNodeType = "FunctionExpression";
+										},
+										"ArrowFunctionExpression:exit"() {
+											lastNodeType =
+												"ArrowFunctionExpression";
+										},
+									}),
+								},
+							},
+						},
+					},
+					rules: { "test-plugin/test-rule": 2 },
+				},
 			);
 
 			assert(count === 4);
@@ -327,42 +395,72 @@ describe("CodePathAnalyzer", () => {
 			let count = 0;
 			let lastCodePathNodeType = null;
 
-			linter.defineRule("test", {
-				create: () => ({
-					onCodePathSegmentStart(segment, node) {
-						count += 1;
-						lastCodePathNodeType = node.type;
-
-						assert(segment instanceof CodePathSegment);
-						if (count === 1) {
-							assert(node.type === "Program");
-						} else if (count === 2) {
-							assert(node.type === "FunctionDeclaration");
-						} else if (count === 3) {
-							assert(node.type === "FunctionExpression");
-						} else if (count === 4) {
-							assert(node.type === "ArrowFunctionExpression");
-						}
-					},
-					Program() {
-						assert(lastCodePathNodeType === "Program");
-					},
-					FunctionDeclaration() {
-						assert(lastCodePathNodeType === "FunctionDeclaration");
-					},
-					FunctionExpression() {
-						assert(lastCodePathNodeType === "FunctionExpression");
-					},
-					ArrowFunctionExpression() {
-						assert(
-							lastCodePathNodeType === "ArrowFunctionExpression",
-						);
-					},
-				}),
-			});
 			linter.verify(
-				"foo(); function foo() {} var foo = function() {}; var foo = () => {};",
-				{ rules: { test: 2 }, env: { es6: true } },
+				"foo(); function bar() {} var baz = function() {}; var qux = () => {};",
+				{
+					plugins: {
+						"test-plugin": {
+							rules: {
+								"test-rule": {
+									create: () => ({
+										onCodePathSegmentStart(segment, node) {
+											count += 1;
+											lastCodePathNodeType = node.type;
+
+											assert(
+												segment instanceof
+													CodePathSegment,
+											);
+											if (count === 1) {
+												assert(node.type === "Program");
+											} else if (count === 2) {
+												assert(
+													node.type ===
+														"FunctionDeclaration",
+												);
+											} else if (count === 3) {
+												assert(
+													node.type ===
+														"FunctionExpression",
+												);
+											} else if (count === 4) {
+												assert(
+													node.type ===
+														"ArrowFunctionExpression",
+												);
+											}
+										},
+										Program() {
+											assert(
+												lastCodePathNodeType ===
+													"Program",
+											);
+										},
+										FunctionDeclaration() {
+											assert(
+												lastCodePathNodeType ===
+													"FunctionDeclaration",
+											);
+										},
+										FunctionExpression() {
+											assert(
+												lastCodePathNodeType ===
+													"FunctionExpression",
+											);
+										},
+										ArrowFunctionExpression() {
+											assert(
+												lastCodePathNodeType ===
+													"ArrowFunctionExpression",
+											);
+										},
+									}),
+								},
+							},
+						},
+					},
+					rules: { "test-plugin/test-rule": 2 },
+				},
 			);
 
 			assert(count === 4);
@@ -374,40 +472,61 @@ describe("CodePathAnalyzer", () => {
 			let count = 0;
 			let lastNodeType = null;
 
-			linter.defineRule("test", {
-				create: () => ({
-					onCodePathSegmentEnd(cp, node) {
-						count += 1;
-
-						assert(cp instanceof CodePathSegment);
-						if (count === 4) {
-							assert(node.type === "Program");
-						} else if (count === 1) {
-							assert(node.type === "FunctionDeclaration");
-						} else if (count === 2) {
-							assert(node.type === "FunctionExpression");
-						} else if (count === 3) {
-							assert(node.type === "ArrowFunctionExpression");
-						}
-						assert(node.type === lastNodeType);
-					},
-					"Program:exit"() {
-						lastNodeType = "Program";
-					},
-					"FunctionDeclaration:exit"() {
-						lastNodeType = "FunctionDeclaration";
-					},
-					"FunctionExpression:exit"() {
-						lastNodeType = "FunctionExpression";
-					},
-					"ArrowFunctionExpression:exit"() {
-						lastNodeType = "ArrowFunctionExpression";
-					},
-				}),
-			});
 			linter.verify(
-				"foo(); function foo() {} var foo = function() {}; var foo = () => {};",
-				{ rules: { test: 2 }, env: { es6: true } },
+				"foo(); function bar() {} var baz = function() {}; var qux = () => {};",
+				{
+					plugins: {
+						"test-plugin": {
+							rules: {
+								"test-rule": {
+									create: () => ({
+										onCodePathSegmentEnd(cp, node) {
+											count += 1;
+
+											assert(
+												cp instanceof CodePathSegment,
+											);
+											if (count === 4) {
+												assert(node.type === "Program");
+											} else if (count === 1) {
+												assert(
+													node.type ===
+														"FunctionDeclaration",
+												);
+											} else if (count === 2) {
+												assert(
+													node.type ===
+														"FunctionExpression",
+												);
+											} else if (count === 3) {
+												assert(
+													node.type ===
+														"ArrowFunctionExpression",
+												);
+											}
+											assert(node.type === lastNodeType);
+										},
+										"Program:exit"() {
+											lastNodeType = "Program";
+										},
+										"FunctionDeclaration:exit"() {
+											lastNodeType =
+												"FunctionDeclaration";
+										},
+										"FunctionExpression:exit"() {
+											lastNodeType = "FunctionExpression";
+										},
+										"ArrowFunctionExpression:exit"() {
+											lastNodeType =
+												"ArrowFunctionExpression";
+										},
+									}),
+								},
+							},
+						},
+					},
+					rules: { "test-plugin/test-rule": 2 },
+				},
 			);
 
 			assert(count === 4);
@@ -418,46 +537,76 @@ describe("CodePathAnalyzer", () => {
 		it("should be fired after a throw", () => {
 			let lastCodePathNodeType = null;
 
-			linter.defineRule("test", {
-				create: () => ({
-					onUnreachableCodePathSegmentStart(segment, node) {
-						lastCodePathNodeType = node.type;
+			linter.verify("throw 'boom'; foo();", {
+				plugins: {
+					"test-plugin": {
+						rules: {
+							"test-rule": {
+								create: () => ({
+									onUnreachableCodePathSegmentStart(
+										segment,
+										node,
+									) {
+										lastCodePathNodeType = node.type;
 
-						assert(segment instanceof CodePathSegment);
-						assert.strictEqual(node.type, "ExpressionStatement");
+										assert(
+											segment instanceof CodePathSegment,
+										);
+										assert.strictEqual(
+											node.type,
+											"ExpressionStatement",
+										);
+									},
+									ExpressionStatement() {
+										assert.strictEqual(
+											lastCodePathNodeType,
+											"ExpressionStatement",
+										);
+									},
+								}),
+							},
+						},
 					},
-					ExpressionStatement() {
-						assert.strictEqual(
-							lastCodePathNodeType,
-							"ExpressionStatement",
-						);
-					},
-				}),
+				},
+				rules: { "test-plugin/test-rule": 2 },
 			});
-			linter.verify("throw 'boom'; foo();", { rules: { test: 2 } });
 		});
 
 		it("should be fired after a return", () => {
 			let lastCodePathNodeType = null;
 
-			linter.defineRule("test", {
-				create: () => ({
-					onUnreachableCodePathSegmentStart(segment, node) {
-						lastCodePathNodeType = node.type;
-
-						assert(segment instanceof CodePathSegment);
-						assert.strictEqual(node.type, "ExpressionStatement");
-					},
-					ExpressionStatement() {
-						assert.strictEqual(
-							lastCodePathNodeType,
-							"ExpressionStatement",
-						);
-					},
-				}),
-			});
 			linter.verify("function foo() { return; foo(); }", {
-				rules: { test: 2 },
+				plugins: {
+					"test-plugin": {
+						rules: {
+							"test-rule": {
+								create: () => ({
+									onUnreachableCodePathSegmentStart(
+										segment,
+										node,
+									) {
+										lastCodePathNodeType = node.type;
+
+										assert(
+											segment instanceof CodePathSegment,
+										);
+										assert.strictEqual(
+											node.type,
+											"ExpressionStatement",
+										);
+									},
+									ExpressionStatement() {
+										assert.strictEqual(
+											lastCodePathNodeType,
+											"ExpressionStatement",
+										);
+									},
+								}),
+							},
+						},
+					},
+				},
+				rules: { "test-plugin/test-rule": 2 },
 			});
 		});
 	});
@@ -466,17 +615,33 @@ describe("CodePathAnalyzer", () => {
 		it("should be fired after a throw", () => {
 			let lastCodePathNodeType = null;
 
-			linter.defineRule("test", {
-				create: () => ({
-					onUnreachableCodePathSegmentEnd(segment, node) {
-						lastCodePathNodeType = node.type;
+			linter.verify("throw 'boom'; foo();", {
+				plugins: {
+					"test-plugin": {
+						rules: {
+							"test-rule": {
+								create: () => ({
+									onUnreachableCodePathSegmentEnd(
+										segment,
+										node,
+									) {
+										lastCodePathNodeType = node.type;
 
-						assert(segment instanceof CodePathSegment);
-						assert.strictEqual(node.type, "Program");
+										assert(
+											segment instanceof CodePathSegment,
+										);
+										assert.strictEqual(
+											node.type,
+											"Program",
+										);
+									},
+								}),
+							},
+						},
 					},
-				}),
+				},
+				rules: { "test-plugin/test-rule": 2 },
 			});
-			linter.verify("throw 'boom'; foo();", { rules: { test: 2 } });
 
 			assert.strictEqual(lastCodePathNodeType, "Program");
 		});
@@ -484,47 +649,78 @@ describe("CodePathAnalyzer", () => {
 		it("should be fired after a return", () => {
 			let lastCodePathNodeType = null;
 
-			linter.defineRule("test", {
-				create: () => ({
-					onUnreachableCodePathSegmentEnd(segment, node) {
-						lastCodePathNodeType = node.type;
-						assert(segment instanceof CodePathSegment);
-						assert.strictEqual(node.type, "FunctionDeclaration");
-					},
-					"Program:exit"() {
-						assert.strictEqual(
-							lastCodePathNodeType,
-							"FunctionDeclaration",
-						);
-					},
-				}),
-			});
 			linter.verify("function foo() { return; foo(); }", {
-				rules: { test: 2 },
+				plugins: {
+					"test-plugin": {
+						rules: {
+							"test-rule": {
+								create: () => ({
+									onUnreachableCodePathSegmentEnd(
+										segment,
+										node,
+									) {
+										lastCodePathNodeType = node.type;
+										assert(
+											segment instanceof CodePathSegment,
+										);
+										assert.strictEqual(
+											node.type,
+											"FunctionDeclaration",
+										);
+									},
+									"Program:exit"() {
+										assert.strictEqual(
+											lastCodePathNodeType,
+											"FunctionDeclaration",
+										);
+									},
+								}),
+							},
+						},
+					},
+				},
+				rules: { "test-plugin/test-rule": 2 },
 			});
 		});
 
 		it("should be fired after a return inside of function and if statement", () => {
 			let lastCodePathNodeType = null;
 
-			linter.defineRule("test", {
-				create: () => ({
-					onUnreachableCodePathSegmentEnd(segment, node) {
-						lastCodePathNodeType = node.type;
-						assert(segment instanceof CodePathSegment);
-						assert.strictEqual(node.type, "BlockStatement");
-					},
-					"Program:exit"() {
-						assert.strictEqual(
-							lastCodePathNodeType,
-							"BlockStatement",
-						);
-					},
-				}),
-			});
 			linter.verify(
 				"function foo() { if (bar) { return; foo(); } else {} }",
-				{ rules: { test: 2 } },
+				{
+					plugins: {
+						"test-plugin": {
+							rules: {
+								"test-rule": {
+									create: () => ({
+										onUnreachableCodePathSegmentEnd(
+											segment,
+											node,
+										) {
+											lastCodePathNodeType = node.type;
+											assert(
+												segment instanceof
+													CodePathSegment,
+											);
+											assert.strictEqual(
+												node.type,
+												"BlockStatement",
+											);
+										},
+										"Program:exit"() {
+											assert.strictEqual(
+												lastCodePathNodeType,
+												"BlockStatement",
+											);
+										},
+									}),
+								},
+							},
+						},
+					},
+					rules: { "test-plugin/test-rule": 2 },
+				},
 			);
 		});
 
@@ -532,40 +728,64 @@ describe("CodePathAnalyzer", () => {
 			let count = 0;
 			let lastNodeType = null;
 
-			linter.defineRule("test", {
-				create: () => ({
-					onUnreachableCodePathSegmentEnd(cp, node) {
-						count += 1;
-
-						assert(cp instanceof CodePathSegment);
-						if (count === 4) {
-							assert(node.type === "Program");
-						} else if (count === 1) {
-							assert(node.type === "FunctionDeclaration");
-						} else if (count === 2) {
-							assert(node.type === "FunctionExpression");
-						} else if (count === 3) {
-							assert(node.type === "ArrowFunctionExpression");
-						}
-						assert(node.type === lastNodeType);
-					},
-					"Program:exit"() {
-						lastNodeType = "Program";
-					},
-					"FunctionDeclaration:exit"() {
-						lastNodeType = "FunctionDeclaration";
-					},
-					"FunctionExpression:exit"() {
-						lastNodeType = "FunctionExpression";
-					},
-					"ArrowFunctionExpression:exit"() {
-						lastNodeType = "ArrowFunctionExpression";
-					},
-				}),
-			});
 			linter.verify(
-				"foo(); function foo() { return; } var foo = function() { return; }; var foo = () => { return; }; throw 'boom';",
-				{ rules: { test: 2 }, env: { es6: true } },
+				"foo(); function bar() { return; } var baz = function() { return; }; var qux = () => { return; }; throw 'boom';",
+				{
+					plugins: {
+						"test-plugin": {
+							rules: {
+								"test-rule": {
+									create: () => ({
+										onUnreachableCodePathSegmentEnd(
+											cp,
+											node,
+										) {
+											count += 1;
+
+											assert(
+												cp instanceof CodePathSegment,
+											);
+											if (count === 4) {
+												assert(node.type === "Program");
+											} else if (count === 1) {
+												assert(
+													node.type ===
+														"FunctionDeclaration",
+												);
+											} else if (count === 2) {
+												assert(
+													node.type ===
+														"FunctionExpression",
+												);
+											} else if (count === 3) {
+												assert(
+													node.type ===
+														"ArrowFunctionExpression",
+												);
+											}
+											assert(node.type === lastNodeType);
+										},
+										"Program:exit"() {
+											lastNodeType = "Program";
+										},
+										"FunctionDeclaration:exit"() {
+											lastNodeType =
+												"FunctionDeclaration";
+										},
+										"FunctionExpression:exit"() {
+											lastNodeType = "FunctionExpression";
+										},
+										"ArrowFunctionExpression:exit"() {
+											lastNodeType =
+												"ArrowFunctionExpression";
+										},
+									}),
+								},
+							},
+						},
+					},
+					rules: { "test-plugin/test-rule": 2 },
+				},
 			);
 
 			assert(count === 4);
@@ -576,17 +796,35 @@ describe("CodePathAnalyzer", () => {
 		it("should be fired in `while` loops", () => {
 			let count = 0;
 
-			linter.defineRule("test", {
-				create: () => ({
-					onCodePathSegmentLoop(fromSegment, toSegment, node) {
-						count += 1;
-						assert(fromSegment instanceof CodePathSegment);
-						assert(toSegment instanceof CodePathSegment);
-						assert(node.type === "WhileStatement");
+			linter.verify("while (a) { foo(); }", {
+				plugins: {
+					"test-plugin": {
+						rules: {
+							"test-rule": {
+								create: () => ({
+									onCodePathSegmentLoop(
+										fromSegment,
+										toSegment,
+										node,
+									) {
+										count += 1;
+										assert(
+											fromSegment instanceof
+												CodePathSegment,
+										);
+										assert(
+											toSegment instanceof
+												CodePathSegment,
+										);
+										assert(node.type === "WhileStatement");
+									},
+								}),
+							},
+						},
 					},
-				}),
+				},
+				rules: { "test-plugin/test-rule": 2 },
 			});
-			linter.verify("while (a) { foo(); }", { rules: { test: 2 } });
 
 			assert(count === 1);
 		});
@@ -594,17 +832,37 @@ describe("CodePathAnalyzer", () => {
 		it("should be fired in `do-while` loops", () => {
 			let count = 0;
 
-			linter.defineRule("test", {
-				create: () => ({
-					onCodePathSegmentLoop(fromSegment, toSegment, node) {
-						count += 1;
-						assert(fromSegment instanceof CodePathSegment);
-						assert(toSegment instanceof CodePathSegment);
-						assert(node.type === "DoWhileStatement");
+			linter.verify("do { foo(); } while (a);", {
+				plugins: {
+					"test-plugin": {
+						rules: {
+							"test-rule": {
+								create: () => ({
+									onCodePathSegmentLoop(
+										fromSegment,
+										toSegment,
+										node,
+									) {
+										count += 1;
+										assert(
+											fromSegment instanceof
+												CodePathSegment,
+										);
+										assert(
+											toSegment instanceof
+												CodePathSegment,
+										);
+										assert(
+											node.type === "DoWhileStatement",
+										);
+									},
+								}),
+							},
+						},
 					},
-				}),
+				},
+				rules: { "test-plugin/test-rule": 2 },
 			});
-			linter.verify("do { foo(); } while (a);", { rules: { test: 2 } });
 
 			assert(count === 1);
 		});
@@ -612,24 +870,45 @@ describe("CodePathAnalyzer", () => {
 		it("should be fired in `for` loops", () => {
 			let count = 0;
 
-			linter.defineRule("test", {
-				create: () => ({
-					onCodePathSegmentLoop(fromSegment, toSegment, node) {
-						count += 1;
-						assert(fromSegment instanceof CodePathSegment);
-						assert(toSegment instanceof CodePathSegment);
-
-						if (count === 1) {
-							// connect path: "update" -> "test"
-							assert(node.parent.type === "ForStatement");
-						} else if (count === 2) {
-							assert(node.type === "ForStatement");
-						}
-					},
-				}),
-			});
 			linter.verify("for (var i = 0; i < 10; ++i) { foo(); }", {
-				rules: { test: 2 },
+				plugins: {
+					"test-plugin": {
+						rules: {
+							"test-rule": {
+								create: () => ({
+									onCodePathSegmentLoop(
+										fromSegment,
+										toSegment,
+										node,
+									) {
+										count += 1;
+										assert(
+											fromSegment instanceof
+												CodePathSegment,
+										);
+										assert(
+											toSegment instanceof
+												CodePathSegment,
+										);
+
+										if (count === 1) {
+											// connect path: "update" -> "test"
+											assert(
+												node.parent.type ===
+													"ForStatement",
+											);
+										} else if (count === 2) {
+											assert(
+												node.type === "ForStatement",
+											);
+										}
+									},
+								}),
+							},
+						},
+					},
+				},
+				rules: { "test-plugin/test-rule": 2 },
 			});
 
 			assert(count === 2);
@@ -638,24 +917,45 @@ describe("CodePathAnalyzer", () => {
 		it("should be fired in `for-in` loops", () => {
 			let count = 0;
 
-			linter.defineRule("test", {
-				create: () => ({
-					onCodePathSegmentLoop(fromSegment, toSegment, node) {
-						count += 1;
-						assert(fromSegment instanceof CodePathSegment);
-						assert(toSegment instanceof CodePathSegment);
-
-						if (count === 1) {
-							// connect path: "right" -> "left"
-							assert(node.parent.type === "ForInStatement");
-						} else if (count === 2) {
-							assert(node.type === "ForInStatement");
-						}
-					},
-				}),
-			});
 			linter.verify("for (var k in obj) { foo(); }", {
-				rules: { test: 2 },
+				plugins: {
+					"test-plugin": {
+						rules: {
+							"test-rule": {
+								create: () => ({
+									onCodePathSegmentLoop(
+										fromSegment,
+										toSegment,
+										node,
+									) {
+										count += 1;
+										assert(
+											fromSegment instanceof
+												CodePathSegment,
+										);
+										assert(
+											toSegment instanceof
+												CodePathSegment,
+										);
+
+										if (count === 1) {
+											// connect path: "right" -> "left"
+											assert(
+												node.parent.type ===
+													"ForInStatement",
+											);
+										} else if (count === 2) {
+											assert(
+												node.type === "ForInStatement",
+											);
+										}
+									},
+								}),
+							},
+						},
+					},
+				},
+				rules: { "test-plugin/test-rule": 2 },
 			});
 
 			assert(count === 2);
@@ -664,25 +964,45 @@ describe("CodePathAnalyzer", () => {
 		it("should be fired in `for-of` loops", () => {
 			let count = 0;
 
-			linter.defineRule("test", {
-				create: () => ({
-					onCodePathSegmentLoop(fromSegment, toSegment, node) {
-						count += 1;
-						assert(fromSegment instanceof CodePathSegment);
-						assert(toSegment instanceof CodePathSegment);
-
-						if (count === 1) {
-							// connect path: "right" -> "left"
-							assert(node.parent.type === "ForOfStatement");
-						} else if (count === 2) {
-							assert(node.type === "ForOfStatement");
-						}
-					},
-				}),
-			});
 			linter.verify("for (var x of xs) { foo(); }", {
-				rules: { test: 2 },
-				env: { es6: true },
+				plugins: {
+					"test-plugin": {
+						rules: {
+							"test-rule": {
+								create: () => ({
+									onCodePathSegmentLoop(
+										fromSegment,
+										toSegment,
+										node,
+									) {
+										count += 1;
+										assert(
+											fromSegment instanceof
+												CodePathSegment,
+										);
+										assert(
+											toSegment instanceof
+												CodePathSegment,
+										);
+
+										if (count === 1) {
+											// connect path: "right" -> "left"
+											assert(
+												node.parent.type ===
+													"ForOfStatement",
+											);
+										} else if (count === 2) {
+											assert(
+												node.type === "ForOfStatement",
+											);
+										}
+									},
+								}),
+							},
+						},
+					},
+				},
+				rules: { "test-plugin/test-rule": 2 },
 			});
 
 			assert(count === 2);
@@ -709,16 +1029,24 @@ describe("CodePathAnalyzer", () => {
 					"/*expected */ comments not found.",
 				);
 
-				linter.defineRule("test", {
-					create: () => ({
-						onCodePathEnd(codePath) {
-							actual.push(debug.makeDotArrows(codePath));
-						},
-					}),
-				});
 				const messages = linter.verify(source, {
-					parserOptions: { ecmaVersion: 2022 },
-					rules: { test: 2 },
+					plugins: {
+						"test-plugin": {
+							rules: {
+								"test-rule": {
+									create: () => ({
+										onCodePathEnd(codePath) {
+											actual.push(
+												debug.makeDotArrows(codePath),
+											);
+										},
+									}),
+								},
+							},
+						},
+					},
+					rules: { "test-plugin/test-rule": 2 },
+					languageOptions: getLanguageOptions(source),
 				});
 
 				assert.strictEqual(

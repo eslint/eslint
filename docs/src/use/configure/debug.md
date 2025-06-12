@@ -15,7 +15,7 @@ ESLint creates a configuration for each file that is linted based on your config
 
 **Use When:** You aren't sure if the correct configuration file is being read. This may happen if you have multiple configuration files in the same project.
 
-**What To Do:** Run ESLint with the `--debug` command line flag and pass the file to check, like this:
+**What To Do:** Run ESLint with the [`--debug`](../command-line-interface#--debug) command line flag and pass the file to check, like this:
 
 {{ npx_tabs({
     package: "eslint",
@@ -35,7 +35,7 @@ eslint:eslint Config file URL is file:///C:/Users/nzakas/projects/eslint/eslint/
 
 **Use When:** You aren't sure why linting isn't producing the expected results, either because it seems like your rule configuration isn't being honored or the wrong language options are being used.
 
-**What To Do:** Run ESLint with the `--print-config` command line flag and pass the file to check, like this:
+**What To Do:** Run ESLint with the [`--print-config`](../command-line-interface#--print-config) command line flag and pass the file to check, like this:
 
 {{ npx_tabs({
     package: "eslint",
@@ -69,7 +69,7 @@ You won't see any entries for `files`, `ignores`, or `name`, because those are o
 
 **Use When:** You aren't sure if certain configuration objects in your configuration file match a given filename.
 
-**What To Do:** Run ESLint with the `--inspect-config` command line flag and pass the file to check, like this:
+**What To Do:** Run ESLint with the [`--inspect-config`](../command-line-interface#--inspect-config) command line flag and pass the file to check, like this:
 
 {{ npx_tabs({
     package: "eslint",

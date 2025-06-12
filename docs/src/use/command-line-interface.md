@@ -14,7 +14,7 @@ The ESLint Command Line Interface (CLI) lets you execute linting from the termin
 
 ## Run the CLI
 
-ESLint requires Node.js for installation. Follow the instructions in the [Getting Started Guide](getting-started) to install ESLint.
+ESLint requires [Node.js](https://nodejs.org/) for installation. Follow the instructions in the [Getting Started Guide](getting-started) to install ESLint.
 
 Most users use [`npx`](https://docs.npmjs.com/cli/v8/commands/npx) to run ESLint on the command line like this:
 
@@ -142,6 +142,7 @@ Suppressing Violations:
   --suppress-rule [String]        Suppress specific rules
   --suppressions-location path::String  Specify the location of the suppressions file
   --prune-suppressions            Prune unused suppressions - default: false
+  --pass-on-unpruned-suppressions Ignore unused suppressions - default: false
 
 Miscellaneous:
   --init                          Run config initialization wizard - default: false
@@ -192,7 +193,7 @@ This example uses the configuration file at `~/my.eslint.config.js`, which is us
 
 #### `--inspect-config`
 
-**Flat Config Mode Only.** This option runs `npx @eslint/config-inspector@latest` to start the config inspector. You can use the config inspector to better understand what your configuration is doing and which files it applies to. When you use this flag, the CLI does not perform linting.
+**Flat Config Mode Only.** This option runs `npx @eslint/config-inspector@latest` to start the [config inspector](https://github.com/eslint/config-inspector). You can use the config inspector to better understand what your configuration is doing and which files it applies to. When you use this flag, the CLI does not perform linting.
 
 - **Argument Type**: No argument.
 
@@ -838,7 +839,7 @@ Strategy for the cache to use for detecting changed files.
 - **Multiple Arguments**: No
 - **Default Value**: `metadata`
 
-The `content` strategy can be useful in cases where the modification time of your files changes even if their contents have not. For example, this can happen during git operations like `git clone` because git does not track file modification time.
+The `content` strategy can be useful in cases where the modification time of your files changes even if their contents have not. For example, this can happen during git operations like [`git clone`](https://git-scm.com/docs/git-clone) because git does not track file modification time.
 
 ##### `--cache-strategy` example
 
@@ -904,11 +905,24 @@ Prune unused suppressions from the suppressions file. This option is useful when
     args: ["\"src/**/*.js\"", "--prune-suppressions"]
 }) }}
 
+#### `--pass-on-unpruned-suppressions`
+
+Ignore unused suppressions. By default, ESLint exits with exit code `2` and displays an error message if there are unused suppressions in the suppressions file. When you use this flag, unused suppressions do not affect the exit code and ESLint doesn't output an error about unused suppressions.
+
+- **Argument Type**: No argument.
+
+##### `--pass-on-unpruned-suppressions` example
+
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["\"src/**/*.js\"", "--pass-on-unpruned-suppressions"]
+}) }}
+
 ### Miscellaneous
 
 #### `--init`
 
-This option runs `npm init @eslint/config` to start the config initialization wizard. It's designed to help new users quickly create an `.eslintrc` file by answering a few questions. When you use this flag, the CLI does not perform linting.
+This option runs `npm init @eslint/config` to start the config initialization wizard. It's designed to help new users quickly create an `eslint.config.js` file by answering a few questions. When you use this flag, the CLI does not perform linting.
 
 - **Argument Type**: No argument.
 
@@ -1091,5 +1105,5 @@ This option starts the ESLint MCP server for use with AI agents.
 When linting files, ESLint exits with one of the following exit codes:
 
 - `0`: Linting was successful and there are no linting errors. If the [`--max-warnings`](#--max-warnings) flag is set to `n`, the number of linting warnings is at most `n`.
-- `1`: Linting was successful and there is at least one linting error, or there are more linting warnings than allowed by the `--max-warnings` option.
+- `1`: Linting was successful and there is at least one linting error, or there are more linting warnings than allowed by the [`--max-warnings`](#--max-warnings) option.
 - `2`: Linting was unsuccessful due to a configuration problem or an internal error.

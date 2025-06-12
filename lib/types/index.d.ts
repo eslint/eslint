@@ -289,6 +289,8 @@ export class SourceCode
 		second: ESTree.Node | AST.Token,
 	): boolean;
 
+	isGlobalReference(node: ESTree.Identifier): boolean;
+
 	markVariableAsUsed(name: string, refNode?: ESTree.Node): boolean;
 
 	traverse(): Iterable<TraversalStep>;
@@ -584,6 +586,11 @@ export namespace SourceCode {
 
 // #endregion
 
+export type JSSyntaxElement = {
+	type: string;
+	loc?: ESTree.SourceLocation | null | undefined;
+};
+
 export namespace Rule {
 	interface RuleModule
 		extends RuleDefinition<{
@@ -591,7 +598,7 @@ export namespace Rule {
 			Code: SourceCode;
 			RuleOptions: any[];
 			Visitor: NodeListener;
-			Node: ESTree.Node;
+			Node: JSSyntaxElement;
 			MessageIds: string;
 			ExtRuleDocs: {};
 		}> {
@@ -1159,10 +1166,10 @@ export namespace Rule {
 		/**
 		 * Indicates the type of rule:
 		 * - `"problem"` means the rule is identifying code that either will cause an error or may cause a confusing behavior. Developers should consider this a high priority to resolve.
-		 * - `"suggestion"` means the rule is identifying something that could be done in a better way but no errors will occur if the code isn’t changed.
+		 * - `"suggestion"` means the rule is identifying something that could be done in a better way but no errors will occur if the code isn't changed.
 		 * - `"layout"` means the rule cares primarily about whitespace, semicolons, commas, and parentheses,
 		 *   all the parts of the program that determine how the code looks rather than how it executes.
-		 *   These rules work on parts of the code that aren’t specified in the AST.
+		 *   These rules work on parts of the code that aren't specified in the AST.
 		 */
 		type?: "problem" | "suggestion" | "layout" | undefined;
 		/**
@@ -1177,7 +1184,7 @@ export namespace Rule {
 			LangOptions: Linter.LanguageOptions;
 			Code: SourceCode;
 			RuleOptions: any[];
-			Node: ESTree.Node;
+			Node: JSSyntaxElement;
 			MessageIds: string;
 		}> {
 		/*
@@ -1275,7 +1282,7 @@ export type JSRuleDefinition<
 		LangOptions: Linter.LanguageOptions;
 		Code: SourceCode;
 		Visitor: Rule.NodeListener;
-		Node: ESTree.Node;
+		Node: JSSyntaxElement;
 	} & Required<
 		// Rule specific type options (custom)
 		Options &
@@ -1619,7 +1626,9 @@ export namespace Linter {
 		postprocess?:
 			| ((problemLists: LintMessage[][]) => LintMessage[])
 			| undefined;
-		filterCodeBlock?: boolean | undefined;
+		filterCodeBlock?:
+			| ((filename: string, text: string) => boolean)
+			| undefined;
 		disableFixes?: boolean | undefined;
 		allowInlineConfig?: boolean | undefined;
 		reportUnusedDisableDirectives?: boolean | undefined;
@@ -1824,7 +1833,7 @@ export namespace Linter {
 	}
 
 	/** @deprecated  Use `Config` instead of `FlatConfig` */
-	type FlatConfig = Config;
+	type FlatConfig<Rules extends RulesRecord = RulesRecord> = Config<Rules>;
 
 	type GlobalConf =
 		| boolean

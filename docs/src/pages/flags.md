@@ -114,7 +114,7 @@ The `ESLint` class also reads the `ESLINT_FLAGS` environment variable to set fla
 
 ### Enable Feature Flags in VS Code
 
-To enable flags in the VS Code ESLint Extension for the editor, specify the flags you'd like in the `eslint.options` setting in your `settings.json` file:
+To enable flags in the VS Code ESLint Extension for the editor, specify the flags you'd like in the `eslint.options` setting in your [`settings.json`](https://code.visualstudio.com/docs/configure/settings#_settings-json-file) file:
 
 ```json
 {
