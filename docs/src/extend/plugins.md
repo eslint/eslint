@@ -190,7 +190,7 @@ This example shows how to configure the `example/dollar-sign` rule to have a val
 import { defineConfig } from "eslint/config";
 import example from "eslint-plugin-example";
 
-export default defineConfig({
+export default defineConfig([
 	{
 		files: ["**/*.js"],
 		plugins: { example },
@@ -198,7 +198,7 @@ export default defineConfig({
 			"example/dollar-sign": ["error", "always"]
 		}
 	}
-});
+]);
 ```
 
 The first part of the rule config, the severity (`"error"`) is already defined in the `RuleConfig` type, so you need only define the other options your rule accepts.
