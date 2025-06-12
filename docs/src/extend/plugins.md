@@ -195,9 +195,9 @@ export default defineConfig([
 		files: ["**/*.js"],
 		plugins: { example },
 		rules: {
-			"example/dollar-sign": ["error", "always"]
-		}
-	}
+			"example/dollar-sign": ["error", "always"],
+		},
+	},
 ]);
 ```
 
@@ -426,10 +426,10 @@ export default defineConfig([
 		plugins: { example },
 		settings: {
 			"eslint-plugin-example": {
-				key: "abc123"
-			}
-		}
-	}
+				key: "abc123",
+			},
+		},
+	},
 ]);
 ```
 
