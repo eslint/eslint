@@ -1521,7 +1521,7 @@ export namespace Linter {
 		 *
 		 * @see [Settings](https://eslint.org/docs/latest/use/configure/configuration-files-deprecated#adding-shared-settings)
 		 */
-		settings?: SettingsConfig | undefined;
+		settings?: { [name: string]: any } | undefined;
 	}
 
 	/**
@@ -1828,7 +1828,7 @@ export namespace Linter {
 		 * An object containing name-value pairs of information that should be
 		 * available to all rules.
 		 */
-		settings?: Record<string, unknown>;
+		settings?: SettingsConfig;
 	}
 
 	/** @deprecated  Use `Config` instead of `FlatConfig` */
