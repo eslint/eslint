@@ -33,6 +33,7 @@ const { defaultConfig } = require("../../../lib/config/default-config");
 const coreRules = require("../../../lib/rules");
 const espree = require("espree");
 const { WarningService } = require("../../../lib/services/warning-service");
+const { pathToFileURL } = require("node:url");
 
 //------------------------------------------------------------------------------
 // Constants
@@ -115,6 +116,9 @@ describe("ESLint", () => {
 	/** @type {ESLint} */
 	let ESLint;
 
+	/** @type {?BroadcastChannel} */
+	let testChannel = null;
+
 	/**
 	 * Returns the path inside of the fixture directory.
 	 * @param {...string} args file path segments.
@@ -174,6 +178,10 @@ describe("ESLint", () => {
 
 	afterEach(() => {
 		sinon.restore();
+		if (testChannel) {
+			testChannel.close();
+			testChannel = null;
+		}
 	});
 
 	[[], ["unstable_config_lookup_from_file"]].forEach(flags => {
@@ -293,6 +301,7 @@ describe("ESLint", () => {
 							baseConfig: "",
 							cache: "",
 							cacheLocation: "",
+							concurrency: "",
 							cwd: "foo",
 							errorOnUnmatchedPattern: "",
 							fix: "",
@@ -314,6 +323,7 @@ describe("ESLint", () => {
 								"- 'baseConfig' must be an object or null.",
 								"- 'cache' must be a boolean.",
 								"- 'cacheLocation' must be a non-empty string.",
+								'- \'concurrency\' must be a positive integer, "auto", or "off".',
 								"- 'cwd' must be an absolute path.",
 								"- 'errorOnUnmatchedPattern' must be a boolean.",
 								"- 'fix' must be a boolean or a function.",
@@ -389,7 +399,7 @@ describe("ESLint", () => {
 				);
 			});
 
-			it("should warn if .eslintignore file is present", async () => {
+			it("should warn if .eslintignore file is present", () => {
 				const cwd = getFixturePath("ignored-paths");
 
 				sinon.restore();
@@ -404,6 +414,25 @@ describe("ESLint", () => {
 				assert(
 					emitESLintIgnoreWarningStub.calledOnce,
 					"calls `warningService.emitESLintIgnoreWarning()` once",
+				);
+			});
+
+			it("should throw if `concurrency` and uncloneable options are used together", () => {
+				assert.throws(
+					() =>
+						new ESLint({
+							flags,
+							concurrency: 1,
+							baseConfig: { processor: patternProcessor },
+							fix: () => true,
+							plugins: { example: examplePlugin },
+						}),
+					{
+						constructor: TypeError,
+						code: "ESLINT_UNCLONEABLE_OPTIONS",
+						message:
+							'The options "baseConfig", "fix", and "plugins" cannot be cloned. When concurrency is enabled, all options must be cloneable. Remove uncloneable options or use an option module.',
+					},
 				);
 			});
 		});
@@ -2309,19 +2338,11 @@ describe("ESLint", () => {
 					}
 				}
 
+				const { readFile } = fsp;
 				const spy = sinon.spy(
-					(...args) => new PromiseLike(fsp.readFile(...args)),
+					(...args) => new PromiseLike(readFile(...args)),
 				);
-
-				const { ESLint: LocalESLint } = proxyquire(
-					"../../../lib/eslint/eslint",
-					{
-						"node:fs/promises": {
-							readFile: spy,
-							"@noCallThru": false, // allows calling other methods of `fs/promises`
-						},
-					},
-				);
+				sinon.replace(fsp, "readFile", spy);
 
 				const testDir = "tests/fixtures/simple-valid-project";
 				const expectedLintedFiles = [
@@ -2329,7 +2350,7 @@ describe("ESLint", () => {
 					path.resolve(testDir, "src", "foobar.js"),
 				];
 
-				eslint = new LocalESLint({
+				eslint = new ESLint({
 					flags,
 					cwd: originalDir,
 					overrideConfigFile: path.resolve(
@@ -4472,21 +4493,47 @@ describe("ESLint", () => {
 					assert.deepStrictEqual(results[0].usedDeprecatedRules, []);
 				});
 
-				it("should warn when deprecated rules are found in a config", async () => {
+				[void 0, 2].forEach(concurrency =>
+					it(`should warn when deprecated rules are found in a config${concurrency ? " with multithreading" : ""}`, async () => {
+						eslint = new ESLint({
+							flags,
+							cwd: originalDir,
+							overrideConfigFile:
+								"tests/fixtures/cli-engine/deprecated-rule-config/eslint.config.js",
+							concurrency,
+						});
+						const results = await eslint.lintFiles(["lib/cli*.js"]);
+
+						assert.deepStrictEqual(results[0].usedDeprecatedRules, [
+							{
+								ruleId: "indent-legacy",
+								replacedBy: ["@stylistic/js/indent"],
+								info: coreRules.get("indent-legacy").meta
+									.deprecated,
+							},
+						]);
+					}),
+				);
+
+				it("should warn about a deprecated rules when a file path is passed explicitly with multithreading", async () => {
 					eslint = new ESLint({
 						flags,
 						cwd: originalDir,
-						overrideConfigFile:
-							"tests/fixtures/cli-engine/deprecated-rule-config/eslint.config.js",
+						overrideConfigFile: true,
+						overrideConfig: {
+							rules: {
+								semi: "error",
+							},
+						},
+						concurrency: 1,
 					});
-					const results = await eslint.lintFiles(["lib/cli*.js"]);
+					const results = await eslint.lintFiles("lib/cli.js");
 
 					assert.deepStrictEqual(results[0].usedDeprecatedRules, [
 						{
-							ruleId: "indent-legacy",
-							replacedBy: ["@stylistic/js/indent"],
-							info: coreRules.get("indent-legacy").meta
-								.deprecated,
+							ruleId: "semi",
+							replacedBy: ["@stylistic/js/semi"],
+							info: coreRules.get("semi").meta.deprecated,
 						},
 					]);
 				});
@@ -8934,7 +8981,11 @@ describe("ESLint", () => {
 					},
 				});
 
-				await assert.rejects(eslint.lintFiles("*.js"));
+				await assert.rejects(eslint.lintFiles("*.js"), ({ message }) =>
+					message.includes(
+						"Error while loading rule 'boom/boom': Boom!",
+					),
+				);
 
 				// Wait until all files have been closed.
 				// eslint-disable-next-line n/no-unsupported-features/node-builtins -- it's still an experimental feature.
@@ -8942,6 +8993,62 @@ describe("ESLint", () => {
 					await timers.setImmediate();
 				}
 				assert.strictEqual(createCallCount, 1);
+			});
+
+			it("should stop linting files if a rule crashes with multithreading", async () => {
+				const concurrency = 2;
+				const cwd = getFixturePath();
+				let createCallCount = 0;
+
+				testChannel = new BroadcastChannel("eslint-test");
+				testChannel.onmessage = event => {
+					if (event.data === "Rule created") {
+						createCallCount++;
+					}
+				};
+
+				const optionsSrc = `
+				export default {
+					flags: ${JSON.stringify(flags)},
+					concurrency: ${concurrency},
+					cwd: ${JSON.stringify(cwd)},
+					plugins: {
+						boom: {
+							rules: {
+								boom: {
+									create() {
+										const channel = new BroadcastChannel("eslint-test");
+										channel.postMessage("Rule created");
+										channel.close();
+										throw Error("Boom!");
+									},
+								},
+							},
+						},
+					},
+					baseConfig: {
+						rules: {
+							"boom/boom": "error",
+						},
+					},
+				};
+				`;
+				const optionsURL = `data:text/javascript,${encodeURIComponent(optionsSrc)}`;
+				eslint = await ESLint.fromOptionModule(optionsURL);
+
+				await assert.rejects(eslint.lintFiles("*.js"), ({ message }) =>
+					message.includes(
+						"Error while loading rule 'boom/boom': Boom!",
+					),
+				);
+				assert(
+					createCallCount >= 1,
+					"expected create() to be called at least once",
+				);
+				assert(
+					createCallCount <= concurrency,
+					`expected create() to be called at most ${concurrency} times`,
+				);
 			});
 
 			// https://github.com/eslint/eslint/issues/19243
@@ -10478,6 +10585,14 @@ describe("ESLint", () => {
 			});
 
 			it("should throw an error when results were created from a different instance", async () => {
+				const teardown = createCustomTeardown({
+					cwd: fixtureDir,
+					files: {
+						"baz/file.js": "3",
+					},
+				});
+				await teardown.prepare();
+
 				const engine1 = new ESLint({
 					flags,
 					overrideConfigFile: true,
@@ -10498,6 +10613,17 @@ describe("ESLint", () => {
 						},
 					},
 				});
+				const engine3 = new ESLint({
+					flags,
+					overrideConfigFile: true,
+					cwd: path.join(fixtureDir, "baz"),
+					overrideConfig: {
+						rules: {
+							semi: 2,
+						},
+					},
+					concurrency: 1,
+				});
 
 				const results1 = await engine1.lintText("1", {
 					filePath: "file.js",
@@ -10505,11 +10631,24 @@ describe("ESLint", () => {
 				const results2 = await engine2.lintText("2", {
 					filePath: "file.js",
 				});
+				const results3 = await engine3.lintFiles("file.js");
 
 				engine1.getRulesMetaForResults(results1); // should not throw an error
 				assert.throws(
 					() => {
 						engine1.getRulesMetaForResults(results2);
+					},
+					{
+						constructor: TypeError,
+						message:
+							"Results object was not created from this ESLint instance.",
+					},
+				);
+
+				engine3.getRulesMetaForResults(results3); // should not throw an error
+				assert.throws(
+					() => {
+						engine3.getRulesMetaForResults(results2);
 					},
 					{
 						constructor: TypeError,
@@ -10557,49 +10696,53 @@ describe("ESLint", () => {
 				assert.deepStrictEqual(rulesMeta, {});
 			});
 
-			it("should not throw an error if results contain linted files and one ignored file", async () => {
-				const engine = new ESLint({
-					flags,
-					overrideConfigFile: true,
-					cwd: getFixturePath(),
-					ignorePatterns: ["passing*"],
-					overrideConfig: {
-						rules: {
-							"no-undef": 2,
-							semi: 1,
+			[void 0, 2].forEach(concurrency =>
+				it(`should not throw an error if results contain linted files and one ignored file${concurrency ? " with multithreading" : ""}`, async () => {
+					const engine = new ESLint({
+						flags,
+						overrideConfigFile: true,
+						cwd: getFixturePath(),
+						ignorePatterns: ["passing*"],
+						overrideConfig: {
+							rules: {
+								"no-undef": 2,
+								semi: 1,
+							},
 						},
-					},
-				});
+						concurrency,
+					});
 
-				const results = await engine.lintFiles([
-					"missing-semicolon.js",
-					"passing.js",
-					"undef.js",
-				]);
+					const results = await engine.lintFiles([
+						"missing-semicolon.js",
+						"passing.js",
+						"undef.js",
+					]);
 
-				assert(
-					results.some(({ messages }) =>
-						messages.some(
-							({ message, ruleId }) =>
-								!ruleId && message.startsWith("File ignored"),
+					assert(
+						results.some(({ messages }) =>
+							messages.some(
+								({ message, ruleId }) =>
+									!ruleId &&
+									message.startsWith("File ignored"),
+							),
 						),
-					),
-					"At least one file should be ignored but none is.",
-				);
+						"At least one file should be ignored but none is.",
+					);
 
-				const rulesMeta = engine.getRulesMetaForResults(results);
+					const rulesMeta = engine.getRulesMetaForResults(results);
 
-				assert.deepStrictEqual(
-					rulesMeta["no-undef"],
-					coreRules.get("no-undef").meta,
-				);
-				assert.deepStrictEqual(
-					rulesMeta.semi,
-					coreRules.get("semi").meta,
-				);
-			});
+					assert.deepStrictEqual(
+						rulesMeta["no-undef"],
+						coreRules.get("no-undef").meta,
+					);
+					assert.deepStrictEqual(
+						rulesMeta.semi,
+						coreRules.get("semi").meta,
+					);
+				}),
+			);
 
-			it("should return empty object when there are no linting errors", async () => {
+			it("should return an empty object when there are no linting errors", async () => {
 				const engine = new ESLint({
 					flags,
 					overrideConfigFile: true,
@@ -10630,6 +10773,29 @@ describe("ESLint", () => {
 				assert.strictEqual(rulesMeta.semi, coreRules.get("semi").meta);
 			});
 
+			it("should return one rule meta when there is a linting error with multithreading", async () => {
+				const engine = new ESLint({
+					flags,
+					overrideConfigFile: true,
+					overrideConfig: {
+						rules: {
+							semi: 2,
+						},
+					},
+					cwd: getFixturePath(),
+					concurrency: 1,
+				});
+
+				const results = await engine.lintFiles("missing-semicolon.js");
+				const rulesMeta = engine.getRulesMetaForResults(results);
+
+				assert.strictEqual(Object.keys(rulesMeta).length, 1);
+				assert.deepStrictEqual(
+					rulesMeta.semi,
+					coreRules.get("semi").meta,
+				);
+			});
+
 			it("should return one rule meta when there is a suppressed linting error", async () => {
 				const engine = new ESLint({
 					flags,
@@ -10650,6 +10816,31 @@ describe("ESLint", () => {
 				assert.strictEqual(rulesMeta.semi, coreRules.get("semi").meta);
 			});
 
+			it("should return one rule meta when there is a suppressed linting error with multithreading", async () => {
+				const engine = new ESLint({
+					flags,
+					overrideConfigFile: true,
+					overrideConfig: {
+						rules: {
+							"no-console": "error",
+						},
+					},
+					concurrency: 1,
+					cwd: getFixturePath(),
+				});
+
+				const results = await engine.lintFiles(
+					"disable-inline-config.js",
+				);
+				const rulesMeta = engine.getRulesMetaForResults(results);
+
+				assert.strictEqual(Object.keys(rulesMeta).length, 1);
+				assert.deepStrictEqual(
+					rulesMeta["no-console"],
+					coreRules.get("no-console").meta,
+				);
+			});
+
 			it("should return multiple rule meta when there are multiple linting errors", async () => {
 				const engine = new ESLint({
 					flags,
@@ -10667,6 +10858,33 @@ describe("ESLint", () => {
 
 				assert.strictEqual(rulesMeta.semi, coreRules.get("semi").meta);
 				assert.strictEqual(
+					rulesMeta.quotes,
+					coreRules.get("quotes").meta,
+				);
+			});
+
+			it("should return multiple rule meta when there are multiple linting errors with multithreading", async () => {
+				const engine = new ESLint({
+					flags,
+					overrideConfigFile: true,
+					overrideConfig: {
+						rules: {
+							"no-console": 2,
+							quotes: [2, "double"],
+						},
+					},
+					cwd: getFixturePath(),
+					concurrency: 1,
+				});
+
+				const results = await engine.lintFiles("single-quoted.js");
+				const rulesMeta = engine.getRulesMetaForResults(results);
+
+				assert.deepStrictEqual(
+					rulesMeta["no-console"],
+					coreRules.get("no-console").meta,
+				);
+				assert.deepStrictEqual(
 					rulesMeta.quotes,
 					coreRules.get("quotes").meta,
 				);
@@ -10704,6 +10922,59 @@ describe("ESLint", () => {
 					coreRules.get("quotes").meta,
 				);
 				assert.strictEqual(
+					rulesMeta["custom-plugin/no-var"],
+					customPlugin.rules["no-var"].meta,
+				);
+			});
+
+			it("should return multiple rule meta when there are multiple linting errors from a plugin with multithreading", async () => {
+				const noVarURL = new URL(
+					"../../lib/rules/no-var.js",
+					pathToFileURL(__dirname),
+				).href;
+				const optionsSrc = `
+				import noVar from ${JSON.stringify(noVarURL)};
+
+				const customPlugin = {
+					rules: {
+						"no-var": noVar,
+					},
+				};
+
+				export { customPlugin };
+				export default {
+					flags: ${JSON.stringify(flags)},
+					overrideConfigFile: true,
+					overrideConfig: {
+						plugins: {
+							"custom-plugin": customPlugin,
+						},
+						rules: {
+							"custom-plugin/no-var": 2,
+							"no-console": 2,
+							"no-undef": 2,
+						},
+					},
+					cwd: ${JSON.stringify(getFixturePath())},
+					concurrency: 1,
+				};
+				`;
+				const optionsURL = `data:text/javascript,${encodeURIComponent(optionsSrc)}`;
+				const { customPlugin } = await import(optionsURL);
+				const engine = await ESLint.fromOptionModule(optionsURL);
+
+				const results = await engine.lintFiles("globals-node.js");
+				const rulesMeta = engine.getRulesMetaForResults(results);
+
+				assert.deepStrictEqual(
+					rulesMeta["no-console"],
+					coreRules.get("no-console").meta,
+				);
+				assert.deepStrictEqual(
+					rulesMeta["no-undef"],
+					coreRules.get("no-undef").meta,
+				);
+				assert.deepStrictEqual(
 					rulesMeta["custom-plugin/no-var"],
 					customPlugin.rules["no-var"].meta,
 				);
@@ -10749,6 +11020,33 @@ describe("ESLint", () => {
 				}
 			});
 
+			it("should ignore messages not related to a rule with multithreading", async () => {
+				const engine = new ESLint({
+					flags,
+					overrideConfigFile: true,
+					ignorePatterns: ["undef.js"],
+					overrideConfig: {
+						rules: {
+							"no-var": "warn",
+						},
+						linterOptions: {
+							reportUnusedDisableDirectives: "warn",
+						},
+					},
+					cwd: getFixturePath(),
+					concurrency: 3,
+				});
+
+				const results = await engine.lintFiles([
+					"disable-inline-config.js",
+					"syntax-error.js",
+					"undef.js",
+				]);
+				const rulesMeta = engine.getRulesMetaForResults(results);
+
+				assert.deepStrictEqual(rulesMeta, {});
+			});
+
 			it("should return a non-empty value if some of the messages are related to a rule", async () => {
 				const engine = new ESLint({
 					flags,
@@ -10771,7 +11069,37 @@ describe("ESLint", () => {
 				});
 			});
 
-			it("should return empty object if all messages are related to unknown rules", async () => {
+			it("should return a non-empty value if some of the messages are related to a rule with multithreading", async () => {
+				const teardown = createCustomTeardown({
+					cwd: fixtureDir,
+					files: {
+						"file.js": "// eslint-disable-line no-var\nvar foo;",
+					},
+				});
+				await teardown.prepare();
+
+				const engine = new ESLint({
+					flags,
+					overrideConfigFile: true,
+					overrideConfig: {
+						rules: { "no-var": "warn" },
+						linterOptions: {
+							reportUnusedDisableDirectives: "warn",
+						},
+					},
+					cwd: fixtureDir,
+					concurrency: 1,
+				});
+
+				const results = await engine.lintFiles("file.js");
+				const rulesMeta = engine.getRulesMetaForResults(results);
+
+				assert.deepStrictEqual(rulesMeta, {
+					"no-var": coreRules.get("no-var").meta,
+				});
+			});
+
+			it("should return an empty object if all messages are related to unknown rules", async () => {
 				const engine = new ESLint({
 					flags,
 					overrideConfigFile: true,
@@ -10794,7 +11122,39 @@ describe("ESLint", () => {
 				assert.strictEqual(Object.keys(rulesMeta).length, 0);
 			});
 
-			it("should return object with meta of known rules if some messages are related to unknown rules", async () => {
+			it("should return an empty object if all messages are related to unknown rules with multithreading", async () => {
+				const teardown = createCustomTeardown({
+					cwd: fixtureDir,
+					files: {
+						"file.js":
+							"// eslint-disable-line foo, bar/baz, bar/baz/qux",
+					},
+				});
+				await teardown.prepare();
+
+				const engine = new ESLint({
+					flags,
+					overrideConfigFile: true,
+					cwd: fixtureDir,
+					concurrency: 1,
+				});
+
+				const results = await engine.lintFiles("file.js");
+
+				assert.strictEqual(results[0].messages.length, 3);
+				assert.strictEqual(results[0].messages[0].ruleId, "foo");
+				assert.strictEqual(results[0].messages[1].ruleId, "bar/baz");
+				assert.strictEqual(
+					results[0].messages[2].ruleId,
+					"bar/baz/qux",
+				);
+
+				const rulesMeta = engine.getRulesMetaForResults(results);
+
+				assert.strictEqual(Object.keys(rulesMeta).length, 0);
+			});
+
+			it("should return an object with meta of known rules if some messages are related to unknown rules", async () => {
 				const engine = new ESLint({
 					flags,
 					overrideConfigFile: true,
@@ -10804,6 +11164,42 @@ describe("ESLint", () => {
 				const results = await engine.lintText(
 					"// eslint-disable-line foo, bar/baz, bar/baz/qux\nvar x;",
 				);
+
+				assert.strictEqual(results[0].messages.length, 4);
+				assert.strictEqual(results[0].messages[0].ruleId, "foo");
+				assert.strictEqual(results[0].messages[1].ruleId, "bar/baz");
+				assert.strictEqual(
+					results[0].messages[2].ruleId,
+					"bar/baz/qux",
+				);
+				assert.strictEqual(results[0].messages[3].ruleId, "no-var");
+
+				const rulesMeta = engine.getRulesMetaForResults(results);
+
+				assert.deepStrictEqual(rulesMeta, {
+					"no-var": coreRules.get("no-var").meta,
+				});
+			});
+
+			it("should return an object with meta of known rules if some messages are related to unknown rules with multithreading", async () => {
+				const teardown = createCustomTeardown({
+					cwd: fixtureDir,
+					files: {
+						"file.js":
+							"// eslint-disable-line foo, bar/baz, bar/baz/qux\nvar x;",
+					},
+				});
+				await teardown.prepare();
+
+				const engine = new ESLint({
+					flags,
+					overrideConfigFile: true,
+					overrideConfig: { rules: { "no-var": "warn" } },
+					cwd: fixtureDir,
+					concurrency: 1,
+				});
+
+				const results = await engine.lintFiles("file.js");
 
 				assert.strictEqual(results[0].messages.length, 4);
 				assert.strictEqual(results[0].messages[0].ruleId, "foo");
@@ -12592,7 +12988,12 @@ describe("ESLint", () => {
 		});
 	});
 
-	describe("cache", () => {
+	/**
+	 * A helper function to test the cache functionality with different concurrency settings.
+	 * @param {undefined | number} concurrency The concurrency option passed to ESLint.
+	 * @returns {void}
+	 */
+	function testCacheWithConcurrency(concurrency) {
 		let eslint;
 
 		/**
@@ -12662,6 +13063,7 @@ describe("ESLint", () => {
 				);
 
 				eslint = new ESLint({
+					concurrency,
 					overrideConfigFile: true,
 					cwd,
 
@@ -12706,6 +13108,7 @@ describe("ESLint", () => {
 				});
 
 				eslint = new ESLint({
+					concurrency,
 					overrideConfigFile: true,
 					cwd,
 
@@ -12750,6 +13153,7 @@ describe("ESLint", () => {
 				});
 
 				eslint = new ESLint({
+					concurrency,
 					overrideConfigFile: true,
 					cwd,
 
@@ -12792,6 +13196,7 @@ describe("ESLint", () => {
 			);
 
 			eslint = new ESLint({
+				concurrency,
 				overrideConfigFile: true,
 				cache: true,
 				cwd,
@@ -12823,6 +13228,7 @@ describe("ESLint", () => {
 			);
 
 			eslint = new ESLint({
+				concurrency,
 				overrideConfigFile: true,
 				cwd,
 
@@ -12837,7 +13243,12 @@ describe("ESLint", () => {
 				ignore: false,
 			});
 
-			let spy = sinon.spy(fs.promises, "readFile");
+			let spy;
+
+			// We can't mock things in a worker thread yet.
+			if (!concurrency) {
+				spy = sinon.spy(fs.promises, "readFile");
+			}
 
 			let file = path.join(cwd, "test-file.js");
 
@@ -12852,10 +13263,12 @@ describe("ESLint", () => {
 				);
 			}
 
-			assert(
-				spy.calledWith(file),
-				"ESLint should have read the file because there was no cache file",
-			);
+			if (!concurrency) {
+				assert(
+					spy.calledWith(file),
+					"ESLint should have read the file because there was no cache file",
+				);
+			}
 			assert(
 				shell.test("-f", cacheFilePath),
 				"the cache for eslint should have been created",
@@ -12865,6 +13278,7 @@ describe("ESLint", () => {
 			sinon.restore();
 
 			eslint = new ESLint({
+				concurrency,
 				overrideConfigFile: true,
 				cwd,
 
@@ -12879,15 +13293,19 @@ describe("ESLint", () => {
 				ignore: false,
 			});
 
-			// create a new spy
-			spy = sinon.spy(fs.promises, "readFile");
+			if (!concurrency) {
+				// create a new spy
+				spy = sinon.spy(fs.promises, "readFile");
+			}
 
 			const [newResult] = await eslint.lintFiles([file]);
 
-			assert(
-				spy.calledWith(file),
-				"ESLint should have read the file again because it's considered changed because the config changed",
-			);
+			if (!concurrency) {
+				assert(
+					spy.calledWith(file),
+					"ESLint should have read the file again because it's considered changed because the config changed",
+				);
+			}
 			assert.strictEqual(
 				newResult.errorCount,
 				1,
@@ -12911,6 +13329,7 @@ describe("ESLint", () => {
 			);
 
 			eslint = new ESLint({
+				concurrency,
 				overrideConfigFile: true,
 				cwd,
 
@@ -12925,7 +13344,12 @@ describe("ESLint", () => {
 				ignore: false,
 			});
 
-			let spy = sinon.spy(fs.promises, "readFile");
+			let spy;
+
+			// We can't mock things in a worker thread yet.
+			if (!concurrency) {
+				spy = sinon.spy(fs.promises, "readFile");
+			}
 
 			let file = getFixturePath("cache/src", "test-file.js");
 
@@ -12933,10 +13357,12 @@ describe("ESLint", () => {
 
 			const result = await eslint.lintFiles([file]);
 
-			assert(
-				spy.calledWith(file),
-				"ESLint should have read the file because there was no cache file",
-			);
+			if (!concurrency) {
+				assert(
+					spy.calledWith(file),
+					"ESLint should have read the file because there was no cache file",
+				);
+			}
 			assert(
 				shell.test("-f", cacheFilePath),
 				"the cache for eslint should have been created",
@@ -12946,6 +13372,7 @@ describe("ESLint", () => {
 			sinon.restore();
 
 			eslint = new ESLint({
+				concurrency,
 				overrideConfigFile: true,
 				cwd,
 
@@ -12960,8 +13387,10 @@ describe("ESLint", () => {
 				ignore: false,
 			});
 
-			// create a new spy
-			spy = sinon.spy(fs.promises, "readFile");
+			if (!concurrency) {
+				// create a new spy
+				spy = sinon.spy(fs.promises, "readFile");
+			}
 
 			const cachedResult = await eslint.lintFiles([file]);
 
@@ -12971,11 +13400,13 @@ describe("ESLint", () => {
 				"the result should have been the same",
 			);
 
-			// assert the file was not processed because the cache was used
-			assert(
-				!spy.calledWith(file),
-				"the file should not have been reloaded",
-			);
+			if (!concurrency) {
+				// assert the file was not processed because the cache was used
+				assert(
+					!spy.calledWith(file),
+					"the file should not have been reloaded",
+				);
+			}
 		});
 
 		it("when `cacheLocation` is specified, should create the cache file with `cache:true` and then delete it with `cache:false`", async () => {
@@ -12987,6 +13418,7 @@ describe("ESLint", () => {
 			);
 
 			const eslintOptions = {
+				concurrency,
 				overrideConfigFile: true,
 
 				// specifying cache true the cache will be created
@@ -13036,6 +13468,7 @@ describe("ESLint", () => {
 			const spy = sinon.spy(fsp, "unlink");
 
 			const eslintOptions = {
+				concurrency,
 				overrideConfigFile: true,
 				cache: false,
 				cacheLocation: cacheFilePath,
@@ -13074,6 +13507,7 @@ describe("ESLint", () => {
 			);
 
 			const eslintOptions = {
+				concurrency,
 				overrideConfigFile: true,
 				cache: false,
 				cacheLocation: cacheFilePath,
@@ -13108,6 +13542,7 @@ describe("ESLint", () => {
 			});
 
 			const eslintOptions = {
+				concurrency,
 				overrideConfigFile: true,
 				cache: false,
 				cacheLocation: cacheFilePath,
@@ -13140,6 +13575,7 @@ describe("ESLint", () => {
 			);
 
 			eslint = new ESLint({
+				concurrency,
 				cwd: path.join(fixtureDir, ".."),
 				overrideConfigFile: true,
 
@@ -13208,6 +13644,7 @@ describe("ESLint", () => {
 				"the cache file already exists and wasn't successfully deleted",
 			);
 			eslint = new ESLint({
+				concurrency,
 				cwd: path.join(fixtureDir, ".."),
 				overrideConfigFile: true,
 
@@ -13227,8 +13664,15 @@ describe("ESLint", () => {
 			const goodFile = fs.realpathSync(
 				getFixturePath("cache/src", "test-file.js"),
 			);
-			const toBeDeletedFile = fs.realpathSync(
-				getFixturePath("cache/src", "file-to-delete.js"),
+			const toBeDeletedFile = getFixturePath(
+				"cache/src",
+				"file-to-delete.js",
+			);
+
+			// Create or overwrite the file to be deleted to ensure it exists if the test is repeated.
+			await fsp.writeFile(
+				toBeDeletedFile,
+				"var abc = 3;\n\nconsole.log(abc);\n",
 			);
 
 			await eslint.lintFiles([badFile, goodFile, toBeDeletedFile]);
@@ -13280,6 +13724,7 @@ describe("ESLint", () => {
 			);
 
 			eslint = new ESLint({
+				concurrency,
 				cwd: path.join(fixtureDir, ".."),
 				overrideConfigFile: true,
 
@@ -13342,6 +13787,7 @@ describe("ESLint", () => {
 			fs.writeFileSync(cacheFilePath, "[]"); // intenationally invalid to additionally make sure it isn't used
 
 			eslint = new ESLint({
+				concurrency,
 				cwd: path.join(fixtureDir, ".."),
 				overrideConfigFile: true,
 				cacheLocation: cacheFilePath,
@@ -13377,6 +13823,7 @@ describe("ESLint", () => {
 			fs.writeFileSync(cacheFilePath, "[]"); // intenationally invalid to additionally make sure it isn't used
 
 			eslint = new ESLint({
+				concurrency,
 				cwd: path.join(fixtureDir, ".."),
 				overrideConfigFile: true,
 				cacheLocation: cacheFilePath,
@@ -13414,6 +13861,7 @@ describe("ESLint", () => {
 			fs.writeFileSync(cacheFilePath, "");
 
 			eslint = new ESLint({
+				concurrency,
 				cwd: path.join(fixtureDir, ".."),
 				overrideConfigFile: true,
 				cache: true,
@@ -13451,6 +13899,7 @@ describe("ESLint", () => {
 			fs.writeFileSync(cacheFilePath, "[]"); // intenationally invalid to additionally make sure it isn't used
 
 			eslint = new ESLint({
+				concurrency,
 				cwd: path.join(fixtureDir, ".."),
 				overrideConfigFile: true,
 				cacheLocation: cacheFilePath,
@@ -13485,6 +13934,7 @@ describe("ESLint", () => {
 			);
 
 			eslint = new ESLint({
+				concurrency,
 				overrideConfigFile: true,
 
 				// specify a custom cache file
@@ -13547,6 +13997,7 @@ describe("ESLint", () => {
 			const deprecatedRuleId = "space-in-parens";
 
 			eslint = new ESLint({
+				concurrency,
 				cwd: path.join(fixtureDir, ".."),
 				overrideConfigFile: true,
 
@@ -13616,6 +14067,7 @@ describe("ESLint", () => {
 			);
 
 			eslint = new ESLint({
+				concurrency,
 				cwd: path.join(fixtureDir, ".."),
 				overrideConfigFile: true,
 
@@ -13684,6 +14136,7 @@ describe("ESLint", () => {
 				);
 
 				eslint = new ESLint({
+					concurrency,
 					cwd: path.join(fixtureDir, ".."),
 					overrideConfigFile: true,
 
@@ -13738,6 +14191,7 @@ describe("ESLint", () => {
 				);
 
 				eslint = new ESLint({
+					concurrency,
 					cwd: path.join(fixtureDir, ".."),
 					overrideConfigFile: true,
 
@@ -13791,6 +14245,7 @@ describe("ESLint", () => {
 				);
 
 				eslint = new ESLint({
+					concurrency,
 					cwd: path.join(fixtureDir, ".."),
 					overrideConfigFile: true,
 
@@ -13845,6 +14300,14 @@ describe("ESLint", () => {
 				);
 			});
 		});
+	}
+
+	describe("cache", () => {
+		testCacheWithConcurrency(void 0);
+	});
+
+	describe("cache with multithreading", () => {
+		testCacheWithConcurrency(2);
 	});
 
 	describe("unstable_config_lookup_from_file", () => {
@@ -14542,5 +15005,77 @@ describe("ESLint", () => {
 				assert.strictEqual(results[1].suppressedMessages.length, 0);
 			});
 		});
+	});
+
+	describe("ESLint.fromOptionModule", () => {
+		it("should return an instance of ESLint", async () => {
+			const url =
+				"data:text/javascript,export default { flags: ['test_only'] }";
+			const eslint = await ESLint.fromOptionModule(url);
+			assert(
+				eslint instanceof ESLint,
+				"expected fromOptionModule to asynchronously return an instance of ESLint",
+			);
+			assert(
+				eslint.hasFlag("test_only"),
+				"expected eslint instance to have the test_only flag",
+			);
+		});
+
+		it("should throw an error with an invalid argument", async () => {
+			await assert.rejects(() => ESLint.fromOptionModule("invalid-url"));
+		});
+	});
+
+	describe("caclulateWorkerCount", () => {
+		const { calculateWorkerCount } = require("../../../lib/eslint/eslint");
+
+		/**
+		 * Defines a test for `calculateWorkerCount` with the given parameters.
+		 * @param {number | "auto" | "off"} concurrency The normalized concurrency setting.
+		 * @param {number} fileCount The number of files to lint. An integer greater than 0.
+		 * @param {number} availableCores The number of available cores.
+		 * @param {number} expectedWorkerCount The expected return value of `calculateWorkerCount`.
+		 * @returns {Mocha.TestFunction} A Mocha test function.
+		 */
+		function testCalculateWorkerCount(
+			concurrency,
+			fileCount,
+			availableCores,
+			expectedWorkerCount,
+		) {
+			return it(`should return ${expectedWorkerCount} when concurrency is ${concurrency} with ${fileCount} file(s) and ${availableCores} available core(s)`, () => {
+				const actualWorkerCount = calculateWorkerCount(
+					concurrency,
+					fileCount,
+					{ availableParallelism: () => availableCores },
+				);
+				assert.strictEqual(actualWorkerCount, expectedWorkerCount);
+			});
+		}
+
+		// Returns numeric `concurrency` if the number of files is not less
+		testCalculateWorkerCount(1, 1, 1, 1);
+		testCalculateWorkerCount(1, 10, 8, 1);
+		testCalculateWorkerCount(3, 10, 8, 3);
+		testCalculateWorkerCount(42, 42, 4, 42);
+
+		// Returns the number of files if `concurrency` is larger
+		testCalculateWorkerCount(42, 1, 8, 1);
+		testCalculateWorkerCount(4, 3, 8, 3);
+
+		// Returns 0 if concurrency is "off"
+		testCalculateWorkerCount("off", 1000, 8, 0);
+
+		// Returns 0 if concurrency is "auto" and there are only a few files to lint
+		testCalculateWorkerCount("auto", 15, 8, 0);
+
+		// Returns 0 if concurrency is "auto" and there are less that four available cores
+		testCalculateWorkerCount("auto", 42, 1, 0);
+		testCalculateWorkerCount("auto", 1000, 2, 0);
+		testCalculateWorkerCount("auto", 123, 0, 0);
+
+		// Returns half the number of available cores if concurrency is "auto" and there are many files to lint
+		testCalculateWorkerCount("auto", 1000, 8, 4);
 	});
 });
