@@ -49,7 +49,6 @@ ruleTester.run("prefer-const", rule, {
 			languageOptions: {
 				sourceType: "module",
 				ecmaVersion: 2026,
-				parser: require("@typescript-eslint/parser"),
 			},
 		},
 		{
@@ -57,7 +56,6 @@ ruleTester.run("prefer-const", rule, {
 			languageOptions: {
 				sourceType: "module",
 				ecmaVersion: 2026,
-				parser: require("@typescript-eslint/parser"),
 			},
 		},
 		"const x = 0;",

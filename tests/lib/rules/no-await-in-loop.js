@@ -60,7 +60,6 @@ ruleTester.run("no-await-in-loop", rule, {
 			languageOptions: {
 				sourceType: "module",
 				ecmaVersion: 2026,
-				parser: require("@typescript-eslint/parser"),
 			},
 		},
 		{
@@ -68,7 +67,6 @@ ruleTester.run("no-await-in-loop", rule, {
 			languageOptions: {
 				sourceType: "module",
 				ecmaVersion: 2026,
-				parser: require("@typescript-eslint/parser"),
 			},
 		},
 		{
@@ -76,7 +74,6 @@ ruleTester.run("no-await-in-loop", rule, {
 			languageOptions: {
 				sourceType: "module",
 				ecmaVersion: 2026,
-				parser: require("@typescript-eslint/parser"),
 			},
 		},
 	],
@@ -159,7 +156,6 @@ ruleTester.run("no-await-in-loop", rule, {
 			languageOptions: {
 				sourceType: "module",
 				ecmaVersion: 2026,
-				parser: require("@typescript-eslint/parser"),
 			},
 			errors: [{ ...error, type: "VariableDeclaration" }],
 		},
@@ -168,7 +164,6 @@ ruleTester.run("no-await-in-loop", rule, {
 			languageOptions: {
 				sourceType: "module",
 				ecmaVersion: 2026,
-				parser: require("@typescript-eslint/parser"),
 			},
 			errors: [{ ...error, type: "VariableDeclaration" }],
 		},

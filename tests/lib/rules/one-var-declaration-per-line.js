@@ -172,7 +172,6 @@ ruleTester.run("one-var-declaration-per-line", rule, {
 			options: ["always"],
 			languageOptions: {
 				ecmaVersion: 2026,
-				parser: require("@typescript-eslint/parser"),
 			},
 			errors: [errorAt(1, 14)],
 		},
@@ -182,7 +181,6 @@ ruleTester.run("one-var-declaration-per-line", rule, {
 			options: ["always"],
 			languageOptions: {
 				ecmaVersion: 2026,
-				parser: require("@typescript-eslint/parser"),
 			},
 			errors: [errorAt(1, 20)],
 		},

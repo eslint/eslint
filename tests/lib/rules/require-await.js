@@ -94,7 +94,6 @@ ruleTester.run("require-await", rule, {
 			languageOptions: {
 				sourceType: "module",
 				ecmaVersion: 2026,
-				parser: require("@typescript-eslint/parser"),
 			},
 		},
 		{
@@ -102,7 +101,6 @@ ruleTester.run("require-await", rule, {
 			languageOptions: {
 				sourceType: "module",
 				ecmaVersion: 2026,
-				parser: require("@typescript-eslint/parser"),
 			},
 		},
 	],
@@ -355,7 +353,6 @@ ruleTester.run("require-await", rule, {
 			code: "async function run() { using resource = getResource(); }",
 			languageOptions: {
 				ecmaVersion: 2026,
-				parser: require("@typescript-eslint/parser"),
 			},
 			errors: [
 				{

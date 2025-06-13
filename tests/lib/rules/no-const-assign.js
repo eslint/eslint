@@ -35,7 +35,6 @@ ruleTester.run("no-const-assign", rule, {
 			languageOptions: {
 				sourceType: "module",
 				ecmaVersion: 2026,
-				parser: require("@typescript-eslint/parser"),
 			},
 		},
 		{
@@ -43,7 +42,6 @@ ruleTester.run("no-const-assign", rule, {
 			languageOptions: {
 				sourceType: "module",
 				ecmaVersion: 2026,
-				parser: require("@typescript-eslint/parser"),
 			},
 		},
 		"function x() {} x = 1;",

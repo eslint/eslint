@@ -41,7 +41,6 @@ ruleTester.run("no-var", rule, {
 			languageOptions: {
 				sourceType: "module",
 				ecmaVersion: 2026,
-				parser: require("@typescript-eslint/parser"),
 			},
 		},
 		{
@@ -49,7 +48,6 @@ ruleTester.run("no-var", rule, {
 			languageOptions: {
 				sourceType: "module",
 				ecmaVersion: 2026,
-				parser: require("@typescript-eslint/parser"),
 			},
 		},
 	],

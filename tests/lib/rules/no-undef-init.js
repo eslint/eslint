@@ -34,7 +34,6 @@ ruleTester.run("no-undef-init", rule, {
 			languageOptions: {
 				ecmaVersion: 2026,
 				sourceType: "module",
-				parser: require("@typescript-eslint/parser"),
 			},
 		},
 	],

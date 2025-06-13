@@ -58,7 +58,6 @@ ruleTester.run("no-inner-declarations", rule, {
 			languageOptions: {
 				ecmaVersion: 2026,
 				sourceType: "module",
-				parser: require("@typescript-eslint/parser"),
 			},
 		},
 		{
@@ -67,7 +66,6 @@ ruleTester.run("no-inner-declarations", rule, {
 			languageOptions: {
 				ecmaVersion: 2026,
 				sourceType: "module",
-				parser: require("@typescript-eslint/parser"),
 			},
 		},
 		"function doSomething() { while (test) { var foo; } }",

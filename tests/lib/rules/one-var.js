@@ -275,7 +275,7 @@ ruleTester.run("one-var", rule, {
 			options: ["consecutive"],
 			languageOptions: {
 				sourceType: "module",
-				parser: require("@typescript-eslint/parser"),
+				ecmaVersion: 2026,
 			},
 		},
 		{
@@ -283,7 +283,7 @@ ruleTester.run("one-var", rule, {
 			options: ["consecutive"],
 			languageOptions: {
 				sourceType: "module",
-				parser: require("@typescript-eslint/parser"),
+				ecmaVersion: 2026,
 			},
 		},
 
@@ -659,7 +659,6 @@ ruleTester.run("one-var", rule, {
 			languageOptions: {
 				ecmaVersion: 2026,
 				sourceType: "module",
-				parser: require("@typescript-eslint/parser"),
 			},
 		},
 		{
@@ -668,7 +667,6 @@ ruleTester.run("one-var", rule, {
 			languageOptions: {
 				ecmaVersion: 2026,
 				sourceType: "module",
-				parser: require("@typescript-eslint/parser"),
 			},
 		},
 	],
