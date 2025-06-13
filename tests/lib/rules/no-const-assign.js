@@ -30,6 +30,20 @@ ruleTester.run("no-const-assign", rule, {
 		// ignores non constant.
 		"var x = 0; x = 1;",
 		"let x = 0; x = 1;",
+		{
+			code: "using resource = fn();",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+		},
+		{
+			code: "await using resource = fn();",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+		},
 		"function x() {} x = 1;",
 		"function foo(x) { x = 1; }",
 		"class X {} X = 1;",

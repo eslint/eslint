@@ -950,5 +950,20 @@ ruleTesterTypeScript.run("no-loop-func", rule, {
 				},
 			],
 		},
+		{
+			code: `
+            for (const value of values) {
+                using resource = getResource();
+                () => resource; 
+            }
+            `,
+			errors: [
+				{
+					messageId: "unsafeRefs",
+					data: { varNames: "'resource'" },
+					type: "ArrowFunctionExpression",
+				},
+			],
+		},
 	],
 });

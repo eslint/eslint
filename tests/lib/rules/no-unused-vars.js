@@ -765,6 +765,27 @@ ruleTester.run("no-unused-vars", rule, {
 			],
 			languageOptions: { ecmaVersion: 6 },
 		},
+		{
+			code: "using resource = getResource();\nresource;",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+		},
+		{
+			code: "using resource = getResource();",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+		},
+		{
+			code: "await using resource = getResource();",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+		},
 	],
 	invalid: [
 		{
