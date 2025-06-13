@@ -350,5 +350,41 @@ ruleTester.run("no-restricted-syntax", rule, {
 				},
 			],
 		},
+
+		{
+			code: "{ using x = foo(); }",
+			options: ["VariableDeclaration[kind='using']"],
+			languageOptions: {
+				ecmaVersion: 2026,
+			},
+			errors: [
+				{
+					messageId: "restrictedSyntax",
+					data: {
+						message:
+							"Using 'VariableDeclaration[kind='using']' is not allowed.",
+					},
+					type: "VariableDeclaration",
+				},
+			],
+		},
+
+		{
+			code: "async function f() { await using x = foo(); }",
+			options: ["VariableDeclaration[kind='await using']"],
+			languageOptions: {
+				ecmaVersion: 17,
+			},
+			errors: [
+				{
+					messageId: "restrictedSyntax",
+					data: {
+						message:
+							"Using 'VariableDeclaration[kind='await using']' is not allowed.",
+					},
+					type: "VariableDeclaration",
+				},
+			],
+		},
 	],
 });

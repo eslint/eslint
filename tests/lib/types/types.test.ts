@@ -930,6 +930,7 @@ linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2022 } }, "test.js");
 linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2023 } }, "test.js");
 linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2024 } }, "test.js");
 linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2025 } }, "test.js");
+linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2026 } }, "test.js");
 linter.verify(SOURCE, { parserOptions: { ecmaVersion: "latest" } }, "test.js");
 linter.verify(
 	SOURCE,
@@ -1182,6 +1183,11 @@ linterWithFlatConfig.verify(
 );
 linterWithFlatConfig.verify(
 	SOURCE,
+	[{ languageOptions: { ecmaVersion: 2026 } }],
+	"test.js",
+);
+linterWithFlatConfig.verify(
+	SOURCE,
 	[{ languageOptions: { ecmaVersion: "latest" } }],
 	"test.js",
 );
@@ -1343,6 +1349,11 @@ linterWithEslintrcConfig.verify(
 linterWithEslintrcConfig.verify(
 	SOURCE,
 	{ parserOptions: { ecmaVersion: 2025 } },
+	"test.js",
+);
+linterWithEslintrcConfig.verify(
+	SOURCE,
+	{ parserOptions: { ecmaVersion: 2026 } },
 	"test.js",
 );
 linterWithEslintrcConfig.verify(
