@@ -9,8 +9,9 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../../lib/rules/no-duplicate-imports"),
-	RuleTester = require("../../../lib/rule-tester/rule-tester");
+const rule = require("../../../lib/rules/no-duplicate-imports");
+const RuleTester = require("../../../lib/rule-tester/rule-tester");
+const tsParser = require("@typescript-eslint/parser");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -212,6 +213,72 @@ ruleTester.run("no-duplicate-imports", rule, {
 					messageId: "export",
 					data: { module: "os" },
 					type: "ExportAllDeclaration",
+				},
+			],
+		},
+		{
+			code: 'import "os";\nexport * from "os";',
+			options: [{ includeExports: true }],
+			errors: [
+				{
+					messageId: "exportAs",
+					data: { module: "os" },
+					type: "ExportAllDeclaration",
+				},
+			],
+		},
+	],
+});
+
+const tsRuleTester = new RuleTester({
+	languageOptions: {
+		ecmaVersion: 12,
+		sourceType: "module",
+		parser: tsParser,
+	},
+});
+
+tsRuleTester.run("no-duplicate-imports", rule, {
+	valid: [
+		'import { Foo, type Bar } from "./foo"',
+		'import { type Foo, type Bar } from "./foo"',
+		'import type { Foo, Bar } from "./foo"',
+		{
+			code: 'import { Foo } from "./foo"\nimport type { Bar } from "./foo"',
+			options: [{ allowSeparateType: true }],
+		},
+	],
+	invalid: [
+		{
+			code: 'import { foo } from "./foo";\nimport type { bar } from "./foo";',
+			options: [{ allowSeparateType: false }],
+			errors: [
+				{
+					messageId: "import",
+					data: { module: "./foo" },
+					type: "ImportDeclaration",
+				},
+			],
+		},
+		{
+			code: 'import { foo } from "./foo";\nimport { bar } from "./foo";',
+			options: [{ allowSeparateType: false }],
+			errors: [
+				{
+					messageId: "import",
+					data: { module: "./foo" },
+					type: "ImportDeclaration",
+				},
+			],
+		},
+		{
+			code: 'import { foo } from "./foo";\nimport { bar } from "./foo";',
+			options: [{ allowSeparateType: true }],
+			errors: [
+				{
+					messageId: "import",
+					data: { module: "./foo" },
+					type: "ImportDeclaration",
 				},
 			],
 		},
