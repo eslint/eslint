@@ -70,6 +70,7 @@
     "test": "node Makefile.js test",
     "test:browser": "node Makefile.js cypress",
     "test:cli": "mocha",
+    "test:ecosystem": "node tools/test-ecosystem/index.mjs",
     "test:fuzz": "node Makefile.js fuzz",
     "test:performance": "node Makefile.js perf",
     "test:emfile": "node tools/check-emfile-handling.js",
@@ -141,6 +142,7 @@
     "optionator": "^0.9.3"
   },
   "devDependencies": {
+    "@antfu/ni": "^24.3.0",
     "@arethetypeswrong/cli": "^0.18.0",
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
@@ -189,6 +191,7 @@
     "metascraper-logo-favicon": "^5.25.7",
     "metascraper-title": "^5.25.7",
     "mocha": "^10.7.3",
+    "nano-spawn": "^1.0.1",
     "node-polyfill-webpack-plugin": "^1.0.3",
     "npm-license": "^0.3.3",
     "pirates": "^4.0.5",
