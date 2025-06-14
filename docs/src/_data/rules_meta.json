@@ -2959,6 +2959,11 @@
         }
     },
     "no-restricted-globals": {
+        "dialects": [
+            "javascript",
+            "typescript"
+        ],
+        "language": "javascript",
         "type": "suggestion",
         "docs": {
             "description": "Disallow specified global variables",
@@ -3489,6 +3494,11 @@
         "hasSuggestions": true
     },
     "no-use-before-define": {
+        "dialects": [
+            "javascript",
+            "typescript"
+        ],
+        "language": "javascript",
         "type": "problem",
         "docs": {
             "description": "Disallow the use of variables before they are defined",
@@ -3618,6 +3628,11 @@
     },
     "no-var": {
         "type": "suggestion",
+        "dialects": [
+            "typescript",
+            "javascript"
+        ],
+        "language": "javascript",
         "docs": {
             "description": "Require `let` or `const` instead of `var`",
             "recommended": false,

@@ -930,6 +930,7 @@ linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2022 } }, "test.js");
 linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2023 } }, "test.js");
 linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2024 } }, "test.js");
 linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2025 } }, "test.js");
+linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2026 } }, "test.js");
 linter.verify(SOURCE, { parserOptions: { ecmaVersion: "latest" } }, "test.js");
 linter.verify(
 	SOURCE,
@@ -1149,6 +1150,11 @@ linterWithFlatConfig.verify(SOURCE, [{}], {
 linterWithFlatConfig.verify(SOURCE, [{}], {
 	postprocess: problemList => problemList[0],
 });
+linterWithFlatConfig.verify(SOURCE, [{}], {
+	filterCodeBlock(filename) {
+		return filename.endsWith(".js");
+	},
+});
 
 linterWithFlatConfig.verify(
 	SOURCE,
@@ -1173,6 +1179,11 @@ linterWithFlatConfig.verify(
 linterWithFlatConfig.verify(
 	SOURCE,
 	[{ languageOptions: { ecmaVersion: 2025 } }],
+	"test.js",
+);
+linterWithFlatConfig.verify(
+	SOURCE,
+	[{ languageOptions: { ecmaVersion: 2026 } }],
 	"test.js",
 );
 linterWithFlatConfig.verify(
@@ -1274,6 +1285,15 @@ linterWithFlatConfig.verifyAndFix(
 	{ linterOptions: {} },
 	{ filename: "test.js" },
 );
+linterWithFlatConfig.verifyAndFix(
+	SOURCE,
+	{ linterOptions: {} },
+	{
+		filterCodeBlock(filename) {
+			return filename.endsWith(".js");
+		},
+	},
+);
 
 // #endregion Linter with flat config
 
@@ -1329,6 +1349,11 @@ linterWithEslintrcConfig.verify(
 linterWithEslintrcConfig.verify(
 	SOURCE,
 	{ parserOptions: { ecmaVersion: 2025 } },
+	"test.js",
+);
+linterWithEslintrcConfig.verify(
+	SOURCE,
+	{ parserOptions: { ecmaVersion: 2026 } },
 	"test.js",
 );
 linterWithEslintrcConfig.verify(
@@ -2134,6 +2159,12 @@ let config!: Linter.Config;
 let flatConfig!: Linter.FlatConfig;
 config = flatConfig;
 flatConfig = config;
+
+let configWithRules!: Linter.Config<ESLintRules>;
+let flatConfigWithRules!: Linter.FlatConfig<ESLintRules>;
+configWithRules = flatConfigWithRules;
+flatConfigWithRules = configWithRules;
+flatConfigWithRules.rules; // $ExpectType Partial<ESLintRules> | undefined
 
 // #endregion Config
 
