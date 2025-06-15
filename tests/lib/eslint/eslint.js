@@ -15,12 +15,14 @@
 //------------------------------------------------------------------------------
 
 const assert = require("node:assert");
-const util = require("node:util");
 const fs = require("node:fs");
 const fsp = require("node:fs/promises");
 const os = require("node:os");
 const path = require("node:path");
 const timers = require("node:timers/promises");
+const { pathToFileURL } = require("node:url");
+const util = require("node:util");
+const { setEnvironmentData } = require("node:worker_threads");
 const escapeStringRegExp = require("escape-string-regexp");
 const fCache = require("file-entry-cache");
 const sinon = require("sinon");
@@ -33,7 +35,6 @@ const { defaultConfig } = require("../../../lib/config/default-config");
 const coreRules = require("../../../lib/rules");
 const espree = require("espree");
 const { WarningService } = require("../../../lib/services/warning-service");
-const { pathToFileURL } = require("node:url");
 
 //------------------------------------------------------------------------------
 // Constants
@@ -116,9 +117,6 @@ describe("ESLint", () => {
 	/** @type {ESLint} */
 	let ESLint;
 
-	/** @type {?BroadcastChannel} */
-	let testChannel = null;
-
 	/**
 	 * Returns the path inside of the fixture directory.
 	 * @param {...string} args file path segments.
@@ -178,10 +176,7 @@ describe("ESLint", () => {
 
 	afterEach(() => {
 		sinon.restore();
-		if (testChannel) {
-			testChannel.close();
-			testChannel = null;
-		}
+		setEnvironmentData("createCallCountArray", void 0);
 	});
 
 	[[], ["v10_config_lookup_from_file"]].forEach(flags => {
@@ -8990,16 +8985,18 @@ describe("ESLint", () => {
 			it("should stop linting files if a rule crashes with multithreading", async () => {
 				const concurrency = 2;
 				const cwd = getFixturePath();
-				let createCallCount = 0;
 
-				testChannel = new BroadcastChannel("eslint-test");
-				testChannel.onmessage = event => {
-					if (event.data === "Rule created") {
-						createCallCount++;
-					}
-				};
+				const createCallCountArray = new Int32Array(
+					new SharedArrayBuffer(Int32Array.BYTES_PER_ELEMENT),
+				);
+				setEnvironmentData(
+					"createCallCountArray",
+					createCallCountArray,
+				);
 
 				const optionsSrc = `
+				import { getEnvironmentData } from "node:worker_threads";
+
 				export default {
 					flags: ${JSON.stringify(flags)},
 					concurrency: ${concurrency},
@@ -9009,9 +9006,8 @@ describe("ESLint", () => {
 							rules: {
 								boom: {
 									create() {
-										const channel = new BroadcastChannel("eslint-test");
-										channel.postMessage("Rule created");
-										channel.close();
+										const createCallCountArray = getEnvironmentData("createCallCountArray");
+										Atomics.add(createCallCountArray, 0, 1);
 										throw Error("Boom!");
 									},
 								},
@@ -9033,6 +9029,8 @@ describe("ESLint", () => {
 						"Error while loading rule 'boom/boom': Boom!",
 					),
 				);
+
+				const createCallCount = Atomics.load(createCallCountArray, 0);
 				assert(
 					createCallCount >= 1,
 					"expected create() to be called at least once",
