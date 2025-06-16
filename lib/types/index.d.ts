@@ -592,17 +592,17 @@ export type JSSyntaxElement = {
 };
 
 export namespace Rule {
-	interface RuleModule
+	interface RuleModule<MessageIds extends string = string>
 		extends RuleDefinition<{
 			LangOptions: Linter.LanguageOptions;
 			Code: SourceCode;
 			RuleOptions: any[];
 			Visitor: NodeListener;
 			Node: JSSyntaxElement;
-			MessageIds: string;
+			MessageIds: MessageIds;
 			ExtRuleDocs: {};
 		}> {
-		create(context: RuleContext): NodeListener;
+		create(context: RuleContext<MessageIds>): NodeListener;
 	}
 
 	type NodeTypes = ESTree.Node["type"];
@@ -1179,13 +1179,13 @@ export namespace Rule {
 		hasSuggestions?: boolean | undefined;
 	}
 
-	interface RuleContext
+	interface RuleContext<MessageIds extends string = string>
 		extends CoreRuleContext<{
 			LangOptions: Linter.LanguageOptions;
 			Code: SourceCode;
 			RuleOptions: any[];
 			Node: JSSyntaxElement;
-			MessageIds: string;
+			MessageIds: MessageIds;
 		}> {
 		/*
 		 * Need to extend the `RuleContext` interface to include the
@@ -1222,18 +1222,18 @@ export namespace Rule {
 		fix: ReportFixer;
 	}
 
-	type SuggestionDescriptorMessage = { desc: string } | { messageId: string };
-	type SuggestionReportDescriptor = SuggestionDescriptorMessage &
+	type SuggestionDescriptorMessage<MessageIds extends string = string> = { desc: string } | { messageId: MessageIds };
+	type SuggestionReportDescriptor<MessageIds extends string = string> = SuggestionDescriptorMessage<MessageIds> &
 		SuggestionReportOptions;
 
-	interface ReportDescriptorOptions extends ReportDescriptorOptionsBase {
-		suggest?: SuggestionReportDescriptor[] | null | undefined;
+	interface ReportDescriptorOptions<MessageIds extends string = string> extends ReportDescriptorOptionsBase {
+		suggest?: SuggestionReportDescriptor<MessageIds>[] | null | undefined;
 	}
 
-	type ReportDescriptor = ReportDescriptorMessage &
+	type ReportDescriptor<MessageIds extends string = string> = ReportDescriptorMessage<MessageIds> &
 		ReportDescriptorLocation &
-		ReportDescriptorOptions;
-	type ReportDescriptorMessage = { message: string } | { messageId: string };
+		ReportDescriptorOptions<MessageIds>;
+	type ReportDescriptorMessage<MessageIds extends string = string> = { message: string } | { messageId: MessageIds };
 	type ReportDescriptorLocation =
 		| { node: ESTree.Node }
 		| { loc: AST.SourceLocation | { line: number; column: number } };
@@ -1327,7 +1327,7 @@ export class Linter {
 
 	getSourceCode(): SourceCode;
 
-	defineRule(name: string, rule: Rule.RuleModule): void;
+	defineRule<MessageIds extends string = string>(name: string, rule: Rule.RuleModule<MessageIds>): void;
 
 	defineRules(rules: { [name: string]: Rule.RuleModule }): void;
 
@@ -1636,7 +1636,7 @@ export namespace Linter {
 		reportUnusedDisableDirectives?: boolean | undefined;
 	}
 
-	interface LintSuggestion {
+	interface LintSuggestion<MessageIds extends string = string> {
 		/** A short description. */
 		desc: string;
 
@@ -1644,10 +1644,10 @@ export namespace Linter {
 		fix: Rule.Fix;
 
 		/** Id referencing a message for the description. */
-		messageId?: string | undefined;
+		messageId?: MessageIds | undefined;
 	}
 
-	interface LintMessage {
+	interface LintMessage<MessageIds extends string = string> {
 		/** The 1-based column number. */
 		column: number;
 
@@ -1667,7 +1667,7 @@ export namespace Linter {
 		message: string;
 
 		/** The ID of the message in the rule's meta. */
-		messageId?: string | undefined;
+		messageId?: MessageIds | undefined;
 
 		/**
 		 * Type of node.
@@ -1685,7 +1685,7 @@ export namespace Linter {
 		fix?: Rule.Fix | undefined;
 
 		/** Information for suggestions. */
-		suggestions?: LintSuggestion[] | undefined;
+		suggestions?: LintSuggestion<MessageIds>[] | undefined;
 	}
 
 	interface LintSuppression {
@@ -1693,7 +1693,7 @@ export namespace Linter {
 		justification: string;
 	}
 
-	interface SuppressedLintMessage extends LintMessage {
+	interface SuppressedLintMessage<MessageIds extends string = string> extends LintMessage<MessageIds> {
 		/** The suppression info. */
 		suppressions: LintSuppression[];
 	}
@@ -2250,18 +2250,18 @@ export class RuleTester {
 
 	constructor(config?: Linter.Config);
 
-	run(
+	run<MessageIds extends string = string>(
 		name: string,
 		rule: RuleDefinition,
 		tests: {
 			valid: Array<string | RuleTester.ValidTestCase>;
-			invalid: RuleTester.InvalidTestCase[];
+			invalid: RuleTester.InvalidTestCase<MessageIds>[];
 		},
 	): void;
 
-	static only(
-		item: string | RuleTester.ValidTestCase | RuleTester.InvalidTestCase,
-	): RuleTester.ValidTestCase | RuleTester.InvalidTestCase;
+	static only<MessageIds extends string = string>(
+		item: string | RuleTester.ValidTestCase | RuleTester.InvalidTestCase<MessageIds>,
+	): RuleTester.ValidTestCase | RuleTester.InvalidTestCase<MessageIds>;
 }
 
 export namespace RuleTester {
@@ -2275,21 +2275,21 @@ export namespace RuleTester {
 		settings?: { [name: string]: any } | undefined;
 	}
 
-	interface SuggestionOutput {
-		messageId?: string;
+	interface SuggestionOutput<MessageIds extends string = string> {
+		messageId?: MessageIds;
 		desc?: string;
 		data?: Record<string, unknown> | undefined;
 		output: string;
 	}
 
-	interface InvalidTestCase extends ValidTestCase {
-		errors: number | Array<TestCaseError | string>;
+	interface InvalidTestCase<MessageIds extends string = string> extends ValidTestCase {
+		errors: number | Array<TestCaseError<MessageIds> | string>;
 		output?: string | null | undefined;
 	}
 
-	interface TestCaseError {
+	interface TestCaseError<MessageIds extends string = string> {
 		message?: string | RegExp;
-		messageId?: string;
+		messageId?: MessageIds;
 		/**
 		 * @deprecated `type` is deprecated and will be removed in the next major version.
 		 */
@@ -2299,7 +2299,7 @@ export namespace RuleTester {
 		column?: number | undefined;
 		endLine?: number | undefined;
 		endColumn?: number | undefined;
-		suggestions?: SuggestionOutput[] | undefined;
+		suggestions?: SuggestionOutput<MessageIds>[] | undefined;
 	}
 }
 
