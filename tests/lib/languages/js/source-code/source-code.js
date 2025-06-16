@@ -2345,6 +2345,11 @@ describe("SourceCode", () => {
 			);
 
 			assert.throws(
+				() => sourceCode.getIndexFromLoc({ line: 1, column: -5 }),
+				"Invalid column number (column -5 requested).",
+			);
+
+			assert.throws(
 				() => sourceCode.getIndexFromLoc({ line: 3, column: -1 }),
 				"Invalid column number (column -1 requested).",
 			);
