@@ -1416,6 +1416,7 @@ export namespace Linter {
 		| 14
 		| 15
 		| 16
+		| 17
 		| 2015
 		| 2016
 		| 2017
@@ -1427,6 +1428,7 @@ export namespace Linter {
 		| 2023
 		| 2024
 		| 2025
+		| 2026
 		| "latest";
 
 	/**
@@ -1626,7 +1628,9 @@ export namespace Linter {
 		postprocess?:
 			| ((problemLists: LintMessage[][]) => LintMessage[])
 			| undefined;
-		filterCodeBlock?: boolean | undefined;
+		filterCodeBlock?:
+			| ((filename: string, text: string) => boolean)
+			| undefined;
 		disableFixes?: boolean | undefined;
 		allowInlineConfig?: boolean | undefined;
 		reportUnusedDisableDirectives?: boolean | undefined;
