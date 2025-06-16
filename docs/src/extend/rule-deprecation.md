@@ -3,8 +3,8 @@ title: Rule Deprecation
 ---
 
 The rule deprecation metadata describes whether a rule is deprecated and how the rule can be replaced if there is a replacement.
-The legacy format used the two top-level [rule meta](./custom-rules#rule-structure) properties `deprecated: true` and `replacedBy`.
-In the new format `deprecated` is an object of type `DeprecatedInfo` and `replacedBy` should be defined inside `deprecated` instead of the top-level.
+The legacy format used the two top-level [rule meta](./custom-rules#rule-structure) properties `deprecated` (as a boolean only) and `replacedBy`.
+In the new format, `deprecated` is a boolean or an object of type `DeprecatedInfo`, and `replacedBy` should be defined inside `deprecated` instead of at the top-level.
 
 ## ◆ DeprecatedInfo type
 
