@@ -13381,21 +13381,22 @@ describe("Linter with FlatConfigArray", () => {
 									assert.strictEqual(messages.length, 2);
 									assert.strictEqual(
 										messages[0].ruleId,
-										"test/my-rule",
-									);
-									assert.strictEqual(messages[0].severity, 1);
-									assert.strictEqual(
-										messages[0].message,
-										expectedRuleMessage,
-									);
-									assert.strictEqual(
-										messages[1].ruleId,
 										null,
 									);
-									assert.strictEqual(messages[1].severity, 2);
+									assert.strictEqual(messages[0].severity, 2);
+									assert.strictEqual(
+										messages[0].message,
+										"Unused inline config ('test/my-rule' is already configured to 'warn').",
+									);
+
+									assert.strictEqual(
+										messages[1].ruleId,
+										"test/my-rule",
+									);
+									assert.strictEqual(messages[1].severity, 1);
 									assert.strictEqual(
 										messages[1].message,
-										"Unused inline config ('test/my-rule' is already configured to 'warn').",
+										expectedRuleMessage,
 									);
 									assert.strictEqual(
 										suppressedMessages.length,
@@ -13455,21 +13456,22 @@ describe("Linter with FlatConfigArray", () => {
 									linter.getSuppressedMessages();
 
 								assert.strictEqual(messages.length, 2);
+								assert.strictEqual(messages[0].ruleId, null);
+								assert.strictEqual(messages[0].severity, 2);
 								assert.strictEqual(
-									messages[0].ruleId,
+									messages[0].message,
+									`Unused inline config ('test/my-rule' is already configured to '${severity}' with the same options).`,
+								);
+
+								assert.strictEqual(
+									messages[1].ruleId,
 									"test/my-rule",
 								);
 								assert.strictEqual(
-									messages[0].severity,
+									messages[1].severity,
 									severityCode,
 								);
-								assert.strictEqual(messages[0].message, "bar");
-								assert.strictEqual(messages[1].ruleId, null);
-								assert.strictEqual(messages[1].severity, 2);
-								assert.strictEqual(
-									messages[1].message,
-									`Unused inline config ('test/my-rule' is already configured to '${severity}' with the same options).`,
-								);
+								assert.strictEqual(messages[1].message, "bar");
 								assert.strictEqual(
 									suppressedMessages.length,
 									0,
