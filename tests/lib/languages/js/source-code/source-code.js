@@ -2312,6 +2312,11 @@ describe("SourceCode", () => {
 			);
 
 			assert.throws(
+				() => sourceCode.getIndexFromLoc(null),
+				/Expected `loc` to be an object with numeric `line` and `column` properties\./u,
+			);
+
+			assert.throws(
 				() =>
 					sourceCode.getIndexFromLoc({
 						line: "three",
