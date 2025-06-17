@@ -61,7 +61,12 @@ import * as something from 'module';
 
 ## Options
 
-This rule takes one optional argument, an object with a single key, `includeExports` which is a `boolean`. It defaults to `false`.
+This rule has an object option:
+
+* `"includeExports"`: `true` (default `false`) checks for exports in addition to imports.
+* `"allowSeparateTypeImports"`: `true` (default `false`) allows a type import alongside a value import from the same module in TypeScript files.
+
+### includeExports
 
 If re-exporting from an imported module, you should add the imports to the `import`-statement, and export that directly, not use `export ... from`.
 
@@ -107,6 +112,62 @@ export * as something from 'module';
 
 // cannot be written differently
 export * from 'module';
+```
+
+:::
+
+### allowSeparateTypeImports
+
+TypeScript allows specifying a `type` keyword on imports to indicate that the export exists only in the type system, not at runtime. This allows transpilers to drop imports without knowing the types of the dependencies.
+
+Example of **incorrect** TypeScript code for this rule with the default `{ "allowSeparateTypeImports": false }` option:
+
+::: incorrect
+
+```ts
+/*eslint no-duplicate-imports: ["error", { "allowSeparateTypeImports": false }]*/
+
+import { someValue } from 'module';
+import type { SomeType } from 'module';
+```
+
+:::
+
+Example of **correct** TypeScript code for this rule with the default `{ "allowSeparateTypeImports": false }` option:
+
+::: incorrect
+
+```ts
+/*eslint no-duplicate-imports: ["error", { "allowSeparateTypeImports": false }]*/
+
+import { someValue, type SomeType } from 'module';
+```
+
+:::
+
+Example of **incorrect** TypeScript code for this rule with the `{ "allowSeparateTypeImports": true }` option:
+
+::: incorrect
+
+```ts
+/*eslint no-duplicate-imports: ["error", { "allowSeparateTypeImports": true }]*/
+
+import { someValue } from 'module';
+import type { SomeType } from 'module';
+import type { AnotherType } from 'module';
+```
+
+:::
+
+Example of **correct** TypeScript code for this rule with the `{ "allowSeparateTypeImports": true }` option:
+
+::: correct
+
+```ts
+/*eslint no-duplicate-imports: ["error", { "allowSeparateTypeImports": true }]*/
+
+import { someValue } from 'module';
+import type { SomeType, AnotherType } from 'module';
 ```
 
 :::
