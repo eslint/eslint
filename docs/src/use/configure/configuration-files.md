@@ -669,7 +669,7 @@ export default {
 			},
 			{
 				name: "example/strict/sub-config",
-				file: ["src/**/*.js"],
+				files: ["src/**/*.js"],
 				rules: {
 					"no-unused-vars": "error",
 				},
