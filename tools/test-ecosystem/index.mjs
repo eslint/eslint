@@ -11,19 +11,10 @@ import chalk from "chalk";
 import spawn from "nano-spawn";
 import fs from "node:fs/promises";
 import path from "node:path";
-import util from "node:util";
-import plugins from "./plugins.json" with { type: "json" };
-
-//-----------------------------------------------------------------------------
-// Data
-//-----------------------------------------------------------------------------
+import { getPlugins } from "./data.mjs";
 
 /**
- * Settings for how to clone, set up, and test an ecosystem plugin.
- * @typedef {Object} PluginSettings
- * @property {string} commit Hash to check out after cloning the plugin.
- * @property {string} repository Repository URL to clone the plugin from.
- * @see {@link plugins}
+ * @typedef {import("./data").PluginSettings} PluginSettings
  */
 
 //-----------------------------------------------------------------------------
@@ -117,39 +108,7 @@ async function runTests(pluginKey, pluginSettings) {
 // Main
 //-----------------------------------------------------------------------------
 
-const { values } = util.parseArgs({
-	options: {
-		plugin: {
-			type: "string",
-			help: "The name of the plugin to test, or 'all' for all plugins",
-		},
-	},
-});
-
-const { plugin: pluginRequested } = values;
-if (!values.plugin) {
-	console.error("Please provide a plugin name or 'all' with --plugin");
-	process.exit(1);
-}
-
-if (pluginRequested !== "all" && !(pluginRequested in plugins)) {
-	console.error(`The plugin "${values.plugin}" is not supported.`);
-	console.error(
-		`Supported plugins are: ${Array.from(plugins.keys()).join(", ")}`,
-	);
-	console.error(`Alternately, run with --plugin all to test all plugins.`);
-	process.exit(1);
-}
-
-const pluginsToTest =
-	pluginRequested === "all"
-		? Object.entries(plugins)
-		: [[pluginRequested, plugins[pluginRequested]]];
-
-console.log(
-	"Plugins to test:",
-	chalk.bold(pluginsToTest.map(([key]) => key).join(", ")),
-);
+const { pluginsSelected } = await getPlugins("test");
 
 const SANDBOX_DIRECTORY = path.join(process.cwd(), "ecosystem");
 
@@ -165,7 +124,7 @@ console.log("");
 const errors = [];
 
 // For each plugin to test, we try to runTests, recording thrown exceptions in errors
-for (const [pluginKey, pluginSettings] of pluginsToTest) {
+for (const [pluginKey, pluginSettings] of pluginsSelected) {
 	try {
 		await runTests(pluginKey, pluginSettings);
 	} catch (error) {

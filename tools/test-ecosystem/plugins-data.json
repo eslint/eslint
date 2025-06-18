@@ -1,0 +1,26 @@
+{
+  "@eslint/css": {
+    "commit": "1e8e225e0b4a21fbf638d13f4a45947184939331",
+    "repository": "https://github.com/eslint/css"
+  },
+  "@eslint/json": {
+    "commit": "3686ee6a8149f82505f8ae50992edc3552cb7018",
+    "repository": "https://github.com/eslint/json"
+  },
+  "@eslint/markdown": {
+    "commit": "8c24fad47a0a23906265ed1601122076891c460d",
+    "repository": "https://github.com/eslint/markdown"
+  },
+  "@eslint-community/eslint-plugin-eslint-comments": {
+    "commit": "d6869dfbb794437c00e0e27e6cc0dbdfd3c56fac",
+    "repository": "https://github.com/eslint-community/eslint-plugin-eslint-comments"
+  },
+  "eslint-plugin-unicorn": {
+    "commit": "2b8ebe579cf4e52a1acdc9f9169f86a5fae05635",
+    "repository": "https://github.com/sindresorhus/eslint-plugin-unicorn"
+  },
+  "eslint-plugin-vue": {
+    "commit": "ca973010b511755488eeac2851ffd6597f23ccb2",
+    "repository": "https://github.com/vuejs/eslint-plugin-vue"
+  }
+}

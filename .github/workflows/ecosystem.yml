@@ -20,7 +20,6 @@ jobs:
               with:
                   node-version: "lts/*"
             - run: npm install
-            - run: npm install -g ni
             - id: tester
               run: npm run test:ecosystem -- --plugin all
             - if: steps.tester.outcome == 'failure' && github.head_ref == 'main'

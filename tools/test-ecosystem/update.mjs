@@ -1,0 +1,81 @@
+/**
+ * @fileoverview Updates commit hashes in the ecosystem test plugins-data.json.
+ * @author Josh Goldberg
+ */
+
+//-----------------------------------------------------------------------------
+// Requirements
+//-----------------------------------------------------------------------------
+
+import chalk from "chalk";
+import fs from "node:fs/promises";
+import { getPlugins, pluginDataFilePath } from "./data.mjs";
+
+//-----------------------------------------------------------------------------
+// Functions
+//-----------------------------------------------------------------------------
+
+/**
+ * @param {string} repository
+ */
+async function getLatestRepositoryCommit(pluginKey, pluginSettings) {
+	const response = await fetch(
+		pluginSettings.repository.replace(
+			"github.com",
+			"api.github.com/repos",
+		) + "/commits?per_page=1",
+	);
+
+	if (!response.ok) {
+		throw new Error(
+			`Failed to fetch latest commit for ${pluginKey}: ${response.statusText}`,
+		);
+	}
+
+	const [{ sha }] = await response.json();
+
+	if (sha === pluginSettings.commit) {
+		console.log(
+			chalk.gray(`[${pluginKey}] Already at latest commit:`, sha),
+		);
+	} else {
+		console.log(
+			chalk.bold.gray(`[${pluginKey}] Found new commit hash:`, sha),
+		);
+	}
+
+	return sha;
+}
+
+//-----------------------------------------------------------------------------
+// Main
+//-----------------------------------------------------------------------------
+
+const { pluginsData, pluginsSelected } = await getPlugins("update");
+
+const pluginsUpdated = Object.fromEntries(
+	await Promise.all(
+		pluginsSelected.map(async ([pluginKey, pluginSettings]) => [
+			pluginKey,
+			{
+				...pluginSettings,
+				commit: await getLatestRepositoryCommit(
+					pluginKey,
+					pluginSettings,
+				),
+			},
+		]),
+	),
+);
+
+await fs.writeFile(
+	pluginDataFilePath,
+	JSON.stringify(
+		{
+			...pluginsData,
+			...pluginsUpdated,
+		},
+		null,
+		"\t",
+	),
+);
