@@ -135,7 +135,7 @@ import type { SomeType } from 'module';
 
 Example of **correct** TypeScript code for this rule with the default `{ "allowSeparateTypeImports": false }` option:
 
-::: incorrect
+::: correct
 
 ```ts
 /*eslint no-duplicate-imports: ["error", { "allowSeparateTypeImports": false }]*/
