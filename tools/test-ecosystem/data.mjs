@@ -63,9 +63,7 @@ export async function getPlugins(action) {
 	if (pluginRequested !== "all" && !(pluginRequested in pluginsData)) {
 		console.error(`The plugin "${values.plugin}" is not supported.`);
 		console.error(
-			`Supported plugins are: ${Array.from(pluginsData.keys()).join(
-				", ",
-			)}`,
+			`Supported plugins are: ${["", ...Object.keys(pluginsData)].join("\n  ")}`,
 		);
 		console.error(
 			`Alternately, run with --plugin all to ${action} all plugins.`,
