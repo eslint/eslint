@@ -1,0 +1,24 @@
+name: Update Test Ecosystem Plugins
+
+on:
+    schedule:
+        - cron: "0 0 * * 1"
+    workflow_dispatch: ~
+
+permissions: read-all
+
+jobs:
+    test_ecosystem:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: "lts/*"
+            - run: npm install
+            - run: npm run test:ecosystem:update -- --plugin all
+            - uses: peter-evans/create-pull-request@v7.0.8
+              with:
+                  commit-message: "chore: update ecosystem plugins"
+                  title: "chore: update ecosystem plugins"
