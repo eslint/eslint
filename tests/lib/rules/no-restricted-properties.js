@@ -1031,7 +1031,7 @@ ruleTester.run("no-restricted-properties", rule, {
 						propertyName: "disallowedProperty",
 						message: "",
 						allowedObjectsMessage:
-							" It can be used only in allowed objects - anotherObject.",
+							" Property 'disallowedProperty' is only allowed on these objects: anotherObject.",
 					},
 					type: "MemberExpression",
 				},
@@ -1054,7 +1054,7 @@ ruleTester.run("no-restricted-properties", rule, {
 						message:
 							" Please use someObject.allowedProperty instead.",
 						allowedObjectsMessage:
-							" It can be used only in allowed objects - anotherObject.",
+							" Property 'disallowedProperty' is only allowed on these objects: anotherObject.",
 					},
 					type: "MemberExpression",
 				},
@@ -1079,7 +1079,7 @@ ruleTester.run("no-restricted-properties", rule, {
 						propertyName: "disallowedProperty",
 						message: "",
 						allowedObjectsMessage:
-							" It can be used only in allowed objects - anotherObject.",
+							" Property 'disallowedProperty' is only allowed on these objects: anotherObject.",
 					},
 					type: "MemberExpression",
 				},
@@ -1089,7 +1089,7 @@ ruleTester.run("no-restricted-properties", rule, {
 						propertyName: "anotherDisallowedProperty",
 						message: "",
 						allowedObjectsMessage:
-							" It can be used only in allowed objects - someObject.",
+							" Property 'anotherDisallowedProperty' is only allowed on these objects: someObject.",
 					},
 					type: "MemberExpression",
 				},
@@ -1111,7 +1111,7 @@ ruleTester.run("no-restricted-properties", rule, {
 						propertyName: "disallowedProperty",
 						message: "",
 						allowedPropertiesMessage:
-							" Only allowed properties can be used - allowedProperty.",
+							" Only these properties are allowed: allowedProperty.",
 					},
 					type: "MemberExpression",
 				},
@@ -1135,7 +1135,7 @@ ruleTester.run("no-restricted-properties", rule, {
 						message:
 							" Please use someObject.allowedProperty instead.",
 						allowedPropertiesMessage:
-							" Only allowed properties can be used - allowedProperty.",
+							" Only these properties are allowed: allowedProperty.",
 					},
 					type: "MemberExpression",
 				},
@@ -1161,7 +1161,7 @@ ruleTester.run("no-restricted-properties", rule, {
 						propertyName: "disallowedProperty",
 						message: "",
 						allowedPropertiesMessage:
-							" Only allowed properties can be used - anotherDisallowedProperty.",
+							" Only these properties are allowed: anotherDisallowedProperty.",
 					},
 					type: "MemberExpression",
 				},
@@ -1172,7 +1172,7 @@ ruleTester.run("no-restricted-properties", rule, {
 						propertyName: "anotherDisallowedProperty",
 						message: "",
 						allowedPropertiesMessage:
-							" Only allowed properties can be used - disallowedProperty.",
+							" Only these properties are allowed: disallowedProperty.",
 					},
 					type: "MemberExpression",
 				},
