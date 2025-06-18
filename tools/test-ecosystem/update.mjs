@@ -53,6 +53,7 @@ async function getLatestRepositoryCommit(pluginKey, pluginSettings) {
 
 const { pluginsData, pluginsSelected } = await getPlugins("update");
 
+// For each requested plugin, fetch the latest commit from its repository API URL
 const pluginsUpdated = Object.fromEntries(
 	await Promise.all(
 		pluginsSelected.map(async ([pluginKey, pluginSettings]) => [
@@ -68,6 +69,7 @@ const pluginsUpdated = Object.fromEntries(
 	),
 );
 
+// Write the updated plugins data to the plugins-data.json file
 await fs.writeFile(
 	pluginDataFilePath,
 	JSON.stringify(
