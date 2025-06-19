@@ -2340,6 +2340,21 @@ describe("SourceCode", () => {
 
 		it("should throw a useful error if `column` is out of range", () => {
 			assert.throws(
+				() => sourceCode.getIndexFromLoc({ line: 1, column: -1 }),
+				"Invalid column number (column -1 requested).",
+			);
+
+			assert.throws(
+				() => sourceCode.getIndexFromLoc({ line: 1, column: -5 }),
+				"Invalid column number (column -5 requested).",
+			);
+
+			assert.throws(
+				() => sourceCode.getIndexFromLoc({ line: 3, column: -1 }),
+				"Invalid column number (column -1 requested).",
+			);
+
+			assert.throws(
 				() => sourceCode.getIndexFromLoc({ line: 3, column: 4 }),
 				/Column number out of range \(column 4 requested, but the length of line 3 is 4\)\./u,
 			);
