@@ -175,6 +175,14 @@ ruleTester.run("curly", rule, {
 			languageOptions: { ecmaVersion: 6 },
 		},
 		{
+			code: "if (foo) { const bar = 'baz'; }",
+			options: ["multi"],
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+		},
+		{
 			code: "while (foo) { let bar = 'baz'; }",
 			options: ["multi"],
 			languageOptions: { ecmaVersion: 6 },

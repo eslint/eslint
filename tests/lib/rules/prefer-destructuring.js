@@ -256,6 +256,34 @@ ruleTester.run("prefer-destructuring", rule, {
 				{ enforceForRenamedProperties: true },
 			],
 		},
+		{
+			code: "using foo = array[0];",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+		},
+		{
+			code: "using foo = object.foo;",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+		},
+		{
+			code: "await using foo = array[0];",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+		},
+		{
+			code: "await using foo = object.foo;",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+		},
 	],
 
 	invalid: [
