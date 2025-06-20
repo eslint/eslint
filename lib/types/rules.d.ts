@@ -2292,6 +2292,10 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default false
 				 */
 				includeExports: boolean;
+				/**
+				 * @default false
+				 */
+				allowSeparateTypeImports: boolean;
 			}>,
 		]
 	>;
