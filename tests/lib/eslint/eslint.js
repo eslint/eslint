@@ -9237,6 +9237,57 @@ describe("ESLint", () => {
 					assert.strictEqual(results[0].messages[0].severity, 2);
 				});
 			});
+
+			describe("Environment sharing in multithread mode", () => {
+				afterEach(() => {
+					delete process.env.ESLINT_TEST_ENV;
+				});
+
+				it("should propagate environment variables from the controlling thread to worker threads", async () => {
+					const optionsSrc = `
+					import assert from "node:assert";
+					import { isMainThread } from "node:worker_threads";
+					
+					if (!isMainThread) {
+						if (process.env.ESLINT_TEST_ENV !== "test") {
+							assert.fail("Environment variable ESLINT_TEST_ENV is not set as expected in worker threads.");
+						}
+					}
+					
+					export default {
+						concurrency: 2,
+						cwd: ${JSON.stringify(fixtureDir)},
+						flags: ${JSON.stringify(flags)},
+						overrideConfigFile: true,
+					};
+					`;
+					const url = `data:text/javascript,${encodeURIComponent(optionsSrc)}`;
+					eslint = await ESLint.fromOptionModule(url);
+					process.env.ESLINT_TEST_ENV = "test";
+					await eslint.lintFiles(["passing.js"]);
+				});
+
+				it("should propagate environment variables from worker threads to the controlling thread", async () => {
+					const optionsSrc = `
+					import { isMainThread } from "node:worker_threads";
+					
+					if (!isMainThread) {
+						process.env.ESLINT_TEST_ENV = "test";
+					}
+					
+					export default {
+						concurrency: 2,
+						cwd: ${JSON.stringify(fixtureDir)},
+						flags: ${JSON.stringify(flags)},
+						overrideConfigFile: true,
+					};
+					`;
+					const url = `data:text/javascript,${encodeURIComponent(optionsSrc)}`;
+					eslint = await ESLint.fromOptionModule(url);
+					await eslint.lintFiles(["passing.js"]);
+					assert.strictEqual(process.env.ESLINT_TEST_ENV, "test");
+				});
+			});
 		});
 
 		describe("Fix Types", () => {
