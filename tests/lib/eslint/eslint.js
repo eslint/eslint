@@ -15519,7 +15519,22 @@ describe("ESLint", () => {
 	});
 
 	describe("ESLint.fromOptionModule", () => {
-		it("should return an instance of ESLint", async () => {
+		it("should return an instance of ESLint with a file URL", async () => {
+			const url = pathToFileURL(
+				"tests/fixtures/option-modules/test-only-flag.mjs",
+			);
+			const eslint = await ESLint.fromOptionModule(url);
+			assert(
+				eslint instanceof ESLint,
+				"expected fromOptionModule to asynchronously return an instance of ESLint",
+			);
+			assert(
+				eslint.hasFlag("test_only"),
+				"expected eslint instance to have the test_only flag",
+			);
+		});
+
+		it("should return an instance of ESLint with a data URL", async () => {
 			const url =
 				"data:text/javascript,export default { flags: ['test_only'] }";
 			const eslint = await ESLint.fromOptionModule(url);
@@ -15534,7 +15549,19 @@ describe("ESLint", () => {
 		});
 
 		it("should throw an error with an invalid argument", async () => {
-			await assert.rejects(() => ESLint.fromOptionModule("invalid-url"));
+			await assert.rejects(() => ESLint.fromOptionModule("invalid-url"), {
+				constructor: TypeError,
+			});
+		});
+
+		it("should throw an error with a relative path", async () => {
+			await assert.rejects(
+				() =>
+					ESLint.fromOptionModule(
+						"../../tests/fixtures/option-modules/empty.mjs",
+					),
+				{ constructor: TypeError },
+			);
 		});
 	});
 
