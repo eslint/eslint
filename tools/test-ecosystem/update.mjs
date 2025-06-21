@@ -78,6 +78,6 @@ await fs.writeFile(
 			...pluginsUpdated,
 		},
 		null,
-		"\t",
+		"  ",
 	),
 );
