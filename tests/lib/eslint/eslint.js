@@ -9233,6 +9233,333 @@ describe("ESLint", () => {
 					assert.strictEqual(results[0].messages[0].severity, 2);
 				});
 			});
+
+			describe("Config objects with `basePath` property", () => {
+				const cwd = getFixturePath("config-base-path");
+
+				it("should only be applied to files inside the config's base path when no `files` or `ignores` are specified", async () => {
+					eslint = new ESLint({
+						flags,
+						cwd,
+						overrideConfigFile: true,
+						overrideConfig: [
+							{
+								basePath: "subdir",
+								rules: {
+									"no-unused-vars": "warn",
+								},
+							},
+						],
+					});
+
+					const results = await eslint.lintFiles(["."]);
+
+					assert.strictEqual(results.length, 4);
+
+					assert.strictEqual(
+						results[0].filePath,
+						path.resolve(cwd, "a.js"),
+					);
+					assert.strictEqual(results[0].messages.length, 0);
+
+					assert.strictEqual(
+						results[1].filePath,
+						path.resolve(cwd, "b.js"),
+					);
+					assert.strictEqual(results[1].messages.length, 0);
+
+					assert.strictEqual(
+						results[2].filePath,
+						path.resolve(cwd, "subdir/a.js"),
+					);
+					assert.strictEqual(results[2].messages.length, 1);
+					assert.strictEqual(
+						results[2].messages[0].ruleId,
+						"no-unused-vars",
+					);
+					assert.strictEqual(results[2].messages[0].severity, 1);
+
+					assert.strictEqual(
+						results[3].filePath,
+						path.resolve(cwd, "subdir/b.js"),
+					);
+					assert.strictEqual(results[3].messages.length, 1);
+					assert.strictEqual(
+						results[3].messages[0].ruleId,
+						"no-unused-vars",
+					);
+					assert.strictEqual(results[3].messages[0].severity, 1);
+				});
+
+				it("should only be applied to files inside the config's base path when `files` are specified", async () => {
+					eslint = new ESLint({
+						flags,
+						cwd,
+						overrideConfigFile: true,
+						overrideConfig: [
+							{
+								basePath: "subdir",
+								files: ["a.js"],
+								rules: {
+									"no-unused-vars": "warn",
+								},
+							},
+						],
+					});
+
+					const results = await eslint.lintFiles(["."]);
+
+					assert.strictEqual(results.length, 4);
+
+					assert.strictEqual(
+						results[0].filePath,
+						path.resolve(cwd, "a.js"),
+					);
+					assert.strictEqual(results[0].messages.length, 0);
+
+					assert.strictEqual(
+						results[1].filePath,
+						path.resolve(cwd, "b.js"),
+					);
+					assert.strictEqual(results[1].messages.length, 0);
+
+					assert.strictEqual(
+						results[2].filePath,
+						path.resolve(cwd, "subdir/a.js"),
+					);
+					assert.strictEqual(results[2].messages.length, 1);
+					assert.strictEqual(
+						results[2].messages[0].ruleId,
+						"no-unused-vars",
+					);
+					assert.strictEqual(results[2].messages[0].severity, 1);
+
+					assert.strictEqual(
+						results[3].filePath,
+						path.resolve(cwd, "subdir/b.js"),
+					);
+					assert.strictEqual(results[3].messages.length, 0);
+				});
+
+				it("should only be applied to files inside the config's base path when non-global `ignores` are specified", async () => {
+					eslint = new ESLint({
+						flags,
+						cwd,
+						overrideConfigFile: true,
+						overrideConfig: [
+							{
+								basePath: "subdir",
+								ignores: ["a.js"],
+								rules: {
+									"no-unused-vars": "warn",
+								},
+							},
+						],
+					});
+
+					const results = await eslint.lintFiles(["."]);
+
+					assert.strictEqual(results.length, 4);
+
+					assert.strictEqual(
+						results[0].filePath,
+						path.resolve(cwd, "a.js"),
+					);
+					assert.strictEqual(results[0].messages.length, 0);
+
+					assert.strictEqual(
+						results[1].filePath,
+						path.resolve(cwd, "b.js"),
+					);
+					assert.strictEqual(results[1].messages.length, 0);
+
+					assert.strictEqual(
+						results[2].filePath,
+						path.resolve(cwd, "subdir/a.js"),
+					);
+					assert.strictEqual(results[2].messages.length, 0);
+
+					assert.strictEqual(
+						results[3].filePath,
+						path.resolve(cwd, "subdir/b.js"),
+					);
+					assert.strictEqual(results[3].messages.length, 1);
+					assert.strictEqual(
+						results[3].messages[0].ruleId,
+						"no-unused-vars",
+					);
+					assert.strictEqual(results[3].messages[0].severity, 1);
+				});
+
+				it("should only be applied to files inside the config's base path when both `files` and `ignores` are specified", async () => {
+					eslint = new ESLint({
+						flags,
+						cwd,
+						overrideConfigFile: true,
+						overrideConfig: [
+							{
+								basePath: "subdir",
+								files: ["**/*.js"],
+								ignores: ["a.js"],
+								rules: {
+									"no-unused-vars": "warn",
+								},
+							},
+						],
+					});
+
+					const results = await eslint.lintFiles(["."]);
+
+					assert.strictEqual(results.length, 4);
+
+					assert.strictEqual(
+						results[0].filePath,
+						path.resolve(cwd, "a.js"),
+					);
+					assert.strictEqual(results[0].messages.length, 0);
+
+					assert.strictEqual(
+						results[1].filePath,
+						path.resolve(cwd, "b.js"),
+					);
+					assert.strictEqual(results[1].messages.length, 0);
+
+					assert.strictEqual(
+						results[2].filePath,
+						path.resolve(cwd, "subdir/a.js"),
+					);
+					assert.strictEqual(results[2].messages.length, 0);
+
+					assert.strictEqual(
+						results[3].filePath,
+						path.resolve(cwd, "subdir/b.js"),
+					);
+					assert.strictEqual(results[3].messages.length, 1);
+					assert.strictEqual(
+						results[3].messages[0].ruleId,
+						"no-unused-vars",
+					);
+					assert.strictEqual(results[3].messages[0].severity, 1);
+				});
+
+				it("should interpret `basePath` as relative to the config file location", async () => {
+					eslint = new ESLint({
+						flags,
+						cwd,
+						overrideConfig: [
+							{
+								basePath: "config-base-path/subdir", // config file is in the parent directory
+								rules: {
+									"no-unused-vars": "warn",
+								},
+							},
+						],
+					});
+
+					const results = await eslint.lintFiles(["."]);
+
+					assert.strictEqual(results.length, 4);
+
+					assert.strictEqual(
+						results[0].filePath,
+						path.resolve(cwd, "a.js"),
+					);
+					assert.strictEqual(results[0].messages.length, 0);
+
+					assert.strictEqual(
+						results[1].filePath,
+						path.resolve(cwd, "b.js"),
+					);
+					assert.strictEqual(results[1].messages.length, 0);
+
+					assert.strictEqual(
+						results[2].filePath,
+						path.resolve(cwd, "subdir/a.js"),
+					);
+					assert.strictEqual(results[2].messages.length, 1);
+					assert.strictEqual(
+						results[2].messages[0].ruleId,
+						"no-unused-vars",
+					);
+					assert.strictEqual(results[2].messages[0].severity, 1);
+
+					assert.strictEqual(
+						results[3].filePath,
+						path.resolve(cwd, "subdir/b.js"),
+					);
+					assert.strictEqual(results[3].messages.length, 1);
+					assert.strictEqual(
+						results[3].messages[0].ruleId,
+						"no-unused-vars",
+					);
+					assert.strictEqual(results[3].messages[0].severity, 1);
+				});
+
+				it("should interpret global ignores as relative to `basePath` when ignoring files", async () => {
+					eslint = new ESLint({
+						flags,
+						cwd,
+						overrideConfigFile: true,
+						overrideConfig: [
+							{
+								basePath: "subdir",
+								ignores: ["a.js"],
+							},
+						],
+					});
+
+					const results = await eslint.lintFiles(["."]);
+
+					assert.strictEqual(results.length, 3);
+
+					assert.strictEqual(
+						results[0].filePath,
+						path.resolve(cwd, "a.js"),
+					);
+					assert.strictEqual(results[0].messages.length, 0);
+
+					assert.strictEqual(
+						results[1].filePath,
+						path.resolve(cwd, "b.js"),
+					);
+					assert.strictEqual(results[1].messages.length, 0);
+
+					assert.strictEqual(
+						results[2].filePath,
+						path.resolve(cwd, "subdir/b.js"),
+					);
+					assert.strictEqual(results[2].messages.length, 0);
+				});
+
+				it("should interpret global ignores as relative to `basePath` when ignoring directories", async () => {
+					eslint = new ESLint({
+						flags,
+						cwd,
+						overrideConfig: [
+							{
+								basePath: "config-base-path", // config file is in the parent directory
+								ignores: ["subdir"],
+							},
+						],
+					});
+
+					const results = await eslint.lintFiles(["."]);
+
+					assert.strictEqual(results.length, 2);
+
+					assert.strictEqual(
+						results[0].filePath,
+						path.resolve(cwd, "a.js"),
+					);
+					assert.strictEqual(results[0].messages.length, 0);
+
+					assert.strictEqual(
+						results[1].filePath,
+						path.resolve(cwd, "b.js"),
+					);
+					assert.strictEqual(results[1].messages.length, 0);
+				});
+			});
 		});
 
 		describe("Fix Types", () => {
