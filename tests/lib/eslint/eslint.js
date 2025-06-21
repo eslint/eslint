@@ -9559,6 +9559,49 @@ describe("ESLint", () => {
 					);
 					assert.strictEqual(results[1].messages.length, 0);
 				});
+
+				it("should not apply global ignores when the `ignore` option is `false`", async () => {
+					eslint = new ESLint({
+						flags,
+						cwd,
+						overrideConfigFile: true,
+						overrideConfig: [
+							{
+								basePath: "subdir",
+								ignores: ["a.js"],
+							},
+						],
+						ignore: false,
+					});
+
+					const results = await eslint.lintFiles(["."]);
+
+					assert.strictEqual(results.length, 4);
+
+					assert.strictEqual(
+						results[0].filePath,
+						path.resolve(cwd, "a.js"),
+					);
+					assert.strictEqual(results[0].messages.length, 0);
+
+					assert.strictEqual(
+						results[1].filePath,
+						path.resolve(cwd, "b.js"),
+					);
+					assert.strictEqual(results[1].messages.length, 0);
+
+					assert.strictEqual(
+						results[2].filePath,
+						path.resolve(cwd, "subdir/a.js"),
+					);
+					assert.strictEqual(results[2].messages.length, 0);
+
+					assert.strictEqual(
+						results[3].filePath,
+						path.resolve(cwd, "subdir/b.js"),
+					);
+					assert.strictEqual(results[3].messages.length, 0);
+				});
 			});
 		});
 
