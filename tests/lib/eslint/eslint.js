@@ -14542,5 +14542,49 @@ describe("ESLint", () => {
 				assert.strictEqual(results[1].suppressedMessages.length, 0);
 			});
 		});
+
+		describe("with `ignorePatterns`", () => {
+			const workDirName = "config-lookup-ignores-3";
+			const tmpDir = path.resolve(fs.realpathSync(os.tmpdir()), "eslint");
+			const workDir = path.join(tmpDir, workDirName);
+
+			// copy into clean area so as not to get "infected" by other config files
+			before(() => {
+				shell.mkdir("-p", workDir);
+				shell.cp("-r", `./tests/fixtures/${workDirName}`, tmpDir);
+			});
+
+			after(() => {
+				shell.rm("-r", workDir);
+			});
+
+			// https://github.com/eslint/eslint/issues/18948
+			it("should interpret `ignorePatterns` as relative to `cwd` when `cwd` is a parent directory.", async () => {
+				eslint = new ESLint({
+					flags,
+					cwd: workDir,
+					ignorePatterns: ["subdir/b.js"],
+				});
+				const results = await eslint.lintFiles(["subdir"]);
+
+				assert.strictEqual(results.length, 2);
+				assert.strictEqual(
+					results[0].filePath,
+					path.resolve(workDir, "subdir/a.js"),
+				);
+				assert.strictEqual(results[0].messages.length, 1);
+				assert.strictEqual(
+					results[0].messages[0].ruleId,
+					"no-unused-vars",
+				);
+				assert.strictEqual(results[0].suppressedMessages.length, 0);
+				assert.strictEqual(
+					results[1].filePath,
+					path.resolve(workDir, "subdir/eslint.config.mjs"),
+				);
+				assert.strictEqual(results[1].messages.length, 0);
+				assert.strictEqual(results[1].suppressedMessages.length, 0);
+			});
+		});
 	});
 });
