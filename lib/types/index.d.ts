@@ -1777,6 +1777,13 @@ export namespace Linter {
 		name?: string;
 
 		/**
+		 * Path to the directory where the configuration object should apply.
+		 * `files` and `ignores` patterns in the configuration object are
+		 * interpreted as relative to this path.
+		 */
+		basePath?: string;
+
+		/**
 		 * An array of glob patterns indicating the files that the configuration
 		 * object should apply to. If not specified, the configuration object applies
 		 * to all files
