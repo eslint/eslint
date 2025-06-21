@@ -4510,7 +4510,7 @@ describe("ESLint", () => {
 					}),
 				);
 
-				it("should warn about a deprecated rules when a file path is passed explicitly with multithreading", async () => {
+				it("should warn about deprecated rules when a file path is passed explicitly with multithreading", async () => {
 					eslint = new ESLint({
 						flags,
 						cwd: originalDir,
@@ -4527,7 +4527,7 @@ describe("ESLint", () => {
 					assert.deepStrictEqual(results[0].usedDeprecatedRules, [
 						{
 							ruleId: "semi",
-							replacedBy: ["@stylistic/js/semi"],
+							replacedBy: ["@stylistic/semi"],
 							info: coreRules.get("semi").meta.deprecated,
 						},
 					]);
@@ -9698,6 +9698,57 @@ describe("ESLint", () => {
 						path.resolve(cwd, "subdir/b.js"),
 					);
 					assert.strictEqual(results[3].messages.length, 0);
+				});
+			});
+
+			describe("Environment sharing in multithread mode", () => {
+				afterEach(() => {
+					delete process.env.ESLINT_TEST_ENV;
+				});
+
+				it("should propagate environment variables from the controlling thread to worker threads", async () => {
+					const optionsSrc = `
+					import assert from "node:assert";
+					import { isMainThread } from "node:worker_threads";
+					
+					if (!isMainThread) {
+						if (process.env.ESLINT_TEST_ENV !== "test") {
+							assert.fail("Environment variable ESLINT_TEST_ENV is not set as expected in worker threads.");
+						}
+					}
+					
+					export default {
+						concurrency: 2,
+						cwd: ${JSON.stringify(fixtureDir)},
+						flags: ${JSON.stringify(flags)},
+						overrideConfigFile: true,
+					};
+					`;
+					const url = `data:text/javascript,${encodeURIComponent(optionsSrc)}`;
+					eslint = await ESLint.fromOptionModule(url);
+					process.env.ESLINT_TEST_ENV = "test";
+					await eslint.lintFiles(["passing.js"]);
+				});
+
+				it("should propagate environment variables from worker threads to the controlling thread", async () => {
+					const optionsSrc = `
+					import { isMainThread } from "node:worker_threads";
+					
+					if (!isMainThread) {
+						process.env.ESLINT_TEST_ENV = "test";
+					}
+					
+					export default {
+						concurrency: 2,
+						cwd: ${JSON.stringify(fixtureDir)},
+						flags: ${JSON.stringify(flags)},
+						overrideConfigFile: true,
+					};
+					`;
+					const url = `data:text/javascript,${encodeURIComponent(optionsSrc)}`;
+					eslint = await ESLint.fromOptionModule(url);
+					await eslint.lintFiles(["passing.js"]);
+					assert.strictEqual(process.env.ESLINT_TEST_ENV, "test");
 				});
 			});
 		});
