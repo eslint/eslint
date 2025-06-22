@@ -5855,7 +5855,7 @@ var a = "test2";
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
 
-		it("should report one suppresed problem when noInlineConfig is false and allowInlineConfig is true", () => {
+		it("should report one suppressed problem when noInlineConfig is false and allowInlineConfig is true", () => {
 			const code = [
 				"/* eslint-disable */ // <-- this should be inline config warning",
 				"foo(); // <-- this should be no-undef error",
@@ -16604,7 +16604,7 @@ var a = "test2";
 					assert.strictEqual(suppressedMessages.length, 0);
 				});
 
-				it("should report one suppresed problem when noInlineConfig is false and allowInlineConfig is true", () => {
+				it("should report one suppressed problem when noInlineConfig is false and allowInlineConfig is true", () => {
 					const code = [
 						"/* eslint-disable */ // <-- this should be inline config warning",
 						"foo(); // <-- this should be no-undef error",
@@ -19768,7 +19768,7 @@ var a = "test2";
 													blocksMap.get(fileName);
 												let rangeOffset = 0;
 
-												// intentionaly mutates objects and arrays
+												// intentionally mutates objects and arrays
 												messageLists.forEach(
 													(messages, index) => {
 														messages.forEach(
