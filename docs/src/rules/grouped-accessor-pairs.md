@@ -152,11 +152,15 @@ const Bar = class {
 
 ## Options
 
-This rule has a string option:
-
+This rule has a string or object option.
+The string variant specifies the order:
 * `"anyOrder"` (default) does not enforce order.
 * `"getBeforeSet"` if a property has both getter and setter, requires the getter to be defined before the setter.
 * `"setBeforeGet"` if a property has both getter and setter, requires the setter to be defined before the getter.
+
+The object variant also allows for optionally checking TypeScript types:
+* `order`: same values as the string variant
+* `enforceForTSTypes`: also check TypeScript types (interfaces and type literals)
 
 ### getBeforeSet
 
@@ -306,6 +310,45 @@ const Bar = class {
         return this.val;
     }
 }
+```
+
+:::
+### enforceForTSTypes
+
+Examples of **incorrect** code for this rule with `{ enforceForTSTypes: true }`:
+
+::: incorrect
+
+```js
+/*eslint grouped-accessor-pairs: ["error", { enforceForTSTypes: true }]*/
+
+interface I {
+    get a(): string,
+}
+
+type T = {
+    set a(value: string): void,
+};
+```
+
+:::
+
+Examples of **correct** code for this rule with with `{ enforceForTSTypes: true }`:
+
+::: correct
+
+```js
+/*eslint grouped-accessor-pairs: ["error", { enforceForTSTypes: true }]*/
+
+interface I {
+    get a(): string,
+    set a(value: string): void,
+}
+
+type T = {
+    set a(value: string): void,
+    get a(): string,
+};
 ```
 
 :::

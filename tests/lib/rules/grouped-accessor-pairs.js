@@ -1034,3 +1034,123 @@ ruleTester.run("grouped-accessor-pairs", rule, {
 		},
 	],
 });
+
+const ruleTesterTypeScript = new RuleTester({
+	languageOptions: {
+		parser: require("@typescript-eslint/parser"),
+	},
+});
+
+ruleTesterTypeScript.run("grouped-accessor-pairs", rule, {
+	valid: [
+		"interface I { get prop(): any, between: true, set prop(value: any): void }",
+		"type T = { get prop(): any, between: true, set prop(value: any): void }",
+
+		{
+			code: "interface I { get prop(): any, set prop(value: any): void }",
+			options: [{ enforceForTSTypes: true }],
+		},
+		{
+			code: "interface I { set prop(value: any): void, get prop(): any }",
+			options: [{ enforceForTSTypes: true }],
+		},
+		{
+			code: "interface I { get a(): any, between: true, set b(value: any): void }",
+			options: [{ enforceForTSTypes: true }],
+		},
+
+		{
+			code: "interface I { before: true, get prop(): any, set prop(value: any): void, after: true }",
+			options: [{ enforceForTSTypes: true, order: "getBeforeSet" }],
+		},
+		{
+			code: "interface I { set prop(value: any): void, get prop(): any }",
+			options: [{ enforceForTSTypes: true, order: "setBeforeGet" }],
+		},
+		{
+			code: "type T = { get prop(): any, set prop(value: any): void }",
+			options: [{ enforceForTSTypes: true }],
+		},
+		{
+			code: "type T = { set prop(value: any): void, get prop(): any }",
+			options: [{ enforceForTSTypes: true, order: "setBeforeGet" }],
+		},
+	],
+	invalid: [
+		{
+			code: "interface I { get a(): any, between: true, set a(value: any): void }",
+			options: [{ enforceForTSTypes: true }],
+			errors: [
+				{
+					messageId: "notGrouped",
+					data: {
+						formerName: "getter 'a'",
+						latterName: "setter 'a'",
+					},
+					type: "TSMethodSignature",
+					column: 44,
+				},
+			],
+		},
+		{
+			code: "interface I { get a(): any, set a(value: any): void }",
+			options: [{ enforceForTSTypes: true, order: "setBeforeGet" }],
+			errors: [
+				{
+					messageId: "invalidOrder",
+					data: {
+						formerName: "getter 'a'",
+						latterName: "setter 'a'",
+					},
+					type: "TSMethodSignature",
+					column: 29,
+				},
+			],
+		},
+		{
+			code: "interface I { set a(value: any): void, get a(): any }",
+			options: [{ enforceForTSTypes: true, order: "getBeforeSet" }],
+			errors: [
+				{
+					messageId: "invalidOrder",
+					data: {
+						formerName: "setter 'a'",
+						latterName: "getter 'a'",
+					},
+					type: "TSMethodSignature",
+					column: 40,
+				},
+			],
+		},
+		{
+			code: "type T = { get a(): any, between: true, set a(value: any): void }",
+			options: [{ enforceForTSTypes: true }],
+			errors: [
+				{
+					messageId: "notGrouped",
+					data: {
+						formerName: "getter 'a'",
+						latterName: "setter 'a'",
+					},
+					type: "TSMethodSignature",
+					column: 41,
+				},
+			],
+		},
+		{
+			code: "type T = { get a(): any, set a(value: any): void }",
+			options: [{ enforceForTSTypes: true, order: "setBeforeGet" }],
+			errors: [
+				{
+					messageId: "invalidOrder",
+					data: {
+						formerName: "getter 'a'",
+						latterName: "setter 'a'",
+					},
+					type: "TSMethodSignature",
+					column: 26,
+				},
+			],
+		},
+	],
+});
