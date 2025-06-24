@@ -4641,12 +4641,11 @@ try {
 			errors: [
 				assignedError("resource", [
 					{
-						output: '',
-						messageId: 'removeVar',
-					}
+						output: "",
+						messageId: "removeVar",
+					},
 				]),
 			],
-
 		},
 		{
 			code: "await using resource = getResource();",
@@ -4657,13 +4656,11 @@ try {
 			errors: [
 				assignedError("resource", [
 					{
-						output: '',
-						messageId: 'removeVar',
-					}
+						output: "",
+						messageId: "removeVar",
+					},
 				]),
 			],
-
 		},
-
 	],
 });
