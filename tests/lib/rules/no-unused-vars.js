@@ -774,6 +774,7 @@ ruleTester.run("no-unused-vars", rule, {
 		},
 		{
 			code: "using resource = getResource();",
+			options: [{ ignoreExplicitResourceManagement: true }],
 			languageOptions: {
 				sourceType: "module",
 				ecmaVersion: 2026,
@@ -781,6 +782,7 @@ ruleTester.run("no-unused-vars", rule, {
 		},
 		{
 			code: "await using resource = getResource();",
+			options: [{ ignoreExplicitResourceManagement: true }],
 			languageOptions: {
 				sourceType: "module",
 				ecmaVersion: 2026,
@@ -4630,5 +4632,38 @@ try {
 				assignedError("a"),
 			],
 		},
+		{
+			code: "using resource = getResource();",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+			errors: [
+				assignedError("resource", [
+					{
+						output: '',
+						messageId: 'removeVar',
+					}
+				]),
+			],
+
+		},
+		{
+			code: "await using resource = getResource();",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+			errors: [
+				assignedError("resource", [
+					{
+						output: '',
+						messageId: 'removeVar',
+					}
+				]),
+			],
+
+		},
+
 	],
 });
