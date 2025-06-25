@@ -285,7 +285,7 @@ Examples of **incorrect** code for `{ "getWithoutSet": true, "enforceForTSTypes"
 
 :::incorrect
 
-```js
+```ts
 /*eslint accessor-pairs: ["error", { "getWithoutSet": true, "enforceForTSTypes": true }]*/
 
 interface I {
@@ -303,7 +303,7 @@ Examples of **incorrect** code for `{ "setWithoutGet": true, "enforceForTSTypes"
 
 :::incorrect
 
-```js
+```ts
 /*eslint accessor-pairs: ["error", { "setWithoutGet": true, "enforceForTSTypes": true }]*/
 
 interface I {
@@ -323,7 +323,7 @@ Examples of **correct** code for `{ "getWithoutSet": true, "setWithoutGet": true
 
 :::correct
 
-```js
+```ts
 /*eslint accessor-pairs: ["error", {
     "getWithoutSet": true, "setWithoutGet": true, "enforceForTSTypes": false
 }]*/

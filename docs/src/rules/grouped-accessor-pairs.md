@@ -319,15 +319,19 @@ Examples of **incorrect** code for this rule with `{ enforceForTSTypes: true }`:
 
 ::: incorrect
 
-```js
+```ts
 /*eslint grouped-accessor-pairs: ["error", { enforceForTSTypes: true }]*/
 
 interface I {
     get a(): string,
+    between: true,
+    set a(value: string): void
 }
 
 type T = {
-    set a(value: string): void,
+    get a(): string,
+    between: true,
+    set a(value: string): void
 };
 ```
 
@@ -337,7 +341,7 @@ Examples of **correct** code for this rule with with `{ enforceForTSTypes: true 
 
 ::: correct
 
-```js
+```ts
 /*eslint grouped-accessor-pairs: ["error", { enforceForTSTypes: true }]*/
 
 interface I {
