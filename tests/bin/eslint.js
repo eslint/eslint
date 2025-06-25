@@ -130,7 +130,7 @@ describe("bin/eslint.js", () => {
 					usedDeprecatedRules: [
 						{
 							ruleId: "no-extra-semi",
-							replacedBy: ["@stylistic/js/no-extra-semi"],
+							replacedBy: ["@stylistic/no-extra-semi"],
 							info: {
 								message:
 									"Formatting rules are being moved out of ESLint core.",
@@ -143,12 +143,12 @@ describe("bin/eslint.js", () => {
 											"ESLint Stylistic now maintains deprecated stylistic core rules.",
 										url: "https://eslint.style/guide/migration",
 										plugin: {
-											name: "@stylistic/eslint-plugin-js",
-											url: "https://eslint.style/packages/js",
+											name: "@stylistic/eslint-plugin",
+											url: "https://eslint.style",
 										},
 										rule: {
 											name: "no-extra-semi",
-											url: "https://eslint.style/rules/js/no-extra-semi",
+											url: "https://eslint.style/rules/no-extra-semi",
 										},
 									},
 								],
