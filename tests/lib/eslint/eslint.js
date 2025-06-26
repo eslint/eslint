@@ -176,7 +176,7 @@ describe("ESLint", () => {
 		sinon.restore();
 	});
 
-	[[], ["unstable_config_lookup_from_file"]].forEach(flags => {
+	[[], ["v10_config_lookup_from_file"]].forEach(flags => {
 		/**
 		 * Configuration flags for TypeScript integration in Node.js,
 		 * including existing {@linkcode flags} and
@@ -14217,9 +14217,9 @@ describe("ESLint", () => {
 		});
 	});
 
-	describe("unstable_config_lookup_from_file", () => {
+	describe("v10_config_lookup_from_file", () => {
 		let eslint;
-		const flags = ["unstable_config_lookup_from_file"];
+		const flags = ["v10_config_lookup_from_file"];
 
 		it("should report zero messages when given a config file and a valid file", async () => {
 			/*
@@ -14955,6 +14955,62 @@ describe("ESLint", () => {
 				assert.strictEqual(results[1].messages.length, 0);
 				assert.strictEqual(results[1].suppressedMessages.length, 0);
 			});
+		});
+	});
+
+	// A test copied from the `v10_config_lookup_from_file` tests to ensure the `unstable_config_lookup_from_file` flag still works
+	describe("unstable_config_lookup_from_file", () => {
+		let processStub;
+
+		beforeEach(() => {
+			sinon.restore();
+			processStub = sinon
+				.stub(process, "emitWarning")
+				.withArgs(sinon.match.any, sinon.match(/^ESLintInactiveFlag_/u))
+				.returns();
+		});
+
+		it("should report zero messages when given a config file and a valid file", async () => {
+			/*
+			 * This test ensures subdir/code.js is linted using the configuration in
+			 * subdir/eslint.config.js and not from eslint.config.js in the parent
+			 * directory.
+			 */
+
+			const eslint = new ESLint({
+				flags: ["unstable_config_lookup_from_file"],
+				cwd: getFixturePath("lookup-from-file"),
+			});
+			const results = await eslint.lintFiles(["."]);
+
+			assert.strictEqual(results.length, 2);
+			assert.strictEqual(
+				results[0].filePath,
+				getFixturePath("lookup-from-file", "code.js"),
+			);
+			assert.strictEqual(results[0].messages.length, 1);
+			assert.strictEqual(results[0].messages[0].ruleId, "no-unused-vars");
+			assert.strictEqual(results[0].messages[0].severity, 2);
+			assert.strictEqual(results[0].suppressedMessages.length, 0);
+
+			assert.strictEqual(
+				results[1].filePath,
+				getFixturePath("lookup-from-file", "subdir", "code.js"),
+			);
+			assert.strictEqual(results[1].messages.length, 1);
+			assert.strictEqual(results[1].messages[0].ruleId, "no-unused-vars");
+			assert.strictEqual(results[1].messages[0].severity, 1);
+			assert.strictEqual(results[1].suppressedMessages.length, 0);
+
+			assert.strictEqual(
+				processStub.callCount,
+				1,
+				"calls `process.emitWarning()` for flags once",
+			);
+			assert.deepStrictEqual(processStub.getCall(0).args, [
+				"The flag 'unstable_config_lookup_from_file' is inactive: This flag has been renamed 'v10_config_lookup_from_file' to reflect its stabilization. Please use 'v10_config_lookup_from_file' instead.",
+				"ESLintInactiveFlag_unstable_config_lookup_from_file",
+			]);
 		});
 	});
 });

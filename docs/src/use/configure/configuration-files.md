@@ -773,12 +773,12 @@ In this case, ESLint does not search for `eslint.config.js` and instead uses `so
 This feature is experimental and its details may change before being finalized. This behavior will be the new lookup behavior starting in v10.0.0, but you can try it today using a feature flag.
 :::
 
-You can use the `unstable_config_lookup_from_file` flag to change the way ESLint searches for configuration files. Instead of searching from the current working directory, ESLint will search for a configuration file by first starting in the directory of the file being linted and then searching up its ancestor directories until it finds a `eslint.config.js` file (or any other extension of configuration file). This behavior is better for monorepos, where each subdirectory may have its own configuration file.
+You can use the `v10_config_lookup_from_file` flag to change the way ESLint searches for configuration files. Instead of searching from the current working directory, ESLint will search for a configuration file by first starting in the directory of the file being linted and then searching up its ancestor directories until it finds a `eslint.config.js` file (or any other extension of configuration file). This behavior is better for monorepos, where each subdirectory may have its own configuration file.
 
 To use this feature on the command line, use the `--flag` flag:
 
 ```shell
-npx eslint --flag unstable_config_lookup_from_file .
+npx eslint --flag v10_config_lookup_from_file .
 ```
 
 For more information about using feature flags, see [Feature Flags](../../flags/).
