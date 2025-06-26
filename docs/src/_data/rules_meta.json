@@ -1920,10 +1920,16 @@
         }
     },
     "no-duplicate-imports": {
+        "dialects": [
+            "javascript",
+            "typescript"
+        ],
+        "language": "javascript",
         "type": "problem",
         "defaultOptions": [
             {
-                "includeExports": false
+                "includeExports": false,
+                "allowSeparateTypeImports": false
             }
         ],
         "docs": {
