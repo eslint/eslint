@@ -485,8 +485,8 @@ Examples of **correct** code for the `{ "ignoreExplicitResourceManagement": true
 ```js
 /*eslint no-unused-vars: ["error", { "ignoreExplicitResourceManagement": true }]*/
 
-using resource = getSyncResource();
-await using resource = getAsyncResource();
+using syncResource = getSyncResource();
+await using asyncResource = getAsyncResource();
 ```
 
 :::
