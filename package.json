@@ -107,7 +107,7 @@
     "@eslint-community/eslint-utils": "^4.2.0",
     "@eslint-community/regexpp": "^4.12.1",
     "@eslint/config-array": "^0.21.0",
-    "@eslint/config-helpers": "^0.2.1",
+    "@eslint/config-helpers": "^0.3.0",
     "@eslint/core": "^0.15.1",
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "9.29.0",
