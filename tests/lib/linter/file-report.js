@@ -1350,11 +1350,12 @@ describe("FileReport", () => {
 				suggest: [
 					{
 						messageId: "suggestion1",
-						fix: () => fix,
+						fix: () => ({ range, text: "baz" }),
 					},
 					{
 						messageId: "suggestion2",
-						fix: () => fix,
+						data: { interpolated: "'interpolated value'" },
+						fix: () => ({ range, text: "qux" }),
 					},
 				],
 			});
