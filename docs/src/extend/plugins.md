@@ -406,8 +406,8 @@ Some plugins require entries in the [`settings`](../use/configure/configuration-
 ```ts
 declare module "@eslint/core" {
 	interface SettingsConfig {
-		"eslint-plugin-example": {
-			key: string;
+		"eslint-plugin-example"?: {
+			key?: string;
 		};
 	}
 }
