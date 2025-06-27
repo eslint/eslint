@@ -2145,6 +2145,25 @@ declare module "@eslint/core" {
 	},
 });
 
+(): Linter.Config => ({
+	rules: {
+		testExtensionRule: ["error", "always"],
+	},
+});
+
+(): Linter.Config => ({
+	rules: {
+		// @ts-expect-error // wrong value
+		testExtensionRule: ["error", "foo"],
+	},
+});
+
+(): Linter.Config => ({
+	rules: {
+		// @ts-expect-error // extra item
+		testExtensionRule: ["error", "always", "never"],
+	},
+});
 (): Linter.Config<{
 	foo: Linter.RuleEntry<[1 | 2]>;
 	[x: string]: Linter.RuleEntry;
