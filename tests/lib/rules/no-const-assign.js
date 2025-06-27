@@ -48,7 +48,6 @@ ruleTester.run("no-const-assign", rule, {
 		"function foo(x) { x = 1; }",
 		"class X {} X = 1;",
 		"try {} catch (x) { x = 1; }",
-
 	],
 	invalid: [
 		{
