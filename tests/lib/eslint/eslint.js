@@ -9448,7 +9448,7 @@ describe("ESLint", () => {
 						cwd,
 						overrideConfig: [
 							{
-								basePath: "config-base-path/subdir", // config file is in the parent directory
+								basePath: "config-base-path/subdir", // config file is in the parent's parent directory
 								rules: {
 									"no-unused-vars": "warn",
 								},
