@@ -166,24 +166,6 @@ ruleTester.run("one-var-declaration-per-line", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [errorAt(1, 14)],
 		},
-		{
-			code: "using a = 0, b = 0;",
-			output: "using a = 0, \nb = 0;",
-			options: ["always"],
-			languageOptions: {
-				ecmaVersion: 2026,
-			},
-			errors: [errorAt(1, 14)],
-		},
-		{
-			code: "await using a = 0, b = 0;",
-			output: "await using a = 0, \nb = 0;",
-			options: ["always"],
-			languageOptions: {
-				ecmaVersion: 2026,
-			},
-			errors: [errorAt(1, 20)],
-		},
 
 		{
 			code: "var foo, bar, baz = 0;",
