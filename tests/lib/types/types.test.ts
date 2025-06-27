@@ -2079,6 +2079,23 @@ ruleTester.run("simple-valid-test", rule2, {
 
 (): Linter.Config => ({ name: "eslint:js" });
 
+(): Linter.Config => ({ basePath: "subdir" });
+
+(): Linter.Config => ({
+	// @ts-expect-error
+	basePath: null,
+});
+
+(): Linter.Config => ({
+	// @ts-expect-error
+	basePath: 42,
+});
+
+(): Linter.Config => ({
+	// @ts-expect-error
+	basePath: {},
+});
+
 // @ts-expect-error // Generic passed in does not match the RuleEntry schema
 (): Linter.Config<{ foo?: "bar" }> => ({
 	rules: {},
