@@ -413,7 +413,7 @@ declare module "@eslint/core" {
 }
 ```
 
-This example shows how to configure the `eslint-plugin-example` key be an object with a `key` entry that's a string, like this:
+This example shows how to configure the `eslint-plugin-example` property to be an object with a `key` entry that's a string, like this:
 
 ```js
 // eslint.config.js
