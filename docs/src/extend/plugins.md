@@ -183,7 +183,7 @@ declare module "@eslint/core" {
 }
 ```
 
-This example shows how to configure the `example/dollar-sign` rule to have a value of `"always"` or `"never"`, like this:
+This example shows how to configure the `example/dollar-sign` rule to have an option with a value of `"always"` or `"never"`, like this:
 
 ```js
 // eslint.config.js
