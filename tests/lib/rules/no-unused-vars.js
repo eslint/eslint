@@ -774,7 +774,7 @@ ruleTester.run("no-unused-vars", rule, {
 		},
 		{
 			code: "using resource = getResource();",
-			options: [{ ignoreExplicitResourceManagement: true }],
+			options: [{ ignoreUsingDeclarations: true }],
 			languageOptions: {
 				sourceType: "module",
 				ecmaVersion: 2026,
@@ -782,7 +782,7 @@ ruleTester.run("no-unused-vars", rule, {
 		},
 		{
 			code: "await using resource = getResource();",
-			options: [{ ignoreExplicitResourceManagement: true }],
+			options: [{ ignoreUsingDeclarations: true }],
 			languageOptions: {
 				sourceType: "module",
 				ecmaVersion: 2026,

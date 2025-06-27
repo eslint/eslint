@@ -143,7 +143,7 @@ By default this rule is enabled with `all` option for caught errors and variable
             "args": "after-used",
             "caughtErrors": "all",
             "ignoreRestSiblings": false,
-            "ignoreExplicitResourceManagement": false,
+            "ignoreUsingDeclarations": false,
             "reportUsedIgnorePattern": false
         }]
     }
@@ -463,27 +463,27 @@ class Foo {
 
 :::
 
-### ignoreExplicitResourceManagement
+### ignoreUsingDeclarations
 
-The `ignoreExplicitResourceManagement` option is a boolean (default: `false`). Explicit resource management allows automatic teardown of disposables by calling `Symbol.dispose` implicitly at the end of the variables scope. When set to `true`, this option ignores variables declared with `using` or `await using`.
+The `ignoreUsingDeclarations` option is a boolean (default: `false`). Explicit resource management allows automatic teardown of disposables by calling `Symbol.dispose` implicitly at the end of the variables scope. When set to `true`, this option ignores variables declared with `using` or `await using`.
 
-Examples of **incorrect** code for the `{ "ignoreExplicitResourceManagement": true }` option
+Examples of **incorrect** code for the `{ "ignoreUsingDeclarations": true }` option
 
 ::: incorrect
 
 ```js
-/*eslint no-unused-vars: ["error", { "ignoreExplicitResourceManagement": true }]*/
+/*eslint no-unused-vars: ["error", { "ignoreUsingDeclarations": true }]*/
 const resource = getResource();
 ```
 
 :::
 
-Examples of **correct** code for the `{ "ignoreExplicitResourceManagement": true }` option
+Examples of **correct** code for the `{ "ignoreUsingDeclarations": true }` option
 
 ::: correct
 
 ```js
-/*eslint no-unused-vars: ["error", { "ignoreExplicitResourceManagement": true }]*/
+/*eslint no-unused-vars: ["error", { "ignoreUsingDeclarations": true }]*/
 
 using syncResource = getSyncResource();
 await using asyncResource = getAsyncResource();
