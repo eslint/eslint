@@ -1828,7 +1828,7 @@ describe("RuleTester", () => {
 					invalid: [],
 				},
 			);
-		}, /options must be an array/u);
+		}, /'options' must be an array/u);
 	});
 
 	it("should throw an error if the options are a number", () => {
@@ -1846,7 +1846,7 @@ describe("RuleTester", () => {
 					invalid: [],
 				},
 			);
-		}, /options must be an array/u);
+		}, /'options' must be an array/u);
 	});
 
 	describe("Parsers", () => {
@@ -4303,7 +4303,7 @@ describe("RuleTester", () => {
 					require("../../fixtures/testers/rule-tester/no-var"),
 					{
 						valid: ["foo"],
-						invalid: [{ code: "foo", name: 123 }],
+						invalid: [{ code: "foo", name: 123, errors: 1 }],
 					},
 				);
 			}, /Optional test case property 'name' must be a string/u);
