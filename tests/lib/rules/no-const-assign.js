@@ -31,14 +31,14 @@ ruleTester.run("no-const-assign", rule, {
 		"var x = 0; x = 1;",
 		"let x = 0; x = 1;",
 		{
-			code: "using resource = fn();",
+			code: "using resource = f(); resource = g();",
 			languageOptions: {
 				sourceType: "module",
 				ecmaVersion: 2026,
 			},
 		},
 		{
-			code: "await using resource = fn();",
+			code: "await using resource = f(); resource = g();",
 			languageOptions: {
 				sourceType: "module",
 				ecmaVersion: 2026,
@@ -48,6 +48,7 @@ ruleTester.run("no-const-assign", rule, {
 		"function foo(x) { x = 1; }",
 		"class X {} X = 1;",
 		"try {} catch (x) { x = 1; }",
+
 	],
 	invalid: [
 		{
