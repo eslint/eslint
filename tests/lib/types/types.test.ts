@@ -2121,6 +2121,12 @@ ruleTester.run("simple-valid-test", rule2, {
 	},
 });
 
+(): Linter.Config<{ foo?: Linter.RuleEntry<["always" | "never"]> }> => ({
+	rules: {
+		foo: ["error"],
+	},
+});
+
 (): Linter.Config<{
 	foo: Linter.RuleEntry<[1 | 2]>;
 	[x: string]: Linter.RuleEntry;
