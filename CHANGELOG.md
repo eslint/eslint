@@ -1,3 +1,20 @@
+v9.30.0 - June 27, 2025
+
+* [`2b6491c`](https://github.com/eslint/eslint/commit/2b6491cd4b8eec44d4a3f8dea1b71151e8dd0230) chore: upgrade to `@eslint/js@9.30.0` (#19889) (Francesco Trotta)
+* [`5a5d526`](https://github.com/eslint/eslint/commit/5a5d5261037fdf84a91f2f22d3726d58572453f4) chore: package.json update for @eslint/js release (Jenkins)
+* [`52a5fca`](https://github.com/eslint/eslint/commit/52a5fcaa4e0bb4e55c014c20ed47d6c93b107635) feat: Support `basePath` property in config objects (#19879) (Milos Djermanovic)
+* [`6a0f164`](https://github.com/eslint/eslint/commit/6a0f164543bf8461d6a27a740c9e08aa77cbe42d) fix: handle `null` type `loc` in `getIndexFromLoc` method (#19862) (루밀LuMir)
+* [`8662ed1`](https://github.com/eslint/eslint/commit/8662ed1f6debc358e22812b145e117aa4a907d78) docs: adopt eslint-stylistic sub packages related changes (#19887) (ntnyq)
+* [`eaf8a41`](https://github.com/eslint/eslint/commit/eaf8a418af32b3190494e4a2284533353c28ccfa) chore: Correct typos in linter tests (#19878) (kilavvy)
+* [`4ab4482`](https://github.com/eslint/eslint/commit/4ab44823df4d4b47d3650da949077a0551e7579e) feat: add `allowSeparateTypeImports` option to `no-duplicate-imports` (#19872) (sethamus)
+* [`3fbcd70`](https://github.com/eslint/eslint/commit/3fbcd704a0b2aef2a6c1fc34d2bc4b35f6425067) fix: update error message for `no-restricted-properties` (#19855) (Tanuj Kanti)
+* [`20158b0`](https://github.com/eslint/eslint/commit/20158b09db3430cf00b202ba8c25ce874bbaf00a) docs: typo in comment for unused variables handling (#19870) (leopardracer)
+* [`ebfb5b4`](https://github.com/eslint/eslint/commit/ebfb5b46136c4d737c9783333e3057421d1a0bef) docs: Fixed Typo in configuration-files.md (#19873) (0-20)
+* [`b8a7e7a`](https://github.com/eslint/eslint/commit/b8a7e7aeb5f0ed2e1670771ab4dda6fd723d96eb) feat: throw error when column is negative in `getIndexFromLoc` (#19831) (루밀LuMir)
+* [`7ef4cf7`](https://github.com/eslint/eslint/commit/7ef4cf76610d42727a404e495ac6d47868cf5040) fix: remove unnecessary semicolon from fixes (#19857) (Francesco Trotta)
+* [`7dabc38`](https://github.com/eslint/eslint/commit/7dabc38a8406d470fb2389eec2f0ad1ad214173e) fix: use `process.version` in `--env-info` (#19865) (TKDev7)
+* [`4112fd0`](https://github.com/eslint/eslint/commit/4112fd09531092e9651e9981205bcd603dc56acf) docs: clarify that boolean is still allowed for rule `meta.deprecated` (#19866) (Bryan Mishkin)
+
 v9.29.0 - June 13, 2025
 
 * [`5c114c9`](https://github.com/eslint/eslint/commit/5c114c962f29d0b33e6439e9ab0985014af06b9f) chore: upgrade @eslint/js@9.29.0 (#19851) (Milos Djermanovic)
