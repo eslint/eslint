@@ -770,7 +770,7 @@ describe("FileReport", () => {
 					},
 					{
 						desc: "Remove #3",
-						fix() {},
+						*fix() {},
 					},
 					{
 						desc: "Keep #4",
