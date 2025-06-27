@@ -54,7 +54,12 @@ import {
 	StaticBlock,
 	WhileStatement,
 } from "estree";
-import { Language, RuleDefinition, SettingsConfig } from "@eslint/core";
+import {
+	Language,
+	RuleDefinition,
+	SettingsConfig,
+	RuleConfig,
+} from "@eslint/core";
 
 const SOURCE = `var foo = bar;`;
 
@@ -2124,6 +2129,19 @@ ruleTester.run("simple-valid-test", rule2, {
 (): Linter.Config<{ foo?: Linter.RuleEntry<["always" | "never"]> }> => ({
 	rules: {
 		foo: ["error"],
+	},
+});
+
+// ensure Linter.Config is using RulesConfig
+declare module "@eslint/core" {
+	interface RulesConfig {
+		testExtensionRule?: RuleConfig<["always" | "never"]>;
+	}
+}
+
+(): Linter.Config => ({
+	rules: {
+		testExtensionRule: ["error"],
 	},
 });
 
