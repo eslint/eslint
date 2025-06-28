@@ -808,62 +808,13 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
   type C<T> = Array<T>;
   class D<T> {}
 	  `,
-		`
-  function a(): string;
-  function a(): number;
-  function a() {}
-	  `,
-		{
-			code: `
-  interface A {}
-  interface A {}
-		`,
-			options: [{ ignoreDeclarationMerge: true }],
-		},
-		{
-			code: `
-  interface A {}
-  class A {}
-		`,
-			options: [{ ignoreDeclarationMerge: true }],
-		},
-		{
-			code: `
-  class A {}
-  namespace A {}
-		`,
-			options: [{ ignoreDeclarationMerge: true }],
-		},
-		{
-			code: `
-  interface A {}
-  class A {}
-  namespace A {}
-		`,
-			options: [{ ignoreDeclarationMerge: true }],
-		},
-		{
-			code: `
-  enum A {}
-  namespace A {}
-		`,
-			options: [{ ignoreDeclarationMerge: true }],
-		},
-		{
-			code: `
-  function A() {}
-  namespace A {}
-  namespace A {}
-		`,
-			options: [{ ignoreDeclarationMerge: true }],
-		},
 	],
 	invalid: [
 		{
 			code: `
-  var a = 3;
-  var a = 10;
-		`,
+	  var a = 3;
+	  var a = 10;
+			`,
 			languageOptions: { parserOptions: { ecmaVersion: 6 } },
 			errors: [
 				{
@@ -877,13 +828,13 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 		},
 		{
 			code: `
-  switch (foo) {
-	case a:
-	  var b = 3;
-	case b:
-	  var b = 4;
-  }
-		`,
+	  switch (foo) {
+		case a:
+		  var b = 3;
+		case b:
+		  var b = 4;
+	  }
+			`,
 			errors: [
 				{
 					data: {
@@ -896,9 +847,9 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 		},
 		{
 			code: `
-  var a = 3;
-  var a = 10;
-		`,
+	  var a = 3;
+	  var a = 10;
+			`,
 			errors: [
 				{
 					data: {
@@ -911,9 +862,9 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 		},
 		{
 			code: `
-  var a = {};
-  var a = [];
-		`,
+	  var a = {};
+	  var a = [];
+			`,
 			errors: [
 				{
 					data: {
@@ -926,9 +877,9 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 		},
 		{
 			code: `
-  var a;
-  function a() {}
-		`,
+	  var a;
+	  function a() {}
+			`,
 			errors: [
 				{
 					data: {
@@ -941,9 +892,9 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 		},
 		{
 			code: `
-  function a() {}
-  function a() {}
-		`,
+	  function a() {}
+	  function a() {}
+			`,
 			errors: [
 				{
 					data: {
@@ -956,9 +907,9 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 		},
 		{
 			code: `
-  var a = function () {};
-  var a = function () {};
-		`,
+	  var a = function () {};
+	  var a = function () {};
+			`,
 			errors: [
 				{
 					data: {
@@ -971,9 +922,9 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 		},
 		{
 			code: `
-  var a = function () {};
-  var a = new Date();
-		`,
+	  var a = function () {};
+	  var a = new Date();
+			`,
 			errors: [
 				{
 					data: {
@@ -986,10 +937,10 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 		},
 		{
 			code: `
-  var a = 3;
-  var a = 10;
-  var a = 15;
-		`,
+	  var a = 3;
+	  var a = 10;
+	  var a = 15;
+			`,
 			errors: [
 				{
 					data: {
@@ -1009,9 +960,9 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 		},
 		{
 			code: `
-  var a;
-  var a;
-		`,
+	  var a;
+	  var a;
+			`,
 			languageOptions: { parserOptions: { sourceType: "module" } },
 			errors: [
 				{
@@ -1025,9 +976,9 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 		},
 		{
 			code: `
-  export var a;
-  var a;
-		`,
+	  export var a;
+	  var a;
+			`,
 			languageOptions: { parserOptions: { sourceType: "module" } },
 			errors: [
 				{
@@ -1070,9 +1021,9 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 		},
 		{
 			code: `
-  var a;
-  var { a = 0, b: Object = 0 } = {};
-		`,
+	  var a;
+	  var { a = 0, b: Object = 0 } = {};
+			`,
 			options: [{ builtinGlobals: true }],
 			languageOptions: { parserOptions: { ecmaVersion: 6 } },
 			errors: [
@@ -1094,9 +1045,9 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 		},
 		{
 			code: `
-  var a;
-  var { a = 0, b: Object = 0 } = {};
-		`,
+	  var a;
+	  var { a = 0, b: Object = 0 } = {};
+			`,
 			options: [{ builtinGlobals: true }],
 			languageOptions: {
 				parserOptions: { ecmaVersion: 6, sourceType: "module" },
@@ -1113,9 +1064,9 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 		},
 		{
 			code: `
-  var a;
-  var { a = 0, b: Object = 0 } = {};
-		`,
+	  var a;
+	  var { a = 0, b: Object = 0 } = {};
+			`,
 			options: [{ builtinGlobals: true }],
 			languageOptions: {
 				parserOptions: {
@@ -1135,9 +1086,9 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 		},
 		{
 			code: `
-  var a;
-  var { a = 0, b: Object = 0 } = {};
-		`,
+	  var a;
+	  var { a = 0, b: Object = 0 } = {};
+			`,
 			options: [{ builtinGlobals: false }],
 			languageOptions: { parserOptions: { ecmaVersion: 6 } },
 			errors: [
@@ -1168,9 +1119,9 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 
 		{
 			code: `
-  type T = 1;
-  type T = 2;
-		`,
+	  type T = 1;
+	  type T = 2;
+			`,
 			errors: [
 				{
 					data: {
@@ -1183,8 +1134,8 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 		},
 		{
 			code: `
-  type NodeListOf = 1;
-		`,
+	  type NodeListOf = 1;
+			`,
 			options: [{ builtinGlobals: true }],
 			languageOptions: {
 				parserOptions: {
@@ -1203,10 +1154,10 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 		},
 		{
 			code: `
-  interface A {}
-  interface A {}
-		`,
-			options: [{ ignoreDeclarationMerge: false }],
+	  interface A {}
+	  interface A {}
+			`,
+
 			errors: [
 				{
 					data: {
@@ -1219,10 +1170,10 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 		},
 		{
 			code: `
-  interface A {}
-  class A {}
-		`,
-			options: [{ ignoreDeclarationMerge: false }],
+	  interface A {}
+	  class A {}
+			`,
+
 			errors: [
 				{
 					data: {
@@ -1235,10 +1186,10 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 		},
 		{
 			code: `
-  class A {}
-  namespace A {}
-		`,
-			options: [{ ignoreDeclarationMerge: false }],
+	  class A {}
+	  namespace A {}
+			`,
+
 			errors: [
 				{
 					data: {
@@ -1251,118 +1202,11 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 		},
 		{
 			code: `
-  interface A {}
-  class A {}
-  namespace A {}
-		`,
-			options: [{ ignoreDeclarationMerge: false }],
-			errors: [
-				{
-					data: {
-						id: "A",
-					},
-					line: 3,
-					messageId: "redeclared",
-				},
-				{
-					data: {
-						id: "A",
-					},
-					line: 4,
-					messageId: "redeclared",
-				},
-			],
-		},
-		{
-			code: `
-  class A {}
-  class A {}
-  namespace A {}
-		`,
-			options: [{ ignoreDeclarationMerge: true }],
-			errors: [
-				{
-					data: {
-						id: "A",
-					},
-					line: 3,
-					messageId: "redeclared",
-				},
-			],
-		},
-		{
-			code: `
-  function A() {}
-  namespace A {}
-		`,
-			options: [{ ignoreDeclarationMerge: false }],
-			errors: [
-				{
-					data: {
-						id: "A",
-					},
-					line: 3,
-					messageId: "redeclared",
-				},
-			],
-		},
-		{
-			code: `
-  function A() {}
-  function A() {}
-  namespace A {}
-		`,
-			options: [{ ignoreDeclarationMerge: true }],
-			errors: [
-				{
-					data: {
-						id: "A",
-					},
-					line: 3,
-					messageId: "redeclared",
-				},
-			],
-		},
-		{
-			code: `
-  function A() {}
-  class A {}
-		`,
-			options: [{ ignoreDeclarationMerge: false }],
-			errors: [
-				{
-					data: {
-						id: "A",
-					},
-					line: 3,
-					messageId: "redeclared",
-				},
-			],
-		},
-		{
-			code: `
-  enum A {}
-  namespace A {}
-  enum A {}
-		`,
-			options: [{ ignoreDeclarationMerge: true }],
-			errors: [
-				{
-					data: {
-						id: "A",
-					},
-					line: 4,
-					messageId: "redeclared",
-				},
-			],
-		},
-		{
-			code: `
-  function A() {}
-  class A {}
-  namespace A {}
-		`,
-			options: [{ ignoreDeclarationMerge: false }],
+	  interface A {}
+	  class A {}
+	  namespace A {}
+			`,
+
 			errors: [
 				{
 					data: {
@@ -1382,9 +1226,64 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 		},
 		{
 			code: `
-  type something = string;
-  const something = 2;
-		`,
+	  function A() {}
+	  namespace A {}
+			`,
+
+			errors: [
+				{
+					data: {
+						id: "A",
+					},
+					line: 3,
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: `
+	  function A() {}
+	  class A {}
+			`,
+
+			errors: [
+				{
+					data: {
+						id: "A",
+					},
+					line: 3,
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: `
+	  function A() {}
+	  class A {}
+	  namespace A {}
+			`,
+			errors: [
+				{
+					data: {
+						id: "A",
+					},
+					line: 3,
+					messageId: "redeclared",
+				},
+				{
+					data: {
+						id: "A",
+					},
+					line: 4,
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: `
+	  type something = string;
+	  const something = 2;
+			`,
 			errors: [
 				{
 					data: {
@@ -1397,14 +1296,14 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 		},
 		{
 			code: `
-    var Foo;
-	namespace Foo {
-		export const a = 2;
-	}
-	namespace Foo {
-		export const b = 4;
-	}
-		`,
+	    var Foo;
+		namespace Foo {
+			export const a = 2;
+		}
+		namespace Foo {
+			export const b = 4;
+		}
+			`,
 			errors: [
 				{
 					data: {
@@ -1424,15 +1323,14 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 		},
 		{
 			code: `
-		namespace Foo {
-			export const a = 1;
-		}
+			namespace Foo {
+				export const a = 1;
+			}
 
-		namespace Bar {
-			export const a = 1;
-		}
-		`,
-			options: [{ ignoreDeclarationMerge: false }],
+			namespace Bar {
+				export const a = 1;
+			}
+			`,
 			languageOptions: {
 				globals: {
 					Foo: "readonly",
@@ -1458,17 +1356,16 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 		},
 		{
 			code: `
-		/* global Foo */
-		namespace Foo {
-			export const a = 1;
-		}
+			/* global Foo */
+			namespace Foo {
+				export const a = 1;
+			}
 
-		/* global Bar */
-		namespace Bar {
-			export const a = 1;
-		}
-		`,
-			options: [{ ignoreDeclarationMerge: false }],
+			/* global Bar */
+			namespace Bar {
+				export const a = 1;
+			}
+			`,
 			errors: [
 				{
 					data: {
@@ -1488,16 +1385,16 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 		},
 		{
 			code: `
-		namespace Foo {
-			export const a = 1;
-		}
+			namespace Foo {
+				export const a = 1;
+			}
 
-		/* global Bar */
-		namespace Bar {
-			export const a = 1;
-		}
-		`,
-			options: [{ ignoreDeclarationMerge: false }],
+			/* global Bar */
+			namespace Bar {
+				export const a = 1;
+			}
+			`,
+
 			languageOptions: {
 				globals: {
 					Foo: "readonly",
@@ -1516,172 +1413,6 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 						id: "Bar",
 					},
 					line: 6,
-					messageId: "redeclaredBySyntax",
-				},
-			],
-		},
-		{
-			code: `
-		namespace Foo {
-			export const a = 1;
-		}
-
-		namespace Bar {
-			export const a = 1;
-		}
-		`,
-			options: [{ ignoreDeclarationMerge: true }],
-			languageOptions: {
-				globals: {
-					Foo: "readonly",
-					Bar: "readonly",
-				},
-			},
-			errors: [
-				{
-					data: {
-						id: "Foo",
-					},
-					line: 2,
-					messageId: "redeclaredAsBuiltin",
-				},
-				{
-					data: {
-						id: "Bar",
-					},
-					line: 6,
-					messageId: "redeclaredAsBuiltin",
-				},
-			],
-		},
-		{
-			code: `
-		/* global Foo */
-		namespace Foo {
-			export const a = 1;
-		}
-
-		/* global Bar */
-		namespace Bar {
-			export const a = 1;
-		}
-		`,
-			options: [{ ignoreDeclarationMerge: true }],
-			errors: [
-				{
-					data: {
-						id: "Foo",
-					},
-					line: 2,
-					messageId: "redeclaredBySyntax",
-				},
-				{
-					data: {
-						id: "Bar",
-					},
-					line: 7,
-					messageId: "redeclaredBySyntax",
-				},
-			],
-		},
-		{
-			code: `
-		namespace Foo {
-			export const a = 1;
-		}
-
-		/* global Bar */
-		namespace Bar {
-			export const a = 1;
-		}
-		`,
-			options: [{ ignoreDeclarationMerge: true }],
-			languageOptions: {
-				globals: {
-					Foo: "readonly",
-				},
-			},
-			errors: [
-				{
-					data: {
-						id: "Foo",
-					},
-					line: 2,
-					messageId: "redeclaredAsBuiltin",
-				},
-				{
-					data: {
-						id: "Bar",
-					},
-					line: 6,
-					messageId: "redeclaredBySyntax",
-				},
-			],
-		},
-		{
-			code: `
-		/* global Bar */
-		namespace Bar {
-			export const a = 1;
-		}
-		namespace Bar {
-			export const b = 1;
-		}
-		`,
-			options: [{ ignoreDeclarationMerge: true }],
-			errors: [
-				{
-					data: {
-						id: "Bar",
-					},
-					line: 2,
-					messageId: "redeclaredBySyntax",
-				},
-			],
-		},
-		{
-			code: `
-		namespace Foo {
-			export const a = 1;
-		}
-		namespace Foo {
-			export const a = 1;
-		}
-
-		/* global Bar */
-		namespace Bar {
-			export const a = 1;
-		}
-		namespace Bar {
-			export const a = 1;
-		}
-		`,
-			options: [{ ignoreDeclarationMerge: true }],
-			languageOptions: {
-				globals: {
-					Foo: "readonly",
-				},
-			},
-			errors: [
-				{
-					data: {
-						id: "Foo",
-					},
-					line: 2,
-					messageId: "redeclaredAsBuiltin",
-				},
-				{
-					data: {
-						id: "Foo",
-					},
-					line: 5,
-					messageId: "redeclaredAsBuiltin",
-				},
-				{
-					data: {
-						id: "Bar",
-					},
-					line: 9,
 					messageId: "redeclaredBySyntax",
 				},
 			],
