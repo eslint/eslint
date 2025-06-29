@@ -51,6 +51,22 @@ ruleTester.run("no-loop-func", rule, {
 			languageOptions: { ecmaVersion: 6 },
 		},
 		{
+			code: "for (using i of foo) { (function() { i; }) }",
+			languageOptions: { ecmaVersion: 2026 },
+		},
+		{
+			code: "for (await using i of foo) { (function() { i; }) }",
+			languageOptions: { ecmaVersion: 2026 },
+		},
+		{
+			code: "for (var i = 0; i < 10; ++i) { using foo = bar(i); (function() { foo; }) }",
+			languageOptions: { ecmaVersion: 2026 },
+		},
+		{
+			code: "for (var i = 0; i < 10; ++i) { await using foo = bar(i); (function() { foo; }) }",
+			languageOptions: { ecmaVersion: 2026 },
+		},
+		{
 			code: "for (let i = 0; i < 10; ++i) { for (let x in xs.filter(x => x != i)) {  } }",
 			languageOptions: { ecmaVersion: 6 },
 		},
@@ -170,7 +186,7 @@ ruleTester.run("no-loop-func", rule, {
                 current.c;
                 current.d;
             })();
-            
+
             current = current.upper;
             }
             `,
@@ -207,6 +223,42 @@ ruleTester.run("no-loop-func", rule, {
             }
             `,
 			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: `
+            const foo = bar;
+
+            for (var i = 0; i < 5; i++) {
+                arr.push(() => foo);
+            }
+
+			foo = baz; // This is a runtime error, but not concern of this rule. For this rule, variable 'foo' is constant.
+            `,
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: `
+            using foo = bar;
+
+            for (var i = 0; i < 5; i++) {
+                arr.push(() => foo);
+            }
+
+			foo = baz; // This is a runtime error, but not concern of this rule. For this rule, variable 'foo' is constant.
+            `,
+			languageOptions: { ecmaVersion: 2026 },
+		},
+		{
+			code: `
+            await using foo = bar;
+
+            for (var i = 0; i < 5; i++) {
+                arr.push(() => foo);
+            }
+
+			foo = baz; // This is a runtime error, but not concern of this rule. For this rule, variable 'foo' is constant.
+            `,
+			languageOptions: { ecmaVersion: 2026 },
 		},
 	],
 	invalid: [
@@ -471,7 +523,7 @@ ruleTester.run("no-loop-func", rule, {
                     current;
                     arr.push(f);
                 })();
-                
+
                 current = current.upper;
             }
             `,
@@ -615,7 +667,7 @@ ruleTester.run("no-loop-func", rule, {
 
             for (var i = 0; i < 5; i++) {
                 arr.push((() => {
-                    return () => 
+                    return () =>
                         (() => i)();
                 })());
             }
@@ -666,7 +718,7 @@ ruleTester.run("no-loop-func", rule, {
                         return i;
                     })();
                 })();
-            
+
             }
             `,
 			languageOptions: { ecmaVersion: 2022 },
@@ -839,7 +891,7 @@ ruleTesterTypeScript.run("no-loop-func", rule, {
       // ConfiguredType is in globals, UnconfiguredType is not
       // Both should be considered safe as they are type references
       const process = (configItem: ConfiguredType, unconfigItem: UnconfiguredType) => {
-        return { 
+        return {
           config: configItem.value,
           unconfig: unconfigItem.value
         };
@@ -892,14 +944,14 @@ ruleTesterTypeScript.run("no-loop-func", rule, {
     id: number;
     name: string;
   }
-  
+
   const items: Item[] = [];
   for (var i = 0; i < 10; i++) {
     items.push({
       id: i,
       name: "Item " + i
     });
-    
+
     const process = function(callback: (item: Item) => void): void {
       callback({ id: i, name: "Item " + i });
     };
@@ -916,7 +968,7 @@ ruleTesterTypeScript.run("no-loop-func", rule, {
 		{
 			code: `
   type Processor<T> = (item: T) => void;
-		
+
   for (var i = 0; i < 10; i++) {
     const processor: Processor<number> = (item) => {
       return item + i;
