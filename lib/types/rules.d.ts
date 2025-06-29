@@ -2126,7 +2126,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	>;
 
 	/**
-	 * Rule to disallow reassigning `const` variables.
+	 * Rule to disallow reassigning `const`, `using`, and `await using` variables.
 	 *
 	 * @remarks
 	 * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
