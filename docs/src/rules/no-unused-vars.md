@@ -20,6 +20,7 @@ A variable `foo` is considered to be used if any of the following are true:
 * It is read (`let bar = foo`)
 * It is passed into a function as an argument (`doSomething(foo)`)
 * It is read inside of a function that is passed to another function (`doSomething(function() { foo(); })`)
+* It uses explicit resource management by declaring the variable with `using` or `await using`
 
 A variable is *not* considered to be used if it is only ever declared (`let foo = 5`) or assigned to (`foo = 7`).
 
@@ -142,6 +143,7 @@ By default this rule is enabled with `all` option for caught errors and variable
             "args": "after-used",
             "caughtErrors": "all",
             "ignoreRestSiblings": false,
+            "ignoreUsingDeclarations": false,
             "reportUsedIgnorePattern": false
         }]
     }
@@ -457,6 +459,34 @@ class Foo {
         console.log(bar);
     }
 }
+```
+
+:::
+
+### ignoreUsingDeclarations
+
+The `ignoreUsingDeclarations` option is a boolean (default: `false`). Explicit resource management allows automatic teardown of disposables by calling `Symbol.dispose` implicitly at the end of the variables scope. When set to `true`, this option ignores variables declared with `using` or `await using`.
+
+Examples of **incorrect** code for the `{ "ignoreUsingDeclarations": true }` option
+
+::: incorrect
+
+```js
+/*eslint no-unused-vars: ["error", { "ignoreUsingDeclarations": true }]*/
+const resource = getResource();
+```
+
+:::
+
+Examples of **correct** code for the `{ "ignoreUsingDeclarations": true }` option
+
+::: correct
+
+```js
+/*eslint no-unused-vars: ["error", { "ignoreUsingDeclarations": true }]*/
+
+using syncResource = getSyncResource();
+await using asyncResource = getAsyncResource();
 ```
 
 :::
