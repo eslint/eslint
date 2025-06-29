@@ -122,4 +122,4 @@ for (const a of [1, 2, 3]) { // `a` is re-defined (not modified) on each loop st
 
 ## When Not To Use It
 
-If you don't want to be notified about modifying variables that are declared using `const`, `using`, and `await using` keyword, you can safely disable this rule.
+If you don't want to be notified about modifying variables that are declared using `const`, `using`, and `await using` keywords, you can safely disable this rule.
