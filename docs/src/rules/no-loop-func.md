@@ -115,6 +115,34 @@ for (let i=10; i; i--) {
     a();
 }
 
+for (const i of foo) {
+    var a = function() { return i; }; // OK, all references are referring to block scoped variables in the loop.
+    a();
+}
+
+for (using i of foo) {
+    var a = function() { return i; }; // OK, all references are referring to block scoped variables in the loop.
+    a();
+}
+
+for (var i=10; i; i--) {
+	const foo = getsomething(i);
+    var a = function() { return foo; }; // OK, all references are referring to block scoped variables in the loop.
+    a();
+}
+
+for (var i=10; i; i--) {
+	using foo = getsomething(i);
+    var a = function() { return foo; }; // OK, all references are referring to block scoped variables in the loop.
+    a();
+}
+
+for (var i=10; i; i--) {
+	await using foo = getsomething(i);
+    var a = function() { return foo; }; // OK, all references are referring to block scoped variables in the loop.
+    a();
+}
+
 var foo = 100;
 for (let i=10; i; i--) {
     var a = function() { return foo; }; // OK, all references are referring to never modified variables.
