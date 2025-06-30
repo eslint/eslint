@@ -13,9 +13,10 @@ Our public [issues tracker](https://github.com/eslint/eslint/issues) lists all o
 
 We use labels to indicate the status of issues. The most complete documentation on the labels is found in the [Maintain ESLint documentation](../maintain/manage-issues#when-an-issue-or-pull-request-is-opened), but most contributors should find the information on this page sufficient. The most important questions that labels can help you, as a contributor, answer are:
 
-1. Is this issue available for me to work on? If you have little or no experience contributing to ESLint, the [`good first issue`](https://github.com/eslint/eslint/labels/good%20first%20issue) label marks appropriate issues. Otherwise, the [`help wanted`](https://github.com/eslint/eslint/labels/help%20wanted) label is an invitation to work on the issue. If you have more experience, you can try working on other issues labeled [`accepted`](https://github.com/eslint/eslint/labels/accepted). Conversely, issues not yet ready to work on are labeled `triage`, `evaluating`, and/or `needs bikeshedding`, and issues that cannot currently be worked on because of something else, such as a bug in a dependency, are labeled `blocked`.
-1. What is this issue about? Labels describing the nature of issues include `bug`, `enhancement`, `feature`, `question`, `rule`, `documentation`, `core`, `build`, `cli`, `infrastructure`, `breaking`, and `chore`. These are documented in [Maintain ESLint](../maintain/manage-issues#types-of-issues-and-pull-requests).
-1. What is the priority of this issue? Because we have a lot of issues, we prioritize certain issues above others. The following is the list of priorities, from highest to lowest:
+1. **Is this issue ready for a pull request?** Issues that are ready for pull requests have the [`accepted`](https://github.com/eslint/eslint/labels/accepted) label, which indicates that the team has agreed to accept a pull request. Please do not send pull requests for issues that have not been marked as accepted.
+2. **Is this issue right for a beginner?** If you have little or no experience contributing to ESLint, the [`good first issue`](https://github.com/eslint/eslint/labels/good%20first%20issue) label marks appropriate issues. Otherwise, the [`help wanted`](https://github.com/eslint/eslint/labels/help%20wanted) label is an invitation to work on the issue. If you have more experience, you can try working on other issues labeled [`accepted`](https://github.com/eslint/eslint/labels/accepted).
+3. **What is this issue about?** Labels describing the nature of issues include `bug`, `enhancement`, `feature`, `question`, `rule`, `documentation`, `core`, `build`, `cli`, `infrastructure`, `breaking`, and `chore`. These are documented in [Maintain ESLint](../maintain/manage-issues#types-of-issues-and-pull-requests).
+4. **What is the priority of this issue?** Because we have a lot of issues, we prioritize certain issues above others. The following is the list of priorities, from highest to lowest:
 
     1. **Bugs** - problems with the project are actively affecting users. We want to get these resolved as quickly as possible.
     1. **Documentation** - documentation issues are a type of bug in that they actively affect current users. As such, we want to address documentation issues as quickly as possible.
@@ -23,19 +24,36 @@ We use labels to indicate the status of issues. The most complete documentation 
     1. **Enhancements** - requested improvements for existing functionality.
     1. **Other** - anything else.
 
-    Some issues have had monetary rewards attached to them. Those are labeled `bounty`. Bounties are assigned via [BountySource](https://www.bountysource.com/teams/eslint/issues).
-
 ## Starting Work
 
-If you're going to work on an issue, please add a comment to that issue saying so and indicating when you think you will complete it. It will help us to avoid duplication of effort. Some examples of good comments are:
+::: important
+Before starting to work on an existing issue, please check if the issue has been assigned to anyone. If it has, then that person is already responsible for submitting a pull request and you should choose a different issue to work on.
+:::
+
+### Claiming an issue
+
+If you're going to work on an issue, please _claim_ the issue by adding a comment saying you're working on it and indicating when you think you will complete it. This helps us to avoid duplication of effort. Some examples of good claim comments are:
 
 - "I'll take a look at this over the weekend."
 - "I'm going to do this, give me two weeks."
 - "Working on this" (as in, I'm working on it right now)
 
-If an issue has already been claimed by someone, please be respectful of that person's desire to complete the work and don't work on it unless you verify that they are no longer interested.
+The team will validate your claim by assigning the issue to you.
 
-If you find you can't finish the work, then simply add a comment letting people know, for example:
+### Offering help on a claimed issue
+
+If an issue has an assignee or has already been claimed by someone, please be respectful of that person's desire to complete the work and don't work on it unless you verify that they are no longer interested or would welcome the help. If there hasn't been activity on the issue after two weeks, you can express your interest in helping on the issue. For example:
+
+- "Are you still working on this? If not, I'd love to work on it."
+- "Do you need any help on this? I'm interested."
+
+It is up to the assignee to decide if they're going to continue working on the issue or if they'd like your help.
+
+If there is no response after a week, please contact a team member for help.
+
+### Unclaiming an issue
+
+If you claimed an issue and find you can't finish the work, then add a comment letting people know, for example:
 
 - "Sorry, it looks like I don't have time to do this."
 - "I thought I knew enough to fix this, but it turns out I don't."
