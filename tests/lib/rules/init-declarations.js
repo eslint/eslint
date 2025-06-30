@@ -40,6 +40,16 @@ ruleTester.run("init-declarations", rule, {
 			languageOptions: { ecmaVersion: 6 },
 		},
 		{
+			code: "using a = foo();",
+			options: ["always"],
+			languageOptions: { ecmaVersion: 2026 },
+		},
+		{
+			code: "await using a = foo();",
+			options: ["always"],
+			languageOptions: { ecmaVersion: 2026 },
+		},
+		{
 			code: "function foo() { let a = 1, b = false; if (a) { let c = 3, d = null; } }",
 			options: ["always"],
 			languageOptions: { ecmaVersion: 6 },
@@ -78,6 +88,16 @@ ruleTester.run("init-declarations", rule, {
 			code: "const a = 1;",
 			options: ["never"],
 			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "using a = foo();",
+			options: ["never"],
+			languageOptions: { ecmaVersion: 2026 },
+		},
+		{
+			code: "await using a = foo();",
+			options: ["never"],
+			languageOptions: { ecmaVersion: 2026 },
 		},
 		{
 			code: "function foo() { let a, b; if (a) { let c, d; } }",

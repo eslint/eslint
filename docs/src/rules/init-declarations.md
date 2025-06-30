@@ -36,7 +36,7 @@ This rule aims to bring consistency to variable initializations and declarations
 
 The rule takes two options:
 
-1. A string which must be either `"always"` (the default), to enforce initialization at declaration, or `"never"` to disallow initialization during declaration. This rule applies to `var`, `let`, and `const` variables, however `"never"` is ignored for `const` variables, as unassigned `const`s generate a parse error.
+1. A string which must be either `"always"` (the default), to enforce initialization at declaration, or `"never"` to disallow initialization during declaration. This rule applies to `var`, `let`, `const`, `using`, and `await using` variables, however `"never"` is ignored for `const`, `using`, and `await using` variables, as not initializing these variables would generate a parse error.
 2. An object that further controls the behavior of this rule. Currently, the only available parameter is `ignoreForLoopInit`, which indicates if initialization at declaration is allowed in `for` loops when `"never"` is set, since it is a very typical use case.
 
 You can configure the rule as follows:
@@ -93,6 +93,11 @@ function foo() {
     var bar = 1;
     let baz = 2;
     const qux = 3;
+	using quux = getSomething();
+}
+
+async function foobar() {
+	await using quux = getSomething();
 }
 ```
 
@@ -128,12 +133,17 @@ function foo() {
     var bar;
     let baz;
     const buzz = 1;
+	using quux = getSomething();
+}
+
+async function foobar() {
+	await using quux = getSomething();
 }
 ```
 
 :::
 
-The `"never"` option ignores `const` variable initializations.
+The `"never"` option ignores `const`, `using`, and `await using` variable initializations.
 
 ### ignoreForLoopInit
 
