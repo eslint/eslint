@@ -9,7 +9,10 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert;
-const { FileReport } = require("../../../lib/linter/file-report");
+const {
+	FileReport,
+	updateLocationInformation,
+} = require("../../../lib/linter/file-report");
 const { SourceCode } = require("../../../lib/languages/js/source-code");
 const espree = require("espree");
 
@@ -58,12 +61,13 @@ const language = { columnStart: 0, lineStart: 1 };
 //------------------------------------------------------------------------------
 
 describe("FileReport", () => {
-	let sourceCode, node, location, fileReport;
+	let sourceCode, node, location, fileReport, message;
 
 	beforeEach(() => {
 		sourceCode = createSourceCode("foo\nbar");
 		node = sourceCode.ast.body[0];
 		location = sourceCode.ast.body[1].loc.start;
+		message = "foo";
 		fileReport = new FileReport({
 			ruleMapper: mockRuleMapper,
 			sourceCode,
@@ -165,6 +169,21 @@ describe("FileReport", () => {
 				nodeType: "ExpressionStatement",
 				fix: { range: [1, 2], text: "foo" },
 			});
+		});
+
+		it("should return the lint message object", () => {
+			const messageObject = fileReport.addRuleMessage("foo-rule", 2, {
+				node,
+				loc: location,
+				message: "foo",
+				fix: () => ({ range: [1, 2], text: "foo" }),
+			});
+
+			assert.strictEqual(fileReport.messages.length, 1);
+			assert.deepStrictEqual(messageObject, fileReport.messages[0]);
+			assert.strictEqual(messageObject.ruleId, "foo-rule");
+			assert.strictEqual(messageObject.severity, 2);
+			assert.strictEqual(messageObject.message, "foo");
 		});
 
 		it("should throw if both message and messageId are provided", () => {
@@ -482,13 +501,20 @@ describe("FileReport", () => {
 
 	describe("old-style call with location", () => {
 		it("should extract the location correctly", () => {
-			fileReport.addRuleMessage("foo-rule", 2, node, location, "foo", {});
+			fileReport.addRuleMessage(
+				"foo-rule",
+				2,
+				node,
+				location,
+				message,
+				{},
+			);
 
 			assert.strictEqual(fileReport.messages.length, 1);
 			assert.deepStrictEqual(fileReport.messages[0], {
 				ruleId: "foo-rule",
 				severity: 2,
-				message: "foo",
+				message,
 				line: 2,
 				column: 1,
 				nodeType: "ExpressionStatement",
@@ -498,13 +524,13 @@ describe("FileReport", () => {
 
 	describe("old-style call without location", () => {
 		it("should use the start location and end location of the node", () => {
-			fileReport.addRuleMessage("foo-rule", 2, node, "foo", {});
+			fileReport.addRuleMessage("foo-rule", 2, node, message, {});
 
 			assert.strictEqual(fileReport.messages.length, 1);
 			assert.deepStrictEqual(fileReport.messages[0], {
 				ruleId: "foo-rule",
 				severity: 2,
-				message: "foo",
+				message,
 				line: 1,
 				column: 1,
 				endLine: 1,
@@ -514,19 +540,289 @@ describe("FileReport", () => {
 		});
 	});
 
-	describe("combining autofixes", () => {
-		it("should merge fixes to one if 'fix' function returns an array of fixes.", () => {
-			fileReport.addRuleMessage("foo-rule", 2, {
+	describe("new-style call with all options", () => {
+		it("should include the new-style options in the report", () => {
+			const reportDescriptor = {
 				node,
 				loc: location,
+				message,
+				fix: () => ({ range: [1, 2], text: "foo" }),
+				suggest: [
+					{
+						desc: "suggestion 1",
+						fix: () => ({ range: [2, 3], text: "s1" }),
+					},
+					{
+						desc: "suggestion 2",
+						fix: () => ({ range: [3, 4], text: "s2" }),
+					},
+				],
+			};
+
+			fileReport.addRuleMessage("foo-rule", 2, reportDescriptor);
+
+			assert.deepStrictEqual(fileReport.messages[0], {
+				ruleId: "foo-rule",
+				severity: 2,
+				message,
+				line: 2,
+				column: 1,
+				nodeType: "ExpressionStatement",
+				fix: {
+					range: [1, 2],
+					text: "foo",
+				},
+				suggestions: [
+					{
+						desc: "suggestion 1",
+						fix: { range: [2, 3], text: "s1" },
+					},
+					{
+						desc: "suggestion 2",
+						fix: { range: [3, 4], text: "s2" },
+					},
+				],
+			});
+		});
+
+		it("should translate the messageId into a message", () => {
+			const reportDescriptor = {
+				node,
+				loc: location,
+				messageId: "testMessage",
+				fix: () => ({ range: [1, 2], text: "foo" }),
+			};
+
+			fileReport.addRuleMessage("foo-rule", 2, reportDescriptor);
+
+			assert.deepStrictEqual(fileReport.messages[0], {
+				ruleId: "foo-rule",
+				severity: 2,
 				message: "foo",
+				messageId: "testMessage",
+				line: 2,
+				column: 1,
+				nodeType: "ExpressionStatement",
+				fix: {
+					range: [1, 2],
+					text: "foo",
+				},
+			});
+		});
+
+		it("should throw when both messageId and message are provided", () => {
+			const reportDescriptor = {
+				node,
+				loc: location,
+				messageId: "testMessage",
+				message: "bar",
+				fix: () => ({ range: [1, 2], text: "foo" }),
+			};
+
+			assert.throws(
+				() =>
+					fileReport.addRuleMessage("foo-rule", 2, reportDescriptor),
+				TypeError,
+				"context.report() called with a message and a messageId. Please only pass one.",
+			);
+		});
+
+		it("should throw when an invalid messageId is provided", () => {
+			const reportDescriptor = {
+				node,
+				loc: location,
+				messageId: "thisIsNotASpecifiedMessageId",
+				fix: () => ({ range: [1, 2], text: "foo" }),
+			};
+
+			assert.throws(
+				() =>
+					fileReport.addRuleMessage("foo-rule", 2, reportDescriptor),
+				TypeError,
+				/^context\.report\(\) called with a messageId of '[^']+' which is not present in the 'messages' config:/u,
+			);
+		});
+
+		it("should throw when no message is provided", () => {
+			const reportDescriptor = { node };
+
+			assert.throws(
+				() =>
+					fileReport.addRuleMessage("foo-rule", 2, reportDescriptor),
+				TypeError,
+				"Missing `message` property in report() call; add a message that describes the linting problem.",
+			);
+		});
+
+		it("should support messageIds for suggestions and output resulting descriptions", () => {
+			const reportDescriptor = {
+				node,
+				loc: location,
+				message,
+				suggest: [
+					{
+						messageId: "suggestion1",
+						fix: () => ({ range: [2, 3], text: "s1" }),
+					},
+					{
+						messageId: "suggestion2",
+						data: { interpolated: "'interpolated value'" },
+						fix: () => ({ range: [3, 4], text: "s2" }),
+					},
+				],
+			};
+
+			fileReport.addRuleMessage("foo-rule", 2, reportDescriptor);
+
+			assert.deepStrictEqual(fileReport.messages[0], {
+				ruleId: "foo-rule",
+				severity: 2,
+				message: "foo",
+				line: 2,
+				column: 1,
+				nodeType: "ExpressionStatement",
+				suggestions: [
+					{
+						messageId: "suggestion1",
+						desc: "First suggestion",
+						fix: { range: [2, 3], text: "s1" },
+					},
+					{
+						messageId: "suggestion2",
+						data: { interpolated: "'interpolated value'" },
+						desc: "Second suggestion 'interpolated value'",
+						fix: { range: [3, 4], text: "s2" },
+					},
+				],
+			});
+		});
+
+		it("should throw when a suggestion defines both a desc and messageId", () => {
+			const reportDescriptor = {
+				node,
+				loc: location,
+				message,
+				suggest: [
+					{
+						desc: "The description",
+						messageId: "suggestion1",
+						fix: () => ({ range: [2, 3], text: "s1" }),
+					},
+				],
+			};
+
+			assert.throws(
+				() =>
+					fileReport.addRuleMessage("foo-rule", 2, reportDescriptor),
+				TypeError,
+				"context.report() called with a suggest option that defines both a 'messageId' and an 'desc'. Please only pass one.",
+			);
+		});
+
+		it("should throw when a suggestion uses an invalid messageId", () => {
+			const reportDescriptor = {
+				node,
+				loc: location,
+				message,
+				suggest: [
+					{
+						messageId: "noMatchingMessage",
+						fix: () => ({ range: [2, 3], text: "s1" }),
+					},
+				],
+			};
+
+			assert.throws(
+				() =>
+					fileReport.addRuleMessage("foo-rule", 2, reportDescriptor),
+				TypeError,
+				/^context\.report\(\) called with a suggest option with a messageId '[^']+' which is not present in the 'messages' config:/u,
+			);
+		});
+
+		it("should throw when a suggestion does not provide either a desc or messageId", () => {
+			const reportDescriptor = {
+				node,
+				loc: location,
+				message,
+				suggest: [
+					{
+						fix: () => ({ range: [2, 3], text: "s1" }),
+					},
+				],
+			};
+
+			assert.throws(
+				() =>
+					fileReport.addRuleMessage("foo-rule", 2, reportDescriptor),
+				TypeError,
+				"context.report() called with a suggest option that doesn't have either a `desc` or `messageId`",
+			);
+		});
+
+		it("should throw when a suggestion does not provide a fix function", () => {
+			const reportDescriptor = {
+				node,
+				loc: location,
+				message,
+				suggest: [
+					{
+						desc: "The description",
+						fix: false,
+					},
+				],
+			};
+
+			assert.throws(
+				() =>
+					fileReport.addRuleMessage("foo-rule", 2, reportDescriptor),
+				TypeError,
+				/^context\.report\(\) called with a suggest option without a fix function. See:/u,
+			);
+		});
+	});
+
+	describe("combining autofixes", () => {
+		it("should merge fixes to one if 'fix' function returns an array of fixes.", () => {
+			const reportDescriptor = {
+				node,
+				loc: location,
+				message,
 				fix: () => [
 					{ range: [1, 2], text: "foo" },
 					{ range: [4, 5], text: "bar" },
 				],
-			});
+			};
 
-			assert.strictEqual(fileReport.messages.length, 1);
+			fileReport.addRuleMessage("foo-rule", 2, reportDescriptor);
+
+			assert.deepStrictEqual(fileReport.messages[0], {
+				ruleId: "foo-rule",
+				severity: 2,
+				message: "foo",
+				line: 2,
+				column: 1,
+				nodeType: "ExpressionStatement",
+				fix: {
+					range: [1, 5],
+					text: "fooo\nbar",
+				},
+			});
+		});
+
+		it("should merge fixes to one if 'fix' function returns an iterator of fixes.", () => {
+			const reportDescriptor = {
+				node,
+				loc: location,
+				message,
+				*fix() {
+					yield { range: [1, 2], text: "foo" };
+					yield { range: [4, 5], text: "bar" };
+				},
+			};
+
+			fileReport.addRuleMessage("foo-rule", 2, reportDescriptor);
+
 			assert.deepStrictEqual(fileReport.messages[0], {
 				ruleId: "foo-rule",
 				severity: 2,
@@ -542,18 +838,19 @@ describe("FileReport", () => {
 		});
 
 		it("should respect ranges of empty insertions when merging fixes to one.", () => {
-			fileReport.addRuleMessage("foo-rule", 2, {
+			const reportDescriptor = {
 				node,
 				loc: location,
-				message: "foo",
+				message,
 				*fix() {
 					yield { range: [4, 5], text: "cd" };
 					yield { range: [2, 2], text: "" };
 					yield { range: [7, 7], text: "" };
 				},
-			});
+			};
 
-			assert.strictEqual(fileReport.messages.length, 1);
+			fileReport.addRuleMessage("foo-rule", 2, reportDescriptor);
+
 			assert.deepStrictEqual(fileReport.messages[0], {
 				ruleId: "foo-rule",
 				severity: 2,
@@ -569,14 +866,15 @@ describe("FileReport", () => {
 		});
 
 		it("should pass through fixes if only one is present", () => {
-			fileReport.addRuleMessage("foo-rule", 2, {
+			const reportDescriptor = {
 				node,
 				loc: location,
-				message: "foo",
+				message,
 				fix: () => [{ range: [1, 2], text: "foo" }],
-			});
+			};
 
-			assert.strictEqual(fileReport.messages.length, 1);
+			fileReport.addRuleMessage("foo-rule", 2, reportDescriptor);
+
 			assert.deepStrictEqual(fileReport.messages[0], {
 				ruleId: "foo-rule",
 				severity: 2,
@@ -592,17 +890,18 @@ describe("FileReport", () => {
 		});
 
 		it("should handle inserting BOM correctly.", () => {
-			fileReport.addRuleMessage("foo-rule", 2, {
+			const reportDescriptor = {
 				node,
 				loc: location,
-				message: "foo",
+				message,
 				fix: () => [
 					{ range: [0, 3], text: "\uFEFFfoo" },
 					{ range: [4, 5], text: "x" },
 				],
-			});
+			};
 
-			assert.strictEqual(fileReport.messages.length, 1);
+			fileReport.addRuleMessage("foo-rule", 2, reportDescriptor);
+
 			assert.deepStrictEqual(fileReport.messages[0], {
 				ruleId: "foo-rule",
 				severity: 2,
@@ -618,25 +917,22 @@ describe("FileReport", () => {
 		});
 
 		it("should handle removing BOM correctly.", () => {
-			const bomSourceCode = createSourceCode("\uFEFFfoo\nbar");
-			const bomNode = bomSourceCode.ast.body[0];
-			const bomFileReport = new FileReport({
-				ruleMapper: mockRuleMapper,
-				sourceCode: bomSourceCode,
-				language,
-			});
+			sourceCode = createSourceCode("\uFEFFfoo\nbar");
 
-			bomFileReport.addRuleMessage("foo-rule", 1, {
-				node: bomNode,
-				message: "foo",
+			node = sourceCode.ast.body[0];
+
+			const reportDescriptor = {
+				node,
+				message,
 				fix: () => [
 					{ range: [-1, 3], text: "foo" },
 					{ range: [4, 5], text: "x" },
 				],
-			});
+			};
 
-			assert.strictEqual(bomFileReport.messages.length, 1);
-			assert.deepStrictEqual(bomFileReport.messages[0], {
+			fileReport.addRuleMessage("foo-rule", 1, reportDescriptor);
+
+			assert.deepStrictEqual(fileReport.messages[0], {
 				ruleId: "foo-rule",
 				severity: 1,
 				message: "foo",
@@ -653,19 +949,21 @@ describe("FileReport", () => {
 		});
 
 		it("should throw an assertion error if ranges are overlapped.", () => {
-			assert.throws(() => {
-				fileReport.addRuleMessage("foo-rule", 2, {
-					node,
-					loc: location,
-					message: "foo",
-					fix: () => [
-						{ range: [0, 3], text: "\uFEFFfoo" },
-						{ range: [2, 5], text: "x" },
-					],
-				});
-			}, "Fix objects must not be overlapped in a report.");
+			const reportDescriptor = {
+				node,
+				loc: location,
+				message,
+				fix: () => [
+					{ range: [0, 3], text: "\uFEFFfoo" },
+					{ range: [2, 5], text: "x" },
+				],
+			};
 
-			assert.strictEqual(fileReport.messages.length, 0);
+			assert.throws(
+				() =>
+					fileReport.addRuleMessage("foo-rule", 2, reportDescriptor),
+				"Fix objects must not be overlapped in a report.",
+			);
 		});
 
 		it("should include a fix passed as the last argument when location is passed", () => {
@@ -679,7 +977,6 @@ describe("FileReport", () => {
 				() => ({ range: [1, 1], text: "" }),
 			);
 
-			assert.strictEqual(fileReport.messages.length, 1);
 			assert.deepStrictEqual(fileReport.messages[0], {
 				ruleId: "foo-rule",
 				severity: 2,
@@ -697,10 +994,10 @@ describe("FileReport", () => {
 
 	describe("suggestions", () => {
 		it("should support multiple suggestions.", () => {
-			fileReport.addRuleMessage("foo-rule", 2, {
+			const reportDescriptor = {
 				node,
 				loc: location,
-				message: "foo",
+				message,
 				suggest: [
 					{
 						desc: "A first suggestion for the issue",
@@ -711,7 +1008,9 @@ describe("FileReport", () => {
 						fix: () => [{ range: [1, 3], text: "foobar" }],
 					},
 				],
-			});
+			};
+
+			fileReport.addRuleMessage("foo-rule", 2, reportDescriptor);
 
 			assert.deepStrictEqual(fileReport.messages[0], {
 				ruleId: "foo-rule",
@@ -731,14 +1030,13 @@ describe("FileReport", () => {
 					},
 				],
 			});
-			assert.strictEqual(fileReport.messages.length, 1);
 		});
 
 		it("should merge suggestion fixes to one if 'fix' function returns an array of fixes.", () => {
-			fileReport.addRuleMessage("foo-rule", 2, {
+			const reportDescriptor = {
 				node,
 				loc: location,
-				message: "foo",
+				message,
 				suggest: [
 					{
 						desc: "A suggestion for the issue",
@@ -748,9 +1046,10 @@ describe("FileReport", () => {
 						],
 					},
 				],
-			});
+			};
 
-			assert.strictEqual(fileReport.messages.length, 1);
+			fileReport.addRuleMessage("foo-rule", 2, reportDescriptor);
+
 			assert.deepStrictEqual(fileReport.messages[0], {
 				ruleId: "foo-rule",
 				severity: 2,
@@ -771,19 +1070,20 @@ describe("FileReport", () => {
 		});
 
 		it("should remove the whole suggestion if 'fix' function returned `null`.", () => {
-			fileReport.addRuleMessage("foo-rule", 2, {
+			const reportDescriptor = {
 				node,
 				loc: location,
-				message: "foo",
+				message,
 				suggest: [
 					{
 						desc: "A suggestion for the issue",
 						fix: () => null,
 					},
 				],
-			});
+			};
 
-			assert.strictEqual(fileReport.messages.length, 1);
+			fileReport.addRuleMessage("foo-rule", 2, reportDescriptor);
+
 			assert.deepStrictEqual(fileReport.messages[0], {
 				ruleId: "foo-rule",
 				severity: 2,
@@ -795,19 +1095,20 @@ describe("FileReport", () => {
 		});
 
 		it("should remove the whole suggestion if 'fix' function returned an empty array.", () => {
-			fileReport.addRuleMessage("foo-rule", 2, {
+			const reportDescriptor = {
 				node,
 				loc: location,
-				message: "foo",
+				message,
 				suggest: [
 					{
 						desc: "A suggestion for the issue",
 						fix: () => [],
 					},
 				],
-			});
+			};
 
-			assert.strictEqual(fileReport.messages.length, 1);
+			fileReport.addRuleMessage("foo-rule", 2, reportDescriptor);
+
 			assert.deepStrictEqual(fileReport.messages[0], {
 				ruleId: "foo-rule",
 				severity: 2,
@@ -818,20 +1119,47 @@ describe("FileReport", () => {
 			});
 		});
 
-		it("should remove the whole suggestion if 'fix' function didn't return anything.", () => {
-			fileReport.addRuleMessage("foo-rule", 2, {
+		it("should remove the whole suggestion if 'fix' function returned an empty sequence.", () => {
+			const reportDescriptor = {
 				node,
 				loc: location,
+				message,
+				suggest: [
+					{
+						desc: "A suggestion for the issue",
+						*fix() {},
+					},
+				],
+			};
+
+			fileReport.addRuleMessage("foo-rule", 2, reportDescriptor);
+
+			assert.deepStrictEqual(fileReport.messages[0], {
+				ruleId: "foo-rule",
+				severity: 2,
 				message: "foo",
+				line: 2,
+				column: 1,
+				nodeType: "ExpressionStatement",
+			});
+		});
+
+		// This isn't officially supported, but autofix works the same way
+		it("should remove the whole suggestion if 'fix' function didn't return anything.", () => {
+			const reportDescriptor = {
+				node,
+				loc: location,
+				message,
 				suggest: [
 					{
 						desc: "A suggestion for the issue",
 						fix() {},
 					},
 				],
-			});
+			};
 
-			assert.strictEqual(fileReport.messages.length, 1);
+			fileReport.addRuleMessage("foo-rule", 2, reportDescriptor);
+
 			assert.deepStrictEqual(fileReport.messages[0], {
 				ruleId: "foo-rule",
 				severity: 2,
@@ -843,10 +1171,10 @@ describe("FileReport", () => {
 		});
 
 		it("should keep suggestion before a removed suggestion.", () => {
-			fileReport.addRuleMessage("foo-rule", 2, {
+			const reportDescriptor = {
 				node,
 				loc: location,
-				message: "foo",
+				message,
 				suggest: [
 					{
 						desc: "Suggestion with a fix",
@@ -857,9 +1185,10 @@ describe("FileReport", () => {
 						fix: () => null,
 					},
 				],
-			});
+			};
 
-			assert.strictEqual(fileReport.messages.length, 1);
+			fileReport.addRuleMessage("foo-rule", 2, reportDescriptor);
+
 			assert.deepStrictEqual(fileReport.messages[0], {
 				ruleId: "foo-rule",
 				severity: 2,
@@ -877,10 +1206,10 @@ describe("FileReport", () => {
 		});
 
 		it("should keep suggestion after a removed suggestion.", () => {
-			fileReport.addRuleMessage("foo-rule", 2, {
+			const reportDescriptor = {
 				node,
 				loc: location,
-				message: "foo",
+				message,
 				suggest: [
 					{
 						desc: "Suggestion without a fix",
@@ -891,9 +1220,10 @@ describe("FileReport", () => {
 						fix: () => ({ range: [1, 2], text: "foo" }),
 					},
 				],
-			});
+			};
 
-			assert.strictEqual(fileReport.messages.length, 1);
+			fileReport.addRuleMessage("foo-rule", 2, reportDescriptor);
+
 			assert.deepStrictEqual(fileReport.messages[0], {
 				ruleId: "foo-rule",
 				severity: 2,
@@ -911,10 +1241,10 @@ describe("FileReport", () => {
 		});
 
 		it("should remove multiple suggestions that didn't provide a fix and keep those that did.", () => {
-			fileReport.addRuleMessage("foo-rule", 2, {
+			const reportDescriptor = {
 				node,
 				loc: location,
-				message: "foo",
+				message,
 				suggest: [
 					{
 						desc: "Keep #1",
@@ -922,7 +1252,9 @@ describe("FileReport", () => {
 					},
 					{
 						desc: "Remove #1",
-						fix: () => null,
+						fix() {
+							return null;
+						},
 					},
 					{
 						desc: "Keep #2",
@@ -930,7 +1262,9 @@ describe("FileReport", () => {
 					},
 					{
 						desc: "Remove #2",
-						fix: () => [],
+						fix() {
+							return [];
+						},
 					},
 					{
 						desc: "Keep #3",
@@ -945,9 +1279,10 @@ describe("FileReport", () => {
 						fix: () => ({ range: [1, 2], text: "quux" }),
 					},
 				],
-			});
+			};
 
-			assert.strictEqual(fileReport.messages.length, 1);
+			fileReport.addRuleMessage("foo-rule", 2, reportDescriptor);
+
 			assert.deepStrictEqual(fileReport.messages[0], {
 				ruleId: "foo-rule",
 				severity: 2,
@@ -977,7 +1312,18 @@ describe("FileReport", () => {
 		});
 	});
 
-	describe("message parsing", () => {
+	describe("message interpolation", () => {
+		/**
+		 * Asserts that a message is correctly formatted.
+		 * @param {string} expected The expected message.
+		 * @param  {...any} args The arguments to pass to `addRuleMessage`.
+		 * @returns {void}
+		 */
+		function assertMessage(expected, ...args) {
+			fileReport.addRuleMessage("foo-rule", 2, ...args);
+			assert.strictEqual(fileReport.messages[0].message, expected);
+		}
+
 		it("should correctly parse a message when being passed all options in an old-style report", () => {
 			fileReport.addRuleMessage(
 				"foo-rule",
@@ -985,10 +1331,11 @@ describe("FileReport", () => {
 				node,
 				node.loc.end,
 				"hello {{dynamic}}",
-				{ dynamic: node.type },
+				{
+					dynamic: node.type,
+				},
 			);
 
-			assert.strictEqual(fileReport.messages.length, 1);
 			assert.deepStrictEqual(fileReport.messages[0], {
 				severity: 2,
 				ruleId: "foo-rule",
@@ -1007,7 +1354,6 @@ describe("FileReport", () => {
 				data: { dynamic: node.type },
 			});
 
-			assert.strictEqual(fileReport.messages.length, 1);
 			assert.deepStrictEqual(fileReport.messages[0], {
 				severity: 2,
 				ruleId: "foo-rule",
@@ -1019,141 +1365,81 @@ describe("FileReport", () => {
 		});
 
 		it("should correctly parse a message with object keys as numbers", () => {
-			fileReport.addRuleMessage(
-				"foo-rule",
-				2,
+			assertMessage(
+				"my message testing!",
 				node,
 				"my message {{name}}{{0}}",
-				{ 0: "!", name: "testing" },
-			);
-
-			assert.strictEqual(fileReport.messages.length, 1);
-			assert.strictEqual(
-				fileReport.messages[0].message,
-				"my message testing!",
+				{
+					0: "!",
+					name: "testing",
+				},
 			);
 		});
 
 		it("should correctly parse a message with array", () => {
-			fileReport.addRuleMessage(
-				"foo-rule",
-				2,
+			assertMessage(
+				"my message testing!",
 				node,
 				"my message {{1}}{{0}}",
 				["!", "testing"],
 			);
-
-			assert.strictEqual(fileReport.messages.length, 1);
-			assert.strictEqual(
-				fileReport.messages[0].message,
-				"my message testing!",
-			);
 		});
 
 		it("should allow template parameter with inner whitespace", () => {
-			fileReport.addRuleMessage(
-				"foo-rule",
-				2,
-				node,
-				"message {{parameter name}}",
-				{ "parameter name": "yay!" },
-			);
-
-			assert.strictEqual(fileReport.messages.length, 1);
-			assert.strictEqual(fileReport.messages[0].message, "message yay!");
+			assertMessage("message yay!", node, "message {{parameter name}}", {
+				"parameter name": "yay!",
+			});
 		});
 
 		it("should allow template parameter with non-identifier characters", () => {
-			fileReport.addRuleMessage(
-				"foo-rule",
-				2,
-				node,
-				"message {{parameter-name}}",
-				{ "parameter-name": "yay!" },
-			);
-
-			assert.strictEqual(fileReport.messages.length, 1);
-			assert.strictEqual(fileReport.messages[0].message, "message yay!");
+			assertMessage("message yay!", node, "message {{parameter-name}}", {
+				"parameter-name": "yay!",
+			});
 		});
 
 		it("should allow template parameter wrapped in braces", () => {
-			fileReport.addRuleMessage(
-				"foo-rule",
-				2,
-				node,
-				"message {{{param}}}",
-				{ param: "yay!" },
-			);
-
-			assert.strictEqual(fileReport.messages.length, 1);
-			assert.strictEqual(
-				fileReport.messages[0].message,
-				"message {yay!}",
-			);
+			assertMessage("message {yay!}", node, "message {{{param}}}", {
+				param: "yay!",
+			});
 		});
 
 		it("should ignore template parameter with no specified value", () => {
-			fileReport.addRuleMessage(
-				"foo-rule",
-				2,
+			assertMessage(
+				"message {{parameter}}",
 				node,
 				"message {{parameter}}",
 				{},
 			);
-
-			assert.strictEqual(fileReport.messages.length, 1);
-			assert.strictEqual(
-				fileReport.messages[0].message,
-				"message {{parameter}}",
-			);
 		});
 
 		it("should handle leading whitespace in template parameter", () => {
-			fileReport.addRuleMessage("foo-rule", 2, {
-				node,
-				message: "message {{ parameter}}",
-				data: { parameter: "yay!" },
+			assertMessage("message yay!", node, "message {{ parameter}}", {
+				parameter: "yay!",
 			});
-
-			assert.strictEqual(fileReport.messages.length, 1);
-			assert.strictEqual(fileReport.messages[0].message, "message yay!");
 		});
 
 		it("should handle trailing whitespace in template parameter", () => {
-			fileReport.addRuleMessage("foo-rule", 2, {
-				node,
-				message: "message {{parameter }}",
-				data: { parameter: "yay!" },
+			assertMessage("message yay!", node, "message {{parameter }}", {
+				parameter: "yay!",
 			});
-
-			assert.strictEqual(fileReport.messages.length, 1);
-			assert.strictEqual(fileReport.messages[0].message, "message yay!");
 		});
 
 		it("should still allow inner whitespace as well as leading/trailing", () => {
-			fileReport.addRuleMessage(
-				"foo-rule",
-				2,
+			assertMessage(
+				"message yay!",
 				node,
 				"message {{ parameter name }}",
 				{ "parameter name": "yay!" },
 			);
-
-			assert.strictEqual(fileReport.messages.length, 1);
-			assert.strictEqual(fileReport.messages[0].message, "message yay!");
 		});
 
 		it("should still allow non-identifier characters as well as leading/trailing whitespace", () => {
-			fileReport.addRuleMessage(
-				"foo-rule",
-				2,
+			assertMessage(
+				"message yay!",
 				node,
 				"message {{ parameter-name }}",
 				{ "parameter-name": "yay!" },
 			);
-
-			assert.strictEqual(fileReport.messages.length, 1);
-			assert.strictEqual(fileReport.messages[0].message, "message yay!");
 		});
 	});
 
@@ -1167,7 +1453,6 @@ describe("FileReport", () => {
 				"hello world",
 			);
 
-			assert.strictEqual(fileReport.messages.length, 1);
 			assert.deepStrictEqual(fileReport.messages[0], {
 				severity: 2,
 				ruleId: "foo-rule",
@@ -1185,7 +1470,6 @@ describe("FileReport", () => {
 				message: "hello world",
 			});
 
-			assert.strictEqual(fileReport.messages.length, 1);
 			assert.deepStrictEqual(fileReport.messages[0], {
 				severity: 2,
 				ruleId: "foo-rule",
@@ -1199,7 +1483,6 @@ describe("FileReport", () => {
 		it("should extract the start and end locations from a node if no location is provided", () => {
 			fileReport.addRuleMessage("foo-rule", 2, node, "hello world");
 
-			assert.strictEqual(fileReport.messages.length, 1);
 			assert.deepStrictEqual(fileReport.messages[0], {
 				severity: 2,
 				ruleId: "foo-rule",
@@ -1218,7 +1501,6 @@ describe("FileReport", () => {
 				message: "hello world",
 			});
 
-			assert.strictEqual(fileReport.messages.length, 1);
 			assert.deepStrictEqual(fileReport.messages[0], {
 				severity: 2,
 				ruleId: "foo-rule",
@@ -1237,7 +1519,6 @@ describe("FileReport", () => {
 				message: "hello world",
 			});
 
-			assert.strictEqual(fileReport.messages.length, 1);
 			assert.deepStrictEqual(fileReport.messages[0], {
 				severity: 2,
 				ruleId: "foo-rule",
@@ -1254,7 +1535,6 @@ describe("FileReport", () => {
 				message: "hello world",
 			});
 
-			assert.strictEqual(fileReport.messages.length, 1);
 			assert.deepStrictEqual(fileReport.messages[0], {
 				severity: 2,
 				ruleId: "foo-rule",
@@ -1278,8 +1558,6 @@ describe("FileReport", () => {
 				["!", "testing"],
 				() => ({ range: [1, 1], text: "" }),
 			);
-
-			assert.strictEqual(fileReport.messages.length, 1);
 			assert.deepStrictEqual(fileReport.messages[0], {
 				severity: 2,
 				ruleId: "foo-rule",
@@ -1296,15 +1574,16 @@ describe("FileReport", () => {
 
 	describe("validation", () => {
 		it("should throw an error if node is not an object", () => {
-			assert.throws(() => {
-				fileReport.addRuleMessage(
-					"foo-rule",
-					2,
-					"not a node",
-					"hello world",
-				);
-			}, "Node must be an object");
-			assert.strictEqual(fileReport.messages.length, 0);
+			assert.throws(
+				() =>
+					fileReport.addRuleMessage(
+						"foo-rule",
+						2,
+						"not a node",
+						"hello world",
+					),
+				"Node must be an object",
+			);
 		});
 
 		it("should not throw an error if location is provided and node is not in an old-style call", () => {
@@ -1316,7 +1595,6 @@ describe("FileReport", () => {
 				"hello world",
 			);
 
-			assert.strictEqual(fileReport.messages.length, 1);
 			assert.deepStrictEqual(fileReport.messages[0], {
 				severity: 2,
 				ruleId: "foo-rule",
@@ -1332,8 +1610,6 @@ describe("FileReport", () => {
 				loc: { line: 1, column: 1 },
 				message: "hello world",
 			});
-
-			assert.strictEqual(fileReport.messages.length, 1);
 			assert.deepStrictEqual(fileReport.messages[0], {
 				severity: 2,
 				ruleId: "foo-rule",
@@ -1345,25 +1621,30 @@ describe("FileReport", () => {
 		});
 
 		it("should throw an error if neither node nor location is provided", () => {
-			assert.throws(() => {
-				fileReport.addRuleMessage("foo-rule", 2, null, "hello world");
-			}, "Node must be provided when reporting error if location is not provided");
-
-			assert.strictEqual(fileReport.messages.length, 0);
+			assert.throws(
+				() =>
+					fileReport.addRuleMessage(
+						"foo-rule",
+						2,
+						null,
+						"hello world",
+					),
+				"Node must be provided when reporting error if location is not provided",
+			);
 		});
 
 		it("should throw an error if fix range is invalid", () => {
-			assert.throws(() => {
-				fileReport.addRuleMessage("foo-rule", 2, {
-					node,
-					messageId: "testMessage",
-					fix: () => ({ text: "foo" }),
-				});
-			}, "Fix has invalid range");
+			assert.throws(
+				() =>
+					fileReport.addRuleMessage("foo-rule", 2, {
+						node,
+						messageId: "testMessage",
+						fix: () => ({ text: "foo" }),
+					}),
+				"Fix has invalid range",
+			);
 
-			assert.strictEqual(fileReport.messages.length, 0);
-
-			const badRanges = [
+			for (const badRange of [
 				[0],
 				[0, null],
 				[null, 0],
@@ -1371,17 +1652,33 @@ describe("FileReport", () => {
 				[0, void 0],
 				[void 0, void 0],
 				[],
-			];
+			]) {
+				assert.throws(
+					// eslint-disable-next-line no-loop-func -- Using arrow functions
+					() =>
+						fileReport.addRuleMessage("foo-rule", 2, {
+							node,
+							messageId: "testMessage",
+							fix: () => ({ range: badRange, text: "foo" }),
+						}),
+					"Fix has invalid range",
+				);
 
-			badRanges.forEach(badRange => {
-				assert.throws(() => {
-					fileReport.addRuleMessage("foo-rule", 2, {
-						node,
-						messageId: "testMessage",
-						fix: () => ({ range: badRange, text: "foo" }),
-					});
-				}, "Fix has invalid range");
-			});
+				assert.throws(
+					// eslint-disable-next-line no-loop-func -- Using arrow functions
+					() =>
+						fileReport.addRuleMessage("foo-rule", 2, {
+							node,
+							messageId: "testMessage",
+							fix: () => [
+								{ range: [0, 0], text: "foo" },
+								{ range: badRange, text: "bar" },
+								{ range: [1, 1], text: "baz" },
+							],
+						}),
+					"Fix has invalid range",
+				);
+			}
 		});
 	});
 
@@ -1392,62 +1689,37 @@ describe("FileReport", () => {
 		const additionalRange = [4, 7];
 		const additionalFix = { range: additionalRange, text: "qux" };
 
-		it("should deep clone returned fix object", () => {
-			fileReport.addRuleMessage("foo-rule", 2, {
-				node,
-				messageId: "testMessage",
-				fix: () => fix,
-			});
-
+		/**
+		 * Asserts that the fix object in the file report matches the expected fix.
+		 * @returns {void}
+		 */
+		function assertFixMatches() {
 			assert.strictEqual(fileReport.messages.length, 1);
 			assert.deepStrictEqual(fileReport.messages[0].fix, fix);
 			assert.notStrictEqual(fileReport.messages[0].fix, fix);
 			assert.notStrictEqual(fileReport.messages[0].fix.range, fix.range);
-		});
+		}
 
-		it("should create a new fix object with a new range array when `fix()` returns an array with a single item", () => {
-			fileReport.addRuleMessage("foo-rule", 2, {
-				node,
-				messageId: "testMessage",
-				fix: () => [fix],
-			});
-
-			assert.strictEqual(fileReport.messages.length, 1);
-			assert.deepStrictEqual(fileReport.messages[0].fix, fix);
-			assert.notStrictEqual(fileReport.messages[0].fix, fix);
-			assert.notStrictEqual(fileReport.messages[0].fix.range, fix.range);
-		});
-
-		it("should create a new fix object with a new range array when `fix()` returns an array with multiple items", () => {
-			fileReport.addRuleMessage("foo-rule", 2, {
-				node,
-				messageId: "testMessage",
-				fix: () => [fix, additionalFix],
-			});
-
-			assert.strictEqual(fileReport.messages.length, 1);
-			assert.notStrictEqual(fileReport.messages[0].fix, fix);
-			assert.notStrictEqual(fileReport.messages[0].fix.range, fix.range);
+		/**
+		 * Asserts that the additional fix object in the file report does not match
+		 * the expected additional fix.
+		 * @returns {void}
+		 */
+		function assertAdditionalFixNoMatch() {
 			assert.notStrictEqual(fileReport.messages[0].fix, additionalFix);
 			assert.notStrictEqual(
 				fileReport.messages[0].fix.range,
 				additionalFix.range,
 			);
-		});
+		}
 
-		it("should deep clone returned suggestion fix object", () => {
-			fileReport.addRuleMessage("foo-rule", 2, {
-				node,
-				messageId: "testMessage",
-				suggest: [
-					{
-						messageId: "suggestion1",
-						fix: () => fix,
-					},
-				],
-			});
-
+		/**
+		 * Asserts that the suggestion fix in the file report matches the expected fix.
+		 * @returns {void}
+		 */
+		function assertSuggestionFixMatches() {
 			assert.strictEqual(fileReport.messages.length, 1);
+			assert.strictEqual(fileReport.messages[0].suggestions.length, 1);
 			assert.deepStrictEqual(
 				fileReport.messages[0].suggestions[0].fix,
 				fix,
@@ -1460,48 +1732,13 @@ describe("FileReport", () => {
 				fileReport.messages[0].suggestions[0].fix.range,
 				fix.range,
 			);
-		});
+		}
 
-		it("should create a new fix object with a new range array when suggestion `fix()` returns an array with a single item", () => {
-			fileReport.addRuleMessage("foo-rule", 2, {
-				node,
-				messageId: "testMessage",
-				suggest: [
-					{
-						messageId: "suggestion1",
-						fix: () => [fix],
-					},
-				],
-			});
-
-			assert.strictEqual(fileReport.messages.length, 1);
-			assert.deepStrictEqual(
-				fileReport.messages[0].suggestions[0].fix,
-				fix,
-			);
-			assert.notStrictEqual(
-				fileReport.messages[0].suggestions[0].fix,
-				fix,
-			);
-			assert.notStrictEqual(
-				fileReport.messages[0].suggestions[0].fix.range,
-				fix.range,
-			);
-		});
-
-		it("should create a new fix object with a new range array when suggestion `fix()` returns an array with multiple items", () => {
-			fileReport.addRuleMessage("foo-rule", 2, {
-				node,
-				messageId: "testMessage",
-				suggest: [
-					{
-						messageId: "suggestion1",
-						fix: () => [fix, additionalFix],
-					},
-				],
-			});
-
-			assert.strictEqual(fileReport.messages.length, 1);
+		/**
+		 * Asserts that the suggestion fix in the file report does not match the expected fix.
+		 * @returns {void}
+		 */
+		function assertSuggestionFixNoMatch() {
 			assert.notStrictEqual(
 				fileReport.messages[0].suggestions[0].fix,
 				fix,
@@ -1518,6 +1755,152 @@ describe("FileReport", () => {
 				fileReport.messages[0].suggestions[0].fix.range,
 				additionalFix.range,
 			);
+		}
+
+		it("should deep clone returned fix object", () => {
+			fileReport.addRuleMessage("foo-rule", 2, {
+				node,
+				messageId: "testMessage",
+				fix: () => fix,
+			});
+
+			assertFixMatches(fileReport);
+		});
+
+		it("should deep clone returned fix object", () => {
+			fileReport.addRuleMessage("foo-rule", 2, {
+				node,
+				messageId: "testMessage",
+				fix: () => fix,
+			});
+
+			assertFixMatches(fileReport);
+		});
+
+		it("should create a new fix object with a new range array when `fix()` returns an array with a single item", () => {
+			fileReport.addRuleMessage("foo-rule", 2, {
+				node,
+				messageId: "testMessage",
+				fix: () => [fix],
+			});
+
+			assertFixMatches(fileReport);
+		});
+
+		it("should create a new fix object with a new range array when `fix()` returns an array with multiple items", () => {
+			fileReport.addRuleMessage("foo-rule", 2, {
+				node,
+				messageId: "testMessage",
+				fix: () => [fix, additionalFix],
+			});
+
+			assertAdditionalFixNoMatch(fileReport);
+		});
+
+		it("should create a new fix object with a new range array when `fix()` generator yields a single item", () => {
+			fileReport.addRuleMessage("foo-rule", 2, {
+				node,
+				messageId: "testMessage",
+				*fix() {
+					yield fix;
+				},
+			});
+
+			assertFixMatches(fileReport);
+		});
+
+		it("should create a new fix object with a new range array when `fix()` generator yields multiple items", () => {
+			fileReport.addRuleMessage("foo-rule", 2, {
+				node,
+				messageId: "testMessage",
+				*fix() {
+					yield fix;
+					yield additionalFix;
+				},
+			});
+
+			assertAdditionalFixNoMatch(fileReport);
+			assertAdditionalFixNoMatch(fileReport);
+		});
+
+		it("should deep clone returned suggestion fix object", () => {
+			fileReport.addRuleMessage("foo-rule", 2, {
+				node,
+				messageId: "testMessage",
+				suggest: [
+					{
+						messageId: "suggestion1",
+						fix: () => fix,
+					},
+				],
+			});
+
+			assertSuggestionFixMatches(fileReport);
+		});
+
+		it("should create a new fix object with a new range array when suggestion `fix()` returns an array with a single item", () => {
+			fileReport.addRuleMessage("foo-rule", 2, {
+				node,
+				messageId: "testMessage",
+				suggest: [
+					{
+						messageId: "suggestion1",
+						fix: () => [fix],
+					},
+				],
+			});
+
+			assertSuggestionFixMatches(fileReport);
+		});
+
+		it("should create a new fix object with a new range array when suggestion `fix()` returns an array with multiple items", () => {
+			fileReport.addRuleMessage("foo-rule", 2, {
+				node,
+				messageId: "testMessage",
+				suggest: [
+					{
+						messageId: "suggestion1",
+						fix: () => [fix, additionalFix],
+					},
+				],
+			});
+
+			assertSuggestionFixNoMatch(fileReport);
+		});
+
+		it("should create a new fix object with a new range array when suggestion `fix()` generator yields a single item", () => {
+			fileReport.addRuleMessage("foo-rule", 2, {
+				node,
+				messageId: "testMessage",
+				suggest: [
+					{
+						messageId: "suggestion1",
+						*fix() {
+							yield fix;
+						},
+					},
+				],
+			});
+
+			assertSuggestionFixMatches(fileReport);
+		});
+
+		it("should create a new fix object with a new range array when suggestion `fix()` generator yields multiple items", () => {
+			fileReport.addRuleMessage("foo-rule", 2, {
+				node,
+				messageId: "testMessage",
+				suggest: [
+					{
+						messageId: "suggestion1",
+						*fix() {
+							yield fix;
+							yield additionalFix;
+						},
+					},
+				],
+			});
+
+			assertSuggestionFixNoMatch(fileReport);
 		});
 
 		it("should create different instances of range arrays when suggestions reuse the same instance", () => {
@@ -1537,7 +1920,14 @@ describe("FileReport", () => {
 				],
 			});
 
-			assert.strictEqual(fileReport.messages.length, 1);
+			assert.deepStrictEqual(
+				fileReport.messages[0].suggestions[0].fix.range,
+				range,
+			);
+			assert.deepStrictEqual(
+				fileReport.messages[0].suggestions[1].fix.range,
+				range,
+			);
 			assert.notStrictEqual(
 				fileReport.messages[0].suggestions[0].fix.range,
 				fileReport.messages[0].suggestions[1].fix.range,
@@ -1546,10 +1936,6 @@ describe("FileReport", () => {
 	});
 
 	describe("updateLocationInformation", () => {
-		const {
-			updateLocationInformation,
-		} = require("../../../lib/linter/file-report");
-
 		it("should offset line and column by 1 when language starts at 0", () => {
 			const loc = { line: 0, column: 0, endLine: 0, endColumn: 3 };
 			const lang = { columnStart: 0, lineStart: 0 };
