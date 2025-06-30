@@ -126,19 +126,19 @@ for (using i of foo) {
 }
 
 for (var i=10; i; i--) {
-	const foo = getsomething(i);
+    const foo = getsomething(i);
     var a = function() { return foo; }; // OK, all references are referring to block scoped variables in the loop.
     a();
 }
 
 for (var i=10; i; i--) {
-	using foo = getsomething(i);
+    using foo = getsomething(i);
     var a = function() { return foo; }; // OK, all references are referring to block scoped variables in the loop.
     a();
 }
 
 for (var i=10; i; i--) {
-	await using foo = getsomething(i);
+    await using foo = getsomething(i);
     var a = function() { return foo; }; // OK, all references are referring to block scoped variables in the loop.
     a();
 }
