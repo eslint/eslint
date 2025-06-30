@@ -247,6 +247,7 @@ ruleTesterTypeScript.run("no-duplicate-imports", rule, {
 		'import type * as Bar from "os";\nimport { type Baz } from "os";',
 		'import foo, * as bar from "os";\nimport { type Baz } from "os";',
 		'import foo, { type bar } from "os";\nimport type * as Baz from "os";',
+		'import type { Merge } from "lodash-es";\nimport type _ from "lodash-es";',
 		{
 			code: 'import type Os from "os";\nexport { type Hello } from "hello";',
 			options: [{ includeExports: true }],
@@ -362,23 +363,8 @@ ruleTesterTypeScript.run("no-duplicate-imports", rule, {
 			],
 		},
 		{
-			code: 'import type { Merge } from "lodash-es";\nimport type _ from "lodash-es";',
-			errors: [
-				{
-					messageId: "import",
-					data: { module: "lodash-es" },
-					type: "ImportDeclaration",
-				},
-			],
-		},
-		{
 			code: 'import type Os from "os";\nimport type { Something } from "os";\nimport type * as Foobar from "os";',
 			errors: [
-				{
-					messageId: "import",
-					data: { module: "os" },
-					type: "ImportDeclaration",
-				},
 				{
 					messageId: "import",
 					data: { module: "os" },
