@@ -22,6 +22,14 @@ ruleTester.run("no-undef-init", rule, {
 	valid: [
 		"var a;",
 		{ code: "const foo = undefined", languageOptions: { ecmaVersion: 6 } },
+		{
+			code: "using foo = undefined",
+			languageOptions: { ecmaVersion: 2026 },
+		},
+		{
+			code: "await using foo = undefined",
+			languageOptions: { ecmaVersion: 2026 },
+		},
 		"var undefined = 5; var foo = undefined;",
 
 		// doesn't apply to class fields
