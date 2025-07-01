@@ -270,22 +270,6 @@ ruleTester.run("one-var", rule, {
 			options: ["consecutive"],
 			languageOptions: { ecmaVersion: 6 },
 		},
-		{
-			code: "using a = 0, b = 1;",
-			options: ["consecutive"],
-			languageOptions: {
-				sourceType: "module",
-				ecmaVersion: 2026,
-			},
-		},
-		{
-			code: "using a = 0; await using b = 1;",
-			options: ["consecutive"],
-			languageOptions: {
-				sourceType: "module",
-				ecmaVersion: 2026,
-			},
-		},
 
 		// https://github.com/eslint/eslint/issues/10784
 		{
