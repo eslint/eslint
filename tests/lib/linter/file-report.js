@@ -1764,7 +1764,7 @@ describe("FileReport", () => {
 				fix: () => fix,
 			});
 
-			assertFixMatches(fileReport);
+			assertFixMatches();
 		});
 
 		it("should create a new fix object with a new range array when `fix()` returns an array with a single item", () => {
