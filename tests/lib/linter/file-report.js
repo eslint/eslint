@@ -1796,7 +1796,7 @@ describe("FileReport", () => {
 				},
 			});
 
-			assertFixMatches(fileReport);
+			assertFixMatches();
 		});
 
 		it("should create a new fix object with a new range array when `fix()` generator yields multiple items", () => {
