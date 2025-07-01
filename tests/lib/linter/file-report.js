@@ -1840,7 +1840,7 @@ describe("FileReport", () => {
 				],
 			});
 
-			assertSuggestionFixMatches(fileReport);
+			assertSuggestionFixMatches();
 		});
 
 		it("should create a new fix object with a new range array when suggestion `fix()` returns an array with multiple items", () => {
