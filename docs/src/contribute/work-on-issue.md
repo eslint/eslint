@@ -42,7 +42,7 @@ The team will validate your claim by assigning the issue to you.
 
 ### Offering help on a claimed issue
 
-If an issue has an assignee or has already been claimed by someone, please be respectful of that person's desire to complete the work and don't work on it unless you verify that they are no longer interested or would welcome the help. If there hasn't been activity on the issue after two weeks, you can express your interest in helping on the issue. For example:
+If an issue has an assignee or has already been claimed by someone, please be respectful of that person's desire to complete the work and don't work on it unless you verify that they are no longer interested or would welcome the help. If there hasn't been activity on the issue after two weeks, you can express your interest in helping with the issue. For example:
 
 - "Are you still working on this? If not, I'd love to work on it."
 - "Do you need any help on this? I'm interested."
