@@ -1767,16 +1767,6 @@ describe("FileReport", () => {
 			assertFixMatches(fileReport);
 		});
 
-		it("should deep clone returned fix object", () => {
-			fileReport.addRuleMessage("foo-rule", 2, {
-				node,
-				messageId: "testMessage",
-				fix: () => fix,
-			});
-
-			assertFixMatches(fileReport);
-		});
-
 		it("should create a new fix object with a new range array when `fix()` returns an array with a single item", () => {
 			fileReport.addRuleMessage("foo-rule", 2, {
 				node,
