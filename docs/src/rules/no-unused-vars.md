@@ -464,9 +464,9 @@ class Foo {
 
 ### ignoreUsingDeclarations
 
-The `ignoreUsingDeclarations` option is a boolean (default: `false`). Explicit resource management allows automatic teardown of disposables by calling `Symbol.dispose` implicitly at the end of the variables scope. When set to `true`, this option ignores variables declared with `using` or `await using`.
+The `ignoreUsingDeclarations` option is a boolean (default: `false`). Explicit resource management allows automatic teardown of disposables by calling `Symbol.dispose` or `Symbol.asyncDispose` method implicitly at the end of the variable's scope. When this option is set to `true`, this rule ignores variables declared with `using` or `await using`.
 
-Examples of **incorrect** code for the `{ "ignoreUsingDeclarations": true }` option
+Examples of **incorrect** code for the `{ "ignoreUsingDeclarations": true }` option:
 
 ::: incorrect
 
@@ -477,7 +477,7 @@ const resource = getResource();
 
 :::
 
-Examples of **correct** code for the `{ "ignoreUsingDeclarations": true }` option
+Examples of **correct** code for the `{ "ignoreUsingDeclarations": true }` option:
 
 ::: correct
 
