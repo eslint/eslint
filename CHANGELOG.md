@@ -1,3 +1,11 @@
+v9.30.1 - July 1, 2025
+
+* [`b035f74`](https://github.com/eslint/eslint/commit/b035f747c6e6d1c7a299c90b0ed0b8109cf24a53) chore: upgrade to `@eslint/js@9.30.1` (#19906) (Francesco Trotta)
+* [`b3dbc16`](https://github.com/eslint/eslint/commit/b3dbc16563cb7036d75edff9814e17053a645321) chore: package.json update for @eslint/js release (Jenkins)
+* [`e91bb87`](https://github.com/eslint/eslint/commit/e91bb870f8c6e38baa508f18048cd2a2d04b8b9c) fix: allow separate default and named type imports (#19899) (xbinaryx)
+* [`ab7c625`](https://github.com/eslint/eslint/commit/ab7c62598a9fca498e495d45029ae92fd5fb9bf3) docs: Update README (GitHub Actions Bot)
+* [`dae1e5b`](https://github.com/eslint/eslint/commit/dae1e5bb27db0e846efbe3026210013b42817838) docs: update jsdoc's link (#19896) (JamesVanWaza)
+
 v9.30.0 - June 27, 2025
 
 * [`2b6491c`](https://github.com/eslint/eslint/commit/2b6491cd4b8eec44d4a3f8dea1b71151e8dd0230) chore: upgrade to `@eslint/js@9.30.0` (#19889) (Francesco Trotta)
