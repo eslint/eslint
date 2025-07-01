@@ -285,6 +285,10 @@ ruleTesterTypeScript.run("no-duplicate-imports", rule, {
 			options: [{ includeExports: true }],
 		},
 		{
+			code: 'import type Os from "os";\nexport type { Something } from "os";',
+			options: [{ includeExports: true }],
+		},
+		{
 			code: 'export type { Something } from "os";\nexport * from "os";',
 			options: [{ includeExports: true }],
 		},
