@@ -1423,7 +1423,7 @@ describe("RuleTester", () => {
 					],
 				},
 			);
-		}, "Error endLine should be 10");
+		}, 'Error endLine should be 10 - Actual: {"line":1,"column":1,"endLine":1,"endColumn":4}');
 	});
 
 	it("should throw an error if invalid code specifies wrong endColumn", () => {
