@@ -918,7 +918,11 @@ describe("FileReport", () => {
 
 		it("should handle removing BOM correctly.", () => {
 			sourceCode = createSourceCode("\uFEFFfoo\nbar");
-
+			fileReport = new FileReport({
+				ruleMapper: mockRuleMapper,
+				sourceCode,
+				language,
+			});
 			node = sourceCode.ast.body[0];
 
 			const reportDescriptor = {
@@ -1691,11 +1695,16 @@ describe("FileReport", () => {
 
 		/**
 		 * Asserts that the fix object in the file report matches the expected fix.
+		 * @param {boolean} [hasAdditionalFix=false] Whether an additional fix is expected.
 		 * @returns {void}
 		 */
-		function assertFixMatches() {
+		function assertFixMatches(hasAdditionalFix = false) {
 			assert.strictEqual(fileReport.messages.length, 1);
-			assert.deepStrictEqual(fileReport.messages[0].fix, fix);
+
+			if (!hasAdditionalFix) {
+				assert.deepStrictEqual(fileReport.messages[0].fix, fix);
+			}
+
 			assert.notStrictEqual(fileReport.messages[0].fix, fix);
 			assert.notStrictEqual(fileReport.messages[0].fix.range, fix.range);
 		}
@@ -1784,7 +1793,8 @@ describe("FileReport", () => {
 				fix: () => [fix, additionalFix],
 			});
 
-			assertAdditionalFixNoMatch(fileReport);
+			assertFixMatches(true);
+			assertAdditionalFixNoMatch();
 		});
 
 		it("should create a new fix object with a new range array when `fix()` generator yields a single item", () => {
@@ -1809,7 +1819,7 @@ describe("FileReport", () => {
 				},
 			});
 
-			assertAdditionalFixNoMatch(fileReport);
+			assertFixMatches(true);
 			assertAdditionalFixNoMatch(fileReport);
 		});
 
@@ -1855,7 +1865,7 @@ describe("FileReport", () => {
 				],
 			});
 
-			assertSuggestionFixNoMatch(fileReport);
+			assertSuggestionFixNoMatch();
 		});
 
 		it("should create a new fix object with a new range array when suggestion `fix()` generator yields a single item", () => {
@@ -1890,7 +1900,7 @@ describe("FileReport", () => {
 				],
 			});
 
-			assertSuggestionFixNoMatch(fileReport);
+			assertSuggestionFixNoMatch();
 		});
 
 		it("should create different instances of range arrays when suggestions reuse the same instance", () => {
