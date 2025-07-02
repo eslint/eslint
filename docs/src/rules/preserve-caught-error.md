@@ -1,0 +1,55 @@
+---
+title: preserve-caught-error
+rule_type: suggestion
+further_reading:
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause
+- https://nodejs.org/api/errors.html#errorcause
+- https://dev.to/amnish04/never-lose-valuable-error-context-in-javascript-3aco
+---
+
+# Rule to preserve caught errors when re-throwing exceptions (`preserve-caught-error`)
+
+JavaScript developers often re-throw errors in `catch` blocks to add context but forget to preserve the original error, resulting in lost debugging information.
+
+Using the `cause` option when throwing new errors helps retain the **original error** and maintain complete **error chains**, which improves debuggability and traceability.
+
+## Rule Details
+
+This rule enforces the use of the [`cause`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause) property when throwing a new error inside a `catch` block.
+
+Examples of **incorrect** code for this rule:
+
+```js
+try {
+    // ...
+} catch (error) {
+    throw new Error("Something went wrong: " + error.message);
+}
+```
+
+Examples of **correct** code for this rule:
+
+```js
+try {
+    // ...
+} catch (error) {
+    throw new Error("Something went wrong", { cause: error });
+}
+```
+
+## When Not To Use It
+
+You might not want to enable this rule if:
+
+- You follow a custom error-handling approach where the original error is intentionally omitted from re-thrown errors (e.g., to avoid exposing internal details or to log the original error separately).
+
+- You use a third-party or internal error-handling library that preserves error context using non-standard properties (e.g., [verror](https://www.npmjs.com/package/verror)) instead of the cause option.
+
+- (In rare cases) you are targeting legacy environments where the cause option in `Error` constructors is not supported.
+
+
+## Further Reading
+
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause
+- https://nodejs.org/api/errors.html#errorcause
+- https://dev.to/amnish04/never-lose-valuable-error-context-in-javascript-3aco
