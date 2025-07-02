@@ -1820,7 +1820,7 @@ describe("FileReport", () => {
 			});
 
 			assertFixMatches(true);
-			assertAdditionalFixNoMatch(fileReport);
+			assertAdditionalFixNoMatch();
 		});
 
 		it("should deep clone returned suggestion fix object", () => {
