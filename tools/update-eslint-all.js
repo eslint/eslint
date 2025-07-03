@@ -24,6 +24,8 @@ for (const [ruleId, rule] of builtInRules) {
 	}
 }
 
+const allRulesText = JSON.stringify(allRules, null, 4);
+
 //-----------------------------------------------------------------------------
 // Main
 //-----------------------------------------------------------------------------
@@ -34,15 +36,18 @@ const code = `/*
  */
 "use strict";
 
-/*
- * IMPORTANT!
- *
- * We cannot add a "name" property to this object because it's still used in eslintrc
- * which doesn't support the "name" property. If we add a "name" property, it will
- * cause an error.
- */
+const allRules = Object.freeze(${allRulesText});
 
-module.exports = Object.freeze(${JSON.stringify({ rules: allRules }, null, 4)});
+const config = {
+    name: "@eslint/js/all",
+    rules: allRules,
+};
+
+// This is a workaround for the fact that ESLint's eslintrc doesn't support the "name" property.
+// TODO: remove it in eslint v10
+Object.definePropertiy(config, "name", {enumerable: false});
+
+module.exports = config;
 `;
 
 fs.writeFileSync("./packages/js/src/configs/eslint-all.js", code, "utf8");

@@ -8,15 +8,8 @@
 
 /* eslint sort-keys: ["error", "asc"] -- Long, so make more readable */
 
-/*
- * IMPORTANT!
- *
- * We cannot add a "name" property to this object because it's still used in eslintrc
- * which doesn't support the "name" property. If we add a "name" property, it will
- * cause an error.
- */
-
-module.exports = Object.freeze({
+const config = {
+	name: "@eslint/js/recommended",
 	rules: Object.freeze({
 		"constructor-super": "error",
 		"for-direction": "error",
@@ -80,4 +73,12 @@ module.exports = Object.freeze({
 		"use-isnan": "error",
 		"valid-typeof": "error",
 	}),
-});
+};
+
+/*
+ * This is a workaround for the fact that ESLint's eslintrc doesn't support the "name" property.
+ * TODO: remove it in eslint v10
+ */
+Object.defineProperty(config, "name", { enumerable: false });
+
+module.exports = config;
