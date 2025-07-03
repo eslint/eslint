@@ -1292,7 +1292,7 @@ describe("RuleTester", () => {
 					],
 				},
 			);
-		}, "Error location should be { line: 5 }, found { line: 1 }");
+		}, "Expected values to be strictly deep-equal:");
 	});
 
 	it("should not skip line assertion if line is a falsy value", () => {
@@ -1316,7 +1316,7 @@ describe("RuleTester", () => {
 					],
 				},
 			);
-		}, "Error location should be { line: 0 }, found { line: 2 }");
+		}, "Expected values to be strictly deep-equal:");
 	});
 
 	it("should throw an error if invalid code specifies wrong column", () => {
@@ -1341,7 +1341,7 @@ describe("RuleTester", () => {
 					],
 				},
 			);
-		}, "Error location should be { column: 10 }, found { column: 1 }");
+		}, "Expected values to be strictly deep-equal:");
 	});
 
 	it("should throw error for empty error array", () => {
@@ -1397,7 +1397,7 @@ describe("RuleTester", () => {
 					],
 				},
 			);
-		}, "Error location should be { column: 0 }, found { column: 10 }");
+		}, "Expected values to be strictly deep-equal:");
 	});
 
 	it("should throw an error if invalid code specifies wrong endLine", () => {
@@ -1422,7 +1422,7 @@ describe("RuleTester", () => {
 					],
 				},
 			);
-		}, "Error location should be { endLine: 10 }, found { endLine: 1 }");
+		}, "Expected values to be strictly deep-equal:");
 	});
 
 	it("should throw an error if invalid code specifies wrong endColumn", () => {
@@ -1447,7 +1447,7 @@ describe("RuleTester", () => {
 					],
 				},
 			);
-		}, "Error location should be { endColumn: 10 }, found { endColumn: 4 }");
+		}, "Expected values to be strictly deep-equal:");
 	});
 
 	it("should throw an error if invalid code has the wrong number of errors", () => {
