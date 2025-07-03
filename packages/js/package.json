@@ -6,7 +6,9 @@
   "main": "./src/index.js",
   "types": "./types/index.d.ts",
   "scripts": {
-    "test:types": "tsc -p tests/types/tsconfig.json"
+    "test:types": "tsc -p tests/types/tsconfig.json",
+    "test:configs": "node tests/configs.js",
+    "test": "npm run test:types && npm run test:configs"
   },
   "files": [
     "LICENSE",

@@ -2572,7 +2572,7 @@ describe("cli", () => {
 					];
 
 					await cli.execute(
-						`--no-eslintrc --config ./tests/fixtures/config-file/js/.eslintrc.js --no-ignore ${files.join(" ")}`,
+						`--no-eslintrc --config ./packages/js/src/configs/eslint-recommended.js --no-ignore ${files.join(" ")}`,
 						null,
 						false,
 					);
