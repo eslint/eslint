@@ -1292,7 +1292,7 @@ describe("RuleTester", () => {
 					],
 				},
 			);
-		}, /Error line should be 5/u);
+		}, "Error location should be { line: 5 }, found { line: 1 }");
 	});
 
 	it("should not skip line assertion if line is a falsy value", () => {
@@ -1316,12 +1316,11 @@ describe("RuleTester", () => {
 					],
 				},
 			);
-		}, /Error line should be 0/u);
+		}, "Error location should be { line: 0 }, found { line: 2 }");
 	});
 
 	it("should throw an error if invalid code specifies wrong column", () => {
-		const wrongColumn = 10,
-			expectedErrorMessage = "Error column should be 1";
+		const wrongColumn = 10;
 
 		assert.throws(() => {
 			ruleTester.run(
@@ -1342,7 +1341,7 @@ describe("RuleTester", () => {
 					],
 				},
 			);
-		}, expectedErrorMessage);
+		}, "Error location should be { column: 10 }, found { column: 1 }");
 	});
 
 	it("should throw error for empty error array", () => {
@@ -1398,7 +1397,7 @@ describe("RuleTester", () => {
 					],
 				},
 			);
-		}, /Error column should be 0/u);
+		}, "Error location should be { column: 0 }, found { column: 10 }");
 	});
 
 	it("should throw an error if invalid code specifies wrong endLine", () => {
@@ -1423,7 +1422,7 @@ describe("RuleTester", () => {
 					],
 				},
 			);
-		}, 'Error endLine should be 10 - Actual: {"line":1,"column":1,"endLine":1,"endColumn":4}');
+		}, "Error location should be { endLine: 10 }, found { endLine: 1 }");
 	});
 
 	it("should throw an error if invalid code specifies wrong endColumn", () => {
@@ -1448,7 +1447,7 @@ describe("RuleTester", () => {
 					],
 				},
 			);
-		}, "Error endColumn should be 10");
+		}, "Error location should be { endColumn: 10 }, found { endColumn: 4 }");
 	});
 
 	it("should throw an error if invalid code has the wrong number of errors", () => {
