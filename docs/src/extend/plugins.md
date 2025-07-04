@@ -167,6 +167,42 @@ export default defineConfig([
 Namespaces that don't begin with `@` may not contain a `/`; namespaces that begin with `@` may contain a `/`. For example, `eslint/plugin` is not a valid namespace but `@eslint/plugin` is valid. This restriction is for backwards compatibility with eslintrc plugin naming restrictions.
 :::
 
+#### Provide Types for Plugin Rule Configuration
+
+For a better plugin user experience, you can provide types for rule configuration. These types show up in editors when someone edits an `eslint.config.js` file and serve as helpful documentation for your plugin users.
+
+To provide types for rule configuration, extend the `RulesConfig` interface from the `@eslint/core` package with entries for each plugin rule. The keys should contain the full name of the rule including the plugin namespace and the values should be a `RuleConfig` with an optional tuple type parameter defining the rule options. For example:
+
+```ts
+import type { RuleConfig } from "@eslint/core";
+
+declare module "@eslint/core" {
+	interface RulesConfig {
+		"example/dollar-sign": RuleConfig<["always" | "never"]>;
+	}
+}
+```
+
+This example shows how to configure the `example/dollar-sign` rule to have an option with a value of `"always"` or `"never"`, like this:
+
+```js
+// eslint.config.js
+import { defineConfig } from "eslint/config";
+import example from "eslint-plugin-example";
+
+export default defineConfig([
+	{
+		files: ["**/*.js"],
+		plugins: { example },
+		rules: {
+			"example/dollar-sign": ["error", "always"],
+		},
+	},
+]);
+```
+
+The first part of the rule config, the severity (`"error"`) is already defined in the `RuleConfig` type, so you need only define the other options your rule accepts.
+
 ### Processors in Plugins
 
 Plugins can expose [processors](custom-processors) for use in configuration file by providing a `processors` object. Similar to rules, each key in the `processors` object is the name of a processor and each value is the processor object itself. Here's an example:
@@ -362,6 +398,40 @@ module.exports = plugin;
 ```
 
 With this approach, both configuration systems recognize `"recommended"`. The old config system uses the `recommended` key while the current config system uses the `flat/recommended` key. The `defineConfig()` helper first looks at the `recommended` key, and if that is not in the correct format, it looks for the `flat/recommended` key. This allows you an upgrade path if you'd later like to rename `flat/recommended` to `recommended` when you no longer need to support the old config system.
+
+### Provide Types for Plugin Settings Configuration
+
+Some plugins require entries in the [`settings`](../use/configure/configuration-files#configuring-shared-settings) key of a config object. You can provide types for your plugin's settings by extending the `SettingsConfig` interface from the `@eslint/core` package with entries for each setting. The keys should be a unique string to avoid collisions with other plugins. The values can be any serializable value. For example:
+
+```ts
+declare module "@eslint/core" {
+	interface SettingsConfig {
+		"eslint-plugin-example"?: {
+			key?: string;
+		};
+	}
+}
+```
+
+This example shows how to configure the `eslint-plugin-example` property to be an object with a `key` entry that's a string, like this:
+
+```js
+// eslint.config.js
+import { defineConfig } from "eslint/config";
+import example from "eslint-plugin-example";
+
+export default defineConfig([
+	{
+		files: ["**/*.js"],
+		plugins: { example },
+		settings: {
+			"eslint-plugin-example": {
+				key: "abc123",
+			},
+		},
+	},
+]);
+```
 
 ## Testing a Plugin
 

@@ -36,6 +36,9 @@ import type {
 	RuleDefinition,
 	RuleContext as CoreRuleContext,
 	DeprecatedInfo,
+	RuleConfig,
+	RulesConfig,
+	SettingsConfig,
 } from "@eslint/core";
 import { JSONSchema4 } from "json-schema";
 import { LegacyESLint } from "./use-at-your-own-risk.js";
@@ -1363,16 +1366,12 @@ export namespace Linter {
 	 *
 	 * @see [Rules](https://eslint.org/docs/latest/use/configure/rules)
 	 */
-	type RuleEntry<Options extends any[] = any[]> =
-		| RuleSeverity
-		| RuleSeverityAndOptions<Options>;
+	type RuleEntry<Options extends any[] = any[]> = RuleConfig<Options>;
 
 	/**
 	 * The rules config object is a key/value map of rule names and their severity and options.
 	 */
-	interface RulesRecord {
-		[rule: string]: RuleEntry;
-	}
+	type RulesRecord = RulesConfig;
 
 	/**
 	 * A configuration object that may have a `rules` block.
@@ -1820,7 +1819,7 @@ export namespace Linter {
 		 * An object containing name-value pairs of information that should be
 		 * available to all rules.
 		 */
-		settings?: Record<string, unknown>;
+		settings?: SettingsConfig;
 	}
 
 	/** @deprecated  Use `Config` instead of `FlatConfig` */
