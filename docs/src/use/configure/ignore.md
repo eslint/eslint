@@ -23,7 +23,7 @@ You can configure ESLint to ignore certain files and directories while linting b
 
 ## Ignoring Files
 
-In your `eslint.config.js` file, if an `ignores` key is used without any other keys in the configuration object, then the patterns act as global ignores. Here's an example:
+In your `eslint.config.js` file, you can use the `globalIgnores()` helper function to indicate patterns of files to be ignored. Here's an example:
 
 ```js
 // eslint.config.js
@@ -43,7 +43,7 @@ You can also ignore files on the command line using [`--ignore-pattern`](../comm
 
 ## Ignoring Directories
 
-Ignoring directories works the same way as ignoring files, by placing a pattern in the `ignores` key of a configuration object with no other keys. For example, the following ignores the `.config` directory as a whole (meaning file search will not traverse into it at all):
+Ignoring directories works the same way as ignoring files, by passing a pattern to the `globalIgnores()` helper function. For example, the following ignores the `.config` directory as a whole (meaning file search will not traverse into it at all):
 
 ```js
 // eslint.config.js
@@ -127,8 +127,8 @@ You can also unignore files on the command line using [`--ignore-pattern`](../co
 
 How glob patterns are evaluated depends on where they are located and how they are used:
 
-1. When using `ignores` in an `eslint.config.js` file, glob patterns are evaluated relative to the `eslint.config.js` file.
-1. When using `ignores` in an alternate configuration file specified using the [`--config`](../command-line-interface#-c---config) command line option, glob patterns are evaluated relative to the current working directory.
+1. When using `globalIgnores()` in an `eslint.config.js` file, glob patterns are evaluated relative to the `eslint.config.js` file.
+1. When using `globalIgnores()` in an alternate configuration file specified using the [`--config`](../command-line-interface#-c---config) command line option, glob patterns are evaluated relative to the current working directory.
 1. When using [`--ignore-pattern`](../command-line-interface#--ignore-pattern), glob patterns are evaluated relative to the current working directory.
 
 ## Name the Global Ignores Config
