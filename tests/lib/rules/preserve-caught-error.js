@@ -195,5 +195,21 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
+		/* 12. When user-defined errors are being thrown without cause */
+		{
+			code: `try { doSomething(); } catch (err) { throw new ApiError("Oops"); }`,
+			options: [{ customErrorTypes: ["ApiError"] }],
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try { doSomething(); } catch (err) { throw new ApiError("Oops", { cause: err }); }`,
+						},
+					],
+				},
+			],
+		},
 	],
 });
