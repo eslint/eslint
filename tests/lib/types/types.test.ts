@@ -625,10 +625,6 @@ rule = {
 
 rule = {
 	create(context: Rule.RuleContext) {
-		context.getAncestors();
-
-		context.getDeclaredVariables(AST);
-
 		context.filename;
 
 		context.getFilename();
@@ -653,15 +649,11 @@ rule = {
 		context.getSourceCode();
 		context.getSourceCode().getLocFromIndex(42);
 
-		context.getScope();
-
 		if (typeof context.parserPath === "string") {
 			context.parserPath;
 		} else {
 			context.languageOptions?.parser;
 		}
-
-		context.markVariableAsUsed("foo");
 
 		// @ts-expect-error wrong `node` type
 		context.report({ message: "foo", node: {} });
