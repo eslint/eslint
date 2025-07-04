@@ -60,7 +60,7 @@ ruleTester.run("preserve-caught-error", rule, {
 			code: `try { doSomething(); } catch (error) { throw new Error("Failed", { cuse: error }); }`,
 			errors: [
 				{
-					messageId: "incorrectCause",
+					messageId: "missingCause",
 					suggestions: [
 						{
 							messageId: "includeCause",
