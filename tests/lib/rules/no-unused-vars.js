@@ -5638,17 +5638,15 @@ declare module 'next-auth' {
 }
     `,
 		// https://github.com/typescript-eslint/typescript-eslint/issues/2972
-		{
-			code: `
-		import { TestGeneric, Test } from 'fake-module';
+		`
+import { TestGeneric, Test } from 'fake-module';
 
-		declare function deco(..._param: any): any;
-		export class TestClass {
-  			@deco
-  			public test(): TestGeneric<Test> {}
-		}
+declare function deco(..._param: any): any;
+export class TestClass {
+  	@deco
+  	public test(): TestGeneric<Test> {}
+}
       	`,
-		},
 		// https://github.com/typescript-eslint/typescript-eslint/issues/5577
 		`
 function foo() {}
@@ -5659,19 +5657,17 @@ export class Foo {
   	}
 }
     `,
-		{
-			code: `
-		function foo() {}
+		`
+function foo() {}
 
-		export class Foo {
-  			static {}
+export class Foo {
+  	static {}
 
-  			constructor() {
-    		foo();
-  			}
-		}
-      	`,
-		},
+  	constructor() {
+    	foo();
+  	}
+}
+    `,
 		`
 interface Foo {
   	bar: string;
@@ -6254,29 +6250,6 @@ export class Foo {
 				},
 			],
 		},
-		// parsing error
-		// {
-		// 	code: "import test from 'test';\nimport baz from 'baz';\nexport interface Bar extends baz().test {}",
-		// 	errors: [
-		// 		{
-		//   			column: 8,
-		//   			data: {
-		//     			action: 'defined',
-		//     			additional: '',
-		//     			varName: 'test',
-		//   			},
-		//   			line: 1,
-		//   			messageId: 'unusedVar',
-		// 			suggestions: [
-		// 		    	{
-		// 			    	output: "import 'test';\nimport baz from 'baz';\nexport interface Bar extends baz().test {}",
-		// 			    	messageId: "removeVar",
-		// 			  		data: { varName: "test" },
-		// 		    	},
-		// 	    	],
-		// 		},
-		// 	],
-		// },
 		{
 			code: "import test from 'test';\nimport baz from 'baz';\nexport class Bar implements baz.test {}",
 			errors: [
@@ -7245,6 +7218,7 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 			],
 		},
 		{
+			filename: "foo.d.ts",
 			code: "declare module 'foo' { const foo: 1234;\nexport {}; }",
 			errors: [
 				{
@@ -7264,7 +7238,6 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 					],
 				},
 			],
-			filename: "foo.d.ts",
 		},
 		{
 			filename: "foo.d.ts",
