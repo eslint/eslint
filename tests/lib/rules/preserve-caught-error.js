@@ -20,7 +20,6 @@ ruleTester.run("preserve-caught-error", rule, {
 	valid: [
 		`try { throw new Error("Original error"); } catch (error) { throw new Error("Failed to perform error prone operations", { cause: error }); }`,
 		`try { doSomething(); } catch (e) { console.error(e); }`, // No throw inside catch
-		`try { doSomething(); } catch { throw new Error("Failed"); }`, // No catch param, considering valid for now. TODO: Confirm with issue specs.
 		`try { doSomething(); } catch (err) { throw new Error("Failed", { cause: err, extra: 42 }); }`,
 		`try { doSomething(); } catch (error) { switch (error.code) { case "A": throw new Error("Type A", { cause: error }); case "B": throw new Error("Type B", { cause: error }); default: throw new Error("Other", { cause: error }); } }`,
 	],
@@ -158,6 +157,41 @@ ruleTester.run("preserve-caught-error", rule, {
 							output: `try { doSomething(); } catch (error) { const errorMessage = "Operation failed"; throw new Error(errorMessage, { cause: error }); }`,
 						},
 					],
+				},
+			],
+		},
+		/* 10. Multiple Throw statements within a single catch block */
+		{
+			code: `try { doSomething(); } catch (err) { if (err.code === "A") { throw new Error("Type A"); } throw new TypeError("Fallback error"); }`,
+			// This should have multiple errors
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try { doSomething(); } catch (err) { if (err.code === "A") { throw new Error("Type A", { cause: err }); } throw new TypeError("Fallback error"); }`,
+						},
+					],
+				},
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try { doSomething(); } catch (err) { if (err.code === "A") { throw new Error("Type A"); } throw new TypeError("Fallback error", { cause: err }); }`,
+						},
+					],
+				},
+			],
+		},
+		/* 11. When the error being handled is being ignored */
+		{
+			code: 'try { doSomething(); } catch { throw new Error("Something went wrong"); }',
+			errors: [
+				{
+					messageId: "missingErrorParam",
+					type: "CatchClause",
 				},
 			],
 		},
