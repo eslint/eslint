@@ -3638,3 +3638,153 @@ ruleTester.run("accessor-pairs", rule, {
 		},
 	],
 });
+
+const ruleTesterTypeScript = new RuleTester({
+	languageOptions: {
+		parser: require("@typescript-eslint/parser"),
+	},
+});
+
+ruleTesterTypeScript.run("accessor-pairs", rule, {
+	valid: [
+		"interface I { get prop(): any }",
+		"type T = { set prop(value: any): void }",
+		{
+			code: "interface I { get prop(): any, set prop(value: any): void }",
+			options: [{ enforceForTSTypes: true }],
+		},
+		{
+			code: "type T = { get prop(): any, set prop(value: any): void }",
+			options: [{ enforceForTSTypes: true }],
+		},
+		{
+			code: "interface I { get prop(): any, between: true, set prop(value: any): void }",
+			options: [{ enforceForTSTypes: true }],
+		},
+		{
+			code: "interface I { set prop(value: any): void, get prop(): any }",
+			options: [{ enforceForTSTypes: true }],
+		},
+		{
+			code: "interface I { set prop(value: any): void, get 'prop'(): any }",
+			options: [{ enforceForTSTypes: true }],
+		},
+
+		{
+			code: "interface I {}",
+			options: [{ enforceForTSTypes: true }],
+		},
+		{
+			code: "interface I { (...args): void }",
+			options: [{ enforceForTSTypes: true }],
+		},
+		{
+			code: "interface I { new(...args): unknown }",
+			options: [{ enforceForTSTypes: true }],
+		},
+		{
+			code: "interface I { prop: () => any }",
+			options: [{ enforceForTSTypes: true }],
+		},
+		{
+			code: "interface I { method(): any }",
+			options: [{ enforceForTSTypes: true }],
+		},
+
+		{
+			code: "type T = { get prop(): any }",
+			options: [{ enforceForTSTypes: true }],
+		},
+	],
+	invalid: [
+		{
+			code: "({ set prop(value) {} });",
+			errors: [
+				{
+					message: "Getter is not present for setter 'prop'.",
+					type: "Property",
+				},
+			],
+		},
+		{
+			code: "interface I { set prop(value: any): any }",
+			options: [{ enforceForTSTypes: true }],
+			errors: [
+				{
+					message: "Getter is not present for type setter 'prop'.",
+					type: "TSMethodSignature",
+				},
+			],
+		},
+		{
+			code: "interface I { set prop(value: any): any, get other(): any }",
+			options: [{ enforceForTSTypes: true }],
+			errors: [
+				{
+					message: "Getter is not present for type setter 'prop'.",
+					type: "TSMethodSignature",
+				},
+			],
+		},
+		{
+			code: "interface I { set prop(value: any): any, prop(): any }",
+			options: [{ enforceForTSTypes: true }],
+			errors: [
+				{
+					message: "Getter is not present for type setter 'prop'.",
+					type: "TSMethodSignature",
+				},
+			],
+		},
+		{
+			code: "interface I { set [prop](value: any): any }",
+			options: [{ enforceForTSTypes: true }],
+			errors: [
+				{
+					message: "Getter is not present for type setter 'null'.",
+					type: "TSMethodSignature",
+				},
+			],
+		},
+		{
+			code: "interface I { get prop(): any } interface J { set prop(value: any): void }",
+			options: [{ enforceForTSTypes: true }],
+			errors: [
+				{
+					message: "Getter is not present for type setter 'prop'.",
+					type: "TSMethodSignature",
+				},
+			],
+		},
+		{
+			code: "type T = { set prop(value: any): any }",
+			options: [{ enforceForTSTypes: true }],
+			errors: [
+				{
+					message: "Getter is not present for type setter 'prop'.",
+					type: "TSMethodSignature",
+				},
+			],
+		},
+		{
+			code: "function fn(): { set prop(value: any): any }",
+			options: [{ enforceForTSTypes: true }],
+			errors: [
+				{
+					message: "Getter is not present for type setter 'prop'.",
+					type: "TSMethodSignature",
+				},
+			],
+		},
+		{
+			code: "type T = { get prop(): any }",
+			options: [{ enforceForTSTypes: true, getWithoutSet: true }],
+			errors: [
+				{
+					message: "Setter is not present for type getter 'prop'.",
+					type: "TSMethodSignature",
+				},
+			],
+		},
+	],
+});
