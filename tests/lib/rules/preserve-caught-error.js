@@ -30,10 +30,10 @@ ruleTester.run("preserve-caught-error", rule, {
 			code: `try { doSomething(); } catch (err) { throw new Error("Something failed"); }`,
 			errors: [
 				{
-					messageId: "missing-cause",
+					messageId: "missingCause",
 					suggestions: [
 						{
-							messageId: "missing-cause",
+							messageId: "includeCause",
 							output: `try { doSomething(); } catch (err) { throw new Error("Something failed", { cause: err }); }`,
 						},
 					],
@@ -45,10 +45,10 @@ ruleTester.run("preserve-caught-error", rule, {
 			code: `try { doSomething(); } catch (err) { const unrelated = new Error("other"); throw new Error("Something failed", { cause: unrelated }); }`,
 			errors: [
 				{
-					messageId: "missing-cause",
+					messageId: "incorrectCause",
 					suggestions: [
 						{
-							messageId: "missing-cause",
+							messageId: "includeCause",
 							output: `try { doSomething(); } catch (err) { const unrelated = new Error("other"); throw new Error("Something failed", { cause: err }); }`,
 						},
 					],
@@ -60,10 +60,10 @@ ruleTester.run("preserve-caught-error", rule, {
 			code: `try { doSomething(); } catch (error) { throw new Error("Failed", { cuse: error }); }`,
 			errors: [
 				{
-					messageId: "missing-cause",
+					messageId: "incorrectCause",
 					suggestions: [
 						{
-							messageId: "missing-cause",
+							messageId: "includeCause",
 							output: `try { doSomething(); } catch (error) { throw new Error("Failed", { cause: error }); }`,
 						},
 					],
@@ -76,10 +76,10 @@ ruleTester.run("preserve-caught-error", rule, {
 			code: `try { doSomething(); } catch (err) { const e = err; throw new Error("Failed", { cause: e }); }`,
 			errors: [
 				{
-					messageId: "missing-cause",
+					messageId: "incorrectCause",
 					suggestions: [
 						{
-							messageId: "missing-cause",
+							messageId: "includeCause",
 							output: `try { doSomething(); } catch (err) { const e = err; throw new Error("Failed", { cause: err }); }`,
 						},
 					],
@@ -91,10 +91,10 @@ ruleTester.run("preserve-caught-error", rule, {
 			code: `try { doSomething(); } catch (error) { throw new Error("Failed", { cause: error.message }); }`,
 			errors: [
 				{
-					messageId: "missing-cause",
+					messageId: "incorrectCause",
 					suggestions: [
 						{
-							messageId: "missing-cause",
+							messageId: "includeCause",
 							output: `try { doSomething(); } catch (error) { throw new Error("Failed", { cause: error }); }`,
 						},
 					],
@@ -106,10 +106,10 @@ ruleTester.run("preserve-caught-error", rule, {
 			code: `try { doSomething(); } catch (error) { if (shouldThrow) { while (true) { if (Math.random() > 0.5) { throw new Error("Failed without cause"); } } } }`,
 			errors: [
 				{
-					messageId: "missing-cause",
+					messageId: "missingCause",
 					suggestions: [
 						{
-							messageId: "missing-cause",
+							messageId: "includeCause",
 							output: `try { doSomething(); } catch (error) { if (shouldThrow) { while (true) { if (Math.random() > 0.5) { throw new Error("Failed without cause", { cause: error }); } } } }`,
 						},
 					],
@@ -121,10 +121,10 @@ ruleTester.run("preserve-caught-error", rule, {
 			code: `try { doSomething(); } catch (error) { switch (error.code) { case "A": throw new Error("Type A"); case "B": throw new Error("Type B", { cause: error }); default: throw new Error("Other", { cause: error }); } }`,
 			errors: [
 				{
-					messageId: "missing-cause",
+					messageId: "missingCause",
 					suggestions: [
 						{
-							messageId: "missing-cause",
+							messageId: "includeCause",
 							output: `try { doSomething(); } catch (error) { switch (error.code) { case "A": throw new Error("Type A", { cause: error }); case "B": throw new Error("Type B", { cause: error }); default: throw new Error("Other", { cause: error }); } }`,
 						},
 					],
@@ -136,10 +136,10 @@ ruleTester.run("preserve-caught-error", rule, {
 			code: `try { doSomething(); } catch (error) { throw new Error(\`The certificate key "\${chalk.yellow(keyFile)}" is invalid.\n\${err.message}\`); }`,
 			errors: [
 				{
-					messageId: "missing-cause",
+					messageId: "missingCause",
 					suggestions: [
 						{
-							messageId: "missing-cause",
+							messageId: "includeCause",
 							output: `try { doSomething(); } catch (error) { throw new Error(\`The certificate key "\${chalk.yellow(keyFile)}" is invalid.\n\${err.message}\`, { cause: error }); }`,
 						},
 					],
@@ -151,10 +151,10 @@ ruleTester.run("preserve-caught-error", rule, {
 			code: `try { doSomething(); } catch (error) { const errorMessage = "Operation failed"; throw new Error(errorMessage); }`,
 			errors: [
 				{
-					messageId: "missing-cause",
+					messageId: "missingCause",
 					suggestions: [
 						{
-							messageId: "missing-cause",
+							messageId: "includeCause",
 							output: `try { doSomething(); } catch (error) { const errorMessage = "Operation failed"; throw new Error(errorMessage, { cause: error }); }`,
 						},
 					],
