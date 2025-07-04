@@ -2,6 +2,7 @@
 title: preserve-caught-error
 rule_type: suggestion
 further_reading:
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause
 - https://nodejs.org/api/errors.html#errorcause
 - https://dev.to/amnish04/never-lose-valuable-error-context-in-javascript-3aco
 ---
@@ -39,6 +40,38 @@ try {
     // ...
 } catch (error) {
     throw new Error("Something went wrong", { cause: error });
+}
+```
+
+## Options
+This rule takes a single option — an object with the following optional property:
+
+- `customErrorTypes`: An array of user-defined error type names (strings) that the rule should recognize as valid error constructors. These are useful when your project uses custom error classes, that support the cause option.
+
+```js
+"preserve-caught-error": ["warn", {
+  "customErrorTypes": ["ApiError", "MyCustomError"]
+}]
+```
+
+If omitted, the rule only checks for built-in error types that support the `cause` option, such as `Error`, `TypeError`, `RangeError`, etc.
+
+For an exhaustive list, see https://github.com/microsoft/TypeScript/blob/main/src/lib/es2022.error.d.ts
+
+Examples of **correct** code for the `{ "customErrorTypes": ["ApiError"] }` option:
+
+```js
+try {
+	doSomething();
+} catch(error) {
+	if (someCondition) {
+		throw new ApiError("Something went wrong", {
+			cause: error
+		});
+	}
+
+	// This won't be flagged as `CustomError` was not configured in `customErrorTypes` option
+	throw new CustomError("Operation failed");
 }
 ```
 
