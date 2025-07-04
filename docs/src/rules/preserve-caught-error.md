@@ -2,7 +2,6 @@
 title: preserve-caught-error
 rule_type: suggestion
 further_reading:
-- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause
 - https://nodejs.org/api/errors.html#errorcause
 - https://dev.to/amnish04/never-lose-valuable-error-context-in-javascript-3aco
 ---
