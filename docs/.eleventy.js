@@ -219,11 +219,7 @@ module.exports = function (eleventyConfig) {
 
 			const isRuleRemoved = !Object.hasOwn(env.rules_meta, env.title);
 
-			/*
-			 * TypeScript isn't yet supported on the playground:
-			 * https://github.com/eslint/eslint.org/issues/709
-			 */
-			if (isRuleRemoved || isTypeScriptCode) {
+			if (isRuleRemoved) {
 				return `<div class="${type}">`;
 			}
 
