@@ -18,10 +18,18 @@ This rule enforces the use of the [`cause`](https://developer.mozilla.org/en-US/
 Examples of **incorrect** code for this rule:
 
 ```js
+// Not using the `cause` option
 try {
     // ...
 } catch (error) {
     throw new Error("Something went wrong: " + error.message);
+}
+
+// Ignoring the caught error at the parameter level
+try {
+	doSomething();
+} catch {
+	throw new Error("Something went wrong");
 }
 ```
 
