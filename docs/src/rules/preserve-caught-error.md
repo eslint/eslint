@@ -4,6 +4,7 @@ rule_type: suggestion
 further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause
 - https://nodejs.org/api/errors.html#errorcause
+- https://github.com/tc39/proposal-error-cause/blob/main/README.md
 - https://dev.to/amnish04/never-lose-valuable-error-context-in-javascript-3aco
 ---
 
@@ -56,7 +57,7 @@ This rule takes a single option — an object with the following optional proper
 
 If omitted, the rule only checks for built-in error types that support the `cause` option, such as `Error`, `TypeError`, `RangeError`, etc.
 
-For an exhaustive list, see [typescript error interfaces](https://github.com/microsoft/TypeScript/blob/main/src/lib/es2022.error.d.ts)
+For an exhaustive list, see [typescript error interfaces](https://github.com/microsoft/TypeScript/blob/main/src/lib/es2022.error.d.ts).
 
 Examples of **correct** code for the `{ "customErrorTypes": ["ApiError"] }` option:
 
