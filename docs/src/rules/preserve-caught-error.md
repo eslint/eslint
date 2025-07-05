@@ -56,7 +56,7 @@ This rule takes a single option — an object with the following optional proper
 
 If omitted, the rule only checks for built-in error types that support the `cause` option, such as `Error`, `TypeError`, `RangeError`, etc.
 
-For an exhaustive list, see https://github.com/microsoft/TypeScript/blob/main/src/lib/es2022.error.d.ts
+For an exhaustive list, see [typescript error interfaces](https://github.com/microsoft/TypeScript/blob/main/src/lib/es2022.error.d.ts)
 
 Examples of **correct** code for the `{ "customErrorTypes": ["ApiError"] }` option:
 
