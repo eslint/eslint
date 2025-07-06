@@ -27,6 +27,10 @@ ruleTester.run("no-nested-ternary", rule, {
 				{
 					messageId: "noNestedTernary",
 					type: "ConditionalExpression",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 40,
 				},
 			],
 		},
@@ -36,6 +40,10 @@ ruleTester.run("no-nested-ternary", rule, {
 				{
 					messageId: "noNestedTernary",
 					type: "ConditionalExpression",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 40,
 				},
 			],
 		},
@@ -49,6 +57,14 @@ const ruleTesterTypeScript = new RuleTester({
 });
 
 ruleTesterTypeScript.run("no-nested-ternary", rule, {
-	valid: [],
+	valid: [
+		// JavaScript
+		"foo ? doBar() : doBaz();",
+		"var foo = bar === baz ? qux : quxx;",
+		// TypeScript
+		"type Foo<T> = T extends string ? string : number;",
+		"type CheckType<T> = (T extends string ? string : number) extends boolean ? 1 : 0;", // Nested ternary in `checkType` is valid.
+		"type ExtendsType<T> = T extends (true extends false ? never : string) ? 1 : 0;", // Nested ternary in `extendsType` is valid.
+	],
 	invalid: [],
 });
