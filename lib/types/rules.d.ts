@@ -4806,6 +4806,9 @@ export interface ESLintRules extends Linter.RulesRecord {
 	/**
 	 * Rule to disallow losing originally caught error when re-throwing custom errors.
 	 *
+	 * @remarks
+	 * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
+	 *
 	 * @see https://eslint.org/docs/latest/rules/preserve-caught-error
 	 */
 	"preserve-caught-error": Linter.RuleEntry<
