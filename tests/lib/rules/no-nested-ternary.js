@@ -64,17 +64,17 @@ ruleTesterTypeScript.run("no-nested-ternary", rule, {
 		"type CheckType<T> = (T extends string ? string : number) extends boolean ? 1 : 0;",
 		// Nested ternary in `extendsType` is valid.
 		"type ExtendsType<T> = T extends (true extends false ? never : string) ? 1 : 0;",
-		// Nested ternary in `trueType` when `allowConditionalType` is `false` is valid.
+		// Nested ternary in `trueType` when `allowConditionalType: false` is valid.
 		{
 			code: "type TrueType<T> = T extends string ? (boolean extends boolean ? true : false) : false;",
 			options: [{ allowConditionalType: false }],
 		},
-		// Nested ternary in `falseType` when `allowConditionalType` is `false` is valid.
+		// Nested ternary in `falseType` when `allowConditionalType: false` is valid.
 		{
 			code: "type FalseType<T> = T extends string ? true : (boolean extends boolean ? true : false);",
 			options: [{ allowConditionalType: false }],
 		},
-		// Nested ternary in `trueType` and `falseType` when `allowConditionalType` is `false` is valid.
+		// Nested ternary in `trueType` and `falseType` when `allowConditionalType: false` is valid.
 		{
 			code: "type TrueFalseType<T> = T extends string ? (T extends number ? true : false) : (T extends boolean ? true : false);",
 			options: [{ allowConditionalType: false }],
