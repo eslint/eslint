@@ -307,7 +307,9 @@ module.exports = function (eleventyConfig) {
 		const urlData = this.ctx.further_reading_links[url];
 
 		if (!urlData) {
-			throw new Error(`Data missing for ${url}`);
+			throw new Error(
+				`Data missing for "${url}". Did you forget to add the URL information to "https://github.com/eslint/eslint/blob/main/docs/src/_data/further_reading_links.json"?`,
+			);
 		}
 
 		const { domain, title, logo } = urlData;
