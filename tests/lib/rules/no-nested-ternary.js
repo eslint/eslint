@@ -41,3 +41,14 @@ ruleTester.run("no-nested-ternary", rule, {
 		},
 	],
 });
+
+const ruleTesterTypeScript = new RuleTester({
+	languageOptions: {
+		parser: require("@typescript-eslint/parser"),
+	},
+});
+
+ruleTesterTypeScript.run("no-nested-ternary", rule, {
+	valid: [],
+	invalid: [],
+});
