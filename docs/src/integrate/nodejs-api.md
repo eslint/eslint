@@ -378,7 +378,7 @@ This is a static method.
 
 #### Parameters
 
-- `optionsURL` (`string | URL`)<br>
+- `optionsURL` (`URL`)<br>
   The URL of the option module. This can be a file or a data URL.
 
 #### Return Value

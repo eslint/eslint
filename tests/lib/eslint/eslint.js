@@ -9023,7 +9023,9 @@ describe("ESLint", () => {
 					},
 				};
 				`;
-				const optionsURL = `data:text/javascript,${encodeURIComponent(optionsSrc)}`;
+				const optionsURL = new URL(
+					`data:text/javascript,${encodeURIComponent(optionsSrc)}`,
+				);
 				eslint = await ESLint.fromOptionModule(optionsURL);
 
 				await assert.rejects(eslint.lintFiles("*.js"), ({ message }) =>
@@ -9726,7 +9728,9 @@ describe("ESLint", () => {
 						overrideConfigFile: true,
 					};
 					`;
-					const url = `data:text/javascript,${encodeURIComponent(optionsSrc)}`;
+					const url = new URL(
+						`data:text/javascript,${encodeURIComponent(optionsSrc)}`,
+					);
 					eslint = await ESLint.fromOptionModule(url);
 					process.env.ESLINT_TEST_ENV = "test";
 					await eslint.lintFiles(["passing.js"]);
@@ -9747,7 +9751,9 @@ describe("ESLint", () => {
 						overrideConfigFile: true,
 					};
 					`;
-					const url = `data:text/javascript,${encodeURIComponent(optionsSrc)}`;
+					const url = new URL(
+						`data:text/javascript,${encodeURIComponent(optionsSrc)}`,
+					);
 					eslint = await ESLint.fromOptionModule(url);
 					await eslint.lintFiles(["passing.js"]);
 					assert.strictEqual(process.env.ESLINT_TEST_ENV, "test");
@@ -11372,7 +11378,9 @@ describe("ESLint", () => {
 					concurrency: 1,
 				};
 				`;
-				const optionsURL = `data:text/javascript,${encodeURIComponent(optionsSrc)}`;
+				const optionsURL = new URL(
+					`data:text/javascript,${encodeURIComponent(optionsSrc)}`,
+				);
 				const { customPlugin } = await import(optionsURL);
 				const engine = await ESLint.fromOptionModule(optionsURL);
 
@@ -15523,7 +15531,7 @@ describe("ESLint", () => {
 	describe("ESLint.fromOptionModule", () => {
 		/**
 		 * Tests `ESLint.fromOptionModule` with a given URL and checks if the returned instance has the expected flag.
-		 * @param {string | URL} url The url to test.
+		 * @param {URL} url The url to test.
 		 * @returns {Promise<void>} A promise that resolves if the test passes.
 		 */
 		async function testFromOptionModuleWithFlag(url) {
@@ -15546,23 +15554,11 @@ describe("ESLint", () => {
 			);
 		});
 
-		it("should return an instance of ESLint with the file URL of an ESM module as a string", async () => {
-			await testFromOptionModuleWithFlag(
-				`${pathToFileURL("tests/fixtures/option-modules/test-only-flag.mjs")}`,
-			);
-		});
-
 		it("should return an instance of ESLint with the file URL of a CommonJS module", async () => {
 			await testFromOptionModuleWithFlag(
 				pathToFileURL(
 					"tests/fixtures/option-modules/test-only-flag.cjs",
 				),
-			);
-		});
-
-		it("should return an instance of ESLint with the file URL of a CommonJS module as a string", async () => {
-			await testFromOptionModuleWithFlag(
-				`${pathToFileURL("tests/fixtures/option-modules/test-only-flag.cjs")}`,
 			);
 		});
 
@@ -15616,39 +15612,55 @@ describe("ESLint", () => {
 
 		it("should return an instance of ESLint with a data URL", async () => {
 			await testFromOptionModuleWithFlag(
-				"data:text/javascript,export default { flags: ['test_only'] };",
+				new URL(
+					"data:text/javascript,export default { flags: ['test_only'] };",
+				),
+			);
+		});
+
+		it("should throw an error with a string argument", async () => {
+			await assert.rejects(
+				() =>
+					ESLint.fromOptionModule(
+						"data:text/javascript,export default { flags: ['test_only'] };",
+					),
+				{
+					constructor: TypeError,
+					message: "Argument must be a URL object",
+				},
 			);
 		});
 
 		it("should throw an error with an invalid argument", async () => {
 			await assert.rejects(() => ESLint.fromOptionModule(42), {
-				code: "ERR_INVALID_URL",
 				constructor: TypeError,
+				message: "Argument must be a URL object",
 			});
 		});
 
 		it("should throw an error with a missing argument", async () => {
 			await assert.rejects(() => ESLint.fromOptionModule(), {
-				code: "ERR_INVALID_URL",
 				constructor: TypeError,
+				message: "Argument must be a URL object",
 			});
 		});
 
-		it("should throw an error with a relative path", async () => {
+		it("should throw an error with an unsupported URL scheme", async () => {
 			await assert.rejects(
-				() =>
-					ESLint.fromOptionModule(
-						"../../tests/fixtures/option-modules/empty.mjs",
-					),
-				{ code: "ERR_INVALID_URL", constructor: TypeError },
+				// eslint-disable-next-line no-script-url -- test for unsupported URL scheme
+				() => ESLint.fromOptionModule(new URL("javascript:({ })")),
+				{ code: "ERR_UNSUPPORTED_ESM_URL_SCHEME", constructor: Error },
 			);
 		});
 
-		it("should throw an error with an unupported URL scheme", async () => {
+		it("should throw an error with an invalid URL object", async () => {
 			await assert.rejects(
-				// eslint-disable-next-line no-script-url -- test for unsupported URL scheme
-				() => ESLint.fromOptionModule("javascript:({ })"),
-				{ code: "ERR_UNSUPPORTED_ESM_URL_SCHEME", constructor: Error },
+				() =>
+					ESLint.fromOptionModule({
+						href: "foo",
+						toString: () => "bar",
+					}),
+				{ code: "ERR_INVALID_URL", constructor: TypeError },
 			);
 		});
 	});
