@@ -76,6 +76,7 @@ module.exports = Object.freeze({
 		"no-useless-catch": "error",
 		"no-useless-escape": "error",
 		"no-with": "error",
+		"preserve-caught-error": "error",
 		"require-yield": "error",
 		"use-isnan": "error",
 		"valid-typeof": "error",
