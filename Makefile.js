@@ -1004,24 +1004,22 @@ function checkHyperfineInstallation() {
 		"https://github.com/sharkdp/hyperfine?tab=readme-ov-file#installation";
 	let output;
 	try {
-		output = childProcess.execSync("hyperfine --version", {
+		output = childProcess.execFileSync("hyperfine", ["--version"], {
 			encoding: "utf8",
 		});
 	} catch (error) {
-		/*
-		 * If a command is not found, the exit code is set by the shell to a non-zero value.
-		 * Common exit codes are 127 for Unix shells and 1 for cmd.exe and PowerShell.
-		 */
+		// If hyperfine is not installed, the error code will be "ENOENT".
 		if (
-			(error.status !== 1 && error.status !== 127) ||
-			error.signal !== null
+			error.code === "ENOENT" &&
+			error.signal === null &&
+			error.status === null
 		) {
-			throw error;
+			console.error(
+				`hyperfine is not installed. Please install it to run performance tests:\n${INSTALLATION_INSTRUCTIONS_URL}`,
+			);
+			exit(1);
 		}
-		console.error(
-			`hyperfine is not installed. Please install it to run performance tests:\n${INSTALLATION_INSTRUCTIONS_URL}`,
-		);
-		exit(1);
+		throw error;
 	}
 	// `--shell=none` is not supported by hyperfine < 1.13.0, so we check the version.
 	const version = / (?<version>\d+\.\d+\.\d+)\n$/u.exec(output)?.groups
@@ -1068,24 +1066,24 @@ function createConfigForPerformanceTest() {
 
 /**
  * Creates a command to run ESLint with a given argument.
- * @param {string} arg A file or glob pattern to pass to ESLint. This should not include any unescaped single or double quotes (`'` or `"`).
+ * @param {string} arg A file or glob pattern to pass to ESLint. This should not include any unescaped double quotes (`"`).
  * @returns {string} The command to run ESLint with the given argument.
  */
 function createESLintCommand(arg) {
 	const eslintBin = require("./package.json").bin.eslint;
 
-	return `'${process.execPath}' '${eslintBin}' --config '${PERF_ESLINT_CONFIG}' --no-ignore '${arg}'`;
+	return `"${process.execPath}" "${eslintBin}" --config "${PERF_ESLINT_CONFIG}" --no-ignore "${arg}"`;
 }
 
 /**
  * Runs hyperfine to measure the performance of a command.
  * If the command fails, the current process exits with code 1.
  * @param {string} commandName Display name of the command in the hyperfine output.
- * @param {string} command The command to run. This should not include any unescaped double quotes (`"`).
+ * @param {string} command The command to run.
  * @returns {void}
  */
 function perfRun(commandName, command) {
-	// We don't need the stack trace of execSync if the command fails.
+	// We don't need the stack trace of execFileSync if the command fails.
 	try {
 		/*
 		 * The used hyperfine options are:
@@ -1101,8 +1099,16 @@ function perfRun(commandName, command) {
 		 *   `\x1b[1m` sets the text to bold
 		 *   `\x1b[0m` resets the text formatting
 		 */
-		childProcess.execSync(
-			`hyperfine --shell=none --warmup=1 --runs=5 --command-name="\x1b[1K\x1b[99D\x1b[1m${commandName}\x1b[0m" "${command}"`,
+		childProcess.execFileSync(
+			"hyperfine",
+			[
+				"--shell=none",
+				"--warmup=1",
+				"--runs=5",
+				"--command-name",
+				`\x1b[1K\x1b[99D\x1b[1m${commandName}\x1b[0m`,
+				command,
+			],
 			{ stdio: "inherit" },
 		);
 	} catch {
@@ -1117,10 +1123,11 @@ target.perf = () => {
 
 	createConfigForPerformanceTest();
 
+	// Empty line for better readability in the console output.
 	console.log();
 
 	const eslintApiPath = require("./package.json").main;
-	perfRun("Loading", `'${process.execPath}' --require '${eslintApiPath}' ''`);
+	perfRun("Loading", `"${process.execPath}" --require "${eslintApiPath}" ""`);
 
 	const singleFileCommand = createESLintCommand(
 		"tests/performance/jshint.js",
