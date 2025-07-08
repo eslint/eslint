@@ -308,7 +308,7 @@ module.exports = function (eleventyConfig) {
 
 		if (!urlData) {
 			throw new Error(
-				`Data missing for "${url}". Did you forget to add the URL information to "https://github.com/eslint/eslint/blob/main/docs/src/_data/further_reading_links.json"?`,
+				`Data missing for "${url}". Did you forget to add the URL information to "/docs/src/_data/further_reading_links.json"?`,
 			);
 		}
 
