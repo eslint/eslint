@@ -5452,6 +5452,40 @@ export type Bar = typeof foo;
 		declare const [v6];
       `,
 		},
+		{
+			filename: "foo.d.mts",
+			code: `
+		interface Foo {}
+		type Bar = {};
+		declare class Clazz {}
+		declare function func();
+		declare enum Enum {}
+		declare namespace Name {}
+		declare const v1;
+		declare var v2;
+		declare let v3;
+		declare const { v4 };
+		declare const { v4: v5 };
+		declare const [v6];
+      `,
+		},
+		{
+			filename: "foo.d.cts",
+			code: `
+		interface Foo {}
+		type Bar = {};
+		declare class Clazz {}
+		declare function func();
+		declare enum Enum {}
+		declare namespace Name {}
+		declare const v1;
+		declare var v2;
+		declare let v3;
+		declare const { v4 };
+		declare const { v4: v5 };
+		declare const [v6];
+      `,
+		},
 		// https://github.com/typescript-eslint/typescript-eslint/issues/2459
 		`
 export type Test<U> = U extends (k: infer I) => void ? I : never;
@@ -5573,7 +5607,35 @@ new Bar();
       	`,
 		},
 		{
+			filename: "foo.d.mts",
+			code: `
+		declare namespace A {
+  			export interface A {}
+		}
+      	`,
+		},
+		{
+			filename: "foo.d.cts",
+			code: `
+		declare namespace A {
+  			export interface A {}
+		}
+      	`,
+		},
+		{
 			filename: "foo.d.ts",
+			code: `
+		declare function A(A: string): string;
+      	`,
+		},
+		{
+			filename: "foo.d.mts",
+			code: `
+		declare function A(A: string): string;
+      	`,
+		},
+		{
+			filename: "foo.d.cts",
 			code: `
 		declare function A(A: string): string;
       	`,
@@ -5792,7 +5854,39 @@ export class Foo {
       	`,
 		},
 		{
+			filename: "foo.d.mts",
+			code: `
+		export namespace Foo {
+  			const foo: 1234;
+		}
+      	`,
+		},
+		{
+			filename: "foo.d.cts",
+			code: `
+		export namespace Foo {
+  			const foo: 1234;
+		}
+      	`,
+		},
+		{
 			filename: "foo.d.ts",
+			code: `
+		declare module 'foo' {
+  			const foo: 1234;
+		}
+      	`,
+		},
+		{
+			filename: "foo.d.mts",
+			code: `
+		declare module 'foo' {
+  			const foo: 1234;
+		}
+      	`,
+		},
+		{
+			filename: "foo.d.cts",
 			code: `
 		declare module 'foo' {
   			const foo: 1234;
@@ -5892,6 +5986,28 @@ export class Foo {
 		},
 		{
 			filename: "foo.d.ts",
+			code: `
+		declare module 'foo' {
+  			type Foo = 1;
+  			type Bar = 1;
+
+  			export default function foo(): Bar;
+		}
+      	`,
+		},
+		{
+			filename: "foo.d.mts",
+			code: `
+		declare module 'foo' {
+  			type Foo = 1;
+  			type Bar = 1;
+
+  			export default function foo(): Bar;
+		}
+      	`,
+		},
+		{
+			filename: "foo.d.cts",
 			code: `
 		declare module 'foo' {
   			type Foo = 1;
@@ -7637,6 +7753,50 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 		},
 		{
 			filename: "foo.d.ts",
+			code: "declare module 'foo' { type Test = 1; export {}; }",
+			errors: [
+				{
+					data: {
+						action: "defined",
+						additional: "",
+						varName: "Test",
+					},
+					line: 1,
+					messageId: "unusedVar",
+					suggestions: [
+						{
+							output: "declare module 'foo' {  export {}; }",
+							messageId: "removeVar",
+							data: { varName: "Test" },
+						},
+					],
+				},
+			],
+		},
+		{
+			filename: "foo.d.mts",
+			code: "declare module 'foo' { type Test = 1; export {}; }",
+			errors: [
+				{
+					data: {
+						action: "defined",
+						additional: "",
+						varName: "Test",
+					},
+					line: 1,
+					messageId: "unusedVar",
+					suggestions: [
+						{
+							output: "declare module 'foo' {  export {}; }",
+							messageId: "removeVar",
+							data: { varName: "Test" },
+						},
+					],
+				},
+			],
+		},
+		{
+			filename: "foo.d.cts",
 			code: "declare module 'foo' { type Test = 1; export {}; }",
 			errors: [
 				{
