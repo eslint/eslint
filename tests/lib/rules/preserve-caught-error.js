@@ -211,5 +211,67 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
+		/* 13. When an Error is created without `new` keyword */
+		{
+			code: `try { doSomething(); } catch (err) { throw Error("Something failed"); }`,
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try { doSomething(); } catch (err) { throw Error("Something failed", { cause: err }); }`,
+						},
+					],
+				},
+			],
+		},
+		/* 14. Miscellaneous constructs */
+		{
+			code: `try {
+} catch (err) {
+	my_label:
+	throw new Error("Failed without cause");
+}`,
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try {
+} catch (err) {
+	my_label:
+	throw new Error("Failed without cause", { cause: err });
+}`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `try {
+} catch (err) {
+	{
+		throw new Error("Something went wrong");
+	}
+}`,
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try {
+} catch (err) {
+	{
+		throw new Error("Something went wrong", { cause: err });
+	}
+}`,
+						},
+					],
+				},
+			],
+		},
 	],
 });
