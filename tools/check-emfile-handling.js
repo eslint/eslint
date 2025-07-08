@@ -102,6 +102,13 @@ execSync(
 );
 console.log("✅ No errors encountered running ESLint.");
 
+console.log("Running ESLint with --fix...");
+execSync(
+	`node bin/eslint.js ${OUTPUT_DIRECTORY} --fix --no-config-lookup --rule "eol-last: [error, always]"`,
+	{ stdio: "inherit" },
+);
+console.log("✅ No errors encountered running ESLint with --fix.");
+
 console.log(
 	"Checking that this number of files would cause an EMFILE error...",
 );
