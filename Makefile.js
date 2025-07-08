@@ -1078,11 +1078,11 @@ function createESLintCommand(arg) {
 /**
  * Runs hyperfine to measure the performance of a command.
  * If the command fails, the current process exits with code 1.
- * @param {string} commandName Display name of the command in the hyperfine output.
+ * @param {string} title The title of the command in the hyperfine output.
  * @param {string} command The command to run.
  * @returns {void}
  */
-function perfRun(commandName, command) {
+function runPerformanceTest(title, command) {
 	// We don't need the stack trace of execFileSync if the command fails.
 	try {
 		/*
@@ -1090,10 +1090,10 @@ function perfRun(commandName, command) {
 		 *   --shell=none turns off the shell escaping, so that glob patterns are not expanded.
 		 *   --warmup=1 runs the command once before measuring, to avoid cold start issues.
 		 *   --runs=5 runs the command 5 times, not counting the warmup run.
-		 *   --command-name sets the display name of the command in the hyperfine output.
+		 *   --command-name sets the title of the command in the hyperfine output.
 		 *
 		 * The ANSI escape codes are used to overwrite the text "Benchmark 1: " that hyperfine prints by default,
-		 * and to set the command name in bold.
+		 * and to set the title in bold.
 		 *   `\x1b[1K` clears the line
 		 *   `\x1b[99D` moves the cursor back to the beginning of the line
 		 *   `\x1b[1m` sets the text to bold
@@ -1106,7 +1106,7 @@ function perfRun(commandName, command) {
 				"--warmup=1",
 				"--runs=5",
 				"--command-name",
-				`\x1b[1K\x1b[99D\x1b[1m${commandName}\x1b[0m`,
+				`\x1b[1K\x1b[99D\x1b[1m${title}\x1b[0m`,
 				command,
 			],
 			{ stdio: "inherit" },
@@ -1126,19 +1126,19 @@ target.perf = () => {
 	// Empty line for better readability in the console output.
 	console.log();
 
-	const eslintApiPath = require("./package.json").main;
-	perfRun("Loading", `"${process.execPath}" --require "${eslintApiPath}" ""`);
+	const loadingCommand = `"${process.execPath}" --require "${require("./package.json").main}" ""`;
+	runPerformanceTest("Loading", loadingCommand);
 
 	const singleFileCommand = createESLintCommand(
 		"tests/performance/jshint.js",
 	);
-	perfRun("Single File", singleFileCommand);
+	runPerformanceTest("Single File", singleFileCommand);
 
 	const PERF_MULTIFILES_TARGETS = `${TEMP_DIR}eslint/performance/eslint/{lib,tests/lib}/**/*.js`;
 	// Count test target files.
 	const fileCount = glob.sync(PERF_MULTIFILES_TARGETS).length;
 	const multiFilesCommand = createESLintCommand(PERF_MULTIFILES_TARGETS);
-	perfRun(`Multi Files (${fileCount} files)`, multiFilesCommand);
+	runPerformanceTest(`Multi Files (${fileCount} files)`, multiFilesCommand);
 };
 
 target.generateRelease = ([packageTag]) => generateRelease({ packageTag });
