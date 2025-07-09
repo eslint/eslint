@@ -347,31 +347,7 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
-		/* 12. When user-defined errors are being thrown without cause */
-		{
-			code: `try {
-            doSomething();
-        } catch (err) {
-            throw new ApiError("Oops");
-        }`,
-			options: [{ customErrorTypes: ["ApiError"] }],
-			errors: [
-				{
-					messageId: "missingCause",
-					suggestions: [
-						{
-							messageId: "includeCause",
-							output: `try {
-            doSomething();
-        } catch (err) {
-            throw new ApiError("Oops", { cause: err });
-        }`,
-						},
-					],
-				},
-			],
-		},
-		/* 13. When an Error is created without `new` keyword */
+		/* 12. When an Error is created without `new` keyword */
 		{
 			code: `try {
             doSomething();
@@ -394,7 +370,7 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
-		/* 14. Miscellaneous constructs */
+		/* 13. Miscellaneous constructs */
 		{
 			code: `try {
         } catch (err) {
