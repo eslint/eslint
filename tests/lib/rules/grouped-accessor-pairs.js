@@ -1048,38 +1048,38 @@ ruleTesterTypeScript.run("grouped-accessor-pairs", rule, {
 
 		{
 			code: "interface I { get prop(): any, set prop(value: any): void }",
-			options: [{ enforceForTSTypes: true }],
+			options: ["anyOrder", { enforceForTSTypes: true }],
 		},
 		{
 			code: "interface I { set prop(value: any): void, get prop(): any }",
-			options: [{ enforceForTSTypes: true }],
+			options: ["anyOrder", { enforceForTSTypes: true }],
 		},
 		{
 			code: "interface I { get a(): any, between: true, set b(value: any): void }",
-			options: [{ enforceForTSTypes: true }],
+			options: ["anyOrder", { enforceForTSTypes: true }],
 		},
 
 		{
 			code: "interface I { before: true, get prop(): any, set prop(value: any): void, after: true }",
-			options: [{ enforceForTSTypes: true, order: "getBeforeSet" }],
+			options: ["getBeforeSet", { enforceForTSTypes: true }],
 		},
 		{
 			code: "interface I { set prop(value: any): void, get prop(): any }",
-			options: [{ enforceForTSTypes: true, order: "setBeforeGet" }],
+			options: ["setBeforeGet", { enforceForTSTypes: true }],
 		},
 		{
 			code: "type T = { get prop(): any, set prop(value: any): void }",
-			options: [{ enforceForTSTypes: true }],
+			options: ["anyOrder", { enforceForTSTypes: true }],
 		},
 		{
 			code: "type T = { set prop(value: any): void, get prop(): any }",
-			options: [{ enforceForTSTypes: true, order: "setBeforeGet" }],
+			options: ["setBeforeGet", { enforceForTSTypes: true }],
 		},
 	],
 	invalid: [
 		{
 			code: "interface I { get a(): any, between: true, set a(value: any): void }",
-			options: [{ enforceForTSTypes: true }],
+			options: ["anyOrder", { enforceForTSTypes: true }],
 			errors: [
 				{
 					messageId: "notGrouped",
@@ -1094,7 +1094,7 @@ ruleTesterTypeScript.run("grouped-accessor-pairs", rule, {
 		},
 		{
 			code: "interface I { get a(): any, set a(value: any): void }",
-			options: [{ enforceForTSTypes: true, order: "setBeforeGet" }],
+			options: ["setBeforeGet", { enforceForTSTypes: true }],
 			errors: [
 				{
 					messageId: "invalidOrder",
@@ -1109,7 +1109,7 @@ ruleTesterTypeScript.run("grouped-accessor-pairs", rule, {
 		},
 		{
 			code: "interface I { set a(value: any): void, get a(): any }",
-			options: [{ enforceForTSTypes: true, order: "getBeforeSet" }],
+			options: ["getBeforeSet", { enforceForTSTypes: true }],
 			errors: [
 				{
 					messageId: "invalidOrder",
@@ -1124,7 +1124,7 @@ ruleTesterTypeScript.run("grouped-accessor-pairs", rule, {
 		},
 		{
 			code: "type T = { get a(): any, between: true, set a(value: any): void }",
-			options: [{ enforceForTSTypes: true }],
+			options: ["anyOrder", { enforceForTSTypes: true }],
 			errors: [
 				{
 					messageId: "notGrouped",
@@ -1139,7 +1139,7 @@ ruleTesterTypeScript.run("grouped-accessor-pairs", rule, {
 		},
 		{
 			code: "type T = { get a(): any, set a(value: any): void }",
-			options: [{ enforceForTSTypes: true, order: "setBeforeGet" }],
+			options: ["setBeforeGet", { enforceForTSTypes: true }],
 			errors: [
 				{
 					messageId: "invalidOrder",
