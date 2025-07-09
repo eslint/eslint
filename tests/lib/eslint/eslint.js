@@ -4080,9 +4080,12 @@ describe("ESLint", () => {
 						if (otherDriveLetter) {
 							try {
 								await exec(`subst /D ${otherDriveLetter}:`);
-							} catch ({ message }) {
+							} catch (err) {
 								throw new Error(
-									`Unable to unassign virtual drive letter ${otherDriveLetter}: - ${message}`,
+									`Unable to unassign virtual drive letter ${otherDriveLetter}`,
+									{
+										cause: err,
+									},
 								);
 							}
 						}
