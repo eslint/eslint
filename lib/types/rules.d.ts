@@ -5278,6 +5278,13 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"template-tag-spacing": Linter.RuleEntry<["never" | "always"]>;
 
 	/**
+	 * Rule to enforce spacing around `?` and `:` in ternary expressions.
+	 *
+	 * @see https://eslint.org/docs/latest/rules/ternary-spacing
+	 */
+	"ternary-spacing": Linter.RuleEntry<[]>;
+
+	/**
 	 * Rule to require or disallow Unicode byte order mark (BOM).
 	 *
 	 * @since 2.11.0
