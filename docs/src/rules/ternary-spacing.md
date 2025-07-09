@@ -20,6 +20,8 @@ Examples of **incorrect** code for this rule:
 ::: incorrect
 
 ```js
+/* eslint ternary-spacing: "error" */
+
 // No spaces
 const badExample1 = condition?value1:value2;
 
@@ -50,6 +52,8 @@ Examples of **correct** code for this rule:
 ::: correct
 
 ```js
+/* eslint ternary-spacing: "error" */
+
 const goodExample1 = condition ? value1 : value2;
 
 const goodExample2 = a ? b : c ? d : e;
