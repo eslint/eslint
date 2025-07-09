@@ -207,6 +207,7 @@ module.exports = Object.freeze({
         "sort-vars": "error",
         "strict": "error",
         "symbol-description": "error",
+        "ternary-spacing": "error",
         "unicode-bom": "error",
         "use-isnan": "error",
         "valid-typeof": "error",
