@@ -152,14 +152,13 @@ const Bar = class {
 
 ## Options
 
-This rule has a string or object option.
-The string variant specifies the order:
+This rule has a primary string and an optional secondary object option.
+The string option specifies the order:
 * `"anyOrder"` (default) does not enforce order.
 * `"getBeforeSet"` if a property has both getter and setter, requires the getter to be defined before the setter.
 * `"setBeforeGet"` if a property has both getter and setter, requires the setter to be defined before the getter.
 
-The object variant also allows for optionally checking TypeScript types:
-* `order`: same values as the string variant
+The optional object option allows opting-in to check additional object-likes:
 * `enforceForTSTypes`: also check TypeScript types (interfaces and type literals)
 
 ### getBeforeSet
@@ -315,12 +314,12 @@ const Bar = class {
 :::
 ### enforceForTSTypes
 
-Examples of **incorrect** code for this rule with `{ enforceForTSTypes: true }`:
+Examples of **incorrect** code for this rule with `["anyOrder", { enforceForTSTypes: true }]`:
 
 ::: incorrect
 
 ```ts
-/*eslint grouped-accessor-pairs: ["error", { enforceForTSTypes: true }]*/
+/*eslint grouped-accessor-pairs: ["error", "anyOrder", { enforceForTSTypes: true }] */
 
 interface I {
     get a(): string,
@@ -337,12 +336,12 @@ type T = {
 
 :::
 
-Examples of **correct** code for this rule with with `{ enforceForTSTypes: true }`:
+Examples of **correct** code for this rule with with `["anyOrder", { enforceForTSTypes: true }]`:
 
 ::: correct
 
 ```ts
-/*eslint grouped-accessor-pairs: ["error", { enforceForTSTypes: true }]*/
+/*eslint grouped-accessor-pairs: ["error", "anyOrder", { enforceForTSTypes: true }] */
 
 interface I {
     get a(): string,
