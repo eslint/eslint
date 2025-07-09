@@ -637,8 +637,45 @@ ruleTester.run("one-var", rule, {
 			options: [{ initialized: "consecutive" }],
 			languageOptions: { ecmaVersion: 2022 },
 		},
+
+		// Explicit Resource Management
 		{
-			code: "using a = 0; using b = 1;",
+			code: "using a = 0; const b = 1;",
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "await using a = 0; using b = 1;",
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "using a = 0, b = 1;",
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "await using a = 0, b = 1;",
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "function fn() { { using a = 0; } using b = 1; }",
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "using a = 0; between; const b = 1;",
 			options: ["consecutive"],
 			languageOptions: {
 				ecmaVersion: 2026,
@@ -646,8 +683,24 @@ ruleTester.run("one-var", rule, {
 			},
 		},
 		{
+			code: "await using a = 0, b = 1;",
+			options: [{ "await using": "always" }],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
 			code: "await using a = 0; await using b = 1;",
-			options: ["consecutive"],
+			options: [{ using: "always", "await using": "never" }],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "await using a = 0; await using b = 1;",
+			options: [{ const: "always" }],
 			languageOptions: {
 				ecmaVersion: 2026,
 				sourceType: "module",
@@ -2660,6 +2713,103 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combineInitialized",
 					data: { type: "var" },
+					type: "VariableDeclaration",
+				},
+			],
+		},
+
+		// Explicit Resource Management
+		{
+			code: "using a = 0; between; using b = 1;",
+			output: null,
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+			errors: [
+				{
+					messageId: "combine",
+					data: { type: "using" },
+					type: "VariableDeclaration",
+				},
+			],
+		},
+		{
+			code: "using a = 0; using b = 1;",
+			output: "using a = 0,  b = 1;",
+			options: ["consecutive"],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+			errors: [
+				{
+					messageId: "combine",
+					data: { type: "using" },
+					type: "VariableDeclaration",
+				},
+			],
+		},
+		{
+			code: "using a = 0; using b = 1;",
+			output: "using a = 0,  b = 1;",
+			options: [{ using: "consecutive" }],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+			errors: [
+				{
+					messageId: "combine",
+					data: { type: "using" },
+					type: "VariableDeclaration",
+				},
+			],
+		},
+		{
+			code: "using a = 0, b = 1;",
+			output: "using a = 0; using b = 1;",
+			options: ["never"],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+			errors: [
+				{
+					messageId: "split",
+					data: { type: "using" },
+					type: "VariableDeclaration",
+				},
+			],
+		},
+		{
+			code: "await using a = 0; await using b = 1;",
+			output: "await using a = 0,   b = 1;",
+			options: ["consecutive"],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+			errors: [
+				{
+					messageId: "combine",
+					data: { type: "await using" },
+					type: "VariableDeclaration",
+				},
+			],
+		},
+		{
+			code: "await using a = 0, b = 1;",
+			output: "await using a = 0; await using b = 1;",
+			options: ["never"],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+			errors: [
+				{
+					messageId: "split",
+					data: { type: "await using" },
 					type: "VariableDeclaration",
 				},
 			],

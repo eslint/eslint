@@ -31,7 +31,7 @@ The single-declaration school of thought is based in pre-ECMAScript 6 behaviors,
 
 ## Rule Details
 
-This rule enforces variables to be declared either together or separately per function ( for `var`) or block (for `let` and `const`) scope.
+This rule enforces variables to be declared either together or separately per function ( for `var`) or block (for `let`, `const`, `using` and `await using`) scope.
 
 ## Options
 
@@ -54,6 +54,12 @@ Object option:
 * `"const": "always"` requires one `const` declaration per block
 * `"const": "never"` requires multiple `const` declarations per block
 * `"const": "consecutive"` requires consecutive `const` declarations to be a single declaration
+* `"using": "always"` requires one `using` declaration per block
+* `"using": "never"` requires multiple `using` declarations per block
+* `"using": "consecutive"` requires consecutive `using` declarations to be a single declaration
+* `"await using": "always"` requires one `await using` declaration per block
+* `"await using": "never"` requires multiple `await using` declarations per block
+* `"await using": "consecutive"` requires consecutive `await using` declarations to be a single declaration
 * `"separateRequires": true` enforces `requires` to be separate from declarations
 
 Alternate object option:
@@ -339,14 +345,14 @@ class C {
 
 :::
 
-### var, let, and const
+### var, let, const, using and await using
 
-Examples of **incorrect** code for this rule with the `{ var: "always", let: "never", const: "never" }` option:
+Examples of **incorrect** code for this rule with the `{ var: "always", let: "never", const: "never", using: "never", "await using": "never" }` option:
 
 ::: incorrect
 
 ```js
-/*eslint one-var: ["error", { var: "always", let: "never", const: "never" }]*/
+/*eslint one-var: ["error", { var: "always", let: "never", const: "never", using: "never", "await using": "never" }]*/
 
 function foo1() {
     var bar;
@@ -361,16 +367,23 @@ function foo2() {
     let qux,
         norf;
 }
+
+async function foo3() {
+    using bar = 1,
+          baz = 2;
+    await using qux = 3,
+                norf = 4;
+}
 ```
 
 :::
 
-Examples of **correct** code for this rule with the `{ var: "always", let: "never", const: "never" }` option:
+Examples of **correct** code for this rule with the `{ var: "always", let: "never", const: "never", using: "never", "await using": "never" }` option:
 
 ::: correct
 
 ```js
-/*eslint one-var: ["error", { var: "always", let: "never", const: "never" }]*/
+/*eslint one-var: ["error", { var: "always", let: "never", const: "never", using: "never", "await using": "never" }]*/
 
 function foo1() {
     var bar,
@@ -384,6 +397,13 @@ function foo2() {
     const baz = 2;
     let qux;
     let norf;
+}
+
+async function foo3() {
+    using bar = 1;
+    using baz = 2;
+    await using qux = 3;
+    await using norf = 4;
 }
 ```
 
