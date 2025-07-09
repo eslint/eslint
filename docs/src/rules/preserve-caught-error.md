@@ -34,6 +34,13 @@ try {
 } catch {
 	throw new TypeError("Something went wrong");
 }
+
+try {
+	doSomething();
+} catch (err) {
+	// caught error not used by the helper function that constructs custom errors.
+	throw createExtraneousResultsError("test", { error: err });
+}
 ```
 
 Examples of **correct** code for this rule:
@@ -43,6 +50,13 @@ try {
     // ...
 } catch (error) {
     throw new Error("Something went wrong", { cause: error });
+}
+
+try {
+	doSomething();
+} catch (err) {
+	// caught error passed to the helper function that constructs custom errors.
+	throw createExtraneousResultsError("test", { error: err });
 }
 ```
 
