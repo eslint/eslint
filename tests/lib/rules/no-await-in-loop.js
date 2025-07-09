@@ -76,6 +76,13 @@ ruleTester.run("no-await-in-loop", rule, {
 				ecmaVersion: 2026,
 			},
 		},
+		{
+			code: "for (await using resource = getResource(); ;) {}",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+		},
 	],
 	invalid: [
 		// While loops
@@ -161,6 +168,14 @@ ruleTester.run("no-await-in-loop", rule, {
 		},
 		{
 			code: "for (;;) { await using resource = getResource(); }",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+			errors: [{ ...error, type: "VariableDeclaration" }],
+		},
+		{
+			code: "for (await using resource of resources) {}",
 			languageOptions: {
 				sourceType: "module",
 				ecmaVersion: 2026,
