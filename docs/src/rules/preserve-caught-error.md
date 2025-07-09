@@ -16,6 +16,8 @@ Using the `cause` option when throwing new errors helps retain the **original er
 
 This rule enforces the use of the [`cause`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause) property when throwing a new error inside a `catch` block.
 
+Checks for all built-in [error types](https://github.com/microsoft/TypeScript/blob/main/src/lib/es2022.error.d.ts) that support passing a `cause`.
+
 Examples of **incorrect** code for this rule:
 
 ```js
@@ -30,7 +32,7 @@ try {
 try {
 	doSomething();
 } catch {
-	throw new Error("Something went wrong");
+	throw new TypeError("Something went wrong");
 }
 ```
 
@@ -44,37 +46,6 @@ try {
 }
 ```
 
-## Options
-This rule takes a single option — an object with the following optional property:
-
-- `customErrorTypes`: An array of user-defined error type names (strings) that the rule should recognize as valid error constructors. These are useful when your project uses custom error classes, that support the cause option.
-
-```js
-"preserve-caught-error": ["warn", {
-  "customErrorTypes": ["ApiError", "MyCustomError"]
-}]
-```
-
-If omitted, the rule only checks for built-in error types that support the `cause` option, such as `Error`, `TypeError`, `RangeError`, etc.
-
-For an exhaustive list, see [typescript error interfaces](https://github.com/microsoft/TypeScript/blob/main/src/lib/es2022.error.d.ts).
-
-Examples of **correct** code for the `{ "customErrorTypes": ["ApiError"] }` option:
-
-```js
-try {
-	doSomething();
-} catch(error) {
-	if (someCondition) {
-		throw new ApiError("Something went wrong", {
-			cause: error
-		});
-	}
-
-	// This won't be flagged as `CustomError` was not configured in `customErrorTypes` option
-	throw new CustomError("Operation failed");
-}
-```
 
 ## When Not To Use It
 

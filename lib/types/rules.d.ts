@@ -4808,13 +4808,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 *
 	 * @see https://eslint.org/docs/latest/rules/preserve-caught-error
 	 */
-	"preserve-caught-error": Linter.RuleEntry<
-		[
-			Partial<{
-				customErrorTypes: string[];
-			}>,
-		]
-	>;
+	"preserve-caught-error": Linter.RuleEntry<[]>;
 
 	/**
 	 * Rule to require quotes around object literal property names.
