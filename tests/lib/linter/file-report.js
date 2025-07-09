@@ -318,48 +318,6 @@ describe("FileReport", () => {
 		});
 	});
 
-	describe("addErrors", () => {
-		it("should add multiple error messages", () => {
-			const loc = {
-				start: { line: 1, column: 0 },
-				end: { line: 1, column: 1 },
-			};
-
-			fileReport.addErrors([
-				{
-					message: "first error message",
-					loc,
-				},
-				{
-					message: "second error message",
-					loc,
-				},
-			]);
-
-			assert.strictEqual(fileReport.messages.length, 2);
-			assert.deepStrictEqual(fileReport.messages[0], {
-				ruleId: null,
-				severity: 2,
-				message: "first error message",
-				line: 1,
-				column: 1,
-				endLine: 1,
-				endColumn: 2,
-				nodeType: null,
-			});
-			assert.deepStrictEqual(fileReport.messages[1], {
-				ruleId: null,
-				severity: 2,
-				message: "second error message",
-				line: 1,
-				column: 1,
-				endLine: 1,
-				endColumn: 2,
-				nodeType: null,
-			});
-		});
-	});
-
 	describe("addWarning", () => {
 		it("should add a warning message", () => {
 			const loc = {
@@ -367,58 +325,17 @@ describe("FileReport", () => {
 				end: { line: 1, column: 1 },
 			};
 
-			fileReport.addWarning({
+			const warning = fileReport.addWarning({
 				message: "test warning message",
 				loc,
 			});
 
 			assert.strictEqual(fileReport.messages.length, 1);
-			assert.deepStrictEqual(fileReport.messages[0], {
+			assert.strictEqual(warning, fileReport.messages[0]);
+			assert.deepStrictEqual(warning, {
 				ruleId: null,
 				severity: 1,
 				message: "test warning message",
-				line: 1,
-				column: 1,
-				endLine: 1,
-				endColumn: 2,
-				nodeType: null,
-			});
-		});
-	});
-
-	describe("addWarnings", () => {
-		it("should add multiple warning messages", () => {
-			const loc = {
-				start: { line: 1, column: 0 },
-				end: { line: 1, column: 1 },
-			};
-
-			fileReport.addWarnings([
-				{
-					message: "first warning message",
-					loc,
-				},
-				{
-					message: "second warning message",
-					loc,
-				},
-			]);
-
-			assert.strictEqual(fileReport.messages.length, 2);
-			assert.deepStrictEqual(fileReport.messages[0], {
-				ruleId: null,
-				severity: 1,
-				message: "first warning message",
-				line: 1,
-				column: 1,
-				endLine: 1,
-				endColumn: 2,
-				nodeType: null,
-			});
-			assert.deepStrictEqual(fileReport.messages[1], {
-				ruleId: null,
-				severity: 1,
-				message: "second warning message",
 				line: 1,
 				column: 1,
 				endLine: 1,
@@ -435,61 +352,18 @@ describe("FileReport", () => {
 				end: { line: 1, column: 1 },
 			};
 
-			fileReport.addFatal({
+			const fatal = fileReport.addFatal({
 				message: "test fatal message",
 				loc,
 			});
 
 			assert.strictEqual(fileReport.messages.length, 1);
-			assert.deepStrictEqual(fileReport.messages[0], {
+			assert.strictEqual(fatal, fileReport.messages[0]);
+			assert.deepStrictEqual(fatal, {
 				ruleId: null,
 				severity: 2,
 				fatal: true,
 				message: "test fatal message",
-				line: 1,
-				column: 1,
-				endLine: 1,
-				endColumn: 2,
-				nodeType: null,
-			});
-		});
-	});
-
-	describe("addFatals", () => {
-		it("should add multiple fatal error messages", () => {
-			const loc = {
-				start: { line: 1, column: 0 },
-				end: { line: 1, column: 1 },
-			};
-
-			fileReport.addFatals([
-				{
-					message: "first fatal message",
-					loc,
-				},
-				{
-					message: "second fatal message",
-					loc,
-				},
-			]);
-
-			assert.strictEqual(fileReport.messages.length, 2);
-			assert.deepStrictEqual(fileReport.messages[0], {
-				ruleId: null,
-				severity: 2,
-				fatal: true,
-				message: "first fatal message",
-				line: 1,
-				column: 1,
-				endLine: 1,
-				endColumn: 2,
-				nodeType: null,
-			});
-			assert.deepStrictEqual(fileReport.messages[1], {
-				ruleId: null,
-				severity: 2,
-				fatal: true,
-				message: "second fatal message",
 				line: 1,
 				column: 1,
 				endLine: 1,
