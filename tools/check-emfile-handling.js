@@ -63,7 +63,7 @@ function generateFiles() {
 
 	for (let i = 0; i < FILE_COUNT; i++) {
 		const fileName = `file_${i}.js`;
-		const fileContent = `// This is file ${i}`;
+		const fileContent = `// this is file ${i}`;
 
 		fs.writeFileSync(`${OUTPUT_DIRECTORY}/${fileName}`, fileContent);
 	}
@@ -97,7 +97,7 @@ generateFiles();
 
 console.log("Running ESLint...");
 execSync(
-	`node bin/eslint.js ${OUTPUT_DIRECTORY} -c ${CONFIG_DIRECTORY}/eslint.config.js`,
+	`node bin/eslint.js ${OUTPUT_DIRECTORY} -c ${CONFIG_DIRECTORY}/eslint.config.js --fix`,
 	{ stdio: "inherit" },
 );
 console.log("✅ No errors encountered running ESLint.");
