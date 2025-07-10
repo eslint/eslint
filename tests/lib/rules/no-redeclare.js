@@ -808,6 +808,28 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
   type C<T> = Array<T>;
   class D<T> {}
 	  `,
+		// Valid TypeScript declaration combinations
+		`
+  interface A {}
+  interface A {}
+	  `,
+		`
+  interface A {}
+  class A {}
+	  `,
+		`
+  class A {}
+  namespace A {}
+	  `,
+		`
+  interface A {}
+  class A {}
+  namespace A {}
+	  `,
+		`
+  function A() {}
+  namespace A {}
+	  `,
 	],
 	invalid: [
 		{
@@ -1149,94 +1171,6 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 						id: "NodeListOf",
 					},
 					messageId: "redeclaredAsBuiltin",
-				},
-			],
-		},
-		{
-			code: `
-	  interface A {}
-	  interface A {}
-			`,
-
-			errors: [
-				{
-					data: {
-						id: "A",
-					},
-					line: 3,
-					messageId: "redeclared",
-				},
-			],
-		},
-		{
-			code: `
-	  interface A {}
-	  class A {}
-			`,
-
-			errors: [
-				{
-					data: {
-						id: "A",
-					},
-					line: 3,
-					messageId: "redeclared",
-				},
-			],
-		},
-		{
-			code: `
-	  class A {}
-	  namespace A {}
-			`,
-
-			errors: [
-				{
-					data: {
-						id: "A",
-					},
-					line: 3,
-					messageId: "redeclared",
-				},
-			],
-		},
-		{
-			code: `
-	  interface A {}
-	  class A {}
-	  namespace A {}
-			`,
-
-			errors: [
-				{
-					data: {
-						id: "A",
-					},
-					line: 3,
-					messageId: "redeclared",
-				},
-				{
-					data: {
-						id: "A",
-					},
-					line: 4,
-					messageId: "redeclared",
-				},
-			],
-		},
-		{
-			code: `
-	  function A() {}
-	  namespace A {}
-			`,
-
-			errors: [
-				{
-					data: {
-						id: "A",
-					},
-					line: 3,
-					messageId: "redeclared",
 				},
 			],
 		},
