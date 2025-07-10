@@ -3695,6 +3695,39 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 				},
 			],
 		},
+		{
+			code: `import type fs = require("fs");`,
+			options: [
+				{
+					patterns: [
+						{
+							group: ["f*"],
+							allowTypeImports: true,
+						},
+					],
+				},
+			],
+			errors: [
+				{
+					messageId: "path",
+					type: "ExportAllDeclaration",
+				},
+			],
+		},
+		{
+			code: `export { type bar, baz } from "foo";`,
+			options: [
+				{
+					paths: [
+						{
+							name: "foo",
+							importNames: ["bar"],
+							allowTypeImports: true,
+						},
+					],
+				},
+			],
+		},
 	],
 	invalid: [
 		{
@@ -4214,10 +4247,12 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 				{
 					messageId: "importNameWithCustomMessage",
 					type: "ExportNamedDeclaration",
-				},
-				{
-					messageId: "importNameWithCustomMessage",
-					type: "ExportNamedDeclaration",
+					data: {
+						importName: "Bar",
+						importSource: "import-foo",
+						customMessage:
+							"Please use Bar and Baz from /import-bar/baz/ instead.",
+					},
 				},
 			],
 		},
