@@ -3078,7 +3078,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			Partial<{
 				/**
-				 * @default false
+				 * @default true
 				 */
 				allowConditionalType: boolean;
 			}>,

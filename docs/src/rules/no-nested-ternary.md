@@ -57,18 +57,18 @@ if (foo) {
 
 The following options are available on this rule:
 
-* `allowConditionalType: boolean` – when set to `true`, the rule also checks nested [conditional types](https://www.typescriptlang.org/docs/handbook/2/conditional-types.html) in TypeScript. (TypeScript only) (default: `false`)
+* `allowConditionalType: boolean` – when set to `false`, the rule also checks nested [conditional types](https://www.typescriptlang.org/docs/handbook/2/conditional-types.html) in TypeScript. (TypeScript only) (default: `true`)
 
 ### `allowConditionalType`
 
 The `allowConditionalType` option controls whether nested TypeScript conditional types are reported as nested ternary expressions.
 
-Examples of **incorrect** TypeScript code for this rule when configured as `"no-nested-ternary": ["error", { "allowConditionalType": true }]`:
+Examples of **incorrect** TypeScript code for this rule when configured as `"no-nested-ternary": ["error", { "allowConditionalType": false }]`:
 
 ::: incorrect
 
 ```ts
-/*eslint no-nested-ternary: ["error", { "allowConditionalType": true }]*/
+/*eslint no-nested-ternary: ["error", { "allowConditionalType": false }]*/
 
 type TrueType<T> = T extends string ? (boolean extends boolean ? true : false) : false;
 
@@ -79,12 +79,12 @@ type TrueFalseType<T> = T extends string ? (T extends number ? true : false) : (
 
 :::
 
-Examples of **correct** TypeScript code for this rule when configured as `"no-nested-ternary": ["error", { "allowConditionalType": true }]`:
+Examples of **correct** TypeScript code for this rule when configured as `"no-nested-ternary": ["error", { "allowConditionalType": false }]`:
 
 ::: correct
 
 ```ts
-/*eslint no-nested-ternary: ["error", { "allowConditionalType": true }]*/
+/*eslint no-nested-ternary: ["error", { "allowConditionalType": false }]*/
 
 type Type<T> = T extends string ? string : number;
 
