@@ -36,6 +36,20 @@ ruleTester.run("no-var", rule, {
 				parserOptions: { ecmaFeatures: { globalReturn: true } },
 			},
 		},
+		{
+			code: "using moo = 'car';",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+		},
+		{
+			code: "await using moo = 'car';",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+		},
 	],
 
 	invalid: [
