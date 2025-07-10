@@ -11,5 +11,5 @@
     "forceConsistentCasingInFileNames": true,
     "exactOptionalPropertyTypes": true
   },
-  "files": ["../../types/index.d.ts", "types.test.ts", "test.ts"]
+  "files": ["../../types/index.d.ts", "types.test.ts"]
 }
