@@ -16,7 +16,7 @@ const RuleTester = require("../../../lib/rule-tester/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester();
 
 ruleTester.run("no-const-assign", rule, {
 	valid: [
@@ -26,6 +26,10 @@ ruleTester.run("no-const-assign", rule, {
 		"for (const x in [1,2,3]) { foo(x); }",
 		"for (const x of [1,2,3]) { foo(x); }",
 		"const x = {key: 0}; x.key = 1;",
+		"using x = foo();",
+		"await using x = foo();",
+		"using x = foo(); bar(x);",
+		"await using x = foo(); bar(x);",
 
 		// ignores non constant.
 		"var x = 0; x = 1;",
@@ -113,6 +117,72 @@ ruleTester.run("no-const-assign", rule, {
 			code: "const x = 0; while (true) { x = x + 1; }",
 			errors: [
 				{ messageId: "const", data: { name: "x" }, type: "Identifier" },
+			],
+		},
+		{
+			code: "using x = foo(); x = 1;",
+			errors: [
+				{
+					messageId: "const",
+					data: { name: "x" },
+					type: "Identifier",
+					column: 18,
+				},
+			],
+		},
+		{
+			code: "await using x = foo(); x = 1;",
+			errors: [
+				{
+					messageId: "const",
+					data: { name: "x" },
+					type: "Identifier",
+					column: 24,
+				},
+			],
+		},
+		{
+			code: "using x = foo(); x ??= bar();",
+			errors: [
+				{
+					messageId: "const",
+					data: { name: "x" },
+					type: "Identifier",
+					column: 18,
+				},
+			],
+		},
+		{
+			code: "await using x = foo(); x ||= bar();",
+			errors: [
+				{
+					messageId: "const",
+					data: { name: "x" },
+					type: "Identifier",
+					column: 24,
+				},
+			],
+		},
+		{
+			code: "using x = foo(); [x, y] = bar();",
+			errors: [
+				{
+					messageId: "const",
+					data: { name: "x" },
+					type: "Identifier",
+					column: 19,
+				},
+			],
+		},
+		{
+			code: "await using x = foo(); [x = baz, y] = bar();",
+			errors: [
+				{
+					messageId: "const",
+					data: { name: "x" },
+					type: "Identifier",
+					column: 25,
+				},
 			],
 		},
 	],

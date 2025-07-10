@@ -431,3 +431,23 @@ ruleTester.run("no-var", rule, {
 		},
 	],
 });
+
+const ruleTesterTypeScript = new RuleTester({
+	languageOptions: {
+		parser: require("@typescript-eslint/parser"),
+	},
+});
+
+ruleTesterTypeScript.run("no-var", rule, {
+	valid: ["declare global { var bar: 'car' }"],
+	invalid: [
+		{
+			code: "declare namespace ns { var bar: 'car' }",
+			errors: [{ messageId: "unexpectedVar" }],
+		},
+		{
+			code: "declare module 'module' { var bar: 'car' }",
+			errors: [{ messageId: "unexpectedVar" }],
+		},
+	],
+});

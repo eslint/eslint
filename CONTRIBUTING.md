@@ -19,7 +19,10 @@ To report a security vulnerability in ESLint, please use our [create an advisory
 
 ## Contributing Code
 
-In order to submit code or documentation to an ESLint project, you’ll be asked to sign our CLA when you send your first pull request. (Read more about the OpenJS Foundation CLA process at <https://cla.openjsf.org/>.) Also, please read over the [Pull Request Guidelines](https://eslint.org/docs/latest/contribute/pull-requests).
+In order to submit code or documentation to an ESLint project, you’ll be asked to sign our CLA when you send your first pull request. (Read more about the OpenJS Foundation CLA process at <https://cla.openjsf.org/>.) Also, please read:
+
+- [Working on issues](https://eslint.org/docs/latest/contribute/work-on-issue)
+- [Pull Request Guidelines](https://eslint.org/docs/latest/contribute/pull-requests)
 
 ## Full Documentation
 

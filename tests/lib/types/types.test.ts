@@ -625,10 +625,6 @@ rule = {
 
 rule = {
 	create(context: Rule.RuleContext) {
-		context.getAncestors();
-
-		context.getDeclaredVariables(AST);
-
 		context.filename;
 
 		context.getFilename();
@@ -653,15 +649,11 @@ rule = {
 		context.getSourceCode();
 		context.getSourceCode().getLocFromIndex(42);
 
-		context.getScope();
-
 		if (typeof context.parserPath === "string") {
 			context.parserPath;
 		} else {
 			context.languageOptions?.parser;
 		}
-
-		context.markVariableAsUsed("foo");
 
 		// @ts-expect-error wrong `node` type
 		context.report({ message: "foo", node: {} });
@@ -930,6 +922,7 @@ linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2022 } }, "test.js");
 linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2023 } }, "test.js");
 linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2024 } }, "test.js");
 linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2025 } }, "test.js");
+linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2026 } }, "test.js");
 linter.verify(SOURCE, { parserOptions: { ecmaVersion: "latest" } }, "test.js");
 linter.verify(
 	SOURCE,
@@ -1149,6 +1142,11 @@ linterWithFlatConfig.verify(SOURCE, [{}], {
 linterWithFlatConfig.verify(SOURCE, [{}], {
 	postprocess: problemList => problemList[0],
 });
+linterWithFlatConfig.verify(SOURCE, [{}], {
+	filterCodeBlock(filename) {
+		return filename.endsWith(".js");
+	},
+});
 
 linterWithFlatConfig.verify(
 	SOURCE,
@@ -1173,6 +1171,11 @@ linterWithFlatConfig.verify(
 linterWithFlatConfig.verify(
 	SOURCE,
 	[{ languageOptions: { ecmaVersion: 2025 } }],
+	"test.js",
+);
+linterWithFlatConfig.verify(
+	SOURCE,
+	[{ languageOptions: { ecmaVersion: 2026 } }],
 	"test.js",
 );
 linterWithFlatConfig.verify(
@@ -1274,6 +1277,15 @@ linterWithFlatConfig.verifyAndFix(
 	{ linterOptions: {} },
 	{ filename: "test.js" },
 );
+linterWithFlatConfig.verifyAndFix(
+	SOURCE,
+	{ linterOptions: {} },
+	{
+		filterCodeBlock(filename) {
+			return filename.endsWith(".js");
+		},
+	},
+);
 
 // #endregion Linter with flat config
 
@@ -1329,6 +1341,11 @@ linterWithEslintrcConfig.verify(
 linterWithEslintrcConfig.verify(
 	SOURCE,
 	{ parserOptions: { ecmaVersion: 2025 } },
+	"test.js",
+);
+linterWithEslintrcConfig.verify(
+	SOURCE,
+	{ parserOptions: { ecmaVersion: 2026 } },
 	"test.js",
 );
 linterWithEslintrcConfig.verify(
@@ -2054,6 +2071,23 @@ ruleTester.run("simple-valid-test", rule2, {
 
 (): Linter.Config => ({ name: "eslint:js" });
 
+(): Linter.Config => ({ basePath: "subdir" });
+
+(): Linter.Config => ({
+	// @ts-expect-error
+	basePath: null,
+});
+
+(): Linter.Config => ({
+	// @ts-expect-error
+	basePath: 42,
+});
+
+(): Linter.Config => ({
+	// @ts-expect-error
+	basePath: {},
+});
+
 // @ts-expect-error // Generic passed in does not match the RuleEntry schema
 (): Linter.Config<{ foo?: "bar" }> => ({
 	rules: {},
@@ -2134,6 +2168,12 @@ let config!: Linter.Config;
 let flatConfig!: Linter.FlatConfig;
 config = flatConfig;
 flatConfig = config;
+
+let configWithRules!: Linter.Config<ESLintRules>;
+let flatConfigWithRules!: Linter.FlatConfig<ESLintRules>;
+configWithRules = flatConfigWithRules;
+flatConfigWithRules = configWithRules;
+flatConfigWithRules.rules; // $ExpectType Partial<ESLintRules> | undefined
 
 // #endregion Config
 

@@ -379,6 +379,18 @@ ruleTester.run("no-object-constructor", rule, {
                 }
                 `,
 			},
+			{
+				code: `
+                var foo
+                Object()
+                `,
+			},
+			{
+				code: `
+                let bar
+                Object()
+                `,
+			},
 		].map(props => ({
 			...props,
 			errors: [

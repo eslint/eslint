@@ -176,7 +176,7 @@ describe("ESLint", () => {
 		sinon.restore();
 	});
 
-	[[], ["unstable_config_lookup_from_file"]].forEach(flags => {
+	[[], ["v10_config_lookup_from_file"]].forEach(flags => {
 		/**
 		 * Configuration flags for TypeScript integration in Node.js,
 		 * including existing {@linkcode flags} and
@@ -1011,7 +1011,7 @@ describe("ESLint", () => {
 						usedDeprecatedRules: [
 							{
 								ruleId: "semi",
-								replacedBy: ["@stylistic/js/semi"],
+								replacedBy: ["@stylistic/semi"],
 								info: coreRules.get("semi").meta.deprecated,
 							},
 						],
@@ -1282,7 +1282,7 @@ describe("ESLint", () => {
 				assert.deepStrictEqual(result.usedDeprecatedRules, [
 					{
 						ruleId: "indent-legacy",
-						replacedBy: ["@stylistic/js/indent"],
+						replacedBy: ["@stylistic/indent"],
 						info: coreRules.get("indent-legacy")?.meta.deprecated,
 					},
 				]);
@@ -2925,6 +2925,107 @@ describe("ESLint", () => {
 				});
 			});
 
+			describe("Globbing based on configs with negated patterns and arrays in `files`", () => {
+				// https://github.com/eslint/eslint/issues/19813
+				it("should not include custom extensions when negated pattern is specified in `files`", async () => {
+					eslint = new ESLint({
+						flags,
+						cwd: getFixturePath("file-extensions"),
+						overrideConfigFile: true,
+						overrideConfig: [
+							{
+								files: ["!foo.js"],
+							},
+							{
+								files: ["!foo.jsx"],
+							},
+							{
+								files: ["!foo.ts"],
+							},
+							{
+								files: ["!g.tsx"],
+							},
+						],
+					});
+					const results = await eslint.lintFiles(["."]);
+
+					// should not include d.jsx, f.ts, and other extensions that are not linted by default
+					assert.strictEqual(results.length, 4);
+					assert.deepStrictEqual(
+						results.map(({ filePath }) => path.basename(filePath)),
+						["a.js", "b.mjs", "c.cjs", "eslint.config.js"],
+					);
+				});
+
+				it("should not include custom extensions when negated pattern is specified in an array in `files`", async () => {
+					eslint = new ESLint({
+						flags,
+						cwd: getFixturePath("file-extensions"),
+						overrideConfigFile: true,
+						overrideConfig: [
+							{
+								files: [["*", "!foo.js"]],
+							},
+							{
+								files: [["!foo.js", "*"]],
+							},
+							{
+								files: [["*", "!foo.ts"]],
+							},
+							{
+								files: [["!foo.ts", "*"]],
+							},
+							{
+								files: [["*", "!g.tsx"]],
+							},
+							{
+								files: [["!g.tsx", "*"]],
+							},
+						],
+					});
+					const results = await eslint.lintFiles(["."]);
+
+					// should not include d.jsx, f.ts, and other extensions that are not linted by default
+					assert.strictEqual(results.length, 4);
+					assert.deepStrictEqual(
+						results.map(({ filePath }) => path.basename(filePath)),
+						["a.js", "b.mjs", "c.cjs", "eslint.config.js"],
+					);
+				});
+
+				// https://github.com/eslint/eslint/issues/19814
+				it("should include custom extensions when matched by a non-universal pattern specified in an array in `files`", async () => {
+					eslint = new ESLint({
+						flags,
+						cwd: getFixturePath("file-extensions", ".."),
+						overrideConfigFile: true,
+						overrideConfig: [
+							{
+								files: [["**/*.jsx", "file-extensions/*"]],
+							},
+							{
+								files: [["file-extensions/*", "**/*.ts"]],
+							},
+						],
+					});
+					const results = await eslint.lintFiles(["file-extensions"]);
+
+					// should include d.jsx and f.ts, but not other extensions that are not linted by default
+					assert.strictEqual(results.length, 6);
+					assert.deepStrictEqual(
+						results.map(({ filePath }) => path.basename(filePath)),
+						[
+							"a.js",
+							"b.mjs",
+							"c.cjs",
+							"d.jsx",
+							"eslint.config.js",
+							"f.ts",
+						],
+					);
+				});
+			});
+
 			it("should report zero messages when given a '**' pattern with a .js and a .js2 file", async () => {
 				eslint = new ESLint({
 					flags,
@@ -4383,7 +4484,7 @@ describe("ESLint", () => {
 					assert.deepStrictEqual(results[0].usedDeprecatedRules, [
 						{
 							ruleId: "indent-legacy",
-							replacedBy: ["@stylistic/js/indent"],
+							replacedBy: ["@stylistic/indent"],
 							info: coreRules.get("indent-legacy").meta
 								.deprecated,
 						},
@@ -4530,20 +4631,18 @@ describe("ESLint", () => {
 							usedDeprecatedRules: [
 								{
 									ruleId: "semi",
-									replacedBy: ["@stylistic/js/semi"],
+									replacedBy: ["@stylistic/semi"],
 									info: coreRules.get("semi").meta.deprecated,
 								},
 								{
 									ruleId: "quotes",
-									replacedBy: ["@stylistic/js/quotes"],
+									replacedBy: ["@stylistic/quotes"],
 									info: coreRules.get("quotes").meta
 										.deprecated,
 								},
 								{
 									ruleId: "space-infix-ops",
-									replacedBy: [
-										"@stylistic/js/space-infix-ops",
-									],
+									replacedBy: ["@stylistic/space-infix-ops"],
 									info: coreRules.get("space-infix-ops").meta
 										.deprecated,
 								},
@@ -4563,20 +4662,18 @@ describe("ESLint", () => {
 							usedDeprecatedRules: [
 								{
 									ruleId: "semi",
-									replacedBy: ["@stylistic/js/semi"],
+									replacedBy: ["@stylistic/semi"],
 									info: coreRules.get("semi").meta.deprecated,
 								},
 								{
 									ruleId: "quotes",
-									replacedBy: ["@stylistic/js/quotes"],
+									replacedBy: ["@stylistic/quotes"],
 									info: coreRules.get("quotes").meta
 										.deprecated,
 								},
 								{
 									ruleId: "space-infix-ops",
-									replacedBy: [
-										"@stylistic/js/space-infix-ops",
-									],
+									replacedBy: ["@stylistic/space-infix-ops"],
 									info: coreRules.get("space-infix-ops").meta
 										.deprecated,
 								},
@@ -4627,20 +4724,18 @@ describe("ESLint", () => {
 							usedDeprecatedRules: [
 								{
 									ruleId: "semi",
-									replacedBy: ["@stylistic/js/semi"],
+									replacedBy: ["@stylistic/semi"],
 									info: coreRules.get("semi").meta.deprecated,
 								},
 								{
 									ruleId: "quotes",
-									replacedBy: ["@stylistic/js/quotes"],
+									replacedBy: ["@stylistic/quotes"],
 									info: coreRules.get("quotes").meta
 										.deprecated,
 								},
 								{
 									ruleId: "space-infix-ops",
-									replacedBy: [
-										"@stylistic/js/space-infix-ops",
-									],
+									replacedBy: ["@stylistic/space-infix-ops"],
 									info: coreRules.get("space-infix-ops").meta
 										.deprecated,
 								},
@@ -4673,20 +4768,18 @@ describe("ESLint", () => {
 							usedDeprecatedRules: [
 								{
 									ruleId: "semi",
-									replacedBy: ["@stylistic/js/semi"],
+									replacedBy: ["@stylistic/semi"],
 									info: coreRules.get("semi").meta.deprecated,
 								},
 								{
 									ruleId: "quotes",
-									replacedBy: ["@stylistic/js/quotes"],
+									replacedBy: ["@stylistic/quotes"],
 									info: coreRules.get("quotes").meta
 										.deprecated,
 								},
 								{
 									ruleId: "space-infix-ops",
-									replacedBy: [
-										"@stylistic/js/space-infix-ops",
-									],
+									replacedBy: ["@stylistic/space-infix-ops"],
 									info: coreRules.get("space-infix-ops").meta
 										.deprecated,
 								},
@@ -9130,6 +9223,376 @@ describe("ESLint", () => {
 						"no-undef",
 					);
 					assert.strictEqual(results[0].messages[0].severity, 2);
+				});
+			});
+
+			describe("Config objects with `basePath` property", () => {
+				const cwd = getFixturePath("config-base-path");
+
+				it("should only be applied to files inside the config's base path when no `files` or `ignores` are specified", async () => {
+					eslint = new ESLint({
+						flags,
+						cwd,
+						overrideConfigFile: true,
+						overrideConfig: [
+							{
+								basePath: "subdir",
+								rules: {
+									"no-unused-vars": "warn",
+								},
+							},
+						],
+					});
+
+					const results = await eslint.lintFiles(["."]);
+
+					assert.strictEqual(results.length, 4);
+
+					assert.strictEqual(
+						results[0].filePath,
+						path.resolve(cwd, "a.js"),
+					);
+					assert.strictEqual(results[0].messages.length, 0);
+
+					assert.strictEqual(
+						results[1].filePath,
+						path.resolve(cwd, "b.js"),
+					);
+					assert.strictEqual(results[1].messages.length, 0);
+
+					assert.strictEqual(
+						results[2].filePath,
+						path.resolve(cwd, "subdir/a.js"),
+					);
+					assert.strictEqual(results[2].messages.length, 1);
+					assert.strictEqual(
+						results[2].messages[0].ruleId,
+						"no-unused-vars",
+					);
+					assert.strictEqual(results[2].messages[0].severity, 1);
+
+					assert.strictEqual(
+						results[3].filePath,
+						path.resolve(cwd, "subdir/b.js"),
+					);
+					assert.strictEqual(results[3].messages.length, 1);
+					assert.strictEqual(
+						results[3].messages[0].ruleId,
+						"no-unused-vars",
+					);
+					assert.strictEqual(results[3].messages[0].severity, 1);
+				});
+
+				it("should only be applied to files inside the config's base path when `files` are specified", async () => {
+					eslint = new ESLint({
+						flags,
+						cwd,
+						overrideConfigFile: true,
+						overrideConfig: [
+							{
+								basePath: "subdir",
+								files: ["a.js"],
+								rules: {
+									"no-unused-vars": "warn",
+								},
+							},
+						],
+					});
+
+					const results = await eslint.lintFiles(["."]);
+
+					assert.strictEqual(results.length, 4);
+
+					assert.strictEqual(
+						results[0].filePath,
+						path.resolve(cwd, "a.js"),
+					);
+					assert.strictEqual(results[0].messages.length, 0);
+
+					assert.strictEqual(
+						results[1].filePath,
+						path.resolve(cwd, "b.js"),
+					);
+					assert.strictEqual(results[1].messages.length, 0);
+
+					assert.strictEqual(
+						results[2].filePath,
+						path.resolve(cwd, "subdir/a.js"),
+					);
+					assert.strictEqual(results[2].messages.length, 1);
+					assert.strictEqual(
+						results[2].messages[0].ruleId,
+						"no-unused-vars",
+					);
+					assert.strictEqual(results[2].messages[0].severity, 1);
+
+					assert.strictEqual(
+						results[3].filePath,
+						path.resolve(cwd, "subdir/b.js"),
+					);
+					assert.strictEqual(results[3].messages.length, 0);
+				});
+
+				it("should only be applied to files inside the config's base path when non-global `ignores` are specified", async () => {
+					eslint = new ESLint({
+						flags,
+						cwd,
+						overrideConfigFile: true,
+						overrideConfig: [
+							{
+								basePath: "subdir",
+								ignores: ["a.js"],
+								rules: {
+									"no-unused-vars": "warn",
+								},
+							},
+						],
+					});
+
+					const results = await eslint.lintFiles(["."]);
+
+					assert.strictEqual(results.length, 4);
+
+					assert.strictEqual(
+						results[0].filePath,
+						path.resolve(cwd, "a.js"),
+					);
+					assert.strictEqual(results[0].messages.length, 0);
+
+					assert.strictEqual(
+						results[1].filePath,
+						path.resolve(cwd, "b.js"),
+					);
+					assert.strictEqual(results[1].messages.length, 0);
+
+					assert.strictEqual(
+						results[2].filePath,
+						path.resolve(cwd, "subdir/a.js"),
+					);
+					assert.strictEqual(results[2].messages.length, 0);
+
+					assert.strictEqual(
+						results[3].filePath,
+						path.resolve(cwd, "subdir/b.js"),
+					);
+					assert.strictEqual(results[3].messages.length, 1);
+					assert.strictEqual(
+						results[3].messages[0].ruleId,
+						"no-unused-vars",
+					);
+					assert.strictEqual(results[3].messages[0].severity, 1);
+				});
+
+				it("should only be applied to files inside the config's base path when both `files` and `ignores` are specified", async () => {
+					eslint = new ESLint({
+						flags,
+						cwd,
+						overrideConfigFile: true,
+						overrideConfig: [
+							{
+								basePath: "subdir",
+								files: ["**/*.js"],
+								ignores: ["a.js"],
+								rules: {
+									"no-unused-vars": "warn",
+								},
+							},
+						],
+					});
+
+					const results = await eslint.lintFiles(["."]);
+
+					assert.strictEqual(results.length, 4);
+
+					assert.strictEqual(
+						results[0].filePath,
+						path.resolve(cwd, "a.js"),
+					);
+					assert.strictEqual(results[0].messages.length, 0);
+
+					assert.strictEqual(
+						results[1].filePath,
+						path.resolve(cwd, "b.js"),
+					);
+					assert.strictEqual(results[1].messages.length, 0);
+
+					assert.strictEqual(
+						results[2].filePath,
+						path.resolve(cwd, "subdir/a.js"),
+					);
+					assert.strictEqual(results[2].messages.length, 0);
+
+					assert.strictEqual(
+						results[3].filePath,
+						path.resolve(cwd, "subdir/b.js"),
+					);
+					assert.strictEqual(results[3].messages.length, 1);
+					assert.strictEqual(
+						results[3].messages[0].ruleId,
+						"no-unused-vars",
+					);
+					assert.strictEqual(results[3].messages[0].severity, 1);
+				});
+
+				it("should interpret `basePath` as relative to the config file location", async () => {
+					eslint = new ESLint({
+						flags,
+						cwd,
+						overrideConfig: [
+							{
+								basePath: "config-base-path/subdir", // config file is in the parent's parent directory
+								rules: {
+									"no-unused-vars": "warn",
+								},
+							},
+						],
+					});
+
+					const results = await eslint.lintFiles(["."]);
+
+					assert.strictEqual(results.length, 4);
+
+					assert.strictEqual(
+						results[0].filePath,
+						path.resolve(cwd, "a.js"),
+					);
+					assert.strictEqual(results[0].messages.length, 0);
+
+					assert.strictEqual(
+						results[1].filePath,
+						path.resolve(cwd, "b.js"),
+					);
+					assert.strictEqual(results[1].messages.length, 0);
+
+					assert.strictEqual(
+						results[2].filePath,
+						path.resolve(cwd, "subdir/a.js"),
+					);
+					assert.strictEqual(results[2].messages.length, 1);
+					assert.strictEqual(
+						results[2].messages[0].ruleId,
+						"no-unused-vars",
+					);
+					assert.strictEqual(results[2].messages[0].severity, 1);
+
+					assert.strictEqual(
+						results[3].filePath,
+						path.resolve(cwd, "subdir/b.js"),
+					);
+					assert.strictEqual(results[3].messages.length, 1);
+					assert.strictEqual(
+						results[3].messages[0].ruleId,
+						"no-unused-vars",
+					);
+					assert.strictEqual(results[3].messages[0].severity, 1);
+				});
+
+				it("should interpret global ignores as relative to `basePath` when ignoring files", async () => {
+					eslint = new ESLint({
+						flags,
+						cwd,
+						overrideConfigFile: true,
+						overrideConfig: [
+							{
+								basePath: "subdir",
+								ignores: ["a.js"],
+							},
+						],
+					});
+
+					const results = await eslint.lintFiles(["."]);
+
+					assert.strictEqual(results.length, 3);
+
+					assert.strictEqual(
+						results[0].filePath,
+						path.resolve(cwd, "a.js"),
+					);
+					assert.strictEqual(results[0].messages.length, 0);
+
+					assert.strictEqual(
+						results[1].filePath,
+						path.resolve(cwd, "b.js"),
+					);
+					assert.strictEqual(results[1].messages.length, 0);
+
+					assert.strictEqual(
+						results[2].filePath,
+						path.resolve(cwd, "subdir/b.js"),
+					);
+					assert.strictEqual(results[2].messages.length, 0);
+				});
+
+				it("should interpret global ignores as relative to `basePath` when ignoring directories", async () => {
+					eslint = new ESLint({
+						flags,
+						cwd,
+						overrideConfig: [
+							{
+								basePath: "config-base-path", // config file is in the parent directory
+								ignores: ["subdir"],
+							},
+						],
+					});
+
+					const results = await eslint.lintFiles(["."]);
+
+					assert.strictEqual(results.length, 2);
+
+					assert.strictEqual(
+						results[0].filePath,
+						path.resolve(cwd, "a.js"),
+					);
+					assert.strictEqual(results[0].messages.length, 0);
+
+					assert.strictEqual(
+						results[1].filePath,
+						path.resolve(cwd, "b.js"),
+					);
+					assert.strictEqual(results[1].messages.length, 0);
+				});
+
+				it("should not apply global ignores when the `ignore` option is `false`", async () => {
+					eslint = new ESLint({
+						flags,
+						cwd,
+						overrideConfigFile: true,
+						overrideConfig: [
+							{
+								basePath: "subdir",
+								ignores: ["a.js"],
+							},
+						],
+						ignore: false,
+					});
+
+					const results = await eslint.lintFiles(["."]);
+
+					assert.strictEqual(results.length, 4);
+
+					assert.strictEqual(
+						results[0].filePath,
+						path.resolve(cwd, "a.js"),
+					);
+					assert.strictEqual(results[0].messages.length, 0);
+
+					assert.strictEqual(
+						results[1].filePath,
+						path.resolve(cwd, "b.js"),
+					);
+					assert.strictEqual(results[1].messages.length, 0);
+
+					assert.strictEqual(
+						results[2].filePath,
+						path.resolve(cwd, "subdir/a.js"),
+					);
+					assert.strictEqual(results[2].messages.length, 0);
+
+					assert.strictEqual(
+						results[3].filePath,
+						path.resolve(cwd, "subdir/b.js"),
+					);
+					assert.strictEqual(results[3].messages.length, 0);
 				});
 			});
 		});
@@ -13746,9 +14209,9 @@ describe("ESLint", () => {
 		});
 	});
 
-	describe("unstable_config_lookup_from_file", () => {
+	describe("v10_config_lookup_from_file", () => {
 		let eslint;
-		const flags = ["unstable_config_lookup_from_file"];
+		const flags = ["v10_config_lookup_from_file"];
 
 		it("should report zero messages when given a config file and a valid file", async () => {
 			/*
@@ -14440,6 +14903,106 @@ describe("ESLint", () => {
 				assert.strictEqual(results[1].messages.length, 0);
 				assert.strictEqual(results[1].suppressedMessages.length, 0);
 			});
+		});
+
+		describe("with `ignorePatterns`", () => {
+			const workDirName = "config-lookup-ignores-3";
+			const tmpDir = path.resolve(fs.realpathSync(os.tmpdir()), "eslint");
+			const workDir = path.join(tmpDir, workDirName);
+
+			// copy into clean area so as not to get "infected" by other config files
+			before(() => {
+				shell.mkdir("-p", workDir);
+				shell.cp("-r", `./tests/fixtures/${workDirName}`, tmpDir);
+			});
+
+			after(() => {
+				shell.rm("-r", workDir);
+			});
+
+			// https://github.com/eslint/eslint/issues/18948
+			it("should interpret `ignorePatterns` as relative to `cwd` when `cwd` is a parent directory.", async () => {
+				eslint = new ESLint({
+					flags,
+					cwd: workDir,
+					ignorePatterns: ["subdir/b.js"],
+				});
+				const results = await eslint.lintFiles(["subdir"]);
+
+				assert.strictEqual(results.length, 2);
+				assert.strictEqual(
+					results[0].filePath,
+					path.resolve(workDir, "subdir/a.js"),
+				);
+				assert.strictEqual(results[0].messages.length, 1);
+				assert.strictEqual(
+					results[0].messages[0].ruleId,
+					"no-unused-vars",
+				);
+				assert.strictEqual(results[0].suppressedMessages.length, 0);
+				assert.strictEqual(
+					results[1].filePath,
+					path.resolve(workDir, "subdir/eslint.config.mjs"),
+				);
+				assert.strictEqual(results[1].messages.length, 0);
+				assert.strictEqual(results[1].suppressedMessages.length, 0);
+			});
+		});
+	});
+
+	// A test copied from the `v10_config_lookup_from_file` tests to ensure the `unstable_config_lookup_from_file` flag still works
+	describe("unstable_config_lookup_from_file", () => {
+		let processStub;
+
+		beforeEach(() => {
+			sinon.restore();
+			processStub = sinon
+				.stub(process, "emitWarning")
+				.withArgs(sinon.match.any, sinon.match(/^ESLintInactiveFlag_/u))
+				.returns();
+		});
+
+		it("should report zero messages when given a config file and a valid file", async () => {
+			/*
+			 * This test ensures subdir/code.js is linted using the configuration in
+			 * subdir/eslint.config.js and not from eslint.config.js in the parent
+			 * directory.
+			 */
+
+			const eslint = new ESLint({
+				flags: ["unstable_config_lookup_from_file"],
+				cwd: getFixturePath("lookup-from-file"),
+			});
+			const results = await eslint.lintFiles(["."]);
+
+			assert.strictEqual(results.length, 2);
+			assert.strictEqual(
+				results[0].filePath,
+				getFixturePath("lookup-from-file", "code.js"),
+			);
+			assert.strictEqual(results[0].messages.length, 1);
+			assert.strictEqual(results[0].messages[0].ruleId, "no-unused-vars");
+			assert.strictEqual(results[0].messages[0].severity, 2);
+			assert.strictEqual(results[0].suppressedMessages.length, 0);
+
+			assert.strictEqual(
+				results[1].filePath,
+				getFixturePath("lookup-from-file", "subdir", "code.js"),
+			);
+			assert.strictEqual(results[1].messages.length, 1);
+			assert.strictEqual(results[1].messages[0].ruleId, "no-unused-vars");
+			assert.strictEqual(results[1].messages[0].severity, 1);
+			assert.strictEqual(results[1].suppressedMessages.length, 0);
+
+			assert.strictEqual(
+				processStub.callCount,
+				1,
+				"calls `process.emitWarning()` for flags once",
+			);
+			assert.deepStrictEqual(processStub.getCall(0).args, [
+				"The flag 'unstable_config_lookup_from_file' is inactive: This flag has been renamed 'v10_config_lookup_from_file' to reflect its stabilization. Please use 'v10_config_lookup_from_file' instead.",
+				"ESLintInactiveFlag_unstable_config_lookup_from_file",
+			]);
 		});
 	});
 });

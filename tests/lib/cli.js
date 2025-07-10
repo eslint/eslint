@@ -3212,8 +3212,8 @@ describe("cli", () => {
 				});
 			});
 
-			describe("unstable_config_lookup_from_file", () => {
-				const flag = "unstable_config_lookup_from_file";
+			describe("v10_config_lookup_from_file", () => {
+				const flag = "v10_config_lookup_from_file";
 
 				it("should throw an error when text is passed and no config file is found", async () => {
 					await stdAssert.rejects(

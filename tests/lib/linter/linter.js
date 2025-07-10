@@ -5855,7 +5855,7 @@ var a = "test2";
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
 
-		it("should report one suppresed problem when noInlineConfig is false and allowInlineConfig is true", () => {
+		it("should report one suppressed problem when noInlineConfig is false and allowInlineConfig is true", () => {
 			const code = [
 				"/* eslint-disable */ // <-- this should be inline config warning",
 				"foo(); // <-- this should be no-undef error",
@@ -6090,7 +6090,7 @@ var a = "test2";
 			});
 
 			it("supports ECMAScript version 'latest'", () => {
-				const messages = linter.verify("let x = /(?<x>a)|(?<x>b)/;", {
+				const messages = linter.verify("{ using x = foo(); }", {
 					parserOptions: { ecmaVersion: "latest" },
 				});
 				const suppressedMessages = linter.getSuppressedMessages();
@@ -9173,9 +9173,7 @@ describe("Linter with FlatConfigArray", () => {
 				});
 
 				it("ecmaVersion should be 'latest' by default", () => {
-					const messages = linter.verify(
-						"let x = /(?<x>a)|(?<x>b)/;",
-					); // ECMAScript 2025 syntax
+					const messages = linter.verify("{ using x = foo(); }"); // ECMAScript 2026 syntax
 					const suppressedMessages = linter.getSuppressedMessages();
 
 					assert.strictEqual(messages.length, 0); // No parsing errors
@@ -16606,7 +16604,7 @@ var a = "test2";
 					assert.strictEqual(suppressedMessages.length, 0);
 				});
 
-				it("should report one suppresed problem when noInlineConfig is false and allowInlineConfig is true", () => {
+				it("should report one suppressed problem when noInlineConfig is false and allowInlineConfig is true", () => {
 					const code = [
 						"/* eslint-disable */ // <-- this should be inline config warning",
 						"foo(); // <-- this should be no-undef error",
@@ -19770,7 +19768,7 @@ var a = "test2";
 													blocksMap.get(fileName);
 												let rangeOffset = 0;
 
-												// intentionaly mutates objects and arrays
+												// intentionally mutates objects and arrays
 												messageLists.forEach(
 													(messages, index) => {
 														messages.forEach(

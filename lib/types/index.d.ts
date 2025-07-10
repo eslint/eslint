@@ -289,6 +289,8 @@ export class SourceCode
 		second: ESTree.Node | AST.Token,
 	): boolean;
 
+	isGlobalReference(node: ESTree.Identifier): boolean;
+
 	markVariableAsUsed(name: string, refNode?: ESTree.Node): boolean;
 
 	traverse(): Iterable<TraversalStep>;
@@ -1184,25 +1186,7 @@ export namespace Rule {
 			RuleOptions: any[];
 			Node: JSSyntaxElement;
 			MessageIds: string;
-		}> {
-		/*
-		 * Need to extend the `RuleContext` interface to include the
-		 * deprecated methods that have not yet been removed.
-		 * TODO: Remove in v10.0.0.
-		 */
-
-		/** @deprecated Use `sourceCode.getAncestors()` instead */
-		getAncestors(): ESTree.Node[];
-
-		/** @deprecated Use `sourceCode.getDeclaredVariables()` instead */
-		getDeclaredVariables(node: ESTree.Node): Scope.Variable[];
-
-		/** @deprecated Use `sourceCode.getScope()` instead */
-		getScope(): Scope.Scope;
-
-		/** @deprecated Use `sourceCode.markVariableAsUsed()` instead */
-		markVariableAsUsed(name: string): boolean;
-	}
+		}> {}
 
 	type ReportFixer = (
 		fixer: RuleFixer,
@@ -1414,6 +1398,7 @@ export namespace Linter {
 		| 14
 		| 15
 		| 16
+		| 17
 		| 2015
 		| 2016
 		| 2017
@@ -1425,6 +1410,7 @@ export namespace Linter {
 		| 2023
 		| 2024
 		| 2025
+		| 2026
 		| "latest";
 
 	/**
@@ -1624,7 +1610,9 @@ export namespace Linter {
 		postprocess?:
 			| ((problemLists: LintMessage[][]) => LintMessage[])
 			| undefined;
-		filterCodeBlock?: boolean | undefined;
+		filterCodeBlock?:
+			| ((filename: string, text: string) => boolean)
+			| undefined;
 		disableFixes?: boolean | undefined;
 		allowInlineConfig?: boolean | undefined;
 		reportUnusedDisableDirectives?: boolean | undefined;
@@ -1771,6 +1759,13 @@ export namespace Linter {
 		name?: string;
 
 		/**
+		 * Path to the directory where the configuration object should apply.
+		 * `files` and `ignores` patterns in the configuration object are
+		 * interpreted as relative to this path.
+		 */
+		basePath?: string;
+
+		/**
 		 * An array of glob patterns indicating the files that the configuration
 		 * object should apply to. If not specified, the configuration object applies
 		 * to all files
@@ -1829,7 +1824,7 @@ export namespace Linter {
 	}
 
 	/** @deprecated  Use `Config` instead of `FlatConfig` */
-	type FlatConfig = Config;
+	type FlatConfig<Rules extends RulesRecord = RulesRecord> = Config<Rules>;
 
 	type GlobalConf =
 		| boolean

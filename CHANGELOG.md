@@ -1,3 +1,55 @@
+v9.30.1 - July 1, 2025
+
+* [`b035f74`](https://github.com/eslint/eslint/commit/b035f747c6e6d1c7a299c90b0ed0b8109cf24a53) chore: upgrade to `@eslint/js@9.30.1` (#19906) (Francesco Trotta)
+* [`b3dbc16`](https://github.com/eslint/eslint/commit/b3dbc16563cb7036d75edff9814e17053a645321) chore: package.json update for @eslint/js release (Jenkins)
+* [`e91bb87`](https://github.com/eslint/eslint/commit/e91bb870f8c6e38baa508f18048cd2a2d04b8b9c) fix: allow separate default and named type imports (#19899) (xbinaryx)
+* [`ab7c625`](https://github.com/eslint/eslint/commit/ab7c62598a9fca498e495d45029ae92fd5fb9bf3) docs: Update README (GitHub Actions Bot)
+* [`dae1e5b`](https://github.com/eslint/eslint/commit/dae1e5bb27db0e846efbe3026210013b42817838) docs: update jsdoc's link (#19896) (JamesVanWaza)
+
+v9.30.0 - June 27, 2025
+
+* [`2b6491c`](https://github.com/eslint/eslint/commit/2b6491cd4b8eec44d4a3f8dea1b71151e8dd0230) chore: upgrade to `@eslint/js@9.30.0` (#19889) (Francesco Trotta)
+* [`5a5d526`](https://github.com/eslint/eslint/commit/5a5d5261037fdf84a91f2f22d3726d58572453f4) chore: package.json update for @eslint/js release (Jenkins)
+* [`52a5fca`](https://github.com/eslint/eslint/commit/52a5fcaa4e0bb4e55c014c20ed47d6c93b107635) feat: Support `basePath` property in config objects (#19879) (Milos Djermanovic)
+* [`6a0f164`](https://github.com/eslint/eslint/commit/6a0f164543bf8461d6a27a740c9e08aa77cbe42d) fix: handle `null` type `loc` in `getIndexFromLoc` method (#19862) (루밀LuMir)
+* [`8662ed1`](https://github.com/eslint/eslint/commit/8662ed1f6debc358e22812b145e117aa4a907d78) docs: adopt eslint-stylistic sub packages related changes (#19887) (ntnyq)
+* [`eaf8a41`](https://github.com/eslint/eslint/commit/eaf8a418af32b3190494e4a2284533353c28ccfa) chore: Correct typos in linter tests (#19878) (kilavvy)
+* [`4ab4482`](https://github.com/eslint/eslint/commit/4ab44823df4d4b47d3650da949077a0551e7579e) feat: add `allowSeparateTypeImports` option to `no-duplicate-imports` (#19872) (sethamus)
+* [`3fbcd70`](https://github.com/eslint/eslint/commit/3fbcd704a0b2aef2a6c1fc34d2bc4b35f6425067) fix: update error message for `no-restricted-properties` (#19855) (Tanuj Kanti)
+* [`20158b0`](https://github.com/eslint/eslint/commit/20158b09db3430cf00b202ba8c25ce874bbaf00a) docs: typo in comment for unused variables handling (#19870) (leopardracer)
+* [`ebfb5b4`](https://github.com/eslint/eslint/commit/ebfb5b46136c4d737c9783333e3057421d1a0bef) docs: Fixed Typo in configuration-files.md (#19873) (0-20)
+* [`b8a7e7a`](https://github.com/eslint/eslint/commit/b8a7e7aeb5f0ed2e1670771ab4dda6fd723d96eb) feat: throw error when column is negative in `getIndexFromLoc` (#19831) (루밀LuMir)
+* [`7ef4cf7`](https://github.com/eslint/eslint/commit/7ef4cf76610d42727a404e495ac6d47868cf5040) fix: remove unnecessary semicolon from fixes (#19857) (Francesco Trotta)
+* [`7dabc38`](https://github.com/eslint/eslint/commit/7dabc38a8406d470fb2389eec2f0ad1ad214173e) fix: use `process.version` in `--env-info` (#19865) (TKDev7)
+* [`4112fd0`](https://github.com/eslint/eslint/commit/4112fd09531092e9651e9981205bcd603dc56acf) docs: clarify that boolean is still allowed for rule `meta.deprecated` (#19866) (Bryan Mishkin)
+
+v9.29.0 - June 13, 2025
+
+* [`5c114c9`](https://github.com/eslint/eslint/commit/5c114c962f29d0b33e6439e9ab0985014af06b9f) chore: upgrade @eslint/js@9.29.0 (#19851) (Milos Djermanovic)
+* [`acf2201`](https://github.com/eslint/eslint/commit/acf2201a067d062e007b1b7b164b8e96fa1af50f) chore: package.json update for @eslint/js release (Jenkins)
+* [`f686fcb`](https://github.com/eslint/eslint/commit/f686fcb51e47cf53b891ae595684afe8a0ef584d) feat: add `ecmaVersion: 2026`, parsing `using` and `await using` (#19832) (Milos Djermanovic)
+* [`85c082c`](https://github.com/eslint/eslint/commit/85c082c54bd42ad818f5938b8fb1fb2aa0a1912f) fix: explicit matching behavior with negated patterns and arrays (#19845) (Milos Djermanovic)
+* [`00e3e6a`](https://github.com/eslint/eslint/commit/00e3e6ad1357df7d46be51d3f305efecb90244a7) docs: add support for custom name parameter to `includeIgnoreFile` (#19795) (루밀LuMir)
+* [`9bda4a9`](https://github.com/eslint/eslint/commit/9bda4a9bf18c9fef91cdd93921a0935ffcf9a9fc) fix: fix `LintOptions.filterCodeBlock` types (#19837) (ntnyq)
+* [`a806994`](https://github.com/eslint/eslint/commit/a806994263e54e4bc1481736b1c0626c8b770808) refactor: Remove eslintrc from flat config functionality (#19833) (Nicholas C. Zakas)
+* [`19cdd22`](https://github.com/eslint/eslint/commit/19cdd226bb5957f8f7e8cb4e92d38aafe47f8ff4) feat: prune suppressions for non-existent files (#19825) (TKDev7)
+* [`b3d720f`](https://github.com/eslint/eslint/commit/b3d720f82f08022a33b10f0437111e7d270b8e3c) feat: add ES2025 globals (#19835) (fisker Cheung)
+* [`677a283`](https://github.com/eslint/eslint/commit/677a2837a17320f54a8869682af128a2a7d77579) feat: add auto-accessor fields support to class-methods-use-this (#19789) (sethamus)
+* [`3aed075`](https://github.com/eslint/eslint/commit/3aed0756ed3669ac27fc243c81fd82e3d0e6973b) docs: Update README (GitHub Actions Bot)
+* [`7ab77a2`](https://github.com/eslint/eslint/commit/7ab77a2c7605126daaa7e7f7ab75b5c252677d12) fix: correct breaking deprecation of FlatConfig type (#19826) (Logicer)
+* [`a2f888d`](https://github.com/eslint/eslint/commit/a2f888d679e2a44964da596a4158911819e1d31d) docs: enhance documentation with links and fix typos (#19761) (루밀LuMir)
+* [`dbba058`](https://github.com/eslint/eslint/commit/dbba0589f5509223658b73de6eb721f659bcec47) feat: allow global type declaration in `no-var` (#19714) (Remco Haszing)
+* [`152ed51`](https://github.com/eslint/eslint/commit/152ed51329d82c6e7375f41a105e01b31750e17f) test: switch to flat config mode in code path analysis tests (#19824) (Milos Djermanovic)
+* [`b647239`](https://github.com/eslint/eslint/commit/b647239272931e0a947500b2f554fc8ccdf8adfd) chore: Update first-party dependencies faster with Renovate (#19822) (Nicholas C. Zakas)
+* [`7abe42e`](https://github.com/eslint/eslint/commit/7abe42e2de931289e19e34e390d16936cf6faf64) refactor: SafeEmitter -> SourceCodeVisitor (#19708) (Nicholas C. Zakas)
+* [`342bd29`](https://github.com/eslint/eslint/commit/342bd29e1a10a4b521ed0dbb6d889dcfc137e863) feat: ignore type annotations in no-restricted-globals (#19781) (sethamus)
+* [`e392895`](https://github.com/eslint/eslint/commit/e39289596757702b6c8d747d5ab9c1a7820c108f) perf: improve time complexity of `getLocFromIndex` (#19782) (루밀LuMir)
+* [`1ba3318`](https://github.com/eslint/eslint/commit/1ba33181ab300588a803434884c054ed003f0bbd) fix: add `language` and `dialects` to `no-use-before-define` (#19808) (Francesco Trotta)
+* [`786bcd1`](https://github.com/eslint/eslint/commit/786bcd13652b90c5bd0c7201610b856ad1b87542) feat: add allowProperties option to no-restricted-properties (#19772) (sethamus)
+* [`05b66d0`](https://github.com/eslint/eslint/commit/05b66d05bd68214f2fa1ab53fb2734c9d9e5348a) feat: add `sourceCode.isGlobalReference(node)` method (#19695) (Nitin Kumar)
+* [`53c3235`](https://github.com/eslint/eslint/commit/53c3235ba1c90a85a44f0abd18998ccc4e0445bf) docs: update to clarify prompt usage (#19748) (Jennifer Davis)
+* [`0ed289c`](https://github.com/eslint/eslint/commit/0ed289c5ceed1c10b599b22c8b9374a5a3a144dd) chore: remove accidentally committed file (#19807) (Francesco Trotta)
+
 v9.28.0 - May 30, 2025
 
 * [`175b7b8`](https://github.com/eslint/eslint/commit/175b7b83fcdc8f3f84821510dd7e04d120402317) chore: upgrade to `@eslint/js@9.28.0` (#19802) (Francesco Trotta)

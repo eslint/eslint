@@ -130,7 +130,7 @@ describe("bin/eslint.js", () => {
 					usedDeprecatedRules: [
 						{
 							ruleId: "no-extra-semi",
-							replacedBy: ["@stylistic/js/no-extra-semi"],
+							replacedBy: ["@stylistic/no-extra-semi"],
 							info: {
 								message:
 									"Formatting rules are being moved out of ESLint core.",
@@ -143,12 +143,12 @@ describe("bin/eslint.js", () => {
 											"ESLint Stylistic now maintains deprecated stylistic core rules.",
 										url: "https://eslint.style/guide/migration",
 										plugin: {
-											name: "@stylistic/eslint-plugin-js",
-											url: "https://eslint.style/packages/js",
+											name: "@stylistic/eslint-plugin",
+											url: "https://eslint.style",
 										},
 										rule: {
 											name: "no-extra-semi",
-											url: "https://eslint.style/rules/js/no-extra-semi",
+											url: "https://eslint.style/rules/no-extra-semi",
 										},
 									},
 								],
@@ -1175,6 +1175,33 @@ describe("bin/eslint.js", () => {
 						JSON.parse(fs.readFileSync(SUPPRESSIONS_PATH, "utf8")),
 						SUPPRESSIONS_FILE_ALL_ERRORS,
 						"Suppressions file should contain the expected contents",
+					);
+				});
+			});
+
+			it("prunes suppressions for files that don't exist", () => {
+				const suppressions = structuredClone(
+					SUPPRESSIONS_FILE_ALL_ERRORS,
+				);
+				const nonExistentFile =
+					"tests/fixtures/suppressions/non-existent-file.js";
+
+				suppressions[nonExistentFile] = {
+					"no-undef": { count: 1 },
+				};
+
+				fs.writeFileSync(
+					SUPPRESSIONS_PATH,
+					JSON.stringify(suppressions, null, 2),
+				);
+
+				const child = runESLint(ARGS_WITH_PRUNE_SUPPRESSIONS);
+
+				return assertExitCode(child, 0).then(() => {
+					assert.deepStrictEqual(
+						JSON.parse(fs.readFileSync(SUPPRESSIONS_PATH, "utf8")),
+						SUPPRESSIONS_FILE_ALL_ERRORS,
+						"Suppressions for existing files should remain unchanged",
 					);
 				});
 			});

@@ -66,6 +66,7 @@ module.exports = defineConfig([
 Each configuration object contains all of the information ESLint needs to execute on a set of files. Each configuration object is made up of these properties:
 
 - `name` - A name for the configuration object. This is used in error messages and [config inspector](https://github.com/eslint/config-inspector) to help identify which configuration object is being used. ([Naming Convention](#configuration-naming-conventions))
+- `basePath` - A string specifying the path to a subdirectory to which the configuration object should apply to. It can be a relative or an absolute path.
 - `files` - An array of glob patterns indicating the files that the configuration object should apply to. If not specified, the configuration object applies to all files matched by any other configuration object.
 - `ignores` - An array of glob patterns indicating the files that the configuration object should not apply to. If not specified, the configuration object applies to all files matched by `files`. If `ignores` is used without any other keys in the configuration object, then the patterns act as [global ignores](#globally-ignoring-files-with-ignores) and it gets applied to every configuration object.
 - `extends` - An array of strings, configuration objects, or configuration arrays that contain additional configuration to apply.
@@ -87,7 +88,7 @@ Each configuration object contains all of the information ESLint needs to execut
 ### Specifying `files` and `ignores`
 
 ::: tip
-Patterns specified in `files` and `ignores` use [`minimatch`](https://www.npmjs.com/package/minimatch) syntax and are evaluated relative to the location of the `eslint.config.js` file. If using an alternate config file via the `--config` command line option, then all patterns are evaluated relative to the current working directory.
+Patterns specified in `files` and `ignores` use [`minimatch`](https://www.npmjs.com/package/minimatch) syntax and are evaluated relative to the location of the `eslint.config.js` file. If using an alternate config file via the `--config` command line option, then all patterns are evaluated relative to the current working directory. In case the configuration object has the `basePath` property with a relative path, the subdirectory it specifies is evaluated relative to the location of the `eslint.config.js` file (or relative to the current working directory if using an alternate config file via the `--config` command line option). In configuration objects with the `basePath` property, patterns specified in `files` and `ignores` are evaluated relative to the subdirectory represented by the `basePath`.
 :::
 
 You can use a combination of `files` and `ignores` to determine which files the configuration object should apply to and which not. Here's an example:
@@ -345,6 +346,80 @@ export default defineConfig([
 ```
 
 For more information and examples on configuring rules regarding `ignores`, see [Ignore Files](ignore).
+
+#### Specifying base path
+
+You can optionally specify `basePath` to apply the configuration object to a specific subdirectory (including its subdirectories).
+
+```js
+// eslint.config.js
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
+	// matches all files in tests and its subdirectories
+	{
+		basePath: "tests",
+		rules: {
+			"no-undef": "error",
+		},
+	},
+
+	// matches all files ending with spec.js in tests and its subdirectories
+	{
+		basePath: "tests",
+		files: ["**/*.spec.js"],
+		languageOptions: {
+			globals: {
+				it: "readonly",
+				describe: "readonly",
+			},
+		},
+	},
+
+	// globally ignores tests/fixtures directory
+	{
+		basePath: "tests",
+		ignores: ["fixtures/"],
+	},
+]);
+```
+
+In combination with [`extends`](#extending-configurations), multiple configuration objects can be applied to the same subdirectory by specifying `basePath` only once, like this:
+
+```js
+// eslint.config.js
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
+	{
+		basePath: "tests",
+		extends: [
+			// matches all files in tests and its subdirectories
+			{
+				rules: {
+					"no-undef": "error",
+				},
+			},
+
+			// matches all files ending with spec.js in tests and its subdirectories
+			{
+				files: ["**/*.spec.js"],
+				languageOptions: {
+					globals: {
+						it: "readonly",
+						describe: "readonly",
+					},
+				},
+			},
+
+			// globally ignores tests/fixtures directory
+			{
+				ignores: ["fixtures/"],
+			},
+		],
+	},
+]);
+```
 
 #### Cascading Configuration Objects
 
@@ -669,7 +744,7 @@ export default {
 			},
 			{
 				name: "example/strict/sub-config",
-				file: ["src/**/*.js"],
+				files: ["src/**/*.js"],
 				rules: {
 					"no-unused-vars": "error",
 				},
@@ -698,12 +773,12 @@ In this case, ESLint does not search for `eslint.config.js` and instead uses `so
 This feature is experimental and its details may change before being finalized. This behavior will be the new lookup behavior starting in v10.0.0, but you can try it today using a feature flag.
 :::
 
-You can use the `unstable_config_lookup_from_file` flag to change the way ESLint searches for configuration files. Instead of searching from the current working directory, ESLint will search for a configuration file by first starting in the directory of the file being linted and then searching up its ancestor directories until it finds a `eslint.config.js` file (or any other extension of configuration file). This behavior is better for monorepos, where each subdirectory may have its own configuration file.
+You can use the `v10_config_lookup_from_file` flag to change the way ESLint searches for configuration files. Instead of searching from the current working directory, ESLint will search for a configuration file by first starting in the directory of the file being linted and then searching up its ancestor directories until it finds a `eslint.config.js` file (or any other extension of configuration file). This behavior is better for monorepos, where each subdirectory may have its own configuration file.
 
 To use this feature on the command line, use the `--flag` flag:
 
 ```shell
-npx eslint --flag unstable_config_lookup_from_file .
+npx eslint --flag v10_config_lookup_from_file .
 ```
 
 For more information about using feature flags, see [Feature Flags](../../flags/).
