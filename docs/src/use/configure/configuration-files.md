@@ -20,12 +20,12 @@ You can put your ESLint project configuration in a configuration file. You can i
 
 The ESLint configuration file may be named any of the following:
 
--   `eslint.config.js`
--   `eslint.config.mjs`
--   `eslint.config.cjs`
--   `eslint.config.ts` (requires [additional setup](#typescript-configuration-files))
--   `eslint.config.mts` (requires [additional setup](#typescript-configuration-files))
--   `eslint.config.cts` (requires [additional setup](#typescript-configuration-files))
+- `eslint.config.js`
+- `eslint.config.mjs`
+- `eslint.config.cjs`
+- `eslint.config.ts` (requires [additional setup](#typescript-configuration-files))
+- `eslint.config.mts` (requires [additional setup](#typescript-configuration-files))
+- `eslint.config.cts` (requires [additional setup](#typescript-configuration-files))
 
 It should be placed in the root directory of your project and export an array of [configuration objects](#configuration-objects). Here's an example:
 
@@ -65,39 +65,66 @@ module.exports = defineConfig([
 
 Each configuration object contains all of the information ESLint needs to execute on a set of files. Each configuration object is made up of these properties:
 
--   `name` - A name for the configuration object. This is used in error messages and config inspector to help identify which configuration object is being used. ([Naming Convention](#configuration-naming-conventions))
--   `files` - An array of glob patterns indicating the files that the configuration object should apply to. If not specified, the configuration object applies to all files matched by any other configuration object.
--   `ignores` - An array of glob patterns indicating the files that the configuration object should not apply to. If not specified, the configuration object applies to all files matched by `files`. If `ignores` is used without any other keys in the configuration object, then the patterns act as [global ignores](#globally-ignoring-files-with-ignores) and it gets applied to every configuration object.
--   `extends` - An array of strings, configuration objects, or configuration arrays that contain additional configuration to apply.
--   `languageOptions` - An object containing settings related to how JavaScript is configured for linting.
-    -   `ecmaVersion` - The version of ECMAScript to support. May be any year (i.e., `2022`) or version (i.e., `5`). Set to `"latest"` for the most recent supported version. (default: `"latest"`)
-    -   `sourceType` - The type of JavaScript source code. Possible values are `"script"` for traditional script files, `"module"` for ECMAScript modules (ESM), and `"commonjs"` for CommonJS files. (default: `"module"` for `.js` and `.mjs` files; `"commonjs"` for `.cjs` files)
-    -   `globals` - An object specifying additional objects that should be added to the global scope during linting.
-    -   `parser` - An object containing a `parse()` method or a `parseForESLint()` method. (default: [`espree`](https://github.com/eslint/js/tree/main/packages/espree))
-    -   `parserOptions` - An object specifying additional options that are passed directly to the `parse()` or `parseForESLint()` method on the parser. The available options are parser-dependent.
--   `linterOptions` - An object containing settings related to the linting process.
-    -   `noInlineConfig` - A Boolean value indicating if inline configuration is allowed.
-    -   `reportUnusedDisableDirectives` - A severity string indicating if and how unused disable and enable directives should be tracked and reported. For legacy compatibility, `true` is equivalent to `"warn"` and `false` is equivalent to `"off"`. (default: `"warn"`).
-    -   `reportUnusedInlineConfigs` - A severity string indicating if and how unused inline configs should be tracked and reported. (default: `"off"`)
--   `processor` - Either an object containing `preprocess()` and `postprocess()` methods or a string indicating the name of a processor inside of a plugin (i.e., `"pluginName/processorName"`).
--   `plugins` - An object containing a name-value mapping of plugin names to plugin objects. When `files` is specified, these plugins are only available to the matching files.
--   `rules` - An object containing the configured rules. When `files` or `ignores` are specified, these rule configurations are only available to the matching files.
--   `settings` - An object containing name-value pairs of information that should be available to all rules.
+- `name` - A name for the configuration object. This is used in error messages and [config inspector](https://github.com/eslint/config-inspector) to help identify which configuration object is being used. ([Naming Convention](#configuration-naming-conventions))
+- `basePath` - A string specifying the path to a subdirectory to which the configuration object should apply to. It can be a relative or an absolute path.
+- `files` - An array of glob patterns indicating the files that the configuration object should apply to. If not specified, the configuration object applies to all files matched by any other configuration object.
+- `ignores` - An array of glob patterns indicating the files that the configuration object should not apply to. If not specified, the configuration object applies to all files matched by `files`. If `ignores` is used without any other keys in the configuration object, then the patterns act as [global ignores](#globally-ignoring-files-with-ignores) and it gets applied to every configuration object.
+- `extends` - An array of strings, configuration objects, or configuration arrays that contain additional configuration to apply.
+- `languageOptions` - An object containing settings related to how JavaScript is configured for linting.
+    - `ecmaVersion` - The version of ECMAScript to support. May be any year (i.e., `2022`) or version (i.e., `5`). Set to `"latest"` for the most recent supported version. (default: `"latest"`)
+    - `sourceType` - The type of JavaScript source code. Possible values are `"script"` for traditional script files, `"module"` for ECMAScript modules (ESM), and `"commonjs"` for CommonJS files. (default: `"module"` for `.js` and `.mjs` files; `"commonjs"` for `.cjs` files)
+    - `globals` - An object specifying additional objects that should be added to the global scope during linting.
+    - `parser` - An object containing a `parse()` method or a `parseForESLint()` method. (default: [`espree`](https://github.com/eslint/js/tree/main/packages/espree))
+    - `parserOptions` - An object specifying additional options that are passed directly to the `parse()` or `parseForESLint()` method on the parser. The available options are parser-dependent.
+- `linterOptions` - An object containing settings related to the linting process.
+    - `noInlineConfig` - A Boolean value indicating if inline configuration is allowed.
+    - `reportUnusedDisableDirectives` - A severity string indicating if and how unused disable and enable directives should be tracked and reported. For legacy compatibility, `true` is equivalent to `"warn"` and `false` is equivalent to `"off"`. (default: `"warn"`).
+    - `reportUnusedInlineConfigs` - A severity string indicating if and how unused inline configs should be tracked and reported. (default: `"off"`)
+- `processor` - Either an object containing `preprocess()` and `postprocess()` methods or a string indicating the name of a processor inside of a plugin (i.e., `"pluginName/processorName"`).
+- `plugins` - An object containing a name-value mapping of plugin names to plugin objects. When `files` is specified, these plugins are only available to the matching files.
+- `rules` - An object containing the configured rules. When `files` or `ignores` are specified, these rule configurations are only available to the matching files.
+- `settings` - An object containing name-value pairs of information that should be available to all rules.
 
 ### Specifying `files` and `ignores`
 
 ::: tip
-Patterns specified in `files` and `ignores` use [`minimatch`](https://www.npmjs.com/package/minimatch) syntax and are evaluated relative to the location of the `eslint.config.js` file. If using an alternate config file via the `--config` command line option, then all patterns are evaluated relative to the current working directory.
+Patterns specified in `files` and `ignores` use [`minimatch`](https://www.npmjs.com/package/minimatch) syntax and are evaluated relative to the location of the `eslint.config.js` file. If using an alternate config file via the `--config` command line option, then all patterns are evaluated relative to the current working directory. In case the configuration object has the `basePath` property with a relative path, the subdirectory it specifies is evaluated relative to the location of the `eslint.config.js` file (or relative to the current working directory if using an alternate config file via the `--config` command line option). In configuration objects with the `basePath` property, patterns specified in `files` and `ignores` are evaluated relative to the subdirectory represented by the `basePath`.
 :::
 
-You can use a combination of `files` and `ignores` to determine which files the configuration object should apply to and which not. By default, ESLint lints files that match the patterns `**/*.js`, `**/*.cjs`, and `**/*.mjs`. Those files are always matched unless you explicitly exclude them using [global ignores](#globally-ignoring-files-with-ignores).
-Because config objects that don't specify `files` or `ignores` apply to all files that have been matched by any other configuration object, they will apply to all JavaScript files. For example:
+You can use a combination of `files` and `ignores` to determine which files the configuration object should apply to and which not. Here's an example:
 
 ```js
 // eslint.config.js
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
+	// matches all files ending with .js
+	{
+		files: ["**/*.js"],
+		rules: {
+			semi: "error",
+		},
+	},
+
+	// matches all files ending with .js except those in __tests
+	{
+		files: ["**/*.js"],
+		ignores: ["__tests/**"],
+		rules: {
+			"no-console": "error",
+		},
+	},
+]);
+```
+
+Configuration objects without `files` or `ignores` are automatically applied to any file that is matched by any other configuration object. For example:
+
+```js
+// eslint.config.js
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
+	// matches all files because it doesn't specify the `files` or `ignores` key
 	{
 		rules: {
 			semi: "error",
@@ -108,82 +135,8 @@ export default defineConfig([
 
 With this configuration, the `semi` rule is enabled for all files that match the default files in ESLint. So if you pass `example.js` to ESLint, the `semi` rule is applied. If you pass a non-JavaScript file, like `example.txt`, the `semi` rule is not applied because there are no other configuration objects that match that filename. (ESLint outputs an error message letting you know that the file was ignored due to missing configuration.)
 
-#### Excluding files with `ignores`
-
-You can limit which files a configuration object applies to by specifying a combination of `files` and `ignores` patterns. For example, you may want certain rules to apply only to files in your `src` directory:
-
-```js
-// eslint.config.js
-import { defineConfig } from "eslint/config";
-
-export default defineConfig([
-	{
-		files: ["src/**/*.js"],
-		rules: {
-			semi: "error",
-		},
-	},
-]);
-```
-
-Here, only the JavaScript files in the `src` directory have the `semi` rule applied. If you run ESLint on files in another directory, this configuration object is skipped. By adding `ignores`, you can also remove some of the files in `src` from this configuration object:
-
-```js
-import { defineConfig } from "eslint/config";
-
-export default defineConfig([
-	{
-		files: ["src/**/*.js"],
-		ignores: ["**/*.config.js"],
-		rules: {
-			semi: "error",
-		},
-	},
-]);
-```
-
-This configuration object matches all JavaScript files in the `src` directory except those that end with `.config.js`. You can also use negation patterns in `ignores` to exclude files from the ignore patterns, such as:
-
-```js
-import { defineConfig } from "eslint/config";
-
-export default defineConfig([
-	{
-		files: ["src/**/*.js"],
-		ignores: ["**/*.config.js", "!**/eslint.config.js"],
-		rules: {
-			semi: "error",
-		},
-	},
-]);
-```
-
-Here, the configuration object excludes files ending with `.config.js` except for `eslint.config.js`. That file still has `semi` applied.
-
-Non-global `ignores` patterns can only match file names. A pattern like `"dir-to-exclude/"` will not ignore anything. To ignore everything in a particular directory, a pattern like `"dir-to-exclude/**"` should be used instead.
-
-If `ignores` is used without `files` and there are other keys (such as `rules`), then the configuration object applies to all linted files except the ones excluded by `ignores`, for example:
-
-```js
-import { defineConfig } from "eslint/config";
-
-export default defineConfig([
-	{
-		ignores: ["**/*.config.js"],
-		rules: {
-			semi: "error",
-		},
-	},
-]);
-```
-
-This configuration object applies to all JavaScript files except those ending with `.config.js`. Effectively, this is like having `files` set to `**/*`. In general, it's a good idea to always include `files` if you are specifying `ignores`.
-
-Note that when `files` is not specified, negated `ignores` patterns do not cause any matching files to be linted automatically.
-ESLint only lints files that are matched either by default or by a `files` pattern that is not `*` and does not end with `/*` or `/**`.
-
-::: tip
-Use the [config inspector](https://github.com/eslint/config-inspector) (`--inspect-config` in the CLI) to test which config objects apply to a specific file.
+::: important
+By default, ESLint lints files that match the patterns `**/*.js`, `**/*.cjs`, and `**/*.mjs`. Those files are always matched unless you explicitly exclude them using [global ignores](#globally-ignoring-files-with-ignores).
 :::
 
 #### Specifying files with arbitrary extensions
@@ -224,22 +177,121 @@ The above config lints files without extension besides the default `.js`, `.cjs`
 Filenames starting with a dot, such as `.gitignore`, are considered to have only an extension without a base name. In the case of `.gitignore`, the extension is `gitignore`, so the file matches the pattern `"**/.gitignore"` but not `"**/*.gitignore"`.
 :::
 
+#### Specifying files with an AND operation
+
+Multiple patterns can be matched against the same file by using an array of strings inside of the `files` array. For example:
+
+```js
+// eslint.config.js
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
+	{
+		files: [["src/*", "**/.js"]],
+	},
+	// ...other config
+]);
+```
+
+The pattern `["src/*", "**/.js"]` matches when a file is both inside of the `src` directory and also ends with `.js`. This approach can be helpful when you're dynamically calculating the value of the `files` array and want to avoid potential errors by trying to combine multiple glob patterns into a single string.
+
+#### Excluding files with `ignores`
+
+You can limit which files a configuration object applies to by specifying a combination of `files` and `ignores` patterns. For example, you may want certain rules to apply only to files in your `src` directory:
+
+```js
+// eslint.config.js
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
+	{
+		files: ["src/**/*.js"],
+		rules: {
+			semi: "error",
+		},
+	},
+]);
+```
+
+Here, only the JavaScript files in the `src` directory have the `semi` rule applied. If you run ESLint on files in another directory, this configuration object is skipped. By adding `ignores`, you can also remove some of the files in `src` from this configuration object:
+
+```js
+// eslint.config.js
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
+	{
+		files: ["src/**/*.js"],
+		ignores: ["**/*.config.js"],
+		rules: {
+			semi: "error",
+		},
+	},
+]);
+```
+
+This configuration object matches all JavaScript files in the `src` directory except those that end with `.config.js`. You can also use negation patterns in `ignores` to exclude files from the ignore patterns, such as:
+
+```js
+// eslint.config.js
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
+	{
+		files: ["src/**/*.js"],
+		ignores: ["**/*.config.js", "!**/eslint.config.js"],
+		rules: {
+			semi: "error",
+		},
+	},
+]);
+```
+
+Here, the configuration object excludes files ending with `.config.js` except for `eslint.config.js`. That file still has `semi` applied.
+
+Non-global `ignores` patterns can only match file names. A pattern like `"dir-to-exclude/"` will not ignore anything. To ignore everything in a particular directory, a pattern like `"dir-to-exclude/**"` should be used instead.
+
+If `ignores` is used without `files` and there are other keys (such as `rules`), then the configuration object applies to all linted files except the ones excluded by `ignores`, for example:
+
+```js
+// eslint.config.js
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
+	{
+		ignores: ["**/*.config.js"],
+		rules: {
+			semi: "error",
+		},
+	},
+]);
+```
+
+This configuration object applies to all JavaScript files except those ending with `.config.js`. Effectively, this is like having `files` set to `**/*`. In general, it's a good idea to always include `files` if you are specifying `ignores`.
+
+Note that when `files` is not specified, negated `ignores` patterns do not cause any matching files to be linted automatically.
+ESLint only lints files that are matched either by default or by a `files` pattern that is not `*` and does not end with `/*` or `/**`.
+
+::: tip
+Use the [config inspector](https://github.com/eslint/config-inspector) (`--inspect-config` in the CLI) to test which config objects apply to a specific file.
+:::
+
 #### Globally ignoring files with `ignores`
 
 Depending on how the `ignores` property is used, it can behave as non-global `ignores` or as global `ignores`.
 
--   When `ignores` is used without any other keys (besides `name`) in the configuration object, then the patterns act as global ignores. This means they apply to every configuration object (not only to the configuration object in which it is defined). Global `ignores` allows you not to have to copy and keep the `ignores` property synchronized in more than one configuration object.
--   If `ignores` is used with other properties in the same configuration object, then the patterns act as non-global ignores. This way `ignores` applies only to the configuration object in which it is defined.
+- When `ignores` is used without any other keys (besides `name`) in the configuration object, then the patterns act as global ignores. This means they apply to every configuration object (not only to the configuration object in which it is defined). Global `ignores` allows you not to have to copy and keep the `ignores` property synchronized in more than one configuration object.
+- If `ignores` is used with other properties in the same configuration object, then the patterns act as non-global ignores. This way `ignores` applies only to the configuration object in which it is defined.
 
 Global and non-global `ignores` have some usage differences:
 
--   patterns in non-global `ignores` only match the files (`dir/filename.js`) or files within directories (`dir/**`)
--   patterns in global `ignores` can match directories (`dir/`) in addition to the patterns that non-global ignores supports.
+- patterns in non-global `ignores` only match the files (`dir/filename.js`) or files within directories (`dir/**`)
+- patterns in global `ignores` can match directories (`dir/`) in addition to the patterns that non-global ignores supports.
 
 For all uses of `ignores`:
 
--   The patterns you define are added after the default ESLint patterns, which are `["**/node_modules/", ".git/"]`.
--   The patterns always match files and directories that begin with a dot, such as `.foo.js` or `.fixtures`, unless those files are explicitly ignored. The only dot directory ignored by default is `.git`.
+- The patterns you define are added after the default ESLint patterns, which are `["**/node_modules/", ".git/"]`.
+- The patterns always match files and directories that begin with a dot, such as `.foo.js` or `.fixtures`, unless those files are explicitly ignored. The only dot directory ignored by default is `.git`.
 
 ```js
 // eslint.config.js
@@ -251,7 +303,7 @@ export default defineConfig([
       ignores: [".config/", "dist/", "tsconfig.json"] // acts as global ignores, due to the absence of other properties
     },
     { ... }, // ... other configuration object, inherit global ignores
-    { ... }, // ... other configuration object inherit global ignores
+    { ... }, // ... other configuration object, inherit global ignores
 ]);
 
 // Example of non-global ignores
@@ -277,7 +329,7 @@ import { defineConfig, globalIgnores } from "eslint/config";
 export default defineConfig([
     globalIgnores([".config/", "dist/", "tsconfig.json"]),
     { ... }, // ... other configuration object, inherit global ignores
-    { ... }, // ... other configuration object inherit global ignores
+    { ... }, // ... other configuration object, inherit global ignores
 ]);
 
 // Example of non-global ignores
@@ -294,6 +346,80 @@ export default defineConfig([
 ```
 
 For more information and examples on configuring rules regarding `ignores`, see [Ignore Files](ignore).
+
+#### Specifying base path
+
+You can optionally specify `basePath` to apply the configuration object to a specific subdirectory (including its subdirectories).
+
+```js
+// eslint.config.js
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
+	// matches all files in tests and its subdirectories
+	{
+		basePath: "tests",
+		rules: {
+			"no-undef": "error",
+		},
+	},
+
+	// matches all files ending with spec.js in tests and its subdirectories
+	{
+		basePath: "tests",
+		files: ["**/*.spec.js"],
+		languageOptions: {
+			globals: {
+				it: "readonly",
+				describe: "readonly",
+			},
+		},
+	},
+
+	// globally ignores tests/fixtures directory
+	{
+		basePath: "tests",
+		ignores: ["fixtures/"],
+	},
+]);
+```
+
+In combination with [`extends`](#extending-configurations), multiple configuration objects can be applied to the same subdirectory by specifying `basePath` only once, like this:
+
+```js
+// eslint.config.js
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
+	{
+		basePath: "tests",
+		extends: [
+			// matches all files in tests and its subdirectories
+			{
+				rules: {
+					"no-undef": "error",
+				},
+			},
+
+			// matches all files ending with spec.js in tests and its subdirectories
+			{
+				files: ["**/*.spec.js"],
+				languageOptions: {
+					globals: {
+						it: "readonly",
+						describe: "readonly",
+					},
+				},
+			},
+
+			// globally ignores tests/fixtures directory
+			{
+				ignores: ["fixtures/"],
+			},
+		],
+	},
+]);
+```
 
 #### Cascading Configuration Objects
 
@@ -324,7 +450,7 @@ export default defineConfig([
 ]);
 ```
 
-Using this configuration, all JavaScript files define a custom global object defined called `MY_CUSTOM_GLOBAL` while those JavaScript files in the `tests` directory have `it` and `describe` defined as global objects in addition to `MY_CUSTOM_GLOBAL`. For any JavaScript file in the tests directory, both configuration objects are applied, so `languageOptions.globals` are merged to create a final result.
+Using this configuration, all JavaScript files define a custom global object defined called `MY_CUSTOM_GLOBAL` while those JavaScript files in the `tests` directory have `it` and `describe` defined as global objects in addition to `MY_CUSTOM_GLOBAL`. For any JavaScript file in the `tests` directory, both configuration objects are applied, so `languageOptions.globals` are merged to create a final result.
 
 ### Configuring Linter Options
 
@@ -471,9 +597,9 @@ export default defineConfig([
 
 A configuration object uses `extends` to inherit all the traits of another configuration object or array (including rules, plugins, and language options) and can then modify all the options. The `extends` key is an array of values indicating which configurations to extend from. The elements of the `extends` array can be one of three values:
 
--   a string that specifies the name of a configuration in a plugin
--   a configuration object
--   a configuration array
+- a string that specifies the name of a configuration in a plugin
+- a configuration object
+- a configuration array
 
 #### Using Configurations from Plugins
 
@@ -525,8 +651,8 @@ It's recommended to always use a `files` key when you use the `extends` key to e
 
 ESLint has two predefined configurations for JavaScript:
 
--   `js/recommended` - enables the rules that ESLint recommends everyone use to avoid potential errors.
--   `js/all` - enables all of the rules shipped with ESLint. This configuration is **not recommended** for production use because it changes with every minor and major version of ESLint. Use at your own risk.
+- `js/recommended` - enables the rules that ESLint recommends everyone use to avoid potential errors.
+- `js/all` - enables all of the rules shipped with ESLint. This configuration is **not recommended** for production use because it changes with every minor and major version of ESLint. Use at your own risk.
 
 To include these predefined configurations, install the `@eslint/js` package and then make any modifications to other properties in subsequent configuration objects:
 
@@ -549,7 +675,7 @@ export default defineConfig([
 ]);
 ```
 
-Here, the `js/recommended` predefined configuration is applied first and then another configuration object adds the desired configuration for `no-unused-vars`.
+Here, the `js/recommended` predefined configuration is applied first and then another configuration object adds the desired configuration for [`no-unused-vars`](../../rules/no-unused-vars).
 
 For more information on how to combine predefined configs with your preferences, please see [Combine Configs](combine-configs).
 
@@ -618,7 +744,7 @@ export default {
 			},
 			{
 				name: "example/strict/sub-config",
-				file: ["src/**/*.js"],
+				files: ["src/**/*.js"],
 				rules: {
 					"no-unused-vars": "error",
 				},
@@ -647,12 +773,12 @@ In this case, ESLint does not search for `eslint.config.js` and instead uses `so
 This feature is experimental and its details may change before being finalized. This behavior will be the new lookup behavior starting in v10.0.0, but you can try it today using a feature flag.
 :::
 
-You can use the `unstable_config_lookup_from_file` flag to change the way ESLint searches for configuration files. Instead of searching from the current working directory, ESLint will search for a configuration file by first starting in the directory of the file being linted and then searching up its ancestor directories until it finds a `eslint.config.js` file (or any other extension of configuration file). This behavior is better for monorepos, where each subdirectory may have its own configuration file.
+You can use the `v10_config_lookup_from_file` flag to change the way ESLint searches for configuration files. Instead of searching from the current working directory, ESLint will search for a configuration file by first starting in the directory of the file being linted and then searching up its ancestor directories until it finds a `eslint.config.js` file (or any other extension of configuration file). This behavior is better for monorepos, where each subdirectory may have its own configuration file.
 
 To use this feature on the command line, use the `--flag` flag:
 
 ```shell
-npx eslint --flag unstable_config_lookup_from_file .
+npx eslint --flag v10_config_lookup_from_file .
 ```
 
 For more information about using feature flags, see [Feature Flags](../../flags/).
@@ -672,6 +798,16 @@ You can then create a configuration file with a `.ts`, `.mts`, or `.cts` extensi
 ::: important
 ESLint does not perform type checking on your configuration file and does not apply any settings from `tsconfig.json`.
 :::
+
+### Native TypeScript Support
+
+If you're using **Node.js >= 22.10.0**, you can load TypeScript configuration files natively without requiring [`jiti`](https://github.com/unjs/jiti). This is possible thanks to the [**`--experimental-strip-types`**](https://nodejs.org/docs/latest-v22.x/api/cli.html#--experimental-strip-types) flag.
+
+Since this feature is still experimental, you must also enable the `unstable_native_nodejs_ts_config` flag.
+
+```bash
+npx --node-options='--experimental-strip-types' eslint --flag unstable_native_nodejs_ts_config
+```
 
 ### Configuration File Precedence
 

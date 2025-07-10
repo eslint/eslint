@@ -71,6 +71,36 @@ If the property name is omitted, accessing any property of the given object is d
 }
 ```
 
+If you want to restrict a property globally but allow specific objects to use it, you can use the `allowObjects` option:
+
+```json
+{
+    "rules": {
+        "no-restricted-properties": [2, {
+            "property": "push",
+            "allowObjects": ["router"],
+            "message": "Prefer [...array, newValue] because it does not mutate the array in place."
+        }]
+    }
+}
+```
+
+If you want to restrict all properties on an object except for specific ones, you can use the `allowProperties` option:
+
+```json
+{
+    "rules": {
+        "no-restricted-properties": [2, {
+            "object": "config",
+            "allowProperties": ["settings", "version"],
+            "message": "Accessing other properties is restricted."
+        }]
+    }
+}
+```
+
+Note that the `allowObjects` option cannot be used together with the `object` option since they are mutually exclusive. Similarly, the `allowProperties` option cannot be used together with the `property` option since they are also mutually exclusive.
+
 Examples of **incorrect** code for this rule:
 
 ::: incorrect
@@ -116,6 +146,33 @@ require.resolve('foo');
 
 :::
 
+::: incorrect
+
+```js
+/* eslint no-restricted-properties: [2, {
+    "property": "push",
+    "allowObjects": ["router"],
+}] */
+
+myArray.push(5);
+```
+
+:::
+
+::: incorrect
+
+```js
+/* eslint no-restricted-properties: [2, {
+    "object": "config",
+    "allowProperties": ["settings", "version"]
+}] */
+
+config.apiKey = "12345";
+config.timeout = 5000;
+```
+
+:::
+
 Examples of **correct** code for this rule:
 
 ::: correct
@@ -141,6 +198,34 @@ allowedObjectName.disallowedPropertyName();
 }] */
 
 require('foo');
+```
+
+:::
+
+::: correct
+
+```js
+/* eslint no-restricted-properties: [2, {
+    "property": "push",
+    "allowObjects": ["router", "history"],
+}] */
+
+router.push('/home');
+history.push('/about');
+```
+
+:::
+
+::: correct
+
+```js
+/* eslint no-restricted-properties: [2, {
+    "object": "config",
+    "allowProperties": ["settings", "version"]
+}] */
+
+config.settings = { theme: "dark" };
+config.version = "1.0.0";  
 ```
 
 :::

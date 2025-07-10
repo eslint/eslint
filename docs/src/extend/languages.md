@@ -41,27 +41,27 @@ ESLint holds information about source code in a `SourceCode` object. This object
 
 A basic `SourceCode` object must implement the following:
 
--   `ast` - a property containing the AST or CST for the source code.
--   `text` - the text of the source code.
--   `getLoc(nodeOrToken)` - a method that returns the location of a given node or token. This must match the `loc` structure that ESTree uses.
--   `getRange(nodeOrToken)` - a method that returns the range of a given node or token. This must return an array where the first item is the start index and the second is the end index.
--   `traverse()` - a method that returns an iterable for traversing the AST or CST. The iterator must return objects that implement either `VisitTraversalStep` or `CallTraversalStep` from `@eslint/core`.
+- `ast` - a property containing the AST or CST for the source code.
+- `text` - the text of the source code.
+- `getLoc(nodeOrToken)` - a method that returns the location of a given node or token. This must match the `loc` structure that ESTree uses.
+- `getRange(nodeOrToken)` - a method that returns the range of a given node or token. This must return an array where the first item is the start index and the second is the end index.
+- `traverse()` - a method that returns an iterable for traversing the AST or CST. The iterator must return objects that implement either `VisitTraversalStep` or `CallTraversalStep` from `@eslint/core`.
 
 The following optional members allow you to customize how ESLint interacts with the object:
 
--   `visitorKeys` - visitor keys that are specific to just this `SourceCode` object. Typically not necessary as `Language#visitorKeys` is used most of the time.
--   `applyLanguageOptions(languageOptions)` - if you have specific language options that need to be applied after parsing, you can do so in this method.
--   `getDisableDirectives()` - returns any disable directives in the code. ESLint uses this to apply disable directives and track unused directives.
--   `getInlineConfigNodes()` - returns any inline config nodes. ESLint uses this to report errors when `noInlineConfig` is enabled.
--   `applyInlineConfig()` - returns inline configuration elements to ESLint. ESLint uses this to alter the configuration of the file being linted.
--   `finalize()` - this method is called just before linting begins and is your last chance to modify `SourceCode`. If you've defined `applyLanguageOptions()` or `applyInlineConfig()`, then you may have additional changes to apply before the `SourceCode` object is ready.
+- `visitorKeys` - visitor keys that are specific to just this `SourceCode` object. Typically not necessary as `Language#visitorKeys` is used most of the time.
+- `applyLanguageOptions(languageOptions)` - if you have specific language options that need to be applied after parsing, you can do so in this method.
+- `getDisableDirectives()` - returns any disable directives in the code. ESLint uses this to apply disable directives and track unused directives.
+- `getInlineConfigNodes()` - returns any inline config nodes. ESLint uses this to report errors when `noInlineConfig` is enabled.
+- `applyInlineConfig()` - returns inline configuration elements to ESLint. ESLint uses this to alter the configuration of the file being linted.
+- `finalize()` - this method is called just before linting begins and is your last chance to modify `SourceCode`. If you've defined `applyLanguageOptions()` or `applyInlineConfig()`, then you may have additional changes to apply before the `SourceCode` object is ready.
 
 Additionally, the following members are common on `SourceCode` objects and are recommended to implement:
 
--   `lines` - the individual lines of the source code as an array of strings.
--   `getParent(node)` - returns the parent of the given node or `undefined` if the node is the root.
--   `getAncestors(node)` - returns an array of the ancestry of the node with the first item as the root of the tree and each subsequent item as the descendants of the root that lead to `node`.
--   `getText(node, beforeCount, afterCount)` - returns the string that represents the given node, and optionally, a specified number of characters before and after the node's range.
+- `lines` - the individual lines of the source code as an array of strings.
+- `getParent(node)` - returns the parent of the given node or `undefined` if the node is the root.
+- `getAncestors(node)` - returns an array of the ancestry of the node with the first item as the root of the tree and each subsequent item as the descendants of the root that lead to `node`.
+- `getText(node, beforeCount, afterCount)` - returns the string that represents the given node, and optionally, a specified number of characters before and after the node's range.
 
 See [`JSONSourceCode`](https://github.com/eslint/json/blob/main/src/languages/json-source-code.js) as an example of a basic `SourceCode` class.
 
@@ -75,20 +75,20 @@ The `Language` object contains all of the information about the programming lang
 
 A basic `Language` object must implement the following:
 
--   `fileType` - should be `"text"` (in the future, we will also support `"binary"`)
--   `lineStart` - either 0 or 1 to indicate how the AST represents the first line in the file. ESLint uses this to correctly display error locations.
--   `columnStart` - either 0 or 1 to indicate how the AST represents the first column in each line. ESLint uses this to correctly display error locations.
--   `nodeTypeKey` - the name of the property that indicates the node type (usually `"type"` or `"kind"`).
--   `validateLanguageOptions(languageOptions)` - validates language options for the language. This method is expected to throw a validation error when an expected language option doesn't have the correct type or value. Unexpected language options should be silently ignored and no error should be thrown. This method is required even if the language doesn't specify any options.
--   `parse(file, context)` - parses the given file into an AST or CST, and can also include additional values meant for use in rules. Called internally by ESLint.
--   `createSourceCode(file, parseResult, context)` - creates a `SourceCode` object. Call internally by ESLint after `parse()`, and the second argument is the exact return value from `parse()`.
+- `fileType` - should be `"text"` (in the future, we will also support `"binary"`)
+- `lineStart` - either 0 or 1 to indicate how the AST represents the first line in the file. ESLint uses this to correctly display error locations.
+- `columnStart` - either 0 or 1 to indicate how the AST represents the first column in each line. ESLint uses this to correctly display error locations.
+- `nodeTypeKey` - the name of the property that indicates the node type (usually `"type"` or `"kind"`).
+- `validateLanguageOptions(languageOptions)` - validates language options for the language. This method is expected to throw a validation error when an expected language option doesn't have the correct type or value. Unexpected language options should be silently ignored and no error should be thrown. This method is required even if the language doesn't specify any options.
+- `parse(file, context)` - parses the given file into an AST or CST, and can also include additional values meant for use in rules. Called internally by ESLint.
+- `createSourceCode(file, parseResult, context)` - creates a `SourceCode` object. Call internally by ESLint after `parse()`, and the second argument is the exact return value from `parse()`.
 
 The following optional members allow you to customize how ESLint interacts with the object:
 
--   `visitorKeys` - visitor keys that are specific to the AST or CST. This is used to optimize traversal of the AST or CST inside of ESLint. While not required, it is strongly recommended, especially for AST or CST formats that deviate significantly from ESTree format.
--   `defaultLanguageOptions` - default `languageOptions` when the language is used. User-specified `languageOptions` are merged with this object when calculating the config for the file being linted.
--   `matchesSelectorClass(className, node, ancestry)` - allows you to specify selector classes, such as `:expression`, that match more than one node. This method is called whenever an [esquery](https://github.com/estools/esquery) selector contains a `:` followed by an identifier.
--   `normalizeLanguageOptions(languageOptions)` - takes a validated language options object and normalizes its values. This is helpful for backwards compatibility when language options properties change.
+- `visitorKeys` - visitor keys that are specific to the AST or CST. This is used to optimize traversal of the AST or CST inside of ESLint. While not required, it is strongly recommended, especially for AST or CST formats that deviate significantly from ESTree format.
+- `defaultLanguageOptions` - default `languageOptions` when the language is used. User-specified `languageOptions` are merged with this object when calculating the config for the file being linted.
+- `matchesSelectorClass(className, node, ancestry)` - allows you to specify selector classes, such as `:expression`, that match more than one node. This method is called whenever an [esquery](https://github.com/estools/esquery) selector contains a `:` followed by an identifier.
+- `normalizeLanguageOptions(languageOptions)` - takes a validated language options object and normalizes its values. This is helpful for backwards compatibility when language options properties change and also to add custom serialization with a `toJSON()` method.
 
 See [`JSONLanguage`](https://github.com/eslint/json/blob/main/src/languages/json-language.js) as an example of a basic `Language` class.
 

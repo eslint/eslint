@@ -17,6 +17,7 @@ jsdoc/
 .cache
 /packages/**/node_modules
 /.vscode
+*.code-workspace
 .sublimelinterrc
 .eslint-release-info.json
 .nyc_output
@@ -31,3 +32,5 @@ pnpm-lock.yaml
 # Docs site
 _site
 /docs/src/assets/css
+
+.cursor

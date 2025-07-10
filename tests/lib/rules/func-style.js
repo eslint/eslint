@@ -201,6 +201,15 @@ ruleTester.run("func-style", rule, {
 				},
 			],
 		},
+		{
+			code: "$1: function $2() { }",
+			options: ["declaration"],
+			languageOptions: { sourceType: "script" },
+		},
+		{
+			code: "switch ($0) { case $1: function $2() { } }",
+			options: ["declaration"],
+		},
 	],
 
 	invalid: [
@@ -410,6 +419,590 @@ ruleTester.run("func-style", rule, {
 				{
 					messageId: "declaration",
 					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
+			code: "const foo = function() {};",
+			options: ["declaration", { allowTypeAnnotation: true }],
+			errors: [
+				{
+					messageId: "declaration",
+					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
+			code: "$1: function $2() { }",
+			languageOptions: { sourceType: "script" },
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
+				},
+			],
+		},
+		{
+			code: "const foo = () => {};",
+			options: ["declaration", { allowTypeAnnotation: true }],
+			errors: [
+				{
+					messageId: "declaration",
+					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
+			code: "export const foo = function() {};",
+			options: [
+				"expression",
+				{
+					allowTypeAnnotation: true,
+					overrides: { namedExports: "declaration" },
+				},
+			],
+			errors: [
+				{
+					messageId: "declaration",
+					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
+			code: "export const foo = () => {};",
+			options: [
+				"expression",
+				{
+					allowTypeAnnotation: true,
+					overrides: { namedExports: "declaration" },
+				},
+			],
+			errors: [
+				{
+					messageId: "declaration",
+					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
+			code: "if (foo) function bar() {}",
+			languageOptions: { sourceType: "script" },
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
+				},
+			],
+		},
+	],
+});
+
+const ruleTesterTypeScript = new RuleTester({
+	languageOptions: {
+		parser: require("@typescript-eslint/parser"),
+	},
+});
+
+ruleTesterTypeScript.run("func-style", rule, {
+	valid: [
+		{
+			code: "function foo(): void {}\n function bar(): void {}",
+			options: ["declaration"],
+		},
+		{
+			code: "(function(): void { /* code */ }());",
+			options: ["declaration"],
+		},
+		{
+			code: "const module = (function(): { [key: string]: any } { return {}; }());",
+			options: ["declaration"],
+		},
+		{
+			code: "const object: { foo: () => void } = { foo: function(): void {} };",
+			options: ["declaration"],
+		},
+		{
+			code: "Array.prototype.foo = function(): void {};",
+			options: ["declaration"],
+		},
+		{
+			code: "const foo: () => void = function(): void {};\n const bar: () => void = function(): void {};",
+			options: ["expression"],
+		},
+		{
+			code: "const foo: () => void = (): void => {};\n const bar: () => void = (): void => {}",
+			options: ["expression"],
+		},
+		{
+			code: "const foo: () => void = function(): void { this; }.bind(this);",
+			options: ["declaration"],
+		},
+		{
+			code: "const foo: () => void = (): void => { this; };",
+			options: ["declaration"],
+		},
+		{
+			code: "class C extends D { foo(): void { const bar: () => void = (): void => { super.baz(); }; } }",
+			options: ["declaration"],
+		},
+		{
+			code: "const obj: { foo(): void } = { foo(): void { const bar: () => void = (): void => super.baz; } }",
+			options: ["declaration"],
+		},
+		{
+			code: "const foo: () => void = (): void => {};",
+			options: ["declaration", { allowArrowFunctions: true }],
+		},
+		{
+			code: "const foo: () => void = (): void => { function foo(): void { this; } };",
+			options: ["declaration", { allowArrowFunctions: true }],
+		},
+		{
+			code: "const foo: () => { bar(): void } = (): { bar(): void } => ({ bar(): void { super.baz(); } });",
+			options: ["declaration", { allowArrowFunctions: true }],
+		},
+		{
+			code: "export function foo(): void {};",
+			options: ["declaration"],
+		},
+		{
+			code: "export function foo(): void {};",
+			options: [
+				"expression",
+				{ overrides: { namedExports: "declaration" } },
+			],
+		},
+		{
+			code: "export function foo(): void {};",
+			options: [
+				"declaration",
+				{ overrides: { namedExports: "declaration" } },
+			],
+		},
+		{
+			code: "export function foo(): void {};",
+			options: ["expression", { overrides: { namedExports: "ignore" } }],
+		},
+		{
+			code: "export function foo(): void {};",
+			options: ["declaration", { overrides: { namedExports: "ignore" } }],
+		},
+		{
+			code: "export const foo: () => void = function(): void {};",
+			options: ["expression"],
+		},
+		{
+			code: "export const foo: () => void = function(): void {};",
+			options: [
+				"declaration",
+				{ overrides: { namedExports: "expression" } },
+			],
+		},
+		{
+			code: "export const foo: () => void = function(): void {};",
+			options: [
+				"expression",
+				{ overrides: { namedExports: "expression" } },
+			],
+		},
+		{
+			code: "export const foo: () => void = function(): void {};",
+			options: ["declaration", { overrides: { namedExports: "ignore" } }],
+		},
+		{
+			code: "export const foo: () => void = function(): void {};",
+			options: ["expression", { overrides: { namedExports: "ignore" } }],
+		},
+		{
+			code: "const expression: Fn = function () {}",
+			options: ["declaration", { allowTypeAnnotation: true }],
+		},
+		{
+			code: "const arrow: Fn = () => {}",
+			options: ["declaration", { allowTypeAnnotation: true }],
+		},
+		{
+			code: "export const expression: Fn = function () {}",
+			options: ["declaration", { allowTypeAnnotation: true }],
+		},
+		{
+			code: "export const arrow: Fn = () => {}",
+			options: ["declaration", { allowTypeAnnotation: true }],
+		},
+		{
+			code: "export const expression: Fn = function () {}",
+			options: [
+				"expression",
+				{
+					allowTypeAnnotation: true,
+					overrides: { namedExports: "declaration" },
+				},
+			],
+		},
+		{
+			code: "export const arrow: Fn = () => {}",
+			options: [
+				"expression",
+				{
+					allowTypeAnnotation: true,
+					overrides: { namedExports: "declaration" },
+				},
+			],
+		},
+		{
+			code: "$1: function $2(): void { }",
+			options: ["declaration"],
+		},
+		{
+			code: "switch ($0) { case $1: function $2(): void { } }",
+			options: ["declaration"],
+		},
+		`
+		function test(a: string): string;
+		function test(a: number): number;
+		function test(a: unknown) {
+		  return a;
+		}
+		`,
+		`
+		export function test(a: string): string;
+		export function test(a: number): number;
+		export function test(a: unknown) {
+		  return a;
+		}
+		`,
+		{
+			code: `
+			export function test(a: string): string;
+		    export function test(a: number): number;
+		    export function test(a: unknown) {
+		      return a;
+		    }
+			`,
+			options: [
+				"expression",
+				{ overrides: { namedExports: "expression" } },
+			],
+		},
+		`
+		switch ($0) {
+			case $1:
+			function test(a: string): string;
+			function test(a: number): number;
+			function test(a: unknown) {
+			return a;
+			}
+		}
+		`,
+		`
+		switch ($0) {
+			case $1:
+			function test(a: string): string;
+			break;
+			case $2:
+			function test(a: unknown) {
+			return a;
+			}
+		}
+		`,
+	],
+	invalid: [
+		{
+			code: "const foo: () => void = function(): void {};",
+			options: ["declaration"],
+			errors: [
+				{
+					messageId: "declaration",
+					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
+			code: "const foo: () => void = (): void => {};",
+			options: ["declaration"],
+			errors: [
+				{
+					messageId: "declaration",
+					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
+			code: "const foo: () => void = (): void => { function foo(): void { this; } };",
+			options: ["declaration"],
+			errors: [
+				{
+					messageId: "declaration",
+					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
+			code: "const foo: () => { bar(): void } = (): { bar(): void } => ({ bar(): void { super.baz(); } });",
+			options: ["declaration"],
+			errors: [
+				{
+					messageId: "declaration",
+					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
+			code: "function foo(): void {}",
+			options: ["expression"],
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
+				},
+			],
+		},
+		{
+			code: "export function foo(): void {}",
+			options: ["expression"],
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
+				},
+			],
+		},
+		{
+			code: "export function foo(): void {};",
+			options: [
+				"declaration",
+				{ overrides: { namedExports: "expression" } },
+			],
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
+				},
+			],
+		},
+		{
+			code: "export function foo(): void {};",
+			options: [
+				"expression",
+				{ overrides: { namedExports: "expression" } },
+			],
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
+				},
+			],
+		},
+		{
+			code: "export const foo: () => void = function(): void {};",
+			options: ["declaration"],
+			errors: [
+				{
+					messageId: "declaration",
+					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
+			code: "export const foo: () => void = function(): void {};",
+			options: [
+				"expression",
+				{ overrides: { namedExports: "declaration" } },
+			],
+			errors: [
+				{
+					messageId: "declaration",
+					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
+			code: "export const foo: () => void = function(): void {};",
+			options: [
+				"declaration",
+				{ overrides: { namedExports: "declaration" } },
+			],
+			errors: [
+				{
+					messageId: "declaration",
+					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
+			code: "export const foo: () => void = (): void => {};",
+			options: ["declaration"],
+			errors: [
+				{
+					messageId: "declaration",
+					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
+			code: "export const b: () => void = (): void => {};",
+			options: [
+				"expression",
+				{ overrides: { namedExports: "declaration" } },
+			],
+			errors: [
+				{
+					messageId: "declaration",
+					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
+			code: "export const c: () => void = (): void => {};",
+			options: [
+				"declaration",
+				{ overrides: { namedExports: "declaration" } },
+			],
+			errors: [
+				{
+					messageId: "declaration",
+					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
+			code: "function foo(): void {};",
+			options: [
+				"expression",
+				{ overrides: { namedExports: "declaration" } },
+			],
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
+				},
+			],
+		},
+		{
+			code: "const foo: () => void = function(): void {};",
+			options: [
+				"declaration",
+				{ overrides: { namedExports: "expression" } },
+			],
+			errors: [
+				{
+					messageId: "declaration",
+					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
+			code: "const foo: () => void = (): void => {};",
+			options: [
+				"declaration",
+				{ overrides: { namedExports: "expression" } },
+			],
+			errors: [
+				{
+					messageId: "declaration",
+					type: "VariableDeclarator",
+				},
+			],
+		},
+		{
+			code: "$1: function $2(): void { }",
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
+				},
+			],
+		},
+		{
+			code: "if (foo) function bar(): string {}",
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
+				},
+			],
+		},
+		{
+			code: `
+			function test1(a: string): string;
+			function test2(a: number): number;
+			function test3(a: unknown) {
+			  return a;
+			}`,
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
+				},
+			],
+		},
+		{
+			code: `
+			export function test1(a: string): string;
+			export function test2(a: number): number;
+			export function test3(a: unknown) {
+			  return a;
+			}`,
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
+				},
+			],
+		},
+		{
+			code: `
+			export function test1(a: string): string;
+		    export function test2(a: number): number;
+		    export function test3(a: unknown) {
+		      return a;
+		    }
+			`,
+			options: [
+				"expression",
+				{ overrides: { namedExports: "expression" } },
+			],
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
+				},
+			],
+		},
+		{
+			code: `
+			switch ($0) {
+				case $1:
+				function test1(a: string): string;
+				function test2(a: number): number;
+				function test3(a: unknown) {
+					return a;
+				}
+			}
+			`,
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
+				},
+			],
+		},
+		{
+			code: `
+			switch ($0) {
+				case $1:
+				function test1(a: string): string;
+				break;
+				case $2:
+				function test2(a: unknown) {
+				return a;
+				}
+			}
+			`,
+			errors: [
+				{
+					messageId: "expression",
+					type: "FunctionDeclaration",
 				},
 			],
 		},

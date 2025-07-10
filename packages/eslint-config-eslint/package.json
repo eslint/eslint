@@ -3,6 +3,7 @@
   "version": "11.0.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "Default ESLint configuration for ESLint projects.",
+  "funding": "https://eslint.org/donate",
   "main": "./index.js",
   "types": "./types/index.d.ts",
   "exports": {
@@ -68,7 +69,7 @@
     "eslint-plugin-unicorn": "^52.0.0"
   },
   "devDependencies": {
-    "@arethetypeswrong/cli": "^0.17.0",
+    "@arethetypeswrong/cli": "^0.18.0",
     "eslint": "^9.16.0",
     "typescript": "^5.7.2"
   },

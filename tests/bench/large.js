@@ -9825,10 +9825,10 @@ if (typeof window === "undefined") window = {};
 								globals: false,
 								quotmark: false, //'single'|'double'|true
 								scope: false,
-								maxstatements: false, // {int} max statements per function
-								maxdepth: false, // {int} max nested block depth per function
-								maxparams: false, // {int} max params per function
-								maxcomplexity: false, // {int} max cyclomatic complexity per function
+								maxstatements: false, // {number} max statements per function
+								maxdepth: false, // {number} max nested block depth per function
+								maxparams: false, // {number} max params per function
+								maxcomplexity: false, // {number} max cyclomatic complexity per function
 								shadow: false, // if variable shadowing should be tolerated
 								//   "inner"  - check for variables defined in the same scope only
 								//   "outer"  - check for variables defined in outer scopes as well

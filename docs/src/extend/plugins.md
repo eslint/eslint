@@ -13,10 +13,10 @@ ESLint plugins extend ESLint with additional functionality. In most cases, you'l
 
 A plugin is a JavaScript object that exposes certain properties to ESLint:
 
--   `meta` - information about the plugin.
--   `configs` - an object containing named configurations.
--   `rules` - an object containing the definitions of custom rules.
--   `processors` - an object containing named processors.
+- `meta` - information about the plugin.
+- `configs` - an object containing named configurations.
+- `rules` - an object containing the definitions of custom rules.
+- `processors` - an object containing named processors.
 
 To get started, create a JavaScript file and export an object containing the properties you'd like ESLint to use. To make your plugin as easy to maintain as possible, we recommend that you format your plugin entrypoint file to look like this:
 
@@ -39,7 +39,7 @@ If you plan to distribute your plugin as an npm package, make sure that the modu
 
 ### Meta Data in Plugins
 
-For easier debugging and more effective caching of plugins, it's recommended to provide a `name` and `version` in a `meta` object at the root of your plugin, like this:
+For easier debugging and more effective caching of plugins, it's recommended to provide a `name`, `version`, and `namespace` in a `meta` object at the root of your plugin, like this:
 
 ```js
 const plugin = {
@@ -47,6 +47,7 @@ const plugin = {
 	meta: {
 		name: "eslint-plugin-example",
 		version: "1.2.3",
+		namespace: "example",
 	},
 	rules: {
 		// add rules here
@@ -60,7 +61,9 @@ export default plugin;
 module.exports = plugin;
 ```
 
-The `meta.name` property should match the npm package name for your plugin and the `meta.version` property should match the npm package version for your plugin. The easiest way to accomplish this is by reading this information from your `package.json`, as in this example:
+The `meta.name` property should match the npm package name for your plugin and the `meta.version` property should match the npm package version for your plugin. The `meta.namespace` property should match the prefix you'd like users to use for accessing the plugin's rules, processors, languages, and configs. The namespace is typically what comes after `eslint-plugin-` in your package name, which is why this example uses `"example"`. Providing a namespace allows the `defineConfig()` function to find your plugin even when a user assigns a different namespace in their config file.
+
+The easiest way to add the name and version is by reading this information from your `package.json`, as in this example:
 
 ```js
 import fs from "fs";
@@ -74,6 +77,7 @@ const plugin = {
 	meta: {
 		name: pkg.name,
 		version: pkg.version,
+		namespace: "example",
 	},
 	rules: {
 		// add rules here
@@ -86,9 +90,10 @@ export default plugin;
 ::: tip
 While there are no restrictions on plugin names, it helps others to find your plugin on [npm](https://npmjs.com) when you follow these naming conventions:
 
--   **Unscoped:** If your npm package name won't be scoped (doesn't begin with `@`), then the plugin name should begin with `eslint-plugin-`, such as `eslint-plugin-example`.
--   **Scoped:** If your npm package name will be scoped, then the plugin name should be in the format of `@<scope>/eslint-plugin-<plugin-name>` such as `@jquery/eslint-plugin-jquery` or even `@<scope>/eslint-plugin` such as `@jquery/eslint-plugin`.
-    :::
+- **Unscoped:** If your npm package name won't be scoped (doesn't begin with `@`), then the plugin name should begin with `eslint-plugin-`, such as `eslint-plugin-example`.
+- **Scoped:** If your npm package name will be scoped, then the plugin name should be in the format of `@<scope>/eslint-plugin-<plugin-name>` such as `@jquery/eslint-plugin-jquery` or even `@<scope>/eslint-plugin` such as `@jquery/eslint-plugin`.
+
+:::
 
 As an alternative, you can also expose `name` and `version` properties at the root of your plugin, such as:
 
@@ -366,9 +371,9 @@ ESLint provides the [`RuleTester`](../integrate/nodejs-api#ruletester) utility t
 
 ESLint plugins should be linted too! It's suggested to lint your plugin with the `recommended` configurations of:
 
--   [eslint](https://www.npmjs.com/package/eslint)
--   [eslint-plugin-eslint-plugin](https://www.npmjs.com/package/eslint-plugin-eslint-plugin)
--   [eslint-plugin-n](https://www.npmjs.com/package/eslint-plugin-n)
+- [eslint](https://www.npmjs.com/package/eslint)
+- [eslint-plugin-eslint-plugin](https://www.npmjs.com/package/eslint-plugin-eslint-plugin)
+- [eslint-plugin-n](https://www.npmjs.com/package/eslint-plugin-n)
 
 ## Share Plugins
 

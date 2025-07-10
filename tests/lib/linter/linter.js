@@ -20,6 +20,7 @@ const { FlatConfigArray } = require("../../../lib/config/flat-config-array");
 const { SourceCode } = require("../../../lib/languages/js/source-code");
 const jslang = require("../../../lib/languages/js");
 const Traverser = require("../../../lib/shared/traverser");
+const { WarningService } = require("../../../lib/services/warning-service");
 const { LATEST_ECMA_VERSION } = require("../../../conf/ecma-version");
 
 // In Node.js, `jsonPluginPackage.default` is the plugin. In the browser test, `jsonPluginPackage` is the plugin.
@@ -66,8 +67,11 @@ describe("Linter", () => {
 	/** @type {InstanceType<import("../../../lib/linter/linter.js").Linter>} */
 	let linter;
 
+	let warningService;
+
 	beforeEach(() => {
-		linter = new Linter({ configType: "eslintrc" });
+		warningService = sinon.stub(new WarningService());
+		linter = new Linter({ configType: "eslintrc", warningService });
 	});
 
 	afterEach(() => {
@@ -5851,7 +5855,7 @@ var a = "test2";
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
 
-		it("should report one suppresed problem when noInlineConfig is false and allowInlineConfig is true", () => {
+		it("should report one suppressed problem when noInlineConfig is false and allowInlineConfig is true", () => {
 			const code = [
 				"/* eslint-disable */ // <-- this should be inline config warning",
 				"foo(); // <-- this should be no-undef error",
@@ -6086,7 +6090,7 @@ var a = "test2";
 			});
 
 			it("supports ECMAScript version 'latest'", () => {
-				const messages = linter.verify("let x = /(?<x>a)|(?<x>b)/;", {
+				const messages = linter.verify("{ using x = foo(); }", {
 					parserOptions: { ecmaVersion: "latest" },
 				});
 				const suppressedMessages = linter.getSuppressedMessages();
@@ -8330,28 +8334,6 @@ var a = "test2";
 		});
 
 		describe("Circular autofixes", () => {
-			let processStub;
-
-			beforeEach(() => {
-				// in the browser test, `process.emitWarning` is not defined
-				if (
-					typeof process !== "undefined" &&
-					typeof process.emitWarning !== "undefined"
-				) {
-					processStub = sinon
-						.stub(process, "emitWarning")
-						.withArgs(
-							sinon.match.any,
-							sinon.match("ESLintCircularFixesWarning"),
-						)
-						.returns();
-				}
-			});
-
-			afterEach(() => {
-				sinon.restore();
-			});
-
 			it("should stop fixing if a circular fix is detected", () => {
 				linter.defineRules({
 					"add-leading-hyphen": {
@@ -8446,17 +8428,12 @@ var a = "test2";
 				);
 
 				// Verify the warning was emitted
-				if (processStub) {
-					assert.strictEqual(
-						processStub.callCount,
-						1,
-						"calls `process.emitWarning()` once",
-					);
-					assert.deepStrictEqual(processStub.getCall(0).args, [
-						"Circular fixes detected while fixing test.js. It is likely that you have conflicting rules in your configuration.",
-						"ESLintCircularFixesWarning",
-					]);
-				}
+				assert(
+					warningService.emitCircularFixesWarning.calledOnceWithExactly(
+						"test.js",
+					),
+					"calls `warningService.emitCircularFixesWarning()` once with the correct argument",
+				);
 
 				const suppressedMessages = linter.getSuppressedMessages();
 
@@ -8975,6 +8952,7 @@ var a = "test2";
 
 describe("Linter with FlatConfigArray", () => {
 	let linter;
+	let warningService;
 	const filename = "filename.js";
 
 	/**
@@ -8990,7 +8968,8 @@ describe("Linter with FlatConfigArray", () => {
 	}
 
 	beforeEach(() => {
-		linter = new Linter({ configType: "flat" });
+		warningService = sinon.stub(new WarningService());
+		linter = new Linter({ configType: "flat", warningService });
 	});
 
 	describe("Static Members", () => {
@@ -9002,28 +8981,6 @@ describe("Linter with FlatConfigArray", () => {
 	});
 
 	describe("hasFlag()", () => {
-		let processStub;
-
-		beforeEach(() => {
-			// in the browser test, `process.emitWarning` is not defined
-			if (
-				typeof process !== "undefined" &&
-				typeof process.emitWarning !== "undefined"
-			) {
-				processStub = sinon
-					.stub(process, "emitWarning")
-					.withArgs(
-						sinon.match.any,
-						sinon.match(/^ESLintInactiveFlag_/u),
-					)
-					.returns();
-			}
-		});
-
-		afterEach(() => {
-			sinon.restore();
-		});
-
 		it("should return true if an active flag is present", () => {
 			assert.strictEqual(
 				new Linter({
@@ -9039,21 +8996,18 @@ describe("Linter with FlatConfigArray", () => {
 				new Linter({
 					configType: "flat",
 					flags: ["test_only_replaced"],
+					warningService,
 				}).hasFlag("test_only"),
 				true,
 			);
 
-			if (processStub) {
-				assert.strictEqual(
-					processStub.callCount,
-					1,
-					"calls `process.emitWarning()` for flags once",
-				);
-				assert.deepStrictEqual(processStub.getCall(0).args, [
+			assert(
+				warningService.emitInactiveFlagWarning.calledOnceWithExactly(
+					"test_only_replaced",
 					"The flag 'test_only_replaced' is inactive: This flag has been renamed 'test_only' to reflect its stabilization. Please use 'test_only' instead.",
-					"ESLintInactiveFlag_test_only_replaced",
-				]);
-			}
+				),
+				"calls `warningService.emitInactiveFlagWarning()` once with the correct arguments",
+			);
 		});
 
 		it("should return false if an inactive flag whose feature is enabled by default is used", () => {
@@ -9061,21 +9015,18 @@ describe("Linter with FlatConfigArray", () => {
 				new Linter({
 					configType: "flat",
 					flags: ["test_only_enabled_by_default"],
+					warningService,
 				}).hasFlag("test_only_enabled_by_default"),
 				false,
 			);
 
-			if (processStub) {
-				assert.strictEqual(
-					processStub.callCount,
-					1,
-					"calls `process.emitWarning()` for flags once",
-				);
-				assert.deepStrictEqual(processStub.getCall(0).args, [
+			assert(
+				warningService.emitInactiveFlagWarning.calledOnceWithExactly(
+					"test_only_enabled_by_default",
 					"The flag 'test_only_enabled_by_default' is inactive: This feature is now enabled by default.",
-					"ESLintInactiveFlag_test_only_enabled_by_default",
-				]);
-			}
+				),
+				"calls `warningService.emitInactiveFlagWarning()` once with the correct arguments",
+			);
 		});
 
 		it("should throw an error if an inactive flag whose feature has been abandoned is used", () => {
@@ -9222,9 +9173,7 @@ describe("Linter with FlatConfigArray", () => {
 				});
 
 				it("ecmaVersion should be 'latest' by default", () => {
-					const messages = linter.verify(
-						"let x = /(?<x>a)|(?<x>b)/;",
-					); // ECMAScript 2025 syntax
+					const messages = linter.verify("{ using x = foo(); }"); // ECMAScript 2026 syntax
 					const suppressedMessages = linter.getSuppressedMessages();
 
 					assert.strictEqual(messages.length, 0); // No parsing errors
@@ -16655,7 +16604,7 @@ var a = "test2";
 					assert.strictEqual(suppressedMessages.length, 0);
 				});
 
-				it("should report one suppresed problem when noInlineConfig is false and allowInlineConfig is true", () => {
+				it("should report one suppressed problem when noInlineConfig is false and allowInlineConfig is true", () => {
 					const code = [
 						"/* eslint-disable */ // <-- this should be inline config warning",
 						"foo(); // <-- this should be no-undef error",
@@ -19074,28 +19023,6 @@ var a = "test2";
 		});
 
 		describe("Circular autofixes", () => {
-			let processStub;
-
-			beforeEach(() => {
-				// in the browser test, `process.emitWarning` is not defined
-				if (
-					typeof process !== "undefined" &&
-					typeof process.emitWarning !== "undefined"
-				) {
-					processStub = sinon
-						.stub(process, "emitWarning")
-						.withArgs(
-							sinon.match.any,
-							sinon.match("ESLintCircularFixesWarning"),
-						)
-						.returns();
-				}
-			});
-
-			afterEach(() => {
-				sinon.restore();
-			});
-
 			it("should stop fixing if a circular fix is detected", () => {
 				const config = {
 					plugins: {
@@ -19197,17 +19124,12 @@ var a = "test2";
 				);
 
 				// Verify the warning was emitted
-				if (processStub) {
-					assert.strictEqual(
-						processStub.callCount,
-						1,
-						"calls `process.emitWarning()` once",
-					);
-					assert.deepStrictEqual(processStub.getCall(0).args, [
-						"Circular fixes detected while fixing test.js. It is likely that you have conflicting rules in your configuration.",
-						"ESLintCircularFixesWarning",
-					]);
-				}
+				assert(
+					warningService.emitCircularFixesWarning.calledOnceWithExactly(
+						"test.js",
+					),
+					"calls `warningService.emitCircularFixesWarning()` once with the correct argument",
+				);
 
 				const suppressedMessages = linter.getSuppressedMessages();
 
@@ -19846,7 +19768,7 @@ var a = "test2";
 													blocksMap.get(fileName);
 												let rangeOffset = 0;
 
-												// intentionaly mutates objects and arrays
+												// intentionally mutates objects and arrays
 												messageLists.forEach(
 													(messages, index) => {
 														messages.forEach(

@@ -21,7 +21,7 @@ const OPENING = "foo(function() {",
 
 /**
  * Generates a code string with the specified number of nested callbacks.
- * @param {int} times The number of times to nest the callbacks.
+ * @param {number} times The number of times to nest the callbacks.
  * @returns {string} Code with the specified number of nested callbacks
  * @private
  */

@@ -26,7 +26,7 @@ try {
 	// ignore
 }
 
-/** @typedef {import("../../lib/shared/types").LanguageOptions} LanguageOptions */
+/** @typedef {import("../../lib/types").Linter.LanguageOptions} JSLanguageOptions */
 
 /**
  * Content that needs to be marked with ESLint
@@ -35,15 +35,15 @@ try {
 let contentMustBeMarked;
 
 /**
- * Parser options received from the `::: incorrect` or `::: correct` container.
- * @type {LanguageOptions|undefined}
+ * Language options received from the `::: incorrect` or `::: correct` container.
+ * @type {JSLanguageOptions|undefined}
  */
 let contentLanguageOptions;
 
 /**
  * Set content that needs to be marked.
  * @param {string} content Source code content that marks ESLint errors.
- * @param {LanguageOptions} options The options used for validation.
+ * @param {JSLanguageOptions} options The options used for validation.
  * @returns {void}
  */
 function addContentMustBeMarked(content, options) {

@@ -35,17 +35,18 @@ export default defineConfig([eslintConfigESLint]);
 
 **Note**: This configuration array contains configuration objects with the `files` property.
 
--   `files: ["**/*.js"]`: ESM-specific configurations.
--   `files: ["**/*.cjs"]`: CommonJS-specific configurations.
+- `files: ["**/*.js"]`: ESM-specific configurations.
+- `files: ["**/*.cjs"]`: CommonJS-specific configurations.
 
 ### CommonJS projects
 
 In your `eslint.config.js` file, add:
 
 ```js
+const { defineConfig } = require("eslint/config");
 const eslintConfigESLintCJS = require("eslint-config-eslint/cjs");
 
-module.exports = [...eslintConfigESLintCJS];
+module.exports = defineConfig([eslintConfigESLintCJS]);
 ```
 
 ### Base config

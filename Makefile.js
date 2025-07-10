@@ -857,7 +857,7 @@ target.checkRuleFiles = function () {
 		 * @private
 		 */
 		function hasRuleTypeJSDocComment() {
-			const comment = "/** @type {import('../shared/types').Rule} */";
+			const comment = "/** @type {import('../types').Rule.RuleModule} */";
 
 			return ruleCode.includes(comment);
 		}
@@ -1056,16 +1056,16 @@ module.exports = [{
 
 /**
  * @callback TimeCallback
- * @param {?int[]} results
+ * @param {number[] | null} results
  * @returns {void}
  */
 
 /**
  * Calculates the time for each run for performance
  * @param {string} cmd cmd
- * @param {int} runs Total number of runs to do
- * @param {int} runNumber Current run number
- * @param {int[]} results Collection results from each run
+ * @param {number} runs Total number of runs to do
+ * @param {number} runNumber Current run number
+ * @param {number[]} results Collection results from each run
  * @param {TimeCallback} cb Function to call when everything is done
  * @returns {void} calls the cb with all the results
  * @private

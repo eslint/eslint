@@ -31,9 +31,11 @@ import {
 	Linter,
 	loadESLint,
 	Rule,
+	JSRuleDefinition,
 	RuleTester,
 	Scope,
 	SourceCode,
+	JSSyntaxElement,
 } from "eslint";
 import { defineConfig, globalIgnores } from "eslint/config";
 import { ESLintRules } from "eslint/rules";
@@ -52,7 +54,7 @@ import {
 	StaticBlock,
 	WhileStatement,
 } from "estree";
-import { Language, RuleDefinition } from "@eslint/core";
+import { Language, RuleDefinition, SettingsConfig } from "@eslint/core";
 
 const SOURCE = `var foo = bar;`;
 
@@ -148,9 +150,9 @@ sourceCode.getFirstToken(AST, { includeComments: true }); // $ExpectType Comment
 sourceCode.getFirstToken(AST, { includeComments: true, skip: 0 });
 // prettier-ignore
 sourceCode.getFirstToken(AST, { // $ExpectType (Token & { type: "Identifier"; }) | null
-    includeComments: true,
-    skip: 0,
-    filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
+	includeComments: true,
+	skip: 0,
+	filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
 });
 
 sourceCode.getFirstTokens(AST); // $ExpectType Token[]
@@ -168,16 +170,16 @@ sourceCode.getFirstTokens(AST, {
 });
 // prettier-ignore
 sourceCode.getFirstTokens(AST, { // $ExpectType (Token & { type: "Identifier"; })[]
-    count: 0,
-    filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
+	count: 0,
+	filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
 });
 sourceCode.getFirstTokens(AST, { includeComments: true }); //  $ ExpectType (Comment | Token)[]
 sourceCode.getFirstTokens(AST, { includeComments: true, count: 0 }); //  $ ExpectType (Comment | Token)[]
 // prettier-ignore
 sourceCode.getFirstTokens(AST, { // $ExpectType (Token & { type: "Identifier"; })[]
-    includeComments: true,
-    count: 0,
-    filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
+	includeComments: true,
+	count: 0,
+	filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
 });
 
 sourceCode.getLastToken(AST);
@@ -301,7 +303,7 @@ sourceCode.getFirstTokenBetween(
 );
 // prettier-ignore
 sourceCode.getFirstTokenBetween(AST, AST, { // $ExpectType (Token & { type: "Identifier"; }) | null
-    filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
+	filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
 });
 sourceCode.getFirstTokenBetween(AST, AST, {
 	skip: 0,
@@ -312,9 +314,9 @@ sourceCode.getFirstTokenBetween(AST, AST, { includeComments: true }); // $Expect
 sourceCode.getFirstTokenBetween(AST, AST, { includeComments: true, skip: 0 });
 // prettier-ignore
 sourceCode.getFirstTokenBetween(AST, AST, { // $ExpectType (Token & { type: "Identifier"; }) | null
-    includeComments: true,
-    skip: 0,
-    filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
+	includeComments: true,
+	skip: 0,
+	filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
 });
 
 sourceCode.getFirstTokensBetween(AST, AST); // $ExpectType Token[]
@@ -328,7 +330,7 @@ sourceCode.getFirstTokensBetween(
 );
 // prettier-ignore
 sourceCode.getFirstTokensBetween(AST, AST, { // $ExpectType (Token & { type: "Identifier"; })[]
-    filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
+	filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
 });
 sourceCode.getFirstTokensBetween(AST, AST, {
 	count: 0,
@@ -338,9 +340,9 @@ sourceCode.getFirstTokensBetween(AST, AST, { includeComments: true }); // $Expec
 sourceCode.getFirstTokensBetween(AST, AST, { includeComments: true, count: 0 });
 // prettier-ignore
 sourceCode.getFirstTokensBetween(AST, AST, { // $ExpectType (Token & { type: "Identifier"; })[]
-    includeComments: true,
-    count: 0,
-    filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
+	includeComments: true,
+	count: 0,
+	filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
 });
 
 sourceCode.getLastTokenBetween(AST, AST);
@@ -400,8 +402,8 @@ sourceCode.getTokens(AST, {
 sourceCode.getTokens(AST, { includeComments: true }); // $ExpectType (Comment | Token)[]
 // prettier-ignore
 sourceCode.getTokens(AST, { // $ExpectType (Token & { type: "Identifier"; })[]
-    includeComments: true,
-    filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
+	includeComments: true,
+	filter: (t): t is AST.Token & { type: "Identifier" } => t.type === "Identifier",
 });
 
 sourceCode.commentsExistBetween(AST, AST);
@@ -613,13 +615,16 @@ rule = {
 		hasSuggestions: true,
 	},
 };
+rule = {
+	create(context) {
+		const foo: string = context.options[0];
+		const baz: number = context.options[1]?.baz ?? false;
+		return {};
+	},
+};
 
 rule = {
 	create(context: Rule.RuleContext) {
-		context.getAncestors();
-
-		context.getDeclaredVariables(AST);
-
 		context.filename;
 
 		context.getFilename();
@@ -636,21 +641,19 @@ rule = {
 		context.languageOptions
 			.ecmaVersion satisfies Linter.LanguageOptions["ecmaVersion"];
 
+		context.options; // $ExpectType any[]
+
 		context.sourceCode;
 		context.sourceCode.getLocFromIndex(42);
 
 		context.getSourceCode();
 		context.getSourceCode().getLocFromIndex(42);
 
-		context.getScope();
-
 		if (typeof context.parserPath === "string") {
 			context.parserPath;
 		} else {
 			context.languageOptions?.parser;
 		}
-
-		context.markVariableAsUsed("foo");
 
 		// @ts-expect-error wrong `node` type
 		context.report({ message: "foo", node: {} });
@@ -783,6 +786,13 @@ rule = {
 	},
 };
 
+let rule2: RuleDefinition;
+rule2 = {
+	create(context) {
+		return {};
+	},
+	meta: {},
+};
 type DeprecatedRuleContextKeys =
 	| "getAncestors"
 	| "getDeclaredVariables"
@@ -796,6 +806,93 @@ type DeprecatedRuleContextKeys =
 				? never
 				: (typeof context)[Key];
 		};
+		return {};
+	},
+});
+
+// All options optional - JSRuleDefinition and JSRuleDefinition<{}>
+// should be the same type.
+(rule1: JSRuleDefinition, rule2: JSRuleDefinition<{}>) => {
+	rule1 satisfies typeof rule2;
+	rule2 satisfies typeof rule1;
+};
+
+// Type restrictions should be enforced
+(): JSRuleDefinition<{
+	RuleOptions: [string, number];
+	MessageIds: "foo" | "bar";
+	ExtRuleDocs: { foo: string; bar: number };
+}> => ({
+	meta: {
+		messages: {
+			foo: "FOO",
+
+			// @ts-expect-error Wrong type for message ID
+			bar: 42,
+		},
+		docs: {
+			foo: "FOO",
+
+			// @ts-expect-error Wrong type for declared property
+			bar: "BAR",
+
+			// @ts-expect-error Wrong type for predefined property
+			description: 42,
+		},
+	},
+	create({ options }) {
+		// Types for rule options
+		options[0] satisfies string;
+		options[1] satisfies number;
+
+		return {};
+	},
+});
+
+// Undeclared properties should produce an error
+(): JSRuleDefinition<{
+	MessageIds: "foo" | "bar";
+	ExtRuleDocs: { foo: number; bar: string };
+}> => ({
+	meta: {
+		messages: {
+			foo: "FOO",
+
+			// Declared message ID is not required
+			// bar: "BAR",
+
+			// @ts-expect-error Undeclared message ID is not allowed
+			baz: "BAZ",
+		},
+		docs: {
+			foo: 42,
+
+			// Declared property is not required
+			// bar: "BAR",
+
+			// @ts-expect-error Undeclared property key is not allowed
+			baz: "BAZ",
+
+			// Predefined property is allowed
+			description: "Lorem ipsum",
+		},
+	},
+	create() {
+		return {};
+	},
+});
+
+(): JSRuleDefinition => ({
+	create(context) {
+		context.cwd satisfies string; // $ExpectType string
+		context.filename satisfies string; // $ExpectType string
+		context.id satisfies string; // $ExpectType string
+		context.languageOptions satisfies Linter.LanguageOptions; // $ExpectType LanguageOptions
+		context.options satisfies unknown[]; // $ExpectType unknown[]
+		context.physicalFilename satisfies string; // $ExpectType string
+		context.settings satisfies SettingsConfig; // $ExpectType SettingsConfig
+		context.sourceCode satisfies SourceCode; // $ExpectType SourceCode
+
 		return {};
 	},
 });
@@ -825,6 +922,7 @@ linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2022 } }, "test.js");
 linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2023 } }, "test.js");
 linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2024 } }, "test.js");
 linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2025 } }, "test.js");
+linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2026 } }, "test.js");
 linter.verify(SOURCE, { parserOptions: { ecmaVersion: "latest" } }, "test.js");
 linter.verify(
 	SOURCE,
@@ -837,6 +935,16 @@ linter.verify(
 		parserOptions: {
 			ecmaVersion: 6,
 			ecmaFeatures: { experimentalObjectRestSpread: true },
+		},
+	},
+	"test.js",
+);
+linter.verify(
+	SOURCE,
+	{
+		parserOptions: {
+			ecmaVersion: 3,
+			allowReserved: true,
 		},
 	},
 	"test.js",
@@ -969,11 +1077,11 @@ linter.defineParser("custom-parser", {
 		name: "foo",
 		version: "1.2.3",
 	},
-	parseForESLint(src, opts) {
+	parseForESLint(src, opts): Linter.ESLintParseResult {
 		return {
 			ast: AST,
 			visitorKeys: {},
-			parserServices: {},
+			services: {},
 			scopeManager,
 		};
 	},
@@ -1034,6 +1142,11 @@ linterWithFlatConfig.verify(SOURCE, [{}], {
 linterWithFlatConfig.verify(SOURCE, [{}], {
 	postprocess: problemList => problemList[0],
 });
+linterWithFlatConfig.verify(SOURCE, [{}], {
+	filterCodeBlock(filename) {
+		return filename.endsWith(".js");
+	},
+});
 
 linterWithFlatConfig.verify(
 	SOURCE,
@@ -1058,6 +1171,11 @@ linterWithFlatConfig.verify(
 linterWithFlatConfig.verify(
 	SOURCE,
 	[{ languageOptions: { ecmaVersion: 2025 } }],
+	"test.js",
+);
+linterWithFlatConfig.verify(
+	SOURCE,
+	[{ languageOptions: { ecmaVersion: 2026 } }],
 	"test.js",
 );
 linterWithFlatConfig.verify(
@@ -1159,6 +1277,15 @@ linterWithFlatConfig.verifyAndFix(
 	{ linterOptions: {} },
 	{ filename: "test.js" },
 );
+linterWithFlatConfig.verifyAndFix(
+	SOURCE,
+	{ linterOptions: {} },
+	{
+		filterCodeBlock(filename) {
+			return filename.endsWith(".js");
+		},
+	},
+);
 
 // #endregion Linter with flat config
 
@@ -1218,6 +1345,11 @@ linterWithEslintrcConfig.verify(
 );
 linterWithEslintrcConfig.verify(
 	SOURCE,
+	{ parserOptions: { ecmaVersion: 2026 } },
+	"test.js",
+);
+linterWithEslintrcConfig.verify(
+	SOURCE,
 	{ parserOptions: { ecmaVersion: "latest" } },
 	"test.js",
 );
@@ -1232,6 +1364,16 @@ linterWithEslintrcConfig.verify(
 		parserOptions: {
 			ecmaVersion: 6,
 			ecmaFeatures: { experimentalObjectRestSpread: true },
+		},
+	},
+	"test.js",
+);
+linterWithEslintrcConfig.verify(
+	SOURCE,
+	{
+		parserOptions: {
+			ecmaVersion: 3,
+			allowReserved: true,
 		},
 	},
 	"test.js",
@@ -1391,6 +1533,7 @@ linterWithEslintrcConfig.getRules();
 				version: "1.0.0",
 				meta: {
 					name: "bar",
+					namespace: "bar",
 					version: "1.0.0",
 				},
 				configs: {
@@ -1669,6 +1812,20 @@ for (const result of results) {
 	};
 	delete result.stats;
 
+	const deprecatedRule = result.usedDeprecatedRules[0];
+	deprecatedRule.ruleId = "foo";
+	deprecatedRule.replacedBy = ["bar"];
+	deprecatedRule.info = {
+		message: "use bar instead",
+		replacedBy: [
+			{
+				rule: {
+					name: "bar",
+				},
+			},
+		],
+	};
+
 	for (const message of result.messages) {
 		message.ruleId = "foo";
 	}
@@ -1818,6 +1975,11 @@ ruleTester.run("simple-valid-test", rule, {
 	invalid: [{ code: "bar", errors: ["baz"] }],
 });
 
+ruleTester.run("simple-valid-test", rule2, {
+	valid: ["foo", "bar", { code: "foo", options: [{ allowFoo: true }] }],
+	invalid: [{ code: "bar", errors: ["baz"] }],
+});
+
 // #endregion
 
 // #region Config
@@ -1909,6 +2071,23 @@ ruleTester.run("simple-valid-test", rule, {
 
 (): Linter.Config => ({ name: "eslint:js" });
 
+(): Linter.Config => ({ basePath: "subdir" });
+
+(): Linter.Config => ({
+	// @ts-expect-error
+	basePath: null,
+});
+
+(): Linter.Config => ({
+	// @ts-expect-error
+	basePath: 42,
+});
+
+(): Linter.Config => ({
+	// @ts-expect-error
+	basePath: {},
+});
+
 // @ts-expect-error // Generic passed in does not match the RuleEntry schema
 (): Linter.Config<{ foo?: "bar" }> => ({
 	rules: {},
@@ -1990,6 +2169,12 @@ let flatConfig!: Linter.FlatConfig;
 config = flatConfig;
 flatConfig = config;
 
+let configWithRules!: Linter.Config<ESLintRules>;
+let flatConfigWithRules!: Linter.FlatConfig<ESLintRules>;
+configWithRules = flatConfigWithRules;
+flatConfigWithRules = configWithRules;
+flatConfigWithRules.rules; // $ExpectType Partial<ESLintRules> | undefined
+
 // #endregion Config
 
 // #region Plugins
@@ -2058,3 +2243,40 @@ defineConfig([
 ]);
 
 // #endregion
+
+// #region JSSyntaxElement
+
+const fooRule1: Rule.RuleModule = {
+	create(context) {
+		return {
+			Program(node) {
+				for (const comment of node.comments ?? []) {
+					context.report({
+						node: comment,
+						messageId: "foo",
+					});
+				}
+			},
+		};
+	},
+};
+
+const fooRule2: JSRuleDefinition = {
+	create(context) {
+		return {
+			Program(node) {
+				for (const comment of node.comments ?? []) {
+					context.report({
+						node: comment,
+						messageId: "foo",
+					});
+				}
+			},
+		};
+	},
+};
+
+const SYNTAX_ELEMENT_COMMENT: JSSyntaxElement = COMMENT;
+const SYNTAX_ELEMENT_TOKEN: JSSyntaxElement = TOKEN;
+
+// #endregion JSSyntaxElement

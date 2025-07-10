@@ -11,7 +11,7 @@ further_reading:
 This rule was removed in ESLint v9.0.0 and replaced by the [`eslint-plugin-jsdoc`](https://github.com/gajus/eslint-plugin-jsdoc) equivalent.
 :::
 
-[JSDoc](http://usejsdoc.org) generates application programming interface (API) documentation from specially-formatted comments in JavaScript code. For example, this is a JSDoc comment for a function:
+[JSDoc](https://jsdoc.app) generates application programming interface (API) documentation from specially-formatted comments in JavaScript code. For example, this is a JSDoc comment for a function:
 
 ```js
 /**
@@ -194,9 +194,9 @@ Examples of additional **incorrect** code for this rule with sample `"prefer": {
 
 /**
  * Add two numbers.
- * @arg {int} num1 The first number.
- * @arg {int} num2 The second number.
- * @return {int} The sum of the two numbers.
+ * @arg {number} num1 The first number.
+ * @arg {number} num2 The second number.
+ * @return {number} The sum of the two numbers.
  */
 function add(num1, num2) {
     return num1 + num2;
@@ -397,9 +397,9 @@ Example of additional **correct** code for this rule with the `"requireParamDesc
 
 /**
  * Add two numbers.
- * @param {int} num1
- * @param {int} num2
- * @returns {int} The sum of the two numbers.
+ * @param {number} num1
+ * @param {number} num2
+ * @returns {number} The sum of the two numbers.
  */
 function add(num1, num2) {
     return num1 + num2;

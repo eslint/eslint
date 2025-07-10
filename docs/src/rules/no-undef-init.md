@@ -54,7 +54,7 @@ let bar;
 
 :::
 
-Please note that this rule does not check `const` declarations, destructuring patterns, function parameters, and class fields.
+Please note that this rule does not check `const` declarations, `using` declarations, `await using` declarations, destructuring patterns, function parameters, and class fields.
 
 Examples of additional **correct** code for this rule:
 
@@ -64,6 +64,10 @@ Examples of additional **correct** code for this rule:
 /*eslint no-undef-init: "error"*/
 
 const foo = undefined;
+
+using foo1 = undefined;
+
+await using foo2 = undefined;
 
 let { bar = undefined } = baz;
 
@@ -80,7 +84,9 @@ class Foo {
 
 ## When Not To Use It
 
-There is one situation where initializing to `undefined` behaves differently than omitting the initialization, and that's when a `var` declaration occurs inside of a loop. For example:
+There are situations where initializing to `undefined` behaves differently than omitting the initialization.
+
+One such case is when a `var` declaration occurs inside of a loop. For example:
 
 Example of **incorrect** code for this rule:
 
@@ -150,3 +156,22 @@ for (i = 0; i < 10; i++) {
 ```
 
 :::
+
+Another such case is when a variable is redeclared using `var`. For example:
+
+```js
+function foo() {
+    var x = 1;
+    console.log(x); // output: 1
+
+    var x;
+    console.log(x); // output: 1
+
+    var x = undefined;
+    console.log(x); // output: undefined
+}
+
+foo();
+```
+
+In this case, you can avoid redeclaration by changing it to an assignment (`x = undefined;`), or use an eslint disable comment on a specific line.
