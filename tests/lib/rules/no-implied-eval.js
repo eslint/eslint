@@ -261,22 +261,60 @@ ruleTester.run("no-implied-eval", rule, {
 			code: "foo('', global.setTimeout);",
 			languageOptions: { sourceType: "commonjs" },
 		},
+
+		// https://github.com/eslint/eslint/issues/19923
+		{
+			code: `
+			function execScript(string) {
+				console.log("This is not your grandparent's execScript().");
+			}
+
+			execScript('wibble');
+			`,
+			languageOptions: {
+				globals: { execScript: false },
+			},
+		},
+		{
+			code: `
+			function setTimeout(string) {
+				console.log("This is not your grandparent's setTimeout().");
+			}
+
+			setTimeout('wibble');
+			`,
+			languageOptions: {
+				globals: globals.browser,
+			},
+		},
+		{
+			code: `
+			function setInterval(string) {
+				console.log("This is not your grandparent's setInterval().");
+			}
+
+			setInterval('wibble');
+			`,
+			languageOptions: {
+				globals: globals.browser,
+			},
+		},
 	],
 
 	invalid: [
-		{ code: 'setTimeout("x = 1;");', errors: [expectedError] },
-		{ code: 'setTimeout("x = 1;", 100);', errors: [expectedError] },
-		{ code: 'setInterval("x = 1;");', errors: [expectedError] },
-		{ code: 'execScript("x = 1;");', errors: [expectedError] },
+		{ code: 'setTimeout("x = 1;");', languageOptions: { globals: globals.browser }, errors: [expectedError] },
+		{ code: 'setTimeout("x = 1;", 100);', languageOptions: { globals: globals.browser }, errors: [expectedError] },
+		{ code: 'setInterval("x = 1;");', languageOptions: { globals: globals.browser }, errors: [expectedError] },
+		{ code: 'execScript("x = 1;");', languageOptions: { globals: { execScript: false } }, errors: [expectedError] },
 
 		{
 			code: "const s = 'x=1'; setTimeout(s, 100);",
-			languageOptions: { ecmaVersion: 6 },
+			languageOptions: { ecmaVersion: 6, globals: globals.browser },
 			errors: [expectedError],
 		},
 		{
 			code: "setTimeout(String('x=1'), 100);",
-			languageOptions: { ecmaVersion: 6 },
+			languageOptions: { ecmaVersion: 6, globals: globals.browser },
 			errors: [expectedError],
 		},
 
@@ -355,7 +393,7 @@ ruleTester.run("no-implied-eval", rule, {
 		// template literals
 		{
 			code: "setTimeout(`foo${bar}`)",
-			languageOptions: { ecmaVersion: 6 },
+			languageOptions: { ecmaVersion: 6, globals: globals.browser },
 			errors: [expectedError],
 		},
 		{
@@ -375,14 +413,14 @@ ruleTester.run("no-implied-eval", rule, {
 		},
 
 		// string concatenation
-		{ code: "setTimeout('foo' + bar)", errors: [expectedError] },
-		{ code: "setTimeout(foo + 'bar')", errors: [expectedError] },
+		{ code: "setTimeout('foo' + bar)", languageOptions: { globals: globals.browser }, errors: [expectedError] },
+		{ code: "setTimeout(foo + 'bar')", languageOptions: { globals: globals.browser }, errors: [expectedError] },
 		{
 			code: "setTimeout(`foo` + bar)",
-			languageOptions: { ecmaVersion: 6 },
+			languageOptions: { ecmaVersion: 6, globals: globals.browser },
 			errors: [expectedError],
 		},
-		{ code: "setTimeout(1 + ';' + 1)", errors: [expectedError] },
+		{ code: "setTimeout(1 + ';' + 1)", languageOptions: { globals: globals.browser }, errors: [expectedError] },
 		{
 			code: "window.setTimeout('foo' + bar)",
 			languageOptions: { globals: globals.browser },
@@ -447,6 +485,7 @@ ruleTester.run("no-implied-eval", rule, {
 				"   execScript('str');\n" +
 				"   return 'bar';\n" +
 				"})())",
+			languageOptions: { globals: { ...globals.browser, execScript: false } },
 			errors: [
 				{
 					messageId: "impliedEval",
@@ -492,7 +531,7 @@ ruleTester.run("no-implied-eval", rule, {
 				"   global.execScript('str');\n" +
 				"   return 'bar';\n" +
 				"})())",
-			languageOptions: { sourceType: "commonjs" },
+			languageOptions: { sourceType: "commonjs", globals: globals.browser },
 			errors: [
 				{
 					messageId: "impliedEval",
