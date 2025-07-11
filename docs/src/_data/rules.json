@@ -75,7 +75,7 @@
             },
             {
                 "name": "no-const-assign",
-                "description": "Disallow reassigning `const` variables",
+                "description": "Disallow reassigning `const`, `using`, and `await using` variables",
                 "recommended": true,
                 "fixable": false,
                 "frozen": false,
