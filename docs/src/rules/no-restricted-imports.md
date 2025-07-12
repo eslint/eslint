@@ -282,6 +282,107 @@ import { AllowedObject } from "foo";
 
 :::
 
+#### allowTypeImports (TypeScript only)
+
+Whether to allow [Type-Only Imports](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-8.html#type-only-imports-and-export) for a path. This includes type-only `export` statements, as they are equivalent to re-exporting an `import`. Default: `false`.
+
+```json
+"no-restricted-imports": ["error", {
+  "paths": [{
+    "name": "import-foo",
+    "allowTypeImports": true,
+  }]
+}]
+```
+
+Examples of **incorrect** code for `allowTypeImports` in `paths`:
+
+::: incorrect { "sourceType": "module" }
+
+```ts
+/*eslint no-restricted-imports: ["error", { paths: [{
+    name: "import-foo",
+    allowTypeImports: true,
+    message: "Please use only type-only imports from 'import-foo'."
+}]}]*/
+
+import foo from 'import-foo';
+export { Foo } from 'import-foo';
+
+import baz from 'import-baz';
+export { Baz } from 'import-baz';
+```
+
+:::
+
+Examples of **correct** code for `allowTypeImports` in `paths`:
+
+::: correct { "sourceType": "module" }
+
+```ts
+/*eslint no-restricted-imports: ["error", { paths: [{
+    name: "foo",
+    allowTypeImports: true,
+    message: "Please use only type-only imports from 'import-foo'."
+}]}]*/
+
+import { foo } from 'other-module';
+
+import type foo from 'import-foo';
+export type { Foo } from 'import-foo';
+
+import type foo = require("import-foo");
+```
+
+:::
+
+TypeScript [`import = require()` syntax](https://www.typescriptlang.org/docs/handbook/2/modules.html#es-module-syntax-with-commonjs-behavior) is supported, but it has limitations.
+
+You can only **fully restrict** these imports, you **cannot restrict** them based on specific import names like `importNames`, `allowImportNames`, `importNamePattern`, or `allowImportNamePattern` options.
+
+Examples of **incorrect** code for TypeScript import equals declarations:
+
+::: incorrect { "sourceType": "module" }
+
+```ts
+/*eslint no-restricted-imports: ["error", "disallowed-import"]*/
+
+import foo = require("disallowed-import");
+```
+
+:::
+
+::: incorrect { "sourceType": "module" }
+
+```ts
+/*eslint no-restricted-imports: ["error", { 
+  "paths": [{ "name": "disallowed-import" }] 
+}]*/
+
+import foo = require("disallowed-import");
+```
+
+:::
+
+**Note:** Import name restrictions do not apply to TypeScript import equals declarations. The following configuration will **not** restrict the import equals declaration:
+
+::: correct { "sourceType": "module" }
+
+```ts
+/*eslint no-restricted-imports: ["error", { 
+  "paths": [{ 
+    "name": "foo",
+    "importNames": ["foo"]
+  }] 
+}]*/
+
+// This import equals declaration will NOT be restricted
+// even though it imports the entire module
+import foo = require("foo");
+```
+
+:::
+
 ### patterns
 
 This is also an object option whose value is an array. This option allows you to specify multiple modules to restrict using `gitignore`-style patterns or regular expressions.
