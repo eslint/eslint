@@ -475,5 +475,30 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
+		/* 16. AggregateError accepts options as the third argument.  */
+		{
+			code: `try {
+        } catch (err) {
+            {
+                throw new AggregateError([], "Lorem ipsum");
+            }
+        }`,
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try {
+        } catch (err) {
+            {
+                throw new AggregateError([], "Lorem ipsum", { cause: error });
+            }
+        }`,
+						},
+					],
+				},
+			],
+		},
 	],
 });
