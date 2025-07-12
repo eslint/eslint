@@ -492,7 +492,7 @@ ruleTester.run("preserve-caught-error", rule, {
 							output: `try {
         } catch (err) {
             {
-                throw new AggregateError([], "Lorem ipsum", { cause: error });
+                throw new AggregateError([], "Lorem ipsum", { cause: err });
             }
         }`,
 						},
