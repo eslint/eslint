@@ -450,5 +450,30 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
+		/* 15. When the throw Error constructor has no message argument. */
+		{
+			code: `try {
+        } catch (err) {
+            {
+                throw new Error();
+            }
+        }`,
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try {
+        } catch (err) {
+            {
+                throw new Error("", { cause: err });
+            }
+        }`,
+						},
+					],
+				},
+			],
+		},
 	],
 });
