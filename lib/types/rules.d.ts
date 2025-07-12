@@ -3074,7 +3074,16 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.2.0
 	 * @see https://eslint.org/docs/latest/rules/no-nested-ternary
 	 */
-	"no-nested-ternary": Linter.RuleEntry<[]>;
+	"no-nested-ternary": Linter.RuleEntry<
+		[
+			Partial<{
+				/**
+				 * @default true
+				 */
+				allowConditionalType: boolean;
+			}>,
+		]
+	>;
 
 	/**
 	 * Rule to disallow `new` operators outside of assignments or comparisons.
