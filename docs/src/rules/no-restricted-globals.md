@@ -107,6 +107,88 @@ function onClick() {
 
 :::
 
+### globals
+
+An object option whose value is an array containing the names of the globals you want to restrict.
+
+Examples of **incorrect** code for `"event" and "fdescribe"` global variable names:
+
+::: incorrect
+
+```js
+/*global event, fdescribe*/
+/*eslint no-restricted-globals: ["error", { globals: ["event", "fdescribe"] }]*/
+
+function onClick() {
+    console.log(event);
+}
+
+fdescribe("foo", function() {
+});
+```
+
+:::
+
+Custom messages for a particular global can also be specified in `globals` array using objects with `name` and `message`:
+
+Examples of **incorrect** code for an `"event"` global variable name, along with a custom error message:
+
+::: incorrect
+
+```js
+/*global event*/
+/* eslint no-restricted-globals: ["error", { globals: [{ name: "event", message: "Use local parameter instead." }] }] */
+
+function onClick() {
+    console.log(event);    // Unexpected global variable 'event'. Use local parameter instead.
+}
+```
+
+:::
+
+### checkGlobalObjectAccess
+
+A boolean option that enables detection of restricted globals accessed via global objects. Default is `false`.
+
+Examples of **incorrect** code for `checkGlobalObjectAccess: true` option:
+
+::: incorrect
+
+```js
+/*global global, globalThis, window*/
+/*eslint no-restricted-globals: ["error", { globals: ["Promise"], checkGlobalObjectAccess: true }]*/
+
+global.Promise
+globalThis.Promise
+window.Promise
+```
+
+:::
+
+### globalObjects
+
+An array option that specifies additional global object names to check when `checkGlobalObjectAccess` is enabled. By default, the rule checks these global objects: `global`, `globalThis`, and `window`.
+
+Examples of **incorrect** code for `globalObjects` option:
+
+::: incorrect
+
+```js
+/*global global, globalThis, window, myGlobal*/
+/*eslint no-restricted-globals: ["error", {
+    globals: ["Promise"],
+    checkGlobalObjectAccess: true,
+    globalObjects: ["myGlobal"]
+}]*/
+
+global.Promise
+globalThis.Promise
+window.Promise
+myGlobal.Promise;
+```
+
+:::
+
 Restricted globals used in TypeScript type annotations—such as type references, interface inheritance, or class implementations—are ignored by this rule.
 
 Examples of **correct** TypeScript code for "Promise", "Event", and "Window" global variable names:

@@ -3391,13 +3391,26 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"no-restricted-globals": Linter.RuleEntry<
 		[
-			...Array<
-				| string
-				| {
-						name: string;
-						message?: string | undefined;
-				  }
-			>,
+			...(
+				| Array<
+						| string
+						| {
+								name: string;
+								message?: string | undefined;
+						  }
+				  >
+				| Array<{
+						globals: Array<
+							| string
+							| {
+									name: string;
+									message?: string | undefined;
+							  }
+						>;
+						checkGlobalObjectAccess?: boolean;
+						globalObjects?: string[];
+				  }>
+			),
 		]
 	>;
 

@@ -57,6 +57,198 @@ ruleTester.run("no-restricted-globals", rule, {
 			code: "foo",
 			options: [{ name: "bar", message: "Use baz instead." }],
 		},
+		{
+			code: "foo",
+			options: [{ globals: ["bar"] }],
+		},
+		{
+			code: "const foo = 1",
+			options: [{ globals: ["foo"] }],
+		},
+		{
+			code: "event",
+			options: [{ globals: ["bar"] }],
+			languageOptions: { globals: globals.browser },
+		},
+		{
+			code: "import foo from 'bar';",
+			options: [{ globals: ["foo"] }],
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+		},
+		{
+			code: "function foo() {}",
+			options: [{ globals: ["foo"] }],
+		},
+		{
+			code: "function fn() { let foo; }",
+			options: [{ globals: ["foo"] }],
+		},
+		{
+			code: "foo.bar",
+			options: [{ globals: ["bar"] }],
+		},
+		{
+			code: "foo",
+			options: [
+				{ globals: [{ name: "bar", message: "Use baz instead." }] },
+			],
+		},
+		{
+			code: "window.foo()",
+			options: [{ globals: ["foo"] }],
+			languageOptions: { globals: globals.browser },
+		},
+		{
+			code: "global.foo()",
+			options: [{ globals: ["foo"] }],
+			languageOptions: { sourceType: "commonjs" },
+		},
+		{
+			code: "globalThis.foo()",
+			options: [{ globals: ["foo"] }],
+			languageOptions: { ecmaVersion: 2020 },
+		},
+		{
+			code: "myGlobal.foo()",
+			options: [
+				{
+					globals: ["foo"],
+					globalObjects: ["myGlobal"],
+				},
+			],
+			languageOptions: { globals: { myGlobal: "readonly" } },
+		},
+		{
+			code: "window.foo()",
+			options: [
+				{
+					globals: ["foo"],
+					checkGlobalObjectAccess: true,
+				},
+			],
+		},
+		{
+			code: "global.foo()",
+			options: [
+				{
+					globals: ["foo"],
+					checkGlobalObjectAccess: true,
+				},
+			],
+		},
+		{
+			code: "globalThis.foo()",
+			options: [
+				{
+					globals: ["foo"],
+					checkGlobalObjectAccess: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "myGlobal.foo()",
+			options: [
+				{
+					globals: ["foo"],
+					checkGlobalObjectAccess: true,
+					globalObjects: ["myGlobal"],
+				},
+			],
+		},
+		{
+			code: "otherGlobal.foo()",
+			options: [
+				{
+					globals: ["foo"],
+					checkGlobalObjectAccess: true,
+					globalObjects: ["myGlobal"],
+				},
+			],
+			languageOptions: { globals: { otherGlobal: "readonly" } },
+		},
+		{
+			code: "foo.window.bar()",
+			options: [
+				{
+					globals: ["bar"],
+					checkGlobalObjectAccess: true,
+				},
+			],
+			languageOptions: { globals: globals.browser },
+		},
+		{
+			code: "foo.global.bar()",
+			options: [
+				{
+					globals: ["bar"],
+					checkGlobalObjectAccess: true,
+				},
+			],
+			languageOptions: { sourceType: "commonjs" },
+		},
+		{
+			code: "foo.globalThis.bar()",
+			options: [
+				{
+					globals: ["bar"],
+					checkGlobalObjectAccess: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 2020 },
+		},
+		{
+			code: "foo.myGlobal.bar()",
+			options: [
+				{
+					globals: ["bar"],
+					checkGlobalObjectAccess: true,
+					globalObjects: ["myGlobal"],
+				},
+			],
+			languageOptions: { globals: { myGlobal: "readonly" } },
+		},
+		{
+			code: "let window; window.foo()",
+			options: [
+				{
+					globals: ["foo"],
+					checkGlobalObjectAccess: true,
+				},
+			],
+			languageOptions: { globals: globals.browser },
+		},
+		{
+			code: "let global; global.foo()",
+			options: [
+				{
+					globals: ["foo"],
+					checkGlobalObjectAccess: true,
+				},
+			],
+			languageOptions: { sourceType: "commonjs" },
+		},
+		{
+			code: "let globalThis; globalThis.foo()",
+			options: [
+				{
+					globals: ["foo"],
+					checkGlobalObjectAccess: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 2020 },
+		},
+		{
+			code: "let myGlobal; myGlobal.foo()",
+			options: [
+				{
+					globals: ["foo"],
+					checkGlobalObjectAccess: true,
+					globalObjects: ["myGlobal"],
+				},
+			],
+			languageOptions: { globals: { myGlobal: "readonly" } },
+		},
 	],
 	invalid: [
 		{
@@ -325,6 +517,549 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "hasOwnProperty" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "foo",
+			options: [{ globals: ["foo"] }],
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "function fn() { foo; }",
+			options: [{ globals: ["foo"] }],
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "function fn() { foo; }",
+			options: [{ globals: ["foo"] }],
+			languageOptions: {
+				globals: { foo: "readonly" },
+			},
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "event",
+			options: [{ globals: ["foo", "event"] }],
+			languageOptions: { globals: globals.browser },
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "event" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "foo",
+			options: [{ globals: ["foo"] }],
+			languageOptions: {
+				globals: { foo: "readonly" },
+			},
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "foo()",
+			options: [{ globals: ["foo"] }],
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "foo.bar()",
+			options: [{ globals: ["foo"] }],
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "foo",
+			options: [{ globals: [{ name: "foo" }] }],
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "function fn() { foo; }",
+			options: [{ globals: [{ name: "foo" }] }],
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "function fn() { foo; }",
+			options: [{ globals: [{ name: "foo" }] }],
+			languageOptions: {
+				globals: { foo: "readonly" },
+			},
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "event",
+			options: [{ globals: ["foo", { name: "event" }] }],
+			languageOptions: { globals: globals.browser },
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "event" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "foo",
+			options: [{ globals: [{ name: "foo" }] }],
+			languageOptions: {
+				globals: { foo: "readonly" },
+			},
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "foo()",
+			options: [{ globals: [{ name: "foo" }] }],
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "foo.bar()",
+			options: [{ globals: [{ name: "foo" }] }],
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "foo",
+			options: [{ globals: [{ name: "foo", message: customMessage }] }],
+			errors: [
+				{
+					messageId: "customMessage",
+					data: { name: "foo", customMessage },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "function fn() { foo; }",
+			options: [{ globals: [{ name: "foo", message: customMessage }] }],
+			errors: [
+				{
+					messageId: "customMessage",
+					data: { name: "foo", customMessage },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "function fn() { foo; }",
+			options: [{ globals: [{ name: "foo", message: customMessage }] }],
+			languageOptions: {
+				globals: { foo: "readonly" },
+			},
+			errors: [
+				{
+					messageId: "customMessage",
+					data: { name: "foo", customMessage },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "event",
+			options: [
+				{
+					globals: [
+						"foo",
+						{
+							name: "event",
+							message: "Use local event parameter.",
+						},
+					],
+				},
+			],
+			languageOptions: { globals: globals.browser },
+			errors: [
+				{
+					messageId: "customMessage",
+					data: {
+						name: "event",
+						customMessage: "Use local event parameter.",
+					},
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "foo",
+			options: [{ globals: [{ name: "foo", message: customMessage }] }],
+			languageOptions: {
+				globals: { foo: false },
+			},
+			errors: [
+				{
+					messageId: "customMessage",
+					data: { name: "foo", customMessage },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "foo()",
+			options: [{ globals: [{ name: "foo", message: customMessage }] }],
+			errors: [
+				{
+					messageId: "customMessage",
+					data: { name: "foo", customMessage },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "foo.bar()",
+			options: [{ globals: [{ name: "foo", message: customMessage }] }],
+			errors: [
+				{
+					messageId: "customMessage",
+					data: { name: "foo", customMessage },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "var foo = obj => hasOwnProperty(obj, 'name');",
+			options: [{ globals: ["hasOwnProperty"] }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "hasOwnProperty" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "window.foo()",
+			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
+			languageOptions: { globals: globals.browser },
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "window.window.foo()",
+			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
+			languageOptions: { globals: globals.browser },
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "global.foo()",
+			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
+			languageOptions: { sourceType: "commonjs" },
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "global.global.foo()",
+			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
+			languageOptions: { sourceType: "commonjs" },
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "globalThis.foo()",
+			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "globalThis.globalThis.foo()",
+			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "myGlobal.foo()",
+			options: [
+				{
+					globals: ["foo"],
+					checkGlobalObjectAccess: true,
+					globalObjects: ["myGlobal"],
+				},
+			],
+			languageOptions: { globals: { myGlobal: "readonly" } },
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "myGlobal.myGlobal.foo()",
+			options: [
+				{
+					globals: ["foo"],
+					checkGlobalObjectAccess: true,
+					globalObjects: ["myGlobal"],
+				},
+			],
+			languageOptions: { globals: { myGlobal: "readonly" } },
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: 'window["foo"]',
+			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
+			languageOptions: { globals: globals.browser },
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: 'global["foo"]',
+			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
+			languageOptions: { sourceType: "commonjs" },
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: 'globalThis["foo"]',
+			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: 'myGlobal["foo"]',
+			options: [
+				{
+					globals: ["foo"],
+					checkGlobalObjectAccess: true,
+					globalObjects: ["myGlobal"],
+				},
+			],
+			languageOptions: { globals: { myGlobal: "readonly" } },
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Literal",
+				},
+			],
+		},
+		{
+			code: "window?.foo()",
+			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
+			languageOptions: { globals: globals.browser },
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "window.foo(); myGlobal.foo()",
+			options: [
+				{
+					globals: ["foo"],
+					checkGlobalObjectAccess: true,
+					globalObjects: ["myGlobal"],
+				},
+			],
+			languageOptions: {
+				globals: { ...globals.browser, myGlobal: "readonly" },
+			},
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "myGlobal.foo(); myOtherGlobal.bar()",
+			options: [
+				{
+					globals: ["foo", "bar"],
+					checkGlobalObjectAccess: true,
+					globalObjects: ["myGlobal", "myOtherGlobal"],
+				},
+			],
+			languageOptions: {
+				globals: { myGlobal: "readonly", myOtherGlobal: "readonly" },
+			},
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+				{
+					messageId: "defaultMessage",
+					data: { name: "bar" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "foo(); window.foo()",
+			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
+			languageOptions: { globals: globals.browser },
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+				{
+					messageId: "defaultMessage",
+					data: { name: "bar" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "foo(); myGlobal.foo()",
+			options: [
+				{
+					globals: ["foo"],
+					checkGlobalObjectAccess: true,
+					globalObjects: ["myGlobal"],
+				},
+			],
+			languageOptions: {
+				globals: { myGlobal: "readonly" },
+			},
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+				{
+					messageId: "defaultMessage",
+					data: { name: "bar" },
 					type: "Identifier",
 				},
 			],
