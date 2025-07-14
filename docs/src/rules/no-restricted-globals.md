@@ -111,7 +111,7 @@ function onClick() {
 
 An object option whose value is an array containing the names of the globals you want to restrict.
 
-Examples of **incorrect** code for `"event" and "fdescribe"` global variable names:
+Examples of **incorrect** code for `"event"` and `"fdescribe"` global variable names:
 
 ::: incorrect
 
@@ -140,7 +140,7 @@ Examples of **incorrect** code for an `"event"` global variable name, along with
 /* eslint no-restricted-globals: ["error", { globals: [{ name: "event", message: "Use local parameter instead." }] }] */
 
 function onClick() {
-    console.log(event);    // Unexpected global variable 'event'. Use local parameter instead.
+    console.log(event);    // Unexpected use of 'event'. Use local parameter instead.
 }
 ```
 

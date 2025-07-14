@@ -1034,7 +1034,7 @@ ruleTester.run("no-restricted-globals", rule, {
 				},
 				{
 					messageId: "defaultMessage",
-					data: { name: "bar" },
+					data: { name: "foo" },
 					type: "Identifier",
 				},
 			],
@@ -1059,7 +1059,7 @@ ruleTester.run("no-restricted-globals", rule, {
 				},
 				{
 					messageId: "defaultMessage",
-					data: { name: "bar" },
+					data: { name: "foo" },
 					type: "Identifier",
 				},
 			],
