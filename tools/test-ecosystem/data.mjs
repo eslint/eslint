@@ -50,12 +50,7 @@ export async function getPlugins(action) {
 		},
 	});
 
-	const { plugin: pluginRequested } = values;
-	if (!values.plugin) {
-		console.error("Please provide a plugin name or 'all' with --plugin");
-		process.exit(1);
-	}
-
+	const { plugin: pluginRequested = "all" } = values;
 	const { default: pluginsData } = await import(pluginDataFilePath, {
 		with: { type: "json" },
 	});
@@ -63,7 +58,9 @@ export async function getPlugins(action) {
 	if (pluginRequested !== "all" && !(pluginRequested in pluginsData)) {
 		console.error(`The plugin "${values.plugin}" is not supported.`);
 		console.error(
-			`Supported plugins are: ${["", ...Object.keys(pluginsData)].join("\n  ")}`,
+			`Supported plugins are: ${["", ...Object.keys(pluginsData)].join(
+				"\n  ",
+			)}`,
 		);
 		console.error(
 			`Alternately, run with --plugin all to ${action} all plugins.`,
