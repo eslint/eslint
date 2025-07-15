@@ -289,6 +289,8 @@ export class SourceCode
 		second: ESTree.Node | AST.Token,
 	): boolean;
 
+	isGlobalReference(node: ESTree.Identifier): boolean;
+
 	markVariableAsUsed(name: string, refNode?: ESTree.Node): boolean;
 
 	traverse(): Iterable<TraversalStep>;
@@ -584,6 +586,11 @@ export namespace SourceCode {
 
 // #endregion
 
+export type JSSyntaxElement = {
+	type: string;
+	loc?: ESTree.SourceLocation | null | undefined;
+};
+
 export namespace Rule {
 	interface RuleModule
 		extends RuleDefinition<{
@@ -591,7 +598,7 @@ export namespace Rule {
 			Code: SourceCode;
 			RuleOptions: any[];
 			Visitor: NodeListener;
-			Node: ESTree.Node;
+			Node: JSSyntaxElement;
 			MessageIds: string;
 			ExtRuleDocs: {};
 		}> {
@@ -1159,10 +1166,10 @@ export namespace Rule {
 		/**
 		 * Indicates the type of rule:
 		 * - `"problem"` means the rule is identifying code that either will cause an error or may cause a confusing behavior. Developers should consider this a high priority to resolve.
-		 * - `"suggestion"` means the rule is identifying something that could be done in a better way but no errors will occur if the code isn’t changed.
+		 * - `"suggestion"` means the rule is identifying something that could be done in a better way but no errors will occur if the code isn't changed.
 		 * - `"layout"` means the rule cares primarily about whitespace, semicolons, commas, and parentheses,
 		 *   all the parts of the program that determine how the code looks rather than how it executes.
-		 *   These rules work on parts of the code that aren’t specified in the AST.
+		 *   These rules work on parts of the code that aren't specified in the AST.
 		 */
 		type?: "problem" | "suggestion" | "layout" | undefined;
 		/**
@@ -1177,27 +1184,9 @@ export namespace Rule {
 			LangOptions: Linter.LanguageOptions;
 			Code: SourceCode;
 			RuleOptions: any[];
-			Node: ESTree.Node;
+			Node: JSSyntaxElement;
 			MessageIds: string;
-		}> {
-		/*
-		 * Need to extend the `RuleContext` interface to include the
-		 * deprecated methods that have not yet been removed.
-		 * TODO: Remove in v10.0.0.
-		 */
-
-		/** @deprecated Use `sourceCode.getAncestors()` instead */
-		getAncestors(): ESTree.Node[];
-
-		/** @deprecated Use `sourceCode.getDeclaredVariables()` instead */
-		getDeclaredVariables(node: ESTree.Node): Scope.Variable[];
-
-		/** @deprecated Use `sourceCode.getScope()` instead */
-		getScope(): Scope.Scope;
-
-		/** @deprecated Use `sourceCode.markVariableAsUsed()` instead */
-		markVariableAsUsed(name: string): boolean;
-	}
+		}> {}
 
 	type ReportFixer = (
 		fixer: RuleFixer,
@@ -1275,7 +1264,7 @@ export type JSRuleDefinition<
 		LangOptions: Linter.LanguageOptions;
 		Code: SourceCode;
 		Visitor: Rule.NodeListener;
-		Node: ESTree.Node;
+		Node: JSSyntaxElement;
 	} & Required<
 		// Rule specific type options (custom)
 		Options &
@@ -1409,6 +1398,7 @@ export namespace Linter {
 		| 14
 		| 15
 		| 16
+		| 17
 		| 2015
 		| 2016
 		| 2017
@@ -1420,6 +1410,7 @@ export namespace Linter {
 		| 2023
 		| 2024
 		| 2025
+		| 2026
 		| "latest";
 
 	/**
@@ -1606,7 +1597,6 @@ export namespace Linter {
 					globalReturn?: boolean | undefined;
 					impliedStrict?: boolean | undefined;
 					jsx?: boolean | undefined;
-					experimentalObjectRestSpread?: boolean | undefined;
 					[key: string]: any;
 			  }
 			| undefined;
@@ -1619,7 +1609,9 @@ export namespace Linter {
 		postprocess?:
 			| ((problemLists: LintMessage[][]) => LintMessage[])
 			| undefined;
-		filterCodeBlock?: boolean | undefined;
+		filterCodeBlock?:
+			| ((filename: string, text: string) => boolean)
+			| undefined;
 		disableFixes?: boolean | undefined;
 		allowInlineConfig?: boolean | undefined;
 		reportUnusedDisableDirectives?: boolean | undefined;
@@ -1766,6 +1758,13 @@ export namespace Linter {
 		name?: string;
 
 		/**
+		 * Path to the directory where the configuration object should apply.
+		 * `files` and `ignores` patterns in the configuration object are
+		 * interpreted as relative to this path.
+		 */
+		basePath?: string;
+
+		/**
 		 * An array of glob patterns indicating the files that the configuration
 		 * object should apply to. If not specified, the configuration object applies
 		 * to all files
@@ -1824,7 +1823,7 @@ export namespace Linter {
 	}
 
 	/** @deprecated  Use `Config` instead of `FlatConfig` */
-	type FlatConfig = Config;
+	type FlatConfig<Rules extends RulesRecord = RulesRecord> = Config<Rules>;
 
 	type GlobalConf =
 		| boolean

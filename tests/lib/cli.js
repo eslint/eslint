@@ -22,7 +22,8 @@ const assert = require("chai").assert,
 	sinon = require("sinon"),
 	fs = require("node:fs"),
 	os = require("node:os"),
-	sh = require("shelljs");
+	sh = require("shelljs"),
+	{ WarningService } = require("../../lib/services/warning-service");
 
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
 
@@ -147,11 +148,8 @@ describe("cli", () => {
 		});
 
 		beforeEach(() => {
-			sinon
-				.stub(process, "emitWarning")
-				.withArgs(sinon.match.any, "ESLintIgnoreWarning")
-				.returns();
-			process.emitWarning.callThrough();
+			// Silence ".eslintignore" warnings for tests
+			sinon.stub(WarningService.prototype, "emitESLintIgnoreWarning");
 		});
 
 		afterEach(() => {
@@ -224,16 +222,19 @@ describe("cli", () => {
 				const originalEnv = process.env;
 				const originalCwd = process.cwd;
 
-				let processStub;
+				let emitESLintRCWarningStub;
 
 				beforeEach(() => {
 					sinon.restore();
-					processStub = sinon.stub(process, "emitWarning");
+					emitESLintRCWarningStub = sinon.stub(
+						WarningService.prototype,
+						"emitESLintRCWarning",
+					);
 					process.env = { ...originalEnv };
 				});
 
 				afterEach(() => {
-					processStub.restore();
+					emitESLintRCWarningStub.restore();
 					process.env = originalEnv;
 					process.cwd = originalCwd;
 				});
@@ -264,14 +265,9 @@ describe("cli", () => {
 					assert.strictEqual(exitCode, 0);
 
 					if (useFlatConfig) {
-						assert.strictEqual(
-							processStub.callCount,
-							1,
-							"calls `process.emitWarning()` once",
-						);
-						assert.strictEqual(
-							processStub.getCall(0).args[1],
-							"ESLintRCWarning",
+						assert(
+							emitESLintRCWarningStub.calledOnce,
+							"calls `warningService.emitESLintRCWarning()` once",
 						);
 					}
 				});
@@ -3216,8 +3212,8 @@ describe("cli", () => {
 				});
 			});
 
-			describe("unstable_config_lookup_from_file", () => {
-				const flag = "unstable_config_lookup_from_file";
+			describe("v10_config_lookup_from_file", () => {
+				const flag = "v10_config_lookup_from_file";
 
 				it("should throw an error when text is passed and no config file is found", async () => {
 					await stdAssert.rejects(

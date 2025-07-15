@@ -135,6 +135,15 @@ const es2024 = {
 
 const es2025 = {
 	...es2024,
+	Float16Array: false,
+	Iterator: false,
+};
+
+const es2026 = {
+	...es2025,
+	AsyncDisposableStack: false,
+	DisposableStack: false,
+	SuppressedError: false,
 };
 
 //-----------------------------------------------------------------------------
@@ -156,4 +165,5 @@ module.exports = {
 	es2023,
 	es2024,
 	es2025,
+	es2026,
 };

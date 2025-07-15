@@ -187,7 +187,7 @@ You can let ESLint know which global variables your code uses with [global decla
 A source code comment that configures a rule to a different severity and/or set of options.
 
 Inline configs use similar syntax as [config files](#config-file-configuration-file) to specify any number of rules by name, their new severity, and optionally new options for the rules.
-For example, the following inline config comment simultaneously disables the `eqeqeq` rule and sets the `curly` rule to `"error"`:
+For example, the following inline config comment simultaneously disables the [`eqeqeq`](../../rules/eqeqeq) rule and sets the [`curly`](../../rules/curly) rule to `"error"`:
 
 ```js
 /* eslint eqeqeq: "off", curly: "error" */
@@ -218,7 +218,7 @@ Note that a _linter_ is separate from [formatters](#formatter-tool) and [type ch
 
 A [rule](#rule) that inspects how code operates to find problems.
 
-Many logical rules look for likely crashes (e.g. [`no-undef`](../../rules/no-undef)), unintended behavior (e.g. [`no-sparse-arrays`](../../rules/no-sparse-arrays)), and unused code (e.g [`no-unused-vars`](../../rules/no-unused-vars)),
+Many logical rules look for likely crashes (e.g. [`no-undef`](../../rules/no-undef)), unintended behavior (e.g. [`no-sparse-arrays`](../../rules/no-sparse-arrays)), and unused code (e.g [`no-unused-vars`](../../rules/no-unused-vars)).
 
 You can see the full list of logical rules that ship with ESLint under [Rules > Possible Problems](../../rules/#possible-problems)
 

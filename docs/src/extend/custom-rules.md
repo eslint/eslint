@@ -163,7 +163,7 @@ The main method you'll use when writing custom rules is `context.report()`, whic
 
 - `messageId`: (`string`) The ID of the message (see [messageIds](#messageids)) (recommended over `message`).
 - `message`: (`string`) The problem message (alternative to `messageId`).
-- `node`: (optional `object`) The AST node related to the problem. If present and `loc` is not specified, then the starting location of the node is used as the location of the problem.
+- `node`: (optional `object`) This can be an AST node, a token, or a comment related to the problem. If present and `loc` is not specified, then the starting location of the node is used as the location of the problem.
 - `loc`: (optional `object`) Specifies the location of the problem. If both `loc` and `node` are specified, then the location is used from `loc` instead of `node`.
     - `start`: An object of the start location.
         - `line`: (`number`) The 1-based line number at which the problem occurred.
@@ -543,6 +543,7 @@ Once you have an instance of `SourceCode`, you can use the following methods on 
 - `getCommentsAfter(nodeOrToken)`: Returns an array of comment tokens that occur directly after the given node or token (see the [dedicated section](#accessing-comments)).
 - `getCommentsInside(node)`: Returns an array of all comment tokens inside a given node (see the [dedicated section](#accessing-comments)).
 - `isSpaceBetween(nodeOrToken, nodeOrToken)`: Returns true if there is a whitespace character between the two tokens or, if given a node, the last token of the first node and the first token of the second node.
+- `isGlobalReference(node)`: Returns true if the identifier references a global variable configured via `languageOptions.globals`, `/* global */` comments, or `ecmaVersion`, and not declared by a local binding.
 - `getFirstToken(node, skipOptions)`: Returns the first token representing the given node.
 - `getFirstTokens(node, countOptions)`: Returns the first `count` tokens representing the given node.
 - `getLastToken(node, skipOptions)`: Returns the last token representing the given node.

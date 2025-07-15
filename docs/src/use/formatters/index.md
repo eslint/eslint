@@ -10,7 +10,7 @@ edit_link: https://github.com/eslint/eslint/edit/main/templates/formatter-exampl
 
 ESLint comes with several built-in formatters to control the appearance of the linting results, and supports third-party formatters as well.
 
-You can specify a formatter using the `--format` or `-f` flag in the CLI. For example, `--format json` uses the `json` formatter.
+You can specify a formatter using the [`--format` or `-f`](../command-line-interface#-f---format) flag in the CLI. For example, `--format json` uses the `json` formatter.
 
 The built-in formatter options are:
 
@@ -21,7 +21,7 @@ The built-in formatter options are:
 
 ## Example Source
 
-Examples of each formatter were created from linting `fullOfProblems.js` using the `.eslintrc.json` configuration shown below.
+Examples of each formatter were created from linting `fullOfProblems.js` using the `eslint.config.js` configuration shown below.
 
 `fullOfProblems.js`:
 
@@ -35,19 +35,24 @@ function addOne(i) {
 };
 ```
 
-`.eslintrc.json`:
+`eslint.config.js`:
 
-```json
-{
-    "extends": "eslint:recommended",
-    "rules": {
-        "consistent-return": 2,
-        "indent"           : [1, 4],
-        "no-else-return"   : 1,
-        "semi"             : [1, "always"],
-        "space-unary-ops"  : 2
-    }
-}
+```js
+import { defineConfig } from "eslint/config";
+import js from "@eslint/js";
+
+export default defineConfig([
+	js.configs.recommended,
+	{
+		rules: {
+			"consistent-return": 2,
+			"indent"           : [1, 4],
+			"no-else-return"   : 1,
+			"semi"             : [1, "always"],
+			"space-unary-ops"  : 2
+		}
+	}
+]);
 ```
 
 Tests the formatters with the CLI:
@@ -295,12 +300,12 @@ Example output (formatted for easier reading):
                             "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
                             "url": "https://eslint.style/guide/migration",
                             "plugin": {
-                                "name": "@stylistic/eslint-plugin-js",
-                                "url": "https://eslint.style/packages/js"
+                                "name": "@stylistic/eslint-plugin",
+                                "url": "https://eslint.style"
                             },
                             "rule": {
                                 "name": "indent",
-                                "url": "https://eslint.style/rules/js/indent"
+                                "url": "https://eslint.style/rules/indent"
                             }
                         }
                     ]
@@ -586,12 +591,12 @@ Example output (formatted for easier reading):
                             "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
                             "url": "https://eslint.style/guide/migration",
                             "plugin": {
-                                "name": "@stylistic/eslint-plugin-js",
-                                "url": "https://eslint.style/packages/js"
+                                "name": "@stylistic/eslint-plugin",
+                                "url": "https://eslint.style"
                             },
                             "rule": {
                                 "name": "space-unary-ops",
-                                "url": "https://eslint.style/rules/js/space-unary-ops"
+                                "url": "https://eslint.style/rules/space-unary-ops"
                             }
                         }
                     ]
@@ -645,12 +650,12 @@ Example output (formatted for easier reading):
                             "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
                             "url": "https://eslint.style/guide/migration",
                             "plugin": {
-                                "name": "@stylistic/eslint-plugin-js",
-                                "url": "https://eslint.style/packages/js"
+                                "name": "@stylistic/eslint-plugin",
+                                "url": "https://eslint.style"
                             },
                             "rule": {
                                 "name": "semi",
-                                "url": "https://eslint.style/rules/js/semi"
+                                "url": "https://eslint.style/rules/semi"
                             }
                         }
                     ]

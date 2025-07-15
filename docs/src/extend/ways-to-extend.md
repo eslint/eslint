@@ -15,7 +15,7 @@ This page explains the ways to extend ESLint, and how these extensions all fit t
 
 Plugins let you add your own ESLint custom rules and custom processors to a project. You can publish a plugin as an npm module.
 
-Plugins are useful because your project may require some ESLint configuration that isn't included in the core `eslint` package. For example, if you're using a frontend JavaScript library like React or framework like Vue, these tools have some features that require custom rules outside the scope of the ESLint core rules.
+Plugins are useful because your project may require some ESLint configuration that isn't included in the core `eslint` package. For example, if you're using a frontend JavaScript library like [React](https://react.dev/) or framework like [Vue](https://vuejs.org/), these tools have some features that require custom rules outside the scope of the ESLint core rules.
 
 Often a plugin is paired with a configuration for ESLint that applies a set of features from the plugin to a project. You can include configurations in a plugin as well.
 
@@ -35,15 +35,15 @@ ESLint shareable configs are pre-defined configurations for ESLint that you can 
 
 You can either publish a shareable config independently or as part of a plugin.
 
-For example, a popular shareable config is [eslint-config-airbnb](https://www.npmjs.com/package/eslint-config-airbnb), which contains a variety of rules in addition to some [parser options](../use/configure/language-options#specifying-parser-options). This is a set of rules for ESLint that is designed to match the style guide used by the [Airbnb JavaScript style guide](https://github.com/airbnb/javascript). By using the `eslint-config-airbnb` shareable config, you can automatically enforce the Airbnb style guide in your project without having to manually configure each rule.
+For example, a popular shareable config is [`eslint-config-airbnb`](https://www.npmjs.com/package/eslint-config-airbnb), which contains a variety of rules in addition to some [parser options](../use/configure/language-options#specifying-parser-options). This is a set of rules for ESLint that is designed to match the style guide used by the [Airbnb JavaScript style guide](https://github.com/airbnb/javascript). By using the `eslint-config-airbnb` shareable config, you can automatically enforce the Airbnb style guide in your project without having to manually configure each rule.
 
-To learn more about creating a shareable config, refer to [Share Configuration](shareable-configs).
+To learn more about creating a shareable config, refer to [Share Configurations](shareable-configs).
 
 ## Custom Formatters
 
 Custom formatters take ESLint linting results and output the results in a format that you define. Custom formatters let you display linting results in a format that best fits your needs, whether that's in a specific file format, a certain display style, or a format optimized for a particular tool. You only need to create a custom formatter if the [built-in formatters](../use/formatters/) don't serve your use case.
 
-For example, the custom formatter [eslint-formatter-gitlab](https://www.npmjs.com/package/eslint-formatter-gitlab) can be used to display ESLint results in GitLab code quality reports.
+For example, the custom formatter [eslint-formatter-gitlab](https://www.npmjs.com/package/eslint-formatter-gitlab) can be used to display ESLint results in [GitLab](https://about.gitlab.com/) code quality reports.
 
 To learn more about creating a custom formatter, refer to [Custom Formatters](custom-formatters).
 

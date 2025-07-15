@@ -64,6 +64,7 @@ This rule has a string option:
 This rule has an object option for two exceptions:
 
 * `"allowArrowFunctions"`: `true` (default `false`) allows the use of arrow functions. This option applies only when the string option is set to `"declaration"` (arrow functions are always allowed when the string option is set to `"expression"`, regardless of this option)
+* `"allowTypeAnnotation"`: `true` (default `false`) allows the use of function expressions and arrow functions when the variable declaration has type annotation, regardless of the `allowArrowFunctions` option. This option applies only when the string option is set to `"declaration"`. (TypeScript only)
 * `"overrides"`:
     * `"namedExports": "expression" | "declaration" | "ignore"`: used to override function styles in named exports
         * `"expression"`: like string option
@@ -100,6 +101,24 @@ const foo = function() {
 const foo1 = () => {};
 
 // allowed as allowArrowFunctions : false is applied only for declaration
+```
+
+:::
+
+Overloaded function declarations are not reported as errors by this rule. These are functions that have multiple declarations with the same name but different parameter types or return types (commonly used in TypeScript to provide type information for different ways of calling the same function).
+
+Examples of **correct** TypeScript code for this rule with the default `"expression"` option:
+
+::: correct
+
+```ts
+/*eslint func-style: ["error", "expression"]*/
+
+function process(value: string): string;
+function process(value: number): number;
+function process(value: unknown) {
+    return value;
+}
 ```
 
 :::
@@ -151,6 +170,36 @@ Examples of additional **correct** code for this rule with the `"declaration", {
 /*eslint func-style: ["error", "declaration", { "allowArrowFunctions": true }]*/
 
 const foo = () => {};
+```
+
+:::
+
+### allowTypeAnnotation
+
+Examples of **incorrect** TypeScript code for this rule with the `"declaration", { "allowTypeAnnotation": true }` options:
+
+::: incorrect
+
+```ts
+/*eslint func-style: ["error", "declaration", { "allowTypeAnnotation": true }]*/
+
+const foo = function(): void {};
+```
+
+:::
+
+Examples of **correct** TypeScript code for this rule with the `"declaration", { "allowTypeAnnotation": true }` options:
+
+::: correct
+
+```ts
+/*eslint func-style: ["error", "declaration", { "allowTypeAnnotation": true }]*/
+
+type Fn = () => undefined;
+
+const foo: Fn = function() {};
+
+const bar: Fn = () => {};
 ```
 
 :::
@@ -219,6 +268,18 @@ Examples of **correct** code for this rule with the `"expression"` and `{"overri
 export function foo() {
     // ...
 }
+```
+
+:::
+
+Examples of **correct** code for this rule with the `"expression"` and `{ "allowTypeAnnotation": true, "overrides": { "namedExports": "declaration" }}` option:
+
+::: correct
+
+```ts
+/*eslint func-style: ["error", "expression", { "allowTypeAnnotation": true, "overrides": { "namedExports": "declaration" } }]*/
+
+export const foo: () => void = function () {}
 ```
 
 :::

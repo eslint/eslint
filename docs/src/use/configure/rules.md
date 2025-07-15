@@ -41,7 +41,7 @@ In this example, [`eqeqeq`](../../rules/eqeqeq) is turned off and [`curly`](../.
 /* eslint eqeqeq: 0, curly: 2 */
 ```
 
-This example is the same as the last example, only it uses the numeric codes instead of the string values. The `eqeqeq` rule is off and the `curly` rule is set to be an error.
+This example is the same as the last example, only it uses the numeric codes instead of the string values. The [`eqeqeq`](../../rules/eqeqeq) rule is off and the [`curly`](../../rules/curly) rule is set to be an error.
 
 If a rule has additional options, you can specify them using array literal syntax, such as:
 
@@ -49,7 +49,7 @@ If a rule has additional options, you can specify them using array literal synta
 /* eslint quotes: ["error", "double"], curly: 2 */
 ```
 
-This comment specifies the "double" option for the [`quotes`](../../rules/quotes) rule. The first item in the array is always the rule severity (number or string).
+This comment specifies the `"double"` option for the [`quotes`](../../rules/quotes) rule. The first item in the array is always the rule severity (number or string).
 
 #### Configuration Comment Descriptions
 

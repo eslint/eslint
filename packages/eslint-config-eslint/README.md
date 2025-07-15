@@ -43,9 +43,10 @@ export default defineConfig([eslintConfigESLint]);
 In your `eslint.config.js` file, add:
 
 ```js
+const { defineConfig } = require("eslint/config");
 const eslintConfigESLintCJS = require("eslint-config-eslint/cjs");
 
-module.exports = [...eslintConfigESLintCJS];
+module.exports = defineConfig([eslintConfigESLintCJS]);
 ```
 
 ### Base config
