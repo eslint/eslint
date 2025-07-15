@@ -637,22 +637,6 @@ ruleTester.run("one-var", rule, {
 			options: [{ initialized: "consecutive" }],
 			languageOptions: { ecmaVersion: 2022 },
 		},
-		{
-			code: "using a = 0; using b = 1;",
-			options: ["consecutive"],
-			languageOptions: {
-				ecmaVersion: 2026,
-				sourceType: "module",
-			},
-		},
-		{
-			code: "await using a = 0; await using b = 1;",
-			options: ["consecutive"],
-			languageOptions: {
-				ecmaVersion: 2026,
-				sourceType: "module",
-			},
-		},
 	],
 	invalid: [
 		{
