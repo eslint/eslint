@@ -637,6 +637,123 @@ ruleTester.run("one-var", rule, {
 			options: [{ initialized: "consecutive" }],
 			languageOptions: { ecmaVersion: 2022 },
 		},
+
+		// Explicit Resource Management
+		{
+			code: "using a = 0; let b = 1; const c = 2;",
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "await using a = 0; let b = 1; const c = 2;",
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "using a = 0, b = 1;",
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "await using a = 0, b = 1;",
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "function fn() { { using a = 0; } using b = 1; }",
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "using a = 0; using b = 1;",
+			options: ["never"],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "await using a = 0; await using b = 1;",
+			options: ["never"],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "using a = 0, b = 1;",
+			options: ["consecutive"],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "await using a = 0, b = 1;",
+			options: ["consecutive"],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "using a = 0, b = 1;",
+			options: [{ initialized: "always" }],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "await using a = 0, b = 1;",
+			options: [{ initialized: "always" }],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "using a = 0; using b = 1;",
+			options: [{ initialized: "never" }],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "await using a = 0; await using b = 1;",
+			options: [{ initialized: "never" }],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "using a = 0, b = 1; foo(); using c = 2, d = 3;",
+			options: [{ initialized: "consecutive" }],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "await using a = 0, b = 1; foo(); await using c = 2, d = 3;",
+			options: [{ initialized: "consecutive" }],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
 	],
 	invalid: [
 		{
@@ -701,7 +818,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "function foo() { var bar = true; var baz = false; }",
-			output: "function foo() { var bar = true,  baz = false; }",
+			output: "function foo() { var bar = true, baz = false; }",
 			options: ["always"],
 			errors: [
 				{
@@ -749,7 +866,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "function foo() { var bar, baz; var a = true; var b = false; var c, d;}",
-			output: "function foo() { var bar, baz; var a = true; var b = false,  c, d;}",
+			output: "function foo() { var bar, baz; var a = true; var b = false, c, d;}",
 			options: [{ uninitialized: "always", initialized: "never" }],
 			errors: [
 				{
@@ -761,7 +878,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "function foo() { var bar = true, baz = false; var a; var b; var c = true, d = false; }",
-			output: "function foo() { var bar = true, baz = false; var a; var b,  c = true, d = false; }",
+			output: "function foo() { var bar = true, baz = false; var a; var b, c = true, d = false; }",
 			options: [{ uninitialized: "never", initialized: "always" }],
 			errors: [
 				{
@@ -791,7 +908,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "function foo() { var bar = true; var baz = false; var a; var b;}",
-			output: "function foo() { var bar = true,  baz = false,  a,  b;}",
+			output: "function foo() { var bar = true, baz = false, a, b;}",
 			options: [{ uninitialized: "always", initialized: "always" }],
 			errors: [
 				{
@@ -813,7 +930,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "function foo() { var a = [1, 2, 3]; var [b, c, d] = a; }",
-			output: "function foo() { var a = [1, 2, 3],  [b, c, d] = a; }",
+			output: "function foo() { var a = [1, 2, 3], [b, c, d] = a; }",
 			options: ["always"],
 			errors: [
 				{
@@ -825,7 +942,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "function foo() { let a = 1; let b = 2; }",
-			output: "function foo() { let a = 1,  b = 2; }",
+			output: "function foo() { let a = 1, b = 2; }",
 			options: ["always"],
 			errors: [
 				{
@@ -837,7 +954,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "function foo() { const a = 1; const b = 2; }",
-			output: "function foo() { const a = 1,  b = 2; }",
+			output: "function foo() { const a = 1, b = 2; }",
 			options: ["always"],
 			errors: [
 				{
@@ -849,7 +966,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "function foo() { let a = 1; let b = 2; }",
-			output: "function foo() { let a = 1,  b = 2; }",
+			output: "function foo() { let a = 1, b = 2; }",
 			options: [{ let: "always" }],
 			errors: [
 				{
@@ -861,7 +978,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "function foo() { const a = 1; const b = 2; }",
-			output: "function foo() { const a = 1,  b = 2; }",
+			output: "function foo() { const a = 1, b = 2; }",
 			options: [{ const: "always" }],
 			errors: [
 				{
@@ -947,7 +1064,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "var one = 1, two = 2;\nvar three;",
-			output: "var one = 1, two = 2,\n three;",
+			output: "var one = 1, two = 2, three;",
 			options: ["always"],
 			errors: [
 				{
@@ -1009,7 +1126,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "var foo = function() { var bar = true; var baz = false; }",
-			output: "var foo = function() { var bar = true,  baz = false; }",
+			output: "var foo = function() { var bar = true, baz = false; }",
 			errors: [
 				{
 					messageId: "combine",
@@ -1042,7 +1159,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "var foo = () => { var bar = true; var baz = false; }",
-			output: "var foo = () => { var bar = true,  baz = false; }",
+			output: "var foo = () => { var bar = true, baz = false; }",
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
@@ -1069,7 +1186,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "var foo; var bar;",
-			output: "var foo,  bar;",
+			output: "var foo, bar;",
 			errors: [
 				{
 					messageId: "combine",
@@ -1110,7 +1227,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "var x; var y; for (var z in foo) {}",
-			output: "var x,  y; for (var z in foo) {}",
+			output: "var x, y; for (var z in foo) {}",
 			options: [{ initialized: "never", uninitialized: "always" }],
 			errors: [
 				{
@@ -1124,7 +1241,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "var x; var y; for (var z of foo) {}",
-			output: "var x,  y; for (var z of foo) {}",
+			output: "var x, y; for (var z of foo) {}",
 			options: [{ initialized: "never", uninitialized: "always" }],
 			errors: [
 				{
@@ -1138,7 +1255,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "var x; for (var y in foo) {var bar = y; var a; for (var z of bar) {}}",
-			output: "var x; for (var y in foo) {var bar = y,  a; for (var z of bar) {}}",
+			output: "var x; for (var y in foo) {var bar = y, a; for (var z of bar) {}}",
 			options: [{ initialized: "never", uninitialized: "always" }],
 			errors: [
 				{
@@ -1237,8 +1354,8 @@ ruleTester.run("one-var", rule, {
 			],
 		},
 		{
-			code: "var f,          /* test */ l;",
-			output: "var f;          /* test */ var l;",
+			code: "var f,         /* test */ l;",
+			output: "var f;         /* test */ var l;",
 			options: ["never"],
 			errors: [
 				{
@@ -1332,7 +1449,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "const foo = require('foo'); const bar = require('bar');",
-			output: "const foo = require('foo'),  bar = require('bar');",
+			output: "const foo = require('foo'), bar = require('bar');",
 			options: [{ separateRequires: true, const: "always" }],
 			errors: [
 				{
@@ -1348,7 +1465,7 @@ ruleTester.run("one-var", rule, {
 		// https://github.com/eslint/eslint/issues/4680
 		{
 			code: "var a = 1, b; var c;",
-			output: "var a = 1, b,  c;",
+			output: "var a = 1, b, c;",
 			options: ["consecutive"],
 			errors: [
 				{
@@ -1362,7 +1479,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "var a = 0, b = 1; var c = 2;",
-			output: "var a = 0, b = 1,  c = 2;",
+			output: "var a = 0, b = 1, c = 2;",
 			options: ["consecutive"],
 			errors: [
 				{
@@ -1376,7 +1493,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "let a = 1, b; let c;",
-			output: "let a = 1, b,  c;",
+			output: "let a = 1, b, c;",
 			options: ["consecutive"],
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
@@ -1391,7 +1508,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "let a = 0, b = 1; let c = 2;",
-			output: "let a = 0, b = 1,  c = 2;",
+			output: "let a = 0, b = 1, c = 2;",
 			options: ["consecutive"],
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
@@ -1406,7 +1523,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "const a = 0, b = 1; const c = 2;",
-			output: "const a = 0, b = 1,  c = 2;",
+			output: "const a = 0, b = 1, c = 2;",
 			options: ["consecutive"],
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
@@ -1421,7 +1538,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "const a = 0; var b = 1; var c = 2; const d = 3;",
-			output: "const a = 0; var b = 1,  c = 2; const d = 3;",
+			output: "const a = 0; var b = 1, c = 2; const d = 3;",
 			options: ["consecutive"],
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
@@ -1436,7 +1553,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "var a = true; var b = false;",
-			output: "var a = true,  b = false;",
+			output: "var a = true, b = false;",
 			options: [{ separateRequires: true, var: "always" }],
 			errors: [
 				{
@@ -1450,7 +1567,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "const a = 0; let b = 1; let c = 2; const d = 3;",
-			output: "const a = 0; let b = 1,  c = 2; const d = 3;",
+			output: "const a = 0; let b = 1, c = 2; const d = 3;",
 			options: ["consecutive"],
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
@@ -1465,7 +1582,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "let a = 0; const b = 1; const c = 1; var d = 2;",
-			output: "let a = 0; const b = 1,  c = 1; var d = 2;",
+			output: "let a = 0; const b = 1, c = 1; var d = 2;",
 			options: ["consecutive"],
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
@@ -1480,7 +1597,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "var a = 0; var b; var c; var d = 1",
-			output: "var a = 0; var b,  c; var d = 1",
+			output: "var a = 0; var b, c; var d = 1",
 			options: [{ initialized: "consecutive", uninitialized: "always" }],
 			errors: [
 				{
@@ -1494,7 +1611,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "var a = 0; var b = 1; var c; var d;",
-			output: "var a = 0,  b = 1; var c,  d;",
+			output: "var a = 0, b = 1; var c, d;",
 			options: [{ initialized: "consecutive", uninitialized: "always" }],
 			errors: [
 				{
@@ -1515,7 +1632,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "let a = 0; let b; let c; let d = 1;",
-			output: "let a = 0; let b,  c; let d = 1;",
+			output: "let a = 0; let b, c; let d = 1;",
 			options: [{ initialized: "consecutive", uninitialized: "always" }],
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
@@ -1530,7 +1647,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "let a = 0; let b = 1; let c; let d;",
-			output: "let a = 0,  b = 1; let c,  d;",
+			output: "let a = 0, b = 1; let c, d;",
 			options: [{ initialized: "consecutive", uninitialized: "always" }],
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
@@ -1552,7 +1669,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "const a = 0; let b; let c; const d = 1;",
-			output: "const a = 0; let b,  c; const d = 1;",
+			output: "const a = 0; let b, c; const d = 1;",
 			options: [{ initialized: "consecutive", uninitialized: "always" }],
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
@@ -1567,7 +1684,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "const a = 0; const b = 1; let c; let d;",
-			output: "const a = 0,  b = 1; let c,  d;",
+			output: "const a = 0, b = 1; let c, d;",
 			options: [{ initialized: "consecutive", uninitialized: "always" }],
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
@@ -1588,7 +1705,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "var a = 0; var b = 1; var c, d;",
-			output: "var a = 0,  b = 1; var c; var d;",
+			output: "var a = 0, b = 1; var c; var d;",
 			options: [{ initialized: "consecutive", uninitialized: "never" }],
 			errors: [
 				{
@@ -1623,7 +1740,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "let a = 0; let b = 1; let c, d;",
-			output: "let a = 0,  b = 1; let c; let d;",
+			output: "let a = 0, b = 1; let c; let d;",
 			options: [{ initialized: "consecutive", uninitialized: "never" }],
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
@@ -1660,7 +1777,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "const a = 0; const b = 1; let c, d;",
-			output: "const a = 0,  b = 1; let c; let d;",
+			output: "const a = 0, b = 1; let c; let d;",
 			options: [{ initialized: "consecutive", uninitialized: "never" }],
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
@@ -1697,7 +1814,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "var a; var b; var c = 0; var d = 1;",
-			output: "var a,  b; var c = 0,  d = 1;",
+			output: "var a, b; var c = 0, d = 1;",
 			options: [{ uninitialized: "consecutive", initialized: "always" }],
 			errors: [
 				{
@@ -1718,7 +1835,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "var a; var b = 0; var c = 1; var d;",
-			output: "var a; var b = 0,  c = 1; var d;",
+			output: "var a; var b = 0, c = 1; var d;",
 			options: [{ uninitialized: "consecutive", initialized: "always" }],
 			errors: [
 				{
@@ -1732,7 +1849,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "let a; let b; let c = 0; let d = 1;",
-			output: "let a,  b; let c = 0,  d = 1;",
+			output: "let a, b; let c = 0, d = 1;",
 			options: [{ uninitialized: "consecutive", initialized: "always" }],
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
@@ -1754,7 +1871,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "let a; let b = 0; let c = 1; let d;",
-			output: "let a; let b = 0,  c = 1; let d;",
+			output: "let a; let b = 0, c = 1; let d;",
 			options: [{ uninitialized: "consecutive", initialized: "always" }],
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
@@ -1769,7 +1886,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "let a; let b; const c = 0; const d = 1;",
-			output: "let a,  b; const c = 0,  d = 1;",
+			output: "let a, b; const c = 0, d = 1;",
 			options: [{ uninitialized: "consecutive", initialized: "always" }],
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
@@ -1791,7 +1908,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "let a; const b = 0; const c = 1; let d;",
-			output: "let a; const b = 0,  c = 1; let d;",
+			output: "let a; const b = 0, c = 1; let d;",
 			options: [{ uninitialized: "consecutive", initialized: "always" }],
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
@@ -1806,7 +1923,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "var a; var b; var c = 0, d = 1;",
-			output: "var a,  b; var c = 0; var d = 1;",
+			output: "var a, b; var c = 0; var d = 1;",
 			options: [{ uninitialized: "consecutive", initialized: "never" }],
 			errors: [
 				{
@@ -1841,7 +1958,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "let a; let b; let c = 0, d = 1;",
-			output: "let a,  b; let c = 0; let d = 1;",
+			output: "let a, b; let c = 0; let d = 1;",
 			options: [{ uninitialized: "consecutive", initialized: "never" }],
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
@@ -1878,7 +1995,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "let a; let b; const c = 0, d = 1;",
-			output: "let a,  b; const c = 0; const d = 1;",
+			output: "let a, b; const c = 0; const d = 1;",
 			options: [{ uninitialized: "consecutive", initialized: "never" }],
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
@@ -1915,7 +2032,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "var a = 0; var b = 1;",
-			output: "var a = 0,  b = 1;",
+			output: "var a = 0, b = 1;",
 			options: [{ var: "consecutive" }],
 			errors: [
 				{
@@ -1929,7 +2046,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "let a = 0; let b = 1;",
-			output: "let a = 0,  b = 1;",
+			output: "let a = 0, b = 1;",
 			options: [{ let: "consecutive" }],
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
@@ -1944,7 +2061,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "const a = 0; const b = 1;",
-			output: "const a = 0,  b = 1;",
+			output: "const a = 0, b = 1;",
 			options: [{ const: "consecutive" }],
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
@@ -1959,7 +2076,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "let a; let b; const c = 0; const d = 1;",
-			output: "let a,  b; const c = 0,  d = 1;",
+			output: "let a, b; const c = 0, d = 1;",
 			options: [{ let: "consecutive", const: "always" }],
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
@@ -1981,7 +2098,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "let a; const b = 0; const c = 1; let d;",
-			output: "let a; const b = 0,  c = 1; let d;",
+			output: "let a; const b = 0, c = 1; let d;",
 			options: [{ let: "consecutive", const: "always" }],
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
@@ -1996,7 +2113,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "let a; let b; const c = 0, d = 1;",
-			output: "let a,  b; const c = 0; const d = 1;",
+			output: "let a, b; const c = 0; const d = 1;",
 			options: [{ let: "consecutive", const: "never" }],
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
@@ -2033,7 +2150,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "const a = 0; const b = 1; let c; let d;",
-			output: "const a = 0,  b = 1; let c,  d;",
+			output: "const a = 0, b = 1; let c, d;",
 			options: [{ const: "consecutive", let: "always" }],
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
@@ -2055,7 +2172,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "const a = 0; let b; let c; const d = 1;",
-			output: "const a = 0; let b,  c; const d = 1;",
+			output: "const a = 0; let b, c; const d = 1;",
 			options: [{ const: "consecutive", let: "always" }],
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
@@ -2070,7 +2187,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "const a = 0; const b = 1; let c, d;",
-			output: "const a = 0,  b = 1; let c; let d;",
+			output: "const a = 0, b = 1; let c; let d;",
 			options: [{ const: "consecutive", let: "never" }],
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
@@ -2107,7 +2224,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "var bar; var baz;",
-			output: "var bar,  baz;",
+			output: "var bar, baz;",
 			options: ["consecutive"],
 			errors: [
 				{
@@ -2121,7 +2238,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "var bar = 1; var baz = 2; qux(); var qux = 3; var quux;",
-			output: "var bar = 1,  baz = 2; qux(); var qux = 3,  quux;",
+			output: "var bar = 1, baz = 2; qux(); var qux = 3, quux;",
 			options: ["consecutive"],
 			errors: [
 				{
@@ -2142,7 +2259,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "let a, b; let c; var d, e;",
-			output: "let a, b,  c; var d; var e;",
+			output: "let a, b, c; var d; var e;",
 			options: [
 				{ var: "never", let: "consecutive", const: "consecutive" },
 			],
@@ -2166,7 +2283,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "var a; var b;",
-			output: "var a,  b;",
+			output: "var a, b;",
 			options: [{ var: "consecutive" }],
 			errors: [
 				{
@@ -2180,7 +2297,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "var a = 1; var b = 2; var c, d; var e = 3; var f = 4;",
-			output: "var a = 1,  b = 2; var c; var d; var e = 3,  f = 4;",
+			output: "var a = 1, b = 2; var c; var d; var e = 3, f = 4;",
 			options: [{ initialized: "consecutive", uninitialized: "never" }],
 			errors: [
 				{
@@ -2208,7 +2325,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "var a = 1; var b = 2; foo(); var c = 3; var d = 4;",
-			output: "var a = 1,  b = 2; foo(); var c = 3,  d = 4;",
+			output: "var a = 1, b = 2; foo(); var c = 3, d = 4;",
 			options: [{ initialized: "consecutive" }],
 			errors: [
 				{
@@ -2229,7 +2346,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "var a\nvar b",
-			output: "var a,\n b",
+			output: "var a, b",
 			options: ["always"],
 			errors: [
 				{
@@ -2533,7 +2650,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "class C { static { let x; let y; } }",
-			output: "class C { static { let x,  y; } }",
+			output: "class C { static { let x, y; } }",
 			options: ["always"],
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
@@ -2546,7 +2663,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "class C { static { var x; var y; } }",
-			output: "class C { static { var x,  y; } }",
+			output: "class C { static { var x, y; } }",
 			options: ["always"],
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
@@ -2598,7 +2715,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "class C { static { let x; let y; } }",
-			output: "class C { static { let x,  y; } }",
+			output: "class C { static { let x, y; } }",
 			options: ["consecutive"],
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
@@ -2611,7 +2728,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "class C { static { var x; var y; } }",
-			output: "class C { static { var x,  y; } }",
+			output: "class C { static { var x, y; } }",
 			options: ["consecutive"],
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
@@ -2624,7 +2741,7 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "class C { static { let a = 0; let b = 1; } }",
-			output: "class C { static { let a = 0,  b = 1; } }",
+			output: "class C { static { let a = 0, b = 1; } }",
 			options: [{ initialized: "consecutive" }],
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
@@ -2637,13 +2754,143 @@ ruleTester.run("one-var", rule, {
 		},
 		{
 			code: "class C { static { var a = 0; var b = 1; } }",
-			output: "class C { static { var a = 0,  b = 1; } }",
+			output: "class C { static { var a = 0, b = 1; } }",
 			options: [{ initialized: "consecutive" }],
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
 				{
 					messageId: "combineInitialized",
 					data: { type: "var" },
+					type: "VariableDeclaration",
+				},
+			],
+		},
+
+		// Explicit Resource Management
+		{
+			code: "using a = 0; using b = 1;",
+			output: "using a = 0, b = 1;",
+			options: ["always"],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+			errors: [
+				{
+					messageId: "combine",
+					data: { type: "using" },
+					type: "VariableDeclaration",
+				},
+			],
+		},
+		{
+			code: "await using a = 0; await using b = 1;",
+			output: "await using a = 0, b = 1;",
+			options: ["always"],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+			errors: [
+				{
+					messageId: "combine",
+					data: { type: "await using" },
+					type: "VariableDeclaration",
+				},
+			],
+		},
+		{
+			code: "using a = 0, b = 1;",
+			output: "using a = 0; using b = 1;",
+			options: ["never"],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+			errors: [
+				{
+					messageId: "split",
+					data: { type: "using" },
+					type: "VariableDeclaration",
+				},
+			],
+		},
+		{
+			code: "await using a = 0, b = 1;",
+			output: "await using a = 0; await using b = 1;",
+			options: ["never"],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+			errors: [
+				{
+					messageId: "split",
+					data: { type: "await using" },
+					type: "VariableDeclaration",
+				},
+			],
+		},
+		{
+			code: "using a = 0; using b = 1;",
+			output: "using a = 0, b = 1;",
+			options: ["consecutive"],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+			errors: [
+				{
+					messageId: "combine",
+					data: { type: "using" },
+					type: "VariableDeclaration",
+				},
+			],
+		},
+		{
+			code: "await using a = 0; await using b = 1;",
+			output: "await using a = 0, b = 1;",
+			options: ["consecutive"],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+			errors: [
+				{
+					messageId: "combine",
+					data: { type: "await using" },
+					type: "VariableDeclaration",
+				},
+			],
+		},
+		{
+			code: "using a = 0, b = 1;",
+			output: "using a = 0; using b = 1;",
+			options: [{ initialized: "never" }],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+			errors: [
+				{
+					messageId: "splitInitialized",
+					data: { type: "using" },
+					type: "VariableDeclaration",
+				},
+			],
+		},
+		{
+			code: "await using a = 0, b = 1;",
+			output: "await using a = 0; await using b = 1;",
+			options: [{ initialized: "never" }],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+			errors: [
+				{
+					messageId: "splitInitialized",
+					data: { type: "await using" },
 					type: "VariableDeclaration",
 				},
 			],
