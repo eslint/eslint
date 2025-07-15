@@ -2,6 +2,7 @@ name: Update Test Ecosystem Plugins
 
 on:
     schedule:
+        # “At 00:00 on Monday.” https://crontab.guru/#0_0_*_*_1
         - cron: "0 0 * * 1"
     workflow_dispatch: ~
 
