@@ -103,5 +103,5 @@ async function fetchLinkMeta(url) {
 	}
 
 	// Last write new data into the current data file
-	await fs.writeFile(DATA_FILE_PATH, JSON.stringify(links, null, 4), "utf8");
+	await fs.writeFile(DATA_FILE_PATH, JSON.stringify(links, null, 2), "utf8");
 })();

@@ -1,5 +1,6 @@
 CHANGELOG.md
 docs/package.json
+docs/src/_data/further_reading_links.json
 docs/src/_data/rule_versions.json
 docs/src/_data/rules.json
 docs/src/_data/rules_meta.json
