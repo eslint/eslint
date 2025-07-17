@@ -338,7 +338,7 @@ import type foo = require("import-foo");
 
 TypeScript [`import = require()` syntax](https://www.typescriptlang.org/docs/handbook/2/modules.html#es-module-syntax-with-commonjs-behavior) is supported, but it has limitations.
 
-You can only **fully restrict** these imports, you **cannot restrict** them based on specific import names like `importNames`, `allowImportNames`, `importNamePattern`, or `allowImportNamePattern` options.
+You can only fully restrict these imports, you cannot restrict them based on specific import names like `importNames`, `allowImportNames`, `importNamePattern`, or `allowImportNamePattern` options.
 
 Examples of **incorrect** code for TypeScript import equals declarations:
 
@@ -364,7 +364,7 @@ import foo = require("disallowed-import");
 
 :::
 
-**Note:** Import name restrictions do not apply to TypeScript import equals declarations. The following configuration will **not** restrict the import equals declaration:
+**Note:** Import name restrictions do not apply to TypeScript import equals declarations. The following configuration will not restrict the import equals declaration:
 
 ::: correct { "sourceType": "module" }
 
