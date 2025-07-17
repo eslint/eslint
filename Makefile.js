@@ -1126,7 +1126,7 @@ target.perf = () => {
 	// Empty line for better readability in the console output.
 	console.log();
 
-	const loadingCommand = `"${process.execPath}" --require "${require("./package.json").main}" ""`;
+	const loadingCommand = `"${process.execPath}" "${require("./package.json").main}"`;
 	runPerformanceTest("Loading", loadingCommand);
 
 	const singleFileCommand = createESLintCommand(
