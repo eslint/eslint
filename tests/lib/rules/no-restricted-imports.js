@@ -3597,6 +3597,22 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 			],
 		},
 		{
+			code: `import { Bar, type Baz } from "import/private/bar";`,
+			options: [
+				{
+					patterns: [
+						{
+							group: ["import/private/*"],
+							importNames: ["Baz"],
+							allowTypeImports: true,
+							message:
+								"Please use 'Baz' from 'import/private/*' as a type only.",
+						},
+					],
+				},
+			],
+		},
+		{
 			code: `
   import type { foo } from 'import1/private/bar';
   import type { foo } from 'import2/private/bar';
