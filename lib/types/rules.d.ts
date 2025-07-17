@@ -4081,6 +4081,10 @@ export interface ESLintRules extends Linter.RulesRecord {
 					/**
 					 * @default false
 					 */
+					ignoreUsingDeclarations: boolean;
+					/**
+					 * @default false
+					 */
 					reportUsedIgnorePattern: boolean;
 			  }>,
 		]
