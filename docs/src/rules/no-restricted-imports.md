@@ -336,7 +336,7 @@ import type foo = require("import-foo");
 
 :::
 
-TypeScript [`import = require()` syntax](https://www.typescriptlang.org/docs/handbook/2/modules.html#es-module-syntax-with-commonjs-behavior) is supported, but it has limitations.
+TypeScript [`import = require()` syntax](https://www.typescriptlang.org/docs/handbook/2/modules.html#es-module-syntax-with-commonjs-behavior) is valid and the rule can recognize and lint such instances, but with certain limitations.
 
 You can only fully restrict these imports, you cannot restrict them based on specific import names like `importNames`, `allowImportNames`, `importNamePattern`, or `allowImportNamePattern` options.
 
