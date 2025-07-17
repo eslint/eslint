@@ -116,6 +116,10 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default true
 				 */
 				enforceForClassMembers: boolean;
+				/**
+				 * @default true
+				 */
+				enforceForTSTypes: boolean;
 			}>,
 		]
 	>;
@@ -945,7 +949,15 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @see https://eslint.org/docs/latest/rules/grouped-accessor-pairs
 	 */
 	"grouped-accessor-pairs": Linter.RuleEntry<
-		["anyOrder" | "getBeforeSet" | "setBeforeGet"]
+		[
+			"anyOrder" | "getBeforeSet" | "setBeforeGet",
+			Partial<{
+				/**
+				 * @default false
+				 */
+				enforceForTSTypes: boolean;
+			}>,
+		]
 	>;
 
 	/**
