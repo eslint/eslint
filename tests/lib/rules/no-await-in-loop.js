@@ -50,6 +50,39 @@ ruleTester.run("no-await-in-loop", rule, {
 
 		// Asynchronous iteration intentionally
 		"async function foo() { for await (var x of xs) { await f(x) } }",
+
+		// Explicit Resource Management
+		"while (true) { const value = 0; }",
+		"while (true) { let value = 0; }",
+		"while (true) { var value = 0; }",
+		{
+			code: "await using resource = getResource();",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+		},
+		{
+			code: "while (true) { using resource = getResource(); }",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+		},
+		{
+			code: "async function foo() { while (true) { async function foo() { await using resource = getResource(); } } }",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+		},
+		{
+			code: "for (await using resource = getResource(); ;) {}",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+		},
 	],
 	invalid: [
 		// While loops
@@ -122,6 +155,32 @@ ruleTester.run("no-await-in-loop", rule, {
 		{
 			code: "async function foo() { for await (var x of xs) { while (1) await f(x) } }",
 			errors: [error],
+		},
+
+		// Explicit Resource Management
+		{
+			code: "while (true) { await using resource = getResource(); }",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+			errors: [{ ...error, type: "VariableDeclaration" }],
+		},
+		{
+			code: "for (;;) { await using resource = getResource(); }",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+			errors: [{ ...error, type: "VariableDeclaration" }],
+		},
+		{
+			code: "for (await using resource of resources) {}",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+			errors: [{ ...error, type: "VariableDeclaration" }],
 		},
 	],
 });

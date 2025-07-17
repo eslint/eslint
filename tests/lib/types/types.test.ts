@@ -933,16 +933,6 @@ linter.verify(
 	SOURCE,
 	{
 		parserOptions: {
-			ecmaVersion: 6,
-			ecmaFeatures: { experimentalObjectRestSpread: true },
-		},
-	},
-	"test.js",
-);
-linter.verify(
-	SOURCE,
-	{
-		parserOptions: {
 			ecmaVersion: 3,
 			allowReserved: true,
 		},
@@ -1356,16 +1346,6 @@ linterWithEslintrcConfig.verify(
 linterWithEslintrcConfig.verify(
 	SOURCE,
 	{ parserOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } } },
-	"test.js",
-);
-linterWithEslintrcConfig.verify(
-	SOURCE,
-	{
-		parserOptions: {
-			ecmaVersion: 6,
-			ecmaFeatures: { experimentalObjectRestSpread: true },
-		},
-	},
 	"test.js",
 );
 linterWithEslintrcConfig.verify(

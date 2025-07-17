@@ -1,3 +1,21 @@
+v9.31.0 - July 11, 2025
+
+* [`3ddd454`](https://github.com/eslint/eslint/commit/3ddd454c1c73294e5af7905d60d03fac162f1b3e) chore: upgrade to `@eslint/js@9.31.0` (#19935) (Francesco Trotta)
+* [`d5054e5`](https://github.com/eslint/eslint/commit/d5054e5454a537e9ade238c768c262c6c592cbc1) chore: package.json update for @eslint/js release (Jenkins)
+* [`0f4a378`](https://github.com/eslint/eslint/commit/0f4a3781fe7c11fad7b206c3c694655486ddd187) chore: update eslint (#19933) (renovate[bot])
+* [`664cb44`](https://github.com/eslint/eslint/commit/664cb44ab03785bd200a792607a7e20faa2d4b28) docs: Update README (GitHub Actions Bot)
+* [`07fac6c`](https://github.com/eslint/eslint/commit/07fac6cafa0426b4d1ea12d9001f3955f19b286d) fix: retry on EMFILE when writing autofix results (#19926) (TKDev7)
+* [`35cf44c`](https://github.com/eslint/eslint/commit/35cf44c22e36b1554486e7a75c870e86c10b83f8) feat: output full actual location in rule tester if different (#19904) (ST-DDT)
+* [`40dbe2a`](https://github.com/eslint/eslint/commit/40dbe2a43f83d366e9026faec70293512fb61ca2) docs: fix mismatch between `globalIgnores()` code and text (#19914) (MaoShizhong)
+* [`76c2340`](https://github.com/eslint/eslint/commit/76c2340c368f96db77439b5cd1df0196cc39bf3e) chore: bump mocha to v11 (#19917) (루밀LuMir)
+* [`28cc7ab`](https://github.com/eslint/eslint/commit/28cc7abbb72b29b1cac6fc4253646a7839586064) fix: Remove incorrect RuleContext types (#19910) (Nicholas C. Zakas)
+* [`a6a6325`](https://github.com/eslint/eslint/commit/a6a63259de6cb5642f69c7be429554bbcedca4c0) feat: support explicit resource management in `no-loop-func` (#19895) (Milos Djermanovic)
+* [`4682cdc`](https://github.com/eslint/eslint/commit/4682cdc6960279ee17f23899fbab6f58d881eadf) feat: support explicit resource management in `no-undef-init` (#19894) (Milos Djermanovic)
+* [`5848216`](https://github.com/eslint/eslint/commit/58482165eaf597cc5c58216a956c301ae87520b3) feat: support explicit resource management in `init-declarations` (#19893) (Milos Djermanovic)
+* [`bb370b8`](https://github.com/eslint/eslint/commit/bb370b8e79f65ee32d9d89ecf249fb74a141ad22) feat: support explicit resource management in `no-const-assign` (#19892) (Milos Djermanovic)
+* [`5a0069d`](https://github.com/eslint/eslint/commit/5a0069d60815246cf24e1c96125540792c2507ef) docs: Update README (GitHub Actions Bot)
+* [`fef04b5`](https://github.com/eslint/eslint/commit/fef04b5c7fea99362d67b31b8e98cd4914020ed3) docs: Update working on issues info (#19902) (Nicholas C. Zakas)
+
 v9.30.1 - July 1, 2025
 
 * [`b035f74`](https://github.com/eslint/eslint/commit/b035f747c6e6d1c7a299c90b0ed0b8109cf24a53) chore: upgrade to `@eslint/js@9.30.1` (#19906) (Francesco Trotta)

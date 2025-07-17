@@ -515,7 +515,7 @@ ruleTester.run("no-implied-eval", rule, {
 		{
 			code: 'execScript("x = 1;");',
 			languageOptions: { globals: { execScript: false } },
-			errors: [expectedError],
+			errors: [{ messageId: "execScript", type: "CallExpression" }],
 		},
 
 		{
@@ -541,6 +541,11 @@ ruleTester.run("no-implied-eval", rule, {
 			errors: [expectedError],
 		},
 		{
+			code: "window.execScript('foo')",
+			languageOptions: { globals: globals.browser },
+			errors: [{ messageId: "execScript", type: "CallExpression" }],
+		},
+		{
 			code: "window['setTimeout']('foo')",
 			languageOptions: { globals: globals.browser },
 			errors: [expectedError],
@@ -556,9 +561,24 @@ ruleTester.run("no-implied-eval", rule, {
 			errors: [expectedError],
 		},
 		{
+			code: "window['execScript']('foo')",
+			languageOptions: { globals: globals.browser },
+			errors: [{ messageId: "execScript", type: "CallExpression" }],
+		},
+		{
+			code: "window[`execScript`]('foo')",
+			languageOptions: { ecmaVersion: 6, globals: globals.browser },
+			errors: [{ messageId: "execScript", type: "CallExpression" }],
+		},
+		{
 			code: "window.window['setInterval']('foo')",
 			languageOptions: { globals: globals.browser },
 			errors: [expectedError],
+		},
+		{
+			code: "window.window['execScript']('foo')",
+			languageOptions: { globals: globals.browser },
+			errors: [{ messageId: "execScript", type: "CallExpression" }],
 		},
 		{
 			code: "global.setTimeout('foo')",
@@ -569,6 +589,11 @@ ruleTester.run("no-implied-eval", rule, {
 			code: "global.setInterval('foo')",
 			languageOptions: { sourceType: "commonjs" },
 			errors: [expectedError],
+		},
+		{
+			code: "global.execScript('foo')",
+			languageOptions: { sourceType: "commonjs" },
+			errors: [{ messageId: "execScript", type: "CallExpression" }],
 		},
 		{
 			code: "global['setTimeout']('foo')",
@@ -586,9 +611,24 @@ ruleTester.run("no-implied-eval", rule, {
 			errors: [expectedError],
 		},
 		{
+			code: "global['execScript']('foo')",
+			languageOptions: { sourceType: "commonjs" },
+			errors: [{ messageId: "execScript", type: "CallExpression" }],
+		},
+		{
+			code: "global[`execScript`]('foo')",
+			languageOptions: { ecmaVersion: 6, sourceType: "commonjs" },
+			errors: [{ messageId: "execScript", type: "CallExpression" }],
+		},
+		{
 			code: "global.global['setInterval']('foo')",
 			languageOptions: { sourceType: "commonjs" },
 			errors: [expectedError],
+		},
+		{
+			code: "global.global['execScript']('foo')",
+			languageOptions: { sourceType: "commonjs" },
+			errors: [{ messageId: "execScript", type: "CallExpression" }],
 		},
 		{
 			code: "globalThis.setTimeout('foo')",
@@ -599,6 +639,11 @@ ruleTester.run("no-implied-eval", rule, {
 			code: "globalThis.setInterval('foo')",
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [expectedError],
+		},
+		{
+			code: "globalThis.execScript('foo')",
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [{ messageId: "execScript", type: "CallExpression" }],
 		},
 
 		// template literals
@@ -720,7 +765,7 @@ ruleTester.run("no-implied-eval", rule, {
 
 				// no error on line 2
 				{
-					messageId: "impliedEval",
+					messageId: "execScript",
 					type: "CallExpression",
 					line: 3,
 				},
@@ -743,7 +788,7 @@ ruleTester.run("no-implied-eval", rule, {
 
 				// no error on line 2
 				{
-					messageId: "impliedEval",
+					messageId: "execScript",
 					type: "CallExpression",
 					line: 3,
 				},
@@ -769,7 +814,7 @@ ruleTester.run("no-implied-eval", rule, {
 
 				// no error on line 2
 				{
-					messageId: "impliedEval",
+					messageId: "execScript",
 					type: "CallExpression",
 					line: 3,
 				},
@@ -792,6 +837,22 @@ ruleTester.run("no-implied-eval", rule, {
 				globals: { window: "readonly" },
 			},
 			errors: [{ messageId: "impliedEval" }],
+		},
+		{
+			code: "window?.execScript('code')",
+			languageOptions: {
+				ecmaVersion: 2020,
+				globals: { window: "readonly" },
+			},
+			errors: [{ messageId: "execScript" }],
+		},
+		{
+			code: "(window?.execScript)('code')",
+			languageOptions: {
+				ecmaVersion: 2020,
+				globals: { window: "readonly" },
+			},
+			errors: [{ messageId: "execScript" }],
 		},
 	],
 });
