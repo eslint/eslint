@@ -1795,7 +1795,7 @@
     "no-const-assign": {
         "type": "problem",
         "docs": {
-            "description": "Disallow reassigning `const` variables",
+            "description": "Disallow reassigning `const`, `using`, and `await using` variables",
             "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/no-const-assign"
         }
