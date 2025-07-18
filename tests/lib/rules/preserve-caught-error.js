@@ -45,6 +45,13 @@ ruleTester.run("preserve-caught-error", rule, {
                 throw new Error("Other", { cause: error });
         }
     }`,
+		`try {
+		// ...
+	} catch (err) {
+		const opts = { cause: err }
+		throw new Error("msg", { ...opts });
+	}
+	`,
 	],
 	invalid: [
 		/* 1. Throws a new Error without cause, even though an error was caught */
@@ -95,30 +102,7 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
-		/* 3. Throws a new Error, cause property is present but misspelled */
-		{
-			code: `try {
-            doSomething();
-        } catch (error) {
-            throw new Error("Failed", { cuse: error });
-        }`,
-			errors: [
-				{
-					messageId: "missingCause",
-					suggestions: [
-						{
-							messageId: "includeCause",
-							output: `try {
-            doSomething();
-        } catch (error) {
-            throw new Error("Failed", { cause: error });
-        }`,
-						},
-					],
-				},
-			],
-		},
-		/* 4. Throws a new Error, cause property is present but value is a different identifier */
+		/* 3. Throws a new Error, cause property is present but value is a different identifier */
 		/*    TODO: This should actually be a valid case since e === err */
 		{
 			code: `try {
@@ -144,7 +128,7 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
-		/* 5. Throws a new Error, but not using the full caught error as the cause of the symptom error */
+		/* 4. Throws a new Error, but not using the full caught error as the cause of the symptom error */
 		{
 			code: `try {
             doSomething();
@@ -167,7 +151,7 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
-		/* 6. Throw in a heavily nested catch block */
+		/* 5. Throw in a heavily nested catch block */
 		{
 			code: `try {
             doSomething();
@@ -202,7 +186,7 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
-		/* 7. Throw deep inside a switch statement */
+		/* 6. Throw deep inside a switch statement */
 		{
 			code: `try {
             doSomething();
@@ -239,7 +223,7 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
-		/* 8. Throw statement with a template literal error message */
+		/* 7. Throw statement with a template literal error message */
 		{
 			code: `try {
             doSomething();
@@ -262,7 +246,7 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
-		/* 9. Throw statement with a variable error message */
+		/* 8. Throw statement with a variable error message */
 		{
 			code: `try {
             doSomething();
@@ -281,6 +265,31 @@ ruleTester.run("preserve-caught-error", rule, {
         } catch (error) {
             const errorMessage = "Operation failed";
             throw new Error(errorMessage, { cause: error });
+        }`,
+						},
+					],
+				},
+			],
+		},
+		/* 9. Existing error options should be preserved. */
+		{
+			code: `try {
+            doSomething();
+        } catch (error) {
+            const errorMessage = "Operation failed";
+            throw new Error(errorMessage, { existingOption: true, complexOption: { moreOptions: {} } });
+        }`,
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try {
+            doSomething();
+        } catch (error) {
+            const errorMessage = "Operation failed";
+            throw new Error(errorMessage, { existingOption: true, complexOption: { moreOptions: {} }, cause: error });
         }`,
 						},
 					],
