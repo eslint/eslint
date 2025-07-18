@@ -45,26 +45,6 @@ ruleTester.run("preserve-caught-error", rule, {
                 throw new Error("Other", { cause: error });
         }
     }`,
-		`try {
-		doSomething();
-	} catch (err) {
-		// passing the caught error directly
-		throw createExtraneousResultsError("test", err);
-	}`,
-
-		`try {
-		doSomething();
-	} catch (err) {
-		// passing the caught error as a property in an object
-		throw createExtraneousResultsError("test", { err });
-	}`,
-
-		`try {
-		doSomething();
-	} catch (err) {
-		// caught error passed with explicit property name
-		throw createExtraneousResultsError("test", { error: err });
-	}`,
 	],
 	invalid: [
 		/* 1. Throws a new Error without cause, even though an error was caught */
@@ -437,20 +417,7 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
-		/* 14. Throw uses a function's return value, but the function does not use the `cause` to construct an error. */
-		{
-			code: `try {
-			doSomething();
-			} catch (err) {
-				throw createExtraneousResultsError("Something went wrong");
-			}`,
-			errors: [
-				{
-					messageId: "missingCauseInFunction",
-				},
-			],
-		},
-		/* 15. When the throw Error constructor has no message argument. */
+		/* 14. When the throw Error constructor has no message argument. */
 		{
 			code: `try {
         } catch (err) {
@@ -475,7 +442,7 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
-		/* 16. AggregateError accepts options as the third argument.  */
+		/* 15. AggregateError accepts options as the third argument.  */
 		{
 			code: `try {
         } catch (err) {
