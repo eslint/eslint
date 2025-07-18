@@ -27,15 +27,17 @@
 
 import * as ESTree from "estree";
 import type {
-	RuleVisitor,
-	TextSourceCode,
-	Language,
-	SourceRange,
-	TraversalStep,
-	LanguageOptions as GenericLanguageOptions,
-	RuleDefinition,
-	RuleContext as CoreRuleContext,
+	CustomRuleDefinitionType,
+	CustomRuleTypeDefinitions,
 	DeprecatedInfo,
+	Language,
+	LanguageOptions as GenericLanguageOptions,
+	RuleContext as CoreRuleContext,
+	RuleDefinition,
+	RuleVisitor,
+	SourceRange,
+	TextSourceCode,
+	TraversalStep,
 } from "@eslint/core";
 import { JSONSchema4 } from "json-schema";
 import { LegacyESLint } from "./use-at-your-own-risk.js";
@@ -1250,27 +1252,18 @@ export namespace Rule {
 	}
 }
 
-export type JSRuleDefinitionTypeOptions = {
-	RuleOptions: unknown[];
-	MessageIds: string;
-	ExtRuleDocs: Record<string, unknown>;
-};
+export type JSRuleDefinitionTypeOptions = CustomRuleTypeDefinitions;
 
 export type JSRuleDefinition<
 	Options extends Partial<JSRuleDefinitionTypeOptions> = {},
-> = RuleDefinition<
-	// Language specific type options (non-configurable)
+> = CustomRuleDefinitionType<
 	{
 		LangOptions: Linter.LanguageOptions;
 		Code: SourceCode;
 		Visitor: Rule.NodeListener;
 		Node: JSSyntaxElement;
-	} & Required<
-		// Rule specific type options (custom)
-		Options &
-			// Rule specific type options (defaults)
-			Omit<JSRuleDefinitionTypeOptions, keyof Options>
-	>
+	},
+	Options
 >;
 
 // #region Linter
@@ -1597,7 +1590,6 @@ export namespace Linter {
 					globalReturn?: boolean | undefined;
 					impliedStrict?: boolean | undefined;
 					jsx?: boolean | undefined;
-					experimentalObjectRestSpread?: boolean | undefined;
 					[key: string]: any;
 			  }
 			| undefined;
