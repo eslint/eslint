@@ -21,6 +21,8 @@ Checks for all built-in [error types](https://github.com/microsoft/TypeScript/bl
 Examples of **incorrect** code for this rule:
 
 ```js
+/* eslint preserve-caught-error: "error" */
+
 // Not using the `cause` option
 try {
     // ...
@@ -46,6 +48,8 @@ try {
 Examples of **correct** code for this rule:
 
 ```js
+/* eslint preserve-caught-error: "error" */
+
 try {
     // ...
 } catch (error) {
