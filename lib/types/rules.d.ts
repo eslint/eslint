@@ -4797,6 +4797,13 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"prefer-template": Linter.RuleEntry<[]>;
 
 	/**
+	 * Rule to disallow losing originally caught error when re-throwing custom errors.
+	 *
+	 * @see https://eslint.org/docs/latest/rules/preserve-caught-error
+	 */
+	"preserve-caught-error": Linter.RuleEntry<[]>;
+
+	/**
 	 * Rule to require quotes around object literal property names.
 	 *
 	 * @since 0.0.6
