@@ -1064,6 +1064,91 @@ ruleTester.run("no-restricted-globals", rule, {
 				},
 			],
 		},
+		{
+			code: "function onClick(event) { console.log(event); console.log(window.event); }",
+			options: [
+				{
+					globals: ["event"],
+					checkGlobalObjectAccess: true,
+				},
+			],
+			languageOptions: { globals: globals.browser },
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "event" },
+					type: "Identifier",
+					line: 1,
+					column: 66,
+					endLine: 1,
+					endColumn: 71,
+				},
+			],
+		},
+		{
+			code: "function onClick(event) { console.log(event); console.log(global.event); }",
+			options: [
+				{
+					globals: ["event"],
+					checkGlobalObjectAccess: true,
+				},
+			],
+			languageOptions: { sourceType: "commonjs" },
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "event" },
+					type: "Identifier",
+					line: 1,
+					column: 66,
+					endLine: 1,
+					endColumn: 71,
+				},
+			],
+		},
+		{
+			code: "function onClick(event) { console.log(event); console.log(globalThis.event); }",
+			options: [
+				{
+					globals: ["event"],
+					checkGlobalObjectAccess: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "event" },
+					type: "Identifier",
+					line: 1,
+					column: 70,
+					endLine: 1,
+					endColumn: 75,
+				},
+			],
+		},
+		{
+			code: "function onClick(event) { console.log(event); console.log(myGlobal.event); }",
+			options: [
+				{
+					globals: ["event"],
+					checkGlobalObjectAccess: true,
+					globalObjects: ["myGlobal"],
+				},
+			],
+			languageOptions: { globals: { myGlobal: "readonly" } },
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "event" },
+					type: "Identifier",
+					line: 1,
+					column: 68,
+					endLine: 1,
+					endColumn: 73,
+				},
+			],
+		},
 	],
 });
 
