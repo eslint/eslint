@@ -6036,7 +6036,10 @@ export class Foo {
 	],
 	invalid: [
 		{
-			code: "import { ClassDecoratorFactory } from 'decorators'; export class Foo {}",
+			code: `
+import { ClassDecoratorFactory } from 'decorators';
+export class Foo {}
+`,
 			errors: [
 				{
 					column: 10,
@@ -6046,12 +6049,15 @@ export class Foo {
 						varName: "ClassDecoratorFactory",
 					},
 					endColumn: 31,
-					endLine: 1,
-					line: 1,
+					endLine: 2,
+					line: 2,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: " export class Foo {}",
+							output: `
+
+export class Foo {}
+`,
 							messageId: "removeVar",
 							data: { varName: "ClassDecoratorFactory" },
 						},
@@ -6060,7 +6066,12 @@ export class Foo {
 			],
 		},
 		{
-			code: "import { Nullable } from 'nullable';\nimport { SomeOther } from 'other';\nconst a: Nullable<string> = 'hello';\nconsole.log(a);",
+			code: `
+import { Nullable } from 'nullable';
+import { SomeOther } from 'other';
+const a: Nullable<string> = 'hello';
+console.log(a);
+`,
 			errors: [
 				{
 					column: 10,
@@ -6069,19 +6080,28 @@ export class Foo {
 						additional: "",
 						varName: "SomeOther",
 					},
-					line: 2,
+					line: 3,
 					messageId: "unusedVar",
 					suggestions: [
 						{
 							messageId: "removeVar",
-							output: "import { Nullable } from 'nullable';\n\nconst a: Nullable<string> = 'hello';\nconsole.log(a);",
+							output: `
+import { Nullable } from 'nullable';
+
+const a: Nullable<string> = 'hello';
+console.log(a);
+`,
 						},
 					],
 				},
 			],
 		},
 		{
-			code: "import { Foo, Bar } from 'foo';\nfunction baz<Foo>(): Foo {}\nbaz<Bar>();",
+			code: `
+import { Foo, Bar } from 'foo';
+function baz<Foo>(): Foo {}
+baz<Bar>();
+`,
 			errors: [
 				{
 					column: 10,
@@ -6090,11 +6110,15 @@ export class Foo {
 						additional: "",
 						varName: "Foo",
 					},
-					line: 1,
+					line: 2,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "import {  Bar } from 'foo';\nfunction baz<Foo>(): Foo {}\nbaz<Bar>();",
+							output: `
+import {  Bar } from 'foo';
+function baz<Foo>(): Foo {}
+baz<Bar>();
+`,
 							messageId: "removeVar",
 							data: { varName: "Foo" },
 						},
@@ -6103,7 +6127,11 @@ export class Foo {
 			],
 		},
 		{
-			code: "import { Nullable } from 'nullable';\nconst a: string = 'hello';\nconsole.log(a);",
+			code: `
+import { Nullable } from 'nullable';
+const a: string = 'hello';
+console.log(a);
+`,
 			errors: [
 				{
 					column: 10,
@@ -6112,11 +6140,15 @@ export class Foo {
 						additional: "",
 						varName: "Nullable",
 					},
-					line: 1,
+					line: 2,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "\nconst a: string = 'hello';\nconsole.log(a);",
+							output: `
+
+const a: string = 'hello';
+console.log(a);
+`,
 							messageId: "removeVar",
 							data: { varName: "Nullable" },
 						},
@@ -6125,7 +6157,16 @@ export class Foo {
 			],
 		},
 		{
-			code: "import { Nullable } from 'nullable';\nimport { Another } from 'some';\nclass A { do = (a: Nullable) => { console.log(a); }; }\nnew A();",
+			code: `
+import { Nullable } from 'nullable';
+import { Another } from 'some';
+class A {
+	do = (a: Nullable) => {
+		console.log(a);
+	};
+}
+new A();
+`,
 			errors: [
 				{
 					column: 10,
@@ -6134,11 +6175,20 @@ export class Foo {
 						additional: "",
 						varName: "Another",
 					},
-					line: 2,
+					line: 3,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "import { Nullable } from 'nullable';\n\nclass A { do = (a: Nullable) => { console.log(a); }; }\nnew A();",
+							output: `
+import { Nullable } from 'nullable';
+
+class A {
+	do = (a: Nullable) => {
+		console.log(a);
+	};
+}
+new A();
+`,
 							messageId: "removeVar",
 							data: { varName: "Another" },
 						},
@@ -6147,7 +6197,16 @@ export class Foo {
 			],
 		},
 		{
-			code: "import { Nullable } from 'nullable';\nimport { Another } from 'some';\nclass A { do(a: Nullable) { console.log(a); } }\n new A();",
+			code: `
+import { Nullable } from 'nullable';
+import { Another } from 'some';
+class A {
+	do(a: Nullable) {
+		console.log(a);
+	}
+}
+new A();
+`,
 			errors: [
 				{
 					column: 10,
@@ -6156,11 +6215,20 @@ export class Foo {
 						additional: "",
 						varName: "Another",
 					},
-					line: 2,
+					line: 3,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "import { Nullable } from 'nullable';\n\nclass A { do(a: Nullable) { console.log(a); } }\n new A();",
+							output: `
+import { Nullable } from 'nullable';
+
+class A {
+	do(a: Nullable) {
+		console.log(a);
+	}
+}
+new A();
+`,
 							messageId: "removeVar",
 							data: { varName: "Another" },
 						},
@@ -6169,7 +6237,16 @@ export class Foo {
 			],
 		},
 		{
-			code: "import { Nullable } from 'nullable';\nimport { Another } from 'some';\nclass A { do(): Nullable { return null; } }\n new A();",
+			code: `
+import { Nullable } from 'nullable';
+import { Another } from 'some';
+class A {
+	do(): Nullable {
+		return null;
+	}
+}
+new A();
+`,
 			errors: [
 				{
 					column: 10,
@@ -6178,11 +6255,20 @@ export class Foo {
 						additional: "",
 						varName: "Another",
 					},
-					line: 2,
+					line: 3,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "import { Nullable } from 'nullable';\n\nclass A { do(): Nullable { return null; } }\n new A();",
+							output: `
+import { Nullable } from 'nullable';
+
+class A {
+	do(): Nullable {
+		return null;
+	}
+}
+new A();
+`,
 							messageId: "removeVar",
 							data: { varName: "Another" },
 						},
@@ -6191,7 +6277,13 @@ export class Foo {
 			],
 		},
 		{
-			code: "import { Nullable } from 'nullable';\nimport { Another } from 'some';\nexport interface A { do(a: Nullable); }",
+			code: `
+import { Nullable } from 'nullable';
+import { Another } from 'some';
+export interface A {
+	do(a: Nullable);
+}
+`,
 			errors: [
 				{
 					column: 10,
@@ -6200,11 +6292,17 @@ export class Foo {
 						additional: "",
 						varName: "Another",
 					},
-					line: 2,
+					line: 3,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "import { Nullable } from 'nullable';\n\nexport interface A { do(a: Nullable); }",
+							output: `
+import { Nullable } from 'nullable';
+
+export interface A {
+	do(a: Nullable);
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "Another" },
 						},
@@ -6213,7 +6311,13 @@ export class Foo {
 			],
 		},
 		{
-			code: "import { Nullable } from 'nullable';\nimport { Another } from 'some';\nexport interface A { other: Nullable; }",
+			code: `
+import { Nullable } from 'nullable';
+import { Another } from 'some';
+export interface A {
+	other: Nullable;
+}
+`,
 			errors: [
 				{
 					column: 10,
@@ -6222,11 +6326,17 @@ export class Foo {
 						additional: "",
 						varName: "Another",
 					},
-					line: 2,
+					line: 3,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "import { Nullable } from 'nullable';\n\nexport interface A { other: Nullable; }",
+							output: `
+import { Nullable } from 'nullable';
+
+export interface A {
+	other: Nullable;
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "Another" },
 						},
@@ -6235,7 +6345,13 @@ export class Foo {
 			],
 		},
 		{
-			code: "import { Nullable } from 'nullable';\nfunction foo(a: string) { console.log(a); }\n foo();",
+			code: `
+import { Nullable } from 'nullable';
+function foo(a: string) {
+	console.log(a);
+}
+foo();
+`,
 			errors: [
 				{
 					column: 10,
@@ -6244,11 +6360,17 @@ export class Foo {
 						additional: "",
 						varName: "Nullable",
 					},
-					line: 1,
+					line: 2,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "\nfunction foo(a: string) { console.log(a); }\n foo();",
+							output: `
+
+function foo(a: string) {
+	console.log(a);
+}
+foo();
+`,
 							messageId: "removeVar",
 							data: { varName: "Nullable" },
 						},
@@ -6257,7 +6379,11 @@ export class Foo {
 			],
 		},
 		{
-			code: "import { Nullable } from 'nullable';\nfunction foo(): string | null { return null; }\nfoo();",
+			code: `
+import { Nullable } from 'nullable';
+function foo(): string | null { return null; }
+foo();
+`,
 			errors: [
 				{
 					column: 10,
@@ -6266,11 +6392,15 @@ export class Foo {
 						additional: "",
 						varName: "Nullable",
 					},
-					line: 1,
+					line: 2,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "\nfunction foo(): string | null { return null; }\nfoo();",
+							output: `
+
+function foo(): string | null { return null; }
+foo();
+`,
 							messageId: "removeVar",
 							data: { varName: "Nullable" },
 						},
@@ -6279,7 +6409,13 @@ export class Foo {
 			],
 		},
 		{
-			code: "import { Nullable } from 'nullable';\nimport { SomeOther } from 'some';\nimport { Another } from 'some';\nclass A extends Nullable { other: Nullable<Another>; }\n new A();",
+			code: `
+import { Nullable } from 'nullable';
+import { SomeOther } from 'some';
+import { Another } from 'some';
+class A extends Nullable { other: Nullable<Another>; }
+new A();
+`,
 			errors: [
 				{
 					column: 10,
@@ -6288,11 +6424,17 @@ export class Foo {
 						additional: "",
 						varName: "SomeOther",
 					},
-					line: 2,
+					line: 3,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "import { Nullable } from 'nullable';\n\nimport { Another } from 'some';\nclass A extends Nullable { other: Nullable<Another>; }\n new A();",
+							output: `
+import { Nullable } from 'nullable';
+
+import { Another } from 'some';
+class A extends Nullable { other: Nullable<Another>; }
+new A();
+`,
 							messageId: "removeVar",
 							data: { varName: "SomeOther" },
 						},
@@ -6301,7 +6443,13 @@ export class Foo {
 			],
 		},
 		{
-			code: "import { Nullable } from 'nullable';\nimport { SomeOther } from 'some';\nimport { Another } from 'some';\nabstract class A extends Nullable { other: Nullable<Another>; }\n new A();",
+			code: `
+import { Nullable } from 'nullable';
+import { SomeOther } from 'some';
+import { Another } from 'some';
+abstract class A extends Nullable { other: Nullable<Another>; }
+new A();
+`,
 			errors: [
 				{
 					column: 10,
@@ -6310,11 +6458,17 @@ export class Foo {
 						additional: "",
 						varName: "SomeOther",
 					},
-					line: 2,
+					line: 3,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "import { Nullable } from 'nullable';\n\nimport { Another } from 'some';\nabstract class A extends Nullable { other: Nullable<Another>; }\n new A();",
+							output: `
+import { Nullable } from 'nullable';
+
+import { Another } from 'some';
+abstract class A extends Nullable { other: Nullable<Another>; }
+new A();
+`,
 							messageId: "removeVar",
 							data: { varName: "SomeOther" },
 						},
@@ -6323,7 +6477,12 @@ export class Foo {
 			],
 		},
 		{
-			code: "enum FormFieldIds { PHONE = 'phone', EMAIL = 'email', }",
+			code: `
+enum FormFieldIds {
+	PHONE = 'phone',
+	EMAIL = 'email',
+}
+`,
 			errors: [
 				{
 					column: 6,
@@ -6332,11 +6491,13 @@ export class Foo {
 						additional: "",
 						varName: "FormFieldIds",
 					},
-					line: 1,
+					line: 2,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "",
+							output: `
+
+`,
 							messageId: "removeVar",
 							data: { varName: "FormFieldIds" },
 						},
@@ -6345,7 +6506,11 @@ export class Foo {
 			],
 		},
 		{
-			code: "import test from 'test';\nimport baz from 'baz';\nexport interface Bar extends baz.test {}",
+			code: `
+import test from 'test';
+import baz from 'baz';
+export interface Bar extends baz.test {}
+`,
 			errors: [
 				{
 					column: 8,
@@ -6354,11 +6519,15 @@ export class Foo {
 						additional: "",
 						varName: "test",
 					},
-					line: 1,
+					line: 2,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "import 'test';\nimport baz from 'baz';\nexport interface Bar extends baz.test {}",
+							output: `
+import 'test';
+import baz from 'baz';
+export interface Bar extends baz.test {}
+`,
 							messageId: "removeVar",
 							data: { varName: "test" },
 						},
@@ -6367,7 +6536,11 @@ export class Foo {
 			],
 		},
 		{
-			code: "import test from 'test';\nimport baz from 'baz';\nexport class Bar implements baz.test {}",
+			code: `
+import test from 'test';
+import baz from 'baz';
+export class Bar implements baz.test {}
+`,
 			errors: [
 				{
 					column: 8,
@@ -6376,11 +6549,15 @@ export class Foo {
 						additional: "",
 						varName: "test",
 					},
-					line: 1,
+					line: 2,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "import 'test';\nimport baz from 'baz';\nexport class Bar implements baz.test {}",
+							output: `
+import 'test';
+import baz from 'baz';
+export class Bar implements baz.test {}
+`,
 							messageId: "removeVar",
 							data: { varName: "test" },
 						},
@@ -6389,7 +6566,11 @@ export class Foo {
 			],
 		},
 		{
-			code: "import test from 'test';\nimport baz from 'baz';\nexport class Bar implements baz().test {}",
+			code: `
+import test from 'test';
+import baz from 'baz';
+export class Bar implements baz().test {}
+`,
 			errors: [
 				{
 					column: 8,
@@ -6398,11 +6579,15 @@ export class Foo {
 						additional: "",
 						varName: "test",
 					},
-					line: 1,
+					line: 2,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "import 'test';\nimport baz from 'baz';\nexport class Bar implements baz().test {}",
+							output: `
+import 'test';
+import baz from 'baz';
+export class Bar implements baz().test {}
+`,
 							messageId: "removeVar",
 							data: { varName: "test" },
 						},
@@ -6433,7 +6618,11 @@ export class Foo {
 			],
 		},
 		{
-			code: "namespace Foo { export const Foo = 1; }",
+			code: `
+namespace Foo {
+	export const Foo = 1;
+}
+`,
 			errors: [
 				{
 					column: 11,
@@ -6442,11 +6631,13 @@ export class Foo {
 						additional: "",
 						varName: "Foo",
 					},
-					line: 1,
+					line: 2,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "",
+							output: `
+
+`,
 							messageId: "removeVar",
 							data: { varName: "Foo" },
 						},
@@ -6455,7 +6646,12 @@ export class Foo {
 			],
 		},
 		{
-			code: "namespace Foo { const Foo = 1; console.log(Foo); }",
+			code: `
+namespace Foo {
+	const Foo = 1;
+	console.log(Foo);
+}
+`,
 			errors: [
 				{
 					column: 11,
@@ -6464,11 +6660,13 @@ export class Foo {
 						additional: "",
 						varName: "Foo",
 					},
-					line: 1,
+					line: 2,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "",
+							output: `
+
+`,
 							messageId: "removeVar",
 							data: { varName: "Foo" },
 						},
@@ -6477,7 +6675,12 @@ export class Foo {
 			],
 		},
 		{
-			code: "namespace Foo { export const Bar = 1; console.log(Foo.Bar); }",
+			code: `
+namespace Foo {
+	export const Bar = 1;
+	console.log(Foo.Bar);
+}
+`,
 			errors: [
 				{
 					column: 11,
@@ -6486,11 +6689,13 @@ export class Foo {
 						additional: "",
 						varName: "Foo",
 					},
-					line: 1,
+					line: 2,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "",
+							output: `
+
+`,
 							messageId: "removeVar",
 							data: { varName: "Foo" },
 						},
@@ -6499,7 +6704,14 @@ export class Foo {
 			],
 		},
 		{
-			code: "namespace Foo { namespace Foo { export const Bar = 1; console.log(Foo.Bar); } }",
+			code: `
+namespace Foo {
+	namespace Foo {
+		export const Bar = 1;
+		console.log(Foo.Bar);
+	}
+}
+`,
 			errors: [
 				{
 					column: 11,
@@ -6508,28 +6720,34 @@ export class Foo {
 						additional: "",
 						varName: "Foo",
 					},
-					line: 1,
+					line: 2,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "",
+							output: `
+
+`,
 							messageId: "removeVar",
 							data: { varName: "Foo" },
 						},
 					],
 				},
 				{
-					column: 27,
+					column: 12,
 					data: {
 						action: "defined",
 						additional: "",
 						varName: "Foo",
 					},
-					line: 1,
+					line: 3,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "namespace Foo {  }",
+							output: `
+namespace Foo {
+	
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "Foo" },
 						},
@@ -6539,7 +6757,12 @@ export class Foo {
 		},
 		// self-referencing types
 		{
-			code: "interface Foo { bar: string;\nbaz: Foo['bar']; }",
+			code: `
+interface Foo {
+	bar: string;
+	baz: Foo['bar'];
+}
+`,
 			errors: [
 				{
 					column: 11,
@@ -6548,11 +6771,13 @@ export class Foo {
 						additional: "",
 						varName: "Foo",
 					},
-					line: 1,
+					line: 2,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "",
+							output: `
+
+`,
 							messageId: "removeVar",
 							data: { varName: "Foo" },
 						},
@@ -6584,7 +6809,13 @@ export class Foo {
 		},
 		// https://github.com/typescript-eslint/typescript-eslint/issues/2455
 		{
-			code: "import React from 'react';\nimport { Fragment } from 'react';\nexport const ComponentFoo = () => { return <div>Foo Foo</div>; };",
+			code: `
+import React from 'react';
+import { Fragment } from 'react';
+export const ComponentFoo = () => {
+	return <div>Foo Foo</div>;
+};
+`,
 			languageOptions: {
 				parserOptions: {
 					ecmaFeatures: {
@@ -6600,11 +6831,17 @@ export class Foo {
 						additional: "",
 						varName: "Fragment",
 					},
-					line: 2,
+					line: 3,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "import React from 'react';\n\nexport const ComponentFoo = () => { return <div>Foo Foo</div>; };",
+							output: `
+import React from 'react';
+
+export const ComponentFoo = () => {
+	return <div>Foo Foo</div>;
+};
+`,
 							messageId: "removeVar",
 							data: { varName: "Fragment" },
 						},
@@ -6613,7 +6850,13 @@ export class Foo {
 			],
 		},
 		{
-			code: "import React from 'react';\nimport { h } from 'some-other-jsx-lib';\nexport const ComponentFoo = () => { return <div>Foo Foo</div>; };",
+			code: `
+import React from 'react';
+import { h } from 'some-other-jsx-lib';
+export const ComponentFoo = () => {
+	return <div>Foo Foo</div>;
+};
+`,
 			languageOptions: {
 				parserOptions: {
 					ecmaFeatures: {
@@ -6630,11 +6873,17 @@ export class Foo {
 						additional: "",
 						varName: "React",
 					},
-					line: 1,
+					line: 2,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "import 'react';\nimport { h } from 'some-other-jsx-lib';\nexport const ComponentFoo = () => { return <div>Foo Foo</div>; };",
+							output: `
+import 'react';
+import { h } from 'some-other-jsx-lib';
+export const ComponentFoo = () => {
+	return <div>Foo Foo</div>;
+};
+`,
 							messageId: "removeVar",
 							data: { varName: "React" },
 						},
@@ -6644,7 +6893,12 @@ export class Foo {
 		},
 		// https://github.com/typescript-eslint/typescript-eslint/issues/3303
 		{
-			code: "import React from 'react';\nexport const ComponentFoo = () => { return <div>Foo Foo</div>; };",
+			code: `
+import React from 'react';
+export const ComponentFoo = () => {
+	return <div>Foo Foo</div>;
+};
+`,
 			languageOptions: {
 				parserOptions: {
 					ecmaFeatures: {
@@ -6661,11 +6915,16 @@ export class Foo {
 						additional: "",
 						varName: "React",
 					},
-					line: 1,
+					line: 2,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "import 'react';\nexport const ComponentFoo = () => { return <div>Foo Foo</div>; };",
+							output: `
+import 'react';
+export const ComponentFoo = () => {
+	return <div>Foo Foo</div>;
+};
+`,
 							messageId: "removeVar",
 							data: { varName: "React" },
 						},
@@ -6674,22 +6933,34 @@ export class Foo {
 			],
 		},
 		{
-			code: "declare module 'foo' { type Test = any;\nconst x = 1;\nexport = x; }",
+			code: `
+declare module 'foo' {
+	type Test = any;
+	const x = 1;
+	export = x;
+}
+`,
 			errors: [
 				{
-					column: 29,
+					column: 7,
 					data: {
 						action: "defined",
 						additional: "",
 						varName: "Test",
 					},
-					endColumn: 33,
-					endLine: 1,
-					line: 1,
+					endColumn: 11,
+					endLine: 3,
+					line: 3,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "declare module 'foo' { \nconst x = 1;\nexport = x; }",
+							output: `
+declare module 'foo' {
+	
+	const x = 1;
+	export = x;
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "Test" },
 						},
@@ -6698,71 +6969,114 @@ export class Foo {
 			],
 		},
 		{
-			code: "// not declared \nexport namespace Foo { namespace Bar { namespace Baz { namespace Bam { const x = 1; } } } }",
+			code: `
+// not declared
+export namespace Foo {
+	namespace Bar {
+		namespace Baz {
+			namespace Bam {
+				const x = 1;
+			}
+		}
+	}
+}
+`,
 			errors: [
 				{
-					column: 34,
+					column: 12,
 					data: {
 						action: "defined",
 						additional: "",
 						varName: "Bar",
 					},
-					line: 2,
+					line: 4,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "// not declared \nexport namespace Foo {  }",
+							output: `
+// not declared
+export namespace Foo {
+	
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "Bar" },
 						},
 					],
 				},
 				{
-					column: 50,
+					column: 13,
 					data: {
 						action: "defined",
 						additional: "",
 						varName: "Baz",
 					},
-					line: 2,
+					line: 5,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "// not declared \nexport namespace Foo { namespace Bar {  } }",
+							output: `
+// not declared
+export namespace Foo {
+	namespace Bar {
+		
+	}
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "Baz" },
 						},
 					],
 				},
 				{
-					column: 66,
+					column: 14,
 					data: {
 						action: "defined",
 						additional: "",
 						varName: "Bam",
 					},
-					line: 2,
+					line: 6,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "// not declared \nexport namespace Foo { namespace Bar { namespace Baz {  } } }",
+							output: `
+// not declared
+export namespace Foo {
+	namespace Bar {
+		namespace Baz {
+			
+		}
+	}
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "Bam" },
 						},
 					],
 				},
 				{
-					column: 78,
+					column: 11,
 					data: {
 						action: "assigned a value",
 						additional: "",
 						varName: "x",
 					},
-					line: 2,
+					line: 7,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "// not declared \nexport namespace Foo { namespace Bar { namespace Baz { namespace Bam {  } } } }",
+							output: `
+// not declared
+export namespace Foo {
+	namespace Bar {
+		namespace Baz {
+			namespace Bam {
+				
+			}
+		}
+	}
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "x" },
 						},
@@ -6771,7 +7085,14 @@ export class Foo {
 			],
 		},
 		{
-			code: "interface Foo { a: string; }\ninterface Foo { b: Foo; }",
+			code: `
+interface Foo {
+	a: string;
+}
+interface Foo {
+	b: Foo;
+}
+`,
 			errors: [
 				{
 					column: 11,
@@ -6780,11 +7101,16 @@ export class Foo {
 						additional: "",
 						varName: "Foo",
 					},
-					line: 1,
+					line: 2,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "\ninterface Foo { b: Foo; }",
+							output: `
+
+interface Foo {
+	b: Foo;
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "Foo" },
 						},
@@ -6793,7 +7119,10 @@ export class Foo {
 			],
 		},
 		{
-			code: "let x = null;\nx = foo(x);",
+			code: `
+let x = null;
+x = foo(x);
+`,
 			errors: [
 				{
 					column: 1,
@@ -6803,8 +7132,8 @@ export class Foo {
 						varName: "x",
 					},
 					endColumn: 2,
-					endLine: 2,
-					line: 2,
+					endLine: 3,
+					line: 3,
 					messageId: "unusedVar",
 				},
 			],
@@ -6848,7 +7177,13 @@ foo += 1;
 			],
 		},
 		{
-			code: "interface Foo { bar: string; }\ntype Bar = 1;\nexport = Bar;",
+			code: `
+interface Foo {
+	bar: string;
+}
+type Bar = 1;
+export = Bar;
+`,
 			errors: [
 				{
 					column: 11,
@@ -6857,11 +7192,15 @@ foo += 1;
 						additional: "",
 						varName: "Foo",
 					},
-					line: 1,
+					line: 2,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "\ntype Bar = 1;\nexport = Bar;",
+							output: `
+
+type Bar = 1;
+export = Bar;
+`,
 							messageId: "removeVar",
 							data: { varName: "Foo" },
 						},
@@ -6870,7 +7209,13 @@ foo += 1;
 			],
 		},
 		{
-			code: "interface Foo { bar: string; }\ntype Bar = 1;\nexport = Foo;",
+			code: `
+interface Foo {
+	bar: string;
+}
+type Bar = 1;
+export = Foo;
+`,
 			errors: [
 				{
 					column: 6,
@@ -6879,11 +7224,17 @@ foo += 1;
 						additional: "",
 						varName: "Bar",
 					},
-					line: 2,
+					line: 5,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "interface Foo { bar: string; }\n\nexport = Foo;",
+							output: `
+interface Foo {
+	bar: string;
+}
+
+export = Foo;
+`,
 							messageId: "removeVar",
 							data: { varName: "Bar" },
 						},
@@ -6892,20 +7243,34 @@ foo += 1;
 			],
 		},
 		{
-			code: "namespace Foo { export const foo = 1; }\nexport namespace Bar { import TheFoo = Foo; }",
+			code: `
+namespace Foo {
+	export const foo = 1;
+}
+export namespace Bar {
+	import TheFoo = Foo;
+}
+`,
 			errors: [
 				{
-					column: 31,
+					column: 9,
 					data: {
 						action: "defined",
 						additional: "",
 						varName: "TheFoo",
 					},
-					line: 2,
+					line: 6,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "namespace Foo { export const foo = 1; }\nexport namespace Bar {  }",
+							output: `
+namespace Foo {
+	export const foo = 1;
+}
+export namespace Bar {
+	
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "TheFoo" },
 						},
@@ -7124,23 +7489,23 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 		},
 		{
 			code: `
-        const foo = {
-          bar: {
+const foo = {
+    bar: {
             baz: 123,
-          },
-        };
+    },
+};
 
-        export type Bar = typeof foo.bar;
-      `,
+export type Bar = typeof foo.bar;
+`,
 			errors: [
 				{
-					column: 15,
+					column: 7,
 					data: {
 						action: "assigned a value",
 						additional: "",
 						varName: "foo",
 					},
-					endColumn: 18,
+					endColumn: 10,
 					endLine: 2,
 					line: 2,
 					messageId: "usedOnlyAsType",
@@ -7149,23 +7514,23 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 		},
 		{
 			code: `
-			const foo = {
-			bar: {
-				baz: 123,
-			},
-			};
+const foo = {
+	bar: {
+		baz: 123,
+	},
+};
 
-			export type Bar = (typeof foo)['bar'];
-			`,
+export type Bar = (typeof foo)['bar'];
+`,
 			errors: [
 				{
-					column: 10,
+					column: 7,
 					data: {
 						action: "assigned a value",
 						additional: "",
 						varName: "foo",
 					},
-					endColumn: 13,
+					endColumn: 10,
 					endLine: 2,
 					line: 2,
 					messageId: "usedOnlyAsType",
@@ -7173,7 +7538,14 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 			],
 		},
 		{
-			code: "const command = (): ParameterDecorator => { return () => {}; };\nexport class Foo { bar(@command() command: string) {} }",
+			code: `
+const command = (): ParameterDecorator => {
+	return () => {};
+};
+export class Foo {
+	bar(@command() command: string) {}
+}
+`,
 			errors: [
 				{
 					data: {
@@ -7181,11 +7553,18 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "command",
 					},
-					line: 2,
+					line: 6,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "const command = (): ParameterDecorator => { return () => {}; };\nexport class Foo { bar() {} }",
+							output: `
+const command = (): ParameterDecorator => {
+	return () => {};
+};
+export class Foo {
+	bar() {}
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "command" },
 						},
@@ -7194,7 +7573,14 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 			],
 		},
 		{
-			code: "const command = (): ParameterDecorator => { return () => {}; };\nexport class Foo { bar(@command ...args: any[]) {} }",
+			code: `
+const command = (): ParameterDecorator => {
+	return () => {};
+};
+export class Foo {
+	bar(@command ...args: any[]) {}
+}
+`,
 			errors: [
 				{
 					data: {
@@ -7202,11 +7588,18 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "args",
 					},
-					line: 2,
+					line: 6,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "const command = (): ParameterDecorator => { return () => {}; };\nexport class Foo { bar() {} }",
+							output: `
+const command = (): ParameterDecorator => {
+	return () => {};
+};
+export class Foo {
+	bar() {}
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "args" },
 						},
@@ -7215,7 +7608,14 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 			],
 		},
 		{
-			code: "const command = (): ParameterDecorator => { return () => {}; };\nexport class Foo { bar(@command() command: string, @deco ...args: any[]) {} }",
+			code: `
+const command = (): ParameterDecorator => {
+	return () => {};
+};
+export class Foo {
+	bar(@command() command: string, @deco ...args: any[]) {}
+}
+`,
 			errors: [
 				{
 					data: {
@@ -7223,11 +7623,18 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "command",
 					},
-					line: 2,
+					line: 6,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "const command = (): ParameterDecorator => { return () => {}; };\nexport class Foo { bar( @deco ...args: any[]) {} }",
+							output: `
+const command = (): ParameterDecorator => {
+	return () => {};
+};
+export class Foo {
+	bar( @deco ...args: any[]) {}
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "command" },
 						},
@@ -7239,11 +7646,18 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "args",
 					},
-					line: 2,
+					line: 6,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "const command = (): ParameterDecorator => { return () => {}; };\nexport class Foo { bar(@command() command: string) {} }",
+							output: `
+const command = (): ParameterDecorator => {
+	return () => {};
+};
+export class Foo {
+	bar(@command() command: string) {}
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "args" },
 						},
@@ -7252,36 +7666,52 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 			],
 		},
 		{
-			code: "declare const deco: () => ParameterDecorator;\nexport class Foo { bar(@deco() deco, @deco() param) {} }",
+			code: `
+declare const deco: () => ParameterDecorator;
+export class Foo {
+	bar(@deco() deco, @deco() param) {}
+}
+`,
 			errors: [
 				{
-					column: 32,
+					column: 14,
 					data: {
 						action: "defined",
 						additional: "",
 						varName: "deco",
 					},
-					line: 2,
+					line: 4,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "declare const deco: () => ParameterDecorator;\nexport class Foo { bar( @deco() param) {} }",
+							output: `
+declare const deco: () => ParameterDecorator;
+export class Foo {
+	bar( @deco() param) {}
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "deco" },
 						},
 					],
 				},
 				{
+					column: 28,
 					data: {
 						action: "defined",
 						additional: "",
 						varName: "param",
 					},
-					line: 2,
+					line: 4,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "declare const deco: () => ParameterDecorator;\nexport class Foo { bar(@deco() deco) {} }",
+							output: `
+declare const deco: () => ParameterDecorator;
+export class Foo {
+	bar(@deco() deco) {}
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "param" },
 						},
@@ -7291,7 +7721,12 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 		},
 		{
 			filename: "foo.d.ts",
-			code: "export namespace Foo { const foo: 1234;\nexport {}; }",
+			code: `
+export namespace Foo {
+	const foo: 1234;
+	export {};
+}
+`,
 			errors: [
 				{
 					data: {
@@ -7299,11 +7734,16 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "foo",
 					},
-					line: 1,
+					line: 3,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "export namespace Foo { \nexport {}; }",
+							output: `
+export namespace Foo {
+	
+	export {};
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "foo" },
 						},
@@ -7313,7 +7753,10 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 		},
 		{
 			filename: "foo.d.ts",
-			code: "const foo: 1234;\nexport {};",
+			code: `
+const foo: 1234;
+export {};
+`,
 			errors: [
 				{
 					data: {
@@ -7321,11 +7764,14 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "foo",
 					},
-					line: 1,
+					line: 2,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "\nexport {};",
+							output: `
+
+export {};
+`,
 							messageId: "removeVar",
 							data: { varName: "foo" },
 						},
@@ -7335,7 +7781,12 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 		},
 		{
 			filename: "foo.d.ts",
-			code: "declare module 'foo' { const foo: 1234;\nexport {}; }",
+			code: `
+declare module 'foo' {
+	const foo: 1234;
+	export {};
+}
+`,
 			errors: [
 				{
 					data: {
@@ -7343,11 +7794,16 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "foo",
 					},
-					line: 1,
+					line: 3,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "declare module 'foo' { \nexport {}; }",
+							output: `
+declare module 'foo' {
+	
+	export {};
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "foo" },
 						},
@@ -7357,7 +7813,13 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 		},
 		{
 			filename: "foo.d.ts",
-			code: "export namespace Foo { const foo: 1234;\nconst bar: 4567;\nexport { bar }; }",
+			code: `
+export namespace Foo {
+	const foo: 1234;
+	const bar: 4567;
+	export { bar };
+}
+`,
 			errors: [
 				{
 					data: {
@@ -7365,11 +7827,17 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "foo",
 					},
-					line: 1,
+					line: 3,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "export namespace Foo { \nconst bar: 4567;\nexport { bar }; }",
+							output: `
+export namespace Foo {
+	
+	const bar: 4567;
+	export { bar };
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "foo" },
 						},
@@ -7379,7 +7847,11 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 		},
 		{
 			filename: "foo.d.ts",
-			code: "const foo: 1234;\nconst bar: 4567;\nexport { bar };",
+			code: `
+const foo: 1234;
+const bar: 4567;
+export { bar };
+`,
 			errors: [
 				{
 					data: {
@@ -7387,11 +7859,15 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "foo",
 					},
-					line: 1,
+					line: 2,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "\nconst bar: 4567;\nexport { bar };",
+							output: `
+
+const bar: 4567;
+export { bar };
+`,
 							messageId: "removeVar",
 							data: { varName: "foo" },
 						},
@@ -7401,7 +7877,13 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 		},
 		{
 			filename: "foo.d.ts",
-			code: "declare module 'foo' { const foo: 1234;\nconst bar: 4567;\nexport { bar }; }",
+			code: `
+declare module 'foo' {
+	const foo: 1234;
+	const bar: 4567;
+	export { bar };
+}
+`,
 			errors: [
 				{
 					data: {
@@ -7409,11 +7891,17 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "foo",
 					},
-					line: 1,
+					line: 3,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "declare module 'foo' { \nconst bar: 4567;\nexport { bar }; }",
+							output: `
+declare module 'foo' {
+	
+	const bar: 4567;
+	export { bar };
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "foo" },
 						},
@@ -7423,7 +7911,14 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 		},
 		{
 			filename: "foo.d.ts",
-			code: "export namespace Foo { const foo: 1234;\nconst bar: 4567;\nexport const bazz: 4567;\nexport { bar }; }",
+			code: `
+export namespace Foo {
+	const foo: 1234;
+	const bar: 4567;
+	export const bazz: 4567;
+	export { bar };
+}
+`,
 			errors: [
 				{
 					data: {
@@ -7431,11 +7926,18 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "foo",
 					},
-					line: 1,
+					line: 3,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "export namespace Foo { \nconst bar: 4567;\nexport const bazz: 4567;\nexport { bar }; }",
+							output: `
+export namespace Foo {
+	
+	const bar: 4567;
+	export const bazz: 4567;
+	export { bar };
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "foo" },
 						},
@@ -7445,7 +7947,12 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 		},
 		{
 			filename: "foo.d.ts",
-			code: "const foo: 1234;\nconst bar: 4567;\nexport const bazz: 4567;\nexport { bar };",
+			code: `
+const foo: 1234;
+const bar: 4567;
+export const bazz: 4567;
+export { bar };
+`,
 			errors: [
 				{
 					data: {
@@ -7453,11 +7960,16 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "foo",
 					},
-					line: 1,
+					line: 2,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "\nconst bar: 4567;\nexport const bazz: 4567;\nexport { bar };",
+							output: `
+
+const bar: 4567;
+export const bazz: 4567;
+export { bar };
+`,
 							messageId: "removeVar",
 							data: { varName: "foo" },
 						},
@@ -7467,7 +7979,14 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 		},
 		{
 			filename: "foo.d.ts",
-			code: "declare module 'foo' { const foo: 1234;\nconst bar: 4567;\nexport const bazz: 4567;\nexport { bar }; }",
+			code: `
+declare module 'foo' {
+	const foo: 1234;
+	const bar: 4567;
+	export const bazz: 4567;
+	export { bar };
+}
+`,
 			errors: [
 				{
 					data: {
@@ -7475,11 +7994,18 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "foo",
 					},
-					line: 1,
+					line: 3,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "declare module 'foo' { \nconst bar: 4567;\nexport const bazz: 4567;\nexport { bar }; }",
+							output: `
+declare module 'foo' {
+	
+	const bar: 4567;
+	export const bazz: 4567;
+	export { bar };
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "foo" },
 						},
@@ -7489,7 +8015,13 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 		},
 		{
 			filename: "foo.d.ts",
-			code: "export namespace Foo { const foo: string;\nconst bar: number;\nexport default bar; }",
+			code: `
+export namespace Foo {
+	const foo: string;
+	const bar: number;
+	export default bar;
+}
+`,
 			errors: [
 				{
 					data: {
@@ -7497,11 +8029,17 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "foo",
 					},
-					line: 1,
+					line: 3,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "export namespace Foo { \nconst bar: number;\nexport default bar; }",
+							output: `
+export namespace Foo {
+	
+	const bar: number;
+	export default bar;
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "foo" },
 						},
@@ -7511,7 +8049,11 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 		},
 		{
 			filename: "foo.d.ts",
-			code: "const foo: string;\nconst bar: number;\nexport default bar;",
+			code: `
+const foo: string;
+const bar: number;
+export default bar;
+`,
 			errors: [
 				{
 					data: {
@@ -7519,11 +8061,15 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "foo",
 					},
-					line: 1,
+					line: 2,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "\nconst bar: number;\nexport default bar;",
+							output: `
+
+const bar: number;
+export default bar;
+`,
 							messageId: "removeVar",
 							data: { varName: "foo" },
 						},
@@ -7533,7 +8079,13 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 		},
 		{
 			filename: "foo.d.ts",
-			code: "declare module 'foo' { const foo: string;\nconst bar: number;\nexport default bar; }",
+			code: `
+declare module 'foo' {
+	const foo: string;
+	const bar: number;
+	export default bar;
+}
+`,
 			errors: [
 				{
 					data: {
@@ -7541,11 +8093,17 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "foo",
 					},
-					line: 1,
+					line: 3,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "declare module 'foo' { \nconst bar: number;\nexport default bar; }",
+							output: `
+declare module 'foo' {
+	
+	const bar: number;
+	export default bar;
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "foo" },
 						},
@@ -7555,7 +8113,14 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 		},
 		{
 			filename: "foo.d.ts",
-			code: "export namespace Foo { const foo: string;\nconst bar: number;\nexport const bazz: number;\nexport default bar; }",
+			code: `
+export namespace Foo {
+	const foo: string;
+	const bar: number;
+	export const bazz: number;
+	export default bar;
+}
+`,
 			errors: [
 				{
 					data: {
@@ -7563,11 +8128,18 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "foo",
 					},
-					line: 1,
+					line: 3,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "export namespace Foo { \nconst bar: number;\nexport const bazz: number;\nexport default bar; }",
+							output: `
+export namespace Foo {
+	
+	const bar: number;
+	export const bazz: number;
+	export default bar;
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "foo" },
 						},
@@ -7577,7 +8149,12 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 		},
 		{
 			filename: "foo.d.ts",
-			code: "const foo: string;\nconst bar: number;\nexport const bazz: number;\nexport default bar;",
+			code: `
+const foo: string;
+const bar: number;
+export const bazz: number;
+export default bar;
+`,
 			errors: [
 				{
 					data: {
@@ -7585,11 +8162,16 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "foo",
 					},
-					line: 1,
+					line: 2,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "\nconst bar: number;\nexport const bazz: number;\nexport default bar;",
+							output: `
+
+const bar: number;
+export const bazz: number;
+export default bar;
+`,
 							messageId: "removeVar",
 							data: { varName: "foo" },
 						},
@@ -7599,7 +8181,14 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 		},
 		{
 			filename: "foo.d.ts",
-			code: "declare module 'foo' { const foo: string;\nconst bar: number;\nexport const bazz: number;\nexport default bar; }",
+			code: `
+declare module 'foo' {
+	const foo: string;
+	const bar: number;
+	export const bazz: number;
+	export default bar;
+}
+`,
 			errors: [
 				{
 					data: {
@@ -7607,11 +8196,18 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "foo",
 					},
-					line: 1,
+					line: 3,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "declare module 'foo' { \nconst bar: number;\nexport const bazz: number;\nexport default bar; }",
+							output: `
+declare module 'foo' {
+	
+	const bar: number;
+	export const bazz: number;
+	export default bar;
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "foo" },
 						},
@@ -7621,7 +8217,13 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 		},
 		{
 			filename: "foo.d.ts",
-			code: "export namespace Foo { const foo: string;\nexport const bar: number;\nexport * from '...'; }",
+			code: `
+export namespace Foo {
+	const foo: string;
+	export const bar: number;
+	export * from '...';
+}
+`,
 			errors: [
 				{
 					data: {
@@ -7629,11 +8231,17 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "foo",
 					},
-					line: 1,
+					line: 3,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "export namespace Foo { \nexport const bar: number;\nexport * from '...'; }",
+							output: `
+export namespace Foo {
+	
+	export const bar: number;
+	export * from '...';
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "foo" },
 						},
@@ -7643,7 +8251,11 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 		},
 		{
 			filename: "foo.d.ts",
-			code: "const foo: string;\nexport const bar: number;\nexport * from '...';",
+			code: `
+const foo: string;
+export const bar: number;
+export * from '...';
+`,
 			errors: [
 				{
 					data: {
@@ -7651,11 +8263,15 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "foo",
 					},
-					line: 1,
+					line: 2,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "\nexport const bar: number;\nexport * from '...';",
+							output: `
+
+export const bar: number;
+export * from '...';
+`,
 							messageId: "removeVar",
 							data: { varName: "foo" },
 						},
@@ -7665,7 +8281,13 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 		},
 		{
 			filename: "foo.d.ts",
-			code: "declare module 'foo' {const foo: string;\nexport const bar: number;\nexport * from '...'; }",
+			code: `
+declare module 'foo' {
+	const foo: string;
+	export const bar: number;
+	export * from '...';
+}
+`,
 			errors: [
 				{
 					data: {
@@ -7673,11 +8295,17 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "foo",
 					},
-					line: 1,
+					line: 3,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "declare module 'foo' {\nexport const bar: number;\nexport * from '...'; }",
+							output: `
+declare module 'foo' {
+	
+	export const bar: number;
+	export * from '...';
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "foo" },
 						},
@@ -7687,7 +8315,13 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 		},
 		{
 			filename: "foo.d.ts",
-			code: "namespace Foo { type Foo = 1;\ntype Bar = 1;\nexport = Bar; }",
+			code: `
+namespace Foo {
+	type Foo = 1;
+	type Bar = 1;
+	export = Bar;
+}
+`,
 			errors: [
 				{
 					data: {
@@ -7695,11 +8329,17 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "Foo",
 					},
-					line: 1,
+					line: 3,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "namespace Foo { \ntype Bar = 1;\nexport = Bar; }",
+							output: `
+namespace Foo {
+	
+	type Bar = 1;
+	export = Bar;
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "Foo" },
 						},
@@ -7709,7 +8349,11 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 		},
 		{
 			filename: "foo.d.ts",
-			code: "type Foo = 1;\ntype Bar = 1;\nexport = Bar;",
+			code: `
+type Foo = 1;
+type Bar = 1;
+export = Bar;
+`,
 			errors: [
 				{
 					data: {
@@ -7717,11 +8361,15 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "Foo",
 					},
-					line: 1,
+					line: 2,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "\ntype Bar = 1;\nexport = Bar;",
+							output: `
+
+type Bar = 1;
+export = Bar;
+`,
 							messageId: "removeVar",
 							data: { varName: "Foo" },
 						},
@@ -7731,7 +8379,13 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 		},
 		{
 			filename: "foo.d.ts",
-			code: "declare module 'foo' { type Foo = 1; type Bar = 1; export = Bar; }",
+			code: `
+declare module 'foo' {
+	type Foo = 1;
+	type Bar = 1;
+	export = Bar;
+}
+`,
 			errors: [
 				{
 					data: {
@@ -7739,11 +8393,17 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "Foo",
 					},
-					line: 1,
+					line: 3,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "declare module 'foo' {  type Bar = 1; export = Bar; }",
+							output: `
+declare module 'foo' {
+	
+	type Bar = 1;
+	export = Bar;
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "Foo" },
 						},
@@ -7753,7 +8413,12 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 		},
 		{
 			filename: "foo.d.ts",
-			code: "declare module 'foo' { type Test = 1; export {}; }",
+			code: `
+declare module 'foo' {
+	type Test = 1;
+	export {};
+}
+`,
 			errors: [
 				{
 					data: {
@@ -7761,11 +8426,16 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "Test",
 					},
-					line: 1,
+					line: 3,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "declare module 'foo' {  export {}; }",
+							output: `
+declare module 'foo' {
+	
+	export {};
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "Test" },
 						},
@@ -7775,7 +8445,12 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 		},
 		{
 			filename: "foo.d.mts",
-			code: "declare module 'foo' { type Test = 1; export {}; }",
+			code: `
+declare module 'foo' {
+	type Test = 1;
+	export {};
+}
+`,
 			errors: [
 				{
 					data: {
@@ -7783,11 +8458,16 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "Test",
 					},
-					line: 1,
+					line: 3,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "declare module 'foo' {  export {}; }",
+							output: `
+declare module 'foo' {
+	
+	export {};
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "Test" },
 						},
@@ -7797,7 +8477,12 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 		},
 		{
 			filename: "foo.d.cts",
-			code: "declare module 'foo' { type Test = 1; export {}; }",
+			code: `
+declare module 'foo' {
+	type Test = 1;
+	export {};
+}
+`,
 			errors: [
 				{
 					data: {
@@ -7805,11 +8490,16 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "Test",
 					},
-					line: 1,
+					line: 3,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "declare module 'foo' {  export {}; }",
+							output: `
+declare module 'foo' {
+	
+	export {};
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "Test" },
 						},
@@ -7818,7 +8508,18 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 			],
 		},
 		{
-			code: "export declare namespace Foo { namespace Bar { namespace Baz { namespace Bam { const x = 1; } export {}; } } }",
+			code: `
+export declare namespace Foo {
+	namespace Bar {
+		namespace Baz {
+			namespace Bam {
+				const x = 1;
+			}
+			export {};
+		}
+	}
+}
+`,
 			errors: [
 				{
 					data: {
@@ -7826,11 +8527,20 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "Bam",
 					},
-					line: 1,
+					line: 5,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "export declare namespace Foo { namespace Bar { namespace Baz {  export {}; } } }",
+							output: `
+export declare namespace Foo {
+	namespace Bar {
+		namespace Baz {
+			
+			export {};
+		}
+	}
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "Bam" },
 						},
@@ -7839,7 +8549,18 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 			],
 		},
 		{
-			code: "declare module 'foo' { namespace Bar { namespace Baz { namespace Bam { const x = 1; } export {}; } } }",
+			code: `
+declare module 'foo' {
+	namespace Bar {
+		namespace Baz {
+			namespace Bam {
+				const x = 1;
+			}
+			export {};
+		}
+	}
+}
+`,
 			errors: [
 				{
 					data: {
@@ -7847,11 +8568,20 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "Bam",
 					},
-					line: 1,
+					line: 5,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "declare module 'foo' { namespace Bar { namespace Baz {  export {}; } } }",
+							output: `
+declare module 'foo' {
+	namespace Bar {
+		namespace Baz {
+			
+			export {};
+		}
+	}
+}
+`,
 							messageId: "removeVar",
 							data: { varName: "Bam" },
 						},
@@ -7860,7 +8590,10 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 			],
 		},
 		{
-			code: "declare enum Foo {}\nexport {};",
+			code: `
+declare enum Foo {}
+export {};
+`,
 			errors: [
 				{
 					data: {
@@ -7868,11 +8601,14 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "Foo",
 					},
-					line: 1,
+					line: 2,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "\nexport {};",
+							output: `
+
+export {};
+`,
 							messageId: "removeVar",
 							data: { varName: "Foo" },
 						},
@@ -7882,7 +8618,11 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 		},
 		{
 			filename: "foo.d.ts",
-			code: "class Foo {}\ndeclare class Bar {}\nexport {};",
+			code: `
+class Foo {}
+declare class Bar {}
+export {};
+`,
 			errors: [
 				{
 					data: {
@@ -7890,11 +8630,15 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "Foo",
 					},
-					line: 1,
+					line: 2,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "\ndeclare class Bar {}\nexport {};",
+							output: `
+
+declare class Bar {}
+export {};
+`,
 							messageId: "removeVar",
 							data: { varName: "Foo" },
 						},
@@ -7906,11 +8650,15 @@ export type Foo = (typeof foo | string) & { __brand: 'foo' };
 						additional: "",
 						varName: "Bar",
 					},
-					line: 2,
+					line: 3,
 					messageId: "unusedVar",
 					suggestions: [
 						{
-							output: "class Foo {}\n\nexport {};",
+							output: `
+class Foo {}
+
+export {};
+`,
 							messageId: "removeVar",
 							data: { varName: "Bar" },
 						},
