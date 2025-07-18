@@ -142,7 +142,7 @@ Examples of **incorrect** code for an `"event"` global variable name, along with
 /* eslint no-restricted-globals: ["error", { globals: [{ name: "event", message: "Use local parameter instead." }] }] */
 
 function onClick() {
-    console.log(event);    // Unexpected use of 'event'. Use local parameter instead.
+    console.log(event);
 }
 ```
 
@@ -157,11 +157,12 @@ Examples of **incorrect** code for `checkGlobalObjectAccess: true` option:
 ::: incorrect
 
 ```js
-/*global global, globalThis, window*/
+/*global global, globalThis, self, window*/
 /*eslint no-restricted-globals: ["error", { globals: ["Promise"], checkGlobalObjectAccess: true }]*/
 
 global.Promise
 globalThis.Promise
+self.Promise
 window.Promise
 ```
 
@@ -169,14 +170,14 @@ window.Promise
 
 ### globalObjects
 
-An array option that specifies additional global object names to check when `checkGlobalObjectAccess` is enabled. By default, the rule checks these global objects: `global`, `globalThis`, and `window`.
+An array option that specifies additional global object names to check when `checkGlobalObjectAccess` is enabled. By default, the rule checks these global objects: `global`, `globalThis`, `self`, and `window`.
 
 Examples of **incorrect** code for `globalObjects` option:
 
 ::: incorrect
 
 ```js
-/*global global, globalThis, window, myGlobal*/
+/*global global, globalThis, self, window, myGlobal*/
 /*eslint no-restricted-globals: ["error", {
     globals: ["Promise"],
     checkGlobalObjectAccess: true,
@@ -185,6 +186,7 @@ Examples of **incorrect** code for `globalObjects` option:
 
 global.Promise
 globalThis.Promise
+self.Promise
 window.Promise
 myGlobal.Promise;
 ```

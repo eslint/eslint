@@ -99,6 +99,11 @@ ruleTester.run("no-restricted-globals", rule, {
 			languageOptions: { globals: globals.browser },
 		},
 		{
+			code: "self.foo()",
+			options: [{ globals: ["foo"] }],
+			languageOptions: { globals: globals.browser },
+		},
+		{
 			code: "global.foo()",
 			options: [{ globals: ["foo"] }],
 			languageOptions: { sourceType: "commonjs" },
@@ -120,6 +125,15 @@ ruleTester.run("no-restricted-globals", rule, {
 		},
 		{
 			code: "window.foo()",
+			options: [
+				{
+					globals: ["foo"],
+					checkGlobalObjectAccess: true,
+				},
+			],
+		},
+		{
+			code: "self.foo()",
 			options: [
 				{
 					globals: ["foo"],
@@ -178,6 +192,16 @@ ruleTester.run("no-restricted-globals", rule, {
 			languageOptions: { globals: globals.browser },
 		},
 		{
+			code: "foo.self.bar()",
+			options: [
+				{
+					globals: ["bar"],
+					checkGlobalObjectAccess: true,
+				},
+			],
+			languageOptions: { globals: globals.browser },
+		},
+		{
 			code: "foo.global.bar()",
 			options: [
 				{
@@ -210,6 +234,16 @@ ruleTester.run("no-restricted-globals", rule, {
 		},
 		{
 			code: "let window; window.foo()",
+			options: [
+				{
+					globals: ["foo"],
+					checkGlobalObjectAccess: true,
+				},
+			],
+			languageOptions: { globals: globals.browser },
+		},
+		{
+			code: "let self; self.foo()",
 			options: [
 				{
 					globals: ["foo"],
@@ -811,7 +845,31 @@ ruleTester.run("no-restricted-globals", rule, {
 			],
 		},
 		{
+			code: "self.foo()",
+			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
+			languageOptions: { globals: globals.browser },
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
 			code: "window.window.foo()",
+			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
+			languageOptions: { globals: globals.browser },
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "self.self.foo()",
 			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
 			languageOptions: { globals: globals.browser },
 			errors: [
@@ -919,6 +977,18 @@ ruleTester.run("no-restricted-globals", rule, {
 			],
 		},
 		{
+			code: 'self["foo"]',
+			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
+			languageOptions: { globals: globals.browser },
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Literal",
+				},
+			],
+		},
+		{
 			code: 'global["foo"]',
 			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
 			languageOptions: { sourceType: "commonjs" },
@@ -962,6 +1032,18 @@ ruleTester.run("no-restricted-globals", rule, {
 		},
 		{
 			code: "window?.foo()",
+			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
+			languageOptions: { globals: globals.browser },
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
+			code: "self?.foo()",
 			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
 			languageOptions: { globals: globals.browser },
 			errors: [
@@ -1040,6 +1122,23 @@ ruleTester.run("no-restricted-globals", rule, {
 			],
 		},
 		{
+			code: "foo(); self.foo()",
+			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
+			languageOptions: { globals: globals.browser },
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+					type: "Identifier",
+				},
+			],
+		},
+		{
 			code: "foo(); myGlobal.foo()",
 			options: [
 				{
@@ -1082,6 +1181,27 @@ ruleTester.run("no-restricted-globals", rule, {
 					column: 66,
 					endLine: 1,
 					endColumn: 71,
+				},
+			],
+		},
+		{
+			code: "function onClick(event) { console.log(event); console.log(self.event); }",
+			options: [
+				{
+					globals: ["event"],
+					checkGlobalObjectAccess: true,
+				},
+			],
+			languageOptions: { globals: globals.browser },
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "event" },
+					type: "Identifier",
+					line: 1,
+					column: 64,
+					endLine: 1,
+					endColumn: 69,
 				},
 			],
 		},
