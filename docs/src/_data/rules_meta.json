@@ -3570,7 +3570,8 @@
             "description": "Disallow unnecessary `catch` clauses",
             "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/no-useless-catch"
-        }
+        },
+        "hasSuggestions": true
     },
     "no-useless-computed-key": {
         "type": "suggestion",
