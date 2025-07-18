@@ -57,33 +57,29 @@ ruleTester.run("no-implied-eval", rule, {
 			code: "global.setTimeout;",
 			languageOptions: {
 				sourceType: "commonjs",
-				globals: globals.browser,
 			},
 		},
 		{
 			code: "global.setTimeout = foo;",
 			languageOptions: {
 				sourceType: "commonjs",
-				globals: globals.browser,
 			},
 		},
 		{
 			code: "global['setTimeout'];",
 			languageOptions: {
 				sourceType: "commonjs",
-				globals: globals.browser,
 			},
 		},
 		{
 			code: "global['setTimeout'] = foo;",
 			languageOptions: {
 				sourceType: "commonjs",
-				globals: globals.browser,
 			},
 		},
 		{
 			code: "globalThis['setTimeout'] = foo;",
-			languageOptions: { ecmaVersion: 2020, globals: globals.browser },
+			languageOptions: { ecmaVersion: 2020 },
 		},
 
 		"window.setTimeout('foo')",
@@ -141,7 +137,6 @@ ruleTester.run("no-implied-eval", rule, {
 			languageOptions: {
 				ecmaVersion: 6,
 				sourceType: "commonjs",
-				globals: globals.browser,
 			},
 		},
 		{
@@ -153,12 +148,11 @@ ruleTester.run("no-implied-eval", rule, {
 			languageOptions: {
 				ecmaVersion: 6,
 				sourceType: "commonjs",
-				globals: globals.browser,
 			},
 		},
 		{
 			code: "globalThis[`setTimeout${foo}`]('foo', 100);",
-			languageOptions: { ecmaVersion: 2020, globals: globals.browser },
+			languageOptions: { ecmaVersion: 2020 },
 		},
 
 		// normal usage
@@ -172,7 +166,7 @@ ruleTester.run("no-implied-eval", rule, {
 		},
 		{
 			code: "execScript(function() { x = 1; }, 100);",
-			languageOptions: { globals: globals.browser },
+			languageOptions: { globals: { execScript: false } },
 		},
 		{
 			code: "window.setTimeout(function() { x = 1; }, 100);",
@@ -202,47 +196,41 @@ ruleTester.run("no-implied-eval", rule, {
 			code: "global.setTimeout(function() { x = 1; }, 100);",
 			languageOptions: {
 				sourceType: "commonjs",
-				globals: globals.browser,
 			},
 		},
 		{
 			code: "global.setInterval(function() { x = 1; }, 100);",
 			languageOptions: {
 				sourceType: "commonjs",
-				globals: globals.browser,
 			},
 		},
 		{
 			code: "global.execScript(function() { x = 1; }, 100);",
 			languageOptions: {
 				sourceType: "commonjs",
-				globals: globals.browser,
 			},
 		},
 		{
 			code: "global.setTimeout(foo, 100);",
 			languageOptions: {
 				sourceType: "commonjs",
-				globals: globals.browser,
 			},
 		},
 		{
 			code: "global.setInterval(foo, 100);",
 			languageOptions: {
 				sourceType: "commonjs",
-				globals: globals.browser,
 			},
 		},
 		{
 			code: "global.execScript(foo, 100);",
 			languageOptions: {
 				sourceType: "commonjs",
-				globals: globals.browser,
 			},
 		},
 		{
 			code: "globalThis.setTimeout(foo, 100);",
-			languageOptions: { ecmaVersion: 2020, globals: globals.browser },
+			languageOptions: { ecmaVersion: 2020 },
 		},
 
 		// only checks on top-level statements or window.*
@@ -262,7 +250,7 @@ ruleTester.run("no-implied-eval", rule, {
 		},
 		{
 			code: "execScript(2)",
-			languageOptions: { globals: globals.browser },
+			languageOptions: { globals: { execScript: false } },
 		},
 
 		// as are function expressions
@@ -292,15 +280,18 @@ ruleTester.run("no-implied-eval", rule, {
 		},
 		{
 			code: "execScript(foo)",
-			languageOptions: { globals: globals.browser },
+			languageOptions: { globals: { execScript: false } },
 		},
 		{
 			code: "execScript(function() {})",
-			languageOptions: { globals: globals.browser },
+			languageOptions: { globals: { execScript: false } },
 		},
 
 		// a binary plus on non-strings doesn't guarantee a string
-		"setTimeout(foo + bar, 10)",
+		{
+			code: "setTimeout(foo + bar, 10)",
+			languageOptions: { globals: globals.browser },
+		},
 
 		// doesn't check anything but the first argument
 		{
@@ -343,7 +334,6 @@ ruleTester.run("no-implied-eval", rule, {
 			code: "var global; global.setTimeout('foo', 100);",
 			languageOptions: {
 				sourceType: "commonjs",
-				globals: globals.browser,
 			},
 		},
 		{
@@ -354,7 +344,6 @@ ruleTester.run("no-implied-eval", rule, {
 			code: "function foo(global) { global.setTimeout('foo', 100); }",
 			languageOptions: {
 				sourceType: "commonjs",
-				globals: globals.browser,
 			},
 		},
 		{
