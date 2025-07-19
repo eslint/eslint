@@ -27,6 +27,10 @@ ruleTester.run("no-nested-ternary", rule, {
 				{
 					messageId: "noNestedTernary",
 					type: "ConditionalExpression",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 40,
 				},
 			],
 		},
@@ -36,6 +40,86 @@ ruleTester.run("no-nested-ternary", rule, {
 				{
 					messageId: "noNestedTernary",
 					type: "ConditionalExpression",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 40,
+				},
+			],
+		},
+	],
+});
+
+const ruleTesterTypeScript = new RuleTester({
+	languageOptions: {
+		parser: require("@typescript-eslint/parser"),
+	},
+});
+
+ruleTesterTypeScript.run("no-nested-ternary", rule, {
+	valid: [
+		// Simple ternary expression is valid.
+		"type Type<T> = T extends string ? string : number;",
+		// Nested ternary in `checkType` is valid.
+		"type CheckType<T> = (T extends string ? string : number) extends boolean ? 1 : 0;",
+		// Nested ternary in `extendsType` is valid.
+		"type ExtendsType<T> = T extends (true extends false ? never : string) ? 1 : 0;",
+		// Nested ternary in `trueType` when `allowConditionalType: true` is valid.
+		{
+			code: "type TrueType<T> = T extends string ? (boolean extends boolean ? true : false) : false;",
+			options: [{ allowConditionalType: true }],
+		},
+		// Nested ternary in `falseType` when `allowConditionalType: true` is valid.
+		{
+			code: "type FalseType<T> = T extends string ? true : (boolean extends boolean ? true : false);",
+			options: [{ allowConditionalType: true }],
+		},
+		// Nested ternary in `trueType` and `falseType` when `allowConditionalType: true` is valid.
+		{
+			code: "type TrueFalseType<T> = T extends string ? (T extends number ? true : false) : (T extends boolean ? true : false);",
+			options: [{ allowConditionalType: true }],
+		},
+	],
+	invalid: [
+		{
+			code: "type TrueType<T> = T extends string ? (boolean extends boolean ? true : false) : false;",
+			options: [{ allowConditionalType: false }],
+			errors: [
+				{
+					messageId: "noNestedTernary",
+					type: "TSConditionalType",
+					line: 1,
+					column: 20,
+					endLine: 1,
+					endColumn: 87,
+				},
+			],
+		},
+		{
+			code: "type FalseType<T> = T extends string ? true : (boolean extends boolean ? true : false);",
+			options: [{ allowConditionalType: false }],
+			errors: [
+				{
+					messageId: "noNestedTernary",
+					type: "TSConditionalType",
+					line: 1,
+					column: 21,
+					endLine: 1,
+					endColumn: 87,
+				},
+			],
+		},
+		{
+			code: "type TrueFalseType<T> = T extends string ? (T extends number ? true : false) : (T extends boolean ? true : false);",
+			options: [{ allowConditionalType: false }],
+			errors: [
+				{
+					messageId: "noNestedTernary",
+					type: "TSConditionalType",
+					line: 1,
+					column: 25,
+					endLine: 1,
+					endColumn: 114,
 				},
 			],
 		},
