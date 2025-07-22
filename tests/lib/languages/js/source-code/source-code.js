@@ -29,8 +29,8 @@ const DEFAULT_CONFIG = {
 	range: true,
 	loc: true,
 };
-const linter = new Linter({ configType: "eslintrc" });
-const flatLinter = new Linter({ configType: "flat" });
+const eslintrcLinter = new Linter({ configType: "eslintrc" });
+const linter = new Linter({ configType: "flat" });
 const AST = espree.parse("let foo = bar;", DEFAULT_CONFIG),
 	TEST_CODE = "var answer = 6 * 7;",
 	SHEBANG_TEST_CODE = `#!/usr/bin/env node\n${TEST_CODE}`;
@@ -330,14 +330,22 @@ describe("SourceCode", () => {
 
 			const spy = sinon.spy(assertJSDoc);
 
-			linter.defineRule("checker", {
-				create() {
-					return {
-						FunctionExpression: spy,
-					};
+			linter.verify(code, {
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create() {
+									return {
+										FunctionExpression: spy,
+									};
+								},
+							},
+						},
+					},
 				},
+				rules: { "test/checker": "error" },
 			});
-			linter.verify(code, { rules: { checker: "error" } });
 			assert.isTrue(spy.calledOnce, "Event handler should be called.");
 		});
 
@@ -361,14 +369,22 @@ describe("SourceCode", () => {
 
 			const spy = sinon.spy(assertJSDoc);
 
-			linter.defineRule("checker", {
-				create() {
-					return {
-						FunctionExpression: spy,
-					};
+			linter.verify(code, {
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create() {
+									return {
+										FunctionExpression: spy,
+									};
+								},
+							},
+						},
+					},
 				},
+				rules: { "test/checker": "error" },
 			});
-			linter.verify(code, { rules: { checker: "error" } });
 			assert.isTrue(spy.calledOnce, "Event handler should be called.");
 		});
 
@@ -395,14 +411,22 @@ describe("SourceCode", () => {
 
 			const spy = sinon.spy(assertJSDoc);
 
-			linter.defineRule("checker", {
-				create() {
-					return {
-						FunctionExpression: spy,
-					};
+			linter.verify(code, {
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create() {
+									return {
+										FunctionExpression: spy,
+									};
+								},
+							},
+						},
+					},
 				},
+				rules: { "test/checker": "error" },
 			});
-			linter.verify(code, { rules: { checker: "error" } });
 			assert.isTrue(
 				spy.calledTwice,
 				"Event handler should be called twice.",
@@ -435,14 +459,22 @@ describe("SourceCode", () => {
 
 			const spy = sinon.spy(assertJSDoc);
 
-			linter.defineRule("checker", {
-				create() {
-					return {
-						FunctionExpression: spy,
-					};
+			linter.verify(code, {
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create() {
+									return {
+										FunctionExpression: spy,
+									};
+								},
+							},
+						},
+					},
 				},
+				rules: { "test/checker": "error" },
 			});
-			linter.verify(code, { rules: { checker: "error" } });
 			assert.isTrue(spy.calledOnce, "Event handler should be called.");
 		});
 
@@ -465,14 +497,22 @@ describe("SourceCode", () => {
 
 			const spy = sinon.spy(assertJSDoc);
 
-			linter.defineRule("checker", {
-				create() {
-					return {
-						FunctionDeclaration: spy,
-					};
+			linter.verify(code, {
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create() {
+									return {
+										FunctionDeclaration: spy,
+									};
+								},
+							},
+						},
+					},
 				},
+				rules: { "test/checker": "error" },
 			});
-			linter.verify(code, { rules: { checker: "error" } });
 			assert.isTrue(spy.calledOnce, "Event handler should be called.");
 		});
 
@@ -495,16 +535,21 @@ describe("SourceCode", () => {
 
 			const spy = sinon.spy(assertJSDoc);
 
-			linter.defineRule("checker", {
-				create() {
-					return {
-						FunctionDeclaration: spy,
-					};
-				},
-			});
 			linter.verify(code, {
-				rules: { checker: "error" },
-				parserOptions: { ecmaVersion: 6, sourceType: "module" },
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create() {
+									return {
+										FunctionDeclaration: spy,
+									};
+								},
+							},
+						},
+					},
+				},
+				rules: { "test/checker": "error" },
 			});
 			assert.isTrue(spy.calledOnce, "Event handler should be called.");
 		});
@@ -532,14 +577,22 @@ describe("SourceCode", () => {
 
 			const spy = sinon.spy(assertJSDoc);
 
-			linter.defineRule("checker", {
-				create() {
-					return {
-						FunctionDeclaration: spy,
-					};
+			linter.verify(code, {
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create() {
+									return {
+										FunctionDeclaration: spy,
+									};
+								},
+							},
+						},
+					},
 				},
+				rules: { "test/checker": "error" },
 			});
-			linter.verify(code, { rules: { checker: "error" } });
 			assert.isTrue(spy.calledOnce, "Event handler should be called.");
 		});
 
@@ -566,14 +619,22 @@ describe("SourceCode", () => {
 
 			const spy = sinon.spy(assertJSDoc);
 
-			linter.defineRule("checker", {
-				create() {
-					return {
-						FunctionDeclaration: spy,
-					};
+			linter.verify(code, {
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create() {
+									return {
+										FunctionDeclaration: spy,
+									};
+								},
+							},
+						},
+					},
 				},
+				rules: { "test/checker": "error" },
 			});
-			linter.verify(code, { rules: { checker: "error" } });
 			assert.isTrue(spy.calledOnce, "Event handler should be called.");
 		});
 
@@ -600,14 +661,22 @@ describe("SourceCode", () => {
 
 			const spy = sinon.spy(assertJSDoc);
 
-			linter.defineRule("checker", {
-				create() {
-					return {
-						FunctionDeclaration: spy,
-					};
+			linter.verify(code, {
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create() {
+									return {
+										FunctionDeclaration: spy,
+									};
+								},
+							},
+						},
+					},
 				},
+				rules: { "test/checker": "error" },
 			});
-			linter.verify(code, { rules: { checker: "error" } });
 			assert.isTrue(spy.calledOnce, "Event handler should be called.");
 		});
 
@@ -636,14 +705,22 @@ describe("SourceCode", () => {
 
 			const spy = sinon.spy(assertJSDoc);
 
-			linter.defineRule("checker", {
-				create() {
-					return {
-						FunctionDeclaration: spy,
-					};
+			linter.verify(code, {
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create() {
+									return {
+										FunctionDeclaration: spy,
+									};
+								},
+							},
+						},
+					},
 				},
+				rules: { "test/checker": "error" },
 			});
-			linter.verify(code, { rules: { checker: "error" } });
 			assert.isTrue(spy.calledOnce, "Event handler should be called.");
 		});
 
@@ -672,14 +749,22 @@ describe("SourceCode", () => {
 
 			const spy = sinon.spy(assertJSDoc);
 
-			linter.defineRule("checker", {
-				create() {
-					return {
-						FunctionExpression: spy,
-					};
+			linter.verify(code, {
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create() {
+									return {
+										FunctionExpression: spy,
+									};
+								},
+							},
+						},
+					},
 				},
+				rules: { "test/checker": "error" },
 			});
-			linter.verify(code, { rules: { checker: "error" } });
 			assert.isTrue(spy.calledOnce, "Event handler should be called.");
 		});
 
@@ -708,16 +793,21 @@ describe("SourceCode", () => {
 
 			const spy = sinon.spy(assertJSDoc);
 
-			linter.defineRule("checker", {
-				create() {
-					return {
-						ArrowFunctionExpression: spy,
-					};
-				},
-			});
 			linter.verify(code, {
-				rules: { checker: "error" },
-				parserOptions: { ecmaVersion: 6 },
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create() {
+									return {
+										ArrowFunctionExpression: spy,
+									};
+								},
+							},
+						},
+					},
+				},
+				rules: { "test/checker": "error" },
 			});
 			assert.isTrue(spy.calledOnce, "Event handler should be called.");
 		});
@@ -745,14 +835,22 @@ describe("SourceCode", () => {
 
 			const spy = sinon.spy(assertJSDoc);
 
-			linter.defineRule("checker", {
-				create() {
-					return {
-						FunctionExpression: spy,
-					};
+			linter.verify(code, {
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create() {
+									return {
+										FunctionExpression: spy,
+									};
+								},
+							},
+						},
+					},
 				},
+				rules: { "test/checker": "error" },
 			});
-			linter.verify(code, { rules: { checker: "error" } });
 			assert.isTrue(spy.calledOnce, "Event handler should be called.");
 		});
 
@@ -783,14 +881,22 @@ describe("SourceCode", () => {
 
 			const spy = sinon.spy(assertJSDoc);
 
-			linter.defineRule("checker", {
-				create() {
-					return {
-						FunctionExpression: spy,
-					};
+			linter.verify(code, {
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create() {
+									return {
+										FunctionExpression: spy,
+									};
+								},
+							},
+						},
+					},
 				},
+				rules: { "test/checker": "error" },
 			});
-			linter.verify(code, { rules: { checker: "error" } });
 			assert.isTrue(spy.calledTwice, "Event handler should be called.");
 		});
 
@@ -820,14 +926,22 @@ describe("SourceCode", () => {
 
 			const spy = sinon.spy(assertJSDoc);
 
-			linter.defineRule("checker", {
-				create() {
-					return {
-						FunctionExpression: spy,
-					};
+			linter.verify(code, {
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create() {
+									return {
+										FunctionExpression: spy,
+									};
+								},
+							},
+						},
+					},
 				},
+				rules: { "test/checker": "error" },
 			});
-			linter.verify(code, { rules: { checker: "error" } });
 			assert.isTrue(spy.calledTwice, "Event handler should be called.");
 		});
 
@@ -855,14 +969,22 @@ describe("SourceCode", () => {
 
 			const spy = sinon.spy(assertJSDoc);
 
-			linter.defineRule("checker", {
-				create() {
-					return {
-						FunctionExpression: spy,
-					};
+			linter.verify(code, {
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create() {
+									return {
+										FunctionExpression: spy,
+									};
+								},
+							},
+						},
+					},
 				},
+				rules: { "test/checker": "error" },
 			});
-			linter.verify(code, { rules: { checker: "error" } });
 			assert.isTrue(spy.calledOnce, "Event handler should be called.");
 		});
 
@@ -898,14 +1020,22 @@ describe("SourceCode", () => {
 
 			const spy = sinon.spy(assertJSDoc);
 
-			linter.defineRule("checker", {
-				create() {
-					return {
-						FunctionExpression: spy,
-					};
+			linter.verify(code, {
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create() {
+									return {
+										FunctionExpression: spy,
+									};
+								},
+							},
+						},
+					},
 				},
+				rules: { "test/checker": "error" },
 			});
-			linter.verify(code, { rules: { checker: "error" } });
 			assert.isTrue(spy.calledTwice, "Event handler should be called.");
 		});
 
@@ -935,16 +1065,21 @@ describe("SourceCode", () => {
 
 			const spy = sinon.spy(assertJSDoc);
 
-			linter.defineRule("checker", {
-				create() {
-					return {
-						ClassExpression: spy,
-					};
-				},
-			});
 			linter.verify(code, {
-				rules: { checker: "error" },
-				parserOptions: { ecmaVersion: 6 },
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create() {
+									return {
+										ClassExpression: spy,
+									};
+								},
+							},
+						},
+					},
+				},
+				rules: { "test/checker": "error" },
 			});
 			assert.isTrue(spy.calledOnce, "Event handler should be called.");
 		});
@@ -975,16 +1110,21 @@ describe("SourceCode", () => {
 
 			const spy = sinon.spy(assertJSDoc);
 
-			linter.defineRule("checker", {
-				create() {
-					return {
-						ClassDeclaration: spy,
-					};
-				},
-			});
 			linter.verify(code, {
-				rules: { checker: "error" },
-				parserOptions: { ecmaVersion: 6 },
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create() {
+									return {
+										ClassDeclaration: spy,
+									};
+								},
+							},
+						},
+					},
+				},
+				rules: { "test/checker": "error" },
 			});
 			assert.isTrue(spy.calledOnce, "Event handler should be called.");
 		});
@@ -1012,16 +1152,21 @@ describe("SourceCode", () => {
 
 			const spy = sinon.spy(assertJSDoc);
 
-			linter.defineRule("checker", {
-				create() {
-					return {
-						FunctionExpression: spy,
-					};
-				},
-			});
 			linter.verify(code, {
-				rules: { checker: "error" },
-				parserOptions: { ecmaVersion: 6 },
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create() {
+									return {
+										FunctionExpression: spy,
+									};
+								},
+							},
+						},
+					},
+				},
+				rules: { "test/checker": "error" },
 			});
 			assert.isTrue(spy.calledOnce, "Event handler should be called.");
 		});
@@ -1056,16 +1201,21 @@ describe("SourceCode", () => {
 
 			const spy = sinon.spy(assertJSDoc);
 
-			linter.defineRule("checker", {
-				create() {
-					return {
-						FunctionExpression: spy,
-					};
-				},
-			});
 			linter.verify(code, {
-				rules: { checker: "error" },
-				parserOptions: { ecmaVersion: 6 },
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create() {
+									return {
+										FunctionExpression: spy,
+									};
+								},
+							},
+						},
+					},
+				},
+				rules: { "test/checker": "error" },
 			});
 			assert.isTrue(spy.calledOnce, "Event handler should be called.");
 		});
@@ -1095,16 +1245,21 @@ describe("SourceCode", () => {
 
 			const spy = sinon.spy(assertJSDoc);
 
-			linter.defineRule("checker", {
-				create() {
-					return {
-						FunctionDeclaration: spy,
-					};
-				},
-			});
 			linter.verify(code, {
-				rules: { checker: "error" },
-				parserOptions: { ecmaVersion: 6 },
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create() {
+									return {
+										FunctionDeclaration: spy,
+									};
+								},
+							},
+						},
+					},
+				},
+				rules: { "test/checker": "error" },
 			});
 			assert.isTrue(spy.calledOnce, "Event handler should be called.");
 		});
@@ -2148,12 +2303,7 @@ describe("SourceCode", () => {
 	});
 
 	// need to check that linter.verify() works with SourceCode
-
 	describe("linter.verify()", () => {
-		const CONFIG = {
-			parserOptions: { ecmaVersion: 6 },
-		};
-
 		it("should work when passed a SourceCode object without a config", () => {
 			const ast = espree.parse(TEST_CODE, DEFAULT_CONFIG);
 
@@ -2165,7 +2315,9 @@ describe("SourceCode", () => {
 
 		it("should work when passed a SourceCode object containing ES6 syntax and config", () => {
 			const sourceCode = new SourceCode("let foo = bar;", AST),
-				messages = linter.verify(sourceCode, CONFIG);
+				messages = linter.verify(sourceCode, {
+					languageOptions: { ecmaVersion: 6 },
+				});
 
 			assert.strictEqual(messages.length, 0);
 		});
@@ -2173,6 +2325,43 @@ describe("SourceCode", () => {
 		it("should report an error when using let and ecmaVersion is 6", () => {
 			const sourceCode = new SourceCode("let foo = bar;", AST),
 				messages = linter.verify(sourceCode, {
+					languageOptions: { ecmaVersion: 6 },
+					rules: { "no-unused-vars": 2 },
+				});
+
+			assert.strictEqual(messages.length, 1);
+			assert.strictEqual(
+				messages[0].message,
+				"'foo' is assigned a value but never used.",
+			);
+		});
+	});
+
+	// TODO: remove this when eslintrc mode is dropped
+	describe("linter.verify() in eslintrc mode", () => {
+		const CONFIG = {
+			parserOptions: { ecmaVersion: 6 },
+		};
+
+		it("should work when passed a SourceCode object without a config", () => {
+			const ast = espree.parse(TEST_CODE, DEFAULT_CONFIG);
+
+			const sourceCode = new SourceCode(TEST_CODE, ast),
+				messages = eslintrcLinter.verify(sourceCode);
+
+			assert.strictEqual(messages.length, 0);
+		});
+
+		it("should work when passed a SourceCode object containing ES6 syntax and config", () => {
+			const sourceCode = new SourceCode("let foo = bar;", AST),
+				messages = eslintrcLinter.verify(sourceCode, CONFIG);
+
+			assert.strictEqual(messages.length, 0);
+		});
+
+		it("should report an error when using let and ecmaVersion is 6", () => {
+			const sourceCode = new SourceCode("let foo = bar;", AST),
+				messages = eslintrcLinter.verify(sourceCode, {
 					parserOptions: { ecmaVersion: 6 },
 					rules: { "no-unused-vars": 2 },
 				});
@@ -2385,17 +2574,22 @@ describe("SourceCode", () => {
 
 	describe("getScope()", () => {
 		it("should throw an error when argument is missing", () => {
-			linter.defineRule("get-scope", {
-				create: context => ({
-					Program() {
-						context.sourceCode.getScope();
-					},
-				}),
-			});
-
 			assert.throws(() => {
 				linter.verify("foo", {
-					rules: { "get-scope": 2 },
+					plugins: {
+						test: {
+							rules: {
+								"get-scope": {
+									create: context => ({
+										Program() {
+											context.sourceCode.getScope();
+										},
+									}),
+								},
+							},
+						},
+					},
+					rules: { "test/get-scope": "error" },
 				});
 			}, /Missing required argument: node/u);
 		});
@@ -2410,17 +2604,24 @@ describe("SourceCode", () => {
 		function getScope(code, astSelector, ecmaVersion = 5) {
 			let node, scope;
 
-			linter.defineRule("get-scope", {
-				create: context => ({
-					[astSelector](node0) {
-						node = node0;
-						scope = context.sourceCode.getScope(node);
-					},
-				}),
-			});
 			linter.verify(code, {
-				parserOptions: { ecmaVersion },
-				rules: { "get-scope": 2 },
+				languageOptions: { ecmaVersion, sourceType: "script" },
+				plugins: {
+					test: {
+						rules: {
+							"get-scope": {
+								create: context => ({
+									[astSelector](node0) {
+										node = node0;
+										scope =
+											context.sourceCode.getScope(node);
+									},
+								}),
+							},
+						},
+					},
+				},
+				rules: { "test/get-scope": 2 },
 			});
 
 			return { node, scope };
@@ -2854,7 +3055,7 @@ describe("SourceCode", () => {
 				rules: { "test/checker": "error" },
 			};
 
-			flatLinter.verify(code, config, filename);
+			linter.verify(code, config, filename);
 			assert(spy && spy.calledOnce, "Spy was not called.");
 		});
 
@@ -2884,7 +3085,7 @@ describe("SourceCode", () => {
 				rules: { "test/checker": "error" },
 			};
 
-			flatLinter.verify(code, config);
+			linter.verify(code, config);
 			assert(spy && spy.calledOnce, "Spy was not called.");
 		});
 
@@ -2914,7 +3115,7 @@ describe("SourceCode", () => {
 				rules: { "test/checker": "error" },
 			};
 
-			flatLinter.verify(code, config);
+			linter.verify(code, config);
 			assert(spy && spy.calledOnce, "Spy was not called.");
 		});
 	});
@@ -2928,100 +3129,109 @@ describe("SourceCode", () => {
 		 * @returns {void}
 		 */
 		function verify(code, type, expectedNamesList) {
-			linter.defineRules({
-				test: {
-					create(context) {
-						const sourceCode = context.sourceCode;
+			linter.verify(code, {
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create(context) {
+									const sourceCode = context.sourceCode;
 
-						/**
-						 * Assert `sourceCode.getDeclaredVariables(node)` is empty.
-						 * @param {ASTNode} node A node to check.
-						 * @returns {void}
-						 */
-						function checkEmpty(node) {
-							assert.strictEqual(
-								0,
-								sourceCode.getDeclaredVariables(node).length,
-							);
-						}
-						const rule = {
-							Program: checkEmpty,
-							EmptyStatement: checkEmpty,
-							BlockStatement: checkEmpty,
-							ExpressionStatement: checkEmpty,
-							LabeledStatement: checkEmpty,
-							BreakStatement: checkEmpty,
-							ContinueStatement: checkEmpty,
-							WithStatement: checkEmpty,
-							SwitchStatement: checkEmpty,
-							ReturnStatement: checkEmpty,
-							ThrowStatement: checkEmpty,
-							TryStatement: checkEmpty,
-							WhileStatement: checkEmpty,
-							DoWhileStatement: checkEmpty,
-							ForStatement: checkEmpty,
-							ForInStatement: checkEmpty,
-							DebuggerStatement: checkEmpty,
-							ThisExpression: checkEmpty,
-							ArrayExpression: checkEmpty,
-							ObjectExpression: checkEmpty,
-							Property: checkEmpty,
-							SequenceExpression: checkEmpty,
-							UnaryExpression: checkEmpty,
-							BinaryExpression: checkEmpty,
-							AssignmentExpression: checkEmpty,
-							UpdateExpression: checkEmpty,
-							LogicalExpression: checkEmpty,
-							ConditionalExpression: checkEmpty,
-							CallExpression: checkEmpty,
-							NewExpression: checkEmpty,
-							MemberExpression: checkEmpty,
-							SwitchCase: checkEmpty,
-							Identifier: checkEmpty,
-							Literal: checkEmpty,
-							ForOfStatement: checkEmpty,
-							ArrowFunctionExpression: checkEmpty,
-							YieldExpression: checkEmpty,
-							TemplateLiteral: checkEmpty,
-							TaggedTemplateExpression: checkEmpty,
-							TemplateElement: checkEmpty,
-							ObjectPattern: checkEmpty,
-							ArrayPattern: checkEmpty,
-							RestElement: checkEmpty,
-							AssignmentPattern: checkEmpty,
-							ClassBody: checkEmpty,
-							MethodDefinition: checkEmpty,
-							MetaProperty: checkEmpty,
-						};
+									/**
+									 * Assert `sourceCode.getDeclaredVariables(node)` is empty.
+									 * @param {ASTNode} node A node to check.
+									 * @returns {void}
+									 */
+									function checkEmpty(node) {
+										assert.strictEqual(
+											0,
+											sourceCode.getDeclaredVariables(
+												node,
+											).length,
+										);
+									}
+									const rule = {
+										Program: checkEmpty,
+										EmptyStatement: checkEmpty,
+										BlockStatement: checkEmpty,
+										ExpressionStatement: checkEmpty,
+										LabeledStatement: checkEmpty,
+										BreakStatement: checkEmpty,
+										ContinueStatement: checkEmpty,
+										WithStatement: checkEmpty,
+										SwitchStatement: checkEmpty,
+										ReturnStatement: checkEmpty,
+										ThrowStatement: checkEmpty,
+										TryStatement: checkEmpty,
+										WhileStatement: checkEmpty,
+										DoWhileStatement: checkEmpty,
+										ForStatement: checkEmpty,
+										ForInStatement: checkEmpty,
+										DebuggerStatement: checkEmpty,
+										ThisExpression: checkEmpty,
+										ArrayExpression: checkEmpty,
+										ObjectExpression: checkEmpty,
+										Property: checkEmpty,
+										SequenceExpression: checkEmpty,
+										UnaryExpression: checkEmpty,
+										BinaryExpression: checkEmpty,
+										AssignmentExpression: checkEmpty,
+										UpdateExpression: checkEmpty,
+										LogicalExpression: checkEmpty,
+										ConditionalExpression: checkEmpty,
+										CallExpression: checkEmpty,
+										NewExpression: checkEmpty,
+										MemberExpression: checkEmpty,
+										SwitchCase: checkEmpty,
+										Identifier: checkEmpty,
+										Literal: checkEmpty,
+										ForOfStatement: checkEmpty,
+										ArrowFunctionExpression: checkEmpty,
+										YieldExpression: checkEmpty,
+										TemplateLiteral: checkEmpty,
+										TaggedTemplateExpression: checkEmpty,
+										TemplateElement: checkEmpty,
+										ObjectPattern: checkEmpty,
+										ArrayPattern: checkEmpty,
+										RestElement: checkEmpty,
+										AssignmentPattern: checkEmpty,
+										ClassBody: checkEmpty,
+										MethodDefinition: checkEmpty,
+										MetaProperty: checkEmpty,
+									};
 
-						rule[type] = function (node) {
-							const expectedNames = expectedNamesList.shift();
-							const variables =
-								sourceCode.getDeclaredVariables(node);
+									rule[type] = function (node) {
+										const expectedNames =
+											expectedNamesList.shift();
+										const variables =
+											sourceCode.getDeclaredVariables(
+												node,
+											);
 
-							assert(Array.isArray(expectedNames));
-							assert(Array.isArray(variables));
-							assert.strictEqual(
-								expectedNames.length,
-								variables.length,
-							);
-							for (let i = variables.length - 1; i >= 0; i--) {
-								assert.strictEqual(
-									expectedNames[i],
-									variables[i].name,
-								);
-							}
-						};
-						return rule;
+										assert(Array.isArray(expectedNames));
+										assert(Array.isArray(variables));
+										assert.strictEqual(
+											expectedNames.length,
+											variables.length,
+										);
+										for (
+											let i = variables.length - 1;
+											i >= 0;
+											i--
+										) {
+											assert.strictEqual(
+												expectedNames[i],
+												variables[i].name,
+											);
+										}
+									};
+									return rule;
+								},
+							},
+						},
 					},
 				},
-			});
-			linter.verify(code, {
-				rules: { test: 2 },
-				parserOptions: {
-					ecmaVersion: 6,
-					sourceType: "module",
-				},
+				rules: { "test/checker": 2 },
 			});
 
 			// Check all expected names are asserted.
@@ -3167,24 +3377,38 @@ describe("SourceCode", () => {
 			const code = "var a = 1, b = 2;";
 			let spy;
 
-			linter.defineRule("checker", {
-				create(context) {
-					const sourceCode = context.sourceCode;
+			linter.verify(code, {
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create(context) {
+									const sourceCode = context.sourceCode;
 
-					spy = sinon.spy(node => {
-						assert.isTrue(sourceCode.markVariableAsUsed("a"));
+									spy = sinon.spy(node => {
+										assert.isTrue(
+											sourceCode.markVariableAsUsed("a"),
+										);
 
-						const scope = sourceCode.getScope(node);
+										const scope = sourceCode.getScope(node);
 
-						assert.isTrue(getVariable(scope, "a").eslintUsed);
-						assert.notOk(getVariable(scope, "b").eslintUsed);
-					});
+										assert.isTrue(
+											getVariable(scope, "a").eslintUsed,
+										);
+										assert.notOk(
+											getVariable(scope, "b").eslintUsed,
+										);
+									});
 
-					return { "Program:exit": spy };
+									return { "Program:exit": spy };
+								},
+							},
+						},
+					},
 				},
+				rules: { "test/checker": "error" },
+				languageOptions: { sourceType: "script" },
 			});
-
-			linter.verify(code, { rules: { checker: "error" } });
 			assert(spy && spy.calledOnce);
 		});
 
@@ -3192,24 +3416,40 @@ describe("SourceCode", () => {
 			const code = "function abc(a, b) { return 1; }";
 			let spy;
 
-			linter.defineRule("checker", {
-				create(context) {
-					const sourceCode = context.sourceCode;
+			linter.verify(code, {
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create(context) {
+									const sourceCode = context.sourceCode;
 
-					spy = sinon.spy(node => {
-						assert.isTrue(sourceCode.markVariableAsUsed("a", node));
+									spy = sinon.spy(node => {
+										assert.isTrue(
+											sourceCode.markVariableAsUsed(
+												"a",
+												node,
+											),
+										);
 
-						const scope = sourceCode.getScope(node);
+										const scope = sourceCode.getScope(node);
 
-						assert.isTrue(getVariable(scope, "a").eslintUsed);
-						assert.notOk(getVariable(scope, "b").eslintUsed);
-					});
+										assert.isTrue(
+											getVariable(scope, "a").eslintUsed,
+										);
+										assert.notOk(
+											getVariable(scope, "b").eslintUsed,
+										);
+									});
 
-					return { ReturnStatement: spy };
+									return { ReturnStatement: spy };
+								},
+							},
+						},
+					},
 				},
+				rules: { "test/checker": "error" },
 			});
-
-			linter.verify(code, { rules: { checker: "error" } });
 			assert(spy && spy.calledOnce);
 		});
 
@@ -3217,28 +3457,45 @@ describe("SourceCode", () => {
 			const code = "var a, b; function abc() { return 1; }";
 			let returnSpy, exitSpy;
 
-			linter.defineRule("checker", {
-				create(context) {
-					const sourceCode = context.sourceCode;
+			linter.verify(code, {
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create(context) {
+									const sourceCode = context.sourceCode;
 
-					returnSpy = sinon.spy(node => {
-						assert.isTrue(sourceCode.markVariableAsUsed("a", node));
-					});
-					exitSpy = sinon.spy(node => {
-						const scope = sourceCode.getScope(node);
+									returnSpy = sinon.spy(node => {
+										assert.isTrue(
+											sourceCode.markVariableAsUsed(
+												"a",
+												node,
+											),
+										);
+									});
+									exitSpy = sinon.spy(node => {
+										const scope = sourceCode.getScope(node);
 
-						assert.isTrue(getVariable(scope, "a").eslintUsed);
-						assert.notOk(getVariable(scope, "b").eslintUsed);
-					});
+										assert.isTrue(
+											getVariable(scope, "a").eslintUsed,
+										);
+										assert.notOk(
+											getVariable(scope, "b").eslintUsed,
+										);
+									});
 
-					return {
-						ReturnStatement: returnSpy,
-						"Program:exit": exitSpy,
-					};
+									return {
+										ReturnStatement: returnSpy,
+										"Program:exit": exitSpy,
+									};
+								},
+							},
+						},
+					},
 				},
+				rules: { "test/checker": "error" },
+				languageOptions: { sourceType: "script" },
 			});
-
-			linter.verify(code, { rules: { checker: "error" } });
 			assert(returnSpy && returnSpy.calledOnce);
 			assert(exitSpy && exitSpy.calledOnce);
 		});
@@ -3247,29 +3504,42 @@ describe("SourceCode", () => {
 			const code = "var a = 1, b = 2;";
 			let spy;
 
-			linter.defineRule("checker", {
-				create(context) {
-					const sourceCode = context.sourceCode;
-
-					spy = sinon.spy(node => {
-						const globalScope = sourceCode.getScope(node),
-							childScope = globalScope.childScopes[0];
-
-						assert.isTrue(sourceCode.markVariableAsUsed("a"));
-
-						assert.isTrue(getVariable(childScope, "a").eslintUsed);
-						assert.isUndefined(
-							getVariable(childScope, "b").eslintUsed,
-						);
-					});
-
-					return { "Program:exit": spy };
-				},
-			});
-
 			linter.verify(code, {
-				rules: { checker: "error" },
-				env: { node: true },
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create(context) {
+									const sourceCode = context.sourceCode;
+
+									spy = sinon.spy(node => {
+										const globalScope =
+												sourceCode.getScope(node),
+											childScope =
+												globalScope.childScopes[0];
+
+										assert.isTrue(
+											sourceCode.markVariableAsUsed("a"),
+										);
+
+										assert.isTrue(
+											getVariable(childScope, "a")
+												.eslintUsed,
+										);
+										assert.isUndefined(
+											getVariable(childScope, "b")
+												.eslintUsed,
+										);
+									});
+
+									return { "Program:exit": spy };
+								},
+							},
+						},
+					},
+				},
+				rules: { "test/checker": "error" },
+				languageOptions: { sourceType: "commonjs" },
 			});
 			assert(spy && spy.calledOnce);
 		});
@@ -3278,31 +3548,45 @@ describe("SourceCode", () => {
 			const code = "var a = 1, b = 2;";
 			let spy;
 
-			linter.defineRule("checker", {
-				create(context) {
-					const sourceCode = context.sourceCode;
-
-					spy = sinon.spy(node => {
-						const globalScope = sourceCode.getScope(node),
-							childScope = globalScope.childScopes[0];
-
-						assert.isTrue(sourceCode.markVariableAsUsed("a"));
-
-						assert.isTrue(getVariable(childScope, "a").eslintUsed);
-						assert.isUndefined(
-							getVariable(childScope, "b").eslintUsed,
-						);
-					});
-
-					return { "Program:exit": spy };
-				},
-			});
-
 			linter.verify(
 				code,
 				{
-					rules: { checker: "error" },
-					parserOptions: { ecmaVersion: 6, sourceType: "module" },
+					plugins: {
+						test: {
+							rules: {
+								checker: {
+									create(context) {
+										const sourceCode = context.sourceCode;
+
+										spy = sinon.spy(node => {
+											const globalScope =
+													sourceCode.getScope(node),
+												childScope =
+													globalScope.childScopes[0];
+
+											assert.isTrue(
+												sourceCode.markVariableAsUsed(
+													"a",
+												),
+											);
+
+											assert.isTrue(
+												getVariable(childScope, "a")
+													.eslintUsed,
+											);
+											assert.isUndefined(
+												getVariable(childScope, "b")
+													.eslintUsed,
+											);
+										});
+
+										return { "Program:exit": spy };
+									},
+								},
+							},
+						},
+					},
+					rules: { "test/checker": "error" },
 				},
 				filename,
 			);
@@ -3313,19 +3597,29 @@ describe("SourceCode", () => {
 			const code = "var a = 1, b = 2;";
 			let spy;
 
-			linter.defineRule("checker", {
-				create(context) {
-					const sourceCode = context.sourceCode;
+			linter.verify(code, {
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create(context) {
+									const sourceCode = context.sourceCode;
 
-					spy = sinon.spy(() => {
-						assert.isFalse(sourceCode.markVariableAsUsed("c"));
-					});
+									spy = sinon.spy(() => {
+										assert.isFalse(
+											sourceCode.markVariableAsUsed("c"),
+										);
+									});
 
-					return { "Program:exit": spy };
+									return { "Program:exit": spy };
+								},
+							},
+						},
+					},
 				},
+				rules: { "test/checker": "error" },
+				languageOptions: { sourceType: "script" },
 			});
-
-			linter.verify(code, { rules: { checker: "error" } });
 			assert(spy && spy.calledOnce);
 		});
 	});
@@ -3849,17 +4143,22 @@ describe("SourceCode", () => {
 
 	describe("isGlobalReference(node)", () => {
 		it("should throw an error when argument is missing", () => {
-			linter.defineRule("is-global-reference", {
-				create: context => ({
-					Program() {
-						context.sourceCode.isGlobalReference();
-					},
-				}),
-			});
-
 			assert.throws(() => {
 				linter.verify("foo", {
-					rules: { "is-global-reference": 2 },
+					plugins: {
+						test: {
+							rules: {
+								"is-global-reference": {
+									create: context => ({
+										Program() {
+											context.sourceCode.isGlobalReference();
+										},
+									}),
+								},
+							},
+						},
+					},
+					rules: { "test/is-global-reference": 2 },
 				});
 			}, /Missing required argument: node/u);
 		});
@@ -3926,7 +4225,7 @@ describe("SourceCode", () => {
 				rules: { "test/checker": "error" },
 			};
 
-			flatLinter.verify(code, config);
+			linter.verify(code, config);
 			assert(identifierSpy.called, "Identifier spy was not called.");
 			assert(
 				identifierSpy.callCount > 10,
@@ -3983,7 +4282,7 @@ describe("SourceCode", () => {
 				rules: { "test/checker": "error" },
 			};
 
-			flatLinter.verify(code, config);
+			linter.verify(code, config);
 			assert(spy && spy.calledOnce, "Spy was not called.");
 		});
 
@@ -4028,7 +4327,7 @@ describe("SourceCode", () => {
 				},
 			};
 
-			flatLinter.verify(code, config);
+			linter.verify(code, config);
 			assert(spy && spy.calledOnce, "Spy was not called.");
 		});
 
@@ -4070,7 +4369,7 @@ describe("SourceCode", () => {
 				rules: { "test/checker": "error" },
 			};
 
-			flatLinter.verify(code, config);
+			linter.verify(code, config);
 			assert(spy && spy.calledOnce, "Spy was not called.");
 		});
 
@@ -4138,7 +4437,7 @@ describe("SourceCode", () => {
 				rules: { "test/checker": "error" },
 			};
 
-			flatLinter.verify(code, config);
+			linter.verify(code, config);
 			assert(identifierSpy.called, "Identifier spy was not called.");
 		});
 
@@ -4196,7 +4495,7 @@ describe("SourceCode", () => {
 				languageOptions: { ecmaVersion: 2015 },
 			};
 
-			flatLinter.verify(code, config);
+			linter.verify(code, config);
 			assert(spy && spy.calledOnce, "Spy was not called.");
 		});
 
@@ -4251,7 +4550,7 @@ describe("SourceCode", () => {
 				rules: { "test/checker": "error" },
 			};
 
-			flatLinter.verify(code, config);
+			linter.verify(code, config);
 			assert(spy && spy.calledOnce, "Spy was not called.");
 		});
 
@@ -4292,7 +4591,7 @@ describe("SourceCode", () => {
 				languageOptions: { ecmaVersion: 2015 },
 			};
 
-			flatLinter.verify(code, config);
+			linter.verify(code, config);
 			assert(spy && spy.called, "Spy was not called.");
 		});
 
@@ -4335,7 +4634,7 @@ describe("SourceCode", () => {
 				rules: { "test/checker": "error" },
 			};
 
-			flatLinter.verify(code, config);
+			linter.verify(code, config);
 			assert(spy && spy.called, "Spy was not called.");
 		});
 
@@ -4391,7 +4690,7 @@ describe("SourceCode", () => {
 				languageOptions: { ecmaVersion: 2015 },
 			};
 
-			flatLinter.verify(code, config);
+			linter.verify(code, config);
 			assert(spy && spy.called, "Spy was not called.");
 		});
 
@@ -4435,7 +4734,7 @@ describe("SourceCode", () => {
 				rules: { "test/checker": "error" },
 			};
 
-			flatLinter.verify(code, config);
+			linter.verify(code, config);
 			assert(spy && spy.called, "Spy was not called.");
 		});
 
@@ -4468,7 +4767,7 @@ describe("SourceCode", () => {
 				rules: { "test/checker": "error" },
 			};
 
-			flatLinter.verify(code, config);
+			linter.verify(code, config);
 
 			// Spy on the internal cache
 			const cache =
