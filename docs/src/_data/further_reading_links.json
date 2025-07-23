@@ -824,5 +824,12 @@
     "logo": "https://media2.dev.to/dynamic/image/quality=100/https://dev-to-uploads.s3.amazonaws.com/uploads/logos/resized_logo_UQww2soKuUsjaOGNB38o.png",
     "title": "Never lose valuable error context in JavaScript - DEV Community",
     "description": "My blog post discussing the importance of Error `cause` property and the ESLint rule to enforce proper usage of it."
+  },
+  "https://github.com/microsoft/TypeScript/blob/main/src/lib/es2022.error.d.ts": {
+    "domain": "github.com",
+    "url": "https://github.com/microsoft/TypeScript/blob/main/src/lib/es2022.error.d.ts",
+    "logo": "https://github.githubassets.com/favicons/favicon.png",
+    "title": "Error types that support `cause`",
+    "description": "Interface declarations for all the Error types in JavaScript that support passing a `cause` property."
   }
 }
