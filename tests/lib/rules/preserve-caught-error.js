@@ -63,6 +63,15 @@ ruleTester.run("preserve-caught-error", rule, {
 			}
 		};
 	}`,
+		/* It's valid to discard the caught error at parameter level of catch block `disallowUncaughtErrors` is set to `false` (default behavior) */
+		{
+			code: `try {
+		doSomething();
+	} catch {
+		throw new Error("Something went wrong");
+	}`,
+			options: [{ disallowUncaughtErrors: false }],
+		},
 	],
 	invalid: [
 		/* 1. Throws a new Error without cause, even though an error was caught */
@@ -353,21 +362,7 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
-		/* 11. When the error being handled is being ignored */
-		{
-			code: `try {
-            doSomething();
-        } catch {
-            throw new Error("Something went wrong");
-        }`,
-			errors: [
-				{
-					messageId: "missingErrorParam",
-					type: "CatchClause",
-				},
-			],
-		},
-		/* 12. When an Error is created without `new` keyword */
+		/* 11. When an Error is created without `new` keyword */
 		{
 			code: `try {
             doSomething();
@@ -390,7 +385,7 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
-		/* 13. Miscellaneous constructs */
+		/* 12. Miscellaneous constructs */
 		{
 			code: `try {
         } catch (err) {
@@ -437,7 +432,7 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
-		/* 14. When the throw Error constructor has no message argument. */
+		/* 13. When the throw Error constructor has no message argument. */
 		{
 			code: `try {
         } catch (err) {
@@ -462,7 +457,7 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
-		/* 15. AggregateError accepts options as the third argument.  */
+		/* 14. AggregateError accepts options as the third argument.  */
 		{
 			code: `try {
         } catch (err) {
@@ -482,6 +477,30 @@ ruleTester.run("preserve-caught-error", rule, {
                 throw new AggregateError([], "Lorem ipsum", { cause: err });
             }
         }`,
+						},
+					],
+				},
+			],
+		},
+		/* 15. Disallow discarding caught errors when `disallowUncaughtErrors` is set to `true` */
+		{
+			code: `try {
+			doSomething();
+		} catch {
+			throw new Error("Something went wrong");
+		}`,
+			options: [{ disallowUncaughtErrors: true }],
+			errors: [
+				{
+					messageId: "missingErrorParam",
+					suggestions: [
+						{
+							messageId: "readCaughtError",
+							output: `try {
+			doSomething();
+		} catch(error) {
+			throw new Error("Something went wrong");
+		}`,
 						},
 					],
 				},
