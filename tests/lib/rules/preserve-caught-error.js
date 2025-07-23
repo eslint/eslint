@@ -23,11 +23,12 @@ ruleTester.run("preserve-caught-error", rule, {
     } catch (error) {
         throw new Error("Failed to perform error prone operations", { cause: error });
     }`,
+		/* No throw inside catch */
 		`try {
         doSomething();
     } catch (e) {
         console.error(e);
-    }`, // No throw inside catch
+    }`,
 		`try {
         doSomething();
     } catch (err) {
@@ -45,6 +46,7 @@ ruleTester.run("preserve-caught-error", rule, {
                 throw new Error("Other", { cause: error });
         }
     }`,
+		/* When the error options are too complicated to be properly analyzed/fixed */
 		`try {
 		// ...
 	} catch (err) {
@@ -52,6 +54,15 @@ ruleTester.run("preserve-caught-error", rule, {
 		throw new Error("msg", { ...opts });
 	}
 	`,
+		/* When the thrown error is part of a function defined in catch block, the caught error is not directly related to that throw */
+		`try {
+	} catch (error) {
+		foo = {
+			bar() {
+				throw new Error();
+			}
+		};
+	}`,
 	],
 	invalid: [
 		/* 1. Throws a new Error without cause, even though an error was caught */
