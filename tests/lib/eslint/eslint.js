@@ -412,7 +412,7 @@ describe("ESLint", () => {
 				);
 			});
 
-			it("should throw if `concurrency` and uncloneable options are used together", () => {
+			it("should throw if numeric `concurrency` and uncloneable options are used together", () => {
 				assert.throws(
 					() =>
 						new ESLint({
@@ -427,6 +427,25 @@ describe("ESLint", () => {
 						code: "ESLINT_UNCLONEABLE_OPTIONS",
 						message:
 							'The options "baseConfig", "fix", and "plugins" cannot be cloned. When concurrency is enabled, all options must be cloneable. Remove uncloneable options or use an option module.',
+					},
+				);
+			});
+
+			it('should throw if `concurrency` `"auto"` and uncloneable options are used together', () => {
+				assert.throws(
+					() =>
+						new ESLint({
+							flags,
+							concurrency: "auto",
+							ruleFilter({ severity }) {
+								return severity === 2;
+							},
+						}),
+					{
+						constructor: TypeError,
+						code: "ESLINT_UNCLONEABLE_OPTIONS",
+						message:
+							'The option "ruleFilter" cannot be cloned. When concurrency is enabled, all options must be cloneable. Remove uncloneable options or use an option module.',
 					},
 				);
 			});
@@ -4492,14 +4511,23 @@ describe("ESLint", () => {
 					it(`should warn when deprecated rules are found in a config${concurrency ? " with multithreading" : ""}`, async () => {
 						eslint = new ESLint({
 							flags,
-							cwd: originalDir,
+							cwd: fixtureDir,
 							overrideConfigFile:
-								"tests/fixtures/cli-engine/deprecated-rule-config/eslint.config.js",
+								"cli-engine/deprecated-rule-config/eslint.config.js",
 							concurrency,
 						});
-						const results = await eslint.lintFiles(["lib/cli*.js"]);
+						const results = await eslint.lintFiles(["cli/*.js"]);
 
+						assert.strictEqual(results.length, 2);
 						assert.deepStrictEqual(results[0].usedDeprecatedRules, [
+							{
+								ruleId: "indent-legacy",
+								replacedBy: ["@stylistic/indent"],
+								info: coreRules.get("indent-legacy").meta
+									.deprecated,
+							},
+						]);
+						assert.deepStrictEqual(results[1].usedDeprecatedRules, [
 							{
 								ruleId: "indent-legacy",
 								replacedBy: ["@stylistic/indent"],
@@ -4511,21 +4539,32 @@ describe("ESLint", () => {
 				);
 
 				[void 0, 2].forEach(concurrency =>
-					it(`should warn about deprecated rules when a file path is passed explicitly${concurrency ? " with multithreading" : ""}`, async () => {
+					it(`should warn about deprecated rules when file paths are passed explicitly${concurrency ? " with multithreading" : ""}`, async () => {
 						eslint = new ESLint({
 							flags,
-							cwd: originalDir,
+							cwd: fixtureDir,
 							overrideConfigFile: true,
 							overrideConfig: {
 								rules: {
 									semi: "error",
 								},
 							},
-							concurrency: 1,
+							concurrency,
 						});
-						const results = await eslint.lintFiles("lib/cli.js");
+						const results = await eslint.lintFiles([
+							"passing.js",
+							"files/foo.js",
+						]);
 
+						assert.strictEqual(results.length, 2);
 						assert.deepStrictEqual(results[0].usedDeprecatedRules, [
+							{
+								ruleId: "semi",
+								replacedBy: ["@stylistic/semi"],
+								info: coreRules.get("semi").meta.deprecated,
+							},
+						]);
+						assert.deepStrictEqual(results[1].usedDeprecatedRules, [
 							{
 								ruleId: "semi",
 								replacedBy: ["@stylistic/semi"],
@@ -8986,7 +9025,7 @@ describe("ESLint", () => {
 
 			it("should stop linting files if a rule crashes with multithreading", async () => {
 				const concurrency = 2;
-				const cwd = getFixturePath();
+				const cwd = fixtureDir;
 
 				const createCallCountArray = new Int32Array(
 					new SharedArrayBuffer(Int32Array.BYTES_PER_ELEMENT),
@@ -9733,7 +9772,7 @@ describe("ESLint", () => {
 					);
 					eslint = await ESLint.fromOptionModule(url);
 					process.env.ESLINT_TEST_ENV = "test";
-					await eslint.lintFiles(["passing.js"]);
+					await eslint.lintFiles(["passing*.js"]);
 				});
 
 				it("should propagate environment variables from worker threads to the controlling thread", async () => {
@@ -9755,7 +9794,7 @@ describe("ESLint", () => {
 						`data:text/javascript,${encodeURIComponent(optionsSrc)}`,
 					);
 					eslint = await ESLint.fromOptionModule(url);
-					await eslint.lintFiles(["passing.js"]);
+					await eslint.lintFiles(["passing*.js"]);
 					assert.strictEqual(process.env.ESLINT_TEST_ENV, "test");
 				});
 			});
@@ -11008,6 +11047,7 @@ describe("ESLint", () => {
 					cwd: fixtureDir,
 					files: {
 						"baz/file.js": "3",
+						"baz/another-file.js": "4",
 					},
 				});
 				await teardown.prepare();
@@ -11041,7 +11081,7 @@ describe("ESLint", () => {
 							semi: 2,
 						},
 					},
-					concurrency: 1,
+					concurrency: 2,
 				});
 
 				const results1 = await engine1.lintText("1", {
@@ -11050,7 +11090,7 @@ describe("ESLint", () => {
 				const results2 = await engine2.lintText("2", {
 					filePath: "file.js",
 				});
-				const results3 = await engine3.lintFiles("file.js");
+				const results3 = await engine3.lintFiles("*.js");
 
 				engine1.getRulesMetaForResults(results1); // should not throw an error
 				assert.throws(
@@ -11120,7 +11160,7 @@ describe("ESLint", () => {
 					const engine = new ESLint({
 						flags,
 						overrideConfigFile: true,
-						cwd: getFixturePath(),
+						cwd: fixtureDir,
 						ignorePatterns: ["passing*"],
 						overrideConfig: {
 							rules: {
@@ -11201,11 +11241,14 @@ describe("ESLint", () => {
 							semi: 2,
 						},
 					},
-					cwd: getFixturePath(),
-					concurrency: 1,
+					cwd: fixtureDir,
+					concurrency: 2,
 				});
 
-				const results = await engine.lintFiles("missing-semicolon.js");
+				const results = await engine.lintFiles([
+					"missing-semicolon.js",
+					"passing.js",
+				]);
 				const rulesMeta = engine.getRulesMetaForResults(results);
 
 				assert.strictEqual(Object.keys(rulesMeta).length, 1);
@@ -11244,13 +11287,14 @@ describe("ESLint", () => {
 							"no-console": "error",
 						},
 					},
-					concurrency: 1,
-					cwd: getFixturePath(),
+					concurrency: 2,
+					cwd: fixtureDir,
 				});
 
-				const results = await engine.lintFiles(
+				const results = await engine.lintFiles([
 					"disable-inline-config.js",
-				);
+					"passing.js",
+				]);
 				const rulesMeta = engine.getRulesMetaForResults(results);
 
 				assert.strictEqual(Object.keys(rulesMeta).length, 1);
@@ -11292,11 +11336,14 @@ describe("ESLint", () => {
 							quotes: [2, "double"],
 						},
 					},
-					cwd: getFixturePath(),
-					concurrency: 1,
+					cwd: fixtureDir,
+					concurrency: 2,
 				});
 
-				const results = await engine.lintFiles("single-quoted.js");
+				const results = await engine.lintFiles([
+					"passing.js",
+					"single-quoted.js",
+				]);
 				const rulesMeta = engine.getRulesMetaForResults(results);
 
 				assert.deepStrictEqual(
@@ -11374,8 +11421,8 @@ describe("ESLint", () => {
 							"no-undef": 2,
 						},
 					},
-					cwd: ${JSON.stringify(getFixturePath())},
-					concurrency: 1,
+					cwd: ${JSON.stringify(fixtureDir)},
+					concurrency: 2,
 				};
 				`;
 				const optionsURL = new URL(
@@ -11384,7 +11431,10 @@ describe("ESLint", () => {
 				const { customPlugin } = await import(optionsURL);
 				const engine = await ESLint.fromOptionModule(optionsURL);
 
-				const results = await engine.lintFiles("globals-node.js");
+				const results = await engine.lintFiles([
+					"globals-node.js",
+					"passing.js",
+				]);
 				const rulesMeta = engine.getRulesMetaForResults(results);
 
 				assert.deepStrictEqual(
@@ -11454,7 +11504,7 @@ describe("ESLint", () => {
 							reportUnusedDisableDirectives: "warn",
 						},
 					},
-					cwd: getFixturePath(),
+					cwd: fixtureDir,
 					concurrency: 3,
 				});
 
@@ -11509,10 +11559,13 @@ describe("ESLint", () => {
 						},
 					},
 					cwd: fixtureDir,
-					concurrency: 1,
+					concurrency: 2,
 				});
 
-				const results = await engine.lintFiles("file.js");
+				const results = await engine.lintFiles([
+					"file.js",
+					"passing.js",
+				]);
 				const rulesMeta = engine.getRulesMetaForResults(results);
 
 				assert.deepStrictEqual(rulesMeta, {
@@ -11557,10 +11610,13 @@ describe("ESLint", () => {
 					flags,
 					overrideConfigFile: true,
 					cwd: fixtureDir,
-					concurrency: 1,
+					concurrency: 2,
 				});
 
-				const results = await engine.lintFiles("file.js");
+				const results = await engine.lintFiles([
+					"file.js",
+					"passing.js",
+				]);
 
 				assert.strictEqual(results[0].messages.length, 3);
 				assert.strictEqual(results[0].messages[0].ruleId, "foo");
@@ -11617,10 +11673,13 @@ describe("ESLint", () => {
 					overrideConfigFile: true,
 					overrideConfig: { rules: { "no-var": "warn" } },
 					cwd: fixtureDir,
-					concurrency: 1,
+					concurrency: 2,
 				});
 
-				const results = await engine.lintFiles("file.js");
+				const results = await engine.lintFiles([
+					"file.js",
+					"passing.js",
+				]);
 
 				assert.strictEqual(results[0].messages.length, 4);
 				assert.strictEqual(results[0].messages[0].ruleId, "foo");
@@ -13437,6 +13496,14 @@ describe("ESLint", () => {
 
 		beforeEach(() => {
 			cacheFilePath = null;
+			if (concurrency) {
+				sinon
+					.stub(
+						require("../../../lib/eslint/eslint"),
+						"calculateWorkerCount",
+					)
+					.callsFake(() => concurrency);
+			}
 		});
 
 		afterEach(() => {
@@ -13696,7 +13763,7 @@ describe("ESLint", () => {
 			);
 
 			// destroy the spy
-			sinon.restore();
+			spy?.restore();
 
 			eslint = new ESLint({
 				concurrency,
@@ -13790,7 +13857,7 @@ describe("ESLint", () => {
 			);
 
 			// destroy the spy
-			sinon.restore();
+			spy?.restore();
 
 			eslint = new ESLint({
 				concurrency,
@@ -13912,8 +13979,6 @@ describe("ESLint", () => {
 				spy.notCalled,
 				"Expected attempt to delete the cache was not made.",
 			);
-
-			spy.restore();
 		});
 
 		it("should throw an error if the cache file to be deleted exist on a read-only file system", async () => {
@@ -13921,7 +13986,7 @@ describe("ESLint", () => {
 			fs.writeFileSync(cacheFilePath, "");
 
 			// Simulate a read-only file system.
-			const unlinkStub = sinon.stub(fsp, "unlink").rejects(
+			sinon.stub(fsp, "unlink").rejects(
 				Object.assign(new Error("read-only file system"), {
 					code: "EROFS",
 				}),
@@ -13949,8 +14014,6 @@ describe("ESLint", () => {
 				async () => await eslint.lintFiles([file]),
 				/read-only file system/u,
 			);
-
-			unlinkStub.restore();
 		});
 
 		it("should not throw an error if deleting fails but cache file no longer exists", async () => {
@@ -13983,8 +14046,6 @@ describe("ESLint", () => {
 			await eslint.lintFiles([file]);
 
 			assert(unlinkStub.calledWithExactly(cacheFilePath));
-
-			unlinkStub.restore();
 		});
 
 		it("should store in the cache a file that has lint messages and a file that doesn't have lint messages", async () => {
@@ -15693,13 +15754,13 @@ describe("ESLint", () => {
 		}
 
 		// Returns numeric `concurrency` if the number of files is not less
-		testCalculateWorkerCount(1, 1, 1, 1);
-		testCalculateWorkerCount(1, 10, 8, 1);
+		testCalculateWorkerCount(1, 1, 1, 0); // 1 mapped to 0
+		testCalculateWorkerCount(1, 10, 8, 0); // 1 mapped to 0
 		testCalculateWorkerCount(3, 10, 8, 3);
 		testCalculateWorkerCount(42, 42, 4, 42);
 
 		// Returns the number of files if `concurrency` is larger
-		testCalculateWorkerCount(42, 1, 8, 1);
+		testCalculateWorkerCount(42, 1, 8, 0); // 1 mapped to 0
 		testCalculateWorkerCount(4, 3, 8, 3);
 
 		// Returns 0 if concurrency is "off"
