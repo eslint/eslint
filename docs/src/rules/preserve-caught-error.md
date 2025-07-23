@@ -43,6 +43,8 @@ try {
 }
 
 // Ignoring the caught error at the parameter level
+// This is valid by default, but this behavior can be changed
+// by using the `disallowUncaughtError` option discussed below.
 try {
 	doSomething();
 } catch {
@@ -72,6 +74,36 @@ try {
 }
 ```
 
+## Options
+This rule takes a single option — an object with the following optional property:
+
+- `disallowUncaughtErrors`: Disallows catch blocks that discard the caught error without referencing it when set to `true`. By default, this is `false`.
+
+```js
+"preserve-caught-error": ["error", {
+  "disallowUncaughtErrors": true
+}]
+```
+
+Example of **incorrect** code for the `{ "disallowUncaughtErrors": true }` option:
+
+```js
+try {
+	doSomething();
+} catch { // Can't discard the error ❌
+	// Handling and re-throw logic
+}
+```
+
+Example of **correct** code for the `{ "disallowUncaughtErrors": true }` option:
+
+```js
+try {
+	doSomething();
+} catch(error) { // Error is being referenced ✅
+	// Handling and re-throw logic
+}
+```
 
 ## When Not To Use It
 
