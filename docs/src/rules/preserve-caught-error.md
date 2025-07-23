@@ -60,6 +60,16 @@ try {
 } catch (error) {
     throw new Error("Something went wrong", { cause: error });
 }
+
+try {
+} catch (error) {
+	foo = {
+		bar() {
+			// This throw is not directly related to the caught error.
+			throw new Error("Something went wrong");
+		}
+	};
+}
 ```
 
 
