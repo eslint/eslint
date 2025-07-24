@@ -16,13 +16,12 @@ const checker = require("npm-license"),
 	glob = require("glob"),
 	marked = require("marked"),
 	matter = require("gray-matter"),
-	os = require("node:os"),
 	path = require("node:path"),
 	semver = require("semver"),
 	ejs = require("ejs"),
-	loadPerf = require("load-perf"),
 	{ CLIEngine } = require("./lib/cli-engine"),
-	builtinRules = require("./lib/rules/index");
+	builtinRules = require("./lib/rules"),
+	childProcess = require("node:child_process");
 
 require("shelljs/make");
 /* global target -- global.target is declared in `shelljs/make.js` */
@@ -47,14 +46,6 @@ const {
 // Settings
 //------------------------------------------------------------------------------
 
-/*
- * A little bit fuzzy. My computer has a first CPU speed of 3392 and the perf test
- * always completes in < 3800ms. However, Travis is less predictable due to
- * multiple different VM types. So I'm fudging this for now in the hopes that it
- * at least provides some sort of useful signal.
- */
-const PERF_MULTIPLIER = 13e6;
-
 const OPEN_SOURCE_LICENSES = [
 	/MIT/u,
 	/BSD/u,
@@ -73,8 +64,7 @@ const MAIN_GIT_BRANCH = "main";
 // Data
 //------------------------------------------------------------------------------
 
-const NODE = "node ", // intentional extra space
-	NODE_MODULES = "./node_modules/",
+const NODE_MODULES = "./node_modules/",
 	TEMP_DIR = "./tmp/",
 	DEBUG_DIR = "./debug/",
 	BUILD_DIR = "build",
@@ -85,21 +75,15 @@ const NODE = "node ", // intentional extra space
 	PERF_TMP_DIR = path.join(TEMP_DIR, "eslint", "performance"),
 	// Utilities - intentional extra space at the end of each string
 	MOCHA = `${NODE_MODULES}mocha/bin/_mocha `,
-	ESLINT = `${NODE} bin/eslint.js `,
 	// Files
 	RULE_FILES = glob
 		.sync("lib/rules/*.js")
 		.filter(filePath => path.basename(filePath) !== "index.js"),
 	TEST_FILES = '"tests/{bin,conf,lib,tools}/**/*.js"',
-	PERF_ESLINTRC = path.join(PERF_TMP_DIR, "eslint.config.js"),
+	PERF_ESLINT_CONFIG = path.join(PERF_TMP_DIR, "eslint.config.js"),
 	PERF_MULTIFILES_TARGET_DIR = path.join(PERF_TMP_DIR, "eslint"),
 	CHANGELOG_FILE = "./CHANGELOG.md",
 	VERSIONS_FILE = "./docs/src/_data/versions.json",
-	/*
-	 * glob arguments with Windows separator `\` don't work:
-	 * https://github.com/eslint/eslint/issues/16259
-	 */
-	PERF_MULTIFILES_TARGETS = `"${TEMP_DIR}eslint/performance/eslint/{lib,tests/lib}/**/*.js"`,
 	// Settings
 	MOCHA_TIMEOUT = parseInt(process.env.ESLINT_MOCHA_TIMEOUT, 10) || 10000;
 
@@ -364,13 +348,13 @@ function updateVersions(oldVersion, newVersion) {
  * @returns {void}
  */
 function updateRuleTypeHeaders() {
-	const { execFileSync } = require("node:child_process");
-
 	// We don't need the stack trace of execFileSync if the command fails.
 	try {
-		execFileSync(process.execPath, ["tools/update-rule-type-headers.js"], {
-			stdio: "inherit",
-		});
+		childProcess.execFileSync(
+			process.execPath,
+			["tools/update-rule-type-headers.js"],
+			{ stdio: "inherit" },
+		);
 	} catch {
 		exit(1);
 	}
@@ -945,11 +929,9 @@ target.checkRuleFiles = function () {
 };
 
 target.checkRuleExamples = function () {
-	const { execFileSync } = require("node:child_process");
-
 	// We don't need the stack trace of execFileSync if the command fails.
 	try {
-		execFileSync(
+		childProcess.execFileSync(
 			process.execPath,
 			["tools/check-rule-examples.js", "docs/src/rules/*.md"],
 			{ stdio: "inherit" },
@@ -1010,23 +992,59 @@ target.checkLicenses = function () {
 };
 
 /**
+ * Checks if hyperfine is installed and has a supported version.
+ * If hyperfine is not installed or has an unsupported version,
+ * an error message with a link to installation instructions is printed,
+ * and the process exits with code 1.
+ * @returns {void}
+ * @throws If an unexpected error occurs while checking the installation.
+ */
+function checkHyperfineInstallation() {
+	const INSTALLATION_INSTRUCTIONS_URL =
+		"https://github.com/sharkdp/hyperfine?tab=readme-ov-file#installation";
+	let output;
+	try {
+		output = childProcess.execFileSync("hyperfine", ["--version"], {
+			encoding: "utf8",
+		});
+	} catch (error) {
+		// If hyperfine is not installed, the error code will be "ENOENT".
+		if (
+			error.code === "ENOENT" &&
+			error.signal === null &&
+			error.status === null
+		) {
+			console.error(
+				`hyperfine is not installed. Please install it to run performance tests:\n${INSTALLATION_INSTRUCTIONS_URL}`,
+			);
+			exit(1);
+		}
+		throw error;
+	}
+	// `--shell=none` is not supported by hyperfine < 1.13.0, so we check the version.
+	const version = / (?<version>\d+\.\d+\.\d+)\n$/u.exec(output)?.groups
+		.version;
+	if (!version || semver.lt(version, "1.13.0")) {
+		console.error(
+			`Your hyperfine version is not supported. Please install the latest version to run performance tests:\n${INSTALLATION_INSTRUCTIONS_URL}`,
+		);
+		exit(1);
+	}
+}
+
+/**
  * Downloads a repository which has many js files to test performance with multi files.
- * Here, it's eslint@1.10.3 (450 files)
- * @param {Function} cb A callback function.
+ * Here, it's eslint@1.10.3 (450 files).
  * @returns {void}
  */
-function downloadMultifilesTestTarget(cb) {
-	if (test("-d", PERF_MULTIFILES_TARGET_DIR)) {
-		process.nextTick(cb);
-	} else {
-		mkdir("-p", PERF_MULTIFILES_TARGET_DIR);
+function downloadMultifilesTestTarget() {
+	if (!fs.existsSync(PERF_MULTIFILES_TARGET_DIR)) {
 		echo(
 			"Downloading the repository of multi-files performance test target.",
 		);
-		exec(
-			`git clone -b v1.10.3 --depth 1 https://github.com/eslint/eslint.git "${PERF_MULTIFILES_TARGET_DIR}"`,
-			{ silent: true },
-			cb,
+		childProcess.execSync(
+			`git clone -b v1.10.3 --no-tags --depth 1 https://github.com/eslint/eslint.git "${PERF_MULTIFILES_TARGET_DIR}"`,
+			{ stdio: "ignore" },
 		);
 	}
 }
@@ -1037,172 +1055,90 @@ function downloadMultifilesTestTarget(cb) {
  * @returns {void}
  */
 function createConfigForPerformanceTest() {
-	let rules = "";
-
-	for (const [ruleId] of builtinRules) {
-		rules += `    "${ruleId}": 1,\n`;
+	const rules = {};
+	for (const ruleId of builtinRules.keys()) {
+		rules[ruleId] = "warn";
 	}
-
-	const content = `
-module.exports = [{
-    "languageOptions": {sourceType: "commonjs"},
-    "rules": {
-    ${rules}
-    }
-}];`;
-
-	content.to(PERF_ESLINTRC);
+	const config = [{ languageOptions: { sourceType: "commonjs" }, rules }];
+	const content = `module.exports = ${JSON.stringify(config, null, 4)};\n`;
+	fs.writeFileSync(PERF_ESLINT_CONFIG, content);
 }
 
 /**
- * @callback TimeCallback
- * @param {number[] | null} results
- * @returns {void}
+ * Creates a command to run ESLint with a given argument.
+ * @param {string} arg A file or glob pattern to pass to ESLint. This should not include any unescaped double quotes (`"`).
+ * @returns {string} The command to run ESLint with the given argument.
  */
+function createESLintCommand(arg) {
+	const eslintBin = require("./package.json").bin.eslint;
+
+	return `"${process.execPath}" "${eslintBin}" --config "${PERF_ESLINT_CONFIG}" --no-ignore "${arg}"`;
+}
 
 /**
- * Calculates the time for each run for performance
- * @param {string} cmd cmd
- * @param {number} runs Total number of runs to do
- * @param {number} runNumber Current run number
- * @param {number[]} results Collection results from each run
- * @param {TimeCallback} cb Function to call when everything is done
- * @returns {void} calls the cb with all the results
- * @private
+ * Runs hyperfine to measure the performance of a command.
+ * If the command fails, the current process exits with code 1.
+ * @param {string} title The title of the command in the hyperfine output.
+ * @param {string} command The command to run.
+ * @returns {void}
  */
-function time(cmd, runs, runNumber, results, cb) {
-	const start = process.hrtime();
+function runPerformanceTest(title, command) {
+	// We don't need the stack trace of execFileSync if the command fails.
+	try {
+		/*
+		 * The used hyperfine options are:
+		 *   --shell=none turns off the shell escaping, so that glob patterns are not expanded.
+		 *   --warmup=1 runs the command once before measuring, to avoid cold start issues.
+		 *   --runs=5 runs the command 5 times, not counting the warmup run.
+		 *   --command-name sets the title of the command in the hyperfine output.
+		 *
+		 * The ANSI escape codes are used to overwrite the text "Benchmark 1: " that hyperfine prints by default,
+		 * and to set the title in bold.
+		 *   `\x1b[1K` clears the line
+		 *   `\x1b[99D` moves the cursor back to the beginning of the line
+		 *   `\x1b[1m` sets the text to bold
+		 *   `\x1b[0m` resets the text formatting
+		 */
+		childProcess.execFileSync(
+			"hyperfine",
+			[
+				"--shell=none",
+				"--warmup=1",
+				"--runs=5",
+				"--command-name",
+				`\x1b[1K\x1b[99D\x1b[1m${title}\x1b[0m`,
+				command,
+			],
+			{ stdio: "inherit" },
+		);
+	} catch {
+		exit(1);
+	}
+}
 
-	exec(
-		cmd,
-		{ maxBuffer: 64 * 1024 * 1024, silent: true },
-		(code, stdout, stderr) => {
-			const diff = process.hrtime(start),
-				actual = diff[0] * 1e3 + diff[1] / 1e6; // ms
+target.perf = () => {
+	checkHyperfineInstallation();
 
-			if (code) {
-				echo(`  Performance Run #${runNumber} failed.`);
-				if (stdout) {
-					echo(`STDOUT:\n${stdout}\n\n`);
-				}
+	downloadMultifilesTestTarget();
 
-				if (stderr) {
-					echo(`STDERR:\n${stderr}\n\n`);
-				}
-				return cb(null);
-			}
+	createConfigForPerformanceTest();
 
-			results.push(actual);
-			echo(`  Performance Run #${runNumber}:  %dms`, actual);
-			if (runs > 1) {
-				return time(cmd, runs - 1, runNumber + 1, results, cb);
-			}
-			return cb(results);
-		},
+	// Empty line for better readability in the console output.
+	console.log();
+
+	const loadingCommand = `"${process.execPath}" "${require("./package.json").main}"`;
+	runPerformanceTest("Loading", loadingCommand);
+
+	const singleFileCommand = createESLintCommand(
+		"tests/performance/jshint.js",
 	);
-}
+	runPerformanceTest("Single File", singleFileCommand);
 
-/**
- * Run a performance test.
- * @param {string} title A title.
- * @param {string} targets Test targets.
- * @param {number} multiplier A multiplier for limitation.
- * @param {Function} cb A callback function.
- * @returns {void}
- */
-function runPerformanceTest(title, targets, multiplier, cb) {
-	const cpuSpeed = os.cpus()[0].speed,
-		max = multiplier / cpuSpeed,
-		cmd = `${ESLINT}--config "${PERF_ESLINTRC}" --no-config-lookup --no-ignore ${targets}`;
-
-	echo("");
-	echo(title);
-	echo("  CPU Speed is %d with multiplier %d", cpuSpeed, multiplier);
-
-	time(cmd, 5, 1, [], results => {
-		if (!results || results.length === 0) {
-			// No results? Something is wrong.
-			throw new Error("Performance test failed.");
-		}
-
-		results.sort((a, b) => a - b);
-
-		const median = results[~~(results.length / 2)];
-
-		echo("");
-		if (median > max) {
-			echo(
-				"  Performance budget exceeded: %dms (limit: %dms)",
-				median,
-				max,
-			);
-		} else {
-			echo("  Performance budget ok:  %dms (limit: %dms)", median, max);
-		}
-		echo("");
-		cb();
-	});
-}
-
-/**
- * Run the load performance for eslint
- * @returns {void}
- * @private
- */
-function loadPerformance() {
-	echo("");
-	echo("Loading:");
-
-	const results = [];
-
-	for (let cnt = 0; cnt < 5; cnt++) {
-		const loadPerfData = loadPerf({
-			checkDependencies: false,
-		});
-
-		echo(
-			`  Load performance Run #${cnt + 1}:  %dms`,
-			loadPerfData.loadTime,
-		);
-		results.push(loadPerfData.loadTime);
-	}
-
-	results.sort((a, b) => a - b);
-	const median = results[~~(results.length / 2)];
-
-	echo("");
-	echo("  Load Performance median:  %dms", median);
-	echo("");
-}
-
-target.perf = function () {
-	downloadMultifilesTestTarget(() => {
-		createConfigForPerformanceTest();
-
-		loadPerformance();
-
-		runPerformanceTest(
-			"Single File:",
-			"tests/performance/jshint.js",
-			PERF_MULTIPLIER,
-			() => {
-				// Count test target files.
-				const count = glob.sync(
-					(process.platform === "win32"
-						? PERF_MULTIFILES_TARGETS.replace(/\\/gu, "/")
-						: PERF_MULTIFILES_TARGETS
-					).slice(1, -1), // strip quotes
-				).length;
-
-				runPerformanceTest(
-					`Multi Files (${count} files):`,
-					PERF_MULTIFILES_TARGETS,
-					3 * PERF_MULTIPLIER,
-					() => {},
-				);
-			},
-		);
-	});
+	const PERF_MULTIFILES_TARGETS = `${TEMP_DIR}eslint/performance/eslint/{lib,tests/lib}/**/*.js`;
+	// Count test target files.
+	const fileCount = glob.sync(PERF_MULTIFILES_TARGETS).length;
+	const multiFilesCommand = createESLintCommand(PERF_MULTIFILES_TARGETS);
+	runPerformanceTest(`Multi Files (${fileCount} files)`, multiFilesCommand);
 };
 
 target.generateRelease = ([packageTag]) => generateRelease({ packageTag });

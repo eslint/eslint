@@ -35,7 +35,7 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-implied-eval: "error"*/
-/*global window*/
+/*global window, setTimeout, setInterval, execScript*/
 
 setTimeout("alert('Hi!');", 100);
 
@@ -56,6 +56,7 @@ Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-implied-eval: "error"*/
+/*global setTimeout, setInterval*/
 
 setTimeout(function() {
     alert("Hi!");
