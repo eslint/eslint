@@ -327,7 +327,7 @@ import type foo = require("import-foo");
 ```ts
 /*eslint no-restricted-imports: ["error", { paths: [{
     name: "import-foo",
-	  importNames: ["Baz"],
+	importNames: ["Baz"],
     allowTypeImports: true,
     message: "Please use 'Baz' from 'import-foo' as a type only."
 }]}]*/

@@ -38,18 +38,17 @@ import { Linter } from "./index";
 interface NoRestrictedImportPathCommonOptions {
 	name: string;
 	message?: string;
+	allowTypeImports?: boolean;
 }
 
 type EitherImportNamesOrAllowImportName =
 	| {
 			importNames?: string[];
 			allowImportNames?: never;
-			allowTypeImports?: boolean;
 	  }
 	| {
 			allowImportNames?: string[];
 			importNames?: never;
-			allowTypeImports?: boolean;
 	  };
 
 type ValidNoRestrictedImportPathOptions = NoRestrictedImportPathCommonOptions &
@@ -58,6 +57,7 @@ type ValidNoRestrictedImportPathOptions = NoRestrictedImportPathCommonOptions &
 interface NoRestrictedImportPatternCommonOptions {
 	message?: string;
 	caseSensitive?: boolean;
+	allowTypeImports?: boolean;
 }
 
 // Base type for group or regex constraint, ensuring mutual exclusivity
