@@ -140,25 +140,17 @@ ruleTester.run("no-useless-catch", rule, {
                     foo();
                 }
             `,
-			errors: [
-				{
-					messageId: "unnecessaryCatchClause",
-<<<<<<< HEAD
-=======
-					type: "CatchClause",
-					suggestions: [
-						{
-							messageId: "removeCatchClause",
-							output: `
+			output: `
                 try {
                     foo();
                 }  finally {
                     foo();
                 }
             `,
-						},
-					],
->>>>>>> 5c7204175 (feat: add suggestions to `no-useless-catch` rule)
+			errors: [
+				{
+					messageId: "unnecessaryCatchClause",
+					type: "CatchClause",
 				},
 			],
 		},
@@ -188,22 +180,17 @@ ruleTester.run("no-useless-catch", rule, {
                     foo();
                 }
             `,
-			errors: [
-				{
-					messageId: "unnecessaryCatchClause",
-					type: "CatchClause",
-					suggestions: [
-						{
-							messageId: "removeCatchClause",
-							output: `
+			output: `
                 try {
                     foo();
                 }  finally {
                     foo();
                 }
             `,
-						},
-					],
+			errors: [
+				{
+					messageId: "unnecessaryCatchClause",
+					type: "CatchClause",
 				},
 			],
 		},
@@ -224,5 +211,5 @@ ruleTester.run("no-useless-catch", rule, {
 				},
 			],
 		},
-	],
+	]
 });

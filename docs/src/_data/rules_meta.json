@@ -3571,7 +3571,7 @@
             "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/no-useless-catch"
         },
-        "hasSuggestions": true
+        "fixable": "code"
     },
     "no-useless-computed-key": {
         "type": "suggestion",
