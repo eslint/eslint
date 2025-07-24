@@ -12,7 +12,7 @@
 const ProgressBar = require("progress");
 const fuzz = require("./eslint-fuzzer");
 const eslint = require("..");
-const linter = new eslint.Linter({ configType: "eslintrc" });
+const linter = new eslint.Linter();
 
 //------------------------------------------------------------------------------
 // Helpers

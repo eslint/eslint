@@ -158,10 +158,11 @@ function fuzz(options) {
 	 * @param {ConfigData} config The config used
 	 * @returns {Parser} a parser
 	 */
-	function getParser({ parserOptions }) {
+	function getParser(config) {
 		return sourceText =>
 			espree.parse(sourceText, {
-				...parserOptions,
+				sourceType: config.languageOptions.sourceType,
+				ecmaVersion: "latest",
 				loc: true,
 				range: true,
 				raw: true,
@@ -181,9 +182,11 @@ function fuzz(options) {
 		const text = codeGenerator({ sourceType });
 		const config = {
 			rules,
-			parserOptions: {
+			languageOptions: {
 				sourceType,
-				ecmaVersion: espree.latestEcmaVersion,
+			},
+			linterOptions: {
+				reportUnusedDisableDirectives: "off", // needed for tests
 			},
 		};
 
