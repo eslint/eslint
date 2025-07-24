@@ -55,9 +55,9 @@ Object option:
 * `"using": "always"` requires one `using` declaration per block
 * `"using": "never"` requires multiple `using` declarations per block
 * `"using": "consecutive"` requires consecutive `using` declarations to be a single declaration
-* `"await using": "always"` requires one `using` declaration per block
-* `"await using": "never"` requires multiple `using` declarations per block
-* `"await using": "consecutive"` requires consecutive `using` declarations to be a single declaration
+* `"awaitUsing": "always"` requires one `await using` declaration per block
+* `"awaitUsing": "never"` requires multiple `await using` declarations per block
+* `"awaitUsing": "consecutive"` requires consecutive `await using` declarations to be a single declaration
 * `"separateRequires": true` enforces `requires` to be separate from declarations
 
 Alternate object option:
