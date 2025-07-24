@@ -42,14 +42,8 @@ interface NoRestrictedImportPathCommonOptions {
 }
 
 type EitherImportNamesOrAllowImportName =
-	| {
-			importNames?: string[];
-			allowImportNames?: never;
-	  }
-	| {
-			allowImportNames?: string[];
-			importNames?: never;
-	  };
+	| { importNames?: string[]; allowImportNames?: never }
+	| { allowImportNames?: string[]; importNames?: never };
 
 type ValidNoRestrictedImportPathOptions = NoRestrictedImportPathCommonOptions &
 	EitherImportNamesOrAllowImportName;
