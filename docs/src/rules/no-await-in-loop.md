@@ -111,6 +111,12 @@ async function foo(things) {
   }
   return results;
 }
+
+async function bar(things) {
+  for (const thing of things) {
+    await using resource = getAsyncResource(thing);
+  }
+}
 ```
 
 :::
