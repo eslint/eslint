@@ -3,6 +3,7 @@
         "type": "suggestion",
         "defaultOptions": [
             {
+                "enforceForTSTypes": false,
                 "enforceForClassMembers": true,
                 "getWithoutSet": false,
                 "setWithoutGet": true
