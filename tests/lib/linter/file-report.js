@@ -1,6 +1,6 @@
 /**
  * @fileoverview Tests for FileReport class
- * @author ESLint
+ * @author Nicholas C. Zakas
  */
 "use strict";
 
