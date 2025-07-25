@@ -232,6 +232,10 @@ module.exports = function (eleventyConfig) {
 				},
 			};
 
+			const languageOptionsForPlayground = languageOptions
+				? { languageOptions }
+				: void 0;
+
 			if (isRuleRemoved) {
 				return `<div class="${type}">`;
 			}
@@ -241,9 +245,7 @@ module.exports = function (eleventyConfig) {
 				JSON.stringify({
 					options: isTypeScriptCode
 						? tsLanguageOptions
-						: languageOptions
-							? { languageOptions }
-							: void 0,
+						: languageOptionsForPlayground,
 					text: code,
 				}),
 			);
