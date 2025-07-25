@@ -1,3 +1,24 @@
+v9.32.0 - July 25, 2025
+
+* [`960fd40`](https://github.com/eslint/eslint/commit/960fd40dfd204af30726b49b6bec714fe49a606e) fix: Upgrade @eslint/js (#19971) (Nicholas C. Zakas)
+* [`50de1ce`](https://github.com/eslint/eslint/commit/50de1ced9df2b1ee48ee6843c8cfe0f5d8edbc27) chore: package.json update for @eslint/js release (Jenkins)
+* [`bbf23fa`](https://github.com/eslint/eslint/commit/bbf23fa2f1c6058f6cb5c9f2f32460a15e75e596) fix: Refactor reporting into FileReport (#19877) (Nicholas C. Zakas)
+* [`74f01a3`](https://github.com/eslint/eslint/commit/74f01a3f5905aaa0902837ced2425209c09c048f) ci: unpin `jiti` to version `^2.5.1` (#19970) (루밀LuMir)
+* [`d498887`](https://github.com/eslint/eslint/commit/d4988872f375890bf677ce1a1d92a505085b51fa) fix: bump @eslint/plugin-kit to 0.3.4 to resolve vulnerability (#19965) (Milos Djermanovic)
+* [`2ab1381`](https://github.com/eslint/eslint/commit/2ab13813a7e7f3014c35490b351447ec43229951) ci: pin `jiti` to version 2.4.2 (#19964) (Francesco Trotta)
+* [`b7f7545`](https://github.com/eslint/eslint/commit/b7f75454695079f54b77fcdc9ebe3b9199d5ad30) test: switch to flat config mode in `SourceCode` tests (#19953) (Milos Djermanovic)
+* [`f5a35e3`](https://github.com/eslint/eslint/commit/f5a35e3b7cee17cd31fc02c24c3e74b42ee202bc) test: switch to flat config mode in eslint-fuzzer (#19960) (Milos Djermanovic)
+* [`f46fc6c`](https://github.com/eslint/eslint/commit/f46fc6c137c951bc73cf3bd9446053c1b11f769b) fix: report only global references in no-implied-eval (#19932) (Nitin Kumar)
+* [`86e7426`](https://github.com/eslint/eslint/commit/86e7426e4463ca49ffa5c82e825ecb6aa19ca8a0) docs: Update README (GitHub Actions Bot)
+* [`e22af8c`](https://github.com/eslint/eslint/commit/e22af8c42d622d8d912ee7bedf49bf4283247fdc) refactor: use `CustomRuleDefinitionType` in `JSRuleDefinition` (#19949) (Francesco Trotta)
+* [`1245000`](https://github.com/eslint/eslint/commit/1245000c5a81954d42f0c7eb670efe450c3bbad5) feat: support explicit resource management in core rules (#19828) (fnx)
+* [`e855717`](https://github.com/eslint/eslint/commit/e85571730f1360464b7ee00695c678d551f9c643) chore: switch performance tests to hyperfine (#19919) (Francesco Trotta)
+* [`0e957a7`](https://github.com/eslint/eslint/commit/0e957a7b5528f375a51e7c1a2fd1b03cdcd2af2d) feat: support typescript types in accessor rules (#19882) (fnx)
+* [`2f73a23`](https://github.com/eslint/eslint/commit/2f73a23655092a41780859ffe0a07c44a2f1b5f5) test: switch to flat config mode in `ast-utils` tests (#19948) (Milos Djermanovic)
+* [`7863d26`](https://github.com/eslint/eslint/commit/7863d26b7cfb03a81ec86f93439757ff60bf6afb) fix: remove outdated types in `ParserOptions.ecmaFeatures` (#19944) (ntnyq)
+* [`c565a53`](https://github.com/eslint/eslint/commit/c565a530f50c96dacd44e096f7d531b073aa4dc7) chore: exclude `further_reading_links.json` from Prettier formatting (#19943) (Milos Djermanovic)
+* [`3173305`](https://github.com/eslint/eslint/commit/317330552e2d276221c7f2dd9c1516ad8b41cc3c) fix: update execScript message in no-implied-eval rule (#19937) (TKDev7)
+
 v9.31.0 - July 11, 2025
 
 * [`3ddd454`](https://github.com/eslint/eslint/commit/3ddd454c1c73294e5af7905d60d03fac162f1b3e) chore: upgrade to `@eslint/js@9.31.0` (#19935) (Francesco Trotta)
