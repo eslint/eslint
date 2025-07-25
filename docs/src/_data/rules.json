@@ -1279,7 +1279,7 @@
                 "name": "no-useless-catch",
                 "description": "Disallow unnecessary `catch` clauses",
                 "recommended": true,
-                "fixable": false,
+                "fixable": true,
                 "frozen": false,
                 "hasSuggestions": false
             },
