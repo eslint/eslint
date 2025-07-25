@@ -104,11 +104,6 @@ ruleTester.run("no-restricted-globals", rule, {
 			languageOptions: { globals: globals.browser },
 		},
 		{
-			code: "global.foo()",
-			options: [{ globals: ["foo"] }],
-			languageOptions: { sourceType: "commonjs" },
-		},
-		{
 			code: "globalThis.foo()",
 			options: [{ globals: ["foo"] }],
 			languageOptions: { ecmaVersion: 2020 },
@@ -128,7 +123,7 @@ ruleTester.run("no-restricted-globals", rule, {
 			options: [
 				{
 					globals: ["foo"],
-					checkGlobalObjectAccess: true,
+					checkGlobalObject: true,
 				},
 			],
 		},
@@ -137,16 +132,7 @@ ruleTester.run("no-restricted-globals", rule, {
 			options: [
 				{
 					globals: ["foo"],
-					checkGlobalObjectAccess: true,
-				},
-			],
-		},
-		{
-			code: "global.foo()",
-			options: [
-				{
-					globals: ["foo"],
-					checkGlobalObjectAccess: true,
+					checkGlobalObject: true,
 				},
 			],
 		},
@@ -155,7 +141,7 @@ ruleTester.run("no-restricted-globals", rule, {
 			options: [
 				{
 					globals: ["foo"],
-					checkGlobalObjectAccess: true,
+					checkGlobalObject: true,
 				},
 			],
 			languageOptions: { ecmaVersion: 6 },
@@ -165,7 +151,7 @@ ruleTester.run("no-restricted-globals", rule, {
 			options: [
 				{
 					globals: ["foo"],
-					checkGlobalObjectAccess: true,
+					checkGlobalObject: true,
 					globalObjects: ["myGlobal"],
 				},
 			],
@@ -175,7 +161,7 @@ ruleTester.run("no-restricted-globals", rule, {
 			options: [
 				{
 					globals: ["foo"],
-					checkGlobalObjectAccess: true,
+					checkGlobalObject: true,
 					globalObjects: ["myGlobal"],
 				},
 			],
@@ -186,7 +172,7 @@ ruleTester.run("no-restricted-globals", rule, {
 			options: [
 				{
 					globals: ["bar"],
-					checkGlobalObjectAccess: true,
+					checkGlobalObject: true,
 				},
 			],
 			languageOptions: { globals: globals.browser },
@@ -196,27 +182,17 @@ ruleTester.run("no-restricted-globals", rule, {
 			options: [
 				{
 					globals: ["bar"],
-					checkGlobalObjectAccess: true,
+					checkGlobalObject: true,
 				},
 			],
 			languageOptions: { globals: globals.browser },
-		},
-		{
-			code: "foo.global.bar()",
-			options: [
-				{
-					globals: ["bar"],
-					checkGlobalObjectAccess: true,
-				},
-			],
-			languageOptions: { sourceType: "commonjs" },
 		},
 		{
 			code: "foo.globalThis.bar()",
 			options: [
 				{
 					globals: ["bar"],
-					checkGlobalObjectAccess: true,
+					checkGlobalObject: true,
 				},
 			],
 			languageOptions: { ecmaVersion: 2020 },
@@ -226,7 +202,7 @@ ruleTester.run("no-restricted-globals", rule, {
 			options: [
 				{
 					globals: ["bar"],
-					checkGlobalObjectAccess: true,
+					checkGlobalObject: true,
 					globalObjects: ["myGlobal"],
 				},
 			],
@@ -237,7 +213,7 @@ ruleTester.run("no-restricted-globals", rule, {
 			options: [
 				{
 					globals: ["foo"],
-					checkGlobalObjectAccess: true,
+					checkGlobalObject: true,
 				},
 			],
 			languageOptions: { globals: globals.browser },
@@ -247,27 +223,17 @@ ruleTester.run("no-restricted-globals", rule, {
 			options: [
 				{
 					globals: ["foo"],
-					checkGlobalObjectAccess: true,
+					checkGlobalObject: true,
 				},
 			],
 			languageOptions: { globals: globals.browser },
-		},
-		{
-			code: "let global; global.foo()",
-			options: [
-				{
-					globals: ["foo"],
-					checkGlobalObjectAccess: true,
-				},
-			],
-			languageOptions: { sourceType: "commonjs" },
 		},
 		{
 			code: "let globalThis; globalThis.foo()",
 			options: [
 				{
 					globals: ["foo"],
-					checkGlobalObjectAccess: true,
+					checkGlobalObject: true,
 				},
 			],
 			languageOptions: { ecmaVersion: 2020 },
@@ -277,7 +243,7 @@ ruleTester.run("no-restricted-globals", rule, {
 			options: [
 				{
 					globals: ["foo"],
-					checkGlobalObjectAccess: true,
+					checkGlobalObject: true,
 					globalObjects: ["myGlobal"],
 				},
 			],
@@ -834,7 +800,7 @@ ruleTester.run("no-restricted-globals", rule, {
 		},
 		{
 			code: "window.foo()",
-			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
+			options: [{ globals: ["foo"], checkGlobalObject: true }],
 			languageOptions: { globals: globals.browser },
 			errors: [
 				{
@@ -846,7 +812,7 @@ ruleTester.run("no-restricted-globals", rule, {
 		},
 		{
 			code: "self.foo()",
-			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
+			options: [{ globals: ["foo"], checkGlobalObject: true }],
 			languageOptions: { globals: globals.browser },
 			errors: [
 				{
@@ -858,7 +824,7 @@ ruleTester.run("no-restricted-globals", rule, {
 		},
 		{
 			code: "window.window.foo()",
-			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
+			options: [{ globals: ["foo"], checkGlobalObject: true }],
 			languageOptions: { globals: globals.browser },
 			errors: [
 				{
@@ -870,7 +836,7 @@ ruleTester.run("no-restricted-globals", rule, {
 		},
 		{
 			code: "self.self.foo()",
-			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
+			options: [{ globals: ["foo"], checkGlobalObject: true }],
 			languageOptions: { globals: globals.browser },
 			errors: [
 				{
@@ -881,32 +847,8 @@ ruleTester.run("no-restricted-globals", rule, {
 			],
 		},
 		{
-			code: "global.foo()",
-			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
-			languageOptions: { sourceType: "commonjs" },
-			errors: [
-				{
-					messageId: "defaultMessage",
-					data: { name: "foo" },
-					type: "Identifier",
-				},
-			],
-		},
-		{
-			code: "global.global.foo()",
-			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
-			languageOptions: { sourceType: "commonjs" },
-			errors: [
-				{
-					messageId: "defaultMessage",
-					data: { name: "foo" },
-					type: "Identifier",
-				},
-			],
-		},
-		{
 			code: "globalThis.foo()",
-			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
+			options: [{ globals: ["foo"], checkGlobalObject: true }],
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [
 				{
@@ -918,7 +860,7 @@ ruleTester.run("no-restricted-globals", rule, {
 		},
 		{
 			code: "globalThis.globalThis.foo()",
-			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
+			options: [{ globals: ["foo"], checkGlobalObject: true }],
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [
 				{
@@ -933,7 +875,7 @@ ruleTester.run("no-restricted-globals", rule, {
 			options: [
 				{
 					globals: ["foo"],
-					checkGlobalObjectAccess: true,
+					checkGlobalObject: true,
 					globalObjects: ["myGlobal"],
 				},
 			],
@@ -951,7 +893,7 @@ ruleTester.run("no-restricted-globals", rule, {
 			options: [
 				{
 					globals: ["foo"],
-					checkGlobalObjectAccess: true,
+					checkGlobalObject: true,
 					globalObjects: ["myGlobal"],
 				},
 			],
@@ -966,7 +908,7 @@ ruleTester.run("no-restricted-globals", rule, {
 		},
 		{
 			code: 'window["foo"]',
-			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
+			options: [{ globals: ["foo"], checkGlobalObject: true }],
 			languageOptions: { globals: globals.browser },
 			errors: [
 				{
@@ -978,7 +920,7 @@ ruleTester.run("no-restricted-globals", rule, {
 		},
 		{
 			code: 'self["foo"]',
-			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
+			options: [{ globals: ["foo"], checkGlobalObject: true }],
 			languageOptions: { globals: globals.browser },
 			errors: [
 				{
@@ -989,20 +931,8 @@ ruleTester.run("no-restricted-globals", rule, {
 			],
 		},
 		{
-			code: 'global["foo"]',
-			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
-			languageOptions: { sourceType: "commonjs" },
-			errors: [
-				{
-					messageId: "defaultMessage",
-					data: { name: "foo" },
-					type: "Literal",
-				},
-			],
-		},
-		{
 			code: 'globalThis["foo"]',
-			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
+			options: [{ globals: ["foo"], checkGlobalObject: true }],
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [
 				{
@@ -1017,7 +947,7 @@ ruleTester.run("no-restricted-globals", rule, {
 			options: [
 				{
 					globals: ["foo"],
-					checkGlobalObjectAccess: true,
+					checkGlobalObject: true,
 					globalObjects: ["myGlobal"],
 				},
 			],
@@ -1032,7 +962,7 @@ ruleTester.run("no-restricted-globals", rule, {
 		},
 		{
 			code: "window?.foo()",
-			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
+			options: [{ globals: ["foo"], checkGlobalObject: true }],
 			languageOptions: { globals: globals.browser },
 			errors: [
 				{
@@ -1044,7 +974,7 @@ ruleTester.run("no-restricted-globals", rule, {
 		},
 		{
 			code: "self?.foo()",
-			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
+			options: [{ globals: ["foo"], checkGlobalObject: true }],
 			languageOptions: { globals: globals.browser },
 			errors: [
 				{
@@ -1059,7 +989,7 @@ ruleTester.run("no-restricted-globals", rule, {
 			options: [
 				{
 					globals: ["foo"],
-					checkGlobalObjectAccess: true,
+					checkGlobalObject: true,
 					globalObjects: ["myGlobal"],
 				},
 			],
@@ -1084,7 +1014,7 @@ ruleTester.run("no-restricted-globals", rule, {
 			options: [
 				{
 					globals: ["foo", "bar"],
-					checkGlobalObjectAccess: true,
+					checkGlobalObject: true,
 					globalObjects: ["myGlobal", "myOtherGlobal"],
 				},
 			],
@@ -1106,7 +1036,7 @@ ruleTester.run("no-restricted-globals", rule, {
 		},
 		{
 			code: "foo(); window.foo()",
-			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
+			options: [{ globals: ["foo"], checkGlobalObject: true }],
 			languageOptions: { globals: globals.browser },
 			errors: [
 				{
@@ -1123,7 +1053,7 @@ ruleTester.run("no-restricted-globals", rule, {
 		},
 		{
 			code: "foo(); self.foo()",
-			options: [{ globals: ["foo"], checkGlobalObjectAccess: true }],
+			options: [{ globals: ["foo"], checkGlobalObject: true }],
 			languageOptions: { globals: globals.browser },
 			errors: [
 				{
@@ -1143,7 +1073,7 @@ ruleTester.run("no-restricted-globals", rule, {
 			options: [
 				{
 					globals: ["foo"],
-					checkGlobalObjectAccess: true,
+					checkGlobalObject: true,
 					globalObjects: ["myGlobal"],
 				},
 			],
@@ -1168,7 +1098,7 @@ ruleTester.run("no-restricted-globals", rule, {
 			options: [
 				{
 					globals: ["event"],
-					checkGlobalObjectAccess: true,
+					checkGlobalObject: true,
 				},
 			],
 			languageOptions: { globals: globals.browser },
@@ -1189,7 +1119,7 @@ ruleTester.run("no-restricted-globals", rule, {
 			options: [
 				{
 					globals: ["event"],
-					checkGlobalObjectAccess: true,
+					checkGlobalObject: true,
 				},
 			],
 			languageOptions: { globals: globals.browser },
@@ -1206,32 +1136,11 @@ ruleTester.run("no-restricted-globals", rule, {
 			],
 		},
 		{
-			code: "function onClick(event) { console.log(event); console.log(global.event); }",
-			options: [
-				{
-					globals: ["event"],
-					checkGlobalObjectAccess: true,
-				},
-			],
-			languageOptions: { sourceType: "commonjs" },
-			errors: [
-				{
-					messageId: "defaultMessage",
-					data: { name: "event" },
-					type: "Identifier",
-					line: 1,
-					column: 66,
-					endLine: 1,
-					endColumn: 71,
-				},
-			],
-		},
-		{
 			code: "function onClick(event) { console.log(event); console.log(globalThis.event); }",
 			options: [
 				{
 					globals: ["event"],
-					checkGlobalObjectAccess: true,
+					checkGlobalObject: true,
 				},
 			],
 			languageOptions: { ecmaVersion: 2020 },
@@ -1252,7 +1161,7 @@ ruleTester.run("no-restricted-globals", rule, {
 			options: [
 				{
 					globals: ["event"],
-					checkGlobalObjectAccess: true,
+					checkGlobalObject: true,
 					globalObjects: ["myGlobal"],
 				},
 			],

@@ -148,19 +148,18 @@ function onClick() {
 
 :::
 
-### checkGlobalObjectAccess
+### checkGlobalObject
 
 A boolean option that enables detection of restricted globals accessed via global objects. Default is `false`.
 
-Examples of **incorrect** code for `checkGlobalObjectAccess: true` option:
+Examples of **incorrect** code for `checkGlobalObject: true` option:
 
 ::: incorrect
 
 ```js
-/*global global, globalThis, self, window*/
-/*eslint no-restricted-globals: ["error", { globals: ["Promise"], checkGlobalObjectAccess: true }]*/
+/*global globalThis, self, window*/
+/*eslint no-restricted-globals: ["error", { globals: ["Promise"], checkGlobalObject: true }]*/
 
-global.Promise
 globalThis.Promise
 self.Promise
 window.Promise
@@ -170,21 +169,20 @@ window.Promise
 
 ### globalObjects
 
-An array option that specifies additional global object names to check when `checkGlobalObjectAccess` is enabled. By default, the rule checks these global objects: `global`, `globalThis`, `self`, and `window`.
+An array option that specifies additional global object names to check when `checkGlobalObject` is enabled. By default, the rule checks these global objects: `globalThis`, `self`, and `window`.
 
 Examples of **incorrect** code for `globalObjects` option:
 
 ::: incorrect
 
 ```js
-/*global global, globalThis, self, window, myGlobal*/
+/*global globalThis, self, window, myGlobal*/
 /*eslint no-restricted-globals: ["error", {
     globals: ["Promise"],
-    checkGlobalObjectAccess: true,
+    checkGlobalObject: true,
     globalObjects: ["myGlobal"]
 }]*/
 
-global.Promise
 globalThis.Promise
 self.Promise
 window.Promise

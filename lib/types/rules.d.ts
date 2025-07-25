@@ -3407,7 +3407,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 									message?: string | undefined;
 							  }
 						>;
-						checkGlobalObjectAccess?: boolean;
+						checkGlobalObject?: boolean;
 						globalObjects?: string[];
 				  }>
 			),
