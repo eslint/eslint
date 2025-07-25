@@ -219,6 +219,19 @@ module.exports = function (eleventyConfig) {
 
 			const isRuleRemoved = !Object.hasOwn(env.rules_meta, env.title);
 
+			const tsLanguageOptions = {
+				languageOptions: {
+					...languageOptions,
+					parser: "@typescript-eslint/parser",
+					parserOptions: {
+						ecmaFeatures: {
+							jsx: true,
+						},
+						sourceType: "module",
+					},
+				},
+			};
+
 			if (isRuleRemoved) {
 				return `<div class="${type}">`;
 			}
@@ -226,7 +239,11 @@ module.exports = function (eleventyConfig) {
 			// See https://github.com/eslint/eslint.org/blob/29e1d8a000592245e4a30c1996e794643e9b263a/src/playground/App.js#L91-L105
 			const state = encodeToBase64(
 				JSON.stringify({
-					options: languageOptions ? { languageOptions } : void 0,
+					options: isTypeScriptCode
+						? tsLanguageOptions
+						: languageOptions
+							? { languageOptions }
+							: void 0,
 					text: code,
 				}),
 			);
