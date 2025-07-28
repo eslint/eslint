@@ -4509,6 +4509,13 @@ describe("ESLint", () => {
 
 				[void 0, 2].forEach(concurrency =>
 					it(`should warn when deprecated rules are found in a config${concurrency ? " with multithreading" : ""}`, async () => {
+						if (concurrency) {
+							// Silence poor concurrency warning for testing
+							sinon.stub(
+								WarningService.prototype,
+								"emitPoorConcurrencyWarning",
+							);
+						}
 						eslint = new ESLint({
 							flags,
 							cwd: fixtureDir,
@@ -4540,6 +4547,13 @@ describe("ESLint", () => {
 
 				[void 0, 2].forEach(concurrency =>
 					it(`should warn about deprecated rules when file paths are passed explicitly${concurrency ? " with multithreading" : ""}`, async () => {
+						if (concurrency) {
+							// Silence poor concurrency warning for testing
+							sinon.stub(
+								WarningService.prototype,
+								"emitPoorConcurrencyWarning",
+							);
+						}
 						eslint = new ESLint({
 							flags,
 							cwd: fixtureDir,
@@ -9745,6 +9759,14 @@ describe("ESLint", () => {
 			});
 
 			describe("Environment sharing in multithread mode", () => {
+				beforeEach(() => {
+					// Silence poor concurrency warning for testing
+					sinon.stub(
+						WarningService.prototype,
+						"emitPoorConcurrencyWarning",
+					);
+				});
+
 				afterEach(() => {
 					delete process.env.ESLINT_TEST_ENV;
 				});
@@ -11052,6 +11074,12 @@ describe("ESLint", () => {
 				});
 				await teardown.prepare();
 
+				// Silence poor concurrency warning for testing
+				sinon.stub(
+					WarningService.prototype,
+					"emitPoorConcurrencyWarning",
+				);
+
 				const engine1 = new ESLint({
 					flags,
 					overrideConfigFile: true,
@@ -11157,6 +11185,13 @@ describe("ESLint", () => {
 
 			[void 0, 2].forEach(concurrency =>
 				it(`should not throw an error if results contain linted files and one ignored file${concurrency ? " with multithreading" : ""}`, async () => {
+					if (concurrency) {
+						// Silence poor concurrency warning for testing
+						sinon.stub(
+							WarningService.prototype,
+							"emitPoorConcurrencyWarning",
+						);
+					}
 					const engine = new ESLint({
 						flags,
 						overrideConfigFile: true,
@@ -11233,6 +11268,12 @@ describe("ESLint", () => {
 			});
 
 			it("should return one rule meta when there is a linting error with multithreading", async () => {
+				// Silence poor concurrency warning for testing
+				sinon.stub(
+					WarningService.prototype,
+					"emitPoorConcurrencyWarning",
+				);
+
 				const engine = new ESLint({
 					flags,
 					overrideConfigFile: true,
@@ -11279,6 +11320,12 @@ describe("ESLint", () => {
 			});
 
 			it("should return one rule meta when there is a suppressed linting error with multithreading", async () => {
+				// Silence poor concurrency warning for testing
+				sinon.stub(
+					WarningService.prototype,
+					"emitPoorConcurrencyWarning",
+				);
+
 				const engine = new ESLint({
 					flags,
 					overrideConfigFile: true,
@@ -11327,6 +11374,12 @@ describe("ESLint", () => {
 			});
 
 			it("should return multiple rule meta when there are multiple linting errors with multithreading", async () => {
+				// Silence poor concurrency warning for testing
+				sinon.stub(
+					WarningService.prototype,
+					"emitPoorConcurrencyWarning",
+				);
+
 				const engine = new ESLint({
 					flags,
 					overrideConfigFile: true,
@@ -11394,6 +11447,12 @@ describe("ESLint", () => {
 			});
 
 			it("should return multiple rule meta when there are multiple linting errors from a plugin with multithreading", async () => {
+				// Silence poor concurrency warning for testing
+				sinon.stub(
+					WarningService.prototype,
+					"emitPoorConcurrencyWarning",
+				);
+
 				const noVarURL = new URL(
 					"../../lib/rules/no-var.js",
 					pathToFileURL(__dirname),
@@ -11492,6 +11551,12 @@ describe("ESLint", () => {
 			});
 
 			it("should ignore messages not related to a rule with multithreading", async () => {
+				// Silence poor concurrency warning for testing
+				sinon.stub(
+					WarningService.prototype,
+					"emitPoorConcurrencyWarning",
+				);
+
 				const engine = new ESLint({
 					flags,
 					overrideConfigFile: true,
@@ -11549,6 +11614,12 @@ describe("ESLint", () => {
 				});
 				await teardown.prepare();
 
+				// Silence poor concurrency warning for testing
+				sinon.stub(
+					WarningService.prototype,
+					"emitPoorConcurrencyWarning",
+				);
+
 				const engine = new ESLint({
 					flags,
 					overrideConfigFile: true,
@@ -11605,6 +11676,12 @@ describe("ESLint", () => {
 					},
 				});
 				await teardown.prepare();
+
+				// Silence poor concurrency warning for testing
+				sinon.stub(
+					WarningService.prototype,
+					"emitPoorConcurrencyWarning",
+				);
 
 				const engine = new ESLint({
 					flags,
@@ -11667,6 +11744,12 @@ describe("ESLint", () => {
 					},
 				});
 				await teardown.prepare();
+
+				// Silence poor concurrency warning for testing
+				sinon.stub(
+					WarningService.prototype,
+					"emitPoorConcurrencyWarning",
+				);
 
 				const engine = new ESLint({
 					flags,
@@ -13503,6 +13586,12 @@ describe("ESLint", () => {
 						"calculateWorkerCount",
 					)
 					.callsFake(() => concurrency);
+
+				// Silence poor concurrency warning for testing
+				sinon.stub(
+					WarningService.prototype,
+					"emitPoorConcurrencyWarning",
+				);
 			}
 		});
 
