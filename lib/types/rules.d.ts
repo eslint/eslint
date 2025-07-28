@@ -4509,7 +4509,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 						 */
 						separateRequires: boolean;
 					} & Record<
-						"var" | "let" | "const",
+						"var" | "let" | "const" | "using" | "awaitUsing",
 						"always" | "never" | "consecutive"
 					>
 			  >
