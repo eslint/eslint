@@ -1354,8 +1354,8 @@ ruleTester.run("one-var", rule, {
 			],
 		},
 		{
-			code: "var f,         /* test */ l;",
-			output: "var f;         /* test */ var l;",
+			code: "var f,          /* test */ l;",
+			output: "var f;          /* test */ var l;",
 			options: ["never"],
 			errors: [
 				{
