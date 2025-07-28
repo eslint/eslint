@@ -1,6 +1,6 @@
 {
   "name": "@eslint/js",
-  "version": "9.31.0",
+  "version": "9.32.0",
   "description": "ESLint JavaScript language implementation",
   "funding": "https://eslint.org/donate",
   "main": "./src/index.js",
