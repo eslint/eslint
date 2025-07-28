@@ -97,7 +97,7 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
-		/* 2. Throws a new Error with unrelated cause */
+		/* 2. Throwing a new Error with unrelated cause */
 		{
 			code: `try {
             doSomething();

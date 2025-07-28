@@ -44,13 +44,12 @@ try {
     throw new Error("Something went wrong: " + error.message);
 }
 
-// Ignoring the caught error at the parameter level
-// This is valid by default, but this behavior can be changed
-// by using the `requireCatchParameter` option discussed below.
+// Throwing a new Error with unrelated cause
 try {
 	doSomething();
-} catch {
-	throw new TypeError("Something went wrong");
+} catch (err) {
+	const unrelated = new Error("other");
+	throw new Error("Something failed", { cause: unrelated });
 }
 ```
 
@@ -69,6 +68,7 @@ try {
     throw new Error("Something went wrong", { cause: error });
 }
 
+// When the thrown error is not directly related to the caught error.
 try {
 } catch (error) {
 	foo = {
@@ -77,6 +77,22 @@ try {
 			throw new Error("Something went wrong");
 		}
 	};
+}
+
+// No throw inside catch
+try {
+    doSomething();
+} catch (e) {
+    console.error(e);
+}
+
+// Ignoring the caught error at the parameter level
+// This is valid by default, but this behavior can be changed
+// by using the `requireCatchParameter` option discussed below.
+try {
+	doSomething();
+} catch {
+	throw new TypeError("Something went wrong");
 }
 ```
 
@@ -108,7 +124,7 @@ Example of **incorrect** code for the `{ "requireCatchParameter": true }` option
 try {
 	doSomething();
 } catch { // Can't discard the error ❌
-	// Handling and re-throw logic
+	throw new Error("Something went wrong");
 }
 ```
 
