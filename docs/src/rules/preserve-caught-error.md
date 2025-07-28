@@ -32,6 +32,8 @@ Checks for all built-in `error types` that support passing a `cause`.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```js
 /* eslint preserve-caught-error: "error" */
 
@@ -44,7 +46,7 @@ try {
 
 // Ignoring the caught error at the parameter level
 // This is valid by default, but this behavior can be changed
-// by using the `disallowUncaughtError` option discussed below.
+// by using the `requireCatchParameter` option discussed below.
 try {
 	doSomething();
 } catch {
@@ -52,7 +54,11 @@ try {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```js
 /* eslint preserve-caught-error: "error" */
@@ -74,20 +80,31 @@ try {
 }
 ```
 
+:::
+
 ## Options
+
 This rule takes a single option — an object with the following optional property:
 
-- `disallowUncaughtErrors`: Disallows catch blocks that discard the caught error without referencing it when set to `true`. By default, this is `false`.
+- `requireCatchParameter`: Requires the catch blocks to always have the caught error parameter when set to `true`. By default, this is `false`.
+
+### requireCatchParameter
+
+Enabling this option mandates for all the catch blocks to have a caught error parameter. This makes sure that the caught error is not discarded at the parameter level.
 
 ```js
 "preserve-caught-error": ["error", {
-  "disallowUncaughtErrors": true
+  "requireCatchParameter": true
 }]
 ```
 
-Example of **incorrect** code for the `{ "disallowUncaughtErrors": true }` option:
+Example of **incorrect** code for the `{ "requireCatchParameter": true }` option:
+
+::: incorrect
 
 ```js
+/* eslint preserve-caught-error: ["error", { "requireCatchParameter": true }] */
+
 try {
 	doSomething();
 } catch { // Can't discard the error ❌
@@ -95,15 +112,23 @@ try {
 }
 ```
 
-Example of **correct** code for the `{ "disallowUncaughtErrors": true }` option:
+:::
+
+Example of **correct** code for the `{ "requireCatchParameter": true }` option:
+
+::: correct
 
 ```js
+/* eslint preserve-caught-error: ["error", { "requireCatchParameter": true }] */
+
 try {
 	doSomething();
 } catch(error) { // Error is being referenced ✅
 	// Handling and re-throw logic
 }
 ```
+
+:::
 
 ## When Not To Use It
 
