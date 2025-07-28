@@ -372,14 +372,14 @@ const eslint = await ESLint.fromOptionModule(optionsURL);
 ...
 ```
 
-The `concurrency` option requires all other options to be cloneable so that they can be passed to worker threads, but this restriction does not apply when options are loaded from a module, because in that case worker thread are passed the module URL instead of the options object.
+The `concurrency` option requires all other options to be cloneable so that they can be passed to worker threads, but this restriction does not apply when options are loaded from a module, because in that case worker threads are passed the module URL instead of the options object.
 
 This is a static method.
 
 #### Parameters
 
 - `optionsURL` (`URL`)<br>
-  The URL of the option module. This can be a file or a data URL.
+  The URL of the option module. This can be any valid URL, like a file URL or a data URL.
 
 #### Return Value
 
