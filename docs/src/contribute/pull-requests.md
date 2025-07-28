@@ -11,10 +11,15 @@ If you want to contribute to an ESLint repo, please use a GitHub pull request. T
 
 ## Getting Started
 
-If you'd like to work on a pull request and you've never submitted code before, follow these steps:
+::: important
+If you'd like to work on a pull request and you've never submitted code before, make sure to set up a [development environment](./development-environment).
+:::
 
-1. Set up a [development environment](./development-environment).
-1. If you want to implement a breaking change or a change to the core, ensure there's an issue that describes what you're doing and the issue has been accepted. You can create a new issue or just indicate you're [working on an existing issue](./work-on-issue). Bug fixes, documentation changes, and other pull requests do not require an issue.
+The ESLint project uses issues to track our work, so it's important to ensure that a proper issue is open:
+
+- **If there is an existing issue,** follow the instructions on [work on issues](work-on-issues).
+- **If there isn't an existing issue,** then open one to describe the change you want to make. Use the appropriate issue template.
+    - **Exceptions:** Small changes, such as a bug fixes, documentation updates, or package upgrades don't require an issue. Make sure the pull request description explains clearly what it is you're doing and why.
 
 After that, you're ready to start working on code.
 
