@@ -63,14 +63,14 @@ ruleTester.run("preserve-caught-error", rule, {
 			}
 		};
 	}`,
-		/* It's valid to discard the caught error at parameter level of catch block `disallowUncaughtErrors` is set to `false` (default behavior) */
+		/* It's valid to discard the caught error at parameter level of catch block `requireCatchParameter` is set to `false` (default behavior) */
 		{
 			code: `try {
 		doSomething();
 	} catch {
 		throw new Error("Something went wrong");
 	}`,
-			options: [{ disallowUncaughtErrors: false }],
+			options: [{ requireCatchParameter: false }],
 		},
 	],
 	invalid: [
@@ -482,20 +482,20 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
-		/* 15. Disallow discarding caught errors when `disallowUncaughtErrors` is set to `true` */
+		/* 15. Disallow discarding caught errors when `requireCatchParameter` is set to `true` */
 		{
 			code: `try {
 			doSomething();
 		} catch {
 			throw new Error("Something went wrong");
 		}`,
-			options: [{ disallowUncaughtErrors: true }],
+			options: [{ requireCatchParameter: true }],
 			errors: [
 				{
-					messageId: "missingErrorParam",
+					messageId: "missingCatchErrorParam",
 					suggestions: [
 						{
-							messageId: "readCaughtError",
+							messageId: "requireCatchParameter",
 							output: `try {
 			doSomething();
 		} catch(error) {
