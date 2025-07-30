@@ -15,7 +15,7 @@ The ESLint project uses issues to track our work, so it's important to ensure th
 
 - **If there is an existing issue,** follow the instructions on [work on issues](work-on-issue).
 - **If there isn't an existing issue,** then open one to describe the change you want to make. Use the appropriate issue template.
-    - **Exceptions:** Small changes, such as a bug fixes, documentation updates, or package upgrades don't require an issue. Make sure the pull request description explains clearly what it is you're doing and why.
+    - **Exceptions:** Small changes, such as bug fixes, documentation updates, or package upgrades don't require an issue. Make sure the pull request description explains clearly what it is you're doing and why.
 
 After that, you're ready to start working on code.
 
