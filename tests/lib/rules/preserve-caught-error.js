@@ -63,6 +63,13 @@ ruleTester.run("preserve-caught-error", rule, {
 			}
 		};
 	}`,
+		/* Do not report instances where thrown error is an instance of a custom error type that shadows built-in class. */
+		`import { Error } from "./my-custom-error.js";
+			try {
+				doSomething();
+			} catch (error) {
+				throw Error("Failed to perform error prone operations");
+			}`,
 		/* It's valid to discard the caught error at parameter level of catch block `requireCatchParameter` is set to `false` (default behavior) */
 		{
 			code: `try {
@@ -501,6 +508,29 @@ ruleTester.run("preserve-caught-error", rule, {
 		} catch(error) {
 			throw new Error("Something went wrong");
 		}`,
+						},
+					],
+				},
+			],
+		},
+		/* 16. Throwing a new Error with unrelated cause, and complex fix is needed. */
+		{
+			code: `try {
+            doSomething();
+        } catch (err) {
+            throw new Error("Something failed", { cause });
+        }`,
+			errors: [
+				{
+					messageId: "incorrectCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try {
+            doSomething();
+        } catch (err) {
+            throw new Error("Something failed", { cause: err });
+        }`,
 						},
 					],
 				},
