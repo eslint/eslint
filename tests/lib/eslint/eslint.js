@@ -13820,12 +13820,7 @@ describe("ESLint", () => {
 				ignore: false,
 			});
 
-			let spy;
-
-			// We can't mock things in a worker thread yet.
-			if (!concurrency) {
-				spy = sinon.spy(fs.promises, "readFile");
-			}
+			let spy = sinon.spy(fs.promises, "readFile");
 
 			let file = path.join(cwd, "test-file.js");
 
@@ -13840,7 +13835,12 @@ describe("ESLint", () => {
 				);
 			}
 
-			if (!concurrency) {
+			if (concurrency) {
+				assert(
+					!spy.calledWith(file),
+					"ESLint should not have read the file in the controlling thread",
+				);
+			} else {
 				assert(
 					spy.calledWith(file),
 					"ESLint should have read the file because there was no cache file",
@@ -13870,14 +13870,17 @@ describe("ESLint", () => {
 				ignore: false,
 			});
 
-			if (!concurrency) {
-				// create a new spy
-				spy = sinon.spy(fs.promises, "readFile");
-			}
+			// create a new spy
+			spy = sinon.spy(fs.promises, "readFile");
 
 			const [newResult] = await eslint.lintFiles([file]);
 
-			if (!concurrency) {
+			if (concurrency) {
+				assert(
+					!spy.calledWith(file),
+					"ESLint should not have read the file in the controlling thread",
+				);
+			} else {
 				assert(
 					spy.calledWith(file),
 					"ESLint should have read the file again because it's considered changed because the config changed",
@@ -13921,12 +13924,7 @@ describe("ESLint", () => {
 				ignore: false,
 			});
 
-			let spy;
-
-			// We can't mock things in a worker thread yet.
-			if (!concurrency) {
-				spy = sinon.spy(fs.promises, "readFile");
-			}
+			let spy = sinon.spy(fs.promises, "readFile");
 
 			let file = getFixturePath("cache/src", "test-file.js");
 
@@ -13934,7 +13932,12 @@ describe("ESLint", () => {
 
 			const result = await eslint.lintFiles([file]);
 
-			if (!concurrency) {
+			if (concurrency) {
+				assert(
+					!spy.calledWith(file),
+					"ESLint should not have read the file in the controlling thread",
+				);
+			} else {
 				assert(
 					spy.calledWith(file),
 					"ESLint should have read the file because there was no cache file",
@@ -13964,10 +13967,7 @@ describe("ESLint", () => {
 				ignore: false,
 			});
 
-			if (!concurrency) {
-				// create a new spy
-				spy = sinon.spy(fs.promises, "readFile");
-			}
+			spy = sinon.spy(fs.promises, "readFile");
 
 			const cachedResult = await eslint.lintFiles([file]);
 
@@ -13977,7 +13977,12 @@ describe("ESLint", () => {
 				"the result should have been the same",
 			);
 
-			if (!concurrency) {
+			if (concurrency) {
+				assert(
+					!spy.calledWith(file),
+					"ESLint should not have read the file in the controlling thread",
+				);
+			} else {
 				// assert the file was not processed because the cache was used
 				assert(
 					!spy.calledWith(file),
@@ -14070,7 +14075,7 @@ describe("ESLint", () => {
 			);
 		});
 
-		it("should throw an error if the cache file to be deleted exist on a read-only file system", async () => {
+		it("should throw an error if the cache file to be deleted exists on a read-only file system", async () => {
 			cacheFilePath = getFixturePath(".eslintcache");
 			fs.writeFileSync(cacheFilePath, "");
 
