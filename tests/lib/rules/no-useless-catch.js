@@ -141,6 +141,13 @@ ruleTester.run("no-useless-catch", rule, {
                     foo();
                 }
             `,
+			output: `
+                try {
+                    foo();
+                }  finally {
+                    foo();
+                }
+            `,
 			errors: [
 				{
 					messageId: "unnecessaryCatchClause",
@@ -172,6 +179,13 @@ ruleTester.run("no-useless-catch", rule, {
                     /* some comment */
                     throw err;
                 } finally {
+                    foo();
+                }
+            `,
+			output: `
+                try {
+                    foo();
+                }  finally {
                     foo();
                 }
             `,
