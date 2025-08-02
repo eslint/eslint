@@ -130,7 +130,7 @@ ruleTester.run("preserve-caught-error", rule, {
 			],
 		},
 		/* 3. Throws a new Error, cause property is present but value is a different identifier */
-		/*    TODO: This should actually be a valid case since e === err */
+		/*    Note: This should actually be a valid case since e === err, but still reporting as it's hard to track. */
 		{
 			code: `try {
             doSomething();
