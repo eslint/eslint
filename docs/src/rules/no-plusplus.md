@@ -42,7 +42,7 @@ foo++;
 let bar = 42;
 bar--;
 
-for (i = 0; i < l; i++) {
+for (let i = 0; i < l; i++) {
     doSomething(i);
 }
 ```
@@ -62,7 +62,7 @@ foo += 1;
 let bar = 42;
 bar -= 1;
 
-for (i = 0; i < l; i += 1) {
+for (let i = 0; i < l; i += 1) {
     doSomething(i);
 }
 ```
@@ -84,15 +84,15 @@ Examples of **correct** code for this rule with the `{ "allowForLoopAfterthought
 ```js
 /*eslint no-plusplus: ["error", { "allowForLoopAfterthoughts": true }]*/
 
-for (i = 0; i < l; i++) {
+for (let i = 0; i < l; i++) {
     doSomething(i);
 }
 
-for (i = l; i >= 0; i--) {
+for (let i = l; i >= 0; i--) {
     doSomething(i);
 }
 
-for (i = 0, j = l; i < l; i++, j--) {
+for (let i = 0, j = l; i < l; i++, j--) {
     doSomething(i, j);
 }
 ```
@@ -106,15 +106,15 @@ Examples of **incorrect** code for this rule with the `{ "allowForLoopAfterthoug
 ```js
 /*eslint no-plusplus: ["error", { "allowForLoopAfterthoughts": true }]*/
 
-for (i = 0; i < l; j = i++) {
+for (let i = 0; i < l; j = i++) {
     doSomething(i, j);
 }
 
-for (i = l; i--;) {
+for (let i = l; i--;) {
     doSomething(i);
 }
 
-for (i = 0; i < l;) i++;
+for (let i = 0; i < l;) i++;
 ```
 
 :::
