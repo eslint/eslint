@@ -33,7 +33,7 @@ const foo = bar = "baz";
 
 let d =
     e =
-    f;
+    c;
 
 class Foo {
     a = b = 10;
