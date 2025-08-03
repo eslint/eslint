@@ -51,6 +51,13 @@ try {
 	const unrelated = new Error("other");
 	throw new Error("Something failed", { cause: unrelated });
 }
+
+// Caught error is being lost partially due to destructuring
+try {
+	doSomething();
+} catch ({ message, ...rest }) {
+	throw new Error(message);
+}
 ```
 
 :::

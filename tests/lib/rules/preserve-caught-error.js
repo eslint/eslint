@@ -536,5 +536,50 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
+		/* 17. When the caught error is being partially lost. */
+		{
+			code: `try {
+				doSomething();
+			} catch ({ message }) {
+				throw new Error(message);
+			}`,
+			errors: [
+				{
+					messageId: "partiallyLostError",
+					suggestions: [
+						{
+							messageId: "referenceCompleteCaughtError",
+							output: `try {
+				doSomething();
+			} catch(error) {
+				throw new Error(message);
+			}`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `try {
+				doSomethingElse();
+			} catch ({ ...error }) {
+				throw new Error(error.message);
+			}`,
+			errors: [
+				{
+					messageId: "partiallyLostError",
+					suggestions: [
+						{
+							messageId: "referenceCompleteCaughtError",
+							output: `try {
+				doSomethingElse();
+			} catch(error) {
+				throw new Error(error.message);
+			}`,
+						},
+					],
+				},
+			],
+		},
 	],
 });
