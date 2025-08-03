@@ -119,8 +119,9 @@ Handle Warnings:
   --max-warnings Int              Number of warnings to trigger nonzero exit code - default: -1
 
 Output:
+  -O, --output [[{fmt: String, to: Maybe String}]]           Specify multiple output formats and destinations - default: fmt:stylish
   -o, --output-file path::String  Specify file to write report to
-  -f, --format String             Use a specific output format - default: stylish
+  -f, --format String             Use a specific output format
   --color, --no-color             Force enabling/disabling of color
 
 Inline configuration comments:
@@ -609,12 +610,43 @@ When used alongside `--quiet`, this will cause rules marked as warn to still be 
 
 ### Output
 
+#### `-O`, `--output`
+
+Write the output of linting results to a specified file with specified format.
+
+- **Argument Type**: String. Key/value pair separated by colon (`:`). Supported keys are:
+
+    - `fmt` String. **Required**. One of the [built-in formatters](formatters/) or a custom formatter.
+    - `to` String. Path to file.
+
+- **Multiple Arguments**: Yes
+- **Default Value**: fmt:[`stylish`](formatters/#stylish)
+
+::: warning
+This option conflicts with the [`--format`](../use/command-line-interface#-f---format) and [`--output-file`](../use/command-line-interface#-o---output-file) options.
+:::
+
+##### `-O`, `--output` example
+
+Output results to the console in [`stylish`](formatters/#stylish) format, to the `results.json` file in [`json`](formatters/#json) format, and to the `results.html` file in custom HTML format:
+
+{{ npx_tabs ({
+package: "eslint",
+args: ["-O", "fmt:stylish", "-O", "fmt:json,to:results.json", "-O", "fmt:./customformat.js,to:results.html", "file.js"],
+}) }}
+
 #### `-o`, `--output-file`
 
 Write the output of linting results to a specified file.
 
 - **Argument Type**: String. Path to file.
 - **Multiple Arguments**: No
+
+::: warning
+This option conflicts with the [`--output`](../use/command-line-interface#-O---output) option.
+
+This option affects the behavior of the [`--format`](../use/command-line-interface#-f---format) option.
+:::
 
 ##### `-o`, `--output-file` example
 
@@ -629,7 +661,10 @@ This option specifies the output format for the console.
 
 - **Argument Type**: String. One of the [built-in formatters](formatters/) or a custom formatter.
 - **Multiple Arguments**: No
-- **Default Value**: [`stylish`](formatters/#stylish)
+
+::: warning
+This option conflicts with the [`--output`](../use/command-line-interface#-O---output) option.
+:::
 
 If you are using a custom formatter defined in a local file, you can specify the path to the custom formatter file.
 

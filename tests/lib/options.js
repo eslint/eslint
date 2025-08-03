@@ -64,6 +64,40 @@ describe("options", () => {
 				});
 			});
 
+			describe("--output", () => {
+				it("should return an array with one element for .output when passed a string", () => {
+					const currentOptions = options.parse(
+						"--output fmt:json,to:out.json",
+					);
+
+					assert.isArray(currentOptions.output);
+					assert.deepStrictEqual(currentOptions.output, [
+						{ fmt: "json", to: "out.json" },
+					]);
+				});
+
+				it("should return an array with two items for .output when passed two strings", () => {
+					const currentOptions = options.parse(
+						"--output fmt:json,to:out.json --output fmt:html",
+					);
+
+					assert.isArray(currentOptions.output);
+					assert.deepStrictEqual(currentOptions.output, [
+						{ fmt: "json", to: "out.json" },
+						{ fmt: "html" },
+					]);
+				});
+
+				it("should return single '{fmt: \"stylish\"}' for .output when not passed", () => {
+					const currentOptions = options.parse("");
+
+					assert.isArray(currentOptions.output);
+					assert.deepStrictEqual(currentOptions.output, [
+						{ fmt: "stylish" },
+					]);
+				});
+			});
+
 			describe("--format", () => {
 				it("should return a string for .format when passed a string", () => {
 					const currentOptions = options.parse("--format json");
@@ -72,11 +106,10 @@ describe("options", () => {
 					assert.strictEqual(currentOptions.format, "json");
 				});
 
-				it("should return stylish for .format when not passed", () => {
+				it("should return nothing for .format when not passed", () => {
 					const currentOptions = options.parse("");
 
-					assert.isString(currentOptions.format);
-					assert.strictEqual(currentOptions.format, "stylish");
+					assert.isUndefined(currentOptions.format);
 				});
 			});
 

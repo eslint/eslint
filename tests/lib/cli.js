@@ -359,6 +359,84 @@ describe("cli", () => {
 				}
 			});
 
+			describe("Outputs", () => {
+				const flag = useFlatConfig
+					? "--no-config-lookup"
+					: "--no-eslintrc";
+
+				describe("when given a valid built-in formatter name", () => {
+					it(`should execute without any errors with configType:${configType}`, async () => {
+						const filePath = getFixturePath("passing.js");
+						const exit = await cli.execute(
+							`${flag} -O fmt:json ${filePath}`,
+							null,
+							useFlatConfig,
+						);
+
+						assert.strictEqual(exit, 0);
+					});
+				});
+
+				describe("when given two valid built-in formatter names.", () => {
+					it(`should execute both without any errors with configType:${configType}`, async () => {
+						const filePath = getFixturePath("passing.js");
+						const exit = await cli.execute(
+							`${flag} -O fmt:json -O fmt:html ${filePath}`,
+							null,
+							useFlatConfig,
+						);
+
+						assert.strictEqual(exit, 0);
+						assert.strictEqual(log.info.callCount, 2);
+					});
+				});
+
+				describe("when given two valid formatter names, one with output parameter.", () => {
+					afterEach(() => {
+						sh.rm("-rf", "tests/output");
+					});
+
+					it(`should execute both without any errors with configType:${configType}`, async () => {
+						const cwd = process.cwd();
+						const cwdFormatterPath = getFixturePath(
+							"formatters",
+							"cwd.js",
+						);
+						const asyncFormatterPath = getFixturePath(
+							"formatters",
+							"async.js",
+						);
+						const filePath = getFixturePath("passing.js");
+
+						const exit = await cli.execute(
+							`${flag} -O fmt:${cwdFormatterPath} -O fmt:${asyncFormatterPath},to:tests/output/eslint-output.txt ${filePath}`,
+							null,
+							useFlatConfig,
+						);
+
+						assert.strictEqual(exit, 0);
+
+						assert.isTrue(
+							log.info.called,
+							"Log should have been called.",
+						);
+						assert.strictEqual(log.info.callCount, 1);
+						assert.strictEqual(log.info.getCall(0).args[0], cwd);
+
+						assert.isTrue(
+							fs.existsSync("tests/output/eslint-output.txt"),
+						);
+						assert.strictEqual(
+							fs.readFileSync(
+								"tests/output/eslint-output.txt",
+								"utf8",
+							),
+							"from async formatter",
+						);
+					});
+				});
+			});
+
 			describe("Formatters", () => {
 				const flag = useFlatConfig
 					? "--no-config-lookup"
