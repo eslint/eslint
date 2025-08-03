@@ -58,6 +58,16 @@ try {
 } catch ({ message, ...rest }) {
 	throw new Error(message);
 }
+
+// Cause error is being shadowed by a closer scoped redeclaration.
+try {
+    doSomething();
+} catch (error) {
+    if (whatever) {
+        const error = anotherError; // This declaration is the problem.
+        throw new Error("Something went wrong", { cause: error });
+    }
+}
 ```
 
 :::
