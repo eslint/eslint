@@ -581,5 +581,21 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
+		/* 18. When the caught error is shadowed by a closer scoped redeclaration. */
+		{
+			code: `try {
+				doSomething();
+			} catch (error) {
+				if (whatever) {
+					const error = anotherError;
+					throw new Error("Something went wrong", { cause: error });
+				}
+			}`,
+			errors: [
+				{
+					messageId: "caughtErrorShadowed",
+				},
+			],
+		},
 	],
 });
