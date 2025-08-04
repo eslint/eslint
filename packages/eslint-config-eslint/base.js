@@ -299,22 +299,7 @@ const eslintCommentsConfigs = [
 /**
  * @type {import("eslint").Linter.Config[]}
  */
-const regexpConfigs = [
-	regexp.configs["flat/recommended"],
-	{
-		name: "eslint-config-eslint/regexp",
-		rules: {
-			"regexp/no-super-linear-move": [
-				"error",
-				{
-					ignorePartial: false,
-					ignoreSticky: false,
-					report: "certain",
-				},
-			],
-		},
-	},
-];
+const regexpConfigs = [regexp.configs["flat/recommended"]];
 
 /**
  * @type {import("eslint").Linter.Config[]}
