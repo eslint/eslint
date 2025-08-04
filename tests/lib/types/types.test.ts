@@ -1609,12 +1609,14 @@ linterWithEslintrcConfig.getRules();
 
 	const hasFooFlag: boolean = eslint.hasFlag("foo");
 
-	ESLint.fromOptionModule(new URL("file:///path/to/file.js")).then(eslint => {
-		eslint; // $ExpectType ESLint
-	});
+	ESLint.fromOptionsModule(new URL("file:///path/to/file.js")).then(
+		eslint => {
+			eslint; // $ExpectType ESLint
+		},
+	);
 
 	// @ts-expect-error // String not allowed
-	ESLint.fromOptionModule("data:text/javascript,export default [{}];");
+	ESLint.fromOptionsModule("data:text/javascript,export default [{}];");
 }
 
 // #endregion

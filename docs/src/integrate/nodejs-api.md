@@ -342,10 +342,10 @@ The default configuration that ESLint uses internally. This is provided for tool
 
 This is a static property.
 
-### ◆ ESLint.fromOptionModule(optionsURL)
+### ◆ ESLint.fromOptionsModule(optionsURL)
 
 ```js
-const eslint = await ESLint.fromOptionModule(optionsURL);
+const eslint = await ESLint.fromOptionsModule(optionsURL);
 ```
 
 This method creates an instance of the `ESLint` class with options loaded from a module, for example:
@@ -368,7 +368,7 @@ export default {
 
 ...
 const optionsURL = new URL("./eslint-options.js", import.meta.url);
-const eslint = await ESLint.fromOptionModule(optionsURL);
+const eslint = await ESLint.fromOptionsModule(optionsURL);
 ...
 ```
 
@@ -379,7 +379,7 @@ This is a static method.
 #### Parameters
 
 - `optionsURL` (`URL`)<br>
-  The URL of the option module. This can be any valid URL, like a file URL or a data URL.
+  The URL of the options module. This can be any valid URL, like a file URL or a data URL.
 
 #### Return Value
 

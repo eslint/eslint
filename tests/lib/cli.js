@@ -3303,7 +3303,7 @@ describe("cli", () => {
 					assert.strictEqual(exitCode, 2, "exit code should be 2");
 				});
 
-				it("should encode '?' and '#' in an option module", async () => {
+				it("should encode '?' and '#' in an options module", async () => {
 					const exitCode = await cli.execute(
 						"--concurrency=2 --no-config-lookup --no-ignore --rule 'no-fallthrough: [error, { commentPattern: \"#?\" }]' tests/fixtures/passing.js",
 						null,
