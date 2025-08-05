@@ -631,8 +631,8 @@ This option conflicts with the [`--format`](../use/command-line-interface#-f---f
 Output results to the console in [`stylish`](formatters/#stylish) format, to the `results.json` file in [`json`](formatters/#json) format, and to the `results.html` file in custom HTML format:
 
 {{ npx_tabs ({
-package: "eslint",
-args: ["-O", "fmt:stylish", "-O", "fmt:json,to:results.json", "-O", "fmt:./customformat.js,to:results.html", "file.js"],
+	package: "eslint",
+	args: ["-O", "fmt:stylish", "-O", "fmt:json,to:results.json", "-O", "fmt:./customformat.js,to:results.html", "file.js"]
 }) }}
 
 #### `-o`, `--output-file`
