@@ -670,7 +670,7 @@ If you are using a custom formatter defined in a local file, you can specify the
 
 An npm-installed formatter is resolved with or without `eslint-formatter-` prefix.
 
-When specified, the given format is output to the console. If you'd like to save that output into a file, you can do so on the command line like so:
+When specified, the given format is output to the console. If you'd like to save that output into a file, you can specify [`-o` (or `--output-file`)](../use/command-line-interface#-o---output-file) option or redirect console output like so:
 
 {{ npx_tabs ({
     package: "eslint",
