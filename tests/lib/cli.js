@@ -424,7 +424,13 @@ describe("cli", () => {
 							useFlatConfig,
 						);
 
-						assert.strictEqual(exit, 0);
+						assert.strictEqual(
+							exit,
+							0,
+							log.error.printf("ERR:\n%C") +
+								log.warn.printf("WARN:\n%C") +
+								log.info.printf("INFO:\n%C"),
+						);
 
 						assert.isTrue(
 							log.info.called,
