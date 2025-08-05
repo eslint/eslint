@@ -392,8 +392,18 @@ describe("cli", () => {
 				});
 
 				describe("when given two valid formatter names, one with output parameter.", () => {
+					const originalCwd = process.cwd;
+
+					beforeEach(() => {
+						process.cwd = () => getFixturePath();
+					});
+
 					afterEach(() => {
-						sh.rm("-rf", "tests/output");
+						sh.rm(
+							"-rf",
+							path.resolve(process.cwd(), "tests/output"),
+						);
+						process.cwd = originalCwd;
 					});
 
 					it(`should execute both without any errors with configType:${configType}`, async () => {
@@ -423,14 +433,13 @@ describe("cli", () => {
 						assert.strictEqual(log.info.callCount, 1);
 						assert.strictEqual(log.info.getCall(0).args[0], cwd);
 
-						assert.isTrue(
-							fs.existsSync("tests/output/eslint-output.txt"),
+						const outFilePath = path.resolve(
+							process.cwd(),
+							"tests/output/eslint-output.txt",
 						);
+						assert.isTrue(fs.existsSync(outFilePath));
 						assert.strictEqual(
-							fs.readFileSync(
-								"tests/output/eslint-output.txt",
-								"utf8",
-							),
+							fs.readFileSync(outFilePath, "utf8"),
 							"from async formatter",
 						);
 					});
