@@ -643,7 +643,7 @@ Write the output of linting results to a specified file.
 - **Multiple Arguments**: No
 
 ::: warning
-This option conflicts with the [`--output`](../use/command-line-interface#-O---output) option.
+This option conflicts with the [`--output`](../use/command-line-interface#-o---output) option.
 
 This option affects the behavior of the [`--format`](../use/command-line-interface#-f---format) option.
 :::
@@ -663,7 +663,7 @@ This option specifies the output format for the console.
 - **Multiple Arguments**: No
 
 ::: warning
-This option conflicts with the [`--output`](../use/command-line-interface#-O---output) option.
+This option conflicts with the [`--output`](../use/command-line-interface#-o---output) option.
 :::
 
 If you are using a custom formatter defined in a local file, you can specify the path to the custom formatter file.
