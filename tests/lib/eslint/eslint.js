@@ -14039,6 +14039,37 @@ describe("ESLint", () => {
 			);
 		});
 
+		it("should not create the cache file if all files are ignored", async () => {
+			cacheFilePath = getFixturePath(".eslintcache");
+			doDelete(cacheFilePath);
+			assert(
+				!shell.test("-f", cacheFilePath),
+				"the cache file already exists and wasn't successfully deleted",
+			);
+
+			const eslintOptions = {
+				concurrency,
+				overrideConfigFile: true,
+
+				// specifying cache true the cache will be created
+				cache: true,
+				cacheLocation: cacheFilePath,
+				ignorePatterns: ["**/*.js"],
+				cwd: path.join(fixtureDir, ".."),
+			};
+
+			eslint = new ESLint(eslintOptions);
+
+			const file = getFixturePath("cache/src", "test-file.js");
+
+			await eslint.lintFiles(file);
+
+			assert(
+				!shell.test("-f", cacheFilePath),
+				"cache file should not have been created",
+			);
+		});
+
 		it("should not attempt to delete the cache file if it does not exist", async () => {
 			cacheFilePath = getFixturePath(".eslintcache");
 			doDelete(cacheFilePath);
@@ -14164,6 +14195,7 @@ describe("ESLint", () => {
 						"no-unused-vars": 2,
 					},
 				},
+				ignorePatterns: ["**/test-file2.js"],
 			});
 			const badFile = fs.realpathSync(
 				getFixturePath("cache/src", "fail-file.js"),
@@ -14171,8 +14203,15 @@ describe("ESLint", () => {
 			const goodFile = fs.realpathSync(
 				getFixturePath("cache/src", "test-file.js"),
 			);
-			const result = await eslint.lintFiles([badFile, goodFile]);
-			const [badFileResult, goodFileResult] = result;
+			const ignoredFile = fs.realpathSync(
+				getFixturePath("cache/src", "test-file2.js"),
+			);
+			const result = await eslint.lintFiles([
+				badFile,
+				goodFile,
+				ignoredFile,
+			]);
+			const [badFileResult, goodFileResult, ignoredFileResult] = result;
 
 			assert.notStrictEqual(
 				badFileResult.errorCount + badFileResult.warningCount,
@@ -14183,6 +14222,11 @@ describe("ESLint", () => {
 				goodFileResult.errorCount + badFileResult.warningCount,
 				0,
 				"the good file should have passed linting without errors or warnings",
+			);
+			assert.strictEqual(
+				ignoredFileResult.warningCount,
+				1,
+				"the ignored file should have a warning",
 			);
 
 			assert(
@@ -14203,7 +14247,15 @@ describe("ESLint", () => {
 				"object",
 				"the entry for the bad file should have been in the cache",
 			);
-			const cachedResult = await eslint.lintFiles([badFile, goodFile]);
+			assert(
+				!cache.getKey(ignoredFile),
+				"unexpected entry for the ignored file found in the cache",
+			);
+			const cachedResult = await eslint.lintFiles([
+				badFile,
+				goodFile,
+				ignoredFile,
+			]);
 
 			assert.deepStrictEqual(
 				result,
