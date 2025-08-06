@@ -21,15 +21,6 @@ function foo() {
 
 This rule is aimed at highlighting an unnecessary block of code following an `if` containing a `return` statement. As such, it will warn when it encounters an `else` following a chain of `if`s, all of them containing a `return` statement.
 
-## Options
-
-This rule has an object option:
-
-* `allowElseIf: true` (default) allows `else if` blocks after a `return`
-* `allowElseIf: false` disallows `else if` blocks after a `return`
-
-###  allowElseIf: true
-
 Examples of **incorrect** code for this rule:
 
 ::: incorrect
@@ -48,24 +39,12 @@ function foo1() {
 function foo2() {
     if (x) {
         return y;
-    } else if (z) {
-        return w;
     } else {
-        return t;
+        const t = "foo";
     }
 }
 
 function foo3() {
-    if (x) {
-        return y;
-    } else {
-        const t = "foo";
-    }
-
-    return t;
-}
-
-function foo4() {
     if (error) {
         return 'It failed';
     } else {
@@ -76,7 +55,7 @@ function foo4() {
 }
 
 // Two warnings for nested occurrences
-function foo5() {
+function foo4() {
     if (x) {
         if (y) {
             return y;
@@ -103,33 +82,83 @@ function foo1() {
         return y;
     }
 
-    return z;
+    return z;   
 }
 
 function foo2() {
     if (x) {
         return y;
-    } else if (z) {
-        const t = "foo";
-    } else {
-        return w;
     }
+
+    const t = "foo";
 }
 
 function foo3() {
-    if (x) {
-        if (z) {
-            return y;
-        }
-    } else {
-        return z;
+    if (error) {
+        return 'It failed';
     }
+
+    if (loading) {
+        return "It's still loading";
+    }   
 }
 
 function foo4() {
+    if (x) {
+        if (y) {
+            return y;
+        }
+
+        return x;
+    }
+
+    return z;    
+}
+
+function foo5() {
+  if (x) {
+    const t = "foo";
+  } else {
+    return y
+  }
+}
+```
+
+:::
+
+## Options
+
+### allowElseIf
+
+This rule has an object option:
+
+* `allowElseIf: true` (default) - Allows `else if` blocks after a `return`
+* `allowElseIf: false` - Disallows `else if` blocks after a `return`
+
+:::
+
+Examples of **correct** code for the default `{"allowElseIf": "true"}` options:
+
+::: correct
+
+```js
+/*eslint no-else-return: ["error", {allowElseIf: true}]*/
+
+function foo() {
     if (error) {
         return 'It failed';
     } else if (loading) {
+        return "It's still loading";
+    }
+}
+
+// Using multiple `if` statements instead of `else if` is also allowed
+function foo2() {
+    if (error) {
+        return 'It failed';
+    }
+  
+    if (loading) {
         return "It's still loading";
     }
 }
@@ -137,9 +166,7 @@ function foo4() {
 
 :::
 
-### allowElseIf: false
-
-Examples of **incorrect** code for this rule:
+Examples of **incorrect** code for the default `{"allowElseIf": "false"}` options:
 
 ::: incorrect
 
@@ -157,7 +184,7 @@ function foo() {
 
 :::
 
-Examples of **correct** code for this rule:
+Examples of **correct** code for the default `{"allowElseIf": "false"}` options:
 
 ::: correct
 
@@ -168,7 +195,7 @@ function foo() {
     if (error) {
         return 'It failed';
     }
-
+  
     if (loading) {
         return "It's still loading";
     }
