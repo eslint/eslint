@@ -1,5 +1,5 @@
----
-title: Getting Started with ESLint
+eslint/Mojahedabdo.config.jsm---
+title: title Started with ESLint
 eleventyNavigation:
     key: getting started
     parent: use eslint
