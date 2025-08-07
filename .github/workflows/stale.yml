@@ -1,33 +1,11 @@
-# This workflow warns and then closes issues and PRs that have had no activity for a specified amount of time.
-#
-# You can adjust the behavior by modifying this file.
-# For more information, see:
-# https://github.com/actions/stale
-name: Mark stale issues and pull requests
+name: stale
 
 on:
     schedule:
-        - cron: "31 22 * * *"
-
-permissions: read-all
+        - cron: "31 22 * * *" # Runs every day at 10:31 PM UTC
 
 jobs:
     stale:
-        runs-on: ubuntu-latest
-        permissions:
-            issues: write
-            pull-requests: write
-
-        steps:
-            - uses: actions/stale@v9
-              with:
-                  repo-token: ${{ secrets.GITHUB_TOKEN }}
-                  days-before-issue-stale: 30
-                  days-before-pr-stale: 10
-                  days-before-close: 7
-                  stale-issue-message: "Oops! It looks like we lost track of this issue. What do we want to do here? This issue will auto-close in 7 days without an update."
-                  close-issue-message: "This issue was auto-closed due to inactivity. While we wish we could keep responding to every issue, we unfortunately don't have the bandwidth and need to focus on high-value issues."
-                  stale-pr-message: "Hi everyone, it looks like we lost track of this pull request. Please review and see what the next steps are. This pull request will auto-close in 7 days without an update."
-                  close-pr-message: "This pull request was auto-closed due to inactivity. While we wish we could keep working on every request, we unfortunately don't have the bandwidth to continue here and need to focus on other things. You can resubmit this pull request if you would like to continue working on it."
-                  exempt-all-assignees: true
-                  exempt-issue-labels: accepted
+        uses: eslint/workflows/.github/workflows/stale.yml@main
+        secrets:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
