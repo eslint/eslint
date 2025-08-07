@@ -4,6 +4,8 @@ on:
     schedule:
         - cron: "31 22 * * *" # Runs every day at 10:31 PM UTC
 
+permissions: read-all
+
 jobs:
     stale:
         uses: eslint/workflows/.github/workflows/stale.yml@main
