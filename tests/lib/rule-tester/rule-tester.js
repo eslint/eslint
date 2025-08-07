@@ -5339,6 +5339,7 @@ describe("RuleTester", () => {
 		});
 	});
 
+	// Attach error locations to stacktrace
 	describe("error locations", () => {
 		it("should report the correct location for errors in valid test cases", () => {
 			try {
