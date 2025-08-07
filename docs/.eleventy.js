@@ -219,18 +219,33 @@ module.exports = function (eleventyConfig) {
 
 			const isRuleRemoved = !Object.hasOwn(env.rules_meta, env.title);
 
-			/*
-			 * TypeScript isn't yet supported on the playground:
-			 * https://github.com/eslint/eslint.org/issues/709
-			 */
-			if (isRuleRemoved || isTypeScriptCode) {
+			const tsLanguageOptions = {
+				languageOptions: {
+					...languageOptions,
+					parser: "@typescript-eslint/parser",
+					parserOptions: {
+						ecmaFeatures: {
+							jsx: true,
+						},
+						sourceType: "module",
+					},
+				},
+			};
+
+			const languageOptionsForPlayground = languageOptions
+				? { languageOptions }
+				: void 0;
+
+			if (isRuleRemoved) {
 				return `<div class="${type}">`;
 			}
 
 			// See https://github.com/eslint/eslint.org/blob/29e1d8a000592245e4a30c1996e794643e9b263a/src/playground/App.js#L91-L105
 			const state = encodeToBase64(
 				JSON.stringify({
-					options: languageOptions ? { languageOptions } : void 0,
+					options: isTypeScriptCode
+						? tsLanguageOptions
+						: languageOptionsForPlayground,
 					text: code,
 				}),
 			);
