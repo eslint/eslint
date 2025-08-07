@@ -1824,35 +1824,40 @@ for (const result of results) {
 
 // #region ESLintRules
 
-let eslintConfig: Linter.LegacyConfig<ESLintRules>;
+let eslintConfig: Linter.Config<ESLintRules>[];
 
-eslintConfig = {
-	rules: {
-		"capitalized-comments": [2, "always", { ignorePattern: "const|let" }],
-		"no-promise-executor-return": [2, { allowVoid: true }],
-		"sort-keys": [2, "asc", { allowLineSeparatedGroups: true }],
+eslintConfig = [
+	{
+		rules: {
+			"capitalized-comments": [
+				2,
+				"always",
+				{ ignorePattern: "const|let" },
+			],
+			"no-promise-executor-return": [2, { allowVoid: true }],
+			"sort-keys": [2, "asc", { allowLineSeparatedGroups: true }],
+		},
 	},
-	overrides: [
-		{
-			files: "*.json",
-			rules: {
-				"max-len": 0,
-			},
+	{
+		files: ["**/*.json"],
+		rules: {
+			"no-restricted-syntax": 0,
 		},
-		{
-			files: "*.ts",
-			rules: {
-				"@typescript-eslint/no-invalid-void-type": [
-					2,
-					{ allowAsThisParameter: true },
-				],
-			},
+	},
+	{
+		files: ["**/*.ts"],
+		rules: {
+			"@typescript-eslint/no-invalid-void-type": [
+				2,
+				{ allowAsThisParameter: true },
+			],
 		},
-	],
-};
+	},
+];
 
-eslintConfig.rules; // $ExpectType Partial<ESLintRules> | undefined
-eslintConfig.overrides?.[0].rules; // $ExpectType Partial<ESLintRules> | undefined
+(configIndex: number) => {
+	eslintConfig[configIndex].rules; // $ExpectType Partial<ESLintRules> | undefined
+};
 
 interface TSLinterRules {
 	"@typescript-eslint/no-invalid-void-type"?: Linter.RuleEntry<
@@ -1865,19 +1870,17 @@ interface TSLinterRules {
 	>;
 }
 
-const eslintConfig2: Linter.LegacyConfig<
-	ESLintRules,
-	ESLintRules & TSLinterRules
-> = eslintConfig;
+const eslintConfig2: Linter.Config<ESLintRules & TSLinterRules>[] =
+	eslintConfig;
 
-eslintConfig2.rules; // $ExpectType Partial<ESLintRules> | undefined
-eslintConfig2.overrides?.[1].rules; // $ExpectType Partial<ESLintRules & TSLinterRules> | undefined
+(configIndex: number) => {
+	eslintConfig2[configIndex].rules; // $ExpectType Partial<ESLintRules & TSLinterRules> | undefined
+};
 
-const eslintConfig3: Linter.LegacyConfig<ESLintRules & TSLinterRules> =
-	eslintConfig2;
-
-eslintConfig3.rules; // $ExpectType Partial<ESLintRules & TSLinterRules> | undefined
-eslintConfig3.overrides?.[1].rules; // $ExpectType Partial<ESLintRules & TSLinterRules> | undefined
+(configIndex: number) => {
+	const rules: Partial<Linter.RulesRecord> | undefined =
+		eslintConfig2[configIndex].rules;
+};
 
 // #endregion
 
