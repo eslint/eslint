@@ -1343,6 +1343,7 @@ describe("bin/eslint.js", () => {
 	describe("MCP server", () => {
 		it("should start the MCP server when the --mcp flag is used", done => {
 			const child = runESLint(["--mcp"]);
+			let doneCalled = false;
 
 			// should not have anything on std out
 			child.stdout.on("data", data => {
@@ -1350,8 +1351,11 @@ describe("bin/eslint.js", () => {
 			});
 
 			child.stderr.on("data", data => {
-				assert.match(data.toString(), /@eslint\/mcp/u);
-				done();
+				if (!doneCalled) {
+					assert.match(data.toString(), /@eslint\/mcp/u);
+					doneCalled = true;
+					done();
+				}
 			});
 		});
 	});
