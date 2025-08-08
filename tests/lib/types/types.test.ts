@@ -897,6 +897,21 @@ type DeprecatedRuleContextKeys =
 	},
 });
 
+// `meta.docs.recommended` can be any type
+(): JSRuleDefinition => ({
+	create() {
+		return {};
+	},
+	meta: {
+		docs: {
+			recommended: {
+				severity: "warn",
+				options: ["never"],
+			},
+		},
+	},
+});
+
 // #endregion
 
 // #region Linter
