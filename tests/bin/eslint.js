@@ -13,6 +13,7 @@ const childProcess = require("node:child_process");
 const fs = require("node:fs");
 const assert = require("chai").assert;
 const path = require("node:path");
+const os = require("node:os");
 
 //------------------------------------------------------------------------------
 // Data
@@ -1359,6 +1360,135 @@ describe("bin/eslint.js", () => {
 			});
 		});
 	});
+
+	describe("Multithread mode", () => {
+		it("should warn exactly once for an empty config file", async () => {
+			const cwd = path.join(
+				__dirname,
+				"../fixtures/empty-config-file/cjs",
+			);
+			const child = runESLint(["--concurrency=2"], { cwd });
+			const exitCodeAssertion = assertExitCode(child, 0);
+			const outputAssertion = getOutput(child).then(output => {
+				// The warning message should appear exactly once in stderr
+				assert.strictEqual(
+					[
+						...output.stderr.matchAll(
+							"Running ESLint with an empty config",
+						),
+					].length,
+					1,
+				);
+			});
+
+			return Promise.all([exitCodeAssertion, outputAssertion]);
+		});
+
+		it("should warn exactly once for an inactive flag", async () => {
+			const cwd = path.join(__dirname, "../fixtures");
+			const child = runESLint(
+				[
+					"--concurrency=2",
+					"--flag=test_only_enabled_by_default",
+					"passing.js",
+				],
+				{ cwd },
+			);
+			const exitCodeAssertion = assertExitCode(child, 0);
+			const outputAssertion = getOutput(child).then(output => {
+				// The warning message should appear exactly once in stderr
+				assert.strictEqual(
+					[
+						...output.stderr.matchAll(
+							"The flag 'test_only_enabled_by_default' is inactive",
+						),
+					].length,
+					1,
+				);
+			});
+
+			return Promise.all([exitCodeAssertion, outputAssertion]);
+		});
+
+		it("should warn exactly once for a file with circular fixes", async () => {
+			const cwd = fs.mkdtempSync(
+				path.join(os.tmpdir(), "eslint-circular-fixes-"),
+			);
+			const configSrc = `
+			export default {
+				plugins: {
+					"circular-fixes": {
+						rules: {
+							foobar: {
+								meta: {
+									fixable: "code",
+								},
+								create(context) {
+									return {
+										'Identifier[name="foo"]'(node) {
+											context.report({
+												node,
+												message: "bar this foo",
+												fix(fixer) {
+													return fixer.replaceText(
+														node,
+														"bar",
+													);
+												},
+											});
+										},
+									};
+								},
+							},
+							barfoo: {
+								meta: {
+									fixable: "code",
+								},
+								create(context) {
+									return {
+										'Identifier[name="bar"]'(node) {
+											context.report({
+												node,
+												message: "foo this bar",
+												fix(fixer) {
+													return fixer.replaceText(
+														node,
+														"foo",
+													);
+												},
+											});
+										},
+									};
+								},
+							},
+						},
+					},
+				},
+				rules: {
+					"circular-fixes/foobar": "error",
+					"circular-fixes/barfoo": "error",
+				},
+			};
+			`;
+			fs.writeFileSync(path.join(cwd, "file.js"), "foo");
+			fs.writeFileSync(path.join(cwd, "eslint.config.mjs"), configSrc);
+			const child = runESLint(["--concurrency=2", "--fix", "file.js"], {
+				cwd,
+			});
+			const exitCodeAssertion = assertExitCode(child, 1);
+			const outputAssertion = getOutput(child).then(output => {
+				// The warning message should appear exactly once in stderr
+				assert.strictEqual(
+					[...output.stderr.matchAll("Circular fixes detected")]
+						.length,
+					1,
+				);
+			});
+
+			return Promise.all([exitCodeAssertion, outputAssertion]);
+		});
+	});
+
 	afterEach(() => {
 		// Clean up all the processes after every test.
 		forkedProcesses.forEach(child => child.kill());

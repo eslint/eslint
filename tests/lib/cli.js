@@ -3227,6 +3227,92 @@ describe("cli", () => {
 					);
 				});
 			});
+
+			describe("--concurrency option", () => {
+				["1", "100", "0x10", "auto", "off"].forEach(value => {
+					it(`should accept the value ${value}`, async () => {
+						const exitCode = await cli.execute(
+							`--concurrency ${value} --pass-on-no-patterns`,
+							null,
+							true,
+						);
+
+						assert.strictEqual(
+							exitCode,
+							0,
+							"exit code should be 0",
+						);
+					});
+				});
+
+				["foo", "0", "-1", "1.5", "Infinity"].forEach(value => {
+					it(`should not accept the value ${value}`, async () => {
+						const exitCode = await cli.execute(
+							`--concurrency=${value}`,
+							null,
+							true,
+						);
+
+						assert.strictEqual(
+							log.info.callCount,
+							0,
+							"log.info should not be called",
+						);
+						assert.strictEqual(
+							log.error.callCount,
+							1,
+							"log.error should be called once",
+						);
+
+						assert.strictEqual(
+							log.error.firstCall.firstArg.replace(/\n.*/u, ""),
+							`Option concurrency: '${value}' is not a positive integer, 'auto' or 'off'.`,
+							"has the right text to log.error",
+						);
+						assert.strictEqual(
+							exitCode,
+							2,
+							"exit code should be 2",
+						);
+					});
+				});
+
+				it("should not accept an empty value", async () => {
+					const exitCode = await cli.execute(
+						'--concurrency=""',
+						null,
+						true,
+					);
+
+					assert.strictEqual(
+						log.info.callCount,
+						0,
+						"log.info should not be called",
+					);
+					assert.strictEqual(
+						log.error.callCount,
+						1,
+						"log.error should be called once",
+					);
+
+					assert.strictEqual(
+						log.error.firstCall.firstArg.replace(/\n.*/u, ""),
+						"No value for 'concurrency' specified.",
+						"has the right text to log.error",
+					);
+					assert.strictEqual(exitCode, 2, "exit code should be 2");
+				});
+
+				it("should encode '?' and '#' in an options module", async () => {
+					const exitCode = await cli.execute(
+						"--concurrency=2 --no-config-lookup --no-ignore --rule 'no-fallthrough: [error, { commentPattern: \"#?\" }]' tests/fixtures/passing.js",
+						null,
+						true,
+					);
+
+					assert.strictEqual(exitCode, 0, "exit code should be 0");
+				});
+			});
 		});
 	});
 });
