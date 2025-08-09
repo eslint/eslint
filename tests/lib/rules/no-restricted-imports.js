@@ -4452,5 +4452,28 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 				},
 			],
 		},
+		{
+			code: `
+			export { } from "mod";
+			export type { } from "mod";
+			`,
+			options: [
+				{
+					paths: [
+						{
+							name: "mod",
+							allowTypeImports: true,
+						}
+					]
+				}
+			],
+			errors: [
+				{
+					messageId: "path",
+					type: "ExportNamedDeclaration",
+					line: 2,
+				},
+			],
+		}
 	],
 });
