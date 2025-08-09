@@ -82,7 +82,7 @@ function foo1() {
         return y;
     }
 
-    return z;   
+    return z;
 }
 
 function foo2() {
@@ -135,9 +135,7 @@ This rule has an object option:
 * `allowElseIf: true` (default) - Allows `else if` blocks after a `return`
 * `allowElseIf: false` - Disallows `else if` blocks after a `return`
 
-:::
-
-Examples of **correct** code for the default `{"allowElseIf": "true"}` options:
+Examples of **correct** code for the default `{"allowElseIf": true}` option:
 
 ::: correct
 
@@ -166,7 +164,7 @@ function foo2() {
 
 :::
 
-Examples of **incorrect** code for the default `{"allowElseIf": "false"}` options:
+Examples of **incorrect** code for the default `{"allowElseIf": false}` option:
 
 ::: incorrect
 
@@ -184,7 +182,7 @@ function foo() {
 
 :::
 
-Examples of **correct** code for the default `{"allowElseIf": "false"}` options:
+Examples of **correct** code for the default `{"allowElseIf": false}` option:
 
 ::: correct
 
@@ -195,7 +193,7 @@ function foo() {
     if (error) {
         return 'It failed';
     }
-  
+
     if (loading) {
         return "It's still loading";
     }
