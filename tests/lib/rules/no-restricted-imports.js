@@ -3613,6 +3613,148 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 			],
 		},
 		{
+			code: `import type { Bar } from "import/private/bar";`,
+			options: [
+				{
+					patterns: [
+						{
+							group: ["import/private/*"],
+							importNames: ["Bar"],
+							allowTypeImports: true,
+							message:
+								"Please use 'Baz' from 'import/private/*' as a type only.",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `import { Baz, type Bar } from "import/private/bar";`,
+			options: [
+				{
+					patterns: [
+						{
+							group: ["import/private/*"],
+							importNames: ["Bar"],
+							allowTypeImports: true,
+							message:
+								"Please use 'Baz' from 'import/private/*' as a type only.",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `export { Baz, type Bar } from "import/private/bar";`,
+			options: [
+				{
+					patterns: [
+						{
+							group: ["import/private/*"],
+							importNames: ["Bar"],
+							allowTypeImports: true,
+							message:
+								"Please use 'Baz' from 'import/private/*' as a type only.",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `import type { Bar } from "import/private/bar";`,
+			options: [
+				{
+					patterns: [
+						{
+							group: ["import/private/*"],
+							allowImportNames: ["Foo"],
+							allowTypeImports: true,
+							message:
+								"Please use 'Baz' from 'import/private/*' as a type only.",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `import { Foo, type Bar } from "import/private/bar";`,
+			options: [
+				{
+					patterns: [
+						{
+							group: ["import/private/*"],
+							allowImportNames: ["Foo"],
+							allowTypeImports: true,
+							message:
+								"Please use 'Baz' from 'import/private/*' as a type only.",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `export { Baz, type Bar } from "import/private/bar";`,
+			options: [
+				{
+					patterns: [
+						{
+							group: ["import/private/*"],
+							allowImportNames: ["Baz"],
+							allowTypeImports: true,
+							message:
+								"Please use 'Baz' from 'import/private/*' as a type only.",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `import { Foo, type Bar } from "import/private/bar";`,
+			options: [
+				{
+					patterns: [
+						{
+							group: ["import/private/*"],
+							allowImportNamePattern: "^Foo",
+							allowTypeImports: true,
+							message:
+								"Please use 'Baz' from 'import/private/*' as a type only.",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `export { Baz, type Bar } from "import/private/bar";`,
+			options: [
+				{
+					patterns: [
+						{
+							group: ["import/private/*"],
+							allowImportNamePattern: "^Baz",
+							allowTypeImports: true,
+							message:
+								"Please use 'Baz' from 'import/private/*' as a type only.",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `export { bar, type baz } from "import-foo";`,
+			options: [
+				{
+					paths: [
+						{
+							name: "import-foo",
+							allowImportNames: ["bar"],
+							allowTypeImports: true,
+						},
+					],
+				},
+			],
+		},
+		{
 			code: `
   import type { foo } from 'import1/private/bar';
   import type { foo } from 'import2/private/bar';
@@ -4463,9 +4605,9 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 						{
 							name: "mod",
 							allowTypeImports: true,
-						}
-					]
-				}
+						},
+					],
+				},
 			],
 			errors: [
 				{
@@ -4474,6 +4616,6 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 					line: 2,
 				},
 			],
-		}
+		},
 	],
 });
