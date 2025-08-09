@@ -132,8 +132,7 @@ function foo5() {
 
 This rule has an object option:
 
-* `allowElseIf: true` (default) - Allows `else if` blocks after a `return`
-* `allowElseIf: false` - Disallows `else if` blocks after a `return`
+* `allowElseIf: true` (default) - If true, allows `else if` blocks after a `return`
 
 Examples of **correct** code for the default `{"allowElseIf": true}` option:
 
