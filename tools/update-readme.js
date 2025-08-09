@@ -122,7 +122,7 @@ const HTML_TEMPLATE = stripIndents`
 
 	// replace all of the section
 	let newReadme = readme.replace(
-		/<!--teamstart-->[\w\W]*?<!--teamend-->/u,
+		/<!--teamstart-->[\s\S]*?<!--teamend-->/u,
 		ejs.render(HTML_TEMPLATE, {
 			team,
 			formatTeamMembers,
@@ -130,7 +130,7 @@ const HTML_TEMPLATE = stripIndents`
 	);
 
 	newReadme = newReadme.replace(
-		/<!--sponsorsstart-->[\w\W]*?<!--sponsorsend-->/u,
+		/<!--sponsorsstart-->[\s\S]*?<!--sponsorsend-->/u,
 		`<!--sponsorsstart-->\n\n${allSponsors}\n\n<!--sponsorsend-->`,
 	);
 

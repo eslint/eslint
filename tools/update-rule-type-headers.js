@@ -191,7 +191,7 @@ function getTextPositionsMap(sourceText, consideredRuleIds) {
  */
 function paraphraseDescription(description) {
 	let newDescription;
-	const match = /^(Disallow|Enforce|Require) /u.exec(description);
+	const match = /^(?:Disallow|Enforce|Require) /u.exec(description);
 
 	if (match) {
 		newDescription = `Rule to ${description[0].toLowerCase()}${description.slice(1)}`;
