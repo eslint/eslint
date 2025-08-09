@@ -164,7 +164,7 @@ function foo2() {
 
 :::
 
-Examples of **incorrect** code for the default `{"allowElseIf": false}` option:
+Examples of **incorrect** code for the `{"allowElseIf": false}` option:
 
 ::: incorrect
 
@@ -182,7 +182,7 @@ function foo() {
 
 :::
 
-Examples of **correct** code for the default `{"allowElseIf": false}` option:
+Examples of **correct** code for the `{"allowElseIf": false}` option:
 
 ::: correct
 
