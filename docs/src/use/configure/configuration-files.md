@@ -522,7 +522,7 @@ You can override this setting using the [`--report-unused-inline-configs`](../co
 
 ### Configuring Rules
 
-You can configure any number of rules in a configuration object by add a `rules` property containing an object with your rule configurations. The names in this object are the names of the rules and the values are the configurations for each of those rules. Here's an example:
+You can configure any number of rules in a configuration object by adding a `rules` property containing an object with your rule configurations. The names in this object are the names of the rules and the values are the configurations for each of those rules. Here's an example:
 
 ```js
 // eslint.config.js
