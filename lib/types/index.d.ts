@@ -1967,7 +1967,9 @@ export class ESLint {
 
 	loadFormatter(nameOrPath?: string): Promise<ESLint.LoadedFormatter>;
 
-	static fromOptionsModule(optionsURL: URL): Promise<ESLint>;
+	static fromOptionsModule(optionsURL: {
+		readonly href: string;
+	}): Promise<ESLint>;
 }
 
 export namespace ESLint {

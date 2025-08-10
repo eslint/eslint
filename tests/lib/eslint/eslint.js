@@ -15852,14 +15852,6 @@ describe("ESLint", () => {
 			});
 		});
 
-		it("should throw an error with an unsupported URL scheme", async () => {
-			await assert.rejects(
-				// eslint-disable-next-line no-script-url -- test for unsupported URL scheme
-				() => ESLint.fromOptionsModule(new URL("javascript:({ })")),
-				{ code: "ERR_UNSUPPORTED_ESM_URL_SCHEME", constructor: Error },
-			);
-		});
-
 		it("should throw an error with an invalid URL object", async () => {
 			await assert.rejects(
 				() =>
@@ -15867,7 +15859,18 @@ describe("ESLint", () => {
 						href: "foo",
 						toString: () => "bar",
 					}),
-				{ code: "ERR_INVALID_URL", constructor: TypeError },
+				{
+					constructor: TypeError,
+					message: "Argument must be a URL object",
+				},
+			);
+		});
+
+		it("should throw an error with an unsupported URL scheme", async () => {
+			await assert.rejects(
+				// eslint-disable-next-line no-script-url -- test for unsupported URL scheme
+				() => ESLint.fromOptionsModule(new URL("javascript:({ })")),
+				{ code: "ERR_UNSUPPORTED_ESM_URL_SCHEME", constructor: Error },
 			);
 		});
 	});
