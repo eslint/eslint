@@ -546,16 +546,6 @@ ruleTester.run("preserve-caught-error", rule, {
 			errors: [
 				{
 					messageId: "partiallyLostError",
-					suggestions: [
-						{
-							messageId: "referenceCompleteCaughtError",
-							output: `try {
-				doSomething();
-			} catch(error) {
-				throw new Error(message);
-			}`,
-						},
-					],
 				},
 			],
 		},
@@ -568,16 +558,6 @@ ruleTester.run("preserve-caught-error", rule, {
 			errors: [
 				{
 					messageId: "partiallyLostError",
-					suggestions: [
-						{
-							messageId: "referenceCompleteCaughtError",
-							output: `try {
-				doSomethingElse();
-			} catch(error) {
-				throw new Error(error.message);
-			}`,
-						},
-					],
 				},
 			],
 		},
