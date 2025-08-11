@@ -73,7 +73,7 @@ function markdownItRuleExample({ open, close }) {
 			}
 
 			const { type, languageOptionsJSON } =
-				/^\s*(?<type>\S+)(?:\s+(?<languageOptionsJSON>\S(?:.*\S)?))?\s*$/u.exec(
+				/^\s*(?<type>\S+)(?:\s+(?<languageOptionsJSON>\S(?:.*\S)?))?/u.exec(
 					tagToken.info,
 				).groups;
 			const languageOptions = languageOptionsJSON

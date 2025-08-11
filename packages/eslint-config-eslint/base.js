@@ -312,9 +312,9 @@ module.exports = [
 			reportUnusedInlineConfigs: "error",
 		},
 	},
-	...jsConfigs,
 	...unicornConfigs,
 	...jsdocConfigs,
 	...eslintCommentsConfigs,
 	...regexpConfigs,
+	...jsConfigs,
 ];
