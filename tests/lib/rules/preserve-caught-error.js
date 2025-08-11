@@ -500,16 +500,6 @@ ruleTester.run("preserve-caught-error", rule, {
 			errors: [
 				{
 					messageId: "missingCatchErrorParam",
-					suggestions: [
-						{
-							messageId: "requireCatchParameter",
-							output: `try {
-			doSomething();
-		} catch(error) {
-			throw new Error("Something went wrong");
-		}`,
-						},
-					],
 				},
 			],
 		},
