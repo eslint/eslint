@@ -10,4 +10,4 @@ jobs:
     stale:
         uses: eslint/workflows/.github/workflows/stale.yml@main
         secrets:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            token: ${{ secrets.GITHUB_TOKEN }}
