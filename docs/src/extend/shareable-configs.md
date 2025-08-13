@@ -65,6 +65,12 @@ You should declare your dependency on ESLint in the `package.json` using the [pe
 
 If your shareable config depends on a plugin or a custom parser, you should specify these packages as `dependencies` in your `package.json`.
 
+::: tip
+
+If you are publishing a config as part of a _plugin_, be sure to [add it to the `plugin.configs` property](./plugins#configs-in-plugins).
+
+:::
+
 ## Using a Shareable Config
 
 To use a shareable config, import the package inside of an `eslint.config.js` file and add it into the exported array using `extends`, like this:
