@@ -6,21 +6,33 @@ further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static
 ---
 
+[Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes) are often used to encapsulate reusable logic, especially stateful logic, into an object, where each instance's state is accessed via `this`. When an API is written with an instance method, it signals to consumers:
 
-If a class method does not use `this`, it can *sometimes* be made into a static function. If you do convert the method into a static function, instances of the class that call that particular method have to be converted to a static call as well (`MyClass.callStaticMethod()`)
+- The method's outcome is related to the object on which it's invoked, including possibly its state.
+
+	```ts
+	const array1 = [1, 2, 3];
+	const array2 = [4, 5, 6];
+
+    // Using the `includes()` method on different objects gives different results
+	array1.includes(1); // true
+	array2.includes(1); // false
+
+	// Modifying the state of an object may change the outcome of its instance methods
+	array2.push(1);
+	array2.includes(1); // true
+	```
+
+- The method doesn't make sense to be used without an associated object. (For example, it doesn't make sense to call `Array#includes()` without an array to operate on).
+
+If a class instance method does not use `this`, that normally means that it does not access any information or state about its instance.
+Therefore, it can *sometimes* be refactored into an [ordinary function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions) or a [static method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static), which may better communicate intent to users of the API.
+Be aware that if you do convert the method into a function, this will require _all_ existing usages of the instance method to update to the new API, which is often a breaking change.
 
 It's possible to have a class method which doesn't use `this`, such as:
 
 ```js
 class A {
-    constructor() {
-        this.a = "hi";
-    }
-
-    print() {
-        console.log(this.a);
-    }
-
     sayHi() {
         console.log("hi");
     }
@@ -30,31 +42,36 @@ let a = new A();
 a.sayHi(); // => "hi"
 ```
 
-In the example above, the `sayHi` method doesn't use `this`, so we can make it a static method:
+In the example above, the `sayHi` method doesn't use `this`, so we can make it an ordinary function:
 
 ```js
+// ordinary function
+function sayHi() {
+	console.log("hi");
+}
+
+// Can be called without referring to the `A` class any instance thereof
+sayHi(); // => "hi"
+
+// alternately, a static method may be used if it offers a more natural API
 class A {
-    constructor() {
-        this.a = "hi";
-    }
-
-    print() {
-        console.log(this.a);
-    }
-
     static sayHi() {
         console.log("hi");
     }
 }
 
 A.sayHi(); // => "hi"
-```
 
-Also note in the above examples that if you switch a method to a static method, *instances* of the class that call the static method (`let a = new A(); a.sayHi();`) have to be updated to being a static call (`A.sayHi();`) instead of having the instance of the *class* call the method.
+// Keep in mind that either way this throws an error now
+// since sayHi() is no longer an instance method!
+//
+// let a = new A();
+// a.sayHi();
+```
 
 ## Rule Details
 
-This rule is aimed to flag class methods that do not use `this`.
+This rule flags class instance methods that do not use `this`.
 
 Examples of **incorrect** code for this rule:
 
@@ -65,7 +82,7 @@ Examples of **incorrect** code for this rule:
 
 class A {
     foo() {
-        console.log("Hello World");     /*error Expected 'this' to be used by class method 'foo'.*/
+        console.log("Hello World"); /* error Expected 'this' to be used by class method 'foo'. */
     }
 }
 ```
@@ -81,7 +98,7 @@ Examples of **correct** code for this rule:
 
 class A {
     foo() {
-        this.bar = "Hello World"; // OK, this is used
+        this.bar = "Hello World"; // OK, `this` is used
     }
 }
 
@@ -108,10 +125,10 @@ class C {
 
 This rule has four options:
 
-* `"exceptMethods"` allows specified method names to be ignored with this rule.
-* `"enforceForClassFields"` enforces that arrow functions and function expressions used as instance field initializers utilize `this`. This also applies to auto-accessor fields (fields declared with the `accessor` keyword) which are part of the [stage 3 decorators proposal](https://github.com/tc39/proposal-decorators). (default: `true`)
-* `"ignoreOverrideMethods"` ignores members that are marked with the `override` modifier. (TypeScript only, default: `false`)
-* `"ignoreClassesWithImplements"` ignores class members that are defined within a class that `implements` an interface. (TypeScript only)
+- `"exceptMethods"` allows specified method names to be ignored with this rule.
+- `"enforceForClassFields"` enforces that arrow functions and function expressions used as instance field initializers utilize `this`. This also applies to auto-accessor fields (fields declared with the `accessor` keyword) which are part of the [stage 3 decorators proposal](https://github.com/tc39/proposal-decorators). (default: `true`)
+- `"ignoreOverrideMethods"` ignores members that are marked with the `override` modifier. (TypeScript only, default: `false`)
+- `"ignoreClassesWithImplements"` ignores class members that are defined within a class that [`implements`](https://www.typescriptlang.org/docs/handbook/2/classes.html#implements-clauses) an interface. (TypeScript only)
 
 ### exceptMethods
 
@@ -328,8 +345,8 @@ class Derived extends Base {
 
 The `ignoreClassesWithImplements` ignores class members that are defined within a class that `implements` an interface. The option accepts two possible values:
 
-* `"all"` - Ignores all classes that implement interfaces
-* `"public-fields"` - Only ignores public fields in classes that implement interfaces
+- `"all"` - Ignores all classes that implement interfaces
+- `"public-fields"` - Only ignores public fields in classes that implement interfaces
 
 Examples of **incorrect** TypeScript code for this rule with the `{ "ignoreClassesWithImplements": "all" }`:
 
@@ -408,3 +425,9 @@ class Derived implements Base {
 ```
 
 :::
+
+
+## When Not To Use It
+
+Fixing violations of this rule almost always is a breaking change, since it requires a change at every usage of the affected method.
+Therefore, if your project has downstream consumers you cannot break, or you simply do not wish to make invasive changes to every call site of a method, it likely does not make sense to use this rule.
