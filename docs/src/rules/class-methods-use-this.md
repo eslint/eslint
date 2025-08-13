@@ -10,7 +10,7 @@ further_reading:
 
 - The method's outcome is related to the object on which it's invoked, including possibly its state.
 
-	```ts
+	```js
 	const array1 = [1, 2, 3];
 	const array2 = [4, 5, 6];
 
@@ -25,21 +25,21 @@ further_reading:
 
 - The method doesn't make sense to be used without an associated object. (For example, it doesn't make sense to call `Array#includes()` without an array to operate on).
 
-If a class instance method does not use `this`, that normally means that it does not access any information or state about its instance.
+If a class instance method does not use `this`, that normally means that it does not access any information or state about its instance, meaning its outcome is not tied to the object on which it is invoked, and it might even make sense to invoke without any object at all.
 Therefore, it can *sometimes* be refactored into an [ordinary function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions) or a [static method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static), which may better communicate intent to users of the API.
 Be aware that if you do convert the method into a function, this will require _all_ existing usages of the instance method to update to the new API, which is often a breaking change.
 
 It's possible to have a class method which doesn't use `this`, such as:
 
 ```js
-class A {
+class Person {
     sayHi() {
-        console.log("hi");
+        console.log("Hi!");
     }
 }
 
-let a = new A();
-a.sayHi(); // => "hi"
+const person = new Person();
+person.sayHi(); // => "Hi!"
 ```
 
 In the example above, the `sayHi` method doesn't use `this`, so we can make it an ordinary function:
@@ -47,26 +47,46 @@ In the example above, the `sayHi` method doesn't use `this`, so we can make it a
 ```js
 // ordinary function
 function sayHi() {
-	console.log("hi");
+	console.log("Hi!");
 }
 
-// Can be called without referring to the `A` class any instance thereof
-sayHi(); // => "hi"
+// No need for `Person` class or any instance thereof
+sayHi(); // => "Hi!"
 
 // alternately, a static method may be used if it offers a more natural API
-class A {
+class Person {
     static sayHi() {
-        console.log("hi");
+        console.log("Hi!");
     }
 }
 
-A.sayHi(); // => "hi"
+Person.sayHi(); // => "Hi!"
 
-// Keep in mind that either way this throws an error now
+// Keep in mind that, either way, the following throws an error now
 // since sayHi() is no longer an instance method!
 //
-// let a = new A();
-// a.sayHi();
+// const person = new Person();
+// person.sayHi();
+```
+
+Of course, it's also possible the author simply forgot to use some piece of instance data that they intended to include.
+
+```js
+class Person {
+	constructor(name) {
+		this.name = name;
+	}
+
+	sayHi() {
+		console.log(`Hi from ${this.name}!`);
+	}
+}
+
+const alice = new Person('Alice');
+alice.sayHi(); // => 'Hi from Alice!'
+
+const bob = new Person('Bob');
+bob.sayHi(); // => 'Hi from Bob!'
 ```
 
 ## Rule Details
@@ -127,7 +147,7 @@ This rule has four options:
 
 - `"exceptMethods"` allows specified method names to be ignored with this rule.
 - `"enforceForClassFields"` enforces that arrow functions and function expressions used as instance field initializers utilize `this`. This also applies to auto-accessor fields (fields declared with the `accessor` keyword) which are part of the [stage 3 decorators proposal](https://github.com/tc39/proposal-decorators). (default: `true`)
-- `"ignoreOverrideMethods"` ignores members that are marked with the `override` modifier. (TypeScript only, default: `false`)
+- `"ignoreOverrideMethods"` ignores members that are marked with the [`override` modifier](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-3.html#override-and-the---noimplicitoverride-flag). (TypeScript only, default: `false`)
 - `"ignoreClassesWithImplements"` ignores class members that are defined within a class that [`implements`](https://www.typescriptlang.org/docs/handbook/2/classes.html#implements-clauses) an interface. (TypeScript only)
 
 ### exceptMethods
@@ -430,4 +450,4 @@ class Derived implements Base {
 ## When Not To Use It
 
 Fixing violations of this rule almost always is a breaking change, since it requires a change at every usage of the affected method.
-Therefore, if your project has downstream consumers you cannot break, or you simply do not wish to make invasive changes to every call site of a method, it likely does not make sense to use this rule.
+Therefore, if your project has downstream consumers you cannot break, or you simply do not wish to make invasive changes to every call site of a method, it likely does not make sense to address violations of this rule.
