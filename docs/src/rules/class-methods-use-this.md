@@ -14,16 +14,16 @@ further_reading:
 	const array1 = [1, 2, 3];
 	const array2 = [4, 5, 6];
 
-    // Using the `includes()` method on different objects gives different results
+    // Using the `includes()` method on different objects gives different results:
 	array1.includes(1); // true
 	array2.includes(1); // false
 
-	// Modifying the state of an object may change the outcome of its instance methods
+	// Modifying the state of an object may change the outcome of its instance methods:
 	array2.push(1);
 	array2.includes(1); // true
 	```
 
-- The method doesn't make sense to be used without an associated object. (For example, it doesn't make sense to call `Array#includes()` without an array to operate on).
+- The method doesn't make sense to be used without an associated object. (For example, it doesn't make sense to call `Array#includes()` without an array to operate on.)
 
 If a class instance method does not use `this`, that normally means that it does not access any information or state about its instance, meaning its outcome is not tied to the object on which it is invoked, and it might even make sense to invoke without any object at all.
 Therefore, it can *sometimes* be refactored into an [ordinary function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions) or a [static method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static), which may better communicate intent to users of the API.
@@ -45,7 +45,7 @@ person.sayHi(); // => "Hi!"
 In the example above, the `sayHi` method doesn't use `this`, so we can make it an ordinary function:
 
 ```js
-// ordinary function
+// Ordinary function
 function sayHi() {
 	console.log("Hi!");
 }
@@ -53,7 +53,7 @@ function sayHi() {
 // No need for `Person` class or any instance thereof
 sayHi(); // => "Hi!"
 
-// alternately, a static method may be used if it offers a more natural API
+// Alternately, a static method may be used if it offers a more natural API
 class Person {
     static sayHi() {
         console.log("Hi!");
@@ -62,7 +62,7 @@ class Person {
 
 Person.sayHi(); // => "Hi!"
 
-// Keep in mind that, either way, the following throws an error now
+// Keep in mind that, either way, the following now throws an error,
 // since sayHi() is no longer an instance method!
 //
 // const person = new Person();
