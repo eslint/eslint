@@ -4,7 +4,9 @@ on:
     schedule:
         - cron: "31 22 * * *" # Runs every day at 10:31 PM UTC
 
-permissions: read-all
+permissions:
+    issues: write
+    pull-requests: write
 
 jobs:
     stale:
