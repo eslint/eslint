@@ -175,8 +175,6 @@
     "got": "^11.8.3",
     "gray-matter": "^4.0.3",
     "jiti": "^2.6.1",
-    "jiti-v2.0": "npm:jiti@2.0.x",
-    "jiti-v2.1": "npm:jiti@2.1.x",
     "knip": "^5.60.2",
     "lint-staged": "^11.0.0",
     "markdown-it": "^12.2.0",
@@ -205,7 +203,7 @@
     "yorkie": "^2.0.0"
   },
   "peerDependencies": {
-    "jiti": "*"
+    "jiti": ">= 2.2.0"
   },
   "peerDependenciesMeta": {
     "jiti": {
