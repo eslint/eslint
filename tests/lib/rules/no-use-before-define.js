@@ -428,6 +428,53 @@ ruleTester.run("no-use-before-define", rule, {
 			code: "const x = () => x;",
 			languageOptions: { ecmaVersion: 6 },
 		},
+
+		// optimistic assumption for function expressions
+		{
+			code: `
+const a = arr.map(x => a.length);
+			`,
+			languageOptions: { parserOptions: { ecmaVersion: 6 } },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					line: 2,
+					column: 24,
+					endLine: 2,
+					endColumn: 25,
+				},
+			],
+		},
+
+		// optimistic assumption for function expressions
+		{
+			// https://github.com/eslint/eslint/issues/20014#issuecomment-3201124716
+			code: `
+function TestFunction (array, fn) {
+    const output = [];
+
+    for (const arr of array) {
+        output.push(fn(arr));
+    }
+    return output;
+}
+
+const arr = [1, 2];
+
+const a = TestFunction(
+    arr,
+    (T) => {
+        console.log(\`blah: \${a}\`);
+        return T;
+    }
+);
+
+console.log(\`blah: \${a}\`);
+
+			`,
+			languageOptions: { parserOptions: { ecmaVersion: 6 } },
+		},
 	],
 	invalid: [
 		{
@@ -1691,57 +1738,6 @@ const foo = (() => foo())();
 					column: 20,
 					endLine: 2,
 					endColumn: 23,
-				},
-			],
-		},
-		{
-			// pessimistic check for functions
-			code: `
-const a = arr.map(x => a.length);
-			`,
-			languageOptions: { parserOptions: { ecmaVersion: 6 } },
-			errors: [
-				{
-					data: { name: "a" },
-					messageId: "usedBeforeDefined",
-					line: 2,
-					column: 24,
-					endLine: 2,
-					endColumn: 25,
-				},
-			],
-		},
-
-		{
-			// https://github.com/eslint/eslint/issues/20014#issuecomment-3201124716
-			code: `
-function TestFunction (array, fn) {
-    const output = [];
-
-    for (const arr of array) {
-        output.push(fn(arr));
-    }
-    return output;
-}
-
-const arr = [1, 2];
-
-const a = TestFunction(
-    arr,
-    (T) => {
-        console.log(\`blah: \${a}\`);
-        return T;
-    }
-);
-
-console.log(\`blah: \${a}\`);
-
-			`,
-			languageOptions: { parserOptions: { ecmaVersion: 6 } },
-			errors: [
-				{
-					data: { name: "a" },
-					messageId: "usedBeforeDefined",
 				},
 			],
 		},
