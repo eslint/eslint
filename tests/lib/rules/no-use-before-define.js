@@ -424,6 +424,10 @@ ruleTester.run("no-use-before-define", rule, {
 			options: [{ allowNamedExports: true }],
 			languageOptions: { ecmaVersion: 2015, sourceType: "module" },
 		},
+		{
+			code: "const x = () => x;",
+			languageOptions: { ecmaVersion: 6 },
+		},
 	],
 	invalid: [
 		{
@@ -1671,6 +1675,73 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
+				},
+			],
+		},
+		{
+			code: `
+const foo = (() => foo())();
+			`,
+			languageOptions: { parserOptions: { ecmaVersion: 6 } },
+			errors: [
+				{
+					data: { name: "foo" },
+					messageId: "usedBeforeDefined",
+					line: 2,
+					column: 20,
+					endLine: 2,
+					endColumn: 23,
+				},
+			],
+		},
+		{
+			// pessimistic check for functions
+			code: `
+const a = arr.map(x => a.length);
+			`,
+			languageOptions: { parserOptions: { ecmaVersion: 6 } },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					line: 2,
+					column: 24,
+					endLine: 2,
+					endColumn: 25,
+				},
+			],
+		},
+
+		{
+			// https://github.com/eslint/eslint/issues/20014#issuecomment-3201124716
+			code: `
+function TestFunction (array, fn) {
+    const output = [];
+
+    for (const arr of array) {
+        output.push(fn(arr));
+    }
+    return output;
+}
+
+const arr = [1, 2];
+
+const a = TestFunction(
+    arr,
+    (T) => {
+        console.log(\`blah: \${a}\`);
+        return T;
+    }
+);
+
+console.log(\`blah: \${a}\`);
+
+			`,
+			languageOptions: { parserOptions: { ecmaVersion: 6 } },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
 				},
 			],
 		},
@@ -3265,69 +3336,6 @@ type StringOrNumber = string | number;
 			errors: [
 				{
 					data: { name: "C" },
-					messageId: "usedBeforeDefined",
-				},
-			],
-		},
-		{
-			code: `
-const foo = (() => foo())();
-			`,
-			errors: [
-				{
-					data: { name: "foo" },
-					messageId: "usedBeforeDefined",
-					line: 2,
-					column: 20,
-					endLine: 2,
-					endColumn: 23,
-				},
-			],
-		},
-		{
-			// pessimistic check for functions
-			code: `
-const a = arr.map(x => a.length);
-			`,
-			errors: [
-				{
-					data: { name: "a" },
-					messageId: "usedBeforeDefined",
-					line: 2,
-					column: 24,
-					endLine: 2,
-					endColumn: 25,
-				},
-			],
-		},
-		{
-			// https://github.com/eslint/eslint/issues/20014#issuecomment-3201124716
-			code: `
-function TestFunction (array, fn) {
-    const output = [];
-
-    for (const arr of array) {
-        output.push(fn(arr));
-    }
-    return output;
-}
-
-const arr = [1, 2];
-
-const a = TestFunction(
-    arr,
-    (T) => {
-        console.log(\`blah: \${a}\`);
-        return T;
-    }
-);
-
-console.log(\`blah: \${a}\`);
-
-			`,
-			errors: [
-				{
-					data: { name: "a" },
 					messageId: "usedBeforeDefined",
 				},
 			],
