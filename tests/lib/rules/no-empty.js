@@ -172,7 +172,8 @@ ruleTester.run("no-empty", rule, {
 			],
 		},
 		{
-			code: "switch (/* empty */ foo /* empty */) /* empty */ { }",
+			// comments everywhere except the body of the switch
+			code: "switch /* empty */ (/* empty */ foo /* empty */) /* empty */ { } /* empty */",
 			errors: [
 				{
 					messageId: "unexpected",
@@ -182,7 +183,7 @@ ruleTester.run("no-empty", rule, {
 						{
 							messageId: "suggestComment",
 							data: { type: "switch" },
-							output: "switch (/* empty */ foo /* empty */) /* empty */ { /* empty */ }",
+							output: "switch /* empty */ (/* empty */ foo /* empty */) /* empty */ { /* empty */ } /* empty */",
 						},
 					],
 				},
