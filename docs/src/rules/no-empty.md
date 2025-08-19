@@ -55,6 +55,10 @@ while (foo) {
     /* empty */
 }
 
+switch(foo) {
+	/* empty */
+}
+
 try {
     doSomething();
 } catch (ex) {

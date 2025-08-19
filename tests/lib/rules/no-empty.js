@@ -25,6 +25,8 @@ ruleTester.run("no-empty", rule, {
 		"for (;foo;) { bar() }",
 		"try { foo() } catch (ex) { foo() }",
 		"switch(foo) {case 'foo': break;}",
+		"switch (foo) { /* empty */ }",
+
 		"(function() { }())",
 		{ code: "var foo = () => {};", languageOptions: { ecmaVersion: 6 } },
 		"function foo() { }",
@@ -159,18 +161,30 @@ ruleTester.run("no-empty", rule, {
 					messageId: "unexpected",
 					data: { type: "switch" },
 					type: "SwitchStatement",
-					suggestions: null,
+					suggestions: [
+						{
+							messageId: "suggestComment",
+							data: { type: "switch" },
+							output: "switch(foo) { /* empty */ }",
+						},
+					],
 				},
 			],
 		},
 		{
-			code: "switch (foo) { /* empty */ }",
+			code: "switch (/* empty */ foo /* empty */) /* empty */ { }",
 			errors: [
 				{
 					messageId: "unexpected",
 					data: { type: "switch" },
 					type: "SwitchStatement",
-					suggestions: null,
+					suggestions: [
+						{
+							messageId: "suggestComment",
+							data: { type: "switch" },
+							output: "switch (/* empty */ foo /* empty */) /* empty */ { /* empty */ }",
+						},
+					],
 				},
 			],
 		},
