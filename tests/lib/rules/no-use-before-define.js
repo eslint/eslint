@@ -1922,7 +1922,7 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 	interface Bar {
 	  type: typeof Foo;
 	}
-	
+
 	const Foo = 2;
 		  `,
 			options: [{ ignoreTypeReferences: true }],
@@ -1932,7 +1932,7 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 	interface Bar {
 	  type: typeof Foo.FOO;
 	}
-	
+
 	class Foo {
 	  public static readonly FOO = '';
 	}
@@ -1944,7 +1944,7 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 	interface Bar {
 	  type: typeof Foo.Bar.Baz;
 	}
-	
+
 	const Foo = {
 	  Bar: {
 		Baz: 1,
@@ -1961,11 +1961,11 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 	  second: string;
 	  third: boolean;
 	}
-	
+
 	let first = () => console.log('first');
-	
+
 	export let second = () => console.log('second');
-	
+
 	export namespace Third {
 	  export let third = () => console.log('third');
 	}
@@ -1994,7 +1994,7 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 	function foo(): Foo {
 	  return Foo.FOO;
 	}
-	
+
 	enum Foo {
 	  FOO,
 	}
@@ -2004,7 +2004,7 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 		{
 			code: `
 	let foo: Foo;
-	
+
 	enum Foo {
 	  FOO,
 	}
@@ -2018,7 +2018,7 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 		return Foo.FOO;
 	  }
 	}
-	
+
 	enum Foo {
 	  FOO,
 	}
@@ -2078,7 +2078,7 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 		{
 			code: `
 	export { Foo };
-	
+
 	enum Foo {
 	  BAR,
 	}
@@ -2089,7 +2089,7 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 		{
 			code: `
 	export { Foo };
-	
+
 	namespace Foo {
 	  export let bar = () => console.log('bar');
 	}
@@ -2100,11 +2100,11 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 		{
 			code: `
 	export { Foo, baz };
-	
+
 	enum Foo {
 	  BAR,
 	}
-	
+
 	let baz: Enum;
 	enum Enum {}
 		  `,
@@ -2115,7 +2115,7 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 		{
 			code: `
 	import * as React from 'react';
-	
+
 	<div />;
 		  `,
 			languageOptions: {
@@ -2130,7 +2130,7 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 		{
 			code: `
 	import React from 'react';
-	
+
 	<div />;
 		  `,
 			languageOptions: {
@@ -2145,7 +2145,7 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 		{
 			code: `
 	import { h } from 'preact';
-	
+
 	<div />;
 		  `,
 			languageOptions: {
@@ -2161,7 +2161,7 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 		{
 			code: `
 	const React = require('react');
-	
+
 	<div />;
 		  `,
 			languageOptions: {
@@ -2178,7 +2178,7 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 		`,
 		`
 	global.foo = true;
-	
+
 	declare global {
 	  namespace NodeJS {
 		interface Global {
@@ -2227,10 +2227,10 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 	  constructor(printName) {
 		this.printName = printName;
 	  }
-	
+
 	  openPort(printerName = this.printerName) {
 		this.tscOcx.ActiveXopenport(printerName);
-	
+
 		return this;
 	  }
 	}
@@ -2276,16 +2276,16 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 	} satisfies {
 	  bar: typeof baz;
 	};
-	
+
 	const baz = '';
 		  `,
 			options: [{ ignoreTypeReferences: true }],
 		},
 		`
 	namespace A.X.Y {}
-	
+
 	import Z = A.X.Y;
-	
+
 	const X = 23;
 		`,
 		`
@@ -2300,6 +2300,9 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 		import Z = A.X.Y;
 
 		const X = 23;
+		`,
+		`
+const foo = (function recursiveIife() { return recursiveIife(); })();
 		`,
 	],
 	invalid: [
@@ -2809,7 +2812,7 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 	interface Bar {
 	  type: typeof Foo;
 	}
-	
+
 	const Foo = 2;
 		  `,
 			options: [{ ignoreTypeReferences: false }],
@@ -2841,7 +2844,7 @@ type StringOrNumber = string | number;
 	interface Bar {
 	  type: typeof Foo.FOO;
 	}
-	
+
 	class Foo {
 	  public static readonly FOO = '';
 	}
@@ -2860,7 +2863,7 @@ type StringOrNumber = string | number;
 	interface Bar {
 	  type: typeof Foo.Bar.Baz;
 	}
-	
+
 	const Foo = {
 	  Bar: {
 		Baz: 1,
@@ -2883,7 +2886,7 @@ type StringOrNumber = string | number;
 	} satisfies {
 	  bar: typeof baz;
 	};
-	
+
 	const baz = '';
 		  `,
 			options: [{ ignoreTypeReferences: false }],
@@ -2922,7 +2925,7 @@ type StringOrNumber = string | number;
 		return Foo.FOO;
 	  }
 	}
-	
+
 	enum Foo {
 	  FOO,
 	}
@@ -2941,7 +2944,7 @@ type StringOrNumber = string | number;
 	function foo(): Foo {
 	  return Foo.FOO;
 	}
-	
+
 	enum Foo {
 	   FOO,
 	 }
@@ -2958,7 +2961,7 @@ type StringOrNumber = string | number;
 		{
 			code: `
 	const foo = Foo.Foo;
-	
+
 	enum Foo {
 	  FOO,
 	}
@@ -3148,7 +3151,7 @@ type StringOrNumber = string | number;
 		{
 			code: `
 	export { Foo };
-	
+
 	enum Foo {
 	  BAR,
 	}
@@ -3164,7 +3167,7 @@ type StringOrNumber = string | number;
 		{
 			code: `
 	export { Foo };
-	
+
 	namespace Foo {
 	  export let bar = () => console.log('bar');
 	}
@@ -3180,11 +3183,11 @@ type StringOrNumber = string | number;
 		{
 			code: `
 	export { Foo, baz };
-	
+
 	enum Foo {
 	  BAR,
 	}
-	
+
 	let baz: Enum;
 	enum Enum {}
 		  `,
@@ -3263,6 +3266,37 @@ type StringOrNumber = string | number;
 				{
 					data: { name: "C" },
 					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+const foo = (() => foo())();
+			`,
+			errors: [
+				{
+					data: { name: "foo" },
+					messageId: "usedBeforeDefined",
+					line: 2,
+					column: 20,
+					endLine: 2,
+					endColumn: 23,
+				},
+			],
+		},
+		{
+			// pessimistic check for functions
+			code: `
+const a = arr.map(x => a.length);
+			`,
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+					line: 2,
+					column: 24,
+					endLine: 2,
+					endColumn: 25,
 				},
 			],
 		},
