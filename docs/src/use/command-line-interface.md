@@ -395,7 +395,7 @@ To ignore rules in `.eslintrc` configuration files and only run rules specified 
 
 #### `--rulesdir`
 
-**Deprecated**: Use rules from plugins instead.
+**Deprecated**: Use [rules from custom plugins](https://eslint.org/blog/2022/08/new-config-system-part-2/#from---rulesdir-to-runtime-plugins) instead.
 
 **eslintrc Mode Only.** This option allows you to specify another directory from which to load rules files. This allows you to dynamically load new rules at run time. This is useful when you have custom rules that aren't suitable for being bundled with ESLint.
 
