@@ -29,6 +29,11 @@ while (foo) {
 switch(foo) {
 }
 
+// also an error, since <<input needed from eslint team>>
+switch (foo) {
+	/* empty */
+}
+
 try {
     doSomething();
 } catch(ex) {
