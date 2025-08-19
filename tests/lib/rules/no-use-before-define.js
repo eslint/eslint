@@ -3300,5 +3300,37 @@ const a = arr.map(x => a.length);
 				},
 			],
 		},
+		{
+			// https://github.com/eslint/eslint/issues/20014#issuecomment-3201124716
+			code: `
+function TestFunction (array, fn) {
+    const output = [];
+
+    for (const arr of array) {
+        output.push(fn(arr));
+    }
+    return output;
+}
+
+const arr = [1, 2];
+
+const a = TestFunction(
+    arr,
+    (T) => {
+        console.log(\`blah: \${a}\`);
+        return T;
+    }
+);
+
+console.log(\`blah: \${a}\`);
+
+			`,
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
 	],
 });
