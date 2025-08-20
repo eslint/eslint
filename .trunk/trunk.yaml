@@ -40,7 +40,7 @@ lint:
           commands:
               - name: lint
                 disable_upstream: true
-                run: node ${workspace}/bin/eslint.js --output-file ${tmpfile} --format json ${target}
+                run: node ${workspace}/bin/eslint.js --output-file ${tmpfile} --format json ${target} # --concurrency auto
         - name: checkov
           supported_platforms: [linux, macos]
         - name: renovate
