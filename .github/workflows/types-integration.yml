@@ -67,7 +67,7 @@ jobs:
             - name: Install Packages (neostandard)
               working-directory: neostandard
               run: |
-                  npm install --no-package-lock ../eslint
+                  npm ci && npm install eslint@file:../eslint
 
             - name: Run TSC
               working-directory: neostandard
