@@ -25,4 +25,4 @@ jobs:
               run: npm install
 
             - name: Run ESLint with concurrency
-              run: npx eslint
+              run: npx eslint --concurrency 2
