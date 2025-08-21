@@ -5353,9 +5353,12 @@ describe("RuleTester", () => {
 				);
 				assert.fail("Expected an error to be thrown");
 			} catch (error) {
-				assert.ok(
-					/RuleTester.run.valid\[0\]/u.test(error.stack ?? ""),
-					`Expected error message to include 'RuleTester.run.valid', but got: ${error.stack}`,
+				assert.include(error.stack, "RuleTester.run.valid[0]");
+				assert.include(
+					error.stack
+						.replace(/\\/gu, "/")
+						.replace(/:\d+/gu, ":<lines>"),
+					"tests/lib/rule-tester/rule-tester.js:<lines>",
 				);
 			}
 		});
@@ -5384,9 +5387,15 @@ describe("RuleTester", () => {
 				);
 				assert.fail("Expected an error to be thrown");
 			} catch (error) {
-				assert.ok(
-					/RuleTester.run.invalid\[0\].error\[1\]/u.test(error.stack),
-					`Expected error message to include 'RuleTester.run.invalid', but got: ${error.stack}`,
+				assert.include(
+					error.stack,
+					"RuleTester.run.invalid[0].error[1]",
+				);
+				assert.include(
+					error.stack
+						.replace(/\\/gu, "/")
+						.replace(/:\d+/gu, ":<lines>"),
+					"tests/lib/rule-tester/rule-tester.js:<lines>",
 				);
 			}
 		});
