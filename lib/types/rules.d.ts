@@ -948,6 +948,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 6.7.0
 	 * @see https://eslint.org/docs/latest/rules/grouped-accessor-pairs
 	 */
+
 	"grouped-accessor-pairs": Linter.RuleEntry<
 		[
 			"anyOrder" | "getBeforeSet" | "setBeforeGet",
