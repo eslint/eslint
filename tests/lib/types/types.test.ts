@@ -897,6 +897,21 @@ type DeprecatedRuleContextKeys =
 	},
 });
 
+// `meta.docs.recommended` can be any type
+(): JSRuleDefinition => ({
+	create() {
+		return {};
+	},
+	meta: {
+		docs: {
+			recommended: {
+				severity: "warn",
+				options: ["never"],
+			},
+		},
+	},
+});
+
 // #endregion
 
 // #region Linter
@@ -1482,6 +1497,11 @@ linterWithEslintrcConfig.getRules();
 	eslint = new ESLint({ cache: true });
 	eslint = new ESLint({ cacheLocation: "foo" });
 	eslint = new ESLint({ cacheStrategy: "content" });
+
+	eslint = new ESLint({ concurrency: 8 });
+	eslint = new ESLint({ concurrency: "auto" });
+	eslint = new ESLint({ concurrency: "off" });
+
 	eslint = new ESLint({ cwd: "foo" });
 	eslint = new ESLint({ errorOnUnmatchedPattern: true });
 	eslint = new ESLint({ fix: true });
@@ -1603,6 +1623,15 @@ linterWithEslintrcConfig.getRules();
 	})();
 
 	const hasFooFlag: boolean = eslint.hasFlag("foo");
+
+	ESLint.fromOptionsModule(new URL("file:///path/to/file.js")).then(
+		eslint => {
+			eslint; // $ExpectType ESLint
+		},
+	);
+
+	// @ts-expect-error // String not allowed
+	ESLint.fromOptionsModule("data:text/javascript,export default [{}];");
 }
 
 // #endregion

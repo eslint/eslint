@@ -4,6 +4,7 @@ const js = require("@eslint/js");
 const jsdoc = require("eslint-plugin-jsdoc");
 const eslintCommentsPluginConfigs = require("@eslint-community/eslint-plugin-eslint-comments/configs");
 const unicorn = require("eslint-plugin-unicorn");
+const regexp = require("eslint-plugin-regexp");
 
 // extends eslint recommended config
 /**
@@ -294,6 +295,12 @@ const eslintCommentsConfigs = [
 	},
 ];
 
+// extends eslint-plugin-regexp's recommended config
+/**
+ * @type {import("eslint").Linter.Config[]}
+ */
+const regexpConfigs = [regexp.configs["flat/recommended"]];
+
 /**
  * @type {import("eslint").Linter.Config[]}
  */
@@ -305,8 +312,9 @@ module.exports = [
 			reportUnusedInlineConfigs: "error",
 		},
 	},
-	...jsConfigs,
 	...unicornConfigs,
 	...jsdocConfigs,
 	...eslintCommentsConfigs,
+	...regexpConfigs,
+	...jsConfigs,
 ];

@@ -1,3 +1,21 @@
+v9.33.0 - August 8, 2025
+
+* [`4258046`](https://github.com/eslint/eslint/commit/425804602ecb9ee5f54d1c38a473cf20538420c5) chore: update dependency @eslint/js to v9.33.0 (#19998) (renovate[bot])
+* [`ad28371`](https://github.com/eslint/eslint/commit/ad283717ed4764a171120ca7c6cba82a78fa024c) chore: package.json update for @eslint/js release (Jenkins)
+* [`06a22f1`](https://github.com/eslint/eslint/commit/06a22f154c08ea044b3172b357b226d34dfefc6a) test: resolve flakiness in --mcp flag test (#19993) (Pixel998)
+* [`732433c`](https://github.com/eslint/eslint/commit/732433c4fb023f45154b825cdc8cdaf1979d4336) fix: allow any type for `meta.docs.recommended` in custom rules (#19995) (Francesco Trotta)
+* [`34f0723`](https://github.com/eslint/eslint/commit/34f0723e2d0faf8ac8dc95ec56e6d181bd6b67f2) docs: playground button for TypeScript code example (#19671) (Tanuj Kanti)
+* [`dc942a4`](https://github.com/eslint/eslint/commit/dc942a47daf41228d69072c52f1be20789426862) docs: Update README (GitHub Actions Bot)
+* [`5a4b6f7`](https://github.com/eslint/eslint/commit/5a4b6f74320b72f9b6ad8b30f5c463b2b71315af) docs: Update no-multi-assign.md (#19979) (Yuki Takada (Yukinosuke Takada))
+* [`247e156`](https://github.com/eslint/eslint/commit/247e15698e34919a0cd411842fb3e14ac7a8f1ba) docs: add missing let declarations in `no-plusplus` (#19980) (Yuki Takada (Yukinosuke Takada))
+* [`0d17242`](https://github.com/eslint/eslint/commit/0d17242b3c25c2ddf8363f4560641acd1ae82ca9) docs: Update README (GitHub Actions Bot)
+* [`e07820e`](https://github.com/eslint/eslint/commit/e07820e66fd1fceaf2620dc931154955a706cc0f) feat: add global object access detection to no-restricted-globals (#19939) (sethamus)
+* [`fa20b9d`](https://github.com/eslint/eslint/commit/fa20b9db8ff90ea9f0527118114dda17c656d095) docs: Clarify when to open an issue for a PR (#19974) (Nicholas C. Zakas)
+* [`54920ed`](https://github.com/eslint/eslint/commit/54920ed229693f23650dace6e567bf44413aaf98) test: switch to `Linter.Config` in `ESLintRules` type tests (#19977) (Francesco Trotta)
+* [`e8a6914`](https://github.com/eslint/eslint/commit/e8a6914a249d036e12494004e586b2a2b6e104d1) fix: Fixed potential bug in check-emfile-handling.js (#19975) (諏訪原慶斗)
+* [`90b050e`](https://github.com/eslint/eslint/commit/90b050ec11557cab08b6be9f05fabf97dba6a63d) feat: support explicit resource management in `one-var` (#19941) (Sweta Tanwar)
+* [`27fa865`](https://github.com/eslint/eslint/commit/27fa86551bd173387e29a139293de78b0e14f0f3) build: use `ESLint` class to generate formatter examples (#19972) (Milos Djermanovic)
+
 v9.32.0 - July 25, 2025
 
 * [`960fd40`](https://github.com/eslint/eslint/commit/960fd40dfd204af30726b49b6bec714fe49a606e) fix: Upgrade @eslint/js (#19971) (Nicholas C. Zakas)

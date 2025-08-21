@@ -117,7 +117,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 */
 				enforceForClassMembers: boolean;
 				/**
-				 * @default true
+				 * @default false
 				 */
 				enforceForTSTypes: boolean;
 			}>,
