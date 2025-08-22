@@ -832,7 +832,10 @@
     "grouped-accessor-pairs": {
         "type": "suggestion",
         "defaultOptions": [
-            "anyOrder"
+            "anyOrder",
+            {
+                "enforceForTSTypes": false
+            }
         ],
         "docs": {
             "description": "Require grouped accessor pairs in object literals and classes",
