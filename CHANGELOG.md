@@ -1,3 +1,24 @@
+v9.34.0 - August 22, 2025
+
+* [`f19ad94`](https://github.com/eslint/eslint/commit/f19ad9493e0ca04c2c1455fbb3402eaad993a8be) chore: upgrade to `@eslint/js@9.34.0` (#20030) (Francesco Trotta)
+* [`b48fa20`](https://github.com/eslint/eslint/commit/b48fa20034e53bc65d1a58f3d834705e3087b00c) chore: package.json update for @eslint/js release (Jenkins)
+* [`4bce8a2`](https://github.com/eslint/eslint/commit/4bce8a250262ec47207bc260581f979e40c86bda) chore: package.json update for eslint-config-eslint release (Jenkins)
+* [`0c9999c`](https://github.com/eslint/eslint/commit/0c9999c2a682151cf13bb3a4f8916930678c2f9b) refactor: prefer default options in `grouped-accessor-pairs` (#20028) (루밀LuMir)
+* [`0b4a590`](https://github.com/eslint/eslint/commit/0b4a590333b73a21b9e0ddc98462680e09fe3232) docs: make rulesdir deprecation clearer (#20018) (Domenico Gemoli)
+* [`9b89903`](https://github.com/eslint/eslint/commit/9b8990397b2d2ed70771bb0e2070261a0c41782c) fix: default value of accessor-pairs option in rule.d.ts file (#20024) (Tanuj Kanti)
+* [`6c07420`](https://github.com/eslint/eslint/commit/6c074206ae0eae4816197a57648b415832a20e1d) fix: fix spurious failure in neostandard integration test (#20023) (Kirk Waiblinger)
+* [`676f4ac`](https://github.com/eslint/eslint/commit/676f4acaaed6e4f6ffe0c2e21272d4702b311a7b) fix: allow scientific notation with trailing zeros matching exponent (#20002) (Sweta Tanwar)
+* [`327c672`](https://github.com/eslint/eslint/commit/327c67256fbeaf9d5e365802c2a11f5d32a16522) docs: Update README (GitHub Actions Bot)
+* [`d503f19`](https://github.com/eslint/eslint/commit/d503f1981354c7b86e423879846c61e0405af8fe) ci: fix `stale.yml` (#20010) (루밀LuMir)
+* [`0bb777a`](https://github.com/eslint/eslint/commit/0bb777a82b533df595cd520d9c89d291efa14a33) feat: multithread linting (#19794) (Francesco Trotta)
+* [`bf26229`](https://github.com/eslint/eslint/commit/bf2622991f5b892610a8c3343ff16519e5fd7a79) docs: Fix typo in core-concepts/index.md (#20009) (Tobias Hernstig)
+* [`43a5f9e`](https://github.com/eslint/eslint/commit/43a5f9e36f1aade16f81fc49ef4b333660faadab) feat: add eslint-plugin-regexp to eslint-config-eslint base config (#19951) (Pixel998)
+* [`e2dc67d`](https://github.com/eslint/eslint/commit/e2dc67d8b028147de4da35c64efe1d74c9f6a883) ci: centralize `stale.yml` (#19994) (루밀LuMir)
+* [`7093cb8`](https://github.com/eslint/eslint/commit/7093cb8f590ec2a1b5364d7b5687e9b5f4e06f8a) ci: bump actions/checkout from 4 to 5 (#20005) (dependabot[bot])
+* [`2309327`](https://github.com/eslint/eslint/commit/2309327554acbf011f0d17e7b36fdd68e43adf3a) docs: fix typo in the "Configuring Rules" section (#20001) (ghazi-git)
+* [`2b87e21`](https://github.com/eslint/eslint/commit/2b87e21321422c120c2248dae25cac7f9eec0f29) docs: [no-else-return] clarify sample code. (#19991) (Yuki Takada (Yukinosuke Takada))
+* [`c36570c`](https://github.com/eslint/eslint/commit/c36570c6657c2a92dbb4f09a8166a4d9909a091a) docs: Update README (GitHub Actions Bot)
+
 v9.33.0 - August 8, 2025
 
 * [`4258046`](https://github.com/eslint/eslint/commit/425804602ecb9ee5f54d1c38a473cf20538420c5) chore: update dependency @eslint/js to v9.33.0 (#19998) (renovate[bot])
