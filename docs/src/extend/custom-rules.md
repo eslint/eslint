@@ -991,10 +991,10 @@ no-empty-class          |    21.976 |     2.6%
 semi                    |    19.359 |     2.3%
 ```
 
-To test one rule explicitly, combine the `--no-eslintrc`, and `--rule` options:
+To test one rule explicitly, combine the `--no-config-lookup` and `--rule` options:
 
 ```bash
-$ TIMING=1 eslint --no-eslintrc --rule "quotes: [2, 'double']" lib
+$ TIMING=1 eslint --no-config-lookup --rule "quotes: [2, 'double']" lib
 Rule   | Time (ms) | Relative
 :------|----------:|--------:
 quotes |    18.066 |   100.0%
