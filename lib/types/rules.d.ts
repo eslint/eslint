@@ -60,25 +60,19 @@ type EitherGroupOrRegEx =
 // Base type for import name specifiers, ensuring mutual exclusivity
 type EitherNameSpecifiers =
 	| {
-			importNames: string[];
+			importNames?: string[];
+			importNamePattern?: string;
 			allowImportNames?: never;
-			importNamePattern?: never;
 			allowImportNamePattern?: never;
 	  }
 	| {
-			importNamePattern: string;
-			allowImportNames?: never;
-			importNames?: never;
-			allowImportNamePattern?: never;
-	  }
-	| {
-			allowImportNames: string[];
+			allowImportNames?: string[];
 			importNames?: never;
 			importNamePattern?: never;
 			allowImportNamePattern?: never;
 	  }
 	| {
-			allowImportNamePattern: string;
+			allowImportNamePattern?: string;
 			importNames?: never;
 			allowImportNames?: never;
 			importNamePattern?: never;
@@ -3441,9 +3435,9 @@ export interface ESLintRules extends Linter.RulesRecord {
 						paths: Array<
 							string | ValidNoRestrictedImportPathOptions
 						>;
-						patterns: Array<
-							string | ValidNoRestrictedImportPatternOptions
-						>;
+						patterns:
+							| Array<string>
+							| Array<ValidNoRestrictedImportPatternOptions>;
 				  }>
 			>,
 		]
