@@ -63,6 +63,13 @@ ruleTester.run("preserve-caught-error", rule, {
 			}
 		};
 	}`,
+		/* 19. When there is a `SpreadStatement` argument passed to the Error constructor, we can't provide an accurate suggestion. */
+		`try {
+				doSomething();
+			} catch (error) {
+				const args = [];
+				throw new Error(...args);
+		}`,
 		/* Do not report instances where thrown error is an instance of a custom error type that shadows built-in class. */
 		`import { Error } from "./my-custom-error.js";
 			try {
