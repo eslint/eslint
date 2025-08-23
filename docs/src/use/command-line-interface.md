@@ -402,7 +402,7 @@ To ignore rules in configuration files and only run rules specified in the comma
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--rule", "\'quotes: [error, double]\'", "--no-eslintrc"],
+    args: ["--rule", "\'quotes: [error, double]\'", "--no-config-lookup"],
     comment: "Only apply rule from the command line"
 }) }}
 
