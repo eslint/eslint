@@ -496,7 +496,57 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
-		/* 15. Disallow discarding caught errors when `requireCatchParameter` is set to `true` */
+		/* 15. `AggregateError` with no arguments.  */
+		{
+			code: `try {
+        } catch (err) {
+            {
+                throw new AggregateError();
+            }
+        }`,
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try {
+        } catch (err) {
+            {
+                throw new AggregateError([], "", { cause: err });
+            }
+        }`,
+						},
+					],
+				},
+			],
+		},
+		/* 16. `AggregateError` with just `errors` argument.  */
+		{
+			code: `try {
+        } catch (err) {
+            {
+                throw new AggregateError([]);
+            }
+        }`,
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try {
+        } catch (err) {
+            {
+                throw new AggregateError([], "", { cause: err });
+            }
+        }`,
+						},
+					],
+				},
+			],
+		},
+		/* 17. Disallow discarding caught errors when `requireCatchParameter` is set to `true` */
 		{
 			code: `try {
 			doSomething();
@@ -510,7 +560,7 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
-		/* 16. Throwing a new Error with unrelated cause, and complex fix is needed. */
+		/* 18. Throwing a new Error with unrelated cause, and complex fix is needed. */
 		{
 			code: `try {
             doSomething();
@@ -533,7 +583,7 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
-		/* 17. When the caught error is being partially lost. */
+		/* 19. When the caught error is being partially lost. */
 		{
 			code: `try {
 				doSomething();
@@ -558,7 +608,7 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
-		/* 18. When the caught error is shadowed by a closer scoped redeclaration. */
+		/* 20. When the caught error is shadowed by a closer scoped redeclaration. */
 		{
 			code: `try {
 				doSomething();
@@ -571,6 +621,33 @@ ruleTester.run("preserve-caught-error", rule, {
 			errors: [
 				{
 					messageId: "caughtErrorShadowed",
+				},
+			],
+		},
+		/* 21. Make sure comments are preserved when fixing missing cause. */
+		{
+			code: `try {
+				doSomething();
+			} catch (error) {
+				throw new Error(
+					"Something went wrong" // some comments
+				);
+			}`,
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try {
+				doSomething();
+			} catch (error) {
+				throw new Error(
+					"Something went wrong", { cause: error } // some comments
+				);
+			}`,
+						},
+					],
 				},
 			],
 		},
