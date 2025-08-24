@@ -525,7 +525,7 @@ This option is helpful if you are using another program to format your code, but
 
 #### `--no-ignore`
 
-Disables excluding of files from `.eslintignore` files, `--ignore-path` flags, `--ignore-pattern` flags, and the `ignorePatterns` property in config files.
+Disables excluding of files from [`--ignore-pattern`](#--ignore-pattern) flags and the `ignores` property in configuration. In eslintrc mode, `.eslintignore` files, [`--ignore-path`](#--ignore-path) flags, and the `ignorePatterns` property in configuration are also disabled.
 
 - **Argument Type**: No argument.
 
@@ -540,7 +540,7 @@ Disables excluding of files from `.eslintignore` files, `--ignore-path` flags, `
 
 This option allows you to specify patterns of files to ignore. In eslintrc mode, these are in addition to `.eslintignore`.
 
-- **Argument Type**: String. The supported syntax is the same as for [`.eslintignore` files](configure/ignore-deprecated#the-eslintignore-file), which use the same patterns as the [`.gitignore` specification](https://git-scm.com/docs/gitignore). You should quote your patterns in order to avoid shell interpretation of glob patterns.
+- **Argument Type**: String. The supported syntax is the same as for [`ignores` patterns](configure/configuration-files#excluding-files-with-ignores), which use [minimatch](https://www.npmjs.com/package/minimatch) syntax. In eslintrc mode, the syntax is the same as for [`.eslintignore` files](configure/ignore-deprecated#the-eslintignore-file), which use the same patterns as the [`.gitignore` specification](https://git-scm.com/docs/gitignore). You should quote your patterns in order to avoid shell interpretation of glob patterns.
 - **Multiple Arguments**: Yes
 
 ##### `--ignore-pattern` example
