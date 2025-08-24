@@ -53,14 +53,17 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 		},
 		{
 			code: "let globalThis;",
+			options: [{ reportGlobalThis: false }],
 			languageOptions: { ecmaVersion: 2020 },
 		},
 		{
 			code: "class globalThis {}",
+			options: [{ reportGlobalThis: false }],
 			languageOptions: { ecmaVersion: 2020 },
 		},
 		{
 			code: "import { baz as globalThis } from 'foo';",
+			options: [{ reportGlobalThis: false }],
 			languageOptions: {
 				ecmaVersion: 2020,
 				sourceType: "module",
@@ -68,22 +71,18 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 		},
 		{
 			code: "globalThis.foo",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: { ecmaVersion: 2020 },
 		},
 		{
 			code: "const foo = globalThis",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: { ecmaVersion: 2020 },
 		},
 		{
 			code: "function foo() { return globalThis; }",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: { ecmaVersion: 2020 },
 		},
 		{
 			code: "import { globalThis as foo } from 'bar'",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: { ecmaVersion: 2020, sourceType: "module" },
 		},
 	],
@@ -472,7 +471,6 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 		},
 		{
 			code: "function globalThis(globalThis) { var globalThis; !function globalThis(globalThis) { try {} catch(globalThis) {} }; }",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: { ecmaVersion: 2015 },
 			errors: [
 				{
@@ -515,7 +513,6 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 		},
 		{
 			code: "function globalThis(globalThis) { var globalThis; !function globalThis(globalThis) { try {} catch(globalThis) {} }; }",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [
 				{
@@ -558,7 +555,6 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 		},
 		{
 			code: "const [globalThis] = [1]",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [
 				{
@@ -571,7 +567,6 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 		},
 		{
 			code: "var {globalThis} = obj; var {a: globalThis} = obj; var {a: {b: {globalThis}}} = obj; var {a, ...globalThis} = obj;",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [
 				{
@@ -602,7 +597,6 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 		},
 		{
 			code: "let globalThis; globalThis = 5;",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [
 				{
@@ -615,7 +609,6 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 		},
 		{
 			code: "class globalThis {}",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [
 				{
@@ -628,7 +621,6 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 		},
 		{
 			code: "(class globalThis {})",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [
 				{
@@ -641,7 +633,6 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 		},
 		{
 			code: "import globalThis from 'foo';",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: {
 				ecmaVersion: 2020,
 				sourceType: "module",
@@ -657,7 +648,6 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 		},
 		{
 			code: "import { globalThis } from 'foo';",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: {
 				ecmaVersion: 2020,
 				sourceType: "module",
@@ -673,7 +663,6 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 		},
 		{
 			code: "import { baz as globalThis } from 'foo';",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: {
 				ecmaVersion: 2020,
 				sourceType: "module",
@@ -689,7 +678,6 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 		},
 		{
 			code: "import * as globalThis from 'foo';",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: {
 				ecmaVersion: 2020,
 				sourceType: "module",
