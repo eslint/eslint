@@ -218,7 +218,6 @@ describe("cli", () => {
 					const filePath = getFixturePath("passing.js");
 					const exit = await cli.execute(
 						`--no-config-lookup -f json ${filePath}`,
-						null,
 					);
 
 					assert.strictEqual(exit, 0);
@@ -240,7 +239,6 @@ describe("cli", () => {
 					const filePath = getFixturePath("passing.js");
 					const exit = await cli.execute(
 						`--no-ignore -f json-with-metadata ${filePath} --no-config-lookup`,
-						null,
 					);
 
 					assert.strictEqual(exit, 0);
@@ -311,7 +309,6 @@ describe("cli", () => {
 					const filePath = getFixturePath("passing.js");
 					const exit = await cli.execute(
 						`-f fakeformatter ${filePath} --no-config-lookup`,
-						null,
 					);
 
 					assert.strictEqual(exit, 2);
@@ -337,7 +334,6 @@ describe("cli", () => {
 					const filePath = getFixturePath("passing.js");
 					const exit = await cli.execute(
 						`-f ${formatterPath} ${filePath} --no-config-lookup`,
-						null,
 					);
 
 					assert.strictEqual(exit, 0);
@@ -363,7 +359,6 @@ describe("cli", () => {
 					const filePath = getFixturePath("passing.js");
 					const exit = await cli.execute(
 						`--no-ignore -f ${formatterPath} ${filePath}`,
-						null,
 					);
 
 					assert.strictEqual(exit, 2);
@@ -389,7 +384,6 @@ describe("cli", () => {
 					const filePath = getFixturePath("passing.js");
 					const exit = await cli.execute(
 						`-f ${formatterPath} ${filePath} --no-config-lookup`,
-						null,
 					);
 
 					assert.strictEqual(
@@ -437,10 +431,7 @@ describe("cli", () => {
 			describe("when executing a file with a syntax error", () => {
 				it(`should exit with error`, async () => {
 					const filePath = getFixturePath("syntax-error.js");
-					const exit = await cli.execute(
-						`--no-ignore ${filePath}`,
-						null,
-					);
+					const exit = await cli.execute(`--no-ignore ${filePath}`);
 
 					assert.strictEqual(exit, 1);
 				});
@@ -462,19 +453,13 @@ describe("cli", () => {
 				const filePath = getFixturePath("missing-semicolon.js");
 				const passingPath = getFixturePath("passing.js");
 
-				await cli.execute(
-					`--no-ignore --rule semi:2 ${filePath}`,
-					null,
-				);
+				await cli.execute(`--no-ignore --rule semi:2 ${filePath}`);
 
 				assert.isTrue(log.info.called, "Log should have been called.");
 
 				log.info.resetHistory();
 
-				await cli.execute(
-					`--no-ignore --rule semi:2 ${passingPath}`,
-					null,
-				);
+				await cli.execute(`--no-ignore --rule semi:2 ${passingPath}`);
 				assert.isTrue(log.info.notCalled);
 			});
 		});
@@ -522,7 +507,6 @@ describe("cli", () => {
 				const filePath = getFixturePath("shebang.js");
 				const exit = await cli.execute(
 					`--no-config-lookup --no-ignore ${filePath}`,
-					null,
 				);
 
 				assert.strictEqual(exit, 0);
@@ -559,7 +543,6 @@ describe("cli", () => {
 					const filePath = getFixturePath("undef.js");
 					const exit = await cli.execute(
 						`--global baz,bat --no-ignore --rule no-global-assign:2 ${filePath}`,
-						null,
 					);
 
 					assert.isTrue(log.info.calledOnce);
@@ -570,7 +553,6 @@ describe("cli", () => {
 					const filePath = getFixturePath("undef.js");
 					const exit = await cli.execute(
 						`--global baz:false,bat:true --no-ignore ${filePath}`,
-						null,
 					);
 
 					assert.isTrue(log.info.notCalled);
@@ -581,7 +563,6 @@ describe("cli", () => {
 					const filePath = getFixturePath("undef.js");
 					const exit = await cli.execute(
 						`--global baz --global bat:true --no-ignore ${filePath}`,
-						null,
 					);
 
 					assert.isTrue(log.info.notCalled);
@@ -659,7 +640,6 @@ describe("cli", () => {
 							async () => {
 								await cli.execute(
 									`"${filePath}/${globPattern}"`,
-									null,
 								);
 							},
 							new Error(
@@ -674,7 +654,6 @@ describe("cli", () => {
 						const filePath = getFixturePath("unmatched-patterns");
 						const exit = await cli.execute(
 							`--no-error-on-unmatched-pattern "${filePath}/unmatched*.js"`,
-							null,
 						);
 
 						assert.strictEqual(exit, 0);
@@ -688,7 +667,6 @@ describe("cli", () => {
 						);
 						const exit = await cli.execute(
 							`--no-error-on-unmatched-pattern ${filePath}/unmatched1*.js ${filePath}/unmatched2*.js`,
-							null,
 						);
 
 						assert.strictEqual(exit, 0);
@@ -698,7 +676,6 @@ describe("cli", () => {
 						const filePath = getFixturePath("unmatched-patterns");
 						const exit = await cli.execute(
 							`--no-ignore --no-error-on-unmatched-pattern ${filePath}/unmatched1*.js ${filePath}/failing.js`,
-							null,
 						);
 
 						assert.strictEqual(exit, 1);
@@ -712,7 +689,6 @@ describe("cli", () => {
 						const filePath = getFixturePath("passing.js");
 						const exit = await cli.execute(
 							`--no-ignore --parser-options test111 ${filePath}`,
-							null,
 						);
 
 						assert.strictEqual(exit, 2);
@@ -722,7 +698,6 @@ describe("cli", () => {
 						const filePath = getFixturePath("passing.js");
 						const exit = await cli.execute(
 							`--no-ignore --parser-options=ecmaVersion:6 ${filePath}`,
-							null,
 						);
 
 						assert.strictEqual(exit, 0);
@@ -732,7 +707,6 @@ describe("cli", () => {
 						const filePath = getFixturePath("passing-es7.js");
 						const exit = await cli.execute(
 							`--no-ignore --parser-options=ecmaVersion:6 ${filePath}`,
-							null,
 						);
 
 						assert.strictEqual(exit, 1);
@@ -742,7 +716,6 @@ describe("cli", () => {
 						const filePath = getFixturePath("passing-es7.js");
 						const exit = await cli.execute(
 							`--no-ignore --parser-options=ecmaVersion:7 ${filePath}`,
-							null,
 						);
 
 						assert.strictEqual(exit, 0);
@@ -756,7 +729,6 @@ describe("cli", () => {
 						const filePath = getFixturePath("passing-es7.js");
 						const exit = await cli.execute(
 							`--no-ignore --config ${configPath} --parser-options=ecmaVersion:7 ${filePath}`,
-							null,
 						);
 
 						assert.strictEqual(exit, 0);
@@ -777,7 +749,6 @@ describe("cli", () => {
 				it(`should not change exit code if warning count under threshold`, async () => {
 					const exitCode = await cli.execute(
 						`--no-ignore --max-warnings 10 ${filePath} -c ${configFilePath}`,
-						null,
 					);
 
 					assert.strictEqual(exitCode, 0);
@@ -786,7 +757,6 @@ describe("cli", () => {
 				it(`should exit with exit code 1 if warning count exceeds threshold`, async () => {
 					const exitCode = await cli.execute(
 						`--no-ignore --max-warnings 5 ${filePath} -c ${configFilePath}`,
-						null,
 					);
 
 					assert.strictEqual(exitCode, 1);
@@ -800,7 +770,6 @@ describe("cli", () => {
 				it(`should exit with exit code 1 without printing warnings if the quiet option is enabled and warning count exceeds threshold`, async () => {
 					const exitCode = await cli.execute(
 						`--no-ignore --quiet --max-warnings 5 ${filePath} -c ${configFilePath}`,
-						null,
 					);
 
 					assert.strictEqual(exitCode, 1);
@@ -815,7 +784,6 @@ describe("cli", () => {
 				it(`should not change exit code if warning count equals threshold`, async () => {
 					const exitCode = await cli.execute(
 						`--no-ignore --max-warnings 6 ${filePath} -c ${configFilePath}`,
-						null,
 					);
 
 					assert.strictEqual(exitCode, 0);
@@ -824,7 +792,6 @@ describe("cli", () => {
 				it(`should not change exit code if flag is not specified and there are warnings`, async () => {
 					const exitCode = await cli.execute(
 						`-c ${configFilePath} ${filePath}`,
-						null,
 					);
 
 					assert.strictEqual(exitCode, 0);
@@ -839,7 +806,6 @@ describe("cli", () => {
 					);
 					const exitCode = await cli.execute(
 						`--no-ignore --exit-on-fatal-error ${filePath}`,
-						null,
 					);
 
 					assert.strictEqual(exitCode, 0);
@@ -852,7 +818,6 @@ describe("cli", () => {
 					);
 					const exitCode = await cli.execute(
 						`--no-ignore --exit-on-fatal-error ${filePath}`,
-						null,
 					);
 
 					assert.strictEqual(exitCode, 1);
@@ -865,7 +830,6 @@ describe("cli", () => {
 					);
 					const exitCode = await cli.execute(
 						`--no-ignore --exit-on-fatal-error ${filePath}`,
-						null,
 					);
 
 					assert.strictEqual(exitCode, 2);
@@ -875,7 +839,6 @@ describe("cli", () => {
 					const filePath = getFixturePath("exit-on-fatal-error");
 					const exitCode = await cli.execute(
 						`--no-ignore --exit-on-fatal-error ${filePath}`,
-						null,
 					);
 
 					assert.strictEqual(exitCode, 2);
@@ -901,7 +864,6 @@ describe("cli", () => {
 						const filePath = getFixturePath("passing.js");
 						const exit = await cli.execute(
 							`${options} ${filePath}`,
-							null,
 						);
 
 						// a warning about the ignored file
@@ -914,7 +876,6 @@ describe("cli", () => {
 						const filePath = getFixturePath("passing.js");
 						const exit = await cli.execute(
 							`${options} --no-ignore ${filePath}`,
-							null,
 						);
 
 						// no warnings
@@ -927,7 +888,6 @@ describe("cli", () => {
 						const filePath = getFixturePath("passing.js");
 						const exit = await cli.execute(
 							`${options} --no-warn-ignored ${filePath}`,
-							null,
 						);
 
 						assert.isFalse(log.info.called);
@@ -935,10 +895,7 @@ describe("cli", () => {
 					});
 
 					it(`should not lint anything when no files are passed if --pass-on-no-patterns is passed`, async () => {
-						const exit = await cli.execute(
-							"--pass-on-no-patterns",
-							null,
-						);
+						const exit = await cli.execute("--pass-on-no-patterns");
 
 						assert.isFalse(log.info.called);
 						assert.strictEqual(exit, 0);
@@ -965,7 +922,6 @@ describe("cli", () => {
 						const filePath = getFixturePath("cli/passing.js");
 						const exit = await cli.execute(
 							`--ignore-pattern cli/** ${ignoredFile} ${filePath}`,
-							null,
 						);
 
 						// warnings about the ignored files
@@ -985,7 +941,6 @@ describe("cli", () => {
 						 */
 						const exit = await cli.execute(
 							"**/*.js --ignore-pattern subdir/**",
-							null,
 						);
 
 						assert.strictEqual(exit, 0);
@@ -994,7 +949,6 @@ describe("cli", () => {
 							async () =>
 								await cli.execute(
 									"**/*.js --ignore-pattern subsubdir/*.js",
-									null,
 								),
 							/All files matched by '\*\*\/\*\.js' are ignored/u,
 						);
@@ -1010,7 +964,6 @@ describe("cli", () => {
 							async () =>
 								await cli.execute(
 									"**/*.js --ignore-pattern *.js",
-									null,
 								),
 							/All files matched by '\*\*\/\*\.js' are ignored/u,
 						);
@@ -1020,7 +973,6 @@ describe("cli", () => {
 						const filePath = getFixturePath("cli/syntax-error.js");
 						const exit = await cli.execute(
 							`--ignore-pattern cli/ ${filePath}`,
-							null,
 						);
 
 						// parsing error causes exit code 1
@@ -1032,7 +984,6 @@ describe("cli", () => {
 						const filePath = getFixturePath("cli/syntax-error.js");
 						const exit = await cli.execute(
 							`--ignore-pattern cli ${filePath}`,
-							null,
 						);
 
 						// parsing error causes exit code 1
@@ -1051,7 +1002,6 @@ describe("cli", () => {
 					async () =>
 						await cli.execute(
 							`--no-ignore --parser test111 ${filePath}`,
-							null,
 						),
 					"Cannot find module 'test111'",
 				);
@@ -1061,7 +1011,6 @@ describe("cli", () => {
 				const filePath = getFixturePath("passing.js");
 				const exit = await cli.execute(
 					`--no-config-lookup --no-ignore --parser espree ${filePath}`,
-					null,
 				);
 
 				assert.strictEqual(exit, 0);
@@ -1311,10 +1260,7 @@ describe("cli", () => {
 					"./shared/logging": log,
 				});
 
-				const exitCode = await localCLI.execute(
-					"--fix --quiet .",
-					null,
-				);
+				const exitCode = await localCLI.execute("--fix --quiet .");
 
 				assert.strictEqual(exitCode, 0);
 			});
@@ -1365,10 +1311,7 @@ describe("cli", () => {
 					"./shared/logging": log,
 				});
 
-				const exitCode = await localCLI.execute(
-					"--fix-dry-run .",
-					null,
-				);
+				const exitCode = await localCLI.execute("--fix-dry-run .");
 
 				assert.strictEqual(exitCode, 0);
 			});
@@ -1401,7 +1344,6 @@ describe("cli", () => {
 
 				const exitCode = await localCLI.execute(
 					"--fix-dry-run --fix-type suggestion .",
-					null,
 				);
 
 				assert.strictEqual(exitCode, 0);
@@ -1443,10 +1385,7 @@ describe("cli", () => {
 					"./shared/logging": log,
 				});
 
-				const exitCode = await localCLI.execute(
-					"--fix-dry-run .",
-					null,
-				);
+				const exitCode = await localCLI.execute("--fix-dry-run .");
 
 				assert.strictEqual(exitCode, 1);
 			});
@@ -1490,7 +1429,6 @@ describe("cli", () => {
 
 				const exitCode = await localCLI.execute(
 					"--fix-dry-run --quiet .",
-					null,
 				);
 
 				assert.strictEqual(exitCode, 0);
@@ -1574,7 +1512,6 @@ describe("cli", () => {
 
 				const exitCode = await cli.execute(
 					`--print-config ${filePath}`,
-					null,
 				);
 
 				assert.isTrue(log.info.calledOnce);
@@ -1587,7 +1524,6 @@ describe("cli", () => {
 
 				const exitCode = await cli.execute(
 					`--print-config ${filePath1} ${filePath2}`,
-					null,
 				);
 
 				assert.isTrue(log.info.notCalled);
@@ -1804,7 +1740,6 @@ describe("cli", () => {
 			it("fails when passing invalid string for --report-unused-disable-directives-severity", async () => {
 				const exitCode = await cli.execute(
 					`--no-config-lookup --report-unused-disable-directives-severity foo`,
-					null,
 				);
 
 				assert.strictEqual(
@@ -1833,7 +1768,6 @@ describe("cli", () => {
 			it("fails when passing both --report-unused-disable-directives and --report-unused-disable-directives-severity", async () => {
 				const exitCode = await cli.execute(
 					`--no-config-lookup --report-unused-disable-directives --report-unused-disable-directives-severity warn`,
-					null,
 				);
 
 				assert.strictEqual(
@@ -2233,7 +2167,6 @@ describe("cli", () => {
 			it("fails when passing invalid string for --report-unused-inline-configs", async () => {
 				const exitCode = await cli.execute(
 					"--no-config-lookup --report-unused-inline-configs foo",
-					null,
 				);
 
 				assert.strictEqual(
@@ -2277,7 +2210,6 @@ describe("cli", () => {
 			it("when not provided, without config file only default extensions should be linted", async () => {
 				const exitCode = await cli.execute(
 					"--no-config-lookup -f json .",
-					null,
 				);
 
 				assert.strictEqual(exitCode, 0, "exit code should be 0");
@@ -2351,7 +2283,6 @@ describe("cli", () => {
 			it("should include multiple additional extensions when specified by repeating the option", async () => {
 				const exitCode = await cli.execute(
 					"-f json --ext .ts --ext tsx .",
-					null,
 				);
 
 				assert.strictEqual(exitCode, 0, "exit code should be 0");
@@ -2373,10 +2304,7 @@ describe("cli", () => {
 			});
 
 			it("should include multiple additional extensions when specified with comma-delimited list", async () => {
-				const exitCode = await cli.execute(
-					"-f json --ext .ts,.tsx .",
-					null,
-				);
+				const exitCode = await cli.execute("-f json --ext .ts,.tsx .");
 
 				assert.strictEqual(exitCode, 0, "exit code should be 0");
 
@@ -2398,10 +2326,12 @@ describe("cli", () => {
 
 			it('should fail when passing --ext ""', async () => {
 				// When passing "" on command line, its corresponding item in process.argv[] is an empty string
-				const exitCode = await cli.execute(
-					["argv0", "argv1", "--ext", ""],
-					null,
-				);
+				const exitCode = await cli.execute([
+					"argv0",
+					"argv1",
+					"--ext",
+					"",
+				]);
 
 				assert.strictEqual(exitCode, 2, "exit code should be 2");
 				assert.strictEqual(
@@ -2482,7 +2412,6 @@ describe("cli", () => {
 				it(`should accept the value ${value}`, async () => {
 					const exitCode = await cli.execute(
 						`--concurrency ${value} --pass-on-no-patterns`,
-						null,
 					);
 
 					assert.strictEqual(exitCode, 0, "exit code should be 0");
@@ -2493,7 +2422,6 @@ describe("cli", () => {
 				it(`should not accept the value ${value}`, async () => {
 					const exitCode = await cli.execute(
 						`--concurrency=${value}`,
-						null,
 					);
 
 					assert.strictEqual(
@@ -2541,7 +2469,6 @@ describe("cli", () => {
 			it("should encode '?' and '#' in an options module", async () => {
 				const exitCode = await cli.execute(
 					"--concurrency=2 --no-config-lookup --no-ignore --rule 'no-fallthrough: [error, { commentPattern: \"#?\" }]' tests/fixtures/passing.js",
-					null,
 				);
 
 				assert.strictEqual(exitCode, 0, "exit code should be 0");
