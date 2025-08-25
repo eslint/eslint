@@ -39,7 +39,7 @@ The second way to use configuration files is to save the file wherever you would
 eslint -c myconfig.json myfiletotest.js
 ```
 
-If you are using one configuration file and want ESLint to ignore any `.eslintrc.*` files, make sure to use [`--no-eslintrc`](../command-line-interface#--no-eslintrc) along with the [`--config`](../../use/command-line-interface#-c---config) flag.
+If you are using one configuration file and want ESLint to ignore any `.eslintrc.*` files, make sure to use `--no-eslintrc` along with the [`--config`](../../use/command-line-interface#-c---config) flag.
 
 Here's an example JSON configuration file that uses the `typescript-eslint` parser to support TypeScript syntax:
 
@@ -432,4 +432,4 @@ If `eslint` could find configuration files in the project, `eslint` ignores `~/.
 
 `~/.eslintrc.*` files load shareable configs and custom parsers from `~/node_modules/` – similarly to `require()` – in the user's home directory. Please note that it doesn't load global-installed packages.
 
-`~/.eslintrc.*` files load plugins from `$CWD/node_modules` by default in order to identify plugins uniquely. If you want to use plugins with `~/.eslintrc.*` files, plugins must be installed locally per project. Alternatively, you can use the [`--resolve-plugins-relative-to` CLI option](../command-line-interface#--resolve-plugins-relative-to) to change the location from which ESLint loads plugins.
+`~/.eslintrc.*` files load plugins from `$CWD/node_modules` by default in order to identify plugins uniquely. If you want to use plugins with `~/.eslintrc.*` files, plugins must be installed locally per project. Alternatively, you can use the `--resolve-plugins-relative-to` CLI option to change the location from which ESLint loads plugins.
