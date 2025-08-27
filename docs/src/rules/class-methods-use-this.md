@@ -25,7 +25,7 @@ further_reading:
 
 - The method doesn't make sense to be used without an associated object. (For example, it doesn't make sense to call `Array#includes()` without an array to operate on.)
 
-If a class instance method does not use `this`, that normally means that it does not access any information or state about its instance, meaning its outcome is not tied to the object on which it is invoked, and it might even make sense to invoke without any object at all.
+If a class instance method does not use `this`, that normally means that it does not access any instance state and therefore doesn't need to be a method.
 Therefore, it can *sometimes* be refactored into an [ordinary function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions) or a [static method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static), which may better communicate intent to users of the API.
 Be aware that if you do convert the method into a function, this will require _all_ existing usages of the instance method to update to the new API, which is often a breaking change.
 
