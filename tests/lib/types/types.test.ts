@@ -1924,6 +1924,15 @@ ruleTester.run("my-rule", rule, {
 		{ code: "foo", filename: "test.js" },
 		{ code: "foo", languageOptions: { globals: { foo: true } } },
 		{ code: "foo", settings: { foo: true } },
+		{
+			code: "foo",
+			before() {
+				/* do something */
+			},
+			after() {
+				/* undo something */
+			},
+		},
 		RuleTester.only("foo"),
 	],
 
@@ -1954,6 +1963,12 @@ ruleTester.run("my-rule", rule, {
 			],
 		},
 		{ code: "foo", errors: 1, only: true },
+		{
+			code: "foo",
+			errors: [{ messageId: "bar" }],
+			before: () => {},
+			after: () => {},
+		},
 		// @ts-expect-error // `message` cannot be `undefined`
 		{ code: "foo", errors: [{ message: undefined }], only: true },
 		// @ts-expect-error // `messageId` cannot be `undefined`
@@ -1972,6 +1987,10 @@ ruleTester.run("my-rule", rule, {
 				},
 			],
 		},
+		// @ts-expect-error // `before` should be a function
+		{ code: "foo", errors: [{ messageId: "bar" }], before: {} },
+		// @ts-expect-error // `after` should be a function
+		{ code: "foo", errors: [{ messageId: "bar" }], after: void 0 },
 	],
 });
 

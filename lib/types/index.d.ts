@@ -2259,6 +2259,8 @@ export namespace RuleTester {
 		only?: boolean;
 		languageOptions?: Linter.LanguageOptions | undefined;
 		settings?: { [name: string]: any } | undefined;
+		before?: () => void;
+		after?: () => void;
 	}
 
 	interface SuggestionOutput {
