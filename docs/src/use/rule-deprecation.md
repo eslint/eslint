@@ -10,7 +10,7 @@ The ESLint team is committed to making upgrading as easy and painless as possibl
     - The rule has been replaced by another core rule.
     - A plugin exists with a functionally equivalent rule.
 - Rules will be deprecated as needed, and marked as such in all documentation.
-- After a rule has been deprecated, the team will no longer do any work on it. This includes bug fixes, enhancements, and updates to the rule's documentation. Issues and pull requests related to deprecated rule will not be accepted and will be closed.
+- After a rule has been deprecated, the team will no longer do any work on it. This includes bug fixes, enhancements, and updates to the rule's documentation. Issues and pull requests related to the deprecated rule will not be accepted and will be closed.
 
 You can continue to use deprecated rules indefinitely if they are working for you. However, keep in mind that deprecated rules will effectively be unmaintained and may be removed at some point.
 
