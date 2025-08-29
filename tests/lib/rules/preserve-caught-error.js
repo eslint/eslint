@@ -651,5 +651,28 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
+		/* 22. Adding `cause` to an empty existing options object. */
+		{
+			code: `try {
+				doSomething();
+			} catch (err) {
+				throw new Error("Something failed", {});
+			}`,
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try {
+				doSomething();
+			} catch (err) {
+				throw new Error("Something failed", {cause: err});
+			}`,
+						},
+					],
+				},
+			],
+		},
 	],
 });
