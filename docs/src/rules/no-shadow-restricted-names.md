@@ -146,3 +146,45 @@ import { globalThis as baz } from "foo";
 ```
 
 :::
+
+Examples of **correct** code for the `{ "reportGlobalThis": false }` option:
+
+::: correct
+
+```js
+/*eslint no-shadow-restricted-names: ["error", { "reportGlobalThis": false }]*/
+
+const globalThis = "foo";
+```
+
+:::
+
+::: correct
+
+```js
+/*eslint no-shadow-restricted-names: ["error", { "reportGlobalThis": false }]*/
+
+function globalThis() {}
+```
+
+:::
+
+::: correct
+
+```js
+/*eslint no-shadow-restricted-names: ["error", { "reportGlobalThis": false }]*/
+
+import { globalThis } from "bar";
+```
+
+:::
+
+::: correct
+
+```js
+/*eslint no-shadow-restricted-names: ["error", { "reportGlobalThis": false }]*/
+
+class globalThis {}
+```
+
+:::
