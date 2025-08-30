@@ -426,7 +426,7 @@ describe("ESLint", () => {
 						constructor: TypeError,
 						code: "ESLINT_UNCLONEABLE_OPTIONS",
 						message:
-							'The options "baseConfig", "fix", and "plugins" cannot be cloned. When concurrency is enabled, all options must be cloneable. Remove uncloneable options or use an options module.',
+							'The options "baseConfig", "fix", and "plugins" cannot be cloned. When concurrency is enabled, all options must be cloneable values--such as primitives, plain objects, or arrays. Remove uncloneable options or use an options module.',
 					},
 				);
 			});
@@ -445,7 +445,7 @@ describe("ESLint", () => {
 						constructor: TypeError,
 						code: "ESLINT_UNCLONEABLE_OPTIONS",
 						message:
-							'The option "ruleFilter" cannot be cloned. When concurrency is enabled, all options must be cloneable. Remove uncloneable options or use an options module.',
+							'The option "ruleFilter" cannot be cloned. When concurrency is enabled, all options must be cloneable values--such as primitives, plain objects, or arrays. Remove uncloneable options or use an options module.',
 					},
 				);
 			});
@@ -9778,13 +9778,13 @@ describe("ESLint", () => {
 					const optionsSrc = `
 					import assert from "node:assert";
 					import { isMainThread } from "node:worker_threads";
-					
+
 					if (!isMainThread) {
 						if (process.env.ESLINT_TEST_ENV !== "test") {
 							assert.fail("Environment variable ESLINT_TEST_ENV is not set as expected in worker threads.");
 						}
 					}
-					
+
 					export default {
 						concurrency: 2,
 						cwd: ${JSON.stringify(fixtureDir)},
@@ -9803,11 +9803,11 @@ describe("ESLint", () => {
 				it("should propagate environment variables from worker threads to the controlling thread", async () => {
 					const optionsSrc = `
 					import { isMainThread } from "node:worker_threads";
-					
+
 					if (!isMainThread) {
 						process.env.ESLINT_TEST_ENV = "test";
 					}
-					
+
 					export default {
 						concurrency: 2,
 						cwd: ${JSON.stringify(fixtureDir)},
