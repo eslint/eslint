@@ -176,6 +176,7 @@
     "jiti": "^2.5.1",
     "jiti-v2.0": "npm:jiti@2.0.x",
     "jiti-v2.1": "npm:jiti@2.1.x",
+    "json-schema-deref-sync": "^0.14.0",
     "knip": "^5.60.2",
     "lint-staged": "^11.0.0",
     "markdown-it": "^12.2.0",
