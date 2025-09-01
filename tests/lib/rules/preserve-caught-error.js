@@ -674,7 +674,7 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
-		/* 23. There is not easy way to check for cause existence when property is computed. */
+		/* 23. There is no easy way to check for `cause` existence when property is computed. */
 		{
 			code: `try {
 			doSomething();
