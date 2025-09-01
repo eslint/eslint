@@ -674,5 +674,53 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
+		/* 23. There is not easy way to check for cause existence when property is computed. */
+		{
+			code: `try {
+			doSomething();
+		} catch (error) {
+			const cause = "desc";
+			throw new Error("Something failed", { [cause]: "Some error" });
+		}`,
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try {
+			doSomething();
+		} catch (error) {
+			const cause = "desc";
+			throw new Error("Something failed", { [cause]: "Some error", cause: error });
+		}`,
+						},
+					],
+				},
+			],
+		},
+		/* 24. When an incorrect cause is attached as a shorthand method. */
+		{
+			code: `try {
+			doSomething();
+			} catch (error) {
+			throw new Error("Something failed", { cause() { /* do something */ }  });
+			}`,
+			errors: [
+				{
+					messageId: "incorrectCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try {
+			doSomething();
+			} catch (error) {
+			throw new Error("Something failed", { cause: error  });
+			}`,
+						},
+					],
+				},
+			],
+		},
 	],
 });
