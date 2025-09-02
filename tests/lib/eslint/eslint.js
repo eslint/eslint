@@ -426,7 +426,7 @@ describe("ESLint", () => {
 						constructor: TypeError,
 						code: "ESLINT_UNCLONEABLE_OPTIONS",
 						message:
-							'The options "baseConfig", "fix", and "plugins" cannot be cloned. When concurrency is enabled, all options must be cloneable values--such as primitives, plain objects, or arrays. Remove uncloneable options or use an options module.',
+							'The options "baseConfig", "fix", and "plugins" cannot be cloned. When concurrency is enabled, all options must be cloneable values (JSON values). Remove uncloneable options or use an options module.',
 					},
 				);
 			});
@@ -445,7 +445,7 @@ describe("ESLint", () => {
 						constructor: TypeError,
 						code: "ESLINT_UNCLONEABLE_OPTIONS",
 						message:
-							'The option "ruleFilter" cannot be cloned. When concurrency is enabled, all options must be cloneable values--such as primitives, plain objects, or arrays. Remove uncloneable options or use an options module.',
+							'The option "ruleFilter" cannot be cloned. When concurrency is enabled, all options must be cloneable values (JSON values). Remove uncloneable options or use an options module.',
 					},
 				);
 			});
