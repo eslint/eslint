@@ -11,7 +11,7 @@ such as:
 
 ```js
 var count = people.length;
-var enoughFood = count > sandwiches.length;
+var enoughFood = sandwiches.length >= count;
 
 if (enoughFood) {
     var count = sandwiches.length; // accidentally overriding the count variable
