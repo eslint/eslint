@@ -133,6 +133,7 @@ const jsConfigs = [
 			"prefer-rest-params": "error",
 			"prefer-spread": "error",
 			"prefer-template": "error",
+			"preserve-caught-error": "error",
 			radix: "error",
 			"require-unicode-regexp": "error",
 			strict: ["error", "global"],
