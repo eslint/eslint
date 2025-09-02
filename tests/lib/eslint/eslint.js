@@ -201,14 +201,14 @@ describe("ESLint", () => {
 			});
 
 			it("the default value of 'options.cwd' should be the current working directory.", async () => {
-				process.chdir(__dirname);
+				process.chdir(fixtureDir);
 				try {
 					const engine = new ESLint({ flags });
-					const results = await engine.lintFiles("eslint.js");
+					const results = await engine.lintFiles("passing.js");
 
 					assert.strictEqual(
 						path.dirname(results[0].filePath),
-						__dirname,
+						fixtureDir,
 					);
 				} finally {
 					process.chdir(originalDir);
@@ -629,7 +629,7 @@ describe("ESLint", () => {
 			it("should report the total and per file errors when using local cwd eslint.config.js", async () => {
 				eslint = new ESLint({
 					flags,
-					cwd: __dirname,
+					cwd: getFixturePath("configurations", "cwd"),
 				});
 
 				const results = await eslint.lintText("var foo = 'bar';");
@@ -13490,7 +13490,7 @@ describe("ESLint", () => {
 				const originalCwd = process.cwd();
 
 				beforeEach(() => {
-					process.chdir(__dirname);
+					process.chdir(fixtureDir);
 				});
 
 				afterEach(() => {
