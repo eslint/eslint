@@ -23,7 +23,7 @@ Create a `.vscode/mcp.json` file in your project with the following configuratio
 		"ESLint": {
 			"type": "stdio",
 			"command": "npx",
-			"args": ["@eslint/mcp@latest"]
+			"args": ["--no-install", "@eslint/mcp"]
 		}
 	}
 }
@@ -76,7 +76,7 @@ Create a `.cursor/mcp.json` file in your project directory with the following co
 	"mcpServers": {
 		"eslint": {
 			"command": "npx",
-			"args": ["@eslint/mcp@latest"],
+			"args": ["--no-install", "@eslint/mcp"]
 			"env": {}
 		}
 	}
@@ -112,7 +112,7 @@ Add the following configuration to your `~/.codeium/windsurf/mcp_config.json` fi
 	"mcpServers": {
 		"eslint": {
 			"command": "npx",
-			"args": ["@eslint/mcp@latest"],
+			"args": ["--no-install", "@eslint/mcp"]
 			"env": {}
 		}
 	}
