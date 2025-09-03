@@ -1080,6 +1080,71 @@ describe("cli", () => {
 					});
 				});
 
+				describe("when given the no-fixable-warnings flag", () => {
+					it(`should not change exit code if no fixable warnings are found with configType:${configType}`, async () => {
+						const filePath = getFixturePath(
+							"no-fixable-warnings",
+							"no-fixable-warnings.js",
+						);
+						const configFilePath = getFixturePath(
+							"no-fixable-warnings",
+							useFlatConfig ? "eslint.config.js" : ".eslintrc",
+						);
+						const exitCode = await cli.execute(
+							`--no-ignore --no-fixable-warnings -c ${configFilePath} ${filePath}`,
+							null,
+							useFlatConfig,
+						);
+
+						assert.strictEqual(exitCode, 0);
+					});
+
+					it(`should exit with exit code 1 if fixable warnings are found with configType:${configType}`, async () => {
+						const filePath = getFixturePath(
+							"no-fixable-warnings",
+							"fixable-warnings.js",
+						);
+						const configFilePath = getFixturePath(
+							"no-fixable-warnings",
+							useFlatConfig ? "eslint.config.js" : ".eslintrc",
+						);
+						const exitCode = await cli.execute(
+							`--no-ignore --no-fixable-warnings -c ${configFilePath} ${filePath}`,
+							null,
+							useFlatConfig,
+						);
+
+						assert.strictEqual(exitCode, 1);
+						assert.ok(log.error.calledOnce);
+						assert.include(
+							log.error.getCall(0).args[0],
+							"ESLint found",
+						);
+						assert.include(
+							log.error.getCall(0).args[0],
+							"fixable warning",
+						);
+					});
+
+					it(`should not change exit code if flag is not specified and there are fixable warnings with configType:${configType}`, async () => {
+						const filePath = getFixturePath(
+							"no-fixable-warnings",
+							"fixable-warnings.js",
+						);
+						const configFilePath = getFixturePath(
+							"no-fixable-warnings",
+							useFlatConfig ? "eslint.config.js" : ".eslintrc",
+						);
+						const exitCode = await cli.execute(
+							`--no-ignore -c ${configFilePath} ${filePath}`,
+							null,
+							useFlatConfig,
+						);
+
+						assert.strictEqual(exitCode, 0);
+					});
+				});
+
 				describe("when given the exit-on-fatal-error flag", () => {
 					it(`should not change exit code if no fatal errors are reported with configType:${configType}`, async () => {
 						const filePath = getFixturePath(

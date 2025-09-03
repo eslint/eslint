@@ -116,6 +116,7 @@ Use stdin:
 Handle Warnings:
   --quiet                          Report errors only - default: false
   --max-warnings Int               Number of warnings to trigger nonzero exit code - default: -1
+  --no-fixable-warnings            Exit with non-zero code if fixable warnings are found
 
 Output:
   -o, --output-file path::String   Specify file to write report to
@@ -617,6 +618,25 @@ When used alongside `--quiet`, this will cause rules marked as warn to still be 
     package: "eslint",
     args: ["--max-warnings", "10", "file.js"]
 }) }}
+
+#### `--no-fixable-warnings`
+
+This option causes ESLint to exit with exit code 1 if any fixable warnings are found, even if there are no errors.
+
+- **Argument Type**: No argument.
+
+Normally, ESLint exits with a success status (code 0) when only warnings are found. However, if `--no-fixable-warnings` is specified and there are any warnings that could be automatically fixed using `eslint --fix`, ESLint will exit with an error status (code 1) and display a message indicating how many fixable warnings were found.
+
+This option is useful in CI/CD pipelines or development workflows where you want to ensure that all automatically fixable issues are resolved before considering the code as passing.
+
+##### `--no-fixable-warnings` example
+
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--no-fixable-warnings", "file.js"]
+}) }}
+
+If `file.js` contains warnings that can be fixed with `eslint --fix`, the command will exit with code 1 and display a message like: "ESLint found 3 fixable warnings. Run 'eslint --fix' to fix them."
 
 ### Output
 
@@ -1132,6 +1152,6 @@ The value `off` causes all files to be linted in the main thread. The value `aut
 
 When linting files, ESLint exits with one of the following exit codes:
 
-- `0`: Linting was successful and there are no linting errors. If the [`--max-warnings`](#--max-warnings) flag is set to `n`, the number of linting warnings is at most `n`.
-- `1`: Linting was successful and there is at least one linting error, or there are more linting warnings than allowed by the [`--max-warnings`](#--max-warnings) option.
+- `0`: Linting was successful and there are no linting errors. If the [`--max-warnings`](#--max-warnings) flag is set to `n`, the number of linting warnings is at most `n`. If the [`--no-fixable-warnings`](#--no-fixable-warnings) flag is used, there are no fixable warnings.
+- `1`: Linting was successful and there is at least one linting error, or there are more linting warnings than allowed by the [`--max-warnings`](#--max-warnings) option, or the [`--no-fixable-warnings`](#--no-fixable-warnings) flag is used and there are fixable warnings.
 - `2`: Linting was unsuccessful due to a configuration problem or an internal error.
