@@ -35,6 +35,7 @@ ruleTester.run("line-comment-position", rule, {
 		"1 + 1; // falls through",
 		"1 + 1; // jslint vars: true",
 		"1 + 1; // jshint ignore:line",
+		"1 + 1; // c8 ignore next",
 		"1 + 1; // istanbul ignore next",
 		{
 			code: "1 + 1; // linter excepted comment",

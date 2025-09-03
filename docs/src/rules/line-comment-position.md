@@ -12,7 +12,7 @@ var foo = "bar";  // beside comment
 
 ## Rule Details
 
-This rule enforces consistent position of line comments. Block comments are not affected by this rule. By default, this rule ignores comments starting with the following words: `eslint`, `jshint`, `jslint`, `istanbul`, `global`, `exported`, `jscs`, `falls through`.
+This rule enforces consistent position of line comments. Block comments are not affected by this rule. By default, this rule ignores comments starting with the following words: `eslint`, `jshint`, `jslint`, `c8`, `istanbul`, `global`, `exported`, `jscs`, `falls through`.
 
 ## Options
 
@@ -77,7 +77,7 @@ Examples of **incorrect** code for the `{ "position": "beside" }` option:
 
 ### ignorePattern
 
-By default this rule ignores comments starting with the following words: `eslint`, `jshint`, `jslint`, `istanbul`, `global`, `exported`, `jscs`, `falls through`. An alternative regular expression can be provided.
+By default this rule ignores comments starting with the following words: `eslint`, `jshint`, `jslint`, `c8`, `istanbul`, `global`, `exported`, `jscs`, `falls through`. An alternative regular expression can be provided.
 
 Examples of **correct** code for the `ignorePattern` option:
 

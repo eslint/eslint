@@ -1196,6 +1196,7 @@ ruleTester.run("lines-around-comment", rule, {
 		"foo;\n/* eslint */",
 		"foo;\n/* jshint */",
 		"foo;\n/* jslint */",
+		"foo;\n/* c8 */",
 		"foo;\n/* istanbul */",
 		"foo;\n/* global */",
 		"foo;\n/* globals */",
@@ -2364,6 +2365,12 @@ ruleTester.run("lines-around-comment", rule, {
 		{
 			code: "foo;\n/* jslint */",
 			output: "foo;\n\n/* jslint */",
+			options: [{ applyDefaultIgnorePatterns: false }],
+			errors: [{ messageId: "before", type: "Block" }],
+		},
+		{
+			code: "foo;\n/* c8 */",
+			output: "foo;\n\n/* c8 */",
 			options: [{ applyDefaultIgnorePatterns: false }],
 			errors: [{ messageId: "before", type: "Block" }],
 		},

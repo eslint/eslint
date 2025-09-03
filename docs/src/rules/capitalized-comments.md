@@ -42,6 +42,7 @@ Examples of **correct** code for this rule:
 // 丈 Non-Latin character at beginning of comment
 
 /* istanbul ignore next */
+/* c8 ignore next */
 /* jscs:enable */
 /* jshint asi:true */
 /* global foo */
@@ -68,7 +69,7 @@ This rule has two options: a string value `"always"` or `"never"` which determin
 Here are the supported object options:
 
 * `ignorePattern`: A string representing a regular expression pattern of words that should be ignored by this rule. If the first word of a comment matches the pattern, this rule will not report that comment.
-    * Note that the following words are always ignored by this rule: `["jscs", "jshint", "eslint", "istanbul", "global", "globals", "exported"]`.
+    * Note that the following words are always ignored by this rule: `["jscs", "jshint", "eslint", "c8", "istanbul", "global", "globals", "exported"]`.
 * `ignoreInlineComments`: If this is `true`, the rule will not report on comments in the middle of code. By default, this is `false`.
 * `ignoreConsecutiveComments`: If this is `true`, the rule will not report on a comment which violates the rule, as long as the comment immediately follows another comment. By default, this is `false`.
 
@@ -119,6 +120,7 @@ Examples of **correct** code for this rule:
 
 // 丈 Non-Latin character at beginning of comment
 
+/* c8 ignore next */
 /* istanbul ignore next */
 /* jscs:enable */
 /* jshint asi:true */
