@@ -26,12 +26,12 @@ function updateRuleFile(filePath) {
     }
     
     // Check if the file has a type annotation
-    const hasTypeAnnotation = /\/\*\* @type \{import\(['"].*['"]\).*\} \*\//g.test(content);
+    const hasTypeAnnotation = /\/\*\* @type \{import\(['"].*?['"']\).*?\} \*\//g.test(content);
     
     if (hasTypeAnnotation) {
         // Replace the existing type annotation
         const updatedContent = content.replace(
-            /\/\*\* @type {import\(['"].*['"]\).*} \*\//gu,
+            /\/\*\* @type \{import\(['"].*?['"']\).*?\} \*\//gu,
             expectedJSDocComment
         );
         if (content !== updatedContent) {
