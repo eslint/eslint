@@ -607,6 +607,9 @@ export namespace Rule {
 		create(context: RuleContext): NodeListener;
 	}
 
+	// Compatibility type for predefined rules
+	type PredefinedRuleModule = RuleModule;
+
 	type NodeTypes = ESTree.Node["type"];
 	interface NodeListener extends RuleVisitor {
 		ArrayExpression?:
@@ -1254,6 +1257,7 @@ export namespace Rule {
 
 export type JSRuleDefinitionTypeOptions = CustomRuleTypeDefinitions;
 
+// Modified to ensure compatibility with predefined rules
 export type JSRuleDefinition<
 	Options extends Partial<JSRuleDefinitionTypeOptions> = {},
 > = CustomRuleDefinitionType<
@@ -1265,6 +1269,9 @@ export type JSRuleDefinition<
 	},
 	Options
 >;
+
+// Type adapter for compatibility between predefined rules and CustomRuleDefinitionType
+export type PredefinedRuleAdapter = Rule.PredefinedRuleModule;
 
 // #region Linter
 
