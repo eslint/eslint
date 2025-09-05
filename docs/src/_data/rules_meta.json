@@ -1985,6 +1985,7 @@
             "typescript"
         ],
         "language": "javascript",
+        "hasSuggestions": true,
         "type": "suggestion",
         "defaultOptions": [
             {
@@ -2011,6 +2012,7 @@
         }
     },
     "no-empty-static-block": {
+        "hasSuggestions": true,
         "type": "suggestion",
         "docs": {
             "description": "Disallow empty static blocks",
@@ -4148,6 +4150,15 @@
             "url": "https://eslint.org/docs/latest/rules/prefer-template"
         },
         "fixable": "code"
+    },
+    "preserve-caught-error": {
+        "type": "suggestion",
+        "docs": {
+            "description": "Disallow losing originally caught error when re-throwing custom errors",
+            "recommended": false,
+            "url": "https://eslint.org/docs/latest/rules/preserve-caught-error"
+        },
+        "hasSuggestions": true
     },
     "quote-props": {
         "deprecated": {
