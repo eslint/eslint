@@ -4,8 +4,8 @@
 
 "use strict";
 
-const fs = require("fs");
-const path = require("path");
+const fs = require("node:fs");
+const path = require("node:path");
 
 const rulesDir = path.join(__dirname, "../lib/rules");
 
@@ -15,14 +15,13 @@ const rulesDir = path.join(__dirname, "../lib/rules");
  * @returns {void}
  */
 function updateRuleFile(filePath) {
-    let content = fs.readFileSync(filePath, "utf8");
+    const content = fs.readFileSync(filePath, "utf8");
     
     // The exact JSDoc comment that the test is looking for
     const expectedJSDocComment = '/** @type {import(\'../types\').Rule.RuleModule} */';
     
     // Check if the file already has the expected JSDoc comment
     if (content.includes(expectedJSDocComment)) {
-        console.log(`${path.basename(filePath)} already has the correct JSDoc comment`);
         return;
     }
     
@@ -32,26 +31,21 @@ function updateRuleFile(filePath) {
     if (hasTypeAnnotation) {
         // Replace the existing type annotation
         const updatedContent = content.replace(
-            /\/\*\* @type \{import\(['"].*['"]\).*\} \*\//g,
+            /\/\*\* @type {import\(['"].*['"]\).*} \*\//gu,
             expectedJSDocComment
         );
-        
         if (content !== updatedContent) {
             fs.writeFileSync(filePath, updatedContent, "utf8");
-            console.log(`Updated ${path.relative(process.cwd(), filePath)}`);
         }
     } else {
         // Add the type annotation if it doesn't exist
-        const ruleDefinitionPattern = /(module\.exports = \{)/;
+        const ruleDefinitionPattern = /(module\.exports = \{)/u;
         if (ruleDefinitionPattern.test(content)) {
             const updatedContent = content.replace(
                 ruleDefinitionPattern,
                 `${expectedJSDocComment}\n$1`
             );
             fs.writeFileSync(filePath, updatedContent, "utf8");
-            console.log(`Added type annotation to ${path.relative(process.cwd(), filePath)}`);
-        } else {
-            console.warn(`Could not find rule definition in ${path.relative(process.cwd(), filePath)}`);
         }
     }
 }
@@ -62,15 +56,12 @@ function updateRuleFile(filePath) {
  */
 function updateAllRules() {
     const files = fs.readdirSync(rulesDir);
-    
     for (const file of files) {
         if (file.endsWith(".js")) {
             const filePath = path.join(rulesDir, file);
             updateRuleFile(filePath);
         }
     }
-    
-    console.log("All rule files have been updated.");
 }
 
 updateAllRules();
