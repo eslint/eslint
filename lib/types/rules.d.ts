@@ -4812,6 +4812,9 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"preserve-caught-error": Linter.RuleEntry<
 		[
 			Partial<{
+				/**
+				 * @default false
+				 */
 				requireCatchParameter: boolean;
 			}>,
 		]
