@@ -46,7 +46,7 @@ Please note that when passing a glob as a parameter, it is expanded by your shel
     args: ["\"lib/**\""]
 }) }}
 
-If you are using a [flat configuration file](./configure/configuration-files) (`eslint.config.js`), you can also omit the file arguments and ESLint will use `.`. For instance, these two lines perform the same operation:
+You can also omit the file arguments and ESLint will use `.`. For instance, these two lines perform the same operation:
 
 {{ npx_tabs ({
     package: "eslint",
@@ -57,8 +57,6 @@ If you are using a [flat configuration file](./configure/configuration-files) (`
     package: "eslint",
     args: []
 }) }}
-
-If you are not using a flat configuration file, running ESLint without file arguments results in an error.
 
 **Note:** You can also use alternative package managers such as [Yarn](https://yarnpkg.com/) or [pnpm](https://pnpm.io/) to run ESLint. For pnpm use `pnpm dlx eslint` and for Yarn use `yarn dlx eslint`.
 
@@ -162,7 +160,7 @@ Miscellaneous:
 
 #### `--no-config-lookup`
 
-**Flat Config Mode Only.** Disables use of configuration from files.
+Disables use of configuration from files.
 
 - **Argument Type**: No argument.
 
@@ -171,19 +169,6 @@ Miscellaneous:
 {{ npx_tabs ({
     package: "eslint",
     args: ["--no-config-lookup", "file.js"]
-}) }}
-
-#### `--no-eslintrc`
-
-**eslintrc Mode Only.** Disables use of configuration from `.eslintrc.*` and `package.json` files. For flat config mode, use [`--no-config-lookup`](#--no-config-lookup) instead.
-
-- **Argument Type**: No argument.
-
-##### `--no-eslintrc` example
-
-{{ npx_tabs ({
-    package: "eslint",
-    args: ["--no-eslintrc", "file.js"]
 }) }}
 
 #### `-c`, `--config`
@@ -204,7 +189,7 @@ This example uses the configuration file at `~/my.eslint.config.js`, which is us
 
 #### `--inspect-config`
 
-**Flat Config Mode Only.** This option runs `npx @eslint/config-inspector@latest` to start the [config inspector](https://github.com/eslint/config-inspector). You can use the config inspector to better understand what your configuration is doing and which files it applies to. When you use this flag, the CLI does not perform linting.
+This option runs `npx @eslint/config-inspector@latest` to start the [config inspector](https://github.com/eslint/config-inspector). You can use the config inspector to better understand what your configuration is doing and which files it applies to. When you use this flag, the CLI does not perform linting.
 
 - **Argument Type**: No argument.
 
@@ -213,27 +198,6 @@ This example uses the configuration file at `~/my.eslint.config.js`, which is us
 {{ npx_tabs ({
     package: "eslint",
     args: ["--inspect-config"]
-}) }}
-
-#### `--env`
-
-**eslintrc Mode Only.** This option enables specific environments.
-
-- **Argument Type**: String. One of the available environments.
-- **Multiple Arguments**: Yes
-
-Details about the global variables defined by each environment are available in the [Specifying Environments](configure/language-options-deprecated#specifying-environments) documentation. This option only enables environments. It does not disable environments set in other configuration files. To specify multiple environments, separate them using commas, or use the option multiple times.
-
-##### `--env` example
-
-{{ npx_tabs ({
-    package: "eslint",
-    args: ["--env", "browser,node", "file.js"]
-}) }}
-
-{{ npx_tabs ({
-    package: "eslint",
-    args: ["--env", "browser", "--env", "node", "file.js"]
 }) }}
 
 #### `--ext`
@@ -324,28 +288,6 @@ This option allows you to specify parser options to be used by ESLint. The avail
     previousCommands: ["echo \'3 ** 4\'"]
 }) }}
 
-#### `--resolve-plugins-relative-to`
-
-**eslintrc Mode Only.** Changes the directory where plugins are resolved from.
-
-- **Argument Type**: String. Path to directory.
-- **Multiple Arguments**: No
-- **Default Value**: By default, plugins are resolved from the directory in which your configuration file is found.
-
-This option should be used when plugins were installed by someone other than the end user. It should be set to the project directory of the project that has a dependency on the necessary plugins.
-
-For example:
-
-- When using a config file that is located outside of the current project (with the `--config` flag), if the config uses plugins which are installed locally to itself, `--resolve-plugins-relative-to` should be set to the directory containing the config file.
-- If an integration has dependencies on ESLint and a set of plugins, and the tool invokes ESLint on behalf of the user with a preset configuration, the tool should set `--resolve-plugins-relative-to` to the top-level directory of the tool.
-
-##### `--resolve-plugins-relative-to` example
-
-{{ npx_tabs ({
-    package: "eslint",
-    args: ["--config", "~/personal-eslintrc.js", "--resolve-plugins-relative-to", "/usr/local/lib/"]
-}) }}
-
 ### Specify Rules and Plugins
 
 #### `--plugin`
@@ -404,29 +346,6 @@ To ignore rules in configuration files and only run rules specified in the comma
     package: "eslint",
     args: ["--rule", "\'quotes: [error, double]\'", "--no-config-lookup"],
     comment: "Only apply rule from the command line"
-}) }}
-
-#### `--rulesdir`
-
-**Deprecated**: Use [rules from custom plugins](https://eslint.org/blog/2022/08/new-config-system-part-2/#from---rulesdir-to-runtime-plugins) instead.
-
-**eslintrc Mode Only.** This option allows you to specify another directory from which to load rules files. This allows you to dynamically load new rules at run time. This is useful when you have custom rules that aren't suitable for being bundled with ESLint.
-
-- **Argument Type**: String. Path to directory. The rules in your custom rules directory must follow the same format as bundled rules to work properly.
-- **Multiple Arguments**: Yes
-
-Note that, as with core rules and plugin rules, you still need to enable the rules in configuration or via the `--rule` CLI option in order to actually run those rules during linting. Specifying a rules directory with `--rulesdir` does not automatically enable the rules within that directory.
-
-##### `--rulesdir` example
-
-{{ npx_tabs ({
-    package: "eslint",
-    args: ["--rulesdir", "my-rules/", "file.js"]
-}) }}
-
-{{ npx_tabs ({
-    package: "eslint",
-    args: ["--rulesdir", "my-rules/", "--rulesdir", "my-other-rules/", "file.js"]
 }) }}
 
 ### Fix Problems
@@ -501,31 +420,9 @@ This option is helpful if you are using another program to format your code, but
 
 ### Ignore Files
 
-#### `--ignore-path`
-
-**eslintrc Mode Only.** This option allows you to specify the file to use as your `.eslintignore`.
-
-- **Argument Type**: String. Path to file.
-- **Multiple Arguments**: No
-- **Default Value**: By default, ESLint looks for `.eslintignore` in the current working directory.
-
-**Note:** `--ignore-path` is only supported when using [deprecated configuration](./configure/configuration-files-deprecated). If you want to include patterns from a `.gitignore` file in your `eslint.config.js` file, please see [including `.gitignore` files](./configure/ignore#including-gitignore-files).
-
-##### `--ignore-path` example
-
-{{ npx_tabs ({
-    package: "eslint",
-    args: ["--ignore-path", "tmp/.eslintignore", "file.js"]
-}) }}
-
-{{ npx_tabs ({
-    package: "eslint",
-    args: ["--ignore-path", ".gitignore", "file.js"]
-}) }}
-
 #### `--no-ignore`
 
-Disables excluding of files from [`--ignore-pattern`](#--ignore-pattern) flags and the `ignores` property in configuration. In eslintrc mode, `.eslintignore` files, [`--ignore-path`](#--ignore-path) flags, and the `ignorePatterns` property in configuration are also disabled.
+Disables excluding of files from [`--ignore-pattern`](#--ignore-pattern) flags and the `ignores` property in configuration.
 
 - **Argument Type**: No argument.
 
@@ -538,9 +435,9 @@ Disables excluding of files from [`--ignore-pattern`](#--ignore-pattern) flags a
 
 #### `--ignore-pattern`
 
-This option allows you to specify patterns of files to ignore. In eslintrc mode, these are in addition to `.eslintignore`.
+This option allows you to specify patterns of files to ignore.
 
-- **Argument Type**: String. The supported syntax is the same as for [`ignores` patterns](configure/configuration-files#excluding-files-with-ignores), which use [minimatch](https://www.npmjs.com/package/minimatch) syntax. In eslintrc mode, the syntax is the same as for [`.eslintignore` files](configure/ignore-deprecated#the-eslintignore-file), which use the same patterns as the [`.gitignore` specification](https://git-scm.com/docs/gitignore). You should quote your patterns in order to avoid shell interpretation of glob patterns.
+- **Argument Type**: String. The supported syntax is the same as for [`ignores` patterns](configure/configuration-files#excluding-files-with-ignores), which use [minimatch](https://www.npmjs.com/package/minimatch) syntax. You should quote your patterns in order to avoid shell interpretation of glob patterns.
 - **Multiple Arguments**: Yes
 
 ##### `--ignore-pattern` example
@@ -989,7 +886,7 @@ This option causes ESLint to exit with exit code 2 if one or more fatal parsing 
 
 #### `--no-warn-ignored`
 
-**Flat Config Mode Only.** This option suppresses both `File ignored by default` and `File ignored because of a matching ignore pattern` warnings when an ignored filename is passed explicitly. It is useful when paired with `--max-warnings 0` as it will prevent exit code 1 due to the aforementioned warning.
+This option suppresses both `File ignored by default` and `File ignored because of a matching ignore pattern` warnings when an ignored filename is passed explicitly. It is useful when paired with `--max-warnings 0` as it will prevent exit code 1 due to the aforementioned warning.
 
 - **Argument Type**: No argument.
 
@@ -1002,7 +899,7 @@ This option causes ESLint to exit with exit code 2 if one or more fatal parsing 
 
 #### `--pass-on-no-patterns`
 
-This option allows ESLint to exit with code 0 when no file or directory patterns are passed. Without this option, ESLint assumes you want to use `.` as the pattern. (When running in legacy eslintrc mode, ESLint will exit with code 1.)
+This option allows ESLint to exit with code 0 when no file or directory patterns are passed. Without this option, ESLint assumes you want to use `.` as the pattern.
 
 - **Argument Type**: No argument.
 
