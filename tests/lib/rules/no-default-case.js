@@ -301,4 +301,3 @@ ruleTester.run("no-default-case", rule, {
 		},
 	],
 });
-
