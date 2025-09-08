@@ -13569,7 +13569,7 @@ describe("ESLint", () => {
 			});
 
 			describe('when `concurrency` is "auto" with caching enabled', () => {
-				it('should not consider unchanged cached files with cache strategy "metadata" when `concurrency` is "auto"', async () => {
+				it('should not consider unchanged cached files with cache strategy "metadata"', async () => {
 					const cacheLocation = await fsp.mkdtemp(
 						path.join(os.tmpdir(), "eslint-cache-"),
 					);
@@ -13596,7 +13596,7 @@ describe("ESLint", () => {
 					assert.strictEqual(actualWorkerCount, 0);
 				});
 
-				it('should consider unchanged cached files with cache strategy "content" when `concurrency` is "auto"', async () => {
+				it('should consider unchanged cached files with cache strategy "content"', async () => {
 					const cacheLocation = await fsp.mkdtemp(
 						path.join(os.tmpdir(), "eslint-cache-"),
 					);
@@ -13623,7 +13623,7 @@ describe("ESLint", () => {
 					assert.strictEqual(actualWorkerCount, 2);
 				});
 
-				it('should consider uncached files with cache strategy "metadata" when `concurrency` is "auto"', async () => {
+				it('should consider uncached files with cache strategy "metadata"', async () => {
 					const cacheLocation = await fsp.mkdtemp(
 						path.join(os.tmpdir(), "eslint-cache-"),
 					);
@@ -13645,6 +13645,42 @@ describe("ESLint", () => {
 					// Multitreading expected because files are not cached.
 					const actualWorkerCount = calculateWorkerCount(
 						eslint,
+						Array(AUTO_FILES_PER_WORKER * 2).fill(filePath),
+						{ availableParallelism: () => 4 },
+					);
+					assert.strictEqual(actualWorkerCount, 2);
+				});
+
+				it('should consider unchanged cached files with violations with cache strategy "metadata" and autofix enabled', async () => {
+					const cacheLocation = await fsp.mkdtemp(
+						path.join(os.tmpdir(), "eslint-cache-"),
+					);
+					const cwd = getFixturePath();
+					const eslintOptions = {
+						baseConfig: { rules: { "unicode-bom": "error" } },
+						cache: true,
+						cacheLocation,
+						cacheStrategy: "metadata",
+						concurrency: "auto",
+						cwd,
+						flags,
+						overrideConfigFile: true,
+					};
+					const eslint = new ESLint(eslintOptions);
+					// Make sure the cache is created.
+					const filePath = path.join(cwd, "utf8-bom.js");
+					await eslint.lintFiles([filePath]);
+
+					const eslintWithFix = new ESLint({
+						...eslintOptions,
+						fix: true,
+					});
+					// Make sure the config array for `cwd` is loaded.
+					await eslintWithFix.lintText("");
+
+					// Multitreading expected because files must be reprocessed due to autofix.
+					const actualWorkerCount = calculateWorkerCount(
+						eslintWithFix,
 						Array(AUTO_FILES_PER_WORKER * 2).fill(filePath),
 						{ availableParallelism: () => 4 },
 					);
