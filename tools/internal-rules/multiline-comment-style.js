@@ -5,7 +5,7 @@
 
 "use strict";
 
-const ruleComposer = require("eslint-rule-composer");
+const ruleExtender = require("eslint-rule-extender");
 const multilineCommentStyle = require("../../lib/rules/multiline-comment-style");
 
 //------------------------------------------------------------------------------
@@ -14,21 +14,22 @@ const multilineCommentStyle = require("../../lib/rules/multiline-comment-style")
 
 // The `no-invalid-meta` internal rule has a false positive here.
 // eslint-disable-next-line internal-rules/no-invalid-meta -- Using rule composer
-module.exports = ruleComposer.filterReports(
-	multilineCommentStyle,
-	(problem, metadata) => {
-		const problemIndex = metadata.sourceCode.getIndexFromLoc(
-			problem.loc.start,
-		);
-		const reportedToken = metadata.sourceCode.getTokenByRangeStart(
-			problemIndex,
-			{ includeComments: true },
-		);
+module.exports = ruleExtender(multilineCommentStyle, {
+	reportOverrides(meta, context) {
+		const sourceCode = context.sourceCode;
+		const problemIndex = sourceCode.getIndexFromLoc(meta.loc.start);
+		const reportedToken = sourceCode.getTokenByRangeStart(problemIndex, {
+			includeComments: true,
+		});
 
-		return !(
+		if (
 			reportedToken &&
 			reportedToken.type === "Line" &&
 			/^-{2,}$/u.test(reportedToken.value)
-		);
+		) {
+			return false; // filter out banner comments
+		}
+
+		return true;
 	},
-);
+});
