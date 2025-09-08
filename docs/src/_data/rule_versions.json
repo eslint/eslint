@@ -101,6 +101,7 @@
         "no-continue": "0.19.0",
         "no-control-regex": "0.1.0",
         "no-debugger": "0.0.2",
+        "no-default-case": "9.35.0",
         "no-delete-var": "0.0.9",
         "no-div-regex": "0.1.0",
         "no-dupe-args": "0.16.0",

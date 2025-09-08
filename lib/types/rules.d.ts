@@ -2212,6 +2212,23 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"no-debugger": Linter.RuleEntry<[]>;
 
 	/**
+	 * Rule to disallow `default` clauses in `switch` statements.
+	 *
+	 * @since 9.35.0
+	 * @see https://eslint.org/docs/latest/rules/no-default-case
+	 */
+	"no-default-case": Linter.RuleEntry<
+		[
+			Partial<{
+				/**
+				 * @default false
+				 */
+				allowEmpty: boolean;
+			}>,
+		]
+	>;
+
+	/**
 	 * Rule to disallow deleting variables.
 	 *
 	 * @remarks
