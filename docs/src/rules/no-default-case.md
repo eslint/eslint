@@ -31,13 +31,15 @@ function getColorName(color) {
     }
 }
 
-switch (status) {
-    case 'pending':
-        return 'Waiting';
-    case 'active':
-        return 'Running';
-    default:
-        throw new Error('Invalid status');
+function getStatusMessage(status) {
+    switch (status) {
+        case 'pending':
+            return 'Waiting';
+        case 'active':
+            return 'Running';
+        default:
+            throw new Error('Invalid status');
+    }
 }
 ```
 
@@ -62,13 +64,15 @@ function getColorName(color) {
     throw new Error(`Unknown color: ${color}`);
 }
 
-switch (status) {
-    case 'pending':
-        return 'Waiting';
-    case 'active':
-        return 'Running';
-    case 'completed':
-        return 'Finished';
+function getStatusMessage(status) {
+    switch (status) {
+        case 'pending':
+            return 'Waiting';
+        case 'active':
+            return 'Running';
+        case 'completed':
+            return 'Finished';
+    }
 }
 ```
 
@@ -90,13 +94,15 @@ Examples of **correct** code for this rule with the `{ "allowEmpty": true }` opt
 ```js
 /*eslint no-default-case: ["error", { "allowEmpty": true }]*/
 
-switch (value) {
-    case 1:
-        return 'one';
-    case 2:
-        return 'two';
-    default:
-        // TODO: handle other cases
+function processValue(value) {
+    switch (value) {
+        case 1:
+            return 'one';
+        case 2:
+            return 'two';
+        default:
+            // TODO: handle other cases
+    }
 }
 
 switch (type) {
@@ -120,14 +126,16 @@ Examples of **incorrect** code for this rule with the `{ "allowEmpty": true }` o
 ```js
 /*eslint no-default-case: ["error", { "allowEmpty": true }]*/
 
-switch (value) {
-    case 1:
-        return 'one';
-    case 2:
-        return 'two';
-    default:
-        console.log('default case'); // not empty
-        break;
+function processValue(value) {
+    switch (value) {
+        case 1:
+            return 'one';
+        case 2:
+            return 'two';
+        default:
+            console.log('default case'); // not empty
+            break;
+    }
 }
 ```
 
