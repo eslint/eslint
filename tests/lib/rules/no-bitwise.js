@@ -40,7 +40,6 @@ ruleTester.run("no-bitwise", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: "^" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -50,7 +49,6 @@ ruleTester.run("no-bitwise", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: "|" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -60,7 +58,6 @@ ruleTester.run("no-bitwise", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: "&" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -70,7 +67,6 @@ ruleTester.run("no-bitwise", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: "<<" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -80,7 +76,6 @@ ruleTester.run("no-bitwise", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: ">>" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -90,7 +85,6 @@ ruleTester.run("no-bitwise", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: ">>>" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -100,7 +94,6 @@ ruleTester.run("no-bitwise", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: "|" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -110,7 +103,6 @@ ruleTester.run("no-bitwise", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: "~" },
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -120,7 +112,6 @@ ruleTester.run("no-bitwise", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: "^=" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -130,7 +121,6 @@ ruleTester.run("no-bitwise", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: "|=" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -140,7 +130,6 @@ ruleTester.run("no-bitwise", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: "&=" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -150,7 +139,6 @@ ruleTester.run("no-bitwise", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: "<<=" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -160,7 +148,6 @@ ruleTester.run("no-bitwise", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: ">>=" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -170,7 +157,6 @@ ruleTester.run("no-bitwise", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: ">>>=" },
-					type: "AssignmentExpression",
 				},
 			],
 		},

@@ -26,7 +26,6 @@ function createErrorList({ suggestionOutput: output } = {}) {
 	return [
 		{
 			messageId: "redundantUseOfAwait",
-			type: "Identifier",
 			suggestions: output
 				? [
 						{

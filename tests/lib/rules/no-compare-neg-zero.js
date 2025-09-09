@@ -55,7 +55,6 @@ ruleTester.run("no-compare-neg-zero", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: "===" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -65,7 +64,6 @@ ruleTester.run("no-compare-neg-zero", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: "===" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -75,7 +73,6 @@ ruleTester.run("no-compare-neg-zero", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: "==" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -85,7 +82,6 @@ ruleTester.run("no-compare-neg-zero", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: "==" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -95,7 +91,6 @@ ruleTester.run("no-compare-neg-zero", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: ">" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -105,7 +100,6 @@ ruleTester.run("no-compare-neg-zero", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: ">" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -115,7 +109,6 @@ ruleTester.run("no-compare-neg-zero", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: ">=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -125,7 +118,6 @@ ruleTester.run("no-compare-neg-zero", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: ">=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -135,7 +127,6 @@ ruleTester.run("no-compare-neg-zero", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: "<" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -145,7 +136,6 @@ ruleTester.run("no-compare-neg-zero", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: "<" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -155,7 +145,6 @@ ruleTester.run("no-compare-neg-zero", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -165,7 +154,6 @@ ruleTester.run("no-compare-neg-zero", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},

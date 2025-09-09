@@ -19,7 +19,6 @@ const rule = require("../../../lib/rules/no-fallthrough"),
 const errorsDefault = [
 	{
 		messageId: "default",
-		type: "SwitchCase",
 	},
 ];
 
@@ -266,7 +265,6 @@ switch(foo){
 			errors: [
 				{
 					messageId: "case",
-					type: "SwitchCase",
 					line: 2,
 					column: 1,
 				},
@@ -277,7 +275,6 @@ switch(foo){
 			errors: [
 				{
 					messageId: "default",
-					type: "SwitchCase",
 					line: 2,
 					column: 1,
 				},
@@ -349,7 +346,6 @@ switch(foo){
 			errors: [
 				{
 					messageId: "case",
-					type: "SwitchCase",
 					line: 3,
 					column: 1,
 				},
@@ -365,7 +361,6 @@ switch(foo){
 			errors: [
 				{
 					messageId: "default",
-					type: "SwitchCase",
 					line: 4,
 					column: 1,
 				},
@@ -381,7 +376,6 @@ switch(foo){
 			errors: [
 				{
 					messageId: "default",
-					type: "SwitchCase",
 					line: 4,
 					column: 1,
 				},
@@ -392,7 +386,6 @@ switch(foo){
 			errors: [
 				{
 					messageId: "case",
-					type: "SwitchCase",
 					line: 3,
 					column: 1,
 				},
@@ -408,7 +401,6 @@ switch(foo){
 			errors: [
 				{
 					messageId: "case",
-					type: "SwitchCase",
 					line: 3,
 					column: 1,
 				},
@@ -420,7 +412,6 @@ switch(foo){
 			errors: [
 				{
 					messageId: "case",
-					type: "SwitchCase",
 					line: 3,
 					column: 1,
 				},
@@ -432,7 +423,6 @@ switch(foo){
 			errors: [
 				{
 					messageId: "case",
-					type: "SwitchCase",
 					line: 2,
 					column: 4,
 				},
@@ -444,13 +434,11 @@ switch(foo){
 			errors: [
 				{
 					messageId: "case",
-					type: "SwitchCase",
 					line: 1,
 					column: 24,
 				},
 				{
 					messageId: "case",
-					type: "SwitchCase",
 					line: 1,
 					column: 34,
 				},
@@ -462,7 +450,6 @@ switch(foo){
 			errors: [
 				{
 					messageId: "case",
-					type: "SwitchCase",
 					line: 3,
 					column: 2,
 				},

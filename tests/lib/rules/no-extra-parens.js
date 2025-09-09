@@ -35,7 +35,6 @@ function invalid(code, output, type, line, config) {
 		errors: [
 			{
 				messageId: "unexpected",
-				type,
 			},
 		],
 		options: (config && config.options) || [],
@@ -1948,7 +1947,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 				},
 			],
 		},
@@ -1958,7 +1956,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 				},
 			],
 		},
@@ -1968,7 +1965,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -1978,11 +1974,9 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 				},
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -1994,7 +1988,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 				},
 			],
 		},
@@ -2004,7 +1997,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 				},
 			],
 		},
@@ -2014,7 +2006,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -2024,11 +2015,9 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 				},
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -2039,7 +2028,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 				},
 			],
 		},
@@ -2049,7 +2037,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 				},
 			],
 		},
@@ -2059,7 +2046,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -2069,11 +2055,9 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 				},
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -2085,11 +2069,9 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AwaitExpression",
 				},
 				{
 					messageId: "unexpected",
-					type: "AwaitExpression",
 				},
 			],
 		},
@@ -2265,7 +2247,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "SequenceExpression",
 				},
 			],
 		},
@@ -2276,7 +2257,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "SequenceExpression",
 				},
 			],
 		},
@@ -2287,7 +2267,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "SequenceExpression",
 				},
 			],
 		},
@@ -2298,7 +2277,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "SequenceExpression",
 				},
 			],
 		},
@@ -2309,7 +2287,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "SequenceExpression",
 				},
 			],
 		},
@@ -2320,7 +2297,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "SequenceExpression",
 				},
 			],
 		},
@@ -2333,7 +2309,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "NewExpression",
 				},
 			],
 		},
@@ -2344,7 +2319,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "NewExpression",
 				},
 			],
 		},
@@ -2355,7 +2329,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "NewExpression",
 				},
 			],
 		},
@@ -2366,7 +2339,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "NewExpression",
 				},
 			],
 		},
@@ -2377,7 +2349,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "NewExpression",
 				},
 			],
 		},
@@ -2390,7 +2361,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "FunctionExpression",
 				},
 			],
 		},
@@ -2401,7 +2371,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2412,7 +2381,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "FunctionExpression",
 				},
 			],
 		},
@@ -2423,7 +2391,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2434,7 +2401,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "FunctionExpression",
 				},
 			],
 		},
@@ -2445,7 +2411,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "FunctionExpression",
 				},
 			],
 		},
@@ -2456,7 +2421,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2467,7 +2431,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2478,7 +2441,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -2489,7 +2451,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -2500,7 +2461,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "FunctionExpression",
 				},
 			],
 		},
@@ -2511,7 +2471,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -2522,7 +2481,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "FunctionExpression",
 				},
 			],
 		},
@@ -2533,7 +2491,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "NewExpression",
 				},
 			],
 		},
@@ -2544,7 +2501,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "FunctionExpression",
 				},
 			],
 		},
@@ -2555,7 +2511,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2566,7 +2521,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "FunctionExpression",
 				},
 			],
 		},
@@ -2577,7 +2531,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2588,7 +2541,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "FunctionExpression",
 				},
 			],
 		},
@@ -2599,7 +2551,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2610,7 +2561,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2621,7 +2571,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2632,7 +2581,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2643,7 +2591,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2654,7 +2601,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2665,7 +2611,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -2676,7 +2621,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2687,7 +2631,6 @@ ruleTester.run("no-extra-parens", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Literal",
 				},
 			],
 		},
@@ -4133,8 +4076,12 @@ ruleTester.run("no-extra-parens", rule, {
 			code: "(newClass) = [(one)] = class { static * [Symbol.iterator]() { yield 1; } };",
 			output: "newClass = [one] = class { static * [Symbol.iterator]() { yield 1; } };",
 			errors: [
-				{ messageId: "unexpected", type: "Identifier" },
-				{ messageId: "unexpected", type: "Identifier" },
+				{
+					messageId: "unexpected",
+				},
+				{
+					messageId: "unexpected",
+				},
 			],
 		},
 		invalid("((a)) = () => {};", "(a) = () => {};", "Identifier"),

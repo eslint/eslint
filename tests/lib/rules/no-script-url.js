@@ -39,24 +39,36 @@ ruleTester.run("no-script-url", rule, {
 	invalid: [
 		{
 			code: "var a = 'javascript:void(0);';",
-			errors: [{ messageId: "unexpectedScriptURL", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpectedScriptURL",
+				},
+			],
 		},
 		{
 			code: "var a = 'javascript:';",
-			errors: [{ messageId: "unexpectedScriptURL", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpectedScriptURL",
+				},
+			],
 		},
 		{
 			code: "var a = `javascript:`;",
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
-				{ messageId: "unexpectedScriptURL", type: "TemplateLiteral" },
+				{
+					messageId: "unexpectedScriptURL",
+				},
 			],
 		},
 		{
 			code: "var a = `JavaScript:`;",
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
-				{ messageId: "unexpectedScriptURL", type: "TemplateLiteral" },
+				{
+					messageId: "unexpectedScriptURL",
+				},
 			],
 		},
 	],

@@ -70,81 +70,149 @@ ruleTester.run("no-empty-character-class", rule, {
 	invalid: [
 		{
 			code: "var foo = /^abc[]/;",
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "var foo = /foo[]bar/;",
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if (foo.match(/^abc[]/)) {}",
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if (/^abc[]/.test(foo)) {}",
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "var foo = /[]]/;",
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "var foo = /\\[[]/;",
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "var foo = /\\[\\[\\]a-z[]/;",
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "var foo = /[]]/d;",
 			languageOptions: { ecmaVersion: 2022 },
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "var foo = /[(]\\u{0}*[]/u;",
 			languageOptions: { ecmaVersion: 2015 },
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "var foo = /[]/v;",
 			languageOptions: { ecmaVersion: 2024 },
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "var foo = /[[]]/v;",
 			languageOptions: { ecmaVersion: 2024 },
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "var foo = /[[a][]]/v;",
 			languageOptions: { ecmaVersion: 2024 },
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "var foo = /[a[[b[]c]]d]/v;",
 			languageOptions: { ecmaVersion: 2024 },
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "var foo = /[a--[]]/v;",
 			languageOptions: { ecmaVersion: 2024 },
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "var foo = /[[]--b]/v;",
 			languageOptions: { ecmaVersion: 2024 },
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "var foo = /[a&&[]]/v;",
 			languageOptions: { ecmaVersion: 2024 },
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "var foo = /[[]&&b]/v;",
 			languageOptions: { ecmaVersion: 2024 },
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 	],
 });

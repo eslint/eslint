@@ -26,7 +26,6 @@ ruleTester.run("no-nested-ternary", rule, {
 			errors: [
 				{
 					messageId: "noNestedTernary",
-					type: "ConditionalExpression",
 				},
 			],
 		},
@@ -35,7 +34,6 @@ ruleTester.run("no-nested-ternary", rule, {
 			errors: [
 				{
 					messageId: "noNestedTernary",
-					type: "ConditionalExpression",
 				},
 			],
 		},

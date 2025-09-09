@@ -218,7 +218,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 5,
 					endColumn: 10,
 				},
@@ -230,7 +229,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 14,
 				},
 			],
@@ -241,7 +239,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 8,
 				},
 			],
@@ -252,7 +249,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 1,
 				},
 			],
@@ -263,7 +259,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 8,
 				},
 			],
@@ -274,7 +269,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 2,
 				},
 			],
@@ -285,7 +279,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 9,
 				},
 			],
@@ -296,7 +289,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 13,
 				},
 			],
@@ -307,7 +299,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -317,7 +308,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -327,7 +317,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -337,7 +326,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -347,7 +335,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -357,7 +344,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -367,7 +353,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -377,7 +362,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -387,7 +371,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -397,7 +380,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -407,7 +389,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -418,7 +399,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -428,7 +408,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -438,7 +417,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -448,7 +426,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -458,7 +435,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -468,7 +444,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -478,7 +453,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -488,7 +462,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -498,7 +471,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -508,7 +480,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -518,7 +489,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -528,7 +498,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -541,7 +510,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -552,7 +520,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -563,7 +530,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -574,7 +540,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -585,7 +550,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -596,7 +560,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -606,7 +569,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -616,7 +578,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -626,7 +587,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -636,7 +596,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -646,7 +605,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -656,7 +614,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -666,7 +623,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -676,7 +632,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -686,7 +641,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -698,7 +652,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -708,7 +661,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -718,7 +670,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -728,7 +679,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -738,7 +688,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -748,7 +697,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -758,7 +706,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -768,7 +715,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -778,7 +724,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -788,7 +733,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -798,7 +742,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -808,7 +751,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -818,7 +760,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -828,7 +769,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -838,7 +778,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -848,7 +787,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -858,7 +796,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -868,7 +805,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -878,7 +814,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -888,7 +823,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -898,7 +832,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -908,7 +841,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -918,7 +850,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -928,7 +859,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -938,7 +868,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -951,7 +880,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 5,
 					endColumn: 10,
 				},
@@ -964,7 +892,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 5,
 					endColumn: 10,
 				},
@@ -978,7 +905,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 6,
 					endColumn: 11,
 				},
@@ -991,7 +917,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 12,
 					endColumn: 17,
 				},
@@ -1004,7 +929,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 14,
 				},
 			],
@@ -1016,7 +940,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 8,
 				},
 			],
@@ -1028,7 +951,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 1,
 				},
 			],
@@ -1040,7 +962,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 8,
 				},
 			],
@@ -1052,7 +973,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 2,
 				},
 			],
@@ -1064,7 +984,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 9,
 				},
 			],
@@ -1076,7 +995,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 13,
 				},
 			],
@@ -1088,7 +1006,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1099,7 +1016,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1110,7 +1026,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1121,7 +1036,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1132,7 +1046,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1143,7 +1056,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1154,7 +1066,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1165,7 +1076,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1176,7 +1086,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1187,7 +1096,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1198,7 +1106,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1209,7 +1116,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1221,7 +1127,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1232,7 +1137,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1243,7 +1147,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1254,7 +1157,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1265,7 +1167,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1276,7 +1177,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1287,7 +1187,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1298,7 +1197,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1309,7 +1207,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1320,7 +1217,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1334,7 +1230,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -1346,7 +1241,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -1358,7 +1252,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -1370,7 +1263,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -1382,7 +1274,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -1393,7 +1284,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -1404,7 +1294,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1415,7 +1304,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1426,7 +1314,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1437,7 +1324,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1448,7 +1334,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1461,7 +1346,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -1472,7 +1356,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -1483,7 +1366,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -1494,7 +1376,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -1505,7 +1386,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -1516,7 +1396,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -1527,7 +1406,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1538,7 +1416,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1549,7 +1426,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1560,7 +1436,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1571,7 +1446,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1582,7 +1456,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1593,7 +1466,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1604,7 +1476,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1615,7 +1486,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1626,7 +1496,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1637,7 +1506,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1648,7 +1516,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1659,7 +1526,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1670,7 +1536,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1681,7 +1546,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1692,7 +1556,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1703,7 +1566,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1714,7 +1576,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1725,7 +1586,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1737,7 +1597,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 10,
 					endColumn: 23,
 				},
@@ -1751,7 +1610,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 24,
 					endColumn: 27,
 				},
@@ -1766,7 +1624,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 5,
 					endColumn: 10,
 				},
@@ -1779,7 +1636,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 5,
 					endColumn: 10,
 				},
@@ -1793,7 +1649,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 6,
 					endColumn: 11,
 				},
@@ -1806,7 +1661,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 12,
 					endColumn: 17,
 				},
@@ -1819,7 +1673,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 14,
 				},
 			],
@@ -1831,7 +1684,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 8,
 				},
 			],
@@ -1843,7 +1695,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 1,
 				},
 			],
@@ -1855,7 +1706,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 8,
 				},
 			],
@@ -1867,7 +1717,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 2,
 				},
 			],
@@ -1879,7 +1728,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 9,
 				},
 			],
@@ -1891,7 +1739,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 13,
 				},
 			],
@@ -1903,7 +1750,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1914,7 +1760,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1925,7 +1770,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1936,7 +1780,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1947,7 +1790,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1958,7 +1800,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1969,7 +1810,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1980,7 +1820,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -1991,7 +1830,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2002,7 +1840,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2013,7 +1850,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2024,7 +1860,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2036,7 +1871,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2047,7 +1881,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2058,7 +1891,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2069,7 +1901,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2080,7 +1911,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2091,7 +1921,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2102,7 +1931,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2113,7 +1941,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2124,7 +1951,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2135,7 +1961,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2149,7 +1974,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -2161,7 +1985,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -2173,7 +1996,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -2185,7 +2007,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -2197,7 +2018,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -2208,7 +2028,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -2219,7 +2038,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2230,7 +2048,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2241,7 +2058,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2252,7 +2068,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2263,7 +2078,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2276,7 +2090,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -2287,7 +2100,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -2298,7 +2110,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -2309,7 +2120,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -2320,7 +2130,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -2331,7 +2140,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -2342,7 +2150,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2353,7 +2160,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2364,7 +2170,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2375,7 +2180,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2386,7 +2190,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2397,7 +2200,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2408,7 +2210,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2419,7 +2220,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2430,7 +2230,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2441,7 +2240,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2452,7 +2250,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2463,7 +2260,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2474,7 +2270,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2485,7 +2280,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2496,7 +2290,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2507,7 +2300,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2518,7 +2310,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2529,7 +2320,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2540,7 +2330,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -2552,7 +2341,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 10,
 					endColumn: 23,
 				},
@@ -2566,7 +2354,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegation",
-					type: "UnaryExpression",
 					column: 24,
 					endColumn: 27,
 				},
@@ -2578,95 +2365,135 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			code: "Boolean(!!(a, b))",
 			output: "Boolean((a, b))",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "Boolean(Boolean((a, b)))",
 			output: "Boolean((a, b))",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "Boolean((!!(a, b)))",
 			output: "Boolean((a, b))",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "Boolean((Boolean((a, b))))",
 			output: "Boolean((a, b))",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "Boolean(!(!(a, b)))",
 			output: "Boolean((a, b))",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "Boolean((!(!(a, b))))",
 			output: "Boolean((a, b))",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "Boolean(!!(a = b))",
 			output: "Boolean(a = b)",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "Boolean((!!(a = b)))",
 			output: "Boolean((a = b))",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "Boolean(Boolean(a = b))",
 			output: "Boolean(a = b)",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "Boolean(Boolean((a += b)))",
 			output: "Boolean(a += b)",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "Boolean(!!(a === b))",
 			output: "Boolean(a === b)",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "Boolean(!!((a !== b)))",
 			output: "Boolean(a !== b)",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "Boolean(!!a.b)",
 			output: "Boolean(a.b)",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "Boolean(Boolean((a)))",
 			output: "Boolean(a)",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "Boolean((!!(a)))",
 			output: "Boolean((a))",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 
@@ -2674,671 +2501,981 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			code: "new Boolean(!!(a, b))",
 			output: "new Boolean((a, b))",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "new Boolean(Boolean((a, b)))",
 			output: "new Boolean((a, b))",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "new Boolean((!!(a, b)))",
 			output: "new Boolean((a, b))",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "new Boolean((Boolean((a, b))))",
 			output: "new Boolean((a, b))",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "new Boolean(!(!(a, b)))",
 			output: "new Boolean((a, b))",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "new Boolean((!(!(a, b))))",
 			output: "new Boolean((a, b))",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "new Boolean(!!(a = b))",
 			output: "new Boolean(a = b)",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "new Boolean((!!(a = b)))",
 			output: "new Boolean((a = b))",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "new Boolean(Boolean(a = b))",
 			output: "new Boolean(a = b)",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "new Boolean(Boolean((a += b)))",
 			output: "new Boolean(a += b)",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "new Boolean(!!(a === b))",
 			output: "new Boolean(a === b)",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "new Boolean(!!((a !== b)))",
 			output: "new Boolean(a !== b)",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "new Boolean(!!a.b)",
 			output: "new Boolean(a.b)",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "new Boolean(Boolean((a)))",
 			output: "new Boolean(a)",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "new Boolean((!!(a)))",
 			output: "new Boolean((a))",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "if (!!(a, b));",
 			output: "if (a, b);",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "if (Boolean((a, b)));",
 			output: "if (a, b);",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "if (!(!(a, b)));",
 			output: "if (a, b);",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "if (!!(a = b));",
 			output: "if (a = b);",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "if (Boolean(a = b));",
 			output: "if (a = b);",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "if (!!(a > b));",
 			output: "if (a > b);",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "if (Boolean(a === b));",
 			output: "if (a === b);",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "if (!!f(a));",
 			output: "if (f(a));",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "if (Boolean(f(a)));",
 			output: "if (f(a));",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "if (!!(f(a)));",
 			output: "if (f(a));",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "if ((!!f(a)));",
 			output: "if ((f(a)));",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "if ((Boolean(f(a))));",
 			output: "if ((f(a)));",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "if (!!a);",
 			output: "if (a);",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "if (Boolean(a));",
 			output: "if (a);",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "while (!!(a, b));",
 			output: "while (a, b);",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "while (Boolean((a, b)));",
 			output: "while (a, b);",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "while (!(!(a, b)));",
 			output: "while (a, b);",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "while (!!(a = b));",
 			output: "while (a = b);",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "while (Boolean(a = b));",
 			output: "while (a = b);",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "while (!!(a > b));",
 			output: "while (a > b);",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "while (Boolean(a === b));",
 			output: "while (a === b);",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "while (!!f(a));",
 			output: "while (f(a));",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "while (Boolean(f(a)));",
 			output: "while (f(a));",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "while (!!(f(a)));",
 			output: "while (f(a));",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "while ((!!f(a)));",
 			output: "while ((f(a)));",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "while ((Boolean(f(a))));",
 			output: "while ((f(a)));",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "while (!!a);",
 			output: "while (a);",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "while (Boolean(a));",
 			output: "while (a);",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "do {} while (!!(a, b));",
 			output: "do {} while (a, b);",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "do {} while (Boolean((a, b)));",
 			output: "do {} while (a, b);",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "do {} while (!(!(a, b)));",
 			output: "do {} while (a, b);",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "do {} while (!!(a = b));",
 			output: "do {} while (a = b);",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "do {} while (Boolean(a = b));",
 			output: "do {} while (a = b);",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "do {} while (!!(a > b));",
 			output: "do {} while (a > b);",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "do {} while (Boolean(a === b));",
 			output: "do {} while (a === b);",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "do {} while (!!f(a));",
 			output: "do {} while (f(a));",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "do {} while (Boolean(f(a)));",
 			output: "do {} while (f(a));",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "do {} while (!!(f(a)));",
 			output: "do {} while (f(a));",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "do {} while ((!!f(a)));",
 			output: "do {} while ((f(a)));",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "do {} while ((Boolean(f(a))));",
 			output: "do {} while ((f(a)));",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "do {} while (!!a);",
 			output: "do {} while (a);",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "do {} while (Boolean(a));",
 			output: "do {} while (a);",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "for (; !!(a, b););",
 			output: "for (; a, b;);",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "for (; Boolean((a, b)););",
 			output: "for (; a, b;);",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "for (; !(!(a, b)););",
 			output: "for (; a, b;);",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "for (; !!(a = b););",
 			output: "for (; a = b;);",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "for (; Boolean(a = b););",
 			output: "for (; a = b;);",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "for (; !!(a > b););",
 			output: "for (; a > b;);",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "for (; Boolean(a === b););",
 			output: "for (; a === b;);",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "for (; !!f(a););",
 			output: "for (; f(a););",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "for (; Boolean(f(a)););",
 			output: "for (; f(a););",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "for (; !!(f(a)););",
 			output: "for (; f(a););",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "for (; (!!f(a)););",
 			output: "for (; (f(a)););",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "for (; (Boolean(f(a))););",
 			output: "for (; (f(a)););",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "for (; !!a;);",
 			output: "for (; a;);",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "for (; Boolean(a););",
 			output: "for (; a;);",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "!!(a, b) ? c : d",
 			output: "(a, b) ? c : d",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "(!!(a, b)) ? c : d",
 			output: "(a, b) ? c : d",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "Boolean((a, b)) ? c : d",
 			output: "(a, b) ? c : d",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "!!(a = b) ? c : d",
 			output: "(a = b) ? c : d",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "Boolean(a -= b) ? c : d",
 			output: "(a -= b) ? c : d",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "(Boolean((a *= b))) ? c : d",
 			output: "(a *= b) ? c : d",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "!!(a ? b : c) ? d : e",
 			output: "(a ? b : c) ? d : e",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "Boolean(a ? b : c) ? d : e",
 			output: "(a ? b : c) ? d : e",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "!!(a || b) ? c : d",
 			output: "a || b ? c : d",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "Boolean(a && b) ? c : d",
 			output: "a && b ? c : d",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "!!(a === b) ? c : d",
 			output: "a === b ? c : d",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "Boolean(a < b) ? c : d",
 			output: "a < b ? c : d",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "!!((a !== b)) ? c : d",
 			output: "a !== b ? c : d",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "Boolean((a >= b)) ? c : d",
 			output: "a >= b ? c : d",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "!!+a ? b : c",
 			output: "+a ? b : c",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "!!+(a) ? b : c",
 			output: "+(a) ? b : c",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "Boolean(!a) ? b : c",
 			output: "!a ? b : c",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "!!f(a) ? b : c",
 			output: "f(a) ? b : c",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "(!!f(a)) ? b : c",
 			output: "(f(a)) ? b : c",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "Boolean(a.b) ? c : d",
 			output: "a.b ? c : d",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "!!a ? b : c",
 			output: "a ? b : c",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "Boolean(a) ? b : c",
 			output: "a ? b : c",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "!!!(a, b)",
 			output: "!(a, b)",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "!Boolean((a, b))",
 			output: "!(a, b)",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "!!!(a = b)",
 			output: "!(a = b)",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "!!(!(a += b))",
 			output: "!(a += b)",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "!(!!(a += b))",
 			output: "!(a += b)",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "!Boolean(a -= b)",
 			output: "!(a -= b)",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "!Boolean((a -= b))",
 			output: "!(a -= b)",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "!(Boolean(a -= b))",
 			output: "!(a -= b)",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "!!!(a || b)",
 			output: "!(a || b)",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "!Boolean(a || b)",
 			output: "!(a || b)",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "!!!(a && b)",
 			output: "!(a && b)",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "!Boolean(a && b)",
 			output: "!(a && b)",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "!!!(a != b)",
 			output: "!(a != b)",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "!!!(a === b)",
 			output: "!(a === b)",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "var x = !Boolean(a > b)",
 			output: "var x = !(a > b)",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "!!!(a - b)",
 			output: "!(a - b)",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -3346,148 +3483,220 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "!(a ** b)",
 			languageOptions: { ecmaVersion: 2016 },
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "!Boolean(a ** b)",
 			output: "!(a ** b)",
 			languageOptions: { ecmaVersion: 2016 },
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "async function f() { !!!(await a) }",
 			output: "async function f() { !await a }",
 			languageOptions: { ecmaVersion: 2017 },
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "async function f() { !Boolean(await a) }",
 			output: "async function f() { !await a }",
 			languageOptions: { ecmaVersion: 2017 },
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "!!!!a",
 			output: "!!a", // Reports 2 errors. After the first fix, the second error will disappear.
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "!!(!(!a))",
 			output: "!!a", // Reports 2 errors. After the first fix, the second error will disappear.
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "!Boolean(!a)",
 			output: "!!a",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "!Boolean((!a))",
 			output: "!!a",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "!Boolean(!(a))",
 			output: "!!(a)",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "!(Boolean(!a))",
 			output: "!(!a)",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "!!!+a",
 			output: "!+a",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "!!!(+a)",
 			output: "!+a",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "!!(!+a)",
 			output: "!+a",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "!(!!+a)",
 			output: "!(+a)",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "!Boolean((-a))",
 			output: "!-a",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "!Boolean(-(a))",
 			output: "!-(a)",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "!!!(--a)",
 			output: "!--a",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "!Boolean(a++)",
 			output: "!a++",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "!!!f(a)",
 			output: "!f(a)",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "!!!(f(a))",
 			output: "!f(a)",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "!!!a",
 			output: "!a",
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
 			code: "!Boolean(a)",
 			output: "!a",
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "if (!!(a, b) || !!(c, d)) {}",
 			output: "if ((a, b) || (c, d)) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -3495,8 +3704,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a, b) || (c, d)) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedCall", type: "CallExpression" },
-				{ messageId: "unexpectedCall", type: "CallExpression" },
+				{
+					messageId: "unexpectedCall",
+				},
+				{
+					messageId: "unexpectedCall",
+				},
 			],
 		},
 		{
@@ -3504,8 +3717,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a, b) || (c, d)) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -3513,8 +3730,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a, b) && (c, d)) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -3522,8 +3743,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a, b) && (c, d)) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedCall", type: "CallExpression" },
-				{ messageId: "unexpectedCall", type: "CallExpression" },
+				{
+					messageId: "unexpectedCall",
+				},
+				{
+					messageId: "unexpectedCall",
+				},
 			],
 		},
 		{
@@ -3531,8 +3756,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a, b) && (c, d)) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -3540,8 +3769,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a = b) || (c = d)) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -3549,8 +3782,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a /= b) || (c /= d)) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedCall", type: "CallExpression" },
-				{ messageId: "unexpectedCall", type: "CallExpression" },
+				{
+					messageId: "unexpectedCall",
+				},
+				{
+					messageId: "unexpectedCall",
+				},
 			],
 		},
 		{
@@ -3558,8 +3795,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a >>= b) && (c >>= d)) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -3568,8 +3809,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			options: [{ enforceForLogicalOperands: true }],
 			languageOptions: { ecmaVersion: 2016 },
 			errors: [
-				{ messageId: "unexpectedCall", type: "CallExpression" },
-				{ messageId: "unexpectedCall", type: "CallExpression" },
+				{
+					messageId: "unexpectedCall",
+				},
+				{
+					messageId: "unexpectedCall",
+				},
 			],
 		},
 		{
@@ -3577,8 +3822,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a ? b : c) || (d ? e : f)) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -3586,8 +3835,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a ? b : c) || (d ? e : f)) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedCall", type: "CallExpression" },
-				{ messageId: "unexpectedCall", type: "CallExpression" },
+				{
+					messageId: "unexpectedCall",
+				},
+				{
+					messageId: "unexpectedCall",
+				},
 			],
 		},
 		{
@@ -3595,8 +3848,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a ? b : c) && (d ? e : f)) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -3604,8 +3861,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a ? b : c) && (d ? e : f)) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedCall", type: "CallExpression" },
-				{ messageId: "unexpectedCall", type: "CallExpression" },
+				{
+					messageId: "unexpectedCall",
+				},
+				{
+					messageId: "unexpectedCall",
+				},
 			],
 		},
 		{
@@ -3613,8 +3874,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if (a || b || (c || d)) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -3622,8 +3887,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if (a || b || (c || d)) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedCall", type: "CallExpression" },
-				{ messageId: "unexpectedCall", type: "CallExpression" },
+				{
+					messageId: "unexpectedCall",
+				},
+				{
+					messageId: "unexpectedCall",
+				},
 			],
 		},
 		{
@@ -3631,8 +3900,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a || b) && (c || d)) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -3640,8 +3913,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a || b) && (c || d)) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedCall", type: "CallExpression" },
-				{ messageId: "unexpectedCall", type: "CallExpression" },
+				{
+					messageId: "unexpectedCall",
+				},
+				{
+					messageId: "unexpectedCall",
+				},
 			],
 		},
 		{
@@ -3649,8 +3926,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if (a && b || c && d) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -3658,8 +3939,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if (a && b || c && d) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedCall", type: "CallExpression" },
-				{ messageId: "unexpectedCall", type: "CallExpression" },
+				{
+					messageId: "unexpectedCall",
+				},
+				{
+					messageId: "unexpectedCall",
+				},
 			],
 		},
 		{
@@ -3667,8 +3952,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if (a && b && (c && d)) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -3676,8 +3965,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if (a && b && (c && d)) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedCall", type: "CallExpression" },
-				{ messageId: "unexpectedCall", type: "CallExpression" },
+				{
+					messageId: "unexpectedCall",
+				},
+				{
+					messageId: "unexpectedCall",
+				},
 			],
 		},
 		{
@@ -3685,8 +3978,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if (a !== b || c !== d) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -3694,8 +3991,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if (a != b || c != d) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedCall", type: "CallExpression" },
-				{ messageId: "unexpectedCall", type: "CallExpression" },
+				{
+					messageId: "unexpectedCall",
+				},
+				{
+					messageId: "unexpectedCall",
+				},
 			],
 		},
 		{
@@ -3703,8 +4004,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if (a === b && c === d) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -3712,8 +4017,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if (a > b || c < d) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -3721,8 +4030,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if (!a || +b) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedCall", type: "CallExpression" },
-				{ messageId: "unexpectedCall", type: "CallExpression" },
+				{
+					messageId: "unexpectedCall",
+				},
+				{
+					messageId: "unexpectedCall",
+				},
 			],
 		},
 		{
@@ -3730,8 +4043,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if (f(a) && b.c) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -3739,8 +4056,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if (a || b) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedCall", type: "CallExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedCall",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -3748,8 +4069,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if (a && b) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedCall", type: "CallExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedCall",
+				},
 			],
 		},
 		{
@@ -3757,8 +4082,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a) || (b)) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedCall", type: "CallExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedCall",
+				},
 			],
 		},
 
@@ -3767,7 +4096,11 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a ?? b) || c) {}",
 			options: [{ enforceForLogicalOperands: true }],
 			languageOptions: { ecmaVersion: 2020 },
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 
 		// Optional chaining
@@ -3820,8 +4153,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a, b) || (c, d)) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -3829,8 +4166,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a, b) || (c, d)) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedCall", type: "CallExpression" },
-				{ messageId: "unexpectedCall", type: "CallExpression" },
+				{
+					messageId: "unexpectedCall",
+				},
+				{
+					messageId: "unexpectedCall",
+				},
 			],
 		},
 		{
@@ -3838,8 +4179,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a, b) || (c, d)) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -3847,8 +4192,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a, b) && (c, d)) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -3856,8 +4205,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a, b) && (c, d)) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedCall", type: "CallExpression" },
-				{ messageId: "unexpectedCall", type: "CallExpression" },
+				{
+					messageId: "unexpectedCall",
+				},
+				{
+					messageId: "unexpectedCall",
+				},
 			],
 		},
 		{
@@ -3865,8 +4218,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a, b) && (c, d)) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -3874,8 +4231,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a = b) || (c = d)) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -3883,8 +4244,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a /= b) || (c /= d)) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedCall", type: "CallExpression" },
-				{ messageId: "unexpectedCall", type: "CallExpression" },
+				{
+					messageId: "unexpectedCall",
+				},
+				{
+					messageId: "unexpectedCall",
+				},
 			],
 		},
 		{
@@ -3892,8 +4257,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a >>= b) && (c >>= d)) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -3902,8 +4271,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			options: [{ enforceForInnerExpressions: true }],
 			languageOptions: { ecmaVersion: 2016 },
 			errors: [
-				{ messageId: "unexpectedCall", type: "CallExpression" },
-				{ messageId: "unexpectedCall", type: "CallExpression" },
+				{
+					messageId: "unexpectedCall",
+				},
+				{
+					messageId: "unexpectedCall",
+				},
 			],
 		},
 		{
@@ -3911,8 +4284,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a ? b : c) || (d ? e : f)) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -3920,8 +4297,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a ? b : c) || (d ? e : f)) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedCall", type: "CallExpression" },
-				{ messageId: "unexpectedCall", type: "CallExpression" },
+				{
+					messageId: "unexpectedCall",
+				},
+				{
+					messageId: "unexpectedCall",
+				},
 			],
 		},
 		{
@@ -3929,8 +4310,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a ? b : c) && (d ? e : f)) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -3938,8 +4323,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a ? b : c) && (d ? e : f)) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedCall", type: "CallExpression" },
-				{ messageId: "unexpectedCall", type: "CallExpression" },
+				{
+					messageId: "unexpectedCall",
+				},
+				{
+					messageId: "unexpectedCall",
+				},
 			],
 		},
 		{
@@ -3947,8 +4336,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if (a || b || (c || d)) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -3956,8 +4349,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if (a || b || (c || d)) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedCall", type: "CallExpression" },
-				{ messageId: "unexpectedCall", type: "CallExpression" },
+				{
+					messageId: "unexpectedCall",
+				},
+				{
+					messageId: "unexpectedCall",
+				},
 			],
 		},
 		{
@@ -3965,8 +4362,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a || b) && (c || d)) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -3974,8 +4375,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a || b) && (c || d)) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedCall", type: "CallExpression" },
-				{ messageId: "unexpectedCall", type: "CallExpression" },
+				{
+					messageId: "unexpectedCall",
+				},
+				{
+					messageId: "unexpectedCall",
+				},
 			],
 		},
 		{
@@ -3983,8 +4388,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if (a && b || c && d) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -3992,8 +4401,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if (a && b || c && d) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedCall", type: "CallExpression" },
-				{ messageId: "unexpectedCall", type: "CallExpression" },
+				{
+					messageId: "unexpectedCall",
+				},
+				{
+					messageId: "unexpectedCall",
+				},
 			],
 		},
 		{
@@ -4001,8 +4414,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if (a && b && (c && d)) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -4010,8 +4427,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if (a && b && (c && d)) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedCall", type: "CallExpression" },
-				{ messageId: "unexpectedCall", type: "CallExpression" },
+				{
+					messageId: "unexpectedCall",
+				},
+				{
+					messageId: "unexpectedCall",
+				},
 			],
 		},
 		{
@@ -4019,8 +4440,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if (a !== b || c !== d) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -4028,8 +4453,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if (a != b || c != d) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedCall", type: "CallExpression" },
-				{ messageId: "unexpectedCall", type: "CallExpression" },
+				{
+					messageId: "unexpectedCall",
+				},
+				{
+					messageId: "unexpectedCall",
+				},
 			],
 		},
 		{
@@ -4037,8 +4466,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if (a === b && c === d) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -4046,8 +4479,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if (a > b || c < d) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -4055,8 +4492,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if (!a || +b) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedCall", type: "CallExpression" },
-				{ messageId: "unexpectedCall", type: "CallExpression" },
+				{
+					messageId: "unexpectedCall",
+				},
+				{
+					messageId: "unexpectedCall",
+				},
 			],
 		},
 		{
@@ -4064,8 +4505,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if (f(a) && b.c) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -4073,8 +4518,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if (a || b) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedCall", type: "CallExpression" },
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
+				{
+					messageId: "unexpectedCall",
+				},
+				{
+					messageId: "unexpectedNegation",
+				},
 			],
 		},
 		{
@@ -4082,8 +4531,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if (a && b) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedCall", type: "CallExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedCall",
+				},
 			],
 		},
 		{
@@ -4091,8 +4544,12 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a) || (b)) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			errors: [
-				{ messageId: "unexpectedNegation", type: "UnaryExpression" },
-				{ messageId: "unexpectedCall", type: "CallExpression" },
+				{
+					messageId: "unexpectedNegation",
+				},
+				{
+					messageId: "unexpectedCall",
+				},
 			],
 		},
 
@@ -4101,7 +4558,11 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			output: "if ((a ?? b) || c) {}",
 			options: [{ enforceForInnerExpressions: true }],
 			languageOptions: { ecmaVersion: 2020 },
-			errors: [{ messageId: "unexpectedCall", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedCall",
+				},
+			],
 		},
 		{
 			code: "if (Boolean?.(a ?? b) || c) {}",

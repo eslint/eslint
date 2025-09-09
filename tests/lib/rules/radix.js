@@ -93,7 +93,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "missingParameters",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -102,7 +101,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "missingParameters",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -111,7 +109,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "missingRadix",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "addRadixParameter10",
@@ -127,7 +124,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "missingRadix",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "addRadixParameter10",
@@ -142,7 +138,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "missingRadix",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "addRadixParameter10",
@@ -158,7 +153,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "missingRadix",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "addRadixParameter10",
@@ -173,7 +167,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "invalidRadix",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -182,7 +175,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "invalidRadix",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -191,7 +183,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "invalidRadix",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -200,7 +191,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "invalidRadix",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -209,7 +199,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "invalidRadix",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -218,7 +207,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "invalidRadix",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -227,7 +215,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "invalidRadix",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -236,7 +223,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "invalidRadix",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -245,7 +231,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "missingParameters",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -255,7 +240,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "missingParameters",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -264,7 +248,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "missingRadix",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "addRadixParameter10",
@@ -279,7 +262,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "invalidRadix",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -288,7 +270,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "invalidRadix",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -297,7 +278,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "invalidRadix",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -307,7 +287,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "redundantRadix",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -319,7 +298,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "missingRadix",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "addRadixParameter10",
@@ -335,7 +313,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "missingRadix",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "addRadixParameter10",
@@ -351,7 +328,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "missingRadix",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "addRadixParameter10",
@@ -367,7 +343,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "missingRadix",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "addRadixParameter10",

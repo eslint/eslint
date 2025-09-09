@@ -570,7 +570,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: varMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -579,7 +578,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: functionMessage,
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -589,7 +587,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: functionMessage,
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -599,7 +596,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: functionMessage,
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -609,7 +605,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: functionMessage,
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -618,7 +613,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: varMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -627,7 +621,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: varMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -637,7 +630,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: varMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -647,7 +639,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: varMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -656,11 +647,9 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: varMessage,
-					type: "VariableDeclarator",
 				},
 				{
 					message: varMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -771,7 +760,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: leakMessage,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -780,7 +768,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: leakMessage,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -790,7 +777,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: leakMessage,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -800,7 +786,6 @@ ruleTester.run("no-implicit-globals", rule, {
 				{
 					message: leakMessage,
 					column: 27,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -809,7 +794,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: leakMessage,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -818,7 +802,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: leakMessage,
-					type: "ForInStatement",
 				},
 			],
 		},
@@ -828,7 +811,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: leakMessage,
-					type: "ForOfStatement",
 				},
 			],
 		},
@@ -841,7 +823,6 @@ ruleTester.run("no-implicit-globals", rule, {
 				{
 					message: leakMessage,
 					column: 24,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -851,7 +832,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: leakMessage,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -863,7 +843,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: leakMessage,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -875,12 +854,10 @@ ruleTester.run("no-implicit-globals", rule, {
 				{
 					message: leakMessage,
 					column: 1,
-					type: "AssignmentExpression",
 				},
 				{
 					message: leakMessage,
 					column: 10,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -890,12 +867,10 @@ ruleTester.run("no-implicit-globals", rule, {
 				{
 					message: leakMessage,
 					column: 1,
-					type: "AssignmentExpression",
 				},
 				{
 					message: leakMessage,
 					column: 7,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -905,7 +880,6 @@ ruleTester.run("no-implicit-globals", rule, {
 				{
 					message: leakMessage,
 					column: 31,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -915,7 +889,6 @@ ruleTester.run("no-implicit-globals", rule, {
 				{
 					message: leakMessage,
 					column: 25,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -924,11 +897,9 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: leakMessage,
-					type: "AssignmentExpression",
 				},
 				{
 					message: varMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -937,12 +908,10 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: varMessage,
-					type: "VariableDeclarator",
 				},
 				{
 					message: leakMessage,
 					column: 11,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -952,7 +921,6 @@ ruleTester.run("no-implicit-globals", rule, {
 				{
 					message: leakMessage,
 					column: 35,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -961,7 +929,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: varMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -972,12 +939,10 @@ ruleTester.run("no-implicit-globals", rule, {
 				{
 					message: leakMessage,
 					column: 1,
-					type: "AssignmentExpression",
 				},
 				{
 					message: leakMessage,
 					column: 1,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -988,7 +953,6 @@ ruleTester.run("no-implicit-globals", rule, {
 				{
 					message: leakMessage,
 					column: 25,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -999,7 +963,6 @@ ruleTester.run("no-implicit-globals", rule, {
 				{
 					message: leakMessage,
 					column: 25,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -1014,7 +977,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyAssignmentMessage,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -1024,7 +986,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyAssignmentMessage,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -1033,7 +994,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyAssignmentMessage,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -1043,7 +1003,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyAssignmentMessage,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -1052,7 +1011,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyAssignmentMessage,
-					type: "ForInStatement",
 				},
 			],
 		},
@@ -1062,7 +1020,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyAssignmentMessage,
-					type: "ForOfStatement",
 				},
 			],
 		},
@@ -1073,7 +1030,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1082,7 +1038,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1091,7 +1046,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1100,7 +1054,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1109,7 +1062,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1118,7 +1070,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1127,7 +1078,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1137,7 +1087,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1147,7 +1096,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1156,7 +1104,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyRedeclarationMessage,
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -1167,7 +1114,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1178,7 +1124,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1189,7 +1134,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1200,7 +1144,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1211,7 +1154,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1222,7 +1164,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyRedeclarationMessage,
-					type: "ClassDeclaration",
 				},
 			],
 		},
@@ -1234,12 +1175,10 @@ ruleTester.run("no-implicit-globals", rule, {
 				{
 					message: readonlyAssignmentMessage,
 					column: 40,
-					type: "AssignmentExpression",
 				},
 				{
 					message: readonlyAssignmentMessage,
 					column: 46,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -1249,7 +1188,6 @@ ruleTester.run("no-implicit-globals", rule, {
 				{
 					message: readonlyAssignmentMessage,
 					column: 46,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -1259,7 +1197,6 @@ ruleTester.run("no-implicit-globals", rule, {
 				{
 					message: readonlyAssignmentMessage,
 					column: 40,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -1269,12 +1206,10 @@ ruleTester.run("no-implicit-globals", rule, {
 				{
 					message: readonlyAssignmentMessage,
 					column: 26,
-					type: "AssignmentExpression",
 				},
 				{
 					message: leakMessage,
 					column: 32,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -1284,12 +1219,10 @@ ruleTester.run("no-implicit-globals", rule, {
 				{
 					message: leakMessage,
 					column: 26,
-					type: "AssignmentExpression",
 				},
 				{
 					message: readonlyAssignmentMessage,
 					column: 32,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -1300,7 +1233,6 @@ ruleTester.run("no-implicit-globals", rule, {
 				{
 					message: readonlyAssignmentMessage,
 					column: 16,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -1311,12 +1243,10 @@ ruleTester.run("no-implicit-globals", rule, {
 				{
 					message: readonlyAssignmentMessage,
 					column: 31,
-					type: "AssignmentExpression",
 				},
 				{
 					message: readonlyAssignmentMessage,
 					column: 31,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -1327,7 +1257,6 @@ ruleTester.run("no-implicit-globals", rule, {
 				{
 					message: readonlyAssignmentMessage,
 					column: 27,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -1338,7 +1267,6 @@ ruleTester.run("no-implicit-globals", rule, {
 				{
 					message: readonlyAssignmentMessage,
 					column: 27,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -1349,7 +1277,6 @@ ruleTester.run("no-implicit-globals", rule, {
 				{
 					message: readonlyAssignmentMessage,
 					column: 27,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -1360,12 +1287,10 @@ ruleTester.run("no-implicit-globals", rule, {
 				{
 					message: readonlyAssignmentMessage,
 					column: 32,
-					type: "AssignmentExpression",
 				},
 				{
 					message: readonlyAssignmentMessage,
 					column: 32,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -1376,11 +1301,9 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1389,7 +1312,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1398,7 +1320,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1407,11 +1328,9 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 				{
 					message: varMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1420,11 +1339,9 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: varMessage,
-					type: "VariableDeclarator",
 				},
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1435,11 +1352,9 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1450,7 +1365,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1461,7 +1375,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1472,11 +1385,9 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 				{
 					message: constMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1487,11 +1398,9 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: constMessage,
-					type: "VariableDeclarator",
 				},
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1502,11 +1411,9 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1517,7 +1424,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1528,7 +1434,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1539,11 +1444,9 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 				{
 					message: letMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1554,11 +1457,9 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: letMessage,
-					type: "VariableDeclarator",
 				},
 				{
 					message: readonlyRedeclarationMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1573,7 +1474,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: varMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1582,7 +1482,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: functionMessage,
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -1592,7 +1491,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: functionMessage,
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -1602,7 +1500,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: functionMessage,
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -1612,7 +1509,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: functionMessage,
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -1621,7 +1517,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: varMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1630,7 +1525,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: varMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1640,7 +1534,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: varMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1650,7 +1543,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: varMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1659,7 +1551,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: varMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1672,7 +1563,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: constMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1683,7 +1573,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: letMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1694,7 +1583,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: letMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1705,7 +1593,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: classMessage,
-					type: "ClassDeclaration",
 				},
 			],
 		},
@@ -1716,7 +1603,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: constMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1727,7 +1613,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: constMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1738,7 +1623,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: letMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1749,11 +1633,9 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: letMessage,
-					type: "VariableDeclarator",
 				},
 				{
 					message: classMessage,
-					type: "ClassDeclaration",
 				},
 			],
 		},
@@ -1764,11 +1646,9 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: constMessage,
-					type: "VariableDeclarator",
 				},
 				{
 					message: constMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1779,11 +1659,9 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: letMessage,
-					type: "VariableDeclarator",
 				},
 				{
 					message: letMessage,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -1794,7 +1672,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: leakMessage,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -1803,7 +1680,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: leakMessage,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -1813,7 +1689,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: leakMessage,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -1823,7 +1698,6 @@ ruleTester.run("no-implicit-globals", rule, {
 				{
 					message: leakMessage,
 					column: 46,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -1832,7 +1706,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: leakMessage,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -1841,7 +1714,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: leakMessage,
-					type: "ForInStatement",
 				},
 			],
 		},
@@ -1851,7 +1723,6 @@ ruleTester.run("no-implicit-globals", rule, {
 			errors: [
 				{
 					message: leakMessage,
-					type: "ForOfStatement",
 				},
 			],
 		},

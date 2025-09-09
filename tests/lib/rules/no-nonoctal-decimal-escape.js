@@ -28,7 +28,6 @@ function error(decimalEscape, column, refactorOutput, escapeBackslashOutput) {
 	return {
 		messageId: "decimalEscape",
 		data: { decimalEscape },
-		type: "Literal",
 		line: 1,
 		column,
 		endLine: 1,

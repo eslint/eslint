@@ -125,7 +125,6 @@ ruleTester.run("no-dupe-keys", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "a" },
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -135,7 +134,6 @@ ruleTester.run("no-dupe-keys", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "y" },
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -145,7 +143,6 @@ ruleTester.run("no-dupe-keys", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "" },
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -156,7 +153,6 @@ ruleTester.run("no-dupe-keys", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "" },
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -166,7 +162,6 @@ ruleTester.run("no-dupe-keys", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "1" },
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -176,7 +171,6 @@ ruleTester.run("no-dupe-keys", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "10" },
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -187,7 +181,6 @@ ruleTester.run("no-dupe-keys", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "1" },
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -198,7 +191,6 @@ ruleTester.run("no-dupe-keys", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "1" },
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -209,7 +201,6 @@ ruleTester.run("no-dupe-keys", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "1" },
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -220,7 +211,6 @@ ruleTester.run("no-dupe-keys", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "10" },
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -230,7 +220,6 @@ ruleTester.run("no-dupe-keys", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "z" },
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -252,7 +241,6 @@ ruleTester.run("no-dupe-keys", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "a" },
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -263,7 +251,6 @@ ruleTester.run("no-dupe-keys", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "a" },
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -274,7 +261,6 @@ ruleTester.run("no-dupe-keys", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "b" },
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -285,7 +271,6 @@ ruleTester.run("no-dupe-keys", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "/(?<zero>0)/" },
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -296,7 +281,6 @@ ruleTester.run("no-dupe-keys", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "__proto__" },
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -307,7 +291,6 @@ ruleTester.run("no-dupe-keys", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "__proto__" },
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -318,7 +301,6 @@ ruleTester.run("no-dupe-keys", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "__proto__" },
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -329,7 +311,6 @@ ruleTester.run("no-dupe-keys", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "__proto__" },
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -340,7 +321,6 @@ ruleTester.run("no-dupe-keys", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "__proto__" },
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -351,7 +331,6 @@ ruleTester.run("no-dupe-keys", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "a" },
-					type: "ObjectExpression",
 				},
 			],
 		},

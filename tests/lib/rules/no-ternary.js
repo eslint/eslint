@@ -26,7 +26,6 @@ ruleTester.run("no-ternary", rule, {
 			errors: [
 				{
 					messageId: "noTernaryOperator",
-					type: "ConditionalExpression",
 				},
 			],
 		},
@@ -35,7 +34,6 @@ ruleTester.run("no-ternary", rule, {
 			errors: [
 				{
 					messageId: "noTernaryOperator",
-					type: "ConditionalExpression",
 				},
 			],
 		},
@@ -44,7 +42,6 @@ ruleTester.run("no-ternary", rule, {
 			errors: [
 				{
 					messageId: "noTernaryOperator",
-					type: "ConditionalExpression",
 				},
 			],
 		},

@@ -59,7 +59,6 @@ ruleTester.run("no-alert", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "alert" },
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -71,7 +70,6 @@ ruleTester.run("no-alert", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "alert" },
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -83,7 +81,6 @@ ruleTester.run("no-alert", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "alert" },
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -95,7 +92,6 @@ ruleTester.run("no-alert", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "confirm" },
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -107,7 +103,6 @@ ruleTester.run("no-alert", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "confirm" },
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -119,7 +114,6 @@ ruleTester.run("no-alert", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "confirm" },
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -131,7 +125,6 @@ ruleTester.run("no-alert", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "prompt" },
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -143,7 +136,6 @@ ruleTester.run("no-alert", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "prompt" },
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -155,7 +147,6 @@ ruleTester.run("no-alert", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "prompt" },
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -167,7 +158,6 @@ ruleTester.run("no-alert", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "alert" },
-					type: "CallExpression",
 					line: 1,
 					column: 21,
 				},
@@ -179,7 +169,6 @@ ruleTester.run("no-alert", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "alert" },
-					type: "CallExpression",
 					line: 2,
 					column: 1,
 				},
@@ -191,7 +180,6 @@ ruleTester.run("no-alert", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "alert" },
-					type: "CallExpression",
 					line: 1,
 					column: 23,
 				},
@@ -203,7 +191,6 @@ ruleTester.run("no-alert", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "alert" },
-					type: "CallExpression",
 					line: 1,
 					column: 18,
 				},
@@ -215,7 +202,6 @@ ruleTester.run("no-alert", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "alert" },
-					type: "CallExpression",
 					line: 2,
 					column: 1,
 				},
@@ -227,7 +213,6 @@ ruleTester.run("no-alert", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "alert" },
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -239,7 +224,6 @@ ruleTester.run("no-alert", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "alert" },
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -251,7 +235,6 @@ ruleTester.run("no-alert", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "alert" },
-					type: "CallExpression",
 					line: 2,
 					column: 1,
 				},
@@ -264,7 +247,6 @@ ruleTester.run("no-alert", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "alert" },
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -277,7 +259,6 @@ ruleTester.run("no-alert", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "alert" },
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -290,7 +271,6 @@ ruleTester.run("no-alert", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "alert" },
-					type: "CallExpression",
 					line: 2,
 					column: 1,
 				},
