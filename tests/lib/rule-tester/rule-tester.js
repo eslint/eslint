@@ -1248,29 +1248,6 @@ describe("RuleTester", () => {
 		}, "The rule fixed the code. Please add 'output' property.");
 	});
 
-	it("should throw an error if invalid code specifies wrong type", () => {
-		assert.throws(() => {
-			ruleTester.run(
-				"no-eval",
-				require("../../fixtures/testers/rule-tester/no-eval"),
-				{
-					valid: ["Eval(foo)"],
-					invalid: [
-						{
-							code: "eval(foo)",
-							errors: [
-								{
-									message: "eval sucks.",
-									type: "CallExpression2",
-								},
-							],
-						},
-					],
-				},
-			);
-		}, /Error type should be CallExpression2, found CallExpression/u);
-	});
-
 	it("should throw an error if invalid code specifies wrong line", () => {
 		assert.throws(() => {
 			ruleTester.run(

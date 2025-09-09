@@ -57,7 +57,6 @@ The `results` object passed into a formatter is an array of [`result`](#the-resu
 				message: "Expected { after 'if' condition.",
 				line: 2,
 				column: 1,
-				nodeType: "IfStatement",
 			},
 			{
 				ruleId: "no-process-exit",
@@ -65,7 +64,6 @@ The `results` object passed into a formatter is an array of [`result`](#the-resu
 				message: "Don't use process.exit(); throw an error instead.",
 				line: 3,
 				column: 1,
-				nodeType: "CallExpression",
 			},
 		],
 		errorCount: 2,
@@ -109,7 +107,6 @@ Each `message` object contains information about the ESLint rule that was trigge
 - **message**: the human readable description of the error.
 - **line**: the line where the issue is located.
 - **column**: the column where the issue is located.
-- **nodeType**: (**Deprecated:** This property will be removed in a future version of ESLint.) the type of the node in the [AST](https://github.com/estree/estree/blob/master/es5.md#node-objects) or `null` if the issue isn't related to a particular AST node.
 
 ### The `context` Argument
 

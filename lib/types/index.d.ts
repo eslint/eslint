@@ -1643,12 +1643,6 @@ export namespace Linter {
 		/** The ID of the message in the rule's meta. */
 		messageId?: string | undefined;
 
-		/**
-		 * Type of node.
-		 * @deprecated `nodeType` is deprecated and will be removed in the next major version.
-		 */
-		nodeType?: string | undefined;
-
 		/** If `true` then this is a fatal error. */
 		fatal?: true | undefined;
 
