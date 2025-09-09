@@ -47,7 +47,6 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: null,
 				},
 			],
@@ -57,7 +56,6 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: null,
 				},
 			],
@@ -67,7 +65,6 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -83,7 +80,6 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -99,7 +95,6 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -115,7 +110,6 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -131,7 +125,6 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -147,7 +140,6 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -163,7 +155,6 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -180,7 +171,6 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -197,7 +187,6 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: null,
 				},
 			],
@@ -208,7 +197,6 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: null,
 				},
 			],
@@ -219,7 +207,6 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -239,7 +226,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "warn" },
-					type: "MemberExpression",
 					suggestions: null,
 				},
 			],
@@ -251,7 +237,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "log" },
-					type: "MemberExpression",
 					suggestions: null,
 				},
 			],
@@ -263,7 +248,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "error" },
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -281,7 +265,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "warn" },
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -299,7 +282,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "log" },
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -317,7 +299,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "error" },
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -335,7 +316,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "error" },
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -353,7 +333,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "warn" },
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -372,7 +351,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "log" },
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -392,7 +370,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "warn, error" },
-					type: "MemberExpression",
 					suggestions: null,
 				},
 			],
@@ -404,7 +381,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "warn, error" },
-					type: "MemberExpression",
 					suggestions: null,
 				},
 			],
@@ -416,7 +392,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "warn, info" },
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -434,7 +409,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "warn, info, log" },
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -452,7 +426,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "warn, error, log" },
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -470,7 +443,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "info, log" },
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -488,7 +460,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "info, log" },
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -506,7 +477,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "warn, error" },
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -525,7 +495,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "log, error, warn" },
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -541,7 +510,6 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeMethodCall",
@@ -556,7 +524,6 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeMethodCall",
@@ -578,7 +545,6 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",

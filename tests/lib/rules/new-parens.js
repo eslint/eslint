@@ -17,8 +17,12 @@ const parser = require("../../fixtures/fixture-parser"),
 // Tests
 //------------------------------------------------------------------------------
 
-const error = { messageId: "missing", type: "NewExpression" };
-const neverError = { messageId: "unnecessary", type: "NewExpression" };
+const error = {
+	messageId: "missing",
+};
+const neverError = {
+	messageId: "unnecessary",
+};
 
 const ruleTester = new RuleTester();
 

@@ -107,7 +107,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -119,7 +118,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -131,7 +129,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -143,7 +140,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -155,7 +151,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -167,7 +162,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -181,7 +175,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -194,13 +187,11 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 31,
 				},
@@ -212,19 +203,16 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 31,
 				},
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 61,
 				},
@@ -238,7 +226,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -252,7 +239,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -266,7 +252,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -280,7 +265,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -300,7 +284,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -325,7 +308,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -351,7 +333,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 14,
 				},
@@ -368,7 +349,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 14,
 				},
@@ -391,7 +371,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 14,
 				},
@@ -409,7 +388,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useLiteralMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -421,7 +399,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useLiteralMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -440,7 +417,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useLiteralMessage",
-					type: "CallExpression",
 					line: 3,
 					column: 17,
 				},
@@ -459,7 +435,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useLiteralMessage",
-					type: "CallExpression",
 					line: 3,
 					column: 17,
 				},
@@ -472,7 +447,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useLiteralMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 9,
 				},
@@ -484,7 +458,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 9,
 				},
@@ -496,7 +469,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 9,
 				},
@@ -508,7 +480,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 9,
 				},
@@ -520,7 +491,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -532,7 +502,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -550,7 +519,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 3,
 					column: 17,
 				},
@@ -568,7 +536,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 3,
 					column: 17,
 				},
@@ -582,7 +549,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 8,
 				},
@@ -594,7 +560,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 13,
 				},
@@ -606,7 +571,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 25,
 				},
@@ -618,7 +582,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 5,
 				},
@@ -630,7 +593,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 30,
 				},
@@ -648,7 +610,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useLiteralMessage",
-					type: "CallExpression",
 					line: 3,
 					column: 17,
 				},
@@ -666,7 +627,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 3,
 					column: 17,
 				},
@@ -684,7 +644,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useLiteralMessage",
-					type: "CallExpression",
 					line: 3,
 					column: 17,
 				},
@@ -702,7 +661,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 3,
 					column: 17,
 				},
@@ -720,7 +678,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useLiteralMessage",
-					type: "CallExpression",
 					line: 3,
 					column: 17,
 				},
@@ -738,7 +695,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 3,
 					column: 17,
 				},
@@ -762,7 +718,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 2,
 					column: 33,
 				},
@@ -787,7 +742,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 2,
 					column: 33,
 				},
@@ -812,7 +766,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 2,
 					column: 33,
 				},
@@ -844,7 +797,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 2,
 					column: 33,
 				},
@@ -860,7 +812,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 2,
 					column: 29,
 				},
@@ -874,7 +825,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useLiteralMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -886,7 +836,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useLiteralMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -899,7 +848,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useLiteralMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -912,7 +860,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useLiteralMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -931,7 +878,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useLiteralMessage",
-					type: "CallExpression",
 					line: 3,
 					column: 17,
 				},
@@ -950,7 +896,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useLiteralMessage",
-					type: "CallExpression",
 					line: 3,
 					column: 17,
 				},
@@ -964,7 +909,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useLiteralMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},
@@ -981,7 +925,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 13,
 				},
@@ -996,7 +939,6 @@ ruleTester.run("prefer-object-spread", rule, {
 			errors: [
 				{
 					messageId: "useSpreadMessage",
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 				},

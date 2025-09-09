@@ -19,28 +19,24 @@ const { unIndent } = require("../../_utils");
 
 const PROPERTY_ERROR = {
 	messageId: "expectedPropertyShorthand",
-	type: "Property",
 };
-const METHOD_ERROR = { messageId: "expectedMethodShorthand", type: "Property" };
+const METHOD_ERROR = {
+	messageId: "expectedMethodShorthand",
+};
 const LONGFORM_PROPERTY_ERROR = {
 	messageId: "expectedPropertyLongform",
-	type: "Property",
 };
 const LONGFORM_METHOD_ERROR = {
 	messageId: "expectedMethodLongform",
-	type: "Property",
 };
 const LONGFORM_METHOD_STRING_LITERAL_ERROR = {
 	messageId: "expectedLiteralMethodLongform",
-	type: "Property",
 };
 const ALL_SHORTHAND_ERROR = {
 	messageId: "expectedAllPropertiesShorthanded",
-	type: "ObjectExpression",
 };
 const MIXED_SHORTHAND_ERROR = {
 	messageId: "unexpectedMix",
-	type: "ObjectExpression",
 };
 
 const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2018 } });

@@ -174,7 +174,6 @@ ruleTester.run("space-before-function-paren", rule, {
 			output: "function foo () {}",
 			errors: [
 				{
-					type: "FunctionDeclaration",
 					messageId: "missingSpace",
 					line: 1,
 					column: 13,
@@ -187,7 +186,6 @@ ruleTester.run("space-before-function-paren", rule, {
 			output: "function foo /* */() {}",
 			errors: [
 				{
-					type: "FunctionDeclaration",
 					messageId: "missingSpace",
 					line: 1,
 					column: 18,
@@ -200,7 +198,6 @@ ruleTester.run("space-before-function-paren", rule, {
 			output: "var foo = function () {}",
 			errors: [
 				{
-					type: "FunctionExpression",
 					messageId: "missingSpace",
 					line: 1,
 					column: 19,
@@ -212,7 +209,6 @@ ruleTester.run("space-before-function-paren", rule, {
 			output: "var bar = function foo () {}",
 			errors: [
 				{
-					type: "FunctionExpression",
 					messageId: "missingSpace",
 					line: 1,
 					column: 23,
@@ -224,13 +220,11 @@ ruleTester.run("space-before-function-paren", rule, {
 			output: "var obj = { get foo () {}, set foo (val) {} };",
 			errors: [
 				{
-					type: "FunctionExpression",
 					messageId: "missingSpace",
 					line: 1,
 					column: 20,
 				},
 				{
-					type: "FunctionExpression",
 					messageId: "missingSpace",
 					line: 1,
 					column: 34,
@@ -243,7 +237,6 @@ ruleTester.run("space-before-function-paren", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
-					type: "FunctionExpression",
 					messageId: "missingSpace",
 					line: 1,
 					column: 16,
@@ -256,7 +249,6 @@ ruleTester.run("space-before-function-paren", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
-					type: "FunctionDeclaration",
 					messageId: "missingSpace",
 					line: 1,
 					column: 14,
@@ -270,7 +262,6 @@ ruleTester.run("space-before-function-paren", rule, {
 			options: ["never"],
 			errors: [
 				{
-					type: "FunctionDeclaration",
 					messageId: "unexpectedSpace",
 					line: 1,
 					column: 13,
@@ -284,7 +275,6 @@ ruleTester.run("space-before-function-paren", rule, {
 			options: ["never"],
 			errors: [
 				{
-					type: "FunctionDeclaration",
 					messageId: "unexpectedSpace",
 					line: 1,
 					column: 13,
@@ -297,7 +287,6 @@ ruleTester.run("space-before-function-paren", rule, {
 			options: ["never"],
 			errors: [
 				{
-					type: "FunctionDeclaration",
 					messageId: "unexpectedSpace",
 					line: 1,
 					column: 13,
@@ -310,7 +299,6 @@ ruleTester.run("space-before-function-paren", rule, {
 			options: ["never"],
 			errors: [
 				{
-					type: "FunctionDeclaration",
 					messageId: "unexpectedSpace",
 					line: 1,
 					column: 13,
@@ -323,7 +311,6 @@ ruleTester.run("space-before-function-paren", rule, {
 			options: ["never"],
 			errors: [
 				{
-					type: "FunctionDeclaration",
 					messageId: "unexpectedSpace",
 					line: 1,
 					column: 13,
@@ -337,7 +324,6 @@ ruleTester.run("space-before-function-paren", rule, {
 			options: ["never"],
 			errors: [
 				{
-					type: "FunctionDeclaration",
 					messageId: "unexpectedSpace",
 					line: 1,
 					column: 13,
@@ -352,7 +338,6 @@ ruleTester.run("space-before-function-paren", rule, {
 			options: ["never"],
 			errors: [
 				{
-					type: "FunctionDeclaration",
 					messageId: "unexpectedSpace",
 					line: 1,
 					column: 13,
@@ -365,7 +350,6 @@ ruleTester.run("space-before-function-paren", rule, {
 			options: ["never"],
 			errors: [
 				{
-					type: "FunctionDeclaration",
 					messageId: "unexpectedSpace",
 					line: 1,
 					column: 13,
@@ -378,7 +362,6 @@ ruleTester.run("space-before-function-paren", rule, {
 			options: ["never"],
 			errors: [
 				{
-					type: "FunctionExpression",
 					messageId: "unexpectedSpace",
 					line: 1,
 					column: 19,
@@ -392,7 +375,6 @@ ruleTester.run("space-before-function-paren", rule, {
 			options: ["never"],
 			errors: [
 				{
-					type: "FunctionExpression",
 					messageId: "unexpectedSpace",
 					line: 1,
 					column: 23,
@@ -405,13 +387,11 @@ ruleTester.run("space-before-function-paren", rule, {
 			options: ["never"],
 			errors: [
 				{
-					type: "FunctionExpression",
 					messageId: "unexpectedSpace",
 					line: 1,
 					column: 20,
 				},
 				{
-					type: "FunctionExpression",
 					messageId: "unexpectedSpace",
 					line: 1,
 					column: 35,
@@ -425,7 +405,6 @@ ruleTester.run("space-before-function-paren", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
-					type: "FunctionExpression",
 					messageId: "unexpectedSpace",
 					line: 1,
 					column: 16,
@@ -439,7 +418,6 @@ ruleTester.run("space-before-function-paren", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
-					type: "FunctionDeclaration",
 					messageId: "unexpectedSpace",
 					line: 1,
 					column: 14,
@@ -462,31 +440,26 @@ ruleTester.run("space-before-function-paren", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
-					type: "FunctionDeclaration",
 					messageId: "unexpectedSpace",
 					line: 1,
 					column: 13,
 				},
 				{
-					type: "FunctionExpression",
 					messageId: "missingSpace",
 					line: 2,
 					column: 19,
 				},
 				{
-					type: "FunctionExpression",
 					messageId: "unexpectedSpace",
 					line: 3,
 					column: 20,
 				},
 				{
-					type: "FunctionExpression",
 					messageId: "unexpectedSpace",
 					line: 3,
 					column: 35,
 				},
 				{
-					type: "FunctionExpression",
 					messageId: "unexpectedSpace",
 					line: 3,
 					column: 49,
@@ -500,13 +473,11 @@ ruleTester.run("space-before-function-paren", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
-					type: "FunctionExpression",
 					messageId: "unexpectedSpace",
 					line: 1,
 					column: 24,
 				},
 				{
-					type: "FunctionExpression",
 					messageId: "unexpectedSpace",
 					line: 1,
 					column: 38,
@@ -520,7 +491,6 @@ ruleTester.run("space-before-function-paren", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
-					type: "FunctionExpression",
 					messageId: "unexpectedSpace",
 					line: 1,
 					column: 16,
@@ -542,31 +512,26 @@ ruleTester.run("space-before-function-paren", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
-					type: "FunctionDeclaration",
 					messageId: "missingSpace",
 					line: 1,
 					column: 13,
 				},
 				{
-					type: "FunctionExpression",
 					messageId: "unexpectedSpace",
 					line: 2,
 					column: 19,
 				},
 				{
-					type: "FunctionExpression",
 					messageId: "missingSpace",
 					line: 3,
 					column: 20,
 				},
 				{
-					type: "FunctionExpression",
 					messageId: "missingSpace",
 					line: 3,
 					column: 34,
 				},
 				{
-					type: "FunctionExpression",
 					messageId: "missingSpace",
 					line: 3,
 					column: 47,
@@ -579,7 +544,6 @@ ruleTester.run("space-before-function-paren", rule, {
 			options: [{ named: "ignore", anonymous: "always" }],
 			errors: [
 				{
-					type: "FunctionExpression",
 					messageId: "missingSpace",
 					line: 1,
 					column: 19,
@@ -592,7 +556,6 @@ ruleTester.run("space-before-function-paren", rule, {
 			options: [{ named: "ignore", anonymous: "never" }],
 			errors: [
 				{
-					type: "FunctionExpression",
 					messageId: "unexpectedSpace",
 					line: 1,
 					column: 19,
@@ -605,7 +568,6 @@ ruleTester.run("space-before-function-paren", rule, {
 			options: [{ named: "always", anonymous: "ignore" }],
 			errors: [
 				{
-					type: "FunctionExpression",
 					messageId: "missingSpace",
 					line: 1,
 					column: 23,
@@ -618,7 +580,6 @@ ruleTester.run("space-before-function-paren", rule, {
 			options: [{ named: "never", anonymous: "ignore" }],
 			errors: [
 				{
-					type: "FunctionExpression",
 					messageId: "unexpectedSpace",
 					line: 1,
 					column: 23,
@@ -646,7 +607,9 @@ ruleTester.run("space-before-function-paren", rule, {
 			output: "async () => 1",
 			languageOptions: { ecmaVersion: 8 },
 			errors: [
-				{ messageId: "missingSpace", type: "ArrowFunctionExpression" },
+				{
+					messageId: "missingSpace",
+				},
 			],
 		},
 		{
@@ -655,7 +618,9 @@ ruleTester.run("space-before-function-paren", rule, {
 			options: ["always"],
 			languageOptions: { ecmaVersion: 8 },
 			errors: [
-				{ messageId: "missingSpace", type: "ArrowFunctionExpression" },
+				{
+					messageId: "missingSpace",
+				},
 			],
 		},
 		{
@@ -666,7 +631,6 @@ ruleTester.run("space-before-function-paren", rule, {
 			errors: [
 				{
 					messageId: "unexpectedSpace",
-					type: "ArrowFunctionExpression",
 				},
 			],
 		},

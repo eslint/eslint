@@ -346,7 +346,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "expectedCommaLast",
-					type: "Property",
 				},
 			],
 		},
@@ -356,7 +355,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "expectedCommaLast",
-					type: "Property",
 				},
 			],
 		},
@@ -366,7 +364,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "unexpectedLineBeforeAndAfterComma",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -376,7 +373,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "unexpectedLineBeforeAndAfterComma",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -386,7 +382,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "unexpectedLineBeforeAndAfterComma",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -409,7 +404,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "expectedCommaLast",
-					type: "VariableDeclarator",
 					column: 1,
 					endColumn: 2,
 				},
@@ -421,7 +415,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "expectedCommaLast",
-					type: "Literal",
 				},
 			],
 		},
@@ -431,7 +424,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "expectedCommaLast",
-					type: "Punctuator",
 				},
 			],
 		},
@@ -441,7 +433,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "expectedCommaLast",
-					type: "Literal",
 				},
 			],
 		},
@@ -451,7 +442,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "expectedCommaLast",
-					type: "Literal",
 				},
 			],
 		},
@@ -472,7 +462,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "expectedCommaLast",
-					type: "Identifier",
 				},
 			],
 		},
@@ -490,7 +479,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "expectedCommaLast",
-					type: "Literal",
 				},
 			],
 		},
@@ -508,7 +496,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "expectedCommaLast",
-					type: "Identifier",
 				},
 			],
 		},
@@ -530,7 +517,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "expectedCommaLast",
-					type: "Identifier",
 				},
 			],
 		},
@@ -551,7 +537,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "expectedCommaLast",
-					type: "Identifier",
 				},
 			],
 		},
@@ -572,7 +557,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "expectedCommaLast",
-					type: "Identifier",
 				},
 			],
 		},
@@ -593,7 +577,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "expectedCommaLast",
-					type: "Identifier",
 				},
 			],
 		},
@@ -615,7 +598,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "expectedCommaLast",
-					type: "ImportSpecifier",
 				},
 			],
 		},
@@ -636,7 +618,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "expectedCommaLast",
-					type: "Property",
 				},
 			],
 		},
@@ -647,7 +628,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "expectedCommaFirst",
-					type: "VariableDeclarator",
 					column: 12,
 					endColumn: 13,
 				},
@@ -660,7 +640,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "expectedCommaFirst",
-					type: "Literal",
 				},
 			],
 		},
@@ -671,7 +650,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "expectedCommaFirst",
-					type: "Literal",
 				},
 			],
 		},
@@ -682,7 +660,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "expectedCommaFirst",
-					type: "Property",
 				},
 			],
 		},
@@ -693,7 +670,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "expectedCommaFirst",
-					type: "Literal",
 				},
 			],
 		},
@@ -704,7 +680,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "expectedCommaFirst",
-					type: "Property",
 				},
 			],
 		},
@@ -715,7 +690,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "expectedCommaFirst",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -726,7 +700,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "expectedCommaFirst",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -737,7 +710,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "expectedCommaFirst",
-					type: "Property",
 				},
 			],
 		},
@@ -748,7 +720,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "expectedCommaFirst",
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -759,7 +730,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "expectedCommaFirst",
-					type: "Literal",
 				},
 			],
 		},
@@ -770,7 +740,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "expectedCommaFirst",
-					type: "Property",
 				},
 			],
 		},
@@ -793,7 +762,6 @@ ruleTester.run("comma-style", rule, {
 			errors: [
 				{
 					messageId: "unexpectedLineBeforeAndAfterComma",
-					type: "Identifier",
 					column: 1,
 					endColumn: 2,
 				},

@@ -22,7 +22,9 @@ const ruleTester = new RuleTester({
 		sourceType: "script",
 	},
 });
-const error = { messageId: "restricted", type: "Identifier" };
+const error = {
+	messageId: "restricted",
+};
 
 ruleTester.run("id-blacklist", rule, {
 	valid: [
@@ -272,7 +274,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "bar" },
-					type: "Identifier",
 					column: 17,
 				},
 			],
@@ -285,7 +286,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "bar" },
-					type: "Identifier",
 					column: 17,
 				},
 			],
@@ -298,7 +298,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "foo" },
-					type: "Identifier",
 					column: 17,
 				},
 			],
@@ -311,7 +310,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "foo" },
-					type: "Identifier",
 					column: 10,
 				},
 			],
@@ -324,7 +322,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "foo" },
-					type: "Identifier",
 					column: 22,
 				},
 			],
@@ -337,7 +334,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "foo" },
-					type: "Identifier",
 					column: 8,
 				},
 			],
@@ -350,7 +346,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "bar" },
-					type: "Identifier",
 					column: 26,
 				},
 			],
@@ -363,13 +358,11 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "foo" },
-					type: "Identifier",
 					column: 5,
 				},
 				{
 					messageId: "restricted",
 					data: { name: "foo" },
-					type: "Identifier",
 					column: 19,
 				},
 			],
@@ -382,7 +375,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "foo" },
-					type: "Identifier",
 					column: 5,
 				},
 
@@ -390,7 +382,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "foo" },
-					type: "Identifier",
 					column: 19,
 				},
 			],
@@ -403,19 +394,16 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "foo" },
-					type: "Identifier",
 					column: 5,
 				},
 				{
 					messageId: "restricted",
 					data: { name: "foo" },
-					type: "Identifier",
 					column: 19,
 				},
 				{
 					messageId: "restricted",
 					data: { name: "foo" },
-					type: "Identifier",
 					column: 26,
 				},
 			],
@@ -428,19 +416,16 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "foo" },
-					type: "Identifier",
 					column: 5,
 				},
 				{
 					messageId: "restricted",
 					data: { name: "foo" },
-					type: "Identifier",
 					column: 19,
 				},
 				{
 					messageId: "restricted",
 					data: { name: "bar" },
-					type: "Identifier",
 					column: 26,
 				},
 			],
@@ -459,7 +444,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "bar" },
-					type: "Identifier",
 					column: 17,
 				},
 			],
@@ -472,7 +456,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "bar" },
-					type: "Identifier",
 					column: 17,
 				},
 			],
@@ -485,7 +468,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "foo" },
-					type: "Identifier",
 					column: 17,
 				},
 			],
@@ -498,7 +480,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "foo" },
-					type: "Identifier",
 					column: 10,
 				},
 			],
@@ -511,7 +492,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "foo" },
-					type: "Identifier",
 					column: 22,
 				},
 			],
@@ -528,7 +508,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "bar" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -539,7 +518,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "bar" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -626,7 +604,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "foo" },
-					type: "Identifier",
 					column: 8,
 				},
 			],
@@ -639,7 +616,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "bar" },
-					type: "Identifier",
 					column: 13,
 				},
 			],
@@ -652,13 +628,11 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "foo" },
-					type: "Identifier",
 					column: 9,
 				},
 				{
 					messageId: "restricted",
 					data: { name: "bar" },
-					type: "Identifier",
 					column: 15,
 				},
 			],
@@ -671,7 +645,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "baz" },
-					type: "Identifier",
 					column: 19,
 				},
 			],
@@ -684,13 +657,11 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "bar" },
-					type: "Identifier",
 					column: 15,
 				},
 				{
 					messageId: "restricted",
 					data: { name: "baz" },
-					type: "Identifier",
 					column: 21,
 				},
 			],
@@ -703,19 +674,16 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "foo" },
-					type: "Identifier",
 					column: 9,
 				},
 				{
 					messageId: "restricted",
 					data: { name: "bar" },
-					type: "Identifier",
 					column: 17,
 				},
 				{
 					messageId: "restricted",
 					data: { name: "baz" },
-					type: "Identifier",
 					column: 23,
 				},
 			],
@@ -728,7 +696,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "baz" },
-					type: "Identifier",
 					column: 21,
 				},
 			],
@@ -741,7 +708,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "qux" },
-					type: "Identifier",
 					column: 27,
 				},
 			],
@@ -754,7 +720,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "bar" },
-					type: "Identifier",
 					column: 12,
 				},
 			],
@@ -767,7 +732,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "baz" },
-					type: "Identifier",
 					column: 24,
 				},
 			],
@@ -780,13 +744,11 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "foo" },
-					type: "Identifier",
 					column: 4,
 				},
 				{
 					messageId: "restricted",
 					data: { name: "bar" },
-					type: "Identifier",
 					column: 14,
 				},
 			],
@@ -799,7 +761,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "bar" },
-					type: "Identifier",
 					column: 17,
 				},
 			],
@@ -812,7 +773,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "bar" },
-					type: "Identifier",
 					column: 10,
 				},
 			],
@@ -825,7 +785,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "baz" },
-					type: "Identifier",
 					column: 18,
 				},
 			],
@@ -838,7 +797,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "bar" },
-					type: "Identifier",
 					column: 10,
 				},
 			],
@@ -851,7 +809,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "bar" },
-					type: "Identifier",
 					column: 11,
 				},
 			],
@@ -864,7 +821,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "bar" },
-					type: "Identifier",
 					column: 17,
 				},
 			],
@@ -877,7 +833,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "bar" },
-					type: "Identifier",
 					column: 19,
 				},
 			],
@@ -890,7 +845,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "bar" },
-					type: "Identifier",
 					column: 10,
 				},
 			],
@@ -903,7 +857,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "bar" },
-					type: "Identifier",
 					column: 7,
 				},
 			],
@@ -916,7 +869,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "bar" },
-					type: "Identifier",
 					column: 8,
 				},
 			],
@@ -930,7 +882,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "undefined" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -941,7 +892,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "undefined" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -952,7 +902,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "undefined" },
-					type: "Identifier",
 					column: 13,
 				},
 			],
@@ -965,7 +914,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "Number" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -977,7 +925,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "Number" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -991,13 +938,11 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "myGlobal" },
-					type: "Identifier",
 					column: 1,
 				},
 				{
 					messageId: "restricted",
 					data: { name: "myGlobal" },
-					type: "Identifier",
 					column: 30,
 				},
 			],
@@ -1012,13 +957,11 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "foo" },
-					type: "Identifier",
 					column: 7,
 				},
 				{
 					messageId: "restricted",
 					data: { name: "foo" },
-					type: "Identifier",
 					column: 22,
 				},
 			],
@@ -1031,13 +974,11 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "foo" },
-					type: "Identifier",
 					column: 5,
 				},
 				{
 					messageId: "restricted",
 					data: { name: "foo" },
-					type: "Identifier",
 					column: 10,
 				},
 			],
@@ -1049,13 +990,11 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "foo" },
-					type: "Identifier",
 					column: 7,
 				},
 				{
 					messageId: "restricted",
 					data: { name: "foo" },
-					type: "Identifier",
 					column: 16,
 				},
 			],
@@ -1067,13 +1006,11 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "foo" },
-					type: "Identifier",
 					column: 10,
 				},
 				{
 					messageId: "restricted",
 					data: { name: "foo" },
-					type: "Identifier",
 					column: 29,
 				},
 			],
@@ -1086,13 +1023,11 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "Foo" },
-					type: "Identifier",
 					column: 7,
 				},
 				{
 					messageId: "restricted",
 					data: { name: "Foo" },
-					type: "Identifier",
 					column: 24,
 				},
 			],
@@ -1107,13 +1042,11 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "undefined" },
-					type: "Identifier",
 					column: 5,
 				},
 				{
 					messageId: "restricted",
 					data: { name: "undefined" },
-					type: "Identifier",
 					column: 16,
 				},
 			],
@@ -1125,13 +1058,11 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "undefined" },
-					type: "Identifier",
 					column: 7,
 				},
 				{
 					messageId: "restricted",
 					data: { name: "undefined" },
-					type: "Identifier",
 					column: 22,
 				},
 			],
@@ -1143,13 +1074,11 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "undefined" },
-					type: "Identifier",
 					column: 10,
 				},
 				{
 					messageId: "restricted",
 					data: { name: "undefined" },
-					type: "Identifier",
 					column: 28,
 				},
 			],
@@ -1162,13 +1091,11 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "Number" },
-					type: "Identifier",
 					column: 7,
 				},
 				{
 					messageId: "restricted",
 					data: { name: "Number" },
-					type: "Identifier",
 					column: 21,
 				},
 			],
@@ -1190,7 +1117,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "myGlobal" },
-					type: "Identifier",
 					column: 31,
 				},
 			],
@@ -1207,7 +1133,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "undefined" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1218,7 +1143,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "Number" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1229,7 +1153,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "Map" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1243,13 +1166,11 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "undefined" },
-					type: "Identifier",
 					column: 16,
 				},
 				{
 					messageId: "restricted",
 					data: { name: "undefined" },
-					type: "Identifier",
 					column: 33,
 				},
 			],
@@ -1261,13 +1182,11 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "Number" },
-					type: "Identifier",
 					column: 14,
 				},
 				{
 					messageId: "restricted",
 					data: { name: "Number" },
-					type: "Identifier",
 					column: 32,
 				},
 			],
@@ -1282,13 +1201,11 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "myGlobal" },
-					type: "Identifier",
 					column: 22,
 				},
 				{
 					messageId: "restricted",
 					data: { name: "myGlobal" },
-					type: "Identifier",
 					column: 36,
 				},
 			],
@@ -1301,13 +1218,11 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "Number" },
-					type: "Identifier",
 					column: 28,
 				},
 				{
 					messageId: "restricted",
 					data: { name: "Number" },
-					type: "Identifier",
 					column: 58,
 				},
 			],
@@ -1320,13 +1235,11 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "Number" },
-					type: "Identifier",
 					column: 8,
 				},
 				{
 					messageId: "restricted",
 					data: { name: "Number" },
-					type: "Identifier",
 					column: 44,
 				},
 			],
@@ -1338,7 +1251,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "undefined" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1352,7 +1264,6 @@ ruleTester.run("id-blacklist", rule, {
 				{
 					messageId: "restricted",
 					data: { name: "undefined" },
-					type: "Identifier",
 				},
 			],
 		},

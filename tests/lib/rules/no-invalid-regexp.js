@@ -156,7 +156,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid regular expression: /[/: Unterminated character class",
 					},
-					type: "CallExpression",
 				},
 			],
 		},
@@ -169,7 +168,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid flags supplied to RegExp constructor 'z'",
 					},
-					type: "CallExpression",
 				},
 			],
 		},
@@ -183,7 +181,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid flags supplied to RegExp constructor 'a'",
 					},
-					type: "CallExpression",
 				},
 			],
 		},
@@ -197,7 +194,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid flags supplied to RegExp constructor 'a'",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -211,7 +207,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid flags supplied to RegExp constructor 'z'",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -225,7 +220,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid flags supplied to RegExp constructor 'a'",
 					},
-					type: "CallExpression",
 				},
 			],
 		},
@@ -239,7 +233,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid flags supplied to RegExp constructor 'A'",
 					},
-					type: "CallExpression",
 				},
 			],
 		},
@@ -253,7 +246,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid flags supplied to RegExp constructor 'a'",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -267,7 +259,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Duplicate flags ('a') supplied to RegExp constructor",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -281,7 +272,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Duplicate flags ('a') supplied to RegExp constructor",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -295,7 +285,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid flags supplied to RegExp constructor 'A'",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -309,7 +298,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Duplicate flags ('a') supplied to RegExp constructor",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -323,7 +311,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Duplicate flags ('z') supplied to RegExp constructor",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -337,7 +324,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Duplicate flags ('a') supplied to RegExp constructor",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -351,7 +337,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Duplicate flags ('u') supplied to RegExp constructor",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -365,7 +350,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid flags supplied to RegExp constructor 'oo'",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -378,7 +362,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid regular expression: /)/: Unmatched ')'",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -391,7 +374,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid regular expression: /\\a/u: Invalid escape",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -405,7 +387,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid regular expression: /\\a/u: Invalid escape",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -418,7 +399,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid regular expression: /\\u{0}*/: Nothing to repeat",
 					},
-					type: "CallExpression",
 				},
 			],
 		},
@@ -431,7 +411,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid regular expression: /\\u{0}*/: Nothing to repeat",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -444,7 +423,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid regular expression: /\\u{0}*/: Nothing to repeat",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -458,7 +436,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid regular expression: /\\u{0}*/: Nothing to repeat",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -472,7 +449,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid regular expression: /\\u{0}*/: Nothing to repeat",
 					},
-					type: "CallExpression",
 				},
 			],
 		},
@@ -487,7 +463,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid regular expression: /\\/: \\ at end of pattern",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -502,7 +477,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid flags supplied to RegExp constructor 'a'",
 					},
-					type: "CallExpression",
 				},
 			],
 		},
@@ -516,7 +490,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid flags supplied to RegExp constructor 'a'",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -530,7 +503,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid flags supplied to RegExp constructor 'z'",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -545,7 +517,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid regular expression: /[[]/v: Unterminated character class",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -558,7 +529,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Regex 'u' and 'v' flags cannot be used together",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -571,7 +541,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Regex 'u' and 'v' flags cannot be used together",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -584,7 +553,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid regular expression: /[A--B]/u: Range out of order in character class",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -597,7 +565,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid regular expression: /[[]\\u{0}*/v: Unterminated character class",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -612,7 +579,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid regular expression: /(?<k>a)(?<k>b)/: Duplicate capture group name",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -625,7 +591,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid regular expression: /(?ii:foo)/: Duplicated flag 'i'",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -638,7 +603,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid regular expression: /(?-ii:foo)/: Duplicated flag 'i'",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -651,7 +615,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid regular expression: /(?i-i:foo)/: Duplicated flag 'i'",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -664,7 +627,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid regular expression: /(?-:foo)/: Invalid empty flags",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -677,7 +639,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid regular expression: /(?g:foo)/: Invalid group",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -690,7 +651,6 @@ ruleTester.run("no-invalid-regexp", rule, {
 						message:
 							"Invalid regular expression: /(?-u:foo)/: Invalid group",
 					},
-					type: "NewExpression",
 				},
 			],
 		},

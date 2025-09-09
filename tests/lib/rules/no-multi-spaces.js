@@ -159,7 +159,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "b" },
-					type: "Identifier",
 					column: 16,
 					endColumn: 18,
 				},
@@ -173,7 +172,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "b" },
-					type: "Identifier",
 					column: 14,
 					endColumn: 16,
 				},
@@ -186,7 +184,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "1" },
-					type: "Numeric",
 					column: 8,
 					endColumn: 10,
 				},
@@ -199,7 +196,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "b" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -210,7 +206,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "b" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -221,7 +216,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "'b'" },
-					type: "String",
 					column: 19,
 					endColumn: 21,
 				},
@@ -234,7 +228,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "b" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -245,12 +238,10 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "&&" },
-					type: "Punctuator",
 				},
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "b" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -261,12 +252,10 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "2" },
-					type: "Numeric",
 				},
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "3" },
-					type: "Numeric",
 				},
 			],
 		},
@@ -277,17 +266,14 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "2" },
-					type: "Numeric",
 				},
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "3" },
-					type: "Numeric",
 				},
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "4" },
-					type: "Numeric",
 				},
 			],
 		},
@@ -298,7 +284,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "2" },
-					type: "Numeric",
 				},
 			],
 		},
@@ -309,28 +294,24 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "," },
-					type: "Punctuator",
 					column: 2,
 					endColumn: 4,
 				},
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "," },
-					type: "Punctuator",
 					column: 8,
 					endColumn: 10,
 				},
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "," },
-					type: "Punctuator",
 					column: 14,
 					endColumn: 16,
 				},
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "]" },
-					type: "Punctuator",
 					column: 17,
 					endColumn: 19,
 				},
@@ -343,7 +324,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "b" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -354,12 +334,10 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "b" },
-					type: "Identifier",
 				},
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "2" },
-					type: "Numeric",
 				},
 			],
 		},
@@ -370,7 +348,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "b" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -381,7 +358,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "b" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -392,7 +368,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "(" },
-					type: "Punctuator",
 				},
 			],
 		},
@@ -403,7 +378,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "(" },
-					type: "Punctuator",
 					column: 13,
 					endColumn: 19,
 				},
@@ -416,7 +390,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "{" },
-					type: "Punctuator",
 				},
 			],
 		},
@@ -427,7 +400,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -438,7 +410,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "(" },
-					type: "Punctuator",
 				},
 			],
 		},
@@ -449,7 +420,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "{" },
-					type: "Punctuator",
 				},
 			],
 		},
@@ -460,7 +430,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "(" },
-					type: "Punctuator",
 				},
 			],
 		},
@@ -471,7 +440,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "error" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -482,7 +450,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "bar" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -493,7 +460,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "(" },
-					type: "Punctuator",
 				},
 			],
 		},
@@ -504,12 +470,10 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "answer" },
-					type: "Identifier",
 				},
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "7" },
-					type: "Numeric",
 				},
 			],
 		},
@@ -520,7 +484,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "*" },
-					type: "Punctuator",
 				},
 			],
 		},
@@ -532,7 +495,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "b" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -543,7 +505,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "+" },
-					type: "Punctuator",
 				},
 			],
 		},
@@ -554,7 +515,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "2" },
-					type: "Numeric",
 				},
 			],
 		},
@@ -565,7 +525,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "5" },
-					type: "Numeric",
 					column: 8,
 					endColumn: 11,
 				},
@@ -580,7 +539,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "/* comment */" },
-					type: "Block",
 				},
 			],
 		},
@@ -591,7 +549,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "5" },
-					type: "Numeric",
 				},
 			],
 		},
@@ -602,7 +559,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "// comment" },
-					type: "Line",
 					column: 11,
 					endColumn: 13,
 				},
@@ -615,7 +571,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "// comment" },
-					type: "Line",
 				},
 			],
 		},
@@ -626,7 +581,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "/* multiline...*/" },
-					type: "Block",
 				},
 			],
 		},
@@ -637,7 +591,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "/* multiline...*/" },
-					type: "Block",
 				},
 			],
 		},
@@ -648,7 +601,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "// this is a l..." },
-					type: "Line",
 				},
 			],
 		},
@@ -660,7 +612,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "/* comment */" },
-					type: "Block",
 				},
 			],
 		},
@@ -672,7 +623,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "5" },
-					type: "Numeric",
 				},
 			],
 		},
@@ -684,7 +634,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "// comment" },
-					type: "Line",
 				},
 			],
 		},
@@ -696,7 +645,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "// comment" },
-					type: "Line",
 				},
 			],
 		},
@@ -708,7 +656,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "/* multiline...*/" },
-					type: "Block",
 				},
 			],
 		},
@@ -720,7 +667,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "/* multiline...*/" },
-					type: "Block",
 				},
 			],
 		},
@@ -732,7 +678,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "// this is a l..." },
-					type: "Line",
 				},
 			],
 		},
@@ -744,7 +689,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "/* comment */" },
-					type: "Block",
 				},
 			],
 		},
@@ -756,7 +700,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "/* comment */" },
-					type: "Block",
 				},
 			],
 		},
@@ -768,7 +711,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "5" },
-					type: "Numeric",
 				},
 			],
 		},
@@ -780,7 +722,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "5" },
-					type: "Numeric",
 				},
 			],
 		},
@@ -792,7 +733,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "/*comment with...*/" },
-					type: "Block",
 				},
 			],
 		},
@@ -804,7 +744,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "//comment with..." },
-					type: "Line",
 				},
 			],
 		},
@@ -816,7 +755,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "/*comment with...*/" },
-					type: "Block",
 				},
 			],
 		},
@@ -828,7 +766,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "/*comment...*/" },
-					type: "Block",
 					column: 11,
 					endColumn: 13,
 				},
@@ -841,7 +778,6 @@ ruleTester.run("no-multi-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { displayValue: "+" },
-					type: "Punctuator",
 				},
 			],
 		},

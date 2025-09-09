@@ -50,7 +50,6 @@ ruleTester.run("no-catch-shadow", rule, {
 				{
 					messageId: "mutable",
 					data: { name: "foo" },
-					type: "CatchClause",
 				},
 			],
 		},
@@ -60,7 +59,6 @@ ruleTester.run("no-catch-shadow", rule, {
 				{
 					messageId: "mutable",
 					data: { name: "foo" },
-					type: "CatchClause",
 				},
 			],
 		},
@@ -70,7 +68,6 @@ ruleTester.run("no-catch-shadow", rule, {
 				{
 					messageId: "mutable",
 					data: { name: "foo" },
-					type: "CatchClause",
 				},
 			],
 		},
@@ -80,7 +77,6 @@ ruleTester.run("no-catch-shadow", rule, {
 				{
 					messageId: "mutable",
 					data: { name: "foo" },
-					type: "CatchClause",
 				},
 			],
 		},

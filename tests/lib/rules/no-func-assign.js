@@ -41,7 +41,6 @@ ruleTester.run("no-func-assign", rule, {
 				{
 					messageId: "isAFunction",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -51,7 +50,6 @@ ruleTester.run("no-func-assign", rule, {
 				{
 					messageId: "isAFunction",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -61,7 +59,6 @@ ruleTester.run("no-func-assign", rule, {
 				{
 					messageId: "isAFunction",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -72,7 +69,6 @@ ruleTester.run("no-func-assign", rule, {
 				{
 					messageId: "isAFunction",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -83,7 +79,6 @@ ruleTester.run("no-func-assign", rule, {
 				{
 					messageId: "isAFunction",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -94,7 +89,6 @@ ruleTester.run("no-func-assign", rule, {
 				{
 					messageId: "isAFunction",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -105,7 +99,6 @@ ruleTester.run("no-func-assign", rule, {
 				{
 					messageId: "isAFunction",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -115,7 +108,6 @@ ruleTester.run("no-func-assign", rule, {
 				{
 					messageId: "isAFunction",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},

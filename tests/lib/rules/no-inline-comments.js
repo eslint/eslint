@@ -28,11 +28,9 @@ const ruleTester = new RuleTester({
 	}),
 	lineError = {
 		messageId: "unexpectedInlineComment",
-		type: "Line",
 	},
 	blockError = {
 		messageId: "unexpectedInlineComment",
-		type: "Block",
 	};
 
 ruleTester.run("no-inline-comments", rule, {

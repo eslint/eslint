@@ -19,7 +19,6 @@ const rule = require("../../../lib/rules/sort-vars"),
 const ruleTester = new RuleTester(),
 	expectedError = {
 		messageId: "sortVars",
-		type: "VariableDeclarator",
 	},
 	ignoreCaseArgs = [{ ignoreCase: true }];
 

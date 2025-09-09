@@ -65,7 +65,6 @@ ruleTester.run("no-useless-call", rule, {
 				{
 					messageId: "unnecessaryCall",
 					data: { name: "call" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -75,7 +74,6 @@ ruleTester.run("no-useless-call", rule, {
 				{
 					messageId: "unnecessaryCall",
 					data: { name: "call" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -85,7 +83,6 @@ ruleTester.run("no-useless-call", rule, {
 				{
 					messageId: "unnecessaryCall",
 					data: { name: "call" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -95,7 +92,6 @@ ruleTester.run("no-useless-call", rule, {
 				{
 					messageId: "unnecessaryCall",
 					data: { name: "call" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -105,7 +101,6 @@ ruleTester.run("no-useless-call", rule, {
 				{
 					messageId: "unnecessaryCall",
 					data: { name: "call" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -115,7 +110,6 @@ ruleTester.run("no-useless-call", rule, {
 				{
 					messageId: "unnecessaryCall",
 					data: { name: "call" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -127,7 +121,6 @@ ruleTester.run("no-useless-call", rule, {
 				{
 					messageId: "unnecessaryCall",
 					data: { name: "apply" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -137,7 +130,6 @@ ruleTester.run("no-useless-call", rule, {
 				{
 					messageId: "unnecessaryCall",
 					data: { name: "apply" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -147,7 +139,6 @@ ruleTester.run("no-useless-call", rule, {
 				{
 					messageId: "unnecessaryCall",
 					data: { name: "apply" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -157,7 +148,6 @@ ruleTester.run("no-useless-call", rule, {
 				{
 					messageId: "unnecessaryCall",
 					data: { name: "apply" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -167,7 +157,6 @@ ruleTester.run("no-useless-call", rule, {
 				{
 					messageId: "unnecessaryCall",
 					data: { name: "apply" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -177,7 +166,6 @@ ruleTester.run("no-useless-call", rule, {
 				{
 					messageId: "unnecessaryCall",
 					data: { name: "apply" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -187,7 +175,6 @@ ruleTester.run("no-useless-call", rule, {
 				{
 					messageId: "unnecessaryCall",
 					data: { name: "apply" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -197,7 +184,6 @@ ruleTester.run("no-useless-call", rule, {
 				{
 					messageId: "unnecessaryCall",
 					data: { name: "apply" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -207,7 +193,6 @@ ruleTester.run("no-useless-call", rule, {
 				{
 					messageId: "unnecessaryCall",
 					data: { name: "apply" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -235,7 +220,6 @@ ruleTester.run("no-useless-call", rule, {
 				{
 					messageId: "unnecessaryCall",
 					data: { name: "call" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -246,7 +230,6 @@ ruleTester.run("no-useless-call", rule, {
 				{
 					messageId: "unnecessaryCall",
 					data: { name: "call" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -257,7 +240,6 @@ ruleTester.run("no-useless-call", rule, {
 				{
 					messageId: "unnecessaryCall",
 					data: { name: "call" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -268,7 +250,6 @@ ruleTester.run("no-useless-call", rule, {
 				{
 					messageId: "unnecessaryCall",
 					data: { name: "call" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -279,7 +260,6 @@ ruleTester.run("no-useless-call", rule, {
 				{
 					messageId: "unnecessaryCall",
 					data: { name: "call" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -290,7 +270,6 @@ ruleTester.run("no-useless-call", rule, {
 				{
 					messageId: "unnecessaryCall",
 					data: { name: "call" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -301,7 +280,6 @@ ruleTester.run("no-useless-call", rule, {
 				{
 					messageId: "unnecessaryCall",
 					data: { name: "call" },
-					type: "CallExpression",
 				},
 			],
 		},

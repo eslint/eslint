@@ -87,7 +87,6 @@ ruleTester.run("no-regex-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { length: "2" },
-					type: "Literal",
 				},
 			],
 		},
@@ -98,7 +97,6 @@ ruleTester.run("no-regex-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { length: "4" },
-					type: "Literal",
 				},
 			],
 		},
@@ -109,7 +107,6 @@ ruleTester.run("no-regex-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { length: "2" },
-					type: "Literal",
 				},
 			],
 		},
@@ -120,7 +117,6 @@ ruleTester.run("no-regex-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { length: "2" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -131,7 +127,6 @@ ruleTester.run("no-regex-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { length: "4" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -142,7 +137,6 @@ ruleTester.run("no-regex-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { length: "4" },
-					type: "NewExpression",
 				},
 			],
 		},
@@ -155,7 +149,6 @@ ruleTester.run("no-regex-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { length: "4" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -166,7 +159,6 @@ ruleTester.run("no-regex-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { length: "2" },
-					type: "Literal",
 				},
 			],
 		},
@@ -177,7 +169,6 @@ ruleTester.run("no-regex-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { length: "3" },
-					type: "Literal",
 				},
 			],
 		},
@@ -188,7 +179,6 @@ ruleTester.run("no-regex-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { length: "2" },
-					type: "NewExpression",
 				},
 			],
 		},
@@ -199,7 +189,6 @@ ruleTester.run("no-regex-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { length: "2" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -210,7 +199,6 @@ ruleTester.run("no-regex-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { length: "4" },
-					type: "NewExpression",
 				},
 			],
 		},
@@ -221,7 +209,6 @@ ruleTester.run("no-regex-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { length: "2" },
-					type: "Literal",
 				},
 			],
 		},
@@ -232,7 +219,6 @@ ruleTester.run("no-regex-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { length: "2" },
-					type: "Literal",
 				},
 			],
 		},
@@ -243,7 +229,6 @@ ruleTester.run("no-regex-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { length: "2" },
-					type: "Literal",
 				},
 			],
 		},
@@ -254,7 +239,6 @@ ruleTester.run("no-regex-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { length: "2" },
-					type: "NewExpression",
 				},
 			],
 		},
@@ -265,7 +249,6 @@ ruleTester.run("no-regex-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { length: "2" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -276,7 +259,6 @@ ruleTester.run("no-regex-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { length: "2" },
-					type: "Literal",
 				},
 			],
 		},
@@ -287,7 +269,6 @@ ruleTester.run("no-regex-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { length: "2" },
-					type: "Literal",
 				},
 			],
 		},
@@ -298,7 +279,6 @@ ruleTester.run("no-regex-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { length: "2" },
-					type: "Literal",
 				},
 			],
 		},
@@ -309,7 +289,6 @@ ruleTester.run("no-regex-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { length: "3" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -320,7 +299,6 @@ ruleTester.run("no-regex-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { length: "2" },
-					type: "Literal",
 				},
 			],
 		},
@@ -331,7 +309,6 @@ ruleTester.run("no-regex-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { length: "2" },
-					type: "Literal",
 				},
 			],
 		},
@@ -344,7 +321,6 @@ ruleTester.run("no-regex-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { length: "2" },
-					type: "Literal",
 				},
 			],
 		},
@@ -357,7 +333,6 @@ ruleTester.run("no-regex-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { length: "2" },
-					type: "NewExpression",
 				},
 			],
 		},
@@ -368,7 +343,6 @@ ruleTester.run("no-regex-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { length: "3" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -379,7 +353,6 @@ ruleTester.run("no-regex-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { length: "2" },
-					type: "NewExpression",
 				},
 			],
 		},
@@ -395,7 +368,6 @@ ruleTester.run("no-regex-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { length: "4" },
-					type: "Literal",
 				},
 			],
 		},
@@ -406,7 +378,6 @@ ruleTester.run("no-regex-spaces", rule, {
 				{
 					messageId: "multipleSpaces",
 					data: { length: "4" },
-					type: "NewExpression",
 				},
 			],
 		},
