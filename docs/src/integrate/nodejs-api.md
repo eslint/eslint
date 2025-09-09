@@ -907,7 +907,6 @@ In addition to the properties above, invalid test cases can also have the follow
     - `message` (string/regexp): The message for the error. Must provide this or `messageId`.
     - `messageId` (string): The ID for the error. Must provide this or `message`. See [testing errors with messageId](#testing-errors-with-messageid) for details.
     - `data` (object): Placeholder data which can be used in combination with `messageId`.
-    - `type` (string): (**Deprecated:** This property will be removed in a future version of ESLint.) The type of the reported AST node.
     - `line` (number): The 1-based line number of the reported location.
     - `column` (number): The 1-based column number of the reported location.
     - `endLine` (number): The 1-based line number of the end of the reported location.

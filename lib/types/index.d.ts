@@ -2272,10 +2272,6 @@ export namespace RuleTester {
 	interface TestCaseError {
 		message?: string | RegExp;
 		messageId?: string;
-		/**
-		 * @deprecated `type` is deprecated and will be removed in the next major version.
-		 */
-		type?: string | undefined;
 		data?: any;
 		line?: number | undefined;
 		column?: number | undefined;

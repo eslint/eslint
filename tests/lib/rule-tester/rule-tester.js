@@ -740,9 +740,7 @@ describe("RuleTester", () => {
 				invalid: [
 					{
 						code: "eval(foo)",
-						errors: [
-							{ message: "eval sucks.", type: "CallExpression" },
-						],
+						errors: [{ message: "eval sucks." }],
 					},
 				],
 			},
@@ -909,7 +907,6 @@ describe("RuleTester", () => {
 							errors: [
 								{
 									message: "Bad var.",
-									type: "VariableDeclaration",
 								},
 								null,
 							],
@@ -1056,7 +1053,6 @@ describe("RuleTester", () => {
 							errors: [
 								{
 									message: "Bad var.",
-									type: "VariableDeclaration",
 								},
 								{
 									message: "Bad var.",
@@ -1101,7 +1097,6 @@ describe("RuleTester", () => {
 							errors: [
 								{
 									message: "Bad var.",
-									type: "VariableDeclaration",
 								},
 							],
 						},
@@ -1261,7 +1256,6 @@ describe("RuleTester", () => {
 							errors: [
 								{
 									message: "eval sucks.",
-									type: "CallExpression",
 									line: 5,
 								},
 							],
@@ -1285,7 +1279,6 @@ describe("RuleTester", () => {
 							errors: [
 								{
 									message: "eval sucks.",
-									type: "CallExpression",
 									line: 0,
 								},
 							],
@@ -1391,7 +1384,6 @@ describe("RuleTester", () => {
 							errors: [
 								{
 									message: "Bad var.",
-									type: "VariableDeclaration",
 									endLine: 10,
 								},
 							],
@@ -1416,7 +1408,6 @@ describe("RuleTester", () => {
 							errors: [
 								{
 									message: "Bad var.",
-									type: "VariableDeclaration",
 									endColumn: 10,
 								},
 							],
@@ -2889,9 +2880,7 @@ describe("RuleTester", () => {
 				})),
 				invalid: filenames.map((filename, index) => ({
 					code: `eval(foo${index})`,
-					errors: [
-						{ message: "eval sucks.", type: "CallExpression" },
-					],
+					errors: [{ message: "eval sucks." }],
 					filename,
 				})),
 			},

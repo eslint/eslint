@@ -1941,7 +1941,6 @@ ruleTester.run("my-rule", rule, {
 		{ code: "foo", errors: 1, output: "foo" },
 		{ code: "foo", errors: ["foo"] },
 		{ code: "foo", errors: [{ message: "foo" }] },
-		{ code: "foo", errors: [{ message: "foo", type: "foo" }] },
 		{ code: "foo", errors: [{ message: "foo", data: { foo: true } }] },
 		{ code: "foo", errors: [{ message: "foo", line: 0 }] },
 		{
