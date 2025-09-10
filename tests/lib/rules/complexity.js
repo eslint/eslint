@@ -838,6 +838,23 @@ ruleTester.run("complexity", rule, {
 				},
 			],
 		},
+		{
+			code: "class C { x = () => a || b || c; y = f || g || h; }",
+			options: [2],
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					...makeError("Method 'x'", 3, 2),
+					column: 11,
+					endColumn: 15,
+				},
+				{
+					...makeError("Class field initializer", 3, 2),
+					column: 38,
+					endColumn: 49,
+				},
+			],
+		},
 
 		// object property options
 		{
