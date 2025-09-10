@@ -277,6 +277,11 @@ Nitin Kumar
 The people who review and fix bugs and help triage issues.
 
 <table><tbody><tr><td align="center" valign="top" width="11%">
+<a href="https://github.com/DMartens">
+<img src="https://github.com/DMartens.png?s=75" width="75" height="75" alt="fnx's Avatar"><br />
+fnx
+</a>
+</td><td align="center" valign="top" width="11%">
 <a href="https://github.com/JoshuaKGoldberg">
 <img src="https://github.com/JoshuaKGoldberg.png?s=75" width="75" height="75" alt="Josh Goldberg ✨'s Avatar"><br />
 Josh Goldberg ✨
