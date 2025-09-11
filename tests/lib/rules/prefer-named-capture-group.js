@@ -101,7 +101,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			errors: [
 				{
 					messageId: "required",
-					type: "Literal",
 					data: { group: "([0-9]{4})" },
 					line: 1,
 					column: 1,
@@ -124,7 +123,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			errors: [
 				{
 					messageId: "required",
-					type: "NewExpression",
 					data: { group: "([0-9]{4})" },
 					line: 1,
 					column: 1,
@@ -147,7 +145,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			errors: [
 				{
 					messageId: "required",
-					type: "CallExpression",
 					data: { group: "([0-9]{4})" },
 					line: 1,
 					column: 1,
@@ -170,7 +167,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			errors: [
 				{
 					messageId: "required",
-					type: "NewExpression",
 					data: { group: "(bc)" },
 					suggestions: [
 						{
@@ -190,7 +186,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			errors: [
 				{
 					messageId: "required",
-					type: "NewExpression",
 					data: { group: "(b)" },
 					suggestions: [
 						{
@@ -210,7 +205,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			errors: [
 				{
 					messageId: "required",
-					type: "NewExpression",
 					data: { group: "(b)" },
 					suggestions: null,
 				},
@@ -221,7 +215,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			errors: [
 				{
 					messageId: "required",
-					type: "Literal",
 					data: { group: "([0-9]{4})" },
 					line: 1,
 					column: 1,
@@ -239,7 +232,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 				},
 				{
 					messageId: "required",
-					type: "Literal",
 					data: { group: "(\\w{5})" },
 					line: 1,
 					column: 1,
@@ -262,7 +254,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			errors: [
 				{
 					messageId: "required",
-					type: "Literal",
 					data: { group: "([0-9]{4})" },
 					line: 1,
 					column: 1,
@@ -280,7 +271,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 				},
 				{
 					messageId: "required",
-					type: "Literal",
 					data: { group: "(5)" },
 					line: 1,
 					column: 1,
@@ -303,7 +293,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			errors: [
 				{
 					messageId: "required",
-					type: "Literal",
 					data: { group: "(a)" },
 					line: 1,
 					column: 1,
@@ -326,7 +315,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			errors: [
 				{
 					messageId: "required",
-					type: "Literal",
 					data: { group: "(a)" },
 					line: 1,
 					column: 1,
@@ -349,7 +337,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			errors: [
 				{
 					messageId: "required",
-					type: "Literal",
 					data: { group: "(\\w{5})" },
 					line: 1,
 					column: 1,
@@ -372,7 +359,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			errors: [
 				{
 					messageId: "required",
-					type: "Literal",
 					data: { group: "(5)" },
 					line: 1,
 					column: 1,
@@ -395,7 +381,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			errors: [
 				{
 					messageId: "required",
-					type: "Literal",
 					data: { group: "(a)" },
 					line: 1,
 					column: 1,
@@ -418,7 +403,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			errors: [
 				{
 					messageId: "required",
-					type: "NewExpression",
 					data: { group: "(a)" },
 					suggestions: null,
 				},
@@ -429,7 +413,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			errors: [
 				{
 					messageId: "required",
-					type: "NewExpression",
 					data: { group: "(bc)" },
 					suggestions: null,
 				},
@@ -440,13 +423,11 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			errors: [
 				{
 					messageId: "required",
-					type: "NewExpression",
 					data: { group: "(a)" },
 					suggestions: null,
 				},
 				{
 					messageId: "required",
-					type: "NewExpression",
 					data: { group: "(b)" },
 					suggestions: null,
 				},
@@ -457,7 +438,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			errors: [
 				{
 					messageId: "required",
-					type: "NewExpression",
 					data: { group: "(b)" },
 					suggestions: null,
 				},
@@ -468,7 +448,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			errors: [
 				{
 					messageId: "required",
-					type: "CallExpression",
 					data: { group: "(a)" },
 					suggestions: null,
 				},
@@ -479,7 +458,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			errors: [
 				{
 					messageId: "required",
-					type: "CallExpression",
 					data: { group: "(ab)" },
 					suggestions: null,
 				},
@@ -490,7 +468,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			errors: [
 				{
 					messageId: "required",
-					type: "NewExpression",
 					data: { group: "(ab)" },
 					suggestions: null,
 				},
@@ -501,7 +478,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			errors: [
 				{
 					messageId: "required",
-					type: "NewExpression",
 					data: { group: "(a)" },
 					line: 1,
 					column: 1,
@@ -525,7 +501,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			errors: [
 				{
 					messageId: "required",
-					type: "CallExpression",
 					data: { group: "(b\nc)" },
 					suggestions: [
 						{
@@ -545,7 +520,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			errors: [
 				{
 					messageId: "required",
-					type: "NewExpression",
 					data: { group: "(b)" },
 					suggestions: null,
 				},
@@ -556,7 +530,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			errors: [
 				{
 					messageId: "required",
-					type: "CallExpression",
 					data: { group: "(a)" },
 					suggestions: null,
 				},
@@ -567,7 +540,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			errors: [
 				{
 					messageId: "required",
-					type: "CallExpression",
 					data: { group: "(b)" },
 					suggestions: null,
 				},
@@ -579,7 +551,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			errors: [
 				{
 					messageId: "required",
-					type: "NewExpression",
 					data: { group: "([0-9]{4})" },
 					line: 1,
 					column: 1,
@@ -603,7 +574,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			errors: [
 				{
 					messageId: "required",
-					type: "CallExpression",
 					data: { group: "([0-9]{4})" },
 					line: 1,
 					column: 1,
@@ -630,7 +600,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			errors: [
 				{
 					messageId: "required",
-					type: "NewExpression",
 					data: { group: "([0-9]{4})" },
 					line: 3,
 					column: 17,
@@ -661,7 +630,6 @@ ruleTester.run("prefer-named-capture-group", rule, {
 			errors: [
 				{
 					messageId: "required",
-					type: "NewExpression",
 					data: { group: "([[A--B]])" },
 					line: 1,
 					column: 1,

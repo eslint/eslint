@@ -13,8 +13,8 @@ jobs:
         name: Verify Files
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v4
-            - uses: actions/setup-node@v4
+            - uses: actions/checkout@v5
+            - uses: actions/setup-node@v5
               with:
                   node-version: "lts/*"
             - name: Install Packages
@@ -86,8 +86,8 @@ jobs:
                       NODE_OPTIONS: "--experimental-transform-types"
         runs-on: ${{ matrix.os }}
         steps:
-            - uses: actions/checkout@v4
-            - uses: actions/setup-node@v4
+            - uses: actions/checkout@v5
+            - uses: actions/setup-node@v5
               with:
                   node-version: ${{ matrix.node }}
             - name: Install Packages
@@ -107,8 +107,8 @@ jobs:
         env:
             TERM: xterm-256color
         steps:
-            - uses: actions/checkout@v4
-            - uses: actions/setup-node@v4
+            - uses: actions/checkout@v5
+            - uses: actions/setup-node@v5
               with:
                   node-version: "20" # Should be the same as the version used on Netlify to build the ESLint Playground
             - name: Install Packages
@@ -135,8 +135,8 @@ jobs:
                     ]
 
         steps:
-            - uses: actions/checkout@v4
-            - uses: actions/setup-node@v4
+            - uses: actions/checkout@v5
+            - uses: actions/setup-node@v5
               with:
                   node-version: "lts/*"
             - name: Install Packages

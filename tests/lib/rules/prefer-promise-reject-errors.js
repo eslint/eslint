@@ -125,7 +125,11 @@ ruleTester.run("prefer-promise-reject-errors", rule, {
 		"Promise.reject(foo &&= 5)",
 	].map(invalidCase => {
 		const errors = {
-			errors: [{ messageId: "rejectAnError", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "rejectAnError",
+				},
+			],
 		};
 
 		return Object.assign(

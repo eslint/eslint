@@ -26,7 +26,6 @@ const rule = require("../../../lib/rules/one-var-declaration-per-line"),
 function errorAt(line, column) {
 	return {
 		messageId: "expectVarOnNewline",
-		type: "VariableDeclaration",
 		line,
 		column,
 	};

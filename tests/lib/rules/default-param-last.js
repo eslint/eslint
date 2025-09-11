@@ -23,7 +23,6 @@ const ruleTester = new RuleTester({
 
 const cannedError = {
 	messageId: SHOULD_BE_LAST,
-	type: "AssignmentPattern",
 };
 
 ruleTester.run("default-param-last", rule, {

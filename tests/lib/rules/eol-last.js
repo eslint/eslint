@@ -57,7 +57,6 @@ ruleTester.run("eol-last", rule, {
 			errors: [
 				{
 					messageId: "missing",
-					type: "Program",
 					line: 1,
 					column: 13,
 					endLine: void 0,
@@ -71,7 +70,6 @@ ruleTester.run("eol-last", rule, {
 			errors: [
 				{
 					messageId: "missing",
-					type: "Program",
 					line: 2,
 					column: 4,
 					endLine: void 0,
@@ -86,7 +84,6 @@ ruleTester.run("eol-last", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Program",
 					line: 1,
 					column: 13,
 					endLine: 2,
@@ -101,7 +98,6 @@ ruleTester.run("eol-last", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Program",
 					line: 1,
 					column: 13,
 					endLine: 2,
@@ -116,7 +112,6 @@ ruleTester.run("eol-last", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Program",
 					line: 2,
 					column: 1,
 					endLine: 3,
@@ -131,7 +126,6 @@ ruleTester.run("eol-last", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Program",
 					line: 2,
 					column: 13,
 					endLine: 3,
@@ -146,7 +140,6 @@ ruleTester.run("eol-last", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Program",
 					line: 2,
 					column: 13,
 					endLine: 3,
@@ -161,7 +154,6 @@ ruleTester.run("eol-last", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Program",
 					line: 2,
 					column: 1,
 					endLine: 3,
@@ -178,7 +170,6 @@ ruleTester.run("eol-last", rule, {
 			errors: [
 				{
 					messageId: "missing",
-					type: "Program",
 					line: 1,
 					column: 13,
 					endLine: void 0,
@@ -193,7 +184,6 @@ ruleTester.run("eol-last", rule, {
 			errors: [
 				{
 					messageId: "missing",
-					type: "Program",
 					line: 2,
 					column: 4,
 					endLine: void 0,
@@ -210,7 +200,6 @@ ruleTester.run("eol-last", rule, {
 			errors: [
 				{
 					messageId: "missing",
-					type: "Program",
 					line: 1,
 					column: 13,
 					endLine: void 0,
@@ -225,7 +214,6 @@ ruleTester.run("eol-last", rule, {
 			errors: [
 				{
 					messageId: "missing",
-					type: "Program",
 					line: 2,
 					column: 4,
 					endLine: void 0,

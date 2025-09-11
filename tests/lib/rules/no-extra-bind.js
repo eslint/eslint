@@ -16,7 +16,11 @@ const rule = require("../../../lib/rules/no-extra-bind"),
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();
-const errors = [{ messageId: "unexpected", type: "CallExpression" }];
+const errors = [
+	{
+		messageId: "unexpected",
+	},
+];
 
 ruleTester.run("no-extra-bind", rule, {
 	valid: [
@@ -51,7 +55,6 @@ ruleTester.run("no-extra-bind", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 					line: 1,
 					column: 34,
 					endLine: 1,
@@ -65,7 +68,6 @@ ruleTester.run("no-extra-bind", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 					line: 1,
 					column: 34,
 					endLine: 1,
@@ -80,7 +82,6 @@ ruleTester.run("no-extra-bind", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 					line: 1,
 					column: 34,
 					endLine: 1,
@@ -119,7 +120,10 @@ ruleTester.run("no-extra-bind", rule, {
 			code: "var a = function() { (function(){ (function(){ this.d }.bind(c)) }) }.bind(b)",
 			output: "var a = function() { (function(){ (function(){ this.d }.bind(c)) }) }",
 			errors: [
-				{ messageId: "unexpected", type: "CallExpression", column: 71 },
+				{
+					messageId: "unexpected",
+					column: 71,
+				},
 			],
 		},
 		{

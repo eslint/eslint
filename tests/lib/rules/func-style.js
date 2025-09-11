@@ -219,7 +219,6 @@ ruleTester.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "declaration",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -230,7 +229,6 @@ ruleTester.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "declaration",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -241,7 +239,6 @@ ruleTester.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "declaration",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -252,7 +249,6 @@ ruleTester.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "declaration",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -262,7 +258,6 @@ ruleTester.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "expression",
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -272,7 +267,6 @@ ruleTester.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "expression",
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -285,7 +279,6 @@ ruleTester.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "expression",
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -298,7 +291,6 @@ ruleTester.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "expression",
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -309,7 +301,6 @@ ruleTester.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "declaration",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -323,7 +314,6 @@ ruleTester.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "declaration",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -337,7 +327,6 @@ ruleTester.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "declaration",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -348,7 +337,6 @@ ruleTester.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "declaration",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -362,7 +350,6 @@ ruleTester.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "declaration",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -376,7 +363,6 @@ ruleTester.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "declaration",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -390,7 +376,6 @@ ruleTester.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "expression",
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -404,7 +389,6 @@ ruleTester.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "declaration",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -418,7 +402,6 @@ ruleTester.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "declaration",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -428,7 +411,6 @@ ruleTester.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "declaration",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -438,7 +420,6 @@ ruleTester.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "expression",
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -448,7 +429,6 @@ ruleTester.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "declaration",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -464,7 +444,6 @@ ruleTester.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "declaration",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -480,7 +459,6 @@ ruleTester.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "declaration",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -490,7 +468,6 @@ ruleTester.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "expression",
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -713,7 +690,6 @@ ruleTesterTypeScript.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "declaration",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -723,7 +699,6 @@ ruleTesterTypeScript.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "declaration",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -733,7 +708,6 @@ ruleTesterTypeScript.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "declaration",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -743,7 +717,6 @@ ruleTesterTypeScript.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "declaration",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -753,7 +726,6 @@ ruleTesterTypeScript.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "expression",
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -763,7 +735,6 @@ ruleTesterTypeScript.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "expression",
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -776,7 +747,6 @@ ruleTesterTypeScript.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "expression",
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -789,7 +759,6 @@ ruleTesterTypeScript.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "expression",
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -799,7 +768,6 @@ ruleTesterTypeScript.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "declaration",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -812,7 +780,6 @@ ruleTesterTypeScript.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "declaration",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -825,7 +792,6 @@ ruleTesterTypeScript.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "declaration",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -835,7 +801,6 @@ ruleTesterTypeScript.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "declaration",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -848,7 +813,6 @@ ruleTesterTypeScript.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "declaration",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -861,7 +825,6 @@ ruleTesterTypeScript.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "declaration",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -874,7 +837,6 @@ ruleTesterTypeScript.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "expression",
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -887,7 +849,6 @@ ruleTesterTypeScript.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "declaration",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -900,7 +861,6 @@ ruleTesterTypeScript.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "declaration",
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -909,7 +869,6 @@ ruleTesterTypeScript.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "expression",
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -918,7 +877,6 @@ ruleTesterTypeScript.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "expression",
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -932,7 +890,6 @@ ruleTesterTypeScript.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "expression",
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -946,7 +903,6 @@ ruleTesterTypeScript.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "expression",
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -965,7 +921,6 @@ ruleTesterTypeScript.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "expression",
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -983,7 +938,6 @@ ruleTesterTypeScript.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "expression",
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -1002,7 +956,6 @@ ruleTesterTypeScript.run("func-style", rule, {
 			errors: [
 				{
 					messageId: "expression",
-					type: "FunctionDeclaration",
 				},
 			],
 		},

@@ -16,7 +16,9 @@ const rule = require("../../../lib/rules/no-await-in-loop"),
 // Tests
 //------------------------------------------------------------------------------
 
-const error = { messageId: "unexpectedAwait", type: "AwaitExpression" };
+const error = {
+	messageId: "unexpectedAwait",
+};
 
 const ruleTester = new RuleTester({
 	languageOptions: { ecmaVersion: 2018, sourceType: "script" },
@@ -96,7 +98,7 @@ ruleTester.run("no-await-in-loop", rule, {
 		},
 		{
 			code: "async function foo() { while (baz) { for await (x of xs); } }",
-			errors: [Object.assign({}, error, { type: "ForOfStatement" })],
+			errors: [error],
 		},
 
 		// For of loops
@@ -164,7 +166,7 @@ ruleTester.run("no-await-in-loop", rule, {
 				sourceType: "module",
 				ecmaVersion: 2026,
 			},
-			errors: [{ ...error, type: "VariableDeclaration" }],
+			errors: [error],
 		},
 		{
 			code: "for (;;) { await using resource = getResource(); }",
@@ -172,7 +174,7 @@ ruleTester.run("no-await-in-loop", rule, {
 				sourceType: "module",
 				ecmaVersion: 2026,
 			},
-			errors: [{ ...error, type: "VariableDeclaration" }],
+			errors: [error],
 		},
 		{
 			code: "for (await using resource of resources) {}",
@@ -180,7 +182,7 @@ ruleTester.run("no-await-in-loop", rule, {
 				sourceType: "module",
 				ecmaVersion: 2026,
 			},
-			errors: [{ ...error, type: "VariableDeclaration" }],
+			errors: [error],
 		},
 	],
 });
