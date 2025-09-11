@@ -42,17 +42,29 @@ ruleTester.run("no-spaced-func", rule, {
 		{
 			code: "f ();",
 			output: "f();",
-			errors: [{ messageId: "noSpacedFunction", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "noSpacedFunction",
+				},
+			],
 		},
 		{
 			code: "f (a, b);",
 			output: "f(a, b);",
-			errors: [{ messageId: "noSpacedFunction", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "noSpacedFunction",
+				},
+			],
 		},
 		{
 			code: "f\n();",
 			output: "f();",
-			errors: [{ messageId: "noSpacedFunction", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "noSpacedFunction",
+				},
+			],
 		},
 		{
 			code: "f.b ();",
@@ -60,7 +72,6 @@ ruleTester.run("no-spaced-func", rule, {
 			errors: [
 				{
 					messageId: "noSpacedFunction",
-					type: "CallExpression",
 					column: 3,
 				},
 			],
@@ -71,7 +82,6 @@ ruleTester.run("no-spaced-func", rule, {
 			errors: [
 				{
 					messageId: "noSpacedFunction",
-					type: "CallExpression",
 					column: 7,
 				},
 			],
@@ -79,39 +89,67 @@ ruleTester.run("no-spaced-func", rule, {
 		{
 			code: "f() ()",
 			output: "f()()",
-			errors: [{ messageId: "noSpacedFunction", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "noSpacedFunction",
+				},
+			],
 		},
 		{
 			code: "(function() {} ())",
 			output: "(function() {}())",
-			errors: [{ messageId: "noSpacedFunction", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "noSpacedFunction",
+				},
+			],
 		},
 		{
 			code: "var f = new Foo ()",
 			output: "var f = new Foo()",
-			errors: [{ messageId: "noSpacedFunction", type: "NewExpression" }],
+			errors: [
+				{
+					messageId: "noSpacedFunction",
+				},
+			],
 		},
 		{
 			code: "f ( (0) )",
 			output: "f( (0) )",
-			errors: [{ messageId: "noSpacedFunction", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "noSpacedFunction",
+				},
+			],
 		},
 		{
 			code: "f(0) (1)",
 			output: "f(0)(1)",
-			errors: [{ messageId: "noSpacedFunction", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "noSpacedFunction",
+				},
+			],
 		},
 		{
 			code: "(f) (0)",
 			output: "(f)(0)",
-			errors: [{ messageId: "noSpacedFunction", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "noSpacedFunction",
+				},
+			],
 		},
 		{
 			code: "f ();\n t   ();",
 			output: "f();\n t();",
 			errors: [
-				{ messageId: "noSpacedFunction", type: "CallExpression" },
-				{ messageId: "noSpacedFunction", type: "CallExpression" },
+				{
+					messageId: "noSpacedFunction",
+				},
+				{
+					messageId: "noSpacedFunction",
+				},
 			],
 		},
 	],

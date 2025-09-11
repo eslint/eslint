@@ -266,7 +266,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "wordOperator",
 					data: { word: "delete" },
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -278,7 +277,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "wordOperator",
 					data: { word: "delete" },
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -290,7 +288,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "unexpectedAfterWord",
 					data: { word: "delete" },
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -302,7 +299,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "wordOperator",
 					data: { word: "new" },
-					type: "NewExpression",
 				},
 			],
 		},
@@ -314,7 +310,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "unexpectedAfterWord",
 					data: { word: "new" },
-					type: "NewExpression",
 				},
 			],
 		},
@@ -326,7 +321,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "wordOperator",
 					data: { word: "new" },
-					type: "NewExpression",
 				},
 			],
 		},
@@ -338,7 +332,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "unexpectedAfterWord",
 					data: { word: "new" },
-					type: "NewExpression",
 				},
 			],
 		},
@@ -351,7 +344,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "wordOperator",
 					data: { word: "typeof" },
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -363,7 +355,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "unexpectedAfterWord",
 					data: { word: "typeof" },
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -375,7 +366,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "wordOperator",
 					data: { word: "typeof" },
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -387,7 +377,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "unexpectedAfterWord",
 					data: { word: "typeof" },
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -399,7 +388,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "wordOperator",
 					data: { word: "typeof" },
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -411,7 +399,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "unexpectedAfterWord",
 					data: { word: "typeof" },
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -423,7 +410,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "wordOperator",
 					data: { word: "typeof" },
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -436,7 +422,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "wordOperator",
 					data: { word: "void" },
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -448,7 +433,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "wordOperator",
 					data: { word: "void" },
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -460,7 +444,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "wordOperator",
 					data: { word: "void" },
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -472,7 +455,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "wordOperator",
 					data: { word: "void" },
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -484,7 +466,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "unexpectedAfterWord",
 					data: { word: "void" },
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -496,7 +477,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "unexpectedAfterWord",
 					data: { word: "void" },
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -532,7 +512,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "unexpectedAfter",
 					data: { operator: "!" },
-					type: "UnaryExpression",
 					line: 1,
 					column: 2,
 				},
@@ -546,7 +525,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "operator",
 					data: { operator: "!" },
-					type: "UnaryExpression",
 					line: 1,
 					column: 2,
 				},
@@ -561,7 +539,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "unexpectedAfter",
 					data: { operator: "-" },
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -573,7 +550,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "operator",
 					data: { operator: "-" },
-					type: "UnaryExpression",
 				},
 			],
 		},
@@ -706,7 +682,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "wordOperator",
 					data: { word: "yield" },
-					type: "YieldExpression",
 					line: 1,
 					column: 19,
 				},
@@ -721,7 +696,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "unexpectedAfterWord",
 					data: { word: "yield" },
-					type: "YieldExpression",
 					line: 1,
 					column: 19,
 				},
@@ -735,7 +709,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "wordOperator",
 					data: { word: "yield" },
-					type: "YieldExpression",
 					line: 1,
 					column: 19,
 				},
@@ -838,7 +811,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "wordOperator",
 					data: { word: "yield" },
-					type: "YieldExpression",
 					line: 1,
 					column: 19,
 				},
@@ -853,7 +825,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "wordOperator",
 					data: { word: "yield" },
-					type: "YieldExpression",
 					line: 1,
 					column: 19,
 				},
@@ -867,7 +838,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "wordOperator",
 					data: { word: "await" },
-					type: "AwaitExpression",
 					line: 1,
 					column: 24,
 				},
@@ -882,7 +852,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "wordOperator",
 					data: { word: "await" },
-					type: "AwaitExpression",
 					line: 1,
 					column: 24,
 				},
@@ -897,7 +866,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "unexpectedAfterWord",
 					data: { word: "await" },
-					type: "AwaitExpression",
 					line: 1,
 					column: 24,
 				},
@@ -912,7 +880,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "unexpectedAfterWord",
 					data: { word: "await" },
-					type: "AwaitExpression",
 					line: 1,
 					column: 24,
 				},
@@ -927,7 +894,6 @@ ruleTester.run("space-unary-ops", rule, {
 				{
 					messageId: "unexpectedAfterWord",
 					data: { word: "yield" },
-					type: "YieldExpression",
 					line: 1,
 					column: 27,
 				},

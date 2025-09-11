@@ -584,7 +584,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "first_name" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -594,7 +593,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "__private_first_name" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -604,7 +602,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "foo_bar" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -614,7 +611,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "foo_bar" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -624,7 +620,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "bar_baz" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -634,7 +629,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "foo_bar" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -644,7 +638,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "foo_bar" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -654,7 +647,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "bar_baz" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -664,7 +656,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "bar_baz" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -675,7 +666,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "bar_baz" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -685,7 +675,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "boom_pow" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -696,7 +685,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "bar_baz" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -707,7 +695,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "a_b" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -718,7 +705,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "category_alias" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -730,7 +716,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "category_alias" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -742,7 +727,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "category_id" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -753,7 +737,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "category_id" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -765,7 +748,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "other_props" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -776,7 +758,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "category_id" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -787,7 +768,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "category_id" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -798,7 +778,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "category_id" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -809,7 +788,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "no_camelcased" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -820,7 +798,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "no_camelcased" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -831,7 +808,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "no_camelcased" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -842,7 +818,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "no_camel_cased" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -853,7 +828,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "no_camel_cased" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -864,7 +838,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "snake_cased" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -876,7 +849,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "another_snake_cased" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -887,7 +859,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "no_camelcased" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -898,7 +869,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "another_no_camelcased" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -909,7 +879,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "no_camelcased" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -920,7 +889,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "no_camelcased" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -932,7 +900,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "snake_cased" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -944,7 +911,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "snake_cased" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -956,7 +922,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "snake_cased" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -968,7 +933,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "snake_cased" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -980,7 +944,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "snake_cased" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -992,7 +955,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "a_global_variable" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1004,7 +966,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "a_global_variable" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1015,7 +976,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "snake_cased" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1027,7 +987,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "snake_cased" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1039,7 +998,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "a_global_variable" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1051,7 +1009,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "a_global_variable" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1063,7 +1020,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "a_global_variable" },
-					type: "Identifier",
 					column: 13,
 				},
 			],
@@ -1082,7 +1038,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "a_global_variable" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1100,7 +1055,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "a_global_variable" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1117,7 +1071,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "a_global_variable" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1135,13 +1088,11 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "a_global_variable" },
-					type: "Identifier",
 					column: 16,
 				},
 				{
 					messageId: "notCamelCase",
 					data: { name: "a_global_variable" },
-					type: "Identifier",
 					column: 35,
 				},
 			],
@@ -1160,13 +1111,11 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "a_global_variable" },
-					type: "Identifier",
 					column: 14,
 				},
 				{
 					messageId: "notCamelCase",
 					data: { name: "a_global_variable" },
-					type: "Identifier",
 					column: 41,
 				},
 			],
@@ -1179,7 +1128,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "a_global_variable" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1191,7 +1139,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "a_global_variable" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1209,13 +1156,11 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "a_global_variable" },
-					type: "Identifier",
 					column: 7,
 				},
 				{
 					messageId: "notCamelCase",
 					data: { name: "a_global_variable" },
-					type: "Identifier",
 					column: 38,
 				},
 			],
@@ -1234,13 +1179,11 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "a_global_variable" },
-					type: "Identifier",
 					column: 7,
 				},
 				{
 					messageId: "notCamelCase",
 					data: { name: "a_global_variable" },
-					type: "Identifier",
 					column: 30,
 				},
 			],
@@ -1259,7 +1202,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "a_global_variable" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1270,7 +1212,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "undefined_variable" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1281,7 +1222,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "implicit_global" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1292,7 +1232,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "snake_cased" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1303,7 +1242,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "no_camelcased" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1314,7 +1252,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "no_camelcased" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1325,12 +1262,10 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "no_camelcased" },
-					type: "Identifier",
 				},
 				{
 					messageId: "notCamelCase",
 					data: { name: "camelcased_value" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1341,7 +1276,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "no_camelcased" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1352,7 +1286,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "my_default" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1363,7 +1296,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "no_camelcased" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1374,7 +1306,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "bar_baz" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1385,7 +1316,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "no_camelcased" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1396,7 +1326,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "no_camelcased" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1407,7 +1336,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "not_ignored_foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1418,7 +1346,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "not_ignored_foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1430,7 +1357,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "computed_bar" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1441,7 +1367,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "fo_o" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1453,7 +1378,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "fo_o" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1464,7 +1388,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "b_ar" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1475,7 +1398,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "fo_o" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1486,7 +1408,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "b_ar" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1497,7 +1418,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "fo_o" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1509,7 +1429,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "fo_o" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1521,7 +1440,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "fo_o" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1532,7 +1450,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "fo_o" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1543,7 +1460,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "fo_o" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1554,7 +1470,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "ba_r" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1565,7 +1480,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "fo_o" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1576,7 +1490,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "ba_r" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1587,7 +1500,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "fo_o" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1729,7 +1641,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "my_type" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1746,7 +1657,6 @@ ruleTester.run("camelcase", rule, {
 				{
 					messageId: "notCamelCase",
 					data: { name: "my_json" },
-					type: "Identifier",
 				},
 			],
 		},

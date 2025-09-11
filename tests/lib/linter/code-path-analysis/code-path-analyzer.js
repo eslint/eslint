@@ -21,8 +21,8 @@ const assert = require("node:assert"),
 // Helpers
 //------------------------------------------------------------------------------
 
-const expectedPattern = /\/\*expected\s+((?:.|[\r\n])+?)\s*\*\//gu;
-const languageOptionsPattern = /\/\*languageOptions\s+((?:.|[\r\n])+?)\s*\*\//u;
+const expectedPattern = /\/\*expected\s((?:.|[\r\n])+?)\*\//gu;
+const languageOptionsPattern = /\/\*languageOptions\s((?:.|[\r\n])+?)\*\//u;
 const lineEndingPattern = /\r?\n/gu;
 const linter = new Linter();
 
@@ -39,7 +39,7 @@ function getExpectedDotArrows(source) {
 	let m;
 
 	while ((m = expectedPattern.exec(source)) !== null) {
-		retv.push(m[1].replace(lineEndingPattern, "\n"));
+		retv.push(m[1].trim().replace(lineEndingPattern, "\n"));
 	}
 
 	return retv;

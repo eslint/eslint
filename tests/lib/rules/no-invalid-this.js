@@ -94,8 +94,12 @@ function extractPatterns(patterns, type) {
 //------------------------------------------------------------------------------
 
 const errors = [
-	{ messageId: "unexpectedThis", type: "ThisExpression" },
-	{ messageId: "unexpectedThis", type: "ThisExpression" },
+	{
+		messageId: "unexpectedThis",
+	},
+	{
+		messageId: "unexpectedThis",
+	},
 ];
 
 const patterns = [
@@ -133,7 +137,11 @@ const patterns = [
 		languageOptions: {
 			ecmaVersion: 6,
 		},
-		errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }],
+		errors: [
+			{
+				messageId: "unexpectedThis",
+			},
+		],
 		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT],
 		invalid: [MODULES],
 	},
@@ -744,21 +752,33 @@ const patterns = [
 		languageOptions: { ecmaVersion: 2022 },
 		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT], // `this` is the top-level `this`
 		invalid: [MODULES],
-		errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }],
+		errors: [
+			{
+				messageId: "unexpectedThis",
+			},
+		],
 	},
 	{
 		code: "class C { foo = () => this; }",
 		languageOptions: { ecmaVersion: 2022 },
 		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
 		invalid: [],
-		errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }],
+		errors: [
+			{
+				messageId: "unexpectedThis",
+			},
+		],
 	},
 	{
 		code: "class C { foo = () => { this }; }",
 		languageOptions: { ecmaVersion: 2022 },
 		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
 		invalid: [],
-		errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }],
+		errors: [
+			{
+				messageId: "unexpectedThis",
+			},
+		],
 	},
 
 	// Class static blocks
@@ -785,35 +805,55 @@ const patterns = [
 		languageOptions: { ecmaVersion: 2022 },
 		valid: [],
 		invalid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
-		errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }],
+		errors: [
+			{
+				messageId: "unexpectedThis",
+			},
+		],
 	},
 	{
 		code: "class C { static { (function() { this.x; }); } }",
 		languageOptions: { ecmaVersion: 2022 },
 		valid: [],
 		invalid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
-		errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }],
+		errors: [
+			{
+				messageId: "unexpectedThis",
+			},
+		],
 	},
 	{
 		code: "class C { static { (function() { this.x; })(); } }",
 		languageOptions: { ecmaVersion: 2022 },
 		valid: [],
 		invalid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
-		errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }],
+		errors: [
+			{
+				messageId: "unexpectedThis",
+			},
+		],
 	},
 	{
 		code: "class C { static {} [this]; }",
 		languageOptions: { ecmaVersion: 2022 },
 		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT],
 		invalid: [MODULES],
-		errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }],
+		errors: [
+			{
+				messageId: "unexpectedThis",
+			},
+		],
 	},
 	{
 		code: "class C { static {} [this.x]; }",
 		languageOptions: { ecmaVersion: 2022 },
 		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT],
 		invalid: [MODULES],
-		errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }],
+		errors: [
+			{
+				messageId: "unexpectedThis",
+			},
+		],
 	},
 
 	// in es3, "use strict" directives do not apply
@@ -1750,7 +1790,11 @@ ruleTesterTypeScript.run("no-invalid-this", rule, {
   				}
 			}
           `,
-			errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedThis",
+				},
+			],
 		},
 		{
 			code: `
@@ -1760,7 +1804,11 @@ ruleTesterTypeScript.run("no-invalid-this", rule, {
   				}
 			}
           `,
-			errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedThis",
+				},
+			],
 		},
 		{
 			code: `
@@ -1771,7 +1819,11 @@ ruleTesterTypeScript.run("no-invalid-this", rule, {
   				}
 			}
           `,
-			errors: [{ messageId: "unexpectedThis", type: "ThisExpression" }],
+			errors: [
+				{
+					messageId: "unexpectedThis",
+				},
+			],
 		},
 	],
 });

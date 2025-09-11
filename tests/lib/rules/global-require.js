@@ -49,7 +49,9 @@ const valid = [
 	},
 ];
 
-const error = { messageId: "unexpected", type: "CallExpression" };
+const error = {
+	messageId: "unexpected",
+};
 
 const invalid = [
 	// block statements

@@ -1966,6 +1966,10 @@ export class ESLint {
 	isPathIgnored(filePath: string): Promise<boolean>;
 
 	loadFormatter(nameOrPath?: string): Promise<ESLint.LoadedFormatter>;
+
+	static fromOptionsModule(optionsURL: {
+		readonly href: string;
+	}): Promise<ESLint>;
 }
 
 export namespace ESLint {
@@ -2047,6 +2051,7 @@ export namespace ESLint {
 		cacheStrategy?: CacheStrategy | undefined;
 
 		// Other Options
+		concurrency?: number | "auto" | "off" | undefined;
 		flags?: string[] | undefined;
 	}
 
@@ -2254,6 +2259,8 @@ export namespace RuleTester {
 		only?: boolean;
 		languageOptions?: Linter.LanguageOptions | undefined;
 		settings?: { [name: string]: any } | undefined;
+		before?: () => void;
+		after?: () => void;
 	}
 
 	interface SuggestionOutput {

@@ -73,78 +73,133 @@ ruleTester.run("no-extra-semi", rule, {
 		{
 			code: "var x = 5;;",
 			output: "var x = 5;",
-			errors: [{ messageId: "unexpected", type: "EmptyStatement" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "function foo(){};",
 			output: "function foo(){}",
-			errors: [{ messageId: "unexpected", type: "EmptyStatement" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "for(;;);;",
 			output: "for(;;);",
-			errors: [{ messageId: "unexpected", type: "EmptyStatement" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "while(0);;",
 			output: "while(0);",
-			errors: [{ messageId: "unexpected", type: "EmptyStatement" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "do;while(0);;",
 			output: "do;while(0);",
-			errors: [{ messageId: "unexpected", type: "EmptyStatement" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "for(a in b);;",
 			output: "for(a in b);",
-			errors: [{ messageId: "unexpected", type: "EmptyStatement" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "for(a of b);;",
 			output: "for(a of b);",
 			languageOptions: { ecmaVersion: 6 },
-			errors: [{ messageId: "unexpected", type: "EmptyStatement" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(true);;",
 			output: "if(true);",
-			errors: [{ messageId: "unexpected", type: "EmptyStatement" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(true){} else;;",
 			output: "if(true){} else;",
-			errors: [{ messageId: "unexpected", type: "EmptyStatement" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(true){;} else {;}",
 			output: "if(true){} else {}",
 			errors: [
-				{ messageId: "unexpected", type: "EmptyStatement" },
-				{ messageId: "unexpected", type: "EmptyStatement" },
+				{
+					messageId: "unexpected",
+				},
+				{
+					messageId: "unexpected",
+				},
 			],
 		},
 		{
 			code: "foo:;;",
 			output: "foo:;",
-			errors: [{ messageId: "unexpected", type: "EmptyStatement" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "with(foo);;",
 			output: "with(foo);",
-			errors: [{ messageId: "unexpected", type: "EmptyStatement" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "with(foo){;}",
 			output: "with(foo){}",
-			errors: [{ messageId: "unexpected", type: "EmptyStatement" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "class A { static { ; } }",
 			output: "class A { static {  } }",
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
-				{ messageId: "unexpected", type: "EmptyStatement", column: 20 },
+				{
+					messageId: "unexpected",
+					column: 20,
+				},
 			],
 		},
 		{
@@ -152,7 +207,10 @@ ruleTester.run("no-extra-semi", rule, {
 			output: "class A { static { a; } }",
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
-				{ messageId: "unexpected", type: "EmptyStatement", column: 22 },
+				{
+					messageId: "unexpected",
+					column: 22,
+				},
 			],
 		},
 
@@ -162,7 +220,10 @@ ruleTester.run("no-extra-semi", rule, {
 			output: "class A {  }",
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
-				{ messageId: "unexpected", type: "Punctuator", column: 11 },
+				{
+					messageId: "unexpected",
+					column: 11,
+				},
 			],
 		},
 		{
@@ -170,7 +231,10 @@ ruleTester.run("no-extra-semi", rule, {
 			output: "class A { /*a*/ }",
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
-				{ messageId: "unexpected", type: "Punctuator", column: 16 },
+				{
+					messageId: "unexpected",
+					column: 16,
+				},
 			],
 		},
 		{
@@ -178,7 +242,10 @@ ruleTester.run("no-extra-semi", rule, {
 			output: "class A {  a() {} }",
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
-				{ messageId: "unexpected", type: "Punctuator", column: 11 },
+				{
+					messageId: "unexpected",
+					column: 11,
+				},
 			],
 		},
 		{
@@ -186,7 +253,10 @@ ruleTester.run("no-extra-semi", rule, {
 			output: "class A { a() {} }",
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
-				{ messageId: "unexpected", type: "Punctuator", column: 17 },
+				{
+					messageId: "unexpected",
+					column: 17,
+				},
 			],
 		},
 		{
@@ -194,7 +264,10 @@ ruleTester.run("no-extra-semi", rule, {
 			output: "class A { a() {} b() {} }",
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
-				{ messageId: "unexpected", type: "Punctuator", column: 17 },
+				{
+					messageId: "unexpected",
+					column: 17,
+				},
 			],
 		},
 		{
@@ -202,9 +275,18 @@ ruleTester.run("no-extra-semi", rule, {
 			output: "class A { a() {} b() {} }",
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
-				{ messageId: "unexpected", type: "Punctuator", column: 10 },
-				{ messageId: "unexpected", type: "Punctuator", column: 18 },
-				{ messageId: "unexpected", type: "Punctuator", column: 26 },
+				{
+					messageId: "unexpected",
+					column: 10,
+				},
+				{
+					messageId: "unexpected",
+					column: 18,
+				},
+				{
+					messageId: "unexpected",
+					column: 26,
+				},
 			],
 		},
 		{
@@ -212,7 +294,10 @@ ruleTester.run("no-extra-semi", rule, {
 			output: "class A { a() {} get b() {} }",
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
-				{ messageId: "unexpected", type: "Punctuator", column: 17 },
+				{
+					messageId: "unexpected",
+					column: 17,
+				},
 			],
 		},
 		{
@@ -220,7 +305,10 @@ ruleTester.run("no-extra-semi", rule, {
 			output: "class A { field; }",
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
-				{ messageId: "unexpected", type: "Punctuator", column: 17 },
+				{
+					messageId: "unexpected",
+					column: 17,
+				},
 			],
 		},
 		{
@@ -228,7 +316,10 @@ ruleTester.run("no-extra-semi", rule, {
 			output: "class A { static {} }",
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
-				{ messageId: "unexpected", type: "Punctuator", column: 20 },
+				{
+					messageId: "unexpected",
+					column: 20,
+				},
 			],
 		},
 		{
@@ -236,7 +327,10 @@ ruleTester.run("no-extra-semi", rule, {
 			output: "class A { static { a; } foo(){} }",
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
-				{ messageId: "unexpected", type: "Punctuator", column: 24 },
+				{
+					messageId: "unexpected",
+					column: 24,
+				},
 			],
 		},
 
@@ -244,42 +338,69 @@ ruleTester.run("no-extra-semi", rule, {
 		{
 			code: "; 'use strict'",
 			output: null,
-			errors: [{ messageId: "unexpected", type: "EmptyStatement" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "; ; 'use strict'",
 			output: " ; 'use strict'",
 			errors: [
-				{ messageId: "unexpected", type: "EmptyStatement" },
-				{ messageId: "unexpected", type: "EmptyStatement" },
+				{
+					messageId: "unexpected",
+				},
+				{
+					messageId: "unexpected",
+				},
 			],
 		},
 		{
 			code: "debugger;\n;\n'use strict'",
 			output: null,
 			errors: [
-				{ messageId: "unexpected", type: "EmptyStatement", line: 2 },
+				{
+					messageId: "unexpected",
+					line: 2,
+				},
 			],
 		},
 		{
 			code: "function foo() { ; 'bar'; }",
 			output: null,
-			errors: [{ messageId: "unexpected", type: "EmptyStatement" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "{ ; 'foo'; }",
 			output: "{  'foo'; }",
-			errors: [{ messageId: "unexpected", type: "EmptyStatement" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "; ('use strict');",
 			output: " ('use strict');",
-			errors: [{ messageId: "unexpected", type: "EmptyStatement" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "; 1;",
 			output: " 1;",
-			errors: [{ messageId: "unexpected", type: "EmptyStatement" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 	],
 });

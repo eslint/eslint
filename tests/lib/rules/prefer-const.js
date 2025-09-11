@@ -233,12 +233,10 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 				{
 					messageId: "useConst",
 					data: { name: "b" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -250,12 +248,10 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 				{
 					messageId: "useConst",
 					data: { name: "b" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -278,7 +274,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "x" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -289,7 +284,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "i" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -300,7 +294,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "x" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -311,7 +304,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "x" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -322,7 +314,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "x" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -333,7 +324,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "x" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -344,7 +334,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "i" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -355,7 +344,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "x" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -366,7 +354,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "x" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -377,7 +364,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "g" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -388,7 +374,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "x" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -399,7 +384,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "x" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -410,7 +394,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "x" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -421,12 +404,10 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "i" },
-					type: "Identifier",
 				},
 				{
 					messageId: "useConst",
 					data: { name: "x" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -444,7 +425,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -462,7 +442,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -474,7 +453,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "x" },
-					type: "Identifier",
 					column: 8,
 				},
 			],
@@ -486,7 +464,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "x" },
-					type: "Identifier",
 					column: 29,
 				},
 			],
@@ -498,7 +475,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "x" },
-					type: "Identifier",
 					column: 22,
 				},
 			],
@@ -512,7 +488,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -524,7 +499,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "c" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -536,12 +510,10 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "b" },
-					type: "Identifier",
 				},
 				{
 					messageId: "useConst",
 					data: { name: "c" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -553,7 +525,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -565,12 +536,10 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 				{
 					messageId: "useConst",
 					data: { name: "b" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -582,7 +551,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -594,7 +562,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -606,12 +573,10 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 				{
 					messageId: "useConst",
 					data: { name: "b" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -623,12 +588,10 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 				{
 					messageId: "useConst",
 					data: { name: "c" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -640,7 +603,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "c" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -655,7 +617,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "name" },
-					type: "Identifier",
 					column: 7,
 				},
 			],
@@ -673,7 +634,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "name" },
-					type: "Identifier",
 					column: 7,
 				},
 			],
@@ -687,7 +647,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "x" },
-					type: "Identifier",
 					column: 5,
 				},
 			],
@@ -704,7 +663,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "x" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -715,7 +673,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "x" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -726,12 +683,10 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 				{
 					messageId: "useConst",
 					data: { name: "bar" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -744,7 +699,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "y" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -755,12 +709,10 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "y" },
-					type: "Identifier",
 				},
 				{
 					messageId: "useConst",
 					data: { name: "z" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -774,7 +726,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					message:
 						"'predicate' is never reassigned. Use 'const' instead.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -786,7 +737,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					message:
 						"'predicate' is never reassigned. Use 'const' instead.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -798,7 +748,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					message:
 						"'predicate' is never reassigned. Use 'const' instead.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -808,11 +757,9 @@ ruleTester.run("prefer-const", rule, {
 			errors: [
 				{
 					message: "'x' is never reassigned. Use 'const' instead.",
-					type: "Identifier",
 				},
 				{
 					message: "'y' is never reassigned. Use 'const' instead.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -822,7 +769,6 @@ ruleTester.run("prefer-const", rule, {
 			errors: [
 				{
 					message: "'y' is never reassigned. Use 'const' instead.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -832,15 +778,12 @@ ruleTester.run("prefer-const", rule, {
 			errors: [
 				{
 					message: "'x' is never reassigned. Use 'const' instead.",
-					type: "Identifier",
 				},
 				{
 					message: "'y' is never reassigned. Use 'const' instead.",
-					type: "Identifier",
 				},
 				{
 					message: "'z' is never reassigned. Use 'const' instead.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -850,23 +793,18 @@ ruleTester.run("prefer-const", rule, {
 			errors: [
 				{
 					message: "'a' is never reassigned. Use 'const' instead.",
-					type: "Identifier",
 				},
 				{
 					message: "'b' is never reassigned. Use 'const' instead.",
-					type: "Identifier",
 				},
 				{
 					message: "'c' is never reassigned. Use 'const' instead.",
-					type: "Identifier",
 				},
 				{
 					message: "'y' is never reassigned. Use 'const' instead.",
-					type: "Identifier",
 				},
 				{
 					message: "'z' is never reassigned. Use 'const' instead.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -876,19 +814,15 @@ ruleTester.run("prefer-const", rule, {
 			errors: [
 				{
 					message: "'x' is never reassigned. Use 'const' instead.",
-					type: "Identifier",
 				},
 				{
 					message: "'y' is never reassigned. Use 'const' instead.",
-					type: "Identifier",
 				},
 				{
 					message: "'a' is never reassigned. Use 'const' instead.",
-					type: "Identifier",
 				},
 				{
 					message: "'b' is never reassigned. Use 'const' instead.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -901,15 +835,12 @@ ruleTester.run("prefer-const", rule, {
 				{
 					message:
 						"'someFunc' is never reassigned. Use 'const' instead.",
-					type: "Identifier",
 				},
 				{
 					message: "'a' is never reassigned. Use 'const' instead.",
-					type: "Identifier",
 				},
 				{
 					message: "'b' is never reassigned. Use 'const' instead.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -922,12 +853,10 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 				{
 					messageId: "useConst",
 					data: { name: "b" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -938,17 +867,14 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 				{
 					messageId: "useConst",
 					data: { name: "b" },
-					type: "Identifier",
 				},
 				{
 					messageId: "useConst",
 					data: { name: "c" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -969,11 +895,9 @@ ruleTester.run("prefer-const", rule, {
 			errors: [
 				{
 					message: "'bar' is never reassigned. Use 'const' instead.",
-					type: "Identifier",
 				},
 				{
 					message: "'bar' is never reassigned. Use 'const' instead.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -993,7 +917,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1006,7 +929,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1018,7 +940,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1030,7 +951,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1042,7 +962,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1054,7 +973,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1066,7 +984,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "a" },
-					type: "Identifier",
 					column: 27,
 				},
 			],
@@ -1079,12 +996,10 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 				{
 					messageId: "useConst",
 					data: { name: "b" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1096,12 +1011,10 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 				{
 					messageId: "useConst",
 					data: { name: "b" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1113,12 +1026,10 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 				{
 					messageId: "useConst",
 					data: { name: "b" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1130,7 +1041,6 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1151,17 +1061,14 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "itemId" },
-					type: "Identifier",
 				},
 				{
 					messageId: "useConst",
 					data: { name: "list" },
-					type: "Identifier",
 				},
 				{
 					messageId: "useConst",
 					data: { name: "obj" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1182,17 +1089,14 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "itemId" },
-					type: "Identifier",
 				},
 				{
 					messageId: "useConst",
 					data: { name: "list" },
-					type: "Identifier",
 				},
 				{
 					messageId: "useConst",
 					data: { name: "obj" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1210,12 +1114,10 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "itemId" },
-					type: "Identifier",
 				},
 				{
 					messageId: "useConst",
 					data: { name: "list" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1236,17 +1138,14 @@ ruleTester.run("prefer-const", rule, {
 				{
 					messageId: "useConst",
 					data: { name: "itemId" },
-					type: "Identifier",
 				},
 				{
 					messageId: "useConst",
 					data: { name: "list" },
-					type: "Identifier",
 				},
 				{
 					messageId: "useConst",
 					data: { name: "obj" },
-					type: "Identifier",
 				},
 			],
 		},

@@ -90,7 +90,6 @@ ruleTester.run("no-restricted-modules", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "fs" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -101,7 +100,6 @@ ruleTester.run("no-restricted-modules", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "os" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -112,7 +110,6 @@ ruleTester.run("no-restricted-modules", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo/bar" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -123,7 +120,6 @@ ruleTester.run("no-restricted-modules", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo/bar" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -134,7 +130,6 @@ ruleTester.run("no-restricted-modules", rule, {
 				{
 					messageId: "patternMessage",
 					data: { name: "foo/bar" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -145,7 +140,6 @@ ruleTester.run("no-restricted-modules", rule, {
 				{
 					messageId: "patternMessage",
 					data: { name: "foo/bar" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -156,7 +150,6 @@ ruleTester.run("no-restricted-modules", rule, {
 				{
 					messageId: "patternMessage",
 					data: { name: "foo/bar" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -175,7 +168,6 @@ ruleTester.run("no-restricted-modules", rule, {
 						name: "foo",
 						customMessage: "Please use 'bar' module instead.",
 					},
-					type: "CallExpression",
 				},
 			],
 		},
@@ -196,7 +188,6 @@ ruleTester.run("no-restricted-modules", rule, {
 						name: "bar",
 						customMessage: "Please use 'baz' module instead.",
 					},
-					type: "CallExpression",
 				},
 			],
 		},
@@ -219,7 +210,6 @@ ruleTester.run("no-restricted-modules", rule, {
 						name: "foo",
 						customMessage: "Please use 'bar' module instead.",
 					},
-					type: "CallExpression",
 				},
 			],
 		},
@@ -231,7 +221,6 @@ ruleTester.run("no-restricted-modules", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "fs" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -243,7 +232,6 @@ ruleTester.run("no-restricted-modules", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "crypto" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -253,7 +241,6 @@ ruleTester.run("no-restricted-modules", rule, {
 			errors: [
 				{
 					message: "'../foo' module is restricted from being used.",
-					type: "CallExpression",
 					line: 1,
 					column: 16,
 					endColumn: 33,
@@ -266,7 +253,6 @@ ruleTester.run("no-restricted-modules", rule, {
 			errors: [
 				{
 					message: "'../foo' module is restricted from being used.",
-					type: "CallExpression",
 					line: 1,
 					column: 25,
 					endColumn: 42,
@@ -280,7 +266,6 @@ ruleTester.run("no-restricted-modules", rule, {
 				{
 					message:
 						"'../foo' module is restricted from being used by a pattern.",
-					type: "CallExpression",
 					line: 1,
 					column: 28,
 					endColumn: 45,
@@ -293,7 +278,6 @@ ruleTester.run("no-restricted-modules", rule, {
 			errors: [
 				{
 					message: "'/foo' module is restricted from being used.",
-					type: "CallExpression",
 					line: 1,
 					column: 16,
 					endColumn: 31,
@@ -306,7 +290,6 @@ ruleTester.run("no-restricted-modules", rule, {
 			errors: [
 				{
 					message: "'/foo' module is restricted from being used.",
-					type: "CallExpression",
 					line: 1,
 					column: 25,
 					endColumn: 40,
@@ -320,7 +303,6 @@ ruleTester.run("no-restricted-modules", rule, {
 				{
 					message:
 						"'/foo' module is restricted from being used by a pattern.",
-					type: "CallExpression",
 					line: 1,
 					column: 28,
 					endColumn: 43,

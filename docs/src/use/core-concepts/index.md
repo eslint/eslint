@@ -50,7 +50,7 @@ For more information, refer to [Configuration Files](../configure/configuration-
 
 Shareable configurations are ESLint configurations that are shared via npm.
 
-Often shareable configurations are used to enforce style guides using ESLint's built-in rules. For example the sharable configuration [eslint-config-airbnb-base](https://www.npmjs.com/package/eslint-config-airbnb-base) implements the popular Airbnb JavaScript style guide.
+Often shareable configurations are used to enforce style guides using ESLint's built-in rules. For example the shareable configuration [eslint-config-airbnb-base](https://www.npmjs.com/package/eslint-config-airbnb-base) implements the popular Airbnb JavaScript style guide.
 
 For more information, refer to [Using a Shareable Configuration Package](../configure/configuration-files#using-a-shareable-configuration-package).
 

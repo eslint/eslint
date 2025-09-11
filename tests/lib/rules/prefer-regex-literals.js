@@ -153,7 +153,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRegExp",
-					type: "NewExpression",
 					suggestions: [
 						{
 							messageId: "replaceWithLiteral",
@@ -168,7 +167,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRegExp",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "replaceWithLiteral",
@@ -183,7 +181,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRegExp",
-					type: "NewExpression",
 					suggestions: [
 						{
 							messageId: "replaceWithLiteral",
@@ -198,7 +195,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRegExp",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "replaceWithLiteral",
@@ -213,7 +209,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRegExp",
-					type: "NewExpression",
 					suggestions: [
 						{
 							messageId: "replaceWithLiteral",
@@ -228,7 +223,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRegExp",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "replaceWithLiteral",
@@ -243,7 +237,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRegExp",
-					type: "NewExpression",
 					suggestions: [
 						{
 							messageId: "replaceWithLiteral",
@@ -258,7 +251,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRegExp",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "replaceWithLiteral",
@@ -273,7 +265,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRegExp",
-					type: "NewExpression",
 					suggestions: [
 						{
 							messageId: "replaceWithLiteral",
@@ -288,7 +279,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRegExp",
-					type: "NewExpression",
 					suggestions: [
 						{
 							messageId: "replaceWithLiteral",
@@ -303,7 +293,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRegExp",
-					type: "NewExpression",
 					suggestions: [
 						{
 							messageId: "replaceWithLiteral",
@@ -318,7 +307,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRegExp",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "replaceWithLiteral",
@@ -333,7 +321,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRegExp",
-					type: "NewExpression",
 					suggestions: [
 						{
 							messageId: "replaceWithLiteral",
@@ -348,7 +335,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRegExp",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "replaceWithLiteral",
@@ -363,7 +349,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRegExp",
-					type: "NewExpression",
 					suggestions: [
 						{
 							messageId: "replaceWithLiteral",
@@ -378,7 +363,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRegExp",
-					type: "NewExpression",
 					suggestions: [
 						{
 							messageId: "replaceWithLiteral",
@@ -393,7 +377,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRegExp",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "replaceWithLiteral",
@@ -408,7 +391,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRegExp",
-					type: "NewExpression",
 					suggestions: [
 						{
 							messageId: "replaceWithLiteral",
@@ -423,7 +405,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRegExp",
-					type: "NewExpression",
 					suggestions: [
 						{
 							messageId: "replaceWithLiteral",
@@ -438,7 +419,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRegExp",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "replaceWithLiteral",
@@ -453,7 +433,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRegExp",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "replaceWithLiteral",
@@ -468,7 +447,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRegExp",
-					type: "NewExpression",
 					suggestions: [
 						{
 							messageId: "replaceWithLiteral",
@@ -483,7 +461,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRegExp",
-					type: "NewExpression",
 					suggestions: [
 						{
 							messageId: "replaceWithLiteral",
@@ -498,7 +475,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRegExp",
-					type: "NewExpression",
 					suggestions: [
 						{
 							messageId: "replaceWithLiteral",
@@ -513,7 +489,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRegExp",
-					type: "NewExpression",
 					suggestions: [
 						{
 							messageId: "replaceWithLiteral",
@@ -528,7 +503,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRegExp",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "replaceWithLiteral",
@@ -544,7 +518,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRegExp",
-					type: "NewExpression",
 					suggestions: [
 						{
 							messageId: "replaceWithLiteral",
@@ -560,7 +533,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRegExp",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "replaceWithLiteral",
@@ -580,7 +552,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRedundantRegExp",
-					type: "NewExpression",
 					line: 1,
 					column: 1,
 					suggestions: [
@@ -602,7 +573,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRedundantRegExpWithFlags",
-					type: "NewExpression",
 					line: 1,
 					column: 1,
 					suggestions: [
@@ -627,7 +597,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRedundantRegExpWithFlags",
-					type: "NewExpression",
 					line: 1,
 					column: 1,
 					suggestions: [
@@ -659,7 +628,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRedundantRegExpWithFlags",
-					type: "NewExpression",
 					line: 1,
 					column: 1,
 					suggestions: [
@@ -684,7 +652,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRedundantRegExpWithFlags",
-					type: "NewExpression",
 					line: 1,
 					column: 1,
 					suggestions: [
@@ -716,7 +683,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRedundantRegExpWithFlags",
-					type: "NewExpression",
 					line: 1,
 					column: 1,
 					suggestions: [
@@ -741,7 +707,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRedundantRegExpWithFlags",
-					type: "NewExpression",
 					line: 1,
 					column: 1,
 					suggestions: [
@@ -773,7 +738,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRedundantRegExpWithFlags",
-					type: "NewExpression",
 					line: 1,
 					column: 1,
 					suggestions: [
@@ -798,7 +762,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRedundantRegExpWithFlags",
-					type: "NewExpression",
 					line: 1,
 					column: 1,
 					suggestions: [
@@ -823,7 +786,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRedundantRegExpWithFlags",
-					type: "NewExpression",
 					line: 1,
 					column: 1,
 					suggestions: [
@@ -848,7 +810,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRegExp",
-					type: "NewExpression",
 					line: 1,
 					column: 1,
 					suggestions: [
@@ -870,7 +831,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRedundantRegExpWithFlags",
-					type: "NewExpression",
 					line: 1,
 					column: 1,
 					suggestions: [
@@ -895,7 +855,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRedundantRegExp",
-					type: "NewExpression",
 					line: 1,
 					column: 1,
 					suggestions: null,
@@ -915,7 +874,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRedundantRegExpWithFlags",
-					type: "NewExpression",
 					line: 1,
 					column: 1,
 					suggestions: null,
@@ -932,7 +890,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRedundantRegExp",
-					type: "NewExpression",
 					line: 2,
 					column: 1,
 					suggestions: null,
@@ -949,7 +906,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRedundantRegExpWithFlags",
-					type: "NewExpression",
 					line: 2,
 					column: 1,
 					suggestions: null,
@@ -966,7 +922,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRedundantRegExp",
-					type: "CallExpression",
 					line: 1,
 					column: 3,
 					suggestions: [
@@ -988,7 +943,6 @@ ruleTester.run("prefer-regex-literals", rule, {
 			errors: [
 				{
 					messageId: "unexpectedRedundantRegExp",
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 					suggestions: [

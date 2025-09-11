@@ -47,7 +47,6 @@ ruleTester.run("no-control-regex", rule, {
 				{
 					messageId: "unexpected",
 					data: { controlChars: "\\x1f" },
-					type: "Literal",
 				},
 			],
 		},
@@ -57,7 +56,6 @@ ruleTester.run("no-control-regex", rule, {
 				{
 					messageId: "unexpected",
 					data: { controlChars: "\\x1f" },
-					type: "Literal",
 				},
 			],
 		},
@@ -67,7 +65,6 @@ ruleTester.run("no-control-regex", rule, {
 				{
 					messageId: "unexpected",
 					data: { controlChars: "\\x1f" },
-					type: "Literal",
 				},
 			],
 		},
@@ -77,7 +74,6 @@ ruleTester.run("no-control-regex", rule, {
 				{
 					messageId: "unexpected",
 					data: { controlChars: "\\x1f" },
-					type: "Literal",
 				},
 			],
 		},
@@ -87,7 +83,6 @@ ruleTester.run("no-control-regex", rule, {
 				{
 					messageId: "unexpected",
 					data: { controlChars: "\\x1f, \\x1e" },
-					type: "Literal",
 				},
 			],
 		},
@@ -97,7 +92,6 @@ ruleTester.run("no-control-regex", rule, {
 				{
 					messageId: "unexpected",
 					data: { controlChars: "\\x1f, \\x00" },
-					type: "Literal",
 				},
 			],
 		},
@@ -107,7 +101,6 @@ ruleTester.run("no-control-regex", rule, {
 				{
 					messageId: "unexpected",
 					data: { controlChars: "\\x1f, \\x1f" },
-					type: "Literal",
 				},
 			],
 		},
@@ -117,7 +110,6 @@ ruleTester.run("no-control-regex", rule, {
 				{
 					messageId: "unexpected",
 					data: { controlChars: "\\x1f" },
-					type: "Literal",
 				},
 			],
 		},
@@ -128,7 +120,6 @@ ruleTester.run("no-control-regex", rule, {
 				{
 					messageId: "unexpected",
 					data: { controlChars: "\\x1f" },
-					type: "Literal",
 				},
 			],
 		},
@@ -139,7 +130,6 @@ ruleTester.run("no-control-regex", rule, {
 				{
 					messageId: "unexpected",
 					data: { controlChars: "\\x1f" },
-					type: "Literal",
 				},
 			],
 		},
@@ -149,7 +139,6 @@ ruleTester.run("no-control-regex", rule, {
 				{
 					messageId: "unexpected",
 					data: { controlChars: "\\x1f" },
-					type: "Literal",
 				},
 			],
 		},
@@ -160,7 +149,6 @@ ruleTester.run("no-control-regex", rule, {
 				{
 					messageId: "unexpected",
 					data: { controlChars: "\\x1f" },
-					type: "Literal",
 				},
 			],
 		},
@@ -171,7 +159,6 @@ ruleTester.run("no-control-regex", rule, {
 				{
 					messageId: "unexpected",
 					data: { controlChars: "\\x1f" },
-					type: "Literal",
 				},
 			],
 		},
@@ -182,7 +169,6 @@ ruleTester.run("no-control-regex", rule, {
 				{
 					messageId: "unexpected",
 					data: { controlChars: "\\x1f" },
-					type: "Literal",
 				},
 			],
 		},
@@ -193,7 +179,6 @@ ruleTester.run("no-control-regex", rule, {
 				{
 					messageId: "unexpected",
 					data: { controlChars: "\\x1f" },
-					type: "Literal",
 				},
 			],
 		},
@@ -203,7 +188,6 @@ ruleTester.run("no-control-regex", rule, {
 				{
 					messageId: "unexpected",
 					data: { controlChars: "\\x1f" },
-					type: "Literal",
 				},
 			],
 		},
@@ -213,7 +197,6 @@ ruleTester.run("no-control-regex", rule, {
 				{
 					messageId: "unexpected",
 					data: { controlChars: "\\x1f" },
-					type: "Literal",
 				},
 			],
 		},
@@ -223,7 +206,6 @@ ruleTester.run("no-control-regex", rule, {
 				{
 					messageId: "unexpected",
 					data: { controlChars: "\\x1f" },
-					type: "Literal",
 				},
 			],
 		},
@@ -234,7 +216,6 @@ ruleTester.run("no-control-regex", rule, {
 				{
 					messageId: "unexpected",
 					data: { controlChars: "\\x1f" },
-					type: "Literal",
 				},
 			],
 		},
@@ -245,7 +226,6 @@ ruleTester.run("no-control-regex", rule, {
 				{
 					messageId: "unexpected",
 					data: { controlChars: "\\x11" },
-					type: "Literal",
 					column: 1,
 				},
 			],

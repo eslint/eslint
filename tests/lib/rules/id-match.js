@@ -17,7 +17,9 @@ const rule = require("../../../lib/rules/id-match"),
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();
-const error = { messageId: "notMatch", type: "Identifier" };
+const error = {
+	messageId: "notMatch",
+};
 
 ruleTester.run("id-match", rule, {
 	valid: [
@@ -442,7 +444,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'no_under' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -559,7 +560,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'category_alias' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -577,7 +577,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'category_alias' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -595,7 +594,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'other_props' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -612,7 +610,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'category_id' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -629,7 +626,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'category_id' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -646,7 +642,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -663,7 +658,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -675,7 +669,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -692,7 +685,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -709,7 +701,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'no_camel_cased' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -726,7 +717,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'no_camel_cased' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -743,7 +733,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -760,7 +749,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'another_no_camelcased' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -777,7 +765,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -794,7 +781,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -811,7 +797,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -828,7 +813,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -845,12 +829,10 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 				{
 					message:
 						"Identifier 'camelcased_value' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -867,7 +849,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -884,7 +865,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'my_default' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -901,7 +881,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -918,7 +897,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'bar_baz' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -935,7 +913,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -965,14 +942,12 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'foo_variable' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
-					type: "Identifier",
 					line: 2,
 					column: 19,
 				},
 				{
 					message:
 						"Identifier 'MyClass' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
-					type: "Identifier",
 					line: 3,
 					column: 19,
 				},
@@ -981,14 +956,12 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'Object' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
-					type: "Identifier",
 					line: 9,
 					column: 22,
 				},
 				{
 					message:
 						"Identifier 'Object' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
-					type: "Identifier",
 					line: 9,
 					column: 33,
 				},
@@ -997,14 +970,12 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'Array' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
-					type: "Identifier",
 					line: 10,
 					column: 22,
 				},
 				{
 					message:
 						"Identifier 'Array' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
-					type: "Identifier",
 					line: 10,
 					column: 32,
 				},
@@ -1013,7 +984,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'Array' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
-					type: "Identifier",
 					line: 11,
 					column: 17,
 				},
@@ -1029,7 +999,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier '_foo' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -1041,7 +1010,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier '#_foo' does not match the pattern '^[^_]+$'.",
-					type: "PrivateIdentifier",
 				},
 			],
 		},
@@ -1060,7 +1028,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier '_foo' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -1077,7 +1044,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier '#_foo' does not match the pattern '^[^_]+$'.",
-					type: "PrivateIdentifier",
 				},
 			],
 		},
@@ -1103,12 +1069,10 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'foo_one' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 				{
 					message:
 						"Identifier 'bar_one' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -1132,12 +1096,10 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'foo_one' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 				{
 					message:
 						"Identifier 'bar_one' does not match the pattern '^[^_]+$'.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -1159,7 +1121,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'a' does not match the pattern '^[^a]'.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -1183,7 +1144,6 @@ ruleTester.run("id-match", rule, {
 				{
 					message:
 						"Identifier 'a' does not match the pattern '^[^a]'.",
-					type: "Identifier",
 				},
 			],
 		},

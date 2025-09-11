@@ -1,3 +1,47 @@
+v9.35.0 - September 5, 2025
+
+* [`da87f2f`](https://github.com/eslint/eslint/commit/da87f2fe792cab5b69b62bf5c15e69ab4f433087) chore: upgrade @eslint/js@9.35.0 (#20077) (Milos Djermanovic)
+* [`af2a087`](https://github.com/eslint/eslint/commit/af2a0870fdc646091d027516601888923e5bc202) chore: package.json update for @eslint/js release (Jenkins)
+* [`d265515`](https://github.com/eslint/eslint/commit/d265515642f65246bcd45c17979f67c2afb12f95) docs: improve phrasing - "if" → "even if" from getting-started section (#20074) (jjangga0214)
+* [`7055764`](https://github.com/eslint/eslint/commit/70557649e3111c55d8cddf678b6c4079aa6f0ccc) test: remove `tests/lib/eslint/eslint.config.js` (#20065) (Milos Djermanovic)
+* [`10e7ae2`](https://github.com/eslint/eslint/commit/10e7ae23e30ea0834d9fdeb3a2a1db8103c36cd2) fix: update uncloneable options error message (#20059) (soda-sorcery)
+* [`42761fa`](https://github.com/eslint/eslint/commit/42761fa7c872fb9e14c144b692af6967b3662082) feat: implement suggestions for no-empty-function (#20057) (jaymarvelz)
+* [`102f444`](https://github.com/eslint/eslint/commit/102f44442ac9bf1fcd4ba6ab9fae43ce09199df6) feat: implement suggestions for no-empty-static-block (#20056) (jaymarvelz)
+* [`84ffb96`](https://github.com/eslint/eslint/commit/84ffb9680b15e45bfd8c8a5db4731576ddd16fc4) chore: update `@eslint-community/eslint-utils` (#20069) (Francesco Trotta)
+* [`a355a0e`](https://github.com/eslint/eslint/commit/a355a0e5b2e6a47cda099b31dc7d112cfb5c4315) docs: invert comparison logic for example in `no-var` doc page (#20064) (OTonGitHub)
+* [`e51ffff`](https://github.com/eslint/eslint/commit/e51ffff737ca245b3a1d115cb11e1c99737249a3) feat: add `preserve-caught-error` rule (#19913) (Amnish Singh Arora)
+* [`5082fc2`](https://github.com/eslint/eslint/commit/5082fc206de6946d9d4c20e57301f78839b3b9f2) docs: Update README (GitHub Actions Bot)
+* [`d5ef939`](https://github.com/eslint/eslint/commit/d5ef9397150cc178e1f9891c3ff49ac4871ec786) refactor: remove deprecated `context.parserOptions` usage across rules (#20060) (sethamus)
+* [`1b3881d`](https://github.com/eslint/eslint/commit/1b3881d7e859bec9589e39888656c33c914a8302) chore: remove redundant word (#20058) (pxwanglu)
+* [`99cfd7e`](https://github.com/eslint/eslint/commit/99cfd7e056e1703941c9eb8ca1ae7fdb1987ba9d) docs: add missing "the" in rule deprecation docs (#20050) (Josh Goldberg ✨)
+* [`bfa4601`](https://github.com/eslint/eslint/commit/bfa46013e7ea9a522c02f72250fa07160f96a6b8) fix: ignore empty switch statements with comments in no-empty rule (#20045) (jaymarvelz)
+* [`dfd11de`](https://github.com/eslint/eslint/commit/dfd11deb24fc733faa5db751a2f615eb04e48b15) fix: add `before` and `after` to test case types (#20049) (Francesco Trotta)
+* [`6ad8973`](https://github.com/eslint/eslint/commit/6ad8973e5d3c94b8e100b7266f55f8eb0757eb00) docs: update `--no-ignore` and `--ignore-pattern` documentation (#20036) (Francesco Trotta)
+* [`dabbe95`](https://github.com/eslint/eslint/commit/dabbe95c39671c5fa272da012ee1432aa088650f) fix: correct types for `no-restricted-imports` rule (#20034) (Milos Djermanovic)
+* [`8033b19`](https://github.com/eslint/eslint/commit/8033b195299a1eaa4a0ed6553d9e034a457bb577) docs: add documentation for `--no-config-lookup` (#20033) (Francesco Trotta)
+* [`ea789c7`](https://github.com/eslint/eslint/commit/ea789c7dd234c1a6be499a4644dd0f5c97615972) fix: no-loss-of-precision false positive with uppercase exponent (#20032) (sethamus)
+
+v9.34.0 - August 22, 2025
+
+* [`f19ad94`](https://github.com/eslint/eslint/commit/f19ad9493e0ca04c2c1455fbb3402eaad993a8be) chore: upgrade to `@eslint/js@9.34.0` (#20030) (Francesco Trotta)
+* [`b48fa20`](https://github.com/eslint/eslint/commit/b48fa20034e53bc65d1a58f3d834705e3087b00c) chore: package.json update for @eslint/js release (Jenkins)
+* [`4bce8a2`](https://github.com/eslint/eslint/commit/4bce8a250262ec47207bc260581f979e40c86bda) chore: package.json update for eslint-config-eslint release (Jenkins)
+* [`0c9999c`](https://github.com/eslint/eslint/commit/0c9999c2a682151cf13bb3a4f8916930678c2f9b) refactor: prefer default options in `grouped-accessor-pairs` (#20028) (루밀LuMir)
+* [`0b4a590`](https://github.com/eslint/eslint/commit/0b4a590333b73a21b9e0ddc98462680e09fe3232) docs: make rulesdir deprecation clearer (#20018) (Domenico Gemoli)
+* [`9b89903`](https://github.com/eslint/eslint/commit/9b8990397b2d2ed70771bb0e2070261a0c41782c) fix: default value of accessor-pairs option in rule.d.ts file (#20024) (Tanuj Kanti)
+* [`6c07420`](https://github.com/eslint/eslint/commit/6c074206ae0eae4816197a57648b415832a20e1d) fix: fix spurious failure in neostandard integration test (#20023) (Kirk Waiblinger)
+* [`676f4ac`](https://github.com/eslint/eslint/commit/676f4acaaed6e4f6ffe0c2e21272d4702b311a7b) fix: allow scientific notation with trailing zeros matching exponent (#20002) (Sweta Tanwar)
+* [`327c672`](https://github.com/eslint/eslint/commit/327c67256fbeaf9d5e365802c2a11f5d32a16522) docs: Update README (GitHub Actions Bot)
+* [`d503f19`](https://github.com/eslint/eslint/commit/d503f1981354c7b86e423879846c61e0405af8fe) ci: fix `stale.yml` (#20010) (루밀LuMir)
+* [`0bb777a`](https://github.com/eslint/eslint/commit/0bb777a82b533df595cd520d9c89d291efa14a33) feat: multithread linting (#19794) (Francesco Trotta)
+* [`bf26229`](https://github.com/eslint/eslint/commit/bf2622991f5b892610a8c3343ff16519e5fd7a79) docs: Fix typo in core-concepts/index.md (#20009) (Tobias Hernstig)
+* [`43a5f9e`](https://github.com/eslint/eslint/commit/43a5f9e36f1aade16f81fc49ef4b333660faadab) feat: add eslint-plugin-regexp to eslint-config-eslint base config (#19951) (Pixel998)
+* [`e2dc67d`](https://github.com/eslint/eslint/commit/e2dc67d8b028147de4da35c64efe1d74c9f6a883) ci: centralize `stale.yml` (#19994) (루밀LuMir)
+* [`7093cb8`](https://github.com/eslint/eslint/commit/7093cb8f590ec2a1b5364d7b5687e9b5f4e06f8a) ci: bump actions/checkout from 4 to 5 (#20005) (dependabot[bot])
+* [`2309327`](https://github.com/eslint/eslint/commit/2309327554acbf011f0d17e7b36fdd68e43adf3a) docs: fix typo in the "Configuring Rules" section (#20001) (ghazi-git)
+* [`2b87e21`](https://github.com/eslint/eslint/commit/2b87e21321422c120c2248dae25cac7f9eec0f29) docs: [no-else-return] clarify sample code. (#19991) (Yuki Takada (Yukinosuke Takada))
+* [`c36570c`](https://github.com/eslint/eslint/commit/c36570c6657c2a92dbb4f09a8166a4d9909a091a) docs: Update README (GitHub Actions Bot)
+
 v9.33.0 - August 8, 2025
 
 * [`4258046`](https://github.com/eslint/eslint/commit/425804602ecb9ee5f54d1c38a473cf20538420c5) chore: update dependency @eslint/js to v9.33.0 (#19998) (renovate[bot])

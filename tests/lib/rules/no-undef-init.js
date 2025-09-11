@@ -53,7 +53,6 @@ ruleTester.run("no-undef-init", rule, {
 				{
 					messageId: "unnecessaryUndefinedInit",
 					data: { name: "a" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -64,7 +63,6 @@ ruleTester.run("no-undef-init", rule, {
 				{
 					messageId: "unnecessaryUndefinedInit",
 					data: { name: "a" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -75,7 +73,6 @@ ruleTester.run("no-undef-init", rule, {
 				{
 					messageId: "unnecessaryUndefinedInit",
 					data: { name: "b" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -87,7 +84,6 @@ ruleTester.run("no-undef-init", rule, {
 				{
 					messageId: "unnecessaryUndefinedInit",
 					data: { name: "[a]" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -99,7 +95,6 @@ ruleTester.run("no-undef-init", rule, {
 				{
 					messageId: "unnecessaryUndefinedInit",
 					data: { name: "{a}" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -110,7 +105,6 @@ ruleTester.run("no-undef-init", rule, {
 				{
 					messageId: "unnecessaryUndefinedInit",
 					data: { name: "a" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -122,7 +116,6 @@ ruleTester.run("no-undef-init", rule, {
 				{
 					messageId: "unnecessaryUndefinedInit",
 					data: { name: "a" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -134,7 +127,6 @@ ruleTester.run("no-undef-init", rule, {
 				{
 					messageId: "unnecessaryUndefinedInit",
 					data: { name: "a" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -146,7 +138,6 @@ ruleTester.run("no-undef-init", rule, {
 				{
 					messageId: "unnecessaryUndefinedInit",
 					data: { name: "b" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -158,7 +149,6 @@ ruleTester.run("no-undef-init", rule, {
 				{
 					messageId: "unnecessaryUndefinedInit",
 					data: { name: "[a]" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -170,7 +160,6 @@ ruleTester.run("no-undef-init", rule, {
 				{
 					messageId: "unnecessaryUndefinedInit",
 					data: { name: "{a}" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -182,7 +171,6 @@ ruleTester.run("no-undef-init", rule, {
 				{
 					messageId: "unnecessaryUndefinedInit",
 					data: { name: "a" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -196,7 +184,6 @@ ruleTester.run("no-undef-init", rule, {
 				{
 					messageId: "unnecessaryUndefinedInit",
 					data: { name: "a" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -208,7 +195,6 @@ ruleTester.run("no-undef-init", rule, {
 				{
 					messageId: "unnecessaryUndefinedInit",
 					data: { name: "a" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -220,7 +206,6 @@ ruleTester.run("no-undef-init", rule, {
 				{
 					messageId: "unnecessaryUndefinedInit",
 					data: { name: "a" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -232,7 +217,6 @@ ruleTester.run("no-undef-init", rule, {
 				{
 					messageId: "unnecessaryUndefinedInit",
 					data: { name: "a" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -244,7 +228,6 @@ ruleTester.run("no-undef-init", rule, {
 				{
 					messageId: "unnecessaryUndefinedInit",
 					data: { name: "a" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -256,7 +239,6 @@ ruleTester.run("no-undef-init", rule, {
 				{
 					messageId: "unnecessaryUndefinedInit",
 					data: { name: "a" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -268,7 +250,6 @@ ruleTester.run("no-undef-init", rule, {
 				{
 					messageId: "unnecessaryUndefinedInit",
 					data: { name: "a" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -280,7 +261,6 @@ ruleTester.run("no-undef-init", rule, {
 				{
 					messageId: "unnecessaryUndefinedInit",
 					data: { name: "a" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -292,7 +272,6 @@ ruleTester.run("no-undef-init", rule, {
 				{
 					messageId: "unnecessaryUndefinedInit",
 					data: { name: "a" },
-					type: "VariableDeclarator",
 				},
 			],
 		},

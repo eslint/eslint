@@ -96,121 +96,161 @@ ruleTester.run("no-unreachable", rule, {
 		{
 			code: "function foo() { return x; var x = 1; }",
 			errors: [
-				{ messageId: "unreachableCode", type: "VariableDeclaration" },
+				{
+					messageId: "unreachableCode",
+				},
 			],
 		},
 		{
 			code: "function foo() { return x; var x, y = 1; }",
 			errors: [
-				{ messageId: "unreachableCode", type: "VariableDeclaration" },
+				{
+					messageId: "unreachableCode",
+				},
 			],
 		},
 		{
 			code: "while (true) { continue; var x = 1; }",
 			errors: [
-				{ messageId: "unreachableCode", type: "VariableDeclaration" },
+				{
+					messageId: "unreachableCode",
+				},
 			],
 		},
 		{
 			code: "function foo() { return; x = 1; }",
 			errors: [
-				{ messageId: "unreachableCode", type: "ExpressionStatement" },
+				{
+					messageId: "unreachableCode",
+				},
 			],
 		},
 		{
 			code: "function foo() { throw error; x = 1; }",
 			errors: [
-				{ messageId: "unreachableCode", type: "ExpressionStatement" },
+				{
+					messageId: "unreachableCode",
+				},
 			],
 		},
 		{
 			code: "while (true) { break; x = 1; }",
 			errors: [
-				{ messageId: "unreachableCode", type: "ExpressionStatement" },
+				{
+					messageId: "unreachableCode",
+				},
 			],
 		},
 		{
 			code: "while (true) { continue; x = 1; }",
 			errors: [
-				{ messageId: "unreachableCode", type: "ExpressionStatement" },
+				{
+					messageId: "unreachableCode",
+				},
 			],
 		},
 		{
 			code: "function foo() { switch (foo) { case 1: return; x = 1; } }",
 			errors: [
-				{ messageId: "unreachableCode", type: "ExpressionStatement" },
+				{
+					messageId: "unreachableCode",
+				},
 			],
 		},
 		{
 			code: "function foo() { switch (foo) { case 1: throw e; x = 1; } }",
 			errors: [
-				{ messageId: "unreachableCode", type: "ExpressionStatement" },
+				{
+					messageId: "unreachableCode",
+				},
 			],
 		},
 		{
 			code: "while (true) { switch (foo) { case 1: break; x = 1; } }",
 			errors: [
-				{ messageId: "unreachableCode", type: "ExpressionStatement" },
+				{
+					messageId: "unreachableCode",
+				},
 			],
 		},
 		{
 			code: "while (true) { switch (foo) { case 1: continue; x = 1; } }",
 			errors: [
-				{ messageId: "unreachableCode", type: "ExpressionStatement" },
+				{
+					messageId: "unreachableCode",
+				},
 			],
 		},
 		{
 			code: "var x = 1; throw 'uh oh'; var y = 2;",
 			errors: [
-				{ messageId: "unreachableCode", type: "VariableDeclaration" },
+				{
+					messageId: "unreachableCode",
+				},
 			],
 		},
 		{
 			code: "function foo() { var x = 1; if (x) { return; } else { throw e; } x = 2; }",
 			errors: [
-				{ messageId: "unreachableCode", type: "ExpressionStatement" },
+				{
+					messageId: "unreachableCode",
+				},
 			],
 		},
 		{
 			code: "function foo() { var x = 1; if (x) return; else throw -1; x = 2; }",
 			errors: [
-				{ messageId: "unreachableCode", type: "ExpressionStatement" },
+				{
+					messageId: "unreachableCode",
+				},
 			],
 		},
 		{
 			code: "function foo() { var x = 1; try { return; } finally {} x = 2; }",
 			errors: [
-				{ messageId: "unreachableCode", type: "ExpressionStatement" },
+				{
+					messageId: "unreachableCode",
+				},
 			],
 		},
 		{
 			code: "function foo() { var x = 1; try { } finally { return; } x = 2; }",
 			errors: [
-				{ messageId: "unreachableCode", type: "ExpressionStatement" },
+				{
+					messageId: "unreachableCode",
+				},
 			],
 		},
 		{
 			code: "function foo() { var x = 1; do { return; } while (x); x = 2; }",
 			errors: [
-				{ messageId: "unreachableCode", type: "ExpressionStatement" },
+				{
+					messageId: "unreachableCode",
+				},
 			],
 		},
 		{
 			code: "function foo() { var x = 1; while (x) { if (x) break; else continue; x = 2; } }",
 			errors: [
-				{ messageId: "unreachableCode", type: "ExpressionStatement" },
+				{
+					messageId: "unreachableCode",
+				},
 			],
 		},
 		{
 			code: "function foo() { var x = 1; for (;;) { if (x) continue; } x = 2; }",
 			errors: [
-				{ messageId: "unreachableCode", type: "ExpressionStatement" },
+				{
+					messageId: "unreachableCode",
+				},
 			],
 		},
 		{
 			code: "function foo() { var x = 1; while (true) { } x = 2; }",
 			errors: [
-				{ messageId: "unreachableCode", type: "ExpressionStatement" },
+				{
+					messageId: "unreachableCode",
+				},
 			],
 		},
 		{
@@ -219,7 +259,6 @@ ruleTester.run("no-unreachable", rule, {
 			errors: [
 				{
 					messageId: "unreachableCode",
-					type: "ExpressionStatement",
 					line: 1,
 					column: 86,
 					endLine: 1,
@@ -244,7 +283,6 @@ ruleTester.run("no-unreachable", rule, {
 			errors: [
 				{
 					messageId: "unreachableCode",
-					type: "ExpressionStatement",
 					line: 5,
 					column: 21,
 					endLine: 9,
@@ -269,7 +307,6 @@ ruleTester.run("no-unreachable", rule, {
 			errors: [
 				{
 					messageId: "unreachableCode",
-					type: "ExpressionStatement",
 					line: 5,
 					column: 21,
 					endLine: 11,
@@ -293,7 +330,6 @@ ruleTester.run("no-unreachable", rule, {
 			errors: [
 				{
 					messageId: "unreachableCode",
-					type: "ExpressionStatement",
 					line: 5,
 					column: 25,
 					endLine: 6,
@@ -301,7 +337,6 @@ ruleTester.run("no-unreachable", rule, {
 				},
 				{
 					messageId: "unreachableCode",
-					type: "ExpressionStatement",
 					line: 9,
 					column: 25,
 					endLine: 9,
@@ -326,7 +361,6 @@ ruleTester.run("no-unreachable", rule, {
 			errors: [
 				{
 					messageId: "unreachableCode",
-					type: "ExpressionStatement",
 					line: 5,
 					column: 25,
 					endLine: 6,
@@ -334,7 +368,6 @@ ruleTester.run("no-unreachable", rule, {
 				},
 				{
 					messageId: "unreachableCode",
-					type: "ExpressionStatement",
 					line: 9,
 					column: 25,
 					endLine: 9,
@@ -342,7 +375,6 @@ ruleTester.run("no-unreachable", rule, {
 				},
 				{
 					messageId: "unreachableCode",
-					type: "ExpressionStatement",
 					line: 11,
 					column: 21,
 					endLine: 11,
@@ -365,7 +397,6 @@ ruleTester.run("no-unreachable", rule, {
 			errors: [
 				{
 					messageId: "unreachableCode",
-					type: "BlockStatement",
 					line: 5,
 					column: 35,
 					endLine: 7,
@@ -388,7 +419,6 @@ ruleTester.run("no-unreachable", rule, {
 			errors: [
 				{
 					messageId: "unreachableCode",
-					type: "BlockStatement",
 					line: 5,
 					column: 35,
 					endLine: 7,
@@ -412,7 +442,6 @@ ruleTester.run("no-unreachable", rule, {
 			errors: [
 				{
 					messageId: "unreachableCode",
-					type: "VariableDeclaration",
 					line: 5,
 					column: 25,
 					endLine: 5,
@@ -420,7 +449,6 @@ ruleTester.run("no-unreachable", rule, {
 				},
 				{
 					messageId: "unreachableCode",
-					type: "BlockStatement",
 					line: 6,
 					column: 35,
 					endLine: 8,
