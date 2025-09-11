@@ -1752,14 +1752,11 @@ describe("cli", () => {
 					1,
 					"log.error should be called once",
 				);
-
-				const lines = [
-					"Option report-unused-disable-directives-severity: 'foo' not one of off, warn, error, 0, 1, or 2.",
-					"You're using eslint.config.js, some command line flags are no longer available. Please see https://eslint.org/docs/latest/use/command-line-interface for details.",
-				];
 				assert.deepStrictEqual(
 					log.error.firstCall.args,
-					[lines.join("\n")],
+					[
+						"Option report-unused-disable-directives-severity: 'foo' not one of off, warn, error, 0, 1, or 2.",
+					],
 					"has the right text to log.error",
 				);
 				assert.strictEqual(exitCode, 2, "exit code should be 2");
@@ -2179,15 +2176,11 @@ describe("cli", () => {
 					1,
 					"log.error should be called once",
 				);
-
-				const lines = [
-					"Option report-unused-inline-configs: 'foo' not one of off, warn, error, 0, 1, or 2.",
-					"You're using eslint.config.js, some command line flags are no longer available. Please see https://eslint.org/docs/latest/use/command-line-interface for details.",
-				];
-
 				assert.deepStrictEqual(
 					log.error.firstCall.args,
-					[lines.join("\n")],
+					[
+						"Option report-unused-inline-configs: 'foo' not one of off, warn, error, 0, 1, or 2.",
+					],
 					"has the right text to log.error",
 				);
 				assert.strictEqual(exitCode, 2, "exit code should be 2");
