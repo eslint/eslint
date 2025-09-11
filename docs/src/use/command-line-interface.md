@@ -624,7 +624,6 @@ This allows you to set an ESLint config without files modifying it. All inline c
 - `/*eslint-enable*/`
 - `/*global*/`
 - `/*eslint*/`
-- `/*eslint-env*/`
 - `// eslint-disable-line`
 - `// eslint-disable-next-line`
 
@@ -860,7 +859,7 @@ The ESLint team may ask for this information to help solve bugs. When you use th
 
 #### `--no-error-on-unmatched-pattern`
 
-This option prevents errors when a quoted glob pattern or `--ext` is unmatched. This does not prevent errors when your shell can't match a glob.
+This option prevents errors when a quoted glob pattern is unmatched. This does not prevent errors when your shell can't match a glob.
 
 - **Argument Type**: No argument.
 
