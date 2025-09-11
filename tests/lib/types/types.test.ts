@@ -1924,6 +1924,9 @@ ruleTester.run("my-rule", rule, {
 		{ code: "foo", filename: "test.js" },
 		{ code: "foo", languageOptions: { globals: { foo: true } } },
 		{ code: "foo", settings: { foo: true } },
+		{ code: "foo", language: "js/js" },
+		// @ts-expect-error // `options` must be an array
+		{ code: "foo", options: { allowFoo: true } },
 		{
 			code: "foo",
 			before() {
@@ -1940,6 +1943,7 @@ ruleTester.run("my-rule", rule, {
 		{ code: "foo", errors: 1 },
 		{ code: "foo", errors: 1, output: "foo" },
 		{ code: "foo", errors: ["foo"] },
+		{ code: "foo", errors: [/foo/] },
 		{ code: "foo", errors: [{ message: "foo" }] },
 		{ code: "foo", errors: [{ message: "foo", type: "foo" }] },
 		{ code: "foo", errors: [{ message: "foo", data: { foo: true } }] },
@@ -1962,6 +1966,7 @@ ruleTester.run("my-rule", rule, {
 				},
 			],
 		},
+		{ code: "foo", errors: [{ message: "foo", suggestions: 2 }] },
 		{ code: "foo", errors: 1, only: true },
 		{
 			code: "foo",
