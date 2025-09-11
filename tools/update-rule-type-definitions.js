@@ -178,6 +178,15 @@ function getPropValueThatIsEqual(prop) {
     return { keyValues, propertyValue };
 }
 
+function getArrayValues(enumValue) {
+    const enumValues = enumValue
+        .filter(value => typeof value === "string")
+        .map(value => `"${value}"`)
+        .join(" | ");
+
+    return enumValues;
+}
+
 /**
  * Creates partial of type definitions for a schema.
  * @param {object} schema The schema to create partials for.
@@ -200,10 +209,7 @@ function createPartials(schema, ruleId, defaultOptions) {
             if (schema.enum.length === 1) {
                 enumValues = typeof schema.enum[0] === "string" ? `"${schema.enum[0]}"` : schema.enum[0];
             } else {
-                enumValues = schema.enum
-                .filter(value => typeof value === "string")
-                .map(value => `"${value}"`)
-                .join(" | ");
+                enumValues = getArrayValues(schema.enum);
             }
             partial = enumValues;
         }
@@ -332,9 +338,7 @@ function createPartials(schema, ruleId, defaultOptions) {
                 propValue.push(`${prop}: ${val.type};`);        
             }
 
-            const allKeys = keys.filter(item => typeof item === "string")
-                .map(item => `"${item}"`)
-                .join(" | ");
+            const allKeys = getArrayValues(keys);
             partialsWithRecordValues.push(`Record<${allKeys}, Partial<{\n${propValue.join("\n")}\n}>>`);
         }
 
@@ -357,11 +361,6 @@ function createPartials(schema, ruleId, defaultOptions) {
                 if (defaultOptions && defaultOptions[0][key] !== undefined) {
                     partialsValues.push(`/**\n * @default '${defaultOptions[0][key]}'\n */`);
                 }
-                // const enumValues = value.enum
-                //     .filter(value => typeof value === "string")
-                //     .map(value => `"${value}"`)
-                //     .join(" | ");
-                // partialsValues.push(`${key}: ${enumValues};`);
 
                 if (value.enum.length > 10) {
                     partial = "string";
@@ -370,10 +369,7 @@ function createPartials(schema, ruleId, defaultOptions) {
                     if (value.enum.length === 1) {
                         enumValues = typeof value.enum[0] === "string" ? `"${value.enum[0]}"` : value.enum[0];
                     } else {
-                        enumValues = value.enum
-                        .filter(value => typeof value === "string")
-                        .map(value => `"${value}"`)
-                        .join(" | ");
+                        enumValues = getArrayValues(value.enum);
                     }
                     partialsValues.push(`${key}: ${enumValues};`);
                 }
@@ -423,10 +419,9 @@ function createPartials(schema, ruleId, defaultOptions) {
                         const defaultValue = (Array.isArray(defaultOptions[0][key]) &&  defaultOptions[0][key].length === 0) ? "[]" : `[${defaultOptions[0][key].join(", ")}]`;
                         partialsValues.push(`/**\n * @default ${defaultValue}\n */`);
                     }
-                    const enumValues = value.items.enum
-                        .filter(item => typeof item === "string")
-                        .map(item => `"${item}"`)
-                        .join(" | ");
+
+                    const enumValues = getArrayValues(value.items.enum);
+
                     partialsValues.push(`${key}: Array<${enumValues}>;`);
                 }
 
@@ -487,10 +482,8 @@ function createPartials(schema, ruleId, defaultOptions) {
                     }
 
                     if (value.additionalProperties.enum) {
-                        const enumValues = value.additionalProperties.enum
-                            .filter(item => typeof item === "string")
-                            .map(item => `"${item}"`)
-                            .join(" | ");
+                        const enumValues = getArrayValues(value.additionalProperties.enum);
+
                         partialsValues.push(`${key}: Record<string, ${enumValues}>;`);
                     }
                 }
