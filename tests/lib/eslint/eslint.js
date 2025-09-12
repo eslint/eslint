@@ -1091,7 +1091,6 @@ describe("ESLint", () => {
 								column: 11,
 								endLine: 1,
 								endColumn: 14,
-								nodeType: "Identifier",
 							},
 						],
 						suppressedMessages: [],
@@ -1133,7 +1132,6 @@ describe("ESLint", () => {
 								message: "Parsing error: Unexpected token is",
 								line: 1,
 								column: 19,
-								nodeType: null,
 							},
 						],
 						suppressedMessages: [],
@@ -1175,7 +1173,6 @@ describe("ESLint", () => {
 								message: "Parsing error: Unexpected token",
 								line: 1,
 								column: 10,
-								nodeType: null,
 							},
 						],
 						suppressedMessages: [],
@@ -1275,7 +1272,6 @@ describe("ESLint", () => {
 								message: "Parsing error: Unexpected token is",
 								line: 1,
 								column: 19,
-								nodeType: null,
 							},
 						],
 						suppressedMessages: [],
@@ -4795,7 +4791,6 @@ describe("ESLint", () => {
 									message:
 										"Expected '===' and instead saw '=='.",
 									messageId: "unexpected",
-									nodeType: "BinaryExpression",
 									ruleId: "eqeqeq",
 									severity: 2,
 									suggestions: [
@@ -4853,7 +4848,6 @@ describe("ESLint", () => {
 									endLine: 1,
 									messageId: "undef",
 									message: "'foo' is not defined.",
-									nodeType: "Identifier",
 									ruleId: "no-undef",
 									severity: 2,
 								},
@@ -11037,7 +11031,6 @@ describe("ESLint", () => {
 											"Expected { after 'if' condition.",
 										line: 2,
 										column: 1,
-										nodeType: "IfStatement",
 									},
 									{
 										ruleId: "no-process-exit",
@@ -11046,7 +11039,6 @@ describe("ESLint", () => {
 											"Don't use process.exit(); throw an error instead.",
 										line: 3,
 										column: 1,
-										nodeType: "CallExpression",
 									},
 								],
 								suppressedMessages: [],
@@ -11976,7 +11968,6 @@ describe("ESLint", () => {
 										text: " ",
 									},
 									severity: 2,
-									nodeType: null,
 								},
 							],
 							suppressedMessages: [],
@@ -12802,7 +12793,6 @@ describe("ESLint", () => {
 									message:
 										"Expected '===' and instead saw '=='.",
 									messageId: "unexpected",
-									nodeType: "BinaryExpression",
 									ruleId: "eqeqeq",
 									severity: 2,
 									suggestions: [
@@ -12859,7 +12849,6 @@ describe("ESLint", () => {
 									message:
 										'File ignored by default because it is located under the node_modules directory. Use ignore pattern "!**/node_modules/" to disable file ignore settings or use "--no-warn-ignored" to suppress this warning.',
 									severity: 1,
-									nodeType: null,
 								},
 							],
 							usedDeprecatedRules: [],
@@ -12947,7 +12936,6 @@ describe("ESLint", () => {
 									message:
 										"Expected '===' and instead saw '=='.",
 									messageId: "unexpected",
-									nodeType: "BinaryExpression",
 									ruleId: "eqeqeq",
 									severity: 2,
 									suggestions: [
