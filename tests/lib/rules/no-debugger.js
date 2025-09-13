@@ -27,6 +27,10 @@ ruleTester.run("no-debugger", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
