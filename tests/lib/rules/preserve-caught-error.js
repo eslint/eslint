@@ -722,5 +722,58 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
+		/* 25. When multiple `cause` properties are present. */
+		{
+			code: `try {} catch (error) {
+				throw new Error("Something failed", { cause: error, cause: anotherError });
+			}`,
+			errors: [{ messageId: "incorrectCause" }],
+		},
+		/* 26. Getters and setters as `cause`. */
+		{
+			code: `try {} catch (error) {
+				throw new Error("Something failed", { get cause() { } });
+			}`,
+			errors: [
+				{
+					messageId: "incorrectCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try {} catch (error) {
+				throw new Error("Something failed", { cause: error });
+			}`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `try {} catch (error) {
+				throw new Error("Something failed", { set cause(value) { } });
+			}`,
+			errors: [
+				{
+					messageId: "incorrectCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try {} catch (error) {
+				throw new Error("Something failed", { cause: error });
+			}`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `try {} catch (error) {
+				throw new Error("Something failed", {
+					get cause() { return error; },
+					set cause(value) { error = value; },
+				});
+			}`,
+			errors: [{ messageId: "incorrectCause" }],
+		},
 	],
 });
