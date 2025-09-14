@@ -92,6 +92,8 @@ export namespace Scope {
 			| "block"
 			| "catch"
 			| "class"
+			| "class-field-initializer"
+			| "class-static-block"
 			| "for"
 			| "function"
 			| "function-expression-name"
