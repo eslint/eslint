@@ -161,7 +161,7 @@ This rule additionally supports TypeScript type syntax. The following options en
 
 * `enums` (`boolean`) -
   If it is `true`, the rule warns every reference to an `enum` before it is defined.
-  Defult is `true`.
+  Default is `true`.
 * `typedefs` (`boolean`) -
   If it is `true`, this rule warns every reference to a type `alias` or `interface` before its declaration. If `false`, the rule allows using type `alias`es and `interface`s before they are defined.
   Default is `true`.
