@@ -892,7 +892,7 @@ The following table contains a list of AST node types and the scope type that th
 
 **※1** Only if the configured parser provided the block-scope feature. The default parser provides the block-scope feature if `parserOptions.ecmaVersion` is not less than `6`.<br>
 **※2** Only if the `for` statement defines the iteration variable as a block-scoped variable (E.g., `for (let i = 0;;) {}`).<br>
-**※3** The scope of the closest ancestor node which has own scope. If the closest ancestor node has multiple scopes then it chooses the innermost scope (E.g., the `Program` node has a `global` scope and a `module` scope if `Program#sourceType` is `"module"`. The innermost scope is the `module` scope.).
+**※3** The scope of the closest ancestor node which has own scope. If the closest ancestor node has multiple scopes then it chooses the innermost scope (E.g., the `Program` node has a `global` scope and a `module` scope if `Program#sourceType` is `"module"`. The innermost scope is the `module` scope.).<br>
 **※4** Each `PropertyDefinition#value` node (it can be any expression node type), has a `class-field-initializer` scope. For example, in `class C { field = 1 }`, the `Literal` node that represents `1` has a `class-field-initializer` scope. If the node has other scopes, the `class-field-initializer` scope will be the outermost one. For example, in `class C { field = () => {} }`, the `ArrowFunctionExpression` node has two scopes: `class-field-initializer` and `function`.
 
 #### Scope Variables
