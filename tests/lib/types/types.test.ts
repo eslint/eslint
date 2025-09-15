@@ -1207,41 +1207,6 @@ for (const msg of fixResult.messages) {
 
 sourceCode = linter.getSourceCode();
 
-linter.defineRule("test", rule);
-
-linter.defineRules({
-	foo: rule,
-	bar: rule,
-});
-
-linter.getRules();
-
-linter.defineParser("custom-parser", {
-	name: "foo",
-	version: "1.2.3",
-	meta: {
-		name: "foo",
-		version: "1.2.3",
-	},
-	parse: (src, opts) => AST,
-});
-linter.defineParser("custom-parser", {
-	name: "foo",
-	version: "1.2.3",
-	meta: {
-		name: "foo",
-		version: "1.2.3",
-	},
-	parseForESLint(src, opts): Linter.ESLintParseResult {
-		return {
-			ast: AST,
-			visitorKeys: {},
-			services: {},
-			scopeManager,
-		};
-	},
-});
-
 linter.getFixPassCount(); // $ExpectType number
 
 (index: number, ruleId: string) => {
@@ -1446,6 +1411,7 @@ linterWithFlatConfig.verifyAndFix(
 
 // #region Linter with eslintrc config
 
+// @ts-expect-error -- configType must be "flat"
 const linterWithEslintrcConfig = new Linter({ configType: "eslintrc" });
 
 linterWithEslintrcConfig.version;
@@ -1629,8 +1595,6 @@ linterWithEslintrcConfig.verify(
 	{ rules: { "no-void": [2, { allowAsStatement: true }] } },
 	"test.js",
 );
-
-linterWithEslintrcConfig.getRules();
 
 // #endregion Linter with eslintrc config
 

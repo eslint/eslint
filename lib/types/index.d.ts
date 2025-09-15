@@ -825,7 +825,7 @@ export class Linter {
 
 	constructor(options?: {
 		cwd?: string | undefined;
-		configType?: "flat" | "eslintrc";
+		configType?: "flat";
 	});
 
 	verify(
@@ -851,14 +851,6 @@ export class Linter {
 	): Linter.FixReport;
 
 	getSourceCode(): SourceCode;
-
-	defineRule(name: string, rule: Rule.RuleModule): void;
-
-	defineRules(rules: { [name: string]: Rule.RuleModule }): void;
-
-	getRules(): Map<string, Rule.RuleModule>;
-
-	defineParser(name: string, parser: Linter.Parser): void;
 
 	getTimes(): Linter.Stats["times"];
 
