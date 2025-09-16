@@ -18108,6 +18108,42 @@ var a = "test2";
 					}
 				});
 			});
+
+			describe("eslint-env comments", () => {
+				it("should produce an error", () => {
+					const code =
+						"/* eslint-env\nes6 */\nfoo/*eslint-env node -- TEST eslint-env*/,bar";
+					const messages = linter.verify(code);
+					const suppressedMessages = linter.getSuppressedMessages();
+
+					assert.strictEqual(messages.length, 2);
+					assert.strictEqual(messages[0].ruleId, null);
+					assert.strictEqual(messages[0].severity, 2);
+					assert.strictEqual(messages[0].fatal, true);
+					assert.strictEqual(messages[0].line, 1);
+					assert.strictEqual(messages[0].column, 1);
+					assert.strictEqual(messages[0].endLine, 2);
+					assert.strictEqual(messages[0].endColumn, 7);
+					assert.strictEqual(messages[1].ruleId, null);
+					assert.strictEqual(messages[1].severity, 2);
+					assert.strictEqual(messages[1].fatal, true);
+					assert.strictEqual(messages[1].line, 3);
+					assert.strictEqual(messages[1].column, 4);
+					assert.strictEqual(messages[1].endLine, 3);
+					assert.strictEqual(messages[1].endColumn, 42);
+
+					assert.strictEqual(suppressedMessages.length, 0);
+				});
+
+				it("should be ignored in inline comments", () => {
+					const code = "it('Test', () => {}); // eslint-env mocha";
+					const messages = linter.verify(code);
+					const suppressedMessages = linter.getSuppressedMessages();
+
+					assert.strictEqual(messages.length, 0);
+					assert.strictEqual(suppressedMessages.length, 0);
+				});
+			});
 		});
 
 		describe("Default Global Variables", () => {
@@ -18484,17 +18520,22 @@ var a = "test2";
 		});
 
 		it("should default to flat config mode when a config isn't passed", () => {
-			// eslint-env should not be honored
+			// eslint-env should not be honored and should produce an error
 			const messages = linter.verify(
 				"/*eslint no-undef:error*//*eslint-env browser*/\nwindow;",
 			);
 			const suppressedMessages = linter.getSuppressedMessages();
 
-			assert.strictEqual(messages.length, 1);
-			assert.strictEqual(messages[0].ruleId, "no-undef");
+			assert.strictEqual(messages.length, 2);
+			assert.strictEqual(messages[0].ruleId, null);
 			assert.strictEqual(messages[0].severity, 2);
-			assert.strictEqual(messages[0].line, 2);
-			assert.strictEqual(messages[0].column, 1);
+			assert.strictEqual(messages[0].fatal, true);
+			assert.strictEqual(messages[0].line, 1);
+			assert.strictEqual(messages[0].column, 26);
+			assert.strictEqual(messages[1].ruleId, "no-undef");
+			assert.strictEqual(messages[1].severity, 2);
+			assert.strictEqual(messages[1].line, 2);
+			assert.strictEqual(messages[1].column, 1);
 
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
