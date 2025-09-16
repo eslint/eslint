@@ -178,23 +178,6 @@ async function findProblems(filename) {
 
 				for (const comment of ast.comments) {
 					if (
-						comment.type === "Block" &&
-						/^\s*eslint-env(?!\S)/u.test(comment.value)
-					) {
-						problems.push({
-							fatal: false,
-							severity: 2,
-							message:
-								"/* eslint-env */ comments are no longer supported. Remove the comment.",
-							line:
-								codeBlockToken.map[0] +
-								1 +
-								comment.loc.start.line,
-							column: comment.loc.start.column + 1,
-						});
-					}
-
-					if (
 						comment.type !== "Block" ||
 						!/^\s*eslint(?!\S)/u.test(comment.value)
 					) {
