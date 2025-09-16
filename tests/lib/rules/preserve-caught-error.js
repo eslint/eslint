@@ -86,6 +86,12 @@ ruleTester.run("preserve-caught-error", rule, {
 	}`,
 			options: [{ requireCatchParameter: false }],
 		},
+		/* Multiple cause properties are present and the last one is the expected caught error value. */
+		`try {
+			doSomething();
+		} catch (error) {
+			throw new Error("Something failed", { cause: anotherError, cause: error });
+		}`,
 	],
 	invalid: [
 		/* 1. Throws a new Error without cause, even though an error was caught */
