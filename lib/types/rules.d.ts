@@ -1022,6 +1022,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 */
 				properties: "always" | "never";
 				exceptions: string[];
+				exceptionPatterns: string[];
 			}>,
 		]
 	>;
@@ -1040,6 +1041,10 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default false
 				 */
 				properties: boolean;
+				/**
+				 * @default false
+				 */
+				classFields: boolean;
 				/**
 				 * @default false
 				 */
