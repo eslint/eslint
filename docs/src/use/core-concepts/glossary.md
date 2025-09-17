@@ -33,13 +33,15 @@ Each config file exports a [config array](#config-array) containing [config obje
 For example, this `eslint.config.js` file enables the `prefer-const` [rule](#rule) at the _error_ [severity](#severity):
 
 ```js
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
 	{
 		rules: {
 			"prefer-const": "error",
 		},
 	},
-];
+]);
 ```
 
 See [Configuration Files](../configure/configuration-files) for more details.
@@ -242,7 +244,9 @@ When a [config object](#config-object) or [inline config](#inline-config-configu
 The following [config file](#config-file-configuration-file) overrides `no-unused-expressions` from `"error"` to `"off"` in `*.test.js` files:
 
 ```js
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
 	{
 		rules: {
 			"no-unused-expressions": "error",
@@ -254,7 +258,7 @@ export default [
 			"no-unused-expressions": "off",
 		},
 	},
-];
+]);
 ```
 
 The following [inline config](#inline-config-configuration-comment) sets `no-unused-expressions` to `"error"`:
@@ -346,10 +350,11 @@ Many plugins provide configs with names like _"recommended"_ that enable their s
 For example, [`eslint-plugin-solid`](https://github.com/solidjs-community/eslint-plugin-solid) provides a shareable recommended config:
 
 ```js
+import { defineConfig } from "eslint/config";
 import js from "@eslint/js";
 import solid from "eslint-plugin-solid/configs/recommended";
 
-export default [js.configs.recommended, solid];
+export default defineConfig([js.configs.recommended, solid]);
 ```
 
 For information on shareable configs, see [Share Configurations](../../extend/shareable-configs).
