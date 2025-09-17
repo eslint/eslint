@@ -2168,7 +2168,7 @@ export namespace ESLint {
 
 		/**
 		 * The raw deprecated info provided by the rule.
-		 * Unset if the rule's `meta.deprecated` property is a boolean.
+		 * Undefined if the rule's `meta.deprecated` property is a boolean.
 		 */
 		info?: DeprecatedInfo | undefined;
 	}

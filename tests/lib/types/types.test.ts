@@ -1576,6 +1576,9 @@ linterWithEslintrcConfig.getRules();
 
 	eslint.calculateConfigForFile("./config.json");
 
+	eslint.findConfigFile("src/index.js");
+	eslint.findConfigFile();
+
 	eslint.isPathIgnored("./dist/index.js");
 
 	let formatterPromise: Promise<ESLint.Formatter>;
@@ -1826,6 +1829,7 @@ for (const result of results) {
 	const deprecatedRule = result.usedDeprecatedRules[0];
 	deprecatedRule.ruleId = "foo";
 	deprecatedRule.replacedBy = ["bar"];
+	deprecatedRule.info = undefined;
 	deprecatedRule.info = {
 		message: "use bar instead",
 		replacedBy: [
