@@ -123,7 +123,7 @@
     "cross-spawn": "^7.0.6",
     "debug": "^4.3.2",
     "escape-string-regexp": "^4.0.0",
-    "eslint-scope": "^8.4.0",
+    "eslint-scope": "https://gitpkg.vercel.app/eslint/js/packages/eslint-scope?issue665&scripts.postinstall=npm%20install%20--ignore-scripts%20%26%26%20npm%20run%20build",
     "eslint-visitor-keys": "^4.2.1",
     "espree": "^11.0.0",
     "esquery": "^1.5.0",
