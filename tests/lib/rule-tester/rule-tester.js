@@ -1827,7 +1827,7 @@ describe("RuleTester", () => {
 					invalid: [],
 				},
 			);
-		}, /options must be an array/u);
+		}, /'options' must be an array/u);
 	});
 
 	it("should throw an error if the options are a number", () => {
@@ -1845,7 +1845,7 @@ describe("RuleTester", () => {
 					invalid: [],
 				},
 			);
-		}, /options must be an array/u);
+		}, /'options' must be an array/u);
 	});
 
 	describe("Parsers", () => {
@@ -2480,7 +2480,7 @@ describe("RuleTester", () => {
 				valid: [],
 				invalid: [{ code: "var foo = bar;", errors: 1 }],
 			});
-		}, "Rule must be an object with a `create` method");
+		}, /must be an object with a `create` method/u);
 	});
 
 	it("should throw an error if rule is an object without 'create' method", () => {
@@ -2499,7 +2499,7 @@ describe("RuleTester", () => {
 				valid: [],
 				invalid: [{ code: "var foo = bar;", errors: 1 }],
 			});
-		}, "Rule must be an object with a `create` method");
+		}, /must be an object with a `create` method/u);
 	});
 
 	it("should throw an error if no test scenarios given", () => {
@@ -2508,7 +2508,7 @@ describe("RuleTester", () => {
 				"foo",
 				require("../../fixtures/testers/rule-tester/modify-ast-at-last"),
 			);
-		}, "Test Scenarios for rule foo : Could not find test scenario object");
+		}, /Could not find test scenario object/u);
 	});
 
 	it("should throw an error if no acceptable test scenario object is given", () => {
@@ -2518,28 +2518,28 @@ describe("RuleTester", () => {
 				require("../../fixtures/testers/rule-tester/modify-ast-at-last"),
 				[],
 			);
-		}, "Test Scenarios for rule foo is invalid:\nCould not find any valid test scenarios\nCould not find any invalid test scenarios");
+		}, /No valid or invalid test scenarios found/u);
 		assert.throws(() => {
 			ruleTester.run(
 				"foo",
 				require("../../fixtures/testers/rule-tester/modify-ast-at-last"),
 				"",
 			);
-		}, "Test Scenarios for rule foo : Could not find test scenario object");
+		}, /Could not find test scenario object/u);
 		assert.throws(() => {
 			ruleTester.run(
 				"foo",
 				require("../../fixtures/testers/rule-tester/modify-ast-at-last"),
 				2,
 			);
-		}, "Test Scenarios for rule foo : Could not find test scenario object");
+		}, /Could not find test scenario object/u);
 		assert.throws(() => {
 			ruleTester.run(
 				"foo",
 				require("../../fixtures/testers/rule-tester/modify-ast-at-last"),
 				{},
 			);
-		}, "Test Scenarios for rule foo is invalid:\nCould not find any valid test scenarios\nCould not find any invalid test scenarios");
+		}, /No valid or invalid test scenarios found/u);
 		assert.throws(() => {
 			ruleTester.run(
 				"foo",
@@ -2548,7 +2548,7 @@ describe("RuleTester", () => {
 					valid: [],
 				},
 			);
-		}, "Test Scenarios for rule foo is invalid:\nCould not find any invalid test scenarios");
+		}, /No valid or invalid test scenarios found/u);
 		assert.throws(() => {
 			ruleTester.run(
 				"foo",
@@ -2557,7 +2557,7 @@ describe("RuleTester", () => {
 					invalid: [],
 				},
 			);
-		}, "Test Scenarios for rule foo is invalid:\nCould not find any valid test scenarios");
+		}, /No valid or invalid test scenarios found/u);
 	});
 
 	// Nominal message/messageId use cases
@@ -4302,7 +4302,7 @@ describe("RuleTester", () => {
 					require("../../fixtures/testers/rule-tester/no-var"),
 					{
 						valid: ["foo"],
-						invalid: [{ code: "foo", name: 123 }],
+						invalid: [{ code: "foo", name: 123, errors: 1 }],
 					},
 				);
 			}, /Optional test case property 'name' must be a string/u);
