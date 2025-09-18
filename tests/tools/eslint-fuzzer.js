@@ -320,7 +320,10 @@ describe("eslint-fuzzer", function () {
 									node,
 									message: "no foos allowed",
 									fix: fixer =>
-										fixer.replaceText(node, "bar"),
+										fixer.replaceText(
+											node,
+											`bar ${disableFixableRulesComment}`,
+										),
 								});
 							} else if (
 								sourceCode.text ===

@@ -118,6 +118,7 @@ describe("TokenStore", () => {
 
 		it("should retrieve all tokens and comments in the node for root node with includeComments option", () => {
 			check(store.getTokens(Program, { includeComments: true }), [
+				"A",
 				"var",
 				"answer",
 				"B",
@@ -133,6 +134,7 @@ describe("TokenStore", () => {
 				"(",
 				")",
 				";",
+				"Z",
 			]);
 		});
 
@@ -142,7 +144,7 @@ describe("TokenStore", () => {
 					includeComments: true,
 					filter: t => t.type.startsWith("Block"),
 				}),
-				["B", "C", "D", "E"],
+				["A", "B", "C", "D", "E", "Z"],
 			);
 		});
 
@@ -1778,10 +1780,6 @@ describe("TokenStore", () => {
 			assert.strictEqual(comments[1].value, "F");
 		});
 
-		it("should retrieve comments before a Program node", () => {
-			assert.strictEqual(store.getCommentsBefore(Program)[0].value, "A");
-		});
-
 		it("should return an empty array if there are no comments before a node or token", () => {
 			check(store.getCommentsBefore(BinaryExpression.right), []);
 			check(store.getCommentsBefore(TOKENS[1]), []);
@@ -1811,10 +1809,6 @@ describe("TokenStore", () => {
 			assert.strictEqual(comments[1].value, "F");
 		});
 
-		it("should retrieve comments after a Program node", () => {
-			assert.strictEqual(store.getCommentsAfter(Program)[0].value, "Z");
-		});
-
 		it("should return an empty array if there are no comments after a node or token", () => {
 			check(store.getCommentsAfter(CallExpression.callee), []);
 			check(store.getCommentsAfter(TOKENS[0]), []);
@@ -1823,7 +1817,15 @@ describe("TokenStore", () => {
 
 	describe("getCommentsInside", () => {
 		it("should retrieve comments inside a node", () => {
-			check(store.getCommentsInside(Program), ["B", "C", "D", "E", "F"]);
+			check(store.getCommentsInside(Program), [
+				"A",
+				"B",
+				"C",
+				"D",
+				"E",
+				"F",
+				"Z",
+			]);
 			check(store.getCommentsInside(VariableDeclaration), [
 				"B",
 				"C",
