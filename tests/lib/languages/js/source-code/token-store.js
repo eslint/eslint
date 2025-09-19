@@ -1780,6 +1780,10 @@ describe("TokenStore", () => {
 			assert.strictEqual(comments[1].value, "F");
 		});
 
+		it("should return an empty array for a Program node", () => {
+			check(store.getCommentsBefore(Program), []);
+		});
+
 		it("should return an empty array if there are no comments before a node or token", () => {
 			check(store.getCommentsBefore(BinaryExpression.right), []);
 			check(store.getCommentsBefore(TOKENS[1]), []);
@@ -1807,6 +1811,10 @@ describe("TokenStore", () => {
 			assert.strictEqual(comments.length, 2);
 			assert.strictEqual(comments[0].value, "E");
 			assert.strictEqual(comments[1].value, "F");
+		});
+
+		it("should return an empty array for a Program node", () => {
+			check(store.getCommentsAfter(Program), []);
 		});
 
 		it("should return an empty array if there are no comments after a node or token", () => {
