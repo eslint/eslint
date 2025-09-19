@@ -18,8 +18,12 @@ further_reading:
 Spacing around commas improves readability of a list of items. Although most of the style guidelines for languages prescribe adding a space after a comma and not before it, it is subjective to the preferences of a project.
 
 ```js
-var foo = 1, bar = 2;
-var foo = 1 ,bar = 2;
+// var foo = 1, bar = 2;
+// var foo = 1 ,bar = 2;
+const foo = 1, bar = 2;
+const foo = 1 ,bar = 2;
+const arr = [1 , 2];
+const obj = {"foo": "bar" ,"baz": "qur"};
 ```
 
 ## Rule Details
