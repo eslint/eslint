@@ -2429,6 +2429,11 @@
     },
     "no-misleading-character-class": {
         "type": "problem",
+        "defaultOptions": [
+            {
+                "allowEscape": false
+            }
+        ],
         "docs": {
             "description": "Disallow characters which are made with multiple code points in character class syntax",
             "recommended": true,
@@ -4153,6 +4158,11 @@
     },
     "preserve-caught-error": {
         "type": "suggestion",
+        "defaultOptions": [
+            {
+                "requireCatchParameter": false
+            }
+        ],
         "docs": {
             "description": "Disallow losing originally caught error when re-throwing custom errors",
             "recommended": false,
@@ -4255,6 +4265,9 @@
     },
     "require-unicode-regexp": {
         "type": "suggestion",
+        "defaultOptions": [
+            {}
+        ],
         "docs": {
             "description": "Enforce the use of `u` or `v` flag on regular expressions",
             "recommended": false,
