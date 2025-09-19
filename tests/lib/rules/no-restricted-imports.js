@@ -3894,7 +3894,6 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					messageId: "path",
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -3913,7 +3912,6 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					messageId: "path",
-					type: "ExportNamedDeclaration",
 				},
 			],
 		},
@@ -3923,7 +3921,6 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					messageId: "path",
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -3933,7 +3930,6 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					messageId: "path",
-					type: "ExportNamedDeclaration",
 				},
 			],
 		},
@@ -3952,7 +3948,6 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					messageId: "patterns",
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -3971,7 +3966,6 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					messageId: "patterns",
-					type: "ExportNamedDeclaration",
 				},
 			],
 		},
@@ -3994,7 +3988,6 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					messageId: "pathWithCustomMessage",
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -4017,7 +4010,6 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					messageId: "pathWithCustomMessage",
-					type: "ExportNamedDeclaration",
 				},
 			],
 		},
@@ -4038,7 +4030,6 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					messageId: "importNameWithCustomMessage",
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -4059,7 +4050,6 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					messageId: "importNameWithCustomMessage",
-					type: "ExportNamedDeclaration",
 				},
 			],
 		},
@@ -4084,7 +4074,6 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					messageId: "patternWithCustomMessage",
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -4109,7 +4098,6 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					messageId: "patternWithCustomMessage",
-					type: "ExportNamedDeclaration",
 				},
 			],
 		},
@@ -4127,7 +4115,6 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					messageId: "path",
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -4146,7 +4133,6 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					messageId: "path",
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -4166,7 +4152,6 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					messageId: "pathWithCustomMessage",
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -4207,7 +4192,6 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					messageId: "importNameWithCustomMessage",
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -4338,7 +4322,6 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					messageId: "patterns",
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -4614,6 +4597,26 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 					messageId: "path",
 					type: "ExportNamedDeclaration",
 					line: 2,
+				},
+			],
+		},
+		{
+			code: `import { baz } from "foo";`,
+			options: [
+				{
+					paths: [
+						{
+							name: "foo",
+							allowImportNames: ["bar"],
+							allowTypeImports: true,
+						},
+					],
+				},
+			],
+			errors: [
+				{
+					messageId: "allowedImportName",
+					line: 1,
 				},
 			],
 		},
