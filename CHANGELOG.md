@@ -1,3 +1,29 @@
+v9.36.0 - September 19, 2025
+
+* [`12411e8`](https://github.com/eslint/eslint/commit/12411e8d450ed26a5f7cca6a78ec05323c9323e8) chore: upgrade @eslint/js@9.36.0 (#20139) (Milos Djermanovic)
+* [`488cba6`](https://github.com/eslint/eslint/commit/488cba6b391b97b2cfc74bbb46fdeacb1361949e) chore: package.json update for @eslint/js release (Jenkins)
+* [`b73ab12`](https://github.com/eslint/eslint/commit/b73ab12acd3e87f8d8173cda03499f6cd1f26db6) docs: update examples to use `defineConfig` (#20131) (sethamus)
+* [`47afcf6`](https://github.com/eslint/eslint/commit/47afcf668df65eac68d7b04145d037037010a076) feat: correct `preserve-caught-error` edge cases (#20109) (Francesco Trotta)
+* [`75b74d8`](https://github.com/eslint/eslint/commit/75b74d865d3b8e7fa3bcf5ad29f4bf6d18d1310e) fix: add missing rule option types (#20127) (ntnyq)
+* [`bac82a2`](https://github.com/eslint/eslint/commit/bac82a2a9c80a3f69087852758d7737aea371f09) ci: simplify renovate configuration (#19907) (唯然)
+* [`1c0d850`](https://github.com/eslint/eslint/commit/1c0d85049e3f30a8809340c1abc881c63b7812ff) fix: update `eslint-all.js` to use `Object.freeze` for `rules` object (#20116) (루밀LuMir)
+* [`c00bb37`](https://github.com/eslint/eslint/commit/c00bb37d62c1bcc0a37f094371be9c40064009f1) ci: bump actions/labeler from 5 to 6 (#20090) (dependabot[bot])
+* [`fee751d`](https://github.com/eslint/eslint/commit/fee751dc8aeab54547af4538332ea5c069ef28b6) refactor: use `defaultOptions` in rules (#20121) (Pixel998)
+* [`31d9392`](https://github.com/eslint/eslint/commit/31d93926990fba536846ec727d7a2625fc844649) docs: fix typos (#20118) (Pixel998)
+* [`7d61b7f`](https://github.com/eslint/eslint/commit/7d61b7fadc9c5c6f2b131e37e8a3cffa5aae8ee6) fix: add missing scope types to `Scope.type` (#20110) (Pixel998)
+* [`1ace67d`](https://github.com/eslint/eslint/commit/1ace67d9f7903adc3d3f09868aa05b673e7d3f3b) chore: update example to use `defineConfig` (#20111) (루밀LuMir)
+* [`4821963`](https://github.com/eslint/eslint/commit/4821963bf765532069c49e9da9ecbe9485b073fc) test: add missing loc information to error objects in rule tests (#20112) (루밀LuMir)
+* [`c7f861b`](https://github.com/eslint/eslint/commit/c7f861b3f8c1ac961b4cd4f22483798f3324c62b) docs: Update README (GitHub Actions Bot)
+* [`6b0c08b`](https://github.com/eslint/eslint/commit/6b0c08b106aa66f2e9fa484282f0eb63c64a1215) docs: Update README (GitHub Actions Bot)
+* [`7a670c3`](https://github.com/eslint/eslint/commit/7a670c301b58609017ce8cfda99ee81f95de3898) fix: correct rule option typings in `rules.d.ts` (#20084) (Pixel998)
+* [`b42c42e`](https://github.com/eslint/eslint/commit/b42c42e7cd3ac9ee1b5a15f16ff25b325d0482e4) chore: disallow use of deprecated `type` property in core rule tests (#20094) (Milos Djermanovic)
+* [`7bb498d`](https://github.com/eslint/eslint/commit/7bb498d720dcd054cc042ca4b60b138d8485f07c) test: remove deprecated `type` property from core rule tests (#20093) (Pixel998)
+* [`91f97c5`](https://github.com/eslint/eslint/commit/91f97c50468fbdc089c91e99c2ea0fe821911df2) docs: Update README (GitHub Actions Bot)
+* [`e10cf2a`](https://github.com/eslint/eslint/commit/e10cf2ab42fe5b481d980dc652f7504414747733) ci: bump actions/setup-node from 4 to 5 (#20089) (dependabot[bot])
+* [`5cb0ce4`](https://github.com/eslint/eslint/commit/5cb0ce48ef6cfbbe6d09131c33a53f9d66fe9bd4) refactor: use `meta.defaultOptions` in `preserve-caught-error` (#20080) (Pixel998)
+* [`f9f7cb5`](https://github.com/eslint/eslint/commit/f9f7cb578dced3c14f635e17c75aa6744d291f4d) chore: package.json update for eslint-config-eslint release (Jenkins)
+* [`81764b2`](https://github.com/eslint/eslint/commit/81764b298065a328038cd067bc8fedef97e57500) chore: update `eslint` peer dependency in `eslint-config-eslint` (#20079) (Milos Djermanovic)
+
 v9.35.0 - September 5, 2025
 
 * [`da87f2f`](https://github.com/eslint/eslint/commit/da87f2fe792cab5b69b62bf5c15e69ab4f433087) chore: upgrade @eslint/js@9.35.0 (#20077) (Milos Djermanovic)
