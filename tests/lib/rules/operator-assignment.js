@@ -117,7 +117,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -128,7 +127,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "-=" },
 				},
 			],
@@ -139,7 +137,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "*=" },
 				},
 			],
@@ -150,7 +147,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "*=" },
 				},
 			],
@@ -161,7 +157,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "*=" },
 				},
 			],
@@ -172,7 +167,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "/=" },
 				},
 			],
@@ -183,7 +177,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "%=" },
 				},
 			],
@@ -194,7 +187,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "<<=" },
 				},
 			],
@@ -205,7 +197,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: ">>=" },
 				},
 			],
@@ -216,7 +207,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: ">>>=" },
 				},
 			],
@@ -227,7 +217,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "&=" },
 				},
 			],
@@ -238,7 +227,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "^=" },
 				},
 			],
@@ -249,7 +237,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "|=" },
 				},
 			],
@@ -260,7 +247,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "-=" },
 				},
 			],
@@ -271,7 +257,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "*=" },
 				},
 			],
@@ -283,7 +268,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -295,7 +279,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -307,7 +290,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -319,7 +301,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -331,7 +312,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -342,7 +322,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -354,7 +333,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -365,7 +343,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -377,7 +354,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -388,7 +364,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -400,7 +375,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -411,7 +385,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -423,7 +396,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -434,7 +406,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -445,7 +416,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -457,7 +427,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: ">>>=" },
 				},
 			],
@@ -469,7 +438,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: ">>>=" },
 				},
 			],
@@ -480,7 +448,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "/=" },
 				},
 			],
@@ -491,7 +458,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "/=" },
 				},
 			],
@@ -503,7 +469,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -515,7 +480,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -527,7 +491,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -539,7 +502,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -551,7 +513,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -563,7 +524,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -575,7 +535,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -587,7 +546,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -599,7 +557,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -611,7 +568,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -623,7 +579,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -635,7 +590,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -647,7 +601,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -659,7 +612,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -671,7 +623,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -683,7 +634,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -695,7 +645,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "^=" },
 				},
 			],
@@ -706,7 +655,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "**=" },
 				},
 			],
@@ -718,7 +666,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "**=" },
 				},
 			],
@@ -730,7 +677,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "*=" },
 				},
 			],
@@ -742,7 +688,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "-=" },
 				},
 			],
@@ -754,7 +699,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -766,7 +710,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -778,7 +721,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "*=" },
 				},
 			],
@@ -790,7 +732,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -802,7 +743,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "/=" },
 				},
 			],
@@ -814,7 +754,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "/=" },
 				},
 			],
@@ -826,7 +765,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "/=" },
 				},
 			],
@@ -838,7 +776,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "/=" },
 				},
 			],
@@ -850,7 +787,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -862,7 +798,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -874,7 +809,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -886,7 +820,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -899,7 +832,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],
@@ -910,7 +842,6 @@ ruleTester.run("operator-assignment", rule, {
 			errors: [
 				{
 					messageId: "replaced",
-					type: "AssignmentExpression",
 					data: { operator: "+=" },
 				},
 			],

@@ -158,7 +158,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewline",
-					type: "ObjectExpression",
 					line: 1,
 					column: 25,
 					endLine: 1,
@@ -166,7 +165,6 @@ ruleTester.run("object-property-newline", rule, {
 				},
 				{
 					messageId: "propertiesOnNewline",
-					type: "ObjectExpression",
 					line: 1,
 					column: 37,
 					endLine: 1,
@@ -180,7 +178,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewline",
-					type: "ObjectExpression",
 					line: 1,
 					column: 25,
 					endLine: 1,
@@ -194,7 +191,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewline",
-					type: "ObjectExpression",
 					line: 2,
 					column: 13,
 					endLine: 2,
@@ -208,7 +204,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewline",
-					type: "ObjectExpression",
 					line: 2,
 					column: 13,
 					endLine: 2,
@@ -216,7 +211,6 @@ ruleTester.run("object-property-newline", rule, {
 				},
 				{
 					messageId: "propertiesOnNewline",
-					type: "ObjectExpression",
 					line: 3,
 					column: 13,
 					endLine: 3,
@@ -230,7 +224,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewline",
-					type: "ObjectExpression",
 					line: 1,
 					column: 32,
 					endLine: 1,
@@ -244,7 +237,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewline",
-					type: "ObjectExpression",
 					line: 3,
 					column: 4,
 					endLine: 3,
@@ -258,7 +250,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewline",
-					type: "ObjectExpression",
 					line: 2,
 					column: 13,
 					endLine: 2,
@@ -266,7 +257,6 @@ ruleTester.run("object-property-newline", rule, {
 				},
 				{
 					messageId: "propertiesOnNewline",
-					type: "ObjectExpression",
 					line: 2,
 					column: 29,
 					endLine: 2,
@@ -274,7 +264,6 @@ ruleTester.run("object-property-newline", rule, {
 				},
 				{
 					messageId: "propertiesOnNewline",
-					type: "ObjectExpression",
 					line: 2,
 					column: 41,
 					endLine: 2,
@@ -288,7 +277,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewline",
-					type: "ObjectExpression",
 					line: 3,
 					column: 17,
 					endLine: 3,
@@ -302,7 +290,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewline",
-					type: "ObjectExpression",
 					line: 4,
 					column: 4,
 					endLine: 4,
@@ -317,7 +304,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewline",
-					type: "ObjectExpression",
 					line: 1,
 					column: 25,
 					endLine: 1,
@@ -332,7 +318,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewline",
-					type: "ObjectExpression",
 					line: 1,
 					column: 25,
 					endLine: 1,
@@ -347,7 +332,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewline",
-					type: "ObjectExpression",
 					line: 2,
 					column: 13,
 					endLine: 2,
@@ -361,7 +345,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewline",
-					type: "ObjectExpression",
 					line: 1,
 					column: 19,
 					endLine: 1,
@@ -375,7 +358,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewline",
-					type: "ObjectExpression",
 					line: 2,
 					column: 13,
 					endLine: 2,
@@ -390,7 +372,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewline",
-					type: "ObjectExpression",
 					line: 1,
 					column: 10,
 					endLine: 1,
@@ -405,7 +386,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewline",
-					type: "ObjectExpression",
 					line: 2,
 					column: 4,
 					endLine: 2,
@@ -420,7 +400,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewline",
-					type: "ObjectExpression",
 					line: 2,
 					column: 11,
 					endLine: 2,
@@ -435,7 +414,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewline",
-					type: "ObjectExpression",
 					line: 2,
 					column: 15,
 					endLine: 2,
@@ -450,7 +428,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewline",
-					type: "ObjectExpression",
 					line: 1,
 					column: 19,
 					endLine: 1,
@@ -465,7 +442,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewline",
-					type: "ObjectExpression",
 					line: 1,
 					column: 19,
 					endLine: 1,
@@ -480,7 +456,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewline",
-					type: "ObjectExpression",
 					line: 2,
 					column: 13,
 					endLine: 2,
@@ -494,7 +469,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewline",
-					type: "ObjectExpression",
 					line: 5,
 					column: 4,
 					endLine: 5,
@@ -508,7 +482,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewline",
-					type: "ObjectExpression",
 					line: 1,
 					column: 26,
 					endLine: 1,
@@ -522,7 +495,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewline",
-					type: "ObjectExpression",
 					line: 1,
 					column: 26,
 					endLine: 1,
@@ -539,7 +511,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewlineAll",
-					type: "ObjectExpression",
 					line: 3,
 					column: 13,
 					endLine: 3,
@@ -554,7 +525,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewlineAll",
-					type: "ObjectExpression",
 					line: 3,
 					column: 9,
 					endLine: 3,
@@ -562,7 +532,6 @@ ruleTester.run("object-property-newline", rule, {
 				},
 				{
 					messageId: "propertiesOnNewlineAll",
-					type: "ObjectExpression",
 					line: 3,
 					column: 21,
 					endLine: 3,
@@ -577,7 +546,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewlineAll",
-					type: "ObjectExpression",
 					line: 4,
 					column: 4,
 					endLine: 4,
@@ -592,7 +560,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewlineAll",
-					type: "ObjectExpression",
 					line: 3,
 					column: 4,
 					endLine: 3,
@@ -607,7 +574,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewlineAll",
-					type: "ObjectExpression",
 					line: 2,
 					column: 13,
 					endLine: 2,
@@ -615,7 +581,6 @@ ruleTester.run("object-property-newline", rule, {
 				},
 				{
 					messageId: "propertiesOnNewlineAll",
-					type: "ObjectExpression",
 					line: 4,
 					column: 4,
 					endLine: 4,
@@ -630,7 +595,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewlineAll",
-					type: "ObjectExpression",
 					line: 4,
 					column: 4,
 					endLine: 4,
@@ -646,7 +610,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewlineAll",
-					type: "ObjectExpression",
 					line: 2,
 					column: 14,
 					endLine: 2,
@@ -662,7 +625,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewlineAll",
-					type: "ObjectExpression",
 					line: 3,
 					column: 13,
 					endLine: 3,
@@ -678,7 +640,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewlineAll",
-					type: "ObjectExpression",
 					line: 3,
 					column: 13,
 					endLine: 3,
@@ -694,7 +655,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewlineAll",
-					type: "ObjectExpression",
 					line: 2,
 					column: 14,
 					endLine: 2,
@@ -710,7 +670,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewlineAll",
-					type: "ObjectExpression",
 					line: 3,
 					column: 13,
 					endLine: 3,
@@ -726,7 +685,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewlineAll",
-					type: "ObjectExpression",
 					line: 3,
 					column: 13,
 					endLine: 3,
@@ -743,7 +701,6 @@ ruleTester.run("object-property-newline", rule, {
 			errors: [
 				{
 					messageId: "propertiesOnNewlineAll",
-					type: "ObjectExpression",
 					line: 3,
 					column: 13,
 					endLine: 3,

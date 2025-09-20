@@ -897,6 +897,21 @@ type DeprecatedRuleContextKeys =
 	},
 });
 
+// `meta.docs.recommended` can be any type
+(): JSRuleDefinition => ({
+	create() {
+		return {};
+	},
+	meta: {
+		docs: {
+			recommended: {
+				severity: "warn",
+				options: ["never"],
+			},
+		},
+	},
+});
+
 // #endregion
 
 // #region Linter
@@ -1482,6 +1497,11 @@ linterWithEslintrcConfig.getRules();
 	eslint = new ESLint({ cache: true });
 	eslint = new ESLint({ cacheLocation: "foo" });
 	eslint = new ESLint({ cacheStrategy: "content" });
+
+	eslint = new ESLint({ concurrency: 8 });
+	eslint = new ESLint({ concurrency: "auto" });
+	eslint = new ESLint({ concurrency: "off" });
+
 	eslint = new ESLint({ cwd: "foo" });
 	eslint = new ESLint({ errorOnUnmatchedPattern: true });
 	eslint = new ESLint({ fix: true });
@@ -1603,6 +1623,15 @@ linterWithEslintrcConfig.getRules();
 	})();
 
 	const hasFooFlag: boolean = eslint.hasFlag("foo");
+
+	ESLint.fromOptionsModule(new URL("file:///path/to/file.js")).then(
+		eslint => {
+			eslint; // $ExpectType ESLint
+		},
+	);
+
+	// @ts-expect-error // String not allowed
+	ESLint.fromOptionsModule("data:text/javascript,export default [{}];");
 }
 
 // #endregion
@@ -1824,35 +1853,40 @@ for (const result of results) {
 
 // #region ESLintRules
 
-let eslintConfig: Linter.LegacyConfig<ESLintRules>;
+let eslintConfig: Linter.Config<ESLintRules>[];
 
-eslintConfig = {
-	rules: {
-		"capitalized-comments": [2, "always", { ignorePattern: "const|let" }],
-		"no-promise-executor-return": [2, { allowVoid: true }],
-		"sort-keys": [2, "asc", { allowLineSeparatedGroups: true }],
+eslintConfig = [
+	{
+		rules: {
+			"capitalized-comments": [
+				2,
+				"always",
+				{ ignorePattern: "const|let" },
+			],
+			"no-promise-executor-return": [2, { allowVoid: true }],
+			"sort-keys": [2, "asc", { allowLineSeparatedGroups: true }],
+		},
 	},
-	overrides: [
-		{
-			files: "*.json",
-			rules: {
-				"max-len": 0,
-			},
+	{
+		files: ["**/*.json"],
+		rules: {
+			"no-restricted-syntax": 0,
 		},
-		{
-			files: "*.ts",
-			rules: {
-				"@typescript-eslint/no-invalid-void-type": [
-					2,
-					{ allowAsThisParameter: true },
-				],
-			},
+	},
+	{
+		files: ["**/*.ts"],
+		rules: {
+			"@typescript-eslint/no-invalid-void-type": [
+				2,
+				{ allowAsThisParameter: true },
+			],
 		},
-	],
-};
+	},
+];
 
-eslintConfig.rules; // $ExpectType Partial<ESLintRules> | undefined
-eslintConfig.overrides?.[0].rules; // $ExpectType Partial<ESLintRules> | undefined
+(configIndex: number) => {
+	eslintConfig[configIndex].rules; // $ExpectType Partial<ESLintRules> | undefined
+};
 
 interface TSLinterRules {
 	"@typescript-eslint/no-invalid-void-type"?: Linter.RuleEntry<
@@ -1865,19 +1899,17 @@ interface TSLinterRules {
 	>;
 }
 
-const eslintConfig2: Linter.LegacyConfig<
-	ESLintRules,
-	ESLintRules & TSLinterRules
-> = eslintConfig;
+const eslintConfig2: Linter.Config<ESLintRules & TSLinterRules>[] =
+	eslintConfig;
 
-eslintConfig2.rules; // $ExpectType Partial<ESLintRules> | undefined
-eslintConfig2.overrides?.[1].rules; // $ExpectType Partial<ESLintRules & TSLinterRules> | undefined
+(configIndex: number) => {
+	eslintConfig2[configIndex].rules; // $ExpectType Partial<ESLintRules & TSLinterRules> | undefined
+};
 
-const eslintConfig3: Linter.LegacyConfig<ESLintRules & TSLinterRules> =
-	eslintConfig2;
-
-eslintConfig3.rules; // $ExpectType Partial<ESLintRules & TSLinterRules> | undefined
-eslintConfig3.overrides?.[1].rules; // $ExpectType Partial<ESLintRules & TSLinterRules> | undefined
+(configIndex: number) => {
+	const rules: Partial<Linter.RulesRecord> | undefined =
+		eslintConfig2[configIndex].rules;
+};
 
 // #endregion
 
@@ -1892,6 +1924,15 @@ ruleTester.run("my-rule", rule, {
 		{ code: "foo", filename: "test.js" },
 		{ code: "foo", languageOptions: { globals: { foo: true } } },
 		{ code: "foo", settings: { foo: true } },
+		{
+			code: "foo",
+			before() {
+				/* do something */
+			},
+			after() {
+				/* undo something */
+			},
+		},
 		RuleTester.only("foo"),
 	],
 
@@ -1922,6 +1963,12 @@ ruleTester.run("my-rule", rule, {
 			],
 		},
 		{ code: "foo", errors: 1, only: true },
+		{
+			code: "foo",
+			errors: [{ messageId: "bar" }],
+			before: () => {},
+			after: () => {},
+		},
 		// @ts-expect-error // `message` cannot be `undefined`
 		{ code: "foo", errors: [{ message: undefined }], only: true },
 		// @ts-expect-error // `messageId` cannot be `undefined`
@@ -1940,6 +1987,10 @@ ruleTester.run("my-rule", rule, {
 				},
 			],
 		},
+		// @ts-expect-error // `before` should be a function
+		{ code: "foo", errors: [{ messageId: "bar" }], before: {} },
+		// @ts-expect-error // `after` should be a function
+		{ code: "foo", errors: [{ messageId: "bar" }], after: void 0 },
 	],
 });
 

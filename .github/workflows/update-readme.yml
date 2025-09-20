@@ -9,12 +9,12 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Check out repo
-              uses: actions/checkout@v4
+              uses: actions/checkout@v5
               with:
                   token: ${{ secrets.WORKFLOW_PUSH_BOT_TOKEN }}
 
             - name: Set up Node.js
-              uses: actions/setup-node@v4
+              uses: actions/setup-node@v5
 
             - name: Install npm packages
               run: npm install

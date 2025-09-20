@@ -129,7 +129,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: "+" },
-					type: "BinaryExpression",
 					line: 1,
 					column: 2,
 					endColumn: 3,
@@ -143,7 +142,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: "+" },
-					type: "BinaryExpression",
 					line: 1,
 					column: 3,
 					endColumn: 4,
@@ -157,7 +155,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: "+" },
-					type: "BinaryExpression",
 					line: 1,
 					column: 2,
 					endColumn: 3,
@@ -171,7 +168,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: "||" },
-					type: "LogicalExpression",
 					line: 1,
 					column: 2,
 					endColumn: 4,
@@ -185,7 +181,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: "||" },
-					type: "LogicalExpression",
 					line: 1,
 					column: 3,
 					endColumn: 5,
@@ -199,7 +194,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: "||" },
-					type: "LogicalExpression",
 					line: 1,
 					column: 2,
 					endColumn: 4,
@@ -213,7 +207,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: "=" },
-					type: "AssignmentExpression",
 					line: 1,
 					column: 2,
 				},
@@ -226,7 +219,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: "=" },
-					type: "AssignmentExpression",
 					line: 1,
 					column: 2,
 				},
@@ -239,7 +231,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: "=" },
-					type: "AssignmentExpression",
 					line: 1,
 					column: 3,
 				},
@@ -252,7 +243,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: "?" },
-					type: "ConditionalExpression",
 					line: 1,
 					column: 2,
 					endColumn: 3,
@@ -260,7 +250,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: ":" },
-					type: "ConditionalExpression",
 					line: 1,
 					column: 4,
 					endColumn: 5,
@@ -274,7 +263,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: "?" },
-					type: "ConditionalExpression",
 					line: 1,
 					column: 2,
 					endColumn: 3,
@@ -282,7 +270,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: ":" },
-					type: "ConditionalExpression",
 					line: 1,
 					column: 6,
 					endColumn: 7,
@@ -296,7 +283,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: "?" },
-					type: "ConditionalExpression",
 					line: 1,
 					column: 3,
 					endColumn: 4,
@@ -304,7 +290,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: ":" },
-					type: "ConditionalExpression",
 					line: 1,
 					column: 5,
 					endColumn: 6,
@@ -318,7 +303,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: "?" },
-					type: "ConditionalExpression",
 					line: 1,
 					column: 2,
 					endColumn: 3,
@@ -332,7 +316,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: ":" },
-					type: "ConditionalExpression",
 					line: 1,
 					column: 6,
 					endColumn: 7,
@@ -346,7 +329,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: "?" },
-					type: "ConditionalExpression",
 					line: 1,
 					column: 2,
 					endColumn: 3,
@@ -360,7 +342,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: "?" },
-					type: "ConditionalExpression",
 					line: 1,
 					column: 3,
 					endColumn: 4,
@@ -374,7 +355,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: ":" },
-					type: "ConditionalExpression",
 					line: 1,
 					column: 6,
 					endColumn: 7,
@@ -388,7 +368,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: ":" },
-					type: "ConditionalExpression",
 					line: 1,
 					column: 7,
 					endColumn: 8,
@@ -402,7 +381,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: "=" },
-					type: "VariableDeclarator",
 					line: 1,
 					column: 6,
 				},
@@ -415,7 +393,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: "=" },
-					type: "VariableDeclarator",
 					line: 1,
 					column: 6,
 				},
@@ -428,7 +405,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: "=" },
-					type: "VariableDeclarator",
 					line: 1,
 					column: 7,
 				},
@@ -441,7 +417,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: "=" },
-					type: "VariableDeclarator",
 					line: 1,
 					column: 13,
 				},
@@ -459,7 +434,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: "|" },
-					type: "BinaryExpression",
 					line: 1,
 					column: 2,
 				},
@@ -472,7 +446,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: "||" },
-					type: "LogicalExpression",
 					line: 1,
 					column: 43,
 				},
@@ -485,7 +458,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: "||" },
-					type: "LogicalExpression",
 					line: 1,
 					column: 16,
 				},
@@ -498,7 +470,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: "||" },
-					type: "LogicalExpression",
 					line: 1,
 					column: 15,
 				},
@@ -512,7 +483,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: "=" },
-					type: "VariableDeclarator",
 					line: 1,
 					column: 16,
 				},
@@ -528,14 +498,12 @@ ruleTester.run("space-infix-ops", rule, {
 					data: { operator: "=" },
 					line: 1,
 					column: 7,
-					type: "AssignmentPattern",
 				},
 				{
 					messageId: "missingSpace",
 					data: { operator: "=" },
 					line: 1,
 					column: 10,
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -549,7 +517,6 @@ ruleTester.run("space-infix-ops", rule, {
 					data: { operator: "=" },
 					line: 1,
 					column: 15,
-					type: "AssignmentPattern",
 				},
 			],
 		},
@@ -563,7 +530,6 @@ ruleTester.run("space-infix-ops", rule, {
 					data: { operator: "**" },
 					line: 1,
 					column: 2,
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -576,7 +542,6 @@ ruleTester.run("space-infix-ops", rule, {
 					data: { operator: "in" },
 					line: 1,
 					column: 6,
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -589,7 +554,6 @@ ruleTester.run("space-infix-ops", rule, {
 					data: { operator: "instanceof" },
 					line: 1,
 					column: 6,
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -609,7 +573,6 @@ ruleTester.run("space-infix-ops", rule, {
 				{
 					messageId: "missingSpace",
 					data: { operator: "=" },
-					type: "VariableDeclarator",
 					line: 1,
 					column: 11,
 				},
@@ -632,7 +595,6 @@ ruleTester.run("space-infix-ops", rule, {
 					data: { operator: "=" },
 					line: 1,
 					column: 23,
-					type: "AssignmentPattern",
 				},
 			],
 		},
@@ -650,7 +612,6 @@ ruleTester.run("space-infix-ops", rule, {
 					column: 2,
 					endLine: 1,
 					endColumn: 5,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -666,7 +627,6 @@ ruleTester.run("space-infix-ops", rule, {
 					column: 3,
 					endLine: 1,
 					endColumn: 6,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -682,7 +642,6 @@ ruleTester.run("space-infix-ops", rule, {
 					column: 2,
 					endLine: 1,
 					endColumn: 5,
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -700,7 +659,6 @@ ruleTester.run("space-infix-ops", rule, {
 					column: 12,
 					endLine: 1,
 					endColumn: 13,
-					type: "PropertyDefinition",
 				},
 			],
 		},
@@ -716,7 +674,6 @@ ruleTester.run("space-infix-ops", rule, {
 					column: 15,
 					endLine: 1,
 					endColumn: 16,
-					type: "PropertyDefinition",
 				},
 			],
 		},

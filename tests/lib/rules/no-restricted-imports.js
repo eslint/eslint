@@ -699,7 +699,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					message: "'fs' import is restricted from being used.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 12,
@@ -712,7 +711,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					message: "'os' import is restricted from being used.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 22,
@@ -725,7 +723,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					message: "'foo/bar' import is restricted from being used.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 18,
@@ -738,7 +735,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					message: "'foo/bar' import is restricted from being used.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 33,
@@ -752,7 +748,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'foo/bar' import is restricted from being used by a pattern.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 36,
@@ -766,7 +761,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'foo/bar' import is restricted from being used by a pattern.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 36,
@@ -789,7 +783,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'foo/baz' import is restricted from being used by a pattern. foo is forbidden, use foo/bar instead",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 36,
@@ -812,7 +805,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'foo/baz' import is restricted from being used by a pattern. some foo subimports are restricted",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 36,
@@ -826,7 +818,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'foo/bar' import is restricted from being used by a pattern.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 36,
@@ -840,7 +831,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'foo' import is restricted from being used by a pattern.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 47,
@@ -854,7 +844,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'foo/bar' import is restricted from being used by a pattern.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 38,
@@ -867,7 +856,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					message: "'fs' import is restricted from being used.",
-					type: "ExportAllDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 20,
@@ -880,7 +868,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					message: "'fs' import is restricted from being used.",
-					type: "ExportAllDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 26,
@@ -893,7 +880,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					message: "'fs' import is restricted from being used.",
-					type: "ExportNamedDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 22,
@@ -917,7 +903,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'foo' import from 'fs' is restricted. Don't import 'foo'.",
-					type: "ExportNamedDeclaration",
 					line: 1,
 					column: 9,
 					endColumn: 17,
@@ -941,7 +926,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'foo' import from 'fs' is restricted. Don't import 'foo'.",
-					type: "ExportNamedDeclaration",
 					line: 1,
 					column: 9,
 					endColumn: 19,
@@ -965,7 +949,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'foo' import from 'fs' is restricted. Don't import 'foo'.",
-					type: "ExportNamedDeclaration",
 					line: 1,
 					column: 9,
 					endColumn: 14,
@@ -989,7 +972,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'👍' import from 'fs' is restricted. Don't import '👍'.",
-					type: "ExportNamedDeclaration",
 					line: 1,
 					column: 9,
 					endColumn: 13,
@@ -1013,7 +995,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'' import from 'fs' is restricted. Don't import ''.",
-					type: "ExportNamedDeclaration",
 					line: 1,
 					column: 9,
 					endColumn: 11,
@@ -1037,7 +1018,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"* import is invalid because 'foo' from 'fs' is restricted. Don't import 'foo'.",
-					type: "ExportAllDeclaration",
 					line: 1,
 					column: 8,
 					endColumn: 9,
@@ -1056,7 +1036,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'foo' import is restricted from being used. Please import from 'bar' instead.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 34,
@@ -1077,7 +1056,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'bar' import is restricted from being used. Please import from 'baz' instead.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 34,
@@ -1100,7 +1078,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'foo' import is restricted from being used. Please import from 'bar' instead.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 34,
@@ -1125,7 +1102,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'default' import from 'foo' is restricted. Please import the default import of 'foo' from /bar/ instead.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 8,
 					endColumn: 24,
@@ -1150,7 +1126,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"* import is invalid because 'DisallowedObject' from 'foo' is restricted. Please import 'DisallowedObject' from /bar/ instead.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 8,
 					endColumn: 16,
@@ -1175,7 +1150,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"* import is invalid because 'DisallowedObject' from 'foo' is restricted. Please import 'DisallowedObject' from /bar/ instead.",
-					type: "ExportAllDeclaration",
 					line: 1,
 					column: 8,
 					endColumn: 9,
@@ -1194,7 +1168,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"* import is invalid because 'DisallowedObject1, DisallowedObject2' from 'foo' is restricted.",
-					type: "ExportAllDeclaration",
 					line: 1,
 					column: 8,
 					endColumn: 9,
@@ -1219,7 +1192,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'DisallowedObject' import from 'foo' is restricted. Please import 'DisallowedObject' from /bar/ instead.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 26,
@@ -1244,7 +1216,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'DisallowedObject' import from 'foo' is restricted. Please import 'DisallowedObject' from /bar/ instead.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 43,
@@ -1269,7 +1240,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'DisallowedObject' import from 'foo' is restricted. Please import 'DisallowedObject' from /bar/ instead.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 45,
@@ -1291,7 +1261,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					message: "'👍' import from 'foo' is restricted.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 21,
@@ -1313,7 +1282,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					message: "'' import from 'foo' is restricted.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 19,
@@ -1338,7 +1306,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'DisallowedObject' import from 'foo' is restricted. Please import 'DisallowedObject' from /bar/ instead.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 25,
 					endColumn: 41,
@@ -1363,7 +1330,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'DisallowedObject' import from 'foo' is restricted. Please import 'DisallowedObject' from /bar/ instead.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 25,
 					endColumn: 61,
@@ -1391,7 +1357,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'DisallowedObject' import from 'foo' is restricted. Please import 'DisallowedObject' and 'DisallowedObjectTwo' from /bar/ instead.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 25,
 					endColumn: 61,
@@ -1419,7 +1384,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'DisallowedObject' import from 'foo' is restricted. Please import 'DisallowedObject' and 'DisallowedObjectTwo' from /bar/ instead.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 25,
 					endColumn: 61,
@@ -1444,7 +1408,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'default' import from 'foo' is restricted. Please import the default import of 'foo' from /bar/ instead.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 8,
 					endColumn: 24,
@@ -1469,7 +1432,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'DisallowedObject' import from 'foo' is restricted. Please import 'DisallowedObject' from /bar/ instead.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 25,
 					endColumn: 61,
@@ -1494,7 +1456,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"* import is invalid because 'DisallowedObject' from 'foo' is restricted. Please import 'DisallowedObject' from /bar/ instead.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 23,
 					endColumn: 44,
@@ -1522,7 +1483,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"* import is invalid because 'DisallowedObject,DisallowedObjectTwo' from 'foo' is restricted. Please import 'DisallowedObject' and 'DisallowedObjectTwo' from /bar/ instead.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 23,
 					endColumn: 44,
@@ -1548,7 +1508,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'DisallowedObjectOne' import from 'foo' is restricted.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 29,
@@ -1556,7 +1515,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'DisallowedObjectTwo' import from 'foo' is restricted.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 31,
 					endColumn: 50,
@@ -1584,7 +1542,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'DisallowedObjectOne' import from 'foo' is restricted. Please import this module from /bar/ instead.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 29,
@@ -1592,7 +1549,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'DisallowedObjectTwo' import from 'foo' is restricted. Please import this module from /bar/ instead.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 31,
 					endColumn: 50,
@@ -1615,7 +1571,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'DisallowedObject' import from 'foo' is restricted.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 25,
 					endColumn: 48,
@@ -1637,7 +1592,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					message: "'bar' import from 'mod' is restricted.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 15,
 					endColumn: 18,
@@ -1697,7 +1651,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'Image' import from 'react-native' is restricted. import Image from ui/_components instead",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 15,
@@ -1705,7 +1658,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'Text' import from 'react-native' is restricted. import Text from ui/_components instead",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 17,
 					endColumn: 21,
@@ -1713,7 +1665,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'ScrollView' import from 'react-native' is restricted. import ScrollView from ui/_components instead",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 23,
 					endColumn: 33,
@@ -1742,7 +1693,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'foo' import from 'mod' is restricted. Import foo from qux instead.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 13,
@@ -1750,7 +1700,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'baz' import from 'mod' is restricted. Import baz from qux instead.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 20,
 					endColumn: 23,
@@ -1779,7 +1728,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'foo' import from 'mod' is restricted. Don't use 'foo' and `qux` from 'mod'.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 13,
@@ -1787,7 +1735,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'bar' import from 'mod' is restricted. Use `barbaz` instead of `bar`.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 15,
 					endColumn: 18,
@@ -1795,7 +1742,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'qux' import from 'mod' is restricted. Don't use 'foo' and `qux` from 'mod'.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 25,
 					endColumn: 28,
@@ -1830,7 +1776,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'foo' import from 'mod' is restricted. Don't use 'foo' or 'baz' from 'mod'.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 13,
@@ -1838,7 +1783,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'bar' import from 'mod' is restricted. Use 'b' or `bar` from 'quux/mod' instead.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 15,
 					endColumn: 18,
@@ -1846,7 +1790,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'baz' import from 'mod' is restricted. Don't use 'foo' or 'baz' from 'mod'.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 20,
 					endColumn: 23,
@@ -1875,7 +1818,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"* import is invalid because 'foo' from 'mod' is restricted. Import foo from qux instead.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 8,
 					endColumn: 16,
@@ -1883,7 +1825,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"* import is invalid because 'bar' from 'mod' is restricted. Import bar from qux instead.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 8,
 					endColumn: 16,
@@ -1912,7 +1853,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					message: "'mod' import is restricted from being used.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 26,
@@ -1941,7 +1881,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					message: "'mod' import is restricted from being used.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 26,
@@ -1949,7 +1888,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'bar' import from 'mod' is restricted. Import bar from qux instead.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 13,
@@ -1972,7 +1910,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					message: "'default' import from 'mod' is restricted.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 8,
 					endColumn: 11,
@@ -1994,7 +1931,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					message: "'default' import from 'mod' is restricted.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 8,
 					endColumn: 11,
@@ -2002,7 +1938,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"* import is invalid because 'default' from 'mod' is restricted.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 13,
 					endColumn: 21,
@@ -2015,7 +1950,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					message: "'foo' import is restricted from being used.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 28,
@@ -2037,14 +1971,12 @@ ruleTester.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					message: "'a' import from 'mod' is restricted.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 11,
 				},
 				{
 					message: "'a' import from 'mod' is restricted.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 13,
 					endColumn: 19,
@@ -2066,14 +1998,12 @@ ruleTester.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					message: "'x' import from 'mod' is restricted.",
-					type: "ExportNamedDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 16,
 				},
 				{
 					message: "'x' import from 'mod' is restricted.",
-					type: "ExportNamedDeclaration",
 					line: 1,
 					column: 18,
 					endColumn: 24,
@@ -2095,14 +2025,12 @@ ruleTester.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					message: "'default' import from 'mod' is restricted.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 8,
 					endColumn: 11,
 				},
 				{
 					message: "'default' import from 'mod' is restricted.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 15,
 					endColumn: 29,
@@ -2115,7 +2043,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					message: "'../foo' import is restricted from being used.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 31,
@@ -2128,7 +2055,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					message: "'../foo' import is restricted from being used.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 40,
@@ -2142,7 +2068,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'../foo' import is restricted from being used by a pattern.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 43,
@@ -2155,7 +2080,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					message: "'/foo' import is restricted from being used.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 29,
@@ -2168,7 +2092,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			errors: [
 				{
 					message: "'/foo' import is restricted from being used.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 38,
@@ -2182,7 +2105,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'/foo' import is restricted from being used by a pattern.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 41,
@@ -2196,7 +2118,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'#foo/bar' import is restricted from being used by a pattern.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 45,
@@ -2217,7 +2138,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			],
 			errors: [
 				{
-					type: "ImportDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 13,
@@ -2241,7 +2161,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			],
 			errors: [
 				{
-					type: "ImportDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 13,
@@ -2249,7 +2168,6 @@ ruleTester.run("no-restricted-imports", rule, {
 						"'Foo' import from '../../my/relative-module' is restricted from being used by a pattern. Import from @/utils instead.",
 				},
 				{
-					type: "ImportDeclaration",
 					line: 1,
 					column: 15,
 					endColumn: 18,
@@ -2278,7 +2196,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"* import is invalid because 'Foo' from '../../my/relative-module' is restricted from being used by a pattern.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 8,
 					endColumn: 16,
@@ -2306,7 +2223,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"* import is invalid because 'Foo' from '../../my/relative-module' is restricted from being used by a pattern. Import from @/utils instead.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 8,
 					endColumn: 33,
@@ -2327,7 +2243,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			],
 			errors: [
 				{
-					type: "ImportDeclaration",
 					line: 1,
 					column: 8,
 					endColumn: 11,
@@ -2335,7 +2250,6 @@ ruleTester.run("no-restricted-imports", rule, {
 						"'default' import from 'mod' is restricted from being used by a pattern.",
 				},
 				{
-					type: "ImportDeclaration",
 					line: 1,
 					column: 13,
 					endColumn: 20,
@@ -2358,7 +2272,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			],
 			errors: [
 				{
-					type: "ImportDeclaration",
 					line: 1,
 					column: 8,
 					endColumn: 11,
@@ -2381,7 +2294,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			],
 			errors: [
 				{
-					type: "ImportDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 13,
@@ -2404,7 +2316,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			],
 			errors: [
 				{
-					type: "ImportDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 20,
@@ -2427,7 +2338,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			],
 			errors: [
 				{
-					type: "ImportDeclaration",
 					line: 1,
 					column: 15,
 					endColumn: 18,
@@ -2450,7 +2360,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			],
 			errors: [
 				{
-					type: "ImportDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 13,
@@ -2473,7 +2382,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			],
 			errors: [
 				{
-					type: "ImportDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 16,
@@ -2496,7 +2404,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			],
 			errors: [
 				{
-					type: "ImportDeclaration",
 					line: 1,
 					column: 15,
 					endColumn: 18,
@@ -2519,7 +2426,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			],
 			errors: [
 				{
-					type: "ImportDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 13,
@@ -2527,7 +2433,6 @@ ruleTester.run("no-restricted-imports", rule, {
 						"'Foo' import from '../../my/relative-module' is restricted from being used by a pattern.",
 				},
 				{
-					type: "ImportDeclaration",
 					line: 1,
 					column: 15,
 					endColumn: 18,
@@ -2552,7 +2457,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"* import is invalid because import name matching '/^Foo/u' pattern from 'foo' is restricted from being used.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 8,
 					endColumn: 16,
@@ -2575,7 +2479,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"* import is invalid because import name matching '/^Foo/u' pattern from '../../my/relative-module' is restricted from being used.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 8,
 					endColumn: 16,
@@ -2599,7 +2502,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"* import is invalid because import name matching '/^Foo/u' pattern from '../../my/relative-module' is restricted from being used. Import from @/utils instead.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 8,
 					endColumn: 33,
@@ -2624,7 +2526,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"* import is invalid because 'Foo' from '../../my/relative-module' is restricted from being used by a pattern. Import from @/utils instead.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 8,
 					endColumn: 33,
@@ -2646,7 +2547,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			],
 			errors: [
 				{
-					type: "ImportDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 13,
@@ -2670,7 +2570,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			],
 			errors: [
 				{
-					type: "ImportDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 13,
@@ -2694,7 +2593,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			],
 			errors: [
 				{
-					type: "ImportDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 13,
@@ -2718,7 +2616,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			],
 			errors: [
 				{
-					type: "ImportDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 13,
@@ -2742,7 +2639,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			],
 			errors: [
 				{
-					type: "ImportDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 13,
@@ -2750,7 +2646,6 @@ ruleTester.run("no-restricted-imports", rule, {
 						"'Foo' import from '../../my/relative-module' is restricted from being used by a pattern.",
 				},
 				{
-					type: "ImportDeclaration",
 					line: 1,
 					column: 15,
 					endColumn: 18,
@@ -2773,7 +2668,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			],
 			errors: [
 				{
-					type: "ExportNamedDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 13,
@@ -2796,7 +2690,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			],
 			errors: [
 				{
-					type: "ExportNamedDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 20,
@@ -2820,7 +2713,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			],
 			errors: [
 				{
-					type: "ExportNamedDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 13,
@@ -2843,7 +2735,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			],
 			errors: [
 				{
-					type: "ExportAllDeclaration",
 					line: 1,
 					column: 8,
 					endColumn: 9,
@@ -2866,7 +2757,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			],
 			errors: [
 				{
-					type: "ExportNamedDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 13,
@@ -2891,7 +2781,6 @@ ruleTester.run("no-restricted-imports", rule, {
 			],
 			errors: [
 				{
-					type: "ExportNamedDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 13,
@@ -2916,7 +2805,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'DisallowedObject' import from 'foo' is restricted because only 'AllowedObject' import(s) is/are allowed.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 25,
 					endColumn: 41,
@@ -2941,7 +2829,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'DisallowedObject' import from 'foo' is restricted because only 'AllowedObject' import(s) is/are allowed. Only 'AllowedObject' is allowed to be imported from 'foo'.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 25,
 					endColumn: 41,
@@ -2964,7 +2851,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'DisallowedObject' import from 'foo' is restricted because only 'AllowedObject' import(s) is/are allowed.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 25,
 					endColumn: 41,
@@ -2989,7 +2875,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'DisallowedObject' import from 'foo' is restricted because only 'AllowedObject' import(s) is/are allowed. Only 'AllowedObject' is allowed to be imported from 'foo'.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 25,
 					endColumn: 41,
@@ -3012,7 +2897,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"* import is invalid because only 'AllowedObject' from 'foo' is/are allowed.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 8,
 					endColumn: 26,
@@ -3037,7 +2921,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"* import is invalid because only 'AllowedObject' from 'foo' is/are allowed. Only 'AllowedObject' is allowed to be imported from 'foo'.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 8,
 					endColumn: 26,
@@ -3060,7 +2943,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"* import is invalid because only 'AllowedObject' from 'foo/bar' is/are allowed.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 8,
 					endColumn: 26,
@@ -3085,7 +2967,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"* import is invalid because only 'AllowedObject' from 'foo/bar' is/are allowed. Only 'AllowedObject' is allowed to be imported from 'foo'.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 8,
 					endColumn: 26,
@@ -3108,7 +2989,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"* import is invalid because only imports that match the pattern '/^Allow/u' from 'foo/bar' are allowed.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 8,
 					endColumn: 26,
@@ -3133,7 +3013,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"* import is invalid because only imports that match the pattern '/^Allow/u' from 'foo/bar' are allowed. Only import names starting with 'Allow' are allowed to be imported from 'foo'.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 8,
 					endColumn: 26,
@@ -3156,7 +3035,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'foo/baz' import is restricted from being used by a pattern. foo is forbidden, use bar instead",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 36,
@@ -3180,7 +3058,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'FOO' import is restricted from being used by a pattern. foo is forbidden, use bar instead",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 45,
@@ -3203,7 +3080,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'Foo' import from '../../my/relative-module' is restricted from being used by a pattern.",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 10,
 					endColumn: 13,
@@ -3227,7 +3103,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'foo' import is restricted from being used by a pattern. foo is forbidden, use bar instead",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 1,
 					endColumn: 45,
@@ -3259,7 +3134,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'Foo_Enum' import from '@app/api' is restricted from being used by a pattern.",
-					type: "ImportDeclaration",
 					line: 3,
 					column: 18,
 					endColumn: 26,
@@ -3267,7 +3141,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'Bar_Enum' import from '@app/api/bar' is restricted from being used by a pattern.",
-					type: "ImportDeclaration",
 					line: 4,
 					column: 18,
 					endColumn: 26,
@@ -3275,7 +3148,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'Baz_Enum' import from '@app/api/baz' is restricted from being used by a pattern.",
-					type: "ImportDeclaration",
 					line: 5,
 					column: 18,
 					endColumn: 26,
@@ -3283,7 +3155,6 @@ ruleTester.run("no-restricted-imports", rule, {
 				{
 					message:
 						"'B_Enum' import from '@app/api/enums/foo' is restricted from being used by a pattern.",
-					type: "ImportDeclaration",
 					line: 6,
 					column: 18,
 					endColumn: 24,

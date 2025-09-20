@@ -28,7 +28,11 @@ ruleTester.run("no-with", rule, {
 	invalid: [
 		{
 			code: "with(foo) { bar() }",
-			errors: [{ messageId: "unexpectedWith", type: "WithStatement" }],
+			errors: [
+				{
+					messageId: "unexpectedWith",
+				},
+			],
 		},
 	],
 });

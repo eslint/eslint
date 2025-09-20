@@ -36,27 +36,35 @@ ruleTester.run("no-proto", rule, {
 		{
 			code: "var a = test.__proto__;",
 			errors: [
-				{ messageId: "unexpectedProto", type: "MemberExpression" },
+				{
+					messageId: "unexpectedProto",
+				},
 			],
 		},
 		{
 			code: "var a = test['__proto__'];",
 			errors: [
-				{ messageId: "unexpectedProto", type: "MemberExpression" },
+				{
+					messageId: "unexpectedProto",
+				},
 			],
 		},
 		{
 			code: "var a = test[`__proto__`];",
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
-				{ messageId: "unexpectedProto", type: "MemberExpression" },
+				{
+					messageId: "unexpectedProto",
+				},
 			],
 		},
 		{
 			code: "test[`__proto__`] = function () {};",
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
-				{ messageId: "unexpectedProto", type: "MemberExpression" },
+				{
+					messageId: "unexpectedProto",
+				},
 			],
 		},
 	],

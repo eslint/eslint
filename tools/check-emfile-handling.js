@@ -36,7 +36,13 @@ let FILE_COUNT = DEFAULT_FILE_COUNT;
 // if the platform isn't windows, get the ulimit to see what the actual limit is
 if (os.platform() !== "win32") {
 	try {
-		FILE_COUNT = parseInt(execSync("ulimit -n").toString().trim(), 10) + 1;
+		const limit = execSync("ulimit -n").toString().trim();
+		const parsedLimit = parseInt(limit, 10);
+
+		// "unlimited" will result in NaN, in which case use the default value
+		if (!isNaN(parsedLimit)) {
+			FILE_COUNT = parsedLimit + 1;
+		}
 
 		console.log(`Detected Linux file limit of ${FILE_COUNT}.`);
 

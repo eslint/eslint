@@ -154,55 +154,73 @@ ruleTester.run("no-unused-expressions", rule, {
 		{
 			code: "0",
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
 			code: "a",
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
 			code: "f(), 0",
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
 			code: "{0}",
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
 			code: "[]",
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
 			code: "a && b();",
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
 			code: "a() || false",
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
 			code: "a || (b = c)",
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
 			code: "a ? b() || (c = d) : e",
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
@@ -219,91 +237,119 @@ ruleTester.run("no-unused-expressions", rule, {
 			code: "a && b()",
 			options: [{ allowTernary: true }],
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
 			code: "a ? b() : c()",
 			options: [{ allowShortCircuit: true }],
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
 			code: "a || b",
 			options: [{ allowShortCircuit: true }],
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
 			code: "a() && b",
 			options: [{ allowShortCircuit: true }],
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
 			code: "a ? b : 0",
 			options: [{ allowTernary: true }],
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
 			code: "a ? b : c()",
 			options: [{ allowTernary: true }],
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
 			code: "foo.bar;",
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
 			code: "!a",
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
 			code: "+a",
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
 			code: '"directive one"; f(); "directive two";',
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
 			code: 'function foo() {"directive one"; f(); "directive two"; }',
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
 			code: 'if (0) { "not a directive"; f(); }',
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
 			code: 'function foo() { var foo = true; "use strict"; }',
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
 			code: 'var foo = () => { var foo = true; "use strict"; }',
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
@@ -330,21 +376,27 @@ ruleTester.run("no-unused-expressions", rule, {
 			code: "obj?.foo",
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
 			code: "obj?.foo.bar",
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
 			code: "obj?.foo().bar",
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 
@@ -354,7 +406,9 @@ ruleTester.run("no-unused-expressions", rule, {
 			options: [{ enforceForJSX: true }],
 			languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
@@ -362,7 +416,9 @@ ruleTester.run("no-unused-expressions", rule, {
 			options: [{ enforceForJSX: true }],
 			languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 
@@ -371,7 +427,9 @@ ruleTester.run("no-unused-expressions", rule, {
 			code: "class C { static { 'use strict'; } }",
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
@@ -380,12 +438,10 @@ ruleTester.run("no-unused-expressions", rule, {
 			errors: [
 				{
 					messageId: "unusedExpression",
-					type: "ExpressionStatement",
 					line: 2,
 				},
 				{
 					messageId: "unusedExpression",
-					type: "ExpressionStatement",
 					line: 3,
 				},
 			],
@@ -394,37 +450,51 @@ ruleTester.run("no-unused-expressions", rule, {
 			code: "foo;",
 			options: [{ ignoreDirectives: true }],
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
 			code: '"use strict";',
 			languageOptions: { ecmaVersion: 3, sourceType: "script" },
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
 			code: '"directive one"; "directive two"; f();',
 			languageOptions: { ecmaVersion: 3, sourceType: "script" },
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
 			code: 'function foo() {"use strict"; return true; }',
 			languageOptions: { ecmaVersion: 3, sourceType: "script" },
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 		{
 			code: 'function foo() {"directive one"; "directive two"; f(); }',
 			languageOptions: { ecmaVersion: 3, sourceType: "script" },
 			errors: [
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
-				{ messageId: "unusedExpression", type: "ExpressionStatement" },
+				{
+					messageId: "unusedExpression",
+				},
+				{
+					messageId: "unusedExpression",
+				},
 			],
 		},
 	],

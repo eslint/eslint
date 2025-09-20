@@ -92,7 +92,6 @@ ruleTester.run("line-comment-position", rule, {
 			errors: [
 				{
 					messageId: "above",
-					type: "Line",
 					line: 1,
 					column: 8,
 				},
@@ -103,7 +102,6 @@ ruleTester.run("line-comment-position", rule, {
 			errors: [
 				{
 					messageId: "above",
-					type: "Line",
 					line: 1,
 					column: 8,
 				},
@@ -117,7 +115,6 @@ ruleTester.run("line-comment-position", rule, {
 			errors: [
 				{
 					messageId: "beside",
-					type: "Line",
 					line: 1,
 					column: 1,
 				},
@@ -130,7 +127,6 @@ ruleTester.run("line-comment-position", rule, {
 			errors: [
 				{
 					messageId: "beside",
-					type: "Line",
 					line: 1,
 					column: 1,
 				},
@@ -149,7 +145,6 @@ ruleTester.run("line-comment-position", rule, {
 			errors: [
 				{
 					messageId: "beside",
-					type: "Line",
 					line: 1,
 					column: 1,
 				},
@@ -160,7 +155,6 @@ ruleTester.run("line-comment-position", rule, {
 			errors: [
 				{
 					messageId: "above",
-					type: "Line",
 					line: 1,
 					column: 8,
 				},
@@ -172,7 +166,6 @@ ruleTester.run("line-comment-position", rule, {
 			errors: [
 				{
 					messageId: "beside",
-					type: "Line",
 					line: 1,
 					column: 1,
 				},
@@ -184,7 +177,6 @@ ruleTester.run("line-comment-position", rule, {
 			errors: [
 				{
 					messageId: "beside",
-					type: "Line",
 					line: 2,
 					column: 1,
 				},
@@ -196,7 +188,6 @@ ruleTester.run("line-comment-position", rule, {
 			errors: [
 				{
 					messageId: "above",
-					type: "Line",
 					line: 2,
 					column: 8,
 				},

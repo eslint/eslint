@@ -325,7 +325,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -337,7 +336,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "==" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -349,7 +347,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "===" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -361,7 +358,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "!=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -374,7 +370,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "!=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -386,7 +381,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "!==" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -398,7 +392,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -411,7 +404,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -424,7 +416,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -437,7 +428,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -449,7 +439,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: ">=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -461,7 +450,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -473,7 +461,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: ">" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -485,7 +472,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -497,7 +483,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: "==" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -510,7 +495,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: "==" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -522,7 +506,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: "===" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -535,7 +518,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: "===" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -548,7 +530,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -560,7 +541,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -572,7 +552,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -584,7 +563,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -596,7 +574,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -608,7 +585,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -620,7 +596,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -632,7 +607,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: "<" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -645,7 +619,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: "<" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -658,7 +631,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -670,7 +642,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -683,7 +654,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -696,7 +666,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -708,7 +677,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -720,7 +688,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -732,7 +699,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -744,7 +710,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -757,7 +722,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -769,7 +733,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -781,7 +744,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -794,7 +756,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -806,7 +767,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -819,7 +779,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -831,7 +790,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "==" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -843,7 +801,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "===" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -855,7 +812,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: "===" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -868,7 +824,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: "===" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -879,7 +834,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -891,7 +845,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -903,7 +856,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: ">" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -915,7 +867,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: "===" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -927,7 +878,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: "===" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -941,7 +891,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "===" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -953,7 +902,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "===" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -965,7 +913,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: "===" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -977,7 +924,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: "===" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -989,7 +935,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: "===" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1004,7 +949,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1017,7 +961,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1030,7 +973,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1043,7 +985,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1056,7 +997,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1069,7 +1009,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1081,7 +1020,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1094,7 +1032,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: "<" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1107,7 +1044,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: "<" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1120,7 +1056,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: "<" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1133,7 +1068,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: "<" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1146,7 +1080,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: "<" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1158,7 +1091,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: "<" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1169,7 +1101,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1181,7 +1112,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: ">" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1193,7 +1123,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: "<" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1205,7 +1134,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1217,7 +1145,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: ">=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1229,7 +1156,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1241,7 +1167,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: ">=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1253,7 +1178,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: ">=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1265,7 +1189,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: ">=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1277,7 +1200,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: ">=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1289,7 +1211,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: ">" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1301,7 +1222,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: ">" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1315,7 +1235,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: "<" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1327,7 +1246,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "left", operator: "<" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1339,7 +1257,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1351,7 +1268,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<=" },
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -1363,7 +1279,6 @@ ruleTester.run("yoda", rule, {
 				{
 					messageId: "expected",
 					data: { expectedSide: "right", operator: "<" },
-					type: "BinaryExpression",
 				},
 			],
 		},

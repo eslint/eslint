@@ -30,7 +30,10 @@ ruleTester.run("no-continue", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "ContinueStatement",
+					line: 1,
+					column: 55,
+					endLine: 1,
+					endColumn: 64,
 				},
 			],
 		},
@@ -39,7 +42,10 @@ ruleTester.run("no-continue", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "ContinueStatement",
+					line: 1,
+					column: 64,
+					endLine: 1,
+					endColumn: 81,
 				},
 			],
 		},
@@ -48,7 +54,10 @@ ruleTester.run("no-continue", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "ContinueStatement",
+					line: 1,
+					column: 55,
+					endLine: 1,
+					endColumn: 64,
 				},
 			],
 		},
@@ -57,7 +66,10 @@ ruleTester.run("no-continue", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "ContinueStatement",
+					line: 1,
+					column: 64,
+					endLine: 1,
+					endColumn: 81,
 				},
 			],
 		},

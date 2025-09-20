@@ -19,7 +19,6 @@ const RuleTester = require("../../../lib/rule-tester/rule-tester");
 const errors = [
 	{
 		messageId: "unexpectedStringConcatenation",
-		type: "BinaryExpression",
 	},
 ];
 

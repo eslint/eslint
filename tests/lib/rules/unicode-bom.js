@@ -16,8 +16,12 @@ const rule = require("../../../lib/rules/unicode-bom"),
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();
-const expectedError = { messageId: "expected", type: "Program" };
-const unexpectedError = { messageId: "unexpected", type: "Program" };
+const expectedError = {
+	messageId: "expected",
+};
+const unexpectedError = {
+	messageId: "unexpected",
+};
 
 ruleTester.run("unicode-bom", rule, {
 	valid: [
