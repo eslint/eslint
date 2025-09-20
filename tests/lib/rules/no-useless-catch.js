@@ -168,11 +168,7 @@ ruleTester.run("no-useless-catch", rule, {
                     throw err;
                 }
             `,
-			output: `
-                
-                    foo();
-                
-            `,
+			output: null,
 			errors: [
 				{
 					messageId: "unnecessaryCatch",
@@ -190,13 +186,81 @@ ruleTester.run("no-useless-catch", rule, {
                     foo();
                 }
             `,
-			output: `
+			output: null,
+			errors: [
+				{
+					messageId: "unnecessaryCatchClause",
+					type: "CatchClause",
+				},
+			],
+		},
+		{
+			code: `
                 try {
                     foo();
-                }  finally {
+                } catch (err) {
+                    // line comment
+                    throw err;
+                }
+            `,
+			output: null,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+					type: "TryStatement",
+				},
+			],
+		},
+		{
+			code: `
+                try {
+                    foo();
+                } catch (err) {
+                    // line comment
+                    throw err;
+                } finally {
                     foo();
                 }
             `,
+			output: null,
+			errors: [
+				{
+					messageId: "unnecessaryCatchClause",
+					type: "CatchClause",
+				},
+			],
+		},
+		{
+			code: `
+                try {
+                    foo();
+                } catch (err) {
+                    /* multi-line
+                       comment */
+                    throw err;
+                }
+            `,
+			output: null,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+					type: "TryStatement",
+				},
+			],
+		},
+		{
+			code: `
+                try {
+                    foo();
+                } catch (err) {
+                    /* multi-line
+                       comment */
+                    throw err;
+                } finally {
+                    foo();
+                }
+            `,
+			output: null,
 			errors: [
 				{
 					messageId: "unnecessaryCatchClause",
