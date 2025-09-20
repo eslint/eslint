@@ -677,7 +677,6 @@ ruleTester.run("key-spacing", rule, {
 				},
 			],
 			languageOptions: { ecmaVersion: 6 },
-			errors: [],
 		},
 		{
 			code: [
