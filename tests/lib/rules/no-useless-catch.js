@@ -124,6 +124,11 @@ ruleTester.run("no-useless-catch", rule, {
                     throw err;
                 }
             `,
+			output: `
+                
+                    foo();
+                
+            `,
 			errors: [
 				{
 					messageId: "unnecessaryCatch",
@@ -137,6 +142,13 @@ ruleTester.run("no-useless-catch", rule, {
                 } catch (err) {
                     throw err;
                 } finally {
+                    foo();
+                }
+            `,
+			output: `
+                try {
+                    foo();
+                }  finally {
                     foo();
                 }
             `,
@@ -155,6 +167,11 @@ ruleTester.run("no-useless-catch", rule, {
                     throw err;
                 }
             `,
+			output: `
+                
+                    foo();
+                
+            `,
 			errors: [
 				{
 					messageId: "unnecessaryCatch",
@@ -169,6 +186,13 @@ ruleTester.run("no-useless-catch", rule, {
                     /* some comment */
                     throw err;
                 } finally {
+                    foo();
+                }
+            `,
+			output: `
+                try {
+                    foo();
+                }  finally {
                     foo();
                 }
             `,
@@ -188,10 +212,279 @@ ruleTester.run("no-useless-catch", rule, {
                     }
                 }
             `,
+			output: `
+                async () => {
+                    
+                        await doSomething();
+                    
+                }
+            `,
 			languageOptions: { ecmaVersion: 8 },
 			errors: [
 				{
 					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                if (foo)
+                    try {
+                        doSomething();
+                        doSomethingElse();
+                    } catch (e) {
+                        throw e;
+                    }
+            `,
+			output: `
+                if (foo)
+                    {
+                        doSomething();
+                        doSomethingElse();
+                    }
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+					type: "TryStatement",
+				},
+			],
+		},
+		{
+			code: `
+                while (condition)
+                    try {
+                        doSomething();
+                        doSomethingElse();
+                    } catch (e) {
+                        throw e;
+                    }
+            `,
+			output: `
+                while (condition)
+                    {
+                        doSomething();
+                        doSomethingElse();
+                    }
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+					type: "TryStatement",
+				},
+			],
+		},
+		{
+			code: `
+                for (let i = 0; i < 10; i++)
+                    try {
+                        doSomething();
+                        doSomethingElse();
+                    } catch (e) {
+                        throw e;
+                    }
+            `,
+			output: `
+                for (let i = 0; i < 10; i++)
+                    {
+                        doSomething();
+                        doSomethingElse();
+                    }
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+					type: "TryStatement",
+				},
+			],
+		},
+		{
+			code: `
+                for (const item of items)
+                    try {
+                        doSomething();
+                        doSomethingElse();
+                    } catch (e) {
+                        throw e;
+                    }
+            `,
+			output: `
+                for (const item of items)
+                    {
+                        doSomething();
+                        doSomethingElse();
+                    }
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+					type: "TryStatement",
+				},
+			],
+		},
+		{
+			code: `
+                for (const key in object)
+                    try {
+                        doSomething();
+                        doSomethingElse();
+                    } catch (e) {
+                        throw e;
+                    }
+            `,
+			output: `
+                for (const key in object)
+                    {
+                        doSomething();
+                        doSomethingElse();
+                    }
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+					type: "TryStatement",
+				},
+			],
+		},
+		{
+			code: `
+                do
+                    try {
+                        doSomething();
+                        doSomethingElse();
+                    } catch (e) {
+                        throw e;
+                    }
+                while (condition);
+            `,
+			output: `
+                do
+                    {
+                        doSomething();
+                        doSomethingElse();
+                    }
+                while (condition);
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+					type: "TryStatement",
+				},
+			],
+		},
+		{
+			code: `
+                try { doSomething() } catch (e) { throw e; } doSomethingMore()
+            `,
+			output: `
+                { doSomething() } doSomethingMore()
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+					type: "TryStatement",
+				},
+			],
+		},
+		{
+			code: `
+                try { doSomething(); doSomethingElse(); } catch (e) { throw e; } doSomethingMore()
+            `,
+			output: `
+                { doSomething(); doSomethingElse(); } doSomethingMore()
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+					type: "TryStatement",
+				},
+			],
+		},
+		{
+			code: `
+                if (foo) try { doSomething() } catch (e) { throw e; } doSomethingMore()
+            `,
+			output: `
+                if (foo) { doSomething() } doSomethingMore()
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+					type: "TryStatement",
+				},
+			],
+		},
+		{
+			code: `
+                if (foo) {
+                    try {
+                        doSomething();
+                        doSomethingElse();
+                    } catch (e) {
+                        throw e;
+                    }
+                }
+            `,
+			output: `
+                if (foo) {
+                    
+                        doSomething();
+                        doSomethingElse();
+                    
+                }
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+					type: "TryStatement",
+				},
+			],
+		},
+		{
+			code: `
+                while (condition) {
+                    try {
+                        doSomething();
+                    } catch (e) {
+                        throw e;
+                    }
+                }
+            `,
+			output: `
+                while (condition) {
+                    
+                        doSomething();
+                    
+                }
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+					type: "TryStatement",
+				},
+			],
+		},
+		{
+			code: `
+                for (let i = 0; i < 10; i++) {
+                    try {
+                        doSomething();
+                    } catch (e) {
+                        throw e;
+                    }
+                }
+            `,
+			output: `
+                for (let i = 0; i < 10; i++) {
+                    
+                        doSomething();
+                    
+                }
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+					type: "TryStatement",
 				},
 			],
 		},
