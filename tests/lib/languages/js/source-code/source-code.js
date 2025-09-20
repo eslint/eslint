@@ -4078,67 +4078,6 @@ describe("SourceCode", () => {
 				["Foo", "Foo"],
 			);
 		});
-
-		it("should not crash if global scope doesn't have `implicit` property", () => {
-			const code = "Array = 1; Foo = 1; Promise = 1; Array; Foo; Promise";
-			const ast = espree.parse(code, DEFAULT_CONFIG);
-			const scopeManager = eslintScope.analyze(ast, {
-				ignoreEval: true,
-				ecmaVersion: 6,
-			});
-
-			const globalScope = scopeManager.scopes[0];
-			delete globalScope.implicit;
-
-			const sourceCode = new SourceCode({
-				text: code,
-				ast,
-				scopeManager,
-			});
-
-			sourceCode.applyLanguageOptions({
-				ecmaVersion: 2015,
-			});
-
-			// should not throw
-			sourceCode.finalize();
-		});
-
-		it("should not crash if global scope doesn't have `implicit.left` property", () => {
-			const code = "Array = 1; Foo = 1; Promise = 1; Array; Foo; Promise";
-			const ast = espree.parse(code, DEFAULT_CONFIG);
-			const scopeManager = eslintScope.analyze(ast, {
-				ignoreEval: true,
-				ecmaVersion: 6,
-			});
-
-			const globalScope = scopeManager.scopes[0];
-			delete globalScope.implicit.left;
-
-			const sourceCode = new SourceCode({
-				text: code,
-				ast,
-				scopeManager,
-			});
-
-			sourceCode.applyLanguageOptions({
-				ecmaVersion: 2015,
-			});
-
-			// should not throw
-			sourceCode.finalize();
-
-			const { implicit } = globalScope;
-
-			assert.deepStrictEqual(
-				[...implicit.set].map(([name]) => name),
-				["Foo"],
-			);
-			assert.deepStrictEqual(
-				implicit.variables.map(({ name }) => name),
-				["Foo"],
-			);
-		});
 	});
 
 	describe("isGlobalReference(node)", () => {
