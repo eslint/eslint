@@ -745,11 +745,13 @@ describe("RuleTester", () => {
 			);
 		}
 
-		it("Valid test case must not have 'errors' property", () => {
+		it("allows valid test cases without an errors property", () => {
 			runValidTests([{ code: "" }]);
 			runValidTests([{ code: "", errors: [] }]);
 			runValidTests([{ code: "", errors: 0 }]);
+		});
 
+		it("Valid test case must not have 'errors' property", () => {
 			assert.throws(() => {
 				runValidTests([{ code: "", errors: 1 }]);
 			}, /Valid test case must not have 'errors' property`/u);
@@ -760,8 +762,6 @@ describe("RuleTester", () => {
 		});
 
 		it("Valid test case must not have 'output' property", () => {
-			runValidTests([{ code: "" }]);
-
 			assert.throws(() => {
 				runValidTests([{ code: "", output: "" }]);
 			}, /Valid test case must not have 'output' property/u);
