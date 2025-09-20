@@ -374,7 +374,48 @@ ruleTester.run("no-useless-catch", rule, {
 				},
 			],
 		},
-		// Should still autofix when try-catch is in a statement list context
+		{
+			code: `
+                try { doSomething() } catch (e) { throw e; } doSomethingMore()
+            `,
+			output: `
+                { doSomething() } doSomethingMore()
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+					type: "TryStatement",
+				},
+			],
+		},
+		{
+			code: `
+                try { doSomething(); doSomethingElse(); } catch (e) { throw e; } doSomethingMore()
+            `,
+			output: `
+                { doSomething(); doSomethingElse(); } doSomethingMore()
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+					type: "TryStatement",
+				},
+			],
+		},
+		{
+			code: `
+                if (foo) try { doSomething() } catch (e) { throw e; } doSomethingMore()
+            `,
+			output: `
+                if (foo) { doSomething() } doSomethingMore()
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+					type: "TryStatement",
+				},
+			],
+		},
 		{
 			code: `
                 if (foo) {
