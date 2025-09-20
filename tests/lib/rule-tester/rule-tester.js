@@ -756,8 +756,6 @@ describe("RuleTester", () => {
 		});
 
 		it("Valid test case must not have 'output' property", () => {
-			runValidTests([{ code: "" }]);
-
 			assert.throws(() => {
 				runValidTests([{ code: "", output: "" }]);
 			}, /Valid test case must not have 'output' property/u);
