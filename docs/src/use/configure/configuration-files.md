@@ -423,6 +423,10 @@ export default defineConfig([
 
 #### Cascading Configuration Objects
 
+::: tip
+Cascading provides automatic configuration layering, while [`extends`](#extending-configurations) offers explicit inheritance. Choose cascading for progressive file-based configuration and extends for reusing established configurations.
+:::
+
 When more than one configuration object matches a given filename, the configuration objects are merged with later objects overriding previous objects when there is a conflict. For example:
 
 ```js
@@ -600,6 +604,23 @@ A configuration object uses `extends` to inherit all the traits of another confi
 - a string that specifies the name of a configuration in a plugin
 - a configuration object
 - a configuration array
+
+#### When to Use Extends vs Cascading
+
+Both `extends` and cascading configuration objects can achieve similar organizational results, but they serve different purposes:
+
+**Use `extends` when:**
+- Reusing predefined or shareable configurations from plugins/packages
+- You want explicit inheritance with clear intent 
+- Combining multiple existing configurations
+- Building on established configuration patterns
+
+**Use cascading when:**
+- Creating layered configurations based on file patterns or directories
+- You prefer automatic merging behavior for progressive configuration
+- Building configuration that naturally flows from general to specific rules
+
+For example, use `extends` to inherit from `@eslint/js` recommended rules, but use cascading to apply different rules to test files vs source files.
 
 #### Using Configurations from Plugins
 
