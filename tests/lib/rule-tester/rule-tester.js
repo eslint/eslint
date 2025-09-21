@@ -2518,7 +2518,7 @@ describe("RuleTester", () => {
 				require("../../fixtures/testers/rule-tester/modify-ast-at-last"),
 				[],
 			);
-		}, /No valid or invalid test scenarios found/u);
+		}, /Could not find any valid test scenarios/u);
 		assert.throws(() => {
 			ruleTester.run(
 				"foo",
@@ -2539,7 +2539,7 @@ describe("RuleTester", () => {
 				require("../../fixtures/testers/rule-tester/modify-ast-at-last"),
 				{},
 			);
-		}, /No valid or invalid test scenarios found/u);
+		}, /Could not find any valid test scenarios/u);
 		assert.throws(() => {
 			ruleTester.run(
 				"foo",
@@ -2548,7 +2548,7 @@ describe("RuleTester", () => {
 					valid: [],
 				},
 			);
-		}, /No valid or invalid test scenarios found/u);
+		}, /Could not find any invalid test scenarios/u);
 		assert.throws(() => {
 			ruleTester.run(
 				"foo",
@@ -2557,7 +2557,7 @@ describe("RuleTester", () => {
 					invalid: [],
 				},
 			);
-		}, /No valid or invalid test scenarios found/u);
+		}, /Could not find any valid test scenarios/u);
 	});
 
 	// Nominal message/messageId use cases
