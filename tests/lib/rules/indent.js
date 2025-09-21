@@ -2756,9 +2756,7 @@ ruleTester.run("indent", rule, {
                     foo
                 );
             `,
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 		},
 		{
 			code: unIndent`
@@ -2766,9 +2764,7 @@ ruleTester.run("indent", rule, {
                     foo
                 )
             `,
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 		},
 		unIndent`
             var foo = [
@@ -9065,9 +9061,7 @@ ruleTester.run("indent", rule, {
                     foo
                 );
             `,
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 			errors: expectedErrors([3, 0, 4]),
 		},
 		{
@@ -9081,9 +9075,7 @@ ruleTester.run("indent", rule, {
                     foo
                 )
             `,
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 			errors: expectedErrors([3, 0, 4]),
 		},
 

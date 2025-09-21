@@ -474,7 +474,7 @@ describe("Linter", () => {
 			const parserOptions = {
 				ecmaFeatures: {
 					jsx: true,
-					globalReturn: true,
+					impliedStrict: true,
 				},
 			};
 
@@ -6342,66 +6342,6 @@ var a = "test2";
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
 
-		it("should properly parse global return when passed ecmaFeatures", () => {
-			const messages = linter.verify(
-				"return;",
-				{
-					parserOptions: {
-						ecmaFeatures: {
-							globalReturn: true,
-						},
-					},
-				},
-				filename,
-			);
-			const suppressedMessages = linter.getSuppressedMessages();
-
-			assert.strictEqual(messages.length, 0);
-			assert.strictEqual(suppressedMessages.length, 0);
-		});
-
-		it("should properly parse global return when in Node.js environment", () => {
-			const messages = linter.verify(
-				"return;",
-				{
-					env: {
-						node: true,
-					},
-				},
-				filename,
-			);
-			const suppressedMessages = linter.getSuppressedMessages();
-
-			assert.strictEqual(messages.length, 0);
-			assert.strictEqual(suppressedMessages.length, 0);
-		});
-
-		it("should not parse global return when in Node.js environment with globalReturn explicitly off", () => {
-			const messages = linter.verify(
-				"return;",
-				{
-					env: {
-						node: true,
-					},
-					parserOptions: {
-						ecmaFeatures: {
-							globalReturn: false,
-						},
-					},
-				},
-				filename,
-			);
-			const suppressedMessages = linter.getSuppressedMessages();
-
-			assert.strictEqual(messages.length, 1);
-			assert.strictEqual(
-				messages[0].message,
-				"Parsing error: 'return' outside of function",
-			);
-
-			assert.strictEqual(suppressedMessages.length, 0);
-		});
-
 		it("should not parse global return when Node.js environment is false", () => {
 			const messages = linter.verify("return;", {}, filename);
 			const suppressedMessages = linter.getSuppressedMessages();
@@ -8542,41 +8482,6 @@ var a = "test2";
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
 
-		it("should not rewrite env setting in core (https://github.com/eslint/eslint/issues/4814)", () => {
-			/*
-			 * This test focuses on the instance of https://github.com/eslint/eslint/blob/v2.0.0-alpha-2/conf/environments.js#L26-L28
-			 * This `verify()` takes the instance and runs https://github.com/eslint/eslint/blob/v2.0.0-alpha-2/lib/eslint.js#L416
-			 */
-			linter.defineRule("test", {
-				create: () => ({}),
-			});
-			linter.verify("var a = 0;", {
-				env: { node: true },
-				parserOptions: { ecmaVersion: 6, sourceType: "module" },
-				rules: { test: 2 },
-			});
-
-			// This `verify()` takes the instance and tests that the instance was not modified.
-			let ok = false;
-
-			linter.defineRule("test", {
-				create(context) {
-					assert(
-						context.parserOptions.ecmaFeatures.globalReturn,
-						"`ecmaFeatures.globalReturn` of the node environment should not be modified.",
-					);
-					ok = true;
-					return {};
-				},
-			});
-			linter.verify("var a = 0;", {
-				env: { node: true },
-				rules: { test: 2 },
-			});
-
-			assert(ok);
-		});
-
 		it("should throw when rule's create() function does not return an object", () => {
 			const config = { rules: { checker: "error" } };
 
@@ -10048,46 +9953,6 @@ describe("Linter with FlatConfigArray", () => {
 						},
 						languageOptions: {
 							parserOptions,
-						},
-						rules: {
-							"test/test-rule": 2,
-						},
-					};
-
-					linter.verify("0", config, filename);
-				});
-
-				it("should switch globalReturn to false if sourceType is module", () => {
-					const config = {
-						plugins: {
-							test: {
-								rules: {
-									"test-rule": {
-										create: sinon
-											.mock()
-											.withArgs(
-												sinon.match({
-													languageOptions: {
-														parserOptions: {
-															ecmaFeatures: {
-																globalReturn: false,
-															},
-														},
-													},
-												}),
-											)
-											.returns({}),
-									},
-								},
-							},
-						},
-						languageOptions: {
-							sourceType: "module",
-							parserOptions: {
-								ecmaFeatures: {
-									globalReturn: true,
-								},
-							},
 						},
 						rules: {
 							"test/test-rule": 2,

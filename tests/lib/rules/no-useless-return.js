@@ -147,9 +147,7 @@ ruleTester.run("no-useless-return", rule, {
 		},
 		{
 			code: "if (foo) { return; } doSomething();",
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 		},
 
 		// https://github.com/eslint/eslint/issues/7477
@@ -245,16 +243,12 @@ ruleTester.run("no-useless-return", rule, {
 		{
 			code: "foo(); return;",
 			output: "foo(); ",
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 		},
 		{
 			code: "if (foo) { bar(); return; } else { baz(); }",
 			output: "if (foo) { bar();  } else { baz(); }",
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 		},
 		{
 			code: `

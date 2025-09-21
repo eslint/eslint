@@ -171,14 +171,12 @@ ruleTester.run("strict", rule, {
 			languageOptions: { ecmaVersion: 6 },
 		},
 
-		// "safe" mode corresponds to "global" if ecmaFeatures.globalReturn is true, otherwise "function"
+		// "safe" mode corresponds to "global" if sourceType is commonjs, otherwise "function"
 		{ code: "function foo() { 'use strict'; return; }", options: ["safe"] },
 		{
 			code: "'use strict'; function foo() { return; }",
 			options: ["safe"],
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 		},
 		{
 			code: "function foo() { return; }",
@@ -197,9 +195,7 @@ ruleTester.run("strict", rule, {
 		"function foo() { 'use strict'; return; }",
 		{
 			code: "'use strict'; function foo() { return; }",
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 		},
 		{
 			code: "function foo() { return; }",
@@ -789,7 +785,7 @@ ruleTester.run("strict", rule, {
 			],
 		},
 
-		// "safe" mode corresponds to "global" if ecmaFeatures.globalReturn is true, otherwise "function"
+		// "safe" mode corresponds to "global" if sourceType is commonjs, otherwise "function"
 		{
 			code: "'use strict'; function foo() { return; }",
 			output: null,
@@ -807,9 +803,7 @@ ruleTester.run("strict", rule, {
 			code: "function foo() { 'use strict'; return; }",
 			output: null,
 			options: ["safe"],
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 			errors: [
 				{
 					messageId: "global",
@@ -879,9 +873,7 @@ ruleTester.run("strict", rule, {
 		{
 			code: "function foo() { 'use strict'; return; }",
 			output: null,
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 			errors: [
 				{
 					messageId: "global",
@@ -943,10 +935,7 @@ ruleTester.run("strict", rule, {
 			code: "function foo(a = 0) { 'use strict' }",
 			output: null,
 			options: [],
-			languageOptions: {
-				ecmaVersion: 6,
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { ecmaVersion: 6, sourceType: "commonjs" },
 			errors: [
 				"Use the global form of 'use strict'.",
 				{ messageId: "nonSimpleParameterList" },
@@ -956,10 +945,7 @@ ruleTester.run("strict", rule, {
 			code: "'use strict'; function foo(a = 0) { 'use strict' }",
 			output: null,
 			options: [],
-			languageOptions: {
-				ecmaVersion: 6,
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { ecmaVersion: 6, sourceType: "commonjs" },
 			errors: [{ messageId: "nonSimpleParameterList" }],
 		},
 		{

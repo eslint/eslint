@@ -1613,16 +1613,11 @@ ruleTester.run("indent-legacy", rule, {
 		// https://github.com/eslint/eslint/issues/7573
 		{
 			code: "return (\n" + "    foo\n" + ");",
-			languageOptions: {
-				sourceType: "script",
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 		},
 		{
 			code: "return (\n" + "    foo\n" + ")",
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 		},
 		"var foo = [\n" + "    bar,\n" + "    baz\n" + "]",
 		"var foo = [bar,\n" + "    baz,\n" + "    qux\n" + "]",
@@ -3430,17 +3425,13 @@ ruleTester.run("indent-legacy", rule, {
 		{
 			code: "return (\n" + "    foo\n" + "    );",
 			output: "return (\n" + "    foo\n" + ");",
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 			errors: expectedErrors([3, 0, 4]),
 		},
 		{
 			code: "return (\n" + "    foo\n" + "    )",
 			output: "return (\n" + "    foo\n" + ")",
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 			errors: expectedErrors([3, 0, 4]),
 		},
 

@@ -67,10 +67,7 @@ ruleTester.run("consistent-return", rule, {
 		},
 		{
 			code: "if (true) { return 1; } return 0;",
-			languageOptions: {
-				ecmaVersion: 6,
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { ecmaVersion: 6, sourceType: "commonjs" },
 		},
 
 		// https://github.com/eslint/eslint/issues/7790
@@ -223,9 +220,7 @@ ruleTester.run("consistent-return", rule, {
 		},
 		{
 			code: "if (true) { return 1; } return;",
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 			errors: [
 				{
 					messageId: "missingReturnValue",
@@ -333,9 +328,7 @@ ruleTester.run("consistent-return", rule, {
 		},
 		{
 			code: "if (a) return true;",
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 			errors: [
 				{
 					messageId: "missingReturn",
