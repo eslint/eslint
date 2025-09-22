@@ -611,7 +611,7 @@ Both `extends` and cascading configuration objects can achieve similar organizat
 
 **Use `extends` when:**
 - Reusing predefined or shareable configurations from plugins/packages
-- You want explicit inheritance with clear intent 
+- You want explicit inheritance with clear intent
 - Combining multiple existing configurations
 - Building on established configuration patterns
 
