@@ -13474,7 +13474,7 @@ describe("ESLint", () => {
 			});
 		});
 
-		describe("caclulateWorkerCount", () => {
+		describe("calculateWorkerCount", () => {
 			// This is the same value as in lib/eslint/eslint.js.
 			const AUTO_FILES_PER_WORKER = 50;
 
