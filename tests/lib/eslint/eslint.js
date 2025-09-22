@@ -13569,10 +13569,25 @@ describe("ESLint", () => {
 			});
 
 			describe('when `concurrency` is "auto" with caching enabled', () => {
-				it('should not consider unchanged cached files with cache strategy "metadata"', async () => {
-					const cacheLocation = await fsp.mkdtemp(
+				let cacheLocation;
+
+				beforeEach(async () => {
+					cacheLocation = await fsp.mkdtemp(
 						path.join(os.tmpdir(), "eslint-cache-"),
 					);
+				});
+
+				afterEach(async () => {
+					if (cacheLocation) {
+						await fsp.rm(cacheLocation, {
+							recursive: true,
+							force: true,
+						});
+						cacheLocation = void 0;
+					}
+				});
+
+				it('should not consider unchanged cached files with cache strategy "metadata"', async () => {
 					const cwd = getFixturePath("files");
 					const eslint = new ESLint({
 						cache: true,
@@ -13597,9 +13612,6 @@ describe("ESLint", () => {
 				});
 
 				it('should consider unchanged cached files with cache strategy "content"', async () => {
-					const cacheLocation = await fsp.mkdtemp(
-						path.join(os.tmpdir(), "eslint-cache-"),
-					);
 					const cwd = getFixturePath("files");
 					const eslint = new ESLint({
 						cache: true,
@@ -13624,9 +13636,6 @@ describe("ESLint", () => {
 				});
 
 				it('should consider uncached files with cache strategy "metadata"', async () => {
-					const cacheLocation = await fsp.mkdtemp(
-						path.join(os.tmpdir(), "eslint-cache-"),
-					);
 					const cwd = getFixturePath("files");
 					const eslint = new ESLint({
 						cache: true,
@@ -13652,9 +13661,6 @@ describe("ESLint", () => {
 				});
 
 				it('should consider unchanged cached files with violations with cache strategy "metadata" and autofix enabled', async () => {
-					const cacheLocation = await fsp.mkdtemp(
-						path.join(os.tmpdir(), "eslint-cache-"),
-					);
 					const cwd = getFixturePath();
 					const eslintOptions = {
 						baseConfig: { rules: { "unicode-bom": "error" } },
