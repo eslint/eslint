@@ -85,6 +85,8 @@ export namespace Scope {
 		acquire(node: ESTree.Node, inner?: boolean): Scope | null;
 
 		getDeclaredVariables(node: ESTree.Node): Variable[];
+
+		addGlobals(names: string[]): void;
 	}
 
 	interface Scope {

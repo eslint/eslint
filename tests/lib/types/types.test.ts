@@ -438,7 +438,10 @@ const scopeManager: Scope.ScopeManager = {
 	getDeclaredVariables() {
 		return [];
 	},
+	addGlobals(names) {},
 };
+
+scopeManager.addGlobals(["Foo", "Bar"]);
 
 const scope = scopeManager.scopes[0];
 
