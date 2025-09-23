@@ -10,6 +10,7 @@ permissions:
 
 jobs:
     webpack_plugin:
+        if: false # Temporarily disabled until @typescript-eslint/parser is updated
         name: Types (eslint-webpack-plugin)
         runs-on: ubuntu-latest
         steps:
