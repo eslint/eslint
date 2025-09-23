@@ -1507,6 +1507,7 @@ linterWithEslintrcConfig.getRules();
 	eslint = new ESLint({ fix: true });
 	eslint = new ESLint({ fix: message => false });
 	eslint = new ESLint({ fixTypes: ["directive", "problem"] });
+	eslint = new ESLint({ fixTypes: null });
 	eslint = new ESLint({ flags: ["foo", "bar"] });
 	eslint = new ESLint({ globInputPaths: true });
 	eslint = new ESLint({ ignore: true });
@@ -1574,6 +1575,9 @@ linterWithEslintrcConfig.getRules();
 	resultsPromise = eslint.lintText(SOURCE, { filePath: "foo" });
 
 	eslint.calculateConfigForFile("./config.json");
+
+	eslint.findConfigFile("src/index.js");
+	eslint.findConfigFile();
 
 	eslint.isPathIgnored("./dist/index.js");
 
@@ -1655,6 +1659,7 @@ linterWithEslintrcConfig.getRules();
 	eslint = new LegacyESLint({ fix: true });
 	eslint = new LegacyESLint({ fix: message => false });
 	eslint = new LegacyESLint({ fixTypes: ["directive", "problem"] });
+	eslint = new LegacyESLint({ fixTypes: null });
 	eslint = new LegacyESLint({ flags: ["foo", "bar"] });
 	eslint = new LegacyESLint({ globInputPaths: true });
 	eslint = new LegacyESLint({ ignore: true });
@@ -1824,6 +1829,7 @@ for (const result of results) {
 	const deprecatedRule = result.usedDeprecatedRules[0];
 	deprecatedRule.ruleId = "foo";
 	deprecatedRule.replacedBy = ["bar"];
+	deprecatedRule.info = undefined;
 	deprecatedRule.info = {
 		message: "use bar instead",
 		replacedBy: [
