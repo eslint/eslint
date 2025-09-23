@@ -9,7 +9,7 @@
 //-----------------------------------------------------------------------------
 
 const assert = require("chai").assert,
-	{ CLIEngine } = require("../../../lib/cli-engine"),
+	{ ESLint } = require("../../../lib/eslint"),
 	fs = require("node:fs"),
 	path = require("node:path"),
 	proxyquire = require("proxyquire"),
@@ -34,30 +34,30 @@ describe("LintResultCache", () => {
 		fakeErrorResults,
 		fakeErrorResultsAutofix;
 
-	before(() => {
+	before(async () => {
 		sandbox = sinon.createSandbox();
 		hashStub = sandbox.stub();
 
 		let shouldFix = false;
 
 		// Get lint results for test fixtures
-		const cliEngine = new CLIEngine({
+		const eslint = new ESLint({
 			cache: false,
 			ignore: false,
 			globInputPaths: false,
 			fix: () => shouldFix,
+			flags: ["v10_config_lookup_from_file"]
 		});
 
 		// Get results without autofixing...
-		fakeErrorResults = cliEngine.executeOnFiles([
+		fakeErrorResults = (await eslint.lintFiles([
 			path.join(fixturePath, "test-with-errors.js"),
-		]).results[0];
-
+		]))[0];
 		// ...and with autofixing
 		shouldFix = true;
-		fakeErrorResultsAutofix = cliEngine.executeOnFiles([
+		fakeErrorResultsAutofix = (await eslint.lintFiles([
 			path.join(fixturePath, "test-with-errors.js"),
-		]).results[0];
+		]))[0];
 
 		// Set up LintResultCache with fake fileEntryCache module
 		LintResultCache = proxyquire(
