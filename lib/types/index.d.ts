@@ -325,7 +325,7 @@ export namespace SourceCode {
 		visitorKeys?: VisitorKeys | null | undefined;
 	}
 
-	type ParserServices = Record<string, unknown>;
+	type ParserServices = any;
 
 	interface VisitorKeys {
 		[nodeType: string]: string[];

@@ -112,8 +112,6 @@ sourceCode = new SourceCode({
 	ast: AST,
 	parserServices: undefined,
 });
-// @ts-expect-error `parserServices` must be an object
-sourceCode = new SourceCode({ text: SOURCE, ast: AST, parserServices: 42 });
 sourceCode = new SourceCode({
 	text: SOURCE,
 	ast: AST,
@@ -2095,6 +2093,18 @@ ruleTester.run("simple-valid-test", rule2, {
 	languageOptions: {
 		parser: {
 			parseForESLint: () => ({ ast: AST }),
+		},
+	},
+});
+
+interface CustomParserServices {
+	program: any;
+}
+
+(parserServices: CustomParserServices): Linter.Config => ({
+	languageOptions: {
+		parser: {
+			parseForESLint: () => ({ ast: AST, services: parserServices }),
 		},
 	},
 });
