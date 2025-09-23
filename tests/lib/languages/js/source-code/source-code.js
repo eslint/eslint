@@ -4948,10 +4948,12 @@ describe("SourceCode", () => {
 				globalScope.references[0].identifier.name,
 				"Foo",
 			);
+			assert.strictEqual(globalScope.references[0].resolved, null);
 			assert.strictEqual(
 				globalScope.references[1].identifier.name,
 				"Bar",
 			);
+			assert.strictEqual(globalScope.references[1].resolved, null);
 			assert.strictEqual(globalScope.through.length, 2);
 			assert.strictEqual(
 				globalScope.through[0],
@@ -5090,10 +5092,12 @@ describe("SourceCode", () => {
 				globalScope.references[0].identifier.name,
 				"Foo",
 			);
+			assert.strictEqual(globalScope.references[0].resolved, null);
 			assert.strictEqual(
 				globalScope.references[1].identifier.name,
 				"Bar",
 			);
+			assert.strictEqual(globalScope.references[1].resolved, null);
 			assert.strictEqual(globalScope.through.length, 2);
 			assert.strictEqual(
 				globalScope.through[0],
