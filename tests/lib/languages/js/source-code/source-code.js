@@ -4245,12 +4245,16 @@ describe("SourceCode", () => {
 			const esGlobals = globals.es2015;
 			const esGlobalsCount = Object.keys(esGlobals).length;
 
-			// All global variables are ES6 globals
 			assert.strictEqual(globalScope.set.size, esGlobalsCount - 3);
 			assert.strictEqual(
 				globalScope.variables.length,
 				esGlobalsCount - 3,
 			);
+
+			assert(!globalScope.set.has("Set"));
+			assert(!globalScope.set.has("Array"));
+			assert(!globalScope.set.has("Object"));
+
 			for (const variable of globalScope.variables) {
 				assert(Object.hasOwn(esGlobals, variable.name));
 				assert.strictEqual(
@@ -4265,45 +4269,25 @@ describe("SourceCode", () => {
 				assert(Object.hasOwn(variable, "eslintExplicitGlobalComments"));
 				assert(Object.hasOwn(variable, "writeable"));
 
-				if (variable.name === "Object") {
-					assert.strictEqual(
-						variable.eslintImplicitGlobalSetting,
-						"writable",
-					);
+				assert.strictEqual(
+					variable.eslintImplicitGlobalSetting,
+					esGlobals[variable.name] ? "writable" : "readonly",
+				);
 
-					assert.strictEqual(variable.eslintExplicitGlobal, false);
+				assert.strictEqual(variable.eslintExplicitGlobal, false);
 
-					assert.strictEqual(
-						variable.eslintExplicitGlobalComments,
-						void 0,
-					);
+				assert.strictEqual(
+					variable.eslintExplicitGlobalComments,
+					void 0,
+				);
 
-					assert.strictEqual(variable.writeable, true);
-				} else {
-					assert.strictEqual(
-						variable.eslintImplicitGlobalSetting,
-						esGlobals[variable.name] ? "writable" : "readonly",
-					);
-
-					assert.strictEqual(variable.eslintExplicitGlobal, false);
-
-					assert.strictEqual(
-						variable.eslintExplicitGlobalComments,
-						void 0,
-					);
-
-					assert.strictEqual(
-						variable.writeable,
-						esGlobals[variable.name],
-					);
-				}
+				assert.strictEqual(
+					variable.writeable,
+					esGlobals[variable.name],
+				);
 
 				assert.strictEqual(variable.defs.length, 0);
 			}
-
-			assert(!globalScope.set.has("Set"));
-			assert(!globalScope.set.has("Array"));
-			assert(!globalScope.set.has("Object"));
 
 			assert.strictEqual(globalScope.implicit.set.size, 1);
 			assert.strictEqual(globalScope.implicit.variables.length, 1);
@@ -4393,38 +4377,22 @@ describe("SourceCode", () => {
 				assert(Object.hasOwn(variable, "eslintExplicitGlobalComments"));
 				assert(Object.hasOwn(variable, "writeable"));
 
-				if (variable.name === "Object") {
-					assert.strictEqual(
-						variable.eslintImplicitGlobalSetting,
-						"writable",
-					);
+				assert.strictEqual(
+					variable.eslintImplicitGlobalSetting,
+					esGlobals[variable.name] ? "writable" : "readonly",
+				);
 
-					assert.strictEqual(variable.eslintExplicitGlobal, false);
+				assert.strictEqual(variable.eslintExplicitGlobal, false);
 
-					assert.strictEqual(
-						variable.eslintExplicitGlobalComments,
-						void 0,
-					);
+				assert.strictEqual(
+					variable.eslintExplicitGlobalComments,
+					void 0,
+				);
 
-					assert.strictEqual(variable.writeable, true);
-				} else {
-					assert.strictEqual(
-						variable.eslintImplicitGlobalSetting,
-						esGlobals[variable.name] ? "writable" : "readonly",
-					);
-
-					assert.strictEqual(variable.eslintExplicitGlobal, false);
-
-					assert.strictEqual(
-						variable.eslintExplicitGlobalComments,
-						void 0,
-					);
-
-					assert.strictEqual(
-						variable.writeable,
-						esGlobals[variable.name],
-					);
-				}
+				assert.strictEqual(
+					variable.writeable,
+					esGlobals[variable.name],
+				);
 
 				assert.strictEqual(variable.defs.length, 0);
 			}
