@@ -3931,7 +3931,7 @@ describe("SourceCode", () => {
 	});
 
 	describe("finalize()", () => {
-		it("should add all ES6 globals with expected attributes and resolve references", () => {
+		it("should add predefined ES globals with expected attributes and resolve references", () => {
 			const code = "Set = Array";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const scopeManager = eslintScope.analyze(ast, {
@@ -4217,44 +4217,8 @@ describe("SourceCode", () => {
 			);
 		});
 
-		it("should remove ECMAScript globals from global scope's `implicit`", () => {
-			const code = "Array = 1; Foo = 1; Promise = 1; Array; Foo; Promise";
-			const ast = espree.parse(code, DEFAULT_CONFIG);
-			const scopeManager = eslintScope.analyze(ast, {
-				ignoreEval: true,
-				ecmaVersion: 6,
-			});
-			const sourceCode = new SourceCode({
-				text: code,
-				ast,
-				scopeManager,
-			});
-
-			sourceCode.applyLanguageOptions({
-				ecmaVersion: 2015,
-			});
-
-			sourceCode.finalize();
-
-			const globalScope = sourceCode.scopeManager.scopes[0];
-			const { implicit } = globalScope;
-
-			assert.deepStrictEqual(
-				[...implicit.set].map(([name]) => name),
-				["Foo"],
-			);
-			assert.deepStrictEqual(
-				implicit.variables.map(({ name }) => name),
-				["Foo"],
-			);
-			assert.deepStrictEqual(
-				implicit.left.map(reference => reference.identifier.name),
-				["Foo", "Foo"],
-			);
-		});
-
-		it("should remove custom globals from global scope's `implicit`", () => {
-			const code = "Bar = 1; Foo = 1; Baz = 1; Bar; Foo; Baz";
+		it("should not add predefined global when it is disabled in the config", () => {
+			const code = "Set = Array";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const scopeManager = eslintScope.analyze(ast, {
 				ignoreEval: true,
@@ -4269,33 +4233,117 @@ describe("SourceCode", () => {
 			sourceCode.applyLanguageOptions({
 				ecmaVersion: 2015,
 				globals: {
-					Bar: "writable",
-					Baz: "readonly",
+					Set: "off",
+					Array: "off",
+					Object: "off",
 				},
 			});
 
 			sourceCode.finalize();
 
 			const globalScope = sourceCode.scopeManager.scopes[0];
-			const { implicit } = globalScope;
+			const esGlobals = globals.es2015;
+			const esGlobalsCount = Object.keys(esGlobals).length;
 
-			assert.deepStrictEqual(
-				[...implicit.set].map(([name]) => name),
-				["Foo"],
+			// All global variables are ES6 globals
+			assert.strictEqual(globalScope.set.size, esGlobalsCount - 3);
+			assert.strictEqual(
+				globalScope.variables.length,
+				esGlobalsCount - 3,
 			);
-			assert.deepStrictEqual(
-				implicit.variables.map(({ name }) => name),
-				["Foo"],
+			for (const variable of globalScope.variables) {
+				assert(Object.hasOwn(esGlobals, variable.name));
+				assert.strictEqual(
+					globalScope.set.get(variable.name),
+					variable,
+				);
+
+				assert.strictEqual(variable.references.length, 0);
+
+				assert(Object.hasOwn(variable, "eslintImplicitGlobalSetting"));
+				assert(Object.hasOwn(variable, "eslintExplicitGlobal"));
+				assert(Object.hasOwn(variable, "eslintExplicitGlobalComments"));
+				assert(Object.hasOwn(variable, "writeable"));
+
+				if (variable.name === "Object") {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						"writable",
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, false);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments,
+						void 0,
+					);
+
+					assert.strictEqual(variable.writeable, true);
+				} else {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						esGlobals[variable.name] ? "writable" : "readonly",
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, false);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments,
+						void 0,
+					);
+
+					assert.strictEqual(
+						variable.writeable,
+						esGlobals[variable.name],
+					);
+				}
+
+				assert.strictEqual(variable.defs.length, 0);
+			}
+
+			assert(!globalScope.set.has("Set"));
+			assert(!globalScope.set.has("Array"));
+			assert(!globalScope.set.has("Object"));
+
+			assert.strictEqual(globalScope.implicit.set.size, 1);
+			assert.strictEqual(globalScope.implicit.variables.length, 1);
+			assert.strictEqual(
+				globalScope.implicit.variables[0],
+				globalScope.implicit.set.get("Set"),
 			);
-			assert.deepStrictEqual(
-				implicit.left.map(reference => reference.identifier.name),
-				["Foo", "Foo"],
+
+			assert.strictEqual(globalScope.references.length, 2);
+			assert.strictEqual(
+				globalScope.references[0].identifier.name,
+				"Set",
+			);
+			assert.strictEqual(
+				globalScope.references[1].identifier.name,
+				"Array",
+			);
+			assert.strictEqual(globalScope.through.length, 2);
+			assert.strictEqual(
+				globalScope.through[0],
+				globalScope.references[0],
+			);
+			assert.strictEqual(
+				globalScope.through[1],
+				globalScope.references[1],
+			);
+			assert.strictEqual(globalScope.implicit.left.length, 2);
+			assert.strictEqual(
+				globalScope.implicit.left[0],
+				globalScope.references[0],
+			);
+			assert.strictEqual(
+				globalScope.implicit.left[1],
+				globalScope.references[1],
 			);
 		});
 
-		it("should remove commonjs globals from global scope's `implicit`", () => {
+		it("should not add predefined global when it is disabled inline", () => {
 			const code =
-				"exports = {}; Foo = 1; require = () => {}; exports; Foo; require";
+				"/* globals Set: off, Array: off, Object: off */ Set = Array";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const scopeManager = eslintScope.analyze(ast, {
 				ignoreEval: true,
@@ -4310,31 +4358,115 @@ describe("SourceCode", () => {
 
 			sourceCode.applyLanguageOptions({
 				ecmaVersion: 2015,
-				sourceType: "commonjs",
 			});
+
+			sourceCode.applyInlineConfig();
 
 			sourceCode.finalize();
 
 			const globalScope = sourceCode.scopeManager.scopes[0];
-			const { implicit } = globalScope;
+			const esGlobals = globals.es2015;
+			const esGlobalsCount = Object.keys(esGlobals).length;
 
-			assert.deepStrictEqual(
-				[...implicit.set].map(([name]) => name),
-				["Foo"],
+			// All global variables are ES6 globals
+			assert.strictEqual(globalScope.set.size, esGlobalsCount - 3);
+			assert.strictEqual(
+				globalScope.variables.length,
+				esGlobalsCount - 3,
 			);
-			assert.deepStrictEqual(
-				implicit.variables.map(({ name }) => name),
-				["Foo"],
+
+			assert(!globalScope.set.has("Set"));
+			assert(!globalScope.set.has("Array"));
+			assert(!globalScope.set.has("Object"));
+
+			for (const variable of globalScope.variables) {
+				assert(Object.hasOwn(esGlobals, variable.name));
+				assert.strictEqual(
+					globalScope.set.get(variable.name),
+					variable,
+				);
+
+				assert.strictEqual(variable.references.length, 0);
+
+				assert(Object.hasOwn(variable, "eslintImplicitGlobalSetting"));
+				assert(Object.hasOwn(variable, "eslintExplicitGlobal"));
+				assert(Object.hasOwn(variable, "eslintExplicitGlobalComments"));
+				assert(Object.hasOwn(variable, "writeable"));
+
+				if (variable.name === "Object") {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						"writable",
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, false);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments,
+						void 0,
+					);
+
+					assert.strictEqual(variable.writeable, true);
+				} else {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						esGlobals[variable.name] ? "writable" : "readonly",
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, false);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments,
+						void 0,
+					);
+
+					assert.strictEqual(
+						variable.writeable,
+						esGlobals[variable.name],
+					);
+				}
+
+				assert.strictEqual(variable.defs.length, 0);
+			}
+
+			assert.strictEqual(globalScope.implicit.set.size, 1);
+			assert.strictEqual(globalScope.implicit.variables.length, 1);
+			assert.strictEqual(
+				globalScope.implicit.variables[0],
+				globalScope.implicit.set.get("Set"),
 			);
-			assert.deepStrictEqual(
-				implicit.left.map(reference => reference.identifier.name),
-				["Foo", "Foo"],
+
+			assert.strictEqual(globalScope.references.length, 2);
+			assert.strictEqual(
+				globalScope.references[0].identifier.name,
+				"Set",
+			);
+			assert.strictEqual(
+				globalScope.references[1].identifier.name,
+				"Array",
+			);
+			assert.strictEqual(globalScope.through.length, 2);
+			assert.strictEqual(
+				globalScope.through[0],
+				globalScope.references[0],
+			);
+			assert.strictEqual(
+				globalScope.through[1],
+				globalScope.references[1],
+			);
+			assert.strictEqual(globalScope.implicit.left.length, 2);
+			assert.strictEqual(
+				globalScope.implicit.left[0],
+				globalScope.references[0],
+			);
+			assert.strictEqual(
+				globalScope.implicit.left[1],
+				globalScope.references[1],
 			);
 		});
 
-		it("should remove inline globals from global scope's `implicit`", () => {
-			const code =
-				"/* globals Bar: writable, Baz: readonly */ Bar = 1; Foo = 1; Baz = 1; Bar; Foo; Baz";
+		it("should add custom globals enabled in the config", () => {
+			const code = "Foo = Bar";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const scopeManager = eslintScope.analyze(ast, {
 				ignoreEval: true,
@@ -4346,23 +4478,274 @@ describe("SourceCode", () => {
 				scopeManager,
 			});
 
+			sourceCode.applyLanguageOptions({
+				ecmaVersion: 2015,
+				globals: {
+					Foo: true,
+					Bar: false,
+					Baz: "writeable",
+				},
+			});
+
 			sourceCode.applyInlineConfig();
+
 			sourceCode.finalize();
 
 			const globalScope = sourceCode.scopeManager.scopes[0];
-			const { implicit } = globalScope;
+			const esGlobals = globals.es2015;
+			const esGlobalsCount = Object.keys(esGlobals).length;
 
-			assert.deepStrictEqual(
-				[...implicit.set].map(([name]) => name),
-				["Foo"],
+			assert.strictEqual(globalScope.set.size, esGlobalsCount + 3);
+			assert.strictEqual(
+				globalScope.variables.length,
+				esGlobalsCount + 3,
 			);
-			assert.deepStrictEqual(
-				implicit.variables.map(({ name }) => name),
-				["Foo"],
+
+			assert(globalScope.set.has("Foo"));
+			assert(globalScope.set.has("Bar"));
+			assert(globalScope.set.has("Baz"));
+
+			for (const variable of globalScope.variables) {
+				if (!["Foo", "Bar", "Baz"].includes(variable.name)) {
+					assert(Object.hasOwn(esGlobals, variable.name));
+				}
+
+				assert.strictEqual(
+					globalScope.set.get(variable.name),
+					variable,
+				);
+
+				assert.strictEqual(
+					variable.references.length,
+					["Foo", "Bar"].includes(variable.name) ? 1 : 0,
+				);
+
+				assert(Object.hasOwn(variable, "eslintImplicitGlobalSetting"));
+				assert(Object.hasOwn(variable, "eslintExplicitGlobal"));
+				assert(Object.hasOwn(variable, "eslintExplicitGlobalComments"));
+				assert(Object.hasOwn(variable, "writeable"));
+
+				if (variable.name === "Foo") {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						"writable",
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, false);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments,
+						void 0,
+					);
+
+					assert.strictEqual(variable.writeable, true);
+				} else if (variable.name === "Bar") {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						"readonly",
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, false);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments,
+						void 0,
+					);
+
+					assert.strictEqual(variable.writeable, false);
+				} else if (variable.name === "Baz") {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						"writable",
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, false);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments,
+						void 0,
+					);
+
+					assert.strictEqual(variable.writeable, true);
+				} else {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						esGlobals[variable.name] ? "writable" : "readonly",
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, false);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments,
+						void 0,
+					);
+
+					assert.strictEqual(
+						variable.writeable,
+						esGlobals[variable.name],
+					);
+				}
+
+				assert.strictEqual(variable.defs.length, 0);
+			}
+
+			// no implicit globals
+			assert.strictEqual(globalScope.implicit.set.size, 0);
+			assert.strictEqual(globalScope.implicit.variables.length, 0);
+
+			// no unresolved references
+			assert.strictEqual(globalScope.through.length, 0);
+			assert.strictEqual(globalScope.implicit.left.length, 0);
+
+			// resolved references
+			assert.strictEqual(globalScope.references.length, 2);
+			assert.strictEqual(
+				globalScope.references[0].resolved,
+				globalScope.set.get("Foo"),
 			);
-			assert.deepStrictEqual(
-				implicit.left.map(reference => reference.identifier.name),
-				["Foo", "Foo"],
+			assert.strictEqual(
+				globalScope.references[1].resolved,
+				globalScope.set.get("Bar"),
+			);
+		});
+
+		it("should add custom globals enabled inline", () => {
+			const code =
+				"/* globals Foo: true, Bar: false, Baz: writeable */ Foo = Bar";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const scopeManager = eslintScope.analyze(ast, {
+				ignoreEval: true,
+				ecmaVersion: 6,
+			});
+			const sourceCode = new SourceCode({
+				text: code,
+				ast,
+				scopeManager,
+			});
+
+			sourceCode.applyLanguageOptions({
+				ecmaVersion: 2015,
+			});
+
+			sourceCode.applyInlineConfig();
+
+			sourceCode.finalize();
+
+			const globalScope = sourceCode.scopeManager.scopes[0];
+			const esGlobals = globals.es2015;
+			const esGlobalsCount = Object.keys(esGlobals).length;
+
+			assert.strictEqual(globalScope.set.size, esGlobalsCount + 3);
+			assert.strictEqual(
+				globalScope.variables.length,
+				esGlobalsCount + 3,
+			);
+
+			assert(globalScope.set.has("Foo"));
+			assert(globalScope.set.has("Bar"));
+			assert(globalScope.set.has("Baz"));
+
+			for (const variable of globalScope.variables) {
+				if (!["Foo", "Bar", "Baz"].includes(variable.name)) {
+					assert(Object.hasOwn(esGlobals, variable.name));
+				}
+
+				assert.strictEqual(
+					globalScope.set.get(variable.name),
+					variable,
+				);
+
+				assert.strictEqual(
+					variable.references.length,
+					["Foo", "Bar"].includes(variable.name) ? 1 : 0,
+				);
+
+				assert(Object.hasOwn(variable, "eslintImplicitGlobalSetting"));
+				assert(Object.hasOwn(variable, "eslintExplicitGlobal"));
+				assert(Object.hasOwn(variable, "eslintExplicitGlobalComments"));
+				assert(Object.hasOwn(variable, "writeable"));
+
+				if (variable.name === "Foo") {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						void 0,
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, true);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments.length,
+						1,
+					);
+
+					assert.strictEqual(variable.writeable, true);
+				} else if (variable.name === "Bar") {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						void 0,
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, true);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments.length,
+						1,
+					);
+
+					assert.strictEqual(variable.writeable, false);
+				} else if (variable.name === "Baz") {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						void 0,
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, true);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments.length,
+						1,
+					);
+
+					assert.strictEqual(variable.writeable, true);
+				} else {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						esGlobals[variable.name] ? "writable" : "readonly",
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, false);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments,
+						void 0,
+					);
+
+					assert.strictEqual(
+						variable.writeable,
+						esGlobals[variable.name],
+					);
+				}
+
+				assert.strictEqual(variable.defs.length, 0);
+			}
+
+			// no implicit globals
+			assert.strictEqual(globalScope.implicit.set.size, 0);
+			assert.strictEqual(globalScope.implicit.variables.length, 0);
+
+			// no unresolved references
+			assert.strictEqual(globalScope.through.length, 0);
+			assert.strictEqual(globalScope.implicit.left.length, 0);
+
+			// resolved references
+			assert.strictEqual(globalScope.references.length, 2);
+			assert.strictEqual(
+				globalScope.references[0].resolved,
+				globalScope.set.get("Foo"),
+			);
+			assert.strictEqual(
+				globalScope.references[1].resolved,
+				globalScope.set.get("Bar"),
 			);
 		});
 	});
