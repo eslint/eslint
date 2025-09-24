@@ -13,7 +13,7 @@
 [Contribute to ESLint](https://eslint.org/docs/latest/contribute) |
 [Report Bugs](https://eslint.org/docs/latest/contribute/report-bugs) |
 [Code of Conduct](https://eslint.org/conduct) |
-[Twitter](https://twitter.com/geteslint) |
+[X](https://x.com/geteslint) |
 [Discord](https://eslint.org/chat) |
 [Mastodon](https://fosstodon.org/@eslint) |
 [Bluesky](https://bsky.app/profile/eslint.org)
