@@ -32,7 +32,7 @@ export default defineConfig([
 ]);
 ```
 
-Here, the `js.configs.recommended` predefined configuration is applied to files that match the pattern "`**/*.js"`first and then another configuration object adds the desired configuration for `no-unused-vars`.
+Here, the `js.configs.recommended` predefined configuration is applied to files that match the pattern "`**/*.js"`first and then adds the desired configuration for `no-unused-vars`.
 
 ## Apply a Config Array
 
