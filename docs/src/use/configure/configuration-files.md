@@ -137,6 +137,9 @@ With this configuration, the `semi` rule is enabled for all files that match the
 
 ::: important
 By default, ESLint lints files that match the patterns `**/*.js`, `**/*.cjs`, and `**/*.mjs`. Those files are always matched unless you explicitly exclude them using [global ignores](#globally-ignoring-files-with-ignores).
+If your configuration object includes other patterns, the rules in configuration objects without a `files` key will also apply to these patterns.
+
+Therefore, when using ESLint for non-JS files as well, it is more appropriate to create a configuration object that includes `files: [“**/*.js”, “**/*.cjs”, “**.*.mjs”]` and place the relevant rules.
 :::
 
 #### Specifying files with arbitrary extensions

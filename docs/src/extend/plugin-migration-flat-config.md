@@ -190,7 +190,7 @@ import example from "eslint-plugin-example";
 export default defineConfig([
 	// use recommended config and provide your own overrides
 	{
-		files: ["**/*.js"],
+		files: ["**/*.js", "**/*.cjs", "**/*.mjs"],
 		plugins: {
 			example,
 		},
