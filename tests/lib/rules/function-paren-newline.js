@@ -18,17 +18,21 @@ const fixtureParser = require("../../fixtures/fixture-parser");
 // Tests
 //------------------------------------------------------------------------------
 
-const LEFT_MISSING_ERROR = { messageId: "expectedAfter", type: "Punctuator" };
+const LEFT_MISSING_ERROR = {
+	messageId: "expectedAfter",
+};
 const LEFT_UNEXPECTED_ERROR = {
 	messageId: "unexpectedAfter",
-	type: "Punctuator",
 };
-const RIGHT_MISSING_ERROR = { messageId: "expectedBefore", type: "Punctuator" };
+const RIGHT_MISSING_ERROR = {
+	messageId: "expectedBefore",
+};
 const RIGHT_UNEXPECTED_ERROR = {
 	messageId: "unexpectedBefore",
-	type: "Punctuator",
 };
-const EXPECTED_BETWEEN = { messageId: "expectedBetween", type: "Identifier" };
+const EXPECTED_BETWEEN = {
+	messageId: "expectedBetween",
+};
 
 const ruleTester = new RuleTester({
 	languageOptions: { ecmaVersion: 6, sourceType: "script" },

@@ -426,7 +426,6 @@ ruleTester.run("spaced-comment", rule, {
 				{
 					messageId: "expectedSpaceAfter",
 					data: { refChar: "//" },
-					type: "Line",
 				},
 			],
 		},
@@ -438,7 +437,6 @@ ruleTester.run("spaced-comment", rule, {
 				{
 					messageId: "unexpectedSpaceAfter",
 					data: { refChar: "//" },
-					type: "Line",
 				},
 			],
 		},
@@ -450,7 +448,6 @@ ruleTester.run("spaced-comment", rule, {
 				{
 					messageId: "unexpectedSpaceAfter",
 					data: { refChar: "//" },
-					type: "Line",
 				},
 			],
 		},
@@ -472,7 +469,6 @@ ruleTester.run("spaced-comment", rule, {
 				{
 					messageId: "expectedExceptionAfter",
 					data: { refChar: "//*" },
-					type: "Line",
 				},
 			],
 		},
@@ -489,12 +485,10 @@ ruleTester.run("spaced-comment", rule, {
 				{
 					messageId: "expectedExceptionAfter",
 					data: { refChar: "//" },
-					type: "Line",
 				},
 				{
 					messageId: "expectedExceptionAfter",
 					data: { refChar: "//" },
-					type: "Line",
 				},
 			],
 		},
@@ -528,7 +522,6 @@ ruleTester.run("spaced-comment", rule, {
 				{
 					messageId: "unexpectedSpaceAfter",
 					data: { refChar: "/*" },
-					type: "Block",
 				},
 			],
 		},
@@ -545,7 +538,6 @@ ruleTester.run("spaced-comment", rule, {
 				{
 					messageId: "expectedExceptionAfter",
 					data: { refChar: "/*" },
-					type: "Block",
 				},
 			],
 		},
@@ -557,7 +549,6 @@ ruleTester.run("spaced-comment", rule, {
 				{
 					messageId: "expectedSpaceAfter",
 					data: { refChar: "/*" },
-					type: "Block",
 				},
 			],
 		},
@@ -569,7 +560,6 @@ ruleTester.run("spaced-comment", rule, {
 				{
 					messageId: "unexpectedSpaceAfter",
 					data: { refChar: "/*" },
-					type: "Block",
 				},
 			],
 		},
@@ -581,7 +571,6 @@ ruleTester.run("spaced-comment", rule, {
 				{
 					messageId: "expectedSpaceAfter",
 					data: { refChar: "/*" },
-					type: "Block",
 				},
 			],
 		},
@@ -593,7 +582,6 @@ ruleTester.run("spaced-comment", rule, {
 				{
 					messageId: "expectedSpaceAfter",
 					data: { refChar: "/*" },
-					type: "Block",
 				},
 			],
 		},
@@ -605,7 +593,6 @@ ruleTester.run("spaced-comment", rule, {
 				{
 					messageId: "unexpectedSpaceAfter",
 					data: { refChar: "/*" },
-					type: "Block",
 				},
 			],
 		},
@@ -622,12 +609,10 @@ ruleTester.run("spaced-comment", rule, {
 				{
 					messageId: "expectedSpaceAfter",
 					data: { refChar: "//" },
-					type: "Line",
 				},
 				{
 					messageId: "expectedSpaceAfter",
 					data: { refChar: "//" },
-					type: "Line",
 				},
 			],
 		},
@@ -644,7 +629,6 @@ ruleTester.run("spaced-comment", rule, {
 				{
 					messageId: "expectedSpaceAfter",
 					data: { refChar: "/*" },
-					type: "Block",
 				},
 			],
 		},
@@ -661,7 +645,6 @@ ruleTester.run("spaced-comment", rule, {
 				{
 					messageId: "expectedSpaceAfter",
 					data: { refChar: "//" },
-					type: "Line",
 				},
 			],
 		},
@@ -673,7 +656,6 @@ ruleTester.run("spaced-comment", rule, {
 				{
 					messageId: "expectedSpaceAfter",
 					data: { refChar: "/*" },
-					type: "Block",
 				},
 			],
 		},
@@ -688,7 +670,6 @@ ruleTester.run("spaced-comment", rule, {
 				{
 					messageId: "expectedExceptionAfter",
 					data: { refChar: "/*" },
-					type: "Block",
 				},
 			],
 		},
@@ -703,14 +684,12 @@ ruleTester.run("spaced-comment", rule, {
 				{
 					messageId: "expectedSpaceAfter",
 					data: { refChar: "/*" },
-					type: "Block",
 					line: 4,
 					column: 1,
 				},
 				{
 					messageId: "expectedSpaceAfter",
 					data: { refChar: "/*" },
-					type: "Block",
 					line: 4,
 					column: 13,
 				},
@@ -726,7 +705,6 @@ ruleTester.run("spaced-comment", rule, {
 				{
 					messageId: "expectedSpaceBefore",
 					data: { refChar: "/**" },
-					type: "Block",
 				},
 			],
 		},
@@ -738,7 +716,6 @@ ruleTester.run("spaced-comment", rule, {
 				{
 					messageId: "unexpectedSpaceBefore",
 					data: { refChar: "*/" },
-					type: "Block",
 				},
 			],
 		},
@@ -750,7 +727,6 @@ ruleTester.run("spaced-comment", rule, {
 				{
 					messageId: "expectedSpaceBefore",
 					data: { refChar: "/**" },
-					type: "Block",
 				},
 			],
 		},
@@ -762,7 +738,6 @@ ruleTester.run("spaced-comment", rule, {
 				{
 					messageId: "unexpectedSpaceBefore",
 					data: { refChar: "*/" },
-					type: "Block",
 				},
 			],
 		},
@@ -774,7 +749,6 @@ ruleTester.run("spaced-comment", rule, {
 				{
 					messageId: "expectedSpaceBefore",
 					data: { refChar: "/**" },
-					type: "Block",
 				},
 			],
 		},
@@ -786,7 +760,6 @@ ruleTester.run("spaced-comment", rule, {
 				{
 					messageId: "unexpectedSpaceBefore",
 					data: { refChar: "*/" },
-					type: "Block",
 				},
 			],
 		},
@@ -800,7 +773,6 @@ ruleTester.run("spaced-comment", rule, {
 				{
 					messageId: "expectedSpaceAfter",
 					data: { refChar: "//#endregion" },
-					type: "Line",
 				},
 			],
 		},
@@ -812,7 +784,6 @@ ruleTester.run("spaced-comment", rule, {
 				{
 					messageId: "expectedSpaceAfter",
 					data: { refChar: "/*" },
-					type: "Block",
 				},
 			],
 		},
@@ -824,7 +795,6 @@ ruleTester.run("spaced-comment", rule, {
 				{
 					messageId: "expectedSpaceAfter",
 					data: { refChar: "/**" },
-					type: "Block",
 				},
 			],
 		},
@@ -836,12 +806,10 @@ ruleTester.run("spaced-comment", rule, {
 				{
 					messageId: "expectedSpaceAfter",
 					data: { refChar: "/**" },
-					type: "Block",
 				},
 				{
 					messageId: "expectedSpaceBefore",
 					data: { refChar: "*/" },
-					type: "Block",
 				},
 			],
 		},
@@ -853,12 +821,10 @@ ruleTester.run("spaced-comment", rule, {
 				{
 					messageId: "unexpectedSpaceAfter",
 					data: { refChar: "/*" },
-					type: "Block",
 				},
 				{
 					messageId: "unexpectedSpaceBefore",
 					data: { refChar: "*/" },
-					type: "Block",
 				},
 			],
 		},

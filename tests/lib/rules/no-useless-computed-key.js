@@ -119,7 +119,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'0'" },
-					type: "Property",
 				},
 			],
 		},
@@ -130,7 +129,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'0'" },
-					type: "Property",
 				},
 			],
 		},
@@ -141,7 +139,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'0+1,234'" },
-					type: "Property",
 				},
 			],
 		},
@@ -152,7 +149,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "0" },
-					type: "Property",
 				},
 			],
 		},
@@ -163,7 +159,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "0" },
-					type: "Property",
 				},
 			],
 		},
@@ -174,7 +169,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'x'" },
-					type: "Property",
 				},
 			],
 		},
@@ -185,7 +179,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'x'" },
-					type: "Property",
 				},
 			],
 		},
@@ -196,7 +189,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'__proto__'" },
-					type: "Property",
 				},
 			],
 		},
@@ -207,7 +199,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'x'" },
-					type: "Property",
 				},
 			],
 		},
@@ -218,7 +209,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'x'" },
-					type: "Property",
 				},
 			],
 		},
@@ -229,7 +219,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'x'" },
-					type: "Property",
 				},
 			],
 		},
@@ -240,7 +229,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'x'" },
-					type: "Property",
 				},
 			],
 		},
@@ -251,7 +239,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'x'" },
-					type: "Property",
 				},
 			],
 		},
@@ -262,7 +249,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'x'" },
-					type: "Property",
 				},
 			],
 		},
@@ -274,7 +260,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'x'" },
-					type: "Property",
 				},
 			],
 		},
@@ -285,7 +270,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: ".2" },
-					type: "Property",
 				},
 			],
 		},
@@ -296,7 +280,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: ".2" },
-					type: "Property",
 				},
 			],
 		},
@@ -308,7 +291,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: ".2" },
-					type: "Property",
 				},
 			],
 		},
@@ -319,7 +301,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "2" },
-					type: "Property",
 				},
 			],
 		},
@@ -330,7 +311,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "2" },
-					type: "Property",
 				},
 			],
 		},
@@ -341,7 +321,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "2" },
-					type: "Property",
 				},
 			],
 		},
@@ -353,7 +332,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "2" },
-					type: "Property",
 				},
 			],
 		},
@@ -364,7 +342,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "2" },
-					type: "Property",
 				},
 			],
 		},
@@ -375,7 +352,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "2" },
-					type: "Property",
 				},
 			],
 		},
@@ -387,7 +363,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "2" },
-					type: "Property",
 				},
 			],
 		},
@@ -398,7 +373,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'foo'" },
-					type: "Property",
 				},
 			],
 		},
@@ -409,7 +383,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "2" },
-					type: "Property",
 				},
 			],
 		},
@@ -420,7 +393,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "2" },
-					type: "Property",
 				},
 			],
 		},
@@ -431,7 +403,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'constructor'" },
-					type: "Property",
 				},
 			],
 		},
@@ -442,7 +413,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'prototype'" },
-					type: "Property",
 				},
 			],
 		},
@@ -454,7 +424,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'0'" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -466,7 +435,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'0+1,234'" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -478,7 +446,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'x'" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -489,7 +456,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'x'" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -500,7 +466,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'x'" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -511,7 +476,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'x'" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -522,7 +486,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'x'" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -534,7 +497,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'x'" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -545,7 +507,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: ".2" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -556,7 +517,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: ".2" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -568,7 +528,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: ".2" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -579,7 +538,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "2" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -590,7 +548,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "2" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -601,7 +558,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "2" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -613,7 +569,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "2" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -624,7 +579,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "2" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -635,7 +589,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "2" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -647,7 +600,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "2" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -658,7 +610,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'foo'" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -669,7 +620,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "2" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -680,7 +630,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "2" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -691,7 +640,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'constructor'" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -702,7 +650,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'prototype'" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -713,7 +660,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'x'" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -724,7 +670,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'__proto__'" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -735,7 +680,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'__proto__'" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -746,7 +690,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'constructor'" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -757,7 +700,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'prototype'" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -768,7 +710,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'0'" },
-					type: "PropertyDefinition",
 				},
 			],
 		},
@@ -779,7 +720,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'0'" },
-					type: "PropertyDefinition",
 				},
 			],
 		},
@@ -790,7 +730,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "0" },
-					type: "PropertyDefinition",
 				},
 			],
 		},
@@ -801,7 +740,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'#foo'" },
-					type: "PropertyDefinition",
 				},
 			],
 		},
@@ -812,7 +750,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'__proto__'" },
-					type: "PropertyDefinition",
 				},
 			],
 		},
@@ -823,7 +760,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'__proto__'" },
-					type: "PropertyDefinition",
 				},
 			],
 		},
@@ -834,7 +770,6 @@ ruleTester.run("no-useless-computed-key", rule, {
 				{
 					messageId: "unnecessarilyComputedProperty",
 					data: { property: "'prototype'" },
-					type: "PropertyDefinition",
 				},
 			],
 		},

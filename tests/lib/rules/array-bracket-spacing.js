@@ -456,7 +456,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 12,
 					endLine: 1,
@@ -476,7 +475,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 12,
 					endLine: 1,
@@ -487,7 +485,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "]",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 36,
 					endLine: 1,
@@ -505,7 +502,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 					endLine: 1,
@@ -516,7 +512,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "]",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 34,
 					endLine: 1,
@@ -534,7 +529,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 12,
 					endLine: 1,
@@ -545,7 +539,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "]",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 49,
 					endLine: 1,
@@ -565,7 +558,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 12,
 					endLine: 1,
@@ -576,7 +568,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "]",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 18,
 					endLine: 1,
@@ -594,7 +585,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "]",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 17,
 					endLine: 1,
@@ -612,7 +602,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 					endLine: 1,
@@ -623,7 +612,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "]",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 17,
 					endLine: 1,
@@ -643,7 +631,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 12,
 					endLine: 1,
@@ -661,7 +648,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "]",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 30,
 					endLine: 1,
@@ -679,7 +665,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "]",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 33,
 					endLine: 1,
@@ -697,7 +682,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 12,
 					endLine: 1,
@@ -715,7 +699,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 12,
 					endLine: 1,
@@ -726,7 +709,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "]",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 34,
 					endLine: 1,
@@ -747,7 +729,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayPattern",
 					line: 1,
 					column: 5,
 					endLine: 1,
@@ -758,7 +739,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "]",
 					},
-					type: "ArrayPattern",
 					line: 1,
 					column: 9,
 					endLine: 1,
@@ -777,7 +757,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayPattern",
 					line: 1,
 					column: 5,
 					endLine: 1,
@@ -796,7 +775,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayPattern",
 					line: 1,
 					column: 5,
 					endLine: 1,
@@ -807,7 +785,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "]",
 					},
-					type: "ArrayPattern",
 					line: 1,
 					column: 12,
 					endLine: 1,
@@ -826,7 +803,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "]",
 					},
-					type: "ArrayPattern",
 					line: 1,
 					column: 13,
 					endLine: 1,
@@ -845,7 +821,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayPattern",
 					line: 1,
 					column: 5,
 					endLine: 1,
@@ -856,7 +831,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "]",
 					},
-					type: "ArrayPattern",
 					line: 1,
 					column: 14,
 					endLine: 1,
@@ -875,7 +849,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayPattern",
 					line: 1,
 					column: 5,
 					endLine: 1,
@@ -894,7 +867,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayPattern",
 					line: 1,
 					column: 6,
 					endLine: 1,
@@ -913,7 +885,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayPattern",
 					line: 1,
 					column: 2,
 					endLine: 1,
@@ -932,7 +903,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "]",
 					},
-					type: "ArrayPattern",
 					line: 1,
 					column: 14,
 					endLine: 1,
@@ -952,7 +922,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 					endLine: 1,
@@ -963,7 +932,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "]",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 29,
 					endLine: 1,
@@ -981,7 +949,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 12,
 					endLine: 1,
@@ -1001,7 +968,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 12,
 					endLine: 1,
@@ -1021,7 +987,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 					endLine: 1,
@@ -1032,7 +997,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "]",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 22,
 					endLine: 1,
@@ -1050,7 +1014,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 					endLine: 1,
@@ -1068,7 +1031,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "]",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 23,
 					endLine: 1,
@@ -1088,7 +1050,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 12,
 					endLine: 1,
@@ -1099,7 +1060,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "]",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 23,
 					endLine: 1,
@@ -1117,7 +1077,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "]",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 22,
 					endLine: 1,
@@ -1135,7 +1094,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 12,
 					endLine: 1,
@@ -1153,7 +1111,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 12,
 					endLine: 1,
@@ -1164,7 +1121,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 14,
 					endLine: 1,
@@ -1182,7 +1138,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "]",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 14,
 					endLine: 1,
@@ -1193,7 +1148,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "]",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 25,
 					endLine: 1,
@@ -1217,7 +1171,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayPattern",
 					line: 1,
 					column: 3,
 					endLine: 1,
@@ -1228,7 +1181,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "]",
 					},
-					type: "ArrayPattern",
 					line: 1,
 					column: 8,
 					endLine: 1,
@@ -1250,7 +1202,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayPattern",
 					line: 1,
 					column: 2,
 					endLine: 1,
@@ -1261,7 +1212,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "]",
 					},
-					type: "ArrayPattern",
 					line: 1,
 					column: 7,
 					endLine: 1,
@@ -1281,7 +1231,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 12,
 					endLine: 1,
@@ -1292,7 +1241,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "]",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 18,
 					endLine: 1,
@@ -1313,7 +1261,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayPattern",
 					line: 1,
 					column: 14,
 					endLine: 1,
@@ -1324,7 +1271,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "]",
 					},
-					type: "ArrayPattern",
 					line: 1,
 					column: 21,
 					endLine: 1,
@@ -1342,7 +1288,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 12,
 					endLine: 1,
@@ -1353,7 +1298,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "]",
 					},
-					type: "ArrayExpression",
 					line: 2,
 					column: 5,
 					endLine: 2,
@@ -1371,7 +1315,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 12,
 					endLine: 1,
@@ -1382,7 +1325,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "[",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 18,
 					endLine: 1,
@@ -1393,7 +1335,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "]",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 23,
 					endLine: 1,
@@ -1404,7 +1345,6 @@ ruleTester.run("array-bracket-spacing", rule, {
 					data: {
 						tokenValue: "]",
 					},
-					type: "ArrayExpression",
 					line: 1,
 					column: 26,
 					endLine: 1,

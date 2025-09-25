@@ -65,7 +65,6 @@ function expectedErrors(providedIndentType, providedErrors) {
 					: `${err[1]} ${indentType}${err[1] === 1 ? "" : "s"}`,
 			actual: err[2],
 		},
-		type: err[3],
 		line: err[0],
 	}));
 }
@@ -1804,7 +1803,7 @@ ruleTester.run("indent-legacy", rule, {
 			code: "var a = b;\n" + "if (a) {\n" + "b();\n" + "}\n",
 			output: "var a = b;\n" + "if (a) {\n" + "  b();\n" + "}\n",
 			options: [2],
-			errors: expectedErrors([[3, 2, 0, "ExpressionStatement"]]),
+			errors: expectedErrors([[3, 2, 0]]),
 		},
 		{
 			code:
@@ -1839,8 +1838,8 @@ ruleTester.run("indent-legacy", rule, {
 				"}\n",
 			options: [2],
 			errors: expectedErrors([
-				[4, 2, 0, "ExpressionStatement"],
-				[6, 2, 4, "ExpressionStatement"],
+				[4, 2, 0],
+				[6, 2, 4],
 			]),
 		},
 		{
@@ -1848,8 +1847,8 @@ ruleTester.run("indent-legacy", rule, {
 			output: "if (a){\n\tb=c;\n\tc=d;\n\te=f;\n}",
 			options: ["tab"],
 			errors: expectedErrors("tab", [
-				[3, 1, 2, "ExpressionStatement"],
-				[4, 1, 0, "ExpressionStatement"],
+				[3, 1, 2],
+				[4, 1, 0],
 			]),
 		},
 		{
@@ -1857,8 +1856,8 @@ ruleTester.run("indent-legacy", rule, {
 			output: "if (a){\n    b=c;\n    c=d;\n    e=f;\n}",
 			options: [4],
 			errors: expectedErrors([
-				[3, 4, 6, "ExpressionStatement"],
-				[4, 4, 1, "ExpressionStatement"],
+				[3, 4, 6],
+				[4, 4, 1],
 			]),
 		},
 		{
@@ -1866,7 +1865,7 @@ ruleTester.run("indent-legacy", rule, {
 			output: fixedFixture,
 			options: [2, { SwitchCase: 1, MemberExpression: 1 }],
 			errors: expectedErrors([
-				[5, 2, 4, "VariableDeclaration"],
+				[5, 2, 4],
 				[10, 4, 6, "BlockStatement"],
 				[11, 2, 4, "BlockStatement"],
 				[15, 4, 2, "ExpressionStatement"],
@@ -1987,8 +1986,8 @@ ruleTester.run("indent-legacy", rule, {
 				"}",
 			options: [4, { SwitchCase: 1 }],
 			errors: expectedErrors([
-				[4, 8, 4, "BreakStatement"],
-				[7, 8, 4, "BreakStatement"],
+				[4, 8, 4],
+				[7, 8, 4],
 			]),
 		},
 		{
@@ -2006,8 +2005,8 @@ ruleTester.run("indent-legacy", rule, {
 				"    };",
 			options: [4],
 			errors: expectedErrors([
-				[3, 8, 7, "Property"],
-				[4, 8, 10, "Property"],
+				[3, 8, 7],
+				[4, 8, 10],
 			]),
 		},
 		{
@@ -2034,7 +2033,7 @@ ruleTester.run("indent-legacy", rule, {
 				"        break;\n" +
 				"}",
 			options: [4, { SwitchCase: 1 }],
-			errors: expectedErrors([9, 8, 4, "BreakStatement"]),
+			errors: expectedErrors([9, 8, 4]),
 		},
 		{
 			code:
@@ -2105,12 +2104,12 @@ ruleTester.run("indent-legacy", rule, {
 				"}",
 			options: [4],
 			errors: expectedErrors([
-				[3, 4, 8, "ExpressionStatement"],
-				[4, 4, 8, "BreakStatement"],
-				[5, 0, 4, "SwitchCase"],
-				[6, 4, 8, "BreakStatement"],
-				[7, 0, 4, "SwitchCase"],
-				[8, 4, 8, "BreakStatement"],
+				[3, 4, 8],
+				[4, 4, 8],
+				[5, 0, 4],
+				[6, 4, 8],
+				[7, 0, 4],
+				[8, 4, 8],
 			]),
 		},
 		{
@@ -2124,7 +2123,7 @@ ruleTester.run("indent-legacy", rule, {
 				"with (obj) {\n" +
 				"    console.log(foo + bar);\n" +
 				"}\n",
-			errors: expectedErrors([3, 4, 0, "ExpressionStatement"]),
+			errors: expectedErrors([3, 4, 0]),
 		},
 		{
 			code:
@@ -2147,12 +2146,12 @@ ruleTester.run("indent-legacy", rule, {
 				"}\n",
 			options: [4, { SwitchCase: 1 }],
 			errors: expectedErrors([
-				[2, 4, 0, "SwitchCase"],
-				[3, 8, 0, "ExpressionStatement"],
-				[4, 8, 0, "BreakStatement"],
-				[5, 4, 0, "SwitchCase"],
-				[6, 8, 0, "ExpressionStatement"],
-				[7, 8, 0, "BreakStatement"],
+				[2, 4, 0],
+				[3, 8, 0],
+				[4, 8, 0],
+				[5, 4, 0],
+				[6, 8, 0],
+				[7, 8, 0],
 			]),
 		},
 		{
@@ -2215,37 +2214,37 @@ ruleTester.run("indent-legacy", rule, {
 				"};",
 			options: [2, { MemberExpression: 1 }],
 			languageOptions: { ecmaVersion: 6 },
-			errors: expectedErrors([[3, 4, 6, "Punctuator"]]),
+			errors: expectedErrors([[3, 4, 6]]),
 		},
 		{
 			code: "while (a) \n" + "b();",
 			output: "while (a) \n" + "    b();",
 			options: [4],
-			errors: expectedErrors([[2, 4, 0, "ExpressionStatement"]]),
+			errors: expectedErrors([[2, 4, 0]]),
 		},
 		{
 			code: "for (;;) \n" + "b();",
 			output: "for (;;) \n" + "    b();",
 			options: [4],
-			errors: expectedErrors([[2, 4, 0, "ExpressionStatement"]]),
+			errors: expectedErrors([[2, 4, 0]]),
 		},
 		{
 			code: "for (a in x) \n" + "b();",
 			output: "for (a in x) \n" + "    b();",
 			options: [4],
-			errors: expectedErrors([[2, 4, 0, "ExpressionStatement"]]),
+			errors: expectedErrors([[2, 4, 0]]),
 		},
 		{
 			code: "do \n" + "b();\n" + "while(true)",
 			output: "do \n" + "    b();\n" + "while(true)",
 			options: [4],
-			errors: expectedErrors([[2, 4, 0, "ExpressionStatement"]]),
+			errors: expectedErrors([[2, 4, 0]]),
 		},
 		{
 			code: "if(true) \n" + "b();",
 			output: "if(true) \n" + "    b();",
 			options: [4],
-			errors: expectedErrors([[2, 4, 0, "ExpressionStatement"]]),
+			errors: expectedErrors([[2, 4, 0]]),
 		},
 		{
 			code:
@@ -2253,9 +2252,9 @@ ruleTester.run("indent-legacy", rule, {
 			output: "var test = {\n" + "  a: 1,\n" + "  b: 2\n" + "};\n",
 			options: [2],
 			errors: expectedErrors([
-				[2, 2, 6, "Property"],
-				[3, 2, 4, "Property"],
-				[4, 0, 4, "ObjectExpression"],
+				[2, 2, 6],
+				[3, 2, 4],
+				[4, 0, 4],
 			]),
 		},
 		{
@@ -2275,9 +2274,9 @@ ruleTester.run("indent-legacy", rule, {
 				"    b;\n",
 			options: [4],
 			errors: expectedErrors([
-				[2, 8, 6, "ExpressionStatement"],
-				[3, 8, 4, "ExpressionStatement"],
-				[4, 8, 10, "ExpressionStatement"],
+				[2, 8, 6],
+				[3, 8, 4],
+				[4, 8, 10],
 			]),
 		},
 		{
@@ -2285,8 +2284,8 @@ ruleTester.run("indent-legacy", rule, {
 			output: "var a = 1,\n" + "    b = 2,\n" + "    c = 3;\n",
 			options: [4],
 			errors: expectedErrors([
-				[2, 4, 0, "VariableDeclarator"],
-				[3, 4, 0, "VariableDeclarator"],
+				[2, 4, 0],
+				[3, 4, 0],
 			]),
 		},
 		{
@@ -2299,8 +2298,8 @@ ruleTester.run("indent-legacy", rule, {
 			options: [4],
 			languageOptions: { ecmaVersion: 6 },
 			errors: expectedErrors([
-				[2, 4, 0, "Identifier"],
-				[3, 4, 2, "ExpressionStatement"],
+				[2, 4, 0],
+				[3, 4, 2],
 			]),
 		},
 		{
@@ -2316,8 +2315,8 @@ ruleTester.run("indent-legacy", rule, {
 			options: [4],
 			languageOptions: { ecmaVersion: 6 },
 			errors: expectedErrors([
-				[2, 4, 0, "Identifier"],
-				[3, 4, 2, "ReturnStatement"],
+				[2, 4, 0],
+				[3, 4, 2],
 			]),
 		},
 		{
@@ -2332,7 +2331,7 @@ ruleTester.run("indent-legacy", rule, {
 				"});\n",
 			options: [4],
 			languageOptions: { ecmaVersion: 6 },
-			errors: expectedErrors([[2, 4, 0, "Identifier"]]),
+			errors: expectedErrors([[2, 4, 0]]),
 		},
 		{
 			code: "[a, b, c].forEach((index) => {\n" + "  index;\n" + "});\n",
@@ -2340,7 +2339,7 @@ ruleTester.run("indent-legacy", rule, {
 				"[a, b, c].forEach((index) => {\n" + "    index;\n" + "});\n",
 			options: [4],
 			languageOptions: { ecmaVersion: 6 },
-			errors: expectedErrors([[2, 4, 2, "ExpressionStatement"]]),
+			errors: expectedErrors([[2, 4, 2]]),
 		},
 		{
 			code:
@@ -2353,7 +2352,7 @@ ruleTester.run("indent-legacy", rule, {
 				"});\n",
 			options: [4],
 			languageOptions: { ecmaVersion: 6 },
-			errors: expectedErrors([[2, 4, 2, "ReturnStatement"]]),
+			errors: expectedErrors([[2, 4, 2]]),
 		},
 		{
 			code:
@@ -2361,8 +2360,8 @@ ruleTester.run("indent-legacy", rule, {
 			output: "var x = ['a',\n" + "    'b',\n" + "    'c'\n" + "];",
 			options: [4],
 			errors: expectedErrors([
-				[2, 4, 9, "Literal"],
-				[3, 4, 9, "Literal"],
+				[2, 4, 9],
+				[3, 4, 9],
 			]),
 		},
 		{
@@ -2380,9 +2379,9 @@ ruleTester.run("indent-legacy", rule, {
 				"];",
 			options: [4],
 			errors: expectedErrors([
-				[2, 4, 9, "Literal"],
-				[3, 4, 9, "Literal"],
-				[4, 4, 9, "Literal"],
+				[2, 4, 9],
+				[3, 4, 9],
+				[4, 4, 9],
 			]),
 		},
 		{
@@ -2400,10 +2399,10 @@ ruleTester.run("indent-legacy", rule, {
 				"    'd'];",
 			options: [4],
 			errors: expectedErrors([
-				[2, 4, 9, "Literal"],
-				[3, 4, 9, "Literal"],
-				[4, 4, 9, "Literal"],
-				[5, 4, 0, "Literal"],
+				[2, 4, 9],
+				[3, 4, 9],
+				[4, 4, 9],
+				[5, 4, 0],
 			]),
 		},
 		{
@@ -2422,10 +2421,10 @@ ruleTester.run("indent-legacy", rule, {
 			options: [4],
 			languageOptions: { ecmaVersion: 6 },
 			errors: expectedErrors([
-				[2, 4, 9, "Literal"],
-				[3, 4, 9, "Literal"],
-				[4, 4, 9, "Literal"],
-				[5, 0, 2, "ArrayExpression"],
+				[2, 4, 9],
+				[3, 4, 9],
+				[4, 4, 9],
+				[5, 0, 2],
 			]),
 		},
 		{
@@ -2433,8 +2432,8 @@ ruleTester.run("indent-legacy", rule, {
 			output: "while (1 < 2)\n  console.log('foo')\nconsole.log('bar')",
 			options: [2],
 			errors: expectedErrors([
-				[2, 2, 0, "ExpressionStatement"],
-				[3, 0, 2, "ExpressionStatement"],
+				[2, 2, 0],
+				[3, 0, 2],
 			]),
 		},
 		{
@@ -2453,7 +2452,7 @@ ruleTester.run("indent-legacy", rule, {
 				"  }\n" +
 				"}\n",
 			options: [2, { SwitchCase: 1 }],
-			errors: expectedErrors([[3, 4, 2, "SwitchCase"]]),
+			errors: expectedErrors([[3, 4, 2]]),
 		},
 		{
 			code:
@@ -2463,7 +2462,7 @@ ruleTester.run("indent-legacy", rule, {
 				"var geometry, box, face1, face2, colorT, colorB, sprite, padding, maxWidth,\n" +
 				"  height, rotate;",
 			options: [2, { SwitchCase: 1 }],
-			errors: expectedErrors([[2, 2, 0, "VariableDeclarator"]]),
+			errors: expectedErrors([[2, 2, 0]]),
 		},
 		{
 			code:
@@ -2486,38 +2485,38 @@ ruleTester.run("indent-legacy", rule, {
 				"}\n",
 			options: [4, { SwitchCase: 2 }],
 			errors: expectedErrors([
-				[2, 8, 0, "SwitchCase"],
-				[3, 12, 0, "ExpressionStatement"],
-				[4, 12, 0, "BreakStatement"],
-				[5, 8, 0, "SwitchCase"],
-				[6, 12, 0, "ExpressionStatement"],
-				[7, 12, 0, "BreakStatement"],
+				[2, 8, 0],
+				[3, 12, 0],
+				[4, 12, 0],
+				[5, 8, 0],
+				[6, 12, 0],
+				[7, 12, 0],
 			]),
 		},
 		{
 			code: "var geometry,\n" + "rotate;",
 			output: "var geometry,\n" + "  rotate;",
 			options: [2, { VariableDeclarator: 1 }],
-			errors: expectedErrors([[2, 2, 0, "VariableDeclarator"]]),
+			errors: expectedErrors([[2, 2, 0]]),
 		},
 		{
 			code: "var geometry,\n" + "  rotate;",
 			output: "var geometry,\n" + "    rotate;",
 			options: [2, { VariableDeclarator: 2 }],
-			errors: expectedErrors([[2, 4, 2, "VariableDeclarator"]]),
+			errors: expectedErrors([[2, 4, 2]]),
 		},
 		{
 			code: "var geometry,\n" + "\trotate;",
 			output: "var geometry,\n" + "\t\trotate;",
 			options: ["tab", { VariableDeclarator: 2 }],
-			errors: expectedErrors("tab", [[2, 2, 1, "VariableDeclarator"]]),
+			errors: expectedErrors("tab", [[2, 2, 1]]),
 		},
 		{
 			code: "let geometry,\n" + "  rotate;",
 			output: "let geometry,\n" + "    rotate;",
 			options: [2, { VariableDeclarator: 2 }],
 			languageOptions: { ecmaVersion: 6 },
-			errors: expectedErrors([[2, 4, 2, "VariableDeclarator"]]),
+			errors: expectedErrors([[2, 4, 2]]),
 		},
 		{
 			code:
@@ -2531,15 +2530,15 @@ ruleTester.run("indent-legacy", rule, {
 				"    if (true)\n" +
 				"      console.log(val);",
 			options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
-			errors: expectedErrors([[4, 6, 4, "ExpressionStatement"]]),
+			errors: expectedErrors([[4, 6, 4]]),
 		},
 		{
 			code: "var a = {\n" + "    a: 1,\n" + "    b: 2\n" + "}",
 			output: "var a = {\n" + "  a: 1,\n" + "  b: 2\n" + "}",
 			options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
 			errors: expectedErrors([
-				[2, 2, 4, "Property"],
-				[3, 2, 4, "Property"],
+				[2, 2, 4],
+				[3, 2, 4],
 			]),
 		},
 		{
@@ -2547,8 +2546,8 @@ ruleTester.run("indent-legacy", rule, {
 			output: "var a = [\n" + "  a,\n" + "  b\n" + "]",
 			options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
 			errors: expectedErrors([
-				[2, 2, 4, "Identifier"],
-				[3, 2, 4, "Identifier"],
+				[2, 2, 4],
+				[3, 2, 4],
 			]),
 		},
 		{
@@ -2557,8 +2556,8 @@ ruleTester.run("indent-legacy", rule, {
 			options: [2, { VariableDeclarator: { let: 2 }, SwitchCase: 1 }],
 			languageOptions: { ecmaVersion: 6 },
 			errors: expectedErrors([
-				[2, 2, 4, "Identifier"],
-				[3, 2, 4, "Identifier"],
+				[2, 2, 4],
+				[3, 2, 4],
 			]),
 		},
 		{
@@ -2574,8 +2573,8 @@ ruleTester.run("indent-legacy", rule, {
 				"    b = 4;\n",
 			options: [4],
 			errors: expectedErrors([
-				[2, 8, 6, "Property"],
-				[3, 4, 2, "ObjectExpression"],
+				[2, 8, 6],
+				[3, 4, 2],
 			]),
 		},
 		{
@@ -2600,9 +2599,9 @@ ruleTester.run("indent-legacy", rule, {
 			options: [2, { VariableDeclarator: { var: 2 } }],
 			languageOptions: { ecmaVersion: 6 },
 			errors: expectedErrors([
-				[6, 4, 6, "Property"],
-				[7, 2, 4, "ObjectExpression"],
-				[8, 2, 4, "VariableDeclarator"],
+				[6, 4, 6],
+				[7, 2, 4],
+				[8, 2, 4],
 			]),
 		},
 		{
@@ -2624,10 +2623,10 @@ ruleTester.run("indent-legacy", rule, {
 				"    };",
 			options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
 			errors: expectedErrors([
-				[4, 4, 5, "ObjectExpression"],
-				[5, 6, 7, "Property"],
-				[6, 6, 8, "Property"],
-				[7, 4, 5, "ObjectExpression"],
+				[4, 4, 5],
+				[5, 6, 7],
+				[6, 6, 8],
+				[7, 4, 5],
 			]),
 		},
 		{
@@ -2645,10 +2644,10 @@ ruleTester.run("indent-legacy", rule, {
 				"    };",
 			options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
 			errors: expectedErrors([
-				[2, 4, 5, "ObjectExpression"],
-				[3, 6, 7, "Property"],
-				[4, 6, 8, "Property"],
-				[5, 4, 5, "ObjectExpression"],
+				[2, 4, 5],
+				[3, 6, 7],
+				[4, 6, 8],
+				[5, 4, 5],
 			]),
 		},
 		{
@@ -2661,12 +2660,12 @@ ruleTester.run("indent-legacy", rule, {
 				" , crypto    = require('crypto')\n" +
 				" ;\n",
 			options: [2],
-			errors: expectedErrors([[3, 1, 0, "VariableDeclaration"]]),
+			errors: expectedErrors([[3, 1, 0]]),
 		},
 		{
 			code: "var a = 1\n" + "   ,b = 2\n" + ";",
 			output: "var a = 1\n" + "   ,b = 2\n" + "   ;",
-			errors: expectedErrors([[3, 3, 0, "VariableDeclaration"]]),
+			errors: expectedErrors([[3, 3, 0]]),
 		},
 		{
 			code:
@@ -2683,7 +2682,7 @@ ruleTester.run("indent-legacy", rule, {
 				"}",
 			options: [4, { VariableDeclarator: 1, SwitchCase: 1 }],
 			languageOptions: { ecmaVersion: 6 },
-			errors: expectedErrors([[2, 4, 2, "MethodDefinition"]]),
+			errors: expectedErrors([[2, 4, 2]]),
 		},
 		{
 			code:
@@ -2701,8 +2700,8 @@ ruleTester.run("indent-legacy", rule, {
 			options: [4, { VariableDeclarator: 1, SwitchCase: 1 }],
 			languageOptions: { ecmaVersion: 6 },
 			errors: expectedErrors([
-				[2, 4, 2, "MethodDefinition"],
-				[4, 4, 2, "MethodDefinition"],
+				[2, 4, 2],
+				[4, 4, 2],
 			]),
 		},
 		{
@@ -2722,7 +2721,7 @@ ruleTester.run("indent-legacy", rule, {
 				"    };",
 			options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
 			languageOptions: { ecmaVersion: 6 },
-			errors: expectedErrors([[3, 6, 4, "MethodDefinition"]]),
+			errors: expectedErrors([[3, 6, 4]]),
 		},
 		{
 			code:
@@ -2744,7 +2743,7 @@ ruleTester.run("indent-legacy", rule, {
 				"    }\n" +
 				"}\n",
 			options: [4],
-			errors: expectedErrors([[5, 4, 2, "Keyword"]]),
+			errors: expectedErrors([[5, 4, 2]]),
 		},
 		{
 			code:
@@ -2766,7 +2765,7 @@ ruleTester.run("indent-legacy", rule, {
 				"    \n" +
 				"}\n",
 			options: [4],
-			errors: expectedErrors([[5, 4, 2, "Keyword"]]),
+			errors: expectedErrors([[5, 4, 2]]),
 		},
 		{
 			code:
@@ -2784,7 +2783,7 @@ ruleTester.run("indent-legacy", rule, {
 				"        bar();\n" +
 				"}\n",
 			options: [4],
-			errors: expectedErrors([[4, 4, 2, "Keyword"]]),
+			errors: expectedErrors([[4, 4, 2]]),
 		},
 		{
 			code:
@@ -2800,7 +2799,7 @@ ruleTester.run("indent-legacy", rule, {
 				"  }\n" +
 				"})();",
 			options: [2, { outerIIFEBody: 0 }],
-			errors: expectedErrors([[2, 0, 2, "FunctionDeclaration"]]),
+			errors: expectedErrors([[2, 0, 2]]),
 		},
 		{
 			code:
@@ -2816,13 +2815,13 @@ ruleTester.run("indent-legacy", rule, {
 				"    }\n" +
 				"})();",
 			options: [4, { outerIIFEBody: 2 }],
-			errors: expectedErrors([[2, 8, 4, "FunctionDeclaration"]]),
+			errors: expectedErrors([[2, 8, 4]]),
 		},
 		{
 			code: "if(data) {\n" + "console.log('hi');\n" + "}",
 			output: "if(data) {\n" + "  console.log('hi');\n" + "}",
 			options: [2, { outerIIFEBody: 0 }],
-			errors: expectedErrors([[2, 2, 0, "ExpressionStatement"]]),
+			errors: expectedErrors([[2, 2, 0]]),
 		},
 		{
 			code:
@@ -2838,7 +2837,7 @@ ruleTester.run("indent-legacy", rule, {
 				"    }\n" +
 				"}(x);",
 			options: [4, { outerIIFEBody: 2 }],
-			errors: expectedErrors([[2, 8, 4, "FunctionDeclaration"]]),
+			errors: expectedErrors([[2, 8, 4]]),
 		},
 		{
 			code:
@@ -2854,7 +2853,7 @@ ruleTester.run("indent-legacy", rule, {
 				"  }()\n" +
 				"};\n",
 			options: [2, { outerIIFEBody: 0 }],
-			errors: expectedErrors([[3, 4, 2, "ReturnStatement"]]),
+			errors: expectedErrors([[3, 4, 2]]),
 		},
 		{
 			code:
@@ -2870,7 +2869,7 @@ ruleTester.run("indent-legacy", rule, {
 				"    }\n" +
 				"}();",
 			options: [2, { outerIIFEBody: 2 }],
-			errors: expectedErrors([[2, 2, 4, "FunctionDeclaration"]]),
+			errors: expectedErrors([[2, 2, 4]]),
 		},
 		{
 			code:
@@ -2886,39 +2885,39 @@ ruleTester.run("indent-legacy", rule, {
 				"\t}()\n" +
 				"};",
 			options: ["tab", { outerIIFEBody: 3 }],
-			errors: expectedErrors("tab", [[3, 2, 4, "ReturnStatement"]]),
+			errors: expectedErrors("tab", [[3, 2, 4]]),
 		},
 		{
 			code: "Buffer\n" + ".toString()",
 			output: "Buffer\n" + "    .toString()",
 			options: [4, { MemberExpression: 1 }],
-			errors: expectedErrors([[2, 4, 0, "Punctuator"]]),
+			errors: expectedErrors([[2, 4, 0]]),
 		},
 		{
 			code: "Buffer\n" + "    .indexOf('a')\n" + ".toString()",
 			output: "Buffer\n" + "    .indexOf('a')\n" + "    .toString()",
 			options: [4, { MemberExpression: 1 }],
-			errors: expectedErrors([[3, 4, 0, "Punctuator"]]),
+			errors: expectedErrors([[3, 4, 0]]),
 		},
 		{
 			code: "Buffer.\n" + "length",
 			output: "Buffer.\n" + "    length",
 			options: [4, { MemberExpression: 1 }],
-			errors: expectedErrors([[2, 4, 0, "Identifier"]]),
+			errors: expectedErrors([[2, 4, 0]]),
 		},
 		{
 			code: "Buffer.\n" + "\t\tlength",
 			output: "Buffer.\n" + "\tlength",
 			options: ["tab", { MemberExpression: 1 }],
-			errors: expectedErrors("tab", [[2, 1, 2, "Identifier"]]),
+			errors: expectedErrors("tab", [[2, 1, 2]]),
 		},
 		{
 			code: "Buffer\n" + "  .foo\n" + "  .bar",
 			output: "Buffer\n" + "    .foo\n" + "    .bar",
 			options: [2, { MemberExpression: 2 }],
 			errors: expectedErrors([
-				[2, 4, 2, "Punctuator"],
-				[3, 4, 2, "Punctuator"],
+				[2, 4, 2],
+				[3, 4, 2],
 			]),
 		},
 		{
@@ -2933,7 +2932,7 @@ ruleTester.run("indent-legacy", rule, {
 				"else if (baz) foobar();\n" +
 				"else if (qux) qux();",
 			options: [2],
-			errors: expectedErrors([3, 0, 2, "Keyword"]),
+			errors: expectedErrors([3, 0, 2]),
 		},
 		{
 			code:
@@ -2945,15 +2944,15 @@ ruleTester.run("indent-legacy", rule, {
 				"else if (baz) foobar();\n" +
 				"else qux();",
 			options: [2],
-			errors: expectedErrors([3, 0, 2, "Keyword"]),
+			errors: expectedErrors([3, 0, 2]),
 		},
 		{
 			code: "foo();\n" + "  if (baz) foobar();\n" + "  else qux();",
 			output: "foo();\n" + "if (baz) foobar();\n" + "else qux();",
 			options: [2],
 			errors: expectedErrors([
-				[2, 0, 2, "IfStatement"],
-				[3, 0, 2, "Keyword"],
+				[2, 0, 2],
+				[3, 0, 2],
 			]),
 		},
 		{
@@ -2970,7 +2969,7 @@ ruleTester.run("indent-legacy", rule, {
 				"       qux();\n" + // (fixed on the next pass)
 				"     }",
 			options: [2],
-			errors: expectedErrors([3, 0, 5, "Keyword"]),
+			errors: expectedErrors([3, 0, 5]),
 		},
 		{
 			code:
@@ -2989,8 +2988,8 @@ ruleTester.run("indent-legacy", rule, {
 				"     }",
 			options: [2],
 			errors: expectedErrors([
-				[3, 2, 4, "ExpressionStatement"],
-				[4, 0, 5, "BlockStatement"],
+				[3, 2, 4],
+				[4, 0, 5],
 			]),
 		},
 		{
@@ -3006,8 +3005,8 @@ ruleTester.run("indent-legacy", rule, {
 				"}",
 			options: [2, { FunctionDeclaration: { parameters: 1, body: 2 } }],
 			errors: expectedErrors([
-				[2, 2, 4, "Identifier"],
-				[3, 4, 6, "ExpressionStatement"],
+				[2, 2, 4],
+				[3, 4, 6],
 			]),
 		},
 		{
@@ -3023,8 +3022,8 @@ ruleTester.run("indent-legacy", rule, {
 				"}",
 			options: [2, { FunctionDeclaration: { parameters: 3, body: 1 } }],
 			errors: expectedErrors([
-				[2, 6, 2, "Identifier"],
-				[3, 2, 0, "ExpressionStatement"],
+				[2, 6, 2],
+				[3, 2, 0],
 			]),
 		},
 		{
@@ -3042,9 +3041,9 @@ ruleTester.run("indent-legacy", rule, {
 				"}",
 			options: [4, { FunctionDeclaration: { parameters: 1, body: 3 } }],
 			errors: expectedErrors([
-				[2, 4, 8, "Identifier"],
-				[3, 4, 2, "Identifier"],
-				[4, 12, 6, "ExpressionStatement"],
+				[2, 4, 8],
+				[3, 4, 2],
+				[4, 12, 6],
 			]),
 		},
 		{
@@ -3065,16 +3064,16 @@ ruleTester.run("indent-legacy", rule, {
 				{ FunctionDeclaration: { parameters: "first", body: 1 } },
 			],
 			errors: expectedErrors([
-				[2, 13, 2, "Identifier"],
-				[3, 13, 19, "Identifier"],
-				[4, 2, 3, "ExpressionStatement"],
+				[2, 13, 2],
+				[3, 13, 19],
+				[4, 2, 3],
 			]),
 		},
 		{
 			code: "function foo(aaa, bbb)\n" + "{\n" + "bar();\n" + "}",
 			output: "function foo(aaa, bbb)\n" + "{\n" + "      bar();\n" + "}",
 			options: [2, { FunctionDeclaration: { body: 3 } }],
-			errors: expectedErrors([3, 6, 0, "ExpressionStatement"]),
+			errors: expectedErrors([3, 6, 0]),
 		},
 		{
 			code:
@@ -3094,8 +3093,8 @@ ruleTester.run("indent-legacy", rule, {
 				{ FunctionDeclaration: { parameters: "first", body: 2 } },
 			],
 			errors: expectedErrors([
-				[3, 0, 4, "Identifier"],
-				[4, 4, 0, "ExpressionStatement"],
+				[3, 0, 4],
+				[4, 4, 0],
 			]),
 		},
 		{
@@ -3115,9 +3114,9 @@ ruleTester.run("indent-legacy", rule, {
 				"}",
 			options: [2, { FunctionExpression: { parameters: 2, body: 0 } }],
 			errors: expectedErrors([
-				[2, 4, 2, "Identifier"],
-				[4, 4, 6, "Identifier"],
-				[5, 0, 2, "ExpressionStatement"],
+				[2, 4, 2],
+				[4, 4, 6],
+				[5, 0, 2],
 			]),
 		},
 		{
@@ -3135,9 +3134,9 @@ ruleTester.run("indent-legacy", rule, {
 				"}",
 			options: [2, { FunctionExpression: { parameters: 1, body: 10 } }],
 			errors: expectedErrors([
-				[2, 2, 3, "Identifier"],
-				[3, 2, 1, "Identifier"],
-				[4, 20, 2, "ExpressionStatement"],
+				[2, 2, 3],
+				[3, 2, 1],
+				[4, 20, 2],
 			]),
 		},
 		{
@@ -3158,9 +3157,9 @@ ruleTester.run("indent-legacy", rule, {
 				{ FunctionExpression: { parameters: "first", body: 1 } },
 			],
 			errors: expectedErrors([
-				[2, 19, 2, "Identifier"],
-				[3, 19, 24, "Identifier"],
-				[4, 4, 8, "ExpressionStatement"],
+				[2, 19, 2],
+				[3, 19, 24],
+				[4, 4, 8],
 			]),
 		},
 		{
@@ -3181,8 +3180,8 @@ ruleTester.run("indent-legacy", rule, {
 				{ FunctionExpression: { parameters: "first", body: 3 } },
 			],
 			errors: expectedErrors([
-				[3, 0, 4, "Identifier"],
-				[4, 6, 2, "ExpressionStatement"],
+				[3, 0, 4],
+				[4, 6, 2],
 			]),
 		},
 		{
@@ -3211,17 +3210,15 @@ ruleTester.run("indent-legacy", rule, {
 				"}",
 			options: ["tab"],
 			errors: expectedErrors("tab", [
-				[3, "1 tab", "2 spaces", "ExpressionStatement"],
-				[4, "1 tab", "14 spaces", "ExpressionStatement"],
+				[3, "1 tab", "2 spaces"],
+				[4, "1 tab", "14 spaces"],
 			]),
 		},
 		{
 			code: "function foo() {\n" + "  bar();\n" + "\t\t}",
 			output: "function foo() {\n" + "  bar();\n" + "}",
 			options: [2],
-			errors: expectedErrors([
-				[3, "0 spaces", "2 tabs", "BlockStatement"],
-			]),
+			errors: expectedErrors([[3, "0 spaces", "2 tabs"]]),
 		},
 		{
 			code:
@@ -3237,7 +3234,7 @@ ruleTester.run("indent-legacy", rule, {
 				"  }\n" +
 				"}",
 			options: [2, { FunctionDeclaration: { body: 1 } }],
-			errors: expectedErrors([3, 4, 8, "ExpressionStatement"]),
+			errors: expectedErrors([3, 4, 8]),
 		},
 		{
 			code:
@@ -3255,7 +3252,7 @@ ruleTester.run("indent-legacy", rule, {
 				"  }\n" +
 				"}",
 			options: [2, { FunctionDeclaration: { body: 1, parameters: 2 } }],
-			errors: expectedErrors([3, 6, 4, "Identifier"]),
+			errors: expectedErrors([3, 6, 4]),
 		},
 		{
 			code:
@@ -3295,15 +3292,15 @@ ruleTester.run("indent-legacy", rule, {
 				"    }\n" +
 				"}",
 			errors: expectedErrors([
-				[4, 4, 0, "Keyword"],
-				[6, 4, 0, "Keyword"],
+				[4, 4, 0],
+				[6, 4, 0],
 			]),
 		},
 		{
 			code: "{\n" + "    do {\n" + "    }\n" + "while (true)\n" + "}",
 			output:
 				"{\n" + "    do {\n" + "    }\n" + "    while (true)\n" + "}",
-			errors: expectedErrors([4, 4, 0, "Keyword"]),
+			errors: expectedErrors([4, 4, 0]),
 		},
 		{
 			code:
@@ -3319,7 +3316,7 @@ ruleTester.run("indent-legacy", rule, {
 				"  )\n" +
 				"}",
 			options: [2],
-			errors: expectedErrors([[4, "2 spaces", "4", "ReturnStatement"]]),
+			errors: expectedErrors([[4, "2 spaces", "4"]]),
 		},
 		{
 			code:
@@ -3335,7 +3332,7 @@ ruleTester.run("indent-legacy", rule, {
 				"  );\n" +
 				"}",
 			options: [2],
-			errors: expectedErrors([[4, "2 spaces", "4", "ReturnStatement"]]),
+			errors: expectedErrors([[4, "2 spaces", "4"]]),
 		},
 		{
 			code:
@@ -3355,27 +3352,27 @@ ruleTester.run("indent-legacy", rule, {
 				"  }\n" +
 				"}",
 			options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
-			errors: expectedErrors([[4, "6 spaces", "4", "ReturnStatement"]]),
+			errors: expectedErrors([[4, "6 spaces", "4"]]),
 		},
 		{
 			code: "function foo() {\n" + "   return 1\n" + "}",
 			output: "function foo() {\n" + "  return 1\n" + "}",
 			options: [2],
-			errors: expectedErrors([[2, "2 spaces", "3", "ReturnStatement"]]),
+			errors: expectedErrors([[2, "2 spaces", "3"]]),
 		},
 		{
 			code: "function foo() {\n" + "   return 1;\n" + "}",
 			output: "function foo() {\n" + "  return 1;\n" + "}",
 			options: [2],
-			errors: expectedErrors([[2, "2 spaces", "3", "ReturnStatement"]]),
+			errors: expectedErrors([[2, "2 spaces", "3"]]),
 		},
 		{
 			code: "foo(\n" + "bar,\n" + "  baz,\n" + "    qux);",
 			output: "foo(\n" + "  bar,\n" + "  baz,\n" + "  qux);",
 			options: [2, { CallExpression: { arguments: 1 } }],
 			errors: expectedErrors([
-				[2, 2, 0, "Identifier"],
-				[4, 2, 4, "Identifier"],
+				[2, 2, 0],
+				[4, 2, 4],
 			]),
 		},
 		{
@@ -3383,8 +3380,8 @@ ruleTester.run("indent-legacy", rule, {
 			output: "foo(\n" + "    bar,\n" + "    baz);",
 			options: [2, { CallExpression: { arguments: 2 } }],
 			errors: expectedErrors([
-				[2, "4 spaces", "1 tab", "Identifier"],
-				[3, "4 spaces", "1 tab", "Identifier"],
+				[2, "4 spaces", "1 tab"],
+				[3, "4 spaces", "1 tab"],
 			]),
 		},
 		{
@@ -3392,15 +3389,15 @@ ruleTester.run("indent-legacy", rule, {
 			output: "foo(bar,\n" + "\tbaz,\n" + "\tqux);",
 			options: ["tab", { CallExpression: { arguments: 1 } }],
 			errors: expectedErrors("tab", [
-				[2, 1, 2, "Identifier"],
-				[3, 1, 2, "Identifier"],
+				[2, 1, 2],
+				[3, 1, 2],
 			]),
 		},
 		{
 			code: "foo(bar, baz,\n" + "         qux);",
 			output: "foo(bar, baz,\n" + "    qux);",
 			options: [2, { CallExpression: { arguments: "first" } }],
-			errors: expectedErrors([2, 4, 9, "Identifier"]),
+			errors: expectedErrors([2, 4, 9]),
 		},
 		{
 			code: "foo(\n" + "          bar,\n" + "    baz);",
@@ -3423,9 +3420,9 @@ ruleTester.run("indent-legacy", rule, {
 				");",
 			options: [2, { CallExpression: { arguments: 3 } }],
 			errors: expectedErrors([
-				[2, 6, 2, "BinaryExpression"],
-				[3, 6, 14, "UnaryExpression"],
-				[4, 6, 8, "NewExpression"],
+				[2, 6, 2],
+				[3, 6, 14],
+				[4, 6, 8],
 			]),
 		},
 
@@ -3436,7 +3433,7 @@ ruleTester.run("indent-legacy", rule, {
 			languageOptions: {
 				parserOptions: { ecmaFeatures: { globalReturn: true } },
 			},
-			errors: expectedErrors([3, 0, 4, "ReturnStatement"]),
+			errors: expectedErrors([3, 0, 4]),
 		},
 		{
 			code: "return (\n" + "    foo\n" + "    )",
@@ -3444,14 +3441,14 @@ ruleTester.run("indent-legacy", rule, {
 			languageOptions: {
 				parserOptions: { ecmaFeatures: { globalReturn: true } },
 			},
-			errors: expectedErrors([3, 0, 4, "ReturnStatement"]),
+			errors: expectedErrors([3, 0, 4]),
 		},
 
 		// https://github.com/eslint/eslint/issues/7604
 		{
 			code: "if (foo) {\n" + "        /* comment */bar();\n" + "}",
 			output: "if (foo) {\n" + "    /* comment */bar();\n" + "}",
-			errors: expectedErrors([2, 4, 8, "ExpressionStatement"]),
+			errors: expectedErrors([2, 4, 8]),
 		},
 		{
 			code:
@@ -3464,7 +3461,7 @@ ruleTester.run("indent-legacy", rule, {
 				"    /** comment */{\n" +
 				"        ok: true" +
 				"    });",
-			errors: expectedErrors([2, 4, 8, "ObjectExpression"]),
+			errors: expectedErrors([2, 4, 8]),
 		},
 		{
 			code:
@@ -3474,23 +3471,23 @@ ruleTester.run("indent-legacy", rule, {
 				"          ]",
 			output: "var foo = [\n" + "    bar,\n" + "    baz\n" + "]",
 			errors: expectedErrors([
-				[2, 4, 11, "Identifier"],
-				[3, 4, 2, "Identifier"],
-				[4, 0, 10, "ArrayExpression"],
+				[2, 4, 11],
+				[3, 4, 2],
+				[4, 0, 10],
 			]),
 		},
 		{
 			code: "var foo = [bar,\n" + "baz,\n" + "    qux\n" + "]",
 			output: "var foo = [bar,\n" + "    baz,\n" + "    qux\n" + "]",
-			errors: expectedErrors([2, 4, 0, "Identifier"]),
+			errors: expectedErrors([2, 4, 0]),
 		},
 		{
 			code: "var foo = [bar,\n" + "  baz,\n" + "  qux\n" + "]",
 			output: "var foo = [bar,\n" + "baz,\n" + "qux\n" + "]",
 			options: [2, { ArrayExpression: 0 }],
 			errors: expectedErrors([
-				[2, 0, 2, "Identifier"],
-				[3, 0, 2, "Identifier"],
+				[2, 0, 2],
+				[3, 0, 2],
 			]),
 		},
 		{
@@ -3551,8 +3548,8 @@ ruleTester.run("indent-legacy", rule, {
 			output: "var foo = {\n" + "bar: 1,\n" + "baz: 2\n" + "};",
 			options: [2, { ObjectExpression: 0 }],
 			errors: expectedErrors([
-				[2, 0, 2, "Property"],
-				[3, 0, 2, "Property"],
+				[2, 0, 2],
+				[3, 0, 2],
 			]),
 		},
 		{
@@ -3575,7 +3572,7 @@ ruleTester.run("indent-legacy", rule, {
 				"    ]\n" +
 				"}",
 			options: [2, { ArrayExpression: 4 }],
-			errors: expectedErrors([2, 2, 4, "ExpressionStatement"]),
+			errors: expectedErrors([2, 2, 4]),
 		},
 		{
 			code:

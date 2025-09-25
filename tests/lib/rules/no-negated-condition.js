@@ -42,7 +42,6 @@ ruleTester.run("no-negated-condition", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegated",
-					type: "IfStatement",
 				},
 			],
 		},
@@ -51,7 +50,6 @@ ruleTester.run("no-negated-condition", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegated",
-					type: "IfStatement",
 				},
 			],
 		},
@@ -60,7 +58,6 @@ ruleTester.run("no-negated-condition", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegated",
-					type: "IfStatement",
 				},
 			],
 		},
@@ -69,7 +66,6 @@ ruleTester.run("no-negated-condition", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegated",
-					type: "ConditionalExpression",
 				},
 			],
 		},
@@ -78,7 +74,6 @@ ruleTester.run("no-negated-condition", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegated",
-					type: "ConditionalExpression",
 				},
 			],
 		},
@@ -87,7 +82,6 @@ ruleTester.run("no-negated-condition", rule, {
 			errors: [
 				{
 					messageId: "unexpectedNegated",
-					type: "ConditionalExpression",
 				},
 			],
 		},

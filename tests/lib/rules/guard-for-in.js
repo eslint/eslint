@@ -17,7 +17,9 @@ const rule = require("../../../lib/rules/guard-for-in"),
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();
-const error = { messageId: "wrap", type: "ForInStatement" };
+const error = {
+	messageId: "wrap",
+};
 
 ruleTester.run("guard-for-in", rule, {
 	valid: [

@@ -112,7 +112,6 @@ ruleTester.run("no-extra-label", rule, {
 				{
 					messageId: "unexpected",
 					data: { name: "A" },
-					type: "Identifier",
 					line: 2,
 				},
 			],

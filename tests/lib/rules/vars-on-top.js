@@ -17,7 +17,9 @@ const rule = require("../../../lib/rules/vars-on-top"),
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();
-const error = { messageId: "top", type: "VariableDeclaration" };
+const error = {
+	messageId: "top",
+};
 
 ruleTester.run("vars-on-top", rule, {
 	valid: [

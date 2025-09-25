@@ -19,7 +19,6 @@ const checker = require("npm-license"),
 	path = require("node:path"),
 	semver = require("semver"),
 	ejs = require("ejs"),
-	{ CLIEngine } = require("./lib/cli-engine"),
 	builtinRules = require("./lib/rules"),
 	childProcess = require("node:child_process");
 
@@ -154,24 +153,19 @@ function generateBlogPost(releaseInfo, prereleaseMajorVersion) {
 
 /**
  * Generates a doc page with formatter result examples
- * @param {Object} formatterInfo Linting results from each formatter
  * @returns {void}
  */
-function generateFormatterExamples(formatterInfo) {
-	const output = ejs.render(
-		cat("./templates/formatter-examples.md.ejs"),
-		formatterInfo,
-	);
-	const outputDir = path.join(DOCS_SRC_DIR, "use/formatters/"),
-		filename = path.join(outputDir, "index.md"),
-		htmlFilename = path.join(outputDir, "html-formatter-example.html");
-
-	if (!test("-d", outputDir)) {
-		mkdir(outputDir);
+function generateFormatterExamples() {
+	// We don't need the stack trace of execFileSync if the command fails.
+	try {
+		childProcess.execFileSync(
+			process.execPath,
+			["tools/generate-formatter-examples.js"],
+			{ stdio: "inherit" },
+		);
+	} catch {
+		exit(1);
 	}
-
-	output.to(filename);
-	formatterInfo.formatterResults.html.result.to(htmlFilename);
 }
 
 /**
@@ -524,70 +518,6 @@ function getFirstVersionOfDeletion(filePath) {
 }
 
 /**
- * Gets linting results from every formatter, based on a hard-coded snippet and config
- * @returns {Object} Output from each formatter
- */
-function getFormatterResults() {
-	const util = require("node:util");
-	const formattersMetadata = require("./lib/cli-engine/formatters/formatters-meta.json");
-
-	const formatterFiles = fs
-			.readdirSync("./lib/cli-engine/formatters/")
-			.filter(fileName => !fileName.includes("formatters-meta.json")),
-		rules = {
-			"no-else-return": "warn",
-			indent: ["warn", 4],
-			"space-unary-ops": "error",
-			semi: ["warn", "always"],
-			"consistent-return": "error",
-		},
-		cli = new CLIEngine({
-			useEslintrc: false,
-			baseConfig: { extends: "eslint:recommended" },
-			rules,
-		}),
-		codeString = [
-			"function addOne(i) {",
-			"    if (i != NaN) {",
-			"        return i ++",
-			"    } else {",
-			"      return",
-			"    }",
-			"};",
-		].join("\n"),
-		rawMessages = cli.executeOnText(codeString, "fullOfProblems.js", true),
-		rulesMap = cli.getRules(),
-		rulesMeta = {};
-
-	Object.keys(rules).forEach(ruleId => {
-		rulesMeta[ruleId] = rulesMap.get(ruleId).meta;
-	});
-
-	return formatterFiles.reduce(
-		(data, filename) => {
-			const fileExt = path.extname(filename),
-				name = path.basename(filename, fileExt);
-
-			if (fileExt === ".js") {
-				const formattedOutput = cli.getFormatter(name)(
-					rawMessages.results,
-					{ rulesMeta },
-				);
-
-				data.formatterResults[name] = {
-					result: util.stripVTControlCharacters(formattedOutput),
-					description: formattersMetadata.find(
-						formatter => formatter.name === name,
-					).description,
-				};
-			}
-			return data;
-		},
-		{ formatterResults: {} },
-	);
-}
-
-/**
  * Gets a path to an executable in node_modules/.bin
  * @param {string} command The executable name
  * @returns {string} The executable path
@@ -745,7 +675,7 @@ target.gensite = function () {
 
 	// 3. Create Example Formatter Output Page
 	echo("> Creating the formatter examples (Step 3)");
-	generateFormatterExamples(getFormatterResults());
+	generateFormatterExamples();
 
 	echo("Done generating documentation");
 };

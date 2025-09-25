@@ -80,68 +80,123 @@ ruleTester.run("valid-typeof", rule, {
 	invalid: [
 		{
 			code: "typeof foo === 'strnig'",
-			errors: [{ messageId: "invalidValue", type: "Literal" }],
+			errors: [
+				{
+					messageId: "invalidValue",
+				},
+			],
 		},
 		{
 			code: "'strnig' === typeof foo",
-			errors: [{ messageId: "invalidValue", type: "Literal" }],
+			errors: [
+				{
+					messageId: "invalidValue",
+				},
+			],
 		},
 		{
 			code: "if (typeof bar === 'umdefined') {}",
-			errors: [{ messageId: "invalidValue", type: "Literal" }],
+			errors: [
+				{
+					messageId: "invalidValue",
+				},
+			],
 		},
 		{
 			code: "typeof foo !== 'strnig'",
-			errors: [{ messageId: "invalidValue", type: "Literal" }],
+			errors: [
+				{
+					messageId: "invalidValue",
+				},
+			],
 		},
 		{
 			code: "'strnig' !== typeof foo",
-			errors: [{ messageId: "invalidValue", type: "Literal" }],
+			errors: [
+				{
+					messageId: "invalidValue",
+				},
+			],
 		},
 		{
 			code: "if (typeof bar !== 'umdefined') {}",
-			errors: [{ messageId: "invalidValue", type: "Literal" }],
+			errors: [
+				{
+					messageId: "invalidValue",
+				},
+			],
 		},
 		{
 			code: "typeof foo != 'strnig'",
-			errors: [{ messageId: "invalidValue", type: "Literal" }],
+			errors: [
+				{
+					messageId: "invalidValue",
+				},
+			],
 		},
 		{
 			code: "'strnig' != typeof foo",
-			errors: [{ messageId: "invalidValue", type: "Literal" }],
+			errors: [
+				{
+					messageId: "invalidValue",
+				},
+			],
 		},
 		{
 			code: "if (typeof bar != 'umdefined') {}",
-			errors: [{ messageId: "invalidValue", type: "Literal" }],
+			errors: [
+				{
+					messageId: "invalidValue",
+				},
+			],
 		},
 		{
 			code: "typeof foo == 'strnig'",
-			errors: [{ messageId: "invalidValue", type: "Literal" }],
+			errors: [
+				{
+					messageId: "invalidValue",
+				},
+			],
 		},
 		{
 			code: "'strnig' == typeof foo",
-			errors: [{ messageId: "invalidValue", type: "Literal" }],
+			errors: [
+				{
+					messageId: "invalidValue",
+				},
+			],
 		},
 		{
 			code: "if (typeof bar == 'umdefined') {}",
-			errors: [{ messageId: "invalidValue", type: "Literal" }],
+			errors: [
+				{
+					messageId: "invalidValue",
+				},
+			],
 		},
 		{
 			code: "if (typeof bar === `umdefined`) {}",
 			languageOptions: { ecmaVersion: 6 },
-			errors: [{ messageId: "invalidValue", type: "TemplateLiteral" }],
+			errors: [
+				{
+					messageId: "invalidValue",
+				},
+			],
 		},
 		{
 			code: "typeof foo == 'invalid string'",
 			options: [{ requireStringLiterals: true }],
-			errors: [{ messageId: "invalidValue", type: "Literal" }],
+			errors: [
+				{
+					messageId: "invalidValue",
+				},
+			],
 		},
 		{
 			code: "if (typeof bar !== undefined) {}",
 			errors: [
 				{
 					messageId: "invalidValue",
-					type: "Identifier",
 					suggestions: [
 						{
 							messageId: "suggestString",
@@ -155,7 +210,11 @@ ruleTester.run("valid-typeof", rule, {
 		{
 			code: "typeof foo == Object",
 			options: [{ requireStringLiterals: true }],
-			errors: [{ messageId: "notString", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "notString",
+				},
+			],
 		},
 		{
 			code: "typeof foo === undefined",
@@ -163,7 +222,6 @@ ruleTester.run("valid-typeof", rule, {
 			errors: [
 				{
 					messageId: "notString",
-					type: "Identifier",
 					suggestions: [
 						{
 							messageId: "suggestString",
@@ -180,7 +238,6 @@ ruleTester.run("valid-typeof", rule, {
 			errors: [
 				{
 					messageId: "notString",
-					type: "Identifier",
 					suggestions: [
 						{
 							messageId: "suggestString",
@@ -197,7 +254,6 @@ ruleTester.run("valid-typeof", rule, {
 			errors: [
 				{
 					messageId: "notString",
-					type: "Identifier",
 					suggestions: [
 						{
 							messageId: "suggestString",
@@ -212,13 +268,21 @@ ruleTester.run("valid-typeof", rule, {
 			code: "typeof foo === `undefined${foo}`",
 			options: [{ requireStringLiterals: true }],
 			languageOptions: { ecmaVersion: 6 },
-			errors: [{ messageId: "notString", type: "TemplateLiteral" }],
+			errors: [
+				{
+					messageId: "notString",
+				},
+			],
 		},
 		{
 			code: "typeof foo === `${string}`",
 			options: [{ requireStringLiterals: true }],
 			languageOptions: { ecmaVersion: 6 },
-			errors: [{ messageId: "notString", type: "TemplateLiteral" }],
+			errors: [
+				{
+					messageId: "notString",
+				},
+			],
 		},
 	],
 });

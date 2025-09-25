@@ -73,7 +73,6 @@ ruleTester.run("max-nested-callbacks", rule, {
 				{
 					messageId: "exceed",
 					data: { num: 3, max: 2 },
-					type: "FunctionExpression",
 				},
 			],
 		},
@@ -85,7 +84,6 @@ ruleTester.run("max-nested-callbacks", rule, {
 				{
 					messageId: "exceed",
 					data: { num: 3, max: 2 },
-					type: "FunctionExpression",
 				},
 			],
 		},
@@ -97,7 +95,6 @@ ruleTester.run("max-nested-callbacks", rule, {
 				{
 					messageId: "exceed",
 					data: { num: 3, max: 2 },
-					type: "ArrowFunctionExpression",
 				},
 			],
 		},
@@ -108,7 +105,6 @@ ruleTester.run("max-nested-callbacks", rule, {
 				{
 					messageId: "exceed",
 					data: { num: 3, max: 2 },
-					type: "FunctionExpression",
 				},
 			],
 		},
@@ -118,7 +114,6 @@ ruleTester.run("max-nested-callbacks", rule, {
 				{
 					messageId: "exceed",
 					data: { num: 11, max: 10 },
-					type: "FunctionExpression",
 				},
 			],
 		},
@@ -129,7 +124,6 @@ ruleTester.run("max-nested-callbacks", rule, {
 				{
 					messageId: "exceed",
 					data: { num: 11, max: 10 },
-					type: "FunctionExpression",
 				},
 			],
 		},
@@ -147,7 +141,6 @@ ruleTester.run("max-nested-callbacks", rule, {
 				{
 					messageId: "exceed",
 					data: { num: 3, max: 2 },
-					type: "FunctionExpression",
 				},
 			],
 		},

@@ -225,7 +225,6 @@ ruleTester.run("dot-location", rule, {
 			errors: [
 				{
 					messageId: "expectedDotAfterObject",
-					type: "MemberExpression",
 					line: 2,
 					column: 1,
 					endLine: 2,
@@ -240,7 +239,6 @@ ruleTester.run("dot-location", rule, {
 			errors: [
 				{
 					messageId: "expectedDotBeforeProperty",
-					type: "MemberExpression",
 					line: 1,
 					column: 4,
 					endLine: 1,
@@ -255,7 +253,6 @@ ruleTester.run("dot-location", rule, {
 			errors: [
 				{
 					messageId: "expectedDotBeforeProperty",
-					type: "MemberExpression",
 					line: 1,
 					column: 6,
 				},
@@ -268,7 +265,6 @@ ruleTester.run("dot-location", rule, {
 			errors: [
 				{
 					messageId: "expectedDotAfterObject",
-					type: "MemberExpression",
 					line: 2,
 					column: 1,
 				},
@@ -281,7 +277,6 @@ ruleTester.run("dot-location", rule, {
 			errors: [
 				{
 					messageId: "expectedDotAfterObject",
-					type: "MemberExpression",
 					line: 2,
 					column: 1,
 				},
@@ -294,7 +289,6 @@ ruleTester.run("dot-location", rule, {
 			errors: [
 				{
 					messageId: "expectedDotAfterObject",
-					type: "MemberExpression",
 					line: 2,
 					column: 1,
 				},
@@ -307,7 +301,6 @@ ruleTester.run("dot-location", rule, {
 			errors: [
 				{
 					messageId: "expectedDotAfterObject",
-					type: "MemberExpression",
 					line: 2,
 					column: 1,
 				},
@@ -320,7 +313,6 @@ ruleTester.run("dot-location", rule, {
 			errors: [
 				{
 					messageId: "expectedDotAfterObject",
-					type: "MemberExpression",
 					line: 2,
 					column: 1,
 				},
@@ -334,7 +326,6 @@ ruleTester.run("dot-location", rule, {
 			errors: [
 				{
 					messageId: "expectedDotAfterObject",
-					type: "MemberExpression",
 					line: 2,
 					column: 1,
 				},
@@ -348,7 +339,6 @@ ruleTester.run("dot-location", rule, {
 			errors: [
 				{
 					messageId: "expectedDotAfterObject",
-					type: "MemberExpression",
 					line: 2,
 					column: 1,
 				},
@@ -362,7 +352,6 @@ ruleTester.run("dot-location", rule, {
 			errors: [
 				{
 					messageId: "expectedDotAfterObject",
-					type: "MemberExpression",
 					line: 2,
 					column: 1,
 				},
@@ -376,7 +365,6 @@ ruleTester.run("dot-location", rule, {
 			errors: [
 				{
 					messageId: "expectedDotAfterObject",
-					type: "MemberExpression",
 					line: 2,
 					column: 1,
 				},
@@ -389,7 +377,6 @@ ruleTester.run("dot-location", rule, {
 			errors: [
 				{
 					messageId: "expectedDotBeforeProperty",
-					type: "MemberExpression",
 					line: 1,
 					column: 13,
 				},
@@ -402,7 +389,6 @@ ruleTester.run("dot-location", rule, {
 			errors: [
 				{
 					messageId: "expectedDotAfterObject",
-					type: "MemberExpression",
 					line: 2,
 					column: 10,
 				},
@@ -415,7 +401,6 @@ ruleTester.run("dot-location", rule, {
 			errors: [
 				{
 					messageId: "expectedDotAfterObject",
-					type: "MemberExpression",
 					line: 3,
 					column: 1,
 				},
@@ -429,7 +414,6 @@ ruleTester.run("dot-location", rule, {
 			errors: [
 				{
 					messageId: "expectedDotAfterObject",
-					type: "MemberExpression",
 					line: 3,
 					column: 1,
 				},
@@ -444,7 +428,6 @@ ruleTester.run("dot-location", rule, {
 			errors: [
 				{
 					messageId: "expectedDotAfterObject",
-					type: "MemberExpression",
 					line: 3,
 					column: 1,
 				},
@@ -457,7 +440,6 @@ ruleTester.run("dot-location", rule, {
 			errors: [
 				{
 					messageId: "expectedDotAfterObject",
-					type: "MemberExpression",
 					line: 3,
 					column: 1,
 				},
@@ -470,7 +452,6 @@ ruleTester.run("dot-location", rule, {
 			errors: [
 				{
 					messageId: "expectedDotAfterObject",
-					type: "MemberExpression",
 					line: 3,
 					column: 1,
 				},
@@ -483,7 +464,6 @@ ruleTester.run("dot-location", rule, {
 			errors: [
 				{
 					messageId: "expectedDotAfterObject",
-					type: "MemberExpression",
 					line: 4,
 					column: 1,
 				},
@@ -496,7 +476,6 @@ ruleTester.run("dot-location", rule, {
 			errors: [
 				{
 					messageId: "expectedDotAfterObject",
-					type: "MemberExpression",
 					line: 3,
 					column: 1,
 				},
@@ -509,7 +488,6 @@ ruleTester.run("dot-location", rule, {
 			errors: [
 				{
 					messageId: "expectedDotAfterObject",
-					type: "MemberExpression",
 					line: 4,
 					column: 1,
 				},
@@ -522,7 +500,6 @@ ruleTester.run("dot-location", rule, {
 			errors: [
 				{
 					messageId: "expectedDotAfterObject",
-					type: "MemberExpression",
 					line: 3,
 					column: 1,
 				},
@@ -535,7 +512,6 @@ ruleTester.run("dot-location", rule, {
 			errors: [
 				{
 					messageId: "expectedDotAfterObject",
-					type: "MemberExpression",
 					line: 4,
 					column: 1,
 				},
@@ -548,7 +524,6 @@ ruleTester.run("dot-location", rule, {
 			errors: [
 				{
 					messageId: "expectedDotAfterObject",
-					type: "MemberExpression",
 					line: 3,
 					column: 8,
 				},
@@ -561,7 +536,6 @@ ruleTester.run("dot-location", rule, {
 			errors: [
 				{
 					messageId: "expectedDotAfterObject",
-					type: "MemberExpression",
 					line: 2,
 					column: 1,
 				},

@@ -37,7 +37,7 @@ const ALLOW_OPTIONS = Object.freeze([
  * Folds test items to `{valid: [], invalid: []}`.
  * One item would be converted to 4 valid patterns and 8 invalid patterns.
  * @param {{valid: Object[], invalid: Object[]}} patterns The result.
- * @param {{code: string, message: string, allow: string|string[]}} item A test item.
+ * @param {{code: string, messageId: string, allow: string|string[]}} item A test item.
  * @returns {{valid: Object[], invalid: Object[]}} The result.
  */
 function toValidInvalid(patterns, item) {
@@ -69,15 +69,22 @@ function toValidInvalid(patterns, item) {
 		})),
 	);
 
-	const error = item.message || {
-		messageId: item.messageId,
-		data: item.data,
-	};
-
 	// Invalid Patterns.
 	patterns.invalid.push({
 		code: item.code,
-		errors: [error],
+		errors: [
+			{
+				messageId: item.messageId,
+				data: item.data,
+				suggestions: [
+					{
+						messageId: "suggestComment",
+						data: item.data,
+						output: item.code.replace("{}", "{ /* empty */ }"),
+					},
+				],
+			},
+		],
 		languageOptions: { ecmaVersion },
 	});
 	ALLOW_OPTIONS.filter(allow => !allowOptions.includes(allow)).forEach(
@@ -85,7 +92,19 @@ function toValidInvalid(patterns, item) {
 			// non related "allow" option has no effect.
 			patterns.invalid.push({
 				code: `${item.code} // allow: ${allow}`,
-				errors: [error],
+				errors: [
+					{
+						messageId: item.messageId,
+						data: item.data,
+						suggestions: [
+							{
+								messageId: "suggestComment",
+								data: item.data,
+								output: `${item.code.replace("{}", "{ /* empty */ }")} // allow: ${allow}`,
+							},
+						],
+					},
+				],
 				options: [{ allow: [allow] }],
 				languageOptions: { ecmaVersion },
 			});
@@ -333,6 +352,13 @@ ruleTester.run(
 						column: 16,
 						endLine: 1,
 						endColumn: 18,
+						suggestions: [
+							{
+								messageId: "suggestComment",
+								data: { name: "function 'foo'" },
+								output: "function foo() { /* empty */ }",
+							},
+						],
 					},
 				],
 			},
@@ -346,6 +372,13 @@ ruleTester.run(
 						column: 23,
 						endLine: 2,
 						endColumn: 2,
+						suggestions: [
+							{
+								messageId: "suggestComment",
+								data: { name: "function" },
+								output: "var foo = function () { /* empty */ }",
+							},
+						],
 					},
 				],
 			},
@@ -360,6 +393,13 @@ ruleTester.run(
 						column: 17,
 						endLine: 3,
 						endColumn: 4,
+						suggestions: [
+							{
+								messageId: "suggestComment",
+								data: { name: "arrow function" },
+								output: "var foo = () => { /* empty */ }",
+							},
+						],
 					},
 				],
 			},
@@ -374,6 +414,13 @@ ruleTester.run(
 						column: 8,
 						endLine: 3,
 						endColumn: 3,
+						suggestions: [
+							{
+								messageId: "suggestComment",
+								data: { name: "method 'foo'" },
+								output: "var obj = {\n\tfoo() { /* empty */ }\n}",
+							},
+						],
 					},
 				],
 			},
@@ -388,6 +435,13 @@ ruleTester.run(
 						column: 17,
 						endLine: 1,
 						endColumn: 20,
+						suggestions: [
+							{
+								messageId: "suggestComment",
+								data: { name: "method 'foo'" },
+								output: "class A { foo() { /* empty */ } }",
+							},
+						],
 					},
 				],
 			},

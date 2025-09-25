@@ -13,7 +13,7 @@
  */
 
 module.exports = Object.freeze({
-    "rules": {
+    rules: Object.freeze({
         "accessor-pairs": "error",
         "array-callback-return": "error",
         "arrow-body-style": "error",
@@ -197,6 +197,7 @@ module.exports = Object.freeze({
         "prefer-rest-params": "error",
         "prefer-spread": "error",
         "prefer-template": "error",
+        "preserve-caught-error": "error",
         "radix": "error",
         "require-atomic-updates": "error",
         "require-await": "error",
@@ -212,5 +213,5 @@ module.exports = Object.freeze({
         "valid-typeof": "error",
         "vars-on-top": "error",
         "yoda": "error"
-    }
+    })
 });

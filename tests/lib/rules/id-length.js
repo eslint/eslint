@@ -17,15 +17,17 @@ const rule = require("../../../lib/rules/id-length"),
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();
-const tooShortError = { messageId: "tooShort", type: "Identifier" };
+const tooShortError = {
+	messageId: "tooShort",
+};
 const tooShortErrorPrivate = {
 	messageId: "tooShortPrivate",
-	type: "PrivateIdentifier",
 };
-const tooLongError = { messageId: "tooLong", type: "Identifier" };
+const tooLongError = {
+	messageId: "tooLong",
+};
 const tooLongErrorPrivate = {
 	messageId: "tooLongPrivate",
-	type: "PrivateIdentifier",
 };
 
 ruleTester.run("id-length", rule, {
@@ -563,7 +565,6 @@ ruleTester.run("id-length", rule, {
 				{
 					messageId: "tooShort",
 					data: { name: "a", min: 2 },
-					type: "Identifier",
 				},
 			],
 		},
@@ -594,7 +595,6 @@ ruleTester.run("id-length", rule, {
 					data: { name: "b", min: 2 },
 					line: 1,
 					column: 19,
-					type: "Identifier",
 				},
 			],
 		},
@@ -607,7 +607,6 @@ ruleTester.run("id-length", rule, {
 					data: { name: "hasOwnProperty", max: 10 },
 					line: 1,
 					column: 5,
-					type: "Identifier",
 				},
 			],
 		},
@@ -620,14 +619,12 @@ ruleTester.run("id-length", rule, {
 					data: { name: "d", min: 2 },
 					line: 1,
 					column: 29,
-					type: "Identifier",
 				},
 				{
 					messageId: "tooShort",
 					data: { name: "e", min: 2 },
 					line: 1,
 					column: 32,
-					type: "Identifier",
 				},
 			],
 		},
@@ -643,7 +640,6 @@ ruleTester.run("id-length", rule, {
 				{
 					messageId: "tooShort",
 					data: { name: "a", min: 2 },
-					type: "Identifier",
 				},
 			],
 		},
@@ -683,7 +679,6 @@ ruleTester.run("id-length", rule, {
 					data: { name: "longName", max: 5 },
 					line: 1,
 					column: 13,
-					type: "Identifier",
 				},
 			],
 		},
@@ -697,7 +692,6 @@ ruleTester.run("id-length", rule, {
 					data: { name: "a", min: 2 },
 					line: 1,
 					column: 10,
-					type: "Identifier",
 				},
 			],
 		},
@@ -710,7 +704,6 @@ ruleTester.run("id-length", rule, {
 					data: { name: "d", min: 2 },
 					line: 1,
 					column: 20,
-					type: "Identifier",
 				},
 			],
 		},
@@ -723,14 +716,12 @@ ruleTester.run("id-length", rule, {
 					data: { name: "d", min: 2 },
 					line: 1,
 					column: 20,
-					type: "Identifier",
 				},
 				{
 					messageId: "tooShort",
 					data: { name: "e", min: 2 },
 					line: 1,
 					column: 23,
-					type: "Identifier",
 				},
 			],
 		},
@@ -743,7 +734,6 @@ ruleTester.run("id-length", rule, {
 					data: { name: "c", min: 2 },
 					line: 1,
 					column: 17,
-					type: "Identifier",
 				},
 			],
 		},
@@ -756,7 +746,6 @@ ruleTester.run("id-length", rule, {
 					data: { name: "d", min: 2 },
 					line: 1,
 					column: 20,
-					type: "Identifier",
 				},
 			],
 		},
@@ -769,14 +758,12 @@ ruleTester.run("id-length", rule, {
 					data: { name: "a", min: 2 },
 					line: 1,
 					column: 7,
-					type: "Identifier",
 				},
 				{
 					messageId: "tooShort",
 					data: { name: "d", min: 2 },
 					line: 1,
 					column: 18,
-					type: "Identifier",
 				},
 			],
 		},
@@ -799,7 +786,6 @@ ruleTester.run("id-length", rule, {
 					data: { name: "z", min: 2 },
 					line: 1,
 					column: 15,
-					type: "Identifier",
 				},
 			],
 		},
@@ -812,7 +798,6 @@ ruleTester.run("id-length", rule, {
 					data: { name: "x", min: 2 },
 					line: 1,
 					column: 14,
-					type: "Identifier",
 				},
 			],
 		},
@@ -831,7 +816,6 @@ ruleTester.run("id-length", rule, {
 					data: { name: "x", min: 2 },
 					line: 1,
 					column: 12,
-					type: "Identifier",
 				},
 			],
 		},

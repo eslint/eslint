@@ -188,7 +188,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Math" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -198,7 +197,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Math" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -208,7 +206,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Math" },
-					type: "CallExpression",
 					column: 3,
 					endColumn: 9,
 				},
@@ -220,7 +217,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Math" },
-					type: "CallExpression",
 					column: 1,
 					endColumn: 7,
 				},
@@ -232,7 +228,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Math" },
-					type: "NewExpression",
 				},
 			],
 		},
@@ -242,7 +237,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Math" },
-					type: "NewExpression",
 				},
 			],
 		},
@@ -252,7 +246,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Math" },
-					type: "NewExpression",
 				},
 			],
 		},
@@ -262,7 +255,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Math" },
-					type: "NewExpression",
 				},
 			],
 		},
@@ -272,7 +264,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Math" },
-					type: "NewExpression",
 				},
 			],
 		},
@@ -282,7 +273,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "JSON" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -292,7 +282,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "JSON" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -302,7 +291,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "JSON" },
-					type: "NewExpression",
 				},
 			],
 		},
@@ -312,14 +300,12 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Math" },
-					type: "CallExpression",
 					column: 1,
 					endColumn: 15,
 				},
 				{
 					messageId: "unexpectedCall",
 					data: { name: "JSON" },
-					type: "CallExpression",
 					column: 7,
 					endColumn: 13,
 				},
@@ -332,7 +318,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Reflect" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -343,7 +328,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Reflect" },
-					type: "NewExpression",
 				},
 			],
 		},
@@ -354,7 +338,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Reflect" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -364,7 +347,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Reflect" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -374,7 +356,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Reflect" },
-					type: "NewExpression",
 				},
 			],
 		},
@@ -385,7 +366,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Atomics" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -396,7 +376,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Atomics" },
-					type: "NewExpression",
 				},
 			],
 		},
@@ -407,7 +386,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Atomics" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -418,7 +396,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Atomics" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -429,7 +406,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Atomics" },
-					type: "NewExpression",
 				},
 			],
 		},
@@ -440,7 +416,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Intl" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -451,7 +426,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Intl" },
-					type: "NewExpression",
 				},
 			],
 		},
@@ -461,7 +435,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Intl" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -471,7 +444,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Intl" },
-					type: "NewExpression",
 				},
 			],
 		},
@@ -482,7 +454,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Math" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -493,7 +464,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Math" },
-					type: "NewExpression",
 				},
 			],
 		},
@@ -504,7 +474,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Math" },
-					type: "CallExpression",
 					column: 3,
 					endColumn: 20,
 				},
@@ -517,7 +486,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Math" },
-					type: "CallExpression",
 					column: 1,
 					endColumn: 18,
 				},
@@ -530,7 +498,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Math" },
-					type: "NewExpression",
 					column: 1,
 					endColumn: 22,
 				},
@@ -543,7 +510,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "JSON" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -554,7 +520,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "JSON" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -565,14 +530,12 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Math" },
-					type: "CallExpression",
 					column: 1,
 					endColumn: 37,
 				},
 				{
 					messageId: "unexpectedCall",
 					data: { name: "JSON" },
-					type: "CallExpression",
 					column: 18,
 					endColumn: 35,
 				},
@@ -585,7 +548,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Reflect" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -596,7 +558,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Reflect" },
-					type: "NewExpression",
 				},
 			],
 		},
@@ -607,7 +568,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Reflect" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -618,7 +578,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Atomics" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -629,7 +588,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Intl" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -640,7 +598,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Intl" },
-					type: "NewExpression",
 				},
 			],
 		},
@@ -651,7 +608,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Intl" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -661,7 +617,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedRefCall",
 					data: { name: "foo", ref: "JSON" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -671,7 +626,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedRefCall",
 					data: { name: "foo", ref: "JSON" },
-					type: "NewExpression",
 				},
 			],
 		},
@@ -682,7 +636,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedRefCall",
 					data: { name: "foo", ref: "JSON" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -693,7 +646,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedRefCall",
 					data: { name: "foo", ref: "JSON" },
-					type: "NewExpression",
 				},
 			],
 		},
@@ -704,7 +656,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedRefCall",
 					data: { name: "foo", ref: "Atomics" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -715,7 +666,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedRefCall",
 					data: { name: "foo", ref: "Atomics" },
-					type: "NewExpression",
 				},
 			],
 		},
@@ -726,7 +676,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedRefCall",
 					data: { name: "foo", ref: "Intl" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -737,7 +686,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedRefCall",
 					data: { name: "foo", ref: "Intl" },
-					type: "NewExpression",
 				},
 			],
 		},
@@ -750,7 +698,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Reflect" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -761,7 +708,6 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedCall",
 					data: { name: "Reflect" },
-					type: "CallExpression",
 				},
 			],
 		},

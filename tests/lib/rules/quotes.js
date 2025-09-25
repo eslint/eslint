@@ -323,7 +323,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "doublequote" },
-					type: "Literal",
 				},
 			],
 		},
@@ -335,7 +334,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "singlequote" },
-					type: "Literal",
 				},
 			],
 		},
@@ -350,7 +348,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "singlequote" },
-					type: "TemplateLiteral",
 				},
 			],
 		},
@@ -361,7 +358,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "doublequote" },
-					type: "Literal",
 				},
 			],
 		},
@@ -373,13 +369,11 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "singlequote" },
-					type: "Literal",
 					column: 11,
 				},
 				{
 					messageId: "wrongQuotes",
 					data: { description: "singlequote" },
-					type: "Literal",
 					column: 31,
 				},
 			],
@@ -392,7 +386,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "doublequote" },
-					type: "Literal",
 				},
 			],
 		},
@@ -407,7 +400,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "doublequote" },
-					type: "TemplateLiteral",
 				},
 			],
 		},
@@ -419,7 +411,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "singlequote" },
-					type: "Literal",
 				},
 			],
 		},
@@ -431,7 +422,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "doublequote" },
-					type: "Literal",
 				},
 			],
 		},
@@ -443,7 +433,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "doublequote" },
-					type: "Literal",
 				},
 			],
 		},
@@ -455,7 +444,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "singlequote" },
-					type: "Literal",
 				},
 			],
 		},
@@ -467,7 +455,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "doublequote" },
-					type: "Literal",
 				},
 			],
 		},
@@ -480,7 +467,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "backtick" },
-					type: "Literal",
 				},
 			],
 		},
@@ -493,7 +479,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "backtick" },
-					type: "Literal",
 				},
 			],
 		},
@@ -506,7 +491,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "backtick" },
-					type: "Literal",
 				},
 			],
 		},
@@ -519,7 +503,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "backtick" },
-					type: "Literal",
 				},
 			],
 		},
@@ -532,7 +515,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "backtick" },
-					type: "Literal",
 				},
 			],
 		},
@@ -547,7 +529,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "backtick" },
-					type: "Literal",
 				},
 			],
 		},
@@ -560,7 +541,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "backtick" },
-					type: "Literal",
 				},
 			],
 		},
@@ -573,7 +553,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "backtick" },
-					type: "Literal",
 				},
 			],
 		},
@@ -588,12 +567,10 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "backtick" },
-					type: "Literal",
 				},
 				{
 					messageId: "wrongQuotes",
 					data: { description: "backtick" },
-					type: "Literal",
 				},
 			],
 		},
@@ -606,12 +583,10 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "backtick" },
-					type: "Literal",
 				},
 				{
 					messageId: "wrongQuotes",
 					data: { description: "backtick" },
-					type: "Literal",
 				},
 			],
 		},
@@ -626,7 +601,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "singlequote" },
-					type: "Literal",
 				},
 			],
 		},
@@ -639,7 +613,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "doublequote" },
-					type: "Literal",
 				},
 			],
 		},
@@ -655,7 +628,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "backtick" },
-					type: "Literal",
 				},
 			],
 		},
@@ -669,7 +641,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "doublequote" },
-					type: "TemplateLiteral",
 				},
 			],
 		},
@@ -681,7 +652,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "doublequote" },
-					type: "TemplateLiteral",
 				},
 			],
 		},
@@ -693,7 +663,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "doublequote" },
-					type: "TemplateLiteral",
 				},
 			],
 		},
@@ -705,7 +674,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "doublequote" },
-					type: "TemplateLiteral",
 				},
 			],
 		},
@@ -717,7 +685,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "doublequote" },
-					type: "TemplateLiteral",
 				},
 			],
 		},
@@ -729,7 +696,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "doublequote" },
-					type: "TemplateLiteral",
 				},
 			],
 		},
@@ -743,7 +709,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "doublequote" },
-					type: "TemplateLiteral",
 				},
 			],
 		},
@@ -755,7 +720,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "doublequote" },
-					type: "TemplateLiteral",
 				},
 			],
 		},
@@ -767,7 +731,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "doublequote" },
-					type: "TemplateLiteral",
 				},
 			],
 		},
@@ -779,7 +742,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "doublequote" },
-					type: "TemplateLiteral",
 					line: 1,
 					column: 1,
 				},
@@ -795,7 +757,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "singlequote" },
-					type: "Literal",
 				},
 			],
 		},
@@ -807,7 +768,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "doublequote" },
-					type: "Literal",
 				},
 			],
 		},
@@ -820,7 +780,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "backtick" },
-					type: "Literal",
 				},
 			],
 		},
@@ -833,7 +792,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "backtick" },
-					type: "Literal",
 				},
 			],
 		},
@@ -846,7 +804,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "backtick" },
-					type: "Literal",
 				},
 			],
 		},
@@ -859,7 +816,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "backtick" },
-					type: "Literal",
 				},
 			],
 		},
@@ -872,7 +828,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "backtick" },
-					type: "Literal",
 				},
 			],
 		},
@@ -885,7 +840,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "backtick" },
-					type: "Literal",
 				},
 			],
 		},
@@ -898,7 +852,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "backtick" },
-					type: "Literal",
 				},
 			],
 		},
@@ -911,7 +864,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "backtick" },
-					type: "Literal",
 				},
 			],
 		},
@@ -924,7 +876,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "backtick" },
-					type: "Literal",
 				},
 			],
 		},
@@ -939,7 +890,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "doublequote" },
-					type: "Literal",
 				},
 			],
 		},
@@ -952,7 +902,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "doublequote" },
-					type: "Literal",
 				},
 			],
 		},
@@ -965,7 +914,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "singlequote" },
-					type: "Literal",
 				},
 			],
 		},
@@ -978,7 +926,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "singlequote" },
-					type: "Literal",
 				},
 			],
 		},
@@ -991,7 +938,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "backtick" },
-					type: "Literal",
 				},
 			],
 		},
@@ -1004,7 +950,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "backtick" },
-					type: "Literal",
 				},
 			],
 		},
@@ -1018,7 +963,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "doublequote" },
-					type: "TemplateLiteral",
 				},
 			],
 		},
@@ -1031,12 +975,10 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "backtick" },
-					type: "Literal",
 				},
 				{
 					messageId: "wrongQuotes",
 					data: { description: "backtick" },
-					type: "Literal",
 				},
 			],
 		},
@@ -1047,7 +989,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "doublequote" },
-					type: "Literal",
 				},
 			],
 		},
@@ -1059,7 +1000,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "doublequote" },
-					type: "TemplateLiteral",
 				},
 			],
 		},
@@ -1071,7 +1011,6 @@ ruleTester.run("quotes", rule, {
 				{
 					messageId: "wrongQuotes",
 					data: { description: "doublequote" },
-					type: "TemplateLiteral",
 				},
 			],
 		},

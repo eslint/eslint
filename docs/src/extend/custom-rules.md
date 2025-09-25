@@ -50,7 +50,7 @@ The source file for a rule exports an object with the following properties. Both
 - `docs`: (`object`) Properties often used for documentation generation and tooling. Required for core rules and optional for custom rules. Custom rules can include additional properties here as needed.
 
     - `description`: (`string`) Provides a short description of the rule. For core rules, this is used in [rules index](../rules/).
-    - `recommended`: (`boolean`) For core rules, this specifies whether the rule is enabled by the `recommended` config from `@eslint/js`.
+    - `recommended`: (`unknown`) For core rules, this is a boolean value specifying whether the rule is enabled by the `recommended` config from `@eslint/js`.
     - `url`: (`string`) Specifies the URL at which the full documentation can be accessed. Code editors often use this to provide a helpful link on highlighted rule violations.
 
 - `fixable`: (`string`) Either `"code"` or `"whitespace"` if the `--fix` option on the [command line](../use/command-line-interface#--fix) automatically fixes problems reported by the rule.
@@ -872,26 +872,28 @@ You can view scope information for any JavaScript code using [Code Explorer](htt
 
 The following table contains a list of AST node types and the scope type that they correspond to. For more information about the scope types, refer to the [`Scope` object documentation](./scope-manager-interface#scope-interface).
 
-| AST Node Type             | Scope Type |
-| :------------------------ | :--------- |
-| `Program`                 | `global`   |
-| `FunctionDeclaration`     | `function` |
-| `FunctionExpression`      | `function` |
-| `ArrowFunctionExpression` | `function` |
-| `ClassDeclaration`        | `class`    |
-| `ClassExpression`         | `class`    |
-| `BlockStatement` ※1       | `block`    |
-| `SwitchStatement` ※1      | `switch`   |
-| `ForStatement` ※2         | `for`      |
-| `ForInStatement` ※2       | `for`      |
-| `ForOfStatement` ※2       | `for`      |
-| `WithStatement`           | `with`     |
-| `CatchClause`             | `catch`    |
-| others                    | ※3         |
+| AST Node Type             | Scope Type           |
+| :------------------------ | :------------------- |
+| `Program`                 | `global`             |
+| `FunctionDeclaration`     | `function`           |
+| `FunctionExpression`      | `function`           |
+| `ArrowFunctionExpression` | `function`           |
+| `ClassDeclaration`        | `class`              |
+| `ClassExpression`         | `class`              |
+| `StaticBlock`             | `class-static-block` |
+| `BlockStatement` ※1       | `block`              |
+| `SwitchStatement` ※1      | `switch`             |
+| `ForStatement` ※2         | `for`                |
+| `ForInStatement` ※2       | `for`                |
+| `ForOfStatement` ※2       | `for`                |
+| `WithStatement`           | `with`               |
+| `CatchClause`             | `catch`              |
+| others                    | ※3 ※4                |
 
 **※1** Only if the configured parser provided the block-scope feature. The default parser provides the block-scope feature if `parserOptions.ecmaVersion` is not less than `6`.<br>
 **※2** Only if the `for` statement defines the iteration variable as a block-scoped variable (E.g., `for (let i = 0;;) {}`).<br>
-**※3** The scope of the closest ancestor node which has own scope. If the closest ancestor node has multiple scopes then it chooses the innermost scope (E.g., the `Program` node has a `global` scope and a `module` scope if `Program#sourceType` is `"module"`. The innermost scope is the `module` scope.).
+**※3** The scope of the closest ancestor node which has own scope. If the closest ancestor node has multiple scopes then it chooses the innermost scope (E.g., the `Program` node has a `global` scope and a `module` scope if `Program#sourceType` is `"module"`. The innermost scope is the `module` scope.).<br>
+**※4** Each `PropertyDefinition#value` node (it can be any expression node type), has a `class-field-initializer` scope. For example, in `class C { field = 1 }`, the `Literal` node that represents `1` has a `class-field-initializer` scope. If the node has other scopes, the `class-field-initializer` scope will be the outermost one. For example, in `class C { field = () => {} }`, the `ArrowFunctionExpression` node has two scopes: `class-field-initializer` and `function`.
 
 #### Scope Variables
 
@@ -991,10 +993,10 @@ no-empty-class          |    21.976 |     2.6%
 semi                    |    19.359 |     2.3%
 ```
 
-To test one rule explicitly, combine the `--no-eslintrc`, and `--rule` options:
+To test one rule explicitly, combine the `--no-config-lookup` and `--rule` options:
 
 ```bash
-$ TIMING=1 eslint --no-eslintrc --rule "quotes: [2, 'double']" lib
+$ TIMING=1 eslint --no-config-lookup --rule "quotes: [2, 'double']" lib
 Rule   | Time (ms) | Relative
 :------|----------:|--------:
 quotes |    18.066 |   100.0%
