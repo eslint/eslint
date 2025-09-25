@@ -220,11 +220,7 @@ export class SourceCode
 
 	getDeclaredVariables(node: ESTree.Node): Scope.Variable[];
 
-	getJSDocComment(node: ESTree.Node): ESTree.Comment | null;
-
 	getNodeByRangeIndex(index: number): ESTree.Node | null;
-
-	isSpaceBetweenTokens(first: AST.Token, second: AST.Token): boolean;
 
 	getLocFromIndex(index: number): ESTree.Position;
 

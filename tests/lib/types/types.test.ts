@@ -106,13 +106,9 @@ sourceCode.getLines();
 
 sourceCode.getAllComments();
 
-sourceCode.getJSDocComment(AST); // $ExpectType Comment | null
-
 sourceCode.getNodeByRangeIndex(0);
 
 sourceCode.getNodeByRangeIndex(0);
-
-sourceCode.isSpaceBetweenTokens(TOKEN, TOKEN);
 
 sourceCode.isSpaceBetween(TOKEN, TOKEN);
 sourceCode.isSpaceBetween(AST, TOKEN);
