@@ -25,7 +25,7 @@ jobs:
               run: npm run test:ecosystem -- --plugin all
             - if: steps.tester.outcome == 'failure' && github.head_ref == 'main'
               env:
-                  DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+                  DISCORD_WEBHOOK: ${{ secrets.DISCORD_CONTRIBUTORS_WEBHOOK }}
               uses: Ilshidur/action-discord@0c4b27844ba47cb1c7bee539c8eead5284ce9fa9 # v0.3.2
               with:
                   args: "Ecosystem tests failed."
