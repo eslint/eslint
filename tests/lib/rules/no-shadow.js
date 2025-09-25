@@ -995,9 +995,7 @@ ruleTester.run("no-shadow", rule, {
 		{
 			code: "var Object = 0;",
 			options: [{ builtinGlobals: true }],
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 			errors: [
 				{
 					messageId: "noShadowGlobal",
@@ -1011,7 +1009,7 @@ ruleTester.run("no-shadow", rule, {
 			code: "var top = 0;",
 			options: [{ builtinGlobals: true }],
 			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
+				sourceType: "commonjs",
 				globals: globals.browser,
 			},
 			errors: [

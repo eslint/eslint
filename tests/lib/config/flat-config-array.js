@@ -2319,7 +2319,7 @@ describe("FlatConfigArray", () => {
 								languageOptions: {
 									parserOptions: {
 										ecmaFeatures: {
-											globalReturn: true,
+											impliedStrict: true,
 										},
 									},
 								},
@@ -2333,7 +2333,7 @@ describe("FlatConfigArray", () => {
 								parserOptions: {
 									ecmaFeatures: {
 										jsx: true,
-										globalReturn: false,
+										impliedStrict: true,
 									},
 									sourceType: "module",
 								},

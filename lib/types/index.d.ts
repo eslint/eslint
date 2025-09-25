@@ -1589,7 +1589,6 @@ export namespace Linter {
 		 */
 		ecmaFeatures?:
 			| {
-					globalReturn?: boolean | undefined;
 					impliedStrict?: boolean | undefined;
 					jsx?: boolean | undefined;
 					[key: string]: any;
