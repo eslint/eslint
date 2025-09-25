@@ -10862,6 +10862,60 @@ describe("ESLint", () => {
 					configFilePath,
 				);
 			});
+
+			it("should return undefined when overrideConfigFile is true even when filePath is provided", async () => {
+				const engine = new ESLint({
+					flags,
+					overrideConfigFile: true,
+					cwd: getFixturePath("lookup-from-file"),
+				});
+
+				const filePath = path.join("subdir", "code.js");
+				assert.strictEqual(
+					await engine.findConfigFile(filePath),
+					void 0,
+				);
+			});
+
+			it("should return custom config file path when overrideConfigFile is a nonempty string even when filePath is provided", async () => {
+				const engine = new ESLint({
+					flags,
+					overrideConfigFile: "my-config.js",
+				});
+
+				const configFilePath = path.resolve(
+					__dirname,
+					"../../../my-config.js",
+				);
+
+				assert.strictEqual(
+					await engine.findConfigFile("some/file.js"),
+					configFilePath,
+				);
+			});
+
+			it("should return the config file relative to the provided filePath when specified", async () => {
+				const engine = new ESLint({
+					flags,
+					cwd: getFixturePath("lookup-from-file"),
+				});
+
+				const foundConfig = await engine.findConfigFile(
+					path.join("subdir", "code.js"),
+				);
+
+				const expectedConfig = flags.includes(
+					"v10_config_lookup_from_file",
+				)
+					? getFixturePath(
+							"lookup-from-file",
+							"subdir",
+							"eslint.config.js",
+						)
+					: getFixturePath("lookup-from-file", "eslint.config.js");
+
+				assert.strictEqual(foundConfig, expectedConfig);
+			});
 		});
 
 		describe("Use stats option", () => {
