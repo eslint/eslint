@@ -63,7 +63,7 @@ export async function getPlugins(action) {
 			)}`,
 		);
 		console.error(
-			`Alternately, run with --plugin all to ${action} all plugins.`,
+			`Alternately, run without --plugin to ${action} all plugins.`,
 		);
 		process.exit(1);
 	}
