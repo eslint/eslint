@@ -42,8 +42,9 @@ import { defineConfig } from "eslint/config";
 import js from "@eslint/js";
 
 export default defineConfig([
-	js.configs.recommended,
 	{
+		files: ["**/*.js"],
+		extends: [js.configs.recommended],
 		rules: {
 			"consistent-return": 2,
 			"indent"           : [1, 4],
