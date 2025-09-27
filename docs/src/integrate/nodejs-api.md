@@ -259,6 +259,24 @@ This method calculates the configuration for a given file, which can be useful f
 - (`Promise<Object>`)<br>
   The promise that will be fulfilled with a configuration object.
 
+### ◆ eslint.findConfigFile(filePath)
+
+```js
+const configFilePath = await eslint.findConfigFile(filePath);
+```
+
+This method finds the configuration file that this `ESLint` instance would use based on the options passed to the constructor.
+
+#### Parameters
+
+- `filePath` (`string`)<br>
+  Optional. The path of a file for which to find the associated config file. If omitted, ESLint determines the config file based on the current working directory of this instance.
+
+#### Return Value
+
+- (`Promise<string | undefined>`)<br>
+  The promise that will be fulfilled with the absolute path to the config file being used, or `undefined` when no config file is used (for example, when `overrideConfigFile: true` is set).
+
 ### ◆ eslint.isPathIgnored(filePath)
 
 ```js
