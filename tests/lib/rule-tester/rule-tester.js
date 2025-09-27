@@ -5353,7 +5353,9 @@ describe("RuleTester", () => {
 				);
 				assert.fail("Expected an error to be thrown");
 			} catch (error) {
-				assert.include(error.stack, "RuleTester.run.valid[0]");
+				assert.include(error.stack, "at RuleTester.run.valid[0] (");
+				assert.include(error.stack, "at RuleTester.run.valid (");
+				assert.include(error.stack, "at RuleTester.run (");
 				assert.include(
 					error.stack
 						.replace(/\\/gu, "/")
@@ -5389,8 +5391,11 @@ describe("RuleTester", () => {
 			} catch (error) {
 				assert.include(
 					error.stack,
-					"RuleTester.run.invalid[0].error[1]",
+					"at RuleTester.run.invalid[0].error[1] (",
 				);
+				assert.include(error.stack, "at RuleTester.run.invalid[0] (");
+				assert.include(error.stack, "at RuleTester.run.invalid (");
+				assert.include(error.stack, "at RuleTester.run (");
 				assert.include(
 					error.stack
 						.replace(/\\/gu, "/")
