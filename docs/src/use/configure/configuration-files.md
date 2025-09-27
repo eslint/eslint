@@ -610,12 +610,14 @@ A configuration object uses `extends` to inherit all the traits of another confi
 Both `extends` and cascading configuration objects can achieve similar organizational results, but they serve different purposes:
 
 **Use `extends` when:**
+
 - Reusing predefined or shareable configurations from plugins/packages
 - You want explicit inheritance with clear intent
 - Combining multiple existing configurations
 - Building on established configuration patterns
 
 **Use cascading when:**
+
 - Creating layered configurations based on file patterns or directories
 - You prefer automatic merging behavior for progressive configuration
 - Building configuration that naturally flows from general to specific rules
