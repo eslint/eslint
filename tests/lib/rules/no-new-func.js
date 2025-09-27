@@ -50,7 +50,6 @@ ruleTester.run("no-new-func", rule, {
 			errors: [
 				{
 					messageId: "noFunctionConstructor",
-					type: "NewExpression",
 				},
 			],
 		},
@@ -59,7 +58,6 @@ ruleTester.run("no-new-func", rule, {
 			errors: [
 				{
 					messageId: "noFunctionConstructor",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -68,7 +66,6 @@ ruleTester.run("no-new-func", rule, {
 			errors: [
 				{
 					messageId: "noFunctionConstructor",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -77,7 +74,6 @@ ruleTester.run("no-new-func", rule, {
 			errors: [
 				{
 					messageId: "noFunctionConstructor",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -86,7 +82,6 @@ ruleTester.run("no-new-func", rule, {
 			errors: [
 				{
 					messageId: "noFunctionConstructor",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -95,7 +90,6 @@ ruleTester.run("no-new-func", rule, {
 			errors: [
 				{
 					messageId: "noFunctionConstructor",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -104,7 +98,6 @@ ruleTester.run("no-new-func", rule, {
 			errors: [
 				{
 					messageId: "noFunctionConstructor",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -114,7 +107,6 @@ ruleTester.run("no-new-func", rule, {
 			errors: [
 				{
 					messageId: "noFunctionConstructor",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -126,7 +118,6 @@ ruleTester.run("no-new-func", rule, {
 			errors: [
 				{
 					messageId: "noFunctionConstructor",
-					type: "NewExpression",
 				},
 			],
 		},
@@ -135,7 +126,6 @@ ruleTester.run("no-new-func", rule, {
 			errors: [
 				{
 					messageId: "noFunctionConstructor",
-					type: "CallExpression",
 				},
 			],
 		},

@@ -1507,6 +1507,7 @@ linterWithEslintrcConfig.getRules();
 	eslint = new ESLint({ fix: true });
 	eslint = new ESLint({ fix: message => false });
 	eslint = new ESLint({ fixTypes: ["directive", "problem"] });
+	eslint = new ESLint({ fixTypes: null });
 	eslint = new ESLint({ flags: ["foo", "bar"] });
 	eslint = new ESLint({ globInputPaths: true });
 	eslint = new ESLint({ ignore: true });
@@ -1574,6 +1575,9 @@ linterWithEslintrcConfig.getRules();
 	resultsPromise = eslint.lintText(SOURCE, { filePath: "foo" });
 
 	eslint.calculateConfigForFile("./config.json");
+
+	eslint.findConfigFile("src/index.js");
+	eslint.findConfigFile();
 
 	eslint.isPathIgnored("./dist/index.js");
 
@@ -1655,6 +1659,7 @@ linterWithEslintrcConfig.getRules();
 	eslint = new LegacyESLint({ fix: true });
 	eslint = new LegacyESLint({ fix: message => false });
 	eslint = new LegacyESLint({ fixTypes: ["directive", "problem"] });
+	eslint = new LegacyESLint({ fixTypes: null });
 	eslint = new LegacyESLint({ flags: ["foo", "bar"] });
 	eslint = new LegacyESLint({ globInputPaths: true });
 	eslint = new LegacyESLint({ ignore: true });
@@ -1824,6 +1829,7 @@ for (const result of results) {
 	const deprecatedRule = result.usedDeprecatedRules[0];
 	deprecatedRule.ruleId = "foo";
 	deprecatedRule.replacedBy = ["bar"];
+	deprecatedRule.info = undefined;
 	deprecatedRule.info = {
 		message: "use bar instead",
 		replacedBy: [
@@ -1924,6 +1930,15 @@ ruleTester.run("my-rule", rule, {
 		{ code: "foo", filename: "test.js" },
 		{ code: "foo", languageOptions: { globals: { foo: true } } },
 		{ code: "foo", settings: { foo: true } },
+		{
+			code: "foo",
+			before() {
+				/* do something */
+			},
+			after() {
+				/* undo something */
+			},
+		},
 		RuleTester.only("foo"),
 	],
 
@@ -1954,6 +1969,12 @@ ruleTester.run("my-rule", rule, {
 			],
 		},
 		{ code: "foo", errors: 1, only: true },
+		{
+			code: "foo",
+			errors: [{ messageId: "bar" }],
+			before: () => {},
+			after: () => {},
+		},
 		// @ts-expect-error // `message` cannot be `undefined`
 		{ code: "foo", errors: [{ message: undefined }], only: true },
 		// @ts-expect-error // `messageId` cannot be `undefined`
@@ -1972,6 +1993,10 @@ ruleTester.run("my-rule", rule, {
 				},
 			],
 		},
+		// @ts-expect-error // `before` should be a function
+		{ code: "foo", errors: [{ messageId: "bar" }], before: {} },
+		// @ts-expect-error // `after` should be a function
+		{ code: "foo", errors: [{ messageId: "bar" }], after: void 0 },
 	],
 });
 

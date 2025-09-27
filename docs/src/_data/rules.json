@@ -833,7 +833,7 @@
                 "recommended": false,
                 "fixable": false,
                 "frozen": false,
-                "hasSuggestions": false
+                "hasSuggestions": true
             },
             {
                 "name": "no-empty-static-block",
@@ -841,7 +841,7 @@
                 "recommended": true,
                 "fixable": false,
                 "frozen": false,
-                "hasSuggestions": false
+                "hasSuggestions": true
             },
             {
                 "name": "no-eq-null",
@@ -1490,6 +1490,14 @@
                 "fixable": true,
                 "frozen": true,
                 "hasSuggestions": false
+            },
+            {
+                "name": "preserve-caught-error",
+                "description": "Disallow losing originally caught error when re-throwing custom errors",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": true
             },
             {
                 "name": "radix",

@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-eslint",
-  "version": "11.0.0",
+  "version": "13.0.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "Default ESLint configuration for ESLint projects.",
   "funding": "https://eslint.org/donate",
@@ -75,7 +75,7 @@
     "typescript": "^5.7.2"
   },
   "peerDependencies": {
-    "eslint": "^9.10.0"
+    "eslint": "^9.35.0"
   },
   "peerDependenciesMeta": {
     "eslint": {

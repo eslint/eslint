@@ -310,7 +310,8 @@
         "no-new-native-nonconstructor": "8.27.0",
         "no-object-constructor": "8.50.0",
         "no-useless-assignment": "9.0.0-alpha.1",
-        "no-unassigned-vars": "9.27.0"
+        "no-unassigned-vars": "9.27.0",
+        "preserve-caught-error": "9.35.0"
     },
     "removed": {
         "generator-star": "1.0.0-rc-1",

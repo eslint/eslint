@@ -31,7 +31,6 @@ ruleTester.run("no-process-env", rule, {
 			errors: [
 				{
 					messageId: "unexpectedProcessEnv",
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -40,7 +39,6 @@ ruleTester.run("no-process-env", rule, {
 			errors: [
 				{
 					messageId: "unexpectedProcessEnv",
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -49,7 +47,6 @@ ruleTester.run("no-process-env", rule, {
 			errors: [
 				{
 					messageId: "unexpectedProcessEnv",
-					type: "MemberExpression",
 				},
 			],
 		},

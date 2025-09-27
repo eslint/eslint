@@ -29,7 +29,6 @@ ruleTester.run("no-new", rule, {
 			errors: [
 				{
 					messageId: "noNewStatement",
-					type: "ExpressionStatement",
 				},
 			],
 		},

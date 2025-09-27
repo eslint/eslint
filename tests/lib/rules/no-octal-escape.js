@@ -67,7 +67,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "01" },
-					type: "Literal",
 				},
 			],
 		},
@@ -77,7 +76,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "000" },
-					type: "Literal",
 				},
 			],
 		},
@@ -87,7 +85,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "377" },
-					type: "Literal",
 				},
 			],
 		},
@@ -97,7 +94,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "37" },
-					type: "Literal",
 				},
 			],
 		},
@@ -107,7 +103,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "37" },
-					type: "Literal",
 				},
 			],
 		},
@@ -117,7 +112,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "3" },
-					type: "Literal",
 				},
 			],
 		},
@@ -127,7 +121,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "3" },
-					type: "Literal",
 				},
 			],
 		},
@@ -137,7 +130,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "251" },
-					type: "Literal",
 				},
 			],
 		},
@@ -147,7 +139,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "25" },
-					type: "Literal",
 				},
 			],
 		},
@@ -157,7 +148,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "25" },
-					type: "Literal",
 				},
 			],
 		},
@@ -167,7 +157,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "3" },
-					type: "Literal",
 				},
 			],
 		},
@@ -177,7 +166,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "77" },
-					type: "Literal",
 				},
 			],
 		},
@@ -187,7 +175,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "7" },
-					type: "Literal",
 				},
 			],
 		},
@@ -197,7 +184,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "5" },
-					type: "Literal",
 				},
 			],
 		},
@@ -207,7 +193,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "75" },
-					type: "Literal",
 				},
 			],
 		},
@@ -217,7 +202,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "40" },
-					type: "Literal",
 				},
 			],
 		},
@@ -228,7 +212,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "1" },
-					type: "Literal",
 				},
 			],
 		},
@@ -238,7 +221,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "75" },
-					type: "Literal",
 				},
 			],
 		},
@@ -249,7 +231,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "1" },
-					type: "Literal",
 				},
 			],
 		},
@@ -259,7 +240,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "1" },
-					type: "Literal",
 				},
 			],
 		},
@@ -269,7 +249,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "01" },
-					type: "Literal",
 				},
 			],
 		},
@@ -279,7 +258,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "01" },
-					type: "Literal",
 				},
 			],
 		},
@@ -289,7 +267,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "1" },
-					type: "Literal",
 				},
 			],
 		},
@@ -299,7 +276,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "01" },
-					type: "Literal",
 				},
 			],
 		},
@@ -309,7 +285,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "0" },
-					type: "Literal",
 				},
 			],
 		},
@@ -320,7 +295,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "1" },
-					type: "Literal",
 				},
 			],
 		},
@@ -330,7 +304,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "2" },
-					type: "Literal",
 				},
 			],
 		},
@@ -340,7 +313,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "7" },
-					type: "Literal",
 				},
 			],
 		},
@@ -350,7 +322,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "00" },
-					type: "Literal",
 				},
 			],
 		},
@@ -360,7 +331,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "01" },
-					type: "Literal",
 				},
 			],
 		},
@@ -370,7 +340,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "02" },
-					type: "Literal",
 				},
 			],
 		},
@@ -380,7 +349,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "07" },
-					type: "Literal",
 				},
 			],
 		},
@@ -390,7 +358,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "0" },
-					type: "Literal",
 				},
 			],
 		},
@@ -400,7 +367,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "0" },
-					type: "Literal",
 				},
 			],
 		},
@@ -410,7 +376,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "10" },
-					type: "Literal",
 				},
 			],
 		},
@@ -420,7 +385,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "12" },
-					type: "Literal",
 				},
 			],
 		},
@@ -430,7 +394,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "1" },
-					type: "Literal",
 				},
 			],
 		},
@@ -440,7 +403,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "1" },
-					type: "Literal",
 				},
 			],
 		},
@@ -450,7 +412,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "1" },
-					type: "Literal",
 				},
 			],
 		},
@@ -460,7 +421,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "1" },
-					type: "Literal",
 				},
 			],
 		},
@@ -470,7 +430,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "1" },
-					type: "Literal",
 				},
 			],
 		},
@@ -480,7 +439,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "01" },
-					type: "Literal",
 				},
 			],
 		},
@@ -490,7 +448,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "01" },
-					type: "Literal",
 				},
 			],
 		},
@@ -500,7 +457,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "01" },
-					type: "Literal",
 				},
 			],
 		},
@@ -510,7 +466,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "01" },
-					type: "Literal",
 				},
 			],
 		},
@@ -520,7 +475,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "01" },
-					type: "Literal",
 				},
 			],
 		},
@@ -530,7 +484,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "0" },
-					type: "Literal",
 				},
 			],
 		},
@@ -540,7 +493,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "1" },
-					type: "Literal",
 				},
 			],
 		},
@@ -550,7 +502,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "01" },
-					type: "Literal",
 				},
 			],
 		},
@@ -560,7 +511,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "0" },
-					type: "Literal",
 				},
 			],
 		},
@@ -570,7 +520,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "1" },
-					type: "Literal",
 				},
 			],
 		},
@@ -580,7 +529,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "01" },
-					type: "Literal",
 				},
 			],
 		},
@@ -590,7 +538,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "0" },
-					type: "Literal",
 				},
 			],
 		},
@@ -602,7 +549,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "1" },
-					type: "Literal",
 				},
 			],
 		},
@@ -614,7 +560,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "01" },
-					type: "Literal",
 				},
 			],
 		},
@@ -624,7 +569,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "02" },
-					type: "Literal",
 				},
 			],
 		},
@@ -634,7 +578,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "01" },
-					type: "Literal",
 				},
 			],
 		},
@@ -644,7 +587,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "2" },
-					type: "Literal",
 				},
 			],
 		},
@@ -654,7 +596,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "0" },
-					type: "Literal",
 				},
 			],
 		},
@@ -664,7 +605,6 @@ ruleTester.run("no-octal-escape", rule, {
 				{
 					messageId: "octalEscapeSequence",
 					data: { sequence: "1" },
-					type: "Literal",
 				},
 			],
 		},

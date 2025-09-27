@@ -38,7 +38,6 @@ ruleTester.run("no-octal", rule, {
 			errors: [
 				{
 					messageId: "noOctal",
-					type: "Literal",
 				},
 			],
 		},
@@ -47,7 +46,6 @@ ruleTester.run("no-octal", rule, {
 			errors: [
 				{
 					messageId: "noOctal",
-					type: "Literal",
 				},
 			],
 		},
@@ -56,7 +54,6 @@ ruleTester.run("no-octal", rule, {
 			errors: [
 				{
 					messageId: "noOctal",
-					type: "Literal",
 				},
 			],
 		},
@@ -65,7 +62,6 @@ ruleTester.run("no-octal", rule, {
 			errors: [
 				{
 					messageId: "noOctal",
-					type: "Literal",
 				},
 			],
 		},
@@ -74,7 +70,6 @@ ruleTester.run("no-octal", rule, {
 			errors: [
 				{
 					messageId: "noOctal",
-					type: "Literal",
 				},
 			],
 		},
@@ -83,7 +78,6 @@ ruleTester.run("no-octal", rule, {
 			errors: [
 				{
 					messageId: "noOctal",
-					type: "Literal",
 				},
 			],
 		},
@@ -92,7 +86,6 @@ ruleTester.run("no-octal", rule, {
 			errors: [
 				{
 					messageId: "noOctal",
-					type: "Literal",
 				},
 			],
 		},
@@ -101,7 +94,6 @@ ruleTester.run("no-octal", rule, {
 			errors: [
 				{
 					messageId: "noOctal",
-					type: "Literal",
 				},
 			],
 		},
@@ -110,7 +102,6 @@ ruleTester.run("no-octal", rule, {
 			errors: [
 				{
 					messageId: "noOctal",
-					type: "Literal",
 				},
 			],
 		},
@@ -119,7 +110,6 @@ ruleTester.run("no-octal", rule, {
 			errors: [
 				{
 					messageId: "noOctal",
-					type: "Literal",
 				},
 			],
 		},
@@ -128,7 +118,6 @@ ruleTester.run("no-octal", rule, {
 			errors: [
 				{
 					messageId: "noOctal",
-					type: "Literal",
 				},
 			],
 		},

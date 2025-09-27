@@ -294,7 +294,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "array" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -305,7 +304,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "array" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -316,7 +314,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -327,7 +324,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -338,7 +334,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -349,7 +344,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -360,7 +354,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -371,7 +364,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -382,7 +374,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -397,7 +388,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -409,7 +399,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -424,7 +413,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -436,7 +424,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -448,7 +435,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -459,7 +445,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -470,7 +455,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -481,7 +465,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -496,7 +479,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "array" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -508,7 +490,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "array" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -526,7 +507,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "array" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -543,7 +523,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "array" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -560,7 +539,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "array" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -577,7 +555,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -588,7 +565,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -601,7 +577,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -612,7 +587,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -623,7 +597,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -634,7 +607,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -645,7 +617,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -656,7 +627,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -667,7 +637,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -678,7 +647,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -689,7 +657,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -700,7 +667,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -711,7 +677,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -722,7 +687,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -733,7 +697,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -744,7 +707,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -755,7 +717,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -766,7 +727,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -777,7 +737,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -788,7 +747,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -799,7 +757,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -810,7 +767,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -821,7 +777,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -832,7 +787,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -843,7 +797,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -854,7 +807,6 @@ ruleTester.run("prefer-destructuring", rule, {
 				{
 					messageId: "preferDestructuring",
 					data: { type: "object" },
-					type: "VariableDeclarator",
 				},
 			],
 		},

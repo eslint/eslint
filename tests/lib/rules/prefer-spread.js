@@ -16,7 +16,11 @@ const RuleTester = require("../../../lib/rule-tester/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const errors = [{ messageId: "preferSpread", type: "CallExpression" }];
+const errors = [
+	{
+		messageId: "preferSpread",
+	},
+];
 
 const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2022 } });
 

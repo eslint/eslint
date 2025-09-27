@@ -18,7 +18,9 @@ const { unIndent } = require("../../_utils");
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 6 } });
-const error = { messageId: "noUselessConstructor", type: "MethodDefinition" };
+const error = {
+	messageId: "noUselessConstructor",
+};
 
 ruleTester.run("no-useless-constructor", rule, {
 	valid: [
@@ -336,7 +338,6 @@ ruleTesterTypeScript.run("no-useless-constructor", rule, {
               `,
 						},
 					],
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -359,7 +360,6 @@ ruleTesterTypeScript.run("no-useless-constructor", rule, {
         `,
 						},
 					],
-					type: "MethodDefinition",
 				},
 			],
 		},

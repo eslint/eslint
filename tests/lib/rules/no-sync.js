@@ -37,7 +37,6 @@ ruleTester.run("no-sync", rule, {
 				{
 					messageId: "noSync",
 					data: { propertyName: "fooSync" },
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -48,7 +47,6 @@ ruleTester.run("no-sync", rule, {
 				{
 					messageId: "noSync",
 					data: { propertyName: "fooSync" },
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -58,7 +56,6 @@ ruleTester.run("no-sync", rule, {
 				{
 					messageId: "noSync",
 					data: { propertyName: "fooSync" },
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -68,7 +65,6 @@ ruleTester.run("no-sync", rule, {
 				{
 					messageId: "noSync",
 					data: { propertyName: "fooSync" },
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -78,7 +74,6 @@ ruleTester.run("no-sync", rule, {
 				{
 					messageId: "noSync",
 					data: { propertyName: "fooSync" },
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -89,7 +84,6 @@ ruleTester.run("no-sync", rule, {
 				{
 					messageId: "noSync",
 					data: { propertyName: "fooSync" },
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -100,7 +94,6 @@ ruleTester.run("no-sync", rule, {
 				{
 					messageId: "noSync",
 					data: { propertyName: "fooSync" },
-					type: "MemberExpression",
 				},
 			],
 		},

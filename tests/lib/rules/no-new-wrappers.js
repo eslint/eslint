@@ -63,7 +63,6 @@ ruleTester.run("no-new-wrappers", rule, {
 					data: {
 						fn: "String",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -75,7 +74,6 @@ ruleTester.run("no-new-wrappers", rule, {
 					data: {
 						fn: "Number",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -87,7 +85,6 @@ ruleTester.run("no-new-wrappers", rule, {
 					data: {
 						fn: "Boolean",
 					},
-					type: "NewExpression",
 				},
 			],
 		},
@@ -106,7 +103,6 @@ ruleTester.run("no-new-wrappers", rule, {
 					data: {
 						fn: "String",
 					},
-					type: "NewExpression",
 					line: 2,
 				},
 			],

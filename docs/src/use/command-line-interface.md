@@ -160,9 +160,22 @@ Miscellaneous:
 
 ### Basic Configuration
 
+#### `--no-config-lookup`
+
+**Flat Config Mode Only.** Disables use of configuration from files.
+
+- **Argument Type**: No argument.
+
+##### `--no-config-lookup` example
+
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["--no-config-lookup", "file.js"]
+}) }}
+
 #### `--no-eslintrc`
 
-**eslintrc Mode Only.** Disables use of configuration from `.eslintrc.*` and `package.json` files. For flat config mode, use `--no-config-lookup` instead.
+**eslintrc Mode Only.** Disables use of configuration from `.eslintrc.*` and `package.json` files. For flat config mode, use [`--no-config-lookup`](#--no-config-lookup) instead.
 
 - **Argument Type**: No argument.
 
@@ -231,7 +244,7 @@ This option allows you to specify additional file extensions to lint.
 - **Multiple Arguments**: Yes
 - **Default Value**: By default, ESLint lints files with extensions `.js`, `.mjs`, `.cjs`, and additional extensions [specified in the configuration file](configure/configuration-files#specifying-files-with-arbitrary-extensions).
 
-This option is primarily intended for use in combination with the `--no-config-lookup` option, since in that case there is no configuration file in which the additional extensions would be specified.
+This option is primarily intended for use in combination with the [`--no-config-lookup`](#--no-config-lookup) option, since in that case there is no configuration file in which the additional extensions would be specified.
 
 ##### `--ext` example
 
@@ -365,7 +378,7 @@ This option specifies the rules to be used.
 
 These rules are merged with any rules specified with configuration files. If the rule is defined in a plugin, you have to prefix the rule ID with the plugin name and a `/`.
 
-To ignore rules in `.eslintrc` configuration files and only run rules specified in the command line, use the `--rule` flag in combination with the [`--no-eslintrc`](#--no-eslintrc) flag.
+To ignore rules in configuration files and only run rules specified in the command line, use the `--rule` flag in combination with the [`--no-config-lookup`](#--no-config-lookup) flag.
 
 ##### `--rule` example
 
@@ -389,7 +402,7 @@ To ignore rules in `.eslintrc` configuration files and only run rules specified 
 
 {{ npx_tabs ({
     package: "eslint",
-    args: ["--rule", "\'quotes: [error, double]\'", "--no-eslintrc"],
+    args: ["--rule", "\'quotes: [error, double]\'", "--no-config-lookup"],
     comment: "Only apply rule from the command line"
 }) }}
 
@@ -512,7 +525,7 @@ This option is helpful if you are using another program to format your code, but
 
 #### `--no-ignore`
 
-Disables excluding of files from `.eslintignore` files, `--ignore-path` flags, `--ignore-pattern` flags, and the `ignorePatterns` property in config files.
+Disables excluding of files from [`--ignore-pattern`](#--ignore-pattern) flags and the `ignores` property in configuration. In eslintrc mode, `.eslintignore` files, [`--ignore-path`](#--ignore-path) flags, and the `ignorePatterns` property in configuration are also disabled.
 
 - **Argument Type**: No argument.
 
@@ -527,7 +540,7 @@ Disables excluding of files from `.eslintignore` files, `--ignore-path` flags, `
 
 This option allows you to specify patterns of files to ignore. In eslintrc mode, these are in addition to `.eslintignore`.
 
-- **Argument Type**: String. The supported syntax is the same as for [`.eslintignore` files](configure/ignore-deprecated#the-eslintignore-file), which use the same patterns as the [`.gitignore` specification](https://git-scm.com/docs/gitignore). You should quote your patterns in order to avoid shell interpretation of glob patterns.
+- **Argument Type**: String. The supported syntax is the same as for [`ignores` patterns](configure/configuration-files#excluding-files-with-ignores), which use [minimatch](https://www.npmjs.com/package/minimatch) syntax. In eslintrc mode, the syntax is the same as for [`.eslintignore` files](configure/ignore-deprecated#the-eslintignore-file), which use the same patterns as the [`.gitignore` specification](https://git-scm.com/docs/gitignore). You should quote your patterns in order to avoid shell interpretation of glob patterns.
 - **Multiple Arguments**: Yes
 
 ##### `--ignore-pattern` example

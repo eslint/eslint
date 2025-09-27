@@ -445,7 +445,6 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 					endLine: 1,
@@ -453,7 +452,6 @@ ruleTester.run("array-bracket-newline", rule, {
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 3,
 					column: 13,
 					endLine: 3,
@@ -542,7 +540,6 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 					endLine: 1,
@@ -550,7 +547,6 @@ ruleTester.run("array-bracket-newline", rule, {
 				},
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 12,
 					endLine: 1,
@@ -565,13 +561,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 13,
 				},
@@ -584,7 +578,6 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayExpression",
 					line: 2,
 					column: 2,
 					endLine: 2,
@@ -599,7 +592,6 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayExpression",
 					line: 2,
 					column: 2,
 				},
@@ -612,7 +604,6 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 					endLine: 1,
@@ -620,7 +611,6 @@ ruleTester.run("array-bracket-newline", rule, {
 				},
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 16,
 					endLine: 1,
@@ -635,7 +625,6 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
@@ -648,13 +637,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 34,
 				},
@@ -667,13 +654,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayExpression",
 					line: 2,
 					column: 2,
 				},
@@ -686,13 +671,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayExpression",
 					line: 3,
 					column: 2,
 				},
@@ -722,13 +705,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 2,
 					column: 1,
 				},
@@ -741,7 +722,6 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 					endLine: 1,
@@ -749,7 +729,6 @@ ruleTester.run("array-bracket-newline", rule, {
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 3,
 					column: 1,
 					endLine: 3,
@@ -764,13 +743,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 3,
 					column: 1,
 				},
@@ -783,13 +760,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 3,
 					column: 18,
 				},
@@ -802,13 +777,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 3,
 					column: 1,
 				},
@@ -821,13 +794,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 4,
 					column: 1,
 				},
@@ -840,13 +811,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 5,
 					column: 1,
 				},
@@ -890,7 +859,6 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayExpression",
 					line: 2,
 					column: 2,
 					endLine: 2,
@@ -905,7 +873,6 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 2,
 					column: 1,
 					endLine: 2,
@@ -920,7 +887,6 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayExpression",
 					line: 2,
 					column: 2,
 					endLine: 2,
@@ -937,13 +903,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 2,
 					column: 1,
 				},
@@ -956,13 +920,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 3,
 					column: 1,
 				},
@@ -975,13 +937,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 3,
 					column: 1,
 				},
@@ -994,13 +954,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 3,
 					column: 1,
 				},
@@ -1013,13 +971,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayExpression",
 					line: 2,
 					column: 2,
 				},
@@ -1032,13 +988,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayExpression",
 					line: 3,
 					column: 2,
 				},
@@ -1081,13 +1035,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 2,
 					column: 1,
 				},
@@ -1100,13 +1052,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 3,
 					column: 1,
 				},
@@ -1119,13 +1069,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 16,
 				},
@@ -1138,13 +1086,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayExpression",
 					line: 2,
 					column: 2,
 				},
@@ -1157,13 +1103,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 5,
 					column: 1,
 				},
@@ -1178,13 +1122,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 12,
 				},
@@ -1197,13 +1139,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 13,
 				},
@@ -1216,13 +1156,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 16,
 				},
@@ -1235,13 +1173,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayExpression",
 					line: 2,
 					column: 2,
 				},
@@ -1254,13 +1190,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayExpression",
 					line: 3,
 					column: 2,
 				},
@@ -1275,13 +1209,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 2,
 					column: 1,
 				},
@@ -1294,13 +1226,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 3,
 					column: 1,
 				},
@@ -1313,13 +1243,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 3,
 					column: 1,
 				},
@@ -1332,13 +1260,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 4,
 					column: 1,
 				},
@@ -1351,13 +1277,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 5,
 					column: 1,
 				},
@@ -1372,13 +1296,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 2,
 					column: 1,
 				},
@@ -1391,13 +1313,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 3,
 					column: 1,
 				},
@@ -1410,13 +1330,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 3,
 					column: 1,
 				},
@@ -1429,13 +1347,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayExpression",
 					line: 2,
 					column: 2,
 				},
@@ -1448,13 +1364,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayExpression",
 					line: 3,
 					column: 2,
 				},
@@ -1469,13 +1383,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 2,
 					column: 1,
 				},
@@ -1488,13 +1400,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 3,
 					column: 1,
 				},
@@ -1507,13 +1417,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 16,
 				},
@@ -1526,13 +1434,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayExpression",
 					line: 2,
 					column: 2,
 				},
@@ -1545,13 +1451,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayExpression",
 					line: 3,
 					column: 2,
 				},
@@ -1569,7 +1473,6 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayExpression",
 					line: 2,
 					column: 5,
 				},
@@ -1582,13 +1485,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 17,
 				},
@@ -1601,7 +1502,6 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
@@ -1616,13 +1516,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 2,
 					column: 1,
 				},
@@ -1635,13 +1533,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 3,
 					column: 1,
 				},
@@ -1654,13 +1550,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 3,
 					column: 1,
 				},
@@ -1673,13 +1567,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 4,
 					column: 1,
 				},
@@ -1692,13 +1584,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayExpression",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayExpression",
 					line: 5,
 					column: 1,
 				},
@@ -1717,13 +1607,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayPattern",
 					line: 1,
 					column: 5,
 				},
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayPattern",
 					line: 1,
 					column: 6,
 				},
@@ -1737,13 +1625,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayPattern",
 					line: 1,
 					column: 5,
 				},
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayPattern",
 					line: 1,
 					column: 7,
 				},
@@ -1757,7 +1643,6 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayPattern",
 					line: 2,
 					column: 2,
 				},
@@ -1771,7 +1656,6 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayPattern",
 					line: 2,
 					column: 2,
 				},
@@ -1785,13 +1669,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayPattern",
 					line: 1,
 					column: 5,
 				},
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayPattern",
 					line: 1,
 					column: 10,
 				},
@@ -1805,7 +1687,6 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayPattern",
 					line: 1,
 					column: 5,
 				},
@@ -1819,13 +1700,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayPattern",
 					line: 1,
 					column: 5,
 				},
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayPattern",
 					line: 1,
 					column: 28,
 				},
@@ -1839,13 +1718,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayPattern",
 					line: 1,
 					column: 5,
 				},
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayPattern",
 					line: 2,
 					column: 2,
 				},
@@ -1861,7 +1738,6 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayPattern",
 					line: 2,
 					column: 2,
 					endLine: 2,
@@ -1877,7 +1753,6 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayPattern",
 					line: 2,
 					column: 1,
 					endLine: 2,
@@ -1893,7 +1768,6 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayPattern",
 					line: 2,
 					column: 2,
 					endLine: 2,
@@ -1911,13 +1785,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayPattern",
 					line: 1,
 					column: 5,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayPattern",
 					line: 2,
 					column: 1,
 				},
@@ -1931,13 +1803,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "unexpectedOpeningLinebreak",
-					type: "ArrayPattern",
 					line: 1,
 					column: 5,
 				},
 				{
 					messageId: "unexpectedClosingLinebreak",
-					type: "ArrayPattern",
 					line: 3,
 					column: 1,
 				},
@@ -1951,13 +1821,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayPattern",
 					line: 1,
 					column: 5,
 				},
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayPattern",
 					line: 1,
 					column: 10,
 				},
@@ -1971,13 +1839,11 @@ ruleTester.run("array-bracket-newline", rule, {
 			errors: [
 				{
 					messageId: "missingOpeningLinebreak",
-					type: "ArrayPattern",
 					line: 1,
 					column: 5,
 				},
 				{
 					messageId: "missingClosingLinebreak",
-					type: "ArrayPattern",
 					line: 2,
 					column: 2,
 				},

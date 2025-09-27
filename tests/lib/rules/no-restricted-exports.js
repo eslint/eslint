@@ -385,7 +385,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "someFunction" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -398,7 +397,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -409,7 +407,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -420,7 +417,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -431,7 +427,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -442,7 +437,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -453,7 +447,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -464,7 +457,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -475,7 +467,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -486,7 +477,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -497,7 +487,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "A" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -508,7 +497,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 					column: 17,
 				},
 			],
@@ -520,7 +508,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 					column: 10,
 				},
 			],
@@ -532,7 +519,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -543,7 +529,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -554,7 +539,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -567,7 +551,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Literal",
 					column: 22,
 				},
 			],
@@ -579,7 +562,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "b" },
-					type: "Literal",
 					column: 22,
 				},
 			],
@@ -591,7 +573,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: " b " },
-					type: "Literal",
 					column: 22,
 				},
 			],
@@ -603,7 +584,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "👍" },
-					type: "Literal",
 					column: 22,
 				},
 			],
@@ -615,7 +595,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Literal",
 				},
 			],
 		},
@@ -626,7 +605,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "" },
-					type: "Literal",
 				},
 			],
 		},
@@ -637,7 +615,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: " " },
-					type: "Literal",
 				},
 			],
 		},
@@ -648,7 +625,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Literal",
 				},
 			],
 		},
@@ -659,7 +635,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Literal",
 				},
 			],
 		},
@@ -670,7 +645,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Literal",
 				},
 			],
 		},
@@ -683,7 +657,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -694,7 +667,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -705,7 +677,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -716,7 +687,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -727,7 +697,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -740,7 +709,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 					column: 19,
 				},
 			],
@@ -752,7 +720,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 					column: 12,
 				},
 			],
@@ -766,7 +733,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 					column: 12,
 				},
 			],
@@ -778,7 +744,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 					column: 19,
 				},
 			],
@@ -790,7 +755,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 					column: 14,
 				},
 			],
@@ -802,7 +766,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 					column: 13,
 				},
 			],
@@ -814,7 +777,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 					column: 17,
 				},
 			],
@@ -826,7 +788,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 					column: 25,
 				},
 			],
@@ -838,7 +799,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 					column: 17,
 				},
 			],
@@ -850,7 +810,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 					column: 12,
 				},
 			],
@@ -862,7 +821,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 					column: 29,
 				},
 			],
@@ -874,7 +832,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 					column: 13,
 				},
 			],
@@ -886,7 +843,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 					column: 17,
 				},
 			],
@@ -898,7 +854,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 					column: 14,
 				},
 			],
@@ -910,7 +865,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 					column: 17,
 				},
 			],
@@ -922,7 +876,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "A" },
-					type: "Identifier",
 					column: 14,
 				},
 			],
@@ -934,7 +887,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 					column: 22,
 				},
 			],
@@ -946,7 +898,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 					column: 33,
 				},
 			],
@@ -958,7 +909,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 					column: 35,
 				},
 			],
@@ -970,7 +920,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 					column: 25,
 				},
 			],
@@ -982,7 +931,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 					column: 15,
 				},
 			],
@@ -994,7 +942,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 					column: 23,
 				},
 			],
@@ -1006,7 +953,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 					column: 15,
 				},
 			],
@@ -1018,7 +964,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 					column: 13,
 				},
 			],
@@ -1034,7 +979,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1045,7 +989,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1056,12 +999,10 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "b" },
-					type: "Identifier",
 				},
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1072,12 +1013,10 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 				{
 					messageId: "restrictedNamed",
 					data: { name: "c" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1088,12 +1027,10 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "b" },
-					type: "Identifier",
 				},
 				{
 					messageId: "restrictedNamed",
 					data: { name: "c" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1104,12 +1041,10 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "b" },
-					type: "Identifier",
 				},
 				{
 					messageId: "restrictedNamed",
 					data: { name: "c" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1132,22 +1067,18 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 				{
 					messageId: "restrictedNamed",
 					data: { name: "b" },
-					type: "Identifier",
 				},
 				{
 					messageId: "restrictedNamed",
 					data: { name: "d" },
-					type: "Identifier",
 				},
 				{
 					messageId: "restrictedNamed",
 					data: { name: "e" },
-					type: "Identifier",
 					column: 42,
 				},
 			],
@@ -1159,7 +1090,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1170,7 +1100,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1181,12 +1110,10 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 				{
 					messageId: "restrictedNamed",
 					data: { name: "b" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1197,12 +1124,10 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 				{
 					messageId: "restrictedNamed",
 					data: { name: "c" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1213,7 +1138,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1224,7 +1148,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "b" },
-					type: "Identifier",
 					column: 18,
 				},
 			],
@@ -1236,12 +1159,10 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 				{
 					messageId: "restrictedNamed",
 					data: { name: "b" },
-					type: "Identifier",
 					column: 18,
 				},
 			],
@@ -1265,22 +1186,18 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "b" },
-					type: "Identifier",
 				},
 				{
 					messageId: "restrictedNamed",
 					data: { name: "d" },
-					type: "Identifier",
 				},
 				{
 					messageId: "restrictedNamed",
 					data: { name: "e" },
-					type: "Identifier",
 				},
 				{
 					messageId: "restrictedNamed",
 					data: { name: "f" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1293,7 +1210,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "getSomething" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1304,7 +1220,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "getSomethingFromUser" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1315,12 +1230,10 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "ab" },
-					type: "Identifier",
 				},
 				{
 					messageId: "restrictedNamed",
 					data: { name: "xy" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1331,7 +1244,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "ab" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1342,7 +1254,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "privateUserEmail" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1353,7 +1264,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1366,7 +1276,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "default" },
-					type: "Identifier",
 					column: 22,
 				},
 			],
@@ -1378,7 +1287,6 @@ ruleTester.run("no-restricted-exports", rule, {
 				{
 					messageId: "restrictedNamed",
 					data: { name: "default" },
-					type: "Identifier",
 					column: 10,
 				},
 			],
@@ -1391,7 +1299,6 @@ ruleTester.run("no-restricted-exports", rule, {
 			errors: [
 				{
 					messageId: "restrictedDefault",
-					type: "ExportDefaultDeclaration",
 					column: 1,
 				},
 			],
@@ -1402,7 +1309,6 @@ ruleTester.run("no-restricted-exports", rule, {
 			errors: [
 				{
 					messageId: "restrictedDefault",
-					type: "ExportDefaultDeclaration",
 					column: 1,
 				},
 			],
@@ -1413,7 +1319,6 @@ ruleTester.run("no-restricted-exports", rule, {
 			errors: [
 				{
 					messageId: "restrictedDefault",
-					type: "ExportDefaultDeclaration",
 					column: 1,
 				},
 			],
@@ -1429,7 +1334,6 @@ ruleTester.run("no-restricted-exports", rule, {
 			errors: [
 				{
 					messageId: "restrictedDefault",
-					type: "ExportDefaultDeclaration",
 					column: 1,
 				},
 			],
@@ -1442,7 +1346,6 @@ ruleTester.run("no-restricted-exports", rule, {
 			errors: [
 				{
 					messageId: "restrictedDefault",
-					type: "Identifier",
 					line: 2,
 					column: 17,
 				},
@@ -1456,7 +1359,6 @@ ruleTester.run("no-restricted-exports", rule, {
 			errors: [
 				{
 					messageId: "restrictedDefault",
-					type: "Identifier",
 					line: 1,
 					column: 10,
 				},
@@ -1468,7 +1370,6 @@ ruleTester.run("no-restricted-exports", rule, {
 			errors: [
 				{
 					messageId: "restrictedDefault",
-					type: "Identifier",
 					line: 1,
 					column: 21,
 				},
@@ -1480,7 +1381,6 @@ ruleTester.run("no-restricted-exports", rule, {
 			errors: [
 				{
 					messageId: "restrictedDefault",
-					type: "Literal",
 					line: 1,
 					column: 10,
 				},
@@ -1494,7 +1394,6 @@ ruleTester.run("no-restricted-exports", rule, {
 			errors: [
 				{
 					messageId: "restrictedDefault",
-					type: "Identifier",
 					line: 1,
 					column: 17,
 				},
@@ -1508,7 +1407,6 @@ ruleTester.run("no-restricted-exports", rule, {
 			errors: [
 				{
 					messageId: "restrictedDefault",
-					type: "Identifier",
 					line: 1,
 					column: 13,
 				},

@@ -23,7 +23,11 @@ const ES6_MODULE = { ecmaVersion: 6, sourceType: "module" };
 // Tests
 //------------------------------------------------------------------------------
 
-const errors = [{ messageId: "unexpectedUndefined", type: "Identifier" }];
+const errors = [
+	{
+		messageId: "unexpectedUndefined",
+	},
+];
 
 const ruleTester = new RuleTester({ languageOptions: ES6_SCRIPT });
 

@@ -25,15 +25,12 @@ const ruleTester = new RuleTester({
 
 const wrapInvocationError = {
 	messageId: "wrapInvocation",
-	type: "CallExpression",
 };
 const wrapExpressionError = {
 	messageId: "wrapExpression",
-	type: "CallExpression",
 };
 const moveInvocationError = {
 	messageId: "moveInvocation",
-	type: "CallExpression",
 };
 
 ruleTester.run("wrap-iife", rule, {

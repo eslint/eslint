@@ -50,7 +50,6 @@ ruleTester.run("no-unsafe-finally", rule, {
 				{
 					messageId: "unsafeUsage",
 					data: { nodeType: "ReturnStatement" },
-					type: "ReturnStatement",
 					line: 7,
 					column: 2,
 				},
@@ -62,14 +61,12 @@ ruleTester.run("no-unsafe-finally", rule, {
 				{
 					messageId: "unsafeUsage",
 					data: { nodeType: "ReturnStatement" },
-					type: "ReturnStatement",
 					line: 1,
 					column: 86,
 				},
 				{
 					messageId: "unsafeUsage",
 					data: { nodeType: "ReturnStatement" },
-					type: "ReturnStatement",
 					line: 1,
 					column: 104,
 				},
@@ -81,7 +78,6 @@ ruleTester.run("no-unsafe-finally", rule, {
 				{
 					messageId: "unsafeUsage",
 					data: { nodeType: "ReturnStatement" },
-					type: "ReturnStatement",
 					line: 1,
 					column: 75,
 				},
@@ -93,7 +89,6 @@ ruleTester.run("no-unsafe-finally", rule, {
 				{
 					messageId: "unsafeUsage",
 					data: { nodeType: "ReturnStatement" },
-					type: "ReturnStatement",
 					line: 1,
 					column: 75,
 				},
@@ -105,7 +100,6 @@ ruleTester.run("no-unsafe-finally", rule, {
 				{
 					messageId: "unsafeUsage",
 					data: { nodeType: "ReturnStatement" },
-					type: "ReturnStatement",
 					line: 1,
 					column: 75,
 				},
@@ -117,7 +111,6 @@ ruleTester.run("no-unsafe-finally", rule, {
 				{
 					messageId: "unsafeUsage",
 					data: { nodeType: "ThrowStatement" },
-					type: "ThrowStatement",
 					line: 1,
 					column: 75,
 				},
@@ -129,7 +122,6 @@ ruleTester.run("no-unsafe-finally", rule, {
 				{
 					messageId: "unsafeUsage",
 					data: { nodeType: "ReturnStatement" },
-					type: "ReturnStatement",
 					line: 1,
 					column: 74,
 				},
@@ -141,7 +133,6 @@ ruleTester.run("no-unsafe-finally", rule, {
 				{
 					messageId: "unsafeUsage",
 					data: { nodeType: "BreakStatement" },
-					type: "BreakStatement",
 					line: 1,
 					column: 59,
 				},
@@ -153,7 +144,6 @@ ruleTester.run("no-unsafe-finally", rule, {
 				{
 					messageId: "unsafeUsage",
 					data: { nodeType: "BreakStatement" },
-					type: "BreakStatement",
 					line: 7,
 					column: 2,
 				},
@@ -165,7 +155,6 @@ ruleTester.run("no-unsafe-finally", rule, {
 				{
 					messageId: "unsafeUsage",
 					data: { nodeType: "BreakStatement" },
-					type: "BreakStatement",
 					line: 1,
 					column: 54,
 				},
@@ -177,7 +166,6 @@ ruleTester.run("no-unsafe-finally", rule, {
 				{
 					messageId: "unsafeUsage",
 					data: { nodeType: "ContinueStatement" },
-					type: "ContinueStatement",
 					line: 1,
 					column: 54,
 				},
@@ -189,7 +177,6 @@ ruleTester.run("no-unsafe-finally", rule, {
 				{
 					messageId: "unsafeUsage",
 					data: { nodeType: "BreakStatement" },
-					type: "BreakStatement",
 					line: 1,
 					column: 68,
 				},
@@ -201,7 +188,6 @@ ruleTester.run("no-unsafe-finally", rule, {
 				{
 					messageId: "unsafeUsage",
 					data: { nodeType: "BreakStatement" },
-					type: "BreakStatement",
 					line: 1,
 					column: 84,
 				},
@@ -213,7 +199,6 @@ ruleTester.run("no-unsafe-finally", rule, {
 				{
 					messageId: "unsafeUsage",
 					data: { nodeType: "ContinueStatement" },
-					type: "ContinueStatement",
 					line: 1,
 					column: 84,
 				},
@@ -225,7 +210,6 @@ ruleTester.run("no-unsafe-finally", rule, {
 				{
 					messageId: "unsafeUsage",
 					data: { nodeType: "BreakStatement" },
-					type: "BreakStatement",
 					line: 1,
 					column: 98,
 				},

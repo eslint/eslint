@@ -48,7 +48,6 @@ ruleTester.run("no-labels", rule, {
 			errors: [
 				{
 					messageId: "unexpectedLabel",
-					type: "LabeledStatement",
 				},
 			],
 		},
@@ -57,11 +56,9 @@ ruleTester.run("no-labels", rule, {
 			errors: [
 				{
 					messageId: "unexpectedLabel",
-					type: "LabeledStatement",
 				},
 				{
 					messageId: "unexpectedLabelInBreak",
-					type: "BreakStatement",
 				},
 			],
 		},
@@ -70,11 +67,9 @@ ruleTester.run("no-labels", rule, {
 			errors: [
 				{
 					messageId: "unexpectedLabel",
-					type: "LabeledStatement",
 				},
 				{
 					messageId: "unexpectedLabelInContinue",
-					type: "ContinueStatement",
 				},
 			],
 		},
@@ -84,7 +79,6 @@ ruleTester.run("no-labels", rule, {
 			errors: [
 				{
 					messageId: "unexpectedLabel",
-					type: "LabeledStatement",
 				},
 			],
 		},
@@ -93,11 +87,9 @@ ruleTester.run("no-labels", rule, {
 			errors: [
 				{
 					messageId: "unexpectedLabel",
-					type: "LabeledStatement",
 				},
 				{
 					messageId: "unexpectedLabelInBreak",
-					type: "BreakStatement",
 				},
 			],
 		},
@@ -106,11 +98,9 @@ ruleTester.run("no-labels", rule, {
 			errors: [
 				{
 					messageId: "unexpectedLabel",
-					type: "LabeledStatement",
 				},
 				{
 					messageId: "unexpectedLabelInBreak",
-					type: "BreakStatement",
 				},
 			],
 		},
@@ -119,11 +109,9 @@ ruleTester.run("no-labels", rule, {
 			errors: [
 				{
 					messageId: "unexpectedLabel",
-					type: "LabeledStatement",
 				},
 				{
 					messageId: "unexpectedLabelInBreak",
-					type: "BreakStatement",
 				},
 			],
 		},
@@ -132,11 +120,9 @@ ruleTester.run("no-labels", rule, {
 			errors: [
 				{
 					messageId: "unexpectedLabel",
-					type: "LabeledStatement",
 				},
 				{
 					messageId: "unexpectedLabelInBreak",
-					type: "BreakStatement",
 				},
 			],
 		},
@@ -145,15 +131,12 @@ ruleTester.run("no-labels", rule, {
 			errors: [
 				{
 					messageId: "unexpectedLabel",
-					type: "LabeledStatement",
 				},
 				{
 					messageId: "unexpectedLabel",
-					type: "LabeledStatement",
 				},
 				{
 					messageId: "unexpectedLabelInBreak",
-					type: "BreakStatement",
 				},
 			],
 		},
@@ -165,7 +148,6 @@ ruleTester.run("no-labels", rule, {
 			errors: [
 				{
 					messageId: "unexpectedLabel",
-					type: "LabeledStatement",
 				},
 			],
 		},
@@ -175,11 +157,9 @@ ruleTester.run("no-labels", rule, {
 			errors: [
 				{
 					messageId: "unexpectedLabel",
-					type: "LabeledStatement",
 				},
 				{
 					messageId: "unexpectedLabelInBreak",
-					type: "BreakStatement",
 				},
 			],
 		},
@@ -189,11 +169,9 @@ ruleTester.run("no-labels", rule, {
 			errors: [
 				{
 					messageId: "unexpectedLabel",
-					type: "LabeledStatement",
 				},
 				{
 					messageId: "unexpectedLabelInBreak",
-					type: "BreakStatement",
 				},
 			],
 		},
@@ -203,11 +181,9 @@ ruleTester.run("no-labels", rule, {
 			errors: [
 				{
 					messageId: "unexpectedLabel",
-					type: "LabeledStatement",
 				},
 				{
 					messageId: "unexpectedLabelInBreak",
-					type: "BreakStatement",
 				},
 			],
 		},
@@ -217,11 +193,9 @@ ruleTester.run("no-labels", rule, {
 			errors: [
 				{
 					messageId: "unexpectedLabel",
-					type: "LabeledStatement",
 				},
 				{
 					messageId: "unexpectedLabelInBreak",
-					type: "BreakStatement",
 				},
 			],
 		},
@@ -233,7 +207,6 @@ ruleTester.run("no-labels", rule, {
 			errors: [
 				{
 					messageId: "unexpectedLabel",
-					type: "LabeledStatement",
 				},
 			],
 		},
@@ -243,11 +216,9 @@ ruleTester.run("no-labels", rule, {
 			errors: [
 				{
 					messageId: "unexpectedLabel",
-					type: "LabeledStatement",
 				},
 				{
 					messageId: "unexpectedLabelInBreak",
-					type: "BreakStatement",
 				},
 			],
 		},
@@ -257,11 +228,9 @@ ruleTester.run("no-labels", rule, {
 			errors: [
 				{
 					messageId: "unexpectedLabel",
-					type: "LabeledStatement",
 				},
 				{
 					messageId: "unexpectedLabelInBreak",
-					type: "BreakStatement",
 				},
 			],
 		},
@@ -271,11 +240,9 @@ ruleTester.run("no-labels", rule, {
 			errors: [
 				{
 					messageId: "unexpectedLabel",
-					type: "LabeledStatement",
 				},
 				{
 					messageId: "unexpectedLabelInBreak",
-					type: "BreakStatement",
 				},
 			],
 		},
@@ -285,11 +252,9 @@ ruleTester.run("no-labels", rule, {
 			errors: [
 				{
 					messageId: "unexpectedLabel",
-					type: "LabeledStatement",
 				},
 				{
 					messageId: "unexpectedLabelInBreak",
-					type: "BreakStatement",
 				},
 			],
 		},
@@ -299,11 +264,9 @@ ruleTester.run("no-labels", rule, {
 			errors: [
 				{
 					messageId: "unexpectedLabel",
-					type: "LabeledStatement",
 				},
 				{
 					messageId: "unexpectedLabelInBreak",
-					type: "BreakStatement",
 				},
 			],
 		},
@@ -313,11 +276,9 @@ ruleTester.run("no-labels", rule, {
 			errors: [
 				{
 					messageId: "unexpectedLabel",
-					type: "LabeledStatement",
 				},
 				{
 					messageId: "unexpectedLabelInBreak",
-					type: "BreakStatement",
 				},
 			],
 		},

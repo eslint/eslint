@@ -30,6 +30,7 @@ ruleTester.run("no-empty", rule, {
 		"function foo() { }",
 		"if (foo) {/* empty */}",
 		"while (foo) {/* empty */}",
+		"switch (foo) {/* empty */}",
 		"for (;foo;) {/* empty */}",
 		"try { foo() } catch (ex) {/* empty */}",
 		"try { foo() } catch (ex) {// empty\n}",
@@ -56,7 +57,6 @@ ruleTester.run("no-empty", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "block" },
-					type: "BlockStatement",
 					suggestions: [
 						{
 							messageId: "suggestComment",
@@ -73,7 +73,6 @@ ruleTester.run("no-empty", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "block" },
-					type: "BlockStatement",
 					suggestions: [
 						{
 							messageId: "suggestComment",
@@ -90,7 +89,6 @@ ruleTester.run("no-empty", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "block" },
-					type: "BlockStatement",
 					suggestions: [
 						{
 							messageId: "suggestComment",
@@ -107,7 +105,6 @@ ruleTester.run("no-empty", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "block" },
-					type: "BlockStatement",
 					suggestions: [
 						{
 							messageId: "suggestComment",
@@ -124,7 +121,6 @@ ruleTester.run("no-empty", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "block" },
-					type: "BlockStatement",
 					suggestions: [
 						{
 							messageId: "suggestComment",
@@ -141,7 +137,6 @@ ruleTester.run("no-empty", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "block" },
-					type: "BlockStatement",
 					suggestions: [
 						{
 							messageId: "suggestComment",
@@ -158,19 +153,37 @@ ruleTester.run("no-empty", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "switch" },
-					type: "SwitchStatement",
-					suggestions: null,
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 15,
+					suggestions: [
+						{
+							messageId: "suggestComment",
+							data: { type: "switch" },
+							output: "switch(foo) { /* empty */ }",
+						},
+					],
 				},
 			],
 		},
 		{
-			code: "switch (foo) { /* empty */ }",
+			code: "switch /* empty */ (/* empty */ foo /* empty */) /* empty */ {} /* empty */",
 			errors: [
 				{
 					messageId: "unexpected",
 					data: { type: "switch" },
-					type: "SwitchStatement",
-					suggestions: null,
+					line: 1,
+					column: 62,
+					endLine: 1,
+					endColumn: 64,
+					suggestions: [
+						{
+							messageId: "suggestComment",
+							data: { type: "switch" },
+							output: "switch /* empty */ (/* empty */ foo /* empty */) /* empty */ { /* empty */ } /* empty */",
+						},
+					],
 				},
 			],
 		},
@@ -181,7 +194,6 @@ ruleTester.run("no-empty", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "block" },
-					type: "BlockStatement",
 					suggestions: [
 						{
 							messageId: "suggestComment",
@@ -199,7 +211,6 @@ ruleTester.run("no-empty", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "block" },
-					type: "BlockStatement",
 					suggestions: [
 						{
 							messageId: "suggestComment",
@@ -217,7 +228,6 @@ ruleTester.run("no-empty", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "block" },
-					type: "BlockStatement",
 					suggestions: [
 						{
 							messageId: "suggestComment",
@@ -229,7 +239,6 @@ ruleTester.run("no-empty", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "block" },
-					type: "BlockStatement",
 					suggestions: [
 						{
 							messageId: "suggestComment",
@@ -246,7 +255,6 @@ ruleTester.run("no-empty", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "block" },
-					type: "BlockStatement",
 					suggestions: [
 						{
 							messageId: "suggestComment",
@@ -258,7 +266,6 @@ ruleTester.run("no-empty", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "block" },
-					type: "BlockStatement",
 					suggestions: [
 						{
 							messageId: "suggestComment",

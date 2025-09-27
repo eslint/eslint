@@ -26,11 +26,14 @@ const { setEnvironmentData } = require("node:worker_threads");
 const escapeStringRegExp = require("escape-string-regexp");
 const fCache = require("file-entry-cache");
 const sinon = require("sinon");
-const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
+const proxyquire = require("proxyquire").noCallThru();
 const shell = require("shelljs");
 const hash = require("../../../lib/cli-engine/hash");
 const { unIndent, createCustomTeardown } = require("../../_utils");
-const { shouldUseFlatConfig } = require("../../../lib/eslint/eslint");
+const {
+	calculateWorkerCount,
+	shouldUseFlatConfig,
+} = require("../../../lib/eslint/eslint");
 const { defaultConfig } = require("../../../lib/config/default-config");
 const coreRules = require("../../../lib/rules");
 const espree = require("espree");
@@ -201,14 +204,14 @@ describe("ESLint", () => {
 			});
 
 			it("the default value of 'options.cwd' should be the current working directory.", async () => {
-				process.chdir(__dirname);
+				process.chdir(fixtureDir);
 				try {
 					const engine = new ESLint({ flags });
-					const results = await engine.lintFiles("eslint.js");
+					const results = await engine.lintFiles("passing.js");
 
 					assert.strictEqual(
 						path.dirname(results[0].filePath),
-						__dirname,
+						fixtureDir,
 					);
 				} finally {
 					process.chdir(originalDir);
@@ -426,7 +429,7 @@ describe("ESLint", () => {
 						constructor: TypeError,
 						code: "ESLINT_UNCLONEABLE_OPTIONS",
 						message:
-							'The options "baseConfig", "fix", and "plugins" cannot be cloned. When concurrency is enabled, all options must be cloneable. Remove uncloneable options or use an options module.',
+							'The options "baseConfig", "fix", and "plugins" cannot be cloned. When concurrency is enabled, all options must be cloneable values (JSON values). Remove uncloneable options or use an options module.',
 					},
 				);
 			});
@@ -445,7 +448,7 @@ describe("ESLint", () => {
 						constructor: TypeError,
 						code: "ESLINT_UNCLONEABLE_OPTIONS",
 						message:
-							'The option "ruleFilter" cannot be cloned. When concurrency is enabled, all options must be cloneable. Remove uncloneable options or use an options module.',
+							'The option "ruleFilter" cannot be cloned. When concurrency is enabled, all options must be cloneable values (JSON values). Remove uncloneable options or use an options module.',
 					},
 				);
 			});
@@ -629,7 +632,7 @@ describe("ESLint", () => {
 			it("should report the total and per file errors when using local cwd eslint.config.js", async () => {
 				eslint = new ESLint({
 					flags,
-					cwd: __dirname,
+					cwd: getFixturePath("configurations", "cwd"),
 				});
 
 				const results = await eslint.lintText("var foo = 'bar';");
@@ -4080,9 +4083,12 @@ describe("ESLint", () => {
 						if (otherDriveLetter) {
 							try {
 								await exec(`subst /D ${otherDriveLetter}:`);
-							} catch ({ message }) {
+							} catch (err) {
 								throw new Error(
-									`Unable to unassign virtual drive letter ${otherDriveLetter}: - ${message}`,
+									`Unable to unassign virtual drive letter ${otherDriveLetter}`,
+									{
+										cause: err,
+									},
 								);
 							}
 						}
@@ -9775,13 +9781,13 @@ describe("ESLint", () => {
 					const optionsSrc = `
 					import assert from "node:assert";
 					import { isMainThread } from "node:worker_threads";
-					
+
 					if (!isMainThread) {
 						if (process.env.ESLINT_TEST_ENV !== "test") {
 							assert.fail("Environment variable ESLINT_TEST_ENV is not set as expected in worker threads.");
 						}
 					}
-					
+
 					export default {
 						concurrency: 2,
 						cwd: ${JSON.stringify(fixtureDir)},
@@ -9800,11 +9806,11 @@ describe("ESLint", () => {
 				it("should propagate environment variables from worker threads to the controlling thread", async () => {
 					const optionsSrc = `
 					import { isMainThread } from "node:worker_threads";
-					
+
 					if (!isMainThread) {
 						process.env.ESLINT_TEST_ENV = "test";
 					}
-					
+
 					export default {
 						concurrency: 2,
 						cwd: ${JSON.stringify(fixtureDir)},
@@ -10855,6 +10861,60 @@ describe("ESLint", () => {
 					await engine.findConfigFile(),
 					configFilePath,
 				);
+			});
+
+			it("should return undefined when overrideConfigFile is true even when filePath is provided", async () => {
+				const engine = new ESLint({
+					flags,
+					overrideConfigFile: true,
+					cwd: getFixturePath("lookup-from-file"),
+				});
+
+				const filePath = path.join("subdir", "code.js");
+				assert.strictEqual(
+					await engine.findConfigFile(filePath),
+					void 0,
+				);
+			});
+
+			it("should return custom config file path when overrideConfigFile is a nonempty string even when filePath is provided", async () => {
+				const engine = new ESLint({
+					flags,
+					overrideConfigFile: "my-config.js",
+				});
+
+				const configFilePath = path.resolve(
+					__dirname,
+					"../../../my-config.js",
+				);
+
+				assert.strictEqual(
+					await engine.findConfigFile("some/file.js"),
+					configFilePath,
+				);
+			});
+
+			it("should return the config file relative to the provided filePath when specified", async () => {
+				const engine = new ESLint({
+					flags,
+					cwd: getFixturePath("lookup-from-file"),
+				});
+
+				const foundConfig = await engine.findConfigFile(
+					path.join("subdir", "code.js"),
+				);
+
+				const expectedConfig = flags.includes(
+					"v10_config_lookup_from_file",
+				)
+					? getFixturePath(
+							"lookup-from-file",
+							"subdir",
+							"eslint.config.js",
+						)
+					: getFixturePath("lookup-from-file", "eslint.config.js");
+
+				assert.strictEqual(foundConfig, expectedConfig);
 			});
 		});
 
@@ -13467,6 +13527,227 @@ describe("ESLint", () => {
 				);
 			});
 		});
+
+		describe("calculateWorkerCount", () => {
+			// This is the same value as in lib/eslint/eslint.js.
+			const AUTO_FILES_PER_WORKER = 50;
+
+			/**
+			 * Defines a test for `calculateWorkerCount` with the given parameters.
+			 * @param {number | "auto" | "off"} concurrency The normalized concurrency setting.
+			 * @param {number} fileCount The number of files to lint. An integer greater than 0.
+			 * @param {number} availableCores The number of available cores.
+			 * @param {number} expectedWorkerCount The expected return value of `calculateWorkerCount`.
+			 * @returns {Mocha.TestFunction} A Mocha test function.
+			 */
+			function testCalculateWorkerCount(
+				concurrency,
+				fileCount,
+				availableCores,
+				expectedWorkerCount,
+			) {
+				return it(`should return ${expectedWorkerCount} when concurrency is ${concurrency} with ${fileCount} file(s) and ${availableCores} available core(s)`, async () => {
+					const cwd = getFixturePath("files");
+					const eslint = new ESLint({
+						concurrency,
+						cwd,
+						flags,
+						overrideConfigFile: true,
+					});
+					// Make sure the config array for `cwd` is loaded.
+					await eslint.lintText("");
+
+					const filePath = path.join(cwd, "foo.js");
+
+					const actualWorkerCount = calculateWorkerCount(
+						eslint,
+						Array(fileCount).fill(filePath),
+						{ availableParallelism: () => availableCores },
+					);
+					assert.strictEqual(actualWorkerCount, expectedWorkerCount);
+				});
+			}
+
+			// Returns numeric `concurrency` if the number of files is not less
+			testCalculateWorkerCount(1, 1, 1, 0); // 1 mapped to 0
+			testCalculateWorkerCount(1, 10, 8, 0); // 1 mapped to 0
+			testCalculateWorkerCount(3, 10, 8, 3);
+			testCalculateWorkerCount(42, 42, 4, 42);
+
+			// Returns the number of files if `concurrency` is larger
+			testCalculateWorkerCount(42, 1, 8, 0); // 1 mapped to 0
+			testCalculateWorkerCount(4, 3, 8, 3);
+
+			// Returns 0 if `concurrency` is "off"
+			testCalculateWorkerCount("off", 1000, 8, 0);
+
+			// Returns 0 if `concurrency` is "auto" and there are only a few files to lint
+			testCalculateWorkerCount("auto", 15, 8, 0);
+
+			// Returns 0 if `concurrency` is "auto" and there are less that four available cores
+			testCalculateWorkerCount("auto", 42, 1, 0);
+			testCalculateWorkerCount("auto", 1000, 2, 0);
+			testCalculateWorkerCount("auto", 123, 0, 0);
+
+			// Returns half the number of available cores if `concurrency` is "auto" and there are enough files to lint
+			testCalculateWorkerCount(
+				"auto",
+				AUTO_FILES_PER_WORKER * 3 + 1,
+				8,
+				4,
+			);
+
+			// Returns less than half the number of available cores if `concurrency` is "auto" and there are not enough files to lint
+			testCalculateWorkerCount("auto", AUTO_FILES_PER_WORKER * 3, 8, 3);
+
+			it('should not consider ignored files when `concurrency` is "auto"', async () => {
+				const cwd = getFixturePath("files");
+				const eslint = new ESLint({
+					concurrency: "auto",
+					cwd,
+					flags,
+					overrideConfigFile: true,
+				});
+				// Make sure the config array for `cwd` is loaded.
+				await eslint.lintText("");
+
+				const filePath = path.join(cwd, "foo.js2"); // file ignored by default
+
+				// No multitreading expected because all files are ignored.
+				const actualWorkerCount = calculateWorkerCount(
+					eslint,
+					Array(AUTO_FILES_PER_WORKER * 2).fill(filePath),
+					{ availableParallelism: () => 4 },
+				);
+				assert.strictEqual(actualWorkerCount, 0);
+			});
+
+			describe('when `concurrency` is "auto" with caching enabled', () => {
+				let cacheLocation;
+
+				beforeEach(async () => {
+					cacheLocation = await fsp.mkdtemp(
+						path.join(os.tmpdir(), "eslint-cache-"),
+					);
+				});
+
+				afterEach(async () => {
+					if (cacheLocation) {
+						await fsp.rm(cacheLocation, {
+							recursive: true,
+							force: true,
+						});
+						cacheLocation = void 0;
+					}
+				});
+
+				it('should not consider unchanged cached files with cache strategy "metadata"', async () => {
+					const cwd = getFixturePath("files");
+					const eslint = new ESLint({
+						cache: true,
+						cacheLocation,
+						cacheStrategy: "metadata",
+						concurrency: "auto",
+						cwd,
+						flags,
+						overrideConfigFile: true,
+					});
+					// Make sure the config array for `cwd` is loaded and the cache is created.
+					const filePath = path.join(cwd, "foo.js");
+					await eslint.lintFiles([filePath]);
+
+					// No multitreading expected because files are cached.
+					const actualWorkerCount = calculateWorkerCount(
+						eslint,
+						Array(AUTO_FILES_PER_WORKER * 2).fill(filePath),
+						{ availableParallelism: () => 4 },
+					);
+					assert.strictEqual(actualWorkerCount, 0);
+				});
+
+				it('should consider unchanged cached files with cache strategy "content"', async () => {
+					const cwd = getFixturePath("files");
+					const eslint = new ESLint({
+						cache: true,
+						cacheLocation,
+						cacheStrategy: "content",
+						concurrency: "auto",
+						cwd,
+						flags,
+						overrideConfigFile: true,
+					});
+					// Make sure the config array for `cwd` is loaded and the cache is created.
+					const filePath = path.join(cwd, "foo.js");
+					await eslint.lintFiles([filePath]);
+
+					// Multitreading expected because files are cached but `cacheStrategy` is "content".
+					const actualWorkerCount = calculateWorkerCount(
+						eslint,
+						Array(AUTO_FILES_PER_WORKER * 2).fill(filePath),
+						{ availableParallelism: () => 4 },
+					);
+					assert.strictEqual(actualWorkerCount, 2);
+				});
+
+				it('should consider uncached files with cache strategy "metadata"', async () => {
+					const cwd = getFixturePath("files");
+					const eslint = new ESLint({
+						cache: true,
+						cacheLocation,
+						cacheStrategy: "metadata",
+						concurrency: "auto",
+						cwd,
+						flags,
+						overrideConfigFile: true,
+					});
+					// Make sure the config array for `cwd` is loaded.
+					await eslint.lintText("");
+
+					const filePath = path.join(cwd, "foo.js");
+
+					// Multitreading expected because files are not cached.
+					const actualWorkerCount = calculateWorkerCount(
+						eslint,
+						Array(AUTO_FILES_PER_WORKER * 2).fill(filePath),
+						{ availableParallelism: () => 4 },
+					);
+					assert.strictEqual(actualWorkerCount, 2);
+				});
+
+				it('should consider unchanged cached files with violations with cache strategy "metadata" and autofix enabled', async () => {
+					const cwd = getFixturePath();
+					const eslintOptions = {
+						baseConfig: { rules: { "unicode-bom": "error" } },
+						cache: true,
+						cacheLocation,
+						cacheStrategy: "metadata",
+						concurrency: "auto",
+						cwd,
+						flags,
+						overrideConfigFile: true,
+					};
+					const eslint = new ESLint(eslintOptions);
+					// Make sure the cache is created.
+					const filePath = path.join(cwd, "utf8-bom.js");
+					await eslint.lintFiles([filePath]);
+
+					const eslintWithFix = new ESLint({
+						...eslintOptions,
+						fix: true,
+					});
+					// Make sure the config array for `cwd` is loaded.
+					await eslintWithFix.lintText("");
+
+					// Multitreading expected because files must be reprocessed due to autofix.
+					const actualWorkerCount = calculateWorkerCount(
+						eslintWithFix,
+						Array(AUTO_FILES_PER_WORKER * 2).fill(filePath),
+						{ availableParallelism: () => 4 },
+					);
+					assert.strictEqual(actualWorkerCount, 2);
+				});
+			});
+		});
 	});
 
 	describe("shouldUseFlatConfig", () => {
@@ -13487,7 +13768,7 @@ describe("ESLint", () => {
 				const originalCwd = process.cwd();
 
 				beforeEach(() => {
-					process.chdir(__dirname);
+					process.chdir(fixtureDir);
 				});
 
 				afterEach(() => {
@@ -15873,57 +16154,5 @@ describe("ESLint", () => {
 				{ code: "ERR_UNSUPPORTED_ESM_URL_SCHEME", constructor: Error },
 			);
 		});
-	});
-
-	describe("caclulateWorkerCount", () => {
-		const { calculateWorkerCount } = require("../../../lib/eslint/eslint");
-
-		/**
-		 * Defines a test for `calculateWorkerCount` with the given parameters.
-		 * @param {number | "auto" | "off"} concurrency The normalized concurrency setting.
-		 * @param {number} fileCount The number of files to lint. An integer greater than 0.
-		 * @param {number} availableCores The number of available cores.
-		 * @param {number} expectedWorkerCount The expected return value of `calculateWorkerCount`.
-		 * @returns {Mocha.TestFunction} A Mocha test function.
-		 */
-		function testCalculateWorkerCount(
-			concurrency,
-			fileCount,
-			availableCores,
-			expectedWorkerCount,
-		) {
-			return it(`should return ${expectedWorkerCount} when concurrency is ${concurrency} with ${fileCount} file(s) and ${availableCores} available core(s)`, () => {
-				const actualWorkerCount = calculateWorkerCount(
-					concurrency,
-					fileCount,
-					{ availableParallelism: () => availableCores },
-				);
-				assert.strictEqual(actualWorkerCount, expectedWorkerCount);
-			});
-		}
-
-		// Returns numeric `concurrency` if the number of files is not less
-		testCalculateWorkerCount(1, 1, 1, 0); // 1 mapped to 0
-		testCalculateWorkerCount(1, 10, 8, 0); // 1 mapped to 0
-		testCalculateWorkerCount(3, 10, 8, 3);
-		testCalculateWorkerCount(42, 42, 4, 42);
-
-		// Returns the number of files if `concurrency` is larger
-		testCalculateWorkerCount(42, 1, 8, 0); // 1 mapped to 0
-		testCalculateWorkerCount(4, 3, 8, 3);
-
-		// Returns 0 if concurrency is "off"
-		testCalculateWorkerCount("off", 1000, 8, 0);
-
-		// Returns 0 if concurrency is "auto" and there are only a few files to lint
-		testCalculateWorkerCount("auto", 15, 8, 0);
-
-		// Returns 0 if concurrency is "auto" and there are less that four available cores
-		testCalculateWorkerCount("auto", 42, 1, 0);
-		testCalculateWorkerCount("auto", 1000, 2, 0);
-		testCalculateWorkerCount("auto", 123, 0, 0);
-
-		// Returns half the number of available cores if concurrency is "auto" and there are many files to lint
-		testCalculateWorkerCount("auto", 1000, 8, 4);
 	});
 });

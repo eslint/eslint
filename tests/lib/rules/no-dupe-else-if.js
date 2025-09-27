@@ -70,67 +70,100 @@ ruleTester.run("no-dupe-else-if", rule, {
 		{
 			code: "if (a) {} else if (a) {}",
 			errors: [
-				{ messageId: "unexpected", type: "Identifier", column: 20 },
+				{
+					messageId: "unexpected",
+					column: 20,
+				},
 			],
 		},
 		{
 			code: "if (a); else if (a);",
 			errors: [
-				{ messageId: "unexpected", type: "Identifier", column: 18 },
+				{
+					messageId: "unexpected",
+					column: 18,
+				},
 			],
 		},
 		{
 			code: "if (a) {} else if (a) {} else {}",
 			errors: [
-				{ messageId: "unexpected", type: "Identifier", column: 20 },
+				{
+					messageId: "unexpected",
+					column: 20,
+				},
 			],
 		},
 		{
 			code: "if (a) {} else if (b) {} else if (a) {} else if (c) {}",
 			errors: [
-				{ messageId: "unexpected", type: "Identifier", column: 35 },
+				{
+					messageId: "unexpected",
+					column: 35,
+				},
 			],
 		},
 		{
 			code: "if (a) {} else if (b) {} else if (a) {}",
 			errors: [
-				{ messageId: "unexpected", type: "Identifier", column: 35 },
+				{
+					messageId: "unexpected",
+					column: 35,
+				},
 			],
 		},
 		{
 			code: "if (a) {} else if (b) {} else if (c) {} else if (a) {}",
 			errors: [
-				{ messageId: "unexpected", type: "Identifier", column: 50 },
+				{
+					messageId: "unexpected",
+					column: 50,
+				},
 			],
 		},
 		{
 			code: "if (a) {} else if (b) {} else if (b) {}",
 			errors: [
-				{ messageId: "unexpected", type: "Identifier", column: 35 },
+				{
+					messageId: "unexpected",
+					column: 35,
+				},
 			],
 		},
 		{
 			code: "if (a) {} else if (b) {} else if (b) {} else {}",
 			errors: [
-				{ messageId: "unexpected", type: "Identifier", column: 35 },
+				{
+					messageId: "unexpected",
+					column: 35,
+				},
 			],
 		},
 		{
 			code: "if (a) {} else if (b) {} else if (c) {} else if (b) {}",
 			errors: [
-				{ messageId: "unexpected", type: "Identifier", column: 50 },
+				{
+					messageId: "unexpected",
+					column: 50,
+				},
 			],
 		},
 		{
 			code: "if (a); else if (b); else if (c); else if (b); else if (d); else;",
 			errors: [
-				{ messageId: "unexpected", type: "Identifier", column: 44 },
+				{
+					messageId: "unexpected",
+					column: 44,
+				},
 			],
 		},
 		{
 			code: "if (a); else if (b); else if (c); else if (d); else if (b); else if (e);",
 			errors: [
-				{ messageId: "unexpected", type: "Identifier", column: 57 },
+				{
+					messageId: "unexpected",
+					column: 57,
+				},
 			],
 		},
 
@@ -138,8 +171,14 @@ ruleTester.run("no-dupe-else-if", rule, {
 		{
 			code: "if (a) {} else if (a) {} else if (a) {}",
 			errors: [
-				{ messageId: "unexpected", type: "Identifier", column: 20 },
-				{ messageId: "unexpected", type: "Identifier", column: 35 },
+				{
+					messageId: "unexpected",
+					column: 20,
+				},
+				{
+					messageId: "unexpected",
+					column: 35,
+				},
 			],
 		},
 
@@ -147,9 +186,18 @@ ruleTester.run("no-dupe-else-if", rule, {
 		{
 			code: "if (a) {} else if (b) {} else if (a) {} else if (b) {} else if (a) {}",
 			errors: [
-				{ messageId: "unexpected", type: "Identifier", column: 35 },
-				{ messageId: "unexpected", type: "Identifier", column: 50 },
-				{ messageId: "unexpected", type: "Identifier", column: 65 },
+				{
+					messageId: "unexpected",
+					column: 35,
+				},
+				{
+					messageId: "unexpected",
+					column: 50,
+				},
+				{
+					messageId: "unexpected",
+					column: 65,
+				},
 			],
 		},
 
@@ -157,7 +205,10 @@ ruleTester.run("no-dupe-else-if", rule, {
 		{
 			code: "if (a) { if (b) {} } else if (a) {}",
 			errors: [
-				{ messageId: "unexpected", type: "Identifier", column: 31 },
+				{
+					messageId: "unexpected",
+					column: 31,
+				},
 			],
 		},
 
@@ -167,7 +218,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "BinaryExpression",
 					column: 26,
 				},
 			],
@@ -177,21 +227,24 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "BinaryExpression",
 					column: 24,
 				},
 			],
 		},
 		{
 			code: "if (true) {} else if (true) {}",
-			errors: [{ messageId: "unexpected", type: "Literal", column: 23 }],
+			errors: [
+				{
+					messageId: "unexpected",
+					column: 23,
+				},
+			],
 		},
 		{
 			code: "if (a && b) {} else if (a && b) {}",
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 25,
 				},
 			],
@@ -201,7 +254,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 31,
 				},
 			],
@@ -209,7 +261,10 @@ ruleTester.run("no-dupe-else-if", rule, {
 		{
 			code: "if (f(a)) {} else if (f(a)) {}",
 			errors: [
-				{ messageId: "unexpected", type: "CallExpression", column: 23 },
+				{
+					messageId: "unexpected",
+					column: 23,
+				},
 			],
 		},
 
@@ -219,7 +274,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "BinaryExpression",
 					column: 26,
 				},
 			],
@@ -229,7 +283,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "BinaryExpression",
 					column: 26,
 				},
 			],
@@ -241,7 +294,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "BinaryExpression",
 					column: 27,
 				},
 			],
@@ -251,14 +303,23 @@ ruleTester.run("no-dupe-else-if", rule, {
 		{
 			code: "if (a || b) {} else if (a) {}",
 			errors: [
-				{ messageId: "unexpected", type: "Identifier", column: 25 },
+				{
+					messageId: "unexpected",
+					column: 25,
+				},
 			],
 		},
 		{
 			code: "if (a || b) {} else if (a) {} else if (b) {}",
 			errors: [
-				{ messageId: "unexpected", type: "Identifier", column: 25 },
-				{ messageId: "unexpected", type: "Identifier", column: 40 },
+				{
+					messageId: "unexpected",
+					column: 25,
+				},
+				{
+					messageId: "unexpected",
+					column: 40,
+				},
 			],
 		},
 		{
@@ -266,7 +327,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 25,
 				},
 			],
@@ -276,7 +336,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 35,
 				},
 			],
@@ -286,7 +345,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 45,
 				},
 			],
@@ -296,7 +354,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 42,
 				},
 			],
@@ -306,7 +363,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 20,
 				},
 			],
@@ -316,7 +372,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 25,
 				},
 			],
@@ -326,7 +381,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 25,
 				},
 			],
@@ -336,7 +390,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 25,
 				},
 			],
@@ -346,7 +399,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 35,
 				},
 			],
@@ -356,7 +408,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 35,
 				},
 			],
@@ -366,7 +417,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 40,
 				},
 			],
@@ -376,7 +426,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 30,
 				},
 			],
@@ -386,7 +435,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 25,
 				},
 			],
@@ -396,7 +444,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 35,
 				},
 			],
@@ -406,7 +453,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 39,
 				},
 			],
@@ -416,7 +462,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 35,
 				},
 			],
@@ -426,7 +471,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 40,
 				},
 			],
@@ -436,7 +480,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 39,
 				},
 			],
@@ -446,7 +489,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 25,
 				},
 			],
@@ -456,7 +498,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 55,
 				},
 			],
@@ -466,7 +507,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 30,
 				},
 			],
@@ -476,7 +516,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 32,
 				},
 			],
@@ -486,7 +525,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 55,
 				},
 			],
@@ -496,7 +534,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 35,
 				},
 			],
@@ -506,7 +543,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 20,
 				},
 			],
@@ -516,7 +552,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 25,
 				},
 			],
@@ -524,7 +559,10 @@ ruleTester.run("no-dupe-else-if", rule, {
 		{
 			code: "if (a || a) {} else if (a) {}",
 			errors: [
-				{ messageId: "unexpected", type: "Identifier", column: 25 },
+				{
+					messageId: "unexpected",
+					column: 25,
+				},
 			],
 		},
 		{
@@ -532,7 +570,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 20,
 				},
 			],
@@ -542,7 +579,6 @@ ruleTester.run("no-dupe-else-if", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "LogicalExpression",
 					column: 25,
 				},
 			],
@@ -550,7 +586,10 @@ ruleTester.run("no-dupe-else-if", rule, {
 		{
 			code: "if (a && a) {} else if (a) {}",
 			errors: [
-				{ messageId: "unexpected", type: "Identifier", column: 25 },
+				{
+					messageId: "unexpected",
+					column: 25,
+				},
 			],
 		},
 	],

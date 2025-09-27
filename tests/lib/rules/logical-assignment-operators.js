@@ -456,7 +456,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -468,7 +467,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "&&=" },
 					suggestions: [],
 				},
@@ -480,7 +478,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "??=" },
 					suggestions: [],
 				},
@@ -492,7 +489,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -506,7 +502,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -518,7 +513,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -530,7 +524,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -542,7 +535,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -556,7 +548,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -568,7 +559,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -580,7 +570,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -592,7 +581,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -604,7 +592,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -618,7 +605,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -630,7 +616,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -642,7 +627,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -654,7 +638,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -666,7 +649,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -678,7 +660,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -692,7 +673,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "??=" },
 					suggestions: [
 						{
@@ -710,7 +690,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "??=" },
 					suggestions: [
 						{
@@ -728,7 +707,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "??=" },
 					suggestions: [
 						{
@@ -746,7 +724,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "??=" },
 					suggestions: [
 						{
@@ -764,7 +741,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "??=" },
 					suggestions: [
 						{
@@ -782,7 +758,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "??=" },
 					suggestions: [
 						{
@@ -800,7 +775,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "??=" },
 					suggestions: [
 						{
@@ -820,13 +794,11 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [
 						{
 							messageId: "useLogicalOperator",
 							data: { operator: "||=" },
-
 							output: "with (object) a ||= b",
 						},
 					],
@@ -839,7 +811,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [
 						{
@@ -857,7 +828,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [
 						{
@@ -875,7 +845,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -887,7 +856,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -899,7 +867,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -911,7 +878,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -928,7 +894,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [
 						{
@@ -953,7 +918,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -965,7 +929,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -977,7 +940,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -989,7 +951,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -1003,7 +964,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -1014,7 +974,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "&&=" },
 				},
 			],
@@ -1025,7 +984,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "??=" },
 				},
 			],
@@ -1036,7 +994,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "??=" },
 				},
 			],
@@ -1049,7 +1006,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -1060,7 +1016,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -1071,7 +1026,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -1084,7 +1038,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -1095,7 +1048,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -1106,7 +1058,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -1117,7 +1068,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -1128,7 +1078,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -1139,7 +1088,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -1152,7 +1100,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -1163,7 +1110,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -1174,7 +1120,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -1185,7 +1130,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -1198,7 +1142,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -1210,7 +1153,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -1221,7 +1163,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -1232,7 +1173,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -1243,7 +1183,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -1254,7 +1193,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -1265,7 +1203,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 					suggestions: [
 						{
@@ -1283,7 +1220,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 					suggestions: [
 						{
@@ -1301,7 +1237,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 					suggestions: [
 						{
@@ -1319,7 +1254,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 					suggestions: [
 						{
@@ -1339,7 +1273,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -1351,7 +1284,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -1362,7 +1294,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -1373,7 +1304,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -1384,7 +1314,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -1395,7 +1324,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -1406,7 +1334,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -1420,7 +1347,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -1432,7 +1358,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -1444,7 +1369,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -1456,7 +1380,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "||=" },
 				},
 			],
@@ -1468,7 +1391,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "||=" },
 				},
 			],
@@ -1480,7 +1402,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "??=" },
 				},
 			],
@@ -1492,7 +1413,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "??=" },
 				},
 			],
@@ -1504,7 +1424,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "??=" },
 				},
 			],
@@ -1516,7 +1435,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "??=" },
 				},
 			],
@@ -1528,7 +1446,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "??=" },
 				},
 			],
@@ -1540,7 +1457,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "??=" },
 				},
 			],
@@ -1552,7 +1468,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -1567,7 +1482,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "??=" },
 				},
 			],
@@ -1582,7 +1496,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "??=" },
 				},
 			],
@@ -1596,7 +1509,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "??=" },
 					suggestions: [],
 				},
@@ -1609,7 +1521,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "??=" },
 					suggestions: [],
 				},
@@ -1622,7 +1533,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "??=" },
 					suggestions: [],
 				},
@@ -1635,7 +1545,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "??=" },
 					suggestions: [],
 				},
@@ -1648,7 +1557,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "??=" },
 					suggestions: [],
 				},
@@ -1661,7 +1569,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "??=" },
 					suggestions: [],
 				},
@@ -1674,7 +1581,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "??=" },
 					suggestions: [],
 				},
@@ -1687,7 +1593,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "??=" },
 					suggestions: [],
 				},
@@ -1702,7 +1607,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -1714,7 +1618,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -1726,7 +1629,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -1738,7 +1640,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -1752,7 +1653,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -1764,7 +1664,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -1776,7 +1675,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -1788,7 +1686,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -1800,7 +1697,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -1812,7 +1708,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -1824,7 +1719,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -1836,7 +1730,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -1850,7 +1743,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -1862,7 +1754,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -1874,7 +1765,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -1886,7 +1776,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -1898,7 +1787,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -1910,7 +1798,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -1924,7 +1811,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -1936,7 +1822,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -1948,7 +1833,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -1962,7 +1846,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -1974,7 +1857,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -1986,7 +1868,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -1998,7 +1879,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -2012,7 +1892,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 					suggestions: [],
 				},
@@ -2025,7 +1904,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 					suggestions: [],
 				},
@@ -2038,7 +1916,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 					suggestions: [],
 				},
@@ -2048,7 +1925,12 @@ ruleTester.run("logical-assignment-operators", rule, {
 			code: "if (this.prop) this.prop = value",
 			output: "this.prop &&= value",
 			options: ["always", { enforceForIfStatements: true }],
-			errors: [{ messageId: "if", type: "IfStatement", suggestions: [] }],
+			errors: [
+				{
+					messageId: "if",
+					suggestions: [],
+				},
+			],
 		},
 		{
 			code: "(class extends SuperClass { method() { if (super.prop) super.prop = value } })",
@@ -2057,7 +1939,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 					suggestions: [],
 				},
@@ -2070,7 +1951,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 					suggestions: [],
 				},
@@ -2085,7 +1965,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "??=" },
 					suggestions: [
 						{
@@ -2104,7 +1983,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 					suggestions: [
 						{
@@ -2123,7 +2001,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 					suggestions: [
 						{
@@ -2142,7 +2019,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 					suggestions: [
 						{
@@ -2161,7 +2037,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 					suggestions: [
 						{
@@ -2182,7 +2057,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -2194,7 +2068,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -2206,7 +2079,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -2218,7 +2090,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -2230,7 +2101,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -2242,7 +2112,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -2254,7 +2123,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -2268,7 +2136,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -2280,7 +2147,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -2292,7 +2158,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -2304,7 +2169,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -2318,7 +2182,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "if",
-					type: "IfStatement",
 					data: { operator: "&&=" },
 				},
 			],
@@ -2332,7 +2195,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -2344,7 +2206,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "&&=" },
 				},
 			],
@@ -2356,7 +2217,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "??=" },
 				},
 			],
@@ -2368,7 +2228,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -2382,7 +2241,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [
 						{
@@ -2400,7 +2258,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [
 						{
@@ -2418,7 +2275,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [
 						{
@@ -2436,7 +2292,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [
 						{
@@ -2454,7 +2309,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [
 						{
@@ -2474,7 +2328,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -2486,7 +2339,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -2498,7 +2350,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -2512,7 +2363,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -2524,7 +2374,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -2536,7 +2385,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -2548,7 +2396,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -2562,7 +2409,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -2574,7 +2420,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "&&=" },
 				},
 			],
@@ -2586,7 +2431,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -2598,7 +2442,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "&&=" },
 				},
 			],
@@ -2612,7 +2455,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "??=" },
 				},
 			],
@@ -2624,7 +2466,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "??=" },
 				},
 			],
@@ -2636,7 +2477,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "??=" },
 				},
 			],
@@ -2648,7 +2488,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "??=" },
 				},
 			],
@@ -2660,7 +2499,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "??=" },
 				},
 			],
@@ -2681,7 +2519,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 				},
 			],
@@ -2699,7 +2536,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 					suggestions: [
 						{
@@ -2724,7 +2560,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 					suggestions: [
 						{
@@ -2749,7 +2584,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "logical",
-					type: "LogicalExpression",
 					data: { operator: "||=" },
 					suggestions: [
 						{
@@ -2770,7 +2604,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -2783,7 +2616,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "&&=" },
 					suggestions: [],
 				},
@@ -2796,7 +2628,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "??=" },
 					suggestions: [],
 				},
@@ -2809,7 +2640,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -2822,7 +2652,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -2835,7 +2664,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "&&=" },
 					suggestions: [],
 				},
@@ -2848,7 +2676,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "??=" },
 					suggestions: [],
 				},
@@ -2861,7 +2688,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -2874,7 +2700,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -2887,7 +2712,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -2900,7 +2724,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -2913,7 +2736,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},
@@ -2926,7 +2748,6 @@ ruleTester.run("logical-assignment-operators", rule, {
 			errors: [
 				{
 					messageId: "assignment",
-					type: "AssignmentExpression",
 					data: { operator: "||=" },
 					suggestions: [],
 				},

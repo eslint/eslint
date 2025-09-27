@@ -31,7 +31,6 @@ function invalid(code, output) {
 		errors: [
 			{
 				messageId: "useExponentiation",
-				type: "CallExpression",
 			},
 		],
 	};
@@ -111,7 +110,6 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
 			errors: [
 				{
 					messageId: "useExponentiation",
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 					endLine: 1,
@@ -126,7 +124,6 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
 			errors: [
 				{
 					messageId: "useExponentiation",
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 					endLine: 1,
@@ -306,7 +303,6 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
 			errors: [
 				{
 					messageId: "useExponentiation",
-					type: "CallExpression",
 					line: 1,
 					column: 1,
 					endLine: 1,
@@ -314,7 +310,6 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
 				},
 				{
 					messageId: "useExponentiation",
-					type: "CallExpression",
 					line: 1,
 					column: 18,
 					endLine: 2,
@@ -328,19 +323,16 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
 			errors: [
 				{
 					messageId: "useExponentiation",
-					type: "CallExpression",
 					column: 1,
 					endColumn: 41,
 				},
 				{
 					messageId: "useExponentiation",
-					type: "CallExpression",
 					column: 10,
 					endColumn: 24,
 				},
 				{
 					messageId: "useExponentiation",
-					type: "CallExpression",
 					column: 26,
 					endColumn: 40,
 				},
@@ -352,13 +344,11 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
 			errors: [
 				{
 					messageId: "useExponentiation",
-					type: "CallExpression",
 					column: 1,
 					endColumn: 15,
 				},
 				{
 					messageId: "useExponentiation",
-					type: "CallExpression",
 					column: 17,
 					endColumn: 31,
 				},
@@ -414,7 +404,6 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
 			errors: [
 				{
 					messageId: "useExponentiation",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -431,7 +420,6 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
 			errors: [
 				{
 					messageId: "useExponentiation",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -448,7 +436,6 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
 			errors: [
 				{
 					messageId: "useExponentiation",
-					type: "CallExpression",
 				},
 			],
 		},
