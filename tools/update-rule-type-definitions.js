@@ -1,3 +1,5 @@
+"use strict";
+
 const { readFile, writeFile } = require("node:fs/promises");
 const rules = require("../lib/rules");
 const deref = require('json-schema-deref-sync');
@@ -82,9 +84,7 @@ function getRuleTypeDefinitionPositionsMap(sourceText, consideredRuleIds) {
                     const ruleNameLength = `"${ruleId}"`.length;
 
                     if (consideredRuleIds.has(ruleId)) {
-                        let ruleDefinitionTextPositions;
-
-                        ruleDefinitionTextPositions = {
+                        const ruleDefinitionTextPositions = {
                                 tsruleDefinitionStart: member.name.end - ruleNameLength,
                                 tsruleDefinitionEnd: member.end,
                         };
@@ -100,23 +100,26 @@ function getRuleTypeDefinitionPositionsMap(sourceText, consideredRuleIds) {
 
 /**
  * Resolves the schema by dereferencing any $ref pointers.
- * @param {object} schema The schema to resolve with 'definition' property.
- * @returns {object} The resolved schema without $ref pointers and 'definition' property.
+ * @param {Object} schema The schema to resolve with 'definition' property.
+ * @returns {Object} The resolved schema without $ref pointers and 'definition' property.
  */
 function resolveSchema(schema) {
     const resolvedSchema = deref(schema);
 
     if (resolvedSchema) {
+        // eslint-disable-next-line no-unused-vars -- we omit definitions as we have used its values as reference.
         const { definitions, ...restSchema } = resolvedSchema;
 
         return restSchema;
     }
+
+    return schema;
 }
 
 /**
  * Groups enum values by their keys.
- * @param {object} prop properties of the schema with type 'object'.
- * @returns {object} An object mapping enum keys to their corresponding property names.
+ * @param {Object} prop properties of the schema with type 'object'.
+ * @returns {Object} An object mapping enum keys to their corresponding property names.
  */
 function getEnumGroups(prop) {
     const enumGroups = {};
@@ -147,8 +150,8 @@ function getEnumGroups(prop) {
 
 /**
  * Groups the properties that have equal values by their keys.
- * @param {object} prop properties of the schema with type 'object'.
- * @returns {object} An object mapping equal values to their corresponding property names.
+ * @param {Object} prop properties of the schema with type 'object'.
+ * @returns {Object} An object mapping equal values to their corresponding property names.
  */
 function getPropValueThatIsEqual(prop) {
     const equalValues = [];
@@ -178,6 +181,11 @@ function getPropValueThatIsEqual(prop) {
     return { keyValues, propertyValue };
 }
 
+/**
+ * Creates a string of enum values for a given array of enum values.
+ * @param {Array} enumValue An array of enum values.
+ * @returns {string} A string of enum values separated by ' | '.
+ */
 function getArrayValues(enumValue) {
     const enumValues = enumValue
         .filter(value => typeof value === "string")
@@ -188,10 +196,37 @@ function getArrayValues(enumValue) {
 }
 
 /**
- * Creates partial of type definitions for a schema.
- * @param {object} schema The schema to create partials for.
+ * Gets the partial type definitions for a schema.
+ * @param {Object} schema The schema to get partials for.
  * @param {string} ruleId The rule ID associated with the schema.
- * @param {object} defaultOptions The default options for the rule.
+ * @param {Object} defaultOptions The default options for the rule.
+ * @returns {string} The partial type definitions.
+ */
+function getPartials(schema, ruleId, defaultOptions) {
+    const partials = [];
+    let partialValue;
+
+    for (const schemaItem of schema) {
+        // eslint-disable-next-line no-use-before-define
+        const partial = createPartials(schemaItem, ruleId, defaultOptions);
+
+        if (partial) {
+            partials.push(partial);
+        }
+    }
+
+    if (partials.length > 0) {
+        partialValue = partials.join(" |\n");
+    }
+
+    return partialValue;
+}
+
+/**
+ * Creates partial of type definitions for a schema.
+ * @param {Object} schema The schema to create partials for.
+ * @param {string} ruleId The rule ID associated with the schema.
+ * @param {Object} defaultOptions The default options for the rule.
  * @returns {string} The created partial type definitions.
  */
 function createPartials(schema, ruleId, defaultOptions) {
@@ -242,40 +277,18 @@ function createPartials(schema, ruleId, defaultOptions) {
                 }
             } else {
                 if (schema.items.oneOf) {
-                    const oneOfPartials = [];
-
-                    for (const oneOfSchema of schema.items.oneOf) {
-                        const partial = createPartials(oneOfSchema, ruleId, defaultOptions);
-                        if (partial) {
-                            oneOfPartials.push(partial);
-                        }
-                    }
-
-                    if (oneOfPartials.length > 0) {
-                        partial = `${oneOfPartials.join(" |\n")}`;
-                    }
+                    partial = getPartials(schema.items.oneOf, ruleId, defaultOptions);
                 }
 
                 if (schema.items.anyOf) {
-                    const anyOfPartials = [];
-
-                    for (const anyOfSchema of schema.items.anyOf) {
-                        const partial = createPartials(anyOfSchema, ruleId, defaultOptions);
-                        if (partial) {
-                            anyOfPartials.push(partial);
-                        }
-                    }
-
-                    if (anyOfPartials.length > 0) {
-                        partial = `${anyOfPartials.join(" |\n")}`;
-                    }
+                    partial = getPartials(schema.items.anyOf, ruleId, defaultOptions);
                 }
 
                 if (schema.items.type === "object") {
                     const partialValue = createPartials(schema.items, ruleId, defaultOptions);
 
                     if (partialValue) {
-                        partial = partialValue;
+                        partial = `Array<${partialValue}>`;
                     }
                 }
 
@@ -287,33 +300,11 @@ function createPartials(schema, ruleId, defaultOptions) {
     }
 
     if (schema.oneOf) {
-        const oneOfPartials = [];
-
-        for (const oneOfSchema of schema.oneOf) {
-            const partial = createPartials(oneOfSchema, ruleId, defaultOptions);
-            if (partial) {
-                oneOfPartials.push(partial);
-            }
-        }
-
-        if (oneOfPartials.length > 0) {
-            partial = `${oneOfPartials.join(" |\n")}`;
-        }
+        partial = getPartials(schema.oneOf, ruleId, defaultOptions);
     }
 
     if (schema.anyOf) {
-        const anyOfPartials = [];
-
-        for (const anyOfSchema of schema.anyOf) {
-            const partial = createPartials(anyOfSchema, ruleId, defaultOptions);
-            if (partial) {
-                anyOfPartials.push(partial);
-            }
-        }
-
-        if (anyOfPartials.length > 0) {
-            partial = `${anyOfPartials.join(" |\n")}`;
-        }
+        partial = getPartials(schema.anyOf, ruleId, defaultOptions);
     }
 
     if (schema.type === "object") {
@@ -329,9 +320,9 @@ function createPartials(schema, ruleId, defaultOptions) {
         const { propertyValue } = getPropValueThatIsEqual(properties);
 
         if (propertyValue) {
-            let keys = [];
-            let propValue = [];
-            for (const [prop, val] of Object.entries(properties)) {
+            const keys = [];
+            const propValue = [];
+            for (const [prop] of Object.entries(properties)) {
                 keys.push(prop);
             }
             for (const [prop, val] of Object.entries(propertyValue)) {
@@ -344,7 +335,7 @@ function createPartials(schema, ruleId, defaultOptions) {
 
         for (const [key, value] of Object.entries(properties)) {
             if (Array.isArray(value.type)) {
-                if (defaultOptions && defaultOptions[0][key] !== undefined) {
+                if (defaultOptions && defaultOptions[0][key] !== void 0) {
                     partialsValues.push(`/**\n * @default '${defaultOptions[0][key]}'\n */`);
                 }
 
@@ -358,12 +349,12 @@ function createPartials(schema, ruleId, defaultOptions) {
             }
 
             if (value.enum) {
-                if (defaultOptions && defaultOptions[0][key] !== undefined) {
+                if (defaultOptions && defaultOptions[0][key] !== void 0) {
                     partialsValues.push(`/**\n * @default '${defaultOptions[0][key]}'\n */`);
                 }
 
                 if (value.enum.length > 10) {
-                    partial = "string";
+                    partialsValues.push(`${key}: string;`);
                 } else {
                     let enumValues;
                     if (value.enum.length === 1) {
@@ -376,7 +367,7 @@ function createPartials(schema, ruleId, defaultOptions) {
             }
 
             if (value.type === "boolean" || value.type === "string") {
-                if (defaultOptions && (defaultOptions[0][key] !== undefined && defaultOptions[0][key] !== "")) {
+                if (defaultOptions && (defaultOptions[0][key] !== void 0 && defaultOptions[0][key] !== "")) {
                     partialsValues.push(`/**\n * @default ${defaultOptions[0][key]}\n */`);
                 }
                 if ("default" in value) {
@@ -390,7 +381,7 @@ function createPartials(schema, ruleId, defaultOptions) {
                 if ("default" in value) {
                     defaultValue = value.default;
                 } else if (defaultOptions) {
-                    if (defaultOptions[0][key] !== undefined) {
+                    if (defaultOptions[0][key] !== void 0) {
                         defaultValue = defaultOptions[0][key];
                     } else if (defaultOptions.length > 0 && typeof defaultOptions[0] !== "object") {
                         defaultValue = defaultOptions.join(", ");
@@ -399,7 +390,7 @@ function createPartials(schema, ruleId, defaultOptions) {
                     }
                 }
 
-                if (defaultValue !== undefined) {
+                if (defaultValue !== void 0) {
                     partialsValues.push(`/**\n * @default ${defaultValue}\n */`);
                 }
                 partialsValues.push(`${key}: number;`);
@@ -415,7 +406,7 @@ function createPartials(schema, ruleId, defaultOptions) {
                 }
 
                 if (value.items?.enum) {
-                    if (defaultOptions && defaultOptions[0][key] !== undefined) {
+                    if (defaultOptions && defaultOptions[0][key] !== void 0) {
                         const defaultValue = (Array.isArray(defaultOptions[0][key]) &&  defaultOptions[0][key].length === 0) ? "[]" : `[${defaultOptions[0][key].join(", ")}]`;
                         partialsValues.push(`/**\n * @default ${defaultValue}\n */`);
                     }
@@ -428,9 +419,9 @@ function createPartials(schema, ruleId, defaultOptions) {
                 if (value.items.type === "object") {
                     const propPartial = [];
                     for (const [prop, val] of Object.entries(value.items.properties)) {
-                        const partial = createPartials(val, ruleId, defaultOptions);
-                        if (partial) {
-                            propPartial.push(`${prop}: ${partial};`);
+                        const partialValue = createPartials(val, ruleId, defaultOptions);
+                        if (partialValue) {
+                            propPartial.push(`${prop}: ${partialValue};`);
                         }
                     }
 
@@ -446,36 +437,19 @@ function createPartials(schema, ruleId, defaultOptions) {
                 }
 
                 if (value.items.oneOf) {
-                    const oneOfPartials = [];
-                    for (const oneOfSchema of value.items.oneOf) {
-                        const oneOfPartial = createPartials(oneOfSchema, ruleId, defaultOptions);
-                        if (oneOfPartial) {
-                            oneOfPartials.push(oneOfPartial);
-                        }
-                    }
+                    const oneOfPartials = getPartials(value.items.oneOf, ruleId, defaultOptions);
 
-                    if (oneOfPartials.length > 0) {
-                        partialsValues.push(`${key}: Array<${oneOfPartials.join(" |\n")}>;`);
-                    }
+                    partialsValues.push(`${key}: Array<${oneOfPartials}>;`);
                 }
 
                 if (value.items.anyOf) {
-                    const anyOfPartials = [];
-                    for (const anyOfSchema of value.items.anyOf) {
-                        const anyOfPartial = createPartials(anyOfSchema, ruleId, defaultOptions);
-                        if (anyOfPartial) {
-                            anyOfPartials.push(anyOfPartial);
-                        }
-                    }
+                    const anyOfPartials = getPartials(value.items.anyOf, ruleId, defaultOptions);
 
-                    if (anyOfPartials.length > 0) {
-                        partialsValues.push(`${key}: Array<${anyOfPartials.join(" |\n")}>;`);
-                    }
+                    partialsValues.push(`${key}: Array<${anyOfPartials}>;`);
                 }
             }
 
             if (value.type === "object") {
-                const {type, additionalProperties, ...props} = value;
                 if (value.additionalProperties) {
                     if (value.additionalProperties.type === "boolean") {
                         partialsValues.push(`${key}: Record<string, boolean>;`)
@@ -489,10 +463,10 @@ function createPartials(schema, ruleId, defaultOptions) {
                 }
 
                 if (value.properties) {
-                    const partial = createPartials(value, ruleId, defaultOptions);
+                    const partialValue = createPartials(value, ruleId, defaultOptions);
 
-                    if (partial) {
-                        partialsValues.push(`${key}: ${partial};`);
+                    if (partialValue) {
+                        partialsValues.push(`${key}: ${partialValue};`);
                     }
                 }
 
@@ -509,29 +483,15 @@ function createPartials(schema, ruleId, defaultOptions) {
             }
 
             if (value.oneOf) {
-                const oneOfPartial = [];
-                for (const oneOfSchema of value.oneOf) {
-                    const partial = createPartials(oneOfSchema, ruleId, defaultOptions);
-                    if (partial) {
-                        oneOfPartial.push(partial);
-                    }
-                }
-                if (oneOfPartial.length > 0) {
-                    partialsValues.push(`${key}: \n${oneOfPartial.join(" |\n")};\n`);
-                }
+                const oneOfPartials = getPartials(value.oneOf, ruleId, defaultOptions);
+
+                partialsValues.push(`${key}: \n${oneOfPartials};\n`);
             }
 
             if (value.anyOf) {
-                const anyOfPartial = [];
-                for (const anyOfSchema of value.anyOf) { 
-                    const partial = createPartials(anyOfSchema, ruleId, defaultOptions);
-                    if (partial) {
-                        anyOfPartial.push(partial);
-                    }
-                }
-                if (anyOfPartial.length > 0) {
-                    partialsValues.push(`${key}: \n${anyOfPartial.join(" |\n")};\n`);
-                }
+                const anyOfPartials = getPartials(value.anyOf, ruleId, defaultOptions);
+
+                partialsValues.push(`${key}: \n${anyOfPartials};\n`);
             }
         }
 
@@ -653,7 +613,6 @@ function createTypeDefinition(ruleId) {
     return ruleTypeDefinition;
 }
 
-
 /**
  * Updates rule type definition a `.d.ts` file or checks if a `.d.ts` file is up-to-date.
  * @param {string} ruleTypeFile Pathname of the `.d.ts` file.
@@ -674,15 +633,10 @@ async function updateTypeDefinition(ruleTypeFile, consideredRuleIds, check) {
     ] of textPositionsMap) {
         const textBeforeTSDoc = sourceText.slice(lastPos, insertStart);
         const ruleId = sortedRuleIds.shift();
-        const { tsruleDefinitionEnd, typeEnd } = textPositionsMap.get(ruleId);
+        // const { tsruleDefinitionEnd, typeEnd } = textPositionsMap.get(ruleId);
         const tsRuleDefinition = createTypeDefinition(ruleId);
-        // const ruleText = sourceText.slice(tsruleDefinitionEnd, typeEnd);
 
         chunks.push(textBeforeTSDoc, tsRuleDefinition);
-        // if (sourceText[tsruleDefinitionEnd] !== "\n") {
-        //     chunks.push("\n    ");
-        // }
-        // chunks.push(ruleText);
         lastPos = insertEnd;
     }
     chunks.push(sourceText.slice(Math.max(0, lastPos)));

@@ -82,6 +82,7 @@
     "*": "trunk check --fix",
     "lib/rules/*.js": [
       "node tools/update-eslint-all.js",
+      "node tools/update-rule-type-definitions.js",
       "node tools/update-rule-type-headers.js",
       "git add packages/js/src/configs/eslint-all.js lib/types/rules.d.ts"
     ],
