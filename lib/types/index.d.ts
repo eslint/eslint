@@ -72,7 +72,6 @@ import type {
 	SuggestedEdit,
 	ViolationReport,
 } from "@eslint/core";
-import { LegacyESLint } from "./use-at-your-own-risk.js";
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -1393,10 +1392,10 @@ export function loadESLint(options: {
 }): Promise<typeof ESLint>;
 export function loadESLint(options: {
 	useFlatConfig: false;
-}): Promise<typeof LegacyESLint>;
+}): Promise<typeof ESLint>;
 export function loadESLint(options?: {
 	useFlatConfig?: boolean | undefined;
-}): Promise<typeof ESLint | typeof LegacyESLint>;
+}): Promise<typeof ESLint | typeof ESLint>;
 
 // #region RuleTester
 
