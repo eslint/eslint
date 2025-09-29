@@ -44,7 +44,10 @@ import js from "@eslint/js";
 export default defineConfig([
 	{
 		files: ["**/*.js"],
-		extends: [js.configs.recommended],
+		plugins: {
+			js,
+		},
+		extends: ["js/recommended"],
 		rules: {
 			"consistent-return": 2,
 			"indent"           : [1, 4],
