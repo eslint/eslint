@@ -13824,7 +13824,7 @@ describe("ESLint", () => {
 				delete process.env.ESLINT_USE_FLAT_CONFIG;
 			});
 
-			testShouldUseFlatConfig(false, false);
+			testShouldUseFlatConfig(true, true);
 		});
 
 		describe("when the env variable `ESLINT_USE_FLAT_CONFIG` is unset", () => {

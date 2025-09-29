@@ -20,16 +20,16 @@ const assert = require("chai").assert,
 //-----------------------------------------------------------------------------
 
 describe("unsupported-api", () => {
-	it("should have FileEnumerator exposed", () => {
-		assert.isFunction(api.FileEnumerator);
+	it("should not have FileEnumerator exposed", () => {
+		assert.isUndefined(api.FileEnumerator);
 	});
 
 	it("should have FlatESLint exposed", () => {
 		assert.isFunction(api.FlatESLint);
 	});
 
-	it("should have LegacyESLint exposed", () => {
-		assert.isFunction(api.LegacyESLint);
+	it("should not have LegacyESLint exposed", () => {
+		assert.isUndefined(api.LegacyESLint);
 	});
 
 	it("should not have ESLint exposed", () => {
