@@ -469,6 +469,10 @@ ruleTester.run("object-shorthand", rule, {
 			code: "({ [foo.bar]: () => {} })",
 			options: ["always", { ignoreConstructors: true }],
 		},
+
+		// JSDoc @type annotation
+		"({ val: /** @type {number} */ (val) })",
+		"({ 'prop': /** @type {string} */ (prop) })",
 	],
 	invalid: [
 		{
