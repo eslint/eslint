@@ -30,7 +30,6 @@ import type {
 	CustomRuleDefinitionType,
 	CustomRuleTypeDefinitions,
 	DeprecatedInfo,
-	Language,
 	LanguageOptions as GenericLanguageOptions,
 	RuleContext as CoreRuleContext,
 	RuleDefinition,
@@ -38,6 +37,23 @@ import type {
 	SourceRange,
 	TextSourceCode,
 	TraversalStep,
+	RulesConfig,
+	GlobalAccess,
+	GlobalsConfig,
+	LinterOptionsConfig,
+	EnvironmentConfig,
+	ObjectMetaProperties as CoreObjectMetaProperties,
+	Plugin as CorePlugin,
+	LintMessage as CoreLintMessage,
+	Processor as CoreProcessor,
+	ConfigObject,
+	LegacyConfigObject,
+	SeverityName,
+	SeverityLevel,
+	Severity as CoreSeverity,
+	EcmaVersion as CoreEcmaVersion,
+	ConfigOverride as CoreConfigOverride,
+	ProcessorFile as CoreProcessorFile,
 } from "@eslint/core";
 import { JSONSchema4 } from "json-schema";
 import { LegacyESLint } from "./use-at-your-own-risk.js";
@@ -1327,21 +1343,21 @@ export namespace Linter {
 	 *
 	 * @see [Rule Severities](https://eslint.org/docs/latest/use/configure/rules#rule-severities)
 	 */
-	type Severity = 0 | 1 | 2;
+	type Severity = SeverityLevel;
 
 	/**
 	 * The human readable severity level for a rule.
 	 *
 	 * @see [Rule Severities](https://eslint.org/docs/latest/use/configure/rules#rule-severities)
 	 */
-	type StringSeverity = "off" | "warn" | "error";
+	type StringSeverity = SeverityName;
 
 	/**
 	 * The numeric or human readable severity level for a rule.
 	 *
 	 * @see [Rule Severities](https://eslint.org/docs/latest/use/configure/rules#rule-severities)
 	 */
-	type RuleSeverity = Severity | StringSeverity;
+	type RuleSeverity = CoreSeverity;
 
 	/**
 	 * An array containing the rule severity level, followed by the rule options.
@@ -1365,9 +1381,7 @@ export namespace Linter {
 	/**
 	 * The rules config object is a key/value map of rule names and their severity and options.
 	 */
-	interface RulesRecord {
-		[rule: string]: RuleEntry;
-	}
+	type RulesRecord = RulesConfig;
 
 	/**
 	 * A configuration object that may have a `rules` block.
@@ -1379,37 +1393,11 @@ export namespace Linter {
 	/**
 	 * The ECMAScript version of the code being linted.
 	 */
-	type EcmaVersion =
-		| 3
-		| 5
-		| 6
-		| 7
-		| 8
-		| 9
-		| 10
-		| 11
-		| 12
-		| 13
-		| 14
-		| 15
-		| 16
-		| 17
-		| 2015
-		| 2016
-		| 2017
-		| 2018
-		| 2019
-		| 2020
-		| 2021
-		| 2022
-		| 2023
-		| 2024
-		| 2025
-		| 2026
-		| "latest";
+	type EcmaVersion = CoreEcmaVersion;
 
 	/**
 	 * The type of JavaScript source code.
+	 * @todo Refactor to JavaScriptSourceType when exported from @eslint/core.
 	 */
 	type SourceType = "script" | "module" | "commonjs";
 
@@ -1507,18 +1495,8 @@ export namespace Linter {
 	/**
 	 * The overwrites that apply more differing configuration to specific files or directories.
 	 */
-	interface ConfigOverride<Rules extends RulesRecord = RulesRecord>
-		extends BaseConfig<Rules> {
-		/**
-		 * The glob patterns for excluded files.
-		 */
-		excludedFiles?: string | string[] | undefined;
-
-		/**
-		 * The glob patterns for target files.
-		 */
-		files: string | string[];
-	}
+	type ConfigOverride<Rules extends RulesRecord = RulesRecord> =
+		CoreConfigOverride<Rules>;
 
 	/**
 	 * ESLint legacy configuration.
@@ -1526,22 +1504,10 @@ export namespace Linter {
 	 * @see [ESLint Legacy Configuration](https://eslint.org/docs/latest/use/configure/)
 	 */
 	// https://github.com/eslint/eslint/blob/v8.57.0/conf/config-schema.js
-	interface LegacyConfig<
-		Rules extends RulesRecord = RulesRecord,
+	type LegacyConfig<
+		Rules extends RulesConfig = RulesConfig,
 		OverrideRules extends RulesRecord = Rules,
-	> extends BaseConfig<Rules, OverrideRules> {
-		/**
-		 * Tell ESLint to ignore specific files and directories.
-		 *
-		 * @see [Ignore Patterns](https://eslint.org/docs/latest/use/configure/ignore-deprecated#ignorepatterns-in-config-files)
-		 */
-		ignorePatterns?: string | string[] | undefined;
-
-		/**
-		 * @see [Using Configuration Files](https://eslint.org/docs/latest/use/configure/configuration-files-deprecated#using-configuration-files)
-		 */
-		root?: boolean | undefined;
-	}
+	> = LegacyConfigObject<Rules, OverrideRules>;
 
 	/**
 	 * Parser options.
@@ -1598,6 +1564,9 @@ export namespace Linter {
 		[key: string]: any;
 	}
 
+	/**
+	 * Options used for linting code with `Linter#verify` and `Linter#verifyAndFix`.
+	 */
 	interface LintOptions {
 		filename?: string | undefined;
 		preprocess?: ((code: string) => string[]) | undefined;
@@ -1612,6 +1581,7 @@ export namespace Linter {
 		reportUnusedDisableDirectives?: boolean | undefined;
 	}
 
+	// TODO: Once exported from @eslint/core, remove this and use that instead
 	interface LintSuggestion {
 		/** A short description. */
 		desc: string;
@@ -1623,46 +1593,7 @@ export namespace Linter {
 		messageId?: string | undefined;
 	}
 
-	interface LintMessage {
-		/** The 1-based column number. */
-		column: number;
-
-		/** The 1-based line number. */
-		line: number;
-
-		/** The 1-based column number of the end location. */
-		endColumn?: number | undefined;
-
-		/** The 1-based line number of the end location. */
-		endLine?: number | undefined;
-
-		/** The ID of the rule which makes this message. */
-		ruleId: string | null;
-
-		/** The reported message. */
-		message: string;
-
-		/** The ID of the message in the rule's meta. */
-		messageId?: string | undefined;
-
-		/**
-		 * Type of node.
-		 * @deprecated `nodeType` is deprecated and will be removed in the next major version.
-		 */
-		nodeType?: string | undefined;
-
-		/** If `true` then this is a fatal error. */
-		fatal?: true | undefined;
-
-		/** The severity of this message. */
-		severity: Exclude<Severity, 0>;
-
-		/** Information for autofix. */
-		fix?: Rule.Fix | undefined;
-
-		/** Information for suggestions. */
-		suggestions?: LintSuggestion[] | undefined;
-	}
+	type LintMessage = CoreLintMessage;
 
 	interface LintSuppression {
 		kind: string;
@@ -1723,114 +1654,19 @@ export namespace Linter {
 		visitorKeys?: SourceCode.VisitorKeys | undefined;
 	}
 
-	interface ProcessorFile {
-		text: string;
-		filename: string;
-	}
+	type ProcessorFile = CoreProcessorFile;
 
 	// https://eslint.org/docs/latest/extend/plugins#processors-in-plugins
-	interface Processor<
-		T extends string | ProcessorFile = string | ProcessorFile,
-	> extends ESLint.ObjectMetaProperties {
-		/** If `true` then it means the processor supports autofix. */
-		supportsAutofix?: boolean | undefined;
+	type Processor<T extends string | ProcessorFile = string | ProcessorFile> =
+		CoreProcessor<T>;
 
-		/** The function to extract code blocks. */
-		preprocess?(text: string, filename: string): T[];
-
-		/** The function to merge messages. */
-		postprocess?(
-			messages: LintMessage[][],
-			filename: string,
-		): LintMessage[];
-	}
-
-	interface Config<Rules extends RulesRecord = RulesRecord> {
-		/**
-		 * An string to identify the configuration object. Used in error messages and
-		 * inspection tools.
-		 */
-		name?: string;
-
-		/**
-		 * Path to the directory where the configuration object should apply.
-		 * `files` and `ignores` patterns in the configuration object are
-		 * interpreted as relative to this path.
-		 */
-		basePath?: string;
-
-		/**
-		 * An array of glob patterns indicating the files that the configuration
-		 * object should apply to. If not specified, the configuration object applies
-		 * to all files
-		 */
-		files?: Array<string | string[]>;
-
-		/**
-		 * An array of glob patterns indicating the files that the configuration
-		 * object should not apply to. If not specified, the configuration object
-		 * applies to all files matched by files
-		 */
-		ignores?: string[];
-
-		/**
-		 * The name of the language used for linting. This is used to determine the
-		 * parser and other language-specific settings.
-		 * @since 9.7.0
-		 */
-		language?: string;
-
-		/**
-		 * An object containing settings related to how JavaScript is configured for
-		 * linting.
-		 */
-		languageOptions?: LanguageOptions;
-
-		/**
-		 * An object containing settings related to the linting process
-		 */
-		linterOptions?: LinterOptions;
-
-		/**
-		 * Either an object containing preprocess() and postprocess() methods or a
-		 * string indicating the name of a processor inside of a plugin
-		 * (i.e., "pluginName/processorName").
-		 */
-		processor?: string | Processor;
-
-		/**
-		 * An object containing a name-value mapping of plugin names to plugin objects.
-		 * When files is specified, these plugins are only available to the matching files.
-		 */
-		plugins?: Record<string, ESLint.Plugin>;
-
-		/**
-		 * An object containing the configured rules. When files or ignores are specified,
-		 * these rule configurations are only available to the matching files.
-		 */
-		rules?: Partial<Rules>;
-
-		/**
-		 * An object containing name-value pairs of information that should be
-		 * available to all rules.
-		 */
-		settings?: Record<string, unknown>;
-	}
+	type Config<Rules extends RulesRecord = RulesRecord> = ConfigObject<Rules>;
 
 	/** @deprecated  Use `Config` instead of `FlatConfig` */
 	type FlatConfig<Rules extends RulesRecord = RulesRecord> = Config<Rules>;
 
-	type GlobalConf =
-		| boolean
-		| "off"
-		| "readable"
-		| "readonly"
-		| "writable"
-		| "writeable";
-
-	interface Globals {
-		[name: string]: GlobalConf;
-	}
+	type GlobalConf = GlobalAccess;
+	type Globals = GlobalsConfig;
 
 	interface LanguageOptions extends GenericLanguageOptions {
 		/**
@@ -1867,24 +1703,7 @@ export namespace Linter {
 		parserOptions?: Linter.ParserOptions | undefined;
 	}
 
-	interface LinterOptions {
-		/**
-		 * A boolean value indicating if inline configuration is allowed.
-		 */
-		noInlineConfig?: boolean;
-
-		/**
-		 * A severity value indicating if and how unused disable directives should be
-		 * tracked and reported.
-		 */
-		reportUnusedDisableDirectives?: Severity | StringSeverity | boolean;
-
-		/**
-		 * A severity value indicating if and how unused inline configs should be
-		 * tracked and reported.
-		 */
-		reportUnusedInlineConfigs?: Severity | StringSeverity;
-	}
+	type LinterOptions = LinterOptionsConfig;
 
 	/**
 	 * Performance statistics.
@@ -1978,42 +1797,9 @@ export namespace ESLint {
 	type ConfigData<Rules extends Linter.RulesRecord = Linter.RulesRecord> =
 		Omit<Linter.LegacyConfig<Rules>, "$schema">;
 
-	interface Environment {
-		/** The definition of global variables. */
-		globals?: Linter.Globals | undefined;
-
-		/** The parser options that will be enabled under this environment. */
-		parserOptions?: Linter.ParserOptions | undefined;
-	}
-
-	interface ObjectMetaProperties {
-		/** @deprecated Use `meta.name` instead. */
-		name?: string | undefined;
-
-		/** @deprecated Use `meta.version` instead. */
-		version?: string | undefined;
-
-		meta?: {
-			name?: string | undefined;
-			version?: string | undefined;
-		};
-	}
-
-	interface Plugin extends ObjectMetaProperties {
-		meta?: ObjectMetaProperties["meta"] & {
-			namespace?: string | undefined;
-		};
-		configs?:
-			| Record<
-					string,
-					Linter.LegacyConfig | Linter.Config | Linter.Config[]
-			  >
-			| undefined;
-		environments?: Record<string, Environment> | undefined;
-		languages?: Record<string, Language> | undefined;
-		processors?: Record<string, Linter.Processor> | undefined;
-		rules?: Record<string, RuleDefinition> | undefined;
-	}
+	type Environment = EnvironmentConfig;
+	type ObjectMetaProperties = CoreObjectMetaProperties;
+	type Plugin = CorePlugin;
 
 	type FixType = "directive" | "problem" | "suggestion" | "layout";
 

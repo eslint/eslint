@@ -2048,7 +2048,6 @@ ruleTester.run("simple-valid-test", rule2, {
 
 (): Linter.Config => ({
 	languageOptions: {
-		// @ts-expect-error
 		parser: "foo-parser",
 	},
 });
