@@ -47,12 +47,14 @@ export namespace AST {
 		| "Boolean"
 		| "Null"
 		| "Identifier"
+		| "PrivateIdentifier"
 		| "Keyword"
 		| "Punctuator"
 		| "JSXIdentifier"
 		| "JSXText"
 		| "Numeric"
 		| "String"
+		| "Template"
 		| "RegularExpression";
 
 	interface Token {
