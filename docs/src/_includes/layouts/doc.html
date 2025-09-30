@@ -94,8 +94,12 @@ layout: base.html
 
                     {% if rule_meta.deprecated %}
                         {% set deprecated_description %}
-                            <p>This rule was <b>deprecated</b> in ESLint v{{ rule_meta.deprecated.deprecatedSince }}.
-                            
+                            <p>This rule was <strong>deprecated</strong> in ESLint v{{ rule_meta.deprecated.deprecatedSince }}.
+   
+                            {% if rule_meta.deprecated.availableUntil %}
+                                It will be removed in v{{ rule_meta.deprecated.availableUntil }}.
+                            {% endif %}
+
                             {% if rule_meta.deprecated.replacedBy.length === 0 %}
                                 There is no replacement rule.
                             {% elif rule_meta.deprecated.replacedBy[0].plugin %}
