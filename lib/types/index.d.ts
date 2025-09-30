@@ -1397,8 +1397,8 @@ export namespace Linter {
 
 	/**
 	 * The type of JavaScript source code.
-	 * @todo Refactor to JavaScriptSourceType when exported from @eslint/core.
 	 */
+	 // TODO: Refactor to JavaScriptSourceType when exported from @eslint/core.
 	type SourceType = "script" | "module" | "commonjs";
 
 	/**
