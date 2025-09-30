@@ -97,7 +97,7 @@ layout: base.html
                             <p>This rule was <strong>deprecated</strong> in ESLint v{{ rule_meta.deprecated.deprecatedSince }}.
    
                             {% if rule_meta.deprecated.availableUntil %}
-                                It will be removed in v{{ rule_meta.deprecated.availableUntil }}.
+                                It will be removed in <strong>v{{ rule_meta.deprecated.availableUntil }}</strong>.
                             {% endif %}
 
                             {% if rule_meta.deprecated.replacedBy.length === 0 %}
