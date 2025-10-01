@@ -14611,7 +14611,7 @@ describe("ESLint", () => {
 				"the entry for the file to be deleted should not have been in the cache",
 			);
 
-			// make sure that the previos assertion checks the right place
+			// make sure that the previous assertion checks the right place
 			assert.notStrictEqual(
 				typeof cache[0][badFile],
 				"undefined",
@@ -14693,7 +14693,7 @@ describe("ESLint", () => {
 				"the cache file already exists and wasn't successfully deleted",
 			);
 
-			fs.writeFileSync(cacheFilePath, "[]"); // intenationally invalid to additionally make sure it isn't used
+			fs.writeFileSync(cacheFilePath, "[]"); // intentionally invalid to additionally make sure it isn't used
 
 			eslint = new ESLint({
 				concurrency,
@@ -14729,7 +14729,7 @@ describe("ESLint", () => {
 				"the cache file already exists and wasn't successfully deleted",
 			);
 
-			fs.writeFileSync(cacheFilePath, "[]"); // intenationally invalid to additionally make sure it isn't used
+			fs.writeFileSync(cacheFilePath, "[]"); // intentionally invalid to additionally make sure it isn't used
 
 			eslint = new ESLint({
 				concurrency,
@@ -14805,7 +14805,7 @@ describe("ESLint", () => {
 				"the cache file already exists and wasn't successfully deleted",
 			);
 
-			fs.writeFileSync(cacheFilePath, "[]"); // intenationally invalid to additionally make sure it isn't used
+			fs.writeFileSync(cacheFilePath, "[]"); // intentionally invalid to additionally make sure it isn't used
 
 			eslint = new ESLint({
 				concurrency,
@@ -14929,7 +14929,7 @@ describe("ESLint", () => {
 			 *   Run 1: Lint result wasn't already cached.
 			 *   Run 2: Lint result was already cached. The cached lint result is used but the cache is reconciled before the run ends.
 			 *   Run 3: Lint result was already cached. The cached lint result was being used throughout the previous run, so possible
-			 *     mutations in the previous run that occured after the cache was reconciled may have side effects for this run.
+			 *     mutations in the previous run that occurred after the cache was reconciled may have side effects for this run.
 			 */
 			for (let i = 0; i < 3; i++) {
 				const [result] = await eslint.lintFiles([filePath]);
@@ -14999,7 +14999,7 @@ describe("ESLint", () => {
 			 *   Run 1: Lint result wasn't already cached.
 			 *   Run 2: Lint result was already cached. The cached lint result is used but the cache is reconciled before the run ends.
 			 *   Run 3: Lint result was already cached. The cached lint result was being used throughout the previous run, so possible
-			 *     mutations in the previous run that occured after the cache was reconciled may have side effects for this run.
+			 *     mutations in the previous run that occurred after the cache was reconciled may have side effects for this run.
 			 */
 			for (let i = 0; i < 3; i++) {
 				const [result] = await eslint.lintFiles([filePath]);
