@@ -12565,16 +12565,16 @@ if (typeof window === "undefined") window = {};
 							30,
 						);
 
-						var orPrecendence = 40;
+						var orPrecedence = 40;
 						infix(
 							"||",
 							function (left, that) {
 								increaseComplexityCount();
 								that.left = left;
-								that.right = expression(orPrecendence);
+								that.right = expression(orPrecedence);
 								return that;
 							},
-							orPrecendence,
+							orPrecedence,
 						);
 						infix("&&", "and", 50);
 						bitwise("|", "bitor", 70);

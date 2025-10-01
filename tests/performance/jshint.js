@@ -4035,16 +4035,16 @@ var JSHINT;
 								30,
 							);
 
-							var orPrecendence = 40;
+							var orPrecedence = 40;
 							infix(
 								"||",
 								function (left, that) {
 									increaseComplexityCount();
 									that.left = left;
-									that.right = expression(orPrecendence);
+									that.right = expression(orPrecedence);
 									return that;
 								},
-								orPrecendence,
+								orPrecedence,
 							);
 							infix("&&", "and", 50);
 							bitwise("|", "bitor", 70);
@@ -6938,7 +6938,7 @@ var JSHINT;
 							FutureReservedWord("transient");
 							FutureReservedWord("volatile");
 
-							// this function is used to determine wether a squarebracket or a curlybracket
+							// this function is used to determine whether a squarebracket or a curlybracket
 							// expression is a comprehension array, destructuring assignment or a json value.
 
 							var lookupBlockType = function () {

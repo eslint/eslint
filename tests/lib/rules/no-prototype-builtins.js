@@ -281,7 +281,7 @@ ruleTester.run("no-prototype-builtins", rule, {
 		},
 		{
 			/*
-			 * If hasOwnProperty is part of a ChainExpresion
+			 * If hasOwnProperty is part of a ChainExpression
 			 * and the optional part is before it, then don't suggest the fix
 			 */
 			code: "foo?.hasOwnProperty('bar').baz",
@@ -296,7 +296,7 @@ ruleTester.run("no-prototype-builtins", rule, {
 		},
 		{
 			/*
-			 * If hasOwnProperty is part of a ChainExpresion
+			 * If hasOwnProperty is part of a ChainExpression
 			 * but the optional part is after it, then the fix is safe
 			 */
 			code: "foo.hasOwnProperty('bar')?.baz",
