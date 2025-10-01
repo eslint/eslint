@@ -57,6 +57,8 @@ ruleTester.run("no-loss-of-precision", rule, {
 		"var x = 9.0000000000E10",
 		"var x = 019.5",
 		"var x = 0195",
+		"var x = 00195",
+		"var x = 0008",
 		"var x = 0e5",
 
 		{ code: "var x = 12_34_56", languageOptions: { ecmaVersion: 2021 } },
