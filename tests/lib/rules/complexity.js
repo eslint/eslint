@@ -319,6 +319,17 @@ ruleTester.run("complexity", rule, {
 			errors: [makeError("Function 'a'", 1, 0)],
 		},
 		{
+			code: "function foo(x) {if (x > 10) {return 'x is greater than 10';} else if (x > 5) {return 'x is greater than 5';} else {return 'x is less than 5';}}",
+			options: [2],
+			errors: [
+				{
+					...makeError("Function 'foo'", 3, 2),
+					column: 1,
+					endColumn: 13,
+				},
+			],
+		},
+		{
 			code: "var func = function () {}",
 			options: [0],
 			errors: [makeError("Function", 1, 0)],
@@ -827,12 +838,37 @@ ruleTester.run("complexity", rule, {
 				},
 			],
 		},
+		{
+			code: "class C { x = () => a || b || c; y = f || g || h; }",
+			options: [2],
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					...makeError("Method 'x'", 3, 2),
+					column: 11,
+					endColumn: 15,
+				},
+				{
+					...makeError("Class field initializer", 3, 2),
+					column: 38,
+					endColumn: 49,
+				},
+			],
+		},
 
 		// object property options
 		{
 			code: "function a(x) {}",
 			options: [{ max: 0 }],
 			errors: [makeError("Function 'a'", 1, 0)],
+		},
+		{
+			code: "const obj = { b: (a) => a?.b?.c, c: function (a) { return a?.b?.c; } };",
+			options: [{ max: 2 }],
+			errors: [
+				{ ...makeError("Method 'b'", 3, 2), column: 15, endColumn: 18 },
+				{ ...makeError("Method 'c'", 3, 2), column: 34, endColumn: 46 },
+			],
 		},
 
 		// optional chaining
@@ -869,7 +905,13 @@ ruleTester.run("complexity", rule, {
 		{
 			code: "function a(b) { b?.c.d?.e; }",
 			options: [{ max: 2 }],
-			errors: [makeError("Function 'a'", 3, 2)],
+			errors: [
+				{
+					...makeError("Function 'a'", 3, 2),
+					column: 1,
+					endColumn: 11,
+				},
+			],
 		},
 		{
 			code: "function a(b) { b?.c?.(); }",
