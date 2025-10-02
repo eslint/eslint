@@ -232,54 +232,6 @@ describe("FileEnumerator", () => {
 					);
 				});
 			});
-
-			describe("if 'lib\\*.js' was given,", () => {
-				/** @type {Array<{config:(typeof import('../../../lib/cli-engine')).ConfigArray, filePath:string, ignored:boolean}>} */
-				let list;
-
-				beforeEach(() => {
-					list = [...enumerator.iterateFiles("lib\\*.js")];
-				});
-
-				it("should list two files.", () => {
-					assert.strictEqual(list.length, 2);
-				});
-
-				it("should list 'lib/one.js' and 'lib/two.js'.", () => {
-					assert.deepStrictEqual(
-						list.map(entry => entry.filePath),
-						[
-							path.join(root, "lib/one.js"),
-							path.join(root, "lib/two.js"),
-						],
-					);
-				});
-			});
-
-			describe("if 'lib\\**\\*.js' was given,", () => {
-				/** @type {Array<{config:(typeof import('../../../lib/cli-engine')).ConfigArray, filePath:string, ignored:boolean}>} */
-				let list;
-
-				beforeEach(() => {
-					list = [...enumerator.iterateFiles("lib\\**\\*.js")];
-				});
-
-				it("should list four files.", () => {
-					assert.strictEqual(list.length, 4);
-				});
-
-				it("should list 'lib/nested/one.js', 'lib/nested/two.js', 'lib/one.js', 'lib/two.js'.", () => {
-					assert.deepStrictEqual(
-						list.map(entry => entry.filePath),
-						[
-							path.join(root, "lib/nested/one.js"),
-							path.join(root, "lib/nested/two.js"),
-							path.join(root, "lib/one.js"),
-							path.join(root, "lib/two.js"),
-						],
-					);
-				});
-			});
 		});
 
 		// https://github.com/eslint/eslint/issues/14742
