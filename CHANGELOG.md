@@ -1,3 +1,27 @@
+v9.37.0 - October 3, 2025
+
+* [`afe8a13`](https://github.com/eslint/eslint/commit/afe8a1346958242031fea66fdfbb239e8bf408b7) chore: update `@eslint/js` dependency to version 9.37.0 (#20183) (Francesco Trotta)
+* [`abee4ca`](https://github.com/eslint/eslint/commit/abee4ca1fa10da733b1cc4a7d5e765b912a9de82) chore: package.json update for @eslint/js release (Jenkins)
+* [`b950359`](https://github.com/eslint/eslint/commit/b950359c5f39085483c3137a6a160e582ef32007) docs: fix typos across the docs (#20182) (루밀LuMir)
+* [`42498a2`](https://github.com/eslint/eslint/commit/42498a27981d50750dd15ae8660dbe85c4f4587c) docs: improve ToC accessibility by hiding non-semantic character (#20181) (Percy Ma)
+* [`fc9381f`](https://github.com/eslint/eslint/commit/fc9381f6ca57b824e82d118c14631c17bea79d7e) chore: fix typos in comments (#20175) (overlookmotel)
+* [`e1574a2`](https://github.com/eslint/eslint/commit/e1574a22d38fd7e1891f86f8db0b09053f8963cb) chore: unpin jiti (#20173) (renovate[bot])
+* [`29ea092`](https://github.com/eslint/eslint/commit/29ea092b93608756350b1e9c5a4f29c8a49264ab) docs: Update README (GitHub Actions Bot)
+* [`a129cce`](https://github.com/eslint/eslint/commit/a129cced7a86ea2518eb9be6990fa18af39694ca) fix: correct `no-loss-of-precision` false positives for leading zeros (#20164) (Francesco Trotta)
+* [`09e04fc`](https://github.com/eslint/eslint/commit/09e04fcc3f4cc963eea7c9c579391de5e231595b) fix: add missing AST token types (#20172) (Pixel998)
+* [`5c97a04`](https://github.com/eslint/eslint/commit/5c97a04578e6280c2395f642c2d8d6bdf30eec18) docs: show `availableUntil` in deprecated rule banner (#20170) (Pixel998)
+* [`39f7fb4`](https://github.com/eslint/eslint/commit/39f7fb493a6924ff7dc638fd4d6e7b3d8eb95383) feat: `preserve-caught-error` should recognize all static "cause" keys (#20163) (Pixel998)
+* [`f81eabc`](https://github.com/eslint/eslint/commit/f81eabc5849ece98b8ca054f96b29f038a69bcf8) feat: support TS syntax in `no-restricted-imports` (#19562) (Nitin Kumar)
+* [`e1ac05e`](https://github.com/eslint/eslint/commit/e1ac05e2fae779e738f85bd47dda1cc2b7099346) refactor: mark `ESLint.findConfigFile()` as `async`, add missing docs (#20157) (Pixel998)
+* [`90a71bf`](https://github.com/eslint/eslint/commit/90a71bf5024a86fc232cd2e05f96811e2a18fd0f) docs: update `README` files to add badge and instructions (#20115) (루밀LuMir)
+* [`861c6da`](https://github.com/eslint/eslint/commit/861c6da2bd2796414e6eed782155ec34e2ed6344) fix: correct `ESLint` typings (#20122) (Pixel998)
+* [`347906d`](https://github.com/eslint/eslint/commit/347906d627c53bf45d63ba831d2fd2b83fb0a749) chore: update eslint (#20149) (renovate[bot])
+* [`1603ae1`](https://github.com/eslint/eslint/commit/1603ae1526d9b6f557c7d5534a4f40f46842edd6) docs: update references from `master` to `main` (#20153) (루밀LuMir)
+* [`0cb5897`](https://github.com/eslint/eslint/commit/0cb5897e24059bacadb8d2e6458184904759fda1) test: remove tmp dir created for circular fixes in multithread mode test (#20146) (Milos Djermanovic)
+* [`bb99566`](https://github.com/eslint/eslint/commit/bb995665e32b3a958e78006c9fd75744c5604f1b) ci: pin `jiti` to version 2.5.1 (#20151) (Pixel998)
+* [`177f669`](https://github.com/eslint/eslint/commit/177f669adc0f96d14ae1a71cde7786f327515863) perf: improve worker count calculation for `"auto"` concurrency (#20067) (Francesco Trotta)
+* [`448b57b`](https://github.com/eslint/eslint/commit/448b57bca3406ee12c4e44e9298fc0c99d3ee10c) chore: Mark deprecated formatting rules as available until v11.0.0 (#20144) (Milos Djermanovic)
+
 v9.36.0 - September 19, 2025
 
 * [`12411e8`](https://github.com/eslint/eslint/commit/12411e8d450ed26a5f7cca6a78ec05323c9323e8) chore: upgrade @eslint/js@9.36.0 (#20139) (Milos Djermanovic)
