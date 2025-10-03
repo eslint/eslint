@@ -229,4 +229,19 @@ function reduceBadExampleSize({
 	return result;
 }
 
-module.exports = reduceBadExampleSize;
+module.exports = options => {
+	try {
+		return reduceBadExampleSize(options);
+	} catch {
+		/*
+		 * https://github.com/eslint/eslint/issues/19961
+		 *
+		 * In case of an error, return the original source text.
+		 * Reducing examples is helpful, but it's more important
+		 * to get a reproducible example of a bug found in eslint,
+		 * even though it might be lenghty, than an error that occurs
+		 * in the code sample minimizer itself.
+		 */
+		return options.sourceText;
+	}
+};
