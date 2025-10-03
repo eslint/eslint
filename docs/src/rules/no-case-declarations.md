@@ -9,15 +9,15 @@ related_rules:
 
 This rule disallows lexical declarations (`let`, `const`, `function` and `class`)
 in `case`/`default` clauses. The reason is that the lexical declaration is visible
-in the entire switch block but it only gets initialized when it is assigned, which
-will only happen if the case where it is defined is reached.
+in the entire `switch` block but it only gets initialized when it is assigned, which
+will only happen if the `case` where it is defined is reached.
 
-To ensure that the lexical declaration only applies to the current case clause
+To ensure that the lexical declaration only applies to the current `case` clause
 wrap your clauses in blocks.
 
 ## Rule Details
 
-This rule aims to prevent access to uninitialized lexical bindings as well as accessing hoisted functions across case clauses.
+This rule aims to prevent access to uninitialized lexical bindings as well as accessing hoisted functions across `case` clauses.
 
 Examples of **incorrect** code for this rule:
 
@@ -81,4 +81,4 @@ switch (foo) {
 
 ## When Not To Use It
 
-If you depend on fall through behavior and want access to bindings introduced in the case block.
+If you depend on fall through behavior and want access to bindings introduced in the `case` block.
