@@ -656,9 +656,7 @@ ruleTester.run("prefer-const", rule, {
 		{
 			code: "/*eslint custom/use-x:error*/ let x = 1",
 			output: "/*eslint custom/use-x:error*/ const x = 1",
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 			errors: [
 				{
 					messageId: "useConst",

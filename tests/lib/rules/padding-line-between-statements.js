@@ -2810,37 +2810,27 @@ ruleTester.run("padding-line-between-statements", rule, {
 		{
 			code: "return;",
 			options: [{ blankLine: "always", prev: "*", next: "return" }],
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 		},
 		{
 			code: "var a;\n\nreturn;",
 			options: [{ blankLine: "always", prev: "*", next: "return" }],
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 		},
 		{
 			code: "// comment\nreturn;",
 			options: [{ blankLine: "always", prev: "*", next: "return" }],
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 		},
 		{
 			code: "/* comment */\nreturn;",
 			options: [{ blankLine: "always", prev: "*", next: "return" }],
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 		},
 		{
 			code: "/* multi-line\ncomment */\nreturn;",
 			options: [{ blankLine: "always", prev: "*", next: "return" }],
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 		},
 
 		//----------------------------------------------------------------------
@@ -5192,18 +5182,14 @@ ruleTester.run("padding-line-between-statements", rule, {
 			code: "var a;\nreturn;",
 			output: "var a;\n\nreturn;",
 			options: [{ blankLine: "always", prev: "*", next: "return" }],
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 			errors: [{ messageId: "expectedBlankLine" }],
 		},
 		{
 			code: "var a; return;",
 			output: "var a;\n\n return;",
 			options: [{ blankLine: "always", prev: "*", next: "return" }],
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 			errors: [{ messageId: "expectedBlankLine" }],
 		},
 		{

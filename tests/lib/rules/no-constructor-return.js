@@ -36,9 +36,7 @@ ruleTester.run("no-constructor-return", rule, {
 		"const fn = () => { if (kumiko) { return kumiko } }",
 		{
 			code: "return 'Kumiko Oumae'",
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 		},
 
 		"class C {  }",

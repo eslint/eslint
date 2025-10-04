@@ -219,18 +219,6 @@ ruleTester.run("no-implicit-globals", rule, {
 		},
 		{
 			code: "var foo = 1;",
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
-		},
-		{
-			code: "function foo() {}",
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
-		},
-		{
-			code: "var foo = 1;",
 			languageOptions: { sourceType: "commonjs" },
 		},
 		{
@@ -304,13 +292,6 @@ ruleTester.run("no-implicit-globals", rule, {
 				sourceType: "commonjs",
 			},
 		},
-		{
-			code: "const foo = 1; let bar; class Baz {}",
-			languageOptions: {
-				ecmaVersion: 2015,
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
-		},
 
 		// Regression tests
 		{
@@ -351,17 +332,11 @@ ruleTester.run("no-implicit-globals", rule, {
 		},
 		{
 			code: "let foo = 1;",
-			languageOptions: {
-				ecmaVersion: 2015,
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { ecmaVersion: 2015, sourceType: "commonjs" },
 		},
 		{
 			code: "const foo = 1;",
-			languageOptions: {
-				ecmaVersion: 2015,
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { ecmaVersion: 2015, sourceType: "commonjs" },
 		},
 
 		//------------------------------------------------------------------------------
@@ -837,9 +812,7 @@ ruleTester.run("no-implicit-globals", rule, {
 		},
 		{
 			code: "foo = 1;",
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 			errors: [
 				{
 					message: leakMessage,
