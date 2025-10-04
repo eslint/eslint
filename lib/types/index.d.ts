@@ -2238,6 +2238,9 @@ export class RuleTester {
 	static describe: ((...args: any) => any) | null;
 	static it: ((...args: any) => any) | null;
 	static itOnly: ((...args: any) => any) | null;
+	static setDefaultConfig(config: Linter.Config): void;
+	static getDefaultConfig(): Linter.Config;
+	static resetDefaultConfig(): void;
 
 	constructor(config?: Linter.Config);
 
@@ -2259,11 +2262,12 @@ export namespace RuleTester {
 	interface ValidTestCase {
 		name?: string;
 		code: string;
-		options?: any;
+		options?: any[];
 		filename?: string | undefined;
 		only?: boolean;
-		languageOptions?: Linter.LanguageOptions | undefined;
-		settings?: { [name: string]: any } | undefined;
+		language?: string;
+		languageOptions?: Linter.LanguageOptions;
+		settings?: Record<string, unknown>;
 		before?: () => void;
 		after?: () => void;
 	}
@@ -2276,7 +2280,7 @@ export namespace RuleTester {
 	}
 
 	interface InvalidTestCase extends ValidTestCase {
-		errors: number | Array<TestCaseError | string>;
+		errors: number | Array<TestCaseError | string | RegExp>;
 		output?: string | null | undefined;
 	}
 
@@ -2287,12 +2291,12 @@ export namespace RuleTester {
 		 * @deprecated `type` is deprecated and will be removed in the next major version.
 		 */
 		type?: string | undefined;
-		data?: any;
+		data?: Record<string, unknown> | undefined;
 		line?: number | undefined;
 		column?: number | undefined;
 		endLine?: number | undefined;
 		endColumn?: number | undefined;
-		suggestions?: SuggestionOutput[] | undefined;
+		suggestions?: SuggestionOutput[] | number | undefined;
 	}
 }
 
