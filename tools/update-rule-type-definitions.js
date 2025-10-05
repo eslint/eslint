@@ -709,11 +709,7 @@ function createTypeDefinition(ruleId) {
 			const partials = [];
 
 			for (const schema of ruleSchema.anyOf) {
-				const partial = createPartials(
-					schema,
-					ruleId,
-					defaultOption,
-				);
+				const partial = createPartials(schema, ruleId, defaultOption);
 				if (partial) {
 					partials.push(`Linter.RuleEntry<[\n${partial}\n]>`);
 				}
@@ -726,11 +722,7 @@ function createTypeDefinition(ruleId) {
 			const partials = [];
 
 			for (const schema of ruleSchema.oneOf) {
-				const partial = createPartials(
-					schema,
-					ruleId,
-					defaultOption,
-				);
+				const partial = createPartials(schema, ruleId, defaultOption);
 				if (partial) {
 					partials.push(`Linter.RuleEntry<[\n${partial}\n]>`);
 				}
