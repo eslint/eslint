@@ -686,7 +686,7 @@ function createTypeDefinition(ruleId) {
 	}
 
 	if (typeof ruleSchema === "object") {
-		const defaultOptionsFirst =
+		const defaultOption =
 			Array.isArray(defaultOptions) && defaultOptions[0];
 
 		if (ruleSchema?.type === "array") {
@@ -696,7 +696,7 @@ function createTypeDefinition(ruleId) {
 				const partialValue = createPartials(
 					ruleSchema,
 					ruleId,
-					defaultOptionsFirst,
+					defaultOption,
 				);
 
 				if (partialValue) {
@@ -712,7 +712,7 @@ function createTypeDefinition(ruleId) {
 				const partial = createPartials(
 					schema,
 					ruleId,
-					defaultOptionsFirst,
+					defaultOption,
 				);
 				if (partial) {
 					partials.push(`Linter.RuleEntry<[\n${partial}\n]>`);
@@ -729,7 +729,7 @@ function createTypeDefinition(ruleId) {
 				const partial = createPartials(
 					schema,
 					ruleId,
-					defaultOptionsFirst,
+					defaultOption,
 				);
 				if (partial) {
 					partials.push(`Linter.RuleEntry<[\n${partial}\n]>`);
@@ -745,7 +745,7 @@ function createTypeDefinition(ruleId) {
 			const partialValue = createPartials(
 				mainSchema,
 				ruleId,
-				defaultOptionsFirst,
+				defaultOption,
 			);
 
 			if (partialValue) {
