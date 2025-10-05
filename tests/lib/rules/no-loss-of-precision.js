@@ -54,12 +54,15 @@ ruleTester.run("no-loss-of-precision", rule, {
 		"var x = 9.0000000000e10",
 		"var x = 9.00E2",
 		"var x = 9.000E3",
+		"var x = 9.100E3",
 		"var x = 9.0000000000E10",
 		"var x = 019.5",
 		"var x = 0195",
 		"var x = 00195",
 		"var x = 0008",
 		"var x = 0e5",
+		"var x = .42",
+		"var x = 42.",
 
 		{ code: "var x = 12_34_56", languageOptions: { ecmaVersion: 2021 } },
 		{ code: "var x = 12_3.4_56", languageOptions: { ecmaVersion: 2021 } },
@@ -183,6 +186,14 @@ ruleTester.run("no-loss-of-precision", rule, {
 		{
 			code: "var x = 9.0_0719925_474099_3e15",
 			languageOptions: { ecmaVersion: 2021 },
+			errors: [{ messageId: "noLossOfPrecision" }],
+		},
+		{
+			code: "var x = 90071992547409930e-1",
+			errors: [{ messageId: "noLossOfPrecision" }],
+		},
+		{
+			code: "var x = .9007199254740993e16",
 			errors: [{ messageId: "noLossOfPrecision" }],
 		},
 		{
