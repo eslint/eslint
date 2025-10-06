@@ -85,10 +85,6 @@ The `results` object passed into a formatter is an array of [`LintResult`](../in
 ];
 ```
 
-#### The `message` Object
-
-Each `message` object contains information about the ESLint rule that was triggered by some source code; its type is [`LintMessage`](../integrate/nodejs-api#-lintmessage-type).
-
 ### The `context` Argument
 
 The formatter function receives a `context` object as its second argument. The object has the following properties:
