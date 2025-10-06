@@ -121,7 +121,7 @@ function resolveSchema(schema) {
 	const resolvedSchema = deref(schema);
 
 	if (resolvedSchema) {
-		// eslint-disable-next-line no-unused-vars -- we omit definitions as we have used its values as reference.
+		// eslint-disable-next-line no-unused-vars -- We omit definitions as we have used its values as reference.
 		const { definitions, ...restSchema } = resolvedSchema;
 
 		return restSchema;
