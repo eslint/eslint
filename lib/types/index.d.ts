@@ -47,12 +47,14 @@ export namespace AST {
 		| "Boolean"
 		| "Null"
 		| "Identifier"
+		| "PrivateIdentifier"
 		| "Keyword"
 		| "Punctuator"
 		| "JSXIdentifier"
 		| "JSXText"
 		| "Numeric"
 		| "String"
+		| "Template"
 		| "RegularExpression";
 
 	interface Token {
@@ -92,6 +94,8 @@ export namespace Scope {
 			| "block"
 			| "catch"
 			| "class"
+			| "class-field-initializer"
+			| "class-static-block"
 			| "for"
 			| "function"
 			| "function-expression-name"
@@ -1961,7 +1965,7 @@ export class ESLint {
 
 	calculateConfigForFile(filePath: string): Promise<any>;
 
-	findConfigFile(): Promise<string | undefined>;
+	findConfigFile(filePath?: string): Promise<string | undefined>;
 
 	isPathIgnored(filePath: string): Promise<boolean>;
 
@@ -2043,7 +2047,7 @@ export namespace ESLint {
 
 		// Autofix
 		fix?: boolean | ((message: Linter.LintMessage) => boolean) | undefined;
-		fixTypes?: FixType[] | undefined;
+		fixTypes?: FixType[] | null | undefined;
 
 		// Cache-related
 		cache?: boolean | undefined;
@@ -2077,7 +2081,7 @@ export namespace ESLint {
 
 		// Autofix
 		fix?: boolean | ((message: Linter.LintMessage) => boolean) | undefined;
-		fixTypes?: FixType[] | undefined;
+		fixTypes?: FixType[] | null | undefined;
 
 		// Cache-related
 		cache?: boolean | undefined;
@@ -2166,9 +2170,10 @@ export namespace ESLint {
 
 		/**
 		 * The raw deprecated info provided by the rule.
-		 * Unset if the rule's `meta.deprecated` property is a boolean.
+		 * - Undefined if the rule's `meta.deprecated` property is a boolean.
+		 * - Unset when using the legacy eslintrc configuration.
 		 */
-		info?: DeprecatedInfo;
+		info?: DeprecatedInfo | undefined;
 	}
 
 	/**
