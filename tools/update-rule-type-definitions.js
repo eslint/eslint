@@ -590,7 +590,7 @@ function createPartials(schema, ruleId, defaultOptions) {
 					defaultOptions,
 				);
 
-				partialsValues.push(`${key}: \n${oneOfPartials};\n`);
+				partialsValues.push(`${key}: \n${oneOfPartials};`);
 			}
 
 			if (value.anyOf) {
@@ -600,7 +600,7 @@ function createPartials(schema, ruleId, defaultOptions) {
 					defaultOptions,
 				);
 
-				partialsValues.push(`${key}: \n${anyOfPartials};\n`);
+				partialsValues.push(`${key}: \n${anyOfPartials};`);
 			}
 		}
 
