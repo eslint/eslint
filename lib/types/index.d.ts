@@ -54,6 +54,10 @@ import type {
 	EcmaVersion as CoreEcmaVersion,
 	ConfigOverride as CoreConfigOverride,
 	ProcessorFile as CoreProcessorFile,
+	JavaScriptParserOptionsConfig,
+	RulesMeta,
+	RuleTextEditor,
+	RuleTextEdit,
 } from "@eslint/core";
 import { JSONSchema4 } from "json-schema";
 import { LegacyESLint } from "./use-at-your-own-risk.js";
@@ -1144,60 +1148,7 @@ export namespace Rule {
 		reachable: boolean;
 	}
 
-	interface RuleMetaData {
-		/** Properties often used for documentation generation and tooling. */
-		docs?:
-			| {
-					/** Provides a short description of the rule. Commonly used when generating lists of rules. */
-					description?: string | undefined;
-					/** Historically used by some plugins that divide rules into categories in their documentation. */
-					category?: string | undefined;
-					/** Historically used by some plugins to indicate a rule belongs in their `recommended` configuration. */
-					recommended?: boolean | undefined;
-					/** Specifies the URL at which the full documentation can be accessed. Code editors often use this to provide a helpful link on highlighted rule violations. */
-					url?: string | undefined;
-			  }
-			| undefined;
-		/** Violation and suggestion messages. */
-		messages?: { [messageId: string]: string } | undefined;
-		/**
-		 * Specifies if the `--fix` option on the command line automatically fixes problems reported by the rule.
-		 * Mandatory for fixable rules.
-		 */
-		fixable?: "code" | "whitespace" | undefined;
-		/**
-		 * Specifies the [options](https://eslint.org/docs/latest/extend/custom-rules#options-schemas)
-		 * so ESLint can prevent invalid [rule configurations](https://eslint.org/docs/latest/use/configure/rules#configuring-rules).
-		 * Mandatory for rules with options.
-		 */
-		schema?: JSONSchema4 | JSONSchema4[] | false | undefined;
-
-		/** Any default options to be recursively merged on top of any user-provided options. */
-		defaultOptions?: unknown[];
-
-		/** Indicates whether the rule has been deprecated or provides additional metadata about the deprecation. Omit if not deprecated. */
-		deprecated?: boolean | DeprecatedInfo | undefined;
-		/**
-		 * @deprecated Use deprecated.replacedBy instead.
-		 * The name of the rule(s) this rule was replaced by, if it was deprecated.
-		 */
-		replacedBy?: readonly string[];
-
-		/**
-		 * Indicates the type of rule:
-		 * - `"problem"` means the rule is identifying code that either will cause an error or may cause a confusing behavior. Developers should consider this a high priority to resolve.
-		 * - `"suggestion"` means the rule is identifying something that could be done in a better way but no errors will occur if the code isn't changed.
-		 * - `"layout"` means the rule cares primarily about whitespace, semicolons, commas, and parentheses,
-		 *   all the parts of the program that determine how the code looks rather than how it executes.
-		 *   These rules work on parts of the code that aren't specified in the AST.
-		 */
-		type?: "problem" | "suggestion" | "layout" | undefined;
-		/**
-		 * Specifies whether the rule can return suggestions (defaults to `false` if omitted).
-		 * Mandatory for rules that provide suggestions.
-		 */
-		hasSuggestions?: boolean | undefined;
-	}
+	type RuleMetaData = RulesMeta;
 
 	interface RuleContext
 		extends CoreRuleContext<{
@@ -1240,34 +1191,8 @@ export namespace Rule {
 		| { node: ESTree.Node }
 		| { loc: AST.SourceLocation | { line: number; column: number } };
 
-	interface RuleFixer {
-		insertTextAfter(
-			nodeOrToken: ESTree.Node | AST.Token,
-			text: string,
-		): Fix;
-
-		insertTextAfterRange(range: AST.Range, text: string): Fix;
-
-		insertTextBefore(
-			nodeOrToken: ESTree.Node | AST.Token,
-			text: string,
-		): Fix;
-
-		insertTextBeforeRange(range: AST.Range, text: string): Fix;
-
-		remove(nodeOrToken: ESTree.Node | AST.Token): Fix;
-
-		removeRange(range: AST.Range): Fix;
-
-		replaceText(nodeOrToken: ESTree.Node | AST.Token, text: string): Fix;
-
-		replaceTextRange(range: AST.Range, text: string): Fix;
-	}
-
-	interface Fix {
-		range: AST.Range;
-		text: string;
-	}
+	type RuleFixer = RuleTextEditor<ESTree.Node | AST.Token>;
+	type Fix = RuleTextEdit;
 }
 
 export type JSRuleDefinitionTypeOptions = CustomRuleTypeDefinitions;
@@ -1461,7 +1386,7 @@ export namespace Linter {
 		 * @see [Working with Custom Parsers](https://eslint.org/docs/latest/extend/custom-parsers)
 		 * @see [Specifying Parser Options](https://eslint.org/docs/latest/use/configure/language-options-deprecated#specifying-parser-options)
 		 */
-		parserOptions?: ParserOptions | undefined;
+		parserOptions?: JavaScriptParserOptionsConfig | undefined;
 
 		/**
 		 * Which third-party plugins define additional rules, environments, configs, etc. for ESLint to use.
