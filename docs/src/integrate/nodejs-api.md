@@ -485,7 +485,7 @@ The `LintMessage` value is the information of each linting error. The `messages`
 - `fatal` (`boolean | undefined`)<br>
   `true` if this is a fatal error unrelated to a rule, like a parsing error.
 - `message` (`string`)<br>
-  The error message.
+  The human readable description of the error.
 - `messageId` (`string | undefined`)<br>
   The message ID of the lint error. This property is undefined if the rule does not use message IDs.
 - `line` (`number | undefined`)<br>
@@ -500,6 +500,8 @@ The `LintMessage` value is the information of each linting error. The `messages`
   The [EditInfo] object of autofix. This property is undefined if this message is not fixable.
 - `suggestions` (`{ desc: string; fix: EditInfo; messageId?: string; data?: object }[] | undefined`)<br>
   The list of suggestions. Each suggestion is the pair of a description and an [EditInfo] object to fix code. API users such as editor integrations can choose one of them to fix the problem of this message. This property is undefined if this message doesn't have any suggestions.
+- `nodeType` (`string | undefined`)<br>
+  (**Deprecated:** This property will be removed in a future version of ESLint.) the type of the node in the [AST](https://github.com/estree/estree/blob/master/es5.md#node-objects) or `null` if the issue isn't related to a particular AST node.
 
 ### ◆ SuppressedLintMessage type
 
