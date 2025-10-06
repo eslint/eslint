@@ -1386,7 +1386,7 @@ export namespace Linter {
 	/**
 	 * A configuration object that may have a `rules` block.
 	 */
-	interface HasRules<Rules extends RulesRecord = RulesRecord> {
+	interface HasRules<Rules extends RulesConfig = RulesConfig> {
 		rules?: Partial<Rules> | undefined;
 	}
 
@@ -1398,7 +1398,7 @@ export namespace Linter {
 	/**
 	 * The type of JavaScript source code.
 	 */
-	 // TODO: Refactor to JavaScriptSourceType when exported from @eslint/core.
+	// TODO: Refactor to JavaScriptSourceType when exported from @eslint/core.
 	type SourceType = "script" | "module" | "commonjs";
 
 	/**
@@ -1407,8 +1407,8 @@ export namespace Linter {
 	 * @see [ESLint Legacy Configuration](https://eslint.org/docs/latest/use/configure/)
 	 */
 	interface BaseConfig<
-		Rules extends RulesRecord = RulesRecord,
-		OverrideRules extends RulesRecord = Rules,
+		Rules extends RulesConfig = RulesConfig,
+		OverrideRules extends RulesConfig = Rules,
 	> extends HasRules<Rules> {
 		$schema?: string | undefined;
 
@@ -1495,7 +1495,7 @@ export namespace Linter {
 	/**
 	 * The overwrites that apply more differing configuration to specific files or directories.
 	 */
-	type ConfigOverride<Rules extends RulesRecord = RulesRecord> =
+	type ConfigOverride<Rules extends RulesConfig = RulesConfig> =
 		CoreConfigOverride<Rules>;
 
 	/**
@@ -1506,7 +1506,7 @@ export namespace Linter {
 	// https://github.com/eslint/eslint/blob/v8.57.0/conf/config-schema.js
 	type LegacyConfig<
 		Rules extends RulesConfig = RulesConfig,
-		OverrideRules extends RulesRecord = Rules,
+		OverrideRules extends RulesConfig = Rules,
 	> = LegacyConfigObject<Rules, OverrideRules>;
 
 	/**
@@ -1660,10 +1660,10 @@ export namespace Linter {
 	type Processor<T extends string | ProcessorFile = string | ProcessorFile> =
 		CoreProcessor<T>;
 
-	type Config<Rules extends RulesRecord = RulesRecord> = ConfigObject<Rules>;
+	type Config<Rules extends RulesConfig = RulesConfig> = ConfigObject<Rules>;
 
 	/** @deprecated  Use `Config` instead of `FlatConfig` */
-	type FlatConfig<Rules extends RulesRecord = RulesRecord> = Config<Rules>;
+	type FlatConfig<Rules extends RulesConfig = RulesConfig> = Config<Rules>;
 
 	type GlobalConf = GlobalAccess;
 	type Globals = GlobalsConfig;
@@ -1794,7 +1794,7 @@ export class ESLint {
 }
 
 export namespace ESLint {
-	type ConfigData<Rules extends Linter.RulesRecord = Linter.RulesRecord> =
+	type ConfigData<Rules extends Linter.RulesConfig = Linter.RulesConfig> =
 		Omit<Linter.LegacyConfig<Rules>, "$schema">;
 
 	type Environment = EnvironmentConfig;
