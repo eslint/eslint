@@ -1374,10 +1374,23 @@ export class Linter {
 	 */
 	getSourceCode(): SourceCode;
 
-	defineRule(name: string, rule: Rule.RuleModule): void;
+	/**
+	 * Defines a new linting rule.
+	 * @param ruleId A unique rule identifier.
+	 * @param rule A rule object.
+	 */
+	defineRule(ruleId: string, rule: Rule.RuleModule): void;
 
-	defineRules(rules: { [name: string]: Rule.RuleModule }): void;
+	/**
+	 * Defines many new linting rules.
+	 * @param rulesToDefine Map from unique rule identifier to rule.
+	 */
+	defineRules(rulesToDefine: Record<string, Rule.RuleModule>): void;
 
+	/**
+	 * Gets an object with all loaded rules.
+	 * @returns All loaded rules.
+	 */
 	getRules(): Map<string, Rule.RuleModule>;
 
 	defineParser(name: string, parser: Linter.Parser): void;
@@ -1396,7 +1409,7 @@ export class Linter {
 
 	/**
 	 * Gets the list of `SuppressedLintMessage` produced in the last running.
-	 * @returns {SuppressedLintMessage[]} The list of `SuppressedLintMessage`.
+	 * @returns The list of `SuppressedLintMessage`.
 	 */
 	getSuppressedMessages(): Linter.SuppressedLintMessage[];
 }
