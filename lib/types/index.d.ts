@@ -41,7 +41,7 @@ import type {
 } from "@eslint/core";
 import { JSONSchema4 } from "json-schema";
 import { LegacyESLint } from "./use-at-your-own-risk.js";
-import { WarningService } from "../services/warning-service.js";
+// import { WarningService } from "../services/warning-service.js"; // TODO
 
 export namespace AST {
 	type TokenType =
@@ -1277,12 +1277,19 @@ export type JSRuleDefinition<
  * Object that is responsible for verifying JavaScript text.
  */
 export class Linter {
+	/**
+	 * Getter for package version. Returns the version from `package.json`.
+	 */
 	static readonly version: string;
 
+	/**
+	 * Getter for package version. Returns the version from `package.json`.
+	 */
 	version: string;
 
 	/**
 	 * Initialize the Linter.
+	 * @param options The config object options.
 	 */
 	constructor(
 		options?:
@@ -1308,10 +1315,17 @@ export class Linter {
 					 * The warning service to use.
 					 * @default new WarningService()
 					 */
-					warningService?: WarningService | undefined;
+					warningService?: unknown | undefined; // TODO: `WarningService` type
 			  }
 			| undefined,
 	);
+
+	/**
+	 * Indicates if the given feature flag is enabled for this instance.
+	 * @param flag The feature flag to check.
+	 * @returns `true` if the feature flag is enabled, `false` if not.
+	 */
+	hasFlag(flag: string): boolean;
 
 	verify(
 		code: SourceCode | string,
