@@ -1368,6 +1368,10 @@ export class Linter {
 		options: Linter.FixOptions,
 	): Linter.FixReport;
 
+	/**
+	 * Gets the `SourceCode` object representing the parsed source.
+	 * @returns The `SourceCode` object.
+	 */
 	getSourceCode(): SourceCode;
 
 	defineRule(name: string, rule: Rule.RuleModule): void;
@@ -1378,9 +1382,23 @@ export class Linter {
 
 	defineParser(name: string, parser: Linter.Parser): void;
 
+	/**
+	 * Gets the times spent on (parsing, fixing, linting) a file.
+	 * @returns The times.
+	 */
 	getTimes(): Linter.Stats["times"];
 
+	/**
+	 * Gets the number of autofix passes that were made in the last run.
+	 * @returns The number of autofix passes.
+	 */
 	getFixPassCount(): Linter.Stats["fixPasses"];
+
+	/**
+	 * Gets the list of `SuppressedLintMessage` produced in the last running.
+	 * @returns {SuppressedLintMessage[]} The list of `SuppressedLintMessage`.
+	 */
+	getSuppressedMessages(): Linter.SuppressedLintMessage[];
 }
 
 export namespace Linter {
