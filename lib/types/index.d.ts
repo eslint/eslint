@@ -1327,15 +1327,34 @@ export class Linter {
 	 */
 	hasFlag(flag: string): boolean;
 
+	/**
+	 * Verifies the text against the rules specified by the second argument.
+	 * @param textOrSourceCode The text to parse or a `SourceCode` object.
+	 * @param config An ESLintConfig instance to configure everything.
+	 * @param filename The optional filename of the file being checked.
+	 * If this is not set, the filename will default to '<input>' in the rule context.
+	 * If an object, then it has "filename", "allowInlineConfig", and some properties.
+	 * @returns The results as an array of messages or an empty array if no messages.
+	 */
 	verify(
-		code: SourceCode | string,
+		textOrSourceCode: SourceCode | string,
 		config: Linter.LegacyConfig | Linter.Config | Linter.Config[],
-		filename?: string,
+		filename?: string | undefined,
 	): Linter.LintMessage[];
+
+	/**
+	 * Verifies the text against the rules specified by the second argument.
+	 * @param textOrSourceCode The text to parse or a `SourceCode` object.
+	 * @param config An ESLintConfig instance to configure everything.
+	 * @param options The optional filename of the file being checked.
+	 * If this is not set, the filename will default to '<input>' in the rule context.
+	 * If an object, then it has "filename", "allowInlineConfig", and some properties.
+	 * @returns The results as an array of messages or an empty array if no messages.
+	 */
 	verify(
-		code: SourceCode | string,
+		textOrSourceCode: SourceCode | string,
 		config: Linter.LegacyConfig | Linter.Config | Linter.Config[],
-		options: Linter.LintOptions,
+		options?: Linter.LintOptions | undefined,
 	): Linter.LintMessage[];
 
 	verifyAndFix(
