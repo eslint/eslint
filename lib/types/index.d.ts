@@ -41,6 +41,7 @@ import type {
 } from "@eslint/core";
 import { JSONSchema4 } from "json-schema";
 import { LegacyESLint } from "./use-at-your-own-risk.js";
+import { WarningService } from "../services/warning-service.js";
 
 export namespace AST {
 	type TokenType =
@@ -1272,15 +1273,45 @@ export type JSRuleDefinition<
 
 // #region Linter
 
+/**
+ * Object that is responsible for verifying JavaScript text.
+ */
 export class Linter {
 	static readonly version: string;
 
 	version: string;
 
-	constructor(options?: {
-		cwd?: string | undefined;
-		configType?: "flat" | "eslintrc";
-	});
+	/**
+	 * Initialize the Linter.
+	 */
+	constructor(
+		options?:
+			| {
+					/**
+					 * Path to a directory that should be considered as the current working directory, can be `undefined`.
+					 */
+					cwd?: string | undefined;
+
+					/**
+					 * The type of config used.
+					 * @default "flat"
+					 */
+					configType?: "flat" | "eslintrc" | undefined;
+
+					/**
+					 * The feature flags to enable.
+					 * @default []
+					 */
+					flags?: Array<string> | undefined;
+
+					/**
+					 * The warning service to use.
+					 * @default new WarningService()
+					 */
+					warningService?: WarningService | undefined;
+			  }
+			| undefined,
+	);
 
 	verify(
 		code: SourceCode | string,
