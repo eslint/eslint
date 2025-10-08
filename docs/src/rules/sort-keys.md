@@ -93,14 +93,14 @@ The 2nd option is an object which has the following properties.
 
 Example for a list:
 
-With `natural` as true, the ordering would be
+With `natural` as `true`, the ordering would be
 1
 3
 6
 8
 10
 
-With `natural` as false, the ordering would be
+With `natural` as `false`, the ordering would be
 1
 10
 3

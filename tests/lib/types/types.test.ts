@@ -93,7 +93,52 @@ const COMMENT: Comment = {
 
 // #region SourceCode
 
-let sourceCode = new SourceCode(SOURCE, AST);
+let sourceCode: SourceCode;
+
+sourceCode = new SourceCode(SOURCE, AST);
+sourceCode = new SourceCode({ text: SOURCE, ast: AST });
+sourceCode = new SourceCode({ text: SOURCE, ast: AST, hasBOM: true });
+sourceCode = new SourceCode({ text: SOURCE, ast: AST, hasBOM: undefined });
+sourceCode = new SourceCode({
+	text: SOURCE,
+	ast: AST,
+	parserServices: {
+		foo() {},
+	},
+});
+sourceCode = new SourceCode({ text: SOURCE, ast: AST, parserServices: null });
+sourceCode = new SourceCode({
+	text: SOURCE,
+	ast: AST,
+	parserServices: undefined,
+});
+sourceCode = new SourceCode({
+	text: SOURCE,
+	ast: AST,
+	scopeManager: {
+		scopes: [],
+		globalScope: null,
+		acquire(node, inner) {
+			return scopeManager.scopes[0];
+		},
+		getDeclaredVariables() {
+			return [];
+		},
+	},
+});
+sourceCode = new SourceCode({ text: SOURCE, ast: AST, scopeManager: null });
+sourceCode = new SourceCode({
+	text: SOURCE,
+	ast: AST,
+	scopeManager: undefined,
+});
+sourceCode = new SourceCode({
+	text: SOURCE,
+	ast: AST,
+	visitorKeys: { ArrayExpression: ["elements"] },
+});
+sourceCode = new SourceCode({ text: SOURCE, ast: AST, visitorKeys: null });
+sourceCode = new SourceCode({ text: SOURCE, ast: AST, visitorKeys: undefined });
 
 SourceCode.splitLines(SOURCE);
 
@@ -287,6 +332,16 @@ sourceCode.getTokensAfter(AST, {
 });
 sourceCode.getTokensAfter(TOKEN, 0);
 sourceCode.getTokensAfter(COMMENT, 0);
+
+sourceCode.getTokenOrCommentBefore(AST);
+sourceCode.getTokenOrCommentBefore(AST, 0);
+sourceCode.getTokenOrCommentBefore(TOKEN, 0);
+sourceCode.getTokenOrCommentBefore(COMMENT, 0);
+
+sourceCode.getTokenOrCommentAfter(AST);
+sourceCode.getTokenOrCommentAfter(AST, 0);
+sourceCode.getTokenOrCommentAfter(TOKEN, 0);
+sourceCode.getTokenOrCommentAfter(COMMENT, 0);
 
 sourceCode.getFirstTokenBetween(AST, AST); // $ExpectType Token | null
 sourceCode.getFirstTokenBetween(AST, AST, 0);
@@ -1503,6 +1558,7 @@ linterWithEslintrcConfig.getRules();
 	eslint = new ESLint({ fix: true });
 	eslint = new ESLint({ fix: message => false });
 	eslint = new ESLint({ fixTypes: ["directive", "problem"] });
+	eslint = new ESLint({ fixTypes: null });
 	eslint = new ESLint({ flags: ["foo", "bar"] });
 	eslint = new ESLint({ globInputPaths: true });
 	eslint = new ESLint({ ignore: true });
@@ -1570,6 +1626,9 @@ linterWithEslintrcConfig.getRules();
 	resultsPromise = eslint.lintText(SOURCE, { filePath: "foo" });
 
 	eslint.calculateConfigForFile("./config.json");
+
+	eslint.findConfigFile("src/index.js");
+	eslint.findConfigFile();
 
 	eslint.isPathIgnored("./dist/index.js");
 
@@ -1651,6 +1710,7 @@ linterWithEslintrcConfig.getRules();
 	eslint = new LegacyESLint({ fix: true });
 	eslint = new LegacyESLint({ fix: message => false });
 	eslint = new LegacyESLint({ fixTypes: ["directive", "problem"] });
+	eslint = new LegacyESLint({ fixTypes: null });
 	eslint = new LegacyESLint({ flags: ["foo", "bar"] });
 	eslint = new LegacyESLint({ globInputPaths: true });
 	eslint = new LegacyESLint({ ignore: true });
@@ -1820,6 +1880,7 @@ for (const result of results) {
 	const deprecatedRule = result.usedDeprecatedRules[0];
 	deprecatedRule.ruleId = "foo";
 	deprecatedRule.replacedBy = ["bar"];
+	deprecatedRule.info = undefined;
 	deprecatedRule.info = {
 		message: "use bar instead",
 		replacedBy: [
@@ -2032,6 +2093,18 @@ ruleTester.run("simple-valid-test", rule2, {
 	languageOptions: {
 		parser: {
 			parseForESLint: () => ({ ast: AST }),
+		},
+	},
+});
+
+interface CustomParserServices {
+	program: any;
+}
+
+(parserServices: CustomParserServices): Linter.Config => ({
+	languageOptions: {
+		parser: {
+			parseForESLint: () => ({ ast: AST, services: parserServices }),
 		},
 	},
 });

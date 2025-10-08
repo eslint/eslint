@@ -38,6 +38,7 @@ import { Linter } from "./index";
 interface NoRestrictedImportPathCommonOptions {
 	name: string;
 	message?: string;
+	allowTypeImports?: boolean;
 }
 
 type EitherImportNamesOrAllowImportName =
@@ -50,6 +51,7 @@ type ValidNoRestrictedImportPathOptions = NoRestrictedImportPathCommonOptions &
 interface NoRestrictedImportPatternCommonOptions {
 	message?: string;
 	caseSensitive?: boolean;
+	allowTypeImports?: boolean;
 }
 
 // Base type for group or regex constraint, ensuring mutual exclusivity
@@ -1022,6 +1024,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 */
 				properties: "always" | "never";
 				exceptions: string[];
+				exceptionPatterns: string[];
 			}>,
 		]
 	>;
@@ -1040,6 +1043,10 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default false
 				 */
 				properties: boolean;
+				/**
+				 * @default false
+				 */
+				classFields: boolean;
 				/**
 				 * @default false
 				 */

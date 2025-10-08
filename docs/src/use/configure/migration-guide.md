@@ -80,9 +80,10 @@ In flat config, you would do the same thing like this:
 ```javascript
 // eslint.config.js
 
+import { defineConfig } from "eslint/config";
 import jsdoc from "eslint-plugin-jsdoc";
 
-export default [
+export default defineConfig([
 	{
 		files: ["**/*.js"],
 		plugins: {
@@ -93,7 +94,7 @@ export default [
 			"jsdoc/check-values": "error",
 		},
 	},
-];
+]);
 ```
 
 ::: tip
@@ -123,9 +124,10 @@ In flat config, you would do the same thing like this:
 ```javascript
 // eslint.config.js
 
+import { defineConfig } from "eslint/config";
 import babelParser from "@babel/eslint-parser";
 
-export default [
+export default defineConfig([
 	{
 		// ...other config
 		languageOptions: {
@@ -133,7 +135,7 @@ export default [
 		},
 		// ...other config
 	},
-];
+]);
 ```
 
 ### Processors
@@ -187,9 +189,10 @@ In flat config, the following are all valid ways to express the same:
 
 ```javascript
 // eslint.config.js
+import { defineConfig } from "eslint/config";
 import somePlugin from "eslint-plugin-someplugin";
 
-export default [
+export default defineConfig([
 	{
 		plugins: { somePlugin },
 		processor: "somePlugin/someProcessor",
@@ -203,7 +206,7 @@ export default [
 		// We don't need the plugin to be present in the config to use the processor directly
 		processor: somePlugin.processors.someProcessor,
 	},
-];
+]);
 ```
 
 Note that because the `.md` processor is _not_ automatically added by flat config, you also need to specify an extra configuration element:
@@ -265,9 +268,10 @@ For flat config, here is a configuration with the default glob pattern:
 ```javascript
 // eslint.config.js
 
+import { defineConfig } from "eslint/config";
 import js from "@eslint/js";
 
-export default [
+export default defineConfig([
 	js.configs.recommended, // Recommended config applied to all files
 	// Override the recommended config
 	{
@@ -277,7 +281,7 @@ export default [
 		},
 		// ...other configuration
 	},
-];
+]);
 ```
 
 A flat config example configuration supporting multiple configs for different glob patterns:
@@ -285,9 +289,10 @@ A flat config example configuration supporting multiple configs for different gl
 ```javascript
 // eslint.config.js
 
+import { defineConfig } from "eslint/config";
 import js from "@eslint/js";
 
-export default [
+export default defineConfig([
 	js.configs.recommended, // Recommended config applied to all files
 	// File-pattern specific overrides
 	{
@@ -303,7 +308,7 @@ export default [
 		},
 	},
 	// ...other configurations
-];
+]);
 ```
 
 ### Configuring Language Options
@@ -338,9 +343,10 @@ Here's the same configuration in flat config:
 ```javascript
 // eslint.config.js
 
+import { defineConfig } from "eslint/config";
 import globals from "globals";
 
-export default [
+export default defineConfig([
 	{
 		languageOptions: {
 			ecmaVersion: 2022,
@@ -353,7 +359,7 @@ export default [
 		},
 		// ...other config
 	},
-];
+]);
 ```
 
 ::: tip
@@ -402,9 +408,10 @@ Another option is to remove the comment from the file being linted and define th
 ```javascript
 // eslint.config.js
 
+import { defineConfig } from "eslint/config";
 import globals from "globals";
 
-export default [
+export default defineConfig([
 	// ...other config
 	{
 		files: ["tests/**"],
@@ -414,7 +421,7 @@ export default [
 			},
 		},
 	},
-];
+]);
 ```
 
 ### Predefined and Shareable Configs
@@ -475,11 +482,12 @@ To use the same configs in flat config, you would do the following:
 ```javascript
 // eslint.config.js
 
+import { defineConfig } from "eslint/config";
 import js from "@eslint/js";
 import customConfig from "./custom-config.js";
 import myConfig from "eslint-config-my-config";
 
-export default [
+export default defineConfig([
 	js.configs.recommended,
 	customConfig,
 	myConfig,
@@ -489,7 +497,7 @@ export default [
 		},
 		// ...other config
 	},
-];
+]);
 ```
 
 Note that because you are just importing JavaScript modules, you can mutate the config objects before ESLint uses them. For example, you might want to have a certain config object only apply to your test files:
@@ -497,16 +505,17 @@ Note that because you are just importing JavaScript modules, you can mutate the 
 ```javascript
 // eslint.config.js
 
+import { defineConfig } from "eslint/config";
 import js from "@eslint/js";
 import customTestConfig from "./custom-test-config.js";
 
-export default [
+export default defineConfig([
 	js.configs.recommended,
 	{
 		...customTestConfig,
 		files: ["**/*.test.js"],
 	},
-];
+]);
 ```
 
 #### Using eslintrc Configs in Flat Config
@@ -522,6 +531,7 @@ You may find that there's a shareable config you rely on that hasn't yet been up
 Then, import `FlatCompat` and create a new instance to convert an existing eslintrc config. For example, if the npm package `eslint-config-my-config` is in eslintrc format, you can write this:
 
 ```js
+import { defineConfig } from "eslint/config";
 import { FlatCompat } from "@eslint/eslintrc";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -534,10 +544,10 @@ const compat = new FlatCompat({
 	baseDirectory: __dirname,
 });
 
-export default [
+export default defineConfig([
 	// mimic ESLintRC-style extends
 	...compat.extends("eslint-config-my-config"),
-];
+]);
 ```
 
 This example uses the `FlatCompat#extends()` method to insert the `eslint-config-my-config` into the flat config array.
@@ -572,13 +582,15 @@ module.exports = {
 The equivalent ignore patterns in flat config look like this:
 
 ```javascript
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
 	// ...other config
 	{
 		// Note: there should be no other properties in this object
 		ignores: ["**/temp.js", "config/*"],
 	},
-];
+]);
 ```
 
 In `.eslintignore`, `temp.js` ignores all files named `temp.js`, whereas in flat config, you need to specify this as `**/temp.js`. The pattern `temp.js` in flat config only ignores a file named `temp.js` in the same directory as the configuration file.
@@ -610,7 +622,9 @@ Here's the same options in flat config:
 ```javascript
 // eslint.config.js
 
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
 	{
 		// ...other config
 		linterOptions: {
@@ -618,7 +632,7 @@ export default [
 			reportUnusedDisableDirectives: "warn",
 		},
 	},
-];
+]);
 ```
 
 ### CLI Flag Changes
@@ -637,9 +651,10 @@ The `--rulesdir` flag was used to load additional rules from a specified directo
 
 ```js
 // eslint.config.js
+import { defineConfig } from "eslint/config";
 import myRule from "./rules/my-rule.js";
 
-export default [
+export default defineConfig([
 	{
 		// define the plugin
 		plugins: {
@@ -655,7 +670,7 @@ export default [
 			"local/my-rule": ["error"],
 		},
 	},
-];
+]);
 ```
 
 #### `--ext`
@@ -664,13 +679,15 @@ The `--ext` flag was used to specify additional file extensions ESLint should se
 
 ```js
 // eslint.config.js
-export default [
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
 	{
 		files: ["**/*.ts", "**/*.tsx"],
 
 		// any additional configuration for these file types here
 	},
-];
+]);
 ```
 
 ESLint uses the `files` keys from the config file to determine which files should be linted.

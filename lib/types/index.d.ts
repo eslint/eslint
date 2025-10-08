@@ -47,12 +47,14 @@ export namespace AST {
 		| "Boolean"
 		| "Null"
 		| "Identifier"
+		| "PrivateIdentifier"
 		| "Keyword"
 		| "Punctuator"
 		| "JSXIdentifier"
 		| "JSXText"
 		| "Numeric"
 		| "String"
+		| "Template"
 		| "RegularExpression";
 
 	interface Token {
@@ -220,7 +222,16 @@ export class SourceCode
 
 	getDeclaredVariables(node: ESTree.Node): Scope.Variable[];
 
+	/** @deprecated */
+	getJSDocComment(node: ESTree.Node): ESTree.Comment | null;
+
 	getNodeByRangeIndex(index: number): ESTree.Node | null;
+
+	/** @deprecated Use `isSpaceBetween()` instead. */
+	isSpaceBetweenTokens(
+		first: ESTree.Node | AST.Token,
+		second: ESTree.Node | AST.Token,
+	): boolean;
 
 	getLocFromIndex(index: number): ESTree.Position;
 
@@ -253,6 +264,18 @@ export class SourceCode
 	getTokenAfter: SourceCode.UnaryCursorWithSkipOptions;
 
 	getTokensAfter: SourceCode.UnaryCursorWithCountOptions;
+
+	/** @deprecated Use `getTokenBefore()` instead. */
+	getTokenOrCommentBefore(
+		node: ESTree.Node | AST.Token | ESTree.Comment,
+		skip?: number | undefined,
+	): AST.Token | ESTree.Comment | null;
+
+	/** @deprecated Use `getTokenAfter()` instead. */
+	getTokenOrCommentAfter(
+		node: ESTree.Node | AST.Token | ESTree.Comment,
+		skip?: number | undefined,
+	): AST.Token | ESTree.Comment | null;
 
 	getFirstTokenBetween: SourceCode.BinaryCursorWithSkipOptions;
 
@@ -300,9 +323,10 @@ export namespace SourceCode {
 	interface Config {
 		text: string;
 		ast: AST.Program;
-		parserServices?: ParserServices | undefined;
-		scopeManager?: Scope.ScopeManager | undefined;
-		visitorKeys?: VisitorKeys | undefined;
+		hasBOM?: boolean | undefined;
+		parserServices?: ParserServices | null | undefined;
+		scopeManager?: Scope.ScopeManager | null | undefined;
+		visitorKeys?: VisitorKeys | null | undefined;
 	}
 
 	type ParserServices = any;
@@ -1959,7 +1983,7 @@ export class ESLint {
 
 	calculateConfigForFile(filePath: string): Promise<any>;
 
-	findConfigFile(): Promise<string | undefined>;
+	findConfigFile(filePath?: string): Promise<string | undefined>;
 
 	isPathIgnored(filePath: string): Promise<boolean>;
 
@@ -2041,7 +2065,7 @@ export namespace ESLint {
 
 		// Autofix
 		fix?: boolean | ((message: Linter.LintMessage) => boolean) | undefined;
-		fixTypes?: FixType[] | undefined;
+		fixTypes?: FixType[] | null | undefined;
 
 		// Cache-related
 		cache?: boolean | undefined;
@@ -2075,7 +2099,7 @@ export namespace ESLint {
 
 		// Autofix
 		fix?: boolean | ((message: Linter.LintMessage) => boolean) | undefined;
-		fixTypes?: FixType[] | undefined;
+		fixTypes?: FixType[] | null | undefined;
 
 		// Cache-related
 		cache?: boolean | undefined;
@@ -2164,9 +2188,10 @@ export namespace ESLint {
 
 		/**
 		 * The raw deprecated info provided by the rule.
-		 * Unset if the rule's `meta.deprecated` property is a boolean.
+		 * - Undefined if the rule's `meta.deprecated` property is a boolean.
+		 * - Unset when using the legacy eslintrc configuration.
 		 */
-		info?: DeprecatedInfo;
+		info?: DeprecatedInfo | undefined;
 	}
 
 	/**
