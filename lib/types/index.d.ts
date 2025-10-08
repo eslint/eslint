@@ -621,12 +621,12 @@ export namespace Rule {
 			LangOptions: Linter.LanguageOptions;
 			Code: SourceCode;
 			RuleOptions: any[];
-			Visitor: NodeListener;
+			Visitor: RuleListener;
 			Node: JSSyntaxElement;
 			MessageIds: string;
 			ExtRuleDocs: {};
 		}> {
-		create(context: RuleContext): NodeListener;
+		create(context: RuleContext): RuleListener;
 	}
 
 	type NodeTypes = ESTree.Node["type"];
@@ -1105,6 +1105,16 @@ export namespace Rule {
 
 		onCodePathSegmentEnd?(segment: CodePathSegment, node: Node): void;
 
+		onUnreachableCodePathSegmentStart?(
+			segment: CodePathSegment,
+			node: Node,
+		): void;
+
+		onUnreachableCodePathSegmentEnd?(
+			segment: CodePathSegment,
+			node: Node,
+		): void;
+
 		onCodePathSegmentLoop?(
 			fromSegment: CodePathSegment,
 			toSegment: CodePathSegment,
@@ -1282,7 +1292,7 @@ export type JSRuleDefinition<
 	{
 		LangOptions: Linter.LanguageOptions;
 		Code: SourceCode;
-		Visitor: Rule.NodeListener;
+		Visitor: Rule.RuleListener;
 		Node: JSSyntaxElement;
 	},
 	Options
