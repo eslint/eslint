@@ -141,7 +141,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`array-bracket-newline`](https://eslint.style/rules/array-bracket-newline) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/array-bracket-newline
 	 */
-    
 	"array-bracket-newline": Linter.RuleEntry<
 		[
 			| "always"
@@ -169,7 +168,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`array-bracket-spacing`](https://eslint.style/rules/array-bracket-spacing) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/array-bracket-spacing
 	 */
-    
 	"array-bracket-spacing":
 		| Linter.RuleEntry<
 				[
@@ -244,7 +242,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`array-element-newline`](https://eslint.style/rules/array-element-newline) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/array-element-newline
 	 */
-    
 	"array-element-newline": Linter.RuleEntry<
 		[
 			| "always"
@@ -292,7 +289,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`arrow-parens`](https://eslint.style/rules/arrow-parens) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/arrow-parens
 	 */
-    
 	"arrow-parens":
 		| Linter.RuleEntry<["always"]>
 		| Linter.RuleEntry<
@@ -316,7 +312,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`arrow-spacing`](https://eslint.style/rules/arrow-spacing) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/arrow-spacing
 	 */
-    
 	"arrow-spacing": Linter.RuleEntry<[]>;
 
 	/**
@@ -336,7 +331,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`block-spacing`](https://eslint.style/rules/block-spacing) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/block-spacing
 	 */
-    
 	"block-spacing": Linter.RuleEntry<["always" | "never"]>;
 
 	/**
@@ -348,7 +342,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`brace-style`](https://eslint.style/rules/brace-style) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/brace-style
 	 */
-    
 	"brace-style": Linter.RuleEntry<
 		[
 			"1tbs" | "stroustrup" | "allman",
@@ -370,7 +363,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`callback-return`](https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/callback-return.md) in [`eslint-plugin-n`](https://github.com/eslint-community/eslint-plugin-n).
 	 * @see https://eslint.org/docs/latest/rules/callback-return
 	 */
-    
 	"callback-return": Linter.RuleEntry<[string[]]>;
 
 	/**
@@ -460,7 +452,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`comma-dangle`](https://eslint.style/rules/comma-dangle) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/comma-dangle
 	 */
-    
 	"comma-dangle": Linter.RuleEntry<
 		[
 			| "never"
@@ -521,7 +512,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`comma-spacing`](https://eslint.style/rules/comma-spacing) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/comma-spacing
 	 */
-    
 	"comma-spacing": Linter.RuleEntry<
 		[
 			Partial<{
@@ -546,7 +536,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`comma-style`](https://eslint.style/rules/comma-style) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/comma-style
 	 */
-    
 	"comma-style": Linter.RuleEntry<
 		[
 			"last" | "first",
@@ -593,7 +582,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`computed-property-spacing`](https://eslint.style/rules/computed-property-spacing) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/computed-property-spacing
 	 */
-    
 	"computed-property-spacing": Linter.RuleEntry<["never" | "always"]>;
 
 	/**
@@ -684,7 +672,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`dot-location`](https://eslint.style/rules/dot-location) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/dot-location
 	 */
-    
 	"dot-location": Linter.RuleEntry<["object" | "property"]>;
 
 	/**
@@ -714,7 +701,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`eol-last`](https://eslint.style/rules/eol-last) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/eol-last
 	 */
-    
 	"eol-last": Linter.RuleEntry<
 		[
 			"always" | "never", // | 'unix' | 'windows'
@@ -761,7 +747,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`function-call-spacing`](https://eslint.style/rules/function-call-spacing) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/func-call-spacing
 	 */
-    
 	"func-call-spacing": Linter.RuleEntry<["never" | "always"]>;
 
 	/**
@@ -850,7 +835,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`function-call-argument-newline`](https://eslint.style/rules/function-call-argument-newline) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/function-call-argument-newline
 	 */
-    
 	"function-call-argument-newline": Linter.RuleEntry<
 		[
 			/**
@@ -869,7 +853,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`function-paren-newline`](https://eslint.style/rules/function-paren-newline) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/function-paren-newline
 	 */
-    
 	"function-paren-newline": Linter.RuleEntry<
 		[
 			| "always"
@@ -892,7 +875,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`generator-star-spacing`](https://eslint.style/rules/generator-star-spacing) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/generator-star-spacing
 	 */
-    
 	"generator-star-spacing": Linter.RuleEntry<
 		[
 			| Partial<{
@@ -962,7 +944,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`global-require`](https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/global-require.md) in [`eslint-plugin-n`](https://github.com/eslint-community/eslint-plugin-n).
 	 * @see https://eslint.org/docs/latest/rules/global-require
 	 */
-    
 	"global-require": Linter.RuleEntry<[]>;
 
 	/**
@@ -1000,7 +981,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`handle-callback-err`](https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/handle-callback-err.md) in [`eslint-plugin-n`](https://github.com/eslint-community/eslint-plugin-n).
 	 * @see https://eslint.org/docs/latest/rules/handle-callback-err
 	 */
-    
 	"handle-callback-err": Linter.RuleEntry<[string]>;
 
 	/**
@@ -1012,7 +992,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`id-denylist`](https://eslint.org/docs/rules/id-denylist).
 	 * @see https://eslint.org/docs/latest/rules/id-blacklist
 	 */
-    
 	"id-blacklist": Linter.RuleEntry<[...string[]]>;
 
 	/**
@@ -1089,7 +1068,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`implicit-arrow-linebreak`](https://eslint.style/rules/implicit-arrow-linebreak) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/implicit-arrow-linebreak
 	 */
-    
 	"implicit-arrow-linebreak": Linter.RuleEntry<["beside" | "below"]>;
 
 	/**
@@ -1101,7 +1079,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`indent`](https://eslint.style/rules/indent) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/indent
 	 */
-    
 	indent: Linter.RuleEntry<
 		[
 			number | "tab",
@@ -1207,7 +1184,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`indent`](https://eslint.style/rules/indent) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/indent-legacy
 	 */
-    
 	"indent-legacy": Linter.RuleEntry<
 		[
 			number | "tab",
@@ -1330,7 +1306,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`jsx-quotes`](https://eslint.style/rules/jsx-quotes) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/jsx-quotes
 	 */
-    
 	"jsx-quotes": Linter.RuleEntry<["prefer-double" | "prefer-single"]>;
 
 	/**
@@ -1342,7 +1317,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`key-spacing`](https://eslint.style/rules/key-spacing) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/key-spacing
 	 */
-    
 	"key-spacing": Linter.RuleEntry<
 		[
 			| Partial<
@@ -1501,7 +1475,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`keyword-spacing`](https://eslint.style/rules/keyword-spacing) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/keyword-spacing
 	 */
-    
 	"keyword-spacing": Linter.RuleEntry<
 		[
 			Partial<{
@@ -1533,7 +1506,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`line-comment-position`](https://eslint.style/rules/line-comment-position) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/line-comment-position
 	 */
-    
 	"line-comment-position": Linter.RuleEntry<
 		[
 			Partial<{
@@ -1559,7 +1531,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`linebreak-style`](https://eslint.style/rules/linebreak-style) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/linebreak-style
 	 */
-    
 	"linebreak-style": Linter.RuleEntry<["unix" | "windows"]>;
 
 	/**
@@ -1571,7 +1542,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`lines-around-comment`](https://eslint.style/rules/lines-around-comment) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/lines-around-comment
 	 */
-    
 	"lines-around-comment": Linter.RuleEntry<
 		[
 			Partial<{
@@ -1641,7 +1611,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`padding-line-between-statements`](https://eslint.style/rules/padding-line-between-statements) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/lines-around-directive
 	 */
-    
 	"lines-around-directive": Linter.RuleEntry<["always" | "never"]>;
 
 	/**
@@ -1653,7 +1622,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`lines-between-class-members`](https://eslint.style/rules/lines-between-class-members) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/lines-between-class-members
 	 */
-    
 	"lines-between-class-members": Linter.RuleEntry<
 		[
 			(
@@ -1750,7 +1718,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`max-len`](https://eslint.style/rules/max-len) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/max-len
 	 */
-    
 	"max-len": Linter.RuleEntry<
 		[
 			Partial<{
@@ -1938,7 +1905,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`max-statements-per-line`](https://eslint.style/rules/max-statements-per-line) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/max-statements-per-line
 	 */
-    
 	"max-statements-per-line": Linter.RuleEntry<
 		[
 			| Partial<{
@@ -1960,7 +1926,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`multiline-comment-style`](https://eslint.style/rules/multiline-comment-style) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/multiline-comment-style
 	 */
-    
 	"multiline-comment-style": Linter.RuleEntry<
 		["starred-block" | "bare-block" | "separate-lines"]
 	>;
@@ -1974,7 +1939,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`multiline-ternary`](https://eslint.style/rules/multiline-ternary) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/multiline-ternary
 	 */
-    
 	"multiline-ternary": Linter.RuleEntry<
 		["always" | "always-multiline" | "never"]
 	>;
@@ -2017,7 +1981,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`new-parens`](https://eslint.style/rules/new-parens) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/new-parens
 	 */
-    
 	"new-parens": Linter.RuleEntry<["always" | "never"]>;
 
 	/**
@@ -2029,7 +1992,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`padding-line-between-statements`](https://eslint.style/rules/padding-line-between-statements) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/newline-after-var
 	 */
-    
 	"newline-after-var": Linter.RuleEntry<["always" | "never"]>;
 
 	/**
@@ -2041,7 +2003,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`padding-line-between-statements`](https://eslint.style/rules/padding-line-between-statements) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/newline-before-return
 	 */
-    
 	"newline-before-return": Linter.RuleEntry<[]>;
 
 	/**
@@ -2053,7 +2014,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`newline-per-chained-call`](https://eslint.style/rules/newline-per-chained-call) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/newline-per-chained-call
 	 */
-    
 	"newline-per-chained-call": Linter.RuleEntry<
 		[
 			{
@@ -2144,7 +2104,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`no-deprecated-api`](https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-deprecated-api.md) in [`eslint-plugin-n`](https://github.com/eslint-community/eslint-plugin-n).
 	 * @see https://eslint.org/docs/latest/rules/no-buffer-constructor
 	 */
-    
 	"no-buffer-constructor": Linter.RuleEntry<[]>;
 
 	/**
@@ -2175,7 +2134,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`no-shadow`](https://eslint.org/docs/rules/no-shadow).
 	 * @see https://eslint.org/docs/latest/rules/no-catch-shadow
 	 */
-    
 	"no-catch-shadow": Linter.RuleEntry<[]>;
 
 	/**
@@ -2220,7 +2178,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`no-confusing-arrow`](https://eslint.style/rules/no-confusing-arrow) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/no-confusing-arrow
 	 */
-    
 	"no-confusing-arrow": Linter.RuleEntry<
 		[
 			Partial<{
@@ -2641,7 +2598,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`no-extra-parens`](https://eslint.style/rules/no-extra-parens) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/no-extra-parens
 	 */
-    
 	"no-extra-parens":
 		| Linter.RuleEntry<
 				[
@@ -2685,7 +2641,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`no-extra-semi`](https://eslint.style/rules/no-extra-semi) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/no-extra-semi
 	 */
-    
 	"no-extra-semi": Linter.RuleEntry<[]>;
 
 	/**
@@ -2725,7 +2680,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`no-floating-decimal`](https://eslint.style/rules/no-floating-decimal) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/no-floating-decimal
 	 */
-    
 	"no-floating-decimal": Linter.RuleEntry<[]>;
 
 	/**
@@ -2997,7 +2951,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 7.1.0
 	 * @see https://eslint.org/docs/latest/rules/no-loss-of-precision
 	 */
-    
 	"no-loss-of-precision": Linter.RuleEntry<[]>;
 
 	/**
@@ -3062,7 +3015,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 5.3.0
 	 * @see https://eslint.org/docs/latest/rules/no-misleading-character-class
 	 */
-    
 	"no-misleading-character-class": Linter.RuleEntry<
 		[
 			Partial<{
@@ -3084,7 +3036,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`no-mixed-operators`](https://eslint.style/rules/no-mixed-operators) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/no-mixed-operators
 	 */
-    
 	"no-mixed-operators": Linter.RuleEntry<
 		[
 			Partial<{
@@ -3116,7 +3067,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`no-mixed-requires`](https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-mixed-requires.md) in [`eslint-plugin-n`](https://github.com/eslint-community/eslint-plugin-n).
 	 * @see https://eslint.org/docs/latest/rules/no-mixed-requires
 	 */
-    
 	"no-mixed-requires": Linter.RuleEntry<
 		[
 			Partial<{
@@ -3141,7 +3091,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`no-mixed-spaces-and-tabs`](https://eslint.style/rules/no-mixed-spaces-and-tabs) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/no-mixed-spaces-and-tabs
 	 */
-    
 	"no-mixed-spaces-and-tabs": Linter.RuleEntry<["smart-tabs"]>;
 
 	/**
@@ -3170,7 +3119,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`no-multi-spaces`](https://eslint.style/rules/no-multi-spaces) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/no-multi-spaces
 	 */
-    
 	"no-multi-spaces": Linter.RuleEntry<
 		[
 			Partial<{
@@ -3203,7 +3151,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`no-multiple-empty-lines`](https://eslint.style/rules/no-multiple-empty-lines) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/no-multiple-empty-lines
 	 */
-    
 	"no-multiple-empty-lines": Linter.RuleEntry<
 		[
 			| Partial<{
@@ -3227,7 +3174,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`no-global-assign`](https://eslint.org/docs/rules/no-global-assign).
 	 * @see https://eslint.org/docs/latest/rules/no-native-reassign
 	 */
-    
 	"no-native-reassign": Linter.RuleEntry<
 		[
 			Partial<{
@@ -3253,7 +3199,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`no-unsafe-negation`](https://eslint.org/docs/rules/no-unsafe-negation).
 	 * @see https://eslint.org/docs/latest/rules/no-negated-in-lhs
 	 */
-    
 	"no-negated-in-lhs": Linter.RuleEntry<[]>;
 
 	/**
@@ -3300,7 +3245,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`no-object-constructor`](https://eslint.org/docs/rules/no-object-constructor).
 	 * @see https://eslint.org/docs/latest/rules/no-new-object
 	 */
-    
 	"no-new-object": Linter.RuleEntry<[]>;
 
 	/**
@@ -3312,7 +3256,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`no-new-require`](https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-new-require.md) in [`eslint-plugin-n`](https://github.com/eslint-community/eslint-plugin-n).
 	 * @see https://eslint.org/docs/latest/rules/no-new-require
 	 */
-    
 	"no-new-require": Linter.RuleEntry<[]>;
 
 	/**
@@ -3324,7 +3267,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`no-new-native-nonconstructor`](https://eslint.org/docs/latest/rules/no-new-native-nonconstructor).
 	 * @see https://eslint.org/docs/latest/rules/no-new-symbol
 	 */
-    
 	"no-new-symbol": Linter.RuleEntry<[]>;
 
 	/**
@@ -3420,7 +3362,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`no-path-concat`](https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-path-concat.md) in [`eslint-plugin-n`](https://github.com/eslint-community/eslint-plugin-n).
 	 * @see https://eslint.org/docs/latest/rules/no-path-concat
 	 */
-    
 	"no-path-concat": Linter.RuleEntry<[]>;
 
 	/**
@@ -3449,7 +3390,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`no-process-env`](https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-process-env.md) in [`eslint-plugin-n`](https://github.com/eslint-community/eslint-plugin-n).
 	 * @see https://eslint.org/docs/latest/rules/no-process-env
 	 */
-    
 	"no-process-env": Linter.RuleEntry<[]>;
 
 	/**
@@ -3461,7 +3401,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`no-process-exit`](https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-process-exit.md) in [`eslint-plugin-n`](https://github.com/eslint-community/eslint-plugin-n).
 	 * @see https://eslint.org/docs/latest/rules/no-process-exit
 	 */
-    
 	"no-process-exit": Linter.RuleEntry<[]>;
 
 	/**
@@ -3614,7 +3553,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 2.0.0-alpha-1
 	 * @see https://eslint.org/docs/latest/rules/no-restricted-imports
 	 */
-    
 	"no-restricted-imports": Linter.RuleEntry<
 		[
 			...Array<
@@ -3641,7 +3579,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`no-restricted-require`](https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-restricted-require.md) in [`eslint-plugin-n`](https://github.com/eslint-community/eslint-plugin-n).
 	 * @see https://eslint.org/docs/latest/rules/no-restricted-modules
 	 */
-    
 	"no-restricted-modules": Linter.RuleEntry<
 		[
 			...Array<
@@ -3862,7 +3799,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`function-call-spacing`](https://eslint.style/rules/function-call-spacing) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/no-spaced-func
 	 */
-    
 	"no-spaced-func": Linter.RuleEntry<[]>;
 
 	/**
@@ -3885,7 +3821,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`no-sync`](https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-sync.md) in [`eslint-plugin-n`](https://github.com/eslint-community/eslint-plugin-n).
 	 * @see https://eslint.org/docs/latest/rules/no-sync
 	 */
-    
 	"no-sync": Linter.RuleEntry<
 		[
 			{
@@ -3906,7 +3841,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`no-tabs`](https://eslint.style/rules/no-tabs) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/no-tabs
 	 */
-    
 	"no-tabs": Linter.RuleEntry<
 		[
 			Partial<{
@@ -3962,7 +3896,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`no-trailing-spaces`](https://eslint.style/rules/no-trailing-spaces) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/no-trailing-spaces
 	 */
-    
 	"no-trailing-spaces": Linter.RuleEntry<
 		[
 			Partial<{
@@ -4520,7 +4453,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`no-whitespace-before-property`](https://eslint.style/rules/no-whitespace-before-property) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/no-whitespace-before-property
 	 */
-    
 	"no-whitespace-before-property": Linter.RuleEntry<[]>;
 
 	/**
@@ -4543,7 +4475,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`nonblock-statement-body-position`](https://eslint.style/rules/nonblock-statement-body-position) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/nonblock-statement-body-position
 	 */
-    
 	"nonblock-statement-body-position": Linter.RuleEntry<
 		[
 			"beside" | "below" | "any",
@@ -4562,7 +4493,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`object-curly-newline`](https://eslint.style/rules/object-curly-newline) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/object-curly-newline
 	 */
-    
 	"object-curly-newline": Linter.RuleEntry<
 		[
 			| "always"
@@ -4611,7 +4541,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`object-curly-spacing`](https://eslint.style/rules/object-curly-spacing) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/object-curly-spacing
 	 */
-    
 	"object-curly-spacing":
 		| Linter.RuleEntry<
 				[
@@ -4653,7 +4582,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`object-property-newline`](https://eslint.style/rules/object-property-newline) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/object-property-newline
 	 */
-    
 	"object-property-newline": Linter.RuleEntry<
 		[
 			Partial<{
@@ -4748,7 +4676,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`one-var-declaration-per-line`](https://eslint.style/rules/one-var-declaration-per-line) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/one-var-declaration-per-line
 	 */
-    
 	"one-var-declaration-per-line": Linter.RuleEntry<
 		["initializations" | "always"]
 	>;
@@ -4770,7 +4697,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`operator-linebreak`](https://eslint.style/rules/operator-linebreak) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/operator-linebreak
 	 */
-    
 	"operator-linebreak": Linter.RuleEntry<
 		[
 			"after" | "before" | "none",
@@ -4789,7 +4715,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`padded-blocks`](https://eslint.style/rules/padded-blocks) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/padded-blocks
 	 */
-    
 	"padded-blocks": Linter.RuleEntry<
 		[
 			(
@@ -4820,7 +4745,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`padding-line-between-statements`](https://eslint.style/rules/padding-line-between-statements) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/padding-line-between-statements
 	 */
-    
 	"padding-line-between-statements": Linter.RuleEntry<
 		[
 			...Array<
@@ -5023,7 +4947,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 9.35.0
 	 * @see https://eslint.org/docs/latest/rules/preserve-caught-error
 	 */
-    
 	"preserve-caught-error": Linter.RuleEntry<
 		[
 			Partial<{
@@ -5044,7 +4967,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`quote-props`](https://eslint.style/rules/quote-props) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/quote-props
 	 */
-    
 	"quote-props":
 		| Linter.RuleEntry<["always" | "consistent"]>
 		| Linter.RuleEntry<
@@ -5087,7 +5009,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`quotes`](https://eslint.style/rules/quotes) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/quotes
 	 */
-    
 	quotes: Linter.RuleEntry<
 		[
 			"double" | "single" | "backtick",
@@ -5144,7 +5065,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 5.3.0
 	 * @see https://eslint.org/docs/latest/rules/require-unicode-regexp
 	 */
-    
 	"require-unicode-regexp": Linter.RuleEntry<
 		[
 			Partial<{
@@ -5176,7 +5096,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`rest-spread-spacing`](https://eslint.style/rules/rest-spread-spacing) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/rest-spread-spacing
 	 */
-    
 	"rest-spread-spacing": Linter.RuleEntry<["never" | "always"]>;
 
 	/**
@@ -5188,7 +5107,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`semi`](https://eslint.style/rules/semi) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/semi
 	 */
-    
 	semi:
 		| Linter.RuleEntry<
 				[
@@ -5225,7 +5143,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`semi-spacing`](https://eslint.style/rules/semi-spacing) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/semi-spacing
 	 */
-    
 	"semi-spacing": Linter.RuleEntry<
 		[
 			Partial<{
@@ -5250,7 +5167,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`semi-style`](https://eslint.style/rules/semi-style) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/semi-style
 	 */
-    
 	"semi-style": Linter.RuleEntry<["last" | "first"]>;
 
 	/**
@@ -5348,7 +5264,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`space-before-blocks`](https://eslint.style/rules/space-before-blocks) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/space-before-blocks
 	 */
-    
 	"space-before-blocks": Linter.RuleEntry<
 		[
 			| "always"
@@ -5371,7 +5286,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`space-before-function-paren`](https://eslint.style/rules/space-before-function-paren) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/space-before-function-paren
 	 */
-    
 	"space-before-function-paren": Linter.RuleEntry<
 		[
 			| "always"
@@ -5394,7 +5308,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`space-in-parens`](https://eslint.style/rules/space-in-parens) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/space-in-parens
 	 */
-    
 	"space-in-parens": Linter.RuleEntry<
 		[
 			"never" | "always",
@@ -5413,7 +5326,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`space-infix-ops`](https://eslint.style/rules/space-infix-ops) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/space-infix-ops
 	 */
-    
 	"space-infix-ops": Linter.RuleEntry<
 		[
 			Partial<{
@@ -5434,7 +5346,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`space-unary-ops`](https://eslint.style/rules/space-unary-ops) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/space-unary-ops
 	 */
-    
 	"space-unary-ops": Linter.RuleEntry<
 		[
 			Partial<{
@@ -5460,7 +5371,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`spaced-comment`](https://eslint.style/rules/spaced-comment) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/spaced-comment
 	 */
-    
 	"spaced-comment": Linter.RuleEntry<
 		[
 			"always" | "never",
@@ -5500,7 +5410,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`switch-colon-spacing`](https://eslint.style/rules/switch-colon-spacing) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/switch-colon-spacing
 	 */
-    
 	"switch-colon-spacing": Linter.RuleEntry<
 		[
 			Partial<{
@@ -5533,7 +5442,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`template-curly-spacing`](https://eslint.style/rules/template-curly-spacing) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/template-curly-spacing
 	 */
-    
 	"template-curly-spacing": Linter.RuleEntry<["never" | "always"]>;
 
 	/**
@@ -5545,7 +5453,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`template-tag-spacing`](https://eslint.style/rules/template-tag-spacing) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/template-tag-spacing
 	 */
-    
 	"template-tag-spacing": Linter.RuleEntry<["never" | "always"]>;
 
 	/**
@@ -5617,7 +5524,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`wrap-iife`](https://eslint.style/rules/wrap-iife) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/wrap-iife
 	 */
-    
 	"wrap-iife": Linter.RuleEntry<
 		[
 			"outside" | "inside" | "any",
@@ -5639,7 +5545,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`wrap-regex`](https://eslint.style/rules/wrap-regex) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/wrap-regex
 	 */
-    
 	"wrap-regex": Linter.RuleEntry<[]>;
 
 	/**
@@ -5651,7 +5556,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`yield-star-spacing`](https://eslint.style/rules/yield-star-spacing) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/yield-star-spacing
 	 */
-    
 	"yield-star-spacing": Linter.RuleEntry<
 		[
 			| Partial<{
