@@ -112,6 +112,16 @@ const patterns = [
 		invalid: [MODULES],
 	},
 	{
+		code: "console.log(this); z(x => console.log(x, this));",
+		languageOptions: {
+			ecmaVersion: 6,
+			sourceType: "commonjs",
+		},
+		errors,
+		valid: [NORMAL],
+		invalid: [USE_STRICT, IMPLIED_STRICT],
+	},
+	{
 		code: "() => { this }; this;",
 		languageOptions: {
 			ecmaVersion: 6,
@@ -1301,6 +1311,20 @@ ruleTesterTypeScript.run("no-invalid-this", rule, {
           `,
 			errors,
 		},
+		{
+			code: `
+	"use strict";
+    console.log(this);
+    z(x => console.log(x, this));
+          `,
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: { globalReturn: true },
+				},
+				sourceType: "script",
+			},
+			errors,
+		},
 
 		// IIFE.
 		{
@@ -1362,6 +1386,22 @@ ruleTesterTypeScript.run("no-invalid-this", rule, {
     }
           `,
 			options: [{ capIsConstructor: false }],
+			errors,
+		},
+		{
+			code: `
+	"use strict";
+    return function () {
+      console.log(this);
+      z(x => console.log(x, this));
+    };
+          `,
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: { globalReturn: true },
+				},
+				sourceType: "script",
+			},
 			errors,
 		},
 		{

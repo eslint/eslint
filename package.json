@@ -124,7 +124,7 @@
     "escape-string-regexp": "^4.0.0",
     "eslint-scope": "^8.4.0",
     "eslint-visitor-keys": "^4.2.1",
-    "espree": "^10.4.0",
+    "espree": "https://gitpkg.vercel.app/Pixel998/js/packages/espree?remove-ecmafeatures-globalreturn&scripts.postinstall=npm%20install%20--ignore-scripts%20%26%26%20npm%20run%20build",
     "esquery": "^1.5.0",
     "esutils": "^2.0.2",
     "fast-deep-equal": "^3.1.3",
