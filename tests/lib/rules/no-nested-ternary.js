@@ -26,6 +26,10 @@ ruleTester.run("no-nested-ternary", rule, {
 			errors: [
 				{
 					messageId: "noNestedTernary",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 40,
 				},
 			],
 		},
@@ -34,6 +38,10 @@ ruleTester.run("no-nested-ternary", rule, {
 			errors: [
 				{
 					messageId: "noNestedTernary",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 40,
 				},
 			],
 		},

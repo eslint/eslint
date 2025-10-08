@@ -25,7 +25,7 @@ const assert = require("chai").assert,
 	sh = require("shelljs"),
 	{ WarningService } = require("../../lib/services/warning-service");
 
-const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
+const proxyquire = require("proxyquire").noCallThru();
 
 //------------------------------------------------------------------------------
 // Tests
