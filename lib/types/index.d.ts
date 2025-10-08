@@ -222,16 +222,7 @@ export class SourceCode
 
 	getDeclaredVariables(node: ESTree.Node): Scope.Variable[];
 
-	/** @deprecated */
-	getJSDocComment(node: ESTree.Node): ESTree.Comment | null;
-
 	getNodeByRangeIndex(index: number): ESTree.Node | null;
-
-	/** @deprecated Use `isSpaceBetween()` instead. */
-	isSpaceBetweenTokens(
-		first: ESTree.Node | AST.Token,
-		second: ESTree.Node | AST.Token,
-	): boolean;
 
 	getLocFromIndex(index: number): ESTree.Position;
 
