@@ -256,18 +256,6 @@ export class SourceCode
 
 	getTokensAfter: SourceCode.UnaryCursorWithCountOptions;
 
-	/** @deprecated Use `getTokenBefore()` instead. */
-	getTokenOrCommentBefore(
-		node: ESTree.Node | AST.Token | ESTree.Comment,
-		skip?: number | undefined,
-	): AST.Token | ESTree.Comment | null;
-
-	/** @deprecated Use `getTokenAfter()` instead. */
-	getTokenOrCommentAfter(
-		node: ESTree.Node | AST.Token | ESTree.Comment,
-		skip?: number | undefined,
-	): AST.Token | ESTree.Comment | null;
-
 	getFirstTokenBetween: SourceCode.BinaryCursorWithSkipOptions;
 
 	getFirstTokensBetween: SourceCode.BinaryCursorWithCountOptions;

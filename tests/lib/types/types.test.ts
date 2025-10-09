@@ -333,16 +333,6 @@ sourceCode.getTokensAfter(AST, {
 sourceCode.getTokensAfter(TOKEN, 0);
 sourceCode.getTokensAfter(COMMENT, 0);
 
-sourceCode.getTokenOrCommentBefore(AST);
-sourceCode.getTokenOrCommentBefore(AST, 0);
-sourceCode.getTokenOrCommentBefore(TOKEN, 0);
-sourceCode.getTokenOrCommentBefore(COMMENT, 0);
-
-sourceCode.getTokenOrCommentAfter(AST);
-sourceCode.getTokenOrCommentAfter(AST, 0);
-sourceCode.getTokenOrCommentAfter(TOKEN, 0);
-sourceCode.getTokenOrCommentAfter(COMMENT, 0);
-
 sourceCode.getFirstTokenBetween(AST, AST); // $ExpectType Token | null
 sourceCode.getFirstTokenBetween(AST, AST, 0);
 sourceCode.getFirstTokenBetween(AST, AST, { skip: 0 });
