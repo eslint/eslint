@@ -287,6 +287,11 @@ fnx
 Josh Goldberg ✨
 </a>
 </td><td align="center" valign="top" width="11%">
+<a href="https://github.com/SwetaTanwar">
+<img src="https://github.com/SwetaTanwar.png?s=75" width="75" height="75" alt="Sweta Tanwar's Avatar"><br />
+Sweta Tanwar
+</a>
+</td><td align="center" valign="top" width="11%">
 <a href="https://github.com/Tanujkanti4441">
 <img src="https://github.com/Tanujkanti4441.png?s=75" width="75" height="75" alt="Tanuj Kanti's Avatar"><br />
 Tanuj Kanti
@@ -295,6 +300,11 @@ Tanuj Kanti
 <a href="https://github.com/lumirlumir">
 <img src="https://github.com/lumirlumir.png?s=75" width="75" height="75" alt="루밀LuMir's Avatar"><br />
 루밀LuMir
+</a>
+</td><td align="center" valign="top" width="11%">
+<a href="https://github.com/Pixel998">
+<img src="https://github.com/Pixel998.png?s=75" width="75" height="75" alt="Pixel998's Avatar"><br />
+Pixel998
 </a>
 </td></tr></tbody></table>
 
