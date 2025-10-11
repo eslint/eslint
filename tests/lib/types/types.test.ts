@@ -998,7 +998,12 @@ linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2026 } }, "test.js");
 linter.verify(SOURCE, { parserOptions: { ecmaVersion: "latest" } }, "test.js");
 linter.verify(
 	SOURCE,
-	{ parserOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } } },
+	{
+		parserOptions: {
+			ecmaVersion: 6,
+			ecmaFeatures: { impliedStrict: true },
+		},
+	},
 	"test.js",
 );
 linter.verify(
@@ -1417,7 +1422,12 @@ linterWithEslintrcConfig.verify(
 );
 linterWithEslintrcConfig.verify(
 	SOURCE,
-	{ parserOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } } },
+	{
+		parserOptions: {
+			ecmaVersion: 6,
+			ecmaFeatures: { impliedStrict: true },
+		},
+	},
 	"test.js",
 );
 linterWithEslintrcConfig.verify(

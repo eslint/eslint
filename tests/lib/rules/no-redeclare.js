@@ -108,16 +108,14 @@ ruleTester.run("no-redeclare", rule, {
 		{
 			code: "var Object = 0;",
 			options: [{ builtinGlobals: true }],
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 		},
 		{ code: "var top = 0;", options: [{ builtinGlobals: true }] },
 		{
 			code: "var top = 0;",
 			options: [{ builtinGlobals: true }],
 			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
+				sourceType: "commonjs",
 				globals: globals.browser,
 			},
 		},
@@ -371,7 +369,7 @@ ruleTester.run("no-redeclare", rule, {
 			options: [{ builtinGlobals: true }],
 			languageOptions: {
 				ecmaVersion: 6,
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
+				sourceType: "commonjs",
 			},
 			errors: [
 				{

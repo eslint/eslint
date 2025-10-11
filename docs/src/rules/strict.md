@@ -71,10 +71,9 @@ This rule has a string option:
 
 ### safe
 
-The `"safe"` option corresponds to the `"global"` option if ESLint considers a file to be a **Node.js** or **CommonJS** module because the configuration specifies either of the following:
+The `"safe"` option corresponds to the `"global"` option if ESLint considers a file to be a **Node.js** or **CommonJS** module, which is when the configuration specifies:
 
 * `"sourceType": "commonjs"` in [language options](../use/configure/language-options#specifying-javascript-options)
-* `"globalReturn": true` property in the `ecmaFeatures` object of [parser options](../use/configure/language-options#specifying-parser-options)
 
 Otherwise the `"safe"` option corresponds to the `"function"` option.
 

@@ -74,9 +74,7 @@ ruleTester.run("no-eval", rule, {
 		"function foo() { 'use strict'; this.eval('foo'); }",
 		{
 			code: "'use strict'; this.eval('foo');",
-			languageOptions: {
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
+			languageOptions: { sourceType: "commonjs" },
 		},
 		{
 			code: "this.eval('foo');",
