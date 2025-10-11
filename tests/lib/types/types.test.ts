@@ -2117,7 +2117,6 @@ interface CustomParserServices {
 
 (): Linter.Config => ({
 	languageOptions: {
-		// @ts-expect-error
 		parser: "foo-parser",
 	},
 });
