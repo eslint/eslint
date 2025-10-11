@@ -102,8 +102,7 @@ export namespace Scope {
 			| "global"
 			| "module"
 			| "switch"
-			| "with"
-			| "TDZ";
+			| "with";
 		isStrict: boolean;
 		upper: Scope | null;
 		childScopes: Scope[];
@@ -114,6 +113,11 @@ export namespace Scope {
 		references: Reference[];
 		through: Reference[];
 		functionExpressionScope: boolean;
+		implicit?: {
+			variables: Variable[];
+			set: Map<string, Variable>;
+			left: Reference[];
+		};
 	}
 
 	interface Variable {
@@ -154,7 +158,14 @@ export namespace Scope {
 				node: ESTree.FunctionDeclaration | ESTree.FunctionExpression;
 				parent: null;
 		  }
-		| { type: "ImplicitGlobalVariable"; node: ESTree.Program; parent: null }
+		| {
+				type: "ImplicitGlobalVariable";
+				node:
+					| ESTree.AssignmentExpression
+					| ESTree.ForInStatement
+					| ESTree.ForOfStatement;
+				parent: null;
+		  }
 		| {
 				type: "ImportBinding";
 				node:
@@ -171,7 +182,6 @@ export namespace Scope {
 					| ESTree.ArrowFunctionExpression;
 				parent: null;
 		  }
-		| { type: "TDZ"; node: any; parent: null }
 		| {
 				type: "Variable";
 				node: ESTree.VariableDeclarator;
