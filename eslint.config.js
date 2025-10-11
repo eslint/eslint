@@ -370,4 +370,9 @@ module.exports = defineConfig([
 			],
 		},
 	},
+	{
+		name: "eslint/pnpm-test",
+		files: ["tests/pnpm/**/*.js"],
+		languageOptions: { sourceType: "module" },
+	},
 ]);

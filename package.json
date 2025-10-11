@@ -70,9 +70,10 @@
     "test": "node Makefile.js test",
     "test:browser": "node Makefile.js cypress",
     "test:cli": "mocha",
+    "test:emfile": "node tools/check-emfile-handling.js",
     "test:fuzz": "node Makefile.js fuzz",
     "test:performance": "node Makefile.js perf",
-    "test:emfile": "node tools/check-emfile-handling.js",
+    "test:pnpm": "cd tests/pnpm && node check.js && pnpm install && pnpm exec tsc",
     "test:types": "tsc -p tests/lib/types/tsconfig.json"
   },
   "gitHooks": {
