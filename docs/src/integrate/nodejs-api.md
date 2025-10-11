@@ -736,7 +736,6 @@ The information available for each linting message is:
 - `line` - the line on which the error occurred.
 - `message` - the message that should be output.
 - `messageId` - the ID of the message used to generate the message (this property is omitted if the rule does not use message IDs).
-- `nodeType` - (**Deprecated:** This property will be removed in a future version of ESLint.) the node, comment, or token type that was reported with the problem.
 - `ruleId` - the ID of the rule that triggered the messages (or null if `fatal` is true).
 - `severity` - either 1 or 2, depending on your configuration.
 - `endColumn` - the end column of the range on which the error occurred (this property is omitted if it's not range).
@@ -926,7 +925,6 @@ In addition to the properties above, invalid test cases can also have the follow
     - `message` (string/regexp): The message for the error. Must provide this or `messageId`.
     - `messageId` (string): The ID for the error. Must provide this or `message`. See [testing errors with messageId](#testing-errors-with-messageid) for details.
     - `data` (object): Placeholder data which can be used in combination with `messageId`.
-    - `type` (string): (**Deprecated:** This property will be removed in a future version of ESLint.) The type of the reported AST node.
     - `line` (number): The 1-based line number of the reported location.
     - `column` (number): The 1-based column number of the reported location.
     - `endLine` (number): The 1-based line number of the end of the reported location.
