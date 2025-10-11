@@ -82,6 +82,7 @@
     "*": "trunk check --fix",
     "lib/rules/*.js": [
       "node tools/update-eslint-all.js",
+      "node tools/update-rule-type-definitions.js",
       "node tools/update-rule-type-headers.js",
       "git add packages/js/src/configs/eslint-all.js lib/types/rules.d.ts"
     ],
@@ -176,6 +177,7 @@
     "jiti": "^2.6.1",
     "jiti-v2.0": "npm:jiti@2.0.x",
     "jiti-v2.1": "npm:jiti@2.1.x",
+    "json-schema-deref-sync": "^0.14.0",
     "knip": "^5.60.2",
     "lint-staged": "^11.0.0",
     "markdown-it": "^12.2.0",
