@@ -3749,8 +3749,8 @@ describe("SourceCode", () => {
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const scopeManager = eslintScope.analyze(ast, {
 				ignoreEval: true,
-				nodejsScope: true,
 				ecmaVersion: 6,
+				sourceType: "commonjs",
 			});
 			const sourceCode = new SourceCode({
 				text: code,
@@ -4012,8 +4012,8 @@ describe("SourceCode", () => {
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const scopeManager = eslintScope.analyze(ast, {
 				ignoreEval: true,
-				nodejsScope: true,
 				ecmaVersion: 6,
+				sourceType: "commonjs",
 			});
 			const sourceCode = new SourceCode({
 				text: code,
