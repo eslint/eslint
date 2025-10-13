@@ -340,7 +340,7 @@
             {
                 "name": "no-unassigned-vars",
                 "description": "Disallow `let` or `var` variables that are read but never assigned",
-                "recommended": true,
+                "recommended": false,
                 "fixable": false,
                 "frozen": false,
                 "hasSuggestions": false
@@ -436,7 +436,7 @@
             {
                 "name": "no-useless-assignment",
                 "description": "Disallow variable assignments when the value is not used",
-                "recommended": true,
+                "recommended": false,
                 "fixable": false,
                 "frozen": false,
                 "hasSuggestions": false
@@ -1494,7 +1494,7 @@
             {
                 "name": "preserve-caught-error",
                 "description": "Disallow losing originally caught error when re-throwing custom errors",
-                "recommended": true,
+                "recommended": false,
                 "fixable": false,
                 "frozen": false,
                 "hasSuggestions": true
