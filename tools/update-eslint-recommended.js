@@ -51,7 +51,7 @@ const code = `/*
  */
 
 module.exports = Object.freeze({
-	rules: Object.freeze(${recommendedRulesText}),
+    rules: Object.freeze(${recommendedRulesText}),
 });
 `;
 

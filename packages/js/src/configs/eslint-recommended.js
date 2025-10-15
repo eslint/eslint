@@ -13,7 +13,7 @@
  */
 
 module.exports = Object.freeze({
-	rules: Object.freeze({
+    rules: Object.freeze({
         "constructor-super": "error",
         "for-direction": "error",
         "getter-return": "error",
