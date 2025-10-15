@@ -197,6 +197,10 @@ ruleTester.run("no-loss-of-precision", rule, {
 			errors: [{ messageId: "noLossOfPrecision" }],
 		},
 		{
+			code: "var x = 900719925474099.30e1",
+			errors: [{ messageId: "noLossOfPrecision" }],
+		},
+		{
 			code: "var x = -9_00719_9254_740993",
 			languageOptions: { ecmaVersion: 2021 },
 			errors: [{ messageId: "noLossOfPrecision" }],
