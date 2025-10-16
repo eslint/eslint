@@ -69,13 +69,6 @@ ruleTester.run("no-setter-return", rule, {
 			languageOptions: { sourceType: "commonjs" },
 		},
 		{
-			code: "return 1;",
-			languageOptions: {
-				sourceType: "script",
-				parserOptions: { ecmaFeatures: { globalReturn: true } },
-			},
-		},
-		{
 			code: "return 1; function foo(){ return 1; } return 1;",
 			languageOptions: { sourceType: "commonjs" },
 		},
