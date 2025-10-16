@@ -7028,6 +7028,16 @@ describe("LegacyESLint", () => {
 			assert.strictEqual(typeof formatter.format, "function");
 		});
 
+		it("should return a formatter object when a custom formatter is requested with a default export", async () => {
+			const engine = new LegacyESLint();
+			const formatter = await engine.loadFormatter(
+				getFixturePath("formatters", "default_export.js"),
+			);
+
+			assert.strictEqual(typeof formatter, "object");
+			assert.strictEqual(typeof formatter.format, "function");
+		});
+
 		it("should return a formatter object when a custom formatter is requested, also if the path has backslashes", async () => {
 			const engine = new LegacyESLint({
 				cwd: path.join(fixtureDir, ".."),
