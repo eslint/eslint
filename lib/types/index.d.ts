@@ -1222,18 +1222,16 @@ export namespace Rule {
 			MessageIds: string;
 		}> {}
 
-	type ReportFixer = (
-		fixer: RuleFixer,
-	) => null | Fix | IterableIterator<Fix> | Fix[];
+	type ReportFixer = (fixer: RuleFixer) => Fix | Iterable<Fix> | null;
 
 	interface ReportDescriptorOptionsBase {
-		data?: { [key: string]: string };
+		data?: Record<string, unknown> | undefined;
 
-		fix?: null | ReportFixer;
+		fix?: ReportFixer | null | undefined;
 	}
 
 	interface SuggestionReportOptions {
-		data?: { [key: string]: string };
+		data?: Record<string, unknown> | undefined;
 
 		fix: ReportFixer;
 	}
@@ -1251,8 +1249,8 @@ export namespace Rule {
 		ReportDescriptorOptions;
 	type ReportDescriptorMessage = { message: string } | { messageId: string };
 	type ReportDescriptorLocation =
-		| { node: ESTree.Node }
-		| { loc: AST.SourceLocation | { line: number; column: number } };
+		| { node: JSSyntaxElement }
+		| { loc: AST.SourceLocation | ESTree.Position };
 
 	interface RuleFixer {
 		insertTextAfter(
