@@ -1665,12 +1665,6 @@ export namespace Linter {
 		/** The ID of the message in the rule's meta. */
 		messageId?: string | undefined;
 
-		/**
-		 * Type of node.
-		 * @deprecated `nodeType` is deprecated and will be removed in the next major version.
-		 */
-		nodeType?: string | undefined;
-
 		/** If `true` then this is a fatal error. */
 		fatal?: true | undefined;
 
@@ -2301,10 +2295,6 @@ export namespace RuleTester {
 	interface TestCaseError {
 		message?: string | RegExp;
 		messageId?: string;
-		/**
-		 * @deprecated `type` is deprecated and will be removed in the next major version.
-		 */
-		type?: string | undefined;
 		data?: any;
 		line?: number | undefined;
 		column?: number | undefined;
