@@ -70,9 +70,10 @@
     "test": "node Makefile.js test",
     "test:browser": "node Makefile.js cypress",
     "test:cli": "mocha",
+    "test:emfile": "node tools/check-emfile-handling.js",
     "test:fuzz": "node Makefile.js fuzz",
     "test:performance": "node Makefile.js perf",
-    "test:emfile": "node tools/check-emfile-handling.js",
+    "test:pnpm": "cd tests/pnpm && node check.js && pnpm install && pnpm exec tsc",
     "test:types": "tsc -p tests/lib/types/tsconfig.json"
   },
   "gitHooks": {
@@ -106,8 +107,8 @@
   "dependencies": {
     "@eslint-community/eslint-utils": "^4.8.0",
     "@eslint-community/regexpp": "^4.12.1",
-    "@eslint/config-array": "^0.21.0",
-    "@eslint/config-helpers": "^0.4.0",
+    "@eslint/config-array": "^0.21.1",
+    "@eslint/config-helpers": "^0.4.1",
     "@eslint/core": "^0.16.0",
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "9.37.0",
