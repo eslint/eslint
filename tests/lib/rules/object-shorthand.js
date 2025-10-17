@@ -473,6 +473,16 @@ ruleTester.run("object-shorthand", rule, {
 		// JSDoc @type annotation
 		"({ val: /** @type {number} */ (val) })",
 		"({ 'prop': /** @type {string} */ (prop) })",
+		"({ val: /**\n * @type {number}\n */ (val) })",
+		"({ val: /**\n  * @type {number}\n  */ (val) })",
+		"({ val: /**\n   * @type {number}\n   */ (val) })",
+		"({ val: /**\n\t* @type {number}\n\t*/ (val) })",
+		"({ val: /**\n\t * @type {number}\n\t */ (val) })",
+		"({ val: /**\n  *  @type   {number}  \n  */ (val) })",
+		"({ val: /**\n *  @type   {string} myParam\n */ (val) })",
+		"({ val: /**\n  *  @type   {Object} options\n  */ (val) })",
+		"({ val: /**\n\t *\t@type\t{Array}\n\t */ (val) })",
+		"({ val: /**\n   *\n   * @type {Function}\n   * @param {string} name\n   */ (val) })",
 	],
 	invalid: [
 		{
@@ -1348,6 +1358,54 @@ ruleTester.run("object-shorthand", rule, {
 				parser: require("../../fixtures/parsers/typescript-parsers/object-with-arrow-fn-props"),
 			},
 			errors: Array(18).fill(METHOD_ERROR),
+		},
+		{
+			code: "({ val: /** regular comment */ (val) })",
+			errors: [PROPERTY_ERROR],
+		},
+		{
+			code: "({ val: /** @param {string} name */ (val) })",
+			errors: [PROPERTY_ERROR],
+		},
+		{
+			code: "({ val: /** @returns {number} */ (val) })",
+			errors: [PROPERTY_ERROR],
+		},
+		{
+			code: "({ val: /** @description some text */ (val) })",
+			errors: [PROPERTY_ERROR],
+		},
+		{
+			code: "({ val: /**\n * @param {string} name\n */ (val) })",
+			errors: [PROPERTY_ERROR],
+		},
+		{
+			code: "({ val: /**\n  * @returns {number}\n  */ (val) })",
+			errors: [PROPERTY_ERROR],
+		},
+		{
+			code: "({ val: /**\n   * @description some text\n   */ (val) })",
+			errors: [PROPERTY_ERROR],
+		},
+		{
+			code: "({ val: /**\n\t* @param {string} name\n\t*/ (val) })",
+			errors: [PROPERTY_ERROR],
+		},
+		{
+			code: "({ val: /**\n\t * @returns {number}\n\t */ (val) })",
+			errors: [PROPERTY_ERROR],
+		},
+		{
+			code: "({ val: /**\n  *  @param   {string}  name  \n  */ (val) })",
+			errors: [PROPERTY_ERROR],
+		},
+		{
+			code: "({ val: /**\n *  @returns   {number} result\n */ (val) })",
+			errors: [PROPERTY_ERROR],
+		},
+		{
+			code: "({ val: /**\n   *\n   * @param {string} name\n   * @returns {number}\n   */ (val) })",
+			errors: [PROPERTY_ERROR],
 		},
 	],
 });
