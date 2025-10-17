@@ -111,7 +111,7 @@
     "@eslint/config-helpers": "^0.4.1",
     "@eslint/core": "^0.16.0",
     "@eslint/eslintrc": "^3.3.1",
-    "@eslint/js": "9.37.0",
+    "@eslint/js": "9.38.0",
     "@eslint/plugin-kit": "^0.4.0",
     "@humanfs/node": "^0.16.6",
     "@humanwhocodes/module-importer": "^1.0.1",
