@@ -502,7 +502,6 @@ const scope = scopeManager.scopes[0];
 scope.implicit;
 scope.implicit?.variables;
 scope.implicit?.set;
-scope.implicit?.left;
 
 const variable = scope.variables[0];
 

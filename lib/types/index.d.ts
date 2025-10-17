@@ -116,7 +116,6 @@ export namespace Scope {
 		implicit?: {
 			variables: Variable[];
 			set: Map<string, Variable>;
-			left: Reference[];
 		};
 	}
 
