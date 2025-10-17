@@ -59,7 +59,6 @@ import type {
 	RuleTextEditor,
 	RuleTextEdit,
 } from "@eslint/core";
-import { JSONSchema4 } from "json-schema";
 import { LegacyESLint } from "./use-at-your-own-risk.js";
 
 export namespace AST {
@@ -1439,55 +1438,7 @@ export namespace Linter {
 	 *
 	 * @see [Specifying Parser Options](https://eslint.org/docs/latest/use/configure/language-options#specifying-parser-options)
 	 */
-	interface ParserOptions {
-		/**
-		 * Allow the use of reserved words as identifiers (if `ecmaVersion` is 3).
-		 *
-		 * @default false
-		 */
-		allowReserved?: boolean | undefined;
-
-		/**
-		 * Accepts any valid ECMAScript version number or `'latest'`:
-		 *
-		 * - A version: es3, es5, es6, es7, es8, es9, es10, es11, es12, es13, es14, ..., or
-		 * - A year: es2015, es2016, es2017, es2018, es2019, es2020, es2021, es2022, es2023, ..., or
-		 * - `'latest'`
-		 *
-		 * When it's a version or a year, the value must be a number - so do not include the `es` prefix.
-		 *
-		 * Specifies the version of ECMAScript syntax you want to use. This is used by the parser to determine how to perform scope analysis, and it affects the default
-		 *
-		 * @default 5
-		 */
-		ecmaVersion?: EcmaVersion | undefined;
-
-		/**
-		 * The type of JavaScript source code. Possible values are "script" for
-		 * traditional script files, "module" for ECMAScript modules (ESM), and
-		 * "commonjs" for CommonJS files.
-		 *
-		 * @default 'script'
-		 *
-		 * @see https://eslint.org/docs/latest/use/configure/language-options-deprecated#specifying-parser-options
-		 */
-		sourceType?: SourceType | undefined;
-
-		/**
-		 * An object indicating which additional language features you'd like to use.
-		 *
-		 * @see https://eslint.org/docs/latest/use/configure/language-options-deprecated#specifying-parser-options
-		 */
-		ecmaFeatures?:
-			| {
-					globalReturn?: boolean | undefined;
-					impliedStrict?: boolean | undefined;
-					jsx?: boolean | undefined;
-					[key: string]: any;
-			  }
-			| undefined;
-		[key: string]: any;
-	}
+	type ParserOptions = JavaScriptParserOptionsConfig;
 
 	/**
 	 * Options used for linting code with `Linter#verify` and `Linter#verifyAndFix`.
