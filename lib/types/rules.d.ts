@@ -5035,12 +5035,17 @@ export interface ESLintRules extends Linter.RulesRecord {
 	>;
 
 	/**
-	 * Rule to enforce the consistent use of the radix argument when using `parseInt()`.
+	 * Rule to enforce the use of the radix argument when using `parseInt()`.
 	 *
 	 * @since 0.0.7
 	 * @see https://eslint.org/docs/latest/rules/radix
 	 */
-	radix: Linter.RuleEntry<["always" | "as-needed"]>;
+	radix:
+		| Linter.RuleEntry<[]>
+		/**
+		 * @deprecated
+		 */
+		| Linter.RuleEntry<["always" | "as-needed"]>;
 
 	/**
 	 * Rule to disallow assignments that can lead to race conditions due to usage of `await` or `yield`.
