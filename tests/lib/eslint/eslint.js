@@ -10904,15 +10904,11 @@ describe("ESLint", () => {
 					path.join("subdir", "code.js"),
 				);
 
-				const expectedConfig = flags.includes(
-					"v10_config_lookup_from_file",
-				)
-					? getFixturePath(
-							"lookup-from-file",
-							"subdir",
-							"eslint.config.js",
-						)
-					: getFixturePath("lookup-from-file", "eslint.config.js");
+				const expectedConfig = getFixturePath(
+					"lookup-from-file",
+					"subdir",
+					"eslint.config.js",
+				);
 
 				assert.strictEqual(foundConfig, expectedConfig);
 			});
