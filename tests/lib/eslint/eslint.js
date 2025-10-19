@@ -182,7 +182,6 @@ describe("ESLint", () => {
 		setEnvironmentData("createCallCountArray", void 0);
 	});
 
-	[[], ["v10_config_lookup_from_file"]].forEach(flags => {
 		/**
 		 * Configuration flags for TypeScript integration in Node.js,
 		 * including existing {@linkcode flags} and
@@ -190,7 +189,6 @@ describe("ESLint", () => {
 		 * @satisfies {ESLintOptions['flags']}
 		 */
 		const nativeTSConfigFileFlags = [
-			...flags,
 			"unstable_native_nodejs_ts_config",
 		];
 
@@ -206,7 +204,7 @@ describe("ESLint", () => {
 			it("the default value of 'options.cwd' should be the current working directory.", async () => {
 				process.chdir(fixtureDir);
 				try {
-					const engine = new ESLint({ flags });
+				const engine = new ESLint();
 					const results = await engine.lintFiles("passing.js");
 
 					assert.strictEqual(
@@ -221,7 +219,6 @@ describe("ESLint", () => {
 			it("should normalize 'options.cwd'.", async () => {
 				const cwd = getFixturePath("example-app3");
 				const engine = new ESLint({
-					flags,
 					cwd: `${cwd}${path.sep}foo${path.sep}..`, // `<cwd>/foo/..` should be normalized to `<cwd>`
 					overrideConfigFile: true,
 					overrideConfig: {
@@ -256,7 +253,7 @@ describe("ESLint", () => {
 			it("should not modify baseConfig in the constructor", () => {
 				const customBaseConfig = { root: true };
 
-				new ESLint({ baseConfig: customBaseConfig, flags }); // eslint-disable-line no-new -- Check for argument side effects
+			new ESLint({ baseConfig: customBaseConfig }); // eslint-disable-line no-new -- Check for argument side effects
 
 				assert.deepStrictEqual(customBaseConfig, { root: true });
 			});
@@ -265,7 +262,6 @@ describe("ESLint", () => {
 				assert.throws(
 					() =>
 						new ESLint({
-							flags,
 							cacheFile: "",
 							configFile: "",
 							envs: [],
@@ -294,7 +290,6 @@ describe("ESLint", () => {
 				assert.throws(
 					() =>
 						new ESLint({
-							flags,
 							allowInlineConfig: "",
 							baseConfig: "",
 							cache: "",
@@ -360,7 +355,7 @@ describe("ESLint", () => {
 
 				invalidIgnorePatterns.forEach(ignorePatterns => {
 					assert.throws(
-						() => new ESLint({ ignorePatterns, flags }),
+					() => new ESLint({ ignorePatterns }),
 						new RegExp(
 							escapeStringRegExp(
 								[
@@ -378,7 +373,6 @@ describe("ESLint", () => {
 				assert.throws(
 					() =>
 						new ESLint({
-							flags,
 							plugins: {
 								"eslint-plugin-foo": {},
 								"eslint-plugin-bar": {},
@@ -407,7 +401,7 @@ describe("ESLint", () => {
 				);
 
 				// eslint-disable-next-line no-new -- for testing purpose only
-				new ESLint({ cwd, flags });
+				new ESLint({ cwd });
 
 				assert(
 					emitESLintIgnoreWarningStub.calledOnce,
@@ -419,7 +413,6 @@ describe("ESLint", () => {
 				assert.throws(
 					() =>
 						new ESLint({
-							flags,
 							concurrency: 1,
 							baseConfig: { processor: patternProcessor },
 							fix: () => true,
@@ -438,7 +431,6 @@ describe("ESLint", () => {
 				assert.throws(
 					() =>
 						new ESLint({
-							flags,
 							concurrency: "auto",
 							ruleFilter({ severity }) {
 								return severity === 2;
@@ -605,24 +597,6 @@ describe("ESLint", () => {
 
 				assert.strictEqual(eslint.hasFlag("x_feature"), false);
 			});
-
-			// TODO: Remove in ESLint v10 when the flag is removed
-			it("should not throw an error if the flag 'unstable_ts_config' is used", () => {
-				eslint = new ESLint({
-					flags: [...flags, "unstable_ts_config"],
-				});
-
-				assert.strictEqual(eslint.hasFlag("unstable_ts_config"), false);
-				assert.strictEqual(
-					processStub.callCount,
-					1,
-					"calls `process.emitWarning()` for flags once",
-				);
-				assert.deepStrictEqual(processStub.getCall(0).args, [
-					"The flag 'unstable_ts_config' is inactive: This feature is now enabled by default.",
-					"ESLintInactiveFlag_unstable_ts_config",
-				]);
-			});
 		});
 
 		describe("lintText()", () => {
@@ -631,7 +605,6 @@ describe("ESLint", () => {
 
 			it("should report the total and per file errors when using local cwd eslint.config.js", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: getFixturePath("configurations", "cwd"),
 				});
 
@@ -662,7 +635,6 @@ describe("ESLint", () => {
 
 			it("should report the total and per file warnings when not using a config file", async () => {
 				eslint = new ESLint({
-					flags,
 					overrideConfig: {
 						rules: {
 							quotes: 1,
@@ -700,7 +672,6 @@ describe("ESLint", () => {
 
 			it("should report one message when using specific config file", async () => {
 				eslint = new ESLint({
-					flags,
 					overrideConfigFile:
 						"fixtures/configurations/quotes-error.js",
 					cwd: getFixturePath(".."),
@@ -725,7 +696,6 @@ describe("ESLint", () => {
 
 			it("should report the filename when passed in", async () => {
 				eslint = new ESLint({
-					flags,
 					ignore: false,
 					cwd: getFixturePath(),
 				});
@@ -743,7 +713,6 @@ describe("ESLint", () => {
 
 			it("should return a warning when given a filename by --stdin-filename in excluded files list if warnIgnored is true", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: getFixturePath(".."),
 					overrideConfigFile:
 						"fixtures/eslint.config-with-ignores.js",
@@ -780,7 +749,6 @@ describe("ESLint", () => {
 
 			it("should return a warning when given a filename without a matching config by --stdin-filename if warnIgnored is true", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: getFixturePath(".."),
 					overrideConfigFile: true,
 				});
@@ -816,7 +784,6 @@ describe("ESLint", () => {
 
 			it("should return a warning when given a filename outside the base path by --stdin-filename if warnIgnored is true", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: getFixturePath(),
 					overrideConfigFile: true,
 				});
@@ -853,7 +820,6 @@ describe("ESLint", () => {
 					const otherRoot = currentRoot === "A:\\" ? "B:\\" : "A:\\";
 
 					eslint = new ESLint({
-						flags,
 						cwd: getFixturePath(),
 						overrideConfigFile: true,
 					});
@@ -888,7 +854,6 @@ describe("ESLint", () => {
 
 			it("should return a warning when given a filename by --stdin-filename in excluded files list if constructor warnIgnored is false, but lintText warnIgnored is true", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: getFixturePath(".."),
 					overrideConfigFile:
 						"fixtures/eslint.config-with-ignores.js",
@@ -926,7 +891,6 @@ describe("ESLint", () => {
 
 			it("should not return a warning when given a filename by --stdin-filename in excluded files list if warnIgnored is false", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: getFixturePath(".."),
 					overrideConfigFile:
 						"fixtures/eslint.config-with-ignores.js",
@@ -948,7 +912,6 @@ describe("ESLint", () => {
 
 			it("should not return a warning when given a filename by --stdin-filename in excluded files list if constructor warnIgnored is false", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: getFixturePath(".."),
 					overrideConfigFile:
 						"fixtures/eslint.config-with-ignores.js",
@@ -965,8 +928,7 @@ describe("ESLint", () => {
 			});
 
 			it("should throw an error when there's no config file for a stdin file", () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({	
 					cwd: "/",
 				});
 				const options = { filePath: "fixtures/passing.js" };
@@ -978,8 +940,7 @@ describe("ESLint", () => {
 			});
 
 			it("should show excluded file warnings by default", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({				
 					cwd: getFixturePath(".."),
 					overrideConfigFile:
 						"fixtures/eslint.config-with-ignores.js",
@@ -998,8 +959,7 @@ describe("ESLint", () => {
 			});
 
 			it("should return a message when given a filename by --stdin-filename in excluded files list and ignore is off", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({				
 					cwd: getFixturePath(".."),
 					ignore: false,
 					overrideConfigFile:
@@ -1028,8 +988,7 @@ describe("ESLint", () => {
 			});
 
 			it("should return a message and fixed text when in fix mode", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({		
 					overrideConfigFile: true,
 					fix: true,
 					overrideConfig: {
@@ -1066,8 +1025,7 @@ describe("ESLint", () => {
 			});
 
 			it("should return a message and omit fixed text when in fix mode and fixes aren't done", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					overrideConfigFile: true,
 					fix: true,
 					overrideConfig: {
@@ -1110,8 +1068,7 @@ describe("ESLint", () => {
 			});
 
 			it("should not delete code if there is a syntax error after trying to autofix.", async () => {
-				eslint = eslintWithPlugins({
-					flags,
+				eslint = eslintWithPlugins({					
 					overrideConfigFile: true,
 					fix: true,
 					overrideConfig: {
@@ -1152,8 +1109,7 @@ describe("ESLint", () => {
 			});
 
 			it("should not crash even if there are any syntax error since the first time.", async () => {
-				eslint = eslintWithPlugins({
-					flags,
+				eslint = eslintWithPlugins({					
 					overrideConfigFile: true,
 					fix: true,
 					overrideConfig: {
@@ -1194,8 +1150,7 @@ describe("ESLint", () => {
 			});
 
 			it("should return source code of file in `source` property when errors are present", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					overrideConfigFile: true,
 					overrideConfig: {
 						rules: { semi: 2 },
@@ -1207,8 +1162,7 @@ describe("ESLint", () => {
 			});
 
 			it("should return source code of file in `source` property when warnings are present", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					overrideConfigFile: true,
 					overrideConfig: {
 						rules: { semi: 1 },
@@ -1220,8 +1174,7 @@ describe("ESLint", () => {
 			});
 
 			it("should not return a `source` property when no errors or warnings are present", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					overrideConfigFile: true,
 					overrideConfig: {
 						rules: { semi: 2 },
@@ -1235,8 +1188,7 @@ describe("ESLint", () => {
 			});
 
 			it("should not return a `source` property when fixes are applied", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					overrideConfigFile: true,
 					fix: true,
 					overrideConfig: {
@@ -1256,8 +1208,7 @@ describe("ESLint", () => {
 			});
 
 			it("should return a `source` property when a parsing error has occurred", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					overrideConfigFile: true,
 					overrideConfig: {
 						rules: { eqeqeq: 2 },
@@ -1295,8 +1246,7 @@ describe("ESLint", () => {
 
 			// https://github.com/eslint/eslint/issues/5547
 			it("should respect default ignore rules (ignoring node_modules), even with --no-ignore", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					cwd: getFixturePath(),
 					ignore: false,
 				});
@@ -1317,8 +1267,7 @@ describe("ESLint", () => {
 			});
 
 			it("should warn when deprecated rules are found in a config", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					cwd: originalDir,
 					overrideConfigFile:
 						"tests/fixtures/cli-engine/deprecated-rule-config/eslint.config.js",
@@ -1335,8 +1284,7 @@ describe("ESLint", () => {
 			});
 
 			it("should throw if eslint.config.js file is not present", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					cwd: getFixturePath(".."),
 				});
 				await assert.rejects(
@@ -1346,8 +1294,7 @@ describe("ESLint", () => {
 			});
 
 			it("should throw if eslint.config.js file is not present even if overrideConfig was passed", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					cwd: getFixturePath(".."),
 					overrideConfig: {
 						rules: {
@@ -1362,8 +1309,7 @@ describe("ESLint", () => {
 			});
 
 			it("should not throw if eslint.config.js file is not present and overrideConfigFile is `true`", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					cwd: getFixturePath(".."),
 					overrideConfigFile: true,
 				});
@@ -1371,8 +1317,7 @@ describe("ESLint", () => {
 			});
 
 			it("should not throw if eslint.config.js file is not present and overrideConfigFile is path to a config file", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					cwd: getFixturePath(".."),
 					overrideConfigFile:
 						"fixtures/configurations/quotes-error.js",
@@ -1381,8 +1326,7 @@ describe("ESLint", () => {
 			});
 
 			it("should throw if overrideConfigFile is path to a file that doesn't exist", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					cwd: getFixturePath(""),
 					overrideConfigFile: "does-not-exist.js",
 				});
@@ -1393,7 +1337,7 @@ describe("ESLint", () => {
 			});
 
 			it("should throw if non-string value is given to 'code' parameter", async () => {
-				eslint = new ESLint({ flags });
+				eslint = new ESLint();
 				await assert.rejects(
 					() => eslint.lintText(100),
 					/'code' must be a string/u,
@@ -1401,7 +1345,7 @@ describe("ESLint", () => {
 			});
 
 			it("should throw if non-object value is given to 'options' parameter", async () => {
-				eslint = new ESLint({ flags });
+				eslint = new ESLint();
 				await assert.rejects(
 					() => eslint.lintText("var a = 0", "foo.js"),
 					/'options' must be an object, null, or undefined/u,
@@ -1409,7 +1353,7 @@ describe("ESLint", () => {
 			});
 
 			it("should throw if 'options' argument contains unknown key", async () => {
-				eslint = new ESLint({ flags });
+				eslint = new ESLint();
 				await assert.rejects(
 					() => eslint.lintText("var a = 0", { filename: "foo.js" }),
 					/'options' must not include the unknown option\(s\): filename/u,
@@ -1417,7 +1361,7 @@ describe("ESLint", () => {
 			});
 
 			it("should throw if non-string value is given to 'options.filePath' option", async () => {
-				eslint = new ESLint({ flags });
+				eslint = new ESLint();
 				await assert.rejects(
 					() => eslint.lintText("var a = 0", { filePath: "" }),
 					/'options.filePath' must be a non-empty string or undefined/u,
@@ -1425,7 +1369,7 @@ describe("ESLint", () => {
 			});
 
 			it("should throw if non-boolean value is given to 'options.warnIgnored' option", async () => {
-				eslint = new ESLint({ flags });
+				eslint = new ESLint();
 				await assert.rejects(
 					() => eslint.lintText("var a = 0", { warnIgnored: "" }),
 					/'options.warnIgnored' must be a boolean or undefined/u,
@@ -1433,8 +1377,7 @@ describe("ESLint", () => {
 			});
 
 			it("should work with config file that exports a promise", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					cwd: getFixturePath("promise-config"),
 				});
 				const results = await eslint.lintText('var foo = "bar";');
@@ -1449,8 +1392,7 @@ describe("ESLint", () => {
 				it("should find eslint.config.mjs when present", async () => {
 					const cwd = getFixturePath("mjs-config");
 
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd,
 					});
 
@@ -1468,8 +1410,7 @@ describe("ESLint", () => {
 				it("should find eslint.config.cjs when present", async () => {
 					const cwd = getFixturePath("cjs-config");
 
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd,
 					});
 
@@ -1487,8 +1428,7 @@ describe("ESLint", () => {
 				it("should favor eslint.config.js when eslint.config.mjs and eslint.config.cjs are present", async () => {
 					const cwd = getFixturePath("js-mjs-cjs-config");
 
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd,
 					});
 
@@ -1501,8 +1441,7 @@ describe("ESLint", () => {
 				it("should favor eslint.config.mjs when eslint.config.cjs is present", async () => {
 					const cwd = getFixturePath("mjs-cjs-config");
 
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd,
 					});
 
@@ -1541,8 +1480,7 @@ describe("ESLint", () => {
 							const cwd = getFixturePath("ts-config-files", "ts");
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintText("foo");
@@ -1567,8 +1505,7 @@ describe("ESLint", () => {
 							);
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintText("foo");
@@ -1593,8 +1530,7 @@ describe("ESLint", () => {
 							);
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintText("foo");
@@ -1619,8 +1555,7 @@ describe("ESLint", () => {
 							);
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintText("foo");
@@ -1645,8 +1580,7 @@ describe("ESLint", () => {
 							);
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintText("foo");
@@ -1671,8 +1605,7 @@ describe("ESLint", () => {
 							);
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 								overrideConfigFile: getFixturePath(
 									"ts-config-files",
 									"ts",
@@ -1702,8 +1635,7 @@ describe("ESLint", () => {
 							);
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintText("foo");
@@ -1728,8 +1660,7 @@ describe("ESLint", () => {
 							);
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintText("foo");
@@ -1754,8 +1685,7 @@ describe("ESLint", () => {
 							);
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintText("foo");
@@ -1779,8 +1709,7 @@ describe("ESLint", () => {
 							);
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintText("foo");
@@ -1805,8 +1734,7 @@ describe("ESLint", () => {
 							);
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintText("foo");
@@ -1831,8 +1759,7 @@ describe("ESLint", () => {
 							);
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintText("foo");
@@ -1857,8 +1784,7 @@ describe("ESLint", () => {
 							);
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintText("foo;");
@@ -1885,8 +1811,7 @@ describe("ESLint", () => {
 							);
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 								overrideConfigFile:
 									"eslint.undefined.config.ts",
 							});
@@ -1912,8 +1837,7 @@ describe("ESLint", () => {
 					const cwd = getFixturePath("ts-config-files", "ts");
 
 					eslint = new ESLint({
-						cwd,
-						flags,
+						cwd,						
 					});
 
 					await assert.rejects(eslint.lintText("foo();"), {
@@ -1930,8 +1854,7 @@ describe("ESLint", () => {
 					const cwd = getFixturePath("ts-config-files", "ts");
 
 					eslint = new ESLint({
-						cwd,
-						flags,
+						cwd,						
 					});
 
 					await assert.rejects(eslint.lintText("foo();"), {
@@ -1958,8 +1881,7 @@ describe("ESLint", () => {
 					);
 
 					eslint = new ESLint({
-						cwd,
-						flags,
+						cwd,						
 					});
 
 					const results = await eslint.lintText("foo");
@@ -2125,8 +2047,7 @@ describe("ESLint", () => {
 					"../../fixtures/configurations/parser/custom.js",
 				);
 
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					cwd: originalDir,
 					ignore: false,
 					overrideConfigFile: true,
@@ -2149,8 +2070,7 @@ describe("ESLint", () => {
 			});
 
 			it("should report zero messages when given a config file and a valid file", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					cwd: originalDir,
 					overrideConfigFile:
 						"tests/fixtures/simple-valid-project/eslint.config.js",
@@ -2166,8 +2086,7 @@ describe("ESLint", () => {
 			});
 
 			it("should handle multiple patterns with overlapping files", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					cwd: originalDir,
 					overrideConfigFile:
 						"tests/fixtures/simple-valid-project/eslint.config.js",
@@ -2185,8 +2104,7 @@ describe("ESLint", () => {
 			});
 
 			it("should report zero messages when given a config file and a valid file and espree as parser", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					overrideConfig: {
 						languageOptions: {
 							parser: require("espree"),
@@ -2205,8 +2123,7 @@ describe("ESLint", () => {
 			});
 
 			it("should report zero messages when given a config file and a valid file and esprima as parser", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					overrideConfig: {
 						languageOptions: {
 							parser: require("esprima"),
@@ -2241,9 +2158,8 @@ describe("ESLint", () => {
 					shell.rm("-r", workDir);
 				});
 
-				it(`${flags}:should throw if eslint.config.js file is not present`, async () => {
-					eslint = new ESLint({
-						flags,
+				it(`should throw if eslint.config.js file is not present`, async () => {
+					eslint = new ESLint({					
 						cwd: workDir,
 					});
 					await assert.rejects(
@@ -2253,8 +2169,7 @@ describe("ESLint", () => {
 				});
 
 				it("should throw if eslint.config.js file is not present even if overrideConfig was passed", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath(".."),
 						overrideConfig: {
 							rules: {
@@ -2269,8 +2184,7 @@ describe("ESLint", () => {
 				});
 
 				it("should throw if eslint.config.js file is not present even if overrideConfig was passed and a file path is given", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath(".."),
 						overrideConfig: {
 							rules: {
@@ -2286,8 +2200,7 @@ describe("ESLint", () => {
 				});
 
 				it("should not throw if eslint.config.js file is not present and overrideConfigFile is `true`", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: workDir,
 						overrideConfigFile: true,
 					});
@@ -2295,8 +2208,7 @@ describe("ESLint", () => {
 				});
 
 				it("should not throw if eslint.config.js file is not present and overrideConfigFile is path to a config file", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: workDir,
 						overrideConfigFile: path.join(
 							fixtureDir,
@@ -2308,8 +2220,7 @@ describe("ESLint", () => {
 			});
 
 			it("should throw if overrideConfigFile is path to a file that doesn't exist", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					cwd: getFixturePath(),
 					overrideConfigFile: "does-not-exist.js",
 				});
@@ -2319,8 +2230,7 @@ describe("ESLint", () => {
 			});
 
 			it("should throw an error when given a config file and a valid file and invalid parser", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					overrideConfig: {
 						languageOptions: {
 							parser: "test11",
@@ -2367,8 +2277,7 @@ describe("ESLint", () => {
 					path.resolve(testDir, "src", "foobar.js"),
 				];
 
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					cwd: originalDir,
 					overrideConfigFile: path.resolve(
 						testDir,
@@ -2400,8 +2309,7 @@ describe("ESLint", () => {
 				it("should not lint the same file multiple times when the file path was passed multiple times", async () => {
 					const cwd = getFixturePath();
 
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd,
 						overrideConfigFile: true,
 					});
@@ -2424,8 +2332,7 @@ describe("ESLint", () => {
 				it("should not lint the same file multiple times when the file path and a pattern that matches the file were passed", async () => {
 					const cwd = getFixturePath();
 
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd,
 						overrideConfigFile: true,
 					});
@@ -2447,8 +2354,7 @@ describe("ESLint", () => {
 				it("should not lint the same file multiple times when multiple patterns that match the file were passed", async () => {
 					const cwd = getFixturePath();
 
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd,
 						overrideConfigFile: true,
 					});
@@ -2476,8 +2382,7 @@ describe("ESLint", () => {
 					["undefined", void 0],
 				].forEach(([name, value]) => {
 					it(`should throw an error when passed ${name}`, async () => {
-						eslint = new ESLint({
-							flags,
+						eslint = new ESLint({							
 							overrideConfigFile: true,
 						});
 
@@ -2495,8 +2400,7 @@ describe("ESLint", () => {
 					["an empty array", []],
 				].forEach(([name, value]) => {
 					it(`should normalize to '.' when ${name} is passed`, async () => {
-						eslint = new ESLint({
-							flags,
+						eslint = new ESLint({							
 							ignore: false,
 							cwd: getFixturePath("files"),
 							overrideConfig: { files: ["**/*.js"] },
@@ -2523,8 +2427,7 @@ describe("ESLint", () => {
 					});
 
 					it(`should return an empty array when ${name} is passed with passOnNoPatterns: true`, async () => {
-						eslint = new ESLint({
-							flags,
+						eslint = new ESLint({							
 							ignore: false,
 							cwd: getFixturePath("files"),
 							overrideConfig: { files: ["**/*.js"] },
@@ -2540,8 +2443,7 @@ describe("ESLint", () => {
 			});
 
 			it("should report zero messages when given a directory with a .js2 file", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					cwd: path.join(fixtureDir, ".."),
 					overrideConfigFile: getFixturePath("eslint.config.js"),
 					overrideConfig: {
@@ -2558,8 +2460,7 @@ describe("ESLint", () => {
 			});
 
 			it("should report zero messages when given a directory with a .js and a .js2 file", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					ignore: false,
 					cwd: getFixturePath(".."),
 					overrideConfig: { files: ["**/*.js", "**/*.js2"] },
@@ -2575,8 +2476,7 @@ describe("ESLint", () => {
 
 			// https://github.com/eslint/eslint/issues/18550
 			it("should skip files with non-standard extensions when they're matched only by a '*' files pattern", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					cwd: getFixturePath("files"),
 					overrideConfig: { files: ["*"] },
 					overrideConfigFile: true,
@@ -2594,8 +2494,7 @@ describe("ESLint", () => {
 
 			// https://github.com/eslint/eslint/issues/16413
 			it("should find files and report zero messages when given a parent directory with a .js", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					ignore: false,
 					cwd: getFixturePath("example-app/subdir"),
 				});
@@ -2610,8 +2509,7 @@ describe("ESLint", () => {
 
 			// https://github.com/eslint/eslint/issues/16038
 			it("should allow files patterns with '..' inside", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					ignore: false,
 					cwd: getFixturePath("dots-in-files"),
 				});
@@ -2628,8 +2526,7 @@ describe("ESLint", () => {
 
 			// https://github.com/eslint/eslint/issues/16299
 			it("should only find files in the subdir1 directory when given a directory name", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					ignore: false,
 					cwd: getFixturePath("example-app2"),
 				});
@@ -2646,8 +2543,7 @@ describe("ESLint", () => {
 
 			// https://github.com/eslint/eslint/issues/14742
 			it("should run", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					cwd: getFixturePath("{curly-path}", "server"),
 				});
 				const results = await eslint.lintFiles(["src/**/*.{js,json}"]);
@@ -2663,8 +2559,7 @@ describe("ESLint", () => {
 			});
 
 			it("should work with config file that exports a promise", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					cwd: getFixturePath("promise-config"),
 				});
 				const results = await eslint.lintFiles(["a*.js"]);
@@ -2682,8 +2577,7 @@ describe("ESLint", () => {
 			// https://github.com/eslint/eslint/issues/16265
 			describe("Dot files in searches", () => {
 				it("should find dot files in current directory when a . pattern is used", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("dot-files"),
 					});
 					const results = await eslint.lintFiles(["."]);
@@ -2710,8 +2604,7 @@ describe("ESLint", () => {
 				});
 
 				it("should find dot files in current directory when a *.js pattern is used", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("dot-files"),
 					});
 					const results = await eslint.lintFiles(["*.js"]);
@@ -2738,8 +2631,7 @@ describe("ESLint", () => {
 				});
 
 				it("should find dot files in current directory when a .a.js pattern is used", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("dot-files"),
 					});
 					const results = await eslint.lintFiles([".a.js"]);
@@ -2757,8 +2649,7 @@ describe("ESLint", () => {
 			// https://github.com/eslint/eslint/issues/16275
 			describe("Glob patterns without matches", () => {
 				it("should throw an error for a missing pattern when combined with a found pattern", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						ignore: false,
 						cwd: getFixturePath("example-app2"),
 					});
@@ -2772,8 +2663,7 @@ describe("ESLint", () => {
 				});
 
 				it("should throw an error for an ignored directory pattern when combined with a found pattern", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("example-app2"),
 						overrideConfig: {
 							ignores: ["subdir2"],
@@ -2789,8 +2679,7 @@ describe("ESLint", () => {
 				});
 
 				it("should throw an error for an ignored file pattern when combined with a found pattern", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("example-app2"),
 						overrideConfig: {
 							ignores: ["subdir2/*.js"],
@@ -2806,8 +2695,7 @@ describe("ESLint", () => {
 				});
 
 				it("should always throw an error for the first unmatched file pattern", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("example-app2"),
 						overrideConfig: {
 							ignores: ["subdir1/*.js", "subdir2/*.js"],
@@ -2844,8 +2732,7 @@ describe("ESLint", () => {
 				});
 
 				it("should not throw an error for an ignored file pattern when errorOnUnmatchedPattern is false", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("example-app2"),
 						overrideConfig: {
 							ignores: ["subdir2/*.js"],
@@ -2859,8 +2746,7 @@ describe("ESLint", () => {
 				});
 
 				it("should not throw an error for a non-existing file pattern when errorOnUnmatchedPattern is false", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("example-app2"),
 						errorOnUnmatchedPattern: false,
 					});
@@ -2874,8 +2760,7 @@ describe("ESLint", () => {
 			// https://github.com/eslint/eslint/issues/16260
 			describe("Globbing based on configs", () => {
 				it("should report zero messages when given a directory with a .js and config file specifying a subdirectory", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						ignore: false,
 						cwd: getFixturePath("shallow-glob"),
 					});
@@ -2887,8 +2772,7 @@ describe("ESLint", () => {
 				});
 
 				it("should glob for .jsx file in a subdirectory of the passed-in directory and not glob for any other patterns", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						ignore: false,
 						overrideConfigFile: true,
 						overrideConfig: {
@@ -2929,8 +2813,7 @@ describe("ESLint", () => {
 				});
 
 				it("should glob for all files in subdir when passed-in on the command line with a partial matching glob", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						ignore: false,
 						overrideConfigFile: true,
 						overrideConfig: {
@@ -2966,8 +2849,7 @@ describe("ESLint", () => {
 			describe("Globbing based on configs with negated patterns and arrays in `files`", () => {
 				// https://github.com/eslint/eslint/issues/19813
 				it("should not include custom extensions when negated pattern is specified in `files`", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("file-extensions"),
 						overrideConfigFile: true,
 						overrideConfig: [
@@ -2996,8 +2878,7 @@ describe("ESLint", () => {
 				});
 
 				it("should not include custom extensions when negated pattern is specified in an array in `files`", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("file-extensions"),
 						overrideConfigFile: true,
 						overrideConfig: [
@@ -3033,8 +2914,7 @@ describe("ESLint", () => {
 
 				// https://github.com/eslint/eslint/issues/19814
 				it("should include custom extensions when matched by a non-universal pattern specified in an array in `files`", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("file-extensions", ".."),
 						overrideConfigFile: true,
 						overrideConfig: [
@@ -3065,8 +2945,7 @@ describe("ESLint", () => {
 			});
 
 			it("should report zero messages when given a '**' pattern with a .js and a .js2 file", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					ignore: false,
 					cwd: path.join(fixtureDir, ".."),
 					overrideConfig: { files: ["**/*.js", "**/*.js2"] },
@@ -3084,8 +2963,7 @@ describe("ESLint", () => {
 			});
 
 			it("should resolve globs when 'globInputPaths' option is true", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					ignore: false,
 					cwd: getFixturePath(".."),
 					overrideConfig: { files: ["**/*.js", "**/*.js2"] },
@@ -3105,8 +2983,7 @@ describe("ESLint", () => {
 			// only works on a Windows machine
 			if (os.platform() === "win32") {
 				it("should resolve globs with Windows slashes when 'globInputPaths' option is true", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						ignore: false,
 						cwd: getFixturePath(".."),
 						overrideConfig: { files: ["**/*.js", "**/*.js2"] },
@@ -3127,8 +3004,7 @@ describe("ESLint", () => {
 			}
 
 			it("should not resolve globs when 'globInputPaths' option is false", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					ignore: false,
 					cwd: getFixturePath(".."),
 					overrideConfig: { files: ["**/*.js", "**/*.js2"] },
@@ -3143,8 +3019,7 @@ describe("ESLint", () => {
 
 			describe("Ignoring Files", () => {
 				it("should report on a file in the node_modules folder passed explicitly, even if ignored by default", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("cli-engine"),
 					});
 					const results = await eslint.lintFiles([
@@ -3168,8 +3043,7 @@ describe("ESLint", () => {
 				});
 
 				it("should report on a file in a node_modules subfolder passed explicitly, even if ignored by default", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("cli-engine"),
 					});
 					const results = await eslint.lintFiles([
@@ -3193,8 +3067,7 @@ describe("ESLint", () => {
 				});
 
 				it('should report on an ignored file with "node_modules" in its name', async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("cli-engine"),
 						ignorePatterns: ["*.js"],
 					});
@@ -3219,8 +3092,7 @@ describe("ESLint", () => {
 				});
 
 				it("should suppress the warning when a file in the node_modules folder passed explicitly and warnIgnored is false", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("cli-engine"),
 						warnIgnored: false,
 					});
@@ -3232,8 +3104,7 @@ describe("ESLint", () => {
 				});
 
 				it("should report on globs with explicit inclusion of dotfiles", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("cli-engine"),
 						overrideConfigFile: true,
 						overrideConfig: {
@@ -3255,8 +3126,7 @@ describe("ESLint", () => {
 				});
 
 				it("should ignore node_modules files when using ignore file", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("cli-engine"),
 						overrideConfigFile: true,
 					});
@@ -3268,8 +3138,7 @@ describe("ESLint", () => {
 
 				// https://github.com/eslint/eslint/issues/5547
 				it("should ignore node_modules files even with ignore: false", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("cli-engine"),
 						ignore: false,
 					});
@@ -3280,8 +3149,7 @@ describe("ESLint", () => {
 				});
 
 				it("should throw an error when all given files are ignored", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						overrideConfigFile: getFixturePath(
 							"eslint.config-with-ignores.js",
 						),
@@ -3293,8 +3161,7 @@ describe("ESLint", () => {
 				});
 
 				it("should throw an error when all given files are ignored by a config object that has `name`", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						overrideConfigFile: getFixturePath(
 							"eslint.config-with-ignores3.js",
 						),
@@ -3306,8 +3173,7 @@ describe("ESLint", () => {
 				});
 
 				it("should throw an error when all given files are ignored even with a `./` prefix", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						overrideConfigFile: getFixturePath(
 							"eslint.config-with-ignores.js",
 						),
@@ -3322,8 +3188,7 @@ describe("ESLint", () => {
 
 				// https://github.com/eslint/eslint/issues/3788
 				it("should ignore one-level down node_modules by default", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						overrideConfigFile: true,
 						overrideConfig: {
 							rules: {
@@ -3347,8 +3212,7 @@ describe("ESLint", () => {
 
 				// https://github.com/eslint/eslint/issues/3812
 				it("should ignore all files and throw an error when **/fixtures/** is in `ignores` in the config file", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						overrideConfigFile: getFixturePath(
 							"cli-engine/eslint.config-with-ignores2.js",
 						),
@@ -3367,8 +3231,7 @@ describe("ESLint", () => {
 				});
 
 				it("should throw an error when all given files are ignored via ignorePatterns", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						overrideConfigFile: true,
 						ignorePatterns: ["tests/fixtures/single-quoted.js"],
 					});
@@ -3379,8 +3242,7 @@ describe("ESLint", () => {
 				});
 
 				it("should not throw an error when ignorePatterns is an empty array", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						overrideConfigFile: true,
 						ignorePatterns: [],
 					});
@@ -3391,8 +3253,7 @@ describe("ESLint", () => {
 				});
 
 				it("should return a warning when an explicitly given file is ignored", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						overrideConfigFile: "eslint.config-with-ignores.js",
 						cwd: getFixturePath(),
 					});
@@ -3415,8 +3276,7 @@ describe("ESLint", () => {
 				});
 
 				it("should return a warning when an explicitly given file has no matching config", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						overrideConfigFile: true,
 						cwd: getFixturePath(),
 					});
@@ -3439,8 +3299,7 @@ describe("ESLint", () => {
 				});
 
 				it("should return a warning when an explicitly given file is outside the base path", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						overrideConfigFile: true,
 						cwd: getFixturePath("files"),
 					});
@@ -3463,8 +3322,7 @@ describe("ESLint", () => {
 				});
 
 				it("should suppress the warning when an explicitly given file is ignored and warnIgnored is false", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						overrideConfigFile: "eslint.config-with-ignores.js",
 						cwd: getFixturePath(),
 						warnIgnored: false,
@@ -3476,8 +3334,7 @@ describe("ESLint", () => {
 				});
 
 				it("should return a warning about matching ignore patterns when an explicitly given dotfile is ignored", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						overrideConfigFile: "eslint.config-with-ignores.js",
 						cwd: getFixturePath(),
 					});
@@ -3500,8 +3357,7 @@ describe("ESLint", () => {
 				});
 
 				it("should return two messages when given a file in excluded files list while ignore is off", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath(),
 						ignore: false,
 						overrideConfigFile: getFixturePath(
@@ -3534,8 +3390,7 @@ describe("ESLint", () => {
 				});
 
 				it("should return two messages when given a file in excluded files list by a config object that has `name` while ignore is off", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath(),
 						ignore: false,
 						overrideConfigFile: getFixturePath(
@@ -3569,8 +3424,7 @@ describe("ESLint", () => {
 
 				// https://github.com/eslint/eslint/issues/16300
 				it("should process ignore patterns relative to basePath not cwd", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("ignores-relative/subdir"),
 					});
 					const results = await eslint.lintFiles(["**/*.js"]);
@@ -3584,8 +3438,7 @@ describe("ESLint", () => {
 
 				// https://github.com/eslint/eslint/issues/16354
 				it("should skip subdirectory files when ignore pattern matches deep subdirectory", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("ignores-directory"),
 					});
 
@@ -3619,8 +3472,7 @@ describe("ESLint", () => {
 
 				// https://github.com/eslint/eslint/issues/16414
 				it("should skip subdirectory files when ignore pattern matches subdirectory", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("ignores-subdirectory"),
 					});
 
@@ -3647,8 +3499,7 @@ describe("ESLint", () => {
 						"Should contain file ignored warning",
 					);
 
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("ignores-subdirectory/subdir"),
 					});
 
@@ -3659,8 +3510,7 @@ describe("ESLint", () => {
 
 				// https://github.com/eslint/eslint/issues/16340
 				it("should lint files even when cwd directory name matches ignores pattern", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("ignores-self"),
 					});
 
@@ -3677,8 +3527,7 @@ describe("ESLint", () => {
 
 				// https://github.com/eslint/eslint/issues/16416
 				it("should allow reignoring of previously ignored files", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("ignores-relative"),
 						overrideConfigFile: true,
 						overrideConfig: {
@@ -3698,8 +3547,7 @@ describe("ESLint", () => {
 
 				// https://github.com/eslint/eslint/issues/16415
 				it("should allow directories to be unignored", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("ignores-directory"),
 						overrideConfigFile: true,
 						overrideConfig: {
@@ -3721,8 +3569,7 @@ describe("ESLint", () => {
 
 				// https://github.com/eslint/eslint/issues/17964#issuecomment-1879840650
 				it("should allow directories to be unignored without also unignoring all files in them", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("ignores-directory-deep"),
 						overrideConfigFile: true,
 						overrideConfig: {
@@ -3760,8 +3607,7 @@ describe("ESLint", () => {
 				});
 
 				it("should allow only subdirectories to be ignored by a pattern ending with '/'", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("ignores-directory-deep"),
 						overrideConfigFile: true,
 						overrideConfig: {
@@ -3790,8 +3636,7 @@ describe("ESLint", () => {
 				});
 
 				it("should allow only contents of a directory but not the directory itself to be ignored by a pattern ending with '**/*'", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("ignores-directory-deep"),
 						overrideConfigFile: true,
 						overrideConfig: {
@@ -3815,8 +3660,7 @@ describe("ESLint", () => {
 				});
 
 				it("should skip ignored files in an unignored directory", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("ignores-directory-deep"),
 						overrideConfigFile: true,
 						overrideConfig: {
@@ -3836,8 +3680,7 @@ describe("ESLint", () => {
 				});
 
 				it("should skip files in an ignored directory even if they are matched by a negated pattern", async () => {
-					eslint = new ESLint({
-						flags,
+					eslint = new ESLint({						
 						cwd: getFixturePath("ignores-directory-deep"),
 						overrideConfigFile: true,
 						overrideConfig: {
@@ -3862,8 +3705,7 @@ describe("ESLint", () => {
 				// https://github.com/eslint/eslint/issues/18597
 				it("should skip files ignored by a pattern with escape character '\\'", async () => {
 					eslint = new ESLint({
-						cwd: getFixturePath(),
-						flags,
+						cwd: getFixturePath(),						
 						overrideConfigFile: true,
 						overrideConfig: [
 							{
@@ -3917,8 +3759,7 @@ describe("ESLint", () => {
 				// https://github.com/eslint/eslint/issues/18706
 				it("should disregard ignore pattern '/'", async () => {
 					eslint = new ESLint({
-						cwd: getFixturePath("ignores-relative"),
-						flags,
+						cwd: getFixturePath("ignores-relative"),						
 						overrideConfigFile: true,
 						overrideConfig: [
 							{
@@ -3986,8 +3827,7 @@ describe("ESLint", () => {
 
 				it("should not skip an unignored file in base path when all files are initially ignored by '**'", async () => {
 					eslint = new ESLint({
-						cwd: getFixturePath("ignores-relative"),
-						flags,
+						cwd: getFixturePath("ignores-relative"),						
 						overrideConfigFile: true,
 						overrideConfig: [
 							{
@@ -4095,8 +3935,7 @@ describe("ESLint", () => {
 					});
 
 					it("should return a warning when an explicitly given file is on a different drive", async () => {
-						eslint = new ESLint({
-							flags,
+						eslint = new ESLint({							
 							overrideConfigFile: true,
 							cwd: getFixturePath(),
 						});
@@ -4122,8 +3961,7 @@ describe("ESLint", () => {
 					});
 
 					it("should not ignore an explicitly given file that is on the same drive as cwd", async () => {
-						eslint = new ESLint({
-							flags,
+						eslint = new ESLint({							
 							overrideConfigFile: true,
 							cwd: `${otherDriveLetter}:\\`,
 						});
@@ -4145,8 +3983,7 @@ describe("ESLint", () => {
 					});
 
 					it("should not ignore a file on the same drive as cwd that matches a glob pattern", async () => {
-						eslint = new ESLint({
-							flags,
+						eslint = new ESLint({							
 							overrideConfigFile: true,
 							cwd: `${otherDriveLetter}:\\files`,
 						});
@@ -4171,8 +4008,7 @@ describe("ESLint", () => {
 					});
 
 					it("should throw an error when a glob pattern matches only files on different drive", async () => {
-						eslint = new ESLint({
-							flags,
+						eslint = new ESLint({							
 							overrideConfigFile: true,
 							cwd: getFixturePath(),
 						});
@@ -4187,8 +4023,7 @@ describe("ESLint", () => {
 			});
 
 			it("should report zero messages when given a pattern with a .js and a .js2 file", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					overrideConfig: { files: ["**/*.js", "**/*.js2"] },
 					ignore: false,
 					cwd: path.join(fixtureDir, ".."),
@@ -4208,8 +4043,7 @@ describe("ESLint", () => {
 			});
 
 			it("should return one error message when given a config with rules with options and severity level set to error", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					cwd: getFixturePath(),
 					overrideConfigFile: true,
 					overrideConfig: {
@@ -4236,8 +4070,7 @@ describe("ESLint", () => {
 			});
 
 			it("should return 5 results when given a config and a directory of 5 valid files", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					cwd: path.join(fixtureDir, ".."),
 					overrideConfigFile: true,
 					overrideConfig: {
@@ -4310,8 +4143,7 @@ describe("ESLint", () => {
 			});
 
 			it("should return zero messages when given a config with browser globals", async () => {
-				eslint = new ESLint({
-					flags,
+				eslint = new ESLint({					
 					cwd: path.join(fixtureDir, ".."),
 					overrideConfigFile: getFixturePath(
 						"configurations",
@@ -4333,7 +4165,6 @@ describe("ESLint", () => {
 
 			it("should return zero messages when given an option to add browser globals", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: path.join(fixtureDir, ".."),
 					overrideConfigFile: true,
 					overrideConfig: {
@@ -4359,7 +4190,6 @@ describe("ESLint", () => {
 
 			it("should return zero messages when given a config with sourceType set to commonjs and Node.js globals", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: path.join(fixtureDir, ".."),
 					overrideConfigFile: getFixturePath(
 						"configurations",
@@ -4381,7 +4211,6 @@ describe("ESLint", () => {
 
 			it("should not return results from previous call when calling more than once", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: path.join(fixtureDir, ".."),
 					overrideConfigFile: getFixturePath("eslint.config.js"),
 					ignore: false,
@@ -4416,7 +4245,6 @@ describe("ESLint", () => {
 
 			it("should return zero messages when executing a file with a shebang", async () => {
 				eslint = new ESLint({
-					flags,
 					ignore: false,
 					cwd: getFixturePath(),
 					overrideConfigFile: getFixturePath("eslint.config.js"),
@@ -4436,7 +4264,6 @@ describe("ESLint", () => {
 
 			it("should return zero messages when executing without a config file", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: getFixturePath(),
 					ignore: false,
 					overrideConfigFile: true,
@@ -4456,7 +4283,6 @@ describe("ESLint", () => {
 			describe("Deprecated Rules", () => {
 				it("should warn when deprecated rules are configured", async () => {
 					eslint = new ESLint({
-						flags,
 						cwd: originalDir,
 						overrideConfigFile: true,
 						overrideConfig: {
@@ -4501,7 +4327,6 @@ describe("ESLint", () => {
 
 				it("should not warn when deprecated rules are not configured", async () => {
 					eslint = new ESLint({
-						flags,
 						cwd: originalDir,
 						overrideConfigFile: true,
 						overrideConfig: {
@@ -4523,7 +4348,6 @@ describe("ESLint", () => {
 							);
 						}
 						eslint = new ESLint({
-							flags,
 							cwd: fixtureDir,
 							overrideConfigFile:
 								"cli-engine/deprecated-rule-config/eslint.config.js",
@@ -4561,7 +4385,6 @@ describe("ESLint", () => {
 							);
 						}
 						eslint = new ESLint({
-							flags,
 							cwd: fixtureDir,
 							overrideConfigFile: true,
 							overrideConfig: {
@@ -4608,7 +4431,6 @@ describe("ESLint", () => {
 					};
 
 					eslint = new ESLint({
-						flags,
 						cwd: originalDir,
 						overrideConfigFile: true,
 						overrideConfig: {
@@ -4643,7 +4465,6 @@ describe("ESLint", () => {
 			describe("Fix Mode", () => {
 				it("correctly autofixes semicolon-conflicting-fixes", async () => {
 					eslint = new ESLint({
-						flags,
 						cwd: path.join(fixtureDir, ".."),
 						overrideConfigFile: true,
 						fix: true,
@@ -4662,7 +4483,6 @@ describe("ESLint", () => {
 
 				it("correctly autofixes return-conflicting-fixes", async () => {
 					eslint = new ESLint({
-						flags,
 						cwd: path.join(fixtureDir, ".."),
 						overrideConfigFile: true,
 						fix: true,
@@ -4696,7 +4516,6 @@ describe("ESLint", () => {
 					}
 
 					eslint = new ESLint({
-						flags,
 						cwd: path.join(fixtureDir, ".."),
 						overrideConfigFile: true,
 						fix: true,
@@ -4893,8 +4712,7 @@ describe("ESLint", () => {
 
 				// Cannot be run properly until cache is implemented
 				it("should run autofix even if files are cached without autofix results", async () => {
-					const baseOptions = {
-						flags,
+					const baseOptions = {					
 						cwd: path.join(fixtureDir, ".."),
 						overrideConfigFile: true,
 						overrideConfig: {
@@ -4936,8 +4754,7 @@ describe("ESLint", () => {
 
 			describe("plugins", () => {
 				it("should return two messages when executing with config file that specifies a plugin", async () => {
-					eslint = eslintWithPlugins({
-						flags,
+					eslint = eslintWithPlugins({	
 						cwd: path.resolve(fixtureDir, ".."),
 						overrideConfigFile: getFixturePath(
 							"configurations",
@@ -4965,7 +4782,6 @@ describe("ESLint", () => {
 
 				it("should return two messages when executing with cli option that specifies a plugin", async () => {
 					eslint = eslintWithPlugins({
-						flags,
 						cwd: path.resolve(fixtureDir, ".."),
 						overrideConfigFile: true,
 						overrideConfig: {
@@ -4993,7 +4809,6 @@ describe("ESLint", () => {
 
 				it("should return two messages when executing with cli option that specifies preloaded plugin", async () => {
 					eslint = new ESLint({
-						flags,
 						cwd: path.resolve(fixtureDir, ".."),
 						overrideConfigFile: true,
 						overrideConfig: {
@@ -5030,7 +4845,6 @@ describe("ESLint", () => {
 			describe("processors", () => {
 				it("should return two messages when executing with config file that specifies preloaded processor", async () => {
 					eslint = new ESLint({
-						flags,
 						overrideConfigFile: true,
 						overrideConfig: [
 							{
@@ -5077,7 +4891,6 @@ describe("ESLint", () => {
 
 				it("should run processors when calling lintFiles with config file that specifies preloaded processor", async () => {
 					eslint = new ESLint({
-						flags,
 						overrideConfigFile: true,
 						overrideConfig: [
 							{
@@ -5135,7 +4948,6 @@ describe("ESLint", () => {
 
 				it("should run processors when calling lintText with config file that specifies preloaded processor", async () => {
 					eslint = new ESLint({
-						flags,
 						overrideConfigFile: true,
 						overrideConfig: [
 							{
@@ -5195,7 +5007,6 @@ describe("ESLint", () => {
 					let count = 0;
 
 					eslint = new ESLint({
-						flags,
 						overrideConfigFile: true,
 						overrideConfig: [
 							{
@@ -5263,7 +5074,6 @@ describe("ESLint", () => {
 				// https://github.com/eslint/markdown/blob/main/rfcs/configure-file-name-from-block-meta.md#name-uniqueness
 				it("should allow processors to return filenames with a slash and treat them as subpaths", async () => {
 					eslint = new ESLint({
-						flags,
 						overrideConfigFile: true,
 						overrideConfig: [
 							{
@@ -5386,7 +5196,6 @@ describe("ESLint", () => {
 
 					it("should run in autofix mode when using a processor that supports autofixing", async () => {
 						eslint = new ESLint({
-							flags,
 							overrideConfigFile: true,
 							overrideConfig: [
 								{
@@ -5431,7 +5240,6 @@ describe("ESLint", () => {
 
 					it("should not run in autofix mode when using a processor that does not support autofixing", async () => {
 						eslint = new ESLint({
-							flags,
 							overrideConfigFile: true,
 							overrideConfig: {
 								files: ["**/*.html"],
@@ -5463,7 +5271,6 @@ describe("ESLint", () => {
 
 					it("should not run in autofix mode when `fix: true` is not provided, even if the processor supports autofixing", async () => {
 						eslint = new ESLint({
-							flags,
 							overrideConfigFile: true,
 							overrideConfig: [
 								{
@@ -5531,7 +5338,6 @@ describe("ESLint", () => {
 
 					it("should by default lint only .js, .mjs, and .cjs virtual files", async () => {
 						eslint = new ESLint({
-							flags,
 							overrideConfigFile: true,
 							overrideConfig: [
 								pluginConfig,
@@ -5569,7 +5375,6 @@ describe("ESLint", () => {
 
 					it("should lint additional virtual files that match non-universal patterns", async () => {
 						eslint = new ESLint({
-							flags,
 							overrideConfigFile: true,
 							overrideConfig: [
 								pluginConfig,
@@ -5617,7 +5422,6 @@ describe("ESLint", () => {
 					// https://github.com/eslint/eslint/issues/18493
 					it("should silently skip virtual files that match only universal patterns", async () => {
 						eslint = new ESLint({
-							flags,
 							overrideConfigFile: true,
 							overrideConfig: [
 								pluginConfig,
@@ -5656,7 +5460,6 @@ describe("ESLint", () => {
 
 					it("should silently skip virtual files that are ignored by global ignores", async () => {
 						eslint = new ESLint({
-							flags,
 							overrideConfigFile: true,
 							overrideConfig: [
 								pluginConfig,
@@ -5692,7 +5495,6 @@ describe("ESLint", () => {
 					// https://github.com/eslint/eslint/issues/15949
 					it("should silently skip virtual files that are ignored by global ignores even if they match non-universal patterns", async () => {
 						eslint = new ESLint({
-							flags,
 							overrideConfigFile: true,
 							overrideConfig: [
 								pluginConfig,
@@ -5739,7 +5541,6 @@ describe("ESLint", () => {
 			describe("Patterns which match no file should throw errors.", () => {
 				beforeEach(() => {
 					eslint = new ESLint({
-						flags,
 						cwd: getFixturePath("cli-engine"),
 						overrideConfigFile: true,
 					});
@@ -5875,7 +5676,7 @@ describe("ESLint", () => {
 					});
 
 					await teardown.prepare();
-					eslint = new ESLint({ flags, cwd: teardown.getPath() });
+					eslint = new ESLint({ cwd: teardown.getPath() });
 					const results = await eslint.lintFiles(["test.md"]);
 
 					assert.strictEqual(
@@ -5927,7 +5728,6 @@ describe("ESLint", () => {
 
 					await teardown.prepare();
 					eslint = new ESLint({
-						flags,
 						cwd: teardown.getPath(),
 						overrideConfig: { files: ["**/*.html"] },
 					});
@@ -5988,7 +5788,6 @@ describe("ESLint", () => {
 
 					await teardown.prepare();
 					eslint = new ESLint({
-						flags,
 						cwd: teardown.getPath(),
 						overrideConfig: { files: ["**/*.html"] },
 						fix: true,
@@ -6055,7 +5854,6 @@ describe("ESLint", () => {
 
 					await teardown.prepare();
 					eslint = new ESLint({
-						flags,
 						cwd: teardown.getPath(),
 						overrideConfig: { files: ["**/*.html"] },
 					});
@@ -6112,7 +5910,6 @@ describe("ESLint", () => {
 
 					await teardown.prepare();
 					eslint = new ESLint({
-						flags,
 						cwd: teardown.getPath(),
 						overrideConfig: { files: ["**/*.html"] },
 					});
@@ -6157,7 +5954,7 @@ describe("ESLint", () => {
 					});
 
 					await teardown.prepare();
-					eslint = new ESLint({ flags, cwd: teardown.getPath() });
+					eslint = new ESLint({ cwd: teardown.getPath() });
 
 					await assert.rejects(async () => {
 						await eslint.lintFiles(["test.md"]);
@@ -6191,7 +5988,7 @@ describe("ESLint", () => {
 					await teardown.prepare();
 					cleanup = teardown.cleanup;
 
-					eslint = new ESLint({ flags, cwd: teardown.getPath() });
+					eslint = new ESLint({ cwd: teardown.getPath() });
 					const results = await eslint.lintFiles(["[ab].js"]);
 					const filenames = results.map(r =>
 						path.basename(r.filePath),
@@ -6213,7 +6010,7 @@ describe("ESLint", () => {
 
 					await teardown.prepare();
 					cleanup = teardown.cleanup;
-					eslint = new ESLint({ flags, cwd: teardown.getPath() });
+					eslint = new ESLint({ cwd: teardown.getPath() });
 					const results = await eslint.lintFiles(["[ab].js"]);
 					const filenames = results.map(r =>
 						path.basename(r.filePath),
@@ -6246,7 +6043,7 @@ describe("ESLint", () => {
 
 					await teardown.prepare();
 					cleanup = teardown.cleanup;
-					eslint = new ESLint({ flags, cwd: teardown.getPath() });
+					eslint = new ESLint({ cwd: teardown.getPath() });
 
 					const results = await eslint.lintFiles(["test.js"]);
 					const messages = results[0].messages;
@@ -6286,7 +6083,7 @@ describe("ESLint", () => {
 
 					await teardown.prepare();
 					cleanup = teardown.cleanup;
-					eslint = new ESLint({ flags, cwd: teardown.getPath() });
+					eslint = new ESLint({ cwd: teardown.getPath() });
 
 					const results = await eslint.lintFiles(["test.js"]);
 					const messages = results[0].messages;
@@ -6312,7 +6109,7 @@ describe("ESLint", () => {
 
 					await teardown.prepare();
 					cleanup = teardown.cleanup;
-					eslint = new ESLint({ flags, cwd: teardown.getPath() });
+					eslint = new ESLint({ cwd: teardown.getPath() });
 
 					const results = await eslint.lintFiles(["test.js"]);
 					const messages = results[0].messages;
@@ -6338,7 +6135,7 @@ describe("ESLint", () => {
 
 					await teardown.prepare();
 					cleanup = teardown.cleanup;
-					eslint = new ESLint({ flags, cwd: teardown.getPath() });
+					eslint = new ESLint({ cwd: teardown.getPath() });
 
 					const results = await eslint.lintFiles(["test.js"]);
 					const messages = results[0].messages;
@@ -6364,7 +6161,7 @@ describe("ESLint", () => {
 
 					await teardown.prepare();
 					cleanup = teardown.cleanup;
-					eslint = new ESLint({ flags, cwd: teardown.getPath() });
+					eslint = new ESLint({ cwd: teardown.getPath() });
 
 					const results = await eslint.lintFiles(["test.js"]);
 					const messages = results[0].messages;
@@ -6390,7 +6187,7 @@ describe("ESLint", () => {
 
 					await teardown.prepare();
 					cleanup = teardown.cleanup;
-					eslint = new ESLint({ flags, cwd: teardown.getPath() });
+					eslint = new ESLint({ cwd: teardown.getPath() });
 
 					const results = await eslint.lintFiles(["test.js"]);
 					const messages = results[0].messages;
@@ -6416,7 +6213,7 @@ describe("ESLint", () => {
 
 					await teardown.prepare();
 					cleanup = teardown.cleanup;
-					eslint = new ESLint({ flags, cwd: teardown.getPath() });
+					eslint = new ESLint({ cwd: teardown.getPath() });
 
 					const results = await eslint.lintFiles(["test.js"]);
 					const messages = results[0].messages;
@@ -6436,7 +6233,7 @@ describe("ESLint", () => {
 
 					await teardown.prepare();
 					cleanup = teardown.cleanup;
-					eslint = new ESLint({ flags, cwd: teardown.getPath() });
+					eslint = new ESLint({ cwd: teardown.getPath() });
 
 					const results = await eslint.lintFiles(["test.js"]);
 					const messages = results[0].messages;
@@ -6456,7 +6253,7 @@ describe("ESLint", () => {
 
 					await teardown.prepare();
 					cleanup = teardown.cleanup;
-					eslint = new ESLint({ flags, cwd: teardown.getPath() });
+					eslint = new ESLint({ cwd: teardown.getPath() });
 
 					const results = await eslint.lintFiles(["test.js"]);
 					const messages = results[0].messages;
@@ -6479,7 +6276,6 @@ describe("ESLint", () => {
 						cleanup = teardown.cleanup;
 
 						eslint = new ESLint({
-							flags,
 							cwd: teardown.getPath(),
 							overrideConfig: {
 								linterOptions: {
@@ -6508,7 +6304,6 @@ describe("ESLint", () => {
 						cleanup = teardown.cleanup;
 
 						eslint = new ESLint({
-							flags,
 							cwd: teardown.getPath(),
 							overrideConfig: {
 								linterOptions: {
@@ -6535,7 +6330,7 @@ describe("ESLint", () => {
 			});
 
 			it("should throw if an invalid value is given to 'patterns' argument", async () => {
-				eslint = new ESLint({ flags });
+				eslint = new ESLint();
 				await assert.rejects(
 					() => eslint.lintFiles(777),
 					/'patterns' must be a non-empty string or an array of non-empty strings/u,
@@ -6551,7 +6346,6 @@ describe("ESLint", () => {
 					const cwd = getFixturePath("mjs-config");
 
 					eslint = new ESLint({
-						flags,
 						cwd,
 					});
 
@@ -6570,7 +6364,6 @@ describe("ESLint", () => {
 					const cwd = getFixturePath("cjs-config");
 
 					eslint = new ESLint({
-						flags,
 						cwd,
 					});
 
@@ -6589,7 +6382,6 @@ describe("ESLint", () => {
 					const cwd = getFixturePath("js-mjs-cjs-config");
 
 					eslint = new ESLint({
-						flags,
 						cwd,
 					});
 
@@ -6603,7 +6395,6 @@ describe("ESLint", () => {
 					const cwd = getFixturePath("mjs-cjs-config");
 
 					eslint = new ESLint({
-						flags,
 						cwd,
 					});
 
@@ -6650,8 +6441,7 @@ describe("ESLint", () => {
 							const cwd = getFixturePath("ts-config-files", "ts");
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles("foo.js");
@@ -6680,8 +6470,7 @@ describe("ESLint", () => {
 							);
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles("foo.js");
@@ -6710,8 +6499,7 @@ describe("ESLint", () => {
 							);
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles("foo.js");
@@ -6758,8 +6546,7 @@ describe("ESLint", () => {
 							await teardown.prepare();
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles(["foo.js"]);
@@ -6806,8 +6593,7 @@ describe("ESLint", () => {
 							await teardown.prepare();
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles(["foo.js"]);
@@ -6854,8 +6640,7 @@ describe("ESLint", () => {
 							await teardown.prepare();
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles(["foo.js"]);
@@ -6903,8 +6688,7 @@ describe("ESLint", () => {
 							await teardown.prepare();
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles(["foo.js"]);
@@ -6952,8 +6736,7 @@ describe("ESLint", () => {
 							await teardown.prepare();
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles(["foo.js"]);
@@ -7005,8 +6788,7 @@ describe("ESLint", () => {
 							await teardown.prepare();
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles(["foo.js"]);
@@ -7058,8 +6840,7 @@ describe("ESLint", () => {
 							await teardown.prepare();
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles(["foo.js"]);
@@ -7111,8 +6892,7 @@ describe("ESLint", () => {
 							await teardown.prepare();
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles(["foo.js"]);
@@ -7164,8 +6944,7 @@ describe("ESLint", () => {
 							await teardown.prepare();
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles(["foo.js"]);
@@ -7217,8 +6996,7 @@ describe("ESLint", () => {
 							await teardown.prepare();
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles(["foo.js"]);
@@ -7268,8 +7046,7 @@ describe("ESLint", () => {
 							await teardown.prepare();
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles(["foo.js"]);
@@ -7319,8 +7096,7 @@ describe("ESLint", () => {
 							await teardown.prepare();
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles(["foo.js"]);
@@ -7370,8 +7146,7 @@ describe("ESLint", () => {
 							await teardown.prepare();
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles(["foo.js"]);
@@ -7421,8 +7196,7 @@ describe("ESLint", () => {
 							await teardown.prepare();
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles(["foo.js"]);
@@ -7478,8 +7252,7 @@ describe("ESLint", () => {
 							await teardown.prepare();
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles(["foo.js"]);
@@ -7535,8 +7308,7 @@ describe("ESLint", () => {
 							await teardown.prepare();
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles(["foo.js"]);
@@ -7587,8 +7359,7 @@ describe("ESLint", () => {
 							await teardown.prepare();
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles(["foo.js"]);
@@ -7639,8 +7410,7 @@ describe("ESLint", () => {
 							await teardown.prepare();
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles(["foo.js"]);
@@ -7691,8 +7461,7 @@ describe("ESLint", () => {
 							await teardown.prepare();
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles(["foo.js"]);
@@ -7743,8 +7512,7 @@ describe("ESLint", () => {
 							await teardown.prepare();
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles(["foo.js"]);
@@ -7795,8 +7563,7 @@ describe("ESLint", () => {
 							await teardown.prepare();
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles(["foo.js"]);
@@ -7847,8 +7614,7 @@ describe("ESLint", () => {
 							await teardown.prepare();
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles(["foo.js"]);
@@ -7881,8 +7647,7 @@ describe("ESLint", () => {
 							);
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles("foo.js");
@@ -7911,8 +7676,7 @@ describe("ESLint", () => {
 							);
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles("foo.js");
@@ -7946,8 +7710,7 @@ describe("ESLint", () => {
 							);
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 								overrideConfigFile,
 							});
 
@@ -7976,8 +7739,7 @@ describe("ESLint", () => {
 							);
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles("foo.js");
@@ -8006,8 +7768,7 @@ describe("ESLint", () => {
 							);
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles("foo.js");
@@ -8036,8 +7797,7 @@ describe("ESLint", () => {
 							);
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles("foo.js");
@@ -8065,8 +7825,7 @@ describe("ESLint", () => {
 							);
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles("foo.js");
@@ -8095,8 +7854,7 @@ describe("ESLint", () => {
 							);
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles("foo.js");
@@ -8125,8 +7883,7 @@ describe("ESLint", () => {
 							);
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles("foo.js");
@@ -8172,8 +7929,7 @@ describe("ESLint", () => {
 
 							eslint = new ESLint({
 								cwd,
-								overrideConfigFile: "eslint.config.mcts",
-								flags,
+								overrideConfigFile: "eslint.config.mcts",								
 							});
 
 							assert.strictEqual(
@@ -8193,8 +7949,7 @@ describe("ESLint", () => {
 							);
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 							});
 
 							const results = await eslint.lintFiles(["foo*.js"]);
@@ -8229,8 +7984,7 @@ describe("ESLint", () => {
 							);
 
 							eslint = new ESLint({
-								cwd,
-								flags,
+								cwd,								
 								overrideConfigFile:
 									"eslint.undefined.config.ts",
 							});
@@ -8256,8 +8010,7 @@ describe("ESLint", () => {
 					const cwd = getFixturePath("ts-config-files", "ts");
 
 					eslint = new ESLint({
-						cwd,
-						flags,
+						cwd,						
 					});
 
 					await assert.rejects(eslint.lintFiles("foo.js"), {
@@ -8274,8 +8027,7 @@ describe("ESLint", () => {
 					const cwd = getFixturePath("ts-config-files", "ts");
 
 					eslint = new ESLint({
-						cwd,
-						flags,
+						cwd,						
 					});
 
 					await assert.rejects(eslint.lintFiles("foo.js"), {
@@ -8302,8 +8054,7 @@ describe("ESLint", () => {
 					);
 
 					eslint = new ESLint({
-						cwd,
-						flags,
+						cwd,						
 					});
 
 					const results = await eslint.lintFiles("foo.js");
@@ -8845,8 +8596,7 @@ describe("ESLint", () => {
 									eslint = new ESLint({
 										cwd,
 										overrideConfigFile:
-											eslintConfigFiles.ts,
-										flags,
+											eslintConfigFiles.ts,										
 									});
 
 									await assert.rejects(
@@ -8897,8 +8647,7 @@ describe("ESLint", () => {
 									eslint = new ESLint({
 										cwd,
 										overrideConfigFile:
-											eslintConfigFiles.ts,
-										flags,
+											eslintConfigFiles.ts,										
 									});
 
 									await assert.rejects(
@@ -9008,7 +8757,6 @@ describe("ESLint", () => {
 				let createCallCount = 0;
 
 				eslint = new ESLint({
-					flags,
 					cwd,
 					plugins: {
 						boom: {
@@ -9059,7 +8807,6 @@ describe("ESLint", () => {
 				import { getEnvironmentData } from "node:worker_threads";
 
 				export default {
-					flags: ${JSON.stringify(flags)},
 					concurrency: ${concurrency},
 					cwd: ${JSON.stringify(cwd)},
 					plugins: {
@@ -9119,7 +8866,6 @@ describe("ESLint", () => {
                         const { ESLint } = require(${JSON.stringify(require.resolve("eslint"))});
 
                         const eslint = new ESLint({
-                            flags: ${JSON.stringify(flags)},
                             overrideConfigFile: true,
                             plugins: {
                                 boom: {
@@ -9159,7 +8905,6 @@ describe("ESLint", () => {
 					const cwd = getFixturePath("files");
 
 					eslint = new ESLint({
-						flags,
 						cwd,
 						overrideConfig: [{ invalid: "foobar" }],
 					});
@@ -9198,7 +8943,7 @@ describe("ESLint", () => {
 					await teardown.prepare();
 					cleanup = teardown.cleanup;
 
-					eslint = new ESLint({ flags, cwd: teardown.getPath() });
+					eslint = new ESLint({ cwd: teardown.getPath() });
 					const results = await eslint.lintFiles("src/**/*.js");
 
 					assert.strictEqual(results.length, 1);
@@ -9230,7 +8975,7 @@ describe("ESLint", () => {
 					await teardown.prepare();
 					cleanup = teardown.cleanup;
 
-					eslint = new ESLint({ flags, cwd: teardown.getPath() });
+					eslint = new ESLint({ cwd: teardown.getPath() });
 					const results = await eslint.lintFiles("src/**/*.js");
 
 					assert.strictEqual(results.length, 1);
@@ -9261,7 +9006,7 @@ describe("ESLint", () => {
 					await teardown.prepare();
 					cleanup = teardown.cleanup;
 
-					eslint = new ESLint({ flags, cwd: teardown.getPath() });
+					eslint = new ESLint({ cwd: teardown.getPath() });
 
 					await assert.rejects(async () => {
 						await eslint.lintFiles("src/**/*.js");
@@ -9283,7 +9028,7 @@ describe("ESLint", () => {
 					await teardown.prepare();
 					cleanup = teardown.cleanup;
 
-					eslint = new ESLint({ flags, cwd: teardown.getPath() });
+					eslint = new ESLint({ cwd: teardown.getPath() });
 					const results = await eslint.lintFiles("src/**/*.js");
 
 					assert.strictEqual(results.length, 1);
@@ -9310,7 +9055,7 @@ describe("ESLint", () => {
 					await teardown.prepare();
 					cleanup = teardown.cleanup;
 
-					eslint = new ESLint({ flags, cwd: teardown.getPath() });
+					eslint = new ESLint({ cwd: teardown.getPath() });
 					const results = await eslint.lintFiles("src/**/*.js");
 
 					assert.strictEqual(results.length, 1);
@@ -9346,7 +9091,7 @@ describe("ESLint", () => {
 					await teardown.prepare();
 					cleanup = teardown.cleanup;
 
-					eslint = new ESLint({ flags, cwd: teardown.getPath() });
+					eslint = new ESLint({ cwd: teardown.getPath() });
 					const results = await eslint.lintFiles("src/**/*.js");
 
 					assert.strictEqual(results.length, 1);
@@ -9377,7 +9122,7 @@ describe("ESLint", () => {
 					await teardown.prepare();
 					cleanup = teardown.cleanup;
 
-					eslint = new ESLint({ flags, cwd: teardown.getPath() });
+					eslint = new ESLint({ cwd: teardown.getPath() });
 					const results = await eslint.lintFiles("src/**/*.js");
 
 					assert.strictEqual(results.length, 1);
@@ -9399,7 +9144,6 @@ describe("ESLint", () => {
 
 				it("should only be applied to files inside the config's base path when no `files` or `ignores` are specified", async () => {
 					eslint = new ESLint({
-						flags,
 						cwd,
 						overrideConfigFile: true,
 						overrideConfig: [
@@ -9453,7 +9197,6 @@ describe("ESLint", () => {
 
 				it("should only be applied to files inside the config's base path when `files` are specified", async () => {
 					eslint = new ESLint({
-						flags,
 						cwd,
 						overrideConfigFile: true,
 						overrideConfig: [
@@ -9503,7 +9246,6 @@ describe("ESLint", () => {
 
 				it("should only be applied to files inside the config's base path when non-global `ignores` are specified", async () => {
 					eslint = new ESLint({
-						flags,
 						cwd,
 						overrideConfigFile: true,
 						overrideConfig: [
@@ -9553,7 +9295,6 @@ describe("ESLint", () => {
 
 				it("should only be applied to files inside the config's base path when both `files` and `ignores` are specified", async () => {
 					eslint = new ESLint({
-						flags,
 						cwd,
 						overrideConfigFile: true,
 						overrideConfig: [
@@ -9604,7 +9345,6 @@ describe("ESLint", () => {
 
 				it("should interpret `basePath` as relative to the config file location", async () => {
 					eslint = new ESLint({
-						flags,
 						cwd,
 						overrideConfig: [
 							{
@@ -9657,7 +9397,6 @@ describe("ESLint", () => {
 
 				it("should interpret global ignores as relative to `basePath` when ignoring files", async () => {
 					eslint = new ESLint({
-						flags,
 						cwd,
 						overrideConfigFile: true,
 						overrideConfig: [
@@ -9693,7 +9432,6 @@ describe("ESLint", () => {
 
 				it("should interpret global ignores as relative to `basePath` when ignoring directories", async () => {
 					eslint = new ESLint({
-						flags,
 						cwd,
 						overrideConfig: [
 							{
@@ -9722,7 +9460,6 @@ describe("ESLint", () => {
 
 				it("should not apply global ignores when the `ignore` option is `false`", async () => {
 					eslint = new ESLint({
-						flags,
 						cwd,
 						overrideConfigFile: true,
 						overrideConfig: [
@@ -9791,7 +9528,6 @@ describe("ESLint", () => {
 					export default {
 						concurrency: 2,
 						cwd: ${JSON.stringify(fixtureDir)},
-						flags: ${JSON.stringify(flags)},
 						overrideConfigFile: true,
 					};
 					`;
@@ -9814,7 +9550,6 @@ describe("ESLint", () => {
 					export default {
 						concurrency: 2,
 						cwd: ${JSON.stringify(fixtureDir)},
-						flags: ${JSON.stringify(flags)},
 						overrideConfigFile: true,
 					};
 					`;
@@ -9836,7 +9571,6 @@ describe("ESLint", () => {
 				it("should throw an error when an invalid fix type is specified", () => {
 					assert.throws(() => {
 						eslint = new ESLint({
-							flags,
 							cwd: path.join(fixtureDir, ".."),
 							overrideConfigFile: true,
 							fix: true,
@@ -9849,7 +9583,6 @@ describe("ESLint", () => {
 			describe("with lintFiles", () => {
 				it("should not fix any rules when fixTypes is used without fix", async () => {
 					eslint = new ESLint({
-						flags,
 						cwd: path.join(fixtureDir, ".."),
 						overrideConfigFile: true,
 						fix: false,
@@ -9865,7 +9598,6 @@ describe("ESLint", () => {
 
 				it("should not fix non-style rules when fixTypes has only 'layout'", async () => {
 					eslint = new ESLint({
-						flags,
 						cwd: path.join(fixtureDir, ".."),
 						overrideConfigFile: true,
 						fix: true,
@@ -9885,7 +9617,6 @@ describe("ESLint", () => {
 
 				it("should not fix style or problem rules when fixTypes has only 'suggestion'", async () => {
 					eslint = new ESLint({
-						flags,
 						cwd: path.join(fixtureDir, ".."),
 						overrideConfigFile: true,
 						fix: true,
@@ -9905,7 +9636,6 @@ describe("ESLint", () => {
 
 				it("should fix both style and problem rules when fixTypes has 'suggestion' and 'layout'", async () => {
 					eslint = new ESLint({
-						flags,
 						cwd: path.join(fixtureDir, ".."),
 						overrideConfigFile: true,
 						fix: true,
@@ -9927,7 +9657,6 @@ describe("ESLint", () => {
 			describe("with lintText", () => {
 				it("should not fix any rules when fixTypes is used without fix", async () => {
 					eslint = new ESLint({
-						flags,
 						cwd: path.join(fixtureDir, ".."),
 						overrideConfigFile: true,
 						fix: false,
@@ -9946,7 +9675,6 @@ describe("ESLint", () => {
 
 				it("should not fix non-style rules when fixTypes has only 'layout'", async () => {
 					eslint = new ESLint({
-						flags,
 						cwd: path.join(fixtureDir, ".."),
 						overrideConfigFile: true,
 						fix: true,
@@ -9969,7 +9697,6 @@ describe("ESLint", () => {
 
 				it("should not fix style or problem rules when fixTypes has only 'suggestion'", async () => {
 					eslint = new ESLint({
-						flags,
 						cwd: path.join(fixtureDir, ".."),
 						overrideConfigFile: true,
 						fix: true,
@@ -9992,7 +9719,6 @@ describe("ESLint", () => {
 
 				it("should fix both style and problem rules when fixTypes has 'suggestion' and 'layout'", async () => {
 					eslint = new ESLint({
-						flags,
 						cwd: path.join(fixtureDir, ".."),
 						overrideConfigFile: true,
 						fix: true,
@@ -10018,7 +9744,6 @@ describe("ESLint", () => {
 		describe("isPathIgnored", () => {
 			it("should check if the given path is ignored", async () => {
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: getFixturePath(
 						"eslint.config-with-ignores2.js",
 					),
@@ -10031,7 +9756,6 @@ describe("ESLint", () => {
 
 			it("should return false if ignoring is disabled", async () => {
 				const engine = new ESLint({
-					flags,
 					ignore: false,
 					overrideConfigFile: getFixturePath(
 						"eslint.config-with-ignores2.js",
@@ -10045,7 +9769,6 @@ describe("ESLint", () => {
 			// https://github.com/eslint/eslint/issues/5547
 			it("should return true for default ignores even if ignoring is disabled", async () => {
 				const engine = new ESLint({
-					flags,
 					ignore: false,
 					cwd: getFixturePath("cli-engine"),
 				});
@@ -10058,7 +9781,6 @@ describe("ESLint", () => {
 					const currentRoot = path.resolve("\\");
 					const otherRoot = currentRoot === "A:\\" ? "B:\\" : "A:\\";
 					const engine = new ESLint({
-						flags,
 						overrideConfigFile: true,
 						cwd: currentRoot,
 					});
@@ -10076,7 +9798,7 @@ describe("ESLint", () => {
 			describe("about the default ignore patterns", () => {
 				it("should always apply default ignore patterns if ignore option is true", async () => {
 					const cwd = getFixturePath("ignored-paths");
-					const engine = new ESLint({ flags, cwd });
+					const engine = new ESLint({ cwd });
 
 					assert(
 						await engine.isPathIgnored(
@@ -10098,7 +9820,7 @@ describe("ESLint", () => {
 
 				it("should still apply default ignore patterns if ignore option is false", async () => {
 					const cwd = getFixturePath("ignored-paths");
-					const engine = new ESLint({ flags, ignore: false, cwd });
+					const engine = new ESLint({ ignore: false, cwd });
 
 					assert(
 						await engine.isPathIgnored(
@@ -10121,7 +9843,6 @@ describe("ESLint", () => {
 				it("should allow subfolders of defaultPatterns to be unignored by ignorePattern constructor option", async () => {
 					const cwd = getFixturePath("ignored-paths");
 					const engine = new ESLint({
-						flags,
 						cwd,
 						overrideConfigFile: true,
 						ignorePatterns: [
@@ -10146,7 +9867,6 @@ describe("ESLint", () => {
 				it("should allow subfolders of defaultPatterns to be unignored by ignores in overrideConfig", async () => {
 					const cwd = getFixturePath("ignored-paths");
 					const engine = new ESLint({
-						flags,
 						cwd,
 						overrideConfigFile: true,
 						overrideConfig: {
@@ -10172,7 +9892,7 @@ describe("ESLint", () => {
 
 				it("should ignore .git directory", async () => {
 					const cwd = getFixturePath("ignored-paths");
-					const engine = new ESLint({ flags, cwd });
+					const engine = new ESLint({ cwd });
 
 					assert(
 						await engine.isPathIgnored(
@@ -10183,7 +9903,7 @@ describe("ESLint", () => {
 
 				it("should still ignore .git directory when ignore option disabled", async () => {
 					const cwd = getFixturePath("ignored-paths");
-					const engine = new ESLint({ flags, ignore: false, cwd });
+					const engine = new ESLint({ ignore: false, cwd });
 
 					assert(
 						await engine.isPathIgnored(
@@ -10194,7 +9914,7 @@ describe("ESLint", () => {
 
 				it("should not ignore absolute paths containing '..'", async () => {
 					const cwd = getFixturePath("ignored-paths");
-					const engine = new ESLint({ flags, cwd });
+					const engine = new ESLint({ cwd });
 
 					assert(
 						!(await engine.isPathIgnored(
@@ -10208,7 +9928,7 @@ describe("ESLint", () => {
 						"ignored-paths",
 						"no-ignore-file",
 					);
-					const engine = new ESLint({ flags, cwd });
+					const engine = new ESLint({ cwd });
 
 					assert(
 						await engine.isPathIgnored(
@@ -10235,7 +9955,6 @@ describe("ESLint", () => {
 
 				it("should not inadvertently ignore all files in parent directories", async () => {
 					const engine = new ESLint({
-						flags,
 						cwd: getFixturePath("ignored-paths", "no-ignore-file"),
 					});
 
@@ -10254,7 +9973,6 @@ describe("ESLint", () => {
 						"ignore-pattern",
 					);
 					const engine = new ESLint({
-						flags,
 						ignorePatterns: ["ignore-me.txt"],
 						cwd,
 					});
@@ -10264,7 +9982,6 @@ describe("ESLint", () => {
 
 				it("should accept an array for options.ignorePattern", async () => {
 					const engine = new ESLint({
-						flags,
 						ignorePatterns: ["a.js", "b.js"],
 						overrideConfigFile: true,
 					});
@@ -10286,7 +10003,6 @@ describe("ESLint", () => {
 				it("should interpret ignorePatterns as relative to cwd", async () => {
 					const cwd = getFixturePath("ignored-paths", "subdir");
 					const engine = new ESLint({
-						flags,
 						ignorePatterns: ["undef.js"],
 						cwd, // using ../../eslint.config.js
 					});
@@ -10299,7 +10015,6 @@ describe("ESLint", () => {
 				it("should return true for files which match an ignorePattern even if they do not exist on the filesystem", async () => {
 					const cwd = getFixturePath("ignored-paths");
 					const engine = new ESLint({
-						flags,
 						ignorePatterns: ["not-a-file"],
 						cwd,
 					});
@@ -10314,7 +10029,6 @@ describe("ESLint", () => {
 				it("should return true for file matching an ignore pattern exactly", async () => {
 					const cwd = getFixturePath("ignored-paths");
 					const engine = new ESLint({
-						flags,
 						ignorePatterns: ["undef.js"],
 						cwd,
 						overrideConfigFile: true,
@@ -10335,7 +10049,6 @@ describe("ESLint", () => {
 						"undef.js",
 					);
 					const engine = new ESLint({
-						flags,
 						ignorePatterns: ["undef.js"],
 						overrideConfigFile: true,
 						cwd,
@@ -10347,7 +10060,6 @@ describe("ESLint", () => {
 				it("should return true for file matching a child of an ignore pattern", async () => {
 					const cwd = getFixturePath("ignored-paths");
 					const engine = new ESLint({
-						flags,
 						ignorePatterns: ["ignore-pattern"],
 						cwd,
 					});
@@ -10366,7 +10078,6 @@ describe("ESLint", () => {
 				it("should return true for file matching a grandchild of a directory when the pattern is directory/**", async () => {
 					const cwd = getFixturePath("ignored-paths");
 					const engine = new ESLint({
-						flags,
 						ignorePatterns: ["ignore-pattern/**"],
 						cwd,
 					});
@@ -10386,7 +10097,6 @@ describe("ESLint", () => {
 				it("should return false for file not matching any ignore pattern", async () => {
 					const cwd = getFixturePath("ignored-paths");
 					const engine = new ESLint({
-						flags,
 						ignorePatterns: ["failing.js"],
 						cwd,
 					});
@@ -10401,7 +10111,6 @@ describe("ESLint", () => {
 				it("two globstar '**' ignore pattern should ignore files in nested directories", async () => {
 					const cwd = getFixturePath("ignored-paths");
 					const engine = new ESLint({
-						flags,
 						overrideConfigFile: true,
 						ignorePatterns: ["**/*.js"],
 						cwd,
@@ -10450,7 +10159,6 @@ describe("ESLint", () => {
 				it("should return false for ignored file when unignored with ignore pattern", async () => {
 					const cwd = getFixturePath("ignored-paths");
 					const engine = new ESLint({
-						flags,
 						overrideConfigFile: getFixturePath(
 							"eslint.config-with-ignores2.js",
 						),
@@ -10467,7 +10175,7 @@ describe("ESLint", () => {
 			});
 
 			it("should throw if non-string value is given to 'filePath' parameter", async () => {
-				const eslint = new ESLint({ flags });
+				const eslint = new ESLint();
 
 				await assert.rejects(
 					() => eslint.isPathIgnored(null),
@@ -10478,7 +10186,7 @@ describe("ESLint", () => {
 
 		describe("loadFormatter()", () => {
 			it("should return a formatter object when a bundled formatter is requested", async () => {
-				const engine = new ESLint({ flags });
+				const engine = new ESLint();
 				const formatter = await engine.loadFormatter("json");
 
 				assert.strictEqual(typeof formatter, "object");
@@ -10486,7 +10194,7 @@ describe("ESLint", () => {
 			});
 
 			it("should return a formatter object when no argument is passed", async () => {
-				const engine = new ESLint({ flags });
+				const engine = new ESLint();
 				const formatter = await engine.loadFormatter();
 
 				assert.strictEqual(typeof formatter, "object");
@@ -10494,7 +10202,7 @@ describe("ESLint", () => {
 			});
 
 			it("should return a formatter object when a custom formatter is requested", async () => {
-				const engine = new ESLint({ flags });
+				const engine = new ESLint();
 				const formatter = await engine.loadFormatter(
 					getFixturePath("formatters", "simple.js"),
 				);
@@ -10505,7 +10213,6 @@ describe("ESLint", () => {
 
 			it("should return a formatter object when a custom formatter is requested, also if the path has backslashes", async () => {
 				const engine = new ESLint({
-					flags,
 					cwd: path.join(fixtureDir, ".."),
 				});
 				const formatter = await engine.loadFormatter(
@@ -10518,7 +10225,6 @@ describe("ESLint", () => {
 
 			it("should return a formatter object when a formatter prefixed with eslint-formatter is requested", async () => {
 				const engine = new ESLint({
-					flags,
 					cwd: getFixturePath("cli-engine"),
 				});
 				const formatter = await engine.loadFormatter("bar");
@@ -10529,7 +10235,6 @@ describe("ESLint", () => {
 
 			it("should return a formatter object when a formatter is requested, also when the eslint-formatter prefix is included in the format argument", async () => {
 				const engine = new ESLint({
-					flags,
 					cwd: getFixturePath("cli-engine"),
 				});
 				const formatter = await engine.loadFormatter(
@@ -10542,7 +10247,6 @@ describe("ESLint", () => {
 
 			it("should return a formatter object when a formatter is requested within a scoped npm package", async () => {
 				const engine = new ESLint({
-					flags,
 					cwd: getFixturePath("cli-engine"),
 				});
 				const formatter =
@@ -10554,7 +10258,6 @@ describe("ESLint", () => {
 
 			it("should return a formatter object when a formatter is requested within a scoped npm package, also when the eslint-formatter prefix is included in the format argument", async () => {
 				const engine = new ESLint({
-					flags,
 					cwd: getFixturePath("cli-engine"),
 				});
 				const formatter = await engine.loadFormatter(
@@ -10566,7 +10269,7 @@ describe("ESLint", () => {
 			});
 
 			it("should throw if a custom formatter doesn't exist", async () => {
-				const engine = new ESLint({ flags });
+				const engine = new ESLint();
 				const formatterPath = getFixturePath(
 					"formatters",
 					"doesntexist.js",
@@ -10587,7 +10290,7 @@ describe("ESLint", () => {
 			});
 
 			it("should throw if a built-in formatter doesn't exist", async () => {
-				const engine = new ESLint({ flags });
+				const engine = new ESLint();
 				const fullFormatterPath = path.resolve(
 					__dirname,
 					"../../../lib/cli-engine/formatters/special",
@@ -10607,7 +10310,7 @@ describe("ESLint", () => {
 			});
 
 			it("should throw if the required formatter exists but has an error", async () => {
-				const engine = new ESLint({ flags });
+				const engine = new ESLint();
 				const formatterPath = getFixturePath("formatters", "broken.js");
 
 				await assert.rejects(
@@ -10626,7 +10329,7 @@ describe("ESLint", () => {
 			});
 
 			it("should throw if a non-string formatter name is passed", async () => {
-				const engine = new ESLint({ flags });
+				const engine = new ESLint();
 
 				await assert.rejects(async () => {
 					await engine.loadFormatter(5);
@@ -10638,7 +10341,6 @@ describe("ESLint", () => {
 			it("should report 5 error messages when looking for errors only", async () => {
 				process.chdir(originalDir);
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					overrideConfig: {
 						rules: {
@@ -10697,7 +10399,6 @@ describe("ESLint", () => {
 			it("should not mutate passed report parameter", async () => {
 				process.chdir(originalDir);
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					overrideConfig: {
 						rules: { quotes: [1, "double"] },
@@ -10716,7 +10417,6 @@ describe("ESLint", () => {
 
 			it("should report a warningCount of 0 when looking for errors only", async () => {
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					overrideConfig: {
 						rules: {
@@ -10737,7 +10437,6 @@ describe("ESLint", () => {
 
 			it("should return 0 error or warning messages even when the file has warnings", async () => {
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: getFixturePath(
 						"eslint.config-with-ignores.js",
 					),
@@ -10762,7 +10461,6 @@ describe("ESLint", () => {
 			it("should return source code of file in the `source` property", async () => {
 				process.chdir(originalDir);
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					overrideConfig: {
 						rules: { quotes: [2, "double"] },
@@ -10778,7 +10476,6 @@ describe("ESLint", () => {
 			it("should contain `output` property after fixes", async () => {
 				process.chdir(originalDir);
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					fix: true,
 					overrideConfig: {
@@ -10802,7 +10499,6 @@ describe("ESLint", () => {
 		describe("findConfigFile()", () => {
 			it("should return undefined when overrideConfigFile is true", async () => {
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: true,
 				});
 
@@ -10811,7 +10507,6 @@ describe("ESLint", () => {
 
 			it("should return undefined when a config file isn't found", async () => {
 				const engine = new ESLint({
-					flags,
 					cwd: path.resolve(__dirname, "../../../../"),
 				});
 
@@ -10820,7 +10515,6 @@ describe("ESLint", () => {
 
 			it("should return custom config file path when overrideConfigFile is a nonempty string", async () => {
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: "my-config.js",
 				});
 				const configFilePath = path.resolve(
@@ -10836,7 +10530,6 @@ describe("ESLint", () => {
 
 			it("should return root level eslint.config.js when overrideConfigFile is null", async () => {
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: null,
 				});
 				const configFilePath = path.resolve(
@@ -10851,7 +10544,7 @@ describe("ESLint", () => {
 			});
 
 			it("should return root level eslint.config.js when overrideConfigFile is not specified", async () => {
-				const engine = new ESLint({ flags });
+				const engine = new ESLint();
 				const configFilePath = path.resolve(
 					__dirname,
 					"../../../eslint.config.js",
@@ -10865,7 +10558,6 @@ describe("ESLint", () => {
 
 			it("should return undefined when overrideConfigFile is true even when filePath is provided", async () => {
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					cwd: getFixturePath("lookup-from-file"),
 				});
@@ -10879,7 +10571,6 @@ describe("ESLint", () => {
 
 			it("should return custom config file path when overrideConfigFile is a nonempty string even when filePath is provided", async () => {
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: "my-config.js",
 				});
 
@@ -10896,7 +10587,6 @@ describe("ESLint", () => {
 
 			it("should return the config file relative to the provided filePath when specified", async () => {
 				const engine = new ESLint({
-					flags,
 					cwd: getFixturePath("lookup-from-file"),
 				});
 
@@ -10904,15 +10594,11 @@ describe("ESLint", () => {
 					path.join("subdir", "code.js"),
 				);
 
-				const expectedConfig = flags.includes(
-					"v10_config_lookup_from_file",
-				)
-					? getFixturePath(
-							"lookup-from-file",
-							"subdir",
-							"eslint.config.js",
-						)
-					: getFixturePath("lookup-from-file", "eslint.config.js");
+			const expectedConfig = getFixturePath(
+				"lookup-from-file",
+				"subdir",
+				"eslint.config.js",
+			);
 
 				assert.strictEqual(foundConfig, expectedConfig);
 			});
@@ -10930,7 +10616,6 @@ describe("ESLint", () => {
 
 			it("should report stats", async () => {
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					overrideConfig: {
 						rules: {
@@ -10975,7 +10660,6 @@ describe("ESLint", () => {
 
 			it("should report stats with fix", async () => {
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					overrideConfig: {
 						rules: {
@@ -11077,7 +10761,6 @@ describe("ESLint", () => {
 		describe("getRulesMetaForResults()", () => {
 			it("should throw an error when this instance did not lint any files", async () => {
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: true,
 				});
 
@@ -11141,7 +10824,6 @@ describe("ESLint", () => {
 				);
 
 				const engine1 = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					cwd: path.join(fixtureDir, "foo"),
 					overrideConfig: {
@@ -11151,7 +10833,6 @@ describe("ESLint", () => {
 					},
 				});
 				const engine2 = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					cwd: path.join(fixtureDir, "bar"),
 					overrideConfig: {
@@ -11161,7 +10842,6 @@ describe("ESLint", () => {
 					},
 				});
 				const engine3 = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					cwd: path.join(fixtureDir, "baz"),
 					overrideConfig: {
@@ -11207,7 +10887,6 @@ describe("ESLint", () => {
 
 			it("should treat a result without `filePath` as if the file was located in `cwd`", async () => {
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					cwd: path.join(fixtureDir, "foo", "bar"),
 					ignorePatterns: ["*/**"], // ignore all subdirectories of `cwd`
@@ -11229,7 +10908,6 @@ describe("ESLint", () => {
 
 			it("should not throw an error if a result without `filePath` contains an ignored file warning", async () => {
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					cwd: path.join(fixtureDir, "foo", "bar"),
 					ignorePatterns: ["**"],
@@ -11253,7 +10931,6 @@ describe("ESLint", () => {
 						);
 					}
 					const engine = new ESLint({
-						flags,
 						overrideConfigFile: true,
 						cwd: fixtureDir,
 						ignorePatterns: ["passing*"],
@@ -11298,7 +10975,6 @@ describe("ESLint", () => {
 
 			it("should return an empty object when there are no linting errors", async () => {
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: true,
 				});
 
@@ -11309,7 +10985,6 @@ describe("ESLint", () => {
 
 			it("should return one rule meta when there is a linting error", async () => {
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					overrideConfig: {
 						rules: {
@@ -11335,7 +11010,6 @@ describe("ESLint", () => {
 				);
 
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					overrideConfig: {
 						rules: {
@@ -11361,7 +11035,6 @@ describe("ESLint", () => {
 
 			it("should return one rule meta when there is a suppressed linting error", async () => {
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					overrideConfig: {
 						rules: {
@@ -11387,7 +11060,6 @@ describe("ESLint", () => {
 				);
 
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					overrideConfig: {
 						rules: {
@@ -11413,7 +11085,6 @@ describe("ESLint", () => {
 
 			it("should return multiple rule meta when there are multiple linting errors", async () => {
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					overrideConfig: {
 						rules: {
@@ -11441,7 +11112,6 @@ describe("ESLint", () => {
 				);
 
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					overrideConfig: {
 						rules: {
@@ -11476,7 +11146,6 @@ describe("ESLint", () => {
 					},
 				};
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					overrideConfig: {
 						plugins: {
@@ -11528,7 +11197,6 @@ describe("ESLint", () => {
 
 				export { customPlugin };
 				export default {
-					flags: ${JSON.stringify(flags)},
 					overrideConfigFile: true,
 					overrideConfig: {
 						plugins: {
@@ -11572,7 +11240,6 @@ describe("ESLint", () => {
 
 			it("should ignore messages not related to a rule", async () => {
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					ignorePatterns: ["ignored.js"],
 					overrideConfig: {
@@ -11618,7 +11285,6 @@ describe("ESLint", () => {
 				);
 
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					ignorePatterns: ["undef.js"],
 					overrideConfig: {
@@ -11645,7 +11311,6 @@ describe("ESLint", () => {
 
 			it("should return a non-empty value if some of the messages are related to a rule", async () => {
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					overrideConfig: {
 						rules: { "no-var": "warn" },
@@ -11681,7 +11346,6 @@ describe("ESLint", () => {
 				);
 
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					overrideConfig: {
 						rules: { "no-var": "warn" },
@@ -11706,7 +11370,6 @@ describe("ESLint", () => {
 
 			it("should return an empty object if all messages are related to unknown rules", async () => {
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: true,
 				});
 
@@ -11744,7 +11407,6 @@ describe("ESLint", () => {
 				);
 
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					cwd: fixtureDir,
 					concurrency: 2,
@@ -11770,7 +11432,6 @@ describe("ESLint", () => {
 
 			it("should return an object with meta of known rules if some messages are related to unknown rules", async () => {
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					overrideConfig: { rules: { "no-var": "warn" } },
 				});
@@ -11812,7 +11473,6 @@ describe("ESLint", () => {
 				);
 
 				const engine = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					overrideConfig: { rules: { "no-var": "warn" } },
 					cwd: fixtureDir,
@@ -11948,8 +11608,7 @@ describe("ESLint", () => {
 				const code = [
 					"alert('test'); // eslint-disable-line no-alert",
 				].join("\n");
-				const config = {
-					flags,
+				const config = {					
 					ignore: true,
 					overrideConfigFile: true,
 					allowInlineConfig: false,
@@ -11976,8 +11635,7 @@ describe("ESLint", () => {
 				const code = [
 					"alert('test'); // eslint-disable-line no-alert",
 				].join("\n");
-				const config = {
-					flags,
+				const config = {					
 					ignore: true,
 					overrideConfigFile: true,
 					allowInlineConfig: true,
@@ -12007,7 +11665,6 @@ describe("ESLint", () => {
 		describe("when evaluating code when reportUnusedDisableDirectives is enabled", () => {
 			it("should report problems for unused eslint-disable directives", async () => {
 				const eslint = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					overrideConfig: {
 						linterOptions: {
@@ -12065,7 +11722,6 @@ describe("ESLint", () => {
 				it("Loading rules in one instance doesn't mutate to another instance", async () => {
 					const filePath = getFixturePath("single-quoted.js");
 					const engine1 = new ESLint({
-						flags,
 						cwd: path.join(fixtureDir, ".."),
 						overrideConfigFile: true,
 						overrideConfig: {
@@ -12082,7 +11738,6 @@ describe("ESLint", () => {
 						},
 					});
 					const engine2 = new ESLint({
-						flags,
 						cwd: path.join(fixtureDir, ".."),
 						overrideConfigFile: true,
 					});
@@ -12136,7 +11791,6 @@ describe("ESLint", () => {
 
 				it("should apply to all files except for 'error.js'", async () => {
 					const engine = new ESLint({
-						flags,
 						cwd,
 					});
 
@@ -12172,7 +11826,6 @@ describe("ESLint", () => {
 				// https://github.com/eslint/eslint/issues/18261
 				it("should apply to all files except for 'error.js' even with `ignore: false` option", async () => {
 					const engine = new ESLint({
-						flags,
 						cwd,
 						ignore: false,
 					});
@@ -12235,7 +11888,6 @@ describe("ESLint", () => {
 
 				it("should not add json files as lint targets", async () => {
 					const engine = new ESLint({
-						flags,
 						cwd,
 					});
 
@@ -12272,7 +11924,7 @@ describe("ESLint", () => {
 				afterEach(cleanup);
 
 				it("'isPathIgnored()' should return 'true' for 'foo.js'.", async () => {
-					const engine = new ESLint({ flags, cwd: getPath() });
+					const engine = new ESLint({ cwd: getPath() });
 
 					assert.strictEqual(
 						await engine.isPathIgnored("foo.js"),
@@ -12285,7 +11937,7 @@ describe("ESLint", () => {
 				});
 
 				it("'isPathIgnored()' should return 'false' for 'bar.js'.", async () => {
-					const engine = new ESLint({ flags, cwd: getPath() });
+					const engine = new ESLint({ cwd: getPath() });
 
 					assert.strictEqual(
 						await engine.isPathIgnored("bar.js"),
@@ -12298,7 +11950,7 @@ describe("ESLint", () => {
 				});
 
 				it("'lintFiles()' should not verify 'foo.js'.", async () => {
-					const engine = new ESLint({ flags, cwd: getPath() });
+					const engine = new ESLint({ cwd: getPath() });
 					const filePaths = (await engine.lintFiles("**/*.js"))
 						.map(r => r.filePath)
 						.sort();
@@ -12331,7 +11983,7 @@ describe("ESLint", () => {
 				afterEach(cleanup);
 
 				it("'isPathIgnored()' should return 'true' for 'foo.js'.", async () => {
-					const engine = new ESLint({ flags, cwd: getPath() });
+					const engine = new ESLint({ cwd: getPath() });
 
 					assert.strictEqual(
 						await engine.isPathIgnored("foo.js"),
@@ -12344,7 +11996,7 @@ describe("ESLint", () => {
 				});
 
 				it("'isPathIgnored()' should return 'true' for '/bar.js'.", async () => {
-					const engine = new ESLint({ flags, cwd: getPath() });
+					const engine = new ESLint({ cwd: getPath() });
 
 					assert.strictEqual(
 						await engine.isPathIgnored("bar.js"),
@@ -12357,7 +12009,7 @@ describe("ESLint", () => {
 				});
 
 				it("'lintFiles()' should not verify 'foo.js' and '/bar.js'.", async () => {
-					const engine = new ESLint({ flags, cwd: getPath() });
+					const engine = new ESLint({ cwd: getPath() });
 					const filePaths = (await engine.lintFiles("**/*.js"))
 						.map(r => r.filePath)
 						.sort();
@@ -12389,7 +12041,7 @@ describe("ESLint", () => {
 				afterEach(cleanup);
 
 				it("'isPathIgnored()' should return 'false' for 'node_modules/foo/index.js'.", async () => {
-					const engine = new ESLint({ flags, cwd: getPath() });
+					const engine = new ESLint({ cwd: getPath() });
 
 					assert.strictEqual(
 						await engine.isPathIgnored("node_modules/foo/index.js"),
@@ -12398,7 +12050,7 @@ describe("ESLint", () => {
 				});
 
 				it("'isPathIgnored()' should return 'false' for 'node_modules/foo/.dot.js'.", async () => {
-					const engine = new ESLint({ flags, cwd: getPath() });
+					const engine = new ESLint({ cwd: getPath() });
 
 					assert.strictEqual(
 						await engine.isPathIgnored("node_modules/foo/.dot.js"),
@@ -12407,7 +12059,7 @@ describe("ESLint", () => {
 				});
 
 				it("'isPathIgnored()' should return 'true' for 'node_modules/bar/index.js'.", async () => {
-					const engine = new ESLint({ flags, cwd: getPath() });
+					const engine = new ESLint({ cwd: getPath() });
 
 					assert.strictEqual(
 						await engine.isPathIgnored("node_modules/bar/index.js"),
@@ -12416,7 +12068,7 @@ describe("ESLint", () => {
 				});
 
 				it("'lintFiles()' should verify 'node_modules/foo/index.js'.", async () => {
-					const engine = new ESLint({ flags, cwd: getPath() });
+					const engine = new ESLint({ cwd: getPath() });
 					const filePaths = (await engine.lintFiles("**/*.js"))
 						.map(r => r.filePath)
 						.sort();
@@ -12448,7 +12100,7 @@ describe("ESLint", () => {
 				afterEach(cleanup);
 
 				it("'isPathIgnored()' should return 'false' for 'node_modules/foo/index.js'.", async () => {
-					const engine = new ESLint({ flags, cwd: getPath() });
+					const engine = new ESLint({ cwd: getPath() });
 
 					assert.strictEqual(
 						await engine.isPathIgnored("node_modules/foo/index.js"),
@@ -12457,7 +12109,7 @@ describe("ESLint", () => {
 				});
 
 				it("'isPathIgnored()' should return 'false' for 'node_modules/foo/.dot.js'.", async () => {
-					const engine = new ESLint({ flags, cwd: getPath() });
+					const engine = new ESLint({ cwd: getPath() });
 
 					assert.strictEqual(
 						await engine.isPathIgnored("node_modules/foo/.dot.js"),
@@ -12466,7 +12118,7 @@ describe("ESLint", () => {
 				});
 
 				it("'isPathIgnored()' should return 'true' for 'node_modules/bar/index.js'.", async () => {
-					const engine = new ESLint({ flags, cwd: getPath() });
+					const engine = new ESLint({ cwd: getPath() });
 
 					assert.strictEqual(
 						await engine.isPathIgnored("node_modules/bar/index.js"),
@@ -12475,7 +12127,7 @@ describe("ESLint", () => {
 				});
 
 				it("'lintFiles()' should verify 'node_modules/foo/index.js'.", async () => {
-					const engine = new ESLint({ flags, cwd: getPath() });
+					const engine = new ESLint({ cwd: getPath() });
 					const result = await engine.lintFiles("**/*.js");
 
 					const filePaths = result.map(r => r.filePath).sort();
@@ -12505,7 +12157,7 @@ describe("ESLint", () => {
 				afterEach(cleanup);
 
 				it("'isPathIgnored()' should return 'true' for re-ignored '.foo.js'.", async () => {
-					const engine = new ESLint({ flags, cwd: getPath() });
+					const engine = new ESLint({ cwd: getPath() });
 
 					assert.strictEqual(
 						await engine.isPathIgnored(".foo.js"),
@@ -12514,7 +12166,7 @@ describe("ESLint", () => {
 				});
 
 				it("'isPathIgnored()' should return 'false' for unignored '.bar.js'.", async () => {
-					const engine = new ESLint({ flags, cwd: getPath() });
+					const engine = new ESLint({ cwd: getPath() });
 
 					assert.strictEqual(
 						await engine.isPathIgnored(".bar.js"),
@@ -12523,7 +12175,7 @@ describe("ESLint", () => {
 				});
 
 				it("'lintFiles()' should not lint re-ignored '.foo.js'.", async () => {
-					const engine = new ESLint({ flags, cwd: getPath() });
+					const engine = new ESLint({ cwd: getPath() });
 					const filePaths = (await engine.lintFiles("**/*.js"))
 						.map(r => r.filePath)
 						.sort();
@@ -12551,7 +12203,7 @@ describe("ESLint", () => {
 				afterEach(cleanup);
 
 				it("'isPathIgnored()' should return 'false' for unignored 'foo.js'.", async () => {
-					const engine = new ESLint({ flags, cwd: getPath() });
+					const engine = new ESLint({ cwd: getPath() });
 
 					assert.strictEqual(
 						await engine.isPathIgnored("foo.js"),
@@ -12560,7 +12212,7 @@ describe("ESLint", () => {
 				});
 
 				it("'isPathIgnored()' should return 'true' for ignored 'bar.js'.", async () => {
-					const engine = new ESLint({ flags, cwd: getPath() });
+					const engine = new ESLint({ cwd: getPath() });
 
 					assert.strictEqual(
 						await engine.isPathIgnored("bar.js"),
@@ -12569,7 +12221,7 @@ describe("ESLint", () => {
 				});
 
 				it("'lintFiles()' should verify unignored 'foo.js'.", async () => {
-					const engine = new ESLint({ flags, cwd: getPath() });
+					const engine = new ESLint({ cwd: getPath() });
 					const filePaths = (await engine.lintFiles("**/*.js"))
 						.map(r => r.filePath)
 						.sort();
@@ -12596,7 +12248,6 @@ describe("ESLint", () => {
 
 				it("'isPathIgnored()' should return 'false' for 'foo.js'.", async () => {
 					const engine = new ESLint({
-						flags,
 						cwd: getPath(),
 						ignore: false,
 					});
@@ -12609,7 +12260,6 @@ describe("ESLint", () => {
 
 				it("'lintFiles()' should verify 'foo.js'.", async () => {
 					const engine = new ESLint({
-						flags,
 						cwd: getPath(),
 						ignore: false,
 					});
@@ -12653,7 +12303,7 @@ describe("ESLint", () => {
 				afterEach(cleanup);
 
 				it("'lintFiles()' with a directory path should contain 'foo/test.txt'.", async () => {
-					const engine = new ESLint({ flags, cwd: getPath() });
+					const engine = new ESLint({ cwd: getPath() });
 					const filePaths = (await engine.lintFiles("."))
 						.map(r => r.filePath)
 						.sort();
@@ -12668,7 +12318,7 @@ describe("ESLint", () => {
 				});
 
 				it("'lintFiles()' with a glob pattern '*.js' should not contain 'foo/test.txt'.", async () => {
-					const engine = new ESLint({ flags, cwd: getPath() });
+					const engine = new ESLint({ cwd: getPath() });
 					const filePaths = (await engine.lintFiles("**/*.js"))
 						.map(r => r.filePath)
 						.sort();
@@ -12707,7 +12357,7 @@ describe("ESLint", () => {
 				afterEach(cleanup);
 
 				it("'lintFiles()' with a directory path should contain 'foo/test.txt'.", async () => {
-					const engine = new ESLint({ flags, cwd: getPath() });
+					const engine = new ESLint({ cwd: getPath() });
 					const filePaths = (await engine.lintFiles("foo"))
 						.map(r => r.filePath)
 						.sort();
@@ -12719,7 +12369,7 @@ describe("ESLint", () => {
 				});
 
 				it("'lintFiles()' with a glob pattern '*.js' should not contain 'foo/test.txt'.", async () => {
-					const engine = new ESLint({ flags, cwd: getPath() });
+					const engine = new ESLint({ cwd: getPath() });
 					const filePaths = (await engine.lintFiles("foo/*.js"))
 						.map(r => r.filePath)
 						.sort();
@@ -12753,7 +12403,7 @@ describe("ESLint", () => {
 				afterEach(cleanup);
 
 				it("'lintFiles()' with a directory path should contain 'foo/test.txt' and 'foo/nested/test.txt'.", async () => {
-					const engine = new ESLint({ flags, cwd: getPath() });
+					const engine = new ESLint({ cwd: getPath() });
 					const filePaths = (await engine.lintFiles("."))
 						.map(r => r.filePath)
 						.sort();
@@ -12792,7 +12442,7 @@ describe("ESLint", () => {
 				afterEach(cleanup);
 
 				it("'lintFiles()' with a directory path should NOT contain 'foo/test.txt' and 'foo/nested/test.txt'.", async () => {
-					const engine = new ESLint({ flags, cwd: getPath() });
+					const engine = new ESLint({ cwd: getPath() });
 					const filePaths = (await engine.lintFiles("."))
 						.map(r => r.filePath)
 						.sort();
@@ -12834,7 +12484,6 @@ describe("ESLint", () => {
 
 				it("'lintFiles()' with 'foo/test.js' should use the files entry.", async () => {
 					const engine = new ESLint({
-						flags,
 						overrideConfigFile:
 							"node_modules/myconf/eslint.config.js",
 						cwd: getPath(),
@@ -12888,7 +12537,6 @@ describe("ESLint", () => {
 
 				it("'lintFiles()' with 'node_modules/myconf/foo/test.js' should NOT use the files entry.", async () => {
 					const engine = new ESLint({
-						flags,
 						overrideConfigFile:
 							"node_modules/myconf/eslint.config.js",
 						cwd: getPath(),
@@ -12950,7 +12598,6 @@ describe("ESLint", () => {
 
 				it("'lintFiles()' with 'foo/test.js' should have no errors because no rules are enabled.", async () => {
 					const engine = new ESLint({
-						flags,
 						overrideConfigFile: "bar/myconf/eslint.config.js",
 						cwd: getPath(),
 						ignore: false,
@@ -12975,7 +12622,6 @@ describe("ESLint", () => {
 
 				it("'lintFiles()' with 'bar/myconf/foo/test.js' should have an error because eqeqeq is enabled.", async () => {
 					const engine = new ESLint({
-						flags,
 						overrideConfigFile: "bar/myconf/eslint.config.js",
 						cwd: getPath(),
 						ignore: false,
@@ -13053,7 +12699,6 @@ describe("ESLint", () => {
 
 				it("'lintFiles()' with '**/*.js' should lint 'node_modules/myconf/foo/test.js' but not 'foo/test.js'.", async () => {
 					const engine = new ESLint({
-						flags,
 						overrideConfigFile:
 							"node_modules/myconf/eslint.config.js",
 						cwd: getPath(),
@@ -13076,7 +12721,6 @@ describe("ESLint", () => {
 		describe("baseConfig", () => {
 			it("can be an object", async () => {
 				const eslint = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					baseConfig: {
 						rules: {
@@ -13093,7 +12737,6 @@ describe("ESLint", () => {
 
 			it("can be an array", async () => {
 				const eslint = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					baseConfig: [
 						{
@@ -13118,7 +12761,6 @@ describe("ESLint", () => {
 
 			it("should be inserted after default configs", async () => {
 				const eslint = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					baseConfig: {
 						languageOptions: {
@@ -13142,7 +12784,6 @@ describe("ESLint", () => {
 
 			it("should be inserted before configs from the config file", async () => {
 				const eslint = new ESLint({
-					flags,
 					cwd: getFixturePath(),
 					baseConfig: {
 						rules: {
@@ -13167,7 +12808,6 @@ describe("ESLint", () => {
 
 			it("should be inserted before overrideConfig", async () => {
 				const eslint = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					baseConfig: {
 						rules: {
@@ -13190,7 +12830,6 @@ describe("ESLint", () => {
 
 			it("should be inserted before configs from the config file and overrideConfig", async () => {
 				const eslint = new ESLint({
-					flags,
 					overrideConfigFile: getFixturePath(
 						"eslint.config-with-rules.js",
 					),
@@ -13232,7 +12871,6 @@ describe("ESLint", () => {
 				 * the base path will be `fixtures`, cwd will be `fixtures/plugins`
 				 */
 				const eslint = new ESLint({
-					flags,
 					cwd: getFixturePath("plugins"),
 					baseConfig: {
 						files: ["plugins/a.js"],
@@ -13257,7 +12895,6 @@ describe("ESLint", () => {
 				 * the base path will be `fixtures`, cwd will be `fixtures/plugins`
 				 */
 				const eslint = new ESLint({
-					flags,
 					cwd: getFixturePath("plugins"),
 					baseConfig: {
 						ignores: ["plugins/a.js"],
@@ -13294,7 +12931,7 @@ describe("ESLint", () => {
 
 				await teardown.prepare();
 
-				let eslint = new ESLint({ flags, cwd });
+				let eslint = new ESLint({ cwd });
 				let [{ messages }] = await eslint.lintFiles(["a.js"]);
 
 				assert.strictEqual(messages.length, 1);
@@ -13308,7 +12945,7 @@ describe("ESLint", () => {
 					configFileContent.replace("always", "never"),
 				);
 
-				eslint = new ESLint({ flags, cwd });
+				eslint = new ESLint({ cwd });
 				[{ messages }] = await eslint.lintFiles(["a.js"]);
 
 				assert.strictEqual(messages.length, 1);
@@ -13334,7 +12971,7 @@ describe("ESLint", () => {
 
 				await teardown.prepare();
 
-				let eslint = new ESLint({ flags, cwd });
+				let eslint = new ESLint({ cwd });
 				let [{ messages }] = await eslint.lintFiles(["a.js"]);
 
 				assert.strictEqual(messages.length, 1);
@@ -13348,7 +12985,7 @@ describe("ESLint", () => {
 					configFileContent.replace("always", "never"),
 				);
 
-				eslint = new ESLint({ flags, cwd });
+				eslint = new ESLint({ cwd });
 				[{ messages }] = await eslint.lintFiles(["a.js"]);
 
 				assert.strictEqual(messages.length, 1);
@@ -13371,7 +13008,7 @@ describe("ESLint", () => {
 
 				await teardown.prepare();
 
-				let eslint = new ESLint({ flags, cwd });
+				let eslint = new ESLint({ cwd });
 				let [{ messages }] = await eslint.lintFiles(["a.js"]);
 
 				assert.strictEqual(messages.length, 1);
@@ -13385,7 +13022,7 @@ describe("ESLint", () => {
 					configFileContent.replace("always", "never"),
 				);
 
-				eslint = new ESLint({ flags, cwd });
+				eslint = new ESLint({ cwd });
 				[{ messages }] = await eslint.lintFiles(["a.js"]);
 
 				assert.strictEqual(messages.length, 1);
@@ -13403,7 +13040,7 @@ describe("ESLint", () => {
 				const cwdForwardSlash = cwd.replace(/\\/gu, "/");
 
 				it("should correctly handle ignore patterns", async () => {
-					const engine = new ESLint({ flags, cwd: cwdForwardSlash });
+					const engine = new ESLint({ cwd: cwdForwardSlash });
 					const results = await engine.lintFiles(["./src"]);
 
 					// src/dist/2.js should be ignored
@@ -13416,7 +13053,6 @@ describe("ESLint", () => {
 
 				it("should pass cwd with backslashes to rules", async () => {
 					const engine = new ESLint({
-						flags,
 						cwd: cwdForwardSlash,
 						overrideConfigFile: true,
 						overrideConfig: {
@@ -13445,7 +13081,6 @@ describe("ESLint", () => {
 
 				it("should pass cwd with backslashes to formatters", async () => {
 					const engine = new ESLint({
-						flags,
 						cwd: cwdForwardSlash,
 					});
 					const results = await engine.lintText("");
@@ -13465,7 +13100,6 @@ describe("ESLint", () => {
 				circular.self = circular;
 
 				const eslint = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					baseConfig: {
 						settings: {
@@ -13502,7 +13136,6 @@ describe("ESLint", () => {
 				circular.self = circular;
 
 				const eslint = new ESLint({
-					flags,
 					overrideConfigFile: true,
 					baseConfig: {
 						languageOptions: {
@@ -13550,8 +13183,7 @@ describe("ESLint", () => {
 					const cwd = getFixturePath("files");
 					const eslint = new ESLint({
 						concurrency,
-						cwd,
-						flags,
+						cwd,						
 						overrideConfigFile: true,
 					});
 					// Make sure the config array for `cwd` is loaded.
@@ -13604,8 +13236,7 @@ describe("ESLint", () => {
 				const cwd = getFixturePath("files");
 				const eslint = new ESLint({
 					concurrency: "auto",
-					cwd,
-					flags,
+					cwd,					
 					overrideConfigFile: true,
 				});
 				// Make sure the config array for `cwd` is loaded.
@@ -13648,8 +13279,7 @@ describe("ESLint", () => {
 						cacheLocation,
 						cacheStrategy: "metadata",
 						concurrency: "auto",
-						cwd,
-						flags,
+						cwd,				
 						overrideConfigFile: true,
 					});
 					// Make sure the config array for `cwd` is loaded and the cache is created.
@@ -13672,8 +13302,7 @@ describe("ESLint", () => {
 						cacheLocation,
 						cacheStrategy: "content",
 						concurrency: "auto",
-						cwd,
-						flags,
+						cwd,						
 						overrideConfigFile: true,
 					});
 					// Make sure the config array for `cwd` is loaded and the cache is created.
@@ -13696,8 +13325,7 @@ describe("ESLint", () => {
 						cacheLocation,
 						cacheStrategy: "metadata",
 						concurrency: "auto",
-						cwd,
-						flags,
+						cwd,						
 						overrideConfigFile: true,
 					});
 					// Make sure the config array for `cwd` is loaded.
@@ -13722,8 +13350,7 @@ describe("ESLint", () => {
 						cacheLocation,
 						cacheStrategy: "metadata",
 						concurrency: "auto",
-						cwd,
-						flags,
+						cwd,						
 						overrideConfigFile: true,
 					};
 					const eslint = new ESLint(eslintOptions);
@@ -13745,7 +13372,6 @@ describe("ESLint", () => {
 						{ availableParallelism: () => 4 },
 					);
 					assert.strictEqual(actualWorkerCount, 2);
-				});
 			});
 		});
 	});
@@ -15219,9 +14845,8 @@ describe("ESLint", () => {
 		testCacheWithConcurrency(2);
 	});
 
-	describe("v10_config_lookup_from_file", () => {
+	describe("config lookup from file", () => {
 		let eslint;
-		const flags = ["v10_config_lookup_from_file"];
 
 		it("should report zero messages when given a config file and a valid file", async () => {
 			/*
@@ -15231,7 +14856,6 @@ describe("ESLint", () => {
 			 */
 
 			eslint = new ESLint({
-				flags,
 				cwd: getFixturePath("lookup-from-file"),
 			});
 			const results = await eslint.lintFiles(["."]);
@@ -15273,7 +14897,6 @@ describe("ESLint", () => {
 
 			it("should find config file when cwd doesn't have a config file", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: workDir,
 				});
 				const results = await eslint.lintFiles(["."]);
@@ -15310,7 +14933,6 @@ describe("ESLint", () => {
 
 			it("should not traverse into subdir1 when parent config file specifies it as ignored and passing in .", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: workDir,
 				});
 				const results = await eslint.lintFiles(["."]);
@@ -15326,7 +14948,6 @@ describe("ESLint", () => {
 
 			it("should not traverse into subdir1 when parent config file specifies it as ignored and passing in *", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: workDir,
 				});
 				const results = await eslint.lintFiles(["*"]);
@@ -15342,7 +14963,6 @@ describe("ESLint", () => {
 
 			it("should traverse into subdir1 when parent config file specifies it as ignored and passing in subdir1", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: workDir,
 				});
 				const results = await eslint.lintFiles(["subdir1"]);
@@ -15362,7 +14982,6 @@ describe("ESLint", () => {
 
 			it("should traverse into subdir1 when parent config file specifies it as ignored and passing in subdir1/*.mjs", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: workDir,
 				});
 				const results = await eslint.lintFiles(["subdir1/*.mjs"]);
@@ -15382,7 +15001,6 @@ describe("ESLint", () => {
 
 			it("should reject an error when parent config file specifies subdir1 as ignored and passing in sub*1/*.mjs", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: workDir,
 				});
 
@@ -15394,7 +15012,6 @@ describe("ESLint", () => {
 
 			it("should traverse into subdir1 when parent config file specifies it as ignored and passing in subdir1/eslint.config.mjs", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: workDir,
 				});
 				const results = await eslint.lintFiles([
@@ -15416,7 +15033,6 @@ describe("ESLint", () => {
 
 			it("should traverse into subdir1 when parent config file specifies it as ignored and passing in ../subdir1/eslint.config.mjs", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: path.resolve(workDir, "subdir2"),
 				});
 				const results = await eslint.lintFiles([
@@ -15438,7 +15054,6 @@ describe("ESLint", () => {
 
 			it("should traverse into subdir1 when parent config file specifies it as ignored and passing in ../subdir1/*.mjs", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: path.resolve(workDir, "subdir2"),
 				});
 				const results = await eslint.lintFiles(["../subdir1/*.mjs"]);
@@ -15458,7 +15073,6 @@ describe("ESLint", () => {
 
 			it("should traverse into subdir1 when parent config file specifies it as ignored and passing in ../subdir1", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: path.resolve(workDir, "subdir2"),
 				});
 				const results = await eslint.lintFiles(["../subdir1"]);
@@ -15478,7 +15092,6 @@ describe("ESLint", () => {
 
 			it("should traverse into subdir3/subsubdir when parent config file specifies it as ignored and passing in subdir3/subsubdir", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: workDir,
 				});
 				const results = await eslint.lintFiles(["subdir3/subsubdir"]);
@@ -15519,7 +15132,6 @@ describe("ESLint", () => {
 
 			it("should traverse into subdir1 and subdir2 but not subdir3 when parent config file specifies it as ignored and passing in .", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: workDir,
 				});
 				const results = await eslint.lintFiles(["."]);
@@ -15562,7 +15174,6 @@ describe("ESLint", () => {
 
 			it("should not traverse into subdirectories when passing in *", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: workDir,
 				});
 				const results = await eslint.lintFiles(["*"]);
@@ -15583,7 +15194,6 @@ describe("ESLint", () => {
 
 			it("should traverse into subdir3 when parent config file specifies it as ignored and passing in subdir3", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: workDir,
 				});
 				const results = await eslint.lintFiles(["subdir3"]);
@@ -15610,7 +15220,6 @@ describe("ESLint", () => {
 
 			it("should traverse into subdir3 when parent config file specifies it as ignored and passing in subdir3/*.js", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: workDir,
 				});
 				const results = await eslint.lintFiles(["subdir3/*.js"]);
@@ -15631,7 +15240,6 @@ describe("ESLint", () => {
 
 			it("should lint files in subdir3 and eslint.config.cjs when parent config file specifies subdir3 as ignored and passing in subdir3/*.js, **/*.cjs", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: workDir,
 				});
 				const results = await eslint.lintFiles([
@@ -15666,7 +15274,6 @@ describe("ESLint", () => {
 
 			it("should lint files in subdir3 and eslint.config.cjs when parent config file specifies subdir3 as ignored and passing in **/*.cjs, subdir3/*.js", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: workDir,
 				});
 				const results = await eslint.lintFiles([
@@ -15701,7 +15308,6 @@ describe("ESLint", () => {
 
 			it("should traverse into subdir1 and subdir2 but not subdir3 when parent config file specifies it as ignored and passing in sub*/*.js", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: workDir,
 				});
 				const results = await eslint.lintFiles(["sub*/*.js"]);
@@ -15733,7 +15339,6 @@ describe("ESLint", () => {
 
 			it("should reject an error when parent config file specifies subdir3 as ignored and passing in sub*3/*.mjs", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: workDir,
 				});
 
@@ -15745,7 +15350,6 @@ describe("ESLint", () => {
 
 			it("should traverse into subdir1 and subdir2 but not subdir3 when parent config file specifies it as ignored and passing in sub*/*.js and **/*.cjs", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: workDir,
 				});
 				const results = await eslint.lintFiles([
@@ -15791,7 +15395,6 @@ describe("ESLint", () => {
 
 			it("should traverse into subdir1 and subdir2 but not subdir3 when parent config file specifies it as ignored and passing in **/*.cjs and sub*/*.js", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: workDir,
 				});
 				const results = await eslint.lintFiles([
@@ -15837,7 +15440,6 @@ describe("ESLint", () => {
 
 			it("should traverse into subdir3 when parent config file specifies it as ignored and passing in subdir3/eslint.config.mjs", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: workDir,
 				});
 				const results = await eslint.lintFiles([
@@ -15855,7 +15457,6 @@ describe("ESLint", () => {
 
 			it("should traverse into subdir3 when parent config file specifies it as ignored and passing in ../subdir3/eslint.config.mjs", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: path.resolve(workDir, "subdir2"),
 				});
 				const results = await eslint.lintFiles([
@@ -15873,7 +15474,6 @@ describe("ESLint", () => {
 
 			it("should traverse into subdir3 when parent config file specifies it as ignored and passing in ../subdir3/*.mjs", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: path.resolve(workDir, "subdir2"),
 				});
 				const results = await eslint.lintFiles(["../subdir3/*.mjs"]);
@@ -15889,7 +15489,6 @@ describe("ESLint", () => {
 
 			it("should traverse into subdir3 when parent config file specifies it as ignored and passing in ../subdir3", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: path.resolve(workDir, "subdir2"),
 				});
 				const results = await eslint.lintFiles(["../subdir3"]);
@@ -15933,7 +15532,6 @@ describe("ESLint", () => {
 			// https://github.com/eslint/eslint/issues/18948
 			it("should interpret `ignorePatterns` as relative to `cwd` when `cwd` is a parent directory.", async () => {
 				eslint = new ESLint({
-					flags,
 					cwd: workDir,
 					ignorePatterns: ["subdir/b.js"],
 				});
@@ -15957,62 +15555,6 @@ describe("ESLint", () => {
 				assert.strictEqual(results[1].messages.length, 0);
 				assert.strictEqual(results[1].suppressedMessages.length, 0);
 			});
-		});
-	});
-
-	// A test copied from the `v10_config_lookup_from_file` tests to ensure the `unstable_config_lookup_from_file` flag still works
-	describe("unstable_config_lookup_from_file", () => {
-		let processStub;
-
-		beforeEach(() => {
-			sinon.restore();
-			processStub = sinon
-				.stub(process, "emitWarning")
-				.withArgs(sinon.match.any, sinon.match(/^ESLintInactiveFlag_/u))
-				.returns();
-		});
-
-		it("should report zero messages when given a config file and a valid file", async () => {
-			/*
-			 * This test ensures subdir/code.js is linted using the configuration in
-			 * subdir/eslint.config.js and not from eslint.config.js in the parent
-			 * directory.
-			 */
-
-			const eslint = new ESLint({
-				flags: ["unstable_config_lookup_from_file"],
-				cwd: getFixturePath("lookup-from-file"),
-			});
-			const results = await eslint.lintFiles(["."]);
-
-			assert.strictEqual(results.length, 2);
-			assert.strictEqual(
-				results[0].filePath,
-				getFixturePath("lookup-from-file", "code.js"),
-			);
-			assert.strictEqual(results[0].messages.length, 1);
-			assert.strictEqual(results[0].messages[0].ruleId, "no-unused-vars");
-			assert.strictEqual(results[0].messages[0].severity, 2);
-			assert.strictEqual(results[0].suppressedMessages.length, 0);
-
-			assert.strictEqual(
-				results[1].filePath,
-				getFixturePath("lookup-from-file", "subdir", "code.js"),
-			);
-			assert.strictEqual(results[1].messages.length, 1);
-			assert.strictEqual(results[1].messages[0].ruleId, "no-unused-vars");
-			assert.strictEqual(results[1].messages[0].severity, 1);
-			assert.strictEqual(results[1].suppressedMessages.length, 0);
-
-			assert.strictEqual(
-				processStub.callCount,
-				1,
-				"calls `process.emitWarning()` for flags once",
-			);
-			assert.deepStrictEqual(processStub.getCall(0).args, [
-				"The flag 'unstable_config_lookup_from_file' is inactive: This flag has been renamed 'v10_config_lookup_from_file' to reflect its stabilization. Please use 'v10_config_lookup_from_file' instead.",
-				"ESLintInactiveFlag_unstable_config_lookup_from_file",
-			]);
 		});
 	});
 

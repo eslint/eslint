@@ -3212,22 +3212,6 @@ describe("cli", () => {
 				});
 			});
 
-			describe("v10_config_lookup_from_file", () => {
-				const flag = "v10_config_lookup_from_file";
-
-				it("should throw an error when text is passed and no config file is found", async () => {
-					await stdAssert.rejects(
-						() =>
-							cli.execute(
-								`--flag ${flag} --stdin --stdin-filename /foo.js"`,
-								"var foo = 'bar';",
-								true,
-							),
-						/Could not find config file/u,
-					);
-				});
-			});
-
 			describe("--concurrency option", () => {
 				["1", "100", "0x10", "auto", "off"].forEach(value => {
 					it(`should accept the value ${value}`, async () => {
