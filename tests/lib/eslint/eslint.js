@@ -4878,8 +4878,8 @@ describe("ESLint", () => {
 					preprocess(text) {
 						return [
 							text
-								.replace(/^<script>/u, "")
-								.replace(/<\/script>$/u, ""),
+								.replace(/^<script>/iu, "")
+								.replace(/<\/script>$/iu, ""),
 						];
 					},
 					postprocess(problemLists) {

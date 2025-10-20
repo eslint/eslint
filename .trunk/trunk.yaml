@@ -67,6 +67,7 @@ lint:
         - linters: [eslint]
           paths:
               - tests/fixtures/**
+              - docs/_examples/**
 actions:
     disabled:
         - trunk-announce
