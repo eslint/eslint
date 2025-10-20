@@ -1387,15 +1387,9 @@ export namespace ESLint {
 
 // #endregion
 
-export function loadESLint(options: {
-	useFlatConfig: true;
-}): Promise<typeof ESLint>;
-export function loadESLint(options: {
-	useFlatConfig: false;
-}): Promise<typeof ESLint>;
 export function loadESLint(options?: {
 	useFlatConfig?: boolean | undefined;
-}): Promise<typeof ESLint | typeof ESLint>;
+}): Promise<typeof ESLint>;
 
 // #region RuleTester
 
