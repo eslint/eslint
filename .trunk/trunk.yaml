@@ -64,6 +64,9 @@ lint:
         - linters: [markdownlint]
           paths:
               - CHANGELOG.md
+        - linters: [eslint]
+          paths:
+              - tests/fixtures/**
 actions:
     disabled:
         - trunk-announce
