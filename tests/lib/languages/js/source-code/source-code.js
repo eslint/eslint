@@ -4332,7 +4332,6 @@ describe("SourceCode", () => {
 			const scopeManager = eslintScope.analyze(ast, {
 				ignoreEval: true,
 				ecmaVersion: 6,
-				sourceType: "commonjs",
 			});
 			const sourceCode = new SourceCode({
 				text: code,
