@@ -210,14 +210,174 @@ function getArrayValues(enumValue) {
 }
 
 /**
+ * @param {Object} obj The schema object with 'not' property that contains not required values.
+ * @returns {Object} An object mapping properties to their not required values.
+ */
+function createObjectOfRequiredValues(obj) {
+	const requiredValues = {};
+
+	const notRequiredValues = obj?.not;
+
+	if (notRequiredValues?.required) {
+		for (const [index, value] of notRequiredValues.required.entries()) {
+			requiredValues[value] = notRequiredValues.required.filter(
+				(_, i) => i !== index,
+			);
+		}
+	}
+
+	if (notRequiredValues?.anyOf) {
+		for (const anyOfObj of notRequiredValues.anyOf) {
+			if (anyOfObj?.required) {
+				for (const [index, value] of anyOfObj.required.entries()) {
+					if (requiredValues[value]) {
+						const filtered = anyOfObj.required.filter(
+							(_, i) => i !== index,
+						);
+
+						requiredValues[value] = [
+							...requiredValues[value],
+							...filtered,
+						];
+					} else {
+						requiredValues[value] = anyOfObj.required.filter(
+							(_, i) => i !== index,
+						);
+					}
+				}
+			}
+		}
+	}
+
+	return requiredValues;
+}
+
+/**
+ * Filters out duplicate objects from an array of schema objects.
+ * @param {Array} arr Array of schema objects.
+ * @returns {Array} Array of unique schema objects.
+ */
+function uniqueObjects(arr) {
+	const seen = new Set();
+	const result = [];
+
+	for (const obj of arr) {
+		const normalized = JSON.stringify(
+			Object.keys(obj)
+				.sort()
+				.reduce((acc, key) => {
+					acc[key] = obj[key];
+					return acc;
+				}, {}),
+		);
+
+		if (!seen.has(normalized)) {
+			seen.add(normalized);
+			result.push(obj);
+		}
+	}
+
+	return result;
+}
+
+/**
+ * Simplifies schema objects by giving all possible combinations of schema properties.
+ * @param {Object} obj The schema object to simplify.
+ * @returns {Array} An array of simplified schema objects.
+ */
+function getSimplifiedObjects(obj) {
+	const allObjects = [];
+
+	const requiredValues = createObjectOfRequiredValues(obj);
+
+	for (const [key, value] of Object.entries(requiredValues)) {
+		const currentObj = {};
+		const revisedObj = {};
+		const revisedPropToRemove = [];
+
+		for (const [prop, val] of Object.entries(obj.properties)) {
+			if (!value.includes(prop)) {
+				currentObj[prop] = val;
+			}
+		}
+
+		const allSingle = Object.values(requiredValues).every(
+			arr => Array.isArray(arr) && arr.length === 1,
+		);
+
+		if (allSingle) {
+			for (const [prop, val] of Object.entries(currentObj)) {
+				const propvalue = requiredValues[prop];
+
+				const firstValue = propvalue && propvalue[0];
+
+				if (
+					firstValue in currentObj &&
+					revisedPropToRemove.length < 1
+				) {
+					revisedPropToRemove.push(firstValue);
+				}
+
+				const propToRemove =
+					revisedPropToRemove.length === 1 && revisedPropToRemove[0];
+
+				if (prop !== propToRemove) {
+					revisedObj[prop] = val;
+				}
+			}
+
+			allObjects.push(revisedObj);
+		} else {
+			allObjects.push(currentObj);
+		}
+	}
+
+	const uniqueAllObjects = uniqueObjects(allObjects);
+	const requiredOptions = {
+		required: obj?.required || [],
+		anyOf: obj?.anyOf || [],
+		oneOf: obj?.oneOf || [],
+	};
+
+	const finalObjects = uniqueAllObjects.map(obj => ({
+		type: "object",
+		properties: obj,
+		...requiredOptions,
+	}));
+
+	return finalObjects;
+}
+
+/**
+ * Filters out required keys from the given schema object.
+ * @param {Object} obj The schema object with 'oneOf' property with 'required' properties in it.
+ * @param {Array} requiredKeys An array of required keys in 'oneOf'.
+ * @returns {Object} An object without the required keys.
+ */
+function getObjectWithoutRequired(obj, requiredKeys) {
+	const notRequiredProps = {};
+	const { properties, ...rest } = obj;
+
+	for (const [key, value] of Object.entries(properties)) {
+		if (!requiredKeys.includes(key)) {
+			notRequiredProps[key] = value;
+		}
+	}
+
+	return { ...rest, properties: notRequiredProps };
+}
+
+/**
  * Get the default tag for type definitions options.
  * @param {string | boolean} value The default value.
+ * @param {boolean} isDeprecated Whether the option is deprecated.
  * @returns {string} The default tag for the given value.
  */
-function getDefaultTag(value) {
+function getDefaultTag(value, isDeprecated) {
 	const defaultTag = `/**\n * @default ${value}\n */`;
+	const defaultWithDeprecatedTag = `/**\n * @deprecated\n * @default ${value}\n */`;
 
-	return defaultTag;
+	return isDeprecated ? defaultWithDeprecatedTag : defaultTag;
 }
 
 /**
@@ -325,14 +485,95 @@ function createPartials(schema, ruleId, defaultOptions) {
 				}
 
 				if (schema.items.type === "object") {
-					const partialValue = createPartials(
-						schema.items,
-						ruleId,
-						defaultOptions,
-					);
+					if (schema.items.not) {
+						if (
+							schema.items.oneOf &&
+							schema.items.oneOf.every(obj => "required" in obj)
+						) {
+							const requiredValues = [];
 
-					if (partialValue) {
-						partial = `Array<${partialValue}>`;
+							for (const oneOfSchema of schema.items.oneOf) {
+								if (oneOfSchema.required) {
+									requiredValues.push(
+										...oneOfSchema.required,
+									);
+								}
+							}
+
+							const requiredObjects = [];
+
+							for (const [
+								index,
+								reqValue,
+							] of requiredValues.entries()) {
+								const requiredObj = {};
+
+								for (const reqValueOther of requiredValues) {
+									if (
+										reqValueOther === requiredValues[index]
+									) {
+										requiredObj[reqValue] =
+											schema.items.properties[
+												reqValueOther
+											];
+									} else {
+										requiredObj[reqValueOther] = {
+											type: "never",
+										};
+									}
+								}
+
+								requiredObjects.push(requiredObj);
+							}
+
+							const finalObjects = requiredObjects.map(obj => ({
+								type: "object",
+								properties: obj,
+								oneOf: schema.items.oneOf,
+							}));
+
+							const newSchema = getObjectWithoutRequired(
+								schema.items,
+								requiredValues,
+							);
+							const simplifiedObjects =
+								getSimplifiedObjects(newSchema);
+
+							const one = getPartials(
+								simplifiedObjects,
+								ruleId,
+								defaultOptions,
+							);
+							const two = getPartials(
+								finalObjects,
+								ruleId,
+								defaultOptions,
+							);
+
+							partial = `Array<(${one}) & (\n${two})>`;
+						} else {
+							const simplifiedObjects = getSimplifiedObjects(
+								schema.items,
+							);
+
+							const allPartials = getPartials(
+								simplifiedObjects,
+								ruleId,
+								defaultOptions,
+							);
+
+							partial = `Array<${allPartials}>`;
+						}
+					} else {
+						const partialValue = createPartials(
+							schema.items,
+							ruleId,
+							defaultOptions,
+						);
+
+						if (partialValue) {
+							partial = `Array<${partialValue}>`;
+						}
 					}
 				}
 
@@ -352,267 +593,372 @@ function createPartials(schema, ruleId, defaultOptions) {
 	}
 
 	if (schema.type === "object") {
-		const properties = schema.properties;
-		const partialsValues = [];
-		const partialsWithRecordValues = [];
-		const { keyGroup, valueGroup } = getEnumGroups(properties);
+		if (schema.not) {
+			const simplifiedObjects = getSimplifiedObjects(schema);
 
-		if (keyGroup) {
-			partialsWithRecordValues.push(
-				`Record<${keyGroup.join(" | ")}, ${valueGroup.join(" | ")}>`,
-			);
-		}
+			partial = getPartials(simplifiedObjects, ruleId, defaultOptions);
+		} else {
+			const properties = schema.properties;
+			const partialsValues = [];
+			const partialsWithRecordValues = [];
+			const { keyGroup, valueGroup } = getEnumGroups(properties);
 
-		const { propertyValue } = getPropValueThatIsEqual(properties);
+			const requiredProps = [];
 
-		if (propertyValue) {
-			const keys = [];
-			const propValue = [];
-			for (const [prop] of Object.entries(properties)) {
-				keys.push(prop);
-			}
-			for (const [prop, val] of Object.entries(propertyValue)) {
-				propValue.push(`${prop}: ${val.type};`);
+			if (schema.required) {
+				requiredProps.push(...schema.required);
 			}
 
-			const allKeys = getArrayValues(keys);
-			partialsWithRecordValues.push(
-				`Record<${allKeys}, Partial<{\n${propValue.join("\n")}\n}>>`,
-			);
-		}
-
-		for (const [key, value] of Object.entries(properties)) {
-			if (Array.isArray(value.type)) {
-				if (defaultOptions && defaultOptions[key] !== void 0) {
-					partialsValues.push(getDefaultTag(defaultOptions[key]));
+			if (schema.anyOf) {
+				for (const anyOfSchema of schema.anyOf) {
+					if (anyOfSchema.required) {
+						requiredProps.push(...anyOfSchema.required);
+					}
 				}
+			}
 
-				if ("default" in value) {
-					partialsValues.push(getDefaultTag(value.default));
+			if (schema.oneOf) {
+				for (const oneOfSchema of schema.oneOf) {
+					if (oneOfSchema.required) {
+						requiredProps.push(...oneOfSchema.required);
+					}
 				}
+			}
 
-				const updated = value.type.map(item =>
-					item === "integer" ? "number" : item,
+			if (keyGroup) {
+				partialsWithRecordValues.push(
+					`Record<${keyGroup.join(" | ")}, ${valueGroup.join(" | ")}>`,
 				);
-
-				partialsValues.push(`${key}: ${updated.join(" | ")};`);
 			}
 
-			if (value.enum) {
-				if (defaultOptions && defaultOptions[key] !== void 0) {
-					partialsValues.push(getDefaultTag(defaultOptions[key]));
+			const { propertyValue } = getPropValueThatIsEqual(properties);
+
+			if (propertyValue) {
+				const keys = [];
+				const propValue = [];
+				for (const [prop] of Object.entries(properties)) {
+					keys.push(prop);
+				}
+				for (const [prop, val] of Object.entries(propertyValue)) {
+					propValue.push(`${prop}: ${val.type};`);
 				}
 
-				if (value.enum.length > 10) {
-					partialsValues.push(`${key}: string;`);
-				} else {
-					let enumValues;
-					if (value.enum.length === 1) {
-						enumValues =
-							typeof value.enum[0] === "string"
-								? `"${value.enum[0]}"`
-								: value.enum[0];
-					} else {
-						enumValues = getArrayValues(value.enum);
+				const allKeys = getArrayValues(keys);
+				partialsWithRecordValues.push(
+					`Record<${allKeys}, Partial<{\n${propValue.join("\n")}\n}>>`,
+				);
+			}
+
+			for (const [key, value] of Object.entries(properties)) {
+				let keyValue = key;
+				const hasDefault =
+					Number.isInteger(defaultOptions) ||
+					(defaultOptions && defaultOptions[key]) ||
+					"default" in value;
+				const addDeprecatedTag = hasDefault && value?.deprecated;
+
+				if (value?.deprecated && !hasDefault) {
+					partialsValues.push(`/**\n * @deprecated\n */`);
+				}
+
+				if (requiredProps.length > 0) {
+					keyValue = requiredProps.includes(key) ? key : `${key}?`;
+				}
+
+				if (value.type === "never") {
+					partialsValues.push(`${key}?: never;`);
+				}
+
+				if (Array.isArray(value.type)) {
+					if (defaultOptions && defaultOptions[key] !== void 0) {
+						partialsValues.push(
+							getDefaultTag(
+								defaultOptions[key],
+								addDeprecatedTag,
+							),
+						);
 					}
-					partialsValues.push(`${key}: ${enumValues};`);
-				}
-			}
 
-			if (value.type === "boolean" || value.type === "string") {
-				if (
-					defaultOptions &&
-					defaultOptions[key] !== void 0 &&
-					defaultOptions[key] !== ""
-				) {
-					partialsValues.push(getDefaultTag(defaultOptions[key]));
-				}
-				if ("default" in value) {
-					partialsValues.push(getDefaultTag(value.default));
-				}
-				partialsValues.push(`${key}: ${value.type};`);
-			}
+					if ("default" in value) {
+						partialsValues.push(
+							getDefaultTag(value.default, addDeprecatedTag),
+						);
+					}
 
-			if (value.type === "integer") {
-				let defaultValue;
+					const updated = value.type.map(item =>
+						item === "integer" ? "number" : item,
+					);
 
-				if ("default" in value) {
-					defaultValue = value.default;
-				} else if (defaultOptions) {
-					if (defaultOptions[key] !== void 0) {
-						defaultValue = defaultOptions[key];
-					} else if (Number.isInteger(defaultOptions)) {
-						defaultValue = defaultOptions;
+					partialsValues.push(`${keyValue}: ${updated.join(" | ")};`);
+				}
+
+				if (value.enum) {
+					if (defaultOptions && defaultOptions[key] !== void 0) {
+						partialsValues.push(
+							getDefaultTag(
+								defaultOptions[key],
+								addDeprecatedTag,
+							),
+						);
+					}
+
+					if (value.enum.length > 10) {
+						partialsValues.push(`${keyValue}: string;`);
+					} else {
+						let enumValues;
+						if (value.enum.length === 1) {
+							enumValues =
+								typeof value.enum[0] === "string"
+									? `"${value.enum[0]}"`
+									: value.enum[0];
+						} else {
+							enumValues = getArrayValues(value.enum);
+						}
+						partialsValues.push(`${keyValue}: ${enumValues};`);
 					}
 				}
 
-				if (defaultValue !== void 0) {
-					partialsValues.push(getDefaultTag(defaultValue));
+				if (value.type === "boolean" || value.type === "string") {
+					if (
+						defaultOptions &&
+						defaultOptions[key] !== void 0 &&
+						defaultOptions[key] !== ""
+					) {
+						partialsValues.push(
+							getDefaultTag(
+								defaultOptions[key],
+								addDeprecatedTag,
+							),
+						);
+					}
+					if ("default" in value) {
+						partialsValues.push(
+							getDefaultTag(value.default, addDeprecatedTag),
+						);
+					}
+					partialsValues.push(`${keyValue}: ${value.type};`);
 				}
-				partialsValues.push(`${key}: number;`);
-			}
 
-			if (value.type === "array") {
-				if (value.items?.type === "string") {
-					if (ruleId === "no-console" && key === "allow") {
-						partialsValues.push(`${key}: Array<keyof Console>;`);
-					} else {
+				if (value.type === "integer") {
+					let defaultValue;
+
+					if ("default" in value) {
+						defaultValue = value.default;
+					} else if (defaultOptions) {
+						if (defaultOptions[key] !== void 0) {
+							defaultValue = defaultOptions[key];
+						} else if (Number.isInteger(defaultOptions)) {
+							defaultValue = defaultOptions;
+						}
+					}
+
+					if (defaultValue !== void 0) {
+						partialsValues.push(
+							getDefaultTag(defaultValue, addDeprecatedTag),
+						);
+					}
+					partialsValues.push(`${keyValue}: number;`);
+				}
+
+				if (value.type === "array") {
+					if (value.items?.type === "string") {
+						if (ruleId === "no-console" && key === "allow") {
+							partialsValues.push(
+								`${keyValue}: Array<keyof Console>;`,
+							);
+						} else {
+							if (value.items?.pattern) {
+								partialsValues.push(
+									`/**\n * Pattern "${value.items.pattern}"\n */`,
+								);
+							}
+
+							if (
+								defaultOptions &&
+								defaultOptions[key] !== void 0
+							) {
+								const defaultValue =
+									Array.isArray(defaultOptions[key]) &&
+									defaultOptions[key].length === 0
+										? "[]"
+										: `[${defaultOptions[key].map(item => (typeof item === "string" ? `"${item}"` : item)).join(", ")}]`;
+								partialsValues.push(
+									getDefaultTag(
+										defaultValue,
+										addDeprecatedTag,
+									),
+								);
+							}
+							partialsValues.push(`${keyValue}: string[];`);
+						}
+					}
+
+					if (value.items?.enum) {
 						if (defaultOptions && defaultOptions[key] !== void 0) {
 							const defaultValue =
 								Array.isArray(defaultOptions[key]) &&
 								defaultOptions[key].length === 0
 									? "[]"
 									: `[${defaultOptions[key].map(item => (typeof item === "string" ? `"${item}"` : item)).join(", ")}]`;
-							partialsValues.push(getDefaultTag(defaultValue));
+							partialsValues.push(
+								getDefaultTag(defaultValue, addDeprecatedTag),
+							);
 						}
-						partialsValues.push(`${key}: string[];`);
-					}
-				}
 
-				if (value.items?.enum) {
-					if (defaultOptions && defaultOptions[key] !== void 0) {
-						const defaultValue =
-							Array.isArray(defaultOptions[key]) &&
-							defaultOptions[key].length === 0
-								? "[]"
-								: `[${defaultOptions[key].map(item => (typeof item === "string" ? `"${item}"` : item)).join(", ")}]`;
-						partialsValues.push(getDefaultTag(defaultValue));
+						const enumValues = getArrayValues(value.items.enum);
+
+						partialsValues.push(
+							`${keyValue}: Array<${enumValues}>;`,
+						);
 					}
 
-					const enumValues = getArrayValues(value.items.enum);
+					if (value.items.type === "object") {
+						const propPartial = [];
+						for (const [prop, val] of Object.entries(
+							value.items.properties,
+						)) {
+							const partialValue = createPartials(
+								val,
+								ruleId,
+								defaultOptions,
+							);
+							if (partialValue) {
+								propPartial.push(`${prop}: ${partialValue};`);
+							}
+						}
 
-					partialsValues.push(`${key}: Array<${enumValues}>;`);
-				}
+						if (propPartial.length > 0) {
+							partialsValues.push(
+								`${keyValue}: Array<{${propPartial.join("\n")}}>;`,
+							);
+						}
+					}
 
-				if (value.items.type === "object") {
-					const propPartial = [];
-					for (const [prop, val] of Object.entries(
-						value.items.properties,
-					)) {
-						const partialValue = createPartials(
-							val,
+					if (value.items.type === "array") {
+						if (value.items.items?.enum) {
+							partialsValues.push(`${keyValue}: string[][];`);
+						}
+					}
+
+					if (value.items.oneOf) {
+						const oneOfPartials = getPartials(
+							value.items.oneOf,
 							ruleId,
 							defaultOptions,
 						);
+
+						partialsValues.push(
+							`${keyValue}: Array<${oneOfPartials}>;`,
+						);
+					}
+
+					if (value.items.anyOf) {
+						const anyOfPartials = getPartials(
+							value.items.anyOf,
+							ruleId,
+							defaultOptions,
+						);
+
+						partialsValues.push(
+							`${keyValue}: Array<${anyOfPartials}>;`,
+						);
+					}
+				}
+
+				if (value.type === "object") {
+					if (value.additionalProperties) {
+						if (value.additionalProperties.type === "boolean") {
+							partialsValues.push(
+								`${keyValue}: Record<string, boolean>;`,
+							);
+						}
+
+						if (value.additionalProperties.enum) {
+							const enumValues = getArrayValues(
+								value.additionalProperties.enum,
+							);
+
+							partialsValues.push(
+								`${keyValue}: Record<string, ${enumValues}>;`,
+							);
+						}
+					}
+
+					if (value.properties) {
+						const partialValue = createPartials(
+							value,
+							ruleId,
+							defaultOptions,
+						);
+
 						if (partialValue) {
-							propPartial.push(`${prop}: ${partialValue};`);
+							partialsValues.push(
+								`${keyValue}: ${partialValue};`,
+							);
 						}
 					}
 
-					if (propPartial.length > 0) {
-						partialsValues.push(
-							`${key}: Array<{${propPartial.join("\n")}}>;`,
-						);
+					if (value.patternProperties) {
+						for (const [, patternProp] of Object.entries(
+							value.patternProperties,
+						)) {
+							if (
+								ruleId === "no-multi-spaces" &&
+								key === "exceptions"
+							) {
+								partialsValues.push(
+									`/**\n * @default { Property: true }\n */`,
+								);
+							}
+							if (patternProp.type === "boolean") {
+								partialsValues.push(
+									`${keyValue}: Record<string, boolean>;`,
+								);
+							}
+						}
 					}
 				}
 
-				if (value.items.type === "array") {
-					if (value.items.items?.enum) {
-						partialsValues.push(`${key}: string[][];`);
-					}
-				}
-
-				if (value.items.oneOf) {
+				if (value.oneOf) {
 					const oneOfPartials = getPartials(
-						value.items.oneOf,
+						value.oneOf,
 						ruleId,
 						defaultOptions,
 					);
 
-					partialsValues.push(`${key}: Array<${oneOfPartials}>;`);
+					partialsValues.push(`${keyValue}: \n${oneOfPartials};`);
 				}
 
-				if (value.items.anyOf) {
+				if (value.anyOf) {
 					const anyOfPartials = getPartials(
-						value.items.anyOf,
+						value.anyOf,
 						ruleId,
 						defaultOptions,
 					);
 
-					partialsValues.push(`${key}: Array<${anyOfPartials}>;`);
+					partialsValues.push(`${keyValue}: \n${anyOfPartials};`);
 				}
 			}
 
-			if (value.type === "object") {
-				if (value.additionalProperties) {
-					if (value.additionalProperties.type === "boolean") {
-						partialsValues.push(`${key}: Record<string, boolean>;`);
-					}
+			let partialsValue;
 
-					if (value.additionalProperties.enum) {
-						const enumValues = getArrayValues(
-							value.additionalProperties.enum,
-						);
-
-						partialsValues.push(
-							`${key}: Record<string, ${enumValues}>;`,
-						);
-					}
-				}
-
-				if (value.properties) {
-					const partialValue = createPartials(
-						value,
-						ruleId,
-						defaultOptions,
-					);
-
-					if (partialValue) {
-						partialsValues.push(`${key}: ${partialValue};`);
-					}
-				}
-
-				if (value.patternProperties) {
-					for (const [, patternProp] of Object.entries(
-						value.patternProperties,
-					)) {
-						if (
-							ruleId === "no-multi-spaces" &&
-							key === "exceptions"
-						) {
-							partialsValues.push(
-								`/**\n * @default { Property: true }\n */`,
-							);
-						}
-						if (patternProp.type === "boolean") {
-							partialsValues.push(
-								`${key}: Record<string, boolean>;`,
-							);
-						}
-					}
+			if (requiredProps.length > 0) {
+				partialsValue = `{\n${partialsValues.join("\n")}\n}`;
+			} else {
+				if (partialsValues.length > 0) {
+					partialsValue = `Partial<{\n${partialsValues.join("\n")}\n}>`;
+				} else if (partialsWithRecordValues.length > 0) {
+					partialsValue = `Partial<\n${partialsWithRecordValues.join("\n")}\n>`;
 				}
 			}
+			// if (partialsValues.length > 0) {
+			// 	partialsValue = `Partial<{\n${partialsValues.join("\n")}\n}>`;
+			// } else if (partialsWithRecordValues.length > 0) {
+			// 	partialsValue = `Partial<\n${partialsWithRecordValues.join("\n")}\n>`;
+			// }
 
-			if (value.oneOf) {
-				const oneOfPartials = getPartials(
-					value.oneOf,
-					ruleId,
-					defaultOptions,
-				);
-
-				partialsValues.push(`${key}: \n${oneOfPartials};`);
-			}
-
-			if (value.anyOf) {
-				const anyOfPartials = getPartials(
-					value.anyOf,
-					ruleId,
-					defaultOptions,
-				);
-
-				partialsValues.push(`${key}: \n${anyOfPartials};`);
-			}
+			partial = partialsValue;
 		}
-
-		let partialsValue;
-
-		if (partialsValues.length > 0) {
-			partialsValue = `Partial<{\n${partialsValues.join("\n")}\n}>`;
-		} else if (partialsWithRecordValues.length > 0) {
-			partialsValue = `Partial<\n${partialsWithRecordValues.join("\n")}\n>`;
-		}
-
-		partial = partialsValue;
 	}
 
 	return partial;

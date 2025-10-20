@@ -476,6 +476,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 			| number
 			| Partial<{
 					/**
+					 * @deprecated
 					 * @default 20
 					 */
 					maximum: number;
@@ -1594,13 +1595,13 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"lines-between-class-members": Linter.RuleEntry<
 		[
 			(
-				| Partial<{
+				| {
 						enforce: Array<{
 							blankLine: "always" | "never";
 							prev: "method" | "field" | "*";
 							next: "method" | "field" | "*";
 						}>;
-				  }>
+				  }
 				| "always"
 				| "never"
 			),
@@ -1656,6 +1657,9 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			| number
 			| Partial<{
+					/**
+					 * @deprecated
+					 */
 					maximum: number;
 					max: number;
 			  }>,
@@ -1763,6 +1767,9 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			| number
 			| Partial<{
+					/**
+					 * @deprecated
+					 */
 					maximum: number;
 					max: number;
 			  }>,
@@ -1779,6 +1786,9 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			| number
 			| Partial<{
+					/**
+					 * @deprecated
+					 */
 					maximum: number;
 					max: number;
 					countVoidThis: boolean;
@@ -1797,6 +1807,9 @@ export interface ESLintRules extends Linter.RulesRecord {
 			(
 				| number
 				| Partial<{
+						/**
+						 * @deprecated
+						 */
 						maximum: number;
 						max: number;
 				  }>
@@ -2492,6 +2505,9 @@ export interface ESLintRules extends Linter.RulesRecord {
 					enforceForInnerExpressions: boolean;
 			  }>
 			| Partial<{
+					/**
+					 * @deprecated
+					 */
 					enforceForLogicalOperands: boolean;
 			  }>,
 		]
@@ -3039,11 +3055,11 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"no-multiple-empty-lines": Linter.RuleEntry<
 		[
-			Partial<{
+			{
 				max: number;
-				maxEOF: number;
-				maxBOF: number;
-			}>,
+				maxEOF?: number;
+				maxBOF?: number;
+			},
 		]
 	>;
 
@@ -3357,6 +3373,9 @@ export interface ESLintRules extends Linter.RulesRecord {
 					restrictedNamedExportsPattern: string;
 			  }>
 			| Partial<{
+					/**
+					 * Pattern "^(?!default$)"
+					 */
 					restrictedNamedExports: string[];
 					restrictedNamedExportsPattern: string;
 					restrictDefaultExports: Partial<{
@@ -3380,25 +3399,25 @@ export interface ESLintRules extends Linter.RulesRecord {
 		| Linter.RuleEntry<
 				[
 					| string
-					| Partial<{
+					| {
 							name: string;
-							message: string;
-					  }>,
+							message?: string;
+					  },
 				]
 		  >
 		| Linter.RuleEntry<
 				[
-					Partial<{
+					{
 						globals: Array<
 							| string
-							| Partial<{
+							| {
 									name: string;
-									message: string;
-							  }>
+									message?: string;
+							  }
 						>;
-						checkGlobalObject: boolean;
-						globalObjects: string[];
-					}>,
+						checkGlobalObject?: boolean;
+						globalObjects?: string[];
+					},
 				]
 		  >;
 
@@ -3412,12 +3431,18 @@ export interface ESLintRules extends Linter.RulesRecord {
 		| Linter.RuleEntry<
 				[
 					| string
-					| Partial<{
+					| {
 							name: string;
-							message: string;
-							importNames: string[];
-							allowImportNames: string[];
-					  }>,
+							message?: string;
+							importNames?: string[];
+							allowTypeImports?: boolean;
+					  }
+					| {
+							name: string;
+							message?: string;
+							allowImportNames?: string[];
+							allowTypeImports?: boolean;
+					  },
 				]
 		  >
 		| Linter.RuleEntry<
@@ -3425,26 +3450,53 @@ export interface ESLintRules extends Linter.RulesRecord {
 					Partial<{
 						paths: Array<
 							| string
-							| Partial<{
+							| {
 									name: string;
-									message: string;
-									importNames: string[];
-									allowImportNames: string[];
-							  }>
+									message?: string;
+									importNames?: string[];
+									allowTypeImports?: boolean;
+							  }
+							| {
+									name: string;
+									message?: string;
+									allowImportNames?: string[];
+									allowTypeImports?: boolean;
+							  }
 						>;
 						patterns:
 							| string[]
 							| Array<
-									Partial<{
-										importNames: string[];
-										allowImportNames: string[];
-										group: string[];
-										regex: string;
-										importNamePattern: string;
-										allowImportNamePattern: string;
-										message: string;
-										caseSensitive: boolean;
-									}>
+									(
+										| {
+												importNames?: string[];
+												importNamePattern?: string;
+												message?: string;
+												caseSensitive?: boolean;
+												allowTypeImports?: boolean;
+										  }
+										| {
+												allowImportNames?: string[];
+												message?: string;
+												caseSensitive?: boolean;
+												allowTypeImports?: boolean;
+										  }
+										| {
+												allowImportNamePattern?: string;
+												message?: string;
+												caseSensitive?: boolean;
+												allowTypeImports?: boolean;
+										  }
+									) &
+										(
+											| {
+													group: string[];
+													regex?: never;
+											  }
+											| {
+													group?: never;
+													regex: string;
+											  }
+										)
 							  >;
 					}>,
 				]
@@ -3463,10 +3515,10 @@ export interface ESLintRules extends Linter.RulesRecord {
 		| Linter.RuleEntry<
 				[
 					| string
-					| Partial<{
+					| {
 							name: string;
-							message: string;
-					  }>,
+							message?: string;
+					  },
 				]
 		  >
 		| Linter.RuleEntry<
@@ -3475,10 +3527,10 @@ export interface ESLintRules extends Linter.RulesRecord {
 						Partial<{
 							paths: Array<
 								| string
-								| Partial<{
+								| {
 										name: string;
-										message: string;
-								  }>
+										message?: string;
+								  }
 							>;
 							patterns: string[];
 						}>
@@ -3495,13 +3547,21 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"no-restricted-properties": Linter.RuleEntry<
 		[
 			Array<
-				Partial<{
-					object: string;
-					property: string;
-					allowObjects: string[];
-					allowProperties: string[];
-					message: string;
-				}>
+				| {
+						property: string;
+						allowObjects?: string[];
+						message?: string;
+				  }
+				| {
+						object: string;
+						property: string;
+						message?: string;
+				  }
+				| {
+						object: string;
+						allowProperties?: string[];
+						message?: string;
+				  }
 			>,
 		]
 	>;
@@ -3515,10 +3575,10 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"no-restricted-syntax": Linter.RuleEntry<
 		[
 			| string
-			| Partial<{
+			| {
 					selector: string;
-					message: string;
-			  }>,
+					message?: string;
+			  },
 		]
 	>;
 
@@ -4293,6 +4353,9 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default start
 				 */
 				location: "start" | "anywhere";
+				/**
+				 * Pattern "^\S$"
+				 */
 				decoration: string[];
 			}>,
 		]
@@ -4584,13 +4647,11 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"padding-line-between-statements": Linter.RuleEntry<
 		[
-			Array<
-				Partial<{
-					blankLine: "any" | "never" | "always";
-					prev: string | string[];
-					next: string | string[];
-				}>
-			>,
+			Array<{
+				blankLine: "any" | "never" | "always";
+				prev: string | string[];
+				next: string | string[];
+			}>,
 		]
 	>;
 
