@@ -121,6 +121,7 @@ sourceCode = new SourceCode({
 		acquire(node, inner) {
 			return scopeManager.scopes[0];
 		},
+		addGlobals(names) {},
 		getDeclaredVariables() {
 			return [];
 		},
