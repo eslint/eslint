@@ -5040,12 +5040,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.0.7
 	 * @see https://eslint.org/docs/latest/rules/radix
 	 */
-	radix:
-		| Linter.RuleEntry<[]>
-		/**
-		 * @deprecated
-		 */
-		| Linter.RuleEntry<["always" | "as-needed"]>;
+	radix: Linter.RuleEntry<["always" | "as-needed"]>;
 
 	/**
 	 * Rule to disallow assignments that can lead to race conditions due to usage of `await` or `yield`.
