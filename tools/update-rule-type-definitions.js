@@ -695,11 +695,12 @@ function createPartials(schema, ruleId, defaultOptions) {
 
 				if (value.enum) {
 					if (defaultOptions && defaultOptions[key] !== void 0) {
+						const defaultValue =
+							typeof defaultOptions[key] === "string"
+								? `"${defaultOptions[key]}"`
+								: defaultOptions[key];
 						partialsValues.push(
-							getDefaultTag(
-								defaultOptions[key],
-								addDeprecatedTag,
-							),
+							getDefaultTag(defaultValue, addDeprecatedTag),
 						);
 					}
 

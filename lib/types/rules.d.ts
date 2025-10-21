@@ -305,7 +305,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 */
 				ignoreGlobals: boolean;
 				/**
-				 * @default always
+				 * @default "always"
 				 */
 				properties: "always" | "never";
 				/**
@@ -935,7 +935,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 */
 				exceptionPatterns: string[];
 				/**
-				 * @default always
+				 * @default "always"
 				 */
 				properties: "always" | "never";
 			}>,
@@ -2178,7 +2178,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			Partial<{
 				/**
-				 * @default allExceptWhileTrue
+				 * @default "allExceptWhileTrue"
 				 */
 				checkLoops: "all" | "allExceptWhileTrue" | "none";
 			}>,
@@ -2726,7 +2726,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 			"functions" | "both",
 			Partial<{
 				/**
-				 * @default allow
+				 * @default "allow"
 				 */
 				blockScopedFunctions: "allow" | "disallow";
 			}>,
@@ -3678,7 +3678,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 */
 				builtinGlobals: boolean;
 				/**
-				 * @default functions
+				 * @default "functions"
 				 */
 				hoist:
 					| "all"
@@ -4350,7 +4350,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 */
 				terms: string[];
 				/**
-				 * @default start
+				 * @default "start"
 				 */
 				location: "start" | "anywhere";
 				/**
@@ -4686,7 +4686,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			Partial<{
 				/**
-				 * @default any
+				 * @default "any"
 				 */
 				destructuring: "any" | "all";
 				/**
