@@ -2180,7 +2180,12 @@ export interface ESLintRules extends Linter.RulesRecord {
 				/**
 				 * @default "allExceptWhileTrue"
 				 */
-				checkLoops: "all" | "allExceptWhileTrue" | "none";
+				checkLoops:
+					| "all"
+					| "allExceptWhileTrue"
+					| "none"
+					| true
+					| false;
 			}>,
 		]
 	>;
@@ -2993,7 +2998,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`no-mixed-spaces-and-tabs`](https://eslint.style/rules/no-mixed-spaces-and-tabs) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/no-mixed-spaces-and-tabs
 	 */
-	"no-mixed-spaces-and-tabs": Linter.RuleEntry<["smart-tabs"]>;
+	"no-mixed-spaces-and-tabs": Linter.RuleEntry<["smart-tabs" | true | false]>;
 
 	/**
 	 * Rule to disallow use of chained assignment expressions.

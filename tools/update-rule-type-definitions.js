@@ -202,8 +202,8 @@ function getPropValueThatIsEqual(prop) {
  */
 function getArrayValues(enumValue) {
 	const enumValues = enumValue
-		.filter(value => typeof value === "string")
-		.map(value => `"${value}"`)
+		.filter(value => value != null)
+		.map(value => (typeof value === "string" ? `"${value}"` : value))
 		.join(" | ");
 
 	return enumValues;
@@ -426,15 +426,7 @@ function createPartials(schema, ruleId, defaultOptions) {
 		if (schema.enum.length > 10) {
 			partial = "string";
 		} else {
-			let enumValues;
-			if (schema.enum.length === 1) {
-				enumValues =
-					typeof schema.enum[0] === "string"
-						? `"${schema.enum[0]}"`
-						: schema.enum[0];
-			} else {
-				enumValues = getArrayValues(schema.enum);
-			}
+			const enumValues = getArrayValues(schema.enum);
 			partial = enumValues;
 		}
 	}
@@ -707,15 +699,7 @@ function createPartials(schema, ruleId, defaultOptions) {
 					if (value.enum.length > 10) {
 						partialsValues.push(`${keyValue}: string;`);
 					} else {
-						let enumValues;
-						if (value.enum.length === 1) {
-							enumValues =
-								typeof value.enum[0] === "string"
-									? `"${value.enum[0]}"`
-									: value.enum[0];
-						} else {
-							enumValues = getArrayValues(value.enum);
-						}
+						const enumValues = getArrayValues(value.enum);
 						partialsValues.push(`${keyValue}: ${enumValues};`);
 					}
 				}
