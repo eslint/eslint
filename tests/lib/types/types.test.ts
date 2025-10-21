@@ -93,7 +93,52 @@ const COMMENT: Comment = {
 
 // #region SourceCode
 
-let sourceCode = new SourceCode(SOURCE, AST);
+let sourceCode: SourceCode;
+
+sourceCode = new SourceCode(SOURCE, AST);
+sourceCode = new SourceCode({ text: SOURCE, ast: AST });
+sourceCode = new SourceCode({ text: SOURCE, ast: AST, hasBOM: true });
+sourceCode = new SourceCode({ text: SOURCE, ast: AST, hasBOM: undefined });
+sourceCode = new SourceCode({
+	text: SOURCE,
+	ast: AST,
+	parserServices: {
+		foo() {},
+	},
+});
+sourceCode = new SourceCode({ text: SOURCE, ast: AST, parserServices: null });
+sourceCode = new SourceCode({
+	text: SOURCE,
+	ast: AST,
+	parserServices: undefined,
+});
+sourceCode = new SourceCode({
+	text: SOURCE,
+	ast: AST,
+	scopeManager: {
+		scopes: [],
+		globalScope: null,
+		acquire(node, inner) {
+			return scopeManager.scopes[0];
+		},
+		getDeclaredVariables() {
+			return [];
+		},
+	},
+});
+sourceCode = new SourceCode({ text: SOURCE, ast: AST, scopeManager: null });
+sourceCode = new SourceCode({
+	text: SOURCE,
+	ast: AST,
+	scopeManager: undefined,
+});
+sourceCode = new SourceCode({
+	text: SOURCE,
+	ast: AST,
+	visitorKeys: { ArrayExpression: ["elements"] },
+});
+sourceCode = new SourceCode({ text: SOURCE, ast: AST, visitorKeys: null });
+sourceCode = new SourceCode({ text: SOURCE, ast: AST, visitorKeys: undefined });
 
 SourceCode.splitLines(SOURCE);
 
@@ -113,6 +158,8 @@ sourceCode.getNodeByRangeIndex(0);
 sourceCode.getNodeByRangeIndex(0);
 
 sourceCode.isSpaceBetweenTokens(TOKEN, TOKEN);
+sourceCode.isSpaceBetweenTokens(AST, TOKEN);
+sourceCode.isSpaceBetweenTokens(TOKEN, AST);
 
 sourceCode.isSpaceBetween(TOKEN, TOKEN);
 sourceCode.isSpaceBetween(AST, TOKEN);
@@ -291,6 +338,16 @@ sourceCode.getTokensAfter(AST, {
 });
 sourceCode.getTokensAfter(TOKEN, 0);
 sourceCode.getTokensAfter(COMMENT, 0);
+
+sourceCode.getTokenOrCommentBefore(AST);
+sourceCode.getTokenOrCommentBefore(AST, 0);
+sourceCode.getTokenOrCommentBefore(TOKEN, 0);
+sourceCode.getTokenOrCommentBefore(COMMENT, 0);
+
+sourceCode.getTokenOrCommentAfter(AST);
+sourceCode.getTokenOrCommentAfter(AST, 0);
+sourceCode.getTokenOrCommentAfter(TOKEN, 0);
+sourceCode.getTokenOrCommentAfter(COMMENT, 0);
 
 sourceCode.getFirstTokenBetween(AST, AST); // $ExpectType Token | null
 sourceCode.getFirstTokenBetween(AST, AST, 0);
@@ -2046,9 +2103,20 @@ ruleTester.run("simple-valid-test", rule2, {
 	},
 });
 
+interface CustomParserServices {
+	program: any;
+}
+
+(parserServices: CustomParserServices): Linter.Config => ({
+	languageOptions: {
+		parser: {
+			parseForESLint: () => ({ ast: AST, services: parserServices }),
+		},
+	},
+});
+
 (): Linter.Config => ({
 	languageOptions: {
-		// @ts-expect-error
 		parser: "foo-parser",
 	},
 });

@@ -44,7 +44,7 @@ The remainder of this section contains reference information on how to work with
 
 ### The `results` Argument
 
-The `results` object passed into a formatter is an array of [`result`](#the-result-object) objects containing the linting results for individual files. Here's an example output:
+The `results` object passed into a formatter is an array of [`LintResult`](../integrate/nodejs-api#-lintresult-type) objects containing the linting results for individual files. Here's an example output:
 
 ```js
 [
@@ -84,32 +84,6 @@ The `results` object passed into a formatter is an array of [`result`](#the-resu
 	},
 ];
 ```
-
-#### The `result` Object
-
-<!-- This section is copied from the "Node.js API" page. Changes to this section should
-also be manually applied to that page. -->
-
-Each object in the `results` array is a `result` object. Each `result` object contains the path of the file that was linted and information about linting issues that were encountered. Here are the properties available on each `result` object:
-
-- **filePath**: The absolute path to the file that was linted.
-- **messages**: An array of [`message`](#the-message-object) objects. See below for more info about messages.
-- **errorCount**: The number of errors for the given file.
-- **warningCount**: The number of warnings for the given file.
-- **stats**: The optional [`stats`](./stats#-stats-type) object that only exists when the `stats` option is used.
-- **source**: The source code for the given file. This property is omitted if this file has no errors/warnings or if the `output` property is present.
-- **output**: The source code for the given file with as many fixes applied as possible. This property is omitted if no fix is available.
-
-##### The `message` Object
-
-Each `message` object contains information about the ESLint rule that was triggered by some source code. The properties available on each `message` object are:
-
-- **ruleId**: the ID of the rule that produced the error or warning. If the error or warning was not produced by a rule (for example, if it's a parsing error), this is `null`.
-- **severity**: the severity of the failure, `1` for warnings and `2` for errors.
-- **message**: the human readable description of the error.
-- **line**: the line where the issue is located.
-- **column**: the column where the issue is located.
-- **nodeType**: (**Deprecated:** This property will be removed in a future version of ESLint.) the type of the node in the [AST](https://github.com/estree/estree/blob/master/es5.md#node-objects) or `null` if the issue isn't related to a particular AST node.
 
 ### The `context` Argument
 
