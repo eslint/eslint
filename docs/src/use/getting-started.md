@@ -6,6 +6,10 @@ eleventyNavigation:
     title: Getting Started
     order: 1
 ---
+// Tests
+afficherConversion();
+afficherConversion();
+afficherConversion();
 
 {%- from 'components/npm_tabs.macro.html' import npm_tabs with context %}
 {%- from 'components/npx_tabs.macro.html' import npx_tabs %}
