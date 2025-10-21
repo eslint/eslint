@@ -202,7 +202,7 @@ function getPropValueThatIsEqual(prop) {
  */
 function getArrayValues(enumValue) {
 	const enumValues = enumValue
-		.filter(value => value != null)
+		.filter(value => value !== null)
 		.map(value => (typeof value === "string" ? `"${value}"` : value))
 		.join(" | ");
 
