@@ -210,6 +210,7 @@ function getArrayValues(enumValue) {
 }
 
 /**
+ * Creates an object mapping properties to their not required values.
  * @param {Object} obj The schema object with 'not' property that contains not required values.
  * @returns {Object} An object mapping properties to their not required values.
  */
@@ -290,7 +291,7 @@ function getSimplifiedObjects(obj) {
 
 	const requiredValues = createObjectOfRequiredValues(obj);
 
-	for (const [_, value] of Object.entries(requiredValues)) {
+	for (const value of Object.values(requiredValues)) {
 		const currentObj = {};
 		const revisedObj = {};
 		const revisedPropToRemove = [];
@@ -339,9 +340,9 @@ function getSimplifiedObjects(obj) {
 		oneOf: obj?.oneOf || [],
 	};
 
-	const finalObjects = uniqueAllObjects.map(obj => ({
+	const finalObjects = uniqueAllObjects.map(item => ({
 		type: "object",
-		properties: obj,
+		properties: item,
 		...requiredOptions,
 	}));
 
@@ -951,11 +952,6 @@ function createPartials(schema, ruleId, defaultOptions) {
 					partialsValue = `Partial<\n${partialsWithRecordValues.join("\n")}\n>`;
 				}
 			}
-			// if (partialsValues.length > 0) {
-			// 	partialsValue = `Partial<{\n${partialsValues.join("\n")}\n}>`;
-			// } else if (partialsWithRecordValues.length > 0) {
-			// 	partialsValue = `Partial<\n${partialsWithRecordValues.join("\n")}\n>`;
-			// }
 
 			partial = partialsValue;
 		}
