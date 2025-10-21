@@ -290,7 +290,7 @@ function getSimplifiedObjects(obj) {
 
 	const requiredValues = createObjectOfRequiredValues(obj);
 
-	for (const [key, value] of Object.entries(requiredValues)) {
+	for (const [_, value] of Object.entries(requiredValues)) {
 		const currentObj = {};
 		const revisedObj = {};
 		const revisedPropToRemove = [];
