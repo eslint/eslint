@@ -232,6 +232,10 @@ ruleTesterTypeScript.run("max-params", rule, {
 		`,
 			options: [{ max: 2 }],
 		},
+		{
+			code: `function foo(this: unknown[], a, b, c) {}`,
+			options: [{ max: 3, countThis: "never" }],
+		},
 	],
 	invalid: [
 		{
@@ -303,6 +307,16 @@ ruleTesterTypeScript.run("max-params", rule, {
   type sum = (a: number, b: number) => number;
 		`,
 			options: [{ max: 1 }],
+			errors: [{ messageId: "exceed" }],
+		},
+		{
+			code: `function foo(this: unknown[], a, b, c) {}`,
+			options: [{ max: 3, countThis: "always" }],
+			errors: [{ messageId: "exceed" }],
+		},
+		{
+			code: `function foo(this: unknown[], a, b, c) {}`,
+			options: [{ max: 3, countThis: "except-void" }],
 			errors: [{ messageId: "exceed" }],
 		},
 	],
