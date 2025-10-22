@@ -807,6 +807,8 @@ rule = {
 			},
 			onCodePathSegmentStart(segment, node) {},
 			onCodePathSegmentEnd(segment, node) {},
+			onUnreachableCodePathSegmentStart(segment, node) {},
+			onUnreachableCodePathSegmentEnd(segment, node) {},
 			onCodePathSegmentLoop(fromSegment, toSegment, node) {},
 			IfStatement(node) {
 				node.parent;
