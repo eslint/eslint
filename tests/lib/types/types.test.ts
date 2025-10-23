@@ -807,6 +807,8 @@ rule = {
 			},
 			onCodePathSegmentStart(segment, node) {},
 			onCodePathSegmentEnd(segment, node) {},
+			onUnreachableCodePathSegmentStart(segment, node) {},
+			onUnreachableCodePathSegmentEnd(segment, node) {},
 			onCodePathSegmentLoop(fromSegment, toSegment, node) {},
 			IfStatement(node) {
 				node.parent;
@@ -966,6 +968,27 @@ type DeprecatedRuleContextKeys =
 				options: ["never"],
 			},
 		},
+	},
+});
+
+(): JSRuleDefinition => ({
+	create() {
+		return {
+			onCodePathStart(codePath, node) {},
+			onCodePathSegmentStart(segment, node) {},
+			onCodePathSegmentLoop(fromSegment, toSegment, node) {},
+			Program(node) {},
+			"Program:exit"(node) {},
+		} satisfies Rule.RuleListener;
+	},
+});
+
+(): JSRuleDefinition => ({
+	// @ts-expect-error invalid return type
+	create() {
+		return {
+			foo: null,
+		};
 	},
 });
 
