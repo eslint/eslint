@@ -630,7 +630,7 @@ export namespace Rule {
 	}
 
 	type NodeTypes = ESTree.Node["type"];
-	interface NodeListener extends RuleVisitor {
+	interface NodeListener {
 		ArrayExpression?:
 			| ((node: ESTree.ArrayExpression & NodeParentExtension) => void)
 			| undefined;

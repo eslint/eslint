@@ -971,6 +971,27 @@ type DeprecatedRuleContextKeys =
 	},
 });
 
+(): JSRuleDefinition => ({
+	create() {
+		return {
+			onCodePathStart(codePath, node) {},
+			onCodePathSegmentStart(segment, node) {},
+			onCodePathSegmentLoop(fromSegment, toSegment, node) {},
+			Program(node) {},
+			"Program:exit"(node) {},
+		} satisfies Rule.RuleListener;
+	},
+});
+
+(): JSRuleDefinition => ({
+	// @ts-expect-error invalid return type
+	create() {
+		return {
+			foo: null,
+		};
+	},
+});
+
 // #endregion
 
 // #region Linter
