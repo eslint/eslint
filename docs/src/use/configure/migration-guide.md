@@ -639,11 +639,64 @@ export default defineConfig([
 
 The following CLI flags are no longer supported with the flat config file format:
 
-- `--rulesdir`
-- `--ext`
+- `--env`
+- `--ignore-path`
+- `--no-eslintrc`
 - `--resolve-plugins-relative-to`
+- `--rulesdir`
 
-The flag `--no-eslintrc` has been replaced with `--no-config-lookup`.
+#### `--env`
+
+The `--env` flag was used to enable environment-specific globals (for example, `browser`, or `node`). Flat config doesn't support this flag. Instead, define the relevant globals directly in your configuration. See [Specifying Globals](language-options#specifying-globals) for more details.
+
+For example, if you previously used `--env browser,node`, you’ll need to update your config file like this:
+
+```js
+// eslint.config.js
+import { defineConfig } from "eslint/config";
+import globals from "globals";
+
+export default defineConfig([
+	{
+		languageOptions: {
+			globals: {
+				...globals.browser,
+				...globals.node,
+			},
+		},
+	},
+]);
+```
+
+#### `--ignore-path`
+
+The `--ignore-path` flag was used to specify which file to use as your `.eslintignore`. Flat config doesn't load ignore patterns from `.eslintignore` files and does not support this flag. If you want to include patterns from a `.gitignore` file, use `includeIgnoreFile()` from `@eslint/compat`. See [Including `.gitignore` Files](ignore#including-gitignore-files) for more details.
+
+For example, if you previously used `--ignore-path .gitignore`:
+
+```js
+// eslint.config.js
+import { defineConfig } from "eslint/config";
+import { includeIgnoreFile } from "@eslint/compat";
+import { fileURLToPath } from "node:url";
+
+const gitignorePath = fileURLToPath(new URL(".gitignore", import.meta.url));
+
+export default defineConfig([
+	includeIgnoreFile(gitignorePath, "Imported .gitignore patterns"),
+	// other configs
+]);
+```
+
+#### `--no-eslintrc`
+
+The `--no-eslintrc` flag has been replaced with `--no-config-lookup`.
+
+#### `--resolve-plugins-relative-to`
+
+The `--resolve-plugins-relative-to` flag was used to indicate which directory plugin references in your configuration file should be resolved relative to. This was necessary because shareable configs could only resolve plugins that were peer dependencies or dependencies of parent packages.
+
+With flat config, shareable configs can specify their dependencies directly, so this flag is no longer needed.
 
 #### `--rulesdir`
 
@@ -672,31 +725,6 @@ export default defineConfig([
 	},
 ]);
 ```
-
-#### `--ext`
-
-The `--ext` flag was used to specify additional file extensions ESLint should search for when a directory was passed on the command line, such as `npx eslint .`. This is no longer supported when using flat config. Instead, specify the file patterns you'd like ESLint to search for directly in your config. For example, if you previously were using `--ext .ts,.tsx`, then you will need to update your config file like this:
-
-```js
-// eslint.config.js
-import { defineConfig } from "eslint/config";
-
-export default defineConfig([
-	{
-		files: ["**/*.ts", "**/*.tsx"],
-
-		// any additional configuration for these file types here
-	},
-]);
-```
-
-ESLint uses the `files` keys from the config file to determine which files should be linted.
-
-#### `--resolve-plugins-relative-to`
-
-The `--resolve-plugins-relative-to` flag was used to indicate which directory plugin references in your configuration file should be resolved relative to. This was necessary because shareable configs could only resolve plugins that were peer dependencies or dependencies of parent packages.
-
-With flat config, shareable configs can specify their dependencies directly, so this flag is no longer needed.
 
 ### `package.json` Configuration No Longer Supported
 
