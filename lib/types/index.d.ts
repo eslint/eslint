@@ -133,6 +133,10 @@ export namespace Scope {
 		references: Reference[];
 		through: Reference[];
 		functionExpressionScope: boolean;
+		implicit?: {
+			variables: Variable[];
+			set: Map<string, Variable>;
+		};
 	}
 
 	interface Variable {
@@ -173,7 +177,14 @@ export namespace Scope {
 				node: ESTree.FunctionDeclaration | ESTree.FunctionExpression;
 				parent: null;
 		  }
-		| { type: "ImplicitGlobalVariable"; node: ESTree.Program; parent: null }
+		| {
+				type: "ImplicitGlobalVariable";
+				node:
+					| ESTree.AssignmentExpression
+					| ESTree.ForInStatement
+					| ESTree.ForOfStatement;
+				parent: null;
+		  }
 		| {
 				type: "ImportBinding";
 				node:
