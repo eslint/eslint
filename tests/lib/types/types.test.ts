@@ -974,11 +974,46 @@ type DeprecatedRuleContextKeys =
 (): JSRuleDefinition => ({
 	create() {
 		return {
-			onCodePathStart(codePath, node) {},
-			onCodePathSegmentStart(segment, node) {},
-			onCodePathSegmentLoop(fromSegment, toSegment, node) {},
-			Program(node) {},
-			"Program:exit"(node) {},
+			onCodePathStart(codePath, node) {
+				codePath; // $ExpectType CodePath
+				node; // $ExpectType Node
+			},
+			onCodePathSegmentStart(segment, node) {
+				segment; // $ExpectType CodePathSegment
+				node; // $ExpectType Node
+			},
+			onCodePathSegmentLoop(fromSegment, toSegment, node) {
+				fromSegment; // $ExpectType CodePathSegment
+				toSegment; // $ExpectType CodePathSegment
+				node; // $ExpectType Node
+			},
+			Program(node) {
+				// @ts-expect-error -- Program node has no parent
+				node.parent;
+				const { comments, tokens } = node;
+			},
+			"Program:exit"(node) {
+				// @ts-expect-error -- Program node has no parent
+				node.parent;
+				const { comments, tokens } = node;
+			},
+			CallExpression(node) {
+				node.type; // $ExpectType "CallExpression"
+			},
+			"CallExpression:exit"(node) {
+				node.type; // $ExpectType "CallExpression"
+			},
+			"*"(node: Rule.Node) {
+				if (node.type === "Program") {
+					node.parent; // $ExpectType null
+				} else {
+					node.parent; // $ExpectType Node
+				}
+				if (!node.parent) {
+					node.type; // $ExpectType "Program"
+					const { comments, tokens } = node;
+				}
+			},
 		} satisfies Rule.RuleListener;
 	},
 });
