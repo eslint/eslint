@@ -13,15 +13,15 @@ module.exports = {
     meta: {
         type: "problem",
         schema: [],
-		messages: {
-			evalSucks: "eval sucks.",
-		},
+        messages: {
+            evalSucks: "eval sucks.",
+        },
     },
     create(context) {
         return {
             CallExpression: function (node) {
                 if (node.callee.name === "eval") {
-                    context.report({node,  messageId: "evalSucks" });
+                    context.report({ node, messageId: "evalSucks" });
                 }
             },
         };
