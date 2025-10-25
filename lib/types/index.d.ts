@@ -60,6 +60,7 @@ import type {
 	RuleTextEdit,
 } from "@eslint/core";
 import { LegacyESLint } from "./use-at-your-own-risk.js";
+// import { WarningService } from "../services/warning-service.js"; // TODO
 
 export namespace AST {
 	type TokenType =
@@ -1240,25 +1241,88 @@ export type JSRuleDefinition<
 
 // #region Linter
 
+/**
+ * Object that is responsible for verifying JavaScript text.
+ */
 export class Linter {
+	/**
+	 * Getter for package version. Returns the version from `package.json`.
+	 */
 	static readonly version: string;
 
+	/**
+	 * Getter for package version. Returns the version from `package.json`.
+	 */
 	version: string;
 
-	constructor(options?: {
-		cwd?: string | undefined;
-		configType?: "flat" | "eslintrc";
-	});
+	/**
+	 * Initialize the Linter.
+	 * @param options The config object options.
+	 */
+	constructor(
+		options?:
+			| {
+					/**
+					 * Path to a directory that should be considered as the current working directory, can be `undefined`.
+					 */
+					cwd?: string | undefined;
 
+					/**
+					 * The type of config used.
+					 * @default "flat"
+					 */
+					configType?: "flat" | "eslintrc" | undefined;
+
+					/**
+					 * The feature flags to enable.
+					 * @default []
+					 */
+					flags?: Array<string> | undefined;
+
+					/**
+					 * The warning service to use.
+					 * @default new WarningService()
+					 */
+					warningService?: unknown | undefined; // TODO: `WarningService` type
+			  }
+			| undefined,
+	);
+
+	/**
+	 * Indicates if the given feature flag is enabled for this instance.
+	 * @param flag The feature flag to check.
+	 * @returns `true` if the feature flag is enabled, `false` if not.
+	 */
+	hasFlag(flag: string): boolean;
+
+	/**
+	 * Verifies the text against the rules specified by the second argument.
+	 * @param textOrSourceCode The text to parse or a `SourceCode` object.
+	 * @param config An ESLintConfig instance to configure everything.
+	 * @param filename The optional filename of the file being checked.
+	 * If this is not set, the filename will default to '<input>' in the rule context.
+	 * If an object, then it has "filename", "allowInlineConfig", and some properties.
+	 * @returns The results as an array of messages or an empty array if no messages.
+	 */
 	verify(
-		code: SourceCode | string,
+		textOrSourceCode: SourceCode | string,
 		config: Linter.LegacyConfig | Linter.Config | Linter.Config[],
-		filename?: string,
+		filename?: string | undefined,
 	): Linter.LintMessage[];
+
+	/**
+	 * Verifies the text against the rules specified by the second argument.
+	 * @param textOrSourceCode The text to parse or a `SourceCode` object.
+	 * @param config An ESLintConfig instance to configure everything.
+	 * @param options The optional filename of the file being checked.
+	 * If this is not set, the filename will default to '<input>' in the rule context.
+	 * If an object, then it has "filename", "allowInlineConfig", and some properties.
+	 * @returns The results as an array of messages or an empty array if no messages.
+	 */
 	verify(
-		code: SourceCode | string,
+		textOrSourceCode: SourceCode | string,
 		config: Linter.LegacyConfig | Linter.Config | Linter.Config[],
-		options: Linter.LintOptions,
+		options?: Linter.LintOptions | undefined,
 	): Linter.LintMessage[];
 
 	verifyAndFix(
@@ -1272,19 +1336,50 @@ export class Linter {
 		options: Linter.FixOptions,
 	): Linter.FixReport;
 
+	/**
+	 * Gets the `SourceCode` object representing the parsed source.
+	 * @returns The `SourceCode` object.
+	 */
 	getSourceCode(): SourceCode;
 
-	defineRule(name: string, rule: Rule.RuleModule): void;
+	/**
+	 * Defines a new linting rule.
+	 * @param ruleId A unique rule identifier.
+	 * @param rule A rule object.
+	 */
+	defineRule(ruleId: string, rule: Rule.RuleModule): void;
 
-	defineRules(rules: { [name: string]: Rule.RuleModule }): void;
+	/**
+	 * Defines many new linting rules.
+	 * @param rulesToDefine Map from unique rule identifier to rule.
+	 */
+	defineRules(rulesToDefine: Record<string, Rule.RuleModule>): void;
 
+	/**
+	 * Gets an object with all loaded rules.
+	 * @returns All loaded rules.
+	 */
 	getRules(): Map<string, Rule.RuleModule>;
 
 	defineParser(name: string, parser: Linter.Parser): void;
 
+	/**
+	 * Gets the times spent on (parsing, fixing, linting) a file.
+	 * @returns The times.
+	 */
 	getTimes(): Linter.Stats["times"];
 
+	/**
+	 * Gets the number of autofix passes that were made in the last run.
+	 * @returns The number of autofix passes.
+	 */
 	getFixPassCount(): Linter.Stats["fixPasses"];
+
+	/**
+	 * Gets the list of `SuppressedLintMessage` produced in the last running.
+	 * @returns The list of `SuppressedLintMessage`.
+	 */
+	getSuppressedMessages(): Linter.SuppressedLintMessage[];
 }
 
 export namespace Linter {
