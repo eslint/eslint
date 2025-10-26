@@ -130,7 +130,10 @@ export { foo };
         "functions": true,
         "classes": true,
         "variables": true,
-        "allowNamedExports": false
+        "allowNamedExports": false,
+        "enums": true,
+        "typedefs": true,
+        "ignoreTypeReferences": true
     }]
 }
 ```
@@ -170,7 +173,7 @@ This rule additionally supports TypeScript type syntax. The following options en
   Default is `true`.
 
 This rule accepts `"nofunc"` string as an option.
-`"nofunc"` is the same as `{ "functions": false, "classes": true, "variables": true, "allowNamedExports": false }`.
+`"nofunc"` is the same as `{ "functions": false, "classes": true, "variables": true, "allowNamedExports": false, "enums": true, "typedefs": true, "ignoreTypeReferences": true }`.
 
 ### functions
 
@@ -485,6 +488,45 @@ type StringOrNumber = string | number;
 const x: Foo = {};
 
 interface Foo {}
+```
+
+:::
+
+Examples of **incorrect** code for the `"nofunc"` option:
+
+::: incorrect
+
+```js
+/*eslint no-use-before-define: ["error", "nofunc"]*/
+
+a();
+var a=function() {};
+
+new A();
+class A {
+}
+
+console.log(foo);
+var foo = 1;
+
+export default bar;
+const bar = 1;
+```
+
+:::
+
+::: incorrect
+
+```ts
+/*eslint no-use-before-define: ["error", "nofunc"]*/
+
+function foo(): Foo {
+	return Foo.FOO;
+}
+	
+enum Foo {
+	FOO,
+}
 ```
 
 :::
