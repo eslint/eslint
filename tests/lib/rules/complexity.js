@@ -805,7 +805,7 @@ ruleTester.run("complexity", rule, {
 				{
 					...makeError("Class static block", 4, 3),
 					column: 11,
-					endColumn: 18,
+					endColumn: 17,
 				},
 			],
 		},
@@ -817,7 +817,7 @@ ruleTester.run("complexity", rule, {
 				{
 					...makeError("Class static block", 4, 3),
 					column: 35,
-					endColumn: 42,
+					endColumn: 41,
 				},
 			],
 		},
@@ -829,12 +829,12 @@ ruleTester.run("complexity", rule, {
 				{
 					...makeError("Class static block", 4, 3),
 					column: 11,
-					endColumn: 18,
+					endColumn: 17,
 				},
 				{
 					...makeError("Class static block", 4, 3),
 					column: 40,
-					endColumn: 47,
+					endColumn: 46,
 				},
 			],
 		},
