@@ -492,6 +492,8 @@ interface Foo {}
 
 :::
 
+### nofunc
+
 Examples of **incorrect** code for the `"nofunc"` option:
 
 ::: incorrect
