@@ -502,17 +502,31 @@ Examples of **incorrect** code for the `"nofunc"` option:
 /*eslint no-use-before-define: ["error", "nofunc"]*/
 
 a();
-var a=function() {};
+var a = function() {};
+
+console.log(foo);
+var foo = 1;
+
+function f() {
+    return b;
+}
+var b = 1;
 
 new A();
 class A {
 }
 
-console.log(foo);
-var foo = 1;
+function g() {
+    return new B();
+}
+class B {
+}
 
 export default bar;
 const bar = 1;
+
+export { baz };
+const baz = 1;
 ```
 
 :::
@@ -530,5 +544,45 @@ enum Foo {
 	FOO,
 }
 ```
+
+:::
+
+Examples of **correct** code for the `"nofunc"` option:
+
+::: correct
+
+```js
+/*eslint no-use-before-define: ["error", "nofunc"]*/
+
+f();
+function f() {}
+
+class A {
+}
+new A();
+
+var a = 10;
+alert(a);
+
+const foo = 1;
+export { foo };
+
+const bar = 1;
+export default bar;
+``` 
+
+:::
+
+::: correct
+
+```ts
+/*eslint no-use-before-define: ["error", "nofunc"]*/
+	
+enum Foo {
+	FOO,
+}
+
+const foo = Foo.Foo;
+``` 
 
 :::
