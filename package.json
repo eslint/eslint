@@ -110,7 +110,7 @@
     "@eslint-community/regexpp": "^4.12.1",
     "@eslint/config-array": "^0.21.1",
     "@eslint/config-helpers": "^0.4.1",
-    "@eslint/core": "^0.16.0",
+    "@eslint/core": "^0.17.0",
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "9.38.0",
     "@eslint/plugin-kit": "^0.4.0",
