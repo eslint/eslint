@@ -202,8 +202,8 @@ ruleTester.run("spaced-comment", rule, {
 			options: ["always", { markers: ["global"] }],
 		},
 		{
-			code: "/*eslint-env node*/",
-			options: ["always", { markers: ["eslint-env"] }],
+			code: "/*eslint-disable-line unicode-bom*/",
+			options: ["always", { markers: ["eslint-disable-line"] }],
 		},
 		{
 			code: "/*eslint eqeqeq:0, curly: 2*/",
