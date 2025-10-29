@@ -33,7 +33,6 @@ import type {
 	LanguageOptions as GenericLanguageOptions,
 	RuleContext as CoreRuleContext,
 	RuleDefinition,
-	RuleVisitor,
 	SourceRange,
 	TextSourceCode,
 	TraversalStep,
@@ -58,6 +57,15 @@ import type {
 	RulesMeta,
 	RuleTextEditor,
 	RuleTextEdit,
+	BaseConfig as CoreBaseConfig,
+	RuleFixer as CoreRuleFixer,
+	ViolationReportBase,
+	ViolationMessage,
+	ViolationLocation,
+	SuggestionMessage,
+	LintSuggestion as CoreLintSuggestion,
+	JavaScriptSourceType,
+	HasRules as CoreHasRules,
 } from "@eslint/core";
 import { LegacyESLint } from "./use-at-your-own-risk.js";
 
@@ -769,15 +777,9 @@ export namespace Rule {
 			MessageIds: string;
 		}> {}
 
-	type ReportFixer = (
-		fixer: RuleFixer,
-	) => null | Fix | IterableIterator<Fix> | Fix[];
+	type ReportFixer = CoreRuleFixer;
 
-	interface ReportDescriptorOptionsBase {
-		data?: { [key: string]: string };
-
-		fix?: null | ReportFixer;
-	}
+	type ReportDescriptorOptionsBase = ViolationReportBase;
 
 	interface SuggestionReportOptions {
 		data?: { [key: string]: string };
@@ -785,21 +787,18 @@ export namespace Rule {
 		fix: ReportFixer;
 	}
 
-	type SuggestionDescriptorMessage = { desc: string } | { messageId: string };
+	type SuggestionDescriptorMessage = SuggestionMessage;
 	type SuggestionReportDescriptor = SuggestionDescriptorMessage &
 		SuggestionReportOptions;
 
-	interface ReportDescriptorOptions extends ReportDescriptorOptionsBase {
-		suggest?: SuggestionReportDescriptor[] | null | undefined;
-	}
+	// redundant with ReportDescriptorOptionsBase but kept for clarity
+	type ReportDescriptorOptions = ViolationReportBase;
 
 	type ReportDescriptor = ReportDescriptorMessage &
 		ReportDescriptorLocation &
 		ReportDescriptorOptions;
-	type ReportDescriptorMessage = { message: string } | { messageId: string };
-	type ReportDescriptorLocation =
-		| { node: ESTree.Node }
-		| { loc: AST.SourceLocation | { line: number; column: number } };
+	type ReportDescriptorMessage = ViolationMessage;
+	type ReportDescriptorLocation = ViolationLocation<ESTree.Node>;
 
 	type RuleFixer = RuleTextEditor<ESTree.Node | AST.Token>;
 	type Fix = RuleTextEdit;
@@ -921,9 +920,8 @@ export namespace Linter {
 	/**
 	 * A configuration object that may have a `rules` block.
 	 */
-	interface HasRules<Rules extends RulesConfig = RulesConfig> {
-		rules?: Partial<Rules> | undefined;
-	}
+	type HasRules<Rules extends RulesConfig = RulesConfig> =
+		CoreHasRules<Rules>;
 
 	/**
 	 * The ECMAScript version of the code being linted.
@@ -933,99 +931,17 @@ export namespace Linter {
 	/**
 	 * The type of JavaScript source code.
 	 */
-	// TODO: Refactor to JavaScriptSourceType when exported from @eslint/core.
-	type SourceType = "script" | "module" | "commonjs";
+	type SourceType = JavaScriptSourceType;
 
 	/**
 	 * ESLint legacy configuration.
 	 *
 	 * @see [ESLint Legacy Configuration](https://eslint.org/docs/latest/use/configure/)
 	 */
-	interface BaseConfig<
+	type BaseConfig<
 		Rules extends RulesConfig = RulesConfig,
 		OverrideRules extends RulesConfig = Rules,
-	> extends HasRules<Rules> {
-		$schema?: string | undefined;
-
-		/**
-		 * An environment provides predefined global variables.
-		 *
-		 * @see [Environments](https://eslint.org/docs/latest/use/configure/language-options-deprecated#specifying-environments)
-		 */
-		env?: { [name: string]: boolean } | undefined;
-
-		/**
-		 * Extending configuration files.
-		 *
-		 * @see [Extends](https://eslint.org/docs/latest/use/configure/configuration-files-deprecated#extending-configuration-files)
-		 */
-		extends?: string | string[] | undefined;
-
-		/**
-		 * Specifying globals.
-		 *
-		 * @see [Globals](https://eslint.org/docs/latest/use/configure/language-options-deprecated#specifying-globals)
-		 */
-		globals?: Linter.Globals | undefined;
-
-		/**
-		 * Disable processing of inline comments.
-		 *
-		 * @see [Disabling Inline Comments](https://eslint.org/docs/latest/use/configure/rules-deprecated#disabling-inline-comments)
-		 */
-		noInlineConfig?: boolean | undefined;
-
-		/**
-		 * Overrides can be used to use a differing configuration for matching sub-directories and files.
-		 *
-		 * @see [How do overrides work](https://eslint.org/docs/latest/use/configure/configuration-files-deprecated#how-do-overrides-work)
-		 */
-		overrides?: Array<ConfigOverride<OverrideRules>> | undefined;
-
-		/**
-		 * Parser.
-		 *
-		 * @see [Working with Custom Parsers](https://eslint.org/docs/latest/extend/custom-parsers)
-		 * @see [Specifying Parser](https://eslint.org/docs/latest/use/configure/parser-deprecated)
-		 */
-		parser?: string | undefined;
-
-		/**
-		 * Parser options.
-		 *
-		 * @see [Working with Custom Parsers](https://eslint.org/docs/latest/extend/custom-parsers)
-		 * @see [Specifying Parser Options](https://eslint.org/docs/latest/use/configure/language-options-deprecated#specifying-parser-options)
-		 */
-		parserOptions?: JavaScriptParserOptionsConfig | undefined;
-
-		/**
-		 * Which third-party plugins define additional rules, environments, configs, etc. for ESLint to use.
-		 *
-		 * @see [Configuring Plugins](https://eslint.org/docs/latest/use/configure/plugins-deprecated#configure-plugins)
-		 */
-		plugins?: string[] | undefined;
-
-		/**
-		 * Specifying processor.
-		 *
-		 * @see [processor](https://eslint.org/docs/latest/use/configure/plugins-deprecated#specify-a-processor)
-		 */
-		processor?: string | undefined;
-
-		/**
-		 * Report unused eslint-disable comments as warning.
-		 *
-		 * @see [Report unused eslint-disable comments](https://eslint.org/docs/latest/use/configure/rules-deprecated#report-unused-eslint-disable-comments)
-		 */
-		reportUnusedDisableDirectives?: boolean | undefined;
-
-		/**
-		 * Settings.
-		 *
-		 * @see [Settings](https://eslint.org/docs/latest/use/configure/configuration-files-deprecated#adding-shared-settings)
-		 */
-		settings?: { [name: string]: any } | undefined;
-	}
+	> = CoreBaseConfig<Rules, OverrideRules>;
 
 	/**
 	 * The overwrites that apply more differing configuration to specific files or directories.
@@ -1068,18 +984,7 @@ export namespace Linter {
 		reportUnusedDisableDirectives?: boolean | undefined;
 	}
 
-	// TODO: Once exported from @eslint/core, remove this and use that instead
-	interface LintSuggestion {
-		/** A short description. */
-		desc: string;
-
-		/** Fix result info. */
-		fix: Rule.Fix;
-
-		/** Id referencing a message for the description. */
-		messageId?: string | undefined;
-	}
-
+	type LintSuggestion = CoreLintSuggestion;
 	type LintMessage = CoreLintMessage;
 
 	interface LintSuppression {
