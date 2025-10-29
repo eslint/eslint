@@ -115,6 +115,8 @@ class C {
 }
 ```
 
+:::
+
 ## When Not To Use It
 
 If you don't want to be notified about unnecessary constructors, you can safely disable this rule.
