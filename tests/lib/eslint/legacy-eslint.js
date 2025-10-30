@@ -3022,7 +3022,7 @@ describe("LegacyESLint", () => {
 				}, /Error while processing options validation schema of rule 'schema-invalid\/rule1': minItems must be number/u);
 			});
 
-			it("should succesfully execute with a rule with `schema:false` from a plugin when no options were passed", async () => {
+			it("should successfully execute with a rule with `schema:false` from a plugin when no options were passed", async () => {
 				eslint = new LegacyESLint({
 					cwd: path.join(fixtureDir, "plugins"),
 					baseConfig: {
@@ -3049,7 +3049,7 @@ describe("LegacyESLint", () => {
 				);
 			});
 
-			it("should succesfully execute with a rule with `schema:false` from a plugin when an option is passed", async () => {
+			it("should successfully execute with a rule with `schema:false` from a plugin when an option is passed", async () => {
 				eslint = new LegacyESLint({
 					cwd: path.join(fixtureDir, "plugins"),
 					baseConfig: {
@@ -3076,7 +3076,7 @@ describe("LegacyESLint", () => {
 				);
 			});
 
-			it("should succesfully execute with a rule with `schema:[]` from a plugin when no options were passed", async () => {
+			it("should successfully execute with a rule with `schema:[]` from a plugin when no options were passed", async () => {
 				eslint = new LegacyESLint({
 					cwd: path.join(fixtureDir, "plugins"),
 					baseConfig: {
@@ -3125,7 +3125,7 @@ describe("LegacyESLint", () => {
 				}, /Configuration for rule "schema-empty-array\/rule1" is invalid.*should NOT have more than 0 items/su);
 			});
 
-			it("should succesfully execute with a rule with no schema from a plugin when no options were passed", async () => {
+			it("should successfully execute with a rule with no schema from a plugin when no options were passed", async () => {
 				eslint = new LegacyESLint({
 					cwd: path.join(fixtureDir, "plugins"),
 					baseConfig: {
@@ -3172,7 +3172,7 @@ describe("LegacyESLint", () => {
 				}, /Configuration for rule "schema-missing\/rule1" is invalid.*should NOT have more than 0 items/su);
 			});
 
-			it("should succesfully execute with a rule with an array schema from a plugin when no options were passed", async () => {
+			it("should successfully execute with a rule with an array schema from a plugin when no options were passed", async () => {
 				eslint = new LegacyESLint({
 					cwd: path.join(fixtureDir, "plugins"),
 					baseConfig: {
@@ -3199,7 +3199,7 @@ describe("LegacyESLint", () => {
 				);
 			});
 
-			it("should succesfully execute with a rule with an array schema from a plugin when a correct option was passed", async () => {
+			it("should successfully execute with a rule with an array schema from a plugin when a correct option was passed", async () => {
 				eslint = new LegacyESLint({
 					cwd: path.join(fixtureDir, "plugins"),
 					baseConfig: {
@@ -3274,7 +3274,7 @@ describe("LegacyESLint", () => {
 				}, /Configuration for rule "schema-array\/rule1" is invalid.*should NOT have more than 1 items/su);
 			});
 
-			it("should succesfully execute with a rule with an object schema from a plugin when no options were passed", async () => {
+			it("should successfully execute with a rule with an object schema from a plugin when no options were passed", async () => {
 				eslint = new LegacyESLint({
 					cwd: path.join(fixtureDir, "plugins"),
 					baseConfig: {
@@ -3301,7 +3301,7 @@ describe("LegacyESLint", () => {
 				);
 			});
 
-			it("should succesfully execute with a rule with an object schema from a plugin when a correct option was passed", async () => {
+			it("should successfully execute with a rule with an object schema from a plugin when a correct option was passed", async () => {
 				eslint = new LegacyESLint({
 					cwd: path.join(fixtureDir, "plugins"),
 					baseConfig: {
@@ -4284,7 +4284,7 @@ describe("LegacyESLint", () => {
 				 *   Run 1: Lint result wasn't already cached.
 				 *   Run 2: Lint result was already cached. The cached lint result is used but the cache is reconciled before the run ends.
 				 *   Run 3: Lint result was already cached. The cached lint result was being used throughout the previous run, so possible
-				 *     mutations in the previous run that occured after the cache was reconciled may have side effects for this run.
+				 *     mutations in the previous run that occurred after the cache was reconciled may have side effects for this run.
 				 */
 				for (let i = 0; i < 3; i++) {
 					const [result] = await eslint.lintFiles([filePath]);
@@ -4353,7 +4353,7 @@ describe("LegacyESLint", () => {
 				 *   Run 1: Lint result wasn't already cached.
 				 *   Run 2: Lint result was already cached. The cached lint result is used but the cache is reconciled before the run ends.
 				 *   Run 3: Lint result was already cached. The cached lint result was being used throughout the previous run, so possible
-				 *     mutations in the previous run that occured after the cache was reconciled may have side effects for this run.
+				 *     mutations in the previous run that occurred after the cache was reconciled may have side effects for this run.
 				 */
 				for (let i = 0; i < 3; i++) {
 					const [result] = await eslint.lintFiles([filePath]);
