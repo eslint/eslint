@@ -40,6 +40,10 @@ ruleTester.run("max-params", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Function 'test'", count: 3, max: 2.0 },
+					line: 1,
+					column: 14,
+					endLine: 1,
+					endColumn: 23,
 				},
 			],
 		},
@@ -49,6 +53,10 @@ ruleTester.run("max-params", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Function 'test'", count: 4, max: 3.0 },
+					line: 1,
+					column: 14,
+					endLine: 1,
+					endColumn: 26,
 				},
 			],
 		},
@@ -59,6 +67,10 @@ ruleTester.run("max-params", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Function", count: 4, max: 3.0 },
+					line: 1,
+					column: 20,
+					endLine: 1,
+					endColumn: 32,
 				},
 			],
 		},
@@ -70,6 +82,10 @@ ruleTester.run("max-params", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Arrow function", count: 4, max: 3.0 },
+					line: 1,
+					column: 12,
+					endLine: 1,
+					endColumn: 24,
 				},
 			],
 		},
@@ -80,6 +96,10 @@ ruleTester.run("max-params", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Function", count: 4, max: 3.0 },
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 22,
 				},
 			],
 		},
@@ -90,6 +110,10 @@ ruleTester.run("max-params", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Function 'test'", count: 3, max: 1.0 },
+					line: 1,
+					column: 25,
+					endLine: 1,
+					endColumn: 34,
 				},
 			],
 		},
@@ -102,6 +126,10 @@ ruleTester.run("max-params", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Function 'test'", count: 3, max: 2.0 },
+					line: 1,
+					column: 14,
+					endLine: 1,
+					endColumn: 23,
 				},
 			],
 		},
@@ -112,6 +140,10 @@ ruleTester.run("max-params", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Function 'test'", count: 4, max: 3 },
+					line: 1,
+					column: 14,
+					endLine: 1,
+					endColumn: 26,
 				},
 			],
 		},
@@ -122,6 +154,10 @@ ruleTester.run("max-params", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Function 'test'", count: 1, max: 0 },
+					line: 1,
+					column: 14,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -136,9 +172,9 @@ ruleTester.run("max-params", rule, {
 				{
 					messageId: "exceed",
 					line: 1,
-					column: 1,
+					column: 14,
 					endLine: 1,
-					endColumn: 14,
+					endColumn: 23,
 				},
 			],
 		},
@@ -236,20 +272,52 @@ ruleTesterTypeScript.run("max-params", rule, {
 	invalid: [
 		{
 			code: "function foo(a, b, c, d) {}",
-			errors: [{ messageId: "exceed" }],
+			errors: [
+				{
+					messageId: "exceed",
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 25,
+				},
+			],
 		},
 		{
 			code: "const foo = function (a, b, c, d) {};",
-			errors: [{ messageId: "exceed" }],
+			errors: [
+				{
+					messageId: "exceed",
+					line: 1,
+					column: 22,
+					endLine: 1,
+					endColumn: 34,
+				},
+			],
 		},
 		{
 			code: "const foo = (a, b, c, d) => {};",
-			errors: [{ messageId: "exceed" }],
+			errors: [
+				{
+					messageId: "exceed",
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 25,
+				},
+			],
 		},
 		{
 			code: "const foo = a => {};",
 			options: [{ max: 0 }],
-			errors: [{ messageId: "exceed" }],
+			errors: [
+				{
+					messageId: "exceed",
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 14,
+				},
+			],
 		},
 		{
 			code: `
@@ -257,7 +325,15 @@ ruleTesterTypeScript.run("max-params", rule, {
 	method(this: void, a, b, c, d) {}
   }
 		`,
-			errors: [{ messageId: "exceed" }],
+			errors: [
+				{
+					messageId: "exceed",
+					line: 3,
+					column: 8,
+					endLine: 3,
+					endColumn: 32,
+				},
+			],
 		},
 		{
 			code: `
@@ -266,22 +342,54 @@ ruleTesterTypeScript.run("max-params", rule, {
   }
 		`,
 			options: [{ countVoidThis: true, max: 1 }],
-			errors: [{ messageId: "exceed" }],
+			errors: [
+				{
+					messageId: "exceed",
+					line: 3,
+					column: 8,
+					endLine: 3,
+					endColumn: 23,
+				},
+			],
 		},
 		{
 			code: `function testD(this: void, a) {}`,
 			options: [{ countVoidThis: true, max: 1 }],
-			errors: [{ messageId: "exceed" }],
+			errors: [
+				{
+					messageId: "exceed",
+					line: 1,
+					column: 15,
+					endLine: 1,
+					endColumn: 30,
+				},
+			],
 		},
 		{
 			code: `const testE = function (this: void, a) {}`,
 			options: [{ countVoidThis: true, max: 1 }],
-			errors: [{ messageId: "exceed" }],
+			errors: [
+				{
+					messageId: "exceed",
+					line: 1,
+					column: 24,
+					endLine: 1,
+					endColumn: 39,
+				},
+			],
 		},
 		{
 			code: `function testFunction(test: void, a: number) {}`,
 			options: [{ countVoidThis: false, max: 1 }],
-			errors: [{ messageId: "exceed" }],
+			errors: [
+				{
+					messageId: "exceed",
+					line: 1,
+					column: 22,
+					endLine: 1,
+					endColumn: 45,
+				},
+			],
 		},
 		{
 			code: `
@@ -289,21 +397,45 @@ ruleTesterTypeScript.run("max-params", rule, {
 	method(this: Foo, a, b, c) {}
   }
 		`,
-			errors: [{ messageId: "exceed" }],
+			errors: [
+				{
+					messageId: "exceed",
+					line: 3,
+					column: 8,
+					endLine: 3,
+					endColumn: 28,
+				},
+			],
 		},
 		{
 			code: `
   declare function makeDate(m: number, d: number, y: number): Date;
 		`,
 			options: [{ max: 1 }],
-			errors: [{ messageId: "exceed" }],
+			errors: [
+				{
+					messageId: "exceed",
+					line: 2,
+					column: 28,
+					endLine: 2,
+					endColumn: 61,
+				},
+			],
 		},
 		{
 			code: `
   type sum = (a: number, b: number) => number;
 		`,
 			options: [{ max: 1 }],
-			errors: [{ messageId: "exceed" }],
+			errors: [
+				{
+					messageId: "exceed",
+					line: 2,
+					column: 14,
+					endLine: 2,
+					endColumn: 36,
+				},
+			],
 		},
 	],
 });
