@@ -57,6 +57,7 @@ import type {
 	RulesMeta,
 	RuleTextEditor,
 	RuleTextEdit,
+	RuleVisitor,
 	BaseConfig as CoreBaseConfig,
 	RuleFixer as CoreRuleFixer,
 	ViolationReportBase,
