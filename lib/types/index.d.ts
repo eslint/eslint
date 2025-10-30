@@ -55,6 +55,7 @@ import type {
 	ProcessorFile as CoreProcessorFile,
 	JavaScriptParserOptionsConfig,
 	RulesMeta,
+	RuleConfig,
 	RuleTextEditor,
 	RuleTextEdit,
 	RuleVisitor,
@@ -67,6 +68,9 @@ import type {
 	LintSuggestion as CoreLintSuggestion,
 	JavaScriptSourceType,
 	HasRules as CoreHasRules,
+	SuggestedEditBase,
+	SuggestedEdit,
+	ViolationReport,
 } from "@eslint/core";
 import { LegacyESLint } from "./use-at-your-own-risk.js";
 
@@ -780,24 +784,17 @@ export namespace Rule {
 
 	type ReportFixer = CoreRuleFixer;
 
+	/** @deprecated Use `ReportDescriptorOptions` instead. */
 	type ReportDescriptorOptionsBase = ViolationReportBase;
 
-	interface SuggestionReportOptions {
-		data?: { [key: string]: string };
-
-		fix: ReportFixer;
-	}
-
+	type SuggestionReportOptions = SuggestedEditBase;
 	type SuggestionDescriptorMessage = SuggestionMessage;
-	type SuggestionReportDescriptor = SuggestionDescriptorMessage &
-		SuggestionReportOptions;
+	type SuggestionReportDescriptor = SuggestedEdit;
 
 	// redundant with ReportDescriptorOptionsBase but kept for clarity
 	type ReportDescriptorOptions = ViolationReportBase;
 
-	type ReportDescriptor = ReportDescriptorMessage &
-		ReportDescriptorLocation &
-		ReportDescriptorOptions;
+	type ReportDescriptor = ViolationReport<ESTree.Node>;
 	type ReportDescriptorMessage = ViolationMessage;
 	type ReportDescriptorLocation = ViolationLocation<ESTree.Node>;
 
@@ -909,9 +906,7 @@ export namespace Linter {
 	 *
 	 * @see [Rules](https://eslint.org/docs/latest/use/configure/rules)
 	 */
-	type RuleEntry<Options extends any[] = any[]> =
-		| RuleSeverity
-		| RuleSeverityAndOptions<Options>;
+	type RuleEntry<Options extends any[] = any[]> = RuleConfig<Options>;
 
 	/**
 	 * The rules config object is a key/value map of rule names and their severity and options.
