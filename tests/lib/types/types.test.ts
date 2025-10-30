@@ -499,6 +499,10 @@ const scopeManager: Scope.ScopeManager = {
 
 const scope = scopeManager.scopes[0];
 
+scope.implicit;
+scope.implicit?.variables;
+scope.implicit?.set;
+
 const variable = scope.variables[0];
 
 variable.name = "foo";
@@ -523,6 +527,37 @@ reference.isReadOnly();
 reference.isWrite();
 reference.isWriteOnly();
 reference.isReadWrite();
+
+let catchDef!: Extract<Scope.DefinitionType, { type: "CatchClause" }>;
+catchDef.node; // $ExpectType CatchClause
+catchDef.parent; // $ExpectType null
+
+let classNameDef!: Extract<Scope.DefinitionType, { type: "ClassName" }>;
+classNameDef.node; // $ExpectType ClassDeclaration | ClassExpression
+classNameDef.parent; // $ExpectType null
+
+let functionNameDef!: Extract<Scope.DefinitionType, { type: "FunctionName" }>;
+functionNameDef.node; // $ExpectType FunctionDeclaration | FunctionExpression
+functionNameDef.parent; // $ExpectType null
+
+let implicitGlobalVarDef!: Extract<
+	Scope.DefinitionType,
+	{ type: "ImplicitGlobalVariable" }
+>;
+implicitGlobalVarDef.node; // $ExpectType AssignmentExpression | ForInStatement | ForOfStatement
+implicitGlobalVarDef.parent; // $ExpectType null
+
+let importBindingDef!: Extract<Scope.DefinitionType, { type: "ImportBinding" }>;
+importBindingDef.node; // $ExpectType ImportSpecifier | ImportDefaultSpecifier | ImportNamespaceSpecifier
+importBindingDef.parent; // $ExpectType ImportDeclaration
+
+let parameterDef!: Extract<Scope.DefinitionType, { type: "Parameter" }>;
+parameterDef.node; // $ExpectType FunctionDeclaration | FunctionExpression | ArrowFunctionExpression
+parameterDef.parent; // $ExpectType null
+
+let variableDef!: Extract<Scope.DefinitionType, { type: "Variable" }>;
+variableDef.node; // $ExpectType VariableDeclarator
+variableDef.parent; // $ExpectType VariableDeclaration
 
 // #endregion
 
@@ -807,6 +842,8 @@ rule = {
 			},
 			onCodePathSegmentStart(segment, node) {},
 			onCodePathSegmentEnd(segment, node) {},
+			onUnreachableCodePathSegmentStart(segment, node) {},
+			onUnreachableCodePathSegmentEnd(segment, node) {},
 			onCodePathSegmentLoop(fromSegment, toSegment, node) {},
 			IfStatement(node) {
 				node.parent;
@@ -966,6 +1003,62 @@ type DeprecatedRuleContextKeys =
 				options: ["never"],
 			},
 		},
+	},
+});
+
+(): JSRuleDefinition => ({
+	create() {
+		return {
+			onCodePathStart(codePath, node) {
+				codePath; // $ExpectType CodePath
+				node; // $ExpectType Node
+			},
+			onCodePathSegmentStart(segment, node) {
+				segment; // $ExpectType CodePathSegment
+				node; // $ExpectType Node
+			},
+			onCodePathSegmentLoop(fromSegment, toSegment, node) {
+				fromSegment; // $ExpectType CodePathSegment
+				toSegment; // $ExpectType CodePathSegment
+				node; // $ExpectType Node
+			},
+			Program(node) {
+				// @ts-expect-error -- Program node has no parent
+				node.parent;
+				const { comments, tokens } = node;
+			},
+			"Program:exit"(node) {
+				// @ts-expect-error -- Program node has no parent
+				node.parent;
+				const { comments, tokens } = node;
+			},
+			CallExpression(node) {
+				node.type; // $ExpectType "CallExpression"
+			},
+			"CallExpression:exit"(node) {
+				node.type; // $ExpectType "CallExpression"
+			},
+			"*"(node: Rule.Node) {
+				if (node.type === "Program") {
+					node.parent; // $ExpectType null
+				} else {
+					node.parent; // $ExpectType Node
+				}
+				if (!node.parent) {
+					node.type; // $ExpectType "Program"
+					const { comments, tokens } = node;
+				}
+			},
+		} satisfies Rule.RuleListener;
+	},
+});
+
+(): JSRuleDefinition => ({
+	// @ts-expect-error invalid return type
+	create() {
+		return {
+			foo: null,
+		};
 	},
 });
 
@@ -2117,7 +2210,6 @@ interface CustomParserServices {
 
 (): Linter.Config => ({
 	languageOptions: {
-		// @ts-expect-error
 		parser: "foo-parser",
 	},
 });

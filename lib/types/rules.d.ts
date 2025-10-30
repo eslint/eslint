@@ -551,6 +551,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.0.9
 	 * @see https://eslint.org/docs/latest/rules/complexity
 	 */
+    
 	complexity: Linter.RuleEntry<
 		[
 			| Partial<{
@@ -2951,6 +2952,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 7.1.0
 	 * @see https://eslint.org/docs/latest/rules/no-loss-of-precision
 	 */
+    
 	"no-loss-of-precision": Linter.RuleEntry<[]>;
 
 	/**

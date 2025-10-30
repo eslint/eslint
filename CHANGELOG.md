@@ -1,3 +1,24 @@
+v9.38.0 - October 17, 2025
+
+* [`d17c795`](https://github.com/eslint/eslint/commit/d17c795bf1624e0604998482b98e6bb6bff39045) chore: upgrade @eslint/js@9.38.0 (#20221) (Milos Djermanovic)
+* [`25d0e33`](https://github.com/eslint/eslint/commit/25d0e33270e08baed09dbee2cdd56a8e5cd9da0f) chore: package.json update for @eslint/js release (Jenkins)
+* [`50c3dfd`](https://github.com/eslint/eslint/commit/50c3dfd98065622765a51a8ddb1e70c44fc5a4cb) fix: improve type support for isolated dependencies in pnpm (#20201) (Francesco Trotta)
+* [`c82b5ef`](https://github.com/eslint/eslint/commit/c82b5efa1fc91900e029efa23e688fad67fc17fa) refactor: Use types from @eslint/core (#20168) (Nicholas C. Zakas)
+* [`ff31609`](https://github.com/eslint/eslint/commit/ff31609f195654d448954210ba4d31e921d463e8) ci: add Node.js 25 to `ci.yml` (#20220) (루밀LuMir)
+* [`ce40f74`](https://github.com/eslint/eslint/commit/ce40f74efd45f66d9fbfc6f78ce622ee72008485) feat: update `complexity` rule to only highlight function header (#20048) (Atul Nair)
+* [`e37e590`](https://github.com/eslint/eslint/commit/e37e590aae2a7fcca4d3a9adc1379ad466e5c5d1) feat: correct `no-loss-of-precision` false positives with `e` notation (#20187) (Francesco Trotta)
+* [`004577e`](https://github.com/eslint/eslint/commit/004577eda2f2f4b2829e0364f8b41893cebfc859) ci: bump github/codeql-action from 3 to 4 (#20211) (dependabot[bot])
+* [`eac71fb`](https://github.com/eslint/eslint/commit/eac71fb77113de7bf199ff20c6ee44cefcb59848) test: remove use of `nodejsScope` option of eslint-scope from tests (#20206) (Milos Djermanovic)
+* [`462675a`](https://github.com/eslint/eslint/commit/462675af8a811f9ca984efaedbdc5b46b13ced7a) docs: improve web accessibility by hiding non-semantic character (#20205) (루밀LuMir)
+* [`c070e65`](https://github.com/eslint/eslint/commit/c070e65f6bb9e38d06a89ba2b3261781bec3d397) docs: correct formatting in `no-irregular-whitespace` rule documentation (#20203) (루밀LuMir)
+* [`b39e71a`](https://github.com/eslint/eslint/commit/b39e71a2130ae1ea3fbc19b19f5b951eb625722a) docs: Update README (GitHub Actions Bot)
+* [`4168a18`](https://github.com/eslint/eslint/commit/4168a18b7efd8facbbd71cd44a62942a9f656a30) chore: fix typo in legacy-eslint.js (#20202) (Sweta Tanwar)
+* [`205dbd2`](https://github.com/eslint/eslint/commit/205dbd2d9272e761574c478e3b0181f7b89ed0f6) chore: fix typos (#20200) (ntnyq)
+* [`a1f06a3`](https://github.com/eslint/eslint/commit/a1f06a350c4155c4dbf39bf932a38d71d70f1b65) fix: correct SourceCode typings (#20114) (Pixel998)
+* [`dbb200e`](https://github.com/eslint/eslint/commit/dbb200e3604e63bba23a18d40089ca44604835ed) chore: use team member's username when name is not available in data (#20194) (Milos Djermanovic)
+* [`cd39983`](https://github.com/eslint/eslint/commit/cd3998314876a4fad6463d9011bc73778ccc1fd9) docs: move `custom-formatters` type descriptions to `nodejs-api` (#20190) (Percy Ma)
+* [`8962089`](https://github.com/eslint/eslint/commit/8962089edbd978b43513576387a134036b8e2d36) chore: mark deprecated rules as available until v11.0.0 (#20184) (Pixel998)
+
 v9.37.0 - October 3, 2025
 
 * [`afe8a13`](https://github.com/eslint/eslint/commit/afe8a1346958242031fea66fdfbb239e8bf408b7) chore: update `@eslint/js` dependency to version 9.37.0 (#20183) (Francesco Trotta)
