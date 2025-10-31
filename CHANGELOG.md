@@ -1,3 +1,33 @@
+v9.39.0 - October 31, 2025
+
+* [`dfe3c1b`](https://github.com/eslint/eslint/commit/dfe3c1b2034228765c48c8a445554223767dd16d) chore: update `@eslint/js` version to 9.39.0 (#20270) (Francesco Trotta)
+* [`2375a6d`](https://github.com/eslint/eslint/commit/2375a6de8263393c129d41cac1b407b40111a73c) chore: package.json update for @eslint/js release (Jenkins)
+* [`d3e81e3`](https://github.com/eslint/eslint/commit/d3e81e30ee6be5a21151b7a17ef10a714b6059c0) docs: Always recommend to include a files property (#20158) (Percy Ma)
+* [`15f5c7c`](https://github.com/eslint/eslint/commit/15f5c7c168d0698683943f51dd617f14a5e6815c) fix: forward traversal `step.args` to visitors (#20253) (jaymarvelz)
+* [`5a1a534`](https://github.com/eslint/eslint/commit/5a1a534e877f7c4c992885867f923df307c3929d) fix: allow JSDoc comments in object-shorthand rule (#20167) (Nitin Kumar)
+* [`cc57d87`](https://github.com/eslint/eslint/commit/cc57d87a3f119e9d39c55e044e526ae067fa31ce) feat: update error loc to key in `no-dupe-class-members` (#20259) (Tanuj Kanti)
+* [`a1f4e52`](https://github.com/eslint/eslint/commit/a1f4e52d67c94bef61edd1607dcd130047c1baf0) chore: update `@eslint` dependencies (#20265) (Francesco Trotta)
+* [`e86b813`](https://github.com/eslint/eslint/commit/e86b813eb660f1a5adc8e143a70d9b683cd12362) fix: Use more types from @eslint/core (#20257) (Nicholas C. Zakas)
+* [`126552f`](https://github.com/eslint/eslint/commit/126552fcf35da3ddcefa527db06dabc54c04041c) feat: update error location in `for-direction` and `no-dupe-args` (#20258) (Tanuj Kanti)
+* [`927272d`](https://github.com/eslint/eslint/commit/927272d1f0d5683b029b729d368a96527f283323) fix: correct `Scope` typings (#20198) (jaymarvelz)
+* [`c7d3229`](https://github.com/eslint/eslint/commit/c7d32298482752eeac9fb46378d4f1ea095f3836) chore: update dependency @eslint/core to ^0.17.0 (#20256) (renovate[bot])
+* [`0f0385f`](https://github.com/eslint/eslint/commit/0f0385f1404dcadaba4812120b1ad02334dbd66a) docs: use consistent naming recommendation (#20250) (Alex M. Spieslechner)
+* [`a3b1456`](https://github.com/eslint/eslint/commit/a3b145609ac649fac837c8c0515cbb2a9321ca40) docs: Update README (GitHub Actions Bot)
+* [`37f76d9`](https://github.com/eslint/eslint/commit/37f76d9c539bb6fc816fedb7be4486b71a58620a) fix: use `AST.Program` type for Program node (#20244) (Francesco Trotta)
+* [`cf5f2dd`](https://github.com/eslint/eslint/commit/cf5f2dd58dd98084a21da04fe7b9054b9478d552) docs: fix correct tag of `no-useless-constructor` (#20255) (Tanuj Kanti)
+* [`27549bc`](https://github.com/eslint/eslint/commit/27549bc774c7c2dc5c569070a3e87c62f602bf7d) chore: update fuzz testing to not error if code sample minimizer fails (#20252) (Milos Djermanovic)
+* [`10b995c`](https://github.com/eslint/eslint/commit/10b995c8e5473de8d66d3cd99d816e046f35e3ec) docs: add TS options and examples for `nofunc` in `no-use-before-define` (#20249) (Tanuj Kanti)
+* [`167d097`](https://github.com/eslint/eslint/commit/167d0970d3802a66910e9820f31dcd717fab0b2a) feat: update `complexity` rule to highlight only static block header (#20245) (jaymarvelz)
+* [`2584187`](https://github.com/eslint/eslint/commit/2584187e4a305ea7a98e1a5bd4dca2a60ad132f8) docs: remove repetitive word in comment (#20242) (reddaisyy)
+* [`ae07f0b`](https://github.com/eslint/eslint/commit/ae07f0b3334ebd22ae2e7b09bca5973b96aa9768) fix: unify timing report for concurrent linting (#20188) (jaymarvelz)
+* [`b165d47`](https://github.com/eslint/eslint/commit/b165d471be6062f4475b972155b02654a974a0e9) fix: correct `Rule` typings (#20199) (jaymarvelz)
+* [`637216b`](https://github.com/eslint/eslint/commit/637216bd4f2aae7c928ad04a4e40eecffb50c9e5) docs: update CLI flags migration instructions (#20238) (jaymarvelz)
+* [`e7cda3b`](https://github.com/eslint/eslint/commit/e7cda3bdf1bdd664e6033503a3315ad81736b200) docs: Update README (GitHub Actions Bot)
+* [`a1370ee`](https://github.com/eslint/eslint/commit/a1370ee40e9d8e0e41843f3278cd745fc1ad543f) ci: bump actions/setup-node from 5 to 6 (#20230) (dependabot[bot])
+* [`fb97cda`](https://github.com/eslint/eslint/commit/fb97cda70d87286a7dbd2457f578ef578d6905e8) fix: improve error message for missing fix function in suggestions (#20218) (jaymarvelz)
+* [`9e7fad4`](https://github.com/eslint/eslint/commit/9e7fad4a1867709060686d03e0ec1d0d69671cfb) chore: add script to auto-generate eslint:recommended configuration (#20208) (唯然)
+* [`7b9446f`](https://github.com/eslint/eslint/commit/7b9446f7cc2054aa2cdf8e6225f4ac15a03671a8) docs: handle empty flags sections on the feature flags page (#20222) (sethamus)
+
 v9.38.0 - October 17, 2025
 
 * [`d17c795`](https://github.com/eslint/eslint/commit/d17c795bf1624e0604998482b98e6bb6bff39045) chore: upgrade @eslint/js@9.38.0 (#20221) (Milos Djermanovic)
