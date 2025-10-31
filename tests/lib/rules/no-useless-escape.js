@@ -514,7 +514,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 12,
 					endColumn: 13,
 					message: "Unnecessary escape character: \\#.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -536,7 +535,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 12,
 					endColumn: 13,
 					message: "Unnecessary escape character: \\;.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -558,7 +556,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 12,
 					endColumn: 13,
 					message: "Unnecessary escape character: \\'.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -580,7 +577,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 12,
 					endColumn: 13,
 					message: "Unnecessary escape character: \\#.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -602,7 +598,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 12,
 					endColumn: 13,
 					message: "Unnecessary escape character: \\a.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -624,7 +619,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 12,
 					endColumn: 13,
 					message: "Unnecessary escape character: \\B.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -646,7 +640,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 12,
 					endColumn: 13,
 					message: "Unnecessary escape character: \\@.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -668,7 +661,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 16,
 					endColumn: 17,
 					message: "Unnecessary escape character: \\a.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -690,7 +682,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 12,
 					endColumn: 13,
 					message: 'Unnecessary escape character: \\".',
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -712,7 +703,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 12,
 					endColumn: 13,
 					message: "Unnecessary escape character: \\#.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -734,7 +724,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 12,
 					endColumn: 13,
 					message: "Unnecessary escape character: \\$.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -756,7 +745,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 12,
 					endColumn: 13,
 					message: "Unnecessary escape character: \\p.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -778,7 +766,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 12,
 					endColumn: 13,
 					message: "Unnecessary escape character: \\p.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -795,7 +782,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 14,
 					endColumn: 15,
 					message: "Unnecessary escape character: \\a.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -812,7 +798,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 16,
 					endColumn: 17,
 					message: "Unnecessary escape character: \\@.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -835,7 +820,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 13,
 					endColumn: 14,
 					message: "Unnecessary escape character: \\d.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -857,7 +841,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 12,
 					endColumn: 13,
 					message: "Unnecessary escape character: \\`.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -880,7 +863,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 12,
 					endColumn: 13,
 					message: 'Unnecessary escape character: \\".',
-					type: "TemplateElement",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -903,7 +885,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 12,
 					endColumn: 13,
 					message: "Unnecessary escape character: \\'.",
-					type: "TemplateElement",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -926,7 +907,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 12,
 					endColumn: 13,
 					message: "Unnecessary escape character: \\#.",
-					type: "TemplateElement",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -948,7 +928,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 12,
 					endColumn: 13,
 					message: "Unnecessary escape character: \\`.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -965,7 +944,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 17,
 					endColumn: 18,
 					message: "Unnecessary escape character: \\`.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -988,7 +966,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 12,
 					endColumn: 13,
 					message: 'Unnecessary escape character: \\".',
-					type: "TemplateElement",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1005,7 +982,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 20,
 					endColumn: 21,
 					message: 'Unnecessary escape character: \\".',
-					type: "TemplateElement",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1028,7 +1004,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 12,
 					endColumn: 13,
 					message: "Unnecessary escape character: \\'.",
-					type: "TemplateElement",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1045,7 +1020,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 20,
 					endColumn: 21,
 					message: "Unnecessary escape character: \\'.",
-					type: "TemplateElement",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1068,7 +1042,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 12,
 					endColumn: 13,
 					message: "Unnecessary escape character: \\#.",
-					type: "TemplateElement",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1091,7 +1064,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 12,
 					endColumn: 13,
 					message: "Unnecessary escape character: \\ .",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1114,7 +1086,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 12,
 					endColumn: 13,
 					message: "Unnecessary escape character: \\ .",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1137,7 +1108,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 12,
 					endColumn: 13,
 					message: "Unnecessary escape character: \\$.",
-					type: "TemplateElement",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1160,7 +1130,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 12,
 					endColumn: 13,
 					message: "Unnecessary escape character: \\$.",
-					type: "TemplateElement",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1183,7 +1152,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 13,
 					endColumn: 14,
 					message: "Unnecessary escape character: \\{.",
-					type: "TemplateElement",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1205,7 +1173,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 15,
 					endColumn: 16,
 					message: "Unnecessary escape character: \\-.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1227,7 +1194,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 13,
 					endColumn: 14,
 					message: "Unnecessary escape character: \\-.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1249,7 +1215,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 15,
 					endColumn: 16,
 					message: "Unnecessary escape character: \\?.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1271,7 +1236,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 15,
 					endColumn: 16,
 					message: "Unnecessary escape character: \\..",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1293,7 +1257,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 14,
 					endColumn: 15,
 					message: "Unnecessary escape character: \\|.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1315,7 +1278,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 12,
 					endColumn: 13,
 					message: "Unnecessary escape character: \\-.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1337,7 +1299,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 13,
 					endColumn: 14,
 					message: "Unnecessary escape character: \\-.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1359,7 +1320,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 15,
 					endColumn: 16,
 					message: "Unnecessary escape character: \\$.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1381,7 +1341,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 13,
 					endColumn: 14,
 					message: "Unnecessary escape character: \\(.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1403,7 +1362,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 13,
 					endColumn: 14,
 					message: "Unnecessary escape character: \\[.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1425,7 +1383,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 13,
 					endColumn: 14,
 					message: "Unnecessary escape character: \\/.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1447,7 +1404,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 13,
 					endColumn: 14,
 					message: "Unnecessary escape character: \\B.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1469,7 +1425,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 16,
 					endColumn: 17,
 					message: "Unnecessary escape character: \\-.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1491,7 +1446,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 12,
 					endColumn: 13,
 					message: "Unnecessary escape character: \\-.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1513,7 +1467,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 14,
 					endColumn: 15,
 					message: "Unnecessary escape character: \\^.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1536,7 +1489,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 22,
 					endColumn: 23,
 					message: "Unnecessary escape character: \\e.",
-					type: "TemplateElement",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1559,7 +1511,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 22,
 					endColumn: 23,
 					message: "Unnecessary escape character: \\e.",
-					type: "TemplateElement",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1582,7 +1533,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 13,
 					endColumn: 14,
 					message: "Unnecessary escape character: \\e.",
-					type: "TemplateElement",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1605,7 +1555,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 13,
 					endColumn: 14,
 					message: "Unnecessary escape character: \\e.",
-					type: "TemplateElement",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1628,7 +1577,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 1,
 					endColumn: 2,
 					message: "Unnecessary escape character: \\a.",
-					type: "TemplateElement",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1651,7 +1599,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 1,
 					endColumn: 2,
 					message: "Unnecessary escape character: \\a.",
-					type: "TemplateElement",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1674,7 +1621,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 2,
 					endColumn: 3,
 					message: "Unnecessary escape character: \\a.",
-					type: "TemplateElement",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1698,7 +1644,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 5,
 					endColumn: 6,
 					message: "Unnecessary escape character: \\ .",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscapeDoNotKeepSemantics",
@@ -1721,7 +1666,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 29,
 					endColumn: 30,
 					message: "Unnecessary escape character: \\z.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscapeDoNotKeepSemantics",
@@ -1744,7 +1688,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 4,
 					message: "Unnecessary escape character: \\^.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1766,7 +1709,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 4,
 					message: "Unnecessary escape character: \\^.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1791,7 +1733,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 3,
 					endColumn: 4,
 					message: "Unnecessary escape character: \\$.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1813,7 +1754,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 3,
 					message: "Unnecessary escape character: \\&.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1835,7 +1775,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 3,
 					message: "Unnecessary escape character: \\!.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1857,7 +1796,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 3,
 					message: "Unnecessary escape character: \\#.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1879,7 +1817,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 3,
 					message: "Unnecessary escape character: \\%.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1901,7 +1838,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 3,
 					message: "Unnecessary escape character: \\*.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1923,7 +1859,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 3,
 					message: "Unnecessary escape character: \\+.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1945,7 +1880,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 3,
 					message: "Unnecessary escape character: \\,.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1967,7 +1901,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 3,
 					message: "Unnecessary escape character: \\..",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -1989,7 +1922,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 3,
 					message: "Unnecessary escape character: \\:.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -2011,7 +1943,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 3,
 					message: "Unnecessary escape character: \\;.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -2033,7 +1964,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 3,
 					message: "Unnecessary escape character: \\<.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -2055,7 +1985,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 3,
 					message: "Unnecessary escape character: \\=.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -2077,7 +2006,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 3,
 					message: "Unnecessary escape character: \\>.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -2099,7 +2027,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 3,
 					message: "Unnecessary escape character: \\?.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -2121,7 +2048,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 3,
 					message: "Unnecessary escape character: \\@.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -2143,7 +2069,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 3,
 					message: "Unnecessary escape character: \\`.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -2165,7 +2090,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 3,
 					message: "Unnecessary escape character: \\~.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -2187,7 +2111,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 4,
 					message: "Unnecessary escape character: \\^.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -2209,7 +2132,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 4,
 					message: "Unnecessary escape character: \\^.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -2231,7 +2153,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 3,
 					message: "Unnecessary escape character: \\&.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -2253,7 +2174,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 14,
 					message: "Unnecessary escape character: \\..",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -2271,7 +2191,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 14,
 					message: "Unnecessary escape character: \\..",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -2289,7 +2208,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 3,
 					message: "Unnecessary escape character: \\..",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -2307,7 +2225,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 3,
 					message: "Unnecessary escape character: \\..",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -2325,7 +2242,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 3,
 					message: "Unnecessary escape character: \\..",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -2337,7 +2253,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 7,
 					message: "Unnecessary escape character: \\..",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -2349,7 +2264,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 11,
 					message: "Unnecessary escape character: \\..",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -2367,7 +2281,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 3,
 					message: "Unnecessary escape character: \\..",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -2379,7 +2292,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 7,
 					message: "Unnecessary escape character: \\..",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -2391,7 +2303,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 11,
 					message: "Unnecessary escape character: \\..",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -2409,7 +2320,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 4,
 					message: "Unnecessary escape character: \\..",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -2425,7 +2335,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 11,
 					message: "Unnecessary escape character: \\..",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -2447,7 +2356,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 4,
 					message: "Unnecessary escape character: \\..",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -2463,7 +2371,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 11,
 					message: "Unnecessary escape character: \\..",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -2486,7 +2393,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 12,
 					endColumn: 13,
 					message: "Unnecessary escape character: \\#.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -2509,7 +2415,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 14,
 					endColumn: 15,
 					message: "Unnecessary escape character: \\@.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -2532,7 +2437,6 @@ ruleTester.run("no-useless-escape", rule, {
 					column: 14,
 					endColumn: 15,
 					message: "Unnecessary escape character: \\@.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",
@@ -2555,7 +2459,6 @@ ruleTester.run("no-useless-escape", rule, {
 					line: 1,
 					column: 3,
 					message: "Unnecessary escape character: \\@.",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "removeEscape",

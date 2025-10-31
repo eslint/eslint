@@ -166,11 +166,15 @@ function* getBasicValidTests() {
  * @returns {IterableIterator<Object>} The list of objects for the invalid[] array.
  */
 function* getBasicInvalidTests() {
-	for (const [type, templates] of Object.entries(loopTemplates)) {
+	for (const templates of Object.values(loopTemplates)) {
 		for (const template of templates) {
 			yield* invalidLoopBodies.map(body => ({
 				code: getSourceCode(template, body),
-				errors: [{ type, messageId: "invalid" }],
+				errors: [
+					{
+						messageId: "invalid",
+					},
+				],
 			}));
 		}
 	}
@@ -230,7 +234,6 @@ ruleTester.run("no-unreachable-loop", rule, {
 			errors: [
 				{
 					messageId: "invalid",
-					type: "ForOfStatement",
 				},
 			],
 		},
@@ -239,7 +242,6 @@ ruleTester.run("no-unreachable-loop", rule, {
 			errors: [
 				{
 					messageId: "invalid",
-					type: "WhileStatement",
 				},
 			],
 		},
@@ -250,11 +252,9 @@ ruleTester.run("no-unreachable-loop", rule, {
 			errors: [
 				{
 					messageId: "invalid",
-					type: "ForInStatement",
 				},
 				{
 					messageId: "invalid",
-					type: "WhileStatement",
 				},
 			],
 		},
@@ -265,11 +265,9 @@ ruleTester.run("no-unreachable-loop", rule, {
 			errors: [
 				{
 					messageId: "invalid",
-					type: "ForStatement",
 				},
 				{
 					messageId: "invalid",
-					type: "DoWhileStatement",
 				},
 			],
 		},
@@ -278,11 +276,9 @@ ruleTester.run("no-unreachable-loop", rule, {
 			errors: [
 				{
 					messageId: "invalid",
-					type: "WhileStatement",
 				},
 				{
 					messageId: "invalid",
-					type: "DoWhileStatement",
 				},
 			],
 		},
@@ -293,7 +289,6 @@ ruleTester.run("no-unreachable-loop", rule, {
 			errors: [
 				{
 					messageId: "invalid",
-					type: "WhileStatement",
 				},
 			],
 		},
@@ -304,7 +299,6 @@ ruleTester.run("no-unreachable-loop", rule, {
 			errors: [
 				{
 					messageId: "invalid",
-					type: "ForOfStatement",
 				},
 			],
 		},
@@ -313,7 +307,6 @@ ruleTester.run("no-unreachable-loop", rule, {
 			errors: [
 				{
 					messageId: "invalid",
-					type: "ForInStatement",
 				},
 			],
 		},
@@ -324,7 +317,6 @@ ruleTester.run("no-unreachable-loop", rule, {
 			errors: [
 				{
 					messageId: "invalid",
-					type: "ForStatement",
 				},
 			],
 		},
@@ -333,7 +325,6 @@ ruleTester.run("no-unreachable-loop", rule, {
 			errors: [
 				{
 					messageId: "invalid",
-					type: "DoWhileStatement",
 				},
 			],
 		},
@@ -342,7 +333,6 @@ ruleTester.run("no-unreachable-loop", rule, {
 			errors: [
 				{
 					messageId: "invalid",
-					type: "ForStatement",
 					column: 12,
 				},
 			],
@@ -355,23 +345,18 @@ ruleTester.run("no-unreachable-loop", rule, {
 			errors: [
 				{
 					messageId: "invalid",
-					type: "WhileStatement",
 				},
 				{
 					messageId: "invalid",
-					type: "DoWhileStatement",
 				},
 				{
 					messageId: "invalid",
-					type: "ForStatement",
 				},
 				{
 					messageId: "invalid",
-					type: "ForInStatement",
 				},
 				{
 					messageId: "invalid",
-					type: "ForOfStatement",
 				},
 			],
 		},
@@ -381,7 +366,6 @@ ruleTester.run("no-unreachable-loop", rule, {
 			errors: [
 				{
 					messageId: "invalid",
-					type: "WhileStatement",
 				},
 			],
 		},
@@ -391,7 +375,6 @@ ruleTester.run("no-unreachable-loop", rule, {
 			errors: [
 				{
 					messageId: "invalid",
-					type: "DoWhileStatement",
 				},
 			],
 		},
@@ -401,11 +384,9 @@ ruleTester.run("no-unreachable-loop", rule, {
 			errors: [
 				{
 					messageId: "invalid",
-					type: "ForInStatement",
 				},
 				{
 					messageId: "invalid",
-					type: "ForOfStatement",
 				},
 			],
 		},
@@ -415,7 +396,6 @@ ruleTester.run("no-unreachable-loop", rule, {
 			errors: [
 				{
 					messageId: "invalid",
-					type: "ForStatement",
 				},
 			],
 		},

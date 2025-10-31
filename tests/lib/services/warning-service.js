@@ -98,6 +98,19 @@ describe("WarningService", () => {
 				"Expected process.emitWarning to be called with the correct arguments",
 			);
 		});
+
+		it("emitPoorConcurrencyWarning", () => {
+			const notice = "use a different concurrency setting";
+			warningService.emitPoorConcurrencyWarning(notice);
+
+			assert(
+				process.emitWarning.calledOnceWithExactly(
+					`You may ${notice} to improve performance.`,
+					"ESLintPoorConcurrencyWarning",
+				),
+				"Expected process.emitWarning to be called with the correct arguments",
+			);
+		});
 	});
 
 	describe("should not throw an error when `process` is not defined", () => {

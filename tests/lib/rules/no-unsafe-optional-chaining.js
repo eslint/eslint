@@ -280,7 +280,9 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
 		].map(code => ({
 			code,
 			errors: [
-				{ messageId: "unsafeOptionalChain", type: "ChainExpression" },
+				{
+					messageId: "unsafeOptionalChain",
+				},
 			],
 		})),
 		{
@@ -288,13 +290,11 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
 			errors: [
 				{
 					messageId: "unsafeOptionalChain",
-					type: "ChainExpression",
 					line: 1,
 					column: 2,
 				},
 				{
 					messageId: "unsafeOptionalChain",
-					type: "ChainExpression",
 					line: 1,
 					column: 14,
 				},
@@ -308,7 +308,6 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
 			errors: [
 				{
 					messageId: "unsafeOptionalChain",
-					type: "ChainExpression",
 					line: 1,
 					column: 7,
 				},
@@ -322,7 +321,6 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
 			errors: [
 				{
 					messageId: "unsafeOptionalChain",
-					type: "ChainExpression",
 					line: 1,
 					column: 37,
 				},
@@ -333,13 +331,11 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
 			errors: [
 				{
 					messageId: "unsafeOptionalChain",
-					type: "ChainExpression",
 					line: 1,
 					column: 8,
 				},
 				{
 					messageId: "unsafeOptionalChain",
-					type: "ChainExpression",
 					line: 1,
 					column: 19,
 				},
@@ -382,7 +378,9 @@ ruleTester.run("no-unsafe-optional-chaining", rule, {
 			code,
 			options: [{ disallowArithmeticOperators: true }],
 			errors: [
-				{ messageId: "unsafeArithmetic", type: "ChainExpression" },
+				{
+					messageId: "unsafeArithmetic",
+				},
 			],
 		})),
 	],

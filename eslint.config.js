@@ -163,11 +163,21 @@ module.exports = defineConfig([
 			],
 			"eslint-plugin/test-case-shorthand-strings": "error",
 			"no-useless-concat": "off",
+			"no-restricted-syntax": [
+				"error",
+				{
+					selector:
+						"ObjectExpression > Property[key.name='errors'] > ArrayExpression.value > ObjectExpression > Property[key.name='type']",
+					message:
+						"Do not use deprecated 'type' property in rule tests.",
+				},
+			],
 		},
 	},
 	{
 		name: "eslint/tests",
 		files: ["tests/**/*.js"],
+		ignores: ["tests/lib/rules/*.js", "tests/tools/internal-rules/*.js"],
 		languageOptions: {
 			globals: {
 				...globals.mocha,
@@ -359,5 +369,10 @@ module.exports = defineConfig([
 				{ ignores: ["module.enableCompileCache"] },
 			],
 		},
+	},
+	{
+		name: "eslint/pnpm-test",
+		files: ["tests/pnpm/**/*.js"],
+		languageOptions: { sourceType: "module" },
 	},
 ]);

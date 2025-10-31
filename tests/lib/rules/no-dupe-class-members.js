@@ -63,9 +63,10 @@ ruleTester.run("no-dupe-class-members", rule, {
 			code: "class A { foo() {} foo() {} }",
 			errors: [
 				{
-					type: "MethodDefinition",
 					line: 1,
 					column: 20,
+					endLine: 1,
+					endColumn: 23,
 					messageId: "unexpected",
 					data: { name: "foo" },
 				},
@@ -75,9 +76,10 @@ ruleTester.run("no-dupe-class-members", rule, {
 			code: "!class A { foo() {} foo() {} };",
 			errors: [
 				{
-					type: "MethodDefinition",
 					line: 1,
 					column: 21,
+					endLine: 1,
+					endColumn: 24,
 					messageId: "unexpected",
 					data: { name: "foo" },
 				},
@@ -87,9 +89,10 @@ ruleTester.run("no-dupe-class-members", rule, {
 			code: "class A { 'foo'() {} 'foo'() {} }",
 			errors: [
 				{
-					type: "MethodDefinition",
 					line: 1,
 					column: 22,
+					endLine: 1,
+					endColumn: 27,
 					messageId: "unexpected",
 					data: { name: "foo" },
 				},
@@ -99,9 +102,10 @@ ruleTester.run("no-dupe-class-members", rule, {
 			code: "class A { 10() {} 1e1() {} }",
 			errors: [
 				{
-					type: "MethodDefinition",
 					line: 1,
 					column: 19,
+					endLine: 1,
+					endColumn: 22,
 					messageId: "unexpected",
 					data: { name: "10" },
 				},
@@ -111,9 +115,10 @@ ruleTester.run("no-dupe-class-members", rule, {
 			code: "class A { ['foo']() {} ['foo']() {} }",
 			errors: [
 				{
-					type: "MethodDefinition",
 					line: 1,
-					column: 24,
+					column: 25,
+					endLine: 1,
+					endColumn: 30,
 					messageId: "unexpected",
 					data: { name: "foo" },
 				},
@@ -123,9 +128,10 @@ ruleTester.run("no-dupe-class-members", rule, {
 			code: "class A { static ['foo']() {} static foo() {} }",
 			errors: [
 				{
-					type: "MethodDefinition",
 					line: 1,
-					column: 31,
+					column: 38,
+					endLine: 1,
+					endColumn: 41,
 					messageId: "unexpected",
 					data: { name: "foo" },
 				},
@@ -135,9 +141,10 @@ ruleTester.run("no-dupe-class-members", rule, {
 			code: "class A { set 'foo'(value) {} set ['foo'](val) {} }",
 			errors: [
 				{
-					type: "MethodDefinition",
 					line: 1,
-					column: 31,
+					column: 36,
+					endLine: 1,
+					endColumn: 41,
 					messageId: "unexpected",
 					data: { name: "foo" },
 				},
@@ -147,9 +154,10 @@ ruleTester.run("no-dupe-class-members", rule, {
 			code: "class A { ''() {} ['']() {} }",
 			errors: [
 				{
-					type: "MethodDefinition",
 					line: 1,
-					column: 19,
+					column: 20,
+					endLine: 1,
+					endColumn: 22,
 					messageId: "unexpected",
 					data: { name: "" },
 				},
@@ -159,9 +167,10 @@ ruleTester.run("no-dupe-class-members", rule, {
 			code: "class A { [`foo`]() {} [`foo`]() {} }",
 			errors: [
 				{
-					type: "MethodDefinition",
 					line: 1,
-					column: 24,
+					column: 25,
+					endLine: 1,
+					endColumn: 30,
 					messageId: "unexpected",
 					data: { name: "foo" },
 				},
@@ -171,9 +180,10 @@ ruleTester.run("no-dupe-class-members", rule, {
 			code: "class A { static get [`foo`]() {} static get ['foo']() {} }",
 			errors: [
 				{
-					type: "MethodDefinition",
 					line: 1,
-					column: 35,
+					column: 47,
+					endLine: 1,
+					endColumn: 52,
 					messageId: "unexpected",
 					data: { name: "foo" },
 				},
@@ -183,9 +193,10 @@ ruleTester.run("no-dupe-class-members", rule, {
 			code: "class A { foo() {} [`foo`]() {} }",
 			errors: [
 				{
-					type: "MethodDefinition",
 					line: 1,
-					column: 20,
+					column: 21,
+					endLine: 1,
+					endColumn: 26,
 					messageId: "unexpected",
 					data: { name: "foo" },
 				},
@@ -195,9 +206,10 @@ ruleTester.run("no-dupe-class-members", rule, {
 			code: "class A { get [`foo`]() {} 'foo'() {} }",
 			errors: [
 				{
-					type: "MethodDefinition",
 					line: 1,
 					column: 28,
+					endLine: 1,
+					endColumn: 33,
 					messageId: "unexpected",
 					data: { name: "foo" },
 				},
@@ -207,9 +219,10 @@ ruleTester.run("no-dupe-class-members", rule, {
 			code: "class A { static 'foo'() {} static [`foo`]() {} }",
 			errors: [
 				{
-					type: "MethodDefinition",
 					line: 1,
-					column: 29,
+					column: 37,
+					endLine: 1,
+					endColumn: 42,
 					messageId: "unexpected",
 					data: { name: "foo" },
 				},
@@ -219,9 +232,10 @@ ruleTester.run("no-dupe-class-members", rule, {
 			code: "class A { ['constructor']() {} ['constructor']() {} }",
 			errors: [
 				{
-					type: "MethodDefinition",
 					line: 1,
-					column: 32,
+					column: 33,
+					endLine: 1,
+					endColumn: 46,
 					messageId: "unexpected",
 					data: { name: "constructor" },
 				},
@@ -231,9 +245,10 @@ ruleTester.run("no-dupe-class-members", rule, {
 			code: "class A { static [`constructor`]() {} static constructor() {} }",
 			errors: [
 				{
-					type: "MethodDefinition",
 					line: 1,
-					column: 39,
+					column: 46,
+					endLine: 1,
+					endColumn: 57,
 					messageId: "unexpected",
 					data: { name: "constructor" },
 				},
@@ -243,9 +258,10 @@ ruleTester.run("no-dupe-class-members", rule, {
 			code: "class A { static constructor() {} static 'constructor'() {} }",
 			errors: [
 				{
-					type: "MethodDefinition",
 					line: 1,
-					column: 35,
+					column: 42,
+					endLine: 1,
+					endColumn: 55,
 					messageId: "unexpected",
 					data: { name: "constructor" },
 				},
@@ -255,9 +271,10 @@ ruleTester.run("no-dupe-class-members", rule, {
 			code: "class A { [123]() {} [123]() {} }",
 			errors: [
 				{
-					type: "MethodDefinition",
 					line: 1,
-					column: 22,
+					column: 23,
+					endLine: 1,
+					endColumn: 26,
 					messageId: "unexpected",
 					data: { name: "123" },
 				},
@@ -267,9 +284,10 @@ ruleTester.run("no-dupe-class-members", rule, {
 			code: "class A { [0x10]() {} 16() {} }",
 			errors: [
 				{
-					type: "MethodDefinition",
 					line: 1,
 					column: 23,
+					endLine: 1,
+					endColumn: 25,
 					messageId: "unexpected",
 					data: { name: "16" },
 				},
@@ -279,9 +297,10 @@ ruleTester.run("no-dupe-class-members", rule, {
 			code: "class A { [100]() {} [1e2]() {} }",
 			errors: [
 				{
-					type: "MethodDefinition",
 					line: 1,
-					column: 22,
+					column: 23,
+					endLine: 1,
+					endColumn: 26,
 					messageId: "unexpected",
 					data: { name: "100" },
 				},
@@ -291,9 +310,10 @@ ruleTester.run("no-dupe-class-members", rule, {
 			code: "class A { [123.00]() {} [`123`]() {} }",
 			errors: [
 				{
-					type: "MethodDefinition",
 					line: 1,
-					column: 25,
+					column: 26,
+					endLine: 1,
+					endColumn: 31,
 					messageId: "unexpected",
 					data: { name: "123" },
 				},
@@ -303,9 +323,10 @@ ruleTester.run("no-dupe-class-members", rule, {
 			code: "class A { static '65'() {} static [0o101]() {} }",
 			errors: [
 				{
-					type: "MethodDefinition",
 					line: 1,
-					column: 28,
+					column: 36,
+					endLine: 1,
+					endColumn: 41,
 					messageId: "unexpected",
 					data: { name: "65" },
 				},
@@ -316,9 +337,10 @@ ruleTester.run("no-dupe-class-members", rule, {
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [
 				{
-					type: "MethodDefinition",
 					line: 1,
 					column: 23,
+					endLine: 1,
+					endColumn: 26,
 					messageId: "unexpected",
 					data: { name: "123" },
 				},
@@ -328,9 +350,10 @@ ruleTester.run("no-dupe-class-members", rule, {
 			code: "class A { [null]() {} 'null'() {} }",
 			errors: [
 				{
-					type: "MethodDefinition",
 					line: 1,
 					column: 23,
+					endLine: 1,
+					endColumn: 29,
 					messageId: "unexpected",
 					data: { name: "null" },
 				},
@@ -340,16 +363,18 @@ ruleTester.run("no-dupe-class-members", rule, {
 			code: "class A { foo() {} foo() {} foo() {} }",
 			errors: [
 				{
-					type: "MethodDefinition",
 					line: 1,
 					column: 20,
+					endLine: 1,
+					endColumn: 23,
 					messageId: "unexpected",
 					data: { name: "foo" },
 				},
 				{
-					type: "MethodDefinition",
 					line: 1,
 					column: 29,
+					endLine: 1,
+					endColumn: 32,
 					messageId: "unexpected",
 					data: { name: "foo" },
 				},
@@ -359,9 +384,10 @@ ruleTester.run("no-dupe-class-members", rule, {
 			code: "class A { static foo() {} static foo() {} }",
 			errors: [
 				{
-					type: "MethodDefinition",
 					line: 1,
-					column: 27,
+					column: 34,
+					endLine: 1,
+					endColumn: 37,
 					messageId: "unexpected",
 					data: { name: "foo" },
 				},
@@ -371,9 +397,10 @@ ruleTester.run("no-dupe-class-members", rule, {
 			code: "class A { foo() {} get foo() {} }",
 			errors: [
 				{
-					type: "MethodDefinition",
 					line: 1,
-					column: 20,
+					column: 24,
+					endLine: 1,
+					endColumn: 27,
 					messageId: "unexpected",
 					data: { name: "foo" },
 				},
@@ -383,9 +410,10 @@ ruleTester.run("no-dupe-class-members", rule, {
 			code: "class A { set foo(value) {} foo() {} }",
 			errors: [
 				{
-					type: "MethodDefinition",
 					line: 1,
 					column: 29,
+					endLine: 1,
+					endColumn: 32,
 					messageId: "unexpected",
 					data: { name: "foo" },
 				},
@@ -395,9 +423,10 @@ ruleTester.run("no-dupe-class-members", rule, {
 			code: "class A { foo; foo; }",
 			errors: [
 				{
-					type: "PropertyDefinition",
 					line: 1,
 					column: 16,
+					endLine: 1,
+					endColumn: 19,
 					messageId: "unexpected",
 					data: { name: "foo" },
 				},
@@ -503,10 +532,12 @@ ruleTesterTypeScript.run("no-dupe-class-members", rule, {
 		`,
 			errors: [
 				{
-					column: 5,
 					data: { name: "foo" },
-					line: 4,
 					messageId: "unexpected",
+					line: 4,
+					column: 5,
+					endLine: 4,
+					endColumn: 8,
 				},
 			],
 		},
@@ -519,10 +550,12 @@ ruleTesterTypeScript.run("no-dupe-class-members", rule, {
 				`,
 			errors: [
 				{
-					column: 4,
 					data: { name: "foo" },
-					line: 4,
 					messageId: "unexpected",
+					line: 4,
+					column: 4,
+					endLine: 4,
+					endColumn: 7,
 				},
 			],
 		},
@@ -535,10 +568,12 @@ ruleTesterTypeScript.run("no-dupe-class-members", rule, {
 				`,
 			errors: [
 				{
-					column: 4,
 					data: { name: "foo" },
-					line: 4,
 					messageId: "unexpected",
+					line: 4,
+					column: 4,
+					endLine: 4,
+					endColumn: 9,
 				},
 			],
 		},
@@ -551,10 +586,12 @@ ruleTesterTypeScript.run("no-dupe-class-members", rule, {
 				`,
 			errors: [
 				{
-					column: 4,
 					data: { name: "10" },
-					line: 4,
 					messageId: "unexpected",
+					line: 4,
+					column: 4,
+					endLine: 4,
+					endColumn: 7,
 				},
 			],
 		},
@@ -568,16 +605,20 @@ ruleTesterTypeScript.run("no-dupe-class-members", rule, {
 				`,
 			errors: [
 				{
-					column: 4,
 					data: { name: "foo" },
-					line: 4,
 					messageId: "unexpected",
+					line: 4,
+					column: 4,
+					endLine: 4,
+					endColumn: 7,
 				},
 				{
-					column: 4,
 					data: { name: "foo" },
+					messageId: "unexpected",
 					line: 5,
-					messageId: "unexpected",
+					column: 4,
+					endLine: 5,
+					endColumn: 7,
 				},
 			],
 		},
@@ -590,10 +631,12 @@ ruleTesterTypeScript.run("no-dupe-class-members", rule, {
 				`,
 			errors: [
 				{
-					column: 4,
 					data: { name: "foo" },
-					line: 4,
 					messageId: "unexpected",
+					line: 4,
+					column: 11,
+					endLine: 4,
+					endColumn: 14,
 				},
 			],
 		},
@@ -606,10 +649,12 @@ ruleTesterTypeScript.run("no-dupe-class-members", rule, {
 				`,
 			errors: [
 				{
-					column: 4,
 					data: { name: "foo" },
-					line: 4,
 					messageId: "unexpected",
+					line: 4,
+					column: 8,
+					endLine: 4,
+					endColumn: 11,
 				},
 			],
 		},
@@ -622,10 +667,12 @@ ruleTesterTypeScript.run("no-dupe-class-members", rule, {
 				`,
 			errors: [
 				{
-					column: 4,
 					data: { name: "foo" },
-					line: 4,
 					messageId: "unexpected",
+					line: 4,
+					column: 4,
+					endLine: 4,
+					endColumn: 7,
 				},
 			],
 		},
@@ -638,10 +685,12 @@ ruleTesterTypeScript.run("no-dupe-class-members", rule, {
 				`,
 			errors: [
 				{
-					column: 4,
 					data: { name: "foo" },
-					line: 4,
 					messageId: "unexpected",
+					line: 4,
+					column: 4,
+					endLine: 4,
+					endColumn: 7,
 				},
 			],
 		},
@@ -654,10 +703,12 @@ ruleTesterTypeScript.run("no-dupe-class-members", rule, {
 				`,
 			errors: [
 				{
-					column: 4,
 					data: { name: "foo" },
-					line: 4,
 					messageId: "unexpected",
+					line: 4,
+					column: 4,
+					endLine: 4,
+					endColumn: 7,
 				},
 			],
 		},

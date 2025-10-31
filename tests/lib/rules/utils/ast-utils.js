@@ -545,7 +545,7 @@ describe("ast-utils", () => {
 		 * in a loop or not in a loop.
 		 * @param {string} code the code to check.
 		 * @param {string} nodeType the type of the node to consider. The code
-		 *      must have exactly one node of ths type.
+		 *      must have exactly one node of this type.
 		 * @param {boolean} expectedInLoop the expected result for whether the
 		 *      node is in a loop.
 		 * @returns {void}
@@ -2152,12 +2152,12 @@ describe("ast-utils", () => {
 				{
 					nodeA: {
 						type: "Literal",
-						value: /(?:)/u,
+						value: /(?:)/u, // eslint-disable-line regexp/no-empty-group -- Test data for regex comparison
 						regex: { pattern: "(?:)", flags: "u" },
 					},
 					nodeB: {
 						type: "Literal",
-						value: /(?:)/u,
+						value: /(?:)/u, // eslint-disable-line regexp/no-empty-group -- Test data for regex comparison
 						regex: { pattern: "(?:)", flags: "u" },
 					},
 					expected: true,
@@ -2183,7 +2183,7 @@ describe("ast-utils", () => {
 					},
 					nodeB: {
 						type: "Literal",
-						value: /(?:)/, // eslint-disable-line require-unicode-regexp -- Checking non-Unicode regex
+						value: /(?:)/, // eslint-disable-line require-unicode-regexp, regexp/no-empty-group -- Checking non-Unicode regex
 						regex: { pattern: "(?:)", flags: "" },
 					},
 					expected: false,

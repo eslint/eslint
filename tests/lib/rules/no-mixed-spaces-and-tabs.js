@@ -139,7 +139,6 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
 			errors: [
 				{
 					messageId: "mixedSpacesAndTabs",
-					type: "Program",
 					line: 2,
 					column: 1,
 					endLine: 2,
@@ -152,7 +151,6 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
 			errors: [
 				{
 					messageId: "mixedSpacesAndTabs",
-					type: "Program",
 					line: 1,
 					column: 1,
 					endLine: 1,
@@ -165,7 +163,6 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
 			errors: [
 				{
 					messageId: "mixedSpacesAndTabs",
-					type: "Program",
 					line: 1,
 					column: 1,
 					endLine: 1,
@@ -178,7 +175,6 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
 			errors: [
 				{
 					messageId: "mixedSpacesAndTabs",
-					type: "Program",
 					line: 1,
 					column: 1,
 					endLine: 1,
@@ -191,7 +187,6 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
 			errors: [
 				{
 					messageId: "mixedSpacesAndTabs",
-					type: "Program",
 					line: 1,
 					column: 1,
 					endLine: 1,
@@ -204,7 +199,6 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
 			errors: [
 				{
 					messageId: "mixedSpacesAndTabs",
-					type: "Program",
 					line: 1,
 					column: 1,
 					endLine: 1,
@@ -217,7 +211,6 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
 			errors: [
 				{
 					messageId: "mixedSpacesAndTabs",
-					type: "Program",
 					line: 2,
 					column: 1,
 					endLine: 2,
@@ -230,7 +223,6 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
 			errors: [
 				{
 					messageId: "mixedSpacesAndTabs",
-					type: "Program",
 					line: 1,
 					column: 1,
 					endLine: 1,
@@ -238,7 +230,6 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
 				},
 				{
 					messageId: "mixedSpacesAndTabs",
-					type: "Program",
 					line: 3,
 					column: 1,
 					endLine: 3,
@@ -252,7 +243,6 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
 			errors: [
 				{
 					messageId: "mixedSpacesAndTabs",
-					type: "Program",
 					line: 2,
 					column: 2,
 					endLine: 2,
@@ -266,7 +256,6 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
 			errors: [
 				{
 					messageId: "mixedSpacesAndTabs",
-					type: "Program",
 					line: 2,
 					column: 2,
 					endLine: 2,
@@ -281,7 +270,6 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
 			errors: [
 				{
 					messageId: "mixedSpacesAndTabs",
-					type: "Program",
 					line: 2,
 					column: 1,
 					endLine: 2,
@@ -295,7 +283,6 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
 			errors: [
 				{
 					messageId: "mixedSpacesAndTabs",
-					type: "Program",
 					line: 2,
 					column: 1,
 					endLine: 2,
@@ -308,7 +295,6 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
 			errors: [
 				{
 					messageId: "mixedSpacesAndTabs",
-					type: "Program",
 					line: 1,
 					column: 2,
 					endLine: 1,
@@ -321,7 +307,6 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
 			errors: [
 				{
 					messageId: "mixedSpacesAndTabs",
-					type: "Program",
 					line: 2,
 					column: 1,
 					endLine: 2,
@@ -334,7 +319,6 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
 			errors: [
 				{
 					messageId: "mixedSpacesAndTabs",
-					type: "Program",
 					line: 1,
 					column: 3,
 					endLine: 1,
@@ -347,7 +331,6 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
 			errors: [
 				{
 					messageId: "mixedSpacesAndTabs",
-					type: "Program",
 					line: 1,
 					column: 3,
 					endLine: 1,
@@ -361,7 +344,6 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
 			errors: [
 				{
 					messageId: "mixedSpacesAndTabs",
-					type: "Program",
 					line: 1,
 					column: 2,
 					endLine: 1,
@@ -375,7 +357,6 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
 			errors: [
 				{
 					messageId: "mixedSpacesAndTabs",
-					type: "Program",
 					line: 1,
 					column: 6,
 					endLine: 1,

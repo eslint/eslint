@@ -24,7 +24,15 @@ ruleTester.run("no-debugger", rule, {
 		{
 			code: "if (foo) debugger",
 			output: null,
-			errors: [{ messageId: "unexpected", type: "DebuggerStatement" }],
+			errors: [
+				{
+					messageId: "unexpected",
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 18,
+				},
+			],
 		},
 	],
 });

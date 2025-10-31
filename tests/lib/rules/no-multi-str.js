@@ -37,7 +37,6 @@ ruleTester.run("no-multi-str", rule, {
 			errors: [
 				{
 					messageId: "multilineString",
-					type: "Literal",
 				},
 			],
 		},
@@ -46,7 +45,6 @@ ruleTester.run("no-multi-str", rule, {
 			errors: [
 				{
 					messageId: "multilineString",
-					type: "Literal",
 				},
 			],
 		},
@@ -55,7 +53,6 @@ ruleTester.run("no-multi-str", rule, {
 			errors: [
 				{
 					messageId: "multilineString",
-					type: "Literal",
 				},
 			],
 		},
@@ -64,7 +61,6 @@ ruleTester.run("no-multi-str", rule, {
 			errors: [
 				{
 					messageId: "multilineString",
-					type: "Literal",
 				},
 			],
 		},
@@ -73,7 +69,6 @@ ruleTester.run("no-multi-str", rule, {
 			errors: [
 				{
 					messageId: "multilineString",
-					type: "Literal",
 				},
 			],
 		},

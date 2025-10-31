@@ -24,7 +24,11 @@ ruleTester.run("no-negated-in-lhs", rule, {
 	invalid: [
 		{
 			code: "!a in b",
-			errors: [{ messageId: "negatedLHS", type: "BinaryExpression" }],
+			errors: [
+				{
+					messageId: "negatedLHS",
+				},
+			],
 		},
 	],
 });

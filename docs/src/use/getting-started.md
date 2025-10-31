@@ -95,7 +95,7 @@ The three error levels allow you fine-grained control over how ESLint applies ru
 
 ## Global Install
 
-It is also possible to install ESLint globally, rather than locally, using `npm install eslint --global`. However, this is not recommended, and any plugins or shareable configs that you use must still be installed locally if you install ESLint globally.
+It is also possible to install ESLint globally, rather than locally, using `npm install eslint --global`. However, this is not recommended, and any plugins or shareable configs that you use must still be installed locally even if you install ESLint globally.
 
 ## Manual Set Up
 

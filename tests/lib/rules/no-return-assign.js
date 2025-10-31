@@ -71,33 +71,43 @@ ruleTester.run("no-return-assign", rule, {
 		{
 			code: "function x() { return result = a * b; };",
 			errors: [
-				{ messageId: "returnAssignment", type: "ReturnStatement" },
+				{
+					messageId: "returnAssignment",
+				},
 			],
 		},
 		{
 			code: "function x() { return (result) = (a * b); };",
 			errors: [
-				{ messageId: "returnAssignment", type: "ReturnStatement" },
+				{
+					messageId: "returnAssignment",
+				},
 			],
 		},
 		{
 			code: "function x() { return result = a * b; };",
 			options: ["except-parens"],
 			errors: [
-				{ messageId: "returnAssignment", type: "ReturnStatement" },
+				{
+					messageId: "returnAssignment",
+				},
 			],
 		},
 		{
 			code: "function x() { return (result) = (a * b); };",
 			options: ["except-parens"],
 			errors: [
-				{ messageId: "returnAssignment", type: "ReturnStatement" },
+				{
+					messageId: "returnAssignment",
+				},
 			],
 		},
 		{
 			code: "() => { return result = a * b; }",
 			errors: [
-				{ messageId: "returnAssignment", type: "ReturnStatement" },
+				{
+					messageId: "returnAssignment",
+				},
 			],
 		},
 		{
@@ -105,7 +115,6 @@ ruleTester.run("no-return-assign", rule, {
 			errors: [
 				{
 					messageId: "arrowAssignment",
-					type: "ArrowFunctionExpression",
 				},
 			],
 		},
@@ -113,21 +122,27 @@ ruleTester.run("no-return-assign", rule, {
 			code: "function x() { return result = a * b; };",
 			options: ["always"],
 			errors: [
-				{ messageId: "returnAssignment", type: "ReturnStatement" },
+				{
+					messageId: "returnAssignment",
+				},
 			],
 		},
 		{
 			code: "function x() { return (result = a * b); };",
 			options: ["always"],
 			errors: [
-				{ messageId: "returnAssignment", type: "ReturnStatement" },
+				{
+					messageId: "returnAssignment",
+				},
 			],
 		},
 		{
 			code: "function x() { return result || (result = a * b); };",
 			options: ["always"],
 			errors: [
-				{ messageId: "returnAssignment", type: "ReturnStatement" },
+				{
+					messageId: "returnAssignment",
+				},
 			],
 		},
 		{
@@ -135,7 +150,9 @@ ruleTester.run("no-return-assign", rule, {
                 return a = b
             }`,
 			errors: [
-				{ messageId: "returnAssignment", type: "ReturnStatement" },
+				{
+					messageId: "returnAssignment",
+				},
 			],
 		},
 		{
@@ -143,7 +160,9 @@ ruleTester.run("no-return-assign", rule, {
                 return foo = bar && foo > 0;
             }`,
 			errors: [
-				{ messageId: "returnAssignment", type: "ReturnStatement" },
+				{
+					messageId: "returnAssignment",
+				},
 			],
 		},
 		{
@@ -153,7 +172,9 @@ ruleTester.run("no-return-assign", rule, {
                 }
             }`,
 			errors: [
-				{ messageId: "returnAssignment", type: "ReturnStatement" },
+				{
+					messageId: "returnAssignment",
+				},
 			],
 		},
 		{
@@ -164,7 +185,6 @@ ruleTester.run("no-return-assign", rule, {
 			errors: [
 				{
 					messageId: "returnAssignment",
-					type: "ReturnStatement",
 				},
 			],
 		},
@@ -176,7 +196,6 @@ ruleTester.run("no-return-assign", rule, {
 			errors: [
 				{
 					messageId: "arrowAssignment",
-					type: "ArrowFunctionExpression",
 				},
 			],
 		},
@@ -187,7 +206,9 @@ ruleTester.run("no-return-assign", rule, {
                 }
             }`,
 			errors: [
-				{ messageId: "returnAssignment", type: "ReturnStatement" },
+				{
+					messageId: "returnAssignment",
+				},
 			],
 		},
 		{
@@ -196,7 +217,6 @@ ruleTester.run("no-return-assign", rule, {
 			errors: [
 				{
 					messageId: "arrowAssignment",
-					type: "ArrowFunctionExpression",
 				},
 			],
 		},

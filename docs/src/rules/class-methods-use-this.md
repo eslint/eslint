@@ -8,7 +8,7 @@ further_reading:
 
 [Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes) are often used to encapsulate reusable logic, especially stateful logic, into an object where each instance's state is accessed via `this`. When an API is written with an instance method, it signals to consumers:
 
-- The method's outcome is related to the object on which it's invoked, including possibly its state.
+If a class method does not use `this`, it can *sometimes* be made into a static function. If you do convert the method into a static function, instances of the class that call that particular method have to be converted to a static call as well (`MyClass.callStaticMethod()`).
 
 	```js
 	const array1 = [1, 2, 3];

@@ -8,16 +8,16 @@ Unlike statically-typed languages which enforce that a function returns a specif
 
 A confusing aspect of JavaScript is that a function returns `undefined` if any of the following are true:
 
-* it does not execute a `return` statement before it exits
-* it executes `return` which does not specify a value explicitly
-* it executes `return undefined`
-* it executes `return void` followed by an expression (for example, a function call)
-* it executes `return` followed by any other expression which evaluates to `undefined`
+* It does not execute a `return` statement before it exits.
+* It executes `return` which does not specify a value explicitly.
+* It executes `return undefined`.
+* It executes `return void` followed by an expression (for example, a function call).
+* It executes `return` followed by any other expression which evaluates to `undefined`.
 
 If any code paths in a function return a value explicitly but some code path do not return a value explicitly, it might be a typing mistake, especially in a large function. In the following example:
 
-* a code path through the function returns a Boolean value `true`
-* another code path does not return a value explicitly, therefore returns `undefined` implicitly
+* A code path through the function returns a Boolean value `true`.
+* Another code path does not return a value explicitly, therefore returns `undefined` implicitly.
 
 ```js
 function doSomething(condition) {

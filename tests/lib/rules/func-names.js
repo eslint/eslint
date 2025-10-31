@@ -290,7 +290,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 21,
 					endColumn: 29,
@@ -302,7 +301,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 2,
 					endColumn: 10,
@@ -314,7 +312,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 3,
 					endColumn: 11,
@@ -326,7 +323,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 18,
 					endColumn: 26,
@@ -338,7 +334,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 12,
 					endColumn: 20,
@@ -350,7 +345,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 5,
 					endColumn: 13,
@@ -363,7 +357,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 21,
 					endColumn: 29,
@@ -376,7 +369,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 2,
 					endColumn: 10,
@@ -389,7 +381,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 3,
 					endColumn: 11,
@@ -402,7 +393,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 18,
 					endColumn: 26,
@@ -415,7 +405,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 5,
 					endColumn: 13,
@@ -429,7 +418,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 13,
 					endColumn: 21,
@@ -443,7 +431,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 18,
 					endColumn: 26,
@@ -457,7 +444,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 13,
 					endColumn: 21,
@@ -471,7 +457,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 16,
 					endColumn: 24,
@@ -485,7 +470,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 22,
 					endColumn: 30,
@@ -499,7 +483,6 @@ ruleTester.run("func-names", rule, {
 				{
 					messageId: "named",
 					data: { name: "function 'foo'" },
-					type: "FunctionExpression",
 					line: 1,
 					column: 9,
 					endColumn: 21,
@@ -513,7 +496,6 @@ ruleTester.run("func-names", rule, {
 				{
 					messageId: "named",
 					data: { name: "function 'foo'" },
-					type: "FunctionExpression",
 					line: 1,
 					column: 21,
 					endColumn: 33,
@@ -527,7 +509,6 @@ ruleTester.run("func-names", rule, {
 				{
 					messageId: "named",
 					data: { name: "method 'foo'" },
-					type: "FunctionExpression",
 					line: 1,
 					column: 3,
 					endColumn: 20,
@@ -543,7 +524,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionDeclaration",
 					column: 16,
 					endColumn: 24,
 				},
@@ -556,7 +536,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionDeclaration",
 					column: 16,
 					endColumn: 24,
 				},
@@ -569,7 +548,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					column: 17,
 					endColumn: 25,
 				},
@@ -584,7 +562,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 15,
 					endColumn: 25,
@@ -598,7 +575,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 11,
 					endColumn: 20,
@@ -612,7 +588,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 2,
 					endColumn: 11,
@@ -626,7 +601,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 15,
 					endColumn: 25,
@@ -640,7 +614,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 11,
 					endColumn: 20,
@@ -654,7 +627,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 2,
 					endColumn: 11,
@@ -668,7 +640,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 15,
 					endColumn: 25,
@@ -682,7 +653,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 2,
 					endColumn: 11,
@@ -696,7 +666,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 15,
 					endColumn: 25,
@@ -710,7 +679,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 2,
 					endColumn: 11,
@@ -724,7 +692,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 15,
 					endColumn: 25,
@@ -738,7 +705,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 11,
 					endColumn: 20,
@@ -752,7 +718,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 2,
 					endColumn: 11,
@@ -766,7 +731,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 15,
 					endColumn: 25,
@@ -780,7 +744,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 2,
 					endColumn: 11,
@@ -794,7 +757,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 15,
 					endColumn: 25,
@@ -808,7 +770,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 11,
 					endColumn: 20,
@@ -822,7 +783,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 2,
 					endColumn: 11,
@@ -836,7 +796,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 15,
 					endColumn: 25,
@@ -850,7 +809,6 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
-					type: "FunctionExpression",
 					line: 1,
 					column: 2,
 					endColumn: 11,
@@ -866,7 +824,6 @@ ruleTester.run("func-names", rule, {
 				{
 					messageId: "named",
 					data: { name: "generator function 'baz'" },
-					type: "FunctionExpression",
 					line: 1,
 					column: 15,
 					endColumn: 28,
@@ -881,7 +838,6 @@ ruleTester.run("func-names", rule, {
 				{
 					messageId: "named",
 					data: { name: "generator function 'baz'" },
-					type: "FunctionExpression",
 					line: 1,
 					column: 15,
 					endColumn: 28,
@@ -896,7 +852,6 @@ ruleTester.run("func-names", rule, {
 				{
 					messageId: "named",
 					data: { name: "generator function 'baz'" },
-					type: "FunctionExpression",
 					line: 1,
 					column: 15,
 					endColumn: 28,
@@ -911,7 +866,6 @@ ruleTester.run("func-names", rule, {
 				{
 					messageId: "named",
 					data: { name: "generator function 'baz'" },
-					type: "FunctionExpression",
 					line: 1,
 					column: 15,
 					endColumn: 28,

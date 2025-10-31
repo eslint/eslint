@@ -133,12 +133,10 @@ const NO_BREAK = "var greet = 'hello';console.log(greet);",
 
 const ALWAYS_ERROR = {
 	messageId: "expected",
-	type: "VariableDeclaration",
 };
 
 const NEVER_ERROR = {
 	messageId: "unexpected",
-	type: "VariableDeclaration",
 };
 
 //------------------------------------------------------------------------------

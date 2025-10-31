@@ -52,18 +52,25 @@ ruleTester.run("no-new-object", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "NewExpression",
 				},
 			],
 		},
 		{
 			code: "new Object();",
-			errors: [{ messageId: "preferLiteral", type: "NewExpression" }],
+			errors: [
+				{
+					messageId: "preferLiteral",
+				},
+			],
 		},
 		{
 			code: "const a = new Object()",
 			languageOptions: { ecmaVersion: 6 },
-			errors: [{ messageId: "preferLiteral", type: "NewExpression" }],
+			errors: [
+				{
+					messageId: "preferLiteral",
+				},
+			],
 		},
 	],
 });
