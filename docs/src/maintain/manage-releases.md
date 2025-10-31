@@ -97,6 +97,43 @@ In general, we try not to do emergency releases. Even if there is a regression, 
 
 The only real exception is if ESLint is completely unusable by most of the current users. For instance, we once pushed a release that errored for everyone because it was missing some core files. In that case, an emergency release is appropriate.
 
+## Major Releases
+
+This section describes additional tasks that should be done in eslint repositories and/or release infrastructure during a major release cycle. A major release cycle includes prereleases and the final release of a new major version of ESLint.
+
+For simplicity, let v9.x be the current version, and v10.0.0 the new major version.
+
+The following branches in the `eslint/eslint` repository are of importance for this release cycle:
+
+- `main`: All the latest development always happens on this branch, and that also applies to major release cycles. This means that breaking changes should be merged into this branch, along with new features, bug fixes and everything else we usually merge into this branch. Prerelease versions and the final major version will be published from this branch.
+- `next`: Branch for the latest prerelease documentation (`https://eslint.org/docs/next/`). This branch is automatically updated during the release process.
+- `v9.x-dev`: Branch for v9.x maintenance. This branch starts from the last v9.x release commit before the first v10 prerelease. All new v9.x versions (if needed) will be published from this branch.
+- `v9.x`: Branch for the ESLint v9.x documentation (`https://eslint.org/docs/v9.x/`). This branch is automatically updated during the release process. Note that this branch is needed only after the final v10.0.0 release. Until then, v9.x is still the latest version, and the documentation branch for it is `latest` (`https://eslint.org/docs/latest/`).
+
+### First Prerelease
+
+Work on the first prerelease (`alpha.0`) starts when the last planned v9.x release is concluded:
+
+- On Jenkins, check if the installed version of Node.js satisfies requirements of the new major version of ESLint. If not, install a new version of Node.js.
+- In the `eslint/eslint.org` repository, submit a PR to set `upcomingVersionPrereleaseType = "alpha"` in `tools/release-data.js`. This is to announce the prerelease in the version list on the `https://eslint.org/` homepage. The PR can be merged as soon as it is approved.
+- In the `eslint/eslint.org` repository, submit a PR to enable `/docs/next/*` proxying in `static/redirects.njk`. The PR should be reviewed and approved in time, but merged right after ESLint 10.0.0-alpha.0 is released.
+- In the `eslint/eslint` repository, submit a PR to add `legacy-peer-deps = true` in the `.npmrc` file. This is to ensure that `npm install` works in CI and locally for developers after the prerelease, because some dependencies (e.g., `@eslint-community/eslint-utils`) have `eslint` declared as a peer dependency with a range that prerelease versions like `10.0.0-alpha.0` don't satisfy. The PR can be merged as soon as it is approved.
+- In the `eslint/eslint` repository, submit a PR to update ranges for `@eslint/js` and `eslint` in `packages/eslint-config-eslint/package.json` to include v10 and its prereleases. This is to ensure that the corresponding version of `@eslint/js` is used when linting. The PR can be merged as soon as it is approved.
+
+In this phase, we should also prepare infrastructure for v9.x maintenance:
+
+- In the `eslint/eslint` repository, create `v9.x-dev` branch that points to the latest release commit (e.g., to the `9.39.0` commit). On the Branches page, check if the branch is protected (it should already be, as its name matches a predefined pattern in branch protection rules).
+- On Netlify, open the `docs-eslint` project, and under `Project Configuration > Build & Deploy > Continuous deployment` find `Branches and deploy contexts`. Add `v9.x-dev` to `Branch deploys`. This is to enable deploy previews on PRs that target the `v9.x-dev` branch. While there, check if the `next` branch is also included in `Branch deploys` (it should already be).
+- On Jenkins, in configurations for the `eslint Release` and `eslint-js Release` jobs, add `v9.x-dev` to the list of choices for the `RELEASE_BRANCH` parameter.
+
+### Subsequent Prereleases
+
+- When it is expected that the next planned prerelease will advance from `alpha` to `beta`, or from `beta` to `rc`, in the `eslint/eslint.org` repository submit a PR to update `upcomingVersionPrereleaseType` in `tools/release-data.js` accordingly. The PR can be merged as soon as it is approved.
+
+### Final Release
+
+TODO
+
 ## Troubleshooting
 
 ### `npm publish` returns a 404
