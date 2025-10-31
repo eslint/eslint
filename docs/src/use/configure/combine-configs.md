@@ -11,7 +11,7 @@ In many cases, you won't write an ESLint config file from scratch, but rather, y
 
 ## Apply a Config Object
 
-If you are importing a [config object](../core-concepts/glossary#config-object) from another module, you can apply a config object to just a subset of files by creating a new object with a `files` key and using the `extends` key to merge in the rest of the properties from the config object. For example:
+If you are importing a [config object](../core-concepts/glossary#config-object) from another module, you can apply it to just a subset of files by creating a new object with a `files` key and using the `extends` key to merge in the rest of the properties from the imported object. For example:
 
 ```js
 // eslint.config.js
