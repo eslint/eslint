@@ -449,4 +449,4 @@ class Derived implements Base {
 ## When Not To Use It
 
 Fixing violations of this rule almost always is a breaking change, since it requires a change at every usage of the affected method.
-Therefore, if your project has downstream consumers you cannot break, or you simply do not wish to make invasive changes to every call site of a method, it likely does not make sense to address violations of this rule.
+Therefore, if your project has downstream consumers you cannot break, or you do not wish to make invasive changes to every call site of a method, it likely does not make sense to address violations of this rule.
