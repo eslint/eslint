@@ -6,7 +6,7 @@ further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static
 ---
 
-[Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes) are often used to encapsulate reusable logic, especially stateful logic, into an object, where each instance's state is accessed via `this`. When an API is written with an instance method, it signals to consumers:
+[Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes) are often used to encapsulate reusable logic, especially stateful logic, into an object where each instance's state is accessed via `this`. When an API is written with an instance method, it signals to consumers:
 
 - The method's outcome is related to the object on which it's invoked, including possibly its state.
 
