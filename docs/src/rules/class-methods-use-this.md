@@ -68,7 +68,7 @@ Person.sayHi(); // => "Hi!"
 // person.sayHi();
 ```
 
-Of course, it's also possible the author simply forgot to use some piece of instance data that they intended to include.
+It's also possible the author forgot to use some piece of instance data that they intended to include.
 
 ```js
 class Person {
