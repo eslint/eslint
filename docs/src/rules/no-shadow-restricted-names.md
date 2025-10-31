@@ -83,11 +83,11 @@ import { undefined as undef } from "bar";
 
 This rule has an object option:
 
-* `"reportGlobalThis"`: `true` (default `false`) reports declarations of `globalThis`.
+* `"reportGlobalThis"`: `true` (default) reports declarations of `globalThis`.
 
 ### reportGlobalThis
 
-Examples of **incorrect** code for the `{ "reportGlobalThis": true }` option:
+Examples of **incorrect** code for the default `{ "reportGlobalThis": true }` option:
 
 ::: incorrect
 
@@ -129,7 +129,7 @@ class globalThis {}
 
 :::
 
-Examples of **correct** code for the `{ "reportGlobalThis": true }` option:
+Examples of **correct** code for the default `{ "reportGlobalThis": true }` option:
 
 ::: correct
 
@@ -143,6 +143,48 @@ function bar() {
 }
 
 import { globalThis as baz } from "foo";
+```
+
+:::
+
+Examples of **correct** code for the `{ "reportGlobalThis": false }` option:
+
+::: correct
+
+```js
+/*eslint no-shadow-restricted-names: ["error", { "reportGlobalThis": false }]*/
+
+const globalThis = "foo";
+```
+
+:::
+
+::: correct
+
+```js
+/*eslint no-shadow-restricted-names: ["error", { "reportGlobalThis": false }]*/
+
+function globalThis() {}
+```
+
+:::
+
+::: correct
+
+```js
+/*eslint no-shadow-restricted-names: ["error", { "reportGlobalThis": false }]*/
+
+import { globalThis } from "bar";
+```
+
+:::
+
+::: correct
+
+```js
+/*eslint no-shadow-restricted-names: ["error", { "reportGlobalThis": false }]*/
+
+class globalThis {}
 ```
 
 :::
