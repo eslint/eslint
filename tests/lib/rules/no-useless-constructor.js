@@ -53,6 +53,10 @@ ruleTester.run("no-useless-constructor", rule, {
 			errors: [
 				{
 					...error,
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 22,
 					suggestions: [
 						{
 							messageId: "removeConstructor",
@@ -67,6 +71,10 @@ ruleTester.run("no-useless-constructor", rule, {
 			errors: [
 				{
 					...error,
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 24,
 					suggestions: [
 						{
 							messageId: "removeConstructor",
@@ -81,6 +89,10 @@ ruleTester.run("no-useless-constructor", rule, {
 			errors: [
 				{
 					...error,
+					line: 1,
+					column: 21,
+					endLine: 1,
+					endColumn: 32,
 					suggestions: [
 						{
 							messageId: "removeConstructor",
@@ -95,6 +107,10 @@ ruleTester.run("no-useless-constructor", rule, {
 			errors: [
 				{
 					...error,
+					line: 1,
+					column: 21,
+					endLine: 1,
+					endColumn: 32,
 					suggestions: [
 						{
 							messageId: "removeConstructor",
@@ -109,6 +125,10 @@ ruleTester.run("no-useless-constructor", rule, {
 			errors: [
 				{
 					...error,
+					line: 1,
+					column: 21,
+					endLine: 1,
+					endColumn: 32,
 					suggestions: [
 						{
 							messageId: "removeConstructor",
@@ -123,6 +143,10 @@ ruleTester.run("no-useless-constructor", rule, {
 			errors: [
 				{
 					...error,
+					line: 1,
+					column: 21,
+					endLine: 1,
+					endColumn: 32,
 					suggestions: [
 						{
 							messageId: "removeConstructor",
@@ -137,6 +161,10 @@ ruleTester.run("no-useless-constructor", rule, {
 			errors: [
 				{
 					...error,
+					line: 1,
+					column: 23,
+					endLine: 1,
+					endColumn: 34,
 					suggestions: [
 						{
 							messageId: "removeConstructor",
@@ -151,6 +179,10 @@ ruleTester.run("no-useless-constructor", rule, {
 			errors: [
 				{
 					...error,
+					line: 1,
+					column: 21,
+					endLine: 1,
+					endColumn: 32,
 					suggestions: [
 						{
 							messageId: "removeConstructor",
@@ -165,6 +197,10 @@ ruleTester.run("no-useless-constructor", rule, {
 			errors: [
 				{
 					...error,
+					line: 1,
+					column: 21,
+					endLine: 1,
+					endColumn: 32,
 					suggestions: [
 						{
 							messageId: "removeConstructor",
@@ -185,6 +221,10 @@ ruleTester.run("no-useless-constructor", rule, {
 			errors: [
 				{
 					...error,
+					line: 3,
+					column: 3,
+					endLine: 3,
+					endColumn: 14,
 					suggestions: [
 						{
 							messageId: "removeConstructor",
@@ -328,6 +368,10 @@ ruleTesterTypeScript.run("no-useless-constructor", rule, {
 			errors: [
 				{
 					messageId: "noUselessConstructor",
+					line: 3,
+					column: 17,
+					endLine: 3,
+					endColumn: 28,
 					suggestions: [
 						{
 							messageId: "removeConstructor",
@@ -350,6 +394,10 @@ ruleTesterTypeScript.run("no-useless-constructor", rule, {
 			errors: [
 				{
 					messageId: "noUselessConstructor",
+					line: 3,
+					column: 17,
+					endLine: 3,
+					endColumn: 35,
 					suggestions: [
 						{
 							messageId: "removeConstructor",
