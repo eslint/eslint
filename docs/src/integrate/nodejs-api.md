@@ -890,6 +890,12 @@ ruleTester.run("my-rule", rule, {
 			errors: [{ message: /^Unexpected.+variable/ }],
 		},
 	],
+
+	assertionOptions: {
+		// optional
+		requireMessage: true,
+		requireLocation: false,
+	},
 });
 ```
 
@@ -908,6 +914,7 @@ The `RuleTester#run()` method is used to run the tests. It should be passed the 
 - The name of the rule (string).
 - The rule object itself (see ["working with rules"](../extend/custom-rules)).
 - An object containing `valid` and `invalid` properties, each of which is an array containing test cases.
+    - You can also configure optional `assertionOptions`, if you wish to enforce consistency regarding your checks.
 
 A test case is an object with the following properties:
 
@@ -947,6 +954,11 @@ Any additional properties of a test case will be passed directly to the linter a
 ```
 
 If a valid test case only uses the `code` property, it can optionally be provided as a string containing the code, rather than an object with a `code` key.
+
+You can optionally configure the following `assertionOptions`, these apply to all error assertions in that call:
+
+- `requireMessage` (boolean/"message"/"messageId", optional): If true, the `errors` block must check the expected error message, either via a string in the `errors` array, or via `message`/`messageId` in an errors object. `"message"`/`"messageId"` can be used to further limit the message assertions to the respective versions.
+- `requireLocation` (boolean, optional): If true, the `errors` block must be an array of objects, that each check all location properties `line`, `column`, `endLine`, `endColumn`, the later may be omitted, if the error does not contain them.
 
 ### Testing Errors with `messageId`
 
