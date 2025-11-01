@@ -5338,4 +5338,633 @@ describe("RuleTester", () => {
 			sinon.assert.neverCalledWith(spyRuleTesterDescribe, "invalid");
 		});
 	});
+
+	describe("AssertionOptions", () => {
+		describe("requireMessage", () => {
+			describe("unset", () => {
+				const assertionOptions = {};
+				it("should allow shorthand", () => {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "eval(foo)",
+									errors: 1,
+								},
+							],
+						},
+					);
+				});
+
+				it("should pass if message array is used", () => {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "eval(foo)",
+									errors: ["eval sucks."],
+								},
+							],
+						},
+					);
+				});
+			});
+
+			describe("false", () => {
+				const assertionOptions = { requireMessage: false };
+				it("should allow shorthand", () => {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "eval(foo)",
+									errors: 1,
+								},
+							],
+						},
+					);
+				});
+
+				it("should pass if message array is used", () => {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "eval(foo)",
+									errors: ["eval sucks."],
+								},
+							],
+						},
+					);
+				});
+			});
+
+			describe("true", () => {
+				const assertionOptions = { requireMessage: true };
+				it("should fail shorthand", () => {
+					assert.throws(() => {
+						ruleTester.run(
+							"no-eval",
+							require("../../fixtures/testers/rule-tester/no-eval"),
+							{
+								assertionOptions,
+								valid: [],
+								invalid: [
+									{
+										code: "eval(foo)",
+										errors: 1,
+									},
+								],
+							},
+						);
+					}, "Invalid cases must have 'errors' value as an array");
+				});
+
+				it("should pass if message array is used", () => {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "eval(foo)",
+									errors: ["eval sucks."],
+								},
+							],
+						},
+					);
+				});
+
+				it("should fail if message is missing", () => {
+					assert.throws(() => {
+						ruleTester.run(
+							"no-eval",
+							require("../../fixtures/testers/rule-tester/no-eval"),
+							{
+								assertionOptions,
+								valid: [],
+								invalid: [
+									{
+										code: "eval(foo)",
+										errors: [
+											{
+												line: 1,
+											},
+										],
+									},
+								],
+							},
+						);
+					}, "Test error must specify either a 'messageId' or 'message'.");
+				});
+
+				it("should pass if message is present", () => {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "eval(foo)",
+									errors: [
+										{
+											message: "eval sucks.",
+										},
+									],
+								},
+							],
+						},
+					);
+				});
+
+				it("should pass if messageId is present", () => {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "eval(foo)",
+									errors: [
+										{
+											messageId: "evalSucks",
+										},
+									],
+								},
+							],
+						},
+					);
+				});
+			});
+
+			describe("message", () => {
+				const assertionOptions = { requireMessage: "message" };
+				it("should fail shorthand", () => {
+					assert.throws(() => {
+						ruleTester.run(
+							"no-eval",
+							require("../../fixtures/testers/rule-tester/no-eval"),
+							{
+								assertionOptions,
+								valid: [],
+								invalid: [
+									{
+										code: "eval(foo)",
+										errors: 1,
+									},
+								],
+							},
+						);
+					}, "Invalid cases must have 'errors' value as an array");
+				});
+
+				it("should pass if message array is used", () => {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "eval(foo)",
+									errors: ["eval sucks."],
+								},
+							],
+						},
+					);
+				});
+
+				it("should fail if message is missing", () => {
+					assert.throws(() => {
+						ruleTester.run(
+							"no-eval",
+							require("../../fixtures/testers/rule-tester/no-eval"),
+							{
+								assertionOptions,
+								valid: [],
+								invalid: [
+									{
+										code: "eval(foo)",
+										errors: [
+											{
+												line: 1,
+											},
+										],
+									},
+								],
+							},
+						);
+					}, "Test error must specify either a 'messageId' or 'message'.");
+				});
+
+				it("should pass if message is present", () => {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "eval(foo)",
+									errors: [
+										{
+											message: "eval sucks.",
+										},
+									],
+								},
+							],
+						},
+					);
+				});
+
+				it("should fail if messageId is present", () => {
+					assert.throws(() => {
+						ruleTester.run(
+							"no-eval",
+							require("../../fixtures/testers/rule-tester/no-eval"),
+							{
+								assertionOptions,
+								valid: [],
+								invalid: [
+									{
+										code: "eval(foo)",
+										errors: [
+											{
+												messageId: "evalSucks",
+											},
+										],
+									},
+								],
+							},
+						);
+					}, "The test run requires 'message' but the error uses 'messageId'.");
+				});
+			});
+
+			describe("messageId", () => {
+				const assertionOptions = { requireMessage: "messageId" };
+				it("should fail shorthand", () => {
+					assert.throws(() => {
+						ruleTester.run(
+							"no-eval",
+							require("../../fixtures/testers/rule-tester/no-eval"),
+							{
+								assertionOptions,
+								valid: [],
+								invalid: [
+									{
+										code: "eval(foo)",
+										errors: 1,
+									},
+								],
+							},
+						);
+					}, "Invalid cases must have 'errors' value as an array");
+				});
+
+				it("should fail if message array is used", () => {
+					assert.throws(() => {
+						ruleTester.run(
+							"no-eval",
+							require("../../fixtures/testers/rule-tester/no-eval"),
+							{
+								assertionOptions,
+								valid: [],
+								invalid: [
+									{
+										code: "eval(foo)",
+										errors: ["eval sucks."],
+									},
+								],
+							},
+						);
+					}, "Errors must use an object as the 'messageId' property '{ messageId: 'your.message' }' is required.");
+				});
+
+				it("should fail if message and messageId are missing", () => {
+					assert.throws(() => {
+						ruleTester.run(
+							"no-eval",
+							require("../../fixtures/testers/rule-tester/no-eval"),
+							{
+								assertionOptions,
+								valid: [],
+								invalid: [
+									{
+										code: "eval(foo)",
+										errors: [
+											{
+												line: 1,
+											},
+										],
+									},
+								],
+							},
+						);
+					}, "Test error must specify either a 'messageId' or 'message'.");
+				});
+
+				it("should fail if message is present", () => {
+					assert.throws(() => {
+						ruleTester.run(
+							"no-eval",
+							require("../../fixtures/testers/rule-tester/no-eval"),
+							{
+								assertionOptions,
+								valid: [],
+								invalid: [
+									{
+										code: "eval(foo)",
+										errors: [
+											{
+												message: "eval sucks.",
+											},
+										],
+									},
+								],
+							},
+						);
+					}, "The test run requires 'messageId' but the error uses 'message'.");
+				});
+
+				it("should pass if messageId is present", () => {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "eval(foo)",
+									errors: [
+										{
+											messageId: "evalSucks",
+										},
+									],
+								},
+							],
+						},
+					);
+				});
+			});
+		});
+
+		describe("requireLocation", () => {
+			describe("unset", () => {
+				it("should allow shorthand", () => {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						{
+							assertionOptions: {},
+							valid: [],
+							invalid: [
+								{
+									code: "eval(foo)",
+									errors: 1,
+								},
+							],
+						},
+					);
+				});
+			});
+
+			describe("false", () => {
+				it("should allow shorthand", () => {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						{
+							assertionOptions: { requireLocation: false },
+							valid: [],
+							invalid: [
+								{
+									code: "eval(foo)",
+									errors: 1,
+								},
+							],
+						},
+					);
+				});
+			});
+
+			describe("true", () => {
+				const assertionOptions = { requireLocation: true };
+				it("should fail shorthand", () => {
+					assert.throws(() => {
+						ruleTester.run(
+							"no-eval",
+							require("../../fixtures/testers/rule-tester/no-eval"),
+							{
+								assertionOptions,
+								valid: [],
+								invalid: [
+									{
+										code: "eval(foo)",
+										errors: 1,
+									},
+								],
+							},
+						);
+					}, "Invalid cases must have 'errors' value as an array");
+				});
+
+				it("should fail if message array is used", () => {
+					assert.throws(() => {
+						ruleTester.run(
+							"no-eval",
+							require("../../fixtures/testers/rule-tester/no-eval"),
+							{
+								assertionOptions,
+								valid: [],
+								invalid: [
+									{
+										code: "eval(foo)",
+										errors: ["eval sucks."],
+									},
+								],
+							},
+						);
+					}, "Errors must use an object as the location properties '{ ..., line: 13, column: 42, ... }' are required.");
+				});
+
+				it("should fail if all location properties are missing", () => {
+					assert.throws(() => {
+						ruleTester.run(
+							"no-eval",
+							require("../../fixtures/testers/rule-tester/no-eval"),
+							{
+								assertionOptions,
+								valid: [],
+								invalid: [
+									{
+										code: "eval(foo)",
+										errors: [
+											{
+												message: "eval sucks.",
+											},
+										],
+									},
+								],
+							},
+						);
+					}, "Error is missing expected location properties: line, column, endLine, endColumn");
+				});
+
+				it("should fail if line is missing", () => {
+					assert.throws(() => {
+						ruleTester.run(
+							"no-eval",
+							require("../../fixtures/testers/rule-tester/no-eval"),
+							{
+								assertionOptions,
+								valid: [],
+								invalid: [
+									{
+										code: "eval(foo)",
+										errors: [
+											{
+												message: "eval sucks.",
+												column: 1,
+												endLine: 1,
+												endColumn: 10,
+											},
+										],
+									},
+								],
+							},
+						);
+					}, "Error is missing expected location properties: line");
+				});
+
+				it("should fail if column is missing", () => {
+					assert.throws(() => {
+						ruleTester.run(
+							"no-eval",
+							require("../../fixtures/testers/rule-tester/no-eval"),
+							{
+								assertionOptions,
+								valid: [],
+								invalid: [
+									{
+										code: "eval(foo)",
+										errors: [
+											{
+												message: "eval sucks.",
+												line: 1,
+												endLine: 1,
+												endColumn: 10,
+											},
+										],
+									},
+								],
+							},
+						);
+					}, "Error is missing expected location properties: column");
+				});
+
+				it("should fail if endLine is missing", () => {
+					assert.throws(() => {
+						ruleTester.run(
+							"no-eval",
+							require("../../fixtures/testers/rule-tester/no-eval"),
+							{
+								assertionOptions,
+								valid: [],
+								invalid: [
+									{
+										code: "eval(foo)",
+										errors: [
+											{
+												message: "eval sucks.",
+												line: 1,
+												column: 1,
+												endColumn: 10,
+											},
+										],
+									},
+								],
+							},
+						);
+					}, "Error is missing expected location properties: endLine");
+				});
+
+				it("should fail if endColumn is missing", () => {
+					assert.throws(() => {
+						ruleTester.run(
+							"no-eval",
+							require("../../fixtures/testers/rule-tester/no-eval"),
+							{
+								assertionOptions,
+								valid: [],
+								invalid: [
+									{
+										code: "eval(foo)",
+										errors: [
+											{
+												message: "eval sucks.",
+												line: 1,
+												column: 1,
+												endLine: 1,
+											},
+										],
+									},
+								],
+							},
+						);
+					}, "Error is missing expected location properties: endColumn");
+				});
+
+				it("should pass if all location properties are present", () => {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "eval(foo)",
+									errors: [
+										{
+											message: "eval sucks.",
+											line: 1,
+											column: 1,
+											endLine: 1,
+											endColumn: 10,
+										},
+									],
+								},
+							],
+						},
+					);
+				});
+			});
+		});
+	});
 });
