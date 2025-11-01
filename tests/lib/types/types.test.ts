@@ -718,16 +718,8 @@ rule = {
 rule = {
 	create(context: Rule.RuleContext) {
 		context.filename;
-
-		context.getFilename();
-
 		context.physicalFilename;
-
-		context.getPhysicalFilename();
-
 		context.cwd;
-
-		context.getCwd();
 
 		context.languageOptions;
 		context.languageOptions
@@ -737,9 +729,6 @@ rule = {
 
 		context.sourceCode;
 		context.sourceCode.getLocFromIndex(42);
-
-		context.getSourceCode();
-		context.getSourceCode().getLocFromIndex(42);
 
 		if (typeof context.parserPath === "string") {
 			context.parserPath;
