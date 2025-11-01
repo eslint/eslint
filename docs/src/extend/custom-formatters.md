@@ -57,7 +57,6 @@ The `results` object passed into a formatter is an array of [`LintResult`](../in
 				message: "Expected { after 'if' condition.",
 				line: 2,
 				column: 1,
-				nodeType: "IfStatement",
 			},
 			{
 				ruleId: "no-process-exit",
@@ -65,7 +64,6 @@ The `results` object passed into a formatter is an array of [`LintResult`](../in
 				message: "Don't use process.exit(); throw an error instead.",
 				line: 3,
 				column: 1,
-				nodeType: "CallExpression",
 			},
 		],
 		errorCount: 2,
