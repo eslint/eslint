@@ -891,8 +891,8 @@ ruleTester.run("my-rule", rule, {
 		},
 	],
 
+	// optional
 	assertionOptions: {
-		// optional
 		requireMessage: true,
 		requireLocation: false,
 	},
@@ -957,8 +957,8 @@ If a valid test case only uses the `code` property, it can optionally be provide
 
 You can optionally configure the following `assertionOptions`, these apply to all error assertions in that call:
 
-- `requireMessage` (boolean/"message"/"messageId", optional): If true, the `errors` block must check the expected error message, either via a string in the `errors` array, or via `message`/`messageId` in an errors object. `"message"`/`"messageId"` can be used to further limit the message assertions to the respective versions.
-- `requireLocation` (boolean, optional): If true, the `errors` block must be an array of objects, that each check all location properties `line`, `column`, `endLine`, `endColumn`, the later may be omitted, if the error does not contain them.
+- `requireMessage` (boolean/"message"/"messageId", optional): If true, each `errors` block must check the expected error message, either via a string in the `errors` array, or via `message`/`messageId` in an errors object. `"message"`/`"messageId"` can be used to further limit the message assertions to the respective versions.
+- `requireLocation` (boolean, optional): If true, each `errors` block must be an array of objects, that each check all location properties `line`, `column`, `endLine`, `endColumn`, the later may be omitted, if the error does not contain them.
 
 ### Testing Errors with `messageId`
 
