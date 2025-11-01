@@ -5387,7 +5387,12 @@ describe("RuleTester", () => {
 						{
 							assertionOptions,
 							valid: [],
-							invalid: 1,
+							invalid: [
+								{
+									code: "eval(foo)",
+									errors: 1,
+								},
+							],
 						},
 					);
 				});
@@ -5757,7 +5762,12 @@ describe("RuleTester", () => {
 						{
 							assertionOptions: { requireLocation: false },
 							valid: [],
-							invalid: 1,
+							invalid: [
+								{
+									code: "eval(foo)",
+									errors: 1,
+								},
+							],
 						},
 					);
 				});
