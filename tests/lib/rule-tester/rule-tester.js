@@ -5621,7 +5621,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "The test run requires 'message' but the error (also) uses 'messageId'.");
+					}, "The test run requires 'message' but the error uses 'messageId'.");
 				});
 			});
 
@@ -5662,7 +5662,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "Invalid cases must have 'errors' value as an array of objects e.g. { message: 'error message' }");
+					}, "Errors must use an object as the 'messageId' property '{ messageId: 'your.message' }' is required.");
 				});
 
 				it("should fail if message and messageId are missing", () => {
@@ -5708,7 +5708,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "The test run requires 'messageId' but the error (also) uses 'message'.");
+					}, "The test run requires 'messageId' but the error uses 'message'.");
 				});
 
 				it("should pass if messageId is present", () => {
@@ -5810,7 +5810,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "Invalid cases must have 'errors' value as an array of objects e.g. { message: 'error message' }");
+					}, "Errors must use an object as the location properties '{ ..., line: 13, column: 42, ... }' are required.");
 				});
 
 				it("should fail if all location properties are missing", () => {
@@ -5833,7 +5833,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "Test error must specify a 'line' property.");
+					}, "Error is missing expected location properties: line, column, endLine, endColumn");
 				});
 
 				it("should fail if line is missing", () => {
@@ -5859,7 +5859,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "Test error must specify a 'line' property.");
+					}, "Error is missing expected location properties: line");
 				});
 
 				it("should fail if column is missing", () => {
@@ -5885,7 +5885,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "Test error must specify a 'column' property.");
+					}, "Error is missing expected location properties: column");
 				});
 
 				it("should fail if endLine is missing", () => {
@@ -5911,7 +5911,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "Test error must specify an 'endLine' property.");
+					}, "Error is missing expected location properties: endLine");
 				});
 
 				it("should fail if endColumn is missing", () => {
@@ -5937,7 +5937,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "Test error must specify an 'endColumn' property.");
+					}, "Error is missing expected location properties: endColumn");
 				});
 
 				it("should pass if all location properties are present", () => {
