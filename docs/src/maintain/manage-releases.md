@@ -114,6 +114,7 @@ The following branches in the `eslint/eslint` repository are of importance for t
 
 Work on the first prerelease (`alpha.0`) starts when the last planned v9.x release is concluded:
 
+- On Netlify, open the `docs-eslint` project, and under `Project Configuration > Build & Deploy > Continuous deployment` find `Dependency management`. Check if the configured version of Node.js satisfies requirements of the new major version of ESLint. If not, update it to a new version of Node.js.
 - On Jenkins, check if the installed version of Node.js satisfies requirements of the new major version of ESLint. If not, install a new version of Node.js.
 - In the `eslint/eslint.org` repository, submit a PR to set `upcomingVersionPrereleaseType = "alpha"` in `tools/release-data.js`. This is to announce the prerelease in the version list on the `https://eslint.org/` homepage. The PR can be merged as soon as it is approved.
 - In the `eslint/eslint.org` repository, submit a PR to enable `/docs/next/*` proxying in `static/redirects.njk`. The PR should be reviewed and approved in time, but merged right after ESLint 10.0.0-alpha.0 is released.
