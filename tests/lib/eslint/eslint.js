@@ -12056,7 +12056,9 @@ describe("ESLint", () => {
 				const version = eslintCLI.version;
 
 				assert.strictEqual(typeof version, "string");
-				assert(parseInt(version[0], 10) >= 3);
+
+				const majorVersion = version.slice(0, version.indexOf("."));
+				assert(parseInt(majorVersion, 10) >= 9);
 			});
 		});
 
