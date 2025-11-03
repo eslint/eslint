@@ -715,7 +715,7 @@ When to use `Extends`:
 - **For maintaining consistency** - When you want to ensure consistent base rules across multiple configuration objects.
 - **For plugin integration** - When you need to apply configurations that come bundled with plugins.
 
-When to use `Cascading`: 
+When to use `Cascading`:
 
 - **For file-specific rule** - When you need different rules for different file patterns or directories.
 - **For progressive configuration** - When you want to apply base rules to all files and then add/override rules for specific subsets.
