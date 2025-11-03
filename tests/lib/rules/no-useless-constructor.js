@@ -67,6 +67,24 @@ ruleTester.run("no-useless-constructor", rule, {
 			],
 		},
 		{
+			code: "class A { constructor     (){} }",
+			errors: [
+				{
+					...error,
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 22,
+					suggestions: [
+						{
+							messageId: "removeConstructor",
+							output: "class A {  }",
+						},
+					],
+				},
+			],
+		},
+		{
 			code: "class A { 'constructor'(){} }",
 			errors: [
 				{
