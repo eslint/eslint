@@ -705,17 +705,17 @@ For more information on how to combine shareable configs with your preferences, 
 
 ### When to Use Extends vs Cascading
 
-When to use `Extends`
+When to use `Extends`:
 
 - **For reusing configurations** - When you want to inherit and build upon existing configurations from plugins, shareable packages, or predefined configs.
-- **For plugin configuration** - When applying recommended or specific configurations from ESLint plugins (e.g., "example/recommended").
-- **For shareable configurations** - When using npm packages that export configuration objects (e.g., eslint-config-example).
+- **For plugin configuration** - When applying recommended or specific configurations from ESLint plugins (e.g., `example/recommended`).
+- **For shareable configurations** - When using npm packages that export configuration objects (e.g., `eslint-config-example`).
 - **For predefined configurations** - When using ESLint's built-in configurations like `js/recommended` or `js/all`.
 - **For modular configuration** - When you want to compose multiple configuration sources into a single configuration object.
 - **For maintaining consistency** - When you want to ensure consistent base rules across multiple configuration objects.
 - **For plugin integration** - When you need to apply configurations that come bundled with plugins.
 
-When to use `Cascading`
+When to use `Cascading`:
 
 - **For file-specific rule** - When you need different rules for different file patterns or directories.
 - **For progressive configuration** - When you want to apply base rules to all files and then add/override rules for specific subsets.
