@@ -258,7 +258,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -269,7 +268,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -283,7 +281,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -295,7 +292,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "event" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -309,7 +305,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -320,7 +315,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -331,7 +325,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -342,7 +335,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -353,7 +345,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -367,7 +358,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -379,7 +369,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "event" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -393,7 +382,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -404,7 +392,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -415,7 +402,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -426,7 +412,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "customMessage",
 					data: { name: "foo", customMessage },
-					type: "Identifier",
 				},
 			],
 		},
@@ -437,7 +422,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "customMessage",
 					data: { name: "foo", customMessage },
-					type: "Identifier",
 				},
 			],
 		},
@@ -451,7 +435,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "customMessage",
 					data: { name: "foo", customMessage },
-					type: "Identifier",
 				},
 			],
 		},
@@ -469,7 +452,6 @@ ruleTester.run("no-restricted-globals", rule, {
 						name: "event",
 						customMessage: "Use local event parameter.",
 					},
-					type: "Identifier",
 				},
 			],
 		},
@@ -483,7 +465,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "customMessage",
 					data: { name: "foo", customMessage },
-					type: "Identifier",
 				},
 			],
 		},
@@ -494,7 +475,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "customMessage",
 					data: { name: "foo", customMessage },
-					type: "Identifier",
 				},
 			],
 		},
@@ -505,7 +485,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "customMessage",
 					data: { name: "foo", customMessage },
-					type: "Identifier",
 				},
 			],
 		},
@@ -517,7 +496,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "hasOwnProperty" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -528,7 +506,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -539,7 +516,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -553,7 +529,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -565,7 +540,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "event" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -579,7 +553,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -590,7 +563,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -601,7 +573,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -612,7 +583,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -623,7 +593,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -637,7 +606,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -649,7 +617,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "event" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -663,7 +630,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -674,7 +640,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -685,7 +650,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -696,7 +660,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "customMessage",
 					data: { name: "foo", customMessage },
-					type: "Identifier",
 				},
 			],
 		},
@@ -707,7 +670,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "customMessage",
 					data: { name: "foo", customMessage },
-					type: "Identifier",
 				},
 			],
 		},
@@ -721,7 +683,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "customMessage",
 					data: { name: "foo", customMessage },
-					type: "Identifier",
 				},
 			],
 		},
@@ -746,7 +707,6 @@ ruleTester.run("no-restricted-globals", rule, {
 						name: "event",
 						customMessage: "Use local event parameter.",
 					},
-					type: "Identifier",
 				},
 			],
 		},
@@ -760,7 +720,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "customMessage",
 					data: { name: "foo", customMessage },
-					type: "Identifier",
 				},
 			],
 		},
@@ -771,7 +730,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "customMessage",
 					data: { name: "foo", customMessage },
-					type: "Identifier",
 				},
 			],
 		},
@@ -782,7 +740,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "customMessage",
 					data: { name: "foo", customMessage },
-					type: "Identifier",
 				},
 			],
 		},
@@ -794,7 +751,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "hasOwnProperty" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -806,7 +762,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -818,7 +773,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -830,7 +784,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -842,7 +795,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -854,7 +806,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -866,7 +817,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -884,7 +834,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -902,7 +851,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -914,7 +862,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Literal",
 				},
 			],
 		},
@@ -926,7 +873,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Literal",
 				},
 			],
 		},
@@ -938,7 +884,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Literal",
 				},
 			],
 		},
@@ -956,7 +901,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Literal",
 				},
 			],
 		},
@@ -968,7 +912,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -980,7 +923,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1000,12 +942,10 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1025,12 +965,10 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 				{
 					messageId: "defaultMessage",
 					data: { name: "bar" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1042,12 +980,10 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1059,12 +995,10 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1084,12 +1018,10 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1106,7 +1038,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "event" },
-					type: "Identifier",
 					line: 1,
 					column: 66,
 					endLine: 1,
@@ -1127,7 +1058,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "event" },
-					type: "Identifier",
 					line: 1,
 					column: 64,
 					endLine: 1,
@@ -1148,7 +1078,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "event" },
-					type: "Identifier",
 					line: 1,
 					column: 70,
 					endLine: 1,
@@ -1170,7 +1099,6 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "event" },
-					type: "Identifier",
 					line: 1,
 					column: 68,
 					endLine: 1,
@@ -1328,7 +1256,6 @@ ruleTesterTypeScript.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1339,7 +1266,6 @@ ruleTesterTypeScript.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1353,7 +1279,6 @@ ruleTesterTypeScript.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1365,7 +1290,6 @@ ruleTesterTypeScript.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "event" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1379,7 +1303,6 @@ ruleTesterTypeScript.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1390,7 +1313,6 @@ ruleTesterTypeScript.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1401,7 +1323,6 @@ ruleTesterTypeScript.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1412,7 +1333,6 @@ ruleTesterTypeScript.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1423,7 +1343,6 @@ ruleTesterTypeScript.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1437,7 +1356,6 @@ ruleTesterTypeScript.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1449,7 +1367,6 @@ ruleTesterTypeScript.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "event" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1463,7 +1380,6 @@ ruleTesterTypeScript.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1474,7 +1390,6 @@ ruleTesterTypeScript.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1485,7 +1400,6 @@ ruleTesterTypeScript.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1496,7 +1410,6 @@ ruleTesterTypeScript.run("no-restricted-globals", rule, {
 				{
 					messageId: "customMessage",
 					data: { name: "foo", customMessage },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1507,7 +1420,6 @@ ruleTesterTypeScript.run("no-restricted-globals", rule, {
 				{
 					messageId: "customMessage",
 					data: { name: "foo", customMessage },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1521,7 +1433,6 @@ ruleTesterTypeScript.run("no-restricted-globals", rule, {
 				{
 					messageId: "customMessage",
 					data: { name: "foo", customMessage },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1539,7 +1450,6 @@ ruleTesterTypeScript.run("no-restricted-globals", rule, {
 						name: "event",
 						customMessage: "Use local event parameter.",
 					},
-					type: "Identifier",
 				},
 			],
 		},
@@ -1553,7 +1463,6 @@ ruleTesterTypeScript.run("no-restricted-globals", rule, {
 				{
 					messageId: "customMessage",
 					data: { name: "foo", customMessage },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1564,7 +1473,6 @@ ruleTesterTypeScript.run("no-restricted-globals", rule, {
 				{
 					messageId: "customMessage",
 					data: { name: "foo", customMessage },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1575,7 +1483,6 @@ ruleTesterTypeScript.run("no-restricted-globals", rule, {
 				{
 					messageId: "customMessage",
 					data: { name: "foo", customMessage },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1586,7 +1493,6 @@ ruleTesterTypeScript.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "hasOwnProperty" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1597,7 +1503,6 @@ ruleTesterTypeScript.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "Promise" },
-					type: "Identifier",
 					line: 1,
 					column: 25,
 					endLine: 1,

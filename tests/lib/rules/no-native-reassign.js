@@ -38,7 +38,6 @@ ruleTester.run("no-native-reassign", rule, {
 				{
 					messageId: "nativeReassign",
 					data: { name: "String" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -48,7 +47,6 @@ ruleTester.run("no-native-reassign", rule, {
 				{
 					messageId: "nativeReassign",
 					data: { name: "String" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -59,12 +57,10 @@ ruleTester.run("no-native-reassign", rule, {
 				{
 					messageId: "nativeReassign",
 					data: { name: "Object" },
-					type: "Identifier",
 				},
 				{
 					messageId: "nativeReassign",
 					data: { name: "String" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -75,7 +71,6 @@ ruleTester.run("no-native-reassign", rule, {
 				{
 					messageId: "nativeReassign",
 					data: { name: "top" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -86,7 +81,6 @@ ruleTester.run("no-native-reassign", rule, {
 				{
 					messageId: "nativeReassign",
 					data: { name: "require" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -98,7 +92,6 @@ ruleTester.run("no-native-reassign", rule, {
 				{
 					messageId: "nativeReassign",
 					data: { name: "b" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -109,7 +102,6 @@ ruleTester.run("no-native-reassign", rule, {
 				{
 					messageId: "nativeReassign",
 					data: { name: "b" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -119,7 +111,6 @@ ruleTester.run("no-native-reassign", rule, {
 				{
 					messageId: "nativeReassign",
 					data: { name: "b" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -129,7 +120,6 @@ ruleTester.run("no-native-reassign", rule, {
 				{
 					messageId: "nativeReassign",
 					data: { name: "b" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -139,7 +129,6 @@ ruleTester.run("no-native-reassign", rule, {
 				{
 					messageId: "nativeReassign",
 					data: { name: "Array" },
-					type: "Identifier",
 				},
 			],
 		},

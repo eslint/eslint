@@ -153,6 +153,7 @@ import example from "eslint-plugin-example";
 
 export default defineConfig([
 	{
+		files: ["**/*.js"], // any patterns you want to apply the config to
 		plugins: {
 			example,
 		},

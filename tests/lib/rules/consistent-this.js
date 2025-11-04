@@ -64,7 +64,6 @@ ruleTester.run("consistent-this", rule, {
 				{
 					messageId: "unexpectedAlias",
 					data: { name: "context" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -75,7 +74,6 @@ ruleTester.run("consistent-this", rule, {
 				{
 					messageId: "unexpectedAlias",
 					data: { name: "that" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -86,7 +84,6 @@ ruleTester.run("consistent-this", rule, {
 				{
 					messageId: "unexpectedAlias",
 					data: { name: "self" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -97,7 +94,6 @@ ruleTester.run("consistent-this", rule, {
 				{
 					messageId: "aliasNotAssignedToThis",
 					data: { name: "self" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -108,7 +104,6 @@ ruleTester.run("consistent-this", rule, {
 				{
 					messageId: "aliasNotAssignedToThis",
 					data: { name: "self" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -119,12 +114,10 @@ ruleTester.run("consistent-this", rule, {
 				{
 					messageId: "aliasNotAssignedToThis",
 					data: { name: "self" },
-					type: "VariableDeclarator",
 				},
 				{
 					messageId: "aliasNotAssignedToThis",
 					data: { name: "self" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -135,7 +128,6 @@ ruleTester.run("consistent-this", rule, {
 				{
 					messageId: "unexpectedAlias",
 					data: { name: "context" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -146,7 +138,6 @@ ruleTester.run("consistent-this", rule, {
 				{
 					messageId: "unexpectedAlias",
 					data: { name: "that" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -157,7 +148,6 @@ ruleTester.run("consistent-this", rule, {
 				{
 					messageId: "unexpectedAlias",
 					data: { name: "self" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -168,7 +158,6 @@ ruleTester.run("consistent-this", rule, {
 				{
 					messageId: "aliasNotAssignedToThis",
 					data: { name: "self" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -179,7 +168,6 @@ ruleTester.run("consistent-this", rule, {
 				{
 					messageId: "aliasNotAssignedToThis",
 					data: { name: "self" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -191,7 +179,6 @@ ruleTester.run("consistent-this", rule, {
 				{
 					messageId: "aliasNotAssignedToThis",
 					data: { name: "self" },
-					type: "VariableDeclarator",
 				},
 			],
 		},

@@ -72,7 +72,6 @@ ruleTester.run("default-case", rule, {
 			errors: [
 				{
 					messageId: "missingDefaultCase",
-					type: "SwitchStatement",
 				},
 			],
 		},
@@ -81,7 +80,6 @@ ruleTester.run("default-case", rule, {
 			errors: [
 				{
 					messageId: "missingDefaultCase",
-					type: "SwitchStatement",
 				},
 			],
 		},
@@ -90,7 +88,6 @@ ruleTester.run("default-case", rule, {
 			errors: [
 				{
 					messageId: "missingDefaultCase",
-					type: "SwitchStatement",
 				},
 			],
 		},
@@ -104,7 +101,6 @@ ruleTester.run("default-case", rule, {
 			errors: [
 				{
 					messageId: "missingDefaultCase",
-					type: "SwitchStatement",
 				},
 			],
 		},
@@ -118,7 +114,6 @@ ruleTester.run("default-case", rule, {
 			errors: [
 				{
 					messageId: "missingDefaultCase",
-					type: "SwitchStatement",
 				},
 			],
 		},
@@ -132,7 +127,6 @@ ruleTester.run("default-case", rule, {
 			errors: [
 				{
 					messageId: "missingDefaultCase",
-					type: "SwitchStatement",
 				},
 			],
 		},

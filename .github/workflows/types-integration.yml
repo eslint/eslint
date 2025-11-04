@@ -24,7 +24,7 @@ jobs:
                   repository: webpack-contrib/eslint-webpack-plugin
                   path: webpack
 
-            - uses: actions/setup-node@v4
+            - uses: actions/setup-node@v6
               with:
                   node-version: "lts/*"
 
@@ -56,7 +56,7 @@ jobs:
                   repository: neostandard/neostandard
                   path: neostandard
 
-            - uses: actions/setup-node@v4
+            - uses: actions/setup-node@v6
               with:
                   node-version: "lts/*"
 
@@ -67,7 +67,7 @@ jobs:
             - name: Install Packages (neostandard)
               working-directory: neostandard
               run: |
-                  npm install --no-package-lock ../eslint
+                  npm ci && npm install --no-save ../eslint
 
             - name: Run TSC
               working-directory: neostandard
@@ -88,7 +88,7 @@ jobs:
                   repository: antfu/eslint-flat-config-utils
                   path: antfu
 
-            - uses: actions/setup-node@v4
+            - uses: actions/setup-node@v6
               with:
                   node-version: "lts/*"
 
@@ -120,7 +120,7 @@ jobs:
                   repository: eslint/js
                   path: eslint-js
 
-            - uses: actions/setup-node@v4
+            - uses: actions/setup-node@v6
               with:
                   node-version: "lts/*"
 
@@ -158,7 +158,7 @@ jobs:
                   repository: eslint/json
                   path: json
 
-            - uses: actions/setup-node@v4
+            - uses: actions/setup-node@v6
               with:
                   node-version: "lts/*"
 
@@ -171,7 +171,7 @@ jobs:
               run: |
                   npm install
                   npm run build
-                  npm install ../eslint
+                  npm install ../eslint @eslint/core@latest
 
             - name: Run TSC
               working-directory: json
@@ -196,7 +196,7 @@ jobs:
             - name: Checkout ${{ matrix.package.name }}
               uses: actions/checkout@v5
 
-            - uses: actions/setup-node@v4
+            - uses: actions/setup-node@v6
               with:
                   node-version: "lts/*"
 

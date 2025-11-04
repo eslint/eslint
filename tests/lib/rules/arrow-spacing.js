@@ -93,13 +93,11 @@ const invalid = [
 			{
 				column: 1,
 				line: 1,
-				type: "Identifier",
 				messageId: "expectedBefore",
 			},
 			{
 				column: 4,
 				line: 1,
-				type: "Identifier",
 				messageId: "expectedAfter",
 			},
 		],
@@ -112,13 +110,11 @@ const invalid = [
 			{
 				column: 2,
 				line: 1,
-				type: "Punctuator",
 				messageId: "expectedBefore",
 			},
 			{
 				column: 5,
 				line: 1,
-				type: "Punctuator",
 				messageId: "expectedAfter",
 			},
 		],
@@ -131,13 +127,11 @@ const invalid = [
 			{
 				column: 3,
 				line: 1,
-				type: "Punctuator",
 				messageId: "expectedBefore",
 			},
 			{
 				column: 6,
 				line: 1,
-				type: "Punctuator",
 				messageId: "expectedAfter",
 			},
 		],
@@ -150,13 +144,11 @@ const invalid = [
 			{
 				column: 1,
 				line: 1,
-				type: "Identifier",
 				messageId: "expectedBefore",
 			},
 			{
 				column: 5,
 				line: 1,
-				type: "Identifier",
 				messageId: "unexpectedAfter",
 			},
 		],
@@ -169,13 +161,11 @@ const invalid = [
 			{
 				column: 2,
 				line: 1,
-				type: "Punctuator",
 				messageId: "expectedBefore",
 			},
 			{
 				column: 6,
 				line: 1,
-				type: "Punctuator",
 				messageId: "unexpectedAfter",
 			},
 		],
@@ -188,13 +178,11 @@ const invalid = [
 			{
 				column: 3,
 				line: 1,
-				type: "Punctuator",
 				messageId: "expectedBefore",
 			},
 			{
 				column: 7,
 				line: 1,
-				type: "Punctuator",
 				messageId: "unexpectedAfter",
 			},
 		],
@@ -207,13 +195,11 @@ const invalid = [
 			{
 				column: 1,
 				line: 1,
-				type: "Identifier",
 				messageId: "expectedBefore",
 			},
 			{
 				column: 6,
 				line: 1,
-				type: "Identifier",
 				messageId: "unexpectedAfter",
 			},
 		],
@@ -226,13 +212,11 @@ const invalid = [
 			{
 				column: 2,
 				line: 1,
-				type: "Punctuator",
 				messageId: "expectedBefore",
 			},
 			{
 				column: 7,
 				line: 1,
-				type: "Punctuator",
 				messageId: "unexpectedAfter",
 			},
 		],
@@ -245,13 +229,11 @@ const invalid = [
 			{
 				column: 3,
 				line: 1,
-				type: "Punctuator",
 				messageId: "expectedBefore",
 			},
 			{
 				column: 8,
 				line: 1,
-				type: "Punctuator",
 				messageId: "unexpectedAfter",
 			},
 		],
@@ -264,13 +246,11 @@ const invalid = [
 			{
 				column: 1,
 				line: 1,
-				type: "Identifier",
 				messageId: "unexpectedBefore",
 			},
 			{
 				column: 5,
 				line: 1,
-				type: "Identifier",
 				messageId: "expectedAfter",
 			},
 		],
@@ -283,13 +263,11 @@ const invalid = [
 			{
 				column: 2,
 				line: 1,
-				type: "Punctuator",
 				messageId: "unexpectedBefore",
 			},
 			{
 				column: 6,
 				line: 1,
-				type: "Punctuator",
 				messageId: "expectedAfter",
 			},
 		],
@@ -302,13 +280,11 @@ const invalid = [
 			{
 				column: 3,
 				line: 1,
-				type: "Punctuator",
 				messageId: "unexpectedBefore",
 			},
 			{
 				column: 7,
 				line: 1,
-				type: "Punctuator",
 				messageId: "expectedAfter",
 			},
 		],
@@ -321,13 +297,11 @@ const invalid = [
 			{
 				column: 1,
 				line: 1,
-				type: "Identifier",
 				messageId: "unexpectedBefore",
 			},
 			{
 				column: 6,
 				line: 1,
-				type: "Identifier",
 				messageId: "expectedAfter",
 			},
 		],
@@ -340,13 +314,11 @@ const invalid = [
 			{
 				column: 2,
 				line: 1,
-				type: "Punctuator",
 				messageId: "unexpectedBefore",
 			},
 			{
 				column: 7,
 				line: 1,
-				type: "Punctuator",
 				messageId: "expectedAfter",
 			},
 		],
@@ -359,13 +331,11 @@ const invalid = [
 			{
 				column: 3,
 				line: 1,
-				type: "Punctuator",
 				messageId: "unexpectedBefore",
 			},
 			{
 				column: 8,
 				line: 1,
-				type: "Punctuator",
 				messageId: "expectedAfter",
 			},
 		],
@@ -378,13 +348,11 @@ const invalid = [
 			{
 				column: 1,
 				line: 1,
-				type: "Identifier",
 				messageId: "unexpectedBefore",
 			},
 			{
 				column: 6,
 				line: 1,
-				type: "Identifier",
 				messageId: "unexpectedAfter",
 			},
 		],
@@ -397,13 +365,11 @@ const invalid = [
 			{
 				column: 2,
 				line: 1,
-				type: "Punctuator",
 				messageId: "unexpectedBefore",
 			},
 			{
 				column: 7,
 				line: 1,
-				type: "Punctuator",
 				messageId: "unexpectedAfter",
 			},
 		],
@@ -416,13 +382,11 @@ const invalid = [
 			{
 				column: 3,
 				line: 1,
-				type: "Punctuator",
 				messageId: "unexpectedBefore",
 			},
 			{
 				column: 8,
 				line: 1,
-				type: "Punctuator",
 				messageId: "unexpectedAfter",
 			},
 		],
@@ -435,13 +399,11 @@ const invalid = [
 			{
 				column: 1,
 				line: 1,
-				type: "Identifier",
 				messageId: "unexpectedBefore",
 			},
 			{
 				column: 8,
 				line: 1,
-				type: "Identifier",
 				messageId: "unexpectedAfter",
 			},
 		],
@@ -454,13 +416,11 @@ const invalid = [
 			{
 				column: 2,
 				line: 1,
-				type: "Punctuator",
 				messageId: "unexpectedBefore",
 			},
 			{
 				column: 9,
 				line: 1,
-				type: "Punctuator",
 				messageId: "unexpectedAfter",
 			},
 		],
@@ -473,13 +433,11 @@ const invalid = [
 			{
 				column: 3,
 				line: 1,
-				type: "Punctuator",
 				messageId: "unexpectedBefore",
 			},
 			{
 				column: 10,
 				line: 1,
-				type: "Punctuator",
 				messageId: "unexpectedAfter",
 			},
 		],
@@ -492,7 +450,6 @@ const invalid = [
 			{
 				column: 1,
 				line: 2,
-				type: "Punctuator",
 				messageId: "unexpectedAfter",
 			},
 		],

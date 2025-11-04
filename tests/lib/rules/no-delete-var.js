@@ -28,7 +28,11 @@ ruleTester.run("no-delete-var", rule, {
 	invalid: [
 		{
 			code: "delete x",
-			errors: [{ messageId: "unexpected", type: "UnaryExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 	],
 });

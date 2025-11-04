@@ -20,7 +20,6 @@ const ruleTester = new RuleTester();
 
 const comparisonError = {
 	messageId: "comparisonWithNaN",
-	type: "BinaryExpression",
 };
 
 ruleTester.run("use-isnan", rule, {
@@ -895,197 +894,333 @@ ruleTester.run("use-isnan", rule, {
 		{
 			code: "switch(NaN) { case foo: break; }",
 			errors: [
-				{ messageId: "switchNaN", type: "SwitchStatement", column: 1 },
+				{
+					messageId: "switchNaN",
+					column: 1,
+				},
 			],
 		},
 		{
 			code: "switch(foo) { case NaN: break; }",
-			errors: [{ messageId: "caseNaN", type: "SwitchCase", column: 15 }],
+			errors: [
+				{
+					messageId: "caseNaN",
+					column: 15,
+				},
+			],
 		},
 		{
 			code: "switch(NaN) { case foo: break; }",
 			options: [{}],
 			errors: [
-				{ messageId: "switchNaN", type: "SwitchStatement", column: 1 },
+				{
+					messageId: "switchNaN",
+					column: 1,
+				},
 			],
 		},
 		{
 			code: "switch(foo) { case NaN: break; }",
 			options: [{}],
-			errors: [{ messageId: "caseNaN", type: "SwitchCase", column: 15 }],
+			errors: [
+				{
+					messageId: "caseNaN",
+					column: 15,
+				},
+			],
 		},
 		{
 			code: "switch(NaN) {}",
 			options: [{ enforceForSwitchCase: true }],
 			errors: [
-				{ messageId: "switchNaN", type: "SwitchStatement", column: 1 },
+				{
+					messageId: "switchNaN",
+					column: 1,
+				},
 			],
 		},
 		{
 			code: "switch(NaN) { case foo: break; }",
 			options: [{ enforceForSwitchCase: true }],
 			errors: [
-				{ messageId: "switchNaN", type: "SwitchStatement", column: 1 },
+				{
+					messageId: "switchNaN",
+					column: 1,
+				},
 			],
 		},
 		{
 			code: "switch(NaN) { default: break; }",
 			options: [{ enforceForSwitchCase: true }],
 			errors: [
-				{ messageId: "switchNaN", type: "SwitchStatement", column: 1 },
+				{
+					messageId: "switchNaN",
+					column: 1,
+				},
 			],
 		},
 		{
 			code: "switch(NaN) { case foo: break; default: break; }",
 			options: [{ enforceForSwitchCase: true }],
 			errors: [
-				{ messageId: "switchNaN", type: "SwitchStatement", column: 1 },
+				{
+					messageId: "switchNaN",
+					column: 1,
+				},
 			],
 		},
 		{
 			code: "switch(foo) { case NaN: }",
 			options: [{ enforceForSwitchCase: true }],
-			errors: [{ messageId: "caseNaN", type: "SwitchCase", column: 15 }],
+			errors: [
+				{
+					messageId: "caseNaN",
+					column: 15,
+				},
+			],
 		},
 		{
 			code: "switch(foo) { case NaN: break; }",
 			options: [{ enforceForSwitchCase: true }],
-			errors: [{ messageId: "caseNaN", type: "SwitchCase", column: 15 }],
+			errors: [
+				{
+					messageId: "caseNaN",
+					column: 15,
+				},
+			],
 		},
 		{
 			code: "switch(foo) { case (NaN): break; }",
 			options: [{ enforceForSwitchCase: true }],
-			errors: [{ messageId: "caseNaN", type: "SwitchCase", column: 15 }],
+			errors: [
+				{
+					messageId: "caseNaN",
+					column: 15,
+				},
+			],
 		},
 		{
 			code: "switch(foo) { case bar: break; case NaN: break; default: break; }",
 			options: [{ enforceForSwitchCase: true }],
-			errors: [{ messageId: "caseNaN", type: "SwitchCase", column: 32 }],
+			errors: [
+				{
+					messageId: "caseNaN",
+					column: 32,
+				},
+			],
 		},
 		{
 			code: "switch(foo) { case bar: case NaN: default: break; }",
 			options: [{ enforceForSwitchCase: true }],
-			errors: [{ messageId: "caseNaN", type: "SwitchCase", column: 25 }],
+			errors: [
+				{
+					messageId: "caseNaN",
+					column: 25,
+				},
+			],
 		},
 		{
 			code: "switch(foo) { case bar: break; case NaN: break; case baz: break; case NaN: break; }",
 			options: [{ enforceForSwitchCase: true }],
 			errors: [
-				{ messageId: "caseNaN", type: "SwitchCase", column: 32 },
-				{ messageId: "caseNaN", type: "SwitchCase", column: 66 },
+				{
+					messageId: "caseNaN",
+					column: 32,
+				},
+				{
+					messageId: "caseNaN",
+					column: 66,
+				},
 			],
 		},
 		{
 			code: "switch(NaN) { case NaN: break; }",
 			options: [{ enforceForSwitchCase: true }],
 			errors: [
-				{ messageId: "switchNaN", type: "SwitchStatement", column: 1 },
-				{ messageId: "caseNaN", type: "SwitchCase", column: 15 },
+				{
+					messageId: "switchNaN",
+					column: 1,
+				},
+				{
+					messageId: "caseNaN",
+					column: 15,
+				},
 			],
 		},
 		{
 			code: "switch(Number.NaN) { case foo: break; }",
 			errors: [
-				{ messageId: "switchNaN", type: "SwitchStatement", column: 1 },
+				{
+					messageId: "switchNaN",
+					column: 1,
+				},
 			],
 		},
 		{
 			code: "switch(foo) { case Number.NaN: break; }",
-			errors: [{ messageId: "caseNaN", type: "SwitchCase", column: 15 }],
+			errors: [
+				{
+					messageId: "caseNaN",
+					column: 15,
+				},
+			],
 		},
 		{
 			code: "switch(Number.NaN) { case foo: break; }",
 			options: [{}],
 			errors: [
-				{ messageId: "switchNaN", type: "SwitchStatement", column: 1 },
+				{
+					messageId: "switchNaN",
+					column: 1,
+				},
 			],
 		},
 		{
 			code: "switch(foo) { case Number.NaN: break; }",
 			options: [{}],
-			errors: [{ messageId: "caseNaN", type: "SwitchCase", column: 15 }],
+			errors: [
+				{
+					messageId: "caseNaN",
+					column: 15,
+				},
+			],
 		},
 		{
 			code: "switch(Number.NaN) {}",
 			options: [{ enforceForSwitchCase: true }],
 			errors: [
-				{ messageId: "switchNaN", type: "SwitchStatement", column: 1 },
+				{
+					messageId: "switchNaN",
+					column: 1,
+				},
 			],
 		},
 		{
 			code: "switch(Number.NaN) { case foo: break; }",
 			options: [{ enforceForSwitchCase: true }],
 			errors: [
-				{ messageId: "switchNaN", type: "SwitchStatement", column: 1 },
+				{
+					messageId: "switchNaN",
+					column: 1,
+				},
 			],
 		},
 		{
 			code: "switch(Number.NaN) { default: break; }",
 			options: [{ enforceForSwitchCase: true }],
 			errors: [
-				{ messageId: "switchNaN", type: "SwitchStatement", column: 1 },
+				{
+					messageId: "switchNaN",
+					column: 1,
+				},
 			],
 		},
 		{
 			code: "switch(Number.NaN) { case foo: break; default: break; }",
 			options: [{ enforceForSwitchCase: true }],
 			errors: [
-				{ messageId: "switchNaN", type: "SwitchStatement", column: 1 },
+				{
+					messageId: "switchNaN",
+					column: 1,
+				},
 			],
 		},
 		{
 			code: "switch(foo) { case Number.NaN: }",
 			options: [{ enforceForSwitchCase: true }],
-			errors: [{ messageId: "caseNaN", type: "SwitchCase", column: 15 }],
+			errors: [
+				{
+					messageId: "caseNaN",
+					column: 15,
+				},
+			],
 		},
 		{
 			code: "switch(foo) { case Number.NaN: break; }",
 			options: [{ enforceForSwitchCase: true }],
-			errors: [{ messageId: "caseNaN", type: "SwitchCase", column: 15 }],
+			errors: [
+				{
+					messageId: "caseNaN",
+					column: 15,
+				},
+			],
 		},
 		{
 			code: "switch(foo) { case (Number.NaN): break; }",
 			options: [{ enforceForSwitchCase: true }],
-			errors: [{ messageId: "caseNaN", type: "SwitchCase", column: 15 }],
+			errors: [
+				{
+					messageId: "caseNaN",
+					column: 15,
+				},
+			],
 		},
 		{
 			code: "switch(foo) { case bar: break; case Number.NaN: break; default: break; }",
 			options: [{ enforceForSwitchCase: true }],
-			errors: [{ messageId: "caseNaN", type: "SwitchCase", column: 32 }],
+			errors: [
+				{
+					messageId: "caseNaN",
+					column: 32,
+				},
+			],
 		},
 		{
 			code: "switch(foo) { case bar: case Number.NaN: default: break; }",
 			options: [{ enforceForSwitchCase: true }],
-			errors: [{ messageId: "caseNaN", type: "SwitchCase", column: 25 }],
+			errors: [
+				{
+					messageId: "caseNaN",
+					column: 25,
+				},
+			],
 		},
 		{
 			code: "switch(foo) { case bar: break; case NaN: break; case baz: break; case Number.NaN: break; }",
 			options: [{ enforceForSwitchCase: true }],
 			errors: [
-				{ messageId: "caseNaN", type: "SwitchCase", column: 32 },
-				{ messageId: "caseNaN", type: "SwitchCase", column: 66 },
+				{
+					messageId: "caseNaN",
+					column: 32,
+				},
+				{
+					messageId: "caseNaN",
+					column: 66,
+				},
 			],
 		},
 		{
 			code: "switch(Number.NaN) { case Number.NaN: break; }",
 			options: [{ enforceForSwitchCase: true }],
 			errors: [
-				{ messageId: "switchNaN", type: "SwitchStatement", column: 1 },
-				{ messageId: "caseNaN", type: "SwitchCase", column: 22 },
+				{
+					messageId: "switchNaN",
+					column: 1,
+				},
+				{
+					messageId: "caseNaN",
+					column: 22,
+				},
 			],
 		},
 		{
 			code: "switch((doStuff(), NaN)) {}",
 			options: [{ enforceForSwitchCase: true }],
 			errors: [
-				{ messageId: "switchNaN", type: "SwitchStatement", column: 1 },
+				{
+					messageId: "switchNaN",
+					column: 1,
+				},
 			],
 		},
 		{
 			code: "switch((doStuff(), Number.NaN)) {}",
 			options: [{ enforceForSwitchCase: true }],
 			errors: [
-				{ messageId: "switchNaN", type: "SwitchStatement", column: 1 },
+				{
+					messageId: "switchNaN",
+					column: 1,
+				},
 			],
 		},
 
@@ -1099,7 +1234,6 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "indexOfNaN",
-					type: "CallExpression",
 					data: { methodName: "indexOf" },
 					suggestions: [
 						{
@@ -1117,7 +1251,6 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "indexOfNaN",
-					type: "CallExpression",
 					data: { methodName: "lastIndexOf" },
 					suggestions: [
 						{
@@ -1135,7 +1268,6 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "indexOfNaN",
-					type: "CallExpression",
 					data: { methodName: "indexOf" },
 					suggestions: [
 						{
@@ -1153,7 +1285,6 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "indexOfNaN",
-					type: "CallExpression",
 					data: { methodName: "indexOf" },
 					suggestions: [
 						{
@@ -1171,7 +1302,6 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "indexOfNaN",
-					type: "CallExpression",
 					data: { methodName: "lastIndexOf" },
 					suggestions: [
 						{
@@ -1189,7 +1319,6 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "indexOfNaN",
-					type: "CallExpression",
 					data: { methodName: "indexOf" },
 					suggestions: [
 						{
@@ -1207,7 +1336,6 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "indexOfNaN",
-					type: "CallExpression",
 					data: { methodName: "lastIndexOf" },
 					suggestions: [
 						{
@@ -1279,7 +1407,6 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "indexOfNaN",
-					type: "CallExpression",
 					data: { methodName: "indexOf" },
 					suggestions: [
 						{
@@ -1297,7 +1424,6 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "indexOfNaN",
-					type: "CallExpression",
 					data: { methodName: "lastIndexOf" },
 					suggestions: [
 						{
@@ -1315,7 +1441,6 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "indexOfNaN",
-					type: "CallExpression",
 					data: { methodName: "indexOf" },
 					suggestions: [
 						{
@@ -1333,7 +1458,6 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "indexOfNaN",
-					type: "CallExpression",
 					data: { methodName: "lastIndexOf" },
 					suggestions: [
 						{
@@ -1351,7 +1475,6 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "indexOfNaN",
-					type: "CallExpression",
 					data: { methodName: "indexOf" },
 					suggestions: [
 						{
@@ -1369,7 +1492,6 @@ ruleTester.run("use-isnan", rule, {
 			errors: [
 				{
 					messageId: "indexOfNaN",
-					type: "CallExpression",
 					data: { methodName: "lastIndexOf" },
 					suggestions: [
 						{

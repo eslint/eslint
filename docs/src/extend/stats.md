@@ -34,9 +34,9 @@ The `Stats` value is the timing information of each lint run. The `stats` proper
       An object containing the times spent on (parsing, fixing, linting)
         - `ParseTime` (`{ total: number }`)<br>
           The total time that is spent when parsing a file.
-        - `RuleTime` (`{ total: number }`)<be>
+        - `RuleTime` (`{ total: number }`)<br>
           The total time that is spent on a rule.
-        - `FixTime` (`{ total: number }`)<be>
+        - `FixTime` (`{ total: number }`)<br>
           The total time that is spent on applying fixes to the code.
 
 ### CLI usage
@@ -117,7 +117,7 @@ no-regex-spaces |     0.204 |    32.1%
 
 ### API Usage
 
-You can achieve the same thing using the Node.js API by passing`stats: true` as an option to the `ESLint` constructor. For example:
+You can achieve the same thing using the Node.js API by passing `stats: true` as an option to the `ESLint` constructor. For example:
 
 ```js
 const { ESLint } = require("eslint");

@@ -25,7 +25,6 @@ function errors(column) {
 	return [
 		{
 			messageId: "unexpectedCommaExpression",
-			type: "SequenceExpression",
 			line: 1,
 			column,
 		},
@@ -94,7 +93,6 @@ ruleTester.run("no-sequences", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCommaExpression",
-					type: "SequenceExpression",
 					line: 1,
 					column: 2,
 					endLine: 1,

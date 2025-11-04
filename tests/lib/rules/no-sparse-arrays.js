@@ -26,7 +26,6 @@ ruleTester.run("no-sparse-arrays", rule, {
 			errors: [
 				{
 					messageId: "unexpectedSparseArray",
-					type: "ArrayExpression",
 					line: 1,
 					column: 10,
 					endLine: 1,
@@ -39,7 +38,6 @@ ruleTester.run("no-sparse-arrays", rule, {
 			errors: [
 				{
 					messageId: "unexpectedSparseArray",
-					type: "ArrayExpression",
 					line: 1,
 					column: 13,
 					endLine: 1,
@@ -52,7 +50,6 @@ ruleTester.run("no-sparse-arrays", rule, {
 			errors: [
 				{
 					messageId: "unexpectedSparseArray",
-					type: "ArrayExpression",
 					line: 2,
 					column: 15,
 					endLine: 2,
@@ -60,7 +57,6 @@ ruleTester.run("no-sparse-arrays", rule, {
 				},
 				{
 					messageId: "unexpectedSparseArray",
-					type: "ArrayExpression",
 					line: 4,
 					column: 2,
 					endLine: 4,
@@ -73,7 +69,6 @@ ruleTester.run("no-sparse-arrays", rule, {
 			errors: [
 				{
 					messageId: "unexpectedSparseArray",
-					type: "ArrayExpression",
 					line: 1,
 					column: 13,
 					endLine: 1,
@@ -81,7 +76,6 @@ ruleTester.run("no-sparse-arrays", rule, {
 				},
 				{
 					messageId: "unexpectedSparseArray",
-					type: "ArrayExpression",
 					line: 1,
 					column: 14,
 					endLine: 1,
@@ -94,7 +88,6 @@ ruleTester.run("no-sparse-arrays", rule, {
 			errors: [
 				{
 					messageId: "unexpectedSparseArray",
-					type: "ArrayExpression",
 					line: 1,
 					column: 2,
 					endLine: 1,
@@ -102,7 +95,6 @@ ruleTester.run("no-sparse-arrays", rule, {
 				},
 				{
 					messageId: "unexpectedSparseArray",
-					type: "ArrayExpression",
 					line: 1,
 					column: 14,
 					endLine: 1,

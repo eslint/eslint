@@ -34,11 +34,13 @@ const code = `/*
  */
 "use strict";
 
-module.exports = Object.freeze(${JSON.stringify(
-	{ name: "@eslint/js/all", rules: allRules },
-	null,
-	4,
-)});
+module.exports = Object.freeze({
+	name: "@eslint/js/all",
+    rules: Object.freeze(${JSON.stringify(allRules, null, 4).replaceAll(
+		"\n",
+		"\n    "
+	)})
+});
 `;
 
 fs.writeFileSync("./packages/js/src/configs/eslint-all.js", code, "utf8");

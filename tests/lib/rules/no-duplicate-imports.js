@@ -79,7 +79,6 @@ ruleTester.run("no-duplicate-imports", rule, {
 				{
 					messageId: "import",
 					data: { module: "fs" },
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -89,7 +88,6 @@ ruleTester.run("no-duplicate-imports", rule, {
 				{
 					messageId: "import",
 					data: { module: "lodash-es" },
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -99,7 +97,6 @@ ruleTester.run("no-duplicate-imports", rule, {
 				{
 					messageId: "import",
 					data: { module: "lodash-es" },
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -109,12 +106,10 @@ ruleTester.run("no-duplicate-imports", rule, {
 				{
 					messageId: "import",
 					data: { module: "os" },
-					type: "ImportDeclaration",
 				},
 				{
 					messageId: "import",
 					data: { module: "os" },
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -124,7 +119,6 @@ ruleTester.run("no-duplicate-imports", rule, {
 				{
 					messageId: "import",
 					data: { module: "lodash-es" },
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -135,7 +129,6 @@ ruleTester.run("no-duplicate-imports", rule, {
 				{
 					messageId: "export",
 					data: { module: "os" },
-					type: "ExportNamedDeclaration",
 				},
 			],
 		},
@@ -146,17 +139,14 @@ ruleTester.run("no-duplicate-imports", rule, {
 				{
 					messageId: "exportAs",
 					data: { module: "os" },
-					type: "ExportNamedDeclaration",
 				},
 				{
 					messageId: "export",
 					data: { module: "os" },
-					type: "ExportNamedDeclaration",
 				},
 				{
 					messageId: "exportAs",
 					data: { module: "os" },
-					type: "ExportNamedDeclaration",
 				},
 			],
 		},
@@ -167,7 +157,6 @@ ruleTester.run("no-duplicate-imports", rule, {
 				{
 					messageId: "exportAs",
 					data: { module: "os" },
-					type: "ExportNamedDeclaration",
 				},
 			],
 		},
@@ -178,7 +167,6 @@ ruleTester.run("no-duplicate-imports", rule, {
 				{
 					messageId: "exportAs",
 					data: { module: "os" },
-					type: "ExportAllDeclaration",
 				},
 			],
 		},
@@ -189,7 +177,6 @@ ruleTester.run("no-duplicate-imports", rule, {
 				{
 					messageId: "importAs",
 					data: { module: "os" },
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -200,7 +187,6 @@ ruleTester.run("no-duplicate-imports", rule, {
 				{
 					messageId: "exportAs",
 					data: { module: "mod" },
-					type: "ExportAllDeclaration",
 				},
 			],
 		},
@@ -211,7 +197,6 @@ ruleTester.run("no-duplicate-imports", rule, {
 				{
 					messageId: "export",
 					data: { module: "os" },
-					type: "ExportAllDeclaration",
 				},
 			],
 		},
@@ -222,7 +207,6 @@ ruleTester.run("no-duplicate-imports", rule, {
 				{
 					messageId: "exportAs",
 					data: { module: "os" },
-					type: "ExportAllDeclaration",
 				},
 			],
 		},
@@ -332,7 +316,6 @@ ruleTesterTypeScript.run("no-duplicate-imports", rule, {
 				{
 					messageId: "import",
 					data: { module: "fs" },
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -342,7 +325,6 @@ ruleTesterTypeScript.run("no-duplicate-imports", rule, {
 				{
 					messageId: "import",
 					data: { module: "lodash-es" },
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -352,7 +334,6 @@ ruleTesterTypeScript.run("no-duplicate-imports", rule, {
 				{
 					messageId: "import",
 					data: { module: "lodash-es" },
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -362,7 +343,6 @@ ruleTesterTypeScript.run("no-duplicate-imports", rule, {
 				{
 					messageId: "import",
 					data: { module: "lodash-es" },
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -372,7 +352,6 @@ ruleTesterTypeScript.run("no-duplicate-imports", rule, {
 				{
 					messageId: "import",
 					data: { module: "os" },
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -382,7 +361,6 @@ ruleTesterTypeScript.run("no-duplicate-imports", rule, {
 				{
 					messageId: "import",
 					data: { module: "lodash-es" },
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -393,7 +371,6 @@ ruleTesterTypeScript.run("no-duplicate-imports", rule, {
 				{
 					messageId: "exportAs",
 					data: { module: "module" },
-					type: "ExportNamedDeclaration",
 				},
 			],
 		},
@@ -404,7 +381,6 @@ ruleTesterTypeScript.run("no-duplicate-imports", rule, {
 				{
 					messageId: "export",
 					data: { module: "os" },
-					type: "ExportNamedDeclaration",
 				},
 			],
 		},
@@ -415,7 +391,6 @@ ruleTesterTypeScript.run("no-duplicate-imports", rule, {
 				{
 					messageId: "export",
 					data: { module: "os" },
-					type: "ExportNamedDeclaration",
 				},
 			],
 		},
@@ -426,17 +401,14 @@ ruleTesterTypeScript.run("no-duplicate-imports", rule, {
 				{
 					messageId: "exportAs",
 					data: { module: "os" },
-					type: "ExportNamedDeclaration",
 				},
 				{
 					messageId: "export",
 					data: { module: "os" },
-					type: "ExportNamedDeclaration",
 				},
 				{
 					messageId: "exportAs",
 					data: { module: "os" },
-					type: "ExportNamedDeclaration",
 				},
 			],
 		},
@@ -447,7 +419,6 @@ ruleTesterTypeScript.run("no-duplicate-imports", rule, {
 				{
 					messageId: "exportAs",
 					data: { module: "os" },
-					type: "ExportNamedDeclaration",
 				},
 			],
 		},
@@ -458,7 +429,6 @@ ruleTesterTypeScript.run("no-duplicate-imports", rule, {
 				{
 					messageId: "exportAs",
 					data: { module: "os" },
-					type: "ExportAllDeclaration",
 				},
 			],
 		},
@@ -469,7 +439,6 @@ ruleTesterTypeScript.run("no-duplicate-imports", rule, {
 				{
 					messageId: "exportAs",
 					data: { module: "mod" },
-					type: "ExportAllDeclaration",
 				},
 			],
 		},
@@ -480,7 +449,6 @@ ruleTesterTypeScript.run("no-duplicate-imports", rule, {
 				{
 					messageId: "export",
 					data: { module: "os" },
-					type: "ExportAllDeclaration",
 				},
 			],
 		},
@@ -491,7 +459,6 @@ ruleTesterTypeScript.run("no-duplicate-imports", rule, {
 				{
 					messageId: "exportAs",
 					data: { module: "os" },
-					type: "ExportNamedDeclaration",
 				},
 			],
 		},
@@ -502,7 +469,6 @@ ruleTesterTypeScript.run("no-duplicate-imports", rule, {
 				{
 					messageId: "import",
 					data: { module: "module" },
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -513,7 +479,6 @@ ruleTesterTypeScript.run("no-duplicate-imports", rule, {
 				{
 					messageId: "import",
 					data: { module: "lodash-es" },
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -524,7 +489,6 @@ ruleTesterTypeScript.run("no-duplicate-imports", rule, {
 				{
 					messageId: "import",
 					data: { module: "module" },
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -535,7 +499,6 @@ ruleTesterTypeScript.run("no-duplicate-imports", rule, {
 				{
 					messageId: "import",
 					data: { module: "module" },
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -546,7 +509,6 @@ ruleTesterTypeScript.run("no-duplicate-imports", rule, {
 				{
 					messageId: "export",
 					data: { module: "module" },
-					type: "ExportNamedDeclaration",
 				},
 			],
 		},
@@ -557,17 +519,14 @@ ruleTesterTypeScript.run("no-duplicate-imports", rule, {
 				{
 					messageId: "exportAs",
 					data: { module: "module" },
-					type: "ExportNamedDeclaration",
 				},
 				{
 					messageId: "export",
 					data: { module: "module" },
-					type: "ExportNamedDeclaration",
 				},
 				{
 					messageId: "exportAs",
 					data: { module: "module" },
-					type: "ExportNamedDeclaration",
 				},
 			],
 		},
@@ -578,17 +537,14 @@ ruleTesterTypeScript.run("no-duplicate-imports", rule, {
 				{
 					messageId: "exportAs",
 					data: { module: "module" },
-					type: "ExportNamedDeclaration",
 				},
 				{
 					messageId: "export",
 					data: { module: "module" },
-					type: "ExportNamedDeclaration",
 				},
 				{
 					messageId: "exportAs",
 					data: { module: "module" },
-					type: "ExportNamedDeclaration",
 				},
 			],
 		},
@@ -599,22 +555,18 @@ ruleTesterTypeScript.run("no-duplicate-imports", rule, {
 				{
 					messageId: "import",
 					data: { module: "module" },
-					type: "ImportDeclaration",
 				},
 				{
 					messageId: "exportAs",
 					data: { module: "module" },
-					type: "ExportNamedDeclaration",
 				},
 				{
 					messageId: "export",
 					data: { module: "module" },
-					type: "ExportNamedDeclaration",
 				},
 				{
 					messageId: "exportAs",
 					data: { module: "module" },
-					type: "ExportNamedDeclaration",
 				},
 			],
 		},

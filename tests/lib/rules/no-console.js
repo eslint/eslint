@@ -47,8 +47,11 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: null,
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -57,8 +60,11 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: null,
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 16,
 				},
 			],
 		},
@@ -67,7 +73,6 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -75,6 +80,10 @@ ruleTester.run("no-console", rule, {
 							output: "",
 						},
 					],
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -83,7 +92,6 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -91,6 +99,10 @@ ruleTester.run("no-console", rule, {
 							output: "",
 						},
 					],
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -99,7 +111,6 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -107,6 +118,10 @@ ruleTester.run("no-console", rule, {
 							output: "",
 						},
 					],
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -115,7 +130,6 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -123,6 +137,10 @@ ruleTester.run("no-console", rule, {
 							output: "",
 						},
 					],
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -131,7 +149,6 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -139,6 +156,10 @@ ruleTester.run("no-console", rule, {
 							output: "switch (a) { case 1:  }",
 						},
 					],
+					line: 1,
+					column: 22,
+					endLine: 1,
+					endColumn: 33,
 				},
 			],
 		},
@@ -147,7 +168,6 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -155,6 +175,10 @@ ruleTester.run("no-console", rule, {
 							output: "if (a) {  }",
 						},
 					],
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 22,
 				},
 			],
 		},
@@ -163,7 +187,6 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -171,6 +194,10 @@ ruleTester.run("no-console", rule, {
 							output: "a();\n\nb();",
 						},
 					],
+					line: 2,
+					column: 1,
+					endLine: 2,
+					endColumn: 12,
 				},
 			],
 		},
@@ -180,7 +207,6 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -188,6 +214,10 @@ ruleTester.run("no-console", rule, {
 							output: "class A { static {  } }",
 						},
 					],
+					line: 1,
+					column: 20,
+					endLine: 1,
+					endColumn: 32,
 				},
 			],
 		},
@@ -197,8 +227,11 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: null,
+					line: 2,
+					column: 1,
+					endLine: 2,
+					endColumn: 12,
 				},
 			],
 		},
@@ -208,8 +241,11 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: null,
+					line: 2,
+					column: 1,
+					endLine: 2,
+					endColumn: 12,
 				},
 			],
 		},
@@ -219,7 +255,6 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -227,6 +262,10 @@ ruleTester.run("no-console", rule, {
 							output: "a();\n\n[1, 2, 3].forEach(a => doSomething(a));",
 						},
 					],
+					line: 2,
+					column: 1,
+					endLine: 2,
+					endColumn: 12,
 				},
 			],
 		},
@@ -239,8 +278,11 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "warn" },
-					type: "MemberExpression",
 					suggestions: null,
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 20,
 				},
 			],
 		},
@@ -251,8 +293,11 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "log" },
-					type: "MemberExpression",
 					suggestions: null,
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -263,7 +308,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "error" },
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -271,6 +315,10 @@ ruleTester.run("no-console", rule, {
 							output: "",
 						},
 					],
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -281,7 +329,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "warn" },
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -289,6 +336,10 @@ ruleTester.run("no-console", rule, {
 							output: "",
 						},
 					],
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -299,7 +350,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "log" },
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -307,6 +357,10 @@ ruleTester.run("no-console", rule, {
 							output: "",
 						},
 					],
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -317,7 +371,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "error" },
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -325,6 +378,10 @@ ruleTester.run("no-console", rule, {
 							output: "",
 						},
 					],
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -335,7 +392,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "error" },
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -343,6 +399,10 @@ ruleTester.run("no-console", rule, {
 							output: "switch (a) { case 1:  }",
 						},
 					],
+					line: 1,
+					column: 22,
+					endLine: 1,
+					endColumn: 33,
 				},
 			],
 		},
@@ -353,7 +413,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "warn" },
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -361,6 +420,10 @@ ruleTester.run("no-console", rule, {
 							output: "if (a) {  }",
 						},
 					],
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 22,
 				},
 			],
 		},
@@ -372,7 +435,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "log" },
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -380,6 +442,10 @@ ruleTester.run("no-console", rule, {
 							output: "class A { static {  } }",
 						},
 					],
+					line: 1,
+					column: 20,
+					endLine: 1,
+					endColumn: 33,
 				},
 			],
 		},
@@ -392,8 +458,11 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "warn, error" },
-					type: "MemberExpression",
 					suggestions: null,
+					line: 1,
+					column: 8,
+					endLine: 1,
+					endColumn: 19,
 				},
 			],
 		},
@@ -404,8 +473,11 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "warn, error" },
-					type: "MemberExpression",
 					suggestions: null,
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -416,7 +488,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "warn, info" },
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -424,6 +495,10 @@ ruleTester.run("no-console", rule, {
 							output: "",
 						},
 					],
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -434,7 +509,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "warn, info, log" },
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -442,6 +516,10 @@ ruleTester.run("no-console", rule, {
 							output: "",
 						},
 					],
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -452,7 +530,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "warn, error, log" },
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -460,6 +537,10 @@ ruleTester.run("no-console", rule, {
 							output: "",
 						},
 					],
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -470,7 +551,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "info, log" },
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -478,6 +558,10 @@ ruleTester.run("no-console", rule, {
 							output: "",
 						},
 					],
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -488,7 +572,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "info, log" },
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -496,6 +579,10 @@ ruleTester.run("no-console", rule, {
 							output: "switch (a) { case 1:  }",
 						},
 					],
+					line: 1,
+					column: 22,
+					endLine: 1,
+					endColumn: 35,
 				},
 			],
 		},
@@ -506,7 +593,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "warn, error" },
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -514,6 +600,10 @@ ruleTester.run("no-console", rule, {
 							output: "if (a) {  }",
 						},
 					],
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 21,
 				},
 			],
 		},
@@ -525,7 +615,6 @@ ruleTester.run("no-console", rule, {
 				{
 					messageId: "limited",
 					data: { allowed: "log, error, warn" },
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -533,6 +622,10 @@ ruleTester.run("no-console", rule, {
 							output: "class A { static {  } }",
 						},
 					],
+					line: 1,
+					column: 20,
+					endLine: 1,
+					endColumn: 32,
 				},
 			],
 		},
@@ -541,13 +634,16 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeMethodCall",
 							output: "",
 						},
 					],
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -556,13 +652,16 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeMethodCall",
 							output: "",
 						},
 					],
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -578,7 +677,6 @@ ruleTester.run("no-console", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					suggestions: [
 						{
 							messageId: "removeConsole",
@@ -586,6 +684,10 @@ ruleTester.run("no-console", rule, {
 							output: "",
 						},
 					],
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},

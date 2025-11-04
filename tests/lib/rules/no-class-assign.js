@@ -38,37 +38,55 @@ ruleTester.run("no-class-assign", rule, {
 		{
 			code: "class A { } A = 0;",
 			errors: [
-				{ messageId: "class", data: { name: "A" }, type: "Identifier" },
+				{
+					messageId: "class",
+					data: { name: "A" },
+				},
 			],
 		},
 		{
 			code: "class A { } ({A} = 0);",
 			errors: [
-				{ messageId: "class", data: { name: "A" }, type: "Identifier" },
+				{
+					messageId: "class",
+					data: { name: "A" },
+				},
 			],
 		},
 		{
 			code: "class A { } ({b: A = 0} = {});",
 			errors: [
-				{ messageId: "class", data: { name: "A" }, type: "Identifier" },
+				{
+					messageId: "class",
+					data: { name: "A" },
+				},
 			],
 		},
 		{
 			code: "A = 0; class A { }",
 			errors: [
-				{ messageId: "class", data: { name: "A" }, type: "Identifier" },
+				{
+					messageId: "class",
+					data: { name: "A" },
+				},
 			],
 		},
 		{
 			code: "class A { b() { A = 0; } }",
 			errors: [
-				{ messageId: "class", data: { name: "A" }, type: "Identifier" },
+				{
+					messageId: "class",
+					data: { name: "A" },
+				},
 			],
 		},
 		{
 			code: "let A = class A { b() { A = 0; } }",
 			errors: [
-				{ messageId: "class", data: { name: "A" }, type: "Identifier" },
+				{
+					messageId: "class",
+					data: { name: "A" },
+				},
 			],
 		},
 		{
@@ -77,14 +95,12 @@ ruleTester.run("no-class-assign", rule, {
 				{
 					messageId: "class",
 					data: { name: "A" },
-					type: "Identifier",
 					line: 1,
 					column: 13,
 				},
 				{
 					messageId: "class",
 					data: { name: "A" },
-					type: "Identifier",
 					line: 1,
 					column: 20,
 				},
