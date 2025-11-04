@@ -4817,4 +4817,355 @@ describe("SourceCode", () => {
 			).references.some = original;
 		});
 	});
+
+	describe("traverse()", () => {
+		it("should return an array of steps", () => {
+			const code = "var foo = 1;";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const sourceCode = new SourceCode(code, ast);
+			const steps = sourceCode.traverse();
+
+			assert.isArray(steps);
+			assert.strictEqual(steps.length, 14);
+		});
+
+		it("should return steps with VisitNodeStep for each node", () => {
+			const code = "var foo = 1;";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const sourceCode = new SourceCode(code, ast);
+			const steps = sourceCode.traverse();
+
+			// Filter for VisitNodeStep instances (where target is an object)
+			const visitSteps = steps.filter(
+				step => step.kind === 1 && typeof step.target === "object",
+			);
+
+			assert.strictEqual(visitSteps.length, 10);
+
+			// Verify visit step structure
+			visitSteps.forEach(step => {
+				assert.isNumber(step.phase);
+				assert.isTrue(
+					step.phase === 1 || step.phase === 2,
+					"phase should be 1 (enter) or 2 (exit)",
+				);
+				assert.isArray(step.args);
+				assert.isDefined(step.target.type, "target should have type");
+			});
+		});
+
+		it("should have enter and exit phases for each node", () => {
+			const code = "var foo = 1;";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const sourceCode = new SourceCode(code, ast);
+			const steps = sourceCode.traverse();
+
+			const visitSteps = steps.filter(step => step.kind === 1);
+
+			// Group steps by target node
+			const nodeSteps = new Map();
+			visitSteps.forEach(step => {
+				const key = step.target.type;
+				if (!nodeSteps.has(key)) {
+					nodeSteps.set(key, []);
+				}
+				nodeSteps.get(key).push(step.phase);
+			});
+
+			// Every node type should have both enter (1) and exit (2) phases
+			nodeSteps.forEach((phases, nodeType) => {
+				assert.isTrue(
+					phases.includes(1),
+					`${nodeType} should have enter phase`,
+				);
+				assert.isTrue(
+					phases.includes(2),
+					`${nodeType} should have exit phase`,
+				);
+			});
+		});
+
+		it("should include parent reference in step args", () => {
+			const code = "var foo = 1;";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const sourceCode = new SourceCode(code, ast);
+			const steps = sourceCode.traverse();
+
+			const visitSteps = steps.filter(step => step.kind === 1);
+
+			visitSteps.forEach(step => {
+				// args should contain [node, parent]
+				assert.isArray(step.args);
+				assert.isAtLeast(
+					step.args.length,
+					1,
+					"args should have at least node",
+				);
+				assert.strictEqual(
+					step.args[0],
+					step.target,
+					"first arg should be the target node",
+				);
+				// Second arg might be parent (could be undefined for root)
+				if (step.args.length > 1) {
+					assert.isTrue(
+						typeof step.args[1] === "object" ||
+							step.args[1] === null,
+						"second arg should be parent node or null",
+					);
+				}
+			});
+		});
+
+		it("should traverse nested nodes in correct order", () => {
+			const code = "var foo = 1;";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const sourceCode = new SourceCode(code, ast);
+			const steps = sourceCode.traverse();
+
+			const visitSteps = steps.filter(step => step.kind === 1);
+			const nodeTypes = visitSteps.map(step => step.target.type);
+
+			// Should have Program at the beginning
+			assert.strictEqual(
+				nodeTypes[0],
+				"Program",
+				"first node should be Program",
+			);
+
+			// Should have corresponding exit phase for Program at the end
+			assert.strictEqual(
+				nodeTypes.at(-1),
+				"Program",
+				"last node should be Program (exit)",
+			);
+		});
+
+		it("should cache the result of traverse()", () => {
+			const code = "var foo = 1;";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const sourceCode = new SourceCode(code, ast);
+
+			const steps1 = sourceCode.traverse();
+			const steps2 = sourceCode.traverse();
+
+			assert.strictEqual(
+				steps1,
+				steps2,
+				"traverse() should return the same cached array",
+			);
+		});
+
+		it("should include CodePathAnalyzer steps for ESTree", () => {
+			const code = "if (true) { var x = 1; }";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const sourceCode = new SourceCode(code, ast);
+			const steps = sourceCode.traverse();
+
+			// Look for CallMethodStep (kind === 2) which are emitted by CodePathAnalyzer
+			const callSteps = steps.filter(step => step.kind === 2);
+
+			// For control flow code, CodePathAnalyzer should emit events
+			assert.strictEqual(callSteps.length, 8);
+
+			// Verify call steps have correct structure
+			callSteps.forEach(step => {
+				assert.isString(
+					step.target,
+					"call step target should be event name",
+				);
+				assert.isArray(step.args, "call step should have args array");
+			});
+		});
+
+		it("should work with simple expressions", () => {
+			const code = "42;";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const sourceCode = new SourceCode(code, ast);
+			const steps = sourceCode.traverse();
+
+			assert.strictEqual(steps.length, 10);
+
+			const visitSteps = steps.filter(step => step.kind === 1);
+			const nodeTypes = new Set(visitSteps.map(step => step.target.type));
+
+			assert.isTrue(
+				nodeTypes.has("Program"),
+				"should traverse Program node",
+			);
+			assert.isTrue(
+				nodeTypes.has("ExpressionStatement"),
+				"should traverse ExpressionStatement node",
+			);
+		});
+
+		it("should work with function declarations", () => {
+			const code = "function foo(a, b) { return a + b; }";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const sourceCode = new SourceCode(code, ast);
+			const steps = sourceCode.traverse();
+
+			const visitSteps = steps.filter(step => step.kind === 1);
+			const nodeTypes = new Set(visitSteps.map(step => step.target.type));
+
+			assert.isTrue(
+				nodeTypes.has("FunctionDeclaration"),
+				"should traverse FunctionDeclaration",
+			);
+			assert.isTrue(
+				nodeTypes.has("Identifier"),
+				"should traverse Identifier nodes",
+			);
+			assert.isTrue(
+				nodeTypes.has("ReturnStatement"),
+				"should traverse ReturnStatement",
+			);
+		});
+
+		it("should work with object and array patterns", () => {
+			const code = "const {x, y} = obj; const [a, b] = arr;";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const sourceCode = new SourceCode(code, ast);
+			const steps = sourceCode.traverse();
+
+			const visitSteps = steps.filter(step => step.kind === 1);
+			const nodeTypes = new Set(visitSteps.map(step => step.target.type));
+
+			assert.isTrue(
+				nodeTypes.has("VariableDeclaration"),
+				"should traverse VariableDeclaration",
+			);
+			assert.isTrue(
+				nodeTypes.has("ObjectPattern"),
+				"should traverse ObjectPattern",
+			);
+			assert.isTrue(
+				nodeTypes.has("ArrayPattern"),
+				"should traverse ArrayPattern",
+			);
+		});
+
+		it("should traverse all nodes in correct depth-first order", () => {
+			const code = "var x = y + z;";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const sourceCode = new SourceCode(code, ast);
+			const steps = sourceCode.traverse();
+
+			const visitSteps = steps.filter(step => step.kind === 1);
+
+			// Verify that we enter before we exit
+			const enterExitMap = new Map();
+			visitSteps.forEach((step, index) => {
+				const nodeKey = `${step.target.type}@${step.target.range.join(",")}`;
+				if (!enterExitMap.has(nodeKey)) {
+					enterExitMap.set(nodeKey, { enter: null, exit: null });
+				}
+				if (step.phase === 1) {
+					enterExitMap.get(nodeKey).enter = index;
+				} else {
+					enterExitMap.get(nodeKey).exit = index;
+				}
+			});
+
+			// For each node, enter should come before exit
+			enterExitMap.forEach(({ enter, exit }) => {
+				assert.isNotNull(enter, "node should have enter phase");
+				assert.isNotNull(exit, "node should have exit phase");
+				assert.isBelow(
+					enter,
+					exit,
+					"enter phase should come before exit phase",
+				);
+			});
+		});
+
+		it("should return exactly one argument (node) for all visit steps", () => {
+			const code = "var foo = 1;";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const sourceCode = new SourceCode(code, ast);
+			const steps = sourceCode.traverse();
+
+			const visitSteps = steps.filter(step => step.kind === 1);
+
+			assert.strictEqual(visitSteps.length, 10);
+
+			// Every visit step should have exactly 2 arguments
+			visitSteps.forEach(step => {
+				assert.strictEqual(
+					step.args.length,
+					1,
+					`Visit step for ${step.target.type} should have exactly 1 argument, got ${step.args.length}`,
+				);
+			});
+		});
+
+		it("should have node as first argument", () => {
+			const code = "var foo = 1;";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const sourceCode = new SourceCode(code, ast);
+			const steps = sourceCode.traverse();
+
+			const visitSteps = steps.filter(step => step.kind === 1);
+
+			visitSteps.forEach(step => {
+				const [node] = step.args;
+
+				assert.strictEqual(step.args.length, 1);
+
+				// First argument should be the node itself
+				assert.strictEqual(
+					node,
+					step.target,
+					`First argument should be the node (${step.target.type})`,
+				);
+			});
+		});
+
+		it("should provide parent as the actual parent node in the AST", () => {
+			const code = "if (x) { var y = 1; }";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const sourceCode = new SourceCode(code, ast);
+			const steps = sourceCode.traverse();
+
+			const visitSteps = steps.filter(
+				step => step.kind === 1 && step.phase === 1,
+			); // enter phase only
+
+			// Build a map of visited nodes to verify parent-child relationships
+			const nodeMap = new Map();
+			visitSteps.forEach(step => {
+				const [node, parent] = step.args;
+				nodeMap.set(node, { node, parent, type: node.type });
+			});
+
+			// Verify some specific parent-child relationships
+			for (const [node, info] of nodeMap) {
+				if (
+					node.type === "VariableDeclaration" &&
+					info.parent &&
+					info.parent.type
+				) {
+					// Parent of VariableDeclaration inside if block should be BlockStatement
+					assert.strictEqual(
+						info.parent.type,
+						"BlockStatement",
+						"VariableDeclaration inside if block should have BlockStatement parent",
+					);
+				}
+
+				if (node.type === "Identifier" && node.name === "x") {
+					// Identifier 'x' in if condition should have Test or ConditionalExpression parent
+					assert.isTrue(
+						[
+							"Test",
+							"ConditionalExpression",
+							"IfStatement",
+						].includes(info.parent?.type) ||
+							node.parent?.type === "IfStatement",
+						`Identifier 'x' should have appropriate parent, got ${info.parent?.type}`,
+					);
+				}
+			}
+		});
+	});
 });

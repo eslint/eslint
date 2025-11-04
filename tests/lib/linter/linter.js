@@ -18807,7 +18807,9 @@ var a = "test2";
 			const version = linter.version;
 
 			assert.isString(version);
-			assert.isTrue(parseInt(version[0], 10) >= 3);
+
+			const majorVersion = version.slice(0, version.indexOf("."));
+			assert.isTrue(parseInt(majorVersion, 10) >= 9);
 		});
 	});
 
