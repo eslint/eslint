@@ -5078,7 +5078,7 @@ describe("SourceCode", () => {
 			});
 		});
 
-		it("should have node as first argument", () => {
+		it("should return exactly one argument (node) for all visit steps", () => {
 			const code = "var foo = 1;";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const sourceCode = new SourceCode(code, ast);
