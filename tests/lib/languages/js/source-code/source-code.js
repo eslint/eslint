@@ -5086,6 +5086,8 @@ describe("SourceCode", () => {
 
 			const visitSteps = steps.filter(step => step.kind === 1);
 
+			assert.strictEqual(visitSteps.length, 10);
+
 			visitSteps.forEach(step => {
 				assert.strictEqual(
 					step.args.length,
