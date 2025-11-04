@@ -8,7 +8,7 @@ further_reading:
 
 [Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes) are often used to encapsulate reusable logic, especially stateful logic, into an object where each instance's state is accessed via `this`. When an API is written with an instance method, it signals to consumers:
 
-If a class method does not use `this`, it can *sometimes* be made into a static function. If you do convert the method into a static function, instances of the class that call that particular method have to be converted to a static call as well (`MyClass.callStaticMethod()`).
+- The method's outcome is related to the object on which it's invoked, including possibly its state.
 
 	```js
 	const array1 = [1, 2, 3];
@@ -25,9 +25,6 @@ If a class method does not use `this`, it can *sometimes* be made into a static 
 
 - The method doesn't make sense to be used without an associated object. (For example, it doesn't make sense to call `Array#includes()` without an array to operate on.)
 
-If a class instance method does not use `this`, that normally means that it does not access any instance state and therefore doesn't need to be a method.
-Therefore, it can *sometimes* be refactored into an [ordinary function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions) or a [static method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static), which may better communicate intent to users of the API.
-
 It's possible to have a class method which doesn't use `this`, such as:
 
 ```js
@@ -40,6 +37,9 @@ class Person {
 const person = new Person();
 person.sayHi(); // => "Hi!"
 ```
+
+If a class instance method does not use `this`, that normally means that it does not access any instance state and therefore doesn't need to be a method.
+Therefore, it can *sometimes* be refactored into an [ordinary function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions) or a [static method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static), which may better communicate intent to users of the API.
 
 In the example above, the `sayHi` method doesn't use `this`, so we can make it an ordinary function:
 
