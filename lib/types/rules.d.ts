@@ -1858,12 +1858,12 @@ export interface ESLintRules extends Linter.RulesRecord {
 					 */
 					max: number;
 					/**
-					 * @deprecated Replaced with `countThis: 'except-void'
+					 * @deprecated Replaced with `countThis'
 					 * @default false
 					 */
 					countVoidThis: boolean;
 					/**
-					 * @default 'except-void'
+					 * @default "except-void"
 					 */
 					countThis: "always" | "never" | "except-void";
 			  }>,
