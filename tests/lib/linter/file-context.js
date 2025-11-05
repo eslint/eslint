@@ -23,8 +23,6 @@ describe("FileContext", () => {
 		filename: "test.js",
 		physicalFilename: "/path/to/project/test.js",
 		sourceCode: mockSourceCode,
-		parserOptions: { ecmaVersion: 2021 },
-		parserPath: "/path/to/parser",
 		languageOptions: { ecmaVersion: 2022 },
 		settings: { env: { es6: true } },
 	};
@@ -40,11 +38,6 @@ describe("FileContext", () => {
 				defaultConfig.physicalFilename,
 			);
 			assert.strictEqual(context.sourceCode, defaultConfig.sourceCode);
-			assert.deepStrictEqual(
-				context.parserOptions,
-				defaultConfig.parserOptions,
-			);
-			assert.strictEqual(context.parserPath, defaultConfig.parserPath);
 			assert.deepStrictEqual(
 				context.languageOptions,
 				defaultConfig.languageOptions,
@@ -140,11 +133,6 @@ describe("FileContext", () => {
 				context.physicalFilename,
 			);
 			assert.strictEqual(extended.sourceCode, context.sourceCode);
-			assert.deepStrictEqual(
-				extended.parserOptions,
-				context.parserOptions,
-			);
-			assert.strictEqual(extended.parserPath, context.parserPath);
 			assert.deepStrictEqual(
 				extended.languageOptions,
 				context.languageOptions,
