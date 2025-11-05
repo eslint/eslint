@@ -552,7 +552,7 @@ The `LoadedFormatter` value is the object to convert the [LintResult] objects to
 
 ## loadESLint()
 
-The `loadESLint()` function is used for integrations that wish to support both the current configuration system (flat config) and the old configuration system (eslintrc). This function returns the correct `ESLint` class implementation based on the arguments provided:
+The `loadESLint()` function is used for integrations that wish to support different ESLint versions. This function returns the correct `ESLint` class implementation based on the arguments provided:
 
 ```js
 const { loadESLint } = require("eslint");
@@ -563,7 +563,7 @@ const DefaultESLint = await loadESLint();
 // loads the flat config version specifically
 const FlatESLint = await loadESLint({ useFlatConfig: true });
 
-// loads the legacy version specifically
+// loads the legacy version specifically if possible, otherwise falls back to flat config version
 const LegacyESLint = await loadESLint({ useFlatConfig: false });
 ```
 
@@ -586,9 +586,7 @@ if (DefaultESLint.configType === "flat") {
 }
 ```
 
-If you don't need to support both the old and new configuration systems, then it's recommended to just use the `ESLint` constructor directly.
-
----
+## If you don't need to support both the old and new configuration systems, then it's recommended to just use the `ESLint` constructor directly.
 
 ## SourceCode
 
