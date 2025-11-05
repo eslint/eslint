@@ -19,7 +19,11 @@ The lists below are ordered roughly by the number of users each change is expect
 
 ### Breaking changes for plugin developers
 
+- [Node.js < v20.19, v21, v23 are no longer supported](#drop-old-node)
+
 ### Breaking changes for integration developers
+
+- [Node.js < v20.19, v21, v23 are no longer supported](#drop-old-node)
 
 ---
 
