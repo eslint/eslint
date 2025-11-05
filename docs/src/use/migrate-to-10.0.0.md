@@ -31,6 +31,6 @@ ESLint is officially dropping support for these versions of Node.js starting wit
 - Node.js v22.13.0 and above
 - Node.js v24 and above
 
-**To address:** Make sure you upgrade to at least Node.js v20.19.0 when using ESLint v10. If you are unable to upgrade, we recommend continuing to use ESLint v9 until you are able to upgrade Node.js.
+**To address:** Make sure you upgrade to at least Node.js v20.19.0 when using ESLint v10. One important thing to double check is the Node.js version supported by your editor when using ESLint via editor integrations. If you are unable to upgrade, we recommend continuing to use ESLint v9 until you are able to upgrade Node.js.
 
 **Related issue(s):** [#19969](https://github.com/eslint/eslint/issues/19969)
