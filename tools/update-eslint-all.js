@@ -38,7 +38,7 @@ module.exports = Object.freeze({
 	name: "@eslint/js/all",
     rules: Object.freeze(${JSON.stringify(allRules, null, 4).replaceAll(
 		"\n",
-		"\n    "
+		"\n    ",
 	)})
 });
 `;

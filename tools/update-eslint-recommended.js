@@ -29,7 +29,7 @@ for (const [ruleId, rule] of builtInRules) {
 const recommendedRulesText = JSON.stringify(
 	recommendedRule,
 	null,
-	4
+	4,
 ).replaceAll("\n", "\n    ");
 
 //-----------------------------------------------------------------------------
@@ -51,5 +51,5 @@ module.exports = Object.freeze({
 fs.writeFileSync(
 	"./packages/js/src/configs/eslint-recommended.js",
 	code,
-	"utf8"
+	"utf8",
 );
