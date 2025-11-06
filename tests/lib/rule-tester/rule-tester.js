@@ -1139,7 +1139,7 @@ describe("RuleTester", () => {
 				valid: [],
 				invalid: [{ code: "var foo = bar;", output: 5, errors: 1 }],
 			});
-		}, /Output is incorrect/u);
+		}, /Test property 'output', if specified, must be a string or null/u);
 	});
 
 	it("should throw an error when the expected output doesn't match and errors is just a number", () => {
