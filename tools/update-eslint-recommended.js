@@ -43,8 +43,8 @@ const code = `/*
 "use strict";
 
 module.exports = Object.freeze({
-	name: "@eslint/js/recommended",
-	rules: Object.freeze(${recommendedRulesText}),
+    name: "@eslint/js/recommended",
+    rules: Object.freeze(${recommendedRulesText}),
 });
 `;
 
