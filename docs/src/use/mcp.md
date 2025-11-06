@@ -63,6 +63,31 @@ If you encounter issues with the ESLint MCP server:
 3. Ensure that ESLint is installed in your project or globally
 4. Verify that your MCP configuration is correct
 
+### Using TypeScript config (`eslint.config.ts`)
+
+If your project uses `eslint.config.ts`, then you must include **jiti** when running the ESLint MCP server — otherwise it cannot load the TypeScript config.
+
+Example configuration:
+
+```json
+{
+  "servers": {
+    "ESLint": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-p",
+        "@eslint/mcp@latest",
+        "-p",
+        "jiti",
+        "-c",
+        "mcp"
+      ]
+    }
+  }
+}
+```
+
 ## Set Up ESLint MCP Server in Cursor
 
 To configure the ESLint MCP server in [Cursor](https://cursor.com), follow these steps:
