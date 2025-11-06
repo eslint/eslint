@@ -5,7 +5,7 @@
 "use strict";
 
 module.exports = Object.freeze({
-	name: "@eslint/js/all",
+    name: "@eslint/js/all",
     rules: Object.freeze({
         "accessor-pairs": "error",
         "array-callback-return": "error",
