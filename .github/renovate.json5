@@ -14,6 +14,7 @@
       matchPackagePrefixes: ["@eslint/"],
       matchPackageNames: ["espree", "eslint-scope", "eslint-visitor-keys"],
       minimumReleaseAge: null, // Don't wait for these packages
+      rangeStrategy: "bump",
     },
     {
       description: "Group metascraper packages into a single PR.",
