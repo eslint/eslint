@@ -16,7 +16,11 @@ const rule = require("../../../lib/rules/no-lonely-if"),
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();
-const errors = [{ messageId: "unexpectedLonelyIf", type: "IfStatement" }];
+const errors = [
+	{
+		messageId: "unexpectedLonelyIf",
+	},
+];
 
 ruleTester.run("no-lonely-if", rule, {
 	// Examples of code that should not trigger the rule

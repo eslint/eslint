@@ -23,7 +23,9 @@ const ruleTester = new RuleTester({
 		sourceType: "script",
 	},
 });
-const expectedError = { messageId: "impliedEval", type: "CallExpression" };
+const expectedError = {
+	messageId: "impliedEval",
+};
 
 ruleTester.run("no-implied-eval", rule, {
 	valid: [
@@ -504,7 +506,11 @@ ruleTester.run("no-implied-eval", rule, {
 		{
 			code: 'execScript("x = 1;");',
 			languageOptions: { globals: { execScript: false } },
-			errors: [{ messageId: "execScript", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "execScript",
+				},
+			],
 		},
 
 		{
@@ -532,7 +538,11 @@ ruleTester.run("no-implied-eval", rule, {
 		{
 			code: "window.execScript('foo')",
 			languageOptions: { globals: globals.browser },
-			errors: [{ messageId: "execScript", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "execScript",
+				},
+			],
 		},
 		{
 			code: "window['setTimeout']('foo')",
@@ -552,12 +562,20 @@ ruleTester.run("no-implied-eval", rule, {
 		{
 			code: "window['execScript']('foo')",
 			languageOptions: { globals: globals.browser },
-			errors: [{ messageId: "execScript", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "execScript",
+				},
+			],
 		},
 		{
 			code: "window[`execScript`]('foo')",
 			languageOptions: { ecmaVersion: 6, globals: globals.browser },
-			errors: [{ messageId: "execScript", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "execScript",
+				},
+			],
 		},
 		{
 			code: "window.window['setInterval']('foo')",
@@ -567,7 +585,11 @@ ruleTester.run("no-implied-eval", rule, {
 		{
 			code: "window.window['execScript']('foo')",
 			languageOptions: { globals: globals.browser },
-			errors: [{ messageId: "execScript", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "execScript",
+				},
+			],
 		},
 		{
 			code: "global.setTimeout('foo')",
@@ -582,7 +604,11 @@ ruleTester.run("no-implied-eval", rule, {
 		{
 			code: "global.execScript('foo')",
 			languageOptions: { sourceType: "commonjs" },
-			errors: [{ messageId: "execScript", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "execScript",
+				},
+			],
 		},
 		{
 			code: "global['setTimeout']('foo')",
@@ -602,12 +628,20 @@ ruleTester.run("no-implied-eval", rule, {
 		{
 			code: "global['execScript']('foo')",
 			languageOptions: { sourceType: "commonjs" },
-			errors: [{ messageId: "execScript", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "execScript",
+				},
+			],
 		},
 		{
 			code: "global[`execScript`]('foo')",
 			languageOptions: { ecmaVersion: 6, sourceType: "commonjs" },
-			errors: [{ messageId: "execScript", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "execScript",
+				},
+			],
 		},
 		{
 			code: "global.global['setInterval']('foo')",
@@ -617,7 +651,11 @@ ruleTester.run("no-implied-eval", rule, {
 		{
 			code: "global.global['execScript']('foo')",
 			languageOptions: { sourceType: "commonjs" },
-			errors: [{ messageId: "execScript", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "execScript",
+				},
+			],
 		},
 		{
 			code: "globalThis.setTimeout('foo')",
@@ -632,7 +670,11 @@ ruleTester.run("no-implied-eval", rule, {
 		{
 			code: "globalThis.execScript('foo')",
 			languageOptions: { ecmaVersion: 2020 },
-			errors: [{ messageId: "execScript", type: "CallExpression" }],
+			errors: [
+				{
+					messageId: "execScript",
+				},
+			],
 		},
 
 		// template literals
@@ -748,14 +790,12 @@ ruleTester.run("no-implied-eval", rule, {
 			errors: [
 				{
 					messageId: "impliedEval",
-					type: "CallExpression",
 					line: 1,
 				},
 
 				// no error on line 2
 				{
 					messageId: "execScript",
-					type: "CallExpression",
 					line: 3,
 				},
 			],
@@ -771,14 +811,12 @@ ruleTester.run("no-implied-eval", rule, {
 			errors: [
 				{
 					messageId: "impliedEval",
-					type: "CallExpression",
 					line: 1,
 				},
 
 				// no error on line 2
 				{
 					messageId: "execScript",
-					type: "CallExpression",
 					line: 3,
 				},
 			],
@@ -797,14 +835,12 @@ ruleTester.run("no-implied-eval", rule, {
 			errors: [
 				{
 					messageId: "impliedEval",
-					type: "CallExpression",
 					line: 1,
 				},
 
 				// no error on line 2
 				{
 					messageId: "execScript",
-					type: "CallExpression",
 					line: 3,
 				},
 			],

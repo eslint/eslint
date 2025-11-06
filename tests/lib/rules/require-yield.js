@@ -34,27 +34,40 @@ ruleTester.run("require-yield", rule, {
 		{
 			code: "function* foo() { return 0; }",
 			errors: [
-				{ messageId: "missingYield", type: "FunctionDeclaration" },
+				{
+					messageId: "missingYield",
+				},
 			],
 		},
 		{
 			code: "(function* foo() { return 0; })();",
-			errors: [{ messageId: "missingYield", type: "FunctionExpression" }],
+			errors: [
+				{
+					messageId: "missingYield",
+				},
+			],
 		},
 		{
 			code: "var obj = { *foo() { return 0; } }",
-			errors: [{ messageId: "missingYield", type: "FunctionExpression" }],
+			errors: [
+				{
+					messageId: "missingYield",
+				},
+			],
 		},
 		{
 			code: "class A { *foo() { return 0; } }",
-			errors: [{ messageId: "missingYield", type: "FunctionExpression" }],
+			errors: [
+				{
+					messageId: "missingYield",
+				},
+			],
 		},
 		{
 			code: "function* foo() { function* bar() { yield 0; } }",
 			errors: [
 				{
 					messageId: "missingYield",
-					type: "FunctionDeclaration",
 					column: 1,
 				},
 			],
@@ -64,7 +77,6 @@ ruleTester.run("require-yield", rule, {
 			errors: [
 				{
 					messageId: "missingYield",
-					type: "FunctionDeclaration",
 					column: 19,
 				},
 			],

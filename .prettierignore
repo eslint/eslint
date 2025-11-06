@@ -10,4 +10,5 @@ docs/src/use/formatters/html-formatter-example.html
 docs/src/use/formatters/index.md
 docs/src/rules/*.md
 packages/js/src/configs/eslint-all.js
+packages/js/src/configs/eslint-recommended.js
 tests/fixtures

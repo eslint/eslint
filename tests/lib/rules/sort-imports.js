@@ -21,7 +21,6 @@ const ruleTester = new RuleTester({
 	}),
 	expectedError = {
 		messageId: "sortImportsAlphabetically",
-		type: "ImportDeclaration",
 	},
 	ignoreCaseArgs = [{ ignoreCase: true }];
 
@@ -171,7 +170,6 @@ ruleTester.run("sort-imports", rule, {
 						syntaxA: "multiple",
 						syntaxB: "single",
 					},
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -185,7 +183,6 @@ ruleTester.run("sort-imports", rule, {
 						syntaxA: "all",
 						syntaxB: "single",
 					},
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -199,7 +196,6 @@ ruleTester.run("sort-imports", rule, {
 						syntaxA: "none",
 						syntaxB: "single",
 					},
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -223,7 +219,6 @@ ruleTester.run("sort-imports", rule, {
 						syntaxA: "all",
 						syntaxB: "single",
 					},
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -234,7 +229,6 @@ ruleTester.run("sort-imports", rule, {
 				{
 					messageId: "sortMembersAlphabetically",
 					data: { memberName: "a" },
-					type: "ImportSpecifier",
 				},
 			],
 		},
@@ -254,7 +248,6 @@ ruleTester.run("sort-imports", rule, {
 				{
 					messageId: "sortMembersAlphabetically",
 					data: { memberName: "a" },
-					type: "ImportSpecifier",
 				},
 			],
 		},
@@ -265,7 +258,6 @@ ruleTester.run("sort-imports", rule, {
 				{
 					messageId: "sortMembersAlphabetically",
 					data: { memberName: "B" },
-					type: "ImportSpecifier",
 				},
 			],
 		},
@@ -276,7 +268,6 @@ ruleTester.run("sort-imports", rule, {
 				{
 					messageId: "sortMembersAlphabetically",
 					data: { memberName: "aaaaa" },
-					type: "ImportSpecifier",
 				},
 			],
 		},
@@ -287,7 +278,6 @@ ruleTester.run("sort-imports", rule, {
 				{
 					messageId: "sortMembersAlphabetically",
 					data: { memberName: "aaaaa" },
-					type: "ImportSpecifier",
 				},
 			],
 		},
@@ -298,7 +288,6 @@ ruleTester.run("sort-imports", rule, {
 				{
 					messageId: "sortMembersAlphabetically",
 					data: { memberName: "aaaaa" },
-					type: "ImportSpecifier",
 				},
 			],
 		},
@@ -309,7 +298,6 @@ ruleTester.run("sort-imports", rule, {
 				{
 					messageId: "sortMembersAlphabetically",
 					data: { memberName: "aaaaa" },
-					type: "ImportSpecifier",
 				},
 			],
 		},
@@ -338,7 +326,6 @@ ruleTester.run("sort-imports", rule, {
 				{
 					messageId: "sortMembersAlphabetically",
 					data: { memberName: "qux" },
-					type: "ImportSpecifier",
 				},
 			],
 		},
@@ -350,7 +337,6 @@ ruleTester.run("sort-imports", rule, {
 			errors: [
 				{
 					messageId: "sortImportsAlphabetically",
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -360,7 +346,6 @@ ruleTester.run("sort-imports", rule, {
 			errors: [
 				{
 					messageId: "sortImportsAlphabetically",
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -371,7 +356,6 @@ ruleTester.run("sort-imports", rule, {
 			errors: [
 				{
 					messageId: "sortImportsAlphabetically",
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -382,7 +366,6 @@ ruleTester.run("sort-imports", rule, {
 			errors: [
 				{
 					messageId: "sortImportsAlphabetically",
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -393,7 +376,6 @@ ruleTester.run("sort-imports", rule, {
 			errors: [
 				{
 					messageId: "sortImportsAlphabetically",
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -404,7 +386,6 @@ ruleTester.run("sort-imports", rule, {
 			errors: [
 				{
 					messageId: "sortImportsAlphabetically",
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -415,7 +396,6 @@ ruleTester.run("sort-imports", rule, {
 			errors: [
 				{
 					messageId: "sortImportsAlphabetically",
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -426,7 +406,6 @@ ruleTester.run("sort-imports", rule, {
 			errors: [
 				{
 					messageId: "sortImportsAlphabetically",
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -437,7 +416,6 @@ ruleTester.run("sort-imports", rule, {
 			errors: [
 				{
 					messageId: "sortImportsAlphabetically",
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -448,7 +426,6 @@ ruleTester.run("sort-imports", rule, {
 			errors: [
 				{
 					messageId: "sortImportsAlphabetically",
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -459,7 +436,6 @@ ruleTester.run("sort-imports", rule, {
 			errors: [
 				{
 					messageId: "sortImportsAlphabetically",
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -470,7 +446,6 @@ ruleTester.run("sort-imports", rule, {
 			errors: [
 				{
 					messageId: "sortImportsAlphabetically",
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -481,7 +456,6 @@ ruleTester.run("sort-imports", rule, {
 			errors: [
 				{
 					messageId: "sortImportsAlphabetically",
-					type: "ImportDeclaration",
 					line: 4,
 				},
 			],
@@ -493,7 +467,6 @@ ruleTester.run("sort-imports", rule, {
 			errors: [
 				{
 					messageId: "sortMembersAlphabetically",
-					type: "ImportSpecifier",
 				},
 			],
 		},

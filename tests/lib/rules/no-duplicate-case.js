@@ -39,7 +39,6 @@ ruleTester.run("no-duplicate-case", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "SwitchCase",
 					column: 39,
 				},
 			],
@@ -49,7 +48,6 @@ ruleTester.run("no-duplicate-case", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "SwitchCase",
 					column: 43,
 				},
 			],
@@ -59,7 +57,6 @@ ruleTester.run("no-duplicate-case", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "SwitchCase",
 					column: 50,
 				},
 			],
@@ -69,7 +66,6 @@ ruleTester.run("no-duplicate-case", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "SwitchCase",
 					column: 69,
 				},
 			],
@@ -79,7 +75,6 @@ ruleTester.run("no-duplicate-case", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "SwitchCase",
 					column: 103,
 				},
 			],
@@ -89,7 +84,6 @@ ruleTester.run("no-duplicate-case", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "SwitchCase",
 					column: 87,
 				},
 			],
@@ -99,7 +93,6 @@ ruleTester.run("no-duplicate-case", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "SwitchCase",
 					column: 97,
 				},
 			],
@@ -109,7 +102,6 @@ ruleTester.run("no-duplicate-case", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "SwitchCase",
 					column: 83,
 				},
 			],
@@ -119,7 +111,6 @@ ruleTester.run("no-duplicate-case", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "SwitchCase",
 					column: 70,
 				},
 			],
@@ -129,7 +120,6 @@ ruleTester.run("no-duplicate-case", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "SwitchCase",
 					column: 22,
 				},
 			],
@@ -139,12 +129,10 @@ ruleTester.run("no-duplicate-case", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "SwitchCase",
 					column: 44,
 				},
 				{
 					messageId: "unexpected",
-					type: "SwitchCase",
 					column: 74,
 				},
 			],
@@ -154,7 +142,6 @@ ruleTester.run("no-duplicate-case", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "SwitchCase",
 					column: 69,
 				},
 			],
@@ -164,7 +151,6 @@ ruleTester.run("no-duplicate-case", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "SwitchCase",
 					line: 3,
 					column: 13,
 				},
@@ -175,7 +161,6 @@ ruleTester.run("no-duplicate-case", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "SwitchCase",
 					line: 3,
 					column: 13,
 				},
@@ -186,13 +171,11 @@ ruleTester.run("no-duplicate-case", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "SwitchCase",
 					line: 1,
 					column: 69,
 				},
 				{
 					messageId: "unexpected",
-					type: "SwitchCase",
 					line: 2,
 					column: 14,
 				},
@@ -203,7 +186,6 @@ ruleTester.run("no-duplicate-case", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "SwitchCase",
 					column: 87,
 				},
 			],
@@ -213,7 +195,6 @@ ruleTester.run("no-duplicate-case", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "SwitchCase",
 					line: 3,
 					column: 14,
 				},

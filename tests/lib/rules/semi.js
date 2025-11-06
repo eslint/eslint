@@ -894,7 +894,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 33,
 					endLine: void 0,
@@ -909,7 +908,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 35,
 					endLine: void 0,
@@ -924,7 +922,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 37,
 					endLine: void 0,
@@ -939,7 +936,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 19,
 					endLine: void 0,
@@ -954,7 +950,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 55,
 					endLine: void 0,
@@ -968,7 +963,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "ReturnStatement",
 					line: 1,
 					column: 27,
 					endLine: 1,
@@ -982,7 +976,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "BreakStatement",
 					line: 1,
 					column: 20,
 					endLine: 1,
@@ -996,7 +989,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "ContinueStatement",
 					line: 1,
 					column: 23,
 					endLine: 1,
@@ -1011,7 +1003,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 10,
 					endLine: void 0,
@@ -1025,7 +1016,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 10,
 					endLine: void 0,
@@ -1039,7 +1029,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 13,
 					endLine: void 0,
@@ -1053,7 +1042,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "DebuggerStatement",
 					line: 1,
 					column: 9,
 					endLine: void 0,
@@ -1067,7 +1055,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "ExpressionStatement",
 					line: 1,
 					column: 6,
 					endLine: void 0,
@@ -1081,7 +1068,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "ExpressionStatement",
 					line: 1,
 					column: 6,
 					endLine: 2,
@@ -1095,7 +1081,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "ExpressionStatement",
 					line: 1,
 					column: 6,
 					endLine: 2,
@@ -1109,7 +1094,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "ExpressionStatement",
 					line: 1,
 					column: 6,
 					endLine: 2,
@@ -1123,7 +1107,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "ExpressionStatement",
 					line: 1,
 					column: 6,
 					endLine: 2,
@@ -1137,7 +1120,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 23,
 					endLine: 1,
@@ -1151,7 +1133,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 15,
 					endLine: 1,
@@ -1165,7 +1146,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 15,
 					endLine: 1,
@@ -1179,7 +1159,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 21,
 					endLine: 1,
@@ -1193,7 +1172,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "VariableDeclaration",
 					line: 3,
 					column: 2,
 					endLine: void 0,
@@ -1207,7 +1185,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 8,
 					endLine: 2,
@@ -1221,7 +1198,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "ThrowStatement",
 					line: 1,
 					column: 23,
 					endLine: void 0,
@@ -1235,7 +1211,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "DoWhileStatement",
 					line: 1,
 					column: 16,
 					endLine: void 0,
@@ -1290,7 +1265,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "ThrowStatement",
 					line: 1,
 					column: 23,
 					endLine: 1,
@@ -1305,7 +1279,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "ReturnStatement",
 					line: 1,
 					column: 27,
 					endLine: 1,
@@ -1320,7 +1293,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "BreakStatement",
 					line: 1,
 					column: 20,
 					endLine: 1,
@@ -1335,7 +1307,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "ContinueStatement",
 					line: 1,
 					column: 23,
 					endLine: 1,
@@ -1351,7 +1322,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 10,
 					endLine: 1,
@@ -1366,7 +1336,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 10,
 					endLine: 1,
@@ -1381,7 +1350,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 13,
 					endLine: 1,
@@ -1396,7 +1364,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "DebuggerStatement",
 					line: 1,
 					column: 9,
 					endLine: 1,
@@ -1411,7 +1378,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "ExpressionStatement",
 					line: 1,
 					column: 6,
 					endLine: 1,
@@ -1426,7 +1392,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 23,
 					endLine: 1,
@@ -1441,7 +1406,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 15,
 					endLine: 1,
@@ -1456,7 +1420,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 15,
 					endLine: 1,
@@ -1471,7 +1434,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 21,
 					endLine: 1,
@@ -1486,7 +1448,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "VariableDeclaration",
 					line: 3,
 					column: 2,
 					endLine: 3,
@@ -1502,7 +1463,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 55,
 					endLine: 1,
@@ -1517,7 +1477,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "DoWhileStatement",
 					line: 1,
 					column: 16,
 					endLine: 1,
@@ -1532,7 +1491,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "ExpressionStatement",
 					line: 1,
 					column: 25,
 					endLine: 1,
@@ -1548,7 +1506,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "ExpressionStatement",
 					line: 1,
 					column: 25,
 					endLine: 1,
@@ -1563,7 +1520,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "ExpressionStatement",
 					line: 1,
 					column: 32,
 					endLine: 1,
@@ -1578,7 +1534,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "ExpressionStatement",
 					line: 1,
 					column: 25,
 					endLine: 2,
@@ -1593,7 +1548,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "ExpressionStatement",
 					line: 1,
 					column: 32,
 					endLine: 2,
@@ -1609,7 +1563,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "ExpressionStatement",
 					line: 1,
 					column: 25,
 					endLine: 1,
@@ -1625,7 +1578,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "ExpressionStatement",
 					line: 1,
 					column: 25,
 					endLine: 1,
@@ -1641,7 +1593,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "ExpressionStatement",
 					line: 2,
 					column: 6,
 					endLine: 2,
@@ -1657,7 +1608,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "ExpressionStatement",
 					line: 2,
 					column: 6,
 					endLine: 2,
@@ -1673,7 +1623,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "DoWhileStatement",
 					line: 1,
 					column: 36,
 					endLine: 2,
@@ -1689,7 +1638,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "DoWhileStatement",
 					line: 2,
 					column: 2,
 					endLine: 2,
@@ -1940,7 +1888,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "ExportAllDeclaration",
 					line: 1,
 					column: 20,
 					endLine: void 0,
@@ -1955,7 +1902,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "ExportNamedDeclaration",
 					line: 1,
 					column: 26,
 					endLine: void 0,
@@ -1970,7 +1916,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "ExportNamedDeclaration",
 					line: 1,
 					column: 27,
 					endLine: void 0,
@@ -1985,7 +1930,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 15,
 					endLine: void 0,
@@ -2000,7 +1944,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 15,
 					endLine: void 0,
@@ -2015,7 +1958,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 22,
 					endLine: void 0,
@@ -2030,7 +1972,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "ExportDefaultDeclaration",
 					line: 1,
 					column: 26,
 					endLine: void 0,
@@ -2045,7 +1986,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "ExportDefaultDeclaration",
 					line: 1,
 					column: 34,
 					endLine: void 0,
@@ -2060,7 +2000,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "ExportDefaultDeclaration",
 					line: 1,
 					column: 24,
 					endLine: void 0,
@@ -2075,7 +2014,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "missingSemi",
-					type: "ExportDefaultDeclaration",
 					line: 1,
 					column: 25,
 					endLine: void 0,
@@ -2093,7 +2031,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "ExportAllDeclaration",
 					line: 1,
 					column: 20,
 					endLine: 1,
@@ -2109,7 +2046,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "ExportNamedDeclaration",
 					line: 1,
 					column: 26,
 					endLine: 1,
@@ -2125,7 +2061,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "ExportNamedDeclaration",
 					line: 1,
 					column: 27,
 					endLine: 1,
@@ -2141,7 +2076,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 15,
 					endLine: 1,
@@ -2157,7 +2091,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 15,
 					endLine: 1,
@@ -2173,7 +2106,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 22,
 					endLine: 1,
@@ -2189,7 +2121,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "ExportDefaultDeclaration",
 					line: 1,
 					column: 26,
 					endLine: 1,
@@ -2205,7 +2136,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "ExportDefaultDeclaration",
 					line: 1,
 					column: 34,
 					endLine: 1,
@@ -2221,7 +2151,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "ExportDefaultDeclaration",
 					line: 1,
 					column: 24,
 					endLine: 1,
@@ -2237,7 +2166,6 @@ ruleTester.run("semi", rule, {
 			errors: [
 				{
 					messageId: "extraSemi",
-					type: "ExportDefaultDeclaration",
 					line: 1,
 					column: 25,
 					endLine: 1,

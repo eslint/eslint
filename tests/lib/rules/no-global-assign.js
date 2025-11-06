@@ -42,7 +42,6 @@ ruleTester.run("no-global-assign", rule, {
 				{
 					messageId: "globalShouldNotBeModified",
 					data: { name: "String" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -52,7 +51,6 @@ ruleTester.run("no-global-assign", rule, {
 				{
 					messageId: "globalShouldNotBeModified",
 					data: { name: "String" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -63,12 +61,10 @@ ruleTester.run("no-global-assign", rule, {
 				{
 					messageId: "globalShouldNotBeModified",
 					data: { name: "Object" },
-					type: "Identifier",
 				},
 				{
 					messageId: "globalShouldNotBeModified",
 					data: { name: "String" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -79,7 +75,6 @@ ruleTester.run("no-global-assign", rule, {
 				{
 					messageId: "globalShouldNotBeModified",
 					data: { name: "top" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -90,7 +85,6 @@ ruleTester.run("no-global-assign", rule, {
 				{
 					messageId: "globalShouldNotBeModified",
 					data: { name: "require" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -102,7 +96,6 @@ ruleTester.run("no-global-assign", rule, {
 				{
 					messageId: "globalShouldNotBeModified",
 					data: { name: "b" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -113,7 +106,6 @@ ruleTester.run("no-global-assign", rule, {
 				{
 					messageId: "globalShouldNotBeModified",
 					data: { name: "b" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -123,7 +115,6 @@ ruleTester.run("no-global-assign", rule, {
 				{
 					messageId: "globalShouldNotBeModified",
 					data: { name: "b" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -133,7 +124,6 @@ ruleTester.run("no-global-assign", rule, {
 				{
 					messageId: "globalShouldNotBeModified",
 					data: { name: "b" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -143,7 +133,6 @@ ruleTester.run("no-global-assign", rule, {
 				{
 					messageId: "globalShouldNotBeModified",
 					data: { name: "Array" },
-					type: "Identifier",
 				},
 			],
 		},

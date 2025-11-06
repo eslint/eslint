@@ -27,7 +27,11 @@ ruleTester.run("no-div-regex", rule, {
 		{
 			code: "var f = function() { return /=foo/; };",
 			output: "var f = function() { return /[=]foo/; };",
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 	],
 });

@@ -61,7 +61,6 @@ ruleTester.run("no-case-declarations", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "FunctionDeclaration",
 					suggestions: [
 						{
 							messageId: "addBrackets",
@@ -90,7 +89,6 @@ ruleTester.run("no-case-declarations", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "VariableDeclaration",
 					suggestions: [
 						{
 							messageId: "addBrackets",
@@ -119,7 +117,6 @@ ruleTester.run("no-case-declarations", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "VariableDeclaration",
 					suggestions: [
 						{
 							messageId: "addBrackets",
@@ -136,7 +133,6 @@ ruleTester.run("no-case-declarations", rule, {
 				},
 				{
 					messageId: "unexpected",
-					type: "VariableDeclaration",
 					suggestions: [
 						{
 							messageId: "addBrackets",
@@ -166,7 +162,6 @@ ruleTester.run("no-case-declarations", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "VariableDeclaration",
 					suggestions: [
 						{
 							messageId: "addBrackets",
@@ -183,7 +178,6 @@ ruleTester.run("no-case-declarations", rule, {
 				},
 				{
 					messageId: "unexpected",
-					type: "VariableDeclaration",
 					suggestions: [
 						{
 							messageId: "addBrackets",
@@ -206,7 +200,6 @@ ruleTester.run("no-case-declarations", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "VariableDeclaration",
 					suggestions: [
 						{
 							messageId: "addBrackets",
@@ -222,7 +215,6 @@ ruleTester.run("no-case-declarations", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "VariableDeclaration",
 					suggestions: [
 						{
 							messageId: "addBrackets",
@@ -238,7 +230,6 @@ ruleTester.run("no-case-declarations", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "VariableDeclaration",
 					suggestions: [
 						{
 							messageId: "addBrackets",
@@ -254,7 +245,6 @@ ruleTester.run("no-case-declarations", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "VariableDeclaration",
 					suggestions: [
 						{
 							messageId: "addBrackets",
@@ -270,7 +260,6 @@ ruleTester.run("no-case-declarations", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "FunctionDeclaration",
 					suggestions: [
 						{
 							messageId: "addBrackets",
@@ -286,7 +275,6 @@ ruleTester.run("no-case-declarations", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "FunctionDeclaration",
 					suggestions: [
 						{
 							messageId: "addBrackets",
@@ -302,7 +290,6 @@ ruleTester.run("no-case-declarations", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "ClassDeclaration",
 					suggestions: [
 						{
 							messageId: "addBrackets",
@@ -318,7 +305,6 @@ ruleTester.run("no-case-declarations", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "ClassDeclaration",
 					suggestions: [
 						{
 							messageId: "addBrackets",
@@ -344,7 +330,6 @@ ruleTester.run("no-case-declarations", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "FunctionDeclaration",
 					suggestions: [
 						{
 							messageId: "addBrackets",

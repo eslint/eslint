@@ -43,43 +43,64 @@ ruleTester.run("no-const-assign", rule, {
 		{
 			code: "const x = 0; x = 1;",
 			errors: [
-				{ messageId: "const", data: { name: "x" }, type: "Identifier" },
+				{
+					messageId: "const",
+					data: { name: "x" },
+				},
 			],
 		},
 		{
 			code: "const {a: x} = {a: 0}; x = 1;",
 			errors: [
-				{ messageId: "const", data: { name: "x" }, type: "Identifier" },
+				{
+					messageId: "const",
+					data: { name: "x" },
+				},
 			],
 		},
 		{
 			code: "const x = 0; ({x} = {x: 1});",
 			errors: [
-				{ messageId: "const", data: { name: "x" }, type: "Identifier" },
+				{
+					messageId: "const",
+					data: { name: "x" },
+				},
 			],
 		},
 		{
 			code: "const x = 0; ({a: x = 1} = {});",
 			errors: [
-				{ messageId: "const", data: { name: "x" }, type: "Identifier" },
+				{
+					messageId: "const",
+					data: { name: "x" },
+				},
 			],
 		},
 		{
 			code: "const x = 0; x += 1;",
 			errors: [
-				{ messageId: "const", data: { name: "x" }, type: "Identifier" },
+				{
+					messageId: "const",
+					data: { name: "x" },
+				},
 			],
 		},
 		{
 			code: "const x = 0; ++x;",
 			errors: [
-				{ messageId: "const", data: { name: "x" }, type: "Identifier" },
+				{
+					messageId: "const",
+					data: { name: "x" },
+				},
 			],
 		},
 		{
 			code: "for (const i = 0; i < 10; ++i) { foo(i); }",
 			errors: [
-				{ messageId: "const", data: { name: "i" }, type: "Identifier" },
+				{
+					messageId: "const",
+					data: { name: "i" },
+				},
 			],
 		},
 		{
@@ -88,14 +109,12 @@ ruleTester.run("no-const-assign", rule, {
 				{
 					messageId: "const",
 					data: { name: "x" },
-					type: "Identifier",
 					line: 1,
 					column: 14,
 				},
 				{
 					messageId: "const",
 					data: { name: "x" },
-					type: "Identifier",
 					line: 1,
 					column: 21,
 				},
@@ -104,19 +123,28 @@ ruleTester.run("no-const-assign", rule, {
 		{
 			code: "const x = 0; function foo() { x = x + 1; }",
 			errors: [
-				{ messageId: "const", data: { name: "x" }, type: "Identifier" },
+				{
+					messageId: "const",
+					data: { name: "x" },
+				},
 			],
 		},
 		{
 			code: "const x = 0; function foo(a) { x = a; }",
 			errors: [
-				{ messageId: "const", data: { name: "x" }, type: "Identifier" },
+				{
+					messageId: "const",
+					data: { name: "x" },
+				},
 			],
 		},
 		{
 			code: "const x = 0; while (true) { x = x + 1; }",
 			errors: [
-				{ messageId: "const", data: { name: "x" }, type: "Identifier" },
+				{
+					messageId: "const",
+					data: { name: "x" },
+				},
 			],
 		},
 		{
@@ -125,7 +153,6 @@ ruleTester.run("no-const-assign", rule, {
 				{
 					messageId: "const",
 					data: { name: "x" },
-					type: "Identifier",
 					column: 18,
 				},
 			],
@@ -136,7 +163,6 @@ ruleTester.run("no-const-assign", rule, {
 				{
 					messageId: "const",
 					data: { name: "x" },
-					type: "Identifier",
 					column: 24,
 				},
 			],
@@ -147,7 +173,6 @@ ruleTester.run("no-const-assign", rule, {
 				{
 					messageId: "const",
 					data: { name: "x" },
-					type: "Identifier",
 					column: 18,
 				},
 			],
@@ -158,7 +183,6 @@ ruleTester.run("no-const-assign", rule, {
 				{
 					messageId: "const",
 					data: { name: "x" },
-					type: "Identifier",
 					column: 24,
 				},
 			],
@@ -169,7 +193,6 @@ ruleTester.run("no-const-assign", rule, {
 				{
 					messageId: "const",
 					data: { name: "x" },
-					type: "Identifier",
 					column: 19,
 				},
 			],
@@ -180,7 +203,6 @@ ruleTester.run("no-const-assign", rule, {
 				{
 					messageId: "const",
 					data: { name: "x" },
-					type: "Identifier",
 					column: 25,
 				},
 			],

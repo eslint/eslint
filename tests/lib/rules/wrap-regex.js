@@ -30,19 +30,31 @@ ruleTester.run("wrap-regex", rule, {
 		{
 			code: "/foo/.test(bar);",
 			output: "(/foo/).test(bar);",
-			errors: [{ messageId: "requireParens", type: "Literal" }],
+			errors: [
+				{
+					messageId: "requireParens",
+				},
+			],
 		},
 		{
 			code: "/foo/ig.test(bar);",
 			output: "(/foo/ig).test(bar);",
-			errors: [{ messageId: "requireParens", type: "Literal" }],
+			errors: [
+				{
+					messageId: "requireParens",
+				},
+			],
 		},
 
 		// https://github.com/eslint/eslint/issues/10573
 		{
 			code: "if(/foo/ig.test(bar));",
 			output: "if((/foo/ig).test(bar));",
-			errors: [{ messageId: "requireParens", type: "Literal" }],
+			errors: [
+				{
+					messageId: "requireParens",
+				},
+			],
 		},
 	],
 });

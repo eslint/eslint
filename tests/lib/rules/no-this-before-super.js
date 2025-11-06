@@ -130,7 +130,6 @@ ruleTester.run("no-this-before-super", rule, {
 				{
 					messageId: "noBeforeSuper",
 					data: { kind: "this" },
-					type: "ThisExpression",
 				},
 			],
 		},
@@ -140,7 +139,6 @@ ruleTester.run("no-this-before-super", rule, {
 				{
 					messageId: "noBeforeSuper",
 					data: { kind: "this" },
-					type: "ThisExpression",
 				},
 			],
 		},
@@ -150,7 +148,6 @@ ruleTester.run("no-this-before-super", rule, {
 				{
 					messageId: "noBeforeSuper",
 					data: { kind: "super" },
-					type: "Super",
 				},
 			],
 		},
@@ -162,7 +159,6 @@ ruleTester.run("no-this-before-super", rule, {
 				{
 					messageId: "noBeforeSuper",
 					data: { kind: "this" },
-					type: "ThisExpression",
 				},
 			],
 		},
@@ -172,7 +168,6 @@ ruleTester.run("no-this-before-super", rule, {
 				{
 					messageId: "noBeforeSuper",
 					data: { kind: "this" },
-					type: "ThisExpression",
 				},
 			],
 		},
@@ -182,7 +177,6 @@ ruleTester.run("no-this-before-super", rule, {
 				{
 					messageId: "noBeforeSuper",
 					data: { kind: "super" },
-					type: "Super",
 				},
 			],
 		},
@@ -194,7 +188,6 @@ ruleTester.run("no-this-before-super", rule, {
 				{
 					messageId: "noBeforeSuper",
 					data: { kind: "this" },
-					type: "ThisExpression",
 				},
 			],
 		},
@@ -204,7 +197,6 @@ ruleTester.run("no-this-before-super", rule, {
 				{
 					messageId: "noBeforeSuper",
 					data: { kind: "this" },
-					type: "ThisExpression",
 				},
 			],
 		},
@@ -214,7 +206,6 @@ ruleTester.run("no-this-before-super", rule, {
 				{
 					messageId: "noBeforeSuper",
 					data: { kind: "super" },
-					type: "Super",
 				},
 			],
 		},
@@ -226,7 +217,6 @@ ruleTester.run("no-this-before-super", rule, {
 				{
 					messageId: "noBeforeSuper",
 					data: { kind: "this" },
-					type: "ThisExpression",
 					column: 96,
 				},
 			],
@@ -237,7 +227,6 @@ ruleTester.run("no-this-before-super", rule, {
 				{
 					messageId: "noBeforeSuper",
 					data: { kind: "this" },
-					type: "ThisExpression",
 					column: 73,
 				},
 			],
@@ -250,7 +239,6 @@ ruleTester.run("no-this-before-super", rule, {
 				{
 					messageId: "noBeforeSuper",
 					data: { kind: "this" },
-					type: "ThisExpression",
 				},
 			],
 		},
@@ -260,7 +248,6 @@ ruleTester.run("no-this-before-super", rule, {
 				{
 					messageId: "noBeforeSuper",
 					data: { kind: "this" },
-					type: "ThisExpression",
 				},
 			],
 		},
@@ -270,7 +257,6 @@ ruleTester.run("no-this-before-super", rule, {
 				{
 					messageId: "noBeforeSuper",
 					data: { kind: "this" },
-					type: "ThisExpression",
 				},
 			],
 		},
@@ -281,7 +267,6 @@ ruleTester.run("no-this-before-super", rule, {
 				{
 					messageId: "noBeforeSuper",
 					data: { kind: "this" },
-					type: "ThisExpression",
 				},
 			],
 		},
@@ -292,7 +277,6 @@ ruleTester.run("no-this-before-super", rule, {
 				{
 					messageId: "noBeforeSuper",
 					data: { kind: "this" },
-					type: "ThisExpression",
 				},
 			],
 		},
@@ -303,7 +287,6 @@ ruleTester.run("no-this-before-super", rule, {
 				{
 					messageId: "noBeforeSuper",
 					data: { kind: "this" },
-					type: "ThisExpression",
 				},
 			],
 		},
@@ -322,7 +305,6 @@ ruleTester.run("no-this-before-super", rule, {
 				{
 					messageId: "noBeforeSuper",
 					data: { kind: "this" },
-					type: "ThisExpression",
 				},
 			],
 		},
@@ -341,7 +323,6 @@ ruleTester.run("no-this-before-super", rule, {
 				{
 					messageId: "noBeforeSuper",
 					data: { kind: "this" },
-					type: "ThisExpression",
 				},
 			],
 		},
@@ -360,7 +341,6 @@ ruleTester.run("no-this-before-super", rule, {
 				{
 					messageId: "noBeforeSuper",
 					data: { kind: "this" },
-					type: "ThisExpression",
 				},
 			],
 		},
@@ -378,7 +358,6 @@ ruleTester.run("no-this-before-super", rule, {
 				{
 					messageId: "noBeforeSuper",
 					data: { kind: "this" },
-					type: "ThisExpression",
 				},
 			],
 		},
@@ -396,7 +375,6 @@ ruleTester.run("no-this-before-super", rule, {
 				{
 					messageId: "noBeforeSuper",
 					data: { kind: "this" },
-					type: "ThisExpression",
 				},
 			],
 		},
@@ -416,7 +394,6 @@ ruleTester.run("no-this-before-super", rule, {
 				{
 					messageId: "noBeforeSuper",
 					data: { kind: "this" },
-					type: "ThisExpression",
 				},
 			],
 		},

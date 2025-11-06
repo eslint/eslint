@@ -639,7 +639,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Property",
 					line: 1,
 					column: 23,
 					endColumn: 24,
@@ -652,7 +651,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Property",
 					line: 2,
 					column: 11,
 					endColumn: 12,
@@ -665,7 +663,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Property",
 					line: 1,
 					column: 30,
 				},
@@ -677,7 +674,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Property",
 					line: 3,
 					column: 12,
 				},
@@ -689,7 +685,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Literal",
 					line: 1,
 					column: 18,
 				},
@@ -701,7 +696,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Literal",
 					line: 1,
 					column: 18,
 				},
@@ -713,7 +707,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Property",
 					line: 3,
 					column: 1,
 				},
@@ -727,7 +720,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Property",
 					line: 1,
 					column: 23,
 				},
@@ -740,7 +732,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Property",
 					line: 1,
 					column: 23,
 				},
@@ -753,7 +744,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Property",
 					line: 2,
 					column: 11,
 				},
@@ -766,7 +756,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Property",
 					line: 1,
 					column: 30,
 				},
@@ -779,7 +768,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Property",
 					line: 1,
 					column: 30,
 				},
@@ -793,7 +781,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "missing",
-					type: "Property",
 					line: 1,
 					column: 23,
 					endLine: 1,
@@ -808,7 +795,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "missing",
-					type: "Property",
 					line: 2,
 					column: 11,
 					endLine: 3,
@@ -823,7 +809,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "missing",
-					type: "Property",
 					line: 2,
 					column: 11,
 					endLine: 3,
@@ -838,7 +823,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "missing",
-					type: "Property",
 					line: 1,
 					column: 30,
 					endLine: 1,
@@ -853,7 +837,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "missing",
-					type: "Property",
 					line: 3,
 					column: 12,
 					endLine: 4,
@@ -868,7 +851,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "missing",
-					type: "Literal",
 					line: 1,
 					column: 18,
 				},
@@ -881,7 +863,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "missing",
-					type: "Literal",
 					line: 1,
 					column: 17,
 					endColumn: 18,
@@ -895,7 +876,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "missing",
-					type: "Literal",
 					line: 1,
 					column: 18,
 				},
@@ -908,7 +888,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "missing",
-					type: "Property",
 					line: 3,
 					column: 6,
 				},
@@ -922,7 +901,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "missing",
-					type: "Property",
 					line: 2,
 					column: 11,
 				},
@@ -947,7 +925,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "missing",
-					type: "Identifier",
 					line: 5,
 					column: 4,
 				},
@@ -972,7 +949,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "missing",
-					type: "Property",
 					line: 5,
 					column: 4,
 				},
@@ -998,7 +974,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "missing",
-					type: "ConditionalExpression",
 					line: 5,
 					column: 4,
 				},
@@ -1011,7 +986,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Property",
 					line: 1,
 					column: 23,
 				},
@@ -1024,7 +998,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "missing",
-					type: "Property",
 					line: 3,
 					column: 12,
 				},
@@ -1037,7 +1010,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Property",
 					line: 1,
 					column: 30,
 				},
@@ -1050,7 +1022,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "missing",
-					type: "Literal",
 					line: 2,
 					column: 6,
 				},
@@ -1063,7 +1034,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Literal",
 					line: 1,
 					column: 17,
 				},
@@ -1076,7 +1046,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Literal",
 					line: 1,
 					column: 17,
 				},
@@ -1089,7 +1058,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Property",
 					line: 3,
 					column: 2,
 				},
@@ -1102,7 +1070,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Property",
 					line: 2,
 					column: 11,
 				},
@@ -1115,7 +1082,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Property",
 					line: 2,
 					column: 11,
 				},
@@ -1128,7 +1094,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "ObjectExpression",
 					line: 6,
 					column: 2,
 				},
@@ -1142,7 +1107,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Property",
 					line: 1,
 					column: 11,
 				},
@@ -1156,7 +1120,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Property",
 					line: 1,
 					column: 11,
 				},
@@ -1170,7 +1133,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Identifier",
 					line: 1,
 					column: 11,
 				},
@@ -1184,7 +1146,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Identifier",
 					line: 1,
 					column: 11,
 				},
@@ -1197,7 +1158,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Literal",
 					line: 1,
 					column: 5,
 				},
@@ -1210,7 +1170,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Literal",
 					line: 1,
 					column: 5,
 				},
@@ -1223,7 +1182,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Property",
 					line: 1,
 					column: 19,
 				},
@@ -1236,7 +1194,6 @@ ruleTester.run("comma-dangle", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Property",
 					line: 1,
 					column: 19,
 				},
@@ -1249,91 +1206,143 @@ ruleTester.run("comma-dangle", rule, {
 			output: "import {foo,} from 'foo';",
 			options: ["always"],
 			languageOptions: { ecmaVersion: 6, sourceType: "module" },
-			errors: [{ messageId: "missing", type: "ImportSpecifier" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 		{
 			code: "import foo, {abc} from 'foo';",
 			output: "import foo, {abc,} from 'foo';",
 			options: ["always"],
 			languageOptions: { ecmaVersion: 6, sourceType: "module" },
-			errors: [{ messageId: "missing", type: "ImportSpecifier" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 		{
 			code: "export {foo} from 'foo';",
 			output: "export {foo,} from 'foo';",
 			options: ["always"],
 			languageOptions: { ecmaVersion: 6, sourceType: "module" },
-			errors: [{ messageId: "missing", type: "ExportSpecifier" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 		{
 			code: "import {foo,} from 'foo';",
 			output: "import {foo} from 'foo';",
 			options: ["never"],
 			languageOptions: { ecmaVersion: 6, sourceType: "module" },
-			errors: [{ messageId: "unexpected", type: "ImportSpecifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "import {foo,} from 'foo';",
 			output: "import {foo} from 'foo';",
 			options: ["only-multiline"],
 			languageOptions: { ecmaVersion: 6, sourceType: "module" },
-			errors: [{ messageId: "unexpected", type: "ImportSpecifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "import foo, {abc,} from 'foo';",
 			output: "import foo, {abc} from 'foo';",
 			options: ["never"],
 			languageOptions: { ecmaVersion: 6, sourceType: "module" },
-			errors: [{ messageId: "unexpected", type: "ImportSpecifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "import foo, {abc,} from 'foo';",
 			output: "import foo, {abc} from 'foo';",
 			options: ["only-multiline"],
 			languageOptions: { ecmaVersion: 6, sourceType: "module" },
-			errors: [{ messageId: "unexpected", type: "ImportSpecifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "export {foo,} from 'foo';",
 			output: "export {foo} from 'foo';",
 			options: ["never"],
 			languageOptions: { ecmaVersion: 6, sourceType: "module" },
-			errors: [{ messageId: "unexpected", type: "ExportSpecifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "export {foo,} from 'foo';",
 			output: "export {foo} from 'foo';",
 			options: ["only-multiline"],
 			languageOptions: { ecmaVersion: 6, sourceType: "module" },
-			errors: [{ messageId: "unexpected", type: "ExportSpecifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "import {foo,} from 'foo';",
 			output: "import {foo} from 'foo';",
 			options: ["always-multiline"],
 			languageOptions: { ecmaVersion: 6, sourceType: "module" },
-			errors: [{ messageId: "unexpected", type: "ImportSpecifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "export {foo,} from 'foo';",
 			output: "export {foo} from 'foo';",
 			options: ["always-multiline"],
 			languageOptions: { ecmaVersion: 6, sourceType: "module" },
-			errors: [{ messageId: "unexpected", type: "ExportSpecifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "import {\n  foo\n} from 'foo';",
 			output: "import {\n  foo,\n} from 'foo';",
 			options: ["always-multiline"],
 			languageOptions: { ecmaVersion: 6, sourceType: "module" },
-			errors: [{ messageId: "missing", type: "ImportSpecifier" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 		{
 			code: "export {\n  foo\n} from 'foo';",
 			output: "export {\n  foo,\n} from 'foo';",
 			options: ["always-multiline"],
 			languageOptions: { ecmaVersion: 6, sourceType: "module" },
-			errors: [{ messageId: "missing", type: "ExportSpecifier" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 
 		// https://github.com/eslint/eslint/issues/6233
@@ -1341,19 +1350,31 @@ ruleTester.run("comma-dangle", rule, {
 			code: "var foo = {a: (1)}",
 			output: "var foo = {a: (1),}",
 			options: ["always"],
-			errors: [{ messageId: "missing", type: "Property" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 		{
 			code: "var foo = [(1)]",
 			output: "var foo = [(1),]",
 			options: ["always"],
-			errors: [{ messageId: "missing", type: "Literal" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 		{
 			code: "var foo = [\n1,\n(2)\n]",
 			output: "var foo = [\n1,\n(2),\n]",
 			options: ["always-multiline"],
-			errors: [{ messageId: "missing", type: "Literal" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 
 		// trailing commas in functions
@@ -1362,56 +1383,88 @@ ruleTester.run("comma-dangle", rule, {
 			output: "function foo(a) {}",
 			options: [{ functions: "never" }],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "(function foo(a,) {})",
 			output: "(function foo(a) {})",
 			options: [{ functions: "never" }],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "(a,) => a",
 			output: "(a) => a",
 			options: [{ functions: "never" }],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "(a,) => (a)",
 			output: "(a) => (a)",
 			options: [{ functions: "never" }],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "({foo(a,) {}})",
 			output: "({foo(a) {}})",
 			options: [{ functions: "never" }],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "class A {foo(a,) {}}",
 			output: "class A {foo(a) {}}",
 			options: [{ functions: "never" }],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "foo(a,)",
 			output: "foo(a)",
 			options: [{ functions: "never" }],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "foo(...a,)",
 			output: "foo(...a)",
 			options: [{ functions: "never" }],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "SpreadElement" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 
 		{
@@ -1419,56 +1472,88 @@ ruleTester.run("comma-dangle", rule, {
 			output: "function foo(a,) {}",
 			options: [{ functions: "always" }],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "missing", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 		{
 			code: "(function foo(a) {})",
 			output: "(function foo(a,) {})",
 			options: [{ functions: "always" }],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "missing", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 		{
 			code: "(a) => a",
 			output: "(a,) => a",
 			options: [{ functions: "always" }],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "missing", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 		{
 			code: "(a) => (a)",
 			output: "(a,) => (a)",
 			options: [{ functions: "always" }],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "missing", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 		{
 			code: "({foo(a) {}})",
 			output: "({foo(a,) {}})",
 			options: [{ functions: "always" }],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "missing", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 		{
 			code: "class A {foo(a) {}}",
 			output: "class A {foo(a,) {}}",
 			options: [{ functions: "always" }],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "missing", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 		{
 			code: "foo(a)",
 			output: "foo(a,)",
 			options: [{ functions: "always" }],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "missing", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 		{
 			code: "foo(...a)",
 			output: "foo(...a,)",
 			options: [{ functions: "always" }],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "missing", type: "SpreadElement" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 
 		{
@@ -1476,49 +1561,77 @@ ruleTester.run("comma-dangle", rule, {
 			output: "function foo(a) {}",
 			options: [{ functions: "always-multiline" }],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "(function foo(a,) {})",
 			output: "(function foo(a) {})",
 			options: [{ functions: "always-multiline" }],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "foo(a,)",
 			output: "foo(a)",
 			options: [{ functions: "always-multiline" }],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "foo(...a,)",
 			output: "foo(...a)",
 			options: [{ functions: "always-multiline" }],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "SpreadElement" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "function foo(\na,\nb\n) {}",
 			output: "function foo(\na,\nb,\n) {}",
 			options: [{ functions: "always-multiline" }],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "missing", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 		{
 			code: "foo(\na,\nb\n)",
 			output: "foo(\na,\nb,\n)",
 			options: [{ functions: "always-multiline" }],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "missing", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 		{
 			code: "foo(\n...a,\n...b\n)",
 			output: "foo(\n...a,\n...b,\n)",
 			options: [{ functions: "always-multiline" }],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "missing", type: "SpreadElement" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 
 		{
@@ -1526,84 +1639,132 @@ ruleTester.run("comma-dangle", rule, {
 			output: "function foo(a) {}",
 			options: [{ functions: "only-multiline" }],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "(function foo(a,) {})",
 			output: "(function foo(a) {})",
 			options: [{ functions: "only-multiline" }],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "foo(a,)",
 			output: "foo(a)",
 			options: [{ functions: "only-multiline" }],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "foo(...a,)",
 			output: "foo(...a)",
 			options: [{ functions: "only-multiline" }],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "SpreadElement" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "function foo(a,) {}",
 			output: "function foo(a) {}",
 			options: ["never"],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "(function foo(a,) {})",
 			output: "(function foo(a) {})",
 			options: ["never"],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "(a,) => a",
 			output: "(a) => a",
 			options: ["never"],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "(a,) => (a)",
 			output: "(a) => (a)",
 			options: ["never"],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "({foo(a,) {}})",
 			output: "({foo(a) {}})",
 			options: ["never"],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "class A {foo(a,) {}}",
 			output: "class A {foo(a) {}}",
 			options: ["never"],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "foo(a,)",
 			output: "foo(a)",
 			options: ["never"],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "foo(...a,)",
 			output: "foo(...a)",
 			options: ["never"],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "SpreadElement" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 
 		{
@@ -1611,28 +1772,44 @@ ruleTester.run("comma-dangle", rule, {
 			output: "function foo(a,) {}",
 			options: ["always"],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "missing", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 		{
 			code: "(function foo(a) {})",
 			output: "(function foo(a,) {})",
 			options: ["always"],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "missing", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 		{
 			code: "(a) => a",
 			output: "(a,) => a",
 			options: ["always"],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "missing", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 		{
 			code: "(a) => (a)",
 			output: "(a,) => (a)",
 			options: ["always"],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "missing", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 		{
 			code: "({foo(a) {}})",
@@ -1640,8 +1817,12 @@ ruleTester.run("comma-dangle", rule, {
 			options: ["always"],
 			languageOptions: { ecmaVersion: 8 },
 			errors: [
-				{ messageId: "missing", type: "Identifier" },
-				{ messageId: "missing", type: "Property" },
+				{
+					messageId: "missing",
+				},
+				{
+					messageId: "missing",
+				},
 			],
 		},
 		{
@@ -1649,21 +1830,33 @@ ruleTester.run("comma-dangle", rule, {
 			output: "class A {foo(a,) {}}",
 			options: ["always"],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "missing", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 		{
 			code: "foo(a)",
 			output: "foo(a,)",
 			options: ["always"],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "missing", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 		{
 			code: "foo(...a)",
 			output: "foo(...a,)",
 			options: ["always"],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "missing", type: "SpreadElement" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 
 		{
@@ -1671,49 +1864,77 @@ ruleTester.run("comma-dangle", rule, {
 			output: "function foo(a) {}",
 			options: ["always-multiline"],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "(function foo(a,) {})",
 			output: "(function foo(a) {})",
 			options: ["always-multiline"],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "foo(a,)",
 			output: "foo(a)",
 			options: ["always-multiline"],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "foo(...a,)",
 			output: "foo(...a)",
 			options: ["always-multiline"],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "SpreadElement" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "function foo(\na,\nb\n) {}",
 			output: "function foo(\na,\nb,\n) {}",
 			options: ["always-multiline"],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "missing", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 		{
 			code: "foo(\na,\nb\n)",
 			output: "foo(\na,\nb,\n)",
 			options: ["always-multiline"],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "missing", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 		{
 			code: "foo(\n...a,\n...b\n)",
 			output: "foo(\n...a,\n...b,\n)",
 			options: ["always-multiline"],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "missing", type: "SpreadElement" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 
 		{
@@ -1721,35 +1942,55 @@ ruleTester.run("comma-dangle", rule, {
 			output: "function foo(a) {}",
 			options: ["only-multiline"],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "(function foo(a,) {})",
 			output: "(function foo(a) {})",
 			options: ["only-multiline"],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "foo(a,)",
 			output: "foo(a)",
 			options: ["only-multiline"],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "foo(...a,)",
 			output: "foo(...a)",
 			options: ["only-multiline"],
 			languageOptions: { ecmaVersion: 8 },
-			errors: [{ messageId: "unexpected", type: "SpreadElement" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "function foo(a) {}",
 			output: "function foo(a,) {}",
 			options: ["always"],
 			languageOptions: { ecmaVersion: 9 },
-			errors: [{ messageId: "missing", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 
 		// separated options
@@ -1995,7 +2236,6 @@ let d = 0;export {d,};
 			errors: [
 				{
 					messageId: "missing",
-					type: "Identifier",
 					line: 3,
 					column: 3,
 				},
@@ -2011,7 +2251,6 @@ let d = 0;export {d,};
 			errors: [
 				{
 					messageId: "missing",
-					type: "Identifier",
 					line: 3,
 					column: 3,
 				},
@@ -2027,7 +2266,6 @@ let d = 0;export {d,};
 			errors: [
 				{
 					messageId: "missing",
-					type: "Identifier",
 					line: 3,
 					column: 3,
 				},
@@ -2043,7 +2281,6 @@ let d = 0;export {d,};
 			errors: [
 				{
 					messageId: "missing",
-					type: "Identifier",
 					line: 3,
 					column: 3,
 				},

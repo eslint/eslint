@@ -20,14 +20,12 @@ const CALL_ERROR = {
 	data: {
 		expr: "Buffer()",
 	},
-	type: "CallExpression",
 };
 const CONSTRUCT_ERROR = {
 	messageId: "deprecated",
 	data: {
 		expr: "new Buffer()",
 	},
-	type: "NewExpression",
 };
 
 const ruleTester = new RuleTester();

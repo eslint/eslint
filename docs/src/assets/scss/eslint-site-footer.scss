@@ -29,7 +29,7 @@
 			margin-inline-end: 0.5rem;
 
 			&:not(:last-of-type)::after {
-				content: "|";
+				content: "|" / "";
 				margin-left: 0.5rem;
 				margin-inline-start: 0.5rem;
 			}

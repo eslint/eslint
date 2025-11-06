@@ -244,7 +244,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 					column: 1,
 					endColumn: 5,
 				},
@@ -255,7 +254,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 					column: 1,
 					endColumn: 5,
 				},
@@ -266,7 +264,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 					column: 22,
 					endColumn: 26,
 				},
@@ -278,7 +275,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 					column: 1,
 					endColumn: 5,
 				},
@@ -290,7 +286,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 					column: 1,
 					endColumn: 5,
 				},
@@ -302,7 +297,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 					column: 22,
 					endColumn: 26,
 				},
@@ -315,7 +309,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Identifier",
 					column: 5,
 					endColumn: 9,
 				},
@@ -327,7 +320,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					column: 12,
 					endColumn: 16,
 				},
@@ -339,7 +331,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					column: 12,
 					endColumn: 18,
 				},
@@ -350,7 +341,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Identifier",
 					column: 12,
 					endColumn: 16,
 				},
@@ -361,7 +351,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					column: 17,
 					endColumn: 21,
 				},
@@ -372,7 +361,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					column: 31,
 					endColumn: 35,
 				},
@@ -383,7 +371,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					column: 39,
 					endColumn: 43,
 				},
@@ -395,7 +382,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 					column: 14,
 					endColumn: 18,
 				},
@@ -407,7 +393,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 					column: 28,
 					endColumn: 32,
 				},
@@ -419,7 +404,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 					column: 28,
 					endColumn: 32,
 				},
@@ -431,7 +415,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 					column: 36,
 					endColumn: 40,
 				},
@@ -442,7 +425,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "Identifier",
 					column: 31,
 					endColumn: 35,
 				},
@@ -454,7 +436,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 					column: 8,
 					endColumn: 12,
 				},
@@ -466,7 +447,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 					column: 15,
 					endColumn: 19,
 				},
@@ -478,7 +458,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 					column: 15,
 					endColumn: 21,
 				},
@@ -490,7 +469,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 					column: 8,
 					endColumn: 12,
 				},
@@ -502,7 +480,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 					column: 15,
 					endColumn: 19,
 				},
@@ -514,7 +491,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 					column: 15,
 					endColumn: 21,
 				},
@@ -525,7 +501,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 					column: 6,
 					endColumn: 10,
 				},
@@ -536,7 +511,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 					column: 20,
 					endColumn: 24,
 				},
@@ -547,7 +521,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 					column: 23,
 					endColumn: 27,
 				},
@@ -559,7 +532,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					column: 23,
 					endColumn: 27,
 				},
@@ -571,7 +543,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 					column: 12,
 					endColumn: 16,
 				},
@@ -583,7 +554,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 					column: 23,
 					endColumn: 27,
 				},
@@ -595,7 +565,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "CallExpression",
 					column: 23,
 					endColumn: 29,
 				},
@@ -607,7 +576,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					column: 16,
 					endColumn: 20,
 				},
@@ -619,7 +587,6 @@ ruleTester.run("no-eval", rule, {
 			errors: [
 				{
 					messageId: "unexpected",
-					type: "MemberExpression",
 					column: 16,
 					endColumn: 22,
 				},

@@ -29,7 +29,6 @@ ruleTester.run("no-label-var", rule, {
 			errors: [
 				{
 					messageId: "identifierClashWithLabel",
-					type: "LabeledStatement",
 				},
 			],
 		},
@@ -38,7 +37,6 @@ ruleTester.run("no-label-var", rule, {
 			errors: [
 				{
 					messageId: "identifierClashWithLabel",
-					type: "LabeledStatement",
 				},
 			],
 		},
@@ -47,7 +45,6 @@ ruleTester.run("no-label-var", rule, {
 			errors: [
 				{
 					messageId: "identifierClashWithLabel",
-					type: "LabeledStatement",
 				},
 			],
 		},

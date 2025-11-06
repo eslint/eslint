@@ -62,7 +62,6 @@ ruleTester.run("no-extend-native", rule, {
 				{
 					messageId: "unexpected",
 					data: { builtin: "Object" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -73,7 +72,6 @@ ruleTester.run("no-extend-native", rule, {
 				{
 					messageId: "unexpected",
 					data: { builtin: "BigInt" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -84,7 +82,6 @@ ruleTester.run("no-extend-native", rule, {
 				{
 					messageId: "unexpected",
 					data: { builtin: "WeakRef" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -95,7 +92,6 @@ ruleTester.run("no-extend-native", rule, {
 				{
 					messageId: "unexpected",
 					data: { builtin: "FinalizationRegistry" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -106,7 +102,6 @@ ruleTester.run("no-extend-native", rule, {
 				{
 					messageId: "unexpected",
 					data: { builtin: "AggregateError" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -116,7 +111,6 @@ ruleTester.run("no-extend-native", rule, {
 				{
 					messageId: "unexpected",
 					data: { builtin: "Function" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -126,7 +120,6 @@ ruleTester.run("no-extend-native", rule, {
 				{
 					messageId: "unexpected",
 					data: { builtin: "String" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -136,7 +129,6 @@ ruleTester.run("no-extend-native", rule, {
 				{
 					messageId: "unexpected",
 					data: { builtin: "Number" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -146,7 +138,6 @@ ruleTester.run("no-extend-native", rule, {
 				{
 					messageId: "unexpected",
 					data: { builtin: "Array" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -156,7 +147,6 @@ ruleTester.run("no-extend-native", rule, {
 				{
 					messageId: "unexpected",
 					data: { builtin: "Array" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -166,7 +156,6 @@ ruleTester.run("no-extend-native", rule, {
 				{
 					messageId: "unexpected",
 					data: { builtin: "Array" },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -177,7 +166,6 @@ ruleTester.run("no-extend-native", rule, {
 				{
 					messageId: "unexpected",
 					data: { builtin: "Number" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -187,13 +175,11 @@ ruleTester.run("no-extend-native", rule, {
 				{
 					messageId: "unexpected",
 					data: { builtin: "Object" },
-					type: "AssignmentExpression",
 					column: 1,
 				},
 				{
 					messageId: "unexpected",
 					data: { builtin: "Object" },
-					type: "AssignmentExpression",
 					column: 25,
 				},
 			],
@@ -204,7 +190,6 @@ ruleTester.run("no-extend-native", rule, {
 				{
 					messageId: "unexpected",
 					data: { builtin: "Object" },
-					type: "AssignmentExpression",
 				},
 			],
 		},

@@ -1,5 +1,3 @@
-/* eslint strict: off -- config used for testing only */
-
 module.exports = {
 	rules: {
 		quotes: 2,
