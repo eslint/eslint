@@ -5,8 +5,8 @@
 "use strict";
 
 module.exports = Object.freeze({
-	name: "@eslint/js/recommended",
-	rules: Object.freeze({
+    name: "@eslint/js/recommended",
+    rules: Object.freeze({
         "constructor-super": "error",
         "for-direction": "error",
         "getter-return": "error",
