@@ -61,7 +61,7 @@ bar // eslint-disable-line
 
 :::
 
-### Options
+## Options
 
 This rule has two options: a string value `"always"` or `"never"` which determines whether capitalization of the first word of a comment should be required or forbidden, and optionally an object containing more configuration parameters for the rule.
 
@@ -87,7 +87,7 @@ Here is an example configuration:
 }
 ```
 
-#### `"always"`
+### `"always"`
 
 Using the `"always"` option means that this rule will report any comments which start with a lowercase letter. This is the default configuration for this rule.
 
@@ -139,7 +139,7 @@ bar // eslint-disable-line
 
 :::
 
-#### `"never"`
+### `"never"`
 
 Using the `"never"` option means that this rule will report any comments which start with an uppercase letter.
 
@@ -173,7 +173,7 @@ Examples of **correct** code with the `"never"` option:
 
 :::
 
-#### `ignorePattern`
+### `ignorePattern`
 
 The `ignorePattern` object takes a string value, which is used as a regular expression applied to the first word of a comment.
 
@@ -192,7 +192,7 @@ function foo() {
 
 :::
 
-#### `ignoreInlineComments`
+### `ignoreInlineComments`
 
 Setting the `ignoreInlineComments` option to `true` means that comments in the middle of code (with a token on the same line as the beginning of the comment, and another token on the same line as the end of the comment) will not be reported by this rule.
 
@@ -210,7 +210,7 @@ function foo(/* ignored */ a) {
 
 :::
 
-#### `ignoreConsecutiveComments`
+### `ignoreConsecutiveComments`
 
 If the `ignoreConsecutiveComments` option is set to `true`, then comments which otherwise violate the rule will not be reported as long as they immediately follow another comment. This can be applied more than once.
 
@@ -250,7 +250,7 @@ foo();
 
 :::
 
-### Using Different Options for Line and Block Comments
+## Using Different Options for Line and Block Comments
 
 If you wish to have a different configuration for line comments and block comments, you can do so by using two different object configurations (note that the capitalization option will be enforced consistently for line and block comments):
 
