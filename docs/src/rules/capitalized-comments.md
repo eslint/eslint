@@ -61,6 +61,56 @@ bar // eslint-disable-line
 
 :::
 
+### Using Different Options for Line and Block Comments
+
+If you wish to have a different configuration for line comments and block comments, you can do so by using two different object configurations (note that the capitalization option will be enforced consistently for line and block comments):
+
+```json
+{
+    "capitalized-comments": [
+        "error",
+        "always",
+        {
+            "line": {
+                "ignorePattern": "pragma|ignored",
+            },
+            "block": {
+                "ignoreInlineComments": true,
+                "ignorePattern": "ignored"
+            }
+        }
+    ]
+}
+```
+
+Examples of **incorrect** code with different line and block comment configuration:
+
+:::incorrect
+
+```js
+/* eslint capitalized-comments: ["error", "always", { "block": { "ignorePattern": "blockignore" } }] */
+
+// capitalized line comment, this is incorrect, blockignore does not help here
+/* lowercased block comment, this is incorrect too */
+
+```
+
+:::
+
+Examples of **correct** code with different line and block comment configuration:
+
+:::correct
+
+```js
+/* eslint capitalized-comments: ["error", "always", { "block": { "ignorePattern": "blockignore" } }] */
+
+// Uppercase line comment, this is correct
+/* blockignore lowercase block comment, this is correct due to ignorePattern */
+
+```
+
+:::
+
 ## Options
 
 This rule has two options: a string value `"always"` or `"never"` which determines whether capitalization of the first word of a comment should be required or forbidden, and optionally an object containing more configuration parameters for the rule.
@@ -246,56 +296,6 @@ Examples of **incorrect** code with `ignoreConsecutiveComments` set to `true`:
 foo();
 // this comment is invalid, but only on this line.
 // this comment does NOT get reported, since it is a consecutive comment.
-```
-
-:::
-
-## Using Different Options for Line and Block Comments
-
-If you wish to have a different configuration for line comments and block comments, you can do so by using two different object configurations (note that the capitalization option will be enforced consistently for line and block comments):
-
-```json
-{
-    "capitalized-comments": [
-        "error",
-        "always",
-        {
-            "line": {
-                "ignorePattern": "pragma|ignored",
-            },
-            "block": {
-                "ignoreInlineComments": true,
-                "ignorePattern": "ignored"
-            }
-        }
-    ]
-}
-```
-
-Examples of **incorrect** code with different line and block comment configuration:
-
-:::incorrect
-
-```js
-/* eslint capitalized-comments: ["error", "always", { "block": { "ignorePattern": "blockignore" } }] */
-
-// capitalized line comment, this is incorrect, blockignore does not help here
-/* lowercased block comment, this is incorrect too */
-
-```
-
-:::
-
-Examples of **correct** code with different line and block comment configuration:
-
-:::correct
-
-```js
-/* eslint capitalized-comments: ["error", "always", { "block": { "ignorePattern": "blockignore" } }] */
-
-// Uppercase line comment, this is correct
-/* blockignore lowercase block comment, this is correct due to ignorePattern */
-
 ```
 
 :::
