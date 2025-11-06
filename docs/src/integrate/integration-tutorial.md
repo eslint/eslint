@@ -52,7 +52,7 @@ This tutorial assumes you are familiar with JavaScript and Node.js.
 
 To follow this tutorial, you'll need to have the following:
 
-- Node.js (`^18.18.0`, `^20.9.0`, or `>=21.1.0`)
+- Node.js (`^20.19.0`, `^22.13.0`, or `>=24`)
 - npm
 - A text editor
 

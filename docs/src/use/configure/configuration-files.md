@@ -825,7 +825,7 @@ ESLint does not perform type checking on your configuration file and does not ap
 
 ### Native TypeScript Support
 
-If you're using **Node.js >= 22.10.0**, you can load TypeScript configuration files natively without requiring [`jiti`](https://github.com/unjs/jiti). This is possible thanks to the [**`--experimental-strip-types`**](https://nodejs.org/docs/latest-v22.x/api/cli.html#--experimental-strip-types) flag.
+If you're using **Node.js >= 22.13.0**, you can load TypeScript configuration files natively without requiring [`jiti`](https://github.com/unjs/jiti). This is possible thanks to the [**`--experimental-strip-types`**](https://nodejs.org/docs/latest-v22.x/api/cli.html#--experimental-strip-types) flag.
 
 Since this feature is still experimental, you must also enable the `unstable_native_nodejs_ts_config` flag.
 
