@@ -137,6 +137,9 @@ With this configuration, the `semi` rule is enabled for all files that match the
 
 ::: important
 By default, ESLint lints files that match the patterns `**/*.js`, `**/*.cjs`, and `**/*.mjs`. Those files are always matched unless you explicitly exclude them using [global ignores](#globally-ignoring-files-with-ignores).
+If your configuration object includes other patterns, the rules in configuration objects without a `files` key will also apply to these patterns.
+
+Therefore, when using ESLint for non-JS files as well, it is more appropriate to create a configuration object that includes `files: ["**/*.js", "**/*.cjs", "**/*.mjs"]` and place the relevant rules there.
 :::
 
 #### Specifying files with arbitrary extensions
@@ -703,6 +706,27 @@ In this example, `exampleConfig` can be either an object or an array, and either
 
 For more information on how to combine shareable configs with your preferences, please see [Combine Configs](combine-configs).
 
+### When to Use Extends vs Cascading
+
+When to use `Extends`:
+
+- **For reusing configurations** - When you want to inherit and build upon existing configurations from plugins, shareable packages, or predefined configs.
+- **For plugin configuration** - When applying recommended or specific configurations from ESLint plugins (e.g., `example/recommended`).
+- **For shareable configurations** - When using npm packages that export configuration objects (e.g., `eslint-config-example`).
+- **For predefined configurations** - When using ESLint's built-in configurations like `js/recommended` or `js/all`.
+- **For modular configuration** - When you want to compose multiple configuration sources into a single configuration object.
+- **For maintaining consistency** - When you want to ensure consistent base rules across multiple configuration objects.
+- **For plugin integration** - When you need to apply configurations that come bundled with plugins.
+
+When to use `Cascading`:
+
+- **For file-specific rule** - When you need different rules for different file patterns or directories.
+- **For progressive configuration** - When you want to apply base rules to all files and then add/override rules for specific subsets.
+- **For environment-specific settings** - When test files, source files, and config files need different rule sets.
+- **For directory-based configuration** - When different project directories require different linting approaches.
+- **For rule severity adjustment** - When you want to change rule severity (`error`/`warn`/`off`) for specific file patterns.
+- **For language option variations** - When different files need different ECMAScript versions or parser options.
+
 ### Configuration Naming Conventions
 
 The `name` property is optional, but it is recommended to provide a name for each configuration object, especially when you are creating shared configurations. The name is used in error messages and the config inspector to help identify which configuration object is being used.
@@ -801,7 +825,7 @@ ESLint does not perform type checking on your configuration file and does not ap
 
 ### Native TypeScript Support
 
-If you're using **Node.js >= 22.10.0**, you can load TypeScript configuration files natively without requiring [`jiti`](https://github.com/unjs/jiti). This is possible thanks to the [**`--experimental-strip-types`**](https://nodejs.org/docs/latest-v22.x/api/cli.html#--experimental-strip-types) flag.
+If you're using **Node.js >= 22.13.0**, you can load TypeScript configuration files natively without requiring [`jiti`](https://github.com/unjs/jiti). This is possible thanks to the [**`--experimental-strip-types`**](https://nodejs.org/docs/latest-v22.x/api/cli.html#--experimental-strip-types) flag.
 
 Since this feature is still experimental, you must also enable the `unstable_native_nodejs_ts_config` flag.
 
