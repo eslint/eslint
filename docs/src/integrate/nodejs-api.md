@@ -586,7 +586,7 @@ if (DefaultESLint.configType === "flat") {
 }
 ```
 
-## If you don't need to support both the old and new configuration systems, then it's recommended to just use the `ESLint` constructor directly.
+**If you don't need to support both the old and new configuration systems, then it's recommended to just use the `ESLint` constructor directly.**
 
 ## SourceCode
 
