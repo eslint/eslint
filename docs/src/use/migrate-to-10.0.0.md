@@ -17,6 +17,7 @@ The lists below are ordered roughly by the number of users each change is expect
 
 - [Node.js < v20.19, v21, v23 are no longer supported](#drop-old-node)
 - [New configuration file lookup algorithm](#config-lookup-from-file)
+- [`no-shadow-restricted-names` now reports `globalThis` by default](#no-shadow-restricted-names)
 
 ### Breaking changes for plugin developers
 
@@ -54,3 +55,22 @@ In ESLint v9, the alternate config lookup behavior could be enabled with the `v1
 - If you relied on the previous (cwd-based) lookup behavior, provide an explicit config path with `-c, --config path/to/eslint.config.js`.
 
 **Related issue(s):** [#19967](https://github.com/eslint/eslint/issues/19967)
+
+## <a name="no-shadow-restricted-names"></a> `no-shadow-restricted-names` now reports `globalThis` by default
+
+In ESLint v10, the [`no-shadow-restricted-names`](../rules/no-shadow-restricted-names) rule now treats `globalThis` as a restricted name by default. Consequently, the `reportGlobalThis` option now defaults to `true` (previously `false`). As a result, declarations such as `const globalThis = "foo";` or `function globalThis() {}` will now be reported by default.
+
+**To address:**
+
+- Rename local identifiers named `globalThis` to avoid shadowing the global.
+- Or restore the previous behavior by configuring the rule explicitly:
+
+```json
+{
+	"rules": {
+		"no-shadow-restricted-names": ["error", { "reportGlobalThis": false }]
+	}
+}
+```
+
+**Related issue(s):** [#19673](https://github.com/eslint/eslint/issues/19673)
