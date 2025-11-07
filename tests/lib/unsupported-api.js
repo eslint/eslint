@@ -24,8 +24,8 @@ describe("unsupported-api", () => {
 		assert.isUndefined(api.FileEnumerator);
 	});
 
-	it("should have FlatESLint exposed", () => {
-		assert.isFunction(api.FlatESLint);
+	it("should not have FlatESLint exposed", () => {
+		assert.isUndefined(api.FlatESLint);
 	});
 
 	it("should not have LegacyESLint exposed", () => {
