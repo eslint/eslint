@@ -3783,7 +3783,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			Partial<{
 				/**
-				 * @default false
+				 * @default true
 				 */
 				reportGlobalThis: boolean;
 			}>,
