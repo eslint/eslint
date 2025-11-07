@@ -18,7 +18,7 @@ plugins:
 runtimes:
     enabled:
         - go@1.21.0
-        - node@18.18.0
+        - node@20.19.0
         - python@3.10.8
 tools:
     enabled:
@@ -64,6 +64,10 @@ lint:
         - linters: [markdownlint]
           paths:
               - CHANGELOG.md
+        - linters: [eslint]
+          paths:
+              - tests/fixtures/**
+              - docs/_examples/**
 actions:
     disabled:
         - trunk-announce
