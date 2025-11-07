@@ -18,6 +18,7 @@ The lists below are ordered roughly by the number of users each change is expect
 - [Node.js < v20.19, v21, v23 are no longer supported](#drop-old-node)
 - [New configuration file lookup algorithm](#config-lookup-from-file)
 - [`no-shadow-restricted-names` now reports `globalThis` by default](#no-shadow-restricted-names)
+- [`eslint:recommended` has been updated](#eslint-recommended)
 
 ### Breaking changes for plugin developers
 
@@ -74,3 +75,15 @@ In ESLint v10, the [`no-shadow-restricted-names`](../rules/no-shadow-restricted-
 ```
 
 **Related issue(s):** [#19673](https://github.com/eslint/eslint/issues/19673)
+
+## <a name="eslint-recommended"></a> `eslint:recommended` has been updated
+
+Three new rules have been enabled in `eslint:recommended`:
+
+- [`no-unassigned-vars`](../rules/no-unassigned-vars)
+- [`no-useless-assignment`](../rules/no-useless-assignment)
+- [`preserve-caught-error`](../rules/preserve-caught-error)
+
+**To address:** Fix errors or disable these rules.
+
+**Related issue(s):** [#19966](https://github.com/eslint/eslint/issues/19966)
