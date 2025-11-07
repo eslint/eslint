@@ -26,6 +26,10 @@ This rule enforces a consistent newlines around variable declarations. This rule
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has a single string option:
 
 * `"initializations"` (default) enforces a newline around variable initializations

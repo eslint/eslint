@@ -33,6 +33,11 @@ This rule disallows `if` statements as the only statement in `else` blocks.
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

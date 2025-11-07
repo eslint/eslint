@@ -20,6 +20,11 @@ This rule warns on any usage of `return await` except in `try` blocks.
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

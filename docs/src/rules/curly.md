@@ -27,6 +27,10 @@ This rule is aimed at preventing bugs and increasing code clarity by ensuring th
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 ### all
 
 Examples of **incorrect** code for the default `"all"` option:

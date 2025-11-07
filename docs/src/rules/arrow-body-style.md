@@ -11,6 +11,10 @@ This rule can enforce or disallow the use of braces around arrow function body.
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 The rule takes one or two options. The first is a string, which can be:
 
 * `"always"` enforces braces around the function body

@@ -36,6 +36,11 @@ This rule disallows any function within a loop that contains unsafe references (
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

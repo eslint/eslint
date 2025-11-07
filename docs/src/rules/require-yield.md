@@ -11,6 +11,11 @@ related_rules:
 
 This rule generates warnings for generator functions that do not have the `yield` keyword.
 
+## Options
+
+This rule has no options.
+
+
 ## Examples
 
 Examples of **incorrect** code for this rule:

@@ -42,6 +42,10 @@ This rule aims to enforce spacing around the `*` of generator functions.
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 The rule takes one option, an object, which has two keys `"before"` and `"after"` having boolean values `true` or `false`.
 
 * `"before"` enforces spacing between the `*` and the `function` keyword.

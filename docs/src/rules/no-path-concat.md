@@ -31,6 +31,11 @@ This rule aims to prevent string concatenation of directory paths in Node.js
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

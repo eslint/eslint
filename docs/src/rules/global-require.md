@@ -29,6 +29,11 @@ This rule requires all calls to `require()` to be at the top level of the module
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect { "sourceType": "script" }
 
 ```js

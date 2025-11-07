@@ -21,6 +21,11 @@ This rule aims to prevent access to uninitialized lexical bindings as well as ac
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

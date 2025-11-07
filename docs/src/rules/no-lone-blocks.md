@@ -20,6 +20,11 @@ This rule aims to eliminate unnecessary and potentially confusing blocks at the 
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect { "sourceType": "script" }
 
 ```js

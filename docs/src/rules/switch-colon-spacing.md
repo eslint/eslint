@@ -24,6 +24,11 @@ This rule has 2 options that are boolean value.
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

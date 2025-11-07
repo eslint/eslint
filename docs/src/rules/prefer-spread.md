@@ -24,6 +24,11 @@ Math.max(...args);
 
 This rule is aimed to flag usage of `Function.prototype.apply()` in situations where spread syntax could be used instead.
 
+## Options
+
+This rule has no options.
+
+
 ## Examples
 
 Examples of **incorrect** code for this rule:

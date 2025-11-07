@@ -39,6 +39,10 @@ This rule enforces consistent use of trailing commas in object and array literal
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has a string option or an object option:
 
 ```json

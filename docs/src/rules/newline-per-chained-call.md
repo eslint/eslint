@@ -56,6 +56,10 @@ This rule requires a newline after each call in a method chain or deep member ac
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has an object option:
 
 * `"ignoreChainWithDepth"` (default: `2`) allows chains up to a specified depth.

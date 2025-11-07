@@ -23,6 +23,10 @@ Please note that most editors show an additional empty line at the end if the fi
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has a number or object option:
 
 * `"max"` (default `300`) enforces a maximum number of lines in a file.

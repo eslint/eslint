@@ -15,6 +15,10 @@ This rule enforces line breaks between arguments of a function call.
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has a string option:
 
 * `"always"` (default) requires line breaks between arguments

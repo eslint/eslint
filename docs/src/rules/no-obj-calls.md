@@ -34,6 +34,11 @@ This rule also disallows using these objects as constructors with the `new` oper
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

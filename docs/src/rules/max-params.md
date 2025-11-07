@@ -26,6 +26,10 @@ This rule enforces a maximum number of parameters allowed in function definition
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has a number or object option:
 
 * `"max"` (default `3`) enforces a maximum number of parameters in function definitions

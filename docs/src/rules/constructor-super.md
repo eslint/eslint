@@ -69,6 +69,11 @@ class B extends C {
 
 :::
 
+## Options
+
+This rule has no options.
+
+
 ## When Not To Use It
 
 If you don't want to be notified about invalid/missing `super()` callings in constructors, you can safely disable this rule.

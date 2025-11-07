@@ -40,6 +40,11 @@ This rule disallows duplicate conditions in the same `if-else-if` chain.
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

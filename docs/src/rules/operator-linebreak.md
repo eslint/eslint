@@ -26,6 +26,10 @@ This rule enforces a consistent linebreak style for operators.
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has two options, a string option and an object option.
 
 String option:

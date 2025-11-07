@@ -177,6 +177,11 @@ ESLint does not correct a violation of this rule if a comment immediately preced
 
 As illustrated above, the `--fix` option, applied to this rule, does not comply with other rules, such as `indent`, but, if those other rules are also in effect, the option applies them, too.
 
+## Options
+
+This rule has no options.
+
+
 ## Examples
 
 Examples of **incorrect** code for this rule, with no object option or with `allowAllPropertiesOnSameLine` set to `false`:

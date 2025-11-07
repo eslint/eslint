@@ -32,6 +32,11 @@ Expressions with associativity such as `a = a || b || c` are reported as being a
 
 Examples of **incorrect** code for this rule with the default `"always"` option:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

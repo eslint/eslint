@@ -15,6 +15,11 @@ This rule disallows calling and constructing the `Buffer()` constructor.
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

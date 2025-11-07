@@ -20,6 +20,10 @@ This rule enforces a maximum line length to increase code readability and mainta
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule can have up to two numbers as positional arguments (for `code` and `tabWidth` options), followed by an object option (provided positional arguments have priority):
 
 * `"code"` (default `80`) enforces a maximum line length

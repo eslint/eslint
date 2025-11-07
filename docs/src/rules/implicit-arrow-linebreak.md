@@ -19,6 +19,11 @@ This rule accepts a string option:
 
 Examples of **incorrect** code for this rule with the default `"beside"` option:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

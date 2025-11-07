@@ -21,6 +21,10 @@ This rule can enforce or disallow the use of named function expressions.
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has a string option:
 
 * `"always"` (default) requires function expressions to have a name.

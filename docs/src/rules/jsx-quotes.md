@@ -25,6 +25,10 @@ This rule enforces the consistent use of either double or single quotes in JSX a
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has a string option:
 
 * `"prefer-double"` (default) enforces the use of double quotes for all JSX attribute values that don't contain a double quote.

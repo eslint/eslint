@@ -32,6 +32,11 @@ If a reference is inside of a dynamic expression (e.g. `CallExpression`,
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

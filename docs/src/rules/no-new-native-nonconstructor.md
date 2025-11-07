@@ -31,6 +31,11 @@ This rule is aimed at preventing the accidental calling of native JavaScript glo
 * `Symbol`
 * `BigInt`
 
+## Options
+
+This rule has no options.
+
+
 ## Examples
 
 Examples of **incorrect** code for this rule:

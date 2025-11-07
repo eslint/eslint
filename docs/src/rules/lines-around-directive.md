@@ -36,6 +36,10 @@ This rule requires or disallows blank newlines around directive prologues. This 
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has one option. It can either be a string or an object:
 
 * `"always"` (default) enforces blank newlines around directives.

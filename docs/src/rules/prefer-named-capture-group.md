@@ -23,6 +23,11 @@ const regex = /(?:cauli|sun)flower/;
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

@@ -11,6 +11,11 @@ This rule disallows negating the left operand in `in` expressions.
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

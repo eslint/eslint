@@ -13,6 +13,11 @@ Introduced in ES2018, object spread is a declarative alternative which may perfo
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

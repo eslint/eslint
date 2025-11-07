@@ -22,6 +22,11 @@ const str = `Hello, ${name}!`;
 
 This rule is aimed to flag usage of `+` operators with strings.
 
+## Options
+
+This rule has no options.
+
+
 ## Examples
 
 Examples of **incorrect** code for this rule:

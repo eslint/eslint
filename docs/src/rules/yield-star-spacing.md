@@ -11,6 +11,10 @@ This rule enforces spacing around the `*` in `yield*` expressions.
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 The rule takes one option, an object, which has two keys `before` and `after` having boolean values `true` or `false`.
 
 * `before` enforces spacing between the `yield` and the `*`.

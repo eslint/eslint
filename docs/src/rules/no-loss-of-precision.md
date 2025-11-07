@@ -13,6 +13,11 @@ In JS, `Number`s are stored as double-precision floating-point numbers according
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

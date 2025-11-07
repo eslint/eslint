@@ -68,6 +68,10 @@ This rule enforces consistent use of semicolons.
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has two options, a string option and an object option.
 
 String option:

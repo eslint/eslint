@@ -24,6 +24,11 @@ This rule is aimed at preventing errors that may arise from using the `__iterato
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

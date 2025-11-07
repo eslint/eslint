@@ -39,6 +39,11 @@ Example configurations:
 
 Examples of **incorrect** code for this rule with the `"always"` option:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

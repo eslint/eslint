@@ -22,6 +22,10 @@ This rule expects that when you're using the callback pattern in Node.js you'll 
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 The rule takes a single string option: the name of the error parameter. The default is `"err"`.
 
 Examples of **incorrect** code for this rule with the default `"err"` parameter name:

@@ -18,6 +18,11 @@ This throws a `TypeError` exception.
 
 This rule is aimed at preventing the accidental calling of `Symbol` with the `new` operator.
 
+## Options
+
+This rule has no options.
+
+
 ## Examples
 
 Examples of **incorrect** code for this rule:

@@ -18,6 +18,11 @@ This rule is aimed at discouraging the use of deprecated and sub-optimal code by
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

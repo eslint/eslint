@@ -30,6 +30,11 @@ This rule aims to prevent the use of `process.exit()` in Node.js JavaScript. As 
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

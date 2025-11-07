@@ -25,6 +25,11 @@ Control escapes such as `\t` and `\n` are allowed by this rule.
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

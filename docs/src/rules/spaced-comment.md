@@ -15,6 +15,10 @@ exceptions for various documentation styles.
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 The rule takes two options.
 
 * The first is a string which be either `"always"` or `"never"`. The default is `"always"`.

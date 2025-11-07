@@ -13,6 +13,11 @@ This rule aims to report redundant `return` statements.
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

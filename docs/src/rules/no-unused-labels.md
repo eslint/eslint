@@ -34,6 +34,11 @@ Problems reported by this rule can be fixed automatically, except when there are
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

@@ -15,6 +15,11 @@ This rule warns the assignments, increments, and decrements of imported bindings
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

@@ -25,6 +25,11 @@ This rule has a string option:
 
 Examples of **incorrect** code for this rule with the default `"unix"` option:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

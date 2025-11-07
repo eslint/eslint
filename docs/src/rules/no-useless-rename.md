@@ -37,6 +37,10 @@ This rule disallows the renaming of import, export, and destructured assignments
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule allows for more fine-grained control with the following options:
 
 * `ignoreImport`: When set to `true`, this rule does not check imports

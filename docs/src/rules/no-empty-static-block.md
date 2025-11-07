@@ -17,6 +17,11 @@ This rule disallows empty static blocks. This rule ignores static blocks which c
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

@@ -30,6 +30,11 @@ This rule aims to eliminate `var` and `let` variable declarations that initializ
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

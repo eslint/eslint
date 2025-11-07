@@ -109,3 +109,7 @@ Examples of **correct** code for this rule with the `{ "before": false, "after":
 ```
 
 :::
+
+## Options
+
+This rule has no options.

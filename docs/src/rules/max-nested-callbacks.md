@@ -36,6 +36,10 @@ This rule enforces a maximum depth that callbacks can be nested to increase code
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has a number or object option:
 
 * `"max"` (default `10`) enforces a maximum depth that callbacks can be nested

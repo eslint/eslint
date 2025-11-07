@@ -14,6 +14,10 @@ This rule can enforce or disallow parentheses when invoking a constructor with n
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule takes one option.
 
 * `"always"` enforces parenthesis after a new constructor with no arguments (default)

@@ -32,6 +32,10 @@ The rule applies to the operators listed in the above table. It does not report 
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has a single string option:
 
 * `"always"` (default)  requires assignment operator shorthand where possible

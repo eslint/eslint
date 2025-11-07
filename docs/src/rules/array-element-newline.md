@@ -19,6 +19,10 @@ This rule enforces line breaks between array elements.
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has either a string option:
 
 * `"always"` (default) requires line breaks between array elements

@@ -26,6 +26,10 @@ This rule enforces a coding style where empty lines are required or disallowed a
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has a string option:
 
 * `"always"` (default) requires an empty line after `var`, `let`, or `const`

@@ -23,6 +23,10 @@ This rule counts [graphemes](https://unicode.org/reports/tr29/#Default_Grapheme_
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 Examples of **incorrect** code for this rule with the default options:
 
 ::: incorrect

@@ -15,6 +15,11 @@ This rule is aimed at maintaining consistency when throwing exception by disallo
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

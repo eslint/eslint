@@ -11,6 +11,10 @@ This rule is aimed at preventing synchronous methods from being called in Node.j
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has an optional object option `{ allowAtRootLevel: <boolean> }`, which determines whether synchronous methods should be allowed at the top level of a file, outside of any functions. This option defaults to `false`.
 
 Examples of **incorrect** code for this rule with the default `{ allowAtRootLevel: false }` option:

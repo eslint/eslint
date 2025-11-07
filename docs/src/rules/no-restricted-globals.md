@@ -20,6 +20,10 @@ This rule allows you to specify global variable names that you don't want to use
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has both string and object options to specify the global variables to restrict.
 
 Using the string option, you can specify the name of a global variable that you want to restrict as a value in the rule options array:

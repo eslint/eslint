@@ -24,6 +24,10 @@ This rule enforces a consistent indentation style. The default style is `4 space
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has a mixed option:
 
 For example, for 2-space indentation:

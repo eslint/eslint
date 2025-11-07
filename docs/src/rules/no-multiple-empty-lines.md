@@ -10,6 +10,10 @@ This rule aims to reduce the scrolling required when reading through your code. 
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has an object option:
 
 * `"max"` (default: `2`) enforces a maximum number of consecutive empty lines.

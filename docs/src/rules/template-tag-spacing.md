@@ -22,6 +22,10 @@ This rule aims to maintain consistency around the spacing between template tag f
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 ```json
 {
     "template-tag-spacing": ["error", "never"]

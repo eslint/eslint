@@ -30,6 +30,11 @@ This rule disallows `\8` and `\9` escape sequences in string literals.
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect { "sourceType": "script" }
 
 ```js

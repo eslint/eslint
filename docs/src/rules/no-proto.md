@@ -14,6 +14,11 @@ When an object is created with the `new` operator, `__proto__` is set to the ori
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

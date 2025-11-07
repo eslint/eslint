@@ -40,6 +40,11 @@ This rule requires an empty line before `return` statements to increase code cla
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

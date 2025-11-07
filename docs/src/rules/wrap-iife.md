@@ -18,6 +18,10 @@ This rule requires all immediately-invoked function expressions to be wrapped in
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has two options, a string option and an object option.
 
 String option:

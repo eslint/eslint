@@ -29,6 +29,11 @@ This rule disallows sparse array literals which have "holes" where commas are no
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

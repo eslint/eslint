@@ -30,6 +30,11 @@ This rule aims to disallow async Promise executor functions.
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

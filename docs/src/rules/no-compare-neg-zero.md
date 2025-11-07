@@ -11,6 +11,11 @@ The rule should warn against code that tries to compare against `-0`, since that
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

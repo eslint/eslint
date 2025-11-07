@@ -14,6 +14,10 @@ This rule requires empty lines before and/or after comments. It can be enabled s
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has an object option:
 
 * `"beforeBlockComment": true` (default) requires an empty line before block comments

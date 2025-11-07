@@ -26,6 +26,10 @@ This rule disallows specified (that is, user-defined) syntax.
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule takes a list of strings, where each string is an AST selector:
 
 ```json

@@ -18,6 +18,11 @@ This rule disallows calls to `parseInt()` or `Number.parseInt()` if called with 
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

@@ -31,6 +31,10 @@ This rule is aimed at preventing the unintended conversion of a string to a numb
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 There are two options for this rule:
 
 * `"always"` enforces providing a radix (default)

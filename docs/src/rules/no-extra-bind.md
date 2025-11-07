@@ -41,6 +41,11 @@ This rule is aimed at avoiding the unnecessary use of `bind()` and as such will 
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

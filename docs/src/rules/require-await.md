@@ -32,6 +32,11 @@ This rule warns async functions which have no `await` expression.
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

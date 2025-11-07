@@ -12,6 +12,11 @@ This rule disallows return statements in the constructor of a class. Note that r
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

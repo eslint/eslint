@@ -24,6 +24,10 @@ As long as you do not explicitly disallow empty parentheses using the `"empty"` 
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 There are two options for this rule:
 
 * `"never"` (default) enforces zero spaces inside of parentheses

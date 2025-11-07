@@ -33,6 +33,10 @@ This rule enforces variables to be declared either together or separately per fu
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has one option, which can be a string option or an object option.
 
 String option:

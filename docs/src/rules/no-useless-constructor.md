@@ -23,6 +23,11 @@ class B extends A {
 
 This rule flags class constructors that can be safely removed without changing how the class works.
 
+## Options
+
+This rule has no options.
+
+
 ## Examples
 
 Examples of **incorrect** code for this rule:

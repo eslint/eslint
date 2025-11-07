@@ -31,6 +31,10 @@ This rule enforces consistent spacing inside braces of object literals, destruct
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has two options, a string option and an object option.
 
 String option:

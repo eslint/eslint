@@ -77,6 +77,10 @@ This rule requires that function declarations and, optionally, variable declarat
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has a string and an object option:
 
 * `"functions"` (default) disallows `function` declarations in nested blocks

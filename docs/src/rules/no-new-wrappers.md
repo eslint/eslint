@@ -50,6 +50,11 @@ This rule aims to eliminate the use of `String`, `Number`, and `Boolean` with th
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

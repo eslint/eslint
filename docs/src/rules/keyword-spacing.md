@@ -25,6 +25,10 @@ This rule enforces consistent spacing around keywords and keyword-like tokens: `
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has an object option:
 
 * `"before": true` (default) requires at least one space before keywords

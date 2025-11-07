@@ -16,6 +16,10 @@ This rule enforces consistent position of line comments. Block comments are not 
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule takes one argument, which can be a string or an object. The string settings are the same as those of the `position` property (explained below). The object option has the following properties:
 
 ### position

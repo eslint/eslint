@@ -22,6 +22,11 @@ This rule aims to flag the concatenation of 2 literals when they could be combin
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

@@ -20,6 +20,10 @@ It applies to static imports only, not dynamic ones.
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has both string and object options to specify the imported modules to restrict.
 
 Using string option, you can specify  the name of a module that you want to restrict from being imported as a value in the rule options array:

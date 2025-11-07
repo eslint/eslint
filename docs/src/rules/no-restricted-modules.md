@@ -16,6 +16,10 @@ This rule allows you to specify modules that you don’t want to use in your app
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 The rule takes one or more strings as options: the names of restricted modules.
 
 ```json

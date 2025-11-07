@@ -14,6 +14,11 @@ This error is raised to highlight a potentially confusing and potentially pointl
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

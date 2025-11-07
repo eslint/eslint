@@ -16,6 +16,10 @@ This rule aims to maintain consistency around the spacing inside of template lit
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 ```json
 {
     "template-curly-spacing": ["error", "never"]

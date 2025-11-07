@@ -22,6 +22,10 @@ This rule aims to eliminate assignments from `return` statements. As such, it wi
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 The rule takes one option, a string, which must contain one of the following values:
 
 * `except-parens` (default): Disallow assignments unless they are enclosed in parentheses.

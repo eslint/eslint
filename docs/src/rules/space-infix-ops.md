@@ -22,6 +22,10 @@ This rule is aimed at ensuring there are spaces around infix operators.
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule accepts a single options argument with the following defaults:
 
 ```json

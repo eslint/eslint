@@ -26,6 +26,11 @@ This rule disallows confusing multiline expressions where a newline looks like i
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

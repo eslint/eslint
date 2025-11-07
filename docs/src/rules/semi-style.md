@@ -25,6 +25,11 @@ This rule has an option.
 
 Examples of **incorrect** code for this rule with `"last"` option:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

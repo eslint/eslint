@@ -38,6 +38,11 @@ This rule disallows unreachable code after `return`, `throw`, `continue`, and `b
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

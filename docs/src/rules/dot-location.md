@@ -23,6 +23,10 @@ This rule aims to enforce newline consistency in member expressions. This rule p
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 The rule takes one option, a string:
 
 * If it is `"object"` (default), the dot in a member expression should be on the same line as the object portion.

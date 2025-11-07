@@ -12,6 +12,10 @@ This rule enforces line breaks after opening and before closing array brackets.
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has either a string option:
 
 * `"always"` requires line breaks inside brackets

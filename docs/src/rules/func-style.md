@@ -56,6 +56,10 @@ Note: This rule does not apply to *all* functions. For example, a callback funct
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has a string option:
 
 * `"expression"` (default) requires the use of function expressions instead of function declarations

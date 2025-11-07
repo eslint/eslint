@@ -28,6 +28,10 @@ This rule enforces a maximum number of statements allowed in function blocks.
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has a number or object option:
 
 * `"max"` (default `10`) enforces a maximum number of statements allows in function blocks

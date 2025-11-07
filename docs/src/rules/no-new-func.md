@@ -22,6 +22,11 @@ This error is raised to highlight the use of a bad practice. By passing a string
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

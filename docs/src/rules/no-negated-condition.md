@@ -15,6 +15,11 @@ This rule disallows negated conditions in either of the following:
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

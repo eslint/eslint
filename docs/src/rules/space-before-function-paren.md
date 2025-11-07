@@ -28,6 +28,10 @@ This rule aims to enforce consistent spacing before function parentheses and as 
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has a string option or an object option:
 
 ```js

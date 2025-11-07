@@ -25,6 +25,10 @@ This rule enforces consistent empty line padding within blocks.
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has two options, the first one can be a string option or an object option.
 The second one is an object option, it can allow exceptions.
 

@@ -20,6 +20,10 @@ This rule enforces a maximum depth that blocks can be nested to reduce code comp
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has a number or object option:
 
 * `"max"` (default `4`) enforces a maximum depth that blocks can be nested

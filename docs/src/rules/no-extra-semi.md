@@ -15,6 +15,11 @@ Problems reported by this rule can be fixed automatically, except when removing 
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

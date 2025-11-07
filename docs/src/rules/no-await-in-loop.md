@@ -73,6 +73,11 @@ async function foo() {
 
 This rule disallows the use of `await` within loop bodies.
 
+## Options
+
+This rule has no options.
+
+
 ## Examples
 
 Examples of **correct** code for this rule:

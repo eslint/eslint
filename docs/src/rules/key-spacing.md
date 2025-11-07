@@ -10,6 +10,10 @@ This rule enforces consistent spacing between keys and values in object literal 
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has an object option:
 
 * `"beforeColon": false (default) | true`

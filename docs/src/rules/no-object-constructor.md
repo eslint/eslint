@@ -45,6 +45,11 @@ const createObject = Object => new Object();
 
 :::
 
+## Options
+
+This rule has no options.
+
+
 ## When Not To Use It
 
 If you wish to allow the use of the `Object` constructor, you can safely turn this rule off.

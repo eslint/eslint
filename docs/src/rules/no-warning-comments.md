@@ -17,6 +17,10 @@ This rule reports comments that include any of the predefined terms specified in
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has an options object literal:
 
 * `"terms"`: optional array of terms to match. Defaults to `["todo", "fixme", "xxx"]`. Terms are matched case-insensitively and as whole words: `fix` would match `FIX` but not `fixing`. Terms can consist of multiple words: `really bad idea`.

@@ -14,6 +14,11 @@ This rule checks `this`/`super` keywords in constructors, then reports those tha
 
 This rule is aimed to flag `this`/`super` keywords before `super()` callings.
 
+## Options
+
+This rule has no options.
+
+
 ## Examples
 
 Examples of **incorrect** code for this rule:

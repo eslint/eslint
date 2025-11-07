@@ -32,6 +32,10 @@ Note: The location of the operators is not enforced by this rule. Please see the
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has a string option:
 
 * `"always"` (default) enforces newlines between the operands of a ternary expression.

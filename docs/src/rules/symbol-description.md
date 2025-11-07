@@ -30,6 +30,11 @@ It may facilitate identifying symbols when one is observed during debugging.
 
 This rules requires a description when creating symbols.
 
+## Options
+
+This rule has no options.
+
+
 ## Examples
 
 Examples of **incorrect** code for this rule:

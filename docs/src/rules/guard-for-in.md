@@ -30,6 +30,11 @@ This rule is aimed at preventing unexpected behavior that could arise from using
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

@@ -12,6 +12,10 @@ This rule looks for any underscores (`_`) located within the source code. It ign
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has an object option:
 
 * `"properties": "always"` (default) enforces camelcase style for property names

@@ -16,6 +16,11 @@ This is used to disambiguate the slash operator and facilitates more readable co
 
 Example of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

@@ -15,6 +15,11 @@ This rule is aimed to flag usage of `Function.prototype.call()` and `Function.pr
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

@@ -40,6 +40,10 @@ This rule is aimed to flag shorter notations for the type conversion, then sugge
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has three main options and one override option to allow some coercions as required.
 
 * `"boolean"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `boolean` type.

@@ -19,6 +19,11 @@ This rule is aimed at preventing the use of multiline strings.
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

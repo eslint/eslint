@@ -21,6 +21,11 @@ This rule enforces default parameters to be the last of parameters.
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

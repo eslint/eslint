@@ -12,6 +12,10 @@ This rule disallows specified names from being used as exported names.
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 By default, this rule doesn't disallow any names. Only the names you specify in the configuration will be disallowed.
 
 This rule has an object option:

@@ -36,6 +36,10 @@ This rule aims to enforce consistent style of conditions which compare a variabl
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule can take a string option:
 
 * If it is the default `"never"`, then comparisons must never be Yoda conditions.

@@ -21,6 +21,11 @@ The rule always ignores directive comments such as `/* eslint-disable */`.
 
 Examples of **incorrect** code for this rule with the default `"starred-block"` option:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

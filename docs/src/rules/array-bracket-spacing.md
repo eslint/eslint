@@ -23,6 +23,10 @@ This rule enforces consistent spacing inside array brackets.
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has a string option:
 
 * `"never"` (default) disallows spaces inside array brackets

@@ -28,6 +28,11 @@ This rule disallows calling the `Object` constructor with `new`.
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

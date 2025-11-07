@@ -26,6 +26,10 @@ The prefer-reflect rule will flag usage of any older method, suggesting to inste
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 ### Exceptions
 
 ```js

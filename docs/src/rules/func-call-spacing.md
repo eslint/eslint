@@ -23,6 +23,10 @@ This rule requires or disallows spaces between the function name and the opening
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has a string option:
 
 * `"never"` (default) disallows space between the function name and the opening parenthesis.

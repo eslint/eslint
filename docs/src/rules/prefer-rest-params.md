@@ -15,6 +15,11 @@ We can use that feature for variadic functions instead of the `arguments` variab
 
 This rule is aimed to flag usage of `arguments` variables.
 
+## Options
+
+This rule has no options.
+
+
 ## Examples
 
 Examples of **incorrect** code for this rule:

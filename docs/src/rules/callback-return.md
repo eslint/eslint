@@ -32,6 +32,10 @@ preceding a `return` statement. This rule decides what is a callback based on th
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 The rule takes a single option - an array of possible callback names - which may include object methods. The default callback names are `callback`, `cb`, `next`.
 
 ### Default callback names

@@ -17,6 +17,10 @@ This rule requires identifiers in assignments and `function` definitions to matc
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has a string option for the specified regular expression.
 
 For example, to enforce a camelcase naming convention:

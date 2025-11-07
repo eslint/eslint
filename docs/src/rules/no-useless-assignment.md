@@ -38,6 +38,11 @@ This rule aims to report variable assignments when the value is not used.
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

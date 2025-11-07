@@ -31,6 +31,11 @@ This rule aims to eliminate implied `eval()` through the use of `setTimeout()`, 
 
 Examples of **incorrect** code for this rule:
 
+## Options
+
+This rule has no options.
+
+
 ::: incorrect
 
 ```js

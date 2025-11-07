@@ -51,6 +51,10 @@ This rule enforces consistent brace style for blocks.
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has a string option:
 
 * `"1tbs"` (default) enforces one true brace style.

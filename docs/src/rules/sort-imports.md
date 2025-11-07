@@ -39,6 +39,10 @@ The `--fix` option on the command line automatically fixes some problems reporte
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule accepts an object with its properties as
 
 * `ignoreCase` (default: `false`)

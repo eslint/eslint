@@ -11,6 +11,10 @@ This rule enforces consistent spacing inside an open block token and the next to
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has a string option:
 
 * `"always"` (default) requires one or more spaces

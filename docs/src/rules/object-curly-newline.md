@@ -15,6 +15,10 @@ This rule requires or disallows a line break between `{` and its following token
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 This rule has either a string option:
 
 * `"always"` requires line breaks after opening and before closing braces

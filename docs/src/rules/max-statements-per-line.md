@@ -22,6 +22,10 @@ This rule enforces a maximum number of statements allowed per line.
 
 ## Options
 
+This rule has no options.
+
+## Options
+
 ### max
 
 The "max" object property is optional (default: 1).
