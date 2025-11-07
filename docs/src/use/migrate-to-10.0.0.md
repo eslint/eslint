@@ -51,8 +51,6 @@ In ESLint v9, the alternate config lookup behavior could be enabled with the `v1
     - CLI: remove `--flag v10_config_lookup_from_file`.
     - Environment: remove `v10_config_lookup_from_file` from `ESLINT_FLAGS`.
     - API: remove `"v10_config_lookup_from_file"` from the `flags` array passed to `new ESLint()` or `new Linter()`.
-- If you relied on the previous (cwd-based) lookup behavior, either:
-    - Run ESLint from the directory containing the desired config file, or
-    - Provide an explicit config path with `-c, --config path/to/eslint.config.js`.
+- If you relied on the previous (cwd-based) lookup behavior, provide an explicit config path with `-c, --config path/to/eslint.config.js`.
 
 **Related issue(s):** [#19967](https://github.com/eslint/eslint/issues/19967)
