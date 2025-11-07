@@ -41,11 +41,7 @@ describe("formatter:stylish", () => {
 			const result = util.stripVTControlCharacters(formatter(code));
 
 			assert.strictEqual(result, "");
-			/*
-			 * assert.strictEqual(chalkStub.reset.callCount, 0);
-			 * assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-			 * assert.strictEqual(chalkStub.red.bold.callCount, 0);
-			 */
+			assert.strictEqual(util.styleText.callCount, 0);
 		});
 	});
 
@@ -76,11 +72,9 @@ describe("formatter:stylish", () => {
 				result,
 				"\nfoo.js\n  5:10  error  Unexpected foo  foo\n\n\u2716 1 problem (1 error, 0 warnings)\n",
 			);
-			/*
-			 * assert.strictEqual(chalkStub.reset.callCount, 1);
-			 * assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-			 * assert.strictEqual(chalkStub.red.bold.callCount, 1);
-			 */
+			assert(util.styleText.calledWith("reset"));
+			assert(util.styleText.neverCalledWith(["yellow", "bold"]));
+			assert(util.styleText.calledWith(["red", "bold"]));
 		});
 
 		describe("when the error is fixable", () => {
@@ -95,11 +89,11 @@ describe("formatter:stylish", () => {
 					result,
 					"\nfoo.js\n  5:10  error  Unexpected foo  foo\n\n\u2716 1 problem (1 error, 0 warnings)\n  1 error and 0 warnings potentially fixable with the `--fix` option.\n",
 				);
-				/*
-				 * assert.strictEqual(chalkStub.reset.callCount, 1);
-				 * assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-				 * assert.strictEqual(chalkStub.red.bold.callCount, 2);
-				 */
+				assert(util.styleText.calledWith("reset"));
+				assert(util.styleText.neverCalledWith(["yellow", "bold"]));
+				assert(util.styleText.calledWith(["red", "bold"]));
+				assert(util.styleText.getCall(4).calledWith(["red", "bold"]));
+				assert(util.styleText.getCall(5).calledWith(["red", "bold"]));
 			});
 		});
 	});
@@ -131,11 +125,9 @@ describe("formatter:stylish", () => {
 				result,
 				"\nfoo.js\n  5:10  warning  Unexpected foo  foo\n\n\u2716 1 problem (0 errors, 1 warning)\n",
 			);
-			/*
-			 * assert.strictEqual(chalkStub.reset.callCount, 1);
-			 * assert.strictEqual(chalkStub.yellow.bold.callCount, 1);
-			 * assert.strictEqual(chalkStub.red.bold.callCount, 0);
-			 */
+			assert(util.styleText.calledWith("reset"));
+			assert(util.styleText.calledWith(["yellow", "bold"]));
+			assert(util.styleText.neverCalledWith(["red", "bold"]));
 		});
 
 		describe("when the error is fixable", () => {
@@ -150,11 +142,15 @@ describe("formatter:stylish", () => {
 					result,
 					"\nfoo.js\n  5:10  warning  Unexpected foo  foo\n\n\u2716 1 problem (0 errors, 1 warning)\n  0 errors and 1 warning potentially fixable with the `--fix` option.\n",
 				);
-				/*
-				 * assert.strictEqual(chalkStub.reset.callCount, 1);
-				 * assert.strictEqual(chalkStub.yellow.bold.callCount, 2);
-				 * assert.strictEqual(chalkStub.red.bold.callCount, 0);
-				 */
+				assert(util.styleText.calledWith("reset"));
+				assert(util.styleText.calledWith(["yellow", "bold"]));
+				assert(util.styleText.neverCalledWith(["red", "bold"]));
+				assert(
+					util.styleText.getCall(4).calledWith(["yellow", "bold"]),
+				);
+				assert(
+					util.styleText.getCall(5).calledWith(["yellow", "bold"]),
+				);
 			});
 		});
 	});
@@ -186,11 +182,9 @@ describe("formatter:stylish", () => {
 				result,
 				"\nfoo.js\n  5:10  warning  Unexpected .  foo\n\n\u2716 1 problem (0 errors, 1 warning)\n",
 			);
-			/*
-			 * assert.strictEqual(chalkStub.reset.callCount, 1);
-			 * assert.strictEqual(chalkStub.yellow.bold.callCount, 1);
-			 * assert.strictEqual(chalkStub.red.bold.callCount, 0);
-			 */
+			assert(util.styleText.calledWith("reset"));
+			assert(util.styleText.calledWith(["yellow", "bold"]));
+			assert(util.styleText.neverCalledWith(["red", "bold"]));
 		});
 	});
 
@@ -219,11 +213,9 @@ describe("formatter:stylish", () => {
 				result,
 				"\nfoo.js\n  5:10  error  Unexpected foo  foo\n\n\u2716 1 problem (1 error, 0 warnings)\n",
 			);
-			/*
-			 * assert.strictEqual(chalkStub.reset.callCount, 1);
-			 * assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-			 * assert.strictEqual(chalkStub.red.bold.callCount, 1);
-			 */
+			assert(util.styleText.calledWith("reset"));
+			assert(util.styleText.neverCalledWith(["yellow", "bold"]));
+			assert(util.styleText.calledWith(["red", "bold"]));
 		});
 	});
 
@@ -259,11 +251,9 @@ describe("formatter:stylish", () => {
 				result,
 				"\nfoo.js\n  5:10  error    Unexpected foo  foo\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (1 error, 1 warning)\n",
 			);
-			/*
-			 * assert.strictEqual(chalkStub.reset.callCount, 1);
-			 * assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-			 * assert.strictEqual(chalkStub.red.bold.callCount, 1);
-			 */
+			assert(util.styleText.calledWith("reset"));
+			assert(util.styleText.neverCalledWith(["yellow", "bold"]));
+			assert(util.styleText.calledWith(["red", "bold"]));
 		});
 	});
 
@@ -306,11 +296,9 @@ describe("formatter:stylish", () => {
 				result,
 				"\nfoo.js\n  5:10  error  Unexpected foo  foo\n\nbar.js\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (1 error, 1 warning)\n",
 			);
-			/*
-			 * assert.strictEqual(chalkStub.reset.callCount, 1);
-			 * assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-			 * assert.strictEqual(chalkStub.red.bold.callCount, 1);
-			 */
+			assert(util.styleText.calledWith("reset"));
+			assert(util.styleText.neverCalledWith(["yellow", "bold"]));
+			assert(util.styleText.calledWith(["red", "bold"]));
 		});
 
 		it("should add errorCount", () => {
@@ -325,11 +313,9 @@ describe("formatter:stylish", () => {
 				result,
 				"\nfoo.js\n  5:10  error  Unexpected foo  foo\n\nbar.js\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (2 errors, 0 warnings)\n",
 			);
-			/*
-			 * assert.strictEqual(chalkStub.reset.callCount, 1);
-			 * assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-			 * assert.strictEqual(chalkStub.red.bold.callCount, 1);
-			 */
+			assert(util.styleText.calledWith("reset"));
+			assert(util.styleText.neverCalledWith(["yellow", "bold"]));
+			assert(util.styleText.calledWith(["red", "bold"]));
 		});
 
 		it("should add warningCount", () => {
@@ -344,11 +330,9 @@ describe("formatter:stylish", () => {
 				result,
 				"\nfoo.js\n  5:10  error  Unexpected foo  foo\n\nbar.js\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (0 errors, 2 warnings)\n",
 			);
-			/*
-			 * assert.strictEqual(chalkStub.reset.callCount, 1);
-			 * assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-			 * assert.strictEqual(chalkStub.red.bold.callCount, 1);
-			 */
+			assert(util.styleText.calledWith("reset"));
+			assert(util.styleText.neverCalledWith(["yellow", "bold"]));
+			assert(util.styleText.calledWith(["red", "bold"]));
 		});
 	});
 
@@ -374,11 +358,9 @@ describe("formatter:stylish", () => {
 				result,
 				"\nfoo.js\n  0:0  error  Couldn't find foo.js\n\n\u2716 1 problem (1 error, 0 warnings)\n",
 			);
-			/*
-			 * assert.strictEqual(chalkStub.reset.callCount, 1);
-			 * assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-			 * assert.strictEqual(chalkStub.red.bold.callCount, 1);
-			 */
+			assert(util.styleText.calledWith("reset"));
+			assert(util.styleText.neverCalledWith(["yellow", "bold"]));
+			assert(util.styleText.calledWith(["red", "bold"]));
 		});
 	});
 
