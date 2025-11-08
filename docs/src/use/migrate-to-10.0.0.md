@@ -19,7 +19,7 @@ The lists below are ordered roughly by the number of users each change is expect
 - [New configuration file lookup algorithm](#config-lookup-from-file)
 - [`no-shadow-restricted-names` now reports `globalThis` by default](#no-shadow-restricted-names)
 - [`eslint:recommended` has been updated](#eslint-recommended)
-- [Jiti < v2.2.0 are no longer supported](#-jiti--v220-are-no-longer-supported)
+- [Jiti < v2.2.0 are no longer supported](#drop-old-jiti)
 
 ### Breaking changes for plugin developers
 
