@@ -1,10 +1,11 @@
 ---
+
 title: Migrate to v10.x
 eleventyNavigation:
-    key: migrate to v10
-    parent: use eslint
-    title: Migrate to v10.x
-    order: 9
+key: migrate to v10
+parent: use eslint
+title: Migrate to v10.x
+order: 9
 ---
 
 ESLint v10.0.0 is a major release of ESLint, and as such, has several breaking changes that you need to be aware of. This guide is intended to walk you through the breaking changes.
@@ -19,6 +20,7 @@ The lists below are ordered roughly by the number of users each change is expect
 - [New configuration file lookup algorithm](#config-lookup-from-file)
 - [`no-shadow-restricted-names` now reports `globalThis` by default](#no-shadow-restricted-names)
 - [`eslint:recommended` has been updated](#eslint-recommended)
+- [Jiti < v2.2.0 are no longer supported](#-jiti--v220-are-no-longer-supported)
 
 ### Breaking changes for plugin developers
 
@@ -45,14 +47,16 @@ ESLint is officially dropping support for these versions of Node.js starting wit
 
 ## <a name="config-lookup-from-file"></a> New configuration file lookup algorithm
 
-In ESLint v9, the alternate config lookup behavior could be enabled with the `v10_config_lookup_from_file` feature flag. This behavior made ESLint locate `eslint.config.*` by starting from the directory of each linted file and searching up towards the filesystem root. In ESLint v10, this behavior is now the default and the `v10_config_lookup_from_file` flag has been removed. Attempting to use this flag will now result in an error.
+In ESLint v9, the alternate config lookup behavior could be enabled with the `v10\_config\_lookup\_from\_file` feature flag. This behavior made ESLint locate `eslint.config.\*` by starting from the directory of each linted file and searching up towards the filesystem root. In ESLint v10, this behavior is now the default and the `v10\_config\_lookup\_from\_file` flag has been removed. Attempting to use this flag will now result in an error.
 
 **To address:**
 
 - Remove any usage of the flag in your setup:
-    - CLI: remove `--flag v10_config_lookup_from_file`.
-    - Environment: remove `v10_config_lookup_from_file` from `ESLINT_FLAGS`.
-    - API: remove `"v10_config_lookup_from_file"` from the `flags` array passed to `new ESLint()` or `new Linter()`.
+
+    - CLI: remove `--flag v10\_config\_lookup\_from\_file`.
+    - Environment: remove `v10\_config\_lookup\_from\_file` from `ESLINT\_FLAGS`.
+    - API: remove `"v10\_config\_lookup\_from\_file"` from the `flags` array passed to `new ESLint()` or `new Linter()`.
+
 - If you relied on the previous (cwd-based) lookup behavior, provide an explicit config path with `--config path/to/eslint.config.js`.
 
 **Related issue(s):** [#19967](https://github.com/eslint/eslint/issues/19967)
@@ -69,7 +73,7 @@ In ESLint v10, the [`no-shadow-restricted-names`](../rules/no-shadow-restricted-
 ```json
 {
 	"rules": {
-		"no-shadow-restricted-names": ["error", { "reportGlobalThis": false }]
+		"no-shadow-restricted-names": \["error", { "reportGlobalThis": false }]
 	}
 }
 ```
@@ -87,3 +91,11 @@ Three new rules have been enabled in `eslint:recommended`:
 **To address:** Fix errors or disable these rules.
 
 **Related issue(s):** [#19966](https://github.com/eslint/eslint/issues/19966)
+
+## <a name="drop-old-jiti"></a> Jiti < v2.2.0 are no longer supported
+
+ESLint is officially dropping support for versions of `jiti` that are less than v2.2.0.
+
+**To address:** If you've authored your config file in `TypeScript` and have `jiti` v2.1.0 or earlier installed, be sure to update it to at least `2.2.0` when using ESLint v10.
+
+**Related issue(s):** [#19765](https://github.com/eslint/eslint/issues/19765)
