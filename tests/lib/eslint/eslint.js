@@ -7499,7 +7499,7 @@ describe("ESLint", () => {
 					cwd,
 				});
 
-				await assert.rejects(eslint.lintText("foo();"), {
+				await assert.rejects(eslint.lintFiles("foo.js"), {
 					message:
 						"You are using an outdated version of the 'jiti' library. Please update to the latest version of 'jiti' to ensure compatibility and access to the latest features.",
 				});
@@ -7516,7 +7516,7 @@ describe("ESLint", () => {
 					cwd,
 				});
 
-				await assert.rejects(eslint.lintText("foo();"), {
+				await assert.rejects(eslint.lintFiles("foo.js"), {
 					message:
 						"You are using an outdated version of the 'jiti' library. Please update to the latest version of 'jiti' to ensure compatibility and access to the latest features.",
 				});
