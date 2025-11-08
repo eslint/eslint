@@ -19,6 +19,7 @@ The lists below are ordered roughly by the number of users each change is expect
 - [New configuration file lookup algorithm](#config-lookup-from-file)
 - [`no-shadow-restricted-names` now reports `globalThis` by default](#no-shadow-restricted-names)
 - [`eslint:recommended` has been updated](#eslint-recommended)
+- [Jiti < v2.2.0 are no longer supported](#-jiti--v220-are-no-longer-supported)
 
 ### Breaking changes for plugin developers
 
@@ -87,3 +88,11 @@ Three new rules have been enabled in `eslint:recommended`:
 **To address:** Fix errors or disable these rules.
 
 **Related issue(s):** [#19966](https://github.com/eslint/eslint/issues/19966)
+
+## <a name="drop-old-jiti"></a> Jiti < v2.2.0 are no longer supported
+
+ESLint is officially dropping support for versions of `jiti` that are less than v2.2.0.
+
+**To address:** If you've authored your config file in `TypeScript` and have `jiti` v2.1.2 or earlier installed, be sure to update it to at least `2.2.0` when using ESLint v10.
+
+**Related issue(s):** [#19765](https://github.com/eslint/eslint/issues/19765)

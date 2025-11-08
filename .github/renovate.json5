@@ -1,7 +1,6 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   extends: ["github>eslint/workflows//.github/renovate/base.json5"],
-  ignoreDeps: ["jiti-v2.0", "jiti-v2.1"],
   packageRules: [
     {
       description: "Group Babel packages into a single PR.",

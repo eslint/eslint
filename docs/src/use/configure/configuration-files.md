@@ -793,7 +793,7 @@ In this case, ESLint does not search for configuration files and instead uses `s
 
 ## TypeScript Configuration Files
 
-For Deno and Bun, TypeScript configuration files are natively supported; for Node.js, you must install the optional dev dependency [`jiti`](https://github.com/unjs/jiti) in version 2.0.0 or later in your project (this dependency is not automatically installed by ESLint):
+For Deno and Bun, TypeScript configuration files are natively supported; for Node.js, you must install the optional dev dependency [`jiti`](https://github.com/unjs/jiti) in version 2.2.0 or later in your project (this dependency is not automatically installed by ESLint):
 
 {{ npm_tabs({
     command: "install",
