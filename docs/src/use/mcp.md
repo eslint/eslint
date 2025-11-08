@@ -71,20 +71,13 @@ Example configuration:
 
 ```json
 {
-  "servers": {
-    "ESLint": {
-      "type": "stdio",
-      "command": "npx",
-      "args": [
-        "-p",
-        "@eslint/mcp@latest",
-        "-p",
-        "jiti",
-        "-c",
-        "mcp"
-      ]
-    }
-  }
+	"servers": {
+		"ESLint": {
+			"type": "stdio",
+			"command": "npx",
+			"args": ["-p", "@eslint/mcp@latest", "-p", "jiti", "-c", "mcp"]
+		}
+	}
 }
 ```
 
