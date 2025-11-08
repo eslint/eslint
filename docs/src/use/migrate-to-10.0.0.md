@@ -93,6 +93,6 @@ Three new rules have been enabled in `eslint:recommended`:
 
 ESLint is officially dropping support for versions of `jiti` that are less than v2.2.0.
 
-**To address:** If you've authored your config file in `TypeScript` and have `jiti` v2.1.0 or earlier installed, be sure to update it to at least `2.2.0` when using ESLint v10.
+**To address:** If you've authored your config file in `TypeScript` and have `jiti` v2.1.2 or earlier installed, be sure to update it to at least `2.2.0` when using ESLint v10.
 
 **Related issue(s):** [#19765](https://github.com/eslint/eslint/issues/19765)
