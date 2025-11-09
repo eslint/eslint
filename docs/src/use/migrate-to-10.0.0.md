@@ -24,11 +24,13 @@ The lists below are ordered roughly by the number of users each change is expect
 ### Breaking changes for plugin developers
 
 - [Node.js < v20.19, v21, v23 are no longer supported](#drop-old-node)
+- [Removal of `type` property in errors of invalid `RuleTester` cases](#ruletester-type-removed)
 
 ### Breaking changes for integration developers
 
 - [Node.js < v20.19, v21, v23 are no longer supported](#drop-old-node)
 - [New configuration file lookup algorithm](#config-lookup-from-file)
+- [Removal of `nodeType` property in `LintMessage` objects](#lintmessage-nodetype-removed)
 
 ---
 
@@ -96,3 +98,19 @@ ESLint is officially dropping support for versions of `jiti` that are less than 
 **To address:** If you've authored your config file in `TypeScript` and have `jiti` v2.1.2 or earlier installed, be sure to update it to at least `2.2.0` when using ESLint v10.
 
 **Related issue(s):** [#19765](https://github.com/eslint/eslint/issues/19765)
+
+## <a name="ruletester-type-removed"></a> Removal of `type` property in errors of invalid `RuleTester` cases
+
+In ESLint v10, the deprecated `type` property in errors of invalid test cases for rules has been removed. Using the `type` property in test cases now throws an error.
+
+**To address:** Remove the `type` property from error objects in invalid test cases.
+
+**Related issue(s):** [#19029](https://github.com/eslint/eslint/issues/19029)
+
+## <a name="lintmessage-nodetype-removed"></a> Removal of `nodeType` property in `LintMessage` objects
+
+In ESLint v10, the deprecated `nodeType` property on `LintMessage` objects has been removed. This affects consumers of the Node.js API (for example, custom formatters and editor/tool integrations) that previously relied on `message.nodeType`.
+
+**To address:** Remove all usages of `message.nodeType` in your integrations and formatters.
+
+**Related issue(s):** [#19029](https://github.com/eslint/eslint/issues/19029)
