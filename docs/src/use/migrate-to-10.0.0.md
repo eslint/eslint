@@ -20,6 +20,7 @@ The lists below are ordered roughly by the number of users each change is expect
 - [`no-shadow-restricted-names` now reports `globalThis` by default](#no-shadow-restricted-names)
 - [`eslint:recommended` has been updated](#eslint-recommended)
 - [Jiti < v2.2.0 are no longer supported](#drop-old-jiti)
+- [`eslint-env` comments are reported as errors](#eslint-env-comments)
 
 ### Breaking changes for plugin developers
 
@@ -114,3 +115,17 @@ In ESLint v10, the deprecated `nodeType` property on `LintMessage` objects has b
 **To address:** Remove all usages of `message.nodeType` in your integrations and formatters.
 
 **Related issue(s):** [#19029](https://github.com/eslint/eslint/issues/19029)
+
+## <a name="eslint-env-comments"></a> `eslint-env` comments are reported as errors
+
+In the now obsolete ESLint v8 configuration system, `/* eslint-env */` comments could be used to define globals for a file. The current configuration system does not support such comments, and starting with ESLint v10, they are reported as errors during linting.
+
+```text
+error: /* eslint-env */ comments are no longer supported at file.js:1:1:
+> 1 | /* eslint-env node -- Used in Node.js */
+    | ^
+```
+
+**To address:** Remove any `eslint-env` comments from your code. If you are still using the old configuration system and need help migrating, check the [migration guide](./configure/migration-guide#eslint-env-configuration-comments).
+
+**Related issue(s):** [#13481](https://github.com/eslint/eslint/issues/13481)
