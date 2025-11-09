@@ -190,7 +190,7 @@
     "node-polyfill-webpack-plugin": "^1.0.3",
     "npm-license": "^0.3.3",
     "pirates": "^4.0.5",
-    "prettier": "3.5.3",
+    "prettier": "3.6.2",
     "progress": "^2.0.3",
     "proxyquire": "^2.0.1",
     "recast": "^0.23.0",
