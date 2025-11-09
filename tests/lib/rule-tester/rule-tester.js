@@ -740,9 +740,7 @@ describe("RuleTester", () => {
 				invalid: [
 					{
 						code: "eval(foo)",
-						errors: [
-							{ message: "eval sucks.", type: "CallExpression" },
-						],
+						errors: [{ message: "eval sucks." }],
 					},
 				],
 			},
@@ -909,7 +907,6 @@ describe("RuleTester", () => {
 							errors: [
 								{
 									message: "Bad var.",
-									type: "VariableDeclaration",
 								},
 								null,
 							],
@@ -1056,7 +1053,6 @@ describe("RuleTester", () => {
 							errors: [
 								{
 									message: "Bad var.",
-									type: "VariableDeclaration",
 								},
 								{
 									message: "Bad var.",
@@ -1101,7 +1097,6 @@ describe("RuleTester", () => {
 							errors: [
 								{
 									message: "Bad var.",
-									type: "VariableDeclaration",
 								},
 							],
 						},
@@ -1248,29 +1243,6 @@ describe("RuleTester", () => {
 		}, "The rule fixed the code. Please add 'output' property.");
 	});
 
-	it("should throw an error if invalid code specifies wrong type", () => {
-		assert.throws(() => {
-			ruleTester.run(
-				"no-eval",
-				require("../../fixtures/testers/rule-tester/no-eval"),
-				{
-					valid: ["Eval(foo)"],
-					invalid: [
-						{
-							code: "eval(foo)",
-							errors: [
-								{
-									message: "eval sucks.",
-									type: "CallExpression2",
-								},
-							],
-						},
-					],
-				},
-			);
-		}, /Error type should be CallExpression2, found CallExpression/u);
-	});
-
 	it("should throw an error if invalid code specifies wrong line", () => {
 		assert.throws(() => {
 			ruleTester.run(
@@ -1284,7 +1256,6 @@ describe("RuleTester", () => {
 							errors: [
 								{
 									message: "eval sucks.",
-									type: "CallExpression",
 									line: 5,
 								},
 							],
@@ -1308,7 +1279,6 @@ describe("RuleTester", () => {
 							errors: [
 								{
 									message: "eval sucks.",
-									type: "CallExpression",
 									line: 0,
 								},
 							],
@@ -1414,7 +1384,6 @@ describe("RuleTester", () => {
 							errors: [
 								{
 									message: "Bad var.",
-									type: "VariableDeclaration",
 									endLine: 10,
 								},
 							],
@@ -1439,7 +1408,6 @@ describe("RuleTester", () => {
 							errors: [
 								{
 									message: "Bad var.",
-									type: "VariableDeclaration",
 									endColumn: 10,
 								},
 							],
@@ -2912,9 +2880,7 @@ describe("RuleTester", () => {
 				})),
 				invalid: filenames.map((filename, index) => ({
 					code: `eval(foo${index})`,
-					errors: [
-						{ message: "eval sucks.", type: "CallExpression" },
-					],
+					errors: [{ message: "eval sucks." }],
 					filename,
 				})),
 			},
