@@ -2503,6 +2503,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.0.2
 	 * @see https://eslint.org/docs/latest/rules/no-eval
 	 */
+    
 	"no-eval": Linter.RuleEntry<
 		[
 			Partial<{
