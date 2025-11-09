@@ -42,7 +42,9 @@ const code = `/*
  * cause an error.
  */
 
-module.exports = Object.freeze(${JSON.stringify({ rules: allRules }, null, 4)});
+module.exports = Object.freeze({
+    rules: Object.freeze(${JSON.stringify(allRules, null, 4).replaceAll("\n", "\n    ")})
+});
 `;
 
 fs.writeFileSync("./packages/js/src/configs/eslint-all.js", code, "utf8");
