@@ -21,6 +21,7 @@ The lists below are ordered roughly by the number of users each change is expect
 - [`eslint:recommended` has been updated](#eslint-recommended)
 - [Jiti < v2.2.0 are no longer supported](#drop-old-jiti)
 - [`eslint-env` comments are reported as errors](#eslint-env-comments)
+- [`func-names` schema is stricter](#func-names)
 
 ### Breaking changes for plugin developers
 
@@ -129,3 +130,21 @@ error: /* eslint-env */ comments are no longer supported at file.js:1:1:
 **To address:** Remove any `eslint-env` comments from your code. If you are still using the old configuration system and need help migrating, check the [migration guide](./configure/migration-guide#eslint-env-configuration-comments).
 
 **Related issue(s):** [#13481](https://github.com/eslint/eslint/issues/13481)
+
+## <a name="func-names"></a> `func-names` schema is stricter
+
+In ESLint v10, the [`func-names`](../rules/func-names) rule schema now disallows extra items in the options array. Previously, configurations that included additional array elements beyond the allowed options were accepted but ignored. Such configurations are now considered invalid.
+
+For example, this configuration is now invalid due to the extra element `"foo"`:
+
+```js
+/*eslint func-names: ["error", "always", { "generators": "never" }, "foo"]*/
+```
+
+**To address:**
+
+- Remove any extra array elements from your `func-names` configuration so that it contains only:
+    - a base string option: `"always" | "as-needed" | "never"`, and
+    - optionally, an object option: `{ "generators": "always" | "as-needed" | "never" }`.
+
+**Related issue(s):** [#20134](https://github.com/eslint/eslint/issues/20134)
