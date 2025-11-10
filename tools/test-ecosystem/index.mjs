@@ -7,7 +7,6 @@
 // Requirements
 //-----------------------------------------------------------------------------
 
-import chalk from "chalk";
 import spawn from "nano-spawn";
 import fs from "node:fs/promises";
 import path from "node:path";
@@ -59,7 +58,7 @@ async function runTests(pluginKey, pluginSettings) {
 		} catch (error) {
 			console.error(
 				chalk.red(`[${pluginKey}]`),
-				"stdout" in error ? error.stdout : error,
+				error.stdout || error,
 			);
 			throw error;
 		}

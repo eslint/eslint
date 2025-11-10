@@ -7,7 +7,6 @@
 // Requirements
 //-----------------------------------------------------------------------------
 
-import chalk from "chalk";
 import util from "node:util";
 import path from "node:path";
 

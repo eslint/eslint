@@ -7,7 +7,6 @@
 // Requirements
 //-----------------------------------------------------------------------------
 
-import chalk from "chalk";
 import fs from "node:fs/promises";
 import { getPlugins, pluginDataFilePath } from "./data.mjs";
 
