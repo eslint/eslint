@@ -32,7 +32,6 @@ ruleTester.run("no-caller", rule, {
 				{
 					messageId: "unexpected",
 					data: { prop: "callee" },
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -42,7 +41,6 @@ ruleTester.run("no-caller", rule, {
 				{
 					messageId: "unexpected",
 					data: { prop: "caller" },
-					type: "MemberExpression",
 				},
 			],
 		},

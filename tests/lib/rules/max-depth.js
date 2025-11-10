@@ -80,7 +80,6 @@ ruleTester.run("max-depth", rule, {
 				{
 					messageId: "tooDeeply",
 					data: { depth: 3, maxDepth: 2 },
-					type: "IfStatement",
 				},
 			],
 		},
@@ -92,7 +91,6 @@ ruleTester.run("max-depth", rule, {
 				{
 					messageId: "tooDeeply",
 					data: { depth: 3, maxDepth: 2 },
-					type: "IfStatement",
 				},
 			],
 		},
@@ -103,7 +101,6 @@ ruleTester.run("max-depth", rule, {
 				{
 					messageId: "tooDeeply",
 					data: { depth: 2, maxDepth: 1 },
-					type: "ForStatement",
 				},
 			],
 		},
@@ -114,7 +111,6 @@ ruleTester.run("max-depth", rule, {
 				{
 					messageId: "tooDeeply",
 					data: { depth: 2, maxDepth: 1 },
-					type: "IfStatement",
 				},
 			],
 		},
@@ -126,7 +122,6 @@ ruleTester.run("max-depth", rule, {
 				{
 					messageId: "tooDeeply",
 					data: { depth: 2, maxDepth: 1 },
-					type: "IfStatement",
 				},
 			],
 		},
@@ -137,12 +132,10 @@ ruleTester.run("max-depth", rule, {
 				{
 					messageId: "tooDeeply",
 					data: { depth: 2, maxDepth: 1 },
-					type: "IfStatement",
 				},
 				{
 					messageId: "tooDeeply",
 					data: { depth: 3, maxDepth: 1 },
-					type: "IfStatement",
 				},
 			],
 		},
@@ -152,7 +145,6 @@ ruleTester.run("max-depth", rule, {
 				{
 					messageId: "tooDeeply",
 					data: { depth: 5, maxDepth: 4 },
-					type: "IfStatement",
 				},
 			],
 		},
@@ -165,7 +157,6 @@ ruleTester.run("max-depth", rule, {
 				{
 					messageId: "tooDeeply",
 					data: { depth: 3, maxDepth: 2 },
-					type: "IfStatement",
 				},
 			],
 		},

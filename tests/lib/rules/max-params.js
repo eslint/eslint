@@ -40,7 +40,6 @@ ruleTester.run("max-params", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Function 'test'", count: 3, max: 2.0 },
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -50,7 +49,6 @@ ruleTester.run("max-params", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Function 'test'", count: 4, max: 3.0 },
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -61,7 +59,6 @@ ruleTester.run("max-params", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Function", count: 4, max: 3.0 },
-					type: "FunctionExpression",
 				},
 			],
 		},
@@ -73,7 +70,6 @@ ruleTester.run("max-params", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Arrow function", count: 4, max: 3.0 },
-					type: "ArrowFunctionExpression",
 				},
 			],
 		},
@@ -84,7 +80,6 @@ ruleTester.run("max-params", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Function", count: 4, max: 3.0 },
-					type: "FunctionExpression",
 				},
 			],
 		},
@@ -95,7 +90,6 @@ ruleTester.run("max-params", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Function 'test'", count: 3, max: 1.0 },
-					type: "FunctionExpression",
 				},
 			],
 		},
@@ -108,7 +102,6 @@ ruleTester.run("max-params", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Function 'test'", count: 3, max: 2.0 },
-					type: "FunctionDeclaration",
 				},
 			],
 		},

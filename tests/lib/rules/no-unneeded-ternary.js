@@ -54,7 +54,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalExpression",
-					type: "ConditionalExpression",
 					line: 1,
 					column: 9,
 					endLine: 1,
@@ -68,7 +67,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalExpression",
-					type: "ConditionalExpression",
 					line: 1,
 					column: 9,
 					endLine: 1,
@@ -82,7 +80,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalExpression",
-					type: "ConditionalExpression",
 					line: 1,
 					column: 9,
 					endLine: 1,
@@ -96,7 +93,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalExpression",
-					type: "ConditionalExpression",
 					line: 1,
 					column: 9,
 					endLine: 1,
@@ -110,7 +106,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalExpression",
-					type: "ConditionalExpression",
 					line: 1,
 					column: 9,
 					endLine: 1,
@@ -124,7 +119,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalExpression",
-					type: "ConditionalExpression",
 					line: 1,
 					column: 9,
 					endLine: 1,
@@ -138,7 +132,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalExpression",
-					type: "ConditionalExpression",
 					line: 1,
 					column: 9,
 					endLine: 1,
@@ -152,7 +145,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalExpression",
-					type: "ConditionalExpression",
 					line: 1,
 					column: 9,
 					endLine: 1,
@@ -166,7 +158,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalExpression",
-					type: "ConditionalExpression",
 					line: 1,
 					column: 9,
 					endLine: 1,
@@ -180,7 +171,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalExpression",
-					type: "ConditionalExpression",
 					line: 1,
 					column: 9,
 					endLine: 1,
@@ -194,7 +184,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalExpression",
-					type: "ConditionalExpression",
 					line: 1,
 					column: 9,
 					endLine: 1,
@@ -208,7 +197,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalExpression",
-					type: "ConditionalExpression",
 					line: 1,
 					column: 9,
 					endLine: 1,
@@ -222,7 +210,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalExpression",
-					type: "ConditionalExpression",
 					line: 1,
 					column: 9,
 					endLine: 1,
@@ -245,7 +232,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalAssignment",
-					type: "ConditionalExpression",
 					line: 4,
 					column: 30,
 					endLine: 4,
@@ -260,7 +246,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalAssignment",
-					type: "ConditionalExpression",
 					line: 1,
 					column: 1,
 					endLine: 1,
@@ -276,7 +261,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalAssignment",
-					type: "ConditionalExpression",
 					line: 1,
 					column: 18,
 					endLine: 1,
@@ -291,7 +275,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalAssignment",
-					type: "ConditionalExpression",
 					line: 1,
 					column: 9,
 					endLine: 1,
@@ -306,7 +289,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalAssignment",
-					type: "ConditionalExpression",
 					line: 1,
 					column: 9,
 					endLine: 1,
@@ -322,7 +304,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalAssignment",
-					type: "ConditionalExpression",
 					line: 1,
 					column: 9,
 					endLine: 1,
@@ -338,7 +319,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalAssignment",
-					type: "ConditionalExpression",
 					line: 1,
 					column: 9,
 					endLine: 1,
@@ -354,7 +334,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalAssignment",
-					type: "ConditionalExpression",
 					line: 1,
 					column: 9,
 					endLine: 1,
@@ -370,7 +349,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalAssignment",
-					type: "ConditionalExpression",
 					line: 1,
 					column: 9,
 					endLine: 1,
@@ -386,7 +364,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalAssignment",
-					type: "ConditionalExpression",
 					line: 1,
 					column: 9,
 					endLine: 1,
@@ -402,7 +379,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalAssignment",
-					type: "ConditionalExpression",
 					line: 1,
 					column: 9,
 					endLine: 1,
@@ -418,7 +394,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalAssignment",
-					type: "ConditionalExpression",
 					line: 1,
 					column: 9,
 					endLine: 1,
@@ -433,7 +408,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalAssignment",
-					type: "ConditionalExpression",
 					line: 1,
 					column: 3,
 					endLine: 1,
@@ -448,7 +422,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalAssignment",
-					type: "ConditionalExpression",
 					line: 1,
 					column: 1,
 					endLine: 1,
@@ -463,7 +436,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalAssignment",
-					type: "ConditionalExpression",
 					line: 1,
 					column: 9,
 					endLine: 1,
@@ -479,7 +451,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalAssignment",
-					type: "ConditionalExpression",
 					line: 1,
 					column: 9,
 					endLine: 1,
@@ -501,7 +472,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalExpression",
-					type: "ConditionalExpression",
 				},
 			],
 		},
@@ -518,7 +488,6 @@ ruleTester.run("no-unneeded-ternary", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryConditionalAssignment",
-					type: "ConditionalExpression",
 				},
 			],
 		},

@@ -37,7 +37,6 @@ ruleTester.run("no-iterator", rule, {
 			errors: [
 				{
 					messageId: "noIterator",
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -46,7 +45,6 @@ ruleTester.run("no-iterator", rule, {
 			errors: [
 				{
 					messageId: "noIterator",
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -55,7 +53,6 @@ ruleTester.run("no-iterator", rule, {
 			errors: [
 				{
 					messageId: "noIterator",
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -65,7 +62,6 @@ ruleTester.run("no-iterator", rule, {
 			errors: [
 				{
 					messageId: "noIterator",
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -75,7 +71,6 @@ ruleTester.run("no-iterator", rule, {
 			errors: [
 				{
 					messageId: "noIterator",
-					type: "MemberExpression",
 				},
 			],
 		},

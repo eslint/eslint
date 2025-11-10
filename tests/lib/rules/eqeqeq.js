@@ -70,7 +70,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
-					type: "BinaryExpression",
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -87,7 +86,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
-					type: "BinaryExpression",
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -105,7 +103,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -117,7 +114,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -128,7 +124,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -139,7 +134,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -150,7 +144,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -162,7 +155,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -173,7 +165,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -185,7 +176,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -195,7 +185,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
-					type: "BinaryExpression",
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -213,7 +202,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
-					type: "BinaryExpression",
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -230,7 +218,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
-					type: "BinaryExpression",
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -248,7 +235,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
-					type: "BinaryExpression",
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -266,7 +252,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
-					type: "BinaryExpression",
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -284,7 +269,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
-					type: "BinaryExpression",
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -303,7 +287,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -315,7 +298,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -327,7 +309,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -339,7 +320,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -351,7 +331,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -362,7 +341,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
-					type: "BinaryExpression",
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -380,7 +358,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
-					type: "BinaryExpression",
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -399,7 +376,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -411,7 +387,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -422,7 +397,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEq,
-					type: "BinaryExpression",
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -440,7 +414,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEq,
-					type: "BinaryExpression",
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -459,7 +432,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEq,
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -471,7 +443,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEq,
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -481,7 +452,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
-					type: "BinaryExpression",
 					line: 2,
 					suggestions: [
 						{
@@ -499,7 +469,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
-					type: "BinaryExpression",
 					line: 1,
 					suggestions: [
 						{
@@ -517,7 +486,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
-					type: "BinaryExpression",
 					line: 1,
 					suggestions: [
 						{
@@ -535,7 +503,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
-					type: "BinaryExpression",
 					line: 1,
 					suggestions: [
 						{
@@ -553,7 +520,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
-					type: "BinaryExpression",
 					line: 1,
 					suggestions: [
 						{
@@ -571,7 +537,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
-					type: "BinaryExpression",
 					line: 1,
 					suggestions: [
 						{
@@ -589,7 +554,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
-					type: "BinaryExpression",
 					line: 1,
 					suggestions: [
 						{
@@ -607,7 +571,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
-					type: "BinaryExpression",
 					line: 1,
 					suggestions: [
 						{
@@ -620,7 +583,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
-					type: "BinaryExpression",
 					line: 1,
 					suggestions: [
 						{
@@ -638,7 +600,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
-					type: "BinaryExpression",
 					line: 1,
 					suggestions: [
 						{
@@ -651,7 +612,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
-					type: "BinaryExpression",
 					line: 1,
 					suggestions: [
 						{
@@ -671,7 +631,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
-					type: "BinaryExpression",
 					column: 3,
 					endColumn: 5,
 					suggestions: [
@@ -690,7 +649,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
-					type: "BinaryExpression",
 					column: 2,
 					endColumn: 4,
 					suggestions: [
@@ -709,7 +667,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
-					type: "BinaryExpression",
 					column: 9,
 					endColumn: 11,
 					suggestions: [
@@ -728,7 +685,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
-					type: "BinaryExpression",
 					column: 10,
 					endColumn: 12,
 					suggestions: [
@@ -748,7 +704,6 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
-					type: "BinaryExpression",
 					column: 9,
 					endColumn: 11,
 				},

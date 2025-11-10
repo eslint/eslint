@@ -81,7 +81,6 @@ ruleTester.run("no-cond-assign", rule, {
 			errors: [
 				{
 					messageId: "missing",
-					type: "AssignmentExpression",
 					line: 1,
 					column: 12,
 					endLine: 1,
@@ -91,19 +90,35 @@ ruleTester.run("no-cond-assign", rule, {
 		},
 		{
 			code: "var x; while (x = 0) { var b = 1; }",
-			errors: [{ messageId: "missing", type: "AssignmentExpression" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 		{
 			code: "var x = 0, y; do { y = x; } while (x = x + 1);",
-			errors: [{ messageId: "missing", type: "AssignmentExpression" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 		{
 			code: "var x; for(; x+=1 ;){};",
-			errors: [{ messageId: "missing", type: "AssignmentExpression" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 		{
 			code: "var x; if ((x) = (0));",
-			errors: [{ messageId: "missing", type: "AssignmentExpression" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 		{
 			code: "if (someNode || (someNode = parentNode)) { }",
@@ -112,7 +127,6 @@ ruleTester.run("no-cond-assign", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "an 'if' statement" },
-					type: "AssignmentExpression",
 					column: 18,
 					endColumn: 39,
 				},
@@ -125,7 +139,6 @@ ruleTester.run("no-cond-assign", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "a 'while' statement" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -136,7 +149,6 @@ ruleTester.run("no-cond-assign", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "a 'do...while' statement" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -147,7 +159,6 @@ ruleTester.run("no-cond-assign", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "a 'for' statement" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -158,7 +169,6 @@ ruleTester.run("no-cond-assign", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "an 'if' statement" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -169,7 +179,6 @@ ruleTester.run("no-cond-assign", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "a 'while' statement" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -180,7 +189,6 @@ ruleTester.run("no-cond-assign", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "a 'do...while' statement" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -191,7 +199,6 @@ ruleTester.run("no-cond-assign", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "a 'for' statement" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -202,7 +209,6 @@ ruleTester.run("no-cond-assign", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "an 'if' statement" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -213,7 +219,6 @@ ruleTester.run("no-cond-assign", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "a 'while' statement" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -224,7 +229,6 @@ ruleTester.run("no-cond-assign", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "a 'do...while' statement" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
@@ -235,22 +239,33 @@ ruleTester.run("no-cond-assign", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "a 'for' statement" },
-					type: "AssignmentExpression",
 				},
 			],
 		},
 		{
 			code: "var x; var b = (x = 0) ? 1 : 0;",
-			errors: [{ messageId: "missing", type: "AssignmentExpression" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 		{
 			code: "var x; var b = x && (y = 0) ? 1 : 0;",
 			options: ["always"],
-			errors: [{ messageId: "unexpected", type: "AssignmentExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "(((3496.29)).bkufyydt = 2e308) ? foo : bar;",
-			errors: [{ messageId: "missing", type: "AssignmentExpression" }],
+			errors: [
+				{
+					messageId: "missing",
+				},
+			],
 		},
 	],
 });

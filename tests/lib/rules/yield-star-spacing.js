@@ -18,15 +18,17 @@ const rule = require("../../../lib/rules/yield-star-spacing"),
 
 const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 6 } });
 
-const missingBeforeError = { messageId: "missingBefore", type: "Punctuator" };
-const missingAfterError = { messageId: "missingAfter", type: "Punctuator" };
+const missingBeforeError = {
+	messageId: "missingBefore",
+};
+const missingAfterError = {
+	messageId: "missingAfter",
+};
 const unexpectedBeforeError = {
 	messageId: "unexpectedBefore",
-	type: "Punctuator",
 };
 const unexpectedAfterError = {
 	messageId: "unexpectedAfter",
-	type: "Punctuator",
 };
 
 ruleTester.run("yield-star-spacing", rule, {

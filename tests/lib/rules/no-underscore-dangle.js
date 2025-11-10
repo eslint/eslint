@@ -294,7 +294,6 @@ ruleTester.run("no-underscore-dangle", rule, {
 				{
 					messageId: "unexpectedUnderscore",
 					data: { identifier: "_foo" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -304,7 +303,6 @@ ruleTester.run("no-underscore-dangle", rule, {
 				{
 					messageId: "unexpectedUnderscore",
 					data: { identifier: "foo_" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -314,7 +312,6 @@ ruleTester.run("no-underscore-dangle", rule, {
 				{
 					messageId: "unexpectedUnderscore",
 					data: { identifier: "_foo" },
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -324,7 +321,6 @@ ruleTester.run("no-underscore-dangle", rule, {
 				{
 					messageId: "unexpectedUnderscore",
 					data: { identifier: "foo_" },
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -334,7 +330,6 @@ ruleTester.run("no-underscore-dangle", rule, {
 				{
 					messageId: "unexpectedUnderscore",
 					data: { identifier: "__proto__" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -344,7 +339,6 @@ ruleTester.run("no-underscore-dangle", rule, {
 				{
 					messageId: "unexpectedUnderscore",
 					data: { identifier: "_bar" },
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -354,7 +348,6 @@ ruleTester.run("no-underscore-dangle", rule, {
 				{
 					messageId: "unexpectedUnderscore",
 					data: { identifier: "_prop" },
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -365,7 +358,6 @@ ruleTester.run("no-underscore-dangle", rule, {
 				{
 					messageId: "unexpectedUnderscore",
 					data: { identifier: "_prop" },
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -377,7 +369,6 @@ ruleTester.run("no-underscore-dangle", rule, {
 				{
 					messageId: "unexpectedUnderscore",
 					data: { identifier: "_prop" },
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -389,7 +380,6 @@ ruleTester.run("no-underscore-dangle", rule, {
 				{
 					messageId: "unexpectedUnderscore",
 					data: { identifier: "_onClick" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -401,7 +391,6 @@ ruleTester.run("no-underscore-dangle", rule, {
 				{
 					messageId: "unexpectedUnderscore",
 					data: { identifier: "onClick_" },
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -413,7 +402,6 @@ ruleTester.run("no-underscore-dangle", rule, {
 				{
 					messageId: "unexpectedUnderscore",
 					data: { identifier: "_onClick" },
-					type: "Property",
 				},
 			],
 		},
@@ -425,7 +413,6 @@ ruleTester.run("no-underscore-dangle", rule, {
 				{
 					messageId: "unexpectedUnderscore",
 					data: { identifier: "onClick_" },
-					type: "Property",
 				},
 			],
 		},
@@ -435,7 +422,6 @@ ruleTester.run("no-underscore-dangle", rule, {
 				{
 					messageId: "unexpectedUnderscore",
 					data: { identifier: "_bar" },
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -446,7 +432,6 @@ ruleTester.run("no-underscore-dangle", rule, {
 				{
 					messageId: "unexpectedUnderscore",
 					data: { identifier: "_bar" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -457,7 +442,6 @@ ruleTester.run("no-underscore-dangle", rule, {
 				{
 					messageId: "unexpectedUnderscore",
 					data: { identifier: "_bar" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -468,7 +452,6 @@ ruleTester.run("no-underscore-dangle", rule, {
 				{
 					messageId: "unexpectedUnderscore",
 					data: { identifier: "_foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -480,7 +463,6 @@ ruleTester.run("no-underscore-dangle", rule, {
 				{
 					messageId: "unexpectedUnderscore",
 					data: { identifier: "_bar" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -492,7 +474,6 @@ ruleTester.run("no-underscore-dangle", rule, {
 				{
 					messageId: "unexpectedUnderscore",
 					data: { identifier: "_bar" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -504,7 +485,6 @@ ruleTester.run("no-underscore-dangle", rule, {
 				{
 					messageId: "unexpectedUnderscore",
 					data: { identifier: "_bar" },
-					type: "AssignmentPattern",
 				},
 			],
 		},
@@ -516,7 +496,6 @@ ruleTester.run("no-underscore-dangle", rule, {
 				{
 					messageId: "unexpectedUnderscore",
 					data: { identifier: "_bar" },
-					type: "AssignmentPattern",
 				},
 			],
 		},
@@ -528,7 +507,6 @@ ruleTester.run("no-underscore-dangle", rule, {
 				{
 					messageId: "unexpectedUnderscore",
 					data: { identifier: "_bar" },
-					type: "AssignmentPattern",
 				},
 			],
 		},
@@ -540,7 +518,6 @@ ruleTester.run("no-underscore-dangle", rule, {
 				{
 					messageId: "unexpectedUnderscore",
 					data: { identifier: "_bar" },
-					type: "RestElement",
 				},
 			],
 		},
@@ -552,7 +529,6 @@ ruleTester.run("no-underscore-dangle", rule, {
 				{
 					messageId: "unexpectedUnderscore",
 					data: { identifier: "_bar" },
-					type: "RestElement",
 				},
 			],
 		},
@@ -564,7 +540,6 @@ ruleTester.run("no-underscore-dangle", rule, {
 				{
 					messageId: "unexpectedUnderscore",
 					data: { identifier: "_bar" },
-					type: "RestElement",
 				},
 			],
 		},

@@ -175,7 +175,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 				{
 					message:
 						"Return values from promise executor functions cannot be read.",
-					type: "ReturnStatement",
 					column: 42,
 					endColumn: 51,
 					suggestions: null,
@@ -193,7 +192,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 				{
 					message:
 						"Return values from promise executor functions cannot be read.",
-					type: "CallExpression",
 					column: 34,
 					endColumn: 44,
 					suggestions: [
@@ -220,7 +218,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 				{
 					message:
 						"Return values from promise executor functions cannot be read.",
-					type: "ReturnStatement",
 					column: 36,
 					endColumn: 44,
 					suggestions: [
@@ -244,7 +241,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "prependVoid",
@@ -268,7 +264,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ConditionalExpression",
 					suggestions: [
 						{
 							messageId: "prependVoid",
@@ -292,7 +287,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ConditionalExpression",
 					suggestions: [
 						{
 							messageId: "prependVoid",
@@ -316,7 +310,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "prependVoid",
@@ -340,7 +333,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ArrowFunctionExpression",
 					suggestions: [
 						{
 							messageId: "prependVoid",
@@ -366,7 +358,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "prependVoid",
@@ -390,7 +381,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "wrapBraces",
@@ -412,7 +402,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "UnaryExpression",
 					suggestions: [
 						{
 							messageId: "prependVoid",
@@ -436,7 +425,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "UnaryExpression",
 					suggestions: [
 						{
 							messageId: "wrapBraces",
@@ -458,7 +446,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					suggestions: [
 						{
 							messageId: "prependVoid",
@@ -478,7 +465,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					suggestions: null,
 				},
 			],
@@ -495,7 +481,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					suggestions: [
 						{
 							messageId: "prependVoid",
@@ -517,7 +502,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					suggestions: [
 						{
 							messageId: "prependVoid",
@@ -537,7 +521,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "AssignmentExpression",
 					suggestions: [
 						{
 							messageId: "prependVoid",
@@ -563,7 +546,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					suggestions: [
 						{
 							messageId: "prependVoid",
@@ -583,7 +565,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "prependVoid",
@@ -609,7 +590,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "Literal",
 					suggestions: [
 						{
 							messageId: "prependVoid",
@@ -630,7 +610,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					suggestions: null,
 				},
 			],
@@ -640,7 +619,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					suggestions: null,
 				},
 			],
@@ -652,7 +630,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					suggestions: null,
 				},
 			],
@@ -662,7 +639,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					suggestions: null,
 				},
 			],
@@ -672,7 +648,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					suggestions: null,
 				},
 			],
@@ -682,7 +657,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "Identifier",
 					column: 34,
 					suggestions: [
 						{
@@ -698,7 +672,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "Literal",
 					column: 34,
 					suggestions: [
 						{
@@ -714,7 +687,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					suggestions: null,
 				},
 			],
@@ -724,7 +696,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					suggestions: null,
 				},
 			],
@@ -734,7 +705,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "BinaryExpression",
 					column: 34,
 					suggestions: [
 						{
@@ -750,7 +720,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					suggestions: null,
 				},
 			],
@@ -762,7 +731,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					suggestions: null,
 				},
 			],
@@ -772,7 +740,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					suggestions: null,
 				},
 			],
@@ -782,7 +749,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					suggestions: null,
 				},
 			],
@@ -794,7 +760,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					suggestions: null,
 				},
 			],
@@ -805,7 +770,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "Literal",
 					column: 20,
 					suggestions: [
 						{
@@ -821,7 +785,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ObjectExpression",
 					column: 26,
 					suggestions: [
 						{
@@ -839,7 +802,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					suggestions: null,
 				},
 			],
@@ -849,7 +811,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					suggestions: null,
 				},
 			],
@@ -859,7 +820,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "Literal",
 					column: 19,
 					suggestions: [
 						{
@@ -877,7 +837,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					column: 45,
 					suggestions: null,
 				},
@@ -888,7 +847,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					column: 48,
 					suggestions: null,
 				},
@@ -899,7 +857,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					column: 50,
 					suggestions: null,
 				},
@@ -910,7 +867,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					column: 52,
 					suggestions: null,
 				},
@@ -921,7 +877,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					column: 71,
 					suggestions: null,
 				},
@@ -932,7 +887,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					column: 38,
 					suggestions: null,
 				},
@@ -943,7 +897,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					column: 62,
 					suggestions: null,
 				},
@@ -954,7 +907,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					column: 30,
 					suggestions: null,
 				},
@@ -965,7 +917,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					column: 27,
 					suggestions: null,
 				},
@@ -976,7 +927,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					column: 27,
 					suggestions: null,
 				},
@@ -987,7 +937,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "Literal",
 					column: 25,
 					suggestions: [
 						{
@@ -1003,7 +952,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ArrowFunctionExpression",
 					column: 25,
 					suggestions: [
 						{
@@ -1022,7 +970,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ArrowFunctionExpression",
 					column: 25,
 					suggestions: [
 						{
@@ -1039,7 +986,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "FunctionExpression",
 					column: 25,
 					suggestions: [],
 				},
@@ -1050,7 +996,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "FunctionExpression",
 					column: 25,
 					suggestions: [
 						{
@@ -1066,7 +1011,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ArrayExpression",
 					column: 25,
 					suggestions: [
 						{
@@ -1084,7 +1028,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					suggestions: null,
 				},
 			],
@@ -1094,7 +1037,6 @@ ruleTester.run("no-promise-executor-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					suggestions: null,
 				},
 			],

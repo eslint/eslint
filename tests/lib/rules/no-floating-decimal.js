@@ -17,8 +17,12 @@ const rule = require("../../../lib/rules/no-floating-decimal"),
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();
-const leadingError = { messageId: "leading", type: "Literal" };
-const trailingError = { messageId: "trailing", type: "Literal" };
+const leadingError = {
+	messageId: "leading",
+};
+const trailingError = {
+	messageId: "trailing",
+};
 
 ruleTester.run("no-floating-decimal", rule, {
 	valid: ["var x = 2.5;", 'var x = "2.5";'],

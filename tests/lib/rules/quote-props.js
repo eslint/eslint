@@ -224,7 +224,6 @@ ruleTester.run("quote-props", rule, {
 				{
 					messageId: "unquotedPropertyFound",
 					data: { property: "a" },
-					type: "Property",
 				},
 			],
 		},
@@ -235,7 +234,6 @@ ruleTester.run("quote-props", rule, {
 				{
 					messageId: "unquotedPropertyFound",
 					data: { property: "0" },
-					type: "Property",
 				},
 			],
 		},
@@ -247,7 +245,6 @@ ruleTester.run("quote-props", rule, {
 				{
 					messageId: "unnecessarilyQuotedProperty",
 					data: { property: "a" },
-					type: "Property",
 				},
 			],
 		},
@@ -259,7 +256,6 @@ ruleTester.run("quote-props", rule, {
 				{
 					messageId: "unnecessarilyQuotedProperty",
 					data: { property: "null" },
-					type: "Property",
 				},
 			],
 		},
@@ -271,7 +267,6 @@ ruleTester.run("quote-props", rule, {
 				{
 					messageId: "unnecessarilyQuotedProperty",
 					data: { property: "true" },
-					type: "Property",
 				},
 			],
 		},
@@ -283,7 +278,6 @@ ruleTester.run("quote-props", rule, {
 				{
 					messageId: "unnecessarilyQuotedProperty",
 					data: { property: "0" },
-					type: "Property",
 				},
 			],
 		},
@@ -295,7 +289,6 @@ ruleTester.run("quote-props", rule, {
 				{
 					messageId: "inconsistentlyQuotedProperty",
 					data: { key: "b" },
-					type: "Property",
 				},
 			],
 		},
@@ -307,7 +300,6 @@ ruleTester.run("quote-props", rule, {
 				{
 					messageId: "inconsistentlyQuotedProperty",
 					data: { key: "a" },
-					type: "Property",
 				},
 			],
 		},
@@ -319,7 +311,6 @@ ruleTester.run("quote-props", rule, {
 				{
 					messageId: "inconsistentlyQuotedProperty",
 					data: { key: "b" },
-					type: "Property",
 				},
 			],
 		},
@@ -328,8 +319,12 @@ ruleTester.run("quote-props", rule, {
 			output: "({ a: 0, b: 0 })",
 			options: ["consistent-as-needed"],
 			errors: [
-				{ messageId: "redundantQuoting", type: "Property" },
-				{ messageId: "redundantQuoting", type: "Property" },
+				{
+					messageId: "redundantQuoting",
+				},
+				{
+					messageId: "redundantQuoting",
+				},
 			],
 		},
 		{
@@ -337,7 +332,11 @@ ruleTester.run("quote-props", rule, {
 			output: "({ a: 0, [x]: 0 })",
 			options: ["consistent-as-needed"],
 			languageOptions: { ecmaVersion: 6 },
-			errors: [{ messageId: "redundantQuoting", type: "Property" }],
+			errors: [
+				{
+					messageId: "redundantQuoting",
+				},
+			],
 		},
 		{
 			code: "({ 'a': 0, x })",
@@ -347,7 +346,6 @@ ruleTester.run("quote-props", rule, {
 			errors: [
 				{
 					messageId: "redundantQuoting",
-					type: "Property",
 				},
 			],
 		},
@@ -356,8 +354,12 @@ ruleTester.run("quote-props", rule, {
 			output: "({ true: 0, null: 0 })",
 			options: ["consistent-as-needed"],
 			errors: [
-				{ messageId: "redundantQuoting", type: "Property" },
-				{ messageId: "redundantQuoting", type: "Property" },
+				{
+					messageId: "redundantQuoting",
+				},
+				{
+					messageId: "redundantQuoting",
+				},
 			],
 		},
 		{
@@ -368,7 +370,6 @@ ruleTester.run("quote-props", rule, {
 				{
 					messageId: "inconsistentlyQuotedProperty",
 					data: { key: "true" },
-					type: "Property",
 				},
 			],
 		},
@@ -377,8 +378,12 @@ ruleTester.run("quote-props", rule, {
 			output: "({ a: 0, b: 0 })",
 			options: ["consistent-as-needed", { keywords: true }],
 			errors: [
-				{ messageId: "redundantQuoting", type: "Property" },
-				{ messageId: "redundantQuoting", type: "Property" },
+				{
+					messageId: "redundantQuoting",
+				},
+				{
+					messageId: "redundantQuoting",
+				},
 			],
 		},
 		{
@@ -389,12 +394,10 @@ ruleTester.run("quote-props", rule, {
 				{
 					messageId: "requireQuotesDueToReservedWord",
 					data: { property: "while" },
-					type: "Property",
 				},
 				{
 					messageId: "requireQuotesDueToReservedWord",
 					data: { property: "while" },
-					type: "Property",
 				},
 			],
 		},
@@ -406,7 +409,6 @@ ruleTester.run("quote-props", rule, {
 				{
 					messageId: "requireQuotesDueToReservedWord",
 					data: { property: "while" },
-					type: "Property",
 				},
 			],
 		},
@@ -414,7 +416,11 @@ ruleTester.run("quote-props", rule, {
 			code: "({ foo: 0, 'bar': 0 })",
 			output: "({ foo: 0, bar: 0 })",
 			options: ["consistent-as-needed", { keywords: true }],
-			errors: [{ messageId: "redundantQuoting", type: "Property" }],
+			errors: [
+				{
+					messageId: "redundantQuoting",
+				},
+			],
 		},
 		{
 			code:
@@ -434,7 +440,6 @@ ruleTester.run("quote-props", rule, {
 				{
 					messageId: "inconsistentlyQuotedProperty",
 					data: { key: "prop2" },
-					type: "Property",
 				},
 			],
 		},
@@ -453,9 +458,15 @@ ruleTester.run("quote-props", rule, {
 				"})",
 			options: ["consistent-as-needed"],
 			errors: [
-				{ messageId: "redundantQuoting", type: "Property" },
-				{ messageId: "redundantQuoting", type: "Property" },
-				{ messageId: "redundantQuoting", type: "Property" },
+				{
+					messageId: "redundantQuoting",
+				},
+				{
+					messageId: "redundantQuoting",
+				},
+				{
+					messageId: "redundantQuoting",
+				},
 			],
 		},
 		{
@@ -466,7 +477,6 @@ ruleTester.run("quote-props", rule, {
 				{
 					messageId: "unnecessarilyQuotedProperty",
 					data: { property: "if" },
-					type: "Property",
 				},
 			],
 		},
@@ -478,7 +488,6 @@ ruleTester.run("quote-props", rule, {
 				{
 					messageId: "unnecessarilyQuotedProperty",
 					data: { property: "synchronized" },
-					type: "Property",
 				},
 			],
 		},
@@ -490,7 +499,6 @@ ruleTester.run("quote-props", rule, {
 				{
 					messageId: "unquotedReservedProperty",
 					data: { property: "while" },
-					type: "Property",
 				},
 			],
 		},
@@ -502,7 +510,6 @@ ruleTester.run("quote-props", rule, {
 				{
 					messageId: "unquotedReservedProperty",
 					data: { property: "if" },
-					type: "Property",
 				},
 			],
 		},
@@ -514,7 +521,6 @@ ruleTester.run("quote-props", rule, {
 				{
 					messageId: "unquotedNumericProperty",
 					data: { property: "1" },
-					type: "Property",
 				},
 			],
 		},
@@ -526,7 +532,6 @@ ruleTester.run("quote-props", rule, {
 				{
 					messageId: "unquotedPropertyFound",
 					data: { property: "1" },
-					type: "Property",
 				},
 			],
 		},

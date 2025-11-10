@@ -57,7 +57,6 @@ ruleTester.run("no-empty", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "block" },
-					type: "BlockStatement",
 					suggestions: [
 						{
 							messageId: "suggestComment",
@@ -74,7 +73,6 @@ ruleTester.run("no-empty", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "block" },
-					type: "BlockStatement",
 					suggestions: [
 						{
 							messageId: "suggestComment",
@@ -91,7 +89,6 @@ ruleTester.run("no-empty", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "block" },
-					type: "BlockStatement",
 					suggestions: [
 						{
 							messageId: "suggestComment",
@@ -108,7 +105,6 @@ ruleTester.run("no-empty", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "block" },
-					type: "BlockStatement",
 					suggestions: [
 						{
 							messageId: "suggestComment",
@@ -125,7 +121,6 @@ ruleTester.run("no-empty", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "block" },
-					type: "BlockStatement",
 					suggestions: [
 						{
 							messageId: "suggestComment",
@@ -142,7 +137,6 @@ ruleTester.run("no-empty", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "block" },
-					type: "BlockStatement",
 					suggestions: [
 						{
 							messageId: "suggestComment",
@@ -159,7 +153,6 @@ ruleTester.run("no-empty", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "switch" },
-					type: "SwitchStatement",
 					line: 1,
 					column: 13,
 					endLine: 1,
@@ -180,7 +173,6 @@ ruleTester.run("no-empty", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "switch" },
-					type: "SwitchStatement",
 					line: 1,
 					column: 62,
 					endLine: 1,
@@ -202,7 +194,6 @@ ruleTester.run("no-empty", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "block" },
-					type: "BlockStatement",
 					suggestions: [
 						{
 							messageId: "suggestComment",
@@ -220,7 +211,6 @@ ruleTester.run("no-empty", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "block" },
-					type: "BlockStatement",
 					suggestions: [
 						{
 							messageId: "suggestComment",
@@ -238,7 +228,6 @@ ruleTester.run("no-empty", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "block" },
-					type: "BlockStatement",
 					suggestions: [
 						{
 							messageId: "suggestComment",
@@ -250,7 +239,6 @@ ruleTester.run("no-empty", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "block" },
-					type: "BlockStatement",
 					suggestions: [
 						{
 							messageId: "suggestComment",
@@ -267,7 +255,6 @@ ruleTester.run("no-empty", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "block" },
-					type: "BlockStatement",
 					suggestions: [
 						{
 							messageId: "suggestComment",
@@ -279,7 +266,6 @@ ruleTester.run("no-empty", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "block" },
-					type: "BlockStatement",
 					suggestions: [
 						{
 							messageId: "suggestComment",

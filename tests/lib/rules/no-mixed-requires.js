@@ -74,7 +74,6 @@ ruleTester.run("no-mixed-requires", rule, {
 			errors: [
 				{
 					messageId: "noMixRequire",
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -84,7 +83,6 @@ ruleTester.run("no-mixed-requires", rule, {
 			errors: [
 				{
 					messageId: "noMixRequire",
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -94,7 +92,6 @@ ruleTester.run("no-mixed-requires", rule, {
 			errors: [
 				{
 					messageId: "noMixCoreModuleFileComputed",
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -104,7 +101,6 @@ ruleTester.run("no-mixed-requires", rule, {
 			errors: [
 				{
 					messageId: "noMixCoreModuleFileComputed",
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -114,7 +110,6 @@ ruleTester.run("no-mixed-requires", rule, {
 			errors: [
 				{
 					messageId: "noMixCoreModuleFileComputed",
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -124,7 +119,6 @@ ruleTester.run("no-mixed-requires", rule, {
 			errors: [
 				{
 					messageId: "noMixCoreModuleFileComputed",
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -134,7 +128,6 @@ ruleTester.run("no-mixed-requires", rule, {
 			errors: [
 				{
 					messageId: "noMixCoreModuleFileComputed",
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -144,7 +137,6 @@ ruleTester.run("no-mixed-requires", rule, {
 			errors: [
 				{
 					messageId: "noMixCoreModuleFileComputed",
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -154,7 +146,6 @@ ruleTester.run("no-mixed-requires", rule, {
 			errors: [
 				{
 					messageId: "noMixCoreModuleFileComputed",
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -164,7 +155,6 @@ ruleTester.run("no-mixed-requires", rule, {
 			errors: [
 				{
 					messageId: "noMixRequire",
-					type: "VariableDeclaration",
 				},
 			],
 		},
