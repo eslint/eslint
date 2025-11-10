@@ -680,7 +680,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.0.7
 	 * @see https://eslint.org/docs/latest/rules/dot-notation
 	 */
-    
 	"dot-notation": Linter.RuleEntry<
 		[
 			Partial<{
@@ -5041,7 +5040,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.0.7
 	 * @see https://eslint.org/docs/latest/rules/radix
 	 */
-    
 	radix: Linter.RuleEntry<["always" | "as-needed"]>;
 
 	/**
