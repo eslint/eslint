@@ -27,12 +27,14 @@ The lists below are ordered roughly by the number of users each change is expect
 
 - [Node.js < v20.19, v21, v23 are no longer supported](#drop-old-node)
 - [Removal of `type` property in errors of invalid `RuleTester` cases](#ruletester-type-removed)
+- [`Program` AST node range spans entire source text](#program-node-range)
 
 ### Breaking changes for integration developers
 
 - [Node.js < v20.19, v21, v23 are no longer supported](#drop-old-node)
 - [New configuration file lookup algorithm](#config-lookup-from-file)
 - [Removal of `nodeType` property in `LintMessage` objects](#lintmessage-nodetype-removed)
+- [`Program` AST node range spans entire source text](#program-node-range)
 
 ---
 
@@ -116,6 +118,29 @@ In ESLint v10, the deprecated `nodeType` property on `LintMessage` objects has b
 **To address:** Remove all usages of `message.nodeType` in your integrations and formatters.
 
 **Related issue(s):** [#19029](https://github.com/eslint/eslint/issues/19029)
+
+## <a name="program-node-range"></a> `Program` AST node range spans entire source text
+
+ESLint v10 changes how the `Program` AST node’s range is calculated: it now spans the entire source text, including any leading and trailing comments and whitespace.
+
+Previously, the `Program` node’s range excluded leading and trailing comments/whitespace, which could be unintuitive. For example:
+
+```js
+// Leading comment
+const x = 1;
+// Trailing comment
+```
+
+In ESLint v9 and earlier, `Program.range` covers only `const x = 1;` (excludes surrounding comments/whitespace).
+
+Starting with ESLint v10, `Program.range` covers the entire source text, including the leading and trailing comments/whitespace.
+
+**To address:**
+
+- For rule and plugin authors: If your code depends on the previous `Program.range` behavior, or on `SourceCode` methods that assume it (such as `sourceCode.getCommentsBefore(programNode)` to retrieve all leading comments), update your logic.
+- For custom parsers: Set `Program.range` to cover the full source text (typically `[0, code.length]`).
+
+**Related issue(s):** [eslint/js#648](https://github.com/eslint/js/issues/648)
 
 ## <a name="eslint-env-comments"></a> `eslint-env` comments are reported as errors
 
