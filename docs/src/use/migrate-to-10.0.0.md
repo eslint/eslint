@@ -187,7 +187,7 @@ For example, this configuration is now invalid due to the extra element `"foo"`:
 
 In ESLint v10, the `allowConstructorFlags` option of `no-invalid-regexp` no longer accepts duplicate flags as input. Previously, configurations with duplicate flags in the array were accepted but treated the same as having unique flags. Such configurations are now considered invalid and will result in a configuration error.
 
-For example, this configuration is now invalid due to the duplicate "u" flag:
+For example, this configuration is now invalid due to the duplicate `"u"` flag:
 
 ```js
 /*eslint no-invalid-regexp: ["error", { "allowConstructorFlags": ["u", "y", "u"] }]*/
