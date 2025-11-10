@@ -136,7 +136,7 @@ class A {
 
 :::
 
-Examples of **correct** code for this rule when used with exceptMethods:
+Examples of **correct** code for this rule when used with `"exceptMethods"`:
 
 ::: correct
 
