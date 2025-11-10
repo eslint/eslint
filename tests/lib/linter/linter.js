@@ -1304,7 +1304,6 @@ describe("Linter", () => {
 
 			assert.strictEqual(messages.length, 1);
 			assert.strictEqual(messages[0].ruleId, code);
-			assert.strictEqual(messages[0].nodeType, "Literal");
 
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
@@ -1337,9 +1336,6 @@ describe("Linter", () => {
 			assert.strictEqual(messages.length, code.length);
 			code.forEach(item => {
 				assert.ok(messages.some(message => message.ruleId === item));
-			});
-			messages.forEach(message => {
-				assert.strictEqual(message.nodeType, "Literal");
 			});
 
 			assert.strictEqual(suppressedMessages.length, 0);
@@ -1433,7 +1429,6 @@ describe("Linter", () => {
 			assert.strictEqual(messages.length, 1);
 			assert.strictEqual(messages[0].ruleId, "no-alert");
 			assert.strictEqual(messages[0].message, "Unexpected alert.");
-			assert.include(messages[0].nodeType, "CallExpression");
 
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
@@ -1449,7 +1444,6 @@ describe("Linter", () => {
 			assert.strictEqual(messages[0].ruleId, "no-alert");
 			assert.strictEqual(messages[0].severity, 2);
 			assert.strictEqual(messages[0].message, "Unexpected alert.");
-			assert.include(messages[0].nodeType, "CallExpression");
 
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
@@ -1544,7 +1538,6 @@ describe("Linter", () => {
 					ruleId: "no-constant-condition",
 					message: "Unexpected constant condition.",
 					messageId: "unexpected",
-					nodeType: "Literal",
 					line: 1,
 					column: 49,
 					endLine: 1,
@@ -1883,7 +1876,6 @@ describe("Linter", () => {
 					column: 1,
 					endLine: 1,
 					endColumn: 25,
-					nodeType: null,
 				},
 			]);
 
@@ -1906,7 +1898,6 @@ describe("Linter", () => {
 					column: 1,
 					endLine: 1,
 					endColumn: 63,
-					nodeType: null,
 				},
 			]);
 
@@ -1933,7 +1924,6 @@ describe("Linter", () => {
 			assert.isNull(messages[0].ruleId);
 			assert.strictEqual(messages[0].line, 1);
 			assert.strictEqual(messages[0].column, 1);
-			assert.isNull(messages[0].nodeType);
 
 			assert.deepStrictEqual(messages[1], {
 				severity: 2,
@@ -1944,7 +1934,6 @@ describe("Linter", () => {
 				column: 1,
 				endLine: 3,
 				endColumn: 4,
-				nodeType: "Identifier",
 			});
 
 			assert.strictEqual(suppressedMessages.length, 0);
@@ -2054,7 +2043,6 @@ describe("Linter", () => {
 			assert.strictEqual(messages.length, 2);
 			assert.strictEqual(messages[0].ruleId, "no-alert");
 			assert.strictEqual(messages[0].message, "Unexpected alert.");
-			assert.include(messages[0].nodeType, "CallExpression");
 			assert.strictEqual(messages[1].ruleId, "no-console");
 
 			assert.strictEqual(suppressedMessages.length, 0);
@@ -2074,7 +2062,6 @@ describe("Linter", () => {
 			assert.strictEqual(messages.length, 1);
 			assert.strictEqual(messages[0].ruleId, "no-alert");
 			assert.strictEqual(messages[0].message, "Unexpected alert.");
-			assert.include(messages[0].nodeType, "CallExpression");
 
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
@@ -2233,7 +2220,6 @@ describe("Linter", () => {
 					column: 37,
 					endLine: 1,
 					endColumn: 72,
-					nodeType: null,
 				},
 				{
 					ruleId: "no-foo",
@@ -2243,7 +2229,6 @@ describe("Linter", () => {
 					column: 73,
 					endLine: 1,
 					endColumn: 76,
-					nodeType: "Identifier",
 				},
 			]);
 			assert.strictEqual(suppressedMessages.length, 0);
@@ -2266,7 +2251,6 @@ describe("Linter", () => {
 					column: 37,
 					endLine: 1,
 					endColumn: 72,
-					nodeType: null,
 				},
 				{
 					ruleId: null,
@@ -2277,7 +2261,6 @@ describe("Linter", () => {
 					column: 73,
 					endLine: 1,
 					endColumn: 108,
-					nodeType: null,
 				},
 				{
 					ruleId: "no-foo",
@@ -2287,7 +2270,6 @@ describe("Linter", () => {
 					column: 109,
 					endLine: 1,
 					endColumn: 112,
-					nodeType: "Identifier",
 				},
 			]);
 			assert.strictEqual(suppressedMessages.length, 0);
@@ -2312,7 +2294,6 @@ describe("Linter", () => {
 					column: 27,
 					endLine: 1,
 					endColumn: 53,
-					nodeType: null,
 				},
 				{
 					ruleId: "no-foo",
@@ -2322,7 +2303,6 @@ describe("Linter", () => {
 					column: 54,
 					endLine: 1,
 					endColumn: 57,
-					nodeType: "Identifier",
 				},
 			]);
 			assert.strictEqual(suppressedMessages.length, 0);
@@ -2384,7 +2364,6 @@ describe("Linter", () => {
 			assert.strictEqual(messages.length, 1);
 			assert.strictEqual(messages[0].ruleId, "no-alert");
 			assert.strictEqual(messages[0].message, "Unexpected alert.");
-			assert.include(messages[0].nodeType, "CallExpression");
 			assert.strictEqual(messages[0].line, 4);
 
 			assert.strictEqual(suppressedMessages.length, 1);
@@ -2586,7 +2565,6 @@ describe("Linter", () => {
 						endColumn: 14,
 						message: "Unexpected alert.",
 						messageId: "unexpected",
-						nodeType: "CallExpression",
 					},
 					{
 						ruleId: null,
@@ -2597,7 +2575,6 @@ describe("Linter", () => {
 						column: 16,
 						endLine: 2,
 						endColumn: 12,
-						nodeType: null,
 					},
 				]);
 
@@ -3457,7 +3434,6 @@ describe("Linter", () => {
 			assert.strictEqual(messages.length, 1);
 			assert.strictEqual(messages[0].ruleId, "no-alert");
 			assert.strictEqual(messages[0].message, "Unexpected alert.");
-			assert.include(messages[0].nodeType, "CallExpression");
 
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
@@ -3478,7 +3454,6 @@ describe("Linter", () => {
 				messages[0].message,
 				"Strings must use doublequote.",
 			);
-			assert.include(messages[0].nodeType, "Literal");
 
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
@@ -3499,7 +3474,6 @@ describe("Linter", () => {
 				messages[0].message,
 				"Strings must use doublequote.",
 			);
-			assert.include(messages[0].nodeType, "Literal");
 
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
@@ -3534,11 +3508,9 @@ describe("Linter", () => {
 			assert.strictEqual(messages[0].ruleId, null);
 			assert.strictEqual(messages[0].fatal, true);
 			assert.strictEqual(messages[0].severity, 2);
-			assert.strictEqual(messages[0].nodeType, null);
 
 			assert.strictEqual(messages[1].ruleId, "no-alert");
 			assert.strictEqual(messages[1].message, "Unexpected alert.");
-			assert.include(messages[1].nodeType, "CallExpression");
 
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
@@ -3571,11 +3543,9 @@ describe("Linter", () => {
 			assert.strictEqual(messages[0].ruleId, null);
 			assert.strictEqual(messages[0].fatal, true);
 			assert.strictEqual(messages[0].severity, 2);
-			assert.strictEqual(messages[0].nodeType, null);
 
 			assert.strictEqual(messages[1].ruleId, "no-alert");
 			assert.strictEqual(messages[1].message, "Unexpected alert.");
-			assert.include(messages[1].nodeType, "CallExpression");
 
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
@@ -3608,11 +3578,9 @@ describe("Linter", () => {
 			assert.strictEqual(messages[0].ruleId, null);
 			assert.strictEqual(messages[0].fatal, true);
 			assert.strictEqual(messages[0].severity, 2);
-			assert.strictEqual(messages[0].nodeType, null);
 
 			assert.strictEqual(messages[1].ruleId, "no-alert");
 			assert.strictEqual(messages[1].message, "Unexpected alert.");
-			assert.include(messages[1].nodeType, "CallExpression");
 
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
@@ -3634,7 +3602,6 @@ alert('test');
 				messages[0].message,
 				"This line has a length of 129. Maximum allowed is 100.",
 			);
-			assert.include(messages[0].nodeType, "Program");
 
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
@@ -3662,7 +3629,6 @@ var a = "test2";
 			);
 			assert.strictEqual(message1.line, 4);
 			assert.strictEqual(message1.column, 1);
-			assert.include(message1.nodeType, "Program");
 			assert.strictEqual(message2.ruleId, "max-len");
 			assert.strictEqual(
 				message2.message,
@@ -3670,7 +3636,6 @@ var a = "test2";
 			);
 			assert.strictEqual(message2.line, 5);
 			assert.strictEqual(message2.column, 1);
-			assert.include(message2.nodeType, "Program");
 
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
@@ -3685,7 +3650,6 @@ var a = "test2";
 
 			assert.strictEqual(messages.length, 1);
 			assert.strictEqual(messages[0].ruleId, "no-extra-semi");
-			assert.strictEqual(messages[0].nodeType, "EmptyStatement");
 			assert.strictEqual(messages[0].line, 3);
 
 			assert.strictEqual(suppressedMessages.length, 0);
@@ -3823,7 +3787,6 @@ var a = "test2";
 				endLine: 1,
 				endColumn: 2,
 				severity: 2,
-				nodeType: null,
 			});
 		});
 	});
@@ -3922,7 +3885,6 @@ var a = "test2";
 
 			assert.strictEqual(messages.length, 1);
 			assert.strictEqual(messages[0].ruleId, "no-undef");
-			assert.strictEqual(messages[0].nodeType, "Identifier");
 			assert.strictEqual(messages[0].line, 1);
 
 			assert.strictEqual(suppressedMessages.length, 0);
@@ -4332,7 +4294,6 @@ var a = "test2";
 						text: " ",
 					},
 					severity: 2,
-					nodeType: null,
 				},
 			]);
 
@@ -4424,7 +4385,6 @@ var a = "test2";
 						text: " ",
 					},
 					severity: 2,
-					nodeType: null,
 				},
 			]);
 
@@ -4451,7 +4411,6 @@ var a = "test2";
 						text: " ",
 					},
 					severity: 1,
-					nodeType: null,
 				},
 			]);
 
@@ -4478,7 +4437,6 @@ var a = "test2";
 						text: " ",
 					},
 					severity: 2,
-					nodeType: null,
 				},
 			]);
 
@@ -4505,7 +4463,6 @@ var a = "test2";
 						text: " ",
 					},
 					severity: 2,
-					nodeType: null,
 				},
 			]);
 
@@ -4540,7 +4497,6 @@ var a = "test2";
 						text: " ",
 					},
 					severity: 2,
-					nodeType: null,
 				},
 			]);
 
@@ -4578,7 +4534,6 @@ var a = "test2";
 						text: " ",
 					},
 					severity: 2,
-					nodeType: null,
 				},
 			]);
 
@@ -4615,7 +4570,6 @@ var a = "test2";
 						text: " ",
 					},
 					severity: 2,
-					nodeType: null,
 				},
 			]);
 
@@ -4640,7 +4594,6 @@ var a = "test2";
 						text: " ",
 					},
 					severity: 1,
-					nodeType: null,
 				},
 			]);
 
@@ -4676,7 +4629,6 @@ var a = "test2";
 						text: "",
 					},
 					severity: 1,
-					nodeType: null,
 				},
 			]);
 
@@ -5765,7 +5717,6 @@ var a = "test2";
 					endLine: 1,
 					endColumn: 21,
 					severity: 1,
-					nodeType: null,
 				},
 				{
 					ruleId: "no-undef",
@@ -5776,7 +5727,6 @@ var a = "test2";
 					column: 1,
 					endColumn: 4,
 					severity: 2,
-					nodeType: "Identifier",
 				},
 			]);
 
@@ -5812,7 +5762,6 @@ var a = "test2";
 					column: 1,
 					endColumn: 4,
 					severity: 2,
-					nodeType: "Identifier",
 				},
 			]);
 
@@ -5848,7 +5797,6 @@ var a = "test2";
 					column: 1,
 					endColumn: 4,
 					severity: 2,
-					nodeType: "Identifier",
 				},
 			]);
 
@@ -5885,7 +5833,6 @@ var a = "test2";
 					column: 1,
 					endColumn: 4,
 					severity: 2,
-					nodeType: "Identifier",
 					suppressions: [
 						{
 							justification: "",
@@ -6783,7 +6730,6 @@ var a = "test2";
 					column: 1,
 					endLine: 1,
 					endColumn: 39,
-					nodeType: null,
 				},
 				{
 					ruleId: "no-undef",
@@ -6794,7 +6740,6 @@ var a = "test2";
 					column: 1,
 					endLine: 2,
 					endColumn: 4,
-					nodeType: "Identifier",
 				},
 			]);
 
@@ -6972,7 +6917,6 @@ var a = "test2";
 						message:
 							"'Promise' is already defined as a built-in global variable.",
 						messageId: "redeclaredAsBuiltin",
-						nodeType: "Identifier",
 						ruleId: "no-redeclare",
 						severity: 2,
 					},
@@ -7002,7 +6946,6 @@ var a = "test2";
 						message:
 							"'aaa' is already defined by a variable declaration.",
 						messageId: "redeclaredBySyntax",
-						nodeType: "Block",
 						ruleId: "no-redeclare",
 						severity: 2,
 					},
@@ -7032,7 +6975,6 @@ var a = "test2";
 						message:
 							"'aaa' is already defined by a variable declaration.",
 						messageId: "redeclaredBySyntax",
-						nodeType: "Block",
 						ruleId: "no-redeclare",
 						severity: 2,
 					},
@@ -7061,7 +7003,6 @@ var a = "test2";
 						line: 4,
 						message: "'bbb' is assigned a value but never used.",
 						messageId: "unusedVar",
-						nodeType: "Identifier",
 						ruleId: "no-unused-vars",
 						severity: 2,
 						suggestions: [
@@ -7108,7 +7049,6 @@ var a = "test2";
 						line: 4,
 						message: "'aaa' is assigned a value but never used.",
 						messageId: "unusedVar",
-						nodeType: "Identifier",
 						ruleId: "no-unused-vars",
 						severity: 2,
 					},
@@ -7122,7 +7062,6 @@ var a = "test2";
 						line: 4,
 						message: "'aaa' is already defined.",
 						messageId: "redeclared",
-						nodeType: "Identifier",
 						ruleId: "no-redeclare",
 						severity: 2,
 						suppressions: [
@@ -7161,7 +7100,6 @@ var a = "test2";
 						line: 5,
 						message: "'aaa' is already defined.",
 						messageId: "redeclared",
-						nodeType: "Identifier",
 						ruleId: "no-redeclare",
 						severity: 2,
 					},
@@ -7175,7 +7113,6 @@ var a = "test2";
 						line: 5,
 						message: "'aaa' is assigned a value but never used.",
 						messageId: "unusedVar",
-						nodeType: "Identifier",
 						ruleId: "no-unused-vars",
 						severity: 2,
 						suppressions: [
@@ -7209,7 +7146,6 @@ var a = "test2";
 						line: 3,
 						message: "'aaa' is assigned a value but never used.",
 						messageId: "unusedVar",
-						nodeType: "Identifier",
 						ruleId: "no-unused-vars",
 						severity: 2,
 					},
@@ -7223,7 +7159,6 @@ var a = "test2";
 						line: 3,
 						message: "'aaa' is already defined.",
 						messageId: "redeclared",
-						nodeType: "Identifier",
 						ruleId: "no-redeclare",
 						severity: 2,
 						suppressions: [
@@ -7260,7 +7195,6 @@ var a = "test2";
 						line: 3,
 						message: "'aaa' is assigned a value but never used.",
 						messageId: "unusedVar",
-						nodeType: "Identifier",
 						ruleId: "no-unused-vars",
 						severity: 2,
 					},
@@ -7274,7 +7208,6 @@ var a = "test2";
 						line: 3,
 						message: "'aaa' is already defined.",
 						messageId: "redeclared",
-						nodeType: "Identifier",
 						ruleId: "no-redeclare",
 						severity: 2,
 						suppressions: [
@@ -7313,7 +7246,6 @@ var a = "test2";
 						line: 5,
 						message: "'aaa' is assigned a value but never used.",
 						messageId: "unusedVar",
-						nodeType: "Identifier",
 						ruleId: "no-unused-vars",
 						severity: 2,
 					},
@@ -7327,7 +7259,6 @@ var a = "test2";
 						line: 5,
 						message: "'aaa' is already defined.",
 						messageId: "redeclared",
-						nodeType: "Identifier",
 						ruleId: "no-redeclare",
 						severity: 2,
 						suppressions: [
@@ -7366,7 +7297,6 @@ var a = "test2";
 						line: 5,
 						message: "'aaa' is assigned a value but never used.",
 						messageId: "unusedVar",
-						nodeType: "Identifier",
 						ruleId: "no-unused-vars",
 						severity: 2,
 					},
@@ -7380,7 +7310,6 @@ var a = "test2";
 						line: 5,
 						message: "'aaa' is already defined.",
 						messageId: "redeclared",
-						nodeType: "Identifier",
 						ruleId: "no-redeclare",
 						severity: 2,
 						suppressions: [
@@ -8055,7 +7984,6 @@ var a = "test2";
 						message: "Preprocessing error: Invalid syntax",
 						line: 1,
 						column: 1,
-						nodeType: null,
 					},
 				]);
 			});
@@ -10606,7 +10534,6 @@ describe("Linter with FlatConfigArray", () => {
 				message: "No matching configuration found for filename.ts.",
 				line: 0,
 				column: 0,
-				nodeType: null,
 			});
 		});
 
@@ -10669,7 +10596,6 @@ describe("Linter with FlatConfigArray", () => {
 				message: "No matching configuration found for /file.js.",
 				line: 0,
 				column: 0,
-				nodeType: null,
 			});
 
 			messages = linterWithOptions.verify(code, config, "/file.ts");
@@ -10680,7 +10606,6 @@ describe("Linter with FlatConfigArray", () => {
 				message: "No matching configuration found for /file.ts.",
 				line: 0,
 				column: 0,
-				nodeType: null,
 			});
 
 			messages = linterWithOptions.verify(
@@ -10696,7 +10621,6 @@ describe("Linter with FlatConfigArray", () => {
 					"No matching configuration found for /bar/foo/file.js.",
 				line: 0,
 				column: 0,
-				nodeType: null,
 			});
 
 			messages = linterWithOptions.verify(
@@ -10712,7 +10636,6 @@ describe("Linter with FlatConfigArray", () => {
 					"No matching configuration found for /bar/foo/file.ts.",
 				line: 0,
 				column: 0,
-				nodeType: null,
 			});
 
 			messages = linterWithOptions.verify(code, config, "/foo/file.js");
@@ -10794,7 +10717,6 @@ describe("Linter with FlatConfigArray", () => {
 				message: "No matching configuration found for C:\\file.js.",
 				line: 0,
 				column: 0,
-				nodeType: null,
 			});
 
 			messages = linterWithOptions.verify(code, config, "C:\\file.ts");
@@ -10805,7 +10727,6 @@ describe("Linter with FlatConfigArray", () => {
 				message: "No matching configuration found for C:\\file.ts.",
 				line: 0,
 				column: 0,
-				nodeType: null,
 			});
 
 			messages = linterWithOptions.verify(
@@ -10821,7 +10742,6 @@ describe("Linter with FlatConfigArray", () => {
 					"No matching configuration found for D:\\foo\\file.js.",
 				line: 0,
 				column: 0,
-				nodeType: null,
 			});
 
 			messages = linterWithOptions.verify(
@@ -10837,7 +10757,6 @@ describe("Linter with FlatConfigArray", () => {
 					"No matching configuration found for D:\\foo\\file.ts.",
 				line: 0,
 				column: 0,
-				nodeType: null,
 			});
 
 			messages = linterWithOptions.verify(
@@ -11714,7 +11633,6 @@ describe("Linter with FlatConfigArray", () => {
 
 				assert.strictEqual(messages.length, 1);
 				assert.strictEqual(messages[0].ruleId, "no-extra-semi");
-				assert.strictEqual(messages[0].nodeType, "EmptyStatement");
 				assert.strictEqual(messages[0].line, 3);
 
 				assert.strictEqual(suppressedMessages.length, 0);
@@ -12560,7 +12478,6 @@ describe("Linter with FlatConfigArray", () => {
 							endLine: 1,
 							endColumn: 39,
 							fatal: true,
-							nodeType: null,
 						},
 						{
 							ruleId: "no-undef",
@@ -12571,7 +12488,6 @@ describe("Linter with FlatConfigArray", () => {
 							column: 1,
 							endLine: 2,
 							endColumn: 4,
-							nodeType: "Identifier",
 						},
 					]);
 
@@ -12969,7 +12885,6 @@ describe("Linter with FlatConfigArray", () => {
 							messages[0].message,
 							"Unexpected alert.",
 						);
-						assert.include(messages[0].nodeType, "CallExpression");
 
 						assert.strictEqual(
 							suppressedMessages.length,
@@ -13540,7 +13455,6 @@ describe("Linter with FlatConfigArray", () => {
 								column: 1,
 								endLine: 1,
 								endColumn: 25,
-								nodeType: null,
 							},
 						]);
 
@@ -13564,7 +13478,6 @@ describe("Linter with FlatConfigArray", () => {
 								column: 1,
 								endLine: 1,
 								endColumn: 29,
-								nodeType: null,
 							},
 						]);
 
@@ -13588,7 +13501,6 @@ describe("Linter with FlatConfigArray", () => {
 								column: 1,
 								endLine: 1,
 								endColumn: 63,
-								nodeType: null,
 							},
 						]);
 
@@ -13616,7 +13528,6 @@ describe("Linter with FlatConfigArray", () => {
 						assert.isNull(messages[0].ruleId);
 						assert.strictEqual(messages[0].line, 1);
 						assert.strictEqual(messages[0].column, 1);
-						assert.isNull(messages[0].nodeType);
 
 						assert.deepStrictEqual(messages[1], {
 							severity: 2,
@@ -13627,7 +13538,6 @@ describe("Linter with FlatConfigArray", () => {
 							column: 1,
 							endLine: 3,
 							endColumn: 4,
-							nodeType: "Identifier",
 						});
 
 						assert.strictEqual(suppressedMessages.length, 0);
@@ -13749,7 +13659,6 @@ describe("Linter with FlatConfigArray", () => {
 							messages[0].message,
 							"Unexpected alert.",
 						);
-						assert.include(messages[0].nodeType, "CallExpression");
 						assert.strictEqual(messages[1].ruleId, "no-console");
 
 						assert.strictEqual(suppressedMessages.length, 0);
@@ -13775,7 +13684,6 @@ describe("Linter with FlatConfigArray", () => {
 							messages[0].message,
 							"Unexpected alert.",
 						);
-						assert.include(messages[0].nodeType, "CallExpression");
 
 						assert.strictEqual(suppressedMessages.length, 0);
 					});
@@ -14006,7 +13914,6 @@ describe("Linter with FlatConfigArray", () => {
 								column: 49,
 								endLine: 1,
 								endColumn: 96,
-								nodeType: null,
 							},
 							{
 								ruleId: "test-plugin/no-foo",
@@ -14016,7 +13923,6 @@ describe("Linter with FlatConfigArray", () => {
 								column: 97,
 								endLine: 1,
 								endColumn: 100,
-								nodeType: "Identifier",
 							},
 						]);
 						assert.strictEqual(suppressedMessages.length, 0);
@@ -14040,7 +13946,6 @@ describe("Linter with FlatConfigArray", () => {
 								column: 49,
 								endLine: 1,
 								endColumn: 96,
-								nodeType: null,
 							},
 							{
 								ruleId: null,
@@ -14051,7 +13956,6 @@ describe("Linter with FlatConfigArray", () => {
 								column: 97,
 								endLine: 1,
 								endColumn: 144,
-								nodeType: null,
 							},
 							{
 								ruleId: "test-plugin/no-foo",
@@ -14061,7 +13965,6 @@ describe("Linter with FlatConfigArray", () => {
 								column: 145,
 								endLine: 1,
 								endColumn: 148,
-								nodeType: "Identifier",
 							},
 						]);
 						assert.strictEqual(suppressedMessages.length, 0);
@@ -14088,7 +13991,6 @@ describe("Linter with FlatConfigArray", () => {
 								column: 39,
 								endLine: 1,
 								endColumn: 77,
-								nodeType: null,
 							},
 							{
 								ruleId: "test-plugin/no-foo",
@@ -14098,7 +14000,6 @@ describe("Linter with FlatConfigArray", () => {
 								column: 78,
 								endLine: 1,
 								endColumn: 81,
-								nodeType: "Identifier",
 							},
 						]);
 						assert.strictEqual(suppressedMessages.length, 0);
@@ -14166,7 +14067,6 @@ describe("Linter with FlatConfigArray", () => {
 							messages[0].message,
 							"Unexpected alert.",
 						);
-						assert.include(messages[0].nodeType, "CallExpression");
 						assert.strictEqual(messages[0].line, 4);
 
 						assert.strictEqual(suppressedMessages.length, 1);
@@ -14302,7 +14202,6 @@ describe("Linter with FlatConfigArray", () => {
 							messages[0].message,
 							"Unexpected alert.",
 						);
-						assert.include(messages[0].nodeType, "CallExpression");
 
 						assert.strictEqual(suppressedMessages.length, 0);
 					});
@@ -14325,7 +14224,6 @@ describe("Linter with FlatConfigArray", () => {
 							messages[0].message,
 							"Strings must use doublequote.",
 						);
-						assert.include(messages[0].nodeType, "Literal");
 
 						assert.strictEqual(suppressedMessages.length, 0);
 					});
@@ -14348,7 +14246,6 @@ describe("Linter with FlatConfigArray", () => {
 							messages[0].message,
 							"Strings must use doublequote.",
 						);
-						assert.include(messages[0].nodeType, "Literal");
 
 						assert.strictEqual(suppressedMessages.length, 0);
 					});
@@ -14384,14 +14281,12 @@ describe("Linter with FlatConfigArray", () => {
 						assert.strictEqual(messages[0].ruleId, null);
 						assert.strictEqual(messages[0].fatal, true);
 						assert.strictEqual(messages[0].severity, 2);
-						assert.strictEqual(messages[0].nodeType, null);
 
 						assert.strictEqual(messages[1].ruleId, "no-alert");
 						assert.strictEqual(
 							messages[1].message,
 							"Unexpected alert.",
 						);
-						assert.include(messages[1].nodeType, "CallExpression");
 
 						assert.strictEqual(suppressedMessages.length, 0);
 					});
@@ -14425,14 +14320,12 @@ describe("Linter with FlatConfigArray", () => {
 						assert.strictEqual(messages[0].ruleId, null);
 						assert.strictEqual(messages[0].fatal, true);
 						assert.strictEqual(messages[0].severity, 2);
-						assert.strictEqual(messages[0].nodeType, null);
 
 						assert.strictEqual(messages[1].ruleId, "no-alert");
 						assert.strictEqual(
 							messages[1].message,
 							"Unexpected alert.",
 						);
-						assert.include(messages[1].nodeType, "CallExpression");
 
 						assert.strictEqual(suppressedMessages.length, 0);
 					});
@@ -14467,14 +14360,12 @@ describe("Linter with FlatConfigArray", () => {
 						assert.strictEqual(messages[0].ruleId, null);
 						assert.strictEqual(messages[0].fatal, true);
 						assert.strictEqual(messages[0].severity, 2);
-						assert.strictEqual(messages[0].nodeType, null);
 
 						assert.strictEqual(messages[1].ruleId, "no-alert");
 						assert.strictEqual(
 							messages[1].message,
 							"Unexpected alert.",
 						);
-						assert.include(messages[1].nodeType, "CallExpression");
 
 						assert.strictEqual(suppressedMessages.length, 0);
 					});
@@ -14497,7 +14388,6 @@ alert('test');
 							messages[0].message,
 							"This line has a length of 129. Maximum allowed is 100.",
 						);
-						assert.include(messages[0].nodeType, "Program");
 
 						assert.strictEqual(suppressedMessages.length, 0);
 					});
@@ -14526,7 +14416,6 @@ var a = "test2";
 						);
 						assert.strictEqual(message1.line, 4);
 						assert.strictEqual(message1.column, 1);
-						assert.include(message1.nodeType, "Program");
 						assert.strictEqual(message2.ruleId, "max-len");
 						assert.strictEqual(
 							message2.message,
@@ -14534,7 +14423,6 @@ var a = "test2";
 						);
 						assert.strictEqual(message2.line, 5);
 						assert.strictEqual(message2.column, 1);
-						assert.include(message2.nodeType, "Program");
 
 						assert.strictEqual(suppressedMessages.length, 0);
 					});
@@ -15053,7 +14941,6 @@ var a = "test2";
 							endColumn: 14,
 							message: "Unexpected alert.",
 							messageId: "unexpected",
-							nodeType: "CallExpression",
 						},
 						{
 							ruleId: null,
@@ -15064,7 +14951,6 @@ var a = "test2";
 							column: 16,
 							endLine: 2,
 							endColumn: 12,
-							nodeType: null,
 						},
 					]);
 
@@ -15744,7 +15630,6 @@ var a = "test2";
 							message:
 								"'aaa' is already defined by a variable declaration.",
 							messageId: "redeclaredBySyntax",
-							nodeType: "Block",
 							ruleId: "no-redeclare",
 							severity: 2,
 						},
@@ -15779,7 +15664,6 @@ var a = "test2";
 							message:
 								"'bbb' is assigned a value but never used.",
 							messageId: "unusedVar",
-							nodeType: "Identifier",
 							ruleId: "no-unused-vars",
 							severity: 2,
 							suggestions: [
@@ -15827,7 +15711,6 @@ var a = "test2";
 							message:
 								"'aaa' is assigned a value but never used.",
 							messageId: "unusedVar",
-							nodeType: "Identifier",
 							ruleId: "no-unused-vars",
 							severity: 2,
 						},
@@ -15841,7 +15724,6 @@ var a = "test2";
 							line: 4,
 							message: "'aaa' is already defined.",
 							messageId: "redeclared",
-							nodeType: "Identifier",
 							ruleId: "no-redeclare",
 							severity: 2,
 							suppressions: [
@@ -15881,7 +15763,6 @@ var a = "test2";
 							line: 5,
 							message: "'aaa' is already defined.",
 							messageId: "redeclared",
-							nodeType: "Identifier",
 							ruleId: "no-redeclare",
 							severity: 2,
 						},
@@ -15896,7 +15777,6 @@ var a = "test2";
 							message:
 								"'aaa' is assigned a value but never used.",
 							messageId: "unusedVar",
-							nodeType: "Identifier",
 							ruleId: "no-unused-vars",
 							severity: 2,
 							suppressions: [
@@ -15932,7 +15812,6 @@ var a = "test2";
 							message:
 								"'aaa' is assigned a value but never used.",
 							messageId: "unusedVar",
-							nodeType: "Identifier",
 							ruleId: "no-unused-vars",
 							severity: 2,
 						},
@@ -15946,7 +15825,6 @@ var a = "test2";
 							line: 3,
 							message: "'aaa' is already defined.",
 							messageId: "redeclared",
-							nodeType: "Identifier",
 							ruleId: "no-redeclare",
 							severity: 2,
 							suppressions: [
@@ -15985,7 +15863,6 @@ var a = "test2";
 							message:
 								"'aaa' is assigned a value but never used.",
 							messageId: "unusedVar",
-							nodeType: "Identifier",
 							ruleId: "no-unused-vars",
 							severity: 2,
 						},
@@ -15999,7 +15876,6 @@ var a = "test2";
 							line: 3,
 							message: "'aaa' is already defined.",
 							messageId: "redeclared",
-							nodeType: "Identifier",
 							ruleId: "no-redeclare",
 							severity: 2,
 							suppressions: [
@@ -16040,7 +15916,6 @@ var a = "test2";
 							message:
 								"'aaa' is assigned a value but never used.",
 							messageId: "unusedVar",
-							nodeType: "Identifier",
 							ruleId: "no-unused-vars",
 							severity: 2,
 						},
@@ -16054,7 +15929,6 @@ var a = "test2";
 							line: 5,
 							message: "'aaa' is already defined.",
 							messageId: "redeclared",
-							nodeType: "Identifier",
 							ruleId: "no-redeclare",
 							severity: 2,
 							suppressions: [
@@ -16095,7 +15969,6 @@ var a = "test2";
 							message:
 								"'aaa' is assigned a value but never used.",
 							messageId: "unusedVar",
-							nodeType: "Identifier",
 							ruleId: "no-unused-vars",
 							severity: 2,
 						},
@@ -16109,7 +15982,6 @@ var a = "test2";
 							line: 5,
 							message: "'aaa' is already defined.",
 							messageId: "redeclared",
-							nodeType: "Identifier",
 							ruleId: "no-redeclare",
 							severity: 2,
 							suppressions: [
@@ -16512,7 +16384,6 @@ var a = "test2";
 							endLine: 1,
 							endColumn: 21,
 							severity: 1,
-							nodeType: null,
 						},
 						{
 							ruleId: "no-undef",
@@ -16523,7 +16394,6 @@ var a = "test2";
 							column: 1,
 							endColumn: 4,
 							severity: 2,
-							nodeType: "Identifier",
 						},
 					]);
 
@@ -16561,7 +16431,6 @@ var a = "test2";
 							column: 1,
 							endColumn: 4,
 							severity: 2,
-							nodeType: "Identifier",
 						},
 					]);
 
@@ -16599,7 +16468,6 @@ var a = "test2";
 							column: 1,
 							endColumn: 4,
 							severity: 2,
-							nodeType: "Identifier",
 						},
 					]);
 
@@ -16638,7 +16506,6 @@ var a = "test2";
 							column: 1,
 							endColumn: 4,
 							severity: 2,
-							nodeType: "Identifier",
 							suppressions: [
 								{
 									justification: "",
@@ -16671,7 +16538,6 @@ var a = "test2";
 								text: " ",
 							},
 							severity: 2,
-							nodeType: null,
 						},
 					]);
 
@@ -16698,7 +16564,6 @@ var a = "test2";
 								text: " ",
 							},
 							severity: 2,
-							nodeType: null,
 						},
 					]);
 
@@ -16725,7 +16590,6 @@ var a = "test2";
 								text: " ",
 							},
 							severity: 1,
-							nodeType: null,
 						},
 					]);
 
@@ -16752,7 +16616,6 @@ var a = "test2";
 								text: " ",
 							},
 							severity: 1,
-							nodeType: null,
 						},
 					]);
 
@@ -16805,7 +16668,6 @@ var a = "test2";
 								text: " ",
 							},
 							severity: 2,
-							nodeType: null,
 						},
 					]);
 
@@ -16867,7 +16729,6 @@ var a = "test2";
 								text: "",
 							},
 							severity: 1,
-							nodeType: null,
 						},
 					]);
 
@@ -16897,7 +16758,6 @@ var a = "test2";
 									text: " ",
 								},
 								severity: 1,
-								nodeType: null,
 							},
 						],
 					);
@@ -16922,7 +16782,6 @@ var a = "test2";
 									text: " ",
 								},
 								severity: 1,
-								nodeType: null,
 							},
 						],
 					);
@@ -16958,7 +16817,6 @@ var a = "test2";
 								text: "",
 							},
 							severity: 1,
-							nodeType: null,
 						},
 					]);
 				});
@@ -16998,7 +16856,6 @@ var a = "test2";
 								text: "",
 							},
 							severity: 1,
-							nodeType: null,
 						},
 					]);
 				});
@@ -17023,7 +16880,6 @@ var a = "test2";
 								text: " ",
 							},
 							severity: 2,
-							nodeType: null,
 						},
 					]);
 
@@ -17050,7 +16906,6 @@ var a = "test2";
 								text: " ",
 							},
 							severity: 2,
-							nodeType: null,
 						},
 					]);
 
@@ -17085,7 +16940,6 @@ var a = "test2";
 								text: " ",
 							},
 							severity: 2,
-							nodeType: null,
 						},
 					]);
 
@@ -17123,7 +16977,6 @@ var a = "test2";
 								text: " ",
 							},
 							severity: 2,
-							nodeType: null,
 						},
 					]);
 
@@ -17338,7 +17191,6 @@ var a = "test2";
 								text: " ",
 							},
 							severity: 1,
-							nodeType: null,
 						},
 					]);
 
@@ -17361,7 +17213,6 @@ var a = "test2";
 								text: " ",
 							},
 							severity: 1,
-							nodeType: null,
 						},
 					]);
 
@@ -18257,6 +18108,42 @@ var a = "test2";
 					}
 				});
 			});
+
+			describe("eslint-env comments", () => {
+				it("should produce an error", () => {
+					const code =
+						"/* eslint-env\nes6 */\nfoo/*eslint-env node -- TEST eslint-env*/,bar";
+					const messages = linter.verify(code);
+					const suppressedMessages = linter.getSuppressedMessages();
+
+					assert.strictEqual(messages.length, 2);
+					assert.strictEqual(messages[0].ruleId, null);
+					assert.strictEqual(messages[0].severity, 2);
+					assert.strictEqual(messages[0].fatal, true);
+					assert.strictEqual(messages[0].line, 1);
+					assert.strictEqual(messages[0].column, 1);
+					assert.strictEqual(messages[0].endLine, 2);
+					assert.strictEqual(messages[0].endColumn, 7);
+					assert.strictEqual(messages[1].ruleId, null);
+					assert.strictEqual(messages[1].severity, 2);
+					assert.strictEqual(messages[1].fatal, true);
+					assert.strictEqual(messages[1].line, 3);
+					assert.strictEqual(messages[1].column, 4);
+					assert.strictEqual(messages[1].endLine, 3);
+					assert.strictEqual(messages[1].endColumn, 42);
+
+					assert.strictEqual(suppressedMessages.length, 0);
+				});
+
+				it("should be ignored in inline comments", () => {
+					const code = "it('Test', () => {}); // eslint-env mocha";
+					const messages = linter.verify(code);
+					const suppressedMessages = linter.getSuppressedMessages();
+
+					assert.strictEqual(messages.length, 0);
+					assert.strictEqual(suppressedMessages.length, 0);
+				});
+			});
 		});
 
 		describe("Default Global Variables", () => {
@@ -18633,17 +18520,22 @@ var a = "test2";
 		});
 
 		it("should default to flat config mode when a config isn't passed", () => {
-			// eslint-env should not be honored
+			// eslint-env should not be honored and should produce an error
 			const messages = linter.verify(
 				"/*eslint no-undef:error*//*eslint-env browser*/\nwindow;",
 			);
 			const suppressedMessages = linter.getSuppressedMessages();
 
-			assert.strictEqual(messages.length, 1);
-			assert.strictEqual(messages[0].ruleId, "no-undef");
+			assert.strictEqual(messages.length, 2);
+			assert.strictEqual(messages[0].ruleId, null);
 			assert.strictEqual(messages[0].severity, 2);
-			assert.strictEqual(messages[0].line, 2);
-			assert.strictEqual(messages[0].column, 1);
+			assert.strictEqual(messages[0].fatal, true);
+			assert.strictEqual(messages[0].line, 1);
+			assert.strictEqual(messages[0].column, 26);
+			assert.strictEqual(messages[1].ruleId, "no-undef");
+			assert.strictEqual(messages[1].severity, 2);
+			assert.strictEqual(messages[1].line, 2);
+			assert.strictEqual(messages[1].column, 1);
 
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
@@ -19519,7 +19411,6 @@ var a = "test2";
 						message: "Preprocessing error: Invalid syntax",
 						line: 1,
 						column: 1,
-						nodeType: null,
 					},
 				]);
 			});
@@ -19899,7 +19790,6 @@ var a = "test2";
 						message: "Don't use 'foo'.",
 						line: 2,
 						column: 5,
-						nodeType: "Identifier",
 						messageId: "unexpected",
 						endLine: 2,
 						endColumn: 8,
@@ -19922,7 +19812,6 @@ var a = "test2";
 						message: "Don't use 'foo'.",
 						line: 3,
 						column: 1,
-						nodeType: "Identifier",
 						messageId: "unexpected",
 						endLine: 3,
 						endColumn: 4,

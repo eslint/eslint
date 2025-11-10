@@ -4835,10 +4835,8 @@ describe("SourceCode", () => {
 			const sourceCode = new SourceCode(code, ast);
 			const steps = sourceCode.traverse();
 
-			// Filter for VisitNodeStep instances (where target is an object)
-			const visitSteps = steps.filter(
-				step => step.kind === 1 && typeof step.target === "object",
-			);
+			// Filter for VisitNodeStep instances
+			const visitSteps = steps.filter(step => step.kind === 1);
 
 			assert.strictEqual(visitSteps.length, 10);
 
@@ -4885,38 +4883,6 @@ describe("SourceCode", () => {
 			});
 		});
 
-		it("should include parent reference in step args", () => {
-			const code = "var foo = 1;";
-			const ast = espree.parse(code, DEFAULT_CONFIG);
-			const sourceCode = new SourceCode(code, ast);
-			const steps = sourceCode.traverse();
-
-			const visitSteps = steps.filter(step => step.kind === 1);
-
-			visitSteps.forEach(step => {
-				// args should contain [node, parent]
-				assert.isArray(step.args);
-				assert.isAtLeast(
-					step.args.length,
-					1,
-					"args should have at least node",
-				);
-				assert.strictEqual(
-					step.args[0],
-					step.target,
-					"first arg should be the target node",
-				);
-				// Second arg might be parent (could be undefined for root)
-				if (step.args.length > 1) {
-					assert.isTrue(
-						typeof step.args[1] === "object" ||
-							step.args[1] === null,
-						"second arg should be parent node or null",
-					);
-				}
-			});
-		});
-
 		it("should traverse nested nodes in correct order", () => {
 			const code = "var foo = 1;";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
@@ -4924,21 +4890,54 @@ describe("SourceCode", () => {
 			const steps = sourceCode.traverse();
 
 			const visitSteps = steps.filter(step => step.kind === 1);
-			const nodeTypes = visitSteps.map(step => step.target.type);
+			const nodeTypes = visitSteps.map(step => ({
+				type: step.target.type,
+				phase: step.phase,
+			}));
 
 			// Should have Program at the beginning
-			assert.strictEqual(
-				nodeTypes[0],
-				"Program",
-				"first node should be Program",
-			);
-
-			// Should have corresponding exit phase for Program at the end
-			assert.strictEqual(
-				nodeTypes.at(-1),
-				"Program",
-				"last node should be Program (exit)",
-			);
+			assert.deepStrictEqual(nodeTypes, [
+				{
+					type: "Program",
+					phase: 1,
+				},
+				{
+					type: "VariableDeclaration",
+					phase: 1,
+				},
+				{
+					type: "VariableDeclarator",
+					phase: 1,
+				},
+				{
+					type: "Identifier",
+					phase: 1,
+				},
+				{
+					type: "Identifier",
+					phase: 2,
+				},
+				{
+					type: "Literal",
+					phase: 1,
+				},
+				{
+					type: "Literal",
+					phase: 2,
+				},
+				{
+					type: "VariableDeclarator",
+					phase: 2,
+				},
+				{
+					type: "VariableDeclaration",
+					phase: 2,
+				},
+				{
+					type: "Program",
+					phase: 2,
+				},
+			]);
 		});
 
 		it("should cache the result of traverse()", () => {
@@ -5089,28 +5088,14 @@ describe("SourceCode", () => {
 
 			assert.strictEqual(visitSteps.length, 10);
 
-			// Every visit step should have exactly 2 arguments
 			visitSteps.forEach(step => {
 				assert.strictEqual(
 					step.args.length,
 					1,
 					`Visit step for ${step.target.type} should have exactly 1 argument, got ${step.args.length}`,
 				);
-			});
-		});
 
-		it("should have node as first argument", () => {
-			const code = "var foo = 1;";
-			const ast = espree.parse(code, DEFAULT_CONFIG);
-			const sourceCode = new SourceCode(code, ast);
-			const steps = sourceCode.traverse();
-
-			const visitSteps = steps.filter(step => step.kind === 1);
-
-			visitSteps.forEach(step => {
 				const [node] = step.args;
-
-				assert.strictEqual(step.args.length, 1);
 
 				// First argument should be the node itself
 				assert.strictEqual(
@@ -5121,51 +5106,35 @@ describe("SourceCode", () => {
 			});
 		});
 
-		it("should provide parent as the actual parent node in the AST", () => {
+		it("should set `parent` property on nodes as the actual parent node in the AST", () => {
 			const code = "if (x) { var y = 1; }";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const sourceCode = new SourceCode(code, ast);
-			const steps = sourceCode.traverse();
+			sourceCode.traverse();
 
-			const visitSteps = steps.filter(
-				step => step.kind === 1 && step.phase === 1,
-			); // enter phase only
+			const programNode = sourceCode.ast;
+			assert.strictEqual(programNode.parent, null);
 
-			// Build a map of visited nodes to verify parent-child relationships
-			const nodeMap = new Map();
-			visitSteps.forEach(step => {
-				const [node, parent] = step.args;
-				nodeMap.set(node, { node, parent, type: node.type });
-			});
+			const ifNode = programNode.body[0];
+			assert.strictEqual(ifNode.parent, programNode);
 
-			// Verify some specific parent-child relationships
-			for (const [node, info] of nodeMap) {
-				if (
-					node.type === "VariableDeclaration" &&
-					info.parent &&
-					info.parent.type
-				) {
-					// Parent of VariableDeclaration inside if block should be BlockStatement
-					assert.strictEqual(
-						info.parent.type,
-						"BlockStatement",
-						"VariableDeclaration inside if block should have BlockStatement parent",
-					);
-				}
+			const xNode = ifNode.test;
+			assert.strictEqual(xNode.parent, ifNode);
 
-				if (node.type === "Identifier" && node.name === "x") {
-					// Identifier 'x' in if condition should have Test or ConditionalExpression parent
-					assert.isTrue(
-						[
-							"Test",
-							"ConditionalExpression",
-							"IfStatement",
-						].includes(info.parent?.type) ||
-							node.parent?.type === "IfStatement",
-						`Identifier 'x' should have appropriate parent, got ${info.parent?.type}`,
-					);
-				}
-			}
+			const blockNode = ifNode.consequent;
+			assert.strictEqual(blockNode.parent, ifNode);
+
+			const varNode = blockNode.body[0];
+			assert.strictEqual(varNode.parent, blockNode);
+
+			const declaratorNode = varNode.declarations[0];
+			assert.strictEqual(declaratorNode.parent, varNode);
+
+			const yNode = declaratorNode.id;
+			assert.strictEqual(yNode.parent, declaratorNode);
+
+			const number1Node = declaratorNode.init;
+			assert.strictEqual(number1Node.parent, declaratorNode);
 		});
 	});
 });
