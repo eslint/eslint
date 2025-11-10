@@ -426,7 +426,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 3.4.0
 	 * @see https://eslint.org/docs/latest/rules/class-methods-use-this
 	 */
-    
 	"class-methods-use-this": Linter.RuleEntry<
 		[
 			Partial<{
