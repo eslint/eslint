@@ -25,12 +25,10 @@
  * SOFTWARE
  */
 
-import { ESLint, Rule } from "./index.js";
+import { Rule } from "./index.js";
 
 /** @deprecated */
 export const builtinRules: Map<string, Rule.RuleModule>;
-
-export { /** @deprecated */ ESLint as FlatESLint };
 
 /** @deprecated */
 export function shouldUseFlatConfig(): Promise<boolean>;
