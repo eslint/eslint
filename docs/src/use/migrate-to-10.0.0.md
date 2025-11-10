@@ -23,6 +23,7 @@ The lists below are ordered roughly by the number of users each change is expect
 - [Jiti < v2.2.0 are no longer supported](#drop-old-jiti)
 - [`eslint-env` comments are reported as errors](#eslint-env-comments)
 - [`func-names` schema is stricter](#func-names)
+- [`no-underscore-dangle` schema for the `allow` option is stricter](#no-underscore-dangle)
 
 ### Breaking changes for plugin developers
 
@@ -181,3 +182,19 @@ For example, this configuration is now invalid due to the extra element `"foo"`:
     - optionally, an object option: `{ "generators": "always" | "as-needed" | "never" }`.
 
 **Related issue(s):** [#20134](https://github.com/eslint/eslint/issues/20134)
+
+## <a name="no-underscore-dangle"></a> `no-underscore-dangle` schema for the `allow` option is stricter
+
+In ESLint v10, the [`no-underscore-dangle`](../rules/no-underscore-dangle) rule schema for the `allow` option now disallows duplicate items in the options array. Previously, configurations that included duplicate array elements were accepted but ignored. Such configurations are now considered invalid.
+
+For example, this configuration is now invalid due to the duplicate element `"_foo"`:
+
+```js
+/*eslint no-underscore-dangle: ["error", { "allow": ["_foo", "_foo"] }]*/
+```
+
+**To address:**
+
+- Remove any duplicate array elements from your `no-underscore-dangle`'s `allow` option configuration so that it contains only unique terms.
+
+**Related issue(s):** [#20308](https://github.com/eslint/eslint/issues/20308)
