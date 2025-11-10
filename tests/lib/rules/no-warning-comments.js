@@ -21,7 +21,6 @@ const ruleTester = new RuleTester();
 ruleTester.run("no-warning-comments", rule, {
 	valid: [
 		{ code: "// any comment", options: [{ terms: ["fixme"] }] },
-		{ code: "// any comment", options: [{ terms: ["fixme", "fixme"] }] }, // TODO: Remove
 		{ code: "// any comment", options: [{ terms: ["fixme", "todo"] }] },
 		"// any comment",
 		{ code: "// any comment", options: [{ location: "anywhere" }] },

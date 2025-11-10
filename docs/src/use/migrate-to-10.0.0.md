@@ -22,6 +22,7 @@ The lists below are ordered roughly by the number of users each change is expect
 - [Jiti < v2.2.0 are no longer supported](#drop-old-jiti)
 - [`eslint-env` comments are reported as errors](#eslint-env-comments)
 - [`func-names` schema is stricter](#func-names)
+- [`no-warning-comments` schema for the `terms` option is stricter](#no-warning-comments)
 
 ### Breaking changes for plugin developers
 
@@ -149,4 +150,18 @@ For example, this configuration is now invalid due to the extra element `"foo"`:
 
 **Related issue(s):** [#20134](https://github.com/eslint/eslint/issues/20134)
 
-<!-- TODO -->
+## <a name="no-warning-comments"></a> `no-warning-comments` schema for the `terms` option is stricter
+
+In ESLint v10, the [`no-warning-comments`](../rules/no-warning-comments) rule schema for the `terms` option now disallows duplicate items in the options array. Previously, configurations that included duplicate array elements were accepted but ignored. Such configurations are now considered invalid.
+
+For example, this configuration is now invalid due to the duplicate element `"fixme"`:
+
+```js
+/*eslint no-warning-comments: ["error", { "terms": ["fixme", "fixme"] }]*/
+```
+
+**To address:**
+
+- Remove any duplicate array elements from your `no-warning-comments`'s `terms` option configuration so that it contains only unique terms.
+
+**Related issue(s):** [#20307](https://github.com/eslint/eslint/issues/20307)
