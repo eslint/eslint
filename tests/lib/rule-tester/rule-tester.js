@@ -740,9 +740,7 @@ describe("RuleTester", () => {
 				invalid: [
 					{
 						code: "eval(foo)",
-						errors: [
-							{ message: "eval sucks.", type: "CallExpression" },
-						],
+						errors: [{ message: "eval sucks." }],
 					},
 				],
 			},
@@ -909,7 +907,6 @@ describe("RuleTester", () => {
 							errors: [
 								{
 									message: "Bad var.",
-									type: "VariableDeclaration",
 								},
 								null,
 							],
@@ -1056,7 +1053,6 @@ describe("RuleTester", () => {
 							errors: [
 								{
 									message: "Bad var.",
-									type: "VariableDeclaration",
 								},
 								{
 									message: "Bad var.",
@@ -1101,7 +1097,6 @@ describe("RuleTester", () => {
 							errors: [
 								{
 									message: "Bad var.",
-									type: "VariableDeclaration",
 								},
 							],
 						},
@@ -1139,7 +1134,7 @@ describe("RuleTester", () => {
 				valid: [],
 				invalid: [{ code: "var foo = bar;", output: 5, errors: 1 }],
 			});
-		}, /Output is incorrect/u);
+		}, /Test property 'output', if specified, must be a string or null/u);
 	});
 
 	it("should throw an error when the expected output doesn't match and errors is just a number", () => {
@@ -1248,29 +1243,6 @@ describe("RuleTester", () => {
 		}, "The rule fixed the code. Please add 'output' property.");
 	});
 
-	it("should throw an error if invalid code specifies wrong type", () => {
-		assert.throws(() => {
-			ruleTester.run(
-				"no-eval",
-				require("../../fixtures/testers/rule-tester/no-eval"),
-				{
-					valid: ["Eval(foo)"],
-					invalid: [
-						{
-							code: "eval(foo)",
-							errors: [
-								{
-									message: "eval sucks.",
-									type: "CallExpression2",
-								},
-							],
-						},
-					],
-				},
-			);
-		}, /Error type should be CallExpression2, found CallExpression/u);
-	});
-
 	it("should throw an error if invalid code specifies wrong line", () => {
 		assert.throws(() => {
 			ruleTester.run(
@@ -1284,7 +1256,6 @@ describe("RuleTester", () => {
 							errors: [
 								{
 									message: "eval sucks.",
-									type: "CallExpression",
 									line: 5,
 								},
 							],
@@ -1308,7 +1279,6 @@ describe("RuleTester", () => {
 							errors: [
 								{
 									message: "eval sucks.",
-									type: "CallExpression",
 									line: 0,
 								},
 							],
@@ -1414,7 +1384,6 @@ describe("RuleTester", () => {
 							errors: [
 								{
 									message: "Bad var.",
-									type: "VariableDeclaration",
 									endLine: 10,
 								},
 							],
@@ -1439,7 +1408,6 @@ describe("RuleTester", () => {
 							errors: [
 								{
 									message: "Bad var.",
-									type: "VariableDeclaration",
 									endColumn: 10,
 								},
 							],
@@ -1827,7 +1795,7 @@ describe("RuleTester", () => {
 					invalid: [],
 				},
 			);
-		}, /options must be an array/u);
+		}, /'options' must be an array/u);
 	});
 
 	it("should throw an error if the options are a number", () => {
@@ -1845,7 +1813,7 @@ describe("RuleTester", () => {
 					invalid: [],
 				},
 			);
-		}, /options must be an array/u);
+		}, /'options' must be an array/u);
 	});
 
 	describe("Parsers", () => {
@@ -2480,7 +2448,7 @@ describe("RuleTester", () => {
 				valid: [],
 				invalid: [{ code: "var foo = bar;", errors: 1 }],
 			});
-		}, "Rule must be an object with a `create` method");
+		}, /must be an object with a `create` method/u);
 	});
 
 	it("should throw an error if rule is an object without 'create' method", () => {
@@ -2499,7 +2467,7 @@ describe("RuleTester", () => {
 				valid: [],
 				invalid: [{ code: "var foo = bar;", errors: 1 }],
 			});
-		}, "Rule must be an object with a `create` method");
+		}, /must be an object with a `create` method/u);
 	});
 
 	it("should throw an error if no test scenarios given", () => {
@@ -2508,7 +2476,7 @@ describe("RuleTester", () => {
 				"foo",
 				require("../../fixtures/testers/rule-tester/modify-ast-at-last"),
 			);
-		}, "Test Scenarios for rule foo : Could not find test scenario object");
+		}, /Could not find test scenario object/u);
 	});
 
 	it("should throw an error if no acceptable test scenario object is given", () => {
@@ -2518,28 +2486,28 @@ describe("RuleTester", () => {
 				require("../../fixtures/testers/rule-tester/modify-ast-at-last"),
 				[],
 			);
-		}, "Test Scenarios for rule foo is invalid:\nCould not find any valid test scenarios\nCould not find any invalid test scenarios");
+		}, /Could not find any valid test scenarios/u);
 		assert.throws(() => {
 			ruleTester.run(
 				"foo",
 				require("../../fixtures/testers/rule-tester/modify-ast-at-last"),
 				"",
 			);
-		}, "Test Scenarios for rule foo : Could not find test scenario object");
+		}, /Could not find test scenario object/u);
 		assert.throws(() => {
 			ruleTester.run(
 				"foo",
 				require("../../fixtures/testers/rule-tester/modify-ast-at-last"),
 				2,
 			);
-		}, "Test Scenarios for rule foo : Could not find test scenario object");
+		}, /Could not find test scenario object/u);
 		assert.throws(() => {
 			ruleTester.run(
 				"foo",
 				require("../../fixtures/testers/rule-tester/modify-ast-at-last"),
 				{},
 			);
-		}, "Test Scenarios for rule foo is invalid:\nCould not find any valid test scenarios\nCould not find any invalid test scenarios");
+		}, /Could not find any valid test scenarios/u);
 		assert.throws(() => {
 			ruleTester.run(
 				"foo",
@@ -2548,7 +2516,7 @@ describe("RuleTester", () => {
 					valid: [],
 				},
 			);
-		}, "Test Scenarios for rule foo is invalid:\nCould not find any invalid test scenarios");
+		}, /Could not find any invalid test scenarios/u);
 		assert.throws(() => {
 			ruleTester.run(
 				"foo",
@@ -2557,7 +2525,7 @@ describe("RuleTester", () => {
 					invalid: [],
 				},
 			);
-		}, "Test Scenarios for rule foo is invalid:\nCould not find any valid test scenarios");
+		}, /Could not find any valid test scenarios/u);
 	});
 
 	// Nominal message/messageId use cases
@@ -2912,9 +2880,7 @@ describe("RuleTester", () => {
 				})),
 				invalid: filenames.map((filename, index) => ({
 					code: `eval(foo${index})`,
-					errors: [
-						{ message: "eval sucks.", type: "CallExpression" },
-					],
+					errors: [{ message: "eval sucks." }],
 					filename,
 				})),
 			},
@@ -4302,7 +4268,7 @@ describe("RuleTester", () => {
 					require("../../fixtures/testers/rule-tester/no-var"),
 					{
 						valid: ["foo"],
-						invalid: [{ code: "foo", name: 123 }],
+						invalid: [{ code: "foo", name: 123, errors: 1 }],
 					},
 				);
 			}, /Optional test case property 'name' must be a string/u);

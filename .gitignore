@@ -1,5 +1,6 @@
 /node_modules
 /docs/node_modules
+/tests/pnpm/node_modules
 test.js
 coverage/
 build/

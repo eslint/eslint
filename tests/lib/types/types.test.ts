@@ -93,7 +93,52 @@ const COMMENT: Comment = {
 
 // #region SourceCode
 
-let sourceCode = new SourceCode(SOURCE, AST);
+let sourceCode: SourceCode;
+
+sourceCode = new SourceCode(SOURCE, AST);
+sourceCode = new SourceCode({ text: SOURCE, ast: AST });
+sourceCode = new SourceCode({ text: SOURCE, ast: AST, hasBOM: true });
+sourceCode = new SourceCode({ text: SOURCE, ast: AST, hasBOM: undefined });
+sourceCode = new SourceCode({
+	text: SOURCE,
+	ast: AST,
+	parserServices: {
+		foo() {},
+	},
+});
+sourceCode = new SourceCode({ text: SOURCE, ast: AST, parserServices: null });
+sourceCode = new SourceCode({
+	text: SOURCE,
+	ast: AST,
+	parserServices: undefined,
+});
+sourceCode = new SourceCode({
+	text: SOURCE,
+	ast: AST,
+	scopeManager: {
+		scopes: [],
+		globalScope: null,
+		acquire(node, inner) {
+			return scopeManager.scopes[0];
+		},
+		getDeclaredVariables() {
+			return [];
+		},
+	},
+});
+sourceCode = new SourceCode({ text: SOURCE, ast: AST, scopeManager: null });
+sourceCode = new SourceCode({
+	text: SOURCE,
+	ast: AST,
+	scopeManager: undefined,
+});
+sourceCode = new SourceCode({
+	text: SOURCE,
+	ast: AST,
+	visitorKeys: { ArrayExpression: ["elements"] },
+});
+sourceCode = new SourceCode({ text: SOURCE, ast: AST, visitorKeys: null });
+sourceCode = new SourceCode({ text: SOURCE, ast: AST, visitorKeys: undefined });
 
 SourceCode.splitLines(SOURCE);
 
@@ -113,6 +158,8 @@ sourceCode.getNodeByRangeIndex(0);
 sourceCode.getNodeByRangeIndex(0);
 
 sourceCode.isSpaceBetweenTokens(TOKEN, TOKEN);
+sourceCode.isSpaceBetweenTokens(AST, TOKEN);
+sourceCode.isSpaceBetweenTokens(TOKEN, AST);
 
 sourceCode.isSpaceBetween(TOKEN, TOKEN);
 sourceCode.isSpaceBetween(AST, TOKEN);
@@ -292,6 +339,16 @@ sourceCode.getTokensAfter(AST, {
 sourceCode.getTokensAfter(TOKEN, 0);
 sourceCode.getTokensAfter(COMMENT, 0);
 
+sourceCode.getTokenOrCommentBefore(AST);
+sourceCode.getTokenOrCommentBefore(AST, 0);
+sourceCode.getTokenOrCommentBefore(TOKEN, 0);
+sourceCode.getTokenOrCommentBefore(COMMENT, 0);
+
+sourceCode.getTokenOrCommentAfter(AST);
+sourceCode.getTokenOrCommentAfter(AST, 0);
+sourceCode.getTokenOrCommentAfter(TOKEN, 0);
+sourceCode.getTokenOrCommentAfter(COMMENT, 0);
+
 sourceCode.getFirstTokenBetween(AST, AST); // $ExpectType Token | null
 sourceCode.getFirstTokenBetween(AST, AST, 0);
 sourceCode.getFirstTokenBetween(AST, AST, { skip: 0 });
@@ -442,6 +499,10 @@ const scopeManager: Scope.ScopeManager = {
 
 const scope = scopeManager.scopes[0];
 
+scope.implicit;
+scope.implicit?.variables;
+scope.implicit?.set;
+
 const variable = scope.variables[0];
 
 variable.name = "foo";
@@ -466,6 +527,37 @@ reference.isReadOnly();
 reference.isWrite();
 reference.isWriteOnly();
 reference.isReadWrite();
+
+let catchDef!: Extract<Scope.DefinitionType, { type: "CatchClause" }>;
+catchDef.node; // $ExpectType CatchClause
+catchDef.parent; // $ExpectType null
+
+let classNameDef!: Extract<Scope.DefinitionType, { type: "ClassName" }>;
+classNameDef.node; // $ExpectType ClassDeclaration | ClassExpression
+classNameDef.parent; // $ExpectType null
+
+let functionNameDef!: Extract<Scope.DefinitionType, { type: "FunctionName" }>;
+functionNameDef.node; // $ExpectType FunctionDeclaration | FunctionExpression
+functionNameDef.parent; // $ExpectType null
+
+let implicitGlobalVarDef!: Extract<
+	Scope.DefinitionType,
+	{ type: "ImplicitGlobalVariable" }
+>;
+implicitGlobalVarDef.node; // $ExpectType AssignmentExpression | ForInStatement | ForOfStatement
+implicitGlobalVarDef.parent; // $ExpectType null
+
+let importBindingDef!: Extract<Scope.DefinitionType, { type: "ImportBinding" }>;
+importBindingDef.node; // $ExpectType ImportSpecifier | ImportDefaultSpecifier | ImportNamespaceSpecifier
+importBindingDef.parent; // $ExpectType ImportDeclaration
+
+let parameterDef!: Extract<Scope.DefinitionType, { type: "Parameter" }>;
+parameterDef.node; // $ExpectType FunctionDeclaration | FunctionExpression | ArrowFunctionExpression
+parameterDef.parent; // $ExpectType null
+
+let variableDef!: Extract<Scope.DefinitionType, { type: "Variable" }>;
+variableDef.node; // $ExpectType VariableDeclarator
+variableDef.parent; // $ExpectType VariableDeclaration
 
 // #endregion
 
@@ -750,6 +842,8 @@ rule = {
 			},
 			onCodePathSegmentStart(segment, node) {},
 			onCodePathSegmentEnd(segment, node) {},
+			onUnreachableCodePathSegmentStart(segment, node) {},
+			onUnreachableCodePathSegmentEnd(segment, node) {},
 			onCodePathSegmentLoop(fromSegment, toSegment, node) {},
 			IfStatement(node) {
 				node.parent;
@@ -909,6 +1003,62 @@ type DeprecatedRuleContextKeys =
 				options: ["never"],
 			},
 		},
+	},
+});
+
+(): JSRuleDefinition => ({
+	create() {
+		return {
+			onCodePathStart(codePath, node) {
+				codePath; // $ExpectType CodePath
+				node; // $ExpectType Node
+			},
+			onCodePathSegmentStart(segment, node) {
+				segment; // $ExpectType CodePathSegment
+				node; // $ExpectType Node
+			},
+			onCodePathSegmentLoop(fromSegment, toSegment, node) {
+				fromSegment; // $ExpectType CodePathSegment
+				toSegment; // $ExpectType CodePathSegment
+				node; // $ExpectType Node
+			},
+			Program(node) {
+				// @ts-expect-error -- Program node has no parent
+				node.parent;
+				const { comments, tokens } = node;
+			},
+			"Program:exit"(node) {
+				// @ts-expect-error -- Program node has no parent
+				node.parent;
+				const { comments, tokens } = node;
+			},
+			CallExpression(node) {
+				node.type; // $ExpectType "CallExpression"
+			},
+			"CallExpression:exit"(node) {
+				node.type; // $ExpectType "CallExpression"
+			},
+			"*"(node: Rule.Node) {
+				if (node.type === "Program") {
+					node.parent; // $ExpectType null
+				} else {
+					node.parent; // $ExpectType Node
+				}
+				if (!node.parent) {
+					node.type; // $ExpectType "Program"
+					const { comments, tokens } = node;
+				}
+			},
+		} satisfies Rule.RuleListener;
+	},
+});
+
+(): JSRuleDefinition => ({
+	// @ts-expect-error invalid return type
+	create() {
+		return {
+			foo: null,
+		};
 	},
 });
 
@@ -1947,7 +2097,6 @@ ruleTester.run("my-rule", rule, {
 		{ code: "foo", errors: 1, output: "foo" },
 		{ code: "foo", errors: ["foo"] },
 		{ code: "foo", errors: [{ message: "foo" }] },
-		{ code: "foo", errors: [{ message: "foo", type: "foo" }] },
 		{ code: "foo", errors: [{ message: "foo", data: { foo: true } }] },
 		{ code: "foo", errors: [{ message: "foo", line: 0 }] },
 		{
@@ -2046,9 +2195,20 @@ ruleTester.run("simple-valid-test", rule2, {
 	},
 });
 
+interface CustomParserServices {
+	program: any;
+}
+
+(parserServices: CustomParserServices): Linter.Config => ({
+	languageOptions: {
+		parser: {
+			parseForESLint: () => ({ ast: AST, services: parserServices }),
+		},
+	},
+});
+
 (): Linter.Config => ({
 	languageOptions: {
-		// @ts-expect-error
 		parser: "foo-parser",
 	},
 });
