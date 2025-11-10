@@ -5036,7 +5036,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	>;
 
 	/**
-	 * Rule to enforce the consistent use of the radix argument when using `parseInt()`.
+	 * Rule to enforce the use of the radix argument when using `parseInt()`.
 	 *
 	 * @since 0.0.7
 	 * @see https://eslint.org/docs/latest/rules/radix
