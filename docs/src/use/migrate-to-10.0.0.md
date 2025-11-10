@@ -15,6 +15,8 @@ The lists below are ordered roughly by the number of users each change is expect
 
 ### Breaking changes for users
 
+<!-- TODO -->
+
 - [Node.js < v20.19, v21, v23 are no longer supported](#drop-old-node)
 - [New configuration file lookup algorithm](#config-lookup-from-file)
 - [Deprecated options of the `radix` rule](#radix)
