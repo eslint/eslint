@@ -56,10 +56,7 @@ async function runTests(pluginKey, pluginSettings) {
 				cwd: directory,
 			});
 		} catch (error) {
-			console.error(
-				chalk.red(`[${pluginKey}]`),
-				error.stdout || error,
-			);
+			console.error(chalk.red(`[${pluginKey}]`), error.stdout || error);
 			throw error;
 		}
 	};
