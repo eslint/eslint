@@ -17,6 +17,7 @@ The lists below are ordered roughly by the number of users each change is expect
 
 - [Node.js < v20.19, v21, v23 are no longer supported](#drop-old-node)
 - [New configuration file lookup algorithm](#config-lookup-from-file)
+- [Deprecated options of the `radix` rule](#radix)
 - [`no-shadow-restricted-names` now reports `globalThis` by default](#no-shadow-restricted-names)
 - [`eslint:recommended` has been updated](#eslint-recommended)
 - [Jiti < v2.2.0 are no longer supported](#drop-old-jiti)
@@ -28,6 +29,7 @@ The lists below are ordered roughly by the number of users each change is expect
 
 - [Node.js < v20.19, v21, v23 are no longer supported](#drop-old-node)
 - [Removal of `type` property in errors of invalid `RuleTester` cases](#ruletester-type-removed)
+- [Fixer methods now require string `text` arguments](#fixer-text-must-be-string)
 
 ### Breaking changes for integration developers
 
@@ -62,6 +64,20 @@ In ESLint v9, the alternate config lookup behavior could be enabled with the `v1
 - If you relied on the previous (cwd-based) lookup behavior, provide an explicit config path with `--config path/to/eslint.config.js`.
 
 **Related issue(s):** [#19967](https://github.com/eslint/eslint/issues/19967)
+
+## <a name="radix"></a> Deprecated options of the `radix` rule
+
+As of ESLint v10.0.0, string options `"always"` and `"as-needed"` of the [`radix`](../rules/radix) rule are deprecated. Setting either of these options doesn't change the behavior of this rule, which now always enforces providing a radix, as it was the case when the `"always"` option (default) was specified. Since the default radix depends on the first argument of `parseInt()`, this rule assumes that the second argument (the radix) is always needed.
+
+The default behavior of this rule has not been changed.
+
+**To address:**
+
+- If you are using this rule without any options specified, there is no action required.
+- If you are using this rule with the `"always"` option explicitly specified, remove the option. The behavior of this rule will remain the same.
+- If you are using this rule with the `"as-needed"` option, remove the option and update your code to always provide the second argument to the `parseInt()` function. Alternatively, you can disable this rule.
+
+**Related issue(s):** [#19916](https://github.com/eslint/eslint/issues/19916)
 
 ## <a name="no-shadow-restricted-names"></a> `no-shadow-restricted-names` now reports `globalThis` by default
 
@@ -109,6 +125,23 @@ In ESLint v10, the deprecated `type` property in errors of invalid test cases fo
 **To address:** Remove the `type` property from error objects in invalid test cases.
 
 **Related issue(s):** [#19029](https://github.com/eslint/eslint/issues/19029)
+
+## <a name="fixer-text-must-be-string"></a> Fixer methods now require string `text` arguments
+
+In ESLint v10, all rule fixer methods that accept a `text` argument now require that it be a string. Providing a non-string value will throw a `TypeError`.
+
+Affected methods:
+
+- `insertTextBefore(nodeOrToken, text)`
+- `insertTextBeforeRange(range, text)`
+- `insertTextAfter(nodeOrToken, text)`
+- `insertTextAfterRange(range, text)`
+- `replaceText(nodeOrToken, text)`
+- `replaceTextRange(range, text)`
+
+**To address:** Ensure the `text` value you pass to fixer methods is a string.
+
+**Related issue(s):** [#18807](https://github.com/eslint/eslint/issues/18807)
 
 ## <a name="lintmessage-nodetype-removed"></a> Removal of `nodeType` property in `LintMessage` objects
 
