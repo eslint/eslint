@@ -30,6 +30,7 @@ The lists below are ordered roughly by the number of users each change is expect
 - [Removal of `type` property in errors of invalid `RuleTester` cases](#ruletester-type-removed)
 - [Fixer methods now require string `text` arguments](#fixer-text-must-be-string)
 - [`Program` AST node range spans entire source text](#program-node-range)
+- [New requirements for `ScopeManager` implementations](#scope-manager)
 
 ### Breaking changes for integration developers
 
@@ -174,6 +175,18 @@ Starting with ESLint v10, `Program.range` covers the entire source text, includi
 - For custom parsers: Set `Program.range` to cover the full source text (typically `[0, code.length]`).
 
 **Related issue(s):** [eslint/js#648](https://github.com/eslint/js/issues/648)
+
+## <a name="scope-manager"></a> New requirements for `ScopeManager` implementations
+
+As of ESLint v10.0.0, custom `ScopeManager` implementations must automatically resolve references to global variables declared in the code, including `var` and `function` declarations, and provide an instance method `addGlobals(names: string[])` that creates variables with the given names in the global scope and resolves references to them.
+
+The default `ScopeManager` implementation [`eslint-scope`](https://www.npmjs.com/package/eslint-scope) has already been updated.
+
+This change does not affect custom rules.
+
+**To address:** If you maintain a custom parser that provides a custom `ScopeManager` implementation, update your custom `ScopeManager` implementation.
+
+**Related issue(s):** [eslint/js#665](https://github.com/eslint/js/issues/665)
 
 ## <a name="eslint-env-comments"></a> `eslint-env` comments are reported as errors
 
