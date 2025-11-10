@@ -21,6 +21,7 @@ The lists below are ordered roughly by the number of users each change is expect
 - [`eslint:recommended` has been updated](#eslint-recommended)
 - [Jiti < v2.2.0 are no longer supported](#drop-old-jiti)
 - [`eslint-env` comments are reported as errors](#eslint-env-comments)
+- [`class-methods-use-this` schema for the `exceptMethods` option is stricter](#class-methods-use-this)
 - [`func-names` schema is stricter](#func-names)
 
 ### Breaking changes for plugin developers
@@ -130,6 +131,22 @@ error: /* eslint-env */ comments are no longer supported at file.js:1:1:
 **To address:** Remove any `eslint-env` comments from your code. If you are still using the old configuration system and need help migrating, check the [migration guide](./configure/migration-guide#eslint-env-configuration-comments).
 
 **Related issue(s):** [#13481](https://github.com/eslint/eslint/issues/13481)
+
+## <a name="class-methods-use-this"></a> `class-methods-use-this` schema for the `exceptMethods` option is stricter
+
+In ESLint v10, the [`class-methods-use-this`](../rules/class-methods-use-this) rule schema for the `exceptMethods` option now disallows duplicate items in the options array. Previously, configurations that included duplicate array elements were accepted but ignored. Such configurations are now considered invalid.
+
+For example, this configuration is now invalid due to the duplicate element `"foo"`:
+
+```js
+/*eslint class-methods-use-this: ["error", { "exceptMethods": ["foo", "foo"] }]*/
+```
+
+**To address:**
+
+- Remove any duplicate array elements from your `class-methods-use-this`'s `exceptMethods` option configuration so that it contains only unique method names.
+
+**Related issue(s):** [#20298](https://github.com/eslint/eslint/issues/20298)
 
 ## <a name="func-names"></a> `func-names` schema is stricter
 
