@@ -42,7 +42,6 @@ import { ESLintRules } from "eslint/rules";
 import { Linter as ESLinter } from "eslint/universal";
 import {
 	builtinRules,
-	FlatESLint,
 	shouldUseFlatConfig,
 } from "eslint/use-at-your-own-risk";
 import {
