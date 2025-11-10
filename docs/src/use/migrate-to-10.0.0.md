@@ -164,4 +164,4 @@ For example, this configuration is now invalid due to the duplicate element `"fi
 
 - Remove any duplicate array elements from your `no-warning-comments`'s `terms` option configuration so that it contains only unique terms.
 
-**Related issue(s):** [#20307](https://github.com/eslint/eslint/issues/20307)
+**Related issue(s):** [#20307](https://github.com/eslint/eslint/pull/20307)
