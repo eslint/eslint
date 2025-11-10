@@ -3964,7 +3964,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.0.9
 	 * @see https://eslint.org/docs/latest/rules/no-underscore-dangle
 	 */
-    
 	"no-underscore-dangle": Linter.RuleEntry<
 		[
 			Partial<{
