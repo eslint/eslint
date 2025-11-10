@@ -1,3 +1,14 @@
+v9.39.1 - November 3, 2025
+
+* [`92db329`](https://github.com/eslint/eslint/commit/92db329211c8da5ce8340a4d4c05ce9c12845381) chore: update `@eslint/js` version to 9.39.1 (#20284) (Francesco Trotta)
+* [`c7ebefc`](https://github.com/eslint/eslint/commit/c7ebefc9eaf99b76b30b0d3cf9960807a47367c4) chore: package.json update for @eslint/js release (Jenkins)
+* [`650753e`](https://github.com/eslint/eslint/commit/650753ee3976784343ceb40170619dab1aa9fe0d) fix: Only pass node to JS lang visitor methods (#20283) (Nicholas C. Zakas)
+* [`51b51f4`](https://github.com/eslint/eslint/commit/51b51f4f1ce82ef63264c4e45d9ef579bcd73f8e) docs: add a section on when to use extends vs cascading (#20268) (Tanuj Kanti)
+* [`61778f6`](https://github.com/eslint/eslint/commit/61778f6ca33c0f63962a91d6a75a4fa5db9f47d2) chore: update eslint-config-eslint dependency @eslint/js to ^9.39.0 (#20275) (renovate[bot])
+* [`d9ca2fc`](https://github.com/eslint/eslint/commit/d9ca2fcd9ad63331bfd329a69534e1ff04f231e8) ci: Add rangeStrategy to eslint group in renovate config (#20266) (唯然)
+* [`009e507`](https://github.com/eslint/eslint/commit/009e5076ff5a4bd845f55e17676e3bb88f47c280) test: fix version tests for ESLint v10 (#20274) (Milos Djermanovic)
+* [`b44d426`](https://github.com/eslint/eslint/commit/b44d42699dcd1729b7ecb50ca70e4c1c17f551f1) docs: Update README (GitHub Actions Bot)
+
 v9.39.0 - October 31, 2025
 
 * [`dfe3c1b`](https://github.com/eslint/eslint/commit/dfe3c1b2034228765c48c8a445554223767dd16d) chore: update `@eslint/js` version to 9.39.0 (#20270) (Francesco Trotta)
