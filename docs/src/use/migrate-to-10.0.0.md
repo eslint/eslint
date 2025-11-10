@@ -148,3 +148,5 @@ For example, this configuration is now invalid due to the extra element `"foo"`:
     - optionally, an object option: `{ "generators": "always" | "as-needed" | "never" }`.
 
 **Related issue(s):** [#20134](https://github.com/eslint/eslint/issues/20134)
+
+<!-- TODO -->

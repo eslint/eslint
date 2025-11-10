@@ -4434,6 +4434,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.4.4
 	 * @see https://eslint.org/docs/latest/rules/no-warning-comments
 	 */
+    
 	"no-warning-comments": Linter.RuleEntry<
 		[
 			Partial<{
