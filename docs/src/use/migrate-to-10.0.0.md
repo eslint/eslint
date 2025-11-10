@@ -197,4 +197,4 @@ For example, this configuration is now invalid due to the duplicate element `"_f
 
 - Remove any duplicate array elements from your `no-underscore-dangle`'s `allow` option configuration so that it contains only unique terms.
 
-**Related issue(s):** [#20308](https://github.com/eslint/eslint/issues/20308)
+**Related issue(s):** [#20308](https://github.com/eslint/eslint/pull/20308)
