@@ -3724,7 +3724,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			Partial<{
 				/**
-				 * @default false
+				 * @default true
 				 */
 				reportGlobalThis: boolean;
 			}>,
@@ -3854,6 +3854,9 @@ export interface ESLintRules extends Linter.RulesRecord {
 
 	/**
 	 * Rule to disallow `let` or `var` variables that are read but never assigned.
+	 *
+	 * @remarks
+	 * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
 	 *
 	 * @since 9.27.0
 	 * @see https://eslint.org/docs/latest/rules/no-unassigned-vars
@@ -4194,6 +4197,9 @@ export interface ESLintRules extends Linter.RulesRecord {
 
 	/**
 	 * Rule to disallow variable assignments when the value is not used.
+	 *
+	 * @remarks
+	 * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
 	 *
 	 * @since 9.0.0-alpha.1
 	 * @see https://eslint.org/docs/latest/rules/no-useless-assignment
@@ -4859,6 +4865,9 @@ export interface ESLintRules extends Linter.RulesRecord {
 
 	/**
 	 * Rule to disallow losing originally caught error when re-throwing custom errors.
+	 *
+	 * @remarks
+	 * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
 	 *
 	 * @since 9.35.0
 	 * @see https://eslint.org/docs/latest/rules/preserve-caught-error
