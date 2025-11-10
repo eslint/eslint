@@ -179,7 +179,7 @@ For example, this configuration is now invalid due to the duplicate element `"fo
 
 - Remove any duplicate array elements from your `class-methods-use-this`'s `exceptMethods` option configuration so that it contains only unique method names.
 
-**Related issue(s):** [#20306](https://github.com/eslint/eslint/issues/20306)
+**Related issue(s):** [#20306](https://github.com/eslint/eslint/pull/20306)
 
 ## <a name="func-names"></a> `func-names` schema is stricter
 
