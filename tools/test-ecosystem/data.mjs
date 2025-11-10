@@ -7,8 +7,7 @@
 // Requirements
 //-----------------------------------------------------------------------------
 
-import util from "node:util";
-import path from "node:path";
+import util, { styleText } from "node:util";
 
 //-----------------------------------------------------------------------------
 // Types
@@ -25,10 +24,7 @@ import path from "node:path";
 // Constants
 //-----------------------------------------------------------------------------
 
-export const pluginDataFilePath = path.join(
-	import.meta.dirname,
-	"plugins-data.json",
-);
+export const pluginDataFilePath = new URL("plugins-data.json", import.meta.url);
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -74,7 +70,7 @@ export async function getPlugins(action) {
 
 	console.log(
 		`Plugins to ${action}:`,
-		chalk.bold(pluginsSelected.map(([key]) => key).join(", ")),
+		styleText("bold", pluginsSelected.map(([key]) => key).join(", ")),
 	);
 
 	return { pluginsData, pluginsSelected };

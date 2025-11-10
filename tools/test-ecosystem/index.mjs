@@ -11,6 +11,7 @@ import spawn from "nano-spawn";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { getPlugins } from "./data.mjs";
+import { styleText } from "node:util";
 
 /**
  * @typedef {import("./data").PluginSettings} PluginSettings
@@ -41,7 +42,7 @@ async function runTests(pluginKey, pluginSettings) {
 			.trim()
 			.replaceAll(" ", "-"),
 	);
-	console.log(chalk.bold(`Testing ${pluginKey} in ${directory}`));
+	console.log(styleText("bold", `Testing ${pluginKey} in ${directory}`));
 
 	/**
 	 * Attempts to run a command in the plugin sandbox directory.
@@ -50,13 +51,18 @@ async function runTests(pluginKey, pluginSettings) {
 	 * @param {string[]} args
 	 */
 	const runCommand = async (command, ...args) => {
-		console.log(chalk.gray(`[${pluginKey}]`, [command, ...args].join(" ")));
+		console.log(
+			styleText("gray", `[${pluginKey}] ${[command, ...args].join(" ")}`),
+		);
 		try {
 			return await spawn(command, args, {
 				cwd: directory,
 			});
 		} catch (error) {
-			console.error(chalk.red(`[${pluginKey}]`), error.stdout || error);
+			console.error(
+				styleText("red", `[${pluginKey}]`),
+				error.stdout || error,
+			);
 			throw error;
 		}
 	};
@@ -132,11 +138,13 @@ for (const [pluginKey, pluginSettings] of pluginsSelected) {
 
 // If we had any errors, report them and exit as failed
 if (errors.length) {
-	console.error(chalk.red("Errors occurred while testing plugins:"));
+	console.error(styleText("red", "Errors occurred while testing plugins:"));
 	for (const { error, pluginKey } of errors) {
-		console.error(`${chalk.bold.red(pluginKey)}: ${chalk.red(error)}`);
+		console.error(
+			`${styleText(["bold", "red"], pluginKey)}: ${styleText("red", `${error}`)}`,
+		);
 	}
 	process.exitCode = 1;
 } else {
-	console.log(chalk.green("All tests completed successfully."));
+	console.log(styleText("green", "All tests completed successfully."));
 }

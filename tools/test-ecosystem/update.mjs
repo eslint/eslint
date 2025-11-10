@@ -9,6 +9,7 @@
 
 import fs from "node:fs/promises";
 import { getPlugins, pluginDataFilePath } from "./data.mjs";
+import { styleText } from "node:util";
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -35,11 +36,15 @@ async function getLatestRepositoryCommit(pluginKey, pluginSettings) {
 
 	if (sha === pluginSettings.commit) {
 		console.log(
-			chalk.gray(`[${pluginKey}] Already at latest commit:`, sha),
+			styleText(".gray", `[${pluginKey}] Already at latest commit:`, sha),
 		);
 	} else {
 		console.log(
-			chalk.bold.gray(`[${pluginKey}] Found new commit hash:`, sha),
+			styleText(
+				["bold", "gray"],
+				`[${pluginKey}] Found new commit hash:`,
+				sha,
+			),
 		);
 	}
 
