@@ -23,6 +23,7 @@ The lists below are ordered roughly by the number of users each change is expect
 - [Jiti < v2.2.0 are no longer supported](#drop-old-jiti)
 - [`eslint-env` comments are reported as errors](#eslint-env-comments)
 - [`func-names` schema is stricter](#func-names)
+- [`allowConstructorFlags` option of `no-invalid-regexp` now accepts only unique items](#no-invalid-regexp)
 
 ### Breaking changes for plugin developers
 
@@ -206,3 +207,17 @@ For example, this configuration is now invalid due to the extra element `"foo"`:
     - optionally, an object option: `{ "generators": "always" | "as-needed" | "never" }`.
 
 **Related issue(s):** [#20134](https://github.com/eslint/eslint/issues/20134)
+
+## <a name="no-invalid-regexp"></a> `allowConstructorFlags` option of `no-invalid-regexp` now accepts only unique items
+
+In ESLint v10, the `allowConstructorFlags` option of `no-invalid-regexp` no longer accepts duplicate flags as input. Previously, configurations with duplicate flags in the array were accepted but treated the same as having unique flags. Such configurations are now considered invalid and will result in a configuration error.
+
+For example, this configuration is now invalid due to the duplicate `"u"` flag:
+
+```js
+/*eslint no-invalid-regexp: ["error", { "allowConstructorFlags": ["u", "y", "u"] }]*/
+```
+
+**To address:** Remove any duplicate flags from your `allowConstructorFlags` array configuration of `no-invalid-regexp` rule. Each flag should appear only once in the array.
+
+**Related issue(s):** [#18755](https://github.com/eslint/eslint/issues/18755)
