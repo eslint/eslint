@@ -15,6 +15,10 @@
     "commit": "d6869dfbb794437c00e0e27e6cc0dbdfd3c56fac",
     "repository": "https://github.com/eslint-community/eslint-plugin-eslint-comments"
   },
+  "@typescript-eslint/typescript-eslint": {
+    "commit": "0fac8899572e4f8f3f0db6a56d042418d86dfd0e",
+    "repository": "https://github.com/typescript-eslint/typescript-eslint"
+  },
   "eslint-plugin-unicorn": {
     "commit": "f4eb2e731358d68b031d7fd42bf725a23f9d1e4d",
     "repository": "https://github.com/sindresorhus/eslint-plugin-unicorn"
