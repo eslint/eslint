@@ -1070,7 +1070,7 @@ This option outputs the configuration to be used for the file passed. When prese
 
 #### `--stats`
 
-This option adds a series of detailed performance statistics (see [Stats type](../extend/stats#-stats-type)) such as the _parse_-, _fix_- and _lint_-times (time per rule) to [`result`](../extend/custom-formatters#the-result-object) objects that are passed to the formatter (see [Stats CLI usage](../extend/stats#cli-usage)).
+This option adds a series of detailed performance statistics (see [Stats type](../extend/stats#-stats-type)) such as the _parse_-, _fix_- and _lint_-times (time per rule) to [`result`](../integrate/nodejs-api#-lintresult-type) objects that are passed to the formatter (see [Stats CLI usage](../extend/stats#cli-usage)).
 
 - **Argument Type**: No argument.
 

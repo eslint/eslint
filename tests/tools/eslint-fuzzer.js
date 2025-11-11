@@ -244,7 +244,6 @@ describe("eslint-fuzzer", function () {
 					message: `Parsing error: ${expectedSyntaxError.message}`,
 					line: expectedSyntaxError.lineNumber,
 					column: expectedSyntaxError.column,
-					nodeType: null,
 				});
 			});
 		});
@@ -301,7 +300,6 @@ describe("eslint-fuzzer", function () {
 					message: `Parsing error: ${expectedSyntaxError.message}`,
 					line: expectedSyntaxError.lineNumber,
 					column: expectedSyntaxError.column,
-					nodeType: null,
 				});
 			});
 		});
@@ -320,7 +318,7 @@ describe("eslint-fuzzer", function () {
 									node,
 									message: "no foos allowed",
 									fix: fixer =>
-										fixer.replaceText(node, "bar"),
+										fixer.replaceText(node.body[0], "bar"),
 								});
 							} else if (
 								sourceCode.text ===
