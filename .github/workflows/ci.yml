@@ -13,8 +13,8 @@ jobs:
         name: Verify Files
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v5
-            - uses: actions/setup-node@v6
+            - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+            - uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6
               with:
                   node-version: "lts/*"
             - name: Install Packages
@@ -86,8 +86,8 @@ jobs:
                       NODE_OPTIONS: "--experimental-transform-types"
         runs-on: ${{ matrix.os }}
         steps:
-            - uses: actions/checkout@v5
-            - uses: actions/setup-node@v6
+            - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+            - uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6
               with:
                   node-version: ${{ matrix.node }}
             - name: Install Packages
@@ -107,8 +107,8 @@ jobs:
         env:
             TERM: xterm-256color
         steps:
-            - uses: actions/checkout@v5
-            - uses: actions/setup-node@v6
+            - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+            - uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6
               with:
                   node-version: "20" # Should be the same as the version used on Netlify to build the ESLint Playground
             - name: Install Packages
@@ -135,8 +135,8 @@ jobs:
                     ]
 
         steps:
-            - uses: actions/checkout@v5
-            - uses: actions/setup-node@v6
+            - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+            - uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6
               with:
                   node-version: "lts/*"
             - name: Install Packages
@@ -154,13 +154,13 @@ jobs:
         name: Test pnpm Type Support
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v5
+            - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
 
-            - uses: pnpm/action-setup@v4
+            - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4
               with:
                   version: latest
 
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6
               with:
                   node-version: "lts/*"
 
