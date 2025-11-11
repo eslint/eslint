@@ -7,7 +7,7 @@
 // Requirements
 //-----------------------------------------------------------------------------
 
-import spawn from "nano-spawn";
+import spawn from "cross-spawn";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { getPlugins } from "./data.mjs";
@@ -50,12 +50,12 @@ async function runTests(pluginKey, pluginSettings) {
 	 * @param {string} command
 	 * @param {string[]} args
 	 */
-	const runCommand = async (command, ...args) => {
+	const runCommand = (command, ...args) => {
 		console.log(
 			styleText("gray", `[${pluginKey}] ${[command, ...args].join(" ")}`),
 		);
 		try {
-			return await spawn(command, args, {
+			return spawn.sync(command, args, {
 				cwd: directory,
 			});
 		} catch (error) {
@@ -69,7 +69,7 @@ async function runTests(pluginKey, pluginSettings) {
 
 	// 1. Clone the plugin repository into a sandbox directory
 	await fs.mkdir(directory, { force: true });
-	await runCommand(
+	runCommand(
 		"git",
 		"clone",
 		pluginSettings.repository,
@@ -79,19 +79,19 @@ async function runTests(pluginKey, pluginSettings) {
 	);
 
 	// 2. Check out the plugin's commit to test on
-	await runCommand("git", "fetch", "origin", pluginSettings.commit);
-	await runCommand("git", "checkout", pluginSettings.commit);
+	runCommand("git", "fetch", "origin", pluginSettings.commit);
+	runCommand("git", "checkout", pluginSettings.commit);
 
 	// 3. Install the plugin's dependencies
-	await runCommand("pwd");
-	await runCommand("ni");
+	runCommand("pwd");
+	runCommand("ni");
 
 	// 4. Link the built ESLint into the plugin
-	await runCommand("npm", "link", "eslint");
+	runCommand("npm", "link", "eslint");
 
-	const packageJsonPath = path.resolve(
-		process.cwd(),
+	const packageJsonPath = new URL(
 		path.join(directory, "package.json"),
+		import.meta.url,
 	);
 	const packageJson = await import(packageJsonPath, {
 		with: { type: "json" },
@@ -99,11 +99,11 @@ async function runTests(pluginKey, pluginSettings) {
 
 	// 5. Build, if the plugin defines a build script
 	if (packageJson.default.scripts.build) {
-		await runCommand("nr", "build");
+		runCommand("nr", "build");
 	}
 
 	// 6. Run test
-	await runCommand("nr", "test");
+	runCommand("nr", "test");
 }
 
 //-----------------------------------------------------------------------------
@@ -141,7 +141,7 @@ if (errors.length) {
 	console.error(styleText("red", "Errors occurred while testing plugins:"));
 	for (const { error, pluginKey } of errors) {
 		console.error(
-			`${styleText(["bold", "red"], pluginKey)}: ${styleText("red", `${error}`)}`,
+			`${styleText(["bold", "red"], pluginKey)}: ${styleText("red", `${error.stack || error}`)}`,
 		);
 	}
 	process.exitCode = 1;

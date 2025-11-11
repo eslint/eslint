@@ -189,7 +189,6 @@
     "metascraper-logo-favicon": "^5.25.7",
     "metascraper-title": "^5.25.7",
     "mocha": "^11.7.1",
-    "nano-spawn": "^1.0.1",
     "node-polyfill-webpack-plugin": "^1.0.3",
     "npm-license": "^0.3.3",
     "pirates": "^4.0.5",
