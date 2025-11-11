@@ -1422,8 +1422,7 @@ export class RuleTester {
 			valid: Array<string | RuleTester.ValidTestCase>;
 			invalid: RuleTester.InvalidTestCase[];
 			/**
-			 * Optional options for assertions. Useful to enforce consistency
-			 * and strictness across a large number of tests.
+			 * Additional assertions for the "error" matchers of invalid test cases to enforce consistency.
 			 */
 			assertionOptions?: {
 				/**

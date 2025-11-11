@@ -913,7 +913,7 @@ The `RuleTester#run()` method is used to run the tests. It should be passed the 
 - The name of the rule (string).
 - The rule object itself (see ["working with rules"](../extend/custom-rules)).
 - An object containing `valid` and `invalid` properties, each of which is an array containing test cases.
-    - You can also configure optional `assertionOptions`, if you wish to enforce consistency and strictness across a large number of tests.
+    - You can also configure optional `assertionOptions` to configure additional assertions for the "error" matchers of invalid test cases to enforce consistency.
 
 A test case is an object with the following properties:
 
