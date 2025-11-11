@@ -40,10 +40,7 @@ import {
 import { defineConfig, globalIgnores } from "eslint/config";
 import { ESLintRules } from "eslint/rules";
 import { Linter as ESLinter } from "eslint/universal";
-import {
-	builtinRules,
-	shouldUseFlatConfig,
-} from "eslint/use-at-your-own-risk";
+import { builtinRules, shouldUseFlatConfig } from "eslint/use-at-your-own-risk";
 import {
 	Comment,
 	PrivateIdentifier,
@@ -2229,8 +2226,6 @@ async (useFlatConfig?: boolean) => {
 // #region use-at-your-own-risk
 
 builtinRules; // $ExpectType Map<string, RuleModule>
-
-FlatESLint; // $ExpectType typeof ESLint
 
 shouldUseFlatConfig(); // $ExpectType Promise<boolean>
 

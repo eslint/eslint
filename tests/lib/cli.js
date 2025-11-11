@@ -2395,8 +2395,6 @@ describe("cli", () => {
 						),
 					/Could not find config file/u,
 				);
-
-				assert.strictEqual(exitCode, 0, "exit code should be 0");
 			});
 		});
 

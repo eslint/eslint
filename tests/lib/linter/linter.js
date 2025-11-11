@@ -49,14 +49,6 @@ function getVariable(scope, name) {
 	return scope.variables.find(v => v.name === name) || null;
 }
 
-/**
- * `eslint-env` comments are processed by doing a full source text match before parsing.
- * As a result, if this source file contains `eslint- env` followed by an environment in a string,
- * it will actually enable the given envs for this source file. This variable is used to avoid having a string
- * like that appear in the code.
- */
-const ESLINT_ENV = "eslint-env";
-
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------

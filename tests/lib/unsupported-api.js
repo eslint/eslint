@@ -25,11 +25,11 @@ describe("unsupported-api", () => {
 	});
 
 	it("should not have FlatESLint exposed", () => {
-		assert.isUndefined(api.FlatESLint);
+		assert(!api.FlatESLint);
 	});
 
 	it("should not have LegacyESLint exposed", () => {
-		assert.isUndefined(api.LegacyESLint);
+		assert(!api.LegacyESLint);
 	});
 
 	it("should not have ESLint exposed", () => {

@@ -46,18 +46,21 @@ describe("LintResultCache", () => {
 			ignore: false,
 			globInputPaths: false,
 			fix: () => shouldFix,
-			flags: ["v10_config_lookup_from_file"]
 		});
 
 		// Get results without autofixing...
-		fakeErrorResults = (await eslint.lintFiles([
-			path.join(fixturePath, "test-with-errors.js"),
-		]))[0];
+		fakeErrorResults = (
+			await eslint.lintFiles([
+				path.join(fixturePath, "test-with-errors.js"),
+			])
+		)[0];
 		// ...and with autofixing
 		shouldFix = true;
-		fakeErrorResultsAutofix = (await eslint.lintFiles([
-			path.join(fixturePath, "test-with-errors.js"),
-		]))[0];
+		fakeErrorResultsAutofix = (
+			await eslint.lintFiles([
+				path.join(fixturePath, "test-with-errors.js"),
+			])
+		)[0];
 
 		// Set up LintResultCache with fake fileEntryCache module
 		LintResultCache = proxyquire(
