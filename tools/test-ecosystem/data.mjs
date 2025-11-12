@@ -39,7 +39,6 @@ export async function getPlugins(action) {
 		options: {
 			plugin: {
 				type: "string",
-				help: `The name of the plugin to ${action}, or 'all' for all plugins (default: 'all')`,
 			},
 		},
 	});

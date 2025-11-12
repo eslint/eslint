@@ -10,6 +10,7 @@
 import fs from "node:fs/promises";
 import { getPlugins, pluginDataFilePath } from "./data.mjs";
 import { styleText } from "node:util";
+import prettier from "prettier";
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -36,14 +37,16 @@ async function getLatestRepositoryCommit(pluginKey, pluginSettings) {
 
 	if (sha === pluginSettings.commit) {
 		console.log(
-			styleText("gray", `[${pluginKey}] Already at latest commit:`, sha),
+			styleText(
+				"gray",
+				`[${pluginKey}] Already at latest commit: ${sha}`,
+			),
 		);
 	} else {
 		console.log(
 			styleText(
 				["bold", "gray"],
-				`[${pluginKey}] Found new commit hash:`,
-				sha,
+				`[${pluginKey}] Found new commit hash: ${sha}`,
 			),
 		);
 	}
@@ -76,12 +79,14 @@ const pluginsUpdated = Object.fromEntries(
 // Write the updated plugins data to the plugins-data.json file
 await fs.writeFile(
 	pluginDataFilePath,
-	JSON.stringify(
-		{
+	await prettier.format(
+		JSON.stringify({
 			...pluginsData,
 			...pluginsUpdated,
+		}),
+		{
+			...(await prettier.resolveConfig(pluginDataFilePath.toString())),
+			filepath: pluginDataFilePath.toString(),
 		},
-		null,
-		"  ",
 	),
 );

@@ -18,7 +18,7 @@ jobs:
               with:
                   node-version: "lts/*"
             - run: npm install
-            - run: npm run test:ecosystem:update -- --plugin all
+            - run: npm run test:ecosystem:update
             - uses: peter-evans/create-pull-request@v7.0.8
               with:
                   commit-message: "chore: update ecosystem plugins"
