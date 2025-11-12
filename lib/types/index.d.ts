@@ -787,7 +787,7 @@ export namespace Rule {
 	type ReportFixer = CoreRuleFixer;
 
 	/** @deprecated Use `ReportDescriptorOptions` instead. */
-	type ReportDescriptorOptionsBase = ViolationReportBase;
+	type ReportDescriptorOptionsBase = Omit<ViolationReportBase, "suggest">;
 
 	type SuggestionReportOptions = SuggestedEditBase;
 	type SuggestionDescriptorMessage = SuggestionMessage;
@@ -796,9 +796,9 @@ export namespace Rule {
 	// redundant with ReportDescriptorOptionsBase but kept for clarity
 	type ReportDescriptorOptions = ViolationReportBase;
 
-	type ReportDescriptor = ViolationReport<ESTree.Node>;
+	type ReportDescriptor = ViolationReport<JSSyntaxElement>;
 	type ReportDescriptorMessage = ViolationMessage;
-	type ReportDescriptorLocation = ViolationLocation<ESTree.Node>;
+	type ReportDescriptorLocation = ViolationLocation<JSSyntaxElement>;
 
 	type RuleFixer = RuleTextEditor<ESTree.Node | AST.Token>;
 	type Fix = RuleTextEdit;
