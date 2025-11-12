@@ -121,6 +121,7 @@ sourceCode = new SourceCode({
 		acquire(node, inner) {
 			return scopeManager.scopes[0];
 		},
+		addGlobals(names) {},
 		getDeclaredVariables() {
 			return [];
 		},
@@ -495,7 +496,10 @@ const scopeManager: Scope.ScopeManager = {
 	getDeclaredVariables() {
 		return [];
 	},
+	addGlobals(names) {},
 };
+
+scopeManager.addGlobals(["Foo", "Bar"]);
 
 const scope = scopeManager.scopes[0];
 
