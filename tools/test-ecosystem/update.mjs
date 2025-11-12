@@ -36,7 +36,7 @@ async function getLatestRepositoryCommit(pluginKey, pluginSettings) {
 
 	if (sha === pluginSettings.commit) {
 		console.log(
-			styleText(".gray", `[${pluginKey}] Already at latest commit:`, sha),
+			styleText("gray", `[${pluginKey}] Already at latest commit:`, sha),
 		);
 	} else {
 		console.log(

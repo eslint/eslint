@@ -31,7 +31,6 @@ export const pluginDataFilePath = new URL("plugins-data.json", import.meta.url);
 //-----------------------------------------------------------------------------
 
 /**
- *
  * @param {"test" | "update"} action
  * @returns {[string, PluginData][]}
  */
