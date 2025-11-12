@@ -40,7 +40,9 @@ By default, ESLint lints files that match the patterns `**/*.js`, `**/*.cjs`, an
 // eslint.config.js
 import { defineConfig, globalIgnores } from "eslint/config";
 
-export default defineConfig([globalIgnores(["**/*.js", "**/*.cjs", "**/*.mjs"])]);
+export default defineConfig([
+	globalIgnores(["**/*.js", "**/*.cjs", "**/*.mjs"]),
+]);
 ```
 
 When non-JS files are specified in the `files` property, ESLint still lints files that match the default patterns. To lint only the files specified in the `files` property, you must ignore the default file patterns:
@@ -50,12 +52,12 @@ When non-JS files are specified in the `files` property, ESLint still lints file
 import { defineConfig, globalIgnores } from "eslint/config";
 
 export default defineConfig([
-   globalIgnores(["**/*.js", "**/*.cjs", "**/*.mjs"]),
-  {
-    files: ["vite.config.ts"],
-    ignores: ["./dist/**"],
-	rules: { ... }
-  },
+	globalIgnores(["**/*.js", "**/*.cjs", "**/*.mjs"]),
+	{
+      files: ["vite.config.ts"],
+	  ignores: ["./dist/**"]
+      rules: { ... }
+    },
 ]);
 ```
 
@@ -142,7 +144,9 @@ If you want to ignore ESLint's default file patterns (`**/*.js`, `**/*.cjs`, and
 // eslint.config.js
 import { defineConfig, globalIgnores } from "eslint/config";
 
-export default defineConfig([globalIgnores(["**/*.js", "**/*.cjs", "**/*.mjs", "!**/src/**/*.js"])]);
+export default defineConfig([
+	globalIgnores(["**/*.js", "**/*.cjs", "**/*.mjs", "!**/src/**/*.js"]),
+]);
 ```
 
 This configuration ignores all files matching the default patterns except for JavaScript files located within `src` directories.
