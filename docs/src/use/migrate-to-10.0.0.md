@@ -24,18 +24,22 @@ The lists below are ordered roughly by the number of users each change is expect
 - [`eslint-env` comments are reported as errors](#eslint-env-comments)
 - [`func-names` schema is stricter](#func-names)
 - [`no-underscore-dangle` schema for the `allow` option is stricter](#no-underscore-dangle)
+- [`allowConstructorFlags` option of `no-invalid-regexp` now accepts only unique items](#no-invalid-regexp)
 
 ### Breaking changes for plugin developers
 
 - [Node.js < v20.19, v21, v23 are no longer supported](#drop-old-node)
 - [Removal of `type` property in errors of invalid `RuleTester` cases](#ruletester-type-removed)
 - [Fixer methods now require string `text` arguments](#fixer-text-must-be-string)
+- [`Program` AST node range spans entire source text](#program-node-range)
+- [New requirements for `ScopeManager` implementations](#scope-manager)
 
 ### Breaking changes for integration developers
 
 - [Node.js < v20.19, v21, v23 are no longer supported](#drop-old-node)
 - [New configuration file lookup algorithm](#config-lookup-from-file)
 - [Removal of `nodeType` property in `LintMessage` objects](#lintmessage-nodetype-removed)
+- [`Program` AST node range spans entire source text](#program-node-range)
 
 ---
 
@@ -151,6 +155,41 @@ In ESLint v10, the deprecated `nodeType` property on `LintMessage` objects has b
 
 **Related issue(s):** [#19029](https://github.com/eslint/eslint/issues/19029)
 
+## <a name="program-node-range"></a> `Program` AST node range spans entire source text
+
+ESLint v10 changes how the `Program` AST node’s range is calculated: it now spans the entire source text, including any leading and trailing comments and whitespace.
+
+Previously, the `Program` node’s range excluded leading and trailing comments/whitespace, which could be unintuitive. For example:
+
+```js
+// Leading comment
+const x = 1;
+// Trailing comment
+```
+
+In ESLint v9 and earlier, `Program.range` covers only `const x = 1;` (excludes surrounding comments/whitespace).
+
+Starting with ESLint v10, `Program.range` covers the entire source text, including the leading and trailing comments/whitespace.
+
+**To address:**
+
+- For rule and plugin authors: If your code depends on the previous `Program.range` behavior, or on `SourceCode` methods that assume it (such as `sourceCode.getCommentsBefore(programNode)` to retrieve all leading comments), update your logic.
+- For custom parsers: Set `Program.range` to cover the full source text (typically `[0, code.length]`).
+
+**Related issue(s):** [eslint/js#648](https://github.com/eslint/js/issues/648)
+
+## <a name="scope-manager"></a> New requirements for `ScopeManager` implementations
+
+As of ESLint v10.0.0, custom `ScopeManager` implementations must automatically resolve references to global variables declared in the code, including `var` and `function` declarations, and provide an instance method `addGlobals(names: string[])` that creates variables with the given names in the global scope and resolves references to them.
+
+The default `ScopeManager` implementation [`eslint-scope`](https://www.npmjs.com/package/eslint-scope) has already been updated.
+
+This change does not affect custom rules.
+
+**To address:** If you maintain a custom parser that provides a custom `ScopeManager` implementation, update your custom `ScopeManager` implementation.
+
+**Related issue(s):** [eslint/js#665](https://github.com/eslint/js/issues/665)
+
 ## <a name="eslint-env-comments"></a> `eslint-env` comments are reported as errors
 
 In the now obsolete ESLint v8 configuration system, `/* eslint-env */` comments could be used to define globals for a file. The current configuration system does not support such comments, and starting with ESLint v10, they are reported as errors during linting.
@@ -198,3 +237,17 @@ For example, this configuration is now invalid due to the duplicate element `"_f
 - Remove any duplicate array elements from your `no-underscore-dangle`'s `allow` option configuration so that it contains only unique terms.
 
 **Related issue(s):** [#20308](https://github.com/eslint/eslint/pull/20308)
+
+## <a name="no-invalid-regexp"></a> `allowConstructorFlags` option of `no-invalid-regexp` now accepts only unique items
+
+In ESLint v10, the `allowConstructorFlags` option of `no-invalid-regexp` no longer accepts duplicate flags as input. Previously, configurations with duplicate flags in the array were accepted but treated the same as having unique flags. Such configurations are now considered invalid and will result in a configuration error.
+
+For example, this configuration is now invalid due to the duplicate `"u"` flag:
+
+```js
+/*eslint no-invalid-regexp: ["error", { "allowConstructorFlags": ["u", "y", "u"] }]*/
+```
+
+**To address:** Remove any duplicate flags from your `allowConstructorFlags` array configuration of `no-invalid-regexp` rule. Each flag should appear only once in the array.
+
+**Related issue(s):** [#18755](https://github.com/eslint/eslint/issues/18755)

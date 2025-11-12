@@ -41,6 +41,6 @@
       "ignore": ["tests/types/**"],
       "ignoreDependencies": ["eslint"],
     },
-    "tools/internal-rules": {},
+    "tools/typescript-eslint-parser": {},
   },
 }
