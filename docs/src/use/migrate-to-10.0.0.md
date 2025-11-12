@@ -17,6 +17,7 @@ The lists below are ordered roughly by the number of users each change is expect
 
 - [Node.js < v20.19, v21, v23 are no longer supported](#drop-old-node)
 - [New configuration file lookup algorithm](#config-lookup-from-file)
+- [Old config format no longer supported](#remove-eslintrc)
 - [Deprecated options of the `radix` rule](#radix)
 - [`no-shadow-restricted-names` now reports `globalThis` by default](#no-shadow-restricted-names)
 - [`eslint:recommended` has been updated](#eslint-recommended)
@@ -27,6 +28,7 @@ The lists below are ordered roughly by the number of users each change is expect
 ### Breaking changes for plugin developers
 
 - [Node.js < v20.19, v21, v23 are no longer supported](#drop-old-node)
+- [Old config format no longer supported](#remove-eslintrc)
 - [Removal of `type` property in errors of invalid `RuleTester` cases](#ruletester-type-removed)
 - [Fixer methods now require string `text` arguments](#fixer-text-must-be-string)
 
@@ -34,6 +36,7 @@ The lists below are ordered roughly by the number of users each change is expect
 
 - [Node.js < v20.19, v21, v23 are no longer supported](#drop-old-node)
 - [New configuration file lookup algorithm](#config-lookup-from-file)
+- [Old config format no longer supported](#remove-eslintrc)
 - [Removal of `nodeType` property in `LintMessage` objects](#lintmessage-nodetype-removed)
 
 ---
@@ -63,6 +66,20 @@ In ESLint v9, the alternate config lookup behavior could be enabled with the `v1
 - If you relied on the previous (cwd-based) lookup behavior, provide an explicit config path with `--config path/to/eslint.config.js`.
 
 **Related issue(s):** [#19967](https://github.com/eslint/eslint/issues/19967)
+
+## <a name="remove-eslintrc"></a> Old config format no longer supported
+
+ESLint v9 introduced a [new default configuration format](./configure/configuration-files) based on the `eslint.config.js` file. The [old format](./configure/configuration-files-deprecated), which used `.eslintrc` or `.eslintrc.json`, could still be enabled in v9 by setting the `ESLINT_USE_FLAT_CONFIG` environment variable to `false`.
+
+Starting with ESLint v10, the old configuration format is no longer supported.
+
+**To address:**
+
+- Follow the instructions in the [configuration migration guide](./configure/migration-guide).
+- Be aware that the deprecated APIs `FlatESLint` and `LegacyESLint` have been removed. Always use `ESLint` instead.
+- The `configType` option of the `Linter` class can no longer be set to `"eslintrc"`. Remove the option to use the new configuration format.
+
+**Related issue(s):** [#13481](https://github.com/eslint/eslint/issues/13481)
 
 ## <a name="radix"></a> Deprecated options of the `radix` rule
 
