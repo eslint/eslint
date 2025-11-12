@@ -17,7 +17,8 @@ import prettier from "prettier";
 //-----------------------------------------------------------------------------
 
 /**
- * @param {string} repository
+ * @param {string} pluginKey
+ * @param {PluginSettings} pluginSettings
  */
 async function getLatestRepositoryCommit(pluginKey, pluginSettings) {
 	const response = await fetch(
