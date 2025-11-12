@@ -10,8 +10,9 @@
 import spawn from "cross-spawn";
 import fs from "node:fs/promises";
 import path from "node:path";
-import { getPlugins } from "./data.mjs";
 import { styleText } from "node:util";
+
+import { getPlugins } from "./data.mjs";
 
 /**
  * @typedef {import("./data").PluginSettings} PluginSettings

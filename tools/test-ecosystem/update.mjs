@@ -8,9 +8,10 @@
 //-----------------------------------------------------------------------------
 
 import fs from "node:fs/promises";
-import { getPlugins, pluginDataFilePath } from "./data.mjs";
 import { styleText } from "node:util";
 import prettier from "prettier";
+
+import { getPlugins, pluginDataFilePath } from "./data.mjs";
 
 //-----------------------------------------------------------------------------
 // Functions
