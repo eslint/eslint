@@ -72,7 +72,6 @@ import type {
 	SuggestedEdit,
 	ViolationReport,
 } from "@eslint/core";
-import { LegacyESLint } from "./use-at-your-own-risk.js";
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -825,10 +824,7 @@ export class Linter {
 
 	version: string;
 
-	constructor(options?: {
-		cwd?: string | undefined;
-		configType?: "flat" | "eslintrc";
-	});
+	constructor(options?: { cwd?: string | undefined; configType?: "flat" });
 
 	verify(
 		code: SourceCode | string,
@@ -853,14 +849,6 @@ export class Linter {
 	): Linter.FixReport;
 
 	getSourceCode(): SourceCode;
-
-	defineRule(name: string, rule: Rule.RuleModule): void;
-
-	defineRules(rules: { [name: string]: Rule.RuleModule }): void;
-
-	getRules(): Map<string, Rule.RuleModule>;
-
-	defineParser(name: string, parser: Linter.Parser): void;
 
 	getTimes(): Linter.Stats["times"];
 
@@ -1235,39 +1223,6 @@ export namespace ESLint {
 		flags?: string[] | undefined;
 	}
 
-	interface LegacyOptions {
-		// File enumeration
-		cwd?: string | undefined;
-		errorOnUnmatchedPattern?: boolean | undefined;
-		extensions?: string[] | undefined;
-		globInputPaths?: boolean | undefined;
-		ignore?: boolean | undefined;
-		ignorePath?: string | undefined;
-
-		// Linting
-		allowInlineConfig?: boolean | undefined;
-		baseConfig?: Linter.LegacyConfig | undefined;
-		overrideConfig?: Linter.LegacyConfig | undefined;
-		overrideConfigFile?: string | undefined;
-		plugins?: Record<string, Plugin> | undefined;
-		reportUnusedDisableDirectives?: Linter.StringSeverity | undefined;
-		resolvePluginsRelativeTo?: string | undefined;
-		rulePaths?: string[] | undefined;
-		useEslintrc?: boolean | undefined;
-
-		// Autofix
-		fix?: boolean | ((message: Linter.LintMessage) => boolean) | undefined;
-		fixTypes?: FixType[] | null | undefined;
-
-		// Cache-related
-		cache?: boolean | undefined;
-		cacheLocation?: string | undefined;
-		cacheStrategy?: CacheStrategy | undefined;
-
-		// Other Options
-		flags?: string[] | undefined;
-	}
-
 	/** A linting result. */
 	interface LintResult {
 		/** The path to the file that was linted. */
@@ -1398,15 +1353,9 @@ export namespace ESLint {
 
 // #endregion
 
-export function loadESLint(options: {
-	useFlatConfig: true;
-}): Promise<typeof ESLint>;
-export function loadESLint(options: {
-	useFlatConfig: false;
-}): Promise<typeof LegacyESLint>;
 export function loadESLint(options?: {
 	useFlatConfig?: boolean | undefined;
-}): Promise<typeof ESLint | typeof LegacyESLint>;
+}): Promise<typeof ESLint>;
 
 // #region RuleTester
 

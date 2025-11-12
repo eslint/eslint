@@ -30,7 +30,6 @@ const DEFAULT_CONFIG = {
 	range: true,
 	loc: true,
 };
-const eslintrcLinter = new Linter({ configType: "eslintrc" });
 const linter = new Linter({ configType: "flat" });
 const AST = espree.parse("let foo = bar;", DEFAULT_CONFIG),
 	TEST_CODE = "var answer = 6 * 7;",
@@ -2327,43 +2326,6 @@ describe("SourceCode", () => {
 			const sourceCode = new SourceCode("let foo = bar;", AST),
 				messages = linter.verify(sourceCode, {
 					languageOptions: { ecmaVersion: 6 },
-					rules: { "no-unused-vars": 2 },
-				});
-
-			assert.strictEqual(messages.length, 1);
-			assert.strictEqual(
-				messages[0].message,
-				"'foo' is assigned a value but never used.",
-			);
-		});
-	});
-
-	// TODO: remove this when eslintrc mode is dropped
-	describe("linter.verify() in eslintrc mode", () => {
-		const CONFIG = {
-			parserOptions: { ecmaVersion: 6 },
-		};
-
-		it("should work when passed a SourceCode object without a config", () => {
-			const ast = espree.parse(TEST_CODE, DEFAULT_CONFIG);
-
-			const sourceCode = new SourceCode(TEST_CODE, ast),
-				messages = eslintrcLinter.verify(sourceCode);
-
-			assert.strictEqual(messages.length, 0);
-		});
-
-		it("should work when passed a SourceCode object containing ES6 syntax and config", () => {
-			const sourceCode = new SourceCode("let foo = bar;", AST),
-				messages = eslintrcLinter.verify(sourceCode, CONFIG);
-
-			assert.strictEqual(messages.length, 0);
-		});
-
-		it("should report an error when using let and ecmaVersion is 6", () => {
-			const sourceCode = new SourceCode("let foo = bar;", AST),
-				messages = eslintrcLinter.verify(sourceCode, {
-					parserOptions: { ecmaVersion: 6 },
 					rules: { "no-unused-vars": 2 },
 				});
 
