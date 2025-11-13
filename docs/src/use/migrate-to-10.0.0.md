@@ -83,6 +83,8 @@ Starting with ESLint v10, the old configuration format is no longer supported.
 - Be aware that the deprecated APIs `FlatESLint` and `LegacyESLint` have been removed. Always use `ESLint` instead.
 - The `configType` option of the `Linter` class can no longer be set to `"eslintrc"`. Remove the option to use the new configuration format.
 
+This has also made it possible to fix a bug where the core configs did not have the `name` property set, see [#19684](https://github.com/eslint/eslint/issues/19864).
+
 **Related issue(s):** [#13481](https://github.com/eslint/eslint/issues/13481)
 
 ## <a name="radix"></a> Deprecated options of the `radix` rule
