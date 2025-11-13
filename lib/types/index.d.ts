@@ -72,7 +72,6 @@ import type {
 	SuggestedEdit,
 	ViolationReport,
 } from "@eslint/core";
-import { LegacyESLint } from "./use-at-your-own-risk.js";
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -134,6 +133,8 @@ export namespace Scope {
 		acquire(node: ESTree.Node, inner?: boolean): Scope | null;
 
 		getDeclaredVariables(node: ESTree.Node): Variable[];
+
+		addGlobals(names: string[]): void;
 	}
 
 	interface Scope {
@@ -785,7 +786,7 @@ export namespace Rule {
 	type ReportFixer = CoreRuleFixer;
 
 	/** @deprecated Use `ReportDescriptorOptions` instead. */
-	type ReportDescriptorOptionsBase = ViolationReportBase;
+	type ReportDescriptorOptionsBase = Omit<ViolationReportBase, "suggest">;
 
 	type SuggestionReportOptions = SuggestedEditBase;
 	type SuggestionDescriptorMessage = SuggestionMessage;
@@ -794,9 +795,9 @@ export namespace Rule {
 	// redundant with ReportDescriptorOptionsBase but kept for clarity
 	type ReportDescriptorOptions = ViolationReportBase;
 
-	type ReportDescriptor = ViolationReport<ESTree.Node>;
+	type ReportDescriptor = ViolationReport<JSSyntaxElement>;
 	type ReportDescriptorMessage = ViolationMessage;
-	type ReportDescriptorLocation = ViolationLocation<ESTree.Node>;
+	type ReportDescriptorLocation = ViolationLocation<JSSyntaxElement>;
 
 	type RuleFixer = RuleTextEditor<ESTree.Node | AST.Token>;
 	type Fix = RuleTextEdit;
@@ -823,10 +824,7 @@ export class Linter {
 
 	version: string;
 
-	constructor(options?: {
-		cwd?: string | undefined;
-		configType?: "flat" | "eslintrc";
-	});
+	constructor(options?: { cwd?: string | undefined; configType?: "flat" });
 
 	verify(
 		code: SourceCode | string,
@@ -851,14 +849,6 @@ export class Linter {
 	): Linter.FixReport;
 
 	getSourceCode(): SourceCode;
-
-	defineRule(name: string, rule: Rule.RuleModule): void;
-
-	defineRules(rules: { [name: string]: Rule.RuleModule }): void;
-
-	getRules(): Map<string, Rule.RuleModule>;
-
-	defineParser(name: string, parser: Linter.Parser): void;
 
 	getTimes(): Linter.Stats["times"];
 
@@ -1233,39 +1223,6 @@ export namespace ESLint {
 		flags?: string[] | undefined;
 	}
 
-	interface LegacyOptions {
-		// File enumeration
-		cwd?: string | undefined;
-		errorOnUnmatchedPattern?: boolean | undefined;
-		extensions?: string[] | undefined;
-		globInputPaths?: boolean | undefined;
-		ignore?: boolean | undefined;
-		ignorePath?: string | undefined;
-
-		// Linting
-		allowInlineConfig?: boolean | undefined;
-		baseConfig?: Linter.LegacyConfig | undefined;
-		overrideConfig?: Linter.LegacyConfig | undefined;
-		overrideConfigFile?: string | undefined;
-		plugins?: Record<string, Plugin> | undefined;
-		reportUnusedDisableDirectives?: Linter.StringSeverity | undefined;
-		resolvePluginsRelativeTo?: string | undefined;
-		rulePaths?: string[] | undefined;
-		useEslintrc?: boolean | undefined;
-
-		// Autofix
-		fix?: boolean | ((message: Linter.LintMessage) => boolean) | undefined;
-		fixTypes?: FixType[] | null | undefined;
-
-		// Cache-related
-		cache?: boolean | undefined;
-		cacheLocation?: string | undefined;
-		cacheStrategy?: CacheStrategy | undefined;
-
-		// Other Options
-		flags?: string[] | undefined;
-	}
-
 	/** A linting result. */
 	interface LintResult {
 		/** The path to the file that was linted. */
@@ -1396,15 +1353,9 @@ export namespace ESLint {
 
 // #endregion
 
-export function loadESLint(options: {
-	useFlatConfig: true;
-}): Promise<typeof ESLint>;
-export function loadESLint(options: {
-	useFlatConfig: false;
-}): Promise<typeof LegacyESLint>;
 export function loadESLint(options?: {
 	useFlatConfig?: boolean | undefined;
-}): Promise<typeof ESLint | typeof LegacyESLint>;
+}): Promise<typeof ESLint>;
 
 // #region RuleTester
 
@@ -1457,10 +1408,6 @@ export namespace RuleTester {
 	interface TestCaseError {
 		message?: string | RegExp;
 		messageId?: string;
-		/**
-		 * @deprecated `type` is deprecated and will be removed in the next major version.
-		 */
-		type?: string | undefined;
 		data?: any;
 		line?: number | undefined;
 		column?: number | undefined;

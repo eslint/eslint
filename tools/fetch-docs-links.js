@@ -29,7 +29,7 @@ const metascraper = require("metascraper")([
 const got = require("got");
 const path = require("node:path");
 const fs = require("node:fs").promises;
-const glob = require("fast-glob");
+const { globSync } = require("glob");
 
 //-----------------------------------------------------------------------------
 // Data
@@ -44,7 +44,7 @@ const DATA_FILE_PATH = path.resolve(DATA_DIR, "further_reading_links.json");
 let filenames = process.argv.slice(2);
 
 if (filenames.length === 0) {
-	filenames = glob.sync("docs/src/rules/*.md", { cwd: BASE_DIR });
+	filenames = globSync("docs/src/rules/*.md", { cwd: BASE_DIR });
 }
 
 filenames = filenames.map(filename => path.resolve(BASE_DIR, filename));

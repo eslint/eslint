@@ -31,7 +31,7 @@
         "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.0",
         "@munter/tap-render": "^0.2.0",
         "@types/markdown-it": "^12.2.3",
-        "@typescript-eslint/parser": "^8.27.0",
+        "@typescript-eslint/parser": "file:../tools/typescript-eslint-parser",
         "algoliasearch": "^4.12.1",
         "autoprefixer": "^10.4.13",
         "cross-env": "^7.0.3",
@@ -58,7 +58,7 @@
         "tap-spot": "^1.1.2"
     },
     "engines": {
-        "node": ">=20.0.0"
+        "node": "^20.19.0 || ^22.13.0 || >=24"
     },
     "browserslist": [
         "defaults",

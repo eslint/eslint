@@ -369,7 +369,7 @@ You'll need to install the `globals` package from npm for this example to work. 
 ### `eslint-env` Configuration Comments
 
 In the eslintrc config system it was possible to use `eslint-env` configuration comments to define globals for a file.
-These comments are no longer recognized when linting with flat config: in a future version of ESLint, `eslint-env` comments will be reported as errors.
+These comments are no longer recognized when linting with flat config and will be reported as errors.
 For this reason, when migrating from eslintrc to flat config, `eslint-env` configuration comments should be removed from all files.
 They can be either replaced with equivalent but more verbose `global` configuration comments, or dropped in favor of `globals` definitions in the config file.
 

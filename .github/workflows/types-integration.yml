@@ -10,6 +10,7 @@ permissions:
 
 jobs:
     webpack_plugin:
+        if: false # Temporarily disabled until @typescript-eslint/parser is updated
         name: Types (eslint-webpack-plugin)
         runs-on: ubuntu-latest
         steps:
@@ -35,7 +36,7 @@ jobs:
             - name: Install Packages (eslint-webpack-plugin)
               working-directory: webpack
               run: |
-                  npm install --no-package-lock ../eslint
+                  npm install --no-package-lock --legacy-peer-deps ../eslint
 
             - name: Run TSC
               working-directory: webpack
@@ -67,7 +68,7 @@ jobs:
             - name: Install Packages (neostandard)
               working-directory: neostandard
               run: |
-                  npm ci && npm install --no-save ../eslint
+                  npm ci && npm install --no-save --legacy-peer-deps ../eslint
 
             - name: Run TSC
               working-directory: neostandard
@@ -99,7 +100,7 @@ jobs:
             - name: Install Packages (eslint-flat-config-utils)
               working-directory: antfu
               run: |
-                  npm install ../eslint
+                  npm install --legacy-peer-deps ../eslint
 
             - name: Run TSC
               working-directory: antfu
@@ -137,7 +138,7 @@ jobs:
             - name: Install Packages (eslint/js)
               working-directory: eslint-js
               run: |
-                  npm install ../eslint
+                  npm install --legacy-peer-deps ../eslint
 
             - name: Run TSC
               working-directory: eslint-js
@@ -171,7 +172,7 @@ jobs:
               run: |
                   npm install
                   npm run build
-                  npm install ../eslint @eslint/core@latest
+                  npm install --legacy-peer-deps ../eslint @eslint/core@latest
 
             - name: Run TSC
               working-directory: json
