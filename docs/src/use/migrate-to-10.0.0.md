@@ -283,6 +283,8 @@ eslint-transforms v9-rule-migration rules/
 
 The removed `context` properties must be done manually as there may not be a direct one-to-one replacement.
 
+**Related issue(s):** [eslint/eslint#16999](https://github.com/eslint/eslint/issues/16999)
+
 ## <a name="lintmessage-nodetype-removed"></a> Removal of `nodeType` property in `LintMessage` objects
 
 In ESLint v10.0.0, the deprecated `nodeType` property on `LintMessage` objects has been removed. This affects consumers of the Node.js API (for example, custom formatters and editor/tool integrations) that previously relied on `message.nodeType`.
