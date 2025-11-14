@@ -49,7 +49,7 @@ This rule aims to enforce consistent spacing between rest and spread operators a
 
 ```json
 {
-    "parserOptions": {
+    "languageOptions": {
         "ecmaVersion": 2018
     }
 }
