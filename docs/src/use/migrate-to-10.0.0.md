@@ -16,13 +16,13 @@ The lists below are ordered roughly by the number of users each change is expect
 ### Breaking changes for users
 
 - [Node.js < v20.19, v21, v23 are no longer supported](#drop-old-node)
+- [`eslint:recommended` has been updated](#eslint-recommended)
 - [New configuration file lookup algorithm](#config-lookup-from-file)
 - [Old config format no longer supported](#remove-eslintrc)
+- [`eslint-env` comments are reported as errors](#eslint-env-comments)
+- [Jiti < v2.2.0 are no longer supported](#drop-old-jiti)
 - [Deprecated options of the `radix` rule](#radix)
 - [`no-shadow-restricted-names` now reports `globalThis` by default](#no-shadow-restricted-names)
-- [`eslint:recommended` has been updated](#eslint-recommended)
-- [Jiti < v2.2.0 are no longer supported](#drop-old-jiti)
-- [`eslint-env` comments are reported as errors](#eslint-env-comments)
 - [`func-names` schema is stricter](#func-names)
 - [`allowConstructorFlags` option of `no-invalid-regexp` now accepts only unique items](#no-invalid-regexp)
 
@@ -31,8 +31,8 @@ The lists below are ordered roughly by the number of users each change is expect
 - [Node.js < v20.19, v21, v23 are no longer supported](#drop-old-node)
 - [Old config format no longer supported](#remove-eslintrc)
 - [Removal of `type` property in errors of invalid `RuleTester` cases](#ruletester-type-removed)
-- [Fixer methods now require string `text` arguments](#fixer-text-must-be-string)
 - [`Program` AST node range spans entire source text](#program-node-range)
+- [Fixer methods now require string `text` arguments](#fixer-text-must-be-string)
 - [New requirements for `ScopeManager` implementations](#scope-manager)
 
 ### Breaking changes for integration developers
@@ -41,7 +41,6 @@ The lists below are ordered roughly by the number of users each change is expect
 - [New configuration file lookup algorithm](#config-lookup-from-file)
 - [Old config format no longer supported](#remove-eslintrc)
 - [Removal of `nodeType` property in `LintMessage` objects](#lintmessage-nodetype-removed)
-- [`Program` AST node range spans entire source text](#program-node-range)
 
 ---
 
@@ -57,6 +56,18 @@ ESLint is officially dropping support for these versions of Node.js starting wit
 
 **Related issue(s):** [#19969](https://github.com/eslint/eslint/issues/19969)
 
+## <a name="eslint-recommended"></a> `eslint:recommended` has been updated
+
+Three new rules have been enabled in `eslint:recommended`:
+
+- [`no-unassigned-vars`](../rules/no-unassigned-vars)
+- [`no-useless-assignment`](../rules/no-useless-assignment)
+- [`preserve-caught-error`](../rules/preserve-caught-error)
+
+**To address:** Fix errors or disable these rules.
+
+**Related issue(s):** [#19966](https://github.com/eslint/eslint/issues/19966)
+
 ## <a name="config-lookup-from-file"></a> New configuration file lookup algorithm
 
 In ESLint v9, the alternate config lookup behavior could be enabled with the `v10_config_lookup_from_file` feature flag. This behavior made ESLint locate `eslint.config.*` by starting from the directory of each linted file and searching up towards the filesystem root. In ESLint v10, this behavior is now the default and the `v10_config_lookup_from_file` flag has been removed. Attempting to use this flag will now result in an error.
@@ -69,7 +80,7 @@ In ESLint v9, the alternate config lookup behavior could be enabled with the `v1
     - API: remove `"v10_config_lookup_from_file"` from the `flags` array passed to `new ESLint()` or `new Linter()`.
 - If you relied on the previous (cwd-based) lookup behavior, provide an explicit config path with `--config path/to/eslint.config.js`.
 
-**Related issue(s):** [#19967](https://github.com/eslint/eslint/issues/19967)
+**Related issue(s):** [RFC120](https://github.com/eslint/rfcs/tree/main/designs/2024-config-lookup-from-file), [#19967](https://github.com/eslint/eslint/issues/19967)
 
 ## <a name="remove-eslintrc"></a> Old config format no longer supported
 
@@ -84,6 +95,28 @@ Starting with ESLint v10, the old configuration format is no longer supported.
 - The `configType` option of the `Linter` class can no longer be set to `"eslintrc"`. Remove the option to use the new configuration format.
 
 **Related issue(s):** [#13481](https://github.com/eslint/eslint/issues/13481)
+
+## <a name="eslint-env-comments"></a> `eslint-env` comments are reported as errors
+
+In the now obsolete ESLint v8 configuration system, `/* eslint-env */` comments could be used to define globals for a file. The current configuration system does not support such comments, and starting with ESLint v10, they are reported as errors during linting.
+
+```text
+error: /* eslint-env */ comments are no longer supported at file.js:1:1:
+> 1 | /* eslint-env node -- Used in Node.js */
+    | ^
+```
+
+**To address:** Remove any `eslint-env` comments from your code. If you are still using the old configuration system and need help migrating, check the [migration guide](./configure/migration-guide#eslint-env-configuration-comments).
+
+**Related issue(s):** [#13481](https://github.com/eslint/eslint/issues/13481)
+
+## <a name="drop-old-jiti"></a> Jiti < v2.2.0 are no longer supported
+
+ESLint is officially dropping support for versions of `jiti` that are less than v2.2.0.
+
+**To address:** If you've authored your config file in `TypeScript` and have `jiti` v2.1.2 or earlier installed, be sure to update it to at least `2.2.0` when using ESLint v10.
+
+**Related issue(s):** [#19765](https://github.com/eslint/eslint/issues/19765)
 
 ## <a name="radix"></a> Deprecated options of the `radix` rule
 
@@ -118,108 +151,6 @@ In ESLint v10, the [`no-shadow-restricted-names`](../rules/no-shadow-restricted-
 
 **Related issue(s):** [#19673](https://github.com/eslint/eslint/issues/19673)
 
-## <a name="eslint-recommended"></a> `eslint:recommended` has been updated
-
-Three new rules have been enabled in `eslint:recommended`:
-
-- [`no-unassigned-vars`](../rules/no-unassigned-vars)
-- [`no-useless-assignment`](../rules/no-useless-assignment)
-- [`preserve-caught-error`](../rules/preserve-caught-error)
-
-**To address:** Fix errors or disable these rules.
-
-**Related issue(s):** [#19966](https://github.com/eslint/eslint/issues/19966)
-
-## <a name="drop-old-jiti"></a> Jiti < v2.2.0 are no longer supported
-
-ESLint is officially dropping support for versions of `jiti` that are less than v2.2.0.
-
-**To address:** If you've authored your config file in `TypeScript` and have `jiti` v2.1.2 or earlier installed, be sure to update it to at least `2.2.0` when using ESLint v10.
-
-**Related issue(s):** [#19765](https://github.com/eslint/eslint/issues/19765)
-
-## <a name="ruletester-type-removed"></a> Removal of `type` property in errors of invalid `RuleTester` cases
-
-In ESLint v10, the deprecated `type` property in errors of invalid test cases for rules has been removed. Using the `type` property in test cases now throws an error.
-
-**To address:** Remove the `type` property from error objects in invalid test cases.
-
-**Related issue(s):** [#19029](https://github.com/eslint/eslint/issues/19029)
-
-## <a name="fixer-text-must-be-string"></a> Fixer methods now require string `text` arguments
-
-In ESLint v10, all rule fixer methods that accept a `text` argument now require that it be a string. Providing a non-string value will throw a `TypeError`.
-
-Affected methods:
-
-- `insertTextBefore(nodeOrToken, text)`
-- `insertTextBeforeRange(range, text)`
-- `insertTextAfter(nodeOrToken, text)`
-- `insertTextAfterRange(range, text)`
-- `replaceText(nodeOrToken, text)`
-- `replaceTextRange(range, text)`
-
-**To address:** Ensure the `text` value you pass to fixer methods is a string.
-
-**Related issue(s):** [#18807](https://github.com/eslint/eslint/issues/18807)
-
-## <a name="lintmessage-nodetype-removed"></a> Removal of `nodeType` property in `LintMessage` objects
-
-In ESLint v10, the deprecated `nodeType` property on `LintMessage` objects has been removed. This affects consumers of the Node.js API (for example, custom formatters and editor/tool integrations) that previously relied on `message.nodeType`.
-
-**To address:** Remove all usages of `message.nodeType` in your integrations and formatters.
-
-**Related issue(s):** [#19029](https://github.com/eslint/eslint/issues/19029)
-
-## <a name="program-node-range"></a> `Program` AST node range spans entire source text
-
-ESLint v10 changes how the `Program` AST node’s range is calculated: it now spans the entire source text, including any leading and trailing comments and whitespace.
-
-Previously, the `Program` node’s range excluded leading and trailing comments/whitespace, which could be unintuitive. For example:
-
-```js
-// Leading comment
-const x = 1;
-// Trailing comment
-```
-
-In ESLint v9 and earlier, `Program.range` covers only `const x = 1;` (excludes surrounding comments/whitespace).
-
-Starting with ESLint v10, `Program.range` covers the entire source text, including the leading and trailing comments/whitespace.
-
-**To address:**
-
-- For rule and plugin authors: If your code depends on the previous `Program.range` behavior, or on `SourceCode` methods that assume it (such as `sourceCode.getCommentsBefore(programNode)` to retrieve all leading comments), update your logic.
-- For custom parsers: Set `Program.range` to cover the full source text (typically `[0, code.length]`).
-
-**Related issue(s):** [eslint/js#648](https://github.com/eslint/js/issues/648)
-
-## <a name="scope-manager"></a> New requirements for `ScopeManager` implementations
-
-As of ESLint v10.0.0, custom `ScopeManager` implementations must automatically resolve references to global variables declared in the code, including `var` and `function` declarations, and provide an instance method `addGlobals(names: string[])` that creates variables with the given names in the global scope and resolves references to them.
-
-The default `ScopeManager` implementation [`eslint-scope`](https://www.npmjs.com/package/eslint-scope) has already been updated.
-
-This change does not affect custom rules.
-
-**To address:** If you maintain a custom parser that provides a custom `ScopeManager` implementation, update your custom `ScopeManager` implementation.
-
-**Related issue(s):** [eslint/js#665](https://github.com/eslint/js/issues/665)
-
-## <a name="eslint-env-comments"></a> `eslint-env` comments are reported as errors
-
-In the now obsolete ESLint v8 configuration system, `/* eslint-env */` comments could be used to define globals for a file. The current configuration system does not support such comments, and starting with ESLint v10, they are reported as errors during linting.
-
-```text
-error: /* eslint-env */ comments are no longer supported at file.js:1:1:
-> 1 | /* eslint-env node -- Used in Node.js */
-    | ^
-```
-
-**To address:** Remove any `eslint-env` comments from your code. If you are still using the old configuration system and need help migrating, check the [migration guide](./configure/migration-guide#eslint-env-configuration-comments).
-
-**Related issue(s):** [#13481](https://github.com/eslint/eslint/issues/13481)
-
 ## <a name="func-names"></a> `func-names` schema is stricter
 
 In ESLint v10, the [`func-names`](../rules/func-names) rule schema now disallows extra items in the options array. Previously, configurations that included additional array elements beyond the allowed options were accepted but ignored. Such configurations are now considered invalid.
@@ -251,3 +182,71 @@ For example, this configuration is now invalid due to the duplicate `"u"` flag:
 **To address:** Remove any duplicate flags from your `allowConstructorFlags` array configuration of `no-invalid-regexp` rule. Each flag should appear only once in the array.
 
 **Related issue(s):** [#18755](https://github.com/eslint/eslint/issues/18755)
+
+## <a name="ruletester-type-removed"></a> Removal of `type` property in errors of invalid `RuleTester` cases
+
+In ESLint v10, the deprecated `type` property in errors of invalid test cases for rules has been removed. Using the `type` property in test cases now throws an error.
+
+**To address:** Remove the `type` property from error objects in invalid test cases.
+
+**Related issue(s):** [#19029](https://github.com/eslint/eslint/issues/19029)
+
+## <a name="program-node-range"></a> `Program` AST node range spans entire source text
+
+ESLint v10 changes how the `Program` AST node’s range is calculated: it now spans the entire source text, including any leading and trailing comments and whitespace.
+
+Previously, the `Program` node’s range excluded leading and trailing comments/whitespace, which could be unintuitive. For example:
+
+```js
+// Leading comment
+const x = 1;
+// Trailing comment
+```
+
+In ESLint v9 and earlier, `Program.range` covers only `const x = 1;` (excludes surrounding comments/whitespace).
+
+Starting with ESLint v10, `Program.range` covers the entire source text, including the leading and trailing comments/whitespace.
+
+**To address:**
+
+- For rule and plugin authors: If your code depends on the previous `Program.range` behavior, or on `SourceCode` methods that assume it (such as `sourceCode.getCommentsBefore(programNode)` to retrieve all leading comments), update your logic.
+- For custom parsers: Set `Program.range` to cover the full source text (typically `[0, code.length]`).
+
+**Related issue(s):** [eslint/js#648](https://github.com/eslint/js/issues/648)
+
+## <a name="fixer-text-must-be-string"></a> Fixer methods now require string `text` arguments
+
+In ESLint v10, all rule fixer methods that accept a `text` argument now require that it be a string. Providing a non-string value will throw a `TypeError`.
+
+Affected methods:
+
+- `insertTextBefore(nodeOrToken, text)`
+- `insertTextBeforeRange(range, text)`
+- `insertTextAfter(nodeOrToken, text)`
+- `insertTextAfterRange(range, text)`
+- `replaceText(nodeOrToken, text)`
+- `replaceTextRange(range, text)`
+
+**To address:** Ensure the `text` value you pass to fixer methods is a string.
+
+**Related issue(s):** [#18807](https://github.com/eslint/eslint/issues/18807)
+
+## <a name="scope-manager"></a> New requirements for `ScopeManager` implementations
+
+As of ESLint v10.0.0, custom `ScopeManager` implementations must automatically resolve references to global variables declared in the code, including `var` and `function` declarations, and provide an instance method `addGlobals(names: string[])` that creates variables with the given names in the global scope and resolves references to them.
+
+The default `ScopeManager` implementation [`eslint-scope`](https://www.npmjs.com/package/eslint-scope) has already been updated.
+
+This change does not affect custom rules.
+
+**To address:** If you maintain a custom parser that provides a custom `ScopeManager` implementation, update your custom `ScopeManager` implementation.
+
+**Related issue(s):** [eslint/js#665](https://github.com/eslint/js/issues/665)
+
+## <a name="lintmessage-nodetype-removed"></a> Removal of `nodeType` property in `LintMessage` objects
+
+In ESLint v10, the deprecated `nodeType` property on `LintMessage` objects has been removed. This affects consumers of the Node.js API (for example, custom formatters and editor/tool integrations) that previously relied on `message.nodeType`.
+
+**To address:** Remove all usages of `message.nodeType` in your integrations and formatters.
+
+**Related issue(s):** [#19029](https://github.com/eslint/eslint/issues/19029)
