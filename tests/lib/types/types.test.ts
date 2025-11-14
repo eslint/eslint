@@ -728,11 +728,7 @@ rule = {
 		context.sourceCode;
 		context.sourceCode.getLocFromIndex(42);
 
-		if (typeof context.parserPath === "string") {
-			context.parserPath;
-		} else {
-			context.languageOptions?.parser;
-		}
+		context.languageOptions?.parser;
 
 		// @ts-expect-error wrong `node` type
 		context.report({ message: "foo", node: {} });
