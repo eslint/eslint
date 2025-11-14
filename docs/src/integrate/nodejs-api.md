@@ -641,7 +641,7 @@ The `Linter` object does the actual evaluation of the JavaScript code. It doesn'
 
 The `Linter` is a constructor, and you can create a new instance by passing in the options you want to use. The available options are:
 
-- `cwd` - Path to a directory that should be considered as the current working directory. It is accessible to rules from `context.cwd` or by calling `context.getCwd()` (see [The Context Object](../extend/custom-rules#the-context-object)). If `cwd` is `undefined`, it will be normalized to `process.cwd()` if the global `process` object is defined (for example, in the Node.js runtime) , or `undefined` otherwise.
+- `cwd` - Path to a directory that should be considered as the current working directory. It is accessible to rules from `context.cwd` (see [The Context Object](../extend/custom-rules#the-context-object)). If `cwd` is `undefined`, it will be normalized to `process.cwd()` if the global `process` object is defined (for example, in the Node.js runtime) , or `undefined` otherwise.
 
 For example:
 
@@ -651,7 +651,7 @@ const linter1 = new Linter({ cwd: "path/to/project" });
 const linter2 = new Linter();
 ```
 
-In this example, rules run on `linter1` will get `path/to/project` from `context.cwd` or when calling `context.getCwd()`.
+In this example, rules run on `linter1` will get `path/to/project` from `context.cwd`.
 Those run on `linter2` will get `process.cwd()` if the global `process` object is defined or `undefined` otherwise (e.g. on the browser <https://eslint.org/demo>).
 
 ### Linter#verify

@@ -74,43 +74,6 @@ describe("FileContext", () => {
 		});
 	});
 
-	describe("deprecated methods", () => {
-		let context;
-
-		beforeEach(() => {
-			context = new FileContext(defaultConfig);
-		});
-
-		it("getCwd() should return the cwd property", () => {
-			assert.strictEqual(context.getCwd(), context.cwd);
-			assert.strictEqual(context.getCwd(), defaultConfig.cwd);
-		});
-
-		it("getFilename() should return the filename property", () => {
-			assert.strictEqual(context.getFilename(), context.filename);
-			assert.strictEqual(context.getFilename(), defaultConfig.filename);
-		});
-
-		it("getPhysicalFilename() should return the physicalFilename property", () => {
-			assert.strictEqual(
-				context.getPhysicalFilename(),
-				context.physicalFilename,
-			);
-			assert.strictEqual(
-				context.getPhysicalFilename(),
-				defaultConfig.physicalFilename,
-			);
-		});
-
-		it("getSourceCode() should return the sourceCode property", () => {
-			assert.strictEqual(context.getSourceCode(), context.sourceCode);
-			assert.strictEqual(
-				context.getSourceCode(),
-				defaultConfig.sourceCode,
-			);
-		});
-	});
-
 	describe("extend()", () => {
 		let context;
 

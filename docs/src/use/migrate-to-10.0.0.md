@@ -34,6 +34,7 @@ The lists below are ordered roughly by the number of users each change is expect
 - [`Program` AST node range spans entire source text](#program-node-range)
 - [Fixer methods now require string `text` arguments](#fixer-text-must-be-string)
 - [New requirements for `ScopeManager` implementations](#scope-manager)
+- [Removal of deprecated `context` members](#rule-context)
 
 ### Breaking changes for integration developers
 
@@ -70,7 +71,7 @@ Three new rules have been enabled in `eslint:recommended`:
 
 ## <a name="config-lookup-from-file"></a> New configuration file lookup algorithm
 
-In ESLint v9, the alternate config lookup behavior could be enabled with the `v10_config_lookup_from_file` feature flag. This behavior made ESLint locate `eslint.config.*` by starting from the directory of each linted file and searching up towards the filesystem root. In ESLint v10, this behavior is now the default and the `v10_config_lookup_from_file` flag has been removed. Attempting to use this flag will now result in an error.
+In ESLint v9, the alternate config lookup behavior could be enabled with the `v10_config_lookup_from_file` feature flag. This behavior made ESLint locate `eslint.config.*` by starting from the directory of each linted file and searching up towards the filesystem root. In ESLint v10.0.0, this behavior is now the default and the `v10_config_lookup_from_file` flag has been removed. Attempting to use this flag will now result in an error.
 
 **To address:**
 
@@ -134,7 +135,7 @@ The default behavior of this rule has not been changed.
 
 ## <a name="no-shadow-restricted-names"></a> `no-shadow-restricted-names` now reports `globalThis` by default
 
-In ESLint v10, the [`no-shadow-restricted-names`](../rules/no-shadow-restricted-names) rule now treats `globalThis` as a restricted name by default. Consequently, the `reportGlobalThis` option now defaults to `true` (previously `false`). As a result, declarations such as `const globalThis = "foo";` or `function globalThis() {}` will now be reported by default.
+In ESLint v10.0.0, the [`no-shadow-restricted-names`](../rules/no-shadow-restricted-names) rule now treats `globalThis` as a restricted name by default. Consequently, the `reportGlobalThis` option now defaults to `true` (previously `false`). As a result, declarations such as `const globalThis = "foo";` or `function globalThis() {}` will now be reported by default.
 
 **To address:**
 
@@ -153,7 +154,7 @@ In ESLint v10, the [`no-shadow-restricted-names`](../rules/no-shadow-restricted-
 
 ## <a name="func-names"></a> `func-names` schema is stricter
 
-In ESLint v10, the [`func-names`](../rules/func-names) rule schema now disallows extra items in the options array. Previously, configurations that included additional array elements beyond the allowed options were accepted but ignored. Such configurations are now considered invalid.
+In ESLint v10.0.0, the [`func-names`](../rules/func-names) rule schema now disallows extra items in the options array. Previously, configurations that included additional array elements beyond the allowed options were accepted but ignored. Such configurations are now considered invalid.
 
 For example, this configuration is now invalid due to the extra element `"foo"`:
 
@@ -171,7 +172,7 @@ For example, this configuration is now invalid due to the extra element `"foo"`:
 
 ## <a name="no-invalid-regexp"></a> `allowConstructorFlags` option of `no-invalid-regexp` now accepts only unique items
 
-In ESLint v10, the `allowConstructorFlags` option of `no-invalid-regexp` no longer accepts duplicate flags as input. Previously, configurations with duplicate flags in the array were accepted but treated the same as having unique flags. Such configurations are now considered invalid and will result in a configuration error.
+In ESLint v10.0.0, the `allowConstructorFlags` option of `no-invalid-regexp` no longer accepts duplicate flags as input. Previously, configurations with duplicate flags in the array were accepted but treated the same as having unique flags. Such configurations are now considered invalid and will result in a configuration error.
 
 For example, this configuration is now invalid due to the duplicate `"u"` flag:
 
@@ -185,7 +186,7 @@ For example, this configuration is now invalid due to the duplicate `"u"` flag:
 
 ## <a name="ruletester-type-removed"></a> Removal of `type` property in errors of invalid `RuleTester` cases
 
-In ESLint v10, the deprecated `type` property in errors of invalid test cases for rules has been removed. Using the `type` property in test cases now throws an error.
+In ESLint v10.0.0, the deprecated `type` property in errors of invalid test cases for rules has been removed. Using the `type` property in test cases now throws an error.
 
 **To address:** Remove the `type` property from error objects in invalid test cases.
 
@@ -216,7 +217,7 @@ Starting with ESLint v10, `Program.range` covers the entire source text, includi
 
 ## <a name="fixer-text-must-be-string"></a> Fixer methods now require string `text` arguments
 
-In ESLint v10, all rule fixer methods that accept a `text` argument now require that it be a string. Providing a non-string value will throw a `TypeError`.
+In ESLint v10.0.0, all rule fixer methods that accept a `text` argument now require that it be a string. Providing a non-string value will throw a `TypeError`.
 
 Affected methods:
 
@@ -233,7 +234,7 @@ Affected methods:
 
 ## <a name="scope-manager"></a> New requirements for `ScopeManager` implementations
 
-As of ESLint v10.0.0, custom `ScopeManager` implementations must automatically resolve references to global variables declared in the code, including `var` and `function` declarations, and provide an instance method `addGlobals(names: string[])` that creates variables with the given names in the global scope and resolves references to them.
+In ESLint v10.0.0, custom `ScopeManager` implementations must automatically resolve references to global variables declared in the code, including `var` and `function` declarations, and provide an instance method `addGlobals(names: string[])` that creates variables with the given names in the global scope and resolves references to them.
 
 The default `ScopeManager` implementation [`eslint-scope`](https://www.npmjs.com/package/eslint-scope) has already been updated.
 
@@ -243,9 +244,50 @@ This change does not affect custom rules.
 
 **Related issue(s):** [eslint/js#665](https://github.com/eslint/js/issues/665)
 
+## <a name="rule-context"></a> Removal of deprecated `context` members
+
+In ESLint v9.x, we deprecated the following [methods](https://eslint.org/blog/2023/09/preparing-custom-rules-eslint-v9/#context-methods-becoming-properties) and [properties](https://eslint.org/blog/2023/09/preparing-custom-rules-eslint-v9/#context-properties%3A-parseroptions-and-parserpath-being-removed):
+
+- `context.getCwd()`
+- `context.getFilename()`
+- `context.getPhysicalFilename()`
+- `context.getSourceCode()`
+- `context.parserOptions`
+- `context.parserPath`
+
+In ESLint v10.0.0, all of these members have been removed.
+
+**To address:** In your custom rules, make the following changes:
+
+| **Removed on `context`**        | **Replacement on `context`**                                         |
+| ------------------------------- | -------------------------------------------------------------------- |
+| `context.getCwd()`              | `context.cwd`                                                        |
+| `context.getFilename()`         | `context.filename`                                                   |
+| `context.getPhysicalFilename()` | `context.physicalFilename`                                           |
+| `context.getSourceCode()`       | `context.sourceCode`                                                 |
+| `context.parserOptions`         | `context.languageOptions` or `context.languageOptions.parserOptions` |
+| `context.parserPath`            | No replacement.                                                      |
+
+You can make changes for the removed `context` methods using the [`eslint-transforms`](https://www.npmjs.com/package/eslint-transforms) utility. To use the utility, first install it and then run the `v9-rule-migration` transform, like this:
+
+```shell
+# install the utility
+npm install eslint-transforms -g
+
+# apply the transform to one file
+eslint-transforms v9-rule-migration rule.js
+
+# apply the transform to all files in a directory
+eslint-transforms v9-rule-migration rules/
+```
+
+The removed `context` properties must be done manually as there may not be a direct one-to-one replacement.
+
+**Related issue(s):** [eslint/eslint#16999](https://github.com/eslint/eslint/issues/16999)
+
 ## <a name="lintmessage-nodetype-removed"></a> Removal of `nodeType` property in `LintMessage` objects
 
-In ESLint v10, the deprecated `nodeType` property on `LintMessage` objects has been removed. This affects consumers of the Node.js API (for example, custom formatters and editor/tool integrations) that previously relied on `message.nodeType`.
+In ESLint v10.0.0, the deprecated `nodeType` property on `LintMessage` objects has been removed. This affects consumers of the Node.js API (for example, custom formatters and editor/tool integrations) that previously relied on `message.nodeType`.
 
 **To address:** Remove all usages of `message.nodeType` in your integrations and formatters.
 

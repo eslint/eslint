@@ -163,7 +163,7 @@
     "eslint-plugin-expect-type": "^0.6.0",
     "eslint-plugin-yml": "^1.14.0",
     "eslint-release": "^3.3.0",
-    "eslint-rule-composer": "^0.3.0",
+    "eslint-rule-extender": "^0.0.1",
     "eslump": "^3.0.0",
     "esprima": "^4.0.1",
     "fs-teardown": "^0.1.3",
