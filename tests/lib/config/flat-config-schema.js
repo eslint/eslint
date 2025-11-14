@@ -7,30 +7,6 @@
 
 const { flatConfigSchema } = require("../../../lib/config/flat-config-schema");
 const { assert } = require("chai");
-const {
-	Legacy: { ConfigArray },
-} = require("@eslint/eslintrc");
-
-/**
- * This function checks the result of merging two values in eslintrc config.
- * It uses deep strict equality to compare the actual and the expected results.
- * This is useful to ensure that the flat config merge logic behaves similarly to the old logic.
- * When eslintrc is removed, this function and its invocations can be also removed.
- * @param {Object} [first] The base object.
- * @param {Object} [second] The overrides object.
- * @param {Object} [expectedResult] The expected results of merging first and second values.
- * @returns {void}
- */
-function confirmLegacyMergeResult(first, second, expectedResult) {
-	const configArray = new ConfigArray(
-		{ settings: first },
-		{ settings: second },
-	);
-	const config = configArray.extractConfig("/file");
-	const actualResult = config.settings;
-
-	assert.deepStrictEqual(actualResult, expectedResult);
-}
 
 describe("merge", () => {
 	const { merge } = flatConfigSchema.settings;
@@ -41,14 +17,12 @@ describe("merge", () => {
 		const result = merge(first, second);
 
 		assert.deepStrictEqual(result, { ...first, ...second });
-		confirmLegacyMergeResult(first, second, result);
 	});
 
 	it("returns an empty object if both values are undefined", () => {
 		const result = merge(void 0, void 0);
 
 		assert.deepStrictEqual(result, {});
-		confirmLegacyMergeResult(void 0, void 0, result);
 	});
 
 	it("returns an object equal to the first one if the second one is undefined", () => {
@@ -57,7 +31,6 @@ describe("merge", () => {
 
 		assert.deepStrictEqual(result, first);
 		assert.notStrictEqual(result, first);
-		confirmLegacyMergeResult(first, void 0, result);
 	});
 
 	it("returns an object equal to the second one if the first one is undefined", () => {
@@ -66,7 +39,6 @@ describe("merge", () => {
 
 		assert.deepStrictEqual(result, second);
 		assert.notStrictEqual(result, second);
-		confirmLegacyMergeResult(void 0, second, result);
 	});
 
 	it("does not preserve the type of merged objects", () => {
@@ -75,7 +47,6 @@ describe("merge", () => {
 		const result = merge(first, second);
 
 		assert.deepStrictEqual(result, {});
-		confirmLegacyMergeResult(first, second, result);
 	});
 
 	it("merges two objects in a property", () => {
@@ -84,7 +55,6 @@ describe("merge", () => {
 		const result = merge(first, second);
 
 		assert.deepStrictEqual(result, { foo: { bar: "baz", qux: 42 } });
-		confirmLegacyMergeResult(first, second, result);
 	});
 
 	it("overwrites an object in a property with an array", () => {
@@ -121,7 +91,6 @@ describe("merge", () => {
 
 		assert.deepStrictEqual(result, first);
 		assert.notStrictEqual(result, first);
-		confirmLegacyMergeResult(first, second, result);
 	});
 
 	it("does not change the prototype of a merged object", () => {
@@ -130,7 +99,6 @@ describe("merge", () => {
 		const result = merge(first, second);
 
 		assert.strictEqual(Object.getPrototypeOf(result), Object.prototype);
-		confirmLegacyMergeResult(first, second, result);
 	});
 
 	it("does not merge the '__proto__' property", () => {
@@ -139,7 +107,6 @@ describe("merge", () => {
 		const result = merge(first, second);
 
 		assert.deepStrictEqual(result, {});
-		confirmLegacyMergeResult(first, second, result);
 	});
 
 	it("overrides a value in a property with null", () => {
@@ -149,7 +116,6 @@ describe("merge", () => {
 
 		assert.deepStrictEqual(result, second);
 		assert.notStrictEqual(result, second);
-		confirmLegacyMergeResult(first, second, result);
 	});
 
 	it("overrides a value in a property with a non-nullish primitive", () => {
@@ -159,7 +125,6 @@ describe("merge", () => {
 
 		assert.deepStrictEqual(result, second);
 		assert.notStrictEqual(result, second);
-		confirmLegacyMergeResult(first, second, result);
 	});
 
 	it("overrides an object in a property with a string", () => {
@@ -169,7 +134,6 @@ describe("merge", () => {
 
 		assert.deepStrictEqual(result, second);
 		assert.notStrictEqual(result, first);
-		confirmLegacyMergeResult(first, second, result);
 	});
 
 	it("overrides a value in a property with a function", () => {
@@ -179,7 +143,6 @@ describe("merge", () => {
 
 		assert.deepStrictEqual(result, second);
 		assert.notProperty(result.someProperty, "foo");
-		confirmLegacyMergeResult(first, second, result);
 	});
 
 	it("overrides a function in a property with an object", () => {
@@ -189,7 +152,6 @@ describe("merge", () => {
 
 		assert.deepStrictEqual(result, second);
 		assert.notProperty(result.someProperty, "foo");
-		confirmLegacyMergeResult(first, second, result);
 	});
 
 	it("sets properties to undefined", () => {
@@ -234,7 +196,6 @@ describe("merge", () => {
 			notMerged1: { first: true },
 			notMerged2: { second: true },
 		});
-		confirmLegacyMergeResult(first, second, result);
 	});
 
 	it("merges objects with self-references", () => {
