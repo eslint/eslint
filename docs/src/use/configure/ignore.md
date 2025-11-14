@@ -54,9 +54,9 @@ import { defineConfig, globalIgnores } from "eslint/config";
 export default defineConfig([
 	globalIgnores(["**/*.js", "**/*.cjs", "**/*.mjs"]),
 	{
-      files: ["vite.config.ts"],
-	  ignores: ["./dist/**"]
-      rules: { ... }
+		files: ["**/*.ts"],
+		ignores: [".config/**"],
+		rules: { /* ... */ },
     },
 ]);
 ```
