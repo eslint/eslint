@@ -63,7 +63,7 @@ describe("interpolate()", () => {
 	});
 
 	const values = [
-		// Expected
+		// Expected (officially supported)
 		[1, "1"],
 		[100n, "100"],
 		[true, "true"],
@@ -73,6 +73,7 @@ describe("interpolate()", () => {
 
 		// Unexpected
 		[{ prop: "value" }, "[object Object]"],
+		[{ toString: () => "stringified" }, "stringified"],
 		[[1, 2, 3], "1,2,3"],
 		[new Set([1, 2, 3]), "[object Set]"],
 		[new Map([["prop", "value"]]), "[object Map]"],
