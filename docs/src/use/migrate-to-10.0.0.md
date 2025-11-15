@@ -53,7 +53,7 @@ ESLint is officially dropping support for these versions of Node.js starting wit
 - Node.js v22.13.0 and above
 - Node.js v24 and above
 
-**To address:** Make sure you upgrade to at least Node.js v20.19.0 when using ESLint v10. One important thing to double check is the Node.js version supported by your editor when using ESLint via editor integrations. If you are unable to upgrade, we recommend continuing to use ESLint v9 until you are able to upgrade Node.js.
+**To address:** Make sure you upgrade to at least Node.js v20.19.0 when using ESLint v10.0.0. One important thing to double check is the Node.js version supported by your editor when using ESLint via editor integrations. If you are unable to upgrade, we recommend continuing to use ESLint v9 until you are able to upgrade Node.js.
 
 **Related issue(s):** [#19969](https://github.com/eslint/eslint/issues/19969)
 
@@ -87,7 +87,7 @@ In ESLint v9, the alternate config lookup behavior could be enabled with the `v1
 
 ESLint v9 introduced a [new default configuration format](./configure/configuration-files) based on the `eslint.config.js` file. The [old format](./configure/configuration-files-deprecated), which used `.eslintrc` or `.eslintrc.json`, could still be enabled in v9 by setting the `ESLINT_USE_FLAT_CONFIG` environment variable to `false`.
 
-Starting with ESLint v10, the old configuration format is no longer supported.
+Starting with ESLint v10.0.0, the old configuration format is no longer supported.
 
 **To address:**
 
@@ -99,7 +99,7 @@ Starting with ESLint v10, the old configuration format is no longer supported.
 
 ## <a name="eslint-env-comments"></a> `eslint-env` comments are reported as errors
 
-In the now obsolete ESLint v8 configuration system, `/* eslint-env */` comments could be used to define globals for a file. The current configuration system does not support such comments, and starting with ESLint v10, they are reported as errors during linting.
+In the now obsolete ESLint v8 configuration system, `/* eslint-env */` comments could be used to define globals for a file. The current configuration system does not support such comments, and starting with ESLint v10.0.0, they are reported as errors during linting.
 
 ```text
 error: /* eslint-env */ comments are no longer supported at file.js:1:1:
@@ -115,7 +115,7 @@ error: /* eslint-env */ comments are no longer supported at file.js:1:1:
 
 ESLint is officially dropping support for versions of `jiti` that are less than v2.2.0.
 
-**To address:** If you've authored your config file in `TypeScript` and have `jiti` v2.1.2 or earlier installed, be sure to update it to at least `2.2.0` when using ESLint v10.
+**To address:** If you've authored your config file in `TypeScript` and have `jiti` v2.1.2 or earlier installed, be sure to update it to at least `2.2.0` when using ESLint v10.0.0.
 
 **Related issue(s):** [#19765](https://github.com/eslint/eslint/issues/19765)
 
@@ -194,7 +194,7 @@ In ESLint v10.0.0, the deprecated `type` property in errors of invalid test case
 
 ## <a name="program-node-range"></a> `Program` AST node range spans entire source text
 
-ESLint v10 changes how the `Program` AST node’s range is calculated: it now spans the entire source text, including any leading and trailing comments and whitespace.
+ESLint v10.0.0 changes how the `Program` AST node’s range is calculated: it now spans the entire source text, including any leading and trailing comments and whitespace.
 
 Previously, the `Program` node’s range excluded leading and trailing comments/whitespace, which could be unintuitive. For example:
 
@@ -206,7 +206,7 @@ const x = 1;
 
 In ESLint v9 and earlier, `Program.range` covers only `const x = 1;` (excludes surrounding comments/whitespace).
 
-Starting with ESLint v10, `Program.range` covers the entire source text, including the leading and trailing comments/whitespace.
+Starting with ESLint v10.0.0, `Program.range` covers the entire source text, including the leading and trailing comments/whitespace.
 
 **To address:**
 
