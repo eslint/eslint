@@ -47,3 +47,7 @@ Foo();
 ```
 
 :::
+
+## Options
+
+This rule has no options.

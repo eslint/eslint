@@ -12,7 +12,7 @@ With JavaScript ES6, a new syntax was added for creating variables from an array
 
 ## Rule Details
 
-### Options
+## Options
 
 This rule takes two arguments, both of which are objects. The first object parameter determines what types of destructuring the rule applies to.
 
@@ -124,7 +124,7 @@ Examples of **correct** code when array destructuring in `AssignmentExpression` 
 
 :::
 
-#### enforceForRenamedProperties
+### enforceForRenamedProperties
 
 The rule has a second object argument with a single key, `enforceForRenamedProperties`, which determines whether the `object` destructuring applies to renamed variables.
 

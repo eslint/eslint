@@ -164,6 +164,10 @@ let foo = function(a) {
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## When Not To Use It
 
 If you want to allow control flow operations in `finally` blocks, you can turn this rule off.

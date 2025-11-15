@@ -92,6 +92,10 @@ if (condition) {
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## When Not To Use It
 
 Disable this rule if the code is clearer without requiring the `else if` form.

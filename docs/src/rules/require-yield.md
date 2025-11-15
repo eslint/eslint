@@ -11,8 +11,6 @@ related_rules:
 
 This rule generates warnings for generator functions that do not have the `yield` keyword.
 
-## Examples
-
 Examples of **incorrect** code for this rule:
 
 ::: incorrect
@@ -48,6 +46,10 @@ function* baz() { }
 ```
 
 :::
+
+## Options
+
+This rule has no options.
 
 ## When Not To Use It
 

@@ -30,10 +30,6 @@ variables. ES modules also have implicit `strict` mode, which prevents global va
 
 By default, this rule does not check `const`, `let` and `class` declarations.
 
-This rule has an object option with one option:
-
-* Set `"lexicalBindings"` to `true` if you want this rule to check `const`, `let` and `class` declarations as well.
-
 ## Rule Details
 
 ### `var` and `function` declarations
@@ -268,6 +264,12 @@ var global_var = 42;
 ```
 
 :::
+
+## Options
+
+This rule has an object option with one option:
+
+* Set `"lexicalBindings"` to `true` if you want this rule to check `const`, `let` and `class` declarations as well.
 
 ## When Not To Use It
 

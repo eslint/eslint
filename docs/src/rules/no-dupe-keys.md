@@ -63,3 +63,7 @@ const obj = {
 ```
 
 :::
+
+## Options
+
+This rule has no options.

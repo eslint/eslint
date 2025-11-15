@@ -57,6 +57,10 @@ const e = "foo" +
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## When Not To Use It
 
 If you don't want to be notified about unnecessary string concatenation, you can safely disable this rule.

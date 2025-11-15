@@ -138,6 +138,10 @@ declare module "my-module" {
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## When Not To Use It
 
 You can disable this rule if your code intentionally uses variables that are declared and used, but are never assigned a value. This might be the case in:

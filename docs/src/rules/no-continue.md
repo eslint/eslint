@@ -82,6 +82,10 @@ for(i = 0; i < 10; i++) {
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## Compatibility
 
 * **JSLint**: `continue`

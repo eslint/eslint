@@ -81,6 +81,10 @@ const object = new MyString();
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## When Not To Use It
 
 If you want to allow the use of primitive wrapper objects, then you can safely disable this rule.

@@ -57,6 +57,10 @@ obj.foo.apply(obj, args);
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## Known Limitations
 
 This rule compares code statically to check whether or not `thisArg` is changed.
