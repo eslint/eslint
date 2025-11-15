@@ -1711,46 +1711,6 @@ describe("TokenStore", () => {
 		});
 	});
 
-	describe("when calling getTokenOrCommentBefore", () => {
-		it("should retrieve one token or comment before a node", () => {
-			assert.strictEqual(
-				store.getTokenOrCommentBefore(BinaryExpression).value,
-				"C",
-			);
-		});
-
-		it("should skip a given number of tokens", () => {
-			assert.strictEqual(
-				store.getTokenOrCommentBefore(BinaryExpression, 1).value,
-				"=",
-			);
-			assert.strictEqual(
-				store.getTokenOrCommentBefore(BinaryExpression, 2).value,
-				"B",
-			);
-		});
-	});
-
-	describe("when calling getTokenOrCommentAfter", () => {
-		it("should retrieve one token or comment after a node", () => {
-			assert.strictEqual(
-				store.getTokenOrCommentAfter(VariableDeclarator.id).value,
-				"B",
-			);
-		});
-
-		it("should skip a given number of tokens", () => {
-			assert.strictEqual(
-				store.getTokenOrCommentAfter(VariableDeclarator.id, 1).value,
-				"=",
-			);
-			assert.strictEqual(
-				store.getTokenOrCommentAfter(VariableDeclarator.id, 2).value,
-				"C",
-			);
-		});
-	});
-
 	describe("when calling getFirstToken & getTokenAfter", () => {
 		it("should retrieve all tokens and comments in the node", () => {
 			const code = "(function(a, /*b,*/ c){})";

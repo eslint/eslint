@@ -938,15 +938,6 @@ Here, the `myCustomVar` variable is marked as used relative to a `ReturnStatemen
 
 ESLint analyzes code paths while traversing AST. You can access code path objects with seven events related to code paths. For more information, refer to [Code Path Analysis](code-path-analysis).
 
-### Deprecated `SourceCode` Methods
-
-Please note that the following `SourceCode` methods have been deprecated and will be removed in a future version of ESLint:
-
-- `getTokenOrCommentBefore()`: Replaced by `SourceCode#getTokenBefore()` with the `{ includeComments: true }` option.
-- `getTokenOrCommentAfter()`: Replaced by `SourceCode#getTokenAfter()` with the `{ includeComments: true }` option.
-- `isSpaceBetweenTokens()`: Replaced by `SourceCode#isSpaceBetween()`
-- `getJSDocComment()`
-
 ## Rule Unit Tests
 
 ESLint provides the [`RuleTester`](../integrate/nodejs-api#ruletester) utility to make it easy to write tests for rules.
