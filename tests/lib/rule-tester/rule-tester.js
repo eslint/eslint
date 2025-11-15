@@ -5304,4 +5304,71 @@ describe("RuleTester", () => {
 			sinon.assert.neverCalledWith(spyRuleTesterDescribe, "invalid");
 		});
 	});
+
+	// Attach error locations to stacktrace
+	describe("error locations", () => {
+		it("should report the correct location for errors in valid test cases", () => {
+			try {
+				ruleTester.run(
+					"no-eval",
+					require("../../fixtures/testers/rule-tester/no-eval"),
+					{
+						valid: ["eval(foo)"],
+						invalid: [],
+					},
+				);
+				assert.fail("Expected an error to be thrown");
+			} catch (error) {
+				assert.include(error.stack, "at RuleTester.run.valid[0] (");
+				assert.include(error.stack, "at RuleTester.run.valid (");
+				assert.include(error.stack, "at RuleTester.run (");
+				assert.include(
+					error.stack
+						.replace(/\\/gu, "/")
+						.replace(/:\d+/gu, ":<lines>"),
+					"tests/lib/rule-tester/rule-tester.js:<lines>",
+				);
+			}
+		});
+
+		it("should report the correct location for errors in invalid test cases", () => {
+			try {
+				ruleTester.run(
+					"no-eval",
+					require("../../fixtures/testers/rule-tester/no-eval"),
+					{
+						valid: [],
+						invalid: [
+							{
+								code: "eval(foo);\neval(bar);",
+								errors: [
+									{
+										message: "eval sucks.",
+									},
+									{
+										message: "This is bad.",
+									},
+								],
+							},
+						],
+					},
+				);
+				assert.fail("Expected an error to be thrown");
+			} catch (error) {
+				assert.include(
+					error.stack,
+					"at RuleTester.run.invalid[0].error[1] (",
+				);
+				assert.include(error.stack, "at RuleTester.run.invalid[0] (");
+				assert.include(error.stack, "at RuleTester.run.invalid (");
+				assert.include(error.stack, "at RuleTester.run (");
+				assert.include(
+					error.stack
+						.replace(/\\/gu, "/")
+						.replace(/:\d+/gu, ":<lines>"),
+					"tests/lib/rule-tester/rule-tester.js:<lines>",
+				);
+			}
+		});
+	});
 });
