@@ -1,0 +1,31 @@
+name: Test Ecosystem Plugins
+
+on:
+    push:
+        branches:
+            - "ecosystem/*"
+    schedule:
+        # “At 00:00.” https://crontab.guru/#0_0_*_*_*
+        - cron: "0 0 * * *"
+    workflow_dispatch: ~
+
+permissions: read-all
+
+jobs:
+    test_ecosystem:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v5
+            - uses: actions/setup-node@v6
+              with:
+                  node-version: "lts/*"
+            - run: npm install
+            - id: tester
+              run: npm run test:ecosystem -- --plugin all
+            - if: steps.tester.outcome == 'failure' && github.head_ref == 'main'
+              env:
+                  DISCORD_WEBHOOK: ${{ secrets.DISCORD_CONTRIBUTORS_WEBHOOK }}
+              uses: Ilshidur/action-discord@0c4b27844ba47cb1c7bee539c8eead5284ce9fa9 # v0.3.2
+              with:
+                  args: "Ecosystem tests failed."
