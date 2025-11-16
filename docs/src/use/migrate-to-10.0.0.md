@@ -288,16 +288,17 @@ The removed `context` properties must be done manually as there may not be a dir
 
 ## <a name="stricter-rule-tester"></a> Prohibiting `errors` or `output` of valid RuleTester test cases
 
-In ESLint v10, the RuleTester has become more strict about test case structure. Valid test cases (those that should not produce any linting errors) are no longer allowed to have `errors` or `output` properties.
+In ESLint v10.0.0, the RuleTester has become more strict about test case structure. Valid test cases (those that should not produce any linting errors) are no longer allowed to have `errors` or `output` properties.
+
 ​What changed:​​
 
-- Previously, valid test cases could include `errors` or `output` properties, which were ignored
-- Now, including these properties in valid test cases will cause the test to fail
+- Previously, valid test cases could include `errors` or `output` properties, which were ignored.
+- Now, including these properties in valid test cases will cause the test to fail.
 
 Example of invalid usage:​
 
 ```js
-// This will now throw an error in ESLint v10
+// This will now throw an error in ESLint v10.0.0
 const validTestCases = [
 	{
 		code: "const foo = 'bar';",
