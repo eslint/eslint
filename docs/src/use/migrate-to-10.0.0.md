@@ -35,6 +35,7 @@ The lists below are ordered roughly by the number of users each change is expect
 - [Fixer methods now require string `text` arguments](#fixer-text-must-be-string)
 - [New requirements for `ScopeManager` implementations](#scope-manager)
 - [Removal of deprecated `context` members](#rule-context)
+- [Prohibiting `errors` or `output` of valid RuleTester test cases](#stricter-rule-tester)
 
 ### Breaking changes for integration developers
 
@@ -284,6 +285,34 @@ eslint-transforms v9-rule-migration rules/
 The removed `context` properties must be done manually as there may not be a direct one-to-one replacement.
 
 **Related issue(s):** [eslint/eslint#16999](https://github.com/eslint/eslint/issues/16999)
+
+## <a name="stricter-rule-tester"></a> Prohibiting `errors` or `output` of valid RuleTester test cases
+
+In ESLint v10.0.0, the RuleTester has become more strict about test case structure. Valid test cases (those that should not produce any linting errors) are no longer allowed to have `errors` or `output` properties.
+
+​What changed:​​
+
+- Previously, valid test cases could include `errors` or `output` properties, which were ignored.
+- Now, including these properties in valid test cases will cause the test to fail.
+
+Example of invalid usage:​
+
+```js
+// This will now throw an error in ESLint v10.0.0
+const validTestCases = [
+	{
+		code: "const foo = 'bar';",
+		errors: 0, // ❌ Not allowed in valid test cases
+		output: "const foo = 'bar';", // ❌ Not allowed in valid test cases
+	},
+];
+
+ruleTester.run("rule-id", rule, { valid: validTestCases, invalid: [] });
+```
+
+**To address:** Remove any `errors`/`output` properties from valid test cases.
+
+**Related issue(s):** [#18960](https://github.com/eslint/eslint/issues/18960)
 
 ## <a name="lintmessage-nodetype-removed"></a> Removal of `nodeType` property in `LintMessage` objects
 
