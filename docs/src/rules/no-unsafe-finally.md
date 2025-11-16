@@ -168,4 +168,4 @@ let foo = function(a) {
 
 If you want to allow control flow operations in `finally` blocks, you can turn this rule off.
 
-Since [`return`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator/return) from a `finally` block has [specific semantics](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator/return#using_return_with_try...finally) for [generator functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*), such use should be considered an exception to this rule.
+Since `return` from a `finally` block has [specific semantics](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator/return#using_return_with_try...finally) for [generator functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*), such use should be considered an exception to this rule.
