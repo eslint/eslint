@@ -125,7 +125,7 @@ ESLint is officially dropping support for versions of `jiti` that are less than 
 
 ## <a name="posix-character-classes"></a> POSIX character classes in glob patterns
 
-ESLint v10 uses the latest version of [minimatch](https://github.com/isaacs/minimatch), which supports [POSIX character classes](https://www.gnu.org/software/bash/manual/html_node/Pattern-Matching.html) in bracket expressions. ESLint relies on minimatch to match file names against glob patterns, such as those defined in `files`, `ignores`, and `globalIgnores()` within a config, or passed via the CLI.
+ESLint v10.0.0 uses the latest version of [minimatch](https://github.com/isaacs/minimatch), which supports [POSIX character classes](https://www.gnu.org/software/bash/manual/html_node/Pattern-Matching.html) in bracket expressions. ESLint relies on minimatch to match file names against glob patterns, such as those defined in `files`, `ignores`, and `globalIgnores()` within a config, or passed via the CLI.
 
 For example, to lint all `.js` files whose names begin with an uppercase letter, you can now run:
 
