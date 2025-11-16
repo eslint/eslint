@@ -1,9 +1,9 @@
 ---
 title: no-unsafe-finally
 rule_type: problem
+further_reading:
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*
 ---
-
-
 
 JavaScript suspends the control flow statements of `try` and `catch` blocks until the execution of `finally` block finishes. So, when `return`, `throw`, `break`, or `continue` is used in `finally`, control flow statements inside `try` and `catch` are overwritten, which is considered as unexpected behavior. Such as:
 
@@ -167,3 +167,5 @@ let foo = function(a) {
 ## When Not To Use It
 
 If you want to allow control flow operations in `finally` blocks, you can turn this rule off.
+
+Since [`return`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator/return) from a finally block has [specific semantics](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator/return#using_return_with_try...finally) for [generator functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*), such use should be considered an exception to this rule.
