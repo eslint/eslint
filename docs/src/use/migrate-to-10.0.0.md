@@ -35,6 +35,7 @@ The lists below are ordered roughly by the number of users each change is expect
 - [Fixer methods now require string `text` arguments](#fixer-text-must-be-string)
 - [New requirements for `ScopeManager` implementations](#scope-manager)
 - [Removal of deprecated `context` members](#rule-context)
+- [Removal of deprecated `SourceCode` methods](#sourcecode-methods-removed)
 - [Prohibiting `errors` or `output` of valid RuleTester test cases](#stricter-rule-tester)
 
 ### Breaking changes for integration developers
@@ -285,6 +286,30 @@ eslint-transforms v9-rule-migration rules/
 The removed `context` properties must be done manually as there may not be a direct one-to-one replacement.
 
 **Related issue(s):** [eslint/eslint#16999](https://github.com/eslint/eslint/issues/16999)
+
+## <a name="sourcecode-methods-removed"></a> Removal of deprecated `SourceCode` methods
+
+The following deprecated `SourceCode` methods have been removed in ESLint v10.0.0:
+
+- `getTokenOrCommentBefore()`
+- `getTokenOrCommentAfter()`
+- `isSpaceBetweenTokens()`
+- `getJSDocComment()`
+
+These methods have been deprecated for multiple major versions and were primarily used by deprecated formatting rules and internal ESLint utilities. Custom rules using these methods must be updated to use their modern replacements.
+
+**To address:** In your custom rules, make the following changes:
+
+| **Removed on `SourceCode`**           | **Replacement**                                   |
+| ------------------------------------- | ------------------------------------------------- |
+| `getTokenOrCommentBefore(node)`       | `getTokenBefore(node, { includeComments: true })` |
+| `getTokenOrCommentAfter(node)`        | `getTokenAfter(node, { includeComments: true })`  |
+| `isSpaceBetweenTokens(first, second)` | `isSpaceBetween(first, second)`                   |
+| `getJSDocComment(node)`               | No replacement                                    |
+
+Compatibility patches are available in the [`@eslint/compat`](https://www.npmjs.com/package/@eslint/compat) package to help with the transition.
+
+**Related issue(s):** [#20113](https://github.com/eslint/eslint/issues/20113)
 
 ## <a name="stricter-rule-tester"></a> Prohibiting `errors` or `output` of valid RuleTester test cases
 
