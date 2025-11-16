@@ -1,8 +1,6 @@
 ---
 title: no-unsafe-finally
 rule_type: problem
-further_reading:
-- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*
 ---
 
 JavaScript suspends the control flow statements of `try` and `catch` blocks until the execution of `finally` block finishes. So, when `return`, `throw`, `break`, or `continue` is used in `finally`, control flow statements inside `try` and `catch` are overwritten, which is considered as unexpected behavior. Such as:
