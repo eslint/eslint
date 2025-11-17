@@ -168,4 +168,5 @@ let foo = function(a) {
 
 If you want to allow control flow operations in `finally` blocks, you can turn this rule off.
 
-Because there are [specific semantics](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator/return#using_return_with_try...finally) for [generator functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*), whereby the return value of a generator function may be overridden by using a `return` inside a `finally`, such use should be considered an exception to this rule.
+Note that [using `return` with `try`/`finally` in generator functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator/return#using_return_with_try...finally) can be used to override the value returned.
+That use case is treated as an exception to this rule.
