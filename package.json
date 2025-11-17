@@ -108,7 +108,7 @@
   "dependencies": {
     "@eslint-community/eslint-utils": "^4.8.0",
     "@eslint-community/regexpp": "^4.12.1",
-    "@eslint/config-array": "^0.22.0",
+    "@eslint/config-array": "^0.23.0",
     "@eslint/config-helpers": "^0.5.0",
     "@eslint/core": "^1.0.0",
     "@eslint/plugin-kit": "^0.5.0",
