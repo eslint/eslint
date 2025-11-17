@@ -21,6 +21,7 @@ The lists below are ordered roughly by the number of users each change is expect
 - [Old config format no longer supported](#remove-eslintrc)
 - [`eslint-env` comments are reported as errors](#eslint-env-comments)
 - [Jiti < v2.2.0 are no longer supported](#drop-old-jiti)
+- [POSIX character classes in glob patterns](#posix-character-classes)
 - [Deprecated options of the `radix` rule](#radix)
 - [`no-shadow-restricted-names` now reports `globalThis` by default](#no-shadow-restricted-names)
 - [`func-names` schema is stricter](#func-names)
@@ -36,6 +37,7 @@ The lists below are ordered roughly by the number of users each change is expect
 - [New requirements for `ScopeManager` implementations](#scope-manager)
 - [Removal of deprecated `context` members](#rule-context)
 - [Prohibiting `errors` or `output` of valid RuleTester test cases](#stricter-rule-tester)
+- [POSIX character classes in glob patterns](#posix-character-classes)
 
 ### Breaking changes for integration developers
 
@@ -43,6 +45,7 @@ The lists below are ordered roughly by the number of users each change is expect
 - [New configuration file lookup algorithm](#config-lookup-from-file)
 - [Old config format no longer supported](#remove-eslintrc)
 - [Removal of `nodeType` property in `LintMessage` objects](#lintmessage-nodetype-removed)
+- [POSIX character classes in glob patterns](#posix-character-classes)
 
 ---
 
@@ -119,6 +122,22 @@ ESLint is officially dropping support for versions of `jiti` that are less than 
 **To address:** If you've authored your config file in `TypeScript` and have `jiti` v2.1.2 or earlier installed, be sure to update it to at least `2.2.0` when using ESLint v10.0.0.
 
 **Related issue(s):** [#19765](https://github.com/eslint/eslint/issues/19765)
+
+## <a name="posix-character-classes"></a> POSIX character classes in glob patterns
+
+ESLint v10.0.0 uses the latest version of [minimatch](https://github.com/isaacs/minimatch), which supports [POSIX character classes](https://www.gnu.org/software/bash/manual/html_node/Pattern-Matching.html) in bracket expressions. ESLint relies on minimatch to match file names against glob patterns, such as those defined in `files`, `ignores`, and `globalIgnores()` within a config, or passed via the CLI.
+
+For example, to lint all `.js` files whose names begin with an uppercase letter, you can now run:
+
+```shell
+npx eslint "**/[[:upper:]]*.js"
+```
+
+Here, `[[:upper:]]` is a POSIX character class that matches uppercase letters in different alphabets.
+
+**To address:** If any of the glob patterns in your configuration, CLI arguments, or Node.js API calls look like containing a POSIX character class, verify that they match files as intended.
+
+**Related issue(s):** [eslint/rewrite#66](https://github.com/eslint/rewrite/issues/66)
 
 ## <a name="radix"></a> Deprecated options of the `radix` rule
 
