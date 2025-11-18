@@ -300,12 +300,12 @@ These methods have been deprecated for multiple major versions and were primaril
 
 **To address:** In your custom rules, make the following changes:
 
-| **Removed on `SourceCode`**           | **Replacement**                                   |
-| ------------------------------------- | ------------------------------------------------- |
-| `getTokenOrCommentBefore(node)`       | `getTokenBefore(node, { includeComments: true })` |
-| `getTokenOrCommentAfter(node)`        | `getTokenAfter(node, { includeComments: true })`  |
-| `isSpaceBetweenTokens(first, second)` | `isSpaceBetween(first, second)`                   |
-| `getJSDocComment(node)`               | No replacement                                    |
+| **Removed on `SourceCode`**                  | **Replacement**                                                |
+| -------------------------------------------- | -------------------------------------------------------------- |
+| `getTokenOrCommentBefore(nodeOrToken, skip)` | `getTokenBefore(nodeOrToken, { includeComments: true, skip })` |
+| `getTokenOrCommentAfter(nodeOrToken, skip)`  | `getTokenAfter(nodeOrToken, { includeComments: true, skip })`  |
+| `isSpaceBetweenTokens(first, second)`        | `isSpaceBetween(first, second)`                                |
+| `getJSDocComment(node)`                      | No replacement                                                 |
 
 Compatibility patches are available in the [`@eslint/compat`](https://www.npmjs.com/package/@eslint/compat) package to help with the transition.
 
