@@ -144,7 +144,7 @@ jobs:
 
             - name: Install Packages for ${{ matrix.package.name }}
               working-directory: ${{ matrix.package.directory }}
-              run: npm install
+              run: npm install --legacy-peer-deps
 
             - name: Test types for ${{ matrix.package.name }}
               working-directory: ${{ matrix.package.directory }}

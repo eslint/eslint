@@ -40,13 +40,7 @@ import {
 import { defineConfig, globalIgnores } from "eslint/config";
 import { ESLintRules } from "eslint/rules";
 import { Linter as ESLinter } from "eslint/universal";
-import {
-	builtinRules,
-	FileEnumerator,
-	FlatESLint,
-	LegacyESLint,
-	shouldUseFlatConfig,
-} from "eslint/use-at-your-own-risk";
+import { builtinRules, shouldUseFlatConfig } from "eslint/use-at-your-own-risk";
 import {
 	Comment,
 	PrivateIdentifier,
@@ -121,6 +115,7 @@ sourceCode = new SourceCode({
 		acquire(node, inner) {
 			return scopeManager.scopes[0];
 		},
+		addGlobals(names) {},
 		getDeclaredVariables() {
 			return [];
 		},
@@ -151,15 +146,9 @@ sourceCode.getLines();
 
 sourceCode.getAllComments();
 
-sourceCode.getJSDocComment(AST); // $ExpectType Comment | null
-
 sourceCode.getNodeByRangeIndex(0);
 
 sourceCode.getNodeByRangeIndex(0);
-
-sourceCode.isSpaceBetweenTokens(TOKEN, TOKEN);
-sourceCode.isSpaceBetweenTokens(AST, TOKEN);
-sourceCode.isSpaceBetweenTokens(TOKEN, AST);
 
 sourceCode.isSpaceBetween(TOKEN, TOKEN);
 sourceCode.isSpaceBetween(AST, TOKEN);
@@ -339,16 +328,6 @@ sourceCode.getTokensAfter(AST, {
 sourceCode.getTokensAfter(TOKEN, 0);
 sourceCode.getTokensAfter(COMMENT, 0);
 
-sourceCode.getTokenOrCommentBefore(AST);
-sourceCode.getTokenOrCommentBefore(AST, 0);
-sourceCode.getTokenOrCommentBefore(TOKEN, 0);
-sourceCode.getTokenOrCommentBefore(COMMENT, 0);
-
-sourceCode.getTokenOrCommentAfter(AST);
-sourceCode.getTokenOrCommentAfter(AST, 0);
-sourceCode.getTokenOrCommentAfter(TOKEN, 0);
-sourceCode.getTokenOrCommentAfter(COMMENT, 0);
-
 sourceCode.getFirstTokenBetween(AST, AST); // $ExpectType Token | null
 sourceCode.getFirstTokenBetween(AST, AST, 0);
 sourceCode.getFirstTokenBetween(AST, AST, { skip: 0 });
@@ -495,7 +474,10 @@ const scopeManager: Scope.ScopeManager = {
 	getDeclaredVariables() {
 		return [];
 	},
+	addGlobals(names) {},
 };
+
+scopeManager.addGlobals(["Foo", "Bar"]);
 
 const scope = scopeManager.scopes[0];
 
@@ -718,16 +700,8 @@ rule = {
 rule = {
 	create(context: Rule.RuleContext) {
 		context.filename;
-
-		context.getFilename();
-
 		context.physicalFilename;
-
-		context.getPhysicalFilename();
-
 		context.cwd;
-
-		context.getCwd();
 
 		context.languageOptions;
 		context.languageOptions
@@ -738,14 +712,7 @@ rule = {
 		context.sourceCode;
 		context.sourceCode.getLocFromIndex(42);
 
-		context.getSourceCode();
-		context.getSourceCode().getLocFromIndex(42);
-
-		if (typeof context.parserPath === "string") {
-			context.parserPath;
-		} else {
-			context.languageOptions?.parser;
-		}
+		context.languageOptions?.parser;
 
 		// @ts-expect-error wrong `node` type
 		context.report({ message: "foo", node: {} });
@@ -1207,41 +1174,6 @@ for (const msg of fixResult.messages) {
 
 sourceCode = linter.getSourceCode();
 
-linter.defineRule("test", rule);
-
-linter.defineRules({
-	foo: rule,
-	bar: rule,
-});
-
-linter.getRules();
-
-linter.defineParser("custom-parser", {
-	name: "foo",
-	version: "1.2.3",
-	meta: {
-		name: "foo",
-		version: "1.2.3",
-	},
-	parse: (src, opts) => AST,
-});
-linter.defineParser("custom-parser", {
-	name: "foo",
-	version: "1.2.3",
-	meta: {
-		name: "foo",
-		version: "1.2.3",
-	},
-	parseForESLint(src, opts): Linter.ESLintParseResult {
-		return {
-			ast: AST,
-			visitorKeys: {},
-			services: {},
-			scopeManager,
-		};
-	},
-});
-
 linter.getFixPassCount(); // $ExpectType number
 
 (index: number, ruleId: string) => {
@@ -1446,6 +1378,7 @@ linterWithFlatConfig.verifyAndFix(
 
 // #region Linter with eslintrc config
 
+// @ts-expect-error -- configType must be "flat"
 const linterWithEslintrcConfig = new Linter({ configType: "eslintrc" });
 
 linterWithEslintrcConfig.version;
@@ -1630,8 +1563,6 @@ linterWithEslintrcConfig.verify(
 	"test.js",
 );
 
-linterWithEslintrcConfig.getRules();
-
 // #endregion Linter with eslintrc config
 
 // #endregion Linter
@@ -1786,139 +1717,6 @@ linterWithEslintrcConfig.getRules();
 
 	// @ts-expect-error // String not allowed
 	ESLint.fromOptionsModule("data:text/javascript,export default [{}];");
-}
-
-// #endregion
-
-// #region LegacyESLint
-
-{
-	let eslint: LegacyESLint;
-
-	eslint = new LegacyESLint();
-	eslint = new LegacyESLint({ allowInlineConfig: false });
-	eslint = new LegacyESLint({ baseConfig: {} });
-	eslint = new LegacyESLint({ overrideConfig: {} });
-	eslint = new LegacyESLint({ overrideConfigFile: "foo" });
-	eslint = new LegacyESLint({ cache: true });
-	eslint = new LegacyESLint({ cacheLocation: "foo" });
-	eslint = new LegacyESLint({ cacheStrategy: "content" });
-	eslint = new LegacyESLint({ cwd: "foo" });
-	eslint = new LegacyESLint({ errorOnUnmatchedPattern: true });
-	eslint = new LegacyESLint({ extensions: ["js"] });
-	eslint = new LegacyESLint({ fix: true });
-	eslint = new LegacyESLint({ fix: message => false });
-	eslint = new LegacyESLint({ fixTypes: ["directive", "problem"] });
-	eslint = new LegacyESLint({ fixTypes: null });
-	eslint = new LegacyESLint({ flags: ["foo", "bar"] });
-	eslint = new LegacyESLint({ globInputPaths: true });
-	eslint = new LegacyESLint({ ignore: true });
-	eslint = new LegacyESLint({ ignorePath: "foo" });
-	eslint = new LegacyESLint({ useEslintrc: false });
-	eslint = new LegacyESLint({ plugins: { foo: {} } });
-	eslint = new LegacyESLint({
-		plugins: {
-			bar: {
-				name: "bar",
-				version: "1.0.0",
-				meta: {
-					name: "bar",
-					version: "1.0.0",
-				},
-				configs: {
-					myConfig: {
-						noInlineConfig: true,
-					},
-				},
-				environments: {
-					production: {
-						parserOptions: {
-							ecmaVersion: 6,
-						},
-					},
-				},
-				processors: {
-					myProcessor: {
-						name: "blah",
-						version: "1.2.3",
-						meta: {
-							name: "blah",
-							version: "1.2.3",
-						},
-						supportsAutofix: false,
-					},
-				},
-				rules: {
-					myRule: {
-						create(context) {
-							return {};
-						},
-						meta: {},
-					},
-				},
-			},
-		},
-	});
-	eslint = new LegacyESLint({ reportUnusedDisableDirectives: "error" });
-	// @ts-expect-error
-	eslint = new LegacyESLint({ reportUnusedDisableDirectives: 2 });
-	eslint = new LegacyESLint({ resolvePluginsRelativeTo: "test" });
-	eslint = new LegacyESLint({ rulePaths: ["foo"] });
-
-	let resultsPromise = eslint.lintFiles(["myfile.js", "lib/"]);
-
-	resultsPromise = eslint.lintText(SOURCE, { filePath: "foo" });
-
-	eslint.calculateConfigForFile("./config.json");
-
-	eslint.isPathIgnored("./dist/index.js");
-
-	let formatterPromise: Promise<ESLint.Formatter>;
-
-	formatterPromise = eslint.loadFormatter("codeframe");
-	formatterPromise = eslint.loadFormatter();
-
-	const customFormatter1: ESLint.Formatter = { format: () => "ok" };
-	const customFormatter2: ESLint.Formatter = {
-		format: () => Promise.resolve("ok"),
-	};
-
-	let resultsMeta: ESLint.ResultsMeta;
-	const meta: Rule.RuleMetaData = {
-		type: "suggestion",
-		docs: {
-			description: "disallow unnecessary semicolons",
-			category: "Possible Errors",
-			recommended: true,
-			url: "https://eslint.org/docs/rules/no-extra-semi",
-		},
-		fixable: "code",
-		schema: [],
-		messages: {
-			unexpected: "Unnecessary semicolon.",
-		},
-	};
-
-	resultsMeta = {
-		maxWarningsExceeded: { maxWarnings: 42, foundWarnings: 43 },
-	};
-
-	const version: string = LegacyESLint.version;
-
-	(async () => {
-		const results: ESLint.LintResult[] = await resultsPromise;
-		const formatter = await formatterPromise;
-
-		const output: string = await formatter.format(results, resultsMeta);
-
-		eslint.getRulesMetaForResults(results);
-
-		LegacyESLint.getErrorResults(results);
-
-		LegacyESLint.outputFixes(results);
-	})();
-
-	const hasFooFlag: false = eslint.hasFlag("foo");
 }
 
 // #endregion
@@ -2385,28 +2183,22 @@ flatConfigWithRules.rules; // $ExpectType Partial<ESLintRules> | undefined
 // #endregion Plugins
 
 async (useFlatConfig?: boolean) => {
-	await loadESLint(); // $ExpectType typeof ESLint | typeof LegacyESLint
-	await loadESLint({}); // $ExpectType typeof ESLint | typeof LegacyESLint
-	await loadESLint({ useFlatConfig: undefined }); // $ExpectType typeof ESLint | typeof LegacyESLint
+	await loadESLint(); // $ExpectType typeof ESLint
+	await loadESLint({}); // $ExpectType typeof ESLint
+	await loadESLint({ useFlatConfig: undefined }); // $ExpectType typeof ESLint
 	await loadESLint({ useFlatConfig: true }); // $ExpectType typeof ESLint
-	await loadESLint({ useFlatConfig: false }); // $ExpectType typeof LegacyESLint
-	await loadESLint({ useFlatConfig }); // $ExpectType typeof ESLint | typeof LegacyESLint
+	await loadESLint({ useFlatConfig: false }); // $ExpectType typeof ESLint
+	await loadESLint({ useFlatConfig }); // $ExpectType typeof ESLint
 
 	const DefaultESLint = await loadESLint();
 	if (DefaultESLint.configType === "flat") {
 		const eslint = new DefaultESLint({ stats: true }); // $ExpectType ESLint
-	} else {
-		const eslint = new DefaultESLint({ useEslintrc: false }); // $ExpectType LegacyESLint
 	}
 };
 
 // #region use-at-your-own-risk
 
 builtinRules; // $ExpectType Map<string, RuleModule>
-
-new FileEnumerator();
-
-FlatESLint; // $ExpectType typeof ESLint
 
 shouldUseFlatConfig(); // $ExpectType Promise<boolean>
 
