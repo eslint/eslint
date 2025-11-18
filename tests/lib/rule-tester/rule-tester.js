@@ -5490,7 +5490,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "Test error must specify either a 'messageId' or 'message'.");
+					}, "All errors must have exactly one of 'message' or 'messageId' property");
 				});
 
 				it("should pass if message is present", () => {
@@ -5594,7 +5594,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "Test error must specify either a 'messageId' or 'message'.");
+					}, "All errors must have a 'message' property");
 				});
 
 				it("should pass if message is present", () => {
@@ -5638,7 +5638,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "The test run requires 'message' but the error uses 'messageId'.");
+					}, "All errors must have a 'message' property");
 				});
 			});
 
@@ -5679,7 +5679,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "Errors must use an object as the 'messageId' property '{ messageId: 'your.message' }' is required.");
+					}, "Invalid cases must have 'errors' value as an array");
 				});
 
 				it("should fail if message and messageId are missing", () => {
@@ -5702,7 +5702,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "Test error must specify either a 'messageId' or 'message'.");
+					}, "All errors must have a 'messageId' property");
 				});
 
 				it("should fail if message is present", () => {
@@ -5725,7 +5725,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "The test run requires 'messageId' but the error uses 'message'.");
+					}, "All errors must have a 'messageId' property");
 				});
 
 				it("should pass if messageId is present", () => {
@@ -5827,7 +5827,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "Errors must use an object as the location properties '{ ..., line: 13, column: 42, ... }' are required.");
+					}, "Invalid cases must have 'errors' value as an array");
 				});
 
 				it("should fail if all location properties are missing", () => {
