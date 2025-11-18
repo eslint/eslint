@@ -900,6 +900,55 @@ const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2015 } });
 If you don't specify any options to the `RuleTester` constructor, then it uses the ESLint defaults (`languageOptions: { ecmaVersion: "latest", sourceType: "module" }`).
 :::
 
+### RuleTester.setDefaultConfig(config)
+
+```js
+const RuleTester = require("eslint").RuleTester;
+
+// Apply a default config for subsequently created RuleTester instances
+RuleTester.setDefaultConfig({
+	languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+});
+
+const ruleTester = new RuleTester(); // picks up defaults above
+```
+
+Sets the default configuration used by `RuleTester` instances created after this call.
+
+This is a static method.
+
+#### Parameters
+
+- `config` (`Config`)<br>
+  A [Configuration object] applied by default to all tests. It is applied before per-instance `RuleTester` constructor options and before per-test configuration. Throws a `TypeError` if `config` is not an object.
+
+### RuleTester.getDefaultConfig()
+
+```js
+const currentDefaultConfig = RuleTester.getDefaultConfig();
+```
+
+Returns the current default configuration used by `RuleTester`.
+
+This is a static method.
+
+#### Return Value
+
+- (`Config`)<br>
+  The current default configuration object.
+
+### RuleTester.resetDefaultConfig()
+
+```js
+RuleTester.resetDefaultConfig();
+```
+
+Resets the default configuration back to ESLint’s built-in defaults for subsequently created `RuleTester` instances.
+
+This is a static method.
+
+### RuleTester#run()
+
 The `RuleTester#run()` method is used to run the tests. It should be passed the following arguments:
 
 - The name of the rule (string).
@@ -989,7 +1038,7 @@ ruleTester.run("my-rule-for-no-foo", rule, {
 });
 ```
 
-A the end of this invalid test case, `RuleTester` expects a fix to be applied that results in the code changing from `var foo;` to `var bar;`. If the output after applying the fix doesn't match, then the test fails.
+At the end of this invalid test case, `RuleTester` expects a fix to be applied that results in the code changing from `var foo;` to `var bar;`. If the output after applying the fix doesn't match, then the test fails.
 
 ::: important
 ESLint makes its best attempt at applying all fixes, but there is no guarantee that all fixes will be applied. As such, you should aim for testing each type of fix in a separate `RuleTester` test case rather than one test case to test multiple fixes. When there is a conflict between two fixes (because they apply to the same section of code) `RuleTester` applies only the first fix.

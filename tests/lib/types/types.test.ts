@@ -1975,6 +1975,15 @@ RuleTester.it = RuleTester.itOnly = function (
 	fn: () => Promise<void>,
 ) {};
 
+RuleTester.setDefaultConfig({});
+RuleTester.setDefaultConfig({
+	languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+});
+// @ts-expect-error // must pass a `Config` object
+RuleTester.setDefaultConfig(null);
+RuleTester.getDefaultConfig() satisfies Linter.Config;
+RuleTester.resetDefaultConfig();
+
 ruleTester.run("simple-valid-test", rule, {
 	valid: ["foo", "bar", { code: "foo", options: [{ allowFoo: true }] }],
 	invalid: [{ code: "bar", errors: ["baz"] }],
