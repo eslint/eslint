@@ -38,6 +38,7 @@ import { Linter } from "./index";
 interface NoRestrictedImportPathCommonOptions {
 	name: string;
 	message?: string;
+	allowTypeImports?: boolean;
 }
 
 type EitherImportNamesOrAllowImportName =
@@ -50,6 +51,7 @@ type ValidNoRestrictedImportPathOptions = NoRestrictedImportPathCommonOptions &
 interface NoRestrictedImportPatternCommonOptions {
 	message?: string;
 	caseSensitive?: boolean;
+	allowTypeImports?: boolean;
 }
 
 // Base type for group or regex constraint, ensuring mutual exclusivity
@@ -83,6 +85,18 @@ type ValidNoRestrictedImportPatternOptions =
 	NoRestrictedImportPatternCommonOptions &
 		EitherGroupOrRegEx &
 		EitherNameSpecifiers;
+
+interface CapitalizedCommentsCommonOptions {
+	ignorePattern?: string;
+	/**
+	 * @default false
+	 */
+	ignoreInlineComments?: boolean;
+	/**
+	 * @default false
+	 */
+	ignoreConsecutiveComments?: boolean;
+}
 
 //-----------------------------------------------------------------------------
 // Public types
@@ -396,17 +410,13 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"capitalized-comments": Linter.RuleEntry<
 		[
 			"always" | "never",
-			Partial<{
-				ignorePattern: string;
-				/**
-				 * @default false
-				 */
-				ignoreInlineComments: boolean;
-				/**
-				 * @default false
-				 */
-				ignoreConsecutiveComments: boolean;
-			}>,
+			(
+				| CapitalizedCommentsCommonOptions
+				| Partial<{
+						line: CapitalizedCommentsCommonOptions;
+						block: CapitalizedCommentsCommonOptions;
+				  }>
+			),
 		]
 	>;
 
@@ -1014,6 +1024,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 */
 				properties: "always" | "never";
 				exceptions: string[];
+				exceptionPatterns: string[];
 			}>,
 		]
 	>;
@@ -1032,6 +1043,10 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default false
 				 */
 				properties: boolean;
+				/**
+				 * @default false
+				 */
+				classFields: boolean;
 				/**
 				 * @default false
 				 */
@@ -1655,7 +1670,21 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 5.0.0-alpha.3
 	 * @see https://eslint.org/docs/latest/rules/max-classes-per-file
 	 */
-	"max-classes-per-file": Linter.RuleEntry<[number]>;
+	"max-classes-per-file": Linter.RuleEntry<
+		[
+			| number
+			| Partial<{
+					/**
+					 * @default false
+					 */
+					ignoreExpressions: boolean;
+					/**
+					 * @default 1
+					 */
+					max: number;
+			  }>,
+		]
+	>;
 
 	/**
 	 * Rule to enforce a maximum depth that blocks can be nested.
@@ -1665,12 +1694,18 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"max-depth": Linter.RuleEntry<
 		[
-			Partial<{
-				/**
-				 * @default 4
-				 */
-				max: number;
-			}>,
+			| number
+			| Partial<{
+					/**
+					 * @deprecated
+					 * @default 4
+					 */
+					maximum: number;
+					/**
+					 * @default 4
+					 */
+					max: number;
+			  }>,
 		]
 	>;
 
@@ -1758,24 +1793,25 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"max-lines-per-function": Linter.RuleEntry<
 		[
-			Partial<{
-				/**
-				 * @default 50
-				 */
-				max: number;
-				/**
-				 * @default false
-				 */
-				skipBlankLines: boolean;
-				/**
-				 * @default false
-				 */
-				skipComments: boolean;
-				/**
-				 * @default false
-				 */
-				IIFEs: boolean;
-			}>,
+			| number
+			| Partial<{
+					/**
+					 * @default 50
+					 */
+					max: number;
+					/**
+					 * @default false
+					 */
+					skipBlankLines: boolean;
+					/**
+					 * @default false
+					 */
+					skipComments: boolean;
+					/**
+					 * @default false
+					 */
+					IIFEs: boolean;
+			  }>,
 		]
 	>;
 
@@ -1787,13 +1823,18 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"max-nested-callbacks": Linter.RuleEntry<
 		[
+			| number
 			| Partial<{
+					/**
+					 * @deprecated
+					 * @default 10
+					 */
+					maximum: number;
 					/**
 					 * @default 10
 					 */
 					max: number;
-			  }>
-			| number,
+			  }>,
 		]
 	>;
 
@@ -1805,7 +1846,13 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"max-params": Linter.RuleEntry<
 		[
+			| number
 			| Partial<{
+					/**
+					 * @deprecated
+					 * @default 3
+					 */
+					maximum: number;
 					/**
 					 * @default 3
 					 */
@@ -1814,8 +1861,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 					 * @default false
 					 */
 					countVoidThis: boolean;
-			  }>
-			| number,
+			  }>,
 		]
 	>;
 
@@ -1827,17 +1873,26 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"max-statements": Linter.RuleEntry<
 		[
-			| Partial<{
-					/**
-					 * @default 10
-					 */
-					max: number;
-					/**
-					 * @default false
-					 */
-					ignoreTopLevelFunctions: boolean;
-			  }>
-			| number,
+			(
+				| number
+				| Partial<{
+						/**
+						 * @deprecated
+						 * @default 10
+						 */
+						maximum: number;
+						/**
+						 * @default 10
+						 */
+						max: number;
+				  }>
+			),
+			Partial<{
+				/**
+				 * @default false
+				 */
+				ignoreTopLevelFunctions: boolean;
+			}>,
 		]
 	>;
 
@@ -2014,7 +2069,24 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"no-bitwise": Linter.RuleEntry<
 		[
 			Partial<{
-				allow: string[];
+				/**
+				 * @default []
+				 */
+				allow: Array<
+					| "^"
+					| "|"
+					| "&"
+					| "<<"
+					| ">>"
+					| ">>>"
+					| "^="
+					| "|="
+					| "&="
+					| "<<="
+					| ">>="
+					| ">>>="
+					| "~"
+				>;
 				/**
 				 * @default false
 				 */
@@ -2166,9 +2238,9 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			{
 				/**
-				 * @default true
+				 * @default "allExceptWhileTrue"
 				 */
-				checkLoops: boolean;
+				checkLoops: "all" | "allExceptWhileTrue" | "none" | boolean;
 			},
 		]
 	>;
@@ -2395,7 +2467,16 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 1.7.0
 	 * @see https://eslint.org/docs/latest/rules/no-empty-pattern
 	 */
-	"no-empty-pattern": Linter.RuleEntry<[]>;
+	"no-empty-pattern": Linter.RuleEntry<
+		[
+			Partial<{
+				/**
+				 * @default false
+				 */
+				allowObjectPatternsAsParameters: boolean;
+			}>,
+		]
+	>;
 
 	/**
 	 * Rule to disallow empty static blocks.
@@ -2668,7 +2749,16 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 2.0.0-alpha-1
 	 * @see https://eslint.org/docs/latest/rules/no-implicit-globals
 	 */
-	"no-implicit-globals": Linter.RuleEntry<[]>;
+	"no-implicit-globals": Linter.RuleEntry<
+		[
+			Partial<{
+				/**
+				 * @default false
+				 */
+				lexicalBindings: boolean;
+			}>,
+		]
+	>;
 
 	/**
 	 * Rule to disallow the use of `eval()`-like methods.
@@ -2695,7 +2785,13 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.10.0
 	 * @see https://eslint.org/docs/latest/rules/no-inline-comments
 	 */
-	"no-inline-comments": Linter.RuleEntry<[]>;
+	"no-inline-comments": Linter.RuleEntry<
+		[
+			Partial<{
+				ignorePattern: string;
+			}>,
+		]
+	>;
 
 	/**
 	 * Rule to disallow variable or `function` declarations in nested blocks.
@@ -2703,7 +2799,17 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.6.0
 	 * @see https://eslint.org/docs/latest/rules/no-inner-declarations
 	 */
-	"no-inner-declarations": Linter.RuleEntry<["functions" | "both"]>;
+	"no-inner-declarations": Linter.RuleEntry<
+		[
+			"functions" | "both",
+			Partial<{
+				/**
+				 * @default "allow"
+				 */
+				blockScopedFunctions: "allow" | "disallow";
+			}>,
+		]
+	>;
 
 	/**
 	 * Rule to disallow invalid regular expression strings in `RegExp` constructors.
@@ -2767,6 +2873,10 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default false
 				 */
 				skipTemplates: boolean;
+				/**
+				 * @default false
+				 */
+				skipJSXText: boolean;
 			}>,
 		]
 	>;
@@ -2855,11 +2965,19 @@ export interface ESLintRules extends Linter.RulesRecord {
 				/**
 				 * @default []
 				 */
-				ignore: number[];
+				ignore: Array<number | string>;
 				/**
 				 * @default false
 				 */
 				ignoreArrayIndexes: boolean;
+				/**
+				 * @default false
+				 */
+				ignoreDefaultValues: boolean;
+				/**
+				 * @default false
+				 */
+				ignoreClassFieldInitialValues: boolean;
 				/**
 				 * @default false
 				 */
@@ -2981,7 +3099,16 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 3.14.0
 	 * @see https://eslint.org/docs/latest/rules/no-multi-assign
 	 */
-	"no-multi-assign": Linter.RuleEntry<[]>;
+	"no-multi-assign": Linter.RuleEntry<
+		[
+			Partial<{
+				/**
+				 * @default false
+				 */
+				ignoreNonDeclaration: boolean;
+			}>,
+		]
+	>;
 
 	/**
 	 * Rule to disallow multiple spaces.
@@ -3555,7 +3682,16 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 2.0.0-rc.0
 	 * @see https://eslint.org/docs/latest/rules/no-self-assign
 	 */
-	"no-self-assign": Linter.RuleEntry<[]>;
+	"no-self-assign": Linter.RuleEntry<
+		[
+			Partial<{
+				/**
+				 * @default true
+				 */
+				props: boolean;
+			}>,
+		]
+	>;
 
 	/**
 	 * Rule to disallow comparisons where both sides are exactly the same.
@@ -3647,7 +3783,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			Partial<{
 				/**
-				 * @default false
+				 * @default true
 				 */
 				reportGlobalThis: boolean;
 			}>,
@@ -3777,6 +3913,9 @@ export interface ESLintRules extends Linter.RulesRecord {
 
 	/**
 	 * Rule to disallow `let` or `var` variables that are read but never assigned.
+	 *
+	 * @remarks
+	 * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
 	 *
 	 * @since 9.27.0
 	 * @see https://eslint.org/docs/latest/rules/no-unassigned-vars
@@ -3929,12 +4068,13 @@ export interface ESLintRules extends Linter.RulesRecord {
 				/**
 				 * @default []
 				 */
-				ignore:
+				ignore: Array<
 					| "WhileStatement"
 					| "DoWhileStatement"
 					| "ForStatement"
 					| "ForInStatement"
-					| "ForOfStatement";
+					| "ForOfStatement"
+				>;
 			}>,
 		]
 	>;
@@ -4142,6 +4282,9 @@ export interface ESLintRules extends Linter.RulesRecord {
 	/**
 	 * Rule to disallow variable assignments when the value is not used.
 	 *
+	 * @remarks
+	 * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
+	 *
 	 * @since 9.0.0-alpha.1
 	 * @see https://eslint.org/docs/latest/rules/no-useless-assignment
 	 */
@@ -4293,7 +4436,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"no-warning-comments": Linter.RuleEntry<
 		[
-			{
+			Partial<{
 				/**
 				 * @default ["todo", "fixme", "xxx"]
 				 */
@@ -4302,7 +4445,8 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default 'start'
 				 */
 				location: "start" | "anywhere";
-			},
+				decoration: string[];
+			}>,
 		]
 	>;
 
@@ -4806,6 +4950,9 @@ export interface ESLintRules extends Linter.RulesRecord {
 	/**
 	 * Rule to disallow losing originally caught error when re-throwing custom errors.
 	 *
+	 * @remarks
+	 * Recommended by ESLint, the rule was enabled in `eslint:recommended`.
+	 *
 	 * @since 9.35.0
 	 * @see https://eslint.org/docs/latest/rules/preserve-caught-error
 	 */
@@ -4888,7 +5035,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	>;
 
 	/**
-	 * Rule to enforce the consistent use of the radix argument when using `parseInt()`.
+	 * Rule to enforce the use of the radix argument when using `parseInt()`.
 	 *
 	 * @since 0.0.7
 	 * @see https://eslint.org/docs/latest/rules/radix
@@ -5342,7 +5489,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 */
 				enforceForSwitchCase: boolean;
 				/**
-				 * @default true
+				 * @default false
 				 */
 				enforceForIndexOf: boolean;
 			}>,

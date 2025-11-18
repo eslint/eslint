@@ -29,7 +29,6 @@ function analyzeScope(ast) {
     const options = {
         optimistic: false,
         directive: false,
-        nodejsScope: false,
         impliedStrict: false,
         sourceType: "script",
         ecmaVersion: 6,

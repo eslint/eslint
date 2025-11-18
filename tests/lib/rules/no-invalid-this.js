@@ -77,7 +77,7 @@ function extractPatterns(patterns, type) {
 			applyCondition(thisPattern);
 
 			if (type === "valid") {
-				thisPattern.errors = [];
+				thisPattern.errors = void 0;
 			} else {
 				thisPattern.code += " /* should error */";
 			}

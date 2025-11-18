@@ -65,7 +65,7 @@ The source file for a rule exports an object with the following properties. Both
 
 - `defaultOptions`: (`array`) Specifies [default options](#option-defaults) for the rule. If present, any user-provided options in their config will be merged on top of them recursively.
 
-- `deprecated`: (`boolean | DeprecatedInfo`) Indicates whether the rule has been deprecated. You may omit the `deprecated` property if the rule has not been deprecated.  
+- `deprecated`: (`boolean | DeprecatedInfo`) Indicates whether the rule has been deprecated. You may omit the `deprecated` property if the rule has not been deprecated.
   There is a dedicated page for the [DeprecatedInfo](./rule-deprecation)
 
 - `replacedBy`: (`array`, **Deprecated** Use `meta.deprecated.replacedBy` instead.) In the case of a deprecated rule, specify replacement rule(s).
@@ -144,15 +144,9 @@ The `context` object has the following properties:
     - `parser`: (`object`): The parser used to parse the current file.
     - `parserOptions`: (`object`) The parser options configured for this file.
     - `globals`: (`object`) The specified globals.
-- `parserPath`: (`string`, **Removed** Use `context.languageOptions.parser` instead.) The name of the `parser` from the configuration.
-- `parserOptions`: (**Deprecated** Use `context.languageOptions.parserOptions` instead.) The parser options configured for this run (more details [here](../use/configure/language-options#specifying-parser-options)).
 
 Additionally, the `context` object has the following methods:
 
-- `getCwd()`: (**Deprecated:** Use `context.cwd` instead.) Returns the `cwd` option passed to the [Linter](../integrate/nodejs-api#linter). It is a path to a directory that should be considered the current working directory.
-- `getFilename()`: (**Deprecated:** Use `context.filename` instead.) Returns the filename associated with the source.
-- `getPhysicalFilename()`: (**Deprecated:** Use `context.physicalFilename` instead.) When linting a file, it returns the full path of the file on disk without any code block information. When linting text, it returns the value passed to `—stdin-filename` or `<text>` if not specified.
-- `getSourceCode()`: (**Deprecated:** Use `context.sourceCode` instead.) Returns a `SourceCode` object that you can use to work with the source that was passed to ESLint (see [Accessing the Source Code](#accessing-the-source-code)).
 - `report(descriptor)`. Reports a problem in the code (see the [dedicated section](#reporting-problems)).
 
 **Note:** Earlier versions of ESLint supported additional methods on the `context` object. Those methods were removed in the new format and should not be relied upon.
@@ -533,8 +527,6 @@ module.exports = {
 };
 ```
 
-**Deprecated:** The `context.getSourceCode()` method is deprecated; make sure to use `context.sourceCode` property instead.
-
 Once you have an instance of `SourceCode`, you can use the following methods on it to work with the code:
 
 - `getText(node)`: Returns the source code for the given node. Omit `node` to get the whole source (see the [dedicated section](#accessing-the-source-text)).
@@ -872,26 +864,28 @@ You can view scope information for any JavaScript code using [Code Explorer](htt
 
 The following table contains a list of AST node types and the scope type that they correspond to. For more information about the scope types, refer to the [`Scope` object documentation](./scope-manager-interface#scope-interface).
 
-| AST Node Type             | Scope Type |
-| :------------------------ | :--------- |
-| `Program`                 | `global`   |
-| `FunctionDeclaration`     | `function` |
-| `FunctionExpression`      | `function` |
-| `ArrowFunctionExpression` | `function` |
-| `ClassDeclaration`        | `class`    |
-| `ClassExpression`         | `class`    |
-| `BlockStatement` ※1       | `block`    |
-| `SwitchStatement` ※1      | `switch`   |
-| `ForStatement` ※2         | `for`      |
-| `ForInStatement` ※2       | `for`      |
-| `ForOfStatement` ※2       | `for`      |
-| `WithStatement`           | `with`     |
-| `CatchClause`             | `catch`    |
-| others                    | ※3         |
+| AST Node Type             | Scope Type           |
+| :------------------------ | :------------------- |
+| `Program`                 | `global`             |
+| `FunctionDeclaration`     | `function`           |
+| `FunctionExpression`      | `function`           |
+| `ArrowFunctionExpression` | `function`           |
+| `ClassDeclaration`        | `class`              |
+| `ClassExpression`         | `class`              |
+| `StaticBlock`             | `class-static-block` |
+| `BlockStatement` ※1       | `block`              |
+| `SwitchStatement` ※1      | `switch`             |
+| `ForStatement` ※2         | `for`                |
+| `ForInStatement` ※2       | `for`                |
+| `ForOfStatement` ※2       | `for`                |
+| `WithStatement`           | `with`               |
+| `CatchClause`             | `catch`              |
+| others                    | ※3 ※4                |
 
-**※1** Only if the configured parser provided the block-scope feature. The default parser provides the block-scope feature if `parserOptions.ecmaVersion` is not less than `6`.<br>
+**※1** Only if the configured parser provided the block-scope feature. The default parser provides the block-scope feature if `languageOptions.ecmaVersion` is not less than `6`.<br>
 **※2** Only if the `for` statement defines the iteration variable as a block-scoped variable (E.g., `for (let i = 0;;) {}`).<br>
-**※3** The scope of the closest ancestor node which has own scope. If the closest ancestor node has multiple scopes then it chooses the innermost scope (E.g., the `Program` node has a `global` scope and a `module` scope if `Program#sourceType` is `"module"`. The innermost scope is the `module` scope.).
+**※3** The scope of the closest ancestor node which has own scope. If the closest ancestor node has multiple scopes then it chooses the innermost scope (E.g., the `Program` node has a `global` scope and a `module` scope if `Program#sourceType` is `"module"`. The innermost scope is the `module` scope.).<br>
+**※4** Each `PropertyDefinition#value` node (it can be any expression node type), has a `class-field-initializer` scope. For example, in `class C { field = 1 }`, the `Literal` node that represents `1` has a `class-field-initializer` scope. If the node has other scopes, the `class-field-initializer` scope will be the outermost one. For example, in `class C { field = () => {} }`, the `ArrowFunctionExpression` node has two scopes: `class-field-initializer` and `function`.
 
 #### Scope Variables
 
