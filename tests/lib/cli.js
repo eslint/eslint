@@ -16,8 +16,7 @@ const assert = require("chai").assert,
 	sinon = require("sinon"),
 	fs = require("node:fs"),
 	os = require("node:os"),
-	sh = require("shelljs"),
-	{ WarningService } = require("../../lib/services/warning-service");
+	sh = require("shelljs");
 
 const proxyquire = require("proxyquire").noCallThru();
 
@@ -101,11 +100,6 @@ describe("cli", () => {
 			fixtureDir = `${os.tmpdir()}/eslint/fixtures`;
 			sh.mkdir("-p", fixtureDir);
 			sh.cp("-r", "./tests/fixtures/.", fixtureDir);
-		});
-
-		beforeEach(() => {
-			// Silence ".eslintignore" warnings for tests
-			sinon.stub(WarningService.prototype, "emitESLintIgnoreWarning");
 		});
 
 		afterEach(() => {
