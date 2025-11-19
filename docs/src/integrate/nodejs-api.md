@@ -943,7 +943,7 @@ This is a static method.
 RuleTester.resetDefaultConfig();
 ```
 
-Resets the default configuration back to ESLint’s built-in defaults for subsequently created `RuleTester` instances.
+Resets the default configuration back to ESLint's built-in defaults for subsequently created `RuleTester` instances.
 
 This is a static method.
 
