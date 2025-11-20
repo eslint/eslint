@@ -731,6 +731,57 @@ describe("RuleTester", () => {
 		});
 	});
 
+	describe("assert valid test cases", () => {
+		/**
+		 * Runs valid tests
+		 * @param {Array<string|object>} valid Valid tests
+		 * @returns {void}
+		 */
+		function runValidTests(valid) {
+			ruleTester.run(
+				"no-eval",
+				require("../../fixtures/testers/rule-tester/no-eval"),
+				{ valid, invalid: [] },
+			);
+		}
+
+		it("Valid test case must not have 'errors' property", () => {
+			assert.throws(() => {
+				runValidTests([{ code: "", errors: 1 }]);
+			}, /Valid test case must not have 'errors' property/u);
+
+			assert.throws(() => {
+				runValidTests([{ code: "", errors: [{ message: "foo" }] }]);
+			}, /Valid test case must not have 'errors' property/u);
+
+			assert.throws(() => {
+				runValidTests([{ code: "", errors: 0 }]);
+			}, /Valid test case must not have 'errors' property/u);
+
+			assert.throws(() => {
+				runValidTests([{ code: "", errors: [] }]);
+			}, /Valid test case must not have 'errors' property/u);
+		});
+
+		it("Valid test case can have 'errors' property set to undefined", () => {
+			runValidTests([{ code: "", errors: void 0 }]);
+		});
+
+		it("Valid test case must not have 'output' property", () => {
+			assert.throws(() => {
+				runValidTests([{ code: "", output: "" }]);
+			}, /Valid test case must not have 'output' property/u);
+
+			assert.throws(() => {
+				runValidTests([{ code: "", output: null }]);
+			}, /Valid test case must not have 'output' property/u);
+		});
+
+		it("Valid test case can have 'output' property set to undefined", () => {
+			runValidTests([{ code: "", output: void 0 }]);
+		});
+	});
+
 	it("should not throw an error when everything passes", () => {
 		ruleTester.run(
 			"no-eval",

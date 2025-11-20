@@ -146,15 +146,9 @@ sourceCode.getLines();
 
 sourceCode.getAllComments();
 
-sourceCode.getJSDocComment(AST); // $ExpectType Comment | null
-
 sourceCode.getNodeByRangeIndex(0);
 
 sourceCode.getNodeByRangeIndex(0);
-
-sourceCode.isSpaceBetweenTokens(TOKEN, TOKEN);
-sourceCode.isSpaceBetweenTokens(AST, TOKEN);
-sourceCode.isSpaceBetweenTokens(TOKEN, AST);
 
 sourceCode.isSpaceBetween(TOKEN, TOKEN);
 sourceCode.isSpaceBetween(AST, TOKEN);
@@ -333,16 +327,6 @@ sourceCode.getTokensAfter(AST, {
 });
 sourceCode.getTokensAfter(TOKEN, 0);
 sourceCode.getTokensAfter(COMMENT, 0);
-
-sourceCode.getTokenOrCommentBefore(AST);
-sourceCode.getTokenOrCommentBefore(AST, 0);
-sourceCode.getTokenOrCommentBefore(TOKEN, 0);
-sourceCode.getTokenOrCommentBefore(COMMENT, 0);
-
-sourceCode.getTokenOrCommentAfter(AST);
-sourceCode.getTokenOrCommentAfter(AST, 0);
-sourceCode.getTokenOrCommentAfter(TOKEN, 0);
-sourceCode.getTokenOrCommentAfter(COMMENT, 0);
 
 sourceCode.getFirstTokenBetween(AST, AST); // $ExpectType Token | null
 sourceCode.getFirstTokenBetween(AST, AST, 0);
@@ -716,16 +700,8 @@ rule = {
 rule = {
 	create(context: Rule.RuleContext) {
 		context.filename;
-
-		context.getFilename();
-
 		context.physicalFilename;
-
-		context.getPhysicalFilename();
-
 		context.cwd;
-
-		context.getCwd();
 
 		context.languageOptions;
 		context.languageOptions
@@ -736,14 +712,7 @@ rule = {
 		context.sourceCode;
 		context.sourceCode.getLocFromIndex(42);
 
-		context.getSourceCode();
-		context.getSourceCode().getLocFromIndex(42);
-
-		if (typeof context.parserPath === "string") {
-			context.parserPath;
-		} else {
-			context.languageOptions?.parser;
-		}
+		context.languageOptions?.parser;
 
 		// @ts-expect-error wrong `node` type
 		context.report({ message: "foo", node: {} });

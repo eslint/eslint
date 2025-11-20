@@ -164,17 +164,14 @@ ruleTester.run("no-undef", rule, {
 		{
 			code: "let a; class C { static {} } a;",
 			languageOptions: { ecmaVersion: 2022 },
-			errors: [{ messageId: "undef", data: { name: "a" } }],
 		},
 		{
 			code: "var a; class C { static {} } a;",
 			languageOptions: { ecmaVersion: 2022 },
-			errors: [{ messageId: "undef", data: { name: "a" } }],
 		},
 		{
 			code: "a; class C { static {} } var a;",
 			languageOptions: { ecmaVersion: 2022 },
-			errors: [{ messageId: "undef", data: { name: "a" } }],
 		},
 		{
 			code: "class C { static { C; } }",

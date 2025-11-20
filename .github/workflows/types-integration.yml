@@ -203,7 +203,7 @@ jobs:
 
             - name: Install Packages
               working-directory: ${{ matrix.package.directory }}
-              run: npm install
+              run: npm install --legacy-peer-deps
 
             - name: Check validity of type definitions
               working-directory: ${{ matrix.package.directory }}
