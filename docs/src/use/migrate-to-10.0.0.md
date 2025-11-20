@@ -26,6 +26,7 @@ The lists below are ordered roughly by the number of users each change is expect
 - [`no-shadow-restricted-names` now reports `globalThis` by default](#no-shadow-restricted-names)
 - [`func-names` schema is stricter](#func-names)
 - [`allowConstructorFlags` option of `no-invalid-regexp` now accepts only unique items](#no-invalid-regexp)
+- [`name` property added to ESLint core configs](#eslint-config-name)
 
 ### Breaking changes for plugin developers
 
@@ -204,6 +205,16 @@ For example, this configuration is now invalid due to the duplicate `"u"` flag:
 **To address:** Remove any duplicate flags from your `allowConstructorFlags` array configuration of `no-invalid-regexp` rule. Each flag should appear only once in the array.
 
 **Related issue(s):** [#18755](https://github.com/eslint/eslint/issues/18755)
+
+## <a name="eslint-config-name"></a> `name` property added to ESLint core configs
+
+In ESLint v10.0.0, the `name` property has been restored to the ESLint core configs exported from `@eslint/js`. This property was previously removed due to incompatibility with the legacy eslintrc configuration system. Now that eslintrc is no longer supported, the `name` property has been added back.
+
+This change should not require any action for most users. However, if you are using `@eslint/js` v10.x with the `FlatCompat` utility from `@eslint/eslintrc`, you should upgrade `@eslint/eslintrc` to the latest version to ensure compatibility.
+
+**To address:** Upgrade `@eslint/eslintrc` to the latest version if you are using `FlatCompat`.
+
+**Related issue(s):** [#19684](https://github.com/eslint/eslint/issues/19684)
 
 ## <a name="ruletester-type-removed"></a> Removal of `type` property in errors of invalid `RuleTester` cases
 
