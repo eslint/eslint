@@ -10,6 +10,7 @@ permissions:
 
 jobs:
     webpack_plugin:
+        if: false # Temporarily disabled until @typescript-eslint/parser is updated
         name: Types (eslint-webpack-plugin)
         runs-on: ubuntu-latest
         steps:
@@ -202,7 +203,7 @@ jobs:
 
             - name: Install Packages
               working-directory: ${{ matrix.package.directory }}
-              run: npm install
+              run: npm install --legacy-peer-deps
 
             - name: Check validity of type definitions
               working-directory: ${{ matrix.package.directory }}

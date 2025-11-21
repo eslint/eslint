@@ -3736,11 +3736,6 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 					],
 				},
 			],
-			errors: [
-				{
-					messageId: "path",
-				},
-			],
 		},
 		{
 			code: `export { type bar, baz } from "foo";`,

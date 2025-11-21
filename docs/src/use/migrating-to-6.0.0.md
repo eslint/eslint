@@ -98,7 +98,7 @@ As a rule of thumb: With ESLint v6, plugins should always be installed locally, 
 
 **To address:** If you use a global installation of ESLint (e.g. installed with `npm install eslint --global`) along with plugins, you should install those plugins locally in the projects where you run ESLint. If your config file extends shareable configs and/or parsers, you should ensure that those packages are installed as dependencies of the project containing the config file.
 
-If you use a config file located outside of a local project (with the `--config` flag), consider installing the plugins as dependencies of that config file, and setting the [`--resolve-plugins-relative-to`](./command-line-interface#--resolve-plugins-relative-to) flag to the location of the config file.
+If you use a config file located outside of a local project (with the `--config` flag), consider installing the plugins as dependencies of that config file, and setting the `--resolve-plugins-relative-to` flag to the location of the config file.
 
 **Related issue(s):** [eslint/eslint#10125](https://github.com/eslint/eslint/issues/10125), [eslint/rfcs#7](https://github.com/eslint/rfcs/pull/7)
 

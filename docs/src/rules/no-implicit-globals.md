@@ -77,7 +77,7 @@ window.bar = function() {};
 
 :::
 
-Examples of **correct** code for this rule with `"parserOptions": { "sourceType": "module" }` in the ESLint configuration:
+Examples of **correct** code for this rule with `"languageOptions": { "sourceType": "module" }` in the ESLint configuration:
 
 ::: correct { "sourceType": "module" }
 

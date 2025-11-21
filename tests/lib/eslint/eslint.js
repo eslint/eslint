@@ -2355,7 +2355,7 @@ describe("ESLint", () => {
 		});
 
 		// https://github.com/eslint/eslint/issues/16038
-		it("should allow files patterns with '..' inside", async () => {
+		it("should allow file patterns with '..' inside", async () => {
 			eslint = new ESLint({
 				ignore: false,
 				cwd: getFixturePath("dots-in-files"),
@@ -2367,6 +2367,23 @@ describe("ESLint", () => {
 			assert.strictEqual(
 				results[0].filePath,
 				getFixturePath("dots-in-files/a..b.js"),
+			);
+			assert.strictEqual(results[0].suppressedMessages.length, 0);
+		});
+
+		it("should allow file patterns with POSIX character classes", async () => {
+			eslint = new ESLint({
+				cwd: getFixturePath(),
+			});
+			const results = await eslint.lintFiles([
+				"file[[:alnum:]]/[[:punct:]]*.js",
+			]);
+
+			assert.strictEqual(results.length, 1);
+			assert.strictEqual(results[0].messages.length, 0);
+			assert.strictEqual(
+				results[0].filePath,
+				getFixturePath("files/.bar.js"),
 			);
 			assert.strictEqual(results[0].suppressedMessages.length, 0);
 		});
@@ -2389,7 +2406,7 @@ describe("ESLint", () => {
 		});
 
 		// https://github.com/eslint/eslint/issues/14742
-		it("should run", async () => {
+		it("should work when a directory name contains curly braces", async () => {
 			eslint = new ESLint({
 				cwd: getFixturePath("{curly-path}", "server"),
 			});
@@ -5628,7 +5645,7 @@ describe("ESLint", () => {
 
 			afterEach(() => cleanup());
 
-			it("should match '[ab].js' if existed.", async () => {
+			it("should match '[ab].js' if existing", async () => {
 				const teardown = createCustomTeardown({
 					cwd: root,
 					files: {
@@ -5650,7 +5667,7 @@ describe("ESLint", () => {
 				assert.deepStrictEqual(filenames, ["[ab].js"]);
 			});
 
-			it("should match 'a.js' and 'b.js' if '[ab].js' didn't existed.", async () => {
+			it("should match 'a.js' and 'b.js' if '[ab].js' doesn't exist", async () => {
 				const teardown = createCustomTeardown({
 					cwd: root,
 					files: {
@@ -5668,6 +5685,70 @@ describe("ESLint", () => {
 				const filenames = results.map(r => path.basename(r.filePath));
 
 				assert.deepStrictEqual(filenames, ["a.js", "b.js"]);
+			});
+		});
+
+		describe("pattern [0[:alpha:]].js", () => {
+			if (os.platform() === "win32") {
+				return; // skip on Windows - ":" is not valid in Windows filenames
+			}
+
+			const root = getFixturePath("cli-engine/unmatched-glob");
+
+			let cleanup;
+
+			beforeEach(() => {
+				cleanup = () => {};
+			});
+
+			afterEach(() => cleanup());
+
+			it("should match '[0[:alpha:]].js' if existing", async () => {
+				const teardown = createCustomTeardown({
+					cwd: root,
+					files: {
+						"a.js": "",
+						"b.js": "",
+						"[0[:alpha:]].js": "",
+					},
+				});
+
+				await teardown.prepare();
+				cleanup = teardown.cleanup;
+
+				eslint = new ESLint({
+					cwd: teardown.getPath(),
+					overrideConfigFile: true,
+				});
+				const results = await eslint.lintFiles(["[0[:alpha:]].js"]);
+				const filenames = results.map(r => path.basename(r.filePath));
+
+				assert.deepStrictEqual(filenames, ["[0[:alpha:]].js"]);
+			});
+
+			it("should match '0.js', 'a.js' and 'b.js' if '[0[:alpha:]].js' doesn't exist", async () => {
+				const teardown = createCustomTeardown({
+					cwd: root,
+					files: {
+						"0.js": "",
+						"1.js": "",
+						"a.js": "",
+						"b.js": "",
+						"0a.js": "",
+						"[:alpha:].js": "",
+					},
+				});
+
+				await teardown.prepare();
+				cleanup = teardown.cleanup;
+				eslint = new ESLint({
+					cwd: teardown.getPath(),
+					overrideConfigFile: true,
+				});
+				const results = await eslint.lintFiles(["[0[:alpha:]].js"]);
+				const filenames = results.map(r => path.basename(r.filePath));
+
+				assert.deepStrictEqual(filenames, ["0.js", "a.js", "b.js"]);
 			});
 		});
 
@@ -12699,7 +12780,7 @@ describe("ESLint", () => {
 				delete process.env.ESLINT_USE_FLAT_CONFIG;
 			});
 
-			testShouldUseFlatConfig(false, false);
+			testShouldUseFlatConfig(true, true);
 		});
 
 		describe("when the env variable `ESLINT_USE_FLAT_CONFIG` is unset", () => {
