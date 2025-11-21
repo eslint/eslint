@@ -214,7 +214,7 @@ This change should not require any action for most users. However, if you are us
 
 **To address:** Upgrade `@eslint/eslintrc` to the latest version if you are using `FlatCompat`.
 
-**Related issue(s):** [#19684](https://github.com/eslint/eslint/issues/19684)
+**Related issue(s):** [#19864](https://github.com/eslint/eslint/issues/19864)
 
 ## <a name="ruletester-type-removed"></a> Removal of `type` property in errors of invalid `RuleTester` cases
 
