@@ -78,6 +78,10 @@ tag `hello`
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## When Not To Use It
 
 You can turn this rule off if you are confident that you will not accidentally introduce code like this.

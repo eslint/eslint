@@ -59,3 +59,7 @@ function foo(n) {
 ```
 
 :::
+
+## Options
+
+This rule has no options.
