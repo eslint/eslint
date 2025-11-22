@@ -911,7 +911,7 @@ The `RuleTester#run()` method is used to run the tests. It should be passed the 
 - The name of the rule (string).
 - The rule object itself (see ["working with rules"](../extend/custom-rules)).
 - An object containing `valid` and `invalid` properties, each of which is an array containing test cases.
-    - You can also configure optional `assertionOptions` to configure additional assertions for the "error" matchers of invalid test cases to enforce consistency.
+    - In this object, you can also pass `assertionOptions` property to configure requirements for assertions of `invalid` test cases to enforce consistency.
 
 A test case is an object with the following properties:
 
@@ -951,10 +951,13 @@ Any additional properties of a test case will be passed directly to the linter a
 
 If a valid test case only uses the `code` property, it can optionally be provided as a string containing the code, rather than an object with a `code` key.
 
-You can optionally configure the following `assertionOptions`, these apply to all error assertions in that call:
+You can optionally configure the following `assertionOptions` that apply to all error assertions in that call:
 
-- `requireMessage` (boolean/"message"/"messageId", optional): If true, each `errors` block must check the expected error message, either via a string in the `errors` array, or via `message`/`messageId` in an errors object. `"message"`/`"messageId"` can be used to further limit the message assertions to the respective versions.
-- `requireLocation` (boolean, optional): If true, each `errors` block must be an array of objects, that each check all location properties `line`, `column`, `endLine`, `endColumn`, the later may be omitted, if the error does not contain them.
+- `requireMessage` (boolean/`"message"`/`"messageId"`, optional):
+    - If `true`, each `errors` block must check the expected error messages, either via string/regexp values in the `errors` array, or via `message`/`messageId` in error objects.
+    - If `"message"`, each `errors` block must check the expected error messages, either via string/regexp values in the `errors` array, or via `message` in error objects.
+    - If `"messageId"`, each `errors` block must check the expected error messages via `messageId` in error objects.
+- `requireLocation` (boolean, optional): If `true`, each `errors` block must be an array of objects, and each object must contain location properties `line`, `column`, `endLine`, and `endColumn`. Properties `endLine` and `endColumn` may be omitted if the actual error does not contain them.
 
 ### Testing Errors with `messageId`
 
