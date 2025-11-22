@@ -51,6 +51,10 @@ const x = function (a, b) {
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## When Not To Use It
 
 In more advanced cases where you really need to use the `Function` constructor.

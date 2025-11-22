@@ -48,3 +48,7 @@ if (Object.is(x, -0)) {
 ```
 
 :::
+
+## Options
+
+This rule has no options.
