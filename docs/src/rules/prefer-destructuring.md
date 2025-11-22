@@ -12,6 +12,8 @@ With JavaScript ES6, a new syntax was added for creating variables from an array
 
 ## Rule Details
 
+This rule enforces the use of ES6 destructuring to extract values from arrays and objects in variable declarations and assignment expressions, instead of direct property or index access.
+
 ## Options
 
 This rule takes two arguments, both of which are objects. The first object parameter determines what types of destructuring the rule applies to.

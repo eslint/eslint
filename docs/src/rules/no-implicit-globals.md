@@ -135,6 +135,29 @@ var Object;
 
 :::
 
+### exported
+
+You can use `/* exported variableName */` block comments in the same way as in [`no-unused-vars`](./no-unused-vars). See the [`no-unused-vars` exported section](./no-unused-vars#exported) for details.
+
+Examples of **correct** code for `/* exported variableName */` operation:
+
+::: correct { "sourceType": "script" }
+
+```js
+/* eslint no-implicit-globals: error */
+/* exported global_var */
+
+var global_var = 42;
+```
+
+:::
+
+## Options
+
+This rule has an object option with one option:
+
+* Set `"lexicalBindings"` to `true` if you want this rule to check `const`, `let` and `class` declarations as well.
+
 ### `const`, `let` and `class` declarations
 
 Lexical declarations `const` and `let`, as well as `class` declarations, create variables that are block-scoped.
@@ -247,29 +270,6 @@ window.MyGlobalFunction = (function() {
 ```
 
 :::
-
-### exported
-
-You can use `/* exported variableName */` block comments in the same way as in [`no-unused-vars`](./no-unused-vars). See the [`no-unused-vars` exported section](./no-unused-vars#exported) for details.
-
-Examples of **correct** code for `/* exported variableName */` operation:
-
-::: correct { "sourceType": "script" }
-
-```js
-/* eslint no-implicit-globals: error */
-/* exported global_var */
-
-var global_var = 42;
-```
-
-:::
-
-## Options
-
-This rule has an object option with one option:
-
-* Set `"lexicalBindings"` to `true` if you want this rule to check `const`, `let` and `class` declarations as well.
 
 ## When Not To Use It
 
