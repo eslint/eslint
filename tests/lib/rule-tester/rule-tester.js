@@ -941,7 +941,7 @@ describe("RuleTester", () => {
 					invalid: [{ code: "var foo = bar;", errors: [42] }],
 				},
 			);
-		}, /Error should be a string, object, or RegExp/u);
+		}, "Error[0] must be a string, RegExp, or an object.");
 	});
 
 	it("should throw an error when any of the errors is not a supported type", () => {
@@ -965,7 +965,7 @@ describe("RuleTester", () => {
 					],
 				},
 			);
-		}, /Error should be a string, object, or RegExp/u);
+		}, "Error[1] must be a string, RegExp, or an object.");
 	});
 
 	it("should throw an error when the error is a string and it does not match error message", () => {
@@ -2811,8 +2811,9 @@ describe("RuleTester", () => {
 					],
 				},
 			);
-		}, "Error should not specify both 'message' and a 'messageId'.");
+		}, "Error[0] should not specify both 'message' and a 'messageId'.");
 	});
+
 	it("should throw if user tests for messageId but the rule doesn't use the messageId meta syntax.", () => {
 		assert.throws(() => {
 			ruleTester.run(
@@ -5490,7 +5491,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "All errors must have exactly one of 'message' or 'messageId' property");
+					}, "Error[0] should have either 'message' or 'messageId' property");
 				});
 
 				it("should pass if message is present", () => {
@@ -5594,7 +5595,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "All errors must have a 'message' property");
+					}, "Error[0] should use 'message' (and not 'messageId') when 'requireMessage' is 'message'");
 				});
 
 				it("should pass if message is present", () => {
@@ -5638,7 +5639,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "All errors must have a 'message' property");
+					}, "Error[0] should use 'message' (and not 'messageId') when 'requireMessage' is 'message'");
 				});
 			});
 
@@ -5679,7 +5680,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "Invalid cases must have 'errors' value as an array");
+					}, "Error[0] should use an object when 'requireMessage' is 'messageId' or 'requireLocation' is true");
 				});
 
 				it("should fail if message and messageId are missing", () => {
@@ -5702,7 +5703,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "All errors must have a 'messageId' property");
+					}, "Error[0] should use 'messageId' (and not 'message') when 'requireMessage' is 'messageId'");
 				});
 
 				it("should fail if message is present", () => {
@@ -5725,7 +5726,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "All errors must have a 'messageId' property");
+					}, "Error[0] should use 'messageId' (and not 'message') when 'requireMessage' is 'messageId'");
 				});
 
 				it("should pass if messageId is present", () => {
@@ -5827,7 +5828,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "Invalid cases must have 'errors' value as an array");
+					}, "Error[0] should use an object when 'requireMessage' is 'messageId' or 'requireLocation' is true");
 				});
 
 				it("should fail if all location properties are missing", () => {
