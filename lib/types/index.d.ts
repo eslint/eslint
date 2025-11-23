@@ -1375,7 +1375,12 @@ export namespace RuleTester {
 	interface SuggestionOutput {
 		messageId?: string;
 		desc?: string;
-		data?: Record<string, unknown> | undefined;
+		data?:
+			| Record<
+					string,
+					string | number | boolean | bigint | null | undefined
+			  >
+			| undefined;
 		output: string;
 	}
 
@@ -1387,7 +1392,12 @@ export namespace RuleTester {
 	interface TestCaseError {
 		message?: string | RegExp;
 		messageId?: string;
-		data?: any;
+		data?:
+			| Record<
+					string,
+					string | number | boolean | bigint | null | undefined
+			  >
+			| undefined;
 		line?: number | undefined;
 		column?: number | undefined;
 		endLine?: number | undefined;

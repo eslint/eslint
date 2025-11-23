@@ -1896,6 +1896,24 @@ ruleTester.run("my-rule", rule, {
 		{ code: "foo", errors: ["foo"] },
 		{ code: "foo", errors: [{ message: "foo" }] },
 		{ code: "foo", errors: [{ message: "foo", data: { foo: true } }] },
+		{
+			code: "foo",
+			errors: [
+				{
+					messageId: "bar",
+					data: {
+						a: "s",
+						b: 1,
+						c: false,
+						d: 1n,
+						e: null,
+						f: undefined,
+						// @ts-expect-error -- invalid `data` value type
+						g: Symbol("x"),
+					},
+				},
+			],
+		},
 		{ code: "foo", errors: [{ message: "foo", line: 0 }] },
 		{
 			code: "foo",
@@ -1909,6 +1927,20 @@ ruleTester.run("my-rule", rule, {
 						},
 						{
 							messageId: "foo",
+							output: "foo",
+						},
+						{
+							messageId: "foo",
+							data: {
+								a: "x",
+								b: 2,
+								c: true,
+								d: 3n,
+								e: null,
+								f: undefined,
+								// @ts-expect-error -- invalid suggestion `data` value type
+								g: Symbol("x"),
+							},
 							output: "foo",
 						},
 					],
