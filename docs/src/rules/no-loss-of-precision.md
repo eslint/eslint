@@ -45,3 +45,7 @@ const g = 9007_1992547409_91
 ```
 
 :::
+
+## Options
+
+This rule has no options.
