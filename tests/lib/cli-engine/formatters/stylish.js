@@ -147,30 +147,16 @@ describe("formatter:stylish", () => {
 
 		it("should return a string in the correct format", () => {
 			const result = util.stripVTControlCharacters(formatter(code));
+			const summary = "\u2716 1 problem (1 error, 0 warnings)";
 
 			assert.strictEqual(
 				result,
 				"\nfoo.js\n  5:10  error  Unexpected foo  foo\n\n\u2716 1 problem (1 error, 0 warnings)\n",
 			);
 			assert(util.styleText.calledWith("reset"));
-			assert(
-				util.styleText.neverCalledWithMatch(
-					"yellow",
-					"\u2716 1 problem (1 error, 0 warnings)",
-				),
-			);
-			assert(
-				util.styleText.calledWith(
-					"bold",
-					"\u2716 1 problem (1 error, 0 warnings)",
-				),
-			);
-			assert(
-				util.styleText.calledWithMatch(
-					"red",
-					"\u2716 1 problem (1 error, 0 warnings)",
-				),
-			);
+			assert(util.styleText.neverCalledWithMatch("yellow", summary));
+			assert(util.styleText.calledWith("bold", summary));
+			assert(util.styleText.calledWithMatch("red", summary));
 		});
 
 		describe("when the error is fixable", () => {
@@ -180,30 +166,16 @@ describe("formatter:stylish", () => {
 
 			it("should return a string in the correct format", () => {
 				const result = util.stripVTControlCharacters(formatter(code));
+				const summary = "\u2716 1 problem (1 error, 0 warnings)";
 
 				assert.strictEqual(
 					result,
 					"\nfoo.js\n  5:10  error  Unexpected foo  foo\n\n\u2716 1 problem (1 error, 0 warnings)\n  1 error and 0 warnings potentially fixable with the `--fix` option.\n",
 				);
 				assert(util.styleText.calledWith("reset"));
-				assert(
-					util.styleText.neverCalledWithMatch(
-						"yellow",
-						"\u2716 1 problem (1 error, 0 warnings)",
-					),
-				);
-				assert(
-					util.styleText.calledWith(
-						"bold",
-						"\u2716 1 problem (1 error, 0 warnings)",
-					),
-				);
-				assert(
-					util.styleText.calledWithMatch(
-						"red",
-						"\u2716 1 problem (1 error, 0 warnings)",
-					),
-				);
+				assert(util.styleText.neverCalledWithMatch("yellow", summary));
+				assert(util.styleText.calledWith("bold", summary));
+				assert(util.styleText.calledWithMatch("red", summary));
 			});
 		});
 	});
@@ -230,30 +202,16 @@ describe("formatter:stylish", () => {
 
 		it("should return a string in the correct format", () => {
 			const result = util.stripVTControlCharacters(formatter(code));
+			const summary = "\u2716 1 problem (0 errors, 1 warning)";
 
 			assert.strictEqual(
 				result,
 				"\nfoo.js\n  5:10  warning  Unexpected foo  foo\n\n\u2716 1 problem (0 errors, 1 warning)\n",
 			);
 			assert(util.styleText.calledWith("reset"));
-			assert(
-				util.styleText.calledWith(
-					"bold",
-					"\u2716 1 problem (0 errors, 1 warning)",
-				),
-			);
-			assert(
-				util.styleText.calledWithMatch(
-					"yellow",
-					"\u2716 1 problem (0 errors, 1 warning)",
-				),
-			);
-			assert(
-				util.styleText.neverCalledWithMatch(
-					"red",
-					"\u2716 1 problem (0 errors, 1 warning)",
-				),
-			);
+			assert(util.styleText.calledWith("bold", summary));
+			assert(util.styleText.calledWithMatch("yellow", summary));
+			assert(util.styleText.neverCalledWithMatch("red", summary));
 		});
 
 		describe("when the error is fixable", () => {
@@ -263,30 +221,16 @@ describe("formatter:stylish", () => {
 
 			it("should return a string in the correct format", () => {
 				const result = util.stripVTControlCharacters(formatter(code));
+				const summary = "\u2716 1 problem (0 errors, 1 warning)";
 
 				assert.strictEqual(
 					result,
 					"\nfoo.js\n  5:10  warning  Unexpected foo  foo\n\n\u2716 1 problem (0 errors, 1 warning)\n  0 errors and 1 warning potentially fixable with the `--fix` option.\n",
 				);
 				assert(util.styleText.calledWith("reset"));
-				assert(
-					util.styleText.calledWith(
-						"bold",
-						"\u2716 1 problem (0 errors, 1 warning)",
-					),
-				);
-				assert(
-					util.styleText.calledWithMatch(
-						"yellow",
-						"\u2716 1 problem (0 errors, 1 warning)",
-					),
-				);
-				assert(
-					util.styleText.neverCalledWithMatch(
-						"red",
-						"\u2716 1 problem (0 errors, 1 warning)",
-					),
-				);
+				assert(util.styleText.calledWith("bold", summary));
+				assert(util.styleText.calledWithMatch("yellow", summary));
+				assert(util.styleText.neverCalledWithMatch("red", summary));
 			});
 		});
 	});
@@ -313,30 +257,16 @@ describe("formatter:stylish", () => {
 
 		it("should return a string in the correct format (retaining the ' .')", () => {
 			const result = util.stripVTControlCharacters(formatter(code));
+			const summary = "\u2716 1 problem (0 errors, 1 warning)";
 
 			assert.strictEqual(
 				result,
 				"\nfoo.js\n  5:10  warning  Unexpected .  foo\n\n\u2716 1 problem (0 errors, 1 warning)\n",
 			);
 			assert(util.styleText.calledWith("reset"));
-			assert(
-				util.styleText.calledWith(
-					"bold",
-					"\u2716 1 problem (0 errors, 1 warning)",
-				),
-			);
-			assert(
-				util.styleText.calledWithMatch(
-					"yellow",
-					"\u2716 1 problem (0 errors, 1 warning)",
-				),
-			);
-			assert(
-				util.styleText.neverCalledWithMatch(
-					"red",
-					"\u2716 1 problem (0 errors, 1 warning)",
-				),
-			);
+			assert(util.styleText.calledWith("bold", summary));
+			assert(util.styleText.calledWithMatch("yellow", summary));
+			assert(util.styleText.neverCalledWithMatch("red", summary));
 		});
 	});
 
@@ -360,30 +290,16 @@ describe("formatter:stylish", () => {
 
 		it("should return a string in the correct format", () => {
 			const result = util.stripVTControlCharacters(formatter(code));
+			const summary = "\u2716 1 problem (1 error, 0 warnings)";
 
 			assert.strictEqual(
 				result,
 				"\nfoo.js\n  5:10  error  Unexpected foo  foo\n\n\u2716 1 problem (1 error, 0 warnings)\n",
 			);
 			assert(util.styleText.calledWith("reset"));
-			assert(
-				util.styleText.neverCalledWithMatch(
-					"yellow",
-					"\u2716 1 problem (1 error, 0 warnings)",
-				),
-			);
-			assert(
-				util.styleText.calledWith(
-					"bold",
-					"\u2716 1 problem (1 error, 0 warnings)",
-				),
-			);
-			assert(
-				util.styleText.calledWithMatch(
-					"red",
-					"\u2716 1 problem (1 error, 0 warnings)",
-				),
-			);
+			assert(util.styleText.neverCalledWithMatch("yellow", summary));
+			assert(util.styleText.calledWith("bold", summary));
+			assert(util.styleText.calledWithMatch("red", summary));
 		});
 	});
 
@@ -414,30 +330,16 @@ describe("formatter:stylish", () => {
 
 		it("should return a string with multiple entries", () => {
 			const result = util.stripVTControlCharacters(formatter(code));
+			const summary = "\u2716 2 problems (1 error, 1 warning)";
 
 			assert.strictEqual(
 				result,
 				"\nfoo.js\n  5:10  error    Unexpected foo  foo\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (1 error, 1 warning)\n",
 			);
 			assert(util.styleText.calledWith("reset"));
-			assert(
-				util.styleText.neverCalledWithMatch(
-					"yellow",
-					"\u2716 2 problems (1 error, 1 warning)",
-				),
-			);
-			assert(
-				util.styleText.calledWith(
-					"bold",
-					"\u2716 2 problems (1 error, 1 warning)",
-				),
-			);
-			assert(
-				util.styleText.calledWithMatch(
-					"red",
-					"\u2716 2 problems (1 error, 1 warning)",
-				),
-			);
+			assert(util.styleText.neverCalledWithMatch("yellow", summary));
+			assert(util.styleText.calledWith("bold", summary));
+			assert(util.styleText.calledWithMatch("red", summary));
 		});
 	});
 
@@ -475,30 +377,16 @@ describe("formatter:stylish", () => {
 
 		it("should return a string with multiple entries", () => {
 			const result = util.stripVTControlCharacters(formatter(code));
+			const summary = "\u2716 2 problems (1 error, 1 warning)";
 
 			assert.strictEqual(
 				result,
 				"\nfoo.js\n  5:10  error  Unexpected foo  foo\n\nbar.js\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (1 error, 1 warning)\n",
 			);
 			assert(util.styleText.calledWith("reset"));
-			assert(
-				util.styleText.neverCalledWithMatch(
-					"yellow",
-					"\u2716 2 problems (1 error, 1 warning)",
-				),
-			);
-			assert(
-				util.styleText.calledWith(
-					"bold",
-					"\u2716 2 problems (1 error, 1 warning)",
-				),
-			);
-			assert(
-				util.styleText.calledWithMatch(
-					"red",
-					"\u2716 2 problems (1 error, 1 warning)",
-				),
-			);
+			assert(util.styleText.neverCalledWithMatch("yellow", summary));
+			assert(util.styleText.calledWith("bold", summary));
+			assert(util.styleText.calledWithMatch("red", summary));
 		});
 
 		it("should add errorCount", () => {
@@ -508,30 +396,16 @@ describe("formatter:stylish", () => {
 			});
 
 			const result = util.stripVTControlCharacters(formatter(code));
+			const summary = "\u2716 2 problems (2 errors, 0 warnings)";
 
 			assert.strictEqual(
 				result,
 				"\nfoo.js\n  5:10  error  Unexpected foo  foo\n\nbar.js\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (2 errors, 0 warnings)\n",
 			);
 			assert(util.styleText.calledWith("reset"));
-			assert(
-				util.styleText.neverCalledWithMatch(
-					"yellow",
-					"\u2716 2 problems (2 errors, 0 warnings)",
-				),
-			);
-			assert(
-				util.styleText.calledWith(
-					"bold",
-					"\u2716 2 problems (2 errors, 0 warnings)",
-				),
-			);
-			assert(
-				util.styleText.calledWithMatch(
-					"red",
-					"\u2716 2 problems (2 errors, 0 warnings)",
-				),
-			);
+			assert(util.styleText.neverCalledWithMatch("yellow", summary));
+			assert(util.styleText.calledWith("bold", summary));
+			assert(util.styleText.calledWithMatch("red", summary));
 		});
 
 		it("should add warningCount", () => {
@@ -541,30 +415,16 @@ describe("formatter:stylish", () => {
 			});
 
 			const result = util.stripVTControlCharacters(formatter(code));
+			const summary = "\u2716 2 problems (0 errors, 2 warnings)";
 
 			assert.strictEqual(
 				result,
 				"\nfoo.js\n  5:10  error  Unexpected foo  foo\n\nbar.js\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (0 errors, 2 warnings)\n",
 			);
 			assert(util.styleText.calledWith("reset"));
-			assert(
-				util.styleText.neverCalledWithMatch(
-					"yellow",
-					"\u2716 2 problems (0 errors, 2 warnings)",
-				),
-			);
-			assert(
-				util.styleText.calledWith(
-					"bold",
-					"\u2716 2 problems (0 errors, 2 warnings)",
-				),
-			);
-			assert(
-				util.styleText.calledWithMatch(
-					"red",
-					"\u2716 2 problems (0 errors, 2 warnings)",
-				),
-			);
+			assert(util.styleText.neverCalledWithMatch("yellow", summary));
+			assert(util.styleText.calledWith("bold", summary));
+			assert(util.styleText.calledWithMatch("red", summary));
 		});
 	});
 
@@ -585,30 +445,16 @@ describe("formatter:stylish", () => {
 
 		it("should return a string without line and column", () => {
 			const result = util.stripVTControlCharacters(formatter(code));
+			const summary = "\u2716 1 problem (1 error, 0 warnings)";
 
 			assert.strictEqual(
 				result,
 				"\nfoo.js\n  0:0  error  Couldn't find foo.js\n\n\u2716 1 problem (1 error, 0 warnings)\n",
 			);
 			assert(util.styleText.calledWith("reset"));
-			assert(
-				util.styleText.neverCalledWithMatch(
-					"yellow",
-					"\u2716 1 problem (1 error, 0 warnings)",
-				),
-			);
-			assert(
-				util.styleText.calledWith(
-					"bold",
-					"\u2716 1 problem (1 error, 0 warnings)",
-				),
-			);
-			assert(
-				util.styleText.calledWithMatch(
-					"red",
-					"\u2716 1 problem (1 error, 0 warnings)",
-				),
-			);
+			assert(util.styleText.neverCalledWithMatch("yellow", summary));
+			assert(util.styleText.calledWith("bold", summary));
+			assert(util.styleText.calledWithMatch("red", summary));
 		});
 	});
 
