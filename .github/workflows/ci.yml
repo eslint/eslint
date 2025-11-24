@@ -68,6 +68,7 @@ jobs:
     test_on_node:
         name: Test
         strategy:
+            fail-fast: false
             matrix:
                 os: [ubuntu-latest]
                 node: [25.x, 24.x, 22.x, 20.x, "20.19.0"]
