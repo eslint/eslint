@@ -79,6 +79,10 @@ switch (foo) {
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## When Not To Use It
 
 If you depend on fall through behavior and want access to bindings introduced in the `case` block.

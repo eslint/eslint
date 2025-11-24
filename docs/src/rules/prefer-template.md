@@ -22,8 +22,6 @@ const str = `Hello, ${name}!`;
 
 This rule is aimed to flag usage of `+` operators with strings.
 
-## Examples
-
 Examples of **incorrect** code for this rule:
 
 ::: incorrect
@@ -53,6 +51,10 @@ const str4 = "Hello, " + "World!";
 ```
 
 :::
+
+## Options
+
+This rule has no options.
 
 ## When Not To Use It
 
