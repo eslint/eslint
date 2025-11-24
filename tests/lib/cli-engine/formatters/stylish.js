@@ -35,79 +35,76 @@ describe("formatter:stylish", () => {
 		 * - 256 colors: `FORCE_COLOR = 2`
 		 * - 16,777,216 colors: `FORCE_COLOR = 3`
 		 */
-		/*
-		 *
-		 * // eslint-disable-next-line no-control-regex -- Needed to match ANSI escape codes.
-		 *const ansiEscapePattern = /\u001b\[/u;
-		 *const code = [
-		 *	{
-		 *		filePath: "foo.js",
-		 *		errorCount: 1,
-		 *		warningCount: 0,
-		 *		fixableErrorCount: 0,
-		 *		fixableWarningCount: 0,
-		 *		messages: [
-		 *			{
-		 *				message: "Unexpected foo.",
-		 *				severity: 2,
-		 *				line: 5,
-		 *				column: 10,
-		 *				ruleId: "foo",
-		 *			},
-		 *		],
-		 *	},
-		 *];
-		 *
-		 *afterEach(() => {
-		 *	delete process.env.FORCE_COLOR;
-		 *});
-		 *
-		 *it("`FORCE_COLOR=0` should disable colors", () => {
-		 *	process.env.FORCE_COLOR = 0;
-		 *
-		 *	const result = formatter(code);
-		 *
-		 *	assert.notMatch(result, ansiEscapePattern);
-		 *	assert.strictEqual(result, util.stripVTControlCharacters(result));
-		 *});
-		 *
-		 *it("`FORCE_COLOR=1` should enable colors", () => {
-		 *	process.env.FORCE_COLOR = 1;
-		 *
-		 *	const result = formatter(code);
-		 *
-		 *	assert.match(result, ansiEscapePattern);
-		 *	assert.notStrictEqual(
-		 *		result,
-		 *		util.stripVTControlCharacters(result),
-		 *	);
-		 *});
-		 *
-		 *it("`FORCE_COLOR=2` should enable colors", () => {
-		 *	process.env.FORCE_COLOR = 2;
-		 *
-		 *	const result = formatter(code);
-		 *
-		 *	assert.match(result, ansiEscapePattern);
-		 *	assert.notStrictEqual(
-		 *		result,
-		 *		util.stripVTControlCharacters(result),
-		 *	);
-		 *});
-		 *
-		 *it("`FORCE_COLOR=3` should enable colors", () => {
-		 *	process.env.FORCE_COLOR = 3;
-		 *
-		 *	const result = formatter(code);
-		 *
-		 *	assert.match(result, ansiEscapePattern);
-		 *	assert.notStrictEqual(
-		 *		result,
-		 *		util.stripVTControlCharacters(result),
-		 *	);
-		 *});
-		 *
-		 */
+
+		// eslint-disable-next-line no-control-regex -- Needed to match ANSI escape codes.
+		const ansiEscapePattern = /\u001b\[/u;
+		const code = [
+			{
+				filePath: "foo.js",
+				errorCount: 1,
+				warningCount: 0,
+				fixableErrorCount: 0,
+				fixableWarningCount: 0,
+				messages: [
+					{
+						message: "Unexpected foo.",
+						severity: 2,
+						line: 5,
+						column: 10,
+						ruleId: "foo",
+					},
+				],
+			},
+		];
+
+		afterEach(() => {
+			delete process.env.FORCE_COLOR;
+		});
+
+		it("`FORCE_COLOR=0` should disable colors", () => {
+			process.env.FORCE_COLOR = 0;
+
+			const result = formatter(code);
+
+			assert.notMatch(result, ansiEscapePattern);
+			assert.strictEqual(result, util.stripVTControlCharacters(result));
+		});
+
+		it("`FORCE_COLOR=1` should enable colors", () => {
+			process.env.FORCE_COLOR = 1;
+
+			const result = formatter(code);
+
+			assert.match(result, ansiEscapePattern);
+			assert.notStrictEqual(
+				result,
+				util.stripVTControlCharacters(result),
+			);
+		});
+
+		it("`FORCE_COLOR=2` should enable colors", () => {
+			process.env.FORCE_COLOR = 2;
+
+			const result = formatter(code);
+
+			assert.match(result, ansiEscapePattern);
+			assert.notStrictEqual(
+				result,
+				util.stripVTControlCharacters(result),
+			);
+		});
+
+		it("`FORCE_COLOR=3` should enable colors", () => {
+			process.env.FORCE_COLOR = 3;
+
+			const result = formatter(code);
+
+			assert.match(result, ansiEscapePattern);
+			assert.notStrictEqual(
+				result,
+				util.stripVTControlCharacters(result),
+			);
+		});
 	});
 
 	describe("when passed no messages", () => {
@@ -157,9 +154,9 @@ describe("formatter:stylish", () => {
 			);
 			assert(util.styleText.calledWith("reset"));
 			assert(
-				util.styleText.neverCalledWith(
+				util.styleText.neverCalledWithMatch(
 					"yellow",
-					"\u001b[1m\u2716 1 problem (1 error, 0 warnings)\u001b[22m",
+					"\u2716 1 problem (1 error, 0 warnings)",
 				),
 			);
 			assert(
@@ -169,9 +166,9 @@ describe("formatter:stylish", () => {
 				),
 			);
 			assert(
-				util.styleText.calledWith(
+				util.styleText.calledWithMatch(
 					"red",
-					"\u001b[1m\u2716 1 problem (1 error, 0 warnings)\u001b[22m",
+					"\u2716 1 problem (1 error, 0 warnings)",
 				),
 			);
 		});
@@ -190,9 +187,9 @@ describe("formatter:stylish", () => {
 				);
 				assert(util.styleText.calledWith("reset"));
 				assert(
-					util.styleText.neverCalledWith(
+					util.styleText.neverCalledWithMatch(
 						"yellow",
-						"\u001b[1m\u2716 1 problem (1 error, 0 warnings)\u001b[22m",
+						"\u2716 1 problem (1 error, 0 warnings)",
 					),
 				);
 				assert(
@@ -202,9 +199,9 @@ describe("formatter:stylish", () => {
 					),
 				);
 				assert(
-					util.styleText.calledWith(
+					util.styleText.calledWithMatch(
 						"red",
-						"\u001b[1m\u2716 1 problem (1 error, 0 warnings)\u001b[22m",
+						"\u2716 1 problem (1 error, 0 warnings)",
 					),
 				);
 			});
@@ -246,15 +243,15 @@ describe("formatter:stylish", () => {
 				),
 			);
 			assert(
-				util.styleText.calledWith(
+				util.styleText.calledWithMatch(
 					"yellow",
-					"\u001b[1m\u2716 1 problem (0 errors, 1 warning)\u001b[22m",
+					"\u2716 1 problem (0 errors, 1 warning)",
 				),
 			);
 			assert(
-				util.styleText.neverCalledWith(
+				util.styleText.neverCalledWithMatch(
 					"red",
-					"\u001b[1m\u2716 1 problem (0 errors, 1 warning)\u001b[22m",
+					"\u2716 1 problem (0 errors, 1 warning)",
 				),
 			);
 		});
@@ -279,15 +276,15 @@ describe("formatter:stylish", () => {
 					),
 				);
 				assert(
-					util.styleText.calledWith(
+					util.styleText.calledWithMatch(
 						"yellow",
-						"\u001b[1m\u2716 1 problem (0 errors, 1 warning)\u001b[22m",
+						"\u2716 1 problem (0 errors, 1 warning)",
 					),
 				);
 				assert(
-					util.styleText.neverCalledWith(
+					util.styleText.neverCalledWithMatch(
 						"red",
-						"\u001b[1m\u2716 1 problem (0 errors, 1 warning)\u001b[22m",
+						"\u2716 1 problem (0 errors, 1 warning)",
 					),
 				);
 			});
@@ -329,15 +326,15 @@ describe("formatter:stylish", () => {
 				),
 			);
 			assert(
-				util.styleText.calledWith(
+				util.styleText.calledWithMatch(
 					"yellow",
-					"\u001b[1m\u2716 1 problem (0 errors, 1 warning)\u001b[22m",
+					"\u2716 1 problem (0 errors, 1 warning)",
 				),
 			);
 			assert(
-				util.styleText.neverCalledWith(
+				util.styleText.neverCalledWithMatch(
 					"red",
-					"\u001b[1m\u2716 1 problem (0 errors, 1 warning)\u001b[22m",
+					"\u2716 1 problem (0 errors, 1 warning)",
 				),
 			);
 		});
@@ -370,9 +367,9 @@ describe("formatter:stylish", () => {
 			);
 			assert(util.styleText.calledWith("reset"));
 			assert(
-				util.styleText.neverCalledWith(
+				util.styleText.neverCalledWithMatch(
 					"yellow",
-					"\u001b[1m\u2716 1 problem (1 error, 0 warnings)\u001b[22m",
+					"\u2716 1 problem (1 error, 0 warnings)",
 				),
 			);
 			assert(
@@ -382,9 +379,9 @@ describe("formatter:stylish", () => {
 				),
 			);
 			assert(
-				util.styleText.calledWith(
+				util.styleText.calledWithMatch(
 					"red",
-					"\u001b[1m\u2716 1 problem (1 error, 0 warnings)\u001b[22m",
+					"\u2716 1 problem (1 error, 0 warnings)",
 				),
 			);
 		});
@@ -424,9 +421,9 @@ describe("formatter:stylish", () => {
 			);
 			assert(util.styleText.calledWith("reset"));
 			assert(
-				util.styleText.neverCalledWith(
+				util.styleText.neverCalledWithMatch(
 					"yellow",
-					"\u001b[1m\u2716 2 problems (1 error, 1 warning)\u001b[22m",
+					"\u2716 2 problems (1 error, 1 warning)",
 				),
 			);
 			assert(
@@ -436,9 +433,9 @@ describe("formatter:stylish", () => {
 				),
 			);
 			assert(
-				util.styleText.calledWith(
+				util.styleText.calledWithMatch(
 					"red",
-					"\u001b[1m\u2716 2 problems (1 error, 1 warning)\u001b[22m",
+					"\u2716 2 problems (1 error, 1 warning)",
 				),
 			);
 		});
@@ -485,9 +482,9 @@ describe("formatter:stylish", () => {
 			);
 			assert(util.styleText.calledWith("reset"));
 			assert(
-				util.styleText.neverCalledWith(
+				util.styleText.neverCalledWithMatch(
 					"yellow",
-					"\u001b[1m\u2716 2 problems (1 error, 1 warning)\u001b[22m",
+					"\u2716 2 problems (1 error, 1 warning)",
 				),
 			);
 			assert(
@@ -497,9 +494,9 @@ describe("formatter:stylish", () => {
 				),
 			);
 			assert(
-				util.styleText.calledWith(
+				util.styleText.calledWithMatch(
 					"red",
-					"\u001b[1m\u2716 2 problems (1 error, 1 warning)\u001b[22m",
+					"\u2716 2 problems (1 error, 1 warning)",
 				),
 			);
 		});
@@ -518,9 +515,9 @@ describe("formatter:stylish", () => {
 			);
 			assert(util.styleText.calledWith("reset"));
 			assert(
-				util.styleText.neverCalledWith(
+				util.styleText.neverCalledWithMatch(
 					"yellow",
-					"\u001b[1m\u2716 2 problems (2 errors, 0 warnings)\u001b[22m",
+					"\u2716 2 problems (2 errors, 0 warnings)",
 				),
 			);
 			assert(
@@ -530,9 +527,9 @@ describe("formatter:stylish", () => {
 				),
 			);
 			assert(
-				util.styleText.calledWith(
+				util.styleText.calledWithMatch(
 					"red",
-					"\u001b[1m\u2716 2 problems (2 errors, 0 warnings)\u001b[22m",
+					"\u2716 2 problems (2 errors, 0 warnings)",
 				),
 			);
 		});
@@ -551,9 +548,9 @@ describe("formatter:stylish", () => {
 			);
 			assert(util.styleText.calledWith("reset"));
 			assert(
-				util.styleText.neverCalledWith(
+				util.styleText.neverCalledWithMatch(
 					"yellow",
-					"\u001b[1m\u2716 2 problems (0 errors, 2 warnings)\u001b[22m",
+					"\u2716 2 problems (0 errors, 2 warnings)",
 				),
 			);
 			assert(
@@ -563,9 +560,9 @@ describe("formatter:stylish", () => {
 				),
 			);
 			assert(
-				util.styleText.calledWith(
+				util.styleText.calledWithMatch(
 					"red",
-					"\u001b[1m\u2716 2 problems (0 errors, 2 warnings)\u001b[22m",
+					"\u2716 2 problems (0 errors, 2 warnings)",
 				),
 			);
 		});
@@ -595,9 +592,9 @@ describe("formatter:stylish", () => {
 			);
 			assert(util.styleText.calledWith("reset"));
 			assert(
-				util.styleText.neverCalledWith(
+				util.styleText.neverCalledWithMatch(
 					"yellow",
-					"\u001b[1m\u2716 1 problem (1 error, 0 warnings)\u001b[22m",
+					"\u2716 1 problem (1 error, 0 warnings)",
 				),
 			);
 			assert(
@@ -607,9 +604,9 @@ describe("formatter:stylish", () => {
 				),
 			);
 			assert(
-				util.styleText.calledWith(
+				util.styleText.calledWithMatch(
 					"red",
-					"\u001b[1m\u2716 1 problem (1 error, 0 warnings)\u001b[22m",
+					"\u2716 1 problem (1 error, 0 warnings)",
 				),
 			);
 		});
