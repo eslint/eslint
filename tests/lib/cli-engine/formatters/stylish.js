@@ -27,6 +27,86 @@ describe("formatter:stylish", () => {
 		sinon.verifyAndRestore();
 	});
 
+	describe("when passed `FORCE_COLOR` environment variable", () => {
+		/*
+		 * Note for `FORCE_COLOR` tests:
+		 * - 2 colors: `FORCE_COLOR = 0` (Disables colors)
+		 * - 16 colors: `FORCE_COLOR = 1`
+		 * - 256 colors: `FORCE_COLOR = 2`
+		 * - 16,777,216 colors: `FORCE_COLOR = 3`
+		 */
+
+		// eslint-disable-next-line no-control-regex -- Needed to match ANSI escape codes.
+		const ansiEscapePattern = /\x1B\[/u;
+		const code = [
+			{
+				filePath: "foo.js",
+				errorCount: 1,
+				warningCount: 0,
+				fixableErrorCount: 0,
+				fixableWarningCount: 0,
+				messages: [
+					{
+						message: "Unexpected foo.",
+						severity: 2,
+						line: 5,
+						column: 10,
+						ruleId: "foo",
+					},
+				],
+			},
+		];
+
+		afterEach(() => {
+			delete process.env.FORCE_COLOR;
+		});
+
+		it("`FORCE_COLOR=0` should disable colors", () => {
+			process.env.FORCE_COLOR = 0;
+
+			const result = formatter(code);
+
+			assert.notMatch(result, ansiEscapePattern);
+			assert.strictEqual(result, util.stripVTControlCharacters(result));
+		});
+
+		it("`FORCE_COLOR=1` should enable colors", () => {
+			process.env.FORCE_COLOR = 1;
+
+			const result = formatter(code);
+
+			assert.match(result, ansiEscapePattern);
+			assert.notStrictEqual(
+				result,
+				util.stripVTControlCharacters(result),
+			);
+		});
+
+		it("`FORCE_COLOR=2` should enable colors", () => {
+			process.env.FORCE_COLOR = 2;
+
+			const result = formatter(code);
+
+			assert.match(result, ansiEscapePattern);
+			assert.notStrictEqual(
+				result,
+				util.stripVTControlCharacters(result),
+			);
+		});
+
+		it("`FORCE_COLOR=3` should enable colors", () => {
+			process.env.FORCE_COLOR = 3;
+
+			const result = formatter(code);
+
+			assert.match(result, ansiEscapePattern);
+			assert.notStrictEqual(
+				result,
+				util.stripVTControlCharacters(result),
+			);
+		});
+	});
+
 	describe("when passed no messages", () => {
 		const code = [
 			{
@@ -73,8 +153,24 @@ describe("formatter:stylish", () => {
 				"\nfoo.js\n  5:10  error  Unexpected foo  foo\n\n\u2716 1 problem (1 error, 0 warnings)\n",
 			);
 			assert(util.styleText.calledWith("reset"));
-			assert(util.styleText.neverCalledWith(["yellow", "bold"]));
-			assert(util.styleText.calledWith(["red", "bold"]));
+			assert(
+				util.styleText.neverCalledWith(
+					"yellow",
+					"\x1B[1m\u2716 1 problem (1 error, 0 warnings)\x1B[22m",
+				),
+			);
+			assert(
+				util.styleText.calledWith(
+					"bold",
+					"\u2716 1 problem (1 error, 0 warnings)",
+				),
+			);
+			assert(
+				util.styleText.calledWith(
+					"red",
+					"\x1B[1m\u2716 1 problem (1 error, 0 warnings)\x1B[22m",
+				),
+			);
 		});
 
 		describe("when the error is fixable", () => {
@@ -90,10 +186,24 @@ describe("formatter:stylish", () => {
 					"\nfoo.js\n  5:10  error  Unexpected foo  foo\n\n\u2716 1 problem (1 error, 0 warnings)\n  1 error and 0 warnings potentially fixable with the `--fix` option.\n",
 				);
 				assert(util.styleText.calledWith("reset"));
-				assert(util.styleText.neverCalledWith(["yellow", "bold"]));
-				assert(util.styleText.calledWith(["red", "bold"]));
-				assert(util.styleText.getCall(4).calledWith(["red", "bold"]));
-				assert(util.styleText.getCall(5).calledWith(["red", "bold"]));
+				assert(
+					util.styleText.neverCalledWith(
+						"yellow",
+						"\x1B[1m\u2716 1 problem (1 error, 0 warnings)\x1B[22m",
+					),
+				);
+				assert(
+					util.styleText.calledWith(
+						"bold",
+						"\u2716 1 problem (1 error, 0 warnings)",
+					),
+				);
+				assert(
+					util.styleText.calledWith(
+						"red",
+						"\x1B[1m\u2716 1 problem (1 error, 0 warnings)\x1B[22m",
+					),
+				);
 			});
 		});
 	});
@@ -126,8 +236,24 @@ describe("formatter:stylish", () => {
 				"\nfoo.js\n  5:10  warning  Unexpected foo  foo\n\n\u2716 1 problem (0 errors, 1 warning)\n",
 			);
 			assert(util.styleText.calledWith("reset"));
-			assert(util.styleText.calledWith(["yellow", "bold"]));
-			assert(util.styleText.neverCalledWith(["red", "bold"]));
+			assert(
+				util.styleText.calledWith(
+					"bold",
+					"\u2716 1 problem (0 errors, 1 warning)",
+				),
+			);
+			assert(
+				util.styleText.calledWith(
+					"yellow",
+					"\x1B[1m\u2716 1 problem (0 errors, 1 warning)\x1B[22m",
+				),
+			);
+			assert(
+				util.styleText.neverCalledWith(
+					"red",
+					"\x1B[1m\u2716 1 problem (0 errors, 1 warning)\x1B[22m",
+				),
+			);
 		});
 
 		describe("when the error is fixable", () => {
@@ -143,13 +269,23 @@ describe("formatter:stylish", () => {
 					"\nfoo.js\n  5:10  warning  Unexpected foo  foo\n\n\u2716 1 problem (0 errors, 1 warning)\n  0 errors and 1 warning potentially fixable with the `--fix` option.\n",
 				);
 				assert(util.styleText.calledWith("reset"));
-				assert(util.styleText.calledWith(["yellow", "bold"]));
-				assert(util.styleText.neverCalledWith(["red", "bold"]));
 				assert(
-					util.styleText.getCall(4).calledWith(["yellow", "bold"]),
+					util.styleText.calledWith(
+						"bold",
+						"\u2716 1 problem (0 errors, 1 warning)",
+					),
 				);
 				assert(
-					util.styleText.getCall(5).calledWith(["yellow", "bold"]),
+					util.styleText.calledWith(
+						"yellow",
+						"\x1B[1m\u2716 1 problem (0 errors, 1 warning)\x1B[22m",
+					),
+				);
+				assert(
+					util.styleText.neverCalledWith(
+						"red",
+						"\x1B[1m\u2716 1 problem (0 errors, 1 warning)\x1B[22m",
+					),
 				);
 			});
 		});
@@ -183,8 +319,24 @@ describe("formatter:stylish", () => {
 				"\nfoo.js\n  5:10  warning  Unexpected .  foo\n\n\u2716 1 problem (0 errors, 1 warning)\n",
 			);
 			assert(util.styleText.calledWith("reset"));
-			assert(util.styleText.calledWith(["yellow", "bold"]));
-			assert(util.styleText.neverCalledWith(["red", "bold"]));
+			assert(
+				util.styleText.calledWith(
+					"bold",
+					"\u2716 1 problem (0 errors, 1 warning)",
+				),
+			);
+			assert(
+				util.styleText.calledWith(
+					"yellow",
+					"\x1B[1m\u2716 1 problem (0 errors, 1 warning)\x1B[22m",
+				),
+			);
+			assert(
+				util.styleText.neverCalledWith(
+					"red",
+					"\x1B[1m\u2716 1 problem (0 errors, 1 warning)\x1B[22m",
+				),
+			);
 		});
 	});
 
@@ -214,8 +366,24 @@ describe("formatter:stylish", () => {
 				"\nfoo.js\n  5:10  error  Unexpected foo  foo\n\n\u2716 1 problem (1 error, 0 warnings)\n",
 			);
 			assert(util.styleText.calledWith("reset"));
-			assert(util.styleText.neverCalledWith(["yellow", "bold"]));
-			assert(util.styleText.calledWith(["red", "bold"]));
+			assert(
+				util.styleText.neverCalledWith(
+					"yellow",
+					"\x1B[1m\u2716 1 problem (1 error, 0 warnings)\x1B[22m",
+				),
+			);
+			assert(
+				util.styleText.calledWith(
+					"bold",
+					"\u2716 1 problem (1 error, 0 warnings)",
+				),
+			);
+			assert(
+				util.styleText.calledWith(
+					"red",
+					"\x1B[1m\u2716 1 problem (1 error, 0 warnings)\x1B[22m",
+				),
+			);
 		});
 	});
 
@@ -252,8 +420,24 @@ describe("formatter:stylish", () => {
 				"\nfoo.js\n  5:10  error    Unexpected foo  foo\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (1 error, 1 warning)\n",
 			);
 			assert(util.styleText.calledWith("reset"));
-			assert(util.styleText.neverCalledWith(["yellow", "bold"]));
-			assert(util.styleText.calledWith(["red", "bold"]));
+			assert(
+				util.styleText.neverCalledWith(
+					"yellow",
+					"\x1B[1m\u2716 2 problems (1 error, 1 warning)\x1B[22m",
+				),
+			);
+			assert(
+				util.styleText.calledWith(
+					"bold",
+					"\u2716 2 problems (1 error, 1 warning)",
+				),
+			);
+			assert(
+				util.styleText.calledWith(
+					"red",
+					"\x1B[1m\u2716 2 problems (1 error, 1 warning)\x1B[22m",
+				),
+			);
 		});
 	});
 
@@ -297,8 +481,24 @@ describe("formatter:stylish", () => {
 				"\nfoo.js\n  5:10  error  Unexpected foo  foo\n\nbar.js\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (1 error, 1 warning)\n",
 			);
 			assert(util.styleText.calledWith("reset"));
-			assert(util.styleText.neverCalledWith(["yellow", "bold"]));
-			assert(util.styleText.calledWith(["red", "bold"]));
+			assert(
+				util.styleText.neverCalledWith(
+					"yellow",
+					"\x1B[1m\u2716 2 problems (1 error, 1 warning)\x1B[22m",
+				),
+			);
+			assert(
+				util.styleText.calledWith(
+					"bold",
+					"\u2716 2 problems (1 error, 1 warning)",
+				),
+			);
+			assert(
+				util.styleText.calledWith(
+					"red",
+					"\x1B[1m\u2716 2 problems (1 error, 1 warning)\x1B[22m",
+				),
+			);
 		});
 
 		it("should add errorCount", () => {
@@ -314,8 +514,24 @@ describe("formatter:stylish", () => {
 				"\nfoo.js\n  5:10  error  Unexpected foo  foo\n\nbar.js\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (2 errors, 0 warnings)\n",
 			);
 			assert(util.styleText.calledWith("reset"));
-			assert(util.styleText.neverCalledWith(["yellow", "bold"]));
-			assert(util.styleText.calledWith(["red", "bold"]));
+			assert(
+				util.styleText.neverCalledWith(
+					"yellow",
+					"\x1B[1m\u2716 2 problems (2 errors, 0 warnings)\x1B[22m",
+				),
+			);
+			assert(
+				util.styleText.calledWith(
+					"bold",
+					"\u2716 2 problems (2 errors, 0 warnings)",
+				),
+			);
+			assert(
+				util.styleText.calledWith(
+					"red",
+					"\x1B[1m\u2716 2 problems (2 errors, 0 warnings)\x1B[22m",
+				),
+			);
 		});
 
 		it("should add warningCount", () => {
@@ -331,8 +547,24 @@ describe("formatter:stylish", () => {
 				"\nfoo.js\n  5:10  error  Unexpected foo  foo\n\nbar.js\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (0 errors, 2 warnings)\n",
 			);
 			assert(util.styleText.calledWith("reset"));
-			assert(util.styleText.neverCalledWith(["yellow", "bold"]));
-			assert(util.styleText.calledWith(["red", "bold"]));
+			assert(
+				util.styleText.neverCalledWith(
+					"yellow",
+					"\x1B[1m\u2716 2 problems (0 errors, 2 warnings)\x1B[22m",
+				),
+			);
+			assert(
+				util.styleText.calledWith(
+					"bold",
+					"\u2716 2 problems (0 errors, 2 warnings)",
+				),
+			);
+			assert(
+				util.styleText.calledWith(
+					"red",
+					"\x1B[1m\u2716 2 problems (0 errors, 2 warnings)\x1B[22m",
+				),
+			);
 		});
 	});
 
@@ -359,8 +591,24 @@ describe("formatter:stylish", () => {
 				"\nfoo.js\n  0:0  error  Couldn't find foo.js\n\n\u2716 1 problem (1 error, 0 warnings)\n",
 			);
 			assert(util.styleText.calledWith("reset"));
-			assert(util.styleText.neverCalledWith(["yellow", "bold"]));
-			assert(util.styleText.calledWith(["red", "bold"]));
+			assert(
+				util.styleText.neverCalledWith(
+					"yellow",
+					"\x1B[1m\u2716 1 problem (1 error, 0 warnings)\x1B[22m",
+				),
+			);
+			assert(
+				util.styleText.calledWith(
+					"bold",
+					"\u2716 1 problem (1 error, 0 warnings)",
+				),
+			);
+			assert(
+				util.styleText.calledWith(
+					"red",
+					"\x1B[1m\u2716 1 problem (1 error, 0 warnings)\x1B[22m",
+				),
+			);
 		});
 	});
 
