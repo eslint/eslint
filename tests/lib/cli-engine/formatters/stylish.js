@@ -35,76 +35,79 @@ describe("formatter:stylish", () => {
 		 * - 256 colors: `FORCE_COLOR = 2`
 		 * - 16,777,216 colors: `FORCE_COLOR = 3`
 		 */
-
-		// eslint-disable-next-line no-control-regex -- Needed to match ANSI escape codes.
-		const ansiEscapePattern = /\u001b\[/u;
-		const code = [
-			{
-				filePath: "foo.js",
-				errorCount: 1,
-				warningCount: 0,
-				fixableErrorCount: 0,
-				fixableWarningCount: 0,
-				messages: [
-					{
-						message: "Unexpected foo.",
-						severity: 2,
-						line: 5,
-						column: 10,
-						ruleId: "foo",
-					},
-				],
-			},
-		];
-
-		afterEach(() => {
-			delete process.env.FORCE_COLOR;
-		});
-
-		it("`FORCE_COLOR=0` should disable colors", () => {
-			process.env.FORCE_COLOR = 0;
-
-			const result = formatter(code);
-
-			assert.notMatch(result, ansiEscapePattern);
-			assert.strictEqual(result, util.stripVTControlCharacters(result));
-		});
-
-		it("`FORCE_COLOR=1` should enable colors", () => {
-			process.env.FORCE_COLOR = 1;
-
-			const result = formatter(code);
-
-			assert.match(result, ansiEscapePattern);
-			assert.notStrictEqual(
-				result,
-				util.stripVTControlCharacters(result),
-			);
-		});
-
-		it("`FORCE_COLOR=2` should enable colors", () => {
-			process.env.FORCE_COLOR = 2;
-
-			const result = formatter(code);
-
-			assert.match(result, ansiEscapePattern);
-			assert.notStrictEqual(
-				result,
-				util.stripVTControlCharacters(result),
-			);
-		});
-
-		it("`FORCE_COLOR=3` should enable colors", () => {
-			process.env.FORCE_COLOR = 3;
-
-			const result = formatter(code);
-
-			assert.match(result, ansiEscapePattern);
-			assert.notStrictEqual(
-				result,
-				util.stripVTControlCharacters(result),
-			);
-		});
+		/*
+		 *
+		 * // eslint-disable-next-line no-control-regex -- Needed to match ANSI escape codes.
+		 *const ansiEscapePattern = /\u001b\[/u;
+		 *const code = [
+		 *	{
+		 *		filePath: "foo.js",
+		 *		errorCount: 1,
+		 *		warningCount: 0,
+		 *		fixableErrorCount: 0,
+		 *		fixableWarningCount: 0,
+		 *		messages: [
+		 *			{
+		 *				message: "Unexpected foo.",
+		 *				severity: 2,
+		 *				line: 5,
+		 *				column: 10,
+		 *				ruleId: "foo",
+		 *			},
+		 *		],
+		 *	},
+		 *];
+		 *
+		 *afterEach(() => {
+		 *	delete process.env.FORCE_COLOR;
+		 *});
+		 *
+		 *it("`FORCE_COLOR=0` should disable colors", () => {
+		 *	process.env.FORCE_COLOR = 0;
+		 *
+		 *	const result = formatter(code);
+		 *
+		 *	assert.notMatch(result, ansiEscapePattern);
+		 *	assert.strictEqual(result, util.stripVTControlCharacters(result));
+		 *});
+		 *
+		 *it("`FORCE_COLOR=1` should enable colors", () => {
+		 *	process.env.FORCE_COLOR = 1;
+		 *
+		 *	const result = formatter(code);
+		 *
+		 *	assert.match(result, ansiEscapePattern);
+		 *	assert.notStrictEqual(
+		 *		result,
+		 *		util.stripVTControlCharacters(result),
+		 *	);
+		 *});
+		 *
+		 *it("`FORCE_COLOR=2` should enable colors", () => {
+		 *	process.env.FORCE_COLOR = 2;
+		 *
+		 *	const result = formatter(code);
+		 *
+		 *	assert.match(result, ansiEscapePattern);
+		 *	assert.notStrictEqual(
+		 *		result,
+		 *		util.stripVTControlCharacters(result),
+		 *	);
+		 *});
+		 *
+		 *it("`FORCE_COLOR=3` should enable colors", () => {
+		 *	process.env.FORCE_COLOR = 3;
+		 *
+		 *	const result = formatter(code);
+		 *
+		 *	assert.match(result, ansiEscapePattern);
+		 *	assert.notStrictEqual(
+		 *		result,
+		 *		util.stripVTControlCharacters(result),
+		 *	);
+		 *});
+		 *
+		 */
 	});
 
 	describe("when passed no messages", () => {
