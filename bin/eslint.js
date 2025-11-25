@@ -174,8 +174,7 @@ ${getErrorMessage(error)}`;
 	const cli = require("../lib/cli");
 	const exitCode = await cli.execute(
 		process.argv,
-		process.argv.includes("--stdin") ? await readStdin() : null,
-		true,
+		process.argv.includes("--stdin") ? await readStdin() : void 0,
 	);
 
 	/*

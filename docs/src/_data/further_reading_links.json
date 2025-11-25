@@ -831,5 +831,12 @@
     "logo": "https://github.githubassets.com/favicons/favicon.png",
     "title": "Error types that support `cause`",
     "description": "Interface declarations for all the Error types in JavaScript that support passing a `cause` property."
+  },
+  "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt": {
+    "domain": "developer.mozilla.org",
+    "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt",
+    "logo": "https://developer.mozilla.org/favicon.ico",
+    "title": "parseInt() - JavaScript | MDN",
+    "description": "The parseInt() function parses a string argument and returns an integer of the specified radix (the base in mathematical numeral systems)."
   }
 }

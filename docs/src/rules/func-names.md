@@ -23,14 +23,14 @@ This rule can enforce or disallow the use of named function expressions.
 
 This rule has a string option:
 
-* `"always"` (default) requires function expressions to have a name
+* `"always"` (default) requires function expressions to have a name.
 * `"as-needed"` requires function expressions to have a name, if the name isn't assigned automatically per the ECMAScript specification.
-* `"never"` disallows named function expressions, except in recursive functions, where a name is needed
+* `"never"` disallows named function expressions, except in recursive functions, where a name is needed.
 
 This rule has an object option:
 
 * `"generators": "always" | "as-needed" | "never"`
-    * `"always"` require named generators
+    * `"always"` require named generators.
     * `"as-needed"` require named generators if the name isn't assigned automatically per the ECMAScript specification.
     * `"never"` disallow named generators where possible.
 

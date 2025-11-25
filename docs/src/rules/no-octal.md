@@ -44,6 +44,10 @@ const num  = "071";
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## Compatibility
 
 * **JSHint**: W115

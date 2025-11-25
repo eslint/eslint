@@ -30,10 +30,6 @@ variables. ES modules also have implicit `strict` mode, which prevents global va
 
 By default, this rule does not check `const`, `let` and `class` declarations.
 
-This rule has an object option with one option:
-
-* Set `"lexicalBindings"` to `true` if you want this rule to check `const`, `let` and `class` declarations as well.
-
 ## Rule Details
 
 ### `var` and `function` declarations
@@ -77,7 +73,7 @@ window.bar = function() {};
 
 :::
 
-Examples of **correct** code for this rule with `"parserOptions": { "sourceType": "module" }` in the ESLint configuration:
+Examples of **correct** code for this rule with `"languageOptions": { "sourceType": "module" }` in the ESLint configuration:
 
 ::: correct { "sourceType": "module" }
 
@@ -138,6 +134,29 @@ var Object;
 ```
 
 :::
+
+### exported
+
+You can use `/* exported variableName */` block comments in the same way as in [`no-unused-vars`](./no-unused-vars). See the [`no-unused-vars` exported section](./no-unused-vars#exported) for details.
+
+Examples of **correct** code for `/* exported variableName */` operation:
+
+::: correct { "sourceType": "script" }
+
+```js
+/* eslint no-implicit-globals: error */
+/* exported global_var */
+
+var global_var = 42;
+```
+
+:::
+
+## Options
+
+This rule has an object option with one option:
+
+* Set `"lexicalBindings"` to `true` if you want this rule to check `const`, `let` and `class` declarations as well.
 
 ### `const`, `let` and `class` declarations
 
@@ -248,23 +267,6 @@ window.MyGlobalFunction = (function() {
         return a + b;
     }
 }());
-```
-
-:::
-
-### exported
-
-You can use `/* exported variableName */` block comments in the same way as in [`no-unused-vars`](./no-unused-vars). See the [`no-unused-vars` exported section](./no-unused-vars#exported) for details.
-
-Examples of **correct** code for `/* exported variableName */` operation:
-
-::: correct { "sourceType": "script" }
-
-```js
-/* eslint no-implicit-globals: error */
-/* exported global_var */
-
-var global_var = 42;
 ```
 
 :::

@@ -30,8 +30,6 @@ It may facilitate identifying symbols when one is observed during debugging.
 
 This rules requires a description when creating symbols.
 
-## Examples
-
 Examples of **incorrect** code for this rule:
 
 ::: incorrect
@@ -58,6 +56,10 @@ const bar = Symbol(someString);
 ```
 
 :::
+
+## Options
+
+This rule has no options.
 
 ## When Not To Use It
 

@@ -23,6 +23,31 @@ ruleTester.run("preserve-caught-error", rule, {
     } catch (error) {
         throw new Error("Failed to perform error prone operations", { cause: error });
     }`,
+		`try {
+		doSomething();
+	} catch (error) {
+		throw new Error("Something failed", { 'cause': error });
+	}`,
+		`try {
+		doSomething();
+	} catch (error) {
+		throw new Error("Something failed", { "cause": error });
+	}`,
+		`try {
+		doSomething();
+	} catch (error) {
+		throw new Error("Something failed", { ['cause']: error });
+	}`,
+		`try {
+		doSomething();
+	} catch (error) {
+		throw new Error("Something failed", { ["cause"]: error });
+	}`,
+		`try {
+		doSomething();
+	} catch (error) {
+		throw new Error("Something failed", { [\`cause\`]: error });
+	}`,
 		/* No throw inside catch */
 		`try {
         doSomething();
@@ -92,6 +117,16 @@ ruleTester.run("preserve-caught-error", rule, {
 		} catch (error) {
 			throw new Error("Something failed", { cause: anotherError, cause: error });
 		}`,
+		`try {
+			doSomething();
+		} catch (error) {
+			throw new Error("Something failed", { "cause": anotherError, "cause": error });
+		}`,
+		`try {
+			doSomething();
+		} catch (error) {
+			throw new Error("Something failed", { cause: anotherError, "cause": error });
+		}`,
 	],
 	invalid: [
 		/* 1. Throws a new Error without cause, even though an error was caught */
@@ -136,6 +171,30 @@ ruleTester.run("preserve-caught-error", rule, {
         } catch (err) {
             const unrelated = new Error("other");
             throw new Error("Something failed", { cause: err });
+        }`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `try {
+            doSomething();
+        } catch (err) {
+            const unrelated = new Error("other");
+            throw new Error("Something failed", { "cause": unrelated });
+        }`,
+			errors: [
+				{
+					messageId: "incorrectCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try {
+            doSomething();
+        } catch (err) {
+            const unrelated = new Error("other");
+            throw new Error("Something failed", { "cause": err });
         }`,
 						},
 					],
@@ -732,6 +791,12 @@ ruleTester.run("preserve-caught-error", rule, {
 		{
 			code: `try {} catch (error) {
 				throw new Error("Something failed", { cause: error, cause: anotherError });
+			}`,
+			errors: [{ messageId: "incorrectCause" }],
+		},
+		{
+			code: `try {} catch (error) {
+				throw new Error("Something failed", { cause: error, "cause": anotherError });
 			}`,
 			errors: [{ messageId: "incorrectCause" }],
 		},
