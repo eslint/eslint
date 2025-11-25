@@ -19,6 +19,7 @@ The lists below are ordered roughly by the number of users each change is expect
 - [`eslint:recommended` has been updated](#eslint-recommended)
 - [New configuration file lookup algorithm](#config-lookup-from-file)
 - [Old config format no longer supported](#remove-eslintrc)
+- [JSX references are now tracked](#jsx-reference-tracking)
 - [`eslint-env` comments are reported as errors](#eslint-env-comments)
 - [Jiti < v2.2.0 are no longer supported](#drop-old-jiti)
 - [POSIX character classes in glob patterns](#posix-character-classes)
@@ -102,6 +103,26 @@ Starting with ESLint v10.0.0, the old configuration format is no longer supporte
 - The `configType` option of the `Linter` class can no longer be set to `"eslintrc"`. Remove the option to use the new configuration format.
 
 **Related issue(s):** [#13481](https://github.com/eslint/eslint/issues/13481)
+
+## <a name="jsx-reference-tracking"></a> JSX references are now tracked
+
+ESLint v10.0.0 now tracks JSX references, enabling correct scope analysis of JSX elements.
+
+Previously, ESLint did not track references created by JSX identifiers, which could lead to incorrect results from rules that rely on scope information. For example:
+
+```js
+import { Card } from "./card.jsx";
+
+export function createCard(name) {
+	return <Card name={name} />;
+}
+```
+
+Prior to v10.0.0, ESLint did not recognize that `<Card>` is a reference to the imported `Card`, which could result in false positives such as reporting `Card` as "defined but never used" ([`no-unused-vars`](../rules/no-unused-vars)) or failing to report `Card` as undefined ([`no-undef`](../rules/no-undef)). Starting with v10.0.0, `<Card>` is treated as a normal reference to the variable in scope. This brings JSX handling in line with developer expectations and improves the linting experience for modern JavaScript applications using JSX.
+
+**To address:** Fix reported errors or disable the affected rules.
+
+**Related issue(s):** [#19495](https://github.com/eslint/eslint/issues/19495)
 
 ## <a name="eslint-env-comments"></a> `eslint-env` comments are reported as errors
 
