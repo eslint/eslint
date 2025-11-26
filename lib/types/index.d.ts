@@ -125,6 +125,11 @@ export namespace AST {
 	}
 }
 
+interface JSXIdentifier extends ESTree.BaseNode {
+	type: "JSXIdentifier";
+	name: string;
+}
+
 export namespace Scope {
 	interface ScopeManager {
 		scopes: Scope[];
@@ -177,7 +182,7 @@ export namespace Scope {
 	}
 
 	interface Reference {
-		identifier: ESTree.Identifier;
+		identifier: ESTree.Identifier | JSXIdentifier;
 		from: Scope;
 		resolved: Variable | null;
 		writeExpr: ESTree.Node | null;
