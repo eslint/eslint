@@ -33,6 +33,7 @@ The lists below are ordered roughly by the number of users each change is expect
 
 - [Node.js < v20.19, v21, v23 are no longer supported](#drop-old-node)
 - [Old config format no longer supported](#remove-eslintrc)
+- [JSX references are now tracked](#jsx-reference-tracking)
 - [Removal of `type` property in errors of invalid `RuleTester` cases](#ruletester-type-removed)
 - [`Program` AST node range spans entire source text](#program-node-range)
 - [Fixer methods now require string `text` arguments](#fixer-text-must-be-string)
@@ -110,7 +111,7 @@ ESLint v10.0.0 now tracks JSX references, enabling correct scope analysis of JSX
 
 Previously, ESLint did not track references created by JSX identifiers, which could lead to incorrect results from rules that rely on scope information. For example:
 
-```js
+```jsx
 import { Card } from "./card.jsx";
 
 export function createCard(name) {
@@ -118,9 +119,12 @@ export function createCard(name) {
 }
 ```
 
-Prior to v10.0.0, ESLint did not recognize that `<Card>` is a reference to the imported `Card`, which could result in false positives such as reporting `Card` as "defined but never used" ([`no-unused-vars`](../rules/no-unused-vars)) or failing to report `Card` as undefined ([`no-undef`](../rules/no-undef)). Starting with v10.0.0, `<Card>` is treated as a normal reference to the variable in scope. This brings JSX handling in line with developer expectations and improves the linting experience for modern JavaScript applications using JSX.
+Prior to v10.0.0, ESLint did not recognize that `<Card>` is a reference to the imported `Card`, which could result in false positives such as reporting `Card` as "defined but never used" ([`no-unused-vars`](../rules/no-unused-vars)) or false negatives such as failing to report `Card` as undefined ([`no-undef`](../rules/no-undef)) if the import is removed. Starting with v10.0.0, `<Card>` is treated as a normal reference to the variable in scope. This brings JSX handling in line with developer expectations and improves the linting experience for modern JavaScript applications using JSX.
 
-**To address:** Fix reported errors or disable the affected rules.
+**To address:**
+
+- For users: New linting reports may appear in files with JSX. Update your code accordingly or adjust rule configurations if needed.
+- For plugin developers: Custom rules relying on scope analysis may now encounter `JSXIdentifier` references. Update rules to handle these correctly.
 
 **Related issue(s):** [#19495](https://github.com/eslint/eslint/issues/19495)
 
