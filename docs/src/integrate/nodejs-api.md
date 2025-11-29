@@ -890,7 +890,7 @@ ruleTester.run("my-rule", rule, {
 
 	// optional
 	assertionOptions: {
-		requireMessage: true,
+		requireMessage: "message",
 		requireLocation: false,
 	},
 });
@@ -953,8 +953,7 @@ If a valid test case only uses the `code` property, it can optionally be provide
 
 You can optionally configure the following `assertionOptions` that apply to all error assertions in that call:
 
-- `requireMessage` (boolean/`"message"`/`"messageId"`, optional):
-    - If `true`, each `errors` block must check the expected error messages, either via string/regexp values in the `errors` array, or via `message`/`messageId` in error objects.
+- `requireMessage` (`"message"`/`"messageId"`, optional):
     - If `"message"`, each `errors` block must check the expected error messages, either via string/regexp values in the `errors` array, or via `message` in error objects.
     - If `"messageId"`, each `errors` block must check the expected error messages via `messageId` in error objects.
 - `requireLocation` (boolean, optional): If `true`, each `errors` block must be an array of objects, and each object must contain location properties `line`, `column`, `endLine`, and `endColumn`. Properties `endLine` and `endColumn` may be omitted if the actual error does not contain them.

@@ -1356,13 +1356,11 @@ export class RuleTester {
 			 */
 			assertionOptions?: {
 				/**
-				 * If true, each `errors` block must check the expected error
-				 * message, either via a string in the `errors` array, or via
-				 * `message`/`messageId` in an errors object.
-				 * `"message"`/`"messageId"` can be used to further limit the
-				 * message assertions to the respective versions.
+				 * Limits which error message verification is required in invalid test cases.
+				 * If `message` is specified, it the error must be a string, RegExp, or an object containing the `message` property.
+				 * If `messageId` is specified, it the error must be an object containing the `messageId` property.
 				 */
-				requireMessage?: boolean | "message" | "messageId";
+				requireMessage?: "message" | "messageId";
 				/**
 				 * If true, each `errors` block must be an array of objects,
 				 * that each check all location properties `line`, `column`,
