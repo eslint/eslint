@@ -880,7 +880,6 @@ describe("RuleTester", () => {
 							errors: [
 								{
 									message: "eval sucks.",
-									type: "CallExpression",
 								},
 							],
 						},
@@ -941,7 +940,7 @@ describe("RuleTester", () => {
 					invalid: [{ code: "var foo = bar;", errors: [42] }],
 				},
 			);
-		}, "Error[0] must be a string, RegExp, or an object.");
+		}, "errors[0] must be a string, RegExp, or an object.");
 	});
 
 	it("should throw an error when any of the errors is not a supported type", () => {
@@ -965,7 +964,7 @@ describe("RuleTester", () => {
 					],
 				},
 			);
-		}, "Error[1] must be a string, RegExp, or an object.");
+		}, "errors[1] must be a string, RegExp, or an object.");
 	});
 
 	it("should throw an error when the error is a string and it does not match error message", () => {
@@ -1482,11 +1481,9 @@ describe("RuleTester", () => {
 							errors: [
 								{
 									message: "eval sucks.",
-									type: "CallExpression",
 								},
 								{
 									message: "eval sucks.",
-									type: "CallExpression",
 								},
 							],
 						},
@@ -1542,7 +1539,7 @@ describe("RuleTester", () => {
 				require("../../fixtures/testers/rule-tester/no-eval"),
 				{
 					valid: ["noeval('foo')"],
-					invalid: [{ code: "1eval('foo')", errors: [{}] }],
+					invalid: [{ code: "1eval('foo')", errors: 2 }],
 				},
 			);
 		}, /fatal parsing error/iu);
@@ -1573,7 +1570,7 @@ describe("RuleTester", () => {
 						{
 							code: "eval(`foo`",
 							output: "eval(`foo`);",
-							errors: [{}],
+							errors: 2,
 						},
 					],
 				},
@@ -1596,7 +1593,7 @@ describe("RuleTester", () => {
 					],
 				},
 			);
-		}, "Test error must specify either a 'messageId' or 'message'.");
+		}, "errors[0] must specify either 'messageId' or 'message'.");
 	});
 
 	it("should throw an error if an error has a property besides message or messageId", () => {
@@ -1614,7 +1611,7 @@ describe("RuleTester", () => {
 					],
 				},
 			);
-		}, "Test error must specify either a 'messageId' or 'message'.");
+		}, "errors[0] must specify either 'messageId' or 'message'.");
 	});
 
 	it("should pass-through the globals config of valid tests to the to rule", () => {
@@ -2811,7 +2808,7 @@ describe("RuleTester", () => {
 					],
 				},
 			);
-		}, "Error[0] should not specify both 'message' and a 'messageId'.");
+		}, "errors[0] should not specify both 'message' and a 'messageId'.");
 	});
 
 	it("should throw if user tests for messageId but the rule doesn't use the messageId meta syntax.", () => {
@@ -2855,7 +2852,7 @@ describe("RuleTester", () => {
 					invalid: [{ code: "foo", errors: [{ data: "something" }] }],
 				},
 			);
-		}, "Test error must specify either a 'messageId' or 'message'.");
+		}, "errors[0] must specify either 'messageId' or 'message'.");
 	});
 
 	// fixable rules with or without `meta` property
@@ -5196,7 +5193,7 @@ describe("RuleTester", () => {
 								invalid: [
 									{
 										code: "",
-										errors: [{}],
+										errors: 1,
 									},
 								],
 							},
@@ -5491,7 +5488,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "Error[0] should have either 'message' or 'messageId' property");
+					}, "errors[0] must specify either 'messageId' or 'message'.");
 				});
 
 				it("should pass if message is present", () => {
@@ -5595,7 +5592,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "Error[0] should use 'message' (and not 'messageId') when 'requireMessage' is 'message'");
+					}, "errors[0] should specify 'message' (and not 'messageId') when 'assertionOptions.requireMessage' is 'message'.");
 				});
 
 				it("should pass if message is present", () => {
@@ -5639,7 +5636,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "Error[0] should use 'message' (and not 'messageId') when 'requireMessage' is 'message'");
+					}, "errors[0] should specify 'message' (and not 'messageId') when 'assertionOptions.requireMessage' is 'message'.");
 				});
 			});
 
@@ -5680,7 +5677,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "Error[0] should use an object when 'requireMessage' is 'messageId' or 'requireLocation' is true");
+					}, "errors[0] should be an object when 'assertionOptions.requireMessage' is 'messageId' or 'assertionOptions.requireLocation' is true.");
 				});
 
 				it("should fail if message and messageId are missing", () => {
@@ -5703,7 +5700,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "Error[0] should use 'messageId' (and not 'message') when 'requireMessage' is 'messageId'");
+					}, "errors[0] should specify 'messageId' (and not 'message') when 'assertionOptions.requireMessage' is 'messageId'.");
 				});
 
 				it("should fail if message is present", () => {
@@ -5726,7 +5723,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "Error[0] should use 'messageId' (and not 'message') when 'requireMessage' is 'messageId'");
+					}, "errors[0] should specify 'messageId' (and not 'message') when 'assertionOptions.requireMessage' is 'messageId'.");
 				});
 
 				it("should pass if messageId is present", () => {
@@ -5828,7 +5825,7 @@ describe("RuleTester", () => {
 								],
 							},
 						);
-					}, "Error[0] should use an object when 'requireMessage' is 'messageId' or 'requireLocation' is true");
+					}, "errors[0] should be an object when 'assertionOptions.requireMessage' is 'messageId' or 'assertionOptions.requireLocation' is true.");
 				});
 
 				it("should fail if all location properties are missing", () => {
