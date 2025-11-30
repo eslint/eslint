@@ -1897,9 +1897,6 @@ ruleTester.run("my-rule", rule, {
 		{ code: "foo", language: "js/js" },
 		{ code: "foo", processor: "a-plugin/a-processor" },
 		{ code: "foo", processor: _processor },
-		{ code: "foo", rules: {} },
-		{ code: "foo", plugins: { foo: {} } },
-		{ code: "foo", linterOptions: { reportUnusedDisableDirectives: 0 } },
 		// @ts-expect-error // `options` must be an array
 		{ code: "foo", options: { allowFoo: true } },
 		// @ts-expect-error
@@ -1908,6 +1905,12 @@ ruleTester.run("my-rule", rule, {
 		{ code: "foo", files: ["**/*.js"] },
 		// @ts-expect-error
 		{ code: "foo", ignores: ["**/*.js"] },
+		// @ts-expect-error
+		{ code: "foo", linterOptions: { reportUnusedDisableDirectives: 0 } },
+		// @ts-expect-error
+		{ code: "foo", plugins: { foo: {} } },
+		// @ts-expect-error
+		{ code: "foo", rules: {} },
 		{
 			code: "foo",
 			before() {

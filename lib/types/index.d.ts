@@ -1385,7 +1385,16 @@ export class RuleTester {
 
 export namespace RuleTester {
 	interface ValidTestCase
-		extends Omit<Linter.Config, "name" | "basePath" | "files" | "ignores"> {
+		extends Omit<
+			Linter.Config,
+			| "name"
+			| "basePath"
+			| "files"
+			| "ignores"
+			| "linterOptions"
+			| "plugins"
+			| "rules"
+		> {
 		name?: string;
 		code: string;
 		options?: any[];
