@@ -94,8 +94,6 @@ In the example configuration above, the top level `"before"` and `"after"` optio
 the rule, while the `"anonymous"` and `"method"` options override the default behavior.
 Overrides can be either an object with `"before"` and `"after"`, or a shorthand string as above.
 
-## Examples
-
 ### before
 
 Examples of **correct** code for this rule with the `"before"` option:
