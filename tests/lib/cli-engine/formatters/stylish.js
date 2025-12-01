@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests for options.
+ * @fileoverview Tests for stylish formatter.
  * @author Sindre Sorhus
  */
 
@@ -13,6 +13,13 @@ const assert = require("chai").assert,
 	util = require("node:util"),
 	sinon = require("sinon"),
 	formatter = require("../../../../lib/cli-engine/formatters/stylish");
+
+//------------------------------------------------------------------------------
+// Helpers
+//------------------------------------------------------------------------------
+
+// eslint-disable-next-line no-control-regex -- Needed to match ANSI escape code.
+const ansiEscapePattern = /\u001b\[/u;
 
 //------------------------------------------------------------------------------
 // Tests
@@ -29,15 +36,13 @@ describe("formatter:stylish", () => {
 
 	describe("when passed `FORCE_COLOR` environment variable", () => {
 		/*
-		 * Note for `FORCE_COLOR` tests:
+		 * Note for `FORCE_COLOR`:
 		 * - 2 colors: `FORCE_COLOR = 0` (Disables colors)
 		 * - 16 colors: `FORCE_COLOR = 1`
 		 * - 256 colors: `FORCE_COLOR = 2`
 		 * - 16,777,216 colors: `FORCE_COLOR = 3`
 		 */
 
-		// eslint-disable-next-line no-control-regex -- Needed to match ANSI escape codes.
-		const ansiEscapePattern = /\u001b\[/u;
 		const code = [
 			{
 				filePath: "foo.js",
@@ -104,6 +109,90 @@ describe("formatter:stylish", () => {
 				result,
 				util.stripVTControlCharacters(result),
 			);
+		});
+	});
+
+	describe("when passed `color` option", () => {
+		const code = [
+			{
+				filePath: "foo.js",
+				errorCount: 1,
+				warningCount: 0,
+				fixableErrorCount: 0,
+				fixableWarningCount: 0,
+				messages: [
+					{
+						message: "Unexpected foo.",
+						severity: 2,
+						line: 5,
+						column: 10,
+						ruleId: "foo",
+					},
+				],
+			},
+		];
+
+		it("default without environment variable should enable colors", () => {
+			const result = formatter(code);
+
+			assert.match(result, ansiEscapePattern);
+			assert.notStrictEqual(
+				result,
+				util.stripVTControlCharacters(result),
+			);
+		});
+
+		it("default with environment variable should disable colors", () => {
+			process.env.FORCE_COLOR = 0;
+
+			const result = formatter(code);
+
+			assert.notMatch(result, ansiEscapePattern);
+			assert.strictEqual(result, util.stripVTControlCharacters(result));
+
+			delete process.env.FORCE_COLOR;
+		});
+
+		it("`color: false` should disable colors", () => {
+			const result = formatter(code, { color: false });
+
+			assert.notMatch(result, ansiEscapePattern);
+			assert.strictEqual(result, util.stripVTControlCharacters(result));
+		});
+
+		it("`color: false` should ignore environment variable", () => {
+			process.env.FORCE_COLOR = 1;
+
+			const result = formatter(code, { color: false });
+
+			assert.notMatch(result, ansiEscapePattern);
+			assert.strictEqual(result, util.stripVTControlCharacters(result));
+
+			delete process.env.FORCE_COLOR;
+		});
+
+		it("`color: true` should enable colors", () => {
+			const result = formatter(code, { color: true });
+
+			assert.match(result, ansiEscapePattern);
+			assert.notStrictEqual(
+				result,
+				util.stripVTControlCharacters(result),
+			);
+		});
+
+		it("`color: true` should ignore environment variable", () => {
+			process.env.FORCE_COLOR = 0;
+
+			const result = formatter(code, { color: true });
+
+			assert.match(result, ansiEscapePattern);
+			assert.notStrictEqual(
+				result,
+				util.stripVTControlCharacters(result),
+			);
+
+			delete process.env.FORCE_COLOR;
 		});
 	});
 
