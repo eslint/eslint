@@ -1,3 +1,25 @@
+v10.0.0-alpha.1 - November 28, 2025
+
+* [`0b14059`](https://github.com/eslint/eslint/commit/0b14059491d830a49b3577931f4f68fbcfce6be5) chore: package.json update for @eslint/js release (Jenkins)
+* [`0f5a94a`](https://github.com/eslint/eslint/commit/0f5a94a84beee19f376025c74f703f275d52c94b) docs: [class-methods-use-this] explain purpose of rule (#20008) (Kirk Waiblinger)
+* [`d6e7bf3`](https://github.com/eslint/eslint/commit/d6e7bf3064be01d159d6856e3718672c6a97a8e1) ci: bump actions/checkout from 5 to 6 (#20350) (dependabot[bot])
+* [`139d456`](https://github.com/eslint/eslint/commit/139d4567d4afe3f1e1cdae21769d5e868f90ef0d) chore: require mandatory headers in rule docs (#20347) (Milos Djermanovic)
+* [`df5566f`](https://github.com/eslint/eslint/commit/df5566f826d9f5740546e473aa6876b1f7d2f12c) docs: add Options section to all rule docs (#20296) (sethamus)
+* [`fa31a60`](https://github.com/eslint/eslint/commit/fa31a608901684fbcd9906d1907e66561d16e5aa) feat!: add `name` to configs (#20015) (Kirk Waiblinger)
+* [`adf7a2b`](https://github.com/eslint/eslint/commit/adf7a2b202743a98edc454890574292dd2b34837) docs: no-unsafe-finally note for generator functions (#20330) (Tom Pereira)
+* [`ef7028c`](https://github.com/eslint/eslint/commit/ef7028c9688dc931051a4217637eb971efcbd71b) docs: Update README (GitHub Actions Bot)
+* [`3383e7e`](https://github.com/eslint/eslint/commit/3383e7ec9028166cafc8ea7986c2f7498d0049f0) fix!: remove deprecated `SourceCode` methods (#20137) (Pixel998)
+* [`3b0289c`](https://github.com/eslint/eslint/commit/3b0289c7b605b2d94fe2d0c347d07eea4b6ba1d4) chore: remove unused `.eslintignore` and test fixtures (#20316) (Pixel998)
+* [`a463e7b`](https://github.com/eslint/eslint/commit/a463e7bea0d18af55e5557e33691e4b0685d9523) chore: update dependency js-yaml to v4 [security] (#20319) (renovate[bot])
+* [`501abd0`](https://github.com/eslint/eslint/commit/501abd0e916a35554c58b7c0365537f1fa3880ce) feat!: update dependency minimatch to v10 (#20246) (renovate[bot])
+* [`ca4d3b4`](https://github.com/eslint/eslint/commit/ca4d3b40085de47561f89656a2207d09946ed45e) fix!: stricter rule tester assertions for valid test cases (#20125) (唯然)
+* [`fbae5d1`](https://github.com/eslint/eslint/commit/fbae5d18854b30ea3b696672c7699cef3ec92140) docs: consistently use "v10.0.0" in migration guide (#20328) (Pixel998)
+* [`ebfe905`](https://github.com/eslint/eslint/commit/ebfe90533d07a7020a5c63b93763fe537120f61f) chore: remove redundant rules from eslint-config-eslint (#20327) (Milos Djermanovic)
+* [`88dfdb2`](https://github.com/eslint/eslint/commit/88dfdb23ee541de4e9c3aa5d8a152c5980f6cc3f) test: add regression tests for message placeholder interpolation (#20318) (fnx)
+* [`778aa2d`](https://github.com/eslint/eslint/commit/778aa2d83e1ef1e2bd1577ee976c5a43472a3dbe) docs: ignoring default file patterns (#20312) (Tanuj Kanti)
+* [`6ed0f75`](https://github.com/eslint/eslint/commit/6ed0f758ff460b7a182c8d16b0487ae707e43cc9) chore: skip type checking in `eslint-config-eslint` (#20323) (Francesco Trotta)
+* [`09e6654`](https://github.com/eslint/eslint/commit/09e66549ecada6dcb8c567a60faf044fce049188) feat: update error loc of `require-yield` and `no-useless-constructor` (#20267) (Tanuj Kanti)
+
 v10.0.0-alpha.0 - November 14, 2025
 
 * [`1e2cad5`](https://github.com/eslint/eslint/commit/1e2cad5f6fa47ed6ed89d2a29798dda926d50990) chore: package.json update for @eslint/js release (Jenkins)
