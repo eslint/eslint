@@ -1291,6 +1291,11 @@ export namespace ESLint {
 	 */
 	interface ResultsMeta {
 		/**
+		 * TODO
+		 */
+		color?: boolean | undefined;
+
+		/**
 		 * Present if the maxWarnings threshold was exceeded.
 		 */
 		maxWarningsExceeded?: MaxWarningsExceeded | undefined;
