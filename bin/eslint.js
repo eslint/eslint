@@ -16,7 +16,7 @@ mod.enableCompileCache?.();
 
 // must do this initialization *before* other requires in order to work
 if (process.argv.includes("--debug")) {
-	require("debug").enable("eslint:*,-eslint:code-path,eslintrc:*");
+	require("debug").enable("eslint:*,-eslint:code-path");
 }
 
 //------------------------------------------------------------------------------
