@@ -22,6 +22,7 @@ The lists below are ordered roughly by the number of users each change is expect
 - [`eslint-env` comments are reported as errors](#eslint-env-comments)
 - [Jiti < v2.2.0 are no longer supported](#drop-old-jiti)
 - [POSIX character classes in glob patterns](#posix-character-classes)
+- [`stylish` formatter now uses native `styleText` instead of `chalk`](#stylish-formatter)
 - [Deprecated options of the `radix` rule](#radix)
 - [`no-shadow-restricted-names` now reports `globalThis` by default](#no-shadow-restricted-names)
 - [`func-names` schema is stricter](#func-names)
@@ -140,6 +141,21 @@ Here, `[[:upper:]]` is a POSIX character class that matches uppercase letters in
 **To address:** If any of the glob patterns in your configuration, CLI arguments, or Node.js API calls look like containing a POSIX character class, verify that they match files as intended.
 
 **Related issue(s):** [eslint/rewrite#66](https://github.com/eslint/rewrite/issues/66)
+
+## <a name="stylish-formatter"></a> `stylish` formatter now uses native `styleText` instead of `chalk`
+
+Starting in ESLint v10.0.0, the built-in `stylish` formatter no longer depends on the third-party [`chalk`](https://github.com/chalk/chalk) library for colorized output. Instead, it now uses Node.js's native [`styleText`](https://nodejs.org/api/util.html#utilstyletextformat-text-options) API, which introduces a few changes.
+
+In particular, `styleText` checks more environment variables when determining whether to disable colorized output and follows Node.js's own rules for when to enable or disable colors. This means it respects a wider set of environment variables and terminal capabilities than ESLint's previous `chalk`-based logic. For example:
+
+- [`NO_COLOR`](https://nodejs.org/api/cli.html#no_colorany) now disables colors consistently across tools that honor this convention.
+- [`NODE_DISABLE_COLORS`](https://nodejs.org/api/cli.html#node_disable_colors1) is also respected, aligning ESLint's behavior with Node.js itself.
+
+Please note that the [`FORCE_COLOR`](https://nodejs.org/api/cli.html#force_color1-2-3) environment variable is still supported to force-enable colors.
+
+**To address:** Review any environment configuration related to terminal colors (for example, CI defaults or shell profiles). If ESLint's output appears uncolored after upgrading to v10.0.0, check whether `NO_COLOR` or `NODE_DISABLE_COLORS` (or similar settings) are being set in your environment.
+
+**Related issue(s):** [#20012](https://github.com/eslint/eslint/issues/20012)
 
 ## <a name="radix"></a> Deprecated options of the `radix` rule
 
