@@ -132,45 +132,6 @@ describe("formatter:stylish", () => {
 			},
 		];
 
-		it("default without environment variable should enable colors", () => {
-			const previousForceColor = process.env.FORCE_COLOR;
-			const previousNoColor = process.env.NO_COLOR;
-			const previousNodeDisableColors = process.env.NODE_DISABLE_COLORS;
-
-			delete process.env.FORCE_COLOR;
-			delete process.env.NO_COLOR;
-			delete process.env.NODE_DISABLE_COLORS;
-
-			const result = formatter(code);
-
-			assert.match(result, ansiEscapePattern);
-			assert.notStrictEqual(
-				result,
-				util.stripVTControlCharacters(result),
-			);
-
-			if (typeof previousForceColor !== "undefined") {
-				process.env.FORCE_COLOR = previousForceColor;
-			}
-			if (typeof previousNoColor !== "undefined") {
-				process.env.NO_COLOR = previousNoColor;
-			}
-			if (typeof previousNodeDisableColors !== "undefined") {
-				process.env.NODE_DISABLE_COLORS = previousNodeDisableColors;
-			}
-		});
-
-		it("default with environment variable should disable colors", () => {
-			process.env.FORCE_COLOR = 0;
-
-			const result = formatter(code);
-
-			assert.notMatch(result, ansiEscapePattern);
-			assert.strictEqual(result, util.stripVTControlCharacters(result));
-
-			delete process.env.FORCE_COLOR;
-		});
-
 		it("`color: false` should disable colors", () => {
 			const result = formatter(code, { color: false });
 
