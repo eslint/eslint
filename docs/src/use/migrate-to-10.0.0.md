@@ -144,7 +144,7 @@ Here, `[[:upper:]]` is a POSIX character class that matches uppercase letters in
 
 ## <a name="stylish-formatter"></a> `stylish` formatter now uses native `styleText` instead of `chalk`
 
-Starting in ESLint v10.0.0, the built-in `stylish` formatter no longer depends on the third-party [`chalk`](https://github.com/chalk/chalk) library for colorized output. Instead, it now uses Node.js's native [`styleText`](https://nodejs.org/api/util.html#utilstyletextformat-text-options) API, which introduces a few changes.
+Starting in ESLint v10.0.0, the built-in [`stylish`](./formatters#stylish) formatter no longer depends on the third-party [`chalk`](https://github.com/chalk/chalk) library for colorized output. Instead, it now uses Node.js's native [`styleText`](https://nodejs.org/api/util.html#utilstyletextformat-text-options) API, which introduces a few changes.
 
 In particular, `styleText` checks more environment variables when determining whether to disable colorized output and follows Node.js's own rules for when to enable or disable colors. This means it respects a wider set of environment variables and terminal capabilities than ESLint's previous `chalk`-based logic. For example:
 
