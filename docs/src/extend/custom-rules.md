@@ -53,6 +53,7 @@ The source file for a rule exports an object with the following properties. Both
     - `recommended`: (`unknown`) For core rules, this is a boolean value specifying whether the rule is enabled by the `recommended` config from `@eslint/js`.
     - `url`: (`string`) Specifies the URL at which the full documentation can be accessed. Code editors often use this to provide a helpful link on highlighted rule violations.
 
+- `messages`: (`object`) An object containing violation and suggestion messages for the rule. Required for core rules and optional for custom rules. Messages can be referenced by their keys (`messageId`s) in `context.report()` calls. See [`messageId`s](#messageids) for more information.
 - `fixable`: (`string`) Either `"code"` or `"whitespace"` if the `--fix` option on the [command line](../use/command-line-interface#--fix) automatically fixes problems reported by the rule.
 
     **Important:** the `fixable` property is mandatory for fixable rules. If this property isn't specified, ESLint will throw an error whenever the rule attempts to produce a fix. Omit the `fixable` property if the rule is not fixable.
