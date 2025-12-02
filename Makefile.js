@@ -695,7 +695,6 @@ target.checkRuleFiles = function () {
 		"Rule Details",
 		"Options",
 		"Environments",
-		"Examples",
 		"Known Limitations",
 		"When Not To Use It",
 		"Compatibility",
