@@ -85,8 +85,6 @@ You can supply any number of configurations. If a statement pair matches multipl
     * `"while"` is `while` loop statements.
     * `"with"` is `with` statements.
 
-## Examples
-
 This configuration would require blank lines before all `return` statements, like the [newline-before-return](newline-before-return) rule.
 
 Examples of **incorrect** code for the `[{ blankLine: "always", prev: "*", next: "return" }]` configuration:
