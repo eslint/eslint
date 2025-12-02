@@ -5,8 +5,6 @@
 
 "use strict";
 
-// TODO
-
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
@@ -252,6 +250,47 @@ describe("cli", () => {
 					};
 
 					assert.deepStrictEqual(metadata, expectedMetadata);
+				});
+			});
+
+			describe("when the `--color` / `--no-color` options are passed", () => {
+				it("should pass `color: true` to the formatter metadata when `--color` is set", async () => {
+					const filePath = getFixturePath("syntax-error.js");
+					const exit = await cli.execute(
+						`--color -f json-with-metadata ${filePath}`,
+					);
+
+					assert.strictEqual(exit, 1);
+
+					const { metadata } = JSON.parse(log.info.args[0][0]);
+
+					assert.strictEqual(metadata.color, true);
+				});
+
+				it("should pass `color: false` to the formatter metadata when `--no-color` is set", async () => {
+					const filePath = getFixturePath("syntax-error.js");
+					const exit = await cli.execute(
+						`--no-color -f json-with-metadata ${filePath}`,
+					);
+
+					assert.strictEqual(exit, 1);
+
+					const { metadata } = JSON.parse(log.info.args[0][0]);
+
+					assert.strictEqual(metadata.color, false);
+				});
+
+				it("should omit `color` metadata when no flag is set", async () => {
+					const filePath = getFixturePath("syntax-error.js");
+					const exit = await cli.execute(
+						`-f json-with-metadata ${filePath}`,
+					);
+
+					assert.strictEqual(exit, 1);
+
+					const { metadata } = JSON.parse(log.info.args[0][0]);
+
+					assert.notProperty(metadata, "color");
 				});
 			});
 
