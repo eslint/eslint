@@ -244,6 +244,10 @@ describe("formatter:stylish", () => {
 				assert(util.styleText.neverCalledWithMatch("yellow", summary));
 				assert(util.styleText.calledWith("bold", summary));
 				assert(util.styleText.calledWithMatch("red", summary));
+				assert(util.styleText.getCall(4).calledWith("bold"));
+				assert(util.styleText.getCall(5).calledWith("red"));
+				assert(util.styleText.getCall(6).calledWith("bold"));
+				assert(util.styleText.getCall(7).calledWith("red"));
 			});
 		});
 	});
@@ -299,6 +303,10 @@ describe("formatter:stylish", () => {
 				assert(util.styleText.calledWith("bold", summary));
 				assert(util.styleText.calledWithMatch("yellow", summary));
 				assert(util.styleText.neverCalledWithMatch("red", summary));
+				assert(util.styleText.getCall(4).calledWith("bold"));
+				assert(util.styleText.getCall(5).calledWith("yellow"));
+				assert(util.styleText.getCall(6).calledWith("bold"));
+				assert(util.styleText.getCall(7).calledWith("yellow"));
 			});
 		});
 	});
