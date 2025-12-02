@@ -87,12 +87,12 @@ The `results` object passed into a formatter is an array of [`LintResult`](../in
 
 The formatter function receives a `context` object as its second argument. The object has the following properties:
 
+- `color` (optional): If `--color` was set, this property is `true`. If `--no-color` was set, it is `false`. If neither option was provided, the property is omitted.
 - `cwd`: The current working directory. This value comes from the `cwd` constructor option of the [ESLint](../integrate/nodejs-api#-new-eslintoptions) class.
-- `rulesMeta`: The `meta` property values of rules. See the [Custom Rules](custom-rules) page for more information about rules.
-- `color` (optional): TODO
 - `maxWarningsExceeded` (optional): If `--max-warnings` was set and the number of warnings exceeded the limit, this property's value is an object containing two properties:
     - `maxWarnings`: the value of the `--max-warnings` option
     - `foundWarnings`: the number of lint warnings
+- `rulesMeta`: The `meta` property values of rules. See the [Custom Rules](custom-rules) page for more information about rules.
 
 For example, here's what the object would look like if the rule `no-extra-semi` had been run:
 
