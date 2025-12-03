@@ -39,9 +39,7 @@ const ruleTester = new RuleTester({
 						return {
 							VariableDeclarator(node) {
 								const scope = sourceCode.getScope(node);
-								const variable = scope.variables.find(
-									v => v.name === node.id.name,
-								);
+								const variable = scope.set.get(node.id.name);
 
 								variable.references.push(
 									new Reference(
