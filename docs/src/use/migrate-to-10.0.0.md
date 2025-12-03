@@ -123,7 +123,9 @@ Prior to v10.0.0, ESLint did not recognize that `<Card>` is a reference to the i
 
 **To address:**
 
-- For users: New linting reports may appear in files with JSX. Update your code accordingly or adjust rule configurations if needed.
+- For users:
+    - New linting reports may appear in files with JSX. Update your code accordingly or adjust rule configurations if needed.
+    - Rules previously used to work around ESLint’s lack of JSX reference tracking (for example, [`@eslint-react/jsx-uses-vars`](https://www.eslint-react.xyz/docs/rules/jsx-uses-vars)) are no longer needed. Remove or disable them in your configuration.
 - For plugin developers: Custom rules relying on scope analysis may now encounter `JSXIdentifier` references. Update rules to handle these correctly.
 
 **Related issue(s):** [#19495](https://github.com/eslint/eslint/issues/19495)
