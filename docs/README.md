@@ -27,7 +27,7 @@ To update the links data file, run the following command from the project root (
 npm run build:docs:update-links
 ```
 
-To lint the documentation’s JavaScript files, run the following command from the project root (not the docs folder):
+To lint the documentation’s JavaScript files, run the following command from the project root (not the `docs` folder):
 
 ```shell
 npm run lint:docs:js
