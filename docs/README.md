@@ -10,7 +10,7 @@ npm install
 
 ## Run Locally
 
-To start the documentation site locally, run the following command inside the docs folder:
+To start the documentation site locally, run the following command inside the `docs` folder:
 
 ```shell
 npm start
