@@ -2268,13 +2268,19 @@
     },
     "no-inline-comments": {
         "type": "suggestion",
+        "deprecated": {
+            "message": "Formatting rules are being moved out of ESLint core.",
+            "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
+            "deprecatedSince": "9.26.0",
+            "availableUntil": "10.0.0",
+            "replacedBy": []
+        },
         "defaultOptions": [
             {}
         ],
         "docs": {
             "description": "Disallow inline comments after code",
             "recommended": false,
-            "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/no-inline-comments"
         }
     },
