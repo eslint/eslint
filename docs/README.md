@@ -41,4 +41,4 @@ npm run lint:fix:docs:js
 
 ## License
 
-© OpenJS Foundation and ESLint contributors. Content licensed under the [MIT License](https://github.com/eslint/eslint/blob/main/LICENSE). For more information, visit [www.openjsf.org](https://www.openjsf.org/).
+© OpenJS Foundation and ESLint contributors, [www.openjsf.org](https://www.openjsf.org/). Content licensed under the [MIT License](https://github.com/eslint/eslint/blob/main/LICENSE).
