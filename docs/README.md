@@ -33,7 +33,7 @@ To lint the documentation’s JavaScript files, run the following command from t
 npm run lint:docs:js
 ```
 
-To auto-fix JavaScript files, run the following command from the project root (not the docs folder):
+To auto-fix JavaScript files, run the following command from the project root (not the `docs` folder):
 
 ```shell
 npm run lint:fix:docs:js
