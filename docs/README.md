@@ -21,7 +21,7 @@ After the build completes, the documentation will be available at
 
 ## Scripts
 
-To update the links data file, run the following command from the project root (not the docs folder):
+To update the links data file, run the following command from the project root (not the `docs` folder):
 
 ```shell
 npm run build:docs:update-links
