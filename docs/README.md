@@ -16,7 +16,7 @@ To start the documentation site locally, run the following command inside the do
 npm start
 ```
 
-After the build completes, the documentation will be available at
+After the build completes, the documentation site will be available at
 <http://localhost:2023>.
 
 ## Scripts
