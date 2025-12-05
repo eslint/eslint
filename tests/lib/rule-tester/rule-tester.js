@@ -1539,7 +1539,12 @@ describe("RuleTester", () => {
 				require("../../fixtures/testers/rule-tester/no-eval"),
 				{
 					valid: ["noeval('foo')"],
-					invalid: [{ code: "1eval('foo')", errors: 2 }],
+					invalid: [
+						{
+							code: "1eval('foo')",
+							errors: [{ messageId: "evalSucks" }],
+						},
+					],
 				},
 			);
 		}, /fatal parsing error/iu);
@@ -2808,7 +2813,33 @@ describe("RuleTester", () => {
 					],
 				},
 			);
-		}, "errors[0] should not specify both 'message' and a 'messageId'.");
+		}, "errors[0] should not specify both 'message' and 'messageId'.");
+	});
+
+	it("should throw if user tests for both message and data", () => {
+		assert.throws(() => {
+			ruleTester.run(
+				"foo",
+				require("../../fixtures/testers/rule-tester/messageId")
+					.withMetaWithData,
+				{
+					valid: [],
+					invalid: [
+						{
+							code: "foo",
+							errors: [
+								{
+									message: "something",
+									data: {
+										name: "foo",
+									},
+								},
+							],
+						},
+					],
+				},
+			);
+		}, "errors[0] should not specify both 'data' and 'message'.");
 	});
 
 	it("should throw if user tests for messageId but the rule doesn't use the messageId meta syntax.", () => {
@@ -2826,6 +2857,27 @@ describe("RuleTester", () => {
 			);
 		}, "Error can not use 'messageId' if rule under test doesn't define 'meta.messages'");
 	});
+
+	it("should fail if 'requireMessage: \"messageId\"' is set, but the rule does not define messageIds", () => {
+		assert.throws(() => {
+			ruleTester.run(
+				"foo",
+				require("../../fixtures/testers/rule-tester/messageId")
+					.withMessageOnly,
+				{
+					assertionOptions: { requireMessage: "messageId" },
+					valid: [],
+					invalid: [
+						{
+							code: "foo",
+							errors: [{ messageId: "avoidFoo" }],
+						},
+					],
+				},
+			);
+		}, `Assertion options can not use 'requireMessage: "messageId"' if rule under test doesn't define 'meta.messages'.`);
+	});
+
 	it("should throw if user tests for messageId not listed in the rule's meta syntax.", () => {
 		assert.throws(() => {
 			ruleTester.run(
@@ -5638,6 +5690,30 @@ describe("RuleTester", () => {
 						);
 					}, "errors[0] should specify 'message' (and not 'messageId') when 'assertionOptions.requireMessage' is 'message'.");
 				});
+
+				it("should fail if message and messageId are present", () => {
+					assert.throws(() => {
+						ruleTester.run(
+							"no-eval",
+							require("../../fixtures/testers/rule-tester/no-eval"),
+							{
+								assertionOptions,
+								valid: [],
+								invalid: [
+									{
+										code: "eval(foo)",
+										errors: [
+											{
+												message: "eval sucks.",
+												messageId: "evalSucks",
+											},
+										],
+									},
+								],
+							},
+						);
+					}, "errors[0] should specify 'message' (and not 'messageId') when 'assertionOptions.requireMessage' is 'message'.");
+				});
 			});
 
 			describe("messageId", () => {
@@ -5745,6 +5821,30 @@ describe("RuleTester", () => {
 							],
 						},
 					);
+				});
+
+				it("should fail if message and messageId are present", () => {
+					assert.throws(() => {
+						ruleTester.run(
+							"no-eval",
+							require("../../fixtures/testers/rule-tester/no-eval"),
+							{
+								assertionOptions,
+								valid: [],
+								invalid: [
+									{
+										code: "eval(foo)",
+										errors: [
+											{
+												message: "eval sucks.",
+												messageId: "evalSucks",
+											},
+										],
+									},
+								],
+							},
+						);
+					}, "errors[0] should specify 'messageId' (and not 'message') when 'assertionOptions.requireMessage' is 'messageId'.");
 				});
 			});
 		});
@@ -5978,6 +6078,108 @@ describe("RuleTester", () => {
 							],
 						},
 					);
+				});
+
+				it("should throw if location properties are wrong", () => {
+					assert.throws(() => {
+						ruleTester.run(
+							"no-eval",
+							require("../../fixtures/testers/rule-tester/no-eval"),
+							{
+								assertionOptions,
+								valid: [],
+								invalid: [
+									{
+										code: "eval(foo)",
+										errors: [
+											{
+												message: "eval sucks.",
+												line: 99,
+												column: 99,
+												endLine: 99,
+												endColumn: 99,
+											},
+										],
+									},
+								],
+							},
+						);
+					}, "Actual error location does not match expected error location.");
+				});
+
+				it("should pass if all but end location properties are present and rule does not provide end location", () => {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-end-location"),
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "eval(foo)",
+									errors: [
+										{
+											message: "eval sucks.",
+											line: 1,
+											column: 1,
+										},
+									],
+								},
+							],
+						},
+					);
+				});
+
+				it("should throw if location properties are wrong but rule does not provide end location", () => {
+					assert.throws(() => {
+						ruleTester.run(
+							"no-eval",
+							require("../../fixtures/testers/rule-tester/no-end-location"),
+							{
+								assertionOptions,
+								valid: [],
+								invalid: [
+									{
+										code: "eval(foo)",
+										errors: [
+											{
+												message: "eval sucks.",
+												line: 99,
+												column: 99,
+											},
+										],
+									},
+								],
+							},
+						);
+					}, "Actual error location does not match expected error location.");
+				});
+
+				it("should throw if all location properties are present but rule does not provide end location", () => {
+					assert.throws(() => {
+						ruleTester.run(
+							"no-eval",
+							require("../../fixtures/testers/rule-tester/no-end-location"),
+							{
+								assertionOptions,
+								valid: [],
+								invalid: [
+									{
+										code: "eval(foo)",
+										errors: [
+											{
+												message: "eval sucks.",
+												line: 1,
+												column: 1,
+												endLine: 99,
+												endColumn: 99,
+											},
+										],
+									},
+								],
+							},
+						);
+					}, "Actual error location does not match expected error location.");
 				});
 			});
 		});
