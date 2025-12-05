@@ -111,6 +111,18 @@ describe("WarningService", () => {
 				"Expected process.emitWarning to be called with the correct arguments",
 			);
 		});
+
+		it("emitESLintEnvWarning", () => {
+			warningService.emitESLintEnvWarning();
+
+			assert(
+				process.emitWarning.calledOnceWithExactly(
+					"/* eslint-env */ comments are no longer recognized when linting with flat config and will be reported as errors in v10.0.0. Replace them with /* global */ comments or define globals in your config file. See https://eslint.org/docs/latest/use/configure/migration-guide#eslint-env-configuration-comments for details.",
+					"ESLintEnvWarning",
+				),
+				"Expected process.emitWarning to be called with the correct arguments",
+			);
+		});
 	});
 
 	describe("should not throw an error when `process` is not defined", () => {

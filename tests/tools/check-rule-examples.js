@@ -72,8 +72,16 @@ describe("check-rule-examples", () => {
 				)
 
 				// Remove multiple whitespace before rule name in lint errors
-				.replaceAll(/\s+(?=\S*no-restricted-syntax\S*\n)/gu, " ");
+				.replaceAll(/\s+(?=\S*no-restricted-syntax\S*\n)/gu, " ")
 
+				// Remove the process ID from the warning
+				.replace(/\(node:\d+\) /u, "")
+
+				// Remove the trace-warnings hint line
+				.replace(
+					/\(Use `node --trace-warnings \.\.\.` to show where the warning was created\)\n/u,
+					"",
+				);
 			/* eslint-enable no-control-regex -- re-enable rule */
 
 			const expectedStderr =
@@ -101,7 +109,8 @@ describe("check-rule-examples", () => {
 				"\x1B[0m \x1B[2mno-restricted-syntax\x1B[22m\x1B[0m\n" +
 				"\x1B[0m\x1B[0m\n" +
 				"\x1B[0m\x1B[31m\x1B[1m✖ 18 problems (18 errors, 0 warnings)\x1B[22m\x1B[39m\x1B[0m\n" +
-				"\x1B[0m\x1B[31m\x1B[1m\x1B[22m\x1B[39m\x1B[0m\n";
+				"\x1B[0m\x1B[31m\x1B[1m\x1B[22m\x1B[39m\x1B[0m\n" +
+				"ESLintEnvWarning: /* eslint-env */ comments are no longer recognized when linting with flat config and will be reported as errors in v10.0.0. Replace them with /* global */ comments or define globals in your config file. See https://eslint.org/docs/latest/use/configure/migration-guide#eslint-env-configuration-comments for details.\n";
 
 			assert.strictEqual(normalizedStderr, expectedStderr);
 			return true;
