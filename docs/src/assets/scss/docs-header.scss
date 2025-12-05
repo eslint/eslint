@@ -41,3 +41,19 @@
 	max-width: 100px;
 	height: auto;
 }
+/* Fix: Compact header for noscript mode on small screens */
+@media (max-width: 820px) {
+	html.noscript .site-header {
+	  padding: 0.25rem 0;        /* reduce vertical padding */
+	  max-height: 48px;          /* limit height */
+	  overflow: hidden;          /* prevent large block */
+	}
+  
+	html.noscript .site-header .logo-link {
+	  padding: 0.25rem 0;        /* same compact spacing */
+	}
+  
+	html.noscript .site-header .logo svg {
+	  max-width: 70px;           /* smaller logo for small screens */
+	}
+  }
