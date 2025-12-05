@@ -1689,7 +1689,20 @@ linterWithEslintrcConfig.verify(
 	};
 
 	resultsMeta = {
+		color: true,
+	};
+	resultsMeta = {
+		color: false,
+	};
+	resultsMeta = {
+		color: undefined,
+	};
+	resultsMeta = {
 		maxWarningsExceeded: { maxWarnings: 42, foundWarnings: 43 },
+	};
+	resultsMeta = {
+		maxWarningsExceeded: { maxWarnings: 42, foundWarnings: 43 },
+		color: true,
 	};
 
 	const version: string = ESLint.version;

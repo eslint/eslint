@@ -1291,6 +1291,14 @@ export namespace ESLint {
 	 */
 	interface ResultsMeta {
 		/**
+		 * Whether or not to use color in the formatter output.
+		 * - If `--color` was set, this property is `true`.
+		 * - If `--no-color` was set, it is `false`.
+		 * - If neither option was provided, the property is omitted.
+		 */
+		color?: boolean | undefined;
+
+		/**
 		 * Present if the maxWarnings threshold was exceeded.
 		 */
 		maxWarningsExceeded?: MaxWarningsExceeded | undefined;
