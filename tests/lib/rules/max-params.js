@@ -273,7 +273,21 @@ ruleTesterTypeScript.run("max-params", rule, {
 	method(this: void, a) {}
   }
 		`,
+			options: [{ countVoidThis: true, max: 1 }],
+			errors: [{ messageId: "exceed" }],
+		},
+		{
+			code: `
+  class Foo {
+	method(this: void, a) {}
+  }
+		`,
 			options: [{ countThis: "always", max: 1 }],
+			errors: [{ messageId: "exceed" }],
+		},
+		{
+			code: `function testD(this: void, a) {}`,
+			options: [{ countVoidThis: true, max: 1 }],
 			errors: [{ messageId: "exceed" }],
 		},
 		{
