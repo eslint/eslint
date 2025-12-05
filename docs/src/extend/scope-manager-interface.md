@@ -274,7 +274,7 @@ Those members are defined but not used in ESLint.
 #### identifier
 
 - **Type:** `ASTNode`
-- **Description:** The `Identifier` node of this reference.
+- **Description:** The `Identifier` or `JSXIdentifier` node of this reference.
 
 #### from
 
