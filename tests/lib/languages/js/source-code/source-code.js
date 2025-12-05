@@ -16,7 +16,8 @@ const fs = require("node:fs"),
 	sinon = require("sinon"),
 	{ Linter } = require("../../../../../lib/linter"),
 	SourceCode = require("../../../../../lib/languages/js/source-code/source-code"),
-	astUtils = require("../../../../../lib/shared/ast-utils");
+	astUtils = require("../../../../../lib/shared/ast-utils"),
+	globals = require("../../../../../conf/globals");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -29,7 +30,6 @@ const DEFAULT_CONFIG = {
 	range: true,
 	loc: true,
 };
-const eslintrcLinter = new Linter({ configType: "eslintrc" });
 const linter = new Linter({ configType: "flat" });
 const AST = espree.parse("let foo = bar;", DEFAULT_CONFIG),
 	TEST_CODE = "var answer = 6 * 7;",
@@ -301,967 +301,6 @@ describe("SourceCode", () => {
 					'"use strict";\n\nconsole.log("This file has [0xEF, 0xBB, 0xBF] as BOM.");\n',
 				);
 			});
-		});
-	});
-
-	describe("getJSDocComment()", () => {
-		afterEach(() => {
-			sinon.verifyAndRestore();
-		});
-
-		it("should not take a JSDoc comment from a FunctionDeclaration parent node when the node is a FunctionExpression", () => {
-			const code = [
-				"/** Desc*/",
-				"function Foo(){var t = function(){}}",
-			].join("\n");
-
-			/**
-			 * Check jsdoc presence
-			 * @param {ASTNode} node not to check
-			 * @returns {void}
-			 * @private
-			 */
-			function assertJSDoc(node) {
-				const sourceCode = linter.getSourceCode();
-				const jsdoc = sourceCode.getJSDocComment(node);
-
-				assert.strictEqual(jsdoc, null);
-			}
-
-			const spy = sinon.spy(assertJSDoc);
-
-			linter.verify(code, {
-				plugins: {
-					test: {
-						rules: {
-							checker: {
-								create() {
-									return {
-										FunctionExpression: spy,
-									};
-								},
-							},
-						},
-					},
-				},
-				rules: { "test/checker": "error" },
-			});
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
-		});
-
-		it("should not take a JSDoc comment from a VariableDeclaration parent node when the node is a FunctionExpression inside a NewExpression", () => {
-			const code = ["/** Desc*/", "var x = new Foo(function(){});"].join(
-				"\n",
-			);
-
-			/**
-			 * Check jsdoc presence
-			 * @param {ASTNode} node not to check
-			 * @returns {void}
-			 * @private
-			 */
-			function assertJSDoc(node) {
-				const sourceCode = linter.getSourceCode();
-				const jsdoc = sourceCode.getJSDocComment(node);
-
-				assert.strictEqual(jsdoc, null);
-			}
-
-			const spy = sinon.spy(assertJSDoc);
-
-			linter.verify(code, {
-				plugins: {
-					test: {
-						rules: {
-							checker: {
-								create() {
-									return {
-										FunctionExpression: spy,
-									};
-								},
-							},
-						},
-					},
-				},
-				rules: { "test/checker": "error" },
-			});
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
-		});
-
-		it("should not take a JSDoc comment from a FunctionExpression parent node when the node is a FunctionExpression", () => {
-			const code = [
-				"/** Desc*/",
-				"var f = function(){var t = function(arg){}}",
-			].join("\n");
-
-			/**
-			 * Check jsdoc presence
-			 * @param {ASTNode} node not to check
-			 * @returns {void}
-			 * @private
-			 */
-			function assertJSDoc(node) {
-				if (node.params.length === 1) {
-					const sourceCode = linter.getSourceCode();
-					const jsdoc = sourceCode.getJSDocComment(node);
-
-					assert.strictEqual(jsdoc, null);
-				}
-			}
-
-			const spy = sinon.spy(assertJSDoc);
-
-			linter.verify(code, {
-				plugins: {
-					test: {
-						rules: {
-							checker: {
-								create() {
-									return {
-										FunctionExpression: spy,
-									};
-								},
-							},
-						},
-					},
-				},
-				rules: { "test/checker": "error" },
-			});
-			assert.isTrue(
-				spy.calledTwice,
-				"Event handler should be called twice.",
-			);
-		});
-
-		it("should get JSDoc comment for FunctionExpression in a CallExpression", () => {
-			const code = [
-				"call(",
-				"  /** Documentation. */",
-				"  function(argName) {",
-				"    return 'the return';",
-				"  }",
-				");",
-			].join("\n");
-
-			/**
-			 * Check jsdoc presence
-			 * @param {ASTNode} node not to check
-			 * @returns {void}
-			 * @private
-			 */
-			function assertJSDoc(node) {
-				const sourceCode = linter.getSourceCode();
-				const jsdoc = sourceCode.getJSDocComment(node);
-
-				assert.strictEqual(jsdoc.type, "Block");
-				assert.strictEqual(jsdoc.value, "* Documentation. ");
-			}
-
-			const spy = sinon.spy(assertJSDoc);
-
-			linter.verify(code, {
-				plugins: {
-					test: {
-						rules: {
-							checker: {
-								create() {
-									return {
-										FunctionExpression: spy,
-									};
-								},
-							},
-						},
-					},
-				},
-				rules: { "test/checker": "error" },
-			});
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
-		});
-
-		it("should get JSDoc comment for node when the node is a FunctionDeclaration", () => {
-			const code = ["/** Desc*/", "function Foo(){}"].join("\n");
-
-			/**
-			 * Check jsdoc presence
-			 * @param {ASTNode} node not to check
-			 * @returns {void}
-			 * @private
-			 */
-			function assertJSDoc(node) {
-				const sourceCode = linter.getSourceCode();
-				const jsdoc = sourceCode.getJSDocComment(node);
-
-				assert.strictEqual(jsdoc.type, "Block");
-				assert.strictEqual(jsdoc.value, "* Desc");
-			}
-
-			const spy = sinon.spy(assertJSDoc);
-
-			linter.verify(code, {
-				plugins: {
-					test: {
-						rules: {
-							checker: {
-								create() {
-									return {
-										FunctionDeclaration: spy,
-									};
-								},
-							},
-						},
-					},
-				},
-				rules: { "test/checker": "error" },
-			});
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
-		});
-
-		it("should get JSDoc comment for node when the node is a FunctionDeclaration but its parent is an export", () => {
-			const code = ["/** Desc*/", "export function Foo(){}"].join("\n");
-
-			/**
-			 * Check jsdoc presence
-			 * @param {ASTNode} node not to check
-			 * @returns {void}
-			 * @private
-			 */
-			function assertJSDoc(node) {
-				const sourceCode = linter.getSourceCode();
-				const jsdoc = sourceCode.getJSDocComment(node);
-
-				assert.strictEqual(jsdoc.type, "Block");
-				assert.strictEqual(jsdoc.value, "* Desc");
-			}
-
-			const spy = sinon.spy(assertJSDoc);
-
-			linter.verify(code, {
-				plugins: {
-					test: {
-						rules: {
-							checker: {
-								create() {
-									return {
-										FunctionDeclaration: spy,
-									};
-								},
-							},
-						},
-					},
-				},
-				rules: { "test/checker": "error" },
-			});
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
-		});
-
-		it("should get JSDoc comment for node when the node is a FunctionDeclaration but not the first statement", () => {
-			const code = [
-				"'use strict';",
-				"/** Desc*/",
-				"function Foo(){}",
-			].join("\n");
-
-			/**
-			 * Check jsdoc presence
-			 * @param {ASTNode} node not to check
-			 * @returns {void}
-			 * @private
-			 */
-			function assertJSDoc(node) {
-				const sourceCode = linter.getSourceCode();
-				const jsdoc = sourceCode.getJSDocComment(node);
-
-				assert.strictEqual(jsdoc.type, "Block");
-				assert.strictEqual(jsdoc.value, "* Desc");
-			}
-
-			const spy = sinon.spy(assertJSDoc);
-
-			linter.verify(code, {
-				plugins: {
-					test: {
-						rules: {
-							checker: {
-								create() {
-									return {
-										FunctionDeclaration: spy,
-									};
-								},
-							},
-						},
-					},
-				},
-				rules: { "test/checker": "error" },
-			});
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
-		});
-
-		it("should not get JSDoc comment for node when the node is a FunctionDeclaration inside of an IIFE without a JSDoc comment", () => {
-			const code = [
-				"/** Desc*/",
-				"(function(){",
-				"function Foo(){}",
-				"}())",
-			].join("\n");
-
-			/**
-			 * Check jsdoc presence
-			 * @param {ASTNode} node not to check
-			 * @returns {void}
-			 * @private
-			 */
-			function assertJSDoc(node) {
-				const sourceCode = linter.getSourceCode();
-				const jsdoc = sourceCode.getJSDocComment(node);
-
-				assert.isNull(jsdoc);
-			}
-
-			const spy = sinon.spy(assertJSDoc);
-
-			linter.verify(code, {
-				plugins: {
-					test: {
-						rules: {
-							checker: {
-								create() {
-									return {
-										FunctionDeclaration: spy,
-									};
-								},
-							},
-						},
-					},
-				},
-				rules: { "test/checker": "error" },
-			});
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
-		});
-
-		it("should get JSDoc comment for node when the node is a FunctionDeclaration and there are multiple comments", () => {
-			const code = [
-				"/* Code is good */",
-				"/** Desc*/",
-				"function Foo(){}",
-			].join("\n");
-
-			/**
-			 * Check jsdoc presence
-			 * @param {ASTNode} node not to check
-			 * @returns {void}
-			 * @private
-			 */
-			function assertJSDoc(node) {
-				const sourceCode = linter.getSourceCode();
-				const jsdoc = sourceCode.getJSDocComment(node);
-
-				assert.strictEqual(jsdoc.type, "Block");
-				assert.strictEqual(jsdoc.value, "* Desc");
-			}
-
-			const spy = sinon.spy(assertJSDoc);
-
-			linter.verify(code, {
-				plugins: {
-					test: {
-						rules: {
-							checker: {
-								create() {
-									return {
-										FunctionDeclaration: spy,
-									};
-								},
-							},
-						},
-					},
-				},
-				rules: { "test/checker": "error" },
-			});
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
-		});
-
-		it("should get JSDoc comment for node when the node is a FunctionDeclaration inside of an IIFE", () => {
-			const code = [
-				"/** Code is good */",
-				"(function() {",
-				"/** Desc*/",
-				"function Foo(){}",
-				"}())",
-			].join("\n");
-
-			/**
-			 * Check jsdoc presence
-			 * @param {ASTNode} node not to check
-			 * @returns {void}
-			 * @private
-			 */
-			function assertJSDoc(node) {
-				const sourceCode = linter.getSourceCode();
-				const jsdoc = sourceCode.getJSDocComment(node);
-
-				assert.strictEqual(jsdoc.type, "Block");
-				assert.strictEqual(jsdoc.value, "* Desc");
-			}
-
-			const spy = sinon.spy(assertJSDoc);
-
-			linter.verify(code, {
-				plugins: {
-					test: {
-						rules: {
-							checker: {
-								create() {
-									return {
-										FunctionDeclaration: spy,
-									};
-								},
-							},
-						},
-					},
-				},
-				rules: { "test/checker": "error" },
-			});
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
-		});
-
-		it("should get JSDoc comment for node when the node is a FunctionExpression inside of an object literal", () => {
-			const code = [
-				"/** Code is good */",
-				"var o = {",
-				"/** Desc*/",
-				"foo: function(){}",
-				"};",
-			].join("\n");
-
-			/**
-			 * Check jsdoc presence
-			 * @param {ASTNode} node not to check
-			 * @returns {void}
-			 * @private
-			 */
-			function assertJSDoc(node) {
-				const sourceCode = linter.getSourceCode();
-				const jsdoc = sourceCode.getJSDocComment(node);
-
-				assert.strictEqual(jsdoc.type, "Block");
-				assert.strictEqual(jsdoc.value, "* Desc");
-			}
-
-			const spy = sinon.spy(assertJSDoc);
-
-			linter.verify(code, {
-				plugins: {
-					test: {
-						rules: {
-							checker: {
-								create() {
-									return {
-										FunctionExpression: spy,
-									};
-								},
-							},
-						},
-					},
-				},
-				rules: { "test/checker": "error" },
-			});
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
-		});
-
-		it("should get JSDoc comment for node when the node is a ArrowFunctionExpression inside of an object literal", () => {
-			const code = [
-				"/** Code is good */",
-				"var o = {",
-				"/** Desc*/",
-				"foo: () => {}",
-				"};",
-			].join("\n");
-
-			/**
-			 * Check jsdoc presence
-			 * @param {ASTNode} node not to check
-			 * @returns {void}
-			 * @private
-			 */
-			function assertJSDoc(node) {
-				const sourceCode = linter.getSourceCode();
-				const jsdoc = sourceCode.getJSDocComment(node);
-
-				assert.strictEqual(jsdoc.type, "Block");
-				assert.strictEqual(jsdoc.value, "* Desc");
-			}
-
-			const spy = sinon.spy(assertJSDoc);
-
-			linter.verify(code, {
-				plugins: {
-					test: {
-						rules: {
-							checker: {
-								create() {
-									return {
-										ArrowFunctionExpression: spy,
-									};
-								},
-							},
-						},
-					},
-				},
-				rules: { "test/checker": "error" },
-			});
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
-		});
-
-		it("should get JSDoc comment for node when the node is a FunctionExpression in an assignment", () => {
-			const code = [
-				"/** Code is good */",
-				"/** Desc*/",
-				"Foo.bar = function(){}",
-			].join("\n");
-
-			/**
-			 * Check jsdoc presence
-			 * @param {ASTNode} node not to check
-			 * @returns {void}
-			 * @private
-			 */
-			function assertJSDoc(node) {
-				const sourceCode = linter.getSourceCode();
-				const jsdoc = sourceCode.getJSDocComment(node);
-
-				assert.strictEqual(jsdoc.type, "Block");
-				assert.strictEqual(jsdoc.value, "* Desc");
-			}
-
-			const spy = sinon.spy(assertJSDoc);
-
-			linter.verify(code, {
-				plugins: {
-					test: {
-						rules: {
-							checker: {
-								create() {
-									return {
-										FunctionExpression: spy,
-									};
-								},
-							},
-						},
-					},
-				},
-				rules: { "test/checker": "error" },
-			});
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
-		});
-
-		it("should get JSDoc comment for node when the node is a FunctionExpression in an assignment inside an IIFE", () => {
-			const code = [
-				"/** Code is good */",
-				"(function iife() {",
-				"/** Desc*/",
-				"Foo.bar = function(){}",
-				"}());",
-			].join("\n");
-
-			/**
-			 * Check jsdoc presence
-			 * @param {ASTNode} node not to check
-			 * @returns {void}
-			 * @private
-			 */
-			function assertJSDoc(node) {
-				if (!node.id) {
-					const sourceCode = linter.getSourceCode();
-					const jsdoc = sourceCode.getJSDocComment(node);
-
-					assert.strictEqual(jsdoc.type, "Block");
-					assert.strictEqual(jsdoc.value, "* Desc");
-				}
-			}
-
-			const spy = sinon.spy(assertJSDoc);
-
-			linter.verify(code, {
-				plugins: {
-					test: {
-						rules: {
-							checker: {
-								create() {
-									return {
-										FunctionExpression: spy,
-									};
-								},
-							},
-						},
-					},
-				},
-				rules: { "test/checker": "error" },
-			});
-			assert.isTrue(spy.calledTwice, "Event handler should be called.");
-		});
-
-		it("should not get JSDoc comment for node when the node is a FunctionExpression in an assignment inside an IIFE without a JSDoc comment", () => {
-			const code = [
-				"/** Code is good */",
-				"(function iife() {",
-				"//* whatever",
-				"Foo.bar = function(){}",
-				"}());",
-			].join("\n");
-
-			/**
-			 * Check jsdoc presence
-			 * @param {ASTNode} node not to check
-			 * @returns {void}
-			 * @private
-			 */
-			function assertJSDoc(node) {
-				if (!node.id) {
-					const sourceCode = linter.getSourceCode();
-					const jsdoc = sourceCode.getJSDocComment(node);
-
-					assert.isNull(jsdoc);
-				}
-			}
-
-			const spy = sinon.spy(assertJSDoc);
-
-			linter.verify(code, {
-				plugins: {
-					test: {
-						rules: {
-							checker: {
-								create() {
-									return {
-										FunctionExpression: spy,
-									};
-								},
-							},
-						},
-					},
-				},
-				rules: { "test/checker": "error" },
-			});
-			assert.isTrue(spy.calledTwice, "Event handler should be called.");
-		});
-
-		it("should not get JSDoc comment for node when the node is a FunctionExpression inside of a CallExpression", () => {
-			const code = [
-				"/** Code is good */",
-				"module.exports = (function() {",
-				"}());",
-			].join("\n");
-
-			/**
-			 * Check jsdoc presence
-			 * @param {ASTNode} node not to check
-			 * @returns {void}
-			 * @private
-			 */
-			function assertJSDoc(node) {
-				if (!node.id) {
-					const sourceCode = linter.getSourceCode();
-					const jsdoc = sourceCode.getJSDocComment(node);
-
-					assert.isNull(jsdoc);
-				}
-			}
-
-			const spy = sinon.spy(assertJSDoc);
-
-			linter.verify(code, {
-				plugins: {
-					test: {
-						rules: {
-							checker: {
-								create() {
-									return {
-										FunctionExpression: spy,
-									};
-								},
-							},
-						},
-					},
-				},
-				rules: { "test/checker": "error" },
-			});
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
-		});
-
-		it("should not get JSDoc comment for node when the node is a FunctionExpression in an assignment inside an IIFE without a JSDoc comment", () => {
-			const code = [
-				"/**",
-				" * Merges two objects together.",
-				" * @param {Object} target of the cloning operation",
-				" * @param {Object} [source] object",
-				" * @returns {void}",
-				" */",
-				"exports.mixin = function(target, source) {",
-				"    Object.keys(source).forEach(function forEach(key) {",
-				"        target[key] = source[key];",
-				"    });",
-				"};",
-			].join("\n");
-
-			/**
-			 * Check jsdoc presence
-			 * @param {ASTNode} node not to check
-			 * @returns {void}
-			 * @private
-			 */
-			function assertJSDoc(node) {
-				if (node.id) {
-					const sourceCode = linter.getSourceCode();
-					const jsdoc = sourceCode.getJSDocComment(node);
-
-					assert.isNull(jsdoc);
-				}
-			}
-
-			const spy = sinon.spy(assertJSDoc);
-
-			linter.verify(code, {
-				plugins: {
-					test: {
-						rules: {
-							checker: {
-								create() {
-									return {
-										FunctionExpression: spy,
-									};
-								},
-							},
-						},
-					},
-				},
-				rules: { "test/checker": "error" },
-			});
-			assert.isTrue(spy.calledTwice, "Event handler should be called.");
-		});
-
-		it("should get JSDoc comment for node when the node is a ClassExpression", () => {
-			const code = [
-				"/** Merges two objects together.*/",
-				"var A = class {",
-				"};",
-			].join("\n");
-
-			/**
-			 * Check jsdoc presence
-			 * @param {ASTNode} node not to check
-			 * @returns {void}
-			 * @private
-			 */
-			function assertJSDoc(node) {
-				const sourceCode = linter.getSourceCode();
-				const jsdoc = sourceCode.getJSDocComment(node);
-
-				assert.strictEqual(jsdoc.type, "Block");
-				assert.strictEqual(
-					jsdoc.value,
-					"* Merges two objects together.",
-				);
-			}
-
-			const spy = sinon.spy(assertJSDoc);
-
-			linter.verify(code, {
-				plugins: {
-					test: {
-						rules: {
-							checker: {
-								create() {
-									return {
-										ClassExpression: spy,
-									};
-								},
-							},
-						},
-					},
-				},
-				rules: { "test/checker": "error" },
-			});
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
-		});
-
-		it("should get JSDoc comment for node when the node is a ClassDeclaration", () => {
-			const code = [
-				"/** Merges two objects together.*/",
-				"class A {",
-				"};",
-			].join("\n");
-
-			/**
-			 * Check jsdoc presence
-			 * @param {ASTNode} node not to check
-			 * @returns {void}
-			 * @private
-			 */
-			function assertJSDoc(node) {
-				const sourceCode = linter.getSourceCode();
-				const jsdoc = sourceCode.getJSDocComment(node);
-
-				assert.strictEqual(jsdoc.type, "Block");
-				assert.strictEqual(
-					jsdoc.value,
-					"* Merges two objects together.",
-				);
-			}
-
-			const spy = sinon.spy(assertJSDoc);
-
-			linter.verify(code, {
-				plugins: {
-					test: {
-						rules: {
-							checker: {
-								create() {
-									return {
-										ClassDeclaration: spy,
-									};
-								},
-							},
-						},
-					},
-				},
-				rules: { "test/checker": "error" },
-			});
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
-		});
-
-		it("should not get JSDoc comment for class method even if the class has jsdoc present", () => {
-			const code = [
-				"/** Merges two objects together.*/",
-				"var A = class {",
-				"    constructor(xs) {}",
-				"};",
-			].join("\n");
-
-			/**
-			 * Check jsdoc presence
-			 * @param {ASTNode} node not to check
-			 * @returns {void}
-			 * @private
-			 */
-			function assertJSDoc(node) {
-				const sourceCode = linter.getSourceCode();
-				const jsdoc = sourceCode.getJSDocComment(node);
-
-				assert.isNull(jsdoc);
-			}
-
-			const spy = sinon.spy(assertJSDoc);
-
-			linter.verify(code, {
-				plugins: {
-					test: {
-						rules: {
-							checker: {
-								create() {
-									return {
-										FunctionExpression: spy,
-									};
-								},
-							},
-						},
-					},
-				},
-				rules: { "test/checker": "error" },
-			});
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
-		});
-
-		it("should get JSDoc comment for function expression even if function has blank lines on top", () => {
-			const code = [
-				"/** Merges two objects together.*/",
-				"var A = ",
-				" ",
-				" ",
-				" ",
-				"     function() {",
-				"};",
-			].join("\n");
-
-			/**
-			 * Check jsdoc presence
-			 * @param {ASTNode} node not to check
-			 * @returns {void}
-			 * @private
-			 */
-			function assertJSDoc(node) {
-				const sourceCode = linter.getSourceCode();
-				const jsdoc = sourceCode.getJSDocComment(node);
-
-				assert.strictEqual(jsdoc.type, "Block");
-				assert.strictEqual(
-					jsdoc.value,
-					"* Merges two objects together.",
-				);
-			}
-
-			const spy = sinon.spy(assertJSDoc);
-
-			linter.verify(code, {
-				plugins: {
-					test: {
-						rules: {
-							checker: {
-								create() {
-									return {
-										FunctionExpression: spy,
-									};
-								},
-							},
-						},
-					},
-				},
-				rules: { "test/checker": "error" },
-			});
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
-		});
-
-		it("should not get JSDoc comment for function declaration when the function has blank lines on top", () => {
-			const code = [
-				"/** Merges two objects together.*/",
-				" ",
-				" ",
-				" ",
-				"function test() {",
-				"};",
-			].join("\n");
-
-			/**
-			 * Check jsdoc presence
-			 * @param {ASTNode} node not to check
-			 * @returns {void}
-			 * @private
-			 */
-			function assertJSDoc(node) {
-				const sourceCode = linter.getSourceCode();
-				const jsdoc = sourceCode.getJSDocComment(node);
-
-				assert.isNull(jsdoc);
-			}
-
-			const spy = sinon.spy(assertJSDoc);
-
-			linter.verify(code, {
-				plugins: {
-					test: {
-						rules: {
-							checker: {
-								create() {
-									return {
-										FunctionDeclaration: spy,
-									};
-								},
-							},
-						},
-					},
-				},
-				rules: { "test/checker": "error" },
-			});
-			assert.isTrue(spy.calledOnce, "Event handler should be called.");
 		});
 	});
 
@@ -1875,433 +914,6 @@ describe("SourceCode", () => {
 		});
 	});
 
-	describe("isSpaceBetweenTokens()", () => {
-		describe("should return true when there is at least one whitespace character between two tokens", () => {
-			[
-				["let foo", true],
-				["let  foo", true],
-				["let /**/ foo", true],
-				["let/**/foo", false],
-				["let/*\n*/foo", false],
-			].forEach(([code, expected]) => {
-				describe("when the first given is located before the second", () => {
-					it(code, () => {
-						const ast = espree.parse(code, DEFAULT_CONFIG),
-							sourceCode = new SourceCode(code, ast);
-
-						assert.strictEqual(
-							sourceCode.isSpaceBetweenTokens(
-								sourceCode.ast.tokens[0],
-								sourceCode.ast.tokens.at(-1),
-							),
-							expected,
-						);
-					});
-				});
-
-				describe("when the first given is located after the second", () => {
-					it(code, () => {
-						const ast = espree.parse(code, DEFAULT_CONFIG),
-							sourceCode = new SourceCode(code, ast);
-
-						assert.strictEqual(
-							sourceCode.isSpaceBetweenTokens(
-								sourceCode.ast.tokens.at(-1),
-								sourceCode.ast.tokens[0],
-							),
-							expected,
-						);
-					});
-				});
-			});
-
-			[
-				["a+b", false],
-				["a +b", true],
-				["a/**/+b", false],
-				["a/* */+b", false],
-				["a/**/ +b", true],
-				["a/**/ /**/+b", true],
-				["a/* */ /* */+b", true],
-				["a/**/\n/**/+b", true],
-				["a/* */\n/* */+b", true],
-				["a/**/+b/**/+c", false],
-				["a/* */+b/* */+c", false],
-				["a/**/+b /**/+c", true],
-				["a/* */+b /* */+c", true],
-				["a/**/ +b/**/+c", true],
-				["a/* */ +b/* */+c", true],
-				["a/**/+b\t/**/+c", true],
-				["a/* */+b\t/* */+c", true],
-				["a/**/\t+b/**/+c", true],
-				["a/* */\t+b/* */+c", true],
-				["a/**/+b\n/**/+c", true],
-				["a/* */+b\n/* */+c", true],
-				["a/**/\n+b/**/+c", true],
-				["a/* */\n+b/* */+c", true],
-				["a/* */+' /**/ '/* */+c", false],
-				["a/* */+ ' /**/ '/* */+c", true],
-				["a/* */+' /**/ ' /* */+c", true],
-				["a/* */+ ' /**/ ' /* */+c", true],
-				["a/* */+` /*\n*/ `/* */+c", false],
-				["a/* */+ ` /*\n*/ `/* */+c", true],
-				["a/* */+` /*\n*/ ` /* */+c", true],
-				["a/* */+ ` /*\n*/ ` /* */+c", true],
-			].forEach(([code, expected]) => {
-				describe("when the first given is located before the second", () => {
-					it(code, () => {
-						const ast = espree.parse(code, DEFAULT_CONFIG),
-							sourceCode = new SourceCode(code, ast);
-
-						assert.strictEqual(
-							sourceCode.isSpaceBetweenTokens(
-								sourceCode.ast.tokens[0],
-								sourceCode.ast.tokens.at(-2),
-							),
-							expected,
-						);
-					});
-				});
-
-				describe("when the first given is located after the second", () => {
-					it(code, () => {
-						const ast = espree.parse(code, DEFAULT_CONFIG),
-							sourceCode = new SourceCode(code, ast);
-
-						assert.strictEqual(
-							sourceCode.isSpaceBetweenTokens(
-								sourceCode.ast.tokens.at(-2),
-								sourceCode.ast.tokens[0],
-							),
-							expected,
-						);
-					});
-				});
-			});
-		});
-
-		describe("should return true when there is at least one whitespace character between a token and a node", () => {
-			[
-				[";let foo = bar", false],
-				[";/**/let foo = bar", false],
-				[";/* */let foo = bar", false],
-				["; let foo = bar", true],
-				["; let foo = bar", true],
-				["; /**/let foo = bar", true],
-				["; /* */let foo = bar", true],
-				[";/**/ let foo = bar", true],
-				[";/* */ let foo = bar", true],
-				["; /**/ let foo = bar", true],
-				["; /* */ let foo = bar", true],
-				[";\tlet foo = bar", true],
-				[";\tlet foo = bar", true],
-				[";\t/**/let foo = bar", true],
-				[";\t/* */let foo = bar", true],
-				[";/**/\tlet foo = bar", true],
-				[";/* */\tlet foo = bar", true],
-				[";\t/**/\tlet foo = bar", true],
-				[";\t/* */\tlet foo = bar", true],
-				[";\nlet foo = bar", true],
-				[";\nlet foo = bar", true],
-				[";\n/**/let foo = bar", true],
-				[";\n/* */let foo = bar", true],
-				[";/**/\nlet foo = bar", true],
-				[";/* */\nlet foo = bar", true],
-				[";\n/**/\nlet foo = bar", true],
-				[";\n/* */\nlet foo = bar", true],
-			].forEach(([code, expected]) => {
-				describe("when the first given is located before the second", () => {
-					it(code, () => {
-						const ast = espree.parse(code, DEFAULT_CONFIG),
-							sourceCode = new SourceCode(code, ast);
-
-						assert.strictEqual(
-							sourceCode.isSpaceBetweenTokens(
-								sourceCode.ast.tokens[0],
-								sourceCode.ast.body.at(-1),
-							),
-							expected,
-						);
-					});
-				});
-
-				describe("when the first given is located after the second", () => {
-					it(code, () => {
-						const ast = espree.parse(code, DEFAULT_CONFIG),
-							sourceCode = new SourceCode(code, ast);
-
-						assert.strictEqual(
-							sourceCode.isSpaceBetweenTokens(
-								sourceCode.ast.body.at(-1),
-								sourceCode.ast.tokens[0],
-							),
-							expected,
-						);
-					});
-				});
-			});
-		});
-
-		describe("should return true when there is at least one whitespace character between a node and a token", () => {
-			[
-				["let foo = bar;;", false],
-				["let foo = bar;;;", false],
-				["let foo = 1; let bar = 2;;", true],
-				["let foo = bar;/**/;", false],
-				["let foo = bar;/* */;", false],
-				["let foo = bar;;;", false],
-				["let foo = bar; ;", true],
-				["let foo = bar; /**/;", true],
-				["let foo = bar; /* */;", true],
-				["let foo = bar;/**/ ;", true],
-				["let foo = bar;/* */ ;", true],
-				["let foo = bar; /**/ ;", true],
-				["let foo = bar; /* */ ;", true],
-				["let foo = bar;\t;", true],
-				["let foo = bar;\t/**/;", true],
-				["let foo = bar;\t/* */;", true],
-				["let foo = bar;/**/\t;", true],
-				["let foo = bar;/* */\t;", true],
-				["let foo = bar;\t/**/\t;", true],
-				["let foo = bar;\t/* */\t;", true],
-				["let foo = bar;\n;", true],
-				["let foo = bar;\n/**/;", true],
-				["let foo = bar;\n/* */;", true],
-				["let foo = bar;/**/\n;", true],
-				["let foo = bar;/* */\n;", true],
-				["let foo = bar;\n/**/\n;", true],
-				["let foo = bar;\n/* */\n;", true],
-			].forEach(([code, expected]) => {
-				describe("when the first given is located before the second", () => {
-					it(code, () => {
-						const ast = espree.parse(code, DEFAULT_CONFIG),
-							sourceCode = new SourceCode(code, ast);
-
-						assert.strictEqual(
-							sourceCode.isSpaceBetweenTokens(
-								sourceCode.ast.body[0],
-								sourceCode.ast.tokens.at(-1),
-							),
-							expected,
-						);
-					});
-				});
-
-				describe("when the first given is located after the second", () => {
-					it(code, () => {
-						const ast = espree.parse(code, DEFAULT_CONFIG),
-							sourceCode = new SourceCode(code, ast);
-
-						assert.strictEqual(
-							sourceCode.isSpaceBetweenTokens(
-								sourceCode.ast.tokens.at(-1),
-								sourceCode.ast.body[0],
-							),
-							expected,
-						);
-					});
-				});
-			});
-		});
-
-		describe("should return true when there is at least one whitespace character between two nodes", () => {
-			[
-				["let foo = bar;let baz = qux;", false],
-				["let foo = bar;/**/let baz = qux;", false],
-				["let foo = bar;/* */let baz = qux;", false],
-				["let foo = bar; let baz = qux;", true],
-				["let foo = bar; /**/let baz = qux;", true],
-				["let foo = bar; /* */let baz = qux;", true],
-				["let foo = bar;/**/ let baz = qux;", true],
-				["let foo = bar;/* */ let baz = qux;", true],
-				["let foo = bar; /**/ let baz = qux;", true],
-				["let foo = bar; /* */ let baz = qux;", true],
-				["let foo = bar;\tlet baz = qux;", true],
-				["let foo = bar;\t/**/let baz = qux;", true],
-				["let foo = bar;\t/* */let baz = qux;", true],
-				["let foo = bar;/**/\tlet baz = qux;", true],
-				["let foo = bar;/* */\tlet baz = qux;", true],
-				["let foo = bar;\t/**/\tlet baz = qux;", true],
-				["let foo = bar;\t/* */\tlet baz = qux;", true],
-				["let foo = bar;\nlet baz = qux;", true],
-				["let foo = bar;\n/**/let baz = qux;", true],
-				["let foo = bar;\n/* */let baz = qux;", true],
-				["let foo = bar;/**/\nlet baz = qux;", true],
-				["let foo = bar;/* */\nlet baz = qux;", true],
-				["let foo = bar;\n/**/\nlet baz = qux;", true],
-				["let foo = bar;\n/* */\nlet baz = qux;", true],
-				["let foo = 1;let foo2 = 2; let foo3 = 3;", true],
-			].forEach(([code, expected]) => {
-				describe("when the first given is located before the second", () => {
-					it(code, () => {
-						const ast = espree.parse(code, DEFAULT_CONFIG),
-							sourceCode = new SourceCode(code, ast);
-
-						assert.strictEqual(
-							sourceCode.isSpaceBetweenTokens(
-								sourceCode.ast.body[0],
-								sourceCode.ast.body.at(-1),
-							),
-							expected,
-						);
-					});
-				});
-
-				describe("when the first given is located after the second", () => {
-					it(code, () => {
-						const ast = espree.parse(code, DEFAULT_CONFIG),
-							sourceCode = new SourceCode(code, ast);
-
-						assert.strictEqual(
-							sourceCode.isSpaceBetweenTokens(
-								sourceCode.ast.body.at(-1),
-								sourceCode.ast.body[0],
-							),
-							expected,
-						);
-					});
-				});
-			});
-
-			it("JSXText tokens that contain only whitespaces should be handled as space", () => {
-				const code = "let jsx = <div>\n   {content}\n</div>";
-				const ast = espree.parse(code, {
-					...DEFAULT_CONFIG,
-					ecmaFeatures: { jsx: true },
-				});
-				const sourceCode = new SourceCode(code, ast);
-				const jsx = ast.body[0].declarations[0].init;
-				const interpolation = jsx.children[1];
-
-				assert.strictEqual(
-					sourceCode.isSpaceBetweenTokens(
-						jsx.openingElement,
-						interpolation,
-					),
-					true,
-				);
-				assert.strictEqual(
-					sourceCode.isSpaceBetweenTokens(
-						interpolation,
-						jsx.closingElement,
-					),
-					true,
-				);
-
-				// Reversed order
-				assert.strictEqual(
-					sourceCode.isSpaceBetweenTokens(
-						interpolation,
-						jsx.openingElement,
-					),
-					true,
-				);
-				assert.strictEqual(
-					sourceCode.isSpaceBetweenTokens(
-						jsx.closingElement,
-						interpolation,
-					),
-					true,
-				);
-			});
-
-			it("JSXText tokens that contain both letters and whitespaces should be handled as space", () => {
-				const code = "let jsx = <div>\n   Hello\n</div>";
-				const ast = espree.parse(code, {
-					...DEFAULT_CONFIG,
-					ecmaFeatures: { jsx: true },
-				});
-				const sourceCode = new SourceCode(code, ast);
-				const jsx = ast.body[0].declarations[0].init;
-
-				assert.strictEqual(
-					sourceCode.isSpaceBetweenTokens(
-						jsx.openingElement,
-						jsx.closingElement,
-					),
-					true,
-				);
-
-				// Reversed order
-				assert.strictEqual(
-					sourceCode.isSpaceBetweenTokens(
-						jsx.closingElement,
-						jsx.openingElement,
-					),
-					true,
-				);
-			});
-
-			it("JSXText tokens that contain only letters should NOT be handled as space", () => {
-				const code = "let jsx = <div>Hello</div>";
-				const ast = espree.parse(code, {
-					...DEFAULT_CONFIG,
-					ecmaFeatures: { jsx: true },
-				});
-				const sourceCode = new SourceCode(code, ast);
-				const jsx = ast.body[0].declarations[0].init;
-
-				assert.strictEqual(
-					sourceCode.isSpaceBetweenTokens(
-						jsx.openingElement,
-						jsx.closingElement,
-					),
-					false,
-				);
-
-				// Reversed order
-				assert.strictEqual(
-					sourceCode.isSpaceBetweenTokens(
-						jsx.closingElement,
-						jsx.openingElement,
-					),
-					false,
-				);
-			});
-		});
-
-		describe("should return false either of the arguments' location is inside the other one", () => {
-			[["let foo = bar;", false]].forEach(([code, expected]) => {
-				it(code, () => {
-					const ast = espree.parse(code, DEFAULT_CONFIG),
-						sourceCode = new SourceCode(code, ast);
-
-					assert.strictEqual(
-						sourceCode.isSpaceBetweenTokens(
-							sourceCode.ast.tokens[0],
-							sourceCode.ast.body[0],
-						),
-						expected,
-					);
-
-					assert.strictEqual(
-						sourceCode.isSpaceBetweenTokens(
-							sourceCode.ast.tokens.at(-1),
-							sourceCode.ast.body[0],
-						),
-						expected,
-					);
-
-					assert.strictEqual(
-						sourceCode.isSpaceBetweenTokens(
-							sourceCode.ast.body[0],
-							sourceCode.ast.tokens[0],
-						),
-						expected,
-					);
-
-					assert.strictEqual(
-						sourceCode.isSpaceBetweenTokens(
-							sourceCode.ast.body[0],
-							sourceCode.ast.tokens.at(-1),
-						),
-						expected,
-					);
-				});
-			});
-		});
-	});
-
 	// need to check that linter.verify() works with SourceCode
 	describe("linter.verify()", () => {
 		it("should work when passed a SourceCode object without a config", () => {
@@ -2326,43 +938,6 @@ describe("SourceCode", () => {
 			const sourceCode = new SourceCode("let foo = bar;", AST),
 				messages = linter.verify(sourceCode, {
 					languageOptions: { ecmaVersion: 6 },
-					rules: { "no-unused-vars": 2 },
-				});
-
-			assert.strictEqual(messages.length, 1);
-			assert.strictEqual(
-				messages[0].message,
-				"'foo' is assigned a value but never used.",
-			);
-		});
-	});
-
-	// TODO: remove this when eslintrc mode is dropped
-	describe("linter.verify() in eslintrc mode", () => {
-		const CONFIG = {
-			parserOptions: { ecmaVersion: 6 },
-		};
-
-		it("should work when passed a SourceCode object without a config", () => {
-			const ast = espree.parse(TEST_CODE, DEFAULT_CONFIG);
-
-			const sourceCode = new SourceCode(TEST_CODE, ast),
-				messages = eslintrcLinter.verify(sourceCode);
-
-			assert.strictEqual(messages.length, 0);
-		});
-
-		it("should work when passed a SourceCode object containing ES6 syntax and config", () => {
-			const sourceCode = new SourceCode("let foo = bar;", AST),
-				messages = eslintrcLinter.verify(sourceCode, CONFIG);
-
-			assert.strictEqual(messages.length, 0);
-		});
-
-		it("should report an error when using let and ecmaVersion is 6", () => {
-			const sourceCode = new SourceCode("let foo = bar;", AST),
-				messages = eslintrcLinter.verify(sourceCode, {
-					parserOptions: { ecmaVersion: 6 },
 					rules: { "no-unused-vars": 2 },
 				});
 
@@ -3930,8 +2505,8 @@ describe("SourceCode", () => {
 	});
 
 	describe("finalize()", () => {
-		it("should remove ECMAScript globals from global scope's `implicit`", () => {
-			const code = "Array = 1; Foo = 1; Promise = 1; Array; Foo; Promise";
+		it("should add predefined ES globals with expected attributes and resolve references", () => {
+			const code = "Set = Array";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const scopeManager = eslintScope.analyze(ast, {
 				ignoreEval: true,
@@ -3950,24 +2525,71 @@ describe("SourceCode", () => {
 			sourceCode.finalize();
 
 			const globalScope = sourceCode.scopeManager.scopes[0];
-			const { implicit } = globalScope;
+			const esGlobals = globals.es2015;
+			const esGlobalsCount = Object.keys(esGlobals).length;
 
-			assert.deepStrictEqual(
-				[...implicit.set].map(([name]) => name),
-				["Foo"],
+			// All global variables are ES6 globals
+			assert.strictEqual(globalScope.set.size, esGlobalsCount);
+			assert.strictEqual(globalScope.variables.length, esGlobalsCount);
+			for (const variable of globalScope.variables) {
+				assert(Object.hasOwn(esGlobals, variable.name));
+				assert.strictEqual(
+					globalScope.set.get(variable.name),
+					variable,
+				);
+
+				assert.strictEqual(
+					variable.references.length,
+					["Set", "Array"].includes(variable.name) ? 1 : 0,
+				);
+
+				assert(Object.hasOwn(variable, "eslintImplicitGlobalSetting"));
+				assert(Object.hasOwn(variable, "eslintExplicitGlobal"));
+				assert(Object.hasOwn(variable, "eslintExplicitGlobalComments"));
+				assert(Object.hasOwn(variable, "writeable"));
+
+				assert.strictEqual(
+					variable.eslintImplicitGlobalSetting,
+					esGlobals[variable.name] ? "writable" : "readonly",
+				);
+
+				assert.strictEqual(variable.eslintExplicitGlobal, false);
+
+				assert.strictEqual(
+					variable.eslintExplicitGlobalComments,
+					void 0,
+				);
+
+				assert.strictEqual(
+					variable.writeable,
+					esGlobals[variable.name],
+				);
+
+				assert.strictEqual(variable.defs.length, 0);
+			}
+
+			// no implicit globals
+			assert.strictEqual(globalScope.implicit.set.size, 0);
+			assert.strictEqual(globalScope.implicit.variables.length, 0);
+
+			// no unresolved references
+			assert.strictEqual(globalScope.through.length, 0);
+			assert.strictEqual(globalScope.implicit.left.length, 0);
+
+			// resolved references
+			assert.strictEqual(globalScope.references.length, 2);
+			assert.strictEqual(
+				globalScope.references[0].resolved,
+				globalScope.set.get("Set"),
 			);
-			assert.deepStrictEqual(
-				implicit.variables.map(({ name }) => name),
-				["Foo"],
-			);
-			assert.deepStrictEqual(
-				implicit.left.map(reference => reference.identifier.name),
-				["Foo", "Foo"],
+			assert.strictEqual(
+				globalScope.references[1].resolved,
+				globalScope.set.get("Array"),
 			);
 		});
 
-		it("should remove custom globals from global scope's `implicit`", () => {
-			const code = "Bar = 1; Foo = 1; Baz = 1; Bar; Foo; Baz";
+		it("should overwrite predefined readonly/writable attribute when global is defined in the config", () => {
+			const code = "Set = Array";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const scopeManager = eslintScope.analyze(ast, {
 				ignoreEval: true,
@@ -3982,38 +2604,98 @@ describe("SourceCode", () => {
 			sourceCode.applyLanguageOptions({
 				ecmaVersion: 2015,
 				globals: {
-					Bar: "writable",
-					Baz: "readonly",
+					Object: "writable",
 				},
 			});
 
 			sourceCode.finalize();
 
 			const globalScope = sourceCode.scopeManager.scopes[0];
-			const { implicit } = globalScope;
+			const esGlobals = globals.es2015;
+			const esGlobalsCount = Object.keys(esGlobals).length;
 
-			assert.deepStrictEqual(
-				[...implicit.set].map(([name]) => name),
-				["Foo"],
+			// All global variables are ES6 globals
+			assert.strictEqual(globalScope.set.size, esGlobalsCount);
+			assert.strictEqual(globalScope.variables.length, esGlobalsCount);
+			for (const variable of globalScope.variables) {
+				assert(Object.hasOwn(esGlobals, variable.name));
+				assert.strictEqual(
+					globalScope.set.get(variable.name),
+					variable,
+				);
+
+				assert.strictEqual(
+					variable.references.length,
+					["Set", "Array"].includes(variable.name) ? 1 : 0,
+				);
+
+				assert(Object.hasOwn(variable, "eslintImplicitGlobalSetting"));
+				assert(Object.hasOwn(variable, "eslintExplicitGlobal"));
+				assert(Object.hasOwn(variable, "eslintExplicitGlobalComments"));
+				assert(Object.hasOwn(variable, "writeable"));
+
+				if (variable.name === "Object") {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						"writable",
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, false);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments,
+						void 0,
+					);
+
+					assert.strictEqual(variable.writeable, true);
+				} else {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						esGlobals[variable.name] ? "writable" : "readonly",
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, false);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments,
+						void 0,
+					);
+
+					assert.strictEqual(
+						variable.writeable,
+						esGlobals[variable.name],
+					);
+				}
+
+				assert.strictEqual(variable.defs.length, 0);
+			}
+
+			// no implicit globals
+			assert.strictEqual(globalScope.implicit.set.size, 0);
+			assert.strictEqual(globalScope.implicit.variables.length, 0);
+
+			// no unresolved references
+			assert.strictEqual(globalScope.through.length, 0);
+			assert.strictEqual(globalScope.implicit.left.length, 0);
+
+			// resolved references
+			assert.strictEqual(globalScope.references.length, 2);
+			assert.strictEqual(
+				globalScope.references[0].resolved,
+				globalScope.set.get("Set"),
 			);
-			assert.deepStrictEqual(
-				implicit.variables.map(({ name }) => name),
-				["Foo"],
-			);
-			assert.deepStrictEqual(
-				implicit.left.map(reference => reference.identifier.name),
-				["Foo", "Foo"],
+			assert.strictEqual(
+				globalScope.references[1].resolved,
+				globalScope.set.get("Array"),
 			);
 		});
 
-		it("should remove commonjs globals from global scope's `implicit`", () => {
-			const code =
-				"exports = {}; Foo = 1; require = () => {}; exports; Foo; require";
+		it("should overwrite predefined readonly/writable attribute when global is defined inline", () => {
+			const code = "/* global Object:writable */ Set = Array";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const scopeManager = eslintScope.analyze(ast, {
 				ignoreEval: true,
 				ecmaVersion: 6,
-				sourceType: "commonjs",
 			});
 			const sourceCode = new SourceCode({
 				text: code,
@@ -4023,73 +2705,208 @@ describe("SourceCode", () => {
 
 			sourceCode.applyLanguageOptions({
 				ecmaVersion: 2015,
-				sourceType: "commonjs",
-			});
-
-			sourceCode.finalize();
-
-			const globalScope = sourceCode.scopeManager.scopes[0];
-			const { implicit } = globalScope;
-
-			assert.deepStrictEqual(
-				[...implicit.set].map(([name]) => name),
-				["Foo"],
-			);
-			assert.deepStrictEqual(
-				implicit.variables.map(({ name }) => name),
-				["Foo"],
-			);
-			assert.deepStrictEqual(
-				implicit.left.map(reference => reference.identifier.name),
-				["Foo", "Foo"],
-			);
-		});
-
-		it("should remove inline globals from global scope's `implicit`", () => {
-			const code =
-				"/* globals Bar: writable, Baz: readonly */ Bar = 1; Foo = 1; Baz = 1; Bar; Foo; Baz";
-			const ast = espree.parse(code, DEFAULT_CONFIG);
-			const scopeManager = eslintScope.analyze(ast, {
-				ignoreEval: true,
-				ecmaVersion: 6,
-			});
-			const sourceCode = new SourceCode({
-				text: code,
-				ast,
-				scopeManager,
 			});
 
 			sourceCode.applyInlineConfig();
+
 			sourceCode.finalize();
 
 			const globalScope = sourceCode.scopeManager.scopes[0];
-			const { implicit } = globalScope;
+			const esGlobals = globals.es2015;
+			const esGlobalsCount = Object.keys(esGlobals).length;
 
-			assert.deepStrictEqual(
-				[...implicit.set].map(([name]) => name),
-				["Foo"],
+			// All global variables are ES6 globals
+			assert.strictEqual(globalScope.set.size, esGlobalsCount);
+			assert.strictEqual(globalScope.variables.length, esGlobalsCount);
+			for (const variable of globalScope.variables) {
+				assert(Object.hasOwn(esGlobals, variable.name));
+				assert.strictEqual(
+					globalScope.set.get(variable.name),
+					variable,
+				);
+
+				assert.strictEqual(
+					variable.references.length,
+					["Set", "Array"].includes(variable.name) ? 1 : 0,
+				);
+
+				assert(Object.hasOwn(variable, "eslintImplicitGlobalSetting"));
+				assert(Object.hasOwn(variable, "eslintExplicitGlobal"));
+				assert(Object.hasOwn(variable, "eslintExplicitGlobalComments"));
+				assert(Object.hasOwn(variable, "writeable"));
+
+				if (variable.name === "Object") {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						"readonly",
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, true);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments.length,
+						1,
+					);
+
+					assert.strictEqual(variable.writeable, true);
+				} else {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						esGlobals[variable.name] ? "writable" : "readonly",
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, false);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments,
+						void 0,
+					);
+
+					assert.strictEqual(
+						variable.writeable,
+						esGlobals[variable.name],
+					);
+				}
+
+				assert.strictEqual(variable.defs.length, 0);
+			}
+
+			// no implicit globals
+			assert.strictEqual(globalScope.implicit.set.size, 0);
+			assert.strictEqual(globalScope.implicit.variables.length, 0);
+
+			// no unresolved references
+			assert.strictEqual(globalScope.through.length, 0);
+			assert.strictEqual(globalScope.implicit.left.length, 0);
+
+			// resolved references
+			assert.strictEqual(globalScope.references.length, 2);
+			assert.strictEqual(
+				globalScope.references[0].resolved,
+				globalScope.set.get("Set"),
 			);
-			assert.deepStrictEqual(
-				implicit.variables.map(({ name }) => name),
-				["Foo"],
-			);
-			assert.deepStrictEqual(
-				implicit.left.map(reference => reference.identifier.name),
-				["Foo", "Foo"],
+			assert.strictEqual(
+				globalScope.references[1].resolved,
+				globalScope.set.get("Array"),
 			);
 		});
 
-		it("should not crash if global scope doesn't have `implicit` property", () => {
-			const code = "Array = 1; Foo = 1; Promise = 1; Array; Foo; Promise";
+		it("should not add predefined global when it is disabled in the config", () => {
+			const code = "Set = Array";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const scopeManager = eslintScope.analyze(ast, {
 				ignoreEval: true,
 				ecmaVersion: 6,
 			});
+			const sourceCode = new SourceCode({
+				text: code,
+				ast,
+				scopeManager,
+			});
 
-			const globalScope = scopeManager.scopes[0];
-			delete globalScope.implicit;
+			sourceCode.applyLanguageOptions({
+				ecmaVersion: 2015,
+				globals: {
+					Set: "off",
+					Array: "off",
+					Object: "off",
+				},
+			});
 
+			sourceCode.finalize();
+
+			const globalScope = sourceCode.scopeManager.scopes[0];
+			const esGlobals = globals.es2015;
+			const esGlobalsCount = Object.keys(esGlobals).length;
+
+			assert.strictEqual(globalScope.set.size, esGlobalsCount - 3);
+			assert.strictEqual(
+				globalScope.variables.length,
+				esGlobalsCount - 3,
+			);
+
+			assert(!globalScope.set.has("Set"));
+			assert(!globalScope.set.has("Array"));
+			assert(!globalScope.set.has("Object"));
+
+			for (const variable of globalScope.variables) {
+				assert(Object.hasOwn(esGlobals, variable.name));
+				assert.strictEqual(
+					globalScope.set.get(variable.name),
+					variable,
+				);
+
+				assert.strictEqual(variable.references.length, 0);
+
+				assert(Object.hasOwn(variable, "eslintImplicitGlobalSetting"));
+				assert(Object.hasOwn(variable, "eslintExplicitGlobal"));
+				assert(Object.hasOwn(variable, "eslintExplicitGlobalComments"));
+				assert(Object.hasOwn(variable, "writeable"));
+
+				assert.strictEqual(
+					variable.eslintImplicitGlobalSetting,
+					esGlobals[variable.name] ? "writable" : "readonly",
+				);
+
+				assert.strictEqual(variable.eslintExplicitGlobal, false);
+
+				assert.strictEqual(
+					variable.eslintExplicitGlobalComments,
+					void 0,
+				);
+
+				assert.strictEqual(
+					variable.writeable,
+					esGlobals[variable.name],
+				);
+
+				assert.strictEqual(variable.defs.length, 0);
+			}
+
+			assert.strictEqual(globalScope.implicit.set.size, 1);
+			assert.strictEqual(globalScope.implicit.variables.length, 1);
+			assert.strictEqual(
+				globalScope.implicit.variables[0],
+				globalScope.implicit.set.get("Set"),
+			);
+
+			assert.strictEqual(globalScope.references.length, 2);
+			assert.strictEqual(
+				globalScope.references[0].identifier.name,
+				"Set",
+			);
+			assert.strictEqual(
+				globalScope.references[1].identifier.name,
+				"Array",
+			);
+			assert.strictEqual(globalScope.through.length, 2);
+			assert.strictEqual(
+				globalScope.through[0],
+				globalScope.references[0],
+			);
+			assert.strictEqual(
+				globalScope.through[1],
+				globalScope.references[1],
+			);
+			assert.strictEqual(globalScope.implicit.left.length, 2);
+			assert.strictEqual(
+				globalScope.implicit.left[0],
+				globalScope.references[0],
+			);
+			assert.strictEqual(
+				globalScope.implicit.left[1],
+				globalScope.references[1],
+			);
+		});
+
+		it("should not add predefined global when it is disabled inline", () => {
+			const code =
+				"/* globals Set: off, Array: off, Object: off */ Set = Array";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const scopeManager = eslintScope.analyze(ast, {
+				ignoreEval: true,
+				ecmaVersion: 6,
+			});
 			const sourceCode = new SourceCode({
 				text: code,
 				ast,
@@ -4100,21 +2917,249 @@ describe("SourceCode", () => {
 				ecmaVersion: 2015,
 			});
 
-			// should not throw
+			sourceCode.applyInlineConfig();
+
 			sourceCode.finalize();
+
+			const globalScope = sourceCode.scopeManager.scopes[0];
+			const esGlobals = globals.es2015;
+			const esGlobalsCount = Object.keys(esGlobals).length;
+
+			// All global variables are ES6 globals
+			assert.strictEqual(globalScope.set.size, esGlobalsCount - 3);
+			assert.strictEqual(
+				globalScope.variables.length,
+				esGlobalsCount - 3,
+			);
+
+			assert(!globalScope.set.has("Set"));
+			assert(!globalScope.set.has("Array"));
+			assert(!globalScope.set.has("Object"));
+
+			for (const variable of globalScope.variables) {
+				assert(Object.hasOwn(esGlobals, variable.name));
+				assert.strictEqual(
+					globalScope.set.get(variable.name),
+					variable,
+				);
+
+				assert.strictEqual(variable.references.length, 0);
+
+				assert(Object.hasOwn(variable, "eslintImplicitGlobalSetting"));
+				assert(Object.hasOwn(variable, "eslintExplicitGlobal"));
+				assert(Object.hasOwn(variable, "eslintExplicitGlobalComments"));
+				assert(Object.hasOwn(variable, "writeable"));
+
+				assert.strictEqual(
+					variable.eslintImplicitGlobalSetting,
+					esGlobals[variable.name] ? "writable" : "readonly",
+				);
+
+				assert.strictEqual(variable.eslintExplicitGlobal, false);
+
+				assert.strictEqual(
+					variable.eslintExplicitGlobalComments,
+					void 0,
+				);
+
+				assert.strictEqual(
+					variable.writeable,
+					esGlobals[variable.name],
+				);
+
+				assert.strictEqual(variable.defs.length, 0);
+			}
+
+			assert.strictEqual(globalScope.implicit.set.size, 1);
+			assert.strictEqual(globalScope.implicit.variables.length, 1);
+			assert.strictEqual(
+				globalScope.implicit.variables[0],
+				globalScope.implicit.set.get("Set"),
+			);
+
+			assert.strictEqual(globalScope.references.length, 2);
+			assert.strictEqual(
+				globalScope.references[0].identifier.name,
+				"Set",
+			);
+			assert.strictEqual(
+				globalScope.references[1].identifier.name,
+				"Array",
+			);
+			assert.strictEqual(globalScope.through.length, 2);
+			assert.strictEqual(
+				globalScope.through[0],
+				globalScope.references[0],
+			);
+			assert.strictEqual(
+				globalScope.through[1],
+				globalScope.references[1],
+			);
+			assert.strictEqual(globalScope.implicit.left.length, 2);
+			assert.strictEqual(
+				globalScope.implicit.left[0],
+				globalScope.references[0],
+			);
+			assert.strictEqual(
+				globalScope.implicit.left[1],
+				globalScope.references[1],
+			);
 		});
 
-		it("should not crash if global scope doesn't have `implicit.left` property", () => {
-			const code = "Array = 1; Foo = 1; Promise = 1; Array; Foo; Promise";
+		it("should add custom globals enabled in the config", () => {
+			const code = "Foo = Bar";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const scopeManager = eslintScope.analyze(ast, {
 				ignoreEval: true,
 				ecmaVersion: 6,
 			});
+			const sourceCode = new SourceCode({
+				text: code,
+				ast,
+				scopeManager,
+			});
 
-			const globalScope = scopeManager.scopes[0];
-			delete globalScope.implicit.left;
+			sourceCode.applyLanguageOptions({
+				ecmaVersion: 2015,
+				globals: {
+					Foo: true,
+					Bar: false,
+					Baz: "writeable",
+					Qux: "off",
+				},
+			});
 
+			sourceCode.applyInlineConfig();
+
+			sourceCode.finalize();
+
+			const globalScope = sourceCode.scopeManager.scopes[0];
+			const esGlobals = globals.es2015;
+			const esGlobalsCount = Object.keys(esGlobals).length;
+
+			assert.strictEqual(globalScope.set.size, esGlobalsCount + 3);
+			assert.strictEqual(
+				globalScope.variables.length,
+				esGlobalsCount + 3,
+			);
+
+			assert(globalScope.set.has("Foo"));
+			assert(globalScope.set.has("Bar"));
+			assert(globalScope.set.has("Baz"));
+			assert(!globalScope.set.has("Qux"));
+
+			for (const variable of globalScope.variables) {
+				if (!["Foo", "Bar", "Baz"].includes(variable.name)) {
+					assert(Object.hasOwn(esGlobals, variable.name));
+				}
+
+				assert.strictEqual(
+					globalScope.set.get(variable.name),
+					variable,
+				);
+
+				assert.strictEqual(
+					variable.references.length,
+					["Foo", "Bar"].includes(variable.name) ? 1 : 0,
+				);
+
+				assert(Object.hasOwn(variable, "eslintImplicitGlobalSetting"));
+				assert(Object.hasOwn(variable, "eslintExplicitGlobal"));
+				assert(Object.hasOwn(variable, "eslintExplicitGlobalComments"));
+				assert(Object.hasOwn(variable, "writeable"));
+
+				if (variable.name === "Foo") {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						"writable",
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, false);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments,
+						void 0,
+					);
+
+					assert.strictEqual(variable.writeable, true);
+				} else if (variable.name === "Bar") {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						"readonly",
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, false);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments,
+						void 0,
+					);
+
+					assert.strictEqual(variable.writeable, false);
+				} else if (variable.name === "Baz") {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						"writable",
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, false);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments,
+						void 0,
+					);
+
+					assert.strictEqual(variable.writeable, true);
+				} else {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						esGlobals[variable.name] ? "writable" : "readonly",
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, false);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments,
+						void 0,
+					);
+
+					assert.strictEqual(
+						variable.writeable,
+						esGlobals[variable.name],
+					);
+				}
+
+				assert.strictEqual(variable.defs.length, 0);
+			}
+
+			// no implicit globals
+			assert.strictEqual(globalScope.implicit.set.size, 0);
+			assert.strictEqual(globalScope.implicit.variables.length, 0);
+
+			// no unresolved references
+			assert.strictEqual(globalScope.through.length, 0);
+			assert.strictEqual(globalScope.implicit.left.length, 0);
+
+			// resolved references
+			assert.strictEqual(globalScope.references.length, 2);
+			assert.strictEqual(
+				globalScope.references[0].resolved,
+				globalScope.set.get("Foo"),
+			);
+			assert.strictEqual(
+				globalScope.references[1].resolved,
+				globalScope.set.get("Bar"),
+			);
+		});
+
+		it("should add custom globals enabled inline", () => {
+			const code =
+				"/* globals Foo: true, Bar: false, Baz: writeable, Qux: off */ Foo = Bar";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const scopeManager = eslintScope.analyze(ast, {
+				ignoreEval: true,
+				ecmaVersion: 6,
+			});
 			const sourceCode = new SourceCode({
 				text: code,
 				ast,
@@ -4125,18 +3170,679 @@ describe("SourceCode", () => {
 				ecmaVersion: 2015,
 			});
 
-			// should not throw
+			sourceCode.applyInlineConfig();
+
 			sourceCode.finalize();
 
-			const { implicit } = globalScope;
+			const globalScope = sourceCode.scopeManager.scopes[0];
+			const esGlobals = globals.es2015;
+			const esGlobalsCount = Object.keys(esGlobals).length;
 
-			assert.deepStrictEqual(
-				[...implicit.set].map(([name]) => name),
-				["Foo"],
+			assert.strictEqual(globalScope.set.size, esGlobalsCount + 3);
+			assert.strictEqual(
+				globalScope.variables.length,
+				esGlobalsCount + 3,
 			);
-			assert.deepStrictEqual(
-				implicit.variables.map(({ name }) => name),
-				["Foo"],
+
+			assert(globalScope.set.has("Foo"));
+			assert(globalScope.set.has("Bar"));
+			assert(globalScope.set.has("Baz"));
+			assert(!globalScope.set.has("Qux"));
+
+			for (const variable of globalScope.variables) {
+				if (!["Foo", "Bar", "Baz"].includes(variable.name)) {
+					assert(Object.hasOwn(esGlobals, variable.name));
+				}
+
+				assert.strictEqual(
+					globalScope.set.get(variable.name),
+					variable,
+				);
+
+				assert.strictEqual(
+					variable.references.length,
+					["Foo", "Bar"].includes(variable.name) ? 1 : 0,
+				);
+
+				assert(Object.hasOwn(variable, "eslintImplicitGlobalSetting"));
+				assert(Object.hasOwn(variable, "eslintExplicitGlobal"));
+				assert(Object.hasOwn(variable, "eslintExplicitGlobalComments"));
+				assert(Object.hasOwn(variable, "writeable"));
+
+				if (variable.name === "Foo") {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						void 0,
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, true);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments.length,
+						1,
+					);
+
+					assert.strictEqual(variable.writeable, true);
+				} else if (variable.name === "Bar") {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						void 0,
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, true);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments.length,
+						1,
+					);
+
+					assert.strictEqual(variable.writeable, false);
+				} else if (variable.name === "Baz") {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						void 0,
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, true);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments.length,
+						1,
+					);
+
+					assert.strictEqual(variable.writeable, true);
+				} else {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						esGlobals[variable.name] ? "writable" : "readonly",
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, false);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments,
+						void 0,
+					);
+
+					assert.strictEqual(
+						variable.writeable,
+						esGlobals[variable.name],
+					);
+				}
+
+				assert.strictEqual(variable.defs.length, 0);
+			}
+
+			// no implicit globals
+			assert.strictEqual(globalScope.implicit.set.size, 0);
+			assert.strictEqual(globalScope.implicit.variables.length, 0);
+
+			// no unresolved references
+			assert.strictEqual(globalScope.through.length, 0);
+			assert.strictEqual(globalScope.implicit.left.length, 0);
+
+			// resolved references
+			assert.strictEqual(globalScope.references.length, 2);
+			assert.strictEqual(
+				globalScope.references[0].resolved,
+				globalScope.set.get("Foo"),
+			);
+			assert.strictEqual(
+				globalScope.references[1].resolved,
+				globalScope.set.get("Bar"),
+			);
+		});
+
+		it("should correctly set attributes when custom globals are enabled both in config and inline", () => {
+			const code =
+				"/* globals Foo: false, Bar: writable, Baz -- Baz defaults to 'readonly' */ Foo = Bar";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const scopeManager = eslintScope.analyze(ast, {
+				ignoreEval: true,
+				ecmaVersion: 6,
+			});
+			const sourceCode = new SourceCode({
+				text: code,
+				ast,
+				scopeManager,
+			});
+
+			sourceCode.applyLanguageOptions({
+				ecmaVersion: 2015,
+				globals: {
+					Foo: true,
+					Bar: false,
+					Baz: "writeable",
+				},
+			});
+
+			sourceCode.applyInlineConfig();
+
+			sourceCode.finalize();
+
+			const globalScope = sourceCode.scopeManager.scopes[0];
+			const esGlobals = globals.es2015;
+			const esGlobalsCount = Object.keys(esGlobals).length;
+
+			assert.strictEqual(globalScope.set.size, esGlobalsCount + 3);
+			assert.strictEqual(
+				globalScope.variables.length,
+				esGlobalsCount + 3,
+			);
+
+			assert(globalScope.set.has("Foo"));
+			assert(globalScope.set.has("Bar"));
+			assert(globalScope.set.has("Baz"));
+
+			for (const variable of globalScope.variables) {
+				if (!["Foo", "Bar", "Baz"].includes(variable.name)) {
+					assert(Object.hasOwn(esGlobals, variable.name));
+				}
+
+				assert.strictEqual(
+					globalScope.set.get(variable.name),
+					variable,
+				);
+
+				assert.strictEqual(
+					variable.references.length,
+					["Foo", "Bar"].includes(variable.name) ? 1 : 0,
+				);
+
+				assert(Object.hasOwn(variable, "eslintImplicitGlobalSetting"));
+				assert(Object.hasOwn(variable, "eslintExplicitGlobal"));
+				assert(Object.hasOwn(variable, "eslintExplicitGlobalComments"));
+				assert(Object.hasOwn(variable, "writeable"));
+
+				if (variable.name === "Foo") {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						"writable",
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, true);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments.length,
+						1,
+					);
+
+					assert.strictEqual(variable.writeable, false);
+				} else if (variable.name === "Bar") {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						"readonly",
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, true);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments.length,
+						1,
+					);
+
+					assert.strictEqual(variable.writeable, true);
+				} else if (variable.name === "Baz") {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						"writable",
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, true);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments.length,
+						1,
+					);
+
+					assert.strictEqual(variable.writeable, false);
+				} else {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						esGlobals[variable.name] ? "writable" : "readonly",
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, false);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments,
+						void 0,
+					);
+
+					assert.strictEqual(
+						variable.writeable,
+						esGlobals[variable.name],
+					);
+				}
+
+				assert.strictEqual(variable.defs.length, 0);
+			}
+
+			// no implicit globals
+			assert.strictEqual(globalScope.implicit.set.size, 0);
+			assert.strictEqual(globalScope.implicit.variables.length, 0);
+
+			// no unresolved references
+			assert.strictEqual(globalScope.through.length, 0);
+			assert.strictEqual(globalScope.implicit.left.length, 0);
+
+			// resolved references
+			assert.strictEqual(globalScope.references.length, 2);
+			assert.strictEqual(
+				globalScope.references[0].resolved,
+				globalScope.set.get("Foo"),
+			);
+			assert.strictEqual(
+				globalScope.references[1].resolved,
+				globalScope.set.get("Bar"),
+			);
+		});
+
+		it("should not add globals that are enabled in config but disabled inline", () => {
+			const code = "/* globals Foo: off, Bar: off, Baz: off */ Foo = Bar";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const scopeManager = eslintScope.analyze(ast, {
+				ignoreEval: true,
+				ecmaVersion: 6,
+			});
+			const sourceCode = new SourceCode({
+				text: code,
+				ast,
+				scopeManager,
+			});
+
+			sourceCode.applyLanguageOptions({
+				ecmaVersion: 2015,
+				globals: {
+					Foo: true,
+					Bar: false,
+					Baz: "writeable",
+				},
+			});
+
+			sourceCode.applyInlineConfig();
+
+			sourceCode.finalize();
+
+			const globalScope = sourceCode.scopeManager.scopes[0];
+			const esGlobals = globals.es2015;
+			const esGlobalsCount = Object.keys(esGlobals).length;
+
+			// All global variables are ES6 globals
+			assert.strictEqual(globalScope.set.size, esGlobalsCount);
+			assert.strictEqual(globalScope.variables.length, esGlobalsCount);
+
+			assert(!globalScope.set.has("Foo"));
+			assert(!globalScope.set.has("Bar"));
+			assert(!globalScope.set.has("Baz"));
+
+			for (const variable of globalScope.variables) {
+				assert(Object.hasOwn(esGlobals, variable.name));
+				assert.strictEqual(
+					globalScope.set.get(variable.name),
+					variable,
+				);
+
+				assert.strictEqual(variable.references.length, 0);
+
+				assert(Object.hasOwn(variable, "eslintImplicitGlobalSetting"));
+				assert(Object.hasOwn(variable, "eslintExplicitGlobal"));
+				assert(Object.hasOwn(variable, "eslintExplicitGlobalComments"));
+				assert(Object.hasOwn(variable, "writeable"));
+
+				assert.strictEqual(
+					variable.eslintImplicitGlobalSetting,
+					esGlobals[variable.name] ? "writable" : "readonly",
+				);
+
+				assert.strictEqual(variable.eslintExplicitGlobal, false);
+
+				assert.strictEqual(
+					variable.eslintExplicitGlobalComments,
+					void 0,
+				);
+
+				assert.strictEqual(
+					variable.writeable,
+					esGlobals[variable.name],
+				);
+
+				assert.strictEqual(variable.defs.length, 0);
+			}
+
+			assert.strictEqual(globalScope.implicit.set.size, 1);
+			assert.strictEqual(globalScope.implicit.variables.length, 1);
+			assert.strictEqual(
+				globalScope.implicit.variables[0],
+				globalScope.implicit.set.get("Foo"),
+			);
+
+			assert.strictEqual(globalScope.references.length, 2);
+			assert.strictEqual(
+				globalScope.references[0].identifier.name,
+				"Foo",
+			);
+			assert.strictEqual(globalScope.references[0].resolved, null);
+			assert.strictEqual(
+				globalScope.references[1].identifier.name,
+				"Bar",
+			);
+			assert.strictEqual(globalScope.references[1].resolved, null);
+			assert.strictEqual(globalScope.through.length, 2);
+			assert.strictEqual(
+				globalScope.through[0],
+				globalScope.references[0],
+			);
+			assert.strictEqual(
+				globalScope.through[1],
+				globalScope.references[1],
+			);
+			assert.strictEqual(globalScope.implicit.left.length, 2);
+			assert.strictEqual(
+				globalScope.implicit.left[0],
+				globalScope.references[0],
+			);
+			assert.strictEqual(
+				globalScope.implicit.left[1],
+				globalScope.references[1],
+			);
+		});
+
+		it("should not affect references for variables that are neither predefined, nor enabled in config, nor enabled inline", () => {
+			const code = "/* globals Qux: true */ Foo = Bar";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const scopeManager = eslintScope.analyze(ast, {
+				ignoreEval: true,
+				ecmaVersion: 6,
+			});
+			const sourceCode = new SourceCode({
+				text: code,
+				ast,
+				scopeManager,
+			});
+
+			sourceCode.applyLanguageOptions({
+				ecmaVersion: 2015,
+				globals: {
+					Quux: true,
+				},
+			});
+
+			sourceCode.applyInlineConfig();
+
+			sourceCode.finalize();
+
+			const globalScope = sourceCode.scopeManager.scopes[0];
+			const esGlobals = globals.es2015;
+			const esGlobalsCount = Object.keys(esGlobals).length;
+
+			assert.strictEqual(globalScope.set.size, esGlobalsCount + 2);
+			assert.strictEqual(
+				globalScope.variables.length,
+				esGlobalsCount + 2,
+			);
+
+			assert(globalScope.set.has("Qux"));
+			assert(globalScope.set.has("Quux"));
+			assert(!globalScope.set.has("Foo"));
+			assert(!globalScope.set.has("Bar"));
+
+			for (const variable of globalScope.variables) {
+				if (!["Qux", "Quux"].includes(variable.name)) {
+					assert(Object.hasOwn(esGlobals, variable.name));
+				}
+
+				assert.strictEqual(
+					globalScope.set.get(variable.name),
+					variable,
+				);
+
+				assert.strictEqual(variable.references.length, 0);
+
+				assert(Object.hasOwn(variable, "eslintImplicitGlobalSetting"));
+				assert(Object.hasOwn(variable, "eslintExplicitGlobal"));
+				assert(Object.hasOwn(variable, "eslintExplicitGlobalComments"));
+				assert(Object.hasOwn(variable, "writeable"));
+
+				if (variable.name === "Qux") {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						void 0,
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, true);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments.length,
+						1,
+					);
+
+					assert.strictEqual(variable.writeable, true);
+				} else if (variable.name === "Quux") {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						"writable",
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, false);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments,
+						void 0,
+					);
+
+					assert.strictEqual(variable.writeable, true);
+				} else {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						esGlobals[variable.name] ? "writable" : "readonly",
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, false);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments,
+						void 0,
+					);
+
+					assert.strictEqual(
+						variable.writeable,
+						esGlobals[variable.name],
+					);
+				}
+
+				assert.strictEqual(variable.defs.length, 0);
+			}
+
+			assert.strictEqual(globalScope.implicit.set.size, 1);
+			assert.strictEqual(globalScope.implicit.variables.length, 1);
+			assert.strictEqual(
+				globalScope.implicit.variables[0],
+				globalScope.implicit.set.get("Foo"),
+			);
+
+			assert.strictEqual(globalScope.references.length, 2);
+			assert.strictEqual(
+				globalScope.references[0].identifier.name,
+				"Foo",
+			);
+			assert.strictEqual(globalScope.references[0].resolved, null);
+			assert.strictEqual(
+				globalScope.references[1].identifier.name,
+				"Bar",
+			);
+			assert.strictEqual(globalScope.references[1].resolved, null);
+			assert.strictEqual(globalScope.through.length, 2);
+			assert.strictEqual(
+				globalScope.through[0],
+				globalScope.references[0],
+			);
+			assert.strictEqual(
+				globalScope.through[1],
+				globalScope.references[1],
+			);
+			assert.strictEqual(globalScope.implicit.left.length, 2);
+			assert.strictEqual(
+				globalScope.implicit.left[0],
+				globalScope.references[0],
+			);
+			assert.strictEqual(
+				globalScope.implicit.left[1],
+				globalScope.references[1],
+			);
+		});
+
+		it("should correctly set attributes when custom globals are both declared in code and enabled in config or inline", () => {
+			const code =
+				"/* globals Foo */ var Foo; Foo = 1; var Bar; Bar = 2; var Baz; Baz = 3;";
+			const ast = espree.parse(code, DEFAULT_CONFIG);
+			const scopeManager = eslintScope.analyze(ast, {
+				ignoreEval: true,
+				ecmaVersion: 6,
+			});
+			const sourceCode = new SourceCode({
+				text: code,
+				ast,
+				scopeManager,
+			});
+
+			sourceCode.applyLanguageOptions({
+				ecmaVersion: 2015,
+				globals: {
+					Bar: true,
+				},
+			});
+
+			sourceCode.applyInlineConfig();
+
+			sourceCode.finalize();
+
+			const globalScope = sourceCode.scopeManager.scopes[0];
+			const esGlobals = globals.es2015;
+			const esGlobalsCount = Object.keys(esGlobals).length;
+
+			assert.strictEqual(globalScope.set.size, esGlobalsCount + 3);
+			assert.strictEqual(
+				globalScope.variables.length,
+				esGlobalsCount + 3,
+			);
+
+			assert(globalScope.set.has("Foo"));
+			assert(globalScope.set.has("Bar"));
+			assert(globalScope.set.has("Baz"));
+
+			for (const variable of globalScope.variables) {
+				if (!["Foo", "Bar", "Baz"].includes(variable.name)) {
+					assert(Object.hasOwn(esGlobals, variable.name));
+				}
+
+				assert.strictEqual(
+					globalScope.set.get(variable.name),
+					variable,
+				);
+
+				assert.strictEqual(
+					variable.references.length,
+					["Foo", "Bar", "Baz"].includes(variable.name) ? 1 : 0,
+				);
+
+				if (variable.name === "Baz") {
+					assert(
+						!Object.hasOwn(variable, "eslintImplicitGlobalSetting"),
+					);
+					assert(!Object.hasOwn(variable, "eslintExplicitGlobal"));
+					assert(
+						!Object.hasOwn(
+							variable,
+							"eslintExplicitGlobalComments",
+						),
+					);
+					assert(!Object.hasOwn(variable, "writeable"));
+				} else {
+					assert(
+						Object.hasOwn(variable, "eslintImplicitGlobalSetting"),
+					);
+					assert(Object.hasOwn(variable, "eslintExplicitGlobal"));
+					assert(
+						Object.hasOwn(variable, "eslintExplicitGlobalComments"),
+					);
+					assert(Object.hasOwn(variable, "writeable"));
+				}
+
+				if (variable.name === "Foo") {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						void 0,
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, true);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments.length,
+						1,
+					);
+
+					assert.strictEqual(variable.writeable, false);
+				} else if (variable.name === "Bar") {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						"writable",
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, false);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments,
+						void 0,
+					);
+
+					assert.strictEqual(variable.writeable, true);
+				} else if (variable.name !== "Baz") {
+					assert.strictEqual(
+						variable.eslintImplicitGlobalSetting,
+						esGlobals[variable.name] ? "writable" : "readonly",
+					);
+
+					assert.strictEqual(variable.eslintExplicitGlobal, false);
+
+					assert.strictEqual(
+						variable.eslintExplicitGlobalComments,
+						void 0,
+					);
+
+					assert.strictEqual(
+						variable.writeable,
+						esGlobals[variable.name],
+					);
+				}
+
+				assert.strictEqual(
+					variable.defs.length,
+					["Foo", "Bar", "Baz"].includes(variable.name) ? 1 : 0,
+				);
+			}
+
+			// no implicit globals
+			assert.strictEqual(globalScope.implicit.set.size, 0);
+			assert.strictEqual(globalScope.implicit.variables.length, 0);
+
+			// no unresolved references
+			assert.strictEqual(globalScope.through.length, 0);
+			assert.strictEqual(globalScope.implicit.left.length, 0);
+
+			// resolved references
+			assert.strictEqual(globalScope.references.length, 3);
+			assert.strictEqual(
+				globalScope.references[0].resolved,
+				globalScope.set.get("Foo"),
+			);
+			assert.strictEqual(
+				globalScope.references[1].resolved,
+				globalScope.set.get("Bar"),
+			);
+			assert.strictEqual(
+				globalScope.references[2].resolved,
+				globalScope.set.get("Baz"),
 			);
 		});
 	});
@@ -4178,7 +3884,7 @@ describe("SourceCode", () => {
 							checker: {
 								create(context) {
 									const sourceCode = context.sourceCode;
-									const globals = new Set([
+									const builtinGlobals = new Set([
 										"undefined",
 										"globalThis",
 										"NaN",
@@ -4193,7 +3899,7 @@ describe("SourceCode", () => {
 									]);
 
 									identifierSpy = sinon.spy(node => {
-										if (globals.has(node.name)) {
+										if (builtinGlobals.has(node.name)) {
 											assert.isTrue(
 												sourceCode.isGlobalReference(
 													node,
@@ -4835,10 +4541,8 @@ describe("SourceCode", () => {
 			const sourceCode = new SourceCode(code, ast);
 			const steps = sourceCode.traverse();
 
-			// Filter for VisitNodeStep instances (where target is an object)
-			const visitSteps = steps.filter(
-				step => step.kind === 1 && typeof step.target === "object",
-			);
+			// Filter for VisitNodeStep instances
+			const visitSteps = steps.filter(step => step.kind === 1);
 
 			assert.strictEqual(visitSteps.length, 10);
 
@@ -4885,38 +4589,6 @@ describe("SourceCode", () => {
 			});
 		});
 
-		it("should include parent reference in step args", () => {
-			const code = "var foo = 1;";
-			const ast = espree.parse(code, DEFAULT_CONFIG);
-			const sourceCode = new SourceCode(code, ast);
-			const steps = sourceCode.traverse();
-
-			const visitSteps = steps.filter(step => step.kind === 1);
-
-			visitSteps.forEach(step => {
-				// args should contain [node, parent]
-				assert.isArray(step.args);
-				assert.isAtLeast(
-					step.args.length,
-					1,
-					"args should have at least node",
-				);
-				assert.strictEqual(
-					step.args[0],
-					step.target,
-					"first arg should be the target node",
-				);
-				// Second arg might be parent (could be undefined for root)
-				if (step.args.length > 1) {
-					assert.isTrue(
-						typeof step.args[1] === "object" ||
-							step.args[1] === null,
-						"second arg should be parent node or null",
-					);
-				}
-			});
-		});
-
 		it("should traverse nested nodes in correct order", () => {
 			const code = "var foo = 1;";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
@@ -4924,21 +4596,54 @@ describe("SourceCode", () => {
 			const steps = sourceCode.traverse();
 
 			const visitSteps = steps.filter(step => step.kind === 1);
-			const nodeTypes = visitSteps.map(step => step.target.type);
+			const nodeTypes = visitSteps.map(step => ({
+				type: step.target.type,
+				phase: step.phase,
+			}));
 
 			// Should have Program at the beginning
-			assert.strictEqual(
-				nodeTypes[0],
-				"Program",
-				"first node should be Program",
-			);
-
-			// Should have corresponding exit phase for Program at the end
-			assert.strictEqual(
-				nodeTypes.at(-1),
-				"Program",
-				"last node should be Program (exit)",
-			);
+			assert.deepStrictEqual(nodeTypes, [
+				{
+					type: "Program",
+					phase: 1,
+				},
+				{
+					type: "VariableDeclaration",
+					phase: 1,
+				},
+				{
+					type: "VariableDeclarator",
+					phase: 1,
+				},
+				{
+					type: "Identifier",
+					phase: 1,
+				},
+				{
+					type: "Identifier",
+					phase: 2,
+				},
+				{
+					type: "Literal",
+					phase: 1,
+				},
+				{
+					type: "Literal",
+					phase: 2,
+				},
+				{
+					type: "VariableDeclarator",
+					phase: 2,
+				},
+				{
+					type: "VariableDeclaration",
+					phase: 2,
+				},
+				{
+					type: "Program",
+					phase: 2,
+				},
+			]);
 		});
 
 		it("should cache the result of traverse()", () => {
@@ -5089,28 +4794,14 @@ describe("SourceCode", () => {
 
 			assert.strictEqual(visitSteps.length, 10);
 
-			// Every visit step should have exactly 2 arguments
 			visitSteps.forEach(step => {
 				assert.strictEqual(
 					step.args.length,
 					1,
 					`Visit step for ${step.target.type} should have exactly 1 argument, got ${step.args.length}`,
 				);
-			});
-		});
 
-		it("should have node as first argument", () => {
-			const code = "var foo = 1;";
-			const ast = espree.parse(code, DEFAULT_CONFIG);
-			const sourceCode = new SourceCode(code, ast);
-			const steps = sourceCode.traverse();
-
-			const visitSteps = steps.filter(step => step.kind === 1);
-
-			visitSteps.forEach(step => {
 				const [node] = step.args;
-
-				assert.strictEqual(step.args.length, 1);
 
 				// First argument should be the node itself
 				assert.strictEqual(
@@ -5121,51 +4812,35 @@ describe("SourceCode", () => {
 			});
 		});
 
-		it("should provide parent as the actual parent node in the AST", () => {
+		it("should set `parent` property on nodes as the actual parent node in the AST", () => {
 			const code = "if (x) { var y = 1; }";
 			const ast = espree.parse(code, DEFAULT_CONFIG);
 			const sourceCode = new SourceCode(code, ast);
-			const steps = sourceCode.traverse();
+			sourceCode.traverse();
 
-			const visitSteps = steps.filter(
-				step => step.kind === 1 && step.phase === 1,
-			); // enter phase only
+			const programNode = sourceCode.ast;
+			assert.strictEqual(programNode.parent, null);
 
-			// Build a map of visited nodes to verify parent-child relationships
-			const nodeMap = new Map();
-			visitSteps.forEach(step => {
-				const [node, parent] = step.args;
-				nodeMap.set(node, { node, parent, type: node.type });
-			});
+			const ifNode = programNode.body[0];
+			assert.strictEqual(ifNode.parent, programNode);
 
-			// Verify some specific parent-child relationships
-			for (const [node, info] of nodeMap) {
-				if (
-					node.type === "VariableDeclaration" &&
-					info.parent &&
-					info.parent.type
-				) {
-					// Parent of VariableDeclaration inside if block should be BlockStatement
-					assert.strictEqual(
-						info.parent.type,
-						"BlockStatement",
-						"VariableDeclaration inside if block should have BlockStatement parent",
-					);
-				}
+			const xNode = ifNode.test;
+			assert.strictEqual(xNode.parent, ifNode);
 
-				if (node.type === "Identifier" && node.name === "x") {
-					// Identifier 'x' in if condition should have Test or ConditionalExpression parent
-					assert.isTrue(
-						[
-							"Test",
-							"ConditionalExpression",
-							"IfStatement",
-						].includes(info.parent?.type) ||
-							node.parent?.type === "IfStatement",
-						`Identifier 'x' should have appropriate parent, got ${info.parent?.type}`,
-					);
-				}
-			}
+			const blockNode = ifNode.consequent;
+			assert.strictEqual(blockNode.parent, ifNode);
+
+			const varNode = blockNode.body[0];
+			assert.strictEqual(varNode.parent, blockNode);
+
+			const declaratorNode = varNode.declarations[0];
+			assert.strictEqual(declaratorNode.parent, varNode);
+
+			const yNode = declaratorNode.id;
+			assert.strictEqual(yNode.parent, declaratorNode);
+
+			const number1Node = declaratorNode.init;
+			assert.strictEqual(number1Node.parent, declaratorNode);
 		});
 	});
 });

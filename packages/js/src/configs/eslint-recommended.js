@@ -4,15 +4,8 @@
  */
 "use strict";
 
-/*
- * IMPORTANT!
- *
- * We cannot add a "name" property to this object because it's still used in eslintrc
- * which doesn't support the "name" property. If we add a "name" property, it will
- * cause an error.
- */
-
 module.exports = Object.freeze({
+    name: "@eslint/js/recommended",
     rules: Object.freeze({
         "constructor-super": "error",
         "for-direction": "error",
@@ -59,6 +52,7 @@ module.exports = Object.freeze({
         "no-shadow-restricted-names": "error",
         "no-sparse-arrays": "error",
         "no-this-before-super": "error",
+        "no-unassigned-vars": "error",
         "no-undef": "error",
         "no-unexpected-multiline": "error",
         "no-unreachable": "error",
@@ -68,10 +62,12 @@ module.exports = Object.freeze({
         "no-unused-labels": "error",
         "no-unused-private-class-members": "error",
         "no-unused-vars": "error",
+        "no-useless-assignment": "error",
         "no-useless-backreference": "error",
         "no-useless-catch": "error",
         "no-useless-escape": "error",
         "no-with": "error",
+        "preserve-caught-error": "error",
         "require-yield": "error",
         "use-isnan": "error",
         "valid-typeof": "error"

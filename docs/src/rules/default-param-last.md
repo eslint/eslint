@@ -72,3 +72,8 @@ function h(a = 0, b?: number) {}
 ```
 
 :::
+
+## Options
+
+This rule has no options.
+

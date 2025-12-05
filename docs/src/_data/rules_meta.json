@@ -3149,7 +3149,7 @@
         "type": "suggestion",
         "defaultOptions": [
             {
-                "reportGlobalThis": false
+                "reportGlobalThis": true
             }
         ],
         "docs": {
@@ -3321,7 +3321,7 @@
         "language": "javascript",
         "docs": {
             "description": "Disallow `let` or `var` variables that are read but never assigned",
-            "recommended": false,
+            "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/no-unassigned-vars"
         }
     },
@@ -3544,7 +3544,7 @@
         "type": "problem",
         "docs": {
             "description": "Disallow variable assignments when the value is not used",
-            "recommended": false,
+            "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/no-useless-assignment"
         }
     },
@@ -4171,7 +4171,7 @@
         ],
         "docs": {
             "description": "Disallow losing originally caught error when re-throwing custom errors",
-            "recommended": false,
+            "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/preserve-caught-error"
         },
         "hasSuggestions": true
@@ -4236,11 +4236,8 @@
     },
     "radix": {
         "type": "suggestion",
-        "defaultOptions": [
-            "always"
-        ],
         "docs": {
-            "description": "Enforce the consistent use of the radix argument when using `parseInt()`",
+            "description": "Enforce the use of the radix argument when using `parseInt()`",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/radix"
         },

@@ -158,3 +158,7 @@ function doSomething() {
 ```
 
 :::
+
+## Options
+
+This rule has no options.
