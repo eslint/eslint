@@ -41,6 +41,7 @@
 	max-width: 100px;
 	height: auto;
 }
+
 /* Fix: Compact header for noscript mode on small screens */
 @media (max-width: 820px) {
 	html.noscript .site-header {
