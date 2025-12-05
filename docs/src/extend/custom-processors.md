@@ -65,7 +65,11 @@ module.exports = plugin;
 
 **The `preprocess` method** takes the file contents and filename as arguments, and returns an array of code blocks to lint. The code blocks will be linted separately but still be registered to the filename.
 
-A code block has two properties `text` and `filename`. The `text` property is the content of the block and the `filename` property is the name of the block. The name of the block can be anything, but should include the file extension, which tells ESLint how to process the current block. ESLint checks matching `files` entries in the project's config to determine if the code blocks should be linted.
+A code block has two required properties, `text` and `filename`, and may optionally specify a `physicalFilename`:
+
+- `text` is the content of the block.
+- `filename` is the logical name of the block. The name of the block can be anything, but should include the file extension, which tells ESLint how to process the current block. ESLint checks matching `files` entries in the project's config to determine if the code blocks should be linted.
+- `physicalFilename` is an optional string that indicates the actual path on disk that tools such as parsers should use. When provided, ESLint passes this value as the `filePath` option to the parser while still treating `filename` as the virtual child path for reporting. This is primarily useful for processors that materialize code blocks as real files on disk (for example, to enable typed linting with tools that only operate on real files).
 
 It's up to the plugin to decide if it needs to return just one part of the non-JavaScript file or multiple pieces. For example in the case of processing `.html` files, you might want to return just one item in the array by combining all scripts. However, for `.md` files, you can return multiple items because each JavaScript block might be independent.
 
