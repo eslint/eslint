@@ -156,6 +156,7 @@ jobs:
               uses: actions/checkout@v5
               with:
                   repository: eslint/json
+                  ref: json-v0.14.0 # Tag of the last version that is compatible with ESLint v9
                   path: json
 
             - uses: actions/setup-node@v6
