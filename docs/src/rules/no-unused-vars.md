@@ -153,8 +153,8 @@ By default this rule is enabled with `all` option for caught errors and variable
 
 The `vars` option has two settings:
 
-* `all` checks all variables for usage, including those in the global scope. However, it excludes variables targeted by other options like `args` and `caughtErrors`. This is the default setting.
-* `local` checks only that locally-declared variables are used but will allow global variables to be unused.
+* `"all"` checks all variables for usage, including those in the global scope. However, it excludes variables targeted by other options like `args` and `caughtErrors`. This is the default setting.
+* `"local"` allows variables in the global scope to be unused.
 
 #### vars: local
 
@@ -167,6 +167,26 @@ Examples of **correct** code for the `{ "vars": "local" }` option:
 /*global some_unused_var */
 
 some_unused_var = 42;
+```
+
+:::
+
+Examples of **correct** code for the `{ "vars": "local" }` option with `"languageOptions": { "sourceType": "script" }`:
+
+::: correct { "sourceType": "script" }
+
+```js
+/*eslint no-unused-vars: ["error", { "vars": "local" }]*/
+
+const foo = 42;
+
+let bar;
+
+let baz = 42;
+
+var qux;
+
+var quux = 42;
 ```
 
 :::
