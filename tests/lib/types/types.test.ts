@@ -1110,21 +1110,8 @@ linter.verify(
 	{ languageOptions: { parser: "custom-parser" } },
 	"test.js",
 );
-linter.verify(
-	SOURCE,
-	{ languageOptions: { settings: { info: "foo" } } },
-	"test.js",
-);
-linter.verify(
-	SOURCE,
-	{ languageOptions: { processor: "a-plugin/a-processor" } },
-	"test.js",
-);
-linter.verify(
-	SOURCE,
-	{ languageOptions: { plugins: ["a-plugin"] } },
-	"test.js",
-);
+linter.verify(SOURCE, { settings: { info: "foo" } }, "test.js");
+linter.verify(SOURCE, { processor: "a-plugin/a-processor" }, "test.js");
 
 linter.verify(SOURCE, { rules: {} }, "test.js");
 linter.verify(SOURCE, { rules: { quotes: 2 } }, "test.js");
