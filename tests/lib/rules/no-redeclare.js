@@ -866,6 +866,19 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
   type something = string;
   const something = 2;
 	  `,
+		`
+  declare function a(): void;
+  declare function a(): void;
+
+  declare function b(): void;
+  declare class b { }
+
+  enum c { }
+  namespace c { }
+
+  declare enum d { }
+  interface e { }
+	`,
 	],
 	invalid: [
 		{
