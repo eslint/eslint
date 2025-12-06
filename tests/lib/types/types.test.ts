@@ -1964,6 +1964,82 @@ ruleTester.run("simple-valid-test", rule2, {
 	invalid: [{ code: "bar", errors: ["baz"] }],
 });
 
+ruleTester.run("empty-assertion-options", rule, {
+	assertionOptions: {},
+	valid: [],
+	invalid: [],
+});
+
+ruleTester.run("false-assertion-options", rule, {
+	assertionOptions: {
+		requireMessage: false,
+		requireLocation: false,
+	},
+	valid: [],
+	invalid: [
+		{
+			code: "foo",
+			errors: 1,
+		},
+	],
+});
+
+ruleTester.run("true-assertion-options", rule, {
+	assertionOptions: {
+		requireMessage: true,
+		requireLocation: true,
+	},
+	valid: [],
+	invalid: [
+		{
+			code: "foo",
+			errors: [
+				{
+					message: "has",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 1,
+				},
+			],
+		},
+	],
+});
+
+ruleTester.run("message-assertion-options", rule, {
+	assertionOptions: {
+		requireMessage: "message",
+	},
+	valid: [],
+	invalid: [
+		{
+			code: "foo",
+			errors: [
+				{
+					message: "has",
+				},
+			],
+		},
+	],
+});
+
+ruleTester.run("messageId-assertion-options", rule, {
+	assertionOptions: {
+		requireMessage: "messageId",
+	},
+	valid: [],
+	invalid: [
+		{
+			code: "foo",
+			errors: [
+				{
+					messageId: "has",
+				},
+			],
+		},
+	],
+});
+
 // #endregion
 
 // #region Config
