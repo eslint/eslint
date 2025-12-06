@@ -853,6 +853,19 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
   function A() {}
   namespace A {}
 	  `,
+		`
+  function A() {}
+  class A {}
+	  `,
+		`
+  function A() {}
+  class A {}
+  namespace A {}
+	  `,
+		`
+  type something = string;
+  const something = 2;
+	  `,
 	],
 	invalid: [
 		{
@@ -1194,60 +1207,6 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 						id: "NodeListOf",
 					},
 					messageId: "redeclaredAsBuiltin",
-				},
-			],
-		},
-		{
-			code: `
-	  function A() {}
-	  class A {}
-			`,
-
-			errors: [
-				{
-					data: {
-						id: "A",
-					},
-					line: 3,
-					messageId: "redeclared",
-				},
-			],
-		},
-		{
-			code: `
-	  function A() {}
-	  class A {}
-	  namespace A {}
-			`,
-			errors: [
-				{
-					data: {
-						id: "A",
-					},
-					line: 3,
-					messageId: "redeclared",
-				},
-				{
-					data: {
-						id: "A",
-					},
-					line: 4,
-					messageId: "redeclared",
-				},
-			],
-		},
-		{
-			code: `
-	  type something = string;
-	  const something = 2;
-			`,
-			errors: [
-				{
-					data: {
-						id: "something",
-					},
-					line: 3,
-					messageId: "redeclared",
 				},
 			],
 		},
