@@ -18257,6 +18257,25 @@ var a = "test2";
 					}
 				});
 			});
+
+			describe("eslint-env comments", () => {
+				it("should emit a warning", () => {
+					const code = "/* eslint-env mocha */";
+					linter.verify(code);
+
+					assert(warningService.emitESLintEnvWarning.calledOnce);
+				});
+
+				it("should be ignored in inline comments", () => {
+					const code = "it('Test', () => {}); // eslint-env mocha";
+					linter.verify(code);
+
+					assert.strictEqual(
+						warningService.emitESLintEnvWarning.called,
+						false,
+					);
+				});
+			});
 		});
 
 		describe("Default Global Variables", () => {
