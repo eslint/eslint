@@ -115,13 +115,16 @@ ruleTester.run("capitalized-comments", rule, {
 			options: ["always"],
 		},
 
-		// Using "always" string option: eslint/istanbul/jshint/jscs/globals?/exported are okay
+		// Using "always" string option: eslint/oxlint/istanbul/jshint/jscs/globals?/exported are okay
 		{ code: "// jscs: enable", options: ["always"] },
 		{ code: "// jscs:disable", options: ["always"] },
 		{ code: "// eslint-disable-line", options: ["always"] },
 		{ code: "// eslint-disable-next-line", options: ["always"] },
 		{ code: "/* eslint semi:off */", options: ["always"] },
 		{ code: "/* eslint-enable */", options: ["always"] },
+		{ code: "// oxlint-disable-line", options: ["always"] },
+		{ code: "// oxlint-disable-next-line", options: ["always"] },
+		{ code: "/* oxlint-enable */", options: ["always"] },
 		{ code: "/* istanbul ignore next */", options: ["always"] },
 		{ code: "/* jshint asi:true */", options: ["always"] },
 		{ code: "/* jscs: enable */", options: ["always"] },
