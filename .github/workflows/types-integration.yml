@@ -172,7 +172,7 @@ jobs:
               run: |
                   npm install
                   npm run build
-                  npm install ../eslint @eslint/core@latest
+                  npm install ../eslint
 
             - name: Run TSC
               working-directory: json
