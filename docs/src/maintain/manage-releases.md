@@ -126,6 +126,7 @@ Work on the first prerelease (`alpha.0`) starts when the last planned v9.x relea
 In this phase, we should also prepare infrastructure for v9.x maintenance:
 
 - In the `eslint/eslint` repository, create `v9.x-dev` branch that points to the latest release commit (e.g., to the `9.39.0` commit). On the Branches page, check if the branch is protected (it should already be, as its name matches a predefined pattern in branch protection rules).
+- In the `eslint/eslint` repository, submit a PR that adds `v9.x-dev` to the lists of branches that trigger CI checks in `.github/workflows/*` files. The PR should target the `v9.x-dev` branch and can be merged as soon as it is approved.
 - On Netlify, open the `docs-eslint` project, and under `Project Configuration > Build & Deploy > Continuous deployment` find `Branches and deploy contexts`. Add `v9.x-dev` to `Branch deploys`. This is to enable deploy previews on PRs that target the `v9.x-dev` branch. While there, check if the `next` branch is also included in `Branch deploys` (it should already be).
 - On Jenkins, in configurations for the `eslint Release` and `eslint-js Release` jobs, add `v9.x-dev` to the list of choices for the `RELEASE_BRANCH` parameter.
 
