@@ -63,8 +63,8 @@ function formatTeamMembers(members) {
             <a href="https://github.com/${member.username}">
                 <img src="https://github.com/${
 					member.username
-				}.png?s=75" width="75" height="75" alt="${member.name.trim()}'s Avatar"><br />
-                ${member.name.trim()}
+				}.png?s=75" width="75" height="75" alt="${member.name?.trim() ?? member.username}'s Avatar"><br />
+                ${member.name?.trim() ?? member.username}
             </a>
             </td>${(index + 1) % 9 === 0 ? "</tr><tr>" : ""}`,
 			)
@@ -122,7 +122,7 @@ const HTML_TEMPLATE = stripIndents`
 
 	// replace all of the section
 	let newReadme = readme.replace(
-		/<!--teamstart-->[\w\W]*?<!--teamend-->/u,
+		/<!--teamstart-->[\s\S]*?<!--teamend-->/u,
 		ejs.render(HTML_TEMPLATE, {
 			team,
 			formatTeamMembers,
@@ -130,7 +130,7 @@ const HTML_TEMPLATE = stripIndents`
 	);
 
 	newReadme = newReadme.replace(
-		/<!--sponsorsstart-->[\w\W]*?<!--sponsorsend-->/u,
+		/<!--sponsorsstart-->[\s\S]*?<!--sponsorsend-->/u,
 		`<!--sponsorsstart-->\n\n${allSponsors}\n\n<!--sponsorsend-->`,
 	);
 

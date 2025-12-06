@@ -3,6 +3,7 @@
         "type": "suggestion",
         "defaultOptions": [
             {
+                "enforceForTSTypes": false,
                 "enforceForClassMembers": true,
                 "getWithoutSet": false,
                 "setWithoutGet": true
@@ -19,7 +20,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -48,7 +49,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -93,7 +94,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -135,7 +136,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -164,7 +165,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -201,7 +202,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -230,7 +231,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -259,7 +260,7 @@
             "message": "Node.js rules were moved out of ESLint core.",
             "url": "https://eslint.org/docs/latest/use/migrating-to-7.0.0#deprecate-node-rules",
             "deprecatedSince": "7.0.0",
-            "availableUntil": null,
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
@@ -334,7 +335,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -363,7 +364,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -392,7 +393,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -432,7 +433,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -540,7 +541,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -585,7 +586,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -633,7 +634,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -705,7 +706,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -734,7 +735,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -763,7 +764,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -806,7 +807,7 @@
             "message": "Node.js rules were moved out of ESLint core.",
             "url": "https://eslint.org/docs/latest/use/migrating-to-7.0.0#deprecate-node-rules",
             "deprecatedSince": "7.0.0",
-            "availableUntil": null,
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
@@ -831,7 +832,10 @@
     "grouped-accessor-pairs": {
         "type": "suggestion",
         "defaultOptions": [
-            "anyOrder"
+            "anyOrder",
+            {
+                "enforceForTSTypes": false
+            }
         ],
         "docs": {
             "description": "Require grouped accessor pairs in object literals and classes",
@@ -852,7 +856,7 @@
             "message": "Node.js rules were moved out of ESLint core.",
             "url": "https://eslint.org/docs/latest/use/migrating-to-7.0.0#deprecate-node-rules",
             "deprecatedSince": "7.0.0",
-            "availableUntil": null,
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
@@ -879,7 +883,7 @@
             "message": "The rule was renamed.",
             "url": "https://eslint.org/blog/2020/07/eslint-v7.5.0-released/#deprecating-id-blacklist",
             "deprecatedSince": "7.5.0",
-            "availableUntil": null,
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "rule": {
@@ -946,7 +950,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -975,7 +979,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -1010,6 +1014,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "4.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -1046,7 +1051,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -1075,7 +1080,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -1104,7 +1109,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -1133,7 +1138,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "9.3.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -1161,7 +1166,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -1190,7 +1195,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -1226,7 +1231,7 @@
             "message": "The rule was replaced with a more general rule.",
             "url": "https://eslint.org/blog/2017/06/eslint-v4.0.0-released/",
             "deprecatedSince": "4.0.0",
-            "availableUntil": null,
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "The new rule moved to a plugin.",
@@ -1248,7 +1253,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -1304,7 +1309,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -1377,7 +1382,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -1405,7 +1410,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "9.3.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -1434,7 +1439,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -1492,7 +1497,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -1528,7 +1533,7 @@
             "message": "The rule was replaced with a more general rule.",
             "url": "https://eslint.org/blog/2017/06/eslint-v4.0.0-released/",
             "deprecatedSince": "4.0.0",
-            "availableUntil": null,
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "The new rule moved to a plugin.",
@@ -1557,7 +1562,7 @@
             "message": "The rule was replaced with a more general rule.",
             "url": "https://eslint.org/blog/2017/06/eslint-v4.0.0-released/",
             "deprecatedSince": "4.0.0",
-            "availableUntil": null,
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "The new rule moved to a plugin.",
@@ -1579,7 +1584,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -1662,7 +1667,7 @@
             "message": "Node.js rules were moved out of ESLint core.",
             "url": "https://eslint.org/docs/latest/use/migrating-to-7.0.0#deprecate-node-rules",
             "deprecatedSince": "7.0.0",
-            "availableUntil": null,
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
@@ -1712,7 +1717,7 @@
             "message": "This rule was renamed.",
             "url": "https://eslint.org/blog/2018/07/eslint-v5.1.0-released/",
             "deprecatedSince": "5.1.0",
-            "availableUntil": null,
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "rule": {
@@ -1756,7 +1761,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -1795,7 +1800,7 @@
     "no-const-assign": {
         "type": "problem",
         "docs": {
-            "description": "Disallow reassigning `const` variables",
+            "description": "Disallow reassigning `const`, `using`, and `await using` variables",
             "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/no-const-assign"
         }
@@ -1981,6 +1986,7 @@
             "typescript"
         ],
         "language": "javascript",
+        "hasSuggestions": true,
         "type": "suggestion",
         "defaultOptions": [
             {
@@ -2007,6 +2013,7 @@
         }
     },
     "no-empty-static-block": {
+        "hasSuggestions": true,
         "type": "suggestion",
         "docs": {
             "description": "Disallow empty static blocks",
@@ -2093,7 +2100,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -2122,7 +2129,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -2165,7 +2172,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -2423,6 +2430,11 @@
     },
     "no-misleading-character-class": {
         "type": "problem",
+        "defaultOptions": [
+            {
+                "allowEscape": false
+            }
+        ],
         "docs": {
             "description": "Disallow characters which are made with multiple code points in character class syntax",
             "recommended": true,
@@ -2435,7 +2447,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -2463,7 +2475,7 @@
             "message": "Node.js rules were moved out of ESLint core.",
             "url": "https://eslint.org/docs/latest/use/migrating-to-7.0.0#deprecate-node-rules",
             "deprecatedSince": "7.0.0",
-            "availableUntil": null,
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
@@ -2490,7 +2502,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -2531,7 +2543,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -2569,7 +2581,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -2604,7 +2616,7 @@
             "message": "Renamed rule.",
             "url": "https://eslint.org/blog/2016/08/eslint-v3.3.0-released/#deprecated-rules",
             "deprecatedSince": "3.3.0",
-            "availableUntil": null,
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "rule": {
@@ -2635,7 +2647,7 @@
             "message": "Renamed rule.",
             "url": "https://eslint.org/blog/2016/08/eslint-v3.3.0-released/#deprecated-rules",
             "deprecatedSince": "3.3.0",
-            "availableUntil": null,
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "rule": {
@@ -2690,7 +2702,7 @@
             "message": "The new rule flags more situations where object literal syntax can be used, and it does not report a problem when the `Object` constructor is invoked with an argument.",
             "url": "https://eslint.org/blog/2023/09/eslint-v8.50.0-released/",
             "deprecatedSince": "8.50.0",
-            "availableUntil": null,
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "rule": {
@@ -2706,7 +2718,7 @@
             "message": "Node.js rules were moved out of ESLint core.",
             "url": "https://eslint.org/docs/latest/use/migrating-to-7.0.0#deprecate-node-rules",
             "deprecatedSince": "7.0.0",
-            "availableUntil": null,
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
@@ -2739,7 +2751,7 @@
             "message": "The rule was replaced with a more general rule.",
             "url": "https://eslint.org/docs/latest/use/migrate-to-9.0.0#eslint-recommended",
             "deprecatedSince": "9.0.0",
-            "availableUntil": null,
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "rule": {
@@ -2813,7 +2825,7 @@
             "message": "Node.js rules were moved out of ESLint core.",
             "url": "https://eslint.org/docs/latest/use/migrating-to-7.0.0#deprecate-node-rules",
             "deprecatedSince": "7.0.0",
-            "availableUntil": null,
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
@@ -2854,7 +2866,7 @@
             "message": "Node.js rules were moved out of ESLint core.",
             "url": "https://eslint.org/docs/latest/use/migrating-to-7.0.0#deprecate-node-rules",
             "deprecatedSince": "7.0.0",
-            "availableUntil": null,
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
@@ -2881,7 +2893,7 @@
             "message": "Node.js rules were moved out of ESLint core.",
             "url": "https://eslint.org/docs/latest/use/migrating-to-7.0.0#deprecate-node-rules",
             "deprecatedSince": "7.0.0",
-            "availableUntil": null,
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
@@ -2979,6 +2991,11 @@
     },
     "no-restricted-imports": {
         "type": "suggestion",
+        "dialects": [
+            "typescript",
+            "javascript"
+        ],
+        "language": "javascript",
         "docs": {
             "description": "Disallow specified modules when loaded by `import`",
             "recommended": false,
@@ -2990,7 +3007,7 @@
             "message": "Node.js rules were moved out of ESLint core.",
             "url": "https://eslint.org/docs/latest/use/migrating-to-7.0.0#deprecate-node-rules",
             "deprecatedSince": "7.0.0",
-            "availableUntil": null,
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
@@ -3132,7 +3149,7 @@
         "type": "suggestion",
         "defaultOptions": [
             {
-                "reportGlobalThis": false
+                "reportGlobalThis": true
             }
         ],
         "docs": {
@@ -3152,7 +3169,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2016/08/eslint-v3.3.0-released/#deprecated-rules",
             "deprecatedSince": "3.3.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -3183,7 +3200,7 @@
             "message": "Node.js rules were moved out of ESLint core.",
             "url": "https://eslint.org/docs/latest/use/migrating-to-7.0.0#deprecate-node-rules",
             "deprecatedSince": "7.0.0",
-            "availableUntil": null,
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
@@ -3210,7 +3227,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -3271,7 +3288,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -3304,7 +3321,7 @@
         "language": "javascript",
         "docs": {
             "description": "Disallow `let` or `var` variables that are read but never assigned",
-            "recommended": false,
+            "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/no-unassigned-vars"
         }
     },
@@ -3527,7 +3544,7 @@
         "type": "problem",
         "docs": {
             "description": "Disallow variable assignments when the value is not used",
-            "recommended": false,
+            "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/no-useless-assignment"
         }
     },
@@ -3684,7 +3701,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -3721,7 +3738,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -3750,7 +3767,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -3779,7 +3796,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -3808,7 +3825,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -3857,7 +3874,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -3899,7 +3916,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -3928,7 +3945,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -3957,7 +3974,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -4145,12 +4162,26 @@
         },
         "fixable": "code"
     },
+    "preserve-caught-error": {
+        "type": "suggestion",
+        "defaultOptions": [
+            {
+                "requireCatchParameter": false
+            }
+        ],
+        "docs": {
+            "description": "Disallow losing originally caught error when re-throwing custom errors",
+            "recommended": true,
+            "url": "https://eslint.org/docs/latest/rules/preserve-caught-error"
+        },
+        "hasSuggestions": true
+    },
     "quote-props": {
         "deprecated": {
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -4179,7 +4210,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -4205,11 +4236,8 @@
     },
     "radix": {
         "type": "suggestion",
-        "defaultOptions": [
-            "always"
-        ],
         "docs": {
-            "description": "Enforce the consistent use of the radix argument when using `parseInt()`",
+            "description": "Enforce the use of the radix argument when using `parseInt()`",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/radix"
         },
@@ -4240,6 +4268,9 @@
     },
     "require-unicode-regexp": {
         "type": "suggestion",
+        "defaultOptions": [
+            {}
+        ],
         "docs": {
             "description": "Enforce the use of `u` or `v` flag on regular expressions",
             "recommended": false,
@@ -4260,7 +4291,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -4289,7 +4320,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -4318,7 +4349,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -4347,7 +4378,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -4434,7 +4465,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -4463,7 +4494,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -4492,7 +4523,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -4521,7 +4552,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -4550,7 +4581,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -4579,7 +4610,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -4620,7 +4651,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -4658,7 +4689,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -4687,7 +4718,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -4766,7 +4797,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -4795,7 +4826,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -4824,7 +4855,7 @@
             "message": "Formatting rules are being moved out of ESLint core.",
             "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
             "deprecatedSince": "8.53.0",
-            "availableUntil": "10.0.0",
+            "availableUntil": "11.0.0",
             "replacedBy": [
                 {
                     "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",

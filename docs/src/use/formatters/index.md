@@ -42,8 +42,12 @@ import { defineConfig } from "eslint/config";
 import js from "@eslint/js";
 
 export default defineConfig([
-	js.configs.recommended,
 	{
+		files: ["**/*.js"],
+		plugins: {
+			js,
+		},
+		extends: ["js/recommended"],
 		rules: {
 			"consistent-return": 2,
 			"indent"           : [1, 4],
@@ -91,7 +95,6 @@ Example output (formatted for easier reading):
                     "message": "'addOne' is defined but never used.",
                     "line": 1,
                     "column": 10,
-                    "nodeType": "Identifier",
                     "messageId": "unusedVar",
                     "endLine": 1,
                     "endColumn": 16,
@@ -118,7 +121,6 @@ Example output (formatted for easier reading):
                     "message": "Use the isNaN function to compare with NaN.",
                     "line": 2,
                     "column": 9,
-                    "nodeType": "BinaryExpression",
                     "messageId": "comparisonWithNaN",
                     "endLine": 2,
                     "endColumn": 17,
@@ -153,7 +155,6 @@ Example output (formatted for easier reading):
                     "message": "Unexpected space before unary operator '++'.",
                     "line": 3,
                     "column": 16,
-                    "nodeType": "UpdateExpression",
                     "messageId": "unexpectedBefore",
                     "endLine": 3,
                     "endColumn": 20,
@@ -166,12 +167,21 @@ Example output (formatted for easier reading):
                     }
                 },
                 {
+                    "ruleId": "no-useless-assignment",
+                    "severity": 2,
+                    "message": "This assigned value is not used in subsequent statements.",
+                    "line": 3,
+                    "column": 16,
+                    "messageId": "unnecessaryAssignment",
+                    "endLine": 3,
+                    "endColumn": 17
+                },
+                {
                     "ruleId": "semi",
                     "severity": 1,
                     "message": "Missing semicolon.",
                     "line": 3,
                     "column": 20,
-                    "nodeType": "ReturnStatement",
                     "messageId": "missingSemi",
                     "endLine": 4,
                     "endColumn": 1,
@@ -189,7 +199,6 @@ Example output (formatted for easier reading):
                     "message": "Unnecessary 'else' after 'return'.",
                     "line": 4,
                     "column": 12,
-                    "nodeType": "BlockStatement",
                     "messageId": "unexpected",
                     "endLine": 6,
                     "endColumn": 6,
@@ -207,7 +216,6 @@ Example output (formatted for easier reading):
                     "message": "Expected indentation of 8 spaces but found 6.",
                     "line": 5,
                     "column": 1,
-                    "nodeType": "Keyword",
                     "messageId": "wrongIndentation",
                     "endLine": 5,
                     "endColumn": 7,
@@ -225,7 +233,6 @@ Example output (formatted for easier reading):
                     "message": "Function 'addOne' expected a return value.",
                     "line": 5,
                     "column": 7,
-                    "nodeType": "ReturnStatement",
                     "messageId": "missingReturnValue",
                     "endLine": 5,
                     "endColumn": 13
@@ -236,7 +243,6 @@ Example output (formatted for easier reading):
                     "message": "Missing semicolon.",
                     "line": 5,
                     "column": 13,
-                    "nodeType": "ReturnStatement",
                     "messageId": "missingSemi",
                     "endLine": 6,
                     "endColumn": 1,
@@ -250,16 +256,367 @@ Example output (formatted for easier reading):
                 }
             ],
             "suppressedMessages": [],
-            "errorCount": 4,
+            "errorCount": 5,
             "fatalErrorCount": 0,
             "warningCount": 4,
             "fixableErrorCount": 1,
             "fixableWarningCount": 4,
-            "source": "function addOne(i) {\n    if (i != NaN) {\n        return i ++\n    } else {\n      return\n    }\n};"
+            "source": "function addOne(i) {\n    if (i != NaN) {\n        return i ++\n    } else {\n      return\n    }\n};",
+            "usedDeprecatedRules": [
+                {
+                    "ruleId": "indent",
+                    "replacedBy": [
+                        "@stylistic/indent"
+                    ],
+                    "info": {
+                        "message": "Formatting rules are being moved out of ESLint core.",
+                        "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
+                        "deprecatedSince": "8.53.0",
+                        "availableUntil": "11.0.0",
+                        "replacedBy": [
+                            {
+                                "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                                "url": "https://eslint.style/guide/migration",
+                                "plugin": {
+                                    "name": "@stylistic/eslint-plugin",
+                                    "url": "https://eslint.style"
+                                },
+                                "rule": {
+                                    "name": "indent",
+                                    "url": "https://eslint.style/rules/indent"
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "ruleId": "semi",
+                    "replacedBy": [
+                        "@stylistic/semi"
+                    ],
+                    "info": {
+                        "message": "Formatting rules are being moved out of ESLint core.",
+                        "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
+                        "deprecatedSince": "8.53.0",
+                        "availableUntil": "11.0.0",
+                        "replacedBy": [
+                            {
+                                "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                                "url": "https://eslint.style/guide/migration",
+                                "plugin": {
+                                    "name": "@stylistic/eslint-plugin",
+                                    "url": "https://eslint.style"
+                                },
+                                "rule": {
+                                    "name": "semi",
+                                    "url": "https://eslint.style/rules/semi"
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "ruleId": "space-unary-ops",
+                    "replacedBy": [
+                        "@stylistic/space-unary-ops"
+                    ],
+                    "info": {
+                        "message": "Formatting rules are being moved out of ESLint core.",
+                        "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
+                        "deprecatedSince": "8.53.0",
+                        "availableUntil": "11.0.0",
+                        "replacedBy": [
+                            {
+                                "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                                "url": "https://eslint.style/guide/migration",
+                                "plugin": {
+                                    "name": "@stylistic/eslint-plugin",
+                                    "url": "https://eslint.style"
+                                },
+                                "rule": {
+                                    "name": "space-unary-ops",
+                                    "url": "https://eslint.style/rules/space-unary-ops"
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
         }
     ],
     "metadata": {
+        "cwd": "/var/lib/jenkins/workspace/eslint Release/eslint",
         "rulesMeta": {
+            "no-unused-vars": {
+                "type": "problem",
+                "docs": {
+                    "description": "Disallow unused variables",
+                    "recommended": true,
+                    "url": "https://eslint.org/docs/latest/rules/no-unused-vars"
+                },
+                "hasSuggestions": true,
+                "schema": [
+                    {
+                        "oneOf": [
+                            {
+                                "enum": [
+                                    "all",
+                                    "local"
+                                ]
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "vars": {
+                                        "enum": [
+                                            "all",
+                                            "local"
+                                        ]
+                                    },
+                                    "varsIgnorePattern": {
+                                        "type": "string"
+                                    },
+                                    "args": {
+                                        "enum": [
+                                            "all",
+                                            "after-used",
+                                            "none"
+                                        ]
+                                    },
+                                    "ignoreRestSiblings": {
+                                        "type": "boolean"
+                                    },
+                                    "argsIgnorePattern": {
+                                        "type": "string"
+                                    },
+                                    "caughtErrors": {
+                                        "enum": [
+                                            "all",
+                                            "none"
+                                        ]
+                                    },
+                                    "caughtErrorsIgnorePattern": {
+                                        "type": "string"
+                                    },
+                                    "destructuredArrayIgnorePattern": {
+                                        "type": "string"
+                                    },
+                                    "ignoreClassWithStaticInitBlock": {
+                                        "type": "boolean"
+                                    },
+                                    "ignoreUsingDeclarations": {
+                                        "type": "boolean"
+                                    },
+                                    "reportUsedIgnorePattern": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                "additionalProperties": false
+                            }
+                        ]
+                    }
+                ],
+                "messages": {
+                    "unusedVar": "'{{varName}}' is {{action}} but never used{{additional}}.",
+                    "usedIgnoredVar": "'{{varName}}' is marked as ignored but is used{{additional}}.",
+                    "removeVar": "Remove unused variable '{{varName}}'."
+                }
+            },
+            "use-isnan": {
+                "hasSuggestions": true,
+                "type": "problem",
+                "docs": {
+                    "description": "Require calls to `isNaN()` when checking for `NaN`",
+                    "recommended": true,
+                    "url": "https://eslint.org/docs/latest/rules/use-isnan"
+                },
+                "schema": [
+                    {
+                        "type": "object",
+                        "properties": {
+                            "enforceForSwitchCase": {
+                                "type": "boolean"
+                            },
+                            "enforceForIndexOf": {
+                                "type": "boolean"
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                ],
+                "defaultOptions": [
+                    {
+                        "enforceForIndexOf": false,
+                        "enforceForSwitchCase": true
+                    }
+                ],
+                "messages": {
+                    "comparisonWithNaN": "Use the isNaN function to compare with NaN.",
+                    "switchNaN": "'switch(NaN)' can never match a case clause. Use Number.isNaN instead of the switch.",
+                    "caseNaN": "'case NaN' can never match. Use Number.isNaN before the switch.",
+                    "indexOfNaN": "Array prototype method '{{ methodName }}' cannot find NaN.",
+                    "replaceWithIsNaN": "Replace with Number.isNaN.",
+                    "replaceWithCastingAndIsNaN": "Replace with Number.isNaN and cast to a Number.",
+                    "replaceWithFindIndex": "Replace with Array.prototype.{{ methodName }}."
+                }
+            },
+            "space-unary-ops": {
+                "deprecated": {
+                    "message": "Formatting rules are being moved out of ESLint core.",
+                    "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
+                    "deprecatedSince": "8.53.0",
+                    "availableUntil": "11.0.0",
+                    "replacedBy": [
+                        {
+                            "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                            "url": "https://eslint.style/guide/migration",
+                            "plugin": {
+                                "name": "@stylistic/eslint-plugin",
+                                "url": "https://eslint.style"
+                            },
+                            "rule": {
+                                "name": "space-unary-ops",
+                                "url": "https://eslint.style/rules/space-unary-ops"
+                            }
+                        }
+                    ]
+                },
+                "type": "layout",
+                "docs": {
+                    "description": "Enforce consistent spacing before or after unary operators",
+                    "recommended": false,
+                    "url": "https://eslint.org/docs/latest/rules/space-unary-ops"
+                },
+                "fixable": "whitespace",
+                "schema": [
+                    {
+                        "type": "object",
+                        "properties": {
+                            "words": {
+                                "type": "boolean",
+                                "default": true
+                            },
+                            "nonwords": {
+                                "type": "boolean",
+                                "default": false
+                            },
+                            "overrides": {
+                                "type": "object",
+                                "additionalProperties": {
+                                    "type": "boolean"
+                                }
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                ],
+                "messages": {
+                    "unexpectedBefore": "Unexpected space before unary operator '{{operator}}'.",
+                    "unexpectedAfter": "Unexpected space after unary operator '{{operator}}'.",
+                    "unexpectedAfterWord": "Unexpected space after unary word operator '{{word}}'.",
+                    "wordOperator": "Unary word operator '{{word}}' must be followed by whitespace.",
+                    "operator": "Unary operator '{{operator}}' must be followed by whitespace.",
+                    "beforeUnaryExpressions": "Space is required before unary expressions '{{token}}'."
+                }
+            },
+            "no-useless-assignment": {
+                "type": "problem",
+                "docs": {
+                    "description": "Disallow variable assignments when the value is not used",
+                    "recommended": true,
+                    "url": "https://eslint.org/docs/latest/rules/no-useless-assignment"
+                },
+                "schema": [],
+                "messages": {
+                    "unnecessaryAssignment": "This assigned value is not used in subsequent statements."
+                }
+            },
+            "semi": {
+                "deprecated": {
+                    "message": "Formatting rules are being moved out of ESLint core.",
+                    "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
+                    "deprecatedSince": "8.53.0",
+                    "availableUntil": "11.0.0",
+                    "replacedBy": [
+                        {
+                            "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                            "url": "https://eslint.style/guide/migration",
+                            "plugin": {
+                                "name": "@stylistic/eslint-plugin",
+                                "url": "https://eslint.style"
+                            },
+                            "rule": {
+                                "name": "semi",
+                                "url": "https://eslint.style/rules/semi"
+                            }
+                        }
+                    ]
+                },
+                "type": "layout",
+                "docs": {
+                    "description": "Require or disallow semicolons instead of ASI",
+                    "recommended": false,
+                    "url": "https://eslint.org/docs/latest/rules/semi"
+                },
+                "fixable": "code",
+                "schema": {
+                    "anyOf": [
+                        {
+                            "type": "array",
+                            "items": [
+                                {
+                                    "enum": [
+                                        "never"
+                                    ]
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "beforeStatementContinuationChars": {
+                                            "enum": [
+                                                "always",
+                                                "any",
+                                                "never"
+                                            ]
+                                        }
+                                    },
+                                    "additionalProperties": false
+                                }
+                            ],
+                            "minItems": 0,
+                            "maxItems": 2
+                        },
+                        {
+                            "type": "array",
+                            "items": [
+                                {
+                                    "enum": [
+                                        "always"
+                                    ]
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "omitLastInOneLineBlock": {
+                                            "type": "boolean"
+                                        },
+                                        "omitLastInOneLineClassBody": {
+                                            "type": "boolean"
+                                        }
+                                    },
+                                    "additionalProperties": false
+                                }
+                            ],
+                            "minItems": 0,
+                            "maxItems": 2
+                        }
+                    ]
+                },
+                "messages": {
+                    "missingSemi": "Missing semicolon.",
+                    "extraSemi": "Extra semicolon."
+                }
+            },
             "no-else-return": {
                 "type": "suggestion",
                 "defaultOptions": [
@@ -294,7 +651,7 @@ Example output (formatted for easier reading):
                     "message": "Formatting rules are being moved out of ESLint core.",
                     "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
                     "deprecatedSince": "8.53.0",
-                    "availableUntil": "10.0.0",
+                    "availableUntil": "11.0.0",
                     "replacedBy": [
                         {
                             "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
@@ -580,151 +937,6 @@ Example output (formatted for easier reading):
                     "wrongIndentation": "Expected indentation of {{expected}} but found {{actual}}."
                 }
             },
-            "space-unary-ops": {
-                "deprecated": {
-                    "message": "Formatting rules are being moved out of ESLint core.",
-                    "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
-                    "deprecatedSince": "8.53.0",
-                    "availableUntil": "10.0.0",
-                    "replacedBy": [
-                        {
-                            "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
-                            "url": "https://eslint.style/guide/migration",
-                            "plugin": {
-                                "name": "@stylistic/eslint-plugin",
-                                "url": "https://eslint.style"
-                            },
-                            "rule": {
-                                "name": "space-unary-ops",
-                                "url": "https://eslint.style/rules/space-unary-ops"
-                            }
-                        }
-                    ]
-                },
-                "type": "layout",
-                "docs": {
-                    "description": "Enforce consistent spacing before or after unary operators",
-                    "recommended": false,
-                    "url": "https://eslint.org/docs/latest/rules/space-unary-ops"
-                },
-                "fixable": "whitespace",
-                "schema": [
-                    {
-                        "type": "object",
-                        "properties": {
-                            "words": {
-                                "type": "boolean",
-                                "default": true
-                            },
-                            "nonwords": {
-                                "type": "boolean",
-                                "default": false
-                            },
-                            "overrides": {
-                                "type": "object",
-                                "additionalProperties": {
-                                    "type": "boolean"
-                                }
-                            }
-                        },
-                        "additionalProperties": false
-                    }
-                ],
-                "messages": {
-                    "unexpectedBefore": "Unexpected space before unary operator '{{operator}}'.",
-                    "unexpectedAfter": "Unexpected space after unary operator '{{operator}}'.",
-                    "unexpectedAfterWord": "Unexpected space after unary word operator '{{word}}'.",
-                    "wordOperator": "Unary word operator '{{word}}' must be followed by whitespace.",
-                    "operator": "Unary operator '{{operator}}' must be followed by whitespace.",
-                    "beforeUnaryExpressions": "Space is required before unary expressions '{{token}}'."
-                }
-            },
-            "semi": {
-                "deprecated": {
-                    "message": "Formatting rules are being moved out of ESLint core.",
-                    "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
-                    "deprecatedSince": "8.53.0",
-                    "availableUntil": "10.0.0",
-                    "replacedBy": [
-                        {
-                            "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
-                            "url": "https://eslint.style/guide/migration",
-                            "plugin": {
-                                "name": "@stylistic/eslint-plugin",
-                                "url": "https://eslint.style"
-                            },
-                            "rule": {
-                                "name": "semi",
-                                "url": "https://eslint.style/rules/semi"
-                            }
-                        }
-                    ]
-                },
-                "type": "layout",
-                "docs": {
-                    "description": "Require or disallow semicolons instead of ASI",
-                    "recommended": false,
-                    "url": "https://eslint.org/docs/latest/rules/semi"
-                },
-                "fixable": "code",
-                "schema": {
-                    "anyOf": [
-                        {
-                            "type": "array",
-                            "items": [
-                                {
-                                    "enum": [
-                                        "never"
-                                    ]
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "beforeStatementContinuationChars": {
-                                            "enum": [
-                                                "always",
-                                                "any",
-                                                "never"
-                                            ]
-                                        }
-                                    },
-                                    "additionalProperties": false
-                                }
-                            ],
-                            "minItems": 0,
-                            "maxItems": 2
-                        },
-                        {
-                            "type": "array",
-                            "items": [
-                                {
-                                    "enum": [
-                                        "always"
-                                    ]
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "omitLastInOneLineBlock": {
-                                            "type": "boolean"
-                                        },
-                                        "omitLastInOneLineClassBody": {
-                                            "type": "boolean"
-                                        }
-                                    },
-                                    "additionalProperties": false
-                                }
-                            ],
-                            "minItems": 0,
-                            "maxItems": 2
-                        }
-                    ]
-                },
-                "messages": {
-                    "missingSemi": "Missing semicolon.",
-                    "extraSemi": "Extra semicolon."
-                }
-            },
             "consistent-return": {
                 "type": "suggestion",
                 "docs": {
@@ -778,7 +990,6 @@ Example output (formatted for easier reading):
                 "message": "'addOne' is defined but never used.",
                 "line": 1,
                 "column": 10,
-                "nodeType": "Identifier",
                 "messageId": "unusedVar",
                 "endLine": 1,
                 "endColumn": 16,
@@ -805,7 +1016,6 @@ Example output (formatted for easier reading):
                 "message": "Use the isNaN function to compare with NaN.",
                 "line": 2,
                 "column": 9,
-                "nodeType": "BinaryExpression",
                 "messageId": "comparisonWithNaN",
                 "endLine": 2,
                 "endColumn": 17,
@@ -840,7 +1050,6 @@ Example output (formatted for easier reading):
                 "message": "Unexpected space before unary operator '++'.",
                 "line": 3,
                 "column": 16,
-                "nodeType": "UpdateExpression",
                 "messageId": "unexpectedBefore",
                 "endLine": 3,
                 "endColumn": 20,
@@ -853,12 +1062,21 @@ Example output (formatted for easier reading):
                 }
             },
             {
+                "ruleId": "no-useless-assignment",
+                "severity": 2,
+                "message": "This assigned value is not used in subsequent statements.",
+                "line": 3,
+                "column": 16,
+                "messageId": "unnecessaryAssignment",
+                "endLine": 3,
+                "endColumn": 17
+            },
+            {
                 "ruleId": "semi",
                 "severity": 1,
                 "message": "Missing semicolon.",
                 "line": 3,
                 "column": 20,
-                "nodeType": "ReturnStatement",
                 "messageId": "missingSemi",
                 "endLine": 4,
                 "endColumn": 1,
@@ -876,7 +1094,6 @@ Example output (formatted for easier reading):
                 "message": "Unnecessary 'else' after 'return'.",
                 "line": 4,
                 "column": 12,
-                "nodeType": "BlockStatement",
                 "messageId": "unexpected",
                 "endLine": 6,
                 "endColumn": 6,
@@ -894,7 +1111,6 @@ Example output (formatted for easier reading):
                 "message": "Expected indentation of 8 spaces but found 6.",
                 "line": 5,
                 "column": 1,
-                "nodeType": "Keyword",
                 "messageId": "wrongIndentation",
                 "endLine": 5,
                 "endColumn": 7,
@@ -912,7 +1128,6 @@ Example output (formatted for easier reading):
                 "message": "Function 'addOne' expected a return value.",
                 "line": 5,
                 "column": 7,
-                "nodeType": "ReturnStatement",
                 "messageId": "missingReturnValue",
                 "endLine": 5,
                 "endColumn": 13
@@ -923,7 +1138,6 @@ Example output (formatted for easier reading):
                 "message": "Missing semicolon.",
                 "line": 5,
                 "column": 13,
-                "nodeType": "ReturnStatement",
                 "messageId": "missingSemi",
                 "endLine": 6,
                 "endColumn": 1,
@@ -937,12 +1151,92 @@ Example output (formatted for easier reading):
             }
         ],
         "suppressedMessages": [],
-        "errorCount": 4,
+        "errorCount": 5,
         "fatalErrorCount": 0,
         "warningCount": 4,
         "fixableErrorCount": 1,
         "fixableWarningCount": 4,
-        "source": "function addOne(i) {\n    if (i != NaN) {\n        return i ++\n    } else {\n      return\n    }\n};"
+        "source": "function addOne(i) {\n    if (i != NaN) {\n        return i ++\n    } else {\n      return\n    }\n};",
+        "usedDeprecatedRules": [
+            {
+                "ruleId": "indent",
+                "replacedBy": [
+                    "@stylistic/indent"
+                ],
+                "info": {
+                    "message": "Formatting rules are being moved out of ESLint core.",
+                    "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
+                    "deprecatedSince": "8.53.0",
+                    "availableUntil": "11.0.0",
+                    "replacedBy": [
+                        {
+                            "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                            "url": "https://eslint.style/guide/migration",
+                            "plugin": {
+                                "name": "@stylistic/eslint-plugin",
+                                "url": "https://eslint.style"
+                            },
+                            "rule": {
+                                "name": "indent",
+                                "url": "https://eslint.style/rules/indent"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "ruleId": "semi",
+                "replacedBy": [
+                    "@stylistic/semi"
+                ],
+                "info": {
+                    "message": "Formatting rules are being moved out of ESLint core.",
+                    "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
+                    "deprecatedSince": "8.53.0",
+                    "availableUntil": "11.0.0",
+                    "replacedBy": [
+                        {
+                            "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                            "url": "https://eslint.style/guide/migration",
+                            "plugin": {
+                                "name": "@stylistic/eslint-plugin",
+                                "url": "https://eslint.style"
+                            },
+                            "rule": {
+                                "name": "semi",
+                                "url": "https://eslint.style/rules/semi"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "ruleId": "space-unary-ops",
+                "replacedBy": [
+                    "@stylistic/space-unary-ops"
+                ],
+                "info": {
+                    "message": "Formatting rules are being moved out of ESLint core.",
+                    "url": "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
+                    "deprecatedSince": "8.53.0",
+                    "availableUntil": "11.0.0",
+                    "replacedBy": [
+                        {
+                            "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                            "url": "https://eslint.style/guide/migration",
+                            "plugin": {
+                                "name": "@stylistic/eslint-plugin",
+                                "url": "https://eslint.style"
+                            },
+                            "rule": {
+                                "name": "space-unary-ops",
+                                "url": "https://eslint.style/rules/space-unary-ops"
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
     }
 ]
 ```
@@ -956,16 +1250,17 @@ Example output:
 ```text
 
 /var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js
-  1:10  error    'addOne' is defined but never used            no-unused-vars
-  2:9   error    Use the isNaN function to compare with NaN    use-isnan
-  3:16  error    Unexpected space before unary operator '++'   space-unary-ops
-  3:20  warning  Missing semicolon                             semi
-  4:12  warning  Unnecessary 'else' after 'return'             no-else-return
-  5:1   warning  Expected indentation of 8 spaces but found 6  indent
-  5:7   error    Function 'addOne' expected a return value     consistent-return
-  5:13  warning  Missing semicolon                             semi
+  1:10  error    'addOne' is defined but never used                        no-unused-vars
+  2:9   error    Use the isNaN function to compare with NaN                use-isnan
+  3:16  error    Unexpected space before unary operator '++'               space-unary-ops
+  3:16  error    This assigned value is not used in subsequent statements  no-useless-assignment
+  3:20  warning  Missing semicolon                                         semi
+  4:12  warning  Unnecessary 'else' after 'return'                         no-else-return
+  5:1   warning  Expected indentation of 8 spaces but found 6              indent
+  5:7   error    Function 'addOne' expected a return value                 consistent-return
+  5:13  warning  Missing semicolon                                         semi
 
-✖ 8 problems (4 errors, 4 warnings)
+✖ 9 problems (5 errors, 4 warnings)
   1 error and 4 warnings potentially fixable with the `--fix` option.
 
 ```

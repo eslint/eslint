@@ -19,13 +19,11 @@ const RuleTester = require("../../../lib/rule-tester/rule-tester");
 /**
  * Creates an error object.
  * @param {number} [column] Reported column.
- * @param {string} [type= "ReturnStatement"] Reported node type.
  * @returns {Object} The error object.
  */
-function error(column, type = "ReturnStatement") {
+function error(column) {
 	const errorObject = {
 		messageId: "returnsValue",
-		type,
 	};
 
 	if (column) {
@@ -262,7 +260,6 @@ ruleTester.run("no-setter-return", rule, {
 			errors: [
 				{
 					messageId: "returnsValue",
-					type: "ReturnStatement",
 					column: 16,
 					endColumn: 31,
 				},
@@ -444,20 +441,20 @@ ruleTester.run("no-setter-return", rule, {
 		// arrow implicit return// basic tests
 		{
 			code: "Object.defineProperty(foo, 'bar', { set: val => val })",
-			errors: [error(49, "Identifier")],
+			errors: [error(49)],
 		},
 		{
 			code: "Reflect.defineProperty(foo, 'bar', { set: val => f(val) })",
 			languageOptions: { ecmaVersion: 6 },
-			errors: [error(50, "CallExpression")],
+			errors: [error(50)],
 		},
 		{
 			code: "Object.defineProperties(foo, { baz: { set: val => a + b } })",
-			errors: [error(51, "BinaryExpression")],
+			errors: [error(51)],
 		},
 		{
 			code: "Object.create({}, { baz: { set: val => this._val } })",
-			errors: [error(40, "MemberExpression")],
+			errors: [error(40)],
 		},
 
 		// various locations, value types and multiple invalid/valid in same setter.
@@ -486,7 +483,7 @@ ruleTester.run("no-setter-return", rule, {
 		},
 		{
 			code: "Object.create({}, { baz: { set(val) { return 1; } }, bar: { set: (val) => 1 } })",
-			errors: [error(39), error(75, "Literal")],
+			errors: [error(39), error(75)],
 		},
 
 		// various syntax for properties

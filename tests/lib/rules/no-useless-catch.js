@@ -127,7 +127,6 @@ ruleTester.run("no-useless-catch", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryCatch",
-					type: "TryStatement",
 				},
 			],
 		},
@@ -144,7 +143,6 @@ ruleTester.run("no-useless-catch", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryCatchClause",
-					type: "CatchClause",
 				},
 			],
 		},
@@ -160,7 +158,6 @@ ruleTester.run("no-useless-catch", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryCatch",
-					type: "TryStatement",
 				},
 			],
 		},
@@ -178,7 +175,6 @@ ruleTester.run("no-useless-catch", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryCatchClause",
-					type: "CatchClause",
 				},
 			],
 		},
@@ -196,7 +192,6 @@ ruleTester.run("no-useless-catch", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryCatch",
-					type: "TryStatement",
 				},
 			],
 		},

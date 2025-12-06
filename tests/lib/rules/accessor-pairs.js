@@ -895,7 +895,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for setter 'a'.",
-					type: "Property",
 				},
 			],
 		},
@@ -905,7 +904,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for setter 'a'.",
-					type: "Property",
 				},
 			],
 		},
@@ -917,7 +915,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for setter 'a'.",
-					type: "Property",
 				},
 			],
 		},
@@ -927,7 +924,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for setter 'a'.",
-					type: "Property",
 				},
 			],
 		},
@@ -937,7 +933,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter 'a'.",
-					type: "Property",
 				},
 			],
 		},
@@ -947,7 +942,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter 'a'.",
-					type: "Property",
 				},
 			],
 		},
@@ -957,7 +951,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter 'a'.",
-					type: "Property",
 				},
 			],
 		},
@@ -969,7 +962,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter 'abc'.",
-					type: "Property",
 				},
 			],
 		},
@@ -979,7 +971,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter 'abc'.",
-					type: "Property",
 				},
 			],
 		},
@@ -989,7 +980,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter '123'.",
-					type: "Property",
 				},
 			],
 		},
@@ -999,7 +989,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter '100'.",
-					type: "Property",
 				},
 			],
 		},
@@ -1010,7 +999,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter 'abc'.",
-					type: "Property",
 				},
 			],
 		},
@@ -1021,7 +1009,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter 'abc'.",
-					type: "Property",
 				},
 			],
 		},
@@ -1032,7 +1019,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter '123'.",
-					type: "Property",
 				},
 			],
 		},
@@ -1043,7 +1029,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter.",
-					type: "Property",
 				},
 			],
 		},
@@ -1054,7 +1039,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter.",
-					type: "Property",
 				},
 			],
 		},
@@ -1065,7 +1049,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter.",
-					type: "Property",
 				},
 			],
 		},
@@ -1077,7 +1060,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for setter 'abc'.",
-					type: "Property",
 				},
 			],
 		},
@@ -1087,7 +1069,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for setter 'abc'.",
-					type: "Property",
 				},
 			],
 		},
@@ -1097,7 +1078,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for setter '123'.",
-					type: "Property",
 				},
 			],
 		},
@@ -1107,7 +1087,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for setter '100'.",
-					type: "Property",
 				},
 			],
 		},
@@ -1118,7 +1097,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for setter 'abc'.",
-					type: "Property",
 				},
 			],
 		},
@@ -1129,7 +1107,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for setter 'abc'.",
-					type: "Property",
 				},
 			],
 		},
@@ -1140,7 +1117,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for setter '123'.",
-					type: "Property",
 				},
 			],
 		},
@@ -1151,7 +1127,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for setter.",
-					type: "Property",
 				},
 			],
 		},
@@ -1162,7 +1137,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for setter.",
-					type: "Property",
 				},
 			],
 		},
@@ -1173,7 +1147,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for setter.",
-					type: "Property",
 				},
 			],
 		},
@@ -1185,12 +1158,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter 'a'.",
-					type: "Property",
 					column: 11,
 				},
 				{
 					message: "Getter is not present for setter 'b'.",
-					type: "Property",
 					column: 23,
 				},
 			],
@@ -1201,12 +1172,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for setter 'a'.",
-					type: "Property",
 					column: 11,
 				},
 				{
 					message: "Setter is not present for getter 'b'.",
-					type: "Property",
 					column: 26,
 				},
 			],
@@ -1217,12 +1186,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter '1'.",
-					type: "Property",
 					column: 11,
 				},
 				{
 					message: "Getter is not present for setter 'b'.",
-					type: "Property",
 					column: 23,
 				},
 			],
@@ -1233,12 +1200,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter 'a'.",
-					type: "Property",
 					column: 11,
 				},
 				{
 					message: "Getter is not present for setter '1'.",
-					type: "Property",
 					column: 23,
 				},
 			],
@@ -1249,12 +1214,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter 'a'.",
-					type: "Property",
 					column: 11,
 				},
 				{
 					message: "Getter is not present for setter 'a '.",
-					type: "Property",
 					column: 23,
 				},
 			],
@@ -1265,12 +1228,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter ' a'.",
-					type: "Property",
 					column: 11,
 				},
 				{
 					message: "Getter is not present for setter 'a'.",
-					type: "Property",
 					column: 26,
 				},
 			],
@@ -1281,12 +1242,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter ''.",
-					type: "Property",
 					column: 11,
 				},
 				{
 					message: "Getter is not present for setter ' '.",
-					type: "Property",
 					column: 24,
 				},
 			],
@@ -1297,12 +1256,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter ''.",
-					type: "Property",
 					column: 11,
 				},
 				{
 					message: "Getter is not present for setter 'null'.",
-					type: "Property",
 					column: 24,
 				},
 			],
@@ -1314,12 +1271,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter 'a'.",
-					type: "Property",
 					column: 11,
 				},
 				{
 					message: "Getter is not present for setter 'b'.",
-					type: "Property",
 					column: 27,
 				},
 			],
@@ -1331,12 +1286,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter.",
-					type: "Property",
 					column: 11,
 				},
 				{
 					message: "Getter is not present for setter.",
-					type: "Property",
 					column: 25,
 				},
 			],
@@ -1348,12 +1301,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter.",
-					type: "Property",
 					column: 11,
 				},
 				{
 					message: "Getter is not present for setter 'a'.",
-					type: "Property",
 					column: 25,
 				},
 			],
@@ -1365,12 +1316,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter 'a'.",
-					type: "Property",
 					column: 11,
 				},
 				{
 					message: "Getter is not present for setter.",
-					type: "Property",
 					column: 23,
 				},
 			],
@@ -1382,12 +1331,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter.",
-					type: "Property",
 					column: 11,
 				},
 				{
 					message: "Getter is not present for setter.",
-					type: "Property",
 					column: 29,
 				},
 			],
@@ -1399,12 +1346,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter.",
-					type: "Property",
 					column: 11,
 				},
 				{
 					message: "Getter is not present for setter.",
-					type: "Property",
 					column: 31,
 				},
 			],
@@ -1417,12 +1362,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter 'a'.",
-					type: "Property",
 					column: 11,
 				},
 				{
 					message: "Setter is not present for getter 'b'.",
-					type: "Property",
 					column: 23,
 				},
 			],
@@ -1433,12 +1376,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for setter 'a'.",
-					type: "Property",
 					column: 11,
 				},
 				{
 					message: "Getter is not present for setter 'b'.",
-					type: "Property",
 					column: 26,
 				},
 			],
@@ -1449,22 +1390,18 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter 'a'.",
-					type: "Property",
 					column: 11,
 				},
 				{
 					message: "Getter is not present for setter 'b'.",
-					type: "Property",
 					column: 23,
 				},
 				{
 					message: "Getter is not present for setter 'c'.",
-					type: "Property",
 					column: 38,
 				},
 				{
 					message: "Setter is not present for getter 'd'.",
-					type: "Property",
 					column: 53,
 				},
 			],
@@ -1477,12 +1414,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter 'a'.",
-					type: "Property",
 					column: 12,
 				},
 				{
 					message: "Getter is not present for setter 'a'.",
-					type: "Property",
 					column: 33,
 				},
 			],
@@ -1493,12 +1428,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for setter 'a'.",
-					type: "Property",
 					column: 12,
 				},
 				{
 					message: "Setter is not present for getter 'a'.",
-					type: "Property",
 					column: 36,
 				},
 			],
@@ -1511,7 +1444,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter 'a'.",
-					type: "Property",
 					column: 11,
 				},
 			],
@@ -1522,7 +1454,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter 'a'.",
-					type: "Property",
 					column: 23,
 				},
 			],
@@ -1533,7 +1464,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter 'a'.",
-					type: "Property",
 					column: 38,
 				},
 			],
@@ -1544,7 +1474,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for setter 'a'.",
-					type: "Property",
 					column: 11,
 				},
 			],
@@ -1555,7 +1484,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for setter 'a'.",
-					type: "Property",
 					column: 23,
 				},
 			],
@@ -1566,7 +1494,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for setter 'a'.",
-					type: "Property",
 					column: 38,
 				},
 			],
@@ -1577,12 +1504,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for setter 'i1'.",
-					type: "Property",
 					column: 24,
 				},
 				{
 					message: "Setter is not present for getter 'i2'.",
-					type: "Property",
 					column: 69,
 				},
 			],
@@ -1596,12 +1521,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter 'a'.",
-					type: "Property",
 					column: 11,
 				},
 				{
 					message: "Setter is not present for getter 'a'.",
-					type: "Property",
 					column: 23,
 				},
 			],
@@ -1613,12 +1536,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for setter 'a'.",
-					type: "Property",
 					column: 11,
 				},
 				{
 					message: "Getter is not present for setter 'a'.",
-					type: "Property",
 					column: 26,
 				},
 			],
@@ -1632,7 +1553,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter 'b'.",
-					type: "Property",
 					column: 14,
 				},
 			],
@@ -1644,12 +1564,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter 'b'.",
-					type: "Property",
 					column: 14,
 				},
 				{
 					message: "Getter is not present for setter 'd'.",
-					type: "Property",
 					column: 29,
 				},
 			],
@@ -1661,7 +1579,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter 'a'.",
-					type: "Property",
 					column: 11,
 				},
 			],
@@ -1673,7 +1590,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter 'a'.",
-					type: "Property",
 					column: 14,
 				},
 			],
@@ -1685,7 +1601,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for setter 'a'.",
-					type: "Property",
 					column: 11,
 				},
 			],
@@ -1697,7 +1612,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for setter 'a'.",
-					type: "Property",
 					column: 14,
 				},
 			],
@@ -1709,7 +1623,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter 'a'.",
-					type: "Property",
 					column: 11,
 				},
 			],
@@ -1721,7 +1634,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter 'a'.",
-					type: "Property",
 					column: 11,
 				},
 			],
@@ -1733,7 +1645,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for setter 'a'.",
-					type: "Property",
 					column: 11,
 				},
 			],
@@ -1746,7 +1657,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter 'b'.",
-					type: "Property",
 					line: 1,
 					column: 11,
 					endLine: 1,
@@ -1761,7 +1671,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for setter.",
-					type: "Property",
 					line: 2,
 					column: 3,
 					endLine: 3,
@@ -1779,7 +1688,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present in property descriptor.",
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -1788,7 +1696,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present in property descriptor.",
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -1797,7 +1704,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present in property descriptor.",
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -1806,7 +1712,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present in property descriptor.",
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -1816,7 +1721,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present in property descriptor.",
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -1826,7 +1730,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present in property descriptor.",
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -1836,7 +1739,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present in property descriptor.",
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -1846,7 +1748,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present in property descriptor.",
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -1856,7 +1757,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present in property descriptor.",
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -1866,7 +1766,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present in property descriptor.",
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -1876,7 +1775,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present in property descriptor.",
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -1886,7 +1784,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present in property descriptor.",
-					type: "ObjectExpression",
 				},
 			],
 		},
@@ -1902,7 +1799,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for class setter 'a'.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -1913,7 +1809,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for class setter 'b'.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -1924,7 +1819,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter 'a'.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -1935,7 +1829,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for class setter 'a'.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -1947,7 +1840,6 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Setter is not present for class static getter 'a'.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -1959,7 +1851,6 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Getter is not present for class static setter 'a'.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -1970,7 +1861,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter 'a'.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -1981,11 +1871,9 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter 'a'.",
-					type: "MethodDefinition",
 				},
 				{
 					message: "Getter is not present for class setter 'b'.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -1996,7 +1884,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for class setter 'a'.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -2008,7 +1895,6 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Getter is not present for class static setter 'a'.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -2019,7 +1905,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for class setter 'a'.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -2031,7 +1916,6 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Getter is not present for class static setter 'a'.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -2041,7 +1925,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for class setter '#a'.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -2052,7 +1935,6 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Getter is not present for class private setter #a.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -2063,7 +1945,6 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Getter is not present for class static setter '#a'.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -2074,7 +1955,6 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Getter is not present for class static private setter #a.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -2093,7 +1973,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for class setter 'a'.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -2111,7 +1990,6 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Getter is not present for class static setter 'a'.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -2128,7 +2006,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter 'a'.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -2146,7 +2023,6 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Setter is not present for class static getter 'a'.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -2157,7 +2033,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter 'a'.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -2174,7 +2049,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter '#a'.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -2192,7 +2066,6 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Setter is not present for class private getter #a.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -2210,7 +2083,6 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Setter is not present for class static getter '#a'.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -2228,7 +2100,6 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Setter is not present for class static private getter #a.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -2247,7 +2118,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter 'abc'.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -2265,7 +2135,6 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Getter is not present for class static setter 'abc'.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -2282,7 +2151,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter '123'.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -2300,7 +2168,6 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Setter is not present for class static getter '100'.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -2317,7 +2184,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter 'abc'.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -2334,7 +2200,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for class setter 'abc'.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -2352,7 +2217,6 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Setter is not present for class static getter '123'.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -2369,7 +2233,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -2386,7 +2249,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class static getter.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -2403,7 +2265,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for class setter.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -2421,7 +2282,6 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Setter is not present for class getter 'constructor'.",
-					type: "MethodDefinition",
 				},
 			],
 		},
@@ -2440,12 +2300,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter 'a'.",
-					type: "MethodDefinition",
 					column: 11,
 				},
 				{
 					message: "Getter is not present for class setter 'b'.",
-					type: "MethodDefinition",
 					column: 22,
 				},
 			],
@@ -2463,12 +2321,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for class setter 'a'.",
-					type: "MethodDefinition",
 					column: 13,
 				},
 				{
 					message: "Setter is not present for class getter 'b'.",
-					type: "MethodDefinition",
 					column: 27,
 				},
 			],
@@ -2487,13 +2343,11 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Setter is not present for class static getter 'a'.",
-					type: "MethodDefinition",
 					column: 13,
 				},
 				{
 					message:
 						"Getter is not present for class static setter 'b'.",
-					type: "MethodDefinition",
 					column: 31,
 				},
 			],
@@ -2511,7 +2365,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter 'a'.",
-					type: "MethodDefinition",
 					column: 11,
 				},
 			],
@@ -2529,7 +2382,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for class setter 'b'.",
-					type: "MethodDefinition",
 					column: 22,
 				},
 			],
@@ -2547,12 +2399,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter 'a '.",
-					type: "MethodDefinition",
 					column: 11,
 				},
 				{
 					message: "Getter is not present for class setter 'a'.",
-					type: "MethodDefinition",
 					column: 25,
 				},
 			],
@@ -2570,12 +2420,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter 'a'.",
-					type: "MethodDefinition",
 					column: 11,
 				},
 				{
 					message: "Getter is not present for class setter '1'.",
-					type: "MethodDefinition",
 					column: 24,
 				},
 			],
@@ -2593,12 +2441,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter '1'.",
-					type: "MethodDefinition",
 					column: 11,
 				},
 				{
 					message: "Getter is not present for class setter '2'.",
-					type: "MethodDefinition",
 					column: 22,
 				},
 			],
@@ -2616,12 +2462,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter ''.",
-					type: "MethodDefinition",
 					column: 11,
 				},
 				{
 					message: "Getter is not present for class setter 'null'.",
-					type: "MethodDefinition",
 					column: 23,
 				},
 			],
@@ -2639,12 +2483,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter 'a'.",
-					type: "MethodDefinition",
 					column: 11,
 				},
 				{
 					message: "Getter is not present for class setter.",
-					type: "MethodDefinition",
 					column: 22,
 				},
 			],
@@ -2662,12 +2504,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter.",
-					type: "MethodDefinition",
 					column: 11,
 				},
 				{
 					message: "Getter is not present for class setter.",
-					type: "MethodDefinition",
 					column: 24,
 				},
 			],
@@ -2685,12 +2525,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter.",
-					type: "MethodDefinition",
 					column: 11,
 				},
 				{
 					message: "Getter is not present for class setter.",
-					type: "MethodDefinition",
 					column: 24,
 				},
 			],
@@ -2708,12 +2546,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter.",
-					type: "MethodDefinition",
 					column: 11,
 				},
 				{
 					message: "Getter is not present for class setter.",
-					type: "MethodDefinition",
 					column: 28,
 				},
 			],
@@ -2732,12 +2568,10 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Setter is not present for class private getter #a.",
-					type: "MethodDefinition",
 					column: 11,
 				},
 				{
 					message: "Getter is not present for class setter '#a'.",
-					type: "MethodDefinition",
 					column: 23,
 				},
 			],
@@ -2755,13 +2589,11 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter '#a'.",
-					type: "MethodDefinition",
 					column: 11,
 				},
 				{
 					message:
 						"Getter is not present for class private setter #a.",
-					type: "MethodDefinition",
 					column: 25,
 				},
 			],
@@ -2781,13 +2613,11 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter 'a'.",
-					type: "MethodDefinition",
 					column: 11,
 				},
 				{
 					message:
 						"Getter is not present for class static setter 'a'.",
-					type: "MethodDefinition",
 					column: 22,
 				},
 			],
@@ -2806,12 +2636,10 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Setter is not present for class static getter 'a'.",
-					type: "MethodDefinition",
 					column: 13,
 				},
 				{
 					message: "Getter is not present for class setter 'a'.",
-					type: "MethodDefinition",
 					column: 31,
 				},
 			],
@@ -2829,12 +2657,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for class setter.",
-					type: "MethodDefinition",
 					column: 11,
 				},
 				{
 					message: "Setter is not present for class static getter.",
-					type: "MethodDefinition",
 					column: 27,
 				},
 			],
@@ -2852,12 +2678,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for class static setter.",
-					type: "MethodDefinition",
 					column: 11,
 				},
 				{
 					message: "Setter is not present for class getter.",
-					type: "MethodDefinition",
 					column: 34,
 				},
 			],
@@ -2877,12 +2701,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter 'a'.",
-					type: "MethodDefinition",
 					column: 11,
 				},
 				{
 					message: "Setter is not present for class getter 'b'.",
-					type: "MethodDefinition",
 					column: 22,
 				},
 			],
@@ -2900,12 +2722,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter 'a'.",
-					type: "MethodDefinition",
 					column: 13,
 				},
 				{
 					message: "Setter is not present for class getter.",
-					type: "MethodDefinition",
 					column: 24,
 				},
 			],
@@ -2923,12 +2743,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter.",
-					type: "MethodDefinition",
 					column: 11,
 				},
 				{
 					message: "Setter is not present for class getter.",
-					type: "MethodDefinition",
 					column: 24,
 				},
 			],
@@ -2946,12 +2764,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for class setter 'a'.",
-					type: "MethodDefinition",
 					column: 13,
 				},
 				{
 					message: "Getter is not present for class setter 'b'.",
-					type: "MethodDefinition",
 					column: 27,
 				},
 			],
@@ -2970,13 +2786,11 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Setter is not present for class static getter 'a'.",
-					type: "MethodDefinition",
 					column: 11,
 				},
 				{
 					message:
 						"Setter is not present for class static getter 'b'.",
-					type: "MethodDefinition",
 					column: 29,
 				},
 			],
@@ -2995,13 +2809,11 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Getter is not present for class static setter 'a'.",
-					type: "MethodDefinition",
 					column: 13,
 				},
 				{
 					message:
 						"Getter is not present for class static setter 'b'.",
-					type: "MethodDefinition",
 					column: 34,
 				},
 			],
@@ -3020,23 +2832,19 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Setter is not present for class static getter 'a'.",
-					type: "MethodDefinition",
 					column: 11,
 				},
 				{
 					message: "Getter is not present for class setter 'b'.",
-					type: "MethodDefinition",
 					column: 29,
 				},
 				{
 					message:
 						"Getter is not present for class static setter 'c'.",
-					type: "MethodDefinition",
 					column: 43,
 				},
 				{
 					message: "Setter is not present for class getter 'd'.",
-					type: "MethodDefinition",
 					column: 64,
 				},
 			],
@@ -3056,12 +2864,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter 'a'.",
-					type: "MethodDefinition",
 					column: 11,
 				},
 				{
 					message: "Getter is not present for class setter 'a'.",
-					type: "MethodDefinition",
 					column: 34,
 				},
 			],
@@ -3079,12 +2885,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for class setter 'a'.",
-					type: "MethodDefinition",
 					column: 13,
 				},
 				{
 					message: "Setter is not present for class getter 'a'.",
-					type: "MethodDefinition",
 					column: 38,
 				},
 			],
@@ -3102,12 +2906,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter 'a'.",
-					type: "MethodDefinition",
 					column: 13,
 				},
 				{
 					message: "Getter is not present for setter 'a'.",
-					type: "Property",
 					column: 29,
 				},
 			],
@@ -3125,12 +2927,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for getter 'a'.",
-					type: "Property",
 					column: 7,
 				},
 				{
 					message: "Getter is not present for class setter 'a'.",
-					type: "MethodDefinition",
 					column: 29,
 				},
 			],
@@ -3150,7 +2950,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter 'a'.",
-					type: "MethodDefinition",
 					column: 11,
 				},
 			],
@@ -3168,7 +2967,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter 'a'.",
-					type: "MethodDefinition",
 					column: 24,
 				},
 			],
@@ -3186,7 +2984,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for class setter 'a'.",
-					type: "MethodDefinition",
 					column: 36,
 				},
 			],
@@ -3204,7 +3001,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for class setter 'a'.",
-					type: "MethodDefinition",
 					column: 31,
 				},
 			],
@@ -3223,7 +3019,6 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Getter is not present for class static setter 'a'.",
-					type: "MethodDefinition",
 					column: 11,
 				},
 			],
@@ -3242,7 +3037,6 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Setter is not present for class static getter 'a'.",
-					type: "MethodDefinition",
 					column: 22,
 				},
 			],
@@ -3261,7 +3055,6 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Setter is not present for class static getter 'a'.",
-					type: "MethodDefinition",
 					column: 32,
 				},
 			],
@@ -3280,23 +3073,19 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Getter is not present for class static setter 'i1'.",
-					type: "MethodDefinition",
 					column: 24,
 				},
 				{
 					message: "Setter is not present for class getter.",
-					type: "MethodDefinition",
 					column: 66,
 				},
 				{
 					message:
 						"Setter is not present for class static getter 'i3'.",
-					type: "MethodDefinition",
 					column: 79,
 				},
 				{
 					message: "Getter is not present for class setter 'i4'.",
-					type: "MethodDefinition",
 					column: 131,
 				},
 			],
@@ -3316,12 +3105,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter 'a'.",
-					type: "MethodDefinition",
 					column: 11,
 				},
 				{
 					message: "Setter is not present for class getter 'a'.",
-					type: "MethodDefinition",
 					column: 22,
 				},
 			],
@@ -3339,12 +3126,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for class setter 'a'.",
-					type: "MethodDefinition",
 					column: 13,
 				},
 				{
 					message: "Getter is not present for class setter 'a'.",
-					type: "MethodDefinition",
 					column: 27,
 				},
 			],
@@ -3363,13 +3148,11 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Setter is not present for class static getter 'a'.",
-					type: "MethodDefinition",
 					column: 13,
 				},
 				{
 					message:
 						"Setter is not present for class static getter 'a'.",
-					type: "MethodDefinition",
 					column: 31,
 				},
 			],
@@ -3387,12 +3170,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for class setter 'a'.",
-					type: "MethodDefinition",
 					column: 11,
 				},
 				{
 					message: "Getter is not present for class setter 'a'.",
-					type: "MethodDefinition",
 					column: 25,
 				},
 			],
@@ -3412,7 +3193,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter 'b'.",
-					type: "MethodDefinition",
 					column: 18,
 				},
 			],
@@ -3430,12 +3210,10 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter 'b'.",
-					type: "MethodDefinition",
 					column: 20,
 				},
 				{
 					message: "Getter is not present for class setter 'd'.",
-					type: "MethodDefinition",
 					column: 38,
 				},
 			],
@@ -3453,7 +3231,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter 'b'.",
-					type: "MethodDefinition",
 					column: 25,
 				},
 			],
@@ -3471,7 +3248,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter 'a'.",
-					type: "MethodDefinition",
 					column: 18,
 				},
 			],
@@ -3489,7 +3265,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for class setter 'a'.",
-					type: "MethodDefinition",
 					column: 27,
 				},
 			],
@@ -3508,7 +3283,6 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Setter is not present for class static getter 'b'.",
-					type: "MethodDefinition",
 					column: 18,
 				},
 			],
@@ -3527,7 +3301,6 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Getter is not present for class static setter 'b'.",
-					type: "MethodDefinition",
 					column: 27,
 				},
 			],
@@ -3546,7 +3319,6 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Setter is not present for class static getter 'a'.",
-					type: "MethodDefinition",
 					column: 18,
 				},
 			],
@@ -3565,7 +3337,6 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Getter is not present for class static setter 'a'.",
-					type: "MethodDefinition",
 					column: 11,
 				},
 			],
@@ -3585,7 +3356,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Setter is not present for class getter 'a'.",
-					type: "MethodDefinition",
 					line: 1,
 					column: 11,
 					endLine: 1,
@@ -3606,7 +3376,6 @@ ruleTester.run("accessor-pairs", rule, {
 			errors: [
 				{
 					message: "Getter is not present for class setter.",
-					type: "MethodDefinition",
 					line: 2,
 					column: 3,
 					endLine: 3,
@@ -3628,11 +3397,151 @@ ruleTester.run("accessor-pairs", rule, {
 				{
 					message:
 						"Setter is not present for class static getter 'b'.",
-					type: "MethodDefinition",
 					line: 1,
 					column: 11,
 					endLine: 1,
 					endColumn: 23,
+				},
+			],
+		},
+	],
+});
+
+const ruleTesterTypeScript = new RuleTester({
+	languageOptions: {
+		parser: require("@typescript-eslint/parser"),
+	},
+});
+
+ruleTesterTypeScript.run("accessor-pairs", rule, {
+	valid: [
+		"interface I { get prop(): any }",
+		"type T = { set prop(value: any): void }",
+		{
+			code: "interface I { get prop(): any, set prop(value: any): void }",
+			options: [{ enforceForTSTypes: true }],
+		},
+		{
+			code: "type T = { get prop(): any, set prop(value: any): void }",
+			options: [{ enforceForTSTypes: true }],
+		},
+		{
+			code: "interface I { get prop(): any, between: true, set prop(value: any): void }",
+			options: [{ enforceForTSTypes: true }],
+		},
+		{
+			code: "interface I { set prop(value: any): void, get prop(): any }",
+			options: [{ enforceForTSTypes: true }],
+		},
+		{
+			code: "interface I { set prop(value: any): void, get 'prop'(): any }",
+			options: [{ enforceForTSTypes: true }],
+		},
+
+		{
+			code: "interface I {}",
+			options: [{ enforceForTSTypes: true }],
+		},
+		{
+			code: "interface I { (...args): void }",
+			options: [{ enforceForTSTypes: true }],
+		},
+		{
+			code: "interface I { new(...args): unknown }",
+			options: [{ enforceForTSTypes: true }],
+		},
+		{
+			code: "interface I { prop: () => any }",
+			options: [{ enforceForTSTypes: true }],
+		},
+		{
+			code: "interface I { method(): any }",
+			options: [{ enforceForTSTypes: true }],
+		},
+
+		{
+			code: "type T = { get prop(): any }",
+			options: [{ enforceForTSTypes: true }],
+		},
+	],
+	invalid: [
+		{
+			code: "({ set prop(value) {} });",
+			errors: [
+				{
+					message: "Getter is not present for setter 'prop'.",
+				},
+			],
+		},
+		{
+			code: "interface I { set prop(value: any): any }",
+			options: [{ enforceForTSTypes: true }],
+			errors: [
+				{
+					message: "Getter is not present for type setter 'prop'.",
+				},
+			],
+		},
+		{
+			code: "interface I { set prop(value: any): any, get other(): any }",
+			options: [{ enforceForTSTypes: true }],
+			errors: [
+				{
+					message: "Getter is not present for type setter 'prop'.",
+				},
+			],
+		},
+		{
+			code: "interface I { set prop(value: any): any, prop(): any }",
+			options: [{ enforceForTSTypes: true }],
+			errors: [
+				{
+					message: "Getter is not present for type setter 'prop'.",
+				},
+			],
+		},
+		{
+			code: "interface I { set [prop](value: any): any }",
+			options: [{ enforceForTSTypes: true }],
+			errors: [
+				{
+					message: "Getter is not present for type setter 'null'.",
+				},
+			],
+		},
+		{
+			code: "interface I { get prop(): any } interface J { set prop(value: any): void }",
+			options: [{ enforceForTSTypes: true }],
+			errors: [
+				{
+					message: "Getter is not present for type setter 'prop'.",
+				},
+			],
+		},
+		{
+			code: "type T = { set prop(value: any): any }",
+			options: [{ enforceForTSTypes: true }],
+			errors: [
+				{
+					message: "Getter is not present for type setter 'prop'.",
+				},
+			],
+		},
+		{
+			code: "function fn(): { set prop(value: any): any }",
+			options: [{ enforceForTSTypes: true }],
+			errors: [
+				{
+					message: "Getter is not present for type setter 'prop'.",
+				},
+			],
+		},
+		{
+			code: "type T = { get prop(): any }",
+			options: [{ enforceForTSTypes: true, getWithoutSet: true }],
+			errors: [
+				{
+					message: "Setter is not present for type getter 'prop'.",
 				},
 			],
 		},

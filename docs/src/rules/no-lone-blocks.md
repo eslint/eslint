@@ -126,3 +126,7 @@ Examples of **correct** code for this rule with ES6 environment and strict mode 
 ```
 
 :::
+
+## Options
+
+This rule has no options.

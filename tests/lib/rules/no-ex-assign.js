@@ -30,26 +30,46 @@ ruleTester.run("no-ex-assign", rule, {
 	invalid: [
 		{
 			code: "try { } catch (e) { e = 10; }",
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "try { } catch (ex) { ex = 10; }",
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "try { } catch (ex) { [ex] = []; }",
 			languageOptions: { ecmaVersion: 6 },
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "try { } catch (ex) { ({x: ex = 0} = {}); }",
 			languageOptions: { ecmaVersion: 6 },
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "try { } catch ({message}) { message = 10; }",
 			languageOptions: { ecmaVersion: 6 },
-			errors: [{ messageId: "unexpected", type: "Identifier" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 	],
 });

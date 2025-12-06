@@ -1,6 +1,6 @@
 {
   "name": "@eslint/js",
-  "version": "9.30.1",
+  "version": "10.0.0-alpha.1",
   "description": "ESLint JavaScript language implementation",
   "funding": "https://eslint.org/donate",
   "main": "./src/index.js",
@@ -31,6 +31,6 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": "^18.18.0 || ^20.9.0 || >=21.1.0"
+    "node": "^20.19.0 || ^22.13.0 || >=24"
   }
 }

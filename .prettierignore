@@ -1,5 +1,6 @@
 CHANGELOG.md
 docs/package.json
+docs/src/_data/further_reading_links.json
 docs/src/_data/rule_versions.json
 docs/src/_data/rules.json
 docs/src/_data/rules_meta.json
@@ -9,4 +10,5 @@ docs/src/use/formatters/html-formatter-example.html
 docs/src/use/formatters/index.md
 docs/src/rules/*.md
 packages/js/src/configs/eslint-all.js
+packages/js/src/configs/eslint-recommended.js
 tests/fixtures

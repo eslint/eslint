@@ -323,7 +323,6 @@ ruleTester.run("arrow-body-style", rule, {
 					column: 17,
 					endLine: 1,
 					endColumn: 18,
-					type: "ArrowFunctionExpression",
 					messageId: "expectedBlock",
 				},
 			],
@@ -336,7 +335,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 17,
-					type: "ArrowFunctionExpression",
 					messageId: "expectedBlock",
 				},
 			],
@@ -349,7 +347,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 18,
-					type: "ArrowFunctionExpression",
 					messageId: "expectedBlock",
 				},
 			],
@@ -362,7 +359,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 20,
-					type: "ArrowFunctionExpression",
 					messageId: "expectedBlock",
 				},
 			],
@@ -375,7 +371,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 9,
-					type: "ArrowFunctionExpression",
 					messageId: "expectedBlock",
 				},
 			],
@@ -388,7 +383,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 10,
-					type: "ArrowFunctionExpression",
 					messageId: "expectedBlock",
 				},
 			],
@@ -401,7 +395,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 17,
-					type: "ArrowFunctionExpression",
 					messageId: "unexpectedSingleBlock",
 				},
 			],
@@ -414,7 +407,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 17,
-					type: "ArrowFunctionExpression",
 					messageId: "unexpectedSingleBlock",
 				},
 			],
@@ -427,7 +419,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 17,
-					type: "ArrowFunctionExpression",
 					messageId: "unexpectedSingleBlock",
 				},
 			],
@@ -440,7 +431,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 17,
-					type: "ArrowFunctionExpression",
 					messageId: "unexpectedEmptyBlock",
 				},
 			],
@@ -453,7 +443,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 17,
-					type: "ArrowFunctionExpression",
 					messageId: "unexpectedSingleBlock",
 				},
 			],
@@ -466,7 +455,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 17,
-					type: "ArrowFunctionExpression",
 					messageId: "unexpectedObjectBlock",
 				},
 			],
@@ -479,7 +467,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 17,
-					type: "ArrowFunctionExpression",
 					messageId: "unexpectedSingleBlock",
 				},
 			],
@@ -491,7 +478,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 17,
-					type: "ArrowFunctionExpression",
 					messageId: "unexpectedSingleBlock",
 				},
 			],
@@ -504,7 +490,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 17,
-					type: "ArrowFunctionExpression",
 					messageId: "unexpectedSingleBlock",
 				},
 			],
@@ -517,7 +502,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 17,
-					type: "ArrowFunctionExpression",
 					messageId: "unexpectedSingleBlock",
 				},
 			],
@@ -530,7 +514,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 17,
-					type: "ArrowFunctionExpression",
 					messageId: "unexpectedSingleBlock",
 				},
 			],
@@ -543,7 +526,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 17,
-					type: "ArrowFunctionExpression",
 					messageId: "unexpectedSingleBlock",
 				},
 			],
@@ -556,7 +538,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 17,
-					type: "ArrowFunctionExpression",
 					messageId: "unexpectedObjectBlock",
 				},
 			],
@@ -569,7 +550,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 27,
-					type: "ArrowFunctionExpression",
 					messageId: "unexpectedOtherBlock",
 				},
 			],
@@ -582,7 +562,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 17,
-					type: "ArrowFunctionExpression",
 					messageId: "unexpectedOtherBlock",
 				},
 			],
@@ -595,7 +574,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 17,
-					type: "ArrowFunctionExpression",
 					messageId: "unexpectedSingleBlock",
 				},
 			],
@@ -608,7 +586,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 17,
-					type: "ArrowFunctionExpression",
 					messageId: "unexpectedSingleBlock",
 				},
 			],
@@ -621,7 +598,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 18,
-					type: "ArrowFunctionExpression",
 					messageId: "expectedBlock",
 				},
 			],
@@ -634,7 +610,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 18,
-					type: "ArrowFunctionExpression",
 					messageId: "expectedBlock",
 				},
 			],
@@ -647,7 +622,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 24,
-					type: "ArrowFunctionExpression",
 					messageId: "expectedBlock",
 				},
 			],
@@ -661,7 +635,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 17,
-					type: "ArrowFunctionExpression",
 					messageId: "unexpectedSingleBlock",
 				},
 			],
@@ -675,7 +648,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 17,
-					type: "ArrowFunctionExpression",
 					messageId: "unexpectedSingleBlock",
 				},
 			],
@@ -689,7 +661,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 17,
-					type: "ArrowFunctionExpression",
 					messageId: "unexpectedSingleBlock",
 				},
 			],
@@ -702,7 +673,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 50,
-					type: "ArrowFunctionExpression",
 					messageId: "unexpectedSingleBlock",
 				},
 			],
@@ -715,7 +685,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 1,
 					column: 60,
-					type: "ArrowFunctionExpression",
 					messageId: "expectedBlock",
 				},
 			],
@@ -729,7 +698,6 @@ ruleTester.run("arrow-body-style", rule, {
 					column: 17,
 					endLine: 3,
 					endColumn: 2,
-					type: "ArrowFunctionExpression",
 					messageId: "unexpectedSingleBlock",
 				},
 			],
@@ -743,7 +711,6 @@ ruleTester.run("arrow-body-style", rule, {
 					column: 17,
 					endLine: 2,
 					endColumn: 13,
-					type: "ArrowFunctionExpression",
 					messageId: "unexpectedSingleBlock",
 				},
 			],
@@ -757,7 +724,6 @@ ruleTester.run("arrow-body-style", rule, {
 					column: 17,
 					endLine: 2,
 					endColumn: 2,
-					type: "ArrowFunctionExpression",
 					messageId: "unexpectedSingleBlock",
 				},
 			],
@@ -777,7 +743,6 @@ ruleTester.run("arrow-body-style", rule, {
 				{
 					line: 2,
 					column: 31,
-					type: "ArrowFunctionExpression",
 					messageId: "unexpectedSingleBlock",
 				},
 			],
@@ -803,7 +768,6 @@ ruleTester.run("arrow-body-style", rule, {
 					column: 31,
 					endLine: 7,
 					endColumn: 16,
-					type: "ArrowFunctionExpression",
 					messageId: "unexpectedObjectBlock",
 				},
 			],

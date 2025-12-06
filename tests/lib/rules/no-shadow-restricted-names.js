@@ -53,14 +53,17 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 		},
 		{
 			code: "let globalThis;",
+			options: [{ reportGlobalThis: false }],
 			languageOptions: { ecmaVersion: 2020 },
 		},
 		{
 			code: "class globalThis {}",
+			options: [{ reportGlobalThis: false }],
 			languageOptions: { ecmaVersion: 2020 },
 		},
 		{
 			code: "import { baz as globalThis } from 'foo';",
+			options: [{ reportGlobalThis: false }],
 			languageOptions: {
 				ecmaVersion: 2020,
 				sourceType: "module",
@@ -68,22 +71,18 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 		},
 		{
 			code: "globalThis.foo",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: { ecmaVersion: 2020 },
 		},
 		{
 			code: "const foo = globalThis",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: { ecmaVersion: 2020 },
 		},
 		{
 			code: "function foo() { return globalThis; }",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: { ecmaVersion: 2020 },
 		},
 		{
 			code: "import { globalThis as foo } from 'bar'",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: { ecmaVersion: 2020, sourceType: "module" },
 		},
 	],
@@ -94,37 +93,31 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "NaN" },
-					type: "Identifier",
 					column: 10,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "NaN" },
-					type: "Identifier",
 					column: 14,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "NaN" },
-					type: "Identifier",
 					column: 25,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "NaN" },
-					type: "Identifier",
 					column: 40,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "NaN" },
-					type: "Identifier",
 					column: 44,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "NaN" },
-					type: "Identifier",
 					column: 64,
 				},
 			],
@@ -135,31 +128,26 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "undefined" },
-					type: "Identifier",
 					column: 10,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "undefined" },
-					type: "Identifier",
 					column: 20,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "undefined" },
-					type: "Identifier",
 					column: 43,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "undefined" },
-					type: "Identifier",
 					column: 53,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "undefined" },
-					type: "Identifier",
 					column: 79,
 				},
 			],
@@ -170,37 +158,31 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "Infinity" },
-					type: "Identifier",
 					column: 10,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "Infinity" },
-					type: "Identifier",
 					column: 19,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "Infinity" },
-					type: "Identifier",
 					column: 35,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "Infinity" },
-					type: "Identifier",
 					column: 55,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "Infinity" },
-					type: "Identifier",
 					column: 64,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "Infinity" },
-					type: "Identifier",
 					column: 89,
 				},
 			],
@@ -211,37 +193,31 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "arguments" },
-					type: "Identifier",
 					column: 10,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "arguments" },
-					type: "Identifier",
 					column: 20,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "arguments" },
-					type: "Identifier",
 					column: 37,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "arguments" },
-					type: "Identifier",
 					column: 58,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "arguments" },
-					type: "Identifier",
 					column: 68,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "arguments" },
-					type: "Identifier",
 					column: 94,
 				},
 			],
@@ -252,37 +228,31 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "eval" },
-					type: "Identifier",
 					column: 10,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "eval" },
-					type: "Identifier",
 					column: 15,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "eval" },
-					type: "Identifier",
 					column: 27,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "eval" },
-					type: "Identifier",
 					column: 43,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "eval" },
-					type: "Identifier",
 					column: 48,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "eval" },
-					type: "Identifier",
 					column: 69,
 				},
 			],
@@ -294,37 +264,31 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "eval" },
-					type: "Identifier",
 					column: 5,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "eval" },
-					type: "Identifier",
 					column: 13,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "eval" },
-					type: "Identifier",
 					column: 28,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "eval" },
-					type: "Identifier",
 					column: 44,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "eval" },
-					type: "Identifier",
 					column: 49,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "eval" },
-					type: "Identifier",
 					column: 70,
 				},
 			],
@@ -336,7 +300,6 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "undefined" },
-					type: "Identifier",
 					column: 6,
 				},
 			],
@@ -348,25 +311,21 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "undefined" },
-					type: "Identifier",
 					column: 6,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "undefined" },
-					type: "Identifier",
 					column: 32,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "undefined" },
-					type: "Identifier",
 					column: 63,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "undefined" },
-					type: "Identifier",
 					column: 94,
 				},
 			],
@@ -377,7 +336,6 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "undefined" },
-					type: "Identifier",
 					column: 5,
 				},
 			],
@@ -391,7 +349,6 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "undefined" },
-					type: "Identifier",
 					column: 7,
 				},
 			],
@@ -405,7 +362,6 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "undefined" },
-					type: "Identifier",
 					column: 8,
 				},
 			],
@@ -420,7 +376,6 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "undefined" },
-					type: "Identifier",
 					column: 8,
 				},
 			],
@@ -435,7 +390,6 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "undefined" },
-					type: "Identifier",
 					column: 10,
 				},
 			],
@@ -450,7 +404,6 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "undefined" },
-					type: "Identifier",
 					column: 17,
 				},
 			],
@@ -465,183 +418,154 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "undefined" },
-					type: "Identifier",
 					column: 13,
 				},
 			],
 		},
 		{
 			code: "function globalThis(globalThis) { var globalThis; !function globalThis(globalThis) { try {} catch(globalThis) {} }; }",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: { ecmaVersion: 2015 },
 			errors: [
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "globalThis" },
-					type: "Identifier",
 					column: 10,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "globalThis" },
-					type: "Identifier",
 					column: 21,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "globalThis" },
-					type: "Identifier",
 					column: 39,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "globalThis" },
-					type: "Identifier",
 					column: 61,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "globalThis" },
-					type: "Identifier",
 					column: 72,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "globalThis" },
-					type: "Identifier",
 					column: 99,
 				},
 			],
 		},
 		{
 			code: "function globalThis(globalThis) { var globalThis; !function globalThis(globalThis) { try {} catch(globalThis) {} }; }",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "globalThis" },
-					type: "Identifier",
 					column: 10,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "globalThis" },
-					type: "Identifier",
 					column: 21,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "globalThis" },
-					type: "Identifier",
 					column: 39,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "globalThis" },
-					type: "Identifier",
 					column: 61,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "globalThis" },
-					type: "Identifier",
 					column: 72,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "globalThis" },
-					type: "Identifier",
 					column: 99,
 				},
 			],
 		},
 		{
 			code: "const [globalThis] = [1]",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "globalThis" },
-					type: "Identifier",
 					column: 8,
 				},
 			],
 		},
 		{
 			code: "var {globalThis} = obj; var {a: globalThis} = obj; var {a: {b: {globalThis}}} = obj; var {a, ...globalThis} = obj;",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "globalThis" },
-					type: "Identifier",
 					column: 6,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "globalThis" },
-					type: "Identifier",
 					column: 33,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "globalThis" },
-					type: "Identifier",
 					column: 65,
 				},
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "globalThis" },
-					type: "Identifier",
 					column: 97,
 				},
 			],
 		},
 		{
 			code: "let globalThis; globalThis = 5;",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "globalThis" },
-					type: "Identifier",
 					column: 5,
 				},
 			],
 		},
 		{
 			code: "class globalThis {}",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "globalThis" },
-					type: "Identifier",
 					column: 7,
 				},
 			],
 		},
 		{
 			code: "(class globalThis {})",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "globalThis" },
-					type: "Identifier",
 					column: 8,
 				},
 			],
 		},
 		{
 			code: "import globalThis from 'foo';",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: {
 				ecmaVersion: 2020,
 				sourceType: "module",
@@ -650,14 +574,12 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "globalThis" },
-					type: "Identifier",
 					column: 8,
 				},
 			],
 		},
 		{
 			code: "import { globalThis } from 'foo';",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: {
 				ecmaVersion: 2020,
 				sourceType: "module",
@@ -666,14 +588,12 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "globalThis" },
-					type: "Identifier",
 					column: 10,
 				},
 			],
 		},
 		{
 			code: "import { baz as globalThis } from 'foo';",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: {
 				ecmaVersion: 2020,
 				sourceType: "module",
@@ -682,14 +602,12 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "globalThis" },
-					type: "Identifier",
 					column: 17,
 				},
 			],
 		},
 		{
 			code: "import * as globalThis from 'foo';",
-			options: [{ reportGlobalThis: true }],
 			languageOptions: {
 				ecmaVersion: 2020,
 				sourceType: "module",
@@ -698,7 +616,6 @@ ruleTester.run("no-shadow-restricted-names", rule, {
 				{
 					messageId: "shadowingRestrictedName",
 					data: { name: "globalThis" },
-					type: "Identifier",
 					column: 13,
 				},
 			],

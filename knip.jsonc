@@ -21,13 +21,16 @@
         "tests/performance/jshint.js",
         // Many are required using dynamic paths such as `fs.readFileSync(path.join())`:
         "tests/fixtures/**",
+        // pnpm test package
+        "tests/pnpm/**",
+        // Run from Makefile.js
+        "tools/generate-formatter-examples.js",
       ],
       "ignoreDependencies": [
         "c8",
         // Optional peer dependency used for loading TypeScript configuration files
         "jiti",
-        "jiti-v2.0",
-        "jiti-v2.1",
+        "prettier",
       ],
     },
     "docs": {
@@ -38,6 +41,6 @@
       "ignore": ["tests/types/**"],
       "ignoreDependencies": ["eslint"],
     },
-    "tools/internal-rules": {},
+    "tools/typescript-eslint-parser": {},
   },
 }

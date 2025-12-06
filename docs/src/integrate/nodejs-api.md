@@ -171,6 +171,8 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
 
 ##### Other Options
 
+- `options.concurrency` (`number | "auto" | "off"`)<br>
+  Default is `"off"`. By default, ESLint lints all files in the calling thread. If this option specifies an integer, ESLint will use up to that number of worker threads to lint files concurrently. `"auto"` chooses a setting automatically. When this option is specified all other options must be [cloneable](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm).
 - `options.flags` (`string[]`)<br>
   Default is `[]`. The feature flags to enable for this instance.
 
@@ -257,6 +259,24 @@ This method calculates the configuration for a given file, which can be useful f
 - (`Promise<Object>`)<br>
   The promise that will be fulfilled with a configuration object.
 
+### ◆ eslint.findConfigFile(filePath)
+
+```js
+const configFilePath = await eslint.findConfigFile(filePath);
+```
+
+This method finds the configuration file that this `ESLint` instance would use based on the options passed to the constructor.
+
+#### Parameters
+
+- `filePath` (`string`)<br>
+  Optional. The path of a file for which to find the associated config file. If omitted, ESLint determines the config file based on the current working directory of this instance.
+
+#### Return Value
+
+- (`Promise<string | undefined>`)<br>
+  The promise that will be fulfilled with the absolute path to the config file being used, or `undefined` when no config file is used (for example, when `overrideConfigFile: true` is set).
+
 ### ◆ eslint.isPathIgnored(filePath)
 
 ```js
@@ -339,6 +359,50 @@ const defaultConfig = ESLint.defaultConfig;
 The default configuration that ESLint uses internally. This is provided for tooling that wants to calculate configurations using the same defaults as ESLint. Keep in mind that the default configuration may change from version to version, so you shouldn't rely on any particular keys or values to be present.
 
 This is a static property.
+
+### ◆ ESLint.fromOptionsModule(optionsURL)
+
+```js
+const eslint = await ESLint.fromOptionsModule(optionsURL);
+```
+
+This method creates an instance of the `ESLint` class with options loaded from a module, for example:
+
+```js
+// eslint-options.js
+
+import config from "./my-eslint-config.js";
+
+export default {
+	concurrency: "auto",
+	overrideConfig: config,
+	overrideConfigFile: true,
+	stats: true,
+};
+```
+
+```js
+// main.js
+
+...
+const optionsURL = new URL("./eslint-options.js", import.meta.url);
+const eslint = await ESLint.fromOptionsModule(optionsURL);
+...
+```
+
+The `concurrency` option requires all other options to be cloneable so that they can be passed to worker threads, but this restriction does not apply when options are loaded from a module, because in that case worker threads are passed the module URL instead of the options object.
+
+This is a static method.
+
+#### Parameters
+
+- `optionsURL` (`URL`)<br>
+  The URL of the options module. This can be any valid URL, like a file URL or a data URL.
+
+#### Return Value
+
+- (`Promise<ESLint>`)<br>
+  A new instance of the `ESLint` class.
 
 ### ◆ ESLint.outputFixes(results)
 
@@ -488,7 +552,7 @@ The `LoadedFormatter` value is the object to convert the [LintResult] objects to
 
 ## loadESLint()
 
-The `loadESLint()` function is used for integrations that wish to support both the current configuration system (flat config) and the old configuration system (eslintrc). This function returns the correct `ESLint` class implementation based on the arguments provided:
+The `loadESLint()` function is used for integrations that wish to support different ESLint versions. This function returns the correct `ESLint` class implementation based on the arguments provided:
 
 ```js
 const { loadESLint } = require("eslint");
@@ -499,7 +563,7 @@ const DefaultESLint = await loadESLint();
 // loads the flat config version specifically
 const FlatESLint = await loadESLint({ useFlatConfig: true });
 
-// loads the legacy version specifically
+// loads the legacy version specifically if possible, otherwise falls back to flat config version
 const LegacyESLint = await loadESLint({ useFlatConfig: false });
 ```
 
@@ -522,9 +586,7 @@ if (DefaultESLint.configType === "flat") {
 }
 ```
 
-If you don't need to support both the old and new configuration systems, then it's recommended to just use the `ESLint` constructor directly.
-
----
+**If you don't need to support both the old and new configuration systems, then it's recommended to just use the `ESLint` constructor directly.**
 
 ## SourceCode
 
@@ -579,7 +641,7 @@ The `Linter` object does the actual evaluation of the JavaScript code. It doesn'
 
 The `Linter` is a constructor, and you can create a new instance by passing in the options you want to use. The available options are:
 
-- `cwd` - Path to a directory that should be considered as the current working directory. It is accessible to rules from `context.cwd` or by calling `context.getCwd()` (see [The Context Object](../extend/custom-rules#the-context-object)). If `cwd` is `undefined`, it will be normalized to `process.cwd()` if the global `process` object is defined (for example, in the Node.js runtime) , or `undefined` otherwise.
+- `cwd` - Path to a directory that should be considered as the current working directory. It is accessible to rules from `context.cwd` (see [The Context Object](../extend/custom-rules#the-context-object)). If `cwd` is `undefined`, it will be normalized to `process.cwd()` if the global `process` object is defined (for example, in the Node.js runtime) , or `undefined` otherwise.
 
 For example:
 
@@ -589,7 +651,7 @@ const linter1 = new Linter({ cwd: "path/to/project" });
 const linter2 = new Linter();
 ```
 
-In this example, rules run on `linter1` will get `path/to/project` from `context.cwd` or when calling `context.getCwd()`.
+In this example, rules run on `linter1` will get `path/to/project` from `context.cwd`.
 Those run on `linter2` will get `process.cwd()` if the global `process` object is defined or `undefined` otherwise (e.g. on the browser <https://eslint.org/demo>).
 
 ### Linter#verify
@@ -672,7 +734,6 @@ The information available for each linting message is:
 - `line` - the line on which the error occurred.
 - `message` - the message that should be output.
 - `messageId` - the ID of the message used to generate the message (this property is omitted if the rule does not use message IDs).
-- `nodeType` - (**Deprecated:** This property will be removed in a future version of ESLint.) the node, comment, or token type that was reported with the problem.
 - `ruleId` - the ID of the rule that triggered the messages (or null if `fatal` is true).
 - `severity` - either 1 or 2, depending on your configuration.
 - `endColumn` - the end column of the range on which the error occurred (this property is omitted if it's not range).
@@ -862,7 +923,6 @@ In addition to the properties above, invalid test cases can also have the follow
     - `message` (string/regexp): The message for the error. Must provide this or `messageId`.
     - `messageId` (string): The ID for the error. Must provide this or `message`. See [testing errors with messageId](#testing-errors-with-messageid) for details.
     - `data` (object): Placeholder data which can be used in combination with `messageId`.
-    - `type` (string): (**Deprecated:** This property will be removed in a future version of ESLint.) The type of the reported AST node.
     - `line` (number): The 1-based line number of the reported location.
     - `column` (number): The 1-based column number of the reported location.
     - `endLine` (number): The 1-based line number of the end of the reported location.

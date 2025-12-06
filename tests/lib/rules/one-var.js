@@ -637,6 +637,123 @@ ruleTester.run("one-var", rule, {
 			options: [{ initialized: "consecutive" }],
 			languageOptions: { ecmaVersion: 2022 },
 		},
+
+		// Explicit Resource Management
+		{
+			code: "using a = 0; let b = 1; const c = 2;",
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "await using a = 0; let b = 1; const c = 2;",
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "using a = 0, b = 1;",
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "await using a = 0, b = 1;",
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "function fn() { { using a = 0; } using b = 1; }",
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "using a = 0; using b = 1;",
+			options: ["never"],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "await using a = 0; await using b = 1;",
+			options: ["never"],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "using a = 0, b = 1;",
+			options: ["consecutive"],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "await using a = 0, b = 1;",
+			options: ["consecutive"],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "using a = 0, b = 1;",
+			options: [{ initialized: "always" }],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "await using a = 0, b = 1;",
+			options: [{ initialized: "always" }],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "using a = 0; using b = 1;",
+			options: [{ initialized: "never" }],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "await using a = 0; await using b = 1;",
+			options: [{ initialized: "never" }],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "using a = 0, b = 1; foo(); using c = 2, d = 3;",
+			options: [{ initialized: "consecutive" }],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
+		{
+			code: "await using a = 0, b = 1; foo(); await using c = 2, d = 3;",
+			options: [{ initialized: "consecutive" }],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+		},
 	],
 	invalid: [
 		{
@@ -647,7 +764,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -659,7 +775,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -671,7 +786,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -683,7 +797,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -695,7 +808,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -707,7 +819,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -719,7 +830,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -731,7 +841,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "splitInitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -743,7 +852,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "splitUninitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -755,7 +863,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combineUninitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -767,8 +874,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combineInitialized",
 					data: { type: "var" },
-
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -780,12 +885,10 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 				{
 					messageId: "split",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -797,17 +900,14 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 				{
 					messageId: "combine",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 				{
 					messageId: "combine",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -819,7 +919,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -831,7 +930,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -843,7 +941,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "const" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -855,7 +952,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -867,7 +963,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "const" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -879,7 +974,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -891,7 +985,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "splitInitialized",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -903,7 +996,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "splitUninitialized",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -915,7 +1007,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "splitInitialized",
 					data: { type: "const" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -927,7 +1018,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "const" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -939,7 +1029,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 74,
 				},
@@ -953,7 +1042,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 2,
 					column: 1,
 				},
@@ -967,7 +1055,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "splitInitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -979,7 +1066,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "splitUninitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -991,7 +1077,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -1003,7 +1088,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -1014,7 +1098,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 40,
 				},
@@ -1027,14 +1110,12 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 45,
 				},
 				{
 					messageId: "combine",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 71,
 				},
@@ -1048,7 +1129,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 35,
 				},
@@ -1061,7 +1141,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 51,
 				},
@@ -1074,7 +1153,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 10,
 				},
@@ -1088,7 +1166,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "splitInitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 1,
 				},
@@ -1102,7 +1179,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "splitInitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 1,
 				},
@@ -1116,7 +1192,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combineUninitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 8,
 				},
@@ -1130,7 +1205,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combineUninitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 8,
 				},
@@ -1144,7 +1218,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combineUninitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 41,
 				},
@@ -1158,7 +1231,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "splitInitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 53,
 				},
@@ -1173,7 +1245,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "splitInitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 1,
 				},
@@ -1188,7 +1259,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "splitInitialized",
 					data: { type: "const" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 1,
 				},
@@ -1202,7 +1272,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "splitInitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 1,
 				},
@@ -1216,7 +1285,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "splitInitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 1,
 				},
@@ -1230,7 +1298,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 1,
 				},
@@ -1244,7 +1311,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 1,
 				},
@@ -1258,7 +1324,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 1,
 				},
@@ -1272,7 +1337,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 1,
 				},
@@ -1285,7 +1349,6 @@ ruleTester.run("one-var", rule, {
 			errors: [
 				{
 					messageId: "splitRequires",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 1,
 				},
@@ -1298,7 +1361,6 @@ ruleTester.run("one-var", rule, {
 			errors: [
 				{
 					messageId: "splitRequires",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 1,
 				},
@@ -1311,7 +1373,6 @@ ruleTester.run("one-var", rule, {
 			errors: [
 				{
 					messageId: "splitRequires",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 1,
 				},
@@ -1324,7 +1385,6 @@ ruleTester.run("one-var", rule, {
 			errors: [
 				{
 					messageId: "splitRequires",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 1,
 				},
@@ -1338,7 +1398,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "const" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 29,
 				},
@@ -1354,7 +1413,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 15,
 				},
@@ -1368,7 +1426,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 19,
 				},
@@ -1383,7 +1440,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 15,
 				},
@@ -1398,7 +1454,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 19,
 				},
@@ -1413,7 +1468,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "const" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 21,
 				},
@@ -1428,7 +1482,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 25,
 				},
@@ -1442,7 +1495,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 15,
 				},
@@ -1457,7 +1509,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 25,
 				},
@@ -1472,7 +1523,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "const" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 25,
 				},
@@ -1486,7 +1536,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combineUninitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 19,
 				},
@@ -1500,14 +1549,12 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combineInitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 12,
 				},
 				{
 					messageId: "combineUninitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 30,
 				},
@@ -1522,7 +1569,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combineUninitialized",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 19,
 				},
@@ -1537,14 +1583,12 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combineInitialized",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 12,
 				},
 				{
 					messageId: "combineUninitialized",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 30,
 				},
@@ -1559,7 +1603,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combineUninitialized",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 21,
 				},
@@ -1573,14 +1616,12 @@ ruleTester.run("one-var", rule, {
 			errors: [
 				{
 					messageId: "combineInitialized",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 14,
 				},
 				{
 					messageId: "combineUninitialized",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 34,
 				},
@@ -1594,14 +1635,12 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combineInitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 12,
 				},
 				{
 					messageId: "splitUninitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 23,
 				},
@@ -1615,7 +1654,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "splitUninitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 12,
 				},
@@ -1630,14 +1668,12 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combineInitialized",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 12,
 				},
 				{
 					messageId: "splitUninitialized",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 23,
 				},
@@ -1652,7 +1688,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "splitUninitialized",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 12,
 				},
@@ -1667,14 +1702,12 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combineInitialized",
 					data: { type: "const" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 14,
 				},
 				{
 					messageId: "splitUninitialized",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 27,
 				},
@@ -1689,7 +1722,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "splitUninitialized",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 14,
 				},
@@ -1703,14 +1735,12 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combineUninitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 8,
 				},
 				{
 					messageId: "combineInitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 26,
 				},
@@ -1724,7 +1754,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combineInitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 19,
 				},
@@ -1739,14 +1768,12 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combineUninitialized",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 8,
 				},
 				{
 					messageId: "combineInitialized",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 26,
 				},
@@ -1761,7 +1788,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combineInitialized",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 19,
 				},
@@ -1776,14 +1802,12 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combineUninitialized",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 8,
 				},
 				{
 					messageId: "combineInitialized",
 					data: { type: "const" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 28,
 				},
@@ -1798,7 +1822,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combineInitialized",
 					data: { type: "const" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 21,
 				},
@@ -1812,14 +1835,12 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combineUninitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 8,
 				},
 				{
 					messageId: "splitInitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 15,
 				},
@@ -1833,7 +1854,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "splitInitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 8,
 				},
@@ -1848,14 +1868,12 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combineUninitialized",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 8,
 				},
 				{
 					messageId: "splitInitialized",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 15,
 				},
@@ -1870,7 +1888,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "splitInitialized",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 8,
 				},
@@ -1885,14 +1902,12 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combineUninitialized",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 8,
 				},
 				{
 					messageId: "splitInitialized",
 					data: { type: "const" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 15,
 				},
@@ -1907,7 +1922,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "splitInitialized",
 					data: { type: "const" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 8,
 				},
@@ -1921,7 +1935,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 12,
 				},
@@ -1936,7 +1949,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 12,
 				},
@@ -1951,7 +1963,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "const" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 14,
 				},
@@ -1966,14 +1977,12 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 8,
 				},
 				{
 					messageId: "combine",
 					data: { type: "const" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 28,
 				},
@@ -1988,7 +1997,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "const" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 21,
 				},
@@ -2003,14 +2011,12 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 8,
 				},
 				{
 					messageId: "split",
 					data: { type: "const" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 15,
 				},
@@ -2025,7 +2031,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "const" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 8,
 				},
@@ -2040,14 +2045,12 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "const" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 14,
 				},
 				{
 					messageId: "combine",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 34,
 				},
@@ -2062,7 +2065,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 21,
 				},
@@ -2077,14 +2079,12 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "const" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 14,
 				},
 				{
 					messageId: "split",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 27,
 				},
@@ -2099,7 +2099,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 14,
 				},
@@ -2113,7 +2112,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 10,
 				},
@@ -2127,14 +2125,12 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 14,
 				},
 				{
 					messageId: "combine",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 47,
 				},
@@ -2151,14 +2147,12 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 11,
 				},
 				{
 					messageId: "split",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 18,
 				},
@@ -2172,7 +2166,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 8,
 				},
@@ -2186,21 +2179,18 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combineInitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 12,
 				},
 				{
 					messageId: "splitUninitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 23,
 				},
 				{
 					messageId: "combineInitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 44,
 				},
@@ -2214,14 +2204,12 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combineInitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 12,
 				},
 				{
 					messageId: "combineInitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 1,
 					column: 41,
 				},
@@ -2235,7 +2223,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 					line: 2,
 					column: 1,
 				},
@@ -2250,7 +2237,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "const" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2263,7 +2249,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "const" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2276,7 +2261,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "const" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2289,7 +2273,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "const" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2302,7 +2285,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "const" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2315,7 +2297,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "const" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2328,7 +2309,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "const" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2341,7 +2321,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "const" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2355,7 +2334,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2367,7 +2345,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2379,7 +2356,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "splitUninitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2391,7 +2367,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "splitInitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2403,7 +2378,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2415,7 +2389,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2427,7 +2400,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2439,7 +2411,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2451,7 +2422,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2463,7 +2433,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2475,7 +2444,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2487,7 +2455,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2499,7 +2466,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2514,7 +2480,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2527,7 +2492,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "split",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2540,7 +2504,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2553,7 +2516,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2566,7 +2528,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2579,7 +2540,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2592,7 +2552,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2605,7 +2564,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2618,7 +2576,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combine",
 					data: { type: "var" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2631,7 +2588,6 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combineInitialized",
 					data: { type: "let" },
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -2644,7 +2600,128 @@ ruleTester.run("one-var", rule, {
 				{
 					messageId: "combineInitialized",
 					data: { type: "var" },
-					type: "VariableDeclaration",
+				},
+			],
+		},
+
+		// Explicit Resource Management
+		{
+			code: "using a = 0; using b = 1;",
+			output: "using a = 0,  b = 1;",
+			options: ["always"],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+			errors: [
+				{
+					messageId: "combine",
+					data: { type: "using" },
+				},
+			],
+		},
+		{
+			code: "await using a = 0; await using b = 1;",
+			output: "await using a = 0,   b = 1;",
+			options: ["always"],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+			errors: [
+				{
+					messageId: "combine",
+					data: { type: "await using" },
+				},
+			],
+		},
+		{
+			code: "using a = 0, b = 1;",
+			output: "using a = 0; using b = 1;",
+			options: ["never"],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+			errors: [
+				{
+					messageId: "split",
+					data: { type: "using" },
+				},
+			],
+		},
+		{
+			code: "await using a = 0, b = 1;",
+			output: "await using a = 0; await using b = 1;",
+			options: ["never"],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+			errors: [
+				{
+					messageId: "split",
+					data: { type: "await using" },
+				},
+			],
+		},
+		{
+			code: "using a = 0; using b = 1;",
+			output: "using a = 0,  b = 1;",
+			options: ["consecutive"],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+			errors: [
+				{
+					messageId: "combine",
+					data: { type: "using" },
+				},
+			],
+		},
+		{
+			code: "await using a = 0; await using b = 1;",
+			output: "await using a = 0,   b = 1;",
+			options: ["consecutive"],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+			errors: [
+				{
+					messageId: "combine",
+					data: { type: "await using" },
+				},
+			],
+		},
+		{
+			code: "using a = 0, b = 1;",
+			output: "using a = 0; using b = 1;",
+			options: [{ initialized: "never" }],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+			errors: [
+				{
+					messageId: "splitInitialized",
+					data: { type: "using" },
+				},
+			],
+		},
+		{
+			code: "await using a = 0, b = 1;",
+			output: "await using a = 0; await using b = 1;",
+			options: [{ initialized: "never" }],
+			languageOptions: {
+				ecmaVersion: 2026,
+				sourceType: "module",
+			},
+			errors: [
+				{
+					messageId: "splitInitialized",
+					data: { type: "await using" },
 				},
 			],
 		},

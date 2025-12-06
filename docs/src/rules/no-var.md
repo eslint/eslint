@@ -11,7 +11,7 @@ such as:
 
 ```js
 var count = people.length;
-var enoughFood = count > sandwiches.length;
+var enoughFood = sandwiches.length >= count;
 
 if (enoughFood) {
     var count = sandwiches.length; // accidentally overriding the count variable
@@ -25,8 +25,6 @@ console.log("We have " + count + " people and " + sandwiches.length + " sandwich
 ## Rule Details
 
 This rule is aimed at discouraging the use of `var` and encouraging the use of `const` or `let` instead.
-
-## Examples
 
 Examples of **incorrect** code for this rule:
 
@@ -89,6 +87,10 @@ declare global {
 ```
 
 :::
+
+## Options
+
+This rule has no options.
 
 ## When Not To Use It
 

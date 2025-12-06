@@ -184,70 +184,94 @@ ruleTester.run("no-redeclare", rule, {
 			code: "var a = 3; var a = 10;",
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
-				{ message: "'a' is already defined.", type: "Identifier" },
+				{
+					message: "'a' is already defined.",
+				},
 			],
 		},
 		{
 			code: "switch(foo) { case a: var b = 3;\ncase b: var b = 4}",
 			errors: [
-				{ message: "'b' is already defined.", type: "Identifier" },
+				{
+					message: "'b' is already defined.",
+				},
 			],
 		},
 		{
 			code: "var a = 3; var a = 10;",
 			errors: [
-				{ message: "'a' is already defined.", type: "Identifier" },
+				{
+					message: "'a' is already defined.",
+				},
 			],
 		},
 		{
 			code: "var a = {}; var a = [];",
 			errors: [
-				{ message: "'a' is already defined.", type: "Identifier" },
+				{
+					message: "'a' is already defined.",
+				},
 			],
 		},
 		{
 			code: "var a; function a() {}",
 			errors: [
-				{ message: "'a' is already defined.", type: "Identifier" },
+				{
+					message: "'a' is already defined.",
+				},
 			],
 		},
 		{
 			code: "function a() {} function a() {}",
 			errors: [
-				{ message: "'a' is already defined.", type: "Identifier" },
+				{
+					message: "'a' is already defined.",
+				},
 			],
 		},
 		{
 			code: "var a = function() { }; var a = function() { }",
 			errors: [
-				{ message: "'a' is already defined.", type: "Identifier" },
+				{
+					message: "'a' is already defined.",
+				},
 			],
 		},
 		{
 			code: "var a = function() { }; var a = new Date();",
 			errors: [
-				{ message: "'a' is already defined.", type: "Identifier" },
+				{
+					message: "'a' is already defined.",
+				},
 			],
 		},
 		{
 			code: "var a = 3; var a = 10; var a = 15;",
 			errors: [
-				{ message: "'a' is already defined.", type: "Identifier" },
-				{ message: "'a' is already defined.", type: "Identifier" },
+				{
+					message: "'a' is already defined.",
+				},
+				{
+					message: "'a' is already defined.",
+				},
 			],
 		},
 		{
 			code: "var a; var a;",
 			languageOptions: { ecmaVersion: 6, sourceType: "module" },
 			errors: [
-				{ message: "'a' is already defined.", type: "Identifier" },
+				{
+					message: "'a' is already defined.",
+				},
 			],
 		},
 		{
 			code: "export var a; var a;",
 			languageOptions: { ecmaVersion: 6, sourceType: "module" },
 			errors: [
-				{ message: "'a' is already defined.", type: "Identifier" },
+				{
+					message: "'a' is already defined.",
+				},
 			],
 		},
 
@@ -258,7 +282,9 @@ ruleTester.run("no-redeclare", rule, {
 				ecmaVersion: 2022,
 			},
 			errors: [
-				{ message: "'a' is already defined.", type: "Identifier" },
+				{
+					message: "'a' is already defined.",
+				},
 			],
 		},
 		{
@@ -267,7 +293,9 @@ ruleTester.run("no-redeclare", rule, {
 				ecmaVersion: 2022,
 			},
 			errors: [
-				{ message: "'a' is already defined.", type: "Identifier" },
+				{
+					message: "'a' is already defined.",
+				},
 			],
 		},
 		{
@@ -276,7 +304,9 @@ ruleTester.run("no-redeclare", rule, {
 				ecmaVersion: 2022,
 			},
 			errors: [
-				{ message: "'a' is already defined.", type: "Identifier" },
+				{
+					message: "'a' is already defined.",
+				},
 			],
 		},
 		{
@@ -285,7 +315,9 @@ ruleTester.run("no-redeclare", rule, {
 				ecmaVersion: 2022,
 			},
 			errors: [
-				{ message: "'a' is already defined.", type: "Identifier" },
+				{
+					message: "'a' is already defined.",
+				},
 			],
 		},
 
@@ -296,7 +328,6 @@ ruleTester.run("no-redeclare", rule, {
 				{
 					message:
 						"'Object' is already defined as a built-in global variable.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -308,7 +339,6 @@ ruleTester.run("no-redeclare", rule, {
 				{
 					message:
 						"'top' is already defined as a built-in global variable.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -317,11 +347,12 @@ ruleTester.run("no-redeclare", rule, {
 			options: [{ builtinGlobals: true }],
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
-				{ message: "'a' is already defined.", type: "Identifier" },
+				{
+					message: "'a' is already defined.",
+				},
 				{
 					message:
 						"'Object' is already defined as a built-in global variable.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -330,7 +361,9 @@ ruleTester.run("no-redeclare", rule, {
 			options: [{ builtinGlobals: true }],
 			languageOptions: { ecmaVersion: 6, sourceType: "module" },
 			errors: [
-				{ message: "'a' is already defined.", type: "Identifier" },
+				{
+					message: "'a' is already defined.",
+				},
 			],
 		},
 		{
@@ -341,7 +374,9 @@ ruleTester.run("no-redeclare", rule, {
 				parserOptions: { ecmaFeatures: { globalReturn: true } },
 			},
 			errors: [
-				{ message: "'a' is already defined.", type: "Identifier" },
+				{
+					message: "'a' is already defined.",
+				},
 			],
 		},
 		{
@@ -349,7 +384,9 @@ ruleTester.run("no-redeclare", rule, {
 			options: [{ builtinGlobals: false }],
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
-				{ message: "'a' is already defined.", type: "Identifier" },
+				{
+					message: "'a' is already defined.",
+				},
 			],
 		},
 		{
@@ -360,7 +397,6 @@ ruleTester.run("no-redeclare", rule, {
 				{
 					message:
 						"'globalThis' is already defined as a built-in global variable.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -369,11 +405,12 @@ ruleTester.run("no-redeclare", rule, {
 			options: [{ builtinGlobals: true }],
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [
-				{ message: "'a' is already defined.", type: "Identifier" },
+				{
+					message: "'a' is already defined.",
+				},
 				{
 					message:
 						"'globalThis' is already defined as a built-in global variable.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -384,7 +421,6 @@ ruleTester.run("no-redeclare", rule, {
 				{
 					message:
 						"'b' is already defined by a variable declaration.",
-					type: "Block",
 					line: 1,
 					column: 10,
 					endLine: 1,
@@ -399,7 +435,6 @@ ruleTester.run("no-redeclare", rule, {
 				{
 					message:
 						"'b' is already defined by a variable declaration.",
-					type: "Block",
 					line: 1,
 					column: 10,
 					endLine: 1,
@@ -410,25 +445,33 @@ ruleTester.run("no-redeclare", rule, {
 		{
 			code: "function f() { var a; var a; }",
 			errors: [
-				{ message: "'a' is already defined.", type: "Identifier" },
+				{
+					message: "'a' is already defined.",
+				},
 			],
 		},
 		{
 			code: "function f(a) { var a; }",
 			errors: [
-				{ message: "'a' is already defined.", type: "Identifier" },
+				{
+					message: "'a' is already defined.",
+				},
 			],
 		},
 		{
 			code: "function f() { var a; if (test) { var a; } }",
 			errors: [
-				{ message: "'a' is already defined.", type: "Identifier" },
+				{
+					message: "'a' is already defined.",
+				},
 			],
 		},
 		{
 			code: "for (var a, a;;);",
 			errors: [
-				{ message: "'a' is already defined.", type: "Identifier" },
+				{
+					message: "'a' is already defined.",
+				},
 			],
 		},
 
@@ -438,7 +481,6 @@ ruleTester.run("no-redeclare", rule, {
 				{
 					message:
 						"'Object' is already defined as a built-in global variable.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -449,7 +491,6 @@ ruleTester.run("no-redeclare", rule, {
 				{
 					message:
 						"'top' is already defined as a built-in global variable.",
-					type: "Identifier",
 				},
 			],
 		},
@@ -462,7 +503,6 @@ ruleTester.run("no-redeclare", rule, {
 				{
 					message:
 						"'Array' is already defined as a built-in global variable.",
-					type: "Block",
 					line: 1,
 					column: 11,
 					endLine: 1,
@@ -477,7 +517,6 @@ ruleTester.run("no-redeclare", rule, {
 				{
 					message:
 						"'parseInt' is already defined as a built-in global variable.",
-					type: "Block",
 					line: 1,
 					column: 11,
 					endLine: 1,
@@ -492,7 +531,6 @@ ruleTester.run("no-redeclare", rule, {
 				{
 					message:
 						"'Array' is already defined as a built-in global variable.",
-					type: "Block",
 					line: 1,
 					column: 16,
 					endLine: 1,
@@ -507,7 +545,6 @@ ruleTester.run("no-redeclare", rule, {
 				{
 					message:
 						"'Array' is already defined as a built-in global variable.",
-					type: "Block",
 					line: 1,
 					column: 17,
 					endLine: 1,
@@ -522,7 +559,6 @@ ruleTester.run("no-redeclare", rule, {
 				{
 					message:
 						"'Array' is already defined as a built-in global variable.",
-					type: "Block",
 					line: 1,
 					column: 15,
 					endLine: 1,
@@ -537,7 +573,6 @@ ruleTester.run("no-redeclare", rule, {
 				{
 					message:
 						"'Array' is already defined as a built-in global variable.",
-					type: "Block",
 					line: 1,
 					column: 17,
 					endLine: 1,
@@ -552,7 +587,6 @@ ruleTester.run("no-redeclare", rule, {
 				{
 					message:
 						"'Array' is already defined as a built-in global variable.",
-					type: "Block",
 					line: 1,
 					column: 13,
 					endLine: 1,
@@ -567,7 +601,6 @@ ruleTester.run("no-redeclare", rule, {
 				{
 					message:
 						"'Array' is already defined as a built-in global variable.",
-					type: "Block",
 					line: 1,
 					column: 23,
 					endLine: 1,
@@ -582,7 +615,6 @@ ruleTester.run("no-redeclare", rule, {
 				{
 					message:
 						"'Array' is already defined as a built-in global variable.",
-					type: "Block",
 					line: 2,
 					column: 11,
 					endLine: 2,
@@ -597,7 +629,6 @@ ruleTester.run("no-redeclare", rule, {
 				{
 					message:
 						"'Array' is already defined as a built-in global variable.",
-					type: "Block",
 					line: 2,
 					column: 1,
 					endLine: 2,
@@ -612,7 +643,6 @@ ruleTester.run("no-redeclare", rule, {
 				{
 					message:
 						"'Array' is already defined as a built-in global variable.",
-					type: "Block",
 					line: 4,
 					column: 1,
 					endLine: 4,
@@ -627,7 +657,6 @@ ruleTester.run("no-redeclare", rule, {
 				{
 					message:
 						"'Array' is already defined as a built-in global variable.",
-					type: "Block",
 					line: 2,
 					column: 5,
 					endLine: 2,
@@ -643,7 +672,6 @@ ruleTester.run("no-redeclare", rule, {
 				{
 					message:
 						"'a' is already defined as a built-in global variable.",
-					type: "Block",
 					line: 1,
 					column: 11,
 					endLine: 1,
@@ -659,7 +687,6 @@ ruleTester.run("no-redeclare", rule, {
 				{
 					message:
 						"'a' is already defined as a built-in global variable.",
-					type: "Block",
 					line: 1,
 					column: 11,
 					endLine: 1,
@@ -672,7 +699,6 @@ ruleTester.run("no-redeclare", rule, {
 			errors: [
 				{
 					message: "'a' is already defined.",
-					type: "Block",
 					line: 1,
 					column: 26,
 					endLine: 1,
@@ -688,7 +714,6 @@ ruleTester.run("no-redeclare", rule, {
 				{
 					message:
 						"'a' is already defined as a built-in global variable.",
-					type: "Block",
 					line: 1,
 					column: 11,
 					endLine: 1,
@@ -697,7 +722,6 @@ ruleTester.run("no-redeclare", rule, {
 				{
 					message:
 						"'a' is already defined as a built-in global variable.",
-					type: "Block",
 					line: 1,
 					column: 26,
 					endLine: 1,
@@ -706,7 +730,6 @@ ruleTester.run("no-redeclare", rule, {
 				{
 					message:
 						"'a' is already defined as a built-in global variable.",
-					type: "Identifier",
 					line: 1,
 					column: 35,
 					endLine: 1,

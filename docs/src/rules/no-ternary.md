@@ -58,3 +58,7 @@ function quux() {
 ```
 
 :::
+
+## Options
+
+This rule has no options.

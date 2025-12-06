@@ -164,17 +164,14 @@ ruleTester.run("no-undef", rule, {
 		{
 			code: "let a; class C { static {} } a;",
 			languageOptions: { ecmaVersion: 2022 },
-			errors: [{ messageId: "undef", data: { name: "a" } }],
 		},
 		{
 			code: "var a; class C { static {} } a;",
 			languageOptions: { ecmaVersion: 2022 },
-			errors: [{ messageId: "undef", data: { name: "a" } }],
 		},
 		{
 			code: "a; class C { static {} } var a;",
 			languageOptions: { ecmaVersion: 2022 },
-			errors: [{ messageId: "undef", data: { name: "a" } }],
 		},
 		{
 			code: "class C { static { C; } }",
@@ -233,7 +230,10 @@ ruleTester.run("no-undef", rule, {
 		{
 			code: "a = 1;",
 			errors: [
-				{ messageId: "undef", data: { name: "a" }, type: "Identifier" },
+				{
+					messageId: "undef",
+					data: { name: "a" },
+				},
 			],
 		},
 		{
@@ -243,20 +243,25 @@ ruleTester.run("no-undef", rule, {
 				{
 					messageId: "undef",
 					data: { name: "anUndefinedVar" },
-					type: "Identifier",
 				},
 			],
 		},
 		{
 			code: "var a = b;",
 			errors: [
-				{ messageId: "undef", data: { name: "b" }, type: "Identifier" },
+				{
+					messageId: "undef",
+					data: { name: "b" },
+				},
 			],
 		},
 		{
 			code: "function f() { b; }",
 			errors: [
-				{ messageId: "undef", data: { name: "b" }, type: "Identifier" },
+				{
+					messageId: "undef",
+					data: { name: "b" },
+				},
 			],
 		},
 		{
@@ -265,7 +270,6 @@ ruleTester.run("no-undef", rule, {
 				{
 					messageId: "undef",
 					data: { name: "window" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -275,7 +279,6 @@ ruleTester.run("no-undef", rule, {
 				{
 					messageId: "undef",
 					data: { name: "Intl" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -285,7 +288,6 @@ ruleTester.run("no-undef", rule, {
 				{
 					messageId: "undef",
 					data: { name: "require" },
-					type: "Identifier",
 				},
 			],
 		},

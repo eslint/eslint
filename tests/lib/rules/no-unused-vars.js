@@ -53,15 +53,9 @@ const ruleTester = new RuleTester({
  * @param {string} varName The name of the variable
  * @param {Array} suggestions The suggestions for the unused variable
  * @param {string} [additional] The additional text for the message data
- * @param {string} [type] The node type (defaults to "Identifier")
  * @returns {Object} An expected error object
  */
-function definedError(
-	varName,
-	suggestions = [],
-	additional = "",
-	type = "Identifier",
-) {
+function definedError(varName, suggestions = [], additional = "") {
 	return {
 		messageId: "unusedVar",
 		data: {
@@ -69,7 +63,6 @@ function definedError(
 			action: "defined",
 			additional,
 		},
-		type,
 		suggestions,
 	};
 }
@@ -79,15 +72,9 @@ function definedError(
  * @param {string} varName The name of the variable
  * @param {Array} suggestions The suggestions for the unused variable
  * @param {string} [additional] The additional text for the message data
- * @param {string} [type] The node type (defaults to "Identifier")
  * @returns {Object} An expected error object
  */
-function assignedError(
-	varName,
-	suggestions = [],
-	additional = "",
-	type = "Identifier",
-) {
+function assignedError(varName, suggestions = [], additional = "") {
 	return {
 		messageId: "unusedVar",
 		data: {
@@ -95,7 +82,6 @@ function assignedError(
 			action: "assigned a value",
 			additional,
 		},
-		type,
 		suggestions,
 	};
 }
@@ -104,17 +90,15 @@ function assignedError(
  * Returns an expected error for used-but-ignored variables.
  * @param {string} varName The name of the variable
  * @param {string} [additional] The additional text for the message data
- * @param {string} [type] The node type (defaults to "Identifier")
  * @returns {Object} An expected error object
  */
-function usedIgnoredError(varName, additional = "", type = "Identifier") {
+function usedIgnoredError(varName, additional = "") {
 	return {
 		messageId: "usedIgnoredVar",
 		data: {
 			varName,
 			additional,
 		},
-		type,
 	};
 }
 
@@ -765,6 +749,29 @@ ruleTester.run("no-unused-vars", rule, {
 			],
 			languageOptions: { ecmaVersion: 6 },
 		},
+		{
+			code: "using resource = getResource();\nresource;",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+		},
+		{
+			code: "using resource = getResource();",
+			options: [{ ignoreUsingDeclarations: true }],
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+		},
+		{
+			code: "await using resource = getResource();",
+			options: [{ ignoreUsingDeclarations: true }],
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+		},
 	],
 	invalid: [
 		{
@@ -829,7 +836,7 @@ ruleTester.run("no-unused-vars", rule, {
 		},
 		{
 			code: "/*global a */",
-			errors: [definedError("a", [], "", "Program")],
+			errors: [definedError("a", [], "")],
 		},
 		{
 			code: "function foo(first, second) {\ndoStuff(function() {\nconsole.log(second);});}",
@@ -953,7 +960,6 @@ ruleTester.run("no-unused-vars", rule, {
 					messageId: "unusedVar",
 					data: { varName: "foo", action: "defined", additional: "" },
 					line: 1,
-					type: "Identifier",
 					suggestions: [
 						{
 							output: "",
@@ -4607,6 +4613,36 @@ try {
 					},
 				]),
 				assignedError("a"),
+			],
+		},
+		{
+			code: "using resource = getResource();",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+			errors: [
+				assignedError("resource", [
+					{
+						output: "",
+						messageId: "removeVar",
+					},
+				]),
+			],
+		},
+		{
+			code: "await using resource = getResource();",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+			errors: [
+				assignedError("resource", [
+					{
+						output: "",
+						messageId: "removeVar",
+					},
+				]),
 			],
 		},
 	],

@@ -222,7 +222,7 @@ describe("RuntimeInfo", () => {
 
 			assert.throws(
 				RuntimeInfo.environment,
-				/^Unexpected token .*T.* JSON/u,
+				/^Unexpected token [^\n\rT\u2028\u2029]*T.* JSON/u,
 			);
 			assert.strictEqual(
 				logErrorStub.args[0][0],
@@ -236,7 +236,7 @@ describe("RuntimeInfo", () => {
 
 			assert.throws(
 				RuntimeInfo.environment,
-				/^Unexpected token .*T.* JSON/u,
+				/^Unexpected token [^\n\rT\u2028\u2029]*T.* JSON/u,
 			);
 			assert.strictEqual(
 				logErrorStub.args[0][0],

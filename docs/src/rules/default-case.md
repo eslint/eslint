@@ -104,7 +104,7 @@ switch (a) {
 
 This rule accepts a single options argument:
 
-* Set the `commentPattern` option to a regular expression string to change the default `/^no default$/i` comment test pattern
+* Set the `commentPattern` option to a regular expression string to change the default `/^no default$/i` comment test pattern.
 
 ### commentPattern
 

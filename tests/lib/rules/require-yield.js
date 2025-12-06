@@ -34,28 +34,60 @@ ruleTester.run("require-yield", rule, {
 		{
 			code: "function* foo() { return 0; }",
 			errors: [
-				{ messageId: "missingYield", type: "FunctionDeclaration" },
+				{
+					messageId: "missingYield",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 14,
+				},
 			],
 		},
 		{
 			code: "(function* foo() { return 0; })();",
-			errors: [{ messageId: "missingYield", type: "FunctionExpression" }],
+			errors: [
+				{
+					messageId: "missingYield",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 15,
+				},
+			],
 		},
 		{
 			code: "var obj = { *foo() { return 0; } }",
-			errors: [{ messageId: "missingYield", type: "FunctionExpression" }],
+			errors: [
+				{
+					messageId: "missingYield",
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 17,
+				},
+			],
 		},
 		{
 			code: "class A { *foo() { return 0; } }",
-			errors: [{ messageId: "missingYield", type: "FunctionExpression" }],
+			errors: [
+				{
+					messageId: "missingYield",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 15,
+				},
+			],
 		},
 		{
 			code: "function* foo() { function* bar() { yield 0; } }",
 			errors: [
 				{
 					messageId: "missingYield",
-					type: "FunctionDeclaration",
+					line: 1,
 					column: 1,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -64,8 +96,10 @@ ruleTester.run("require-yield", rule, {
 			errors: [
 				{
 					messageId: "missingYield",
-					type: "FunctionDeclaration",
+					line: 1,
 					column: 19,
+					endLine: 1,
+					endColumn: 32,
 				},
 			],
 		},

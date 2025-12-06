@@ -9,6 +9,7 @@ const eslint = require("../..");
 const espree = require("espree");
 const sinon = require("sinon");
 const configRule = require("../../tools/config-rule");
+const coreRules = require("../../lib/rules");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -23,8 +24,7 @@ describe("eslint-fuzzer", function () {
 	 */
 	this.timeout(15000); // eslint-disable-line no-invalid-this -- Mocha timeout
 
-	const linter = new eslint.Linter({ configType: "eslintrc" });
-	const coreRules = linter.getRules();
+	const linter = new eslint.Linter();
 	const fixableRuleNames = Array.from(coreRules)
 		.filter(rulePair => rulePair[1].meta && rulePair[1].meta.fixable)
 		.map(rulePair => rulePair[0]);
@@ -50,10 +50,25 @@ describe("eslint-fuzzer", function () {
 		configRule.createCoreRuleConfigs.restore();
 	});
 
+	afterEach(() => {
+		/*
+		 * LazyLoadingRuleMap prototype has the `delete` property set to `undefined`
+		 * in order to prevent accidental mutations, so we need to call `Map.prototype.delete`
+		 * directly here.
+		 */
+		Map.prototype.delete.call(coreRules, "test-fuzzer-rule");
+	});
+
+	/*
+	 * LazyLoadingRuleMap prototype has the `set` property set to `undefined`
+	 * in order to prevent accidental mutations, so we need to call `Map.prototype.set`
+	 * directly in tests that add `test-fuzzer-rule`.
+	 */
+
 	describe("when running in crash-only mode", () => {
 		describe("when a rule crashes on the given input", () => {
 			it("should report the crash with a minimal config", () => {
-				linter.defineRule("test-fuzzer-rule", {
+				Map.prototype.set.call(coreRules, "test-fuzzer-rule", () => ({
 					create: context => ({
 						Program() {
 							if (context.sourceCode.text === "foo") {
@@ -61,7 +76,7 @@ describe("eslint-fuzzer", function () {
 							}
 						},
 					}),
-				});
+				}));
 
 				const results = fuzz({
 					count: 1,
@@ -82,7 +97,9 @@ describe("eslint-fuzzer", function () {
 
 		describe("when no rules crash", () => {
 			it("should return an empty array", () => {
-				linter.defineRule("test-fuzzer-rule", { create: () => ({}) });
+				Map.prototype.set.call(coreRules, "test-fuzzer-rule", () => ({
+					create: () => ({}),
+				}));
 
 				assert.deepStrictEqual(
 					fuzz({
@@ -109,7 +126,7 @@ describe("eslint-fuzzer", function () {
 
 		describe("when a rule crashes on the given input", () => {
 			it("should report the crash with a minimal config", () => {
-				linter.defineRule("test-fuzzer-rule", {
+				Map.prototype.set.call(coreRules, "test-fuzzer-rule", () => ({
 					create: context => ({
 						Program() {
 							if (context.sourceCode.text === "foo") {
@@ -117,7 +134,7 @@ describe("eslint-fuzzer", function () {
 							}
 						},
 					}),
-				});
+				}));
 
 				const results = fuzz({
 					count: 1,
@@ -139,7 +156,7 @@ describe("eslint-fuzzer", function () {
 		describe("when a rule's autofix produces valid syntax", () => {
 			it("does not report any errors", () => {
 				// Replaces programs that start with "foo" with "bar"
-				linter.defineRule("test-fuzzer-rule", {
+				Map.prototype.set.call(coreRules, "test-fuzzer-rule", () => ({
 					meta: { fixable: "code" },
 					create: context => ({
 						Program(node) {
@@ -159,7 +176,7 @@ describe("eslint-fuzzer", function () {
 							}
 						},
 					}),
-				});
+				}));
 
 				const results = fuzz({
 					count: 1,
@@ -180,7 +197,7 @@ describe("eslint-fuzzer", function () {
 		describe("when a rule's autofix produces invalid syntax on the first pass", () => {
 			it("reports an autofix error with a minimal config", () => {
 				// Replaces programs that start with "foo" with invalid syntax
-				linter.defineRule("test-fuzzer-rule", {
+				Map.prototype.set.call(coreRules, "test-fuzzer-rule", () => ({
 					meta: { fixable: "code" },
 					create: context => ({
 						Program(node) {
@@ -202,7 +219,7 @@ describe("eslint-fuzzer", function () {
 							}
 						},
 					}),
-				});
+				}));
 
 				const results = fuzz({
 					count: 1,
@@ -227,7 +244,6 @@ describe("eslint-fuzzer", function () {
 					message: `Parsing error: ${expectedSyntaxError.message}`,
 					line: expectedSyntaxError.lineNumber,
 					column: expectedSyntaxError.column,
-					nodeType: null,
 				});
 			});
 		});
@@ -237,7 +253,7 @@ describe("eslint-fuzzer", function () {
 				const intermediateCode = `bar ${disableFixableRulesComment}`;
 
 				// Replaces programs that start with "foo" with invalid syntax
-				linter.defineRule("test-fuzzer-rule", {
+				Map.prototype.set.call(coreRules, "test-fuzzer-rule", () => ({
 					meta: { fixable: "code" },
 					create: context => ({
 						Program(node) {
@@ -262,7 +278,7 @@ describe("eslint-fuzzer", function () {
 							}
 						},
 					}),
-				});
+				}));
 
 				const results = fuzz({
 					count: 1,
@@ -284,7 +300,6 @@ describe("eslint-fuzzer", function () {
 					message: `Parsing error: ${expectedSyntaxError.message}`,
 					line: expectedSyntaxError.lineNumber,
 					column: expectedSyntaxError.column,
-					nodeType: null,
 				});
 			});
 		});
@@ -292,7 +307,7 @@ describe("eslint-fuzzer", function () {
 		describe("when a rule crashes on the second autofix pass", () => {
 			it("reports a crash error with a minimal config", () => {
 				// Replaces programs that start with "foo" with invalid syntax
-				linter.defineRule("test-fuzzer-rule", {
+				Map.prototype.set.call(coreRules, "test-fuzzer-rule", () => ({
 					meta: { fixable: "code" },
 					create: context => ({
 						Program(node) {
@@ -303,7 +318,7 @@ describe("eslint-fuzzer", function () {
 									node,
 									message: "no foos allowed",
 									fix: fixer =>
-										fixer.replaceText(node, "bar"),
+										fixer.replaceText(node.body[0], "bar"),
 								});
 							} else if (
 								sourceCode.text ===
@@ -313,7 +328,7 @@ describe("eslint-fuzzer", function () {
 							}
 						},
 					}),
-				});
+				}));
 
 				const results = fuzz({
 					count: 1,

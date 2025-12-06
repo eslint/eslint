@@ -274,8 +274,12 @@ ruleTester.run("no-useless-return", rule, {
               }
             `, // Other case is fixed in the second pass.
 			errors: [
-				{ messageId: "unnecessaryReturn", type: "ReturnStatement" },
-				{ messageId: "unnecessaryReturn", type: "ReturnStatement" },
+				{
+					messageId: "unnecessaryReturn",
+				},
+				{
+					messageId: "unnecessaryReturn",
+				},
 			],
 		},
 		{
@@ -591,7 +595,6 @@ ruleTester.run("no-useless-return", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryReturn",
-					type: "ReturnStatement",
 					column: 18,
 				},
 			],
@@ -600,7 +603,9 @@ ruleTester.run("no-useless-return", rule, {
 		Object.assign(
 			{
 				errors: [
-					{ messageId: "unnecessaryReturn", type: "ReturnStatement" },
+					{
+						messageId: "unnecessaryReturn",
+					},
 				],
 			},
 			invalidCase,

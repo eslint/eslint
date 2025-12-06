@@ -73,18 +73,6 @@ describe("WarningService", () => {
 			);
 		});
 
-		it("emitESLintRCWarning", () => {
-			warningService.emitESLintRCWarning();
-
-			assert(
-				process.emitWarning.calledOnceWithExactly(
-					"You are using an eslintrc configuration file, which is deprecated and support will be removed in v10.0.0. Please migrate to an eslint.config.js file. See https://eslint.org/docs/latest/use/configure/migration-guide for details. An eslintrc configuration file is used because you have the ESLINT_USE_FLAT_CONFIG environment variable set to false. If you want to use an eslint.config.js file, remove the environment variable. If you want to find the location of the eslintrc configuration file, use the --debug flag.",
-					"ESLintRCWarning",
-				),
-				"Expected process.emitWarning to be called with the correct arguments",
-			);
-		});
-
 		it("emitInactiveFlagWarning", () => {
 			const flag = "unstable_foo_bar";
 			const message = `Lorem ipsum ${flag}.`;
@@ -94,6 +82,19 @@ describe("WarningService", () => {
 				process.emitWarning.calledOnceWithExactly(
 					message,
 					`ESLintInactiveFlag_${flag}`,
+				),
+				"Expected process.emitWarning to be called with the correct arguments",
+			);
+		});
+
+		it("emitPoorConcurrencyWarning", () => {
+			const notice = "use a different concurrency setting";
+			warningService.emitPoorConcurrencyWarning(notice);
+
+			assert(
+				process.emitWarning.calledOnceWithExactly(
+					`You may ${notice} to improve performance.`,
+					"ESLintPoorConcurrencyWarning",
 				),
 				"Expected process.emitWarning to be called with the correct arguments",
 			);

@@ -86,7 +86,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "unexpectedWhitespaceBefore",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 12,
 					endLine: 1,
@@ -100,7 +99,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "unexpectedWhitespaceBefore",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 12,
 					endLine: 1,
@@ -114,7 +112,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "unexpectedWhitespaceBefore",
-					type: "VariableDeclaration",
 					line: 2,
 					column: 8,
 				},
@@ -126,7 +123,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "unexpectedWhitespaceBefore",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 22,
 				},
@@ -138,7 +134,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "unexpectedWhitespaceBefore",
-					type: "VariableDeclaration",
 					line: 2,
 					column: 2,
 				},
@@ -150,7 +145,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "unexpectedWhitespaceBefore",
-					type: "ExpressionStatement",
 					line: 1,
 					column: 16,
 				},
@@ -162,7 +156,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "unexpectedWhitespaceBefore",
-					type: "ExpressionStatement",
 					line: 1,
 					column: 18,
 				},
@@ -174,7 +167,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "unexpectedWhitespaceBefore",
-					type: "BreakStatement",
 					line: 1,
 					column: 21,
 				},
@@ -186,7 +178,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "unexpectedWhitespaceBefore",
-					type: "ContinueStatement",
 					line: 1,
 					column: 24,
 				},
@@ -198,7 +189,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "unexpectedWhitespaceBefore",
-					type: "DebuggerStatement",
 					line: 1,
 					column: 9,
 				},
@@ -210,7 +200,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "unexpectedWhitespaceBefore",
-					type: "ReturnStatement",
 					line: 1,
 					column: 24,
 				},
@@ -222,7 +211,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "unexpectedWhitespaceBefore",
-					type: "ThrowStatement",
 					line: 1,
 					column: 23,
 				},
@@ -234,13 +222,11 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "unexpectedWhitespaceBefore",
-					type: "ForStatement",
 					line: 1,
 					column: 15,
 				},
 				{
 					messageId: "unexpectedWhitespaceBefore",
-					type: "ForStatement",
 					line: 1,
 					column: 24,
 				},
@@ -252,7 +238,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "missingWhitespaceAfter",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 12,
 					endLine: 1,
@@ -267,7 +252,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "missingWhitespaceBefore",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 12,
 					endLine: 1,
@@ -282,7 +266,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "unexpectedWhitespaceAfter",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 13,
 					endLine: 1,
@@ -297,7 +280,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "unexpectedWhitespaceAfter",
-					type: "VariableDeclaration",
 					line: 1,
 					column: 13,
 					endLine: 1,
@@ -311,7 +293,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "missingWhitespaceAfter",
-					type: "ForStatement",
 					line: 1,
 					column: 15,
 					endLine: 1,
@@ -319,7 +300,6 @@ ruleTester.run("semi-spacing", rule, {
 				},
 				{
 					messageId: "missingWhitespaceAfter",
-					type: "ForStatement",
 					line: 1,
 					column: 22,
 					endLine: 1,
@@ -334,7 +314,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "missingWhitespaceBefore",
-					type: "ForStatement",
 					line: 1,
 					column: 15,
 					endLine: 1,
@@ -342,7 +321,6 @@ ruleTester.run("semi-spacing", rule, {
 				},
 				{
 					messageId: "missingWhitespaceBefore",
-					type: "ForStatement",
 					line: 1,
 					column: 23,
 					endLine: 1,
@@ -357,13 +335,11 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "unexpectedWhitespaceAfter",
-					type: "ForStatement",
 					line: 1,
 					column: 16,
 				},
 				{
 					messageId: "unexpectedWhitespaceAfter",
-					type: "ForStatement",
 					line: 1,
 					column: 24,
 				},
@@ -377,7 +353,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "unexpectedWhitespaceBefore",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 22,
 				},
@@ -391,7 +366,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "unexpectedWhitespaceBefore",
-					type: "ImportDeclaration",
 					line: 1,
 					column: 27,
 				},
@@ -405,7 +379,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "unexpectedWhitespaceBefore",
-					type: "ExportNamedDeclaration",
 					line: 1,
 					column: 26,
 				},
@@ -419,7 +392,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "unexpectedWhitespaceBefore",
-					type: "ExportAllDeclaration",
 					line: 1,
 					column: 20,
 				},
@@ -433,7 +405,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "unexpectedWhitespaceBefore",
-					type: "ExportDefaultDeclaration",
 					line: 1,
 					column: 19,
 				},
@@ -447,7 +418,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "unexpectedWhitespaceBefore",
-					type: "ContinueStatement",
 					line: 1,
 					column: 21,
 					endLine: 1,
@@ -463,7 +433,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "unexpectedWhitespaceBefore",
-					type: "ThrowStatement",
 					line: 1,
 					column: 27,
 					endLine: 1,
@@ -478,7 +447,6 @@ ruleTester.run("semi-spacing", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
-					type: "ForStatement",
 					messageId: "unexpectedWhitespaceBefore",
 					line: 1,
 					column: 6,
@@ -486,7 +454,6 @@ ruleTester.run("semi-spacing", rule, {
 					endColumn: 7,
 				},
 				{
-					type: "ForStatement",
 					messageId: "unexpectedWhitespaceAfter",
 					line: 1,
 					column: 8,
@@ -502,7 +469,6 @@ ruleTester.run("semi-spacing", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
-					type: "ForStatement",
 					messageId: "unexpectedWhitespaceBefore",
 					line: 1,
 					column: 6,
@@ -517,7 +483,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "unexpectedWhitespaceBefore",
-					type: "DoWhileStatement",
 					line: 1,
 					column: 19,
 					endLine: 1,
@@ -531,7 +496,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "missingWhitespaceAfter",
-					type: "DoWhileStatement",
 					line: 1,
 					column: 19,
 					endLine: 1,
@@ -546,7 +510,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "missingWhitespaceBefore",
-					type: "DoWhileStatement",
 					line: 1,
 					column: 19,
 					endLine: 1,
@@ -554,7 +517,6 @@ ruleTester.run("semi-spacing", rule, {
 				},
 				{
 					messageId: "unexpectedWhitespaceAfter",
-					type: "DoWhileStatement",
 					line: 1,
 					column: 20,
 					endLine: 1,
@@ -571,7 +533,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "unexpectedWhitespaceBefore",
-					type: "PropertyDefinition",
 					line: 1,
 					column: 14,
 					endLine: 1,
@@ -579,7 +540,6 @@ ruleTester.run("semi-spacing", rule, {
 				},
 				{
 					messageId: "missingWhitespaceAfter",
-					type: "PropertyDefinition",
 					line: 1,
 					column: 15,
 					endLine: 1,
@@ -595,7 +555,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "missingWhitespaceBefore",
-					type: "PropertyDefinition",
 					line: 1,
 					column: 14,
 					endLine: 1,
@@ -603,7 +562,6 @@ ruleTester.run("semi-spacing", rule, {
 				},
 				{
 					messageId: "unexpectedWhitespaceAfter",
-					type: "PropertyDefinition",
 					line: 1,
 					column: 15,
 					endLine: 1,
@@ -618,7 +576,6 @@ ruleTester.run("semi-spacing", rule, {
 			errors: [
 				{
 					messageId: "missingWhitespaceAfter",
-					type: "PropertyDefinition",
 					line: 1,
 					column: 14,
 					endLine: 1,

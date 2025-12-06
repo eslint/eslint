@@ -128,14 +128,12 @@ ruleTester.run("block-spacing", rule, {
 			options: ["always"],
 			errors: [
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 1,
 					messageId: "missing",
 					data: { location: "after", token: "{" },
 				},
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 8,
 					messageId: "missing",
@@ -148,14 +146,12 @@ ruleTester.run("block-spacing", rule, {
 			output: "{ foo(); }",
 			errors: [
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 1,
 					messageId: "missing",
 					data: { location: "after", token: "{" },
 				},
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 8,
 					messageId: "missing",
@@ -168,7 +164,6 @@ ruleTester.run("block-spacing", rule, {
 			output: "{ foo(); }",
 			errors: [
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 9,
 					messageId: "missing",
@@ -181,7 +176,6 @@ ruleTester.run("block-spacing", rule, {
 			output: "{ foo(); }",
 			errors: [
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 1,
 					messageId: "missing",
@@ -194,7 +188,6 @@ ruleTester.run("block-spacing", rule, {
 			output: "{\nfoo(); }",
 			errors: [
 				{
-					type: "BlockStatement",
 					line: 2,
 					column: 7,
 					messageId: "missing",
@@ -207,7 +200,6 @@ ruleTester.run("block-spacing", rule, {
 			output: "{ foo();\n}",
 			errors: [
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 1,
 					messageId: "missing",
@@ -220,14 +212,12 @@ ruleTester.run("block-spacing", rule, {
 			output: "if (a) { foo(); }",
 			errors: [
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 8,
 					messageId: "missing",
 					data: { location: "after", token: "{" },
 				},
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 15,
 					messageId: "missing",
@@ -240,14 +230,12 @@ ruleTester.run("block-spacing", rule, {
 			output: "if (a) {} else { foo(); }",
 			errors: [
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 16,
 					messageId: "missing",
 					data: { location: "after", token: "{" },
 				},
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 23,
 					messageId: "missing",
@@ -260,14 +248,12 @@ ruleTester.run("block-spacing", rule, {
 			output: "switch (a) { case 0: foo(); }",
 			errors: [
 				{
-					type: "SwitchStatement",
 					line: 1,
 					column: 12,
 					messageId: "missing",
 					data: { location: "after", token: "{" },
 				},
 				{
-					type: "SwitchStatement",
 					line: 1,
 					column: 27,
 					messageId: "missing",
@@ -280,14 +266,12 @@ ruleTester.run("block-spacing", rule, {
 			output: "while (a) { foo(); }",
 			errors: [
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 11,
 					messageId: "missing",
 					data: { location: "after", token: "{" },
 				},
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 18,
 					messageId: "missing",
@@ -300,14 +284,12 @@ ruleTester.run("block-spacing", rule, {
 			output: "do { foo(); } while (a);",
 			errors: [
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 4,
 					messageId: "missing",
 					data: { location: "after", token: "{" },
 				},
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 11,
 					messageId: "missing",
@@ -320,14 +302,12 @@ ruleTester.run("block-spacing", rule, {
 			output: "for (;;) { foo(); }",
 			errors: [
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 10,
 					messageId: "missing",
 					data: { location: "after", token: "{" },
 				},
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 17,
 					messageId: "missing",
@@ -340,14 +320,12 @@ ruleTester.run("block-spacing", rule, {
 			output: "for (var a in b) { foo(); }",
 			errors: [
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 18,
 					messageId: "missing",
 					data: { location: "after", token: "{" },
 				},
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 25,
 					messageId: "missing",
@@ -361,14 +339,12 @@ ruleTester.run("block-spacing", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 18,
 					messageId: "missing",
 					data: { location: "after", token: "{" },
 				},
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 25,
 					messageId: "missing",
@@ -381,7 +357,6 @@ ruleTester.run("block-spacing", rule, {
 			output: "try { foo(); } catch (e) { foo(); } finally { foo(); }",
 			errors: [
 				{
-					type: "BlockStatement",
 					messageId: "missing",
 					data: { location: "after", token: "{" },
 					line: 1,
@@ -390,7 +365,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 6,
 				},
 				{
-					type: "BlockStatement",
 					messageId: "missing",
 					data: { location: "before", token: "}" },
 					line: 1,
@@ -399,7 +373,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 13,
 				},
 				{
-					type: "BlockStatement",
 					messageId: "missing",
 					data: { location: "after", token: "{" },
 					line: 1,
@@ -408,7 +381,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 25,
 				},
 				{
-					type: "BlockStatement",
 					messageId: "missing",
 					data: { location: "before", token: "}" },
 					line: 1,
@@ -417,7 +389,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 32,
 				},
 				{
-					type: "BlockStatement",
 					messageId: "missing",
 					data: { location: "after", token: "{" },
 					line: 1,
@@ -426,7 +397,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 42,
 				},
 				{
-					type: "BlockStatement",
 					messageId: "missing",
 					data: { location: "before", token: "}" },
 					line: 1,
@@ -441,14 +411,12 @@ ruleTester.run("block-spacing", rule, {
 			output: "function foo() { bar(); }",
 			errors: [
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 16,
 					messageId: "missing",
 					data: { location: "after", token: "{" },
 				},
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 23,
 					messageId: "missing",
@@ -461,14 +429,12 @@ ruleTester.run("block-spacing", rule, {
 			output: "(function() { bar(); });",
 			errors: [
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 13,
 					messageId: "missing",
 					data: { location: "after", token: "{" },
 				},
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 20,
 					messageId: "missing",
@@ -482,14 +448,12 @@ ruleTester.run("block-spacing", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 8,
 					messageId: "missing",
 					data: { location: "after", token: "{" },
 				},
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 15,
 					messageId: "missing",
@@ -503,14 +467,12 @@ ruleTester.run("block-spacing", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 8,
 					messageId: "missing",
 					data: { location: "after", token: "{" },
 				},
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 43,
 					messageId: "missing",
@@ -524,7 +486,6 @@ ruleTester.run("block-spacing", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
-					type: "BlockStatement",
 					messageId: "missing",
 					data: {
 						location: "after",
@@ -545,7 +506,6 @@ ruleTester.run("block-spacing", rule, {
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
 				{
-					type: "StaticBlock",
 					messageId: "missing",
 					data: {
 						location: "after",
@@ -564,7 +524,6 @@ ruleTester.run("block-spacing", rule, {
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
 				{
-					type: "StaticBlock",
 					messageId: "missing",
 					data: {
 						location: "before",
@@ -583,7 +542,6 @@ ruleTester.run("block-spacing", rule, {
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
 				{
-					type: "StaticBlock",
 					messageId: "missing",
 					data: {
 						location: "after",
@@ -595,7 +553,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 19,
 				},
 				{
-					type: "StaticBlock",
 					messageId: "missing",
 					data: {
 						location: "before",
@@ -614,7 +571,6 @@ ruleTester.run("block-spacing", rule, {
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
 				{
-					type: "StaticBlock",
 					messageId: "missing",
 					data: {
 						location: "after",
@@ -626,7 +582,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 19,
 				},
 				{
-					type: "StaticBlock",
 					messageId: "missing",
 					data: {
 						location: "before",
@@ -645,7 +600,6 @@ ruleTester.run("block-spacing", rule, {
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
 				{
-					type: "StaticBlock",
 					messageId: "missing",
 					data: {
 						location: "after",
@@ -657,7 +611,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 19,
 				},
 				{
-					type: "StaticBlock",
 					messageId: "missing",
 					data: {
 						location: "before",
@@ -676,7 +629,6 @@ ruleTester.run("block-spacing", rule, {
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
 				{
-					type: "StaticBlock",
 					messageId: "missing",
 					data: {
 						location: "after",
@@ -688,7 +640,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 10,
 				},
 				{
-					type: "StaticBlock",
 					messageId: "missing",
 					data: {
 						location: "before",
@@ -710,7 +661,6 @@ ruleTester.run("block-spacing", rule, {
 			options: ["never"],
 			errors: [
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "after", token: "{" },
 					line: 1,
@@ -719,7 +669,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 3,
 				},
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "before", token: "}" },
 					line: 1,
@@ -735,7 +684,6 @@ ruleTester.run("block-spacing", rule, {
 			options: ["never"],
 			errors: [
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: {
 						location: "after",
@@ -754,7 +702,6 @@ ruleTester.run("block-spacing", rule, {
 			options: ["never"],
 			errors: [
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: {
 						location: "before",
@@ -773,7 +720,6 @@ ruleTester.run("block-spacing", rule, {
 			options: ["never"],
 			errors: [
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: {
 						location: "before",
@@ -792,7 +738,6 @@ ruleTester.run("block-spacing", rule, {
 			options: ["never"],
 			errors: [
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: {
 						location: "after",
@@ -811,7 +756,6 @@ ruleTester.run("block-spacing", rule, {
 			options: ["never"],
 			errors: [
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "after", token: "{" },
 					line: 1,
@@ -820,7 +764,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 10,
 				},
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "before", token: "}" },
 					line: 1,
@@ -836,7 +779,6 @@ ruleTester.run("block-spacing", rule, {
 			options: ["never"],
 			errors: [
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "after", token: "{" },
 					line: 1,
@@ -845,7 +787,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 18,
 				},
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "before", token: "}" },
 					line: 1,
@@ -861,7 +802,6 @@ ruleTester.run("block-spacing", rule, {
 			options: ["never"],
 			errors: [
 				{
-					type: "SwitchStatement",
 					messageId: "extra",
 					data: { location: "after", token: "{" },
 					line: 1,
@@ -870,7 +810,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 14,
 				},
 				{
-					type: "SwitchStatement",
 					messageId: "extra",
 					data: { location: "before", token: "}" },
 					line: 1,
@@ -886,7 +825,6 @@ ruleTester.run("block-spacing", rule, {
 			options: ["never"],
 			errors: [
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "after", token: "{" },
 					line: 1,
@@ -895,7 +833,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 13,
 				},
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "before", token: "}" },
 					line: 1,
@@ -911,7 +848,6 @@ ruleTester.run("block-spacing", rule, {
 			options: ["never"],
 			errors: [
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "after", token: "{" },
 					line: 1,
@@ -920,7 +856,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 6,
 				},
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "before", token: "}" },
 					line: 1,
@@ -936,7 +871,6 @@ ruleTester.run("block-spacing", rule, {
 			options: ["never"],
 			errors: [
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "after", token: "{" },
 					line: 1,
@@ -945,7 +879,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 12,
 				},
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "before", token: "}" },
 					line: 1,
@@ -961,7 +894,6 @@ ruleTester.run("block-spacing", rule, {
 			options: ["never"],
 			errors: [
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "after", token: "{" },
 					line: 1,
@@ -970,7 +902,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 20,
 				},
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "before", token: "}" },
 					line: 1,
@@ -987,7 +918,6 @@ ruleTester.run("block-spacing", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "after", token: "{" },
 					line: 1,
@@ -996,7 +926,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 20,
 				},
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "before", token: "}" },
 					line: 1,
@@ -1012,7 +941,6 @@ ruleTester.run("block-spacing", rule, {
 			options: ["never"],
 			errors: [
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "after", token: "{" },
 					line: 1,
@@ -1021,7 +949,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 7,
 				},
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "before", token: "}" },
 					line: 1,
@@ -1030,7 +957,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 14,
 				},
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "after", token: "{" },
 					line: 1,
@@ -1039,7 +965,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 28,
 				},
 				{
-					type: "BlockStatement",
 					line: 1,
 					column: 34,
 					messageId: "extra",
@@ -1048,7 +973,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 35,
 				},
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "after", token: "{" },
 					line: 1,
@@ -1057,7 +981,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 47,
 				},
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "before", token: "}" },
 					line: 1,
@@ -1073,7 +996,6 @@ ruleTester.run("block-spacing", rule, {
 			options: ["never"],
 			errors: [
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "after", token: "{" },
 					line: 1,
@@ -1082,7 +1004,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 18,
 				},
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "before", token: "}" },
 					line: 1,
@@ -1098,7 +1019,6 @@ ruleTester.run("block-spacing", rule, {
 			options: ["never"],
 			errors: [
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "after", token: "{" },
 					line: 1,
@@ -1107,7 +1027,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 15,
 				},
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "before", token: "}" },
 					line: 1,
@@ -1124,7 +1043,6 @@ ruleTester.run("block-spacing", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "after", token: "{" },
 					line: 1,
@@ -1133,7 +1051,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 10,
 				},
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "before", token: "}" },
 					line: 1,
@@ -1149,7 +1066,6 @@ ruleTester.run("block-spacing", rule, {
 			options: ["never"],
 			errors: [
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "after", token: "{" },
 					line: 1,
@@ -1158,7 +1074,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 10,
 				},
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "before", token: "}" },
 					line: 1,
@@ -1175,7 +1090,6 @@ ruleTester.run("block-spacing", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "after", token: "{" },
 					line: 1,
@@ -1192,7 +1106,6 @@ ruleTester.run("block-spacing", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "before", token: "}" },
 					line: 1,
@@ -1209,7 +1122,6 @@ ruleTester.run("block-spacing", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "after", token: "{" },
 					line: 1,
@@ -1218,7 +1130,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 12,
 				},
 				{
-					type: "BlockStatement",
 					messageId: "extra",
 					data: { location: "before", token: "}" },
 					line: 1,
@@ -1237,7 +1148,6 @@ ruleTester.run("block-spacing", rule, {
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
 				{
-					type: "StaticBlock",
 					messageId: "extra",
 					data: {
 						location: "after",
@@ -1257,7 +1167,6 @@ ruleTester.run("block-spacing", rule, {
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
 				{
-					type: "StaticBlock",
 					messageId: "extra",
 					data: {
 						location: "before",
@@ -1277,7 +1186,6 @@ ruleTester.run("block-spacing", rule, {
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
 				{
-					type: "StaticBlock",
 					messageId: "extra",
 					data: {
 						location: "after",
@@ -1289,7 +1197,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 20,
 				},
 				{
-					type: "StaticBlock",
 					messageId: "extra",
 					data: {
 						location: "before",
@@ -1309,7 +1216,6 @@ ruleTester.run("block-spacing", rule, {
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
 				{
-					type: "StaticBlock",
 					messageId: "extra",
 					data: {
 						location: "after",
@@ -1321,7 +1227,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 20,
 				},
 				{
-					type: "StaticBlock",
 					messageId: "extra",
 					data: {
 						location: "before",
@@ -1341,7 +1246,6 @@ ruleTester.run("block-spacing", rule, {
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
 				{
-					type: "StaticBlock",
 					messageId: "extra",
 					data: {
 						location: "after",
@@ -1353,7 +1257,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 20,
 				},
 				{
-					type: "StaticBlock",
 					messageId: "extra",
 					data: {
 						location: "before",
@@ -1373,7 +1276,6 @@ ruleTester.run("block-spacing", rule, {
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
 				{
-					type: "StaticBlock",
 					messageId: "extra",
 					data: {
 						location: "after",
@@ -1385,7 +1287,6 @@ ruleTester.run("block-spacing", rule, {
 					endColumn: 5,
 				},
 				{
-					type: "StaticBlock",
 					messageId: "extra",
 					data: {
 						location: "before",

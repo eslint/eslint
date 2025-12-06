@@ -61,4 +61,26 @@ describe("interpolate()", () => {
 			"This is a very important test!",
 		);
 	});
+
+	const values = [
+		// Expected (officially supported)
+		[1, "1"],
+		[100n, "100"],
+		[true, "true"],
+		[false, "false"],
+		[void 0, "undefined"],
+		[null, "null"],
+
+		// Unexpected
+		[{ prop: "value" }, "[object Object]"],
+		[{ toString: () => "stringified" }, "stringified"],
+		[[1, 2, 3], "1,2,3"],
+		[new Set([1, 2, 3]), "[object Set]"],
+		[new Map([["prop", "value"]]), "[object Map]"],
+	];
+	for (const [value, message] of values) {
+		it(`stringifies the value ${value}`, () => {
+			assert.strictEqual(interpolate("{{ value }}", { value }), message);
+		});
+	}
 });

@@ -21,13 +21,11 @@ const ruleTester = new RuleTester();
 const expectedErrors = [
 	{
 		messageId: "noIrregularWhitespace",
-		type: "Program",
 	},
 ];
 const expectedCommentErrors = [
 	{
 		messageId: "noIrregularWhitespace",
-		type: "Program",
 		line: 1,
 		column: 4,
 	},
@@ -488,13 +486,11 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 13,
 				},
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 3,
 					column: 8,
 				},
@@ -505,19 +501,16 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 9,
 				},
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 28,
 				},
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 2,
 					column: 11,
 				},
@@ -704,13 +697,11 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 12,
 				},
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 25,
 				},
@@ -722,13 +713,11 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 12,
 				},
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 25,
 				},
@@ -740,13 +729,11 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 12,
 				},
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 25,
 				},
@@ -759,13 +746,11 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 12,
 				},
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 25,
 				},
@@ -778,7 +763,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 14,
 				},
@@ -791,7 +775,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 16,
 				},
@@ -804,7 +787,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 1,
 				},
@@ -817,7 +799,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 1,
 				},
@@ -830,7 +811,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 1,
 				},
@@ -843,7 +823,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 1,
 				},
@@ -856,7 +835,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 12,
 				},
@@ -869,7 +847,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 2,
 					column: 10,
 				},
@@ -882,7 +859,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 2,
 					column: 1,
 				},
@@ -895,7 +871,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 3,
 					column: 1,
 				},
@@ -908,7 +883,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 11,
 					endLine: 1,
@@ -921,7 +895,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 10,
 					endLine: 1,
@@ -934,7 +907,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 11,
 					endLine: 1,
@@ -947,7 +919,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 11,
 					endLine: 1,
@@ -960,7 +931,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 11,
 					endLine: 1,
@@ -968,7 +938,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 				},
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 13,
 					endLine: 1,
@@ -981,7 +950,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 11,
 					endLine: 1,
@@ -989,7 +957,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 				},
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 15,
 					endLine: 1,
@@ -1002,7 +969,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 1,
 					endLine: 1,
@@ -1015,7 +981,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 1,
 					endLine: 1,
@@ -1028,7 +993,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 11,
 					endLine: 1,
@@ -1041,7 +1005,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 10,
 					endLine: 1,
@@ -1049,7 +1012,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 				},
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 2,
 					column: 1,
 					endLine: 2,
@@ -1062,7 +1024,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 11,
 					endLine: 1,
@@ -1070,7 +1031,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 				},
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 2,
 					column: 1,
 					endLine: 2,
@@ -1078,7 +1038,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 				},
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 3,
 					column: 2,
 					endLine: 3,
@@ -1091,7 +1050,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 11,
 					endLine: 2,
@@ -1104,7 +1062,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 10,
 					endLine: 2,
@@ -1117,7 +1074,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 15,
 					endLine: 2,
@@ -1130,7 +1086,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 1,
 					endLine: 2,
@@ -1143,7 +1098,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 4,
 					endLine: 2,
@@ -1151,7 +1105,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 				},
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 2,
 					column: 1,
 					endLine: 3,
@@ -1164,7 +1117,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 4,
 					endLine: 2,
@@ -1172,7 +1124,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 				},
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 2,
 					column: 1,
 					endLine: 3,
@@ -1185,7 +1136,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 4,
 					endLine: 2,
@@ -1193,7 +1143,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 				},
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 3,
 					column: 1,
 					endLine: 4,
@@ -1206,7 +1155,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 4,
 					endLine: 1,
@@ -1214,7 +1162,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 				},
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 5,
 					endLine: 2,
@@ -1222,7 +1169,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 				},
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 2,
 					column: 1,
 					endLine: 2,
@@ -1242,7 +1188,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 6,
 				},
@@ -1260,7 +1205,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 6,
 				},
@@ -1278,7 +1222,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 6,
 				},
@@ -1296,7 +1239,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 6,
 				},
@@ -1314,7 +1256,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 6,
 				},
@@ -1332,7 +1273,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 6,
 				},
@@ -1350,7 +1290,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 6,
 				},
@@ -1368,7 +1307,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 6,
 				},
@@ -1386,7 +1324,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 6,
 				},
@@ -1404,7 +1341,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 6,
 				},
@@ -1422,7 +1358,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 6,
 				},
@@ -1440,7 +1375,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 6,
 				},
@@ -1458,7 +1392,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 6,
 				},
@@ -1476,7 +1409,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 6,
 				},
@@ -1494,7 +1426,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 6,
 				},
@@ -1512,7 +1443,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 6,
 				},
@@ -1530,7 +1460,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 6,
 				},
@@ -1548,7 +1477,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 6,
 				},
@@ -1566,7 +1494,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 6,
 				},
@@ -1584,7 +1511,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 6,
 				},
@@ -1602,7 +1528,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
 			errors: [
 				{
 					messageId: "noIrregularWhitespace",
-					type: "Program",
 					line: 1,
 					column: 6,
 				},
