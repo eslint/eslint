@@ -155,7 +155,6 @@ ruleTester.run("no-useless-catch", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryCatchClause",
-					type: "CatchClause",
 				},
 			],
 		},
@@ -260,7 +259,6 @@ ruleTester.run("no-useless-catch", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryCatchClause",
-					type: "CatchClause",
 				},
 			],
 		},
@@ -586,6 +584,169 @@ ruleTester.run("no-useless-catch", rule, {
 
                 [3, 4].forEach(doSomething)
             `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+
+		// Name collision tests - fix should be disabled when removing try-catch would cause redeclaration
+		{
+			code: `
+                const foo = "bar";
+                try {
+                    const foo = "baz";
+                    doSomething(foo);
+                } catch (e) {
+                    throw e;
+                }
+            `,
+			output: null,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                let foo = "bar";
+                try {
+                    let foo = "baz";
+                    doSomething(foo);
+                } catch (e) {
+                    throw e;
+                }
+            `,
+			output: null,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                function test() {
+                    const foo = "bar";
+                    try {
+                        const foo = "baz";
+                        doSomething(foo);
+                    } catch (e) {
+                        throw e;
+                    }
+                }
+            `,
+			output: null,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                class Foo {}
+                try {
+                    class Foo {}
+                    new Foo();
+                } catch (e) {
+                    throw e;
+                }
+            `,
+			output: null,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                function foo() {}
+                try {
+                    function foo() {}
+                    foo();
+                } catch (e) {
+                    throw e;
+                }
+            `,
+			output: null,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+
+		// Name collision test with 'through' reference - variable from outer scope used inside try block
+		{
+			code: `
+                const bar = "bar";
+                try {
+                    const foo = bar;
+                    doSomething(foo);
+                } catch (e) {
+                    throw e;
+                }
+                const foo = "outer";
+            `,
+			output: null,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+
+		// No name collision - different variable names, fix should be applied
+		{
+			code: `
+                const foo = "bar";
+                try {
+                    const bar = "baz";
+                    doSomething(bar);
+                } catch (e) {
+                    throw e;
+                }
+            `,
+			output: `
+                const foo = "bar";
+                
+                    const bar = "baz";
+                    doSomething(bar);
+                
+            `,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+
+		// Name collision with var in function scope
+		{
+			code: `
+                function test() {
+                    var foo = "bar";
+                    try {
+                        let foo = "baz";
+                        doSomething(foo);
+                    } catch (e) {
+                        throw e;
+                    }
+                }
+            `,
+			output: null,
+			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
 					messageId: "unnecessaryCatch",
