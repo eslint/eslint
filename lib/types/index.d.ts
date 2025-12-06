@@ -807,23 +807,23 @@ export class Linter {
 
 	verify(
 		code: SourceCode | string,
-		config: Linter.LegacyConfig | Linter.Config | Linter.Config[],
+		config: Linter.Config | Linter.Config[],
 		filename?: string,
 	): Linter.LintMessage[];
 	verify(
 		code: SourceCode | string,
-		config: Linter.LegacyConfig | Linter.Config | Linter.Config[],
+		config: Linter.Config | Linter.Config[],
 		options: Linter.LintOptions,
 	): Linter.LintMessage[];
 
 	verifyAndFix(
 		code: string,
-		config: Linter.LegacyConfig | Linter.Config | Linter.Config[],
+		config: Linter.Config | Linter.Config[],
 		filename?: string,
 	): Linter.FixReport;
 	verifyAndFix(
 		code: string,
-		config: Linter.LegacyConfig | Linter.Config | Linter.Config[],
+		config: Linter.Config | Linter.Config[],
 		options: Linter.FixOptions,
 	): Linter.FixReport;
 
