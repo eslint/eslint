@@ -1,9 +1,9 @@
 name: CI
 on:
     push:
-        branches: [main]
+        branches: [main, v9.x-dev]
     pull_request:
-        branches: [main]
+        branches: [main, v9.x-dev]
 
 permissions:
     contents: read
@@ -156,6 +156,7 @@ jobs:
               uses: actions/checkout@v5
               with:
                   repository: eslint/json
+                  ref: json-v0.14.0 # Tag of the last version that is compatible with ESLint v9
                   path: json
 
             - uses: actions/setup-node@v6
@@ -171,7 +172,7 @@ jobs:
               run: |
                   npm install
                   npm run build
-                  npm install ../eslint @eslint/core@latest
+                  npm install ../eslint
 
             - name: Run TSC
               working-directory: json
