@@ -1,0 +1,17 @@
+run(name, rule, testCases) {
+  const traceEntry = new Error().stack[0];
+  ...
+
+
+  for ((testCase, index) of testCases) {
+    try {
+      verifyAssersions(testCase);
+    } catch (error) {
+      const testCaseSource = calculateActualSource(traceEntry, index);
+      if (testCaseSource) {
+        error.stack.unshift(testCaseSource);
+      }
+      throw error;
+    }
+  }
+}
