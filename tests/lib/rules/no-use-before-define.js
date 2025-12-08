@@ -1634,6 +1634,36 @@ ruleTester.run("no-use-before-define", rule, {
 				},
 			],
 		},
+		{
+			code: "var a = test((t) => { console.log(`foo: ${a}`); return t; });",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
+				},
+			],
+		},
+		{
+			code: "var a = test(arr, (t) => { console.log(`foo: ${a}`); return t; });",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
+				},
+			],
+		},
+		{
+			code: "var a = test(function (t) { console.log(`foo: ${a}`); return t; });",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
+				},
+			],
+		},
 	],
 });
 
