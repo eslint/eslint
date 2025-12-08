@@ -500,6 +500,7 @@ const reference = scope.references[0];
 
 reference.from = scope;
 reference.identifier.type = "Identifier";
+reference.identifier.type = "JSXIdentifier";
 reference.resolved = variable;
 reference.writeExpr = AST;
 reference.init = true;
