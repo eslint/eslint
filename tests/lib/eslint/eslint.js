@@ -9859,13 +9859,12 @@ describe("ESLint", () => {
 		});
 
 		it("should throw if a removed formatter from node_modules throws on loading", async () => {
-			const engine = new ESLint();
-			const formatterPath = getFixturePath(
-				"cli-engine/node_modules/eslint-formatter-checkstyle/index.js",
-			);
+			const engine = new ESLint({
+				cwd: getFixturePath("cli-engine"),
+			});
 
 			await assert.rejects(async () => {
-				await engine.loadFormatter(formatterPath);
+				await engine.loadFormatter("checkstyle");
 			}, /There was a problem loading formatter.*Error: Formatter loading failed/su);
 		});
 	});
