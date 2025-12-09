@@ -125,6 +125,11 @@ export namespace AST {
 	}
 }
 
+interface JSXIdentifier extends ESTree.BaseNode {
+	type: "JSXIdentifier";
+	name: string;
+}
+
 export namespace Scope {
 	interface ScopeManager {
 		scopes: Scope[];
@@ -177,7 +182,7 @@ export namespace Scope {
 	}
 
 	interface Reference {
-		identifier: ESTree.Identifier;
+		identifier: ESTree.Identifier | JSXIdentifier;
 		from: Scope;
 		resolved: Variable | null;
 		writeExpr: ESTree.Node | null;
@@ -1359,6 +1364,26 @@ export class RuleTester {
 		tests: {
 			valid: Array<string | RuleTester.ValidTestCase>;
 			invalid: RuleTester.InvalidTestCase[];
+			/**
+			 * Additional assertions for the "error" matchers of invalid test cases to enforce consistency.
+			 */
+			assertionOptions?: {
+				/**
+				 * If true, each `errors` block must check the expected error
+				 * message, either via a string in the `errors` array, or via
+				 * `message`/`messageId` in an errors object.
+				 * `"message"`/`"messageId"` can be used to further limit the
+				 * message assertions to the respective versions.
+				 */
+				requireMessage?: boolean | "message" | "messageId";
+				/**
+				 * If true, each `errors` block must be an array of objects,
+				 * that each check all location properties `line`, `column`,
+				 * `endLine`, `endColumn`, the later may be omitted, if the
+				 * error does not contain them.
+				 */
+				requireLocation?: boolean;
+			};
 		},
 	): void;
 
