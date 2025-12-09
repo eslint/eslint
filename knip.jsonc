@@ -3,7 +3,7 @@
     ".": {
       // These entries are complementary to the ones found in package.json
       "entry": ["lib/rules/index.js", "tools/internal-rules/*.js"],
-      "project": ["{conf,lib,tools}/**/*.js"],
+      "project": ["{bin,conf,lib,tools}/**/*.js"],
       "mocha": {
         "entry": [
           "tests/{bin,conf,lib,tools}/**/*.js", // see Makefile.js
@@ -34,6 +34,7 @@
       ],
     },
     "docs": {
+      "entry": ["src/assets/scss/{styles,print}.scss"],
       "ignore": ["src/assets/js/search.js", "_examples/**"],
     },
     // Workspaces with default configs:
