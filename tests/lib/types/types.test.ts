@@ -1879,6 +1879,23 @@ ruleTester.run("my-rule", rule, {
 		{ code: "foo", filename: "test.js" },
 		{ code: "foo", languageOptions: { globals: { foo: true } } },
 		{ code: "foo", settings: { foo: true } },
+		{ code: "foo", language: "js/js" },
+		{ code: "foo", processor: "a-plugin/a-processor" },
+		{ code: "foo", processor: _processor },
+		// @ts-expect-error // `options` must be an array
+		{ code: "foo", options: { allowFoo: true } },
+		// @ts-expect-error
+		{ code: "foo", basePath: "./subdir" },
+		// @ts-expect-error
+		{ code: "foo", files: ["**/*.js"] },
+		// @ts-expect-error
+		{ code: "foo", ignores: ["**/*.js"] },
+		// @ts-expect-error
+		{ code: "foo", linterOptions: { reportUnusedDisableDirectives: 0 } },
+		// @ts-expect-error
+		{ code: "foo", plugins: { foo: {} } },
+		// @ts-expect-error
+		{ code: "foo", rules: {} },
 		{
 			code: "foo",
 			before() {
@@ -1895,6 +1912,7 @@ ruleTester.run("my-rule", rule, {
 		{ code: "foo", errors: 1 },
 		{ code: "foo", errors: 1, output: "foo" },
 		{ code: "foo", errors: ["foo"] },
+		{ code: "foo", errors: [/foo/] },
 		{ code: "foo", errors: [{ message: "foo" }] },
 		{ code: "foo", errors: [{ message: "foo", data: { foo: true } }] },
 		{ code: "foo", errors: [{ message: "foo", line: 0 }] },
@@ -1916,6 +1934,7 @@ ruleTester.run("my-rule", rule, {
 				},
 			],
 		},
+		{ code: "foo", errors: [{ message: "foo", suggestions: 2 }] },
 		{ code: "foo", errors: 1, only: true },
 		{
 			code: "foo",
@@ -1954,6 +1973,15 @@ RuleTester.it = RuleTester.itOnly = function (
 	text: string,
 	fn: () => Promise<void>,
 ) {};
+
+RuleTester.setDefaultConfig({});
+RuleTester.setDefaultConfig({
+	languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+});
+// @ts-expect-error // must pass a `Config` object
+RuleTester.setDefaultConfig(null);
+RuleTester.getDefaultConfig() satisfies Linter.Config;
+RuleTester.resetDefaultConfig();
 
 ruleTester.run("simple-valid-test", rule, {
 	valid: ["foo", "bar", { code: "foo", options: [{ allowFoo: true }] }],
