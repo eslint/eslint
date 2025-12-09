@@ -9838,10 +9838,6 @@ describe("ESLint", () => {
 				cwd: getFixturePath("cli-engine"),
 			});
 
-			await assert.rejects(async () => {
-				await engine.loadFormatter("table-external");
-			}, /There was a problem loading formatter/u);
-
 			// Ensure it doesn't contain the "no longer part of core" message
 			await assert.rejects(
 				async () => {
@@ -9849,13 +9845,28 @@ describe("ESLint", () => {
 				},
 				error => {
 					assert.ok(
-						!error.message.includes(
-							"no longer part of core ESLint",
-						),
+						error.message.includes(
+							"There was a problem loading formatter",
+						) &&
+							!error.message.includes(
+								"no longer part of core ESLint",
+							),
+						`Unexpected error message: ${error.message}`,
 					);
 					return true;
 				},
 			);
+		});
+
+		it("should throw if a removed formatter from node_modules throws on loading", async () => {
+			const engine = new ESLint();
+			const formatterPath = getFixturePath(
+				"cli-engine/node_modules/eslint-formatter-checkstyle/index.js",
+			);
+
+			await assert.rejects(async () => {
+				await engine.loadFormatter(formatterPath);
+			}, /There was a problem loading formatter.*Error: Formatter loading failed/su);
 		});
 	});
 
