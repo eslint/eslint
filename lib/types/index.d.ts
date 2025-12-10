@@ -1355,6 +1355,9 @@ export class RuleTester {
 	static describe: ((...args: any) => any) | null;
 	static it: ((...args: any) => any) | null;
 	static itOnly: ((...args: any) => any) | null;
+	static setDefaultConfig(config: Linter.Config): void;
+	static getDefaultConfig(): Linter.Config;
+	static resetDefaultConfig(): void;
 
 	constructor(config?: Linter.Config);
 
@@ -1393,14 +1396,22 @@ export class RuleTester {
 }
 
 export namespace RuleTester {
-	interface ValidTestCase {
+	interface ValidTestCase
+		extends Omit<
+			Linter.Config,
+			| "name"
+			| "basePath"
+			| "files"
+			| "ignores"
+			| "linterOptions"
+			| "plugins"
+			| "rules"
+		> {
 		name?: string;
 		code: string;
-		options?: any;
+		options?: any[];
 		filename?: string | undefined;
 		only?: boolean;
-		languageOptions?: Linter.LanguageOptions | undefined;
-		settings?: { [name: string]: any } | undefined;
 		before?: () => void;
 		after?: () => void;
 	}
@@ -1413,7 +1424,7 @@ export namespace RuleTester {
 	}
 
 	interface InvalidTestCase extends ValidTestCase {
-		errors: number | Array<TestCaseError | string>;
+		errors: number | Array<TestCaseError | string | RegExp>;
 		output?: string | null | undefined;
 	}
 
@@ -1425,7 +1436,7 @@ export namespace RuleTester {
 		column?: number | undefined;
 		endLine?: number | undefined;
 		endColumn?: number | undefined;
-		suggestions?: SuggestionOutput[] | undefined;
+		suggestions?: SuggestionOutput[] | number | undefined;
 	}
 }
 
