@@ -599,7 +599,7 @@ You can use these options to override the default behavior, which is to enable c
 
 ::: warning
 
-When neither `--color` nor `--no-color` is specified, the formatter may decide whether to colorize the output based on the runtime environment. For example, when running under Node.js, [`FORCE_COLOR`](https://nodejs.org/api/cli.html#force_color1-2-3), [`NO_COLOR`](https://nodejs.org/api/cli.html#no_colorany), or [`NODE_DISABLE_COLORS`](https://nodejs.org/api/cli.html#node_disable_colors1) environment variables may affect whether colors are used.
+When neither `--color` nor `--no-color` is specified, the formatter may decide whether to colorize the output based on the runtime environment. For example, when using the default `stylish` formatter under Node.js, [`FORCE_COLOR`](https://nodejs.org/api/cli.html#force_color1-2-3), [`NO_COLOR`](https://nodejs.org/api/cli.html#no_colorany), or [`NODE_DISABLE_COLORS`](https://nodejs.org/api/cli.html#node_disable_colors1) environment variables may affect whether colors are used.
 
 :::
 
