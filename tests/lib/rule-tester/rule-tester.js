@@ -14,6 +14,7 @@ const sinon = require("sinon"),
 	nodeAssert = require("node:assert");
 
 const jsonPlugin = require("@eslint/json").default;
+const runtimeErrorRule = require("../../fixtures/testers/rule-tester/runtime-error");
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -369,8 +370,7 @@ describe("RuleTester", () => {
 				before(() => {
 					originalGlobalIt = global.it;
 
-					// eslint-disable-next-line no-global-assign -- Temporarily override Mocha global
-					it = () => {};
+					global.it = () => {};
 
 					/*
 					 * These tests override `describe` and `it`, so we need to
@@ -382,8 +382,7 @@ describe("RuleTester", () => {
 					RuleTester.it = void 0;
 				});
 				after(() => {
-					// eslint-disable-next-line no-global-assign -- Restore Mocha global
-					it = originalGlobalIt;
+					global.it = originalGlobalIt;
 					RuleTester.describe = originalRuleTesterDescribe;
 					RuleTester.it = originalRuleTesterIt;
 				});
@@ -728,6 +727,142 @@ describe("RuleTester", () => {
 			);
 			sinon.assert.calledTwice(hookBefore);
 			sinon.assert.calledTwice(hookAfter);
+		});
+	});
+
+	describe("fatal test cases", () => {
+		it("throws when 'fatal' is not an array", () => {
+			assert.throws(() => {
+				ruleTester.run(
+					"no-var",
+					require("../../fixtures/testers/rule-tester/no-var"),
+					{
+						valid: [],
+						invalid: [],
+						fatal: {},
+					},
+				);
+			}, /'fatal' must be an array/u);
+		});
+
+		it("throws when a fatal test case lacks an error object", () => {
+			assert.throws(() => {
+				ruleTester.run(
+					"no-var",
+					require("../../fixtures/testers/rule-tester/no-var"),
+					{
+						valid: [],
+						invalid: [],
+						fatal: [{ code: "var foo;" }],
+					},
+				);
+			}, /Fatal test case must specify an 'error' property/u);
+		});
+
+		it("throws when a fatal error omits both message and name", () => {
+			assert.throws(() => {
+				ruleTester.run(
+					"no-var",
+					require("../../fixtures/testers/rule-tester/no-var"),
+					{
+						valid: [],
+						invalid: [],
+						fatal: [
+							{
+								code: "var foo;",
+								error: {},
+							},
+						],
+					},
+				);
+			}, /Fatal test case 'error' must specify 'message' and\/or 'name'/u);
+		});
+
+		it("supports testing schema validation errors", () => {
+			ruleTester.run(
+				"no-invalid-args",
+				require("../../fixtures/testers/rule-tester/no-invalid-args"),
+				{
+					valid: [],
+					invalid: [],
+					fatal: [
+						{
+							code: "foo();",
+							options: [{ unexpected: true }],
+							error: {
+								message:
+									'Value {"unexpected":true} should be boolean.',
+								name: "SchemaValidationError",
+							},
+						},
+					],
+				},
+			);
+		});
+
+		it("supports testing runtime rule errors without helper text", () => {
+			ruleTester.run("runtime-error", runtimeErrorRule, {
+				valid: [],
+				invalid: [],
+				fatal: [
+					{
+						code: "foo();",
+						error: {
+							message: "Custom rule runtime error for testing.",
+							name: "CustomRuleError",
+						},
+					},
+				],
+			});
+		});
+
+		it("fails fatal tests when no exception occurs", () => {
+			assert.throws(() => {
+				ruleTester.run(
+					"no-invalid-args",
+					require("../../fixtures/testers/rule-tester/no-invalid-args"),
+					{
+						valid: [],
+						invalid: [],
+						fatal: [
+							{
+								code: "foo();",
+								options: [false],
+								error: {
+									message: "Value false should be boolean.",
+									name: "SchemaValidationError",
+								},
+							},
+						],
+					},
+				);
+			}, /Fatal test case did not produce an exception/u);
+		});
+
+		it("uses a fallback title when name and code are missing", () => {
+			const titles = [];
+			const listener = title => {
+				titles.push(title);
+			};
+
+			ruleTesterTestEmitter.on("it", listener);
+			try {
+				ruleTester.run("runtime-error", runtimeErrorRule, {
+					valid: [],
+					invalid: [],
+					fatal: [
+						{
+							error: {
+								message: "Custom rule runtime error for testing.",
+							},
+						},
+					],
+				});
+			} finally {
+				ruleTesterTestEmitter.removeListener("it", listener);
+			}
+
+			assert.include(titles, "(Test Case #1)");
 		});
 	});
 
