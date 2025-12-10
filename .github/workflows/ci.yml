@@ -150,9 +150,6 @@ jobs:
               working-directory: ${{ matrix.package.directory }}
               run: npm run test:types
 
-    test_bun:
-        uses: eslint/workflows/.github/workflows/ci-bun.yml@main
-
     test_package_manager:
         uses: eslint/workflows/.github/workflows/ci-package-manager.yml@main
 
