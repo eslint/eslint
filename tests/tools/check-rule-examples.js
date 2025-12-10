@@ -102,6 +102,7 @@ describe("check-rule-examples", () => {
 				"\x1B[0m\x1B[0m\n" +
 				"\x1B[0m\x1B[31m\x1B[1m✖ 18 problems (18 errors, 0 warnings)\x1B[22m\x1B[39m\x1B[0m\n" +
 				"\x1B[0m\x1B[31m\x1B[1m\x1B[22m\x1B[39m\x1B[0m\n";
+
 			assert.strictEqual(normalizedStderr, expectedStderr);
 			return true;
 		});
