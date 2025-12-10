@@ -1745,9 +1745,9 @@ const customFormatter: ESLint.FormatterFunction = jsonFormatter;
 
 function wrapperFormatter(
 	results: ESLint.LintResult[],
-	{ cwd, maxWarningsExceeded, rulesMeta }: ESLint.LintResultData,
+	{ color, cwd, maxWarningsExceeded, rulesMeta }: ESLint.LintResultData,
 ) {
-	customFormatter(results, { cwd, maxWarningsExceeded, rulesMeta });
+	customFormatter(results, { color, cwd, maxWarningsExceeded, rulesMeta });
 }
 
 // #endregion ESLint.Formatter

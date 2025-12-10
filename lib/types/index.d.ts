@@ -1261,9 +1261,8 @@ export namespace ESLint {
 		foundWarnings: number;
 	}
 
-	interface LintResultData {
+	interface LintResultData extends ResultsMeta {
 		cwd: string;
-		maxWarningsExceeded?: MaxWarningsExceeded | undefined;
 		rulesMeta: {
 			[ruleId: string]: Rule.RuleMetaData;
 		};
