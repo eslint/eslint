@@ -66,7 +66,7 @@ describe("check-rule-examples", () => {
 				.replace(/(?<=\x1B\[4m).*(?=bad-examples\.md)/u, "")
 
 				// Remove runtime-specific error message part (different in Node.js 20, 22 and 24).
-				.replace(/(?<=JSON at position 1) \(line 1 column 2\)/u, "")
+				.replace(/(?<='doesn't allow this comment'):.*(?=\n)/u, "")
 
 				// Remove multiple whitespace before rule name in lint errors
 				.replaceAll(/\s+(?=\S*no-restricted-syntax\S*\n)/gu, " ");
@@ -81,7 +81,7 @@ describe("check-rule-examples", () => {
 				"   \x1B[2m20:5\x1B[22m  \x1B[31merror\x1B[39m  Nonstandard language tag 'rs': use one of 'javascript', 'js', 'jsx', 'ts', or 'tsx'\n" +
 				"   \x1B[2m23:7\x1B[22m  \x1B[31merror\x1B[39m  Unexpected lint error found: Parsing error: Identifier 'foo' has already been declared\n" +
 				'   \x1B[2m31:1\x1B[22m  \x1B[31merror\x1B[39m  Example code should contain a configuration comment like /* eslint no-restricted-syntax: "error" */\n' +
-				"   \x1B[2m41:1\x1B[22m  \x1B[31merror\x1B[39m  Unexpected lint error found: Failed to parse JSON from 'doesn't allow this comment': Expected property name or '}' in JSON at position 1\n" +
+				"   \x1B[2m41:1\x1B[22m  \x1B[31merror\x1B[39m  Unexpected lint error found: Failed to parse JSON from 'doesn't allow this comment'\n" +
 				'   \x1B[2m51:1\x1B[22m  \x1B[31merror\x1B[39m  Unexpected lint error found: Rule "no-restricted-syntax" is already configured by another configuration comment in the preceding code. This configuration is ignored\n' +
 				"   \x1B[2m51:1\x1B[22m  \x1B[31merror\x1B[39m  Duplicate /* eslint no-restricted-syntax */ configuration comment. Each example should contain only one. Split this example into multiple examples\n" +
 				'   \x1B[2m56:1\x1B[22m  \x1B[31merror\x1B[39m  Remove unnecessary "ecmaVersion":"latest"\n' +
