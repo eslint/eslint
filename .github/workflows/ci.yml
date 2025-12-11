@@ -150,6 +150,10 @@ jobs:
               working-directory: ${{ matrix.package.directory }}
               run: npm run test:types
 
+    test_package_manager:
+        name: Test Package Managers
+        uses: eslint/workflows/.github/workflows/ci-package-manager.yml@main
+
     pnpm_test:
         name: Test pnpm Type Support
         runs-on: ubuntu-latest
