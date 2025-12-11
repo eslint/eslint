@@ -2310,7 +2310,7 @@ async (useFlatConfig?: boolean) => {
 
 builtinRules; // $ExpectType Map<string, RuleModule>
 
-shouldUseFlatConfig(); // $ExpectType Promise<boolean>
+shouldUseFlatConfig(); // $ExpectType Promise<true>
 
 // #endregion
 
