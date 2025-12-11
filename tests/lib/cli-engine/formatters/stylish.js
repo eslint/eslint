@@ -62,8 +62,24 @@ describe("formatter:stylish", () => {
 			},
 		];
 
+		let hasForceColor = false;
+		let previousForceColor = void 0;
+
+		beforeEach(() => {
+			if ("FORCE_COLOR" in process.env) {
+				hasForceColor = true;
+				previousForceColor = process.env.FORCE_COLOR;
+			}
+		});
+
 		afterEach(() => {
-			delete process.env.FORCE_COLOR;
+			if (!hasForceColor) {
+				delete process.env.FORCE_COLOR;
+			} else {
+				process.env.FORCE_COLOR = previousForceColor;
+				hasForceColor = false;
+				previousForceColor = void 0;
+			}
 		});
 
 		it("`FORCE_COLOR=0` should disable colors", () => {
@@ -140,14 +156,30 @@ describe("formatter:stylish", () => {
 		});
 
 		it("`color: false` should ignore environment variable", () => {
+			// Save previous state
+			let hasForceColor = false;
+			let previousForceColor = void 0;
+
+			if ("FORCE_COLOR" in process.env) {
+				hasForceColor = true;
+				previousForceColor = process.env.FORCE_COLOR;
+			}
+
+			// Set `FORCE_COLOR`
 			process.env.FORCE_COLOR = 1;
 
+			// Test
 			const result = formatter(code, { color: false });
 
 			assert.notMatch(result, ansiEscapePattern);
 			assert.strictEqual(result, util.stripVTControlCharacters(result));
 
-			delete process.env.FORCE_COLOR;
+			// Restore previous state
+			if (!hasForceColor) {
+				delete process.env.FORCE_COLOR;
+			} else {
+				process.env.FORCE_COLOR = previousForceColor;
+			}
 		});
 
 		it("`color: true` should enable colors", () => {
@@ -161,8 +193,19 @@ describe("formatter:stylish", () => {
 		});
 
 		it("`color: true` should ignore environment variable", () => {
+			// Save previous state
+			let hasForceColor = false;
+			let previousForceColor = void 0;
+
+			if ("FORCE_COLOR" in process.env) {
+				hasForceColor = true;
+				previousForceColor = process.env.FORCE_COLOR;
+			}
+
+			// Set `FORCE_COLOR`
 			process.env.FORCE_COLOR = 0;
 
+			// Test
 			const result = formatter(code, { color: true });
 
 			assert.match(result, ansiEscapePattern);
@@ -171,7 +214,12 @@ describe("formatter:stylish", () => {
 				util.stripVTControlCharacters(result),
 			);
 
-			delete process.env.FORCE_COLOR;
+			// Restore previous state
+			if (!hasForceColor) {
+				delete process.env.FORCE_COLOR;
+			} else {
+				process.env.FORCE_COLOR = previousForceColor;
+			}
 		});
 	});
 
