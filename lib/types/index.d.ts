@@ -1337,6 +1337,9 @@ export namespace ESLint {
 
 // #endregion
 
+/**
+ * Loads the correct `ESLint` constructor.
+ */
 export function loadESLint(): Promise<typeof ESLint>;
 
 // #region RuleTester
