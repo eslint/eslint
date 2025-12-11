@@ -3871,7 +3871,7 @@ describe("ESLint", () => {
 			assert.strictEqual(results[1].suppressedMessages.length, 0);
 			assert.strictEqual(
 				path.relative(formattersDir, results[2].filePath),
-				"cwd.js",
+				"context.js",
 			);
 			assert.strictEqual(results[2].errorCount, 0);
 			assert.strictEqual(results[2].warningCount, 0);

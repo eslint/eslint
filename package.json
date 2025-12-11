@@ -117,7 +117,6 @@
     "@humanwhocodes/retry": "^0.4.2",
     "@types/estree": "^1.0.6",
     "ajv": "^6.12.4",
-    "chalk": "^4.0.0",
     "cross-spawn": "^7.0.6",
     "debug": "^4.3.2",
     "escape-string-regexp": "^4.0.0",
