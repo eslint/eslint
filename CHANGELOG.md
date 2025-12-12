@@ -1,3 +1,11 @@
+v9.39.2 - December 12, 2025
+
+* [`7ca0af7`](https://github.com/eslint/eslint/commit/7ca0af7f9f89dd4a01736dae01931c45d528171b) chore: upgrade to `@eslint/js@9.39.2` (#20394) (Francesco Trotta)
+* [`c43ce24`](https://github.com/eslint/eslint/commit/c43ce24ff0ce073ec4ad691cd5a50171dfe6cf1e) chore: package.json update for @eslint/js release (Jenkins)
+* [`5705833`](https://github.com/eslint/eslint/commit/57058331946568164449c5caabe2cf206e4fb5d9) fix: warn when `eslint-env` configuration comments are found (#20381) (sethamus)
+* [`506f154`](https://github.com/eslint/eslint/commit/506f1549a64aa65bdddc75c71cb62f0ab94b5a23) build: add .scss files entry to knip (#20391) (Milos Djermanovic)
+* [`4c9858e`](https://github.com/eslint/eslint/commit/4c9858e47bb9146cf20f546a562bc58a9ee3dae1) ci: add `v9.x-dev` branch (#20382) (Milos Djermanovic)
+
 v10.0.0-beta.0 - December 12, 2025
 
 * [`ba6ebfa`](https://github.com/eslint/eslint/commit/ba6ebfa78de0b8522cea5ee80179887e92c6c935) fix: correct typings for `loadESLint()` and `shouldUseFlatConfig()` (#20393) (루밀LuMir)
