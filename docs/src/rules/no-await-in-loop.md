@@ -128,6 +128,12 @@ This rule has no options.
 In many cases the iterations of a loop are not actually independent of each other, and awaiting in
 the loop is correct. As a few examples:
 
+* Any code that should run serially, such as implementing a countdown, or processing items sequentially (when each item is already processed in parallel).
+
+* Using standard browser/OS APIs that are inherently serial (as controlled by the underlying operating system), such as `File` or directory contents reading.
+
+* Any code where the creation of the Promise allocates a bounded resource (RAM, file descriptors, network bandwidth).
+
 * The output of one iteration might be used as the input to another.
 
     ```js
