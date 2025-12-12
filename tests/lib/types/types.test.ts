@@ -2302,11 +2302,16 @@ flatConfigWithRules.rules; // $ExpectType Partial<ESLintRules> | undefined
 
 async (useFlatConfig?: boolean) => {
 	await loadESLint(); // $ExpectType typeof ESLint
-	await loadESLint({}); // $ExpectType typeof ESLint
-	await loadESLint({ useFlatConfig: undefined }); // $ExpectType typeof ESLint
-	await loadESLint({ useFlatConfig: true }); // $ExpectType typeof ESLint
-	await loadESLint({ useFlatConfig: false }); // $ExpectType typeof ESLint
-	await loadESLint({ useFlatConfig }); // $ExpectType typeof ESLint
+	// @ts-expect-error `loadESLint()` does not accept arguments since ESLint v10.0.0
+	await loadESLint({});
+	// @ts-expect-error `loadESLint()` does not accept arguments since ESLint v10.0.0
+	await loadESLint({ useFlatConfig: undefined });
+	// @ts-expect-error `loadESLint()` does not accept arguments since ESLint v10.0.0
+	await loadESLint({ useFlatConfig: true });
+	// @ts-expect-error `loadESLint()` does not accept arguments since ESLint v10.0.0
+	await loadESLint({ useFlatConfig: false });
+	// @ts-expect-error `loadESLint()` does not accept arguments since ESLint v10.0.0
+	await loadESLint({ useFlatConfig });
 
 	const DefaultESLint = await loadESLint();
 	if (DefaultESLint.configType === "flat") {
@@ -2318,7 +2323,7 @@ async (useFlatConfig?: boolean) => {
 
 builtinRules; // $ExpectType Map<string, RuleModule>
 
-shouldUseFlatConfig(); // $ExpectType Promise<boolean>
+shouldUseFlatConfig(); // $ExpectType Promise<true>
 
 // #endregion
 

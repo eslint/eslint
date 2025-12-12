@@ -115,7 +115,7 @@ export namespace AST {
 		end: ESTree.Position;
 	}
 
-	type Range = [number, number];
+	type Range = SourceRange;
 
 	interface Program extends ESTree.Program {
 		comments: ESTree.Comment[];
@@ -1344,9 +1344,10 @@ export namespace ESLint {
 
 // #endregion
 
-export function loadESLint(options?: {
-	useFlatConfig?: boolean | undefined;
-}): Promise<typeof ESLint>;
+/**
+ * Loads the correct `ESLint` constructor.
+ */
+export function loadESLint(): Promise<typeof ESLint>;
 
 // #region RuleTester
 
