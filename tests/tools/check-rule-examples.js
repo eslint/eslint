@@ -22,7 +22,7 @@ const { LATEST_ECMA_VERSION } = require("../../conf/ecma-version");
 async function runCheckRuleExamples(...filenames) {
 	return await promisify(execFile)(
 		process.execPath,
-		["--no-deprecation", "tools/check-rule-examples.js", ...filenames],
+		["--no-warnings", "tools/check-rule-examples.js", ...filenames],
 		{ env: { FORCE_COLOR: "3" } }, // 24-bit color mode
 	);
 }
