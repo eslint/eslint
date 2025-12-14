@@ -1,3 +1,32 @@
+v9.39.2 - December 12, 2025
+
+* [`7ca0af7`](https://github.com/eslint/eslint/commit/7ca0af7f9f89dd4a01736dae01931c45d528171b) chore: upgrade to `@eslint/js@9.39.2` (#20394) (Francesco Trotta)
+* [`c43ce24`](https://github.com/eslint/eslint/commit/c43ce24ff0ce073ec4ad691cd5a50171dfe6cf1e) chore: package.json update for @eslint/js release (Jenkins)
+* [`5705833`](https://github.com/eslint/eslint/commit/57058331946568164449c5caabe2cf206e4fb5d9) fix: warn when `eslint-env` configuration comments are found (#20381) (sethamus)
+* [`506f154`](https://github.com/eslint/eslint/commit/506f1549a64aa65bdddc75c71cb62f0ab94b5a23) build: add .scss files entry to knip (#20391) (Milos Djermanovic)
+* [`4c9858e`](https://github.com/eslint/eslint/commit/4c9858e47bb9146cf20f546a562bc58a9ee3dae1) ci: add `v9.x-dev` branch (#20382) (Milos Djermanovic)
+
+v10.0.0-beta.0 - December 12, 2025
+
+* [`ba6ebfa`](https://github.com/eslint/eslint/commit/ba6ebfa78de0b8522cea5ee80179887e92c6c935) fix: correct typings for `loadESLint()` and `shouldUseFlatConfig()` (#20393) (루밀LuMir)
+* [`a176319`](https://github.com/eslint/eslint/commit/a176319d8ade1a7d9b2d7fb8f038f55a2662325f) feat!: replace `chalk` with `styleText` and add `color` to `ResultsMeta` (#20227) (루밀LuMir)
+* [`54bf0a3`](https://github.com/eslint/eslint/commit/54bf0a3646265060f5f22faef71ec840d630c701) ci: create package manager test (#20392) (루밀LuMir)
+* [`e7673ae`](https://github.com/eslint/eslint/commit/e7673ae096900330599680efe91f8a199a5c2e59) fix: correct RuleTester typings (#20105) (Pixel998)
+* [`53e9522`](https://github.com/eslint/eslint/commit/53e95222af8561a8eed282fa9fd44b2f320a3c37) fix: strict removed formatters check (#20241) (ntnyq)
+* [`264b981`](https://github.com/eslint/eslint/commit/264b981101a3cf0c12eba200ac64e5523186a89f) docs: Update README (GitHub Actions Bot)
+* [`a126a2a`](https://github.com/eslint/eslint/commit/a126a2ab136406017f2dac2d7632114e37e62dc2) build: add .scss files entry to knip (#20389) (Francesco Trotta)
+* [`c7046e6`](https://github.com/eslint/eslint/commit/c7046e6c1e03c4ca0eee4888a1f2eba4c6454f84) feat!: enable JSX reference tracking (#20152) (Pixel998)
+* [`f148a5e`](https://github.com/eslint/eslint/commit/f148a5eaa1e89dd80ade62f0a690186b00b9f6e1) feat: add error assertion options (#20247) (ST-DDT)
+* [`5a4324f`](https://github.com/eslint/eslint/commit/5a4324f38e7ce370038351ef7412dcf8548c105e) docs: clarify `"local"` option of `no-unused-vars` (#20385) (Milos Djermanovic)
+* [`b017f09`](https://github.com/eslint/eslint/commit/b017f094d4e53728f8d335b9cf8b16dc074afda3) fix: correct `no-restricted-import` messages (#20374) (Francesco Trotta)
+* [`e593aa0`](https://github.com/eslint/eslint/commit/e593aa0fd29f51edea787815ffc847aa723ef1f8) docs: improve clarity, grammar, and wording in documentation site README (#20370) (Aditya)
+* [`3115021`](https://github.com/eslint/eslint/commit/3115021439490d1ed12da5804902ebbf8a5e574b) refactor: simplify JSDoc comment detection logic (#20360) (Pixel998)
+* [`4345b17`](https://github.com/eslint/eslint/commit/4345b172a81e1394579ec09df51ba460b956c3b5) chore: update `@eslint-community/regexpp` to `4.12.2` (#20366) (루밀LuMir)
+* [`3f5062e`](https://github.com/eslint/eslint/commit/3f5062ed5f27eb25414faced2478ae076906874e) docs: Add messages property to rule meta documentation (#20361) (Sabya Sachi)
+* [`9e5a5c2`](https://github.com/eslint/eslint/commit/9e5a5c2b6b368cdacd678eabf36b441bd8bb726c) docs: remove `Examples` headings from rule docs (#20364) (Milos Djermanovic)
+* [`194f488`](https://github.com/eslint/eslint/commit/194f488a8dc97850485afe704d2a64096582f96d) docs: Update README (GitHub Actions Bot)
+* [`772c9ee`](https://github.com/eslint/eslint/commit/772c9ee9b65b6ad0be3e46462a7f93c37578cfa8) chore: update dependency @eslint/eslintrc to ^3.3.3 (#20359) (renovate[bot])
+
 v10.0.0-alpha.1 - November 28, 2025
 
 * [`0b14059`](https://github.com/eslint/eslint/commit/0b14059491d830a49b3577931f4f68fbcfce6be5) chore: package.json update for @eslint/js release (Jenkins)

@@ -31,4 +31,4 @@ import { Rule } from "./index.js";
 export const builtinRules: Map<string, Rule.RuleModule>;
 
 /** @deprecated */
-export function shouldUseFlatConfig(): Promise<boolean>;
+export function shouldUseFlatConfig(): Promise<true>;
