@@ -804,7 +804,7 @@ export type JSRuleDefinition<
 // #region Linter
 
 /**
- * Object that is responsible for verifying JavaScript text.
+ * Class that is responsible for verifying JavaScript text.
  */
 export class Linter {
 	/**
@@ -859,8 +859,7 @@ export class Linter {
 	 * @param textOrSourceCode The text to parse or a `SourceCode` object.
 	 * @param config The ESLint config object or array to use.
 	 * @param filename The optional filename of the file being checked.
-	 * If this is not set, the filename will default to '<input>' in the rule context.
-	 * If an object, then it has "filename", "allowInlineConfig", and some properties.
+	 * If this is not set, the filename will default to `"<input>"` in the rule context.
 	 * @returns The results as an array of messages or an empty array if no messages.
 	 */
 	verify(
@@ -872,9 +871,7 @@ export class Linter {
 	 * Verifies the text against the rules specified by the second argument.
 	 * @param textOrSourceCode The text to parse or a `SourceCode` object.
 	 * @param config The ESLint config object or array to use.
-	 * @param options The optional filename of the file being checked.
-	 * If this is not set, the filename will default to '<input>' in the rule context.
-	 * If an object, then it has "filename", "allowInlineConfig", and some properties.
+	 * @param options The object options which can have `filename`, `allowInlineConfig`, and some properties.
 	 * @returns The results as an array of messages or an empty array if no messages.
 	 */
 	verify(
@@ -889,8 +886,7 @@ export class Linter {
 	 * @param text The source text to apply fixes to.
 	 * @param config The ESLint config object or array to use.
 	 * @param filename The optional filename of the file being checked.
-	 * If this is not set, the filename will default to '<input>' in the rule context.
-	 * If an object, then it has "filename", "allowInlineConfig", and some properties.
+	 * If this is not set, the filename will default to `"<input>"` in the rule context.
 	 * @returns The result of the fix operation as returned from the `SourceCodeFixer`.
 	 */
 	verifyAndFix(
@@ -903,9 +899,7 @@ export class Linter {
 	 * until as many fixes as possible have been applied.
 	 * @param text The source text to apply fixes to.
 	 * @param config The ESLint config object or array to use.
-	 * @param options The optional filename of the file being checked.
-	 * If this is not set, the filename will default to '<input>' in the rule context.
-	 * If an object, then it has "filename", "allowInlineConfig", and some properties.
+	 * @param options The object options which can have `filename`, `allowInlineConfig`, and some properties.
 	 * @returns The result of the fix operation as returned from the `SourceCodeFixer`.
 	 */
 	verifyAndFix(
