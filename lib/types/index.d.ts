@@ -868,7 +868,6 @@ export class Linter {
 		config: Linter.Config | Linter.Config[],
 		filename?: string,
 	): Linter.LintMessage[];
-
 	/**
 	 * Verifies the text against the rules specified by the second argument.
 	 * @param textOrSourceCode The text to parse or a `SourceCode` object.
@@ -899,7 +898,6 @@ export class Linter {
 		config: Linter.Config | Linter.Config[],
 		filename?: string,
 	): Linter.FixReport;
-
 	/**
 	 * Performs multiple autofix passes over the text
 	 * until as many fixes as possible have been applied.
