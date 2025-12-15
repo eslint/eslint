@@ -817,7 +817,35 @@ export class Linter {
 	 */
 	version: string;
 
-	constructor(options?: { cwd?: string | undefined; configType?: "flat" });
+	/**
+	 * Initialize the `Linter`.
+	 * @param options The config object options.
+	 */
+	constructor(options?: {
+		/**
+		 * Path to a directory that should be considered as
+		 * the current working directory, can be `undefined`.
+		 */
+		cwd?: string | undefined;
+
+		/**
+		 * The type of config used.
+		 * @default "flat"
+		 */
+		configType?: "flat";
+
+		/**
+		 * The feature flags to enable.
+		 * @default []
+		 */
+		flags?: string[] | undefined;
+
+		/**
+		 * The warning service to use.
+		 * @default new WarningService()
+		 */
+		warningService?: any;
+	});
 
 	/**
 	 * Indicates if the given feature flag is enabled for this instance.
@@ -829,14 +857,14 @@ export class Linter {
 	/**
 	 * Verifies the text against the rules specified by the second argument.
 	 * @param textOrSourceCode The text to parse or a `SourceCode` object.
-	 * @param config An ESLintConfig instance to configure everything.
+	 * @param config The ESLint config object or array to use.
 	 * @param filename The optional filename of the file being checked.
 	 * If this is not set, the filename will default to '<input>' in the rule context.
 	 * If an object, then it has "filename", "allowInlineConfig", and some properties.
 	 * @returns The results as an array of messages or an empty array if no messages.
 	 */
 	verify(
-		code: SourceCode | string,
+		textOrSourceCode: SourceCode | string,
 		config: Linter.Config | Linter.Config[],
 		filename?: string,
 	): Linter.LintMessage[];
@@ -844,25 +872,46 @@ export class Linter {
 	/**
 	 * Verifies the text against the rules specified by the second argument.
 	 * @param textOrSourceCode The text to parse or a `SourceCode` object.
-	 * @param config An ESLintConfig instance to configure everything.
+	 * @param config The ESLint config object or array to use.
 	 * @param options The optional filename of the file being checked.
 	 * If this is not set, the filename will default to '<input>' in the rule context.
 	 * If an object, then it has "filename", "allowInlineConfig", and some properties.
 	 * @returns The results as an array of messages or an empty array if no messages.
 	 */
 	verify(
-		code: SourceCode | string,
+		textOrSourceCode: SourceCode | string,
 		config: Linter.Config | Linter.Config[],
 		options: Linter.LintOptions,
 	): Linter.LintMessage[];
 
+	/**
+	 * Performs multiple autofix passes over the text
+	 * until as many fixes as possible have been applied.
+	 * @param text The source text to apply fixes to.
+	 * @param config The ESLint config object or array to use.
+	 * @param filename The optional filename of the file being checked.
+	 * If this is not set, the filename will default to '<input>' in the rule context.
+	 * If an object, then it has "filename", "allowInlineConfig", and some properties.
+	 * @returns The result of the fix operation as returned from the `SourceCodeFixer`.
+	 */
 	verifyAndFix(
-		code: string,
+		text: string,
 		config: Linter.Config | Linter.Config[],
 		filename?: string,
 	): Linter.FixReport;
+
+	/**
+	 * Performs multiple autofix passes over the text
+	 * until as many fixes as possible have been applied.
+	 * @param text The source text to apply fixes to.
+	 * @param config The ESLint config object or array to use.
+	 * @param options The optional filename of the file being checked.
+	 * If this is not set, the filename will default to '<input>' in the rule context.
+	 * If an object, then it has "filename", "allowInlineConfig", and some properties.
+	 * @returns The result of the fix operation as returned from the `SourceCodeFixer`.
+	 */
 	verifyAndFix(
-		code: string,
+		text: string,
 		config: Linter.Config | Linter.Config[],
 		options: Linter.FixOptions,
 	): Linter.FixReport;
@@ -873,6 +922,10 @@ export class Linter {
 	 */
 	getSourceCode(): SourceCode;
 
+	/**
+	 * Gets the times spent on (parsing, fixing, linting) a file.
+	 * @returns The times.
+	 */
 	getTimes(): Linter.Stats["times"];
 
 	/**
