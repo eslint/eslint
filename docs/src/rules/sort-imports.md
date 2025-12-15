@@ -65,8 +65,6 @@ Default option settings are:
 }
 ```
 
-## Examples
-
 ### Default settings
 
 Examples of **correct** code for this rule when using default options:

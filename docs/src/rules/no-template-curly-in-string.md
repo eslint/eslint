@@ -10,8 +10,6 @@ ECMAScript 6 allows programmers to create strings containing variable or express
 
 This rule aims to warn when a regular string contains what looks like a template literal placeholder. It will warn when it finds a string containing the template literal placeholder (`${something}`) that uses either `"` or `'` for the quotes.
 
-## Examples
-
 Examples of **incorrect** code for this rule:
 
 ::: incorrect
@@ -38,6 +36,10 @@ templateFunction`Hello ${name}`;
 ```
 
 :::
+
+## Options
+
+This rule has no options.
 
 ## When Not To Use It
 

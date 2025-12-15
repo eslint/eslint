@@ -1,10 +1,5 @@
 ---
 title: Migrate to v9.x
-eleventyNavigation:
-    key: migrate to v9
-    parent: use eslint
-    title: Migrate to v9.x
-    order: 9
 ---
 
 ESLint v9.0.0 is a major release of ESLint, and as such, has several breaking changes that you need to be aware of. This guide is intended to walk you through the breaking changes.

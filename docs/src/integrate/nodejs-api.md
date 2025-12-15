@@ -546,13 +546,13 @@ This edit information means replacing the range of the `range` property by the `
 The `LoadedFormatter` value is the object to convert the [LintResult] objects to text. The [eslint.loadFormatter()][eslint-loadformatter] method returns it. It has the following method:
 
 - `format` (`(results: LintResult[], resultsMeta?: ResultsMeta) => string | Promise<string>`)<br>
-  The method to convert the [LintResult] objects to text. `resultsMeta` is an optional parameter that is primarily intended for use by the ESLint CLI and can contain only a `maxWarningsExceeded` property that would be passed through the [`context`](../extend/custom-formatters#the-context-argument) object when this method calls the underlying formatter function. Note that ESLint automatically generates `cwd` and `rulesMeta` properties of the `context` object, so you typically don't need to pass in the second argument when calling this method.
+  The method to convert the [LintResult] objects to text. `resultsMeta` is an optional parameter that is primarily intended for use by the ESLint CLI and can contain `color` and `maxWarningsExceeded` properties that would be passed through the [`context`](../extend/custom-formatters#the-context-argument) object when this method calls the underlying formatter function. Note that ESLint automatically generates `cwd` and `rulesMeta` properties of the `context` object, so you typically don't need to pass in the second argument when calling this method.
 
 ---
 
 ## loadESLint()
 
-The `loadESLint()` function is used for integrations that wish to support both the current configuration system (flat config) and the old configuration system (eslintrc). This function returns the correct `ESLint` class implementation based on the arguments provided:
+The `loadESLint()` function is used for integrations that wish to support different ESLint versions. This function returns the correct `ESLint` class implementation based on the arguments provided:
 
 ```js
 const { loadESLint } = require("eslint");
@@ -563,7 +563,7 @@ const DefaultESLint = await loadESLint();
 // loads the flat config version specifically
 const FlatESLint = await loadESLint({ useFlatConfig: true });
 
-// loads the legacy version specifically
+// loads the legacy version specifically if possible, otherwise falls back to flat config version
 const LegacyESLint = await loadESLint({ useFlatConfig: false });
 ```
 
@@ -586,9 +586,7 @@ if (DefaultESLint.configType === "flat") {
 }
 ```
 
-If you don't need to support both the old and new configuration systems, then it's recommended to just use the `ESLint` constructor directly.
-
----
+**If you don't need to support both the old and new configuration systems, then it's recommended to just use the `ESLint` constructor directly.**
 
 ## SourceCode
 
@@ -643,7 +641,7 @@ The `Linter` object does the actual evaluation of the JavaScript code. It doesn'
 
 The `Linter` is a constructor, and you can create a new instance by passing in the options you want to use. The available options are:
 
-- `cwd` - Path to a directory that should be considered as the current working directory. It is accessible to rules from `context.cwd` or by calling `context.getCwd()` (see [The Context Object](../extend/custom-rules#the-context-object)). If `cwd` is `undefined`, it will be normalized to `process.cwd()` if the global `process` object is defined (for example, in the Node.js runtime) , or `undefined` otherwise.
+- `cwd` - Path to a directory that should be considered as the current working directory. It is accessible to rules from `context.cwd` (see [The Context Object](../extend/custom-rules#the-context-object)). If `cwd` is `undefined`, it will be normalized to `process.cwd()` if the global `process` object is defined (for example, in the Node.js runtime) , or `undefined` otherwise.
 
 For example:
 
@@ -653,7 +651,7 @@ const linter1 = new Linter({ cwd: "path/to/project" });
 const linter2 = new Linter();
 ```
 
-In this example, rules run on `linter1` will get `path/to/project` from `context.cwd` or when calling `context.getCwd()`.
+In this example, rules run on `linter1` will get `path/to/project` from `context.cwd`.
 Those run on `linter2` will get `process.cwd()` if the global `process` object is defined or `undefined` otherwise (e.g. on the browser <https://eslint.org/demo>).
 
 ### Linter#verify
@@ -736,7 +734,6 @@ The information available for each linting message is:
 - `line` - the line on which the error occurred.
 - `message` - the message that should be output.
 - `messageId` - the ID of the message used to generate the message (this property is omitted if the rule does not use message IDs).
-- `nodeType` - (**Deprecated:** This property will be removed in a future version of ESLint.) the node, comment, or token type that was reported with the problem.
 - `ruleId` - the ID of the rule that triggered the messages (or null if `fatal` is true).
 - `severity` - either 1 or 2, depending on your configuration.
 - `endColumn` - the end column of the range on which the error occurred (this property is omitted if it's not range).
@@ -890,6 +887,12 @@ ruleTester.run("my-rule", rule, {
 			errors: [{ message: /^Unexpected.+variable/ }],
 		},
 	],
+
+	// optional
+	assertionOptions: {
+		requireMessage: true,
+		requireLocation: false,
+	},
 });
 ```
 
@@ -903,11 +906,61 @@ const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2015 } });
 If you don't specify any options to the `RuleTester` constructor, then it uses the ESLint defaults (`languageOptions: { ecmaVersion: "latest", sourceType: "module" }`).
 :::
 
+### RuleTester.setDefaultConfig(config)
+
+```js
+const RuleTester = require("eslint").RuleTester;
+
+// Apply a default config for subsequently created RuleTester instances
+RuleTester.setDefaultConfig({
+	languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+});
+
+const ruleTester = new RuleTester(); // picks up defaults above
+```
+
+Sets the default configuration used by `RuleTester` instances created after this call.
+
+This is a static method.
+
+#### Parameters
+
+- `config` (`Config`)<br>
+  A [Configuration object] applied by default to all tests. It is applied before per-instance `RuleTester` constructor options and before per-test configuration. Throws a `TypeError` if `config` is not an object.
+
+### RuleTester.getDefaultConfig()
+
+```js
+const currentDefaultConfig = RuleTester.getDefaultConfig();
+```
+
+Returns the current default configuration used by `RuleTester`.
+
+This is a static method.
+
+#### Return Value
+
+- (`Config`)<br>
+  The current default configuration object.
+
+### RuleTester.resetDefaultConfig()
+
+```js
+RuleTester.resetDefaultConfig();
+```
+
+Resets the default configuration back to ESLint's built-in defaults for subsequently created `RuleTester` instances.
+
+This is a static method.
+
+### RuleTester#run()
+
 The `RuleTester#run()` method is used to run the tests. It should be passed the following arguments:
 
 - The name of the rule (string).
 - The rule object itself (see ["working with rules"](../extend/custom-rules)).
 - An object containing `valid` and `invalid` properties, each of which is an array containing test cases.
+    - In this object, you can also pass the `assertionOptions` property to configure requirements for assertions of `invalid` test cases to enforce consistency.
 
 A test case is an object with the following properties:
 
@@ -926,7 +979,6 @@ In addition to the properties above, invalid test cases can also have the follow
     - `message` (string/regexp): The message for the error. Must provide this or `messageId`.
     - `messageId` (string): The ID for the error. Must provide this or `message`. See [testing errors with messageId](#testing-errors-with-messageid) for details.
     - `data` (object): Placeholder data which can be used in combination with `messageId`.
-    - `type` (string): (**Deprecated:** This property will be removed in a future version of ESLint.) The type of the reported AST node.
     - `line` (number): The 1-based line number of the reported location.
     - `column` (number): The 1-based column number of the reported location.
     - `endLine` (number): The 1-based line number of the end of the reported location.
@@ -947,6 +999,14 @@ Any additional properties of a test case will be passed directly to the linter a
 ```
 
 If a valid test case only uses the `code` property, it can optionally be provided as a string containing the code, rather than an object with a `code` key.
+
+You can optionally configure the following `assertionOptions` that apply to all error assertions in that call:
+
+- `requireMessage` (boolean/`"message"`/`"messageId"`, optional):
+    - If `true`, each `errors` block must check the expected error messages, either via string/regexp values in the `errors` array, or via `message`/`messageId` in error objects.
+    - If `"message"`, each `errors` block must check the expected error messages, either via string/regexp values in the `errors` array, or via `message` in error objects.
+    - If `"messageId"`, each `errors` block must check the expected error messages via `messageId` in error objects.
+- `requireLocation` (boolean, optional): If `true`, each `errors` block must be an array of objects, and each object must contain location properties `line`, `column`, `endLine`, and `endColumn`. Properties `endLine` and `endColumn` may be omitted if the actual error does not contain them.
 
 ### Testing Errors with `messageId`
 
@@ -993,7 +1053,7 @@ ruleTester.run("my-rule-for-no-foo", rule, {
 });
 ```
 
-A the end of this invalid test case, `RuleTester` expects a fix to be applied that results in the code changing from `var foo;` to `var bar;`. If the output after applying the fix doesn't match, then the test fails.
+At the end of this invalid test case, `RuleTester` expects a fix to be applied that results in the code changing from `var foo;` to `var bar;`. If the output after applying the fix doesn't match, then the test fails.
 
 ::: important
 ESLint makes its best attempt at applying all fixes, but there is no guarantee that all fixes will be applied. As such, you should aim for testing each type of fix in a separate `RuleTester` test case rather than one test case to test multiple fixes. When there is a conflict between two fixes (because they apply to the same section of code) `RuleTester` applies only the first fix.

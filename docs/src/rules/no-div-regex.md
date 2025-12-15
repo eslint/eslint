@@ -41,3 +41,7 @@ function bar() { return /[=]foo/; }
 ```
 
 :::
+
+## Options
+
+This rule has no options.
