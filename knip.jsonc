@@ -7,7 +7,6 @@
       "mocha": {
         "entry": [
           "tests/{bin,conf,lib,tools}/**/*.js", // see Makefile.js
-          "tests/_utils/test-lazy-loading-rules.js",
         ],
         "project": ["tests/**/*.js"],
       },
@@ -17,7 +16,6 @@
         "conf/globals.js",
         // These contain unresolved imports and other oddities:
         "tests/bench/large.js",
-        "tests/lib/rule-tester/rule-tester.js",
         "tests/performance/jshint.js",
         // Many are required using dynamic paths such as `fs.readFileSync(path.join())`:
         "tests/fixtures/**",
