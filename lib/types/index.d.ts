@@ -842,7 +842,7 @@ export class Linter {
 		flags?: string[];
 
 		/**
-		 * The warning service to use.
+		 * The warning service instance to use.
 		 * @default new WarningService()
 		 */
 		warningService?: any;
