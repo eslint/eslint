@@ -1337,8 +1337,14 @@ linter.verifyAndFix(
 
 // #region Linter with eslintrc config
 
-// @ts-expect-error -- configType must be "flat"
+// @ts-expect-error -- `configType` must be `"flat"`
 const linterWithEslintrcConfig = new Linter({ configType: "eslintrc" });
+new Linter({
+	// @ts-expect-error -- `cwd` must be a `string` or `undefined`
+	cwd: 123,
+	// @ts-expect-error -- `flags` must be an array of strings
+	flags: "flag1",
+});
 
 linterWithEslintrcConfig.verify(
 	SOURCE,
