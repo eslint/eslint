@@ -193,7 +193,7 @@
     "semver": "^7.5.3",
     "shelljs": "^0.10.0",
     "sinon": "^11.0.0",
-    "typescript": "^5.3.3",
+    "typescript": "^5.9.3",
     "webpack": "^5.23.0",
     "webpack-cli": "^4.5.0",
     "yorkie": "^2.0.0"
