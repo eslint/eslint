@@ -813,7 +813,7 @@ export class Linter {
 	static readonly version: string;
 
 	/**
-	 * Getter for package version. Returns the version from `package.json`.
+	 * Getter or setter for package version. Returns the version from `package.json`.
 	 */
 	version: string;
 
