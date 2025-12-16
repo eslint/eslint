@@ -804,7 +804,7 @@ export type JSRuleDefinition<
 // #region Linter
 
 /**
- * Class that is responsible for verifying JavaScript text.
+ * Class responsible for verifying language-specific text or binary source code.
  */
 export class Linter {
 	/**
