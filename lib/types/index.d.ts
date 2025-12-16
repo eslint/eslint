@@ -830,6 +830,7 @@ export class Linter {
 
 		/**
 		 * The type of config used.
+		 * Retrained for backwards compatibility, will be removed in future.
 		 * @default "flat"
 		 */
 		configType?: "flat";
