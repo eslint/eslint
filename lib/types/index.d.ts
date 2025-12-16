@@ -808,12 +808,12 @@ export type JSRuleDefinition<
  */
 export class Linter {
 	/**
-	 * Getter for package version. Returns the version from `package.json`.
+	 * Static getter for package version. Returns the version from `package.json`.
 	 */
 	static readonly version: string;
 
 	/**
-	 * Getter or setter for package version. Returns the version from `package.json`.
+	 * Instance getter/setter for package version. Defaults to the version from `package.json`.
 	 */
 	version: string;
 
@@ -839,7 +839,7 @@ export class Linter {
 		 * The feature flags to enable.
 		 * @default []
 		 */
-		flags?: string[] | undefined;
+		flags?: string[];
 
 		/**
 		 * The warning service to use.
@@ -847,13 +847,6 @@ export class Linter {
 		 */
 		warningService?: any;
 	});
-
-	/**
-	 * Indicates if the given feature flag is enabled for this instance.
-	 * @param flag The feature flag to check.
-	 * @returns `true` if the feature flag is enabled, `false` if not.
-	 */
-	hasFlag(flag: string): boolean;
 
 	/**
 	 * Verifies the text against the rules specified by the second argument.
@@ -932,6 +925,13 @@ export class Linter {
 	 * @returns The list of `SuppressedLintMessage`.
 	 */
 	getSuppressedMessages(): Linter.SuppressedLintMessage[];
+
+	/**
+	 * Indicates if the given feature flag is enabled for this instance.
+	 * @param flag The feature flag to check.
+	 * @returns `true` if the feature flag is enabled, `false` if not.
+	 */
+	hasFlag(flag: string): boolean;
 }
 
 export namespace Linter {
