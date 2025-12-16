@@ -1037,7 +1037,7 @@ type DeprecatedRuleContextKeys =
 const linter = new Linter();
 const eslinter = new ESLinter();
 const linterWithFlatConfig = new Linter({ configType: "flat" });
-const linterWithOptions = new Linter({
+new Linter({
 	cwd: "path/to/cwd",
 	configType: "flat",
 	flags: ["flag1", "flag2"],
@@ -1046,6 +1046,9 @@ const linterWithOptions = new Linter({
 	},
 	// @ts-expect-error Invalid option
 	unknown: "unknown",
+});
+new Linter({
+	cwd: undefined,
 });
 
 linter.version; // $ExpectType string
