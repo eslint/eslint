@@ -6187,6 +6187,18 @@ describe("RuleTester", () => {
 
 	// Attach error locations to stacktrace
 	describe("error locations", () => {
+		/**
+		 * Normalizes stack trace for comparison
+		 * @param {Error} error The error to normalize the stacktrace of.
+		 * @returns {string}The normalized stacktrace string.
+		 */
+		function normalizeStack(error) {
+			return error.stack
+				.replace(/\\/gu, "/")
+				.replace(/\(.*\/tests\//gu, "(tests/") // absolute to relative paths
+				.replace(/:\d+(:\d+)?/gu, ":<lines>"); // ignore line/column numbers
+		}
+
 		it("should report the correct location for errors in valid test cases", () => {
 			try {
 				ruleTester.run(
@@ -6199,14 +6211,12 @@ describe("RuleTester", () => {
 				);
 				assert.fail("Expected an error to be thrown");
 			} catch (error) {
-				assert.include(error.stack, "at RuleTester.run.valid[0] (");
-				assert.include(error.stack, "at RuleTester.run.valid (");
-				assert.include(error.stack, "at RuleTester.run (");
+				const normalizedStack = normalizeStack(error);
+				assert.include(normalizedStack, "at RuleTester.run.valid[0] (");
+				assert.include(normalizedStack, "at RuleTester.run.valid (");
 				assert.include(
-					error.stack
-						.replace(/\\/gu, "/")
-						.replace(/:\d+/gu, ":<lines>"),
-					"tests/lib/rule-tester/rule-tester.js:<lines>",
+					normalizedStack,
+					"at RuleTester.run (tests/lib/rule-tester/rule-tester.js:<lines>)",
 				);
 			}
 		});
@@ -6235,18 +6245,19 @@ describe("RuleTester", () => {
 				);
 				assert.fail("Expected an error to be thrown");
 			} catch (error) {
+				const normalizedStack = normalizeStack(error);
 				assert.include(
-					error.stack,
+					normalizedStack,
 					"at RuleTester.run.invalid[0].error[1] (",
 				);
-				assert.include(error.stack, "at RuleTester.run.invalid[0] (");
-				assert.include(error.stack, "at RuleTester.run.invalid (");
-				assert.include(error.stack, "at RuleTester.run (");
 				assert.include(
-					error.stack
-						.replace(/\\/gu, "/")
-						.replace(/:\d+/gu, ":<lines>"),
-					"tests/lib/rule-tester/rule-tester.js:<lines>",
+					normalizedStack,
+					"at RuleTester.run.invalid[0] (",
+				);
+				assert.include(normalizedStack, "at RuleTester.run.invalid (");
+				assert.include(
+					normalizedStack,
+					"at RuleTester.run (tests/lib/rule-tester/rule-tester.js:<lines>)",
 				);
 			}
 		});
