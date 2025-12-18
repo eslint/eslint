@@ -139,7 +139,7 @@ export namespace Scope {
 
 		getDeclaredVariables(node: ESTree.Node): Variable[];
 
-		addGlobals(names: string[]): void;
+		addGlobals(names: ReadonlyArray<string>): void;
 	}
 
 	interface Scope {
@@ -185,8 +185,8 @@ export namespace Scope {
 		identifier: ESTree.Identifier | JSXIdentifier;
 		from: Scope;
 		resolved: Variable | null;
-		writeExpr: ESTree.Node | null;
-		init: boolean;
+		writeExpr?: ESTree.Expression | null;
+		init?: boolean;
 
 		isWrite(): boolean;
 
