@@ -155,8 +155,7 @@ export namespace Scope {
 			| "global"
 			| "module"
 			| "switch"
-			| "with"
-			| "TDZ";
+			| "with";
 		isStrict: boolean;
 		upper: Scope | null;
 		childScopes: Scope[];
@@ -235,7 +234,6 @@ export namespace Scope {
 					| ESTree.ArrowFunctionExpression;
 				parent: null;
 		  }
-		| { type: "TDZ"; node: any; parent: null }
 		| {
 				type: "Variable";
 				node: ESTree.VariableDeclarator;
