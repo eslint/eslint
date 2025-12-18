@@ -502,6 +502,8 @@ reference.from = scope;
 reference.identifier.type = "Identifier";
 reference.identifier.type = "JSXIdentifier";
 reference.resolved = variable;
+reference.writeExpr = { type: "Identifier", name: "foo" };
+// @ts-expect-error
 reference.writeExpr = AST;
 reference.init = true;
 
