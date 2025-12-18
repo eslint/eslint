@@ -95,7 +95,6 @@ Example output (formatted for easier reading):
                     "message": "'addOne' is defined but never used.",
                     "line": 1,
                     "column": 10,
-                    "nodeType": "Identifier",
                     "messageId": "unusedVar",
                     "endLine": 1,
                     "endColumn": 16,
@@ -122,7 +121,6 @@ Example output (formatted for easier reading):
                     "message": "Use the isNaN function to compare with NaN.",
                     "line": 2,
                     "column": 9,
-                    "nodeType": "BinaryExpression",
                     "messageId": "comparisonWithNaN",
                     "endLine": 2,
                     "endColumn": 17,
@@ -157,7 +155,6 @@ Example output (formatted for easier reading):
                     "message": "Unexpected space before unary operator '++'.",
                     "line": 3,
                     "column": 16,
-                    "nodeType": "UpdateExpression",
                     "messageId": "unexpectedBefore",
                     "endLine": 3,
                     "endColumn": 20,
@@ -170,12 +167,21 @@ Example output (formatted for easier reading):
                     }
                 },
                 {
+                    "ruleId": "no-useless-assignment",
+                    "severity": 2,
+                    "message": "This assigned value is not used in subsequent statements.",
+                    "line": 3,
+                    "column": 16,
+                    "messageId": "unnecessaryAssignment",
+                    "endLine": 3,
+                    "endColumn": 17
+                },
+                {
                     "ruleId": "semi",
                     "severity": 1,
                     "message": "Missing semicolon.",
                     "line": 3,
                     "column": 20,
-                    "nodeType": "ReturnStatement",
                     "messageId": "missingSemi",
                     "endLine": 4,
                     "endColumn": 1,
@@ -193,7 +199,6 @@ Example output (formatted for easier reading):
                     "message": "Unnecessary 'else' after 'return'.",
                     "line": 4,
                     "column": 12,
-                    "nodeType": "BlockStatement",
                     "messageId": "unexpected",
                     "endLine": 6,
                     "endColumn": 6,
@@ -211,7 +216,6 @@ Example output (formatted for easier reading):
                     "message": "Expected indentation of 8 spaces but found 6.",
                     "line": 5,
                     "column": 1,
-                    "nodeType": "Keyword",
                     "messageId": "wrongIndentation",
                     "endLine": 5,
                     "endColumn": 7,
@@ -229,7 +233,6 @@ Example output (formatted for easier reading):
                     "message": "Function 'addOne' expected a return value.",
                     "line": 5,
                     "column": 7,
-                    "nodeType": "ReturnStatement",
                     "messageId": "missingReturnValue",
                     "endLine": 5,
                     "endColumn": 13
@@ -240,7 +243,6 @@ Example output (formatted for easier reading):
                     "message": "Missing semicolon.",
                     "line": 5,
                     "column": 13,
-                    "nodeType": "ReturnStatement",
                     "messageId": "missingSemi",
                     "endLine": 6,
                     "endColumn": 1,
@@ -254,7 +256,7 @@ Example output (formatted for easier reading):
                 }
             ],
             "suppressedMessages": [],
-            "errorCount": 4,
+            "errorCount": 5,
             "fatalErrorCount": 0,
             "warningCount": 4,
             "fixableErrorCount": 1,
@@ -515,6 +517,18 @@ Example output (formatted for easier reading):
                     "wordOperator": "Unary word operator '{{word}}' must be followed by whitespace.",
                     "operator": "Unary operator '{{operator}}' must be followed by whitespace.",
                     "beforeUnaryExpressions": "Space is required before unary expressions '{{token}}'."
+                }
+            },
+            "no-useless-assignment": {
+                "type": "problem",
+                "docs": {
+                    "description": "Disallow variable assignments when the value is not used",
+                    "recommended": true,
+                    "url": "https://eslint.org/docs/latest/rules/no-useless-assignment"
+                },
+                "schema": [],
+                "messages": {
+                    "unnecessaryAssignment": "This assigned value is not used in subsequent statements."
                 }
             },
             "semi": {
@@ -976,7 +990,6 @@ Example output (formatted for easier reading):
                 "message": "'addOne' is defined but never used.",
                 "line": 1,
                 "column": 10,
-                "nodeType": "Identifier",
                 "messageId": "unusedVar",
                 "endLine": 1,
                 "endColumn": 16,
@@ -1003,7 +1016,6 @@ Example output (formatted for easier reading):
                 "message": "Use the isNaN function to compare with NaN.",
                 "line": 2,
                 "column": 9,
-                "nodeType": "BinaryExpression",
                 "messageId": "comparisonWithNaN",
                 "endLine": 2,
                 "endColumn": 17,
@@ -1038,7 +1050,6 @@ Example output (formatted for easier reading):
                 "message": "Unexpected space before unary operator '++'.",
                 "line": 3,
                 "column": 16,
-                "nodeType": "UpdateExpression",
                 "messageId": "unexpectedBefore",
                 "endLine": 3,
                 "endColumn": 20,
@@ -1051,12 +1062,21 @@ Example output (formatted for easier reading):
                 }
             },
             {
+                "ruleId": "no-useless-assignment",
+                "severity": 2,
+                "message": "This assigned value is not used in subsequent statements.",
+                "line": 3,
+                "column": 16,
+                "messageId": "unnecessaryAssignment",
+                "endLine": 3,
+                "endColumn": 17
+            },
+            {
                 "ruleId": "semi",
                 "severity": 1,
                 "message": "Missing semicolon.",
                 "line": 3,
                 "column": 20,
-                "nodeType": "ReturnStatement",
                 "messageId": "missingSemi",
                 "endLine": 4,
                 "endColumn": 1,
@@ -1074,7 +1094,6 @@ Example output (formatted for easier reading):
                 "message": "Unnecessary 'else' after 'return'.",
                 "line": 4,
                 "column": 12,
-                "nodeType": "BlockStatement",
                 "messageId": "unexpected",
                 "endLine": 6,
                 "endColumn": 6,
@@ -1092,7 +1111,6 @@ Example output (formatted for easier reading):
                 "message": "Expected indentation of 8 spaces but found 6.",
                 "line": 5,
                 "column": 1,
-                "nodeType": "Keyword",
                 "messageId": "wrongIndentation",
                 "endLine": 5,
                 "endColumn": 7,
@@ -1110,7 +1128,6 @@ Example output (formatted for easier reading):
                 "message": "Function 'addOne' expected a return value.",
                 "line": 5,
                 "column": 7,
-                "nodeType": "ReturnStatement",
                 "messageId": "missingReturnValue",
                 "endLine": 5,
                 "endColumn": 13
@@ -1121,7 +1138,6 @@ Example output (formatted for easier reading):
                 "message": "Missing semicolon.",
                 "line": 5,
                 "column": 13,
-                "nodeType": "ReturnStatement",
                 "messageId": "missingSemi",
                 "endLine": 6,
                 "endColumn": 1,
@@ -1135,7 +1151,7 @@ Example output (formatted for easier reading):
             }
         ],
         "suppressedMessages": [],
-        "errorCount": 4,
+        "errorCount": 5,
         "fatalErrorCount": 0,
         "warningCount": 4,
         "fixableErrorCount": 1,
@@ -1234,16 +1250,17 @@ Example output:
 ```text
 
 /var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js
-  1:10  error    'addOne' is defined but never used            no-unused-vars
-  2:9   error    Use the isNaN function to compare with NaN    use-isnan
-  3:16  error    Unexpected space before unary operator '++'   space-unary-ops
-  3:20  warning  Missing semicolon                             semi
-  4:12  warning  Unnecessary 'else' after 'return'             no-else-return
-  5:1   warning  Expected indentation of 8 spaces but found 6  indent
-  5:7   error    Function 'addOne' expected a return value     consistent-return
-  5:13  warning  Missing semicolon                             semi
+  1:10  error    'addOne' is defined but never used                        no-unused-vars
+  2:9   error    Use the isNaN function to compare with NaN                use-isnan
+  3:16  error    Unexpected space before unary operator '++'               space-unary-ops
+  3:16  error    This assigned value is not used in subsequent statements  no-useless-assignment
+  3:20  warning  Missing semicolon                                         semi
+  4:12  warning  Unnecessary 'else' after 'return'                         no-else-return
+  5:1   warning  Expected indentation of 8 spaces but found 6              indent
+  5:7   error    Function 'addOne' expected a return value                 consistent-return
+  5:13  warning  Missing semicolon                                         semi
 
-✖ 8 problems (4 errors, 4 warnings)
+✖ 9 problems (5 errors, 4 warnings)
   1 error and 4 warnings potentially fixable with the `--fix` option.
 
 ```

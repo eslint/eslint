@@ -10,16 +10,17 @@ permissions:
 
 jobs:
     webpack_plugin:
+        if: false # Temporarily disabled until @typescript-eslint/parser is updated
         name: Types (eslint-webpack-plugin)
         runs-on: ubuntu-latest
         steps:
             - name: Checkout eslint
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
               with:
                   path: eslint
 
             - name: Checkout eslint-webpack-plugin
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
               with:
                   repository: webpack-contrib/eslint-webpack-plugin
                   path: webpack
@@ -46,12 +47,12 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout eslint
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
               with:
                   path: eslint
 
             - name: Checkout neostandard
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
               with:
                   repository: neostandard/neostandard
                   path: neostandard
@@ -78,12 +79,12 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout eslint
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
               with:
                   path: eslint
 
             - name: Checkout eslint-flat-config-utils
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
               with:
                   repository: antfu/eslint-flat-config-utils
                   path: antfu
@@ -110,12 +111,12 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout eslint
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
               with:
                   path: eslint
 
             - name: Checkout eslint/js
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
               with:
                   repository: eslint/js
                   path: eslint-js
@@ -148,12 +149,12 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout eslint
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
               with:
                   path: eslint
 
             - name: Checkout @eslint/json
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
               with:
                   repository: eslint/json
                   path: json
@@ -194,7 +195,7 @@ jobs:
 
         steps:
             - name: Checkout ${{ matrix.package.name }}
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
 
             - uses: actions/setup-node@v6
               with:
@@ -202,7 +203,7 @@ jobs:
 
             - name: Install Packages
               working-directory: ${{ matrix.package.directory }}
-              run: npm install
+              run: npm install --legacy-peer-deps
 
             - name: Check validity of type definitions
               working-directory: ${{ matrix.package.directory }}

@@ -54,6 +54,10 @@ while (qux !== null) {
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## When Not To Use It
 
 If you want to enforce type-checking operations in general, use the more powerful [eqeqeq](./eqeqeq) instead.

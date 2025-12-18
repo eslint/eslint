@@ -3,11 +3,10 @@
     ".": {
       // These entries are complementary to the ones found in package.json
       "entry": ["lib/rules/index.js", "tools/internal-rules/*.js"],
-      "project": ["{conf,lib,tools}/**/*.js"],
+      "project": ["{bin,conf,lib,tools}/**/*.js"],
       "mocha": {
         "entry": [
           "tests/{bin,conf,lib,tools}/**/*.js", // see Makefile.js
-          "tests/_utils/test-lazy-loading-rules.js",
         ],
         "project": ["tests/**/*.js"],
       },
@@ -17,7 +16,6 @@
         "conf/globals.js",
         // These contain unresolved imports and other oddities:
         "tests/bench/large.js",
-        "tests/lib/rule-tester/rule-tester.js",
         "tests/performance/jshint.js",
         // Many are required using dynamic paths such as `fs.readFileSync(path.join())`:
         "tests/fixtures/**",
@@ -34,6 +32,7 @@
       ],
     },
     "docs": {
+      "entry": ["src/assets/scss/{styles,print}.scss"],
       "ignore": ["src/assets/js/search.js", "_examples/**"],
     },
     // Workspaces with default configs:
@@ -41,6 +40,6 @@
       "ignore": ["tests/types/**"],
       "ignoreDependencies": ["eslint"],
     },
-    "tools/internal-rules": {},
+    "tools/typescript-eslint-parser": {},
   },
 }
