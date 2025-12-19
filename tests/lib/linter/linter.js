@@ -1583,7 +1583,7 @@ describe("Linter with FlatConfigArray", () => {
 
 			it("should be configurable by only setting the integer value", () => {
 				const rule = "semi",
-					config = { rules: {} };
+					config = { rules: {} }; // TODO
 
 				config.rules[rule] = 1;
 
@@ -1598,7 +1598,7 @@ describe("Linter with FlatConfigArray", () => {
 
 			it("should be configurable by only setting the string value", () => {
 				const rule = "semi",
-					config = { rules: {} };
+					config = { rules: {} }; // TODO
 
 				config.rules[rule] = "warn";
 
@@ -1614,7 +1614,7 @@ describe("Linter with FlatConfigArray", () => {
 
 			it("should be configurable by passing in values as an array", () => {
 				const rule = "semi",
-					config = { rules: {} };
+					config = { rules: {} }; // TODO
 
 				config.rules[rule] = [1];
 
@@ -1629,7 +1629,7 @@ describe("Linter with FlatConfigArray", () => {
 
 			it("should be configurable by passing in string value as an array", () => {
 				const rule = "semi",
-					config = { rules: {} };
+					config = { rules: {} }; // TODO
 
 				config.rules[rule] = ["warn"];
 
@@ -1645,7 +1645,7 @@ describe("Linter with FlatConfigArray", () => {
 
 			it("should not be configurable by setting other value", () => {
 				const rule = "semi",
-					config = { rules: {} };
+					config = { rules: {} }; // TODO
 
 				config.rules[rule] = "1";
 
@@ -1670,8 +1670,8 @@ describe("Linter with FlatConfigArray", () => {
 			const code = "foo()\n    alert('test')";
 			const config = {
 				rules: {
-					"no-mixed-spaces-and-tabs": 1,
-					"eol-last": 1,
+					"no-mixed-spaces-and-tabs": 1, // TODO
+					"eol-last": 1, // TODO
 					semi: [1, "always"],
 				},
 			};
@@ -1694,8 +1694,8 @@ describe("Linter with FlatConfigArray", () => {
 			const code = "foo()\n    alert('test')";
 			const config = {
 				rules: {
-					"no-mixed-spaces-and-tabs": 1,
-					"eol-last": 1,
+					"no-mixed-spaces-and-tabs": 1, // TODO
+					"eol-last": 1, // TODO
 					semi: [1, "always"],
 				},
 			};
@@ -2515,7 +2515,7 @@ describe("Linter with FlatConfigArray", () => {
 
 		describe("Rule Severity", () => {
 			it("rule should run as warning when set to 1 with a config array", () => {
-				const ruleId = "semi",
+				const ruleId = "semi", // TODO
 					configs = createFlatConfigArray({
 						files: ["**/*.js"],
 						rules: {
@@ -2538,7 +2538,7 @@ describe("Linter with FlatConfigArray", () => {
 			});
 
 			it("rule should run as warning when set to 1 with a plain array", () => {
-				const ruleId = "semi",
+				const ruleId = "semi", // TODO
 					configs = [
 						{
 							files: ["**/*.js"],
@@ -2562,7 +2562,7 @@ describe("Linter with FlatConfigArray", () => {
 			});
 
 			it("rule should run as warning when set to 1 with an object", () => {
-				const ruleId = "semi",
+				const ruleId = "semi", // TODO
 					config = {
 						files: ["**/*.js"],
 						rules: {
@@ -2588,7 +2588,7 @@ describe("Linter with FlatConfigArray", () => {
 			const code = "#!bin/program\n\nvar foo;;";
 
 			it("should preserve line numbers", () => {
-				const config = { rules: { "no-extra-semi": 1 } };
+				const config = { rules: { "no-extra-semi": 1 } }; // TODO
 				const messages = linter.verify(code, config);
 				const suppressedMessages = linter.getSuppressedMessages();
 
@@ -3866,7 +3866,7 @@ describe("Linter with FlatConfigArray", () => {
 							languageOptions: {
 								sourceType: "script",
 							},
-							rules: { quotes: [2, "double"] },
+							rules: { quotes: [2, "double"] }, // TODO
 						};
 						const codeA =
 							"/*eslint quotes: 0*/ function bar() { return '2'; }";
@@ -3885,7 +3885,7 @@ describe("Linter with FlatConfigArray", () => {
 					});
 
 					it("rules should not change initial config", () => {
-						const config = { rules: { quotes: [2, "double"] } };
+						const config = { rules: { quotes: [2, "double"] } }; // TODO
 						const codeA =
 							"/*eslint quotes: [0, \"single\"]*/ function bar() { return '2'; }";
 						const codeB = "function foo() { return '1'; }";
@@ -5154,10 +5154,10 @@ describe("Linter with FlatConfigArray", () => {
 
 				describe("when evaluating code with comments to enable configurable rule", () => {
 					const code =
-						"/*eslint quotes:[2, \"double\"]*/ alert('test');";
+						"/*eslint quotes:[2, \"double\"]*/ alert('test');"; // TODO
 
 					it("should report a violation", () => {
-						const config = { rules: { quotes: [2, "single"] } };
+						const config = { rules: { quotes: [2, "single"] } }; // TODO
 
 						const messages = linter.verify(code, config, filename);
 						const suppressedMessages =
@@ -5176,10 +5176,10 @@ describe("Linter with FlatConfigArray", () => {
 
 				describe("when evaluating code with comments to enable configurable rule using string severity", () => {
 					const code =
-						'/*eslint quotes:["error", "double"]*/ alert(\'test\');';
+						'/*eslint quotes:["error", "double"]*/ alert(\'test\');'; // TODO
 
 					it("should report a violation", () => {
-						const config = { rules: { quotes: [2, "single"] } };
+						const config = { rules: { quotes: [2, "single"] } }; // TODO
 
 						const messages = linter.verify(code, config, filename);
 						const suppressedMessages =
@@ -5344,7 +5344,7 @@ alert('test');
 console.log("test");
 consolexlog("test2");
 var a = "test2";
-`;
+`; // TODO: `max-len`
 
 					it("should validate correctly", () => {
 						const config = { rules: {} };
@@ -5405,7 +5405,7 @@ var a = "test2";
 						"/* eslint-enable quotes */",
 					].join("\n");
 					const config = {
-						rules: { quotes: 2 },
+						rules: { quotes: 2 }, // TODO
 						linterOptions: { reportUnusedDisableDirectives: 0 },
 					};
 
@@ -5968,8 +5968,8 @@ var a = "test2";
 					const config = {
 						rules: {
 							"no-alert": 1,
-							quotes: [1, "double"],
-							semi: [1, "always"],
+							quotes: [1, "double"], // TODO
+							semi: [1, "always"], // TODO
 							"no-console": 1,
 						},
 					};
@@ -5988,7 +5988,7 @@ var a = "test2";
 					const config = {
 						rules: {
 							"no-alert": 1,
-							quotes: [1, "single"],
+							quotes: [1, "single"], // TODO
 						},
 					};
 					const messages = linter.verify(code, config, filename);
@@ -6340,7 +6340,7 @@ var a = "test2";
 					const config = {
 						rules: {
 							"no-alert": 1,
-							quotes: [1, "single"],
+							quotes: [1, "single"], // TODO
 							"no-console": 1,
 						},
 					};
@@ -6390,8 +6390,8 @@ var a = "test2";
 					].join("\n");
 					const config = {
 						rules: {
-							semi: [1, "never"],
-							quotes: [1, "single"],
+							semi: [1, "never"], // TODO
+							quotes: [1, "single"], // TODO
 							"no-alert": 1,
 							"no-console": 1,
 						},
@@ -9453,7 +9453,7 @@ var a = "test2";
 				it("should report the new rule", () => {
 					assert.throws(() => {
 						linter.verify(code, {
-							rules: { "no-comma-dangle": 2 },
+							rules: { "no-comma-dangle": 2 }, // TODO
 						});
 					}, /Key "rules": Key "no-comma-dangle": Rule "no-comma-dangle" was removed and replaced by "comma-dangle"/u);
 				});
@@ -9618,7 +9618,7 @@ var a = "test2";
 				"var a",
 				{
 					rules: {
-						semi: 2,
+						semi: 2, // TODO
 					},
 				},
 				{ filename: "test.js" },
@@ -9638,7 +9638,7 @@ var a = "test2";
 		it("does not require a third argument", () => {
 			const fixResult = linter.verifyAndFix("var a", {
 				rules: {
-					semi: 2,
+					semi: 2, // TODO
 				},
 			});
 			const suppressedMessages = linter.getSuppressedMessages();
@@ -9655,7 +9655,7 @@ var a = "test2";
 		it("does not include suggestions in autofix results", () => {
 			const fixResult = linter.verifyAndFix("var foo = /\\#/", {
 				rules: {
-					semi: 2,
+					semi: 2, // TODO
 					"no-useless-escape": 2,
 				},
 			});
@@ -9676,7 +9676,7 @@ var a = "test2";
 				"var a",
 				{
 					rules: {
-						semi: 2,
+						semi: 2, // TODO
 					},
 				},
 				{ fix: false },
