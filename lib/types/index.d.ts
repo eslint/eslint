@@ -139,7 +139,7 @@ export namespace Scope {
 
 		getDeclaredVariables(node: ESTree.Node): Variable[];
 
-		addGlobals(names: string[]): void;
+		addGlobals(names: ReadonlyArray<string>): void;
 	}
 
 	interface Scope {
@@ -155,8 +155,7 @@ export namespace Scope {
 			| "global"
 			| "module"
 			| "switch"
-			| "with"
-			| "TDZ";
+			| "with";
 		isStrict: boolean;
 		upper: Scope | null;
 		childScopes: Scope[];
@@ -185,8 +184,8 @@ export namespace Scope {
 		identifier: ESTree.Identifier | JSXIdentifier;
 		from: Scope;
 		resolved: Variable | null;
-		writeExpr: ESTree.Node | null;
-		init: boolean;
+		writeExpr?: ESTree.Expression | null;
+		init?: boolean;
 
 		isWrite(): boolean;
 
@@ -235,7 +234,6 @@ export namespace Scope {
 					| ESTree.ArrowFunctionExpression;
 				parent: null;
 		  }
-		| { type: "TDZ"; node: any; parent: null }
 		| {
 				type: "Variable";
 				node: ESTree.VariableDeclarator;
