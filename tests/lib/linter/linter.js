@@ -2515,7 +2515,7 @@ describe("Linter with FlatConfigArray", () => {
 
 		describe("Rule Severity", () => {
 			it("rule should run as warning when set to 1 with a config array", () => {
-				const ruleId = "semi", // TODO
+				const ruleId = "no-var",
 					configs = createFlatConfigArray({
 						files: ["**/*.js"],
 						rules: {
@@ -2524,7 +2524,7 @@ describe("Linter with FlatConfigArray", () => {
 					});
 
 				configs.normalizeSync();
-				const messages = linter.verify("foo", configs, filename);
+				const messages = linter.verify("var foo", configs, filename);
 				const suppressedMessages = linter.getSuppressedMessages();
 
 				assert.strictEqual(
@@ -2538,7 +2538,7 @@ describe("Linter with FlatConfigArray", () => {
 			});
 
 			it("rule should run as warning when set to 1 with a plain array", () => {
-				const ruleId = "semi", // TODO
+				const ruleId = "no-var",
 					configs = [
 						{
 							files: ["**/*.js"],
@@ -2548,7 +2548,7 @@ describe("Linter with FlatConfigArray", () => {
 						},
 					];
 
-				const messages = linter.verify("foo", configs, filename);
+				const messages = linter.verify("var foo", configs, filename);
 				const suppressedMessages = linter.getSuppressedMessages();
 
 				assert.strictEqual(
@@ -2562,7 +2562,7 @@ describe("Linter with FlatConfigArray", () => {
 			});
 
 			it("rule should run as warning when set to 1 with an object", () => {
-				const ruleId = "semi", // TODO
+				const ruleId = "no-var",
 					config = {
 						files: ["**/*.js"],
 						rules: {
@@ -2570,7 +2570,7 @@ describe("Linter with FlatConfigArray", () => {
 						},
 					};
 
-				const messages = linter.verify("foo", config, filename);
+				const messages = linter.verify("var foo", config, filename);
 				const suppressedMessages = linter.getSuppressedMessages();
 
 				assert.strictEqual(
