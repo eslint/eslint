@@ -1582,8 +1582,8 @@ describe("Linter with FlatConfigArray", () => {
 			const code = "var answer = 6 * 7";
 
 			it("should be configurable by only setting the integer value", () => {
-				const rule = "semi",
-					config = { rules: {} }; // TODO
+				const rule = "no-var",
+					config = { rules: {} };
 
 				config.rules[rule] = 1;
 
@@ -1597,8 +1597,8 @@ describe("Linter with FlatConfigArray", () => {
 			});
 
 			it("should be configurable by only setting the string value", () => {
-				const rule = "semi",
-					config = { rules: {} }; // TODO
+				const rule = "no-var",
+					config = { rules: {} };
 
 				config.rules[rule] = "warn";
 
@@ -1613,8 +1613,8 @@ describe("Linter with FlatConfigArray", () => {
 			});
 
 			it("should be configurable by passing in values as an array", () => {
-				const rule = "semi",
-					config = { rules: {} }; // TODO
+				const rule = "no-var",
+					config = { rules: {} };
 
 				config.rules[rule] = [1];
 
@@ -1628,8 +1628,8 @@ describe("Linter with FlatConfigArray", () => {
 			});
 
 			it("should be configurable by passing in string value as an array", () => {
-				const rule = "semi",
-					config = { rules: {} }; // TODO
+				const rule = "no-var",
+					config = { rules: {} };
 
 				config.rules[rule] = ["warn"];
 
@@ -1644,14 +1644,14 @@ describe("Linter with FlatConfigArray", () => {
 			});
 
 			it("should not be configurable by setting other value", () => {
-				const rule = "semi",
-					config = { rules: {} }; // TODO
+				const rule = "no-var",
+					config = { rules: {} };
 
 				config.rules[rule] = "1";
 
 				assert.throws(() => {
 					linter.verify(code, config, filename);
-				}, /Key "rules": Key "semi": Expected severity/u);
+				}, /Key "rules": Key "no-var": Expected severity/u);
 			});
 
 			it("should process empty config", () => {
@@ -1672,7 +1672,7 @@ describe("Linter with FlatConfigArray", () => {
 				rules: {
 					"no-mixed-spaces-and-tabs": 1, // TODO
 					"eol-last": 1, // TODO
-					semi: [1, "always"],
+					semi: [1, "always"], // TODO
 				},
 			};
 
@@ -1696,7 +1696,7 @@ describe("Linter with FlatConfigArray", () => {
 				rules: {
 					"no-mixed-spaces-and-tabs": 1, // TODO
 					"eol-last": 1, // TODO
-					semi: [1, "always"],
+					semi: [1, "always"], // TODO
 				},
 			};
 
@@ -2843,7 +2843,7 @@ describe("Linter with FlatConfigArray", () => {
 				it("should filter rules by severity", () => {
 					const code = ['alert("test")'].join("\n");
 					const config = {
-						rules: { "no-alert": 1, semi: 2 },
+						rules: { "no-alert": 1, semi: 2 }, // TODO
 					};
 
 					const messages = linter.verify(code, config, {
@@ -2859,7 +2859,7 @@ describe("Linter with FlatConfigArray", () => {
 						'alert("test")',
 					].join("\n");
 					const config = {
-						rules: { "no-alert": 1, semi: 2 },
+						rules: { "no-alert": 1, semi: 2 }, // TODO
 					};
 
 					const messages = linter.verify(code, config, {
@@ -2876,7 +2876,7 @@ describe("Linter with FlatConfigArray", () => {
 						'notAnAlert("test")',
 					].join("\n");
 					const config = {
-						rules: { "no-alert": 1, semi: 2 },
+						rules: { "no-alert": 1, semi: 2 }, // TODO
 					};
 
 					const messages = linter.verify(code, config, {
@@ -2893,7 +2893,7 @@ describe("Linter with FlatConfigArray", () => {
 						'alert("test")',
 					].join("\n");
 					const config = {
-						rules: { "no-alert": 1, semi: 2 },
+						rules: { "no-alert": 1, semi: 2 }, // TODO
 					};
 
 					const messages = linter.verify(code, config, {
@@ -2910,7 +2910,7 @@ describe("Linter with FlatConfigArray", () => {
 						'alert("test");',
 					].join("\n");
 					const config = {
-						rules: { "no-alert": 1, semi: 2 },
+						rules: { "no-alert": 1, semi: 2 }, // TODO
 					};
 
 					const messages = linter.verify(code, config, {
@@ -5947,8 +5947,8 @@ var a = "test2";
 					const config = {
 						rules: {
 							"no-alert": 1,
-							quotes: [1, "double"],
-							semi: [1, "always"],
+							quotes: [1, "double"], // TODO
+							semi: [1, "always"], // TODO
 							"no-console": 1,
 						},
 					};
