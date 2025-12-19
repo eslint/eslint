@@ -2585,15 +2585,15 @@ describe("Linter with FlatConfigArray", () => {
 		});
 
 		describe("Code with a hashbang comment", () => {
-			const code = "#!bin/program\n\nvar foo;;";
+			const code = "#!bin/program\n\nvar foo;";
 
 			it("should preserve line numbers", () => {
-				const config = { rules: { "no-extra-semi": 1 } }; // TODO
+				const config = { rules: { "no-var": 1 } };
 				const messages = linter.verify(code, config);
 				const suppressedMessages = linter.getSuppressedMessages();
 
 				assert.strictEqual(messages.length, 1);
-				assert.strictEqual(messages[0].ruleId, "no-extra-semi");
+				assert.strictEqual(messages[0].ruleId, "no-var");
 				assert.strictEqual(messages[0].line, 3);
 
 				assert.strictEqual(suppressedMessages.length, 0);
@@ -2841,9 +2841,9 @@ describe("Linter with FlatConfigArray", () => {
 				});
 
 				it("should filter rules by severity", () => {
-					const code = ['alert("test")'].join("\n");
+					const code = ['alert("t\\est")'].join("\n");
 					const config = {
-						rules: { "no-alert": 1, semi: 2 }, // TODO
+						rules: { "no-alert": 1, "no-useless-escape": 2 },
 					};
 
 					const messages = linter.verify(code, config, {
@@ -2856,10 +2856,10 @@ describe("Linter with FlatConfigArray", () => {
 				it("should ignore disable directives in filtered rules", () => {
 					const code = [
 						"// eslint-disable-next-line no-alert",
-						'alert("test")',
+						'alert("t\\est")',
 					].join("\n");
 					const config = {
-						rules: { "no-alert": 1, semi: 2 }, // TODO
+						rules: { "no-alert": 1, "no-useless-escape": 2 },
 					};
 
 					const messages = linter.verify(code, config, {
@@ -2873,10 +2873,10 @@ describe("Linter with FlatConfigArray", () => {
 				it("should ignore disable directives in filtered rules even when unused", () => {
 					const code = [
 						"// eslint-disable-next-line no-alert",
-						'notAnAlert("test")',
+						'notAnAlert("t\\est")',
 					].join("\n");
 					const config = {
-						rules: { "no-alert": 1, semi: 2 }, // TODO
+						rules: { "no-alert": 1, "no-useless-escape": 2 },
 					};
 
 					const messages = linter.verify(code, config, {
@@ -2889,11 +2889,11 @@ describe("Linter with FlatConfigArray", () => {
 
 				it("should not ignore disable directives in non-filtered rules", () => {
 					const code = [
-						"// eslint-disable-next-line semi",
-						'alert("test")',
+						"// eslint-disable-next-line no-useless-escape",
+						'alert("t\\est")',
 					].join("\n");
 					const config = {
-						rules: { "no-alert": 1, semi: 2 }, // TODO
+						rules: { "no-alert": 1, "no-useless-escape": 2 },
 					};
 
 					const messages = linter.verify(code, config, {
@@ -2906,11 +2906,11 @@ describe("Linter with FlatConfigArray", () => {
 
 				it("should report disable directives in non-filtered rules when unused", () => {
 					const code = [
-						"// eslint-disable-next-line semi",
-						'alert("test");',
+						"// eslint-disable-next-line no-useless-escape",
+						'alert("test")',
 					].join("\n");
 					const config = {
-						rules: { "no-alert": 1, semi: 2 }, // TODO
+						rules: { "no-alert": 1, "no-useless-escape": 2 },
 					};
 
 					const messages = linter.verify(code, config, {
@@ -2921,7 +2921,7 @@ describe("Linter with FlatConfigArray", () => {
 					assert.strictEqual(messages.length, 1);
 					assert.strictEqual(
 						messages[0].message,
-						"Unused eslint-disable directive (no problems were reported from 'semi').",
+						"Unused eslint-disable directive (no problems were reported from 'no-useless-escape').",
 					);
 				});
 			});
