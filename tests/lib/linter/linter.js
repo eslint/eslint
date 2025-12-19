@@ -9453,7 +9453,7 @@ var a = "test2";
 				it("should report the new rule", () => {
 					assert.throws(() => {
 						linter.verify(code, {
-							rules: { "no-comma-dangle": 2 }, // TODO
+							rules: { "no-comma-dangle": 2 },
 						});
 					}, /Key "rules": Key "no-comma-dangle": Rule "no-comma-dangle" was removed and replaced by "comma-dangle"/u);
 				});
@@ -9618,7 +9618,7 @@ var a = "test2";
 				"var a",
 				{
 					rules: {
-						semi: 2, // TODO
+						"no-var": 2,
 					},
 				},
 				{ filename: "test.js" },
@@ -9627,7 +9627,7 @@ var a = "test2";
 
 			assert.strictEqual(
 				messages.output,
-				"var a;",
+				"let a",
 				"Fixes were applied correctly",
 			);
 			assert.isTrue(messages.fixed);
@@ -9638,7 +9638,7 @@ var a = "test2";
 		it("does not require a third argument", () => {
 			const fixResult = linter.verifyAndFix("var a", {
 				rules: {
-					semi: 2, // TODO
+					"no-var": 2,
 				},
 			});
 			const suppressedMessages = linter.getSuppressedMessages();
@@ -9646,7 +9646,7 @@ var a = "test2";
 			assert.deepStrictEqual(fixResult, {
 				fixed: true,
 				messages: [],
-				output: "var a;",
+				output: "let a",
 			});
 
 			assert.strictEqual(suppressedMessages.length, 0);
@@ -9655,13 +9655,13 @@ var a = "test2";
 		it("does not include suggestions in autofix results", () => {
 			const fixResult = linter.verifyAndFix("var foo = /\\#/", {
 				rules: {
-					semi: 2, // TODO
+					"no-var": 2,
 					"no-useless-escape": 2,
 				},
 			});
 			const suppressedMessages = linter.getSuppressedMessages();
 
-			assert.strictEqual(fixResult.output, "var foo = /\\#/;");
+			assert.strictEqual(fixResult.output, "let foo = /\\#/");
 			assert.strictEqual(fixResult.fixed, true);
 			assert.strictEqual(
 				fixResult.messages[0].suggestions.length > 0,
@@ -9676,7 +9676,7 @@ var a = "test2";
 				"var a",
 				{
 					rules: {
-						semi: 2, // TODO
+						"no-var": 2,
 					},
 				},
 				{ fix: false },
