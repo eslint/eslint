@@ -3866,11 +3866,16 @@ describe("Linter with FlatConfigArray", () => {
 							languageOptions: {
 								sourceType: "script",
 							},
-							rules: { quotes: [2, "double"] }, // TODO
+							rules: {
+								"no-useless-escape": [
+									2,
+									{ allowRegexCharacters: ["-"] },
+								],
+							},
 						};
 						const codeA =
-							"/*eslint quotes: 0*/ function bar() { return '2'; }";
-						const codeB = "function foo() { return '1'; }";
+							"/*eslint no-useless-escape: 0*/ function bar() { return '\\a'; }";
+						const codeB = "function foo() { return '\\a'; }";
 						let messages = linter.verify(codeA, config, filename);
 						let suppressedMessages = linter.getSuppressedMessages();
 
@@ -3885,10 +3890,17 @@ describe("Linter with FlatConfigArray", () => {
 					});
 
 					it("rules should not change initial config", () => {
-						const config = { rules: { quotes: [2, "double"] } }; // TODO
+						const config = {
+							rules: {
+								"no-useless-escape": [
+									2,
+									{ allowRegexCharacters: ["-"] },
+								],
+							},
+						};
 						const codeA =
-							"/*eslint quotes: [0, \"single\"]*/ function bar() { return '2'; }";
-						const codeB = "function foo() { return '1'; }";
+							"/*eslint no-useless-escape: [0, { allowRegexCharacters: ['a'] }]*/ function bar() { return '\\a'; }";
+						const codeB = "function foo() { return '\\a'; }";
 						let messages = linter.verify(codeA, config, filename);
 						let suppressedMessages = linter.getSuppressedMessages();
 
@@ -5400,12 +5412,12 @@ var a = "test2";
 
 				it("should report no violation", () => {
 					const code = [
-						"/* eslint-disable quotes */",
+						"/* eslint-disable no-useless-escape */",
 						'console.log("foo");',
-						"/* eslint-enable quotes */",
+						"/* eslint-enable no-useless-escape */",
 					].join("\n");
 					const config = {
-						rules: { quotes: 2 }, // TODO
+						rules: { "no-useless-escape": 2 },
 						linterOptions: { reportUnusedDisableDirectives: 0 },
 					};
 
