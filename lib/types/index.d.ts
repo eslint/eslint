@@ -1047,6 +1047,7 @@ export namespace Linter {
 		disableFixes?: boolean | undefined;
 		allowInlineConfig?: boolean | undefined;
 		reportUnusedDisableDirectives?: boolean | undefined;
+		ruleFilter?: () => {}; // TODO
 	}
 
 	type LintSuggestion = CoreLintSuggestion;
@@ -1063,7 +1064,8 @@ export namespace Linter {
 	}
 
 	interface FixOptions extends LintOptions {
-		fix?: boolean | undefined;
+		fix?: boolean | undefined; // TODO: Accept function?
+		stats?: any; // TODO
 	}
 
 	interface FixReport {
