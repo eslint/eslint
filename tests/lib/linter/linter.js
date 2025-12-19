@@ -9825,6 +9825,62 @@ var a = "test2";
 			}, /Fixable rules must set the `meta\.fixable` property/u);
 		});
 
+		describe("Options", () => {
+			describe("filename", () => {
+				it("should allow filename to be passed on options object", () => {
+					const filenameChecker = sinon.spy(context => {
+						assert.strictEqual(context.filename, "foo.js");
+						return {};
+					});
+
+					const config = {
+						plugins: {
+							test: {
+								rules: {
+									checker: {
+										create: filenameChecker,
+									},
+								},
+							},
+						},
+						rules: {
+							"test/checker": "error",
+						},
+					};
+
+					linter.verifyAndFix("foo;", config, {
+						filename: "foo.js",
+					});
+					assert(filenameChecker.calledOnce);
+				});
+			});
+
+			it("should allow filename to be passed as third argument", () => {
+				const filenameChecker = sinon.spy(context => {
+					assert.strictEqual(context.filename, "bar.js");
+					return {};
+				});
+
+				const config = {
+					plugins: {
+						test: {
+							rules: {
+								checker: {
+									create: filenameChecker,
+								},
+							},
+						},
+					},
+					rules: {
+						"test/checker": "error",
+					},
+				};
+
+				linter.verifyAndFix("foo;", config, "bar.js");
+				assert(filenameChecker.calledOnce);
+			});
+		});
+
 		describe("Circular autofixes", () => {
 			it("should stop fixing if a circular fix is detected", () => {
 				const config = {
@@ -9905,6 +9961,125 @@ var a = "test2";
 				const fixResult = linter.verifyAndFix(initialCode, config, {
 					filename: "test.js",
 				});
+
+				assert.strictEqual(
+					fixResult.fixed,
+					true,
+					"Fixing was applied.",
+				);
+				assert.strictEqual(
+					fixResult.output,
+					"-a",
+					"Output should match the original input due to circular fixes.",
+				);
+				assert.strictEqual(
+					fixResult.messages.length,
+					1,
+					"There should be one remaining lint message after detecting circular fixes.",
+				);
+				assert.strictEqual(
+					fixResult.messages[0].ruleId,
+					"test/remove-leading-hyphen",
+				);
+
+				// Verify the warning was emitted
+				assert(
+					warningService.emitCircularFixesWarning.calledOnceWithExactly(
+						"test.js",
+					),
+					"calls `warningService.emitCircularFixesWarning()` once with the correct argument",
+				);
+
+				const suppressedMessages = linter.getSuppressedMessages();
+
+				assert.strictEqual(
+					suppressedMessages.length,
+					0,
+					"No suppressed messages should exist.",
+				);
+			});
+
+			it("should stop fixing if a circular fix is detected when filename to be passed as third argument", () => {
+				const config = {
+					plugins: {
+						test: {
+							rules: {
+								"add-leading-hyphen": {
+									meta: {
+										fixable: "whitespace",
+									},
+									create(context) {
+										return {
+											Program(node) {
+												const sourceCode =
+													context.sourceCode;
+												const hasLeadingHyphen =
+													sourceCode
+														.getText(node)
+														.startsWith("-");
+
+												if (!hasLeadingHyphen) {
+													context.report({
+														node,
+														message:
+															"Add leading hyphen.",
+														fix(fixer) {
+															return fixer.insertTextBefore(
+																node,
+																"-",
+															);
+														},
+													});
+												}
+											},
+										};
+									},
+								},
+								"remove-leading-hyphen": {
+									meta: {
+										fixable: "whitespace",
+									},
+									create(context) {
+										return {
+											Program(node) {
+												const sourceCode =
+													context.sourceCode;
+												const hasLeadingHyphen =
+													sourceCode
+														.getText(node)
+														.startsWith("-");
+
+												if (hasLeadingHyphen) {
+													context.report({
+														node,
+														message:
+															"Remove leading hyphen.",
+														fix(fixer) {
+															return fixer.removeRange(
+																[0, 1],
+															);
+														},
+													});
+												}
+											},
+										};
+									},
+								},
+							},
+						},
+					},
+					rules: {
+						"test/add-leading-hyphen": "error",
+						"test/remove-leading-hyphen": "error",
+					},
+				};
+
+				const initialCode = "-a";
+				const fixResult = linter.verifyAndFix(
+					initialCode,
+					config,
+					"test.js",
+				);
 
 				assert.strictEqual(
 					fixResult.fixed,
