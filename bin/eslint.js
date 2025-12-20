@@ -146,9 +146,9 @@ ${getErrorMessage(error)}`;
 			"You can also run this command directly using 'npm init @eslint/config@latest'.",
 		);
 
-		const spawn = require("cross-spawn");
+		const { spawnSync } = require("node:child_process");
 
-		spawn.sync("npm", ["init", "@eslint/config@latest"], {
+		spawnSync("npm", ["init", "@eslint/config@latest"], {
 			encoding: "utf8",
 			stdio: "inherit",
 		});
@@ -161,9 +161,9 @@ ${getErrorMessage(error)}`;
 			"You can also run this command directly using 'npx @eslint/mcp@latest'.",
 		);
 
-		const spawn = require("cross-spawn");
+		const { spawnSync } = require("node:child_process");
 
-		spawn.sync("npx", ["@eslint/mcp@latest"], {
+		spawnSync("npx", ["@eslint/mcp@latest"], {
 			encoding: "utf8",
 			stdio: "inherit",
 		});

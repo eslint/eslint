@@ -11,7 +11,7 @@
 
 const assert = require("chai").assert;
 const sinon = require("sinon");
-const spawn = require("cross-spawn");
+const childProcess = require("node:child_process");
 const os = require("node:os");
 const { unIndent } = require("../../_utils");
 const RuntimeInfo = require("../../../lib/shared/runtime-info");
@@ -64,7 +64,7 @@ describe("RuntimeInfo", () => {
 		beforeEach(() => {
 			os.platform = () => "darwin";
 			os.release = () => "20.3.0";
-			spawnSyncStub = sinon.stub(spawn, "sync");
+			spawnSyncStub = sinon.stub(childProcess, "spawnSync");
 			logErrorStub = sinon.stub(log, "error");
 			processVersionStub = sinon
 				.stub(process, "version")
