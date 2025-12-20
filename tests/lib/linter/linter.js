@@ -9853,31 +9853,81 @@ var a = "test2";
 					});
 					assert(filenameChecker.calledOnce);
 				});
-			});
 
-			it("should allow filename to be passed as third argument", () => {
-				const filenameChecker = sinon.spy(context => {
-					assert.strictEqual(context.filename, "bar.js");
-					return {};
-				});
+				it("should allow filename to be passed as third argument", () => {
+					const filenameChecker = sinon.spy(context => {
+						assert.strictEqual(context.filename, "bar.js");
+						return {};
+					});
 
-				const config = {
-					plugins: {
-						test: {
-							rules: {
-								checker: {
-									create: filenameChecker,
+					const config = {
+						plugins: {
+							test: {
+								rules: {
+									checker: {
+										create: filenameChecker,
+									},
 								},
 							},
 						},
-					},
-					rules: {
-						"test/checker": "error",
-					},
-				};
+						rules: {
+							"test/checker": "error",
+						},
+					};
 
-				linter.verifyAndFix("foo;", config, "bar.js");
-				assert(filenameChecker.calledOnce);
+					linter.verifyAndFix("foo;", config, "bar.js");
+					assert(filenameChecker.calledOnce);
+				});
+
+				it("should default filename to <input> when options object doesn't have filename", () => {
+					const filenameChecker = sinon.spy(context => {
+						assert.strictEqual(context.filename, "<input>");
+						return {};
+					});
+
+					const config = {
+						plugins: {
+							test: {
+								rules: {
+									checker: {
+										create: filenameChecker,
+									},
+								},
+							},
+						},
+						rules: {
+							"test/checker": "error",
+						},
+					};
+
+					linter.verifyAndFix("foo;", config, {});
+					assert(filenameChecker.calledOnce);
+				});
+
+				it("should default filename to <input> when only two arguments are passed", () => {
+					const filenameChecker = sinon.spy(context => {
+						assert.strictEqual(context.filename, "<input>");
+						return {};
+					});
+
+					const config = {
+						plugins: {
+							test: {
+								rules: {
+									checker: {
+										create: filenameChecker,
+									},
+								},
+							},
+						},
+						rules: {
+							"test/checker": "error",
+						},
+					};
+
+					linter.verifyAndFix("foo;", config);
+					assert(filenameChecker.calledOnce);
+				});
 			});
 		});
 
@@ -9999,7 +10049,7 @@ var a = "test2";
 				);
 			});
 
-			it("should stop fixing if a circular fix is detected when filename to be passed as third argument", () => {
+			it("should stop fixing if a circular fix is detected when filename is passed as third argument", () => {
 				const config = {
 					plugins: {
 						test: {
