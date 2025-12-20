@@ -6286,14 +6286,14 @@ let c; // var a = "test2";
 
 				it("should ignore violations of multiple rules when specified", () => {
 					const code = [
-						"// eslint-disable-next-line no-alert, quotes",
-						'alert("test");',
+						"// eslint-disable-next-line no-alert, no-useless-escape",
+						'alert("t\\est");',
 						"console.log('test');",
 					].join("\n");
 					const config = {
 						rules: {
 							"no-alert": 1,
-							quotes: [1, "single"], // TODO
+							"no-useless-escape": 1,
 							"no-console": 1,
 						},
 					};
@@ -6308,40 +6308,54 @@ let c; // var a = "test2";
 						suppressedMessages[0].ruleId,
 						"no-alert",
 					);
-					assert.strictEqual(suppressedMessages[1].ruleId, "quotes");
+					assert.strictEqual(
+						suppressedMessages[1].ruleId,
+						"no-useless-escape",
+					);
 				});
 
 				it("should ignore violations of multiple rules when specified in multiple lines", () => {
 					const code = [
 						"/* eslint-disable-next-line",
 						"no-alert,",
-						"quotes",
+						"no-useless-escape",
 						"*/",
-						'alert("test");',
+						'alert("t\\est");',
 						"console.log('test');",
 					].join("\n");
 					const config = {
 						rules: {
 							"no-alert": 1,
-							quotes: [1, "single"], // TODO
+							"no-useless-escape": 1,
 							"no-console": 1,
 						},
 					};
 					const messages = linter.verify(code, config, filename);
+					const suppressedMessages = linter.getSuppressedMessages();
 
 					assert.strictEqual(messages.length, 1);
 					assert.strictEqual(messages[0].ruleId, "no-console");
+
+					assert.strictEqual(suppressedMessages.length, 2);
+					assert.strictEqual(
+						suppressedMessages[0].ruleId,
+						"no-alert",
+					);
+					assert.strictEqual(
+						suppressedMessages[1].ruleId,
+						"no-useless-escape",
+					);
 				});
 
 				it("should ignore violations of multiple rules when specified in mixed comments", () => {
 					const code = [
-						"/* eslint-disable-next-line no-alert */ // eslint-disable-next-line quotes",
-						'alert("test");',
+						"/* eslint-disable-next-line no-alert */ // eslint-disable-next-line no-useless-escape",
+						'alert("t\\est");',
 					].join("\n");
 					const config = {
 						rules: {
 							"no-alert": 1,
-							quotes: [1, "single"], // TODO
+							"no-useless-escape": 1,
 						},
 					};
 					const messages = linter.verify(code, config, filename);
@@ -6354,25 +6368,39 @@ let c; // var a = "test2";
 						suppressedMessages[0].ruleId,
 						"no-alert",
 					);
-					assert.strictEqual(suppressedMessages[1].ruleId, "quotes"); // TODO
+					assert.strictEqual(
+						suppressedMessages[1].ruleId,
+						"no-useless-escape",
+					);
 				});
 
 				it("should ignore violations of multiple rules when specified in mixed single line and multi line comments", () => {
 					const code = [
 						"/* eslint-disable-next-line",
 						"no-alert",
-						"*/ // eslint-disable-next-line quotes",
-						'alert("test");',
+						"*/ // eslint-disable-next-line no-useless-escape",
+						'alert("t\\est");',
 					].join("\n");
 					const config = {
 						rules: {
 							"no-alert": 1,
-							quotes: [1, "single"], // TODO
+							"no-useless-escape": 1,
 						},
 					};
 					const messages = linter.verify(code, config, filename);
+					const suppressedMessages = linter.getSuppressedMessages();
 
 					assert.strictEqual(messages.length, 0);
+
+					assert.strictEqual(suppressedMessages.length, 2);
+					assert.strictEqual(
+						suppressedMessages[0].ruleId,
+						"no-alert",
+					);
+					assert.strictEqual(
+						suppressedMessages[1].ruleId,
+						"no-useless-escape",
+					);
 				});
 
 				it("should ignore violations of only the specified rule on next line", () => {
