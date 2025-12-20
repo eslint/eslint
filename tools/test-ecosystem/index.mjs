@@ -91,14 +91,13 @@ async function runTests(pluginKey, pluginSettings) {
 	// 4. Link the built ESLint into the plugin
 	runCommand("npm", "link", "eslint");
 
+	// 5. Build, if the plugin defines a build script
 	const packageJsonFileUrl = pathToFileURL(
 		path.join(directory, "package.json"),
 	);
 	const packageJson = await import(packageJsonFileUrl.href, {
 		with: { type: "json" },
 	});
-
-	// 5. Build, if the plugin defines a build script
 	if (packageJson.default.scripts.build) {
 		runCommand("nr", "build");
 	}
