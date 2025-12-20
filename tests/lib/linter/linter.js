@@ -1667,12 +1667,12 @@ describe("Linter with FlatConfigArray", () => {
 
 	describe("verify()", () => {
 		it("should report warnings in order by line and column when called", () => {
-			const code = "foo()\n    alert('test')";
+			const code = "var foo\n    alert('t\\est')";
 			const config = {
 				rules: {
-					"no-mixed-spaces-and-tabs": 1, // TODO
-					"eol-last": 1, // TODO
-					semi: [1, "always"], // TODO
+					"no-var": 1,
+					"no-alert": 1,
+					"no-useless-escape": 1,
 				},
 			};
 
@@ -1681,22 +1681,22 @@ describe("Linter with FlatConfigArray", () => {
 
 			assert.strictEqual(messages.length, 3);
 			assert.strictEqual(messages[0].line, 1);
-			assert.strictEqual(messages[0].column, 6);
+			assert.strictEqual(messages[0].column, 1);
 			assert.strictEqual(messages[1].line, 2);
-			assert.strictEqual(messages[1].column, 18);
+			assert.strictEqual(messages[1].column, 5);
 			assert.strictEqual(messages[2].line, 2);
-			assert.strictEqual(messages[2].column, 18);
+			assert.strictEqual(messages[2].column, 13);
 
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
 
 		it("should report ignored file when filename isn't matched in the config array", () => {
-			const code = "foo()\n    alert('test')";
+			const code = "var foo\n    alert('t\\est')";
 			const config = {
 				rules: {
-					"no-mixed-spaces-and-tabs": 1, // TODO
-					"eol-last": 1, // TODO
-					semi: [1, "always"], // TODO
+					"no-var": 1,
+					"no-alert": 1,
+					"no-useless-escape": 1,
 				},
 			};
 
