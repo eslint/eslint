@@ -1361,6 +1361,74 @@ describe("bin/eslint.js", () => {
 		});
 	});
 
+	describe("With flag", () => {
+		const spawnSyncPatchOptions = {
+			execArgv: [
+				"--require",
+				path.join(__dirname, "../fixtures/bin/spawn-sync-patch.js"),
+			],
+		};
+		const spawnSyncArgsRegExp = /^spawnSync called with args: (.*)$/mu;
+
+		it("--init", async () => {
+			const child = runESLint(["--init"], spawnSyncPatchOptions);
+			const exitCodeAssertion = assertExitCode(child, 0);
+			const outputAssertion = getOutput(child).then(output => {
+				const match = output.stdout.match(spawnSyncArgsRegExp);
+				assert(match, "spawnSync was not called");
+				const actualSpawnArgs = JSON.parse(match[1]);
+				const expectedSpawnArgs = [
+					"npm",
+					["init", "@eslint/config@latest"],
+					{ encoding: "utf8", stdio: "inherit" },
+				];
+				assert.deepStrictEqual(actualSpawnArgs, expectedSpawnArgs);
+			});
+
+			return Promise.all([exitCodeAssertion, outputAssertion]);
+		});
+
+		it("--init-config", async () => {
+			const child = runESLint(
+				["--inspect-config"],
+				spawnSyncPatchOptions,
+			);
+			const exitCodeAssertion = assertExitCode(child, 0);
+			const outputAssertion = getOutput(child).then(output => {
+				const match = output.stdout.match(spawnSyncArgsRegExp);
+				assert(match, "spawnSync was not called");
+				const actualSpawnArgs = JSON.parse(match[1]);
+				actualSpawnArgs[1].splice(1); // Remove dynamic arguments
+				const expectedSpawnArgs = [
+					"npx",
+					["@eslint/config-inspector@latest"],
+					{ encoding: "utf8", stdio: "inherit" },
+				];
+				assert.deepStrictEqual(actualSpawnArgs, expectedSpawnArgs);
+			});
+
+			return Promise.all([exitCodeAssertion, outputAssertion]);
+		});
+
+		it("--mcp", async () => {
+			const child = runESLint(["--mcp"], spawnSyncPatchOptions);
+			const exitCodeAssertion = assertExitCode(child, 0);
+			const outputAssertion = getOutput(child).then(output => {
+				const match = output.stdout.match(spawnSyncArgsRegExp);
+				assert(match, "spawnSync was not called");
+				const actualSpawnArgs = JSON.parse(match[1]);
+				const expectedSpawnArgs = [
+					"npx",
+					["@eslint/mcp@latest"],
+					{ encoding: "utf8", stdio: "inherit" },
+				];
+				assert.deepStrictEqual(actualSpawnArgs, expectedSpawnArgs);
+			});
+
+			return Promise.all([exitCodeAssertion, outputAssertion]);
+		});
+	});
+
 	describe("Multithread mode", () => {
 		it("should warn exactly once for an empty config file", async () => {
 			const cwd = path.join(
