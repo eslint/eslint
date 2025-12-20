@@ -5372,11 +5372,11 @@ alert('test');
 
 				describe("when evaluating code with comments that contain escape sequences", () => {
 					const code = String.raw`
-/* eslint max-len: ["error", 1, { ignoreComments: true, ignorePattern: "console\\.log\\(" }] */
-console.log("test");
-consolexlog("test2");
-var a = "test2";
-`; // TODO: `max-len`
+/* eslint no-inline-comments: ["error", { ignorePattern: "console\\.log\\(" }] */
+let a; // console.log("test");
+let b; // consolexlog("test2");
+let c; // var a = "test2";
+`;
 
 					it("should validate correctly", () => {
 						const config = { rules: {} };
@@ -5386,20 +5386,26 @@ var a = "test2";
 							linter.getSuppressedMessages();
 
 						assert.strictEqual(messages.length, 2);
-						assert.strictEqual(message1.ruleId, "max-len");
+						assert.strictEqual(
+							message1.ruleId,
+							"no-inline-comments",
+						);
 						assert.strictEqual(
 							message1.message,
-							"This line has a length of 21. Maximum allowed is 1.",
+							"Unexpected comment inline with code.",
 						);
 						assert.strictEqual(message1.line, 4);
-						assert.strictEqual(message1.column, 1);
-						assert.strictEqual(message2.ruleId, "max-len");
+						assert.strictEqual(message1.column, 8);
+						assert.strictEqual(
+							message2.ruleId,
+							"no-inline-comments",
+						);
 						assert.strictEqual(
 							message2.message,
-							"This line has a length of 16. Maximum allowed is 1.",
+							"Unexpected comment inline with code.",
 						);
 						assert.strictEqual(message2.line, 5);
-						assert.strictEqual(message2.column, 1);
+						assert.strictEqual(message2.column, 8);
 
 						assert.strictEqual(suppressedMessages.length, 0);
 					});
