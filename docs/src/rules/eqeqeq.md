@@ -144,6 +144,26 @@ foo == null
 ```js
 ["error", "always", {"null": "ignore"}]
 ```
+### TypeScript Usage Example
+
+For TypeScript projects, you might want to allow `== null` to check for both `null` and `undefined`:
+
+```javascript
+// eslint.config.js
+export default {
+  rules: {
+    "eqeqeq": ["error", "always", { "null": "ignore" }]
+  }
+};
+```
+
+This allows:
+
+```javascript
+if (value == null) {
+  // Checks both null and undefined
+}
+```
 
 ## When Not To Use It
 
