@@ -5973,14 +5973,14 @@ var a = "test2";
 
 				it("should not report a violation", () => {
 					const code = [
-						"alert('test') // eslint-disable-line no-alert, quotes, semi",
-						"console.log('test'); // eslint-disable-line",
+						"alert('t\\est' == 'a') // eslint-disable-line no-alert, no-useless-escape, eqeqeq",
+						"console.log('t\\est'); // eslint-disable-line",
 					].join("\n");
 					const config = {
 						rules: {
 							"no-alert": 1,
-							quotes: [1, "double"], // TODO
-							semi: [1, "always"], // TODO
+							"no-useless-escape": 1,
+							eqeqeq: 1,
 							"no-console": 1,
 						},
 					};
@@ -5994,14 +5994,14 @@ var a = "test2";
 
 				it("should not report a violation", () => {
 					const code = [
-						"alert('test') /* eslint-disable-line no-alert, quotes, semi */",
-						"console.log('test'); /* eslint-disable-line */",
+						"alert('t\\est' == 'a') /* eslint-disable-line no-alert, no-useless-escape, eqeqeq */",
+						"console.log('t\\est'); /* eslint-disable-line */",
 					].join("\n");
 					const config = {
 						rules: {
 							"no-alert": 1,
-							quotes: [1, "double"], // TODO
-							semi: [1, "always"], // TODO
+							"no-useless-escape": 1,
+							eqeqeq: 1,
 							"no-console": 1,
 						},
 					};
@@ -6015,12 +6015,12 @@ var a = "test2";
 
 				it("should ignore violations of multiple rules when specified in mixed comments", () => {
 					const code = [
-						' alert("test"); /* eslint-disable-line no-alert */ // eslint-disable-line quotes',
+						' alert("t\\est"); /* eslint-disable-line no-alert */ // eslint-disable-line no-useless-escape',
 					].join("\n");
 					const config = {
 						rules: {
 							"no-alert": 1,
-							quotes: [1, "single"], // TODO
+							"no-useless-escape": 1,
 						},
 					};
 					const messages = linter.verify(code, config, filename);
@@ -6033,7 +6033,10 @@ var a = "test2";
 						suppressedMessages[0].ruleId,
 						"no-alert",
 					);
-					assert.strictEqual(suppressedMessages[1].ruleId, "quotes");
+					assert.strictEqual(
+						suppressedMessages[1].ruleId,
+						"no-useless-escape",
+					);
 				});
 
 				it("should report no violation", () => {
@@ -6365,14 +6368,14 @@ var a = "test2";
 
 				it("should ignore violations of only the specified rule on next line", () => {
 					const code = [
-						"// eslint-disable-next-line quotes",
-						'alert("test");',
+						"// eslint-disable-next-line no-useless-escape",
+						'alert("t\\est");',
 						"console.log('test');",
 					].join("\n");
 					const config = {
 						rules: {
 							"no-alert": 1,
-							quotes: [1, "single"], // TODO
+							"no-useless-escape": 1,
 							"no-console": 1,
 						},
 					};
@@ -6384,7 +6387,10 @@ var a = "test2";
 					assert.strictEqual(messages[1].ruleId, "no-console");
 
 					assert.strictEqual(suppressedMessages.length, 1);
-					assert.strictEqual(suppressedMessages[0].ruleId, "quotes");
+					assert.strictEqual(
+						suppressedMessages[0].ruleId,
+						"no-useless-escape",
+					);
 				});
 
 				it("should ignore violations of specified rule on next line only", () => {
@@ -6417,13 +6423,13 @@ var a = "test2";
 				it("should ignore all rule violations on next line if none specified", () => {
 					const code = [
 						"// eslint-disable-next-line",
-						'alert("test");',
+						'alert("t\\est" == "a");',
 						"console.log('test')",
 					].join("\n");
 					const config = {
 						rules: {
-							semi: [1, "never"], // TODO
-							quotes: [1, "single"], // TODO
+							eqeqeq: 1,
+							"no-useless-escape": 1,
 							"no-alert": 1,
 							"no-console": 1,
 						},
@@ -6439,8 +6445,11 @@ var a = "test2";
 						suppressedMessages[0].ruleId,
 						"no-alert",
 					);
-					assert.strictEqual(suppressedMessages[1].ruleId, "quotes");
-					assert.strictEqual(suppressedMessages[2].ruleId, "semi");
+					assert.strictEqual(
+						suppressedMessages[1].ruleId,
+						"no-useless-escape",
+					);
+					assert.strictEqual(suppressedMessages[2].ruleId, "eqeqeq");
 				});
 
 				it("should ignore violations if eslint-disable-next-line is a block comment", () => {
