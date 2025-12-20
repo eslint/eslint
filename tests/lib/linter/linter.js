@@ -5350,8 +5350,8 @@ describe("Linter with FlatConfigArray", () => {
 
 				describe("when evaluating code with comments which have colon in its value", () => {
 					const code = String.raw`
-/* eslint max-len: [2, 100, 2, {ignoreUrls: true, ignorePattern: "data:image\\/|\\s*require\\s*\\(|^\\s*loader\\.lazy|-\\*-"}] */
-alert('test');
+/* eslint no-inline-comments: [2, {ignorePattern: "data:image\\/|\\s*require\\s*\\(|^\\s*loader\\.lazy|-\\*-"}] */
+alert('test'); // Inline comment
 `;
 
 					it("should not parse errors, should report a violation", () => {
@@ -5360,10 +5360,13 @@ alert('test');
 							linter.getSuppressedMessages();
 
 						assert.strictEqual(messages.length, 1);
-						assert.strictEqual(messages[0].ruleId, "max-len");
+						assert.strictEqual(
+							messages[0].ruleId,
+							"no-inline-comments",
+						);
 						assert.strictEqual(
 							messages[0].message,
-							"This line has a length of 129. Maximum allowed is 100.",
+							"Unexpected comment inline with code.",
 						);
 
 						assert.strictEqual(suppressedMessages.length, 0);
