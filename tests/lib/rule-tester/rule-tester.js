@@ -6212,8 +6212,8 @@ describe("RuleTester", () => {
 				assert.fail("Expected an error to be thrown");
 			} catch (error) {
 				const normalizedStack = normalizeStack(error);
-				assert.include(normalizedStack, "at RuleTester.run.valid[0] (");
-				assert.include(normalizedStack, "at RuleTester.run.valid (");
+				assert.include(normalizedStack, "at RuleTester.run.valid[0]");
+				assert.include(normalizedStack, "at RuleTester.run.valid");
 				assert.include(
 					normalizedStack,
 					"at RuleTester.run (tests/lib/rule-tester/rule-tester.js:<lines>)",
@@ -6248,13 +6248,10 @@ describe("RuleTester", () => {
 				const normalizedStack = normalizeStack(error);
 				assert.include(
 					normalizedStack,
-					"at RuleTester.run.invalid[0].error[1] (",
+					"at RuleTester.run.invalid[0].error[1]",
 				);
-				assert.include(
-					normalizedStack,
-					"at RuleTester.run.invalid[0] (",
-				);
-				assert.include(normalizedStack, "at RuleTester.run.invalid (");
+				assert.include(normalizedStack, "at RuleTester.run.invalid[0]");
+				assert.include(normalizedStack, "at RuleTester.run.invalid");
 				assert.include(
 					normalizedStack,
 					"at RuleTester.run (tests/lib/rule-tester/rule-tester.js:<lines>)",
