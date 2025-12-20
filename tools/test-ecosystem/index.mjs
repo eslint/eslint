@@ -13,6 +13,7 @@ import path from "node:path";
 import { styleText } from "node:util";
 
 import { getPlugins } from "./data.mjs";
+import { pathToFileURL } from "node:url";
 
 /**
  * @typedef {import("./data").PluginSettings} PluginSettings
@@ -90,11 +91,10 @@ async function runTests(pluginKey, pluginSettings) {
 	// 4. Link the built ESLint into the plugin
 	runCommand("npm", "link", "eslint");
 
-	const packageJsonPath = new URL(
+	const packageJsonFileUrl = pathToFileURL(
 		path.join(directory, "package.json"),
-		import.meta.url,
 	);
-	const packageJson = await import(packageJsonPath, {
+	const packageJson = await import(packageJsonFileUrl.href, {
 		with: { type: "json" },
 	});
 
