@@ -5198,20 +5198,30 @@ describe("Linter with FlatConfigArray", () => {
 
 				describe("when evaluating code with comments to enable configurable rule using string severity", () => {
 					const code =
-						'/*eslint quotes:["error", "double"]*/ alert(\'test\');'; // TODO
+						'/*eslint no-useless-escape:["error", {allowRegexCharacters: ["-"]}]*/ alert(\'t\\est\');';
 
 					it("should report a violation", () => {
-						const config = { rules: { quotes: [2, "single"] } }; // TODO
+						const config = {
+							rules: {
+								"no-useless-escape": [
+									2,
+									{ allowRegexCharacters: ["e"] },
+								],
+							},
+						};
 
 						const messages = linter.verify(code, config, filename);
 						const suppressedMessages =
 							linter.getSuppressedMessages();
 
 						assert.strictEqual(messages.length, 1);
-						assert.strictEqual(messages[0].ruleId, "quotes");
+						assert.strictEqual(
+							messages[0].ruleId,
+							"no-useless-escape",
+						);
 						assert.strictEqual(
 							messages[0].message,
-							"Strings must use doublequote.",
+							"Unnecessary escape character: \\e.",
 						);
 
 						assert.strictEqual(suppressedMessages.length, 0);
