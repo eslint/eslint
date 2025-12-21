@@ -6,4 +6,5 @@ const childProcess = require("node:child_process");
 
 childProcess.spawnSync = (...args) => {
     console.log("spawnSync called with args: %s", JSON.stringify(args));
+    return { status: 0 };
 };
