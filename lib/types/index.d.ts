@@ -1384,6 +1384,12 @@ export class RuleTester {
 				 * error does not contain them.
 				 */
 				requireLocation?: boolean;
+				/**
+				 * If true, each error and suggestion with a `messageId` must specify a `data`
+				 * property if the referenced message contains placeholders
+				 * `"error"` and `"suggestion" limit the assertion to errors and suggestions respectively.
+				 */
+				requireData?: boolean | "error" | "suggestion";
 			};
 		},
 	): void;
