@@ -28,7 +28,7 @@ import { pathToFileURL } from "node:url";
  * 1. Clone the plugin repository into a sandbox directory
  * 2. Check out the plugin's commit to test on
  * 3. Install the plugin's dependencies
- * 4. Link the built ESLint into the plugin
+ * 4. Link the local ESLint into the plugin
  * 5. Build, if the plugin defines a build script
  * 6. Run tests
  * This intentionally does not try/catch: any errors will be thrown.
@@ -88,7 +88,7 @@ async function runTests(pluginKey, pluginSettings) {
 	runCommand("pwd");
 	runCommand("ni");
 
-	// 4. Link the built ESLint into the plugin
+	// 4. Link the local ESLint into the plugin
 	runCommand("npm", "link", "eslint");
 
 	// 5. Build, if the plugin defines a build script
