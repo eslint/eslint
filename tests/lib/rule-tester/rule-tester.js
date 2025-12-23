@@ -6184,4 +6184,79 @@ describe("RuleTester", () => {
 			});
 		});
 	});
+
+	// Attach error locations to stacktrace
+	describe("error locations", () => {
+		/**
+		 * Normalizes stack trace for comparison
+		 * @param {Error} error The error to normalize the stacktrace of.
+		 * @returns {string}The normalized stacktrace string.
+		 */
+		function normalizeStack(error) {
+			return error.stack
+				.replace(/\\/gu, "/")
+				.replace(/\(.*\/tests\//gu, "(tests/") // absolute to relative paths
+				.replace(/:\d+(:\d+)?/gu, ":<lines>"); // ignore line/column numbers
+		}
+
+		it("should report the correct location for errors in valid test cases", () => {
+			try {
+				ruleTester.run(
+					"no-eval",
+					require("../../fixtures/testers/rule-tester/no-eval"),
+					{
+						valid: ["eval(foo)"],
+						invalid: [],
+					},
+				);
+				assert.fail("Expected an error to be thrown");
+			} catch (error) {
+				const normalizedStack = normalizeStack(error);
+				assert.include(normalizedStack, "at RuleTester.run.valid[0]");
+				assert.include(normalizedStack, "at RuleTester.run.valid");
+				assert.include(
+					normalizedStack,
+					"at RuleTester.run (tests/lib/rule-tester/rule-tester.js:<lines>)",
+				);
+			}
+		});
+
+		it("should report the correct location for errors in invalid test cases", () => {
+			try {
+				ruleTester.run(
+					"no-eval",
+					require("../../fixtures/testers/rule-tester/no-eval"),
+					{
+						valid: [],
+						invalid: [
+							{
+								code: "eval(foo);\neval(bar);",
+								errors: [
+									{
+										message: "eval sucks.",
+									},
+									{
+										message: "This is bad.",
+									},
+								],
+							},
+						],
+					},
+				);
+				assert.fail("Expected an error to be thrown");
+			} catch (error) {
+				const normalizedStack = normalizeStack(error);
+				assert.include(
+					normalizedStack,
+					"at RuleTester.run.invalid[0].error[1]",
+				);
+				assert.include(normalizedStack, "at RuleTester.run.invalid[0]");
+				assert.include(normalizedStack, "at RuleTester.run.invalid");
+				assert.include(
+					normalizedStack,
+					"at RuleTester.run (tests/lib/rule-tester/rule-tester.js:<lines>)",
+				);
+			}
+		});
+	});
 });
