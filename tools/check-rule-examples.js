@@ -139,6 +139,30 @@ async function findProblems(filename) {
 				});
 			}
 
+			const isJsxTag = languageTag === "jsx" || languageTag === "tsx";
+			const jsxEnabled =
+				languageOptions.parserOptions?.ecmaFeatures?.jsx === true;
+
+			if (jsxEnabled && !isJsxTag) {
+				problems.push({
+					fatal: false,
+					severity: 2,
+					message: `JSX is enabled, but the code block is tagged as "${languageTag}". Use "jsx" or "tsx".`,
+					line: codeBlockToken.map[0] + 1,
+					column: codeBlockToken.markup.length + 1,
+				});
+			}
+
+			if (!jsxEnabled && isJsxTag) {
+				problems.push({
+					fatal: false,
+					severity: 2,
+					message: `The "${languageTag}" language tag requires JSX to be enabled.`,
+					line: codeBlockToken.map[0] + 1,
+					column: codeBlockToken.markup.length + 1,
+				});
+			}
+
 			validateLanguageOptions(
 				languageOptions,
 				codeBlockToken.map[0] - 1,
