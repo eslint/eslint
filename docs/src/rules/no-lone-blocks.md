@@ -111,7 +111,7 @@ class C {
 
 :::
 
-Examples of **correct** code for this rule with ES6 environment and strict mode via `"parserOptions": { "sourceType": "module" }` in the ESLint configuration or `"use strict"` directive in the code:
+Examples of **correct** code for this rule with ES6 environment and strict mode via `"languageOptions": { "sourceType": "module" }` in the ESLint configuration or `"use strict"` directive in the code:
 
 ::: correct
 
