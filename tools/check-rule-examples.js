@@ -20,6 +20,7 @@ const { Linter } = require("../lib/linter");
 // Typedefs
 //------------------------------------------------------------------------------
 
+/** @typedef {import("../lib/types").Linter.LanguageOptions} LanguageOptions */
 /** @typedef {import("../lib/types").Linter.LintMessage} LintMessage */
 /** @typedef {import("../lib/types").ESLint.LintResult} LintResult */
 
@@ -45,6 +46,64 @@ const VALID_ECMA_VERSIONS = new Set([
 ]);
 
 const commentParser = new ConfigCommentParser();
+
+/**
+ * Validates language options and adds any found issues to the problems array.
+ * @param {LanguageOptions} languageOptions The language options to validate.
+ * @param {number} lineOffset The line offset for error reporting.
+ * @param {LintMessage[]} problems The array to push validation issues to.
+ * @returns {void}
+ */
+function validateLanguageOptions(languageOptions, lineOffset, problems) {
+	/**
+	 * Creates a lint message for a validation issue.
+	 * @param {string} message The error message.
+	 * @returns {LintMessage} The created lint message object.
+	 */
+	function createLintMessage(message) {
+		return {
+			fatal: false,
+			severity: 2,
+			message,
+			line: lineOffset,
+			column: 1,
+		};
+	}
+
+	if (languageOptions.ecmaVersion !== void 0) {
+		const { ecmaVersion } = languageOptions;
+		let ecmaVersionErrorMessage;
+
+		if (ecmaVersion === "latest") {
+			ecmaVersionErrorMessage =
+				'"ecmaVersion": "latest" is the default and can be omitted.';
+		} else if (typeof ecmaVersion !== "number") {
+			ecmaVersionErrorMessage = '"ecmaVersion" must be a number.';
+		} else if (!VALID_ECMA_VERSIONS.has(ecmaVersion)) {
+			ecmaVersionErrorMessage = `"ecmaVersion" must be one of ${[...VALID_ECMA_VERSIONS].join(", ")}.`;
+		}
+
+		if (ecmaVersionErrorMessage) {
+			problems.push(createLintMessage(ecmaVersionErrorMessage));
+		}
+	}
+
+	if (languageOptions.sourceType === "module") {
+		problems.push(
+			createLintMessage(
+				'"sourceType": "module" is the default and can be omitted.',
+			),
+		);
+	}
+
+	if (languageOptions.parserOptions?.ecmaFeatures?.jsx === false) {
+		problems.push(
+			createLintMessage(
+				'"jsx": false is the default and can be omitted.',
+			),
+		);
+	}
+}
 
 /**
  * Checks the example code blocks in a rule documentation file.
@@ -80,31 +139,11 @@ async function findProblems(filename) {
 				});
 			}
 
-			if (typeof languageOptions?.ecmaVersion !== "undefined") {
-				const { ecmaVersion } = languageOptions;
-				let ecmaVersionErrorMessage;
-
-				if (ecmaVersion === "latest") {
-					ecmaVersionErrorMessage =
-						'Remove unnecessary "ecmaVersion":"latest".';
-				} else if (typeof ecmaVersion !== "number") {
-					ecmaVersionErrorMessage = '"ecmaVersion" must be a number.';
-				} else if (!VALID_ECMA_VERSIONS.has(ecmaVersion)) {
-					ecmaVersionErrorMessage = `"ecmaVersion" must be one of ${[...VALID_ECMA_VERSIONS].join(", ")}.`;
-				}
-
-				if (ecmaVersionErrorMessage) {
-					problems.push({
-						fatal: false,
-						severity: 2,
-						message: ecmaVersionErrorMessage,
-						line: codeBlockToken.map[0] - 1,
-						column: 1,
-					});
-
-					return;
-				}
-			}
+			validateLanguageOptions(
+				languageOptions,
+				codeBlockToken.map[0] - 1,
+				problems,
+			);
 
 			if (TYPESCRIPT_LANGUAGE_TAGS.has(languageTag)) {
 				languageOptions.parser = tsParser;
