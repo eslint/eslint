@@ -336,7 +336,7 @@ type T = {
 
 :::
 
-Examples of **correct** code for this rule with with `["anyOrder", { enforceForTSTypes: true }]`:
+Examples of **correct** code for this rule with `["anyOrder", { enforceForTSTypes: true }]`:
 
 ::: correct
 

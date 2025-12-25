@@ -56,6 +56,10 @@ test(mod_ns) // Not errored because it doesn't know that 'test' updates the memb
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## When Not To Use It
 
 If you don't want to be notified about modifying imported bindings, you can disable this rule.

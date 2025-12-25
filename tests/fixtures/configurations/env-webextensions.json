@@ -1,8 +1,0 @@
-{
-  "env": {
-    "webextensions": true
-  },
-  "rules": {
-    "no-undef": 2
-  }
-}

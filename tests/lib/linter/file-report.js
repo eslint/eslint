@@ -86,7 +86,6 @@ describe("FileReport", () => {
 				message: "foo",
 				line: 2,
 				column: 1,
-				nodeType: "ExpressionStatement",
 			});
 		});
 
@@ -105,7 +104,6 @@ describe("FileReport", () => {
 				messageId: "testMessage",
 				line: 2,
 				column: 1,
-				nodeType: "ExpressionStatement",
 			});
 		});
 
@@ -134,7 +132,6 @@ describe("FileReport", () => {
 				message: "foo",
 				line: 2,
 				column: 1,
-				nodeType: "ExpressionStatement",
 				suggestions: [
 					{
 						messageId: "suggestion1",
@@ -166,7 +163,6 @@ describe("FileReport", () => {
 				message: "foo",
 				line: 2,
 				column: 1,
-				nodeType: "ExpressionStatement",
 				fix: { range: [1, 2], text: "foo" },
 			});
 		});
@@ -313,7 +309,6 @@ describe("FileReport", () => {
 				column: 1,
 				endLine: 1,
 				endColumn: 2,
-				nodeType: null,
 			});
 		});
 	});
@@ -340,7 +335,6 @@ describe("FileReport", () => {
 				column: 1,
 				endLine: 1,
 				endColumn: 2,
-				nodeType: null,
 			});
 		});
 	});
@@ -368,7 +362,6 @@ describe("FileReport", () => {
 				column: 1,
 				endLine: 1,
 				endColumn: 2,
-				nodeType: null,
 			});
 		});
 	});
@@ -391,7 +384,6 @@ describe("FileReport", () => {
 				message,
 				line: 2,
 				column: 1,
-				nodeType: "ExpressionStatement",
 			});
 		});
 	});
@@ -409,7 +401,6 @@ describe("FileReport", () => {
 				column: 1,
 				endLine: 1,
 				endColumn: 4,
-				nodeType: "ExpressionStatement",
 			});
 		});
 	});
@@ -441,7 +432,6 @@ describe("FileReport", () => {
 				message,
 				line: 2,
 				column: 1,
-				nodeType: "ExpressionStatement",
 				fix: {
 					range: [1, 2],
 					text: "foo",
@@ -476,7 +466,6 @@ describe("FileReport", () => {
 				messageId: "testMessage",
 				line: 2,
 				column: 1,
-				nodeType: "ExpressionStatement",
 				fix: {
 					range: [1, 2],
 					text: "foo",
@@ -554,7 +543,6 @@ describe("FileReport", () => {
 				message: "foo",
 				line: 2,
 				column: 1,
-				nodeType: "ExpressionStatement",
 				suggestions: [
 					{
 						messageId: "suggestion1",
@@ -676,7 +664,6 @@ describe("FileReport", () => {
 				message: "foo",
 				line: 2,
 				column: 1,
-				nodeType: "ExpressionStatement",
 				fix: {
 					range: [1, 5],
 					text: "fooo\nbar",
@@ -703,7 +690,6 @@ describe("FileReport", () => {
 				message: "foo",
 				line: 2,
 				column: 1,
-				nodeType: "ExpressionStatement",
 				fix: {
 					range: [1, 5],
 					text: "fooo\nbar",
@@ -731,7 +717,6 @@ describe("FileReport", () => {
 				message: "foo",
 				line: 2,
 				column: 1,
-				nodeType: "ExpressionStatement",
 				fix: {
 					range: [2, 7],
 					text: "o\ncdar",
@@ -755,7 +740,6 @@ describe("FileReport", () => {
 				message: "foo",
 				line: 2,
 				column: 1,
-				nodeType: "ExpressionStatement",
 				fix: {
 					range: [1, 2],
 					text: "foo",
@@ -782,7 +766,6 @@ describe("FileReport", () => {
 				message: "foo",
 				line: 2,
 				column: 1,
-				nodeType: "ExpressionStatement",
 				fix: {
 					range: [0, 5],
 					text: "\uFEFFfoo\nx",
@@ -818,7 +801,6 @@ describe("FileReport", () => {
 				column: 1,
 				endLine: 1,
 				endColumn: 4,
-				nodeType: "ExpressionStatement",
 				fix: {
 					range: [-1, 5],
 					text: "foo\nx",
@@ -861,7 +843,6 @@ describe("FileReport", () => {
 				message: "my message testing!",
 				line: 42,
 				column: 24,
-				nodeType: "ExpressionStatement",
 				fix: {
 					range: [1, 1],
 					text: "",
@@ -896,7 +877,6 @@ describe("FileReport", () => {
 				message: "foo",
 				line: 2,
 				column: 1,
-				nodeType: "ExpressionStatement",
 				suggestions: [
 					{
 						desc: "A first suggestion for the issue",
@@ -934,7 +914,6 @@ describe("FileReport", () => {
 				message: "foo",
 				line: 2,
 				column: 1,
-				nodeType: "ExpressionStatement",
 				suggestions: [
 					{
 						desc: "A suggestion for the issue",
@@ -968,7 +947,6 @@ describe("FileReport", () => {
 				message: "foo",
 				line: 2,
 				column: 1,
-				nodeType: "ExpressionStatement",
 			});
 		});
 
@@ -993,7 +971,6 @@ describe("FileReport", () => {
 				message: "foo",
 				line: 2,
 				column: 1,
-				nodeType: "ExpressionStatement",
 			});
 		});
 
@@ -1018,7 +995,6 @@ describe("FileReport", () => {
 				message: "foo",
 				line: 2,
 				column: 1,
-				nodeType: "ExpressionStatement",
 			});
 		});
 
@@ -1044,7 +1020,6 @@ describe("FileReport", () => {
 				message: "foo",
 				line: 2,
 				column: 1,
-				nodeType: "ExpressionStatement",
 			});
 		});
 
@@ -1073,7 +1048,6 @@ describe("FileReport", () => {
 				message: "foo",
 				line: 2,
 				column: 1,
-				nodeType: "ExpressionStatement",
 				suggestions: [
 					{
 						desc: "Suggestion with a fix",
@@ -1108,7 +1082,6 @@ describe("FileReport", () => {
 				message: "foo",
 				line: 2,
 				column: 1,
-				nodeType: "ExpressionStatement",
 				suggestions: [
 					{
 						desc: "Suggestion with a fix",
@@ -1167,7 +1140,6 @@ describe("FileReport", () => {
 				message: "foo",
 				line: 2,
 				column: 1,
-				nodeType: "ExpressionStatement",
 				suggestions: [
 					{
 						desc: "Keep #1",
@@ -1218,7 +1190,6 @@ describe("FileReport", () => {
 				severity: 2,
 				ruleId: "foo-rule",
 				message: "hello ExpressionStatement",
-				nodeType: "ExpressionStatement",
 				line: 1,
 				column: 4,
 			});
@@ -1236,7 +1207,6 @@ describe("FileReport", () => {
 				severity: 2,
 				ruleId: "foo-rule",
 				message: "hello ExpressionStatement",
-				nodeType: "ExpressionStatement",
 				line: 1,
 				column: 4,
 			});
@@ -1335,7 +1305,6 @@ describe("FileReport", () => {
 				severity: 2,
 				ruleId: "foo-rule",
 				message: "hello world",
-				nodeType: "ExpressionStatement",
 				line: 42,
 				column: 14,
 			});
@@ -1352,7 +1321,6 @@ describe("FileReport", () => {
 				severity: 2,
 				ruleId: "foo-rule",
 				message: "hello world",
-				nodeType: "ExpressionStatement",
 				line: 42,
 				column: 14,
 			});
@@ -1365,7 +1333,6 @@ describe("FileReport", () => {
 				severity: 2,
 				ruleId: "foo-rule",
 				message: "hello world",
-				nodeType: "ExpressionStatement",
 				line: 1,
 				column: 1,
 				endLine: 1,
@@ -1383,7 +1350,6 @@ describe("FileReport", () => {
 				severity: 2,
 				ruleId: "foo-rule",
 				message: "hello world",
-				nodeType: null,
 				line: 1,
 				column: 1,
 				endLine: 1,
@@ -1401,7 +1367,6 @@ describe("FileReport", () => {
 				severity: 2,
 				ruleId: "foo-rule",
 				message: "hello world",
-				nodeType: null,
 				line: 1,
 				column: 1,
 			});
@@ -1417,7 +1382,6 @@ describe("FileReport", () => {
 				severity: 2,
 				ruleId: "foo-rule",
 				message: "hello world",
-				nodeType: "ExpressionStatement",
 				line: 1,
 				column: 1,
 				endLine: 1,
@@ -1440,7 +1404,6 @@ describe("FileReport", () => {
 				severity: 2,
 				ruleId: "foo-rule",
 				message: "my message testing!",
-				nodeType: "ExpressionStatement",
 				line: 1,
 				column: 1,
 				endLine: 1,
@@ -1477,7 +1440,6 @@ describe("FileReport", () => {
 				severity: 2,
 				ruleId: "foo-rule",
 				message: "hello world",
-				nodeType: null,
 				line: 1,
 				column: 2,
 			});
@@ -1492,7 +1454,6 @@ describe("FileReport", () => {
 				severity: 2,
 				ruleId: "foo-rule",
 				message: "hello world",
-				nodeType: null,
 				line: 1,
 				column: 2,
 			});

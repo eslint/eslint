@@ -26,8 +26,6 @@ console.log("We have " + count + " people and " + sandwiches.length + " sandwich
 
 This rule is aimed at discouraging the use of `var` and encouraging the use of `const` or `let` instead.
 
-## Examples
-
 Examples of **incorrect** code for this rule:
 
 ::: incorrect
@@ -89,6 +87,10 @@ declare global {
 ```
 
 :::
+
+## Options
+
+This rule has no options.
 
 ## When Not To Use It
 

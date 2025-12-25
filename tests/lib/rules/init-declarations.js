@@ -423,7 +423,7 @@ ruleTesterTypeScript.run("init-declarations", rule, {
 		},
 		{
 			code: `
-	  var bar: string = function (arg1: stirng): string {
+	  var bar: string = function (arg1: string): string {
 		return 'string';
 	  };
 			`,

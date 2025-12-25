@@ -1,23 +1,49 @@
-[![npm version][npm-image]][npm-url]
+[![npm version](https://img.shields.io/npm/v/eslint-config-eslint.svg)](https://www.npmjs.com/package/eslint-config-eslint)
+[![Downloads](https://img.shields.io/npm/dm/eslint-config-eslint.svg)](https://www.npmjs.com/package/eslint-config-eslint)
+[![Build Status](https://github.com/eslint/eslint/workflows/CI/badge.svg)](https://github.com/eslint/eslint/actions)
+<br>
+[![Open Collective Backers](https://img.shields.io/opencollective/backers/eslint)](https://opencollective.com/eslint)
+[![Open Collective Sponsors](https://img.shields.io/opencollective/sponsors/eslint)](https://opencollective.com/eslint)
 
 # ESLint Configuration
 
-[Website](https://eslint.org) | [Configure ESLint](https://eslint.org/docs/latest/use/configure) | [Rules](https://eslint.org/docs/rules/) | [Contributing](https://eslint.org/docs/latest/contribute) | [Twitter](https://twitter.com/geteslint) | [Discord](https://eslint.org/chat) | [Mastodon](https://fosstodon.org/@eslint)
+[Website](https://eslint.org) |
+[Configure ESLint](https://eslint.org/docs/latest/use/configure) |
+[Rules](https://eslint.org/docs/rules/) |
+[Contribute to ESLint](https://eslint.org/docs/latest/contribute) |
+[Report Bugs](https://eslint.org/docs/latest/contribute/report-bugs) |
+[Code of Conduct](https://eslint.org/conduct) |
+[X](https://x.com/geteslint) |
+[Discord](https://eslint.org/chat) |
+[Mastodon](https://fosstodon.org/@eslint) |
+[Bluesky](https://bsky.app/profile/eslint.org)
 
 Contains the ESLint configuration used for projects maintained by the ESLint team.
 
 ## Installation
 
-You can install ESLint using npm:
+You can install ESLint using npm or other package managers:
 
 ```shell
-npm install eslint --save-dev
+npm install eslint -D
+# or
+yarn add eslint -D
+# or
+pnpm install eslint -D
+# or
+bun add eslint -D
 ```
 
 Then install this configuration:
 
 ```shell
-npm install eslint-config-eslint --save-dev
+npm install eslint-config-eslint -D
+# or
+yarn add eslint-config-eslint -D
+# or
+pnpm install eslint-config-eslint -D
+# or
+bun add eslint-config-eslint -D
 ```
 
 ## Usage
@@ -87,6 +113,3 @@ export default defineConfig([eslintConfigESLint, eslintConfigESLintFormatting]);
 ### Where to ask for help?
 
 Open a [discussion](https://github.com/eslint/eslint/discussions) or stop by our [Discord server](https://eslint.org/chat) instead of filing an issue.
-
-[npm-image]: https://img.shields.io/npm/v/eslint-config-eslint.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/eslint-config-eslint

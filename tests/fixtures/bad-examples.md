@@ -118,3 +118,19 @@ const foo = [bar];
 ```
 
 :::
+
+:::correct { "sourceType": "module" }
+
+```js
+/* eslint no-restricted-syntax: ["error", "ArrayPattern"] */
+```
+
+:::
+
+:::correct { "parserOptions": { "ecmaFeatures": { "jsx": false } } }
+
+```js
+/* eslint no-restricted-syntax: ["error", "ArrayPattern"] */
+```
+
+:::

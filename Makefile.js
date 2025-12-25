@@ -691,6 +691,18 @@ target.checkRuleFiles = function () {
 
 	let errors = 0;
 
+	const knownHeaders = [
+		"Rule Details",
+		"Options",
+		"Environments",
+		"Known Limitations",
+		"When Not To Use It",
+		"Compatibility",
+	];
+	const mandatoryHeaders = ["Rule Details", "Options"];
+
+	const ruleIdsInIndex = require("./lib/rules/index");
+
 	RULE_FILES.forEach(filename => {
 		const basename = path.basename(filename, ".js");
 		const docFilename = `docs/src/rules/${basename}.md`;
@@ -701,15 +713,7 @@ target.checkRuleFiles = function () {
 			silent: false,
 		});
 		const ruleCode = cat(filename);
-		const knownHeaders = [
-			"Rule Details",
-			"Options",
-			"Environments",
-			"Examples",
-			"Known Limitations",
-			"When Not To Use It",
-			"Compatibility",
-		];
+		const ruleDef = ruleIdsInIndex.get(basename);
 
 		/**
 		 * Check if id is present in title
@@ -723,11 +727,12 @@ target.checkRuleFiles = function () {
 		}
 
 		/**
-		 * Check if all H2 headers are known and in the expected order
+		 * Check if all H2 headers are known and in the expected order,
+		 * and if mandatory H2 headers are present.
 		 * Only H2 headers are checked as H1 and H3 are variable and/or rule specific.
-		 * @returns {boolean} true if all headers are known and in the right order
+		 * @returns {boolean} true if headers are valid
 		 */
-		function hasKnownHeaders() {
+		function validateHeaders() {
 			const headers = docMarkdown
 				.filter(token => token.type === "heading" && token.depth === 2)
 				.map(header => header.text);
@@ -748,6 +753,19 @@ target.checkRuleFiles = function () {
 			for (let i = 0; i < presentHeaders.length; ++i) {
 				if (presentHeaders[i] !== headers[i]) {
 					return false;
+				}
+			}
+
+			/*
+			 * Check if mandatory headers are present. Skip deprecated rules.
+			 */
+			if (ruleDef && !ruleDef.meta.deprecated) {
+				const headersSet = new Set(headers);
+
+				for (const mandatoryHeader of mandatoryHeaders) {
+					if (!headersSet.has(mandatoryHeader)) {
+						return false;
+					}
 				}
 			}
 
@@ -791,20 +809,18 @@ target.checkRuleFiles = function () {
 			}
 
 			// check for proper doc headers
-			if (!hasKnownHeaders()) {
+			if (!validateHeaders()) {
 				console.error(
-					"Unknown or misplaced header in the doc page of rule %s, allowed headers (and their order) are: '%s'",
+					"Unknown, misplaced, or missing header in the doc page of rule %s. Allowed headers (and their order) are: '%s'. Mandatory headers are: '%s'.",
 					basename,
 					knownHeaders.join("', '"),
+					mandatoryHeaders.join("', '"),
 				);
 				errors++;
 			}
 		}
 
 		// check parity between rules index file and rules directory
-		const ruleIdsInIndex = require("./lib/rules/index");
-		const ruleDef = ruleIdsInIndex.get(basename);
-
 		if (!ruleDef) {
 			console.error(
 				`Missing rule from index (./lib/rules/index.js): ${basename}. If you just added a new rule then add an entry for it in this file.`,

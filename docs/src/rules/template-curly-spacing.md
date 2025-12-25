@@ -27,8 +27,6 @@ This rule has one option which has either `"never"` or `"always"` as value.
 * `"never"` (by default) - Disallows spaces inside of the curly brace pair.
 * `"always"` - Requires one or more spaces inside of the curly brace pair.
 
-## Examples
-
 ### never
 
 Examples of **incorrect** code for this rule with the default `"never"` option:

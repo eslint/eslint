@@ -203,24 +203,32 @@ function fuzz(options) {
 				? isolateBadAutofixPass(text, config)
 				: text;
 			const smallConfig = isolateBadConfig(lastGoodText, config, "crash");
-			const smallText = sampleMinimizer({
-				sourceText: lastGoodText,
-				parser: { parse: getParser(smallConfig) },
-				predicate(reducedText) {
-					try {
-						linter.verify(reducedText, smallConfig);
-						return false;
-					} catch {
-						return true;
-					}
-				},
-			});
+			let smallText = lastGoodText;
+			let sampleMinimizerError = null;
+
+			try {
+				smallText = sampleMinimizer({
+					sourceText: lastGoodText,
+					parser: { parse: getParser(smallConfig) },
+					predicate(reducedText) {
+						try {
+							linter.verify(reducedText, smallConfig);
+							return false;
+						} catch {
+							return true;
+						}
+					},
+				});
+			} catch (e) {
+				sampleMinimizerError = e.stack;
+			}
 
 			problems.push({
 				type: "crash",
 				text: smallText,
 				config: smallConfig,
 				error: err.stack,
+				sampleMinimizerError,
 			});
 
 			continue;
@@ -238,32 +246,39 @@ function fuzz(options) {
 				config,
 				"autofix",
 			);
-			const smallText = sampleMinimizer({
-				sourceText: lastGoodText,
-				parser: { parse: getParser(smallConfig) },
-				predicate(reducedText) {
-					try {
-						const smallFixResult = linter.verifyAndFix(
-							reducedText,
-							smallConfig,
-						);
+			let smallText = lastGoodText;
+			let sampleMinimizerError = null;
+			try {
+				smallText = sampleMinimizer({
+					sourceText: lastGoodText,
+					parser: { parse: getParser(smallConfig) },
+					predicate(reducedText) {
+						try {
+							const smallFixResult = linter.verifyAndFix(
+								reducedText,
+								smallConfig,
+							);
 
-						return (
-							smallFixResult.fixed &&
-							smallFixResult.messages.length === 1 &&
-							smallFixResult.messages[0].fatal
-						);
-					} catch {
-						return false;
-					}
-				},
-			});
+							return (
+								smallFixResult.fixed &&
+								smallFixResult.messages.length === 1 &&
+								smallFixResult.messages[0].fatal
+							);
+						} catch {
+							return false;
+						}
+					},
+				});
+			} catch (e) {
+				sampleMinimizerError = e.stack;
+			}
 
 			problems.push({
 				type: "autofix",
 				text: smallText,
 				config: smallConfig,
 				error: autofixResult.messages[0],
+				sampleMinimizerError,
 			});
 		}
 	}

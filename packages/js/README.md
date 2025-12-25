@@ -1,8 +1,22 @@
 [![npm version](https://img.shields.io/npm/v/@eslint/js.svg)](https://www.npmjs.com/package/@eslint/js)
+[![Downloads](https://img.shields.io/npm/dm/@eslint/js.svg)](https://www.npmjs.com/package/@eslint/js)
+[![Build Status](https://github.com/eslint/eslint/workflows/CI/badge.svg)](https://github.com/eslint/eslint/actions)
+<br>
+[![Open Collective Backers](https://img.shields.io/opencollective/backers/eslint)](https://opencollective.com/eslint)
+[![Open Collective Sponsors](https://img.shields.io/opencollective/sponsors/eslint)](https://opencollective.com/eslint)
 
 # ESLint JavaScript Plugin
 
-[Website](https://eslint.org) | [Configure ESLint](https://eslint.org/docs/latest/use/configure) | [Rules](https://eslint.org/docs/rules/) | [Contributing](https://eslint.org/docs/latest/contribute) | [Twitter](https://twitter.com/geteslint) | [Chatroom](https://eslint.org/chat)
+[Website](https://eslint.org) |
+[Configure ESLint](https://eslint.org/docs/latest/use/configure) |
+[Rules](https://eslint.org/docs/rules/) |
+[Contribute to ESLint](https://eslint.org/docs/latest/contribute) |
+[Report Bugs](https://eslint.org/docs/latest/contribute/report-bugs) |
+[Code of Conduct](https://eslint.org/conduct) |
+[X](https://x.com/geteslint) |
+[Discord](https://eslint.org/chat) |
+[Mastodon](https://fosstodon.org/@eslint) |
+[Bluesky](https://bsky.app/profile/eslint.org)
 
 The beginnings of separating out JavaScript-specific functionality from ESLint.
 
@@ -13,8 +27,28 @@ Right now, this plugin contains two configurations:
 
 ## Installation
 
+You can install ESLint using npm or other package managers:
+
+```shell
+npm install eslint -D
+# or
+yarn add eslint -D
+# or
+pnpm install eslint -D
+# or
+bun add eslint -D
+```
+
+Then install this plugin:
+
 ```shell
 npm install @eslint/js -D
+# or
+yarn add @eslint/js -D
+# or
+pnpm install @eslint/js -D
+# or
+bun add @eslint/js -D
 ```
 
 ## Usage

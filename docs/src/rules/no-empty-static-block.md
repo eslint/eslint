@@ -51,6 +51,10 @@ class Bar {
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## When Not To Use It
 
 This rule should not be used in environments prior to ES2022.

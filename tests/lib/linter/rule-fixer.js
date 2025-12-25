@@ -49,6 +49,12 @@ describe("RuleFixer", () => {
 				text: "",
 			});
 		});
+
+		it("should throw when inserting non-string text", () => {
+			assert.throws(() => {
+				ruleFixer.insertTextBefore({ range: [10, 20] }, null);
+			}, /'text' must be a string/u);
+		});
 	});
 
 	describe("insertTextBeforeRange", () => {
@@ -68,6 +74,12 @@ describe("RuleFixer", () => {
 				range: [10, 10],
 				text: "",
 			});
+		});
+
+		it("should throw when inserting non-string text", () => {
+			assert.throws(() => {
+				ruleFixer.insertTextBeforeRange([10, 20], null);
+			}, /'text' must be a string/u);
 		});
 	});
 
@@ -89,6 +101,12 @@ describe("RuleFixer", () => {
 				text: "",
 			});
 		});
+
+		it("should throw when inserting non-string text", () => {
+			assert.throws(() => {
+				ruleFixer.insertTextAfter({ range: [10, 20] }, null);
+			}, /'text' must be a string/u);
+		});
 	});
 
 	describe("insertTextAfterRange", () => {
@@ -109,9 +127,15 @@ describe("RuleFixer", () => {
 				text: "",
 			});
 		});
+
+		it("should throw when inserting non-string text", () => {
+			assert.throws(() => {
+				ruleFixer.insertTextAfterRange([10, 20], null);
+			}, /'text' must be a string/u);
+		});
 	});
 
-	describe("removeAfter", () => {
+	describe("remove", () => {
 		it("should return an object with the correct information when called", () => {
 			const result = ruleFixer.remove({ range: [0, 1] });
 
@@ -122,7 +146,7 @@ describe("RuleFixer", () => {
 		});
 	});
 
-	describe("removeAfterRange", () => {
+	describe("removeRange", () => {
 		it("should return an object with the correct information when called", () => {
 			const result = ruleFixer.removeRange([0, 1]);
 
@@ -142,6 +166,12 @@ describe("RuleFixer", () => {
 				text: "Hi",
 			});
 		});
+
+		it("should throw when replacing with non-string text", () => {
+			assert.throws(() => {
+				ruleFixer.replaceText({ range: [0, 1] }, null);
+			}, /'text' must be a string/u);
+		});
 	});
 
 	describe("replaceTextRange", () => {
@@ -152,6 +182,12 @@ describe("RuleFixer", () => {
 				range: [0, 1],
 				text: "Hi",
 			});
+		});
+
+		it("should throw when replacing with non-string text", () => {
+			assert.throws(() => {
+				ruleFixer.replaceTextRange([0, 1], null);
+			}, /'text' must be a string/u);
 		});
 	});
 });

@@ -141,3 +141,7 @@ Examples of additional **correct** code for this rule:
 ```
 
 :::
+
+## Options
+
+This rule has no options.

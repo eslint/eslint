@@ -45,7 +45,7 @@ And this rule always allows `this` keywords in the following contexts:
 Otherwise are considered problems.
 
 This rule applies **only** in strict mode.
-With `"parserOptions": { "sourceType": "module" }` in the ESLint configuration, your code is in strict mode even without a `"use strict"` directive.
+With `"languageOptions": { "sourceType": "module" }` in the ESLint configuration, your code is in strict mode even without a `"use strict"` directive.
 
 Examples of **incorrect** code for this rule in strict mode:
 

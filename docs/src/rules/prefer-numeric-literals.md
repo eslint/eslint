@@ -60,6 +60,10 @@ Number.parseInt(foo, 2);
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## When Not To Use It
 
 If you want to allow use of `parseInt()` or `Number.parseInt()` for binary, octal, or hexadecimal integers, or if you are not using ES6 (because binary and octal literals are not supported in ES5 and below), you may wish to disable this rule.

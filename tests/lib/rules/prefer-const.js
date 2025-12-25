@@ -227,33 +227,11 @@ ruleTester.run("prefer-const", rule, {
 		},
 		{
 			code: "class C { static { let a, b; if (foo) { ({ a, b } = foo); } } }",
-			output: null,
 			languageOptions: { ecmaVersion: 2022 },
-			errors: [
-				{
-					messageId: "useConst",
-					data: { name: "a" },
-				},
-				{
-					messageId: "useConst",
-					data: { name: "b" },
-				},
-			],
 		},
 		{
 			code: "class C { static { let a, b; if (foo) ({ a, b } = foo); } }",
-			output: null,
 			languageOptions: { ecmaVersion: 2022 },
-			errors: [
-				{
-					messageId: "useConst",
-					data: { name: "a" },
-				},
-				{
-					messageId: "useConst",
-					data: { name: "b" },
-				},
-			],
 		},
 		{
 			code: "class C { static { a; } } let a = 1; ",

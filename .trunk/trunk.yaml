@@ -18,7 +18,7 @@ plugins:
 runtimes:
     enabled:
         - go@1.21.0
-        - node@18.18.0
+        - node@20.19.0
         - python@3.10.8
 tools:
     enabled:
@@ -52,6 +52,7 @@ lint:
         - checkov@3.2.405
         - markdownlint@0.44.0
         - oxipng@9.1.4
+        # This version of prettier and the version installed in the package.json should be kept in sync
         - prettier@3.5.3
         - renovate@39.248.2
         - shellcheck@0.10.0
@@ -64,6 +65,10 @@ lint:
         - linters: [markdownlint]
           paths:
               - CHANGELOG.md
+        - linters: [eslint]
+          paths:
+              - tests/fixtures/**
+              - docs/_examples/**
 actions:
     disabled:
         - trunk-announce

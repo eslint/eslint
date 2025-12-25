@@ -125,7 +125,7 @@ module.exports = defineConfig([
 		rules: {
 			"eslint-plugin/prefer-placeholders": "error",
 			"eslint-plugin/prefer-replace-text": "error",
-			"eslint-plugin/report-message-format": ["error", "[^a-z].*\\.$"],
+			"eslint-plugin/report-message-format": ["error", "^[^a-z].*\\.$"],
 			"eslint-plugin/require-meta-docs-description": [
 				"error",
 				{ pattern: "^(Enforce|Require|Disallow) .+[^. ]$" },
@@ -163,15 +163,6 @@ module.exports = defineConfig([
 			],
 			"eslint-plugin/test-case-shorthand-strings": "error",
 			"no-useless-concat": "off",
-			"no-restricted-syntax": [
-				"error",
-				{
-					selector:
-						"ObjectExpression > Property[key.name='errors'] > ArrayExpression.value > ObjectExpression > Property[key.name='type']",
-					message:
-						"Do not use deprecated 'type' property in rule tests.",
-				},
-			],
 		},
 	},
 	{
@@ -369,5 +360,10 @@ module.exports = defineConfig([
 				{ ignores: ["module.enableCompileCache"] },
 			],
 		},
+	},
+	{
+		name: "eslint/pnpm-test",
+		files: ["tests/pnpm/**/*.js"],
+		languageOptions: { sourceType: "module" },
 	},
 ]);

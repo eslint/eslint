@@ -12,7 +12,7 @@ For example `a = a || b` can be shortened to `a ||= b`.
 
 This rule requires or disallows logical assignment operator shorthand.
 
-### Options
+## Options
 
 This rule has a string and an object option.
 String option:
@@ -22,10 +22,10 @@ String option:
 
 Object option (only available if string option is set to `"always"`):
 
-* `"enforceForIfStatements": false`(default) Do *not* check for equivalent `if` statements
-* `"enforceForIfStatements": true` Check for equivalent `if` statements
+* `"enforceForIfStatements": false` (default) Do *not* check for equivalent `if` statements.
+* `"enforceForIfStatements": true` Check for equivalent `if` statements.
 
-#### always
+### always
 
 This option checks for expressions that can be shortened using logical assignment operator. For example, `a = a || b` can be shortened to `a ||= b`.
 Expressions with associativity such as `a = a || b || c` are reported as being able to be shortened to `a ||= b || c` unless the evaluation order is explicitly defined using parentheses, such as `a = (a || b) || c`.
@@ -70,7 +70,7 @@ a = (a || b) || c
 
 :::
 
-#### never
+### never
 
 Examples of **incorrect** code for this rule with the `"never"` option:
 
@@ -100,7 +100,7 @@ a = a ?? b
 
 :::
 
-#### enforceForIfStatements
+### enforceForIfStatements
 
 This option checks for additional patterns with if statements which could be expressed with the logical assignment operator.
 

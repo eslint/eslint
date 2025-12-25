@@ -82,6 +82,10 @@ class Foo {
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## When Not To Use It
 
 There are situations where initializing to `undefined` behaves differently than omitting the initialization.

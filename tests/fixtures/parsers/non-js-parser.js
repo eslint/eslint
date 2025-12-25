@@ -225,7 +225,17 @@ exports.parseForESLint = () => ({
         "range": {}
     },
     services: {},
-    scopeManager: { variables: [], scopes: [{ set: new Map(), variables: [], through: [] }], getDeclaredVariables: () => {} },
+    scopeManager: {
+		variables: [],
+		scopes: [{ set: new Map(), variables: [], through: [] }],
+		getDeclaredVariables() {},
+		addGlobals(names) {
+			const globalScope = this.scopes[0];
+			for (const name of names) {
+				globalScope.set.set(name, {});
+			}
+		}
+	},
     visitorKeys: {
         Document: ['definitions'],
         ObjectTypeDefinition: ['interfaces', 'directives', 'fields'],

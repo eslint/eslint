@@ -38,11 +38,10 @@ This rule disallows the following characters except where the options allow:
 ```text
 \u000B - Line Tabulation (\v) - <VT>
 \u000C - Form Feed (\f) - <FF>
-\u00A0 - No-Break Space - <NBSP>
 \u0085 - Next Line - <NEL>
+\u00A0 - No-Break Space - <NBSP>
 \u1680 - Ogham Space Mark - <OGSP>
 \u180E - Mongolian Vowel Separator - <MVS>
-\ufeff - Zero Width No-Break Space - <BOM>
 \u2000 - En Quad - <NQSP>
 \u2001 - Em Quad - <MQSP>
 \u2002 - En Space - <ENSP>
@@ -58,8 +57,9 @@ This rule disallows the following characters except where the options allow:
 \u2028 - Line Separator - <LS> - <LSEP>
 \u2029 - Paragraph Separator - <PS> - <PSEP>
 \u202F - Narrow No-Break Space - <NNBSP>
-\u205f - Medium Mathematical Space - <MMSP>
+\u205F - Medium Mathematical Space - <MMSP>
 \u3000 - Ideographic Space - <IDSP>
+\uFEFF - Zero Width No-Break Space - <BOM>
 ```
 
 ## Options

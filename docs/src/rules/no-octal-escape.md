@@ -41,3 +41,7 @@ const buz = "Copyright \xA9";     // hexadecimal
 ```
 
 :::
+
+## Options
+
+This rule has no options.

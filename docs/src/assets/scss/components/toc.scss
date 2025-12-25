@@ -55,7 +55,7 @@
 		}
 
 		li::before {
-			content: "└";
+			content: "└" / "";
 			color: var(--icon-color);
 			position: absolute;
 			left: -0.4rem;

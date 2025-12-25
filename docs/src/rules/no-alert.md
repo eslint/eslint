@@ -53,3 +53,7 @@ function foo() {
 ```
 
 :::
+
+## Options
+
+This rule has no options.

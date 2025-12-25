@@ -119,3 +119,7 @@ class C {
 ```
 
 :::
+
+## Options
+
+This rule has no options.

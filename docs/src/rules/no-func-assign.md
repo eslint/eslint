@@ -71,3 +71,7 @@ function qux() {
 ```
 
 :::
+
+## Options
+
+This rule has no options.

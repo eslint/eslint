@@ -93,6 +93,10 @@ Array?.(0, 1, 2);
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## When Not To Use It
 
 This rule enforces a nearly universal stylistic concern. That being said, this

@@ -82,6 +82,10 @@ async function noop() {}
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## When Not To Use It
 
 Asynchronous functions are designed to work with promises such that throwing an error will cause a promise's rejection handler (such as `catch()`) to be called. For example:

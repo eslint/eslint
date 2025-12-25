@@ -137,7 +137,7 @@ describe("bin/eslint.js", () => {
 									"Formatting rules are being moved out of ESLint core.",
 								url: "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
 								deprecatedSince: "8.53.0",
-								availableUntil: "10.0.0",
+								availableUntil: "11.0.0",
 								replacedBy: [
 									{
 										message:
@@ -1410,11 +1410,27 @@ describe("bin/eslint.js", () => {
 			return Promise.all([exitCodeAssertion, outputAssertion]);
 		});
 
-		it("should warn exactly once for a file with circular fixes", async () => {
-			const cwd = fs.mkdtempSync(
-				path.join(os.tmpdir(), "eslint-circular-fixes-"),
-			);
-			const configSrc = `
+		describe("with circular fixes", () => {
+			let cwd;
+
+			beforeEach(() => {
+				cwd = fs.mkdtempSync(
+					path.join(os.tmpdir(), "eslint-circular-fixes-"),
+				);
+			});
+
+			afterEach(() => {
+				if (cwd) {
+					fs.rmSync(cwd, {
+						recursive: true,
+						force: true,
+					});
+					cwd = void 0;
+				}
+			});
+
+			it("should warn exactly once for a file with circular fixes", async () => {
+				const configSrc = `
 			export default {
 				plugins: {
 					"circular-fixes": {
@@ -1470,22 +1486,29 @@ describe("bin/eslint.js", () => {
 				},
 			};
 			`;
-			fs.writeFileSync(path.join(cwd, "file.js"), "foo");
-			fs.writeFileSync(path.join(cwd, "eslint.config.mjs"), configSrc);
-			const child = runESLint(["--concurrency=2", "--fix", "file.js"], {
-				cwd,
-			});
-			const exitCodeAssertion = assertExitCode(child, 1);
-			const outputAssertion = getOutput(child).then(output => {
-				// The warning message should appear exactly once in stderr
-				assert.strictEqual(
-					[...output.stderr.matchAll("Circular fixes detected")]
-						.length,
-					1,
+				fs.writeFileSync(path.join(cwd, "file.js"), "foo");
+				fs.writeFileSync(
+					path.join(cwd, "eslint.config.mjs"),
+					configSrc,
 				);
-			});
+				const child = runESLint(
+					["--concurrency=2", "--fix", "file.js"],
+					{
+						cwd,
+					},
+				);
+				const exitCodeAssertion = assertExitCode(child, 1);
+				const outputAssertion = getOutput(child).then(output => {
+					// The warning message should appear exactly once in stderr
+					assert.strictEqual(
+						[...output.stderr.matchAll("Circular fixes detected")]
+							.length,
+						1,
+					);
+				});
 
-			return Promise.all([exitCodeAssertion, outputAssertion]);
+				return Promise.all([exitCodeAssertion, outputAssertion]);
+			});
 		});
 	});
 

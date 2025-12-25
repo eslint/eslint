@@ -54,3 +54,7 @@ for (let i = MIN; i <= MAX; i -= 0) { // not increasing or decreasing
 ```
 
 :::
+
+## Options
+
+This rule has no options.

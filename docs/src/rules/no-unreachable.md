@@ -165,3 +165,7 @@ class F extends B {
 ```
 
 :::
+
+## Options
+
+This rule has no options.

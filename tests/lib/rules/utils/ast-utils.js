@@ -545,7 +545,7 @@ describe("ast-utils", () => {
 		 * in a loop or not in a loop.
 		 * @param {string} code the code to check.
 		 * @param {string} nodeType the type of the node to consider. The code
-		 *      must have exactly one node of ths type.
+		 *      must have exactly one node of this type.
 		 * @param {boolean} expectedInLoop the expected result for whether the
 		 *      node is in a loop.
 		 * @returns {void}

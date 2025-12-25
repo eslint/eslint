@@ -130,7 +130,10 @@ export { foo };
         "functions": true,
         "classes": true,
         "variables": true,
-        "allowNamedExports": false
+        "allowNamedExports": false,
+        "enums": true,
+        "typedefs": true,
+        "ignoreTypeReferences": true
     }]
 }
 ```
@@ -161,7 +164,7 @@ This rule additionally supports TypeScript type syntax. The following options en
 
 * `enums` (`boolean`) -
   If it is `true`, the rule warns every reference to an `enum` before it is defined.
-  Defult is `true`.
+  Default is `true`.
 * `typedefs` (`boolean`) -
   If it is `true`, this rule warns every reference to a type `alias` or `interface` before its declaration. If `false`, the rule allows using type `alias`es and `interface`s before they are defined.
   Default is `true`.
@@ -170,7 +173,7 @@ This rule additionally supports TypeScript type syntax. The following options en
   Default is `true`.
 
 This rule accepts `"nofunc"` string as an option.
-`"nofunc"` is the same as `{ "functions": false, "classes": true, "variables": true, "allowNamedExports": false }`.
+`"nofunc"` is the same as `{ "functions": false, "classes": true, "variables": true, "allowNamedExports": false, "enums": true, "typedefs": true, "ignoreTypeReferences": true }`.
 
 ### functions
 
@@ -486,5 +489,100 @@ const x: Foo = {};
 
 interface Foo {}
 ```
+
+:::
+
+### nofunc
+
+Examples of **incorrect** code for the `"nofunc"` option:
+
+::: incorrect
+
+```js
+/*eslint no-use-before-define: ["error", "nofunc"]*/
+
+a();
+var a = function() {};
+
+console.log(foo);
+var foo = 1;
+
+function f() {
+    return b;
+}
+var b = 1;
+
+new A();
+class A {
+}
+
+function g() {
+    return new B();
+}
+class B {
+}
+
+export default bar;
+const bar = 1;
+
+export { baz };
+const baz = 1;
+```
+
+:::
+
+::: incorrect
+
+```ts
+/*eslint no-use-before-define: ["error", "nofunc"]*/
+
+function foo(): Foo {
+	return Foo.FOO;
+}
+	
+enum Foo {
+	FOO,
+}
+```
+
+:::
+
+Examples of **correct** code for the `"nofunc"` option:
+
+::: correct
+
+```js
+/*eslint no-use-before-define: ["error", "nofunc"]*/
+
+f();
+function f() {}
+
+class A {
+}
+new A();
+
+var a = 10;
+alert(a);
+
+const foo = 1;
+export { foo };
+
+const bar = 1;
+export default bar;
+``` 
+
+:::
+
+::: correct
+
+```ts
+/*eslint no-use-before-define: ["error", "nofunc"]*/
+	
+enum Foo {
+	FOO,
+}
+
+const foo = Foo.Foo;
+``` 
 
 :::

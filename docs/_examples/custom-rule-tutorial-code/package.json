@@ -18,6 +18,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "eslint": "^9.1.1"
+    "eslint": "^9.35.0"
   }
 }

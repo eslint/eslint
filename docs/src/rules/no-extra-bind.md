@@ -91,6 +91,10 @@ const y = function (a) {
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## When Not To Use It
 
 If you are not concerned about unnecessary calls to `bind()`, you can safely disable this rule.

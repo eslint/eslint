@@ -64,6 +64,10 @@ try {
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## When Not To Use It
 
 If you don't want to be notified about unnecessary catch clauses, you can safely disable this rule.

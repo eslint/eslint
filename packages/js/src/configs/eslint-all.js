@@ -4,16 +4,9 @@
  */
 "use strict";
 
-/*
- * IMPORTANT!
- *
- * We cannot add a "name" property to this object because it's still used in eslintrc
- * which doesn't support the "name" property. If we add a "name" property, it will
- * cause an error.
- */
-
 module.exports = Object.freeze({
-    "rules": {
+    name: "@eslint/js/all",
+    rules: Object.freeze({
         "accessor-pairs": "error",
         "array-callback-return": "error",
         "arrow-body-style": "error",
@@ -213,5 +206,5 @@ module.exports = Object.freeze({
         "valid-typeof": "error",
         "vars-on-top": "error",
         "yoda": "error"
-    }
+    })
 });

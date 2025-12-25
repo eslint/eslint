@@ -54,6 +54,10 @@ const re1 = new RegExp("foo {3}bar");
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## When Not To Use It
 
 If you want to allow multiple spaces in a regular expression, then you can safely turn this rule off.

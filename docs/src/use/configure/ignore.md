@@ -34,6 +34,35 @@ export default defineConfig([globalIgnores([".config/*"])]);
 
 This configuration specifies that all of the files in the `.config` directory should be ignored. This pattern is added after the default patterns, which are `["**/node_modules/", ".git/"]`.
 
+By default, ESLint lints files that match the patterns `**/*.js`, `**/*.cjs`, and `**/*.mjs`. You can ignore them with `globalIgnores()` if you don't want ESLint to lint these files:
+
+```js
+// eslint.config.js
+import { defineConfig, globalIgnores } from "eslint/config";
+
+export default defineConfig([
+	globalIgnores(["**/*.js", "**/*.cjs", "**/*.mjs"]),
+]);
+```
+
+When non-JS files are specified in the `files` property, ESLint still lints files that match the default patterns. To lint only the files specified in the `files` property, you must ignore the default file patterns:
+
+```js
+// eslint.config.js
+import { defineConfig, globalIgnores } from "eslint/config";
+
+export default defineConfig([
+	globalIgnores(["**/*.js", "**/*.cjs", "**/*.mjs"]),
+	{
+		files: ["**/*.ts"],
+		ignores: [".config/**"],
+		rules: {
+			/* ... */
+		},
+	},
+]);
+```
+
 You can also ignore files on the command line using [`--ignore-pattern`](../command-line-interface#--ignore-pattern), such as:
 
 {{ npx_tabs({
@@ -110,6 +139,19 @@ export default defineConfig([
 	]),
 ]);
 ```
+
+If you want to ignore ESLint's default file patterns (`**/*.js`, `**/*.cjs`, and `**/*.mjs`) while still linting specific files or directories, you can use negative patterns to unignore them:
+
+```js
+// eslint.config.js
+import { defineConfig, globalIgnores } from "eslint/config";
+
+export default defineConfig([
+	globalIgnores(["**/*.js", "**/*.cjs", "**/*.mjs", "!**/src/**/*.js"]),
+]);
+```
+
+This configuration ignores all files matching the default patterns except for JavaScript files located within `src` directories.
 
 ::: important
 Note that only global `ignores` patterns can match directories.

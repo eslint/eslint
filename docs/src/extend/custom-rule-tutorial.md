@@ -312,10 +312,12 @@ Then, add the following code to `eslint.config.js`:
 // eslint.config.js
 "use strict";
 
+// Import the `defineConfig` helper function
+const { defineConfig } = require("eslint/config");
 // Import the ESLint plugin locally
 const eslintPluginExample = require("./eslint-plugin-example");
 
-module.exports = [
+module.exports = defineConfig([
 	{
 		files: ["**/*.js"],
 		languageOptions: {
@@ -328,7 +330,7 @@ module.exports = [
 			"example/enforce-foo-bar": "error",
 		},
 	},
-];
+]);
 ```
 
 Before you can test the rule, you must create a file to test the rule on.

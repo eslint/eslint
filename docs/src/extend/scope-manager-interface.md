@@ -32,6 +32,13 @@ This document was written based on the implementation of [eslint-scope](https://
 - **Return type:** `Scope | null`
 - **Description:** Get the scope of a given AST node. The gotten scope's `block` property is the node. This method never returns `function-expression-name` scope. If the node does not have their scope, this returns `null`.
 
+#### addGlobals(names)
+
+- **Parameters:**
+    - `names` (`string[]`) ... Names of variables to add to the global scope.
+- **Return type:** `undefined`
+- **Description:** Adds variables to the global scope and resolves references to them. This method is used by the ESLint core and should never be used in rules.
+
 #### getDeclaredVariables(node)
 
 - **Parameters:**
@@ -267,7 +274,7 @@ Those members are defined but not used in ESLint.
 #### identifier
 
 - **Type:** `ASTNode`
-- **Description:** The `Identifier` node of this reference.
+- **Description:** The `Identifier` or `JSXIdentifier` node of this reference.
 
 #### from
 

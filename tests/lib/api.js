@@ -10,8 +10,7 @@
 //-----------------------------------------------------------------------------
 
 const assert = require("chai").assert,
-	api = require("../../lib/api"),
-	{ LegacyESLint } = require("../../lib/eslint/legacy-eslint");
+	api = require("../../lib/api");
 
 //-----------------------------------------------------------------------------
 // Tests
@@ -62,20 +61,8 @@ describe("api", () => {
 			);
 		});
 
-		it("should return LegacyESLint when useFlatConfig is false", async () => {
-			assert.strictEqual(
-				await api.loadESLint({ useFlatConfig: false }),
-				LegacyESLint,
-			);
-		});
-
 		it("should return ESLint when useFlatConfig is not provided", async () => {
 			assert.strictEqual(await api.loadESLint(), api.ESLint);
-		});
-
-		it("should return LegacyESLint when useFlatConfig is not provided and ESLINT_USE_FLAT_CONFIG is false", async () => {
-			process.env.ESLINT_USE_FLAT_CONFIG = "false";
-			assert.strictEqual(await api.loadESLint(), LegacyESLint);
 		});
 
 		it("should return ESLint when useFlatConfig is not provided and ESLINT_USE_FLAT_CONFIG is true", async () => {

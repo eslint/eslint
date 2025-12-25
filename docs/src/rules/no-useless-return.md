@@ -91,6 +91,10 @@ const func = function() {
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## When Not To Use It
 
 If you don't care about disallowing redundant return statements, you can turn off this rule.

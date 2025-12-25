@@ -35,7 +35,7 @@ Website Team Members:
 - Are expected to work at least two hours total per week on ESLint.
 - May invoice for the hours they spend working on ESLint at a rate of $50 USD per hour.
 - Are expected to check in on the `#team` Discord channel once per week day (excluding holidays and other time off) for team updates.
-- Are expected to work on public branches of the source repository and submit pull requests from that branch to the master branch.
+- Are expected to work on public branches of the source repository and submit pull requests from that branch to the main branch.
 - Are expected to delete their public branches when they are no longer necessary.
 - Must submit pull requests for all changes.
 - Have their work reviewed by Reviewers and TSC members before acceptance into the repository.
@@ -63,7 +63,7 @@ Committers:
 - Are expected to work at least two hours total per week on ESLint.
 - May invoice for the hours they spend working on ESLint at a rate of $50 USD per hour.
 - Are expected to check in on the `#team` Discord channel once per week day (excluding holidays and other time off) for team updates.
-- Are expected to work on public branches of the source repository and submit pull requests from that branch to the master branch.
+- Are expected to work on public branches of the source repository and submit pull requests from that branch to the main branch.
 - Are expected to delete their public branches when they are no longer necessary.
 - Are expected to provide feedback on issues in the "Feedback Needed" column of the [Triage Board](https://github.com/orgs/eslint/projects/3/views/1).
 - Are expected to work on at least one issue in the "Ready to Implement" column of the [Triage Board](https://github.com/orgs/eslint/projects/3/views/1) that they didn't create each month.
@@ -186,6 +186,6 @@ or else the discussion will continue. Simple majority wins.
 
 ---
 
-This work is a derivative of [YUI Contributor Model](https://github.com/yui/yui3/wiki/Contributor-Model) and the [Node.js Project Governance Model](https://github.com/nodejs/node/blob/master/GOVERNANCE.md).
+This work is a derivative of [YUI Contributor Model](https://github.com/yui/yui3/wiki/Contributor-Model) and the [Node.js Project Governance Model](https://github.com/nodejs/node/blob/main/GOVERNANCE.md).
 
 This work is licensed under a [Creative Commons Attribution-ShareAlike 2.0 UK: England & Wales License](https://creativecommons.org/licenses/by-sa/2.0/uk/).

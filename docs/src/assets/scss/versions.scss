@@ -28,7 +28,7 @@
 			color: var(--link-color);
 
 			&::after {
-				content: " ✔️";
+				content: " ✔️" / "check mark";
 				white-space: pre;
 				color: rgba(100%, 0%, 0%, 0);
 				text-shadow: 0 0 0 var(--headings-color);

@@ -85,6 +85,10 @@ class C {
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## When Not To Use It
 
 If you don't want to be notified about unused private class members, you can safely turn this rule off.

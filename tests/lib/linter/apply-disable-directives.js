@@ -1183,7 +1183,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -1215,7 +1214,6 @@ describe("apply-disable-directives", () => {
 						line: 1,
 						column: 1,
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -1284,7 +1282,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -1320,7 +1317,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 					{
 						ruleId: "not-foo",
@@ -1374,7 +1370,6 @@ describe("apply-disable-directives", () => {
 						line: 1,
 						column: 8,
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -1418,7 +1413,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -1462,7 +1456,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 					{
 						ruleId: null,
@@ -1475,7 +1468,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -1519,7 +1511,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 					{
 						line: 3,
@@ -1572,7 +1563,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 					{
 						line: 3,
@@ -1658,7 +1648,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 					{
 						line: 3,
@@ -1711,7 +1700,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 					{
 						line: 3,
@@ -1763,7 +1751,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 					{
 						ruleId: "foo",
@@ -1812,7 +1799,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 					{
 						ruleId: "foo",
@@ -1869,7 +1855,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 					{
 						ruleId: null,
@@ -1882,7 +1867,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 					{
 						ruleId: "foo",
@@ -1922,7 +1906,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -1954,7 +1937,6 @@ describe("apply-disable-directives", () => {
 						line: 1,
 						column: 1,
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -2030,7 +2012,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -2085,7 +2066,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -2153,7 +2133,6 @@ describe("apply-disable-directives", () => {
 						line: 4,
 						column: 1,
 						severity: 2,
-						nodeType: null,
 					},
 					{
 						ruleId: null,
@@ -2166,7 +2145,6 @@ describe("apply-disable-directives", () => {
 						line: 5,
 						column: 1,
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -2226,7 +2204,6 @@ describe("apply-disable-directives", () => {
 						line: 4,
 						column: 1,
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -2270,7 +2247,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 					{
 						ruleId: null,
@@ -2283,7 +2259,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -2335,7 +2310,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 					{
 						line: 3,
@@ -2403,7 +2377,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -2500,7 +2473,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -2560,7 +2532,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -2620,7 +2591,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -2688,7 +2658,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 					{
 						ruleId: null,
@@ -2701,7 +2670,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -2781,7 +2749,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -2817,7 +2784,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -2886,7 +2852,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -2961,7 +2926,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 					{
 						ruleId: null,
@@ -2974,7 +2938,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -3051,7 +3014,6 @@ describe("apply-disable-directives", () => {
 							text: "",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 					{
 						line: 2,
@@ -3111,7 +3073,6 @@ describe("apply-disable-directives", () => {
 							text: "",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 					{
 						line: 2,
@@ -3172,7 +3133,6 @@ describe("apply-disable-directives", () => {
 							text: "",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 					{
 						line: 2,
@@ -3233,7 +3193,6 @@ describe("apply-disable-directives", () => {
 							text: "",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 					{
 						line: 2,
@@ -3302,7 +3261,6 @@ describe("apply-disable-directives", () => {
 							text: "",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 					{
 						ruleId: null,
@@ -3315,7 +3273,6 @@ describe("apply-disable-directives", () => {
 							text: "",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 					{
 						line: 2,
@@ -3392,7 +3349,6 @@ describe("apply-disable-directives", () => {
 							text: "",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 					{
 						ruleId: null,
@@ -3405,7 +3361,6 @@ describe("apply-disable-directives", () => {
 							text: "",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 					{
 						ruleId: null,
@@ -3418,7 +3373,6 @@ describe("apply-disable-directives", () => {
 							text: "",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 					{
 						line: 2,
@@ -3479,7 +3433,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -3537,7 +3490,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -3624,7 +3576,6 @@ describe("apply-disable-directives", () => {
 							text: "",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -3697,7 +3648,6 @@ describe("apply-disable-directives", () => {
 							text: "",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -3769,7 +3719,6 @@ describe("apply-disable-directives", () => {
 							text: "",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -3842,7 +3791,6 @@ describe("apply-disable-directives", () => {
 							text: "",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -3915,7 +3863,6 @@ describe("apply-disable-directives", () => {
 							text: "",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -3996,7 +3943,6 @@ describe("apply-disable-directives", () => {
 							text: "",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 					{
 						ruleId: null,
@@ -4009,7 +3955,6 @@ describe("apply-disable-directives", () => {
 							text: "",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -4098,7 +4043,6 @@ describe("apply-disable-directives", () => {
 							text: "",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 					{
 						ruleId: null,
@@ -4111,7 +4055,6 @@ describe("apply-disable-directives", () => {
 							text: "",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 					{
 						ruleId: null,
@@ -4124,7 +4067,6 @@ describe("apply-disable-directives", () => {
 							text: "",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -4174,7 +4116,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);
@@ -4229,7 +4170,6 @@ describe("apply-disable-directives", () => {
 							text: " ",
 						},
 						severity: 2,
-						nodeType: null,
 					},
 				],
 			);

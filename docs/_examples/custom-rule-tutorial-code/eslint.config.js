@@ -4,10 +4,12 @@
  */
 "use strict";
 
+// Import the `defineConfig` helper function
+const { defineConfig } = require("eslint/config");
 // Import the ESLint plugin
 const eslintPluginExample = require("./eslint-plugin-example");
 
-module.exports = [
+module.exports = defineConfig([
 	{
 		files: ["**/*.js"],
 		languageOptions: {
@@ -20,4 +22,4 @@ module.exports = [
 			"example/enforce-foo-bar": "error",
 		},
 	},
-];
+]);

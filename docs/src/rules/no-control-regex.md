@@ -60,6 +60,10 @@ const pattern8 = new RegExp("\\n");
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## Known Limitations
 
 When checking `RegExp` constructor calls, this rule examines evaluated regular expression patterns. Therefore, although this rule intends to allow syntax such as `\t`, it doesn't allow `new RegExp("\t")` since the evaluated pattern (string value of `"\t"`) contains a raw control character (the TAB character).

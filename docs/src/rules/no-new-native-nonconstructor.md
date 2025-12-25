@@ -31,8 +31,6 @@ This rule is aimed at preventing the accidental calling of native JavaScript glo
 * `Symbol`
 * `BigInt`
 
-## Examples
-
 Examples of **incorrect** code for this rule:
 
 ::: incorrect
@@ -67,6 +65,10 @@ function quux(BigInt) {
 ```
 
 :::
+
+## Options
+
+This rule has no options.
 
 ## When Not To Use It
 

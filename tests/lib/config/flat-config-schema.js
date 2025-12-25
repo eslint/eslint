@@ -18,7 +18,7 @@ const {
  * When eslintrc is removed, this function and its invocations can be also removed.
  * @param {Object} [first] The base object.
  * @param {Object} [second] The overrides object.
- * @param {Object} [expectedResult] The expected reults of merging first and second values.
+ * @param {Object} [expectedResult] The expected results of merging first and second values.
  * @returns {void}
  */
 function confirmLegacyMergeResult(first, second, expectedResult) {
@@ -44,7 +44,7 @@ describe("merge", () => {
 		confirmLegacyMergeResult(first, second, result);
 	});
 
-	it("returns an emtpy object if both values are undefined", () => {
+	it("returns an empty object if both values are undefined", () => {
 		const result = merge(void 0, void 0);
 
 		assert.deepStrictEqual(result, {});

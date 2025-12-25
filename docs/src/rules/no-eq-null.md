@@ -6,7 +6,7 @@ related_rules:
 ---
 
 
-Comparing to `null` without a type-checking operator (`==` or `!=`), can have unintended results as the comparison will evaluate to true when comparing to not just a `null`, but also an `undefined` value.
+Comparing to `null` without a type-checking operator (`==` or `!=`), can have unintended results as the comparison will evaluate to `true` when comparing to not just a `null`, but also an `undefined` value.
 
 ```js
 if (foo == null) {
@@ -53,6 +53,10 @@ while (qux !== null) {
 ```
 
 :::
+
+## Options
+
+This rule has no options.
 
 ## When Not To Use It
 

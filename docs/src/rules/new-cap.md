@@ -52,8 +52,8 @@ This rule has an object option:
 * `"newIsCapExceptionPattern"` allows any lowercase-started function names that match the specified regex pattern to be called with the `new` operator.
 * `"capIsNewExceptions"` allows specified uppercase-started function names to be called without the `new` operator.
 * `"capIsNewExceptionPattern"` allows any uppercase-started function names that match the specified regex pattern to be called without the `new` operator.
-* `"properties": true` (default) enables checks on object properties
-* `"properties": false` disables checks on object properties
+* `"properties": true` (default) enables checks on object properties.
+* `"properties": false` disables checks on object properties.
 
 ### newIsCap
 
