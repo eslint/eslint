@@ -62,7 +62,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "NewExpression",
 				},
 			],
 		},
@@ -72,7 +71,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "NewExpression",
 				},
 			],
 		},
@@ -82,7 +80,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "NewExpression",
 				},
 			],
 		},
@@ -92,7 +89,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "NewExpression",
 				},
 			],
 		},
@@ -101,7 +97,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -127,7 +122,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -136,7 +130,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -151,7 +144,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -166,7 +158,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "NewExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -181,7 +172,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -197,7 +187,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -207,7 +196,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "NewExpression",
 				},
 			],
 		},
@@ -217,7 +205,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "NewExpression",
 				},
 			],
 		},
@@ -493,6 +480,18 @@ ruleTester.run("no-array-constructor", rule, {
                 }
                 `,
 			},
+			{
+				code: `
+                var foo
+                Array()
+                `,
+			},
+			{
+				code: `
+                let bar
+                Array()
+                `,
+			},
 		].map(props => ({
 			...props,
 			output: props.code.replace(
@@ -511,7 +510,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -521,7 +519,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -530,7 +527,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -545,7 +541,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -561,7 +556,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -571,7 +565,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -581,7 +574,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -591,7 +583,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "NewExpression",
 				},
 			],
 		},
@@ -601,7 +592,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "NewExpression",
 				},
 			],
 		},
@@ -610,7 +600,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "NewExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -625,7 +614,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "NewExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -641,7 +629,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "NewExpression",
 				},
 			],
 		},
@@ -651,7 +638,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "NewExpression",
 				},
 			],
 		},
@@ -660,7 +646,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "NewExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -678,7 +663,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -698,7 +682,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -718,7 +701,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "NewExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -734,7 +716,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "NewExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -749,7 +730,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -764,7 +744,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -779,7 +758,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -794,7 +772,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -809,7 +786,6 @@ ruleTester.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -917,7 +893,6 @@ ruleTesterTypeScript.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -932,7 +907,6 @@ ruleTesterTypeScript.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -947,7 +921,6 @@ ruleTesterTypeScript.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -962,7 +935,6 @@ ruleTesterTypeScript.run("no-array-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -970,6 +942,75 @@ ruleTesterTypeScript.run("no-array-constructor", rule, {
 						},
 					],
 				},
+			],
+		},
+
+		// No semicolon required after TypeScript syntax
+		...[
+			"type T = Foo",
+			"type T = Foo<Bar>",
+			"type T = (A | B)",
+			"type T = -1",
+			"type T = 'foo'",
+			"const foo",
+			"declare const foo",
+			"function foo()",
+			"declare function foo()",
+			"function foo(): []",
+			"declare function foo(): []",
+			"function foo(): (Foo)",
+			"declare function foo(): (Foo)",
+			"let foo: bar",
+			"import Foo = require('foo')",
+			"import Foo = Bar",
+			"import Foo = Bar.Baz.Qux",
+		].map(code => ({
+			code: `${code}\nArray(0, 1)`,
+			output: `${code}\n[0, 1]`,
+			errors: [{ messageId: "preferLiteral" }],
+		})),
+		{
+			code: `
+			(function () {
+				Fn
+				Array() // ";" required
+			}) as Fn
+			Array() // ";" not required
+			`,
+			output: `
+			(function () {
+				Fn
+				;[] // ";" required
+			}) as Fn
+			[] // ";" not required
+			`,
+			errors: [
+				{ messageId: "preferLiteral" },
+				{ messageId: "preferLiteral" },
+			],
+		},
+		{
+			code: `
+			({
+				foo() {
+					Object
+					Array() // ";" required
+				}
+			}) as Object
+			Array() // ";" not required
+			`,
+			output: `
+			({
+				foo() {
+					Object
+					;[] // ";" required
+				}
+			}) as Object
+			[] // ";" not required
+			`,
+			errors: [
+				{ messageId: "preferLiteral" },
+				{ messageId: "preferLiteral" },
 			],
 		},
 	],

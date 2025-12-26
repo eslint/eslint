@@ -42,7 +42,6 @@ ruleTester.run("no-object-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "NewExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -57,7 +56,6 @@ ruleTester.run("no-object-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -72,7 +70,6 @@ ruleTester.run("no-object-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -87,7 +84,6 @@ ruleTester.run("no-object-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -102,7 +98,6 @@ ruleTester.run("no-object-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -117,7 +112,6 @@ ruleTester.run("no-object-constructor", rule, {
 			errors: [
 				{
 					messageId: "preferLiteral",
-					type: "NewExpression",
 					suggestions: [
 						{
 							messageId: "useLiteral",
@@ -377,6 +371,18 @@ ruleTester.run("no-object-constructor", rule, {
                         break yield
                     new Object();
                 }
+                `,
+			},
+			{
+				code: `
+                var foo
+                Object()
+                `,
+			},
+			{
+				code: `
+                let bar
+                Object()
                 `,
 			},
 		].map(props => ({

@@ -31,7 +31,6 @@ ruleTester.run("no-path-concat", rule, {
 			errors: [
 				{
 					messageId: "usePathFunctions",
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -40,7 +39,6 @@ ruleTester.run("no-path-concat", rule, {
 			errors: [
 				{
 					messageId: "usePathFunctions",
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -49,7 +47,6 @@ ruleTester.run("no-path-concat", rule, {
 			errors: [
 				{
 					messageId: "usePathFunctions",
-					type: "BinaryExpression",
 				},
 			],
 		},
@@ -58,7 +55,6 @@ ruleTester.run("no-path-concat", rule, {
 			errors: [
 				{
 					messageId: "usePathFunctions",
-					type: "BinaryExpression",
 				},
 			],
 		},

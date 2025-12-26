@@ -13,6 +13,7 @@ const childProcess = require("node:child_process");
 const fs = require("node:fs");
 const assert = require("chai").assert;
 const path = require("node:path");
+const os = require("node:os");
 
 //------------------------------------------------------------------------------
 // Data
@@ -130,25 +131,25 @@ describe("bin/eslint.js", () => {
 					usedDeprecatedRules: [
 						{
 							ruleId: "no-extra-semi",
-							replacedBy: ["@stylistic/js/no-extra-semi"],
+							replacedBy: ["@stylistic/no-extra-semi"],
 							info: {
 								message:
 									"Formatting rules are being moved out of ESLint core.",
 								url: "https://eslint.org/blog/2023/10/deprecating-formatting-rules/",
 								deprecatedSince: "8.53.0",
-								availableUntil: "10.0.0",
+								availableUntil: "11.0.0",
 								replacedBy: [
 									{
 										message:
 											"ESLint Stylistic now maintains deprecated stylistic core rules.",
 										url: "https://eslint.style/guide/migration",
 										plugin: {
-											name: "@stylistic/eslint-plugin-js",
-											url: "https://eslint.style/packages/js",
+											name: "@stylistic/eslint-plugin",
+											url: "https://eslint.style",
 										},
 										rule: {
 											name: "no-extra-semi",
-											url: "https://eslint.style/rules/js/no-extra-semi",
+											url: "https://eslint.style/rules/no-extra-semi",
 										},
 									},
 								],
@@ -1178,6 +1179,33 @@ describe("bin/eslint.js", () => {
 					);
 				});
 			});
+
+			it("prunes suppressions for files that don't exist", () => {
+				const suppressions = structuredClone(
+					SUPPRESSIONS_FILE_ALL_ERRORS,
+				);
+				const nonExistentFile =
+					"tests/fixtures/suppressions/non-existent-file.js";
+
+				suppressions[nonExistentFile] = {
+					"no-undef": { count: 1 },
+				};
+
+				fs.writeFileSync(
+					SUPPRESSIONS_PATH,
+					JSON.stringify(suppressions, null, 2),
+				);
+
+				const child = runESLint(ARGS_WITH_PRUNE_SUPPRESSIONS);
+
+				return assertExitCode(child, 0).then(() => {
+					assert.deepStrictEqual(
+						JSON.parse(fs.readFileSync(SUPPRESSIONS_PATH, "utf8")),
+						SUPPRESSIONS_FILE_ALL_ERRORS,
+						"Suppressions for existing files should remain unchanged",
+					);
+				});
+			});
 		});
 	});
 
@@ -1316,6 +1344,7 @@ describe("bin/eslint.js", () => {
 	describe("MCP server", () => {
 		it("should start the MCP server when the --mcp flag is used", done => {
 			const child = runESLint(["--mcp"]);
+			let doneCalled = false;
 
 			// should not have anything on std out
 			child.stdout.on("data", data => {
@@ -1323,11 +1352,166 @@ describe("bin/eslint.js", () => {
 			});
 
 			child.stderr.on("data", data => {
-				assert.match(data.toString(), /@eslint\/mcp/u);
-				done();
+				if (!doneCalled) {
+					assert.match(data.toString(), /@eslint\/mcp/u);
+					doneCalled = true;
+					done();
+				}
 			});
 		});
 	});
+
+	describe("Multithread mode", () => {
+		it("should warn exactly once for an empty config file", async () => {
+			const cwd = path.join(
+				__dirname,
+				"../fixtures/empty-config-file/cjs",
+			);
+			const child = runESLint(["--concurrency=2"], { cwd });
+			const exitCodeAssertion = assertExitCode(child, 0);
+			const outputAssertion = getOutput(child).then(output => {
+				// The warning message should appear exactly once in stderr
+				assert.strictEqual(
+					[
+						...output.stderr.matchAll(
+							"Running ESLint with an empty config",
+						),
+					].length,
+					1,
+				);
+			});
+
+			return Promise.all([exitCodeAssertion, outputAssertion]);
+		});
+
+		it("should warn exactly once for an inactive flag", async () => {
+			const cwd = path.join(__dirname, "../fixtures");
+			const child = runESLint(
+				[
+					"--concurrency=2",
+					"--flag=test_only_enabled_by_default",
+					"passing.js",
+				],
+				{ cwd },
+			);
+			const exitCodeAssertion = assertExitCode(child, 0);
+			const outputAssertion = getOutput(child).then(output => {
+				// The warning message should appear exactly once in stderr
+				assert.strictEqual(
+					[
+						...output.stderr.matchAll(
+							"The flag 'test_only_enabled_by_default' is inactive",
+						),
+					].length,
+					1,
+				);
+			});
+
+			return Promise.all([exitCodeAssertion, outputAssertion]);
+		});
+
+		describe("with circular fixes", () => {
+			let cwd;
+
+			beforeEach(() => {
+				cwd = fs.mkdtempSync(
+					path.join(os.tmpdir(), "eslint-circular-fixes-"),
+				);
+			});
+
+			afterEach(() => {
+				if (cwd) {
+					fs.rmSync(cwd, {
+						recursive: true,
+						force: true,
+					});
+					cwd = void 0;
+				}
+			});
+
+			it("should warn exactly once for a file with circular fixes", async () => {
+				const configSrc = `
+			export default {
+				plugins: {
+					"circular-fixes": {
+						rules: {
+							foobar: {
+								meta: {
+									fixable: "code",
+								},
+								create(context) {
+									return {
+										'Identifier[name="foo"]'(node) {
+											context.report({
+												node,
+												message: "bar this foo",
+												fix(fixer) {
+													return fixer.replaceText(
+														node,
+														"bar",
+													);
+												},
+											});
+										},
+									};
+								},
+							},
+							barfoo: {
+								meta: {
+									fixable: "code",
+								},
+								create(context) {
+									return {
+										'Identifier[name="bar"]'(node) {
+											context.report({
+												node,
+												message: "foo this bar",
+												fix(fixer) {
+													return fixer.replaceText(
+														node,
+														"foo",
+													);
+												},
+											});
+										},
+									};
+								},
+							},
+						},
+					},
+				},
+				rules: {
+					"circular-fixes/foobar": "error",
+					"circular-fixes/barfoo": "error",
+				},
+			};
+			`;
+				fs.writeFileSync(path.join(cwd, "file.js"), "foo");
+				fs.writeFileSync(
+					path.join(cwd, "eslint.config.mjs"),
+					configSrc,
+				);
+				const child = runESLint(
+					["--concurrency=2", "--fix", "file.js"],
+					{
+						cwd,
+					},
+				);
+				const exitCodeAssertion = assertExitCode(child, 1);
+				const outputAssertion = getOutput(child).then(output => {
+					// The warning message should appear exactly once in stderr
+					assert.strictEqual(
+						[...output.stderr.matchAll("Circular fixes detected")]
+							.length,
+						1,
+					);
+				});
+
+				return Promise.all([exitCodeAssertion, outputAssertion]);
+			});
+		});
+	});
+
 	afterEach(() => {
 		// Clean up all the processes after every test.
 		forkedProcesses.forEach(child => child.kill());

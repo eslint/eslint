@@ -54,7 +54,7 @@ let bar;
 
 :::
 
-Please note that this rule does not check `const` declarations, destructuring patterns, function parameters, and class fields.
+Please note that this rule does not check `const` declarations, `using` declarations, `await using` declarations, destructuring patterns, function parameters, and class fields.
 
 Examples of additional **correct** code for this rule:
 
@@ -64,6 +64,10 @@ Examples of additional **correct** code for this rule:
 /*eslint no-undef-init: "error"*/
 
 const foo = undefined;
+
+using foo1 = undefined;
+
+await using foo2 = undefined;
 
 let { bar = undefined } = baz;
 
@@ -77,6 +81,10 @@ class Foo {
 ```
 
 :::
+
+## Options
+
+This rule has no options.
 
 ## When Not To Use It
 
@@ -159,7 +167,7 @@ Another such case is when a variable is redeclared using `var`. For example:
 function foo() {
     var x = 1;
     console.log(x); // output: 1
-    
+
     var x;
     console.log(x); // output: 1
 

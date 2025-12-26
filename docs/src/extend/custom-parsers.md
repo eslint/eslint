@@ -48,6 +48,7 @@ The `parseForESLint` method should return an object that contains the required p
 - `services` can contain any parser-dependent services (such as type checkers for nodes). The value of the `services` property is available to rules as `context.sourceCode.parserServices`. Default is an empty object.
 - `scopeManager` can be a [ScopeManager](./scope-manager-interface) object. Custom parsers can use customized scope analysis for experimental/enhancement syntaxes. The default is the `ScopeManager` object which is created by [eslint-scope](https://github.com/eslint/js/tree/main/packages/eslint-scope).
     - Support for `scopeManager` was added in ESLint v4.14.0. ESLint versions that support `scopeManager` will provide an `eslintScopeManager: true` property in `parserOptions`, which can be used for feature detection.
+    - As of ESLint v10.0.0, `ScopeManager` must automatically resolve references to global variables declared in the code, and provide an instance method `addGlobals(names: string[])` that creates variables with the given names in the global scope and resolves references to them.
 - `visitorKeys` can be an object to customize AST traversal. The keys of the object are the type of AST nodes. Each value is an array of the property names which should be traversed. The default is [KEYS of `eslint-visitor-keys`](https://github.com/eslint/js/tree/main/packages/eslint-visitor-keys#evkkeys).
     - Support for `visitorKeys` was added in ESLint v4.14.0. ESLint versions that support `visitorKeys` will provide an `eslintVisitorKeys: true` property in `parserOptions`, which can be used for feature detection.
 
@@ -129,16 +130,17 @@ Then add the custom parser to your ESLint configuration file with the `languageO
 ```js
 // eslint.config.js
 
+const { defineConfig } = require("eslint/config");
 const myparser = require("eslint-parser-myparser");
 
-module.exports = [
+module.exports = defineConfig([
 	{
 		languageOptions: {
 			parser: myparser,
 		},
 		// ... rest of configuration
 	},
-];
+]);
 ```
 
 When using legacy configuration, specify the `parser` property as a string:
@@ -183,13 +185,15 @@ Include the custom parser in an ESLint configuration file:
 
 ```js
 // eslint.config.js
-module.exports = [
+const { defineConfig } = require("eslint/config");
+
+module.exports = defineConfig([
 	{
 		languageOptions: {
 			parser: require("./path/to/awesome-custom-parser"),
 		},
 	},
-];
+]);
 ```
 
 Or if using legacy configuration:

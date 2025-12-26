@@ -796,5 +796,47 @@
     "logo": "https://tc39.es/ecma262/2020/img/favicon.ico",
     "title": "ECMAScript® 2020 Language Specification",
     "description": null
+  },
+  "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause": {
+    "domain": "developer.mozilla.org",
+    "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause",
+    "logo": "https://developer.mozilla.org/favicon-192x192.png",
+    "title": "MDN Web Docs",
+    "description": "MDN docs for the cause data property of an Error instance."
+  },
+  "https://nodejs.org/api/errors.html#errorcause": {
+    "domain": "nodejs.org",
+    "url": "https://nodejs.org/api/errors.html#errorcause",
+    "logo": "https://nodejs.org/favicon.ico",
+    "title": "Errors | Node.js v24.3.0 Documentation",
+    "description": "Official Node.js documentation for the Error `cause` property."
+  },
+  "https://github.com/tc39/proposal-error-cause/blob/main/README.md": {
+    "domain": "github.com",
+    "url": "https://github.com/tc39/proposal-error-cause/blob/main/README.md",
+    "logo": "https://github.githubassets.com/favicons/favicon.png",
+    "title": "proposal-error-cause/README.md at main · tc39/proposal-error-cause",
+    "description": "Proposal for Error Cause to the Ecma International Technical Committee."
+  },
+  "https://dev.to/amnish04/never-lose-valuable-error-context-in-javascript-3aco": {
+    "domain": "dev.to",
+    "url": "https://dev.to/amnish04/never-lose-valuable-error-context-in-javascript-3aco",
+    "logo": "https://media2.dev.to/dynamic/image/quality=100/https://dev-to-uploads.s3.amazonaws.com/uploads/logos/resized_logo_UQww2soKuUsjaOGNB38o.png",
+    "title": "Never lose valuable error context in JavaScript - DEV Community",
+    "description": "My blog post discussing the importance of Error `cause` property and the ESLint rule to enforce proper usage of it."
+  },
+  "https://github.com/microsoft/TypeScript/blob/main/src/lib/es2022.error.d.ts": {
+    "domain": "github.com",
+    "url": "https://github.com/microsoft/TypeScript/blob/main/src/lib/es2022.error.d.ts",
+    "logo": "https://github.githubassets.com/favicons/favicon.png",
+    "title": "Error types that support `cause`",
+    "description": "Interface declarations for all the Error types in JavaScript that support passing a `cause` property."
+  },
+  "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt": {
+    "domain": "developer.mozilla.org",
+    "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt",
+    "logo": "https://developer.mozilla.org/favicon.ico",
+    "title": "parseInt() - JavaScript | MDN",
+    "description": "The parseInt() function parses a string argument and returns an integer of the specified radix (the base in mathematical numeral systems)."
   }
 }

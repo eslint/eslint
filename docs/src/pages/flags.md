@@ -34,6 +34,7 @@ The following policies apply to `unstable_` flags.
 
 ## Active Flags
 
+{% if flags.active | length %}
 The following flags are currently available for use in ESLint.
 
 <table>
@@ -49,9 +50,13 @@ The following flags are currently available for use in ESLint.
 {%- endfor -%}
     </tbody>
 </table>
+{% else %}
+There are currently no active flags.
+{% endif %}
 
 ## Inactive Flags
 
+{% if flags.inactive | length %}
 The following flags were once used but are no longer active.
 
 <table>
@@ -68,6 +73,9 @@ The following flags were once used but are no longer active.
 {%- endfor -%}
     </tbody>
 </table>
+{% else %}
+There are currently no inactive flags.
+{% endif %}
 
 ## How to Use Feature Flags
 
@@ -114,7 +122,7 @@ The `ESLint` class also reads the `ESLINT_FLAGS` environment variable to set fla
 
 ### Enable Feature Flags in VS Code
 
-To enable flags in the VS Code ESLint Extension for the editor, specify the flags you'd like in the `eslint.options` setting in your `settings.json` file:
+To enable flags in the VS Code ESLint Extension for the editor, specify the flags you'd like in the `eslint.options` setting in your [`settings.json`](https://code.visualstudio.com/docs/configure/settings#_settings-json-file) file:
 
 ```json
 {

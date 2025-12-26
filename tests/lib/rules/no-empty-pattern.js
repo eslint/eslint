@@ -73,7 +73,6 @@ ruleTester.run("no-empty-pattern", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "object" },
-					type: "ObjectPattern",
 				},
 			],
 		},
@@ -84,7 +83,6 @@ ruleTester.run("no-empty-pattern", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "array" },
-					type: "ArrayPattern",
 				},
 			],
 		},
@@ -95,7 +93,6 @@ ruleTester.run("no-empty-pattern", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "object" },
-					type: "ObjectPattern",
 				},
 			],
 		},
@@ -106,7 +103,6 @@ ruleTester.run("no-empty-pattern", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "object" },
-					type: "ObjectPattern",
 				},
 			],
 		},
@@ -117,7 +113,6 @@ ruleTester.run("no-empty-pattern", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "array" },
-					type: "ArrayPattern",
 				},
 			],
 		},
@@ -128,7 +123,6 @@ ruleTester.run("no-empty-pattern", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "object" },
-					type: "ObjectPattern",
 				},
 			],
 		},
@@ -139,7 +133,6 @@ ruleTester.run("no-empty-pattern", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "array" },
-					type: "ArrayPattern",
 				},
 			],
 		},
@@ -150,7 +143,6 @@ ruleTester.run("no-empty-pattern", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "object" },
-					type: "ObjectPattern",
 				},
 			],
 		},
@@ -161,7 +153,6 @@ ruleTester.run("no-empty-pattern", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "array" },
-					type: "ArrayPattern",
 				},
 			],
 		},
@@ -173,7 +164,6 @@ ruleTester.run("no-empty-pattern", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "object" },
-					type: "ObjectPattern",
 				},
 			],
 		},
@@ -185,7 +175,6 @@ ruleTester.run("no-empty-pattern", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "object" },
-					type: "ObjectPattern",
 				},
 			],
 		},
@@ -197,7 +186,6 @@ ruleTester.run("no-empty-pattern", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "object" },
-					type: "ObjectPattern",
 				},
 			],
 		},
@@ -209,7 +197,6 @@ ruleTester.run("no-empty-pattern", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "object" },
-					type: "ObjectPattern",
 				},
 			],
 		},
@@ -221,7 +208,6 @@ ruleTester.run("no-empty-pattern", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "object" },
-					type: "ObjectPattern",
 				},
 			],
 		},
@@ -233,7 +219,6 @@ ruleTester.run("no-empty-pattern", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "object" },
-					type: "ObjectPattern",
 				},
 			],
 		},
@@ -245,7 +230,6 @@ ruleTester.run("no-empty-pattern", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "object" },
-					type: "ObjectPattern",
 				},
 			],
 		},
@@ -257,7 +241,6 @@ ruleTester.run("no-empty-pattern", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "object" },
-					type: "ObjectPattern",
 				},
 			],
 		},
@@ -269,7 +252,6 @@ ruleTester.run("no-empty-pattern", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "object" },
-					type: "ObjectPattern",
 				},
 			],
 		},
@@ -281,7 +263,6 @@ ruleTester.run("no-empty-pattern", rule, {
 				{
 					messageId: "unexpected",
 					data: { type: "array" },
-					type: "ArrayPattern",
 				},
 			],
 		},

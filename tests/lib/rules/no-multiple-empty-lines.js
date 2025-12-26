@@ -28,7 +28,6 @@ function getExpectedError(lines) {
 			max: lines,
 			pluralizedLines: lines === 1 ? "line" : "lines",
 		},
-		type: "Program",
 		column: 1,
 	};
 }
@@ -45,7 +44,6 @@ function getExpectedErrorEOF(lines) {
 		data: {
 			max: lines,
 		},
-		type: "Program",
 		column: 1,
 	};
 }
@@ -62,7 +60,6 @@ function getExpectedErrorBOF(lines) {
 		data: {
 			max: lines,
 		},
-		type: "Program",
 		column: 1,
 	};
 }
@@ -325,7 +322,6 @@ ruleTester.run("no-multiple-empty-lines", rule, {
 						max: 1,
 						pluralizedLines: "line",
 					},
-					type: "Program",
 					line: 3,
 					column: 1,
 				},
@@ -343,7 +339,6 @@ ruleTester.run("no-multiple-empty-lines", rule, {
 						max: 2,
 						pluralizedLines: "lines",
 					},
-					type: "Program",
 					line: 4,
 					column: 1,
 				},

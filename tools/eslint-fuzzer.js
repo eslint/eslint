@@ -158,10 +158,11 @@ function fuzz(options) {
 	 * @param {ConfigData} config The config used
 	 * @returns {Parser} a parser
 	 */
-	function getParser({ parserOptions }) {
+	function getParser(config) {
 		return sourceText =>
 			espree.parse(sourceText, {
-				...parserOptions,
+				sourceType: config.languageOptions.sourceType,
+				ecmaVersion: "latest",
 				loc: true,
 				range: true,
 				raw: true,
@@ -181,9 +182,11 @@ function fuzz(options) {
 		const text = codeGenerator({ sourceType });
 		const config = {
 			rules,
-			parserOptions: {
+			languageOptions: {
 				sourceType,
-				ecmaVersion: espree.latestEcmaVersion,
+			},
+			linterOptions: {
+				reportUnusedDisableDirectives: "off", // needed for tests
 			},
 		};
 
@@ -200,24 +203,32 @@ function fuzz(options) {
 				? isolateBadAutofixPass(text, config)
 				: text;
 			const smallConfig = isolateBadConfig(lastGoodText, config, "crash");
-			const smallText = sampleMinimizer({
-				sourceText: lastGoodText,
-				parser: { parse: getParser(smallConfig) },
-				predicate(reducedText) {
-					try {
-						linter.verify(reducedText, smallConfig);
-						return false;
-					} catch {
-						return true;
-					}
-				},
-			});
+			let smallText = lastGoodText;
+			let sampleMinimizerError = null;
+
+			try {
+				smallText = sampleMinimizer({
+					sourceText: lastGoodText,
+					parser: { parse: getParser(smallConfig) },
+					predicate(reducedText) {
+						try {
+							linter.verify(reducedText, smallConfig);
+							return false;
+						} catch {
+							return true;
+						}
+					},
+				});
+			} catch (e) {
+				sampleMinimizerError = e.stack;
+			}
 
 			problems.push({
 				type: "crash",
 				text: smallText,
 				config: smallConfig,
 				error: err.stack,
+				sampleMinimizerError,
 			});
 
 			continue;
@@ -235,32 +246,39 @@ function fuzz(options) {
 				config,
 				"autofix",
 			);
-			const smallText = sampleMinimizer({
-				sourceText: lastGoodText,
-				parser: { parse: getParser(smallConfig) },
-				predicate(reducedText) {
-					try {
-						const smallFixResult = linter.verifyAndFix(
-							reducedText,
-							smallConfig,
-						);
+			let smallText = lastGoodText;
+			let sampleMinimizerError = null;
+			try {
+				smallText = sampleMinimizer({
+					sourceText: lastGoodText,
+					parser: { parse: getParser(smallConfig) },
+					predicate(reducedText) {
+						try {
+							const smallFixResult = linter.verifyAndFix(
+								reducedText,
+								smallConfig,
+							);
 
-						return (
-							smallFixResult.fixed &&
-							smallFixResult.messages.length === 1 &&
-							smallFixResult.messages[0].fatal
-						);
-					} catch {
-						return false;
-					}
-				},
-			});
+							return (
+								smallFixResult.fixed &&
+								smallFixResult.messages.length === 1 &&
+								smallFixResult.messages[0].fatal
+							);
+						} catch {
+							return false;
+						}
+					},
+				});
+			} catch (e) {
+				sampleMinimizerError = e.stack;
+			}
 
 			problems.push({
 				type: "autofix",
 				text: smallText,
 				config: smallConfig,
 				error: autofixResult.messages[0],
+				sampleMinimizerError,
 			});
 		}
 	}

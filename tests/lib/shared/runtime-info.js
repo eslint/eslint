@@ -55,6 +55,7 @@ describe("RuntimeInfo", () => {
 	describe("environment()", () => {
 		let spawnSyncStub;
 		let logErrorStub;
+		let processVersionStub;
 		let originalProcessArgv;
 		let spawnSyncStubArgs;
 		const originalOsPlatform = os.platform;
@@ -65,10 +66,12 @@ describe("RuntimeInfo", () => {
 			os.release = () => "20.3.0";
 			spawnSyncStub = sinon.stub(spawn, "sync");
 			logErrorStub = sinon.stub(log, "error");
+			processVersionStub = sinon
+				.stub(process, "version")
+				.value("v12.8.0");
 			originalProcessArgv = process.argv;
 			process.argv[1] = LOCAL_ESLINT_BIN_PATH;
 			spawnSyncStubArgs = [
-				"v12.8.0",
 				"6.11.3",
 				unIndent`
                     {
@@ -99,6 +102,7 @@ describe("RuntimeInfo", () => {
 		afterEach(() => {
 			spawnSyncStub.restore();
 			logErrorStub.restore();
+			processVersionStub.restore();
 			process.argv = originalProcessArgv;
 			os.platform = originalOsPlatform;
 			os.release = originalOsRelease;
@@ -141,7 +145,7 @@ describe("RuntimeInfo", () => {
 
 		it("should return a string containing environment information when not installed locally", () => {
 			spawnSyncStubArgs.splice(
-				2,
+				1,
 				2,
 				unIndent`
                 {
@@ -169,7 +173,7 @@ describe("RuntimeInfo", () => {
 		});
 
 		it("should return a string containing environment information when not installed globally", () => {
-			spawnSyncStubArgs[4] = "{}";
+			spawnSyncStubArgs[3] = "{}";
 			setupSpawnSyncStubReturnVals(spawnSyncStub, spawnSyncStubArgs);
 
 			assert.strictEqual(
@@ -189,7 +193,7 @@ describe("RuntimeInfo", () => {
 		it("log and throw an error when npm version can not be found", () => {
 			const expectedErr = new Error("npm can not be found");
 
-			spawnSyncStubArgs[1] = expectedErr;
+			spawnSyncStubArgs[0] = expectedErr;
 			setupSpawnSyncStubReturnVals(spawnSyncStub, spawnSyncStubArgs);
 
 			assert.throws(RuntimeInfo.environment, expectedErr);
@@ -202,7 +206,7 @@ describe("RuntimeInfo", () => {
 		it("log and throw an error when npm binary path can not be found", () => {
 			const expectedErr = new Error("npm can not be found");
 
-			spawnSyncStubArgs[3] = expectedErr;
+			spawnSyncStubArgs[2] = expectedErr;
 			setupSpawnSyncStubReturnVals(spawnSyncStub, spawnSyncStubArgs);
 
 			assert.throws(RuntimeInfo.environment, expectedErr);
@@ -213,12 +217,12 @@ describe("RuntimeInfo", () => {
 		});
 
 		it("log and throw an error when checking for local ESLint version when returned output of command is malformed", () => {
-			spawnSyncStubArgs[2] = "This is not JSON";
+			spawnSyncStubArgs[1] = "This is not JSON";
 			setupSpawnSyncStubReturnVals(spawnSyncStub, spawnSyncStubArgs);
 
 			assert.throws(
 				RuntimeInfo.environment,
-				/^Unexpected token .*T.* JSON/u,
+				/^Unexpected token [^\n\rT\u2028\u2029]*T.* JSON/u,
 			);
 			assert.strictEqual(
 				logErrorStub.args[0][0],
@@ -227,12 +231,12 @@ describe("RuntimeInfo", () => {
 		});
 
 		it("log and throw an error when checking for global ESLint version when returned output of command is malformed", () => {
-			spawnSyncStubArgs[4] = "This is not JSON";
+			spawnSyncStubArgs[3] = "This is not JSON";
 			setupSpawnSyncStubReturnVals(spawnSyncStub, spawnSyncStubArgs);
 
 			assert.throws(
 				RuntimeInfo.environment,
-				/^Unexpected token .*T.* JSON/u,
+				/^Unexpected token [^\n\rT\u2028\u2029]*T.* JSON/u,
 			);
 			assert.strictEqual(
 				logErrorStub.args[0][0],

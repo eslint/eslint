@@ -30,7 +30,7 @@ Using string option, you can specify  the name of a module that you want to rest
 
 Examples of **incorrect** code for string option:
 
-::: incorrect { "sourceType": "module" }
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", "fs"]*/
@@ -42,7 +42,7 @@ import fs from 'fs';
 
 String options also restrict the module from being exported, as in this example:
 
-::: incorrect { "sourceType": "module" }
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", "fs"]*/
@@ -52,7 +52,7 @@ export { fs } from 'fs';
 
 :::
 
-::: incorrect { "sourceType": "module" }
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", "fs"]*/
@@ -64,7 +64,7 @@ export * from 'fs';
 
 Examples of **correct** code for string option:
 
-::: correct { "sourceType": "module" }
+::: correct
 
 ```js
 /*eslint no-restricted-imports: ["error", "fs"]*/
@@ -89,7 +89,7 @@ You may also specify a custom message for a particular module using the `name` a
 
 Examples of **incorrect** code for string option:
 
-::: incorrect { "sourceType": "module" }
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", {
@@ -112,7 +112,7 @@ This is an object option whose value is an array containing the names of the mod
 
 Examples of **incorrect** code for `paths`:
 
-::: incorrect { "sourceType": "module" }
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", { "paths": ["cluster"] }]*/
@@ -154,7 +154,7 @@ Specifying `"default"` string inside the `importNames` array will restrict the d
 
 Examples of **incorrect** code when `importNames` in `paths` has `"default"`:
 
-::: incorrect { "sourceType": "module" }
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
@@ -170,7 +170,7 @@ import DisallowedObject from "foo";
 
 Examples of **incorrect** code for `importNames` in `paths`:
 
-::: incorrect { "sourceType": "module" }
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
@@ -188,7 +188,7 @@ import { "DisallowedObject" as SomeObject } from "foo";
 
 :::
 
-::: incorrect { "sourceType": "module" }
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
@@ -206,7 +206,7 @@ Examples of **correct** code for `importNames` in `paths`:
 
 If the local name assigned to a default export is the same as a string in `importNames`, this will not cause an error.
 
-::: correct { "sourceType": "module" }
+::: correct
 
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{ name: "foo", importNames: ["DisallowedObject"] }] }]*/
@@ -216,7 +216,7 @@ import DisallowedObject from "foo"
 
 :::
 
-::: correct { "sourceType": "module" }
+::: correct
 
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
@@ -250,7 +250,7 @@ Examples of **incorrect** code for `allowImportNames` in `paths`:
 
 Disallowing all import names except 'AllowedObject'.
 
-::: incorrect { "sourceType": "module" }
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
@@ -268,7 +268,7 @@ Examples of **correct** code for `allowImportNames` in `paths`:
 
 Disallowing all import names except 'AllowedObject'.
 
-::: correct { "sourceType": "module" }
+::: correct
 
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
@@ -278,6 +278,61 @@ Disallowing all import names except 'AllowedObject'.
 }]}]*/
 
 import { AllowedObject } from "foo";
+```
+
+:::
+
+#### allowTypeImports (TypeScript only)
+
+Whether to allow [Type-Only Imports](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-8.html#type-only-imports-and-export) for a path. This includes type-only `export` statements, as they are equivalent to re-exporting an `import`. Default: `false`.
+
+Examples of **incorrect** code for `allowTypeImports` in `paths`:
+
+::: incorrect
+
+```ts
+/*eslint no-restricted-imports: ["error", { paths: [{
+    name: "import-foo",
+    allowTypeImports: true,
+    message: "Please use only type-only imports from 'import-foo'."
+}]}]*/
+
+import foo from 'import-foo';
+export { Foo } from 'import-foo';
+```
+
+:::
+
+Examples of **correct** code for `allowTypeImports` in `paths`:
+
+::: correct
+
+```ts
+/*eslint no-restricted-imports: ["error", { paths: [{
+    name: "import-foo",
+    allowTypeImports: true,
+    message: "Please use only type-only imports from 'import-foo'."
+}]}]*/
+
+import type foo from 'import-foo';
+export type { Foo } from 'import-foo';
+
+import type foo = require("import-foo");
+```
+
+:::
+
+::: correct
+
+```ts
+/*eslint no-restricted-imports: ["error", { paths: [{
+    name: "import-foo",
+	importNames: ["Baz"],
+    allowTypeImports: true,
+    message: "Please use 'Baz' from 'import-foo' as a type only."
+}]}]*/
+
+import { Bar, type Baz } from "import-foo";
 ```
 
 :::
@@ -323,7 +378,7 @@ You can also use regular expressions to restrict modules (see the [`regex` optio
 
 Examples of **incorrect** code for `patterns` option:
 
-::: incorrect { "sourceType": "module" }
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", { "patterns": ["lodash/*"] }]*/
@@ -333,7 +388,7 @@ import pick from 'lodash/pick';
 
 :::
 
-::: incorrect { "sourceType": "module" }
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", { "patterns": ["lodash/*", "!lodash/pick"] }]*/
@@ -343,7 +398,7 @@ import pick from 'lodash/map';
 
 :::
 
-::: incorrect { "sourceType": "module" }
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", { "patterns": ["import1/*", "!import1/private/*"] }]*/
@@ -357,7 +412,7 @@ In this example, `"!import1/private/*"` is not reincluding the modules inside `p
 
 Examples of **correct** code for `patterns` option:
 
-::: correct { "sourceType": "module" }
+::: correct
 
 ```js
 /*eslint no-restricted-imports: ["error", { "patterns": ["crypto/*"] }]*/
@@ -367,7 +422,7 @@ import crypto from 'crypto';
 
 :::
 
-::: correct { "sourceType": "module" }
+::: correct
 
 ```js
 /*eslint no-restricted-imports: ["error", { "patterns": ["lodash/*", "!lodash/pick"] }]*/
@@ -377,7 +432,7 @@ import pick from 'lodash/pick';
 
 :::
 
-::: correct { "sourceType": "module" }
+::: correct
 
 ```js
 /*eslint no-restricted-imports: ["error", { "patterns": ["import1/*", "!import1/private"] }]*/
@@ -407,7 +462,7 @@ Either of the `group` or `regex` properties is required when using the `patterns
 
 Examples of **incorrect** code for `group` option:
 
-::: incorrect { "sourceType": "module" }
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -422,7 +477,7 @@ import pick from 'lodash/pick';
 
 Examples of **correct** code for this `group` option:
 
-::: correct { "sourceType": "module" }
+::: correct
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -455,7 +510,7 @@ Note: `regex` cannot be used in combination with `group`.
 
 Examples of **incorrect** code for `regex` option:
 
-::: incorrect { "sourceType": "module" }
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -472,7 +527,7 @@ import Bux from '@app/api/enums/foo';
 
 Examples of **correct** code for `regex` option:
 
-::: correct { "sourceType": "module" }
+::: correct
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -499,7 +554,7 @@ This is a boolean option and sets the patterns specified in the `group` or `rege
 
 Examples of **incorrect** code for `caseSensitive: true` option:
 
-::: incorrect { "sourceType": "module" }
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -514,7 +569,7 @@ import pick from 'fooBar';
 
 Examples of **correct** code for `caseSensitive: true` option:
 
-::: correct { "sourceType": "module" }
+::: correct
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -543,7 +598,7 @@ You can also specify `importNames` within objects inside the `patterns` array. I
 
 Examples of **incorrect** code for `importNames` in `patterns`:
 
-::: incorrect { "sourceType": "module" }
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -559,7 +614,7 @@ import { isEmpty } from 'utils/collection-utils';
 
 Examples of **correct** code for `importNames` in `patterns`:
 
-::: correct { "sourceType": "module" }
+::: correct
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -591,7 +646,7 @@ Note: `allowImportNames` cannot be used in combination with `importNames`, `impo
 
 Examples of **incorrect** code for `allowImportNames` in `patterns`:
 
-::: incorrect { "sourceType": "module" }
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -607,7 +662,7 @@ import { hasValues } from 'utils/collection-utils';
 
 Examples of **correct** code for `allowImportNames` in `patterns`:
 
-::: correct { "sourceType": "module" }
+::: correct
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -636,7 +691,7 @@ This option allows you to use regex patterns to restrict import names:
 
 Examples of **incorrect** code for `importNamePattern` option:
 
-::: incorrect { "sourceType": "module" }
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -650,7 +705,7 @@ import { isEmpty } from 'utils/collection-utils';
 
 :::
 
-::: incorrect { "sourceType": "module" }
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -664,7 +719,7 @@ import { isSomething, hasSomething } from 'foo/bar';
 
 :::
 
-::: incorrect { "sourceType": "module" }
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -680,7 +735,7 @@ import { bar, bazQux } from 'foo/quux';
 
 Examples of **correct** code for `importNamePattern` option:
 
-::: correct { "sourceType": "module" }
+::: correct
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -698,7 +753,7 @@ You can also use this option to allow only side-effect imports by setting it to 
 
 Examples of **incorrect** code for `importNamePattern` option:
 
-::: incorrect { "sourceType": "module" }
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -715,7 +770,7 @@ import * as file from 'utils/file-utils';
 
 Examples of **correct** code for `importNamePattern` option:
 
-::: correct { "sourceType": "module" }
+::: correct
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -745,7 +800,7 @@ Note: `allowImportNamePattern` cannot be used in combination with `importNames`,
 
 Examples of **incorrect** code for `allowImportNamePattern` option:
 
-::: incorrect { "sourceType": "module" }
+::: incorrect
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -760,7 +815,7 @@ import { isEmpty } from 'utils/collection-utils';
 
 Examples of **correct** code for `allowImportNamePattern` option:
 
-::: correct { "sourceType": "module" }
+::: correct
 
 ```js
 /*eslint no-restricted-imports: ["error", { patterns: [{
@@ -769,6 +824,119 @@ Examples of **correct** code for `allowImportNamePattern` option:
 }]}]*/
 
 import { isEmpty } from 'utils/collection-utils';
+```
+
+:::
+
+#### allowTypeImports (TypeScript only)
+
+Whether to allow [Type-Only Imports](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-8.html#type-only-imports-and-export) for a path. This includes type-only `export` statements, as they are equivalent to re-exporting an `import`. Default: `false`.
+
+```json
+"no-restricted-imports": ["error", {
+  "patterns": [{
+    "group": ["import/private/*"],
+    "allowTypeImports": true,
+  }]
+}]
+```
+
+Examples of **incorrect** code for `allowTypeImports` in `patterns`:
+
+::: incorrect
+
+```ts
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["import/private/*"],
+    allowTypeImports: true,
+    message: "Please use only type-only imports from 'import/private/*'."
+}]}]*/
+
+import { foo } from 'import/private/bar';
+export { foo } from 'import/private/bar';
+```
+
+:::
+
+Examples of **correct** code for `allowTypeImports` in `patterns`:
+
+::: correct
+
+```ts
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["import/private/*"],
+    allowTypeImports: true,
+    message: "Please use only type-only imports from 'import/private/*'."
+}]}]*/
+
+import type { foo } from 'import/private/bar';
+export type { foo } from 'import/private/bar';
+
+import type foo = require("import/private/bar");
+```
+
+:::
+
+::: correct
+
+```ts
+/*eslint no-restricted-imports: ["error", { patterns: [{
+    group: ["import/private/*"],
+    importNames: ["Baz"],
+    allowTypeImports: true,
+    message: "Please use 'Baz' from 'import/private/*' as a type only."
+}]}]*/
+
+import { Bar, type Baz } from "import/private/bar";
+```
+
+:::
+
+## Known Limitations
+
+TypeScript [`import = require()` syntax](https://www.typescriptlang.org/docs/handbook/2/modules.html#es-module-syntax-with-commonjs-behavior) is valid and the rule can recognize and lint such instances, but with certain limitations.
+
+You can only fully restrict these imports, you cannot restrict them based on specific import names like `importNames`, `allowImportNames`, `importNamePattern`, or `allowImportNamePattern` options.
+
+Examples of **incorrect** code for TypeScript import equals declarations:
+
+::: incorrect
+
+```ts
+/*eslint no-restricted-imports: ["error", "disallowed-import"]*/
+
+import foo = require("disallowed-import");
+```
+
+:::
+
+::: incorrect
+
+```ts
+/*eslint no-restricted-imports: ["error", { 
+  "paths": [{ "name": "disallowed-import" }] 
+}]*/
+
+import foo = require("disallowed-import");
+```
+
+:::
+
+**Note:** Import name restrictions do not apply to TypeScript import equals declarations. The following configuration will not restrict the import equals declaration:
+
+::: correct
+
+```ts
+/*eslint no-restricted-imports: ["error", { 
+  "paths": [{ 
+    "name": "foo",
+    "importNames": ["foo"]
+  }] 
+}]*/
+
+// This import equals declaration will NOT be restricted
+// even though it imports the entire module
+import foo = require("foo");
 ```
 
 :::

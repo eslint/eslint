@@ -147,7 +147,6 @@ ruleTester.run("new-cap", rule, {
 			errors: [
 				{
 					messageId: "lower",
-					type: "NewExpression",
 					line: 1,
 					column: 13,
 					endLine: 1,
@@ -160,7 +159,6 @@ ruleTester.run("new-cap", rule, {
 			errors: [
 				{
 					messageId: "lower",
-					type: "NewExpression",
 					line: 1,
 					column: 13,
 					endLine: 1,
@@ -173,7 +171,6 @@ ruleTester.run("new-cap", rule, {
 			errors: [
 				{
 					messageId: "lower",
-					type: "NewExpression",
 					line: 1,
 					column: 17,
 					endLine: 1,
@@ -186,7 +183,6 @@ ruleTester.run("new-cap", rule, {
 			errors: [
 				{
 					messageId: "lower",
-					type: "NewExpression",
 					line: 1,
 					column: 17,
 					endLine: 1,
@@ -199,7 +195,6 @@ ruleTester.run("new-cap", rule, {
 			errors: [
 				{
 					messageId: "upper",
-					type: "CallExpression",
 					line: 1,
 					column: 9,
 					endLine: 1,
@@ -212,7 +207,6 @@ ruleTester.run("new-cap", rule, {
 			errors: [
 				{
 					messageId: "upper",
-					type: "CallExpression",
 					line: 1,
 					column: 11,
 					endLine: 1,
@@ -225,7 +219,6 @@ ruleTester.run("new-cap", rule, {
 			errors: [
 				{
 					messageId: "upper",
-					type: "CallExpression",
 					line: 1,
 					column: 11,
 					endLine: 1,
@@ -238,7 +231,6 @@ ruleTester.run("new-cap", rule, {
 			errors: [
 				{
 					messageId: "upper",
-					type: "CallExpression",
 					line: 1,
 					column: 16,
 					endLine: 1,
@@ -251,7 +243,6 @@ ruleTester.run("new-cap", rule, {
 			errors: [
 				{
 					messageId: "upper",
-					type: "CallExpression",
 					line: 1,
 					column: 9,
 					endLine: 1,
@@ -264,7 +255,6 @@ ruleTester.run("new-cap", rule, {
 			errors: [
 				{
 					messageId: "upper",
-					type: "CallExpression",
 					line: 1,
 					column: 11,
 					endLine: 1,
@@ -277,7 +267,6 @@ ruleTester.run("new-cap", rule, {
 			errors: [
 				{
 					messageId: "upper",
-					type: "CallExpression",
 					line: 2,
 					column: 2,
 					endLine: 2,
@@ -290,7 +279,6 @@ ruleTester.run("new-cap", rule, {
 			errors: [
 				{
 					messageId: "lower",
-					type: "NewExpression",
 					line: 1,
 					column: 15,
 					endLine: 1,
@@ -303,7 +291,6 @@ ruleTester.run("new-cap", rule, {
 			errors: [
 				{
 					messageId: "lower",
-					type: "NewExpression",
 					line: 2,
 					column: 1,
 					endLine: 2,
@@ -316,7 +303,6 @@ ruleTester.run("new-cap", rule, {
 			errors: [
 				{
 					messageId: "lower",
-					type: "NewExpression",
 					line: 1,
 					column: 13,
 					endLine: 1,
@@ -330,7 +316,6 @@ ruleTester.run("new-cap", rule, {
 			errors: [
 				{
 					messageId: "lower",
-					type: "NewExpression",
 					line: 1,
 					column: 18,
 					endLine: 1,
@@ -344,7 +329,6 @@ ruleTester.run("new-cap", rule, {
 			errors: [
 				{
 					messageId: "lower",
-					type: "NewExpression",
 					line: 1,
 					column: 15,
 					endLine: 1,
@@ -358,7 +342,6 @@ ruleTester.run("new-cap", rule, {
 			errors: [
 				{
 					messageId: "upper",
-					type: "CallExpression",
 					line: 1,
 					column: 11,
 					endLine: 2,
@@ -370,24 +353,40 @@ ruleTester.run("new-cap", rule, {
 		{
 			code: "var x = Foo.Bar(42);",
 			options: [{ capIsNewExceptions: ["Foo"] }],
-			errors: [{ type: "CallExpression", messageId: "upper" }],
+			errors: [
+				{
+					messageId: "upper",
+				},
+			],
 		},
 		{
 			code: "var x = Bar.Foo(42);",
 
 			options: [{ capIsNewExceptionPattern: "^Foo\\.." }],
-			errors: [{ type: "CallExpression", messageId: "upper" }],
+			errors: [
+				{
+					messageId: "upper",
+				},
+			],
 		},
 		{
 			code: "var x = new foo.bar(42);",
 			options: [{ newIsCapExceptions: ["foo"] }],
-			errors: [{ type: "NewExpression", messageId: "lower" }],
+			errors: [
+				{
+					messageId: "lower",
+				},
+			],
 		},
 		{
 			code: "var x = new bar.foo(42);",
 
 			options: [{ newIsCapExceptionPattern: "^foo\\.." }],
-			errors: [{ type: "NewExpression", messageId: "lower" }],
+			errors: [
+				{
+					messageId: "lower",
+				},
+			],
 		},
 
 		// Optional chaining

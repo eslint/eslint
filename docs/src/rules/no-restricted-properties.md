@@ -13,7 +13,7 @@ Certain properties on objects may be disallowed in a codebase. This is useful fo
 
 This rule looks for accessing a given property key on a given object name, either when reading the property's value or invoking it as a function. You may specify an optional message to indicate an alternative API or a reason for the restriction. This rule applies to both properties accessed by dot notation and destructuring.
 
-### Options
+## Options
 
 This rule takes a list of objects, where the object name and property names are specified:
 
@@ -85,7 +85,21 @@ If you want to restrict a property globally but allow specific objects to use it
 }
 ```
 
-Note that the `allowObjects` option cannot be used together with the `object` option since they are mutually exclusive.
+If you want to restrict all properties on an object except for specific ones, you can use the `allowProperties` option:
+
+```json
+{
+    "rules": {
+        "no-restricted-properties": [2, {
+            "object": "config",
+            "allowProperties": ["settings", "version"],
+            "message": "Accessing other properties is restricted."
+        }]
+    }
+}
+```
+
+Note that the `allowObjects` option cannot be used together with the `object` option since they are mutually exclusive. Similarly, the `allowProperties` option cannot be used together with the `property` option since they are also mutually exclusive.
 
 Examples of **incorrect** code for this rule:
 
@@ -145,6 +159,20 @@ myArray.push(5);
 
 :::
 
+::: incorrect
+
+```js
+/* eslint no-restricted-properties: [2, {
+    "object": "config",
+    "allowProperties": ["settings", "version"]
+}] */
+
+config.apiKey = "12345";
+config.timeout = 5000;
+```
+
+:::
+
 Examples of **correct** code for this rule:
 
 ::: correct
@@ -184,6 +212,20 @@ require('foo');
 
 router.push('/home');
 history.push('/about');
+```
+
+:::
+
+::: correct
+
+```js
+/* eslint no-restricted-properties: [2, {
+    "object": "config",
+    "allowProperties": ["settings", "version"]
+}] */
+
+config.settings = { theme: "dark" };
+config.version = "1.0.0";  
 ```
 
 :::

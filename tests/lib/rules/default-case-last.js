@@ -24,7 +24,6 @@ const RuleTester = require("../../../lib/rule-tester/rule-tester");
 function error(column) {
 	const errorObject = {
 		messageId: "notLast",
-		type: "SwitchCase",
 	};
 
 	if (column) {

@@ -4,6 +4,7 @@ const js = require("@eslint/js");
 const jsdoc = require("eslint-plugin-jsdoc");
 const eslintCommentsPluginConfigs = require("@eslint-community/eslint-plugin-eslint-comments/configs");
 const unicorn = require("eslint-plugin-unicorn");
+const regexp = require("eslint-plugin-regexp");
 
 // extends eslint recommended config
 /**
@@ -88,7 +89,6 @@ const jsConfigs = [
 			"no-sequences": "error",
 			"no-shadow": "error",
 			"no-throw-literal": "error",
-			"no-unassigned-vars": "error",
 			"no-undef": ["error", { typeof: true }],
 			"no-undef-init": "error",
 			"no-undefined": "error",
@@ -106,7 +106,6 @@ const jsConfigs = [
 				},
 			],
 			"no-use-before-define": "error",
-			"no-useless-assignment": "error",
 			"no-useless-call": "error",
 			"no-useless-computed-key": "error",
 			"no-useless-concat": "error",
@@ -294,6 +293,12 @@ const eslintCommentsConfigs = [
 	},
 ];
 
+// extends eslint-plugin-regexp's recommended config
+/**
+ * @type {import("eslint").Linter.Config[]}
+ */
+const regexpConfigs = [regexp.configs["flat/recommended"]];
+
 /**
  * @type {import("eslint").Linter.Config[]}
  */
@@ -305,8 +310,9 @@ module.exports = [
 			reportUnusedInlineConfigs: "error",
 		},
 	},
-	...jsConfigs,
 	...unicornConfigs,
 	...jsdocConfigs,
 	...eslintCommentsConfigs,
+	...regexpConfigs,
+	...jsConfigs,
 ];

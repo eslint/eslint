@@ -72,7 +72,6 @@ ruleTester.run("no-restricted-syntax", rule, {
 					data: {
 						message: "Using 'VariableDeclaration' is not allowed.",
 					},
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -83,7 +82,6 @@ ruleTester.run("no-restricted-syntax", rule, {
 				{
 					messageId: "restrictedSyntax",
 					data: { message: "Using 'EmptyStatement' is not allowed." },
-					type: "EmptyStatement",
 				},
 			],
 		},
@@ -94,22 +92,18 @@ ruleTester.run("no-restricted-syntax", rule, {
 				{
 					messageId: "restrictedSyntax",
 					data: { message: "Using 'TryStatement' is not allowed." },
-					type: "TryStatement",
 				},
 				{
 					messageId: "restrictedSyntax",
 					data: { message: "Using 'CallExpression' is not allowed." },
-					type: "CallExpression",
 				},
 				{
 					messageId: "restrictedSyntax",
 					data: { message: "Using 'CatchClause' is not allowed." },
-					type: "CatchClause",
 				},
 				{
 					messageId: "restrictedSyntax",
 					data: { message: "Using 'CallExpression' is not allowed." },
-					type: "CallExpression",
 				},
 			],
 		},
@@ -123,7 +117,6 @@ ruleTester.run("no-restricted-syntax", rule, {
 						message:
 							"Using 'Identifier[name=\"bar\"]' is not allowed.",
 					},
-					type: "Identifier",
 				},
 			],
 		},
@@ -134,7 +127,6 @@ ruleTester.run("no-restricted-syntax", rule, {
 				{
 					messageId: "restrictedSyntax",
 					data: { message: "Using 'Identifier' is not allowed." },
-					type: "Identifier",
 				},
 				{
 					messageId: "restrictedSyntax",
@@ -142,7 +134,6 @@ ruleTester.run("no-restricted-syntax", rule, {
 						message:
 							"Using 'Identifier[name=\"bar\"]' is not allowed.",
 					},
-					type: "Identifier",
 				},
 			],
 		},
@@ -157,7 +148,6 @@ ruleTester.run("no-restricted-syntax", rule, {
 						message:
 							"Using 'ArrowFunctionExpression > BlockStatement' is not allowed.",
 					},
-					type: "BlockStatement",
 				},
 			],
 		},
@@ -171,7 +161,6 @@ ruleTester.run("no-restricted-syntax", rule, {
 						message:
 							"Using 'Property > Literal.key' is not allowed.",
 					},
-					type: "Literal",
 				},
 			],
 		},
@@ -185,7 +174,6 @@ ruleTester.run("no-restricted-syntax", rule, {
 						message:
 							"Using 'BreakStatement[label]' is not allowed.",
 					},
-					type: "BreakStatement",
 				},
 			],
 		},
@@ -199,7 +187,6 @@ ruleTester.run("no-restricted-syntax", rule, {
 						message:
 							"Using 'FunctionDeclaration[params.length>2]' is not allowed.",
 					},
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -214,7 +201,6 @@ ruleTester.run("no-restricted-syntax", rule, {
 					data: {
 						message: "Using 'VariableDeclaration' is not allowed.",
 					},
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -228,7 +214,6 @@ ruleTester.run("no-restricted-syntax", rule, {
 						message:
 							"Using 'FunctionDeclaration[params.length>2]' is not allowed.",
 					},
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -244,7 +229,6 @@ ruleTester.run("no-restricted-syntax", rule, {
 				{
 					messageId: "restrictedSyntax",
 					data: { message: "custom error message." },
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -262,7 +246,6 @@ ruleTester.run("no-restricted-syntax", rule, {
 				{
 					messageId: "restrictedSyntax",
 					data: { message: "custom message with {{selector}}" },
-					type: "FunctionDeclaration",
 				},
 			],
 		},
@@ -278,7 +261,6 @@ ruleTester.run("no-restricted-syntax", rule, {
 						message:
 							"Using 'Literal[regex.flags=/./]' is not allowed.",
 					},
-					type: "Literal",
 				},
 			],
 		},
@@ -294,7 +276,6 @@ ruleTester.run("no-restricted-syntax", rule, {
 					data: {
 						message: "Using 'ChainExpression' is not allowed.",
 					},
-					type: "ChainExpression",
 				},
 			],
 		},
@@ -308,14 +289,12 @@ ruleTester.run("no-restricted-syntax", rule, {
 					data: {
 						message: "Using '[optional=true]' is not allowed.",
 					},
-					type: "CallExpression",
 				},
 				{
 					messageId: "restrictedSyntax",
 					data: {
 						message: "Using '[optional=true]' is not allowed.",
 					},
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -329,7 +308,6 @@ ruleTester.run("no-restricted-syntax", rule, {
 				{
 					messageId: "restrictedSyntax",
 					data: { message: "Using ':nth-child(1)' is not allowed." },
-					type: "ExpressionStatement",
 				},
 			],
 		},
@@ -346,7 +324,40 @@ ruleTester.run("no-restricted-syntax", rule, {
 				{
 					messageId: "restrictedSyntax",
 					data: { message: "Using '* ~ *' is not allowed." },
-					type: "JSXElement",
+				},
+			],
+		},
+
+		{
+			code: "{ using x = foo(); }",
+			options: ["VariableDeclaration[kind='using']"],
+			languageOptions: {
+				ecmaVersion: 2026,
+			},
+			errors: [
+				{
+					messageId: "restrictedSyntax",
+					data: {
+						message:
+							"Using 'VariableDeclaration[kind='using']' is not allowed.",
+					},
+				},
+			],
+		},
+
+		{
+			code: "async function f() { await using x = foo(); }",
+			options: ["VariableDeclaration[kind='await using']"],
+			languageOptions: {
+				ecmaVersion: 17,
+			},
+			errors: [
+				{
+					messageId: "restrictedSyntax",
+					data: {
+						message:
+							"Using 'VariableDeclaration[kind='await using']' is not allowed.",
+					},
 				},
 			],
 		},

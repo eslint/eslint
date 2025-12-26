@@ -11,7 +11,7 @@ such as:
 
 ```js
 var count = people.length;
-var enoughFood = count > sandwiches.length;
+var enoughFood = sandwiches.length >= count;
 
 if (enoughFood) {
     var count = sandwiches.length; // accidentally overriding the count variable
@@ -25,8 +25,6 @@ console.log("We have " + count + " people and " + sandwiches.length + " sandwich
 ## Rule Details
 
 This rule is aimed at discouraging the use of `var` and encouraging the use of `const` or `let` instead.
-
-## Examples
 
 Examples of **incorrect** code for this rule:
 
@@ -53,6 +51,46 @@ const CONFIG = {};
 ```
 
 :::
+
+This rule additionally supports TypeScript type syntax. There are multiple ways to declare global variables in TypeScript. Only using `var` works for all cases. See this [TypeScript playground](https://www.typescriptlang.org/play/?#code/PQgEB4CcFMDNpgOwMbVAGwJYCMC8AiAEwHsBbfUYAPgFgAoew6ZdAQxlAHN1jtX1QAb3qhRGaABdQAGUkAuUAGcJkTIk4ixAN3agAauwXLV6+ptFqJCWK1SgA6mpIB3IebGjHiIyrUa6HgC+9MEMdGDcvPygtqiKivSyEvQGkPReZuHAoM5OxK6ckvS5iC4AdEnFec5lqVWl+WUZYWAlLkpFdG2NSaC4oADkA-XlqX2Dw13VTWrjQ5kRPHzoACoAFpiKXJ2Ry+ubFTtL-PuKtez0uycbZ830i1GrNx3JdFdPB73982-HH2djb6Td6nGaIOaTe7ZRTQdCwbavGFww6I2Gwc5pOhI9F3LIdOEvejYlEQolojGkrHkryU+jQAAeAAdiJApIJAkA) for reference.
+
+Examples of **incorrect** TypeScript code for this rule:
+
+:::incorrect
+
+```ts
+/*eslint no-var: "error"*/
+
+declare var x: number
+
+declare namespace ns {
+	var x: number
+}
+
+declare module 'module' {
+	var x: number
+}
+```
+
+:::
+
+Examples of **correct** TypeScript code for this rule:
+
+:::correct
+
+```ts
+/*eslint no-var: "error"*/
+
+declare global {
+    declare var x: number
+}
+```
+
+:::
+
+## Options
+
+This rule has no options.
 
 ## When Not To Use It
 

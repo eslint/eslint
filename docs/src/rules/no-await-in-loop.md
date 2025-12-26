@@ -73,8 +73,6 @@ async function foo() {
 
 This rule disallows the use of `await` within loop bodies.
 
-## Examples
-
 Examples of **correct** code for this rule:
 
 :::correct
@@ -111,9 +109,19 @@ async function foo(things) {
   }
   return results;
 }
+
+async function bar(things) {
+  for (const thing of things) {
+    await using resource = getAsyncResource(thing);
+  }
+}
 ```
 
 :::
+
+## Options
+
+This rule has no options.
 
 ## When Not To Use It
 

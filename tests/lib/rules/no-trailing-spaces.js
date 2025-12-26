@@ -115,7 +115,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 				},
 			],
 		},
@@ -137,7 +136,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 				},
 			],
 		},
@@ -159,7 +157,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 				},
 			],
 		},
@@ -182,7 +179,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 				},
 			],
 		},
@@ -198,7 +194,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 				},
 			],
 		},
@@ -212,7 +207,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 				},
 			],
 		},
@@ -222,7 +216,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 				},
 			],
 		},
@@ -232,11 +225,9 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 				},
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 				},
 			],
 		},
@@ -246,11 +237,9 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 				},
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 				},
 			],
 		},
@@ -260,7 +249,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 				},
 			],
 		},
@@ -270,7 +258,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 				},
 			],
 		},
@@ -280,7 +267,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 				},
 			],
 		},
@@ -291,7 +277,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 				},
 			],
 		},
@@ -302,7 +287,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 					line: 1,
 					column: 11,
 					endLine: 1,
@@ -310,7 +294,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 				},
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 					line: 2,
 					column: 8,
 					endLine: 2,
@@ -325,7 +308,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 					line: 1,
 					column: 11,
 					endLine: 1,
@@ -340,7 +322,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 					line: 1,
 					column: 1,
 					endLine: 1,
@@ -355,7 +336,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 				},
 			],
 		},
@@ -370,7 +350,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 					line: 1,
 					column: 15, // there are invalid spaces in columns 15 and 16
 					endLine: 1,
@@ -389,7 +368,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 					line: 1,
 					column: 15,
 					endLine: 1,
@@ -397,7 +375,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 				},
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 					line: 2,
 					column: 15,
 					endLine: 2,
@@ -412,7 +389,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 					line: 3,
 					column: 7,
 					endLine: 3,
@@ -427,7 +403,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 					line: 4,
 					column: 7,
 					endLine: 4,
@@ -435,7 +410,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 				},
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 					line: 5,
 					column: 1,
 					endLine: 5,
@@ -450,7 +424,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 					line: 4,
 					column: 7,
 					endLine: 4,
@@ -470,7 +443,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 					line: 3,
 					column: 7,
 					endLine: 3,
@@ -487,7 +459,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 					line: 2,
 					column: 8,
 					endLine: 2,
@@ -501,7 +472,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 					line: 1,
 					column: 1,
 					endLine: 1,
@@ -509,7 +479,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 				},
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 					line: 2,
 					column: 8,
 					endLine: 2,
@@ -526,7 +495,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 					line: 1,
 					column: 17,
 					endLine: 1,
@@ -541,7 +509,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 					line: 1,
 					column: 6,
 				},
@@ -554,7 +521,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 					line: 1,
 					column: 9,
 				},
@@ -567,7 +533,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 					line: 2,
 					column: 4,
 				},
@@ -580,7 +545,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 					line: 2,
 					column: 8,
 				},
@@ -593,7 +557,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 					line: 1,
 					column: 26,
 					endLine: 1,
@@ -608,7 +571,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 					line: 1,
 					column: 3,
 					endLine: 1,
@@ -616,7 +578,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 				},
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 					line: 2,
 					column: 24,
 					endLine: 2,
@@ -631,7 +592,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 					line: 1,
 					column: 20,
 					endLine: 1,
@@ -646,7 +606,6 @@ ruleTester.run("no-trailing-spaces", rule, {
 			errors: [
 				{
 					messageId: "trailingSpace",
-					type: "Program",
 					line: 1,
 					column: 34,
 					endLine: 1,

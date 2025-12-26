@@ -424,6 +424,35 @@ ruleTester.run("no-use-before-define", rule, {
 			options: [{ allowNamedExports: true }],
 			languageOptions: { ecmaVersion: 2015, sourceType: "module" },
 		},
+		{
+			code: "const App = () => <div/>; <App />;",
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+		},
+		{
+			code: "let Foo, Bar; <Foo><Bar /></Foo>;",
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+		},
+		{
+			code: "function App() { return <div/> } <App />;",
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+		},
+		{
+			code: "<App />; function App() { return <div/> }",
+			options: [{ functions: false }],
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+		},
 	],
 	invalid: [
 		{
@@ -433,7 +462,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -444,7 +472,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -454,7 +481,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -464,7 +490,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -474,7 +499,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -484,12 +508,10 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "b" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -500,7 +522,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -511,7 +532,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -522,7 +542,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -532,7 +551,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -542,7 +560,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -553,7 +570,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -564,7 +580,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "A" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -575,7 +590,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "A" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -586,7 +600,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "A" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -597,7 +610,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "A" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -610,7 +622,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -621,7 +632,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -632,7 +642,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -643,7 +652,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -654,7 +662,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -667,7 +674,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -679,7 +685,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "A" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -691,7 +696,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "A" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -703,7 +707,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "A" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -715,7 +718,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -726,7 +728,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -737,7 +738,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -748,7 +748,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -759,7 +758,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -770,7 +768,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -781,7 +778,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -792,7 +788,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -803,7 +798,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -814,7 +808,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -824,7 +817,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -835,7 +827,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -848,7 +839,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "bar" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -859,7 +849,6 @@ ruleTester.run("no-use-before-define", rule, {
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "foo" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -1674,6 +1663,57 @@ ruleTester.run("no-use-before-define", rule, {
 				},
 			],
 		},
+		{
+			code: "<App />; const App = () => <div />;",
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "App" },
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 5,
+				},
+			],
+		},
+		{
+			code: "function render() { return <Widget /> }; const Widget = () => <span />;",
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "Widget" },
+					line: 1,
+					column: 29,
+					endLine: 1,
+					endColumn: 35,
+				},
+			],
+		},
+		{
+			code: "<Foo.Bar />; const Foo = { Bar: () => <div/> };",
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "Foo" },
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 5,
+				},
+			],
+		},
 	],
 });
 
@@ -2315,7 +2355,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "a" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2329,7 +2368,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "a" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2342,7 +2380,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "a" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2355,7 +2392,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "a" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2368,7 +2404,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "a" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2385,12 +2420,10 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "a" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 				{
 					data: { name: "b" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2404,7 +2437,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "a" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2420,7 +2452,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "a" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2434,7 +2465,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "a" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2451,7 +2481,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "a" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2465,7 +2494,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "a" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2479,7 +2507,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "A" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2495,7 +2522,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "A" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2509,7 +2535,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "A" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2525,7 +2550,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "A" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2543,7 +2567,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "a" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2560,7 +2583,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "a" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2576,7 +2598,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "a" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2594,7 +2615,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "a" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2612,7 +2632,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "a" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2628,7 +2647,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "a" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2643,7 +2661,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "A" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2660,7 +2677,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "A" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2672,7 +2688,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "a" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2683,7 +2698,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "a" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2694,7 +2708,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "a" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2705,7 +2718,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "a" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2716,7 +2728,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "a" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2727,7 +2738,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "a" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2738,7 +2748,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "a" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2749,7 +2758,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "a" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2760,7 +2768,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "a" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2771,7 +2778,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "a" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2784,7 +2790,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "a" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2798,7 +2803,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "a" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2817,7 +2821,6 @@ ruleTesterTypeScript.run("no-use-before-define", rule, {
 				{
 					data: { name: "Foo" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2832,7 +2835,6 @@ type StringOrNumber = string | number;
 				{
 					data: { name: "StringOrNumber" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2851,7 +2853,6 @@ type StringOrNumber = string | number;
 				{
 					data: { name: "Foo" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2872,7 +2873,6 @@ type StringOrNumber = string | number;
 				{
 					data: { name: "Foo" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2891,7 +2891,6 @@ type StringOrNumber = string | number;
 				{
 					data: { name: "baz" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},
@@ -2911,7 +2910,6 @@ type StringOrNumber = string | number;
 				{
 					data: { name: "bar" },
 					messageId: "usedBeforeDefined",
-					type: "Identifier",
 				},
 			],
 		},

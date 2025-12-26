@@ -20,7 +20,11 @@ const ruleTester = new RuleTester({
 	languageOptions: { ecmaVersion: 2015, sourceType: "script" },
 });
 
-const errors = [{ type: "ReturnStatement", messageId: "unexpected" }];
+const errors = [
+	{
+		messageId: "unexpected",
+	},
+];
 
 ruleTester.run("no-constructor-return", rule, {
 	valid: [

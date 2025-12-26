@@ -226,605 +226,1163 @@ ruleTester.run("no-constant-condition", rule, {
 	invalid: [
 		{
 			code: "for(;true;);",
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "for(;``;);",
-			errors: [{ messageId: "unexpected", type: "TemplateLiteral" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "for(;`foo`;);",
-			errors: [{ messageId: "unexpected", type: "TemplateLiteral" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "for(;`foo${bar}`;);",
-			errors: [{ messageId: "unexpected", type: "TemplateLiteral" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "do{}while(true)",
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "do{}while('1')",
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "do{}while(0)",
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "do{}while(t = -2)",
-			errors: [{ messageId: "unexpected", type: "AssignmentExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "do{}while(``)",
-			errors: [{ messageId: "unexpected", type: "TemplateLiteral" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "do{}while(`foo`)",
-			errors: [{ messageId: "unexpected", type: "TemplateLiteral" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "do{}while(`foo${bar}`)",
-			errors: [{ messageId: "unexpected", type: "TemplateLiteral" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "true ? 1 : 2;",
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "1 ? 1 : 2;",
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "q = 0 ? 1 : 2;",
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "(q = 0) ? 1 : 2;",
-			errors: [{ messageId: "unexpected", type: "AssignmentExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "`` ? 1 : 2;",
-			errors: [{ messageId: "unexpected", type: "TemplateLiteral" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "`foo` ? 1 : 2;",
-			errors: [{ messageId: "unexpected", type: "TemplateLiteral" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "`foo${bar}` ? 1 : 2;",
-			errors: [{ messageId: "unexpected", type: "TemplateLiteral" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(-2);",
-			errors: [{ messageId: "unexpected", type: "UnaryExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(true);",
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(1);",
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if({});",
-			errors: [{ messageId: "unexpected", type: "ObjectExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(0 < 1);",
-			errors: [{ messageId: "unexpected", type: "BinaryExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(0 || 1);",
-			errors: [{ messageId: "unexpected", type: "LogicalExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(a, 1);",
-			errors: [{ messageId: "unexpected", type: "SequenceExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(`foo`);",
-			errors: [{ messageId: "unexpected", type: "TemplateLiteral" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(``);",
-			errors: [{ messageId: "unexpected", type: "TemplateLiteral" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(`\\\n`);",
-			errors: [{ messageId: "unexpected", type: "TemplateLiteral" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(`${'bar'}`);",
-			errors: [{ messageId: "unexpected", type: "TemplateLiteral" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(`${'bar' + `foo`}`);",
-			errors: [{ messageId: "unexpected", type: "TemplateLiteral" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(`foo${false || true}`);",
-			errors: [{ messageId: "unexpected", type: "TemplateLiteral" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(`foo${0 || 1}`);",
-			errors: [{ messageId: "unexpected", type: "TemplateLiteral" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(`foo${bar}`);",
-			errors: [{ messageId: "unexpected", type: "TemplateLiteral" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(`${bar}foo`);",
-			errors: [{ messageId: "unexpected", type: "TemplateLiteral" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(!(true || a));",
-			errors: [{ messageId: "unexpected", type: "UnaryExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(!(a && void b && c));",
-			errors: [{ messageId: "unexpected", type: "UnaryExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(0 || !(a && null));",
-			errors: [{ messageId: "unexpected", type: "LogicalExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(1 + !(a || true));",
-			errors: [{ messageId: "unexpected", type: "BinaryExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(!(null && a) > 1);",
-			errors: [{ messageId: "unexpected", type: "BinaryExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(+(!(a && 0)));",
-			errors: [{ messageId: "unexpected", type: "UnaryExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(!typeof a === 'string');",
-			errors: [{ messageId: "unexpected", type: "BinaryExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(-('foo' || a));",
-			errors: [{ messageId: "unexpected", type: "UnaryExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(+(void a && b) === ~(1 || c));",
-			errors: [{ messageId: "unexpected", type: "BinaryExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(a ||= true);",
-			errors: [{ messageId: "unexpected", type: "AssignmentExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(a ||= 5);",
-			errors: [{ messageId: "unexpected", type: "AssignmentExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(a ||= 'foo' || b);",
-			errors: [{ messageId: "unexpected", type: "AssignmentExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(a ||= b || /regex/);",
-			errors: [{ messageId: "unexpected", type: "AssignmentExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(a ||= b ||= true);",
-			errors: [{ messageId: "unexpected", type: "AssignmentExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(a ||= b ||= c || 1);",
-			errors: [{ messageId: "unexpected", type: "AssignmentExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(!(a ||= true));",
-			errors: [{ messageId: "unexpected", type: "UnaryExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(!(a ||= 'foo') === true);",
-			errors: [{ messageId: "unexpected", type: "BinaryExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(!(a ||= 'foo') === false);",
-			errors: [{ messageId: "unexpected", type: "BinaryExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(a || (b ||= true));",
-			errors: [{ messageId: "unexpected", type: "LogicalExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if((a ||= 1) || b);",
-			errors: [{ messageId: "unexpected", type: "LogicalExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if((a ||= true) && true);",
-			errors: [{ messageId: "unexpected", type: "LogicalExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(true && (a ||= true));",
-			errors: [{ messageId: "unexpected", type: "LogicalExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(a &&= false);",
-			errors: [{ messageId: "unexpected", type: "AssignmentExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(a &&= null);",
-			errors: [{ messageId: "unexpected", type: "AssignmentExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(a &&= void b);",
-			errors: [{ messageId: "unexpected", type: "AssignmentExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(a &&= 0 && b);",
-			errors: [{ messageId: "unexpected", type: "AssignmentExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(a &&= b && '');",
-			errors: [{ messageId: "unexpected", type: "AssignmentExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(a &&= b &&= false);",
-			errors: [{ messageId: "unexpected", type: "AssignmentExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(a &&= b &&= c && false);",
-			errors: [{ messageId: "unexpected", type: "AssignmentExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(!(a &&= false));",
-			errors: [{ messageId: "unexpected", type: "UnaryExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(!(a &&= 0) + 1);",
-			errors: [{ messageId: "unexpected", type: "BinaryExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(a && (b &&= false));",
-			errors: [{ messageId: "unexpected", type: "LogicalExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if((a &&= null) && b);",
-			errors: [{ messageId: "unexpected", type: "LogicalExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(false || (a &&= false));",
-			errors: [{ messageId: "unexpected", type: "LogicalExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if((a &&= false) || false);",
-			errors: [{ messageId: "unexpected", type: "LogicalExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 
 		{
 			code: "while([]);",
-			errors: [{ messageId: "unexpected", type: "ArrayExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "while(~!0);",
-			errors: [{ messageId: "unexpected", type: "UnaryExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "while(x = 1);",
-			errors: [{ messageId: "unexpected", type: "AssignmentExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "while(function(){});",
-			errors: [{ messageId: "unexpected", type: "FunctionExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "while(true);",
 			options: [{ checkLoops: "all" }],
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "while(1);",
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "while(() => {});",
 			errors: [
-				{ messageId: "unexpected", type: "ArrowFunctionExpression" },
+				{
+					messageId: "unexpected",
+				},
 			],
 		},
 		{
 			code: "while(`foo`);",
-			errors: [{ messageId: "unexpected", type: "TemplateLiteral" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "while(``);",
-			errors: [{ messageId: "unexpected", type: "TemplateLiteral" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "while(`${'foo'}`);",
-			errors: [{ messageId: "unexpected", type: "TemplateLiteral" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "while(`${'foo' + 'bar'}`);",
-			errors: [{ messageId: "unexpected", type: "TemplateLiteral" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 
 		// #5228 , typeof conditions
 		{
 			code: "if(typeof x){}",
-			errors: [{ messageId: "unexpected", type: "UnaryExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(typeof 'abc' === 'string'){}",
-			errors: [{ messageId: "unexpected", type: "BinaryExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(a = typeof b){}",
-			errors: [{ messageId: "unexpected", type: "AssignmentExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(a, typeof b){}",
-			errors: [{ messageId: "unexpected", type: "SequenceExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(typeof 'a' == 'string' || typeof 'b' == 'string'){}",
-			errors: [{ messageId: "unexpected", type: "LogicalExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "while(typeof x){}",
-			errors: [{ messageId: "unexpected", type: "UnaryExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 
 		// #5726, void conditions
 		{
 			code: "if(1 || void x);",
-			errors: [{ messageId: "unexpected", type: "LogicalExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(void x);",
-			errors: [{ messageId: "unexpected", type: "UnaryExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(y = void x);",
-			errors: [{ messageId: "unexpected", type: "AssignmentExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(x, void x);",
-			errors: [{ messageId: "unexpected", type: "SequenceExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(void x === void y);",
-			errors: [{ messageId: "unexpected", type: "BinaryExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(void x && a);",
-			errors: [{ messageId: "unexpected", type: "LogicalExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(a && void x);",
-			errors: [{ messageId: "unexpected", type: "LogicalExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 
 		// #5693
 		{
 			code: "if(false && abc==='str'){}",
-			errors: [{ messageId: "unexpected", type: "LogicalExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(true || abc==='str'){}",
-			errors: [{ messageId: "unexpected", type: "LogicalExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(1 || abc==='str'){}",
-			errors: [{ messageId: "unexpected", type: "LogicalExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(abc==='str' || true){}",
-			errors: [{ messageId: "unexpected", type: "LogicalExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(abc==='str' || true || def ==='str'){}",
-			errors: [{ messageId: "unexpected", type: "LogicalExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(false || true){}",
-			errors: [{ messageId: "unexpected", type: "LogicalExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(typeof abc==='str' || true){}",
-			errors: [{ messageId: "unexpected", type: "LogicalExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 
 		// #11181, string literals
 		{
 			code: "if('str' || a){}",
-			errors: [{ messageId: "unexpected", type: "LogicalExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if('str' || abc==='str'){}",
-			errors: [{ messageId: "unexpected", type: "LogicalExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if('str1' || 'str2'){}",
-			errors: [{ messageId: "unexpected", type: "LogicalExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if('str1' && 'str2'){}",
-			errors: [{ messageId: "unexpected", type: "LogicalExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(abc==='str' || 'str'){}",
-			errors: [{ messageId: "unexpected", type: "LogicalExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(a || 'str'){}",
-			errors: [{ messageId: "unexpected", type: "LogicalExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 
 		{
 			code: "while(x = 1);",
 			options: [{ checkLoops: "all" }],
-			errors: [{ messageId: "unexpected", type: "AssignmentExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "do{ }while(x = 1)",
 			options: [{ checkLoops: "all" }],
-			errors: [{ messageId: "unexpected", type: "AssignmentExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "for (;true;) {};",
 			options: [{ checkLoops: "all" }],
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 
 		{
 			code: "function* foo(){while(true){} yield 'foo';}",
 			options: [{ checkLoops: "all" }],
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "function* foo(){while(true){} yield 'foo';}",
 			options: [{ checkLoops: true }],
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "function* foo(){while(true){if (true) {yield 'foo';}}}",
 			options: [{ checkLoops: "all" }],
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "function* foo(){while(true){if (true) {yield 'foo';}}}",
 			options: [{ checkLoops: true }],
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "function* foo(){while(true){yield 'foo';} while(true) {}}",
 			options: [{ checkLoops: "all" }],
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "function* foo(){while(true){yield 'foo';} while(true) {}}",
 			options: [{ checkLoops: true }],
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "var a = function* foo(){while(true){} yield 'foo';}",
 			options: [{ checkLoops: "all" }],
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "var a = function* foo(){while(true){} yield 'foo';}",
 			options: [{ checkLoops: true }],
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "while (true) { function* foo() {yield;}}",
 			options: [{ checkLoops: "all" }],
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "while (true) { function* foo() {yield;}}",
 			options: [{ checkLoops: true }],
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "function* foo(){if (true) {yield 'foo';}}",
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "function* foo() {for (let foo = yield; true;) {}}",
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "function* foo() {for (foo = yield; true;) {}}",
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "function foo() {while (true) {function* bar() {while (true) {yield;}}}}",
 			options: [{ checkLoops: "all" }],
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "function foo() {while (true) {const bar = function*() {while (true) {yield;}}}}",
 			options: [{ checkLoops: "all" }],
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "function* foo() { for (let foo = 1 + 2 + 3 + (yield); true; baz) {}}",
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 
 		// #12225
 		{
 			code: "if([a]) {}",
-			errors: [{ messageId: "unexpected", type: "ArrayExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if([]) {}",
-			errors: [{ messageId: "unexpected", type: "ArrayExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(''+['a']) {}",
-			errors: [{ messageId: "unexpected", type: "BinaryExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(''+[]) {}",
-			errors: [{ messageId: "unexpected", type: "BinaryExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(+1) {}",
-			errors: [{ messageId: "unexpected", type: "UnaryExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if ([,] + ''){}",
-			errors: [{ messageId: "unexpected", type: "BinaryExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 
 		// #13238
 		{
 			code: "if(/foo/ui);",
 			languageOptions: { ecmaVersion: 11 },
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(0n);",
 			languageOptions: { ecmaVersion: 11 },
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(0b0n);",
 			languageOptions: { ecmaVersion: 11 },
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(0o0n);",
 			languageOptions: { ecmaVersion: 11 },
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(0x0n);",
 			languageOptions: { ecmaVersion: 11 },
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(0b1n);",
 			languageOptions: { ecmaVersion: 11 },
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(0o1n);",
 			languageOptions: { ecmaVersion: 11 },
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(0x1n);",
 			languageOptions: { ecmaVersion: 11 },
-			errors: [{ messageId: "unexpected", type: "Literal" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 		{
 			code: "if(0x1n || foo);",
 			languageOptions: { ecmaVersion: 11 },
-			errors: [{ messageId: "unexpected", type: "LogicalExpression" }],
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
 		},
 
 		// Classes and instances are always truthy

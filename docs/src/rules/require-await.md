@@ -71,11 +71,20 @@ bar(() => {
     doSomething();
 });
 
+async function resourceManagement() {
+    await using resource = getAsyncResource();
+    resource.use();
+}
+
 // Allow empty functions.
 async function noop() {}
 ```
 
 :::
+
+## Options
+
+This rule has no options.
 
 ## When Not To Use It
 

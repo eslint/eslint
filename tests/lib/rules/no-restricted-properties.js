@@ -279,6 +279,65 @@ ruleTester.run("no-restricted-properties", rule, {
 			options: [{ property: "baz", allowObjects: ["foo"] }],
 			languageOptions: { ecmaVersion: 6 },
 		},
+		{
+			code: "someObject.disallowedProperty",
+			options: [
+				{
+					object: "someObject",
+					allowProperties: ["disallowedProperty"],
+				},
+			],
+		},
+		{
+			code: "someObject.disallowedProperty; someObject.anotherDisallowedProperty();",
+			options: [
+				{
+					object: "someObject",
+					allowProperties: [
+						"disallowedProperty",
+						"anotherDisallowedProperty",
+					],
+				},
+			],
+		},
+		{
+			code: "someObject.disallowedProperty()",
+			options: [
+				{
+					object: "someObject",
+					allowProperties: ["disallowedProperty"],
+				},
+			],
+		},
+		{
+			code: "someObject['disallowedProperty']()",
+			options: [
+				{
+					object: "someObject",
+					allowProperties: ["disallowedProperty"],
+				},
+			],
+		},
+		{
+			code: "let {bar} = foo;",
+			options: [
+				{
+					object: "foo",
+					allowProperties: ["bar"],
+				},
+			],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "let {baz: bar} = foo;",
+			options: [
+				{
+					object: "foo",
+					allowProperties: ["baz"],
+				},
+			],
+			languageOptions: { ecmaVersion: 6 },
+		},
 	],
 
 	invalid: [
@@ -297,8 +356,8 @@ ruleTester.run("no-restricted-properties", rule, {
 						objectName: "someObject",
 						propertyName: "disallowedProperty",
 						message: "",
+						allowedPropertiesMessage: "",
 					},
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -319,8 +378,8 @@ ruleTester.run("no-restricted-properties", rule, {
 						propertyName: "disallowedProperty",
 						message:
 							" Please use someObject.allowedProperty instead.",
+						allowedPropertiesMessage: "",
 					},
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -343,8 +402,8 @@ ruleTester.run("no-restricted-properties", rule, {
 						objectName: "someObject",
 						propertyName: "disallowedProperty",
 						message: "",
+						allowedPropertiesMessage: "",
 					},
-					type: "MemberExpression",
 				},
 				{
 					messageId: "restrictedObjectProperty",
@@ -352,8 +411,8 @@ ruleTester.run("no-restricted-properties", rule, {
 						objectName: "anotherObject",
 						propertyName: "anotherDisallowedProperty",
 						message: "",
+						allowedPropertiesMessage: "",
 					},
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -372,8 +431,8 @@ ruleTester.run("no-restricted-properties", rule, {
 						objectName: "",
 						propertyName: "__proto__",
 						message: " Please use Object.getPrototypeOf instead.",
+						allowedObjectsMessage: "",
 					},
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -392,8 +451,8 @@ ruleTester.run("no-restricted-properties", rule, {
 						objectName: "",
 						propertyName: "__proto__",
 						message: " Please use Object.getPrototypeOf instead.",
+						allowedObjectsMessage: "",
 					},
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -407,8 +466,8 @@ ruleTester.run("no-restricted-properties", rule, {
 						objectName: "foo",
 						propertyName: "bar",
 						message: "",
+						allowedPropertiesMessage: "",
 					},
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -422,8 +481,8 @@ ruleTester.run("no-restricted-properties", rule, {
 						objectName: "foo",
 						propertyName: "bar",
 						message: "",
+						allowedPropertiesMessage: "",
 					},
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -437,8 +496,8 @@ ruleTester.run("no-restricted-properties", rule, {
 						objectName: "foo",
 						propertyName: "bar",
 						message: "",
+						allowedPropertiesMessage: "",
 					},
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -452,8 +511,8 @@ ruleTester.run("no-restricted-properties", rule, {
 						objectName: "",
 						propertyName: "bar",
 						message: "",
+						allowedObjectsMessage: "",
 					},
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -467,8 +526,8 @@ ruleTester.run("no-restricted-properties", rule, {
 						objectName: "",
 						propertyName: "bar",
 						message: "",
+						allowedObjectsMessage: "",
 					},
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -482,8 +541,8 @@ ruleTester.run("no-restricted-properties", rule, {
 						objectName: "",
 						propertyName: "bar",
 						message: "",
+						allowedObjectsMessage: "",
 					},
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -498,8 +557,8 @@ ruleTester.run("no-restricted-properties", rule, {
 						objectName: "",
 						propertyName: "/(?<zero>0)/",
 						message: "",
+						allowedObjectsMessage: "",
 					},
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -518,8 +577,8 @@ ruleTester.run("no-restricted-properties", rule, {
 						objectName: "require",
 						propertyName: "call",
 						message: " Please call require() directly.",
+						allowedPropertiesMessage: "",
 					},
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -537,8 +596,8 @@ ruleTester.run("no-restricted-properties", rule, {
 						objectName: "require",
 						propertyName: "resolve",
 						message: "",
+						allowedPropertiesMessage: "",
 					},
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -553,8 +612,8 @@ ruleTester.run("no-restricted-properties", rule, {
 						objectName: "foo",
 						propertyName: "bar",
 						message: "",
+						allowedPropertiesMessage: "",
 					},
-					type: "ObjectPattern",
 				},
 			],
 		},
@@ -569,8 +628,8 @@ ruleTester.run("no-restricted-properties", rule, {
 						objectName: "foo",
 						propertyName: "bar",
 						message: "",
+						allowedPropertiesMessage: "",
 					},
-					type: "ObjectPattern",
 				},
 			],
 		},
@@ -585,8 +644,8 @@ ruleTester.run("no-restricted-properties", rule, {
 						objectName: "foo",
 						propertyName: "bar",
 						message: "",
+						allowedPropertiesMessage: "",
 					},
-					type: "ObjectPattern",
 				},
 			],
 		},
@@ -601,8 +660,8 @@ ruleTester.run("no-restricted-properties", rule, {
 						objectName: "foo",
 						propertyName: "bar",
 						message: "",
+						allowedPropertiesMessage: "",
 					},
-					type: "ObjectPattern",
 				},
 			],
 		},
@@ -617,8 +676,8 @@ ruleTester.run("no-restricted-properties", rule, {
 						objectName: "foo",
 						propertyName: "bar",
 						message: "",
+						allowedPropertiesMessage: "",
 					},
-					type: "ObjectPattern",
 				},
 			],
 		},
@@ -633,8 +692,8 @@ ruleTester.run("no-restricted-properties", rule, {
 						objectName: "foo",
 						propertyName: "bar",
 						message: "",
+						allowedPropertiesMessage: "",
 					},
-					type: "ObjectPattern",
 				},
 			],
 		},
@@ -649,8 +708,8 @@ ruleTester.run("no-restricted-properties", rule, {
 						objectName: "",
 						propertyName: "bar",
 						message: "",
+						allowedObjectsMessage: "",
 					},
-					type: "ObjectPattern",
 				},
 			],
 		},
@@ -665,8 +724,8 @@ ruleTester.run("no-restricted-properties", rule, {
 						objectName: "foo",
 						propertyName: "bar",
 						message: "",
+						allowedPropertiesMessage: "",
 					},
-					type: "ObjectPattern",
 				},
 			],
 		},
@@ -681,8 +740,8 @@ ruleTester.run("no-restricted-properties", rule, {
 						objectName: "foo",
 						propertyName: "bar",
 						message: "",
+						allowedPropertiesMessage: "",
 					},
-					type: "ObjectPattern",
 				},
 			],
 		},
@@ -697,8 +756,8 @@ ruleTester.run("no-restricted-properties", rule, {
 						objectName: "foo",
 						propertyName: "bar",
 						message: "",
+						allowedPropertiesMessage: "",
 					},
-					type: "ObjectPattern",
 				},
 			],
 		},
@@ -713,8 +772,8 @@ ruleTester.run("no-restricted-properties", rule, {
 						objectName: "foo",
 						propertyName: "bar",
 						message: "",
+						allowedPropertiesMessage: "",
 					},
-					type: "ObjectPattern",
 				},
 			],
 		},
@@ -729,8 +788,8 @@ ruleTester.run("no-restricted-properties", rule, {
 						objectName: "baz",
 						propertyName: "foo",
 						message: "",
+						allowedPropertiesMessage: "",
 					},
-					type: "ObjectPattern",
 				},
 			],
 		},
@@ -744,8 +803,8 @@ ruleTester.run("no-restricted-properties", rule, {
 						objectName: "",
 						propertyName: "#foo",
 						message: "",
+						allowedObjectsMessage: "",
 					},
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -759,6 +818,7 @@ ruleTester.run("no-restricted-properties", rule, {
 					data: {
 						propertyName: "bad",
 						message: "",
+						allowedObjectsMessage: "",
 					},
 				},
 			],
@@ -773,6 +833,7 @@ ruleTester.run("no-restricted-properties", rule, {
 					data: {
 						propertyName: "bad",
 						message: "",
+						allowedObjectsMessage: "",
 					},
 				},
 			],
@@ -787,6 +848,7 @@ ruleTester.run("no-restricted-properties", rule, {
 					data: {
 						propertyName: "bad",
 						message: "",
+						allowedObjectsMessage: "",
 					},
 				},
 			],
@@ -801,6 +863,7 @@ ruleTester.run("no-restricted-properties", rule, {
 					data: {
 						propertyName: "bad",
 						message: "",
+						allowedObjectsMessage: "",
 					},
 				},
 			],
@@ -815,6 +878,7 @@ ruleTester.run("no-restricted-properties", rule, {
 					data: {
 						propertyName: "bad",
 						message: "",
+						allowedObjectsMessage: "",
 					},
 				},
 			],
@@ -829,6 +893,7 @@ ruleTester.run("no-restricted-properties", rule, {
 					data: {
 						propertyName: "bad",
 						message: "",
+						allowedObjectsMessage: "",
 					},
 				},
 			],
@@ -843,6 +908,7 @@ ruleTester.run("no-restricted-properties", rule, {
 					data: {
 						propertyName: "bad",
 						message: "",
+						allowedObjectsMessage: "",
 					},
 				},
 			],
@@ -857,6 +923,7 @@ ruleTester.run("no-restricted-properties", rule, {
 					data: {
 						propertyName: "bad",
 						message: "",
+						allowedObjectsMessage: "",
 					},
 				},
 			],
@@ -871,6 +938,7 @@ ruleTester.run("no-restricted-properties", rule, {
 					data: {
 						propertyName: "bad",
 						message: "",
+						allowedObjectsMessage: "",
 					},
 				},
 			],
@@ -885,6 +953,7 @@ ruleTester.run("no-restricted-properties", rule, {
 					data: {
 						propertyName: "bad",
 						message: "",
+						allowedObjectsMessage: "",
 					},
 				},
 			],
@@ -899,6 +968,7 @@ ruleTester.run("no-restricted-properties", rule, {
 					data: {
 						propertyName: "bad",
 						message: "",
+						allowedObjectsMessage: "",
 					},
 				},
 			],
@@ -913,6 +983,7 @@ ruleTester.run("no-restricted-properties", rule, {
 					data: {
 						propertyName: "bad",
 						message: "",
+						allowedObjectsMessage: "",
 					},
 				},
 			],
@@ -931,8 +1002,9 @@ ruleTester.run("no-restricted-properties", rule, {
 					data: {
 						propertyName: "disallowedProperty",
 						message: "",
+						allowedObjectsMessage:
+							" Property 'disallowedProperty' is only allowed on these objects: anotherObject.",
 					},
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -952,8 +1024,9 @@ ruleTester.run("no-restricted-properties", rule, {
 						propertyName: "disallowedProperty",
 						message:
 							" Please use someObject.allowedProperty instead.",
+						allowedObjectsMessage:
+							" Property 'disallowedProperty' is only allowed on these objects: anotherObject.",
 					},
-					type: "MemberExpression",
 				},
 			],
 		},
@@ -975,16 +1048,97 @@ ruleTester.run("no-restricted-properties", rule, {
 					data: {
 						propertyName: "disallowedProperty",
 						message: "",
+						allowedObjectsMessage:
+							" Property 'disallowedProperty' is only allowed on these objects: anotherObject.",
 					},
-					type: "MemberExpression",
 				},
 				{
 					messageId: "restrictedProperty",
 					data: {
 						propertyName: "anotherDisallowedProperty",
 						message: "",
+						allowedObjectsMessage:
+							" Property 'anotherDisallowedProperty' is only allowed on these objects: someObject.",
 					},
-					type: "MemberExpression",
+				},
+			],
+		},
+		{
+			code: "someObject.disallowedProperty",
+			options: [
+				{
+					object: "someObject",
+					allowProperties: ["allowedProperty"],
+				},
+			],
+			errors: [
+				{
+					messageId: "restrictedObjectProperty",
+					data: {
+						objectName: "someObject",
+						propertyName: "disallowedProperty",
+						message: "",
+						allowedPropertiesMessage:
+							" Only these properties are allowed: allowedProperty.",
+					},
+				},
+			],
+		},
+		{
+			code: "someObject.disallowedProperty",
+			options: [
+				{
+					object: "someObject",
+					allowProperties: ["allowedProperty"],
+					message: "Please use someObject.allowedProperty instead.",
+				},
+			],
+			errors: [
+				{
+					messageId: "restrictedObjectProperty",
+					data: {
+						objectName: "someObject",
+						propertyName: "disallowedProperty",
+						message:
+							" Please use someObject.allowedProperty instead.",
+						allowedPropertiesMessage:
+							" Only these properties are allowed: allowedProperty.",
+					},
+				},
+			],
+		},
+		{
+			code: "someObject.disallowedProperty; anotherObject.anotherDisallowedProperty()",
+			options: [
+				{
+					object: "someObject",
+					allowProperties: ["anotherDisallowedProperty"],
+				},
+				{
+					object: "anotherObject",
+					allowProperties: ["disallowedProperty"],
+				},
+			],
+			errors: [
+				{
+					messageId: "restrictedObjectProperty",
+					data: {
+						objectName: "someObject",
+						propertyName: "disallowedProperty",
+						message: "",
+						allowedPropertiesMessage:
+							" Only these properties are allowed: anotherDisallowedProperty.",
+					},
+				},
+				{
+					messageId: "restrictedObjectProperty",
+					data: {
+						objectName: "anotherObject",
+						propertyName: "anotherDisallowedProperty",
+						message: "",
+						allowedPropertiesMessage:
+							" Only these properties are allowed: disallowedProperty.",
+					},
 				},
 			],
 		},

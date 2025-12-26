@@ -44,3 +44,7 @@ const y = "some very " +
 ```
 
 :::
+
+## Options
+
+This rule has no options.

@@ -16,7 +16,7 @@ ESLint is completely pluggable. Every single rule is a plugin and you can add mo
 
 ## Prerequisites
 
-To use ESLint, you must have [Node.js](https://nodejs.org/en/) (`^18.18.0`, `^20.9.0`, or `>=21.1.0`) installed and built with SSL support. (If you are using an official Node.js distribution, SSL is always built in.)
+To use ESLint, you must have [Node.js](https://nodejs.org/en/) (`^20.19.0`, `^22.13.0`, or `>=24`) installed and built with SSL support. (If you are using an official Node.js distribution, SSL is always built in.)
 
 ## Quick start
 
@@ -95,7 +95,7 @@ The three error levels allow you fine-grained control over how ESLint applies ru
 
 ## Global Install
 
-It is also possible to install ESLint globally, rather than locally, using `npm install eslint --global`. However, this is not recommended, and any plugins or shareable configs that you use must still be installed locally if you install ESLint globally.
+It is also possible to install ESLint globally, rather than locally, using `npm install eslint --global`. However, this is not recommended, and any plugins or shareable configs that you use must still be installed locally even if you install ESLint globally.
 
 ## Manual Set Up
 

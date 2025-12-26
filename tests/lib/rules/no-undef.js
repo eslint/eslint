@@ -164,17 +164,14 @@ ruleTester.run("no-undef", rule, {
 		{
 			code: "let a; class C { static {} } a;",
 			languageOptions: { ecmaVersion: 2022 },
-			errors: [{ messageId: "undef", data: { name: "a" } }],
 		},
 		{
 			code: "var a; class C { static {} } a;",
 			languageOptions: { ecmaVersion: 2022 },
-			errors: [{ messageId: "undef", data: { name: "a" } }],
 		},
 		{
 			code: "a; class C { static {} } var a;",
 			languageOptions: { ecmaVersion: 2022 },
-			errors: [{ messageId: "undef", data: { name: "a" } }],
 		},
 		{
 			code: "class C { static { C; } }",
@@ -220,12 +217,59 @@ ruleTester.run("no-undef", rule, {
 			code: "class C { static { a; function a() {} } }",
 			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
 		},
+		{
+			code: "[Float16Array, Iterator]",
+			languageOptions: { ecmaVersion: 2025 },
+		},
+		{
+			code: "AsyncDisposableStack; DisposableStack; SuppressedError",
+			languageOptions: { ecmaVersion: 2026 },
+		},
+		{
+			code: "/*global App*/ <App />;",
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+		},
+		{
+			code: "const App = () => <div/>; <App />;",
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+		},
+		{
+			code: "let Foo, Bar; <Foo><Bar /></Foo>;",
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+		},
+		{
+			code: "import App from './App.jsx'; <App />;",
+			languageOptions: {
+				ecmaVersion: 6,
+				sourceType: "module",
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+		},
+		{
+			code: "function App() { return <div/> } <App />;",
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+		},
 	],
 	invalid: [
 		{
 			code: "a = 1;",
 			errors: [
-				{ messageId: "undef", data: { name: "a" }, type: "Identifier" },
+				{
+					messageId: "undef",
+					data: { name: "a" },
+				},
 			],
 		},
 		{
@@ -235,20 +279,25 @@ ruleTester.run("no-undef", rule, {
 				{
 					messageId: "undef",
 					data: { name: "anUndefinedVar" },
-					type: "Identifier",
 				},
 			],
 		},
 		{
 			code: "var a = b;",
 			errors: [
-				{ messageId: "undef", data: { name: "b" }, type: "Identifier" },
+				{
+					messageId: "undef",
+					data: { name: "b" },
+				},
 			],
 		},
 		{
 			code: "function f() { b; }",
 			errors: [
-				{ messageId: "undef", data: { name: "b" }, type: "Identifier" },
+				{
+					messageId: "undef",
+					data: { name: "b" },
+				},
 			],
 		},
 		{
@@ -257,7 +306,6 @@ ruleTester.run("no-undef", rule, {
 				{
 					messageId: "undef",
 					data: { name: "window" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -267,7 +315,6 @@ ruleTester.run("no-undef", rule, {
 				{
 					messageId: "undef",
 					data: { name: "Intl" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -277,7 +324,6 @@ ruleTester.run("no-undef", rule, {
 				{
 					messageId: "undef",
 					data: { name: "require" },
-					type: "Identifier",
 				},
 			],
 		},
@@ -421,6 +467,74 @@ ruleTester.run("no-undef", rule, {
 				ecmaVersion: 2022,
 			},
 			errors: [{ messageId: "undef", data: { name: "a" }, column: 31 }],
+		},
+		{
+			code: "<App />;",
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+			errors: [
+				{
+					messageId: "undef",
+					data: { name: "App" },
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 5,
+				},
+			],
+		},
+		{
+			code: "let React; React.render(<App />);",
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+			errors: [
+				{
+					messageId: "undef",
+					data: { name: "App" },
+					line: 1,
+					column: 26,
+					endLine: 1,
+					endColumn: 29,
+				},
+			],
+		},
+		{
+			code: "function f() { return <Button/> }",
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+			errors: [
+				{
+					messageId: "undef",
+					data: { name: "Button" },
+					line: 1,
+					column: 24,
+					endLine: 1,
+					endColumn: 30,
+				},
+			],
+		},
+		{
+			code: "<Foo.Bar />",
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+			errors: [
+				{
+					messageId: "undef",
+					data: { name: "Foo" },
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 5,
+				},
+			],
 		},
 	],
 });

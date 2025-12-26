@@ -74,7 +74,6 @@ ruleTester.run("no-plusplus", rule, {
 					data: {
 						operator: "++",
 					},
-					type: "UpdateExpression",
 				},
 			],
 		},
@@ -86,7 +85,6 @@ ruleTester.run("no-plusplus", rule, {
 					data: {
 						operator: "--",
 					},
-					type: "UpdateExpression",
 				},
 			],
 		},
@@ -98,7 +96,6 @@ ruleTester.run("no-plusplus", rule, {
 					data: {
 						operator: "++",
 					},
-					type: "UpdateExpression",
 				},
 			],
 		},
@@ -110,7 +107,6 @@ ruleTester.run("no-plusplus", rule, {
 					data: {
 						operator: "++",
 					},
-					type: "UpdateExpression",
 				},
 			],
 		},
@@ -125,7 +121,6 @@ ruleTester.run("no-plusplus", rule, {
 					data: {
 						operator: "++",
 					},
-					type: "UpdateExpression",
 				},
 			],
 		},
@@ -138,7 +133,6 @@ ruleTester.run("no-plusplus", rule, {
 					data: {
 						operator: "++",
 					},
-					type: "UpdateExpression",
 				},
 			],
 		},
@@ -151,7 +145,6 @@ ruleTester.run("no-plusplus", rule, {
 					data: {
 						operator: "++",
 					},
-					type: "UpdateExpression",
 				},
 			],
 		},
@@ -164,7 +157,6 @@ ruleTester.run("no-plusplus", rule, {
 					data: {
 						operator: "--",
 					},
-					type: "UpdateExpression",
 				},
 			],
 		},
@@ -177,7 +169,6 @@ ruleTester.run("no-plusplus", rule, {
 					data: {
 						operator: "++",
 					},
-					type: "UpdateExpression",
 				},
 			],
 		},
@@ -190,7 +181,6 @@ ruleTester.run("no-plusplus", rule, {
 					data: {
 						operator: "++",
 					},
-					type: "UpdateExpression",
 				},
 			],
 		},
@@ -203,7 +193,6 @@ ruleTester.run("no-plusplus", rule, {
 					data: {
 						operator: "--",
 					},
-					type: "UpdateExpression",
 				},
 			],
 		},
@@ -216,7 +205,6 @@ ruleTester.run("no-plusplus", rule, {
 					data: {
 						operator: "++",
 					},
-					type: "UpdateExpression",
 				},
 			],
 		},

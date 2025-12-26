@@ -79,7 +79,6 @@ ruleTester.run("no-duplicate-imports", rule, {
 				{
 					messageId: "import",
 					data: { module: "fs" },
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -89,7 +88,6 @@ ruleTester.run("no-duplicate-imports", rule, {
 				{
 					messageId: "import",
 					data: { module: "lodash-es" },
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -99,7 +97,6 @@ ruleTester.run("no-duplicate-imports", rule, {
 				{
 					messageId: "import",
 					data: { module: "lodash-es" },
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -109,12 +106,10 @@ ruleTester.run("no-duplicate-imports", rule, {
 				{
 					messageId: "import",
 					data: { module: "os" },
-					type: "ImportDeclaration",
 				},
 				{
 					messageId: "import",
 					data: { module: "os" },
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -124,7 +119,6 @@ ruleTester.run("no-duplicate-imports", rule, {
 				{
 					messageId: "import",
 					data: { module: "lodash-es" },
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -135,7 +129,6 @@ ruleTester.run("no-duplicate-imports", rule, {
 				{
 					messageId: "export",
 					data: { module: "os" },
-					type: "ExportNamedDeclaration",
 				},
 			],
 		},
@@ -146,17 +139,14 @@ ruleTester.run("no-duplicate-imports", rule, {
 				{
 					messageId: "exportAs",
 					data: { module: "os" },
-					type: "ExportNamedDeclaration",
 				},
 				{
 					messageId: "export",
 					data: { module: "os" },
-					type: "ExportNamedDeclaration",
 				},
 				{
 					messageId: "exportAs",
 					data: { module: "os" },
-					type: "ExportNamedDeclaration",
 				},
 			],
 		},
@@ -167,7 +157,6 @@ ruleTester.run("no-duplicate-imports", rule, {
 				{
 					messageId: "exportAs",
 					data: { module: "os" },
-					type: "ExportNamedDeclaration",
 				},
 			],
 		},
@@ -178,7 +167,6 @@ ruleTester.run("no-duplicate-imports", rule, {
 				{
 					messageId: "exportAs",
 					data: { module: "os" },
-					type: "ExportAllDeclaration",
 				},
 			],
 		},
@@ -189,7 +177,6 @@ ruleTester.run("no-duplicate-imports", rule, {
 				{
 					messageId: "importAs",
 					data: { module: "os" },
-					type: "ImportDeclaration",
 				},
 			],
 		},
@@ -200,7 +187,6 @@ ruleTester.run("no-duplicate-imports", rule, {
 				{
 					messageId: "exportAs",
 					data: { module: "mod" },
-					type: "ExportAllDeclaration",
 				},
 			],
 		},
@@ -211,7 +197,6 @@ ruleTester.run("no-duplicate-imports", rule, {
 				{
 					messageId: "export",
 					data: { module: "os" },
-					type: "ExportAllDeclaration",
 				},
 			],
 		},
@@ -222,7 +207,366 @@ ruleTester.run("no-duplicate-imports", rule, {
 				{
 					messageId: "exportAs",
 					data: { module: "os" },
-					type: "ExportAllDeclaration",
+				},
+			],
+		},
+	],
+});
+
+const ruleTesterTypeScript = new RuleTester({
+	languageOptions: {
+		parser: require("@typescript-eslint/parser"),
+	},
+});
+
+ruleTesterTypeScript.run("no-duplicate-imports", rule, {
+	valid: [
+		'import type { Os } from "os";\nimport type { Fs } from "fs";',
+		'import { type Os } from "os";\nimport type { Fs } from "fs";',
+		'import type { Merge } from "lodash-es";',
+		'import _, { type Merge } from "lodash-es";',
+		'import type * as Foobar from "async";',
+		'import type Os from "os";\nexport type { Something } from "os";',
+		'import type Os from "os";\nexport { type Something } from "os";',
+		'import type * as Bar from "os";\nimport { type Baz } from "os";',
+		'import foo, * as bar from "os";\nimport { type Baz } from "os";',
+		'import foo, { type bar } from "os";\nimport type * as Baz from "os";',
+		'import type { Merge } from "lodash-es";\nimport type _ from "lodash-es";',
+		{
+			code: 'import type Os from "os";\nexport { type Hello } from "hello";',
+			options: [{ includeExports: true }],
+		},
+		{
+			code: 'import type Os from "os";\nexport type * from "hello";',
+			options: [{ includeExports: true }],
+		},
+		{
+			code: 'import type Os from "os";\nexport { type Hello as Hi } from "hello";',
+			options: [{ includeExports: true }],
+		},
+		{
+			code: 'import type Os from "os";\nexport default function(){};',
+			options: [{ includeExports: true }],
+		},
+		{
+			code: 'import { type Merge } from "lodash-es";\nexport { Merge as lodashMerge }',
+			options: [{ includeExports: true }],
+		},
+		{
+			code: 'export type { Something } from "os";\nexport * as os from "os";',
+			options: [{ includeExports: true }],
+		},
+		{
+			code: 'import { type Something } from "os";\nexport * as os from "os";',
+			options: [{ includeExports: true }],
+		},
+		{
+			code: 'import type * as Os from "os";\nexport { something } from "os";',
+			options: [{ includeExports: true }],
+		},
+		{
+			code: 'import type Os from "os";\nexport * from "os";',
+			options: [{ includeExports: true }],
+		},
+		{
+			code: 'import type Os from "os";\nexport type { Something } from "os";',
+			options: [{ includeExports: true }],
+		},
+		{
+			code: 'export type { Something } from "os";\nexport * from "os";',
+			options: [{ includeExports: true }],
+		},
+		{
+			code: 'import { foo, type Bar } from "module";',
+			options: [{ allowSeparateTypeImports: true }],
+		},
+		{
+			code: 'import { foo } from "module";\nimport type { Bar } from "module";',
+			options: [{ allowSeparateTypeImports: true }],
+		},
+		{
+			code: 'import { type Foo } from "module";\nimport type { Bar } from "module";',
+			options: [{ allowSeparateTypeImports: true }],
+		},
+		{
+			code: 'import { foo, type Bar } from "module";\nexport { type Baz } from "module2";',
+			options: [{ allowSeparateTypeImports: true, includeExports: true }],
+		},
+		{
+			code: 'import type { Foo } from "module";\nexport { bar, type Baz } from "module";',
+			options: [{ allowSeparateTypeImports: true, includeExports: true }],
+		},
+		{
+			code: 'import { type Foo } from "module";\nexport type { Bar } from "module";',
+			options: [{ allowSeparateTypeImports: true, includeExports: true }],
+		},
+		{
+			code: 'import type * as Foo from "module";\nexport { type Bar } from "module";',
+			options: [{ allowSeparateTypeImports: true, includeExports: true }],
+		},
+		{
+			code: 'import { type Foo } from "module";\nexport type * as Bar from "module";',
+			options: [{ allowSeparateTypeImports: true, includeExports: true }],
+		},
+	],
+	invalid: [
+		{
+			code: 'import "fs";\nimport "fs"',
+			errors: [
+				{
+					messageId: "import",
+					data: { module: "fs" },
+				},
+			],
+		},
+		{
+			code: 'import { type Merge } from "lodash-es";\nimport { type Find } from "lodash-es";',
+			errors: [
+				{
+					messageId: "import",
+					data: { module: "lodash-es" },
+				},
+			],
+		},
+		{
+			code: 'import { type Merge } from "lodash-es";\nimport type { Find } from "lodash-es";',
+			errors: [
+				{
+					messageId: "import",
+					data: { module: "lodash-es" },
+				},
+			],
+		},
+		{
+			code: 'import type { Merge } from "lodash-es";\nimport type { Find } from "lodash-es";',
+			errors: [
+				{
+					messageId: "import",
+					data: { module: "lodash-es" },
+				},
+			],
+		},
+		{
+			code: 'import type Os from "os";\nimport type { Something } from "os";\nimport type * as Foobar from "os";',
+			errors: [
+				{
+					messageId: "import",
+					data: { module: "os" },
+				},
+			],
+		},
+		{
+			code: 'import type * as Modns from "lodash-es";\nimport type { Merge } from "lodash-es";\nimport type { Baz } from "lodash-es";',
+			errors: [
+				{
+					messageId: "import",
+					data: { module: "lodash-es" },
+				},
+			],
+		},
+		{
+			code: 'import { type Foo } from "module";\nexport type { Bar } from "module";',
+			options: [{ includeExports: true }],
+			errors: [
+				{
+					messageId: "exportAs",
+					data: { module: "module" },
+				},
+			],
+		},
+		{
+			code: 'export { os } from "os";\nexport type { Something } from "os";',
+			options: [{ includeExports: true }],
+			errors: [
+				{
+					messageId: "export",
+					data: { module: "os" },
+				},
+			],
+		},
+		{
+			code: 'export type { Os } from "os";\nexport type { Something } from "os";',
+			options: [{ includeExports: true }],
+			errors: [
+				{
+					messageId: "export",
+					data: { module: "os" },
+				},
+			],
+		},
+		{
+			code: 'import type { Os } from "os";\nexport type { Os as Foobar } from "os";\nexport type { Something } from "os";',
+			options: [{ includeExports: true }],
+			errors: [
+				{
+					messageId: "exportAs",
+					data: { module: "os" },
+				},
+				{
+					messageId: "export",
+					data: { module: "os" },
+				},
+				{
+					messageId: "exportAs",
+					data: { module: "os" },
+				},
+			],
+		},
+		{
+			code: 'import type { Os } from "os";\nexport type { Something } from "os";',
+			options: [{ includeExports: true }],
+			errors: [
+				{
+					messageId: "exportAs",
+					data: { module: "os" },
+				},
+			],
+		},
+		{
+			code: 'import type Os from "os";\nexport type * as Os from "os";',
+			options: [{ includeExports: true }],
+			errors: [
+				{
+					messageId: "exportAs",
+					data: { module: "os" },
+				},
+			],
+		},
+		{
+			code: 'import type * as Modns from "mod";\nexport type * as Modns from "mod";',
+			options: [{ includeExports: true }],
+			errors: [
+				{
+					messageId: "exportAs",
+					data: { module: "mod" },
+				},
+			],
+		},
+		{
+			code: 'export type * from "os";\nexport type * from "os";',
+			options: [{ includeExports: true }],
+			errors: [
+				{
+					messageId: "export",
+					data: { module: "os" },
+				},
+			],
+		},
+		{
+			code: 'import "os";\nexport type { Os } from "os";',
+			options: [{ includeExports: true }],
+			errors: [
+				{
+					messageId: "exportAs",
+					data: { module: "os" },
+				},
+			],
+		},
+		{
+			code: "import { someValue } from 'module';\nimport { anotherValue } from 'module';",
+			options: [{ allowSeparateTypeImports: true }],
+			errors: [
+				{
+					messageId: "import",
+					data: { module: "module" },
+				},
+			],
+		},
+		{
+			code: 'import type { Merge } from "lodash-es";\nimport type { Find } from "lodash-es";',
+			options: [{ allowSeparateTypeImports: true }],
+			errors: [
+				{
+					messageId: "import",
+					data: { module: "lodash-es" },
+				},
+			],
+		},
+		{
+			code: "import { someValue, type Foo } from 'module';\nimport type { SomeType } from 'module';\nimport type { AnotherType } from 'module';",
+			options: [{ allowSeparateTypeImports: true }],
+			errors: [
+				{
+					messageId: "import",
+					data: { module: "module" },
+				},
+			],
+		},
+		{
+			code: "import { type Foo } from 'module';\nimport { type Bar } from 'module';",
+			options: [{ allowSeparateTypeImports: true }],
+			errors: [
+				{
+					messageId: "import",
+					data: { module: "module" },
+				},
+			],
+		},
+		{
+			code: 'export type { Foo } from "module";\nexport type { Bar } from "module";',
+			options: [{ allowSeparateTypeImports: true, includeExports: true }],
+			errors: [
+				{
+					messageId: "export",
+					data: { module: "module" },
+				},
+			],
+		},
+		{
+			code: 'import { type Foo } from "module";\nexport { type Bar } from "module";\nexport { type Baz } from "module";',
+			options: [{ allowSeparateTypeImports: true, includeExports: true }],
+			errors: [
+				{
+					messageId: "exportAs",
+					data: { module: "module" },
+				},
+				{
+					messageId: "export",
+					data: { module: "module" },
+				},
+				{
+					messageId: "exportAs",
+					data: { module: "module" },
+				},
+			],
+		},
+		{
+			code: 'import { type Foo } from "module";\nexport { type Bar } from "module";\nexport { regular } from "module";',
+			options: [{ allowSeparateTypeImports: true, includeExports: true }],
+			errors: [
+				{
+					messageId: "exportAs",
+					data: { module: "module" },
+				},
+				{
+					messageId: "export",
+					data: { module: "module" },
+				},
+				{
+					messageId: "exportAs",
+					data: { module: "module" },
+				},
+			],
+		},
+		{
+			code: 'import { type Foo } from "module";\nimport { regular } from "module";\nexport { type Bar } from "module";\nexport { regular as other } from "module";',
+			options: [{ allowSeparateTypeImports: true, includeExports: true }],
+			errors: [
+				{
+					messageId: "import",
+					data: { module: "module" },
+				},
+				{
+					messageId: "exportAs",
+					data: { module: "module" },
+				},
+				{
+					messageId: "export",
+					data: { module: "module" },
+				},
+				{
+					messageId: "exportAs",
+					data: { module: "module" },
 				},
 			],
 		},

@@ -28,22 +28,6 @@ ruleTester.run("radix", rule, {
 		'parseInt("10", 10.0);',
 		'parseInt("10", foo);',
 		'Number.parseInt("10", foo);',
-		{
-			code: 'parseInt("10", 10);',
-			options: ["always"],
-		},
-		{
-			code: 'parseInt("10");',
-			options: ["as-needed"],
-		},
-		{
-			code: 'parseInt("10", 8);',
-			options: ["as-needed"],
-		},
-		{
-			code: 'parseInt("10", foo);',
-			options: ["as-needed"],
-		},
 		"parseInt",
 		"Number.foo();",
 		"Number[parseInt]();",
@@ -59,50 +43,49 @@ ruleTester.run("radix", rule, {
 			code: "class C { #parseInt; foo() { Number.#parseInt(foo, 'bar'); } }",
 			languageOptions: { ecmaVersion: 2022 },
 		},
-		{
-			code: "class C { #parseInt; foo() { Number.#parseInt(foo, 10); } }",
-			options: ["as-needed"],
-			languageOptions: { ecmaVersion: 2022 },
-		},
 
 		// Ignores if it's shadowed or disabled.
 		"var parseInt; parseInt();",
-		{ code: "var parseInt; parseInt(foo);", options: ["always"] },
-		{ code: "var parseInt; parseInt(foo, 10);", options: ["as-needed"] },
 		"var Number; Number.parseInt();",
-		{ code: "var Number; Number.parseInt(foo);", options: ["always"] },
+		"/* globals parseInt:off */ parseInt(foo);",
 		{
-			code: "var Number; Number.parseInt(foo, 10);",
-			options: ["as-needed"],
+			code: "Number.parseInt(foo);",
+			languageOptions: { globals: { Number: "off" } },
 		},
+
+		// Deprecated options "always" and "as-needed" should work the same as the default behavior of this rule
 		{
-			code: "/* globals parseInt:off */ parseInt(foo);",
+			code: 'parseInt("10", 10);',
 			options: ["always"],
 		},
 		{
-			code: "Number.parseInt(foo, 10);",
+			code: 'parseInt("10", 10);',
 			options: ["as-needed"],
-			languageOptions: { globals: { Number: "off" } },
+		},
+		{
+			code: 'parseInt("10", 8);',
+			options: ["always"],
+		},
+		{
+			code: 'parseInt("10", 8);',
+			options: ["as-needed"],
+		},
+		{
+			code: 'parseInt("10", foo);',
+			options: ["always"],
+		},
+		{
+			code: 'parseInt("10", foo);',
+			options: ["as-needed"],
 		},
 	],
 
 	invalid: [
 		{
 			code: "parseInt();",
-			options: ["as-needed"],
 			errors: [
 				{
 					messageId: "missingParameters",
-					type: "CallExpression",
-				},
-			],
-		},
-		{
-			code: "parseInt();",
-			errors: [
-				{
-					messageId: "missingParameters",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -111,7 +94,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "missingRadix",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "addRadixParameter10",
@@ -127,7 +109,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "missingRadix",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "addRadixParameter10",
@@ -142,7 +123,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "missingRadix",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "addRadixParameter10",
@@ -158,7 +138,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "missingRadix",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "addRadixParameter10",
@@ -173,7 +152,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "invalidRadix",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -182,7 +160,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "invalidRadix",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -191,7 +168,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "invalidRadix",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -200,7 +176,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "invalidRadix",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -209,7 +184,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "invalidRadix",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -218,7 +192,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "invalidRadix",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -227,7 +200,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "invalidRadix",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -236,7 +208,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "invalidRadix",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -245,17 +216,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "missingParameters",
-					type: "CallExpression",
-				},
-			],
-		},
-		{
-			code: "Number.parseInt();",
-			options: ["as-needed"],
-			errors: [
-				{
-					messageId: "missingParameters",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -264,7 +224,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "missingRadix",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "addRadixParameter10",
@@ -279,7 +238,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "invalidRadix",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -288,7 +246,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "invalidRadix",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -297,17 +254,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "invalidRadix",
-					type: "CallExpression",
-				},
-			],
-		},
-		{
-			code: 'parseInt("10", 10);',
-			options: ["as-needed"],
-			errors: [
-				{
-					messageId: "redundantRadix",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -319,7 +265,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "missingRadix",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "addRadixParameter10",
@@ -335,7 +280,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "missingRadix",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "addRadixParameter10",
@@ -351,7 +295,6 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "missingRadix",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "addRadixParameter10",
@@ -367,13 +310,98 @@ ruleTester.run("radix", rule, {
 			errors: [
 				{
 					messageId: "missingRadix",
-					type: "CallExpression",
 					suggestions: [
 						{
 							messageId: "addRadixParameter10",
 							output: '(Number?.parseInt)("10", 10);',
 						},
 					],
+				},
+			],
+		},
+
+		// Deprecated options "always" and "as-needed" should work the same as the default behavior of this rule
+		{
+			code: "parseInt();",
+			options: ["always"],
+			errors: [
+				{
+					messageId: "missingParameters",
+				},
+			],
+		},
+		{
+			code: "parseInt();",
+			options: ["as-needed"],
+			errors: [
+				{
+					messageId: "missingParameters",
+				},
+			],
+		},
+		{
+			code: 'parseInt("10");',
+			options: ["always"],
+			errors: [
+				{
+					messageId: "missingRadix",
+					suggestions: [
+						{
+							messageId: "addRadixParameter10",
+							output: 'parseInt("10", 10);',
+						},
+					],
+				},
+			],
+		},
+		{
+			code: 'parseInt("10");',
+			options: ["as-needed"],
+			errors: [
+				{
+					messageId: "missingRadix",
+					suggestions: [
+						{
+							messageId: "addRadixParameter10",
+							output: 'parseInt("10", 10);',
+						},
+					],
+				},
+			],
+		},
+		{
+			code: 'parseInt("10", 1);',
+			options: ["always"],
+			errors: [
+				{
+					messageId: "invalidRadix",
+				},
+			],
+		},
+		{
+			code: 'parseInt("10", 1);',
+			options: ["as-needed"],
+			errors: [
+				{
+					messageId: "invalidRadix",
+				},
+			],
+		},
+		{
+			code: "Number.parseInt();",
+			options: ["always"],
+			errors: [
+				{
+					messageId: "missingParameters",
+				},
+			],
+		},
+		{
+			code: "Number.parseInt();",
+			options: ["as-needed"],
+			errors: [
+				{
+					messageId: "missingParameters",
 				},
 			],
 		},

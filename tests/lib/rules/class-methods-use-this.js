@@ -122,7 +122,6 @@ ruleTester.run("class-methods-use-this", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
-					type: "FunctionExpression",
 					line: 1,
 					column: 11,
 					messageId: "missingThis",
@@ -135,7 +134,6 @@ ruleTester.run("class-methods-use-this", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
-					type: "FunctionExpression",
 					line: 1,
 					column: 11,
 					messageId: "missingThis",
@@ -148,7 +146,6 @@ ruleTester.run("class-methods-use-this", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
-					type: "FunctionExpression",
 					line: 1,
 					column: 11,
 					messageId: "missingThis",
@@ -161,7 +158,6 @@ ruleTester.run("class-methods-use-this", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
-					type: "FunctionExpression",
 					line: 1,
 					column: 11,
 					messageId: "missingThis",
@@ -174,7 +170,6 @@ ruleTester.run("class-methods-use-this", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
-					type: "FunctionExpression",
 					line: 1,
 					column: 11,
 					messageId: "missingThis",
@@ -187,7 +182,6 @@ ruleTester.run("class-methods-use-this", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
-					type: "FunctionExpression",
 					line: 1,
 					column: 11,
 					messageId: "missingThis",
@@ -200,7 +194,6 @@ ruleTester.run("class-methods-use-this", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
-					type: "FunctionExpression",
 					line: 1,
 					column: 11,
 					messageId: "missingThis",
@@ -214,7 +207,6 @@ ruleTester.run("class-methods-use-this", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
-					type: "FunctionExpression",
 					line: 1,
 					column: 11,
 					messageId: "missingThis",
@@ -228,7 +220,6 @@ ruleTester.run("class-methods-use-this", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
-					type: "FunctionExpression",
 					line: 1,
 					column: 20,
 					messageId: "missingThis",
@@ -242,7 +233,6 @@ ruleTester.run("class-methods-use-this", rule, {
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
-					type: "FunctionExpression",
 					line: 1,
 					column: 11,
 					messageId: "missingThis",
@@ -256,14 +246,12 @@ ruleTester.run("class-methods-use-this", rule, {
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
 				{
-					type: "FunctionExpression",
 					line: 1,
 					column: 22,
 					messageId: "missingThis",
 					data: { name: "method 'foo'" },
 				},
 				{
-					type: "FunctionExpression",
 					line: 1,
 					column: 31,
 					messageId: "missingThis",
@@ -278,55 +266,46 @@ ruleTester.run("class-methods-use-this", rule, {
 				{
 					messageId: "missingThis",
 					data: { name: "method 'foo'" },
-					type: "FunctionExpression",
 					column: 11,
 				},
 				{
 					messageId: "missingThis",
 					data: { name: "method 'bar'" },
-					type: "FunctionExpression",
 					column: 19,
 				},
 				{
 					messageId: "missingThis",
 					data: { name: "method '123'" },
-					type: "FunctionExpression",
 					column: 29,
 				},
 				{
 					messageId: "missingThis",
 					data: { name: "method 'baz'" },
-					type: "FunctionExpression",
 					column: 37,
 				},
 				{
 					messageId: "missingThis",
 					data: { name: "method" },
-					type: "FunctionExpression",
 					column: 49,
 				},
 				{
 					messageId: "missingThis",
 					data: { name: "method" },
-					type: "FunctionExpression",
 					column: 57,
 				},
 				{
 					messageId: "missingThis",
 					data: { name: "getter 'quux'" },
-					type: "FunctionExpression",
 					column: 68,
 				},
 				{
 					messageId: "missingThis",
 					data: { name: "setter" },
-					type: "FunctionExpression",
 					column: 81,
 				},
 				{
 					messageId: "missingThis",
 					data: { name: "generator method 'quuux'" },
-					type: "FunctionExpression",
 					column: 93,
 				},
 			],
@@ -483,9 +462,14 @@ ruleTesterTypeScript.run("class-methods-use-this", rule, {
 		{ code: "class A { 42() { } }", options: [{ exceptMethods: ["42"] }] },
 		"class A { foo = function() {this} }",
 		"class A { foo = () => {this} }",
+		"class A { accessor foo = function() {this} }",
+		"class A { accessor foo = () => {this} }",
+		"class A { accessor foo = 1; }",
 		"class A { foo = () => {super.toString} }",
 		"class A { static foo = function() {} }",
 		"class A { static foo = () => {} }",
+		"class A { static accessor foo = function() {} }",
+		"class A { static accessor foo = () => {} }",
 		{
 			code: "class A { #bar() {} }",
 			options: [{ exceptMethods: ["#bar"] }],
@@ -496,6 +480,14 @@ ruleTesterTypeScript.run("class-methods-use-this", rule, {
 		},
 		{
 			code: "class A { foo = () => {} }",
+			options: [{ enforceForClassFields: false }],
+		},
+		{
+			code: "class A { accessor foo = function () {} }",
+			options: [{ enforceForClassFields: false }],
+		},
+		{
+			code: "class A { accessor foo = () => {} }",
 			options: [{ enforceForClassFields: false }],
 		},
 		{
@@ -720,6 +712,70 @@ ruleTesterTypeScript.run("class-methods-use-this", rule, {
     protected method() {}
   }
         `,
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
+  class Foo {
+	accessor method = function () {}
+  }
+        `,
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
+  class Foo {
+    accessor method = () => {}
+  }
+        `,
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
+  class Foo {
+    private accessor method = () => {}
+  }
+        `,
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
+  class Foo {
+    protected accessor method = () => {}
+  }
+        `,
+			errors: [
+				{
+					messageId: "missingThis",
+				},
+			],
+		},
+		{
+			code: `
+	class A {
+		foo() {
+			return class {
+				accessor bar = this;
+			};
+		}
+	}
+			`,
 			errors: [
 				{
 					messageId: "missingThis",

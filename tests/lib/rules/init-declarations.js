@@ -40,6 +40,16 @@ ruleTester.run("init-declarations", rule, {
 			languageOptions: { ecmaVersion: 6 },
 		},
 		{
+			code: "using a = foo();",
+			options: ["always"],
+			languageOptions: { ecmaVersion: 2026 },
+		},
+		{
+			code: "await using a = foo();",
+			options: ["always"],
+			languageOptions: { ecmaVersion: 2026 },
+		},
+		{
 			code: "function foo() { let a = 1, b = false; if (a) { let c = 3, d = null; } }",
 			options: ["always"],
 			languageOptions: { ecmaVersion: 6 },
@@ -80,6 +90,16 @@ ruleTester.run("init-declarations", rule, {
 			languageOptions: { ecmaVersion: 6 },
 		},
 		{
+			code: "using a = foo();",
+			options: ["never"],
+			languageOptions: { ecmaVersion: 2026 },
+		},
+		{
+			code: "await using a = foo();",
+			options: ["never"],
+			languageOptions: { ecmaVersion: 2026 },
+		},
+		{
 			code: "function foo() { let a, b; if (a) { let c, d; } }",
 			options: ["never"],
 			languageOptions: { ecmaVersion: 6 },
@@ -116,7 +136,6 @@ ruleTester.run("init-declarations", rule, {
 				{
 					messageId: "initialized",
 					data: { idName: "foo" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -127,7 +146,6 @@ ruleTester.run("init-declarations", rule, {
 				{
 					messageId: "initialized",
 					data: { idName: "foo" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -139,12 +157,10 @@ ruleTester.run("init-declarations", rule, {
 				{
 					messageId: "initialized",
 					data: { idName: "foo" },
-					type: "VariableDeclarator",
 				},
 				{
 					messageId: "initialized",
 					data: { idName: "baz" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -156,7 +172,6 @@ ruleTester.run("init-declarations", rule, {
 				{
 					messageId: "initialized",
 					data: { idName: "bar" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -168,7 +183,6 @@ ruleTester.run("init-declarations", rule, {
 				{
 					messageId: "initialized",
 					data: { idName: "foo" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -180,7 +194,6 @@ ruleTester.run("init-declarations", rule, {
 				{
 					messageId: "initialized",
 					data: { idName: "a" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -192,7 +205,6 @@ ruleTester.run("init-declarations", rule, {
 				{
 					messageId: "initialized",
 					data: { idName: "b" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -204,12 +216,10 @@ ruleTester.run("init-declarations", rule, {
 				{
 					messageId: "initialized",
 					data: { idName: "a" },
-					type: "VariableDeclarator",
 				},
 				{
 					messageId: "initialized",
 					data: { idName: "c" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -221,7 +231,6 @@ ruleTester.run("init-declarations", rule, {
 				{
 					messageId: "notInitialized",
 					data: { idName: "foo" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -233,7 +242,6 @@ ruleTester.run("init-declarations", rule, {
 				{
 					messageId: "notInitialized",
 					data: { idName: "foo" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -245,12 +253,10 @@ ruleTester.run("init-declarations", rule, {
 				{
 					messageId: "notInitialized",
 					data: { idName: "bar" },
-					type: "VariableDeclarator",
 				},
 				{
 					messageId: "notInitialized",
 					data: { idName: "baz" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -262,8 +268,6 @@ ruleTester.run("init-declarations", rule, {
 				{
 					messageId: "notInitialized",
 					data: { idName: "bar" },
-
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -275,7 +279,6 @@ ruleTester.run("init-declarations", rule, {
 				{
 					messageId: "notInitialized",
 					data: { idName: "a" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -287,7 +290,6 @@ ruleTester.run("init-declarations", rule, {
 				{
 					messageId: "notInitialized",
 					data: { idName: "a" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -299,7 +301,6 @@ ruleTester.run("init-declarations", rule, {
 				{
 					messageId: "notInitialized",
 					data: { idName: "c" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -310,7 +311,6 @@ ruleTester.run("init-declarations", rule, {
 				{
 					messageId: "notInitialized",
 					data: { idName: "i" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -321,7 +321,6 @@ ruleTester.run("init-declarations", rule, {
 				{
 					messageId: "notInitialized",
 					data: { idName: "foo" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -333,7 +332,6 @@ ruleTester.run("init-declarations", rule, {
 				{
 					messageId: "notInitialized",
 					data: { idName: "foo" },
-					type: "VariableDeclarator",
 				},
 			],
 		},
@@ -425,7 +423,7 @@ ruleTesterTypeScript.run("init-declarations", rule, {
 		},
 		{
 			code: `
-	  var bar: string = function (arg1: stirng): string {
+	  var bar: string = function (arg1: string): string {
 		return 'string';
 	  };
 			`,

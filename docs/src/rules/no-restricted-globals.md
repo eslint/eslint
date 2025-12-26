@@ -20,7 +20,9 @@ This rule allows you to specify global variable names that you don't want to use
 
 ## Options
 
-This rule takes a list of strings, where each string is a global to be restricted:
+This rule has both string and object options to specify the global variables to restrict.
+
+Using the string option, you can specify the name of a global variable that you want to restrict as a value in the rule options array:
 
 ```json
 {
@@ -102,6 +104,110 @@ Examples of **incorrect** code for a sample `"event"` global variable name, alon
 
 function onClick() {
     console.log(event);    // Unexpected global variable 'event'. Use local parameter instead.
+}
+```
+
+:::
+
+### globals
+
+An object option whose value is an array containing the names of the globals you want to restrict.
+
+Examples of **incorrect** code for `"event"` and `"fdescribe"` global variable names:
+
+::: incorrect
+
+```js
+/*global event, fdescribe*/
+/*eslint no-restricted-globals: ["error", { globals: ["event", "fdescribe"] }]*/
+
+function onClick() {
+    console.log(event);
+}
+
+fdescribe("foo", function() {
+});
+```
+
+:::
+
+Custom messages for a particular global can also be specified in `globals` array using objects with `name` and `message`:
+
+Examples of **incorrect** code for an `"event"` global variable name, along with a custom error message:
+
+::: incorrect
+
+```js
+/*global event*/
+/* eslint no-restricted-globals: ["error", { globals: [{ name: "event", message: "Use local parameter instead." }] }] */
+
+function onClick() {
+    console.log(event);
+}
+```
+
+:::
+
+### checkGlobalObject
+
+A boolean option that enables detection of restricted globals accessed via global objects. Default is `false`.
+
+Examples of **incorrect** code for `checkGlobalObject: true` option:
+
+::: incorrect
+
+```js
+/*global globalThis, self, window*/
+/*eslint no-restricted-globals: ["error", { globals: ["Promise"], checkGlobalObject: true }]*/
+
+globalThis.Promise
+self.Promise
+window.Promise
+```
+
+:::
+
+### globalObjects
+
+An array option that specifies additional global object names to check when `checkGlobalObject` is enabled. By default, the rule checks these global objects: `globalThis`, `self`, and `window`.
+
+Examples of **incorrect** code for `globalObjects` option:
+
+::: incorrect
+
+```js
+/*global globalThis, self, window, myGlobal*/
+/*eslint no-restricted-globals: ["error", {
+    globals: ["Promise"],
+    checkGlobalObject: true,
+    globalObjects: ["myGlobal"]
+}]*/
+
+globalThis.Promise
+self.Promise
+window.Promise
+myGlobal.Promise;
+```
+
+:::
+
+Restricted globals used in TypeScript type annotations—such as type references, interface inheritance, or class implementations—are ignored by this rule.
+
+Examples of **correct** TypeScript code for "Promise", "Event", and "Window" global variable names:
+
+::: correct
+
+```ts
+/*eslint no-restricted-globals: ["error", "Promise", "Event", "Window"]*/
+
+const fetchData: Promise<string> = fetchString();
+
+interface CustomEvent extends Event {}
+
+class CustomWindow implements Window {}
+
+function handleClick(event: Event) {
+  console.log(event);
 }
 ```
 

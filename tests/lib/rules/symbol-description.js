@@ -43,7 +43,6 @@ ruleTester.run("symbol-description", rule, {
 			errors: [
 				{
 					messageId: "expected",
-					type: "CallExpression",
 				},
 			],
 		},
@@ -52,7 +51,6 @@ ruleTester.run("symbol-description", rule, {
 			errors: [
 				{
 					messageId: "expected",
-					type: "CallExpression",
 				},
 			],
 		},

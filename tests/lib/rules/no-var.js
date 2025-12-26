@@ -36,6 +36,20 @@ ruleTester.run("no-var", rule, {
 				parserOptions: { ecmaFeatures: { globalReturn: true } },
 			},
 		},
+		{
+			code: "using moo = 'car';",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+		},
+		{
+			code: "await using moo = 'car';",
+			languageOptions: {
+				sourceType: "module",
+				ecmaVersion: 2026,
+			},
+		},
 	],
 
 	invalid: [
@@ -48,7 +62,6 @@ ruleTester.run("no-var", rule, {
 			errors: [
 				{
 					messageId: "unexpectedVar",
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -61,7 +74,6 @@ ruleTester.run("no-var", rule, {
 			errors: [
 				{
 					messageId: "unexpectedVar",
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -74,7 +86,6 @@ ruleTester.run("no-var", rule, {
 			errors: [
 				{
 					messageId: "unexpectedVar",
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -87,7 +98,6 @@ ruleTester.run("no-var", rule, {
 			errors: [
 				{
 					messageId: "unexpectedVar",
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -100,7 +110,6 @@ ruleTester.run("no-var", rule, {
 			errors: [
 				{
 					messageId: "unexpectedVar",
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -113,7 +122,6 @@ ruleTester.run("no-var", rule, {
 			errors: [
 				{
 					messageId: "unexpectedVar",
-					type: "VariableDeclaration",
 				},
 			],
 		},
@@ -124,7 +132,9 @@ ruleTester.run("no-var", rule, {
 				parserOptions: { ecmaFeatures: { globalReturn: true } },
 			},
 			errors: [
-				{ messageId: "unexpectedVar", type: "VariableDeclaration" },
+				{
+					messageId: "unexpectedVar",
+				},
 			],
 		},
 		{
@@ -134,7 +144,9 @@ ruleTester.run("no-var", rule, {
 				parserOptions: { ecmaFeatures: { globalReturn: true } },
 			},
 			errors: [
-				{ messageId: "unexpectedVar", type: "VariableDeclaration" },
+				{
+					messageId: "unexpectedVar",
+				},
 			],
 		},
 		{
@@ -144,8 +156,12 @@ ruleTester.run("no-var", rule, {
 				parserOptions: { ecmaFeatures: { globalReturn: true } },
 			},
 			errors: [
-				{ messageId: "unexpectedVar", type: "VariableDeclaration" },
-				{ messageId: "unexpectedVar", type: "VariableDeclaration" },
+				{
+					messageId: "unexpectedVar",
+				},
+				{
+					messageId: "unexpectedVar",
+				},
 			],
 		},
 
@@ -311,7 +327,9 @@ ruleTester.run("no-var", rule, {
 				parserOptions: { ecmaFeatures: { globalReturn: true } },
 			},
 			errors: [
-				{ messageId: "unexpectedVar", type: "VariableDeclaration" },
+				{
+					messageId: "unexpectedVar",
+				},
 			],
 		},
 
@@ -428,6 +446,26 @@ ruleTester.run("no-var", rule, {
 				{ messageId: "unexpectedVar" },
 				{ messageId: "unexpectedVar" },
 			],
+		},
+	],
+});
+
+const ruleTesterTypeScript = new RuleTester({
+	languageOptions: {
+		parser: require("@typescript-eslint/parser"),
+	},
+});
+
+ruleTesterTypeScript.run("no-var", rule, {
+	valid: ["declare global { var bar: 'car' }"],
+	invalid: [
+		{
+			code: "declare namespace ns { var bar: 'car' }",
+			errors: [{ messageId: "unexpectedVar" }],
+		},
+		{
+			code: "declare module 'module' { var bar: 'car' }",
+			errors: [{ messageId: "unexpectedVar" }],
 		},
 	],
 });

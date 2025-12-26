@@ -66,7 +66,6 @@ ruleTester.run("no-throw-literal", rule, {
 			errors: [
 				{
 					messageId: "object",
-					type: "ThrowStatement",
 				},
 			],
 		},
@@ -75,7 +74,6 @@ ruleTester.run("no-throw-literal", rule, {
 			errors: [
 				{
 					messageId: "object",
-					type: "ThrowStatement",
 				},
 			],
 		},
@@ -84,7 +82,6 @@ ruleTester.run("no-throw-literal", rule, {
 			errors: [
 				{
 					messageId: "object",
-					type: "ThrowStatement",
 				},
 			],
 		},
@@ -93,7 +90,6 @@ ruleTester.run("no-throw-literal", rule, {
 			errors: [
 				{
 					messageId: "object",
-					type: "ThrowStatement",
 				},
 			],
 		},
@@ -102,7 +98,6 @@ ruleTester.run("no-throw-literal", rule, {
 			errors: [
 				{
 					messageId: "object",
-					type: "ThrowStatement",
 				},
 			],
 		},
@@ -111,7 +106,6 @@ ruleTester.run("no-throw-literal", rule, {
 			errors: [
 				{
 					messageId: "undef",
-					type: "ThrowStatement",
 				},
 			],
 		},
@@ -122,7 +116,6 @@ ruleTester.run("no-throw-literal", rule, {
 			errors: [
 				{
 					messageId: "object",
-					type: "ThrowStatement",
 				},
 			],
 		},
@@ -131,7 +124,6 @@ ruleTester.run("no-throw-literal", rule, {
 			errors: [
 				{
 					messageId: "object",
-					type: "ThrowStatement",
 				},
 			],
 		},
@@ -142,7 +134,6 @@ ruleTester.run("no-throw-literal", rule, {
 			errors: [
 				{
 					messageId: "object",
-					type: "ThrowStatement",
 				},
 			],
 		},
@@ -151,7 +142,6 @@ ruleTester.run("no-throw-literal", rule, {
 			errors: [
 				{
 					messageId: "object",
-					type: "ThrowStatement",
 				},
 			],
 		},
@@ -160,7 +150,6 @@ ruleTester.run("no-throw-literal", rule, {
 			errors: [
 				{
 					messageId: "object",
-					type: "ThrowStatement",
 				},
 			],
 		},
@@ -170,7 +159,6 @@ ruleTester.run("no-throw-literal", rule, {
 			errors: [
 				{
 					messageId: "object",
-					type: "ThrowStatement",
 				},
 			],
 		},
@@ -181,7 +169,6 @@ ruleTester.run("no-throw-literal", rule, {
 			errors: [
 				{
 					messageId: "object",
-					type: "ThrowStatement",
 				},
 			],
 		},
@@ -192,7 +179,6 @@ ruleTester.run("no-throw-literal", rule, {
 			errors: [
 				{
 					messageId: "object",
-					type: "ThrowStatement",
 				},
 			],
 		},
@@ -201,7 +187,6 @@ ruleTester.run("no-throw-literal", rule, {
 			errors: [
 				{
 					messageId: "object",
-					type: "ThrowStatement",
 				},
 			],
 		},
@@ -212,7 +197,6 @@ ruleTester.run("no-throw-literal", rule, {
 			errors: [
 				{
 					messageId: "object",
-					type: "ThrowStatement",
 				},
 			],
 		},
@@ -224,7 +208,6 @@ ruleTester.run("no-throw-literal", rule, {
 			errors: [
 				{
 					messageId: "object",
-					type: "ThrowStatement",
 				},
 			],
 		},

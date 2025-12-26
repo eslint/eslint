@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-eslint",
-  "version": "11.0.0",
+  "version": "13.0.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "Default ESLint configuration for ESLint projects.",
   "funding": "https://eslint.org/donate",
@@ -63,18 +63,19 @@
   "bugs": "https://github.com/eslint/eslint/issues/",
   "dependencies": {
     "@eslint-community/eslint-plugin-eslint-comments": "^4.3.0",
-    "@eslint/js": "^9.0.0",
+    "@eslint/js": ">=10.0.0-alpha.0 <10.0.0 || ^10.0.1",
     "eslint-plugin-jsdoc": "^48.2.3",
     "eslint-plugin-n": "^17.11.1",
+    "eslint-plugin-regexp": "^2.10.0",
     "eslint-plugin-unicorn": "^52.0.0"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.0",
-    "eslint": "^9.16.0",
-    "typescript": "^5.7.2"
+    "eslint": ">=10.0.0-alpha.0",
+    "typescript": "^5.9.3"
   },
   "peerDependencies": {
-    "eslint": "^9.10.0"
+    "eslint": ">=10.0.0-alpha.0"
   },
   "peerDependenciesMeta": {
     "eslint": {
