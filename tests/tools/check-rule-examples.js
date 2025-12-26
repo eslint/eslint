@@ -97,8 +97,13 @@ describe("check-rule-examples", () => {
 				'\tExpected severity of "off", 0, "warn", 1, "error", or 2. You passed "errorr,ArrayPattern". \x1B[2mno-restricted-syntax\x1B[22m\n' +
 				'  \x1B[2m122:1\x1B[22m  \x1B[31merror\x1B[39m  "sourceType": "module" is the default and can be omitted\n' +
 				'  \x1B[2m130:1\x1B[22m  \x1B[31merror\x1B[39m  "jsx": false is the default and can be omitted\n' +
+				'  \x1B[2m140:4\x1B[22m  \x1B[31merror\x1B[39m  The "jsx" language tag requires JSX to be enabled\n' +
+				'  \x1B[2m148:4\x1B[22m  \x1B[31merror\x1B[39m  The "tsx" language tag requires JSX to be enabled\n' +
+				'  \x1B[2m156:4\x1B[22m  \x1B[31merror\x1B[39m  The "jsx" language tag requires JSX to be enabled\n' +
+				'  \x1B[2m154:1\x1B[22m  \x1B[31merror\x1B[39m  "jsx": false is the default and can be omitted\n' +
+				'  \x1B[2m164:4\x1B[22m  \x1B[31merror\x1B[39m  JSX is enabled, but the code block is tagged as "js". Use "jsx" or "tsx"\n' +
 				"\n" +
-				"\x1B[31m\x1B[1m✖ 20 problems (20 errors, 0 warnings)\x1B[22m\x1B[39m\n" +
+				"\x1B[31m\x1B[1m✖ 25 problems (25 errors, 0 warnings)\x1B[22m\x1B[39m\n" +
 				"\x1B[0m\n";
 
 			assert.strictEqual(normalizedStderr, expectedStderr);
