@@ -25,6 +25,14 @@ For example, to test against `@eslint/css`:
 npm run test:ecosystem -- --plugin @eslint/css
 ```
 
+### Debugging Commands
+
+The [`debug`](https://www.npmjs.com/package/debug) package is used to surface the stdout of commands when `DEBUG=test:ecosystem` is enabled.
+
+```shell
+DEBUG=test:ecosystem npm run test:ecosystem -- --plugin @eslint/css
+```
+
 ## Updating
 
 `plugins-data.json` contains pinned commit hashes for each repository.

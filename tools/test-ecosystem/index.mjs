@@ -7,13 +7,16 @@
 // Requirements
 //-----------------------------------------------------------------------------
 
+import debug from "debug";
 import spawn from "cross-spawn";
 import fs from "node:fs/promises";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 import { styleText } from "node:util";
 
 import { getPlugins } from "./data.mjs";
-import { pathToFileURL } from "node:url";
+
+const log = debug("test:ecosystem");
 
 /**
  * @typedef {import("./data").PluginSettings} PluginSettings
@@ -59,6 +62,7 @@ async function runTests(pluginKey, pluginSettings) {
 		try {
 			return spawn.sync(command, args, {
 				cwd: directory,
+				stdio: log.enabled ? "inherit" : undefined,
 			});
 		} catch (error) {
 			console.error(
