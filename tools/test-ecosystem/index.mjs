@@ -1,5 +1,5 @@
 /**
- * @fileoverview A utility to test ecosystem plugin(s) against the built ESLint.
+ * @fileoverview A utility to test ecosystem plugin(s) against the local ESLint.
  * @author Josh Goldberg
  */
 
