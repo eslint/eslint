@@ -2878,24 +2878,24 @@ describe("RuleTester", () => {
 		}, `Assertion options can not use 'requireMessage: "messageId"' if rule under test doesn't define 'meta.messages'.`);
 	});
 
-	it("should fail if 'requireData' is set, but the rule does not define messageIds", () => {
-		assert.throws(() => {
-			ruleTester.run(
-				"foo",
-				require("../../fixtures/testers/rule-tester/messageId")
-					.withMessageOnly,
-				{
-					assertionOptions: { requireData: "error" },
-					valid: [],
-					invalid: [
-						{
-							code: "foo",
-							errors: [{ messageId: "avoidFoo" }],
-						},
-					],
-				},
-			);
-		}, `Assertion options can not use 'requireData' if rule under test doesn't define 'meta.messages'.`);
+	it("should not fail if 'requireData' is set, but the rule does not define messageIds", () => {
+		ruleTester.run(
+			"foo",
+			require("../../fixtures/testers/rule-tester/messageId")
+				.withMessageOnly,
+			{
+				assertionOptions: { requireData: "error" },
+				valid: [],
+				invalid: [
+					{
+						code: "foo",
+						errors: [
+							{ message: "Avoid using variables named 'foo'." },
+						],
+					},
+				],
+			},
+		);
 	});
 
 	it("should throw if user tests for messageId not listed in the rule's meta syntax.", () => {
