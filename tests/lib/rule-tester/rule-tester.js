@@ -6190,38 +6190,63 @@ describe("RuleTester", () => {
 		/**
 		 * Normalizes stack trace for comparison
 		 * @param {Error} error The error to normalize the stacktrace of.
-		 * @returns {string}The normalized stacktrace string.
+		 * @returns {string} The normalized stacktrace string.
 		 */
 		function normalizeStack(error) {
 			return error.stack
 				.replace(/\\/gu, "/")
-				.replace(/\(.*\/tests\//gu, "(tests/") // absolute to relative paths
-				.replace(/:\d+(:\d+)?/gu, ":<lines>"); // ignore line/column numbers
+				.replace(/\(.*\/tests\//gu, "(tests/"); // absolute to relative paths
+		}
+
+		/**
+		 * Gets the invocation location from the stack trace for later use.
+		 * @returns {number} The invocation line number.
+		 */
+		function getInvocationLineNumber() {
+			const [, lineNumberText] = normalizeStack(new Error())
+				.split("\n")[2]
+				.replace(/.*?\(/u, "")
+				.replace(/\)$/u, "")
+				.replace(":/", "/") // handle windows paths
+				.split(":");
+			return Number(lineNumberText);
 		}
 
 		it("should report the correct location for errors in valid test cases", () => {
+			const lineNumber = getInvocationLineNumber();
 			try {
 				ruleTester.run(
 					"no-eval",
 					require("../../fixtures/testers/rule-tester/no-eval"),
 					{
-						valid: ["eval(foo)"],
+						valid: [
+							"Eval(foo); // comment to push next case to next line",
+							"eval(foo)",
+						],
 						invalid: [],
 					},
 				);
 				assert.fail("Expected an error to be thrown");
 			} catch (error) {
 				const normalizedStack = normalizeStack(error);
-				assert.include(normalizedStack, "at RuleTester.run.valid[0]");
-				assert.include(normalizedStack, "at RuleTester.run.valid");
+				// To manually test this, log the normalizedStack and check the line numbers
 				assert.include(
 					normalizedStack,
-					"at RuleTester.run (tests/lib/rule-tester/rule-tester.js:<lines>)",
+					`roughly at RuleTester.run.valid[1] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 8})`,
+				);
+				assert.include(
+					normalizedStack,
+					`roughly at RuleTester.run.valid (tests/lib/rule-tester/rule-tester.js:${lineNumber + 6})`,
+				);
+				assert.include(
+					normalizedStack,
+					`at RuleTester.run (tests/lib/rule-tester/rule-tester.js:${lineNumber + 2}:16)`,
 				);
 			}
 		});
 
 		it("should report the correct location for errors in invalid test cases", () => {
+			const lineNumber = getInvocationLineNumber();
 			try {
 				ruleTester.run(
 					"no-eval",
@@ -6246,15 +6271,22 @@ describe("RuleTester", () => {
 				assert.fail("Expected an error to be thrown");
 			} catch (error) {
 				const normalizedStack = normalizeStack(error);
+				// To manually test this, log the normalizedStack and check the line numbers
 				assert.include(
 					normalizedStack,
-					"at RuleTester.run.invalid[0].error[1]",
+					`roughly at RuleTester.run.invalid[0].error[1] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 14})`,
 				);
-				assert.include(normalizedStack, "at RuleTester.run.invalid[0]");
-				assert.include(normalizedStack, "at RuleTester.run.invalid");
 				assert.include(
 					normalizedStack,
-					"at RuleTester.run (tests/lib/rule-tester/rule-tester.js:<lines>)",
+					`roughly at RuleTester.run.invalid[0] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 10})`,
+				);
+				assert.include(
+					normalizedStack,
+					`roughly at RuleTester.run.invalid (tests/lib/rule-tester/rule-tester.js:${lineNumber + 7})`,
+				);
+				assert.include(
+					normalizedStack,
+					`at RuleTester.run (tests/lib/rule-tester/rule-tester.js:${lineNumber + 2}:16)`,
 				);
 			}
 		});
