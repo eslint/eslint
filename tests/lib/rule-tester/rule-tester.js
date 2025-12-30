@@ -6511,7 +6511,7 @@ describe("RuleTester", () => {
 												"Avoid using identifiers named 'foo'.",
 											suggestions: [
 												{
-													desc: "Rename identifier to bar",
+													messageId: "rename",
 													output: "bar",
 												},
 											],
