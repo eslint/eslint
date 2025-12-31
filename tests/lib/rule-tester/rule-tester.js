@@ -6213,7 +6213,7 @@ describe("RuleTester", () => {
 			} catch (error) {
 				const normalizedStack = normalizeStack(error);
 				assert.include(normalizedStack, "at RuleTester.run.valid[0]");
-				assert.include(normalizedStack, "at RuleTester.run.valid");
+				assert.include(normalizedStack, "at RuleTester.run.valid\n");
 				assert.include(
 					normalizedStack,
 					"at RuleTester.run (tests/lib/rule-tester/rule-tester.js:<lines>)",
@@ -6251,7 +6251,57 @@ describe("RuleTester", () => {
 					"at RuleTester.run.invalid[0].error[1]",
 				);
 				assert.include(normalizedStack, "at RuleTester.run.invalid[0]");
-				assert.include(normalizedStack, "at RuleTester.run.invalid");
+				assert.include(normalizedStack, "at RuleTester.run.invalid\n");
+				assert.include(
+					normalizedStack,
+					"at RuleTester.run (tests/lib/rule-tester/rule-tester.js:<lines>)",
+				);
+			}
+		});
+
+		it("should report the correct location for errors in invalid test cases when a suggestion assertion fails", () => {
+			try {
+				ruleTester.run(
+					"suggestions-basic",
+					require("../../fixtures/testers/rule-tester/suggestions")
+						.basic,
+					{
+						valid: ["var boo;"],
+						invalid: [
+							{
+								code: "var foo;",
+								errors: [
+									{
+										message:
+											"Avoid using identifiers named 'foo'.",
+										suggestions: [
+											{
+												desc: "Rename identifier 'foo' to 'bar'",
+												output: "var baz;", // wrong output
+											},
+										],
+									},
+								],
+							},
+						],
+					},
+				);
+				assert.fail("Expected an error to be thrown");
+			} catch (error) {
+				const normalizedStack = normalizeStack(error);
+
+				// The error message should not be modified although it contains "at"
+				assert.include(
+					normalizedStack,
+					"Expected the applied suggestion fix to match the test suggestion output for suggestion at index: 0",
+				);
+
+				assert.include(
+					normalizedStack,
+					"at RuleTester.run.invalid[0].error[0]",
+				);
+				assert.include(normalizedStack, "at RuleTester.run.invalid[0]");
+				assert.include(normalizedStack, "at RuleTester.run.invalid\n");
 				assert.include(
 					normalizedStack,
 					"at RuleTester.run (tests/lib/rule-tester/rule-tester.js:<lines>)",
