@@ -6199,6 +6199,25 @@ describe("RuleTester", () => {
 		}
 
 		/**
+		 * Filters and asserts stack trace lines related to RuleTester.run
+		 * @param {string} stack The stack trace string.
+		 * @param {...string} expectedLines The expected stack trace lines.
+		 * @returns {void}
+		 */
+		function assertStackLines(stack, ...expectedLines) {
+			// To manually test this, log the normalizedStack and check the line numbers
+			const stackLines = stack
+				.split("\n")
+				.filter(line => line.includes("at RuleTester.run"));
+
+			for (let i = 0; i < expectedLines.length; i++) {
+				assert.strictEqual(stackLines[i], expectedLines[i]);
+			}
+
+			assert.strictEqual(stackLines.length, expectedLines.length+1); // +1 for the calls within RuleTester.run itself
+		}
+
+		/**
 		 * Gets the invocation location from the stack trace for later use.
 		 * @returns {number} The invocation line number.
 		 */
@@ -6229,18 +6248,10 @@ describe("RuleTester", () => {
 				assert.fail("Expected an error to be thrown");
 			} catch (error) {
 				const normalizedStack = normalizeStack(error);
-				// To manually test this, log the normalizedStack and check the line numbers
-				assert.include(
-					normalizedStack,
-					`roughly at RuleTester.run.valid[1] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 8})`,
-				);
-				assert.include(
-					normalizedStack,
-					`roughly at RuleTester.run.valid (tests/lib/rule-tester/rule-tester.js:${lineNumber + 6})`,
-				);
-				assert.include(
-					normalizedStack,
-					`at RuleTester.run (tests/lib/rule-tester/rule-tester.js:${lineNumber + 2}:16)`,
+				assertStackLines(normalizedStack,
+					`    roughly at RuleTester.run.valid[1] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 8})`,
+					`    roughly at RuleTester.run.valid (tests/lib/rule-tester/rule-tester.js:${lineNumber + 6})`,
+					`    at RuleTester.run (tests/lib/rule-tester/rule-tester.js:${lineNumber + 2}:16)`
 				);
 			}
 		});
@@ -6271,22 +6282,69 @@ describe("RuleTester", () => {
 				assert.fail("Expected an error to be thrown");
 			} catch (error) {
 				const normalizedStack = normalizeStack(error);
-				// To manually test this, log the normalizedStack and check the line numbers
-				assert.include(
-					normalizedStack,
-					`roughly at RuleTester.run.invalid[0].error[1] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 14})`,
+				assertStackLines(normalizedStack,
+					`    roughly at RuleTester.run.invalid[0].error[1] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 14})`,
+					`    roughly at RuleTester.run.invalid[0] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 10})`,
+					`    roughly at RuleTester.run.invalid (tests/lib/rule-tester/rule-tester.js:${lineNumber + 7})`,
+					`    at RuleTester.run (tests/lib/rule-tester/rule-tester.js:${lineNumber + 2}:16)`,
 				);
-				assert.include(
-					normalizedStack,
-					`roughly at RuleTester.run.invalid[0] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 10})`,
+			}
+		});
+
+		it("should report the correct location for errors in invalid test cases when a suggestion assertion fails", () => {
+			const lineNumber = getInvocationLineNumber();
+			try {
+				ruleTester.run(
+					"suggestions-basic",
+					require("../../fixtures/testers/rule-tester/suggestions")
+						.basic,
+					{
+						valid: ["var boo;"],
+						invalid: [
+							{
+								code: "var foo; var foo;",
+								errors: [
+									{
+										message:
+											"Avoid using identifiers named 'foo'.",
+										suggestions: [
+											{
+												desc: "Rename identifier 'foo' to 'bar'",
+												output: "var bar; var foo;",
+											},
+										],
+									},
+									{
+										message:
+											"Avoid using identifiers named 'foo'.",
+										suggestions: [
+											{
+												desc: "Rename identifier 'foo' to 'bar'",
+												output: "var foo; var baz;", // wrong output
+											},
+										],
+									},
+								],
+							},
+						],
+					},
 				);
+				assert.fail("Expected an error to be thrown");
+			} catch (error) {
+				const normalizedStack = normalizeStack(error);
+
+				// The error message should not be modified although it contains "at"
 				assert.include(
 					normalizedStack,
-					`roughly at RuleTester.run.invalid (tests/lib/rule-tester/rule-tester.js:${lineNumber + 7})`,
+					"Expected the applied suggestion fix to match the test suggestion output for suggestion at index: 0",
 				);
-				assert.include(
+
+				assertStackLines(
 					normalizedStack,
-					`at RuleTester.run (tests/lib/rule-tester/rule-tester.js:${lineNumber + 2}:16)`,
+					`    roughly at RuleTester.run.invalid[0].error[1] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 22})`,
+					`    roughly at RuleTester.run.invalid[0] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 11})`,
+					`    roughly at RuleTester.run.invalid (tests/lib/rule-tester/rule-tester.js:${lineNumber + 8})`,
+					`    at RuleTester.run (tests/lib/rule-tester/rule-tester.js:${lineNumber + 2}:16)`,
 				);
 			}
 		});
