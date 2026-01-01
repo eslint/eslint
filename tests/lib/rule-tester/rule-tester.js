@@ -2878,6 +2878,26 @@ describe("RuleTester", () => {
 		}, `Assertion options can not use 'requireMessage: "messageId"' if rule under test doesn't define 'meta.messages'.`);
 	});
 
+	it("should not fail if 'requireData' is set, but the rule does not define messageIds", () => {
+		ruleTester.run(
+			"foo",
+			require("../../fixtures/testers/rule-tester/messageId")
+				.withMessageOnly,
+			{
+				assertionOptions: { requireData: "error" },
+				valid: [],
+				invalid: [
+					{
+						code: "foo",
+						errors: [
+							{ message: "Avoid using variables named 'foo'." },
+						],
+					},
+				],
+			},
+		);
+	});
+
 	it("should throw if user tests for messageId not listed in the rule's meta syntax.", () => {
 		assert.throws(() => {
 			ruleTester.run(
@@ -6180,6 +6200,518 @@ describe("RuleTester", () => {
 							},
 						);
 					}, "Actual error location does not match expected error location.");
+				});
+			});
+		});
+
+		describe("requireData", () => {
+			describe("unset", () => {
+				const assertionOptions = {};
+
+				it("should allow not setting data for errors", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/messageId.js")
+							.withMetaWithData,
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "foo",
+									errors: [{ messageId: "avoidFoo" }],
+								},
+							],
+						},
+					);
+				});
+
+				it("should allow not setting data for suggestions", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/suggestions.js")
+							.withMessageIds,
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "foo",
+									errors: [
+										{
+											messageId: "avoidFoo",
+											suggestions: [
+												{
+													messageId: "renameFoo",
+													output: "bar",
+												},
+												{
+													messageId: "renameFoo",
+													output: "baz",
+												},
+											],
+										},
+									],
+								},
+							],
+						},
+					);
+				});
+			});
+
+			describe("false", () => {
+				const assertionOptions = { requireData: false };
+
+				it("should allow not setting data for errors", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/messageId.js")
+							.withMetaWithData,
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "foo",
+									errors: [{ messageId: "avoidFoo" }],
+								},
+							],
+						},
+					);
+				});
+
+				it("should allow not setting data for suggestions", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/suggestions.js")
+							.withMessageIds,
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "foo",
+									errors: [
+										{
+											messageId: "avoidFoo",
+											suggestions: [
+												{
+													messageId: "renameFoo",
+													output: "bar",
+												},
+												{
+													messageId: "renameFoo",
+													output: "baz",
+												},
+											],
+										},
+									],
+								},
+							],
+						},
+					);
+				});
+			});
+
+			describe("true", () => {
+				const assertionOptions = { requireData: true };
+
+				it("should allow error shorthand", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/messageId.js")
+							.withMetaWithData,
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "foo",
+									errors: 1,
+								},
+							],
+						},
+					);
+				});
+
+				it("should pass if message array is used", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/messageId.js")
+							.withMetaWithData,
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "foo",
+									errors: [
+										"Avoid using variables named 'foo'.",
+									],
+								},
+							],
+						},
+					);
+				});
+
+				it("should allow specifying messages for errors", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/messageId.js")
+							.withMetaWithData,
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "foo",
+									errors: [
+										{
+											message:
+												"Avoid using variables named 'foo'.",
+										},
+									],
+								},
+							],
+						},
+					);
+				});
+
+				it("should allow not specifying data for referenced error messages without placeholders", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/no-eval.js"),
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "eval(foo)",
+									errors: [{ messageId: "evalSucks" }],
+								},
+							],
+						},
+					);
+				});
+
+				it("should allow specifying data when there are message placeholders", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/messageId.js")
+							.withMetaWithData,
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "foo",
+									errors: [
+										{
+											messageId: "avoidFoo",
+											data: { name: "foo" },
+										},
+									],
+								},
+							],
+						},
+					);
+				});
+
+				it("should disallow not specifying data when there are message placeholders for errors", () => {
+					assert.throws(() => {
+						ruleTester.run(
+							"message-id",
+							require("../../fixtures/testers/rule-tester/messageId.js")
+								.withMetaWithData,
+							{
+								assertionOptions,
+								valid: [],
+								invalid: [
+									{
+										code: "foo",
+										errors: [{ messageId: "avoidFoo" }],
+									},
+								],
+							},
+						);
+					}, "Error should specify the 'data' property as the referenced message has placeholders.");
+				});
+
+				it("should allow suggestion shorthand", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/suggestions.js")
+							.withMessageIds,
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "foo",
+									errors: [
+										{
+											messageId: "avoidFoo",
+											data: { name: "foo" },
+											suggestions: 2,
+										},
+									],
+								},
+							],
+						},
+					);
+				});
+
+				it("should allow specifying desc for suggestions", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/suggestions.js")
+							.withMessageIds,
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "foo",
+									errors: [
+										{
+											message:
+												"Avoid using identifiers named 'foo'.",
+											suggestions: [
+												{
+													desc: "Rename identifier 'foo' to 'bar'",
+													output: "bar",
+												},
+												{
+													desc: "Rename identifier 'foo' to 'baz'",
+													output: "baz",
+												},
+											],
+										},
+									],
+								},
+							],
+						},
+					);
+				});
+
+				it("should allow not specifying data for referenced suggestion messages without placeholders", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/suggestions.js")
+							.withMessageIdsWithoutPlaceholders,
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "foo",
+									errors: [
+										{
+											message:
+												"Avoid using identifiers named 'foo'.",
+											suggestions: [
+												{
+													messageId: "rename",
+													output: "bar",
+												},
+											],
+										},
+									],
+								},
+							],
+						},
+					);
+				});
+
+				it("should allow specifying data when there are message placeholders for suggestions", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/suggestions.js")
+							.withMessageIds,
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "foo",
+									errors: [
+										{
+											messageId: "avoidFoo",
+											data: { name: "foo" },
+											suggestions: [
+												{
+													messageId: "renameFoo",
+													data: { newName: "bar" },
+													output: "bar",
+												},
+												{
+													messageId: "renameFoo",
+													data: { newName: "baz" },
+													output: "baz",
+												},
+											],
+										},
+									],
+								},
+							],
+						},
+					);
+				});
+
+				it("should disallow not specifying data when there are message placeholders for suggestions", () => {
+					assert.throws(() => {
+						ruleTester.run(
+							"message-id",
+							require("../../fixtures/testers/rule-tester/suggestions.js")
+								.withMessageIds,
+							{
+								assertionOptions,
+								valid: [],
+								invalid: [
+									{
+										code: "foo",
+										errors: [
+											{
+												messageId: "avoidFoo",
+												data: { name: "foo" },
+												suggestions: [
+													{
+														messageId: "renameFoo",
+														data: {
+															newName: "bar",
+														},
+														output: "bar",
+													},
+													{
+														messageId: "renameFoo",
+														output: "baz",
+													},
+												],
+											},
+										],
+									},
+								],
+							},
+						);
+					}, "Suggestion at index 1: Suggestion should specify the 'data' property as the referenced message has placeholders.");
+				});
+			});
+
+			describe("error", () => {
+				const assertionOptions = { requireData: "error" };
+
+				it("should disallow not specifying data when there are message placeholders for errors", () => {
+					assert.throws(() => {
+						ruleTester.run(
+							"message-id",
+							require("../../fixtures/testers/rule-tester/messageId.js")
+								.withMetaWithData,
+							{
+								assertionOptions,
+								valid: [],
+								invalid: [
+									{
+										code: "foo",
+										errors: [{ messageId: "avoidFoo" }],
+									},
+								],
+							},
+						);
+					}, "Error should specify the 'data' property as the referenced message has placeholders.");
+				});
+
+				it("should allow not specifying data when there are message placeholders for suggestions", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/suggestions.js")
+							.withMessageIds,
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "foo",
+									errors: [
+										{
+											messageId: "avoidFoo",
+											data: { name: "foo" },
+											suggestions: [
+												{
+													messageId: "renameFoo",
+													data: { newName: "bar" },
+													output: "bar",
+												},
+												{
+													messageId: "renameFoo",
+													output: "baz",
+												},
+											],
+										},
+									],
+								},
+							],
+						},
+					);
+				});
+			});
+
+			describe("suggestion", () => {
+				const assertionOptions = { requireData: "suggestion" };
+
+				it("should allow not specifying data when there are message placeholders for errors", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/messageId.js")
+							.withMetaWithData,
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "foo",
+									errors: [{ messageId: "avoidFoo" }],
+								},
+							],
+						},
+					);
+				});
+
+				it("should disallow not specifying data when there are message placeholders for suggestions", () => {
+					assert.throws(() => {
+						ruleTester.run(
+							"message-id",
+							require("../../fixtures/testers/rule-tester/suggestions.js")
+								.withMessageIds,
+							{
+								assertionOptions,
+								valid: [],
+								invalid: [
+									{
+										code: "foo",
+										errors: [
+											{
+												messageId: "avoidFoo",
+												data: { name: "foo" },
+												suggestions: [
+													{
+														messageId: "renameFoo",
+														output: "bar",
+													},
+													{
+														messageId: "renameFoo",
+														data: {
+															newName: "baz",
+														},
+														output: "baz",
+													},
+												],
+											},
+										],
+									},
+								],
+							},
+						);
+					}, "Suggestion at index 0: Suggestion should specify the 'data' property as the referenced message has placeholders.");
 				});
 			});
 		});
