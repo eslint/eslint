@@ -545,6 +545,50 @@ console.log(firstVar, secondVar);
 
 :::
 
+This rule additionally supports TypeScript type syntax.
+
+Examples of **incorrect** TypeScript code for this rule:
+
+```ts
+/*eslint no-unused-vars: "error"*/
+
+const foo: number = 10;
+
+function func (a:string, b:number) {}
+
+enum Foo { A = 1, B = Foo.A, }
+
+type Bar = Array<Bar>;
+
+namespace Baz {
+    const Baz = 1;
+    console.log(Baz);
+}
+```
+
+Examples of **correct** TypeScript code for this rule:
+
+```ts
+/*eslint no-unused-vars: "error"*/
+
+interface Base {}
+
+const a: Base = {};
+
+console.log(a);
+
+function func (a:string) {
+    console.log(a);
+}
+
+func();
+
+export enum Foo {
+  	A = 1,
+  	B = 2,
+}
+```
+
 ## When Not To Use It
 
 If you don't want to be notified about unused variables or function arguments, you can safely turn this rule off.
