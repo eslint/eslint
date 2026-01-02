@@ -144,7 +144,7 @@
     "optionator": "^0.9.3"
   },
   "devDependencies": {
-    "@antfu/ni": "^24.3.0",
+    "@antfu/ni": "^28.0.0",
     "@arethetypeswrong/cli": "^0.18.0",
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
