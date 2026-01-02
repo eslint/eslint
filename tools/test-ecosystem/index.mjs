@@ -55,12 +55,13 @@ async function runTests(pluginKey, pluginSettings) {
 	 * @param {string} command
 	 * @param {string[]} args
 	 */
-	const runCommand = (command, ...args) => {
+	const runCommand = ([command, ...args], env) => {
 		console.log(
 			styleText("gray", `[${pluginKey}] ${[command, ...args].join(" ")}`),
 		);
 		try {
 			return spawn.sync(command, args, {
+				env,
 				cwd: directory,
 				stdio: log.enabled ? "inherit" : undefined,
 			});
@@ -75,25 +76,25 @@ async function runTests(pluginKey, pluginSettings) {
 
 	// 1. Clone the plugin repository into a sandbox directory
 	await fs.mkdir(directory, { force: true });
-	runCommand(
+	runCommand([
 		"git",
 		"clone",
 		pluginSettings.repository,
 		directory,
 		"--depth",
 		"1",
-	);
+	]);
 
 	// 2. Check out the plugin's commit to test on
-	runCommand("git", "fetch", "origin", pluginSettings.commit);
-	runCommand("git", "checkout", pluginSettings.commit);
+	runCommand(["git", "fetch", "origin", pluginSettings.commit]);
+	runCommand(["git", "checkout", pluginSettings.commit]);
 
 	// 3. Install the plugin's dependencies
-	runCommand("pwd");
-	runCommand("ni");
+	runCommand(["pwd"]);
+	runCommand(["ni"], { NI_AUTO_INSTALL: true });
 
 	// 4. Link the local ESLint into the plugin
-	runCommand("npm", "link", "eslint");
+	runCommand(["npm", "link", "eslint"]);
 
 	// 5. Build, if the plugin defines a build script
 	const packageJsonFileUrl = pathToFileURL(
@@ -103,11 +104,11 @@ async function runTests(pluginKey, pluginSettings) {
 		with: { type: "json" },
 	});
 	if (packageJson.default.scripts.build) {
-		runCommand("nr", "build");
+		runCommand(["nr", "build"]);
 	}
 
 	// 6. Run test
-	runCommand("nr", "test");
+	runCommand(["nr", "test"]);
 }
 
 //-----------------------------------------------------------------------------
