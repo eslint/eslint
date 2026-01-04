@@ -6292,9 +6292,7 @@ describe("RuleTester", () => {
 					require("../../fixtures/testers/rule-tester/no-eval"),
 					{
 						valid: [
-							{
-								code: "Eval(foo) // comment to push next case to next line",
-							},
+							{ code: "Eval(foo) // comment" },
 							{ code: "eval(foo)" },
 						],
 						invalid: [],
