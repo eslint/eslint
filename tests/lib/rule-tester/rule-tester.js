@@ -6258,6 +6258,7 @@ describe("RuleTester", () => {
 		});
 
 		it("should report the correct location for errors in oneline object valid test cases", () => {
+			// also tests that trailing comments do not affect line numbers
 			const lineNumber = getInvocationLineNumber();
 			try {
 				ruleTester.run(
@@ -6266,6 +6267,34 @@ describe("RuleTester", () => {
 					{
 						valid: [
 							{ code: "Eval(foo)" }, // comment to push next case to next line
+							{ code: "eval(foo)" },
+						],
+						invalid: [],
+					},
+				);
+				assert.fail("Expected an error to be thrown");
+			} catch (error) {
+				const normalizedStack = normalizeStack(error);
+				assertStackLines(
+					normalizedStack,
+					`    roughly at RuleTester.run.valid[1] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 8})`,
+					`    roughly at RuleTester.run.valid (tests/lib/rule-tester/rule-tester.js:${lineNumber + 6})`,
+					`    at RuleTester.run (tests/lib/rule-tester/rule-tester.js:${lineNumber + 2}:16)`,
+				);
+			}
+		});
+
+		it("should report the correct location for errors in oneline object valid test cases with inline comments", () => {
+			const lineNumber = getInvocationLineNumber();
+			try {
+				ruleTester.run(
+					"no-eval",
+					require("../../fixtures/testers/rule-tester/no-eval"),
+					{
+						valid: [
+							{
+								code: "Eval(foo) // comment to push next case to next line",
+							},
 							{ code: "eval(foo)" },
 						],
 						invalid: [],
