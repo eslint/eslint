@@ -104,11 +104,11 @@ async function runTests(pluginKey, pluginSettings) {
 		with: { type: "json" },
 	});
 	if (packageJson.default.scripts.build) {
-		runCommand(["nr", "build"]);
+		runCommand(["nr", "build"], { NI_DEFAULT_AGENT: "npm" });
 	}
 
 	// 6. Run test
-	runCommand(["nr", "test"]);
+	runCommand(["nr", "test"], { NI_DEFAULT_AGENT: "npm" });
 }
 
 //-----------------------------------------------------------------------------
