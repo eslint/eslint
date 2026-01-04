@@ -91,7 +91,7 @@ async function runTests(pluginKey, pluginSettings) {
 
 	// 3. Install the plugin's dependencies
 	runCommand(["pwd"]);
-	runCommand(["ni"], { NI_AUTO_INSTALL: true });
+	runCommand(["ni"], { NI_AUTO_INSTALL: true, NI_DEFAULT_AGENT: "npm" });
 
 	// 4. Link the local ESLint into the plugin
 	runCommand(["npm", "link", "eslint"]);
