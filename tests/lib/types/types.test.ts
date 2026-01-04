@@ -2017,7 +2017,6 @@ ruleTester.run("data-assertion-options", rule, {
 	invalid: [],
 });
 
-
 ruleTester.run("data-assertion-options", rule, {
 	assertionOptions: {
 		requireData: "suggestion",

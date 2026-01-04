@@ -245,12 +245,15 @@ export namespace Scope {
 
 // #region SourceCode
 
-export class SourceCode implements TextSourceCode<{
-	LangOptions: Linter.LanguageOptions;
-	RootNode: AST.Program;
-	SyntaxElementWithLoc: AST.Token | ESTree.Node;
-	ConfigNode: ESTree.Comment;
-}> {
+export class SourceCode
+	implements
+		TextSourceCode<{
+			LangOptions: Linter.LanguageOptions;
+			RootNode: AST.Program;
+			SyntaxElementWithLoc: AST.Token | ESTree.Node;
+			ConfigNode: ESTree.Comment;
+		}>
+{
 	text: string;
 	ast: AST.Program;
 	lines: string[];
@@ -654,30 +657,32 @@ export type JSSyntaxElement = {
 };
 
 export namespace Rule {
-	interface RuleModule extends RuleDefinition<{
-		LangOptions: Linter.LanguageOptions;
-		Code: SourceCode;
-		RuleOptions: any[];
-		Visitor: RuleListener;
-		Node: JSSyntaxElement;
-		MessageIds: string;
-		ExtRuleDocs: {};
-	}> {
+	interface RuleModule
+		extends RuleDefinition<{
+			LangOptions: Linter.LanguageOptions;
+			Code: SourceCode;
+			RuleOptions: any[];
+			Visitor: RuleListener;
+			Node: JSSyntaxElement;
+			MessageIds: string;
+			ExtRuleDocs: {};
+		}> {
 		create(context: RuleContext): RuleListener;
 	}
 
 	type NodeTypes = ESTree.Node["type"];
 
-	interface NodeListener extends WithExit<
-		{
-			[Node in Rule.Node as Node["type"]]?:
-				| ((node: Node) => void)
-				| undefined;
-		} & {
-			// A `Program` visitor's node type has no `parent` property.
-			Program?: ((node: AST.Program) => void) | undefined;
-		}
-	> {}
+	interface NodeListener
+		extends WithExit<
+			{
+				[Node in Rule.Node as Node["type"]]?:
+					| ((node: Node) => void)
+					| undefined;
+			} & {
+				// A `Program` visitor's node type has no `parent` property.
+				Program?: ((node: AST.Program) => void) | undefined;
+			}
+		> {}
 
 	interface NodeParentExtension {
 		parent: Node;
@@ -751,13 +756,14 @@ export namespace Rule {
 
 	type RuleMetaData = RulesMeta;
 
-	interface RuleContext extends CoreRuleContext<{
-		LangOptions: Linter.LanguageOptions;
-		Code: SourceCode;
-		RuleOptions: any[];
-		Node: JSSyntaxElement;
-		MessageIds: string;
-	}> {}
+	interface RuleContext
+		extends CoreRuleContext<{
+			LangOptions: Linter.LanguageOptions;
+			Code: SourceCode;
+			RuleOptions: any[];
+			Node: JSSyntaxElement;
+			MessageIds: string;
+		}> {}
 
 	type ReportFixer = CoreRuleFixer;
 
@@ -1394,16 +1400,17 @@ export class RuleTester {
 }
 
 export namespace RuleTester {
-	interface ValidTestCase extends Omit<
-		Linter.Config,
-		| "name"
-		| "basePath"
-		| "files"
-		| "ignores"
-		| "linterOptions"
-		| "plugins"
-		| "rules"
-	> {
+	interface ValidTestCase
+		extends Omit<
+			Linter.Config,
+			| "name"
+			| "basePath"
+			| "files"
+			| "ignores"
+			| "linterOptions"
+			| "plugins"
+			| "rules"
+		> {
 		name?: string;
 		code: string;
 		options?: any[];
