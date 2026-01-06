@@ -6791,7 +6791,7 @@ describe("RuleTester", () => {
 				}
 			});
 
-			it("should report the correct location for errors in oneline object valid test cases", () => {
+			it("should report the correct location for errors in one-line object valid test cases", () => {
 				// also tests that trailing comments do not affect line numbers
 				const lineNumber = getInvocationLineNumber();
 				try {
@@ -6818,7 +6818,7 @@ describe("RuleTester", () => {
 				}
 			});
 
-			it("should report the correct location for errors in oneline object valid test cases with inline comments", () => {
+			it("should report the correct location for errors in one-line object valid test cases with inline comments", () => {
 				const lineNumber = getInvocationLineNumber();
 				try {
 					ruleTester.run(
@@ -6844,7 +6844,7 @@ describe("RuleTester", () => {
 				}
 			});
 
-			it("should report the correct location for errors in multiline object valid test cases", () => {
+			it("should report the correct location for errors in multi-line object valid test cases", () => {
 				const lineNumber = getInvocationLineNumber();
 				try {
 					ruleTester.run(
@@ -6874,7 +6874,7 @@ describe("RuleTester", () => {
 				}
 			});
 
-			it("should report the correct location for errors in multiline object valid test cases with oneline language options", () => {
+			it("should report the correct location for errors in multi-line object valid test cases with one-line language options", () => {
 				const lineNumber = getInvocationLineNumber();
 				try {
 					ruleTester.run(
@@ -6906,7 +6906,7 @@ describe("RuleTester", () => {
 				}
 			});
 
-			it("should report the correct location for errors in multiline object valid test cases with multiline languageOptions", () => {
+			it("should report the correct location for errors in multi-line object valid test cases with multi-line languageOptions", () => {
 				const lineNumber = getInvocationLineNumber();
 				try {
 					ruleTester.run(
@@ -7030,7 +7030,7 @@ describe("RuleTester", () => {
 				}
 			});
 
-			it("should report the correct location for oneline object errors in invalid test cases", () => {
+			it("should report the correct location for one-line object errors in invalid test cases", () => {
 				const lineNumber = getInvocationLineNumber();
 				try {
 					ruleTester.run(
@@ -7062,7 +7062,7 @@ describe("RuleTester", () => {
 				}
 			});
 
-			it("should report the correct location for multiline object errors in invalid test cases", () => {
+			it("should report the correct location for multi-line object errors in invalid test cases", () => {
 				const lineNumber = getInvocationLineNumber();
 				try {
 					ruleTester.run(
@@ -7098,7 +7098,7 @@ describe("RuleTester", () => {
 				}
 			});
 
-			it("should report the correct location for multiline object errors in invalid test cases with oneline data", () => {
+			it("should report the correct location for multi-line object errors in invalid test cases with one-line data", () => {
 				const lineNumber = getInvocationLineNumber();
 				try {
 					ruleTester.run(
@@ -7136,7 +7136,7 @@ describe("RuleTester", () => {
 				}
 			});
 
-			it("should report the correct location for multiline object errors in invalid test cases with oneline data", () => {
+			it("should report the correct location for multi-line object errors in invalid test cases with one-line data", () => {
 				const lineNumber = getInvocationLineNumber();
 				try {
 					ruleTester.run(
