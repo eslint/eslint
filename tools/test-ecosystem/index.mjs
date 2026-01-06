@@ -11,7 +11,6 @@ import debug from "debug";
 import spawn from "cross-spawn";
 import fs from "node:fs/promises";
 import path from "node:path";
-import { pathToFileURL } from "node:url";
 import { styleText } from "node:util";
 
 import { getPlugins } from "./data.mjs";
@@ -55,13 +54,12 @@ async function runTests(pluginKey, pluginSettings) {
 	 * @param {string} command
 	 * @param {string[]} args
 	 */
-	const runCommand = ([command, ...args], env) => {
+	const runCommand = ([command, ...args]) => {
 		console.log(
 			styleText("gray", `[${pluginKey}] ${[command, ...args].join(" ")}`),
 		);
 		try {
 			return spawn.sync(command, args, {
-				env,
 				cwd: directory,
 				stdio: log.enabled ? "inherit" : undefined,
 			});
@@ -91,24 +89,18 @@ async function runTests(pluginKey, pluginSettings) {
 
 	// 3. Install the plugin's dependencies
 	runCommand(["pwd"]);
-	runCommand(["ni"], { NI_AUTO_INSTALL: true, NI_DEFAULT_AGENT: "npm" });
+	runCommand(pluginSettings.commands.install);
 
 	// 4. Link the local ESLint into the plugin
 	runCommand(["npm", "link", "eslint"]);
 
 	// 5. Build, if the plugin defines a build script
-	const packageJsonFileUrl = pathToFileURL(
-		path.join(directory, "package.json"),
-	);
-	const packageJson = await import(packageJsonFileUrl.href, {
-		with: { type: "json" },
-	});
-	if (packageJson.default.scripts.build) {
-		runCommand(["nr", "build"], { NI_DEFAULT_AGENT: "npm" });
+	if (pluginSettings.commands.build) {
+		runCommand(pluginSettings.commands.build);
 	}
 
-	// 6. Run test
-	runCommand(["nr", "test"], { NI_DEFAULT_AGENT: "npm" });
+	// 6. Run the plugin's tests
+	runCommand(pluginSettings.commands.test);
 }
 
 //-----------------------------------------------------------------------------
