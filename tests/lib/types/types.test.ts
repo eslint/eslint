@@ -1998,6 +1998,30 @@ ruleTester.run("messageId-assertion-options", rule, {
 	],
 });
 
+ruleTester.run("data-assertion-options", rule, {
+	assertionOptions: {
+		requireData: true,
+	},
+	valid: [],
+	invalid: [],
+});
+
+ruleTester.run("data-assertion-options", rule, {
+	assertionOptions: {
+		requireData: "error",
+	},
+	valid: [],
+	invalid: [],
+});
+
+ruleTester.run("data-assertion-options", rule, {
+	assertionOptions: {
+		requireData: "suggestion",
+	},
+	valid: [],
+	invalid: [],
+});
+
 // #endregion
 
 // #region Config
