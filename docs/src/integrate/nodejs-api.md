@@ -642,7 +642,6 @@ The `Linter` object does the actual evaluation of the JavaScript code. It doesn'
 The `Linter` is a constructor, and you can create a new instance by passing in the options you want to use. The available options are:
 
 - `cwd` - Path to a directory that should be considered as the current working directory. It is accessible to rules from `context.cwd` (see [The Context Object](../extend/custom-rules#the-context-object)). If `cwd` is `undefined`, it will be normalized to `process.cwd()` if the global `process` object is defined (for example, in the Node.js runtime) , or `undefined` otherwise.
-- `configType` - The type of config used. Retained for backwards compatibility, will be removed in future. Only the value `"flat"` is accepted, and the default is also `"flat"`.
 - `flags` - An array of feature flags to enable for this instance. Default is an empty array. Can be checked with the [`Linter#hasFlag()`](#linterhasflag) method.
 - `warningService` - The warning service instance to use.
 
