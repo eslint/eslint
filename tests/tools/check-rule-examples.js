@@ -84,7 +84,7 @@ describe("check-rule-examples", () => {
 				"   \x1B[2m41:1\x1B[22m  \x1B[31merror\x1B[39m  Unexpected lint error found: Failed to parse JSON from 'doesn't allow this comment'\n" +
 				'   \x1B[2m51:1\x1B[22m  \x1B[31merror\x1B[39m  Unexpected lint error found: Rule "no-restricted-syntax" is already configured by another configuration comment in the preceding code. This configuration is ignored\n' +
 				"   \x1B[2m51:1\x1B[22m  \x1B[31merror\x1B[39m  Duplicate /* eslint no-restricted-syntax */ configuration comment. Each example should contain only one. Split this example into multiple examples\n" +
-				'   \x1B[2m56:1\x1B[22m  \x1B[31merror\x1B[39m  Remove unnecessary "ecmaVersion":"latest"\n' +
+				'   \x1B[2m56:1\x1B[22m  \x1B[31merror\x1B[39m  "ecmaVersion": "latest" is the default and can be omitted\n' +
 				`   \x1B[2m64:1\x1B[22m  \x1B[31merror\x1B[39m  "ecmaVersion" must be one of ${[3, 5, ...Array.from({ length: LATEST_ECMA_VERSION - 2015 + 1 }, (_, index) => index + 2015)].join(", ")}\n` +
 				"   \x1B[2m76:1\x1B[22m  \x1B[31merror\x1B[39m  Unexpected lint error found: /* eslint-env */ comments are no longer supported\n" +
 				"   \x1B[2m78:1\x1B[22m  \x1B[31merror\x1B[39m  Unexpected lint error found: /* eslint-env */ comments are no longer supported\n" +
@@ -95,8 +95,15 @@ describe("check-rule-examples", () => {
 				"  \x1B[2m115:1\x1B[22m  \x1B[31merror\x1B[39m  Incorrect examples should have at least one error reported by the rule\n" +
 				'  \x1B[2m115:1\x1B[22m  \x1B[31merror\x1B[39m  Unexpected lint error found: Inline configuration for rule "no-restricted-syntax" is invalid:\n' +
 				'\tExpected severity of "off", 0, "warn", 1, "error", or 2. You passed "errorr,ArrayPattern". \x1B[2mno-restricted-syntax\x1B[22m\n' +
+				'  \x1B[2m122:1\x1B[22m  \x1B[31merror\x1B[39m  "sourceType": "module" is the default and can be omitted\n' +
+				'  \x1B[2m130:1\x1B[22m  \x1B[31merror\x1B[39m  "jsx": false is the default and can be omitted\n' +
+				'  \x1B[2m140:4\x1B[22m  \x1B[31merror\x1B[39m  The "jsx" language tag requires JSX to be enabled\n' +
+				'  \x1B[2m148:4\x1B[22m  \x1B[31merror\x1B[39m  The "tsx" language tag requires JSX to be enabled\n' +
+				'  \x1B[2m156:4\x1B[22m  \x1B[31merror\x1B[39m  The "jsx" language tag requires JSX to be enabled\n' +
+				'  \x1B[2m154:1\x1B[22m  \x1B[31merror\x1B[39m  "jsx": false is the default and can be omitted\n' +
+				'  \x1B[2m164:4\x1B[22m  \x1B[31merror\x1B[39m  JSX is enabled, but the code block is tagged as "js". Use "jsx" or "tsx"\n' +
 				"\n" +
-				"\x1B[31m\x1B[1m✖ 18 problems (18 errors, 0 warnings)\x1B[22m\x1B[39m\n" +
+				"\x1B[31m\x1B[1m✖ 25 problems (25 errors, 0 warnings)\x1B[22m\x1B[39m\n" +
 				"\x1B[0m\n";
 
 			assert.strictEqual(normalizedStderr, expectedStderr);

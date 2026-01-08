@@ -128,6 +128,49 @@ This rule has no options.
 In many cases the iterations of a loop are not actually independent of each other, and awaiting in
 the loop is correct. As a few examples:
 
+* Any code that should run serially, such as implementing a countdown, or processing items sequentially (when each item is already processed in parallel), as in this example:
+
+    ```js
+    async function printCountdown() {
+        for (let i = 0; i < 10; i++) {
+            await new Promise(resolve => setTimeout(resolve, 1000)); // sleep 1 second
+            console.log(i);
+        }
+    }
+    ```
+
+* Using standard browser/OS APIs that are inherently serial (as controlled by the underlying operating system), such as `File` or directory contents reading, as in this example:
+
+    ```js
+    async function writeNumbersToFile() {
+        for (let i = 0; i < 100; i++) {
+            // Doing this in parallel would interleave (garble) the resulting file contents.
+            await fileWriteStream.write(i + "\n");
+        }
+    }
+    ```
+
+* Any code where the creation of the Promise allocates a bounded resource (RAM, file descriptors, network bandwidth), as in this example:
+
+    ```js
+    async function streamingProcess() {
+        for (let i = 0; i < 10; i++) {
+            await ramIntensiveAction(data[i]);
+        }
+    }
+    ```
+
+    ```js
+    async function checkFiles() {
+        for (let i = 0; i < 10000; i++) {
+            // Here some concurrency may be desireable to reduce I/O bottlenecks,
+            // but not unbounded concurrency as that will fail,
+            // running out of file descriptors.
+            await openFileAndThrowIfContentsMeetCondition(filenames[i]);
+        }
+    }
+    ```
+
 * The output of one iteration might be used as the input to another.
 
     ```js
@@ -143,6 +186,8 @@ the loop is correct. As a few examples:
         }
     }
     ```
+
+    The previous examples were all similar to this, but they relied on a _side effect_ of one iteration being needed for the next, while this example has the dependency explicit via a result variable.
 
 * Loops may be used to retry asynchronous operations that were unsuccessful.
 

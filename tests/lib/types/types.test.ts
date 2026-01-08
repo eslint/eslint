@@ -573,7 +573,6 @@ rule = {
 	meta: {
 		docs: {
 			description: "disallow the use of `console`",
-			category: "Possible Errors",
 			recommended: true,
 			url: "https://eslint.org/docs/rules/no-console",
 		},
@@ -685,7 +684,6 @@ rule = {
 	meta: {
 		docs: {
 			description: "disallow the use of `console`",
-			category: "Possible Errors",
 			recommended: true,
 			url: "https://eslint.org/docs/rules/no-console",
 		},
@@ -1619,7 +1617,6 @@ linterWithEslintrcConfig.verify(
 		type: "suggestion",
 		docs: {
 			description: "disallow unnecessary semicolons",
-			category: "Possible Errors",
 			recommended: true,
 			url: "https://eslint.org/docs/rules/no-extra-semi",
 		},
@@ -2021,6 +2018,30 @@ ruleTester.run("messageId-assertion-options", rule, {
 			],
 		},
 	],
+});
+
+ruleTester.run("data-assertion-options", rule, {
+	assertionOptions: {
+		requireData: true,
+	},
+	valid: [],
+	invalid: [],
+});
+
+ruleTester.run("data-assertion-options", rule, {
+	assertionOptions: {
+		requireData: "error",
+	},
+	valid: [],
+	invalid: [],
+});
+
+ruleTester.run("data-assertion-options", rule, {
+	assertionOptions: {
+		requireData: "suggestion",
+	},
+	valid: [],
+	invalid: [],
 });
 
 // #endregion
