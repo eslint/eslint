@@ -1762,6 +1762,42 @@ ruleTester.run("no-shadow", rule, {
 				},
 			],
 		},
+		{
+			code: "(function Array() {})",
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				ecmaVersion: 6,
+				sourceType: "module",
+			},
+			errors: [
+				{
+					messageId: "noShadowGlobal",
+					data: {
+						name: "Array",
+					},
+					line: 1,
+					column: 11,
+				},
+			],
+		},
+		{
+			code: "let a; { let b = (function a() {}) }",
+			languageOptions: {
+				ecmaVersion: 6,
+			},
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "a",
+						shadowedLine: 1,
+						shadowedColumn: 5,
+					},
+					line: 1,
+					column: 28,
+				},
+			],
+		},
 	],
 });
 
