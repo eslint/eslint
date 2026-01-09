@@ -1,3 +1,33 @@
+v10.0.0-rc.0 - January 9, 2026
+
+* [`d186f8c`](https://github.com/eslint/eslint/commit/d186f8c0747f14890e86a5a39708b052b391ddaf) fix: update eslint (#20427) (renovate[bot])
+* [`b4b3127`](https://github.com/eslint/eslint/commit/b4b3127f8542c599ce2dea804b6582ebc40c993d) chore: package.json update for @eslint/js release (Jenkins)
+* [`65ed0c9`](https://github.com/eslint/eslint/commit/65ed0c94e7cd1e3f882956113228311d8c7b3463) docs: Update README (GitHub Actions Bot)
+* [`f9e54f4`](https://github.com/eslint/eslint/commit/f9e54f43a5e497cdfa179338b431093245cb787b) feat!: estimate rule-tester failure location (#20420) (ST-DDT)
+* [`b0e4717`](https://github.com/eslint/eslint/commit/b0e4717d6619ffd02913cf3633b44d8e6953d938) docs: [no-await-in-loop] Expand inapplicability (#20363) (Niklas Hambüchen)
+* [`f0cafe5`](https://github.com/eslint/eslint/commit/f0cafe5f37e7765e9d8c2751b5f5d33107687009) feat: rule tester add assertion option `requireData` (#20409) (fnx)
+* [`fca421f`](https://github.com/eslint/eslint/commit/fca421f6a4eecd52f2a7ae5765bd9008f62f9994) docs: Update README (GitHub Actions Bot)
+* [`2332262`](https://github.com/eslint/eslint/commit/2332262deb4ef3188b210595896bb0ff552a7e66) fix: error location should not modify error message in RuleTester (#20421) (Milos Djermanovic)
+* [`f658419`](https://github.com/eslint/eslint/commit/f6584191cb5cabd62f6a197339a91e1f9b3f8432) refactor: remove `raw` parser option from JS language (#20416) (Pixel998)
+* [`ab99b21`](https://github.com/eslint/eslint/commit/ab99b21a6715dee1035d8f4e6d6841853eb5563f) fix: ensure `filename` is passed as third argument to `verifyAndFix()` (#20405) (루밀LuMir)
+* [`8a60f3b`](https://github.com/eslint/eslint/commit/8a60f3bc80ad96c65feeb29886342623c630199c) fix: remove `ecmaVersion` and `sourceType` from `ParserOptions` type (#20415) (Pixel998)
+* [`2c3efb7`](https://github.com/eslint/eslint/commit/2c3efb728b294b74a240ec24c7be8137a31cf5f0) chore: remove `category` from type test fixtures (#20417) (Pixel998)
+* [`36193fd`](https://github.com/eslint/eslint/commit/36193fd9ad27764d8e4a24ce7c7bbeeaf5d4a6ba) chore: remove `category` from formatter test fixtures (#20418) (Pixel998)
+* [`e8d203b`](https://github.com/eslint/eslint/commit/e8d203b0d9f66e55841863f90d215fd83b7eee0f) chore: add JSX language tag validation to `check-rule-examples` (#20414) (Pixel998)
+* [`bc465a1`](https://github.com/eslint/eslint/commit/bc465a1e9d955b6e53a45d1b5da7c632dae77262) chore: pin dependencies (#20397) (renovate[bot])
+* [`d925c54`](https://github.com/eslint/eslint/commit/d925c54f045b2230d3404e8aa18f4e2860a35e1d) docs: update config syntax in `no-lone-blocks` (#20413) (Pixel998)
+* [`7d5c95f`](https://github.com/eslint/eslint/commit/7d5c95f281cb88868f4e09ca07fbbc6394d78c41) docs: remove redundant `sourceType: "module"` from rule examples (#20412) (Pixel998)
+* [`f7ab693`](https://github.com/eslint/eslint/commit/f7ab6937e63bc618d326710858f5861a68f80616) feat: output RuleTester test case failure index (#19976) (ST-DDT)
+* [`703f0f5`](https://github.com/eslint/eslint/commit/703f0f551daea28767e5a68a00e335928919a7ff) test: replace deprecated rules in `linter` tests (#20406) (루밀LuMir)
+* [`eafd727`](https://github.com/eslint/eslint/commit/eafd727a060131f7fc79b2eb5698d8d27683c3a2) fix: remove `TDZ` scope type (#20231) (jaymarvelz)
+* [`39d1f51`](https://github.com/eslint/eslint/commit/39d1f51680d4fbade16b4d9c07ad61a87ee3b1ea) fix: correct `Scope` typings (#20404) (sethamus)
+* [`02e7e71`](https://github.com/eslint/eslint/commit/02e7e7126366fc5eeffb713f865d80a759dc14b0) docs: correct `.mts` glob pattern in files with extensions example (#20403) (Ali Essalihi)
+* [`ba71baa`](https://github.com/eslint/eslint/commit/ba71baa87265888b582f314163df1d727441e2f1) test: enable `strict` mode in type tests (#20398) (루밀LuMir)
+* [`7cbcbf9`](https://github.com/eslint/eslint/commit/7cbcbf9c3c2008deee7d143ae35e668e8ffbccb3) feat: add `countThis` option to `max-params` (#20236) (Gerkin)
+* [`2bd0f13`](https://github.com/eslint/eslint/commit/2bd0f13a92fb373827f16210aa4748d4885fddb1) fix: update `verify` and `verifyAndFix` types (#20384) (Francesco Trotta)
+* [`f9c4968`](https://github.com/eslint/eslint/commit/f9c49683a6d69ff0b5425803955fc226f7e05d76) refactor: remove `lib/linter/rules.js` (#20399) (Francesco Trotta)
+* [`6f1c48e`](https://github.com/eslint/eslint/commit/6f1c48e5e7f8195f7796ea04e756841391ada927) chore: updates for v9.39.2 release (Jenkins)
+
 v9.39.2 - December 12, 2025
 
 * [`7ca0af7`](https://github.com/eslint/eslint/commit/7ca0af7f9f89dd4a01736dae01931c45d528171b) chore: upgrade to `@eslint/js@9.39.2` (#20394) (Francesco Trotta)
