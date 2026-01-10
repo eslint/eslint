@@ -1844,6 +1844,7 @@ ruleTester.run("my-rule", rule, {
 		{ code: "foo", errors: [/foo/] },
 		{ code: "foo", errors: [{ message: "foo" }] },
 		{ code: "foo", errors: [{ message: "foo", data: { foo: true } }] },
+		{ code: "foo", errors: [{ message: "foo", data: undefined }] },
 		{
 			code: "foo",
 			errors: [
@@ -1893,6 +1894,11 @@ ruleTester.run("my-rule", rule, {
 						{
 							messageId: "foo",
 							output: "foo",
+						},
+						{
+							messageId: "foo",
+							output: "foo",
+							data: undefined,
 						},
 						{
 							messageId: "foo",

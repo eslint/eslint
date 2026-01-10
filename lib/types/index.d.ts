@@ -70,7 +70,7 @@ import type {
 	SuggestedEditBase,
 	SuggestedEdit,
 	ViolationReport,
-	MessagePlaceholderData, // WIP until `@eslint/core` is updated.
+	MessagePlaceholderData,
 } from "@eslint/core";
 
 //------------------------------------------------------------------------------
@@ -1459,7 +1459,7 @@ export namespace RuleTester {
 	interface SuggestionOutput {
 		messageId?: string;
 		desc?: string;
-		data?: MessagePlaceholderData;
+		data?: MessagePlaceholderData | undefined;
 		output: string;
 	}
 
@@ -1471,7 +1471,7 @@ export namespace RuleTester {
 	interface TestCaseError {
 		message?: string | RegExp;
 		messageId?: string;
-		data?: MessagePlaceholderData;
+		data?: MessagePlaceholderData | undefined;
 		line?: number | undefined;
 		column?: number | undefined;
 		endLine?: number | undefined;
