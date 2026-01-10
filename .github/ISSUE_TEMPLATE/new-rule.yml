@@ -52,7 +52,7 @@ body:
           value: Please **do not** open a pull request until this issue has been accepted by the team.
     - type: checkboxes
       attributes:
-          label: AI Acknowledgment
+          label: AI acknowledgment
           options:
               - label: I did not use AI to generate this issue report.
                 required: false
