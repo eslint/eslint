@@ -1635,6 +1635,38 @@ ruleTester.run("no-shadow", rule, {
 			],
 		},
 		{
+			code: "const { a = foo, b = function a() {} } = {}",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "a",
+						shadowedLine: 1,
+						shadowedColumn: 9,
+					},
+					line: 1,
+					column: 31,
+				},
+			],
+		},
+		{
+			code: "const { A = Foo, B = class A {} } = {}",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "A",
+						shadowedLine: 1,
+						shadowedColumn: 9,
+					},
+					line: 1,
+					column: 28,
+				},
+			],
+		},
+		{
 			code: "function foo(a = wrap(function a() {})) {}",
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
@@ -1763,6 +1795,39 @@ ruleTester.run("no-shadow", rule, {
 			],
 		},
 		{
+			code: "var a = function a() {} ? foo : bar",
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "a",
+						shadowedLine: 1,
+						shadowedColumn: 5,
+					},
+					line: 1,
+					column: 18,
+				},
+			],
+		},
+		{
+			code: "var A = class A {} ? foo : bar",
+			languageOptions: {
+				ecmaVersion: 6,
+			},
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "A",
+						shadowedLine: 1,
+						shadowedColumn: 5,
+					},
+					line: 1,
+					column: 15,
+				},
+			],
+		},
+		{
 			code: "(function Array() {})",
 			options: [{ builtinGlobals: true }],
 			languageOptions: {
@@ -1795,6 +1860,24 @@ ruleTester.run("no-shadow", rule, {
 					},
 					line: 1,
 					column: 28,
+				},
+			],
+		},
+		{
+			code: "let a = foo; { let b = (function a() {}) }",
+			languageOptions: {
+				ecmaVersion: 6,
+			},
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "a",
+						shadowedLine: 1,
+						shadowedColumn: 5,
+					},
+					line: 1,
+					column: 34,
 				},
 			],
 		},
