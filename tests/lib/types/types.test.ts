@@ -1850,6 +1850,16 @@ ruleTester.run("my-rule", rule, {
 			errors: [
 				{
 					message: "foo",
+					// @ts-expect-error -- `data` cannot be `null`
+					data: null,
+				},
+			],
+		},
+		{
+			code: "foo",
+			errors: [
+				{
+					message: "foo",
 					data: {
 						foo: "foo",
 						bar: 1,
@@ -1899,6 +1909,12 @@ ruleTester.run("my-rule", rule, {
 							messageId: "foo",
 							output: "foo",
 							data: undefined,
+						},
+						{
+							messageId: "foo",
+							output: "foo",
+							// @ts-expect-error -- `data` cannot be `null`
+							data: null,
 						},
 						{
 							messageId: "foo",
