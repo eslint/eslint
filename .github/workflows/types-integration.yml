@@ -15,12 +15,12 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout eslint
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
               with:
                   path: eslint
 
             - name: Checkout eslint-webpack-plugin
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
               with:
                   repository: webpack-contrib/eslint-webpack-plugin
                   path: webpack
@@ -47,12 +47,12 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout eslint
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
               with:
                   path: eslint
 
             - name: Checkout neostandard
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
               with:
                   repository: neostandard/neostandard
                   path: neostandard
@@ -79,12 +79,12 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout eslint
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
               with:
                   path: eslint
 
             - name: Checkout eslint-flat-config-utils
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
               with:
                   repository: antfu/eslint-flat-config-utils
                   path: antfu
@@ -111,12 +111,12 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout eslint
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
               with:
                   path: eslint
 
             - name: Checkout eslint/js
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
               with:
                   repository: eslint/js
                   path: eslint-js
@@ -130,7 +130,7 @@ jobs:
               run: npm install
 
             - name: Update package.json eslint-visitor-keys
-              uses: restackio/update-json-file-action@2.1
+              uses: restackio/update-json-file-action@6f50afee9a03a456a30cd574123db793319f7544 # 2.1
               with:
                   file: eslint-js/packages/eslint-visitor-keys/package.json
                   fields: '{"scripts.prepare": "npm run build:cjs"}'
@@ -149,12 +149,12 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout eslint
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
               with:
                   path: eslint
 
             - name: Checkout @eslint/json
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
               with:
                   repository: eslint/json
                   path: json
@@ -195,7 +195,7 @@ jobs:
 
         steps:
             - name: Checkout ${{ matrix.package.name }}
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
 
             - uses: actions/setup-node@v6
               with:

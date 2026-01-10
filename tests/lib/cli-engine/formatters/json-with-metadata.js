@@ -23,7 +23,6 @@ describe("formatter:json", () => {
 
 			docs: {
 				description: "This is rule 'foo'",
-				category: "error",
 				recommended: true,
 				url: "https://eslint.org/docs/rules/foo",
 			},
@@ -39,7 +38,6 @@ describe("formatter:json", () => {
 
 			docs: {
 				description: "This is rule 'bar'",
-				category: "error",
 				recommended: false,
 			},
 

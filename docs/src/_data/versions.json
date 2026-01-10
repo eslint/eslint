@@ -6,12 +6,12 @@
             "path": "/docs/head/"
         },
         {
-            "version": "10.0.0-alpha.0",
+            "version": "10.0.0-rc.0",
             "branch": "next",
             "path": "/docs/next/"
         },
         {
-            "version": "9.39.1",
+            "version": "9.39.2",
             "branch": "latest",
             "path": "/docs/latest/"
         },

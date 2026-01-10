@@ -19,9 +19,11 @@ The lists below are ordered roughly by the number of users each change is expect
 - [`eslint:recommended` has been updated](#eslint-recommended)
 - [New configuration file lookup algorithm](#config-lookup-from-file)
 - [Old config format no longer supported](#remove-eslintrc)
+- [JSX references are now tracked](#jsx-reference-tracking)
 - [`eslint-env` comments are reported as errors](#eslint-env-comments)
 - [Jiti < v2.2.0 are no longer supported](#drop-old-jiti)
 - [POSIX character classes in glob patterns](#posix-character-classes)
+- [`stylish` formatter now uses native `styleText` instead of `chalk`](#stylish-formatter)
 - [Deprecated options of the `radix` rule](#radix)
 - [`no-shadow-restricted-names` now reports `globalThis` by default](#no-shadow-restricted-names)
 - [`func-names` schema is stricter](#func-names)
@@ -32,6 +34,7 @@ The lists below are ordered roughly by the number of users each change is expect
 
 - [Node.js < v20.19, v21, v23 are no longer supported](#drop-old-node)
 - [Old config format no longer supported](#remove-eslintrc)
+- [JSX references are now tracked](#jsx-reference-tracking)
 - [Removal of `type` property in errors of invalid `RuleTester` cases](#ruletester-type-removed)
 - [`Program` AST node range spans entire source text](#program-node-range)
 - [Fixer methods now require string `text` arguments](#fixer-text-must-be-string)
@@ -103,6 +106,31 @@ Starting with ESLint v10.0.0, the old configuration format is no longer supporte
 
 **Related issue(s):** [#13481](https://github.com/eslint/eslint/issues/13481)
 
+## <a name="jsx-reference-tracking"></a> JSX references are now tracked
+
+ESLint v10.0.0 now tracks JSX references, enabling correct scope analysis of JSX elements.
+
+Previously, ESLint did not track references created by JSX identifiers, which could lead to incorrect results from rules that rely on scope information. For example:
+
+```jsx
+import { Card } from "./card.jsx";
+
+export function createCard(name) {
+	return <Card name={name} />;
+}
+```
+
+Prior to v10.0.0, ESLint did not recognize that `<Card>` is a reference to the imported `Card`, which could result in false positives such as reporting `Card` as "defined but never used" ([`no-unused-vars`](../rules/no-unused-vars)) or false negatives such as failing to report `Card` as undefined ([`no-undef`](../rules/no-undef)) if the import is removed. Starting with v10.0.0, `<Card>` is treated as a normal reference to the variable in scope. This brings JSX handling in line with developer expectations and improves the linting experience for modern JavaScript applications using JSX.
+
+**To address:**
+
+- For users:
+    - New linting reports may appear in files with JSX. Update your code accordingly or adjust rule configurations if needed.
+    - Rules previously used to work around ESLint’s lack of JSX reference tracking (for example, [`@eslint-react/jsx-uses-vars`](https://www.eslint-react.xyz/docs/rules/jsx-uses-vars)) are no longer needed. Remove or disable them in your configuration.
+- For plugin developers: Custom rules relying on scope analysis may now encounter `JSXIdentifier` references. Update rules to handle these correctly.
+
+**Related issue(s):** [#19495](https://github.com/eslint/eslint/issues/19495)
+
 ## <a name="eslint-env-comments"></a> `eslint-env` comments are reported as errors
 
 In the now obsolete ESLint v8 configuration system, `/* eslint-env */` comments could be used to define globals for a file. The current configuration system does not support such comments, and starting with ESLint v10.0.0, they are reported as errors during linting.
@@ -140,6 +168,26 @@ Here, `[[:upper:]]` is a POSIX character class that matches uppercase letters in
 **To address:** If any of the glob patterns in your configuration, CLI arguments, or Node.js API calls look like containing a POSIX character class, verify that they match files as intended.
 
 **Related issue(s):** [eslint/rewrite#66](https://github.com/eslint/rewrite/issues/66)
+
+## <a name="stylish-formatter"></a> `stylish` formatter now uses native `styleText` instead of `chalk`
+
+Starting in ESLint v10.0.0, the built-in [`stylish`](./formatters#stylish) formatter no longer depends on the third-party [`chalk`](https://github.com/chalk/chalk) library for colorized output. Instead, it now uses Node.js's native [`styleText`](https://nodejs.org/api/util.html#utilstyletextformat-text-options) API, which introduces two breaking changes regarding how colorized output is determined:
+
+1. First, `styleText` checks more environment variables when determining whether to disable colorized output and follows Node.js's own rules for when to enable or disable colors. This means it respects a wider set of environment variables and terminal capabilities than ESLint's previous `chalk`-based logic. For example:
+
+    - [`NO_COLOR`](https://nodejs.org/api/cli.html#no_colorany) now disables colors consistently across tools that honor this convention.
+    - [`NODE_DISABLE_COLORS`](https://nodejs.org/api/cli.html#node_disable_colors1) is also respected, aligning ESLint's behavior with Node.js itself.
+
+    Please note that the [`FORCE_COLOR`](https://nodejs.org/api/cli.html#force_color1-2-3) environment variable is still supported to force-enable colors.
+
+2. Second, `--color` and `--no-color` CLI flags now have higher precedence than environment variables when determining whether to use colorized output. This change ensures that explicit user preferences via CLI flags are prioritized. However, if neither flag is provided, environment variables will be considered as before.
+
+**To address:**
+
+- Review any environment configuration related to terminal colors (for example, CI defaults or shell profiles). If ESLint's output appears uncolored after upgrading to v10.0.0, check whether `NO_COLOR` or `NODE_DISABLE_COLORS` (or similar settings) are being set in your environment.
+- If you rely on mixed approaches (for example, using `--color` flag but also setting `NO_COLOR` environment variable), be aware that the CLI flags now take precedence and adjust your setup accordingly.
+
+**Related issue(s):** [#20012](https://github.com/eslint/eslint/issues/20012)
 
 ## <a name="radix"></a> Deprecated options of the `radix` rule
 

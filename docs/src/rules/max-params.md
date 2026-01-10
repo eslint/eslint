@@ -29,9 +29,10 @@ This rule enforces a maximum number of parameters allowed in function definition
 This rule has a number or object option:
 
 * `"max"` (default `3`) enforces a maximum number of parameters in function definitions
-* `"countVoidThis"` (default `false`) counts a `this` declaration when the type is `void` (TypeScript only)
+* `"countThis"` (default `"except-void"`, possible values `"always"`, `"never"` or `"except-void"`) whether to count a `this` declaration (TypeScript only)
 
 **Deprecated:** The object property `maximum` is deprecated; please use the object property `max` instead.
+**Deprecated:** The object property `countVoidThis` is deprecated; please use `countThis: "except-void"` instead of `countVoidThis: false`, and `countThis: "always"` instead of `countVoidThis: true`.
 
 ### max
 
@@ -71,16 +72,21 @@ let foo2 = (bar, baz, qux) => {
 
 :::
 
-### countVoidThis (TypeScript only)
+### countThis (TypeScript only)
 
-This rule has a TypeScript-specific option `countVoidThis` that allows you to count a `this` declaration when the type is `void`.
+This rule has a TypeScript-specific option `countThis` that allows you to count a `this` declaration.
+Valid values are:
 
-Examples of **correct** TypeScript code for this rule with the default `{ "countVoidThis": false }` option:
+* `"always"`: any `this` type annotation will count as a parameter
+* `"never"`: `this` won't ever be counted
+* `"except-void"`: `this` will be counted only if its type is not `void`. Equivalent to the deprecated `countVoidThis: false`.
+
+Examples of **correct** TypeScript code for this rule:
 
 :::correct
 
 ```ts
-/*eslint max-params: ["error", { "max": 2, "countVoidThis": false }]*/
+/*eslint max-params: ["error", { "max": 2, "countThis": "except-void" }]*/
 
 function hasNoThis(this: void, first: string, second: string) {
 	// ...
@@ -89,42 +95,38 @@ function hasNoThis(this: void, first: string, second: string) {
 
 :::
 
-Examples of **incorrect** TypeScript code for this rule with the default `{ "countVoidThis": false }` option:
-
-:::incorrect
-
-```ts
-/*eslint max-params: ["error", { "max": 2, "countVoidThis": false }]*/
-
-function hasNoThis(this: void, first: string, second: string, third: string) {
-	// ...
-}
-```
-
-:::
-
-Examples of **correct** TypeScript code for this rule with the `{ "countVoidThis": true }` option:
-
 :::correct
 
 ```ts
-/*eslint max-params: ["error", { "max": 2, "countVoidThis": true }]*/
+/*eslint max-params: ["error", { "max": 2, "countThis": "never" }]*/
 
-function hasNoThis(this: void, first: string) {
+function hasThis(this: unknown[], first: string, second: string) {
 	// ...
 }
 ```
 
 :::
 
-Examples of **incorrect** TypeScript code for this rule with the `{ "countVoidThis": true }` option:
+Examples of **incorrect** TypeScript code for this rule:
 
 :::incorrect
 
 ```ts
-/*eslint max-params: ["error", { "max": 2, "countVoidThis": true }]*/
+/*eslint max-params: ["error", { "max": 2, "countThis": "always" }]*/
 
 function hasNoThis(this: void, first: string, second: string) {
+	// ...
+}
+```
+
+:::
+
+:::incorrect
+
+```ts
+/*eslint max-params: ["error", { "max": 2, "countThis": "except-void" }]*/
+
+function hasThis(this: unknown[], first: string, second: string) {
 	// ...
 }
 ```
