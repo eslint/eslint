@@ -87,6 +87,9 @@ body:
           options:
               - label: I am willing to submit a pull request for this issue.
                 required: false
+    - type: markdown
+      attributes:
+          value: Please **do not** open a pull request until this issue has been accepted by the team.
     - type: checkboxes
       attributes:
           label: AI Acknowledgment
@@ -95,9 +98,6 @@ body:
                 required: false
               - label: (If the above is not checked) I have reviewed the AI-generated content before submitting.
                 required: false
-    - type: markdown
-      attributes:
-          value: Please **do not** open a pull request until this issue has been accepted by the team.
     - type: textarea
       id: comments
       attributes:

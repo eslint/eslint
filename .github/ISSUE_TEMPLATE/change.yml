@@ -44,6 +44,14 @@ body:
     - type: markdown
       attributes:
           value: Please **do not** open a pull request until this issue has been accepted by the team.
+    - type: checkboxes
+      attributes:
+          label: AI Acknowledgment
+          options:
+              - label: I did not use AI to generate this issue report.
+                required: false
+              - label: (If the above is not checked) I have reviewed the AI-generated content before submitting.
+                required: false
     - type: textarea
       attributes:
           label: Additional comments
