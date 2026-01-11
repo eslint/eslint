@@ -6967,6 +6967,30 @@ describe("RuleTester", () => {
 					);
 				}
 			});
+
+			it("should report the correct location for errors in simple test cases with space after 'valid'", () => {
+				const lineNumber = getInvocationLineNumber();
+				try {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						// prettier-ignore
+						{
+							valid   : ["eval(foo)"],
+							invalid : [],
+						},
+					);
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+					assertStackLines(
+						normalizedStack,
+						`    roughly at RuleTester.run.valid[0] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 7})`,
+						`    roughly at RuleTester.run.valid (tests/lib/rule-tester/rule-tester.js:${lineNumber + 7})`,
+						`    at RuleTester.run (tests/lib/rule-tester/rule-tester.js:${lineNumber + 2}:17)`,
+					);
+				}
+			});
 		});
 
 		describe("invalid", () => {
@@ -7261,6 +7285,35 @@ describe("RuleTester", () => {
 					assertStackLines(
 						normalizedStack,
 						`    roughly at RuleTester.run.invalid[0].error[1] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 22})`,
+						`    roughly at RuleTester.run.invalid[0] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 11})`,
+						`    roughly at RuleTester.run.invalid (tests/lib/rule-tester/rule-tester.js:${lineNumber + 8})`,
+						`    at RuleTester.run (tests/lib/rule-tester/rule-tester.js:${lineNumber + 2}:17)`,
+					);
+				}
+			});
+
+			it("should report the correct location for errors in simple test cases with space after 'invalid'", () => {
+				const lineNumber = getInvocationLineNumber();
+				try {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						// prettier-ignore
+						{
+							valid : [],
+							invalid : [
+								{
+									code: "eval(foo);\neval(bar);",
+									errors: 1,
+								},
+							],
+						},
+					);
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+					assertStackLines(
+						normalizedStack,
 						`    roughly at RuleTester.run.invalid[0] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 11})`,
 						`    roughly at RuleTester.run.invalid (tests/lib/rule-tester/rule-tester.js:${lineNumber + 8})`,
 						`    at RuleTester.run (tests/lib/rule-tester/rule-tester.js:${lineNumber + 2}:17)`,
