@@ -28,6 +28,59 @@ ruleTester.run("no-shadow", rule, {
 	valid: [
 		"var a=3; function b(x) { a++; return x + a; }; setTimeout(function() { b(a); }, 0);",
 		"(function() { var doSomething = function doSomething() {}; doSomething() }())",
+		"(function() { var doSomething = foo || function doSomething() {}; doSomething() }())",
+		"(function() { var doSomething = function doSomething() {} || foo; doSomething() }())",
+		"(function() { var doSomething = foo && function doSomething() {}; doSomething() }())",
+		{
+			code: "(function() { var doSomething = foo ?? function doSomething() {}; doSomething() }())",
+			languageOptions: { ecmaVersion: 2020 },
+		},
+		"(function() { var doSomething = foo || (bar || function doSomething() {}); doSomething() }())",
+		"(function() { var doSomething = foo || (bar && function doSomething() {}); doSomething() }())",
+		"(function() { var doSomething = foo ? function doSomething() {} : bar; doSomething() }())",
+		"(function() { var doSomething = foo ? bar: function doSomething() {}; doSomething() }())",
+		"(function() { var doSomething = foo ? bar: (baz || function doSomething() {}); doSomething() }())",
+		"(function() { var doSomething = (foo ? bar: function doSomething() {}) || baz; doSomething() }())",
+		{
+			code: "(function() { var { doSomething = function doSomething() {} } = obj; doSomething() }())",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "(function() { var { doSomething = function doSomething() {} || foo } = obj; doSomething() }())",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "(function() { var { doSomething = foo ? function doSomething() {} : bar } = obj; doSomething() }())",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "(function() { var { doSomething = foo ? bar : function doSomething() {} } = obj; doSomething() }())",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "(function() { var { doSomething = foo || (bar ? baz : (qux || function doSomething() {})) || quux } = obj; doSomething() }())",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "function foo(doSomething = function doSomething() {}) { doSomething(); }",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "function foo(doSomething = function doSomething() {} || foo) { doSomething(); }",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "function foo(doSomething = foo ? function doSomething() {} : bar) { doSomething(); }",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "function foo(doSomething = foo ? bar : function doSomething() {}) { doSomething(); }",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "function foo(doSomething = foo || (bar ? baz : (qux || function doSomething() {})) || quux) { doSomething(); }",
+			languageOptions: { ecmaVersion: 6 },
+		},
 		"var arguments;\nfunction bar() { }",
 		{
 			code: "var a=3; var b = (x) => { a++; return x + a; }; setTimeout(() => { b(a); }, 0);",
@@ -40,6 +93,86 @@ ruleTester.run("no-shadow", rule, {
 		},
 		{
 			code: "(function() { var A = class A {}; })()",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "(function() { var A = foo || class A {}; })()",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "(function() { var A = class A {} || foo; })()",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "(function() { var A = foo && class A {} || foo; })()",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "(function() { var A = foo ?? class A {}; })()",
+			languageOptions: { ecmaVersion: 2020 },
+		},
+		{
+			code: "(function() { var A = foo || (bar || class A {}); })()",
+			languageOptions: { ecmaVersion: 2020 },
+		},
+		{
+			code: "(function() { var A = foo || (bar && class A {}); })()",
+			languageOptions: { ecmaVersion: 2020 },
+		},
+		{
+			code: "(function() { var A = foo ? class A {} : bar; })()",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "(function() { var A = foo ? bar : class A {}; })()",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "(function() { var A = foo ? bar: (baz || class A {}); })()",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "(function() { var A = (foo ? bar: class A {}) || baz; })()",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "(function() { var { A = class A {} } = obj; }())",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "(function() { var { A = class A {} || foo } = obj; }())",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "(function() { var { A = foo ? class A {} : bar } = obj; }())",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "(function() { var { A = foo ? bar : class A {} } = obj; }())",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "(function() { var { A = foo || (bar ? baz : (qux || class A {})) || quux } = obj; }())",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "function foo(A = class A {}) { doSomething(); }",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "function foo(A = class A {} || foo) { doSomething(); }",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "function foo(A = foo ? class A {} : bar) { doSomething(); }",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "function foo(A = foo ? bar : class A {}) { doSomething(); }",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "function foo(A = foo || (bar ? baz : (qux || class A {})) || quux) { doSomething(); }",
 			languageOptions: { ecmaVersion: 6 },
 		},
 		{ code: "{ var a; } var a;", languageOptions: { ecmaVersion: 6 } }, // this case reports `no-redeclare`, not shadowing.
@@ -1415,6 +1548,336 @@ ruleTester.run("no-shadow", rule, {
 					},
 					line: 1,
 					column: 20,
+				},
+			],
+		},
+
+		// https://github.com/eslint/eslint/issues/20425
+		{
+			code: "let x = false; export const a = wrap(function a() { if (!x) { x = true; a(); } });",
+			options: [{ hoist: "all" }],
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "a",
+						shadowedLine: 1,
+						shadowedColumn: 29,
+					},
+					line: 1,
+					column: 47,
+				},
+			],
+		},
+		{
+			code: "const a = wrap(function a() {});",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "a",
+						shadowedLine: 1,
+						shadowedColumn: 7,
+					},
+					line: 1,
+					column: 25,
+				},
+			],
+		},
+		{
+			code: "const a = foo || wrap(function a() {});",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "a",
+						shadowedLine: 1,
+						shadowedColumn: 7,
+					},
+					line: 1,
+					column: 32,
+				},
+			],
+		},
+		{
+			code: "const { a = wrap(function a() {}) } = obj;",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "a",
+						shadowedLine: 1,
+						shadowedColumn: 9,
+					},
+					line: 1,
+					column: 27,
+				},
+			],
+		},
+		{
+			code: "const { a = foo || wrap(function a() {}) } = obj;",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "a",
+						shadowedLine: 1,
+						shadowedColumn: 9,
+					},
+					line: 1,
+					column: 34,
+				},
+			],
+		},
+		{
+			code: "const { a = foo, b = function a() {} } = {}",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "a",
+						shadowedLine: 1,
+						shadowedColumn: 9,
+					},
+					line: 1,
+					column: 31,
+				},
+			],
+		},
+		{
+			code: "const { A = Foo, B = class A {} } = {}",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "A",
+						shadowedLine: 1,
+						shadowedColumn: 9,
+					},
+					line: 1,
+					column: 28,
+				},
+			],
+		},
+		{
+			code: "function foo(a = wrap(function a() {})) {}",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "a",
+						shadowedLine: 1,
+						shadowedColumn: 14,
+					},
+					line: 1,
+					column: 32,
+				},
+			],
+		},
+		{
+			code: "function foo(a = foo || wrap(function a() {})) {}",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "a",
+						shadowedLine: 1,
+						shadowedColumn: 14,
+					},
+					line: 1,
+					column: 39,
+				},
+			],
+		},
+		{
+			code: "const A = wrap(class A {});",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "A",
+						shadowedLine: 1,
+						shadowedColumn: 7,
+					},
+					line: 1,
+					column: 22,
+				},
+			],
+		},
+		{
+			code: "const A = foo || wrap(class A {});",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "A",
+						shadowedLine: 1,
+						shadowedColumn: 7,
+					},
+					line: 1,
+					column: 29,
+				},
+			],
+		},
+		{
+			code: "const { A = wrap(class A {}) } = obj;",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "A",
+						shadowedLine: 1,
+						shadowedColumn: 9,
+					},
+					line: 1,
+					column: 24,
+				},
+			],
+		},
+		{
+			code: "const { A = foo || wrap(class A {}) } = obj;",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "A",
+						shadowedLine: 1,
+						shadowedColumn: 9,
+					},
+					line: 1,
+					column: 31,
+				},
+			],
+		},
+		{
+			code: "function foo(A = wrap(class A {})) {}",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "A",
+						shadowedLine: 1,
+						shadowedColumn: 14,
+					},
+					line: 1,
+					column: 29,
+				},
+			],
+		},
+		{
+			code: "function foo(A = foo || wrap(class A {})) {}",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "A",
+						shadowedLine: 1,
+						shadowedColumn: 14,
+					},
+					line: 1,
+					column: 36,
+				},
+			],
+		},
+		{
+			code: "var a = function a() {} ? foo : bar",
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "a",
+						shadowedLine: 1,
+						shadowedColumn: 5,
+					},
+					line: 1,
+					column: 18,
+				},
+			],
+		},
+		{
+			code: "var A = class A {} ? foo : bar",
+			languageOptions: {
+				ecmaVersion: 6,
+			},
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "A",
+						shadowedLine: 1,
+						shadowedColumn: 5,
+					},
+					line: 1,
+					column: 15,
+				},
+			],
+		},
+		{
+			code: "(function Array() {})",
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				ecmaVersion: 6,
+				sourceType: "module",
+			},
+			errors: [
+				{
+					messageId: "noShadowGlobal",
+					data: {
+						name: "Array",
+					},
+					line: 1,
+					column: 11,
+				},
+			],
+		},
+		{
+			code: "let a; { let b = (function a() {}) }",
+			languageOptions: {
+				ecmaVersion: 6,
+			},
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "a",
+						shadowedLine: 1,
+						shadowedColumn: 5,
+					},
+					line: 1,
+					column: 28,
+				},
+			],
+		},
+		{
+			code: "let a = foo; { let b = (function a() {}) }",
+			languageOptions: {
+				ecmaVersion: 6,
+			},
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "a",
+						shadowedLine: 1,
+						shadowedColumn: 5,
+					},
+					line: 1,
+					column: 34,
 				},
 			],
 		},
