@@ -55,7 +55,6 @@ const C = wrap(class C {});
 
 :::
 
-
 Examples of **correct** code for this rule:
 
 ::: correct
