@@ -6725,10 +6725,8 @@ describe("RuleTester", () => {
 		 * @returns {string} The normalized stacktrace string.
 		 */
 		function normalizeStack(error) {
-			return error.stack
-				.replace(/\\/gu, "/")
-				.replace(/\(.*\/tests\//gu, "(tests/") // absolute to relative paths
-				.replace(/at RuleTester\.<anonymous>.*/su, ""); // Remove everything after the first annomyous method to avoid issues with stacktrace depth
+			// Remove everything after the first anonymous method to avoid issues with stacktrace depth
+			return error.stack.replace(/at RuleTester\.<anonymous>.*/su, "");
 		}
 
 		/**
@@ -6755,12 +6753,10 @@ describe("RuleTester", () => {
 		 * @returns {number} The invocation line number.
 		 */
 		function getInvocationLineNumber() {
-			const [, lineNumberText] = normalizeStack(new Error())
+			const lineNumberText = new Error().stack
 				.split("\n")[2]
-				.replace(/.*?\(/u, "")
-				.replace(/\)$/u, "")
-				.replace(":/", "/") // handle windows paths
-				.split(":");
+				.split(":")
+				.at(-2);
 			return Number(lineNumberText);
 		}
 
@@ -6784,9 +6780,9 @@ describe("RuleTester", () => {
 					const normalizedStack = normalizeStack(error);
 					assertStackLines(
 						normalizedStack,
-						`    roughly at RuleTester.run.valid[1] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 8})`,
-						`    roughly at RuleTester.run.valid (tests/lib/rule-tester/rule-tester.js:${lineNumber + 6})`,
-						`    at RuleTester.run (tests/lib/rule-tester/rule-tester.js:${lineNumber + 2}:17)`,
+						`    roughly at RuleTester.run.valid[1] (${__filename}:${lineNumber + 8})`,
+						`    roughly at RuleTester.run.valid (${__filename}:${lineNumber + 6})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
 					);
 				}
 			});
@@ -6811,9 +6807,9 @@ describe("RuleTester", () => {
 					const normalizedStack = normalizeStack(error);
 					assertStackLines(
 						normalizedStack,
-						`    roughly at RuleTester.run.valid[1] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 8})`,
-						`    roughly at RuleTester.run.valid (tests/lib/rule-tester/rule-tester.js:${lineNumber + 6})`,
-						`    at RuleTester.run (tests/lib/rule-tester/rule-tester.js:${lineNumber + 2}:17)`,
+						`    roughly at RuleTester.run.valid[1] (${__filename}:${lineNumber + 8})`,
+						`    roughly at RuleTester.run.valid (${__filename}:${lineNumber + 6})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
 					);
 				}
 			});
@@ -6837,9 +6833,9 @@ describe("RuleTester", () => {
 					const normalizedStack = normalizeStack(error);
 					assertStackLines(
 						normalizedStack,
-						`    roughly at RuleTester.run.valid[1] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 8})`,
-						`    roughly at RuleTester.run.valid (tests/lib/rule-tester/rule-tester.js:${lineNumber + 6})`,
-						`    at RuleTester.run (tests/lib/rule-tester/rule-tester.js:${lineNumber + 2}:17)`,
+						`    roughly at RuleTester.run.valid[1] (${__filename}:${lineNumber + 8})`,
+						`    roughly at RuleTester.run.valid (${__filename}:${lineNumber + 6})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
 					);
 				}
 			});
@@ -6867,9 +6863,9 @@ describe("RuleTester", () => {
 					const normalizedStack = normalizeStack(error);
 					assertStackLines(
 						normalizedStack,
-						`    roughly at RuleTester.run.valid[1] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 11})`,
-						`    roughly at RuleTester.run.valid (tests/lib/rule-tester/rule-tester.js:${lineNumber + 6})`,
-						`    at RuleTester.run (tests/lib/rule-tester/rule-tester.js:${lineNumber + 2}:17)`,
+						`    roughly at RuleTester.run.valid[1] (${__filename}:${lineNumber + 11})`,
+						`    roughly at RuleTester.run.valid (${__filename}:${lineNumber + 6})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
 					);
 				}
 			});
@@ -6899,9 +6895,9 @@ describe("RuleTester", () => {
 					const normalizedStack = normalizeStack(error);
 					assertStackLines(
 						normalizedStack,
-						`    roughly at RuleTester.run.valid[1] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 13})`,
-						`    roughly at RuleTester.run.valid (tests/lib/rule-tester/rule-tester.js:${lineNumber + 6})`,
-						`    at RuleTester.run (tests/lib/rule-tester/rule-tester.js:${lineNumber + 2}:17)`,
+						`    roughly at RuleTester.run.valid[1] (${__filename}:${lineNumber + 13})`,
+						`    roughly at RuleTester.run.valid (${__filename}:${lineNumber + 6})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
 					);
 				}
 			});
@@ -6935,9 +6931,9 @@ describe("RuleTester", () => {
 					const normalizedStack = normalizeStack(error);
 					assertStackLines(
 						normalizedStack,
-						`    roughly at RuleTester.run.valid[1] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 17})`,
-						`    roughly at RuleTester.run.valid (tests/lib/rule-tester/rule-tester.js:${lineNumber + 6})`,
-						`    at RuleTester.run (tests/lib/rule-tester/rule-tester.js:${lineNumber + 2}:17)`,
+						`    roughly at RuleTester.run.valid[1] (${__filename}:${lineNumber + 17})`,
+						`    roughly at RuleTester.run.valid (${__filename}:${lineNumber + 6})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
 					);
 				}
 			});
@@ -6961,9 +6957,9 @@ describe("RuleTester", () => {
 					const normalizedStack = normalizeStack(error);
 					assertStackLines(
 						normalizedStack,
-						`    roughly at RuleTester.run.valid[1] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 9})`,
-						`    roughly at RuleTester.run.valid (tests/lib/rule-tester/rule-tester.js:${lineNumber + 7})`,
-						`    at RuleTester.run (tests/lib/rule-tester/rule-tester.js:${lineNumber + 2}:17)`,
+						`    roughly at RuleTester.run.valid[1] (${__filename}:${lineNumber + 9})`,
+						`    roughly at RuleTester.run.valid (${__filename}:${lineNumber + 7})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
 					);
 				}
 			});
@@ -6985,9 +6981,119 @@ describe("RuleTester", () => {
 					const normalizedStack = normalizeStack(error);
 					assertStackLines(
 						normalizedStack,
-						`    roughly at RuleTester.run.valid[0] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 7})`,
-						`    roughly at RuleTester.run.valid (tests/lib/rule-tester/rule-tester.js:${lineNumber + 7})`,
-						`    at RuleTester.run (tests/lib/rule-tester/rule-tester.js:${lineNumber + 2}:17)`,
+						`    roughly at RuleTester.run.valid[0] (${__filename}:${lineNumber + 7})`,
+						`    roughly at RuleTester.run.valid (${__filename}:${lineNumber + 7})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
+					);
+				}
+			});
+
+			it("should report the correct location for errors in a dynamic function", () => {
+				const body = `
+				ruleTester.run("no-var", noVar, {
+					valid: [
+						"var a = 1;",
+					],
+					invalid: [],
+				});
+				`;
+				const noVar = require("../../fixtures/testers/rule-tester/no-var");
+				const lineNumber = getInvocationLineNumber();
+				// eslint-disable-next-line no-new-func -- intentional dynamic function creation
+				const runRuleTester = new Function("ruleTester", "noVar", body);
+				try {
+					runRuleTester(ruleTester, noVar);
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+					assertStackLines(
+						normalizedStack,
+						`    roughly at RuleTester.run.valid[0] (unknown source)`,
+						`    roughly at RuleTester.run.valid (unknown source)`,
+						`    at RuleTester.run (eval at <anonymous> (${__filename}:${lineNumber + 2}:27), <anonymous>:4:16)`,
+					);
+				}
+			});
+
+			it("should report the correct location for errors in eval code", () => {
+				const code = `
+				const noVar = require("../../fixtures/testers/rule-tester/no-var");
+				ruleTester.run("no-var", noVar, {
+						valid: [
+							"var a = 1;",
+						],
+						invalid: [],
+				});
+				`;
+				const lineNumber = getInvocationLineNumber();
+				try {
+					// eslint-disable-next-line no-eval -- intentional eval
+					eval(code);
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+					assertStackLines(
+						normalizedStack,
+						`    roughly at RuleTester.run.valid[0] (unknown source)`,
+						`    roughly at RuleTester.run.valid (unknown source)`,
+						`    at RuleTester.run (eval at <anonymous> (${__filename}:${lineNumber + 3}:6), <anonymous>:3:16)`,
+					);
+				}
+			});
+
+			it("should report the correct location for errors in a data module", async () => {
+				const content = `
+				export function runRuleTester(ruleTester, noVar) {
+					ruleTester.run("no-var", noVar, {
+						valid: [
+							"var a = 1;",
+						],
+						invalid: [],
+					});
+				};
+				`;
+				const noVar = require("../../fixtures/testers/rule-tester/no-var");
+				const moduleURL = `data:text/javascript,${content}`;
+				const { runRuleTester } = await import(moduleURL);
+				try {
+					runRuleTester(ruleTester, noVar);
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+					const expectedURL = moduleURL.replace(/\n\s*/gu, "");
+					assertStackLines(
+						normalizedStack,
+						`    roughly at RuleTester.run.valid[0] (unknown source)`,
+						`    roughly at RuleTester.run.valid (unknown source)`,
+						`    at RuleTester.run (${expectedURL}:1:${expectedURL.replace(/.*?,/u, "").indexOf("run(") + 1})`,
+					);
+				}
+			});
+
+			it("should report the correct location for errors in the global context", () => {
+				const vm = require("node:vm");
+				const code = `
+				ruleTester.run("no-var", noVar, {
+					valid: [
+						"var a = 1;",
+					],
+					invalid: [],
+				});
+				`;
+				const script = new vm.Script(code, {
+					filename: "some-file.js",
+				});
+				const noVar = require("../../fixtures/testers/rule-tester/no-var");
+				try {
+					script.runInNewContext({ ruleTester, noVar });
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+					assertStackLines(
+						normalizedStack,
+						`    roughly at RuleTester.run.valid[0] (unknown source)`,
+						`    roughly at RuleTester.run.valid (unknown source)`,
+						`    at RuleTester.run (some-file.js:2:16)`,
 					);
 				}
 			});
@@ -7015,9 +7121,9 @@ describe("RuleTester", () => {
 					const normalizedStack = normalizeStack(error);
 					assertStackLines(
 						normalizedStack,
-						`    roughly at RuleTester.run.invalid[0] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 10})`,
-						`    roughly at RuleTester.run.invalid (tests/lib/rule-tester/rule-tester.js:${lineNumber + 7})`,
-						`    at RuleTester.run (tests/lib/rule-tester/rule-tester.js:${lineNumber + 2}:17)`,
+						`    roughly at RuleTester.run.invalid[0] (${__filename}:${lineNumber + 10})`,
+						`    roughly at RuleTester.run.invalid (${__filename}:${lineNumber + 7})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
 					);
 				}
 			});
@@ -7046,10 +7152,10 @@ describe("RuleTester", () => {
 					const normalizedStack = normalizeStack(error);
 					assertStackLines(
 						normalizedStack,
-						`    roughly at RuleTester.run.invalid[0].error[1] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 12})`,
-						`    roughly at RuleTester.run.invalid[0] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 10})`,
-						`    roughly at RuleTester.run.invalid (tests/lib/rule-tester/rule-tester.js:${lineNumber + 7})`,
-						`    at RuleTester.run (tests/lib/rule-tester/rule-tester.js:${lineNumber + 2}:17)`,
+						`    roughly at RuleTester.run.invalid[0].error[1] (${__filename}:${lineNumber + 12})`,
+						`    roughly at RuleTester.run.invalid[0] (${__filename}:${lineNumber + 10})`,
+						`    roughly at RuleTester.run.invalid (${__filename}:${lineNumber + 7})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
 					);
 				}
 			});
@@ -7078,10 +7184,10 @@ describe("RuleTester", () => {
 					const normalizedStack = normalizeStack(error);
 					assertStackLines(
 						normalizedStack,
-						`    roughly at RuleTester.run.invalid[0].error[1] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 12})`,
-						`    roughly at RuleTester.run.invalid[0] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 10})`,
-						`    roughly at RuleTester.run.invalid (tests/lib/rule-tester/rule-tester.js:${lineNumber + 7})`,
-						`    at RuleTester.run (tests/lib/rule-tester/rule-tester.js:${lineNumber + 2}:17)`,
+						`    roughly at RuleTester.run.invalid[0].error[1] (${__filename}:${lineNumber + 12})`,
+						`    roughly at RuleTester.run.invalid[0] (${__filename}:${lineNumber + 10})`,
+						`    roughly at RuleTester.run.invalid (${__filename}:${lineNumber + 7})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
 					);
 				}
 			});
@@ -7114,10 +7220,10 @@ describe("RuleTester", () => {
 					const normalizedStack = normalizeStack(error);
 					assertStackLines(
 						normalizedStack,
-						`    roughly at RuleTester.run.invalid[0].error[1] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 14})`,
-						`    roughly at RuleTester.run.invalid[0] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 10})`,
-						`    roughly at RuleTester.run.invalid (tests/lib/rule-tester/rule-tester.js:${lineNumber + 7})`,
-						`    at RuleTester.run (tests/lib/rule-tester/rule-tester.js:${lineNumber + 2}:17)`,
+						`    roughly at RuleTester.run.invalid[0].error[1] (${__filename}:${lineNumber + 14})`,
+						`    roughly at RuleTester.run.invalid[0] (${__filename}:${lineNumber + 10})`,
+						`    roughly at RuleTester.run.invalid (${__filename}:${lineNumber + 7})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
 					);
 				}
 			});
@@ -7152,10 +7258,10 @@ describe("RuleTester", () => {
 					const normalizedStack = normalizeStack(error);
 					assertStackLines(
 						normalizedStack,
-						`    roughly at RuleTester.run.invalid[0].error[1] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 14})`,
-						`    roughly at RuleTester.run.invalid[0] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 10})`,
-						`    roughly at RuleTester.run.invalid (tests/lib/rule-tester/rule-tester.js:${lineNumber + 7})`,
-						`    at RuleTester.run (tests/lib/rule-tester/rule-tester.js:${lineNumber + 2}:17)`,
+						`    roughly at RuleTester.run.invalid[0].error[1] (${__filename}:${lineNumber + 14})`,
+						`    roughly at RuleTester.run.invalid[0] (${__filename}:${lineNumber + 10})`,
+						`    roughly at RuleTester.run.invalid (${__filename}:${lineNumber + 7})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
 					);
 				}
 			});
@@ -7194,10 +7300,10 @@ describe("RuleTester", () => {
 					const normalizedStack = normalizeStack(error);
 					assertStackLines(
 						normalizedStack,
-						`    roughly at RuleTester.run.invalid[0].error[1] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 17})`,
-						`    roughly at RuleTester.run.invalid[0] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 10})`,
-						`    roughly at RuleTester.run.invalid (tests/lib/rule-tester/rule-tester.js:${lineNumber + 7})`,
-						`    at RuleTester.run (tests/lib/rule-tester/rule-tester.js:${lineNumber + 2}:17)`,
+						`    roughly at RuleTester.run.invalid[0].error[1] (${__filename}:${lineNumber + 17})`,
+						`    roughly at RuleTester.run.invalid[0] (${__filename}:${lineNumber + 10})`,
+						`    roughly at RuleTester.run.invalid (${__filename}:${lineNumber + 7})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
 					);
 				}
 			});
@@ -7226,10 +7332,10 @@ describe("RuleTester", () => {
 					const normalizedStack = normalizeStack(error);
 					assertStackLines(
 						normalizedStack,
-						`    roughly at RuleTester.run.invalid[0].error[1] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 11})`,
-						`    roughly at RuleTester.run.invalid[0] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 9})`,
-						`    roughly at RuleTester.run.invalid (tests/lib/rule-tester/rule-tester.js:${lineNumber + 6})`,
-						`    at RuleTester.run (tests/lib/rule-tester/rule-tester.js:${lineNumber + 2}:17)`,
+						`    roughly at RuleTester.run.invalid[0].error[1] (${__filename}:${lineNumber + 11})`,
+						`    roughly at RuleTester.run.invalid[0] (${__filename}:${lineNumber + 9})`,
+						`    roughly at RuleTester.run.invalid (${__filename}:${lineNumber + 6})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
 					);
 				}
 			});
@@ -7284,10 +7390,10 @@ describe("RuleTester", () => {
 
 					assertStackLines(
 						normalizedStack,
-						`    roughly at RuleTester.run.invalid[0].error[1] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 22})`,
-						`    roughly at RuleTester.run.invalid[0] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 11})`,
-						`    roughly at RuleTester.run.invalid (tests/lib/rule-tester/rule-tester.js:${lineNumber + 8})`,
-						`    at RuleTester.run (tests/lib/rule-tester/rule-tester.js:${lineNumber + 2}:17)`,
+						`    roughly at RuleTester.run.invalid[0].error[1] (${__filename}:${lineNumber + 22})`,
+						`    roughly at RuleTester.run.invalid[0] (${__filename}:${lineNumber + 11})`,
+						`    roughly at RuleTester.run.invalid (${__filename}:${lineNumber + 8})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
 					);
 				}
 			});
@@ -7314,9 +7420,9 @@ describe("RuleTester", () => {
 					const normalizedStack = normalizeStack(error);
 					assertStackLines(
 						normalizedStack,
-						`    roughly at RuleTester.run.invalid[0] (tests/lib/rule-tester/rule-tester.js:${lineNumber + 11})`,
-						`    roughly at RuleTester.run.invalid (tests/lib/rule-tester/rule-tester.js:${lineNumber + 8})`,
-						`    at RuleTester.run (tests/lib/rule-tester/rule-tester.js:${lineNumber + 2}:17)`,
+						`    roughly at RuleTester.run.invalid[0] (${__filename}:${lineNumber + 11})`,
+						`    roughly at RuleTester.run.invalid (${__filename}:${lineNumber + 8})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
 					);
 				}
 			});
