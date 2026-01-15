@@ -53,7 +53,6 @@ import type {
 	EcmaVersion as CoreEcmaVersion,
 	ConfigOverride as CoreConfigOverride,
 	ProcessorFile as CoreProcessorFile,
-	JavaScriptParserOptionsConfig,
 	RulesMeta,
 	RuleConfig,
 	RuleTextEditor,
@@ -71,6 +70,7 @@ import type {
 	SuggestedEditBase,
 	SuggestedEdit,
 	ViolationReport,
+	MessagePlaceholderData,
 } from "@eslint/core";
 
 //------------------------------------------------------------------------------
@@ -933,7 +933,43 @@ export namespace Linter {
 	 *
 	 * @see [Specifying Parser Options](https://eslint.org/docs/latest/use/configure/language-options#specifying-parser-options)
 	 */
-	type ParserOptions = JavaScriptParserOptionsConfig;
+	interface ParserOptions {
+		/**
+		 * Allow the use of reserved words as identifiers (if `ecmaVersion` is 3).
+		 *
+		 * @default false
+		 */
+		allowReserved?: boolean | undefined;
+		/**
+		 * An object indicating which additional language features you'd like to use.
+		 *
+		 * @see https://eslint.org/docs/latest/use/configure/language-options#specifying-parser-options
+		 */
+		ecmaFeatures?:
+			| {
+					/**
+					 * Allow `return` statements in the global scope.
+					 *
+					 * @default false
+					 */
+					globalReturn?: boolean | undefined;
+					/**
+					 * Enable global [strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode) (if `ecmaVersion` is 5 or greater).
+					 *
+					 * @default false
+					 */
+					impliedStrict?: boolean | undefined;
+					/**
+					 * Enable [JSX](https://facebook.github.io/jsx/).
+					 *
+					 * @default false
+					 */
+					jsx?: boolean | undefined;
+					[key: string]: any;
+			  }
+			| undefined;
+		[key: string]: any;
+	}
 
 	/**
 	 * Options used for linting code with `Linter#verify` and `Linter#verifyAndFix`.
@@ -1384,6 +1420,12 @@ export class RuleTester {
 				 * error does not contain them.
 				 */
 				requireLocation?: boolean;
+				/**
+				 * If true, each error and suggestion with a `messageId` must specify a `data`
+				 * property if the referenced message contains placeholders.
+				 * `"error"` and `"suggestion" limit the assertion to errors and suggestions respectively.
+				 */
+				requireData?: boolean | "error" | "suggestion";
 			};
 		},
 	): void;
@@ -1417,7 +1459,7 @@ export namespace RuleTester {
 	interface SuggestionOutput {
 		messageId?: string;
 		desc?: string;
-		data?: Record<string, unknown> | undefined;
+		data?: MessagePlaceholderData | undefined;
 		output: string;
 	}
 
@@ -1429,7 +1471,7 @@ export namespace RuleTester {
 	interface TestCaseError {
 		message?: string | RegExp;
 		messageId?: string;
-		data?: any;
+		data?: MessagePlaceholderData | undefined;
 		line?: number | undefined;
 		column?: number | undefined;
 		endLine?: number | undefined;
