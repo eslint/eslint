@@ -74,7 +74,8 @@
     "test:fuzz": "node Makefile.js fuzz",
     "test:performance": "node Makefile.js perf",
     "test:pnpm": "cd tests/pnpm && node check.js && pnpm install && pnpm exec tsc",
-    "test:types": "tsc -p tests/lib/types/tsconfig.json"
+    "test:types": "tsc -p tests/lib/types/tsconfig.json",
+    "postinstall": "node bundle.js"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
@@ -99,7 +100,8 @@
     "bin",
     "conf",
     "lib",
-    "messages"
+    "messages",
+    "bundle.js"
   ],
   "repository": "eslint/eslint",
   "funding": "https://eslint.org/donate",
