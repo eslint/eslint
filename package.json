@@ -70,6 +70,8 @@
     "test": "node Makefile.js test",
     "test:browser": "node Makefile.js cypress",
     "test:cli": "mocha",
+    "test:ecosystem": "node tools/test-ecosystem/index.mjs",
+    "test:ecosystem:update": "node tools/test-ecosystem/update.mjs",
     "test:emfile": "node tools/check-emfile-handling.js",
     "test:fuzz": "node Makefile.js fuzz",
     "test:performance": "node Makefile.js perf",
@@ -138,6 +140,7 @@
     "optionator": "^0.9.3"
   },
   "devDependencies": {
+    "@antfu/ni": "^28.0.0",
     "@arethetypeswrong/cli": "^0.18.0",
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
