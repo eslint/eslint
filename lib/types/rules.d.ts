@@ -1792,10 +1792,14 @@ export interface ESLintRules extends Linter.RulesRecord {
 					maximum: number;
 					max: number;
 					countVoidThis: boolean;
+			  }>
+			| Partial<{
 					/**
-					 * @default "except-void"
+					 * @deprecated
 					 */
-					countThis: "always" | "never" | "except-void";
+					maximum: number;
+					max: number;
+					countThis: "never" | "except-void" | "always";
 			  }>,
 		]
 	>;
