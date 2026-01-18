@@ -151,6 +151,10 @@ function fn() {
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## Known Limitations
 
 This rule does not report certain variable reassignments when they occur inside the `try` block. This is intentional because such assignments may still be observed within the corresponding `catch` block or after the `try-catch` structure, due to potential early exits or error handling logic.

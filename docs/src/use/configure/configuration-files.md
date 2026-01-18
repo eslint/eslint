@@ -153,7 +153,7 @@ import { defineConfig } from "eslint/config";
 
 export default defineConfig([
 	{
-		files: ["**/*.ts", "**/*.cts", "**.*.mts"],
+		files: ["**/*.ts", "**/*.cts", "**/*.mts"],
 	},
 	// ...other config
 ]);

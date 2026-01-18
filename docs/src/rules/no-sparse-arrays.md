@@ -56,6 +56,10 @@ const colors = [ "red", "blue", ];
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## When Not To Use It
 
 If you want to use sparse arrays, then it is safe to disable this rule.

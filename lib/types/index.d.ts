@@ -53,7 +53,6 @@ import type {
 	EcmaVersion as CoreEcmaVersion,
 	ConfigOverride as CoreConfigOverride,
 	ProcessorFile as CoreProcessorFile,
-	JavaScriptParserOptionsConfig,
 	RulesMeta,
 	RuleConfig,
 	RuleTextEditor,
@@ -71,8 +70,8 @@ import type {
 	SuggestedEditBase,
 	SuggestedEdit,
 	ViolationReport,
+	MessagePlaceholderData,
 } from "@eslint/core";
-import { LegacyESLint } from "./use-at-your-own-risk.js";
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -116,7 +115,7 @@ export namespace AST {
 		end: ESTree.Position;
 	}
 
-	type Range = [number, number];
+	type Range = SourceRange;
 
 	interface Program extends ESTree.Program {
 		comments: ESTree.Comment[];
@@ -124,6 +123,11 @@ export namespace AST {
 		loc: SourceLocation;
 		range: Range;
 	}
+}
+
+interface JSXIdentifier extends ESTree.BaseNode {
+	type: "JSXIdentifier";
+	name: string;
 }
 
 export namespace Scope {
@@ -134,6 +138,8 @@ export namespace Scope {
 		acquire(node: ESTree.Node, inner?: boolean): Scope | null;
 
 		getDeclaredVariables(node: ESTree.Node): Variable[];
+
+		addGlobals(names: ReadonlyArray<string>): void;
 	}
 
 	interface Scope {
@@ -149,8 +155,7 @@ export namespace Scope {
 			| "global"
 			| "module"
 			| "switch"
-			| "with"
-			| "TDZ";
+			| "with";
 		isStrict: boolean;
 		upper: Scope | null;
 		childScopes: Scope[];
@@ -176,11 +181,11 @@ export namespace Scope {
 	}
 
 	interface Reference {
-		identifier: ESTree.Identifier;
+		identifier: ESTree.Identifier | JSXIdentifier;
 		from: Scope;
 		resolved: Variable | null;
-		writeExpr: ESTree.Node | null;
-		init: boolean;
+		writeExpr?: ESTree.Expression | null;
+		init?: boolean;
 
 		isWrite(): boolean;
 
@@ -229,7 +234,6 @@ export namespace Scope {
 					| ESTree.ArrowFunctionExpression;
 				parent: null;
 		  }
-		| { type: "TDZ"; node: any; parent: null }
 		| {
 				type: "Variable";
 				node: ESTree.VariableDeclarator;
@@ -280,16 +284,7 @@ export class SourceCode
 
 	getDeclaredVariables(node: ESTree.Node): Scope.Variable[];
 
-	/** @deprecated */
-	getJSDocComment(node: ESTree.Node): ESTree.Comment | null;
-
 	getNodeByRangeIndex(index: number): ESTree.Node | null;
-
-	/** @deprecated Use `isSpaceBetween()` instead. */
-	isSpaceBetweenTokens(
-		first: ESTree.Node | AST.Token,
-		second: ESTree.Node | AST.Token,
-	): boolean;
 
 	getLocFromIndex(index: number): ESTree.Position;
 
@@ -322,18 +317,6 @@ export class SourceCode
 	getTokenAfter: SourceCode.UnaryCursorWithSkipOptions;
 
 	getTokensAfter: SourceCode.UnaryCursorWithCountOptions;
-
-	/** @deprecated Use `getTokenBefore()` instead. */
-	getTokenOrCommentBefore(
-		node: ESTree.Node | AST.Token | ESTree.Comment,
-		skip?: number | undefined,
-	): AST.Token | ESTree.Comment | null;
-
-	/** @deprecated Use `getTokenAfter()` instead. */
-	getTokenOrCommentAfter(
-		node: ESTree.Node | AST.Token | ESTree.Comment,
-		skip?: number | undefined,
-	): AST.Token | ESTree.Comment | null;
 
 	getFirstTokenBetween: SourceCode.BinaryCursorWithSkipOptions;
 
@@ -785,7 +768,7 @@ export namespace Rule {
 	type ReportFixer = CoreRuleFixer;
 
 	/** @deprecated Use `ReportDescriptorOptions` instead. */
-	type ReportDescriptorOptionsBase = ViolationReportBase;
+	type ReportDescriptorOptionsBase = Omit<ViolationReportBase, "suggest">;
 
 	type SuggestionReportOptions = SuggestedEditBase;
 	type SuggestionDescriptorMessage = SuggestionMessage;
@@ -794,9 +777,9 @@ export namespace Rule {
 	// redundant with ReportDescriptorOptionsBase but kept for clarity
 	type ReportDescriptorOptions = ViolationReportBase;
 
-	type ReportDescriptor = ViolationReport<ESTree.Node>;
+	type ReportDescriptor = ViolationReport<JSSyntaxElement>;
 	type ReportDescriptorMessage = ViolationMessage;
-	type ReportDescriptorLocation = ViolationLocation<ESTree.Node>;
+	type ReportDescriptorLocation = ViolationLocation<JSSyntaxElement>;
 
 	type RuleFixer = RuleTextEditor<ESTree.Node | AST.Token>;
 	type Fix = RuleTextEdit;
@@ -823,42 +806,31 @@ export class Linter {
 
 	version: string;
 
-	constructor(options?: {
-		cwd?: string | undefined;
-		configType?: "flat" | "eslintrc";
-	});
+	constructor(options?: { cwd?: string | undefined; configType?: "flat" });
 
 	verify(
 		code: SourceCode | string,
-		config: Linter.LegacyConfig | Linter.Config | Linter.Config[],
+		config: Linter.Config | Linter.Config[],
 		filename?: string,
 	): Linter.LintMessage[];
 	verify(
 		code: SourceCode | string,
-		config: Linter.LegacyConfig | Linter.Config | Linter.Config[],
+		config: Linter.Config | Linter.Config[],
 		options: Linter.LintOptions,
 	): Linter.LintMessage[];
 
 	verifyAndFix(
 		code: string,
-		config: Linter.LegacyConfig | Linter.Config | Linter.Config[],
+		config: Linter.Config | Linter.Config[],
 		filename?: string,
 	): Linter.FixReport;
 	verifyAndFix(
 		code: string,
-		config: Linter.LegacyConfig | Linter.Config | Linter.Config[],
+		config: Linter.Config | Linter.Config[],
 		options: Linter.FixOptions,
 	): Linter.FixReport;
 
 	getSourceCode(): SourceCode;
-
-	defineRule(name: string, rule: Rule.RuleModule): void;
-
-	defineRules(rules: { [name: string]: Rule.RuleModule }): void;
-
-	getRules(): Map<string, Rule.RuleModule>;
-
-	defineParser(name: string, parser: Linter.Parser): void;
 
 	getTimes(): Linter.Stats["times"];
 
@@ -961,7 +933,43 @@ export namespace Linter {
 	 *
 	 * @see [Specifying Parser Options](https://eslint.org/docs/latest/use/configure/language-options#specifying-parser-options)
 	 */
-	type ParserOptions = JavaScriptParserOptionsConfig;
+	interface ParserOptions {
+		/**
+		 * Allow the use of reserved words as identifiers (if `ecmaVersion` is 3).
+		 *
+		 * @default false
+		 */
+		allowReserved?: boolean | undefined;
+		/**
+		 * An object indicating which additional language features you'd like to use.
+		 *
+		 * @see https://eslint.org/docs/latest/use/configure/language-options#specifying-parser-options
+		 */
+		ecmaFeatures?:
+			| {
+					/**
+					 * Allow `return` statements in the global scope.
+					 *
+					 * @default false
+					 */
+					globalReturn?: boolean | undefined;
+					/**
+					 * Enable global [strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode) (if `ecmaVersion` is 5 or greater).
+					 *
+					 * @default false
+					 */
+					impliedStrict?: boolean | undefined;
+					/**
+					 * Enable [JSX](https://facebook.github.io/jsx/).
+					 *
+					 * @default false
+					 */
+					jsx?: boolean | undefined;
+					[key: string]: any;
+			  }
+			| undefined;
+		[key: string]: any;
+	}
 
 	/**
 	 * Options used for linting code with `Linter#verify` and `Linter#verifyAndFix`.
@@ -1233,39 +1241,6 @@ export namespace ESLint {
 		flags?: string[] | undefined;
 	}
 
-	interface LegacyOptions {
-		// File enumeration
-		cwd?: string | undefined;
-		errorOnUnmatchedPattern?: boolean | undefined;
-		extensions?: string[] | undefined;
-		globInputPaths?: boolean | undefined;
-		ignore?: boolean | undefined;
-		ignorePath?: string | undefined;
-
-		// Linting
-		allowInlineConfig?: boolean | undefined;
-		baseConfig?: Linter.LegacyConfig | undefined;
-		overrideConfig?: Linter.LegacyConfig | undefined;
-		overrideConfigFile?: string | undefined;
-		plugins?: Record<string, Plugin> | undefined;
-		reportUnusedDisableDirectives?: Linter.StringSeverity | undefined;
-		resolvePluginsRelativeTo?: string | undefined;
-		rulePaths?: string[] | undefined;
-		useEslintrc?: boolean | undefined;
-
-		// Autofix
-		fix?: boolean | ((message: Linter.LintMessage) => boolean) | undefined;
-		fixTypes?: FixType[] | null | undefined;
-
-		// Cache-related
-		cache?: boolean | undefined;
-		cacheLocation?: string | undefined;
-		cacheStrategy?: CacheStrategy | undefined;
-
-		// Other Options
-		flags?: string[] | undefined;
-	}
-
 	/** A linting result. */
 	interface LintResult {
 		/** The path to the file that was linted. */
@@ -1320,9 +1295,8 @@ export namespace ESLint {
 		foundWarnings: number;
 	}
 
-	interface LintResultData {
+	interface LintResultData extends ResultsMeta {
 		cwd: string;
-		maxWarningsExceeded?: MaxWarningsExceeded | undefined;
 		rulesMeta: {
 			[ruleId: string]: Rule.RuleMetaData;
 		};
@@ -1355,6 +1329,14 @@ export namespace ESLint {
 	 */
 	interface ResultsMeta {
 		/**
+		 * Whether or not to use color in the formatter output.
+		 * - If `--color` was set, this property is `true`.
+		 * - If `--no-color` was set, it is `false`.
+		 * - If neither option was provided, the property is omitted.
+		 */
+		color?: boolean | undefined;
+
+		/**
 		 * Present if the maxWarnings threshold was exceeded.
 		 */
 		maxWarningsExceeded?: MaxWarningsExceeded | undefined;
@@ -1365,9 +1347,9 @@ export namespace ESLint {
 		/**
 		 * Used to call the underlying formatter.
 		 * @param results An array of lint results to format.
-		 * @param resultsMeta An object with an optional `maxWarningsExceeded` property that will be
+		 * @param resultsMeta An object with optional `color` and `maxWarningsExceeded` properties that will be
 		 * passed to the underlying formatter function along with other properties set by ESLint.
-		 * This argument can be omitted if `maxWarningsExceeded` is not needed.
+		 * This argument can be omitted if `color` and `maxWarningsExceeded` are not needed.
 		 * @return The formatter output.
 		 */
 		format(
@@ -1396,15 +1378,10 @@ export namespace ESLint {
 
 // #endregion
 
-export function loadESLint(options: {
-	useFlatConfig: true;
-}): Promise<typeof ESLint>;
-export function loadESLint(options: {
-	useFlatConfig: false;
-}): Promise<typeof LegacyESLint>;
-export function loadESLint(options?: {
-	useFlatConfig?: boolean | undefined;
-}): Promise<typeof ESLint | typeof LegacyESLint>;
+/**
+ * Loads the correct `ESLint` constructor.
+ */
+export function loadESLint(): Promise<typeof ESLint>;
 
 // #region RuleTester
 
@@ -1412,6 +1389,9 @@ export class RuleTester {
 	static describe: ((...args: any) => any) | null;
 	static it: ((...args: any) => any) | null;
 	static itOnly: ((...args: any) => any) | null;
+	static setDefaultConfig(config: Linter.Config): void;
+	static getDefaultConfig(): Linter.Config;
+	static resetDefaultConfig(): void;
 
 	constructor(config?: Linter.Config);
 
@@ -1421,6 +1401,32 @@ export class RuleTester {
 		tests: {
 			valid: Array<string | RuleTester.ValidTestCase>;
 			invalid: RuleTester.InvalidTestCase[];
+			/**
+			 * Additional assertions for the "error" matchers of invalid test cases to enforce consistency.
+			 */
+			assertionOptions?: {
+				/**
+				 * If true, each `errors` block must check the expected error
+				 * message, either via a string in the `errors` array, or via
+				 * `message`/`messageId` in an errors object.
+				 * `"message"`/`"messageId"` can be used to further limit the
+				 * message assertions to the respective versions.
+				 */
+				requireMessage?: boolean | "message" | "messageId";
+				/**
+				 * If true, each `errors` block must be an array of objects,
+				 * that each check all location properties `line`, `column`,
+				 * `endLine`, `endColumn`, the later may be omitted, if the
+				 * error does not contain them.
+				 */
+				requireLocation?: boolean;
+				/**
+				 * If true, each error and suggestion with a `messageId` must specify a `data`
+				 * property if the referenced message contains placeholders.
+				 * `"error"` and `"suggestion" limit the assertion to errors and suggestions respectively.
+				 */
+				requireData?: boolean | "error" | "suggestion";
+			};
 		},
 	): void;
 
@@ -1430,14 +1436,22 @@ export class RuleTester {
 }
 
 export namespace RuleTester {
-	interface ValidTestCase {
+	interface ValidTestCase
+		extends Omit<
+			Linter.Config,
+			| "name"
+			| "basePath"
+			| "files"
+			| "ignores"
+			| "linterOptions"
+			| "plugins"
+			| "rules"
+		> {
 		name?: string;
 		code: string;
-		options?: any;
+		options?: any[];
 		filename?: string | undefined;
 		only?: boolean;
-		languageOptions?: Linter.LanguageOptions | undefined;
-		settings?: { [name: string]: any } | undefined;
 		before?: () => void;
 		after?: () => void;
 	}
@@ -1445,24 +1459,24 @@ export namespace RuleTester {
 	interface SuggestionOutput {
 		messageId?: string;
 		desc?: string;
-		data?: Record<string, unknown> | undefined;
+		data?: MessagePlaceholderData | undefined;
 		output: string;
 	}
 
 	interface InvalidTestCase extends ValidTestCase {
-		errors: number | Array<TestCaseError | string>;
+		errors: number | Array<TestCaseError | string | RegExp>;
 		output?: string | null | undefined;
 	}
 
 	interface TestCaseError {
 		message?: string | RegExp;
 		messageId?: string;
-		data?: any;
+		data?: MessagePlaceholderData | undefined;
 		line?: number | undefined;
 		column?: number | undefined;
 		endLine?: number | undefined;
 		endColumn?: number | undefined;
-		suggestions?: SuggestionOutput[] | undefined;
+		suggestions?: SuggestionOutput[] | number | undefined;
 	}
 }
 
