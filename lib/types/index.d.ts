@@ -27,8 +27,6 @@
 
 import * as ESTree from "estree";
 import type {
-	CustomRuleDefinitionType,
-	CustomRuleTypeDefinitions,
 	DeprecatedInfo,
 	LanguageOptions as GenericLanguageOptions,
 	RuleContext as CoreRuleContext,
@@ -72,17 +70,11 @@ import type {
 	ViolationReport,
 	MessagePlaceholderData,
 } from "@eslint/core";
-
-//------------------------------------------------------------------------------
-// Helpers
-//------------------------------------------------------------------------------
-
-/** Adds matching `:exit` selectors for all properties of a `RuleVisitor`. */
-type WithExit<RuleVisitorType extends RuleVisitor> = {
-	[Key in keyof RuleVisitorType as
-		| Key
-		| `${Key & string}:exit`]: RuleVisitorType[Key];
-};
+import type {
+	CustomRuleDefinitionType,
+	CustomRuleTypeDefinitions,
+	CustomRuleVisitorWithExit,
+} from "@eslint/plugin-kit";
 
 //------------------------------------------------------------------------------
 // Exports
@@ -673,7 +665,7 @@ export namespace Rule {
 	type NodeTypes = ESTree.Node["type"];
 
 	interface NodeListener
-		extends WithExit<
+		extends CustomRuleVisitorWithExit<
 			{
 				[Node in Rule.Node as Node["type"]]?:
 					| ((node: Node) => void)
