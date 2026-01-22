@@ -11,7 +11,7 @@ eleventyNavigation:
 
 ESLint custom parsers let you extend ESLint to support linting new non-standard JavaScript language features or custom syntax in your code. A parser is responsible for taking your code and transforming it into an abstract syntax tree (AST) that ESLint can then analyze and lint.
 
-## Creating a Custom Parser
+## Create a Custom Parser
 
 ### Methods in Custom Parsers
 

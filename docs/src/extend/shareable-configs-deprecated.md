@@ -10,7 +10,7 @@ To share your ESLint configuration, create a **shareable config**. You can publi
 
 This page explains how to create and publish a shareable config.
 
-## Creating a Shareable Config
+## Create a Shareable Config
 
 Shareable configs are simply npm packages that export a configuration object. To start, [create a Node.js module](https://docs.npmjs.com/getting-started/creating-node-modules) like you normally would.
 
@@ -66,7 +66,7 @@ npm link eslint-config-myconfig
 
 Be sure to replace `eslint-config-myconfig` with the actual name of your module.
 
-## Using a Shareable Config
+## Use a Shareable Config
 
 To use a shareable config, include the config name in the `extends` field of a configuration file. For the value, use your module name. For example:
 

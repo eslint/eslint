@@ -152,7 +152,7 @@ Additionally, the `context` object has the following methods:
 
 **Note:** Earlier versions of ESLint supported additional methods on the `context` object. Those methods were removed in the new format and should not be relied upon.
 
-### Reporting Problems
+### Report Problems
 
 The main method you'll use when writing custom rules is `context.report()`, which publishes a warning or error (depending on the configuration being used). This method accepts a single argument, which is an object containing the following properties:
 
@@ -182,7 +182,7 @@ context.report({
 
 The node contains all the information necessary to figure out the line and column number of the offending text as well as the source text representing the node.
 
-#### Using Message Placeholders
+#### Use Message Placeholders
 
 You can also use placeholders in the message and provide `data`:
 
