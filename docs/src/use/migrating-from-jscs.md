@@ -43,7 +43,7 @@ polyjuice --jscs .jscsrc.json ./foo/.jscsrc.json > .eslintrc.json
 
 **Note:** Polyjuice does a good job of creating a reasonable ESLint configuration from your JSCS configuration, but it may not be 100%. You may still see different warnings than you saw with JSCS, and so you may need to further modify your configuration after using Polyjuice. This is especially true if you're using inline comments to enable/disable certain rules in JSCS (you'll need to manually convert those to use ESLint-style comments instead, [see "Disabling Rules Inline"](#disabling-rules-inline) later in this page).
 
-### Creating a New Configuration From Scratch
+### Create a New Configuration From Scratch
 
 If you don't want to convert your JSCS configuration directly into an ESLint configuration, then you can use ESLint's built-in wizard to get you started. Just run:
 
@@ -98,7 +98,7 @@ And then you would modify your configuration file like this:
 
 ESLint sees `"airbnb-base"` and will look for `eslint-config-airbnb-base` (to save you some typing).
 
-## Disabling Rules Inline
+## Disable Rules Inline
 
 Both JSCS and ESLint use comments inside of files to disable rules around certain parts of your code. The following table lists out the JSCS inline configuration comments and their ESLint equivalents.
 

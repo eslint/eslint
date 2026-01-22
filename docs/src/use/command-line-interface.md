@@ -699,7 +699,7 @@ Inline config comments are meant to change ESLint's behavior in some way: if the
 npx eslint --report-unused-inline-configs error file.js
 ```
 
-### Caching
+### Cache
 
 #### `--cache`
 
@@ -761,7 +761,7 @@ The `content` strategy can be useful in cases where the modification time of you
     args: ["\"src/**/*.js\"", "--cache", "--cache-strategy", "content"]
 }) }}
 
-### Suppressing Violations
+### Suppress Violations
 
 #### `--suppress-all`
 

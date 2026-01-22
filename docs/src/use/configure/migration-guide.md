@@ -53,7 +53,7 @@ While the configuration file format has changed from eslintrc to flat config, th
 
 A few of the most notable differences between the eslintrc and flat config formats are the following:
 
-### Importing Plugins and Custom Parsers
+### Import Plugins and Custom Parsers
 
 Eslintrc files use string-based import system inside the `plugins` property to load plugins and inside the `extends` property to load external configurations.
 
@@ -311,7 +311,7 @@ export default defineConfig([
 ]);
 ```
 
-### Configuring Language Options
+### Configure Language Options
 
 In eslintrc files, you configure various language options across the `env`, `globals` and `parserOptions` properties. Groups of global variables for specific runtimes (e.g. `document` and `window` for browser JavaScript; `process` and `require` for Node.js) are configured with the `env` property.
 
@@ -518,7 +518,7 @@ export default defineConfig([
 ]);
 ```
 
-#### Using eslintrc Configs in Flat Config
+#### Use eslintrc Configs in Flat Config
 
 You may find that there's a shareable config you rely on that hasn't yet been updated to flat config format. In that case, you can use the `FlatCompat` utility to translate the eslintrc format into flat config format. First, install the `@eslint/eslintrc` package:
 
@@ -554,7 +554,7 @@ This example uses the `FlatCompat#extends()` method to insert the `eslint-config
 
 For more information about the `FlatCompat` class, please see the [package README](https://github.com/eslint/eslintrc#usage).
 
-### Ignoring Files
+### Ignore Files
 
 With eslintrc, you can make ESLint ignore files by creating a separate `.eslintignore` file in the root of your project. The `.eslintignore` file uses the same glob pattern syntax as `.gitignore` files. Alternatively, you can use an `ignorePatterns` property in your eslintrc file.
 
