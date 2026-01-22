@@ -35,6 +35,7 @@ ESLint is a tool for identifying and reporting on patterns found in ECMAScript/J
 1. [Releases](#releases)
 1. [Security Policy](#security-policy)
 1. [Semantic Versioning Policy](#semantic-versioning-policy)
+1. [ESM Dependencies](#esm-dependencies)
 1. [License](#license)
 1. [Team](#team)
 1. [Sponsors](#sponsors)
@@ -202,6 +203,14 @@ ESLint follows [semantic versioning](https://semver.org). However, due to the na
         - Rule, formatter, parser, plugin APIs
 
 According to our policy, any minor update may report more linting errors than the previous release (ex: from a bug fix). As such, we recommend using the tilde (`~`) in `package.json` e.g. `"eslint": "~3.1.0"` to guarantee the results of your builds.
+
+## ESM Dependencies
+
+Since ESLint is a CommonJS package, there are restrictions on which ESM-only packages can be used as dependencies.
+
+Packages that are controlled by the ESLint team and have no external dependencies can be safely loaded synchronously using [`require(esm)`](https://nodejs.org/api/modules.html#loading-ecmascript-modules-using-require) and therefore used in any contexts.
+
+For external packages, we don't use `require(esm)` because a package could add a top-level `await` and thus break ESLint. We can use an external ESM-only package only in case it is needed only in asynchronous code, in which case it can be loaded using dynamic `import()`.
 
 ## License
 
