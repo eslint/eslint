@@ -14,7 +14,7 @@ ESLint is designed to be flexible and configurable for your use case. You can tu
 
 Here are some of the options that you can configure in ESLint:
 
-- [**Globals**](./language-options#specifying-globals) - the additional global variables your script accesses during execution.
+- [**Globals**](./language-options#specify-globals) - the additional global variables your script accesses during execution.
 - [**Rules**](rules) - which rules are enabled and at what error level.
 - [**Plugins**](plugins) - which third-party plugins define additional rules, languages, configs, etc. for ESLint to use.
 
@@ -31,13 +31,13 @@ All of these options give you fine-grained control over how ESLint treats your c
 
 [**Configure Language Options**](language-options)
 
-- [Specifying JavaScript Options](./language-options#specifying-javascript-options)
-- [Specifying Globals](./language-options#specifying-globals)
+- [Specify JavaScript Options](./language-options#specify-javascript-options)
+- [Specify Globals](./language-options#specify-globals)
 
 [**Configure Rules**](rules)
 
 - [Configuring Rules](./rules)
-- [Disabling Rules](./rules#disabling-rules)
+- [Disable Rules](./rules#disable-rules)
 
 [**Configure Plugins**](plugins)
 
@@ -50,7 +50,7 @@ All of these options give you fine-grained control over how ESLint treats your c
 
 [**Ignore Files**](ignore)
 
-- [Ignoring Files](./ignore#ignoring-files)
+- [Ignore Files](./ignore#ignore-files)
 - [Ignoring Directories](./ignore#ignoring-directories)
 - [Unignoring Files and Directories](./ignore#unignoring-files-and-directories)
 - [Ignored File Warnings](./ignore#ignored-file-warnings)

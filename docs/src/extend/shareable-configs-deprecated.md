@@ -128,7 +128,7 @@ You can override settings from the shareable config by adding them directly into
 
 ## Sharing Multiple Configs
 
-You can share multiple configs in the same npm package. Specify a default config for the package by following the directions in the [Creating a Shareable Config](#creating-a-shareable-config) section. You can specify additional shareable configs by adding a new file to your npm package and then referencing it from your ESLint config.
+You can share multiple configs in the same npm package. Specify a default config for the package by following the directions in the [Create a Shareable Config](#create-a-shareable-config) section. You can specify additional shareable configs by adding a new file to your npm package and then referencing it from your ESLint config.
 
 As an example, you can create a file called `my-special-config.js` in the root of your npm package and export a config, such as:
 

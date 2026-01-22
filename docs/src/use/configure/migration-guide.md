@@ -47,7 +47,7 @@ While the configuration file format has changed from eslintrc to flat config, th
 - Syntax for configuring rules.
 - Syntax for configuring processors.
 - The CLI, except for the flag changes noted in [CLI Flag Changes](#cli-flag-changes).
-- Global variables are configured the same way, but on a different property (see [Configuring Language Options](#configuring-language-options)).
+- Global variables are configured the same way, but on a different property (see [Configure Language Options](#configure-language-options)).
 
 ## Key Differences between Configuration Formats
 
@@ -647,7 +647,7 @@ The following CLI flags are no longer supported with the flat config file format
 
 #### `--env`
 
-The `--env` flag was used to enable environment-specific globals (for example, `browser`, or `node`). Flat config doesn't support this flag. Instead, define the relevant globals directly in your configuration. See [Specifying Globals](language-options#specifying-globals) for more details.
+The `--env` flag was used to enable environment-specific globals (for example, `browser`, or `node`). Flat config doesn't support this flag. Instead, define the relevant globals directly in your configuration. See [Specify Globals](language-options#specify-globals) for more details.
 
 For example, if you previously used `--env browser,node`, you’ll need to update your config file like this:
 

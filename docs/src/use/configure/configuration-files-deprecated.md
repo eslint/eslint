@@ -297,7 +297,7 @@ Example of a configuration file in JSON format:
 
 ### Use a configuration file
 
-The `extends` property value can be an absolute or relative path to a base [configuration file](#using-configuration-files). ESLint resolves a relative path to a base configuration file relative to the configuration file that uses it.
+The `extends` property value can be an absolute or relative path to a base [configuration file](#use-configuration-files). ESLint resolves a relative path to a base configuration file relative to the configuration file that uses it.
 
 Example of a configuration file in JSON format:
 

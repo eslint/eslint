@@ -14,7 +14,7 @@ This page explains how to ignore files using the flat config format. For the dep
 :::
 
 ::: tip
-This page explains how to use the `globalIgnores()` function to completely ignore files and directories. For more information on non-global ignores, see [Specifying files and ignores](configuration-files#specifying-files-and-ignores). For more information on the differences between global and non-global ignores, see [Globally ignoring files with `ignores`](configuration-files#globally-ignoring-files-with-ignores).
+This page explains how to use the `globalIgnores()` function to completely ignore files and directories. For more information on non-global ignores, see [Specify files and ignores](configuration-files#specify-files-and-ignores). For more information on the differences between global and non-global ignores, see [Globally ignore files with `ignores`](configuration-files#globally-ignore-files-with-ignores).
 :::
 You can configure ESLint to ignore certain files and directories while linting by specifying one or more glob patterns in the following ways:
 

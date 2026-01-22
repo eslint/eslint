@@ -166,7 +166,7 @@ The main method you'll use when writing custom rules is `context.report()`, whic
     - `end`: An object of the end location.
         - `line`: (`number`) The 1-based line number at which the problem occurred.
         - `column`: (`number`) The 0-based column number at which the problem occurred.
-- `data`: (optional `object`) [Placeholder](#using-message-placeholders) data for `message`.
+- `data`: (optional `object`) [Placeholder](#use-message-placeholders) data for `message`.
 - `fix(fixer)`: (optional `function`) Applies a [fix](#applying-fixes) to resolve the problem.
 
 Note that at least one of `node` or `loc` is required.
@@ -444,7 +444,7 @@ module.exports = {
 
 #### Placeholders in Suggestion Messages
 
-You can also use placeholders in the suggestion message. This works the same way as placeholders for the overall error (see [using message placeholders](#using-message-placeholders)).
+You can also use placeholders in the suggestion message. This works the same way as placeholders for the overall error (see [use message placeholders](#use-message-placeholders)).
 
 Please note that you have to provide `data` on the suggestion's object. Suggestion messages cannot use properties from the overall error's `data`.
 
