@@ -1,3 +1,15 @@
+v10.0.0-rc.1 - January 23, 2026
+
+* [`43677de`](https://github.com/eslint/eslint/commit/43677de07ebd6e14bfac40a46ad749ba783c45f2) feat: fix handling of function and class expression names in `no-shadow` (#20432) (Milos Djermanovic)
+* [`3e5d38c`](https://github.com/eslint/eslint/commit/3e5d38cdd5712bef50d440585b0f6669a2e9a9b9) docs: add missing indentation space in rule example (#20446) (fnx)
+* [`b34b938`](https://github.com/eslint/eslint/commit/b34b93852d014ebbcf3538d892b55e0216cdf681) fix: use `Error.prepareStackTrace` to estimate failing test location (#20436) (Francesco Trotta)
+* [`51aab53`](https://github.com/eslint/eslint/commit/51aab5393b058f7cbed69041a9069b2bd106aabd) fix: update eslint (#20443) (renovate[bot])
+* [`6742f92`](https://github.com/eslint/eslint/commit/6742f927ba6afb1bce6f64b9b072a1a11dbf53c4) test: add endLine/endColumn to invalid test case in no-alert (#20441) (경하)
+* [`3e22c82`](https://github.com/eslint/eslint/commit/3e22c82a87f44f7407ff75b17b26f1ceed3edd14) test: add missing location data to no-template-curly-in-string tests (#20440) (Haeun Kim)
+* [`63a0c7c`](https://github.com/eslint/eslint/commit/63a0c7c84bf5b12357893ea2bf0482aa3c855bac) docs: Update README (GitHub Actions Bot)
+* [`23490b2`](https://github.com/eslint/eslint/commit/23490b266276792896a0b7b43c49a1ce87bf8568) fix: handle space before colon in `RuleTester` location estimation (#20433) (Francesco Trotta)
+* [`f244dbf`](https://github.com/eslint/eslint/commit/f244dbf2191267a4cafd08645243624baf3e8c83) fix: use `MessagePlaceholderData` type from `@eslint/core` (#20348) (루밀LuMir)
+
 v10.0.0-rc.0 - January 9, 2026
 
 * [`d186f8c`](https://github.com/eslint/eslint/commit/d186f8c0747f14890e86a5a39708b052b391ddaf) fix: update eslint (#20427) (renovate[bot])
