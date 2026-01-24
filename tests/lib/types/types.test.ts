@@ -1844,6 +1844,52 @@ ruleTester.run("my-rule", rule, {
 		{ code: "foo", errors: [/foo/] },
 		{ code: "foo", errors: [{ message: "foo" }] },
 		{ code: "foo", errors: [{ message: "foo", data: { foo: true } }] },
+		{ code: "foo", errors: [{ message: "foo", data: undefined }] },
+		{
+			code: "foo",
+			errors: [
+				{
+					message: "foo",
+					// @ts-expect-error -- `data` cannot be `null`
+					data: null,
+				},
+			],
+		},
+		{
+			code: "foo",
+			errors: [
+				{
+					message: "foo",
+					data: {
+						foo: "foo",
+						bar: 1,
+						baz: true,
+						qux: false,
+						a: 1n,
+						b: null,
+						c: undefined,
+						d: void 0,
+						// @ts-expect-error -- Symbols are not allowed in `data`.
+						e: Symbol("b"),
+						// @ts-expect-error -- Objects are not allowed in `data`.
+						f: {
+							hi: "hi",
+						},
+						// @ts-expect-error -- Arrays are not allowed in `data`.
+						g: [1, 2, 3],
+						// @ts-expect-error -- Sets are not allowed in `data`.
+						h: new Set([1, 2, 3]),
+						// @ts-expect-error -- Maps are not allowed in `data`.
+						i: new Map([
+							["a", 1],
+							["b", 2],
+						]),
+						// @ts-expect-error -- Functions are not allowed in `data`.
+						j: () => {},
+					},
+				},
+			],
+		},
 		{ code: "foo", errors: [{ message: "foo", line: 0 }] },
 		{
 			code: "foo",
@@ -1858,6 +1904,49 @@ ruleTester.run("my-rule", rule, {
 						{
 							messageId: "foo",
 							output: "foo",
+						},
+						{
+							messageId: "foo",
+							output: "foo",
+							data: undefined,
+						},
+						{
+							messageId: "foo",
+							output: "foo",
+							// @ts-expect-error -- `data` cannot be `null`
+							data: null,
+						},
+						{
+							messageId: "foo",
+							desc: "foo",
+							output: "foo",
+							data: {
+								foo: "foo",
+								bar: 1,
+								baz: true,
+								qux: false,
+								a: 1n,
+								b: null,
+								c: undefined,
+								d: void 0,
+								// @ts-expect-error -- Symbols are not allowed in `data`.
+								e: Symbol("b"),
+								// @ts-expect-error -- Objects are not allowed in `data`.
+								f: {
+									hi: "hi",
+								},
+								// @ts-expect-error -- Arrays are not allowed in `data`.
+								g: [1, 2, 3],
+								// @ts-expect-error -- Sets are not allowed in `data`.
+								h: new Set([1, 2, 3]),
+								// @ts-expect-error -- Maps are not allowed in `data`.
+								i: new Map([
+									["a", 1],
+									["b", 2],
+								]),
+								// @ts-expect-error -- Functions are not allowed in `data`.
+								j: () => {},
+							},
 						},
 					],
 				},
@@ -1996,6 +2085,30 @@ ruleTester.run("messageId-assertion-options", rule, {
 			],
 		},
 	],
+});
+
+ruleTester.run("data-assertion-options", rule, {
+	assertionOptions: {
+		requireData: true,
+	},
+	valid: [],
+	invalid: [],
+});
+
+ruleTester.run("data-assertion-options", rule, {
+	assertionOptions: {
+		requireData: "error",
+	},
+	valid: [],
+	invalid: [],
+});
+
+ruleTester.run("data-assertion-options", rule, {
+	assertionOptions: {
+		requireData: "suggestion",
+	},
+	valid: [],
+	invalid: [],
 });
 
 // #endregion

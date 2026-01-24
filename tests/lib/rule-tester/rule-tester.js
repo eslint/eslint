@@ -2878,6 +2878,26 @@ describe("RuleTester", () => {
 		}, `Assertion options can not use 'requireMessage: "messageId"' if rule under test doesn't define 'meta.messages'.`);
 	});
 
+	it("should not fail if 'requireData' is set, but the rule does not define messageIds", () => {
+		ruleTester.run(
+			"foo",
+			require("../../fixtures/testers/rule-tester/messageId")
+				.withMessageOnly,
+			{
+				assertionOptions: { requireData: "error" },
+				valid: [],
+				invalid: [
+					{
+						code: "foo",
+						errors: [
+							{ message: "Avoid using variables named 'foo'." },
+						],
+					},
+				],
+			},
+		);
+	});
+
 	it("should throw if user tests for messageId not listed in the rule's meta syntax.", () => {
 		assert.throws(() => {
 			ruleTester.run(
@@ -6183,6 +6203,518 @@ describe("RuleTester", () => {
 				});
 			});
 		});
+
+		describe("requireData", () => {
+			describe("unset", () => {
+				const assertionOptions = {};
+
+				it("should allow not setting data for errors", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/messageId.js")
+							.withMetaWithData,
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "foo",
+									errors: [{ messageId: "avoidFoo" }],
+								},
+							],
+						},
+					);
+				});
+
+				it("should allow not setting data for suggestions", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/suggestions.js")
+							.withMessageIds,
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "foo",
+									errors: [
+										{
+											messageId: "avoidFoo",
+											suggestions: [
+												{
+													messageId: "renameFoo",
+													output: "bar",
+												},
+												{
+													messageId: "renameFoo",
+													output: "baz",
+												},
+											],
+										},
+									],
+								},
+							],
+						},
+					);
+				});
+			});
+
+			describe("false", () => {
+				const assertionOptions = { requireData: false };
+
+				it("should allow not setting data for errors", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/messageId.js")
+							.withMetaWithData,
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "foo",
+									errors: [{ messageId: "avoidFoo" }],
+								},
+							],
+						},
+					);
+				});
+
+				it("should allow not setting data for suggestions", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/suggestions.js")
+							.withMessageIds,
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "foo",
+									errors: [
+										{
+											messageId: "avoidFoo",
+											suggestions: [
+												{
+													messageId: "renameFoo",
+													output: "bar",
+												},
+												{
+													messageId: "renameFoo",
+													output: "baz",
+												},
+											],
+										},
+									],
+								},
+							],
+						},
+					);
+				});
+			});
+
+			describe("true", () => {
+				const assertionOptions = { requireData: true };
+
+				it("should allow error shorthand", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/messageId.js")
+							.withMetaWithData,
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "foo",
+									errors: 1,
+								},
+							],
+						},
+					);
+				});
+
+				it("should pass if message array is used", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/messageId.js")
+							.withMetaWithData,
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "foo",
+									errors: [
+										"Avoid using variables named 'foo'.",
+									],
+								},
+							],
+						},
+					);
+				});
+
+				it("should allow specifying messages for errors", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/messageId.js")
+							.withMetaWithData,
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "foo",
+									errors: [
+										{
+											message:
+												"Avoid using variables named 'foo'.",
+										},
+									],
+								},
+							],
+						},
+					);
+				});
+
+				it("should allow not specifying data for referenced error messages without placeholders", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/no-eval.js"),
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "eval(foo)",
+									errors: [{ messageId: "evalSucks" }],
+								},
+							],
+						},
+					);
+				});
+
+				it("should allow specifying data when there are message placeholders", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/messageId.js")
+							.withMetaWithData,
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "foo",
+									errors: [
+										{
+											messageId: "avoidFoo",
+											data: { name: "foo" },
+										},
+									],
+								},
+							],
+						},
+					);
+				});
+
+				it("should disallow not specifying data when there are message placeholders for errors", () => {
+					assert.throws(() => {
+						ruleTester.run(
+							"message-id",
+							require("../../fixtures/testers/rule-tester/messageId.js")
+								.withMetaWithData,
+							{
+								assertionOptions,
+								valid: [],
+								invalid: [
+									{
+										code: "foo",
+										errors: [{ messageId: "avoidFoo" }],
+									},
+								],
+							},
+						);
+					}, "Error should specify the 'data' property as the referenced message has placeholders.");
+				});
+
+				it("should allow suggestion shorthand", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/suggestions.js")
+							.withMessageIds,
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "foo",
+									errors: [
+										{
+											messageId: "avoidFoo",
+											data: { name: "foo" },
+											suggestions: 2,
+										},
+									],
+								},
+							],
+						},
+					);
+				});
+
+				it("should allow specifying desc for suggestions", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/suggestions.js")
+							.withMessageIds,
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "foo",
+									errors: [
+										{
+											message:
+												"Avoid using identifiers named 'foo'.",
+											suggestions: [
+												{
+													desc: "Rename identifier 'foo' to 'bar'",
+													output: "bar",
+												},
+												{
+													desc: "Rename identifier 'foo' to 'baz'",
+													output: "baz",
+												},
+											],
+										},
+									],
+								},
+							],
+						},
+					);
+				});
+
+				it("should allow not specifying data for referenced suggestion messages without placeholders", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/suggestions.js")
+							.withMessageIdsWithoutPlaceholders,
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "foo",
+									errors: [
+										{
+											message:
+												"Avoid using identifiers named 'foo'.",
+											suggestions: [
+												{
+													messageId: "rename",
+													output: "bar",
+												},
+											],
+										},
+									],
+								},
+							],
+						},
+					);
+				});
+
+				it("should allow specifying data when there are message placeholders for suggestions", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/suggestions.js")
+							.withMessageIds,
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "foo",
+									errors: [
+										{
+											messageId: "avoidFoo",
+											data: { name: "foo" },
+											suggestions: [
+												{
+													messageId: "renameFoo",
+													data: { newName: "bar" },
+													output: "bar",
+												},
+												{
+													messageId: "renameFoo",
+													data: { newName: "baz" },
+													output: "baz",
+												},
+											],
+										},
+									],
+								},
+							],
+						},
+					);
+				});
+
+				it("should disallow not specifying data when there are message placeholders for suggestions", () => {
+					assert.throws(() => {
+						ruleTester.run(
+							"message-id",
+							require("../../fixtures/testers/rule-tester/suggestions.js")
+								.withMessageIds,
+							{
+								assertionOptions,
+								valid: [],
+								invalid: [
+									{
+										code: "foo",
+										errors: [
+											{
+												messageId: "avoidFoo",
+												data: { name: "foo" },
+												suggestions: [
+													{
+														messageId: "renameFoo",
+														data: {
+															newName: "bar",
+														},
+														output: "bar",
+													},
+													{
+														messageId: "renameFoo",
+														output: "baz",
+													},
+												],
+											},
+										],
+									},
+								],
+							},
+						);
+					}, "Suggestion at index 1: Suggestion should specify the 'data' property as the referenced message has placeholders.");
+				});
+			});
+
+			describe("error", () => {
+				const assertionOptions = { requireData: "error" };
+
+				it("should disallow not specifying data when there are message placeholders for errors", () => {
+					assert.throws(() => {
+						ruleTester.run(
+							"message-id",
+							require("../../fixtures/testers/rule-tester/messageId.js")
+								.withMetaWithData,
+							{
+								assertionOptions,
+								valid: [],
+								invalid: [
+									{
+										code: "foo",
+										errors: [{ messageId: "avoidFoo" }],
+									},
+								],
+							},
+						);
+					}, "Error should specify the 'data' property as the referenced message has placeholders.");
+				});
+
+				it("should allow not specifying data when there are message placeholders for suggestions", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/suggestions.js")
+							.withMessageIds,
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "foo",
+									errors: [
+										{
+											messageId: "avoidFoo",
+											data: { name: "foo" },
+											suggestions: [
+												{
+													messageId: "renameFoo",
+													data: { newName: "bar" },
+													output: "bar",
+												},
+												{
+													messageId: "renameFoo",
+													output: "baz",
+												},
+											],
+										},
+									],
+								},
+							],
+						},
+					);
+				});
+			});
+
+			describe("suggestion", () => {
+				const assertionOptions = { requireData: "suggestion" };
+
+				it("should allow not specifying data when there are message placeholders for errors", () => {
+					ruleTester.run(
+						"message-id",
+						require("../../fixtures/testers/rule-tester/messageId.js")
+							.withMetaWithData,
+						{
+							assertionOptions,
+							valid: [],
+							invalid: [
+								{
+									code: "foo",
+									errors: [{ messageId: "avoidFoo" }],
+								},
+							],
+						},
+					);
+				});
+
+				it("should disallow not specifying data when there are message placeholders for suggestions", () => {
+					assert.throws(() => {
+						ruleTester.run(
+							"message-id",
+							require("../../fixtures/testers/rule-tester/suggestions.js")
+								.withMessageIds,
+							{
+								assertionOptions,
+								valid: [],
+								invalid: [
+									{
+										code: "foo",
+										errors: [
+											{
+												messageId: "avoidFoo",
+												data: { name: "foo" },
+												suggestions: [
+													{
+														messageId: "renameFoo",
+														output: "bar",
+													},
+													{
+														messageId: "renameFoo",
+														data: {
+															newName: "baz",
+														},
+														output: "baz",
+													},
+												],
+											},
+										],
+									},
+								],
+							},
+						);
+					}, "Suggestion at index 0: Suggestion should specify the 'data' property as the referenced message has placeholders.");
+				});
+			});
+		});
 	});
 
 	// Attach error locations to stacktrace
@@ -6190,123 +6722,710 @@ describe("RuleTester", () => {
 		/**
 		 * Normalizes stack trace for comparison
 		 * @param {Error} error The error to normalize the stacktrace of.
-		 * @returns {string}The normalized stacktrace string.
+		 * @returns {string} The normalized stacktrace string.
 		 */
 		function normalizeStack(error) {
-			return error.stack
-				.replace(/\\/gu, "/")
-				.replace(/\(.*\/tests\//gu, "(tests/") // absolute to relative paths
-				.replace(/:\d+(:\d+)?/gu, ":<lines>"); // ignore line/column numbers
+			// Remove everything after the first anonymous method to avoid issues with stacktrace depth
+			return error.stack.replace(/at RuleTester\.<anonymous>.*/su, "");
 		}
 
-		it("should report the correct location for errors in valid test cases", () => {
-			try {
-				ruleTester.run(
-					"no-eval",
-					require("../../fixtures/testers/rule-tester/no-eval"),
-					{
-						valid: ["eval(foo)"],
+		/**
+		 * Filters and asserts stack trace lines related to RuleTester.run
+		 * @param {string} stack The stack trace string.
+		 * @param {...string} expectedLines The expected stack trace lines.
+		 * @returns {void}
+		 */
+		function assertStackLines(stack, ...expectedLines) {
+			// To manually test this, log the normalizedStack and check the line numbers
+			const stackLines = stack
+				.split("\n")
+				.filter(line => line.includes("at RuleTester.run"));
+
+			for (let i = 0; i < expectedLines.length; i++) {
+				assert.strictEqual(stackLines[i], expectedLines[i]);
+			}
+
+			assert.strictEqual(stackLines.length, expectedLines.length);
+		}
+
+		/**
+		 * Gets the invocation location from the stack trace for later use.
+		 * @returns {number} The invocation line number.
+		 */
+		function getInvocationLineNumber() {
+			const lineNumberText = new Error().stack
+				.split("\n")[2]
+				.split(":")
+				.at(-2);
+			return Number(lineNumberText);
+		}
+
+		describe("valid", () => {
+			it("should report the correct location for errors in simple valid test cases", () => {
+				const lineNumber = getInvocationLineNumber();
+				try {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						{
+							valid: [
+								"Eval(foo);", // comment to push next case to next line
+								"eval(foo)",
+							],
+							invalid: [],
+						},
+					);
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+					assertStackLines(
+						normalizedStack,
+						`    roughly at RuleTester.run.valid[1] (${__filename}:${lineNumber + 8})`,
+						`    roughly at RuleTester.run.valid (${__filename}:${lineNumber + 6})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
+					);
+				}
+			});
+
+			it("should report the correct location for errors in one-line object valid test cases", () => {
+				// also tests that trailing comments do not affect line numbers
+				const lineNumber = getInvocationLineNumber();
+				try {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						{
+							valid: [
+								{ code: "Eval(foo)" }, // comment to push next case to next line
+								{ code: "eval(foo)" },
+							],
+							invalid: [],
+						},
+					);
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+					assertStackLines(
+						normalizedStack,
+						`    roughly at RuleTester.run.valid[1] (${__filename}:${lineNumber + 8})`,
+						`    roughly at RuleTester.run.valid (${__filename}:${lineNumber + 6})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
+					);
+				}
+			});
+
+			it("should report the correct location for errors in one-line object valid test cases with inline comments", () => {
+				const lineNumber = getInvocationLineNumber();
+				try {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						{
+							valid: [
+								{ code: "Eval(foo) // comment" },
+								{ code: "eval(foo)" },
+							],
+							invalid: [],
+						},
+					);
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+					assertStackLines(
+						normalizedStack,
+						`    roughly at RuleTester.run.valid[1] (${__filename}:${lineNumber + 8})`,
+						`    roughly at RuleTester.run.valid (${__filename}:${lineNumber + 6})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
+					);
+				}
+			});
+
+			it("should report the correct location for errors in multi-line object valid test cases", () => {
+				const lineNumber = getInvocationLineNumber();
+				try {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						{
+							valid: [
+								{
+									code: "Eval(foo)",
+								},
+								{
+									code: "eval(foo)",
+								},
+							],
+							invalid: [],
+						},
+					);
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+					assertStackLines(
+						normalizedStack,
+						`    roughly at RuleTester.run.valid[1] (${__filename}:${lineNumber + 11})`,
+						`    roughly at RuleTester.run.valid (${__filename}:${lineNumber + 6})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
+					);
+				}
+			});
+
+			it("should report the correct location for errors in multi-line object valid test cases with one-line language options", () => {
+				const lineNumber = getInvocationLineNumber();
+				try {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						{
+							valid: [
+								{
+									code: "Eval(foo)",
+									languageOptions: { ecmaVersion: 6 },
+								},
+								{
+									languageOptions: { ecmaVersion: 6 },
+									code: "eval(foo)",
+								},
+							],
+							invalid: [],
+						},
+					);
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+					assertStackLines(
+						normalizedStack,
+						`    roughly at RuleTester.run.valid[1] (${__filename}:${lineNumber + 13})`,
+						`    roughly at RuleTester.run.valid (${__filename}:${lineNumber + 6})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
+					);
+				}
+			});
+
+			it("should report the correct location for errors in multi-line object valid test cases with multi-line languageOptions", () => {
+				const lineNumber = getInvocationLineNumber();
+				try {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						{
+							valid: [
+								{
+									code: "Eval(foo)",
+									languageOptions: {
+										ecmaVersion: 6,
+									},
+								},
+								{
+									languageOptions: {
+										ecmaVersion: 6,
+									},
+									code: "eval(foo)",
+								},
+							],
+							invalid: [],
+						},
+					);
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+					assertStackLines(
+						normalizedStack,
+						`    roughly at RuleTester.run.valid[1] (${__filename}:${lineNumber + 17})`,
+						`    roughly at RuleTester.run.valid (${__filename}:${lineNumber + 6})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
+					);
+				}
+			});
+
+			it("should report the correct location for errors in simple valid test cases when invalid before valid", () => {
+				const lineNumber = getInvocationLineNumber();
+				try {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						{
+							invalid: [],
+							valid: [
+								"Eval(foo);", // comment to push next case to next line
+								"eval(foo)",
+							],
+						},
+					);
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+					assertStackLines(
+						normalizedStack,
+						`    roughly at RuleTester.run.valid[1] (${__filename}:${lineNumber + 9})`,
+						`    roughly at RuleTester.run.valid (${__filename}:${lineNumber + 7})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
+					);
+				}
+			});
+
+			it("should report the correct location for errors in simple test cases with space after 'valid'", () => {
+				const lineNumber = getInvocationLineNumber();
+				try {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						// prettier-ignore
+						{
+							valid   : ["eval(foo)"],
+							invalid : [],
+						},
+					);
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+					assertStackLines(
+						normalizedStack,
+						`    roughly at RuleTester.run.valid[0] (${__filename}:${lineNumber + 7})`,
+						`    roughly at RuleTester.run.valid (${__filename}:${lineNumber + 7})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
+					);
+				}
+			});
+
+			it("should report the correct location for errors in a dynamic function", () => {
+				const body = `
+				ruleTester.run("no-var", noVar, {
+					valid: [
+						"var a = 1;",
+					],
+					invalid: [],
+				});
+				`;
+				const noVar = require("../../fixtures/testers/rule-tester/no-var");
+				const lineNumber = getInvocationLineNumber();
+				// eslint-disable-next-line no-new-func -- intentional dynamic function creation
+				const runRuleTester = new Function("ruleTester", "noVar", body);
+				try {
+					runRuleTester(ruleTester, noVar);
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+					assertStackLines(
+						normalizedStack,
+						`    roughly at RuleTester.run.valid[0] (unknown source)`,
+						`    roughly at RuleTester.run.valid (unknown source)`,
+						`    at RuleTester.run (eval at <anonymous> (${__filename}:${lineNumber + 2}:27), <anonymous>:4:16)`,
+					);
+				}
+			});
+
+			it("should report the correct location for errors in eval code", () => {
+				const code = `
+				const noVar = require("../../fixtures/testers/rule-tester/no-var");
+				ruleTester.run("no-var", noVar, {
+						valid: [
+							"var a = 1;",
+						],
 						invalid: [],
-					},
-				);
-				assert.fail("Expected an error to be thrown");
-			} catch (error) {
-				const normalizedStack = normalizeStack(error);
-				assert.include(normalizedStack, "at RuleTester.run.valid[0]");
-				assert.include(normalizedStack, "at RuleTester.run.valid\n");
-				assert.include(
-					normalizedStack,
-					"at RuleTester.run (tests/lib/rule-tester/rule-tester.js:<lines>)",
-				);
-			}
-		});
+				});
+				`;
+				const lineNumber = getInvocationLineNumber();
+				try {
+					// eslint-disable-next-line no-eval -- intentional eval
+					eval(code);
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+					assertStackLines(
+						normalizedStack,
+						`    roughly at RuleTester.run.valid[0] (unknown source)`,
+						`    roughly at RuleTester.run.valid (unknown source)`,
+						`    at RuleTester.run (eval at <anonymous> (${__filename}:${lineNumber + 3}:6), <anonymous>:3:16)`,
+					);
+				}
+			});
 
-		it("should report the correct location for errors in invalid test cases", () => {
-			try {
-				ruleTester.run(
-					"no-eval",
-					require("../../fixtures/testers/rule-tester/no-eval"),
-					{
-						valid: [],
-						invalid: [
-							{
-								code: "eval(foo);\neval(bar);",
-								errors: [
-									{
-										message: "eval sucks.",
-									},
-									{
-										message: "This is bad.",
-									},
-								],
-							},
+			it("should report the correct location for errors in a data module", async () => {
+				const content = `
+				export function runRuleTester(ruleTester, noVar) {
+					ruleTester.run("no-var", noVar, {
+						valid: [
+							"var a = 1;",
 						],
-					},
-				);
-				assert.fail("Expected an error to be thrown");
-			} catch (error) {
-				const normalizedStack = normalizeStack(error);
-				assert.include(
-					normalizedStack,
-					"at RuleTester.run.invalid[0].error[1]",
-				);
-				assert.include(normalizedStack, "at RuleTester.run.invalid[0]");
-				assert.include(normalizedStack, "at RuleTester.run.invalid\n");
-				assert.include(
-					normalizedStack,
-					"at RuleTester.run (tests/lib/rule-tester/rule-tester.js:<lines>)",
-				);
-			}
+						invalid: [],
+					});
+				};
+				`;
+				const noVar = require("../../fixtures/testers/rule-tester/no-var");
+				const moduleURL = `data:text/javascript,${content}`;
+				const { runRuleTester } = await import(moduleURL);
+				try {
+					runRuleTester(ruleTester, noVar);
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+					const expectedURL = moduleURL.replace(/\n\s*/gu, "");
+					assertStackLines(
+						normalizedStack,
+						`    roughly at RuleTester.run.valid[0] (unknown source)`,
+						`    roughly at RuleTester.run.valid (unknown source)`,
+						`    at RuleTester.run (${expectedURL}:1:${expectedURL.replace(/.*?,/u, "").indexOf("run(") + 1})`,
+					);
+				}
+			});
+
+			it("should report the correct location for errors in the global context", () => {
+				const vm = require("node:vm");
+				const code = `
+				ruleTester.run("no-var", noVar, {
+					valid: [
+						"var a = 1;",
+					],
+					invalid: [],
+				});
+				`;
+				const script = new vm.Script(code, {
+					filename: "some-file.js",
+				});
+				const noVar = require("../../fixtures/testers/rule-tester/no-var");
+				try {
+					script.runInNewContext({ ruleTester, noVar });
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+					assertStackLines(
+						normalizedStack,
+						`    roughly at RuleTester.run.valid[0] (unknown source)`,
+						`    roughly at RuleTester.run.valid (unknown source)`,
+						`    at RuleTester.run (some-file.js:2:16)`,
+					);
+				}
+			});
 		});
 
-		it("should report the correct location for errors in invalid test cases when a suggestion assertion fails", () => {
-			try {
-				ruleTester.run(
-					"suggestions-basic",
-					require("../../fixtures/testers/rule-tester/suggestions")
-						.basic,
-					{
-						valid: ["var boo;"],
-						invalid: [
-							{
-								code: "var foo;",
-								errors: [
-									{
-										message:
-											"Avoid using identifiers named 'foo'.",
-										suggestions: [
-											{
-												desc: "Rename identifier 'foo' to 'bar'",
-												output: "var baz;", // wrong output
+		describe("invalid", () => {
+			it("should report the correct location for errors count", () => {
+				const lineNumber = getInvocationLineNumber();
+				try {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						{
+							valid: [],
+							invalid: [
+								{
+									code: "eval(foo);\neval(bar);",
+									errors: 1,
+								},
+							],
+						},
+					);
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+					assertStackLines(
+						normalizedStack,
+						`    roughly at RuleTester.run.invalid[0] (${__filename}:${lineNumber + 10})`,
+						`    roughly at RuleTester.run.invalid (${__filename}:${lineNumber + 7})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
+					);
+				}
+			});
+
+			it("should report the correct location for simple errors in invalid test cases", () => {
+				const lineNumber = getInvocationLineNumber();
+				try {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						{
+							valid: [],
+							invalid: [
+								{
+									code: "eval(foo);\neval(bar);",
+									errors: [
+										"eval sucks.",
+										"this is bad.", // Wrong error message
+									],
+								},
+							],
+						},
+					);
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+					assertStackLines(
+						normalizedStack,
+						`    roughly at RuleTester.run.invalid[0].error[1] (${__filename}:${lineNumber + 12})`,
+						`    roughly at RuleTester.run.invalid[0] (${__filename}:${lineNumber + 10})`,
+						`    roughly at RuleTester.run.invalid (${__filename}:${lineNumber + 7})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
+					);
+				}
+			});
+
+			it("should report the correct location for one-line object errors in invalid test cases", () => {
+				const lineNumber = getInvocationLineNumber();
+				try {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						{
+							valid: [],
+							invalid: [
+								{
+									code: "eval(foo);\neval(bar);",
+									errors: [
+										{ message: "eval sucks." },
+										{ message: "This is bad." }, // Wrong error message
+									],
+								},
+							],
+						},
+					);
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+					assertStackLines(
+						normalizedStack,
+						`    roughly at RuleTester.run.invalid[0].error[1] (${__filename}:${lineNumber + 12})`,
+						`    roughly at RuleTester.run.invalid[0] (${__filename}:${lineNumber + 10})`,
+						`    roughly at RuleTester.run.invalid (${__filename}:${lineNumber + 7})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
+					);
+				}
+			});
+
+			it("should report the correct location for multi-line object errors in invalid test cases", () => {
+				const lineNumber = getInvocationLineNumber();
+				try {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						{
+							valid: [],
+							invalid: [
+								{
+									code: "eval(foo);\neval(bar);",
+									errors: [
+										{
+											message: "eval sucks.",
+										},
+										{
+											message: "This is bad.",
+										},
+									],
+								},
+							],
+						},
+					);
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+					assertStackLines(
+						normalizedStack,
+						`    roughly at RuleTester.run.invalid[0].error[1] (${__filename}:${lineNumber + 14})`,
+						`    roughly at RuleTester.run.invalid[0] (${__filename}:${lineNumber + 10})`,
+						`    roughly at RuleTester.run.invalid (${__filename}:${lineNumber + 7})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
+					);
+				}
+			});
+
+			it("should report the correct location for multi-line object errors in invalid test cases with one-line data", () => {
+				const lineNumber = getInvocationLineNumber();
+				try {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						{
+							valid: [],
+							invalid: [
+								{
+									code: "eval(foo);\neval(bar);",
+									errors: [
+										{
+											messageId: "evalSucks",
+											data: {},
+										},
+										{
+											data: {},
+											messageId: "eval-sucks",
+										},
+									],
+								},
+							],
+						},
+					);
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+					assertStackLines(
+						normalizedStack,
+						`    roughly at RuleTester.run.invalid[0].error[1] (${__filename}:${lineNumber + 14})`,
+						`    roughly at RuleTester.run.invalid[0] (${__filename}:${lineNumber + 10})`,
+						`    roughly at RuleTester.run.invalid (${__filename}:${lineNumber + 7})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
+					);
+				}
+			});
+
+			it("should report the correct location for multi-line object errors in invalid test cases with one-line data", () => {
+				const lineNumber = getInvocationLineNumber();
+				try {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						{
+							valid: [],
+							invalid: [
+								{
+									code: "eval(foo);\neval(bar);",
+									errors: [
+										{
+											messageId: "evalSucks",
+											data: {
+												// comment to push next line down
 											},
-										],
-									},
-								],
-							},
-						],
-					},
-				);
-				assert.fail("Expected an error to be thrown");
-			} catch (error) {
-				const normalizedStack = normalizeStack(error);
+										},
+										{
+											data: {
+												// comment to push next line down
+											},
+											messageId: "eval-sucks",
+										},
+									],
+								},
+							],
+						},
+					);
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+					assertStackLines(
+						normalizedStack,
+						`    roughly at RuleTester.run.invalid[0].error[1] (${__filename}:${lineNumber + 17})`,
+						`    roughly at RuleTester.run.invalid[0] (${__filename}:${lineNumber + 10})`,
+						`    roughly at RuleTester.run.invalid (${__filename}:${lineNumber + 7})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
+					);
+				}
+			});
 
-				// The error message should not be modified although it contains "at"
-				assert.include(
-					normalizedStack,
-					"Expected the applied suggestion fix to match the test suggestion output for suggestion at index: 0",
-				);
+			it("should report the correct location for simple errors in invalid test cases when invalid is before valid", () => {
+				const lineNumber = getInvocationLineNumber();
+				try {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						{
+							invalid: [
+								{
+									code: "eval(foo);\neval(bar);",
+									errors: [
+										"eval sucks.",
+										"this is bad.", // Wrong error message
+									],
+								},
+							],
+							valid: [],
+						},
+					);
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+					assertStackLines(
+						normalizedStack,
+						`    roughly at RuleTester.run.invalid[0].error[1] (${__filename}:${lineNumber + 11})`,
+						`    roughly at RuleTester.run.invalid[0] (${__filename}:${lineNumber + 9})`,
+						`    roughly at RuleTester.run.invalid (${__filename}:${lineNumber + 6})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
+					);
+				}
+			});
 
-				assert.include(
-					normalizedStack,
-					"at RuleTester.run.invalid[0].error[0]",
-				);
-				assert.include(normalizedStack, "at RuleTester.run.invalid[0]");
-				assert.include(normalizedStack, "at RuleTester.run.invalid\n");
-				assert.include(
-					normalizedStack,
-					"at RuleTester.run (tests/lib/rule-tester/rule-tester.js:<lines>)",
-				);
-			}
+			it("should report the correct location for errors in invalid test cases when a suggestion assertion fails", () => {
+				const lineNumber = getInvocationLineNumber();
+				try {
+					ruleTester.run(
+						"suggestions-basic",
+						require("../../fixtures/testers/rule-tester/suggestions")
+							.basic,
+						{
+							valid: [],
+							invalid: [
+								{
+									code: "var foo; var foo;",
+									errors: [
+										{
+											message:
+												"Avoid using identifiers named 'foo'.",
+											suggestions: [
+												{
+													desc: "Rename identifier 'foo' to 'bar'",
+													output: "var bar; var foo;",
+												},
+											],
+										},
+										{
+											message:
+												"Avoid using identifiers named 'foo'.",
+											suggestions: [
+												{
+													desc: "Rename identifier 'foo' to 'bar'",
+													output: "var foo; var baz;", // wrong output
+												},
+											],
+										},
+									],
+								},
+							],
+						},
+					);
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+
+					// The error message should not be modified although it contains "at"
+					assert.include(
+						normalizedStack,
+						"Expected the applied suggestion fix to match the test suggestion output for suggestion at index: 0",
+					);
+
+					assertStackLines(
+						normalizedStack,
+						`    roughly at RuleTester.run.invalid[0].error[1] (${__filename}:${lineNumber + 22})`,
+						`    roughly at RuleTester.run.invalid[0] (${__filename}:${lineNumber + 11})`,
+						`    roughly at RuleTester.run.invalid (${__filename}:${lineNumber + 8})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
+					);
+				}
+			});
+
+			it("should report the correct location for errors in simple test cases with space after 'invalid'", () => {
+				const lineNumber = getInvocationLineNumber();
+				try {
+					ruleTester.run(
+						"no-eval",
+						require("../../fixtures/testers/rule-tester/no-eval"),
+						// prettier-ignore
+						{
+							valid : [],
+							invalid : [
+								{
+									code: "eval(foo);\neval(bar);",
+									errors: 1,
+								},
+							],
+						},
+					);
+					assert.fail("Expected an error to be thrown");
+				} catch (error) {
+					const normalizedStack = normalizeStack(error);
+					assertStackLines(
+						normalizedStack,
+						`    roughly at RuleTester.run.invalid[0] (${__filename}:${lineNumber + 11})`,
+						`    roughly at RuleTester.run.invalid (${__filename}:${lineNumber + 8})`,
+						`    at RuleTester.run (${__filename}:${lineNumber + 2}:17)`,
+					);
+				}
+			});
 		});
 	});
 });
