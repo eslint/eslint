@@ -136,7 +136,10 @@ In this phase, we should also prepare infrastructure for v9.x maintenance:
 
 ### Final Release
 
-TODO
+- When it is expected that the next planned release will be the final v10.0.0 release, in the `eslint/eslint.org` repository submit a PR to update `upcomingVersionPrereleaseType` in `tools/release-data.js` to `null`. The PR can be merged as soon as it is approved.
+- In the `eslint/eslint` repository, submit two PRs that add `"/docs/v9.x"` to the `skipPatterns` list in `docs/tools/validate-links.js`. One PR should target the `main` branch and the other the `v9.x-dev` branch. The PRs should be reviewed and approved in time, but merged right before ESLint 10.0.0 is released.
+
+WIP
 
 ## Troubleshooting
 
