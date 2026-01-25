@@ -152,7 +152,7 @@ Using selectors in the `no-restricted-syntax` rule can give you a lot of control
 You can use regular expressions in attribute selectors. For example, the following selector matches all `Identifier` nodes with a `name` value that starts with "foo":
 
 ```text
-Literal[raw=/^foo/]
+Identifier[name=/^foo/]
 ```
 
 You can also use forward slashes in your regular expressions. For example, the following configuration disallows importing from `some/path`:
