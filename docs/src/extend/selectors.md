@@ -149,7 +149,7 @@ Using selectors in the `no-restricted-syntax` rule can give you a lot of control
 
 ### Using regular expressions
 
-You can use regular expressions in attribute selectors. For example, the following selector matches all `Literal` nodes with a `raw` value that starts with "foo":
+You can use regular expressions in attribute selectors. For example, the following selector matches all `Identifier` nodes with a `name` value that starts with "foo":
 
 ```text
 Literal[raw=/^foo/]
