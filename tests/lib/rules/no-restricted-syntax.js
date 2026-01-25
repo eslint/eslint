@@ -374,5 +374,34 @@ ruleTester.run("no-restricted-syntax", rule, {
 				},
 			],
 		},
+		{
+			code: "foo + bar + baz",
+			options: [
+				":is(Identifier[name='foo'], Identifier[name='bar'], Identifier[name='baz'])",
+			],
+			errors: [
+				{
+					messageId: "restrictedSyntax",
+					data: {
+						message:
+							"Using ':is(Identifier[name='foo'], Identifier[name='bar'], Identifier[name='baz'])' is not allowed.",
+					},
+				},
+				{
+					messageId: "restrictedSyntax",
+					data: {
+						message:
+							"Using ':is(Identifier[name='foo'], Identifier[name='bar'], Identifier[name='baz'])' is not allowed.",
+					},
+				},
+				{
+					messageId: "restrictedSyntax",
+					data: {
+						message:
+							"Using ':is(Identifier[name='foo'], Identifier[name='bar'], Identifier[name='baz'])' is not allowed.",
+					},
+				},
+			],
+		},
 	],
 });
