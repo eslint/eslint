@@ -137,9 +137,14 @@ In this phase, we should also prepare infrastructure for v9.x maintenance:
 ### Final Release
 
 - When it is expected that the next planned release will be the final v10.0.0 release, in the `eslint/eslint.org` repository submit a PR to update `upcomingVersionPrereleaseType` in `tools/release-data.js` to `null`. The PR can be merged as soon as it is approved.
+- In the `eslint/eslint.org` repository, submit a PR to update the Current Release Lines table in `src/content/pages/version-support.md`: update v10.x First Release date to the planned final ESLint v10.0.0 release date (also remove `<br>(prerelease)` after the date); set v9.x EOL Start date to the planned final ESLint v10.0.0 release date plus six months. The PR should be reviewed and approved in time, but merged right after ESLint 10.0.0 final is released.
 - In the `eslint/eslint` repository, submit two PRs that add `"/docs/v9.x"` to the `skipPatterns` list in `docs/tools/validate-links.js`. One PR should target the `main` branch and the other the `v9.x-dev` branch. The PRs should be reviewed and approved in time, but merged right before ESLint 10.0.0 is released.
 
 WIP
+
+#### Six Months after the Final Release
+
+- In the `eslint/eslint.org` repository, submit a PR to update the Current Release Lines table in `src/content/pages/version-support.md`: update v9.x Release Line column with concrete versions (e.g., v9.0.0-v9.39.2), update status to EOL, set Last Release date to the date of last released v9.x version, and update Commercial Support to HeroDevs. The PR should be reviewed and approved in time, but merged when the EOL date starts.
 
 ## Troubleshooting
 
