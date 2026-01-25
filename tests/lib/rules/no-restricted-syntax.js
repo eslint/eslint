@@ -361,5 +361,18 @@ ruleTester.run("no-restricted-syntax", rule, {
 				},
 			],
 		},
+		{
+			code: "import values from 'some/path';",
+			options: ["ImportDeclaration[source.value=/^some\\/path$/]"],
+			errors: [
+				{
+					messageId: "restrictedSyntax",
+					data: {
+						message:
+							"Using 'ImportDeclaration[source.value=/^some\\/path$/]' is not allowed.",
+					},
+				},
+			],
+		},
 	],
 });
