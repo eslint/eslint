@@ -8926,7 +8926,7 @@ v0.4.0 - February 12, 2014
 * readme: Remove stray asterisk (Timo Tijhof)
 * #580 Remove eslint.getAllComments(), related docs, related tests (Christian)
 * Added test for bug fix #582. Test Passes (Shmueli Englard)
-* Added curly braces to if statment (Shmueli Englard)
+* Added curly braces to if statement (Shmueli Englard)
 * Added new test for fix to #582 (fixes 582) (Shmueli Englard)
 * Bug #582: Added check if node.value isn't a string just exit (Shmueli Englard)
 * Update Rule: implement curly options for single-statement bodies (fixes #511) (Nicholas C. Zakas)
