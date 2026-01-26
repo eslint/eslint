@@ -295,6 +295,45 @@ ruleTester.run("array-callback-return", rule, {
 			languageOptions: { ecmaVersion: 6 },
 		},
 		{ code: "foo.every(() => true)", languageOptions: { ecmaVersion: 6 } },
+
+		// Array.fromAsync
+		{
+			code: "Array.fromAsync(x, function() { return true; })",
+			options: [{ checkArrayFromAsync: true }],
+		},
+		{
+			code: "Array.fromAsync(x, async function() { return true; })",
+			options: [{ checkArrayFromAsync: true }],
+		},
+		{
+			code: "Array.fromAsync(x, function() { return; })",
+			options: [{ allowImplicit: true, checkArrayFromAsync: true }],
+		},
+		{
+			code: "Array.fromAsync(x, () => true)",
+			options: [{ checkArrayFromAsync: true }],
+		},
+		{
+			code: "Array.fromAsync(x, async () => true)",
+			options: [{ checkArrayFromAsync: true }],
+		},
+		"Array.fromAsync(x, function() {})",
+		{
+			code: "Array.fromAsync(x, function() {})",
+			options: [{ checkArrayFromAsync: false }],
+		},
+		{
+			code: "Array.fromAsync(x, function * () {})",
+			options: [{ checkArrayFromAsync: true }],
+		},
+		{
+			code: "Float64Array.fromAsync(x, function() {})",
+			options: [{ checkArrayFromAsync: true }],
+		},
+		{
+			code: "Array.fromAsync(function() {})",
+			options: [{ checkArrayFromAsync: true }],
+		},
 	],
 	invalid: [
 		{
@@ -2010,6 +2049,23 @@ ruleTester.run("array-callback-return", rule, {
 				},
 			],
 		},
+		{
+			code: "Array.fromAsync(x,\nasync\tfunction \\u0066oo // bar\n   () {})",
+			options: [{ checkArrayFromAsync: true }],
+			errors: [
+				{
+					messageId: "expectedInside",
+					data: {
+						name: "async function 'foo'",
+						arrayMethodName: "Array.fromAsync",
+					},
+					line: 2,
+					column: 1,
+					endLine: 3,
+					endColumn: 4,
+				},
+			],
+		},
 
 		// Optional chaining
 		{
@@ -2073,6 +2129,86 @@ ruleTester.run("array-callback-return", rule, {
 					data: {
 						name: "arrow function",
 						arrayMethodName: "Array.prototype.filter",
+					},
+				},
+			],
+		},
+
+		// Array.fromAsync
+		{
+			code: "Array.fromAsync(x, function() {})",
+			options: [{ checkArrayFromAsync: true }],
+			errors: [
+				{
+					messageId: "expectedInside",
+					data: {
+						name: "function",
+						arrayMethodName: "Array.fromAsync",
+					},
+				},
+			],
+		},
+		{
+			code: "Array.fromAsync(x, async function() {})",
+			options: [{ checkArrayFromAsync: true }],
+			errors: [
+				{
+					messageId: "expectedInside",
+					data: {
+						name: "async function",
+						arrayMethodName: "Array.fromAsync",
+					},
+				},
+			],
+		},
+		{
+			code: "Array.fromAsync(x, function() {})",
+			options: [{ allowImplicit: true, checkArrayFromAsync: true }],
+			errors: [
+				{
+					messageId: "expectedInside",
+					data: {
+						name: "function",
+						arrayMethodName: "Array.fromAsync",
+					},
+				},
+			],
+		},
+		{
+			code: "Array.fromAsync(x, () => {})",
+			options: [{ checkArrayFromAsync: true }],
+			errors: [
+				{
+					messageId: "expectedInside",
+					data: {
+						name: "arrow function",
+						arrayMethodName: "Array.fromAsync",
+					},
+				},
+			],
+		},
+		{
+			code: "Array.fromAsync(x, async () => {})",
+			options: [{ checkArrayFromAsync: true }],
+			errors: [
+				{
+					messageId: "expectedInside",
+					data: {
+						name: "async arrow function",
+						arrayMethodName: "Array.fromAsync",
+					},
+				},
+			],
+		},
+		{
+			code: "Array.fromAsync(x, function foo() {})",
+			options: [{ checkArrayFromAsync: true }],
+			errors: [
+				{
+					messageId: "expectedInside",
+					data: {
+						name: "function 'foo'",
+						arrayMethodName: "Array.fromAsync",
 					},
 				},
 			],
