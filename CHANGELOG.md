@@ -8831,7 +8831,7 @@ v0.4.4 - March 25, 2014
 * Small changes, JSDoc is clarified (Aliaksei Shytkin)
 * Move FileFinder to separate file (Aliaksei Shytkin)
 * Cache if file is not found (Aliaksei Shytkin)
-* Use cache on config files seach (Aliaksei Shytkin)
+* Use cache on config files search (Aliaksei Shytkin)
 * Added .eslintignore to load from parents folders (fixes #681) (Aliaksei Shytkin)
 * fix 'node-modules' typo in docs (Fred K. Schott)
 * Upgrade to the latest version of doctrine. (Brian Di Palma)
