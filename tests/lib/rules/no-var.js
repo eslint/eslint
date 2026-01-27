@@ -447,6 +447,52 @@ ruleTester.run("no-var", rule, {
 				{ messageId: "unexpectedVar" },
 			],
 		},
+
+		// https://github.com/eslint/eslint/issues/20209
+		{
+			code: "export function a() { console.log(o); var o; return o; }",
+			output: null,
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [{ messageId: "unexpectedVar" }],
+		},
+		{
+			code: "function test() { console.log(x); var x = 1; }",
+			output: null,
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [{ messageId: "unexpectedVar" }],
+		},
+		{
+			code: "function test() { console.log(x); var x = 1; }",
+			output: null,
+			languageOptions: {
+				parserOptions: { ecmaFeatures: { globalReturn: true } },
+			},
+			errors: [{ messageId: "unexpectedVar" }],
+		},
+		{
+			code: "function test() { if (foo) { console.log(x); } var x = 1; }",
+			output: null,
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [{ messageId: "unexpectedVar" }],
+		},
+		{
+			code: "function test() { var y = x; var x = 1; }",
+			output: "function test() { let y = x; var x = 1; }",
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [
+				{ messageId: "unexpectedVar" },
+				{ messageId: "unexpectedVar" },
+			],
+		},
+		{
+			code: "var a = 1; function test() { console.log(a); var a = 2; }",
+			output: "let a = 1; function test() { console.log(a); var a = 2; }",
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [
+				{ messageId: "unexpectedVar" },
+				{ messageId: "unexpectedVar" },
+			],
+		},
 	],
 });
 
