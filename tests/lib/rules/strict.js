@@ -402,7 +402,7 @@ ruleTester.run("strict", rule, {
 			],
 		},
 		{
-			code: "/* license */\nfunction bar() {}\nfunction bar() {}",
+			code: "/* license */\nfunction foo() {}\nfunction bar() {}\n/* end */",
 			output: null,
 			options: ["global"],
 			errors: [
