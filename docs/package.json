@@ -31,7 +31,7 @@
         "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.0",
         "@munter/tap-render": "^0.2.0",
         "@types/markdown-it": "^12.2.3",
-        "@typescript-eslint/parser": "8.54.0",
+        "@typescript-eslint/parser": "^8.54.0",
         "algoliasearch": "^4.12.1",
         "autoprefixer": "^10.4.13",
         "cross-env": "^7.0.3",
