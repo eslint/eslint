@@ -39,7 +39,6 @@
     "packages/*": {
       "ignore": ["tests/types/**"],
       "ignoreDependencies": ["eslint"],
-    },
-    "tools/typescript-eslint-parser": {},
+    }
   },
 }
