@@ -1,3 +1,13 @@
+v10.0.0-rc.2 - January 27, 2026
+
+* [`727451e`](https://github.com/eslint/eslint/commit/727451eff55b35d853e0e443d0de58f4550762bf) fix: fix regression of global mode report range in `strict` rule (#20462) (ntnyq)
+* [`e80485f`](https://github.com/eslint/eslint/commit/e80485fcd27196fa0b6f6b5c7ac8cf49ad4b079d) fix: remove fake `FlatESLint` and `LegacyESLint` exports (#20460) (Francesco Trotta)
+* [`1495654`](https://github.com/eslint/eslint/commit/14956543d42ab542f72820f38941d0bcc39a1fbb) docs: Update README (GitHub Actions Bot)
+* [`0b8ed5c`](https://github.com/eslint/eslint/commit/0b8ed5c0aa4222a9b6b185c605cfedaef4662dcb) docs: document support for `:is` selector alias (#20454) (sethamus)
+* [`2d14173`](https://github.com/eslint/eslint/commit/2d14173729ae75fe562430dd5e37c457f44bc7ac) chore: fix typos in docs and comments (#20458) (o-m12a)
+* [`9eeff3b`](https://github.com/eslint/eslint/commit/9eeff3bc13813a786b8a4c3815def97c0fb646ef) fix: update esquery (#20423) (cryptnix)
+* [`1c4b33f`](https://github.com/eslint/eslint/commit/1c4b33fe8620dcaafbe6e8f4e9515b624476548c) docs: Document policies about ESM-only dependencies (#20448) (Milos Djermanovic)
+
 v10.0.0-rc.1 - January 23, 2026
 
 * [`43677de`](https://github.com/eslint/eslint/commit/43677de07ebd6e14bfac40a46ad749ba783c45f2) feat: fix handling of function and class expression names in `no-shadow` (#20432) (Milos Djermanovic)
