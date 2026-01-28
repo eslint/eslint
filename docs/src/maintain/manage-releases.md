@@ -143,6 +143,7 @@ In this phase, we should also prepare infrastructure for v9.x maintenance:
 - In the `eslint/eslint.org` repository, submit a PR to redirect `/docs/next/*` and `/docs/v10.x/*` to `/docs/latest/*` in `src/static/redirects.njk`. The PR should be reviewed and approved in time, but merged right after ESLint 10.0.0 final is released.
 - In the `eslint/eslint.org` repository, submit a PR to update the Current Release Lines table in `src/content/pages/version-support.md`: update v10.x First Release date to the planned final ESLint v10.0.0 release date (also remove `<br>(prerelease)` after the date); set v9.x EOL Start date to the planned final ESLint v10.0.0 release date plus six months. The PR should be reviewed and approved in time, but merged right after ESLint 10.0.0 final is released.
 - In the `eslint/eslint` repository, submit two PRs that add `"/docs/v9.x"` to the `skipPatterns` list in `docs/tools/validate-links.js`. One PR should target the `main` branch and the other the `v9.x-dev` branch. The PRs should be reviewed and approved in time, but merged right before ESLint 10.0.0 is released.
+- In the `eslint/eslint` repository, submit a PR to update peer dependency `eslint` to `^10.0.0` in `packages/js/package.json`. The PR should be reviewed and approved in time, but merged after final ESLint v10.0.0 is released and before final `@eslint/js` v10.0.0 is released.
 
 WIP
 
