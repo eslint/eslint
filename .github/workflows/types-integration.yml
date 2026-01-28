@@ -178,6 +178,74 @@ jobs:
               working-directory: json
               run: npm run test:types
 
+    eslint_css:
+        name: Types (@eslint/css)
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout eslint
+              uses: actions/checkout@v5
+              with:
+                  path: eslint
+
+            - name: Checkout @eslint/css
+              uses: actions/checkout@v5
+              with:
+                  repository: eslint/css
+                  path: css
+
+            - uses: actions/setup-node@v6
+              with:
+                  node-version: "lts/*"
+
+            - name: Install Packages (eslint)
+              working-directory: eslint
+              run: npm install
+
+            - name: Install Packages (@eslint/css)
+              working-directory: css
+              run: |
+                  npm install
+                  npm run build
+                  npm install --legacy-peer-deps ../eslint @eslint/core@latest
+
+            - name: Run TSC
+              working-directory: css
+              run: npm run test:types
+
+    eslint_markdown:
+        name: Types (@eslint/markdown)
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout eslint
+              uses: actions/checkout@v5
+              with:
+                  path: eslint
+
+            - name: Checkout @eslint/markdown
+              uses: actions/checkout@v5
+              with:
+                  repository: eslint/markdown
+                  path: markdown
+
+            - uses: actions/setup-node@v6
+              with:
+                  node-version: "lts/*"
+
+            - name: Install Packages (eslint)
+              working-directory: eslint
+              run: npm install
+
+            - name: Install Packages (@eslint/markdown)
+              working-directory: markdown
+              run: |
+                  npm install
+                  npm run build
+                  npm install --legacy-peer-deps ../eslint @eslint/core@latest
+
+            - name: Run TSC
+              working-directory: markdown
+              run: npm run test:types
+
     are-the-types-wrong:
         name: Are the types wrong?
         runs-on: ubuntu-latest
