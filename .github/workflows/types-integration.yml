@@ -1,4 +1,4 @@
-name: CI
+name: Types Integration CI
 on:
     push:
         branches: [main]
