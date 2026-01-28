@@ -22,12 +22,13 @@ Additionally, it may also enforce the `forEach` array method callback to **not**
 This rule finds callback functions of the following methods, then checks usage of `return` statement.
 
 * [`Array.from`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.from)
+* [`Array.fromAsync`](https://tc39.es/ecma262/#sec-array.fromasync) (optional, based on `checkArrayFromAsync` parameter)
 * [`Array.prototype.every`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.every)
 * [`Array.prototype.filter`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.filter)
 * [`Array.prototype.find`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.find)
 * [`Array.prototype.findIndex`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.findindex)
-* [`Array.prototype.findLast`](https://tc39.es/ecma262/#sec-array.prototype.findlast)
-* [`Array.prototype.findLastIndex`](https://tc39.es/ecma262/#sec-array.prototype.findlastindex)
+* [`Array.prototype.findLast`](https://www.ecma-international.org/ecma-262/14.0/#sec-array.prototype.findlast)
+* [`Array.prototype.findLastIndex`](https://www.ecma-international.org/ecma-262/14.0/#sec-array.prototype.findlastindex)
 * [`Array.prototype.flatMap`](https://www.ecma-international.org/ecma-262/10.0/#sec-array.prototype.flatmap)
 * [`Array.prototype.forEach`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.foreach) (optional, based on `checkForEach` parameter)
 * [`Array.prototype.map`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.map)
@@ -35,8 +36,8 @@ This rule finds callback functions of the following methods, then checks usage o
 * [`Array.prototype.reduceRight`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.reduceright)
 * [`Array.prototype.some`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.some)
 * [`Array.prototype.sort`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.sort)
-* [`Array.prototype.toSorted`](https://tc39.es/ecma262/#sec-array.prototype.tosorted)
-* And above of typed arrays.
+* [`Array.prototype.toSorted`](https://www.ecma-international.org/ecma-262/14.0/#sec-array.prototype.tosorted)
+* And above of typed arrays if applicable.
 
 Examples of **incorrect** code for this rule:
 
@@ -92,13 +93,12 @@ const bar = foo.map(node => node.getAttribute("id"));
 
 ## Options
 
-This rule accepts a configuration object with three options:
+This rule accepts a configuration object with four options:
 
 * `"allowImplicit": false` (default) When set to `true`, allows callbacks of methods that require a return value to implicitly return `undefined` with a `return` statement containing no expression.
 * `"checkForEach": false` (default) When set to `true`, rule will also report `forEach` callbacks that return a value.
-* `"allowVoid": false` (default) When set to `true`, allows `void` in `forEach` callbacks, so rule will not report the return value with a `void` operator.
-
-**Note:** `{ "allowVoid": true }` works only if `checkForEach` option is set to `true`.
+* `"allowVoid": false` (default) When set to `true`, allows `void` in `forEach` callbacks, so the rule will not report the return value with a `void` operator. Note that `{ "allowVoid": true }` works only if the `checkForEach` option is set to `true`.
+* `"checkArrayFromAsync": false` (default) When set to `true`, the rule will check `Array.fromAsync` callbacks.
 
 ### allowImplicit
 
@@ -208,6 +208,38 @@ myArray.forEach(item => {
     }
     handleItem(item);
 });
+```
+
+:::
+
+### checkArrayFromAsync
+
+Examples of **incorrect** code for the `{ "checkArrayFromAsync": true }` option:
+
+:::incorrect
+
+```js
+/*eslint array-callback-return: ["error", { checkArrayFromAsync: true }]*/
+
+const doubled = await Array.fromAsync(asyncIterable, x => { x *= 2; });
+
+const results = await Array.fromAsync(
+    urls,
+    async (url) => {
+        const result = await fetch(url);
+        if (result.ok) {
+            return result.json();
+        }
+    },
+);
+
+await Array.fromAsync(
+    numbers,
+    async function (x) {
+        console.log(x * await this.loadFactor());
+    },
+    context,
+);
 ```
 
 :::
