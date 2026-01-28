@@ -83,6 +83,22 @@ ruleTester.run("no-implied-eval", rule, {
 			code: "globalThis['setTimeout'] = foo;",
 			languageOptions: { ecmaVersion: 2020 },
 		},
+		{
+			code: "self.setTimeout;",
+			languageOptions: { globals: globals.browser },
+		},
+		{
+			code: "self.setTimeout = foo;",
+			languageOptions: { globals: globals.browser },
+		},
+		{
+			code: "self['setTimeout'];",
+			languageOptions: { globals: globals.browser },
+		},
+		{
+			code: "self['setTimeout'] = foo;",
+			languageOptions: { globals: globals.browser },
+		},
 
 		"window.setTimeout('foo')",
 		"window.setInterval('foo')",
@@ -155,6 +171,10 @@ ruleTester.run("no-implied-eval", rule, {
 		{
 			code: "globalThis[`setTimeout${foo}`]('foo', 100);",
 			languageOptions: { ecmaVersion: 2020 },
+		},
+		{
+			code: "self[`SetTimeOut`]('foo', 100);",
+			languageOptions: { ecmaVersion: 6, globals: globals.browser },
 		},
 
 		// normal usage
@@ -233,6 +253,30 @@ ruleTester.run("no-implied-eval", rule, {
 		{
 			code: "globalThis.setTimeout(foo, 100);",
 			languageOptions: { ecmaVersion: 2020 },
+		},
+		{
+			code: "self.setTimeout(function() { x = 1; }, 100);",
+			languageOptions: { globals: globals.browser },
+		},
+		{
+			code: "self.setInterval(function() { x = 1; }, 100);",
+			languageOptions: { globals: globals.browser },
+		},
+		{
+			code: "self.execScript(function() { x = 1; }, 100);",
+			languageOptions: { globals: globals.browser },
+		},
+		{
+			code: "self.setTimeout(foo, 100);",
+			languageOptions: { globals: globals.browser },
+		},
+		{
+			code: "self.setInterval(foo, 100);",
+			languageOptions: { globals: globals.browser },
+		},
+		{
+			code: "self.execScript(foo, 100);",
+			languageOptions: { globals: globals.browser },
 		},
 
 		// only checks on top-level statements or window.*
@@ -329,6 +373,10 @@ ruleTester.run("no-implied-eval", rule, {
 			},
 		},
 		{
+			code: "foo.self.setTimeout('foo', 100);",
+			languageOptions: { globals: globals.browser },
+		},
+		{
 			code: "var window; window.setTimeout('foo', 100);",
 			languageOptions: { globals: globals.browser },
 		},
@@ -337,6 +385,10 @@ ruleTester.run("no-implied-eval", rule, {
 			languageOptions: {
 				sourceType: "commonjs",
 			},
+		},
+		{
+			code: "var self; self.setTimeout('foo', 100);",
+			languageOptions: { globals: globals.browser },
 		},
 		{
 			code: "function foo(window) { window.setTimeout('foo', 100); }",
@@ -349,12 +401,20 @@ ruleTester.run("no-implied-eval", rule, {
 			},
 		},
 		{
+			code: "function foo(self) { self.setTimeout('foo', 100); }",
+			languageOptions: { globals: globals.browser },
+		},
+		{
 			code: "foo('', window.setTimeout);",
 			languageOptions: { globals: globals.browser },
 		},
 		{
 			code: "foo('', global.setTimeout);",
 			languageOptions: { sourceType: "commonjs" },
+		},
+		{
+			code: "foo('', self.setTimeout);",
+			languageOptions: { globals: globals.browser },
 		},
 
 		// https://github.com/eslint/eslint/issues/19923
@@ -676,6 +736,72 @@ ruleTester.run("no-implied-eval", rule, {
 				},
 			],
 		},
+		{
+			code: "self.setTimeout('foo')",
+			languageOptions: { globals: globals.browser },
+			errors: [expectedError],
+		},
+		{
+			code: "self.setInterval('foo')",
+			languageOptions: { globals: globals.browser },
+			errors: [expectedError],
+		},
+		{
+			code: "self.execScript('foo')",
+			languageOptions: { globals: globals.browser },
+			errors: [
+				{
+					messageId: "execScript",
+				},
+			],
+		},
+		{
+			code: "self['setTimeout']('foo')",
+			languageOptions: { globals: globals.browser },
+			errors: [expectedError],
+		},
+		{
+			code: "self['setInterval']('foo')",
+			languageOptions: { globals: globals.browser },
+			errors: [expectedError],
+		},
+		{
+			code: "self[`setInterval`]('foo')",
+			languageOptions: { ecmaVersion: 6, globals: globals.browser },
+			errors: [expectedError],
+		},
+		{
+			code: "self['execScript']('foo')",
+			languageOptions: { globals: globals.browser },
+			errors: [
+				{
+					messageId: "execScript",
+				},
+			],
+		},
+		{
+			code: "self[`execScript`]('foo')",
+			languageOptions: { ecmaVersion: 6, globals: globals.browser },
+			errors: [
+				{
+					messageId: "execScript",
+				},
+			],
+		},
+		{
+			code: "self.self['setInterval']('foo')",
+			languageOptions: { globals: globals.browser },
+			errors: [expectedError],
+		},
+		{
+			code: "self.self['execScript']('foo')",
+			languageOptions: { globals: globals.browser },
+			errors: [
+				{
+					messageId: "execScript",
+				},
+			],
+		},
 
 		// template literals
 		{
@@ -696,6 +822,16 @@ ruleTester.run("no-implied-eval", rule, {
 		{
 			code: "global.global.setTimeout(`foo${bar}`)",
 			languageOptions: { ecmaVersion: 6, globals: globals.node },
+			errors: [expectedError],
+		},
+		{
+			code: "self.setTimeout(`foo${bar}`)",
+			languageOptions: { ecmaVersion: 6, globals: globals.browser },
+			errors: [expectedError],
+		},
+		{
+			code: "self.self.setTimeout(`foo${bar}`)",
+			languageOptions: { ecmaVersion: 6, globals: globals.browser },
 			errors: [expectedError],
 		},
 
@@ -773,6 +909,31 @@ ruleTester.run("no-implied-eval", rule, {
 		{
 			code: "globalThis.setTimeout('foo' + bar)",
 			languageOptions: { ecmaVersion: 2020 },
+			errors: [expectedError],
+		},
+		{
+			code: "self.setTimeout('foo' + bar)",
+			languageOptions: { globals: globals.browser },
+			errors: [expectedError],
+		},
+		{
+			code: "self.setTimeout(foo + 'bar')",
+			languageOptions: { globals: globals.browser },
+			errors: [expectedError],
+		},
+		{
+			code: "self.setTimeout(`foo` + bar)",
+			languageOptions: { ecmaVersion: 6, globals: globals.browser },
+			errors: [expectedError],
+		},
+		{
+			code: "self.setTimeout(1 + ';' + 1)",
+			languageOptions: { globals: globals.browser },
+			errors: [expectedError],
+		},
+		{
+			code: "self.self.setTimeout(1 + ';' + 1)",
+			languageOptions: { globals: globals.browser },
 			errors: [expectedError],
 		},
 
@@ -876,6 +1037,38 @@ ruleTester.run("no-implied-eval", rule, {
 			languageOptions: {
 				ecmaVersion: 2020,
 				globals: { window: "readonly" },
+			},
+			errors: [{ messageId: "execScript" }],
+		},
+		{
+			code: "self?.setTimeout('code', 0)",
+			languageOptions: {
+				ecmaVersion: 2020,
+				globals: { self: "readonly" },
+			},
+			errors: [{ messageId: "impliedEval" }],
+		},
+		{
+			code: "(self?.setTimeout)('code', 0)",
+			languageOptions: {
+				ecmaVersion: 2020,
+				globals: { self: "readonly" },
+			},
+			errors: [{ messageId: "impliedEval" }],
+		},
+		{
+			code: "self?.execScript('code')",
+			languageOptions: {
+				ecmaVersion: 2020,
+				globals: { self: "readonly" },
+			},
+			errors: [{ messageId: "execScript" }],
+		},
+		{
+			code: "(self?.execScript)('code')",
+			languageOptions: {
+				ecmaVersion: 2020,
+				globals: { self: "readonly" },
 			},
 			errors: [{ messageId: "execScript" }],
 		},
