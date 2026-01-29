@@ -9,7 +9,7 @@ eleventyNavigation:
 
 If you want to contribute to an ESLint repo, please use a GitHub pull request. This is the fastest way for us to evaluate your code and to merge it into the code base. Please don't file an issue with snippets of code. Doing so means that we need to manually merge the changes in and update any appropriate tests. That decreases the likelihood that your code is going to get included in a timely manner. Please use pull requests.
 
-## Getting Started
+## Get Started
 
 The ESLint project uses issues to track our work, so it's important to ensure that a proper issue is open:
 
@@ -19,7 +19,7 @@ The ESLint project uses issues to track our work, so it's important to ensure th
 
 After that, you're ready to start working on code.
 
-## Working with Code
+## Work with Code
 
 ::: important
 If you'd like to work on a pull request and you've never submitted code before, make sure to set up a [development environment](./development-environment).
@@ -161,11 +161,11 @@ Once your pull request is sent, it's time for the team to review it. As such, pl
 1. Respond to comments left on the pull request from team members. Remember, we want to help you land your code, so please be receptive to our feedback.
 1. We may ask you to make changes, rebase, or squash your commits.
 
-### Updating the Pull Request Title
+### Update the Pull Request Title
 
 If your pull request title is in the incorrect format, you'll be asked to update it. You can do so via the GitHub user interface.
 
-### Updating the Code
+### Update the Code
 
 If we ask you to make code changes, there's no need to close the pull request and create a new one. Just go back to the branch on your fork and make your changes. Then, when you're ready, you can add your changes into the branch:
 
@@ -179,7 +179,7 @@ When updating the code, it's usually better to add additional commits to your br
 
 The commit messages in subsequent commits do not need to be in any specific format because these commits do not show up in the changelog.
 
-### Rebasing
+### Rebase
 
 If your code is out-of-date, we might ask you to rebase. That means we want you to apply your changes on top of the latest upstream code. Make sure you have set up a [development environment](./development-environment) and then you can rebase using these commands:
 

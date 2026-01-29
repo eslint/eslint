@@ -13,7 +13,7 @@ This rule can help you locate potential ReferenceErrors resulting from misspelli
 
 ## Rule Details
 
-Any reference to an undeclared variable causes a warning, unless the variable is explicitly mentioned in a `/*global ...*/` comment, or specified in the [`globals` key in the configuration file](../use/configure/language-options#specifying-globals). A common use case for these is if you intentionally use globals that are defined elsewhere (e.g. in a script sourced from HTML).
+Any reference to an undeclared variable causes a warning, unless the variable is explicitly mentioned in a `/*global ...*/` comment, or specified in the [`globals` key in the configuration file](../use/configure/language-options#specify-globals). A common use case for these is if you intentionally use globals that are defined elsewhere (e.g. in a script sourced from HTML).
 
 Examples of **incorrect** code for this rule:
 

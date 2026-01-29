@@ -105,7 +105,7 @@ When an issue has been moved to the "Ready for Dev Team" column, any dev team me
 
 **Note:** "Good first issue" issues are intended to help new contributors feel welcome and empowered to make a contribution to ESLint. To ensure that new contributors are given a chance to work on these issues, issues labeled "good first issue" must be open for 30 days _from the day the issue was labeled_ before a team member is permitted to work on them.
 
-## Accepting Issues and Pull Requests
+## Accept Issues and Pull Requests
 
 Issues may be labeled as "accepted" when the issue is:
 

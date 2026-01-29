@@ -42,7 +42,7 @@ Alternatively, you can use the Command Palette:
 
 If you want to use the ESLint MCP server across all workspaces, you can follow the previous steps and choose `User Settings` instead of `Workspace Settings` to add the MCP server to your `settings.json` file.
 
-### Using the ESLint MCP Server with GitHub Copilot
+### Use the ESLint MCP Server with GitHub Copilot
 
 Once your MCP server is configured, you can use it with [GitHub Copilot's agent mode](https://code.visualstudio.com/docs/copilot/chat/chat-agent-mode):
 
@@ -123,7 +123,7 @@ Add the following configuration to your `~/.codeium/windsurf/mcp_config.json` fi
 
 After adding the configuration, press the refresh button to update the list of available MCP servers.
 
-### 5. Using ESLint with Cascade
+### 5. Use ESLint with Cascade
 
 Once configured, you can use ESLint tools with Cascade by asking it to:
 
