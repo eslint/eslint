@@ -68,7 +68,7 @@ Each configuration object contains all of the information ESLint needs to execut
 - `name` - A name for the configuration object. This is used in error messages and [config inspector](https://github.com/eslint/config-inspector) to help identify which configuration object is being used. ([Naming Convention](#configuration-naming-conventions))
 - `basePath` - A string specifying the path to a subdirectory to which the configuration object should apply to. It can be a relative or an absolute path.
 - `files` - An array of glob patterns indicating the files that the configuration object should apply to. If not specified, the configuration object applies to all files matched by any other configuration object.
-- `ignores` - An array of glob patterns indicating the files that the configuration object should not apply to. If not specified, the configuration object applies to all files matched by `files`. If `ignores` is used without any other keys in the configuration object, then the patterns act as [global ignores](#globally-ignoring-files-with-ignores) and it gets applied to every configuration object.
+- `ignores` - An array of glob patterns indicating the files that the configuration object should not apply to. If not specified, the configuration object applies to all files matched by `files`. If `ignores` is used without any other keys in the configuration object, then the patterns act as [global ignores](#globally-ignore-files-with-ignores) and it gets applied to every configuration object.
 - `extends` - An array of strings, configuration objects, or configuration arrays that contain additional configuration to apply.
 - `languageOptions` - An object containing settings related to how JavaScript is configured for linting.
     - `ecmaVersion` - The version of ECMAScript to support. May be any year (i.e., `2022`) or version (i.e., `5`). Set to `"latest"` for the most recent supported version. (default: `"latest"`)
@@ -136,7 +136,7 @@ export default defineConfig([
 With this configuration, the `semi` rule is enabled for all files that match the default files in ESLint. So if you pass `example.js` to ESLint, the `semi` rule is applied. If you pass a non-JavaScript file, like `example.txt`, the `semi` rule is not applied because there are no other configuration objects that match that filename. (ESLint outputs an error message letting you know that the file was ignored due to missing configuration.)
 
 ::: important
-By default, ESLint lints files that match the patterns `**/*.js`, `**/*.cjs`, and `**/*.mjs`. Those files are always matched unless you explicitly exclude them using [global ignores](#globally-ignoring-files-with-ignores).
+By default, ESLint lints files that match the patterns `**/*.js`, `**/*.cjs`, and `**/*.mjs`. Those files are always matched unless you explicitly exclude them using [global ignores](#globally-ignore-files-with-ignores).
 If your configuration object includes other patterns, the rules in configuration objects without a `files` key will also apply to these patterns.
 
 Therefore, when using ESLint for non-JS files as well, it is more appropriate to create a configuration object that includes `files: ["**/*.js", "**/*.cjs", "**/*.mjs"]` and place the relevant rules there.
