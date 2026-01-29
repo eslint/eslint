@@ -441,6 +441,21 @@ ruleTester.run("no-useless-catch", rule, {
 		},
 		{
 			code: `
+                try { doSomething() } catch (e) { throw e; }
+                doSomethingMore()
+            `,
+			output: `
+                 doSomething() 
+                doSomethingMore()
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
                 try { doSomething(); doSomethingElse(); } catch (e) { throw e; } doSomethingMore()
             `,
 			output: `
@@ -550,6 +565,60 @@ ruleTester.run("no-useless-catch", rule, {
             `,
 			output: `
                 foo()
+
+                {
+                    [1, 2].forEach(doSomething)
+                }
+
+                [3, 4].forEach(doSomething)
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                foo()
+
+                try {
+                    [1, 2].forEach(doSomething)
+                } catch (e) {
+                    throw e
+                }
+
+                bar()
+            `,
+			output: `
+                foo()
+
+                {
+                    [1, 2].forEach(doSomething)
+                }
+
+                bar()
+            `,
+			errors: [
+				{
+					messageId: "unnecessaryCatch",
+				},
+			],
+		},
+		{
+			code: `
+                foo();
+
+                try {
+                    [1, 2].forEach(doSomething)
+                } catch (e) {
+                    throw e
+                }
+
+                [3, 4].forEach(doSomething)
+            `,
+			output: `
+                foo();
 
                 {
                     [1, 2].forEach(doSomething)
