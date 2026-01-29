@@ -36,7 +36,7 @@ All of these options give you fine-grained control over how ESLint treats your c
 
 [**Configure Rules**](rules)
 
-- [Configuring Rules](./rules)
+- [Configure Rules](./rules)
 - [Disable Rules](./rules#disable-rules)
 
 [**Configure Plugins**](plugins)
