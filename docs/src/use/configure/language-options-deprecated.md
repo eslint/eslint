@@ -8,7 +8,7 @@ This documentation is for configuring language options using the deprecated esli
 
 The JavaScript ecosystem has a variety of runtimes, versions, extensions, and frameworks. Each of these can have different supported syntax and global variables. ESLint lets you configure language options specific to the JavaScript used in your project, like custom global variables. You can also use plugins to extend ESLint to support your project's language options.
 
-## Specifying Environments
+## Specify Environments
 
 An environment provides predefined global variables. The available environments are:
 
@@ -51,7 +51,7 @@ These environments are not mutually exclusive, so you can define more than one a
 
 Environments can be specified inside of a file, in configuration files or using the `--env` [command line](../command-line-interface) flag.
 
-### Using configuration comments
+### Use configuration comments
 
 To specify environments with a comment inside of a JavaScript file, use the following format:
 
@@ -61,7 +61,7 @@ To specify environments with a comment inside of a JavaScript file, use the foll
 
 This enables Node.js and Mocha environments.
 
-### Using configuration files
+### Use configuration files
 
 To specify environments in a configuration file, use the `env` key. Specify which environments you want to enable by setting each to `true`. For example, the following enables the browser and Node.js environments:
 
@@ -98,7 +98,7 @@ env:
     node: true
 ```
 
-### Using a plugin
+### Use a plugin
 
 If you want to use an environment from a plugin, be sure to specify the plugin name in the `plugins` array and then use the unprefixed plugin name, followed by a slash, followed by the environment name. For example:
 
@@ -126,11 +126,11 @@ Or in a `package.json` file
 }
 ```
 
-## Specifying Globals
+## Specify Globals
 
 Some of ESLint's core rules rely on knowledge of the global variables available to your code at runtime. Since these can vary greatly between different environments as well as be modified at runtime, ESLint makes no assumptions about what global variables exist in your execution environment. If you would like to use rules that require knowledge of what global variables are available, you can define global variables in your configuration file or by using configuration comments in your source code.
 
-### Using configuration comments
+### Use configuration comments
 
 To specify globals using a comment inside of your JavaScript file, use the following format:
 
@@ -144,7 +144,7 @@ This defines two global variables, `var1` and `var2`. If you want to optionally 
 /* global var1:writable, var2:writable */
 ```
 
-### Using configuration files
+### Use configuration files
 
 To configure global variables inside of a configuration file, set the `globals` configuration property to an object containing keys named for each of the global variables you want to use. For each global variable key, set the corresponding value equal to `"writable"` to allow the variable to be overwritten or `"readonly"` to disallow overwriting. For example:
 

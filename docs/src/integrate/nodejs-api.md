@@ -1009,9 +1009,9 @@ You can optionally configure the following `assertionOptions` that apply to all 
     - If `"messageId"`, each `errors` block must check the expected error messages via `messageId` in error objects.
 - `requireLocation` (boolean, optional): If `true`, each `errors` block must be an array of objects, and each object must contain location properties `line`, `column`, `endLine`, and `endColumn`. Properties `endLine` and `endColumn` may be omitted if the actual error does not contain them.
 - `requireData` (boolean/`"error"`/`"suggestion"`, optional):
-    - If `true`, each error object that specifies `messageId` and each suggestion object that specifies `messageId` must also specify `data` if the message referenced by `messageId` has [placeholders](../extend/custom-rules#using-message-placeholders).
-    - If `"error"`, each error object that specifies `messageId` must also specify `data` if the message referenced by `messageId` has [placeholders](../extend/custom-rules#using-message-placeholders).
-    - If `"suggestion"`, each suggestion object that specifies `messageId` must also specify `data` if the message referenced by `messageId` has [placeholders](../extend/custom-rules#using-message-placeholders).
+    - If `true`, each error object that specifies `messageId` and each suggestion object that specifies `messageId` must also specify `data` if the message referenced by `messageId` has [placeholders](../extend/custom-rules#use-message-placeholders).
+    - If `"error"`, each error object that specifies `messageId` must also specify `data` if the message referenced by `messageId` has [placeholders](../extend/custom-rules#use-message-placeholders).
+    - If `"suggestion"`, each suggestion object that specifies `messageId` must also specify `data` if the message referenced by `messageId` has [placeholders](../extend/custom-rules#use-message-placeholders).
 
 ### Testing Errors with `messageId`
 

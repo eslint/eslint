@@ -250,7 +250,7 @@ foo();
 
 :::
 
-### Using Different Options for Line and Block Comments
+### Use Different Options for Line and Block Comments
 
 If you wish to have a different configuration for line comments and block comments, you can do so by using two different object configurations (note that the capitalization option will be enforced consistently for line and block comments):
 

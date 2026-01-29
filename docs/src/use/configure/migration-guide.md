@@ -47,13 +47,13 @@ While the configuration file format has changed from eslintrc to flat config, th
 - Syntax for configuring rules.
 - Syntax for configuring processors.
 - The CLI, except for the flag changes noted in [CLI Flag Changes](#cli-flag-changes).
-- Global variables are configured the same way, but on a different property (see [Configuring Language Options](#configuring-language-options)).
+- Global variables are configured the same way, but on a different property (see [Configure Language Options](#configure-language-options)).
 
 ## Key Differences between Configuration Formats
 
 A few of the most notable differences between the eslintrc and flat config formats are the following:
 
-### Importing Plugins and Custom Parsers
+### Import Plugins and Custom Parsers
 
 Eslintrc files use string-based import system inside the `plugins` property to load plugins and inside the `extends` property to load external configurations.
 
@@ -311,7 +311,7 @@ export default defineConfig([
 ]);
 ```
 
-### Configuring Language Options
+### Configure Language Options
 
 In eslintrc files, you configure various language options across the `env`, `globals` and `parserOptions` properties. Groups of global variables for specific runtimes (e.g. `document` and `window` for browser JavaScript; `process` and `require` for Node.js) are configured with the `env` property.
 
@@ -518,7 +518,7 @@ export default defineConfig([
 ]);
 ```
 
-#### Using eslintrc Configs in Flat Config
+#### Use eslintrc Configs in Flat Config
 
 You may find that there's a shareable config you rely on that hasn't yet been updated to flat config format. In that case, you can use the `FlatCompat` utility to translate the eslintrc format into flat config format. First, install the `@eslint/eslintrc` package:
 
@@ -554,7 +554,7 @@ This example uses the `FlatCompat#extends()` method to insert the `eslint-config
 
 For more information about the `FlatCompat` class, please see the [package README](https://github.com/eslint/eslintrc#usage).
 
-### Ignoring Files
+### Ignore Files
 
 With eslintrc, you can make ESLint ignore files by creating a separate `.eslintignore` file in the root of your project. The `.eslintignore` file uses the same glob pattern syntax as `.gitignore` files. Alternatively, you can use an `ignorePatterns` property in your eslintrc file.
 
@@ -647,7 +647,7 @@ The following CLI flags are no longer supported with the flat config file format
 
 #### `--env`
 
-The `--env` flag was used to enable environment-specific globals (for example, `browser`, or `node`). Flat config doesn't support this flag. Instead, define the relevant globals directly in your configuration. See [Specifying Globals](language-options#specifying-globals) for more details.
+The `--env` flag was used to enable environment-specific globals (for example, `browser`, or `node`). Flat config doesn't support this flag. Instead, define the relevant globals directly in your configuration. See [Specify Globals](language-options#specify-globals) for more details.
 
 For example, if you previously used `--env browser,node`, you’ll need to update your config file like this:
 
@@ -670,7 +670,7 @@ export default defineConfig([
 
 #### `--ignore-path`
 
-The `--ignore-path` flag was used to specify which file to use as your `.eslintignore`. Flat config doesn't load ignore patterns from `.eslintignore` files and does not support this flag. If you want to include patterns from a `.gitignore` file, use `includeIgnoreFile()` from `@eslint/compat`. See [Including `.gitignore` Files](ignore#including-gitignore-files) for more details.
+The `--ignore-path` flag was used to specify which file to use as your `.eslintignore`. Flat config doesn't load ignore patterns from `.eslintignore` files and does not support this flag. If you want to include patterns from a `.gitignore` file, use `includeIgnoreFile()` from `@eslint/compat`. See [Include `.gitignore` Files](ignore#include-gitignore-files) for more details.
 
 For example, if you previously used `--ignore-path .gitignore`:
 

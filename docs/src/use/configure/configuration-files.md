@@ -85,7 +85,7 @@ Each configuration object contains all of the information ESLint needs to execut
 - `rules` - An object containing the configured rules. When `files` or `ignores` are specified, these rule configurations are only available to the matching files.
 - `settings` - An object containing name-value pairs of information that should be available to all rules.
 
-### Specifying `files` and `ignores`
+### Specify `files` and `ignores`
 
 ::: tip
 Patterns specified in `files` and `ignores` use [`minimatch`](https://www.npmjs.com/package/minimatch) syntax and are evaluated relative to the location of the `eslint.config.js` file. If using an alternate config file via the `--config` command line option, then all patterns are evaluated relative to the current working directory. In case the configuration object has the `basePath` property with a relative path, the subdirectory it specifies is evaluated relative to the location of the `eslint.config.js` file (or relative to the current working directory if using an alternate config file via the `--config` command line option). In configuration objects with the `basePath` property, patterns specified in `files` and `ignores` are evaluated relative to the subdirectory represented by the `basePath`.
@@ -142,7 +142,7 @@ If your configuration object includes other patterns, the rules in configuration
 Therefore, when using ESLint for non-JS files as well, it is more appropriate to create a configuration object that includes `files: ["**/*.js", "**/*.cjs", "**/*.mjs"]` and place the relevant rules there.
 :::
 
-#### Specifying files with arbitrary extensions
+#### Specify files with arbitrary extensions
 
 To lint files with extensions other than the default `.js`, `.cjs` and `.mjs`, include them in `files` with a pattern in the format of `"**/*.extension"`. Any pattern will work except if it is `*` or if it ends with `/*` or `/**`.
 For example, to lint TypeScript files with `.ts`, `.cts` and `.mts` extensions, you would specify a configuration object like this:
@@ -159,7 +159,7 @@ export default defineConfig([
 ]);
 ```
 
-#### Specifying files without extension
+#### Specify files without extension
 
 Files without an extension can be matched with the pattern `!(*.*)`. For example:
 
@@ -180,7 +180,7 @@ The above config lints files without extension besides the default `.js`, `.cjs`
 Filenames starting with a dot, such as `.gitignore`, are considered to have only an extension without a base name. In the case of `.gitignore`, the extension is `gitignore`, so the file matches the pattern `"**/.gitignore"` but not `"**/*.gitignore"`.
 :::
 
-#### Specifying files with an AND operation
+#### Specify files with an AND operation
 
 Multiple patterns can be matched against the same file by using an array of strings inside of the `files` array. For example:
 
@@ -198,7 +198,7 @@ export default defineConfig([
 
 The pattern `["src/*", "**/.js"]` matches when a file is both inside of the `src` directory and also ends with `.js`. This approach can be helpful when you're dynamically calculating the value of the `files` array and want to avoid potential errors by trying to combine multiple glob patterns into a single string.
 
-#### Excluding files with `ignores`
+#### Exclude files with `ignores`
 
 You can limit which files a configuration object applies to by specifying a combination of `files` and `ignores` patterns. For example, you may want certain rules to apply only to files in your `src` directory:
 
@@ -279,7 +279,7 @@ ESLint only lints files that are matched either by default or by a `files` patte
 Use the [config inspector](https://github.com/eslint/config-inspector) (`--inspect-config` in the CLI) to test which config objects apply to a specific file.
 :::
 
-#### Globally ignoring files with `ignores`
+#### Globally ignore files with `ignores`
 
 Depending on how the `ignores` property is used, it can behave as non-global `ignores` or as global `ignores`.
 
@@ -350,7 +350,7 @@ export default defineConfig([
 
 For more information and examples on configuring rules regarding `ignores`, see [Ignore Files](ignore).
 
-#### Specifying base path
+#### Specify base path
 
 You can optionally specify `basePath` to apply the configuration object to a specific subdirectory (including its subdirectories).
 
@@ -455,11 +455,11 @@ export default defineConfig([
 
 Using this configuration, all JavaScript files define a custom global object defined called `MY_CUSTOM_GLOBAL` while those JavaScript files in the `tests` directory have `it` and `describe` defined as global objects in addition to `MY_CUSTOM_GLOBAL`. For any JavaScript file in the `tests` directory, both configuration objects are applied, so `languageOptions.globals` are merged to create a final result.
 
-### Configuring Linter Options
+### Configure Linter Options
 
 Options specific to the linting process can be configured using the `linterOptions` object. These effect how linting proceeds and does not affect how the source code of the file is interpreted.
 
-#### Disabling Inline Configuration
+#### Disable Inline Configuration
 
 Inline configuration is implemented using an `/*eslint*/` comment, such as `/*eslint semi: error*/`. You can disallow inline configuration by setting `noInlineConfig` to `true`. When enabled, all inline configuration is ignored. Here's an example:
 
@@ -477,7 +477,7 @@ export default defineConfig([
 ]);
 ```
 
-#### Reporting Unused Disable Directives
+#### Report Unused Disable Directives
 
 Disable and enable directives such as `/*eslint-disable*/`, `/*eslint-enable*/` and `/*eslint-disable-next-line*/` are used to disable ESLint rules around certain portions of code. As code changes, it's possible for these directives to no longer be needed because the code has changed in such a way that the rule is no longer triggered. You can enable reporting of these unused disable directives by setting the `reportUnusedDisableDirectives` option to a severity string, as in this example:
 
@@ -501,7 +501,7 @@ You can override this setting using the [`--report-unused-disable-directives`](.
 
 For legacy compatibility, `true` is equivalent to `"warn"` and `false` is equivalent to `"off"`.
 
-#### Reporting Unused Inline Configs
+#### Report Unused Inline Configs
 
 Inline config comments such as `/* eslint rule-name: "error" */` are used to change ESLint rule severity and/or options around certain portions of code.
 As a project's ESLint configuration file changes, it's possible for these directives to no longer be different from what was already set.
@@ -523,7 +523,7 @@ export default defineConfig([
 
 You can override this setting using the [`--report-unused-inline-configs`](../command-line-interface#--report-unused-inline-configs) command line option.
 
-### Configuring Rules
+### Configure Rules
 
 You can configure any number of rules in a configuration object by adding a `rules` property containing an object with your rule configurations. The names in this object are the names of the rules and the values are the configurations for each of those rules. Here's an example:
 
@@ -559,7 +559,7 @@ Each rule specifies its own options and can be any valid JSON data type. Please 
 
 For more information on configuring rules, see [Configure Rules](rules).
 
-### Configuring Shared Settings
+### Configure Shared Settings
 
 ESLint supports adding shared settings into configuration files. When you add a `settings` object to a configuration object, it is supplied to every rule. By convention, plugins namespace the settings they are interested in to avoid collisions with others. Plugins can use `settings` to specify the information that should be shared across all of their rules. This may be useful if you are adding custom rules and want them to have access to the same information. Here's an example:
 
@@ -604,7 +604,7 @@ A configuration object uses `extends` to inherit all the traits of another confi
 - a configuration object
 - a configuration array
 
-#### Using Configurations from Plugins
+#### Use Configurations from Plugins
 
 ESLint plugins can export predefined configurations. These configurations are referenced using a string and follow the pattern `pluginName/configName`. The plugin must be specified in the `plugins` key first. Here's an example:
 
@@ -650,7 +650,7 @@ In this case, the configuration named `recommended` from `eslint-plugin-example`
 It's recommended to always use a `files` key when you use the `extends` key to ensure that your configuration applies to the correct files. By omitting the `files` key, the extended configuration may end up applied to all files.
 :::
 
-#### Using Predefined Configurations
+#### Use Predefined Configurations
 
 ESLint has two predefined configurations for JavaScript:
 
@@ -682,7 +682,7 @@ Here, the `js/recommended` predefined configuration is applied first and then an
 
 For more information on how to combine predefined configs with your preferences, please see [Combine Configs](combine-configs).
 
-#### Using a Shareable Configuration Package
+#### Use a Shareable Configuration Package
 
 A sharable configuration is an npm package that exports a configuration object or array. This package should be installed as a dependency in your project and then referenced from inside of your `eslint.config.js` file. For example, to use a shareable configuration named `eslint-config-example`, your configuration file would look like this:
 

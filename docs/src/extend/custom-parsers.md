@@ -11,13 +11,13 @@ eleventyNavigation:
 
 ESLint custom parsers let you extend ESLint to support linting new non-standard JavaScript language features or custom syntax in your code. A parser is responsible for taking your code and transforming it into an abstract syntax tree (AST) that ESLint can then analyze and lint.
 
-## Creating a Custom Parser
+## Create a Custom Parser
 
 ### Methods in Custom Parsers
 
 A custom parser is a JavaScript object with either a `parse()` or `parseForESLint()` method. The `parse` method only returns the AST, whereas `parseForESLint()` also returns additional values that let the parser customize the behavior of ESLint even more.
 
-Both methods should be instance (own) properties and take in the source code as the first argument, and an optional configuration object as the second argument, which is provided as [`parserOptions`](../use/configure/language-options#specifying-parser-options) in a configuration file.
+Both methods should be instance (own) properties and take in the source code as the first argument, and an optional configuration object as the second argument, which is provided as [`parserOptions`](../use/configure/language-options#specify-parser-options) in a configuration file.
 
 ```javascript
 // customParser.js
@@ -110,7 +110,7 @@ The `Literal` node must have `raw` property.
 
 To publish your custom parser to npm, perform the following:
 
-1. Create a custom parser following the [Creating a Custom Parser](#creating-a-custom-parser) section above.
+1. Create a custom parser following the [Create a Custom Parser](#create-a-custom-parser) section above.
 1. [Create an npm package](https://docs.npmjs.com/creating-node-js-modules) for the custom parser.
 1. In your `package.json` file, set the [`main`](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#main) field as the file that exports your custom parser.
 1. [Publish the npm package.](https://docs.npmjs.com/creating-and-publishing-unscoped-public-packages)

@@ -27,7 +27,7 @@ If there are multiple configuration files in the same directory, ESLint only use
 1. `.eslintrc.json`
 1. `package.json`
 
-## Using Configuration Files
+## Use Configuration Files
 
 There are two ways to use configuration files.
 
@@ -223,7 +223,7 @@ The `rules` property can do any of the following to extend (or override) the set
     - Derived config: `"max-lines": ["error", { "max": 100 }]`
     - Resulting actual config: `"max-lines": ["error", { "max": 100 }]` where `skipBlankLines` and `skipComments` default to `false`
 
-### Using a shareable configuration package
+### Use a shareable configuration package
 
 A [sharable configuration](../../extend/shareable-configs) is an npm package that exports a configuration object. Make sure that you have installed the package in your project root directory, so that ESLint can require it.
 
@@ -270,7 +270,7 @@ module.exports = {
 };
 ```
 
-### Using a configuration from a plugin
+### Use a configuration from a plugin
 
 A [plugin](../../extend/plugins) is an npm package that can add various extensions to ESLint. A plugin can perform numerous functions, including but not limited to adding new rules and exporting [shareable configurations](../../extend/plugins#configs-in-plugins). Make sure the package has been installed in a directory where ESLint can require it.
 
@@ -295,9 +295,9 @@ Example of a configuration file in JSON format:
 }
 ```
 
-### Using a configuration file
+### Use a configuration file
 
-The `extends` property value can be an absolute or relative path to a base [configuration file](#using-configuration-files). ESLint resolves a relative path to a base configuration file relative to the configuration file that uses it.
+The `extends` property value can be an absolute or relative path to a base [configuration file](#use-configuration-files). ESLint resolves a relative path to a base configuration file relative to the configuration file that uses it.
 
 Example of a configuration file in JSON format:
 
@@ -408,7 +408,7 @@ The config in `app/.eslintrc.json` defines the glob pattern `**/*Spec.js`. This 
 
 If a config is provided via the `--config` CLI option, the glob patterns in the config are relative to the current working directory rather than the base directory of the given config. For example, if `--config configs/.eslintrc.json` is present, the glob patterns in the config are relative to `.` rather than `./configs`.
 
-### Specifying target files to lint
+### Specify target files to lint
 
 If you specified directories with CLI (e.g., `eslint lib`), ESLint searches target files in the directory to lint. The target files are `*.js` or the files that match any of `overrides` entries (but exclude entries that are any of `files` end with `*`).
 

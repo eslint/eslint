@@ -282,4 +282,4 @@ When you specify a `language` in a config object, `languageOptions` becomes spec
 ## Common Problems
 
 - [Plugin rules using the ESLint < v9.0.0 API](../troubleshooting/v9-rule-api-changes)
-- [Plugin configurations have not been upgraded to flat config](migration-guide#using-eslintrc-configs-in-flat-config)
+- [Plugin configurations have not been upgraded to flat config](migration-guide#use-eslintrc-configs-in-flat-config)

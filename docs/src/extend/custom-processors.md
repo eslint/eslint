@@ -192,7 +192,7 @@ In this example, specifying `example.processors["processor-name"]` directly uses
 
 It is recommended that both the plugin and each processor provide their respective meta objects. This ensures that features relying on meta objects, such as `--print-config` and `--cache`, work correctly regardless of how the processor is specified in the configuration.
 
-## Specifying Processor in Config Files
+## Specify Processor in Config Files
 
 In order to use a processor from a plugin in a configuration file, import the plugin and include it in the `plugins` key, specifying a namespace. Then, use that namespace to reference the processor in the `processor` configuration, like this:
 

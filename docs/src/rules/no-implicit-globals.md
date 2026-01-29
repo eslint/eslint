@@ -116,7 +116,7 @@ This rule also disallows redeclarations of read-only global variables and assign
 
 A read-only global variable can be a built-in ES global (e.g. `Array`), or a global variable defined as `readonly` in the configuration file or in a `/*global */` comment.
 
-See also: [Specifying Globals](../use/configure#specifying-globals)
+See also: [Specify Globals](../use/configure#specify-globals)
 
 Examples of **incorrect** code for this rule:
 
