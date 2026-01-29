@@ -3871,7 +3871,7 @@ describe("ESLint", () => {
 			assert.strictEqual(results[1].suppressedMessages.length, 0);
 			assert.strictEqual(
 				path.relative(formattersDir, results[2].filePath),
-				"cwd.js",
+				"context.js",
 			);
 			assert.strictEqual(results[2].errorCount, 0);
 			assert.strictEqual(results[2].warningCount, 0);
@@ -9823,6 +9823,49 @@ describe("ESLint", () => {
 			await assert.rejects(async () => {
 				await engine.loadFormatter(5);
 			}, /'name' must be a string/u);
+		});
+
+		it("should throw a special message for removed built-in formatters like compact", async () => {
+			const engine = new ESLint();
+
+			await assert.rejects(async () => {
+				await engine.loadFormatter("compact");
+			}, /The compact formatter is no longer part of core ESLint\. Install it manually with `npm install -D eslint-formatter-compact`/u);
+		});
+
+		it("should not throw the special message for removed formatters when loading an external module that fails", async () => {
+			const engine = new ESLint({
+				cwd: getFixturePath("cli-engine"),
+			});
+
+			// Ensure it doesn't contain the "no longer part of core" message
+			await assert.rejects(
+				async () => {
+					await engine.loadFormatter("table-external");
+				},
+				error => {
+					assert.ok(
+						error.message.includes(
+							"There was a problem loading formatter",
+						) &&
+							!error.message.includes(
+								"no longer part of core ESLint",
+							),
+						`Unexpected error message: ${error.message}`,
+					);
+					return true;
+				},
+			);
+		});
+
+		it("should throw if a removed formatter from node_modules throws on loading", async () => {
+			const engine = new ESLint({
+				cwd: getFixturePath("cli-engine"),
+			});
+
+			await assert.rejects(async () => {
+				await engine.loadFormatter("checkstyle");
+			}, /There was a problem loading formatter.*Error: Formatter loading failed/su);
 		});
 	});
 

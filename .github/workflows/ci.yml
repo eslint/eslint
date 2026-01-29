@@ -25,14 +25,14 @@ jobs:
               run: npm install
 
             - name: Lint Files (eslint)
-              uses: trunk-io/trunk-action@v1
+              uses: trunk-io/trunk-action@75699af9e26881e564e9d832ef7dc3af25ec031b # v1
               with:
                   # Run on everything except the docs folder.
                   arguments: --ignore=docs/** --filter=eslint
                   check-mode: all
 
             - name: Lint Files (other)
-              uses: trunk-io/trunk-action@v1
+              uses: trunk-io/trunk-action@75699af9e26881e564e9d832ef7dc3af25ec031b # v1
               with:
                   # Run on everything except the docs folder.
                   arguments: --ignore=docs/** --filter=-eslint
@@ -44,14 +44,14 @@ jobs:
               run: node Makefile checkLicenses
 
             - name: Lint Docs Files (eslint)
-              uses: trunk-io/trunk-action@v1
+              uses: trunk-io/trunk-action@75699af9e26881e564e9d832ef7dc3af25ec031b # v1
               with:
                   # Run only on the docs folder.
                   arguments: --ignore=** --ignore=!docs/** --filter=eslint
                   check-mode: all
 
             - name: Lint Docs Files (other)
-              uses: trunk-io/trunk-action@v1
+              uses: trunk-io/trunk-action@75699af9e26881e564e9d832ef7dc3af25ec031b # v1
               with:
                   # Run only on the docs folder.
                   arguments: --ignore=** --ignore=!docs/** --filter=-eslint
@@ -150,13 +150,17 @@ jobs:
               working-directory: ${{ matrix.package.directory }}
               run: npm run test:types
 
+    test_package_manager:
+        name: Test Package Managers
+        uses: eslint/workflows/.github/workflows/ci-package-manager.yml@main
+
     pnpm_test:
         name: Test pnpm Type Support
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v6
 
-            - uses: pnpm/action-setup@v4
+            - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4
               with:
                   version: latest
 

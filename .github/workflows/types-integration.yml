@@ -1,4 +1,4 @@
-name: CI
+name: Types Integration CI
 on:
     push:
         branches: [main]
@@ -130,7 +130,7 @@ jobs:
               run: npm install
 
             - name: Update package.json eslint-visitor-keys
-              uses: restackio/update-json-file-action@2.1
+              uses: restackio/update-json-file-action@6f50afee9a03a456a30cd574123db793319f7544 # 2.1
               with:
                   file: eslint-js/packages/eslint-visitor-keys/package.json
                   fields: '{"scripts.prepare": "npm run build:cjs"}'

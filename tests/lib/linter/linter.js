@@ -1582,7 +1582,7 @@ describe("Linter with FlatConfigArray", () => {
 			const code = "var answer = 6 * 7";
 
 			it("should be configurable by only setting the integer value", () => {
-				const rule = "semi",
+				const rule = "no-var",
 					config = { rules: {} };
 
 				config.rules[rule] = 1;
@@ -1597,7 +1597,7 @@ describe("Linter with FlatConfigArray", () => {
 			});
 
 			it("should be configurable by only setting the string value", () => {
-				const rule = "semi",
+				const rule = "no-var",
 					config = { rules: {} };
 
 				config.rules[rule] = "warn";
@@ -1613,7 +1613,7 @@ describe("Linter with FlatConfigArray", () => {
 			});
 
 			it("should be configurable by passing in values as an array", () => {
-				const rule = "semi",
+				const rule = "no-var",
 					config = { rules: {} };
 
 				config.rules[rule] = [1];
@@ -1628,7 +1628,7 @@ describe("Linter with FlatConfigArray", () => {
 			});
 
 			it("should be configurable by passing in string value as an array", () => {
-				const rule = "semi",
+				const rule = "no-var",
 					config = { rules: {} };
 
 				config.rules[rule] = ["warn"];
@@ -1644,14 +1644,14 @@ describe("Linter with FlatConfigArray", () => {
 			});
 
 			it("should not be configurable by setting other value", () => {
-				const rule = "semi",
+				const rule = "no-var",
 					config = { rules: {} };
 
 				config.rules[rule] = "1";
 
 				assert.throws(() => {
 					linter.verify(code, config, filename);
-				}, /Key "rules": Key "semi": Expected severity/u);
+				}, /Key "rules": Key "no-var": Expected severity/u);
 			});
 
 			it("should process empty config", () => {
@@ -1667,12 +1667,12 @@ describe("Linter with FlatConfigArray", () => {
 
 	describe("verify()", () => {
 		it("should report warnings in order by line and column when called", () => {
-			const code = "foo()\n    alert('test')";
+			const code = "var foo\n    alert('t\\est')";
 			const config = {
 				rules: {
-					"no-mixed-spaces-and-tabs": 1,
-					"eol-last": 1,
-					semi: [1, "always"],
+					"no-var": 1,
+					"no-alert": 1,
+					"no-useless-escape": 1,
 				},
 			};
 
@@ -1681,22 +1681,22 @@ describe("Linter with FlatConfigArray", () => {
 
 			assert.strictEqual(messages.length, 3);
 			assert.strictEqual(messages[0].line, 1);
-			assert.strictEqual(messages[0].column, 6);
+			assert.strictEqual(messages[0].column, 1);
 			assert.strictEqual(messages[1].line, 2);
-			assert.strictEqual(messages[1].column, 18);
+			assert.strictEqual(messages[1].column, 5);
 			assert.strictEqual(messages[2].line, 2);
-			assert.strictEqual(messages[2].column, 18);
+			assert.strictEqual(messages[2].column, 13);
 
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
 
 		it("should report ignored file when filename isn't matched in the config array", () => {
-			const code = "foo()\n    alert('test')";
+			const code = "var foo\n    alert('t\\est')";
 			const config = {
 				rules: {
-					"no-mixed-spaces-and-tabs": 1,
-					"eol-last": 1,
-					semi: [1, "always"],
+					"no-var": 1,
+					"no-alert": 1,
+					"no-useless-escape": 1,
 				},
 			};
 
@@ -2515,7 +2515,7 @@ describe("Linter with FlatConfigArray", () => {
 
 		describe("Rule Severity", () => {
 			it("rule should run as warning when set to 1 with a config array", () => {
-				const ruleId = "semi",
+				const ruleId = "no-var",
 					configs = createFlatConfigArray({
 						files: ["**/*.js"],
 						rules: {
@@ -2524,7 +2524,7 @@ describe("Linter with FlatConfigArray", () => {
 					});
 
 				configs.normalizeSync();
-				const messages = linter.verify("foo", configs, filename);
+				const messages = linter.verify("var foo", configs, filename);
 				const suppressedMessages = linter.getSuppressedMessages();
 
 				assert.strictEqual(
@@ -2538,7 +2538,7 @@ describe("Linter with FlatConfigArray", () => {
 			});
 
 			it("rule should run as warning when set to 1 with a plain array", () => {
-				const ruleId = "semi",
+				const ruleId = "no-var",
 					configs = [
 						{
 							files: ["**/*.js"],
@@ -2548,7 +2548,7 @@ describe("Linter with FlatConfigArray", () => {
 						},
 					];
 
-				const messages = linter.verify("foo", configs, filename);
+				const messages = linter.verify("var foo", configs, filename);
 				const suppressedMessages = linter.getSuppressedMessages();
 
 				assert.strictEqual(
@@ -2562,7 +2562,7 @@ describe("Linter with FlatConfigArray", () => {
 			});
 
 			it("rule should run as warning when set to 1 with an object", () => {
-				const ruleId = "semi",
+				const ruleId = "no-var",
 					config = {
 						files: ["**/*.js"],
 						rules: {
@@ -2570,7 +2570,7 @@ describe("Linter with FlatConfigArray", () => {
 						},
 					};
 
-				const messages = linter.verify("foo", config, filename);
+				const messages = linter.verify("var foo", config, filename);
 				const suppressedMessages = linter.getSuppressedMessages();
 
 				assert.strictEqual(
@@ -2585,15 +2585,15 @@ describe("Linter with FlatConfigArray", () => {
 		});
 
 		describe("Code with a hashbang comment", () => {
-			const code = "#!bin/program\n\nvar foo;;";
+			const code = "#!bin/program\n\nvar foo;";
 
 			it("should preserve line numbers", () => {
-				const config = { rules: { "no-extra-semi": 1 } };
+				const config = { rules: { "no-var": 1 } };
 				const messages = linter.verify(code, config);
 				const suppressedMessages = linter.getSuppressedMessages();
 
 				assert.strictEqual(messages.length, 1);
-				assert.strictEqual(messages[0].ruleId, "no-extra-semi");
+				assert.strictEqual(messages[0].ruleId, "no-var");
 				assert.strictEqual(messages[0].line, 3);
 
 				assert.strictEqual(suppressedMessages.length, 0);
@@ -2841,9 +2841,9 @@ describe("Linter with FlatConfigArray", () => {
 				});
 
 				it("should filter rules by severity", () => {
-					const code = ['alert("test")'].join("\n");
+					const code = ['alert("t\\est")'].join("\n");
 					const config = {
-						rules: { "no-alert": 1, semi: 2 },
+						rules: { "no-alert": 1, "no-useless-escape": 2 },
 					};
 
 					const messages = linter.verify(code, config, {
@@ -2856,10 +2856,10 @@ describe("Linter with FlatConfigArray", () => {
 				it("should ignore disable directives in filtered rules", () => {
 					const code = [
 						"// eslint-disable-next-line no-alert",
-						'alert("test")',
+						'alert("t\\est")',
 					].join("\n");
 					const config = {
-						rules: { "no-alert": 1, semi: 2 },
+						rules: { "no-alert": 1, "no-useless-escape": 2 },
 					};
 
 					const messages = linter.verify(code, config, {
@@ -2873,10 +2873,10 @@ describe("Linter with FlatConfigArray", () => {
 				it("should ignore disable directives in filtered rules even when unused", () => {
 					const code = [
 						"// eslint-disable-next-line no-alert",
-						'notAnAlert("test")',
+						'notAnAlert("t\\est")',
 					].join("\n");
 					const config = {
-						rules: { "no-alert": 1, semi: 2 },
+						rules: { "no-alert": 1, "no-useless-escape": 2 },
 					};
 
 					const messages = linter.verify(code, config, {
@@ -2889,11 +2889,11 @@ describe("Linter with FlatConfigArray", () => {
 
 				it("should not ignore disable directives in non-filtered rules", () => {
 					const code = [
-						"// eslint-disable-next-line semi",
-						'alert("test")',
+						"// eslint-disable-next-line no-useless-escape",
+						'alert("t\\est")',
 					].join("\n");
 					const config = {
-						rules: { "no-alert": 1, semi: 2 },
+						rules: { "no-alert": 1, "no-useless-escape": 2 },
 					};
 
 					const messages = linter.verify(code, config, {
@@ -2906,11 +2906,11 @@ describe("Linter with FlatConfigArray", () => {
 
 				it("should report disable directives in non-filtered rules when unused", () => {
 					const code = [
-						"// eslint-disable-next-line semi",
-						'alert("test");',
+						"// eslint-disable-next-line no-useless-escape",
+						'alert("test")',
 					].join("\n");
 					const config = {
-						rules: { "no-alert": 1, semi: 2 },
+						rules: { "no-alert": 1, "no-useless-escape": 2 },
 					};
 
 					const messages = linter.verify(code, config, {
@@ -2921,7 +2921,7 @@ describe("Linter with FlatConfigArray", () => {
 					assert.strictEqual(messages.length, 1);
 					assert.strictEqual(
 						messages[0].message,
-						"Unused eslint-disable directive (no problems were reported from 'semi').",
+						"Unused eslint-disable directive (no problems were reported from 'no-useless-escape').",
 					);
 				});
 			});
@@ -3866,11 +3866,16 @@ describe("Linter with FlatConfigArray", () => {
 							languageOptions: {
 								sourceType: "script",
 							},
-							rules: { quotes: [2, "double"] },
+							rules: {
+								"no-useless-escape": [
+									2,
+									{ allowRegexCharacters: ["-"] },
+								],
+							},
 						};
 						const codeA =
-							"/*eslint quotes: 0*/ function bar() { return '2'; }";
-						const codeB = "function foo() { return '1'; }";
+							"/*eslint no-useless-escape: 0*/ function bar() { return '\\a'; }";
+						const codeB = "function foo() { return '\\a'; }";
 						let messages = linter.verify(codeA, config, filename);
 						let suppressedMessages = linter.getSuppressedMessages();
 
@@ -3885,10 +3890,17 @@ describe("Linter with FlatConfigArray", () => {
 					});
 
 					it("rules should not change initial config", () => {
-						const config = { rules: { quotes: [2, "double"] } };
+						const config = {
+							rules: {
+								"no-useless-escape": [
+									2,
+									{ allowRegexCharacters: ["-"] },
+								],
+							},
+						};
 						const codeA =
-							"/*eslint quotes: [0, \"single\"]*/ function bar() { return '2'; }";
-						const codeB = "function foo() { return '1'; }";
+							"/*eslint no-useless-escape: [0, { allowRegexCharacters: ['a'] }]*/ function bar() { return '\\a'; }";
+						const codeB = "function foo() { return '\\a'; }";
 						let messages = linter.verify(codeA, config, filename);
 						let suppressedMessages = linter.getSuppressedMessages();
 
@@ -5154,20 +5166,30 @@ describe("Linter with FlatConfigArray", () => {
 
 				describe("when evaluating code with comments to enable configurable rule", () => {
 					const code =
-						"/*eslint quotes:[2, \"double\"]*/ alert('test');";
+						"/*eslint no-useless-escape:[2, { allowRegexCharacters: ['-'] }]*/ alert('t\\est');";
 
 					it("should report a violation", () => {
-						const config = { rules: { quotes: [2, "single"] } };
+						const config = {
+							rules: {
+								"no-useless-escape": [
+									2,
+									{ allowRegexCharacters: ["e"] },
+								],
+							},
+						};
 
 						const messages = linter.verify(code, config, filename);
 						const suppressedMessages =
 							linter.getSuppressedMessages();
 
 						assert.strictEqual(messages.length, 1);
-						assert.strictEqual(messages[0].ruleId, "quotes");
+						assert.strictEqual(
+							messages[0].ruleId,
+							"no-useless-escape",
+						);
 						assert.strictEqual(
 							messages[0].message,
-							"Strings must use doublequote.",
+							"Unnecessary escape character: \\e.",
 						);
 
 						assert.strictEqual(suppressedMessages.length, 0);
@@ -5176,20 +5198,30 @@ describe("Linter with FlatConfigArray", () => {
 
 				describe("when evaluating code with comments to enable configurable rule using string severity", () => {
 					const code =
-						'/*eslint quotes:["error", "double"]*/ alert(\'test\');';
+						'/*eslint no-useless-escape:["error", {allowRegexCharacters: ["-"]}]*/ alert(\'t\\est\');';
 
 					it("should report a violation", () => {
-						const config = { rules: { quotes: [2, "single"] } };
+						const config = {
+							rules: {
+								"no-useless-escape": [
+									2,
+									{ allowRegexCharacters: ["e"] },
+								],
+							},
+						};
 
 						const messages = linter.verify(code, config, filename);
 						const suppressedMessages =
 							linter.getSuppressedMessages();
 
 						assert.strictEqual(messages.length, 1);
-						assert.strictEqual(messages[0].ruleId, "quotes");
+						assert.strictEqual(
+							messages[0].ruleId,
+							"no-useless-escape",
+						);
 						assert.strictEqual(
 							messages[0].message,
-							"Strings must use doublequote.",
+							"Unnecessary escape character: \\e.",
 						);
 
 						assert.strictEqual(suppressedMessages.length, 0);
@@ -5318,8 +5350,8 @@ describe("Linter with FlatConfigArray", () => {
 
 				describe("when evaluating code with comments which have colon in its value", () => {
 					const code = String.raw`
-/* eslint max-len: [2, 100, 2, {ignoreUrls: true, ignorePattern: "data:image\\/|\\s*require\\s*\\(|^\\s*loader\\.lazy|-\\*-"}] */
-alert('test');
+/* eslint no-inline-comments: [2, {ignorePattern: "data:image\\/|\\s*require\\s*\\(|^\\s*loader\\.lazy|-\\*-"}] */
+alert('test'); // Inline comment
 `;
 
 					it("should not parse errors, should report a violation", () => {
@@ -5328,10 +5360,13 @@ alert('test');
 							linter.getSuppressedMessages();
 
 						assert.strictEqual(messages.length, 1);
-						assert.strictEqual(messages[0].ruleId, "max-len");
+						assert.strictEqual(
+							messages[0].ruleId,
+							"no-inline-comments",
+						);
 						assert.strictEqual(
 							messages[0].message,
-							"This line has a length of 129. Maximum allowed is 100.",
+							"Unexpected comment inline with code.",
 						);
 
 						assert.strictEqual(suppressedMessages.length, 0);
@@ -5340,10 +5375,10 @@ alert('test');
 
 				describe("when evaluating code with comments that contain escape sequences", () => {
 					const code = String.raw`
-/* eslint max-len: ["error", 1, { ignoreComments: true, ignorePattern: "console\\.log\\(" }] */
-console.log("test");
-consolexlog("test2");
-var a = "test2";
+/* eslint no-inline-comments: ["error", { ignorePattern: "console\\.log\\(" }] */
+let a; // console.log("test");
+let b; // consolexlog("test2");
+let c; // var a = "test2";
 `;
 
 					it("should validate correctly", () => {
@@ -5354,20 +5389,26 @@ var a = "test2";
 							linter.getSuppressedMessages();
 
 						assert.strictEqual(messages.length, 2);
-						assert.strictEqual(message1.ruleId, "max-len");
+						assert.strictEqual(
+							message1.ruleId,
+							"no-inline-comments",
+						);
 						assert.strictEqual(
 							message1.message,
-							"This line has a length of 21. Maximum allowed is 1.",
+							"Unexpected comment inline with code.",
 						);
 						assert.strictEqual(message1.line, 4);
-						assert.strictEqual(message1.column, 1);
-						assert.strictEqual(message2.ruleId, "max-len");
+						assert.strictEqual(message1.column, 8);
+						assert.strictEqual(
+							message2.ruleId,
+							"no-inline-comments",
+						);
 						assert.strictEqual(
 							message2.message,
-							"This line has a length of 16. Maximum allowed is 1.",
+							"Unexpected comment inline with code.",
 						);
 						assert.strictEqual(message2.line, 5);
-						assert.strictEqual(message2.column, 1);
+						assert.strictEqual(message2.column, 8);
 
 						assert.strictEqual(suppressedMessages.length, 0);
 					});
@@ -5400,12 +5441,12 @@ var a = "test2";
 
 				it("should report no violation", () => {
 					const code = [
-						"/* eslint-disable quotes */",
+						"/* eslint-disable no-useless-escape */",
 						'console.log("foo");',
-						"/* eslint-enable quotes */",
+						"/* eslint-enable no-useless-escape */",
 					].join("\n");
 					const config = {
-						rules: { quotes: 2 },
+						rules: { "no-useless-escape": 2 },
 						linterOptions: { reportUnusedDisableDirectives: 0 },
 					};
 
@@ -5941,14 +5982,14 @@ var a = "test2";
 
 				it("should not report a violation", () => {
 					const code = [
-						"alert('test') // eslint-disable-line no-alert, quotes, semi",
-						"console.log('test'); // eslint-disable-line",
+						"alert('t\\est' == 'a') // eslint-disable-line no-alert, no-useless-escape, eqeqeq",
+						"console.log('t\\est'); // eslint-disable-line",
 					].join("\n");
 					const config = {
 						rules: {
 							"no-alert": 1,
-							quotes: [1, "double"],
-							semi: [1, "always"],
+							"no-useless-escape": 1,
+							eqeqeq: 1,
 							"no-console": 1,
 						},
 					};
@@ -5962,14 +6003,14 @@ var a = "test2";
 
 				it("should not report a violation", () => {
 					const code = [
-						"alert('test') /* eslint-disable-line no-alert, quotes, semi */",
-						"console.log('test'); /* eslint-disable-line */",
+						"alert('t\\est' == 'a') /* eslint-disable-line no-alert, no-useless-escape, eqeqeq */",
+						"console.log('t\\est'); /* eslint-disable-line */",
 					].join("\n");
 					const config = {
 						rules: {
 							"no-alert": 1,
-							quotes: [1, "double"],
-							semi: [1, "always"],
+							"no-useless-escape": 1,
+							eqeqeq: 1,
 							"no-console": 1,
 						},
 					};
@@ -5983,12 +6024,12 @@ var a = "test2";
 
 				it("should ignore violations of multiple rules when specified in mixed comments", () => {
 					const code = [
-						' alert("test"); /* eslint-disable-line no-alert */ // eslint-disable-line quotes',
+						' alert("t\\est"); /* eslint-disable-line no-alert */ // eslint-disable-line no-useless-escape',
 					].join("\n");
 					const config = {
 						rules: {
 							"no-alert": 1,
-							quotes: [1, "single"],
+							"no-useless-escape": 1,
 						},
 					};
 					const messages = linter.verify(code, config, filename);
@@ -6001,7 +6042,10 @@ var a = "test2";
 						suppressedMessages[0].ruleId,
 						"no-alert",
 					);
-					assert.strictEqual(suppressedMessages[1].ruleId, "quotes");
+					assert.strictEqual(
+						suppressedMessages[1].ruleId,
+						"no-useless-escape",
+					);
 				});
 
 				it("should report no violation", () => {
@@ -6242,14 +6286,14 @@ var a = "test2";
 
 				it("should ignore violations of multiple rules when specified", () => {
 					const code = [
-						"// eslint-disable-next-line no-alert, quotes",
-						'alert("test");',
+						"// eslint-disable-next-line no-alert, no-useless-escape",
+						'alert("t\\est");',
 						"console.log('test');",
 					].join("\n");
 					const config = {
 						rules: {
 							"no-alert": 1,
-							quotes: [1, "single"],
+							"no-useless-escape": 1,
 							"no-console": 1,
 						},
 					};
@@ -6264,40 +6308,54 @@ var a = "test2";
 						suppressedMessages[0].ruleId,
 						"no-alert",
 					);
-					assert.strictEqual(suppressedMessages[1].ruleId, "quotes");
+					assert.strictEqual(
+						suppressedMessages[1].ruleId,
+						"no-useless-escape",
+					);
 				});
 
 				it("should ignore violations of multiple rules when specified in multiple lines", () => {
 					const code = [
 						"/* eslint-disable-next-line",
 						"no-alert,",
-						"quotes",
+						"no-useless-escape",
 						"*/",
-						'alert("test");',
+						'alert("t\\est");',
 						"console.log('test');",
 					].join("\n");
 					const config = {
 						rules: {
 							"no-alert": 1,
-							quotes: [1, "single"],
+							"no-useless-escape": 1,
 							"no-console": 1,
 						},
 					};
 					const messages = linter.verify(code, config, filename);
+					const suppressedMessages = linter.getSuppressedMessages();
 
 					assert.strictEqual(messages.length, 1);
 					assert.strictEqual(messages[0].ruleId, "no-console");
+
+					assert.strictEqual(suppressedMessages.length, 2);
+					assert.strictEqual(
+						suppressedMessages[0].ruleId,
+						"no-alert",
+					);
+					assert.strictEqual(
+						suppressedMessages[1].ruleId,
+						"no-useless-escape",
+					);
 				});
 
 				it("should ignore violations of multiple rules when specified in mixed comments", () => {
 					const code = [
-						"/* eslint-disable-next-line no-alert */ // eslint-disable-next-line quotes",
-						'alert("test");',
+						"/* eslint-disable-next-line no-alert */ // eslint-disable-next-line no-useless-escape",
+						'alert("t\\est");',
 					].join("\n");
 					const config = {
 						rules: {
 							"no-alert": 1,
-							quotes: [1, "single"],
+							"no-useless-escape": 1,
 						},
 					};
 					const messages = linter.verify(code, config, filename);
@@ -6310,37 +6368,51 @@ var a = "test2";
 						suppressedMessages[0].ruleId,
 						"no-alert",
 					);
-					assert.strictEqual(suppressedMessages[1].ruleId, "quotes");
+					assert.strictEqual(
+						suppressedMessages[1].ruleId,
+						"no-useless-escape",
+					);
 				});
 
 				it("should ignore violations of multiple rules when specified in mixed single line and multi line comments", () => {
 					const code = [
 						"/* eslint-disable-next-line",
 						"no-alert",
-						"*/ // eslint-disable-next-line quotes",
-						'alert("test");',
+						"*/ // eslint-disable-next-line no-useless-escape",
+						'alert("t\\est");',
 					].join("\n");
 					const config = {
 						rules: {
 							"no-alert": 1,
-							quotes: [1, "single"],
+							"no-useless-escape": 1,
 						},
 					};
 					const messages = linter.verify(code, config, filename);
+					const suppressedMessages = linter.getSuppressedMessages();
 
 					assert.strictEqual(messages.length, 0);
+
+					assert.strictEqual(suppressedMessages.length, 2);
+					assert.strictEqual(
+						suppressedMessages[0].ruleId,
+						"no-alert",
+					);
+					assert.strictEqual(
+						suppressedMessages[1].ruleId,
+						"no-useless-escape",
+					);
 				});
 
 				it("should ignore violations of only the specified rule on next line", () => {
 					const code = [
-						"// eslint-disable-next-line quotes",
-						'alert("test");',
+						"// eslint-disable-next-line no-useless-escape",
+						'alert("t\\est");',
 						"console.log('test');",
 					].join("\n");
 					const config = {
 						rules: {
 							"no-alert": 1,
-							quotes: [1, "single"],
+							"no-useless-escape": 1,
 							"no-console": 1,
 						},
 					};
@@ -6352,7 +6424,10 @@ var a = "test2";
 					assert.strictEqual(messages[1].ruleId, "no-console");
 
 					assert.strictEqual(suppressedMessages.length, 1);
-					assert.strictEqual(suppressedMessages[0].ruleId, "quotes");
+					assert.strictEqual(
+						suppressedMessages[0].ruleId,
+						"no-useless-escape",
+					);
 				});
 
 				it("should ignore violations of specified rule on next line only", () => {
@@ -6385,13 +6460,13 @@ var a = "test2";
 				it("should ignore all rule violations on next line if none specified", () => {
 					const code = [
 						"// eslint-disable-next-line",
-						'alert("test");',
+						'alert("t\\est" == "a");',
 						"console.log('test')",
 					].join("\n");
 					const config = {
 						rules: {
-							semi: [1, "never"],
-							quotes: [1, "single"],
+							eqeqeq: 1,
+							"no-useless-escape": 1,
 							"no-alert": 1,
 							"no-console": 1,
 						},
@@ -6407,8 +6482,11 @@ var a = "test2";
 						suppressedMessages[0].ruleId,
 						"no-alert",
 					);
-					assert.strictEqual(suppressedMessages[1].ruleId, "quotes");
-					assert.strictEqual(suppressedMessages[2].ruleId, "semi");
+					assert.strictEqual(
+						suppressedMessages[1].ruleId,
+						"no-useless-escape",
+					);
+					assert.strictEqual(suppressedMessages[2].ruleId, "eqeqeq");
 				});
 
 				it("should ignore violations if eslint-disable-next-line is a block comment", () => {
@@ -9618,7 +9696,7 @@ var a = "test2";
 				"var a",
 				{
 					rules: {
-						semi: 2,
+						"no-var": 2,
 					},
 				},
 				{ filename: "test.js" },
@@ -9627,7 +9705,7 @@ var a = "test2";
 
 			assert.strictEqual(
 				messages.output,
-				"var a;",
+				"let a",
 				"Fixes were applied correctly",
 			);
 			assert.isTrue(messages.fixed);
@@ -9638,7 +9716,7 @@ var a = "test2";
 		it("does not require a third argument", () => {
 			const fixResult = linter.verifyAndFix("var a", {
 				rules: {
-					semi: 2,
+					"no-var": 2,
 				},
 			});
 			const suppressedMessages = linter.getSuppressedMessages();
@@ -9646,7 +9724,7 @@ var a = "test2";
 			assert.deepStrictEqual(fixResult, {
 				fixed: true,
 				messages: [],
-				output: "var a;",
+				output: "let a",
 			});
 
 			assert.strictEqual(suppressedMessages.length, 0);
@@ -9655,13 +9733,13 @@ var a = "test2";
 		it("does not include suggestions in autofix results", () => {
 			const fixResult = linter.verifyAndFix("var foo = /\\#/", {
 				rules: {
-					semi: 2,
+					"no-var": 2,
 					"no-useless-escape": 2,
 				},
 			});
 			const suppressedMessages = linter.getSuppressedMessages();
 
-			assert.strictEqual(fixResult.output, "var foo = /\\#/;");
+			assert.strictEqual(fixResult.output, "let foo = /\\#/");
 			assert.strictEqual(fixResult.fixed, true);
 			assert.strictEqual(
 				fixResult.messages[0].suggestions.length > 0,
@@ -9676,7 +9754,7 @@ var a = "test2";
 				"var a",
 				{
 					rules: {
-						semi: 2,
+						"no-var": 2,
 					},
 				},
 				{ fix: false },
@@ -9825,6 +9903,112 @@ var a = "test2";
 			}, /Fixable rules must set the `meta\.fixable` property/u);
 		});
 
+		describe("Options", () => {
+			describe("filename", () => {
+				it("should allow filename to be passed on options object", () => {
+					const filenameChecker = sinon.spy(context => {
+						assert.strictEqual(context.filename, "foo.js");
+						return {};
+					});
+
+					const config = {
+						plugins: {
+							test: {
+								rules: {
+									checker: {
+										create: filenameChecker,
+									},
+								},
+							},
+						},
+						rules: {
+							"test/checker": "error",
+						},
+					};
+
+					linter.verifyAndFix("foo;", config, {
+						filename: "foo.js",
+					});
+					assert(filenameChecker.calledOnce);
+				});
+
+				it("should allow filename to be passed as third argument", () => {
+					const filenameChecker = sinon.spy(context => {
+						assert.strictEqual(context.filename, "bar.js");
+						return {};
+					});
+
+					const config = {
+						plugins: {
+							test: {
+								rules: {
+									checker: {
+										create: filenameChecker,
+									},
+								},
+							},
+						},
+						rules: {
+							"test/checker": "error",
+						},
+					};
+
+					linter.verifyAndFix("foo;", config, "bar.js");
+					assert(filenameChecker.calledOnce);
+				});
+
+				it("should default filename to <input> when options object doesn't have filename", () => {
+					const filenameChecker = sinon.spy(context => {
+						assert.strictEqual(context.filename, "<input>");
+						return {};
+					});
+
+					const config = {
+						plugins: {
+							test: {
+								rules: {
+									checker: {
+										create: filenameChecker,
+									},
+								},
+							},
+						},
+						rules: {
+							"test/checker": "error",
+						},
+					};
+
+					linter.verifyAndFix("foo;", config, {});
+					assert(filenameChecker.calledOnce);
+				});
+
+				it("should default filename to <input> when only two arguments are passed", () => {
+					const filenameChecker = sinon.spy(context => {
+						assert.strictEqual(context.filename, "<input>");
+						return {};
+					});
+
+					const config = {
+						plugins: {
+							test: {
+								rules: {
+									checker: {
+										create: filenameChecker,
+									},
+								},
+							},
+						},
+						rules: {
+							"test/checker": "error",
+						},
+					};
+
+					linter.verifyAndFix("foo;", config);
+					assert(filenameChecker.calledOnce);
+				});
+			});
+		});
+
 		describe("Circular autofixes", () => {
 			it("should stop fixing if a circular fix is detected", () => {
 				const config = {
@@ -9905,6 +10089,125 @@ var a = "test2";
 				const fixResult = linter.verifyAndFix(initialCode, config, {
 					filename: "test.js",
 				});
+
+				assert.strictEqual(
+					fixResult.fixed,
+					true,
+					"Fixing was applied.",
+				);
+				assert.strictEqual(
+					fixResult.output,
+					"-a",
+					"Output should match the original input due to circular fixes.",
+				);
+				assert.strictEqual(
+					fixResult.messages.length,
+					1,
+					"There should be one remaining lint message after detecting circular fixes.",
+				);
+				assert.strictEqual(
+					fixResult.messages[0].ruleId,
+					"test/remove-leading-hyphen",
+				);
+
+				// Verify the warning was emitted
+				assert(
+					warningService.emitCircularFixesWarning.calledOnceWithExactly(
+						"test.js",
+					),
+					"calls `warningService.emitCircularFixesWarning()` once with the correct argument",
+				);
+
+				const suppressedMessages = linter.getSuppressedMessages();
+
+				assert.strictEqual(
+					suppressedMessages.length,
+					0,
+					"No suppressed messages should exist.",
+				);
+			});
+
+			it("should stop fixing if a circular fix is detected when filename is passed as third argument", () => {
+				const config = {
+					plugins: {
+						test: {
+							rules: {
+								"add-leading-hyphen": {
+									meta: {
+										fixable: "whitespace",
+									},
+									create(context) {
+										return {
+											Program(node) {
+												const sourceCode =
+													context.sourceCode;
+												const hasLeadingHyphen =
+													sourceCode
+														.getText(node)
+														.startsWith("-");
+
+												if (!hasLeadingHyphen) {
+													context.report({
+														node,
+														message:
+															"Add leading hyphen.",
+														fix(fixer) {
+															return fixer.insertTextBefore(
+																node,
+																"-",
+															);
+														},
+													});
+												}
+											},
+										};
+									},
+								},
+								"remove-leading-hyphen": {
+									meta: {
+										fixable: "whitespace",
+									},
+									create(context) {
+										return {
+											Program(node) {
+												const sourceCode =
+													context.sourceCode;
+												const hasLeadingHyphen =
+													sourceCode
+														.getText(node)
+														.startsWith("-");
+
+												if (hasLeadingHyphen) {
+													context.report({
+														node,
+														message:
+															"Remove leading hyphen.",
+														fix(fixer) {
+															return fixer.removeRange(
+																[0, 1],
+															);
+														},
+													});
+												}
+											},
+										};
+									},
+								},
+							},
+						},
+					},
+					rules: {
+						"test/add-leading-hyphen": "error",
+						"test/remove-leading-hyphen": "error",
+					},
+				};
+
+				const initialCode = "-a";
+				const fixResult = linter.verifyAndFix(
+					initialCode,
+					config,
+					"test.js",
+				);
 
 				assert.strictEqual(
 					fixResult.fixed,
