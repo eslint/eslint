@@ -138,7 +138,7 @@ The `context` object has the following properties:
 - `cwd`: (`string`) The `cwd` option passed to the [Linter](../integrate/nodejs-api#linter). It is a path to a directory that should be considered the current working directory.
 - `options`: (`array`) An array of the [configured options](../use/configure/rules) for this rule. This array does not include the rule severity (see the [dedicated section](#accessing-options-passed-to-a-rule)).
 - `sourceCode`: (`object`) A `SourceCode` object that you can use to work with the source that was passed to ESLint (see [Accessing the Source Code](#accessing-the-source-code)).
-- `settings`: (`object`) The [shared settings](../use/configure/configuration-files#configuring-shared-settings) from the configuration.
+- `settings`: (`object`) The [shared settings](../use/configure/configuration-files#configure-shared-settings) from the configuration.
 - `languageOptions`: (`object`) more details for each property [here](../use/configure/language-options)
     - `sourceType`: (`'script' | 'module' | 'commonjs'`) The mode for the current file.
     - `ecmaVersion`: (`number`) The ECMA version used to parse the current file.
@@ -148,7 +148,7 @@ The `context` object has the following properties:
 
 Additionally, the `context` object has the following methods:
 
-- `report(descriptor)`. Reports a problem in the code (see the [dedicated section](#reporting-problems)).
+- `report(descriptor)`. Reports a problem in the code (see the [dedicated section](#report-problems)).
 
 **Note:** Earlier versions of ESLint supported additional methods on the `context` object. Those methods were removed in the new format and should not be relied upon.
 

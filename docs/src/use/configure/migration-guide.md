@@ -670,7 +670,7 @@ export default defineConfig([
 
 #### `--ignore-path`
 
-The `--ignore-path` flag was used to specify which file to use as your `.eslintignore`. Flat config doesn't load ignore patterns from `.eslintignore` files and does not support this flag. If you want to include patterns from a `.gitignore` file, use `includeIgnoreFile()` from `@eslint/compat`. See [Including `.gitignore` Files](ignore#including-gitignore-files) for more details.
+The `--ignore-path` flag was used to specify which file to use as your `.eslintignore`. Flat config doesn't load ignore patterns from `.eslintignore` files and does not support this flag. If you want to include patterns from a `.gitignore` file, use `includeIgnoreFile()` from `@eslint/compat`. See [Include `.gitignore` Files](ignore#include-gitignore-files) for more details.
 
 For example, if you previously used `--ignore-path .gitignore`:
 

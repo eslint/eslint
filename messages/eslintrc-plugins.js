@@ -19,9 +19,9 @@ Flat config requires "plugins" to be an object, like this:
     }
 
 Please see the following page for information on how to convert your config object into the correct format:
-https://eslint.org/docs/latest/use/configure/migration-guide#importing-plugins-and-custom-parsers
+https://eslint.org/docs/latest/use/configure/migration-guide#import-plugins-and-custom-parsers
 
 If you're using a shareable config that you cannot rewrite in flat config format, then use the compatibility utility:
-https://eslint.org/docs/latest/use/configure/migration-guide#using-eslintrc-configs-in-flat-config
+https://eslint.org/docs/latest/use/configure/migration-guide#use-eslintrc-configs-in-flat-config
 `;
 };

@@ -437,7 +437,7 @@ Disables excluding of files from [`--ignore-pattern`](#--ignore-pattern) flags a
 
 This option allows you to specify patterns of files to ignore.
 
-- **Argument Type**: String. The supported syntax is the same as for [`ignores` patterns](configure/configuration-files#excluding-files-with-ignores), which use [minimatch](https://www.npmjs.com/package/minimatch) syntax. You should quote your patterns in order to avoid shell interpretation of glob patterns.
+- **Argument Type**: String. The supported syntax is the same as for [`ignores` patterns](configure/configuration-files#exclude-files-with-ignores), which use [minimatch](https://www.npmjs.com/package/minimatch) syntax. You should quote your patterns in order to avoid shell interpretation of glob patterns.
 - **Multiple Arguments**: Yes
 
 ##### `--ignore-pattern` example
@@ -699,7 +699,7 @@ Inline config comments are meant to change ESLint's behavior in some way: if the
 npx eslint --report-unused-inline-configs error file.js
 ```
 
-### Cache
+### Caching
 
 #### `--cache`
 

@@ -26,7 +26,7 @@ All of these options give you fine-grained control over how ESLint treats your c
 
 - [Configuration File Format](./configuration-files#configuration-file)
 - [Configuration Objects](./configuration-files#configuration-objects)
-- [Configuring Shared Settings](./configuration-files#configuring-shared-settings)
+- [Configure Shared Settings](./configuration-files#configure-shared-settings)
 - [Configuration File Resolution](./configuration-files#configuration-file-resolution)
 
 [**Configure Language Options**](language-options)
@@ -51,6 +51,6 @@ All of these options give you fine-grained control over how ESLint treats your c
 [**Ignore Files**](ignore)
 
 - [Ignore Files](./ignore#ignore-files)
-- [Ignoring Directories](./ignore#ignoring-directories)
-- [Unignoring Files and Directories](./ignore#unignoring-files-and-directories)
+- [Ignore Directories](./ignore#ignore-directories)
+- [Unignore Files and Directories](./ignore#unignore-files-and-directories)
 - [Ignored File Warnings](./ignore#ignored-file-warnings)
