@@ -22,7 +22,7 @@ Additionally, it may also enforce the `forEach` array method callback to **not**
 This rule finds callback functions of the following methods, then checks usage of `return` statement.
 
 * [`Array.from`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.from)
-* [`Array.fromAsync`](https://tc39.es/ecma262/#sec-array.fromasync) (optional, based on `checkArrayFromAsync` parameter)
+* [`Array.fromAsync`](https://tc39.es/ecma262/#sec-array.fromasync)
 * [`Array.prototype.every`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.every)
 * [`Array.prototype.filter`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.filter)
 * [`Array.prototype.find`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.find)
