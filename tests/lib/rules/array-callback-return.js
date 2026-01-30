@@ -297,43 +297,16 @@ ruleTester.run("array-callback-return", rule, {
 		{ code: "foo.every(() => true)", languageOptions: { ecmaVersion: 6 } },
 
 		// Array.fromAsync
-		{
-			code: "Array.fromAsync(x, function() { return true; })",
-			options: [{ checkArrayFromAsync: true }],
-		},
-		{
-			code: "Array.fromAsync(x, async function() { return true; })",
-			options: [{ checkArrayFromAsync: true }],
-		},
+		"Array.fromAsync(x, function() { return true; })",
+		"Array.fromAsync(x, async function() { return true; })",
 		{
 			code: "Array.fromAsync(x, function() { return; })",
-			options: [{ allowImplicit: true, checkArrayFromAsync: true }],
+			options: allowImplicitOptions,
 		},
-		{
-			code: "Array.fromAsync(x, () => true)",
-			options: [{ checkArrayFromAsync: true }],
-		},
-		{
-			code: "Array.fromAsync(x, async () => true)",
-			options: [{ checkArrayFromAsync: true }],
-		},
-		"Array.fromAsync(x, function() {})",
-		{
-			code: "Array.fromAsync(x, function() {})",
-			options: [{ checkArrayFromAsync: false }],
-		},
-		{
-			code: "Array.fromAsync(x, function * () {})",
-			options: [{ checkArrayFromAsync: true }],
-		},
-		{
-			code: "Float64Array.fromAsync(x, function() {})",
-			options: [{ checkArrayFromAsync: true }],
-		},
-		{
-			code: "Array.fromAsync(function() {})",
-			options: [{ checkArrayFromAsync: true }],
-		},
+		"Array.fromAsync(x, async () => true)",
+		"Array.fromAsync(x, function * () {})",
+		"Float64Array.fromAsync(x, function() {})",
+		"Array.fromAsync(function() {})",
 	],
 	invalid: [
 		{
@@ -2051,7 +2024,6 @@ ruleTester.run("array-callback-return", rule, {
 		},
 		{
 			code: "Array.fromAsync(x,\nasync\tfunction \\u0066oo // bar\n   () {})",
-			options: [{ checkArrayFromAsync: true }],
 			errors: [
 				{
 					messageId: "expectedInside",
@@ -2137,7 +2109,6 @@ ruleTester.run("array-callback-return", rule, {
 		// Array.fromAsync
 		{
 			code: "Array.fromAsync(x, function() {})",
-			options: [{ checkArrayFromAsync: true }],
 			errors: [
 				{
 					messageId: "expectedInside",
@@ -2150,7 +2121,6 @@ ruleTester.run("array-callback-return", rule, {
 		},
 		{
 			code: "Array.fromAsync(x, async function() {})",
-			options: [{ checkArrayFromAsync: true }],
 			errors: [
 				{
 					messageId: "expectedInside",
@@ -2163,7 +2133,7 @@ ruleTester.run("array-callback-return", rule, {
 		},
 		{
 			code: "Array.fromAsync(x, function() {})",
-			options: [{ allowImplicit: true, checkArrayFromAsync: true }],
+			options: allowImplicitOptions,
 			errors: [
 				{
 					messageId: "expectedInside",
@@ -2176,7 +2146,6 @@ ruleTester.run("array-callback-return", rule, {
 		},
 		{
 			code: "Array.fromAsync(x, () => {})",
-			options: [{ checkArrayFromAsync: true }],
 			errors: [
 				{
 					messageId: "expectedInside",
@@ -2189,7 +2158,6 @@ ruleTester.run("array-callback-return", rule, {
 		},
 		{
 			code: "Array.fromAsync(x, async () => {})",
-			options: [{ checkArrayFromAsync: true }],
 			errors: [
 				{
 					messageId: "expectedInside",
@@ -2202,7 +2170,6 @@ ruleTester.run("array-callback-return", rule, {
 		},
 		{
 			code: "Array.fromAsync(x, function foo() {})",
-			options: [{ checkArrayFromAsync: true }],
 			errors: [
 				{
 					messageId: "expectedInside",

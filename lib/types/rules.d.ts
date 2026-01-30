@@ -229,11 +229,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default false
 				 */
 				allowVoid: boolean;
-				/**
-				 * @default false
-				 * @since 10.x.x
-				 */
-				checkArrayFromAsync: boolean;
 			}>,
 		]
 	>;

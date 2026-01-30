@@ -93,12 +93,13 @@ const bar = foo.map(node => node.getAttribute("id"));
 
 ## Options
 
-This rule accepts a configuration object with four options:
+This rule accepts a configuration object with three options:
 
 * `"allowImplicit": false` (default) When set to `true`, allows callbacks of methods that require a return value to implicitly return `undefined` with a `return` statement containing no expression.
 * `"checkForEach": false` (default) When set to `true`, rule will also report `forEach` callbacks that return a value.
-* `"allowVoid": false` (default) When set to `true`, allows `void` in `forEach` callbacks, so the rule will not report the return value with a `void` operator. Note that `{ "allowVoid": true }` works only if the `checkForEach` option is set to `true`.
-* `"checkArrayFromAsync": false` (default) When set to `true`, the rule will check `Array.fromAsync` callbacks.
+* `"allowVoid": false` (default) When set to `true`, allows `void` in `forEach` callbacks, so rule will not report the return value with a `void` operator.
+
+**Note:** `{ "allowVoid": true }` works only if `checkForEach` option is set to `true`.
 
 ### allowImplicit
 
@@ -208,38 +209,6 @@ myArray.forEach(item => {
     }
     handleItem(item);
 });
-```
-
-:::
-
-### checkArrayFromAsync
-
-Examples of **incorrect** code for the `{ "checkArrayFromAsync": true }` option:
-
-:::incorrect
-
-```js
-/*eslint array-callback-return: ["error", { checkArrayFromAsync: true }]*/
-
-const doubled = await Array.fromAsync(asyncIterable, x => { x *= 2; });
-
-const results = await Array.fromAsync(
-    urls,
-    async (url) => {
-        const result = await fetch(url);
-        if (result.ok) {
-            return result.json();
-        }
-    },
-);
-
-await Array.fromAsync(
-    numbers,
-    async function (x) {
-        console.log(x * await this.loadFactor());
-    },
-    context,
-);
 ```
 
 :::

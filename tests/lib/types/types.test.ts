@@ -1742,10 +1742,6 @@ let eslintConfig: Linter.Config<ESLintRules>[];
 eslintConfig = [
 	{
 		rules: {
-			"array-callback-return": [
-				"error",
-				{ allowImplicit: false, checkArrayFromAsync: true },
-			],
 			"capitalized-comments": [
 				2,
 				"always",
