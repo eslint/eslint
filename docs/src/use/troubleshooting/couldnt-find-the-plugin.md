@@ -8,7 +8,7 @@ eleventyNavigation:
 
 ## Symptoms
 
-When using the [legacy ESLint config system](../configure/configuration-files-deprecated), you may see this error running ESLint after installing dependencies:
+When using the legacy ESLint config system, you may see this error running ESLint after installing dependencies:
 
 ```plaintext
 ESLint couldn't find the plugin "${pluginName}".
@@ -24,7 +24,7 @@ The plugin "${pluginName}" was referenced from the config file in "${importerNam
 
 ## Cause
 
-[Legacy ESLint configuration files](../configure/configuration-files-deprecated) specify shareable configs by their package name.
+Legacy ESLint configuration files specify shareable configs by their package name.
 That package name is passed to the Node.js `require()`, which looks up the package under local `node_modules/` directories.
 For example, the following ESLint config will first try to load a module located at `node_modules/eslint-plugin-yours`:
 
@@ -60,6 +60,5 @@ Common resolutions for this issue include:
 
 For more information, see:
 
-- [Legacy ESLint configuration files](../configure/configuration-files-deprecated#use-a-shareable-configuration-package) for documentation on the legacy ESLint configuration format.
 - [Configure Plugins](../configure/plugins) for documentation on how to extend from plugins.
 - [Create Plugins](../../extend/plugins#configs-in-plugins) for documentation on how to define plugins.

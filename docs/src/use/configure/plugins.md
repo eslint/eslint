@@ -8,7 +8,7 @@ eleventyNavigation:
 ---
 
 ::: tip
-This page explains how to configure plugins using the flat config format. For the deprecated eslintrc format, [see the deprecated documentation](plugins-deprecated).
+This page explains how to configure plugins using the flat config format.
 :::
 
 You can extend ESLint with plugins in a variety of different ways. Plugins can include:

@@ -8,7 +8,7 @@ eleventyNavigation:
 
 ## Symptoms
 
-When using the [legacy ESLint config system](../configure/configuration-files-deprecated), you may see this error running ESLint after installing dependencies:
+When using the legacy ESLint config system, you may see this error running ESLint after installing dependencies:
 
 ```plaintext
 ESLint couldn't determine the plugin "${pluginId}" uniquely.

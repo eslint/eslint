@@ -8,7 +8,7 @@ eleventyNavigation:
 ---
 
 ::: tip
-This page explains how to configure rules using the flat config format. For the deprecated eslintrc format, [see the deprecated documentation](rules-deprecated).
+This page explains how to configure rules using the flat config format.
 :::
 
 Rules are the core building block of ESLint. A rule validates if your code meets a certain expectation, and what to do if it does not meet that expectation. Rules can also contain additional configuration options specific to that rule.
