@@ -50,7 +50,7 @@ As of April 2019, Node.js 6 will be at EOL and will no longer be receiving secur
 
 ## <a name="eslint-recommended-changes"></a> `eslint:recommended` has been updated
 
-The following rules have been added to the [`eslint:recommended`](../use/configure#using-eslintrecommended) config:
+The following rules have been added to the [`eslint:recommended`](../use/configure/configuration-files#use-predefined-configurations) config:
 
 - [`no-async-promise-executor`](../rules/no-async-promise-executor) disallows using an `async` function as the argument to the `Promise` constructor, which is usually a bug.
 - [`no-misleading-character-class`](../rules/no-misleading-character-class) reports character classes in regular expressions that might not behave as expected.

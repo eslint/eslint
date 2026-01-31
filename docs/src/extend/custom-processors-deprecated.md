@@ -124,7 +124,7 @@ You can have both rules and custom processors in a single plugin. You can also h
 
 **The `meta` object** helps ESLint cache the processor and provide more friendly debug message. The `meta.name` property should match the processor name and the `meta.version` property should match the npm package version for your processors. The easiest way to accomplish this is by reading this information from your `package.json`.
 
-## Specifying Processor in Config Files
+## Specify Processor in Config Files
 
 To use a processor, add its ID to a `processor` section in the config file. Processor ID is a concatenated string of plugin name and processor name with a slash as a separator. This can also be added to a `overrides` section of the config, to specify which processors should handle which files.
 
