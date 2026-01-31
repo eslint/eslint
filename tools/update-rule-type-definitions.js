@@ -17,6 +17,23 @@ const { basename, join, relative } = require("node:path");
 const ts = require("typescript");
 
 /**
+ * Function to get type definitions from schema using `@typescript-eslint/rule-schema-to-typescript-types`.
+ * @param {Object} schema The ESLint rule schema.
+ * @returns {Promise<string>} The generated type definition as a string.
+ */
+async function getTypeDefinition(schema) {
+	const { schemaToTypes } = await import(
+		"@typescript-eslint/rule-schema-to-typescript-types"
+	);
+
+	const typeDefinition = schemaToTypes(schema);
+
+	const typeOnlyPart = typeDefinition.replace(/^type\s+\w+\s*=\s*/u, "");
+
+	return typeOnlyPart;
+}
+
+/**
  * Checks if a declared interface extends `Linter.RulesRecord`.
  * @param {ts.InterfaceDeclaration} node An `InterfaceDeclaration` node.
  * @returns {boolean} A boolean value indicating whether the specified interface extends `Linter.RulesRecord`.
@@ -131,71 +148,6 @@ function resolveSchema(schema) {
 }
 
 /**
- * Groups enum values by their keys.
- * @param {Object} prop properties of the schema with type 'object'.
- * @returns {Object} An object mapping enum keys to their corresponding property names.
- */
-function getEnumGroups(prop) {
-	const enumGroups = {};
-	let keyGroup;
-	let valueGroup;
-
-	for (const [key, value] of Object.entries(prop)) {
-		if (Array.isArray(value.enum)) {
-			const enumKey = JSON.stringify(value.enum);
-			if (!enumGroups[enumKey]) {
-				enumGroups[enumKey] = [];
-			}
-			enumGroups[enumKey].push(key);
-		}
-	}
-
-	if (Object.keys(enumGroups).length !== 0) {
-		for (const [key, value] of Object.entries(enumGroups)) {
-			if (Array.isArray(value) && value.length > 1) {
-				keyGroup = value;
-				valueGroup = JSON.parse(key);
-			}
-		}
-	}
-
-	return { keyGroup, valueGroup };
-}
-
-/**
- * Groups the properties that have equal values by their keys.
- * @param {Object} prop properties of the schema with type 'object'.
- * @returns {Object} An object mapping equal values to their corresponding property names.
- */
-function getPropValueThatIsEqual(prop) {
-	const equalValues = [];
-	let keyValues;
-	let propertyValue;
-
-	for (const [key, value] of Object.entries(prop)) {
-		if (value.type === "object") {
-			const objectValue = JSON.stringify(value);
-
-			if (!equalValues[objectValue]) {
-				equalValues[objectValue] = [];
-			}
-			equalValues[objectValue].push(key);
-		}
-	}
-
-	if (Object.keys(equalValues).length !== 0) {
-		for (const [key, value] of Object.entries(equalValues)) {
-			if (Array.isArray(value) && value.length > 1) {
-				keyValues = JSON.parse(key);
-				propertyValue = JSON.parse(key).properties;
-			}
-		}
-	}
-
-	return { keyValues, propertyValue };
-}
-
-/**
  * Creates a string of enum values for a given array of enum values.
  * @param {Array} enumValue An array of enum values.
  * @returns {string} A string of enum values separated by ' | '.
@@ -258,7 +210,7 @@ function createObjectOfRequiredValues(obj) {
  * @param {Array} arr Array of schema objects.
  * @returns {Array} Array of unique schema objects.
  */
-function uniqueObjects(arr) {
+function getUniqueObjects(arr) {
 	const seen = new Set();
 	const result = [];
 
@@ -333,11 +285,16 @@ function getSimplifiedObjects(obj) {
 		}
 	}
 
-	const uniqueAllObjects = uniqueObjects(allObjects);
+	const uniqueAllObjects = getUniqueObjects(allObjects);
 	const requiredOptions = {
 		required: obj?.required || [],
 		anyOf: obj?.anyOf || [],
 		oneOf: obj?.oneOf || [],
+		hasRequired:
+			obj?.required?.length > 0 ||
+			obj?.anyOf?.some(o => o.required?.length > 0) ||
+			obj?.oneOf?.some(o => o.required?.length > 0) ||
+			false,
 	};
 
 	const finalObjects = uniqueAllObjects.map(item => ({
@@ -384,17 +341,16 @@ function getDefaultTag(value, isDeprecated) {
 /**
  * Gets the partial type definitions for a schema.
  * @param {Object} schema The schema to get partials for.
- * @param {string} ruleId The rule ID associated with the schema.
  * @param {Object} defaultOptions The default options for the rule.
  * @returns {string} The partial type definitions.
  */
-function getPartials(schema, ruleId, defaultOptions) {
+async function getPartials(schema, defaultOptions) {
 	const partials = [];
 	let partialValue;
 
 	for (const schemaItem of schema) {
 		// eslint-disable-next-line no-use-before-define -- Both functions depend on each other.
-		const partial = createPartials(schemaItem, ruleId, defaultOptions);
+		const partial = await createPartials(schemaItem, defaultOptions);
 
 		if (partial) {
 			partials.push(partial);
@@ -415,187 +371,196 @@ function getPartials(schema, ruleId, defaultOptions) {
  * @param {Object | Array | string} defaultOptions The default options for the rule.
  * @returns {string} The created partial type definitions.
  */
-function createPartials(schema, ruleId, defaultOptions) {
+async function createPartials(schema, ruleId, defaultOptions) {
 	let partial;
 
-	if (schema.type === "string") {
-		partial = "string";
+	if (
+		schema.type === "string" ||
+		schema.type === "integer" ||
+		schema.type === "number" ||
+		schema.type === "boolean"
+	) {
+		partial = await getTypeDefinition(schema);
 	}
 
 	if (schema.enum) {
-		if (schema.enum.length > 10) {
-			partial = "string";
-		} else {
-			const enumValues = getArrayValues(schema.enum);
-			partial = enumValues;
-		}
-	}
-
-	if (schema.type === "integer") {
-		partial = "number";
+		partial = getArrayValues(schema.enum);
 	}
 
 	if (schema.const) {
 		partial = `"${schema.const}"`;
 	}
 
+	if (Array.isArray(schema.type)) {
+		const types = schema.type.map(type =>
+			type === "integer" ? "number" : type,
+		);
+
+		partial = types.join(" | ");
+	}
+
 	if (schema.type === "array") {
-		if (schema?.items?.type === "string") {
-			partial = "string[]";
+		if (Array.isArray(schema.items)) {
+			const arrItems = schema.items;
+			const defItems = [];
+
+			for (const item of arrItems) {
+				const itemPartial = await createPartials(
+					item,
+					ruleId,
+					defaultOptions,
+				);
+
+				if (itemPartial) {
+					defItems.push(itemPartial);
+				}
+			}
+
+			if (defItems.length > 0) {
+				partial = defItems.join(",\n");
+			}
 		} else {
-			if (Array.isArray(schema.items)) {
-				const itemPartials = [];
-				for (const item of schema.items) {
-					const itemPartial = createPartials(
-						item,
-						ruleId,
-						defaultOptions,
-					);
-
-					if (itemPartial) {
-						itemPartials.push(itemPartial);
-					}
+			if (
+				schema.items.type === "string" ||
+				schema.items.type === "array"
+			) {
+				if (schema.items.not && schema.items.not.pattern) {
+					partial = "string[]";
+				} else {
+					partial = await getTypeDefinition(schema);
 				}
+			}
 
-				if (itemPartials.length > 0) {
-					partial = `${itemPartials.join(",\n")}`;
-				}
-			} else {
-				if (schema.items.oneOf) {
-					partial = getPartials(
-						schema.items.oneOf,
-						ruleId,
-						defaultOptions,
-					);
-				}
+			if (schema.items.enum) {
+				const enumValues = await getTypeDefinition(schema.items);
 
-				if (schema.items.anyOf) {
-					partial = getPartials(
-						schema.items.anyOf,
-						ruleId,
-						defaultOptions,
-					);
-				}
+				partial = `Array<${enumValues}>`;
+			}
 
-				if (schema.items.type === "object") {
-					if (schema.items.not) {
-						if (
-							schema.items.oneOf &&
-							schema.items.oneOf.every(obj => "required" in obj)
-						) {
-							const requiredValues = [];
+			if (schema.items.anyOf) {
+				const anyOfPartial = await getPartials(
+					schema.items.anyOf,
+					ruleId,
+					defaultOptions,
+				);
 
-							for (const oneOfSchema of schema.items.oneOf) {
-								if (oneOfSchema.required) {
-									requiredValues.push(
-										...oneOfSchema.required,
-									);
-								}
+				partial = `Array<${anyOfPartial}>`;
+			}
+
+			if (schema.items.oneOf) {
+				const oneOfPartial = await getPartials(
+					schema.items.oneOf,
+					ruleId,
+					defaultOptions,
+				);
+
+				partial = `Array<${oneOfPartial}>`;
+			}
+
+			if (schema.items.type === "object") {
+				if (schema.items.not) {
+					if (
+						schema.items.oneOf &&
+						schema.items.oneOf.every(obj => "required" in obj)
+					) {
+						const requiredValues = [];
+
+						for (const oneOfSchema of schema.items.oneOf) {
+							if (oneOfSchema.required) {
+								requiredValues.push(...oneOfSchema.required);
 							}
-
-							const requiredObjects = [];
-
-							for (const [
-								index,
-								reqValue,
-							] of requiredValues.entries()) {
-								const requiredObj = {};
-
-								for (const reqValueOther of requiredValues) {
-									if (
-										reqValueOther === requiredValues[index]
-									) {
-										requiredObj[reqValue] =
-											schema.items.properties[
-												reqValueOther
-											];
-									} else {
-										requiredObj[reqValueOther] = {
-											type: "never",
-										};
-									}
-								}
-
-								requiredObjects.push(requiredObj);
-							}
-
-							const finalObjects = requiredObjects.map(obj => ({
-								type: "object",
-								properties: obj,
-								oneOf: schema.items.oneOf,
-							}));
-
-							const newSchema = getObjectWithoutRequired(
-								schema.items,
-								requiredValues,
-							);
-							const simplifiedObjects =
-								getSimplifiedObjects(newSchema);
-
-							const one = getPartials(
-								simplifiedObjects,
-								ruleId,
-								defaultOptions,
-							);
-							const two = getPartials(
-								finalObjects,
-								ruleId,
-								defaultOptions,
-							);
-
-							partial = `Array<(${one}) & (\n${two})>`;
-						} else {
-							const simplifiedObjects = getSimplifiedObjects(
-								schema.items,
-							);
-
-							const allPartials = getPartials(
-								simplifiedObjects,
-								ruleId,
-								defaultOptions,
-							);
-
-							partial = `Array<${allPartials}>`;
 						}
-					} else {
-						const partialValue = createPartials(
+
+						const requiredObjects = [];
+
+						for (const [
+							index,
+							reqValue,
+						] of requiredValues.entries()) {
+							const requiredObj = {};
+
+							for (const reqValueOther of requiredValues) {
+								if (reqValueOther === requiredValues[index]) {
+									requiredObj[reqValue] =
+										schema.items.properties[reqValueOther];
+								} else {
+									requiredObj[reqValueOther] = {
+										type: "never",
+									};
+								}
+							}
+
+							requiredObjects.push(requiredObj);
+						}
+
+						const finalObjects = requiredObjects.map(obj => ({
+							type: "object",
+							properties: obj,
+							oneOf: schema.items.oneOf,
+							hasRequired: true,
+						}));
+
+						const newSchema = getObjectWithoutRequired(
 							schema.items,
-							ruleId,
+							requiredValues,
+						);
+						const simplifiedObjects =
+							getSimplifiedObjects(newSchema);
+
+						const one = await getPartials(
+							simplifiedObjects,
 							defaultOptions,
 						);
 
-						if (partialValue) {
-							partial = `Array<${partialValue}>`;
-						}
-					}
-				}
+						const two = await getPartials(
+							finalObjects,
+							defaultOptions,
+						);
 
-				if (schema.items.enum) {
-					partial = "string[]";
+						partial = `Array<(${one}) & (\n${two})>`;
+					} else {
+						const simplifiedObjects = getSimplifiedObjects(
+							schema.items,
+						);
+
+						const allPartials = await getPartials(
+							simplifiedObjects,
+							defaultOptions,
+						);
+
+						partial = `Array<${allPartials}>`;
+					}
+				} else {
+					const partialValue = await createPartials(
+						schema.items,
+						ruleId,
+						defaultOptions,
+					);
+
+					if (partialValue) {
+						partial = `Array<${partialValue}>`;
+					}
 				}
 			}
 		}
 	}
 
 	if (schema.oneOf) {
-		partial = getPartials(schema.oneOf, ruleId, defaultOptions);
+		partial = await getPartials(schema.oneOf, defaultOptions);
 	}
 
 	if (schema.anyOf) {
-		partial = getPartials(schema.anyOf, ruleId, defaultOptions);
+		partial = await getPartials(schema.anyOf, defaultOptions);
 	}
 
 	if (schema.type === "object") {
 		if (schema.not) {
 			const simplifiedObjects = getSimplifiedObjects(schema);
 
-			partial = getPartials(simplifiedObjects, ruleId, defaultOptions);
+			partial = await getPartials(simplifiedObjects, defaultOptions);
 		} else {
 			const properties = schema.properties;
 			const partialsValues = [];
-			const partialsWithRecordValues = [];
-			const { keyGroup, valueGroup } = getEnumGroups(properties);
-
 			const requiredProps = [];
 
 			if (schema.required) {
@@ -618,30 +583,6 @@ function createPartials(schema, ruleId, defaultOptions) {
 				}
 			}
 
-			if (keyGroup) {
-				partialsWithRecordValues.push(
-					`Record<${keyGroup.join(" | ")}, ${valueGroup.join(" | ")}>`,
-				);
-			}
-
-			const { propertyValue } = getPropValueThatIsEqual(properties);
-
-			if (propertyValue) {
-				const keys = [];
-				const propValue = [];
-				for (const [prop] of Object.entries(properties)) {
-					keys.push(prop);
-				}
-				for (const [prop, val] of Object.entries(propertyValue)) {
-					propValue.push(`${prop}: ${val.type};`);
-				}
-
-				const allKeys = getArrayValues(keys);
-				partialsWithRecordValues.push(
-					`Record<${allKeys}, Partial<{\n${propValue.join("\n")}\n}>>`,
-				);
-			}
-
 			for (const [key, value] of Object.entries(properties)) {
 				let keyValue = key;
 				const hasDefault =
@@ -654,86 +595,40 @@ function createPartials(schema, ruleId, defaultOptions) {
 					partialsValues.push(`/**\n * @deprecated\n */`);
 				}
 
-				if (requiredProps.length > 0) {
-					keyValue = requiredProps.includes(key) ? key : `${key}?`;
-				}
-
-				if (value.type === "never") {
-					partialsValues.push(`${key}?: never;`);
-				}
-
-				if (Array.isArray(value.type)) {
-					if (defaultOptions && defaultOptions[key] !== void 0) {
-						partialsValues.push(
-							getDefaultTag(
-								defaultOptions[key],
-								addDeprecatedTag,
-							),
-						);
-					}
-
-					if ("default" in value) {
-						partialsValues.push(
-							getDefaultTag(value.default, addDeprecatedTag),
-						);
-					}
-
-					const updated = value.type.map(item =>
-						item === "integer" ? "number" : item,
-					);
-
-					partialsValues.push(`${keyValue}: ${updated.join(" | ")};`);
-				}
-
-				if (value.enum) {
-					if (defaultOptions && defaultOptions[key] !== void 0) {
-						const defaultValue =
-							typeof defaultOptions[key] === "string"
-								? `"${defaultOptions[key]}"`
-								: defaultOptions[key];
-						partialsValues.push(
-							getDefaultTag(defaultValue, addDeprecatedTag),
-						);
-					}
-
-					if (value.enum.length > 10) {
-						partialsValues.push(`${keyValue}: string;`);
-					} else {
-						const enumValues = getArrayValues(value.enum);
-						partialsValues.push(`${keyValue}: ${enumValues};`);
-					}
-				}
-
-				if (value.type === "boolean" || value.type === "string") {
-					if (
-						defaultOptions &&
-						defaultOptions[key] !== void 0 &&
-						defaultOptions[key] !== ""
-					) {
-						partialsValues.push(
-							getDefaultTag(
-								defaultOptions[key],
-								addDeprecatedTag,
-							),
-						);
-					}
-					if ("default" in value) {
-						partialsValues.push(
-							getDefaultTag(value.default, addDeprecatedTag),
-						);
-					}
-					partialsValues.push(`${keyValue}: ${value.type};`);
-				}
-
-				if (value.type === "integer") {
+				if (defaultOptions) {
 					let defaultValue;
 
-					if ("default" in value) {
-						defaultValue = value.default;
-					} else if (defaultOptions) {
-						if (defaultOptions[key] !== void 0) {
+					if (defaultOptions[key] !== void 0) {
+						if (
+							typeof defaultOptions[key] === "string" &&
+							defaultOptions[key] !== ""
+						) {
+							defaultValue = `"${defaultOptions[key]}"`;
+						}
+
+						if (
+							value.type === "array" &&
+							(value.items?.type === "string" ||
+								value.items?.enum)
+						) {
+							defaultValue =
+								Array.isArray(defaultOptions[key]) &&
+								defaultOptions[key].length === 0
+									? "[]"
+									: `[${defaultOptions[key].map(item => (typeof item === "string" ? `"${item}"` : item)).join(", ")}]`;
+						}
+
+						if (
+							typeof defaultOptions[key] === "boolean" ||
+							typeof defaultOptions[key] === "number"
+						) {
 							defaultValue = defaultOptions[key];
-						} else if (Number.isInteger(defaultOptions)) {
+						}
+					} else {
+						if (
+							value.type === "integer" &&
+							Number.isInteger(defaultOptions)
+						) {
 							defaultValue = defaultOptions;
 						}
 					}
@@ -743,202 +638,121 @@ function createPartials(schema, ruleId, defaultOptions) {
 							getDefaultTag(defaultValue, addDeprecatedTag),
 						);
 					}
-					partialsValues.push(`${keyValue}: number;`);
 				}
 
-				if (value.type === "array") {
-					if (value.items?.type === "string") {
-						if (ruleId === "no-console" && key === "allow") {
-							partialsValues.push(
-								`${keyValue}: Array<keyof Console>;`,
-							);
-						} else {
-							if (value.items?.pattern) {
-								partialsValues.push(
-									`/**\n * Pattern "${value.items.pattern}"\n */`,
-								);
-							}
-
-							if (
-								defaultOptions &&
-								defaultOptions[key] !== void 0
-							) {
-								const defaultValue =
-									Array.isArray(defaultOptions[key]) &&
-									defaultOptions[key].length === 0
-										? "[]"
-										: `[${defaultOptions[key].map(item => (typeof item === "string" ? `"${item}"` : item)).join(", ")}]`;
-								partialsValues.push(
-									getDefaultTag(
-										defaultValue,
-										addDeprecatedTag,
-									),
-								);
-							}
-							partialsValues.push(`${keyValue}: string[];`);
-						}
-					}
-
-					if (value.items?.enum) {
-						if (defaultOptions && defaultOptions[key] !== void 0) {
-							const defaultValue =
-								Array.isArray(defaultOptions[key]) &&
-								defaultOptions[key].length === 0
-									? "[]"
-									: `[${defaultOptions[key].map(item => (typeof item === "string" ? `"${item}"` : item)).join(", ")}]`;
-							partialsValues.push(
-								getDefaultTag(defaultValue, addDeprecatedTag),
-							);
-						}
-
-						const enumValues = getArrayValues(value.items.enum);
-
-						partialsValues.push(
-							`${keyValue}: Array<${enumValues}>;`,
-						);
-					}
-
-					if (value.items.type === "object") {
-						const propPartial = [];
-						for (const [prop, val] of Object.entries(
-							value.items.properties,
-						)) {
-							const partialValue = createPartials(
-								val,
-								ruleId,
-								defaultOptions,
-							);
-							if (partialValue) {
-								propPartial.push(`${prop}: ${partialValue};`);
-							}
-						}
-
-						if (propPartial.length > 0) {
-							partialsValues.push(
-								`${keyValue}: Array<{${propPartial.join("\n")}}>;`,
-							);
-						}
-					}
-
-					if (value.items.type === "array") {
-						if (value.items.items?.enum) {
-							partialsValues.push(`${keyValue}: string[][];`);
-						}
-					}
-
-					if (value.items.oneOf) {
-						const oneOfPartials = getPartials(
-							value.items.oneOf,
-							ruleId,
-							defaultOptions,
-						);
-
-						partialsValues.push(
-							`${keyValue}: Array<${oneOfPartials}>;`,
-						);
-					}
-
-					if (value.items.anyOf) {
-						const anyOfPartials = getPartials(
-							value.items.anyOf,
-							ruleId,
-							defaultOptions,
-						);
-
-						partialsValues.push(
-							`${keyValue}: Array<${anyOfPartials}>;`,
-						);
-					}
+				if ("default" in value) {
+					partialsValues.push(
+						getDefaultTag(value.default, addDeprecatedTag),
+					);
 				}
 
-				if (value.type === "object") {
-					if (value.additionalProperties) {
-						if (value.additionalProperties.type === "boolean") {
-							partialsValues.push(
-								`${keyValue}: Record<string, boolean>;`,
-							);
-						}
+				if (
+					value.type === "array" &&
+					value.items?.type === "string" &&
+					value.items?.pattern
+				) {
+					partialsValues.push(
+						`/**\n * Pattern "${value.items.pattern}"\n */`,
+					);
+				}
 
-						if (value.additionalProperties.enum) {
-							const enumValues = getArrayValues(
-								value.additionalProperties.enum,
-							);
+				if (requiredProps.length > 0) {
+					keyValue = requiredProps.includes(key) ? key : `${key}?`;
+				}
 
-							partialsValues.push(
-								`${keyValue}: Record<string, ${enumValues}>;`,
-							);
-						}
-					}
-
-					if (value.properties) {
-						const partialValue = createPartials(
-							value,
-							ruleId,
-							defaultOptions,
-						);
-
-						if (partialValue) {
-							partialsValues.push(
-								`${keyValue}: ${partialValue};`,
-							);
-						}
-					}
-
-					if (value.patternProperties) {
-						for (const [, patternProp] of Object.entries(
-							value.patternProperties,
-						)) {
-							if (
-								ruleId === "no-multi-spaces" &&
-								key === "exceptions"
-							) {
-								partialsValues.push(
-									`/**\n * @default { Property: true }\n */`,
-								);
-							}
-							if (patternProp.type === "boolean") {
-								partialsValues.push(
-									`${keyValue}: Record<string, boolean>;`,
-								);
-							}
-						}
-					}
+				if (value.type === "never") {
+					partialsValues.push(`${key}?: never;`);
 				}
 
 				if (value.oneOf) {
-					const oneOfPartials = getPartials(
-						value.oneOf,
+					const oneOfPartials = await createPartials(
+						value,
 						ruleId,
 						defaultOptions,
 					);
 
 					partialsValues.push(`${keyValue}: \n${oneOfPartials};`);
-				}
-
-				if (value.anyOf) {
-					const anyOfPartials = getPartials(
-						value.anyOf,
+				} else if (value.anyOf) {
+					const anyOfPartials = await createPartials(
+						value,
 						ruleId,
 						defaultOptions,
 					);
 
 					partialsValues.push(`${keyValue}: \n${anyOfPartials};`);
+				} else {
+					if (value.type === "object" && !value.properties) {
+						if (value.additionalProperties) {
+							if (value.additionalProperties.type === "boolean") {
+								partialsValues.push(
+									`${keyValue}: Record<string, boolean>;`,
+								);
+							}
+
+							if (value.additionalProperties.enum) {
+								const enumValues = getArrayValues(
+									value.additionalProperties.enum,
+								);
+
+								partialsValues.push(
+									`${keyValue}: Record<string, ${enumValues}>;`,
+								);
+							}
+						}
+
+						if (value.patternProperties) {
+							for (const [, patternProp] of Object.entries(
+								value.patternProperties,
+							)) {
+								if (
+									ruleId === "no-multi-spaces" &&
+									key === "exceptions"
+								) {
+									partialsValues.push(
+										`/**\n * @default { Property: true }\n */`,
+									);
+								}
+								if (patternProp.type === "boolean") {
+									partialsValues.push(
+										`${keyValue}: Record<string, boolean>;`,
+									);
+								}
+							}
+						}
+					} else {
+						let valueObj = value;
+
+						if (value.description) {
+							// eslint-disable-next-line no-unused-vars -- We omit description for now.
+							const { description, ...restValue } = value;
+							valueObj = restValue;
+						}
+
+						const valuePartial = await createPartials(
+							valueObj,
+							ruleId,
+							defaultOptions,
+						);
+
+						if (valuePartial) {
+							partialsValues.push(
+								`${keyValue}: ${valuePartial};`,
+							);
+						}
+					}
 				}
 			}
 
-			let partialsValue;
-
-			if (requiredProps.length > 0) {
-				partialsValue = `{\n${partialsValues.join("\n")}\n}`;
-			} else {
-				if (partialsValues.length > 0) {
-					partialsValue = `Partial<{\n${partialsValues.join("\n")}\n}>`;
-				} else if (partialsWithRecordValues.length > 0) {
-					partialsValue = `Partial<\n${partialsWithRecordValues.join("\n")}\n>`;
+			if (partialsValues.length > 0) {
+				if (
+					(schema.required && schema?.required.length > 0) ||
+					schema.hasRequired
+				) {
+					partial = `{\n${partialsValues.join("\n")}\n}`;
+				} else {
+					partial = `Partial<{\n${partialsValues.join("\n")}\n}>`;
 				}
 			}
-
-			partial = partialsValue;
 		}
 	}
 
@@ -950,7 +764,7 @@ function createPartials(schema, ruleId, defaultOptions) {
  * @param {string} ruleId The rule ID.
  * @returns {string} The created type definition.
  */
-function createTypeDefinition(ruleId) {
+async function createTypeDefinition(ruleId) {
 	const ruleMeta = rules.get(ruleId).meta;
 	const ruleSchema = ruleMeta.schema;
 	const defaultOptions = ruleMeta.defaultOptions;
@@ -963,8 +777,10 @@ function createTypeDefinition(ruleId) {
 		if (ruleSchema.length === 0) {
 			ruleTypeDefinition = `"${ruleId}": Linter.RuleEntry<[]>;`;
 		} else if (ruleSchema.length === 1) {
-			const partialValue = createPartials(
-				ruleSchema[0],
+			const ruleSchemaItem = ruleSchema[0];
+
+			const partialValue = await createPartials(
+				ruleSchemaItem,
 				ruleId,
 				defaultOptionsFirst,
 			);
@@ -973,19 +789,21 @@ function createTypeDefinition(ruleId) {
 				ruleTypeDefinition = `"${ruleId}": Linter.RuleEntry<[${partialValue}]>;`;
 			}
 
-			if (ruleSchema[0].oneOf && Array.isArray(ruleSchema[0].oneOf)) {
+			if (ruleSchemaItem.oneOf && Array.isArray(ruleSchemaItem.oneOf)) {
 				const partials = [];
 
-				for (const schema of ruleSchema[0].oneOf) {
-					const partial = createPartials(
-						schema,
+				for (const schemaItem of ruleSchemaItem.oneOf) {
+					const partial = await createPartials(
+						schemaItem,
 						ruleId,
 						defaultOptionsFirst,
 					);
+
 					if (partial) {
 						partials.push(partial);
 					}
 				}
+
 				ruleTypeDefinition = `"${ruleId}": Linter.RuleEntry<[\n${partials.join(" |\n")}\n]>;`;
 			}
 		} else {
@@ -996,11 +814,12 @@ function createTypeDefinition(ruleId) {
 				const defaultOptionsCurrent =
 					Array.isArray(defaultOptions) &&
 					defaultOptions[defaultIndex];
-				const partial = createPartials(
+				const partial = await createPartials(
 					schema,
 					ruleId,
 					defaultOptionsCurrent,
 				);
+
 				if (partial) {
 					partials.push(partial);
 				}
@@ -1010,9 +829,7 @@ function createTypeDefinition(ruleId) {
 
 			ruleTypeDefinition = `"${ruleId}": Linter.RuleEntry<[\n${partials.join(",\n")}\n]>;`;
 		}
-	}
-
-	if (typeof ruleSchema === "object") {
+	} else {
 		const defaultOption =
 			Array.isArray(defaultOptions) && defaultOptions[0];
 
@@ -1020,14 +837,14 @@ function createTypeDefinition(ruleId) {
 			if (ruleSchema?.items?.type === "string") {
 				ruleTypeDefinition = `"${ruleId}": Linter.RuleEntry<[...string[]]>;`;
 			} else if (!("oneOf" in ruleSchema) && !("anyOf" in ruleSchema)) {
-				const partialValue = createPartials(
+				const partialValue = await createPartials(
 					ruleSchema,
 					ruleId,
 					defaultOption,
 				);
 
 				if (partialValue) {
-					ruleTypeDefinition = `"${ruleId}": Linter.RuleEntry<[\n${partialValue}\n]>;`;
+					ruleTypeDefinition = `"${ruleId}": Linter.RuleEntry<[\n...${partialValue}\n]>;`;
 				}
 			}
 		}
@@ -1036,9 +853,21 @@ function createTypeDefinition(ruleId) {
 			const partials = [];
 
 			for (const schema of ruleSchema.anyOf) {
-				const partial = createPartials(schema, ruleId, defaultOption);
+				const partial = await createPartials(
+					schema,
+					ruleId,
+					defaultOption,
+				);
 				if (partial) {
-					partials.push(`Linter.RuleEntry<[\n${partial}\n]>`);
+					if (
+						schema.type === "array" &&
+						typeof schema.items === "object" &&
+						!Array.isArray(schema.items)
+					) {
+						partials.push(`Linter.RuleEntry<[\n...${partial}\n]>`);
+					} else {
+						partials.push(`Linter.RuleEntry<[\n${partial}\n]>`);
+					}
 				}
 			}
 
@@ -1049,7 +878,11 @@ function createTypeDefinition(ruleId) {
 			const partials = [];
 
 			for (const schema of ruleSchema.oneOf) {
-				const partial = createPartials(schema, ruleId, defaultOption);
+				const partial = await createPartials(
+					schema,
+					ruleId,
+					defaultOption,
+				);
 				if (partial) {
 					partials.push(`Linter.RuleEntry<[\n${partial}\n]>`);
 				}
@@ -1061,7 +894,7 @@ function createTypeDefinition(ruleId) {
 		if (ruleSchema.definitions) {
 			const mainSchema = resolveSchema(ruleSchema);
 
-			const partialValue = createPartials(
+			const partialValue = await createPartials(
 				mainSchema,
 				ruleId,
 				defaultOption,
@@ -1099,7 +932,7 @@ async function updateTypeDefinition(ruleTypeFile, consideredRuleIds, check) {
 	] of textPositionsMap) {
 		const textBeforeTSDoc = sourceText.slice(lastPos, insertStart);
 		const ruleId = sortedRuleIds.shift();
-		const tsRuleDefinition = createTypeDefinition(ruleId);
+		const tsRuleDefinition = await createTypeDefinition(ruleId);
 
 		chunks.push(textBeforeTSDoc, tsRuleDefinition);
 		lastPos = insertEnd;

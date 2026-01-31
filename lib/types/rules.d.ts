@@ -2017,18 +2017,18 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default []
 				 */
 				allow: Array<
-					| "^"
-					| "|"
 					| "&"
-					| "<<"
-					| ">>"
-					| ">>>"
-					| "^="
-					| "|="
 					| "&="
+					| "<<"
 					| "<<="
+					| ">>"
 					| ">>="
+					| ">>>"
 					| ">>>="
+					| "^"
+					| "^="
+					| "|"
+					| "|="
 					| "~"
 				>;
 				/**
@@ -2146,7 +2146,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"no-console": Linter.RuleEntry<
 		[
 			Partial<{
-				allow: Array<keyof Console>;
+				allow: string[];
 			}>,
 		]
 	>;
@@ -2392,20 +2392,20 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default []
 				 */
 				allow: Array<
-					| "functions"
 					| "arrowFunctions"
-					| "generatorFunctions"
-					| "methods"
-					| "generatorMethods"
-					| "getters"
-					| "setters"
-					| "constructors"
 					| "asyncFunctions"
 					| "asyncMethods"
+					| "constructors"
+					| "decoratedFunctions"
+					| "functions"
+					| "generatorFunctions"
+					| "generatorMethods"
+					| "getters"
+					| "methods"
+					| "overrideMethods"
 					| "privateConstructors"
 					| "protectedConstructors"
-					| "decoratedFunctions"
-					| "overrideMethods"
+					| "setters"
 				>;
 			}>,
 		]
@@ -2673,7 +2673,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 				/**
 				 * @default []
 				 */
-				allow: Array<"~" | "!!" | "+" | "- -" | "-" | "*">;
+				allow: Array<"!!" | "*" | "+" | "~" | "- -" | "-">;
 			}>,
 		]
 	>;
@@ -2905,7 +2905,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default false
 				 */
 				enforceConst: boolean;
-				ignore: Array<string>;
+				ignore: Array<number | string>;
 				/**
 				 * @default false
 				 */
@@ -2970,7 +2970,35 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"no-mixed-operators": Linter.RuleEntry<
 		[
 			Partial<{
-				groups: string[][];
+				groups: (
+					| "!="
+					| "!=="
+					| "%"
+					| "&&"
+					| "&"
+					| "*"
+					| "**"
+					| "+"
+					| "/"
+					| "<"
+					| "<<"
+					| "<="
+					| "=="
+					| "==="
+					| ">"
+					| ">="
+					| ">>"
+					| ">>>"
+					| "?:"
+					| "??"
+					| "^"
+					| "|"
+					| "||"
+					| "~"
+					| "-"
+					| "in"
+					| "instanceof"
+				)[][];
 				/**
 				 * @default true
 				 */
@@ -2990,10 +3018,11 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"no-mixed-requires": Linter.RuleEntry<
 		[
-			Partial<{
-				grouping: boolean;
-				allowCall: boolean;
-			}>,
+			| boolean
+			| Partial<{
+					grouping: boolean;
+					allowCall: boolean;
+			  }>,
 		]
 	>;
 
@@ -3411,11 +3440,13 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"no-restricted-globals":
 		| Linter.RuleEntry<
 				[
-					| string
-					| {
-							name: string;
-							message?: string;
-					  },
+					...Array<
+						| string
+						| {
+								name: string;
+								message?: string;
+						  }
+					>,
 				]
 		  >
 		| Linter.RuleEntry<
@@ -3443,19 +3474,21 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"no-restricted-imports":
 		| Linter.RuleEntry<
 				[
-					| string
-					| {
-							name: string;
-							message?: string;
-							importNames?: string[];
-							allowTypeImports?: boolean;
-					  }
-					| {
-							name: string;
-							message?: string;
-							allowImportNames?: string[];
-							allowTypeImports?: boolean;
-					  },
+					...Array<
+						| string
+						| {
+								name: string;
+								message?: string;
+								importNames?: string[];
+								allowTypeImports?: boolean;
+						  }
+						| {
+								name: string;
+								message?: string;
+								allowImportNames?: string[];
+								allowTypeImports?: boolean;
+						  }
+					>,
 				]
 		  >
 		| Linter.RuleEntry<
@@ -3527,16 +3560,18 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"no-restricted-modules":
 		| Linter.RuleEntry<
 				[
-					| string
-					| {
-							name: string;
-							message?: string;
-					  },
+					...Array<
+						| string
+						| {
+								name: string;
+								message?: string;
+						  }
+					>,
 				]
 		  >
 		| Linter.RuleEntry<
 				[
-					Array<
+					...Array<
 						Partial<{
 							paths: Array<
 								| string
@@ -3559,7 +3594,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"no-restricted-properties": Linter.RuleEntry<
 		[
-			Array<
+			...Array<
 				| {
 						property: string;
 						allowObjects?: string[];
@@ -3587,11 +3622,13 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"no-restricted-syntax": Linter.RuleEntry<
 		[
-			| string
-			| {
-					selector: string;
-					message?: string;
-			  },
+			...Array<
+				| string
+				| {
+						selector: string;
+						message?: string;
+				  }
+			>,
 		]
 	>;
 
@@ -4016,11 +4053,11 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default []
 				 */
 				ignore: Array<
-					| "WhileStatement"
 					| "DoWhileStatement"
-					| "ForStatement"
 					| "ForInStatement"
 					| "ForOfStatement"
+					| "ForStatement"
+					| "WhileStatement"
 				>;
 			}>,
 		]
@@ -4668,8 +4705,164 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			Array<{
 				blankLine: "any" | "never" | "always";
-				prev: string | string[];
-				next: string | string[];
+				prev:
+					| "*"
+					| "block-like"
+					| "cjs-export"
+					| "cjs-import"
+					| "directive"
+					| "expression"
+					| "iife"
+					| "multiline-block-like"
+					| "multiline-expression"
+					| "multiline-const"
+					| "multiline-let"
+					| "multiline-var"
+					| "singleline-const"
+					| "singleline-let"
+					| "singleline-var"
+					| "block"
+					| "empty"
+					| "function"
+					| "break"
+					| "case"
+					| "class"
+					| "const"
+					| "continue"
+					| "debugger"
+					| "default"
+					| "do"
+					| "export"
+					| "for"
+					| "if"
+					| "import"
+					| "let"
+					| "return"
+					| "switch"
+					| "throw"
+					| "try"
+					| "var"
+					| "while"
+					| "with"
+					| Array<
+							| "*"
+							| "block"
+							| "block-like"
+							| "break"
+							| "case"
+							| "cjs-export"
+							| "cjs-import"
+							| "class"
+							| "const"
+							| "continue"
+							| "debugger"
+							| "default"
+							| "directive"
+							| "do"
+							| "empty"
+							| "export"
+							| "expression"
+							| "for"
+							| "function"
+							| "if"
+							| "iife"
+							| "import"
+							| "let"
+							| "multiline-block-like"
+							| "multiline-const"
+							| "multiline-expression"
+							| "multiline-let"
+							| "multiline-var"
+							| "return"
+							| "singleline-const"
+							| "singleline-let"
+							| "singleline-var"
+							| "switch"
+							| "throw"
+							| "try"
+							| "var"
+							| "while"
+							| "with"
+					  >;
+				next:
+					| "*"
+					| "block-like"
+					| "cjs-export"
+					| "cjs-import"
+					| "directive"
+					| "expression"
+					| "iife"
+					| "multiline-block-like"
+					| "multiline-expression"
+					| "multiline-const"
+					| "multiline-let"
+					| "multiline-var"
+					| "singleline-const"
+					| "singleline-let"
+					| "singleline-var"
+					| "block"
+					| "empty"
+					| "function"
+					| "break"
+					| "case"
+					| "class"
+					| "const"
+					| "continue"
+					| "debugger"
+					| "default"
+					| "do"
+					| "export"
+					| "for"
+					| "if"
+					| "import"
+					| "let"
+					| "return"
+					| "switch"
+					| "throw"
+					| "try"
+					| "var"
+					| "while"
+					| "with"
+					| Array<
+							| "*"
+							| "block"
+							| "block-like"
+							| "break"
+							| "case"
+							| "cjs-export"
+							| "cjs-import"
+							| "class"
+							| "const"
+							| "continue"
+							| "debugger"
+							| "default"
+							| "directive"
+							| "do"
+							| "empty"
+							| "export"
+							| "expression"
+							| "for"
+							| "function"
+							| "if"
+							| "iife"
+							| "import"
+							| "let"
+							| "multiline-block-like"
+							| "multiline-const"
+							| "multiline-expression"
+							| "multiline-let"
+							| "multiline-var"
+							| "return"
+							| "singleline-const"
+							| "singleline-let"
+							| "singleline-var"
+							| "switch"
+							| "throw"
+							| "try"
+							| "var"
+							| "while"
+							| "with"
+					  >;
 			}>,
 		]
 	>;
@@ -4817,14 +5010,14 @@ export interface ESLintRules extends Linter.RulesRecord {
 				exceptions: Array<
 					| "apply"
 					| "call"
-					| "delete"
 					| "defineProperty"
+					| "delete"
 					| "getOwnPropertyDescriptor"
-					| "getPrototypeOf"
-					| "setPrototypeOf"
-					| "isExtensible"
 					| "getOwnPropertyNames"
+					| "getPrototypeOf"
+					| "isExtensible"
 					| "preventExtensions"
+					| "setPrototypeOf"
 				>;
 			}>,
 		]
@@ -5094,7 +5287,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default ["none", "all", "multiple", "single"]
 				 */
 				memberSyntaxSortOrder: Array<
-					"none" | "all" | "multiple" | "single"
+					"all" | "multiple" | "none" | "single"
 				>;
 				/**
 				 * @default false
@@ -5218,7 +5411,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			"always" | "never",
 			Partial<{
-				exceptions: Array<"{}" | "[]" | "()" | "empty">;
+				exceptions: Array<"()" | "[]" | "{}" | "empty">;
 			}>,
 		]
 	>;
