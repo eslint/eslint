@@ -50,6 +50,7 @@ The source file for a rule exports an object with the following properties. Both
 - `docs`: (`object`) Properties often used for documentation generation and tooling. Required for core rules and optional for custom rules. Custom rules can include additional properties here as needed.
 
     - `description`: (`string`) Provides a short description of the rule. For core rules, this is used in [rules index](../rules/).
+    - `frozen`: (`boolean`) For core rules, specifies whether the rule is [frozen](../contribute/core-rules#frozen-rules) and no longer accepts feature requests.
     - `recommended`: (`unknown`) For core rules, this is a boolean value specifying whether the rule is enabled by the `recommended` config from `@eslint/js`.
     - `url`: (`string`) Specifies the URL at which the full documentation can be accessed. Code editors often use this to provide a helpful link on highlighted rule violations.
 
