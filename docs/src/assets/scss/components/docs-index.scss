@@ -162,3 +162,21 @@
 		flex-direction: row;
 	}
 }
+
+.docs-index-no-js {
+	display: none;
+}
+
+@media (max-width: 1023px) {
+	html.no-js .docs__index__panel.with-js {
+		display: none;
+	}
+
+	html.no-js .docs-index-no-js {
+		display: block;
+	}
+
+	.docs-index-toggle-no-js {
+		list-style: none;
+	}
+}

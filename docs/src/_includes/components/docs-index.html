@@ -19,7 +19,7 @@
             <path id="ham-bottom" d="M30,63 L70,63 Z" stroke="currentColor"></path>
         </svg>
     </button>
-    <div class="docs__index__panel" id="js-docs-index-panel">
+    <div class="docs__index__panel with-js" id="js-docs-index-panel">
         {% include 'components/search.html' %}
 
         <ul class="docs-index__list" id="js-docs-list">
@@ -27,3 +27,17 @@
         </ul>
     </div>
 </nav>
+
+<details class="docs-index-no-js docs-index">
+    <summary class="docs-index-toggle-no-js docs-index-toggle">
+        Index
+    </summary>
+
+    <div class="docs__index__panel" id="js-docs-index-panel">
+        {% include 'components/search.html' %}
+
+        <ul class="docs-index__list" id="js-docs-list">
+            {%- for entry in navPages %}{{ renderNavListItem(entry) }}{%- endfor -%}
+        </ul>
+    </div>
+</details>
