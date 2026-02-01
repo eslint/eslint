@@ -150,6 +150,16 @@
 	display: none;
 }
 
+.docs-nav-toggle-no-js svg {
+	width: 40px;
+	height: 40px;
+	color: var(--headings-color);
+	fill: none;
+	stroke-width: 4;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
 @media (max-width: 1023px) {
 	html.no-js .docs-nav-panel.with-js {
 		display: none;
@@ -167,18 +177,8 @@
 		cursor: pointer;
 	}
 
-	html.no-js .docs-nav-toggle-no-js svg {
-		width: 40px;
-		height: 40px;
-		color: var(--headings-color);
-		fill: none;
-		stroke-width: 4;
-		stroke-linecap: round;
-		stroke-linejoin: round;
-	}
-
 	html.no-js .flexer {
 		position: relative;
-		right: 48px;
+		right: 50px;
 	}
 }
