@@ -145,3 +145,40 @@
 		}
 	}
 }
+
+.docs-nav-no-js {
+	display: none;
+}
+
+.docs-nav-toggle-no-js svg {
+	width: 40px;
+	height: 40px;
+	color: var(--headings-color);
+	fill: none;
+	stroke-width: 4;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+@media (max-width: 1023px) {
+	html.no-js .docs-nav-panel.with-js {
+		display: none;
+	}
+
+	html.no-js .docs-nav-no-js {
+		display: block;
+	}
+
+	html.no-js .docs-nav-toggle-no-js {
+		position: absolute;
+		top: 20px;
+		right: 15px;
+		list-style: none;
+		cursor: pointer;
+	}
+
+	html.no-js .flexer {
+		position: relative;
+		right: 50px;
+	}
+}
