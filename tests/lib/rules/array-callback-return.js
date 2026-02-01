@@ -295,6 +295,18 @@ ruleTester.run("array-callback-return", rule, {
 			languageOptions: { ecmaVersion: 6 },
 		},
 		{ code: "foo.every(() => true)", languageOptions: { ecmaVersion: 6 } },
+
+		// Array.fromAsync
+		"Array.fromAsync(x, function() { return true; })",
+		"Array.fromAsync(x, async function() { return true; })",
+		{
+			code: "Array.fromAsync(x, function() { return; })",
+			options: allowImplicitOptions,
+		},
+		"Array.fromAsync(x, async () => true)",
+		"Array.fromAsync(x, function * () {})",
+		"Float64Array.fromAsync(x, function() {})",
+		"Array.fromAsync(function() {})",
 	],
 	invalid: [
 		{
@@ -2010,6 +2022,22 @@ ruleTester.run("array-callback-return", rule, {
 				},
 			],
 		},
+		{
+			code: "Array.fromAsync(x,\nasync\tfunction \\u0066oo // bar\n   () {})",
+			errors: [
+				{
+					messageId: "expectedInside",
+					data: {
+						name: "async function 'foo'",
+						arrayMethodName: "Array.fromAsync",
+					},
+					line: 2,
+					column: 1,
+					endLine: 3,
+					endColumn: 4,
+				},
+			],
+		},
 
 		// Optional chaining
 		{
@@ -2073,6 +2101,81 @@ ruleTester.run("array-callback-return", rule, {
 					data: {
 						name: "arrow function",
 						arrayMethodName: "Array.prototype.filter",
+					},
+				},
+			],
+		},
+
+		// Array.fromAsync
+		{
+			code: "Array.fromAsync(x, function() {})",
+			errors: [
+				{
+					messageId: "expectedInside",
+					data: {
+						name: "function",
+						arrayMethodName: "Array.fromAsync",
+					},
+				},
+			],
+		},
+		{
+			code: "Array.fromAsync(x, async function() {})",
+			errors: [
+				{
+					messageId: "expectedInside",
+					data: {
+						name: "async function",
+						arrayMethodName: "Array.fromAsync",
+					},
+				},
+			],
+		},
+		{
+			code: "Array.fromAsync(x, function() {})",
+			options: allowImplicitOptions,
+			errors: [
+				{
+					messageId: "expectedInside",
+					data: {
+						name: "function",
+						arrayMethodName: "Array.fromAsync",
+					},
+				},
+			],
+		},
+		{
+			code: "Array.fromAsync(x, () => {})",
+			errors: [
+				{
+					messageId: "expectedInside",
+					data: {
+						name: "arrow function",
+						arrayMethodName: "Array.fromAsync",
+					},
+				},
+			],
+		},
+		{
+			code: "Array.fromAsync(x, async () => {})",
+			errors: [
+				{
+					messageId: "expectedInside",
+					data: {
+						name: "async arrow function",
+						arrayMethodName: "Array.fromAsync",
+					},
+				},
+			],
+		},
+		{
+			code: "Array.fromAsync(x, function foo() {})",
+			errors: [
+				{
+					messageId: "expectedInside",
+					data: {
+						name: "function 'foo'",
+						arrayMethodName: "Array.fromAsync",
 					},
 				},
 			],
