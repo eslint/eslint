@@ -274,5 +274,4 @@ feedback on code quality.
 
 ## View the Tutorial Code
 
-You can view the annotated source code for the tutorial
-[here](https://github.com/eslint/eslint/tree/main/docs/_examples/integration-tutorial-code).
+You can view the [annotated source code for the tutorial](https://github.com/eslint/eslint/tree/main/docs/_examples/integration-tutorial-code).
