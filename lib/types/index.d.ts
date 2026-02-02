@@ -1275,6 +1275,10 @@ export namespace ESLint {
 		/** The strategy used to detect changed files. */
 		cacheStrategy?: CacheStrategy | undefined;
 
+		// Suppressions
+		applySuppressions?: boolean | undefined;
+		suppressionsLocation?: string | null | undefined;
+
 		// Other Options
 
 		/** Maximum number of linting threads, "auto" to choose automatically, "off" for no multithreading. */

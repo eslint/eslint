@@ -299,6 +299,8 @@ describe("ESLint", () => {
 						plugins: "",
 						warnIgnored: "",
 						ruleFilter: "",
+						applySuppressions: "",
+						suppressionsLocation: "",
 					}),
 				new RegExp(
 					escapeStringRegExp(
@@ -321,6 +323,8 @@ describe("ESLint", () => {
 							"- 'plugins' must be an object or null.",
 							"- 'warnIgnored' must be a boolean.",
 							"- 'ruleFilter' must be a function.",
+							"- 'applySuppressions' must be a boolean.",
+							"- 'suppressionsLocation' must be a non-empty string or null.",
 						].join("\n"),
 					),
 					"u",
@@ -585,6 +589,27 @@ describe("ESLint", () => {
 			eslint = new ESLint({ cwd: getFixturePath() });
 
 			assert.strictEqual(eslint.hasFlag("x_feature"), false);
+		});
+
+		it("should throw when 'applySuppressions' is not a boolean", () => {
+			assert.throws(
+				() => new ESLint({ applySuppressions: "yes" }),
+				/'applySuppressions' must be a boolean/u,
+			);
+		});
+
+		it("should throw when 'suppressionsLocation' is an empty string", () => {
+			assert.throws(
+				() => new ESLint({ suppressionsLocation: "" }),
+				/'suppressionsLocation' must be a non-empty string or null/u,
+			);
+		});
+
+		it("should throw when 'suppressionsLocation' is not a string or null", () => {
+			assert.throws(
+				() => new ESLint({ suppressionsLocation: 123 }),
+				/'suppressionsLocation' must be a non-empty string or null/u,
+			);
 		});
 	});
 
@@ -1898,6 +1923,112 @@ describe("ESLint", () => {
 			assert.strictEqual(results[0].messages.length, 1);
 			assert.strictEqual(results[0].messages[0].severity, 2);
 			assert.strictEqual(results[0].messages[0].ruleId, "unicode-bom");
+		});
+
+		it("should apply suppressions when 'applySuppressions' is true and 'filePath' is provided", async () => {
+			const cwd = getFixturePath("suppressions");
+
+			eslint = new ESLint({
+				overrideConfigFile: true,
+				cwd,
+				applySuppressions: true,
+			});
+			const results = await eslint.lintText(
+				'/* eslint no-undef: "error" */\nlet a = b + c + d;\n',
+				{ filePath: path.join(cwd, "test-file.js") },
+			);
+
+			// no-undef has 3 violations and is suppressed (count: 3 in suppressions file)
+			const noUndefMessages = results[0].messages.filter(
+				m => m.ruleId === "no-undef",
+			);
+
+			assert.strictEqual(
+				noUndefMessages.length,
+				0,
+				"no-undef errors should be suppressed",
+			);
+
+			// Check that suppressed messages are in suppressedMessages
+			const suppressedNoUndef = results[0].suppressedMessages.filter(
+				m => m.ruleId === "no-undef",
+			);
+
+			assert.strictEqual(
+				suppressedNoUndef.length,
+				3,
+				"no-undef errors should appear in suppressedMessages",
+			);
+		});
+
+		it("should not apply suppressions when 'applySuppressions' is false (default)", async () => {
+			const cwd = getFixturePath("suppressions");
+
+			eslint = new ESLint({
+				overrideConfigFile: true,
+				cwd,
+			});
+			const results = await eslint.lintText(
+				'/* eslint no-undef: "error" */\nlet a = b + c + d;\n',
+				{ filePath: path.join(cwd, "test-file.js") },
+			);
+
+			const noUndefMessages = results[0].messages.filter(
+				m => m.ruleId === "no-undef",
+			);
+
+			assert.strictEqual(
+				noUndefMessages.length,
+				3,
+				"no-undef errors should not be suppressed",
+			);
+		});
+
+		it("should not apply suppressions when 'applySuppressions' is explicitly false and 'filePath' is provided", async () => {
+			const cwd = getFixturePath("suppressions");
+
+			eslint = new ESLint({
+				overrideConfigFile: true,
+				cwd,
+				applySuppressions: false,
+			});
+			const results = await eslint.lintText(
+				'/* eslint no-undef: "error" */\nlet a = b + c + d;\n',
+				{ filePath: path.join(cwd, "test-file.js") },
+			);
+
+			const noUndefMessages = results[0].messages.filter(
+				m => m.ruleId === "no-undef",
+			);
+
+			assert.strictEqual(
+				noUndefMessages.length,
+				3,
+				"no-undef errors should not be suppressed when applySuppressions is false",
+			);
+		});
+
+		it("should not apply suppressions when 'filePath' is omitted", async () => {
+			const cwd = getFixturePath("suppressions");
+
+			eslint = new ESLint({
+				overrideConfigFile: true,
+				cwd,
+				applySuppressions: true,
+			});
+			const results = await eslint.lintText(
+				'/* eslint no-undef: "error" */\nlet a = b + c + d;\n',
+			);
+
+			const noUndefMessages = results[0].messages.filter(
+				m => m.ruleId === "no-undef",
+			);
+
+			assert.strictEqual(
+				noUndefMessages.length,
+				3,
+				"no-undef errors should not be suppressed without filePath",
+			);
 		});
 	});
 
@@ -9067,6 +9198,146 @@ describe("ESLint", () => {
 				await eslint.lintFiles(["passing*.js"]);
 				assert.strictEqual(process.env.ESLINT_TEST_ENV, "test");
 			});
+		});
+
+		it("should apply suppressions to lintFiles results when 'applySuppressions' is true", async () => {
+			const cwd = getFixturePath("suppressions");
+
+			eslint = new ESLint({
+				overrideConfigFile: true,
+				cwd,
+				applySuppressions: true,
+			});
+			const results = await eslint.lintFiles(["test-file.js"]);
+
+			// no-undef (3 violations) and no-sparse-arrays (2 violations) should be suppressed
+			const noUndefMessages = results[0].messages.filter(
+				m => m.ruleId === "no-undef",
+			);
+			const noSparseMessages = results[0].messages.filter(
+				m => m.ruleId === "no-sparse-arrays",
+			);
+
+			assert.strictEqual(
+				noUndefMessages.length,
+				0,
+				"no-undef errors should be suppressed",
+			);
+			assert.strictEqual(
+				noSparseMessages.length,
+				0,
+				"no-sparse-arrays errors should be suppressed",
+			);
+
+			// Suppressed messages should be in suppressedMessages
+			const suppressedNoUndef = results[0].suppressedMessages.filter(
+				m => m.ruleId === "no-undef",
+			);
+			const suppressedNoSparse = results[0].suppressedMessages.filter(
+				m => m.ruleId === "no-sparse-arrays",
+			);
+
+			assert.strictEqual(
+				suppressedNoUndef.length,
+				3,
+				"no-undef errors should appear in suppressedMessages",
+			);
+			assert.strictEqual(
+				suppressedNoSparse.length,
+				2,
+				"no-sparse-arrays errors should appear in suppressedMessages",
+			);
+		});
+
+		it("should not apply suppressions to lintFiles results when 'applySuppressions' is false (default)", async () => {
+			const cwd = getFixturePath("suppressions");
+
+			eslint = new ESLint({
+				overrideConfigFile: true,
+				cwd,
+			});
+			const results = await eslint.lintFiles(["test-file.js"]);
+
+			const noUndefMessages = results[0].messages.filter(
+				m => m.ruleId === "no-undef",
+			);
+
+			assert.strictEqual(
+				noUndefMessages.length,
+				3,
+				"no-undef errors should not be suppressed",
+			);
+		});
+
+		it("should use default 'eslint-suppressions.json' when 'suppressionsLocation' is omitted", async () => {
+			const cwd = getFixturePath("suppressions");
+
+			eslint = new ESLint({
+				overrideConfigFile: true,
+				cwd,
+				applySuppressions: true,
+			});
+			const results = await eslint.lintFiles(["test-file.js"]);
+
+			// The default eslint-suppressions.json in the suppressions fixture suppresses no-undef and no-sparse-arrays
+			const noUndefMessages = results[0].messages.filter(
+				m => m.ruleId === "no-undef",
+			);
+
+			assert.strictEqual(
+				noUndefMessages.length,
+				0,
+				"should use default suppressions file",
+			);
+		});
+
+		it("should use custom suppressions file when 'suppressionsLocation' is provided", async () => {
+			const cwd = getFixturePath("suppressions");
+
+			eslint = new ESLint({
+				overrideConfigFile: true,
+				cwd,
+				applySuppressions: true,
+				suppressionsLocation: "existing-eslintsuppressions.json",
+			});
+			const results = await eslint.lintFiles(["test-file.js"]);
+
+			/*
+			 * existing-eslintsuppressions.json only has entries for "tests/fixtures/suppressions/extra-file.js", not "test-file.js"
+			 * So no suppressions should match, and all errors should remain
+			 */
+			const noUndefMessages = results[0].messages.filter(
+				m => m.ruleId === "no-undef",
+			);
+
+			assert.strictEqual(
+				noUndefMessages.length,
+				3,
+				"should not suppress errors when suppressions file doesn't match",
+			);
+		});
+
+		it("should handle missing suppressions file gracefully when 'applySuppressions' is true", async () => {
+			const cwd = getFixturePath("suppressions");
+
+			eslint = new ESLint({
+				overrideConfigFile: true,
+				cwd,
+				applySuppressions: true,
+				suppressionsLocation: "nonexistent-suppressions.json",
+			});
+			const results = await eslint.lintFiles(["test-file.js"]);
+
+			// SuppressionsService.load() returns {} on ENOENT, so no suppressions should be applied
+			const noUndefMessages = results[0].messages.filter(
+				m => m.ruleId === "no-undef",
+			);
+
+			assert.strictEqual(
+				noUndefMessages.length,
+				3,
+				"should not crash and should report all errors",
+			);
 		});
 	});
 
