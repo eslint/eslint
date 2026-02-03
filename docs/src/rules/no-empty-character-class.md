@@ -64,6 +64,10 @@ Examples of **correct** code for this rule:
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## Known Limitations
 
 This rule does not report empty character classes in the string argument of calls to the `RegExp` constructor.

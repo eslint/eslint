@@ -14,8 +14,6 @@ This rule checks `this`/`super` keywords in constructors, then reports those tha
 
 This rule is aimed to flag `this`/`super` keywords before `super()` callings.
 
-## Examples
-
 Examples of **incorrect** code for this rule:
 
 ::: incorrect
@@ -81,6 +79,10 @@ class A3 extends B {
 ```
 
 :::
+
+## Options
+
+This rule has no options.
 
 ## When Not To Use It
 
