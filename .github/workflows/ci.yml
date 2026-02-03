@@ -45,6 +45,9 @@ jobs:
             - name: Lint Files, Dependencies, & Exports
               run: npm run lint:unused
 
+            - name: Check Formatting
+              run: npm run fmt:check
+
     test_on_node:
         name: Test
         strategy:
