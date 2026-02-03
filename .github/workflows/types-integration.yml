@@ -201,25 +201,15 @@ jobs:
               working-directory: eslint
               run: npm install
 
+            - name: Patch html-eslint package.json
+              uses: restackio/update-json-file-action@2.1
+              with:
+                  file: html-eslint/package.json
+                  fields: '{"resolutions.eslint":"file:../eslint"}'
+
             - name: Install Packages (html-eslint)
               working-directory: html-eslint
-              run: yarn install
-
-            - name: Add local eslint to @html-eslint/eslint-plugin
-              working-directory: html-eslint/packages/eslint-plugin
-              run: yarn add ../../../eslint -D
-
-            - name: Add local eslint to @html-eslint/template-parser
-              working-directory: html-eslint/packages/template-parser
-              run: yarn add ../../../eslint -D
-
-            - name: Add local eslint to @html-eslint/template-syntax-parser
-              working-directory: html-eslint/packages/template-syntax-parser
-              run: yarn add ../../../eslint -D
-
-            - name: Add local eslint to @html-eslint/types
-              working-directory: html-eslint/packages/types
-              run: yarn add ../../../eslint
+              run: yarn install --no-immutable
 
             - name: Run TSC
               working-directory: html-eslint
