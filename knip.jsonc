@@ -38,9 +38,6 @@
     // Workspaces with default configs:
     "packages/*": {
       "ignore": ["tests/types/**"],
-    },
-    "packages/eslint-config-eslint": {
-      "ignore": ["tests/types/**"],
       "ignoreDependencies": ["eslint"],
     },
   },
