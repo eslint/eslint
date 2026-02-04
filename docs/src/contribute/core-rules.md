@@ -111,7 +111,7 @@ The rule naming conventions for ESLint are as follows:
 
 ## Frozen Rules
 
-When rules are feature complete, they are marked as frozen (indicated with ❄️ in the documentation). Rules are considered feature complete when the intended purpose of the rule has been fully implemented such that it catches 80% or more of expected violations and covers the majority of common exceptions. After that point, we expect users to use [disable comments](../use/configure/rules#using-configuration-comments-1) when they find an edge case that isn't covered.
+When rules are feature complete, they are marked as frozen (indicated with ❄️ in the documentation). Rules are considered feature complete when the intended purpose of the rule has been fully implemented such that it catches 80% or more of expected violations and covers the majority of common exceptions. After that point, we expect users to use [disable comments](../use/configure/rules#use-configuration-comments-1) when they find an edge case that isn't covered.
 
 When a rule is frozen, it means:
 

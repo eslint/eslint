@@ -24,13 +24,13 @@ We use labels to indicate the status of issues. The most complete documentation 
     1. **Enhancements** - requested improvements for existing functionality.
     1. **Other** - anything else.
 
-## Starting Work
+## Start Work
 
 ::: important
 Before starting to work on an existing issue, please check if the issue has been assigned to anyone. If it has, then that person is already responsible for submitting a pull request and you should choose a different issue to work on.
 :::
 
-### Claiming an issue
+### Claim an issue
 
 If you're going to work on an issue, please _claim_ the issue by adding a comment saying you're working on it and indicating when you think you will complete it. This helps us to avoid duplication of effort. Some examples of good claim comments are:
 
@@ -40,7 +40,7 @@ If you're going to work on an issue, please _claim_ the issue by adding a commen
 
 The team will validate your claim by assigning the issue to you.
 
-### Offering help on a claimed issue
+### Offer help on a claimed issue
 
 If an issue has an assignee or has already been claimed by someone, please be respectful of that person's desire to complete the work and don't work on it unless you verify that they are no longer interested or would welcome the help. If there hasn't been activity on the issue after two weeks, you can express your interest in helping with the issue. For example:
 
@@ -51,7 +51,7 @@ It is up to the assignee to decide if they're going to continue working on the i
 
 If there is no response after a week, please contact a team member for help.
 
-### Unclaiming an issue
+### Unclaim an issue
 
 If you claimed an issue and find you can't finish the work, then add a comment letting people know, for example:
 

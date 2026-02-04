@@ -13,7 +13,7 @@ This page explains how to configure language options using the flat config forma
 
 The JavaScript ecosystem has a variety of runtimes, versions, extensions, and frameworks. Each of these can have different supported syntax and global variables. ESLint lets you configure language options specific to the JavaScript used in your project, like custom global variables. You can also use plugins to extend ESLint to support your project's language options.
 
-## Specifying JavaScript Options
+## Specify JavaScript Options
 
 ESLint allows you to specify the JavaScript language options you want to support. By default, ESLint expects the most recent stage 4 ECMAScript syntax and ECMAScript modules (ESM) mode. You can override these settings by using the `languageOptions` key and specifying one or more of these properties:
 
@@ -39,7 +39,7 @@ export default defineConfig([
 ]);
 ```
 
-## Specifying Parser Options
+## Specify Parser Options
 
 If you are using the built-in ESLint parser, you can additionally change how ESLint interprets your code by specifying the `languageOptions.parserOptions` key. All options are `false` by default:
 
@@ -72,11 +72,11 @@ export default defineConfig([
 Please note that supporting JSX syntax is not the same as supporting React. React applies specific semantics to JSX syntax that ESLint doesn't recognize. We recommend using [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) if you are using React.
 :::
 
-## Specifying Globals
+## Specify Globals
 
 Some of ESLint's core rules rely on knowledge of the global variables available to your code at runtime. Since these can vary greatly between different environments as well as be modified at runtime, ESLint makes no assumptions about what global variables exist in your execution environment. If you would like to use rules that require knowledge of what global variables are available, you can define global variables in your configuration file or by using configuration comments in your source code.
 
-### Using configuration comments
+### Use configuration comments
 
 To specify globals using a comment inside of your JavaScript file, use the following format:
 
@@ -90,7 +90,7 @@ This defines two global variables, `var1` and `var2`. If you want to optionally 
 /* global var1:writable, var2:writable */
 ```
 
-### Using configuration files
+### Use configuration files
 
 To configure global variables inside of a [configuration file](./configuration-files#configuration-file), set the `languageOptions.globals` configuration property to an object containing keys named for each of the global variables you want to use. For each global variable key, set the corresponding value equal to `"writable"` to allow the variable to be overwritten or `"readonly"` to disallow overwriting. For example:
 

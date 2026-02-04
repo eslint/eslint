@@ -12,6 +12,6 @@ If you're attempting to configure rule options, perhaps you meant:
 
     "${ruleId}": ["error", ${stringifyValueForError(value, 8)}]
 
-See https://eslint.org/docs/latest/use/configure/rules#using-configuration-files for configuring rules.
+See https://eslint.org/docs/latest/use/configure/rules#use-configuration-files for configuring rules.
 `.trimStart();
 };

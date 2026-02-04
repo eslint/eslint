@@ -56,7 +56,7 @@ Common resolutions for this issue include:
 
 For more information, see:
 
-- [Legacy ESLint configuration files](../configure/configuration-files-deprecated#using-a-shareable-configuration-package) for documentation on the legacy ESLint configuration format
-    - [Legacy ESLint configuration files > Using a shareable configuration package](../configure/configuration-files-deprecated#using-a-shareable-configuration-package) for documentation on using shareable configurations
+- [Legacy ESLint configuration files](../configure/configuration-files-deprecated#use-a-shareable-configuration-package) for documentation on the legacy ESLint configuration format
+    - [Legacy ESLint configuration files > Use a shareable configuration package](../configure/configuration-files-deprecated#use-a-shareable-configuration-package) for documentation on using shareable configurations
 - [Share Configurations](../../extend/shareable-configs) for documentation on how to define standalone shared configs
 - [Create Plugins > Configs in Plugins](../../extend/plugins#configs-in-plugins) for documentation on how to define shared configs in plugins

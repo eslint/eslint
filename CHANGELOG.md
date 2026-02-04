@@ -1,3 +1,13 @@
+v10.0.0-rc.2 - January 27, 2026
+
+* [`727451e`](https://github.com/eslint/eslint/commit/727451eff55b35d853e0e443d0de58f4550762bf) fix: fix regression of global mode report range in `strict` rule (#20462) (ntnyq)
+* [`e80485f`](https://github.com/eslint/eslint/commit/e80485fcd27196fa0b6f6b5c7ac8cf49ad4b079d) fix: remove fake `FlatESLint` and `LegacyESLint` exports (#20460) (Francesco Trotta)
+* [`1495654`](https://github.com/eslint/eslint/commit/14956543d42ab542f72820f38941d0bcc39a1fbb) docs: Update README (GitHub Actions Bot)
+* [`0b8ed5c`](https://github.com/eslint/eslint/commit/0b8ed5c0aa4222a9b6b185c605cfedaef4662dcb) docs: document support for `:is` selector alias (#20454) (sethamus)
+* [`2d14173`](https://github.com/eslint/eslint/commit/2d14173729ae75fe562430dd5e37c457f44bc7ac) chore: fix typos in docs and comments (#20458) (o-m12a)
+* [`9eeff3b`](https://github.com/eslint/eslint/commit/9eeff3bc13813a786b8a4c3815def97c0fb646ef) fix: update esquery (#20423) (cryptnix)
+* [`1c4b33f`](https://github.com/eslint/eslint/commit/1c4b33fe8620dcaafbe6e8f4e9515b624476548c) docs: Document policies about ESM-only dependencies (#20448) (Milos Djermanovic)
+
 v10.0.0-rc.1 - January 23, 2026
 
 * [`43677de`](https://github.com/eslint/eslint/commit/43677de07ebd6e14bfac40a46ad749ba783c45f2) feat: fix handling of function and class expression names in `no-shadow` (#20432) (Milos Djermanovic)
@@ -3109,7 +3119,7 @@ v7.23.0 - March 26, 2021
 * [`dbf2529`](https://github.com/eslint/eslint/commit/dbf252964d9a2b8957cfe0aed5c87a6d4a5cce24) Sponsors: Sync README with website (ESLint Jenkins)
 * [`4bdf2c1`](https://github.com/eslint/eslint/commit/4bdf2c1dade27625b601080687ce95b8c229e491) Sponsors: Sync README with website (ESLint Jenkins)
 * [`49d1697`](https://github.com/eslint/eslint/commit/49d16977d969070e5240074e76036f56631a90d3) Chore: Upgrade eslint-plugin-jsdoc to v25 and remove --legacy-peer-deps (#14244) (Brandon Mills)
-* [`43f1685`](https://github.com/eslint/eslint/commit/43f1685356b9840e09631843ad9ccf0440a498b0) Update: `--quiet` should not supress `--max-warnings` (fixes #14202) (#14242) (Milos Djermanovic)
+* [`43f1685`](https://github.com/eslint/eslint/commit/43f1685356b9840e09631843ad9ccf0440a498b0) Update: `--quiet` should not suppress `--max-warnings` (fixes #14202) (#14242) (Milos Djermanovic)
 * [`909c727`](https://github.com/eslint/eslint/commit/909c7271b8d294bd884827ad5df02615b6ec5e82) Docs: Add valid example that shows vars in a block scope (#14230) (Ed S)
 * [`28583eb`](https://github.com/eslint/eslint/commit/28583eb8ada20f32579841bec3fbd60a018d5931) Fix: no-mixed-operators false positives with `? :` (fixes #14223) (#14226) (Milos Djermanovic)
 * [`a99eb2d`](https://github.com/eslint/eslint/commit/a99eb2dc2a297d16e40a9feef3956668716c4eb5) Fix: Clarify line breaks in object-curly-newline (fixes #14024) (#14063) (armin yahya)
@@ -8831,7 +8841,7 @@ v0.4.4 - March 25, 2014
 * Small changes, JSDoc is clarified (Aliaksei Shytkin)
 * Move FileFinder to separate file (Aliaksei Shytkin)
 * Cache if file is not found (Aliaksei Shytkin)
-* Use cache on config files seach (Aliaksei Shytkin)
+* Use cache on config files search (Aliaksei Shytkin)
 * Added .eslintignore to load from parents folders (fixes #681) (Aliaksei Shytkin)
 * fix 'node-modules' typo in docs (Fred K. Schott)
 * Upgrade to the latest version of doctrine. (Brian Di Palma)
@@ -8926,7 +8936,7 @@ v0.4.0 - February 12, 2014
 * readme: Remove stray asterisk (Timo Tijhof)
 * #580 Remove eslint.getAllComments(), related docs, related tests (Christian)
 * Added test for bug fix #582. Test Passes (Shmueli Englard)
-* Added curly braces to if statment (Shmueli Englard)
+* Added curly braces to if statement (Shmueli Englard)
 * Added new test for fix to #582 (fixes 582) (Shmueli Englard)
 * Bug #582: Added check if node.value isn't a string just exit (Shmueli Englard)
 * Update Rule: implement curly options for single-statement bodies (fixes #511) (Nicholas C. Zakas)
