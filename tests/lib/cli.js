@@ -253,9 +253,51 @@ describe("cli", () => {
 				});
 			});
 
-			describe("when the --max-warnings option is passed", () => {
+			describe("when the `--color` / `--no-color` options are passed", () => {
+				it("should pass `color: true` to the formatter metadata when `--color` is set", async () => {
+					const filePath = getFixturePath("syntax-error.js");
+					const exit = await cli.execute(
+						`--color -f json-with-metadata ${filePath}`,
+					);
+
+					assert.strictEqual(exit, 1);
+
+					const { metadata } = JSON.parse(log.info.args[0][0]);
+
+					assert.strictEqual(metadata.color, true);
+				});
+
+				it("should pass `color: false` to the formatter metadata when `--no-color` is set", async () => {
+					const filePath = getFixturePath("syntax-error.js");
+					const exit = await cli.execute(
+						`--no-color -f json-with-metadata ${filePath}`,
+					);
+
+					assert.strictEqual(exit, 1);
+
+					const { metadata } = JSON.parse(log.info.args[0][0]);
+
+					assert.strictEqual(metadata.color, false);
+				});
+
+				it("should omit `color` metadata when no flag is set", async () => {
+					const filePath = getFixturePath("syntax-error.js");
+					const formatterPath = getFixturePath(
+						"formatters",
+						"context.js",
+					);
+					const exit = await cli.execute(
+						`-f ${formatterPath} ${filePath}`,
+					);
+
+					assert.strictEqual(exit, 1);
+					assert.notProperty(log.info.getCall(0).args[0], "color");
+				});
+			});
+
+			describe("when the `--max-warnings` option is passed", () => {
 				describe("and there are too many warnings", () => {
-					it(`should provide \`maxWarningsExceeded\` metadata to the formatter`, async () => {
+					it("should provide `maxWarningsExceeded` metadata to the formatter", async () => {
 						const exit = await cli.execute(
 							`--no-ignore -f json-with-metadata --max-warnings 1 --rule 'quotes: warn' --no-config-lookup`,
 							"'hello' + 'world';",
@@ -273,17 +315,21 @@ describe("cli", () => {
 				});
 
 				describe("and warnings do not exceed the limit", () => {
-					it(`should omit \`maxWarningsExceeded\` metadata from the formatter`, async () => {
+					it("should omit `maxWarningsExceeded` metadata from the formatter", async () => {
+						const formatterPath = getFixturePath(
+							"formatters",
+							"context.js",
+						);
 						const exit = await cli.execute(
-							`--no-ignore -f json-with-metadata --max-warnings 1 --rule 'quotes: warn' --no-config-lookup`,
+							`--no-ignore -f ${formatterPath} --max-warnings 1 --rule 'quotes: warn' --no-config-lookup`,
 							"'hello world';",
 						);
 
 						assert.strictEqual(exit, 0);
-
-						const { metadata } = JSON.parse(log.info.args[0][0]);
-
-						assert.notProperty(metadata, "maxWarningsExceeded");
+						assert.notProperty(
+							log.info.getCall(0).args[0],
+							"maxWarningsExceeded",
+						);
 					});
 				});
 			});

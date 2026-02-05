@@ -50,9 +50,11 @@ The source file for a rule exports an object with the following properties. Both
 - `docs`: (`object`) Properties often used for documentation generation and tooling. Required for core rules and optional for custom rules. Custom rules can include additional properties here as needed.
 
     - `description`: (`string`) Provides a short description of the rule. For core rules, this is used in [rules index](../rules/).
+    - `frozen`: (`boolean`) For core rules, specifies whether the rule is [frozen](../contribute/core-rules#frozen-rules) and no longer accepts feature requests.
     - `recommended`: (`unknown`) For core rules, this is a boolean value specifying whether the rule is enabled by the `recommended` config from `@eslint/js`.
     - `url`: (`string`) Specifies the URL at which the full documentation can be accessed. Code editors often use this to provide a helpful link on highlighted rule violations.
 
+- `messages`: (`object`) An object containing violation and suggestion messages for the rule. Required for core rules and optional for custom rules. Messages can be referenced by their keys (`messageId`s) in `context.report()` calls. See [`messageId`s](#messageids) for more information.
 - `fixable`: (`string`) Either `"code"` or `"whitespace"` if the `--fix` option on the [command line](../use/command-line-interface#--fix) automatically fixes problems reported by the rule.
 
     **Important:** the `fixable` property is mandatory for fixable rules. If this property isn't specified, ESLint will throw an error whenever the rule attempts to produce a fix. Omit the `fixable` property if the rule is not fixable.
@@ -137,7 +139,7 @@ The `context` object has the following properties:
 - `cwd`: (`string`) The `cwd` option passed to the [Linter](../integrate/nodejs-api#linter). It is a path to a directory that should be considered the current working directory.
 - `options`: (`array`) An array of the [configured options](../use/configure/rules) for this rule. This array does not include the rule severity (see the [dedicated section](#accessing-options-passed-to-a-rule)).
 - `sourceCode`: (`object`) A `SourceCode` object that you can use to work with the source that was passed to ESLint (see [Accessing the Source Code](#accessing-the-source-code)).
-- `settings`: (`object`) The [shared settings](../use/configure/configuration-files#configuring-shared-settings) from the configuration.
+- `settings`: (`object`) The [shared settings](../use/configure/configuration-files#configure-shared-settings) from the configuration.
 - `languageOptions`: (`object`) more details for each property [here](../use/configure/language-options)
     - `sourceType`: (`'script' | 'module' | 'commonjs'`) The mode for the current file.
     - `ecmaVersion`: (`number`) The ECMA version used to parse the current file.
@@ -147,11 +149,11 @@ The `context` object has the following properties:
 
 Additionally, the `context` object has the following methods:
 
-- `report(descriptor)`. Reports a problem in the code (see the [dedicated section](#reporting-problems)).
+- `report(descriptor)`. Reports a problem in the code (see the [dedicated section](#report-problems)).
 
 **Note:** Earlier versions of ESLint supported additional methods on the `context` object. Those methods were removed in the new format and should not be relied upon.
 
-### Reporting Problems
+### Report Problems
 
 The main method you'll use when writing custom rules is `context.report()`, which publishes a warning or error (depending on the configuration being used). This method accepts a single argument, which is an object containing the following properties:
 
@@ -165,7 +167,7 @@ The main method you'll use when writing custom rules is `context.report()`, whic
     - `end`: An object of the end location.
         - `line`: (`number`) The 1-based line number at which the problem occurred.
         - `column`: (`number`) The 0-based column number at which the problem occurred.
-- `data`: (optional `object`) [Placeholder](#using-message-placeholders) data for `message`.
+- `data`: (optional `object`) [Placeholder](#use-message-placeholders) data for `message`.
 - `fix(fixer)`: (optional `function`) Applies a [fix](#applying-fixes) to resolve the problem.
 
 Note that at least one of `node` or `loc` is required.
@@ -181,7 +183,7 @@ context.report({
 
 The node contains all the information necessary to figure out the line and column number of the offending text as well as the source text representing the node.
 
-#### Using Message Placeholders
+#### Use Message Placeholders
 
 You can also use placeholders in the message and provide `data`:
 
@@ -443,7 +445,7 @@ module.exports = {
 
 #### Placeholders in Suggestion Messages
 
-You can also use placeholders in the suggestion message. This works the same way as placeholders for the overall error (see [using message placeholders](#using-message-placeholders)).
+You can also use placeholders in the suggestion message. This works the same way as placeholders for the overall error (see [use message placeholders](#use-message-placeholders)).
 
 Please note that you have to provide `data` on the suggestion's object. Suggestion messages cannot use properties from the overall error's `data`.
 

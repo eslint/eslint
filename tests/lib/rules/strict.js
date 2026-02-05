@@ -69,6 +69,10 @@ ruleTester.run("strict", rule, {
 		{ code: "// Intentionally empty", options: ["global"] },
 		{ code: '"use strict"; foo();', options: ["global"] },
 		{
+			code: "/* license */\n/* eslint-disable rule-to-test/strict */\nfoo();",
+			options: ["global"],
+		},
+		{
 			code: "foo();",
 			options: ["global"],
 			languageOptions: { ecmaVersion: 6, sourceType: "module" },
@@ -394,6 +398,20 @@ ruleTester.run("strict", rule, {
 			errors: [
 				{
 					messageId: "global",
+				},
+			],
+		},
+		{
+			code: "/* license */\nfunction foo() {}\nfunction bar() {}\n/* end */",
+			output: null,
+			options: ["global"],
+			errors: [
+				{
+					messageId: "global",
+					line: 2,
+					column: 1,
+					endLine: 3,
+					endColumn: 18,
 				},
 			],
 		},

@@ -1,4 +1,4 @@
-name: CI
+name: Docs CI
 on:
     push:
         branches: [main]
@@ -18,7 +18,7 @@ jobs:
         name: Verify Docs Files
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v5
+            - uses: actions/checkout@v6
             - uses: actions/setup-node@v6
               with:
                   node-version: "lts/*"

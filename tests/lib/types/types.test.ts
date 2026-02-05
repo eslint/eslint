@@ -500,7 +500,10 @@ const reference = scope.references[0];
 
 reference.from = scope;
 reference.identifier.type = "Identifier";
+reference.identifier.type = "JSXIdentifier";
 reference.resolved = variable;
+reference.writeExpr = { type: "Identifier", name: "foo" };
+// @ts-expect-error
 reference.writeExpr = AST;
 reference.init = true;
 
@@ -570,7 +573,6 @@ rule = {
 	meta: {
 		docs: {
 			description: "disallow the use of `console`",
-			category: "Possible Errors",
 			recommended: true,
 			url: "https://eslint.org/docs/rules/no-console",
 		},
@@ -682,7 +684,6 @@ rule = {
 	meta: {
 		docs: {
 			description: "disallow the use of `console`",
-			category: "Possible Errors",
 			recommended: true,
 			url: "https://eslint.org/docs/rules/no-console",
 		},
@@ -1035,8 +1036,10 @@ type DeprecatedRuleContextKeys =
 
 const linter = new Linter();
 const eslinter = new ESLinter();
+const linterWithFlatConfig = new Linter({ configType: "flat" });
 
-linter.version;
+linter.version; // $ExpectType string
+Linter.version; // $ExpectType string
 
 linter.verify(SOURCE, {});
 linter.verify(new SourceCode(SOURCE, AST), {});
@@ -1049,46 +1052,67 @@ linter.verify(SOURCE, {}, { reportUnusedDisableDirectives: true });
 linter.verify(SOURCE, {}, { preprocess: input => input.split(" ") });
 linter.verify(SOURCE, {}, { postprocess: problemList => problemList[0] });
 
-linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2021 } }, "test.js");
-linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2022 } }, "test.js");
-linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2023 } }, "test.js");
-linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2024 } }, "test.js");
-linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2025 } }, "test.js");
-linter.verify(SOURCE, { parserOptions: { ecmaVersion: 2026 } }, "test.js");
-linter.verify(SOURCE, { parserOptions: { ecmaVersion: "latest" } }, "test.js");
 linter.verify(
 	SOURCE,
-	{ parserOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } } },
+	{
+		languageOptions: {
+			parserOptions: {
+				ecmaVersion: 6,
+				ecmaFeatures: { globalReturn: true },
+			},
+		},
+	},
 	"test.js",
 );
 linter.verify(
 	SOURCE,
 	{
-		parserOptions: {
-			ecmaVersion: 3,
-			allowReserved: true,
+		languageOptions: {
+			parserOptions: {
+				ecmaVersion: 3,
+				allowReserved: true,
+			},
 		},
 	},
 	"test.js",
 );
-linter.verify(SOURCE, { env: { node: true } }, "test.js");
-linter.verify(SOURCE, { globals: { foo: true } }, "test.js");
-linter.verify(SOURCE, { globals: { foo: "off" } }, "test.js");
-linter.verify(SOURCE, { globals: { foo: "readonly" } }, "test.js");
-linter.verify(SOURCE, { globals: { foo: "readable" } }, "test.js");
-linter.verify(SOURCE, { globals: { foo: "writable" } }, "test.js");
-linter.verify(SOURCE, { globals: { foo: "writeable" } }, "test.js");
-linter.verify(SOURCE, { parser: "custom-parser" }, "test.js");
-linter.verify(SOURCE, { settings: { info: "foo" } }, "test.js");
-linter.verify(SOURCE, { processor: "a-plugin/a-processor" }, "test.js");
-linter.verify(SOURCE, { plugins: ["a-plugin"] }, "test.js");
-linter.verify(SOURCE, { root: true }, "test.js");
-linter.verify(SOURCE, { extends: "eslint-config-bad-guy" }, "test.js");
 linter.verify(
 	SOURCE,
-	{ extends: ["eslint-config-bad-guy", "eslint-config-roblox"] },
+	{ languageOptions: { globals: { foo: true } } },
 	"test.js",
 );
+linter.verify(
+	SOURCE,
+	{ languageOptions: { globals: { foo: "off" } } },
+	"test.js",
+);
+linter.verify(
+	SOURCE,
+	{ languageOptions: { globals: { foo: "readonly" } } },
+	"test.js",
+);
+linter.verify(
+	SOURCE,
+	{ languageOptions: { globals: { foo: "readable" } } },
+	"test.js",
+);
+linter.verify(
+	SOURCE,
+	{ languageOptions: { globals: { foo: "writable" } } },
+	"test.js",
+);
+linter.verify(
+	SOURCE,
+	{ languageOptions: { globals: { foo: "writeable" } } },
+	"test.js",
+);
+linter.verify(
+	SOURCE,
+	{ languageOptions: { parser: "custom-parser" } },
+	"test.js",
+);
+linter.verify(SOURCE, { settings: { info: "foo" } }, "test.js");
+linter.verify(SOURCE, { processor: "a-plugin/a-processor" }, "test.js");
 
 linter.verify(SOURCE, { rules: {} }, "test.js");
 linter.verify(SOURCE, { rules: { quotes: 2 } }, "test.js");
@@ -1101,23 +1125,6 @@ linter.verify(
 linter.verify(SOURCE, { rules: { "no-console": 1 } }, "test.js");
 linter.verify(SOURCE, { rules: { "no-console": 0 } }, "test.js");
 linter.verify(SOURCE, { rules: { "no-console": "error" } }, "test.js");
-linter.verify(
-	SOURCE,
-	{
-		rules: { "no-console": "error" },
-		overrides: [
-			{
-				extends: ["eslint-config-bad-guy"],
-				excludedFiles: ["*-test.js", "*.spec.js"],
-				files: ["*-test.js", "*.spec.js"],
-				rules: {
-					"no-unused-expressions": "off",
-				},
-			},
-		],
-	},
-	"test.js",
-);
 linter.verify(SOURCE, { rules: { "no-console": "warn" } }, "test.js");
 linter.verify(SOURCE, { rules: { "no-console": "off" } }, "test.js");
 linter.verify(
@@ -1207,75 +1214,35 @@ const _processor: Linter.Processor = {
 	},
 };
 
-// #region Linter with flat config
+linter.verify(SOURCE, [{}]);
+linter.verify(new SourceCode(SOURCE, AST), [{}]);
 
-const linterWithFlatConfig = new Linter({ configType: "flat" });
-
-linterWithFlatConfig.version;
-
-linterWithFlatConfig.verify(SOURCE, [{}]);
-linterWithFlatConfig.verify(new SourceCode(SOURCE, AST), [{}]);
-
-linterWithFlatConfig.verify(SOURCE, [{}], "test.js");
-linterWithFlatConfig.verify(SOURCE, [{}], {});
-linterWithFlatConfig.verify(SOURCE, [{}], { filename: "test.js" });
-linterWithFlatConfig.verify(SOURCE, [{}], { allowInlineConfig: false });
-linterWithFlatConfig.verify(SOURCE, [{}], {
-	reportUnusedDisableDirectives: true,
-});
-linterWithFlatConfig.verify(SOURCE, [{}], {
-	preprocess: input => input.split(" "),
-});
-linterWithFlatConfig.verify(SOURCE, [{}], {
-	postprocess: problemList => problemList[0],
-});
-linterWithFlatConfig.verify(SOURCE, [{}], {
+linter.verify(SOURCE, [{}], "test.js");
+linter.verify(SOURCE, [{}], {});
+linter.verify(SOURCE, [{}], { filename: "test.js" });
+linter.verify(SOURCE, [{}], { allowInlineConfig: false });
+linter.verify(SOURCE, [{}], { reportUnusedDisableDirectives: true });
+linter.verify(SOURCE, [{}], { preprocess: input => input.split(" ") });
+linter.verify(SOURCE, [{}], { postprocess: problemList => problemList[0] });
+linter.verify(SOURCE, [{}], {
 	filterCodeBlock(filename) {
 		return filename.endsWith(".js");
 	},
 });
 
-linterWithFlatConfig.verify(
-	SOURCE,
-	[{ languageOptions: { ecmaVersion: 2021 } }],
-	"test.js",
-);
-linterWithFlatConfig.verify(
-	SOURCE,
-	[{ languageOptions: { ecmaVersion: 2022 } }],
-	"test.js",
-);
-linterWithFlatConfig.verify(
-	SOURCE,
-	[{ languageOptions: { ecmaVersion: 2023 } }],
-	"test.js",
-);
-linterWithFlatConfig.verify(
-	SOURCE,
-	[{ languageOptions: { ecmaVersion: 2024 } }],
-	"test.js",
-);
-linterWithFlatConfig.verify(
-	SOURCE,
-	[{ languageOptions: { ecmaVersion: 2025 } }],
-	"test.js",
-);
-linterWithFlatConfig.verify(
-	SOURCE,
-	[{ languageOptions: { ecmaVersion: 2026 } }],
-	"test.js",
-);
-linterWithFlatConfig.verify(
+linter.verify(SOURCE, [{ languageOptions: { ecmaVersion: 2021 } }], "test.js");
+linter.verify(SOURCE, [{ languageOptions: { ecmaVersion: 2022 } }], "test.js");
+linter.verify(SOURCE, [{ languageOptions: { ecmaVersion: 2023 } }], "test.js");
+linter.verify(SOURCE, [{ languageOptions: { ecmaVersion: 2024 } }], "test.js");
+linter.verify(SOURCE, [{ languageOptions: { ecmaVersion: 2025 } }], "test.js");
+linter.verify(SOURCE, [{ languageOptions: { ecmaVersion: 2026 } }], "test.js");
+linter.verify(
 	SOURCE,
 	[{ languageOptions: { ecmaVersion: "latest" } }],
 	"test.js",
 );
-linterWithFlatConfig.verify(
-	SOURCE,
-	[{ languageOptions: { ecmaVersion: 6 } }],
-	"test.js",
-);
-linterWithFlatConfig.verify(
+linter.verify(SOURCE, [{ languageOptions: { ecmaVersion: 6 } }], "test.js");
+linter.verify(
 	SOURCE,
 	[
 		{
@@ -1294,34 +1261,18 @@ linterWithFlatConfig.verify(
 	"test.js",
 );
 
-linterWithFlatConfig.verify(SOURCE, [{ rules: {} }], "test.js");
-linterWithFlatConfig.verify(SOURCE, [{ rules: { quotes: 2 } }], "test.js");
-linterWithFlatConfig.verify(
-	SOURCE,
-	[{ rules: { quotes: [2, "double"] } }],
-	"test.js",
-);
-linterWithFlatConfig.verify(
+linter.verify(SOURCE, [{ rules: {} }], "test.js");
+linter.verify(SOURCE, [{ rules: { quotes: 2 } }], "test.js");
+linter.verify(SOURCE, [{ rules: { quotes: [2, "double"] } }], "test.js");
+linter.verify(
 	SOURCE,
 	[{ rules: { "no-unused-vars": [2, { vars: "all" }] } }],
 	"test.js",
 );
-linterWithFlatConfig.verify(
-	SOURCE,
-	[{ rules: { "no-console": 1 } }],
-	"test.js",
-);
-linterWithFlatConfig.verify(
-	SOURCE,
-	[{ rules: { "no-console": 0 } }],
-	"test.js",
-);
-linterWithFlatConfig.verify(
-	SOURCE,
-	[{ rules: { "no-console": "error" } }],
-	"test.js",
-);
-linterWithFlatConfig.verify(
+linter.verify(SOURCE, [{ rules: { "no-console": 1 } }], "test.js");
+linter.verify(SOURCE, [{ rules: { "no-console": 0 } }], "test.js");
+linter.verify(SOURCE, [{ rules: { "no-console": "error" } }], "test.js");
+linter.verify(
 	SOURCE,
 	[
 		{
@@ -1336,35 +1287,29 @@ linterWithFlatConfig.verify(
 	],
 	"test.js",
 );
-linterWithFlatConfig.verify(
-	SOURCE,
-	[{ rules: { "no-console": "warn" } }],
-	"test.js",
-);
-linterWithFlatConfig.verify(
-	SOURCE,
-	[{ rules: { "no-console": "off" } }],
-	"test.js",
-);
-linterWithFlatConfig.verify(
+linter.verify(SOURCE, [{ rules: { "no-console": "warn" } }], "test.js");
+linter.verify(SOURCE, [{ rules: { "no-console": "off" } }], "test.js");
+linter.verify(
 	SOURCE,
 	[{ rules: { "no-void": [2, { allowAsStatement: true }] } }],
 	"test.js",
 );
 
-linterWithFlatConfig.verify(SOURCE, { linterOptions: {} }, "test.js");
-linterWithFlatConfig.verify(
-	SOURCE,
-	{ linterOptions: {} },
-	{ filename: "test.js" },
+linter.verify(SOURCE, { linterOptions: {} }, "test.js");
+linter.verify(SOURCE, { linterOptions: {} }, { filename: "test.js" });
+linter.verify(SOURCE, { name: "my-config" });
+linter.verify(
+	'{ "foo": "bar" }',
+	{
+		language: "json/json",
+		plugins: { json: {} },
+	},
+	"test.json",
 );
-linterWithFlatConfig.verifyAndFix(SOURCE, { linterOptions: {} }, "test.js");
-linterWithFlatConfig.verifyAndFix(
-	SOURCE,
-	{ linterOptions: {} },
-	{ filename: "test.js" },
-);
-linterWithFlatConfig.verifyAndFix(
+
+linter.verifyAndFix(SOURCE, { linterOptions: {} }, "test.js");
+linter.verifyAndFix(SOURCE, { linterOptions: {} }, { filename: "test.js" });
+linter.verifyAndFix(
 	SOURCE,
 	{ linterOptions: {} },
 	{
@@ -1374,81 +1319,63 @@ linterWithFlatConfig.verifyAndFix(
 	},
 );
 
-// #endregion Linter with flat config
-
 // #region Linter with eslintrc config
 
 // @ts-expect-error -- configType must be "flat"
 const linterWithEslintrcConfig = new Linter({ configType: "eslintrc" });
 
-linterWithEslintrcConfig.version;
-
-linterWithEslintrcConfig.verify(SOURCE, {});
-linterWithEslintrcConfig.verify(new SourceCode(SOURCE, AST), {});
-
-linterWithEslintrcConfig.verify(SOURCE, {}, "test.js");
-linterWithEslintrcConfig.verify(SOURCE, {}, {});
-linterWithEslintrcConfig.verify(SOURCE, {}, { filename: "test.js" });
-linterWithEslintrcConfig.verify(SOURCE, {}, { allowInlineConfig: false });
 linterWithEslintrcConfig.verify(
 	SOURCE,
-	{},
-	{ reportUnusedDisableDirectives: true },
-);
-linterWithEslintrcConfig.verify(
-	SOURCE,
-	{},
-	{ preprocess: input => input.split(" ") },
-);
-linterWithEslintrcConfig.verify(
-	SOURCE,
-	{},
-	{ postprocess: problemList => problemList[0] },
-);
-
-linterWithEslintrcConfig.verify(
-	SOURCE,
+	// @ts-expect-error top-level `parserOptions` is no longer supported
 	{ parserOptions: { ecmaVersion: 2021 } },
 	"test.js",
 );
 linterWithEslintrcConfig.verify(
 	SOURCE,
+	// @ts-expect-error top-level `parserOptions` is no longer supported
 	{ parserOptions: { ecmaVersion: 2022 } },
 	"test.js",
 );
 linterWithEslintrcConfig.verify(
 	SOURCE,
+	// @ts-expect-error top-level `parserOptions` is no longer supported
 	{ parserOptions: { ecmaVersion: 2023 } },
 	"test.js",
 );
 linterWithEslintrcConfig.verify(
 	SOURCE,
+	// @ts-expect-error top-level `parserOptions` is no longer supported
 	{ parserOptions: { ecmaVersion: 2024 } },
 	"test.js",
 );
 linterWithEslintrcConfig.verify(
 	SOURCE,
+	// @ts-expect-error top-level `parserOptions` is no longer supported
 	{ parserOptions: { ecmaVersion: 2025 } },
 	"test.js",
 );
 linterWithEslintrcConfig.verify(
 	SOURCE,
+	// @ts-expect-error top-level `parserOptions` is no longer supported
 	{ parserOptions: { ecmaVersion: 2026 } },
 	"test.js",
 );
 linterWithEslintrcConfig.verify(
 	SOURCE,
+	// @ts-expect-error top-level `parserOptions` is no longer supported
 	{ parserOptions: { ecmaVersion: "latest" } },
 	"test.js",
 );
 linterWithEslintrcConfig.verify(
 	SOURCE,
+	// @ts-expect-error top-level `parserOptions` is no longer supported
 	{ parserOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } } },
 	"test.js",
 );
 linterWithEslintrcConfig.verify(
 	SOURCE,
 	{
+		// @ts-expect-error top-level `parserOptions` is no longer supported
 		parserOptions: {
 			ecmaVersion: 3,
 			allowReserved: true,
@@ -1456,84 +1383,90 @@ linterWithEslintrcConfig.verify(
 	},
 	"test.js",
 );
-linterWithEslintrcConfig.verify(SOURCE, { env: { node: true } }, "test.js");
-linterWithEslintrcConfig.verify(SOURCE, { globals: { foo: true } }, "test.js");
-linterWithEslintrcConfig.verify(SOURCE, { globals: { foo: "off" } }, "test.js");
+
 linterWithEslintrcConfig.verify(
 	SOURCE,
+	// @ts-expect-error `env` is no longer supported
+	{ env: { node: true } },
+	"test.js",
+);
+
+linterWithEslintrcConfig.verify(
+	SOURCE,
+	// @ts-expect-error top-level `globals` is no longer supported
+	{ globals: { foo: true } },
+	"test.js",
+);
+linterWithEslintrcConfig.verify(
+	SOURCE,
+	// @ts-expect-error top-level `globals` is no longer supported
+	{ globals: { foo: "off" } },
+	"test.js",
+);
+linterWithEslintrcConfig.verify(
+	SOURCE,
+	// @ts-expect-error top-level `globals` is no longer supported
 	{ globals: { foo: "readonly" } },
 	"test.js",
 );
 linterWithEslintrcConfig.verify(
 	SOURCE,
+	// @ts-expect-error top-level `globals` is no longer supported
 	{ globals: { foo: "readable" } },
 	"test.js",
 );
 linterWithEslintrcConfig.verify(
 	SOURCE,
+	// @ts-expect-error top-level `globals` is no longer supported
 	{ globals: { foo: "writable" } },
 	"test.js",
 );
 linterWithEslintrcConfig.verify(
 	SOURCE,
+	// @ts-expect-error top-level `globals` is no longer supported
 	{ globals: { foo: "writeable" } },
 	"test.js",
 );
-linterWithEslintrcConfig.verify(SOURCE, { parser: "custom-parser" }, "test.js");
+
 linterWithEslintrcConfig.verify(
 	SOURCE,
-	{ settings: { info: "foo" } },
+	// @ts-expect-error top-level `parser` is no longer supported
+	{ parser: "custom-parser" },
 	"test.js",
 );
+
 linterWithEslintrcConfig.verify(
 	SOURCE,
-	{ processor: "a-plugin/a-processor" },
+	// @ts-expect-error `plugins` array is no longer supported
+	{ plugins: ["a-plugin"] },
 	"test.js",
 );
-linterWithEslintrcConfig.verify(SOURCE, { plugins: ["a-plugin"] }, "test.js");
-linterWithEslintrcConfig.verify(SOURCE, { root: true }, "test.js");
+
 linterWithEslintrcConfig.verify(
 	SOURCE,
+	// @ts-expect-error `root` is no longer supported
+	{ root: true },
+	"test.js",
+);
+
+linterWithEslintrcConfig.verify(
+	SOURCE,
+	// @ts-expect-error `extends` is no longer supported
 	{ extends: "eslint-config-bad-guy" },
 	"test.js",
 );
 linterWithEslintrcConfig.verify(
 	SOURCE,
+	// @ts-expect-error `extends` is no longer supported
 	{ extends: ["eslint-config-bad-guy", "eslint-config-roblox"] },
 	"test.js",
 );
 
-linterWithEslintrcConfig.verify(SOURCE, { rules: {} }, "test.js");
-linterWithEslintrcConfig.verify(SOURCE, { rules: { quotes: 2 } }, "test.js");
-linterWithEslintrcConfig.verify(
-	SOURCE,
-	{ rules: { quotes: [2, "double"] } },
-	"test.js",
-);
-linterWithEslintrcConfig.verify(
-	SOURCE,
-	{ rules: { "no-unused-vars": [2, { vars: "all" }] } },
-	"test.js",
-);
-linterWithEslintrcConfig.verify(
-	SOURCE,
-	{ rules: { "no-console": 1 } },
-	"test.js",
-);
-linterWithEslintrcConfig.verify(
-	SOURCE,
-	{ rules: { "no-console": 0 } },
-	"test.js",
-);
-linterWithEslintrcConfig.verify(
-	SOURCE,
-	{ rules: { "no-console": "error" } },
-	"test.js",
-);
 linterWithEslintrcConfig.verify(
 	SOURCE,
 	{
 		rules: { "no-console": "error" },
+		// @ts-expect-error `overrides` is no longer supported
 		overrides: [
 			{
 				extends: ["eslint-config-bad-guy"],
@@ -1545,21 +1478,6 @@ linterWithEslintrcConfig.verify(
 			},
 		],
 	},
-	"test.js",
-);
-linterWithEslintrcConfig.verify(
-	SOURCE,
-	{ rules: { "no-console": "warn" } },
-	"test.js",
-);
-linterWithEslintrcConfig.verify(
-	SOURCE,
-	{ rules: { "no-console": "off" } },
-	"test.js",
-);
-linterWithEslintrcConfig.verify(
-	SOURCE,
-	{ rules: { "no-void": [2, { allowAsStatement: true }] } },
 	"test.js",
 );
 
@@ -1677,7 +1595,6 @@ linterWithEslintrcConfig.verify(
 		type: "suggestion",
 		docs: {
 			description: "disallow unnecessary semicolons",
-			category: "Possible Errors",
 			recommended: true,
 			url: "https://eslint.org/docs/rules/no-extra-semi",
 		},
@@ -1689,7 +1606,20 @@ linterWithEslintrcConfig.verify(
 	};
 
 	resultsMeta = {
+		color: true,
+	};
+	resultsMeta = {
+		color: false,
+	};
+	resultsMeta = {
+		color: undefined,
+	};
+	resultsMeta = {
 		maxWarningsExceeded: { maxWarnings: 42, foundWarnings: 43 },
+	};
+	resultsMeta = {
+		maxWarningsExceeded: { maxWarnings: 42, foundWarnings: 43 },
+		color: true,
 	};
 
 	const version: string = ESLint.version;
@@ -1731,9 +1661,9 @@ const customFormatter: ESLint.FormatterFunction = jsonFormatter;
 
 function wrapperFormatter(
 	results: ESLint.LintResult[],
-	{ cwd, maxWarningsExceeded, rulesMeta }: ESLint.LintResultData,
+	{ color, cwd, maxWarningsExceeded, rulesMeta }: ESLint.LintResultData,
 ) {
-	customFormatter(results, { cwd, maxWarningsExceeded, rulesMeta });
+	customFormatter(results, { color, cwd, maxWarningsExceeded, rulesMeta });
 }
 
 // #endregion ESLint.Formatter
@@ -1878,6 +1808,23 @@ ruleTester.run("my-rule", rule, {
 		{ code: "foo", filename: "test.js" },
 		{ code: "foo", languageOptions: { globals: { foo: true } } },
 		{ code: "foo", settings: { foo: true } },
+		{ code: "foo", language: "js/js" },
+		{ code: "foo", processor: "a-plugin/a-processor" },
+		{ code: "foo", processor: _processor },
+		// @ts-expect-error // `options` must be an array
+		{ code: "foo", options: { allowFoo: true } },
+		// @ts-expect-error
+		{ code: "foo", basePath: "./subdir" },
+		// @ts-expect-error
+		{ code: "foo", files: ["**/*.js"] },
+		// @ts-expect-error
+		{ code: "foo", ignores: ["**/*.js"] },
+		// @ts-expect-error
+		{ code: "foo", linterOptions: { reportUnusedDisableDirectives: 0 } },
+		// @ts-expect-error
+		{ code: "foo", plugins: { foo: {} } },
+		// @ts-expect-error
+		{ code: "foo", rules: {} },
 		{
 			code: "foo",
 			before() {
@@ -1894,8 +1841,55 @@ ruleTester.run("my-rule", rule, {
 		{ code: "foo", errors: 1 },
 		{ code: "foo", errors: 1, output: "foo" },
 		{ code: "foo", errors: ["foo"] },
+		{ code: "foo", errors: [/foo/] },
 		{ code: "foo", errors: [{ message: "foo" }] },
 		{ code: "foo", errors: [{ message: "foo", data: { foo: true } }] },
+		{ code: "foo", errors: [{ message: "foo", data: undefined }] },
+		{
+			code: "foo",
+			errors: [
+				{
+					message: "foo",
+					// @ts-expect-error -- `data` cannot be `null`
+					data: null,
+				},
+			],
+		},
+		{
+			code: "foo",
+			errors: [
+				{
+					message: "foo",
+					data: {
+						foo: "foo",
+						bar: 1,
+						baz: true,
+						qux: false,
+						a: 1n,
+						b: null,
+						c: undefined,
+						d: void 0,
+						// @ts-expect-error -- Symbols are not allowed in `data`.
+						e: Symbol("b"),
+						// @ts-expect-error -- Objects are not allowed in `data`.
+						f: {
+							hi: "hi",
+						},
+						// @ts-expect-error -- Arrays are not allowed in `data`.
+						g: [1, 2, 3],
+						// @ts-expect-error -- Sets are not allowed in `data`.
+						h: new Set([1, 2, 3]),
+						// @ts-expect-error -- Maps are not allowed in `data`.
+						i: new Map([
+							["a", 1],
+							["b", 2],
+						]),
+						// @ts-expect-error -- Functions are not allowed in `data`.
+						j: () => {},
+					},
+				},
+			],
+		},
 		{ code: "foo", errors: [{ message: "foo", line: 0 }] },
 		{
 			code: "foo",
@@ -1911,10 +1905,54 @@ ruleTester.run("my-rule", rule, {
 							messageId: "foo",
 							output: "foo",
 						},
+						{
+							messageId: "foo",
+							output: "foo",
+							data: undefined,
+						},
+						{
+							messageId: "foo",
+							output: "foo",
+							// @ts-expect-error -- `data` cannot be `null`
+							data: null,
+						},
+						{
+							messageId: "foo",
+							desc: "foo",
+							output: "foo",
+							data: {
+								foo: "foo",
+								bar: 1,
+								baz: true,
+								qux: false,
+								a: 1n,
+								b: null,
+								c: undefined,
+								d: void 0,
+								// @ts-expect-error -- Symbols are not allowed in `data`.
+								e: Symbol("b"),
+								// @ts-expect-error -- Objects are not allowed in `data`.
+								f: {
+									hi: "hi",
+								},
+								// @ts-expect-error -- Arrays are not allowed in `data`.
+								g: [1, 2, 3],
+								// @ts-expect-error -- Sets are not allowed in `data`.
+								h: new Set([1, 2, 3]),
+								// @ts-expect-error -- Maps are not allowed in `data`.
+								i: new Map([
+									["a", 1],
+									["b", 2],
+								]),
+								// @ts-expect-error -- Functions are not allowed in `data`.
+								j: () => {},
+							},
+						},
 					],
 				},
 			],
 		},
+		{ code: "foo", errors: [{ message: "foo", suggestions: 2 }] },
 		{ code: "foo", errors: 1, only: true },
 		{
 			code: "foo",
@@ -1954,6 +1992,15 @@ RuleTester.it = RuleTester.itOnly = function (
 	fn: () => Promise<void>,
 ) {};
 
+RuleTester.setDefaultConfig({});
+RuleTester.setDefaultConfig({
+	languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+});
+// @ts-expect-error // must pass a `Config` object
+RuleTester.setDefaultConfig(null);
+RuleTester.getDefaultConfig() satisfies Linter.Config;
+RuleTester.resetDefaultConfig();
+
 ruleTester.run("simple-valid-test", rule, {
 	valid: ["foo", "bar", { code: "foo", options: [{ allowFoo: true }] }],
 	invalid: [{ code: "bar", errors: ["baz"] }],
@@ -1962,6 +2009,106 @@ ruleTester.run("simple-valid-test", rule, {
 ruleTester.run("simple-valid-test", rule2, {
 	valid: ["foo", "bar", { code: "foo", options: [{ allowFoo: true }] }],
 	invalid: [{ code: "bar", errors: ["baz"] }],
+});
+
+ruleTester.run("empty-assertion-options", rule, {
+	assertionOptions: {},
+	valid: [],
+	invalid: [],
+});
+
+ruleTester.run("false-assertion-options", rule, {
+	assertionOptions: {
+		requireMessage: false,
+		requireLocation: false,
+	},
+	valid: [],
+	invalid: [
+		{
+			code: "foo",
+			errors: 1,
+		},
+	],
+});
+
+ruleTester.run("true-assertion-options", rule, {
+	assertionOptions: {
+		requireMessage: true,
+		requireLocation: true,
+	},
+	valid: [],
+	invalid: [
+		{
+			code: "foo",
+			errors: [
+				{
+					message: "has",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 1,
+				},
+			],
+		},
+	],
+});
+
+ruleTester.run("message-assertion-options", rule, {
+	assertionOptions: {
+		requireMessage: "message",
+	},
+	valid: [],
+	invalid: [
+		{
+			code: "foo",
+			errors: [
+				{
+					message: "has",
+				},
+			],
+		},
+	],
+});
+
+ruleTester.run("messageId-assertion-options", rule, {
+	assertionOptions: {
+		requireMessage: "messageId",
+	},
+	valid: [],
+	invalid: [
+		{
+			code: "foo",
+			errors: [
+				{
+					messageId: "has",
+				},
+			],
+		},
+	],
+});
+
+ruleTester.run("data-assertion-options", rule, {
+	assertionOptions: {
+		requireData: true,
+	},
+	valid: [],
+	invalid: [],
+});
+
+ruleTester.run("data-assertion-options", rule, {
+	assertionOptions: {
+		requireData: "error",
+	},
+	valid: [],
+	invalid: [],
+});
+
+ruleTester.run("data-assertion-options", rule, {
+	assertionOptions: {
+		requireData: "suggestion",
+	},
+	valid: [],
+	invalid: [],
 });
 
 // #endregion
@@ -2184,11 +2331,16 @@ flatConfigWithRules.rules; // $ExpectType Partial<ESLintRules> | undefined
 
 async (useFlatConfig?: boolean) => {
 	await loadESLint(); // $ExpectType typeof ESLint
-	await loadESLint({}); // $ExpectType typeof ESLint
-	await loadESLint({ useFlatConfig: undefined }); // $ExpectType typeof ESLint
-	await loadESLint({ useFlatConfig: true }); // $ExpectType typeof ESLint
-	await loadESLint({ useFlatConfig: false }); // $ExpectType typeof ESLint
-	await loadESLint({ useFlatConfig }); // $ExpectType typeof ESLint
+	// @ts-expect-error `loadESLint()` does not accept arguments since ESLint v10.0.0
+	await loadESLint({});
+	// @ts-expect-error `loadESLint()` does not accept arguments since ESLint v10.0.0
+	await loadESLint({ useFlatConfig: undefined });
+	// @ts-expect-error `loadESLint()` does not accept arguments since ESLint v10.0.0
+	await loadESLint({ useFlatConfig: true });
+	// @ts-expect-error `loadESLint()` does not accept arguments since ESLint v10.0.0
+	await loadESLint({ useFlatConfig: false });
+	// @ts-expect-error `loadESLint()` does not accept arguments since ESLint v10.0.0
+	await loadESLint({ useFlatConfig });
 
 	const DefaultESLint = await loadESLint();
 	if (DefaultESLint.configType === "flat") {
@@ -2200,7 +2352,7 @@ async (useFlatConfig?: boolean) => {
 
 builtinRules; // $ExpectType Map<string, RuleModule>
 
-shouldUseFlatConfig(); // $ExpectType Promise<boolean>
+shouldUseFlatConfig(); // $ExpectType Promise<true>
 
 // #endregion
 

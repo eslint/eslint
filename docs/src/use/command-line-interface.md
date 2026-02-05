@@ -206,7 +206,7 @@ This option allows you to specify additional file extensions to lint.
 
 - **Argument Type**: String. File extension.
 - **Multiple Arguments**: Yes
-- **Default Value**: By default, ESLint lints files with extensions `.js`, `.mjs`, `.cjs`, and additional extensions [specified in the configuration file](configure/configuration-files#specifying-files-with-arbitrary-extensions).
+- **Default Value**: By default, ESLint lints files with extensions `.js`, `.mjs`, `.cjs`, and additional extensions [specified in the configuration file](configure/configuration-files#specify-files-with-arbitrary-extensions).
 
 This option is primarily intended for use in combination with the [`--no-config-lookup`](#--no-config-lookup) option, since in that case there is no configuration file in which the additional extensions would be specified.
 
@@ -437,7 +437,7 @@ Disables excluding of files from [`--ignore-pattern`](#--ignore-pattern) flags a
 
 This option allows you to specify patterns of files to ignore.
 
-- **Argument Type**: String. The supported syntax is the same as for [`ignores` patterns](configure/configuration-files#excluding-files-with-ignores), which use [minimatch](https://www.npmjs.com/package/minimatch) syntax. You should quote your patterns in order to avoid shell interpretation of glob patterns.
+- **Argument Type**: String. The supported syntax is the same as for [`ignores` patterns](configure/configuration-files#exclude-files-with-ignores), which use [minimatch](https://www.npmjs.com/package/minimatch) syntax. You should quote your patterns in order to avoid shell interpretation of glob patterns.
 - **Multiple Arguments**: Yes
 
 ##### `--ignore-pattern` example
@@ -597,6 +597,12 @@ These options force the enabling/disabling of colorized output.
 
 You can use these options to override the default behavior, which is to enable colorized output unless no TTY is detected, such as when piping `eslint` through `cat` or `less`.
 
+::: warning
+
+When neither `--color` nor `--no-color` is specified, the formatter may decide whether to colorize the output based on the runtime environment. For example, when using the default `stylish` formatter under Node.js, [`FORCE_COLOR`](https://nodejs.org/api/cli.html#force_color1-2-3), [`NO_COLOR`](https://nodejs.org/api/cli.html#no_colorany), or [`NODE_DISABLE_COLORS`](https://nodejs.org/api/cli.html#node_disable_colors1) environment variables may affect whether colors are used.
+
+:::
+
 ##### `--color` and `--no-color` example
 
 {{ npx_tabs ({
@@ -755,7 +761,7 @@ The `content` strategy can be useful in cases where the modification time of you
     args: ["\"src/**/*.js\"", "--cache", "--cache-strategy", "content"]
 }) }}
 
-### Suppressing Violations
+### Suppress Violations
 
 #### `--suppress-all`
 

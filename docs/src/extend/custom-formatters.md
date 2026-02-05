@@ -13,7 +13,7 @@ ESLint also has [built-in formatters](../use/formatters/) that you can use.
 
 You can include custom formatters in your project directly or create an npm package to distribute them separately.
 
-## Creating a Custom Formatter
+## Create a Custom Formatter
 
 Each formatter is a function that receives a `results` object and a `context` as arguments and returns a string. For example, the following is how the built-in [JSON formatter](../use/formatters/#json) is implemented:
 
@@ -87,6 +87,7 @@ The `results` object passed into a formatter is an array of [`LintResult`](../in
 
 The formatter function receives a `context` object as its second argument. The object has the following properties:
 
+- `color` (optional): If `--color` was set, this property is `true`. If `--no-color` was set, it is `false`. If neither option was provided, the property is omitted.
 - `cwd`: The current working directory. This value comes from the `cwd` constructor option of the [ESLint](../integrate/nodejs-api#-new-eslintoptions) class.
 - `maxWarningsExceeded` (optional): If `--max-warnings` was set and the number of warnings exceeded the limit, this property's value is an object containing two properties:
     - `maxWarnings`: the value of the `--max-warnings` option
@@ -126,7 +127,7 @@ For example, here's what the object would look like if the rule `no-extra-semi` 
 
 While formatter functions do not receive arguments in addition to the results object and the context, it is possible to pass additional data into custom formatters using the methods described below.
 
-#### Using Environment Variables
+#### Use Environment Variables
 
 Custom formatters have access to environment variables and so can change their behavior based on environment variable data.
 
