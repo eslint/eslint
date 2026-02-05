@@ -53,7 +53,7 @@ describe("messages", () => {
 
 	describe("config-plugin-missing", () => {
 		it("should return a message", () => {
-			const pluginName = "eslint-plugin-foo";
+			const pluginName = "foo";
 			const ruleId = "foo/bar";
 			const message = getMessage("config-plugin-missing", {
 				pluginName,
@@ -69,8 +69,8 @@ describe("messages", () => {
 
 	describe("config-serialize-function", () => {
 		it("should return a generic message", () => {
-			const key = "foo";
-			const objectKey = "bar";
+			const key = "toJSON";
+			const objectKey = "languageOptions";
 			const message = getMessage("config-serialize-function", {
 				key,
 				objectKey,
@@ -263,7 +263,7 @@ describe("messages", () => {
 
 	describe("eslintrc-plugins", () => {
 		it("should return a message with an array of strings", () => {
-			const pluginName = "eslint-plugin-foo";
+			const pluginName = "foo";
 			const message = getMessage("eslintrc-plugins", {
 				plugins: [pluginName],
 			});
@@ -321,6 +321,40 @@ Flat config requires "plugins" to be an object, like this:
 				message,
 				"https://eslint.org/docs/latest/use/configure/migration-guide#use-eslintrc-configs-in-flat-config",
 			);
+		});
+	});
+
+	describe("extend-config-missing (@eslint/eslintrc)", () => {
+		it("should return a message", () => {
+			const configName = "./missing-config.json";
+			const importerName = "/path/to/project/.eslintrc";
+			const message = getMessage("extend-config-missing", {
+				configName,
+				importerName,
+			});
+
+			assert.include(
+				message,
+				`ESLint couldn't find the config "${configName}" to extend from.`,
+			);
+			assert.include(
+				message,
+				`The config "${configName}" was referenced from the config file in "${importerName}".`,
+			);
+		});
+	});
+
+	describe("failed-to-read-json (@eslint/eslintrc)", () => {
+		it("should return a message", () => {
+			const path = "/path/to/project/file.json";
+			const errorMessage = "Unexpected token } in JSON at position 10";
+			const message = getMessage("failed-to-read-json", {
+				path,
+				message: errorMessage,
+			});
+
+			assert.include(message, `Failed to read JSON file at ${path}`);
+			assert.include(message, errorMessage);
 		});
 	});
 
@@ -403,6 +437,127 @@ Flat config requires "plugins" to be an object, like this:
 			assert.include(
 				message,
 				"https://eslint.org/docs/latest/use/configure/rules#use-configuration-files",
+			);
+		});
+	});
+
+	describe("no-config-found (@eslint/eslintrc)", () => {
+		it("should return a message", () => {
+			const directoryPath = "/path/to/project";
+			const message = getMessage("no-config-found", { directoryPath });
+
+			assert.include(
+				message,
+				"ESLint couldn't find a configuration file.",
+			);
+			assert.include(
+				message,
+				`ESLint looked for configuration files in ${directoryPath} and its ancestors.`,
+			);
+		});
+	});
+
+	describe("plugin-conflict (@eslint/eslintrc)", () => {
+		it("should return a message", () => {
+			const pluginId = "eslint-plugin-foo";
+			const plugins = [
+				{
+					filePath: "/foo/bar/baz/some-plugin.js",
+					importerName: "/foo/bar/baz/.eslintrc",
+				},
+				{
+					filePath: "/foo/bar/another-plugin.js",
+					importerName: "/foo/bar/.eslintrc",
+				},
+			];
+			const message = getMessage("plugin-conflict", {
+				pluginId,
+				plugins,
+			});
+
+			assert.include(
+				message,
+				`ESLint couldn't determine the plugin "${pluginId}" uniquely.`,
+			);
+			assert.include(
+				message,
+				`- ${plugins[0].filePath} (loaded in "${plugins[0].importerName}")`,
+			);
+			assert.include(
+				message,
+				`- ${plugins[1].filePath} (loaded in "${plugins[1].importerName}")`,
+			);
+			assert.include(
+				message,
+				"https://eslint.org/docs/latest/use/troubleshooting",
+			);
+		});
+	});
+
+	describe("plugin-invalid (@eslint/eslintrc)", () => {
+		it("should return a message", () => {
+			const configName = "plugin:invalid";
+			const importerName = "/path/to/project/.eslintrc";
+			const message = getMessage("plugin-invalid", {
+				configName,
+				importerName,
+			});
+
+			assert.include(
+				message,
+				`"${configName}" is invalid syntax for a config specifier.`,
+			);
+			assert.include(
+				message,
+				`"${configName}" was referenced from the config file in "${importerName}".`,
+			);
+			assert.include(
+				message,
+				"https://eslint.org/docs/latest/use/troubleshooting",
+			);
+		});
+	});
+
+	describe("plugin-missing (@eslint/eslintrc)", () => {
+		it("should return a message", () => {
+			const pluginName = "plugin:missing";
+			const resolvePluginsRelativeTo = "/path/to/project";
+			const importerName = "/path/to/project/.eslintrc";
+			const message = getMessage("plugin-missing", {
+				pluginName,
+				resolvePluginsRelativeTo,
+				importerName,
+			});
+
+			assert.include(
+				message,
+				`ESLint couldn't find the plugin "${pluginName}".`,
+			);
+			assert.include(
+				message,
+				`The package "${pluginName}" was not found when loaded as a Node module from the directory "${resolvePluginsRelativeTo}".`,
+			);
+			assert.include(
+				message,
+				`The plugin "${pluginName}" was referenced from the config file in "${importerName}".`,
+			);
+			assert.include(
+				message,
+				"https://eslint.org/docs/latest/use/troubleshooting",
+			);
+		});
+	});
+
+	describe("whitespace-found (@eslint/eslintrc)", () => {
+		it("should return a message", () => {
+			const pluginName = "eslint-plugin-foo bar";
+			const message = getMessage("whitespace-found", {
+				pluginName,
+			});
+
+			assert.include(
+				message,
+				`ESLint couldn't find the plugin "${pluginName}". because there is whitespace in the name.`,
 			);
 		});
 	});
