@@ -183,12 +183,12 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout eslint
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
               with:
                   path: eslint
 
             - name: Checkout html-eslint
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
               with:
                   repository: yeonjuan/html-eslint
                   path: html-eslint
