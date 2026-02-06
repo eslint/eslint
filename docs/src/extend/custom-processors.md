@@ -10,7 +10,7 @@ eleventyNavigation:
 You can also create custom processors that tell ESLint how to process files other than standard JavaScript. For example, you could write a custom processor to extract and process JavaScript from Markdown files ([@eslint/markdown](https://www.npmjs.com/package/@eslint/markdown) includes a custom processor for this).
 
 ::: tip
-This page explains how to create a custom processor for use with the flat config format. For the deprecated eslintrc format, [see the deprecated documentation](custom-processors-deprecated).
+This page explains how to create a custom processor for use with the flat config format.
 :::
 
 ## Custom Processor Specification

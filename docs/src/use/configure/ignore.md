@@ -10,7 +10,7 @@ eleventyNavigation:
 {%- from 'components/npx_tabs.macro.html' import npx_tabs %}
 
 ::: tip
-This page explains how to ignore files using the flat config format. For the deprecated eslintrc format, [see the deprecated documentation](ignore-deprecated).
+This page explains how to ignore files using the flat config format.
 :::
 
 ::: tip
