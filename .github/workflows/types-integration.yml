@@ -178,6 +178,43 @@ jobs:
               working-directory: json
               run: npm run test:types
 
+    html_plugin:
+        name: Types (@html-eslint/eslint-plugin)
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout eslint
+              uses: actions/checkout@v6
+              with:
+                  path: eslint
+
+            - name: Checkout html-eslint
+              uses: actions/checkout@v6
+              with:
+                  repository: yeonjuan/html-eslint
+                  path: html-eslint
+
+            - uses: actions/setup-node@v6
+              with:
+                  node-version: "lts/*"
+
+            - name: Install Packages (eslint)
+              working-directory: eslint
+              run: npm install
+
+            - name: Patch html-eslint package.json
+              uses: restackio/update-json-file-action@6f50afee9a03a456a30cd574123db793319f7544 # 2.1
+              with:
+                  file: html-eslint/package.json
+                  fields: '{"resolutions.eslint":"file:../eslint"}'
+
+            - name: Install Packages (html-eslint)
+              working-directory: html-eslint
+              run: yarn install --no-immutable
+
+            - name: Run TSC
+              working-directory: html-eslint
+              run: yarn check:ts --filter=@html-eslint/eslint-plugin
+
     are-the-types-wrong:
         name: Are the types wrong?
         runs-on: ubuntu-latest
