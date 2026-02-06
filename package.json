@@ -1,6 +1,6 @@
 {
   "name": "eslint",
-  "version": "10.0.0-rc.2",
+  "version": "10.0.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "type": "commonjs",
