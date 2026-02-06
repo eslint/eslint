@@ -30,6 +30,14 @@
     "eslint"
   ],
   "license": "MIT",
+  "peerDependencies": {
+    "eslint": "^10.0.0"
+  },
+  "peerDependenciesMeta": {
+    "eslint": {
+      "optional": true
+    }
+  },
   "engines": {
     "node": "^20.19.0 || ^22.13.0 || >=24"
   }
