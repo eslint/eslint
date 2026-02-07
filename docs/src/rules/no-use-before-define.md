@@ -131,6 +131,7 @@ export { foo };
         "classes": true,
         "variables": true,
         "allowNamedExports": false,
+        "allowDeferredReferences": true,
         "enums": true,
         "typedefs": true,
         "ignoreTypeReferences": true
@@ -159,6 +160,10 @@ export { foo };
   If this flag is set to `true`, the rule always allows references in `export {};` declarations.
   These references are safe even if the variables are declared later in the code.
   Default is `false`.
+* `allowDeferredReferences` (`boolean`) -
+  If this flag is set to `true` (the default), the rule allows references to a variable inside any function within its own initializer, assuming the function will be called later.
+  If set to `false`, the rule only allows such references when the function is directly assigned as the variable's value (e.g., `const x = () => x`). References inside functions passed as arguments, placed in arrays, or in object literals will be reported, because those functions could be invoked immediately during initialization.
+  Default is `true`.
 
 This rule additionally supports TypeScript type syntax. The following options enable checking for the references to `type`, `interface` and `enum` declarations:
 
@@ -173,7 +178,7 @@ This rule additionally supports TypeScript type syntax. The following options en
   Default is `true`.
 
 This rule accepts `"nofunc"` string as an option.
-`"nofunc"` is the same as `{ "functions": false, "classes": true, "variables": true, "allowNamedExports": false, "enums": true, "typedefs": true, "ignoreTypeReferences": true }`.
+`"nofunc"` is the same as `{ "functions": false, "classes": true, "variables": true, "allowNamedExports": false, "allowDeferredReferences": true, "enums": true, "typedefs": true, "ignoreTypeReferences": true }`.
 
 ### functions
 
@@ -362,6 +367,47 @@ export function foo() {
     return d;
 }
 const d = 1;
+```
+
+:::
+
+### allowDeferredReferences
+
+Examples of **incorrect** code for the `{ "allowDeferredReferences": false }` option:
+
+::: incorrect
+
+```js
+/*eslint no-use-before-define: ["error", { "allowDeferredReferences": false }]*/
+
+const a = TestFunction(arr, (T) => {
+    console.log(a);
+    return T;
+});
+
+const b = [() => b];
+
+const c = { f: () => c };
+
+const d = (() => d)();
+
+var e = arr.map(x => e.length);
+```
+
+:::
+
+Examples of **correct** code for the `{ "allowDeferredReferences": false }` option:
+
+::: correct
+
+```js
+/*eslint no-use-before-define: ["error", { "allowDeferredReferences": false }]*/
+
+const x = () => x;
+
+const y = function() { return y; };
+
+const z = () => { return () => z; };
 ```
 
 :::

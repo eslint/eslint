@@ -453,6 +453,44 @@ ruleTester.run("no-use-before-define", rule, {
 				parserOptions: { ecmaFeatures: { jsx: true } },
 			},
 		},
+
+		// "allowDeferredReferences" option - valid cases (provably deferred)
+		{
+			code: "const x = () => x;",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const x = function() { return x; };",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const x = () => { return () => x; };",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "class C { method() { C; } }",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "class C { field = () => C; }",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 2022 },
+		},
+
+		// "allowDeferredReferences" option - default behavior preserved
+		{
+			code: "const a = fn(() => a);",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const a = fn(() => a);",
+			options: [{ allowDeferredReferences: true }],
+			languageOptions: { ecmaVersion: 6 },
+		},
 	],
 	invalid: [
 		{
@@ -1711,6 +1749,74 @@ ruleTester.run("no-use-before-define", rule, {
 					column: 2,
 					endLine: 1,
 					endColumn: 5,
+				},
+			],
+		},
+
+		// "allowDeferredReferences" option - invalid cases (not provably deferred)
+		{
+			code: "const a = fn(() => a);",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
+				},
+			],
+		},
+		{
+			code: "const a = [() => a];",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
+				},
+			],
+		},
+		{
+			code: "const a = { f: () => a };",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
+				},
+			],
+		},
+		{
+			code: "const a = (() => a)();",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
+				},
+			],
+		},
+		{
+			code: "const a = new Foo(() => a);",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
+				},
+			],
+		},
+		{
+			code: "var a = arr.map(x => a.length);",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
 				},
 			],
 		},
