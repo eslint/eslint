@@ -1,8 +1,8 @@
 ---
 title: no-redeclare
 rule_type: suggestion
-handled_by_typescript: true
-extra_typescript_info: Note that while TypeScript will catch `let` redeclares and `const` redeclares, it will not catch `var` redeclares. Thus, if you use the legacy `var` keyword in your TypeScript codebase, this rule will still provide some value.
+handled_by_typescript: partial
+extra_typescript_info: This rule is TypeScript-aware and handles declaration merging patterns. TypeScript catches `let` and `const` redeclares, but not `var` redeclares. This rule still provides value for `var` redeclarations in TypeScript codebases.
 related_rules:
 - no-shadow
 ---
@@ -10,6 +10,8 @@ related_rules:
 
 
 In JavaScript, it's possible to redeclare the same variable name using `var`. This can lead to confusion as to where the variable is actually declared and initialized.
+
+This rule is TypeScript-aware and allows valid TypeScript declaration merging patterns, such as interface merging, namespace merging, and class/function augmentation with namespaces. It does not report collisions between value-space and type-space declarations, as these are valid in TypeScript.
 
 ## Rule Details
 

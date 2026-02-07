@@ -739,3 +739,170 @@ ruleTester.run("no-redeclare", rule, {
 		},
 	],
 });
+
+//------------------------------------------------------------------------------
+// TypeScript Tests
+//------------------------------------------------------------------------------
+
+const ruleTesterTypeScript = new RuleTester({
+	languageOptions: {
+		parser: require("@typescript-eslint/parser"),
+		parserOptions: {
+			sourceType: "module",
+		},
+	},
+});
+
+ruleTesterTypeScript.run("no-redeclare (TypeScript)", rule, {
+	valid: [
+		// Interface merging - valid TS pattern
+		`
+			interface A { prop1: number; }
+			interface A { prop2: string; }
+		`,
+
+		// Multiple interface merging
+		`
+			interface Foo { a: number; }
+			interface Foo { b: string; }
+			interface Foo { c: boolean; }
+		`,
+
+		// Namespace merging - valid TS pattern
+		`
+			namespace Foo { export const a = 1; }
+			namespace Foo { export const b = 2; }
+		`,
+
+		// Class + namespace merging - valid TS pattern
+		`
+			class Bar {}
+			namespace Bar {}
+		`,
+
+		// Function + namespace merging - valid TS pattern
+		`
+			function Baz() {}
+			namespace Baz {}
+		`,
+
+		// Enum + namespace merging - valid TS pattern
+		`
+			enum Direction { Up, Down }
+			namespace Direction { export function isVertical(d: Direction) { return true; } }
+		`,
+
+		// Value + type collision - valid TS (different namespaces)
+		`
+			const a = 42;
+			type a = string;
+		`,
+
+		// Value + interface collision - valid TS (different namespaces)
+		`
+			let b: object;
+			interface b { foo: string; }
+		`,
+
+		// Function + interface - valid TS (different namespaces)
+		`
+			function MyFunc() {}
+			interface MyFunc { prop: number; }
+		`,
+
+		// Class + interface merging - valid TS pattern
+		`
+			class MyClass {}
+			interface MyClass { extra: string; }
+		`,
+
+		// Enum + interface - valid TS (different namespaces)
+		`
+			enum Status { Active, Inactive }
+			interface Status { label: string; }
+		`,
+
+		// Type alias + value - valid TS (different namespaces)
+		`
+			type Handler = () => void;
+			const Handler = () => {};
+		`,
+
+		// Namespace + interface - valid TS
+		`
+			namespace N {}
+			interface N { prop: number; }
+		`,
+
+		// Multiple type aliases - handled by TypeScript compiler
+		`
+			type T = string;
+			type T = number;
+		`,
+
+		// Declare function overloads - valid TS
+		`
+			declare function foo(): void;
+			declare function foo(x: number): void;
+		`,
+
+		// Function overload signatures with implementation
+		`
+			function bar(): void;
+			function bar(x: number): void;
+			function bar(x?: number): void {}
+		`,
+
+		// Enum merging
+		`
+			enum Color { Red }
+			enum Color { Blue }
+		`,
+
+		// Var + namespace - TypeScript compiler handles this
+		`
+			var a = 1;
+			namespace a { export type T = string; }
+		`,
+
+		// Basic JS valid cases should still work
+		{
+			code: "var a = 3; var b = function() { var a = 10; };",
+			languageOptions: {
+				parser: require("@typescript-eslint/parser"),
+				parserOptions: { sourceType: "script" },
+			},
+		},
+	],
+
+	invalid: [
+		// var redeclaration - still invalid even in TS
+		{
+			code: "var a = 3; var a = 10;",
+			languageOptions: {
+				parser: require("@typescript-eslint/parser"),
+				parserOptions: { sourceType: "script" },
+			},
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "a" },
+				},
+			],
+		},
+
+		// let redeclaration - invalid
+		{
+			code: `
+				let x = 1;
+				let x = 2;
+			`,
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "x" },
+				},
+			],
+		},
+	],
+});
