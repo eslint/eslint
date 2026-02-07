@@ -4248,6 +4248,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.0.9
 	 * @see https://eslint.org/docs/latest/rules/no-use-before-define
 	 */
+
 	"no-use-before-define": Linter.RuleEntry<
 		[
 			| Partial<{
