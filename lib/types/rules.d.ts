@@ -32,73 +32,6 @@
 import { Linter } from "./index";
 
 //-----------------------------------------------------------------------------
-// Helper types
-//-----------------------------------------------------------------------------
-
-interface NoRestrictedImportPathCommonOptions {
-	name: string;
-	message?: string;
-	allowTypeImports?: boolean;
-}
-
-type EitherImportNamesOrAllowImportName =
-	| { importNames?: string[]; allowImportNames?: never }
-	| { allowImportNames?: string[]; importNames?: never };
-
-type ValidNoRestrictedImportPathOptions = NoRestrictedImportPathCommonOptions &
-	EitherImportNamesOrAllowImportName;
-
-interface NoRestrictedImportPatternCommonOptions {
-	message?: string;
-	caseSensitive?: boolean;
-	allowTypeImports?: boolean;
-}
-
-// Base type for group or regex constraint, ensuring mutual exclusivity
-type EitherGroupOrRegEx =
-	| { group: string[]; regex?: never }
-	| { regex: string; group?: never };
-
-// Base type for import name specifiers, ensuring mutual exclusivity
-type EitherNameSpecifiers =
-	| {
-			importNames?: string[];
-			importNamePattern?: string;
-			allowImportNames?: never;
-			allowImportNamePattern?: never;
-	  }
-	| {
-			allowImportNames?: string[];
-			importNames?: never;
-			importNamePattern?: never;
-			allowImportNamePattern?: never;
-	  }
-	| {
-			allowImportNamePattern?: string;
-			importNames?: never;
-			allowImportNames?: never;
-			importNamePattern?: never;
-	  };
-
-// Adds oneOf and not constraints, ensuring group or regex are present and mutually exclusive sets for importNames, allowImportNames, etc., as per the schema.
-type ValidNoRestrictedImportPatternOptions =
-	NoRestrictedImportPatternCommonOptions &
-		EitherGroupOrRegEx &
-		EitherNameSpecifiers;
-
-interface CapitalizedCommentsCommonOptions {
-	ignorePattern?: string;
-	/**
-	 * @default false
-	 */
-	ignoreInlineComments?: boolean;
-	/**
-	 * @default false
-	 */
-	ignoreConsecutiveComments?: boolean;
-}
-
-//-----------------------------------------------------------------------------
 // Public types
 //-----------------------------------------------------------------------------
 
@@ -113,13 +46,13 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			Partial<{
 				/**
-				 * @default true
-				 */
-				setWithoutGet: boolean;
-				/**
 				 * @default false
 				 */
 				getWithoutSet: boolean;
+				/**
+				 * @default true
+				 */
+				setWithoutGet: boolean;
 				/**
 				 * @default true
 				 */
@@ -147,13 +80,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 			| "never"
 			| "consistent"
 			| Partial<{
-					/**
-					 * @default true
-					 */
 					multiline: boolean;
-					/**
-					 * @default null
-					 */
 					minItems: number | null;
 			  }>,
 		]
@@ -168,45 +95,16 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`array-bracket-spacing`](https://eslint.style/rules/array-bracket-spacing) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/array-bracket-spacing
 	 */
-	"array-bracket-spacing":
-		| Linter.RuleEntry<
-				[
-					"never",
-					Partial<{
-						/**
-						 * @default false
-						 */
-						singleValue: boolean;
-						/**
-						 * @default false
-						 */
-						objectsInArrays: boolean;
-						/**
-						 * @default false
-						 */
-						arraysInArrays: boolean;
-					}>,
-				]
-		  >
-		| Linter.RuleEntry<
-				[
-					"always",
-					Partial<{
-						/**
-						 * @default true
-						 */
-						singleValue: boolean;
-						/**
-						 * @default true
-						 */
-						objectsInArrays: boolean;
-						/**
-						 * @default true
-						 */
-						arraysInArrays: boolean;
-					}>,
-				]
-		  >;
+	"array-bracket-spacing": Linter.RuleEntry<
+		[
+			"always" | "never",
+			Partial<{
+				singleValue: boolean;
+				objectsInArrays: boolean;
+				arraysInArrays: boolean;
+			}>,
+		]
+	>;
 
 	/**
 	 * Rule to enforce `return` statements in callbacks of array methods.
@@ -248,14 +146,26 @@ export interface ESLintRules extends Linter.RulesRecord {
 			| "never"
 			| "consistent"
 			| Partial<{
-					/**
-					 * @default true
-					 */
 					multiline: boolean;
-					/**
-					 * @default null
-					 */
 					minItems: number | null;
+			  }>
+			| Partial<{
+					ArrayExpression:
+						| "always"
+						| "never"
+						| "consistent"
+						| Partial<{
+								multiline: boolean;
+								minItems: number | null;
+						  }>;
+					ArrayPattern:
+						| "always"
+						| "never"
+						| "consistent"
+						| Partial<{
+								multiline: boolean;
+								minItems: number | null;
+						  }>;
 			  }>,
 		]
 	>;
@@ -267,18 +177,15 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @see https://eslint.org/docs/latest/rules/arrow-body-style
 	 */
 	"arrow-body-style":
+		| Linter.RuleEntry<["always" | "never"]>
 		| Linter.RuleEntry<
 				[
 					"as-needed",
 					Partial<{
-						/**
-						 * @default false
-						 */
 						requireReturnForObjectLiteral: boolean;
 					}>,
 				]
-		  >
-		| Linter.RuleEntry<["always" | "never"]>;
+		  >;
 
 	/**
 	 * Rule to require parentheses around arrow function arguments.
@@ -289,19 +196,17 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`arrow-parens`](https://eslint.style/rules/arrow-parens) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/arrow-parens
 	 */
-	"arrow-parens":
-		| Linter.RuleEntry<["always"]>
-		| Linter.RuleEntry<
-				[
-					"as-needed",
-					Partial<{
-						/**
-						 * @default false
-						 */
-						requireForBlockBody: boolean;
-					}>,
-				]
-		  >;
+	"arrow-parens": Linter.RuleEntry<
+		[
+			"always" | "as-needed",
+			Partial<{
+				/**
+				 * @default false
+				 */
+				requireForBlockBody: boolean;
+			}>,
+		]
+	>;
 
 	/**
 	 * Rule to enforce consistent spacing before and after the arrow in arrow functions.
@@ -312,7 +217,20 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`arrow-spacing`](https://eslint.style/rules/arrow-spacing) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/arrow-spacing
 	 */
-	"arrow-spacing": Linter.RuleEntry<[]>;
+	"arrow-spacing": Linter.RuleEntry<
+		[
+			Partial<{
+				/**
+				 * @default true
+				 */
+				before: boolean;
+				/**
+				 * @default true
+				 */
+				after: boolean;
+			}>,
+		]
+	>;
 
 	/**
 	 * Rule to enforce the use of variables within the scope they are defined.
@@ -375,26 +293,23 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			Partial<{
 				/**
-				 * @default 'always'
-				 */
-				properties: "always" | "never";
-				/**
 				 * @default false
 				 */
 				ignoreDestructuring: boolean;
 				/**
-				 * @since 6.7.0
 				 * @default false
 				 */
 				ignoreImports: boolean;
 				/**
-				 * @since 7.4.0
 				 * @default false
 				 */
 				ignoreGlobals: boolean;
 				/**
-				 * @remarks
-				 * Also accept for regular expression patterns
+				 * @default "always"
+				 */
+				properties: "always" | "never";
+				/**
+				 * @default []
 				 */
 				allow: string[];
 			}>,
@@ -411,10 +326,22 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			"always" | "never",
 			(
-				| CapitalizedCommentsCommonOptions
 				| Partial<{
-						line: CapitalizedCommentsCommonOptions;
-						block: CapitalizedCommentsCommonOptions;
+						ignorePattern: string;
+						ignoreInlineComments: boolean;
+						ignoreConsecutiveComments: boolean;
+				  }>
+				| Partial<{
+						line: Partial<{
+							ignorePattern: string;
+							ignoreInlineComments: boolean;
+							ignoreConsecutiveComments: boolean;
+						}>;
+						block: Partial<{
+							ignorePattern: string;
+							ignoreInlineComments: boolean;
+							ignoreConsecutiveComments: boolean;
+						}>;
 				  }>
 			),
 		]
@@ -429,6 +356,9 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"class-methods-use-this": Linter.RuleEntry<
 		[
 			Partial<{
+				/**
+				 * @default []
+				 */
 				exceptMethods: string[];
 				/**
 				 * @default true
@@ -454,50 +384,40 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"comma-dangle": Linter.RuleEntry<
 		[
-			| "never"
-			| "always"
 			| "always-multiline"
+			| "always"
+			| "never"
 			| "only-multiline"
 			| Partial<{
-					/**
-					 * @default 'never'
-					 */
 					arrays:
-						| "never"
-						| "always"
 						| "always-multiline"
+						| "always"
+						| "ignore"
+						| "never"
 						| "only-multiline";
-					/**
-					 * @default 'never'
-					 */
 					objects:
-						| "never"
-						| "always"
 						| "always-multiline"
+						| "always"
+						| "ignore"
+						| "never"
 						| "only-multiline";
-					/**
-					 * @default 'never'
-					 */
 					imports:
-						| "never"
-						| "always"
 						| "always-multiline"
+						| "always"
+						| "ignore"
+						| "never"
 						| "only-multiline";
-					/**
-					 * @default 'never'
-					 */
 					exports:
-						| "never"
-						| "always"
 						| "always-multiline"
+						| "always"
+						| "ignore"
+						| "never"
 						| "only-multiline";
-					/**
-					 * @default 'never'
-					 */
 					functions:
-						| "never"
-						| "always"
 						| "always-multiline"
+						| "always"
+						| "ignore"
+						| "never"
 						| "only-multiline";
 			  }>,
 		]
@@ -538,7 +458,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"comma-style": Linter.RuleEntry<
 		[
-			"last" | "first",
+			"first" | "last",
 			Partial<{
 				exceptions: Record<string, boolean>;
 			}>,
@@ -553,23 +473,19 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	complexity: Linter.RuleEntry<
 		[
+			| number
 			| Partial<{
-					/**
-					 * @default 20
-					 */
-					max: number;
 					/**
 					 * @deprecated
 					 * @default 20
 					 */
 					maximum: number;
 					/**
-					 * @default "classic"
-					 * @since 9.12.0
+					 * @default 20
 					 */
+					max: number;
 					variant: "classic" | "modified";
-			  }>
-			| number,
+			  }>,
 		]
 	>;
 
@@ -582,7 +498,17 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`computed-property-spacing`](https://eslint.style/rules/computed-property-spacing) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/computed-property-spacing
 	 */
-	"computed-property-spacing": Linter.RuleEntry<["never" | "always"]>;
+	"computed-property-spacing": Linter.RuleEntry<
+		[
+			"always" | "never",
+			Partial<{
+				/**
+				 * @default true
+				 */
+				enforceForClassMembers: boolean;
+			}>,
+		]
+	>;
 
 	/**
 	 * Rule to require `return` statements to either always or never specify values.
@@ -626,9 +552,11 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.0.2
 	 * @see https://eslint.org/docs/latest/rules/curly
 	 */
-	curly: Linter.RuleEntry<
-		["all"] | ["multi" | "multi-line" | "multi-or-nest", "consistent"?]
-	>;
+	curly:
+		| Linter.RuleEntry<["all"]>
+		| Linter.RuleEntry<
+				["multi" | "multi-line" | "multi-or-nest", "consistent"]
+		  >;
 
 	/**
 	 * Rule to require `default` cases in `switch` statements.
@@ -639,9 +567,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"default-case": Linter.RuleEntry<
 		[
 			Partial<{
-				/**
-				 * @default '^no default$'
-				 */
 				commentPattern: string;
 			}>,
 		]
@@ -701,11 +626,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`eol-last`](https://eslint.style/rules/eol-last) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/eol-last
 	 */
-	"eol-last": Linter.RuleEntry<
-		[
-			"always" | "never", // | 'unix' | 'windows'
-		]
-	>;
+	"eol-last": Linter.RuleEntry<["always" | "never" | "unix" | "windows"]>;
 
 	/**
 	 * Rule to require the use of `===` and `!==`.
@@ -718,9 +639,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 				[
 					"always",
 					Partial<{
-						/**
-						 * @default 'always'
-						 */
 						null: "always" | "never" | "ignore";
 					}>,
 				]
@@ -747,7 +665,16 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`function-call-spacing`](https://eslint.style/rules/function-call-spacing) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/func-call-spacing
 	 */
-	"func-call-spacing": Linter.RuleEntry<["never" | "always"]>;
+	"func-call-spacing":
+		| Linter.RuleEntry<["never"]>
+		| Linter.RuleEntry<
+				[
+					"always",
+					Partial<{
+						allowNewlines: boolean;
+					}>,
+				]
+		  >;
 
 	/**
 	 * Rule to require function names to match the name of the variable or property to which they are assigned.
@@ -760,13 +687,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 				[
 					"always" | "never",
 					Partial<{
-						/**
-						 * @default false
-						 */
 						considerPropertyDescriptor: boolean;
-						/**
-						 * @default false
-						 */
 						includeCommonJSModuleExports: boolean;
 					}>,
 				]
@@ -774,13 +695,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 		| Linter.RuleEntry<
 				[
 					Partial<{
-						/**
-						 * @default false
-						 */
 						considerPropertyDescriptor: boolean;
-						/**
-						 * @default false
-						 */
 						includeCommonJSModuleExports: boolean;
 					}>,
 				]
@@ -809,7 +724,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"func-style": Linter.RuleEntry<
 		[
-			"expression" | "declaration",
+			"declaration" | "expression",
 			Partial<{
 				/**
 				 * @default false
@@ -819,9 +734,9 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default false
 				 */
 				allowTypeAnnotation: boolean;
-				overrides: {
+				overrides: Partial<{
 					namedExports: "declaration" | "expression" | "ignore";
-				};
+				}>;
 			}>,
 		]
 	>;
@@ -836,12 +751,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @see https://eslint.org/docs/latest/rules/function-call-argument-newline
 	 */
 	"function-call-argument-newline": Linter.RuleEntry<
-		[
-			/**
-			 * @default "always"
-			 */
-			"always" | "never" | "consistent",
-		]
+		["always" | "never" | "consistent"]
 	>;
 
 	/**
@@ -857,9 +767,9 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			| "always"
 			| "never"
+			| "consistent"
 			| "multiline"
 			| "multiline-arguments"
-			| "consistent"
 			| Partial<{
 					minItems: number;
 			  }>,
@@ -877,41 +787,41 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"generator-star-spacing": Linter.RuleEntry<
 		[
+			| "before"
+			| "after"
+			| "both"
+			| "neither"
 			| Partial<{
 					before: boolean;
 					after: boolean;
 					named:
-						| Partial<{
-								before: boolean;
-								after: boolean;
-						  }>
 						| "before"
 						| "after"
 						| "both"
-						| "neither";
+						| "neither"
+						| Partial<{
+								before: boolean;
+								after: boolean;
+						  }>;
 					anonymous:
-						| Partial<{
-								before: boolean;
-								after: boolean;
-						  }>
 						| "before"
 						| "after"
 						| "both"
-						| "neither";
+						| "neither"
+						| Partial<{
+								before: boolean;
+								after: boolean;
+						  }>;
 					method:
-						| Partial<{
-								before: boolean;
-								after: boolean;
-						  }>
 						| "before"
 						| "after"
 						| "both"
-						| "neither";
-			  }>
-			| "before"
-			| "after"
-			| "both"
-			| "neither",
+						| "neither"
+						| Partial<{
+								before: boolean;
+								after: boolean;
+						  }>;
+			  }>,
 		]
 	>;
 
@@ -1000,7 +910,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 7.4.0
 	 * @see https://eslint.org/docs/latest/rules/id-denylist
 	 */
-	"id-denylist": Linter.RuleEntry<string[]>;
+	"id-denylist": Linter.RuleEntry<[...string[]]>;
 
 	/**
 	 * Rule to enforce minimum and maximum identifier lengths.
@@ -1015,16 +925,19 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default 2
 				 */
 				min: number;
-				/**
-				 * @default Infinity
-				 */
 				max: number;
 				/**
-				 * @default 'always'
+				 * @default []
+				 */
+				exceptions: string[];
+				/**
+				 * @default []
+				 */
+				exceptionPatterns: string[];
+				/**
+				 * @default "always"
 				 */
 				properties: "always" | "never";
-				exceptions: string[];
-				exceptionPatterns: string[];
 			}>,
 		]
 	>;
@@ -1081,91 +994,48 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	indent: Linter.RuleEntry<
 		[
-			number | "tab",
+			"tab" | number,
 			Partial<{
 				/**
 				 * @default 0
 				 */
 				SwitchCase: number;
-				/**
-				 * @default 1
-				 */
 				VariableDeclarator:
-					| Partial<{
-							/**
-							 * @default 1
-							 */
-							var: number | "first";
-							/**
-							 * @default 1
-							 */
-							let: number | "first";
-							/**
-							 * @default 1
-							 */
-							const: number | "first";
-					  }>
 					| number
-					| "first";
-				/**
-				 * @default 1
-				 */
-				outerIIFEBody: number;
-				/**
-				 * @default 1
-				 */
+					| "first"
+					| "off"
+					| Partial<{
+							var: number | "first" | "off";
+							let: number | "first" | "off";
+							const: number | "first" | "off";
+					  }>;
+				outerIIFEBody: number | "off";
 				MemberExpression: number | "off";
-				/**
-				 * @default { parameters: 1, body: 1 }
-				 */
 				FunctionDeclaration: Partial<{
-					/**
-					 * @default 1
-					 */
 					parameters: number | "first" | "off";
-					/**
-					 * @default 1
-					 */
 					body: number;
 				}>;
-				/**
-				 * @default { parameters: 1, body: 1 }
-				 */
 				FunctionExpression: Partial<{
-					/**
-					 * @default 1
-					 */
 					parameters: number | "first" | "off";
-					/**
-					 * @default 1
-					 */
 					body: number;
 				}>;
-				/**
-				 * @default { arguments: 1 }
-				 */
+				StaticBlock: Partial<{
+					body: number;
+				}>;
 				CallExpression: Partial<{
-					/**
-					 * @default 1
-					 */
 					arguments: number | "first" | "off";
 				}>;
-				/**
-				 * @default 1
-				 */
 				ArrayExpression: number | "first" | "off";
-				/**
-				 * @default 1
-				 */
 				ObjectExpression: number | "first" | "off";
-				/**
-				 * @default 1
-				 */
 				ImportDeclaration: number | "first" | "off";
 				/**
 				 * @default false
 				 */
 				flatTernaryExpressions: boolean;
+				/**
+				 * @default false
+				 */
+				offsetTernaryExpressions: boolean;
 				ignoredNodes: string[];
 				/**
 				 * @default false
@@ -1186,96 +1056,31 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"indent-legacy": Linter.RuleEntry<
 		[
-			number | "tab",
+			"tab" | number,
 			Partial<{
-				/**
-				 * @default 0
-				 */
 				SwitchCase: number;
-				/**
-				 * @default 1
-				 */
 				VariableDeclarator:
-					| Partial<{
-							/**
-							 * @default 1
-							 */
-							var: number | "first";
-							/**
-							 * @default 1
-							 */
-							let: number | "first";
-							/**
-							 * @default 1
-							 */
-							const: number | "first";
-					  }>
 					| number
-					| "first";
-				/**
-				 * @default 1
-				 */
+					| Partial<{
+							var: number;
+							let: number;
+							const: number;
+					  }>;
 				outerIIFEBody: number;
-				/**
-				 * @default 1
-				 */
-				MemberExpression: number | "off";
-				/**
-				 * @default { parameters: 1, body: 1 }
-				 */
+				MemberExpression: number;
 				FunctionDeclaration: Partial<{
-					/**
-					 * @default 1
-					 */
-					parameters: number | "first" | "off";
-					/**
-					 * @default 1
-					 */
+					parameters: number | "first";
 					body: number;
 				}>;
-				/**
-				 * @default { parameters: 1, body: 1 }
-				 */
 				FunctionExpression: Partial<{
-					/**
-					 * @default 1
-					 */
-					parameters: number | "first" | "off";
-					/**
-					 * @default 1
-					 */
+					parameters: number | "first";
 					body: number;
 				}>;
-				/**
-				 * @default { arguments: 1 }
-				 */
 				CallExpression: Partial<{
-					/**
-					 * @default 1
-					 */
-					arguments: number | "first" | "off";
+					parameters: number | "first";
 				}>;
-				/**
-				 * @default 1
-				 */
-				ArrayExpression: number | "first" | "off";
-				/**
-				 * @default 1
-				 */
-				ObjectExpression: number | "first" | "off";
-				/**
-				 * @default 1
-				 */
-				ImportDeclaration: number | "first" | "off";
-				/**
-				 * @default false
-				 */
-				flatTernaryExpressions: boolean;
-				ignoredNodes: string[];
-				/**
-				 * @default false
-				 */
-				ignoreComments: boolean;
+				ArrayExpression: number | "first";
+				ObjectExpression: number | "first";
 			}>,
 		]
 	>;
@@ -1306,7 +1111,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`jsx-quotes`](https://eslint.style/rules/jsx-quotes) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/jsx-quotes
 	 */
-	"jsx-quotes": Linter.RuleEntry<["prefer-double" | "prefer-single"]>;
+	"jsx-quotes": Linter.RuleEntry<["prefer-single" | "prefer-double"]>;
 
 	/**
 	 * Rule to enforce consistent spacing between keys and values in object literal properties.
@@ -1319,150 +1124,59 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"key-spacing": Linter.RuleEntry<
 		[
-			| Partial<
-					| {
-							/**
-							 * @default false
-							 */
-							beforeColon: boolean;
-							/**
-							 * @default true
-							 */
-							afterColon: boolean;
-							/**
-							 * @default 'strict'
-							 */
-							mode: "strict" | "minimum";
-							align:
-								| Partial<{
-										/**
-										 * @default false
-										 */
-										beforeColon: boolean;
-										/**
-										 * @default true
-										 */
-										afterColon: boolean;
-										/**
-										 * @default 'colon'
-										 */
-										on: "value" | "colon";
-										/**
-										 * @default 'strict'
-										 */
-										mode: "strict" | "minimum";
-								  }>
-								| "value"
-								| "colon";
-					  }
-					| {
-							singleLine?:
-								| Partial<{
-										/**
-										 * @default false
-										 */
-										beforeColon: boolean;
-										/**
-										 * @default true
-										 */
-										afterColon: boolean;
-										/**
-										 * @default 'strict'
-										 */
-										mode: "strict" | "minimum";
-								  }>
-								| undefined;
-							multiLine?:
-								| Partial<{
-										/**
-										 * @default false
-										 */
-										beforeColon: boolean;
-										/**
-										 * @default true
-										 */
-										afterColon: boolean;
-										/**
-										 * @default 'strict'
-										 */
-										mode: "strict" | "minimum";
-										align:
-											| Partial<{
-													/**
-													 * @default false
-													 */
-													beforeColon: boolean;
-													/**
-													 * @default true
-													 */
-													afterColon: boolean;
-													/**
-													 * @default 'colon'
-													 */
-													on: "value" | "colon";
-													/**
-													 * @default 'strict'
-													 */
-													mode: "strict" | "minimum";
-											  }>
-											| "value"
-											| "colon";
-								  }>
-								| undefined;
-					  }
-			  >
-			| {
-					align: Partial<{
-						/**
-						 * @default false
-						 */
-						beforeColon: boolean;
-						/**
-						 * @default true
-						 */
-						afterColon: boolean;
-						/**
-						 * @default 'colon'
-						 */
-						on: "value" | "colon";
-						/**
-						 * @default 'strict'
-						 */
+			| Partial<{
+					align:
+						| "colon"
+						| "value"
+						| Partial<{
+								mode: "strict" | "minimum";
+								on: "colon" | "value";
+								beforeColon: boolean;
+								afterColon: boolean;
+						  }>;
+					mode: "strict" | "minimum";
+					beforeColon: boolean;
+					afterColon: boolean;
+			  }>
+			| Partial<{
+					singleLine: Partial<{
 						mode: "strict" | "minimum";
+						beforeColon: boolean;
+						afterColon: boolean;
 					}>;
-					singleLine?:
-						| Partial<{
-								/**
-								 * @default false
-								 */
-								beforeColon: boolean;
-								/**
-								 * @default true
-								 */
-								afterColon: boolean;
-								/**
-								 * @default 'strict'
-								 */
-								mode: "strict" | "minimum";
-						  }>
-						| undefined;
-					multiLine?:
-						| Partial<{
-								/**
-								 * @default false
-								 */
-								beforeColon: boolean;
-								/**
-								 * @default true
-								 */
-								afterColon: boolean;
-								/**
-								 * @default 'strict'
-								 */
-								mode: "strict" | "minimum";
-						  }>
-						| undefined;
-			  },
+					multiLine: Partial<{
+						align:
+							| "colon"
+							| "value"
+							| Partial<{
+									mode: "strict" | "minimum";
+									on: "colon" | "value";
+									beforeColon: boolean;
+									afterColon: boolean;
+							  }>;
+						mode: "strict" | "minimum";
+						beforeColon: boolean;
+						afterColon: boolean;
+					}>;
+			  }>
+			| Partial<{
+					singleLine: Partial<{
+						mode: "strict" | "minimum";
+						beforeColon: boolean;
+						afterColon: boolean;
+					}>;
+					multiLine: Partial<{
+						mode: "strict" | "minimum";
+						beforeColon: boolean;
+						afterColon: boolean;
+					}>;
+					align: Partial<{
+						mode: "strict" | "minimum";
+						on: "colon" | "value";
+						beforeColon: boolean;
+						afterColon: boolean;
+					}>;
+			  }>,
 		]
 	>;
 
@@ -1486,13 +1200,280 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default true
 				 */
 				after: boolean;
-				overrides: Record<
-					string,
-					Partial<{
+				overrides: Partial<{
+					abstract: Partial<{
 						before: boolean;
 						after: boolean;
-					}>
-				>;
+					}>;
+					as: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					async: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					await: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					boolean: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					break: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					byte: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					case: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					catch: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					char: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					class: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					const: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					continue: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					debugger: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					default: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					delete: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					do: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					double: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					else: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					enum: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					export: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					extends: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					false: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					final: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					finally: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					float: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					for: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					from: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					function: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					get: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					goto: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					if: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					implements: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					import: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					in: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					instanceof: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					int: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					interface: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					let: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					long: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					native: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					new: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					null: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					of: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					package: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					private: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					protected: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					public: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					return: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					set: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					short: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					static: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					super: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					switch: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					synchronized: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					this: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					throw: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					throws: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					transient: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					true: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					try: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					typeof: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					var: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					void: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					volatile: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					while: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					with: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+					yield: Partial<{
+						before: boolean;
+						after: boolean;
+					}>;
+				}>;
 			}>,
 		]
 	>;
@@ -1508,17 +1489,14 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"line-comment-position": Linter.RuleEntry<
 		[
-			Partial<{
-				/**
-				 * @default 'above'
-				 */
-				position: "above" | "beside";
-				ignorePattern: string;
-				/**
-				 * @default true
-				 */
-				applyDefaultIgnorePatterns: boolean;
-			}>,
+			| "above"
+			| "beside"
+			| Partial<{
+					position: "above" | "beside";
+					ignorePattern: string;
+					applyDefaultPatterns: boolean;
+					applyDefaultIgnorePatterns: boolean;
+			  }>,
 		]
 	>;
 
@@ -1569,35 +1547,18 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default false
 				 */
 				allowBlockEnd: boolean;
-				/**
-				 * @default false
-				 */
-				allowObjectStart: boolean;
-				/**
-				 * @default false
-				 */
-				allowObjectEnd: boolean;
-				/**
-				 * @default false
-				 */
-				allowArrayStart: boolean;
-				/**
-				 * @default false
-				 */
-				allowArrayEnd: boolean;
-				/**
-				 * @default false
-				 */
 				allowClassStart: boolean;
+				allowClassEnd: boolean;
+				allowObjectStart: boolean;
+				allowObjectEnd: boolean;
+				allowArrayStart: boolean;
+				allowArrayEnd: boolean;
+				ignorePattern: string;
+				applyDefaultIgnorePatterns: boolean;
 				/**
 				 * @default false
 				 */
-				allowClassEnd: boolean;
-				ignorePattern: string;
-				/**
-				 * @default true
-				 */
-				applyDefaultIgnorePatterns: boolean;
+				afterHashbangComment: boolean;
 			}>,
 		]
 	>;
@@ -1611,7 +1572,16 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`padding-line-between-statements`](https://eslint.style/rules/padding-line-between-statements) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/lines-around-directive
 	 */
-	"lines-around-directive": Linter.RuleEntry<["always" | "never"]>;
+	"lines-around-directive": Linter.RuleEntry<
+		[
+			| "always"
+			| "never"
+			| Partial<{
+					before: "always" | "never";
+					after: "always" | "never";
+			  }>,
+		]
+	>;
 
 	/**
 	 * Rule to require or disallow an empty line between class members.
@@ -1625,8 +1595,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"lines-between-class-members": Linter.RuleEntry<
 		[
 			(
-				| "always"
-				| "never"
 				| {
 						enforce: Array<{
 							blankLine: "always" | "never";
@@ -1634,6 +1602,8 @@ export interface ESLintRules extends Linter.RulesRecord {
 							next: "method" | "field" | "*";
 						}>;
 				  }
+				| "always"
+				| "never"
 			),
 			Partial<{
 				/**
@@ -1655,9 +1625,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 				[
 					"always",
 					Partial<{
-						/**
-						 * @default false
-						 */
 						enforceForIfStatements: boolean;
 					}>,
 				]
@@ -1674,13 +1641,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			| number
 			| Partial<{
-					/**
-					 * @default false
-					 */
 					ignoreExpressions: boolean;
-					/**
-					 * @default 1
-					 */
 					max: number;
 			  }>,
 		]
@@ -1698,12 +1659,8 @@ export interface ESLintRules extends Linter.RulesRecord {
 			| Partial<{
 					/**
 					 * @deprecated
-					 * @default 4
 					 */
 					maximum: number;
-					/**
-					 * @default 4
-					 */
 					max: number;
 			  }>,
 		]
@@ -1720,41 +1677,47 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"max-len": Linter.RuleEntry<
 		[
+			(
+				| Partial<{
+						code: number;
+						comments: number;
+						tabWidth: number;
+						ignorePattern: string;
+						ignoreComments: boolean;
+						ignoreStrings: boolean;
+						ignoreUrls: boolean;
+						ignoreTemplateLiterals: boolean;
+						ignoreRegExpLiterals: boolean;
+						ignoreTrailingComments: boolean;
+				  }>
+				| number
+			),
+			(
+				| Partial<{
+						code: number;
+						comments: number;
+						tabWidth: number;
+						ignorePattern: string;
+						ignoreComments: boolean;
+						ignoreStrings: boolean;
+						ignoreUrls: boolean;
+						ignoreTemplateLiterals: boolean;
+						ignoreRegExpLiterals: boolean;
+						ignoreTrailingComments: boolean;
+				  }>
+				| number
+			),
 			Partial<{
-				/**
-				 * @default 80
-				 */
 				code: number;
-				/**
-				 * @default 4
-				 */
-				tabWidth: number;
 				comments: number;
+				tabWidth: number;
 				ignorePattern: string;
-				/**
-				 * @default false
-				 */
 				ignoreComments: boolean;
-				/**
-				 * @default false
-				 */
-				ignoreTrailingComments: boolean;
-				/**
-				 * @default false
-				 */
-				ignoreUrls: boolean;
-				/**
-				 * @default false
-				 */
 				ignoreStrings: boolean;
-				/**
-				 * @default false
-				 */
+				ignoreUrls: boolean;
 				ignoreTemplateLiterals: boolean;
-				/**
-				 * @default false
-				 */
 				ignoreRegExpLiterals: boolean;
+				ignoreTrailingComments: boolean;
 			}>,
 		]
 	>;
@@ -1767,21 +1730,12 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"max-lines": Linter.RuleEntry<
 		[
+			| number
 			| Partial<{
-					/**
-					 * @default 300
-					 */
 					max: number;
-					/**
-					 * @default false
-					 */
-					skipBlankLines: boolean;
-					/**
-					 * @default false
-					 */
 					skipComments: boolean;
-			  }>
-			| number,
+					skipBlankLines: boolean;
+			  }>,
 		]
 	>;
 
@@ -1793,25 +1747,13 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"max-lines-per-function": Linter.RuleEntry<
 		[
-			| number
 			| Partial<{
-					/**
-					 * @default 50
-					 */
 					max: number;
-					/**
-					 * @default false
-					 */
-					skipBlankLines: boolean;
-					/**
-					 * @default false
-					 */
 					skipComments: boolean;
-					/**
-					 * @default false
-					 */
+					skipBlankLines: boolean;
 					IIFEs: boolean;
-			  }>,
+			  }>
+			| number,
 		]
 	>;
 
@@ -1827,12 +1769,8 @@ export interface ESLintRules extends Linter.RulesRecord {
 			| Partial<{
 					/**
 					 * @deprecated
-					 * @default 10
 					 */
 					maximum: number;
-					/**
-					 * @default 10
-					 */
 					max: number;
 			  }>,
 		]
@@ -1850,22 +1788,18 @@ export interface ESLintRules extends Linter.RulesRecord {
 			| Partial<{
 					/**
 					 * @deprecated
-					 * @default 3
 					 */
 					maximum: number;
-					/**
-					 * @default 3
-					 */
 					max: number;
-					/**
-					 * @deprecated Replaced with `countThis'
-					 * @default false
-					 */
 					countVoidThis: boolean;
+			  }>
+			| Partial<{
 					/**
-					 * @default "except-void"
+					 * @deprecated
 					 */
-					countThis: "always" | "never" | "except-void";
+					maximum: number;
+					max: number;
+					countThis: "never" | "except-void" | "always";
 			  }>,
 		]
 	>;
@@ -1883,19 +1817,12 @@ export interface ESLintRules extends Linter.RulesRecord {
 				| Partial<{
 						/**
 						 * @deprecated
-						 * @default 10
 						 */
 						maximum: number;
-						/**
-						 * @default 10
-						 */
 						max: number;
 				  }>
 			),
 			Partial<{
-				/**
-				 * @default false
-				 */
 				ignoreTopLevelFunctions: boolean;
 			}>,
 		]
@@ -1912,13 +1839,12 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"max-statements-per-line": Linter.RuleEntry<
 		[
-			| Partial<{
-					/**
-					 * @default 1
-					 */
-					max: number;
-			  }>
-			| number,
+			Partial<{
+				/**
+				 * @default 1
+				 */
+				max: number;
+			}>,
 		]
 	>;
 
@@ -1931,9 +1857,16 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`multiline-comment-style`](https://eslint.style/rules/multiline-comment-style) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/multiline-comment-style
 	 */
-	"multiline-comment-style": Linter.RuleEntry<
-		["starred-block" | "bare-block" | "separate-lines"]
-	>;
+	"multiline-comment-style":
+		| Linter.RuleEntry<["starred-block" | "bare-block"]>
+		| Linter.RuleEntry<
+				[
+					"separate-lines",
+					Partial<{
+						checkJSDoc: boolean;
+					}>,
+				]
+		  >;
 
 	/**
 	 * Rule to enforce newlines between operands of ternary expressions.
@@ -1965,8 +1898,14 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default true
 				 */
 				capIsNew: boolean;
+				/**
+				 * @default []
+				 */
 				newIsCapExceptions: string[];
 				newIsCapExceptionPattern: string;
+				/**
+				 * @default ["Array", "Boolean", "Date", "Error", "Function", "Number", "Object", "RegExp", "String", "Symbol", "BigInt"]
+				 */
 				capIsNewExceptions: string[];
 				capIsNewExceptionPattern: string;
 				/**
@@ -1997,7 +1936,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`padding-line-between-statements`](https://eslint.style/rules/padding-line-between-statements) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/newline-after-var
 	 */
-	"newline-after-var": Linter.RuleEntry<["always" | "never"]>;
+	"newline-after-var": Linter.RuleEntry<["never" | "always"]>;
 
 	/**
 	 * Rule to require an empty line before `return` statements.
@@ -2021,12 +1960,12 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"newline-per-chained-call": Linter.RuleEntry<
 		[
-			{
+			Partial<{
 				/**
 				 * @default 2
 				 */
 				ignoreChainWithDepth: number;
-			},
+			}>,
 		]
 	>;
 
@@ -2078,18 +2017,18 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default []
 				 */
 				allow: Array<
-					| "^"
-					| "|"
 					| "&"
-					| "<<"
-					| ">>"
-					| ">>>"
-					| "^="
-					| "|="
 					| "&="
+					| "<<"
 					| "<<="
+					| ">>"
 					| ">>="
+					| ">>>"
 					| ">>>="
+					| "^"
+					| "^="
+					| "|"
+					| "|="
 					| "~"
 				>;
 				/**
@@ -2190,6 +2129,10 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default true
 				 */
 				allowParens: boolean;
+				/**
+				 * @default false
+				 */
+				onlyOneSimpleParam: boolean;
 			}>,
 		]
 	>;
@@ -2203,7 +2146,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"no-console": Linter.RuleEntry<
 		[
 			Partial<{
-				allow: Array<keyof Console>;
+				allow: string[];
 			}>,
 		]
 	>;
@@ -2241,12 +2184,17 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"no-constant-condition": Linter.RuleEntry<
 		[
-			{
+			Partial<{
 				/**
 				 * @default "allExceptWhileTrue"
 				 */
-				checkLoops: "all" | "allExceptWhileTrue" | "none" | boolean;
-			},
+				checkLoops:
+					| "all"
+					| "allExceptWhileTrue"
+					| "none"
+					| true
+					| false;
+			}>,
 		]
 	>;
 
@@ -2444,20 +2392,20 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default []
 				 */
 				allow: Array<
-					| "functions"
 					| "arrowFunctions"
-					| "generatorFunctions"
-					| "methods"
-					| "generatorMethods"
-					| "getters"
-					| "setters"
-					| "constructors"
 					| "asyncFunctions"
 					| "asyncMethods"
+					| "constructors"
+					| "decoratedFunctions"
+					| "functions"
+					| "generatorFunctions"
+					| "generatorMethods"
+					| "getters"
+					| "methods"
+					| "overrideMethods"
 					| "privateConstructors"
 					| "protectedConstructors"
-					| "decoratedFunctions"
-					| "overrideMethods"
+					| "setters"
 				>;
 			}>,
 		]
@@ -2539,6 +2487,9 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"no-extend-native": Linter.RuleEntry<
 		[
 			Partial<{
+				/**
+				 * @default []
+				 */
 				exceptions: string[];
 			}>,
 		]
@@ -2564,24 +2515,13 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"no-extra-boolean-cast": Linter.RuleEntry<
 		[
 			| Partial<{
-					/**
-					 * @since 9.3.0
-					 * @default false
-					 */
 					enforceForInnerExpressions: boolean;
-					/**
-					 * @deprecated
-					 */
-					enforceForLogicalOperands: never;
 			  }>
 			| Partial<{
 					/**
 					 * @deprecated
-					 * @since 7.0.0-alpha.2
-					 * @default false
 					 */
 					enforceForLogicalOperands: boolean;
-					enforceForInnerExpressions: never;
 			  }>,
 		]
 	>;
@@ -2604,38 +2544,28 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @see https://eslint.org/docs/latest/rules/no-extra-parens
 	 */
 	"no-extra-parens":
+		| Linter.RuleEntry<["functions"]>
 		| Linter.RuleEntry<
 				[
 					"all",
 					Partial<{
-						/**
-						 * @default true,
-						 */
 						conditionalAssign: boolean;
-						/**
-						 * @default true
-						 */
-						returnAssign: boolean;
-						/**
-						 * @default true
-						 */
+						ternaryOperandBinaryExpressions: boolean;
 						nestedBinaryExpressions: boolean;
-						/**
-						 * @default 'none'
-						 */
+						returnAssign: boolean;
 						ignoreJSX:
 							| "none"
 							| "all"
-							| "multi-line"
-							| "single-line";
-						/**
-						 * @default true
-						 */
+							| "single-line"
+							| "multi-line";
 						enforceForArrowConditionals: boolean;
+						enforceForSequenceExpressions: boolean;
+						enforceForNewInMemberExpressions: boolean;
+						enforceForFunctionPrototypeMethods: boolean;
+						allowParensAfterCommentPattern: string;
 					}>,
 				]
-		  >
-		| Linter.RuleEntry<["functions"]>;
+		  >;
 
 	/**
 	 * Rule to disallow unnecessary semicolons.
@@ -2660,9 +2590,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"no-fallthrough": Linter.RuleEntry<
 		[
 			Partial<{
-				/**
-				 * @default 'falls?\s?through'
-				 */
 				commentPattern: string;
 				/**
 				 * @default false
@@ -2710,6 +2637,9 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"no-global-assign": Linter.RuleEntry<
 		[
 			Partial<{
+				/**
+				 * @default []
+				 */
 				exceptions: string[];
 			}>,
 		]
@@ -2743,7 +2673,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 				/**
 				 * @default []
 				 */
-				allow: Array<"~" | "!!" | "+" | "- -" | "-" | "*">;
+				allow: Array<"!!" | "*" | "+" | "~" | "- -" | "-">;
 			}>,
 		]
 	>;
@@ -2863,21 +2793,21 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			Partial<{
 				/**
+				 * @default false
+				 */
+				skipComments: boolean;
+				/**
 				 * @default true
 				 */
 				skipStrings: boolean;
 				/**
 				 * @default false
 				 */
-				skipComments: boolean;
+				skipTemplates: boolean;
 				/**
 				 * @default false
 				 */
 				skipRegExps: boolean;
-				/**
-				 * @default false
-				 */
-				skipTemplates: boolean;
 				/**
 				 * @default false
 				 */
@@ -2968,8 +2898,13 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			Partial<{
 				/**
-				 * @default []
+				 * @default false
 				 */
+				detectObjects: boolean;
+				/**
+				 * @default false
+				 */
+				enforceConst: boolean;
 				ignore: Array<number | string>;
 				/**
 				 * @default false
@@ -2983,14 +2918,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default false
 				 */
 				ignoreClassFieldInitialValues: boolean;
-				/**
-				 * @default false
-				 */
-				enforceConst: boolean;
-				/**
-				 * @default false
-				 */
-				detectObjects: boolean;
 				/**
 				 * @default false
 				 */
@@ -3024,7 +2951,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			Partial<{
 				/**
-				 * @since 9.3.0
 				 * @default false
 				 */
 				allowEscape: boolean;
@@ -3044,17 +2970,35 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"no-mixed-operators": Linter.RuleEntry<
 		[
 			Partial<{
-				/**
-				 * @default
-				 * [
-				 *     ["+", "-", "*", "/", "%", "**"],
-				 *     ["&", "|", "^", "~", "<<", ">>", ">>>"],
-				 *     ["==", "!=", "===", "!==", ">", ">=", "<", "<="],
-				 *     ["&&", "||"],
-				 *     ["in", "instanceof"]
-				 * ]
-				 */
-				groups: string[][];
+				groups: (
+					| "!="
+					| "!=="
+					| "%"
+					| "&&"
+					| "&"
+					| "*"
+					| "**"
+					| "+"
+					| "/"
+					| "<"
+					| "<<"
+					| "<="
+					| "=="
+					| "==="
+					| ">"
+					| ">="
+					| ">>"
+					| ">>>"
+					| "?:"
+					| "??"
+					| "^"
+					| "|"
+					| "||"
+					| "~"
+					| "-"
+					| "in"
+					| "instanceof"
+				)[][];
 				/**
 				 * @default true
 				 */
@@ -3074,16 +3018,11 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"no-mixed-requires": Linter.RuleEntry<
 		[
-			Partial<{
-				/**
-				 * @default false
-				 */
-				grouping: boolean;
-				/**
-				 * @default false
-				 */
-				allowCall: boolean;
-			}>,
+			| boolean
+			| Partial<{
+					grouping: boolean;
+					allowCall: boolean;
+			  }>,
 		]
 	>;
 
@@ -3096,7 +3035,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`no-mixed-spaces-and-tabs`](https://eslint.style/rules/no-mixed-spaces-and-tabs) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/no-mixed-spaces-and-tabs
 	 */
-	"no-mixed-spaces-and-tabs": Linter.RuleEntry<["smart-tabs"]>;
+	"no-mixed-spaces-and-tabs": Linter.RuleEntry<["smart-tabs" | true | false]>;
 
 	/**
 	 * Rule to disallow use of chained assignment expressions.
@@ -3128,13 +3067,13 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			Partial<{
 				/**
-				 * @default false
-				 */
-				ignoreEOLComments: boolean;
-				/**
 				 * @default { Property: true }
 				 */
 				exceptions: Record<string, boolean>;
+				/**
+				 * @default false
+				 */
+				ignoreEOLComments: boolean;
 			}>,
 		]
 	>;
@@ -3158,15 +3097,11 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"no-multiple-empty-lines": Linter.RuleEntry<
 		[
-			| Partial<{
-					/**
-					 * @default 2
-					 */
-					max: number;
-					maxEOF: number;
-					maxBOF: number;
-			  }>
-			| number,
+			{
+				max: number;
+				maxEOF?: number;
+				maxBOF?: number;
+			},
 		]
 	>;
 
@@ -3339,22 +3274,14 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"no-param-reassign": Linter.RuleEntry<
 		[
-			| {
-					props?: false;
-			  }
-			| ({
+			| Partial<{
+					props: false;
+			  }>
+			| Partial<{
 					props: true;
-			  } & Partial<{
-					/**
-					 * @default []
-					 */
 					ignorePropertyModificationsFor: string[];
-					/**
-					 * @since 6.6.0
-					 * @default []
-					 */
 					ignorePropertyModificationsForRegex: string[];
-			  }>),
+			  }>,
 		]
 	>;
 
@@ -3416,12 +3343,12 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"no-promise-executor-return": Linter.RuleEntry<
 		[
-			{
+			Partial<{
 				/**
 				 * @default false
 				 */
-				allowVoid?: boolean;
-			},
+				allowVoid: boolean;
+			}>,
 		]
 	>;
 
@@ -3483,41 +3410,24 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"no-restricted-exports": Linter.RuleEntry<
 		[
-			Partial<{
-				/**
-				 * @default []
-				 */
-				restrictedNamedExports: string[];
-				/**
-				 * @since 9.3.0
-				 */
-				restrictedNamedExportsPattern: string;
-				/**
-				 * @since 8.33.0
-				 */
-				restrictDefaultExports: Partial<{
+			| Partial<{
+					restrictedNamedExports: string[];
+					restrictedNamedExportsPattern: string;
+			  }>
+			| Partial<{
 					/**
-					 * @default false
+					 * Pattern "^(?!default$)"
 					 */
-					direct: boolean;
-					/**
-					 * @default false
-					 */
-					named: boolean;
-					/**
-					 * @default false
-					 */
-					defaultFrom: boolean;
-					/**
-					 * @default false
-					 */
-					namedFrom: boolean;
-					/**
-					 * @default false
-					 */
-					namespaceFrom: boolean;
-				}>;
-			}>,
+					restrictedNamedExports: string[];
+					restrictedNamedExportsPattern: string;
+					restrictDefaultExports: Partial<{
+						direct: boolean;
+						named: boolean;
+						defaultFrom: boolean;
+						namedFrom: boolean;
+						namespaceFrom: boolean;
+					}>;
+			  }>,
 		]
 	>;
 
@@ -3527,30 +3437,33 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 2.3.0
 	 * @see https://eslint.org/docs/latest/rules/no-restricted-globals
 	 */
-	"no-restricted-globals": Linter.RuleEntry<
-		[
-			...(
-				| Array<
+	"no-restricted-globals":
+		| Linter.RuleEntry<
+				[
+					...Array<
 						| string
 						| {
 								name: string;
-								message?: string | undefined;
+								message?: string;
 						  }
-				  >
-				| Array<{
+					>,
+				]
+		  >
+		| Linter.RuleEntry<
+				[
+					{
 						globals: Array<
 							| string
 							| {
 									name: string;
-									message?: string | undefined;
+									message?: string;
 							  }
 						>;
 						checkGlobalObject?: boolean;
 						globalObjects?: string[];
-				  }>
-			),
-		]
-	>;
+					},
+				]
+		  >;
 
 	/**
 	 * Rule to disallow specified modules when loaded by `import`.
@@ -3558,22 +3471,82 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 2.0.0-alpha-1
 	 * @see https://eslint.org/docs/latest/rules/no-restricted-imports
 	 */
-	"no-restricted-imports": Linter.RuleEntry<
-		[
-			...Array<
-				| string
-				| ValidNoRestrictedImportPathOptions
-				| Partial<{
+	"no-restricted-imports":
+		| Linter.RuleEntry<
+				[
+					...Array<
+						| string
+						| {
+								name: string;
+								message?: string;
+								importNames?: string[];
+								allowTypeImports?: boolean;
+						  }
+						| {
+								name: string;
+								message?: string;
+								allowImportNames?: string[];
+								allowTypeImports?: boolean;
+						  }
+					>,
+				]
+		  >
+		| Linter.RuleEntry<
+				[
+					Partial<{
 						paths: Array<
-							string | ValidNoRestrictedImportPathOptions
+							| string
+							| {
+									name: string;
+									message?: string;
+									importNames?: string[];
+									allowTypeImports?: boolean;
+							  }
+							| {
+									name: string;
+									message?: string;
+									allowImportNames?: string[];
+									allowTypeImports?: boolean;
+							  }
 						>;
 						patterns:
-							| Array<string>
-							| Array<ValidNoRestrictedImportPatternOptions>;
-				  }>
-			>,
-		]
-	>;
+							| string[]
+							| Array<
+									(
+										| {
+												importNames?: string[];
+												importNamePattern?: string;
+												message?: string;
+												caseSensitive?: boolean;
+												allowTypeImports?: boolean;
+										  }
+										| {
+												allowImportNames?: string[];
+												message?: string;
+												caseSensitive?: boolean;
+												allowTypeImports?: boolean;
+										  }
+										| {
+												allowImportNamePattern?: string;
+												message?: string;
+												caseSensitive?: boolean;
+												allowTypeImports?: boolean;
+										  }
+									) &
+										(
+											| {
+													group: string[];
+													regex?: never;
+											  }
+											| {
+													group?: never;
+													regex: string;
+											  }
+										)
+							  >;
+					}>,
+				]
+		  >;
 
 	/**
 	 * Rule to disallow specified modules when loaded by `require`.
@@ -3584,27 +3557,34 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`no-restricted-require`](https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-restricted-require.md) in [`eslint-plugin-n`](https://github.com/eslint-community/eslint-plugin-n).
 	 * @see https://eslint.org/docs/latest/rules/no-restricted-modules
 	 */
-	"no-restricted-modules": Linter.RuleEntry<
-		[
-			...Array<
-				| string
-				| {
-						name: string;
-						message?: string | undefined;
-				  }
-				| Partial<{
-						paths: Array<
-							| string
-							| {
-									name: string;
-									message?: string | undefined;
-							  }
-						>;
-						patterns: string[];
-				  }>
-			>,
-		]
-	>;
+	"no-restricted-modules":
+		| Linter.RuleEntry<
+				[
+					...Array<
+						| string
+						| {
+								name: string;
+								message?: string;
+						  }
+					>,
+				]
+		  >
+		| Linter.RuleEntry<
+				[
+					...Array<
+						Partial<{
+							paths: Array<
+								| string
+								| {
+										name: string;
+										message?: string;
+								  }
+							>;
+							patterns: string[];
+						}>
+					>,
+				]
+		  >;
 
 	/**
 	 * Rule to disallow certain properties on certain objects.
@@ -3616,19 +3596,19 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			...Array<
 				| {
-						object: string;
-						property?: string | undefined;
-						message?: string | undefined;
-				  }
-				| {
 						property: string;
 						allowObjects?: string[];
-						message?: string | undefined;
+						message?: string;
+				  }
+				| {
+						object: string;
+						property: string;
+						message?: string;
 				  }
 				| {
 						object: string;
 						allowProperties?: string[];
-						message?: string | undefined;
+						message?: string;
 				  }
 			>,
 		]
@@ -3646,7 +3626,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 				| string
 				| {
 						selector: string;
-						message?: string | undefined;
+						message?: string;
 				  }
 			>,
 		]
@@ -3716,7 +3696,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			Partial<{
 				/**
-				 * @since 7.23.0
 				 * @default true
 				 */
 				allowInParentheses: boolean;
@@ -3749,17 +3728,19 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 */
 				builtinGlobals: boolean;
 				/**
-				 * @default 'functions'
+				 * @default "functions"
 				 */
 				hoist:
-					| "functions"
 					| "all"
+					| "functions"
 					| "never"
 					| "types"
 					| "functions-and-types";
+				/**
+				 * @default []
+				 */
 				allow: string[];
 				/**
-				 * @since 8.10.0
 				 * @default false
 				 */
 				ignoreOnInitialization: boolean;
@@ -3828,12 +3809,12 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"no-sync": Linter.RuleEntry<
 		[
-			{
+			Partial<{
 				/**
 				 * @default false
 				 */
 				allowAtRootLevel: boolean;
-			},
+			}>,
 		]
 	>;
 
@@ -3972,6 +3953,9 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"no-underscore-dangle": Linter.RuleEntry<
 		[
 			Partial<{
+				/**
+				 * @default []
+				 */
 				allow: string[];
 				/**
 				 * @default false
@@ -3982,7 +3966,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 */
 				allowAfterSuper: boolean;
 				/**
-				 * @since 6.7.0
 				 * @default false
 				 */
 				allowAfterThisConstructor: boolean;
@@ -3991,25 +3974,21 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 */
 				enforceInMethodNames: boolean;
 				/**
-				 * @since 8.15.0
+				 * @default true
+				 */
+				allowFunctionParams: boolean;
+				/**
 				 * @default false
 				 */
 				enforceInClassFields: boolean;
 				/**
-				 * @since 8.31.0
 				 * @default true
 				 */
 				allowInArrayDestructuring: boolean;
 				/**
-				 * @since 8.31.0
 				 * @default true
 				 */
 				allowInObjectDestructuring: boolean;
-				/**
-				 * @since 7.7.0
-				 * @default true
-				 */
-				allowFunctionParams: boolean;
 			}>,
 		]
 	>;
@@ -4074,11 +4053,11 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default []
 				 */
 				ignore: Array<
-					| "WhileStatement"
 					| "DoWhileStatement"
-					| "ForStatement"
 					| "ForInStatement"
 					| "ForOfStatement"
+					| "ForStatement"
+					| "WhileStatement"
 				>;
 			}>,
 		]
@@ -4108,7 +4087,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			Partial<{
 				/**
-				 * @since 6.6.0
 				 * @default false
 				 */
 				enforceForOrderingRelations: boolean;
@@ -4158,7 +4136,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 */
 				allowTaggedTemplates: boolean;
 				/**
-				 * @since 7.20.0
 				 * @default false
 				 */
 				enforceForJSX: boolean;
@@ -4206,37 +4183,16 @@ export interface ESLintRules extends Linter.RulesRecord {
 			| "all"
 			| "local"
 			| Partial<{
-					/**
-					 * @default 'all'
-					 */
 					vars: "all" | "local";
 					varsIgnorePattern: string;
-					/**
-					 * @default 'after-used'
-					 */
-					args: "after-used" | "all" | "none";
-					/**
-					 * @default false
-					 */
+					args: "all" | "after-used" | "none";
 					ignoreRestSiblings: boolean;
 					argsIgnorePattern: string;
-					/**
-					 * @default 'all'
-					 */
-					caughtErrors: "none" | "all";
+					caughtErrors: "all" | "none";
 					caughtErrorsIgnorePattern: string;
 					destructuredArrayIgnorePattern: string;
-					/**
-					 * @default false
-					 */
 					ignoreClassWithStaticInitBlock: boolean;
-					/**
-					 * @default false
-					 */
 					ignoreUsingDeclarations: boolean;
-					/**
-					 * @default false
-					 */
 					reportUsedIgnorePattern: boolean;
 			  }>,
 		]
@@ -4250,6 +4206,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"no-use-before-define": Linter.RuleEntry<
 		[
+			| "nofunc"
 			| Partial<{
 					/**
 					 * @default true
@@ -4279,8 +4236,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 					 * @default true
 					 */
 					ignoreTypeReferences: boolean;
-			  }>
-			| "nofunc",
+			  }>,
 		]
 	>;
 
@@ -4370,6 +4326,9 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"no-useless-escape": Linter.RuleEntry<
 		[
 			Partial<{
+				/**
+				 * @default []
+				 */
 				allowRegexCharacters: string[];
 			}>,
 		]
@@ -4387,15 +4346,15 @@ export interface ESLintRules extends Linter.RulesRecord {
 				/**
 				 * @default false
 				 */
+				ignoreDestructuring: boolean;
+				/**
+				 * @default false
+				 */
 				ignoreImport: boolean;
 				/**
 				 * @default false
 				 */
 				ignoreExport: boolean;
-				/**
-				 * @default false
-				 */
-				ignoreDestructuring: boolean;
 			}>,
 		]
 	>;
@@ -4447,9 +4406,12 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 */
 				terms: string[];
 				/**
-				 * @default 'start'
+				 * @default "start"
 				 */
 				location: "start" | "anywhere";
+				/**
+				 * Pattern "^\S$"
+				 */
 				decoration: string[];
 			}>,
 		]
@@ -4490,7 +4452,13 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			"beside" | "below" | "any",
 			Partial<{
-				overrides: Record<string, "beside" | "below" | "any">;
+				overrides: Partial<{
+					if: "beside" | "below" | "any";
+					else: "beside" | "below" | "any";
+					while: "beside" | "below" | "any";
+					do: "beside" | "below" | "any";
+					for: "beside" | "below" | "any";
+				}>;
 			}>,
 		]
 	>;
@@ -4509,37 +4477,44 @@ export interface ESLintRules extends Linter.RulesRecord {
 			| "always"
 			| "never"
 			| Partial<{
-					/**
-					 * @default false
-					 */
 					multiline: boolean;
 					minProperties: number;
-					/**
-					 * @default true
-					 */
 					consistent: boolean;
 			  }>
-			| Partial<
-					Record<
-						| "ObjectExpression"
-						| "ObjectPattern"
-						| "ImportDeclaration"
-						| "ExportDeclaration",
+			| Partial<{
+					ObjectExpression:
 						| "always"
 						| "never"
 						| Partial<{
-								/**
-								 * @default false
-								 */
 								multiline: boolean;
 								minProperties: number;
-								/**
-								 * @default true
-								 */
 								consistent: boolean;
-						  }>
-					>
-			  >,
+						  }>;
+					ObjectPattern:
+						| "always"
+						| "never"
+						| Partial<{
+								multiline: boolean;
+								minProperties: number;
+								consistent: boolean;
+						  }>;
+					ImportDeclaration:
+						| "always"
+						| "never"
+						| Partial<{
+								multiline: boolean;
+								minProperties: number;
+								consistent: boolean;
+						  }>;
+					ExportDeclaration:
+						| "always"
+						| "never"
+						| Partial<{
+								multiline: boolean;
+								minProperties: number;
+								consistent: boolean;
+						  }>;
+			  }>,
 		]
 	>;
 
@@ -4552,37 +4527,15 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`object-curly-spacing`](https://eslint.style/rules/object-curly-spacing) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/object-curly-spacing
 	 */
-	"object-curly-spacing":
-		| Linter.RuleEntry<
-				[
-					"never",
-					{
-						/**
-						 * @default false
-						 */
-						arraysInObjects: boolean;
-						/**
-						 * @default false
-						 */
-						objectsInObjects: boolean;
-					},
-				]
-		  >
-		| Linter.RuleEntry<
-				[
-					"always",
-					{
-						/**
-						 * @default true
-						 */
-						arraysInObjects: boolean;
-						/**
-						 * @default true
-						 */
-						objectsInObjects: boolean;
-					},
-				]
-		  >;
+	"object-curly-spacing": Linter.RuleEntry<
+		[
+			"always" | "never",
+			Partial<{
+				arraysInObjects: boolean;
+				objectsInObjects: boolean;
+			}>,
+		]
+	>;
 
 	/**
 	 * Rule to enforce placing object properties on separate lines.
@@ -4600,6 +4553,10 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default false
 				 */
 				allowAllPropertiesOnSameLine: boolean;
+				/**
+				 * @default false
+				 */
+				allowMultiplePropertiesPerLine: boolean;
 			}>,
 		]
 	>;
@@ -4613,39 +4570,33 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"object-shorthand":
 		| Linter.RuleEntry<
 				[
-					"always" | "methods",
+					| "always"
+					| "methods"
+					| "properties"
+					| "never"
+					| "consistent"
+					| "consistent-as-needed",
+				]
+		  >
+		| Linter.RuleEntry<
+				[
+					"always" | "methods" | "properties",
 					Partial<{
-						/**
-						 * @default false
-						 */
 						avoidQuotes: boolean;
-						/**
-						 * @default false
-						 */
-						ignoreConstructors: boolean;
-						/**
-						 * @since 8.22.0
-						 */
-						methodsIgnorePattern: string;
-						/**
-						 * @default false
-						 */
-						avoidExplicitReturnArrows: boolean;
 					}>,
 				]
 		  >
 		| Linter.RuleEntry<
 				[
-					"properties",
+					"always" | "methods",
 					Partial<{
-						/**
-						 * @default false
-						 */
+						ignoreConstructors: boolean;
+						methodsIgnorePattern: string;
 						avoidQuotes: boolean;
+						avoidExplicitReturnArrows: boolean;
 					}>,
 				]
-		  >
-		| Linter.RuleEntry<["never" | "consistent" | "consistent-as-needed"]>;
+		  >;
 
 	/**
 	 * Rule to enforce variables to be declared either together or separately in functions.
@@ -4658,23 +4609,18 @@ export interface ESLintRules extends Linter.RulesRecord {
 			| "always"
 			| "never"
 			| "consecutive"
-			| Partial<
-					{
-						/**
-						 * @default false
-						 */
-						separateRequires: boolean;
-					} & Record<
-						"var" | "let" | "const" | "using" | "awaitUsing",
-						"always" | "never" | "consecutive"
-					>
-			  >
-			| Partial<
-					Record<
-						"initialized" | "uninitialized",
-						"always" | "never" | "consecutive"
-					>
-			  >,
+			| Partial<{
+					separateRequires: boolean;
+					var: "always" | "never" | "consecutive";
+					let: "always" | "never" | "consecutive";
+					const: "always" | "never" | "consecutive";
+					using: "always" | "never" | "consecutive";
+					awaitUsing: "always" | "never" | "consecutive";
+			  }>
+			| Partial<{
+					initialized: "always" | "never" | "consecutive";
+					uninitialized: "always" | "never" | "consecutive";
+			  }>,
 		]
 	>;
 
@@ -4688,7 +4634,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @see https://eslint.org/docs/latest/rules/one-var-declaration-per-line
 	 */
 	"one-var-declaration-per-line": Linter.RuleEntry<
-		["initializations" | "always"]
+		["always" | "initializations"]
 	>;
 
 	/**
@@ -4712,7 +4658,10 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			"after" | "before" | "none",
 			Partial<{
-				overrides: Record<string, "after" | "before" | "none">;
+				overrides: Record<
+					string,
+					"after" | "before" | "none" | "ignore"
+				>;
 			}>,
 		]
 	>;
@@ -4731,19 +4680,15 @@ export interface ESLintRules extends Linter.RulesRecord {
 			(
 				| "always"
 				| "never"
-				| Partial<
-						Record<
-							"blocks" | "classes" | "switches",
-							"always" | "never"
-						>
-				  >
+				| Partial<{
+						blocks: "always" | "never";
+						switches: "always" | "never";
+						classes: "always" | "never";
+				  }>
 			),
-			{
-				/**
-				 * @default false
-				 */
+			Partial<{
 				allowSingleLineBlocks: boolean;
-			},
+			}>,
 		]
 	>;
 
@@ -4758,11 +4703,167 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"padding-line-between-statements": Linter.RuleEntry<
 		[
-			...Array<
-				{
-					blankLine: "any" | "never" | "always";
-				} & Record<"prev" | "next", string | string[]>
-			>,
+			Array<{
+				blankLine: "any" | "never" | "always";
+				prev:
+					| "*"
+					| "block-like"
+					| "cjs-export"
+					| "cjs-import"
+					| "directive"
+					| "expression"
+					| "iife"
+					| "multiline-block-like"
+					| "multiline-expression"
+					| "multiline-const"
+					| "multiline-let"
+					| "multiline-var"
+					| "singleline-const"
+					| "singleline-let"
+					| "singleline-var"
+					| "block"
+					| "empty"
+					| "function"
+					| "break"
+					| "case"
+					| "class"
+					| "const"
+					| "continue"
+					| "debugger"
+					| "default"
+					| "do"
+					| "export"
+					| "for"
+					| "if"
+					| "import"
+					| "let"
+					| "return"
+					| "switch"
+					| "throw"
+					| "try"
+					| "var"
+					| "while"
+					| "with"
+					| Array<
+							| "*"
+							| "block"
+							| "block-like"
+							| "break"
+							| "case"
+							| "cjs-export"
+							| "cjs-import"
+							| "class"
+							| "const"
+							| "continue"
+							| "debugger"
+							| "default"
+							| "directive"
+							| "do"
+							| "empty"
+							| "export"
+							| "expression"
+							| "for"
+							| "function"
+							| "if"
+							| "iife"
+							| "import"
+							| "let"
+							| "multiline-block-like"
+							| "multiline-const"
+							| "multiline-expression"
+							| "multiline-let"
+							| "multiline-var"
+							| "return"
+							| "singleline-const"
+							| "singleline-let"
+							| "singleline-var"
+							| "switch"
+							| "throw"
+							| "try"
+							| "var"
+							| "while"
+							| "with"
+					  >;
+				next:
+					| "*"
+					| "block-like"
+					| "cjs-export"
+					| "cjs-import"
+					| "directive"
+					| "expression"
+					| "iife"
+					| "multiline-block-like"
+					| "multiline-expression"
+					| "multiline-const"
+					| "multiline-let"
+					| "multiline-var"
+					| "singleline-const"
+					| "singleline-let"
+					| "singleline-var"
+					| "block"
+					| "empty"
+					| "function"
+					| "break"
+					| "case"
+					| "class"
+					| "const"
+					| "continue"
+					| "debugger"
+					| "default"
+					| "do"
+					| "export"
+					| "for"
+					| "if"
+					| "import"
+					| "let"
+					| "return"
+					| "switch"
+					| "throw"
+					| "try"
+					| "var"
+					| "while"
+					| "with"
+					| Array<
+							| "*"
+							| "block"
+							| "block-like"
+							| "break"
+							| "case"
+							| "cjs-export"
+							| "cjs-import"
+							| "class"
+							| "const"
+							| "continue"
+							| "debugger"
+							| "default"
+							| "directive"
+							| "do"
+							| "empty"
+							| "export"
+							| "expression"
+							| "for"
+							| "function"
+							| "if"
+							| "iife"
+							| "import"
+							| "let"
+							| "multiline-block-like"
+							| "multiline-const"
+							| "multiline-expression"
+							| "multiline-let"
+							| "multiline-var"
+							| "return"
+							| "singleline-const"
+							| "singleline-let"
+							| "singleline-var"
+							| "switch"
+							| "throw"
+							| "try"
+							| "var"
+							| "while"
+							| "with"
+					  >;
+			}>,
 		]
 	>;
 
@@ -4797,7 +4898,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			Partial<{
 				/**
-				 * @default 'any'
+				 * @default "any"
 				 */
 				destructuring: "any" | "all";
 				/**
@@ -4816,8 +4917,8 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"prefer-destructuring": Linter.RuleEntry<
 		[
-			Partial<
-				| {
+			(
+				| Partial<{
 						VariableDeclarator: Partial<{
 							array: boolean;
 							object: boolean;
@@ -4826,12 +4927,12 @@ export interface ESLintRules extends Linter.RulesRecord {
 							array: boolean;
 							object: boolean;
 						}>;
-				  }
-				| {
+				  }>
+				| Partial<{
 						array: boolean;
 						object: boolean;
-				  }
-			>,
+				  }>
+			),
 			Partial<{
 				enforceForRenamedProperties: boolean;
 			}>,
@@ -4906,7 +5007,18 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"prefer-reflect": Linter.RuleEntry<
 		[
 			Partial<{
-				exceptions: string[];
+				exceptions: Array<
+					| "apply"
+					| "call"
+					| "defineProperty"
+					| "delete"
+					| "getOwnPropertyDescriptor"
+					| "getOwnPropertyNames"
+					| "getPrototypeOf"
+					| "isExtensible"
+					| "preventExtensions"
+					| "setPrototypeOf"
+				>;
 			}>,
 		]
 	>;
@@ -4982,34 +5094,21 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @see https://eslint.org/docs/latest/rules/quote-props
 	 */
 	"quote-props":
-		| Linter.RuleEntry<["always" | "consistent"]>
 		| Linter.RuleEntry<
-				[
-					"as-needed",
-					Partial<{
-						/**
-						 * @default false
-						 */
-						keywords: boolean;
-						/**
-						 * @default true
-						 */
-						unnecessary: boolean;
-						/**
-						 * @default false
-						 */
-						numbers: boolean;
-					}>,
-				]
+				["always" | "as-needed" | "consistent" | "consistent-as-needed"]
 		  >
 		| Linter.RuleEntry<
 				[
-					"consistent-as-needed",
+					(
+						| "always"
+						| "as-needed"
+						| "consistent"
+						| "consistent-as-needed"
+					),
 					Partial<{
-						/**
-						 * @default false
-						 */
 						keywords: boolean;
+						unnecessary: boolean;
+						numbers: boolean;
 					}>,
 				]
 		  >;
@@ -5025,17 +5124,14 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	quotes: Linter.RuleEntry<
 		[
-			"double" | "single" | "backtick",
-			Partial<{
-				/**
-				 * @default false
-				 */
-				avoidEscape: boolean;
-				/**
-				 * @default false
-				 */
-				allowTemplateLiterals: boolean;
-			}>,
+			"single" | "double" | "backtick",
+			(
+				| "avoid-escape"
+				| Partial<{
+						avoidEscape: boolean;
+						allowTemplateLiterals: boolean;
+				  }>
+			),
 		]
 	>;
 
@@ -5057,7 +5153,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			Partial<{
 				/**
-				 * @since 8.3.0
 				 * @default false
 				 */
 				allowProperties: boolean;
@@ -5082,9 +5177,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"require-unicode-regexp": Linter.RuleEntry<
 		[
 			Partial<{
-				/**
-				 * @default false
-				 */
 				requireFlag: "u" | "v";
 			}>,
 		]
@@ -5110,7 +5202,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`rest-spread-spacing`](https://eslint.style/rules/rest-spread-spacing) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/rest-spread-spacing
 	 */
-	"rest-spread-spacing": Linter.RuleEntry<["never" | "always"]>;
+	"rest-spread-spacing": Linter.RuleEntry<["always" | "never"]>;
 
 	/**
 	 * Rule to require or disallow semicolons instead of ASI.
@@ -5124,26 +5216,21 @@ export interface ESLintRules extends Linter.RulesRecord {
 	semi:
 		| Linter.RuleEntry<
 				[
-					"always",
+					"never",
 					Partial<{
-						/**
-						 * @default false
-						 */
-						omitLastInOneLineBlock: boolean;
+						beforeStatementContinuationChars:
+							| "always"
+							| "any"
+							| "never";
 					}>,
 				]
 		  >
 		| Linter.RuleEntry<
 				[
-					"never",
+					"always",
 					Partial<{
-						/**
-						 * @default 'any'
-						 */
-						beforeStatementContinuationChars:
-							| "any"
-							| "always"
-							| "never";
+						omitLastInOneLineBlock: boolean;
+						omitLastInOneLineClassBody: boolean;
 					}>,
 				]
 		  >;
@@ -5197,6 +5284,12 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 */
 				ignoreCase: boolean;
 				/**
+				 * @default ["none", "all", "multiple", "single"]
+				 */
+				memberSyntaxSortOrder: Array<
+					"all" | "multiple" | "none" | "single"
+				>;
+				/**
 				 * @default false
 				 */
 				ignoreDeclarationSort: boolean;
@@ -5204,12 +5297,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default false
 				 */
 				ignoreMemberSort: boolean;
-				/**
-				 * @default ['none', 'all', 'multiple', 'single']
-				 */
-				memberSyntaxSortOrder: Array<
-					"none" | "all" | "multiple" | "single"
-				>;
 				/**
 				 * @default false
 				 */
@@ -5233,13 +5320,13 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 */
 				caseSensitive: boolean;
 				/**
-				 * @default 2
-				 */
-				minKeys: number;
-				/**
 				 * @default false
 				 */
 				natural: boolean;
+				/**
+				 * @default 2
+				 */
+				minKeys: number;
 				/**
 				 * @default false
 				 */
@@ -5282,12 +5369,11 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			| "always"
 			| "never"
-			| Partial<
-					Record<
-						"functions" | "keywords" | "classes",
-						"always" | "never" | "off"
-					>
-			  >,
+			| Partial<{
+					keywords: "always" | "never" | "off";
+					functions: "always" | "never" | "off";
+					classes: "always" | "never" | "off";
+			  }>,
 		]
 	>;
 
@@ -5304,12 +5390,11 @@ export interface ESLintRules extends Linter.RulesRecord {
 		[
 			| "always"
 			| "never"
-			| Partial<
-					Record<
-						"anonymous" | "named" | "asyncArrow",
-						"always" | "never" | "ignore"
-					>
-			  >,
+			| Partial<{
+					anonymous: "always" | "never" | "ignore";
+					named: "always" | "never" | "ignore";
+					asyncArrow: "always" | "never" | "ignore";
+			  }>,
 		]
 	>;
 
@@ -5324,9 +5409,9 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"space-in-parens": Linter.RuleEntry<
 		[
-			"never" | "always",
+			"always" | "never",
 			Partial<{
-				exceptions: string[];
+				exceptions: Array<"()" | "[]" | "{}" | "empty">;
 			}>,
 		]
 	>;
@@ -5388,22 +5473,22 @@ export interface ESLintRules extends Linter.RulesRecord {
 	"spaced-comment": Linter.RuleEntry<
 		[
 			"always" | "never",
-			{
+			Partial<{
 				exceptions: string[];
 				markers: string[];
-				line: {
+				line: Partial<{
 					exceptions: string[];
 					markers: string[];
-				};
-				block: {
+				}>;
+				block: Partial<{
 					exceptions: string[];
 					markers: string[];
 					/**
 					 * @default false
 					 */
 					balanced: boolean;
-				};
-			},
+				}>;
+			}>,
 		]
 	>;
 
@@ -5413,7 +5498,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.1.0
 	 * @see https://eslint.org/docs/latest/rules/strict
 	 */
-	strict: Linter.RuleEntry<["safe" | "global" | "function" | "never"]>;
+	strict: Linter.RuleEntry<["never" | "global" | "function" | "safe"]>;
 
 	/**
 	 * Rule to enforce spacing around colons of switch statements.
@@ -5456,7 +5541,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`template-curly-spacing`](https://eslint.style/rules/template-curly-spacing) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/template-curly-spacing
 	 */
-	"template-curly-spacing": Linter.RuleEntry<["never" | "always"]>;
+	"template-curly-spacing": Linter.RuleEntry<["always" | "never"]>;
 
 	/**
 	 * Rule to require or disallow spacing between template tags and their literals.
@@ -5467,7 +5552,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * Please, use [`template-tag-spacing`](https://eslint.style/rules/template-tag-spacing) in [`@stylistic/eslint-plugin`](https://eslint.style).
 	 * @see https://eslint.org/docs/latest/rules/template-tag-spacing
 	 */
-	"template-tag-spacing": Linter.RuleEntry<["never" | "always"]>;
+	"template-tag-spacing": Linter.RuleEntry<["always" | "never"]>;
 
 	/**
 	 * Rule to require or disallow Unicode byte order mark (BOM).
@@ -5475,7 +5560,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 2.11.0
 	 * @see https://eslint.org/docs/latest/rules/unicode-bom
 	 */
-	"unicode-bom": Linter.RuleEntry<["never" | "always"]>;
+	"unicode-bom": Linter.RuleEntry<["always" | "never"]>;
 
 	/**
 	 * Rule to require calls to `isNaN()` when checking for `NaN`.
@@ -5572,14 +5657,14 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 */
 	"yield-star-spacing": Linter.RuleEntry<
 		[
-			| Partial<{
-					before: boolean;
-					after: boolean;
-			  }>
 			| "before"
 			| "after"
 			| "both"
-			| "neither",
+			| "neither"
+			| Partial<{
+					before: boolean;
+					after: boolean;
+			  }>,
 		]
 	>;
 
@@ -5589,15 +5674,19 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.7.1
 	 * @see https://eslint.org/docs/latest/rules/yoda
 	 */
-	yoda:
-		| Linter.RuleEntry<
-				[
-					"never",
-					Partial<{
-						exceptRange: boolean;
-						onlyEquality: boolean;
-					}>,
-				]
-		  >
-		| Linter.RuleEntry<["always"]>;
+	yoda: Linter.RuleEntry<
+		[
+			"always" | "never",
+			Partial<{
+				/**
+				 * @default false
+				 */
+				exceptRange: boolean;
+				/**
+				 * @default false
+				 */
+				onlyEquality: boolean;
+			}>,
+		]
+	>;
 }
