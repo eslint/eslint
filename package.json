@@ -1,6 +1,6 @@
 {
   "name": "eslint",
-  "version": "10.0.0-rc.2",
+  "version": "10.0.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "type": "commonjs",
@@ -108,7 +108,7 @@
   "dependencies": {
     "@eslint-community/eslint-utils": "^4.8.0",
     "@eslint-community/regexpp": "^4.12.2",
-    "@eslint/config-array": "^0.23.0",
+    "@eslint/config-array": "^0.23.1",
     "@eslint/config-helpers": "^0.5.2",
     "@eslint/core": "^1.1.0",
     "@eslint/plugin-kit": "^0.6.0",

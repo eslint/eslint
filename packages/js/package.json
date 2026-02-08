@@ -1,6 +1,6 @@
 {
   "name": "@eslint/js",
-  "version": "10.0.0-rc.0",
+  "version": "10.0.1",
   "description": "ESLint JavaScript language implementation",
   "funding": "https://eslint.org/donate",
   "main": "./src/index.js",
@@ -30,6 +30,14 @@
     "eslint"
   ],
   "license": "MIT",
+  "peerDependencies": {
+    "eslint": "^10.0.0"
+  },
+  "peerDependenciesMeta": {
+    "eslint": {
+      "optional": true
+    }
+  },
   "engines": {
     "node": "^20.19.0 || ^22.13.0 || >=24"
   }

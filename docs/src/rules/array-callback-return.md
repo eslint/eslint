@@ -22,12 +22,13 @@ Additionally, it may also enforce the `forEach` array method callback to **not**
 This rule finds callback functions of the following methods, then checks usage of `return` statement.
 
 * [`Array.from`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.from)
+* [`Array.fromAsync`](https://tc39.es/ecma262/#sec-array.fromasync)
 * [`Array.prototype.every`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.every)
 * [`Array.prototype.filter`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.filter)
 * [`Array.prototype.find`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.find)
 * [`Array.prototype.findIndex`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.findindex)
-* [`Array.prototype.findLast`](https://tc39.es/ecma262/#sec-array.prototype.findlast)
-* [`Array.prototype.findLastIndex`](https://tc39.es/ecma262/#sec-array.prototype.findlastindex)
+* [`Array.prototype.findLast`](https://www.ecma-international.org/ecma-262/14.0/#sec-array.prototype.findlast)
+* [`Array.prototype.findLastIndex`](https://www.ecma-international.org/ecma-262/14.0/#sec-array.prototype.findlastindex)
 * [`Array.prototype.flatMap`](https://www.ecma-international.org/ecma-262/10.0/#sec-array.prototype.flatmap)
 * [`Array.prototype.forEach`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.foreach) (optional, based on `checkForEach` parameter)
 * [`Array.prototype.map`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.map)
@@ -35,8 +36,8 @@ This rule finds callback functions of the following methods, then checks usage o
 * [`Array.prototype.reduceRight`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.reduceright)
 * [`Array.prototype.some`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.some)
 * [`Array.prototype.sort`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.sort)
-* [`Array.prototype.toSorted`](https://tc39.es/ecma262/#sec-array.prototype.tosorted)
-* And above of typed arrays.
+* [`Array.prototype.toSorted`](https://www.ecma-international.org/ecma-262/14.0/#sec-array.prototype.tosorted)
+* And above of typed arrays if applicable.
 
 Examples of **incorrect** code for this rule:
 
