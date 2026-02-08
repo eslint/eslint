@@ -879,6 +879,59 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
   declare enum d { }
   interface e { }
 	`,
+		`
+  type T = 1;
+  type T = 2;
+		`,
+		{
+			code: `
+  type NodeListOf = 1;
+		`,
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				parserOptions: {
+					lib: ["dom"],
+					sourceType: "script",
+				},
+			},
+		},
+		// var + type-only (non-instantiated) namespace is valid
+		`
+	var Foo;
+	namespace Foo {
+		export type T = string;
+	}
+	`,
+		// var + deeply nested non-instantiated namespace is valid
+		`
+	var Foo;
+	namespace Foo {
+		namespace Bar {
+			namespace Baz {
+			}
+		}
+	}
+	`,
+		// globals + type-only namespace is valid
+		{
+			code: `
+		namespace Foo {
+			export type T = string;
+		}
+		`,
+			languageOptions: {
+				globals: {
+					Foo: "readonly",
+				},
+			},
+		},
+		// comment + type-only namespace is valid
+		`
+		/* global Foo */
+		namespace Foo {
+			export type T = string;
+		}
+		`,
 	],
 	invalid: [
 		{
@@ -1168,78 +1221,33 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 			],
 		},
 
+		// var + instantiated namespace
 		{
 			code: `
-	  type T = 1;
-	  type T = 2;
-			`,
+	var Foo;
+	namespace Foo {
+		export const a = 2;
+	}
+	namespace Foo {
+		export const b = 4;
+	}
+	`,
 			errors: [
-				{
-					data: {
-						id: "T",
-					},
-					line: 3,
-					messageId: "redeclared",
-				},
+				{ data: { id: "Foo" }, messageId: "redeclared" },
+				{ data: { id: "Foo" }, messageId: "redeclared" },
 			],
 		},
+		// globals + instantiated namespace
 		{
 			code: `
-	  type NodeListOf = 1;
-			`,
-			options: [{ builtinGlobals: true }],
-			languageOptions: {
-				parserOptions: {
-					lib: ["dom"],
-					sourceType: "script",
-				},
-			},
-			errors: [
-				{
-					data: {
-						id: "NodeListOf",
-					},
-					messageId: "redeclaredAsBuiltin",
-				},
-			],
-		},
-		{
-			code: `
-	    var Foo;
 		namespace Foo {
-			export const a = 2;
+			export const a = 1;
 		}
-		namespace Foo {
-			export const b = 4;
-		}
-			`,
-			errors: [
-				{
-					data: {
-						id: "Foo",
-					},
-					line: 3,
-					messageId: "redeclared",
-				},
-				{
-					data: {
-						id: "Foo",
-					},
-					line: 6,
-					messageId: "redeclared",
-				},
-			],
-		},
-		{
-			code: `
-			namespace Foo {
-				export const a = 1;
-			}
 
-			namespace Bar {
-				export const a = 1;
-			}
-			`,
+		namespace Bar {
+			export const a = 1;
+		}
+		`,
 			languageOptions: {
 				globals: {
 					Foo: "readonly",
@@ -1247,84 +1255,63 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 				},
 			},
 			errors: [
-				{
-					data: {
-						id: "Foo",
-					},
-					line: 2,
-					messageId: "redeclaredAsBuiltin",
-				},
-				{
-					data: {
-						id: "Bar",
-					},
-					line: 6,
-					messageId: "redeclaredAsBuiltin",
-				},
+				{ data: { id: "Foo" }, messageId: "redeclaredAsBuiltin" },
+				{ data: { id: "Bar" }, messageId: "redeclaredAsBuiltin" },
 			],
 		},
+		// comments + instantiated namespace
 		{
 			code: `
-			/* global Foo */
-			namespace Foo {
-				export const a = 1;
-			}
+		/* global Foo */
+		namespace Foo {
+			export const a = 1;
+		}
 
-			/* global Bar */
-			namespace Bar {
-				export const a = 1;
-			}
-			`,
+		/* global Bar */
+		namespace Bar {
+			export const a = 1;
+		}
+		`,
 			errors: [
-				{
-					data: {
-						id: "Foo",
-					},
-					line: 2,
-					messageId: "redeclaredBySyntax",
-				},
-				{
-					data: {
-						id: "Bar",
-					},
-					line: 7,
-					messageId: "redeclaredBySyntax",
-				},
+				{ data: { id: "Foo" }, messageId: "redeclaredBySyntax" },
+				{ data: { id: "Bar" }, messageId: "redeclaredBySyntax" },
 			],
 		},
+		// mixed globals/comments + instantiated namespace
 		{
 			code: `
-			namespace Foo {
-				export const a = 1;
-			}
+		namespace Foo {
+			export const a = 1;
+		}
 
-			/* global Bar */
-			namespace Bar {
-				export const a = 1;
-			}
-			`,
-
+		/* global Bar */
+		namespace Bar {
+			export const a = 1;
+		}
+		`,
 			languageOptions: {
 				globals: {
 					Foo: "readonly",
 				},
 			},
 			errors: [
-				{
-					data: {
-						id: "Foo",
-					},
-					line: 2,
-					messageId: "redeclaredAsBuiltin",
-				},
-				{
-					data: {
-						id: "Bar",
-					},
-					line: 6,
-					messageId: "redeclaredBySyntax",
-				},
+				{ data: { id: "Foo" }, messageId: "redeclaredAsBuiltin" },
+				{ data: { id: "Bar" }, messageId: "redeclaredBySyntax" },
 			],
+		},
+		// var + deeply nested instantiated namespace
+		{
+			code: `
+	var Foo;
+	namespace Foo {
+		namespace Bar {
+			namespace Baz {
+				export const qux = 1;
+			}
+		}
+	}
+	`,
+			errors: [{ data: { id: "Foo" }, messageId: "redeclared" }],
 		},
 	],
 });
