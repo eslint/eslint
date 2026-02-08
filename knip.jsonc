@@ -25,6 +25,9 @@
         "tools/generate-formatter-examples.js",
       ],
       "ignoreDependencies": [
+        // Used in ecosystem.yml via cross-spawn shells
+        "@antfu/ni",
+        // Underlying code coverage engine used in unit tests
         "c8",
         // Optional peer dependency used for loading TypeScript configuration files
         "jiti",
