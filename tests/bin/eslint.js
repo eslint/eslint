@@ -1078,7 +1078,7 @@ describe("bin/eslint.js", () => {
 				const outputAssertion = getOutput(child).then(output => {
 					assert.include(
 						output.stderr,
-						"There are suppressions left that do not occur anymore. To resolve this either re-run this command with `--prune-suggestions` to remove excess suppressions or `--pass-on-unpruned-suppressions` to ignore this error.",
+						"There are suppressions left that do not occur anymore. To resolve this, re-run the command with `--prune-suggestions` to remove unused suppressions. To ignore unused suppressions, use `--pass-on-unpruned-suppressions`.",
 					);
 				});
 
