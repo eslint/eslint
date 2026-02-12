@@ -137,9 +137,7 @@ export default defineConfig([
 
 ### Processors
 
-In eslintrc files, processors had to be defined in a plugin, and then referenced by name in the configuration. Processors beginning with a dot indicated a file extension-named processor which ESLint would automatically configure for that file extension.
-
-In flat config files, processors can still be referenced from plugins by their name, but they can now also be inserted directly into the configuration. Processors will _never_ be automatically configured, and must be explicitly set in the configuration.
+In flat config files, processors can be referenced from plugins by their name, or they can be inserted directly into the configuration. Processors must be explicitly set in the configuration.
 
 As an example with a custom plugin with processors:
 
