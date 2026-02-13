@@ -4679,8 +4679,11 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 			],
 		},
 	],
-	// Schema validation: ensure invalid option shapes are rejected. (RuleTester passes
-	// options as an array, so we test invalid array contents, not a non-array top-level.)
+
+	/**
+	 * Schema validation: ensure invalid option shapes are rejected. (RuleTester passes
+	 * options as an array, so we test invalid array contents, not a non-array top-level.)
+	 */
 	fatal: [
 		{
 			name: "array item that is not string nor object (number)",
