@@ -1045,25 +1045,22 @@ describe("RuleTester", () => {
 	});
 
 	it("Invalid test case must not have 'error' property", () => {
-		nodeAssert.throws(
-			() => {
-				ruleTester.run(
-					"no-var",
-					require("../../fixtures/testers/rule-tester/no-var"),
-					{
-						valid: ["x"],
-						invalid: [
-							{
-								code: "var foo = bar;",
-								errors: [{ message: "Bad var." }],
-								error: { name: "SchemaValidationError" },
-							},
-						],
-					},
-				);
-			},
-			/Invalid test case must not have 'error' property/u,
-		);
+		nodeAssert.throws(() => {
+			ruleTester.run(
+				"no-var",
+				require("../../fixtures/testers/rule-tester/no-var"),
+				{
+					valid: ["x"],
+					invalid: [
+						{
+							code: "var foo = bar;",
+							errors: [{ message: "Bad var." }],
+							error: { name: "SchemaValidationError" },
+						},
+					],
+				},
+			);
+		}, /Invalid test case must not have 'error' property/u);
 	});
 
 	it("should throw an error when the error is not a supported type", () => {
