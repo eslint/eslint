@@ -1037,6 +1037,19 @@ type DeprecatedRuleContextKeys =
 const linter = new Linter();
 const eslinter = new ESLinter();
 const linterWithFlatConfig = new Linter({ configType: "flat" });
+new Linter({
+	cwd: "path/to/cwd",
+	configType: "flat",
+	flags: ["flag1", "flag2"],
+	warningService: {
+		foo() {},
+	},
+	// @ts-expect-error Invalid option
+	unknown: "unknown",
+});
+new Linter({
+	cwd: undefined,
+});
 
 linter.version; // $ExpectType string
 Linter.version; // $ExpectType string
@@ -1181,7 +1194,10 @@ for (const msg of fixResult.messages) {
 
 sourceCode = linter.getSourceCode();
 
-linter.getFixPassCount(); // $ExpectType number
+linter.getTimes() satisfies { passes: Linter.TimePass[] }; // $ExpectType { passes: TimePass[]; }
+linter.getFixPassCount() satisfies number; // $ExpectType number
+linter.getSuppressedMessages() satisfies Linter.SuppressedLintMessage[]; // $ExpectType SuppressedLintMessage[]
+linter.hasFlag("flag1") satisfies boolean; // $ExpectType boolean
 
 (index: number, ruleId: string) => {
 	const pass = linter.getTimes().passes[index];
@@ -1321,8 +1337,14 @@ linter.verifyAndFix(
 
 // #region Linter with eslintrc config
 
-// @ts-expect-error -- configType must be "flat"
+// @ts-expect-error -- `configType` must be `"flat"`
 const linterWithEslintrcConfig = new Linter({ configType: "eslintrc" });
+new Linter({
+	// @ts-expect-error -- `cwd` must be a `string` or `undefined`
+	cwd: 123,
+	// @ts-expect-error -- `flags` must be an array of strings
+	flags: "flag1",
+});
 
 linterWithEslintrcConfig.verify(
 	SOURCE,

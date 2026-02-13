@@ -793,40 +793,135 @@ export type JSRuleDefinition<
 
 // #region Linter
 
+/**
+ * Class responsible for verifying language-specific text or binary source code.
+ */
 export class Linter {
+	/**
+	 * Static getter for package version. Returns the version from `package.json`.
+	 */
 	static readonly version: string;
 
+	/**
+	 * Instance getter/setter for package version. Defaults to the version from `package.json`.
+	 */
 	version: string;
 
-	constructor(options?: { cwd?: string | undefined; configType?: "flat" });
+	/**
+	 * Initialize the `Linter`.
+	 * @param options The config object options.
+	 */
+	constructor(options?: {
+		/**
+		 * Path to a directory that should be considered as
+		 * the current working directory, can be `undefined`.
+		 */
+		cwd?: string | undefined;
 
+		/**
+		 * The type of config used.
+		 * Retained for backwards compatibility, will be removed in future.
+		 * @default "flat"
+		 */
+		configType?: "flat";
+
+		/**
+		 * The feature flags to enable.
+		 * @default []
+		 */
+		flags?: string[];
+
+		/**
+		 * The warning service instance to use.
+		 * @default new WarningService()
+		 */
+		warningService?: any;
+	});
+
+	/**
+	 * Verifies the text against the rules specified by the second argument.
+	 * @param textOrSourceCode The text to parse or a `SourceCode` object.
+	 * @param config The ESLint config object or array to use.
+	 * @param filename The optional filename of the file being checked.
+	 * If this is not set, the filename will default to `"<input>"` in the rule context.
+	 * @returns The results as an array of messages or an empty array if no messages.
+	 */
 	verify(
-		code: SourceCode | string,
+		textOrSourceCode: SourceCode | string,
 		config: Linter.Config | Linter.Config[],
 		filename?: string,
 	): Linter.LintMessage[];
+	/**
+	 * Verifies the text against the rules specified by the second argument.
+	 * @param textOrSourceCode The text to parse or a `SourceCode` object.
+	 * @param config The ESLint config object or array to use.
+	 * @param options The object options which can have `filename`, `allowInlineConfig`, and some properties.
+	 * @returns The results as an array of messages or an empty array if no messages.
+	 */
 	verify(
-		code: SourceCode | string,
+		textOrSourceCode: SourceCode | string,
 		config: Linter.Config | Linter.Config[],
 		options: Linter.LintOptions,
 	): Linter.LintMessage[];
 
+	/**
+	 * Performs multiple autofix passes over the text
+	 * until as many fixes as possible have been applied.
+	 * @param text The source text to apply fixes to.
+	 * @param config The ESLint config object or array to use.
+	 * @param filename The optional filename of the file being checked.
+	 * If this is not set, the filename will default to `"<input>"` in the rule context.
+	 * @returns The result of the fix operation as returned from the `SourceCodeFixer`.
+	 */
 	verifyAndFix(
-		code: string,
+		text: string,
 		config: Linter.Config | Linter.Config[],
 		filename?: string,
 	): Linter.FixReport;
+	/**
+	 * Performs multiple autofix passes over the text
+	 * until as many fixes as possible have been applied.
+	 * @param text The source text to apply fixes to.
+	 * @param config The ESLint config object or array to use.
+	 * @param options The object options which can have `filename`, `allowInlineConfig`, and some properties.
+	 * @returns The result of the fix operation as returned from the `SourceCodeFixer`.
+	 */
 	verifyAndFix(
-		code: string,
+		text: string,
 		config: Linter.Config | Linter.Config[],
 		options: Linter.FixOptions,
 	): Linter.FixReport;
 
+	/**
+	 * Gets the `SourceCode` object representing the parsed source.
+	 * @returns The `SourceCode` object.
+	 */
 	getSourceCode(): SourceCode;
 
+	/**
+	 * Gets the times spent on (parsing, fixing, linting) a file.
+	 * @returns The times.
+	 */
 	getTimes(): Linter.Stats["times"];
 
+	/**
+	 * Gets the number of autofix passes that were made in the last run.
+	 * @returns The number of autofix passes.
+	 */
 	getFixPassCount(): Linter.Stats["fixPasses"];
+
+	/**
+	 * Gets the list of `SuppressedLintMessage` produced in the last running.
+	 * @returns The list of `SuppressedLintMessage`.
+	 */
+	getSuppressedMessages(): Linter.SuppressedLintMessage[];
+
+	/**
+	 * Indicates if the given feature flag is enabled for this instance.
+	 * @param flag The feature flag to check.
+	 * @returns `true` if the feature flag is enabled, `false` if not.
+	 */
+	hasFlag(flag: string): boolean;
 }
 
 export namespace Linter {
@@ -978,6 +1073,7 @@ export namespace Linter {
 		disableFixes?: boolean | undefined;
 		allowInlineConfig?: boolean | undefined;
 		reportUnusedDisableDirectives?: boolean | undefined;
+		ruleFilter?: () => {}; // TODO
 	}
 
 	type LintSuggestion = CoreLintSuggestion;
@@ -994,7 +1090,8 @@ export namespace Linter {
 	}
 
 	interface FixOptions extends LintOptions {
-		fix?: boolean | undefined;
+		fix?: boolean | undefined; // TODO: Accept function?
+		stats?: any; // TODO
 	}
 
 	interface FixReport {
