@@ -777,6 +777,14 @@ describe("RuleTester", () => {
 			}, /Valid test case must not have 'output' property/u);
 		});
 
+		it("Valid test case must not have 'error' property", () => {
+			assert.throws(() => {
+				runValidTests([
+					{ code: "", error: { name: "SchemaValidationError" } },
+				]);
+			}, /Valid test case must not have 'error' property/u);
+		});
+
 		it("Valid test case can have 'output' property set to undefined", () => {
 			runValidTests([{ code: "", output: void 0 }]);
 		});
@@ -1034,6 +1042,28 @@ describe("RuleTester", () => {
 				},
 			);
 		}, /Expected 'Bad var.' to match \/Bad error message\//u);
+	});
+
+	it("Invalid test case must not have 'error' property", () => {
+		nodeAssert.throws(
+			() => {
+				ruleTester.run(
+					"no-var",
+					require("../../fixtures/testers/rule-tester/no-var"),
+					{
+						valid: ["x"],
+						invalid: [
+							{
+								code: "var foo = bar;",
+								errors: [{ message: "Bad var." }],
+								error: { name: "SchemaValidationError" },
+							},
+						],
+					},
+				);
+			},
+			/Invalid test case must not have 'error' property/u,
+		);
 	});
 
 	it("should throw an error when the error is not a supported type", () => {
