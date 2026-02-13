@@ -4679,4 +4679,44 @@ ruleTesterTypeScript.run("no-restricted-imports", rule, {
 			],
 		},
 	],
+	// Schema validation: ensure invalid option shapes are rejected. (RuleTester passes
+	// options as an array, so we test invalid array contents, not a non-array top-level.)
+	fatal: [
+		{
+			name: "array item that is not string nor object (number)",
+			code: 'import "foo";',
+			options: [123],
+			error: { name: "SchemaValidationError" },
+		},
+		{
+			name: "array item that is not string nor object (null)",
+			code: 'import "foo";',
+			options: [null],
+			error: { name: "SchemaValidationError" },
+		},
+		{
+			name: "object missing required property name (has message only)",
+			code: 'import "foo";',
+			options: [{ message: "custom" }],
+			error: { name: "SchemaValidationError" },
+		},
+		{
+			name: "object with additional properties",
+			code: 'import "foo";',
+			options: [{ name: "foo", unknownProp: true }],
+			error: { name: "SchemaValidationError" },
+		},
+		{
+			name: "paths/patterns form with invalid paths (not array)",
+			code: 'import "foo";',
+			options: [{ paths: "foo" }],
+			error: { name: "SchemaValidationError" },
+		},
+		{
+			name: "paths/patterns form with paths item not string nor object",
+			code: 'import "foo";',
+			options: [{ paths: [42] }],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });
