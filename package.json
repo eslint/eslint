@@ -182,7 +182,6 @@
     "lint-staged": "^11.0.0",
     "markdown-it": "^12.2.0",
     "markdown-it-container": "^3.0.0",
-    "markdownlint": "^0.40.0",
     "markdownlint-cli2": "^0.20.0",
     "marked": "^4.0.8",
     "metascraper": "^5.25.7",
