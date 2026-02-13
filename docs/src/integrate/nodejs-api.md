@@ -960,7 +960,7 @@ The `RuleTester#run()` method is used to run the tests. It should be passed the 
 
 - The name of the rule (string).
 - The rule object itself (see ["working with rules"](../extend/custom-rules)).
-- An object containing `valid` and `invalid` properties, each of which is an array containing test cases.
+- An object containing `valid` and `invalid` properties, each of which is an array containing test cases. It may also contain an optional `fatal` property, an array of test cases for invalid rule options and rule-thrown exceptions (see [Testing invalid rule options and rule exceptions (fatal)](#testing-invalid-rule-options-and-rule-exceptions-fatal)).
     - In this object, you can also pass the `assertionOptions` property to configure requirements for assertions of `invalid` test cases to enforce consistency.
 
 A test case is an object with the following properties:
@@ -1062,6 +1062,46 @@ At the end of this invalid test case, `RuleTester` expects a fix to be applied t
 
 ::: important
 ESLint makes its best attempt at applying all fixes, but there is no guarantee that all fixes will be applied. As such, you should aim for testing each type of fix in a separate `RuleTester` test case rather than one test case to test multiple fixes. When there is a conflict between two fixes (because they apply to the same section of code) `RuleTester` applies only the first fix.
+:::
+
+### Testing invalid rule options and rule exceptions (fatal)
+
+You can test that invalid rule options are rejected (schema validation) and that the rule throws expected exceptions, by passing an optional `fatal` array to `RuleTester#run()`. Each fatal test case is an object with:
+
+- `name` (string, optional): The name to use for the test case.
+- `code` (string, optional): The source code to run. If omitted, an empty string is used.
+- `options` (array, optional): The options passed to the rule (use invalid options to trigger schema validation errors, or options that cause the rule to throw).
+- `error` (object, required): The expected exception. Must have at least one of:
+    - `message` (string or RegExp): The expected error message.
+    - `name` (string): The expected error name (e.g. `"SchemaValidationError"` for schema validation failures).
+- `before` (function, optional): Function to execute before testing the case.
+- `after` (function, optional): Function to execute after testing the case regardless of its result.
+- `only` (boolean, optional): Run this case exclusively for debugging in supported test frameworks.
+
+Example: testing that the rule schema rejects invalid options and that the rule throws for a specific option:
+
+```js
+ruleTester.run("my-rule", rule, {
+	valid: [{ code: "foo", options: ["allowed"] }],
+	invalid: [],
+	fatal: [
+		{
+			options: ["disallowed"],
+			error: { name: "SchemaValidationError" },
+		},
+		{
+			options: ["throw"],
+			error: {
+				message: "Intentional throw for testing",
+				name: "CustomRuleError",
+			},
+		},
+	],
+});
+```
+
+::: tip
+JSON Schema (and thus schema validation) error messages may change when upgrading ESLint or its dependencies. When you only need to assert that invalid options are rejected, prefer matching `error.name` (e.g. `"SchemaValidationError"`) instead of the full `error.message`.
 :::
 
 ### Testing Suggestions
