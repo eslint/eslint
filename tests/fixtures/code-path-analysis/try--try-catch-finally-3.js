@@ -2,14 +2,11 @@
     { "sourceType": "commonjs" }
 */
 /*expected
-initial->s1_1->s1_3->s1_4->s1_7->s1_8->s1_10;
+initial->s1_1->s1_3->s1_4->s1_7->s1_10;
 s1_1->s1_5->s1_6->s1_7;
 s1_3->s1_11;
-s1_7->s1_10;
-s1_8->s1_11;
-s1_1->s1_8;
-s1_5->s1_8;
-s1_11->final;
+s1_1->s1_8->s1_10;
+s1_5->s1_8->s1_11->final;
 s1_10->final;
 */
 
@@ -41,14 +38,11 @@ digraph {
     s1_5[label="BlockStatement\nThrowStatement\nLiteral (0)"];
     s1_6[style="rounded,dashed,filled",fillcolor="#FF9800",label="<<unreachable>>\nBlockStatement:exit"];
     s1_11[label="BlockStatement\nExpressionStatement\nCallExpression\nIdentifier (c)"];
-    initial->s1_1->s1_3->s1_4->s1_7->s1_8->s1_10;
+    initial->s1_1->s1_3->s1_4->s1_7->s1_10;
     s1_1->s1_5->s1_6->s1_7;
     s1_3->s1_11;
-    s1_7->s1_10;
-    s1_8->s1_11;
-    s1_1->s1_8;
-    s1_5->s1_8;
-    s1_11->final;
+    s1_1->s1_8->s1_10;
+    s1_5->s1_8->s1_11->final;
     s1_10->final;
 }
 */
