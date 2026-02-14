@@ -742,10 +742,14 @@ export namespace Rule {
 			| ((node: ESTree.BreakStatement & NodeParentExtension) => void)
 			| undefined;
 		CallExpression?:
-			| ((node: ESTree.CallExpression & NodeParentExtension) => void)
+			| ((
+					node: ESTree.SimpleCallExpression & NodeParentExtension,
+			  ) => void)
 			| undefined;
 		"CallExpression:exit"?:
-			| ((node: ESTree.CallExpression & NodeParentExtension) => void)
+			| ((
+					node: ESTree.SimpleCallExpression & NodeParentExtension,
+			  ) => void)
 			| undefined;
 		CatchClause?:
 			| ((node: ESTree.CatchClause & NodeParentExtension) => void)
