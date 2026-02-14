@@ -74,7 +74,8 @@
     "test:fuzz": "node Makefile.js fuzz",
     "test:performance": "node Makefile.js perf",
     "test:pnpm": "cd tests/pnpm && node check.js && pnpm install && pnpm exec tsc",
-    "test:types": "tsc -p tests/lib/types/tsconfig.json"
+    "test:types": "tsc -p tests/lib/types/tsconfig.json",
+    "test:types:ts40": "tsc -p tests/lib/types/tsconfig.ts40.json"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
