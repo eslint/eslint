@@ -215,6 +215,47 @@ jobs:
               working-directory: html-eslint
               run: yarn check:ts --filter=@html-eslint/eslint-plugin
 
+    pnpm_estree:
+        name: Types (pnpm ESTree)
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout eslint
+              uses: actions/checkout@v6
+              with:
+                  path: eslint
+
+            - name: Checkout html-eslint
+              uses: actions/checkout@v6
+              with:
+                  repository: snitin315/pnpm-estree-types-issue
+                  path: pnpm-estree-types-issue
+
+            - uses: actions/setup-node@v6
+              with:
+                  node-version: "lts/*"
+
+            - uses: pnpm/action-setup@v4
+              with:
+                  version: 10
+
+            - name: Install Packages (eslint)
+              working-directory: eslint
+              run: npm install
+
+            - name: Patch pnpm-estree-types-issue package.json
+              uses: restackio/update-json-file-action@6f50afee9a03a456a30cd574123db793319f7544 # 2.1
+              with:
+                  file: pnpm-estree-types-issue/package.json
+                  fields: '{"devDependencies.eslint":"file:../eslint"}'
+
+            - name: Install Packages (pnpm-estree-types-issue)
+              working-directory: pnpm-estree-types-issue
+              run: rm pnpm-lock.yaml && pnpm install
+
+            - name: Run TSC
+              working-directory: pnpm-estree-types-issue
+              run: pnpm run test:types
+
     are-the-types-wrong:
         name: Are the types wrong?
         runs-on: ubuntu-latest
