@@ -446,6 +446,14 @@ ruleTester.run(
 				],
 			},
 		],
+		fatal: [
+			{
+				name: "first option wrong type (number)",
+				code: "function foo() {}",
+				options: [123],
+				error: { name: "SchemaValidationError" },
+			},
+		],
 	}),
 );
 

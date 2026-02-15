@@ -627,4 +627,18 @@ ruleTester.run("require-unicode-regexp", rule, {
 			],
 		},
 	],
+	fatal: [
+		{
+			name: "first option wrong type (number)",
+			code: "var x = 1;",
+			options: [123],
+			error: { name: "SchemaValidationError" },
+		},
+		{
+			name: "invalid enum value for requireFlag option",
+			code: "/foo/;",
+			options: [{ requireFlag: "x" }],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });

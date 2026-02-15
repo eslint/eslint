@@ -123,4 +123,12 @@ ruleTester.run("no-template-curly-in-string", rule, {
 			],
 		},
 	],
+	fatal: [
+		{
+			name: "options provided when schema allows none",
+			code: "var x = 1;",
+			options: [1],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });
