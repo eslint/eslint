@@ -165,7 +165,7 @@ jobs:
               run: npm install --no-save typescript@~4.0 @types/node@~16.11
 
             - name: Typecheck on TypeScript 4.0
-              run: npm run test:types:ts40
+              run: npx tsc -p tests/lib/types/tsconfig.ts40.json
 
     pnpm_test:
         name: Test pnpm Type Support
