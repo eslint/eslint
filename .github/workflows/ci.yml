@@ -150,6 +150,23 @@ jobs:
               working-directory: ${{ matrix.package.directory }}
               run: npm run test:types
 
+    test_types_ts40:
+        name: Test DefinitelyTyped-derived Types (TypeScript 4.0)
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v5
+            - uses: actions/setup-node@v6
+              with:
+                  node-version: "lts/*"
+            - name: Install Packages
+              run: npm install
+
+            - name: Install TypeScript 4.0 Toolchain
+              run: npm install --no-save typescript@~4.0 @types/node@~16.11
+
+            - name: Typecheck on TypeScript 4.0
+              run: npx tsc -p tests/lib/types/tsconfig.ts40.json
+
     pnpm_test:
         name: Test pnpm Type Support
         runs-on: ubuntu-latest
