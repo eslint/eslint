@@ -215,8 +215,9 @@ jobs:
               working-directory: html-eslint
               run: yarn check:ts --filter=@html-eslint/eslint-plugin
 
-    pnpm_estree:
-        name: Types (pnpm ESTree)
+    # https://github.com/eslint/eslint/issues/19418
+    eslint_types_with_pnpm:
+        name: Types (pnpm with eslint plugin)
         runs-on: ubuntu-latest
         steps:
             - name: Checkout eslint
