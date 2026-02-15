@@ -777,6 +777,14 @@ describe("RuleTester", () => {
 			}, /Valid test case must not have 'output' property/u);
 		});
 
+		it("Valid test case must not have 'error' property", () => {
+			assert.throws(() => {
+				runValidTests([
+					{ code: "", error: { name: "SchemaValidationError" } },
+				]);
+			}, /Valid test case must not have 'error' property/u);
+		});
+
 		it("Valid test case can have 'output' property set to undefined", () => {
 			runValidTests([{ code: "", output: void 0 }]);
 		});
@@ -796,6 +804,113 @@ describe("RuleTester", () => {
 				],
 			},
 		);
+	});
+
+	describe("fatal", () => {
+		const noSchemaViolationRule = require("../../fixtures/testers/rule-tester/no-schema-violation");
+		const throwsOnOptionRule = require("../../fixtures/testers/rule-tester/throws-on-option");
+
+		it("should pass when fatal cases expect schema validation errors (by name)", () => {
+			ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+				valid: [{ code: "foo", options: ["foo"] }],
+				invalid: [],
+				fatal: [
+					{
+						options: ["bar"],
+						error: { name: "SchemaValidationError" },
+					},
+				],
+			});
+		});
+
+		it("should pass when fatal cases expect schema validation errors (by message regex)", () => {
+			ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+				valid: [{ code: "foo", options: ["foo"] }],
+				invalid: [],
+				fatal: [
+					{
+						options: [123],
+						error: {
+							message:
+								/should be equal to one of the allowed values/u,
+						},
+					},
+				],
+			});
+		});
+
+		it("should pass when fatal cases expect rule-thrown exceptions (by message and name)", () => {
+			ruleTester.run("throws-on-option", throwsOnOptionRule, {
+				valid: [{ code: "x", options: ["strict"] }],
+				invalid: [],
+				fatal: [
+					{
+						options: ["throw"],
+						error: {
+							message: "Intentional throw for testing",
+							name: "CustomRuleError",
+						},
+					},
+				],
+			});
+		});
+
+		it("should pass when fatal case omits code (uses empty string)", () => {
+			ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+				valid: [{ code: "x", options: ["foo"] }],
+				invalid: [],
+				fatal: [
+					{
+						options: ["bar"],
+						error: { name: "SchemaValidationError" },
+					},
+				],
+			});
+		});
+
+		it("should throw when fatal test case is missing error object", () => {
+			nodeAssert.throws(() => {
+				ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+					valid: [{ code: "x", options: ["foo"] }],
+					invalid: [],
+					fatal: [
+						{
+							options: ["bar"],
+						},
+					],
+				});
+			}, /Fatal test case must have an 'error' object/u);
+		});
+
+		it("should throw when fatal test case error has neither message nor name", () => {
+			nodeAssert.throws(() => {
+				ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+					valid: [{ code: "x", options: ["foo"] }],
+					invalid: [],
+					fatal: [
+						{
+							options: ["bar"],
+							error: {},
+						},
+					],
+				});
+			}, /Fatal test case 'error' must specify at least one of 'message' or 'name'/u);
+		});
+
+		it("should throw when fatal case expected a fatal error but options were valid", () => {
+			nodeAssert.throws(() => {
+				ruleTester.run("no-schema-violation", noSchemaViolationRule, {
+					valid: [],
+					invalid: [],
+					fatal: [
+						{
+							options: ["foo"],
+							error: { name: "SchemaValidationError" },
+						},
+					],
+				});
+			}, /Should have exactly one fatal error but had 0/u);
+		});
 	});
 
 	it("should throw correct error when valid code is invalid and enables other core rule", () => {
@@ -927,6 +1042,25 @@ describe("RuleTester", () => {
 				},
 			);
 		}, /Expected 'Bad var.' to match \/Bad error message\//u);
+	});
+
+	it("Invalid test case must not have 'error' property", () => {
+		nodeAssert.throws(() => {
+			ruleTester.run(
+				"no-var",
+				require("../../fixtures/testers/rule-tester/no-var"),
+				{
+					valid: ["x"],
+					invalid: [
+						{
+							code: "var foo = bar;",
+							errors: [{ message: "Bad var." }],
+							error: { name: "SchemaValidationError" },
+						},
+					],
+				},
+			);
+		}, /Invalid test case must not have 'error' property/u);
 	});
 
 	it("should throw an error when the error is not a supported type", () => {

@@ -145,4 +145,12 @@ ruleTester.run("max-nested-callbacks", rule, {
 			],
 		},
 	],
+	fatal: [
+		{
+			name: "first option wrong type (string)",
+			code: "var x = 1;",
+			options: ["invalid"],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });
