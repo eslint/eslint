@@ -346,4 +346,12 @@ ruleTester.run("no-self-assign", rule, {
 			errors: [{ messageId: "selfAssignment", data: { name: "a" } }],
 		},
 	],
+	fatal: [
+		{
+			name: "first option wrong type (number)",
+			code: "var x = 1;",
+			options: [123],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });

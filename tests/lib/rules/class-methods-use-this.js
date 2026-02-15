@@ -1373,4 +1373,18 @@ ruleTesterTypeScript.run("class-methods-use-this", rule, {
 			errors: [{ messageId: "missingThis" }],
 		},
 	],
+	fatal: [
+		{
+			name: "first option wrong type (number)",
+			code: "var x = 1;",
+			options: [123],
+			error: { name: "SchemaValidationError" },
+		},
+		{
+			name: "invalid enum value for ignoreClassesWithImplements option",
+			code: "class A { foo() {} }",
+			options: [{ ignoreClassesWithImplements: "invalid" }],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });

@@ -948,4 +948,18 @@ ruleTester.run("complexity", rule, {
 			errors: [makeError("Function 'a'", 3, 1)],
 		},
 	],
+	fatal: [
+		{
+			name: "first option wrong type (string)",
+			code: "var x = 1;",
+			options: ["invalid"],
+			error: { name: "SchemaValidationError" },
+		},
+		{
+			name: "invalid enum value for variant option",
+			code: "var x = 1;",
+			options: [{ maximum: 10, variant: "invalid" }],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });
