@@ -108,4 +108,12 @@ ruleTester.run("no-new-wrappers", rule, {
 			],
 		},
 	],
+	fatal: [
+		{
+			name: "options provided when schema allows none",
+			code: "var x = 1;",
+			options: [1],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });

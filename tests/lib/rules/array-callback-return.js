@@ -2181,4 +2181,24 @@ ruleTester.run("array-callback-return", rule, {
 			],
 		},
 	],
+	fatal: [
+		{
+			name: "first option not object (number)",
+			code: "[1,2].map(x => x);",
+			options: [123],
+			error: { name: "SchemaValidationError" },
+		},
+		{
+			name: "object with additional properties",
+			code: "[1,2].map(x => x);",
+			options: [{ allowImplicit: true, unknownProp: true }],
+			error: { name: "SchemaValidationError" },
+		},
+		{
+			name: "property wrong type (string instead of boolean)",
+			code: "[1,2].map(x => x);",
+			options: [{ allowImplicit: "true" }],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });

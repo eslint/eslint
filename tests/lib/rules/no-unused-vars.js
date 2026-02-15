@@ -4790,4 +4790,18 @@ try {
 			],
 		},
 	],
+	fatal: [
+		{
+			name: "first option wrong type (number)",
+			code: "var x = 1;",
+			options: [123],
+			error: { name: "SchemaValidationError" },
+		},
+		{
+			name: "invalid enum value for vars option",
+			code: "var x = 1;",
+			options: [{ vars: "sometimes" }],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });

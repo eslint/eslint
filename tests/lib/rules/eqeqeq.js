@@ -712,4 +712,18 @@ ruleTester.run("eqeqeq", rule, {
 
 		// If no output is provided, assert that no output is produced.
 	].map(invalidCase => Object.assign({ output: null }, invalidCase)),
+	fatal: [
+		{
+			name: "first option wrong type (number)",
+			code: "var x = 1;",
+			options: [123],
+			error: { name: "SchemaValidationError" },
+		},
+		{
+			name: "invalid enum value for first option",
+			code: "var x = 1;",
+			options: ["sometimes"],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });

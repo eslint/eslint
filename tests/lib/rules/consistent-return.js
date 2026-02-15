@@ -376,4 +376,18 @@ ruleTester.run("consistent-return", rule, {
 			],
 		},
 	],
+	fatal: [
+		{
+			name: "first option wrong type (number)",
+			code: "var x = 1;",
+			options: [123],
+			error: { name: "SchemaValidationError" },
+		},
+		{
+			name: "treatUndefinedAsUnspecified option wrong type (string)",
+			code: "var x = 1;",
+			options: [{ treatUndefinedAsUnspecified: "true" }],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });

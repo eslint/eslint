@@ -124,4 +124,12 @@ ruleTester.run("default-case-last", rule, {
 			errors: [error(24)],
 		},
 	],
+	fatal: [
+		{
+			name: "options provided when schema allows none",
+			code: "var x = 1;",
+			options: [1],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });
