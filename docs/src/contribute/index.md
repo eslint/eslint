@@ -14,6 +14,10 @@ This guide is intended for anyone who wants to contribute to an ESLint project. 
 
 ESLint welcomes contributions from everyone and adheres to the [OpenJS Foundation Code of Conduct](https://eslint.org/conduct). We kindly request that you read over our code of conduct before contributing.
 
+## [AI Usage Policy](ai-policy)
+
+We welcome AI-assisted contributions as long as they follow our guidelines for disclosure and human review.
+
 ## [Report Bugs](report-bugs)
 
 Think you found a problem? We'd love to hear about it. This section explains how to submit a bug, the type of information we need to properly verify it, and the overall process.
@@ -41,6 +45,14 @@ Developing for ESLint is a bit different than running it on the command line. Th
 ## [Run the Tests](tests)
 
 There are a lot of unit tests included with ESLint to make sure that we're keeping on top of code quality. This section explains how to run the unit tests.
+
+## [Package.json Conventions](package-json-conventions)
+
+If you need to make changes to a `package.json` file, we have specific conventions you should follow.
+
+## [Code Conventions](code-conventions)
+
+ESLint has specific code conventions that we follow.
 
 ## [Work on Issues](work-on-issue)
 

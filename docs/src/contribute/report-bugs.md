@@ -4,7 +4,7 @@ eleventyNavigation:
     key: report bugs
     parent: contribute to eslint
     title: Report Bugs
-    order: 1
+    order: 2
 ---
 
 If you think you've found a bug in ESLint, please [create a new issue](https://github.com/eslint/eslint/issues/new/choose) or a [pull request](pull-requests) on GitHub.
