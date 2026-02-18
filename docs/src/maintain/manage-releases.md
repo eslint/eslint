@@ -119,7 +119,7 @@ Work on the first prerelease (`alpha.0`) starts when the last planned v9.x relea
 - In the `eslint/eslint.org` repository, submit a PR to set `upcomingVersionPrereleaseType = "alpha"` in `tools/release-data.js`. This is to announce the prerelease in the version list on the `https://eslint.org/` homepage. The PR can be merged as soon as it is approved.
 - In the `eslint/eslint.org` repository, submit a PR to enable `/docs/next/*` proxying in `src/static/redirects.njk`. The PR should be reviewed and approved in time, but merged right after ESLint 10.0.0-alpha.0 is released.
 - In the `eslint/eslint.org` repository, submit a PR to update the Current Release Lines table in `src/content/pages/version-support.md`: add v10.x with Status "Current" and First Release as the planned first prerelease date (also add `<br>(prerelease)` after the date); update v9.x status to "Maintenance". The PR should be reviewed and approved in time, but merged right after ESLint 10.0.0-alpha.0 is released.
-- In the `eslint/eslint` repository, submit a PR to add `legacy-peer-deps = true` in the `.npmrc` file. This is to ensure that `npm install` works in CI and locally for developers after the prerelease, because some dependencies (e.g., `@eslint-community/eslint-utils`) have `eslint` declared as a peer dependency with a range that prerelease versions like `10.0.0-alpha.0` don't satisfy. Additionally, add `--legacy-peer-deps` CLI flag to `npm install` commands for which the `.npmrc` file doesn't apply, like `npm install ../eslint` in `types-integration.yml`. The PR can be merged as soon as it is approved.
+- In the `eslint/eslint` repository, submit a PR to add `legacy-peer-deps = true` in the `.npmrc` file. This is to ensure that `npm install` works in CI and locally for developers after the prerelease, because some dependencies (e.g., `@eslint-community/eslint-utils`) have `eslint` declared as a peer dependency with a range that prerelease versions like `10.0.0-alpha.0` don't satisfy. Additionally, add `--legacy-peer-deps` CLI flag to `npm install` commands for which the `.npmrc` file doesn't apply, like `npm install ../eslint` in `types-integration.yml`. The PR can be merged as soon as it is approved. Open an issue to track this and other temporary changes that should be reverted after the final release.
 - In the `eslint/eslint` repository, submit a PR to update ranges for `@eslint/js` and `eslint` in `packages/eslint-config-eslint/package.json` to include v10 and its prereleases. This is to ensure that the corresponding version of `@eslint/js` is used when linting. The PR can be merged as soon as it is approved.
 - In the `eslint/eslint` repository, create an issue to track all temporary changes that should eventually be reverted or modified (e.g., to remove `legacy-peer-deps` settings when possible).
 
@@ -145,7 +145,9 @@ In this phase, we should also prepare infrastructure for v9.x maintenance:
 - In the `eslint/eslint` repository, submit two PRs that add `"/docs/v9.x"` to the `skipPatterns` list in `docs/tools/validate-links.js`. One PR should target the `main` branch and the other the `v9.x-dev` branch. The PRs should be reviewed and approved in time, but merged right before ESLint 10.0.0 is released.
 - In the `eslint/eslint` repository, submit a PR to update peer dependency `eslint` to `^10.0.0` in `packages/js/package.json`. The PR should be reviewed and approved in time, but merged after final ESLint v10.0.0 is released and before final `@eslint/js` v10.0.0 is released.
 
-WIP
+### After the Final Release
+
+- When possible, revert each of the temporary changes that were made during this major release cycle, like `legacy-peer-deps`. All changes should have already been listed in an issue.
 
 #### Six Months after the Final Release
 
