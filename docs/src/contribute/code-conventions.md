@@ -1,10 +1,5 @@
 ---
 title: Code Conventions
-eleventyNavigation:
-    key: code conventions
-    parent: contribute to eslint
-    title: Code Conventions
-    order: 10
 ---
 
 Code conventions for ESLint are determined by
