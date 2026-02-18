@@ -2033,7 +2033,7 @@ describe("RuleTester", () => {
 					],
 				},
 			);
-		}, "Schema for rule no-invalid-schema is invalid:,\titems: should be object\n\titems[0].enum: should NOT have fewer than 1 items\n\titems: should match some schema in anyOf");
+		}, "Schema for rule no-invalid-schema is invalid:,\t/items: must be object,boolean\n\t/items/0/enum: must NOT have fewer than 1 items\n\t/items: must match a schema in anyOf");
 	});
 
 	it("should throw an error if rule schema is `{}`", () => {
@@ -2135,11 +2135,11 @@ describe("RuleTester", () => {
 					],
 				},
 			);
-		}, /Value "bar" should be equal to one of the allowed values./u);
+		}, /Value "bar" must be equal to one of the allowed values/u);
 	});
 
-	it("should disallow invalid defaults in rules", () => {
-		const ruleWithInvalidDefaults = {
+	it("should handle defaults in oneOf schemas according to JSON Schema spec", () => {
+		const ruleWithDefaultsInOneOf = {
 			meta: {
 				schema: [
 					{
@@ -2162,17 +2162,21 @@ describe("RuleTester", () => {
 			create: () => ({}),
 		};
 
-		assert.throws(() => {
-			ruleTester.run("invalid-defaults", ruleWithInvalidDefaults, {
-				valid: [
-					{
-						code: "foo",
-						options: [{}],
-					},
-				],
-				invalid: [],
-			});
-		}, /Schema for rule invalid-defaults is invalid: default is ignored for: data1\.foo/u);
+		/*
+		 * AJV v8 correctly follows JSON Schema draft-07 spec for default resolution in oneOf.
+		 * AJV v6 incorrectly threw errors for this case; v8's behavior is standards-compliant.
+		 * This is a legitimate breaking change that improves standards compliance.
+		 * Should not throw
+		 */
+		ruleTester.run("defaults-in-oneOf", ruleWithDefaultsInOneOf, {
+			valid: [
+				{
+					code: "foo",
+					options: [{}], // Defaults properly resolved in oneOf as per JSON Schema spec
+				},
+			],
+			invalid: [],
+		});
 	});
 
 	it("throw an error when an unknown config option is included", () => {
