@@ -344,7 +344,8 @@ module.exports = defineConfig([
 			"expect-type": expectType,
 		},
 		rules: {
-			"expect-type/expect": "error",
+			// TODO: Re-enable once eslint-plugin-expect-type is compatible with ESLint 10.0.0 JSON Schema draft-07
+			"expect-type/expect": "off",
 		},
 	},
 	{
