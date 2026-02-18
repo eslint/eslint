@@ -99,7 +99,7 @@ The only real exception is if ESLint is completely unusable by most of the curre
 
 ## Major Releases
 
-This section describes additional tasks that should be done in eslint repositories and/or release infrastructure during a major release cycle. A major release cycle includes prereleases and the final release of a new major version of ESLint.
+This section describes additional tasks that should be done in eslint repositories and infrastructure during a major release cycle. A major release cycle includes prereleases and the final release of a new major version of ESLint.
 
 For simplicity, let v9.x be the current version, and v10.0.0 the new major version.
 
@@ -112,14 +112,14 @@ The following branches in the `eslint/eslint` repository are of importance for t
 
 ### First Prerelease
 
-Work on the first prerelease (`alpha.0`) starts when the last planned v9.x release is concluded:
+Work on the first prerelease (`alpha.0`) starts when the last planned v9.x release is concluded.
 
-- On Netlify, open the `docs-eslint` project, and under `Project Configuration > Build & Deploy > Continuous deployment` find `Dependency management`. Check if the configured version of Node.js satisfies requirements of the new major version of ESLint. If not, update it to a new version of Node.js.
+- On Netlify, open the `docs-eslint` project. Under `Project Configuration > Build & Deploy > Continuous deployment`, find `Dependency management`. Check if the configured version of Node.js satisfies requirements of the new major version of ESLint. If not, update it to a new version of Node.js.
 - On Jenkins, check if the installed version of Node.js satisfies requirements of the new major version of ESLint. If not, install a new version of Node.js.
 - In the `eslint/eslint.org` repository, submit a PR to set `upcomingVersionPrereleaseType = "alpha"` in `tools/release-data.js`. This is to announce the prerelease in the version list on the `https://eslint.org/` homepage. The PR can be merged as soon as it is approved.
 - In the `eslint/eslint.org` repository, submit a PR to enable `/docs/next/*` proxying in `src/static/redirects.njk`. The PR should be reviewed and approved in time, but merged right after ESLint 10.0.0-alpha.0 is released.
 - In the `eslint/eslint.org` repository, submit a PR to update the Current Release Lines table in `src/content/pages/version-support.md`: add v10.x with Status "Current" and First Release as the planned first prerelease date (also add `<br>(prerelease)` after the date); update v9.x status to "Maintenance". The PR should be reviewed and approved in time, but merged right after ESLint 10.0.0-alpha.0 is released.
-- In the `eslint/eslint` repository, submit a PR to add `legacy-peer-deps = true` in the `.npmrc` file. This is to ensure that `npm install` works in CI and locally for developers after the prerelease, because some dependencies (e.g., `@eslint-community/eslint-utils`) have `eslint` declared as a peer dependency with a range that prerelease versions like `10.0.0-alpha.0` don't satisfy. Additionally, add `--legacy-peer-deps` CLI flag to `npm install` commands for which the `.npmrc` file doesn't apply, like `npm install ../eslint` in `types-integration.yml`. The PR can be merged as soon as it is approved. Open an issue to track this and other temporary changes that should be reverted after the final release.
+- In the `eslint/eslint` repository, submit a PR to add `legacy-peer-deps = true` in the `.npmrc` file. This is to ensure that `npm install` works in CI and locally for developers after the prerelease, because some dependencies (e.g., `@eslint-community/eslint-utils`) have `eslint` declared as a peer dependency with a range that prerelease versions like `10.0.0-alpha.0` don't satisfy. Additionally, add `--legacy-peer-deps` CLI flag to `npm install` commands for which the `.npmrc` file doesn't apply, like `npm install ../eslint` in `types-integration.yml`. The PR can be merged as soon as it is approved.
 - In the `eslint/eslint` repository, submit a PR to update ranges for `@eslint/js` and `eslint` in `packages/eslint-config-eslint/package.json` to include v10 and its prereleases. This is to ensure that the corresponding version of `@eslint/js` is used when linting. The PR can be merged as soon as it is approved.
 - In the `eslint/eslint` repository, create an issue to track all temporary changes that should eventually be reverted or modified (e.g., to remove `legacy-peer-deps` settings when possible).
 
@@ -127,18 +127,18 @@ In this phase, we should also prepare infrastructure for v9.x maintenance:
 
 - In the `eslint/eslint` repository, create `v9.x-dev` branch that points to the latest release commit (e.g., to the `9.39.0` commit). On the Branches page, check if the branch is protected (it should already be, as its name matches a predefined pattern in branch protection rules).
 - In the `eslint/eslint` repository, submit a PR that adds `v9.x-dev` to the lists of branches that trigger CI checks in `.github/workflows/*` files. The PR should target the `v9.x-dev` branch and can be merged as soon as it is approved.
-- On Netlify, open the `docs-eslint` project, and under `Project Configuration > Build & Deploy > Continuous deployment` find `Branches and deploy contexts`. Add `v9.x-dev` to `Branch deploys`. This is to enable deploy previews on PRs that target the `v9.x-dev` branch. While there, check if the `next` branch is also included in `Branch deploys` (it should already be).
+- On Netlify, open the `docs-eslint` project. Under `Project Configuration > Build & Deploy > Continuous deployment`, find `Branches and deploy contexts`. Add `v9.x-dev` to `Branch deploys`. This is to enable deploy previews on PRs that target the `v9.x-dev` branch. While there, check if the `next` branch is also included in `Branch deploys` (it should already be).
 - On Jenkins, in configurations for the `eslint Release` and `eslint-js Release` jobs, add `v9.x-dev` to the list of choices for the `RELEASE_BRANCH` parameter.
 
 ### Subsequent Prereleases
 
-- When it is expected that the next planned prerelease will advance from `alpha` to `beta`, or from `beta` to `rc`, in the `eslint/eslint.org` repository submit a PR to update `upcomingVersionPrereleaseType` in `tools/release-data.js` accordingly. The PR can be merged as soon as it is approved.
+- When it is expected that the next planned prerelease will advance from `alpha` to `beta`, or from `beta` to `rc`, in the `eslint/eslint.org` repository submit a PR to update `upcomingVersionPrereleaseType` accordingly in `tools/release-data.js`. The PR can be merged as soon as it is approved.
 
 ### Final Release
 
-- When it is expected that the next planned release will be the final v10.0.0 release, in the `eslint/eslint.org` repository submit a PR to update `upcomingVersionPrereleaseType` in `tools/release-data.js` to `null`. The PR can be merged as soon as it is approved.
+- When it is expected that the next planned release will be the final v10.0.0 release, in the `eslint/eslint.org` repository submit a PR to update `upcomingVersionPrereleaseType` to `null` in `tools/release-data.js`. The PR can be merged as soon as it is approved.
 - In the `eslint/eslint` repository, create `v9.x` branch that points to the latest v9.x release commit (e.g., to the `9.39.0` commit).
-- On Netlify, open the `docs-eslint` project, and under `Project Configuration > Build & Deploy > Continuous deployment` find `Branches and deploy contexts`. Add `v9.x` to `Branch deploys`. To trigger the first production deploy for testing purposes, find `Build Hooks`, copy the URL and then run `curl -X POST -d '{}' <URL>?trigger_branch=v9.x` in your terminal (`<URL>` is the build hook URL).
+- On Netlify, open the `docs-eslint` project. Under `Project Configuration > Build & Deploy > Continuous deployment`, find `Branches and deploy contexts`. Add `v9.x` to `Branch deploys`. To trigger the first production deploy for testing purposes, find `Build Hooks`, copy the URL and then run `curl -X POST -d '{}' <URL>?trigger_branch=v9.x` in your terminal (`<URL>` is the build hook URL).
 - In the `eslint/eslint.org` repository, submit a PR to enable `/docs/v9.x/*` proxying in `src/static/redirects.njk`. The PR should be reviewed and approved in time, but merged right before ESLint 10.0.0 final is released.
 - In the `eslint/eslint.org` repository, submit a PR to redirect `/docs/next/*` and `/docs/v10.x/*` to `/docs/latest/*` in `src/static/redirects.njk`. The PR should be reviewed and approved in time, but merged right after ESLint 10.0.0 final is released.
 - In the `eslint/eslint.org` repository, submit a PR to update the Current Release Lines table in `src/content/pages/version-support.md`: update v10.x First Release date to the planned final ESLint v10.0.0 release date (also remove `<br>(prerelease)` after the date); set v9.x EOL Start date to the planned final ESLint v10.0.0 release date plus six months. The PR should be reviewed and approved in time, but merged right after ESLint 10.0.0 final is released.
