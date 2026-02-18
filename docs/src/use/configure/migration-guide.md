@@ -72,7 +72,7 @@ module.exports = {
 };
 ```
 
-In flat config, you would do the same thing like this:
+You would do the same thing like this:
 
 ```javascript
 // eslint.config.js
@@ -102,7 +102,7 @@ If you import a plugin and get an error such as "TypeError: context.getScope is 
 
 In eslintrc files, importing a custom parser is similar to importing a plugin: you use a string to specify the name of the parser.
 
-In flat config files, import a custom parser as a module, then assign it to the `languageOptions.parser` property of a configuration object.
+Import a custom parser as a module, then assign it to the `languageOptions.parser` property of a configuration object.
 
 For example, this eslintrc config file uses the `@babel/eslint-parser` parser:
 
@@ -116,7 +116,7 @@ module.exports = {
 };
 ```
 
-In flat config, you would do the same thing like this:
+You would do the same thing like this:
 
 ```javascript
 // eslint.config.js
@@ -137,7 +137,7 @@ export default defineConfig([
 
 ### Processors
 
-In flat config files, processors can be referenced from plugins by their name, or they can be inserted directly into the configuration. Processors must be explicitly set in the configuration.
+Processors can be referenced from plugins by their name, or they can be inserted directly into the configuration. Processors must be explicitly set in the configuration.
 
 As an example with a custom plugin with processors:
 
@@ -180,7 +180,7 @@ ESLint would also automatically add the equivalent of the following:
 }
 ```
 
-In flat config, the following are all valid ways to express the same:
+The following are all valid ways to express the same:
 
 ```javascript
 // eslint.config.js
@@ -310,7 +310,7 @@ export default defineConfig([
 
 In eslintrc files, you configure various language options across the `env`, `globals` and `parserOptions` properties. Groups of global variables for specific runtimes (e.g. `document` and `window` for browser JavaScript; `process` and `require` for Node.js) are configured with the `env` property.
 
-In flat config files, the `globals`, and `parserOptions` are consolidated under the `languageOptions` key; the `env` property doesn't exist. Groups of global variables for specific runtimes are imported from the [globals](https://www.npmjs.com/package/globals) npm package and included in the `globals` property. You can use the spread operator (`...`) to import multiple globals at once.
+The `globals`, and `parserOptions` are consolidated under the `languageOptions` key; the `env` property doesn't exist. Groups of global variables for specific runtimes are imported from the [globals](https://www.npmjs.com/package/globals) npm package and included in the `globals` property. You can use the spread operator (`...`) to import multiple globals at once.
 
 For example, here's an eslintrc file with language options:
 
@@ -428,7 +428,7 @@ In eslintrc files, use the `extends` property to use predefined and shareable co
 
 You can also use the `extends` property to extend a shareable config. Shareable configs can either be paths to local config files or npm package names.
 
-In flat config files, predefined configs are imported from separate modules into flat config files. The `recommended` and `all` rules configs are located in the [`@eslint/js`](https://www.npmjs.com/package/@eslint/js) package. You must import this package to use these configs:
+Predefined configs are imported from separate modules. The `recommended` and `all` rules configs are located in the [`@eslint/js`](https://www.npmjs.com/package/@eslint/js) package. You must import this package to use these configs:
 
 {{ npm_tabs({
     command: "install",
@@ -591,7 +591,7 @@ export default defineConfig([
 In `.eslintignore`, `temp.js` ignores all files named `temp.js`, whereas in flat config, you need to specify this as `**/temp.js`. The pattern `temp.js` in flat config only ignores a file named `temp.js` in the same directory as the configuration file.
 
 ::: important
-In flat config, dotfiles (e.g. `.dotfile.js`) are no longer ignored by default. If you want to ignore dotfiles, add an ignore pattern of `"**/.*"`.
+Dotfiles (e.g. `.dotfile.js`) are no longer ignored by default. If you want to ignore dotfiles, add an ignore pattern of `"**/.*"`.
 :::
 
 ### Linter Options
