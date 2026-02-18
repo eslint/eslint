@@ -46,14 +46,6 @@ Developing for ESLint is a bit different than running it on the command line. Th
 
 There are a lot of unit tests included with ESLint to make sure that we're keeping on top of code quality. This section explains how to run the unit tests.
 
-## [Package.json Conventions](package-json-conventions)
-
-If you need to make changes to a `package.json` file, we have specific conventions you should follow.
-
-## [Code Conventions](code-conventions)
-
-ESLint has specific code conventions that we follow.
-
 ## [Work on Issues](work-on-issue)
 
 Have some extra time and want to contribute? This section talks about the process of working on issues.
