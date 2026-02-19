@@ -151,7 +151,7 @@
 
 <body class="{{ hook }}">
     <a href="#main" class="c-btn c-btn--primary" id="skip-link">Skip to main content</a>
-
+    {% include 'partials/deprecation-notice.html' %}
     {{ content | safe }}
 
     <script src="{{ '/assets/js/css-vars-ponyfill@2.js' | url }}"></script>
