@@ -1,6 +1,6 @@
 {
   "name": "eslint",
-  "version": "10.0.0",
+  "version": "10.1.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "type": "commonjs",
@@ -116,7 +116,8 @@
     "@humanwhocodes/module-importer": "^1.0.1",
     "@humanwhocodes/retry": "^0.4.2",
     "@types/estree": "^1.0.6",
-    "ajv": "^6.12.4",
+    "ajv": "^8.18.0",
+    "ajv-draft-04": "^1.0.0",
     "cross-spawn": "^7.0.6",
     "debug": "^4.3.2",
     "escape-string-regexp": "^4.0.0",
