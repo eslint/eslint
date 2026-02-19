@@ -1,3 +1,23 @@
+v10.1.0 - <Date of Release>
+
+## Enhancements
+
+* Upgraded `ajv` from v6.12.4 to v8.18.0 for JSON schema validation
+
+## Bug Fixes
+
+* Fixed validation error messages to use correct property path (`instancePath` instead of deprecated `dataPath`)
+
+## Chore
+
+* Added `ajv-draft-04` v1.0.0 for backward compatibility with draft-04 JSON schemas
+
+## Breaking Changes
+
+* **Error message text changes**: Validation error messages now use "must" instead of "should" (e.g., "Value must be string" instead of "Value should be string"). This may affect tooling that parses ESLint error output, but does not affect ESLint's functional behavior or public API.
+
+---
+
 v10.0.0 - February 6, 2026
 
 * [`bff9091`](https://github.com/eslint/eslint/commit/bff9091927811497dbf066b0e3b85ecb37d43822) feat: handle `Array.fromAsync` in `array-callback-return` (#20457) (Francesco Trotta)
