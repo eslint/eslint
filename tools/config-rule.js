@@ -90,6 +90,8 @@ function groupByProperty(objects) {
 // Private
 //------------------------------------------------------------------------------
 
+/** @typedef {0 | 1 | 2} SeverityLevel */
+
 /**
  * Configuration settings for a rule.
  *
@@ -97,8 +99,7 @@ function groupByProperty(objects) {
  * element in the array is the severity, and is the only required element.
  * Configs may also have one or more additional elements to specify rule
  * configuration or options.
- * @typedef {Array|number} ruleConfig
- * @param {number} 0 The rule's severity (0, 1, 2).
+ * @typedef {SeverityLevel|[SeverityLevel, ...any[]]} ruleConfig
  */
 
 /**
