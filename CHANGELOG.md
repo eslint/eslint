@@ -1,3 +1,10 @@
+v9.39.3 - February 20, 2026
+
+* [`8594a43`](https://github.com/eslint/eslint/commit/8594a436c22a0167fe3c2c4109bbdb04e519a014) chore: upgrade @eslint/js@9.39.3 (#20529) (Milos Djermanovic)
+* [`9ceef92`](https://github.com/eslint/eslint/commit/9ceef92fbd3d1298d9a00483f86897834b88acac) chore: package.json update for @eslint/js release (Jenkins)
+* [`791bf8d`](https://github.com/eslint/eslint/commit/791bf8d7e76ce7ab8c88cb8982658823da4eff27) fix: restore TypeScript 4.0 compatibility in types (#20504) (sethamus)
+* [`af498c6`](https://github.com/eslint/eslint/commit/af498c63b9ca065223a425a85afabdcc8451e69b) chore: ignore `/docs/v9.x` in link checker (#20453) (Milos Djermanovic)
+
 v10.0.0 - February 6, 2026
 
 * [`bff9091`](https://github.com/eslint/eslint/commit/bff9091927811497dbf066b0e3b85ecb37d43822) feat: handle `Array.fromAsync` in `array-callback-return` (#20457) (Francesco Trotta)
