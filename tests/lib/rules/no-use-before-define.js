@@ -453,6 +453,39 @@ ruleTester.run("no-use-before-define", rule, {
 				parserOptions: { ecmaFeatures: { jsx: true } },
 			},
 		},
+
+		// allowDeferredReferences: false - direct function assignments are still valid
+		{
+			code: "const x = () => x;",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const x = function() { return x; };",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "var foo = function() { foo(); };",
+			options: [{ allowDeferredReferences: false }],
+		},
+		{
+			code: "const x = () => { const y = () => x; };",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+
+		// allowDeferredReferences: true (default) - all deferred references allowed
+		{
+			code: "const a = foo(() => a);",
+			options: [{ allowDeferredReferences: true }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const a = [() => a];",
+			options: [{ allowDeferredReferences: true }],
+			languageOptions: { ecmaVersion: 6 },
+		},
 	],
 	invalid: [
 		{
@@ -3260,6 +3293,95 @@ type StringOrNumber = string | number;
 			errors: [
 				{
 					data: { name: "C" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+
+		// allowDeferredReferences: false - functions as call arguments
+		{
+			code: "const a = foo(() => a);",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: "const a = TestFunction(arr, (T) => { console.log(a); return T; });",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+
+		// allowDeferredReferences: false - functions in arrays
+		{
+			code: "const a = [() => a];",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+
+		// allowDeferredReferences: false - functions in object literals
+		{
+			code: "const a = { f: () => a };",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+
+		// allowDeferredReferences: false - IIFE
+		{
+			code: "const a = (() => a)();",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+
+		// allowDeferredReferences: false - new expression
+		{
+			code: "const a = new Foo(() => a);",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+
+		// allowDeferredReferences: false - function expression as argument
+		{
+			code: "const a = foo(function() { return a; });",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					data: { name: "a" },
 					messageId: "usedBeforeDefined",
 				},
 			],
