@@ -29,6 +29,7 @@ The lists below are ordered roughly by the number of users each change is expect
 - [`func-names` schema is stricter](#func-names)
 - [`allowConstructorFlags` option of `no-invalid-regexp` now accepts only unique items](#no-invalid-regexp)
 - [`name` property added to ESLint core configs](#eslint-config-name)
+- [`@eslint/js` is no longer a direct dependency](#eslint-js-removal)
 
 ### Breaking changes for plugin developers
 
@@ -263,6 +264,15 @@ This change should not require any action for most users. However, if you are us
 **To address:** Upgrade `@eslint/eslintrc` to the latest version if you are using `FlatCompat`.
 
 **Related issue(s):** [#19864](https://github.com/eslint/eslint/issues/19864)
+
+## <a name="eslint-js-removal"></a> `@eslint/js` no longer a direct dependency
+
+The removal of eslintrc also removes the `@eslint/js` dependency from the "eslint" package.
+As such `@eslint/js` must now be explicitly added to your `package.json` if you import one of its configurations.
+
+**To address:** Explicitly add the `@eslint/js` dependency when using it in your `eslint.config.js`.
+
+**Related issue(s):** [#19864](https://github.com/eslint/eslint/issues/20037)
 
 ## <a name="ruletester-type-removed"></a> Removal of `type` property in errors of invalid `RuleTester` cases
 
