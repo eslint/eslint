@@ -1,3 +1,27 @@
+v10.0.1 - February 20, 2026
+
+* [`c87d5bd`](https://github.com/eslint/eslint/commit/c87d5bded54c5cf491eb04c24c9d09bbbd42c23e) fix: update eslint (#20531) (renovate[bot])
+* [`e5c281f`](https://github.com/eslint/eslint/commit/e5c281ffd038a3a7a3e5364db0b9378e0ad83020) chore: updates for v9.39.3 release (Jenkins)
+* [`d841001`](https://github.com/eslint/eslint/commit/d84100115c14691691058f00779c94e74fca946a) fix: update `minimatch` to `10.2.1` to address security vulnerabilities (#20519) (루밀LuMir)
+* [`8c3832a`](https://github.com/eslint/eslint/commit/8c3832adb77cd993b4a24891900d5eeaaf093cdc) chore: update @typescript-eslint/parser to ^8.56.0 (#20514) (Milos Djermanovic)
+* [`5b3dbce`](https://github.com/eslint/eslint/commit/5b3dbce50a1404a9f118afe810cefeee79388a2a) docs: add AI acknowledgement section to templates (#20431) (루밀LuMir)
+* [`04c2147`](https://github.com/eslint/eslint/commit/04c21475b3004904948f02049f2888b401d82c78) fix: update error message for unused suppressions (#20496) (fnx)
+* [`8330d23`](https://github.com/eslint/eslint/commit/8330d238ae6adb68bb6a1c9381e38cfedd990d94) test: add tests for config-api (#20493) (Milos Djermanovic)
+* [`37d6e91`](https://github.com/eslint/eslint/commit/37d6e91e88fa6a2ca6d8726679096acff21ba6cc) chore: remove eslint v10 prereleases from eslint-config-eslint deps (#20494) (Milos Djermanovic)
+* [`da7cd0e`](https://github.com/eslint/eslint/commit/da7cd0e79197ad16e17052eef99df141de6dbfb1) refactor: cleanup error message templates (#20479) (Francesco Trotta)
+* [`6f23076`](https://github.com/eslint/eslint/commit/6f23076037d5879f20fb3be2ef094293b1e8d38c) docs: toggle nav in no-JS mode (#20476) (Tanuj Kanti)
+* [`b69cfb3`](https://github.com/eslint/eslint/commit/b69cfb32a16c5d5e9986390d484fae1d21e406f9) docs: Update README (GitHub Actions Bot)
+* [`38b089c`](https://github.com/eslint/eslint/commit/38b089c1726feac0e31a31d47941bd99e29ce003) fix: update dependency @eslint/config-array to ^0.23.1 (#20484) (renovate[bot])
+* [`84fb885`](https://github.com/eslint/eslint/commit/84fb885d49ac810e79a9491276b4828b53d913e5) chore: package.json update for @eslint/js release (Jenkins)
+* [`1f66734`](https://github.com/eslint/eslint/commit/1f667344b57c4c09b548d94bcfac1f91b6e5c63d) chore: add `eslint` to `peerDependencies` of `@eslint/js` (#20467) (Milos Djermanovic)
+
+v9.39.3 - February 20, 2026
+
+* [`8594a43`](https://github.com/eslint/eslint/commit/8594a436c22a0167fe3c2c4109bbdb04e519a014) chore: upgrade @eslint/js@9.39.3 (#20529) (Milos Djermanovic)
+* [`9ceef92`](https://github.com/eslint/eslint/commit/9ceef92fbd3d1298d9a00483f86897834b88acac) chore: package.json update for @eslint/js release (Jenkins)
+* [`791bf8d`](https://github.com/eslint/eslint/commit/791bf8d7e76ce7ab8c88cb8982658823da4eff27) fix: restore TypeScript 4.0 compatibility in types (#20504) (sethamus)
+* [`af498c6`](https://github.com/eslint/eslint/commit/af498c63b9ca065223a425a85afabdcc8451e69b) chore: ignore `/docs/v9.x` in link checker (#20453) (Milos Djermanovic)
+
 v10.0.0 - February 6, 2026
 
 * [`bff9091`](https://github.com/eslint/eslint/commit/bff9091927811497dbf066b0e3b85ecb37d43822) feat: handle `Array.fromAsync` in `array-callback-return` (#20457) (Francesco Trotta)
