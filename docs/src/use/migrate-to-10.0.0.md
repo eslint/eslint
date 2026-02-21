@@ -290,7 +290,7 @@ Starting with ESLint v10.0.0, `Program.range` covers the entire source text, inc
 
 **To address:**
 
-- For rule and plugin authors: If your code depends on the previous `Program.range` behavior, or on `SourceCode` methods that assume it (such as `sourceCode.getCommentsBefore(programNode)` to retrieve all leading comments), update your logic.
+- For rule and plugin authors: If your code depends on the previous `Program.range` behavior, or on `SourceCode` methods that assume it (such as `sourceCode.getCommentsBefore(programNode)` to retrieve all leading comments), update your logic. If your code reports on the `Program` node, update your logic to report on the first statement within the `Program` node, i.e. `node.body[0] ?? node`, to ensure the directive `/* eslint-disable your-rule */` can still work.
 - For custom parsers: Set `Program.range` to cover the full source text (typically `[0, code.length]`).
 
 **Related issue(s):** [eslint/js#648](https://github.com/eslint/js/issues/648)
