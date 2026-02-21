@@ -2,9 +2,9 @@
     { "sourceType": "commonjs" }
 */
 /*expected
-initial->s1_1->s1_3->s1_4->s1_7->s1_8->s1_9;
-s1_1->s1_5->s1_6->s1_7->s1_9;
-s1_1->s1_8;
+initial->s1_1->s1_3->s1_4->s1_7->s1_9;
+s1_1->s1_5->s1_6->s1_7;
+s1_1->s1_8->s1_9;
 s1_5->s1_8;
 s1_3->final;
 s1_9->final;
@@ -35,9 +35,9 @@ digraph {
     s1_9[label="ExpressionStatement\nCallExpression\nIdentifier (foo)"];
     s1_5[label="BlockStatement\nThrowStatement\nIdentifier (b)"];
     s1_6[style="rounded,dashed,filled",fillcolor="#FF9800",label="<<unreachable>>\nBlockStatement:exit"];
-    initial->s1_1->s1_3->s1_4->s1_7->s1_8->s1_9;
-    s1_1->s1_5->s1_6->s1_7->s1_9;
-    s1_1->s1_8;
+    initial->s1_1->s1_3->s1_4->s1_7->s1_9;
+    s1_1->s1_5->s1_6->s1_7;
+    s1_1->s1_8->s1_9;
     s1_5->s1_8;
     s1_3->final;
     s1_9->final;

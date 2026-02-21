@@ -2,10 +2,8 @@
     { "sourceType": "commonjs" }
 */
 /*expected
-initial->s1_1->s1_2->s1_3->s1_5;
-s1_1->s1_6;
-s1_2->s1_5;
-s1_3->s1_6->final;
+initial->s1_1->s1_2->s1_5;
+s1_1->s1_6->final;
 */
 
 try {
@@ -28,9 +26,7 @@ digraph {
     s1_3[style="rounded,dashed,filled",fillcolor="#FF9800",label="<<unreachable>>\nCatchClause\nIdentifier (err)\nBlockStatement\nExpressionStatement\nCallExpression\nIdentifier (foo)"];
     s1_5[style="rounded,dashed,filled",fillcolor="#FF9800",label="<<unreachable>>\nBlockStatement\nExpressionStatement\nCallExpression\nIdentifier (bar)\nExpressionStatement\nCallExpression\nIdentifier (last)"];
     s1_6[label="BlockStatement\nExpressionStatement\nCallExpression\nIdentifier (bar)"];
-    initial->s1_1->s1_2->s1_3->s1_5;
-    s1_1->s1_6;
-    s1_2->s1_5;
-    s1_3->s1_6->final;
+    initial->s1_1->s1_2->s1_5;
+    s1_1->s1_6->final;
 }
 */
