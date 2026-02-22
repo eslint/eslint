@@ -1066,7 +1066,7 @@ ESLint makes its best attempt at applying all fixes, but there is no guarantee t
 
 ### Testing invalid rule options and rule exceptions (fatal)
 
-You can test that invalid rule options are rejected (schema validation) and that the rule throws expected exceptions, by passing an optional `fatal` array to `RuleTester#run()`. Each fatal test case is an object with:
+You can test that invalid rule options are rejected (schema validation) and that the rule throws expected exceptions, by passing an optional `fatal` array to `RuleTester#run()`. Each fatal test case is an object with the following properties:
 
 - `name` (string, optional): The name to use for the test case.
 - `code` (string, optional): The source code to run. If omitted, an empty string is used.
@@ -1076,8 +1076,10 @@ You can test that invalid rule options are rejected (schema validation) and that
     - `name` (string): The expected error name (e.g. `"SchemaValidationError"` for schema validation failures).
 - `before` (function, optional): Function to execute before testing the case.
 - `after` (function, optional): Function to execute after testing the case regardless of its result.
+- `filename` (string, optional): The filename for the given case (useful for rules that make assertions about filenames).
 - `only` (boolean, optional): Run this case exclusively for debugging in supported test frameworks.
 
+Any additional properties of a test case will be passed directly to the linter as config options. For example, a test case can have a `languageOptions` property.
 Example: testing that the rule schema rejects invalid options and that the rule throws for a specific option:
 
 ```js
