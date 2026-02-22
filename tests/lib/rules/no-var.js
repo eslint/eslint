@@ -247,6 +247,14 @@ ruleTester.run("no-var", rule, {
 			errors: [{ messageId: "unexpectedVar" }],
 		},
 
+		// https://github.com/eslint/eslint/issues/20209
+		{
+			code: "export function a() { console.log(o); var o; return o; }",
+			output: null,
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+			errors: [{ messageId: "unexpectedVar" }],
+		},
+
 		// https://github.com/eslint/eslint/issues/7950
 		{
 			code: "var a = a",
