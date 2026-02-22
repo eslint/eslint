@@ -119,7 +119,7 @@ jobs:
               run: node Makefile fuzz
 
     test_types:
-        name: Test Types of ${{ matrix.package.name }}
+        name: Test Types (TypeScript ${{ matrix.typescript }}) of ${{ matrix.package.name }}
         runs-on: ubuntu-latest
 
         strategy:
