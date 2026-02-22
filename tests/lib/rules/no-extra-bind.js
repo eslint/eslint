@@ -254,4 +254,11 @@ ruleTester.run("no-extra-bind", rule, {
 			errors: [{ messageId: "unexpected" }],
 		},
 	],
+	fatal: [
+		{
+			name: "options provided when schema allows none",
+			options: [1],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });

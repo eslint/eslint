@@ -229,4 +229,11 @@ ruleTester.run("max-depth", rule, {
 			],
 		},
 	],
+	fatal: [
+		{
+			name: "first option wrong type (string)",
+			options: ["invalid"],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });

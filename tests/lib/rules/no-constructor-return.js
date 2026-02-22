@@ -63,4 +63,11 @@ ruleTester.run("no-constructor-return", rule, {
 			errors,
 		},
 	],
+	fatal: [
+		{
+			name: "options provided when schema allows none",
+			options: [1],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });

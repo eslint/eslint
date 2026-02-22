@@ -71,4 +71,11 @@ ruleTester.run("no-new-native-nonconstructor", rule, {
 			],
 		},
 	],
+	fatal: [
+		{
+			name: "options provided when schema allows none",
+			options: [1],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });

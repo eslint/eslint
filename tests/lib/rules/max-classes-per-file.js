@@ -136,4 +136,11 @@ ruleTester.run("max-classes-per-file", rule, {
 			],
 		},
 	],
+	fatal: [
+		{
+			name: "first option wrong type (string)",
+			options: ["invalid"],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });

@@ -175,4 +175,11 @@ ruleTester.run("no-multi-assign", rule, {
 			errors: [errorAt(1, 19)],
 		},
 	],
+	fatal: [
+		{
+			name: "first option wrong type (number)",
+			options: [123],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });

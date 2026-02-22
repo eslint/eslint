@@ -151,4 +151,11 @@ ruleTester.run("no-unused-labels", rule, {
 		 * "A: { A: { break A; } }"
 		 */
 	],
+	fatal: [
+		{
+			name: "options provided when schema allows none",
+			options: [1],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });

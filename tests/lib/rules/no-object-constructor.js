@@ -403,4 +403,11 @@ ruleTester.run("no-object-constructor", rule, {
 			],
 		})),
 	],
+	fatal: [
+		{
+			name: "options provided when schema allows none",
+			options: [1],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });
