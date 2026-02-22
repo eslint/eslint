@@ -476,6 +476,18 @@ ruleTester.run("no-var", rule, {
 			errors: [{ messageId: "unexpectedVar" }],
 		},
 		{
+			code: "function a() { if (something) { console.log(o); } var o; return o; }",
+			output: null,
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [{ messageId: "unexpectedVar" }],
+		},
+		{
+			code: "function b() { if (something) { console.log(o); var o; return o; } }",
+			output: null,
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [{ messageId: "unexpectedVar" }],
+		},
+		{
 			code: "function test() { var y = x; var x = 1; }",
 			output: "function test() { let y = x; var x = 1; }",
 			languageOptions: { ecmaVersion: 6, sourceType: "module" },
