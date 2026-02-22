@@ -1,7 +1,8 @@
 code[class*="language-"],
 pre[class*="language-"] {
-	font-family: var(--mono-font), Consolas, Monaco, "Andale Mono",
-		"Ubuntu Mono", monospace;
+	font-family:
+		var(--mono-font), Consolas, Monaco, "Andale Mono", "Ubuntu Mono",
+		monospace;
 	font-size: 1em;
 	text-align: left;
 	white-space: pre;
@@ -137,8 +138,9 @@ pre[class*="language-"] {
 	text-align: right;
 	padding-top: 1.5rem;
 	font-size: 1em;
-	font-family: var(--mono-font), Consolas, Monaco, "Andale Mono",
-		"Ubuntu Mono", monospace;
+	font-family:
+		var(--mono-font), Consolas, Monaco, "Andale Mono", "Ubuntu Mono",
+		monospace;
 	line-height: 1.5;
 	color: var(--icon-color);
 	font-variant-ligatures: none;

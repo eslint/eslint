@@ -9,38 +9,38 @@ permissions:
     contents: read
 
 jobs:
-    webpack_plugin:
-        if: false # Temporarily disabled until @typescript-eslint/parser is updated
-        name: Types (eslint-webpack-plugin)
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout eslint
-              uses: actions/checkout@v6
-              with:
-                  path: eslint
+    # Temporarily disabled until @typescript-eslint/parser is updated.
+    # webpack_plugin:
+    #     name: Types (eslint-webpack-plugin)
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #         - name: Checkout eslint
+    #           uses: actions/checkout@v6
+    #           with:
+    #               path: eslint
 
-            - name: Checkout eslint-webpack-plugin
-              uses: actions/checkout@v6
-              with:
-                  repository: webpack-contrib/eslint-webpack-plugin
-                  path: webpack
+    #         - name: Checkout eslint-webpack-plugin
+    #           uses: actions/checkout@v6
+    #           with:
+    #               repository: webpack-contrib/eslint-webpack-plugin
+    #               path: webpack
 
-            - uses: actions/setup-node@v6
-              with:
-                  node-version: "lts/*"
+    #         - uses: actions/setup-node@v6
+    #           with:
+    #               node-version: "lts/*"
 
-            - name: Install Packages (eslint)
-              working-directory: eslint
-              run: npm install
+    #         - name: Install Packages (eslint)
+    #           working-directory: eslint
+    #           run: npm install
 
-            - name: Install Packages (eslint-webpack-plugin)
-              working-directory: webpack
-              run: |
-                  npm install --no-package-lock --legacy-peer-deps ../eslint
+    #         - name: Install Packages (eslint-webpack-plugin)
+    #           working-directory: webpack
+    #           run: |
+    #               npm install --no-package-lock --legacy-peer-deps ../eslint
 
-            - name: Run TSC
-              working-directory: webpack
-              run: npm run lint:types
+    #         - name: Run TSC
+    #           working-directory: webpack
+    #           run: npm run lint:types
 
     neostandard:
         name: Types (neostandard)

@@ -28,7 +28,7 @@
         "c8",
         // Optional peer dependency used for loading TypeScript configuration files
         "jiti",
-        "prettier",
+        "markdownlint",
       ],
     },
     "docs": {

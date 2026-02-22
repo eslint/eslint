@@ -63,7 +63,8 @@ const MAIN_GIT_BRANCH = "main";
 // Data
 //------------------------------------------------------------------------------
 
-const NODE_MODULES = "./node_modules/",
+const NODE = "node ", // intentional extra space
+	NODE_MODULES = "./node_modules/",
 	TEMP_DIR = "./tmp/",
 	DEBUG_DIR = "./debug/",
 	BUILD_DIR = "build",
@@ -73,6 +74,7 @@ const NODE_MODULES = "./node_modules/",
 	DOCS_DATA_DIR = path.join(DOCS_SRC_DIR, "_data"),
 	PERF_TMP_DIR = path.join(TEMP_DIR, "eslint", "performance"),
 	// Utilities - intentional extra space at the end of each string
+	ESLINT = `${NODE}bin/eslint.js `,
 	MOCHA = `${NODE_MODULES}mocha/bin/_mocha `,
 	// Files
 	RULE_FILES = glob
@@ -529,6 +531,46 @@ function getBinFile(command) {
 //------------------------------------------------------------------------------
 // Tasks
 //------------------------------------------------------------------------------
+
+target.lint = function ([fix = false] = []) {
+	let errors = 0,
+		lastReturn;
+
+	echo("Validating JavaScript files");
+	lastReturn = exec(
+		`${ESLINT}${fix ? "--fix" : ""} --ignore-pattern "docs/**"`,
+	);
+	if (lastReturn.code !== 0) {
+		errors++;
+	}
+
+	echo("Validating Markdown Files");
+	lastReturn = exec(
+		`${getBinFile("markdownlint-cli2")} ${fix ? "--fix" : ""} "docs/src/**/*.md"`,
+	);
+	if (lastReturn.code !== 0) {
+		errors++;
+	}
+
+	if (errors) {
+		exit(1);
+	}
+};
+
+target.lintDocsJS = function ([fix = false] = []) {
+	let errors = 0;
+
+	echo("Validating JavaScript files in the docs directory");
+	const lastReturn = exec(`${ESLINT}${fix ? "--fix" : ""} docs`);
+
+	if (lastReturn.code !== 0) {
+		errors++;
+	}
+
+	if (errors) {
+		exit(1);
+	}
+};
 
 target.fuzz = function ({ amount = 1000, fuzzBrokenAutofixes = false } = {}) {
 	const { run } = require("./tools/fuzzer-runner");

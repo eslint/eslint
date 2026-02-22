@@ -50,8 +50,8 @@
 			(var(--fc-2xs-max) - var(--fc-2xs-min)) * var(--fluid-bp)
 	);
 	--space-xs: calc(
-		((var(--fc-xs-min) / 16) * 1rem) + (var(--fc-xs-max) - var(--fc-xs-min)) *
-			var(--fluid-bp)
+		((var(--fc-xs-min) / 16) * 1rem) +
+			(var(--fc-xs-max) - var(--fc-xs-min)) * var(--fluid-bp)
 	);
 	--space-s: calc(
 		((var(--fc-s-min) / 16) * 1rem) + (var(--fc-s-max) - var(--fc-s-min)) *
@@ -66,8 +66,8 @@
 			var(--fluid-bp)
 	);
 	--space-xl: calc(
-		((var(--fc-xl-min) / 16) * 1rem) + (var(--fc-xl-max) - var(--fc-xl-min)) *
-			var(--fluid-bp)
+		((var(--fc-xl-min) / 16) * 1rem) +
+			(var(--fc-xl-max) - var(--fc-xl-min)) * var(--fluid-bp)
 	);
 	--space-2xl: calc(
 		((var(--fc-2xl-min) / 16) * 1rem) +
@@ -92,8 +92,8 @@
 			(var(--fc-xs-max) - var(--fc-2xs-min)) * var(--fluid-bp)
 	);
 	--space-xs-s: calc(
-		((var(--fc-xs-min) / 16) * 1rem) + (var(--fc-s-max) - var(--fc-xs-min)) *
-			var(--fluid-bp)
+		((var(--fc-xs-min) / 16) * 1rem) +
+			(var(--fc-s-max) - var(--fc-xs-min)) * var(--fluid-bp)
 	);
 	--space-s-m: calc(
 		((var(--fc-s-min) / 16) * 1rem) + (var(--fc-m-max) - var(--fc-s-min)) *
@@ -122,8 +122,8 @@
 
 	/* Custom pairs */
 	--space-l-2xl: calc(
-		((var(--fc-l-min) / 16) * 1rem) + (var(--fc-2xl-max) - var(--fc-l-min)) *
-			var(--fluid-bp)
+		((var(--fc-l-min) / 16) * 1rem) +
+			(var(--fc-2xl-max) - var(--fc-l-min)) * var(--fluid-bp)
 	);
 	--space-xl-3xl: calc(
 		((var(--fc-xl-min) / 16) * 1rem) +
@@ -134,8 +134,8 @@
 			(var(--fc-4xl-max) - var(--fc-xl-min)) * var(--fluid-bp)
 	);
 	--space-l-3xl: calc(
-		((var(--fc-l-min) / 16) * 1rem) + (var(--fc-3xl-max) - var(--fc-l-min)) *
-			var(--fluid-bp)
+		((var(--fc-l-min) / 16) * 1rem) +
+			(var(--fc-3xl-max) - var(--fc-l-min)) * var(--fluid-bp)
 	);
 	--space-s-l: calc(
 		((var(--fc-s-min) / 16) * 1rem) + (var(--fc-l-max) - var(--fc-s-min)) *
