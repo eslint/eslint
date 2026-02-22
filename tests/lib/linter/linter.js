@@ -4464,6 +4464,37 @@ describe("Linter with FlatConfigArray", () => {
 						assert.strictEqual(suppressedMessages.length, 0);
 					});
 
+					it("should report a violation when a regex literal option violates a rule's schema", () => {
+						const messages = linter.verify(
+							"/* eslint no-restricted-imports: [error, /fs/] */\nimport fs from 'fs';",
+							{
+								languageOptions: {
+									ecmaVersion: 2022,
+									sourceType: "module",
+								},
+							},
+						);
+						const suppressedMessages =
+							linter.getSuppressedMessages();
+
+						assert.strictEqual(messages.length, 1);
+						assert.strictEqual(messages[0].severity, 2);
+						assert.strictEqual(
+							messages[0].ruleId,
+							"no-restricted-imports",
+						);
+						assert.match(
+							messages[0].message,
+							/Inline configuration for rule "no-restricted-imports" is invalid:/u,
+						);
+						assert.match(
+							messages[0].message,
+							/should NOT have fewer than 1 properties/u,
+						);
+
+						assert.strictEqual(suppressedMessages.length, 0);
+					});
+
 					it("should apply valid configuration even if there is an invalid configuration present", () => {
 						const code = [
 							"/* eslint no-unused-vars: [ */ // <-- this one is invalid JSON",
