@@ -1216,6 +1216,9 @@ export namespace ESLint {
 	interface Options {
 		// File enumeration
 
+		/** The directory that contains the files to lint. Defaults to the current working directory. */
+		basePath?: string | undefined;
+
 		/** The value to use for the current working directory. */
 		cwd?: string | undefined;
 
