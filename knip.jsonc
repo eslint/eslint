@@ -6,7 +6,7 @@
       "project": ["{bin,conf,lib,tools}/**/*.js"],
       "mocha": {
         "entry": [
-          "tests/{bin,conf,lib,tools}/**/*.js", // see Makefile.js
+          "tests/{bin,conf,lib,messages,tools}/**/*.js", // see Makefile.js
         ],
         "project": ["tests/**/*.js"],
       },
@@ -40,6 +40,5 @@
       "ignore": ["tests/types/**"],
       "ignoreDependencies": ["eslint"],
     },
-    "tools/typescript-eslint-parser": {},
   },
 }
