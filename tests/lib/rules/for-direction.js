@@ -182,6 +182,14 @@ ruleTester.run("for-direction", rule, {
 				},
 			],
 		},
+		{
+			code: "for(var i = 0; i < 0; i++){}",
+			errors: [incorrectDirection],
+		},
+		{
+			code: "for(var i = 0; 0 > i; i++){}",
+			errors: [incorrectDirection],
+		},
 
 		// test if '+=', '-='
 		{
