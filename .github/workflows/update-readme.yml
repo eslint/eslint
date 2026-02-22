@@ -4,6 +4,8 @@ on:
     schedule:
         - cron: "0 8 * * *" # Every day at 1am PDT
 
+permissions: {}
+
 jobs:
     build:
         runs-on: ubuntu-latest
