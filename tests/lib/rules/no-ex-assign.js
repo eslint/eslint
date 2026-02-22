@@ -75,7 +75,6 @@ ruleTester.run("no-ex-assign", rule, {
 	fatal: [
 		{
 			name: "options provided when schema allows none",
-			code: "var x = 1;",
 			options: [1],
 			error: { name: "SchemaValidationError" },
 		},

@@ -409,13 +409,11 @@ ruleTester.run("radix", rule, {
 	fatal: [
 		{
 			name: "first option wrong type (number)",
-			code: "var x = 1;",
 			options: [123],
 			error: { name: "SchemaValidationError" },
 		},
 		{
 			name: "invalid enum value for first option",
-			code: "parseInt(42);",
 			options: ["never"],
 			error: { name: "SchemaValidationError" },
 		},

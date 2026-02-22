@@ -3549,25 +3549,21 @@ ruleTesterTypeScript.run("accessor-pairs", rule, {
 	fatal: [
 		{
 			name: "first option not object (number)",
-			code: "var o = { get a() {} };",
 			options: [123],
 			error: { name: "SchemaValidationError" },
 		},
 		{
 			name: "first option not object (string)",
-			code: "var o = { get a() {} };",
 			options: ["always"],
 			error: { name: "SchemaValidationError" },
 		},
 		{
 			name: "object with additional properties",
-			code: "var o = { get a() {} };",
 			options: [{ getWithoutSet: true, unknownProp: true }],
 			error: { name: "SchemaValidationError" },
 		},
 		{
 			name: "property wrong type (string instead of boolean)",
-			code: "var o = { get a() {} };",
 			options: [{ getWithoutSet: "true" }],
 			error: { name: "SchemaValidationError" },
 		},
