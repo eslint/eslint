@@ -1,7 +1,7 @@
 {
     "name": "docs-eslint",
     "private": true,
-    "version": "10.0.0-rc.2",
+    "version": "10.0.1",
     "description": "",
     "keywords": [],
     "author": "",
@@ -30,7 +30,7 @@
         "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.0",
         "@munter/tap-render": "^0.2.0",
         "@types/markdown-it": "^12.2.3",
-        "@typescript-eslint/parser": "^8.54.0",
+        "@typescript-eslint/parser": "^8.56.0",
         "algoliasearch": "^4.12.1",
         "autoprefixer": "^10.4.13",
         "cross-env": "^7.0.3",

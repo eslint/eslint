@@ -80,7 +80,7 @@ const NODE = "node ", // intentional extra space
 	RULE_FILES = glob
 		.sync("lib/rules/*.js")
 		.filter(filePath => path.basename(filePath) !== "index.js"),
-	TEST_FILES = '"tests/{bin,conf,lib,tools}/**/*.js"',
+	TEST_FILES = '"tests/{bin,conf,lib,messages,tools}/**/*.js"',
 	PERF_ESLINT_CONFIG = path.join(PERF_TMP_DIR, "eslint.config.js"),
 	PERF_MULTIFILES_TARGET_DIR = path.join(PERF_TMP_DIR, "eslint"),
 	CHANGELOG_FILE = "./CHANGELOG.md",
