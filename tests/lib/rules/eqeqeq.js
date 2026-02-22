@@ -715,13 +715,11 @@ ruleTester.run("eqeqeq", rule, {
 	fatal: [
 		{
 			name: "first option wrong type (number)",
-			code: "var x = 1;",
 			options: [123],
 			error: { name: "SchemaValidationError" },
 		},
 		{
 			name: "invalid enum value for first option",
-			code: "var x = 1;",
 			options: ["sometimes"],
 			error: { name: "SchemaValidationError" },
 		},

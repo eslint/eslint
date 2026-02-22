@@ -614,7 +614,6 @@ ruleTester.run("no-useless-return", rule, {
 	fatal: [
 		{
 			name: "first option wrong type (number)",
-			code: "function foo() { return; }",
 			options: [123],
 			error: { name: "SchemaValidationError" },
 		},
