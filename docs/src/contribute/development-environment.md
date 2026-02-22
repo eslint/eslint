@@ -4,7 +4,7 @@ eleventyNavigation:
     key: development environment
     parent: contribute to eslint
     title: Set up a Development Environment
-    order: 6
+    order: 7
 ---
 
 {%- from 'components/npm_tabs.macro.html' import npm_tabs with context %}
