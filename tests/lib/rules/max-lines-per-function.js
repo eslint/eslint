@@ -758,7 +758,6 @@ if ( x === y ) {
 	fatal: [
 		{
 			name: "first option wrong type (string)",
-			code: "var x = 1;",
 			options: ["invalid"],
 			error: { name: "SchemaValidationError" },
 		},
