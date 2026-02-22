@@ -47,6 +47,8 @@ The source file for a rule exports an object with the following properties. Both
     - `"suggestion"`: The rule is identifying something that could be done in a better way but no errors will occur if the code isn't changed.
     - `"layout"`: The rule cares primarily about whitespace, semicolons, commas, and parentheses, all the parts of the program that determine how the code looks rather than how it executes. These rules work on parts of the code that aren't specified in the AST.
 
+    The type of rule can be used with the CLI option [`--fix-type`](../use/command-line-interface#--fix-type) to specify the type of fixes to apply.
+
 - `docs`: (`object`) Properties often used for documentation generation and tooling. Required for core rules and optional for custom rules. Custom rules can include additional properties here as needed.
 
     - `description`: (`string`) Provides a short description of the rule. For core rules, this is used in [rules index](../rules/).
