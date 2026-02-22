@@ -119,11 +119,12 @@ jobs:
               run: node Makefile fuzz
 
     test_types:
-        name: Test Types of ${{ matrix.package.name }}
+        name: Test Types (TypeScript ${{ matrix.typescript }}) of ${{ matrix.package.name }}
         runs-on: ubuntu-latest
 
         strategy:
             matrix:
+                typescript: ["5.x", "5.3.2"]
                 package:
                     [
                         { name: eslint, directory: . },
@@ -145,6 +146,10 @@ jobs:
             - name: Install Packages for ${{ matrix.package.name }}
               working-directory: ${{ matrix.package.directory }}
               run: npm install --legacy-peer-deps
+
+            - name: Install TypeScript ${{ matrix.typescript }}
+              working-directory: ${{ matrix.package.directory }}
+              run: npm install --legacy-peer-deps --no-save typescript@${{ matrix.typescript }}
 
             - name: Test types for ${{ matrix.package.name }}
               working-directory: ${{ matrix.package.directory }}
