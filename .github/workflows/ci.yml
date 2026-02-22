@@ -124,6 +124,7 @@ jobs:
 
         strategy:
             matrix:
+                typescript: ["5.x", "5.3.2"]
                 package:
                     [
                         { name: eslint, directory: . },
@@ -145,6 +146,10 @@ jobs:
             - name: Install Packages for ${{ matrix.package.name }}
               working-directory: ${{ matrix.package.directory }}
               run: npm install --legacy-peer-deps
+
+            - name: Install TypeScript ${{ matrix.typescript }}
+              working-directory: ${{ matrix.package.directory }}
+              run: npm install --no-save typescript@${{ matrix.typescript }}
 
             - name: Test types for ${{ matrix.package.name }}
               working-directory: ${{ matrix.package.directory }}
