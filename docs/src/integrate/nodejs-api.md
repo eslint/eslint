@@ -1101,7 +1101,6 @@ ruleTester.run("my-rule", rule, {
 			options: ["throw"],
 			error: {
 				message: "Intentional throw for testing",
-				name: "CustomRuleError",
 			},
 		},
 	],
