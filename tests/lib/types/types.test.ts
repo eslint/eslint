@@ -1493,6 +1493,7 @@ linterWithEslintrcConfig.verify(
 	eslint = new ESLint();
 	eslint = new ESLint({ allowInlineConfig: false });
 	eslint = new ESLint({ baseConfig: {} });
+	eslint = new ESLint({ basePath: "../.." });
 	eslint = new ESLint({ cache: true });
 	eslint = new ESLint({ cacheLocation: "foo" });
 	eslint = new ESLint({ cacheStrategy: "content" });

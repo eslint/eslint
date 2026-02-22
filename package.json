@@ -61,6 +61,7 @@
     "lint:fix:docs:js": "trunk check -y --ignore=** --ignore=!docs/**/*.js -a --filter=eslint && trunk check -y --ignore=** --ignore=!docs/**/*.js",
     "lint:rule-types": "node tools/update-rule-type-headers.js --check",
     "lint:types": "attw --pack",
+    "postinstall": "node -e \"fs.rmSync('build/rewrite', { force: true, recursive: true })\" && git clone https://github.com/eslint/rewrite.git -b eslint-issue-19118 --single-branch build/rewrite && cd build/rewrite && npm install && node -e \"const pkgPath = './packages/config-array/package.json'; const pkg = require(pkgPath); delete pkg.devDependencies; fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\\n');\" && cd ../.. && npm install @eslint/config-array@file:./build/rewrite/packages/config-array --ignore-scripts --no-save",
     "release:generate:alpha": "node Makefile.js generatePrerelease -- alpha",
     "release:generate:beta": "node Makefile.js generatePrerelease -- beta",
     "release:generate:latest": "node Makefile.js generateRelease -- latest",
