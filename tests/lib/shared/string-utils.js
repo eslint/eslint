@@ -14,6 +14,7 @@ const assert = require("chai").assert;
 const {
 	upperCaseFirst,
 	getGraphemeCount,
+	formatList,
 } = require("../../../lib/shared/string-utils");
 
 //------------------------------------------------------------------------------
@@ -88,5 +89,14 @@ describe("getGraphemeCount", () => {
 		it(`should return ${value} for ${escapeControlCharacters(key)}`, () => {
 			assert.strictEqual(getGraphemeCount(key), value);
 		});
+	});
+});
+
+describe("formatList", () => {
+	it("formats a list of strings into a comma-separated list with the last item joined by 'and'", () => {
+		assert(formatList(["a"]) === "a");
+		assert(formatList(["a", "b"]) === "a and b");
+		assert(formatList(["a", "b", "c"]) === "a, b, and c");
+		assert(formatList(["a", "b", "c", "d"]) === "a, b, c, and d");
 	});
 });
