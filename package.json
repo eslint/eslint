@@ -143,7 +143,7 @@
     "@babel/preset-env": "^7.4.3",
     "@cypress/webpack-preprocessor": "^6.0.2",
     "@eslint/json": "^0.14.0",
-    "@eslint/eslintrc": "^3.3.3",
+    "@eslint/eslintrc": "^3.3.4",
     "@trunkio/launcher": "^1.3.4",
     "@types/esquery": "^1.5.4",
     "@types/node": "^22.13.14",
