@@ -133,7 +133,7 @@
     "imurmurhash": "^0.1.4",
     "is-glob": "^4.0.0",
     "json-stable-stringify-without-jsonify": "^1.0.1",
-    "minimatch": "^10.2.1",
+    "minimatch": "^10.2.4",
     "natural-compare": "^1.4.0",
     "optionator": "^0.9.3"
   },
