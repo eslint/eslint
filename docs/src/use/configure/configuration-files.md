@@ -780,7 +780,7 @@ export default {
 
 ## Configuration File Resolution
 
-When ESLint is run on the command line, it determines configuration for each target file by first looking in the directory that contains the file and then searching up ancestor directories until it finds an `eslint.config.*` file. This behavior improves support for monorepos, where subdirectories can have their own configuration files.
+When ESLint is run on the command line, it searches for an `eslint.config.*` file starting in the current working directory and then continues up ancestor directories until one is found (or the root is reached).
 
 You can prevent this search by using the `-c` or `--config` option on the command line to specify an alternate configuration file, such as:
 
