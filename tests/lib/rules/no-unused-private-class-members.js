@@ -199,7 +199,7 @@ ruleTester.run("no-unused-private-class-members", rule, {
 			code: `class Foo {
     #unusedMember = 5;
 }`,
-			errors: [definedError("unusedMember", "class Foo {\n    \n}")],
+			errors: [definedError("unusedMember", "class Foo {\n}")],
 		},
 		{
 			code: `class First {}
@@ -209,7 +209,7 @@ class Second {
 			errors: [
 				definedError(
 					"unusedMemberInSecondClass",
-					"class First {}\nclass Second {\n    \n}",
+					"class First {}\nclass Second {\n}",
 				),
 			],
 		},
@@ -221,7 +221,7 @@ class Second {}`,
 			errors: [
 				definedError(
 					"unusedMemberInFirstClass",
-					"class First {\n    \n}\nclass Second {}",
+					"class First {\n}\nclass Second {}",
 				),
 			],
 		},
@@ -233,11 +233,15 @@ class Second {}`,
 			errors: [
 				definedError(
 					"firstUnusedMemberInSameClass",
-					"class First {\n    \n    #secondUnusedMemberInSameClass = 5;\n}",
+					`class First {
+    #secondUnusedMemberInSameClass = 5;
+}`,
 				),
 				definedError(
 					"secondUnusedMemberInSameClass",
-					"class First {\n    #firstUnusedMemberInSameClass = 5;\n    \n}",
+					`class First {
+    #firstUnusedMemberInSameClass = 5;
+}`,
 				),
 			],
 		},
@@ -286,7 +290,18 @@ class Second {}`,
 			errors: [
 				definedError(
 					"unusedInOuterClass",
-					"class C {\n    \n\n    foo() {\n        return class {\n            #unusedInOuterClass;\n\n            bar() {\n                return this.#unusedInOuterClass;\n            }\n        };\n    }\n}",
+					`class C {
+
+    foo() {
+        return class {
+            #unusedInOuterClass;
+
+            bar() {
+                return this.#unusedInOuterClass;
+            }
+        };
+    }
+}`,
 				),
 			],
 		},
@@ -317,7 +332,28 @@ class Second {}`,
 			errors: [
 				definedError(
 					"unusedOnlyInSecondNestedClass",
-					"class C {\n    #unusedOnlyInSecondNestedClass;\n\n    foo() {\n        return class {\n            #unusedOnlyInSecondNestedClass;\n\n            bar() {\n                return this.#unusedOnlyInSecondNestedClass;\n            }\n        };\n    }\n\n    baz() {\n        return this.#unusedOnlyInSecondNestedClass;\n    }\n\n    bar() {\n        return class {\n            \n        }\n    }\n}",
+					`class C {
+    #unusedOnlyInSecondNestedClass;
+
+    foo() {
+        return class {
+            #unusedOnlyInSecondNestedClass;
+
+            bar() {
+                return this.#unusedOnlyInSecondNestedClass;
+            }
+        };
+    }
+
+    baz() {
+        return this.#unusedOnlyInSecondNestedClass;
+    }
+
+    bar() {
+        return class {
+        }
+    }
+}`,
 				),
 			],
 		},
@@ -329,7 +365,7 @@ class Second {}`,
 			code: `class Foo {
     #unusedMethod() {}
 }`,
-			errors: [definedError("unusedMethod", "class Foo {\n    \n}")],
+			errors: [definedError("unusedMethod", "class Foo {\n}")],
 		},
 		{
 			code: `class Foo {
@@ -344,7 +380,14 @@ class Second {}`,
 			errors: [
 				definedError(
 					"unusedMethod",
-					"class Foo {\n    \n    #usedMethod() {\n        return 42;\n    }\n    publicMethod() {\n        return this.#usedMethod();\n    }\n}",
+					`class Foo {
+    #usedMethod() {
+        return 42;
+    }
+    publicMethod() {
+        return this.#usedMethod();
+    }
+}`,
 				),
 			],
 		},
@@ -352,7 +395,7 @@ class Second {}`,
 			code: `class Foo {
     set #unusedSetter(value) {}
 }`,
-			errors: [definedError("unusedSetter", "class Foo {\n    \n}")],
+			errors: [definedError("unusedSetter", "class Foo {\n}")],
 		},
 		{
 			code: `class Foo {
@@ -363,9 +406,7 @@ class Second {}`,
         doSomething(value);
     }
 }`,
-			errors: [
-				definedError("unusedAccessor", "class Foo {\n    \n    \n}"),
-			],
+			errors: [definedError("unusedAccessor", "class Foo {\n}")],
 		},
 		{
 			code: `class Foo {
@@ -447,7 +488,22 @@ class Second {}`,
 				{
 					...definedError(
 						"usedOnlyInTheSecondInnerClass",
-						"class C {\n    \n\n    method(a) {\n        return class {\n            #usedOnlyInTheSecondInnerClass;\n\n            method2(b) {\n                foo = b.#usedOnlyInTheSecondInnerClass;\n            }\n\n            method3(b) {\n                foo = b.#usedOnlyInTheSecondInnerClass;\n            }\n        }\n    }\n}",
+						`class C {
+
+    method(a) {
+        return class {
+            #usedOnlyInTheSecondInnerClass;
+
+            method2(b) {
+                foo = b.#usedOnlyInTheSecondInnerClass;
+            }
+
+            method3(b) {
+                foo = b.#usedOnlyInTheSecondInnerClass;
+            }
+        }
+    }
+}`,
 					),
 					line: 2,
 				},
