@@ -39,7 +39,7 @@ cd eslint
     args: []
 }) }}
 
-You must be connected to the Internet for this step to work. You'll see a lot of utilities being downloaded.
+You must be connected to the Internet for this step to work. You'll see many packages being downloaded.
 
 **Note:** It's a good idea to re-run `npm install` whenever you pull from the main repository to ensure you have the latest development dependencies.
 
