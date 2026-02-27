@@ -64,7 +64,7 @@
   "dependencies": {
     "@eslint-community/eslint-plugin-eslint-comments": "^4.3.0",
     "@eslint/js": "^10.0.1",
-    "eslint-plugin-jsdoc": "^48.2.3",
+    "eslint-plugin-jsdoc": "^62.7.0",
     "eslint-plugin-n": "^17.11.1",
     "eslint-plugin-regexp": "^2.10.0",
     "eslint-plugin-unicorn": "^52.0.0"
