@@ -15,6 +15,8 @@ To ensure that AI contributions are integrated smoothly and maintain the quality
 
 If you use AI to generate an issue or a pull request, you must clearly disclose this in your submission. This helps maintainers understand the context of the contribution and perform appropriate reviews.
 
+Issues and pull requests that do not disclose the use of AI may be closed without review. Those who violate this policy repeatedly may be blocked from contributing to ESLint.
+
 ### Human Responsibility
 
 While AI can assist in generating code or text, the ultimate responsibility for the contribution remains with the human submitter.
