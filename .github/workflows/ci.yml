@@ -70,7 +70,7 @@ jobs:
         strategy:
             matrix:
                 os: [ubuntu-latest]
-                node: [25.x, 24.x, 22.x, 20.x, "20.19.0"]
+                node: ["25.6.1", 24.x, 22.x, 20.x, "20.19.0"]
                 NODE_OPTIONS: [""]
                 include:
                     - os: windows-latest
