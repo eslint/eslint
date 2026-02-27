@@ -251,7 +251,7 @@ jobs:
 
             - name: Install Packages (pnpm-estree-types-issue)
               working-directory: pnpm-estree-types-issue
-              run: pnpm install
+              run: rm pnpm-lock.yaml && pnpm install
 
             - name: Run TSC
               working-directory: pnpm-estree-types-issue
