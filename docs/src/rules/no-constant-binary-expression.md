@@ -31,7 +31,7 @@ const isEmpty = x === [];
 
 ## Rule Details
 
-This rule identifies `==` and `===` comparisons which, based on the semantics of the JavaScript language, will always evaluate to `true` or `false`.
+This rule identifies `==`, `===`, `>`, `<`, `>=`, and `<=` comparisons which, based on the semantics of the JavaScript language, will always evaluate to `true` or `false`.
 
 It also identifies `||`, `&&` and `??` logical expressions which will either always or never short-circuit.
 
@@ -59,6 +59,10 @@ const shortCircuit1 = condition1 && false && condition2;
 const shortCircuit2 = condition1 || true || condition2;
 
 const shortCircuit3 = condition1 ?? "non-nullish" ?? condition2;
+
+const alwaysFalse = 0 > 1;
+
+const shouldShowStreak = profile.streak ?? 0 > 1;
 ```
 
 :::

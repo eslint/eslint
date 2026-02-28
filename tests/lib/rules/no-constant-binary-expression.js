@@ -74,6 +74,21 @@ ruleTester.run("no-constant-binary-expression", rule, {
 		"foo ?? null ?? bar",
 		"a ?? (doSomething(), undefined) ?? b",
 		"a ?? (something = null) ?? b",
+
+		// Comparison operators with non-constant operands
+		"x > 0",
+		"x < 0",
+		"x >= 0",
+		"x <= 0",
+		"0 > x",
+		"0 < x",
+		"0 >= x",
+		"0 <= x",
+		"foo() > 0",
+		"foo() < 0",
+		"x > y",
+		"foo.bar > 0",
+		"foo.bar > baz.qux",
 	],
 	invalid: [
 		// Error messages
@@ -970,6 +985,72 @@ ruleTester.run("no-constant-binary-expression", rule, {
 		{
 			code: "window.abc ?? 'non-nullish' ?? anything",
 			errors: [{ messageId: "constantShortCircuit" }],
+		},
+
+		// Comparison operators with both sides constant
+		{
+			code: "1 > 0",
+			errors: [{ messageId: "constantBinaryOperand" }],
+		},
+		{
+			code: "0 > 1",
+			errors: [{ messageId: "constantBinaryOperand" }],
+		},
+		{
+			code: "1 < 0",
+			errors: [{ messageId: "constantBinaryOperand" }],
+		},
+		{
+			code: "0 < 1",
+			errors: [{ messageId: "constantBinaryOperand" }],
+		},
+		{
+			code: "1 >= 0",
+			errors: [{ messageId: "constantBinaryOperand" }],
+		},
+		{
+			code: "0 >= 1",
+			errors: [{ messageId: "constantBinaryOperand" }],
+		},
+		{
+			code: "1 <= 0",
+			errors: [{ messageId: "constantBinaryOperand" }],
+		},
+		{
+			code: "0 <= 1",
+			errors: [{ messageId: "constantBinaryOperand" }],
+		},
+		{
+			code: "0 > 0",
+			errors: [{ messageId: "constantBinaryOperand" }],
+		},
+		{
+			code: "0 >= 0",
+			errors: [{ messageId: "constantBinaryOperand" }],
+		},
+		{
+			code: "'a' > 'b'",
+			errors: [{ messageId: "constantBinaryOperand" }],
+		},
+		{
+			code: "'a' < 'b'",
+			errors: [{ messageId: "constantBinaryOperand" }],
+		},
+		{
+			code: "-1 > -2",
+			errors: [{ messageId: "constantBinaryOperand" }],
+		},
+		{
+			code: "true > false",
+			errors: [{ messageId: "constantBinaryOperand" }],
+		},
+		{
+			code: "1 + 2 > 3",
+			errors: [{ messageId: "constantBinaryOperand" }],
+		},
+		{
+			code: "null > 0",
+			errors: [{ messageId: "constantBinaryOperand" }],
 		},
 	],
 });
