@@ -163,7 +163,7 @@ the loop is correct. As a few examples:
     ```js
     async function checkFiles() {
         for (let i = 0; i < 10000; i++) {
-            // Here some concurrency may be desireable to reduce I/O bottlenecks,
+            // Here some concurrency may be desirable to reduce I/O bottlenecks,
             // but not unbounded concurrency as that will fail,
             // running out of file descriptors.
             await openFileAndThrowIfContentsMeetCondition(filenames[i]);
