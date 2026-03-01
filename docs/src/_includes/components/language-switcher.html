@@ -1,0 +1,28 @@
+<div class="language-switcher">
+    <a href="/languages/" class="switcher-fallback">{{ site.footer.language_switcher.change_language }}</a>
+    <div hidden role="region" class="switcher switcher--language" aria-labelledby="language-switcher-label"
+        id="language-switcher">
+        <span id="language-switcher-label" hidden>{{ site.footer.language_switcher.title }}</span>
+        <div class="infobox visually-hidden" id="language-infobox">
+            {{ site.footer.language_switcher.description }}
+        </div>
+        <label class="switcher__label" for="language-select">
+            <span class="label__text">
+                {{ site.footer.language_switcher.language }}
+            </span>
+        </label>
+        <select name="language selector" id="language-select" aria-describedby="language-infobox"
+            class="c-custom-select switcher__select">
+            {% for key, other_site in sites %}
+            <option
+                value="{{ other_site.language.code }}"
+                data-url="https://{{ other_site.hostname }}/docs/latest{{ page.url | prettyURL }}"
+                {% if site.language.code==other_site.language.code %}selected{% endif %}
+            >
+                {{ other_site.language.flag }} {{ other_site.language.name }}
+                {% if site.language.code!=other_site.language.code or GIT_BRANCH=="latest" %}({{ other_site.footer.language_switcher.latest }}){% endif %}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+</div>

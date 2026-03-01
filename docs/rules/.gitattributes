@@ -1,2 +1,0 @@
-# Avoid line-ending conversion for linebreak-style, or else example linting breaks
-linebreak-style.md -text

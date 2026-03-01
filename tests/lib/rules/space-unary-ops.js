@@ -1,7 +1,6 @@
 /**
- * @fileoverview This rule shoud require or disallow spaces before or after unary operations.
+ * @fileoverview This rule should require or disallow spaces before or after unary operations.
  * @author Marcin Kumorek
- * @copyright 2014 Marcin Kumorek. All rights reserved.
  */
 "use strict";
 
@@ -9,384 +8,896 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/space-unary-ops"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+const rule = require("../../../lib/rules/space-unary-ops"),
+	RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
+
 ruleTester.run("space-unary-ops", rule, {
+	valid: [
+		{
+			code: "++this.a",
+			options: [{ words: true }],
+		},
+		{
+			code: "--this.a",
+			options: [{ words: true }],
+		},
+		{
+			code: "this.a++",
+			options: [{ words: true }],
+		},
+		{
+			code: "this.a--",
+			options: [{ words: true }],
+		},
+		"foo .bar++",
+		{
+			code: "foo.bar --",
+			options: [{ nonwords: true }],
+		},
 
-    valid: [
-        {
-            code: "++this.a",
-            options: [{ "words": true }]
-        },
-        {
-            code: "--this.a",
-            options: [{ "words": true }]
-        },
-        {
-            code: "this.a++",
-            options: [{ "words": true }]
-        },
-        {
-            code: "this.a--",
-            options: [{ "words": true }]
-        },
-        {
-            code: "delete foo.bar",
-            options: [{ "words": true }]
-        },
-        {
-            code: "delete foo[\"bar\"]",
-            options: [{ "words": true }]
-        },
+		{
+			code: "delete foo.bar",
+			options: [{ words: true }],
+		},
+		{
+			code: 'delete foo["bar"]',
+			options: [{ words: true }],
+		},
+		{
+			code: "delete foo.bar",
+			options: [{ words: false }],
+		},
+		{
+			code: "delete(foo.bar)",
+			options: [{ words: false }],
+		},
 
-        {
-            code: "new Foo",
-            options: [{ "words": true }]
-        },
-        {
-            code: "new Foo()",
-            options: [{ "words": true }]
-        },
-        {
-            code: "new [foo][0]",
-            options: [{ "words": true }]
-        },
-        {
-            code: "new[foo][0]",
-            options: [{ "words": false }]
-        },
+		{
+			code: "new Foo",
+			options: [{ words: true }],
+		},
+		{
+			code: "new Foo()",
+			options: [{ words: true }],
+		},
+		{
+			code: "new [foo][0]",
+			options: [{ words: true }],
+		},
+		{
+			code: "new[foo][0]",
+			options: [{ words: false }],
+		},
 
-        {
-            code: "typeof foo",
-            options: [{ "words": true }]
-        },
-        {
-            code: "typeof{foo:true}",
-            options: [{ "words": false }]
-        },
-        {
-            code: "typeof {foo:true}",
-            options: [{ "words": true }]
-        },
-        {
-            code: "typeof!foo",
-            options: [{ "words": false }]
-        },
+		{
+			code: "typeof foo",
+			options: [{ words: true }],
+		},
+		{
+			code: "typeof{foo:true}",
+			options: [{ words: false }],
+		},
+		{
+			code: "typeof {foo:true}",
+			options: [{ words: true }],
+		},
+		{
+			code: "typeof (foo)",
+			options: [{ words: true }],
+		},
+		{
+			code: "typeof(foo)",
+			options: [{ words: false }],
+		},
+		{
+			code: "typeof!foo",
+			options: [{ words: false }],
+		},
 
-        {
-            code: "void 0",
-            options: [{ "words": true }]
-        },
-        {
-            code: "(void 0)",
-            options: [{ "words": true }]
-        },
-        {
-            code: "(void (0))",
-            options: [{ "words": true }]
-        },
-        {
-            code: "void foo",
-            options: [{ "words": true }]
-        },
+		{
+			code: "void 0",
+			options: [{ words: true }],
+		},
+		{
+			code: "(void 0)",
+			options: [{ words: true }],
+		},
+		{
+			code: "(void (0))",
+			options: [{ words: true }],
+		},
+		{
+			code: "void foo",
+			options: [{ words: true }],
+		},
+		{
+			code: "void foo",
+			options: [{ words: false }],
+		},
+		{
+			code: "void(foo)",
+			options: [{ words: false }],
+		},
 
-        {
-            code: "-1",
-            options: [{ "nonwords": false }]
-        },
-        {
-            code: "!foo",
-            options: [{ "nonwords": false }]
-        },
-        {
-            code: "!!foo",
-            options: [{ "nonwords": false }]
-        },
-        {
-            code: "foo++",
-            options: [{ "nonwords": false }]
-        },
-        {
-            code: "foo ++",
-            options: [{ "nonwords": true }]
-        },
-        {
-            code: "++foo",
-            options: [{ "nonwords": false }]
-        },
-        {
-            code: "++ foo",
-            options: [{ "nonwords": true }]
-        },
-        {
-            code: "function *foo () { yield (0) }",
-            ecmaFeatures: { generators: true }
-        },
-        {
-            code: "function *foo() { yield +1 }",
-            ecmaFeatures: { generators: true }
-        },
-        {
-            code: "function *foo() { yield* 0 }",
-            ecmaFeatures: { generators: true }
-        },
-        {
-            code: "function *foo() { yield * 0 }",
-            ecmaFeatures: { generators: true }
-        },
-        {
-            code: "function *foo() { (yield)*0 }",
-            ecmaFeatures: { generators: true }
-        },
-        {
-            code: "function *foo() { (yield) * 0 }",
-            ecmaFeatures: { generators: true }
-        }
-    ],
+		{
+			code: "-1",
+			options: [{ nonwords: false }],
+		},
+		{
+			code: "!foo",
+			options: [{ nonwords: false }],
+		},
+		{
+			code: "!!foo",
+			options: [{ nonwords: false }],
+		},
+		{
+			code: "foo++",
+			options: [{ nonwords: false }],
+		},
+		{
+			code: "foo ++",
+			options: [{ nonwords: true }],
+		},
+		{
+			code: "++foo",
+			options: [{ nonwords: false }],
+		},
+		{
+			code: "++ foo",
+			options: [{ nonwords: true }],
+		},
+		{
+			code: "function *foo () { yield (0) }",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "function *foo() { yield +1 }",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "function *foo() { yield* 0 }",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "function *foo() { yield * 0 }",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "function *foo() { (yield)*0 }",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "function *foo() { (yield) * 0 }",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "function *foo() { yield*0 }",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "function *foo() { yield *0 }",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "async function foo() { await {foo: 1} }",
+			languageOptions: { ecmaVersion: 8 },
+		},
+		{
+			code: "async function foo() { await {bar: 2} }",
+			languageOptions: { ecmaVersion: 8 },
+		},
+		{
+			code: "async function foo() { await{baz: 3} }",
+			options: [{ words: false }],
+			languageOptions: { ecmaVersion: 8 },
+		},
+		{
+			code: "async function foo() { await {qux: 4} }",
+			options: [{ words: false, overrides: { await: true } }],
+			languageOptions: { ecmaVersion: 8 },
+		},
+		{
+			code: "async function foo() { await{foo: 5} }",
+			options: [{ words: true, overrides: { await: false } }],
+			languageOptions: { ecmaVersion: 8 },
+		},
+		{
+			code: "foo++",
+			options: [{ nonwords: true, overrides: { "++": false } }],
+		},
+		{
+			code: "foo++",
+			options: [{ nonwords: false, overrides: { "++": false } }],
+		},
+		{
+			code: "++foo",
+			options: [{ nonwords: true, overrides: { "++": false } }],
+		},
+		{
+			code: "++foo",
+			options: [{ nonwords: false, overrides: { "++": false } }],
+		},
+		{
+			code: "!foo",
+			options: [{ nonwords: true, overrides: { "!": false } }],
+		},
+		{
+			code: "!foo",
+			options: [{ nonwords: false, overrides: { "!": false } }],
+		},
+		{
+			code: "new foo",
+			options: [{ words: true, overrides: { new: false } }],
+		},
+		{
+			code: "new foo",
+			options: [{ words: false, overrides: { new: false } }],
+		},
+		{
+			code: "function *foo () { yield(0) }",
+			options: [{ words: true, overrides: { yield: false } }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "function *foo () { yield(0) }",
+			options: [{ words: false, overrides: { yield: false } }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "class C { #x; *foo(bar) { yield#x in bar; } }",
+			options: [{ words: false }],
+			languageOptions: { ecmaVersion: 2022 },
+		},
+	],
 
-    invalid: [
-        {
-            code: "delete(foo.bar)",
-            output: "delete (foo.bar)",
-            options: [{ "words": true }],
-            errors: [{
-                message: "Unary word operator \"delete\" must be followed by whitespace.",
-                type: "UnaryExpression"
-            }]
-        },
-        {
-            code: "delete(foo[\"bar\"]);",
-            output: "delete (foo[\"bar\"]);",
-            options: [{ "words": true }],
-            errors: [{
-                message: "Unary word operator \"delete\" must be followed by whitespace.",
-                type: "UnaryExpression"
-            }]
-        },
-        {
-            code: "new(Foo)",
-            output: "new (Foo)",
-            options: [{ "words": true }],
-            errors: [{
-                message: "Unary word operator \"new\" must be followed by whitespace.",
-                type: "NewExpression"
-            }]
-        },
-        {
-            code: "new(Foo())",
-            output: "new (Foo())",
-            options: [{ "words": true }],
-            errors: [{
-                message: "Unary word operator \"new\" must be followed by whitespace.",
-                type: "NewExpression"
-            }]
-        },
+	invalid: [
+		{
+			code: "delete(foo.bar)",
+			output: "delete (foo.bar)",
+			options: [{ words: true }],
+			errors: [
+				{
+					messageId: "wordOperator",
+					data: { word: "delete" },
+				},
+			],
+		},
+		{
+			code: 'delete(foo["bar"]);',
+			output: 'delete (foo["bar"]);',
+			options: [{ words: true }],
+			errors: [
+				{
+					messageId: "wordOperator",
+					data: { word: "delete" },
+				},
+			],
+		},
+		{
+			code: "delete (foo.bar)",
+			output: "delete(foo.bar)",
+			options: [{ words: false }],
+			errors: [
+				{
+					messageId: "unexpectedAfterWord",
+					data: { word: "delete" },
+				},
+			],
+		},
+		{
+			code: "new(Foo)",
+			output: "new (Foo)",
+			options: [{ words: true }],
+			errors: [
+				{
+					messageId: "wordOperator",
+					data: { word: "new" },
+				},
+			],
+		},
+		{
+			code: "new (Foo)",
+			output: "new(Foo)",
+			options: [{ words: false }],
+			errors: [
+				{
+					messageId: "unexpectedAfterWord",
+					data: { word: "new" },
+				},
+			],
+		},
+		{
+			code: "new(Foo())",
+			output: "new (Foo())",
+			options: [{ words: true }],
+			errors: [
+				{
+					messageId: "wordOperator",
+					data: { word: "new" },
+				},
+			],
+		},
+		{
+			code: "new [foo][0]",
+			output: "new[foo][0]",
+			options: [{ words: false }],
+			errors: [
+				{
+					messageId: "unexpectedAfterWord",
+					data: { word: "new" },
+				},
+			],
+		},
 
-        {
-            code: "typeof(foo)",
-            output: "typeof (foo)",
-            options: [{ "words": true }],
-            errors: [{
-                message: "Unary word operator \"typeof\" must be followed by whitespace.",
-                type: "UnaryExpression"
-            }]
-        },
-        {
-            code: "typeof{foo:true}",
-            output: "typeof {foo:true}",
-            options: [{ "words": true }],
-            errors: [{
-                message: "Unary word operator \"typeof\" must be followed by whitespace.",
-                type: "UnaryExpression"
-            }]
-        },
-        {
-            code: "typeof {foo:true}",
-            output: "typeof{foo:true}",
-            options: [{ "words": false }],
-            errors: [{
-                message: "Unexpected space after unary word operator \"typeof\".",
-                type: "UnaryExpression"
-            }]
-        },
-        {
-            code: "typeof!foo",
-            output: "typeof !foo",
-            options: [{ "words": true }],
-            errors: [{
-                message: "Unary word operator \"typeof\" must be followed by whitespace.",
-                type: "UnaryExpression"
-            }]
-        },
+		{
+			code: "typeof(foo)",
+			output: "typeof (foo)",
+			options: [{ words: true }],
+			errors: [
+				{
+					messageId: "wordOperator",
+					data: { word: "typeof" },
+				},
+			],
+		},
+		{
+			code: "typeof (foo)",
+			output: "typeof(foo)",
+			options: [{ words: false }],
+			errors: [
+				{
+					messageId: "unexpectedAfterWord",
+					data: { word: "typeof" },
+				},
+			],
+		},
+		{
+			code: "typeof[foo]",
+			output: "typeof [foo]",
+			options: [{ words: true }],
+			errors: [
+				{
+					messageId: "wordOperator",
+					data: { word: "typeof" },
+				},
+			],
+		},
+		{
+			code: "typeof [foo]",
+			output: "typeof[foo]",
+			options: [{ words: false }],
+			errors: [
+				{
+					messageId: "unexpectedAfterWord",
+					data: { word: "typeof" },
+				},
+			],
+		},
+		{
+			code: "typeof{foo:true}",
+			output: "typeof {foo:true}",
+			options: [{ words: true }],
+			errors: [
+				{
+					messageId: "wordOperator",
+					data: { word: "typeof" },
+				},
+			],
+		},
+		{
+			code: "typeof {foo:true}",
+			output: "typeof{foo:true}",
+			options: [{ words: false }],
+			errors: [
+				{
+					messageId: "unexpectedAfterWord",
+					data: { word: "typeof" },
+				},
+			],
+		},
+		{
+			code: "typeof!foo",
+			output: "typeof !foo",
+			options: [{ words: true }],
+			errors: [
+				{
+					messageId: "wordOperator",
+					data: { word: "typeof" },
+				},
+			],
+		},
 
-        {
-            code: "void(0);",
-            output: "void (0);",
-            options: [{ "words": true }],
-            errors: [{
-                message: "Unary word operator \"void\" must be followed by whitespace.",
-                type: "UnaryExpression"
-            }]
-        },
-        {
-            code: "void(foo);",
-            output: "void (foo);",
-            options: [{ "words": true }],
-            errors: [{
-                message: "Unary word operator \"void\" must be followed by whitespace.",
-                type: "UnaryExpression"
-            }]
-        },
-        {
-            code: "void{a:0};",
-            output: "void {a:0};",
-            options: [{ "words": true }],
-            errors: [{
-                message: "Unary word operator \"void\" must be followed by whitespace.",
-                type: "UnaryExpression"
-            }]
-        },
+		{
+			code: "void(0);",
+			output: "void (0);",
+			options: [{ words: true }],
+			errors: [
+				{
+					messageId: "wordOperator",
+					data: { word: "void" },
+				},
+			],
+		},
+		{
+			code: "void(foo);",
+			output: "void (foo);",
+			options: [{ words: true }],
+			errors: [
+				{
+					messageId: "wordOperator",
+					data: { word: "void" },
+				},
+			],
+		},
+		{
+			code: "void[foo];",
+			output: "void [foo];",
+			options: [{ words: true }],
+			errors: [
+				{
+					messageId: "wordOperator",
+					data: { word: "void" },
+				},
+			],
+		},
+		{
+			code: "void{a:0};",
+			output: "void {a:0};",
+			options: [{ words: true }],
+			errors: [
+				{
+					messageId: "wordOperator",
+					data: { word: "void" },
+				},
+			],
+		},
+		{
+			code: "void (foo)",
+			output: "void(foo)",
+			options: [{ words: false }],
+			errors: [
+				{
+					messageId: "unexpectedAfterWord",
+					data: { word: "void" },
+				},
+			],
+		},
+		{
+			code: "void [foo]",
+			output: "void[foo]",
+			options: [{ words: false }],
+			errors: [
+				{
+					messageId: "unexpectedAfterWord",
+					data: { word: "void" },
+				},
+			],
+		},
 
-        {
-            code: "! foo",
-            output: "!foo",
-            options: [{ "nonwords": false }],
-            errors: [{
-                message: "Unexpected space after unary operator \"!\"."
-            }]
-        },
-        {
-            code: "!foo",
-            output: "! foo",
-            options: [{ "nonwords": true }],
-            errors: [{
-                message: "Unary operator \"!\" must be followed by whitespace."
-            }]
-        },
+		{
+			code: "! foo",
+			output: "!foo",
+			options: [{ nonwords: false }],
+			errors: [
+				{
+					messageId: "unexpectedAfter",
+					data: { operator: "!" },
+				},
+			],
+		},
+		{
+			code: "!foo",
+			output: "! foo",
+			options: [{ nonwords: true }],
+			errors: [
+				{
+					messageId: "operator",
+					data: { operator: "!" },
+				},
+			],
+		},
 
-        {
-            code: "!! foo",
-            output: "!!foo",
-            options: [{ "nonwords": false }],
-            errors: [{
-                message: "Unexpected space after unary operator \"!\".",
-                type: "UnaryExpression",
-                line: 1,
-                column: 2
-            }]
-        },
-        {
-            code: "!!foo",
-            output: "!! foo",
-            options: [{ "nonwords": true }],
-            errors: [{
-                message: "Unary operator \"!\" must be followed by whitespace.",
-                type: "UnaryExpression",
-                line: 1,
-                column: 2
-            }]
-        },
+		{
+			code: "!! foo",
+			output: "!!foo",
+			options: [{ nonwords: false }],
+			errors: [
+				{
+					messageId: "unexpectedAfter",
+					data: { operator: "!" },
+					line: 1,
+					column: 2,
+				},
+			],
+		},
+		{
+			code: "!!foo",
+			output: "!! foo",
+			options: [{ nonwords: true }],
+			errors: [
+				{
+					messageId: "operator",
+					data: { operator: "!" },
+					line: 1,
+					column: 2,
+				},
+			],
+		},
 
-        {
-            code: "- 1",
-            output: "-1",
-            options: [{ "nonwords": false }],
-            errors: [{
-                message: "Unexpected space after unary operator \"-\".",
-                type: "UnaryExpression"
-            }]
-        },
-        {
-            code: "-1",
-            output: "- 1",
-            options: [{ "nonwords": true }],
-            errors: [{
-                message: "Unary operator \"-\" must be followed by whitespace.",
-                type: "UnaryExpression"
-            }]
-        },
+		{
+			code: "- 1",
+			output: "-1",
+			options: [{ nonwords: false }],
+			errors: [
+				{
+					messageId: "unexpectedAfter",
+					data: { operator: "-" },
+				},
+			],
+		},
+		{
+			code: "-1",
+			output: "- 1",
+			options: [{ nonwords: true }],
+			errors: [
+				{
+					messageId: "operator",
+					data: { operator: "-" },
+				},
+			],
+		},
 
-        {
-            code: "foo++",
-            output: "foo ++",
-            options: [{ "nonwords": true }],
-            errors: [{
-                message: "Space is required before unary expressions \"++\"."
-            }]
-        },
-        {
-            code: "foo ++",
-            output: "foo++",
-            options: [{ "nonwords": false }],
-            errors: [{
-                message: "Unexpected space before unary operator \"++\"."
-            }]
-        },
-        {
-            code: "++ foo",
-            output: "++foo",
-            options: [{ "nonwords": false }],
-            errors: [{
-                message: "Unexpected space after unary operator \"++\"."
-            }]
-        },
-        {
-            code: "++foo",
-            output: "++ foo",
-            options: [{ "nonwords": true }],
-            errors: [{
-                message: "Unary operator \"++\" must be followed by whitespace."
-            }]
-        },
-        {
-            code: "function *foo() { yield(0) }",
-            output: "function *foo() { yield (0) }",
-            ecmaFeatures: { generators: true },
-            errors: [{
-                message: "Unary word operator \"yield\" must be followed by whitespace.",
-                type: "YieldExpression",
-                line: 1,
-                column: 19
-            }]
-        },
-        {
-            code: "function *foo() { yield+0 }",
-            output: "function *foo() { yield +0 }",
-            ecmaFeatures: { generators: true },
-            errors: [{
-                message: "Unary word operator \"yield\" must be followed by whitespace.",
-                type: "YieldExpression",
-                line: 1,
-                column: 19
-            }]
-        },
-        {
-            code: "function *foo() { yield*0 }",
-            output: "function *foo() { yield* 0 }",
-            ecmaFeatures: { generators: true },
-            errors: [{
-                message: "Unary word operator \"yield*\" must be followed by whitespace.",
-                type: "YieldExpression",
-                line: 1,
-                column: 19
-            }]
-        },
-        {
-            code: "function *foo() { yield *0 }",
-            output: "function *foo() { yield * 0 }",
-            ecmaFeatures: { generators: true },
-            errors: [{
-                message: "Unary word operator \"yield*\" must be followed by whitespace.",
-                type: "YieldExpression",
-                line: 1,
-                column: 19
-            }]
-        }
-    ]
+		{
+			code: "foo++",
+			output: "foo ++",
+			options: [{ nonwords: true }],
+			errors: [
+				{
+					messageId: "beforeUnaryExpressions",
+					data: { token: "++" },
+				},
+			],
+		},
+		{
+			code: "foo ++",
+			output: "foo++",
+			options: [{ nonwords: false }],
+			errors: [
+				{
+					messageId: "unexpectedBefore",
+					data: { operator: "++" },
+				},
+			],
+		},
+		{
+			code: "++ foo",
+			output: "++foo",
+			options: [{ nonwords: false }],
+			errors: [
+				{
+					messageId: "unexpectedAfter",
+					data: { operator: "++" },
+				},
+			],
+		},
+		{
+			code: "++foo",
+			output: "++ foo",
+			options: [{ nonwords: true }],
+			errors: [
+				{
+					messageId: "operator",
+					data: { operator: "++" },
+				},
+			],
+		},
+		{
+			code: "foo .bar++",
+			output: "foo .bar ++",
+			options: [{ nonwords: true }],
+			errors: [
+				{
+					messageId: "beforeUnaryExpressions",
+					data: { token: "++" },
+				},
+			],
+		},
+		{
+			code: "foo.bar --",
+			output: "foo.bar--",
+			errors: [
+				{
+					messageId: "unexpectedBefore",
+					data: { operator: "--" },
+				},
+			],
+		},
+		{
+			code: "+ +foo",
+			output: null,
+			options: [{ nonwords: false }],
+			errors: [
+				{
+					messageId: "unexpectedAfter",
+					data: { operator: "+" },
+				},
+			],
+		},
+		{
+			code: "+ ++foo",
+			output: null,
+			options: [{ nonwords: false }],
+			errors: [
+				{
+					messageId: "unexpectedAfter",
+					data: { operator: "+" },
+				},
+			],
+		},
+		{
+			code: "- -foo",
+			output: null,
+			options: [{ nonwords: false }],
+			errors: [
+				{
+					messageId: "unexpectedAfter",
+					data: { operator: "-" },
+				},
+			],
+		},
+		{
+			code: "- --foo",
+			output: null,
+			options: [{ nonwords: false }],
+			errors: [
+				{
+					messageId: "unexpectedAfter",
+					data: { operator: "-" },
+				},
+			],
+		},
+		{
+			code: "+ -foo",
+			output: "+-foo",
+			options: [{ nonwords: false }],
+			errors: [
+				{
+					messageId: "unexpectedAfter",
+					data: { operator: "+" },
+				},
+			],
+		},
+		{
+			code: "function *foo() { yield(0) }",
+			output: "function *foo() { yield (0) }",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "wordOperator",
+					data: { word: "yield" },
+					line: 1,
+					column: 19,
+				},
+			],
+		},
+		{
+			code: "function *foo() { yield (0) }",
+			output: "function *foo() { yield(0) }",
+			options: [{ words: false }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "unexpectedAfterWord",
+					data: { word: "yield" },
+					line: 1,
+					column: 19,
+				},
+			],
+		},
+		{
+			code: "function *foo() { yield+0 }",
+			output: "function *foo() { yield +0 }",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "wordOperator",
+					data: { word: "yield" },
+					line: 1,
+					column: 19,
+				},
+			],
+		},
+		{
+			code: "foo++",
+			output: "foo ++",
+			options: [{ nonwords: true, overrides: { "++": true } }],
+			errors: [
+				{
+					messageId: "beforeUnaryExpressions",
+					data: { token: "++" },
+				},
+			],
+		},
+		{
+			code: "foo++",
+			output: "foo ++",
+			options: [{ nonwords: false, overrides: { "++": true } }],
+			errors: [
+				{
+					messageId: "beforeUnaryExpressions",
+					data: { token: "++" },
+				},
+			],
+		},
+		{
+			code: "++foo",
+			output: "++ foo",
+			options: [{ nonwords: true, overrides: { "++": true } }],
+			errors: [
+				{
+					messageId: "operator",
+					data: { operator: "++" },
+				},
+			],
+		},
+		{
+			code: "++foo",
+			output: "++ foo",
+			options: [{ nonwords: false, overrides: { "++": true } }],
+			errors: [
+				{
+					messageId: "operator",
+					data: { operator: "++" },
+				},
+			],
+		},
+		{
+			code: "!foo",
+			output: "! foo",
+			options: [{ nonwords: true, overrides: { "!": true } }],
+			errors: [
+				{
+					messageId: "operator",
+					data: { operator: "!" },
+				},
+			],
+		},
+		{
+			code: "!foo",
+			output: "! foo",
+			options: [{ nonwords: false, overrides: { "!": true } }],
+			errors: [
+				{
+					messageId: "operator",
+					data: { operator: "!" },
+				},
+			],
+		},
+		{
+			code: "new(Foo)",
+			output: "new (Foo)",
+			options: [{ words: true, overrides: { new: true } }],
+			errors: [
+				{
+					messageId: "wordOperator",
+					data: { word: "new" },
+				},
+			],
+		},
+		{
+			code: "new(Foo)",
+			output: "new (Foo)",
+			options: [{ words: false, overrides: { new: true } }],
+			errors: [
+				{
+					messageId: "wordOperator",
+					data: { word: "new" },
+				},
+			],
+		},
+		{
+			code: "function *foo() { yield(0) }",
+			output: "function *foo() { yield (0) }",
+			options: [{ words: true, overrides: { yield: true } }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "wordOperator",
+					data: { word: "yield" },
+					line: 1,
+					column: 19,
+				},
+			],
+		},
+		{
+			code: "function *foo() { yield(0) }",
+			output: "function *foo() { yield (0) }",
+			options: [{ words: false, overrides: { yield: true } }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "wordOperator",
+					data: { word: "yield" },
+					line: 1,
+					column: 19,
+				},
+			],
+		},
+		{
+			code: "async function foo() { await{foo: 'bar'} }",
+			output: "async function foo() { await {foo: 'bar'} }",
+			languageOptions: { ecmaVersion: 8 },
+			errors: [
+				{
+					messageId: "wordOperator",
+					data: { word: "await" },
+					line: 1,
+					column: 24,
+				},
+			],
+		},
+		{
+			code: "async function foo() { await{baz: 'qux'} }",
+			output: "async function foo() { await {baz: 'qux'} }",
+			options: [{ words: false, overrides: { await: true } }],
+			languageOptions: { ecmaVersion: 8 },
+			errors: [
+				{
+					messageId: "wordOperator",
+					data: { word: "await" },
+					line: 1,
+					column: 24,
+				},
+			],
+		},
+		{
+			code: "async function foo() { await {foo: 1} }",
+			output: "async function foo() { await{foo: 1} }",
+			options: [{ words: false }],
+			languageOptions: { ecmaVersion: 8 },
+			errors: [
+				{
+					messageId: "unexpectedAfterWord",
+					data: { word: "await" },
+					line: 1,
+					column: 24,
+				},
+			],
+		},
+		{
+			code: "async function foo() { await {bar: 2} }",
+			output: "async function foo() { await{bar: 2} }",
+			options: [{ words: true, overrides: { await: false } }],
+			languageOptions: { ecmaVersion: 8 },
+			errors: [
+				{
+					messageId: "unexpectedAfterWord",
+					data: { word: "await" },
+					line: 1,
+					column: 24,
+				},
+			],
+		},
+		{
+			code: "class C { #x; *foo(bar) { yield #x in bar; } }",
+			output: "class C { #x; *foo(bar) { yield#x in bar; } }",
+			options: [{ words: false }],
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					messageId: "unexpectedAfterWord",
+					data: { word: "yield" },
+					line: 1,
+					column: 27,
+				},
+			],
+		},
+	],
 });

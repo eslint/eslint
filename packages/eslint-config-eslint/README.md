@@ -1,34 +1,115 @@
-[![NPM version][npm-image]][npm-url]
-[![Join the chat at https://gitter.im/eslint/eslint](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/eslint/eslint?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![npm version](https://img.shields.io/npm/v/eslint-config-eslint.svg)](https://www.npmjs.com/package/eslint-config-eslint)
+[![Downloads](https://img.shields.io/npm/dm/eslint-config-eslint.svg)](https://www.npmjs.com/package/eslint-config-eslint)
+[![Build Status](https://github.com/eslint/eslint/workflows/CI/badge.svg)](https://github.com/eslint/eslint/actions)
+<br>
+[![Open Collective Backers](https://img.shields.io/opencollective/backers/eslint)](https://opencollective.com/eslint)
+[![Open Collective Sponsors](https://img.shields.io/opencollective/sponsors/eslint)](https://opencollective.com/eslint)
 
 # ESLint Configuration
 
-[Website](http://eslint.org) | [Configuring](http://eslint.org/docs/user-guide/configuring) | [Rules](http://eslint.org/docs/rules/) | [Contributing](http://eslint.org/docs/developer-guide/contributing) | [Twitter](https://twitter.com/geteslint) | [Mailing List](https://groups.google.com/group/eslint)
+[Website](https://eslint.org) |
+[Configure ESLint](https://eslint.org/docs/latest/use/configure) |
+[Rules](https://eslint.org/docs/rules/) |
+[Contribute to ESLint](https://eslint.org/docs/latest/contribute) |
+[Report Bugs](https://eslint.org/docs/latest/contribute/report-bugs) |
+[Code of Conduct](https://eslint.org/conduct) |
+[X](https://x.com/geteslint) |
+[Discord](https://eslint.org/chat) |
+[Mastodon](https://fosstodon.org/@eslint) |
+[Bluesky](https://bsky.app/profile/eslint.org)
 
-Contains the default ESLint configuration for ESLint projects.
+Contains the ESLint configuration used for projects maintained by the ESLint team.
 
 ## Installation
 
-You can install ESLint using npm:
+You can install ESLint using npm or other package managers:
 
-    npm install eslint --save-dev
+```shell
+npm install eslint -D
+# or
+yarn add eslint -D
+# or
+pnpm install eslint -D
+# or
+bun add eslint -D
+```
 
 Then install this configuration:
 
-    npm install eslint-config-eslint --save-dev
+```shell
+npm install eslint-config-eslint -D
+# or
+yarn add eslint-config-eslint -D
+# or
+pnpm install eslint-config-eslint -D
+# or
+bun add eslint-config-eslint -D
+```
 
 ## Usage
 
-In your `.eslintrc` file, add:
+### ESM (`"type":"module"`) projects
 
-```json
-{
-    "extends": "eslint"
-}
+In your `eslint.config.js` file, add:
+
+```js
+import { defineConfig } from "eslint/config";
+import eslintConfigESLint from "eslint-config-eslint";
+
+export default defineConfig([eslintConfigESLint]);
+```
+
+**Note**: This configuration array contains configuration objects with the `files` property.
+
+- `files: ["**/*.js"]`: ESM-specific configurations.
+- `files: ["**/*.cjs"]`: CommonJS-specific configurations.
+
+### CommonJS projects
+
+In your `eslint.config.js` file, add:
+
+```js
+const { defineConfig } = require("eslint/config");
+const eslintConfigESLintCJS = require("eslint-config-eslint/cjs");
+
+module.exports = defineConfig([eslintConfigESLintCJS]);
+```
+
+### Base config
+
+Note that the above configurations are intended for files that will run in Node.js. For files that will not run in Node.js, you should use the `base` config.
+
+Here's an example of an `eslint.config.js` file for a website project with scripts that run in browser and CommonJS configuration files and tools that run in Node.js:
+
+```js
+const { defineConfig } = require("eslint/config");
+const eslintConfigESLintBase = require("eslint-config-eslint/base");
+const eslintConfigESLintCJS = require("eslint-config-eslint/cjs");
+
+module.exports = defineConfig([
+	{
+		files: ["scripts/*.js"],
+		extends: [eslintConfigESLintBase],
+	},
+	{
+		files: ["eslint.config.js", ".eleventy.js", "tools/*.js"],
+		extends: [eslintConfigESLintCJS],
+	},
+]);
+```
+
+### Formatting config
+
+Note that none of the above configurations includes formatting rules. If you want to enable formatting rules, add the formatting config.
+
+```js
+import { defineConfig } from "eslint/config";
+import eslintConfigESLint from "eslint-config-eslint";
+import eslintConfigESLintFormatting from "eslint-config-eslint/formatting";
+
+export default defineConfig([eslintConfigESLint, eslintConfigESLintFormatting]);
 ```
 
 ### Where to ask for help?
 
-Join our [Mailing List](https://groups.google.com/group/eslint) or [Chatroom](https://gitter.im/eslint/eslint)
-
-[npm-image]: https://img.shields.io/npm/v/eslint.svg?style=flat-square
+Open a [discussion](https://github.com/eslint/eslint/discussions) or stop by our [Discord server](https://eslint.org/chat) instead of filing an issue.

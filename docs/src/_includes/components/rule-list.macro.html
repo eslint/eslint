@@ -1,0 +1,7 @@
+{%- macro replacementRuleList(params) -%}
+    {% for specifier in params.specifiers %}
+        <a href="{{ specifier.rule.url if specifier.plugin else specifier.rule.name }}" class="rule-list-item"><code>{{ specifier.rule.name }}</code></a>
+        {% if specifier.plugin %}<span> in <a href="{{ specifier.plugin.url | url }}"><code>{{ specifier.plugin.name }}</code></a> {% endif %}
+        {%- if loop.length > 1 and not loop.last -%} or <br />{%- endif -%}
+    {% endfor %}
+{%- endmacro -%}

@@ -1,0 +1,185 @@
+---
+layout: base.html
+---
+
+{% include "partials/docs-header.html" %}
+{% from 'components/rule-categories.macro.html' import ruleCategories %}
+{% from 'components/alert.macro.html' import important %}
+
+<div class="docs-wrapper">
+    <div class="docs-nav">
+        <div class="desktop-only">
+            {% include 'components/version-switcher.html' %}
+        </div>
+            {% include 'components/docs-index.html' %}
+    </div>
+
+    {# Add in various sections to content so TOC is accurate #}
+    {% set all_content = content %}
+    {% set rule_meta = rules_meta[title] %}
+    {% set added_version = rule_versions.added[title] %}
+    {% set removed_version = rule_versions.removed[title] %}
+
+    {% if handled_by_typescript %}
+        {% set handled_by_typescript_content %}
+            <h2 id="handled_by_typescript">Handled by TypeScript</h2>
+            <p>
+                It is safe to disable this rule when using TypeScript because TypeScript's compiler enforces this check.
+            </p>
+            {% if extra_typescript_info %}
+                <p>
+                    {{ extra_typescript_info | markdown | safe }}
+                </p>
+            {% endif %}
+        {% endset %}
+
+        {% set all_content = [all_content, handled_by_typescript_content] | join %}
+    {% endif %}
+
+    {% if related_rules %}
+        {% set related_rules_content %}
+            <h2 id="related-rules">Related Rules</h2>
+            {% related_rules related_rules %}
+        {% endset %}
+
+        {% set all_content = [all_content, related_rules_content] | join %}
+    {% endif %}
+
+    {% if added_version %}
+        {% set version_content %}
+            <h2 id="version">Version</h2>
+            <p>This rule was introduced in ESLint v{{added_version}}{% if removed_version%}
+                 and removed in v{{removed_version}}{% endif %}.</p>
+        {% endset %}
+
+        {% set all_content = [all_content, version_content] | join %}
+    {% endif %}
+
+    {% if further_reading %}
+        {% set further_reading_content %}
+            <h2 id="further-reading">Further Reading</h2>
+            {% for url in further_reading %}
+                {% link url %}
+            {% endfor %}
+        {% endset %}
+
+        {% set all_content = [all_content, further_reading_content] | join %}
+    {% endif %}
+
+    {% if rule_meta %}
+        {% set resources_content %}
+            <h2 id="resources">Resources</h2>
+            <ul>
+                <li><a href="https://github.com/eslint/eslint/blob/main/lib/rules/{{ title }}.js">Rule source</a></li>
+                <li><a href="https://github.com/eslint/eslint/blob/main/tests/lib/rules/{{ title }}.js">Tests source</a></li>
+            </ul>
+        {% endset %}
+        {% set all_content = [all_content, resources_content] | join %}
+    {% endif %}
+
+    <div class="docs-content">
+        <main id="main" tabindex="-1" class="docs-main">
+            <div class="docs-main__content">
+                <h1>{{ title }}</h1>
+                {% if rule_meta %}
+                    {%set id = true if (rule_meta.docs.recommended or rule_meta.fixable or rule_meta.hasSuggestions) else false %}
+                    <p>{{ rule_meta.docs.description | markdown | safe }}</p>
+                    {{ ruleCategories({
+                    index: id,
+                    recommended: rule_meta.docs.recommended,
+                    fixable: rule_meta.fixable,
+                    frozen: rule_meta.docs.frozen,
+                    hasSuggestions: rule_meta.hasSuggestions
+                    }) }}
+
+                    {% if rule_meta.deprecated %}
+                        {% set deprecated_description %}
+                            <p>This rule was <strong>deprecated</strong> in ESLint v{{ rule_meta.deprecated.deprecatedSince }}.
+   
+                            {% if rule_meta.deprecated.availableUntil %}
+                                It will be removed in <strong>v{{ rule_meta.deprecated.availableUntil }}</strong>.
+                            {% endif %}
+
+                            {% if rule_meta.deprecated.replacedBy.length === 0 %}
+                                There is no replacement rule.
+                            {% elif rule_meta.deprecated.replacedBy[0].plugin %}
+                                Please use the <a href="{{ rule_meta.deprecated.replacedBy[0].rule.url }}">corresponding rule</a> in <a href="{{ rule_meta.deprecated.replacedBy[0].plugin.url }}">{{ rule_meta.deprecated.replacedBy[0].plugin.name }}</a>.
+                            {% else %}
+                                Please replace the rule with <a href="{{ rule_meta.deprecated.replacedBy[0].rule.name }}">{{ rule_meta.deprecated.replacedBy[0].rule.name }}</a>.
+                            {% endif %}
+                        {% endset %}
+
+                        {% important deprecated_description, rule_meta.deprecated.url %}
+                    {% endif %}
+                {% endif %}
+
+                {% include 'components/docs-toc.html' %}
+
+                {{ all_content | safe }}
+            </div>
+
+            <div class="docs-edit-link">
+                <a href="
+                {% if edit_link %}
+                    {{ edit_link }}
+                {% else %}
+                    {% if eslintVersions.isPrereleasePhase and GIT_BRANCH === 'latest' %}
+                        {{ site.edit_link.start_with_latest }}{{ page.inputPath }}
+                    {% elseif is_number_version %}
+                        https://github.com/eslint/eslint/edit/{{ GIT_BRANCH }}/docs/{{ page.inputPath }}
+                    {% else %}
+                        {{ site.edit_link.start_with }}{{ page.inputPath }}
+                    {% endif %}
+                {% endif %}
+                "
+                class="c-btn c-btn--secondary">{{ site.edit_link.text }}</a>
+            </div>
+        </main>
+
+        <div class="docs-aside">
+            <div class="docs-aside__content">
+                <aside class="docs-ad">
+                    {%- include 'partials/ad.html' -%}
+                </aside>
+                {% include 'components/docs-toc.html' %}
+            </div>
+            {% include "partials/docs-footer.html" %}
+        </div>
+    </div>
+
+    <a id="scroll-up-btn" href="#site_top" aria-label="Scroll to top">
+        <svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24"><line x1="12" x2="12" y1="19" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+    </a>
+</div>
+
+<div id="copy-announcement" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+
+<script>
+    (function() {
+        const copyBtns = document.querySelectorAll(".copy-btn");
+        const announcementRegion = document.getElementById("copy-announcement");
+
+        for (const copyBtn of copyBtns) {
+            const copyText = copyBtn.previousElementSibling.firstChild.textContent;
+
+            copyBtn.onclick = () => {
+                navigator.clipboard
+                    .writeText(copyText)
+                    .then(() => {
+                        announcementRegion.innerHTML = "Copied!";
+                        copyBtn.setAttribute("data-copied", "true");
+
+                        setTimeout(() => {
+                            copyBtn.removeAttribute("data-copied");
+                            announcementRegion.innerHTML = "";
+                        }, 2000);
+                    })
+                    .catch((err) => {
+                        announcementRegion.innerHTML = "Failed to copy!";
+                        console.error("Clipboard write failed: ", err);
+                    });
+            };
+        }
+    })();
+</script>
+<script src="{{ '/assets/js/tabs.js' | url }}"></script>

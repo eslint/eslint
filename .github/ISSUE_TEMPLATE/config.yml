@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+    - name: 🗣 Ask a Question, Discuss
+      url: https://github.com/eslint/eslint/discussions
+      about: Get help using ESLint
+    - name: 📝 Help with VS Code ESLint
+      url: https://github.com/microsoft/vscode-eslint/issues/
+      about: Bugs and feature requests for the VS Code ESLint plugin
+    - name: Discord Server
+      url: https://eslint.org/chat
+      about: Talk with the team

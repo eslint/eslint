@@ -1,0 +1,44 @@
+{
+  "workspaces": {
+    ".": {
+      // These entries are complementary to the ones found in package.json
+      "entry": ["lib/rules/index.js", "tools/internal-rules/*.js"],
+      "project": ["{bin,conf,lib,tools}/**/*.js"],
+      "mocha": {
+        "entry": [
+          "tests/{bin,conf,lib,messages,tools}/**/*.js", // see Makefile.js
+        ],
+        "project": ["tests/**/*.js"],
+      },
+      "ignore": [
+        // If Knip would consider exports as named, their usage is too dynamic: globals[`es${ecmaVersion}`]
+        // An alternative is to add `__esModule: true` to the export and we can remove it here from the ignores:
+        "conf/globals.js",
+        // These contain unresolved imports and other oddities:
+        "tests/bench/large.js",
+        "tests/performance/jshint.js",
+        // Many are required using dynamic paths such as `fs.readFileSync(path.join())`:
+        "tests/fixtures/**",
+        // pnpm test package
+        "tests/pnpm/**",
+        // Run from Makefile.js
+        "tools/generate-formatter-examples.js",
+      ],
+      "ignoreDependencies": [
+        "c8",
+        // Optional peer dependency used for loading TypeScript configuration files
+        "jiti",
+        "prettier",
+      ],
+    },
+    "docs": {
+      "entry": ["src/assets/scss/{styles,print}.scss"],
+      "ignore": ["src/assets/js/search.js", "_examples/**"],
+    },
+    // Workspaces with default configs:
+    "packages/*": {
+      "ignore": ["tests/types/**"],
+      "ignoreDependencies": ["eslint"],
+    },
+  },
+}

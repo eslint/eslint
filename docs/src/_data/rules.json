@@ -1,0 +1,3503 @@
+{
+    "types": {
+        "problem": [
+            {
+                "name": "array-callback-return",
+                "description": "Enforce `return` statements in callbacks of array methods",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": true
+            },
+            {
+                "name": "constructor-super",
+                "description": "Require `super()` calls in constructors",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "for-direction",
+                "description": "Enforce `for` loop update clause moving the counter in the right direction",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "getter-return",
+                "description": "Enforce `return` statements in getters",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-async-promise-executor",
+                "description": "Disallow using an async function as a Promise executor",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-await-in-loop",
+                "description": "Disallow `await` inside of loops",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-class-assign",
+                "description": "Disallow reassigning class members",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-compare-neg-zero",
+                "description": "Disallow comparing against `-0`",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-cond-assign",
+                "description": "Disallow assignment operators in conditional expressions",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-const-assign",
+                "description": "Disallow reassigning `const`, `using`, and `await using` variables",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-constant-binary-expression",
+                "description": "Disallow expressions where the operation doesn't affect the value",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-constant-condition",
+                "description": "Disallow constant expressions in conditions",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-constructor-return",
+                "description": "Disallow returning value from constructor",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-control-regex",
+                "description": "Disallow control characters in regular expressions",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-debugger",
+                "description": "Disallow the use of `debugger`",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-dupe-args",
+                "description": "Disallow duplicate arguments in `function` definitions",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-dupe-class-members",
+                "description": "Disallow duplicate class members",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-dupe-else-if",
+                "description": "Disallow duplicate conditions in if-else-if chains",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-dupe-keys",
+                "description": "Disallow duplicate keys in object literals",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-duplicate-case",
+                "description": "Disallow duplicate case labels",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-duplicate-imports",
+                "description": "Disallow duplicate module imports",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-empty-character-class",
+                "description": "Disallow empty character classes in regular expressions",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-empty-pattern",
+                "description": "Disallow empty destructuring patterns",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-ex-assign",
+                "description": "Disallow reassigning exceptions in `catch` clauses",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-fallthrough",
+                "description": "Disallow fallthrough of `case` statements",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-func-assign",
+                "description": "Disallow reassigning `function` declarations",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-import-assign",
+                "description": "Disallow assigning to imported bindings",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-inner-declarations",
+                "description": "Disallow variable or `function` declarations in nested blocks",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-invalid-regexp",
+                "description": "Disallow invalid regular expression strings in `RegExp` constructors",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-irregular-whitespace",
+                "description": "Disallow irregular whitespace",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-loss-of-precision",
+                "description": "Disallow literal numbers that lose precision",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-misleading-character-class",
+                "description": "Disallow characters which are made with multiple code points in character class syntax",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": true
+            },
+            {
+                "name": "no-new-native-nonconstructor",
+                "description": "Disallow `new` operators with global non-constructor functions",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-obj-calls",
+                "description": "Disallow calling global object properties as functions",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-promise-executor-return",
+                "description": "Disallow returning values from Promise executor functions",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": true
+            },
+            {
+                "name": "no-prototype-builtins",
+                "description": "Disallow calling some `Object.prototype` methods directly on objects",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": true
+            },
+            {
+                "name": "no-self-assign",
+                "description": "Disallow assignments where both sides are exactly the same",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-self-compare",
+                "description": "Disallow comparisons where both sides are exactly the same",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-setter-return",
+                "description": "Disallow returning values from setters",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-sparse-arrays",
+                "description": "Disallow sparse arrays",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-template-curly-in-string",
+                "description": "Disallow template literal placeholder syntax in regular strings",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-this-before-super",
+                "description": "Disallow `this`/`super` before calling `super()` in constructors",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-unassigned-vars",
+                "description": "Disallow `let` or `var` variables that are read but never assigned",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-undef",
+                "description": "Disallow the use of undeclared variables unless mentioned in `/*global */` comments",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-unexpected-multiline",
+                "description": "Disallow confusing multiline expressions",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-unmodified-loop-condition",
+                "description": "Disallow unmodified loop conditions",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-unreachable",
+                "description": "Disallow unreachable code after `return`, `throw`, `continue`, and `break` statements",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-unreachable-loop",
+                "description": "Disallow loops with a body that allows only one iteration",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-unsafe-finally",
+                "description": "Disallow control flow statements in `finally` blocks",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-unsafe-negation",
+                "description": "Disallow negating the left operand of relational operators",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": true
+            },
+            {
+                "name": "no-unsafe-optional-chaining",
+                "description": "Disallow use of optional chaining in contexts where the `undefined` value is not allowed",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-unused-private-class-members",
+                "description": "Disallow unused private class members",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-unused-vars",
+                "description": "Disallow unused variables",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": true
+            },
+            {
+                "name": "no-use-before-define",
+                "description": "Disallow the use of variables before they are defined",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-useless-assignment",
+                "description": "Disallow variable assignments when the value is not used",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-useless-backreference",
+                "description": "Disallow useless backreferences in regular expressions",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "require-atomic-updates",
+                "description": "Disallow assignments that can lead to race conditions due to usage of `await` or `yield`",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "use-isnan",
+                "description": "Require calls to `isNaN()` when checking for `NaN`",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": true
+            },
+            {
+                "name": "valid-typeof",
+                "description": "Enforce comparing `typeof` expressions against valid strings",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": true
+            }
+        ],
+        "suggestion": [
+            {
+                "name": "accessor-pairs",
+                "description": "Enforce getter and setter pairs in objects and classes",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "arrow-body-style",
+                "description": "Require braces around arrow function bodies",
+                "recommended": false,
+                "fixable": true,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "block-scoped-var",
+                "description": "Enforce the use of variables within the scope they are defined",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "camelcase",
+                "description": "Enforce camelcase naming convention",
+                "recommended": false,
+                "fixable": false,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "capitalized-comments",
+                "description": "Enforce or disallow capitalization of the first letter of a comment",
+                "recommended": false,
+                "fixable": true,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "class-methods-use-this",
+                "description": "Enforce that class methods utilize `this`",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "complexity",
+                "description": "Enforce a maximum cyclomatic complexity allowed in a program",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "consistent-return",
+                "description": "Require `return` statements to either always or never specify values",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "consistent-this",
+                "description": "Enforce consistent naming when capturing the current execution context",
+                "recommended": false,
+                "fixable": false,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "curly",
+                "description": "Enforce consistent brace style for all control statements",
+                "recommended": false,
+                "fixable": true,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "default-case",
+                "description": "Require `default` cases in `switch` statements",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "default-case-last",
+                "description": "Enforce `default` clauses in `switch` statements to be last",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "default-param-last",
+                "description": "Enforce default parameters to be last",
+                "recommended": false,
+                "fixable": false,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "dot-notation",
+                "description": "Enforce dot notation whenever possible",
+                "recommended": false,
+                "fixable": true,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "eqeqeq",
+                "description": "Require the use of `===` and `!==`",
+                "recommended": false,
+                "fixable": true,
+                "frozen": false,
+                "hasSuggestions": true
+            },
+            {
+                "name": "func-name-matching",
+                "description": "Require function names to match the name of the variable or property to which they are assigned",
+                "recommended": false,
+                "fixable": false,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "func-names",
+                "description": "Require or disallow named `function` expressions",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "func-style",
+                "description": "Enforce the consistent use of either `function` declarations or expressions assigned to variables",
+                "recommended": false,
+                "fixable": false,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "grouped-accessor-pairs",
+                "description": "Require grouped accessor pairs in object literals and classes",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "guard-for-in",
+                "description": "Require `for-in` loops to include an `if` statement",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "id-denylist",
+                "description": "Disallow specified identifiers",
+                "recommended": false,
+                "fixable": false,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "id-length",
+                "description": "Enforce minimum and maximum identifier lengths",
+                "recommended": false,
+                "fixable": false,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "id-match",
+                "description": "Require identifiers to match a specified regular expression",
+                "recommended": false,
+                "fixable": false,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "init-declarations",
+                "description": "Require or disallow initialization in variable declarations",
+                "recommended": false,
+                "fixable": false,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "logical-assignment-operators",
+                "description": "Require or disallow logical assignment operator shorthand",
+                "recommended": false,
+                "fixable": true,
+                "frozen": true,
+                "hasSuggestions": true
+            },
+            {
+                "name": "max-classes-per-file",
+                "description": "Enforce a maximum number of classes per file",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "max-depth",
+                "description": "Enforce a maximum depth that blocks can be nested",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "max-lines",
+                "description": "Enforce a maximum number of lines per file",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "max-lines-per-function",
+                "description": "Enforce a maximum number of lines of code in a function",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "max-nested-callbacks",
+                "description": "Enforce a maximum depth that callbacks can be nested",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "max-params",
+                "description": "Enforce a maximum number of parameters in function definitions",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "max-statements",
+                "description": "Enforce a maximum number of statements allowed in function blocks",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "new-cap",
+                "description": "Require constructor names to begin with a capital letter",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-alert",
+                "description": "Disallow the use of `alert`, `confirm`, and `prompt`",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-array-constructor",
+                "description": "Disallow `Array` constructors",
+                "recommended": false,
+                "fixable": true,
+                "frozen": false,
+                "hasSuggestions": true
+            },
+            {
+                "name": "no-bitwise",
+                "description": "Disallow bitwise operators",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-caller",
+                "description": "Disallow the use of `arguments.caller` or `arguments.callee`",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-case-declarations",
+                "description": "Disallow lexical declarations in case clauses",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": true
+            },
+            {
+                "name": "no-console",
+                "description": "Disallow the use of `console`",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": true
+            },
+            {
+                "name": "no-continue",
+                "description": "Disallow `continue` statements",
+                "recommended": false,
+                "fixable": false,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-delete-var",
+                "description": "Disallow deleting variables",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-div-regex",
+                "description": "Disallow equal signs explicitly at the beginning of regular expressions",
+                "recommended": false,
+                "fixable": true,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-else-return",
+                "description": "Disallow `else` blocks after `return` statements in `if` statements",
+                "recommended": false,
+                "fixable": true,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-empty",
+                "description": "Disallow empty block statements",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": true
+            },
+            {
+                "name": "no-empty-function",
+                "description": "Disallow empty functions",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": true
+            },
+            {
+                "name": "no-empty-static-block",
+                "description": "Disallow empty static blocks",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": true
+            },
+            {
+                "name": "no-eq-null",
+                "description": "Disallow `null` comparisons without type-checking operators",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-eval",
+                "description": "Disallow the use of `eval()`",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-extend-native",
+                "description": "Disallow extending native types",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-extra-bind",
+                "description": "Disallow unnecessary calls to `.bind()`",
+                "recommended": false,
+                "fixable": true,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-extra-boolean-cast",
+                "description": "Disallow unnecessary boolean casts",
+                "recommended": true,
+                "fixable": true,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-extra-label",
+                "description": "Disallow unnecessary labels",
+                "recommended": false,
+                "fixable": true,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-global-assign",
+                "description": "Disallow assignments to native objects or read-only global variables",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-implicit-coercion",
+                "description": "Disallow shorthand type conversions",
+                "recommended": false,
+                "fixable": true,
+                "frozen": true,
+                "hasSuggestions": true
+            },
+            {
+                "name": "no-implicit-globals",
+                "description": "Disallow declarations in the global scope",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-implied-eval",
+                "description": "Disallow the use of `eval()`-like methods",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-inline-comments",
+                "description": "Disallow inline comments after code",
+                "recommended": false,
+                "fixable": false,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-invalid-this",
+                "description": "Disallow use of `this` in contexts where the value of `this` is `undefined`",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-iterator",
+                "description": "Disallow the use of the `__iterator__` property",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-label-var",
+                "description": "Disallow labels that share a name with a variable",
+                "recommended": false,
+                "fixable": false,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-labels",
+                "description": "Disallow labeled statements",
+                "recommended": false,
+                "fixable": false,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-lone-blocks",
+                "description": "Disallow unnecessary nested blocks",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-lonely-if",
+                "description": "Disallow `if` statements as the only statement in `else` blocks",
+                "recommended": false,
+                "fixable": true,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-loop-func",
+                "description": "Disallow function declarations that contain unsafe references inside loop statements",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-magic-numbers",
+                "description": "Disallow magic numbers",
+                "recommended": false,
+                "fixable": false,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-multi-assign",
+                "description": "Disallow use of chained assignment expressions",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-multi-str",
+                "description": "Disallow multiline strings",
+                "recommended": false,
+                "fixable": false,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-negated-condition",
+                "description": "Disallow negated conditions",
+                "recommended": false,
+                "fixable": false,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-nested-ternary",
+                "description": "Disallow nested ternary expressions",
+                "recommended": false,
+                "fixable": false,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-new",
+                "description": "Disallow `new` operators outside of assignments or comparisons",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-new-func",
+                "description": "Disallow `new` operators with the `Function` object",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-new-wrappers",
+                "description": "Disallow `new` operators with the `String`, `Number`, and `Boolean` objects",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-nonoctal-decimal-escape",
+                "description": "Disallow `\\8` and `\\9` escape sequences in string literals",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": true
+            },
+            {
+                "name": "no-object-constructor",
+                "description": "Disallow calls to the `Object` constructor without an argument",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": true
+            },
+            {
+                "name": "no-octal",
+                "description": "Disallow octal literals",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-octal-escape",
+                "description": "Disallow octal escape sequences in string literals",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-param-reassign",
+                "description": "Disallow reassigning function parameters",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-plusplus",
+                "description": "Disallow the unary operators `++` and `--`",
+                "recommended": false,
+                "fixable": false,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-proto",
+                "description": "Disallow the use of the `__proto__` property",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-redeclare",
+                "description": "Disallow variable redeclaration",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-regex-spaces",
+                "description": "Disallow multiple spaces in regular expressions",
+                "recommended": true,
+                "fixable": true,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-restricted-exports",
+                "description": "Disallow specified names in exports",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-restricted-globals",
+                "description": "Disallow specified global variables",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-restricted-imports",
+                "description": "Disallow specified modules when loaded by `import`",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-restricted-properties",
+                "description": "Disallow certain properties on certain objects",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-restricted-syntax",
+                "description": "Disallow specified syntax",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-return-assign",
+                "description": "Disallow assignment operators in `return` statements",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-script-url",
+                "description": "Disallow `javascript:` URLs",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-sequences",
+                "description": "Disallow comma operators",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-shadow",
+                "description": "Disallow variable declarations from shadowing variables declared in the outer scope",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-shadow-restricted-names",
+                "description": "Disallow identifiers from shadowing restricted names",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-ternary",
+                "description": "Disallow ternary operators",
+                "recommended": false,
+                "fixable": false,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-throw-literal",
+                "description": "Disallow throwing literals as exceptions",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-undef-init",
+                "description": "Disallow initializing variables to `undefined`",
+                "recommended": false,
+                "fixable": true,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-undefined",
+                "description": "Disallow the use of `undefined` as an identifier",
+                "recommended": false,
+                "fixable": false,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-underscore-dangle",
+                "description": "Disallow dangling underscores in identifiers",
+                "recommended": false,
+                "fixable": false,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-unneeded-ternary",
+                "description": "Disallow ternary operators when simpler alternatives exist",
+                "recommended": false,
+                "fixable": true,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-unused-expressions",
+                "description": "Disallow unused expressions",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-unused-labels",
+                "description": "Disallow unused labels",
+                "recommended": true,
+                "fixable": true,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-useless-call",
+                "description": "Disallow unnecessary calls to `.call()` and `.apply()`",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-useless-catch",
+                "description": "Disallow unnecessary `catch` clauses",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-useless-computed-key",
+                "description": "Disallow unnecessary computed property keys in objects and classes",
+                "recommended": false,
+                "fixable": true,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-useless-concat",
+                "description": "Disallow unnecessary concatenation of literals or template literals",
+                "recommended": false,
+                "fixable": false,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-useless-constructor",
+                "description": "Disallow unnecessary constructors",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": true
+            },
+            {
+                "name": "no-useless-escape",
+                "description": "Disallow unnecessary escape characters",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": true
+            },
+            {
+                "name": "no-useless-rename",
+                "description": "Disallow renaming import, export, and destructured assignments to the same name",
+                "recommended": false,
+                "fixable": true,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-useless-return",
+                "description": "Disallow redundant return statements",
+                "recommended": false,
+                "fixable": true,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-var",
+                "description": "Require `let` or `const` instead of `var`",
+                "recommended": false,
+                "fixable": true,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-void",
+                "description": "Disallow `void` operators",
+                "recommended": false,
+                "fixable": false,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-warning-comments",
+                "description": "Disallow specified warning terms in comments",
+                "recommended": false,
+                "fixable": false,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "no-with",
+                "description": "Disallow `with` statements",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "object-shorthand",
+                "description": "Require or disallow method and property shorthand syntax for object literals",
+                "recommended": false,
+                "fixable": true,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "one-var",
+                "description": "Enforce variables to be declared either together or separately in functions",
+                "recommended": false,
+                "fixable": true,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "operator-assignment",
+                "description": "Require or disallow assignment operator shorthand where possible",
+                "recommended": false,
+                "fixable": true,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "prefer-arrow-callback",
+                "description": "Require using arrow functions for callbacks",
+                "recommended": false,
+                "fixable": true,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "prefer-const",
+                "description": "Require `const` declarations for variables that are never reassigned after declared",
+                "recommended": false,
+                "fixable": true,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "prefer-destructuring",
+                "description": "Require destructuring from arrays and/or objects",
+                "recommended": false,
+                "fixable": true,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "prefer-exponentiation-operator",
+                "description": "Disallow the use of `Math.pow` in favor of the `**` operator",
+                "recommended": false,
+                "fixable": true,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "prefer-named-capture-group",
+                "description": "Enforce using named capture group in regular expression",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": true
+            },
+            {
+                "name": "prefer-numeric-literals",
+                "description": "Disallow `parseInt()` and `Number.parseInt()` in favor of binary, octal, and hexadecimal literals",
+                "recommended": false,
+                "fixable": true,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "prefer-object-has-own",
+                "description": "Disallow use of `Object.prototype.hasOwnProperty.call()` and prefer use of `Object.hasOwn()`",
+                "recommended": false,
+                "fixable": true,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "prefer-object-spread",
+                "description": "Disallow using `Object.assign` with an object literal as the first argument and prefer the use of object spread instead",
+                "recommended": false,
+                "fixable": true,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "prefer-promise-reject-errors",
+                "description": "Require using Error objects as Promise rejection reasons",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "prefer-regex-literals",
+                "description": "Disallow use of the `RegExp` constructor in favor of regular expression literals",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": true
+            },
+            {
+                "name": "prefer-rest-params",
+                "description": "Require rest parameters instead of `arguments`",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "prefer-spread",
+                "description": "Require spread operators instead of `.apply()`",
+                "recommended": false,
+                "fixable": false,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "prefer-template",
+                "description": "Require template literals instead of string concatenation",
+                "recommended": false,
+                "fixable": true,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "preserve-caught-error",
+                "description": "Disallow losing originally caught error when re-throwing custom errors",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": true
+            },
+            {
+                "name": "radix",
+                "description": "Enforce the use of the radix argument when using `parseInt()`",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": true
+            },
+            {
+                "name": "require-await",
+                "description": "Disallow async functions which have no `await` expression",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": true
+            },
+            {
+                "name": "require-unicode-regexp",
+                "description": "Enforce the use of `u` or `v` flag on regular expressions",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": true
+            },
+            {
+                "name": "require-yield",
+                "description": "Require generator functions to contain `yield`",
+                "recommended": true,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "sort-imports",
+                "description": "Enforce sorted `import` declarations within modules",
+                "recommended": false,
+                "fixable": true,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "sort-keys",
+                "description": "Require object keys to be sorted",
+                "recommended": false,
+                "fixable": false,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "sort-vars",
+                "description": "Require variables within the same declaration block to be sorted",
+                "recommended": false,
+                "fixable": true,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "strict",
+                "description": "Require or disallow strict mode directives",
+                "recommended": false,
+                "fixable": true,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "symbol-description",
+                "description": "Require symbol descriptions",
+                "recommended": false,
+                "fixable": false,
+                "frozen": false,
+                "hasSuggestions": false
+            },
+            {
+                "name": "vars-on-top",
+                "description": "Require `var` declarations be placed at the top of their containing scope",
+                "recommended": false,
+                "fixable": false,
+                "frozen": true,
+                "hasSuggestions": false
+            },
+            {
+                "name": "yoda",
+                "description": "Require or disallow \"Yoda\" conditions",
+                "recommended": false,
+                "fixable": true,
+                "frozen": true,
+                "hasSuggestions": false
+            }
+        ],
+        "layout": [
+            {
+                "name": "unicode-bom",
+                "description": "Require or disallow Unicode byte order mark (BOM)",
+                "recommended": false,
+                "fixable": true,
+                "frozen": false,
+                "hasSuggestions": false
+            }
+        ]
+    },
+    "deprecated": [
+        {
+            "name": "array-bracket-newline",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "array-bracket-newline",
+                        "url": "https://eslint.style/rules/array-bracket-newline"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "array-bracket-spacing",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "array-bracket-spacing",
+                        "url": "https://eslint.style/rules/array-bracket-spacing"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "array-element-newline",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "array-element-newline",
+                        "url": "https://eslint.style/rules/array-element-newline"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "arrow-parens",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "arrow-parens",
+                        "url": "https://eslint.style/rules/arrow-parens"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "arrow-spacing",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "arrow-spacing",
+                        "url": "https://eslint.style/rules/arrow-spacing"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "block-spacing",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "block-spacing",
+                        "url": "https://eslint.style/rules/block-spacing"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "brace-style",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "brace-style",
+                        "url": "https://eslint.style/rules/brace-style"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "callback-return",
+            "replacedBy": [
+                {
+                    "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
+                    "plugin": {
+                        "name": "eslint-plugin-n",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n"
+                    },
+                    "rule": {
+                        "name": "callback-return",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/callback-return.md"
+                    }
+                }
+            ],
+            "fixable": false,
+            "hasSuggestions": false
+        },
+        {
+            "name": "comma-dangle",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "comma-dangle",
+                        "url": "https://eslint.style/rules/comma-dangle"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "comma-spacing",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "comma-spacing",
+                        "url": "https://eslint.style/rules/comma-spacing"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "comma-style",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "comma-style",
+                        "url": "https://eslint.style/rules/comma-style"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "computed-property-spacing",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "computed-property-spacing",
+                        "url": "https://eslint.style/rules/computed-property-spacing"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "dot-location",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "dot-location",
+                        "url": "https://eslint.style/rules/dot-location"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "eol-last",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "eol-last",
+                        "url": "https://eslint.style/rules/eol-last"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "func-call-spacing",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "function-call-spacing",
+                        "url": "https://eslint.style/rules/function-call-spacing"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "function-call-argument-newline",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "function-call-argument-newline",
+                        "url": "https://eslint.style/rules/function-call-argument-newline"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "function-paren-newline",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "function-paren-newline",
+                        "url": "https://eslint.style/rules/function-paren-newline"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "generator-star-spacing",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "generator-star-spacing",
+                        "url": "https://eslint.style/rules/generator-star-spacing"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "global-require",
+            "replacedBy": [
+                {
+                    "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
+                    "plugin": {
+                        "name": "eslint-plugin-n",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n"
+                    },
+                    "rule": {
+                        "name": "global-require",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/global-require.md"
+                    }
+                }
+            ],
+            "fixable": false,
+            "hasSuggestions": false
+        },
+        {
+            "name": "handle-callback-err",
+            "replacedBy": [
+                {
+                    "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
+                    "plugin": {
+                        "name": "eslint-plugin-n",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n"
+                    },
+                    "rule": {
+                        "name": "handle-callback-err",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/handle-callback-err.md"
+                    }
+                }
+            ],
+            "fixable": false,
+            "hasSuggestions": false
+        },
+        {
+            "name": "id-blacklist",
+            "replacedBy": [
+                {
+                    "rule": {
+                        "name": "id-denylist",
+                        "url": "https://eslint.org/docs/rules/id-denylist"
+                    }
+                }
+            ],
+            "fixable": false,
+            "hasSuggestions": false
+        },
+        {
+            "name": "implicit-arrow-linebreak",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "implicit-arrow-linebreak",
+                        "url": "https://eslint.style/rules/implicit-arrow-linebreak"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "indent",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "indent",
+                        "url": "https://eslint.style/rules/indent"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "indent-legacy",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "indent",
+                        "url": "https://eslint.style/rules/indent"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "jsx-quotes",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "jsx-quotes",
+                        "url": "https://eslint.style/rules/jsx-quotes"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "key-spacing",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "key-spacing",
+                        "url": "https://eslint.style/rules/key-spacing"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "keyword-spacing",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "keyword-spacing",
+                        "url": "https://eslint.style/rules/keyword-spacing"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "line-comment-position",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "line-comment-position",
+                        "url": "https://eslint.style/rules/line-comment-position"
+                    }
+                }
+            ],
+            "fixable": false,
+            "hasSuggestions": false
+        },
+        {
+            "name": "linebreak-style",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "linebreak-style",
+                        "url": "https://eslint.style/rules/linebreak-style"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "lines-around-comment",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "lines-around-comment",
+                        "url": "https://eslint.style/rules/lines-around-comment"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "lines-around-directive",
+            "replacedBy": [
+                {
+                    "message": "The new rule moved to a plugin.",
+                    "url": "https://eslint.org/docs/latest/rules/padding-line-between-statements#examples",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "padding-line-between-statements",
+                        "url": "https://eslint.style/rules/padding-line-between-statements"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "lines-between-class-members",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "lines-between-class-members",
+                        "url": "https://eslint.style/rules/lines-between-class-members"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "max-len",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "max-len",
+                        "url": "https://eslint.style/rules/max-len"
+                    }
+                }
+            ],
+            "fixable": false,
+            "hasSuggestions": false
+        },
+        {
+            "name": "max-statements-per-line",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "max-statements-per-line",
+                        "url": "https://eslint.style/rules/max-statements-per-line"
+                    }
+                }
+            ],
+            "fixable": false,
+            "hasSuggestions": false
+        },
+        {
+            "name": "multiline-comment-style",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "multiline-comment-style",
+                        "url": "https://eslint.style/rules/multiline-comment-style"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "multiline-ternary",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "multiline-ternary",
+                        "url": "https://eslint.style/rules/multiline-ternary"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "new-parens",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "new-parens",
+                        "url": "https://eslint.style/rules/new-parens"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "newline-after-var",
+            "replacedBy": [
+                {
+                    "message": "The new rule moved to a plugin.",
+                    "url": "https://eslint.org/docs/latest/rules/padding-line-between-statements#examples",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "padding-line-between-statements",
+                        "url": "https://eslint.style/rules/padding-line-between-statements"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "newline-before-return",
+            "replacedBy": [
+                {
+                    "message": "The new rule moved to a plugin.",
+                    "url": "https://eslint.org/docs/latest/rules/padding-line-between-statements#examples",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "padding-line-between-statements",
+                        "url": "https://eslint.style/rules/padding-line-between-statements"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "newline-per-chained-call",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "newline-per-chained-call",
+                        "url": "https://eslint.style/rules/newline-per-chained-call"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "no-buffer-constructor",
+            "replacedBy": [
+                {
+                    "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
+                    "plugin": {
+                        "name": "eslint-plugin-n",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n"
+                    },
+                    "rule": {
+                        "name": "no-deprecated-api",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-deprecated-api.md"
+                    }
+                }
+            ],
+            "fixable": false,
+            "hasSuggestions": false
+        },
+        {
+            "name": "no-catch-shadow",
+            "replacedBy": [
+                {
+                    "rule": {
+                        "name": "no-shadow",
+                        "url": "https://eslint.org/docs/rules/no-shadow"
+                    }
+                }
+            ],
+            "fixable": false,
+            "hasSuggestions": false
+        },
+        {
+            "name": "no-confusing-arrow",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "no-confusing-arrow",
+                        "url": "https://eslint.style/rules/no-confusing-arrow"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "no-extra-parens",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "no-extra-parens",
+                        "url": "https://eslint.style/rules/no-extra-parens"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "no-extra-semi",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "no-extra-semi",
+                        "url": "https://eslint.style/rules/no-extra-semi"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "no-floating-decimal",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "no-floating-decimal",
+                        "url": "https://eslint.style/rules/no-floating-decimal"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "no-mixed-operators",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "no-mixed-operators",
+                        "url": "https://eslint.style/rules/no-mixed-operators"
+                    }
+                }
+            ],
+            "fixable": false,
+            "hasSuggestions": false
+        },
+        {
+            "name": "no-mixed-requires",
+            "replacedBy": [
+                {
+                    "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
+                    "plugin": {
+                        "name": "eslint-plugin-n",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n"
+                    },
+                    "rule": {
+                        "name": "no-mixed-requires",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-mixed-requires.md"
+                    }
+                }
+            ],
+            "fixable": false,
+            "hasSuggestions": false
+        },
+        {
+            "name": "no-mixed-spaces-and-tabs",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "no-mixed-spaces-and-tabs",
+                        "url": "https://eslint.style/rules/no-mixed-spaces-and-tabs"
+                    }
+                }
+            ],
+            "fixable": false,
+            "hasSuggestions": false
+        },
+        {
+            "name": "no-multi-spaces",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "no-multi-spaces",
+                        "url": "https://eslint.style/rules/no-multi-spaces"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "no-multiple-empty-lines",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "no-multiple-empty-lines",
+                        "url": "https://eslint.style/rules/no-multiple-empty-lines"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "no-native-reassign",
+            "replacedBy": [
+                {
+                    "rule": {
+                        "name": "no-global-assign",
+                        "url": "https://eslint.org/docs/rules/no-global-assign"
+                    }
+                }
+            ],
+            "fixable": false,
+            "hasSuggestions": false
+        },
+        {
+            "name": "no-negated-in-lhs",
+            "replacedBy": [
+                {
+                    "rule": {
+                        "name": "no-unsafe-negation",
+                        "url": "https://eslint.org/docs/rules/no-unsafe-negation"
+                    }
+                }
+            ],
+            "fixable": false,
+            "hasSuggestions": false
+        },
+        {
+            "name": "no-new-object",
+            "replacedBy": [
+                {
+                    "rule": {
+                        "name": "no-object-constructor",
+                        "url": "https://eslint.org/docs/rules/no-object-constructor"
+                    }
+                }
+            ],
+            "fixable": false,
+            "hasSuggestions": false
+        },
+        {
+            "name": "no-new-require",
+            "replacedBy": [
+                {
+                    "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
+                    "plugin": {
+                        "name": "eslint-plugin-n",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n"
+                    },
+                    "rule": {
+                        "name": "no-new-require",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-new-require.md"
+                    }
+                }
+            ],
+            "fixable": false,
+            "hasSuggestions": false
+        },
+        {
+            "name": "no-new-symbol",
+            "replacedBy": [
+                {
+                    "rule": {
+                        "name": "no-new-native-nonconstructor",
+                        "url": "https://eslint.org/docs/latest/rules/no-new-native-nonconstructor"
+                    }
+                }
+            ],
+            "fixable": false,
+            "hasSuggestions": false
+        },
+        {
+            "name": "no-path-concat",
+            "replacedBy": [
+                {
+                    "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
+                    "plugin": {
+                        "name": "eslint-plugin-n",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n"
+                    },
+                    "rule": {
+                        "name": "no-path-concat",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-path-concat.md"
+                    }
+                }
+            ],
+            "fixable": false,
+            "hasSuggestions": false
+        },
+        {
+            "name": "no-process-env",
+            "replacedBy": [
+                {
+                    "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
+                    "plugin": {
+                        "name": "eslint-plugin-n",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n"
+                    },
+                    "rule": {
+                        "name": "no-process-env",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-process-env.md"
+                    }
+                }
+            ],
+            "fixable": false,
+            "hasSuggestions": false
+        },
+        {
+            "name": "no-process-exit",
+            "replacedBy": [
+                {
+                    "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
+                    "plugin": {
+                        "name": "eslint-plugin-n",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n"
+                    },
+                    "rule": {
+                        "name": "no-process-exit",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-process-exit.md"
+                    }
+                }
+            ],
+            "fixable": false,
+            "hasSuggestions": false
+        },
+        {
+            "name": "no-restricted-modules",
+            "replacedBy": [
+                {
+                    "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
+                    "plugin": {
+                        "name": "eslint-plugin-n",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n"
+                    },
+                    "rule": {
+                        "name": "no-restricted-require",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-restricted-require.md"
+                    }
+                }
+            ],
+            "fixable": false,
+            "hasSuggestions": false
+        },
+        {
+            "name": "no-return-await",
+            "replacedBy": [],
+            "fixable": false,
+            "hasSuggestions": true
+        },
+        {
+            "name": "no-spaced-func",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "function-call-spacing",
+                        "url": "https://eslint.style/rules/function-call-spacing"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "no-sync",
+            "replacedBy": [
+                {
+                    "message": "eslint-plugin-n now maintains deprecated Node.js-related rules.",
+                    "plugin": {
+                        "name": "eslint-plugin-n",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n"
+                    },
+                    "rule": {
+                        "name": "no-sync",
+                        "url": "https://github.com/eslint-community/eslint-plugin-n/tree/master/docs/rules/no-sync.md"
+                    }
+                }
+            ],
+            "fixable": false,
+            "hasSuggestions": false
+        },
+        {
+            "name": "no-tabs",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "no-tabs",
+                        "url": "https://eslint.style/rules/no-tabs"
+                    }
+                }
+            ],
+            "fixable": false,
+            "hasSuggestions": false
+        },
+        {
+            "name": "no-trailing-spaces",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "no-trailing-spaces",
+                        "url": "https://eslint.style/rules/no-trailing-spaces"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "no-whitespace-before-property",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "no-whitespace-before-property",
+                        "url": "https://eslint.style/rules/no-whitespace-before-property"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "nonblock-statement-body-position",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "nonblock-statement-body-position",
+                        "url": "https://eslint.style/rules/nonblock-statement-body-position"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "object-curly-newline",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "object-curly-newline",
+                        "url": "https://eslint.style/rules/object-curly-newline"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "object-curly-spacing",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "object-curly-spacing",
+                        "url": "https://eslint.style/rules/object-curly-spacing"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "object-property-newline",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "object-property-newline",
+                        "url": "https://eslint.style/rules/object-property-newline"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "one-var-declaration-per-line",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "one-var-declaration-per-line",
+                        "url": "https://eslint.style/rules/one-var-declaration-per-line"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "operator-linebreak",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "operator-linebreak",
+                        "url": "https://eslint.style/rules/operator-linebreak"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "padded-blocks",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "padded-blocks",
+                        "url": "https://eslint.style/rules/padded-blocks"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "padding-line-between-statements",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "padding-line-between-statements",
+                        "url": "https://eslint.style/rules/padding-line-between-statements"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "prefer-reflect",
+            "replacedBy": [],
+            "fixable": false,
+            "hasSuggestions": false
+        },
+        {
+            "name": "quote-props",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "quote-props",
+                        "url": "https://eslint.style/rules/quote-props"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "quotes",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "quotes",
+                        "url": "https://eslint.style/rules/quotes"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "rest-spread-spacing",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "rest-spread-spacing",
+                        "url": "https://eslint.style/rules/rest-spread-spacing"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "semi",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "semi",
+                        "url": "https://eslint.style/rules/semi"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "semi-spacing",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "semi-spacing",
+                        "url": "https://eslint.style/rules/semi-spacing"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "semi-style",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "semi-style",
+                        "url": "https://eslint.style/rules/semi-style"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "space-before-blocks",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "space-before-blocks",
+                        "url": "https://eslint.style/rules/space-before-blocks"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "space-before-function-paren",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "space-before-function-paren",
+                        "url": "https://eslint.style/rules/space-before-function-paren"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "space-in-parens",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "space-in-parens",
+                        "url": "https://eslint.style/rules/space-in-parens"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "space-infix-ops",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "space-infix-ops",
+                        "url": "https://eslint.style/rules/space-infix-ops"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "space-unary-ops",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "space-unary-ops",
+                        "url": "https://eslint.style/rules/space-unary-ops"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "spaced-comment",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "spaced-comment",
+                        "url": "https://eslint.style/rules/spaced-comment"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "switch-colon-spacing",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "switch-colon-spacing",
+                        "url": "https://eslint.style/rules/switch-colon-spacing"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "template-curly-spacing",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "template-curly-spacing",
+                        "url": "https://eslint.style/rules/template-curly-spacing"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "template-tag-spacing",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "template-tag-spacing",
+                        "url": "https://eslint.style/rules/template-tag-spacing"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "wrap-iife",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "wrap-iife",
+                        "url": "https://eslint.style/rules/wrap-iife"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "wrap-regex",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "wrap-regex",
+                        "url": "https://eslint.style/rules/wrap-regex"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        },
+        {
+            "name": "yield-star-spacing",
+            "replacedBy": [
+                {
+                    "message": "ESLint Stylistic now maintains deprecated stylistic core rules.",
+                    "url": "https://eslint.style/guide/migration",
+                    "plugin": {
+                        "name": "@stylistic/eslint-plugin",
+                        "url": "https://eslint.style"
+                    },
+                    "rule": {
+                        "name": "yield-star-spacing",
+                        "url": "https://eslint.style/rules/yield-star-spacing"
+                    }
+                }
+            ],
+            "fixable": true,
+            "hasSuggestions": false
+        }
+    ],
+    "removed": [
+        {
+            "removed": "generator-star",
+            "replacedBy": [
+                {
+                    "rule": {
+                        "name": "generator-star-spacing"
+                    }
+                }
+            ]
+        },
+        {
+            "removed": "global-strict",
+            "replacedBy": [
+                {
+                    "rule": {
+                        "name": "strict"
+                    }
+                }
+            ]
+        },
+        {
+            "removed": "no-arrow-condition",
+            "replacedBy": [
+                {
+                    "rule": {
+                        "name": "no-confusing-arrow"
+                    }
+                },
+                {
+                    "rule": {
+                        "name": "no-constant-condition"
+                    }
+                }
+            ]
+        },
+        {
+            "removed": "no-comma-dangle",
+            "replacedBy": [
+                {
+                    "rule": {
+                        "name": "comma-dangle"
+                    }
+                }
+            ]
+        },
+        {
+            "removed": "no-empty-class",
+            "replacedBy": [
+                {
+                    "rule": {
+                        "name": "no-empty-character-class"
+                    }
+                }
+            ]
+        },
+        {
+            "removed": "no-empty-label",
+            "replacedBy": [
+                {
+                    "rule": {
+                        "name": "no-labels"
+                    }
+                }
+            ]
+        },
+        {
+            "removed": "no-extra-strict",
+            "replacedBy": [
+                {
+                    "rule": {
+                        "name": "strict"
+                    }
+                }
+            ]
+        },
+        {
+            "removed": "no-reserved-keys",
+            "replacedBy": [
+                {
+                    "rule": {
+                        "name": "quote-props"
+                    }
+                }
+            ]
+        },
+        {
+            "removed": "no-space-before-semi",
+            "replacedBy": [
+                {
+                    "rule": {
+                        "name": "semi-spacing"
+                    }
+                }
+            ]
+        },
+        {
+            "removed": "no-wrap-func",
+            "replacedBy": [
+                {
+                    "rule": {
+                        "name": "no-extra-parens"
+                    }
+                }
+            ]
+        },
+        {
+            "removed": "space-after-function-name",
+            "replacedBy": [
+                {
+                    "rule": {
+                        "name": "space-before-function-paren"
+                    }
+                }
+            ]
+        },
+        {
+            "removed": "space-after-keywords",
+            "replacedBy": [
+                {
+                    "rule": {
+                        "name": "keyword-spacing"
+                    }
+                }
+            ]
+        },
+        {
+            "removed": "space-before-function-parentheses",
+            "replacedBy": [
+                {
+                    "rule": {
+                        "name": "space-before-function-paren"
+                    }
+                }
+            ]
+        },
+        {
+            "removed": "space-before-keywords",
+            "replacedBy": [
+                {
+                    "rule": {
+                        "name": "keyword-spacing"
+                    }
+                }
+            ]
+        },
+        {
+            "removed": "space-in-brackets",
+            "replacedBy": [
+                {
+                    "rule": {
+                        "name": "object-curly-spacing"
+                    }
+                },
+                {
+                    "rule": {
+                        "name": "array-bracket-spacing"
+                    }
+                },
+                {
+                    "rule": {
+                        "name": "computed-property-spacing"
+                    }
+                }
+            ]
+        },
+        {
+            "removed": "space-return-throw-case",
+            "replacedBy": [
+                {
+                    "rule": {
+                        "name": "keyword-spacing"
+                    }
+                }
+            ]
+        },
+        {
+            "removed": "space-unary-word-ops",
+            "replacedBy": [
+                {
+                    "rule": {
+                        "name": "space-unary-ops"
+                    }
+                }
+            ]
+        },
+        {
+            "removed": "spaced-line-comment",
+            "replacedBy": [
+                {
+                    "rule": {
+                        "name": "spaced-comment"
+                    }
+                }
+            ]
+        },
+        {
+            "removed": "valid-jsdoc",
+            "replacedBy": []
+        },
+        {
+            "removed": "require-jsdoc",
+            "replacedBy": []
+        }
+    ]
+}

@@ -9,19 +9,30 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/no-debugger"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+const rule = require("../../../lib/rules/no-debugger"),
+	RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
+
 ruleTester.run("no-debugger", rule, {
-    valid: [
-        "var test = { debugger: 1 }; test.debugger;"
-    ],
-    invalid: [
-        { code: "debugger", errors: [{ message: "Unexpected 'debugger' statement.", type: "DebuggerStatement"}] }
-    ]
+	valid: ["var test = { debugger: 1 }; test.debugger;"],
+	invalid: [
+		{
+			code: "if (foo) debugger",
+			output: null,
+			errors: [
+				{
+					messageId: "unexpected",
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 18,
+				},
+			],
+		},
+	],
 });

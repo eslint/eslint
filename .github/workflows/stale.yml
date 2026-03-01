@@ -1,0 +1,15 @@
+name: stale
+
+on:
+    schedule:
+        - cron: "31 22 * * *" # Runs every day at 10:31 PM UTC
+
+permissions:
+    issues: write
+    pull-requests: write
+
+jobs:
+    stale:
+        uses: eslint/workflows/.github/workflows/stale.yml@main
+        secrets:
+            token: ${{ secrets.GITHUB_TOKEN }}

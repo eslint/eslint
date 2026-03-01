@@ -1,23 +1,30 @@
 /**
- ** @fileoverview Test rule to flag invalid args
- ** @author Mathias Schreck
- **/
+ * @fileoverview Test rule to flag invalid args
+ * @author Mathias Schreck
+ */
+
+"use strict";
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-module.exports = function(context) {
-    "use strict";
+module.exports = {
+    meta: {
+        type: "problem",
+        schema: [{
+            type: "boolean"
+        }]
+    },
+    create(context) {
+        var config = context.options[0];
 
-    var config = context.options[0];
-
-    return {
-        "Program": function(node) {
-            if (config === true) {
-                context.report(node, "Invalid args");
+        return {
+            "Program": function(node) {
+                if (config === true) {
+                    context.report(node, "Invalid args");
+                }
             }
-        }
-    };
+        };
+    }
 };
-

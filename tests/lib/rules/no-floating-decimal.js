@@ -9,22 +9,54 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/no-floating-decimal"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+const rule = require("../../../lib/rules/no-floating-decimal"),
+	RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
+const leadingError = {
+	messageId: "leading",
+};
+const trailingError = {
+	messageId: "trailing",
+};
+
 ruleTester.run("no-floating-decimal", rule, {
-    valid: [
-        "var x = 2.5;",
-        "var x = \"2.5\";"
-    ],
-    invalid: [
-        { code: "var x = .5;", errors: [{ message: "A leading decimal point can be confused with a dot.", type: "Literal"}] },
-        { code: "var x = -.5;", errors: [{ message: "A leading decimal point can be confused with a dot.", type: "Literal"}] },
-        { code: "var x = 2.;", errors: [{ message: "A trailing decimal point can be confused with a dot.", type: "Literal"}] }
-    ]
+	valid: ["var x = 2.5;", 'var x = "2.5";'],
+	invalid: [
+		{
+			code: "var x = .5;",
+			output: "var x = 0.5;",
+			errors: [leadingError],
+		},
+		{
+			code: "var x = -.5;",
+			output: "var x = -0.5;",
+			errors: [leadingError],
+		},
+		{
+			code: "var x = 2.;",
+			output: "var x = 2.0;",
+			errors: [trailingError],
+		},
+		{
+			code: "var x = -2.;",
+			output: "var x = -2.0;",
+			errors: [trailingError],
+		},
+		{
+			code: "typeof.2",
+			output: "typeof 0.2",
+			errors: [leadingError],
+		},
+		{
+			code: "for(foo of.2);",
+			output: "for(foo of 0.2);",
+			languageOptions: { ecmaVersion: 2015 },
+			errors: [leadingError],
+		},
+	],
 });

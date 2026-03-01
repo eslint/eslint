@@ -1,0 +1,5 @@
+{
+    "private": true,
+    "name": "ts-config-with-commonjs-pkg-type",
+    "type": "commonjs"
+}

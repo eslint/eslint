@@ -1,26 +1,86 @@
 {
   "name": "eslint-config-eslint",
-  "version": "1.0.1",
+  "version": "13.0.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "Default ESLint configuration for ESLint projects.",
+  "funding": "https://eslint.org/donate",
+  "main": "./index.js",
+  "types": "./types/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./types/index.d.ts",
+      "default": "./index.js"
+    },
+    "./base": {
+      "types": "./types/base.d.ts",
+      "default": "./base.js"
+    },
+    "./cjs": {
+      "types": "./types/cjs.d.ts",
+      "default": "./cjs.js"
+    },
+    "./formatting": {
+      "types": "./types/formatting.d.ts",
+      "default": "./formatting.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "base": [
+        "./types/base.d.ts"
+      ],
+      "cjs": [
+        "./types/cjs.d.ts"
+      ],
+      "formatting": [
+        "./types/formatting.d.ts"
+      ]
+    }
+  },
   "scripts": {
-    "test": "node ./index.js",
+    "lint:types": "attw --pack",
+    "test": "node ./index.js && node ./cjs.js && node ./formatting.js",
+    "test:types": "tsc -p tsconfig.json",
     "prepublish": "npm test"
   },
   "files": [
     "LICENSE",
     "README.md",
+    "base.js",
+    "cjs.js",
+    "formatting.js",
     "index.js",
-    "default.yml"
+    "nodejs.js",
+    "types"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/eslint/eslint"
+    "url": "https://github.com/eslint/eslint",
+    "directory": "packages/eslint-config-eslint"
   },
-  "homepage": "http://eslint.org",
+  "homepage": "https://eslint.org",
   "bugs": "https://github.com/eslint/eslint/issues/",
   "dependencies": {
-    "js-yaml": "^3.4.3"
+    "@eslint-community/eslint-plugin-eslint-comments": "^4.3.0",
+    "@eslint/js": "^10.0.1",
+    "eslint-plugin-jsdoc": "^62.7.0",
+    "eslint-plugin-n": "^17.11.1",
+    "eslint-plugin-regexp": "^2.10.0",
+    "eslint-plugin-unicorn": "^52.0.0"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.0",
+    "eslint": "^10.0.0",
+    "typescript": "^5.9.3"
+  },
+  "peerDependencies": {
+    "eslint": "^10.0.0"
+  },
+  "peerDependenciesMeta": {
+    "eslint": {
+      "optional": true
+    }
   },
   "keywords": [
     "eslintconfig",
@@ -29,6 +89,6 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">=0.10"
+    "node": "^18.18.0 || ^20.9.0 || >=21.1.0"
   }
 }

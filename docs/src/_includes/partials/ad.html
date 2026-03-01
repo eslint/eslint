@@ -1,0 +1,25 @@
+<!--<br>-->
+{% if site.carbon_ads.serve %}
+<script id="eslint-sponsor">
+  if ( window.innerWidth > 800 ) {
+    var s = document.createElement("script");
+        s.type = "text/javascript";
+        s.src = "//cdn.carbonads.com/carbon.js?serve={{ site.carbon_ads.serve }}&placement={{ site.carbon_ads.placement}}";
+        s.id = "_carbonads_js";
+    document.getElementById("eslint-sponsor").after(s);
+    document.getElementById("eslint-sponsor").remove();
+  }
+</script>
+{% endif %}
+{% if site.ethical_ads %}
+<script id="eslint-sponsor">
+    if (window.innerWidth > 800) {
+        var s = document.createElement("script");
+        s.type = "text/javascript";
+        s.src = "//media.ethicalads.io/media/client/ethicalads.min.js";
+        document.getElementById("eslint-sponsor").after(s);
+        document.getElementById("eslint-sponsor").remove();
+    }
+</script>
+<div data-ea-publisher="eslint-org" data-ea-type="image"></div>
+{% endif %}

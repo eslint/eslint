@@ -1,0 +1,8 @@
+plugins:
+    - with-environment
+
+rules:
+    with-environment/foo: 2
+
+env:
+    with-environment/bar: true

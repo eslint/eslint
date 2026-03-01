@@ -1,0 +1,247 @@
+name: Types Integration CI
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+permissions:
+    contents: read
+
+jobs:
+    webpack_plugin:
+        if: false # Temporarily disabled until @typescript-eslint/parser is updated
+        name: Types (eslint-webpack-plugin)
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout eslint
+              uses: actions/checkout@v6
+              with:
+                  path: eslint
+
+            - name: Checkout eslint-webpack-plugin
+              uses: actions/checkout@v6
+              with:
+                  repository: webpack-contrib/eslint-webpack-plugin
+                  path: webpack
+
+            - uses: actions/setup-node@v6
+              with:
+                  node-version: "lts/*"
+
+            - name: Install Packages (eslint)
+              working-directory: eslint
+              run: npm install
+
+            - name: Install Packages (eslint-webpack-plugin)
+              working-directory: webpack
+              run: |
+                  npm install --no-package-lock --legacy-peer-deps ../eslint
+
+            - name: Run TSC
+              working-directory: webpack
+              run: npm run lint:types
+
+    neostandard:
+        name: Types (neostandard)
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout eslint
+              uses: actions/checkout@v6
+              with:
+                  path: eslint
+
+            - name: Checkout neostandard
+              uses: actions/checkout@v6
+              with:
+                  repository: neostandard/neostandard
+                  path: neostandard
+
+            - uses: actions/setup-node@v6
+              with:
+                  node-version: "lts/*"
+
+            - name: Install Packages (eslint)
+              working-directory: eslint
+              run: npm install
+
+            - name: Install Packages (neostandard)
+              working-directory: neostandard
+              run: |
+                  npm ci && npm install --no-save --legacy-peer-deps ../eslint
+
+            - name: Run TSC
+              working-directory: neostandard
+              run: npm run check:tsc
+
+    eslint-flat-config-utils:
+        name: Types (eslint-flat-config-utils)
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout eslint
+              uses: actions/checkout@v6
+              with:
+                  path: eslint
+
+            - name: Checkout eslint-flat-config-utils
+              uses: actions/checkout@v6
+              with:
+                  repository: antfu/eslint-flat-config-utils
+                  path: antfu
+
+            - uses: actions/setup-node@v6
+              with:
+                  node-version: "lts/*"
+
+            - name: Install Packages (eslint)
+              working-directory: eslint
+              run: npm install
+
+            - name: Install Packages (eslint-flat-config-utils)
+              working-directory: antfu
+              run: |
+                  npm install --legacy-peer-deps ../eslint
+
+            - name: Run TSC
+              working-directory: antfu
+              run: npm run typecheck
+
+    eslint-visitor-keys:
+        name: Types (eslint-visitor-keys)
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout eslint
+              uses: actions/checkout@v6
+              with:
+                  path: eslint
+
+            - name: Checkout eslint/js
+              uses: actions/checkout@v6
+              with:
+                  repository: eslint/js
+                  path: eslint-js
+
+            - uses: actions/setup-node@v6
+              with:
+                  node-version: "lts/*"
+
+            - name: Install Packages (eslint)
+              working-directory: eslint
+              run: npm install
+
+            - name: Update package.json eslint-visitor-keys
+              uses: restackio/update-json-file-action@6f50afee9a03a456a30cd574123db793319f7544 # 2.1
+              with:
+                  file: eslint-js/packages/eslint-visitor-keys/package.json
+                  fields: '{"scripts.prepare": "npm run build:cjs"}'
+
+            - name: Install Packages (eslint/js)
+              working-directory: eslint-js
+              run: |
+                  npm install --legacy-peer-deps ../eslint
+
+            - name: Run TSC
+              working-directory: eslint-js
+              run: npm run build:types --workspace eslint-visitor-keys
+
+    eslint_json:
+        name: Types (@eslint/json)
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout eslint
+              uses: actions/checkout@v6
+              with:
+                  path: eslint
+
+            - name: Checkout @eslint/json
+              uses: actions/checkout@v6
+              with:
+                  repository: eslint/json
+                  path: json
+
+            - uses: actions/setup-node@v6
+              with:
+                  node-version: "lts/*"
+
+            - name: Install Packages (eslint)
+              working-directory: eslint
+              run: npm install
+
+            - name: Install Packages (@eslint/json)
+              working-directory: json
+              run: |
+                  npm install
+                  npm run build
+                  npm install --legacy-peer-deps ../eslint @eslint/core@latest
+
+            - name: Run TSC
+              working-directory: json
+              run: npm run test:types
+
+    html_plugin:
+        name: Types (@html-eslint/eslint-plugin)
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout eslint
+              uses: actions/checkout@v6
+              with:
+                  path: eslint
+
+            - name: Checkout html-eslint
+              uses: actions/checkout@v6
+              with:
+                  repository: yeonjuan/html-eslint
+                  path: html-eslint
+
+            - uses: actions/setup-node@v6
+              with:
+                  node-version: "lts/*"
+
+            - name: Install Packages (eslint)
+              working-directory: eslint
+              run: npm install
+
+            - name: Patch html-eslint package.json
+              uses: restackio/update-json-file-action@6f50afee9a03a456a30cd574123db793319f7544 # 2.1
+              with:
+                  file: html-eslint/package.json
+                  fields: '{"resolutions.eslint":"file:../eslint"}'
+
+            - name: Install Packages (html-eslint)
+              working-directory: html-eslint
+              run: yarn install --no-immutable
+
+            - name: Run TSC
+              working-directory: html-eslint
+              run: yarn check:ts --filter=@html-eslint/eslint-plugin
+
+    are-the-types-wrong:
+        name: Are the types wrong?
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                package:
+                    [
+                        { name: eslint, directory: . },
+                        {
+                            name: eslint-config-eslint,
+                            directory: packages/eslint-config-eslint,
+                        },
+                    ]
+
+        steps:
+            - name: Checkout ${{ matrix.package.name }}
+              uses: actions/checkout@v6
+
+            - uses: actions/setup-node@v6
+              with:
+                  node-version: "lts/*"
+
+            - name: Install Packages
+              working-directory: ${{ matrix.package.directory }}
+              run: npm install --legacy-peer-deps
+
+            - name: Check validity of type definitions
+              working-directory: ${{ matrix.package.directory }}
+              run: npm run lint:types

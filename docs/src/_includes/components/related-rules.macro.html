@@ -1,0 +1,14 @@
+{%- macro related_rules(params) -%}
+<ul class="related-rules__list" role="list">
+    {%- for item in params.rules -%}
+    <li class="related-rules__list__item">
+        <a href="/rules/{{ item.name }}">
+            <span>{{ item.name }}</span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </a>
+    </li>
+    {%- endfor -%}
+</ul>
+{%- endmacro -%}

@@ -1,0 +1,5 @@
+{
+    "private": true,
+    "name": "mts-config-with-commonjs-pkg-type",
+    "type": "commonjs"
+}
