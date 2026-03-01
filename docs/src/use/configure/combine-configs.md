@@ -1,4 +1,5 @@
----
+---// eslint.config.js
+import js from "@eslint/js";
 title: Combine Configs
 eleventyNavigation:
     key: combine configs
