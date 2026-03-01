@@ -145,11 +145,11 @@ jobs:
 
             - name: Install Packages for ${{ matrix.package.name }}
               working-directory: ${{ matrix.package.directory }}
-              run: npm install --legacy-peer-deps
+              run: npm install
 
             - name: Install TypeScript ${{ matrix.typescript }}
               working-directory: ${{ matrix.package.directory }}
-              run: npm install --legacy-peer-deps --no-save typescript@${{ matrix.typescript }}
+              run: npm install --no-save typescript@${{ matrix.typescript }}
 
             - name: Test types for ${{ matrix.package.name }}
               working-directory: ${{ matrix.package.directory }}
