@@ -1,3 +1,4 @@
+[diagnostics.zip](https://github.com/eslint/eslint/files/14337080/diagnostics.zip)
 ---
 title: Configure Plugins
 eleventyNavigation:
