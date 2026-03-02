@@ -8,7 +8,7 @@ eleventyNavigation:
 ---
 
 ::: tip
-This page explains how to configure language options using the flat config format. For the deprecated eslintrc format, [see the deprecated documentation](language-options-deprecated).
+This page explains how to configure language options using the flat config format.
 :::
 
 The JavaScript ecosystem has a variety of runtimes, versions, extensions, and frameworks. Each of these can have different supported syntax and global variables. ESLint lets you configure language options specific to the JavaScript used in your project, like custom global variables. You can also use plugins to extend ESLint to support your project's language options.

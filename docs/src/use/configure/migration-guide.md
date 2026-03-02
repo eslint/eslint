@@ -14,10 +14,7 @@ This guide provides an overview of how you can migrate your ESLint configuration
 
 To learn more about the flat config format, refer to [this blog post](https://eslint.org/blog/2022/08/new-config-system-part-2/).
 
-For reference information on these configuration formats, refer to the following documentation:
-
-- [eslintrc configuration files](configuration-files-deprecated)
-- [flat configuration files](configuration-files)
+For reference information on flat configuration files, refer to [flat configuration files](configuration-files).
 
 ## Migrate Your Config File
 
@@ -140,7 +137,7 @@ export default defineConfig([
 
 ### Processors
 
-In eslintrc files, processors had to be defined in a plugin, and then referenced by name in the configuration. Processors beginning with a dot indicated a [file extension-named processor](../../extend/custom-processors-deprecated#file-extension-named-processor) which ESLint would automatically configure for that file extension.
+In eslintrc files, processors had to be defined in a plugin, and then referenced by name in the configuration. Processors beginning with a dot indicated a file extension-named processor which ESLint would automatically configure for that file extension.
 
 In flat config files, processors can still be referenced from plugins by their name, but they can now also be inserted directly into the configuration. Processors will _never_ be automatically configured, and must be explicitly set in the configuration.
 
