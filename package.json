@@ -1,6 +1,6 @@
 {
   "name": "eslint",
-  "version": "10.0.1",
+  "version": "10.0.2",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "type": "commonjs",
@@ -141,7 +141,7 @@
     "imurmurhash": "^0.1.4",
     "is-glob": "^4.0.0",
     "json-stable-stringify-without-jsonify": "^1.0.1",
-    "minimatch": "^10.2.1",
+    "minimatch": "^10.2.4",
     "natural-compare": "^1.4.0",
     "optionator": "^0.9.3"
   },
@@ -150,7 +150,7 @@
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
     "@cypress/webpack-preprocessor": "^6.0.2",
-    "@eslint/eslintrc": "^3.3.3",
+    "@eslint/eslintrc": "^3.3.4",
     "@eslint/json": "^0.14.0",
     "@types/esquery": "^1.5.4",
     "@types/node": "^22.13.14",

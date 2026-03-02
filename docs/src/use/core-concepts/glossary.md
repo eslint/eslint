@@ -267,8 +267,6 @@ The following [inline config](#inline-config-configuration-comment) sets `no-unu
 /* eslint no-unused-expressions: "error" */
 ```
 
-For more information on overrides in legacy configs, see [Configuration Files (Deprecated) > How do overrides work?](../configure/configuration-files-deprecated#how-do-overrides-work).
-
 ## P
 
 ### Parser
