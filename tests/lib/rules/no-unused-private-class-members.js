@@ -509,5 +509,82 @@ class Second {}`,
 				},
 			],
 		},
+
+		{
+			code: `class Foo {
+    /** JSDoc comment */
+    #unused = 1;
+}`,
+			errors: [
+				definedError(
+					"unused",
+					`class Foo {
+}`,
+				),
+			],
+		},
+
+		{
+			code: `class Foo {
+    // line comment
+    #unused = 1;
+}`,
+			errors: [
+				definedError(
+					"unused",
+					`class Foo {
+}`,
+				),
+			],
+		},
+
+		{
+			code: `class Foo {
+    // first line
+    // second line
+    #unused = 1;
+}`,
+			errors: [
+				definedError(
+					"unused",
+					`class Foo {
+}`,
+				),
+			],
+		},
+
+		{
+			code: `class Foo {
+    // unrelated comment
+
+    #unused = 1;
+}`,
+			errors: [
+				definedError(
+					"unused",
+					`class Foo {
+    // unrelated comment
+
+}`,
+				),
+			],
+		},
+
+		{
+			code: `class Foo {
+    field = 1
+    #unused = 1;
+    [Symbol.iterator]() {}
+}`,
+			errors: [
+				definedError(
+					"unused",
+					`class Foo {
+    field = 1;
+    [Symbol.iterator]() {}
+}`,
+				),
+			],
+		},
 	],
 });
