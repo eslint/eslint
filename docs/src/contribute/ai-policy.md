@@ -28,7 +28,7 @@ While AI can assist in generating code or text, the ultimate responsibility for 
 
 To help manage the volume of contributions, we have a specific policy for AI-generated pull requests:
 
-- **Accepted Issues Only:** AI-generated PRs will only be considered for issues that have been officially marked as "accepted" by the ESLint team.
-- **Otherwise Closed:** AI-generated PRs submitted for issues that have not been marked as "accepted" will be closed without review.
+- **Accepted Issues Only:** AI-generated PRs will only be considered for issues that have been officially marked as `accepted` by the ESLint team.
+- **Otherwise Closed:** AI-generated PRs submitted for issues that have not been marked as `accepted` will be closed without review.
 
 We appreciate your cooperation in following these guidelines as we explore the benefits of AI-assisted development together!
