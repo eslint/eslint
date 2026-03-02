@@ -272,3 +272,34 @@ pre[class*="language-"] {
 		opacity: 1;
 	}
 }
+
+.deprecation-notice {
+	font-size: 14px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 4px 0;
+	background-color: var(--color-neutral-500);
+	color: white;
+
+	a {
+		color: white;
+		padding: 0 4px;
+	}
+
+	.hourglass-icon {
+		margin-right: 5px;
+	}
+
+	@media all and (max-width: 865px) {
+		display: block;
+		text-align: center;
+		padding: 4px 6px;
+
+		.hourglass-icon {
+			position: relative;
+			margin-right: 0;
+			top: 2px;
+		}
+	}
+}
