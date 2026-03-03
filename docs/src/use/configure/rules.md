@@ -93,6 +93,10 @@ This setting defaults to `"off"`.
 
 This setting is similar to the [`--report-unused-inline-configs`](../command-line-interface#--report-unused-inline-configs) CLI option.
 
+::: tip
+To enforce best practices around configuration comments, take a look at [`eslint-plugin-eslint-comments`](https://github.com/eslint-community/eslint-plugin-eslint-comments) ([Docs](https://eslint-community.github.io/eslint-plugin-eslint-comments/)).
+:::
+
 ### Use Configuration Files
 
 To configure rules inside of a [configuration file](./configuration-files#configuration-file), use the `rules` key along with an error level and any options you want to use. For example:
