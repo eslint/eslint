@@ -62,7 +62,7 @@
   "homepage": "https://eslint.org",
   "bugs": "https://github.com/eslint/eslint/issues/",
   "dependencies": {
-    "@eslint-community/eslint-plugin-eslint-comments": "^4.3.0",
+    "@eslint-community/eslint-plugin-eslint-comments": "^4.7.1",
     "@eslint/js": "^10.0.1",
     "eslint-plugin-jsdoc": "^62.7.0",
     "eslint-plugin-n": "^17.11.1",

@@ -36,7 +36,7 @@ jobs:
             - name: Install Packages (eslint-webpack-plugin)
               working-directory: webpack
               run: |
-                  npm install --no-package-lock --legacy-peer-deps ../eslint
+                  npm install --no-package-lock ../eslint
 
             - name: Run TSC
               working-directory: webpack
@@ -68,7 +68,7 @@ jobs:
             - name: Install Packages (neostandard)
               working-directory: neostandard
               run: |
-                  npm ci && npm install --no-save --legacy-peer-deps ../eslint
+                  npm ci && npm install --no-save ../eslint
 
             - name: Run TSC
               working-directory: neostandard
@@ -100,7 +100,7 @@ jobs:
             - name: Install Packages (eslint-flat-config-utils)
               working-directory: antfu
               run: |
-                  npm install --legacy-peer-deps ../eslint
+                  npm install ../eslint
 
             - name: Run TSC
               working-directory: antfu
@@ -240,7 +240,7 @@ jobs:
 
             - name: Install Packages
               working-directory: ${{ matrix.package.directory }}
-              run: npm install --legacy-peer-deps
+              run: npm install
 
             - name: Check validity of type definitions
               working-directory: ${{ matrix.package.directory }}
