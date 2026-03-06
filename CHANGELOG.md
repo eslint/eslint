@@ -1,3 +1,14 @@
+v9.39.4 - March 6, 2026
+
+* [`b8b4eb1`](https://github.com/eslint/eslint/commit/b8b4eb15901c1bd6ef40d2589da4ae75795c0f6e) chore: update dependencies for ESLint v9.39.4 (#20596) (Francesco Trotta)
+* [`71b2f6b`](https://github.com/eslint/eslint/commit/71b2f6b628b76157b4a2a296cb969dc56abb296c) chore: package.json update for @eslint/js release (Jenkins)
+* [`4675152`](https://github.com/eslint/eslint/commit/46751526037682f8b42abcfb3e06d19213719347) docs: add deprecation notice partial (#20520) (Milos Djermanovic)
+* [`f18f6c8`](https://github.com/eslint/eslint/commit/f18f6c8ae92a1bcfc558f48c0bd863ea94067459) fix: update dependency minimatch to ^3.1.5 (#20564) (Milos Djermanovic)
+* [`1d16c2f`](https://github.com/eslint/eslint/commit/1d16c2fa3998440ae7b0f6e2612935bd6b0ded1d) ci: pin Node.js 25.6.1 (#20563) (Milos Djermanovic)
+* [`a3c868f`](https://github.com/eslint/eslint/commit/a3c868f6ef103c1caff9d15f744f9ebd995e872f) fix: update dependency @eslint/eslintrc to ^3.3.4 (#20554) (Milos Djermanovic)
+* [`234d005`](https://github.com/eslint/eslint/commit/234d005da6cd3c924f359e3783fbf565a3c047c3) fix: minimatch security vulnerability patch for v9.x (#20549) (Andrej Beles)
+* [`b1b37ee`](https://github.com/eslint/eslint/commit/b1b37eecaa033d2e390e1d8f1d6e68d0f5ff3a6a) fix: update `ajv` to `6.14.0` to address security vulnerabilities (#20538) (루밀LuMir)
+
 v10.0.2 - February 23, 2026
 
 * [`951223b`](https://github.com/eslint/eslint/commit/951223b29669885643f7854d7c824288ba962d7e) chore: update dependency @eslint/eslintrc to ^3.3.4 (#20553) (renovate[bot])
