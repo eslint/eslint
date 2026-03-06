@@ -324,7 +324,7 @@ describe("ESLint", () => {
 							"- 'warnIgnored' must be a boolean.",
 							"- 'ruleFilter' must be a function.",
 							"- 'applySuppressions' must be a boolean.",
-							"- 'suppressionsLocation' must be a non-empty string or null.",
+							"- 'suppressionsLocation' must be a non-empty string.",
 						].join("\n"),
 					),
 					"u",
@@ -601,14 +601,14 @@ describe("ESLint", () => {
 		it("should throw when 'suppressionsLocation' is an empty string", () => {
 			assert.throws(
 				() => new ESLint({ suppressionsLocation: "" }),
-				/'suppressionsLocation' must be a non-empty string or null/u,
+				/'suppressionsLocation' must be a non-empty string/u,
 			);
 		});
 
-		it("should throw when 'suppressionsLocation' is not a string or null", () => {
+		it("should throw when 'suppressionsLocation' is not a string", () => {
 			assert.throws(
 				() => new ESLint({ suppressionsLocation: 123 }),
-				/'suppressionsLocation' must be a non-empty string or null/u,
+				/'suppressionsLocation' must be a non-empty string/u,
 			);
 		});
 	});

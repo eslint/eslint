@@ -1277,7 +1277,7 @@ export namespace ESLint {
 
 		// Suppressions
 		applySuppressions?: boolean | undefined;
-		suppressionsLocation?: string | null | undefined;
+		suppressionsLocation?: string | undefined;
 
 		// Other Options
 
