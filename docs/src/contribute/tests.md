@@ -4,7 +4,7 @@ eleventyNavigation:
     key: run tests
     parent: contribute to eslint
     title: Run the Tests
-    order: 7
+    order: 8
 ---
 
 Most parts of ESLint have unit tests associated with them. Unit tests are written using [Mocha](https://mochajs.org/) and are required when making contributions to ESLint. You'll find all of the unit tests in the `tests` directory.
