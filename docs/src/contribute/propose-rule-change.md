@@ -4,7 +4,7 @@ eleventyNavigation:
     key: propose rule change
     parent: contribute to eslint
     title: Propose a Rule Change
-    order: 3
+    order: 4
 ---
 
 Occasionally, a core ESLint rule needs to be changed. This is not necessarily a bug, but rather, an enhancement that makes a rule more configurable. In those situations, we will consider making changes to rules.
