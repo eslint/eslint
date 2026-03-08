@@ -8,7 +8,7 @@ This project adheres to the [OpenJS Foundation Code of Conduct](https://eslint.o
 
 ## AI Usage Policy
 
-ESLint welcomes contributions from everyone, including those created with the assistance of Artificial Intelligence (AI) tools. We ask that you adhere to the [AI Usage Policy](https://eslint.org/docs/latest/contribute/ai-policy) when submitting contributions created with the assistance of AI tools.
+ESLint welcomes contributions from everyone, including those created with the assistance of Artificial Intelligence (AI) tools. We ask that you adhere to the [AI Usage Policy](https://typescript-eslint.io/contributing/ai-policy) when submitting contributions created with the assistance of AI tools.
 
 ## Filing Issues
 
