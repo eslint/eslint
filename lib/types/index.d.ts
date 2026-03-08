@@ -1197,6 +1197,7 @@ export namespace ESLint {
 
 	interface Options {
 		// File enumeration
+		basePath?: string | undefined;
 		cwd?: string | undefined;
 		errorOnUnmatchedPattern?: boolean | undefined;
 		globInputPaths?: boolean | undefined;

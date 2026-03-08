@@ -11852,7 +11852,7 @@ describe("ESLint", () => {
 	describe("'ignores', 'files' of the configuration that the '--config' option provided should be resolved from CWD.", () => {
 		const root = getFixturePath("cli-engine/config-and-overrides-files");
 
-		describe("if { files: 'foo/*.txt', ... } is present by '--config node_modules/myconf/eslint.config.js',", () => {
+		describe("if { files: ['foo/*.js'], ... } is present by '--config node_modules/myconf/eslint.config.js',", () => {
 			const { prepare, cleanup, getPath } = createCustomTeardown({
 				cwd: `${root}a1`,
 				files: {
@@ -11960,7 +11960,69 @@ describe("ESLint", () => {
 			});
 		});
 
-		describe("if { files: '*', ignores: 'foo/*.txt', ... } is present by '--config bar/myconf/eslint.config.js',", () => {
+		describe("if { basePath: '..', files: ['*.js'], ... } is present by '--config ../node_modules/myconf/eslint.config.js',", () => {
+			const { prepare, cleanup, getPath } = createCustomTeardown({
+				cwd: `${root}b1`,
+				files: {
+					"node_modules/myconf/eslint.config.js": `
+						module.exports = [
+							{
+								basePath: "../foo",
+								files: ["*.js"],
+								rules: {
+									eqeqeq: "error"
+								},
+							},
+						];`,
+					"node_modules/foo/test.js": "a == b",
+					"foo/test.js": "a == b",
+				},
+			});
+
+			beforeEach(prepare);
+			afterEach(cleanup);
+
+			it("'lintFiles()' with '../node_modules/foo/test.js' should NOT use the files entry.", async () => {
+				const engine = new ESLint({
+					overrideConfigFile:
+						"../node_modules/myconf/eslint.config.js",
+					cwd: getPath("bar"),
+					basePath: "..",
+					ignore: false,
+				});
+				const results = await engine.lintFiles(
+					"../node_modules/foo/test.js",
+				);
+
+				// Expected to be no errors because the file is not matched by `$CWD/../foo/*.js`.
+				assert.deepStrictEqual(results, [
+					{
+						suppressedMessages: [],
+						errorCount: 0,
+						filePath: path.join(
+							getPath(),
+							"node_modules/foo/test.js",
+						),
+						fixableErrorCount: 0,
+						fixableWarningCount: 0,
+						messages: [
+							{
+								ruleId: null,
+								fatal: false,
+								message:
+									'File ignored by default because it is located under the node_modules directory. Use ignore pattern "!**/node_modules/" to disable file ignore settings or use "--no-warn-ignored" to suppress this warning.',
+								severity: 1,
+							},
+						],
+						usedDeprecatedRules: [],
+						warningCount: 1,
+						fatalErrorCount: 0,
+					},
+				]);
+			});
+		});
+
+		describe("if { files: ['**/*'], ignores: ['foo/*.js'], ... } is present by '--config bar/myconf/eslint.config.js',", () => {
 			const { prepare, cleanup, getPath } = createCustomTeardown({
 				cwd: `${root}a2`,
 				files: {
@@ -12061,7 +12123,82 @@ describe("ESLint", () => {
 			});
 		});
 
-		describe("if { ignores: 'foo/*.js', ... } is present by '--config node_modules/myconf/eslint.config.js',", () => {
+		describe("if { basePath: '..', files: ['**/*'], ignores: ['foo/*.js'], ... } is present by '--config bar/myconf/eslint.config.js',", () => {
+			const { prepare, cleanup, getPath } = createCustomTeardown({
+				cwd: `${root}b2`,
+				files: {
+					"bar/myconf/eslint.config.js": `
+						module.exports = [
+							{
+								basePath: "..",
+								files: ["**/*"],
+								ignores: ["foo/*.js"],
+								rules: {
+									eqeqeq: "error"
+								},
+							},
+						];`,
+					"bar/foo/test.js": "a == b",
+					"foo/test.js": "a == b",
+				},
+			});
+
+			beforeEach(prepare);
+			afterEach(cleanup);
+
+			it("'lintFiles()' with 'foo/test.js' should have an error because eqeqeq is enabled.", async () => {
+				const engine = new ESLint({
+					overrideConfigFile: "myconf/eslint.config.js",
+					cwd: getPath("bar"),
+					basePath: "..",
+					ignore: false,
+				});
+				const results = await engine.lintFiles("foo/test.js");
+
+				// Expected to be an 'eqeqeq' error because the file isn't matched by `$CWD/../foo/*.js`.
+				assert.deepStrictEqual(results, [
+					{
+						suppressedMessages: [],
+						errorCount: 1,
+						filePath: path.join(getPath(), "bar/foo/test.js"),
+						fixableErrorCount: 0,
+						fixableWarningCount: 0,
+						messages: [
+							{
+								column: 3,
+								endColumn: 5,
+								endLine: 1,
+								line: 1,
+								message: "Expected '===' and instead saw '=='.",
+								messageId: "unexpected",
+								ruleId: "eqeqeq",
+								severity: 2,
+								suggestions: [
+									{
+										data: {
+											actualOperator: "==",
+											expectedOperator: "===",
+										},
+										desc: "Use '===' instead of '=='.",
+										fix: {
+											range: [2, 4],
+											text: "===",
+										},
+										messageId: "replaceOperator",
+									},
+								],
+							},
+						],
+						source: "a == b",
+						usedDeprecatedRules: [],
+						warningCount: 0,
+						fatalErrorCount: 0,
+					},
+				]);
+			});
+		});
+
+		describe("if { ignores: ['foo/*.js'], ... } is present by '--config node_modules/myconf/eslint.config.js',", () => {
 			const { prepare, cleanup, getPath } = createCustomTeardown({
 				cwd: `${root}a3`,
 				files: {
