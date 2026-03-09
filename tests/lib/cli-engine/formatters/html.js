@@ -218,6 +218,56 @@ describe("formatter:html", () => {
 		});
 	});
 
+	describe("when passing a single message with illegal characters in ruleId and ruleUrl", () => {
+		const rulesMeta = {
+			"foo<>&\"'": {
+				type: "problem",
+
+				docs: {
+					description: "This is rule 'foo'",
+					recommended: true,
+					url: "https://eslint.org/docs/rules/foo<>&\"'",
+				},
+
+				fixable: "code",
+
+				messages: {
+					message1: "This is a message for rule 'foo'.",
+				},
+			},
+		};
+		const code = {
+			results: [
+				{
+					filePath: "foo.js",
+					errorCount: 1,
+					warningCount: 0,
+					messages: [
+						{
+							message: "Unexpected foo.",
+							severity: 2,
+							line: 5,
+							column: 10,
+							ruleId: "foo<>&\"'",
+							source: "foo",
+						},
+					],
+				},
+			],
+			rulesMeta,
+		};
+
+		it("should correctly encode HTML characters in ruleId and ruleUrl", () => {
+			const result = formatter(code.results, { rulesMeta });
+
+			// Use raw string assertion as Cheerio auto-decodes entities in attributes
+			assert.isTrue(
+				result.includes('<a href="https://eslint.org/docs/rules/foo&#60;&#62;&#38;&#34;&#39;" target="_blank" rel="noopener noreferrer">foo&#60;&#62;&#38;&#34;&#39;</a>'),
+				"HTML entities should be encoded in ruleId and ruleUrl"
+			);
+		});
+	});
+
 	describe("when passed a single warning message", () => {
 		const rulesMeta = {
 			foo: {
