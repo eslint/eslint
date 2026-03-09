@@ -69,6 +69,38 @@ The source file for a rule exports an object with the following properties. Both
 
 - `defaultOptions`: (`array`) Specifies [default options](#option-defaults) for the rule. If present, any user-provided options in their config will be merged on top of them recursively.
 
+- `languages`: (`array`) Specifies the languages the rule is designed to work with. Each entry is a string in the format `"plugin/language"` (e.g., `"js/js"`, `"markdown/gfm"`). Special values:
+
+    - `"*"` — the rule works with any language.
+    - `"plugin/*"` — the rule works with any language provided by the given plugin.
+
+    If `languages` is not specified, the rule is assumed to work with all languages. When `languages` is specified and none of the entries matches the active language, ESLint throws an error.
+
+    ```js
+    // Rule only runs when the active language is "@/js" (or "js/js")
+    meta: {
+        languages: ["js/js"],
+    }
+
+    // Rule runs with any language from the "markdown" plugin
+    meta: {
+        languages: ["markdown/*"],
+    }
+
+    // Rule runs with any language
+    meta: {
+        languages: ["*"],
+    }
+    ```
+
+    Language identifiers are matched in the following order:
+
+    1. **Wildcard `"*"`** — matches any language.
+    2. **Direct string match** — the entry exactly equals the active language string (e.g., `"test/lang"`).
+    3. **`"js/js"` special case** — matches the built-in `"@/js"` JavaScript language.
+    4. **`"plugin/*"` wildcard** — matches any language whose plugin name (or `meta.namespace`) equals the plugin part of the entry.
+    5. **Namespace match** — a plugin registered under a different name may be matched when its `meta.namespace` equals the plugin part of the entry.
+
 - `deprecated`: (`boolean | DeprecatedInfo`) Indicates whether the rule has been deprecated. You may omit the `deprecated` property if the rule has not been deprecated.
   There is a dedicated page for the [DeprecatedInfo](./rule-deprecation)
 
