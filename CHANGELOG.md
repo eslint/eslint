@@ -1,3 +1,34 @@
+v10.0.3 - March 6, 2026
+
+* [`e511b58`](https://github.com/eslint/eslint/commit/e511b58d5ecd63a232b87743614867f4eaadbba4) fix: update eslint (#20595) (renovate[bot])
+* [`ef8fb92`](https://github.com/eslint/eslint/commit/ef8fb924bfabc2e239b46b2d7b3c37319b03084e) chore: package.json update for eslint-config-eslint release (Jenkins)
+* [`e8f2104`](https://github.com/eslint/eslint/commit/e8f21040f675753e92df8e04f2dbd03addb92985) chore: updates for v9.39.4 release (Jenkins)
+* [`5cd1604`](https://github.com/eslint/eslint/commit/5cd1604cea5734bc235155a1a1add9f08ae83370) refactor: simplify isCombiningCharacter helper (#20524) (Huáng Jùnliàng)
+* [`9fc31b0`](https://github.com/eslint/eslint/commit/9fc31b03ef05abfc4f0f449b22947029d51a72f6) docs: Update README (GitHub Actions Bot)
+* [`70ff1d0`](https://github.com/eslint/eslint/commit/70ff1d07a8e7eba9e70b67ea55fcf2e47cdc9b2d) chore: eslint-config-eslint require Node `^20.19.0 || ^22.13.0 || >=24` (#20586) (Milos Djermanovic)
+* [`f4c9cf9`](https://github.com/eslint/eslint/commit/f4c9cf9b8dc5642de555a09295933464080d722a) fix: include variable name in `no-useless-assignment` message (#20581) (sethamus)
+* [`4efaa36`](https://github.com/eslint/eslint/commit/4efaa367c62d5a45dd21e246e4a506e11dd51758) docs: add info box for `eslint-plugin-eslint-comments` (#20570) (DesselBane)
+* [`e32df71`](https://github.com/eslint/eslint/commit/e32df71a569d5f4aca13079dedd4ae76ea05168a) chore: update eslint-plugin-eslint-comments, remove legacy-peer-deps (#20576) (Milos Djermanovic)
+* [`23b2759`](https://github.com/eslint/eslint/commit/23b2759dd5cd70976ab2e8f4a1cf86ffe4b9f65d) docs: add v10 migration guide link to Use docs index (#20577) (Pixel998)
+* [`53ca6ee`](https://github.com/eslint/eslint/commit/53ca6eeed87262ebddd20636107f486badabcc1f) chore: disable `eslint-comments/no-unused-disable` rule (#20578) (Milos Djermanovic)
+* [`80259a9`](https://github.com/eslint/eslint/commit/80259a9b0d9e29596a5ef0e1e5269031636cacdb) docs: Remove deprecated eslintrc documentation files (#20472) (Copilot)
+* [`9b9b4ba`](https://github.com/eslint/eslint/commit/9b9b4baf7f0515d28290464ea754d7e7dc350395) docs: fix typo in no-await-in-loop documentation (#20575) (Pixel998)
+* [`ee9ff31`](https://github.com/eslint/eslint/commit/ee9ff31cee13712d2be2a6b5c0a4a54449fe9fe1) fix: update dependency minimatch to ^10.2.4 (#20562) (Milos Djermanovic)
+* [`e121895`](https://github.com/eslint/eslint/commit/e1218957452e223af27ace1f9d031ab421aec08f) ci: pin Node.js 25.6.1 (#20559) (Milos Djermanovic)
+* [`e7d72a7`](https://github.com/eslint/eslint/commit/e7d72a77e5e1277690a505160137aebd5985909a) docs: document TypeScript 5.3 minimum supported version (#20547) (sethamus)
+* [`efc5aef`](https://github.com/eslint/eslint/commit/efc5aef2f9a05f01d5cad53dcb91e7f2c575e295) chore: update `tsconfig.json` in `eslint-config-eslint` (#20551) (Francesco Trotta)
+
+v9.39.4 - March 6, 2026
+
+* [`b8b4eb1`](https://github.com/eslint/eslint/commit/b8b4eb15901c1bd6ef40d2589da4ae75795c0f6e) chore: update dependencies for ESLint v9.39.4 (#20596) (Francesco Trotta)
+* [`71b2f6b`](https://github.com/eslint/eslint/commit/71b2f6b628b76157b4a2a296cb969dc56abb296c) chore: package.json update for @eslint/js release (Jenkins)
+* [`4675152`](https://github.com/eslint/eslint/commit/46751526037682f8b42abcfb3e06d19213719347) docs: add deprecation notice partial (#20520) (Milos Djermanovic)
+* [`f18f6c8`](https://github.com/eslint/eslint/commit/f18f6c8ae92a1bcfc558f48c0bd863ea94067459) fix: update dependency minimatch to ^3.1.5 (#20564) (Milos Djermanovic)
+* [`1d16c2f`](https://github.com/eslint/eslint/commit/1d16c2fa3998440ae7b0f6e2612935bd6b0ded1d) ci: pin Node.js 25.6.1 (#20563) (Milos Djermanovic)
+* [`a3c868f`](https://github.com/eslint/eslint/commit/a3c868f6ef103c1caff9d15f744f9ebd995e872f) fix: update dependency @eslint/eslintrc to ^3.3.4 (#20554) (Milos Djermanovic)
+* [`234d005`](https://github.com/eslint/eslint/commit/234d005da6cd3c924f359e3783fbf565a3c047c3) fix: minimatch security vulnerability patch for v9.x (#20549) (Andrej Beles)
+* [`b1b37ee`](https://github.com/eslint/eslint/commit/b1b37eecaa033d2e390e1d8f1d6e68d0f5ff3a6a) fix: update `ajv` to `6.14.0` to address security vulnerabilities (#20538) (루밀LuMir)
+
 v10.0.2 - February 23, 2026
 
 * [`951223b`](https://github.com/eslint/eslint/commit/951223b29669885643f7854d7c824288ba962d7e) chore: update dependency @eslint/eslintrc to ^3.3.4 (#20553) (renovate[bot])

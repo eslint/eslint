@@ -4,7 +4,7 @@ eleventyNavigation:
     key: package.json conventions
     parent: contribute to eslint
     title: Package.json Conventions
-    order: 8
+    order: 9
 ---
 
 The following applies to the "scripts" section of `package.json` files.
