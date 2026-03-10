@@ -1207,7 +1207,7 @@ export namespace ESLint {
 
 		/**
 		 * Set to false to skip glob resolution of input file paths to lint (default: true).
-		 * If false, each input file paths is assumed to be a non-glob path to an existing file.
+		 * If false, each input file path is assumed to be a non-glob path to an existing file.
 		 */
 		globInputPaths?: boolean | undefined;
 
