@@ -1,15 +1,22 @@
 /**
  * @fileoverview Tests for regular-expressions utility.
- * @author Josh Goldberg
+ * @author Manish Chaudhary <https://github.com/techmannih>
  */
 "use strict";
 
 const assert = require("chai").assert;
 const {
 	isValidWithUnicodeFlag,
+	REGEXPP_LATEST_ECMA_VERSION,
 } = require("../../../../lib/rules/utils/regular-expressions");
 
 describe("regular-expressions", () => {
+	describe("REGEXPP_LATEST_ECMA_VERSION", () => {
+		it("should be a number", () => {
+			assert.strictEqual(typeof REGEXPP_LATEST_ECMA_VERSION, "number");
+		});
+	});
+
 	describe("isValidWithUnicodeFlag", () => {
 		it("should return false for ecmaVersion <= 5 with 'u' flag", () => {
 			assert.strictEqual(isValidWithUnicodeFlag(5, "a", "u"), false);
