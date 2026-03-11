@@ -424,6 +424,35 @@ ruleTester.run("no-use-before-define", rule, {
 			options: [{ allowNamedExports: true }],
 			languageOptions: { ecmaVersion: 2015, sourceType: "module" },
 		},
+		{
+			code: "const App = () => <div/>; <App />;",
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+		},
+		{
+			code: "let Foo, Bar; <Foo><Bar /></Foo>;",
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+		},
+		{
+			code: "function App() { return <div/> } <App />;",
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+		},
+		{
+			code: "<App />; function App() { return <div/> }",
+			options: [{ functions: false }],
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+		},
 	],
 	invalid: [
 		{

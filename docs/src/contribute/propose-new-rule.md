@@ -4,7 +4,7 @@ eleventyNavigation:
     key: propose rule
     parent: contribute to eslint
     title: Propose a New Rule
-    order: 2
+    order: 3
 ---
 
 ESLint is all about rules. For most of the project's lifetime, we've had over 200 rules, and that list continues to grow. However, we can't just accept any proposed rule because all rules need to work cohesively together. As such, we have some guidelines around which rules can be part of the ESLint core and which are better off as custom rules and plugins.
@@ -24,13 +24,13 @@ In general, ESLint core rules must be:
 
 Even though these are the formal criteria for inclusion, each rule is evaluated on its own basis.
 
-## Proposing a Rule
+## Propose a Rule
 
 If you want to propose a new rule, please see how to [create a pull request](pull-requests) or submit an issue by filling out a [new rule template](https://github.com/eslint/eslint/issues/new/choose).
 
 We need all of this information in order to determine whether or not the rule is a good core rule candidate.
 
-## Accepting a Rule
+## Accept a Rule
 
 In order for a rule to be accepted in the ESLint core, it must:
 
@@ -44,6 +44,6 @@ Keep in mind that we have over 200 rules, and that is daunting both for end user
 
 The ESLint team doesn't implement new rules that are suggested by users because we have a limited number of people and need to focus on the overall roadmap. Once a rule is accepted, you are responsible for implementing and documenting the rule. You may, alternately, recruit another person to help you implement the rule. The ESLint team member who championed the rule is your resource to help guide you through the rest of this process.
 
-## Alternative: Creating Your Own Rules
+## Alternative: Create Your Own Rules
 
 Remember that ESLint is completely pluggable, which means you can create your own rules and distribute them using plugins. We did this on purpose because we don't want to be the gatekeepers for all possible rules. Even if we don't accept a rule into the core, that doesn't mean you can't have the exact rule that you want. See the [Custom Rules](../extend/custom-rules) and [Create Plugins](../extend/plugins) documentation for more information.

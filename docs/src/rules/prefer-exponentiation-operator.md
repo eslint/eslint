@@ -52,6 +52,10 @@ let quux = (-1) ** n;
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## When Not To Use It
 
 This rule should not be used unless ES2016 is supported in your codebase.

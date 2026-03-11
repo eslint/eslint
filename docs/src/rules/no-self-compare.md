@@ -27,6 +27,10 @@ if (x === x) {
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## Known Limitations
 
 This rule works by directly comparing the tokens on both sides of the operator. It flags them as problematic if they are structurally identical. However, it doesn't consider possible side effects or that functions may return different objects even when called with the same arguments. As a result, it can produce false positives in some cases, such as:

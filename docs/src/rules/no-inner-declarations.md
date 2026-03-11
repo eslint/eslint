@@ -294,7 +294,7 @@ function foo() {
 
 `ESM modules` and both `class` declarations and expressions are always in strict mode.
 
-::: correct { "sourceType": "module" }
+::: correct
 
 ```js
 /*eslint no-inner-declarations: ["error", "functions", { blockScopedFunctions: "allow" }]*/

@@ -46,6 +46,10 @@ const c = { __proto__: a };
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## When Not To Use It
 
 You might want to turn this rule off if you need to support legacy browsers which implement the

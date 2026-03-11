@@ -36,8 +36,6 @@ The option also has a string shorthand:
 "yield-star-spacing": ["error", "after"]
 ```
 
-## Examples
-
 ### after
 
 Examples of **correct** code for this rule with the default `"after"` option:

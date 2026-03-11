@@ -187,6 +187,10 @@ for (let i = 0; i < 10; i += 1) {
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## Known Limitations
 
 The rule cannot identify whether the function instance is just immediately invoked and then discarded, or possibly stored for later use.

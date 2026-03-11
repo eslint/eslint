@@ -50,7 +50,7 @@ As of April 2019, Node.js 6 will be at EOL and will no longer be receiving secur
 
 ## <a name="eslint-recommended-changes"></a> `eslint:recommended` has been updated
 
-The following rules have been added to the [`eslint:recommended`](../use/configure#using-eslintrecommended) config:
+The following rules have been added to the [`eslint:recommended`](../use/configure/configuration-files#use-predefined-configurations) config:
 
 - [`no-async-promise-executor`](../rules/no-async-promise-executor) disallows using an `async` function as the argument to the `Promise` constructor, which is usually a bug.
 - [`no-misleading-character-class`](../rules/no-misleading-character-class) reports character classes in regular expressions that might not behave as expected.
@@ -98,7 +98,7 @@ As a rule of thumb: With ESLint v6, plugins should always be installed locally, 
 
 **To address:** If you use a global installation of ESLint (e.g. installed with `npm install eslint --global`) along with plugins, you should install those plugins locally in the projects where you run ESLint. If your config file extends shareable configs and/or parsers, you should ensure that those packages are installed as dependencies of the project containing the config file.
 
-If you use a config file located outside of a local project (with the `--config` flag), consider installing the plugins as dependencies of that config file, and setting the [`--resolve-plugins-relative-to`](./command-line-interface#--resolve-plugins-relative-to) flag to the location of the config file.
+If you use a config file located outside of a local project (with the `--config` flag), consider installing the plugins as dependencies of that config file, and setting the `--resolve-plugins-relative-to` flag to the location of the config file.
 
 **Related issue(s):** [eslint/eslint#10125](https://github.com/eslint/eslint/issues/10125), [eslint/rfcs#7](https://github.com/eslint/rfcs/pull/7)
 

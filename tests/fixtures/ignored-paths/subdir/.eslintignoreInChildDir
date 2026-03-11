@@ -1,5 +1,0 @@
-/undef.js
-foo.js
-*.txt
-!/bar.txt
-!baz.txt

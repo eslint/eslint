@@ -9,7 +9,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Check out repo
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
               with:
                   token: ${{ secrets.WORKFLOW_PUSH_BOT_TOKEN }}
 

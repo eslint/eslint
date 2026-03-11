@@ -1,10 +1,5 @@
 ---
 title: Migrate to v9.x
-eleventyNavigation:
-    key: migrate to v9
-    parent: use eslint
-    title: Migrate to v9.x
-    order: 9
 ---
 
 ESLint v9.0.0 is a major release of ESLint, and as such, has several breaking changes that you need to be aware of. This guide is intended to walk you through the breaking changes.
@@ -520,7 +515,7 @@ The [eslint-plugin/prefer-object-rule](https://github.com/eslint-community/eslin
 
 ## <a name="meta-schema-required"></a> `meta.schema` is required for rules with options
 
-As of ESLint v9.0.0, an error will be thrown if any options are [passed](../use/configure/rules#using-configuration-files) to a rule that doesn't specify `meta.schema` property.
+As of ESLint v9.0.0, an error will be thrown if any options are [passed](../use/configure/rules#use-configuration-files) to a rule that doesn't specify `meta.schema` property.
 
 **To address:**
 

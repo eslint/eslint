@@ -6,9 +6,14 @@
             "path": "/docs/head/"
         },
         {
-            "version": "9.38.0",
+            "version": "10.0.3",
             "branch": "latest",
             "path": "/docs/latest/"
+        },
+        {
+            "version": "9.39.4",
+            "branch": "v9.x",
+            "path": "/docs/v9.x/"
         },
         {
             "version": "8.57.1",

@@ -232,6 +232,47 @@ describe("SourceCodeTraverser", () => {
 			);
 		});
 
+		it("should pass step.args to visitor", () => {
+			const dummyParent = { type: "Parent", value: 0 };
+			const dummyNode = { type: "Foo", value: 1 };
+			const sourceCode = {
+				ast: dummyNode,
+				visitorKeys: vk.KEYS,
+				*traverse() {
+					yield {
+						kind: STEP_KIND_VISIT,
+						target: dummyNode,
+						phase: 1,
+						args: [dummyNode, dummyParent],
+					};
+					yield {
+						kind: STEP_KIND_VISIT,
+						target: dummyNode,
+						phase: 2,
+						args: [dummyNode, dummyParent],
+					};
+				},
+			};
+
+			traverser.traverseSync(sourceCode, visitor);
+
+			assert(visitor.callSync.calledTwice);
+			assert(
+				visitor.callSync.firstCall.calledWith(
+					"Foo",
+					dummyNode,
+					dummyParent,
+				),
+			);
+			assert(
+				visitor.callSync.secondCall.calledWith(
+					"Foo:exit",
+					dummyNode,
+					dummyParent,
+				),
+			);
+		});
+
 		it("should use provided steps instead of source code traverse", () => {
 			// Create a source code object with normal traverse behavior
 			const fooNode = { type: "Foo", value: 1 };
@@ -525,6 +566,27 @@ describe("SourceCodeTraverser", () => {
 				], // bar
 				[
 					":matches(Identifier[name='foo'], Identifier[name='bar'], Identifier[name='baz'])",
+					ast.body[0].expression.right,
+				], // baz
+			],
+		);
+
+		assertEmissions(
+			"foo + bar + baz",
+			[
+				":is(Identifier[name='foo'], Identifier[name='bar'], Identifier[name='baz'])",
+			],
+			ast => [
+				[
+					":is(Identifier[name='foo'], Identifier[name='bar'], Identifier[name='baz'])",
+					ast.body[0].expression.left.left,
+				], // foo
+				[
+					":is(Identifier[name='foo'], Identifier[name='bar'], Identifier[name='baz'])",
+					ast.body[0].expression.left.right,
+				], // bar
+				[
+					":is(Identifier[name='foo'], Identifier[name='bar'], Identifier[name='baz'])",
 					ast.body[0].expression.right,
 				], // baz
 			],

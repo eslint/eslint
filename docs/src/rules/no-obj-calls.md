@@ -83,3 +83,7 @@ const segmenterFr = new Intl.Segmenter("fr", { granularity: "word" });
 ```
 
 :::
+
+## Options
+
+This rule has no options.

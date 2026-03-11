@@ -68,8 +68,6 @@ To restrict the use of all Node.js core modules (via <https://github.com/nodejs/
 }
 ```
 
-## Examples
-
 Examples of **incorrect** code for this rule  with sample `"fs", "cluster", "lodash"` restricted modules:
 
 ::: incorrect

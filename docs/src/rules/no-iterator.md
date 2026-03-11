@@ -52,3 +52,7 @@ const __iterator__ = foo; // Not using the `__iterator__` property.
 ```
 
 :::
+
+## Options
+
+This rule has no options.

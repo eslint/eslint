@@ -84,97 +84,287 @@ ruleTester.run("for-direction", rule, {
 	],
 	invalid: [
 		// test if '++', '--'
-		{ code: "for(var i = 0; i < 10; i--){}", errors: [incorrectDirection] },
+		{
+			code: "for(var i = 0; i < 10; i--){}",
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 28,
+				},
+			],
+		},
 		{
 			code: "for(var i = 0; i <= 10; i--){}",
-			errors: [incorrectDirection],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 29,
+				},
+			],
 		},
 		{
 			code: "for(var i = 10; i > 10; i++){}",
-			errors: [incorrectDirection],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 29,
+				},
+			],
 		},
 		{
 			code: "for(var i = 10; i >= 0; i++){}",
-			errors: [incorrectDirection],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 29,
+				},
+			],
 		},
 
 		// test if '++', '--' with counter 'i' on the right side of test condition
-		{ code: "for(var i = 0; 10 > i; i--){}", errors: [incorrectDirection] },
+		{
+			code: "for(var i = 0; 10 > i; i--){}",
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 28,
+				},
+			],
+		},
 		{
 			code: "for(var i = 0; 10 >= i; i--){}",
-			errors: [incorrectDirection],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 29,
+				},
+			],
 		},
 		{
 			code: "for(var i = 10; 10 < i; i++){}",
-			errors: [incorrectDirection],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 29,
+				},
+			],
 		},
 		{
 			code: "for(var i = 10; 0 <= i; i++){}",
-			errors: [incorrectDirection],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 29,
+				},
+			],
 		},
 
 		// test if '+=', '-='
 		{
 			code: "for(var i = 0; i < 10; i-=1){}",
-			errors: [incorrectDirection],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 29,
+				},
+			],
 		},
 		{
 			code: "for(var i = 0; i <= 10; i-=1){}",
-			errors: [incorrectDirection],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 30,
+				},
+			],
 		},
 		{
 			code: "for(var i = 10; i > 10; i+=1){}",
-			errors: [incorrectDirection],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 30,
+				},
+			],
 		},
 		{
 			code: "for(var i = 10; i >= 0; i+=1){}",
-			errors: [incorrectDirection],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 30,
+				},
+			],
 		},
 		{
 			code: "for(var i = 0; i < 10; i+=-1){}",
-			errors: [incorrectDirection],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 30,
+				},
+			],
 		},
 		{
 			code: "for(var i = 0; i <= 10; i+=-1){}",
-			errors: [incorrectDirection],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 31,
+				},
+			],
 		},
 		{
 			code: "for(var i = 10; i > 10; i-=-1){}",
-			errors: [incorrectDirection],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 31,
+				},
+			],
 		},
 		{
 			code: "for(var i = 10; i >= 0; i-=-1){}",
-			errors: [incorrectDirection],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 31,
+				},
+			],
 		},
 		{
 			code: "for(var i = 0n; i > l; i+=1n){}",
-			errors: [incorrectDirection],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 30,
+				},
+			],
 		},
 		{
 			code: "for(var i = 0n; i < l; i+=-1n){}",
-			errors: [incorrectDirection],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 31,
+				},
+			],
 		},
 		{
 			code: "for(var i = MIN; i <= MAX; i-=true){}",
-			errors: [incorrectDirection],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 36,
+				},
+			],
 		},
 		{
 			code: "for(var i = 0; i < 10; i-=+5e-7){}",
-			errors: [incorrectDirection],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 33,
+				},
+			],
 		},
 		{
 			code: "for(var i = 0; i < MAX; i += (2 - 3));",
-			errors: [incorrectDirection],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 38,
+				},
+			],
 		},
 		{
 			code: "var n = -2; for(var i = 0; i < 10; i += n);",
-			errors: [incorrectDirection],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 43,
+				},
+			],
 		},
 
 		// test if '+=', '-=' with counter 'i' on the right side of test condition
 		{
 			code: "for(var i = 0; 10 > i; i-=1){}",
-			errors: [incorrectDirection],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 29,
+				},
+			],
 		},
 	],
 });

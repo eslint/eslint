@@ -13,7 +13,7 @@ jobs:
         name: Verify Files
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v5
+            - uses: actions/checkout@v6
             - uses: actions/setup-node@v6
               with:
                   node-version: "lts/*"
@@ -25,14 +25,14 @@ jobs:
               run: npm install
 
             - name: Lint Files (eslint)
-              uses: trunk-io/trunk-action@v1
+              uses: trunk-io/trunk-action@75699af9e26881e564e9d832ef7dc3af25ec031b # v1
               with:
                   # Run on everything except the docs folder.
                   arguments: --ignore=docs/** --filter=eslint
                   check-mode: all
 
             - name: Lint Files (other)
-              uses: trunk-io/trunk-action@v1
+              uses: trunk-io/trunk-action@75699af9e26881e564e9d832ef7dc3af25ec031b # v1
               with:
                   # Run on everything except the docs folder.
                   arguments: --ignore=docs/** --filter=-eslint
@@ -44,14 +44,14 @@ jobs:
               run: node Makefile checkLicenses
 
             - name: Lint Docs Files (eslint)
-              uses: trunk-io/trunk-action@v1
+              uses: trunk-io/trunk-action@75699af9e26881e564e9d832ef7dc3af25ec031b # v1
               with:
                   # Run only on the docs folder.
                   arguments: --ignore=** --ignore=!docs/** --filter=eslint
                   check-mode: all
 
             - name: Lint Docs Files (other)
-              uses: trunk-io/trunk-action@v1
+              uses: trunk-io/trunk-action@75699af9e26881e564e9d832ef7dc3af25ec031b # v1
               with:
                   # Run only on the docs folder.
                   arguments: --ignore=** --ignore=!docs/** --filter=-eslint
@@ -70,7 +70,7 @@ jobs:
         strategy:
             matrix:
                 os: [ubuntu-latest]
-                node: [25.x, 24.x, 22.x, 20.x, 18.x, "18.18.0"]
+                node: ["25.6.1", 24.x, 22.x, 20.x, "20.19.0"]
                 NODE_OPTIONS: [""]
                 include:
                     - os: windows-latest
@@ -86,7 +86,7 @@ jobs:
                       NODE_OPTIONS: "--experimental-transform-types"
         runs-on: ${{ matrix.os }}
         steps:
-            - uses: actions/checkout@v5
+            - uses: actions/checkout@v6
             - uses: actions/setup-node@v6
               with:
                   node-version: ${{ matrix.node }}
@@ -107,7 +107,7 @@ jobs:
         env:
             TERM: xterm-256color
         steps:
-            - uses: actions/checkout@v5
+            - uses: actions/checkout@v6
             - uses: actions/setup-node@v6
               with:
                   node-version: "20" # Should be the same as the version used on Netlify to build the ESLint Playground
@@ -119,11 +119,12 @@ jobs:
               run: node Makefile fuzz
 
     test_types:
-        name: Test Types of ${{ matrix.package.name }}
+        name: Test Types (TypeScript ${{ matrix.typescript }}) of ${{ matrix.package.name }}
         runs-on: ubuntu-latest
 
         strategy:
             matrix:
+                typescript: ["5.x", "5.3.2"]
                 package:
                     [
                         { name: eslint, directory: . },
@@ -135,7 +136,7 @@ jobs:
                     ]
 
         steps:
-            - uses: actions/checkout@v5
+            - uses: actions/checkout@v6
             - uses: actions/setup-node@v6
               with:
                   node-version: "lts/*"
@@ -146,17 +147,25 @@ jobs:
               working-directory: ${{ matrix.package.directory }}
               run: npm install
 
+            - name: Install TypeScript ${{ matrix.typescript }}
+              working-directory: ${{ matrix.package.directory }}
+              run: npm install --no-save typescript@${{ matrix.typescript }}
+
             - name: Test types for ${{ matrix.package.name }}
               working-directory: ${{ matrix.package.directory }}
               run: npm run test:types
+
+    test_package_manager:
+        name: Test Package Managers
+        uses: eslint/workflows/.github/workflows/ci-package-manager.yml@main
 
     pnpm_test:
         name: Test pnpm Type Support
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v5
+            - uses: actions/checkout@v6
 
-            - uses: pnpm/action-setup@v4
+            - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4
               with:
                   version: latest
 

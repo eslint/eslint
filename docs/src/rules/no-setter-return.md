@@ -109,3 +109,7 @@ Object.defineProperty(foo, "bar", {
 ```
 
 :::
+
+## Options
+
+This rule has no options.

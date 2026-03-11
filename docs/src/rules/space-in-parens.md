@@ -135,8 +135,6 @@ Empty parens exception and behavior:
 * `always` excepting `empty` requires `()`
 * `never` excepting `empty` requires `( )` (empty parens without a space is here forbidden)
 
-### Examples
-
 Examples of **incorrect** code for this rule with the `"never", { "exceptions": ["{}"] }` option:
 
 ::: incorrect

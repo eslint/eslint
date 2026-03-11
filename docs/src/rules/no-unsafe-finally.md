@@ -164,6 +164,13 @@ let foo = function(a) {
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## When Not To Use It
 
 If you want to allow control flow operations in `finally` blocks, you can turn this rule off.
+
+Note that [using `return` with `try`/`finally` in generator functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator/return#using_return_with_try...finally) can be used to override the value returned.
+If you want to use this feature of generator functions, you can disable this rule using an `eslint-disable` comment.

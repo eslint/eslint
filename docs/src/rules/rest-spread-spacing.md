@@ -49,13 +49,13 @@ This rule aims to enforce consistent spacing between rest and spread operators a
 
 ```json
 {
-    "parserOptions": {
+    "languageOptions": {
         "ecmaVersion": 2018
     }
 }
 ```
 
-Please read the user guide's section on [configuring parser options](../use/configure#specifying-parser-options) to learn more.
+Please read the user guide's section on [configure parser options](../use/configure#specify-parser-options) to learn more.
 
 ## Options
 

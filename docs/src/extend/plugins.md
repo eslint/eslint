@@ -9,7 +9,7 @@ eleventyNavigation:
 
 ESLint plugins extend ESLint with additional functionality. In most cases, you'll extend ESLint by creating plugins that encapsulate the additional functionality you want to share across multiple projects.
 
-## Creating a plugin
+## Create a plugin
 
 A plugin is a JavaScript object that exposes certain properties to ESLint:
 
@@ -153,6 +153,7 @@ import example from "eslint-plugin-example";
 
 export default defineConfig([
 	{
+		files: ["**/*.js"], // any patterns you want to apply the config to
 		plugins: {
 			example,
 		},

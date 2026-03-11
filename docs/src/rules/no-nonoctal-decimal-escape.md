@@ -71,3 +71,7 @@ const quux = "\0\u0038";
 ```
 
 :::
+
+## Options
+
+This rule has no options.

@@ -62,6 +62,10 @@ try {
 
 :::
 
+## Options
+
+This rule has no options.
+
 ## Known Limitations
 
 Due to the limits of static analysis, this rule cannot guarantee that you will only throw `Error` objects.

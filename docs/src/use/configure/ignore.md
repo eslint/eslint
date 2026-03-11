@@ -10,18 +10,18 @@ eleventyNavigation:
 {%- from 'components/npx_tabs.macro.html' import npx_tabs %}
 
 ::: tip
-This page explains how to ignore files using the flat config format. For the deprecated eslintrc format, [see the deprecated documentation](ignore-deprecated).
+This page explains how to ignore files using the flat config format.
 :::
 
 ::: tip
-This page explains how to use the `globalIgnores()` function to completely ignore files and directories. For more information on non-global ignores, see [Specifying files and ignores](configuration-files#specifying-files-and-ignores). For more information on the differences between global and non-global ignores, see [Globally ignoring files with `ignores`](configuration-files#globally-ignoring-files-with-ignores).
+This page explains how to use the `globalIgnores()` function to completely ignore files and directories. For more information on non-global ignores, see [Specify files and ignores](configuration-files#specify-files-and-ignores). For more information on the differences between global and non-global ignores, see [Globally ignore files with `ignores`](configuration-files#globally-ignore-files-with-ignores).
 :::
 You can configure ESLint to ignore certain files and directories while linting by specifying one or more glob patterns in the following ways:
 
 - Inside of your `eslint.config.js` file.
 - On the command line using `--ignore-pattern`.
 
-## Ignoring Files
+## Ignore Files
 
 In your `eslint.config.js` file, you can use the `globalIgnores()` helper function to indicate patterns of files to be ignored. Here's an example:
 
@@ -34,6 +34,35 @@ export default defineConfig([globalIgnores([".config/*"])]);
 
 This configuration specifies that all of the files in the `.config` directory should be ignored. This pattern is added after the default patterns, which are `["**/node_modules/", ".git/"]`.
 
+By default, ESLint lints files that match the patterns `**/*.js`, `**/*.cjs`, and `**/*.mjs`. You can ignore them with `globalIgnores()` if you don't want ESLint to lint these files:
+
+```js
+// eslint.config.js
+import { defineConfig, globalIgnores } from "eslint/config";
+
+export default defineConfig([
+	globalIgnores(["**/*.js", "**/*.cjs", "**/*.mjs"]),
+]);
+```
+
+When non-JS files are specified in the `files` property, ESLint still lints files that match the default patterns. To lint only the files specified in the `files` property, you must ignore the default file patterns:
+
+```js
+// eslint.config.js
+import { defineConfig, globalIgnores } from "eslint/config";
+
+export default defineConfig([
+	globalIgnores(["**/*.js", "**/*.cjs", "**/*.mjs"]),
+	{
+		files: ["**/*.ts"],
+		ignores: [".config/**"],
+		rules: {
+			/* ... */
+		},
+	},
+]);
+```
+
 You can also ignore files on the command line using [`--ignore-pattern`](../command-line-interface#--ignore-pattern), such as:
 
 {{ npx_tabs({
@@ -41,7 +70,7 @@ You can also ignore files on the command line using [`--ignore-pattern`](../comm
     args: [".", "--ignore-pattern", "\'.config/*\'"]
 }) }}
 
-## Ignoring Directories
+## Ignore Directories
 
 Ignoring directories works the same way as ignoring files, by passing a pattern to the `globalIgnores()` helper function. For example, the following ignores the `.config` directory as a whole (meaning file search will not traverse into it at all):
 
@@ -61,7 +90,7 @@ import { defineConfig, globalIgnores } from "eslint/config";
 export default defineConfig([globalIgnores(["**/.config/"])]);
 ```
 
-## Unignoring Files and Directories
+## Unignore Files and Directories
 
 You can also unignore files and directories that are ignored by previous patterns, including the default patterns. For example, this config unignores `node_modules/mylibrary`:
 
@@ -110,6 +139,19 @@ export default defineConfig([
 	]),
 ]);
 ```
+
+If you want to ignore ESLint's default file patterns (`**/*.js`, `**/*.cjs`, and `**/*.mjs`) while still linting specific files or directories, you can use negative patterns to unignore them:
+
+```js
+// eslint.config.js
+import { defineConfig, globalIgnores } from "eslint/config";
+
+export default defineConfig([
+	globalIgnores(["**/*.js", "**/*.cjs", "**/*.mjs", "!**/src/**/*.js"]),
+]);
+```
+
+This configuration ignores all files matching the default patterns except for JavaScript files located within `src` directories.
 
 ::: important
 Note that only global `ignores` patterns can match directories.
@@ -175,7 +217,7 @@ foo.js
 
 This message occurs because ESLint is unsure if you wanted to actually lint the file or not. As the message indicates, you can use `--no-ignore` to omit using the ignore rules.
 
-## Including `.gitignore` Files
+## Include `.gitignore` Files
 
 If you want to include patterns from a [`.gitignore`](https://git-scm.com/docs/gitignore) file or any other file with gitignore-style patterns, you can use [`includeIgnoreFile`](https://github.com/eslint/rewrite/tree/main/packages/compat#including-ignore-files) utility from the [`@eslint/compat`](https://www.npmjs.com/package/@eslint/compat) package.
 

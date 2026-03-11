@@ -11,13 +11,13 @@ eleventyNavigation:
 
 ESLint custom parsers let you extend ESLint to support linting new non-standard JavaScript language features or custom syntax in your code. A parser is responsible for taking your code and transforming it into an abstract syntax tree (AST) that ESLint can then analyze and lint.
 
-## Creating a Custom Parser
+## Create a Custom Parser
 
 ### Methods in Custom Parsers
 
 A custom parser is a JavaScript object with either a `parse()` or `parseForESLint()` method. The `parse` method only returns the AST, whereas `parseForESLint()` also returns additional values that let the parser customize the behavior of ESLint even more.
 
-Both methods should be instance (own) properties and take in the source code as the first argument, and an optional configuration object as the second argument, which is provided as [`parserOptions`](../use/configure/language-options#specifying-parser-options) in a configuration file.
+Both methods should be instance (own) properties and take in the source code as the first argument, and an optional configuration object as the second argument, which is provided as [`parserOptions`](../use/configure/language-options#specify-parser-options) in a configuration file.
 
 ```javascript
 // customParser.js
@@ -48,6 +48,7 @@ The `parseForESLint` method should return an object that contains the required p
 - `services` can contain any parser-dependent services (such as type checkers for nodes). The value of the `services` property is available to rules as `context.sourceCode.parserServices`. Default is an empty object.
 - `scopeManager` can be a [ScopeManager](./scope-manager-interface) object. Custom parsers can use customized scope analysis for experimental/enhancement syntaxes. The default is the `ScopeManager` object which is created by [eslint-scope](https://github.com/eslint/js/tree/main/packages/eslint-scope).
     - Support for `scopeManager` was added in ESLint v4.14.0. ESLint versions that support `scopeManager` will provide an `eslintScopeManager: true` property in `parserOptions`, which can be used for feature detection.
+    - As of ESLint v10.0.0, `ScopeManager` must automatically resolve references to global variables declared in the code, and provide an instance method `addGlobals(names: string[])` that creates variables with the given names in the global scope and resolves references to them.
 - `visitorKeys` can be an object to customize AST traversal. The keys of the object are the type of AST nodes. Each value is an array of the property names which should be traversed. The default is [KEYS of `eslint-visitor-keys`](https://github.com/eslint/js/tree/main/packages/eslint-visitor-keys#evkkeys).
     - Support for `visitorKeys` was added in ESLint v4.14.0. ESLint versions that support `visitorKeys` will provide an `eslintVisitorKeys: true` property in `parserOptions`, which can be used for feature detection.
 
@@ -109,7 +110,7 @@ The `Literal` node must have `raw` property.
 
 To publish your custom parser to npm, perform the following:
 
-1. Create a custom parser following the [Creating a Custom Parser](#creating-a-custom-parser) section above.
+1. Create a custom parser following the [Create a Custom Parser](#create-a-custom-parser) section above.
 1. [Create an npm package](https://docs.npmjs.com/creating-node-js-modules) for the custom parser.
 1. In your `package.json` file, set the [`main`](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#main) field as the file that exports your custom parser.
 1. [Publish the npm package.](https://docs.npmjs.com/creating-and-publishing-unscoped-public-packages)

@@ -112,7 +112,6 @@ describe("formatter:html", () => {
 
 				docs: {
 					description: "This is rule 'foo'",
-					category: "error",
 					recommended: true,
 					url: "https://eslint.org/docs/rules/foo",
 				},
@@ -226,7 +225,6 @@ describe("formatter:html", () => {
 
 				docs: {
 					description: "This is rule 'foo'",
-					category: "error",
 					recommended: true,
 					url: "https://eslint.org/docs/rules/foo",
 				},
@@ -303,7 +301,6 @@ describe("formatter:html", () => {
 
 				docs: {
 					description: "This is rule 'foo'",
-					category: "error",
 					recommended: true,
 					url: "https://eslint.org/docs/rules/foo",
 				},
@@ -414,7 +411,6 @@ describe("formatter:html", () => {
 
 				docs: {
 					description: "This is rule 'foo'",
-					category: "error",
 					recommended: true,
 					url: "https://eslint.org/docs/rules/foo",
 				},
@@ -430,7 +426,6 @@ describe("formatter:html", () => {
 
 				docs: {
 					description: "This is rule 'bar'",
-					category: "error",
 					recommended: false,
 				},
 
@@ -519,7 +514,6 @@ describe("formatter:html", () => {
 
 				docs: {
 					description: "This is rule 'foo'",
-					category: "error",
 					recommended: true,
 					url: "https://eslint.org/docs/rules/foo",
 				},
@@ -535,7 +529,6 @@ describe("formatter:html", () => {
 
 				docs: {
 					description: "This is rule 'bar'",
-					category: "error",
 					recommended: false,
 				},
 
@@ -637,7 +630,6 @@ describe("formatter:html", () => {
 
 				docs: {
 					description: "This is rule 'foo'",
-					category: "error",
 					recommended: true,
 					url: "https://eslint.org/docs/rules/foo",
 				},
@@ -653,7 +645,6 @@ describe("formatter:html", () => {
 
 				docs: {
 					description: "This is rule 'bar'",
-					category: "error",
 					recommended: false,
 				},
 
@@ -755,7 +746,6 @@ describe("formatter:html", () => {
 
 				docs: {
 					description: "This is rule 'foo'",
-					category: "error",
 					recommended: true,
 					url: "https://eslint.org/docs/rules/foo",
 				},
@@ -839,7 +829,6 @@ describe("formatter:html", () => {
 
 				docs: {
 					description: "This is rule 'foo'",
-					category: "error",
 					recommended: true,
 					url: "https://eslint.org/docs/rules/foo",
 				},

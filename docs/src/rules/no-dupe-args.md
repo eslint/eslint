@@ -49,3 +49,7 @@ const bar = function (a, b, c) {
 ```
 
 :::
+
+## Options
+
+This rule has no options.

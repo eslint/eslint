@@ -8,7 +8,7 @@ eleventyNavigation:
 ---
 
 ::: tip
-This page explains how to configure parsers using the flat config format. For the deprecated eslintrc format, [see the deprecated documentation](parser-deprecated).
+This page explains how to configure parsers using the flat config format.
 :::
 
 You can use custom parsers to convert JavaScript code into an abstract syntax tree for ESLint to evaluate. You might want to add a custom parser if your code isn't compatible with ESLint's default parser, Espree.

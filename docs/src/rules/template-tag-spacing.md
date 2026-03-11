@@ -33,8 +33,6 @@ This rule has one option whose value can be set to `"never"` or `"always"`
 * `"never"` (default) - Disallows spaces between a tag function and its template literal.
 * `"always"` - Requires one or more spaces between a tag function and its template literal.
 
-## Examples
-
 ### never
 
 Examples of **incorrect** code for this rule with the default `"never"` option:

@@ -36,6 +36,10 @@ ruleTester.run("require-yield", rule, {
 			errors: [
 				{
 					messageId: "missingYield",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -44,6 +48,10 @@ ruleTester.run("require-yield", rule, {
 			errors: [
 				{
 					messageId: "missingYield",
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -52,6 +60,10 @@ ruleTester.run("require-yield", rule, {
 			errors: [
 				{
 					messageId: "missingYield",
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -60,6 +72,10 @@ ruleTester.run("require-yield", rule, {
 			errors: [
 				{
 					messageId: "missingYield",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 15,
 				},
 			],
 		},
@@ -68,7 +84,10 @@ ruleTester.run("require-yield", rule, {
 			errors: [
 				{
 					messageId: "missingYield",
+					line: 1,
 					column: 1,
+					endLine: 1,
+					endColumn: 14,
 				},
 			],
 		},
@@ -77,7 +96,10 @@ ruleTester.run("require-yield", rule, {
 			errors: [
 				{
 					messageId: "missingYield",
+					line: 1,
 					column: 19,
+					endLine: 1,
+					endColumn: 32,
 				},
 			],
 		},

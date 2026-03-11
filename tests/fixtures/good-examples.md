@@ -17,6 +17,14 @@ const foo = <bar></bar>;
 
 :::
 
+::: correct { "parserOptions": { "ecmaFeatures": { "jsx": true } } }
+
+```tsx
+const foo = <bar></bar>;
+```
+
+:::
+
 A test with multiple spaces after 'correct':
 <!-- markdownlint-disable-next-line no-trailing-spaces -->
 :::correct  
