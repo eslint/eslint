@@ -68,7 +68,7 @@ eslint --pass-on-unpruned-suppressions
 
 For more information on the available CLI options, refer to [Command Line Interface](./command-line-interface).
 
-## Using with the Node.js API
+## Usage with the Node.js API
 
 Suppressions can also be applied when using ESLint programmatically through the [Node.js API](../integrate/nodejs-api). To enable suppressions, set the `applySuppressions` option to `true` in the `ESLint` constructor:
 

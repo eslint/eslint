@@ -9298,22 +9298,31 @@ describe("ESLint", () => {
 				overrideConfigFile: true,
 				cwd,
 				applySuppressions: true,
-				suppressionsLocation: "existing-eslintsuppressions.json",
+				suppressionsLocation: "partial-suppressions.json",
 			});
 			const results = await eslint.lintFiles(["test-file.js"]);
 
 			/*
-			 * existing-eslintsuppressions.json only has entries for "tests/fixtures/suppressions/extra-file.js", not "test-file.js"
-			 * So no suppressions should match, and all errors should remain
+			 * partial-suppressions.json only suppresses no-undef, not no-sparse-arrays.
+			 * This proves the custom file is being used instead of the default eslint-suppressions.json
+			 * (which suppresses both rules).
 			 */
 			const noUndefMessages = results[0].messages.filter(
 				m => m.ruleId === "no-undef",
 			);
+			const noSparseMessages = results[0].messages.filter(
+				m => m.ruleId === "no-sparse-arrays",
+			);
 
 			assert.strictEqual(
 				noUndefMessages.length,
-				3,
-				"should not suppress errors when suppressions file doesn't match",
+				0,
+				"no-undef errors should be suppressed by custom file",
+			);
+			assert.strictEqual(
+				noSparseMessages.length,
+				2,
+				"no-sparse-arrays errors should NOT be suppressed (not in custom file)",
 			);
 		});
 
@@ -9338,6 +9347,111 @@ describe("ESLint", () => {
 				3,
 				"should not crash and should report all errors",
 			);
+		});
+
+		it("should use absolute path for 'suppressionsLocation'", async () => {
+			const cwd = getFixturePath("suppressions");
+			const absoluteSuppressionsPath = path.join(
+				cwd,
+				"partial-suppressions.json",
+			);
+
+			eslint = new ESLint({
+				overrideConfigFile: true,
+				cwd,
+				applySuppressions: true,
+				suppressionsLocation: absoluteSuppressionsPath,
+			});
+			const results = await eslint.lintFiles(["test-file.js"]);
+
+			/*
+			 * partial-suppressions.json only suppresses no-undef, not no-sparse-arrays.
+			 * This verifies the absolute path is correctly resolved and used.
+			 */
+			const noUndefMessages = results[0].messages.filter(
+				m => m.ruleId === "no-undef",
+			);
+			const noSparseMessages = results[0].messages.filter(
+				m => m.ruleId === "no-sparse-arrays",
+			);
+
+			assert.strictEqual(
+				noUndefMessages.length,
+				0,
+				"no-undef errors should be suppressed when using absolute path",
+			);
+			assert.strictEqual(
+				noSparseMessages.length,
+				2,
+				"no-sparse-arrays errors should NOT be suppressed",
+			);
+		});
+
+		it("should not affect caching when suppressions are applied", async () => {
+			const cwd = getFixturePath("suppressions");
+			const cacheLocation = path.join(
+				os.tmpdir(),
+				`.eslintcache-suppressions-${Date.now()}`,
+			);
+
+			try {
+				// First run: lint with both caching and suppressions enabled
+				const eslintWithSuppressions = new ESLint({
+					overrideConfigFile: true,
+					cwd,
+					cache: true,
+					cacheLocation,
+					applySuppressions: true,
+				});
+
+				const resultsWithSuppressions =
+					await eslintWithSuppressions.lintFiles(["test-file.js"]);
+
+				// Verify suppressions were applied
+				const suppressedNoUndef =
+					resultsWithSuppressions[0].messages.filter(
+						m => m.ruleId === "no-undef",
+					);
+
+				assert.strictEqual(
+					suppressedNoUndef.length,
+					0,
+					"no-undef errors should be suppressed in first run",
+				);
+
+				/**
+				 * Second run: lint with only caching enabled (no suppressions)
+				 * This should return cached results with ALL messages (including those that were suppressed)
+				 */
+				const eslintWithoutSuppressions = new ESLint({
+					overrideConfigFile: true,
+					cwd,
+					cache: true,
+					cacheLocation,
+					applySuppressions: false,
+				});
+
+				const resultsWithoutSuppressions =
+					await eslintWithoutSuppressions.lintFiles(["test-file.js"]);
+
+				/**
+				 * The cache should have stored all messages, so the second run should show the messages
+				 * that were suppressed in the first run
+				 */
+				const noUndefMessages =
+					resultsWithoutSuppressions[0].messages.filter(
+						m => m.ruleId === "no-undef",
+					);
+
+				assert.strictEqual(
+					noUndefMessages.length,
+					3,
+					"all no-undef errors should be present when reading from cache without suppressions",
+				);
+			} finally {
+				// Clean up cache file
+				fs.rmSync(cacheLocation, { force: true });
+			}
 		});
 	});
 
