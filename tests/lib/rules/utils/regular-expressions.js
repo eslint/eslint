@@ -1,6 +1,6 @@
 /**
  * @fileoverview Tests for regular-expressions utility.
- * @author Manish Chaudhary <https://github.com/techmannih>
+ * @author Manish Chaudhary
  */
 "use strict";
 
