@@ -8,7 +8,7 @@ eleventyNavigation:
 ---
 
 ::: tip
-This page explains how to configure rules using the flat config format. For the deprecated eslintrc format, [see the deprecated documentation](rules-deprecated).
+This page explains how to configure rules using the flat config format.
 :::
 
 Rules are the core building block of ESLint. A rule validates if your code meets a certain expectation, and what to do if it does not meet that expectation. Rules can also contain additional configuration options specific to that rule.
@@ -92,6 +92,10 @@ export default defineConfig([
 This setting defaults to `"off"`.
 
 This setting is similar to the [`--report-unused-inline-configs`](../command-line-interface#--report-unused-inline-configs) CLI option.
+
+::: tip
+To enforce best practices around configuration comments, take a look at [`eslint-plugin-eslint-comments`](https://github.com/eslint-community/eslint-plugin-eslint-comments) ([Docs](https://eslint-community.github.io/eslint-plugin-eslint-comments/)).
+:::
 
 ### Use Configuration Files
 

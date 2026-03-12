@@ -94,7 +94,7 @@ In ESLint v9, the alternate config lookup behavior could be enabled with the `v1
 
 ## <a name="remove-eslintrc"></a> Old config format no longer supported
 
-ESLint v9 introduced a [new default configuration format](./configure/configuration-files) based on the `eslint.config.js` file. The [old format](./configure/configuration-files-deprecated), which used `.eslintrc` or `.eslintrc.json`, could still be enabled in v9 by setting the `ESLINT_USE_FLAT_CONFIG` environment variable to `false`.
+ESLint v9 introduced a [new default configuration format](./configure/configuration-files) based on the `eslint.config.js` file. The old format, which used `.eslintrc` or `.eslintrc.json`, could still be enabled in v9 by setting the `ESLINT_USE_FLAT_CONFIG` environment variable to `false`.
 
 Starting with ESLint v10.0.0, the old configuration format is no longer supported.
 
@@ -290,7 +290,7 @@ Starting with ESLint v10.0.0, `Program.range` covers the entire source text, inc
 
 **To address:**
 
-- For rule and plugin authors: If your code depends on the previous `Program.range` behavior, or on `SourceCode` methods that assume it (such as `sourceCode.getCommentsBefore(programNode)` to retrieve all leading comments), update your logic.
+- For rule and plugin authors: If your code depends on the previous `Program.range` behavior, or on `SourceCode` methods that assume it (such as `sourceCode.getCommentsBefore(programNode)` to retrieve all leading comments), update your logic. If your code reports on the `Program` node, update your logic to report on the first statement within the `Program` node, i.e. `node.body[0] ?? node`, to ensure the directive `/* eslint-disable your-rule */` can still work.
 - For custom parsers: Set `Program.range` to cover the full source text (typically `[0, code.length]`).
 
 **Related issue(s):** [eslint/js#648](https://github.com/eslint/js/issues/648)

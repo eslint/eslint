@@ -1195,41 +1195,92 @@ export namespace ESLint {
 
 	type CacheStrategy = "content" | "metadata";
 
+	/** The options with which to configure the ESLint instance. */
 	interface Options {
 		// File enumeration
+
+		/** The value to use for the current working directory. */
 		cwd?: string | undefined;
+
+		/** If `false` then `ESLint#lintFiles()` doesn't throw even if no target files found. Defaults to `true`. */
 		errorOnUnmatchedPattern?: boolean | undefined;
+
+		/**
+		 * Set to false to skip glob resolution of input file paths to lint (default: true).
+		 * If false, each input file path is assumed to be a non-glob path to an existing file.
+		 */
 		globInputPaths?: boolean | undefined;
+
+		/** False disables all ignore patterns except for the default ones. */
 		ignore?: boolean | undefined;
+
+		/** Ignore file patterns to use in addition to config ignores. These patterns are relative to `cwd`. */
 		ignorePatterns?: string[] | null | undefined;
+
+		/** When set to true, missing patterns cause the linting operation to short circuit and not report any failures. */
 		passOnNoPatterns?: boolean | undefined;
+
+		/** Show warnings when the file list includes ignored files. */
 		warnIgnored?: boolean | undefined;
 
 		// Linting
+
+		/** Enable or disable inline configuration comments. */
 		allowInlineConfig?: boolean | undefined;
+
+		/** Base config, extended by all configs used with this instance. */
 		baseConfig?: Linter.Config | Linter.Config[] | null | undefined;
+
+		/** Override config, overrides all configs used with this instance. */
 		overrideConfig?: Linter.Config | Linter.Config[] | null | undefined;
+
+		/**
+		 * Searches for default config file when falsy; doesn't do any config file lookup when `true`; considered to be a config filename when a string.
+		 */
 		overrideConfigFile?: string | true | null | undefined;
+
+		/** An array of plugin implementations. */
 		plugins?: Record<string, Plugin> | null | undefined;
+
+		/**
+		 * Default is `() => true`. A predicate function that filters rules to be run.
+		 * This function is called with an object containing `ruleId` and `severity`, and returns `true` if the rule should be run.
+		 */
 		ruleFilter?:
 			| ((arg: {
 					ruleId: string;
 					severity: Exclude<Linter.Severity, 0>;
 			  }) => boolean)
 			| undefined;
+
+		/** True enables added statistics on lint results. */
 		stats?: boolean | undefined;
 
 		// Autofix
+
+		/** Execute in autofix mode. If a function, should return a boolean. */
 		fix?: boolean | ((message: Linter.LintMessage) => boolean) | undefined;
+
+		/** Array of rule types to apply fixes for. */
 		fixTypes?: FixType[] | null | undefined;
 
 		// Cache-related
+
+		/** Enable result caching. */
 		cache?: boolean | undefined;
+
+		/** The cache file to use instead of .eslintcache. */
 		cacheLocation?: string | undefined;
+
+		/** The strategy used to detect changed files. */
 		cacheStrategy?: CacheStrategy | undefined;
 
 		// Other Options
+
+		/** Maximum number of linting threads, "auto" to choose automatically, "off" for no multithreading. */
 		concurrency?: number | "auto" | "off" | undefined;
+
+		/** Array of feature flags to enable. */
 		flags?: string[] | undefined;
 	}
 

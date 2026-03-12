@@ -169,7 +169,7 @@ Example output (formatted for easier reading):
                 {
                     "ruleId": "no-useless-assignment",
                     "severity": 2,
-                    "message": "This assigned value is not used in subsequent statements.",
+                    "message": "The value assigned to 'i' is not used in subsequent statements.",
                     "line": 3,
                     "column": 16,
                     "messageId": "unnecessaryAssignment",
@@ -528,7 +528,7 @@ Example output (formatted for easier reading):
                 },
                 "schema": [],
                 "messages": {
-                    "unnecessaryAssignment": "This assigned value is not used in subsequent statements."
+                    "unnecessaryAssignment": "The value assigned to '{{name}}' is not used in subsequent statements."
                 }
             },
             "semi": {
@@ -1064,7 +1064,7 @@ Example output (formatted for easier reading):
             {
                 "ruleId": "no-useless-assignment",
                 "severity": 2,
-                "message": "This assigned value is not used in subsequent statements.",
+                "message": "The value assigned to 'i' is not used in subsequent statements.",
                 "line": 3,
                 "column": 16,
                 "messageId": "unnecessaryAssignment",
@@ -1250,15 +1250,15 @@ Example output:
 ```text
 
 /var/lib/jenkins/workspace/eslint Release/eslint/fullOfProblems.js
-  1:10  error    'addOne' is defined but never used                        no-unused-vars
-  2:9   error    Use the isNaN function to compare with NaN                use-isnan
-  3:16  error    Unexpected space before unary operator '++'               space-unary-ops
-  3:16  error    This assigned value is not used in subsequent statements  no-useless-assignment
-  3:20  warning  Missing semicolon                                         semi
-  4:12  warning  Unnecessary 'else' after 'return'                         no-else-return
-  5:1   warning  Expected indentation of 8 spaces but found 6              indent
-  5:7   error    Function 'addOne' expected a return value                 consistent-return
-  5:13  warning  Missing semicolon                                         semi
+  1:10  error    'addOne' is defined but never used                              no-unused-vars
+  2:9   error    Use the isNaN function to compare with NaN                      use-isnan
+  3:16  error    Unexpected space before unary operator '++'                     space-unary-ops
+  3:16  error    The value assigned to 'i' is not used in subsequent statements  no-useless-assignment
+  3:20  warning  Missing semicolon                                               semi
+  4:12  warning  Unnecessary 'else' after 'return'                               no-else-return
+  5:1   warning  Expected indentation of 8 spaces but found 6                    indent
+  5:7   error    Function 'addOne' expected a return value                       consistent-return
+  5:13  warning  Missing semicolon                                               semi
 
 ✖ 9 problems (5 errors, 4 warnings)
   1 error and 4 warnings potentially fixable with the `--fix` option.

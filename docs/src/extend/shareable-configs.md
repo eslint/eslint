@@ -12,7 +12,7 @@ To share your ESLint configuration, create a **shareable config**. You can publi
 This page explains how to create and publish a shareable config.
 
 ::: tip
-This page explains how to create a shareable config using the flat config format. For the deprecated eslintrc format, [see the deprecated documentation](shareable-configs-deprecated).
+This page explains how to create a shareable config using the flat config format.
 :::
 
 ## Create a Shareable Config

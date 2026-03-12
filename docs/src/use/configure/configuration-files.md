@@ -11,7 +11,7 @@ eleventyNavigation:
 {%- from 'components/npm_tabs.macro.html' import npm_tabs with context %}
 
 ::: tip
-This page explains how to use flat config files. For the deprecated eslintrc format, [see the deprecated documentation](configuration-files-deprecated).
+This page explains how to use flat config files.
 :::
 
 You can put your ESLint project configuration in a configuration file. You can include built-in rules, how you want them enforced, plugins with custom rules, shareable configurations, which files you want rules to apply to, and more.
