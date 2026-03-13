@@ -34,8 +34,30 @@ describe("regular-expressions", () => {
 			assert.strictEqual(isValidWithUnicodeFlag(2015, "[", "u"), false);
 		});
 
+		it("should return false for a pattern that is valid without flags but invalid with 'u' flag", () => {
+			assert.strictEqual(isValidWithUnicodeFlag(2015, "\\1", "u"), false);
+		});
+
+		it("should return false for a pattern that is valid with 'v' flag but invalid with 'u' flag", () => {
+			assert.strictEqual(
+				isValidWithUnicodeFlag(2024, "[A--B]", "u"),
+				false,
+			);
+		});
+
 		it("should return true for valid pattern with 'v' flag in ES2024", () => {
 			assert.strictEqual(isValidWithUnicodeFlag(2024, "a", "v"), true);
+		});
+
+		it("should return false for a pattern that is valid without flags but invalid with 'v' flag", () => {
+			assert.strictEqual(isValidWithUnicodeFlag(2024, "\\1", "v"), false);
+		});
+
+		it("should return true for a pattern that is valid only with 'v' flag", () => {
+			assert.strictEqual(
+				isValidWithUnicodeFlag(2024, "[A--B]", "v"),
+				true,
+			);
 		});
 	});
 });
