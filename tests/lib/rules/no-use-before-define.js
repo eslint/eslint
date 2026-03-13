@@ -453,6 +453,53 @@ ruleTester.run("no-use-before-define", rule, {
 				parserOptions: { ecmaFeatures: { jsx: true } },
 			},
 		},
+		{
+			code: "const a = test((t) => { console.log(`foo: ${a}`); return t; });",
+			options: [{ ignoreSelfReferentialInitializers: true }],
+			languageOptions: {
+				ecmaVersion: 6,
+			},
+		},
+		{
+			code: "const a = (() => a)();",
+			options: [{ ignoreSelfReferentialInitializers: true }],
+			languageOptions: {
+				ecmaVersion: 6,
+			},
+		},
+		{
+			code: "const foo = 'bar'; const a = (() => b)();",
+			languageOptions: {
+				ecmaVersion: 6,
+			},
+		},
+		{
+			code: "const a = await (async () => a)();",
+			options: [{ ignoreSelfReferentialInitializers: true }],
+			languageOptions: {
+				ecmaVersion: 2017,
+			},
+		},
+		{
+			code: "const a = array.map(x => a.length);",
+			options: [{ ignoreSelfReferentialInitializers: true }],
+			languageOptions: {
+				ecmaVersion: 6,
+			},
+		},
+		{
+			code: "const C = class { foo() { return C; } }.prototype.foo();",
+			options: [{ ignoreSelfReferentialInitializers: true }],
+			languageOptions: {
+				ecmaVersion: 6,
+			},
+		},
+		{
+			code: "const C = class { foo() { return C; } bar() {} }.prototype.bar();",
+			languageOptions: {
+				ecmaVersion: 6,
+			},
+		},
 	],
 	invalid: [
 		{
@@ -1664,7 +1711,58 @@ ruleTester.run("no-use-before-define", rule, {
 			],
 		},
 		{
-			code: "var a = test((t) => { console.log(`foo: ${a}`); return t; });",
+			code: "<App />; const App = () => <div />;",
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "App" },
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 5,
+				},
+			],
+		},
+		{
+			code: "function render() { return <Widget /> }; const Widget = () => <span />;",
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "Widget" },
+					line: 1,
+					column: 29,
+					endLine: 1,
+					endColumn: 35,
+				},
+			],
+		},
+		{
+			code: "<Foo.Bar />; const Foo = { Bar: () => <div/> };",
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "Foo" },
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 5,
+				},
+			],
+		},
+		{
+			code: "const a = test((t) => { console.log(`foo: ${a}`); return t; });",
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
@@ -1674,7 +1772,7 @@ ruleTester.run("no-use-before-define", rule, {
 			],
 		},
 		{
-			code: "var a = test(arr, (t) => { console.log(`foo: ${a}`); return t; });",
+			code: "const a = test(arr, (t) => { console.log(`foo: ${a}`); return t; });",
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
@@ -1684,12 +1782,52 @@ ruleTester.run("no-use-before-define", rule, {
 			],
 		},
 		{
-			code: "var a = test(function (t) { console.log(`foo: ${a}`); return t; });",
+			code: "const a = test(function (t) { console.log(`foo: ${a}`); return t; });",
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
 					messageId: "usedBeforeDefined",
 					data: { name: "a" },
+				},
+			],
+		},
+		{
+			code: "const a = (() => a)();",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
+				},
+			],
+		},
+		{
+			code: "const a = await (async () => a)();",
+			languageOptions: { ecmaVersion: 2017 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
+				},
+			],
+		},
+		{
+			code: "const a = array.map(x => a.length);",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
+				},
+			],
+		},
+		{
+			code: "const C = class { foo() { return C; } }.prototype.foo();",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "C" },
 				},
 			],
 		},
