@@ -119,6 +119,7 @@ jobs:
               with:
                   repository: eslint/js
                   path: eslint-js
+                  ref: eslint-visitor-keys-v4.2.1
 
             - uses: actions/setup-node@v6
               with:
