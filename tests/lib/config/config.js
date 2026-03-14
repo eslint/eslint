@@ -1156,6 +1156,13 @@ describe("Config", () => {
 					},
 				};
 
+				const ruleWithDirectMatch = {
+					meta: { schema: [], languages: ["alt/lang"] },
+					create() {
+						return {};
+					},
+				};
+
 				const cfg = new Config({
 					language: "alt/lang",
 					plugins: {
@@ -1166,14 +1173,17 @@ describe("Config", () => {
 							},
 							rules: {
 								"ns-rule": ruleWithNamespaceMatch,
+								"direct-rule": ruleWithDirectMatch,
 							},
 						},
 					},
 				});
 
 				// Should not throw - "myns/lang" maps to "alt/lang" via namespace
+				// and "alt/lang" matches directly
 				cfg.validateRulesConfig({
 					"alt/ns-rule": ["error"],
+					"alt/direct-rule": ["error"],
 				});
 			});
 
