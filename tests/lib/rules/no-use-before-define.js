@@ -477,7 +477,7 @@ ruleTester.run("no-use-before-define", rule, {
 			code: "const a = await (async () => a)();",
 			options: [{ ignoreSelfReferentialInitializers: true }],
 			languageOptions: {
-				ecmaVersion: 2017,
+				ecmaVersion: 2023,
 			},
 		},
 		{
@@ -1803,7 +1803,7 @@ ruleTester.run("no-use-before-define", rule, {
 		},
 		{
 			code: "const a = await (async () => a)();",
-			languageOptions: { ecmaVersion: 2017 },
+			languageOptions: { ecmaVersion: 2023 },
 			errors: [
 				{
 					messageId: "usedBeforeDefined",

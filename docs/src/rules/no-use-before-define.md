@@ -374,7 +374,7 @@ const d = 1;
 
 Examples of **incorrect** code for the `{ "ignoreSelfReferentialInitializers": false }` option:
 
-::: incorrect
+::: incorrect { "sourceType": "script" }
 
 ```js
 /*eslint no-use-before-define: ["error", { "ignoreSelfReferentialInitializers": false }]*/
@@ -394,7 +394,7 @@ const E = class { foo() { return E; } }.prototype.foo();
 
 Examples of **correct** code for the `{ "ignoreSelfReferentialInitializers": false }` option:
 
-::: correct
+::: correct { "sourceType": "script" }
 
 ```js
 /*eslint no-use-before-define: ["error", { "ignoreSelfReferentialInitializers": false }]*/
