@@ -537,4 +537,11 @@ ruleTester.run("no-undef", rule, {
 			],
 		},
 	],
+	fatal: [
+		{
+			name: "first option wrong type (number)",
+			options: [123],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });

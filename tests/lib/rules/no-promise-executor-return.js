@@ -1042,4 +1042,11 @@ ruleTester.run("no-promise-executor-return", rule, {
 			],
 		},
 	],
+	fatal: [
+		{
+			name: "first option wrong type (number)",
+			options: [123],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });

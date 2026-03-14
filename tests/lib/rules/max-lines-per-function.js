@@ -659,4 +659,11 @@ if ( x === y ) {
 			],
 		},
 	],
+	fatal: [
+		{
+			name: "first option wrong type (string)",
+			options: ["invalid"],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });

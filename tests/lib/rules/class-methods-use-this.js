@@ -1340,4 +1340,16 @@ ruleTesterTypeScript.run("class-methods-use-this", rule, {
 			],
 		},
 	],
+	fatal: [
+		{
+			name: "first option wrong type (number)",
+			options: [123],
+			error: { name: "SchemaValidationError" },
+		},
+		{
+			name: "invalid enum value for ignoreClassesWithImplements option",
+			options: [{ ignoreClassesWithImplements: "invalid" }],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });

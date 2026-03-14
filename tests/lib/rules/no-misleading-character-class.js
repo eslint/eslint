@@ -2232,4 +2232,11 @@ ruleTester.run("no-misleading-character-class", rule, {
 			errors: [{ messageId: "combiningClass" }],
 		},
 	],
+	fatal: [
+		{
+			name: "first option wrong type (number)",
+			options: [123],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });
