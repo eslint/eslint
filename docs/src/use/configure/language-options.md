@@ -18,6 +18,13 @@ The JavaScript ecosystem has a variety of runtimes, versions, extensions, and fr
 ESLint allows you to specify the JavaScript language options you want to support. By default, ESLint expects the most recent stage 4 ECMAScript syntax and ECMAScript modules (ESM) mode. You can override these settings by using the `languageOptions` key and specifying one or more of these properties:
 
 - `ecmaVersion` (default: `"latest"`) - Indicates the ECMAScript version of the code being linted, determining both the syntax and the available global variables. Set to `3` or `5` for ECMAScript 3 and 5, respectively. Otherwise, you can use any year between `2015` to present. In most cases, we recommend using the default of `"latest"` to ensure you're always using the most recent ECMAScript version.
+
+::: note
+In the flat config format, the ECMAScript version is configured using
+`languageOptions.ecmaVersion`. This replaces the older
+`parserOptions.ecmaVersion` used in legacy `.eslintrc` configuration files.
+:::
+
 - `sourceType` (default: `"module"`) - Indicates the mode of the JavaScript file being used. Possible values are:
     - `module` - ESM module (invalid when `ecmaVersion` is `3` or `5`). Your code has a module scope and is run in strict mode.
     - `commonjs` - CommonJS module (useful if your code uses `require()`). Your code has a top-level function scope and runs in non-strict mode.
