@@ -10,7 +10,7 @@ eleventyNavigation:
 {%- from 'components/npm_tabs.macro.html' import npm_tabs with context %}
 {%- from 'components/npx_tabs.macro.html' import npx_tabs %}
 
-This guide provides an overview of how you can migrate your ESLint configuration file from the eslintrc format (typically configured in `.eslintrc.js` or `.eslintrc.json` files) to the new flat config format (typically configured in an `eslint.config.js` file).
+This guide explains how to migrate an existing ESLint configuration from the legacy **eslintrc** format (commonly defined in `.eslintrc.js`, `.eslintrc.json`, or `.eslintrc.yml`) to the newer **flat config** format introduced in ESLint v9 (typically defined in an `eslint.config.js` file).
 
 To learn more about the flat config format, refer to [this blog post](https://eslint.org/blog/2022/08/new-config-system-part-2/).
 
@@ -33,7 +33,7 @@ The configuration migrator doesn't yet work well for `.eslintrc.js` files. If yo
 
 ## Start Using Flat Config Files
 
-The flat config file format has been the default configuration file format since ESLint v9.0.0. You can start using the flat config file format without any additional configuration.
+The flat config file format has been the default configuration system since ESLint v9.0.0. You can start using the flat config file format without any additional configuration.
 
 To use flat config with ESLint v8, place a `eslint.config.js` file in the root of your project **or** set the `ESLINT_USE_FLAT_CONFIG` environment variable to `true`.
 
