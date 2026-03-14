@@ -792,6 +792,56 @@ describe("formatter:html", () => {
 		});
 	});
 
+	describe("when passing a single message with illegal characters in ruleId and ruleUrl", () => {
+		const rulesMeta = {
+			"foo-<&\"'>": {
+				type: "problem",
+
+				docs: {
+					description: "This is rule 'foo'",
+					recommended: true,
+					url: "https://eslint.org/docs/rules/foo-<&\"'>",
+				},
+
+				fixable: "code",
+
+				messages: {
+					message1: "This is a message for rule 'foo'.",
+				},
+			},
+		};
+		const code = {
+			results: [
+				{
+					filePath: "foo.js",
+					errorCount: 1,
+					warningCount: 0,
+					messages: [
+						{
+							message: "Unexpected foo.",
+							severity: 2,
+							line: 5,
+							column: 10,
+							ruleId: "foo-<&\"'>",
+							source: "foo",
+						},
+					],
+				},
+			],
+			rulesMeta,
+		};
+
+		it("should return a string in HTML format with 1 issue in 1 file with encoded ruleId and ruleUrl", () => {
+			const result = formatter(code.results, { rulesMeta });
+
+			// Cheerio automatically converts numeric HTML entities to named entities and parses attribute values (like URLs) without HTML-encoding.
+			// Use raw string assertions to strictly verify that raw output retains its exact encoded entities.
+			assert.isTrue(result.includes('&#60;&#38;&#34;&#39;&#62;')); // Tests encoded <&"'>
+			assert.isTrue(result.includes('https://eslint.org/docs/rules/foo-&#60;&#38;&#34;&#39;&#62;')); // Tests encoded ruleUrl
+			assert.isTrue(result.includes('foo-&#60;&#38;&#34;&#39;&#62;')); // Tests encoded ruleId
+		});
+	});
+
 	describe("when passing a single message with no rule id or message", () => {
 		const code = [
 			{
