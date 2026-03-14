@@ -14,6 +14,10 @@ ESLint is a tool for identifying and reporting on patterns found in ECMAScript/J
 
 ESLint is completely pluggable. Every single rule is a plugin and you can add more at runtime. You can also add community plugins, configurations, and parsers to extend the functionality of ESLint.
 
+::: note
+Documentation search results are not currently filtered by the selected ESLint documentation version. Search results may include pages from other versions of the documentation.
+:::
+
 ## Prerequisites
 
 To use ESLint, you must have [Node.js](https://nodejs.org/en/) (`^20.19.0`, `^22.13.0`, or `>=24`) installed and built with SSL support. (If you are using an official Node.js distribution, SSL is always built in.)
