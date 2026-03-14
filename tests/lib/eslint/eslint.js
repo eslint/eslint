@@ -9386,73 +9386,6 @@ describe("ESLint", () => {
 				"no-sparse-arrays errors should NOT be suppressed",
 			);
 		});
-
-		it("should not affect caching when suppressions are applied", async () => {
-			const cwd = getFixturePath("suppressions");
-			const cacheLocation = path.join(
-				os.tmpdir(),
-				`.eslintcache-suppressions-${Date.now()}`,
-			);
-
-			try {
-				// First run: lint with both caching and suppressions enabled
-				const eslintWithSuppressions = new ESLint({
-					overrideConfigFile: true,
-					cwd,
-					cache: true,
-					cacheLocation,
-					applySuppressions: true,
-				});
-
-				const resultsWithSuppressions =
-					await eslintWithSuppressions.lintFiles(["test-file.js"]);
-
-				// Verify suppressions were applied
-				const suppressedNoUndef =
-					resultsWithSuppressions[0].messages.filter(
-						m => m.ruleId === "no-undef",
-					);
-
-				assert.strictEqual(
-					suppressedNoUndef.length,
-					0,
-					"no-undef errors should be suppressed in first run",
-				);
-
-				/**
-				 * Second run: lint with only caching enabled (no suppressions)
-				 * This should return cached results with ALL messages (including those that were suppressed)
-				 */
-				const eslintWithoutSuppressions = new ESLint({
-					overrideConfigFile: true,
-					cwd,
-					cache: true,
-					cacheLocation,
-					applySuppressions: false,
-				});
-
-				const resultsWithoutSuppressions =
-					await eslintWithoutSuppressions.lintFiles(["test-file.js"]);
-
-				/**
-				 * The cache should have stored all messages, so the second run should show the messages
-				 * that were suppressed in the first run
-				 */
-				const noUndefMessages =
-					resultsWithoutSuppressions[0].messages.filter(
-						m => m.ruleId === "no-undef",
-					);
-
-				assert.strictEqual(
-					noUndefMessages.length,
-					3,
-					"all no-undef errors should be present when reading from cache without suppressions",
-				);
-			} finally {
-				// Clean up cache file
-				fs.rmSync(cacheLocation, { force: true });
-			}
-		});
 	});
 
 	describe("Fix Types", () => {
@@ -14590,6 +14523,73 @@ describe("ESLint", () => {
 				assert(
 					fileCache.getFileDescriptor(goodFileCopy).changed === true,
 					`the entry for ${goodFileCopy} should have been changed`,
+				);
+			});
+		});
+
+		describe("caching with suppressions", () => {
+			it("should store all messages in cache even when some are suppressed", async () => {
+				const cwd = getFixturePath("suppressions");
+
+				cacheFilePath = path.join(
+					os.tmpdir(),
+					`.eslintcache-suppressions-${Date.now()}`,
+				);
+
+				// First run: lint with both caching and suppressions enabled
+				const eslintWithSuppressions = new ESLint({
+					concurrency,
+					overrideConfigFile: true,
+					cwd,
+					cache: true,
+					cacheLocation: cacheFilePath,
+					applySuppressions: true,
+				});
+
+				const resultsWithSuppressions =
+					await eslintWithSuppressions.lintFiles(["test-file.js"]);
+
+				// Verify suppressions were applied
+				const suppressedNoUndef =
+					resultsWithSuppressions[0].messages.filter(
+						m => m.ruleId === "no-undef",
+					);
+
+				assert.strictEqual(
+					suppressedNoUndef.length,
+					0,
+					"no-undef errors should be suppressed in first run",
+				);
+
+				/**
+				 * Second run: lint with only caching enabled (no suppressions)
+				 * This should return cached results with ALL messages (including those that were suppressed)
+				 */
+				const eslintWithoutSuppressions = new ESLint({
+					concurrency,
+					overrideConfigFile: true,
+					cwd,
+					cache: true,
+					cacheLocation: cacheFilePath,
+					applySuppressions: false,
+				});
+
+				const resultsWithoutSuppressions =
+					await eslintWithoutSuppressions.lintFiles(["test-file.js"]);
+
+				/**
+				 * The cache should have stored all messages, so the second run should show the messages
+				 * that were suppressed in the first run
+				 */
+				const noUndefMessages =
+					resultsWithoutSuppressions[0].messages.filter(
+						m => m.ruleId === "no-undef",
+					);
+
+				assert.strictEqual(
+					noUndefMessages.length,
+					3,
+					"all no-undef errors should be present when reading from cache without suppressions",
 				);
 			});
 		});

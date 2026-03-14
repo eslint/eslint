@@ -1275,8 +1275,10 @@ export namespace ESLint {
 		/** The strategy used to detect changed files. */
 		cacheStrategy?: CacheStrategy | undefined;
 
-		// Suppressions
+		/** If true, apply suppressions automatically. Defaults to false. */
 		applySuppressions?: boolean | undefined;
+
+		/** Path to suppressions file. Relative to cwd. Defaults to eslint-suppressions.json in cwd. */
 		suppressionsLocation?: string | undefined;
 
 		// Other Options
