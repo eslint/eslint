@@ -12,7 +12,7 @@ eleventyNavigation:
 
 ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code, with the goal of making code more consistent and avoiding bugs.
 
-ESLint is completely pluggable. Every single rule is a plugin and you can add more at runtime. You can also add community plugins, configurations, and parsers to extend the functionality of ESLint.
+ESLint is completely pluggable, meaning every rule is implemented as a plugin and additional plugins can be added at runtime. Every single rule is a plugin and you can add more at runtime. You can also add community plugins, configurations, and parsers to extend the functionality of ESLint.
 
 ## Prerequisites
 
