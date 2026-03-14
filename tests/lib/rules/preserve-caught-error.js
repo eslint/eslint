@@ -848,3 +848,97 @@ ruleTester.run("preserve-caught-error", rule, {
 		},
 	],
 });
+
+// Custom error class names - additional valid cases
+ruleTester.run("preserve-caught-error", rule, {
+	valid: [
+		{
+			code: `
+			class CustomApplicationError extends Error {}
+			try {
+				doSomething();
+			} catch (err) {
+				throw new CustomApplicationError("Cause not provided", { cause: err });
+			}`,
+			options: [{ errorClassNames: ["CustomApplicationError"] }],
+		},
+		{
+			code: `
+			class APIError extends Error {}
+			class ValidationError extends Error {}
+			try {
+				doSomething();
+			} catch (error) {
+				throw new APIError("API failed", { cause: error });
+				throw new ValidationError("Validation failed", { cause: error });
+			}`,
+			options: [{ errorClassNames: ["APIError", "ValidationError"] }],
+		},
+		{
+			code: `
+			class CustomError extends Error {}
+			try {
+				doSomething();
+			} catch (err) {
+				throw new CustomError("No cause");
+			}`,
+			options: [{ errorClassNames: [] }],
+		},
+	],
+	invalid: [
+		{
+			code: `
+			class CustomApplicationError extends Error {}
+			try {
+				doSomething();
+			} catch (err) {
+				throw new CustomApplicationError("Cause not provided");
+			}`,
+			options: [{ errorClassNames: ["CustomApplicationError"] }],
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `
+			class CustomApplicationError extends Error {}
+			try {
+				doSomething();
+			} catch (err) {
+				throw new CustomApplicationError("Cause not provided", { cause: err });
+			}`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `
+			class APIError extends Error {}
+			try {
+				doSomething();
+			} catch (error) {
+				throw new APIError("API failed", { cause: wrong });
+			}`,
+			options: [{ errorClassNames: ["APIError"] }],
+			errors: [
+				{
+					messageId: "incorrectCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `
+			class APIError extends Error {}
+			try {
+				doSomething();
+			} catch (error) {
+				throw new APIError("API failed", { cause: error });
+			}`,
+						},
+					],
+				},
+			],
+		},
+	],
+});
