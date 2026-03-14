@@ -119,7 +119,7 @@
     "ajv": "^6.14.0",
     "cross-spawn": "^7.0.6",
     "debug": "^4.3.2",
-    "escape-string-regexp": "^4.0.0",
+    "tiny-escape": "^1.1.0",
     "eslint-scope": "^9.1.2",
     "eslint-visitor-keys": "^5.0.1",
     "espree": "^11.2.0",
