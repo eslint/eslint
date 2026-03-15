@@ -27,7 +27,8 @@ assert.throws(
 		actual: " foo = bar;",
 		expected: "invalid output",
 		operator: "strictEqual",
-		message:
-			"Output is incorrect.\n+ actual - expected\n\n+ ' foo = bar;'\n- 'invalid output'\n (' foo = bar;' strictEqual 'invalid output')",
+		message: process.version.startsWith("v20.")
+			? "Output is incorrect.\n+ actual - expected\n\n+ ' foo = bar;'\n- 'invalid output' (' foo = bar;' strictEqual 'invalid output')"
+			: "Output is incorrect.\n+ actual - expected\n\n+ ' foo = bar;'\n- 'invalid output'\n (' foo = bar;' strictEqual 'invalid output')",
 	},
 );
