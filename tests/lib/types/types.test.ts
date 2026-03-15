@@ -1497,6 +1497,10 @@ linterWithEslintrcConfig.verify(
 	eslint = new ESLint({ cacheLocation: "foo" });
 	eslint = new ESLint({ cacheStrategy: "content" });
 
+	eslint = new ESLint({ applySuppressions: true });
+	eslint = new ESLint({ applySuppressions: false });
+	eslint = new ESLint({ suppressionsLocation: "eslint-suppressions.json" });
+
 	eslint = new ESLint({ concurrency: 8 });
 	eslint = new ESLint({ concurrency: "auto" });
 	eslint = new ESLint({ concurrency: "off" });
