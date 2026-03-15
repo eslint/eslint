@@ -872,4 +872,50 @@ describe("formatter:html", () => {
 			});
 		});
 	});
+
+	describe("when passing a single message with illegal characters in ruleId and ruleUrl", () => {
+		const rulesMeta = {
+			"foo<": {
+				docs: {
+					url: "https://eslint.org/docs/rules/foo<",
+				},
+			},
+		};
+		const code = {
+			results: [
+				{
+					filePath: "foo.js",
+					errorCount: 1,
+					warningCount: 0,
+					messages: [
+						{
+							message: "Unexpected foo.",
+							severity: 2,
+							line: 5,
+							column: 10,
+							ruleId: "foo<",
+							source: "foo",
+						},
+					],
+				},
+			],
+			rulesMeta,
+		};
+
+		it("should return a string in HTML format with escaped ruleId and ruleUrl", () => {
+			const result = formatter(code.results, { rulesMeta });
+			const $ = cheerio.load(result);
+
+			assert.strictEqual(
+				$($("tr")[1]).find("td:nth-child(4) a").attr("href"),
+				"https://eslint.org/docs/rules/foo&#60;",
+				"Check if ruleUrl is escaped",
+			);
+			assert.strictEqual(
+				$($("tr")[1]).find("td:nth-child(4) a").text(),
+				"foo&#60;",
+				"Check if ruleId is escaped",
+			);
+		});
+	});
 });
