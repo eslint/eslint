@@ -18,6 +18,7 @@ const assert = require("chai").assert,
 describe("isEmojiModifier", () => {
 	it("should return true for emoji modifiers (U+1F3FB to U+1F3FF)", () => {
 		assert.strictEqual(isEmojiModifier(0x1f3fb), true); // Emoji Modifier Fitzpatrick Type-1-2
+		assert.strictEqual(isEmojiModifier(0x1f3fd), true); // Emoji Modifier Fitzpatrick Type-4
 		assert.strictEqual(isEmojiModifier(0x1f3ff), true); // Emoji Modifier Fitzpatrick Type-6
 	});
 

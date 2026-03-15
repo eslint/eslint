@@ -18,6 +18,7 @@ const assert = require("chai").assert,
 describe("isRegionalIndicatorSymbol", () => {
 	it("should return true for regional indicator symbols (U+1F1E6 to U+1F1FF)", () => {
 		assert.strictEqual(isRegionalIndicatorSymbol(0x1f1e6), true); // Regional Indicator Symbol Letter A
+		assert.strictEqual(isRegionalIndicatorSymbol(0x1f1f0), true); // Regional Indicator Symbol Letter K
 		assert.strictEqual(isRegionalIndicatorSymbol(0x1f1ff), true); // Regional Indicator Symbol Letter Z
 	});
 

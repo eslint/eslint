@@ -19,6 +19,8 @@ describe("isCombiningCharacter", () => {
 	it("should return true for combining marks", () => {
 		assert.strictEqual(isCombiningCharacter(0x0300), true); // Combining Grave Accent
 		assert.strictEqual(isCombiningCharacter(0x0301), true); // Combining Acute Accent
+		assert.strictEqual(isCombiningCharacter(0x0903), true); // Devanagari Sign Visarga
+		assert.strictEqual(isCombiningCharacter(0x0591), true); // Hebrew Accent Etnahta
 	});
 
 	it("should return false for non-combining characters", () => {
