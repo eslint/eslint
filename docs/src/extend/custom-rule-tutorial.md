@@ -90,6 +90,8 @@ Before writing the rule, add some metadata to the rule object. ESLint uses this 
 
 Start by exporting an object with a `meta` property containing the rule's metadata, such as the rule type, documentation, and fixability. In this case, the rule type is "problem," the description is "Enforce that a variable named `foo` can only be assigned a value of 'bar'.", and the rule is fixable by modifying the code.
 
+Because this rule targets JavaScript, we also add `languages: ["js/js"]` to declare that it only applies to the built-in JavaScript language. ESLint will throw an error if this rule is enabled for a non-JavaScript language.
+
 ```javascript
 // enforce-foo-bar.js
 
@@ -102,6 +104,7 @@ module.exports = {
 		},
 		fixable: "code",
 		schema: [],
+		languages: ["js/js"],
 	},
 	create(context) {
 		return {
@@ -136,7 +139,8 @@ module.exports = {
             description: "Enforce that a variable named `foo` can only be assigned a value of 'bar'."
         },
         fixable: "code",
-        schema: []
+        schema: [],
+        languages: ["js/js"]
     },
     create(context) {
         return {
