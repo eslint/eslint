@@ -4489,6 +4489,21 @@ describe("RuleTester", () => {
 		}, /A fatal parsing error occurred in autofix.\nError: .+\nAutofix output:\n.+/u);
 	});
 
+	it("should throw an error with expected message without a test runner", done => {
+		const { execFile } = require("node:child_process");
+
+		execFile(
+			process.execPath,
+			[
+				require.resolve(
+					"../../fixtures/testers/rule-tester/no-test-runners",
+				),
+			],
+			{ timeout: 1000 },
+			done,
+		);
+	});
+
 	describe("type checking", () => {
 		it('should throw if "only" property is not a boolean', () => {
 			// "only" has to be falsy as itOnly is not mocked for all test cases
