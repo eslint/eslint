@@ -3,6 +3,8 @@
  * @author Julian Laval
  */
 
+/* eslint-disable no-script-url -- Testing for disallowed protocols */
+
 "use strict";
 
 //------------------------------------------------------------------------------
@@ -870,6 +872,122 @@ describe("formatter:html", () => {
 				message: "Unexpected foo.",
 				ruleId: "foo",
 			});
+		});
+	});
+
+	describe("when passing a single message with illegal characters in ruleId and ruleUrl", () => {
+		const rulesMeta = {
+			"foo<": {
+				docs: {
+					url: "https://eslint.org/docs/rules/foo<",
+				},
+			},
+		};
+		const code = {
+			results: [
+				{
+					filePath: "foo.js",
+					errorCount: 1,
+					warningCount: 0,
+					messages: [
+						{
+							message: "Unexpected foo.",
+							severity: 2,
+							line: 5,
+							column: 10,
+							ruleId: "foo<",
+							source: "foo",
+						},
+					],
+				},
+			],
+			rulesMeta,
+		};
+
+		it("should return a string in HTML format with escaped ruleId and ruleUrl", () => {
+			const result = formatter(code.results, { rulesMeta });
+
+			assert(
+				result.includes("https://eslint.org/docs/rules/foo&#60;"),
+				"Check if ruleUrl is escaped in raw HTML",
+			);
+			assert(
+				result.includes("foo&#60;"),
+				"Check if ruleId is escaped in raw HTML",
+			);
+
+			const $ = cheerio.load(result);
+
+			assert.strictEqual(
+				$($("tr")[1]).find("td:nth-child(4) a").attr("href"),
+				"https://eslint.org/docs/rules/foo<",
+				"Check if ruleUrl is correctly parsed by cheerio",
+			);
+			assert.strictEqual(
+				$($("tr")[1]).find("td:nth-child(4) a").text(),
+				"foo<",
+				"Check if ruleId is correctly parsed by cheerio",
+			);
+		});
+	});
+
+	describe("when passing a single message with dangerous protocols in ruleUrl", () => {
+		const rulesMeta = {
+			"foo-js": {
+				docs: {
+					// eslint-disable-next-line eslint/no-script-url -- Testing for disallowed protocols
+					url: "javascript:alert('XSS')",
+				},
+			},
+			"foo-data": {
+				docs: {
+					url: "data:text/html,<script>alert('XSS')</script>",
+				},
+			},
+		};
+		const code = {
+			results: [
+				{
+					filePath: "foo.js",
+					errorCount: 2,
+					warningCount: 0,
+					messages: [
+						{
+							message: "Unexpected foo.",
+							severity: 2,
+							line: 5,
+							column: 10,
+							ruleId: "foo-js",
+							source: "foo",
+						},
+						{
+							message: "Unexpected bar.",
+							severity: 2,
+							line: 6,
+							column: 10,
+							ruleId: "foo-data",
+							source: "bar",
+						},
+					],
+				},
+			],
+			rulesMeta,
+		};
+
+		it("should return a string in HTML format with empty href for dangerous protocols", () => {
+			const result = formatter(code.results, { rulesMeta });
+			const $ = cheerio.load(result);
+
+			assert.strictEqual(
+				$($("tr")[1]).find("td:nth-child(4) a").attr("href"),
+				"",
+				"Check if javascript: URL is disallowed",
+			);
+			assert.strictEqual(
+				$($("tr")[2]).find("td:nth-child(4) a").attr("href"),
+				"",
+				"Check if data: URL is disallowed",
+			);
 		});
 	});
 });
