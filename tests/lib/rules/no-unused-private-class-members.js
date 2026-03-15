@@ -21,15 +21,30 @@ const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2022 } });
 /**
  * Returns an expected error for defined-but-not-used private class member.
  * @param {string} classMemberName The name of the class member
+ * @param {string} output The expected output after applying the suggestion
  * @returns {Object} An expected error object
  */
-function definedError(classMemberName) {
-	return {
+function definedError(classMemberName, output) {
+	const error = {
 		messageId: "unusedPrivateClassMember",
 		data: {
 			classMemberName: `#${classMemberName}`,
 		},
 	};
+
+	if (typeof output !== "undefined") {
+		error.suggestions = [
+			{
+				messageId: "removeUnusedPrivateClassMember",
+				data: {
+					classMemberName: `#${classMemberName}`,
+				},
+				output,
+			},
+		];
+	}
+
+	return error;
 }
 
 ruleTester.run("no-unused-private-class-members", rule, {
@@ -184,21 +199,31 @@ ruleTester.run("no-unused-private-class-members", rule, {
 			code: `class Foo {
     #unusedMember = 5;
 }`,
-			errors: [definedError("unusedMember")],
+			errors: [definedError("unusedMember", "class Foo {\n}")],
 		},
 		{
 			code: `class First {}
 class Second {
     #unusedMemberInSecondClass = 5;
 }`,
-			errors: [definedError("unusedMemberInSecondClass")],
+			errors: [
+				definedError(
+					"unusedMemberInSecondClass",
+					"class First {}\nclass Second {\n}",
+				),
+			],
 		},
 		{
 			code: `class First {
     #unusedMemberInFirstClass = 5;
 }
 class Second {}`,
-			errors: [definedError("unusedMemberInFirstClass")],
+			errors: [
+				definedError(
+					"unusedMemberInFirstClass",
+					"class First {\n}\nclass Second {}",
+				),
+			],
 		},
 		{
 			code: `class First {
@@ -206,8 +231,18 @@ class Second {}`,
     #secondUnusedMemberInSameClass = 5;
 }`,
 			errors: [
-				definedError("firstUnusedMemberInSameClass"),
-				definedError("secondUnusedMemberInSameClass"),
+				definedError(
+					"firstUnusedMemberInSameClass",
+					`class First {
+    #secondUnusedMemberInSameClass = 5;
+}`,
+				),
+				definedError(
+					"secondUnusedMemberInSameClass",
+					`class First {
+    #firstUnusedMemberInSameClass = 5;
+}`,
+				),
 			],
 		},
 		{
@@ -252,7 +287,23 @@ class Second {}`,
         };
     }
 }`,
-			errors: [definedError("unusedInOuterClass")],
+			errors: [
+				definedError(
+					"unusedInOuterClass",
+					`class C {
+
+    foo() {
+        return class {
+            #unusedInOuterClass;
+
+            bar() {
+                return this.#unusedInOuterClass;
+            }
+        };
+    }
+}`,
+				),
+			],
 		},
 		{
 			code: `class C {
@@ -278,7 +329,33 @@ class Second {}`,
         }
     }
 }`,
-			errors: [definedError("unusedOnlyInSecondNestedClass")],
+			errors: [
+				definedError(
+					"unusedOnlyInSecondNestedClass",
+					`class C {
+    #unusedOnlyInSecondNestedClass;
+
+    foo() {
+        return class {
+            #unusedOnlyInSecondNestedClass;
+
+            bar() {
+                return this.#unusedOnlyInSecondNestedClass;
+            }
+        };
+    }
+
+    baz() {
+        return this.#unusedOnlyInSecondNestedClass;
+    }
+
+    bar() {
+        return class {
+        }
+    }
+}`,
+				),
+			],
 		},
 
 		//--------------------------------------------------------------------------
@@ -288,7 +365,7 @@ class Second {}`,
 			code: `class Foo {
     #unusedMethod() {}
 }`,
-			errors: [definedError("unusedMethod")],
+			errors: [definedError("unusedMethod", "class Foo {\n}")],
 		},
 		{
 			code: `class Foo {
@@ -300,13 +377,36 @@ class Second {}`,
         return this.#usedMethod();
     }
 }`,
-			errors: [definedError("unusedMethod")],
+			errors: [
+				definedError(
+					"unusedMethod",
+					`class Foo {
+    #usedMethod() {
+        return 42;
+    }
+    publicMethod() {
+        return this.#usedMethod();
+    }
+}`,
+				),
+			],
 		},
 		{
 			code: `class Foo {
     set #unusedSetter(value) {}
 }`,
-			errors: [definedError("unusedSetter")],
+			errors: [definedError("unusedSetter", "class Foo {\n}")],
+		},
+		{
+			code: `class Foo {
+    get #unusedAccessor() {
+        return something();
+    }
+    set #unusedAccessor(value) {
+        doSomething(value);
+    }
+}`,
+			errors: [definedError("unusedAccessor", "class Foo {\n}")],
 		},
 		{
 			code: `class Foo {
@@ -386,9 +486,104 @@ class Second {}`,
 }`,
 			errors: [
 				{
-					...definedError("usedOnlyInTheSecondInnerClass"),
+					...definedError(
+						"usedOnlyInTheSecondInnerClass",
+						`class C {
+
+    method(a) {
+        return class {
+            #usedOnlyInTheSecondInnerClass;
+
+            method2(b) {
+                foo = b.#usedOnlyInTheSecondInnerClass;
+            }
+
+            method3(b) {
+                foo = b.#usedOnlyInTheSecondInnerClass;
+            }
+        }
+    }
+}`,
+					),
 					line: 2,
 				},
+			],
+		},
+
+		{
+			code: `class Foo {
+    /** JSDoc comment */
+    #unused = 1;
+}`,
+			errors: [
+				definedError(
+					"unused",
+					`class Foo {
+}`,
+				),
+			],
+		},
+
+		{
+			code: `class Foo {
+    // line comment
+    #unused = 1;
+}`,
+			errors: [
+				definedError(
+					"unused",
+					`class Foo {
+}`,
+				),
+			],
+		},
+
+		{
+			code: `class Foo {
+    // first line
+    // second line
+    #unused = 1;
+}`,
+			errors: [
+				definedError(
+					"unused",
+					`class Foo {
+}`,
+				),
+			],
+		},
+
+		{
+			code: `class Foo {
+    // unrelated comment
+
+    #unused = 1;
+}`,
+			errors: [
+				definedError(
+					"unused",
+					`class Foo {
+    // unrelated comment
+
+}`,
+				),
+			],
+		},
+
+		{
+			code: `class Foo {
+    field = 1
+    #unused = 1;
+    [Symbol.iterator]() {}
+}`,
+			errors: [
+				definedError(
+					"unused",
+					`class Foo {
+    field = 1;
+    [Symbol.iterator]() {}
+}`,
+				),
 			],
 		},
 	],
