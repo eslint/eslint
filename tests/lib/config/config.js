@@ -1310,21 +1310,25 @@ describe("Config", () => {
 					},
 				};
 
-				assert.throws(() => {
-					new Config(
-						createBasicConfigOptions({
-							plugins: {
-								test: {
-									languages: {
-										lang: createMockLanguage(),
-									},
-									rules: {
-										"invalid-langs-rule": ruleWithInvalidLanguages,
-									},
+				const cfg = new Config(
+					createBasicConfigOptions({
+						plugins: {
+							test: {
+								languages: {
+									lang: createMockLanguage(),
+								},
+								rules: {
+									"invalid-langs-rule": ruleWithInvalidLanguages,
 								},
 							},
-						}),
-					);
+						},
+					}),
+				);
+
+				assert.throws(() => {
+					cfg.validateRulesConfig({
+						"test/invalid-langs-rule": ["error"],
+					});
 				}, /Key "meta": Key "languages": Expected an array/u);
 			});
 
@@ -1336,21 +1340,25 @@ describe("Config", () => {
 					},
 				};
 
-				assert.throws(() => {
-					new Config(
-						createBasicConfigOptions({
-							plugins: {
-								test: {
-									languages: {
-										lang: createMockLanguage(),
-									},
-									rules: {
-										"mixed-langs-rule": ruleWithMixedLanguages,
-									},
+				const cfg = new Config(
+					createBasicConfigOptions({
+						plugins: {
+							test: {
+								languages: {
+									lang: createMockLanguage(),
+								},
+								rules: {
+									"mixed-langs-rule": ruleWithMixedLanguages,
 								},
 							},
-						}),
-					);
+						},
+					}),
+				);
+
+				assert.throws(() => {
+					cfg.validateRulesConfig({
+						"test/mixed-langs-rule": ["error"],
+					});
 				}, /Key "meta": Key "languages": Expected each element to be a string/u);
 			});
 		});
