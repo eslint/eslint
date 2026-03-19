@@ -1320,7 +1320,8 @@ describe("Config", () => {
 									lang: createMockLanguage(),
 								},
 								rules: {
-									"invalid-langs-rule": ruleWithInvalidLanguages,
+									"invalid-langs-rule":
+										ruleWithInvalidLanguages,
 								},
 							},
 						},
