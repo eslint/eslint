@@ -1179,8 +1179,10 @@ describe("Config", () => {
 					},
 				});
 
-				// Should not throw - "myns/lang" maps to "alt/lang" via namespace
-				// and "alt/lang" matches directly
+				/*
+				 * Should not throw - "myns/lang" maps to "alt/lang" via namespace
+				 * and "alt/lang" matches directly
+				 */
 				cfg.validateRulesConfig({
 					"alt/ns-rule": ["error"],
 					"alt/direct-rule": ["error"],
