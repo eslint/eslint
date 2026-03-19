@@ -100,6 +100,14 @@ The source file for a rule exports an object with the following properties. Both
     3. **`"plugin/*"` wildcard** — matches any language whose plugin name (or `meta.namespace`) equals the plugin part of the entry.
     4. **Namespace match** — a plugin registered under a different name may be matched when its `meta.namespace` equals the plugin part of the entry.
 
+    ```js
+    // Rule runs with a specific language from a plugin whose meta.namespace is "gfm"
+    // (e.g., the plugin is registered as "myplugin" but declares meta.namespace = "gfm")
+    meta: {
+        languages: ["gfm/markdown"],
+    }
+    ```
+
 - `deprecated`: (`boolean | DeprecatedInfo`) Indicates whether the rule has been deprecated. You may omit the `deprecated` property if the rule has not been deprecated.
   There is a dedicated page for the [DeprecatedInfo](./rule-deprecation)
 
