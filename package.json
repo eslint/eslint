@@ -154,7 +154,7 @@
     "@babel/preset-env": "^7.4.3",
     "@cypress/webpack-preprocessor": "^6.0.2",
     "@eslint/eslintrc": "^3.3.5",
-    "@eslint/json": "^0.14.0",
+    "@eslint/json": "^1.1.0",
     "@types/esquery": "^1.5.4",
     "@types/node": "^22.13.14",
     "@typescript-eslint/parser": "^8.56.0",
