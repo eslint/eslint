@@ -42,7 +42,6 @@ The source file for a rule exports an object with the following properties. Both
 `meta`: (`object`) Contains metadata for the rule:
 
 - `type`: (`string`) Indicates the type of rule, which is one of `"problem"`, `"suggestion"`, or `"layout"`:
-
     - `"problem"`: The rule is identifying code that either will cause an error or may cause a confusing behavior. Developers should consider this a high priority to resolve.
     - `"suggestion"`: The rule is identifying something that could be done in a better way but no errors will occur if the code isn't changed.
     - `"layout"`: The rule cares primarily about whitespace, semicolons, commas, and parentheses, all the parts of the program that determine how the code looks rather than how it executes. These rules work on parts of the code that aren't specified in the AST.
@@ -50,7 +49,6 @@ The source file for a rule exports an object with the following properties. Both
     The type of rule can be used with the CLI option [`--fix-type`](../use/command-line-interface#--fix-type) to specify the type of fixes to apply.
 
 - `docs`: (`object`) Properties often used for documentation generation and tooling. Required for core rules and optional for custom rules. Custom rules can include additional properties here as needed.
-
     - `description`: (`string`) Provides a short description of the rule. For core rules, this is used in [rules index](../rules/).
     - `frozen`: (`boolean`) For core rules, specifies whether the rule is [frozen](../contribute/core-rules#frozen-rules) and no longer accepts feature requests.
     - `recommended`: (`unknown`) For core rules, this is a boolean value specifying whether the rule is enabled by the `recommended` config from `@eslint/js`.
@@ -323,7 +321,6 @@ Best practices for fixes:
 1. Make fixes as small as possible. Fixes that are unnecessarily large could conflict with other fixes, and prevent them from being applied.
 1. Only make one fix per message. This is enforced because you must return the result of the fixer operation from `fix()`.
 1. Since all rules are run again after the initial round of fixes is applied, it's not necessary for a rule to check whether the code style of a fix will cause errors to be reported by another rule.
-
     - For example, suppose a fixer would like to surround an object key with quotes, but it's not sure whether the user would prefer single or double quotes.
 
         ```js

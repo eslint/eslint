@@ -17,7 +17,6 @@ We use labels to indicate the status of issues. The most complete documentation 
 2. **Is this issue right for a beginner?** If you have little or no experience contributing to ESLint, the [`good first issue`](https://github.com/eslint/eslint/labels/good%20first%20issue) label marks appropriate issues. Otherwise, the [`help wanted`](https://github.com/eslint/eslint/labels/help%20wanted) label is an invitation to work on the issue. If you have more experience, you can try working on other issues labeled [`accepted`](https://github.com/eslint/eslint/labels/accepted).
 3. **What is this issue about?** Labels describing the nature of issues include `bug`, `enhancement`, `feature`, `question`, `rule`, `documentation`, `core`, `build`, `cli`, `infrastructure`, `breaking`, and `chore`. These are documented in [Maintain ESLint](../maintain/manage-issues#types-of-issues-and-pull-requests).
 4. **What is the priority of this issue?** Because we have a lot of issues, we prioritize certain issues above others. The following is the list of priorities, from highest to lowest:
-
     1. **Bugs** - problems with the project are actively affecting users. We want to get these resolved as quickly as possible.
     1. **Documentation** - documentation issues are a type of bug in that they actively affect current users. As such, we want to address documentation issues as quickly as possible.
     1. **Features** - new functionality that will aid users in the future.

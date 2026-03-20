@@ -4495,9 +4495,7 @@ describe("RuleTester", () => {
 		execFile(
 			process.execPath,
 			[
-				require.resolve(
-					"../../fixtures/testers/rule-tester/no-test-runners",
-				),
+				require.resolve("../../fixtures/testers/rule-tester/no-test-runners"),
 			],
 			{ timeout: 1000 },
 			done,

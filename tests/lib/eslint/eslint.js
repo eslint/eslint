@@ -5404,9 +5404,7 @@ describe("ESLint", () => {
 			);
 			const commonFiles = {
 				"node_modules/pattern-processor/index.js": fs.readFileSync(
-					require.resolve(
-						"../../fixtures/processors/pattern-processor",
-					),
+					require.resolve("../../fixtures/processors/pattern-processor"),
 					"utf8",
 				),
 				"node_modules/eslint-plugin-markdown/index.js": `

@@ -983,7 +983,6 @@ A test case is an object with the following properties:
 In addition to the properties above, invalid test cases can also have the following properties:
 
 - `errors` (number or array, required): Asserts some properties of the errors that the rule is expected to produce when run on this code. If this is a number, asserts the number of errors produced. Otherwise, this should be a list of objects, each containing information about a single reported error. The following properties can be used for an error (all are optional unless otherwise noted):
-
     - `message` (string/regexp): The message for the error. Must provide this or `messageId`.
     - `messageId` (string): The ID for the error. Must provide this or `message`. See [testing errors with messageId](#testing-errors-with-messageid) for details.
     - `data` (object): Placeholder data which can be used in combination with `messageId`.

@@ -81,9 +81,9 @@
 		}
 		function c(e, t) {
 			var s = r.onSuccess(e, n[t], t);
-			(e = !1 === s ? "" : s || e),
+			((e = !1 === s ? "" : s || e),
 				(o[t] = e),
-				-1 === o.indexOf(null) && r.onComplete(o);
+				-1 === o.indexOf(null) && r.onComplete(o));
 		}
 		var i = document.createElement("a");
 		n.forEach(function (e, t) {
@@ -95,7 +95,7 @@
 			) {
 				if (i.protocol === location.protocol) {
 					var n = new XDomainRequest();
-					n.open("GET", e),
+					(n.open("GET", e),
 						(n.timeout = 0),
 						(n.onprogress = Function.prototype),
 						(n.ontimeout = Function.prototype),
@@ -107,18 +107,18 @@
 						}),
 						setTimeout(function () {
 							n.send();
-						}, 0);
+						}, 0));
 				} else
-					console.warn(
+					(console.warn(
 						"Internet Explorer 9 Cross-Origin (CORS) requests must use the same protocol (".concat(
 							e,
 							")",
 						),
 					),
-						a(null, t);
+						a(null, t));
 			} else {
 				var o = new XMLHttpRequest();
-				o.open("GET", e),
+				(o.open("GET", e),
 					r.mimeType &&
 						o.overrideMimeType &&
 						o.overrideMimeType(r.mimeType),
@@ -129,7 +129,7 @@
 								? c(o.responseText, t)
 								: a(o, t));
 					}),
-					o.send();
+					o.send());
 			}
 		});
 	}
@@ -205,15 +205,15 @@
 								);
 							},
 							onError: function (r, n, u) {
-								c.push({ xhr: r, url: n }),
+								(c.push({ xhr: r, url: n }),
 									i.push(l.rules[u]),
-									e(t, o, s, a, c, i);
+									e(t, o, s, a, c, i));
 							},
 							onComplete: function (r) {
-								r.forEach(function (e, r) {
+								(r.forEach(function (e, r) {
 									t = t.replace(l.rules[r], e);
 								}),
-									e(t, o, s, a, c, i);
+									e(t, o, s, a, c, i));
 							},
 						})
 					: a(t, c);
@@ -280,19 +280,19 @@
 								i(r, t, e, c);
 							},
 							onError: function (r, o, s) {
-								(a[t] = ""), n.onError(r, e, o), c();
+								((a[t] = ""), n.onError(r, e, o), c());
 							},
 						});
 					else if (f) {
 						var d = e.textContent;
-						n.useCSSOM &&
+						(n.useCSSOM &&
 							(d = Array.apply(null, e.sheet.cssRules)
 								.map(function (e) {
 									return e.cssText;
 								})
 								.join("")),
-							i(d, t, e, location.href);
-					} else (a[t] = ""), c();
+							i(d, t, e, location.href));
+					} else ((a[t] = ""), c());
 				})
 			: n.onComplete("", []);
 	}
@@ -314,8 +314,8 @@
 	}
 	var s = a;
 	function a(e, t, r) {
-		e instanceof RegExp && (e = c(e, r)),
-			t instanceof RegExp && (t = c(t, r));
+		(e instanceof RegExp && (e = c(e, r)),
+			t instanceof RegExp && (t = c(t, r)));
 		var n = i(e, t, r);
 		return (
 			n && {
@@ -342,13 +342,13 @@
 			l = i;
 		if (i >= 0 && u > 0) {
 			for (n = [], s = r.length; l >= 0 && !c; )
-				l == i
+				(l == i
 					? (n.push(l), (i = r.indexOf(e, l + 1)))
 					: 1 == n.length
 						? (c = [n.pop(), u])
 						: ((o = n.pop()) < s && ((s = o), (a = u)),
 							(u = r.indexOf(t, l + 1))),
-					(l = i < u && i >= 0 ? i : u);
+					(l = i < u && i >= 0 ? i : u));
 			n.length && (c = [s, a]);
 		}
 		return c;
@@ -364,7 +364,7 @@
 		}
 		function o(e) {
 			var r = e.exec(t);
-			if (r) return (t = t.slice(r[0].length)), r;
+			if (r) return ((t = t.slice(r[0].length)), r);
 		}
 		function a() {
 			return o(/^{\s*/);
@@ -381,7 +381,7 @@
 					e++;
 				if (!t[e]) return n("end of comment is missing");
 				var r = t.slice(2, e);
-				return (t = t.slice(e + 2)), { type: "comment", comment: r };
+				return ((t = t.slice(e + 2)), { type: "comment", comment: r });
 			}
 		}
 		function l() {
@@ -421,12 +421,12 @@
 						property: t.replace(e, ""),
 						value: r ? r[0].replace(e, "").trim() : "",
 					};
-				return o(/^[;\s]*/), s;
+				return (o(/^[;\s]*/), s);
 			}
 		}
 		function p() {
 			if (!a()) return n("missing '{'");
-			for (var e, t = l(); (e = d()); ) t.push(e), (t = t.concat(l()));
+			for (var e, t = l(); (e = d()); ) (t.push(e), (t = t.concat(l())));
 			return c() ? t : n("missing '}'");
 		}
 		function m() {
@@ -434,9 +434,8 @@
 			for (
 				var e, t = [];
 				(e = o(/^((\d+\.\d+|\.\d+|\d+)%?|[a-z]+)\s*/));
-
 			)
-				t.push(e[1]), o(/^,\s*/);
+				(t.push(e[1]), o(/^,\s*/));
 			if (t.length)
 				return { type: "keyframe", values: t, declarations: p() };
 		}
@@ -453,7 +452,7 @@
 								s = e[1];
 							if (!a()) return n("@keyframes missing '{'");
 							for (var i = l(); (r = m()); )
-								i.push(r), (i = i.concat(l()));
+								(i.push(r), (i = i.concat(l())));
 							return c()
 								? {
 										type: "keyframes",
@@ -545,7 +544,7 @@
 							/:(?:root|host)(?![.:#(])/.test(e.pre) &&
 							/--\S*\s*:/.test(e.body),
 						a = /var\(/.test(e.body);
-					if (!o && !a) return (t = t.slice(e.end + 1)), {};
+					if (!o && !a) return ((t = t.slice(e.end + 1)), {});
 				}
 			}
 			var c = f() || [],
@@ -571,9 +570,8 @@
 			for (
 				var r, o = l();
 				t.length && (e || "}" !== t[0]) && (r = v() || h());
-
 			)
-				r.type && o.push(r), (o = o.concat(l()));
+				(r.type && o.push(r), (o = o.concat(l())));
 			return e || c() ? o : n("missing '}'");
 		}
 		return { type: "stylesheet", stylesheet: { rules: y(!0), errors: [] } };
@@ -743,7 +741,7 @@
 											n++)
 										: (o.value = i));
 							}
-						} else e.splice(n, 1), n--;
+						} else (e.splice(n, 1), n--);
 				}
 			}),
 			f(t)
@@ -858,14 +856,16 @@
 			o = "cssVars(): ",
 			s = e({}, b, r);
 		function a(e, t, r, n) {
-			!s.silent &&
+			(!s.silent &&
 				window.console &&
 				console.error("".concat(o).concat(e, "\n"), t),
-				s.onError(e, t, r, n);
+				s.onError(e, t, r, n));
 		}
 		function c(e) {
-			!s.silent && window.console && console.warn("".concat(o).concat(e)),
-				s.onWarning(e);
+			(!s.silent &&
+				window.console &&
+				console.warn("".concat(o).concat(e)),
+				s.onWarning(e));
 		}
 		if (y) {
 			if (s.watch)
@@ -951,7 +951,7 @@
 																			'"]',
 																		),
 																	);
-															o &&
+															(o &&
 																(L(
 																	e.rootElement,
 																),
@@ -959,7 +959,7 @@
 																c &&
 																	c.parentNode.removeChild(
 																		c,
-																	);
+																	));
 														}
 														return s;
 													});
@@ -986,10 +986,10 @@
 							arguments.length > 1 && void 0 !== arguments[1]
 								? arguments[1]
 								: 100;
-						clearTimeout(x),
+						(clearTimeout(x),
 							(x = setTimeout(function () {
-								(e.__benchmark = null), k(e);
-							}, t));
+								((e.__benchmark = null), k(e));
+							}, t)));
 					})(r);
 				if (
 					((s.__benchmark = T()),
@@ -1082,9 +1082,9 @@
 									);
 								},
 								onComplete: function (e, t, r) {
-									l(e, { store: w.dom, onWarning: c }),
+									(l(e, { store: w.dom, onWarning: c }),
 										(j = !0),
-										k(s);
+										k(s));
 								},
 							})
 						: ((C = s.rootElement),
@@ -1172,7 +1172,7 @@
 															s.preserveStatic,
 														removeComments: !0,
 													});
-													l(r, {
+													(l(r, {
 														parseHost: Boolean(
 															s.rootElement.host,
 														),
@@ -1181,7 +1181,7 @@
 													}),
 														(e.__cssVars = {
 															tree: r,
-														});
+														}));
 												} catch (t) {
 													a(t.message, e);
 												}
@@ -1193,16 +1193,14 @@
 												"[data-cssvars]",
 											) ||
 												Object.keys(w.dom).length) &&
-												Object.keys(i).some(
-													function (e) {
-														return i[e] !== d[e];
-													},
-												),
+											Object.keys(i).some(function (e) {
+												return i[e] !== d[e];
+											}),
 										)),
 										e(d, w.user, i),
 										p)
 									)
-										L(s.rootElement), k(s);
+										(L(s.rootElement), k(s));
 									else {
 										var v = [],
 											h = [],
@@ -1255,7 +1253,7 @@
 																		document.createElement(
 																			"style",
 																		);
-																(y =
+																((y =
 																	y ||
 																	E.cssKeyframes.test(
 																		n,
@@ -1294,14 +1292,14 @@
 																				function (
 																					e,
 																				) {
-																					e.setAttribute(
+																					(e.setAttribute(
 																						"data-cssvars-job",
 																						S.job,
 																					),
 																						e.setAttribute(
 																							"data-cssvars-group",
 																							o,
-																						);
+																						));
 																				},
 																			),
 																			(u.textContent =
@@ -1316,7 +1314,7 @@
 																				t.parentNode.insertBefore(
 																					u,
 																					t.nextSibling,
-																				));
+																				)));
 															}
 														} else
 															t.textContent.replace(
@@ -1327,7 +1325,7 @@
 													} catch (e) {
 														a(e.message, t);
 													}
-												r &&
+												(r &&
 													t.setAttribute(
 														"data-cssvars",
 														"skip",
@@ -1338,7 +1336,7 @@
 														t.setAttribute(
 															"data-cssvars-job",
 															S.job,
-														);
+														));
 											}),
 											(A = s.rootElement.querySelectorAll(
 												'[data-cssvars]:not([data-cssvars="out"])',
@@ -1370,20 +1368,20 @@
 													});
 													k(x);
 												}
-										s.updateDOM && y && M(s.rootElement),
+										(s.updateDOM && y && M(s.rootElement),
 											(C = !1),
 											s.onComplete(
 												v.join(""),
 												h,
 												JSON.parse(JSON.stringify(d)),
 												T() - s.__benchmark,
-											);
+											));
 									}
 								},
 							}));
 			else
 				document.addEventListener("DOMContentLoaded", function e(t) {
-					k(r), document.removeEventListener("DOMContentLoaded", e);
+					(k(r), document.removeEventListener("DOMContentLoaded", e));
 				});
 		}
 	}
