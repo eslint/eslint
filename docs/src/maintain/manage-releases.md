@@ -152,11 +152,13 @@ In this phase, we should also prepare infrastructure for v9.x maintenance:
 #### Three Months after the Final Release
 
 - In the `eslint/eslint.org` repository, submit a PR to update the text in `src/_includes/partials/deprecation-notice.html` to "ESLint v9.x end-of-life is (insert date here) and will not be maintained after that. Upgrade or consider long-term support options". Update the link on "Upgrade" to point to the ESLint v10 migration guide. In the same PR, add {% raw %}`{% include 'partials/deprecation-notice.html' %}`{% endraw %} to `src/_includes/layouts/base.html`, right before {% raw %}`{{ content | safe }}`{% endraw %}. The PR should be reviewed and approved in time, but merged exactly three months after the final release.
+- In the `eslint/eslint` repository, submit a PR to update the text in `docs/src/_includes/partials/deprecation-notice.html` to "ESLint v9.x end-of-life is (insert date here) and will not be maintained after that. Upgrade or consider long-term support options". Update the link on "Upgrade" to point to the ESLint v10 migration guide. In the same PR, add {% raw %}`{% include 'partials/deprecation-notice.html' %}`{% endraw %} to `docs/src/_includes/layouts/base.html`, right before {% raw %}`{{ content | safe }}`{% endraw %}. The PR should be reviewed and approved in time, but merged exactly three months after the final release.
 
 #### Six Months after the Final Release
 
 - In the `eslint/eslint.org` repository, submit a PR to update the Current Release Lines table in `src/content/pages/version-support.md`: update v9.x Release Line column with concrete versions (e.g., v9.0.0-v9.39.2), update status to EOL, set Last Release date to the date of last released v9.x version, and update Commercial Support to HeroDevs. The PR should be reviewed and approved in time, but merged when the EOL date starts.
 - In the `eslint/eslint.org` repository, submit a PR to update the text in `src/_includes/partials/deprecation-notice.html` to "ESLint v9.x reached end-of-life on (insert date here) and is no longer maintained. Upgrade or consider long-term support options". The PR should be reviewed and approved in time, but merged when the EOL date starts.
+- In the `eslint/eslint.org` repository, submit a PR to update the text in `docs/src/_includes/partials/deprecation-notice.html` to "ESLint v9.x reached end-of-life on (insert date here) and is no longer maintained. Upgrade or consider long-term support options". The PR should be reviewed and approved in time, but merged when the EOL date starts.
 
 #### Twelve Months after the Final Release
 
