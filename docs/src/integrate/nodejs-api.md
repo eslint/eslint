@@ -169,6 +169,13 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
 - `options.cacheStrategy` (`string`)<br>
   Default is `"metadata"`. Strategy for the cache to use for detecting changed files. Can be either `"metadata"` or `"content"`.
 
+##### Suppressions
+
+- `options.applySuppressions` (`boolean`)<br>
+  Default is `false`. If `true`, suppressions from the suppressions file are automatically applied to results from both [`eslint.lintFiles()`][eslint-lintfiles] and [`eslint.lintText()`][eslint-linttext]. When using `eslint.lintText()`, the `filePath` option must also be provided for suppressions to take effect.
+- `options.suppressionsLocation` (`string`)<br>
+  Default is `"eslint-suppressions.json"`. The path to the suppressions file. The path can be absolute or relative to `cwd`.
+
 ##### Other Options
 
 - `options.concurrency` (`number | "auto" | "off"`)<br>
@@ -976,7 +983,6 @@ A test case is an object with the following properties:
 In addition to the properties above, invalid test cases can also have the following properties:
 
 - `errors` (number or array, required): Asserts some properties of the errors that the rule is expected to produce when run on this code. If this is a number, asserts the number of errors produced. Otherwise, this should be a list of objects, each containing information about a single reported error. The following properties can be used for an error (all are optional unless otherwise noted):
-
     - `message` (string/regexp): The message for the error. Must provide this or `messageId`.
     - `messageId` (string): The ID for the error. Must provide this or `message`. See [testing errors with messageId](#testing-errors-with-messageid) for details.
     - `data` (object): Placeholder data which can be used in combination with `messageId`.

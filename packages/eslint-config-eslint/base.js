@@ -3,7 +3,7 @@
 const js = require("@eslint/js");
 const jsdoc = require("eslint-plugin-jsdoc");
 const eslintCommentsPluginConfigs = require("@eslint-community/eslint-plugin-eslint-comments/configs");
-const unicorn = require("eslint-plugin-unicorn");
+const unicorn = require("eslint-plugin-unicorn").default;
 const regexp = require("eslint-plugin-regexp");
 
 // extends eslint recommended config

@@ -353,7 +353,7 @@ export default ["eslint:recommended", "eslint:all"];
 
 In ESLint v9.0.0, this format is no longer supported and will result in an error.
 
-**To address:** Use the `@eslint/js` package instead:
+**To address:** Install and use the `@eslint/js` package instead:
 
 ```js
 // eslint.config.js

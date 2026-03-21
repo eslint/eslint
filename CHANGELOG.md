@@ -1,3 +1,31 @@
+v10.1.0 - March 20, 2026
+
+* [`a9f9cce`](https://github.com/eslint/eslint/commit/a9f9cce82d80b540a0e3549d0e91c16df28740d8) chore: update dependency eslint-plugin-unicorn to ^63.0.0 (#20584) (Milos Djermanovic)
+* [`1f42bd7`](https://github.com/eslint/eslint/commit/1f42bd7876ae4192cf7f7f4faf73b4ef3d2563cb) chore: update `prettier` to 3.8.1 (#20651) (루밀LuMir)
+* [`c0a6f4a`](https://github.com/eslint/eslint/commit/c0a6f4a2b4169edeca2a81bf7b47783e39ade366) chore: update dependency @eslint/json to ^1.2.0 (#20652) (renovate[bot])
+* [`cc43f79`](https://github.com/eslint/eslint/commit/cc43f795c42e5ec2f19bb43b1f6d534ef2e469f3) chore: update dependency c8 to v11 (#20650) (renovate[bot])
+* [`2ce4635`](https://github.com/eslint/eslint/commit/2ce4635b036ff2665c7009afddf9c0fb2274dceb) chore: update dependency @eslint/json to v1 (#20649) (renovate[bot])
+* [`f0406ee`](https://github.com/eslint/eslint/commit/f0406eedcc3dc415babbbf6bbdb5db1eebfd487b) chore: update dependency markdownlint-cli2 to ^0.21.0 (#20646) (renovate[bot])
+* [`dbb4c95`](https://github.com/eslint/eslint/commit/dbb4c9582a00bac604d5c6ac671bb7111468a846) chore: remove trunk (#20478) (sethamus)
+* [`ff4382b`](https://github.com/eslint/eslint/commit/ff4382be349035acdb170627a2dc92828e134562) feat: apply fix for `no-var` in `TSModuleBlock` (#20638) (Tanuj Kanti)
+* [`c672a2a`](https://github.com/eslint/eslint/commit/c672a2a70579fddf1c6ce33dfa712d705726e1c9) test: fix CLI test for empty output file (#20640) (kuldeep kumar)
+* [`b7b57fe`](https://github.com/eslint/eslint/commit/b7b57fe9942c572ff651230f1f96cefed787ca52) docs: use correct JSDoc link in require-jsdoc.md (#20641) (mkemna-clb)
+* [`58e4cfc`](https://github.com/eslint/eslint/commit/58e4cfc7dbf0fe40c73f09bf0ff94ad944d0ba0e) docs: add deprecation notice partial (#20639) (Milos Djermanovic)
+* [`c7ada24`](https://github.com/eslint/eslint/commit/c7ada2455680036bbfc42fcb1511ff28afe3c587) ci: bump pnpm/action-setup from 4.3.0 to 4.4.0 (#20636) (dependabot[bot])
+* [`0916995`](https://github.com/eslint/eslint/commit/0916995b51528872b15ba4fedb24172cf25fcb3f) feat: Implement api support for bulk-suppressions (#20565) (Blake Sager)
+* [`2b8824e`](https://github.com/eslint/eslint/commit/2b8824e6be4223980e929a20025602df20d05ea2) fix: Prevent `no-var` autofix when a variable is used before declaration (#20464) (Amaresh  S M)
+* [`07c4b8b`](https://github.com/eslint/eslint/commit/07c4b8b4a9f49145e60a3448dd57853213ed4de3) test: fix `RuleTester` test without test runners (#20631) (Francesco Trotta)
+* [`7143dbf`](https://github.com/eslint/eslint/commit/7143dbf99df27c61edf1552da981794e99a0b2f2) docs: update v9 migration guide for `@eslint/js` usage (#20540) (fnx)
+* [`035fc4f`](https://github.com/eslint/eslint/commit/035fc4fbe506e3e4524882cf50db37a4e430adf4) docs: note that `globalReturn` applies only with `sourceType: "script"` (#20630) (Milos Djermanovic)
+* [`079bba7`](https://github.com/eslint/eslint/commit/079bba7ff17d0a99fdffe32bf991d005ba797fae) test: Add tests for `isValidWithUnicodeFlag` (#20601) (Manish chaudhary)
+* [`5885ae6`](https://github.com/eslint/eslint/commit/5885ae66216bcee9310bbf73786b7d7d5774aeaf) ci: unpin Node.js 25.x in CI (#20615) (Copilot)
+* [`e972c88`](https://github.com/eslint/eslint/commit/e972c88ab7474a74191ee99ac2558b00d0427a8a) docs: merge ESLint option descriptions into type definitions (#20608) (Francesco Trotta)
+* [`f65e5d3`](https://github.com/eslint/eslint/commit/f65e5d3c0df65fdb317ad6d23f7ae113c5f4b6d7) chore: update pnpm/action-setup digest to b906aff (#20610) (renovate[bot])
+* [`e58b4bf`](https://github.com/eslint/eslint/commit/e58b4bff167e79afd067d1b0ee9360bec2d3393e) fix: update eslint (#20597) (renovate[bot])
+* [`7f10d84`](https://github.com/eslint/eslint/commit/7f10d8440137f0cfd75f18f4746ba6a1c621b953) docs: Update README (GitHub Actions Bot)
+* [`aeed007`](https://github.com/eslint/eslint/commit/aeed0078ca2f73d4744cc522102178d45b5be64e) docs: open playground link in new tab (#20602) (Tanuj Kanti)
+* [`a0d1a37`](https://github.com/eslint/eslint/commit/a0d1a3772679d3d74bb860fc65b5b58678acd452) docs: Add AI Usage Policy (#20510) (Nicholas C. Zakas)
+
 v10.0.3 - March 6, 2026
 
 * [`e511b58`](https://github.com/eslint/eslint/commit/e511b58d5ecd63a232b87743614867f4eaadbba4) fix: update eslint (#20595) (renovate[bot])

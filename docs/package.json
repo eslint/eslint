@@ -1,9 +1,8 @@
 {
     "name": "docs-eslint",
     "private": true,
-    "version": "10.0.3",
+    "version": "10.1.0",
     "description": "",
-    "main": "index.js",
     "keywords": [],
     "author": "",
     "license": "MIT",

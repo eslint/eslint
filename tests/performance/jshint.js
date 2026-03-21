@@ -8989,7 +8989,6 @@ var JSHINT;
 									for (
 										var i = 0;
 										i < unicodeLetterTable.length;
-
 									) {
 										if (code < unicodeLetterTable[i++]) {
 											return false;
