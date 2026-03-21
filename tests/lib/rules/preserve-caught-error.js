@@ -874,6 +874,45 @@ ruleTester.run("preserve-caught-error", rule, {
 			}`,
 			options: [{ errorClassNames: ["APIError", "ValidationError"] }],
 		},
+
+		// Auto-detected custom errors (no config needed) - valid cases
+		`
+			class CustomError extends Error {}
+			try {
+				doSomething();
+			} catch (err) {
+				throw new CustomError("With cause", { cause: err });
+			}`,
+		`
+			class APIError extends Error {}
+			try {
+				doSomething();
+			} catch (err) {
+				throw new APIError("msg", { cause: err });
+			}`,
+		`
+			class CustomError extends Error {}
+			try {
+				doSomething();
+			} catch (err) {
+				throw new CustomError({ cause: err }, "msg");
+			}`,
+		`
+			class CustomError extends Error {}
+			try {
+				doSomething();
+			} catch (err) {
+				throw new CustomError("type", "msg", { cause: err });
+			}`,
+		`
+			class CustomError extends Error {}
+			try {
+				doSomething();
+			} catch (err) {
+				throw new CustomError({ meta: "data" }, "msg", { cause: err });
+			}`,
+	],
+	invalid: [
 		{
 			code: `
 			class CustomError extends Error {}
@@ -882,10 +921,182 @@ ruleTester.run("preserve-caught-error", rule, {
 			} catch (err) {
 				throw new CustomError("No cause");
 			}`,
-			options: [{ errorClassNames: [] }],
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `
+			class CustomError extends Error {}
+			try {
+				doSomething();
+			} catch (err) {
+				throw new CustomError("No cause", { cause: err });
+			}`,
+						},
+					],
+				},
+			],
 		},
-	],
-	invalid: [
+
+		// Auto-detected custom errors without cause - should be flagged
+		{
+			code: `
+			class APIError extends Error {}
+			try {
+				doSomething();
+			} catch (err) {
+				throw new APIError("msg");
+			}`,
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `
+			class APIError extends Error {}
+			try {
+				doSomething();
+			} catch (err) {
+				throw new APIError("msg", { cause: err });
+			}`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `
+			class CustomError extends Error {}
+			try {
+				doSomething();
+			} catch (err) {
+				throw new CustomError("msg", { other: "value" });
+			}`,
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `
+			class CustomError extends Error {}
+			try {
+				doSomething();
+			} catch (err) {
+				throw new CustomError("msg", { other: "value", cause: err });
+			}`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `
+			class CustomError extends Error {}
+			try {
+				doSomething();
+			} catch (err) {
+				throw new CustomError({ cause: wrong }, "msg");
+			}`,
+			errors: [
+				{
+					messageId: "incorrectCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `
+			class CustomError extends Error {}
+			try {
+				doSomething();
+			} catch (err) {
+				throw new CustomError({ cause: err }, "msg");
+			}`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `
+			class CustomError extends Error {}
+			try {
+				doSomething();
+			} catch (err) {
+				throw new CustomError("type", "msg");
+			}`,
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `
+			class CustomError extends Error {}
+			try {
+				doSomething();
+			} catch (err) {
+				throw new CustomError("type", "msg", { cause: err });
+			}`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `
+			class CustomError extends Error {}
+			try {
+				doSomething();
+			} catch (err) {
+				throw new CustomError({ meta: "data" }, "msg");
+			}`,
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `
+			class CustomError extends Error {}
+			try {
+				doSomething();
+			} catch (err) {
+				throw new CustomError({ meta: "data", cause: err }, "msg");
+			}`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `
+			class CustomError extends Error {}
+			try {
+				doSomething();
+			} catch (err) {
+				throw new CustomError({ a: 1, });
+			}`,
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `
+			class CustomError extends Error {}
+			try {
+				doSomething();
+			} catch (err) {
+				throw new CustomError({ a: 1, cause: err, });
+			}`,
+						},
+					],
+				},
+			],
+		},
 		{
 			code: `
 			class CustomApplicationError extends Error {}
@@ -934,6 +1145,60 @@ ruleTester.run("preserve-caught-error", rule, {
 				doSomething();
 			} catch (error) {
 				throw new APIError("API failed", { cause: error });
+			}`,
+						},
+					],
+				},
+			],
+		},
+
+		// Spread in non-cause object should not block detection
+		{
+			code: `
+			class CustomError extends Error {}
+			try {
+				doSomething();
+			} catch (err) {
+				throw new CustomError({ ...meta }, "message");
+			}`,
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `
+			class CustomError extends Error {}
+			try {
+				doSomething();
+			} catch (err) {
+				throw new CustomError({ ...meta }, "message", { cause: err });
+			}`,
+						},
+					],
+				},
+			],
+		},
+
+		// Trailing comma with built-in Error
+		{
+			code: `
+			try {
+				doSomething();
+			} catch (err) {
+				throw new Error("msg", { a: 1, });
+			}`,
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `
+			try {
+				doSomething();
+			} catch (err) {
+				throw new Error("msg", { a: 1, cause: err, });
 			}`,
 						},
 					],
