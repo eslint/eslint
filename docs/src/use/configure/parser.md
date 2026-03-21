@@ -71,5 +71,5 @@ export default defineConfig([
 ```
 
 ::: tip
-In addition to the options specified in `languageOptions.parserOptions`, ESLint also passes `ecmaVersion` and `sourceType` to all parsers. This allows custom parsers to understand the context in which ESLint is evaluating JavaScript code.
+In addition to the options specified in `languageOptions.parserOptions`, ESLint also passes `ecmaVersion` and `sourceType` from `languageOptions` to all parsers. Some parsers also accept `ecmaVersion` and `sourceType` in `languageOptions.parserOptions`; when those parser-specific values are set, they override the values from `languageOptions`.
 :::

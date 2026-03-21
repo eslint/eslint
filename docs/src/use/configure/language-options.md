@@ -69,6 +69,10 @@ export default defineConfig([
 ```
 
 ::: important
+For the default parser, avoid setting `ecmaVersion` or `sourceType` inside `languageOptions.parserOptions`. Those parser-specific values can still take precedence over `languageOptions.ecmaVersion` and `languageOptions.sourceType`, which is usually unnecessary and can be confusing. Set `ecmaVersion` and `sourceType` directly in `languageOptions` instead.
+:::
+
+::: important
 Please note that supporting JSX syntax is not the same as supporting React. React applies specific semantics to JSX syntax that ESLint doesn't recognize. We recommend using [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) if you are using React.
 :::
 
