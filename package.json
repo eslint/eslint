@@ -168,7 +168,7 @@
     "ejs": "^3.0.2",
     "eslint": "file:.",
     "eslint-config-eslint": "file:packages/eslint-config-eslint",
-    "eslint-plugin-eslint-plugin": "^6.0.0",
+    "eslint-plugin-eslint-plugin": "^7.3.2",
     "eslint-plugin-expect-type": "^0.6.0",
     "eslint-plugin-yml": "^1.14.0",
     "eslint-release": "^3.3.0",

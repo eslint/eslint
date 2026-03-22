@@ -11,8 +11,7 @@
 
 const path = require("node:path");
 const internalPlugin = require("./tools/internal-rules");
-const eslintPluginRulesRecommendedConfig = require("eslint-plugin-eslint-plugin/configs/rules-recommended");
-const eslintPluginTestsRecommendedConfig = require("eslint-plugin-eslint-plugin/configs/tests-recommended");
+const eslintPluginESLint = require("eslint-plugin-eslint-plugin").default;
 const globals = require("globals");
 const eslintConfigESLintCJS = require("eslint-config-eslint/cjs");
 const eslintPluginYml = require("eslint-plugin-yml");
@@ -121,7 +120,10 @@ module.exports = defineConfig([
 		name: "eslint/rules",
 		files: ["lib/rules/*.js", "tools/internal-rules/*.js"],
 		ignores: ["**/index.js"],
-		extends: [eslintPluginRulesRecommendedConfig],
+		plugins: {
+			"eslint-plugin": eslintPluginESLint,
+		},
+		extends: ["eslint-plugin/rules-recommended"],
 		rules: {
 			"eslint-plugin/prefer-placeholders": "error",
 			"eslint-plugin/prefer-replace-text": "error",
@@ -131,6 +133,12 @@ module.exports = defineConfig([
 				{ pattern: "^(Enforce|Require|Disallow) .+[^. ]$" },
 			],
 			"internal-rules/no-invalid-meta": "error",
+
+			"eslint-plugin/require-meta-schema-description": "off",
+
+			// TODO: Consider enabling these for non-deprecated rules
+			"eslint-plugin/no-meta-schema-default": "off",
+			"eslint-plugin/require-meta-default-options": "off",
 		},
 	},
 	{
@@ -147,7 +155,10 @@ module.exports = defineConfig([
 	{
 		name: "eslint/rules-tests",
 		files: ["tests/lib/rules/*.js", "tests/tools/internal-rules/*.js"],
-		extends: [eslintPluginTestsRecommendedConfig],
+		plugins: {
+			"eslint-plugin": eslintPluginESLint,
+		},
+		extends: ["eslint-plugin/tests-recommended"],
 		rules: {
 			"eslint-plugin/test-case-property-ordering": [
 				"error",
