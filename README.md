@@ -218,6 +218,8 @@ Packages that are controlled by the ESLint team and have no external dependencie
 
 For external packages, we don't use `require(esm)` because a package could add a top-level `await` and thus break ESLint. We can use an external ESM-only package only in case it is needed only in asynchronous code, in which case it can be loaded using dynamic `import()`.
 
+These policies don't apply to packages intended for our own usage only, such as `eslint-config-eslint`.
+
 ## License
 
 MIT License
