@@ -44,7 +44,7 @@
         "markdown-it": "^12.2.0",
         "markdown-it-anchor": "^8.1.2",
         "markdown-it-container": "^3.0.0",
-        "npm-run-all2": "^5.0.0",
+        "npm-run-all2": "^8.0.0",
         "postcss-cli": "^10.0.0",
         "postcss-html": "^1.5.0",
         "prismjs": "^1.29.0",
