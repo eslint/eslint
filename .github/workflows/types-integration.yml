@@ -138,7 +138,7 @@ jobs:
             - name: Install Packages (eslint/js)
               working-directory: eslint-js
               run: |
-                  npm install --legacy-peer-deps ../eslint
+                  npm install ../eslint
 
             - name: Run TSC
               working-directory: eslint-js
@@ -172,7 +172,7 @@ jobs:
               run: |
                   npm install
                   npm run build
-                  npm install --legacy-peer-deps ../eslint @eslint/core@latest
+                  npm install ../eslint @eslint/core@latest
 
             - name: Run TSC
               working-directory: json
