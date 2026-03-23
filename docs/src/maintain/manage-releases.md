@@ -99,7 +99,7 @@ The only real exception is if ESLint is completely unusable by most of the curre
 
 ## Major Releases
 
-This section describes additional tasks that should be done in eslint repositories and infrastructure during a major release cycle. A major release cycle includes prereleases and the final release of a new major version of ESLint.
+This section describes additional tasks that should be done in ESLint repositories and infrastructure during a major release cycle. A major release cycle includes prereleases and the final release of a new major version of ESLint.
 
 For simplicity, let v9.x be the current version, and v10.0.0 the new major version.
 
