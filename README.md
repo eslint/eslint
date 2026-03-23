@@ -33,6 +33,7 @@ ESLint is a tool for identifying and reporting on patterns found in ECMAScript/J
 1. [Filing Issues](#filing-issues)
 1. [Frequently Asked Questions](#frequently-asked-questions)
 1. [Releases](#releases)
+1. [AI Usage Policy](#ai-usage-policy)
 1. [Security Policy](#security-policy)
 1. [Semantic Versioning Policy](#semantic-versioning-policy)
 1. [ESM Dependencies](#esm-dependencies)
@@ -172,6 +173,12 @@ The Twilio blog has a [deeper dive](https://www.twilio.com/blog/lockfiles-nodejs
 ## Releases
 
 We have scheduled releases every two weeks on Friday or Saturday. You can follow a [release issue](https://github.com/eslint/eslint/issues?q=is%3Aopen+is%3Aissue+label%3Arelease) for updates about the scheduling of any particular release.
+
+## AI Usage Policy
+
+ESLint welcomes contributions from everyone, including those created with the assistance of Artificial Intelligence (AI) tools. We believe AI can be a powerful tool for improving software and want to encourage its responsible use in our project.
+
+To ensure that AI contributions are integrated smoothly and maintain the quality of the codebase, please adhere to our [AI Usage Policy](https://eslint.org/docs/latest/contribute/ai-policy) when submitting AI-generated content.
 
 ## Security Policy
 
