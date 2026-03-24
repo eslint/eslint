@@ -286,6 +286,22 @@ describe("FileReport", () => {
 
 			assert.strictEqual(fileReport.messages.length, 0);
 		});
+
+		it("should still add a message when the fix function throws", () => {
+			fileReport.addRuleMessage("foo-rule", 2, {
+				node,
+				loc: location,
+				message: "foo",
+				fix() {
+					throw new Error("ENOENT: no such file or directory");
+				},
+			});
+
+			assert.strictEqual(fileReport.messages.length, 1);
+			assert.strictEqual(fileReport.messages[0].ruleId, "foo-rule");
+			assert.strictEqual(fileReport.messages[0].message, "foo");
+			assert.strictEqual(fileReport.messages[0].fix, void 0);
+		});
 	});
 
 	describe("addError", () => {
