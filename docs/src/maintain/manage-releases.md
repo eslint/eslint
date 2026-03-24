@@ -162,7 +162,7 @@ In this phase, we should also prepare infrastructure for v9.x maintenance:
 - In the `eslint/eslint.org` repository, submit a PR to update the text in `src/_includes/partials/deprecation-notice.html` to "ESLint v9.x reached end-of-life on (insert date here) and is no longer maintained. Upgrade or consider long-term support options". The PR should be reviewed and approved in time, but merged when the EOL date starts.
 - In the `eslint/eslint` repository, submit a PR to update the text in `docs/src/_includes/partials/deprecation-notice.html` to "ESLint v9.x reached end-of-life on (insert date here) and is no longer maintained. Upgrade or consider long-term support options". The PR should target the `v9.x` branch (there is no need to also update the `v9.x-dev` branch since we will no longer be using it). The PR should be reviewed and approved in time, but merged when the EOL date starts.
 
-#### Twelve Months after the Final Release
+#### Nine Months after the Final Release
 
 - In the `eslint/eslint.org` repository, submit a PR to remove {% raw %}`{% include 'partials/deprecation-notice.html' %}`{% endraw %} from `src/_includes/layouts/base.html`. The PR should be reviewed and approved in time, but merged exactly twelve months after the final release.
 
