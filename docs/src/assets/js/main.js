@@ -181,9 +181,16 @@
 				var selected = this.options[this.selectedIndex];
 				var newBasePath = selected.getAttribute("data-url");
 
-				if (newBasePath.startsWith("http")) {
-					window.location.href = newBasePath;
-					return;
+				if (newBasePath && newBasePath.startsWith("http")) {
+					try {
+						var targetUrl = new URL(newBasePath);
+						if (targetUrl.protocol === "http:" || targetUrl.protocol === "https:") {
+							window.location.href = targetUrl.href;
+							return;
+						}
+					} catch (e) {
+						// If newBasePath is not a valid URL, fall through to relative handling below.
+					}
 				}
 
 				var match = window.location.pathname.match(
@@ -196,7 +203,7 @@
 						match[1] +
 						window.location.search +
 						window.location.hash;
-				} else {
+				} else if (newBasePath) {
 					window.location.href = newBasePath;
 				}
 			});
