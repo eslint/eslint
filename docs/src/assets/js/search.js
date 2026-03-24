@@ -121,6 +121,72 @@ function adjustSearchResultUrl(url) {
 }
 
 /**
+ * Sets a safe http(s) URL on an anchor (rejects javascript: and other schemes).
+ * @param {HTMLAnchorElement} anchor The anchor element.
+ * @param {string} url The destination URL.
+ * @returns {void}
+ */
+function setSafeHref(anchor, url) {
+	const adjusted = adjustSearchResultUrl(url);
+
+	try {
+		const parsed = new URL(adjusted, window.location.href);
+
+		if (parsed.protocol === "http:" || parsed.protocol === "https:") {
+			anchor.href = parsed.href;
+		}
+	} catch {
+		// Invalid URL: leave href unset
+	}
+}
+
+/**
+ * Appends highlight markup from Algolia by allowing only text, <em>, and <br>
+ * (avoids assigning remote HTML to innerHTML).
+ * @param {HTMLElement} parent The container element.
+ * @param {string} htmlString The highlight HTML from Algolia.
+ * @returns {void}
+ */
+function appendSanitizedHighlight(parent, htmlString) {
+	const parser = new DOMParser();
+	const doc = parser.parseFromString(htmlString, "text/html");
+
+	/**
+	 * @param {Node} node The node to copy.
+	 * @param {HTMLElement} target The parent to append into.
+	 */
+	function appendNode(node, target) {
+		if (node.nodeType === Node.TEXT_NODE) {
+			target.appendChild(document.createTextNode(node.textContent));
+			return;
+		}
+
+		if (node.nodeType !== Node.ELEMENT_NODE) {
+			return;
+		}
+
+		const tag = /** @type {Element} */ (node).tagName.toLowerCase();
+
+		if (tag === "em") {
+			const em = document.createElement("em");
+
+			if (node.className) {
+				em.className = node.className;
+			}
+
+			node.childNodes.forEach(child => appendNode(child, em));
+			target.appendChild(em);
+		} else if (tag === "br") {
+			target.appendChild(document.createElement("br"));
+		} else {
+			node.childNodes.forEach(child => appendNode(child, target));
+		}
+	}
+
+	doc.body.childNodes.forEach(child => appendNode(child, parent));
+}
+
+/**
  * Displays the given search results in the page.
  * @param {Array<object>} results The search results to display.
  * @returns {void}
@@ -144,10 +210,28 @@ function displaySearchResults(results) {
 					Number(k.substring(3)),
 				),
 			);
-			listItem.innerHTML = `
-                <h2 class="search-results__item__title"><a href="${adjustSearchResultUrl(result.url)}">${result.hierarchy.lvl0}</a></h2>
-                <p class="search-results__item__context">${typeof result._highlightResult.content !== "undefined" ? result._highlightResult.content.value : result._highlightResult.hierarchy[`lvl${maxLvl}`].value}</p>
-            `.trim();
+			const title = document.createElement("h2");
+
+			title.classList.add("search-results__item__title");
+
+			const link = document.createElement("a");
+
+			setSafeHref(link, result.url);
+			link.textContent = result.hierarchy.lvl0;
+			title.appendChild(link);
+
+			const context = document.createElement("p");
+
+			context.classList.add("search-results__item__context");
+
+			const highlightHtml =
+				typeof result._highlightResult.content !== "undefined"
+					? result._highlightResult.content.value
+					: result._highlightResult.hierarchy[`lvl${maxLvl}`].value;
+
+			appendSanitizedHighlight(context, highlightHtml);
+			listItem.appendChild(title);
+			listItem.appendChild(context);
 			list.append(listItem);
 		}
 	} else {

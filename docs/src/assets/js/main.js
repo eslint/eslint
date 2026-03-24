@@ -182,20 +182,25 @@
 				var newBasePath = selected.getAttribute("data-url");
 
 				if (!newBasePath) {
-						var targetUrl = new URL(newBasePath);
-						if (targetUrl.protocol === "http:" || targetUrl.protocol === "https:") {
-							window.location.href = targetUrl.href;
+					return;
+				}
+
 				newBasePath = newBasePath.trim();
+
 				if (!newBasePath) {
 					return;
 				}
 
-				// Allow only http(s) absolute URLs here
+				// External absolute URLs (e.g. "Previous Versions" link)
 				if (/^https?:\/\//i.test(newBasePath)) {
 					try {
 						var absoluteUrl = new URL(newBasePath);
-						if (absoluteUrl.protocol === "http:" || absoluteUrl.protocol === "https:") {
-							window.location.href = absoluteUrl.toString();
+
+						if (
+							absoluteUrl.protocol === "http:" ||
+							absoluteUrl.protocol === "https:"
+						) {
+							window.location.href = absoluteUrl.href;
 						}
 					} catch (e) {
 						// invalid URL; ignore navigation
@@ -203,26 +208,17 @@
 					return;
 				}
 
-							return;
-						}
-					} catch (e) {
-						// If newBasePath is not a valid URL, fall through to relative handling below.
-				try {
-					var targetUrl = new URL(newBasePath, window.location.origin);
-					if (match && match[1]) {
-						targetUrl.pathname = targetUrl.pathname.replace(/\/?$/, "/") + match[1];
-					}
-					targetUrl.search = window.location.search;
-					targetUrl.hash = window.location.hash;
-					window.location.href = targetUrl.toString();
-				} catch (e) {
-					// invalid base path; ignore navigation
+				var match = window.location.pathname.match(
+					/^\/docs\/[^/]+\/(.*)/,
+				);
+
+				if (match && match[1]) {
 					window.location.href =
 						newBasePath +
 						match[1] +
 						window.location.search +
 						window.location.hash;
-				} else if (newBasePath) {
+				} else {
 					window.location.href = newBasePath;
 				}
 			});
