@@ -81,6 +81,46 @@ function clearNoResults() {
 }
 
 /**
+ * Returns the base path of the currently selected docs version
+ * from the version switcher (e.g. "/docs/v8.x/", "/docs/latest/").
+ * @returns {string|null} The version base path, or null if unavailable.
+ */
+function getCurrentVersionPath() {
+	const versionSelect =
+		document.querySelector("#version-select") ||
+		document.querySelector("#nav-version-select");
+
+	if (versionSelect) {
+		const selected = versionSelect.options[versionSelect.selectedIndex];
+
+		if (selected) {
+			const dataUrl = selected.getAttribute("data-url");
+
+			if (dataUrl && !dataUrl.startsWith("http")) {
+				return dataUrl;
+			}
+		}
+	}
+	return null;
+}
+
+/**
+ * Rewrites an Algolia search result URL to point to the currently
+ * selected docs version instead of the indexed version (typically "latest").
+ * @param {string} url The original result URL from Algolia.
+ * @returns {string} The adjusted URL for the current version.
+ */
+function adjustSearchResultUrl(url) {
+	const currentVersionPath = getCurrentVersionPath();
+
+	if (!currentVersionPath) {
+		return url;
+	}
+
+	return url.replace(/\/docs\/[^/]+\//, currentVersionPath);
+}
+
+/**
  * Displays the given search results in the page.
  * @param {Array<object>} results The search results to display.
  * @returns {void}
@@ -105,7 +145,7 @@ function displaySearchResults(results) {
 				),
 			);
 			listItem.innerHTML = `
-                <h2 class="search-results__item__title"><a href="${result.url}">${result.hierarchy.lvl0}</a></h2>
+                <h2 class="search-results__item__title"><a href="${adjustSearchResultUrl(result.url)}">${result.hierarchy.lvl0}</a></h2>
                 <p class="search-results__item__context">${typeof result._highlightResult.content !== "undefined" ? result._highlightResult.content.value : result._highlightResult.hierarchy[`lvl${maxLvl}`].value}</p>
             `.trim();
 			list.append(listItem);

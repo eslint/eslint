@@ -179,9 +179,26 @@
 
 			select.addEventListener("change", function () {
 				var selected = this.options[this.selectedIndex];
-				url = selected.getAttribute("data-url");
+				var newBasePath = selected.getAttribute("data-url");
 
-				window.location.href = url;
+				if (newBasePath.startsWith("http")) {
+					window.location.href = newBasePath;
+					return;
+				}
+
+				var match = window.location.pathname.match(
+					/^\/docs\/[^/]+\/(.*)/,
+				);
+
+				if (match && match[1]) {
+					window.location.href =
+						newBasePath +
+						match[1] +
+						window.location.search +
+						window.location.hash;
+				} else {
+					window.location.href = newBasePath;
+				}
 			});
 		});
 	}
