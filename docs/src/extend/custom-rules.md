@@ -70,7 +70,6 @@ The source file for a rule exports an object with the following properties. Both
 - `defaultOptions`: (`array`) Specifies [default options](#option-defaults) for the rule. If present, any user-provided options in their config will be merged on top of them recursively.
 
 - `languages`: (`array`) Specifies the languages the rule is designed to work with. Each entry is a string in the format `"plugin/language"` (e.g., `"js/js"`, `"markdown/gfm"`). Special values:
-
     - `"*"` — the rule works with any language.
     - `"plugin/*"` — the rule works with any language provided by the given plugin.
 
