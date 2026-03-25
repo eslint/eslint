@@ -11612,10 +11612,7 @@ let c; // var a = "test2";
 				const suppressedMessages = linter.getSuppressedMessages();
 
 				assert.strictEqual(messages.length, 1);
-				assert.strictEqual(
-					messages[0].ruleId,
-					"test/unsupported-lang",
-				);
+				assert.strictEqual(messages[0].ruleId, "test/unsupported-lang");
 				assert.match(
 					messages[0].message,
 					/Inline configuration for rule "test\/unsupported-lang" is invalid:/u,
