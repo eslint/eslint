@@ -93,7 +93,6 @@ The source file for a rule exports an object with the following properties. Both
     ```
 
     Language identifiers are matched in the following order:
-
     1. **Wildcard `"*"`** — matches any language.
     2. **Direct string match** — the entry exactly equals the active language string (e.g., `"test/lang"`).
     3. **`"plugin/*"` wildcard** — matches any language whose plugin name (or `meta.namespace`) equals the plugin part of the entry.
