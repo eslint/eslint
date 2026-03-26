@@ -10,6 +10,6 @@ permissions:
 
 jobs:
     stale:
-        uses: eslint/workflows/.github/workflows/stale.yml@main
+        uses: eslint/workflows/.github/workflows/stale.yml@3030377848e4c0b9c28a271b88a5c8c57359da68 # main
         secrets:
             token: ${{ secrets.GITHUB_TOKEN }}
