@@ -65,6 +65,20 @@ describe("reduceBadExampleSize()", () => {
 		);
 	});
 
+	it("returns the original source text if recast fails to parse it", () => {
+		// recast doesn't support all ESTree node types (e.g., PropertyDefinition from ES2022).
+		// Code with both comments and class fields triggers an error in recast.
+		const initialCode = "class Foo { /* comment */ x = 1 }";
+
+		assert.strictEqual(
+			reduceBadExampleSize({
+				sourceText: initialCode,
+				predicate: code => code.includes("x = 1"),
+			}),
+			initialCode,
+		);
+	});
+
 	it("removes irrelevant comments from the source code", () => {
 		const initialCode = `
         var /* aaa */foo = bar;

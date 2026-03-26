@@ -91,7 +91,16 @@ function reduceBadExampleSize({
 		reproducesBadCase(sourceText),
 		"Original source text should reproduce issue",
 	);
-	const parseResult = recast.parse(sourceText, { parser });
+
+	let parseResult;
+
+	try {
+		parseResult = recast.parse(sourceText, { parser });
+	} catch {
+		// recast doesn't support all ESTree node types (e.g., PropertyDefinition from ES2022).
+		// If recast fails to parse the source text, return the original source text without minimizing.
+		return sourceText;
+	}
 
 	/**
 	 * Recursively removes descendant subtrees of the given AST node and replaces
