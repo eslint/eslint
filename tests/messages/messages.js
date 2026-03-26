@@ -548,6 +548,43 @@ Flat config requires "plugins" to be an object, like this:
 		});
 	});
 
+	describe("rule-unsupported-language", () => {
+		it("should return a message with a single rule ID", () => {
+			const ruleIds = ["my-plugin/my-rule"];
+			const language = "json/json";
+			const message = getMessage("rule-unsupported-language", {
+				ruleIds,
+				language,
+			});
+
+			assert.include(
+				message,
+				`The following rules do not support the language "${language}":`,
+			);
+			assert.include(message, `\t- "${ruleIds[0]}"`);
+			assert.include(
+				message,
+				`files: ["**/*.js"],\n    rules: { "${ruleIds[0]}": "error" }`,
+			);
+			assert.include(
+				message,
+				"https://eslint.org/docs/latest/use/configure/rules",
+			);
+		});
+
+		it("should return a message with multiple rule IDs", () => {
+			const ruleIds = ["my-plugin/rule-a", "my-plugin/rule-b"];
+			const language = "json/json";
+			const message = getMessage("rule-unsupported-language", {
+				ruleIds,
+				language,
+			});
+
+			assert.include(message, `\t- "${ruleIds[0]}"`);
+			assert.include(message, `\t- "${ruleIds[1]}"`);
+		});
+	});
+
 	describe("whitespace-found (@eslint/eslintrc)", () => {
 		it("should return a message", () => {
 			const pluginName = "eslint-plugin-foo bar";
