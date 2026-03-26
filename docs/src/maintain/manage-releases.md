@@ -164,7 +164,7 @@ In this phase, we should also prepare infrastructure for v9.x maintenance:
 
 #### Nine Months after the Final Release
 
-- In the `eslint/eslint.org` repository, submit a PR to remove {% raw %}`{% include 'partials/deprecation-notice.html' %}`{% endraw %} from `src/_includes/layouts/base.html`. The PR should be reviewed and approved in time, but merged exactly twelve months after the final release.
+- In the `eslint/eslint.org` repository, submit a PR to remove {% raw %}`{% include 'partials/deprecation-notice.html' %}`{% endraw %} from `src/_includes/layouts/base.html`. The PR should be reviewed and approved in time, but merged exactly nine months after the final release.
 
 ## Troubleshooting
 
