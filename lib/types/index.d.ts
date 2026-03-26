@@ -77,6 +77,57 @@ import type {
 } from "@eslint/plugin-kit";
 
 //------------------------------------------------------------------------------
+// Type Aliases for ESTree types
+// These aliases ensure that types can be referenced without requiring
+// a direct dependency on @types/estree in consuming packages.
+//------------------------------------------------------------------------------
+
+/** @deprecated Use the type from @types/estree directly instead. This alias will be removed in a future version. */
+type ESTreeNode = ESTree.Node;
+/** @deprecated Use the type from @types/estree directly instead. This alias will be removed in a future version. */
+type ESTreeProgram = ESTree.Program;
+/** @deprecated Use the type from @types/estree directly instead. This alias will be removed in a future version. */
+type ESTreePosition = ESTree.Position;
+/** @deprecated Use the type from @types/estree directly instead. This alias will be removed in a future version. */
+type ESTreeSourceLocation = ESTree.SourceLocation;
+/** @deprecated Use the type from @types/estree directly instead. This alias will be removed in a future version. */
+type ESTreeComment = ESTree.Comment;
+/** @deprecated Use the type from @types/estree directly instead. This alias will be removed in a future version. */
+type ESTreeIdentifier = ESTree.Identifier;
+/** @deprecated Use the type from @types/estree directly instead. This alias will be removed in a future version. */
+type ESTreeExpression = ESTree.Expression;
+/** @deprecated Use the type from @types/estree directly instead. This alias will be removed in a future version. */
+type ESTreeCatchClause = ESTree.CatchClause;
+/** @deprecated Use the type from @types/estree directly instead. This alias will be removed in a future version. */
+type ESTreeClassDeclaration = ESTree.ClassDeclaration;
+/** @deprecated Use the type from @types/estree directly instead. This alias will be removed in a future version. */
+type ESTreeClassExpression = ESTree.ClassExpression;
+/** @deprecated Use the type from @types/estree directly instead. This alias will be removed in a future version. */
+type ESTreeFunctionDeclaration = ESTree.FunctionDeclaration;
+/** @deprecated Use the type from @types/estree directly instead. This alias will be removed in a future version. */
+type ESTreeFunctionExpression = ESTree.FunctionExpression;
+/** @deprecated Use the type from @types/estree directly instead. This alias will be removed in a future version. */
+type ESTreeArrowFunctionExpression = ESTree.ArrowFunctionExpression;
+/** @deprecated Use the type from @types/estree directly instead. This alias will be removed in a future version. */
+type ESTreeAssignmentExpression = ESTree.AssignmentExpression;
+/** @deprecated Use the type from @types/estree directly instead. This alias will be removed in a future version. */
+type ESTreeForInStatement = ESTree.ForInStatement;
+/** @deprecated Use the type from @types/estree directly instead. This alias will be removed in a future version. */
+type ESTreeForOfStatement = ESTree.ForOfStatement;
+/** @deprecated Use the type from @types/estree directly instead. This alias will be removed in a future version. */
+type ESTreeImportSpecifier = ESTree.ImportSpecifier;
+/** @deprecated Use the type from @types/estree directly instead. This alias will be removed in a future version. */
+type ESTreeImportDefaultSpecifier = ESTree.ImportDefaultSpecifier;
+/** @deprecated Use the type from @types/estree directly instead. This alias will be removed in a future version. */
+type ESTreeImportNamespaceSpecifier = ESTree.ImportNamespaceSpecifier;
+/** @deprecated Use the type from @types/estree directly instead. This alias will be removed in a future version. */
+type ESTreeImportDeclaration = ESTree.ImportDeclaration;
+/** @deprecated Use the type from @types/estree directly instead. This alias will be removed in a future version. */
+type ESTreeVariableDeclarator = ESTree.VariableDeclarator;
+/** @deprecated Use the type from @types/estree directly instead. This alias will be removed in a future version. */
+type ESTreeVariableDeclaration = ESTree.VariableDeclaration;
+
+//------------------------------------------------------------------------------
 // Exports
 //------------------------------------------------------------------------------
 
@@ -103,14 +154,14 @@ export namespace AST {
 	}
 
 	interface SourceLocation {
-		start: ESTree.Position;
-		end: ESTree.Position;
+		start: ESTreePosition;
+		end: ESTreePosition;
 	}
 
 	type Range = SourceRange;
 
-	interface Program extends ESTree.Program {
-		comments: ESTree.Comment[];
+	interface Program extends ESTreeProgram {
+		comments: ESTreeComment[];
 		tokens: Token[];
 		loc: SourceLocation;
 		range: Range;
@@ -127,9 +178,9 @@ export namespace Scope {
 		scopes: Scope[];
 		globalScope: Scope | null;
 
-		acquire(node: ESTree.Node, inner?: boolean): Scope | null;
+		acquire(node: ESTreeNode, inner?: boolean): Scope | null;
 
-		getDeclaredVariables(node: ESTree.Node): Variable[];
+		getDeclaredVariables(node: ESTreeNode): Variable[];
 
 		addGlobals(names: ReadonlyArray<string>): void;
 	}
@@ -152,7 +203,7 @@ export namespace Scope {
 		upper: Scope | null;
 		childScopes: Scope[];
 		variableScope: Scope;
-		block: ESTree.Node;
+		block: ESTreeNode;
 		variables: Variable[];
 		set: Map<string, Variable>;
 		references: Reference[];
@@ -167,16 +218,16 @@ export namespace Scope {
 	interface Variable {
 		name: string;
 		scope: Scope;
-		identifiers: ESTree.Identifier[];
+		identifiers: ESTreeIdentifier[];
 		references: Reference[];
 		defs: Definition[];
 	}
 
 	interface Reference {
-		identifier: ESTree.Identifier | JSXIdentifier;
+		identifier: ESTreeIdentifier | JSXIdentifier;
 		from: Scope;
 		resolved: Variable | null;
-		writeExpr?: ESTree.Expression | null;
+		writeExpr?: ESTreeExpression | null;
 		init?: boolean;
 
 		isWrite(): boolean;
@@ -191,39 +242,39 @@ export namespace Scope {
 	}
 
 	type DefinitionType =
-		| { type: "CatchClause"; node: ESTree.CatchClause; parent: null }
+		| { type: "CatchClause"; node: ESTreeCatchClause; parent: null }
 		| {
 				type: "ClassName";
-				node: ESTree.ClassDeclaration | ESTree.ClassExpression;
+				node: ESTreeClassDeclaration | ESTreeClassExpression;
 				parent: null;
 		  }
 		| {
 				type: "FunctionName";
-				node: ESTree.FunctionDeclaration | ESTree.FunctionExpression;
+				node: ESTreeFunctionDeclaration | ESTreeFunctionExpression;
 				parent: null;
 		  }
 		| {
 				type: "ImplicitGlobalVariable";
 				node:
-					| ESTree.AssignmentExpression
-					| ESTree.ForInStatement
-					| ESTree.ForOfStatement;
+					| ESTreeAssignmentExpression
+					| ESTreeForInStatement
+					| ESTreeForOfStatement;
 				parent: null;
 		  }
 		| {
 				type: "ImportBinding";
 				node:
-					| ESTree.ImportSpecifier
-					| ESTree.ImportDefaultSpecifier
-					| ESTree.ImportNamespaceSpecifier;
-				parent: ESTree.ImportDeclaration;
+					| ESTreeImportSpecifier
+					| ESTreeImportDefaultSpecifier
+					| ESTreeImportNamespaceSpecifier;
+				parent: ESTreeImportDeclaration;
 		  }
 		| {
 				type: "Parameter";
 				node:
-					| ESTree.FunctionDeclaration
-					| ESTree.FunctionExpression
-					| ESTree.ArrowFunctionExpression;
+					| ESTreeFunctionDeclaration
+					| ESTreeFunctionExpression
+					| ESTreeArrowFunctionExpression;
 				parent: null;
 		  }
 		| {
