@@ -359,6 +359,31 @@ ruleTester.run("no-useless-assignment", rule, {
             a = 5;
         }
         console.log(a);`,
+		`function* generator() {
+            let done = false;
+            try {
+                yield 1;
+                done = true;
+            } catch {
+                done = true;
+            } finally {
+                if (!done) {
+                    console.log("done is false");
+                }
+            }
+        }`,
+		`function* generator() {
+            let done = false;
+            try {
+                yield 1;
+                done = true;
+                yield 2;
+            } finally {
+                if (done) {
+                    console.log("done is true");
+                }
+            }
+        }`,
 
 		// An expression within an assignment.
 		`const obj = { a: 5 };
@@ -1254,6 +1279,27 @@ ruleTester.run("no-useless-assignment", rule, {
 					data: { name: "v" },
 					line: 1,
 					column: 5,
+				},
+			],
+		},
+		{
+			code: `function* generator() {
+                let done = false;
+                try {
+                    yield 1;
+                } finally {
+                    done = true;
+                    console.log(done);
+                }
+            }`,
+			errors: [
+				{
+					messageId: "unnecessaryAssignment",
+					data: { name: "done" },
+					line: 2,
+					column: 21,
+					endLine: 2,
+					endColumn: 25,
 				},
 			],
 		},
