@@ -65,17 +65,25 @@ describe("reduceBadExampleSize()", () => {
 		);
 	});
 
-	it("returns the original source text if recast fails to parse it", () => {
-		// recast doesn't support all ESTree node types (e.g., PropertyDefinition from ES2022).
-		// Code with both comments and class fields triggers an error in recast.
-		const initialCode = "class Foo { /* comment */ x = 1 }";
+	it("handles ES2022+ syntax like class fields with comments", () => {
+		// Previously, recast would crash with "did not recognize object of type PropertyDefinition"
+		// when trying to attach comments to PropertyDefinition nodes (ES2022 class fields).
+		const initialCode = `
+            class Foo {
+                /* irrelevant comment */
+                x = THIS_EXPRESSION_CAUSES_A_BUG;
+            }
+        `;
+
+		const expectedFinalCode = "THIS_EXPRESSION_CAUSES_A_BUG";
 
 		assert.strictEqual(
 			reduceBadExampleSize({
 				sourceText: initialCode,
-				predicate: code => code.includes("x = 1"),
+				predicate: code =>
+					code.includes("THIS_EXPRESSION_CAUSES_A_BUG"),
 			}),
-			initialCode,
+			expectedFinalCode,
 		);
 	});
 

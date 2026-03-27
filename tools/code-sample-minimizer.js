@@ -3,7 +3,7 @@
 /** @typedef {import("../lib/types").Linter.Parser} Parser */
 
 const evk = require("eslint-visitor-keys");
-const recast = require("recast");
+const { generate } = require("astring");
 const espree = require("espree");
 const assert = require("node:assert");
 
@@ -91,16 +91,7 @@ function reduceBadExampleSize({
 		reproducesBadCase(sourceText),
 		"Original source text should reproduce issue",
 	);
-
-	let parseResult;
-
-	try {
-		parseResult = recast.parse(sourceText, { parser });
-	} catch {
-		// recast doesn't support all ESTree node types (e.g., PropertyDefinition from ES2022).
-		// If recast fails to parse the source text, return the original source text without minimizing.
-		return sourceText;
-	}
+	const ast = parser.parse(sourceText);
 
 	/**
 	 * Recursively removes descendant subtrees of the given AST node and replaces
@@ -115,7 +106,7 @@ function reduceBadExampleSize({
 				for (let index = node[key].length - 1; index >= 0; index--) {
 					const [childNode] = node[key].splice(index, 1);
 
-					if (!reproducesBadCase(recast.print(parseResult).code)) {
+					if (!reproducesBadCase(generate(ast))) {
 						node[key].splice(index, 0, childNode);
 						if (childNode) {
 							pruneIrrelevantSubtrees(childNode);
@@ -131,7 +122,7 @@ function reduceBadExampleSize({
 						name: generateNewIdentifierName(),
 						range: childNode.range,
 					};
-					if (!reproducesBadCase(recast.print(parseResult).code)) {
+					if (!reproducesBadCase(generate(ast))) {
 						node[key] = childNode;
 						pruneIrrelevantSubtrees(childNode);
 					}
@@ -140,7 +131,7 @@ function reduceBadExampleSize({
 						type: "EmptyStatement",
 						range: childNode.range,
 					};
-					if (!reproducesBadCase(recast.print(parseResult).code)) {
+					if (!reproducesBadCase(generate(ast))) {
 						node[key] = childNode;
 						pruneIrrelevantSubtrees(childNode);
 					}
@@ -165,17 +156,17 @@ function reduceBadExampleSize({
 			}
 
 			if (isMaybeExpression(childNode)) {
-				if (reproducesBadCase(recast.print(childNode).code)) {
+				if (reproducesBadCase(generate(childNode))) {
 					return extractRelevantChild(childNode);
 				}
 			} else if (isStatement(childNode)) {
-				if (reproducesBadCase(recast.print(childNode).code)) {
+				if (reproducesBadCase(generate(childNode))) {
 					return extractRelevantChild(childNode);
 				}
 			} else {
 				const childResult = extractRelevantChild(childNode);
 
-				if (reproducesBadCase(recast.print(childResult).code)) {
+				if (reproducesBadCase(generate(childResult))) {
 					return childResult;
 				}
 			}
@@ -220,10 +211,8 @@ function reduceBadExampleSize({
 		return text;
 	}
 
-	pruneIrrelevantSubtrees(parseResult.program);
-	const relevantChild = recast.print(
-		extractRelevantChild(parseResult.program),
-	).code;
+	pruneIrrelevantSubtrees(ast);
+	const relevantChild = generate(extractRelevantChild(ast));
 
 	assert(
 		reproducesBadCase(relevantChild),
