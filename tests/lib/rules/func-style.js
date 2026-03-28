@@ -214,6 +214,10 @@ ruleTester.run("func-style", rule, {
 			code: "function* foo(){}",
 			options: ["expression", { allowGenerators: true }],
 		},
+		{
+			code: "const foo = function*(){}",
+			options: ["expression"],
+		},
 	],
 
 	invalid: [
@@ -695,6 +699,10 @@ ruleTesterTypeScript.run("func-style", rule, {
 			}
 		}
 		`,
+		{
+			code: "const foo = function* (): Generator<number>{}",
+			options: ["expression"],
+		},
 		{
 			code: "function* foo(): Generator<number> {}",
 			options: ["expression", { allowGenerators: true }],
