@@ -210,6 +210,14 @@ ruleTester.run("func-style", rule, {
 			code: "switch ($0) { case $1: function $2() { } }",
 			options: ["declaration"],
 		},
+		{
+			code: "export function* foo() {};",
+			options: ["expression"],
+		},
+		{
+			code: "export function foo(arg: number); export function foo(arg: string); export function foo(arg: number | string) {};",
+			options: ["expression"],
+		},
 	],
 
 	invalid: [
