@@ -1,3 +1,5 @@
+/// <reference lib="es2015" />
+
 /**
  * @fileoverview This file contains the core types for ESLint. It was initially extracted
  * from the `@types/eslint` package.
