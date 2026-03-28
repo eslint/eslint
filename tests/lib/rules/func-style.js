@@ -211,12 +211,8 @@ ruleTester.run("func-style", rule, {
 			options: ["declaration"],
 		},
 		{
-			code: "export function* foo() {};",
-			options: ["expression"],
-		},
-		{
-			code: "export function foo(arg: number); export function foo(arg: string); export function foo(arg: number | string) {};",
-			options: ["expression"],
+			code: "function* foo(){}",
+			options: ["expression", { allowGenerators: true }],
 		},
 	],
 
@@ -479,6 +475,15 @@ ruleTester.run("func-style", rule, {
 				},
 			],
 		},
+		{
+			code: "function* foo(){}",
+			options: ["expression"],
+			errors: [
+				{
+					messageId: "expression",
+				},
+			],
+		},
 	],
 });
 
@@ -690,6 +695,10 @@ ruleTesterTypeScript.run("func-style", rule, {
 			}
 		}
 		`,
+		{
+			code: "function* foo(): Generator<number> {}",
+			options: ["expression", { allowGenerators: true }],
+		},
 	],
 	invalid: [
 		{
@@ -961,6 +970,15 @@ ruleTesterTypeScript.run("func-style", rule, {
 				}
 			}
 			`,
+			errors: [
+				{
+					messageId: "expression",
+				},
+			],
+		},
+		{
+			code: "function* foo(): Generator<number> {}",
+			options: ["expression"],
 			errors: [
 				{
 					messageId: "expression",

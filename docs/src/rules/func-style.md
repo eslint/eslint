@@ -64,6 +64,7 @@ This rule has a string option:
 This rule has an object option for two exceptions:
 
 * `"allowArrowFunctions"`: `true` (default `false`) allows the use of arrow functions. This option applies only when the string option is set to `"declaration"` (arrow functions are always allowed when the string option is set to `"expression"`, regardless of this option)
+* `"allowGenerators"`: `true` (default `false`) allows the use of generators. This option applies only when the string option is set to `"expression"` (generators are always allowed when the string option is set to `"declaration"`, regardless of this option)
 * `"allowTypeAnnotation"`: `true` (default `false`) allows the use of function expressions and arrow functions when the variable declaration has type annotation, regardless of the `allowArrowFunctions` option. This option applies only when the string option is set to `"declaration"`. (TypeScript only)
 * `"overrides"`:
     * `"namedExports": "expression" | "declaration" | "ignore"`: used to override function styles in named exports
@@ -170,6 +171,23 @@ Examples of additional **correct** code for this rule with the `"declaration", {
 /*eslint func-style: ["error", "declaration", { "allowArrowFunctions": true }]*/
 
 const foo = () => {};
+```
+
+:::
+
+### allowGenerators
+
+Examples of additional **correct** code for this rule with the `"expression", { "allowGenerators": true }` options:
+
+::: correct
+
+```ts
+/*eslint func-style: ["error", "expression", { "allowGenerators": true }]*/
+
+function* listValues(): Generator<number> {
+    yield 100;
+    yield 200;
+}
 ```
 
 :::
