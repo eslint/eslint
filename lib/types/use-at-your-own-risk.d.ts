@@ -1,9 +1,8 @@
-/// <reference lib="es2015" />
-
 /**
  * @fileoverview This file contains the types for the use-at-your-own-risk
  * entrypoint. It was initially extracted from the `@types/eslint` package.
  */
+/// <reference lib="es2015" />
 
 /*
  * MIT License

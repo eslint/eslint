@@ -1,8 +1,9 @@
-import type { Linter } from "eslint";
-import { builtinRules, shouldUseFlatConfig } from "eslint/use-at-your-own-risk";
+import type { ESLint, SourceCode } from "eslint";
+import { builtinRules } from "eslint/use-at-your-own-risk";
 
-const config: Linter.Config = {};
+declare const eslintCtor: typeof ESLint;
+declare const sourceCode: SourceCode;
 
-config.rules;
-builtinRules.size;
-shouldUseFlatConfig();
+void eslintCtor;
+void sourceCode;
+void builtinRules;

@@ -346,6 +346,7 @@ module.exports = defineConfig([
 			parserOptions: {
 				project: [
 					"tests/lib/types/tsconfig.json",
+					"tests/lib/types/tsconfig.es5.json",
 					"packages/js/tests/types/tsconfig.json",
 					"packages/eslint-config-eslint/tsconfig.json",
 				],
