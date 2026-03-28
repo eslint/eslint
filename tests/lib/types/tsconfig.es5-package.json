@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "module": "node16",
+    "lib": ["dom", "es5"],
+    "strict": true,
+    "types": [],
+    "noEmit": true,
+    "forceConsistentCasingInFileNames": true,
+    "exactOptionalPropertyTypes": true
+  },
+  "files": [
+    "../../../lib/types/config-api.d.ts",
+    "../../../lib/types/index.d.ts",
+    "../../../lib/types/rules.d.ts",
+    "../../../lib/types/universal.d.ts",
+    "../../../lib/types/use-at-your-own-risk.d.ts"
+  ]
+}

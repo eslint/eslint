@@ -25,6 +25,8 @@
  * SOFTWARE
  */
 
+/// <reference lib="es2015" />
+
 import * as ESTree from "estree";
 import type {
 	DeprecatedInfo,
