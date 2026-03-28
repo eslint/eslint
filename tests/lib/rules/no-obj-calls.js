@@ -122,6 +122,20 @@ ruleTester.run("no-obj-calls", rule, {
 				globals: { Temporal: false },
 			},
 		},
+		{
+			code: "window.Atomics();",
+			languageOptions: {
+				ecmaVersion: 6,
+				globals: { window: false },
+			},
+		},
+		{
+			code: "const atomics = window.Atomics; atomics();",
+			languageOptions: {
+				ecmaVersion: 6,
+				globals: { window: false },
+			},
+		},
 
 		// non-existing variables
 		"/*globals Math: off*/ Math();",
