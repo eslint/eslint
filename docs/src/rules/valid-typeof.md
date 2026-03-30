@@ -24,8 +24,8 @@ Examples of **incorrect** code for this rule:
 
 typeof foo === "strnig"
 typeof foo == "undefimed"
-typeof bar != "nunber"
-typeof bar !== "fucntion"
+typeof bar != "number"
+typeof bar !== "function"
 ```
 
 :::

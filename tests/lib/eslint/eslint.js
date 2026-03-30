@@ -9397,7 +9397,7 @@ describe("ESLint", () => {
 						cwd: path.join(fixtureDir, ".."),
 						overrideConfigFile: true,
 						fix: true,
-						fixTypes: ["layou"],
+						fixTypes: ["layout"],
 					});
 				}, /'fixTypes' must be an array of any of "directive", "problem", "suggestion", and "layout"\./iu);
 			});

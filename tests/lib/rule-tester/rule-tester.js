@@ -5290,7 +5290,7 @@ describe("RuleTester", () => {
 	});
 
 	describe("Subclassing", () => {
-		it("should allow subclasses to set the describe/it/itOnly statics and should correctly use those values", () => {
+		it("should allow subclasses to set the describe/it/itOnly statistics and should correctly use those values", () => {
 			const assertionDescribe = assertEmitted(
 				ruleTesterTestEmitter,
 				"custom describe",

@@ -39,7 +39,7 @@ ruleTester.run("no-undefined", rule, {
 		"void+0",
 		"null",
 		"undefine",
-		"ndefined",
+		"undefined",
 		"a.undefined",
 		"this.undefined",
 		"global['undefined']",

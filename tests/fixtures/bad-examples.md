@@ -112,7 +112,7 @@ const foo = [bar];
 :::incorrect
 
 ```js
-/* eslint no-restricted-syntax: ["errorr", "ArrayPattern"] */
+/* eslint no-restricted-syntax: ["error", "ArrayPattern"] */
 
 const foo = [bar];
 ```

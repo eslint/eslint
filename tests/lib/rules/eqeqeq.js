@@ -263,7 +263,7 @@ ruleTester.run("eqeqeq", rule, {
 			],
 		},
 		{
-			code: "'wee' == /wee/",
+			code: "'we' == /we/",
 			options: ["smart"],
 			errors: [
 				{
@@ -273,7 +273,7 @@ ruleTester.run("eqeqeq", rule, {
 						{
 							messageId: "replaceOperator",
 							data: wantedEqEqEq,
-							output: "'wee' === /wee/",
+							output: "'we' === /we/",
 						},
 					],
 				},

@@ -203,7 +203,7 @@ function installPrismESLintMarkerHook() {
 		 * @param {[number, number]} params.range Range to be marked
 		 * @param {string} params.message Report message
 		 * @param {number} params.tokenStart Starting position of the token
-		 * @returns {SplitTokenResult} Splitted tokens
+		 * @returns {SplitTokenResult} Split tokens
 		 */
 		function splitToken({ token, range, message, tokenStart }) {
 			const content = getTokenContent(token);
@@ -295,7 +295,7 @@ function installPrismESLintMarkerHook() {
 		 * so by making it a single character token, the "wrap hook" applies CLASS_ESLINT_MARKED_ON_LINE_FEED
 		 * to each character and makes it visible.
 		 * @param {Prism.Token} token Token to be split
-		 * @returns {IterableIterator<Prism.Token>} Splitted tokens
+		 * @returns {IterableIterator<Prism.Token>} Split tokens
 		 */
 		function* splitMarkedTokenByLineFeed(token) {
 			for (const contentToken of [token.content].flat()) {
@@ -349,7 +349,7 @@ function installPrismESLintMarkerHook() {
 		/**
 		 * Splits the given tokens by line feed code.
 		 * @param {Prism.Token[]} tokens Token to be Separate
-		 * @returns {IterableIterator<Prism.Token>} Splitted tokens
+		 * @returns {IterableIterator<Prism.Token>} Split tokens
 		 */
 		function* splitTokensByLineFeed(tokens) {
 			for (const token of tokens) {
