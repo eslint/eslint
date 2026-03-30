@@ -81,6 +81,16 @@ ruleTester.run("for-direction", rule, {
 		"for(var i = 0; i === 10; i+=1){}",
 		"for(var i = 0; i == 10; i+=1){}",
 		"for(var i = 0; i != 10; i+=1){}",
+
+		// test SequenceExpression (comma operator) - counter moves in the correct direction
+		"for(var i = 0; i < 10; (i++, j++)){}",
+		"for(var i = 0; i <= 10; (i++, j++)){}",
+		"for(var i = 10; i > 0; (i--, j++)){}",
+		"for(var i = 10; i >= 0; (i--, j++)){}",
+		"for(var i = 0; i < 10; (j++, i++)){}",
+		"for(var i = 0; i < 10; (j++, k++)){}",
+		"for(var i = 0; i < 10; (i+=1, j++)){}",
+		"for(var i = 10; i > 0; (i-=1, j++)){}",
 	],
 	invalid: [
 		// test if '++', '--'
@@ -365,6 +375,40 @@ ruleTester.run("for-direction", rule, {
 					endColumn: 29,
 				},
 			],
+		},
+
+		// test SequenceExpression (comma operator) - counter moves in the wrong direction
+		{
+			code: "for(var i = 0; i < 10; (i--, j++)){}",
+			errors: [{ ...incorrectDirection }],
+		},
+		{
+			code: "for(var i = 0; i <= 10; (i--, j++)){}",
+			errors: [{ ...incorrectDirection }],
+		},
+		{
+			code: "for(var i = 10; i > 0; (i++, j--)){}",
+			errors: [{ ...incorrectDirection }],
+		},
+		{
+			code: "for(var i = 10; i >= 0; (i++, j--)){}",
+			errors: [{ ...incorrectDirection }],
+		},
+		{
+			code: "for(var i = 0; i < 10; (j++, i--)){}",
+			errors: [{ ...incorrectDirection }],
+		},
+		{
+			code: "for(var i = 0; i < 10; (i-=1, j++)){}",
+			errors: [{ ...incorrectDirection }],
+		},
+		{
+			code: "for(var i = 10; i > 0; (i+=1, j--)){}",
+			errors: [{ ...incorrectDirection }],
+		},
+		{
+			code: "for(var i = 0; 10 > i; (i--, j++)){}",
+			errors: [{ ...incorrectDirection }],
 		},
 	],
 });
