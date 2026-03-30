@@ -6146,7 +6146,7 @@ v3.10.2 - November 15, 2016
 * f56c1ef Fix: `indent` crash on parenthesized global return values (fixes #7573) (#7596) (Teddy Katz)
 * 100c6e1 Docs: Fix example for curly "multi-or-nest" option (#7597) (Will Chen)
 * 6abb534 Docs: Update code of conduct link (#7599) (Nicholas C. Zakas)
-* 8302cdb Docs: Update no-tabs to match existing standards & improve readbility (#7590) (Matt Stow)
+* 8302cdb Docs: Update no-tabs to match existing standards & improve readability (#7590) (Matt Stow)
 
 v3.10.1 - November 14, 2016
 
@@ -6647,7 +6647,7 @@ v2.13.0 - June 17, 2016
 * 5122f73 Update: no-multiple-empty-lines fixer (fixes #6225) (#6226) (Ruurd Moelker)
 * 0e7ce72 Docs: Fix rest-spread-spacing's name (#6365) (cody)
 * cfdd524 Fix: allow semi as braceless body of statements (fixes #6386) (#6391) (alberto)
-* 6b08cfc Docs: key-spacing fixable documenation notes (fixes #6375) (#6376) (Ruurd Moelker)
+* 6b08cfc Docs: key-spacing fixable documentation notes (fixes #6375) (#6376) (Ruurd Moelker)
 * 4b4be3b Docs: `max-lines` option: fix `skipComments` typo (#6374) (Jordan Harband)
 * 20ab4f6 Docs: Fix wrong link in object-curly-newline (#6373) (Grant Snodgrass)
 * 412ce8d Docs: Fix broken links in no-mixed-operators (#6372) (Grant Snodgrass)
@@ -9670,7 +9670,7 @@ v0.0.7 - July 22, 2013
 
 * 0.0.7 (Nicholas C. Zakas)
 * Add code coverage checks to npm test and update rule tests to have better coverage (Nicholas C. Zakas)
-* Fixed CLI output on serial programatic executions (Ian Christian Myers)
+* Fixed CLI output on serial programmatic executions (Ian Christian Myers)
 * Removes line length from code style convention docs (Josh Perez)
 * Adds escapeRegExp and fixes documentation (Josh Perez)
 * Add quotes rule and test coverage for configuration options (Matt DuVall)
