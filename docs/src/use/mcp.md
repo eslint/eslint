@@ -141,6 +141,33 @@ Lint the current file and explain any issues found
 
 Lint and fix #file:index.js
 ```
+### Using MCP with TypeScript configuration
+
+If you are using an `eslint.config.ts` file, you need to install `jiti` when running the MCP server, as ESLint relies on it to load TypeScript configurations.
+
+You can run the MCP server with:
+
+```bash
+npx -p @eslint/mcp@latest -p jiti -c mcp
+
+## Example configuration
+
+{
+  "servers": {
+    "ESLint": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-p",
+        "@eslint/mcp@latest",
+        "-p",
+        "jiti",
+        "-c",
+        "mcp"
+      ]
+    }
+  }
+}
 
 ## Additional Resources
 
