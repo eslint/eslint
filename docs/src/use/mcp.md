@@ -141,6 +141,7 @@ Lint the current file and explain any issues found
 
 Lint and fix #file:index.js
 ```
+
 ### Using MCP with TypeScript configuration
 
 If you are using an `eslint.config.ts` file, you need to install `jiti` when running the MCP server, as ESLint relies on it to load TypeScript configurations.
@@ -176,3 +177,4 @@ npx -p @eslint/mcp@latest -p jiti -c mcp
 - [GitHub Copilot in VS Code Documentation](https://code.visualstudio.com/docs/copilot/copilot-chat)
 - [Model Context Protocol in Cursor documentation](https://docs.cursor.com/context/model-context-protocol)
 - [Model Context Protocol in Windsurf documentation](https://docs.windsurf.com/)
+```
