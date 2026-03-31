@@ -7,6 +7,7 @@
 
 # ESLint
 
+
 [Website](https://eslint.org) |
 [Configure ESLint](https://eslint.org/docs/latest/use/configure) |
 [Rules](https://eslint.org/docs/rules/) |
@@ -26,20 +27,35 @@ ESLint is a tool for identifying and reporting on patterns found in ECMAScript/J
 
 ## Table of Contents
 
-1. [Installation and Usage](#installation-and-usage)
-1. [Configuration](#configuration)
-1. [Version Support](#version-support)
-1. [Code of Conduct](#code-of-conduct)
-1. [Filing Issues](#filing-issues)
-1. [Frequently Asked Questions](#frequently-asked-questions)
-1. [Releases](#releases)
-1. [Security Policy](#security-policy)
-1. [Semantic Versioning Policy](#semantic-versioning-policy)
-1. [ESM Dependencies](#esm-dependencies)
-1. [License](#license)
-1. [Team](#team)
-1. [Sponsors](#sponsors)
-1. [Technology Sponsors](#technology-sponsors) <!-- markdownlint-disable-line MD051 -->
+- [ESLint](#eslint)
+  - [Table of Contents](#table-of-contents)
+  - [Installation and Usage](#installation-and-usage)
+    - [Prerequisites](#prerequisites)
+    - [npm Installation](#npm-installation)
+    - [pnpm Installation](#pnpm-installation)
+  - [Configuration](#configuration)
+  - [Version Support](#version-support)
+  - [Code of Conduct](#code-of-conduct)
+  - [Filing Issues](#filing-issues)
+  - [Frequently Asked Questions](#frequently-asked-questions)
+    - [Does ESLint support JSX?](#does-eslint-support-jsx)
+    - [Does Prettier replace ESLint?](#does-prettier-replace-eslint)
+    - [What ECMAScript versions does ESLint support?](#what-ecmascript-versions-does-eslint-support)
+    - [What about experimental features?](#what-about-experimental-features)
+    - [Which Node.js versions does ESLint support?](#which-nodejs-versions-does-eslint-support)
+    - [Where to ask for help?](#where-to-ask-for-help)
+    - [Why doesn't ESLint lock dependency versions?](#why-doesnt-eslint-lock-dependency-versions)
+  - [Releases](#releases)
+  - [Security Policy](#security-policy)
+  - [Semantic Versioning Policy](#semantic-versioning-policy)
+  - [ESM Dependencies](#esm-dependencies)
+  - [License](#license)
+  - [Team](#team)
+    - [Technical Steering Committee (TSC)](#technical-steering-committee-tsc)
+    - [Reviewers](#reviewers)
+    - [Committers](#committers)
+    - [Website Team](#website-team)
+  - [Sponsors](#sponsors)
 
 ## Installation and Usage
 
