@@ -70,7 +70,8 @@ Each configuration object contains all of the information ESLint needs to execut
 - `files` - An array of glob patterns indicating the files that the configuration object should apply to. If not specified, the configuration object applies to all files matched by any other configuration object.
 - `ignores` - An array of glob patterns indicating the files that the configuration object should not apply to. If not specified, the configuration object applies to all files matched by `files`. If `ignores` is used without any other keys in the configuration object, then the patterns act as [global ignores](#globally-ignore-files-with-ignores) and it gets applied to every configuration object.
 - `extends` - An array of strings, configuration objects, or configuration arrays that contain additional configuration to apply.
-- `languageOptions` - An object containing settings related to how JavaScript is configured for linting.
+- `language` - A string specifying the [language](../../extend/languages) used for linting, in the format `"plugin/language"`, e.g. `"markdown/commonmark"`. (default: `"js/js"` for JavaScript)
+- `languageOptions` - An object containing settings related to how the specified language is configured for linting. For JavaScript, the settings are:
     - `ecmaVersion` - The version of ECMAScript to support. May be any year (i.e., `2022`) or version (i.e., `5`). Set to `"latest"` for the most recent supported version. (default: `"latest"`)
     - `sourceType` - The type of JavaScript source code. Possible values are `"script"` for traditional script files, `"module"` for ECMAScript modules (ESM), and `"commonjs"` for CommonJS files. (default: `"module"` for `.js` and `.mjs` files; `"commonjs"` for `.cjs` files)
     - `globals` - An object specifying additional objects that should be added to the global scope during linting.
