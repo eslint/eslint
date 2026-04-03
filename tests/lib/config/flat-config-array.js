@@ -1395,7 +1395,7 @@ describe("FlatConfigArray", () => {
 								},
 							},
 						],
-						"Expected a Boolean.",
+						"Expected a boolean.",
 					);
 				});
 
