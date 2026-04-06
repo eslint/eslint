@@ -152,7 +152,6 @@ ruleTester.run("no-useless-rename", rule, {
 			code: "export {foo as foo, bar as bar} from 'foo';",
 			options: [{ ignoreExport: true }],
 		},
-
 	],
 
 	invalid: [
