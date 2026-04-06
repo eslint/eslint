@@ -50,7 +50,7 @@ async function runTests(pluginKey, pluginSettings) {
 
 	/**
 	 * Attempts to run a command in the plugin sandbox directory.
-	 * If it fails, any error stdout will be logged in red before a re-throw.
+	 * If it fails, any error stdout will be logged in red before a (re-)thrown error.
 	 * @param {string} command
 	 * @param {string[]} args
 	 */
@@ -58,18 +58,17 @@ async function runTests(pluginKey, pluginSettings) {
 		console.log(
 			styleText("gray", `[${pluginKey}] ${[command, ...args].join(" ")}`),
 		);
-		try {
-			return spawn.sync(command, args, {
-				cwd: directory,
-				stdio: log.enabled ? "inherit" : undefined,
-			});
-		} catch (error) {
-			console.error(
-				styleText("red", `[${pluginKey}]`),
-				error.stdout || error,
-			);
-			throw error;
+
+		const result = spawn.sync(command, args, {
+			cwd: directory,
+			stdio: log.enabled ? "inherit" : undefined,
+		});
+
+		if (result.status) {
+			throw result.error ?? new Error(result.stderr.toString());
 		}
+
+		return result;
 	};
 
 	// 1. Clone the plugin repository into a sandbox directory
@@ -135,10 +134,10 @@ for (const [pluginKey, pluginSettings] of pluginsSelected) {
 
 // If we had any errors, report them and exit as failed
 if (errors.length) {
-	console.error(styleText("red", "Errors occurred while testing plugins:"));
+	console.error(styleText("red", "Errors occurred while testing plugins:\n"));
 	for (const { error, pluginKey } of errors) {
 		console.error(
-			`${styleText(["bold", "red"], pluginKey)}: ${styleText("red", `${error.stack || error}`)}`,
+			`${styleText(["bold", "red"], pluginKey)}: ${styleText("red", `${error.stack || error}`)}\n`,
 		);
 	}
 	process.exitCode = 1;
