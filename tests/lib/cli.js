@@ -1077,11 +1077,10 @@ describe("cli", () => {
 
 			// https://github.com/eslint/eslint/issues/17660
 			it(`should write the file and create dirs if they don't exist even when output is empty`, async () => {
-				const filePath = getFixturePath("single-quoted.js");
+				const filePath = "tests/fixtures/single-quoted.js";
 				const code = `--no-config-lookup --rule 'quotes: [1, single]' --o tests/output/eslint-output.txt ${filePath}`;
 
-				// TODO: fix this test to: await cli.execute(code);
-				await cli.execute(code, "var a = 'b'");
+				await cli.execute(code);
 
 				assert.isTrue(fs.existsSync("tests/output/eslint-output.txt"));
 				assert.strictEqual(

@@ -90,6 +90,8 @@ Before writing the rule, add some metadata to the rule object. ESLint uses this 
 
 Start by exporting an object with a `meta` property containing the rule's metadata, such as the rule type, documentation, and fixability. In this case, the rule type is "problem," the description is "Enforce that a variable named `foo` can only be assigned a value of 'bar'.", and the rule is fixable by modifying the code.
 
+Because this rule targets JavaScript, we also add `languages: ["js/js"]` to declare that it only applies to the built-in JavaScript language. ESLint will throw an error if this rule is enabled for a non-JavaScript language.
+
 ```javascript
 // enforce-foo-bar.js
 
@@ -102,6 +104,7 @@ module.exports = {
 		},
 		fixable: "code",
 		schema: [],
+		languages: ["js/js"],
 	},
 	create(context) {
 		return {
@@ -136,7 +139,8 @@ module.exports = {
             description: "Enforce that a variable named `foo` can only be assigned a value of 'bar'."
         },
         fixable: "code",
-        schema: []
+        schema: [],
+        languages: ["js/js"]
     },
     create(context) {
         return {
@@ -381,7 +385,7 @@ To publish a plugin containing a rule to npm, you need to configure the `package
 1. `"name"`: A unique name for the package. No other package on npm can have the same name.
 1. `"main"`: The relative path to the plugin file. Following this example, the path is `"eslint-plugin-example.js"`.
 1. `"description"`: A description of the package that's viewable on npm.
-1. `"peerDependencies"`: Add `"eslint": ">=9.0.0"` as a peer dependency. Any version greater than or equal to that is necessary to use the plugin. Declaring `eslint` as a peer dependency requires that users add the package to the project separately from the plugin.
+1. `"peerDependencies"`: Add `"eslint": ">=10.0.0"` as a peer dependency. Any version greater than or equal to that is necessary to use the plugin. Declaring `eslint` as a peer dependency requires that users add the package to the project separately from the plugin.
 1. `"keywords"`: Include the standard keywords `["eslint", "eslintplugin", "eslint-plugin"]` to make the package easy to find. You can add any other keywords that might be relevant to your plugin as well.
 
 A complete annotated example of what a plugin's `package.json` file should look like:
@@ -398,9 +402,9 @@ A complete annotated example of what a plugin's `package.json` file should look 
   "scripts": {
     "test": "node enforce-foo-bar.test.js"
   },
-  // Add eslint>=9.0.0 as a peer dependency.
+  // Add eslint>=10.0.0 as a peer dependency.
   "peerDependencies": {
-    "eslint": ">=9.0.0"
+    "eslint": ">=10.0.0"
   },
   // Add these standard keywords to make plugin easy to find!
   "keywords": [
@@ -411,7 +415,7 @@ A complete annotated example of what a plugin's `package.json` file should look 
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "eslint": "^9.0.0"
+    "eslint": "^10.0.0"
   }
 }
 ```
@@ -499,4 +503,4 @@ Through doing this, you've learned the following practices which you can apply t
 
 ## View the Tutorial Code
 
-You can view the annotated source code for the tutorial [here](https://github.com/eslint/eslint/tree/main/docs/_examples/custom-rule-tutorial-code).
+You can view the [annotated source code for the tutorial](https://github.com/eslint/eslint/tree/main/docs/_examples/custom-rule-tutorial-code).

@@ -59,6 +59,14 @@ ruleTester.run("no-obj-calls", rule, {
 			code: "Intl.foo()",
 			languageOptions: { ecmaVersion: 2015 },
 		},
+		{
+			code: "Temporal.Now.instant()",
+			languageOptions: { ecmaVersion: 2026 },
+		},
+		{
+			code: "new Temporal.Instant(0n)",
+			languageOptions: { ecmaVersion: 2026 },
+		},
 
 		{ code: "globalThis.Math();", languageOptions: { ecmaVersion: 6 } },
 		{
@@ -103,6 +111,17 @@ ruleTester.run("no-obj-calls", rule, {
 			code: "var x = globalThis.Intl();",
 			languageOptions: { ecmaVersion: 2015 },
 		},
+		{
+			code: "const x = globalThis.Temporal();",
+			languageOptions: { ecmaVersion: 2015 },
+		},
+		{
+			code: "const x = globalThis.Temporal();",
+			languageOptions: {
+				ecmaVersion: 2015,
+				globals: { Temporal: false },
+			},
+		},
 
 		// non-existing variables
 		"/*globals Math: off*/ Math();",
@@ -129,6 +148,8 @@ ruleTester.run("no-obj-calls", rule, {
 		},
 		"Intl()",
 		"new Intl()",
+		"Temporal();",
+		"new Temporal();",
 
 		// shadowed variables
 		"var Math; Math();",
@@ -179,6 +200,18 @@ ruleTester.run("no-obj-calls", rule, {
 		{
 			code: "if (foo) { const Intl = 1; new Intl(); }",
 			languageOptions: { ecmaVersion: 2015 },
+		},
+		{
+			code: "function foo(Temporal) { Temporal(); }",
+			languageOptions: { globals: { Temporal: false } },
+		},
+		{
+			code: "if (foo) { const Temporal = 1; Temporal(); }",
+			languageOptions: { ecmaVersion: 2026 },
+		},
+		{
+			code: "if (foo) { const Temporal = 1; new Temporal(); }",
+			languageOptions: { ecmaVersion: 2026 },
 		},
 	],
 	invalid: [
@@ -448,6 +481,96 @@ ruleTester.run("no-obj-calls", rule, {
 			],
 		},
 		{
+			code: "Temporal();",
+			languageOptions: { ecmaVersion: 2026 },
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					data: { name: "Temporal" },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 11,
+				},
+			],
+		},
+		{
+			code: "new Temporal();",
+			languageOptions: { ecmaVersion: 2026 },
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					data: { name: "Temporal" },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 15,
+				},
+			],
+		},
+		{
+			code: "/* global Temporal */ Temporal();",
+			languageOptions: { ecmaVersion: 2025 },
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					data: { name: "Temporal" },
+					line: 1,
+					column: 23,
+					endLine: 1,
+					endColumn: 33,
+				},
+			],
+		},
+		{
+			code: "/* global Temporal */ new Temporal();",
+			languageOptions: { ecmaVersion: 2025 },
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					data: { name: "Temporal" },
+					line: 1,
+					column: 23,
+					endLine: 1,
+					endColumn: 37,
+				},
+			],
+		},
+		{
+			code: "const x = globalThis.Temporal();",
+			languageOptions: {
+				ecmaVersion: 2020,
+				globals: { Temporal: false },
+			},
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					data: { name: "Temporal" },
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 32,
+				},
+			],
+		},
+		{
+			code: "const x = new globalThis.Temporal;",
+			languageOptions: {
+				ecmaVersion: 2020,
+				globals: { Temporal: false },
+			},
+			errors: [
+				{
+					messageId: "unexpectedCall",
+					data: { name: "Temporal" },
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 34,
+				},
+			],
+		},
+		{
 			code: "var x = globalThis.Math();",
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [
@@ -630,6 +753,40 @@ ruleTester.run("no-obj-calls", rule, {
 			],
 		},
 		{
+			code: "const foo = Temporal; foo();",
+			languageOptions: {
+				ecmaVersion: 2015,
+				globals: { Temporal: false },
+			},
+			errors: [
+				{
+					messageId: "unexpectedRefCall",
+					data: { name: "foo", ref: "Temporal" },
+					line: 1,
+					column: 23,
+					endLine: 1,
+					endColumn: 28,
+				},
+			],
+		},
+		{
+			code: "const foo = Temporal; new foo();",
+			languageOptions: {
+				ecmaVersion: 2015,
+				globals: { Temporal: false },
+			},
+			errors: [
+				{
+					messageId: "unexpectedRefCall",
+					data: { name: "foo", ref: "Temporal" },
+					line: 1,
+					column: 23,
+					endLine: 1,
+					endColumn: 32,
+				},
+			],
+		},
+		{
 			code: "var foo = bar ? baz: globalThis.JSON; foo();",
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [
@@ -646,6 +803,37 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedRefCall",
 					data: { name: "foo", ref: "JSON" },
+				},
+			],
+		},
+		{
+			code: "const foo = bar ? baz: globalThis.Temporal; foo();",
+			languageOptions: {
+				ecmaVersion: 2020,
+				globals: { Temporal: false },
+			},
+			errors: [
+				{
+					messageId: "unexpectedRefCall",
+					data: { name: "foo", ref: "Temporal" },
+					line: 1,
+					column: 45,
+					endLine: 1,
+					endColumn: 50,
+				},
+			],
+		},
+		{
+			code: "const foo = bar ? baz: globalThis.Temporal; new foo();",
+			languageOptions: { ecmaVersion: 2026 },
+			errors: [
+				{
+					messageId: "unexpectedRefCall",
+					data: { name: "foo", ref: "Temporal" },
+					line: 1,
+					column: 45,
+					endLine: 1,
+					endColumn: 54,
 				},
 			],
 		},
@@ -686,6 +874,34 @@ ruleTester.run("no-obj-calls", rule, {
 				{
 					messageId: "unexpectedRefCall",
 					data: { name: "foo", ref: "Intl" },
+				},
+			],
+		},
+		{
+			code: "const foo = window.Temporal; foo();",
+			languageOptions: { ecmaVersion: 2026, globals: globals.browser },
+			errors: [
+				{
+					messageId: "unexpectedRefCall",
+					data: { name: "foo", ref: "Temporal" },
+					line: 1,
+					column: 30,
+					endLine: 1,
+					endColumn: 35,
+				},
+			],
+		},
+		{
+			code: "const foo = window.Temporal; new foo();",
+			languageOptions: { ecmaVersion: 2026, globals: globals.browser },
+			errors: [
+				{
+					messageId: "unexpectedRefCall",
+					data: { name: "foo", ref: "Temporal" },
+					line: 1,
+					column: 30,
+					endLine: 1,
+					endColumn: 39,
 				},
 			],
 		},

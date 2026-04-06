@@ -6938,7 +6938,7 @@ var JSHINT;
 							FutureReservedWord("transient");
 							FutureReservedWord("volatile");
 
-							// this function is used to determine wether a squarebracket or a curlybracket
+							// this function is used to determine whether a squarebracket or a curlybracket
 							// expression is a comprehension array, destructuring assignment or a json value.
 
 							var lookupBlockType = function () {
@@ -8989,7 +8989,6 @@ var JSHINT;
 									for (
 										var i = 0;
 										i < unicodeLetterTable.length;
-
 									) {
 										if (code < unicodeLetterTable[i++]) {
 											return false;

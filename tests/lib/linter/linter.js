@@ -11582,5 +11582,48 @@ let c; // var a = "test2";
 				assert.strictEqual(message.endColumn, 20);
 			});
 		});
+
+		describe("With inline config that enables a rule that doesn't support the language", () => {
+			const unsupportedLangRule = {
+				meta: {
+					schema: [],
+					languages: ["other/lang"],
+				},
+				create() {
+					return {};
+				},
+			};
+
+			const config = {
+				plugins: {
+					test: {
+						languages: { js: jslang },
+						rules: { "unsupported-lang": unsupportedLangRule },
+					},
+				},
+				language: "test/js",
+			};
+
+			it("should report an actionable error when rule doesn't support the current language", () => {
+				const messages = linter.verify(
+					"/* eslint test/unsupported-lang: error */ var x = 1;",
+					config,
+				);
+				const suppressedMessages = linter.getSuppressedMessages();
+
+				assert.strictEqual(messages.length, 1);
+				assert.strictEqual(messages[0].ruleId, "test/unsupported-lang");
+				assert.match(
+					messages[0].message,
+					/Inline configuration for rule "test\/unsupported-lang" is invalid:/u,
+				);
+				assert.match(
+					messages[0].message,
+					/Rule does not support the language "test\/js"/u,
+				);
+				assert.match(messages[0].message, /"files"/u);
+				assert.strictEqual(suppressedMessages.length, 0);
+			});
+		});
 	});
 });

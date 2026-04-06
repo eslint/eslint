@@ -1,2 +1,4 @@
 # #19355 chore: formatted files with Prettier via trunk fmt
 129882d2fdb4e7f597ed78eeadd86377f3d6b078
+# #20651 chore: update `prettier` to 3.8.1
+1f42bd7876ae4192cf7f7f4faf73b4ef3d2563cb

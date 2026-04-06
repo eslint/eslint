@@ -246,6 +246,17 @@ describe("esquery", () => {
 			assert.strictEqual(result.attributeCount, 3);
 			assert.strictEqual(result.identifierCount, 3);
 		});
+
+		it("should handle :is as an alias for :matches", () => {
+			const result = parse(
+				":is(Identifier[name='foo'], Identifier[name='bar'], Identifier[name='baz'])",
+			);
+
+			assert.strictEqual(result.isExit, false);
+			assert.deepStrictEqual(result.nodeTypes, ["Identifier"]);
+			assert.strictEqual(result.attributeCount, 3);
+			assert.strictEqual(result.identifierCount, 3);
+		});
 	});
 
 	describe("matches()", () => {

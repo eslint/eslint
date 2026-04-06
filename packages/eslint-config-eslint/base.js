@@ -3,8 +3,8 @@
 const js = require("@eslint/js");
 const jsdoc = require("eslint-plugin-jsdoc");
 const eslintCommentsPluginConfigs = require("@eslint-community/eslint-plugin-eslint-comments/configs");
-const unicorn = require("eslint-plugin-unicorn");
-const regexp = require("eslint-plugin-regexp");
+const unicorn = require("eslint-plugin-unicorn").default;
+const regexp = require("eslint-plugin-regexp").default;
 
 // extends eslint recommended config
 /**
@@ -195,6 +195,8 @@ const jsdocConfigs = [
 			"jsdoc/check-values": ["error", { allowedLicenses: true }],
 			"jsdoc/no-bad-blocks": "error",
 			"jsdoc/no-defaults": "off",
+			"jsdoc/reject-any-type": "off",
+			"jsdoc/reject-function-type": "off",
 			"jsdoc/require-asterisk-prefix": "error",
 			"jsdoc/require-description": [
 				"error",
@@ -209,6 +211,7 @@ const jsdocConfigs = [
 				},
 			],
 			"jsdoc/require-throws": "error",
+			"jsdoc/require-throws-type": "off",
 			"jsdoc/tag-lines": [
 				"error",
 				"never",
@@ -236,6 +239,7 @@ const jsdocConfigs = [
 				"error",
 				{ require: { ClassDeclaration: true } },
 			],
+			"jsdoc/require-next-type": "off",
 			"jsdoc/require-param": "error",
 			"jsdoc/require-param-description": "error",
 			"jsdoc/require-param-name": "error",
@@ -248,6 +252,7 @@ const jsdocConfigs = [
 			"jsdoc/require-returns-description": "error",
 			"jsdoc/require-returns-type": "error",
 			"jsdoc/require-yields-check": "error",
+			"jsdoc/require-yields-type": "off",
 			"jsdoc/valid-types": "error",
 		},
 	},
@@ -287,7 +292,6 @@ const eslintCommentsConfigs = [
 		name: "eslint-config-eslint/eslint-comments",
 		rules: {
 			"@eslint-community/eslint-comments/disable-enable-pair": ["error"],
-			"@eslint-community/eslint-comments/no-unused-disable": "error",
 			"@eslint-community/eslint-comments/require-description": "error",
 		},
 	},
@@ -297,7 +301,7 @@ const eslintCommentsConfigs = [
 /**
  * @type {import("eslint").Linter.Config[]}
  */
-const regexpConfigs = [regexp.configs["flat/recommended"]];
+const regexpConfigs = [regexp.configs.recommended];
 
 /**
  * @type {import("eslint").Linter.Config[]}

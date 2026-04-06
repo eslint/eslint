@@ -353,7 +353,7 @@ export default ["eslint:recommended", "eslint:all"];
 
 In ESLint v9.0.0, this format is no longer supported and will result in an error.
 
-**To address:** Use the `@eslint/js` package instead:
+**To address:** Install and use the `@eslint/js` package instead:
 
 ```js
 // eslint.config.js
@@ -515,7 +515,7 @@ The [eslint-plugin/prefer-object-rule](https://github.com/eslint-community/eslin
 
 ## <a name="meta-schema-required"></a> `meta.schema` is required for rules with options
 
-As of ESLint v9.0.0, an error will be thrown if any options are [passed](../use/configure/rules#using-configuration-files) to a rule that doesn't specify `meta.schema` property.
+As of ESLint v9.0.0, an error will be thrown if any options are [passed](../use/configure/rules#use-configuration-files) to a rule that doesn't specify `meta.schema` property.
 
 **To address:**
 

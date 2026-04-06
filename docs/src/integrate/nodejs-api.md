@@ -169,6 +169,13 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
 - `options.cacheStrategy` (`string`)<br>
   Default is `"metadata"`. Strategy for the cache to use for detecting changed files. Can be either `"metadata"` or `"content"`.
 
+##### Suppressions
+
+- `options.applySuppressions` (`boolean`)<br>
+  Default is `false`. If `true`, suppressions from the suppressions file are automatically applied to results from both [`eslint.lintFiles()`][eslint-lintfiles] and [`eslint.lintText()`][eslint-linttext]. When using `eslint.lintText()`, the `filePath` option must also be provided for suppressions to take effect.
+- `options.suppressionsLocation` (`string`)<br>
+  Default is `"eslint-suppressions.json"`. The path to the suppressions file. The path can be absolute or relative to `cwd`.
+
 ##### Other Options
 
 - `options.concurrency` (`number | "auto" | "off"`)<br>
@@ -892,6 +899,7 @@ ruleTester.run("my-rule", rule, {
 	assertionOptions: {
 		requireMessage: true,
 		requireLocation: false,
+		requireData: true,
 	},
 });
 ```
@@ -975,7 +983,6 @@ A test case is an object with the following properties:
 In addition to the properties above, invalid test cases can also have the following properties:
 
 - `errors` (number or array, required): Asserts some properties of the errors that the rule is expected to produce when run on this code. If this is a number, asserts the number of errors produced. Otherwise, this should be a list of objects, each containing information about a single reported error. The following properties can be used for an error (all are optional unless otherwise noted):
-
     - `message` (string/regexp): The message for the error. Must provide this or `messageId`.
     - `messageId` (string): The ID for the error. Must provide this or `message`. See [testing errors with messageId](#testing-errors-with-messageid) for details.
     - `data` (object): Placeholder data which can be used in combination with `messageId`.
@@ -1007,6 +1014,10 @@ You can optionally configure the following `assertionOptions` that apply to all 
     - If `"message"`, each `errors` block must check the expected error messages, either via string/regexp values in the `errors` array, or via `message` in error objects.
     - If `"messageId"`, each `errors` block must check the expected error messages via `messageId` in error objects.
 - `requireLocation` (boolean, optional): If `true`, each `errors` block must be an array of objects, and each object must contain location properties `line`, `column`, `endLine`, and `endColumn`. Properties `endLine` and `endColumn` may be omitted if the actual error does not contain them.
+- `requireData` (boolean/`"error"`/`"suggestion"`, optional):
+    - If `true`, each error object that specifies `messageId` and each suggestion object that specifies `messageId` must also specify `data` if the message referenced by `messageId` has [placeholders](../extend/custom-rules#use-message-placeholders).
+    - If `"error"`, each error object that specifies `messageId` must also specify `data` if the message referenced by `messageId` has [placeholders](../extend/custom-rules#use-message-placeholders).
+    - If `"suggestion"`, each suggestion object that specifies `messageId` must also specify `data` if the message referenced by `messageId` has [placeholders](../extend/custom-rules#use-message-placeholders).
 
 ### Testing Errors with `messageId`
 

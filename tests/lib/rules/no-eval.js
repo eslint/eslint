@@ -135,6 +135,10 @@ ruleTester.run("no-eval", rule, {
 		"array.findLast(function (x) { return this.eval.includes(x); }, { eval: ['foo', 'bar'] });",
 		"callbacks.findLastIndex(function (cb) { return cb(this.eval); }, this);",
 		"['1+1'].flatMap(function (str) { return this.eval(str); }, new Evaluator);",
+		{
+			code: "Array.fromAsync(values, async function (value) { return this.eval(await value); }, context);",
+			languageOptions: { ecmaVersion: 2017 },
+		},
 
 		// Allows indirect eval
 		{ code: "(0, eval)('foo')", options: [{ allowIndirect: true }] },

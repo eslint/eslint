@@ -116,8 +116,7 @@ abbr[title]::after {
 }
 
 /* Don't show linked images  */
-a[href^="http://"]
-{
+a[href^="http://"] {
 	color: #000;
 }
 

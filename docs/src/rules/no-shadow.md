@@ -47,6 +47,39 @@ d(a);
 if (true) {
     const a = 5;
 }
+
+const f = wrap(function f() {});
+
+const C = wrap(class C {});
+```
+
+:::
+
+Examples of **correct** code for this rule:
+
+::: correct
+
+```js
+/*eslint no-shadow: "error"*/
+
+const a = 3;
+function b(c) {
+    const d = 10;
+    if (c) {
+        const e = 20;
+    }
+}
+
+/*
+ * Function and class names are allowed to shadow a variable
+ * if the function/class expression is assigned to the variable
+ * as its initializer or default value.
+ */
+const f = function f() {};
+const g = foo ? (bar || function g() {}) : baz;
+const { h = function h() {} } = obj;
+function qux(i = function i() {}) {}
+const C = class C {};
 ```
 
 :::
