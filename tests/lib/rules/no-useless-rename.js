@@ -153,16 +153,6 @@ ruleTester.run("no-useless-rename", rule, {
 			options: [{ ignoreExport: true }],
 		},
 
-		/*
-		 * TODO: Remove after babel-eslint removes ExperimentalRestProperty
-		 * https://github.com/eslint/eslint/issues/12335
-		 */
-		{
-			code: "const { ...foo } = bar;",
-			languageOptions: {
-				parser: require("../../fixtures/parsers/babel-eslint10/object-pattern-with-rest-element"),
-			},
-		},
 	],
 
 	invalid: [
