@@ -205,7 +205,7 @@ async function assertMergedResult(values, result) {
  * @throws {AssertionError} If the config is valid or if the error
  *      has an unexpected message.
  */
-async function assertInvalidConfig(values, message) {
+function assertInvalidConfig(values, message) {
 	const configs = createFlatConfigArray(values);
 
 	assert.throws(() => {
@@ -884,15 +884,15 @@ describe("FlatConfigArray", () => {
 	});
 
 	describe("Config array elements", () => {
-		it("should error on 'eslint:recommended' string config", async () => {
-			await assertInvalidConfig(
+		it("should error on 'eslint:recommended' string config", () => {
+			assertInvalidConfig(
 				["eslint:recommended"],
 				"Config (unnamed): Unexpected non-object config at original index 0.",
 			);
 		});
 
-		it("should error on 'eslint:all' string config", async () => {
-			await assertInvalidConfig(
+		it("should error on 'eslint:all' string config", () => {
+			assertInvalidConfig(
 				["eslint:all"],
 				"Config (unnamed): Unexpected non-object config at original index 0.",
 			);
@@ -1227,8 +1227,8 @@ describe("FlatConfigArray", () => {
 					},
 				));
 
-			it("should error when attempting to redefine a plugin", async () => {
-				await assertInvalidConfig(
+			it("should error when attempting to redefine a plugin", () => {
+				assertInvalidConfig(
 					[
 						{
 							plugins: {
@@ -1246,8 +1246,8 @@ describe("FlatConfigArray", () => {
 				);
 			});
 
-			it("should error when plugin is not an object", async () => {
-				await assertInvalidConfig(
+			it("should error when plugin is not an object", () => {
+				assertInvalidConfig(
 					[
 						{
 							plugins: {
@@ -1323,8 +1323,8 @@ describe("FlatConfigArray", () => {
 				);
 			});
 
-			it("should error when an invalid string is used", async () => {
-				await assertInvalidConfig(
+			it("should error when an invalid string is used", () => {
+				assertInvalidConfig(
 					[
 						{
 							processor: "foo",
@@ -1334,8 +1334,8 @@ describe("FlatConfigArray", () => {
 				);
 			});
 
-			it("should error when an empty string is used", async () => {
-				await assertInvalidConfig(
+			it("should error when an empty string is used", () => {
+				assertInvalidConfig(
 					[
 						{
 							processor: "",
@@ -1345,8 +1345,8 @@ describe("FlatConfigArray", () => {
 				);
 			});
 
-			it("should error when an invalid processor is used", async () => {
-				await assertInvalidConfig(
+			it("should error when an invalid processor is used", () => {
+				assertInvalidConfig(
 					[
 						{
 							processor: {},
@@ -1356,8 +1356,8 @@ describe("FlatConfigArray", () => {
 				);
 			});
 
-			it("should error when a processor cannot be found in a plugin", async () => {
-				await assertInvalidConfig(
+			it("should error when a processor cannot be found in a plugin", () => {
+				assertInvalidConfig(
 					[
 						{
 							plugins: {
@@ -1372,8 +1372,8 @@ describe("FlatConfigArray", () => {
 		});
 
 		describe("linterOptions", () => {
-			it("should error when an unexpected key is found", async () => {
-				await assertInvalidConfig(
+			it("should error when an unexpected key is found", () => {
+				assertInvalidConfig(
 					[
 						{
 							linterOptions: {
@@ -1386,8 +1386,8 @@ describe("FlatConfigArray", () => {
 			});
 
 			describe("noInlineConfig", () => {
-				it("should error when an unexpected value is found", async () => {
-					await assertInvalidConfig(
+				it("should error when an unexpected value is found", () => {
+					assertInvalidConfig(
 						[
 							{
 								linterOptions: {
@@ -1395,7 +1395,7 @@ describe("FlatConfigArray", () => {
 								},
 							},
 						],
-						"Expected a Boolean.",
+						"Expected a boolean.",
 					);
 				});
 
@@ -1461,8 +1461,8 @@ describe("FlatConfigArray", () => {
 					));
 			});
 			describe("reportUnusedDisableDirectives", () => {
-				it("should error when an unexpected value is found", async () => {
-					await assertInvalidConfig(
+				it("should error when an unexpected value is found", () => {
+					assertInvalidConfig(
 						[
 							{
 								linterOptions: {
@@ -1518,8 +1518,8 @@ describe("FlatConfigArray", () => {
 			});
 
 			describe("reportUnusedInlineConfigs", () => {
-				it("should error when an unexpected value is found", async () => {
-					await assertInvalidConfig(
+				it("should error when an unexpected value is found", () => {
+					assertInvalidConfig(
 						[
 							{
 								linterOptions: {
@@ -1576,8 +1576,8 @@ describe("FlatConfigArray", () => {
 		});
 
 		describe("languageOptions", () => {
-			it("should error when an unexpected key is found", async () => {
-				await assertInvalidConfig(
+			it("should error when an unexpected key is found", () => {
+				assertInvalidConfig(
 					[
 						{
 							language: "@/js",
@@ -1736,8 +1736,8 @@ describe("FlatConfigArray", () => {
 			});
 
 			describe("ecmaVersion", () => {
-				it("should error when an unexpected value is found", async () => {
-					await assertInvalidConfig(
+				it("should error when an unexpected value is found", () => {
+					assertInvalidConfig(
 						[
 							{
 								language: "@/js",
@@ -1819,8 +1819,8 @@ describe("FlatConfigArray", () => {
 			});
 
 			describe("sourceType", () => {
-				it("should error when an unexpected value is found", async () => {
-					await assertInvalidConfig(
+				it("should error when an unexpected value is found", () => {
+					assertInvalidConfig(
 						[
 							{
 								language: "@/js",
@@ -1908,8 +1908,8 @@ describe("FlatConfigArray", () => {
 			});
 
 			describe("globals", () => {
-				it("should error when an unexpected value is found", async () => {
-					await assertInvalidConfig(
+				it("should error when an unexpected value is found", () => {
+					assertInvalidConfig(
 						[
 							{
 								language: "@/js",
@@ -1922,8 +1922,8 @@ describe("FlatConfigArray", () => {
 					);
 				});
 
-				it("should error when an unexpected key value is found", async () => {
-					await assertInvalidConfig(
+				it("should error when an unexpected key value is found", () => {
+					assertInvalidConfig(
 						[
 							{
 								language: "@/js",
@@ -1938,8 +1938,8 @@ describe("FlatConfigArray", () => {
 					);
 				});
 
-				it("should error when a global has leading whitespace", async () => {
-					await assertInvalidConfig(
+				it("should error when a global has leading whitespace", () => {
+					assertInvalidConfig(
 						[
 							{
 								language: "@/js",
@@ -1954,8 +1954,8 @@ describe("FlatConfigArray", () => {
 					);
 				});
 
-				it("should error when a global has trailing whitespace", async () => {
-					await assertInvalidConfig(
+				it("should error when a global has trailing whitespace", () => {
+					assertInvalidConfig(
 						[
 							{
 								language: "@/js",
@@ -2114,8 +2114,8 @@ describe("FlatConfigArray", () => {
 			});
 
 			describe("parser", () => {
-				it("should error when an unexpected value is found", async () => {
-					await assertInvalidConfig(
+				it("should error when an unexpected value is found", () => {
+					assertInvalidConfig(
 						[
 							{
 								language: "@/js",
@@ -2128,8 +2128,8 @@ describe("FlatConfigArray", () => {
 					);
 				});
 
-				it("should error when a null is found", async () => {
-					await assertInvalidConfig(
+				it("should error when a null is found", () => {
+					assertInvalidConfig(
 						[
 							{
 								language: "@/js",
@@ -2142,8 +2142,8 @@ describe("FlatConfigArray", () => {
 					);
 				});
 
-				it("should error when a parser is a string", async () => {
-					await assertInvalidConfig(
+				it("should error when a parser is a string", () => {
+					assertInvalidConfig(
 						[
 							{
 								language: "@/js",
@@ -2156,8 +2156,8 @@ describe("FlatConfigArray", () => {
 					);
 				});
 
-				it("should error when a value doesn't have a parse() method", async () => {
-					await assertInvalidConfig(
+				it("should error when a value doesn't have a parse() method", () => {
+					assertInvalidConfig(
 						[
 							{
 								language: "@/js",
@@ -2255,8 +2255,8 @@ describe("FlatConfigArray", () => {
 			});
 
 			describe("parserOptions", () => {
-				it("should error when an unexpected value is found", async () => {
-					await assertInvalidConfig(
+				it("should error when an unexpected value is found", () => {
+					assertInvalidConfig(
 						[
 							{
 								language: "@/js",
@@ -2463,8 +2463,8 @@ describe("FlatConfigArray", () => {
 		});
 
 		describe("rules", () => {
-			it("should error when an unexpected value is found", async () => {
-				await assertInvalidConfig(
+			it("should error when an unexpected value is found", () => {
+				assertInvalidConfig(
 					[
 						{
 							rules: true,
@@ -2474,8 +2474,8 @@ describe("FlatConfigArray", () => {
 				);
 			});
 
-			it("should error when an invalid rule severity is set", async () => {
-				await assertInvalidConfig(
+			it("should error when an invalid rule severity is set", () => {
+				assertInvalidConfig(
 					[
 						{
 							rules: {
@@ -2487,8 +2487,8 @@ describe("FlatConfigArray", () => {
 				);
 			});
 
-			it("should error when an invalid rule severity of the right type is set", async () => {
-				await assertInvalidConfig(
+			it("should error when an invalid rule severity of the right type is set", () => {
+				assertInvalidConfig(
 					[
 						{
 							rules: {
@@ -2500,8 +2500,8 @@ describe("FlatConfigArray", () => {
 				);
 			});
 
-			it("should error when a string rule severity is not in lowercase", async () => {
-				await assertInvalidConfig(
+			it("should error when a string rule severity is not in lowercase", () => {
+				assertInvalidConfig(
 					[
 						{
 							rules: {
@@ -2513,8 +2513,8 @@ describe("FlatConfigArray", () => {
 				);
 			});
 
-			it("should error when an invalid rule severity is set in an array", async () => {
-				await assertInvalidConfig(
+			it("should error when an invalid rule severity is set in an array", () => {
+				assertInvalidConfig(
 					[
 						{
 							rules: {
@@ -2526,8 +2526,8 @@ describe("FlatConfigArray", () => {
 				);
 			});
 
-			it("should error when rule doesn't exist", async () => {
-				await assertInvalidConfig(
+			it("should error when rule doesn't exist", () => {
+				assertInvalidConfig(
 					[
 						{
 							rules: {
@@ -2539,8 +2539,8 @@ describe("FlatConfigArray", () => {
 				);
 			});
 
-			it("should error and suggest alternative when rule doesn't exist", async () => {
-				await assertInvalidConfig(
+			it("should error and suggest alternative when rule doesn't exist", () => {
+				assertInvalidConfig(
 					[
 						{
 							rules: {
@@ -2552,8 +2552,8 @@ describe("FlatConfigArray", () => {
 				);
 			});
 
-			it("should error when plugin for rule doesn't exist", async () => {
-				await assertInvalidConfig(
+			it("should error when plugin for rule doesn't exist", () => {
+				assertInvalidConfig(
 					[
 						{
 							rules: {
@@ -2565,8 +2565,8 @@ describe("FlatConfigArray", () => {
 				);
 			});
 
-			it("should error when rule options don't match schema", async () => {
-				await assertInvalidConfig(
+			it("should error when rule options don't match schema", () => {
+				assertInvalidConfig(
 					[
 						{
 							rules: {
@@ -2578,8 +2578,8 @@ describe("FlatConfigArray", () => {
 				);
 			});
 
-			it("should error when rule options don't match schema requiring at least one item", async () => {
-				await assertInvalidConfig(
+			it("should error when rule options don't match schema requiring at least one item", () => {
+				assertInvalidConfig(
 					[
 						{
 							rules: {
@@ -2592,8 +2592,8 @@ describe("FlatConfigArray", () => {
 			});
 
 			[null, true, 0, 1, "", "always", () => {}].forEach(schema => {
-				it(`should error with a message that contains the rule name when a configured rule has invalid \`meta.schema\` (${schema})`, async () => {
-					await assertInvalidConfig(
+				it(`should error with a message that contains the rule name when a configured rule has invalid \`meta.schema\` (${schema})`, () => {
+					assertInvalidConfig(
 						[
 							{
 								plugins: {
@@ -2617,8 +2617,8 @@ describe("FlatConfigArray", () => {
 				});
 			});
 
-			it("should error with a message that contains the rule name when a configured rule has invalid `meta.schema` (invalid JSON Schema definition)", async () => {
-				await assertInvalidConfig(
+			it("should error with a message that contains the rule name when a configured rule has invalid `meta.schema` (invalid JSON Schema definition)", () => {
+				assertInvalidConfig(
 					[
 						{
 							plugins: {
@@ -2751,8 +2751,8 @@ describe("FlatConfigArray", () => {
 				});
 			});
 
-			it("should throw if a rule without `meta` is configured with an option", async () => {
-				await assertInvalidConfig(
+			it("should throw if a rule without `meta` is configured with an option", () => {
+				assertInvalidConfig(
 					[
 						{
 							plugins: {
@@ -2777,8 +2777,8 @@ describe("FlatConfigArray", () => {
 				);
 			});
 
-			it("should throw if a rule without `meta.schema` is configured with an option", async () => {
-				await assertInvalidConfig(
+			it("should throw if a rule without `meta.schema` is configured with an option", () => {
+				assertInvalidConfig(
 					[
 						{
 							plugins: {
@@ -2971,8 +2971,8 @@ describe("FlatConfigArray", () => {
 					},
 				));
 
-			it("should error show expected properties", async () => {
-				await assertInvalidConfig(
+			it("should error show expected properties", () => {
+				assertInvalidConfig(
 					[
 						{
 							rules: {
@@ -2983,7 +2983,7 @@ describe("FlatConfigArray", () => {
 					'Unexpected property "destruct". Expected properties: "destructuring", "ignoreReadBeforeAssign"',
 				);
 
-				await assertInvalidConfig(
+				assertInvalidConfig(
 					[
 						{
 							rules: {
@@ -2997,7 +2997,7 @@ describe("FlatConfigArray", () => {
 					'Unexpected property "obj". Expected properties: "VariableDeclarator", "AssignmentExpression"',
 				);
 
-				await assertInvalidConfig(
+				assertInvalidConfig(
 					[
 						{
 							rules: {
@@ -3011,7 +3011,7 @@ describe("FlatConfigArray", () => {
 					'Unexpected property "obj". Expected properties: "array", "object"',
 				);
 
-				await assertInvalidConfig(
+				assertInvalidConfig(
 					[
 						{
 							rules: {
@@ -3070,8 +3070,8 @@ describe("FlatConfigArray", () => {
 				});
 			});
 
-			it("should error when plugins is an array", async () => {
-				await assertInvalidConfig(
+			it("should error when plugins is an array", () => {
+				assertInvalidConfig(
 					[
 						{
 							plugins: ["foo"],
