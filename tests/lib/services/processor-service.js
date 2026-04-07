@@ -19,12 +19,7 @@ const sinon = require("sinon");
 //------------------------------------------------------------------------------
 
 describe("ProcessorService", () => {
-	/** @type {ProcessorService} */
 	const processorService = new ProcessorService();
-
-	beforeEach(() => {
-		processorService = new ProcessorService();
-	});
 
 	afterEach(() => {
 		sinon.restore();
