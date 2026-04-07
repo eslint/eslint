@@ -19,7 +19,7 @@ const assert = require("node:assert");
 
 describe("ProcessorService", () => {
 	/** @type {ProcessorService} */
-	let processorService;
+	const processorService = new ProcessorService();
 
 	beforeEach(() => {
 		processorService = new ProcessorService();
