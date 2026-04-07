@@ -125,11 +125,11 @@ const errors = [];
 for (const [pluginKey, pluginSettings] of pluginsSelected) {
 	try {
 		await runTests(pluginKey, pluginSettings);
+		console.log(`Passed: ${pluginKey}\n`);
 	} catch (error) {
 		errors.push({ error, pluginKey });
+		console.log(styleText("red", `Failed: ${pluginKey}\n`));
 	}
-
-	console.log("");
 }
 
 // If we had any errors, report them and exit as failed
