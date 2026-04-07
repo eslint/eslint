@@ -28,7 +28,6 @@
   },
   "@eslint-community/eslint-plugin-eslint-comments": {
     "commands": {
-      "build": ["npm", "run", "build"],
       "install": ["npm", "install"],
       "test": ["npm", "run", "test"]
     },
@@ -46,7 +45,6 @@
   },
   "eslint-plugin-unicorn": {
     "commands": {
-      "build": ["npm", "run", "build"],
       "install": ["npm", "install", "--legacy-peer-deps"],
       "test": ["npm", "run", "test"]
     },
