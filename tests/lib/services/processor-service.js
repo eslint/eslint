@@ -12,6 +12,7 @@
 const { ProcessorService } = require("../../../lib/services/processor-service");
 const { VFile } = require("../../../lib/linter/vfile");
 const assert = require("node:assert");
+const sinon = require("sinon");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -25,15 +26,37 @@ describe("ProcessorService", () => {
 		processorService = new ProcessorService();
 	});
 
+	afterEach(() => {
+		sinon.restore();
+	});
+
 	describe("preprocessSync()", () => {
+		it("should call preprocess with the file's raw body and file path", () => {
+			const file = new VFile("/project/file.js", "const a = 1;");
+			const processor = {
+				preprocess: sinon.spy(() => []),
+			};
+			const config = { processor };
+
+			processorService.preprocessSync(file, config);
+
+			assert.ok(
+				processor.preprocess.calledOnceWithExactly(
+					file.rawBody,
+					file.path,
+				),
+				"Expected preprocess to be called with file's raw body and path",
+			);
+		});
+
 		it("should return ok:true with VFile objects when preprocessor returns object blocks", () => {
 			const file = new VFile("/project/file.md", "Hello world");
 			const config = {
 				processor: {
 					preprocess() {
 						return [
-							{ filename: "0.js", text: "const a = 1;" },
-							{ filename: "1.js", text: "const b = 2;" },
+							{ filename: "block.js", text: "const a = 1;" },
+							{ filename: "extra.js", text: "const b = 2;" },
 						];
 					},
 				},
@@ -52,12 +75,12 @@ describe("ProcessorService", () => {
 				"Expected second block to be a VFile instance",
 			);
 			assert.ok(
-				result.files[0].path.endsWith("0.js"),
-				"Expected first VFile path to end with block filename",
+				result.files[0].path.endsWith("0_block.js"),
+				"Expected first VFile path to end with index-prefixed block filename",
 			);
 			assert.ok(
-				result.files[1].path.endsWith("1.js"),
-				"Expected second VFile path to end with block filename",
+				result.files[1].path.endsWith("1_extra.js"),
+				"Expected second VFile path to end with index-prefixed block filename",
 			);
 			assert.strictEqual(
 				result.files[0].body,
@@ -110,9 +133,10 @@ describe("ProcessorService", () => {
 			assert.strictEqual(result.errors[0].fatal, true);
 			assert.strictEqual(result.errors[0].severity, 2);
 			assert.strictEqual(result.errors[0].ruleId, null);
-			assert.ok(
-				result.errors[0].message.startsWith("Preprocessing error:"),
-				"Expected message to start with 'Preprocessing error:'",
+			assert.strictEqual(
+				result.errors[0].message,
+				"Preprocessing error: Unexpected token",
+				"Expected message to include the original error message",
 			);
 			assert.strictEqual(result.errors[0].line, 3);
 			assert.strictEqual(result.errors[0].column, 5);
@@ -154,7 +178,7 @@ describe("ProcessorService", () => {
 	});
 
 	describe("postprocessSync()", () => {
-		it("should pass messages and file path to the processor's postprocess method", () => {
+		it("should call postprocess with the messages and file path", () => {
 			const file = new VFile("/project/file.js", "const a = 1;");
 			const messages = [
 				[
@@ -167,17 +191,10 @@ describe("ProcessorService", () => {
 					},
 				],
 			];
-			let receivedMessages;
-			let receivedFilename;
-			const config = {
-				processor: {
-					postprocess(msgs, filename) {
-						receivedMessages = msgs;
-						receivedFilename = filename;
-						return msgs.flat();
-					},
-				},
+			const processor = {
+				postprocess: sinon.spy(msgs => msgs.flat()),
 			};
+			const config = { processor };
 
 			const result = processorService.postprocessSync(
 				file,
@@ -185,21 +202,33 @@ describe("ProcessorService", () => {
 				config,
 			);
 
-			assert.strictEqual(
-				receivedMessages,
-				messages,
-				"Expected messages array to be passed to postprocess",
-			);
-			assert.strictEqual(
-				receivedFilename,
-				file.path,
-				"Expected file path to be passed to postprocess",
+			assert.ok(
+				processor.postprocess.calledOnceWithExactly(
+					messages,
+					file.path,
+				),
+				"Expected postprocess to be called with messages and file path",
 			);
 			assert.deepStrictEqual(
 				result,
 				messages.flat(),
 				"Expected postprocessed messages to be returned",
 			);
+		});
+
+		it("should not catch errors thrown by the processor's postprocess method", () => {
+			const file = new VFile("/project/file.js", "const a = 1;");
+			const config = {
+				processor: {
+					postprocess() {
+						throw new Error("Postprocessing error");
+					},
+				},
+			};
+
+			assert.throws(() => {
+				processorService.postprocessSync(file, [[]], config);
+			}, /Postprocessing error/u);
 		});
 	});
 });
