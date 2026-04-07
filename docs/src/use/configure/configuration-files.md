@@ -81,7 +81,7 @@ Each configuration object contains all of the information ESLint needs to execut
     - `noInlineConfig` - A Boolean value indicating if inline configuration is allowed.
     - `reportUnusedDisableDirectives` - A severity string indicating if and how unused disable and enable directives should be tracked and reported. For legacy compatibility, `true` is equivalent to `"warn"` and `false` is equivalent to `"off"`. (default: `"warn"`).
     - `reportUnusedInlineConfigs` - A severity string indicating if and how unused inline configs should be tracked and reported. (default: `"off"`)
-- `processor` - Either an object containing `preprocess()` and `postprocess()` methods or a string indicating the name of a processor inside of a plugin (i.e., `"pluginName/processorName"`).
+- `processor` - Either an object containing `preprocess()` and `postprocess()` methods or a string indicating the name of a processor inside of a plugin (i.e., `"plugin/processor"`).
 - `plugins` - An object containing a name-value mapping of plugin names to plugin objects. When `files` is specified, these plugins are only available to the matching files.
 - `rules` - An object containing the configured rules. When `files` or `ignores` are specified, these rule configurations are only available to the matching files.
 - `settings` - An object containing name-value pairs of information that should be available to all rules.
