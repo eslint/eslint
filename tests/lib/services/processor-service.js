@@ -59,6 +59,16 @@ describe("ProcessorService", () => {
 				result.files[1].path.endsWith("1.js"),
 				"Expected second VFile path to end with block filename",
 			);
+			assert.strictEqual(
+				result.files[0].body,
+				"const a = 1;",
+				"Expected first VFile body to match block text",
+			);
+			assert.strictEqual(
+				result.files[1].body,
+				"const b = 2;",
+				"Expected second VFile body to match block text",
+			);
 		});
 
 		it("should return ok:true with string values when preprocessor returns legacy string blocks", () => {
@@ -144,7 +154,7 @@ describe("ProcessorService", () => {
 	});
 
 	describe("postprocessSync()", () => {
-		it("should return the postprocessed messages from the processor", () => {
+		it("should pass messages and file path to the processor's postprocess method", () => {
 			const file = new VFile("/project/file.js", "const a = 1;");
 			const messages = [
 				[
@@ -157,19 +167,14 @@ describe("ProcessorService", () => {
 					},
 				],
 			];
-			const postprocessed = [
-				{
-					ruleId: "no-unused-vars",
-					message: "'a' is defined but never used.",
-					severity: 2,
-					line: 1,
-					column: 7,
-				},
-			];
+			let receivedMessages;
+			let receivedFilename;
 			const config = {
 				processor: {
-					postprocess() {
-						return postprocessed;
+					postprocess(msgs, filename) {
+						receivedMessages = msgs;
+						receivedFilename = filename;
+						return msgs.flat();
 					},
 				},
 			};
@@ -180,32 +185,20 @@ describe("ProcessorService", () => {
 				config,
 			);
 
-			assert.deepStrictEqual(
-				result,
-				postprocessed,
-				"Expected postprocessed messages to be returned",
+			assert.strictEqual(
+				receivedMessages,
+				messages,
+				"Expected messages array to be passed to postprocess",
 			);
-		});
-
-		it("should pass the file path to the processor's postprocess method", () => {
-			const filePath = "/project/file.js";
-			const file = new VFile(filePath, "const a = 1;");
-			let receivedFilename;
-			const config = {
-				processor: {
-					postprocess(msgs, filename) {
-						receivedFilename = filename;
-						return [];
-					},
-				},
-			};
-
-			processorService.postprocessSync(file, [[]], config);
-
 			assert.strictEqual(
 				receivedFilename,
-				filePath,
+				file.path,
 				"Expected file path to be passed to postprocess",
+			);
+			assert.deepStrictEqual(
+				result,
+				messages.flat(),
+				"Expected postprocessed messages to be returned",
 			);
 		});
 	});
