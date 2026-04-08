@@ -219,24 +219,93 @@ This message occurs because ESLint is unsure if you wanted to actually lint the 
 
 ## Include `.gitignore` Files
 
-If you want to include patterns from a [`.gitignore`](https://git-scm.com/docs/gitignore) file or any other file with gitignore-style patterns, you can use [`includeIgnoreFile`](https://github.com/eslint/rewrite/tree/main/packages/compat#including-ignore-files) utility from the [`@eslint/compat`](https://www.npmjs.com/package/@eslint/compat) package.
-
-By default, `includeIgnoreFile()` will assign a name to the config that represents your ignores. You can override this name by providing a second argument to `includeIgnoreFile()`, which is the name you'd like to use instead of the default:
+If you want to include patterns from a [`.gitignore`](https://git-scm.com/docs/gitignore) file or any other file with gitignore-style patterns, you can use [`includeIgnoreFile`](https://github.com/eslint/rewrite/tree/main/packages/config-helpers#including-ignore-files) utility from the [`@eslint/config-helpers`](https://www.npmjs.com/package/@eslint/config-helpers) package.
 
 ```js
 // eslint.config.js
-import { defineConfig } from "eslint/config";
-import { includeIgnoreFile } from "@eslint/compat";
+
+import { defineConfig, includeIgnoreFile } from "eslint/config";
 import { fileURLToPath } from "node:url";
 
 const gitignorePath = fileURLToPath(new URL(".gitignore", import.meta.url));
 
+export default defineConfig(
+	includeIgnoreFile(gitignorePath, { mode: "gitignore" }),
+	{
+		// your overrides
+	},
+);
+```
+
+This automatically loads the specified file and translates gitignore-style patterns into a config object containing `ignores` glob patterns.
+
+An array of ignore file paths can also be provided:
+
+```js
+// eslint.config.js
+
+import { defineConfig, includeIgnoreFile } from "eslint/config";
+import { fileURLToPath } from "node:url";
+
+const rootGitignorePath = fileURLToPath(new URL(".gitignore", import.meta.url));
+const nestedGitignorePath = fileURLToPath(
+	new URL("some/other/folder/.gitignore", import.meta.url),
+);
+
+export default defineConfig(
+	includeIgnoreFile([rootGitignorePath, nestedGitignorePath], {
+		mode: "gitignore",
+	}),
+	{
+		// your overrides
+	},
+);
+```
+
+In this case, an array of config objects will be returned.
+
+### Including other ignore files
+
+If `{ mode: "gitignore" }` is omitted, or if `{ mode: "eslintignore" }` is specified, `includeIgnoreFile()` will interpret the ignore patterns relative to the `cwd` from which ESLint is run, matching the [historical behavior of `.eslintignore` files](https://eslint.org/docs/v8.x/use/configure/ignore#the-eslintignore-file).
+
+```js
+// eslint.config.js
+
+import { defineConfig, includeIgnoreFile } from "eslint/config";
+import { fileURLToPath } from "node:url";
+
+const eslintIgnorePath = fileURLToPath(
+	new URL(".eslintignore", import.meta.url),
+);
+
 export default defineConfig([
-	includeIgnoreFile(gitignorePath, "Imported .gitignore patterns"),
+	includeIgnoreFile(eslintIgnorePath),
 	{
 		// your overrides
 	},
 ]);
 ```
 
-This automatically loads the specified file and translates gitignore-style patterns into `ignores` glob patterns.
+By contrast, `.gitignore` files are specified such that their patterns should be interpreted relative to the `.gitignore` file itself. Therefore, `{ mode: "gitignore" }`, which tells `includeIgnoreFile()` to match this behavior, should always be used when including ignore patterns from `.gitignore` files.
+
+### Customizing name of output configs
+
+By default, `includeIgnoreFile()` will assign a name to the config that represents your ignores. You can override this name by providing it in the second argument to `includeIgnoreFile()`:
+
+```js
+// eslint.config.js
+
+export default defineConfig(
+	includeIgnoreFile(gitignorePath, {
+		mode: "gitignore",
+		name: "Imported .gitignore patterns",
+	}),
+	{
+		// your overrides
+	},
+);
+```
+
+### Manual Usage
+
+In case you prefer to construct the ignore config objects manually, or use ignorefile-like globs for some other purpose, you can use the helper function [`convertIgnorePatternToMinimatch()`](https://github.com/eslint/rewrite/tree/main/packages/config-helpers#including-ignore-files), which is also exported from `eslint/config`. See [the docs for `@eslint/config-helpers`](https://github.com/eslint/rewrite/tree/main/packages/config-helpers#including-ignore-files) for more information.
