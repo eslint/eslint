@@ -21,21 +21,16 @@ const sinon = require("sinon");
 //------------------------------------------------------------------------------
 
 describe("SuppressionsService", () => {
-	let suppressionsService;
-
-	beforeEach(() => {
-		suppressionsService = new SuppressionsService({
-			filePath: "/project/eslint-suppressions.json",
-			cwd: "/project",
-		});
-	});
-
 	afterEach(() => {
 		sinon.restore();
 	});
 
 	describe("load()", () => {
 		it("should return parsed JSON when file is valid", async () => {
+			const suppressionsService = new SuppressionsService({
+				filePath: "/project/eslint-suppressions.json",
+				cwd: "/project",
+			});
 			const mockData = { "file.js": { "rule-id": { count: 1 } } };
 			sinon
 				.stub(fs.promises, "readFile")
@@ -46,6 +41,10 @@ describe("SuppressionsService", () => {
 		});
 
 		it("should return an empty object when file does not exist (ENOENT)", async () => {
+			const suppressionsService = new SuppressionsService({
+				filePath: "/project/eslint-suppressions.json",
+				cwd: "/project",
+			});
 			const error = new Error("File not found");
 			error.code = "ENOENT";
 			sinon.stub(fs.promises, "readFile").rejects(error);
@@ -55,6 +54,10 @@ describe("SuppressionsService", () => {
 		});
 
 		it("should throw an error with cause when file contains invalid JSON", async () => {
+			const suppressionsService = new SuppressionsService({
+				filePath: "/project/eslint-suppressions.json",
+				cwd: "/project",
+			});
 			sinon.stub(fs.promises, "readFile").resolves("invalid json");
 
 			await assert.rejects(
@@ -71,6 +74,10 @@ describe("SuppressionsService", () => {
 		});
 
 		it("should throw an error with cause when reading file throws a non-ENOENT error", async () => {
+			const suppressionsService = new SuppressionsService({
+				filePath: "/project/eslint-suppressions.json",
+				cwd: "/project",
+			});
 			const readError = new Error("EACCES: permission denied");
 			readError.code = "EACCES";
 			sinon.stub(fs.promises, "readFile").rejects(readError);
