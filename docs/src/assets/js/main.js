@@ -203,7 +203,11 @@
 							window.location.href = absoluteUrl.href;
 						}
 					} catch (e) {
-						// invalid URL; ignore navigation
+						if (e instanceof TypeError) {
+							// invalid URL; ignore navigation
+						} else {
+							throw e;
+						}
 					}
 					return;
 				}

@@ -135,8 +135,12 @@ function setSafeHref(anchor, url) {
 		if (parsed.protocol === "http:" || parsed.protocol === "https:") {
 			anchor.href = parsed.href;
 		}
-	} catch {
-		// Invalid URL: leave href unset
+	} catch (e) {
+		if (e instanceof TypeError) {
+			// Invalid URL: leave href unset
+		} else {
+			throw e;
+		}
 	}
 }
 
