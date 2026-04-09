@@ -227,7 +227,6 @@ module.exports = function (eleventyConfig) {
 						ecmaFeatures: {
 							jsx: true,
 						},
-						sourceType: "module",
 					},
 				},
 			};

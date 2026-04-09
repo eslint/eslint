@@ -50,6 +50,7 @@ The source file for a rule exports an object with the following properties. Both
 
 - `docs`: (`object`) Properties often used for documentation generation and tooling. Required for core rules and optional for custom rules. Custom rules can include additional properties here as needed.
     - `description`: (`string`) Provides a short description of the rule. For core rules, this is used in [rules index](../rules/).
+    - `dialects`: (`string[]`) The dialects of the languages that the rule is intended to lint. For example, `["JavaScript", "TypeScript"]`.
     - `frozen`: (`boolean`) For core rules, specifies whether the rule is [frozen](../contribute/core-rules#frozen-rules) and no longer accepts feature requests.
     - `recommended`: (`unknown`) For core rules, this is a boolean value specifying whether the rule is enabled by the `recommended` config from `@eslint/js`.
     - `url`: (`string`) Specifies the URL at which the full documentation can be accessed. Code editors often use this to provide a helpful link on highlighted rule violations.
@@ -66,6 +67,43 @@ The source file for a rule exports an object with the following properties. Both
 - `schema`: (`object | array | false`) Specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../use/configure/rules). Mandatory when the rule has options.
 
 - `defaultOptions`: (`array`) Specifies [default options](#option-defaults) for the rule. If present, any user-provided options in their config will be merged on top of them recursively.
+
+- `languages`: (`array`) Specifies the languages the rule is designed to work with. Each entry is a string in the format `"plugin/language"` (e.g., `"js/js"`, `"markdown/gfm"`). Special values:
+    - `"*"` — the rule works with any language.
+    - `"plugin/*"` — the rule works with any language provided by the given plugin.
+
+    If `languages` is not specified, the rule is assumed to work with all languages. When `languages` is specified and none of the entries matches the active language, ESLint throws an error.
+
+    ```js
+    // Rule only runs when the active language is the built-in JavaScript language
+    meta: {
+        languages: ["js/js"],
+    }
+
+    // Rule runs with any language from the "markdown" plugin
+    meta: {
+        languages: ["markdown/*"],
+    }
+
+    // Rule runs with any language
+    meta: {
+        languages: ["*"],
+    }
+    ```
+
+    Language identifiers are matched in the following order:
+    1. **Wildcard `"*"`** — matches any language.
+    2. **Direct string match** — the entry exactly equals the active language string (e.g., `"test/lang"`).
+    3. **`"plugin/*"` wildcard** — matches any language whose plugin name (or `meta.namespace`) equals the plugin part of the entry.
+    4. **Namespace match** — a plugin registered under a different name may be matched when its `meta.namespace` equals the plugin part of the entry.
+
+    ```js
+    // Rule runs with a specific language from a plugin whose meta.namespace is "markdown"
+    // (e.g., the plugin is registered as "md" but declares meta.namespace = "markdown")
+    meta: {
+        languages: ["markdown/gfm"],
+    }
+    ```
 
 - `deprecated`: (`boolean | DeprecatedInfo`) Indicates whether the rule has been deprecated. You may omit the `deprecated` property if the rule has not been deprecated.
   There is a dedicated page for the [DeprecatedInfo](./rule-deprecation)

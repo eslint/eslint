@@ -1,3 +1,27 @@
+v10.2.0 - April 3, 2026
+
+* [`542cb3e`](https://github.com/eslint/eslint/commit/542cb3e6442a4e6ee3457c799e2a0ee23bef0c6a) fix: update first-party dependencies (#20714) (Francesco Trotta)
+* [`a2af743`](https://github.com/eslint/eslint/commit/a2af743ea60f683d0e0de9d98267c1e7e4f5e412) docs: add `language` to configuration objects (#20712) (Francesco Trotta)
+* [`845f23f`](https://github.com/eslint/eslint/commit/845f23f1370892bf07d819497ac518c9e65090d6) docs: Update README (GitHub Actions Bot)
+* [`5fbcf59`](https://github.com/eslint/eslint/commit/5fbcf5958b897cc4df5d652924d18428db37f7ee) docs: remove `sourceType` from ts playground link (#20477) (Tanuj Kanti)
+* [`8702a47`](https://github.com/eslint/eslint/commit/8702a474659be786b6b1392e5e7c0c56355ae4a4) docs: Update README (GitHub Actions Bot)
+* [`ddeaded`](https://github.com/eslint/eslint/commit/ddeaded2ab36951383ff67c60fb64ec68d29a46a) docs: Update README (GitHub Actions Bot)
+* [`8120e30`](https://github.com/eslint/eslint/commit/8120e30f833474f47acc061d24d164e9f022264f) refactor: extract no unmodified loop condition (#20679) (kuldeep kumar)
+* [`46e8469`](https://github.com/eslint/eslint/commit/46e8469786be1b2bbb522100e1d44624d98d3745) chore: update dependency markdownlint-cli2 to ^0.22.0 (#20697) (renovate[bot])
+* [`2b44966`](https://github.com/eslint/eslint/commit/2b4496691266547784a7f7ad1989ce53381bab91) docs: add Major Releases section to Manage Releases (#20269) (Milos Djermanovic)
+* [`586ec2f`](https://github.com/eslint/eslint/commit/586ec2f43092779acc957866db4abe999112d1e1) feat: Add `meta.languages` support to rules (#20571) (Copilot)
+* [`14207de`](https://github.com/eslint/eslint/commit/14207dee3939dc87cfa8b2fcfc271fff2cfd6471) feat: add `Temporal` to `no-obj-calls` (#20675) (Pixel998)
+* [`bbb2c93`](https://github.com/eslint/eslint/commit/bbb2c93a2b31bd30924f32fe69a9acf41f9dfe35) feat: add Temporal to ES2026 globals (#20672) (Pixel998)
+* [`01ed3aa`](https://github.com/eslint/eslint/commit/01ed3aa68477f81a7188e1498cf4906e02015b7c) test: add unit tests for unicode utilities (#20622) (Manish chaudhary)
+* [`811f493`](https://github.com/eslint/eslint/commit/811f4930f82ee2b6ac8eae75cade9bed63de0781) ci: remove `--legacy-peer-deps` from types integration tests (#20667) (Milos Djermanovic)
+* [`eab65c7`](https://github.com/eslint/eslint/commit/eab65c700ebb16a6e790910c720450c9908961fd) docs: update `eslint` versions in examples (#20664) (루밀LuMir)
+* [`6b86fcf`](https://github.com/eslint/eslint/commit/6b86fcfc5c75d6a3b8a2cf7bcdb3ef60635a9a03) chore: update dependency npm-run-all2 to v8 (#20663) (renovate[bot])
+* [`632c4f8`](https://github.com/eslint/eslint/commit/632c4f83bf32b77981c7d395cacddd1bb172ee25) chore: add `prettier` update commit to `.git-blame-ignore-revs` (#20662) (루밀LuMir)
+* [`b0b0f21`](https://github.com/eslint/eslint/commit/b0b0f21927e03ba092400e3c70d7058f537765c8) chore: update dependency eslint-plugin-regexp to ^3.1.0 (#20659) (Milos Djermanovic)
+* [`3e4a299`](https://github.com/eslint/eslint/commit/3e4a29903bf31f0998e45ad9128a265bce1edc56) docs: update ESM Dependencies policies with note for own-usage packages (#20660) (Milos Djermanovic)
+* [`228a2dd`](https://github.com/eslint/eslint/commit/228a2dd4b272c17f516ee3541f1dd69eca0a8ab0) chore: update dependency eslint-plugin-eslint-plugin to ^7.3.2 (#20661) (Milos Djermanovic)
+* [`3ab4d7e`](https://github.com/eslint/eslint/commit/3ab4d7e244df244102de9d0d250b2ff12456a785) test: Add tests for eslintrc-style keys (#20645) (kuldeep kumar)
+
 v10.1.0 - March 20, 2026
 
 * [`a9f9cce`](https://github.com/eslint/eslint/commit/a9f9cce82d80b540a0e3549d0e91c16df28740d8) chore: update dependency eslint-plugin-unicorn to ^63.0.0 (#20584) (Milos Djermanovic)
