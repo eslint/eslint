@@ -4378,7 +4378,7 @@ describe("Linter with FlatConfigArray", () => {
 							assert.strictEqual(messages[0].severity, 2);
 							assert.strictEqual(
 								messages[0].message,
-								'Inline configuration for rule "test/my-rule" is invalid:\n\tValue true should be string.\n',
+								'Inline configuration for rule "test/my-rule" is invalid:\n\tValue true should be string.',
 							);
 							assert.strictEqual(
 								messages[1].ruleId,
@@ -4407,7 +4407,7 @@ describe("Linter with FlatConfigArray", () => {
 								severity: 2,
 								ruleId: "no-alert",
 								message:
-									'Inline configuration for rule "no-alert" is invalid:\n\tExpected severity of "off", 0, "warn", 1, "error", or 2. You passed "true".\n',
+									'Inline configuration for rule "no-alert" is invalid:\n\tExpected severity of "off", 0, "warn", 1, "error", or 2. You passed "true".',
 								line: 1,
 								column: 1,
 								endLine: 1,
@@ -4430,7 +4430,7 @@ describe("Linter with FlatConfigArray", () => {
 								severity: 2,
 								ruleId: "no-alert",
 								message:
-									'Inline configuration for rule "no-alert" is invalid:\n\tExpected severity of "off", 0, "warn", 1, "error", or 2. You passed "Error".\n',
+									'Inline configuration for rule "no-alert" is invalid:\n\tExpected severity of "off", 0, "warn", 1, "error", or 2. You passed "Error".',
 								line: 1,
 								column: 1,
 								endLine: 1,
@@ -4453,7 +4453,7 @@ describe("Linter with FlatConfigArray", () => {
 								severity: 2,
 								ruleId: "no-alert",
 								message:
-									'Inline configuration for rule "no-alert" is invalid:\n\tValue [{"nonExistentPropertyName":true}] should NOT have more than 0 items.\n',
+									'Inline configuration for rule "no-alert" is invalid:\n\tValue [{"nonExistentPropertyName":true}] should NOT have more than 0 items.',
 								line: 1,
 								column: 1,
 								endLine: 1,
