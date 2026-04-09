@@ -94,7 +94,7 @@ describe("check-rule-examples", () => {
 				"  \x1B[2m105:1\x1B[22m  \x1B[31merror\x1B[39m  Incorrect examples should have at least one error reported by the rule\n" +
 				"  \x1B[2m115:1\x1B[22m  \x1B[31merror\x1B[39m  Incorrect examples should have at least one error reported by the rule\n" +
 				'  \x1B[2m115:1\x1B[22m  \x1B[31merror\x1B[39m  Unexpected lint error found: Inline configuration for rule "no-restricted-syntax" is invalid:\n' +
-				'\tExpected severity of "off", 0, "warn", 1, "error", or 2. You passed "errorr,ArrayPattern". \x1B[2mno-restricted-syntax\x1B[22m\n' +
+				'\tExpected severity of "off", 0, "warn", 1, "error", or 2. You passed "errorr,ArrayPattern" \x1B[2mno-restricted-syntax\x1B[22m\n' +
 				'  \x1B[2m122:1\x1B[22m  \x1B[31merror\x1B[39m  "sourceType": "module" is the default and can be omitted\n' +
 				'  \x1B[2m130:1\x1B[22m  \x1B[31merror\x1B[39m  "jsx": false is the default and can be omitted\n' +
 				'  \x1B[2m140:4\x1B[22m  \x1B[31merror\x1B[39m  The "jsx" language tag requires JSX to be enabled\n' +
