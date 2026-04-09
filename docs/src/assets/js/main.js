@@ -213,9 +213,8 @@
 				}
 
 				try {
-					var match = window.location.pathname.match(
-						/^\/docs\/[^/]+\/(.*)/,
-					);
+					var match =
+						window.location.pathname.match(/^\/docs\/[^/]+\/(.*)/);
 
 					var targetUrl = new URL(
 						newBasePath,
@@ -224,8 +223,7 @@
 
 					if (match && match[1]) {
 						targetUrl.pathname =
-							targetUrl.pathname.replace(/\/?$/, "/") +
-							match[1];
+							targetUrl.pathname.replace(/\/?$/, "/") + match[1];
 					}
 
 					targetUrl.search = window.location.search;
