@@ -23,6 +23,10 @@ ESLint allows you to specify the JavaScript language options you want to support
     - `commonjs` - CommonJS module (useful if your code uses `require()`). Your code has a top-level function scope and runs in non-strict mode.
     - `script` - non-module. Your code has a shared global scope and runs in non-strict mode.
 
+::: important
+**Note:** When using the flat config format, set `ecmaVersion` and `sourceType` directly in `languageOptions`, not inside `languageOptions.parserOptions`. ESLint automatically passes these values to the parser, so you don't need to specify them again in `parserOptions`.
+:::
+
 Here's an example [configuration file](./configuration-files#configuration-file) you might use when linting ECMAScript 5 code:
 
 ```js
@@ -48,6 +52,10 @@ If you are using the built-in ESLint parser, you can additionally change how ESL
     - `globalReturn` - allow `return` statements in the global scope. This option only applies when `languageOptions.sourceType` is set to `"script"`. When `languageOptions.sourceType` is set to `"commonjs"`, top-level `return` statements are allowed regardless of this option. When `languageOptions.sourceType` is set to `"module"`, top-level `return` statements are not allowed even if this option is set to `true`.
     - `impliedStrict` - enable global [strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode) (if `ecmaVersion` is `5` or greater).
     - `jsx` - enable [JSX](https://facebook.github.io/jsx/).
+
+::: tip
+In addition to the options specified in `languageOptions.parserOptions`, ESLint also passes `ecmaVersion` and `sourceType` to all parsers automatically. This allows custom parsers to understand the context in which ESLint is evaluating JavaScript code. You should set these properties directly in `languageOptions`, not in `parserOptions`.
+:::
 
 Here's an example [configuration file](./configuration-files#configuration-file) that enables JSX parsing in the default parser:
 
