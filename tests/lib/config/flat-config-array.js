@@ -1330,7 +1330,7 @@ describe("FlatConfigArray", () => {
 							processor: "foo",
 						},
 					],
-					"plugin/processor",
+					"pluginName/processorName",
 				);
 			});
 
@@ -1341,7 +1341,7 @@ describe("FlatConfigArray", () => {
 							processor: "",
 						},
 					],
-					"plugin/processor",
+					"pluginName/processorName",
 				);
 			});
 
@@ -1583,7 +1583,7 @@ describe("FlatConfigArray", () => {
 							language: "js",
 						},
 					],
-					"plugin/language",
+					"pluginName/languageName",
 				);
 			});
 
@@ -1594,7 +1594,7 @@ describe("FlatConfigArray", () => {
 							language: "",
 						},
 					],
-					"plugin/language",
+					"pluginName/languageName",
 				);
 			});
 
