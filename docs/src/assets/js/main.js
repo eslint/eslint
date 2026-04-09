@@ -212,18 +212,38 @@
 					return;
 				}
 
-				var match = window.location.pathname.match(
-					/^\/docs\/[^/]+\/(.*)/,
-				);
+				try {
+					var match = window.location.pathname.match(
+						/^\/docs\/[^/]+\/(.*)/,
+					);
 
-				if (match && match[1]) {
-					window.location.href =
-						newBasePath +
-						match[1] +
-						window.location.search +
-						window.location.hash;
-				} else {
-					window.location.href = newBasePath;
+					var targetUrl = new URL(
+						newBasePath,
+						window.location.origin,
+					);
+
+					if (match && match[1]) {
+						targetUrl.pathname =
+							targetUrl.pathname.replace(/\/?$/, "/") +
+							match[1];
+					}
+
+					targetUrl.search = window.location.search;
+					targetUrl.hash = window.location.hash;
+
+					if (
+						targetUrl.origin === window.location.origin &&
+						(targetUrl.protocol === "http:" ||
+							targetUrl.protocol === "https:")
+					) {
+						window.location.href = targetUrl.href;
+					}
+				} catch (e) {
+					if (e instanceof TypeError) {
+						// invalid base path; ignore navigation
+					} else {
+						throw e;
+					}
 				}
 			});
 		});
