@@ -22,6 +22,15 @@ ruleTester.run("no-async-promise-executor", rule, {
 		"new Promise((resolve, reject) => {})",
 		"new Promise((resolve, reject) => {}, async function unrelated() {})",
 		"new Foo(async (resolve, reject) => {})",
+
+		// Shadowed Promise should not be flagged
+		"function Promise() {} new Promise(async (resolve, reject) => {})",
+		"const Promise = function() {}; new Promise(async (resolve, reject) => {})",
+		"class Promise {} new Promise(async (resolve, reject) => {})",
+		{
+			code: "import Promise from 'bluebird'; new Promise(async (resolve) => {})",
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+		},
 	],
 
 	invalid: [
