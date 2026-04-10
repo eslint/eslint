@@ -158,7 +158,6 @@
     "@types/esquery": "^1.5.4",
     "@types/node": "^22.13.14",
     "@typescript-eslint/parser": "^8.56.0",
-    "astring": "^1.9.0",
     "babel-loader": "^8.0.5",
     "c8": "^11.0.0",
     "chai": "^4.0.1",
