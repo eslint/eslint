@@ -114,10 +114,10 @@ async function generate() {
 	out.push(`module.exports = Object.freeze([`);
 
 	for (const [s, e] of ranges) {
-		out.push(`  [0x${s.toString(16)}, 0x${e.toString(16)}],`);
+		out.push(`\t[0x${s.toString(16)}, 0x${e.toString(16)}],`);
 	}
 
-	out.push(`]);`);
+	out.push(`]);\n`);
 
 	fs.writeFileSync(OUTPUT_FILE, out.join("\n"));
 	console.log(`Generated ${OUTPUT_FILE}`);
