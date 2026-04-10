@@ -305,7 +305,3 @@ export default defineConfig(
 	},
 );
 ```
-
-### Manual Usage
-
-In case you prefer to construct the ignore config objects manually, or use ignorefile-like globs for some other purpose, you can use the helper function [`convertIgnorePatternToMinimatch()`](https://github.com/eslint/rewrite/tree/main/packages/config-helpers#including-ignore-files), which is also exported from `eslint/config`. See [the docs for `@eslint/config-helpers`](https://github.com/eslint/rewrite/tree/main/packages/config-helpers#including-ignore-files) for more information.
