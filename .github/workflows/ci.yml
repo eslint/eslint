@@ -39,6 +39,28 @@ jobs:
                     exit 1
                   fi
 
+            - name: Check for accidental ICU-dependent code
+              run: |
+                  # ESLint must work on Node.js built without ICU (--with-intl=none).
+                  # See: https://github.com/eslint/eslint/issues/20380
+                  #
+                  # Unicode property escapes (\p{...}) and Intl APIs require ICU.
+                  # Instead, use the pre-generated ranges in lib/shared/combining-ranges.generated.js.
+                  if grep -rn '\\[pP]{' lib/; then
+                    echo ""
+                    echo "ERROR: Found Unicode property escapes in lib/."
+                    echo "These require ICU and will break on Node.js built with --with-intl=none."
+                    echo "Use the pre-generated ranges from lib/shared/combining-ranges.generated.js instead."
+                    exit 1
+                  fi
+                  if grep -rn 'Intl\.' lib/; then
+                    echo ""
+                    echo "ERROR: Found Intl API usage in lib/."
+                    echo "Intl APIs require ICU and will break on Node.js built with --with-intl=none."
+                    exit 1
+                  fi
+                  echo "No ICU-dependent patterns found in lib/ (good)."
+
             - name: Install Docs Packages
               working-directory: docs
               run: npm install
