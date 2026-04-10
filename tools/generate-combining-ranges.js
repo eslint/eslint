@@ -10,7 +10,7 @@ const SOURCE_URL =
 
 const OUTPUT_FILE = path.join(
 	__dirname,
-	"../lib/rules/utils/unicode/combining-ranges.generated.js",
+	"../lib/shared/combining-ranges.generated.js",
 );
 
 /**

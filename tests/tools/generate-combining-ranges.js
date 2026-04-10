@@ -14,7 +14,7 @@ const path = require("node:path");
 
 const GENERATED_FILE = path.resolve(
 	__dirname,
-	"../../lib/rules/utils/unicode/combining-ranges.generated.js",
+	"../../lib/shared/combining-ranges.generated.js",
 );
 
 const GENERATOR_FILE = path.resolve(

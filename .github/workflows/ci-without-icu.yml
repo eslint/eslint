@@ -24,7 +24,7 @@ jobs:
         timeout-minutes: 60
 
         env:
-            NODE_VERSION: "22.15.0"
+            NODE_VERSION: "24.10.0"
 
         steps:
             - uses: actions/checkout@v6

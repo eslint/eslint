@@ -29,6 +29,16 @@ jobs:
             - name: Install Packages
               run: npm install
 
+            - name: Check combining ranges are up to date
+              run: |
+                  node tools/generate-combining-ranges.js
+                  if ! git diff --exit-code lib/shared/combining-ranges.generated.js; then
+                    echo ""
+                    echo "combining-ranges.generated.js is out of date. Regenerate with:"
+                    echo "  node tools/generate-combining-ranges.js"
+                    exit 1
+                  fi
+
             - name: Install Docs Packages
               working-directory: docs
               run: npm install

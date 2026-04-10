@@ -23,6 +23,8 @@
         "tests/pnpm/**",
         // Run from Makefile.js
         "tools/generate-formatter-examples.js",
+        // Manual / release script; regenerates lib/rules/utils/unicode/combining-ranges.generated.js
+        "tools/generate-combining-ranges.js",
       ],
       "ignoreDependencies": [
         "c8",
