@@ -90,6 +90,49 @@ describe("getGraphemeCount", () => {
 			assert.strictEqual(getGraphemeCount(key), value);
 		});
 	});
+
+	/*
+	 * Combining diacritical marks: base character + combining mark(s) = 1 grapheme.
+	 * These exercise the non-ICU fallback path in getGraphemeCount, which uses
+	 * hardcoded combining mark ranges instead of Intl.Segmenter or \p{M} regex.
+	 */
+	describe("combining diacritical marks", () => {
+		it("should count base + single combining mark as 1 grapheme", () => {
+			assert.strictEqual(getGraphemeCount("e\u0301"), 1); // e + combining acute accent → é
+			assert.strictEqual(getGraphemeCount("n\u0303"), 1); // n + combining tilde → ñ
+			assert.strictEqual(getGraphemeCount("a\u0300"), 1); // a + combining grave accent → à
+			assert.strictEqual(getGraphemeCount("u\u0308"), 1); // u + combining diaeresis → ü
+			assert.strictEqual(getGraphemeCount("o\u0302"), 1); // o + combining circumflex → ô
+		});
+
+		it("should count base + multiple combining marks as 1 grapheme", () => {
+			assert.strictEqual(getGraphemeCount("a\u0300\u0301"), 1); // a + grave + acute
+			assert.strictEqual(getGraphemeCount("o\u0308\u0304"), 1); // o + diaeresis + macron
+			assert.strictEqual(getGraphemeCount("e\u0301\u0327"), 1); // e + acute + cedilla
+		});
+
+		it("should count strings mixing ASCII and combining marks", () => {
+			assert.strictEqual(getGraphemeCount("caf\u0065\u0301"), 4); // c-a-f-é (é as e + combining acute)
+			assert.strictEqual(getGraphemeCount("re\u0301sume\u0301"), 6); // r-é-s-u-m-é
+			assert.strictEqual(getGraphemeCount("na\u0308ive"), 5); // n-ä-i-v-e
+		});
+
+		it("should handle combining marks from the Extended block (U+1AB0-U+1AFF)", () => {
+			assert.strictEqual(getGraphemeCount("a\u1ab0"), 1); // a + COMBINING DOUBLED CIRCUMFLEX ACCENT
+		});
+
+		it("should handle combining marks from the Supplement block (U+1DC0-U+1DFF)", () => {
+			assert.strictEqual(getGraphemeCount("a\u1dc0"), 1); // a + COMBINING DOTTED GRAVE ACCENT
+		});
+
+		it("should handle combining marks for symbols (U+20D0-U+20FF)", () => {
+			assert.strictEqual(getGraphemeCount("x\u20d0"), 1); // x + COMBINING LEFT HARPOON ABOVE
+		});
+
+		it("should handle combining half marks (U+FE20-U+FE2F)", () => {
+			assert.strictEqual(getGraphemeCount("a\ufe20"), 1); // a + COMBINING LIGATURE LEFT HALF
+		});
+	});
 });
 
 describe("formatList", () => {
