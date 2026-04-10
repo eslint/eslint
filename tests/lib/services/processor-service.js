@@ -21,10 +21,6 @@ const sinon = require("sinon");
 describe("ProcessorService", () => {
 	const processorService = new ProcessorService();
 
-	afterEach(() => {
-		sinon.restore();
-	});
-
 	describe("preprocessSync()", () => {
 		it("should call preprocess with the file's raw body and file path", () => {
 			const file = new VFile("/project/file.js", "const a = 1;");
