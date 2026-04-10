@@ -1,0 +1,124 @@
+name: Build Node.js (no ICU)
+
+# Builds Node.js from source with --with-intl=none and uploads the binary
+# as a GitHub Release asset. The CI (without ICU) workflow downloads this
+# pre-built binary instead of compiling from source on every PR.
+#
+# Run manually via workflow_dispatch when bumping NODE_VERSION, or let the
+# weekly schedule keep it fresh.
+
+on:
+    schedule:
+        - cron: "0 6 * * 1" # Every Monday at 06:00 UTC
+    workflow_dispatch:
+        inputs:
+            node_version:
+                description: "Node.js version to build (e.g. 24.10.0)"
+                required: false
+
+permissions:
+    contents: write
+
+env:
+    DEFAULT_NODE_VERSION: "24.10.0"
+
+jobs:
+    build:
+        name: Build Node.js without ICU
+        runs-on: ubuntu-latest
+        timeout-minutes: 120
+
+        steps:
+            - name: Determine Node.js version
+              id: version
+              run: |
+                  VERSION="${{ github.event.inputs.node_version || env.DEFAULT_NODE_VERSION }}"
+                  echo "node_version=${VERSION}" >> "$GITHUB_OUTPUT"
+                  echo "asset_name=node-no-icu-v${VERSION}-linux-x64.tar.xz" >> "$GITHUB_OUTPUT"
+                  echo "release_tag=no-icu-builds" >> "$GITHUB_OUTPUT"
+                  echo "Building Node.js v${VERSION} without ICU"
+
+            - name: Check if asset already exists
+              id: check-asset
+              env:
+                  GH_TOKEN: ${{ github.token }}
+              run: |
+                  ASSET_NAME="${{ steps.version.outputs.asset_name }}"
+                  RELEASE_TAG="${{ steps.version.outputs.release_tag }}"
+
+                  if gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+                    ASSETS=$(gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json assets -q '.assets[].name')
+                    if echo "$ASSETS" | grep -qx "$ASSET_NAME"; then
+                      echo "Asset $ASSET_NAME already exists in release $RELEASE_TAG"
+                      echo "exists=true" >> "$GITHUB_OUTPUT"
+                    else
+                      echo "Asset $ASSET_NAME not found in release $RELEASE_TAG"
+                      echo "exists=false" >> "$GITHUB_OUTPUT"
+                    fi
+                  else
+                    echo "Release $RELEASE_TAG does not exist yet"
+                    echo "exists=false" >> "$GITHUB_OUTPUT"
+                  fi
+
+            - name: Install build dependencies
+              if: steps.check-asset.outputs.exists != 'true'
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y build-essential python3
+
+            - name: Download Node.js source
+              if: steps.check-asset.outputs.exists != 'true'
+              run: |
+                  NODE_VERSION="${{ steps.version.outputs.node_version }}"
+                  curl -fsSL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}.tar.xz" | tar -xJ
+
+            - name: Build Node.js with --with-intl=none
+              if: steps.check-asset.outputs.exists != 'true'
+              run: |
+                  NODE_VERSION="${{ steps.version.outputs.node_version }}"
+                  cd "node-v${NODE_VERSION}"
+                  ./configure --with-intl=none --prefix="$HOME/node-no-icu"
+                  make -j"$(nproc)"
+                  make install
+
+            - name: Strip debug symbols and verify
+              if: steps.check-asset.outputs.exists != 'true'
+              run: |
+                  strip "$HOME/node-no-icu/bin/node"
+                  "$HOME/node-no-icu/bin/node" -v
+                  "$HOME/node-no-icu/bin/node" -e "
+                    if (process.versions.icu) {
+                      console.error('ERROR: ICU is present — build was not --with-intl=none');
+                      process.exit(1);
+                    }
+                    console.log('Verified: no ICU in this build');
+                  "
+
+            - name: Create tarball
+              if: steps.check-asset.outputs.exists != 'true'
+              run: |
+                  ASSET_NAME="${{ steps.version.outputs.asset_name }}"
+                  tar -cJf "$ASSET_NAME" -C "$HOME" node-no-icu
+                  ls -lh "$ASSET_NAME"
+
+            - name: Create or update release
+              if: steps.check-asset.outputs.exists != 'true'
+              env:
+                  GH_TOKEN: ${{ github.token }}
+              run: |
+                  RELEASE_TAG="${{ steps.version.outputs.release_tag }}"
+                  ASSET_NAME="${{ steps.version.outputs.asset_name }}"
+                  NODE_VERSION="${{ steps.version.outputs.node_version }}"
+
+                  if ! gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+                    gh release create "$RELEASE_TAG" \
+                      --repo "$GITHUB_REPOSITORY" \
+                      --title "Node.js no-ICU builds" \
+                      --notes "Pre-built Node.js binaries compiled with \`--with-intl=none\` for CI testing. See [#20380](https://github.com/eslint/eslint/issues/20380)." \
+                      --prerelease
+                  fi
+
+                  gh release upload "$RELEASE_TAG" "$ASSET_NAME" \
+                    --repo "$GITHUB_REPOSITORY" \
+                    --clobber
+                  echo "Uploaded $ASSET_NAME to release $RELEASE_TAG"

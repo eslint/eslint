@@ -3,10 +3,9 @@ name: CI (without ICU)
 # Verifies ESLint works on Node.js built without full ICU support.
 # See: https://github.com/eslint/eslint/issues/20380
 #
-# Modern Node.js binaries always embed full ICU, and there are no official
-# no-ICU prebuilt binaries. This workflow builds Node.js from source with
-# --with-intl=none to exercise the fallback code paths that avoid
-# Unicode property escapes and Intl-dependent APIs.
+# Uses a pre-built Node.js binary (--with-intl=none) from the "no-icu-builds"
+# GitHub Release, uploaded by the build-node-no-icu.yml workflow.
+# This avoids a ~60-minute source build on every PR.
 
 on:
     push:
@@ -17,62 +16,41 @@ on:
 permissions:
     contents: read
 
+env:
+    NODE_VERSION: "24.10.0"
+    RELEASE_TAG: "no-icu-builds"
+
 jobs:
     test_without_icu:
         name: Test (Node.js without ICU)
         runs-on: ubuntu-latest
-        timeout-minutes: 60
-
-        env:
-            NODE_VERSION: "24.10.0"
+        timeout-minutes: 15
 
         steps:
             - uses: actions/checkout@v6
 
-            - name: Cache Node.js build without ICU
-              id: cache-node
-              uses: actions/cache@v4
-              with:
-                  path: ~/node-no-icu
-                  key: node-without-icu-${{ env.NODE_VERSION }}-${{ runner.os }}
-
-            - name: Build Node.js with no-ICU
-              if: steps.cache-node.outputs.cache-hit != 'true'
+            - name: Download pre-built Node.js (no ICU)
+              env:
+                  GH_TOKEN: ${{ github.token }}
               run: |
-                  sudo apt-get update
-                  sudo apt-get install -y build-essential python3 python3-pip
-                  curl -fsSL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}.tar.xz" | tar -xJ
-                  cd "node-v${NODE_VERSION}"
-                  ./configure --with-intl=none --prefix="$HOME/node-no-icu"
-                  make -j"$(nproc)"
-                  make install
-
-            - name: Add no-ICU Node.js to PATH
-              run: echo "$HOME/node-no-icu/bin" >> "$GITHUB_PATH"
+                  ASSET_NAME="node-no-icu-v${NODE_VERSION}-linux-x64.tar.xz"
+                  echo "Downloading ${ASSET_NAME} from release ${RELEASE_TAG}"
+                  gh release download "$RELEASE_TAG" \
+                    --repo "$GITHUB_REPOSITORY" \
+                    --pattern "$ASSET_NAME"
+                  tar -xJf "$ASSET_NAME" -C "$HOME"
+                  echo "$HOME/node-no-icu/bin" >> "$GITHUB_PATH"
 
             - name: Verify no-ICU runtime
               run: |
                   node -v
                   node -e "
-                    const icu = process.versions.icu;
-                    console.log('ICU version:', icu || '(none)');
-
-                    // Verify this is NOT a full-ICU build by checking locale data
-                    const hasFullLocaleData = (() => {
-                      try {
-                        // Full ICU knows about many locales; no-ICU typically only has English
-                        return new Intl.DateTimeFormat('zh-Hans-CN').resolvedOptions().locale.startsWith('zh');
-                      } catch {
-                        return false;
-                      }
-                    })();
-
-                    if (hasFullLocaleData) {
-                      console.error('WARNING: This build appears to have full ICU locale data.');
-                      console.error('The test may not exercise fallback code paths.');
-                    } else {
-                      console.log('Confirmed: running with limited ICU data (no-icu).');
+                    if (process.versions.icu) {
+                      console.error('ERROR: ICU is present (version: ' + process.versions.icu + ')');
+                      console.error('This binary was not built with --with-intl=none.');
+                      process.exit(1);
                     }
+                    console.log('Confirmed: running without ICU (--with-intl=none).');
                   "
 
             - name: Install dependencies
