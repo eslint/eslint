@@ -94,5 +94,46 @@ describe("SuppressionsService", () => {
 				},
 			);
 		});
+
+		it("should read from the correct filePath", async () => {
+			const suppressionsService = new SuppressionsService({
+				filePath: "/custom/path/suppressions.json",
+				cwd: "/custom",
+			});
+			const mockData = { "app.js": { "no-unused-vars": { count: 2 } } };
+			const stub = sinon
+				.stub(fs.promises, "readFile")
+				.resolves(JSON.stringify(mockData));
+
+			const result = await suppressionsService.load();
+			assert.deepStrictEqual(result, mockData);
+			assert(
+				stub.calledOnceWithExactly(
+					"/custom/path/suppressions.json",
+					"utf8",
+				),
+				"Expected readFile to be called with the correct filePath and encoding",
+			);
+		});
+
+		it("should use the filePath from the constructor in the error message when cwd is different", async () => {
+			const suppressionsService = new SuppressionsService({
+				filePath: "/workspace/config/eslint-suppressions.json",
+				cwd: "/workspace",
+			});
+			sinon.stub(fs.promises, "readFile").resolves("not valid json");
+
+			await assert.rejects(
+				() => suppressionsService.load(),
+				err => {
+					assert.strictEqual(
+						err.message,
+						"Failed to parse suppressions file at /workspace/config/eslint-suppressions.json",
+					);
+					assert.ok(err.cause instanceof SyntaxError);
+					return true;
+				},
+			);
+		});
 	});
 });
