@@ -29,6 +29,7 @@ function definedError(classMemberName) {
 		data: {
 			classMemberName: `#${classMemberName}`,
 		},
+		suggestions: 1,
 	};
 }
 
@@ -388,6 +389,40 @@ class Second {}`,
 				{
 					...definedError("usedOnlyInTheSecondInnerClass"),
 					line: 2,
+				},
+			],
+		},
+
+		// Suggestion tests
+		{
+			code: "class Foo { #unusedMember = 5; method() {} }",
+			errors: [
+				{
+					messageId: "unusedPrivateClassMember",
+					data: { classMemberName: "#unusedMember" },
+					suggestions: [
+						{
+							messageId: "removeUnusedMember",
+							data: { classMemberName: "#unusedMember" },
+							output: "class Foo {  method() {} }",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "class Foo { #a = 1; #b = 2; method() { return this.#a; } }",
+			errors: [
+				{
+					messageId: "unusedPrivateClassMember",
+					data: { classMemberName: "#b" },
+					suggestions: [
+						{
+							messageId: "removeUnusedMember",
+							data: { classMemberName: "#b" },
+							output: "class Foo { #a = 1;  method() { return this.#a; } }",
+						},
+					],
 				},
 			],
 		},
