@@ -64,7 +64,7 @@ async function runTests(pluginKey, pluginSettings) {
 			stdio: log.enabled ? "inherit" : undefined,
 		});
 
-		if (result.status || results.error) {
+		if (result.status || result.error) {
 			throw result.error ?? new Error(result.stderr.toString());
 		}
 
