@@ -88,6 +88,12 @@ ruleTester.run("for-direction", rule, {
 		"for(var i = 0; i === 10; i+=1){}",
 		"for(var i = 0; i == 10; i+=1){}",
 		"for(var i = 0; i != 10; i+=1){}",
+
+		// SequenceExpression: counter not modified in sequence, only other variables
+		"for(var i = 0; i < 10; j++, k++){}",
+		// SequenceExpression: counter modified more than once (ambiguous net effect)
+		"for(var i = 10; i < 20; i--, i += 2){}",
+		"for(var i = 10; i < 20; i--, i++){}",
 	],
 	invalid: [
 		// test if '++', '--'
@@ -372,6 +378,20 @@ ruleTester.run("for-direction", rule, {
 					endColumn: 29,
 				},
 			],
+		},
+
+		// SequenceExpression: exactly one expression modifies counter in wrong direction
+		{
+			code: "for(var i = 10; i < 20; i--, j++){}",
+			errors: [{ messageId: "incorrectDirection" }],
+		},
+		{
+			code: "for(var i = 0; i < 10; j++, i--){}",
+			errors: [{ messageId: "incorrectDirection" }],
+		},
+		{
+			code: "for(var i = 10; i > 0; i++, j--){}",
+			errors: [{ messageId: "incorrectDirection" }],
 		},
 	],
 });
