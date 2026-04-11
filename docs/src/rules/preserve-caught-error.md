@@ -117,9 +117,10 @@ try {
 
 ## Options
 
-This rule takes a single option — an object with the following optional property:
+This rule takes a single option — an object with the following optional properties:
 
 - `requireCatchParameter`: Requires the catch blocks to always have the caught error parameter when set to `true`. By default, this is `false`.
+- `allowedErrorClassNames`: A list of custom error class names that should also be checked for proper cause chaining. By default, this is an empty array `[]`, meaning only built-in error types are checked.
 
 ### requireCatchParameter
 
@@ -158,6 +159,48 @@ try {
 	doSomething();
 } catch(error) { // Error is being referenced ✅
 	// Handling and re-throw logic
+}
+```
+
+:::
+
+### allowedErrorClassNames
+
+By default, this rule only applies to the built-in error types (`Error`, `TypeError`, etc.). Use this option to extend the rule to your own custom error classes.
+
+```js
+"preserve-caught-error": ["error", {
+  "allowedErrorClassNames": ["CustomError", "DatabaseError"]
+}]
+```
+
+Example of **incorrect** code for the `{ "allowedErrorClassNames": ["CustomError"] }` option:
+
+::: incorrect
+
+```js
+/* eslint preserve-caught-error: ["error", { "allowedErrorClassNames": ["CustomError"] }] */
+
+try {
+	doSomething();
+} catch (err) {
+	throw new CustomError("Something went wrong"); // Missing `cause: err`
+}
+```
+
+:::
+
+Example of **correct** code for the `{ "allowedErrorClassNames": ["CustomError"] }` option:
+
+::: correct
+
+```js
+/* eslint preserve-caught-error: ["error", { "allowedErrorClassNames": ["CustomError"] }] */
+
+try {
+	doSomething();
+} catch (err) {
+	throw new CustomError("Something went wrong", { cause: err });
 }
 ```
 

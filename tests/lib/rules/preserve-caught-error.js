@@ -127,6 +127,42 @@ ruleTester.run("preserve-caught-error", rule, {
 		} catch (error) {
 			throw new Error("Something failed", { cause: anotherError, "cause": error });
 		}`,
+		/* Custom error class names: valid when cause is properly chained */
+		{
+			code: `try {
+			doSomething();
+		} catch (err) {
+			throw new CustomError("message", { cause: err });
+		}`,
+			options: [{ allowedErrorClassNames: ["CustomError"] }],
+		},
+		{
+			code: `try {
+			doSomething();
+		} catch (err) {
+			throw new CustomError("message", { cause: err });
+		}`,
+			options: [
+				{
+					allowedErrorClassNames: ["CustomError", "AnotherError"],
+				},
+			],
+		},
+		/* Custom error class without cause, but NOT in allowedErrorClassNames — should not be reported */
+		`try {
+			doSomething();
+		} catch (err) {
+			throw new CustomError("message");
+		}`,
+		/* Custom error class called without `new` keyword with cause properly chained */
+		{
+			code: `try {
+			doSomething();
+		} catch (err) {
+			throw CustomError("message", { cause: err });
+		}`,
+			options: [{ allowedErrorClassNames: ["CustomError"] }],
+		},
 	],
 	invalid: [
 		/* 1. Throws a new Error without cause, even though an error was caught */
@@ -845,6 +881,106 @@ ruleTester.run("preserve-caught-error", rule, {
 				});
 			}`,
 			errors: [{ messageId: "incorrectCause" }],
+		},
+		/* 27. Custom error class without cause — should report when listed in allowedErrorClassNames */
+		{
+			code: `try {
+			doSomething();
+		} catch (err) {
+			throw new CustomError("message");
+		}`,
+			options: [{ allowedErrorClassNames: ["CustomError"] }],
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try {
+			doSomething();
+		} catch (err) {
+			throw new CustomError("message", { cause: err });
+		}`,
+						},
+					],
+				},
+			],
+		},
+		/* 28. Custom error class with incorrect cause */
+		{
+			code: `try {
+			doSomething();
+		} catch (err) {
+			const unrelated = new Error("other");
+			throw new CustomError("message", { cause: unrelated });
+		}`,
+			options: [{ allowedErrorClassNames: ["CustomError"] }],
+			errors: [
+				{
+					messageId: "incorrectCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try {
+			doSomething();
+		} catch (err) {
+			const unrelated = new Error("other");
+			throw new CustomError("message", { cause: err });
+		}`,
+						},
+					],
+				},
+			],
+		},
+		/* 29. Custom error class called without `new` keyword — should report when in allowedErrorClassNames */
+		{
+			code: `try {
+			doSomething();
+		} catch (err) {
+			throw CustomError("message");
+		}`,
+			options: [{ allowedErrorClassNames: ["CustomError"] }],
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try {
+			doSomething();
+		} catch (err) {
+			throw CustomError("message", { cause: err });
+		}`,
+						},
+					],
+				},
+			],
+		},
+		/* 30. Multiple custom error classes in allowedErrorClassNames */
+		{
+			code: `try {
+			doSomething();
+		} catch (err) {
+			throw new DatabaseError("Query failed");
+		}`,
+			options: [
+				{ allowedErrorClassNames: ["CustomError", "DatabaseError"] },
+			],
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try {
+			doSomething();
+		} catch (err) {
+			throw new DatabaseError("Query failed", { cause: err });
+		}`,
+						},
+					],
+				},
+			],
 		},
 	],
 });
