@@ -227,9 +227,9 @@ By default, `includeIgnoreFile()` will assign a name to the config that represen
 // eslint.config.js
 import { defineConfig } from "eslint/config";
 import { includeIgnoreFile } from "@eslint/compat";
-import { fileURLToPath } from "node:url";
+import path from "node:path";
 
-const gitignorePath = fileURLToPath(new URL(".gitignore", import.meta.url));
+const gitignorePath = path.resolve(import.meta.dirname, ".gitignore");
 
 export default defineConfig([
 	includeIgnoreFile(gitignorePath, "Imported .gitignore patterns"),

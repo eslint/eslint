@@ -530,15 +530,9 @@ Then, import `FlatCompat` and create a new instance to convert an existing eslin
 ```js
 import { defineConfig } from "eslint/config";
 import { FlatCompat } from "@eslint/eslintrc";
-import path from "path";
-import { fileURLToPath } from "url";
-
-// mimic CommonJS variables -- not needed if using CommonJS
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const compat = new FlatCompat({
-	baseDirectory: __dirname,
+	baseDirectory: import.meta.dirname,
 });
 
 export default defineConfig([
@@ -675,9 +669,9 @@ For example, if you previously used `--ignore-path .gitignore`:
 // eslint.config.js
 import { defineConfig } from "eslint/config";
 import { includeIgnoreFile } from "@eslint/compat";
-import { fileURLToPath } from "node:url";
+import path from "node:path";
 
-const gitignorePath = fileURLToPath(new URL(".gitignore", import.meta.url));
+const gitignorePath = path.resolve(import.meta.dirname, ".gitignore");
 
 export default defineConfig([
 	includeIgnoreFile(gitignorePath, "Imported .gitignore patterns"),
