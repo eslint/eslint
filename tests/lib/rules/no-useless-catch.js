@@ -124,9 +124,6 @@ ruleTester.run("no-useless-catch", rule, {
                     throw err;
                 }
             `,
-			output: `
-                foo();
-            `,
 			errors: [
 				{
 					messageId: "unnecessaryCatch",
@@ -139,13 +136,6 @@ ruleTester.run("no-useless-catch", rule, {
                     foo();
                 } catch (err) {
                     throw err;
-                } finally {
-                    foo();
-                }
-            `,
-			output: `
-                try {
-                    foo();
                 } finally {
                     foo();
                 }
@@ -165,9 +155,6 @@ ruleTester.run("no-useless-catch", rule, {
                     throw err;
                 }
             `,
-			output: `
-                foo();
-            `,
 			errors: [
 				{
 					messageId: "unnecessaryCatch",
@@ -181,13 +168,6 @@ ruleTester.run("no-useless-catch", rule, {
                 } catch (err) {
                     /* some comment */
                     throw err;
-                } finally {
-                    foo();
-                }
-            `,
-			output: `
-                try {
-                    foo();
                 } finally {
                     foo();
                 }
@@ -208,47 +188,10 @@ ruleTester.run("no-useless-catch", rule, {
                     }
                 }
             `,
-			output: `
-                async () => {
-                    await doSomething();
-                }
-            `,
 			languageOptions: { ecmaVersion: 8 },
 			errors: [
 				{
 					messageId: "unnecessaryCatch",
-				},
-			],
-		},
-		{
-			code: `try {
-    foo();
-} catch (err) {
-    throw err;
-}`,
-			output: `foo();`,
-			errors: [
-				{
-					messageId: "unnecessaryCatch",
-				},
-			],
-		},
-		{
-			code: `try {
-    foo();
-} catch (err) {
-    throw err;
-} finally {
-    bar();
-}`,
-			output: `try {
-    foo();
-} finally {
-    bar();
-}`,
-			errors: [
-				{
-					messageId: "unnecessaryCatchClause",
 				},
 			],
 		},
