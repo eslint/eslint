@@ -414,10 +414,47 @@ ruleTester.run("no-useless-assignment", rule, {
                // handle error
             }
             return bar;
-        }   
+        }
         function unsafeFn() {
             throw new Error();
         }`,
+
+		/*
+		 * Generator functions: assignments before try-finally with yield should not be reported
+		 * because iterator.return() can jump directly to the finally block, making the initial value observable.
+		 */
+		`function* generator() {
+            let done = false;
+            try {
+                yield 1;
+                done = true;
+            } catch {
+                done = true;
+            } finally {
+                if (!done) {
+                    console.log('done is false');
+                }
+            }
+        }`,
+		`function* generator() {
+            let result = 'initial';
+            try {
+                result = yield 1;
+            } finally {
+                console.log(result);
+            }
+        }`,
+		`function* generator() {
+            let x = 0;
+            try {
+                x = 1;
+                yield x;
+                x = 2;
+            } finally {
+                console.log(x);
+            }
+        }`,
+
 		`/*eslint test/unknown-ref:1*/
         let a = "used";
 		console.log(a);
