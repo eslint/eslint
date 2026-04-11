@@ -1,5 +1,6 @@
 v10.2.0 - April 3, 2026
 
+* Docs: explain how to use MCP server with TypeScript eslint config (fixes #20290)
 * Update: add physicalFilename support to RuleTester test cases (fixes #14800)
 * [`542cb3e`](https://github.com/eslint/eslint/commit/542cb3e6442a4e6ee3457c799e2a0ee23bef0c6a) fix: update first-party dependencies (#20714) (Francesco Trotta)
 * [`a2af743`](https://github.com/eslint/eslint/commit/a2af743ea60f683d0e0de9d98267c1e7e4f5e412) docs: add `language` to configuration objects (#20712) (Francesco Trotta)

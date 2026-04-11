@@ -132,6 +132,17 @@ Once configured, you can use ESLint tools with Cascade by asking it to:
 
 Note: MCP tool calls in Windsurf will consume credits regardless of success or failure.
 
+## Using with TypeScript configuration files
+
+If your ESLint configuration is a TypeScript file (e.g., `eslint.config.ts`), the MCP server
+requires [jiti](https://github.com/unjs/jiti) to load it. Install jiti as a dev dependency:
+
+```shell
+npm install --save-dev jiti
+```
+
+Without jiti, the MCP server will fail to load TypeScript configuration files.
+
 ## Example Prompts
 
 Here are some example prompts to an LLM for running ESLint and addressing its findings:
