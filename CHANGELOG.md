@@ -1,5 +1,6 @@
 v10.2.0 - April 3, 2026
 
+* Update: add autofix to no-useless-catch rule (fixes #19931)
 * [`542cb3e`](https://github.com/eslint/eslint/commit/542cb3e6442a4e6ee3457c799e2a0ee23bef0c6a) fix: update first-party dependencies (#20714) (Francesco Trotta)
 * [`a2af743`](https://github.com/eslint/eslint/commit/a2af743ea60f683d0e0de9d98267c1e7e4f5e412) docs: add `language` to configuration objects (#20712) (Francesco Trotta)
 * [`845f23f`](https://github.com/eslint/eslint/commit/845f23f1370892bf07d819497ac518c9e65090d6) docs: Update README (GitHub Actions Bot)
