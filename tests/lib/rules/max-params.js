@@ -5,12 +5,16 @@
 
 "use strict";
 
+/* globals describe, it -- Mocha globals */
+
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../../lib/rules/max-params"),
-	RuleTester = require("../../../lib/rule-tester/rule-tester");
+const assert = require("node:assert"),
+	rule = require("../../../lib/rules/max-params"),
+	RuleTester = require("../../../lib/rule-tester/rule-tester"),
+	createAjv = require("../../../lib/shared/ajv");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -348,4 +352,46 @@ ruleTesterTypeScript.run("max-params", rule, {
 			errors: [{ messageId: "exceed" }],
 		},
 	],
+});
+
+//------------------------------------------------------------------------------
+// Schema validation tests
+//------------------------------------------------------------------------------
+
+describe("max-params schema validation", () => {
+	it("should reject options with both 'max' and 'maximum' specified", () => {
+		const ajv = createAjv();
+		const schema = rule.meta.schema[0];
+		const validate = ajv.compile(schema);
+
+		assert.strictEqual(
+			validate({ max: 2, maximum: 3 }),
+			false,
+			"Schema should reject an object with both 'max' and 'maximum'",
+		);
+	});
+
+	it("should accept options with only 'max' specified", () => {
+		const ajv = createAjv();
+		const schema = rule.meta.schema[0];
+		const validate = ajv.compile(schema);
+
+		assert.strictEqual(
+			validate({ max: 2 }),
+			true,
+			"Schema should accept an object with only 'max'",
+		);
+	});
+
+	it("should accept options with only 'maximum' specified", () => {
+		const ajv = createAjv();
+		const schema = rule.meta.schema[0];
+		const validate = ajv.compile(schema);
+
+		assert.strictEqual(
+			validate({ maximum: 2 }),
+			true,
+			"Schema should accept an object with only 'maximum'",
+		);
+	});
 });
