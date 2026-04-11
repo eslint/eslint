@@ -1,3 +1,7 @@
+v10.2.1 - April 11, 2026
+
+* Fix: validate that RegExp options cause schema validation error in no-restricted-imports (fixes #20506)
+
 v10.2.0 - April 3, 2026
 
 * [`542cb3e`](https://github.com/eslint/eslint/commit/542cb3e6442a4e6ee3457c799e2a0ee23bef0c6a) fix: update first-party dependencies (#20714) (Francesco Trotta)
