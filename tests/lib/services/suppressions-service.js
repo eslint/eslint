@@ -116,10 +116,9 @@ describe("SuppressionsService", () => {
 			);
 		});
 
-		it("should use the filePath from the constructor in the error message when cwd is different", async () => {
+		it("should work without cwd and use filePath in the error message", async () => {
 			const suppressionsService = new SuppressionsService({
 				filePath: "/workspace/config/eslint-suppressions.json",
-				cwd: "/workspace",
 			});
 			sinon.stub(fs.promises, "readFile").resolves("not valid json");
 
