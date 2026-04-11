@@ -6,20 +6,22 @@ on:
         - cron: "0 0 * * 1"
     workflow_dispatch: ~
 
-permissions: read-all
+permissions:
+    contents: write
+    pull-requests: write
 
 jobs:
     test_ecosystem:
         runs-on: ubuntu-latest
 
         steps:
-            - uses: actions/checkout@v5
+            - uses: actions/checkout@v6
             - uses: actions/setup-node@v6
               with:
                   node-version: "lts/*"
             - run: npm install
             - run: npm run test:ecosystem:update
-            - uses: peter-evans/create-pull-request@v7.0.8
+            - uses: peter-evans/create-pull-request@v8
               with:
                   commit-message: "chore: update ecosystem plugins"
                   title: "chore: update ecosystem plugins"
