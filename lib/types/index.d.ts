@@ -1042,7 +1042,37 @@ export namespace Linter {
 	type Processor<T extends string | ProcessorFile = string | ProcessorFile> =
 		CoreProcessor<T>;
 
-	type Config<Rules extends RulesConfig = RulesConfig> = ConfigObject<Rules>;
+	/**
+	 * Shared settings for all rules in a configuration object.
+	 * This interface can be augmented via module declaration merging to add
+	 * type-safe plugin-specific settings.
+	 *
+	 * @example
+	 * ```ts
+	 * declare module 'eslint' {
+	 *   namespace Linter {
+	 *     interface ConfigSettings {
+	 *       myPlugin?: {
+	 *         option: string;
+	 *       };
+	 *     }
+	 *   }
+	 * }
+	 * ```
+	 */
+	// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+	interface ConfigSettings extends Record<string, unknown> {}
+
+	interface Config<Rules extends RulesConfig = RulesConfig> extends Omit<
+		ConfigObject<Rules>,
+		"settings"
+	> {
+		/**
+		 * An object containing name-value pairs of information that should be
+		 * available to all rules.
+		 */
+		settings?: ConfigSettings;
+	}
 
 	/** @deprecated  Use `Config` instead of `FlatConfig` */
 	type FlatConfig<Rules extends RulesConfig = RulesConfig> = Config<Rules>;

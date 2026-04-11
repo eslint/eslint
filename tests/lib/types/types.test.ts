@@ -2429,3 +2429,23 @@ const SYNTAX_ELEMENT_COMMENT: JSSyntaxElement = COMMENT;
 const SYNTAX_ELEMENT_TOKEN: JSSyntaxElement = TOKEN;
 
 // #endregion JSSyntaxElement
+
+// #region Linter.ConfigSettings
+
+// ConfigSettings is an interface that can hold arbitrary string-keyed values
+const configSettings: Linter.ConfigSettings = {};
+const configSettingsWithValues: Linter.ConfigSettings = {
+	myPlugin: { option: "value" },
+};
+
+// Linter.Config accepts ConfigSettings for settings property
+const configWithSettings: Linter.Config = {
+	settings: {
+		myPlugin: { option: "value" },
+	},
+};
+
+// ConfigSettings is assignable to Record<string, unknown>
+const settingsAsRecord: Record<string, unknown> = configSettings;
+
+// #endregion Linter.ConfigSettings
