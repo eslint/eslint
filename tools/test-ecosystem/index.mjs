@@ -72,7 +72,7 @@ async function runTests(pluginKey, pluginSettings) {
 	};
 
 	// 1. Clone the plugin repository into a sandbox directory
-	await fs.mkdir(directory, { force: true });
+	await fs.mkdir(directory, { recursive: true });
 	runCommand([
 		"git",
 		"clone",
