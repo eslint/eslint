@@ -1811,6 +1811,61 @@ describe("RuleTester", () => {
 		RuleTester.resetDefaultConfig();
 	});
 
+	it("should pass-through the physicalFilename to the rule", () => {
+		const physicalFilenameRule = {
+			create(context) {
+				return {
+					Program(node) {
+						context.report({
+							node,
+							message: context.physicalFilename,
+						});
+					},
+				};
+			},
+			meta: { type: "suggestion", schema: [] },
+		};
+
+		ruleTester.run("physicalFilename-rule", physicalFilenameRule, {
+			valid: [],
+			invalid: [
+				{
+					code: "var foo;",
+					filename: "path/to/virtual.mdx",
+					physicalFilename: "path/to/real.js",
+					errors: [{ message: "path/to/real.js" }],
+				},
+			],
+		});
+	});
+
+	it("should use filename as physicalFilename when physicalFilename is not specified", () => {
+		const physicalFilenameRule = {
+			create(context) {
+				return {
+					Program(node) {
+						context.report({
+							node,
+							message: context.physicalFilename,
+						});
+					},
+				};
+			},
+			meta: { type: "suggestion", schema: [] },
+		};
+
+		ruleTester.run("physicalFilename-fallback-rule", physicalFilenameRule, {
+			valid: [],
+			invalid: [
+				{
+					code: "var foo;",
+					filename: "path/to/somefile.js",
+					errors: [{ message: "path/to/somefile.js" }],
+				},
+			],
+		});
+	});
+
 	it("should pass-through the options to the rule", () => {
 		ruleTester.run(
 			"no-invalid-args",
@@ -4550,6 +4605,32 @@ describe("RuleTester", () => {
 					},
 				);
 			}, /Optional test case property 'filename' must be a string/u);
+		});
+
+		it('should throw if "physicalFilename" property is not a string', () => {
+			assert.throws(() => {
+				ruleTester.run(
+					"foo",
+					require("../../fixtures/testers/rule-tester/no-var"),
+					{
+						valid: [{ code: "foo", physicalFilename: false }],
+						invalid: [],
+					},
+				);
+			}, /Optional test case property 'physicalFilename' must be a string/u);
+
+			assert.throws(() => {
+				ruleTester.run(
+					"foo",
+					require("../../fixtures/testers/rule-tester/no-var"),
+					{
+						valid: ["foo"],
+						invalid: [
+							{ code: "foo", errors: 1, physicalFilename: 0 },
+						],
+					},
+				);
+			}, /Optional test case property 'physicalFilename' must be a string/u);
 		});
 	});
 
