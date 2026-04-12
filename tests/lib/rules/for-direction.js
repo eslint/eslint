@@ -88,6 +88,17 @@ ruleTester.run("for-direction", rule, {
 		"for(var i = 0; i === 10; i+=1){}",
 		"for(var i = 0; i == 10; i+=1){}",
 		"for(var i = 0; i != 10; i+=1){}",
+
+		// SequenceExpression: counter not modified
+		"for (let i = 0; i < 10; j++, k++) {}",
+
+		// SequenceExpression: counter modified in correct direction
+		"for (let i = 0; i < 10; j--, i++) {}",
+		"for (let i = 10; i > 0; j++, i--) {}",
+
+		// SequenceExpression: counter modified multiple times (ambiguous)
+		"for (let i = 10; i < 20; i--, i += 2) {}",
+		"for (let i = 10; i < 20; i--, i++) {}",
 	],
 	invalid: [
 		// test if '++', '--'
@@ -370,6 +381,40 @@ ruleTester.run("for-direction", rule, {
 					column: 1,
 					endLine: 1,
 					endColumn: 29,
+				},
+			],
+		},
+
+		// SequenceExpression: counter modified once in wrong direction (Case 1)
+		{
+			code: "for (let i = 10; i < 20; i--, j++) {}",
+			errors: [
+				{
+					...incorrectDirection,
+				},
+			],
+		},
+		{
+			code: "for (let i = 0; i < 10; j++, i--) {}",
+			errors: [
+				{
+					...incorrectDirection,
+				},
+			],
+		},
+		{
+			code: "for (let i = 0; i > 10; j--, i++) {}",
+			errors: [
+				{
+					...incorrectDirection,
+				},
+			],
+		},
+		{
+			code: "for (let i = 0; i < 10; j++, i -= 1) {}",
+			errors: [
+				{
+					...incorrectDirection,
 				},
 			],
 		},
