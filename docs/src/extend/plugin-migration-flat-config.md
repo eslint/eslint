@@ -114,15 +114,13 @@ In order to use this renamed processor, you'll also need to manually specify it 
 import { defineConfig } from "eslint/config";
 import example from "eslint-plugin-example";
 
-export default defineConfig([
-	{
-		files: ["**/*.md"],
-		plugins: {
-			example,
-		},
-		processor: "example/markdown",
+export default defineConfig({
+	files: ["**/*.md"],
+	plugins: {
+		example,
 	},
-]);
+	processor: "example/markdown",
+});
 ```
 
 You should update your plugin's documentation to advise your users if you have renamed a file extension-named processor.
@@ -187,7 +185,7 @@ Your users can then use this exported config like this:
 import { defineConfig } from "eslint/config";
 import example from "eslint-plugin-example";
 
-export default defineConfig([
+export default defineConfig(
 	// use recommended config and provide your own overrides
 	{
 		files: ["**/*.js", "**/*.cjs", "**/*.mjs"],
@@ -199,7 +197,7 @@ export default defineConfig([
 			"example/rule1": "warn",
 		},
 	},
-]);
+);
 ```
 
 If your config extends other configs, you can export an array:
@@ -286,24 +284,22 @@ Your users can then use this exported config like this:
 import { defineConfig } from "eslint/config";
 import example from "eslint-plugin-example";
 
-export default defineConfig([
-	{
-		files: ["**/tests/*.js"],
-		plugins: {
-			example,
-		},
+export default defineConfig({
+	files: ["**/tests/*.js"],
+	plugins: {
+		example,
+	},
 
-		// use the mocha globals
-		extends: ["example/mocha"],
+	// use the mocha globals
+	extends: ["example/mocha"],
 
-		// and provide your own overrides
-		languageOptions: {
-			globals: {
-				it: "readonly",
-			},
+	// and provide your own overrides
+	languageOptions: {
+		globals: {
+			it: "readonly",
 		},
 	},
-]);
+});
 ```
 
 You should update your documentation so your plugin users know how to reference the exported configs.

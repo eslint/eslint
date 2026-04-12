@@ -41,7 +41,7 @@ function addOne(i) {
 import { defineConfig } from "eslint/config";
 import js from "@eslint/js";
 
-export default defineConfig([
+export default defineConfig(
 	{
 		files: ["**/*.js"],
 		plugins: {
@@ -56,7 +56,7 @@ export default defineConfig([
 			"space-unary-ops"  : 2
 		}
 	}
-]);
+);
 ```
 
 Tests the formatters with the CLI:

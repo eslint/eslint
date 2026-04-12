@@ -61,10 +61,10 @@ import { defineConfig } from "eslint/config";
 import globals from "globals";
 import js from "@eslint/js";
 
-export default defineConfig([
+export default defineConfig(
 	{ files: ["**/*.js"], languageOptions: { globals: globals.browser } },
 	{ files: ["**/*.js"], plugins: { js }, extends: ["js/recommended"] },
-]);
+);
 ```
 
 The `"js/recommended"` configuration ensures all of the rules marked as recommended on the [rules page](../rules) will be turned on. Alternatively, you can use configurations that others have created by searching for "eslint-config" on [npmjs.com](https://www.npmjs.com/search?q=eslint-config). ESLint will not lint your code unless you extend from a shared configuration or explicitly turn rules on in your configuration.
@@ -75,7 +75,7 @@ You can configure rules individually by defining a new object with a `rules` key
 import { defineConfig } from "eslint/config";
 import js from "@eslint/js";
 
-export default defineConfig([
+export default defineConfig(
 	{ files: ["**/*.js"], plugins: { js }, extends: ["js/recommended"] },
 
 	{
@@ -84,7 +84,7 @@ export default defineConfig([
 			"no-undef": "warn",
 		},
 	},
-]);
+);
 ```
 
 The names `"no-unused-vars"` and `"no-undef"` are the names of [rules](../rules) in ESLint. The first value is the error level of the rule and can be one of these values:
@@ -137,19 +137,17 @@ Before you begin, you must already have a `package.json` file. If you don't, mak
     import { defineConfig } from "eslint/config";
     import js from "@eslint/js";
 
-    export default defineConfig([
-    	{
-    		files: ["**/*.js"],
-    		plugins: {
-    			js,
-    		},
-    		extends: ["js/recommended"],
-    		rules: {
-    			"no-unused-vars": "warn",
-    			"no-undef": "warn",
-    		},
+    export default defineConfig({
+    	files: ["**/*.js"],
+    	plugins: {
+    		js,
     	},
-    ]);
+    	extends: ["js/recommended"],
+    	rules: {
+    		"no-unused-vars": "warn",
+    		"no-undef": "warn",
+    	},
+    });
     ```
 
 4. Lint code using the ESLint CLI:

@@ -151,17 +151,15 @@ In order to use a rule from a plugin in a configuration file, import the plugin 
 import { defineConfig } from "eslint/config";
 import example from "eslint-plugin-example";
 
-export default defineConfig([
-	{
-		files: ["**/*.js"], // any patterns you want to apply the config to
-		plugins: {
-			example,
-		},
-		rules: {
-			"example/dollar-sign": "error",
-		},
+export default defineConfig({
+	files: ["**/*.js"], // any patterns you want to apply the config to
+	plugins: {
+		example,
 	},
-]);
+	rules: {
+		"example/dollar-sign": "error",
+	},
+});
 ```
 
 ::: warning
@@ -204,15 +202,13 @@ In order to use a processor from a plugin in a configuration file, import the pl
 import { defineConfig } from "eslint/config";
 import example from "eslint-plugin-example";
 
-export default defineConfig([
-	{
-		files: ["**/*.txt"],
-		plugins: {
-			example,
-		},
-		processor: "example/processor-name",
+export default defineConfig({
+	files: ["**/*.txt"],
+	plugins: {
+		example,
 	},
-]);
+	processor: "example/processor-name",
+});
 ```
 
 ### Configs in Plugins
@@ -277,15 +273,13 @@ In order to use a config from a plugin in a configuration file, import the plugi
 import { defineConfig } from "eslint/config";
 import example from "eslint-plugin-example";
 
-export default defineConfig([
-	{
-		files: ["**/*.js"], // any patterns you want to apply the config to
-		plugins: {
-			example,
-		},
-		extends: ["example/recommended"],
+export default defineConfig({
+	files: ["**/*.js"], // any patterns you want to apply the config to
+	plugins: {
+		example,
 	},
-]);
+	extends: ["example/recommended"],
+});
 ```
 
 ::: important

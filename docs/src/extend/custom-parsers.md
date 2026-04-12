@@ -133,14 +133,12 @@ Then add the custom parser to your ESLint configuration file with the `languageO
 const { defineConfig } = require("eslint/config");
 const myparser = require("eslint-parser-myparser");
 
-module.exports = defineConfig([
-	{
-		languageOptions: {
-			parser: myparser,
-		},
-		// ... rest of configuration
+module.exports = defineConfig({
+	languageOptions: {
+		parser: myparser,
 	},
-]);
+	// ... rest of configuration
+});
 ```
 
 When using legacy configuration, specify the `parser` property as a string:
@@ -187,13 +185,11 @@ Include the custom parser in an ESLint configuration file:
 // eslint.config.js
 const { defineConfig } = require("eslint/config");
 
-module.exports = defineConfig([
-	{
-		languageOptions: {
-			parser: require("./path/to/awesome-custom-parser"),
-		},
+module.exports = defineConfig({
+	languageOptions: {
+		parser: require("./path/to/awesome-custom-parser"),
 	},
-]);
+});
 ```
 
 Or if using legacy configuration:

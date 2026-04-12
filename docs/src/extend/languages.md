@@ -126,15 +126,13 @@ In order to use a language from a plugin in a configuration file, import the plu
 import { defineConfig } from "eslint/config";
 import example from "eslint-plugin-example";
 
-export default defineConfig([
-	{
-		files: ["**/*.my"],
-		plugins: {
-			example,
-		},
-		language: "example/my",
+export default defineConfig({
+	files: ["**/*.my"],
+	plugins: {
+		example,
 	},
-]);
+	language: "example/my",
+});
 ```
 
 See [Specify a Language](../use/configure/plugins#specify-a-language) in the Plugin Configuration documentation for more details.

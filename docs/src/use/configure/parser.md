@@ -22,14 +22,12 @@ In many cases, you can use the [default parser](https://github.com/eslint/js/tre
 import babelParser from "@babel/eslint-parser";
 import { defineConfig } from "eslint/config";
 
-export default defineConfig([
-	{
-		files: ["**/*.js", "**/*.mjs"],
-		languageOptions: {
-			parser: babelParser,
-		},
+export default defineConfig({
+	files: ["**/*.js", "**/*.mjs"],
+	languageOptions: {
+		parser: babelParser,
 	},
-]);
+});
 ```
 
 This configuration ensures that the Babel parser, rather than the default Espree parser, is used to parse all files ending with `.js` and `.mjs`.
@@ -53,21 +51,19 @@ Parsers may accept options to alter the way they behave. The `languageOptions.pa
 import babelParser from "@babel/eslint-parser";
 import { defineConfig } from "eslint/config";
 
-export default defineConfig([
-	{
-		languageOptions: {
-			parser: babelParser,
-			parserOptions: {
-				requireConfigFile: false,
-				babelOptions: {
-					babelrc: false,
-					configFile: false,
-					presets: ["@babel/preset-env"],
-				},
+export default defineConfig({
+	languageOptions: {
+		parser: babelParser,
+		parserOptions: {
+			requireConfigFile: false,
+			babelOptions: {
+				babelrc: false,
+				configFile: false,
+				presets: ["@babel/preset-env"],
 			},
 		},
 	},
-]);
+});
 ```
 
 ::: tip

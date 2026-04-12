@@ -321,20 +321,18 @@ const { defineConfig } = require("eslint/config");
 // Import the ESLint plugin locally
 const eslintPluginExample = require("./eslint-plugin-example");
 
-module.exports = defineConfig([
-	{
-		files: ["**/*.js"],
-		languageOptions: {
-			sourceType: "commonjs",
-			ecmaVersion: "latest",
-		},
-		// Using the eslint-plugin-example plugin defined locally
-		plugins: { example: eslintPluginExample },
-		rules: {
-			"example/enforce-foo-bar": "error",
-		},
+module.exports = defineConfig({
+	files: ["**/*.js"],
+	languageOptions: {
+		sourceType: "commonjs",
+		ecmaVersion: "latest",
 	},
-]);
+	// Using the eslint-plugin-example plugin defined locally
+	plugins: { example: eslintPluginExample },
+	rules: {
+		"example/enforce-foo-bar": "error",
+	},
+});
 ```
 
 Before you can test the rule, you must create a file to test the rule on.

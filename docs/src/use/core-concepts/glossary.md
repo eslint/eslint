@@ -35,13 +35,11 @@ For example, this `eslint.config.js` file enables the `prefer-const` [rule](#rul
 ```js
 import { defineConfig } from "eslint/config";
 
-export default defineConfig([
-	{
-		rules: {
-			"prefer-const": "error",
-		},
+export default defineConfig({
+	rules: {
+		"prefer-const": "error",
 	},
-]);
+});
 ```
 
 See [Configuration Files](../configure/configuration-files) for more details.
@@ -246,7 +244,7 @@ The following [config file](#config-file-configuration-file) overrides `no-unuse
 ```js
 import { defineConfig } from "eslint/config";
 
-export default defineConfig([
+export default defineConfig(
 	{
 		rules: {
 			"no-unused-expressions": "error",
@@ -258,7 +256,7 @@ export default defineConfig([
 			"no-unused-expressions": "off",
 		},
 	},
-]);
+);
 ```
 
 The following [inline config](#inline-config-configuration-comment) sets `no-unused-expressions` to `"error"`:
@@ -352,7 +350,7 @@ import { defineConfig } from "eslint/config";
 import js from "@eslint/js";
 import solid from "eslint-plugin-solid/configs/recommended";
 
-export default defineConfig([js.configs.recommended, solid]);
+export default defineConfig(js.configs.recommended, solid);
 ```
 
 For information on shareable configs, see [Share Configurations](../../extend/shareable-configs).

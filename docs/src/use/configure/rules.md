@@ -80,13 +80,11 @@ To report unused `eslint` inline config comments (those that don't change anythi
 // eslint.config.js
 import { defineConfig } from "eslint/config";
 
-export default defineConfig([
-	{
-		linterOptions: {
-			reportUnusedInlineConfigs: "error",
-		},
+export default defineConfig({
+	linterOptions: {
+		reportUnusedInlineConfigs: "error",
 	},
-]);
+});
 ```
 
 This setting defaults to `"off"`.
@@ -105,15 +103,13 @@ To configure rules inside of a [configuration file](./configuration-files#config
 // eslint.config.js
 import { defineConfig } from "eslint/config";
 
-export default defineConfig([
-	{
-		rules: {
-			eqeqeq: "off",
-			"no-unused-vars": "error",
-			"prefer-const": ["error", { ignoreReadBeforeAssign: true }],
-		},
+export default defineConfig({
+	rules: {
+		eqeqeq: "off",
+		"no-unused-vars": "error",
+		"prefer-const": ["error", { ignoreReadBeforeAssign: true }],
 	},
-]);
+});
 ```
 
 When more than one configuration object specifies the same rule, the rule configuration is merged with the later object taking precedence over any previous objects. For example:
@@ -121,7 +117,7 @@ When more than one configuration object specifies the same rule, the rule config
 ```js
 import { defineConfig } from "eslint/config";
 
-export default defineConfig([
+export default defineConfig(
 	{
 		rules: {
 			semi: ["error", "never"],
@@ -132,7 +128,7 @@ export default defineConfig([
 			semi: ["warn", "always"],
 		},
 	},
-]);
+);
 ```
 
 Using this configuration, the final rule configuration for `semi` is `["warn", "always"]` because it appears last in the array. The array indicates that the configuration is for the severity and any options. You can change just the severity by defining only a string or number, as in this example:
@@ -140,7 +136,7 @@ Using this configuration, the final rule configuration for `semi` is `["warn", "
 ```js
 import { defineConfig } from "eslint/config";
 
-export default defineConfig([
+export default defineConfig(
 	{
 		rules: {
 			semi: ["error", "never"],
@@ -151,7 +147,7 @@ export default defineConfig([
 			semi: "warn",
 		},
 	},
-]);
+);
 ```
 
 Here, the second configuration object only overrides the severity, so the final configuration for `semi` is `["warn", "never"]`.
@@ -171,16 +167,14 @@ In a [configuration file](./configuration-files#configuration-file), for example
 import example from "eslint-plugin-example";
 import { defineConfig } from "eslint/config";
 
-export default defineConfig([
-	{
-		plugins: {
-			example,
-		},
-		rules: {
-			"example/rule1": "warn",
-		},
+export default defineConfig({
+	plugins: {
+		example,
 	},
-]);
+	rules: {
+		"example/rule1": "warn",
+	},
+});
 ```
 
 In this configuration file, the rule `example/rule1` comes from the plugin named `eslint-plugin-example`.
@@ -342,7 +336,7 @@ To disable rules inside of a [configuration file](./configuration-files#configur
 // eslint.config.js
 import { defineConfig } from "eslint/config";
 
-export default defineConfig([
+export default defineConfig(
 	{
 		rules: {
 			"no-unused-expressions": "error",
@@ -354,7 +348,7 @@ export default defineConfig([
 			"no-unused-expressions": "off",
 		},
 	},
-]);
+);
 ```
 
 ### Disable Inline Comments
@@ -365,16 +359,14 @@ To disable all inline config comments, use the `noInlineConfig` setting in your 
 // eslint.config.js
 import { defineConfig } from "eslint/config";
 
-export default defineConfig([
-	{
-		linterOptions: {
-			noInlineConfig: true,
-		},
-		rules: {
-			"no-unused-expressions": "error",
-		},
+export default defineConfig({
+	linterOptions: {
+		noInlineConfig: true,
 	},
-]);
+	rules: {
+		"no-unused-expressions": "error",
+	},
+});
 ```
 
 You can also use the [`--no-inline-config`](../command-line-interface#--no-inline-config) CLI option to disable rule comments, in addition to other in-line configuration.
@@ -387,13 +379,11 @@ To report unused `eslint-disable` comments (those that disable rules which would
 // eslint.config.js
 import { defineConfig } from "eslint/config";
 
-export default defineConfig([
-	{
-		linterOptions: {
-			reportUnusedDisableDirectives: "error",
-		},
+export default defineConfig({
+	linterOptions: {
+		reportUnusedDisableDirectives: "error",
 	},
-]);
+});
 ```
 
 This setting defaults to `"warn"`.

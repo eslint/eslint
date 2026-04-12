@@ -18,18 +18,16 @@ If you are importing a [config object](../core-concepts/glossary#config-object) 
 import js from "@eslint/js";
 import { defineConfig } from "eslint/config";
 
-export default defineConfig([
-	{
-		files: ["**/*.js"],
-		plugins: {
-			js,
-		},
-		extends: ["js/recommended"],
-		rules: {
-			"no-unused-vars": "warn",
-		},
+export default defineConfig({
+	files: ["**/*.js"],
+	plugins: {
+		js,
 	},
-]);
+	extends: ["js/recommended"],
+	rules: {
+		"no-unused-vars": "warn",
+	},
+});
 ```
 
 Here, the `"js/recommended"` predefined configuration is applied to files that match the pattern `"**/*.js"` first and then adds the desired configuration for `no-unused-vars`.
@@ -43,15 +41,13 @@ If you are importing a [config array](../core-concepts/glossary#config-array) fr
 import exampleConfigs from "eslint-config-example";
 import { defineConfig } from "eslint/config";
 
-export default defineConfig([
-	{
-		files: ["**/*.js"],
-		extends: [exampleConfigs],
-		rules: {
-			"no-unused-vars": "warn",
-		},
+export default defineConfig({
+	files: ["**/*.js"],
+	extends: [exampleConfigs],
+	rules: {
+		"no-unused-vars": "warn",
 	},
-]);
+});
 ```
 
 Here, the `exampleConfigs` shareable configuration is applied to files that match the pattern "`**/*.js"` first and then another configuration object adds the desired configuration for `no-unused-vars`.
