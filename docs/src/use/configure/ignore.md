@@ -230,7 +230,7 @@ import { fileURLToPath } from "node:url";
 const gitignorePath = fileURLToPath(new URL(".gitignore", import.meta.url));
 
 export default defineConfig(
-	includeIgnoreFile(gitignorePath, { mode: "gitignore" }),
+	includeIgnoreFile(gitignorePath, { gitignoreResolution: true }),
 	{
 		// your overrides
 	},
@@ -254,7 +254,7 @@ const nestedGitignorePath = fileURLToPath(
 
 export default defineConfig(
 	includeIgnoreFile([rootGitignorePath, nestedGitignorePath], {
-		mode: "gitignore",
+		gitignoreResolution: true,
 	}),
 	{
 		// your overrides
@@ -264,9 +264,9 @@ export default defineConfig(
 
 In this case, an array of config objects will be returned.
 
-### Including other ignore files
+### Include other ignore files
 
-If `{ mode: "gitignore" }` is omitted, or if `{ mode: "eslintignore" }` is specified, `includeIgnoreFile()` will interpret the ignore patterns relative to the `cwd` from which ESLint is run, matching the [historical behavior of `.eslintignore` files](https://eslint.org/docs/v8.x/use/configure/ignore#the-eslintignore-file).
+If `{ gitignoreResolution: true }` is omitted, or if `{ gitignoreResolution: false" }` is specified, `includeIgnoreFile()` will interpret the ignore patterns relative to the location of the ESLint config file.
 
 ```js
 // eslint.config.js
@@ -275,7 +275,7 @@ import { defineConfig, includeIgnoreFile } from "eslint/config";
 import { fileURLToPath } from "node:url";
 
 const eslintIgnorePath = fileURLToPath(
-	new URL(".eslintignore", import.meta.url),
+	new URL("eslint-ignore-patterns", import.meta.url),
 );
 
 export default defineConfig([
@@ -286,9 +286,9 @@ export default defineConfig([
 ]);
 ```
 
-By contrast, `.gitignore` files are specified such that their patterns should be interpreted relative to the `.gitignore` file itself. Therefore, `{ mode: "gitignore" }`, which tells `includeIgnoreFile()` to match this behavior, should always be used when including ignore patterns from `.gitignore` files.
+By contrast, `.gitignore` files are specified such that the ignore patterns should be interpreted relative to the location of the `.gitignore` file itself. Therefore, `{ gitignoreResolution: true }`, which tells `includeIgnoreFile()` to match this behavior, should always be used when including ignore patterns from `.gitignore` files.
 
-### Customizing name of output configs
+### Customize name of output configs
 
 By default, `includeIgnoreFile()` will assign a name to the config that represents your ignores. You can override this name by providing it in the second argument to `includeIgnoreFile()`:
 
@@ -297,7 +297,7 @@ By default, `includeIgnoreFile()` will assign a name to the config that represen
 
 export default defineConfig(
 	includeIgnoreFile(gitignorePath, {
-		mode: "gitignore",
+		gitignoreResolution: true,
 		name: "Imported .gitignore patterns",
 	}),
 	{

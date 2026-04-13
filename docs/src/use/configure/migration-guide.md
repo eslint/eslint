@@ -685,7 +685,7 @@ export default defineConfig([
 ]);
 ```
 
-_Update from 2026-04-08: The `includeIgnoreFile()` from `@eslint/compat` has been deprecated in favor of `includeIgnoreFile()` from `@eslint/config-helpers` (reexported at `eslint/config`). The new API is more versatile and has options to interpret both eslintignore and gitignore files, which are not 100% equivalent, correctly._
+_Update (2026-04-13): The `includeIgnoreFile()` from `@eslint/compat` has been deprecated in favor of `includeIgnoreFile()` from `@eslint/config-helpers` (reexported at `eslint/config`). The new API is more versatile and has options to interpret both eslintignore and gitignore files, which are not 100% equivalent, correctly._
 
 #### `--no-eslintrc`
 
