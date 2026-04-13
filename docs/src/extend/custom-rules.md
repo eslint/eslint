@@ -50,6 +50,7 @@ The source file for a rule exports an object with the following properties. Both
 
 - `docs`: (`object`) Properties often used for documentation generation and tooling. Required for core rules and optional for custom rules. Custom rules can include additional properties here as needed.
     - `description`: (`string`) Provides a short description of the rule. For core rules, this is used in [rules index](../rules/).
+    - `dialects`: (`string[]`) The dialects of the languages that the rule is intended to lint. For example, `["JavaScript", "TypeScript"]`.
     - `frozen`: (`boolean`) For core rules, specifies whether the rule is [frozen](../contribute/core-rules#frozen-rules) and no longer accepts feature requests.
     - `recommended`: (`unknown`) For core rules, this is a boolean value specifying whether the rule is enabled by the `recommended` config from `@eslint/js`.
     - `url`: (`string`) Specifies the URL at which the full documentation can be accessed. Code editors often use this to provide a helpful link on highlighted rule violations.
@@ -67,9 +68,9 @@ The source file for a rule exports an object with the following properties. Both
 
 - `defaultOptions`: (`array`) Specifies [default options](#option-defaults) for the rule. If present, any user-provided options in their config will be merged on top of them recursively.
 
-- `languages`: (`array`) Specifies the languages the rule is designed to work with. Each entry is a string in the format `"plugin/language"` (e.g., `"js/js"`, `"markdown/gfm"`). Special values:
+- `languages`: (`array`) Specifies the languages the rule is designed to work with. Each entry is a string in the format `"pluginName/languageName"` (e.g., `"js/js"`, `"markdown/gfm"`). Special values:
     - `"*"` — the rule works with any language.
-    - `"plugin/*"` — the rule works with any language provided by the given plugin.
+    - `"pluginName/*"` — the rule works with any language provided by the given plugin.
 
     If `languages` is not specified, the rule is assumed to work with all languages. When `languages` is specified and none of the entries matches the active language, ESLint throws an error.
 

@@ -33,6 +33,13 @@ ruleTester.run("for-direction", rule, {
 		"for(var i = 10; 0 < i; i--){}",
 		"for(var i = 10; 0 <= i; i--){}",
 
+		/*
+		 * loops where the condition is statically false from the start (dead code),
+		 * but the direction is consistent, so the rule does not report them
+		 */
+		"for(var i = 0; i < 0; i++){}",
+		"for(var i = 0; 0 > i; i++){}",
+
 		// test if '+=', '-=',
 		"for(var i = 0; i < 10; i+=1){}",
 		"for(var i = 0; i <= 10; i+=1){}",

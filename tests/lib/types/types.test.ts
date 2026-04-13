@@ -571,7 +571,9 @@ rule = {
 		return {};
 	},
 	meta: {
+		languages: ["js/js"],
 		docs: {
+			dialects: ["JavaScript", "TypeScript"],
 			description: "disallow the use of `console`",
 			recommended: true,
 			url: "https://eslint.org/docs/rules/no-console",
@@ -1597,7 +1599,9 @@ linterWithEslintrcConfig.verify(
 	let resultsMeta: ESLint.ResultsMeta;
 	const meta: Rule.RuleMetaData = {
 		type: "suggestion",
+		languages: ["js/js"],
 		docs: {
+			dialects: ["JavaScript", "TypeScript"],
 			description: "disallow unnecessary semicolons",
 			recommended: true,
 			url: "https://eslint.org/docs/rules/no-extra-semi",
