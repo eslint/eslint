@@ -1,1 +1,2 @@
 thesis	attempt	metric	baseline	status	summary
+#1	thesis/1-pre-merge-selectors-by-node-type-in-sourcecodetraverser	389.98	401.34	accepted	Pre-merge selectors by node type, skip matches() for simple identifiers, callSyncSingle fast path
