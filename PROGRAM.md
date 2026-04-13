@@ -24,7 +24,7 @@ Secondary constraint: correctness. The lint output (rule violations reported) mu
 ## What you CAN modify
 
 <!-- prettier-ignore -->
-lib/**/*.js
+lib/
 
 All source files under `lib/` are fair game. This includes the core linter, AST traversal, rule implementations, config loading, scope analysis integration, selector matching, source code representation, and shared utilities.
 
