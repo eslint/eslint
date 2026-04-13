@@ -1,2 +1,3 @@
 thesis	attempt	metric	baseline	status	summary
 #1	thesis/1-pre-merge-selectors-by-node-type-in-sourcecodetraverser	389.98	401.34	accepted	Pre-merge selectors by node type, skip matches() for simple identifiers, callSyncSingle fast path
+#4	thesis/4-reduce-forkcontext-allocation-in-code-path-analysis	388.0700	393.5600	discarded	Replaced Object.defineProperty with direct assignment in CodePathSegment constructor, added fast-path in flattenUnusedSegments for all-used segments. Improvement only ~5ms (below 10ms threshold). Code path analysis allocation overhead is not the primary bottleneck.
