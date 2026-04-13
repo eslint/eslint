@@ -23,15 +23,12 @@ Secondary constraint: correctness. The lint output (rule violations reported) mu
 
 ## What you CAN modify
 
-```
-lib/**/*.js
-```
+lib/\*_/_.js
 
 All source files under `lib/` are fair game. This includes the core linter, AST traversal, rule implementations, config loading, scope analysis integration, selector matching, source code representation, and shared utilities.
 
 ## What you CANNOT modify
 
-```
 .polyresearch/**
 POLYRESEARCH.md
 PROGRAM.md
@@ -48,9 +45,8 @@ messages/**
 node_modules/**
 package.json
 package-lock.json
-.github/**
+.github/\*\*
 Makefile.js
-```
 
 The evaluation code, test suite, build system, published packages, and dependencies are off-limits.
 
