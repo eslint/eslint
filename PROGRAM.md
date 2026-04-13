@@ -23,45 +23,28 @@ Secondary constraint: correctness. The lint output (rule violations reported) mu
 
 ## What you CAN modify
 
-<!-- prettier-ignore-start -->
-lib/cli-engine/
-lib/config/
-lib/eslint/
-lib/languages/
-lib/linter/
-lib/rule-tester/
-lib/rules/
-lib/services/
-lib/shared/
-lib/*.js
-<!-- prettier-ignore-end -->
-
-All source files under `lib/` are fair game. This includes the core linter, AST traversal, rule implementations, config loading, scope analysis integration, selector matching, source code representation, and shared utilities.
+- `lib/**/*.js` - all JavaScript source files under `lib/`, including the core linter, AST traversal, rule implementations, config loading, scope analysis integration, selector matching, source code representation, and shared utilities.
 
 ## What you CANNOT modify
 
-<!-- prettier-ignore-start -->
-.polyresearch/**
-POLYRESEARCH.md
-PROGRAM.md
-PREPARE.md
-results.tsv
-tests/**
-packages/**
-docs/**
-tools/**
-conf/**
-bin/**
-templates/**
-messages/**
-node_modules/**
-package.json
-package-lock.json
-.github/**
-Makefile.js
-<!-- prettier-ignore-end -->
-
-The evaluation code, test suite, build system, published packages, and dependencies are off-limits.
+- `.polyresearch/` - the reproducible environment
+- `POLYRESEARCH.md` - the coordination protocol
+- `PROGRAM.md` - the research playbook
+- `PREPARE.md` - the evaluation setup
+- `results.tsv` - maintained by the lead on `main`
+- `tests/` - the test suite
+- `packages/` - published sub-packages
+- `docs/` - documentation
+- `tools/` - build scripts
+- `conf/` - configuration defaults
+- `bin/` - CLI entry point
+- `templates/` - release templates
+- `messages/` - localized messages
+- `node_modules/` - dependencies
+- `package.json` - dependency manifest
+- `package-lock.json` - lockfile
+- `.github/` - CI and GitHub config
+- `Makefile.js` - build system
 
 ## Constraints
 
