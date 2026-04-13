@@ -23,12 +23,14 @@ Secondary constraint: correctness. The lint output (rule violations reported) mu
 
 ## What you CAN modify
 
-lib/\*_/_.js
+<!-- prettier-ignore -->
+lib/**/*.js
 
 All source files under `lib/` are fair game. This includes the core linter, AST traversal, rule implementations, config loading, scope analysis integration, selector matching, source code representation, and shared utilities.
 
 ## What you CANNOT modify
 
+<!-- prettier-ignore-start -->
 .polyresearch/**
 POLYRESEARCH.md
 PROGRAM.md
@@ -45,8 +47,9 @@ messages/**
 node_modules/**
 package.json
 package-lock.json
-.github/\*\*
+.github/**
 Makefile.js
+<!-- prettier-ignore-end -->
 
 The evaluation code, test suite, build system, published packages, and dependencies are off-limits.
 
