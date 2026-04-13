@@ -35,3 +35,8 @@ _site
 /docs/src/assets/css
 
 .cursor
+
+# Polyresearch
+.worktrees/
+.polyresearch-node.toml
+run.log
