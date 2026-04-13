@@ -91,6 +91,16 @@ ruleTester.run("for-direction", rule, {
 		"for(var i = 0; i < 10; (j++, k++)){}",
 		"for(var i = 0; i < 10; (i+=1, j++)){}",
 		"for(var i = 10; i > 0; (i-=1, j++)){}",
+
+		// test SequenceExpression - counter modified multiple times (direction unknown, skip)
+		"for(var i = 10; i < 20; (i--, i++)){}",
+		"for(var i = 10; i < 20; (i--, i += 2)){}",
+		"for(var i = 0; i < 10; (i++, i--)){}",
+		"for(var i = 0; i < 10; (i-=1, i+=2)){}",
+
+		// test SequenceExpression - three expressions
+		"for(var i = 0; i < 10; (j++, i++, k++)){}",
+		"for(var i = 10; i > 0; (j++, i--, k++)){}",
 	],
 	invalid: [
 		// test if '++', '--'
