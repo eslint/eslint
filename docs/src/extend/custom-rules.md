@@ -68,9 +68,9 @@ The source file for a rule exports an object with the following properties. Both
 
 - `defaultOptions`: (`array`) Specifies [default options](#option-defaults) for the rule. If present, any user-provided options in their config will be merged on top of them recursively.
 
-- `languages`: (`array`) Specifies the languages the rule is designed to work with. Each entry is a string in the format `"plugin/language"` (e.g., `"js/js"`, `"markdown/gfm"`). Special values:
+- `languages`: (`array`) Specifies the languages the rule is designed to work with. Each entry is a string in the format `"pluginName/languageName"` (e.g., `"js/js"`, `"markdown/gfm"`). Special values:
     - `"*"` — the rule works with any language.
-    - `"plugin/*"` — the rule works with any language provided by the given plugin.
+    - `"pluginName/*"` — the rule works with any language provided by the given plugin.
 
     If `languages` is not specified, the rule is assumed to work with all languages. When `languages` is specified and none of the entries matches the active language, ESLint throws an error.
 
