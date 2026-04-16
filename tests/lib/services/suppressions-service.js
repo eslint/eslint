@@ -203,7 +203,9 @@ describe("SuppressionsService", () => {
 				}),
 			];
 
-			await suppressionsService.suppress(results, void 0);
+			const rules = void 0; // No rule filter
+
+			await suppressionsService.suppress(results, rules);
 
 			assert.ok(writeStub.calledOnce, "Expected save to be called");
 			const written = JSON.parse(writeStub.firstCall.args[1]);
@@ -283,7 +285,9 @@ describe("SuppressionsService", () => {
 				}),
 			];
 
-			await suppressionsService.suppress(results, void 0);
+			const rules = void 0; // No rule filter
+
+			await suppressionsService.suppress(results, rules);
 
 			const written = JSON.parse(writeStub.firstCall.args[1]);
 
@@ -322,7 +326,9 @@ describe("SuppressionsService", () => {
 				}),
 			];
 
-			await suppressionsService.suppress(results, void 0);
+			const rules = void 0; // No rule filter
+
+			await suppressionsService.suppress(results, rules);
 
 			const written = JSON.parse(writeStub.firstCall.args[1]);
 			const relPath = path.posix.join("src", "app.js");
@@ -362,7 +368,9 @@ describe("SuppressionsService", () => {
 				}),
 			];
 
-			await suppressionsService.suppress(results, void 0);
+			const rules = void 0; // No rule filter
+
+			await suppressionsService.suppress(results, rules);
 
 			const written = JSON.parse(writeStub.firstCall.args[1]);
 			const relPath = path.posix.join("src", "app.js");
@@ -398,7 +406,9 @@ describe("SuppressionsService", () => {
 				}),
 			];
 
-			await suppressionsService.suppress(results, void 0);
+			const rules = void 0; // No rule filter
+
+			await suppressionsService.suppress(results, rules);
 
 			const written = JSON.parse(writeStub.firstCall.args[1]);
 
@@ -422,7 +432,6 @@ describe("SuppressionsService", () => {
 			});
 			const relPath = path.posix.join("src", "app.js");
 
-			// Pre-existing suppression for a rule that is no longer reported
 			const existing = {
 				[relPath]: {
 					"no-console": { count: 2 },
@@ -435,7 +444,6 @@ describe("SuppressionsService", () => {
 				.resolves(JSON.stringify(existing));
 			const writeStub = sinon.stub(fs.promises, "writeFile").resolves();
 
-			// Only "no-unused-vars" is still reported; "no-console" is gone
 			const results = [
 				createResult({
 					filePath: path.join(cwd, "src", "app.js"),
@@ -443,18 +451,15 @@ describe("SuppressionsService", () => {
 				}),
 			];
 
-			await suppressionsService.suppress(results, void 0);
+			const rules = void 0; // No rule filter
+
+			await suppressionsService.suppress(results, rules);
 
 			const written = JSON.parse(writeStub.firstCall.args[1]);
 
-			// "no-unused-vars" count should be updated to 1
 			assert.deepStrictEqual(written[relPath]["no-unused-vars"], {
 				count: 1,
 			});
-			/*
-			 * suppress() only updates rules that still appear in results;
-			 * stale entries are preserved as-is — prune() is responsible for removal.
-			 */
 			assert.deepStrictEqual(
 				written[relPath]["no-console"],
 				{ count: 2 },
