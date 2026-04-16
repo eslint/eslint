@@ -2,7 +2,6 @@
 <html lang="{{ config.lang }}" class="no-js" id="site_top">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% if NOINDEX %}
     <meta name="robots" content="noindex">
@@ -154,8 +153,6 @@
 
     {{ content | safe }}
 
-    <script src="{{ '/assets/js/css-vars-ponyfill@2.js' | url }}"></script>
-    <script src="{{ '/assets/js/focus-visible.js' | url }}"></script>
     <script src="{{ '/assets/js/main.js' | url }}"></script>
     <script src="{{ '/assets/js/tabs.js' | url }}"></script>
     <script src="{{ '/assets/js/scroll-up-btn.js' | url }}"></script>
