@@ -44,17 +44,14 @@ function createResult({ filePath, messages = [], suppressedMessages = [] }) {
 
 /**
  * Creates a lint message for testing.
- * @param {string} ruleId The rule ID.
- * @param {number} severity 1=warning, 2=error.
+ * @param {string|null} ruleId The rule ID.
+ * @param {"warn"|"error"} [severityLabel] The severity label. Defaults to "error".
  * @returns {Object} A LintMessage-like object.
  */
-function createMessage(ruleId, severity = 2) {
+function createMessage(ruleId, severityLabel = "error") {
 	return {
 		ruleId,
-		severity,
-		message: `${ruleId} violation`,
-		line: 1,
-		column: 1,
+		severity: severityLabel === "warn" ? 1 : 2,
 	};
 }
 
@@ -199,9 +196,9 @@ describe("SuppressionsService", () => {
 				createResult({
 					filePath: path.join(cwd, "src", "app.js"),
 					messages: [
-						createMessage("no-unused-vars"),
-						createMessage("no-unused-vars"),
-						createMessage("no-console"),
+						createMessage("no-unused-vars", "error"),
+						createMessage("no-unused-vars", "error"),
+						createMessage("no-console", "error"),
 					],
 				}),
 			];
@@ -239,8 +236,8 @@ describe("SuppressionsService", () => {
 				createResult({
 					filePath: path.join(cwd, "src", "app.js"),
 					messages: [
-						createMessage("no-unused-vars"),
-						createMessage("no-console"),
+						createMessage("no-unused-vars", "error"),
+						createMessage("no-console", "error"),
 					],
 				}),
 			];
@@ -280,8 +277,8 @@ describe("SuppressionsService", () => {
 				createResult({
 					filePath: path.join(cwd, "src", "app.js"),
 					messages: [
-						createMessage("no-unused-vars"),
-						createMessage("no-console"),
+						createMessage("no-unused-vars", "error"),
+						createMessage("no-console", "error"),
 					],
 				}),
 			];
@@ -319,8 +316,8 @@ describe("SuppressionsService", () => {
 				createResult({
 					filePath: path.join(cwd, "src", "app.js"),
 					messages: [
-						createMessage("no-console", 1), // warning — should be ignored
-						createMessage("no-unused-vars", 2), // error
+						createMessage("no-console", "warn"),
+						createMessage("no-unused-vars", "error"),
 					],
 				}),
 			];
@@ -337,6 +334,131 @@ describe("SuppressionsService", () => {
 				written[relPath]?.["no-console"],
 				void 0,
 				"Expected warnings to be excluded from suppressions",
+			);
+		});
+
+		it("should ignore messages with a null ruleId", async () => {
+			const cwd = path.resolve("/project");
+			const suppressionsService = new SuppressionsService({
+				filePath: path.join(cwd, "eslint-suppressions.json"),
+				cwd,
+			});
+
+			sinon.stub(fs.promises, "readFile").callsFake(() => {
+				const err = new Error("ENOENT");
+
+				err.code = "ENOENT";
+				return Promise.reject(err);
+			});
+			const writeStub = sinon.stub(fs.promises, "writeFile").resolves();
+
+			const results = [
+				createResult({
+					filePath: path.join(cwd, "src", "app.js"),
+					messages: [
+						createMessage(null, "error"), // parser error — no ruleId
+						createMessage("no-unused-vars", "error"),
+					],
+				}),
+			];
+
+			await suppressionsService.suppress(results, void 0);
+
+			const written = JSON.parse(writeStub.firstCall.args[1]);
+			const relPath = path.posix.join("src", "app.js");
+
+			// only the rule with a non-null ruleId should be recorded
+			assert.deepStrictEqual(Object.keys(written[relPath]), [
+				"no-unused-vars",
+			]);
+			assert.deepStrictEqual(written[relPath]["no-unused-vars"], {
+				count: 1,
+			});
+		});
+
+		it("should use cwd to compute relative file paths", async () => {
+			const cwd = path.resolve("/workspace/team");
+			const suppressionsService = new SuppressionsService({
+				filePath: path.join(cwd, "eslint-suppressions.json"),
+				cwd,
+			});
+
+			sinon.stub(fs.promises, "readFile").callsFake(() => {
+				const err = new Error("ENOENT");
+
+				err.code = "ENOENT";
+				return Promise.reject(err);
+			});
+			const writeStub = sinon.stub(fs.promises, "writeFile").resolves();
+
+			const results = [
+				createResult({
+					filePath: path.join(cwd, "src", "utils.js"),
+					messages: [createMessage("no-console", "error")],
+				}),
+			];
+
+			await suppressionsService.suppress(results, void 0);
+
+			const written = JSON.parse(writeStub.firstCall.args[1]);
+
+			// key must be relative to the given cwd, in POSIX format
+			const expectedRelPath = "src/utils.js";
+
+			assert.ok(
+				Object.hasOwn(written, expectedRelPath),
+				`Expected key "${expectedRelPath}" in written suppressions`,
+			);
+			assert.deepStrictEqual(written[expectedRelPath]["no-console"], {
+				count: 1,
+			});
+		});
+
+		it("should preserve existing suppressions for rules that no longer report (prune() removes them)", async () => {
+			const cwd = path.resolve("/project");
+			const suppressionsService = new SuppressionsService({
+				filePath: path.join(cwd, "eslint-suppressions.json"),
+				cwd,
+			});
+			const relPath = path.posix.join("src", "app.js");
+
+			// Pre-existing suppression for a rule that is no longer reported
+			const existing = {
+				[relPath]: {
+					"no-console": { count: 2 },
+					"no-unused-vars": { count: 1 },
+				},
+			};
+
+			sinon
+				.stub(fs.promises, "readFile")
+				.resolves(JSON.stringify(existing));
+			const writeStub = sinon.stub(fs.promises, "writeFile").resolves();
+
+			// Only "no-unused-vars" is still reported; "no-console" is gone
+			const results = [
+				createResult({
+					filePath: path.join(cwd, "src", "app.js"),
+					messages: [createMessage("no-unused-vars", "error")],
+				}),
+			];
+
+			await suppressionsService.suppress(results, void 0);
+
+			const written = JSON.parse(writeStub.firstCall.args[1]);
+
+			// "no-unused-vars" count should be updated to 1
+			assert.deepStrictEqual(written[relPath]["no-unused-vars"], {
+				count: 1,
+			});
+			/*
+			 * suppress() only updates rules that still appear in results;
+			 * stale entries are preserved as-is — prune() is responsible for removal.
+			 */
+			assert.deepStrictEqual(
+				written[relPath]["no-console"],
+				{ count: 2 },
+				"Expected suppress() to leave stale suppression intact; use prune() to remove it",
 			);
 		});
 	});
