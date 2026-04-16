@@ -203,7 +203,8 @@ describe("SuppressionsService", () => {
 				}),
 			];
 
-			await suppressionsService.suppress(results, void 0);
+			const rules = void 0; // No rule filter
+			await suppressionService.suppress(results, rules);
 
 			assert.ok(writeStub.calledOnce, "Expected save to be called");
 			const written = JSON.parse(writeStub.firstCall.args[1]);
