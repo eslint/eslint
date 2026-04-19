@@ -1,7 +1,7 @@
 {
     "name": "docs-eslint",
     "private": true,
-    "version": "10.2.0",
+    "version": "10.2.1",
     "description": "",
     "keywords": [],
     "author": "",
@@ -14,7 +14,7 @@
         "build:sass": "sass src/assets/scss:src/assets/css --no-source-map",
         "build:sass:watch": "sass --watch --poll src/assets/scss:src/assets/css --no-source-map",
         "build:website": "npx @11ty/eleventy",
-        "build:website:watch": "eleventy --serve --port=2023",
+        "build:website:watch": "eleventy --serve --incremental --port=2023",
         "lint:links": "cross-env NODE_OPTIONS=--max-old-space-size=4096 node tools/validate-links.js",
         "lint:scss": "stylelint \"**/*.{scss,html}\"",
         "lint:fix:scss": "npm run lint:scss -- --fix",

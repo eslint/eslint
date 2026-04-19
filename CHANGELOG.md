@@ -1,3 +1,26 @@
+v10.2.1 - April 17, 2026
+
+* [`ca92ca0`](https://github.com/eslint/eslint/commit/ca92ca0fb4599e8de1e2fb914e695fe7397cbe63) docs: reuse markdown-it instance for markdown filter (#20768) (Amaresh  S M)
+* [`7ddfea9`](https://github.com/eslint/eslint/commit/7ddfea9c4f62add1588c5c0b0da568c299246383) chore: update dependency prettier to v3.8.2 (#20770) (renovate[bot])
+* [`57d2ee2`](https://github.com/eslint/eslint/commit/57d2ee213305cee0cb55ef08e0480b57396269a9) docs:  Enable Eleventy incremental mode for watch (#20767) (Amaresh  S M)
+* [`c1621b9`](https://github.com/eslint/eslint/commit/c1621b915742276e5f4b25efe790ca62296330dc) docs: fix typos in code-path-analyzer.js (#20700) (Ayush Shukla)
+* [`fac40e1`](https://github.com/eslint/eslint/commit/fac40e1de2ba7646cc7cd2d3f93fbdd1f8819001) ci: bump pnpm/action-setup from 5.0.0 to 6.0.0 (#20763) (dependabot[bot])
+* [`7246f92`](https://github.com/eslint/eslint/commit/7246f923332522d8b3d46b6ee646fce88535f3fb) test: add tests for SuppressionsService.load() error handling (#20734) (kuldeep kumar)
+* [`4f34b1e`](https://github.com/eslint/eslint/commit/4f34b1e592b0f63d766d9903998e8e36eb49d3aa) chore: update pnpm/action-setup action to v5 (#20762) (renovate[bot])
+* [`1418d52`](https://github.com/eslint/eslint/commit/1418d522d10bde1960f4942afb548bc7160ec49e) docs: Update README (GitHub Actions Bot)
+* [`14be92b`](https://github.com/eslint/eslint/commit/14be92b6d1fa0923b8923830f2208e5e2705b002) fix: model generator yield resumption paths in code path analysis (#20665) (sethamus)
+* [`39771e6`](https://github.com/eslint/eslint/commit/39771e6e600f0b0617fdeafff6dd07e4211ffde6) docs: Update README (GitHub Actions Bot)
+* [`51080eb`](https://github.com/eslint/eslint/commit/51080eb5c98d619434e4835dbe9f1c6654aca3b8) test: processor service (#20731) (kuldeep kumar)
+* [`84a19d2`](https://github.com/eslint/eslint/commit/84a19d2c32255db6b9cfc08644a607aae6d5cb62) fix: no-async-promise-executor false positives for shadowed Promise (#20740) (xbinaryx)
+* [`af764af`](https://github.com/eslint/eslint/commit/af764af0ec38225755fbf8a6f207f0c77b595a8d) fix: clarify language and processor validation errors (#20729) (Pixel998)
+* [`e251b89`](https://github.com/eslint/eslint/commit/e251b89a38280973e468a4a9386c138f4f55d10d) fix: update eslint (#20715) (renovate[bot])
+* [`e7e1889`](https://github.com/eslint/eslint/commit/e7e1889fca9b6044e08f41b38df20a1ce45808c8) chore: remove stale babel-eslint10 fixture and test  (#20727) (kuldeep kumar)
+* [`71e0469`](https://github.com/eslint/eslint/commit/71e04693def2df57268f08f3072a2749df6bf438) docs: fix incomplete JSDoc param description in no-shadow rule (#20728) (kuldeep kumar)
+* [`22119ce`](https://github.com/eslint/eslint/commit/22119ceb93e28f62262fc1d98ff1b1442d6e2dbf) docs: clarify scope of for-direction rule with dead code examples (#20723) (Amaresh  S M)
+* [`4e1a87c`](https://github.com/eslint/eslint/commit/4e1a87cb8fb90e309524bc36bc5f31b9f9cfaa76) test: remove redundant async/await in flat config array tests (#20722) (Pixel998)
+* [`8f3fb77`](https://github.com/eslint/eslint/commit/8f3fb77f122a5641d1833cad5d93f3f54fa3be0b) docs: document `meta.docs.dialects` (#20718) (Pixel998)
+* [`066eabb`](https://github.com/eslint/eslint/commit/066eabb3643b12931f991594969bcc0028f71a5f) test: add rule metadata coverage for `languages` and `docs.dialects` (#20717) (Pixel998)
+
 v10.2.0 - April 3, 2026
 
 * [`542cb3e`](https://github.com/eslint/eslint/commit/542cb3e6442a4e6ee3457c799e2a0ee23bef0c6a) fix: update first-party dependencies (#20714) (Francesco Trotta)
