@@ -23,13 +23,13 @@ describe("IdGenerator", () => {
 		});
 
 		it("should cast prefix to string", () => {
-			const generator1 = new IdGenerator(123);
-			assert.strictEqual(generator1.prefix, "123");
+			const generator = new IdGenerator(123);
+			assert.strictEqual(generator.prefix, "123");
 		});
 
 		it("should default to undefined string if prefix is undefined", () => {
-			const generator2 = new IdGenerator();
-			assert.strictEqual(generator2.prefix, "undefined");
+			const generator = new IdGenerator();
+			assert.strictEqual(generator.prefix, "undefined");
 		});
 	});
 
@@ -49,8 +49,9 @@ describe("IdGenerator", () => {
 		});
 
 		it("should wrap around to 1 when the counter overflows", () => {
+			const INT32_MAX = 2 ** 31 - 1;
 			const generator = new IdGenerator("s");
-			generator.n = 2147483647;
+			generator.n = INT32_MAX;
 			assert.strictEqual(generator.next(), "s1");
 		});
 	});
