@@ -134,13 +134,20 @@ describe("ForkContext", () => {
 
         it("should merge extra segments when segments length is greater than count", () => {
             const context = ForkContext.newRoot(idGenerator); // count is 1
-            const seg1 = CodePathSegment.newNext("s2", [context.head[0]]);
-            const seg2 = CodePathSegment.newNext("s3", [context.head[0]]);
+            const seg1 = CodePathSegment.newNext(idGenerator.next(), [context.head[0]]);
+            const seg2 = CodePathSegment.newNext(idGenerator.next(), [context.head[0]]);
+
+            // Mark segments used so they aren't flattened during merge
+            CodePathSegment.markUsed(seg1);
+            CodePathSegment.markUsed(seg2);
 
             context.add([seg1, seg2]);
 
             assert.strictEqual(context.segmentsList.length, 2);
-            assert.strictEqual(context.head.length, 1); // Because count is 1
+            assert.strictEqual(context.head.length, 1);
+            assert.strictEqual(context.head[0].allPrevSegments.length, 2);
+            assert.ok(context.head[0].allPrevSegments.includes(seg1));
+            assert.ok(context.head[0].allPrevSegments.includes(seg2));
         });
     });
 
