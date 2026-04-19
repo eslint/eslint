@@ -9,22 +9,37 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/no-new-require"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+const rule = require("../../../lib/rules/no-new-require"),
+	RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
+
 ruleTester.run("no-new-require", rule, {
-    valid: [
-        "var appHeader = require('app-header')",
-        "var AppHeader = new (require('app-header'))",
-        "var AppHeader = new (require('headers').appHeader)"
-    ],
-    invalid: [
-        { code: "var appHeader = new require('app-header')", errors: [{ message: "Unexpected use of new with require.", type: "NewExpression"}] },
-        { code: "var appHeader = new require('headers').appHeader", errors: [{ message: "Unexpected use of new with require.", type: "NewExpression"}] }
-    ]
+	valid: [
+		"var appHeader = require('app-header')",
+		"var AppHeader = new (require('app-header'))",
+		"var AppHeader = new (require('headers').appHeader)",
+	],
+	invalid: [
+		{
+			code: "var appHeader = new require('app-header')",
+			errors: [
+				{
+					messageId: "noNewRequire",
+				},
+			],
+		},
+		{
+			code: "var appHeader = new require('headers').appHeader",
+			errors: [
+				{
+					messageId: "noNewRequire",
+				},
+			],
+		},
+	],
 });

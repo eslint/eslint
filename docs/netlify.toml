@@ -1,0 +1,2 @@
+[build]
+command = "cd .. && npm install && cd ./docs && npm run build"

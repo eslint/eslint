@@ -1,7 +1,6 @@
 /**
  * @fileoverview Rule to flag non-matching identifiers
  * @author Matthieu Larcher
- * @copyright 2015 Matthieu Larcher. All rights reserved.
  */
 
 "use strict";
@@ -10,281 +9,1177 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/id-match"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+const rule = require("../../../lib/rules/id-match"),
+	RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
+const error = {
+	messageId: "notMatch",
+};
+
 ruleTester.run("id-match", rule, {
-    valid: [
-        {
-            code: "firstname = \"Matthieu\"",
-            options: ["^[a-z]+$"]
-        },
-        {
-            code: "first_name = \"Matthieu\"",
-            options: ["[a-z]+"]
-        },
-        {
-            code: "firstname = \"Matthieu\"",
-            options: ["^f"]
-        },
-        {
-            code: "last_Name = \"Larcher\"",
-            options: ["^[a-z]+(_[A-Z][a-z]+)*$"]
-        },
-        {
-            code: "param = \"none\"",
-            options: ["^[a-z]+(_[A-Z][a-z])*$"]
-        },
-        {
-            code: "function noUnder(){}",
-            options: ["^[^_]+$"]
-        },
-        {
-            code: "no_under()",
-            options: ["^[^_]+$"]
-        },
-        {
-            code: "foo.no_under2()",
-            options: ["^[^_]+$"]
-        },
-        {
-            code: "var foo = bar.no_under3;",
-            options: ["^[^_]+$"]
-        },
-        {
-            code: "var foo = bar.no_under4.something;",
-            options: ["^[^_]+$"]
-        },
-        {
-            code: "foo.no_under5.qux = bar.no_under6.something;",
-            options: ["^[^_]+$"]
-        },
-        {
-            code: "if (bar.no_under7) {}",
-            options: ["^[^_]+$"]
-        },
-        {
-            code: "var obj = { key: foo.no_under8 };",
-            options: ["^[^_]+$"]
-        },
-        {
-            code: "var arr = [foo.no_under9];",
-            options: ["^[^_]+$"]
-        },
-        {
-            code: "[foo.no_under10]",
-            options: ["^[^_]+$"]
-        },
-        {
-            code: "var arr = [foo.no_under11.qux];",
-            options: ["^[^_]+$"]
-        },
-        {
-            code: "[foo.no_under12.nesting]",
-            options: ["^[^_]+$"]
-        },
-        {
-            code: "if (foo.no_under13 === boom.no_under14) { [foo.no_under15] }",
-            options: ["^[^_]+$"]
-        },
-        {
-            code: "var myArray = new Array(); var myDate = new Date();",
-            options: ["^[a-z$]+([A-Z][a-z]+)*$"]
-        },
-        {
-            code: "var o = {key: 1}",
-            options: ["^[^_]+$", {
-                properties: true
-            }]
-        },
-        {
-            code: "var o = {no_under16: 1}",
-            options: ["^[^_]+$", {
-                properties: false
-            }]
-        },
-        {
-            code: "obj.no_under17 = 2;",
-            options: ["^[^_]+$", {
-                properties: false
-            }]
-        },
-        {
-            code: "var obj = {\n no_under18: 1 \n};\n obj.no_under19 = 2;",
-            options: ["^[^_]+$", {
-                properties: false
-            }]
-        },
-        {
-            code: "obj.no_under20 = function(){};",
-            options: ["^[^_]+$", {
-                properties: false
-            }]
-        },
-        {
-            code: "var x = obj._foo;",
-            options: ["^[^_]+$"]
-        },
-        {
-            code: "var x = obj._foo2;",
-            options: ["^[^_]+$", {
-                properties: false
-            }]
-        }
-    ],
-    invalid: [
-        {
-            code: "first_name = \"Matthieu\"",
-            options: ["^[a-z]+$"],
-            errors: [
-                {
-                    message: "Identifier 'first_name' does not match the pattern '^[a-z]+$'.",
-                    type: "Identifier"
-                }
-            ]
-        },
-        {
-            code: "first_name = \"Matthieu\"",
-            options: ["^z"],
-            errors: [
-                {
-                    message: "Identifier 'first_name' does not match the pattern '^z'.",
-                    type: "Identifier"
-                }
-            ]
-        },
-        {
-            code: "Last_Name = \"Larcher\"",
-            options: ["^[a-z]+(_[A-Z][a-z])*$"],
-            errors: [
-                {
-                    message: "Identifier 'Last_Name' does not match the pattern '^[a-z]+(_[A-Z][a-z])*$'.",
-                    type: "Identifier"
-                }
-            ]
-        },
-        {
-            code: "function no_under21(){}",
-            options: ["^[^_]+$"],
-            errors: [
-                {
-                    message: "Identifier 'no_under21' does not match the pattern '^[^_]+$'.",
-                    type: "Identifier"
-                }
-            ]
-        },
-        {
-            code: "obj.no_under22 = function(){};",
-            options: ["^[^_]+$", {
-                properties: true
-            }],
-            errors: [
-                {
-                    message: "Identifier 'no_under22' does not match the pattern '^[^_]+$'.",
-                    type: "Identifier"
-                }
-            ]
-        },
-        {
-            code: "no_under23.foo = function(){};",
-            options: ["^[^_]+$", {
-                properties: true
-            }],
-            errors: [
-                {
-                    message: "Identifier 'no_under23' does not match the pattern '^[^_]+$'.",
-                    type: "Identifier"
-                }
-            ]
-        },
-        {
-            code: "[no_under24.baz]",
-            options: ["^[^_]+$", {
-                properties: true
-            }],
-            errors: [
-                {
-                    message: "Identifier 'no_under24' does not match the pattern '^[^_]+$'.",
-                    type: "Identifier"
-                }
-            ]
-        },
-        {
-            code: "if (foo.bar_baz === boom.bam_pow) { [no_under25.baz] }",
-            options: ["^[^_]+$", {
-                properties: true
-            }],
-            errors: [
-                {
-                    message: "Identifier 'no_under25' does not match the pattern '^[^_]+$'.",
-                    type: "Identifier"
-                }
-            ]
-        },
-        {
-            code: "foo.no_under26 = boom.bam_pow",
-            options: ["^[^_]+$", {
-                properties: true
-            }],
-            errors: [
-                {
-                    message: "Identifier 'no_under26' does not match the pattern '^[^_]+$'.",
-                    type: "Identifier"
-                }
-            ]
-        },
-        {
-            code: "var foo = { no_under27: boom.bam_pow }",
-            options: ["^[^_]+$", {
-                properties: true
-            }],
-            errors: [
-                {
-                    message: "Identifier 'no_under27' does not match the pattern '^[^_]+$'.",
-                    type: "Identifier"
-                }
-            ]
-        },
-        {
-            code: "foo.qux.no_under28 = { bar: boom.bam_pow }",
-            options: ["^[^_]+$", {
-                properties: true
-            }],
-            errors: [
-                {
-                    message: "Identifier 'no_under28' does not match the pattern '^[^_]+$'.",
-                    type: "Identifier"
-                }
-            ]
-        },
-        {
-            code: "var o = {no_under29: 1}",
-            options: ["^[^_]+$", {
-                properties: true
-            }],
-            errors: [
-                {
-                    message: "Identifier 'no_under29' does not match the pattern '^[^_]+$'.",
-                    type: "Identifier"
-                }
-            ]
-        },
-        {
-            code: "obj.no_under30 = 2;",
-            options: ["^[^_]+$", {
-                properties: true
-            }],
-            errors: [
-                {
-                    message: "Identifier 'no_under30' does not match the pattern '^[^_]+$'.",
-                    type: "Identifier"
-                }
-            ]
-        }
-    ]
+	valid: [
+		{
+			code: '__foo = "Matthieu"',
+			options: [
+				"^[a-z]+$",
+				{
+					onlyDeclarations: true,
+				},
+			],
+		},
+		{
+			code: 'firstname = "Matthieu"',
+			options: ["^[a-z]+$"],
+		},
+		{
+			code: 'first_name = "Matthieu"',
+			options: ["[a-z]+"],
+		},
+		{
+			code: 'firstname = "Matthieu"',
+			options: ["^f"],
+		},
+		{
+			code: 'last_Name = "Larcher"',
+			options: ["^[a-z]+(_[A-Z][a-z]+)*$"],
+		},
+		{
+			code: 'param = "none"',
+			options: ["^[a-z]+(_[A-Z][a-z])*$"],
+		},
+		{
+			code: "function noUnder(){}",
+			options: ["^[^_]+$"],
+		},
+		{
+			code: "no_under()",
+			options: ["^[^_]+$"],
+		},
+		{
+			code: "foo.no_under2()",
+			options: ["^[^_]+$"],
+		},
+		{
+			code: "var foo = bar.no_under3;",
+			options: ["^[^_]+$"],
+		},
+		{
+			code: "var foo = bar.no_under4.something;",
+			options: ["^[^_]+$"],
+		},
+		{
+			code: "foo.no_under5.qux = bar.no_under6.something;",
+			options: ["^[^_]+$"],
+		},
+		{
+			code: "if (bar.no_under7) {}",
+			options: ["^[^_]+$"],
+		},
+		{
+			code: "var obj = { key: foo.no_under8 };",
+			options: ["^[^_]+$"],
+		},
+		{
+			code: "var arr = [foo.no_under9];",
+			options: ["^[^_]+$"],
+		},
+		{
+			code: "[foo.no_under10]",
+			options: ["^[^_]+$"],
+		},
+		{
+			code: "var arr = [foo.no_under11.qux];",
+			options: ["^[^_]+$"],
+		},
+		{
+			code: "[foo.no_under12.nesting]",
+			options: ["^[^_]+$"],
+		},
+		{
+			code: "if (foo.no_under13 === boom.no_under14) { [foo.no_under15] }",
+			options: ["^[^_]+$"],
+		},
+		{
+			code: "var myArray = new Array(); var myDate = new Date();",
+			options: ["^[a-z$]+([A-Z][a-z]+)*$"],
+		},
+		{
+			code: "var x = obj._foo;",
+			options: ["^[^_]+$"],
+		},
+		{
+			code: "var obj = {key: no_under}",
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+					onlyDeclarations: true,
+				},
+			],
+		},
+		{
+			code: "var {key_no_under: key} = {}",
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "var { category_id } = query;",
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+					ignoreDestructuring: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "var { category_id: category_id } = query;",
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+					ignoreDestructuring: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "var { category_id = 1 } = query;",
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+					ignoreDestructuring: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "var o = {key: 1}",
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+		},
+		{
+			code: "var o = {no_under16: 1}",
+			options: [
+				"^[^_]+$",
+				{
+					properties: false,
+				},
+			],
+		},
+		{
+			code: "obj.no_under17 = 2;",
+			options: [
+				"^[^_]+$",
+				{
+					properties: false,
+				},
+			],
+		},
+		{
+			code: "var obj = {\n no_under18: 1 \n};\n obj.no_under19 = 2;",
+			options: [
+				"^[^_]+$",
+				{
+					properties: false,
+				},
+			],
+		},
+		{
+			code: "obj.no_under20 = function(){};",
+			options: [
+				"^[^_]+$",
+				{
+					properties: false,
+				},
+			],
+		},
+		{
+			code: "var x = obj._foo2;",
+			options: [
+				"^[^_]+$",
+				{
+					properties: false,
+				},
+			],
+		},
+
+		// Should not report for global references - https://github.com/eslint/eslint/issues/15395
+		{
+			code: `
+            const foo = Object.keys(bar);
+            const a = Array.from(b);
+            const bar = () => Array;
+            `,
+			options: [
+				"^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 2022 },
+		},
+		{
+			code: `
+            const foo = {
+                foo_one: 1,
+                bar_one: 2,
+                fooBar: 3
+            };
+            `,
+			options: [
+				"^[^_]+$",
+				{
+					properties: false,
+				},
+			],
+			languageOptions: { ecmaVersion: 2022 },
+		},
+		{
+			code: `
+            const foo = {
+                foo_one: 1,
+                bar_one: 2,
+                fooBar: 3
+            };
+            `,
+			options: [
+				"^[^_]+$",
+				{
+					onlyDeclarations: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 2022 },
+		},
+		{
+			code: `
+            const foo = {
+                foo_one: 1,
+                bar_one: 2,
+                fooBar: 3
+            };
+            `,
+			options: [
+				"^[^_]+$",
+				{
+					properties: false,
+					onlyDeclarations: false,
+				},
+			],
+			languageOptions: { ecmaVersion: 2022 },
+		},
+		{
+			code: `
+            const foo = {
+                [a]: 1,
+            };
+            `,
+			options: [
+				"^[^a]",
+				{
+					properties: true,
+					onlyDeclarations: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 2022 },
+		},
+
+		// Class Methods
+		{
+			code: "class x { foo() {} }",
+			options: ["^[^_]+$"],
+			languageOptions: { ecmaVersion: 2022 },
+		},
+		{
+			code: "class x { #foo() {} }",
+			options: ["^[^_]+$"],
+			languageOptions: { ecmaVersion: 2022 },
+		},
+
+		// Class Fields
+		{
+			code: "class x { _foo = 1; }",
+			options: ["^[^_]+$"],
+			languageOptions: { ecmaVersion: 2022 },
+		},
+		{
+			code: "class x { _foo = 1; }",
+			options: [
+				"^[^_]+$",
+				{
+					classFields: false,
+				},
+			],
+			languageOptions: { ecmaVersion: 2022 },
+		},
+		{
+			code: "class x { #_foo = 1; }",
+			options: [
+				"^[^_]+$",
+				{
+					classFields: false,
+				},
+			],
+			languageOptions: { ecmaVersion: 2022 },
+		},
+		{
+			code: "class x { #_foo = 1; }",
+			options: ["^[^_]+$"],
+			languageOptions: { ecmaVersion: 2022 },
+		},
+
+		// Import attribute keys
+		{
+			code: "import foo from 'foo.json' with { type: 'json' }",
+			options: [
+				"^foo",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 2025 },
+		},
+		{
+			code: "export * from 'foo.json' with { type: 'json' }",
+			options: [
+				"^foo",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 2025 },
+		},
+		{
+			code: "export { default } from 'foo.json' with { type: 'json' }",
+			options: [
+				"^def",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 2025 },
+		},
+		{
+			code: "import('foo.json', { with: { type: 'json' } })",
+			options: [
+				"^foo",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 2025 },
+		},
+		{
+			code: "import('foo.json', { 'with': { type: 'json' } })",
+			options: [
+				"^foo",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 2025 },
+		},
+		{
+			code: "import('foo.json', { with: { type } })",
+			options: [
+				"^foo",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 2025 },
+		},
+	],
+	invalid: [
+		{
+			code: 'var __foo = "Matthieu"',
+			options: [
+				"^[a-z]+$",
+				{
+					onlyDeclarations: true,
+				},
+			],
+			errors: [error],
+		},
+		{
+			code: 'first_name = "Matthieu"',
+			options: ["^[a-z]+$"],
+			errors: [error],
+		},
+		{
+			code: 'first_name = "Matthieu"',
+			options: ["^z"],
+			errors: [error],
+		},
+		{
+			code: 'Last_Name = "Larcher"',
+			options: ["^[a-z]+(_[A-Z][a-z])*$"],
+			errors: [error],
+		},
+		{
+			code: "var obj = {key: no_under}",
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			errors: [
+				{
+					message:
+						"Identifier 'no_under' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+		{
+			code: "function no_under21(){}",
+			options: ["^[^_]+$"],
+			errors: [error],
+		},
+		{
+			code: "obj.no_under22 = function(){};",
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			errors: [error],
+		},
+		{
+			code: "no_under23.foo = function(){};",
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			errors: [error],
+		},
+		{
+			code: "[no_under24.baz]",
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			errors: [error],
+		},
+		{
+			code: "if (foo.bar_baz === boom.bam_pow) { [no_under25.baz] }",
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			errors: [error],
+		},
+		{
+			code: "foo.no_under26 = boom.bam_pow",
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			errors: [error],
+		},
+		{
+			code: "var foo = { no_under27: boom.bam_pow }",
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			errors: [error],
+		},
+		{
+			code: "foo.qux.no_under28 = { bar: boom.bam_pow }",
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			errors: [error],
+		},
+		{
+			code: "var o = {no_under29: 1}",
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			errors: [error],
+		},
+		{
+			code: "obj.no_under30 = 2;",
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			errors: [
+				{
+					messageId: "notMatch",
+					data: { name: "no_under30", pattern: "^[^_]+$" },
+				},
+			],
+		},
+		{
+			code: "var { category_id: category_alias } = query;",
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					message:
+						"Identifier 'category_alias' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+		{
+			code: "var { category_id: category_alias } = query;",
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+					ignoreDestructuring: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					message:
+						"Identifier 'category_alias' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+		{
+			code: "var { category_id: categoryId, ...other_props } = query;",
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+					ignoreDestructuring: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 2018 },
+			errors: [
+				{
+					message:
+						"Identifier 'other_props' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+		{
+			code: "var { category_id } = query;",
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					message:
+						"Identifier 'category_id' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+		{
+			code: "var { category_id = 1 } = query;",
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					message:
+						"Identifier 'category_id' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+		{
+			code: 'import no_camelcased from "external-module";',
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [
+				{
+					message:
+						"Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+		{
+			code: 'import * as no_camelcased from "external-module";',
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [
+				{
+					message:
+						"Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+		{
+			code: 'export * as no_camelcased from "external-module";',
+			options: ["^[^_]+$"],
+			languageOptions: { ecmaVersion: 2020, sourceType: "module" },
+			errors: [
+				{
+					message:
+						"Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+		{
+			code: 'import { no_camelcased } from "external-module";',
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [
+				{
+					message:
+						"Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+		{
+			code: 'import { no_camelcased as no_camel_cased } from "external module";',
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [
+				{
+					message:
+						"Identifier 'no_camel_cased' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+		{
+			code: 'import { camelCased as no_camel_cased } from "external module";',
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [
+				{
+					message:
+						"Identifier 'no_camel_cased' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+		{
+			code: 'import { camelCased, no_camelcased } from "external-module";',
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [
+				{
+					message:
+						"Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+		{
+			code: 'import { no_camelcased as camelCased, another_no_camelcased } from "external-module";',
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [
+				{
+					message:
+						"Identifier 'another_no_camelcased' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+		{
+			code: 'import camelCased, { no_camelcased } from "external-module";',
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [
+				{
+					message:
+						"Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+		{
+			code: 'import no_camelcased, { another_no_camelcased as camelCased } from "external-module";',
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [
+				{
+					message:
+						"Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+		{
+			code: "function foo({ no_camelcased }) {};",
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					message:
+						"Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+		{
+			code: "function foo({ no_camelcased = 'default value' }) {};",
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					message:
+						"Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+		{
+			code: "const no_camelcased = 0; function foo({ camelcased_value = no_camelcased }) {}",
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					message:
+						"Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+				},
+				{
+					message:
+						"Identifier 'camelcased_value' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+		{
+			code: "const { bar: no_camelcased } = foo;",
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					message:
+						"Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+		{
+			code: "function foo({ value_1: my_default }) {}",
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					message:
+						"Identifier 'my_default' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+		{
+			code: "function foo({ isCamelcased: no_camelcased }) {};",
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					message:
+						"Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+		{
+			code: "var { foo: bar_baz = 1 } = quz;",
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					message:
+						"Identifier 'bar_baz' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+		{
+			code: "const { no_camelcased = false } = bar;",
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					message:
+						"Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+
+		// https://github.com/eslint/eslint/issues/15395
+		{
+			code: `
+            const foo_variable = 1;
+            class MyClass {
+            }
+            let a = new MyClass();
+            let b = {id: 1};
+            let c = Object.keys(b);
+            let d = Array.from(b);
+            let e = (Object) => Object.keys(obj, prop); // not global Object
+            let f = (Array) => Array.from(obj, prop); // not global Array
+            foo.Array = 5; // not global Array
+            `,
+			options: [
+				"^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					message:
+						"Identifier 'foo_variable' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
+					line: 2,
+					column: 19,
+				},
+				{
+					message:
+						"Identifier 'MyClass' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
+					line: 3,
+					column: 19,
+				},
+
+				// let e = (Object) => Object.keys(obj, prop)
+				{
+					message:
+						"Identifier 'Object' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
+					line: 9,
+					column: 22,
+				},
+				{
+					message:
+						"Identifier 'Object' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
+					line: 9,
+					column: 33,
+				},
+
+				// let f =(Array) => Array.from(obj, prop);
+				{
+					message:
+						"Identifier 'Array' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
+					line: 10,
+					column: 22,
+				},
+				{
+					message:
+						"Identifier 'Array' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
+					line: 10,
+					column: 32,
+				},
+
+				// foo.Array = 5;
+				{
+					message:
+						"Identifier 'Array' does not match the pattern '^\\$?[a-z]+([A-Z0-9][a-z0-9]+)*$'.",
+					line: 11,
+					column: 17,
+				},
+			],
+		},
+
+		// Class Methods
+		{
+			code: "class x { _foo() {} }",
+			options: ["^[^_]+$"],
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					message:
+						"Identifier '_foo' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+		{
+			code: "class x { #_foo() {} }",
+			options: ["^[^_]+$"],
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					message:
+						"Identifier '#_foo' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+
+		// Class Fields
+		{
+			code: "class x { _foo = 1; }",
+			options: [
+				"^[^_]+$",
+				{
+					classFields: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					message:
+						"Identifier '_foo' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+		{
+			code: "class x { #_foo = 1; }",
+			options: [
+				"^[^_]+$",
+				{
+					classFields: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					message:
+						"Identifier '#_foo' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+
+		// https://github.com/eslint/eslint/issues/15123
+		{
+			code: `
+            const foo = {
+                foo_one: 1,
+                bar_one: 2,
+                fooBar: 3
+            };
+            `,
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+					onlyDeclarations: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					message:
+						"Identifier 'foo_one' does not match the pattern '^[^_]+$'.",
+				},
+				{
+					message:
+						"Identifier 'bar_one' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+		{
+			code: `
+            const foo = {
+                foo_one: 1,
+                bar_one: 2,
+                fooBar: 3
+            };
+            `,
+			options: [
+				"^[^_]+$",
+				{
+					properties: true,
+					onlyDeclarations: false,
+				},
+			],
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					message:
+						"Identifier 'foo_one' does not match the pattern '^[^_]+$'.",
+				},
+				{
+					message:
+						"Identifier 'bar_one' does not match the pattern '^[^_]+$'.",
+				},
+			],
+		},
+		{
+			code: `
+            const foo = {
+                [a]: 1,
+            };
+            `,
+			options: [
+				"^[^a]",
+				{
+					properties: true,
+					onlyDeclarations: false,
+				},
+			],
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					message:
+						"Identifier 'a' does not match the pattern '^[^a]'.",
+				},
+			],
+		},
+
+		// https://github.com/eslint/eslint/issues/15443
+		{
+			code: `
+            const foo = {
+                [a]: 1,
+            };
+            `,
+			options: [
+				"^[^a]",
+				{
+					properties: false,
+					onlyDeclarations: false,
+				},
+			],
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					message:
+						"Identifier 'a' does not match the pattern '^[^a]'.",
+				},
+			],
+		},
+
+		// Not an import attribute key
+		{
+			code: "import('foo.json', { with: { [type]: 'json' } })",
+			options: [
+				"^foo",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 2025 },
+			errors: [
+				{
+					message:
+						"Identifier 'type' does not match the pattern '^foo'.",
+				},
+			],
+		},
+		{
+			code: "import('foo.json', { with: { type: json } })",
+			options: [
+				"^foo",
+				{
+					properties: true,
+				},
+			],
+			languageOptions: { ecmaVersion: 2025 },
+			errors: [
+				{
+					message:
+						"Identifier 'json' does not match the pattern '^foo'.",
+				},
+			],
+		},
+	],
 });

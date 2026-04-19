@@ -1,0 +1,125 @@
+---
+#------------------------------------------------------------------------------
+# Simplified Chinese Site Details
+# The documentation site that is hosted at zh-hans.eslint.org/docs
+# Author: Percy Ma
+#------------------------------------------------------------------------------
+
+#------------------------------------------------------------------------------
+# Global Settings
+#------------------------------------------------------------------------------
+
+language:
+    code: zh-hans
+    flag: 🇨🇳
+    name: 简体中文
+locale: zh-hans
+hostname: zh-hans.eslint.org
+
+#------------------------------------------------------------------------------
+# Analytics
+#------------------------------------------------------------------------------
+
+google_analytics:
+    code: "G-6ELXTK7GZR"
+
+#------------------------------------------------------------------------------
+# Ads
+#------------------------------------------------------------------------------
+
+carbon_ads:
+    serve: ""
+    placement: ""
+
+#------------------------------------------------------------------------------
+# Shared
+#------------------------------------------------------------------------------
+
+shared:
+    get_started: 开始
+    become_a_sponsor: 捐赠
+    eslint_logo_alt: ESLint 图标
+    description: >
+        插件化、可配置的 JavaScript 代码检查工具，让你轻松地提高代码质量。
+    title_format: PAGE_TITLE - ESLint - 插件化的 JavaScript 代码检查工具
+    skip_to_content: 跳转到正文
+    donate: 捐赠
+
+#------------------------------------------------------------------------------
+# Navigation
+#------------------------------------------------------------------------------
+
+navigation:
+    - text: 团队
+      link: team
+    - text: 博客
+      link: blog
+    - text: 文档
+      link: docs
+    - text: 商店
+      link: store
+      target: _blank
+    - text: 演练场
+      link: playground
+      target: _blank
+    - text: Code Explorer
+      link: codeExplorer
+      target: _blank
+
+#------------------------------------------------------------------------------
+# Footer
+#------------------------------------------------------------------------------
+
+footer:
+    title: 准备修复你的 JavaScript 代码了吗？
+    description: 从 npm 安装或捐赠开始。
+    secondary: 次要
+    social_icons:
+        title: 社交媒体
+        chat: Discord
+        github: GitHub
+        bluesky: Bluesky
+        mastodon: Mastodon
+        twitter: Twitter
+    theme_switcher:
+        title: 主题切换
+        light: 浅色
+        dark: 深色
+        system: 系统
+    language_switcher:
+        title: 语言切换
+        description: 切换到你所选择语言版本对应的 ESLint 网站。
+        change_language: 更改语言
+        language: 语言
+        latest: 最新
+    copyright: >
+        &copy; OpenJS Foundation and ESLint contributors, <a href="https://www.openjsf.org">www.openjsf.org</a>. Content licensed under <a href="https://github.com/eslint/eslint/blob/main/LICENSE">MIT License</a>.
+    links:
+        open_jsf: OpenJS 基金会
+        terms: 使用条款
+        privacy: 隐私策略
+        bylaws: OpenJS 基金会章程
+        trademark: 商标策略
+        trademark_list: 商标列表
+        cookies: Cookie 策略
+
+#------------------------------------------------------------------------------
+# 404 Page
+#------------------------------------------------------------------------------
+
+404_page:
+    title: 404 错误
+    subtitle: 页面未找到
+    description: 对不起，你正在寻找的页面不存在或已被移动。
+    actions:
+        back_to_home: 回到主页
+        browse_docs: 浏览文档
+
+#------------------------------------------------------------------------------
+# Edit link
+#------------------------------------------------------------------------------
+
+edit_link:
+    start_with: https://github.com/eslint/eslint/edit/main/docs/
+    start_with_latest: https://github.com/eslint/eslint/edit/latest/docs/
+    text: 编辑此页

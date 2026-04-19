@@ -1,8 +1,5 @@
 {
-    "rules": {
-        "semi": [2, "always"],
-        "quotes": [2, "single"]
-    },
+    "rules": "bad_configurations",
     "extends": [
         "eslint-config-test"
     ]

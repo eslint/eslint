@@ -1,11 +1,12 @@
 "use strict";
 
-module.exports = function(context) {
+module.exports = {
+    create(context) {
+        return {
 
-    return {
-
-        "Literal": function(node) {
-            context.report(node, "Literal!");
-        }
-    };
+            "Literal": function(node) {
+                context.report(node, "Literal!");
+            }
+        };
+    }
 };

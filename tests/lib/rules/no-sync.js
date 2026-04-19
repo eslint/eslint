@@ -9,20 +9,93 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/no-sync"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+const rule = require("../../../lib/rules/no-sync"),
+	RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
+
 ruleTester.run("no-sync", rule, {
-    valid: [
-        "var foo = fs.foo.foo();"
-    ],
-    invalid: [
-        { code: "var foo = fs.fooSync();", errors: [{ message: "Unexpected sync method: 'fooSync'.", type: "MemberExpression"}] },
-        { code: "var foo = fs.fooSync;", errors: [{ message: "Unexpected sync method: 'fooSync'.", type: "MemberExpression"}] }
-    ]
+	valid: [
+		"var foo = fs.foo.foo();",
+		{
+			code: "var foo = fs.fooSync;",
+			options: [{ allowAtRootLevel: true }],
+		},
+		{
+			code: "if (true) {fs.fooSync();}",
+			options: [{ allowAtRootLevel: true }],
+		},
+	],
+	invalid: [
+		{
+			code: "var foo = fs.fooSync();",
+			errors: [
+				{
+					messageId: "noSync",
+					data: { propertyName: "fooSync" },
+				},
+			],
+		},
+		{
+			code: "var foo = fs.fooSync();",
+			options: [{ allowAtRootLevel: false }],
+			errors: [
+				{
+					messageId: "noSync",
+					data: { propertyName: "fooSync" },
+				},
+			],
+		},
+		{
+			code: "if (true) {fs.fooSync();}",
+			errors: [
+				{
+					messageId: "noSync",
+					data: { propertyName: "fooSync" },
+				},
+			],
+		},
+		{
+			code: "var foo = fs.fooSync;",
+			errors: [
+				{
+					messageId: "noSync",
+					data: { propertyName: "fooSync" },
+				},
+			],
+		},
+		{
+			code: "function someFunction() {fs.fooSync();}",
+			errors: [
+				{
+					messageId: "noSync",
+					data: { propertyName: "fooSync" },
+				},
+			],
+		},
+		{
+			code: "function someFunction() {fs.fooSync();}",
+			options: [{ allowAtRootLevel: true }],
+			errors: [
+				{
+					messageId: "noSync",
+					data: { propertyName: "fooSync" },
+				},
+			],
+		},
+		{
+			code: "var a = function someFunction() {fs.fooSync();}",
+			options: [{ allowAtRootLevel: true }],
+			errors: [
+				{
+					messageId: "noSync",
+					data: { propertyName: "fooSync" },
+				},
+			],
+		},
+	],
 });

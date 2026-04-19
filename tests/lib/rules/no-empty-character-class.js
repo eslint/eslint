@@ -9,35 +9,210 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/no-empty-character-class"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+const rule = require("../../../lib/rules/no-empty-character-class"),
+	RuleTester = require("../../../lib/rule-tester/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
+
 ruleTester.run("no-empty-character-class", rule, {
-    valid: [
-        "var foo = /^abc[a-zA-Z]/;",
-        "var regExp = new RegExp(\"^abc[]\");",
-        "var foo = /^abc/;",
-        "var foo = /[\\[]/;",
-        "var foo = /[\\]]/;",
-        "var foo = /[a-zA-Z\\[]/;",
-        "var foo = /[[]/;",
-        "var foo = /[\\[a-z[]]/;",
-        "var foo = /[\\-\\[\\]\\/\\{\\}\\(\\)\\*\\+\\?\\.\\\\^\\$\\|]/g;",
-        "var foo = /\\s*:\\s*/gim;",
-        { code: "var foo = /[\\]]/uy;", ecmaFeatures: { regexUFlag: true, regexYFlag: true } }
-    ],
-    invalid: [
-        { code: "var foo = /^abc[]/;", errors: [{ message: "Empty class.", type: "Literal"}] },
-        { code: "var foo = /foo[]bar/;", errors: [{ message: "Empty class.", type: "Literal"}] },
-        { code: "if (foo.match(/^abc[]/)) {}", errors: [{ message: "Empty class.", type: "Literal"}] },
-        { code: "if (/^abc[]/.test(foo)) {}", errors: [{ message: "Empty class.", type: "Literal"}] },
-        { code: "var foo = /[]]/;", errors: [{ message: "Empty class.", type: "Literal"}] },
-        { code: "var foo = /\\[[]/;", errors: [{ message: "Empty class.", type: "Literal"}] },
-        { code: "var foo = /\\[\\[\\]a-z[]/;", errors: [{ message: "Empty class.", type: "Literal"}] }
-    ]
+	valid: [
+		"var foo = /^abc[a-zA-Z]/;",
+		'var regExp = new RegExp("^abc[]");',
+		"var foo = /^abc/;",
+		"var foo = /[\\[]/;",
+		"var foo = /[\\]]/;",
+		"var foo = /\\[][\\]]/;",
+		"var foo = /[a-zA-Z\\[]/;",
+		"var foo = /[[]/;",
+		"var foo = /[\\[a-z[]]/;",
+		"var foo = /[\\-\\[\\]\\/\\{\\}\\(\\)\\*\\+\\?\\.\\\\^\\$\\|]/g;",
+		"var foo = /\\s*:\\s*/gim;",
+		"var foo = /[^]/;", // this rule allows negated empty character classes
+		"var foo = /\\[][^]/;",
+		{ code: "var foo = /[\\]]/uy;", languageOptions: { ecmaVersion: 6 } },
+		{ code: "var foo = /[\\]]/s;", languageOptions: { ecmaVersion: 2018 } },
+		{ code: "var foo = /[\\]]/d;", languageOptions: { ecmaVersion: 2022 } },
+		"var foo = /\\[]/",
+		{ code: "var foo = /[[^]]/v;", languageOptions: { ecmaVersion: 2024 } },
+		{
+			code: "var foo = /[[\\]]]/v;",
+			languageOptions: { ecmaVersion: 2024 },
+		},
+		{
+			code: "var foo = /[[\\[]]/v;",
+			languageOptions: { ecmaVersion: 2024 },
+		},
+		{
+			code: "var foo = /[a--b]/v;",
+			languageOptions: { ecmaVersion: 2024 },
+		},
+		{
+			code: "var foo = /[a&&b]/v;",
+			languageOptions: { ecmaVersion: 2024 },
+		},
+		{
+			code: "var foo = /[[a][b]]/v;",
+			languageOptions: { ecmaVersion: 2024 },
+		},
+		{
+			code: "var foo = /[\\q{}]/v;",
+			languageOptions: { ecmaVersion: 2024 },
+		},
+		{
+			code: "var foo = /[[^]--\\p{ASCII}]/v;",
+			languageOptions: { ecmaVersion: 2024 },
+		},
+	],
+	invalid: [
+		{
+			code: "var foo = /^abc[]/;",
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
+		},
+		{
+			code: "var foo = /foo[]bar/;",
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
+		},
+		{
+			code: "if (foo.match(/^abc[]/)) {}",
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
+		},
+		{
+			code: "if (/^abc[]/.test(foo)) {}",
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
+		},
+		{
+			code: "var foo = /[]]/;",
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
+		},
+		{
+			code: "var foo = /\\[[]/;",
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
+		},
+		{
+			code: "var foo = /\\[\\[\\]a-z[]/;",
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
+		},
+		{
+			code: "var foo = /[]]/d;",
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
+		},
+		{
+			code: "var foo = /[(]\\u{0}*[]/u;",
+			languageOptions: { ecmaVersion: 2015 },
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
+		},
+		{
+			code: "var foo = /[]/v;",
+			languageOptions: { ecmaVersion: 2024 },
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
+		},
+		{
+			code: "var foo = /[[]]/v;",
+			languageOptions: { ecmaVersion: 2024 },
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
+		},
+		{
+			code: "var foo = /[[a][]]/v;",
+			languageOptions: { ecmaVersion: 2024 },
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
+		},
+		{
+			code: "var foo = /[a[[b[]c]]d]/v;",
+			languageOptions: { ecmaVersion: 2024 },
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
+		},
+		{
+			code: "var foo = /[a--[]]/v;",
+			languageOptions: { ecmaVersion: 2024 },
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
+		},
+		{
+			code: "var foo = /[[]--b]/v;",
+			languageOptions: { ecmaVersion: 2024 },
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
+		},
+		{
+			code: "var foo = /[a&&[]]/v;",
+			languageOptions: { ecmaVersion: 2024 },
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
+		},
+		{
+			code: "var foo = /[[]&&b]/v;",
+			languageOptions: { ecmaVersion: 2024 },
+			errors: [
+				{
+					messageId: "unexpected",
+				},
+			],
+		},
+	],
 });

@@ -1,0 +1,46 @@
+{%- macro npm_tabs(params) -%}
+<div class="c-tabs" data-tabs>
+   <div class="c-tabs__tablist" data-tablist hidden>
+      <button class="c-tabs__tab" data-tab>npm</button>
+      <button class="c-tabs__tab" data-tab>yarn</button>
+      <button class="c-tabs__tab" data-tab>pnpm</button>
+      <button class="c-tabs__tab" data-tab>bun</button>
+   </div>
+    <div class="c-tabs__tabpanel" data-tabpanel>
+        <h3 class="h6 c-tabs__tabpanel__title">npm</h3>
+
+```shell
+{% if params.comment %}# {{ params.comment | safe }}{{ "\n" }}{% endif -%}
+npm {% if conversions.toNpmCommands[params.command] %}{{ conversions.toNpmCommands[params.command] | safe }}{% else %}{{ params.command | safe }}{% endif -%}{% for arg in params.args %} {{ conversions.toNpmArgs[arg] | safe }}{% endfor %}{% for package in params.packages %} {{ package | safe }}{% endfor %}
+```
+
+    </div>
+   <div class="c-tabs__tabpanel" data-tabpanel>
+      <h3 class="h6 c-tabs__tabpanel__title">yarn</h3>
+
+```shell
+{% if params.comment %}# {{ params.comment | safe }}{{ "\n" }}{% endif -%}
+yarn {% if params.args.includes("--global") %}{{ conversions.toYarnArgs["--global"] | safe }} {% endif -%} {% if conversions.toYarnCommands[params.command] %}{{ conversions.toYarnCommands[params.command] | safe }}{% else %}{{ params.command | safe }}{% endif -%}{% for arg in params.args %}{% if arg !== "--global" %} {{ conversions.toYarnArgs[arg] | safe }}{% endif -%}{% endfor %}{% for package in params.packages %} {{ package.replace("@eslint/config@latest", "@eslint/config") | safe }}{% endfor %}
+```
+
+   </div>
+   <div class="c-tabs__tabpanel" data-tabpanel>
+      <h3 class="h6 c-tabs__tabpanel__title">pnpm</h3>
+
+```shell
+{% if params.comment %}# {{ params.comment | safe }}{{ "\n" }}{% endif -%}
+pnpm {% if conversions.toPnpmCommands[params.command] %}{{ conversions.toPnpmCommands[params.command] | safe }}{% else %}{{ params.command | safe }}{% endif -%}{% for arg in params.args %} {{ conversions.toPnpmArgs[arg] | safe}}{% endfor %}{% for package in params.packages %} {{ package | safe }}{% endfor %}
+```
+
+   </div>
+   <div class="c-tabs__tabpanel" data-tabpanel>
+      <h3 class="h6 c-tabs__tabpanel__title">bun</h3>
+
+```shell
+{% if params.comment %}# {{params.comment | safe}}{{"\n"}}{% endif -%}
+bun {% if conversions.toBunCommands[params.command] %}{{ conversions.toBunCommands[params.command] | safe }}{% else %}{{ params.command | safe }}{% endif -%}{% for arg in params.args %} {{ conversions.toBunArgs[arg] | safe }}{% endfor %}{% for package in params.packages %} {{ package | safe }}{% endfor %}
+```
+
+   </div>
+</div>
+{%- endmacro -%}

@@ -1,7 +1,0 @@
-{
-    "name": "test",
-    "version": "0.1.1",
-    "eslintConfig": {
-        "extends": "./subdir/.eslintrc"
-    }
-}

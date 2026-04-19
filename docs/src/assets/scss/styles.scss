@@ -1,0 +1,37 @@
+@use "tokens/themes";
+@use "tokens/spacing";
+@use "tokens/typography";
+@use "tokens/ui";
+@use "tokens/opacity";
+
+@use "foundations";
+@use "syntax-highlighter";
+@use "docs-header";
+@use "docs-footer";
+@use "eslint-site-footer";
+@use "eslint-site-header";
+@use "forms";
+@use "docs";
+@use "versions";
+@use "languages";
+
+@use "components/buttons";
+@use "components/docs-navigation";
+@use "components/toc";
+@use "components/search";
+@use "components/alert";
+@use "components/rules";
+@use "components/social-icons";
+@use "components/hero";
+@use "components/theme-switcher";
+@use "components/version-switcher";
+@use "components/language-switcher";
+@use "components/docs-index"; // docs index on the main docs pages
+@use "components/index"; // used in component library
+@use "components/tabs";
+@use "components/resources";
+@use "components/logo";
+
+@use "ads";
+
+@use "utilities";

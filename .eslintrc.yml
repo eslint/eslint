@@ -1,7 +1,0 @@
-root: true
-
-env:
-    node: true
-
-extends:
-    "./packages/eslint-config-eslint/default.yml"

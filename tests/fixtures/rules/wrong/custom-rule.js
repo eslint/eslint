@@ -1,5 +1,5 @@
-module.exports = function() {
-
-    "use strict";
-    return (null).something;
+module.exports = {
+    create() {
+        throw new Error("Boom!");
+    }
 };

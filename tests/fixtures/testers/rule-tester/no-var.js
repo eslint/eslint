@@ -7,26 +7,29 @@
 // Rule Definition
 //------------------------------------------------------------------------------
 
-module.exports = function(context) {
+"use strict";
 
-    "use strict";
+module.exports = {
+    meta: {
+        fixable: "code",
+        schema: []
+    },
+    create(context) {
+        var sourceCode = context.sourceCode;
 
-
-    var sourceCode = context.getSourceCode();
-
-    return {
-
-        "VariableDeclaration": function(node) {
-            if (node.kind === "var") {
-                context.report({
-                    node: node,
-                    message: "Bad var.",
-                    fix: function(fixer) {
-                        return fixer.remove(sourceCode.getFirstToken(node));
-                    }
-                })
+        return {
+            "VariableDeclaration": function(node) {
+                if (node.kind === "var") {
+                    context.report({
+                        node: node,
+                        loc: sourceCode.getFirstToken(node).loc,
+                        message: "Bad var.",
+                        fix: function(fixer) {
+                            return fixer.remove(sourceCode.getFirstToken(node));
+                        }
+                    })
+                }
             }
-        }
-    };
-
+        };
+    }
 };
