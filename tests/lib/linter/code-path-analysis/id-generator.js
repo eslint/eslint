@@ -8,8 +8,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("node:assert"),
-	IdGenerator = require("../../../../lib/linter/code-path-analysis/id-generator");
+const assert = require("node:assert");
+const IdGenerator = require("../../../../lib/linter/code-path-analysis/id-generator");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -25,7 +25,9 @@ describe("IdGenerator", () => {
 		it("should cast prefix to string", () => {
 			const generator1 = new IdGenerator(123);
 			assert.strictEqual(generator1.prefix, "123");
+		});
 
+		it("should default to undefined string if prefix is undefined", () => {
 			const generator2 = new IdGenerator();
 			assert.strictEqual(generator2.prefix, "undefined");
 		});
@@ -44,6 +46,12 @@ describe("IdGenerator", () => {
 			assert.strictEqual(generator.next(), "1");
 			assert.strictEqual(generator.next(), "2");
 			assert.strictEqual(generator.next(), "3");
+		});
+
+		it("should wrap around to 1 when the counter overflows", () => {
+			const generator = new IdGenerator("s");
+			generator.n = 2147483647;
+			assert.strictEqual(generator.next(), "s1");
 		});
 	});
 });
