@@ -362,7 +362,7 @@ describe("SuppressionsService", () => {
 				createResult({
 					filePath: path.join(cwd, "src", "app.js"),
 					messages: [
-						createMessage(null, "error"), // parser error — no ruleId
+						createMessage(null, "error"),
 						createMessage("no-unused-vars", "error"),
 					],
 				}),
