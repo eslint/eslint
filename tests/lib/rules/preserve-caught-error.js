@@ -1136,5 +1136,22 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
+
+		// Custom error with fewer args than the options position - no suggestion
+		{
+			code: `
+			try {
+				doSomething();
+			} catch (err) {
+				throw new MyError();
+			}`,
+			options: [{ errorClassNames: ["MyError"] }],
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [],
+				},
+			],
+		},
 	],
 });
