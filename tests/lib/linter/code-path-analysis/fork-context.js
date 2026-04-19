@@ -85,13 +85,12 @@ describe("ForkContext", () => {
     describe("makeNext()", () => {
         it("should create next segments using elements from startIndex to endIndex", () => {
             const context = ForkContext.newRoot(idGenerator);
-            const seg1 = CodePathSegment.newNext("s2", [context.head[0]]);
+            const seg1 = CodePathSegment.newNext(idGenerator.next(), [context.head[0]]);
             context.add([seg1]);
-            const seg2 = CodePathSegment.newNext("s3", [context.head[0]]);
+            const seg2 = CodePathSegment.newNext(idGenerator.next(), [context.head[0]]);
             context.add([seg2]);
 
-            // segmentsList has 3 elements
-            // [root], [s2], [s3]
+            // segmentsList has 3 elements: [root], [seg1], [seg2]
             // We need to mark segments used so that flattenUnusedSegments returns them
             CodePathSegment.markUsed(seg1);
             CodePathSegment.markUsed(seg2);
