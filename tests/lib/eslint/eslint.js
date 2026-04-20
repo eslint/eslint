@@ -10029,6 +10029,18 @@ describe("ESLint", () => {
 			assert.strictEqual(typeof formatter.format, "function");
 		});
 
+		it("should return a formatter object when a nested custom formatter is requested with a relative path", async () => {
+			const engine = new ESLint({
+				cwd: path.join(fixtureDir, ".."),
+			});
+			const formatter = await engine.loadFormatter(
+				"./fixtures/formatters/test/simple.js",
+			);
+
+			assert.strictEqual(typeof formatter, "object");
+			assert.strictEqual(typeof formatter.format, "function");
+		});
+
 		it("should return a formatter object when a formatter prefixed with eslint-formatter is requested", async () => {
 			const engine = new ESLint({
 				cwd: getFixturePath("cli-engine"),
