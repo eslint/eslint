@@ -1,189 +1,199 @@
 /**
  * @fileoverview Tests for ForkContext.
+ * @author kuldeep kumar
  */
 
 "use strict";
 
-//------------------------------------------------------------------------------
-// Requirements
-//------------------------------------------------------------------------------
-
 const assert = require("node:assert");
 const ForkContext = require("../../../../lib/linter/code-path-analysis/fork-context");
-const CodePathSegment = require("../../../../lib/linter/code-path-analysis/code-path-segment");
 const IdGenerator = require("../../../../lib/linter/code-path-analysis/id-generator");
-
-//------------------------------------------------------------------------------
-// Tests
-//------------------------------------------------------------------------------
+const CodePathSegment = require("../../../../lib/linter/code-path-analysis/code-path-segment");
 
 describe("ForkContext", () => {
-	describe("constructor", () => {
-		it("should initialize with the given parameters", () => {
-			const idGenerator = new IdGenerator("s");
-			const upper = {};
-			const context = new ForkContext(idGenerator, upper, 2);
+	let idGenerator;
 
-			assert.strictEqual(context.idGenerator, idGenerator);
-			assert.strictEqual(context.upper, upper);
-			assert.strictEqual(context.count, 2);
-			assert.deepStrictEqual(context.segmentsList, []);
-		});
+	beforeEach(() => {
+		idGenerator = new IdGenerator("s");
 	});
 
 	describe("newRoot()", () => {
-		it("should create a root context", () => {
-			const idGenerator = new IdGenerator("s");
+		it("should create a new root context with one initial segment", () => {
 			const context = ForkContext.newRoot(idGenerator);
 
-			assert.strictEqual(context.idGenerator, idGenerator);
 			assert.strictEqual(context.upper, null);
 			assert.strictEqual(context.count, 1);
 			assert.strictEqual(context.segmentsList.length, 1);
-			assert.strictEqual(context.head.length, 1);
-			assert.strictEqual(context.head[0].id, "s1");
-			assert.strictEqual(context.head[0].reachable, true);
+			assert.strictEqual(context.segmentsList[0].length, 1);
+			assert.strictEqual(context.segmentsList[0][0].id, "s1");
+			assert.strictEqual(context.segmentsList[0][0].reachable, true);
 		});
 	});
 
 	describe("newEmpty()", () => {
-		it("should create an empty context from parent", () => {
-			const idGenerator = new IdGenerator("s");
-			const parent = ForkContext.newRoot(idGenerator);
-			const context = ForkContext.newEmpty(parent, false);
+		it("should create a new empty context with the given parent context", () => {
+			const parentContext = ForkContext.newRoot(idGenerator);
+			const context = ForkContext.newEmpty(parentContext, false);
 
-			assert.strictEqual(context.idGenerator, idGenerator);
-			assert.strictEqual(context.upper, parent);
+			assert.strictEqual(context.upper, parentContext);
 			assert.strictEqual(context.count, 1);
-			assert.deepStrictEqual(context.segmentsList, []);
+			assert.strictEqual(context.segmentsList.length, 0);
 			assert.strictEqual(context.empty, true);
 		});
 
-		it("should create an empty context with doubled count if shouldForkLeavingPath is true", () => {
-			const idGenerator = new IdGenerator("s");
-			const parent = ForkContext.newRoot(idGenerator);
-			const context = ForkContext.newEmpty(parent, true);
+		it("should create a new empty context with double count when shouldForkLeavingPath is true", () => {
+			const parentContext = ForkContext.newRoot(idGenerator);
+			const context = ForkContext.newEmpty(parentContext, true);
 
-			assert.strictEqual(context.idGenerator, idGenerator);
-			assert.strictEqual(context.upper, parent);
+			assert.strictEqual(context.upper, parentContext);
 			assert.strictEqual(context.count, 2);
-			assert.deepStrictEqual(context.segmentsList, []);
+			assert.strictEqual(context.segmentsList.length, 0);
 			assert.strictEqual(context.empty, true);
 		});
 	});
 
 	describe("properties", () => {
-		it("should return empty state correctly", () => {
-			const idGenerator = new IdGenerator("s");
-			const context = new ForkContext(idGenerator, null, 1);
+		it("head should return the last segments", () => {
+			const context = ForkContext.newRoot(idGenerator);
+			assert.strictEqual(context.head, context.segmentsList[0]);
+		});
 
-			assert.strictEqual(context.empty, true);
+		it("head should return an empty array if empty", () => {
+			const parentContext = ForkContext.newRoot(idGenerator);
+			const context = ForkContext.newEmpty(parentContext, false);
 			assert.deepStrictEqual(context.head, []);
-			assert.strictEqual(context.reachable, false);
+		});
 
-			const segment = CodePathSegment.newRoot(idGenerator.next());
-			context.add([segment]);
-
-			assert.strictEqual(context.empty, false);
-			assert.deepStrictEqual(context.head, [segment]);
+		it("reachable should return true if any head segment is reachable", () => {
+			const context = ForkContext.newRoot(idGenerator);
 			assert.strictEqual(context.reachable, true);
 		});
-	});
 
-	describe("segment creation methods", () => {
-		let idGenerator;
-		let context;
-
-		beforeEach(() => {
-			idGenerator = new IdGenerator("s");
-			context = ForkContext.newRoot(idGenerator);
-			CodePathSegment.markUsed(context.head[0]);
+		it("reachable should return false if no head segment is reachable", () => {
+			const context = ForkContext.newRoot(idGenerator);
+			const unreachableSegment = CodePathSegment.newUnreachable("s2", []);
+			context.replaceHead([unreachableSegment]);
+			assert.strictEqual(context.reachable, false);
 		});
 
-		describe("makeNext()", () => {
-			it("should create next segments", () => {
-				const nextSegments = context.makeNext(-1, -1);
-				assert.strictEqual(nextSegments.length, 1);
-				assert.strictEqual(nextSegments[0].id, "s2");
-				assert.strictEqual(nextSegments[0].reachable, true);
-				assert.strictEqual(nextSegments[0].allPrevSegments.length, 1);
-				assert.strictEqual(nextSegments[0].allPrevSegments[0].id, "s1");
-			});
-		});
-
-		describe("makeUnreachable()", () => {
-			it("should create unreachable segments", () => {
-				const unreachableSegments = context.makeUnreachable(-1, -1);
-				assert.strictEqual(unreachableSegments.length, 1);
-				assert.strictEqual(unreachableSegments[0].id, "s2");
-				assert.strictEqual(unreachableSegments[0].reachable, false);
-				assert.strictEqual(
-					unreachableSegments[0].allPrevSegments.length,
-					1,
-				);
-				assert.strictEqual(
-					unreachableSegments[0].allPrevSegments[0].id,
-					"s1",
-				);
-			});
-		});
-
-		describe("makeDisconnected()", () => {
-			it("should create disconnected segments", () => {
-				const disconnectedSegments = context.makeDisconnected(-1, -1);
-				assert.strictEqual(disconnectedSegments.length, 1);
-				assert.strictEqual(disconnectedSegments[0].id, "s2");
-				assert.strictEqual(disconnectedSegments[0].reachable, true);
-				assert.strictEqual(
-					disconnectedSegments[0].allPrevSegments.length,
-					0,
-				);
-			});
+		it("reachable should return false if empty", () => {
+			const parentContext = ForkContext.newRoot(idGenerator);
+			const context = ForkContext.newEmpty(parentContext, false);
+			assert.strictEqual(context.reachable, false);
 		});
 	});
 
-	describe("modification methods", () => {
-		let idGenerator;
-		let context;
+	describe("makeNext()", () => {
+		it("should create next segments using elements from startIndex to endIndex", () => {
+			const context = ForkContext.newRoot(idGenerator);
+			const seg1 = CodePathSegment.newNext(idGenerator.next(), [
+				context.head[0],
+			]);
+			context.add([seg1]);
+			const seg2 = CodePathSegment.newNext(idGenerator.next(), [
+				context.head[0],
+			]);
+			context.add([seg2]);
 
-		beforeEach(() => {
-			idGenerator = new IdGenerator("s");
-			context = ForkContext.newRoot(idGenerator);
+			/*
+			 * segmentsList has 3 elements: [root], [seg1], [seg2]
+			 * We need to mark segments used so that flattenUnusedSegments returns them
+			 */
+			CodePathSegment.markUsed(seg1);
+			CodePathSegment.markUsed(seg2);
+
+			const nextSegments = context.makeNext(-2, -1);
+			assert.strictEqual(nextSegments.length, 1);
+			assert.strictEqual(nextSegments[0].allPrevSegments.length, 2);
+			assert.strictEqual(nextSegments[0].reachable, true);
+		});
+	});
+
+	describe("makeUnreachable()", () => {
+		it("should create unreachable next segments", () => {
+			const context = ForkContext.newRoot(idGenerator);
+			const nextSegments = context.makeUnreachable(-1, -1);
+			assert.strictEqual(nextSegments.length, 1);
+			// newUnreachable flattens unused segments
+			assert.strictEqual(nextSegments[0].reachable, false);
+		});
+	});
+
+	describe("makeDisconnected()", () => {
+		it("should create disconnected segments", () => {
+			const context = ForkContext.newRoot(idGenerator);
+			const nextSegments = context.makeDisconnected(-1, -1);
+			assert.strictEqual(nextSegments.length, 1);
+			assert.strictEqual(nextSegments[0].allPrevSegments.length, 0); // Disconnected doesn't connect
+			assert.strictEqual(nextSegments[0].reachable, true); // Inherits reachable from prev segments
+		});
+	});
+
+	describe("add()", () => {
+		it("should add segments to segmentsList", () => {
+			const context = ForkContext.newRoot(idGenerator);
+			const newSegment = CodePathSegment.newNext("s2", [context.head[0]]);
+			context.add([newSegment]);
+			assert.strictEqual(context.segmentsList.length, 2);
+			assert.strictEqual(context.head[0], newSegment);
 		});
 
-		describe("add()", () => {
-			it("should add segments to the context list", () => {
-				const segment = CodePathSegment.newRoot("s2");
-				context.add([segment]);
-				assert.strictEqual(context.segmentsList.length, 2);
-				assert.deepStrictEqual(context.head, [segment]);
-			});
-		});
+		it("should merge extra segments when segments length is greater than count", () => {
+			const context = ForkContext.newRoot(idGenerator); // count is 1
+			const seg1 = CodePathSegment.newNext(idGenerator.next(), [
+				context.head[0],
+			]);
+			const seg2 = CodePathSegment.newNext(idGenerator.next(), [
+				context.head[0],
+			]);
 
-		describe("replaceHead()", () => {
-			it("should replace the head segment", () => {
-				const replaceSegment = CodePathSegment.newRoot("s2");
-				context.replaceHead([replaceSegment]);
-				assert.strictEqual(context.segmentsList.length, 1);
-				assert.deepStrictEqual(context.head, [replaceSegment]);
-			});
-		});
+			// Mark segments used so they aren't flattened during merge
+			CodePathSegment.markUsed(seg1);
+			CodePathSegment.markUsed(seg2);
 
-		describe("addAll()", () => {
-			it("should add all segments from another context", () => {
-				const otherContext = ForkContext.newRoot(new IdGenerator("t"));
-				context.addAll(otherContext);
-				assert.strictEqual(context.segmentsList.length, 2);
-				assert.deepStrictEqual(context.head, otherContext.head);
-			});
-		});
+			context.add([seg1, seg2]);
 
-		describe("clear()", () => {
-			it("should clear the context list", () => {
-				context.clear();
-				assert.strictEqual(context.segmentsList.length, 0);
-				assert.deepStrictEqual(context.head, []);
-			});
+			assert.strictEqual(context.segmentsList.length, 2);
+			assert.strictEqual(context.head.length, 1);
+			assert.strictEqual(context.head[0].allPrevSegments.length, 2);
+			assert.ok(context.head[0].allPrevSegments.includes(seg1));
+			assert.ok(context.head[0].allPrevSegments.includes(seg2));
+		});
+	});
+
+	describe("replaceHead()", () => {
+		it("should replace head segments", () => {
+			const context = ForkContext.newRoot(idGenerator);
+			const newSegment = CodePathSegment.newNext("s2", [context.head[0]]);
+			context.replaceHead([newSegment]);
+
+			assert.strictEqual(context.segmentsList.length, 1);
+			assert.strictEqual(context.head[0], newSegment);
+		});
+	});
+
+	describe("addAll()", () => {
+		it("should add all segments from another context", () => {
+			const context1 = ForkContext.newRoot(idGenerator);
+			const context2 = ForkContext.newRoot(idGenerator);
+
+			const newSegment = CodePathSegment.newNext("s3", [
+				context2.head[0],
+			]);
+			context2.add([newSegment]);
+
+			context1.addAll(context2);
+
+			assert.strictEqual(context1.segmentsList.length, 3);
+			assert.strictEqual(context1.head[0], newSegment);
+		});
+	});
+
+	describe("clear()", () => {
+		it("should clear segmentsList", () => {
+			const context = ForkContext.newRoot(idGenerator);
+			context.clear();
+			assert.strictEqual(context.segmentsList.length, 0);
 		});
 	});
 });
