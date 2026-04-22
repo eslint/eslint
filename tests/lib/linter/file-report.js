@@ -9,10 +9,10 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert;
+const { FileReport } = require("../../../lib/linter/file-report");
 const {
-	FileReport,
 	updateLocationInformation,
-} = require("../../../lib/linter/file-report");
+} = require("../../../lib/shared/location-utils");
 const { SourceCode } = require("../../../lib/languages/js/source-code");
 const espree = require("espree");
 
