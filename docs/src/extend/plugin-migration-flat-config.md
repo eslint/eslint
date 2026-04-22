@@ -239,7 +239,7 @@ module.exports = {
                 it: true,
                 xit: true,
                 describe: true,
-                xdescribe: true
+                describe: true
             }
         }
     },
