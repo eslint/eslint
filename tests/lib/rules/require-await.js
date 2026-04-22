@@ -308,6 +308,50 @@ ruleTester.run("require-await", rule, {
 			],
 		},
 		{
+			code: `class A {
+                a
+                async [b](){ return 0; }
+            }`,
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					messageId: "missingAwait",
+					data: { name: "Async method" },
+					suggestions: [
+						{
+							output: `class A {
+                a
+                [b](){ return 0; }
+            }`,
+							messageId: "removeAsync",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `class A {
+                a = 0
+                async in(){ return 0; }
+            }`,
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					messageId: "missingAwait",
+					data: { name: "Async method 'in'" },
+					suggestions: [
+						{
+							output: `class A {
+                a = 0
+                ;in(){ return 0; }
+            }`,
+							messageId: "removeAsync",
+						},
+					],
+				},
+			],
+		},
+		{
 			code: `foo
                 async () => { return 0; }
             `,
