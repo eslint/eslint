@@ -220,6 +220,18 @@ function generateObjectConfigs(obj, rootSchema, valueExtractor) {
 	}
 	objectConfigSet.combine();
 
+	/*
+	 * If the schema has a `not: { required: [...] }` constraint,
+	 * filter out configs that contain all of the forbidden properties.
+	 */
+	if (obj.not && obj.not.required && Array.isArray(obj.not.required)) {
+		const forbidden = obj.not.required;
+
+		return objectConfigSet.objectConfigs.filter(
+			config => !forbidden.every(prop => Object.hasOwn(config, prop)),
+		);
+	}
+
 	return objectConfigSet.objectConfigs;
 }
 
