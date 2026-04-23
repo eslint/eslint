@@ -56,9 +56,6 @@
         "stylelint-config-standard-scss": "^5.0.0",
         "tap-spot": "^1.1.2"
     },
-    "engines": {
-        "node": "^20.19.0 || ^22.13.0 || >=24"
-    },
     "browserslist": [
         "defaults",
         "IE 11"
