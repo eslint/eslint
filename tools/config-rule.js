@@ -12,6 +12,16 @@
 const builtInRules = require("../lib/rules");
 
 //------------------------------------------------------------------------------
+// Constants
+//------------------------------------------------------------------------------
+
+/**
+ * Maximum number of configs to generate per rule to prevent
+ * combinatorial explosion when processing all core rules.
+ */
+const MAX_CONFIGS_PER_RULE = 50;
+
+//------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
 
@@ -46,11 +56,14 @@ function combineArrays(arr1, arr2) {
 	if (arr2.length === 0) {
 		return explodeArray(arr1);
 	}
-	arr1.forEach(x1 => {
-		arr2.forEach(x2 => {
+	for (const x1 of arr1) {
+		for (const x2 of arr2) {
 			res.push([].concat(x1, x2));
-		});
-	});
+			if (res.length >= MAX_CONFIGS_PER_RULE) {
+				return res;
+			}
+		}
+	}
 	return res;
 }
 
@@ -145,22 +158,120 @@ function combinePropertyObjects(objArr1, objArr2) {
 	if (objArr2.length === 0) {
 		return objArr1;
 	}
-	objArr1.forEach(obj1 => {
-		objArr2.forEach(obj2 => {
+	for (const obj1 of objArr1) {
+		for (const obj2 of objArr2) {
 			const combinedObj = {};
-			const obj1Props = Object.keys(obj1);
-			const obj2Props = Object.keys(obj2);
 
-			obj1Props.forEach(prop1 => {
+			for (const prop1 of Object.keys(obj1)) {
 				combinedObj[prop1] = obj1[prop1];
-			});
-			obj2Props.forEach(prop2 => {
+			}
+			for (const prop2 of Object.keys(obj2)) {
 				combinedObj[prop2] = obj2[prop2];
-			});
+			}
 			res.push(combinedObj);
-		});
-	});
+			if (res.length >= MAX_CONFIGS_PER_RULE) {
+				return res;
+			}
+		}
+	}
 	return res;
+}
+
+/**
+ * Generate rule configurations from a schema object
+ * @param {Object} obj Schema item with type === "object"
+ * @param {Object} [rootSchema] The root schema object for resolving $ref
+ * @param {Function} [valueExtractor] Function to extract values from a property schema
+ * @returns {Object[]} Array of rule configurations
+ */
+function generateObjectConfigs(obj, rootSchema, valueExtractor) {
+	const objectConfigSet = {
+		objectConfigs: [],
+		add(property, values) {
+			for (let idx = 0; idx < values.length; idx++) {
+				const optionObj = {};
+
+				optionObj[property] = values[idx];
+				this.objectConfigs.push(optionObj);
+			}
+		},
+
+		combine() {
+			this.objectConfigs = groupByProperty(this.objectConfigs).reduce(
+				(accumulator, objArr) =>
+					combinePropertyObjects(accumulator, objArr),
+				[],
+			);
+		},
+	};
+
+	/*
+	 * The object schema could have multiple independent properties.
+	 * If any contain enums or booleans, they can be added and then combined
+	 */
+	if (obj.properties && valueExtractor) {
+		Object.keys(obj.properties).forEach(prop => {
+			const values = valueExtractor(obj.properties[prop], rootSchema);
+
+			if (values.length > 0) {
+				objectConfigSet.add(prop, values);
+			}
+		});
+	}
+	objectConfigSet.combine();
+
+	return objectConfigSet.objectConfigs;
+}
+
+/**
+ * Extract possible values from a schema object
+ * @param {Object} schema A rule's schema object
+ * @param {Object} [rootSchema] The root schema object for resolving $ref
+ * @returns {any[]} Possible values for the option
+ */
+function getPossibleValuesFromSchema(schema, rootSchema) {
+	if (!schema) {
+		return [];
+	}
+
+	if (schema.$ref && rootSchema && rootSchema.definitions) {
+		const ref = schema.$ref.replace("#/definitions/", "");
+
+		if (rootSchema.definitions[ref]) {
+			return getPossibleValuesFromSchema(
+				rootSchema.definitions[ref],
+				rootSchema,
+			);
+		}
+	}
+
+	if (schema.enum) {
+		return schema.enum;
+	}
+	if (schema.type === "object") {
+		return generateObjectConfigs(
+			schema,
+			rootSchema,
+			getPossibleValuesFromSchema,
+		);
+	}
+	if (schema.oneOf) {
+		return schema.oneOf.flatMap(s =>
+			getPossibleValuesFromSchema(s, rootSchema),
+		);
+	}
+	if (schema.anyOf) {
+		return schema.anyOf.flatMap(s =>
+			getPossibleValuesFromSchema(s, rootSchema),
+		);
+	}
+	if (schema.type === "boolean") {
+		return [true, false];
+	}
+	if (schema.type === "null") {
+		return [null];
+	}
+	return [];
 }
 
 /**
@@ -203,67 +314,58 @@ class RuleConfigSet {
 	}
 
 	/**
+	 * Add rule configs from an array of possible values for the next option
+	 * @param {any[]} options Array of valid rule options
+	 * @returns {void}
+	 */
+	addOptions(options) {
+		this.ruleConfigs = this.ruleConfigs.concat(
+			combineArrays(this.ruleConfigs, options),
+		);
+	}
+
+	/**
 	 * Add rule configs from an array of strings (schema enums)
 	 * @param {string[]} enums Array of valid rule options (e.g. ["always", "never"])
 	 * @returns {void}
 	 */
 	addEnums(enums) {
-		this.ruleConfigs = this.ruleConfigs.concat(
-			combineArrays(this.ruleConfigs, enums),
-		);
+		this.addOptions(enums);
 	}
 
 	/**
 	 * Add rule configurations from a schema object
 	 * @param {Object} obj Schema item with type === "object"
+	 * @param {Object} [rootSchema] The root schema object for resolving $ref
 	 * @returns {boolean} true if at least one schema for the object could be generated, false otherwise
 	 */
-	addObject(obj) {
-		const objectConfigSet = {
-			objectConfigs: [],
-			add(property, values) {
-				for (let idx = 0; idx < values.length; idx++) {
-					const optionObj = {};
+	addObject(obj, rootSchema) {
+		const configs = generateObjectConfigs(
+			obj,
+			rootSchema,
+			getPossibleValuesFromSchema,
+		);
 
-					optionObj[property] = values[idx];
-					this.objectConfigs.push(optionObj);
-				}
-			},
-
-			combine() {
-				this.objectConfigs = groupByProperty(this.objectConfigs).reduce(
-					(accumulator, objArr) =>
-						combinePropertyObjects(accumulator, objArr),
-					[],
-				);
-			},
-		};
-
-		/*
-		 * The object schema could have multiple independent properties.
-		 * If any contain enums or booleans, they can be added and then combined
-		 */
-		Object.keys(obj.properties).forEach(prop => {
-			if (obj.properties[prop].enum) {
-				objectConfigSet.add(prop, obj.properties[prop].enum);
-			}
-			if (
-				obj.properties[prop].type &&
-				obj.properties[prop].type === "boolean"
-			) {
-				objectConfigSet.add(prop, [true, false]);
-			}
-		});
-		objectConfigSet.combine();
-
-		if (objectConfigSet.objectConfigs.length > 0) {
-			this.ruleConfigs = this.ruleConfigs.concat(
-				combineArrays(this.ruleConfigs, objectConfigSet.objectConfigs),
-			);
+		if (configs.length > 0) {
+			this.addOptions(configs);
 			return true;
 		}
 
 		return false;
+	}
+
+	/**
+	 * Generate rule configurations from a schema object
+	 * @param {Object} obj Schema item with type === "object"
+	 * @param {Object} [rootSchema] The root schema object for resolving $ref
+	 * @returns {Object[]} Array of rule configurations
+	 */
+	static generateObjectConfigs(obj, rootSchema) {
+		return generateObjectConfigs(
+			obj,
+			rootSchema,
+			getPossibleValuesFromSchema,
+		);
 	}
 }
 
@@ -274,17 +376,23 @@ class RuleConfigSet {
  */
 function generateConfigsFromSchema(schema) {
 	const configSet = new RuleConfigSet();
+	let schemas = schema;
 
-	if (Array.isArray(schema)) {
-		for (const opt of schema) {
-			if (opt.enum) {
-				configSet.addEnums(opt.enum);
-			} else if (opt.type && opt.type === "object") {
-				if (!configSet.addObject(opt)) {
-					break;
-				}
+	if (
+		schema &&
+		!Array.isArray(schema) &&
+		schema.type === "array" &&
+		Array.isArray(schema.items)
+	) {
+		schemas = schema.items;
+	}
 
-				// TODO (IanVS): support oneOf
+	if (Array.isArray(schemas)) {
+		for (const opt of schemas) {
+			const values = getPossibleValuesFromSchema(opt, schema);
+
+			if (values.length > 0) {
+				configSet.addOptions(values);
 			} else {
 				// If we don't know how to fill in this option, don't fill in any of the following options.
 				break;

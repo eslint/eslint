@@ -297,6 +297,20 @@ describe("ConfigRule", () => {
 
 			it("should create a set of configs", () => {
 				assert.isArray(actualConfigs);
+				assert.strictEqual(actualConfigs.length, 9);
+			});
+
+			it("should include both enum and object configs", () => {
+				const options = actualConfigs.slice(1).map(c => c[1]);
+
+				assert.include(options, "before");
+				assert.include(options, "after");
+				assert.include(options, "both");
+				assert.include(options, "neither");
+				assert.deepInclude(options, { before: true, after: true });
+				assert.deepInclude(options, { before: true, after: false });
+				assert.deepInclude(options, { before: false, after: true });
+				assert.deepInclude(options, { before: false, after: false });
 			});
 		});
 
@@ -307,12 +321,28 @@ describe("ConfigRule", () => {
 
 			it("should create a set of configs", () => {
 				assert.isArray(actualConfigs);
+				assert.strictEqual(actualConfigs.length, 3);
+			});
+
+			it("should include nested object configs", () => {
+				const options = actualConfigs.slice(1).map(c => c[1]);
+
+				assert.deepInclude(options, {
+					prefer: { nestedProperty: true },
+				});
+				assert.deepInclude(options, {
+					prefer: { nestedProperty: false },
+				});
 			});
 		});
 	});
 
 	describe("createCoreRuleConfigs()", () => {
-		const rulesConfig = createCoreRuleConfigs();
+		let rulesConfig;
+
+		before(() => {
+			rulesConfig = createCoreRuleConfigs();
+		});
 
 		it("should create a rulesConfig containing all core rules", () => {
 			const expectedRules = Array.from(builtInRules.keys()),
