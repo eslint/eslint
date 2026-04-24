@@ -1,6 +1,6 @@
 /**
  * @fileoverview Tests for ForkContext.
- * @author kuldeep kumar
+ * @author kuldeep2822k
  */
 
 "use strict";
@@ -49,26 +49,6 @@ function createSegment(id, allPrevSegments, reachable) {
 			loopedPrevSegments: [],
 		},
 	};
-}
-
-/**
- * Marks a stub segment as used, mirroring the minimal behaviour needed
- * for ForkContext's internal flattenUnusedSegments to work correctly.
- * @param {Object} segment The segment to mark as used.
- * @returns {void}
- */
-function markUsed(segment) {
-	if (segment.internal.used) {
-		return;
-	}
-	segment.internal.used = true;
-
-	for (const prevSegment of segment.allPrevSegments) {
-		prevSegment.allNextSegments.push(segment);
-		if (segment.reachable) {
-			prevSegment.nextSegments.push(segment);
-		}
-	}
 }
 
 //------------------------------------------------------------------------------
@@ -231,8 +211,8 @@ describe("ForkContext", () => {
 			 * segmentsList has 3 elements: [root], [seg1], [seg2]
 			 * We need to mark segments used so that flattenUnusedSegments returns them
 			 */
-			markUsed(seg1);
-			markUsed(seg2);
+			seg1.internal.used = true;
+			seg2.internal.used = true;
 
 			const nextSegments = context.makeNext(1, 2);
 
@@ -259,8 +239,8 @@ describe("ForkContext", () => {
 
 			context.add([seg2]);
 
-			markUsed(seg1);
-			markUsed(seg2);
+			seg1.internal.used = true;
+			seg2.internal.used = true;
 
 			const nextSegments = context.makeNext(-2, -1);
 
@@ -297,8 +277,8 @@ describe("ForkContext", () => {
 
 			context.add([seg2]);
 
-			markUsed(seg1);
-			markUsed(seg2);
+			seg1.internal.used = true;
+			seg2.internal.used = true;
 
 			const nextSegments = context.makeUnreachable(-2, -1);
 
@@ -337,8 +317,8 @@ describe("ForkContext", () => {
 
 			context.add([seg2]);
 
-			markUsed(seg1);
-			markUsed(seg2);
+			seg1.internal.used = true;
+			seg2.internal.used = true;
 
 			const nextSegments = context.makeDisconnected(-2, -1);
 
@@ -380,8 +360,8 @@ describe("ForkContext", () => {
 			);
 
 			// Mark segments used so they aren't flattened during merge
-			markUsed(seg1);
-			markUsed(seg2);
+			seg1.internal.used = true;
+			seg2.internal.used = true;
 
 			context.add([seg1, seg2]);
 
@@ -412,7 +392,7 @@ describe("ForkContext", () => {
 			assert.strictEqual(context.head[0], newSegment);
 		});
 
-		it("should only modify the last element of segmentsList", () => {
+		it("should only modify the head", () => {
 			const context = ForkContext.newRoot(idGenerator);
 			const seg1 = context.head[0];
 			const seg2 = createSegment("s2", [seg1], true);
@@ -443,10 +423,10 @@ describe("ForkContext", () => {
 			const seg6 = createSegment("s6", [rootSeg], true);
 
 			// Mark used so they don't get flattened
-			markUsed(seg3);
-			markUsed(seg4);
-			markUsed(seg5);
-			markUsed(seg6);
+			seg3.internal.used = true;
+			seg4.internal.used = true;
+			seg5.internal.used = true;
+			seg6.internal.used = true;
 
 			context.replaceHead([seg3, seg4, seg5, seg6]);
 
