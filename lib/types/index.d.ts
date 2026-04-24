@@ -225,6 +225,7 @@ export namespace Scope {
 					| ESTree.FunctionExpression
 					| ESTree.ArrowFunctionExpression;
 				parent: null;
+				index: number;
 		  }
 		| {
 				type: "Variable";
