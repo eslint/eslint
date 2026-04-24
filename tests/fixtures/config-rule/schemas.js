@@ -115,4 +115,56 @@ module.exports = {
         }
     }],
 
+    anyOf: [{
+        "anyOf": [
+            {
+                "enum": ["before", "after", "both", "neither"]
+            },
+            {
+                "type": "object",
+                "properties": {
+                    "before": {"type": "boolean"},
+                    "after": {"type": "boolean"}
+                },
+                "additionalProperties": false
+            }
+        ]
+    }],
+
+    items: [{
+        "type": "array",
+        "items": {
+            "type": "string"
+        }
+    }],
+
+    itemsArray: [{
+        "type": "array",
+        "items": [
+            { "type": "string" },
+            { "type": "number" }
+        ]
+    }],
+
+    ref: [{
+        "$ref": "#/definitions/aString"
+    }],
+
+    definitions: {
+        "aString": {
+            "type": "string"
+        }
+    },
+
+    string: [{
+        "type": "string"
+    }],
+
+    number: [{
+        "type": "number"
+    }],
+
+    integer: [{
+        "type": "integer"
+    }]
 };

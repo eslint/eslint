@@ -260,30 +260,68 @@ function getPossibleValuesFromSchema(schema, rootSchema) {
 	if (schema.enum) {
 		return schema.enum;
 	}
-	if (schema.type === "object") {
-		return generateObjectConfigs(
-			schema,
-			rootSchema,
-			getPossibleValuesFromSchema,
-		);
-	}
+
 	if (schema.oneOf) {
 		return schema.oneOf.flatMap(s =>
 			getPossibleValuesFromSchema(s, rootSchema),
 		);
 	}
+
 	if (schema.anyOf) {
 		return schema.anyOf.flatMap(s =>
 			getPossibleValuesFromSchema(s, rootSchema),
 		);
 	}
-	if (schema.type === "boolean") {
-		return [true, false];
+
+	switch (schema.type) {
+		case "string":
+			return [""];
+		case "number":
+		case "integer": {
+			const min = typeof schema.minimum === "number" ? schema.minimum : 0;
+			const max =
+				typeof schema.maximum === "number" ? schema.maximum : 10;
+
+			return [Math.floor(Math.random() * (max - min + 1)) + min];
+		}
+		case "boolean":
+			return [true, false];
+		case "array": {
+			if (schema.items) {
+				if (Array.isArray(schema.items)) {
+					const itemsValues = schema.items.map(item => {
+						const itemValues = getPossibleValuesFromSchema(
+							item,
+							rootSchema,
+						);
+
+						return itemValues.length > 0 ? itemValues[0] : null;
+					});
+
+					return [itemsValues];
+				}
+				const itemValues = getPossibleValuesFromSchema(
+					schema.items,
+					rootSchema,
+				);
+
+				if (itemValues.length > 0) {
+					return [[itemValues[0]]];
+				}
+			}
+			return [[]];
+		}
+		case "object":
+			return generateObjectConfigs(
+				schema,
+				rootSchema,
+				getPossibleValuesFromSchema,
+			);
+		case "null":
+			return [null];
+		default:
+			return [];
 	}
-	if (schema.type === "null") {
-		return [null];
-	}
-	return [];
 }
 
 /**
@@ -337,15 +375,6 @@ class RuleConfigSet {
 	}
 
 	/**
-	 * Add rule configs from an array of strings (schema enums)
-	 * @param {string[]} enums Array of valid rule options (e.g. ["always", "never"])
-	 * @returns {void}
-	 */
-	addEnums(enums) {
-		this.addOptions(enums);
-	}
-
-	/**
 	 * Add rule configurations from a schema object
 	 * @param {Object} obj Schema item with type === "object"
 	 * @param {Object} [rootSchema] The root schema object for resolving $ref
@@ -364,20 +393,6 @@ class RuleConfigSet {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Generate rule configurations from a schema object
-	 * @param {Object} obj Schema item with type === "object"
-	 * @param {Object} [rootSchema] The root schema object for resolving $ref
-	 * @returns {Object[]} Array of rule configurations
-	 */
-	static generateObjectConfigs(obj, rootSchema) {
-		return generateObjectConfigs(
-			obj,
-			rootSchema,
-			getPossibleValuesFromSchema,
-		);
 	}
 }
 

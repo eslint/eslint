@@ -283,8 +283,13 @@ describe("ConfigRule", () => {
 				);
 			});
 
-			it("should not create a config for the enum", () => {
-				const expectedConfigs = [2];
+			it("should create configs for both the string and the enum", () => {
+				const expectedConfigs = [
+					2,
+					[2, ""],
+					[2, "", "always"],
+					[2, "", "never"],
+				];
 
 				assert.sameDeepMembers(actualConfigs, expectedConfigs);
 			});
@@ -335,14 +340,115 @@ describe("ConfigRule", () => {
 				});
 			});
 		});
+
+		describe("for a schema with anyOf", () => {
+			before(() => {
+				actualConfigs = generateConfigsFromSchema(schema.anyOf);
+			});
+
+			it("should create a set of configs", () => {
+				assert.isArray(actualConfigs);
+				assert.strictEqual(actualConfigs.length, 9);
+			});
+
+			it("should include both enum and object configs", () => {
+				const options = actualConfigs.slice(1).map(c => c[1]);
+
+				assert.include(options, "before");
+				assert.include(options, "after");
+				assert.include(options, "both");
+				assert.include(options, "neither");
+				assert.deepInclude(options, { before: true, after: true });
+				assert.deepInclude(options, { before: true, after: false });
+				assert.deepInclude(options, { before: false, after: true });
+				assert.deepInclude(options, { before: false, after: false });
+			});
+		});
+
+		describe("for a schema with items", () => {
+			before(() => {
+				actualConfigs = generateConfigsFromSchema(schema.items);
+			});
+
+			it("should create an array containing one string", () => {
+				assert.isArray(actualConfigs);
+				assert.strictEqual(actualConfigs.length, 2);
+				assert.deepStrictEqual(actualConfigs[1], [2, [""]]);
+			});
+		});
+
+		describe("for a schema with items array", () => {
+			before(() => {
+				actualConfigs = generateConfigsFromSchema(schema.itemsArray);
+			});
+
+			it("should create an array containing a string and a number", () => {
+				assert.isArray(actualConfigs);
+				assert.strictEqual(actualConfigs.length, 2);
+				assert.isArray(actualConfigs[1]);
+				assert.isArray(actualConfigs[1][1]);
+				assert.strictEqual(actualConfigs[1][1].length, 2);
+				assert.strictEqual(actualConfigs[1][1][0], "");
+				assert.isNumber(actualConfigs[1][1][1]);
+			});
+		});
+
+		describe("for a schema with a $ref", () => {
+			before(() => {
+				const s = schema.ref;
+
+				s.definitions = schema.definitions;
+				actualConfigs = generateConfigsFromSchema(s);
+			});
+
+			it("should resolve the $ref and create configs", () => {
+				assert.isArray(actualConfigs);
+				assert.strictEqual(actualConfigs.length, 2);
+				assert.deepStrictEqual(actualConfigs[1], [2, ""]);
+			});
+		});
+
+		describe("for a schema with a string", () => {
+			before(() => {
+				actualConfigs = generateConfigsFromSchema(schema.string);
+			});
+
+			it("should create configs with an empty string", () => {
+				assert.isArray(actualConfigs);
+				assert.strictEqual(actualConfigs.length, 2);
+				assert.deepStrictEqual(actualConfigs[1], [2, ""]);
+			});
+		});
+
+		describe("for a schema with a number", () => {
+			before(() => {
+				actualConfigs = generateConfigsFromSchema(schema.number);
+			});
+
+			it("should create configs with a random number", () => {
+				assert.isArray(actualConfigs);
+				assert.strictEqual(actualConfigs.length, 2);
+				assert.isArray(actualConfigs[1]);
+				assert.isNumber(actualConfigs[1][1]);
+			});
+		});
+
+		describe("for a schema with an integer", () => {
+			before(() => {
+				actualConfigs = generateConfigsFromSchema(schema.integer);
+			});
+
+			it("should create configs with a random integer", () => {
+				assert.isArray(actualConfigs);
+				assert.strictEqual(actualConfigs.length, 2);
+				assert.isArray(actualConfigs[1]);
+				assert.isNumber(actualConfigs[1][1]);
+			});
+		});
 	});
 
 	describe("createCoreRuleConfigs()", () => {
-		let rulesConfig;
-
-		before(() => {
-			rulesConfig = createCoreRuleConfigs();
-		});
+		const rulesConfig = createCoreRuleConfigs();
 
 		it("should create a rulesConfig containing all core rules", () => {
 			const expectedRules = Array.from(builtInRules.keys()),
