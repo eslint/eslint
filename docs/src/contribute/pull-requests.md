@@ -193,3 +193,5 @@ You might find that there are merge conflicts when you attempt to rebase. Please
 ```shell
 git push origin issue1234 -f
 ```
+
+<!-- Smoke test note for create-pr validation. -->
