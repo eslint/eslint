@@ -275,6 +275,14 @@ function getPossibleValuesFromSchema(schema, rootSchema) {
 
 	switch (schema.type) {
 		case "string":
+			if (
+				schema.pattern ||
+				schema.not ||
+				schema.minLength ||
+				schema.format
+			) {
+				return [];
+			}
 			return [""];
 		case "number":
 		case "integer": {
@@ -304,9 +312,16 @@ function getPossibleValuesFromSchema(schema, rootSchema) {
 					schema.items,
 					rootSchema,
 				);
+				const minItems =
+					typeof schema.minItems === "number" ? schema.minItems : 1;
 
-				if (itemValues.length > 0) {
-					return [[itemValues[0]]];
+				if (itemValues.length > 0 && itemValues.length >= minItems) {
+					return [itemValues.slice(0, Math.max(minItems, 1))];
+				}
+
+				// Can't satisfy minItems with available values
+				if (minItems > 0 && itemValues.length === 0) {
+					return [];
 				}
 			}
 			return [[]];
