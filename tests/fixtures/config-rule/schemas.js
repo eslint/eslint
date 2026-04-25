@@ -164,6 +164,12 @@ module.exports = {
         "type": "number"
     }],
 
+    numberWithMinMax: [{
+        "type": "number",
+        "minimum": 5,
+        "maximum": 10
+    }],
+
     integer: [{
         "type": "integer"
     }]

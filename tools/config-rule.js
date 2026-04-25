@@ -283,7 +283,7 @@ function getPossibleValuesFromSchema(schema, rootSchema) {
 			) {
 				return [];
 			}
-			return [""];
+			return ["example"];
 		case "number":
 		case "integer": {
 			const min = typeof schema.minimum === "number" ? schema.minimum : 0;
