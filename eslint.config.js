@@ -11,6 +11,7 @@
 
 const path = require("node:path");
 const internalPlugin = require("./tools/internal-rules");
+const coreRules = require("./lib/rules");
 const eslintPluginESLint = require("eslint-plugin-eslint-plugin").default;
 const globals = require("globals");
 const eslintConfigESLintCJS = require("eslint-config-eslint/cjs");
@@ -39,6 +40,9 @@ const INTERNAL_FILES = Object.fromEntries(
 
 const ALL_JS_FILES = "**/*.js";
 const ALL_YAML_FILES = "**/*.y?(a)ml";
+const DEPRECATED_CORE_RULE_FILES = Array.from(coreRules.entries())
+	.filter(([, rule]) => rule.meta.deprecated)
+	.map(([ruleId]) => `lib/rules/${ruleId}.js`);
 
 /**
  * Resolve an absolute path or glob pattern.
@@ -135,8 +139,17 @@ module.exports = defineConfig([
 			"internal-rules/no-invalid-meta": "error",
 
 			"eslint-plugin/require-meta-schema-description": "off",
-
-			// TODO: Consider enabling these for non-deprecated rules
+			"eslint-plugin/no-meta-schema-default": "error",
+			"eslint-plugin/require-meta-default-options": "error",
+		},
+	},
+	{
+		name: "eslint/deprecated-rules",
+		files: DEPRECATED_CORE_RULE_FILES,
+		plugins: {
+			"eslint-plugin": eslintPluginESLint,
+		},
+		rules: {
 			"eslint-plugin/no-meta-schema-default": "off",
 			"eslint-plugin/require-meta-default-options": "off",
 		},
