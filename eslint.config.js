@@ -146,11 +146,20 @@ module.exports = defineConfig([
 	{
 		name: "eslint/deprecated-rules",
 		files: DEPRECATED_CORE_RULE_FILES,
-		plugins: {
-			"eslint-plugin": eslintPluginESLint,
-		},
 		rules: {
 			"eslint-plugin/no-meta-schema-default": "off",
+			"eslint-plugin/require-meta-default-options": "off",
+		},
+	},
+	{
+		name: "eslint/rules-without-default-options",
+		files: [
+			"lib/rules/no-restricted-globals.js",
+			"lib/rules/no-restricted-imports.js",
+			"lib/rules/prefer-destructuring.js",
+			"lib/rules/radix.js",
+		],
+		rules: {
 			"eslint-plugin/require-meta-default-options": "off",
 		},
 	},
