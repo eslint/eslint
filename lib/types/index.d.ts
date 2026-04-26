@@ -1523,3 +1523,9 @@ export namespace RuleTester {
 }
 
 // #endregion
+
+// Re-export the ESTree namespace so that TypeScript can form a self-contained
+// reference (e.g. `import("eslint").ESTree`) in generated declaration files,
+// instead of requiring a portable path to @types/estree. This avoids TS2742
+// for downstream consumers using pnpm's strict node_modules isolation.
+export type { ESTree };
