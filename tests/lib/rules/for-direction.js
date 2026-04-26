@@ -108,6 +108,13 @@ ruleTester.run("for-direction", rule, {
 		// test SequenceExpression - three expressions
 		"for(var i = 0; i < 10; (j++, i++, k++)){}",
 		"for(var i = 10; i > 0; (j++, i--, k++)){}",
+
+		// test SequenceExpression - nested SequenceExpressions
+		"for(var i = 10; i < 20; (i--, (i = 5, j++))){}",
+		"for(var i = 10; i < 20; ((i--, j++), i += 2)){}",
+
+		// test SequenceExpression - unknown AssignmentExpression RHS
+		"for(var i = 10; i < 20; (i--, i += STEP_SIZE)){}",
 	],
 	invalid: [
 		// test if '++', '--'
@@ -425,6 +432,12 @@ ruleTester.run("for-direction", rule, {
 		},
 		{
 			code: "for(var i = 0; 10 > i; (i--, j++)){}",
+			errors: [{ ...incorrectDirection }],
+		},
+
+		// test SequenceExpression - nested SequenceExpressions with wrong direction
+		{
+			code: "for(var i = 10; i < 20; (j++, (i--, k++))){}",
 			errors: [{ ...incorrectDirection }],
 		},
 	],
