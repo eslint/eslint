@@ -13,7 +13,8 @@ const assert = require("chai").assert,
 	fs = require("node:fs"),
 	path = require("node:path"),
 	proxyquire = require("proxyquire"),
-	sinon = require("sinon");
+	sinon = require("sinon"),
+	fileEntryCache = require("file-entry-cache");
 
 //-----------------------------------------------------------------------------
 // Tests
@@ -26,6 +27,15 @@ describe("LintResultCache", () => {
 	);
 	const cacheFileLocation = path.join(fixturePath, ".eslintcache");
 	const fileEntryCacheStubs = {};
+
+	/*
+	 * fileEntryCache.create is a getter with `configurable: false`, so we need to set
+	 * it in advance with `configurable: true` to be able to modify it.
+	 */
+	Object.defineProperty(fileEntryCacheStubs, "create", {
+		...Object.getOwnPropertyDescriptor(fileEntryCache, "create"),
+		configurable: true,
+	});
 
 	let LintResultCache,
 		hashStub,
@@ -125,8 +135,14 @@ describe("LintResultCache", () => {
 		before(() => {
 			getFileDescriptorStub = sandbox.stub();
 
-			fileEntryCacheStubs.create = () => ({
-				getFileDescriptor: getFileDescriptorStub,
+			Object.defineProperty(fileEntryCacheStubs, "create", {
+				...Object.getOwnPropertyDescriptor(fileEntryCache, "create"),
+				get() {
+					return () => ({
+						getFileDescriptor: getFileDescriptorStub,
+					});
+				},
+				configurable: true,
 			});
 		});
 
@@ -137,12 +153,14 @@ describe("LintResultCache", () => {
 		beforeEach(() => {
 			cacheEntry = {
 				meta: {
-					// Serialized results will have null source
-					results: Object.assign({}, fakeErrorResults, {
-						source: null,
-					}),
+					data: {
+						// Serialized results will have null source
+						results: Object.assign({}, fakeErrorResults, {
+							source: null,
+						}),
 
-					hashOfConfig,
+						hashOfConfig,
+					},
 				},
 			};
 
@@ -287,8 +305,14 @@ describe("LintResultCache", () => {
 		before(() => {
 			getFileDescriptorStub = sandbox.stub();
 
-			fileEntryCacheStubs.create = () => ({
-				getFileDescriptor: getFileDescriptorStub,
+			Object.defineProperty(fileEntryCacheStubs, "create", {
+				...Object.getOwnPropertyDescriptor(fileEntryCache, "create"),
+				get() {
+					return () => ({
+						getFileDescriptor: getFileDescriptorStub,
+					});
+				},
+				configurable: true,
 			});
 		});
 
@@ -321,8 +345,7 @@ describe("LintResultCache", () => {
 					fakeErrorResultsAutofix,
 				);
 
-				assert.notProperty(cacheEntry.meta, "results");
-				assert.notProperty(cacheEntry.meta, "hashOfConfig");
+				assert.notProperty(cacheEntry.meta, "data");
 			});
 		});
 
@@ -338,8 +361,7 @@ describe("LintResultCache", () => {
 					fakeErrorResults,
 				);
 
-				assert.notProperty(cacheEntry.meta, "results");
-				assert.notProperty(cacheEntry.meta, "hashOfConfig");
+				assert.notProperty(cacheEntry.meta, "data");
 			});
 		});
 
@@ -353,7 +375,10 @@ describe("LintResultCache", () => {
 			});
 
 			it("stores hash of config in file entry", () => {
-				assert.strictEqual(cacheEntry.meta.hashOfConfig, hashOfConfig);
+				assert.strictEqual(
+					cacheEntry.meta.data.hashOfConfig,
+					hashOfConfig,
+				);
 			});
 
 			it("stores results (except source) in file entry", () => {
@@ -366,7 +391,7 @@ describe("LintResultCache", () => {
 				);
 
 				assert.deepStrictEqual(
-					cacheEntry.meta.results,
+					cacheEntry.meta.data.results,
 					expectedCachedResults,
 				);
 			});
@@ -382,7 +407,10 @@ describe("LintResultCache", () => {
 			});
 
 			it("stores hash of config in file entry", () => {
-				assert.strictEqual(cacheEntry.meta.hashOfConfig, hashOfConfig);
+				assert.strictEqual(
+					cacheEntry.meta.data.hashOfConfig,
+					hashOfConfig,
+				);
 			});
 
 			it("stores results (except source) in file entry", () => {
@@ -395,7 +423,7 @@ describe("LintResultCache", () => {
 				);
 
 				assert.deepStrictEqual(
-					cacheEntry.meta.results,
+					cacheEntry.meta.data.results,
 					expectedCachedResults,
 				);
 			});
@@ -408,8 +436,14 @@ describe("LintResultCache", () => {
 		before(() => {
 			reconcileStub = sandbox.stub();
 
-			fileEntryCacheStubs.create = () => ({
-				reconcile: reconcileStub,
+			Object.defineProperty(fileEntryCacheStubs, "create", {
+				...Object.getOwnPropertyDescriptor(fileEntryCache, "create"),
+				get() {
+					return () => ({
+						reconcile: reconcileStub,
+					});
+				},
+				configurable: true,
 			});
 		});
 
