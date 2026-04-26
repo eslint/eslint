@@ -12,6 +12,11 @@
 export default {
 	scopes: [],
 	globalScope: null,
+	/**
+	 * Acquires a scope for the given node.
+	 * @param {import("eslint").ESTree.Node} node The node to acquire scope for.
+	 * @returns {import("eslint").Scope.Scope | null} The acquired scope.
+	 */
 	acquire(node) {
 		void node;
 		return null;
