@@ -166,7 +166,7 @@ try {
 
 ### errorClassNames
 
-By default, this rule checks only the built-in `Error` types (`Error`, `TypeError`, `RangeError`, `SyntaxError`, `URIError`, `EvalError`, `ReferenceError`, `AggregateError`). Use `errorClassNames` to also check custom error classes.
+By default, this rule checks only the built-in `Error` types (`Error`, `EvalError`, `RangeError`, `ReferenceError`, `SyntaxError`, `TypeError`, `URIError`, `AggregateError`). Use `errorClassNames` to also check custom error classes.
 
 Each entry can be either a string or an object:
 
