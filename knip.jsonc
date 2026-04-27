@@ -24,20 +24,19 @@
         // Run from Makefile.js
         "tools/generate-formatter-examples.js",
       ],
-      "ignoreDependencies": [
-        "c8",
-        // Optional peer dependency used for loading TypeScript configuration files
-        "jiti",
-      ],
+      "ignoreDependencies": ["c8"],
     },
     "docs": {
       "entry": ["src/assets/scss/{styles,print}.scss"],
       "ignore": ["src/assets/js/search.js", "_examples/**"],
     },
+    "packages/js": {
+      "ignore": ["tests/types/**"],
+      "ignoreDependencies": ["eslint"],
+    },
     // Workspaces with default configs:
     "packages/*": {
       "ignore": ["tests/types/**"],
-      "ignoreDependencies": ["eslint"],
     },
   },
 }
