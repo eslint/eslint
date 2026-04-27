@@ -12,6 +12,7 @@
 const assert = require("node:assert");
 const fs = require("node:fs");
 const Module = require("node:module");
+const os = require("node:os");
 const path = require("node:path");
 const vm = require("node:vm");
 const sinon = require("sinon");
@@ -90,7 +91,10 @@ describe("ConfigLoader", () => {
 				const compiledWrapper = vm.runInThisContext(
 					Module.wrap(configLoaderSource),
 					{
-						filename: configLoaderPath,
+						filename: path.join(
+							os.tmpdir(),
+							"eslint-config-loader-without-require-cache.js",
+						),
 						importModuleDynamically:
 							vm.constants.USE_MAIN_CONTEXT_DEFAULT_LOADER,
 					},
