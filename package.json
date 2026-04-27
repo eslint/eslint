@@ -72,6 +72,8 @@
     "test": "node Makefile.js test",
     "test:browser": "node Makefile.js cypress",
     "test:cli": "mocha",
+    "test:ecosystem": "node tools/test-ecosystem/index.mjs",
+    "test:ecosystem:update": "node tools/test-ecosystem/update.mjs",
     "test:emfile": "node tools/check-emfile-handling.js",
     "test:fuzz": "node Makefile.js fuzz",
     "test:performance": "node Makefile.js perf",

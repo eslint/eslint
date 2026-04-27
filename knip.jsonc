@@ -24,7 +24,10 @@
         // Run from Makefile.js
         "tools/generate-formatter-examples.js",
       ],
-      "ignoreDependencies": ["c8"],
+      "ignoreDependencies": [
+        // Underlying code coverage engine used in unit tests
+        "c8",
+      ],
     },
     "docs": {
       "entry": ["src/assets/scss/{styles,print}.scss"],
