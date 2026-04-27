@@ -237,7 +237,7 @@ export default defineConfig([
 ]);
 ```
 
-This automatically loads the specified file and translates gitignore-style patterns into a config object containing `ignores` glob patterns.
+This automatically loads the specified file and translates gitignore-style patterns into a config object containing `ignores` glob patterns. The `{ gitignoreResolution: true }` option ensures that patterns will be interpreted relative to the location of the specified file.
 
 An array of ignore file paths can also be provided:
 
