@@ -219,7 +219,7 @@ This message occurs because ESLint is unsure if you wanted to actually lint the 
 
 ## Include `.gitignore` Files
 
-If you want to include patterns from a [`.gitignore`](https://git-scm.com/docs/gitignore) file or any other file with gitignore-style patterns, you can use [`includeIgnoreFile`](https://github.com/eslint/rewrite/tree/main/packages/config-helpers#including-ignore-files) utility from the [`@eslint/config-helpers`](https://www.npmjs.com/package/@eslint/config-helpers) package.
+If you want to include patterns from a [`.gitignore`](https://git-scm.com/docs/gitignore) file or any other file with gitignore-style patterns, you can use the `includeIgnoreFile` utility.
 
 ```js
 // eslint.config.js
