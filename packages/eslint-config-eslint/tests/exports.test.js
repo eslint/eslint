@@ -13,7 +13,9 @@ describe("eslint-config-eslint", () => {
 	it("exports base configs without file globs", () => {
 		assert.ok(Array.isArray(baseConfigs));
 		assert.ok(baseConfigs.length >= 1);
-		baseConfigs.forEach(config => assert.ok(!Object.hasOwn(config, "files")));
+		baseConfigs.forEach(config =>
+			assert.ok(!Object.hasOwn(config, "files")),
+		);
 
 		const configNames = new Set(
 			baseConfigs.map(config => config.name).filter(Boolean),
