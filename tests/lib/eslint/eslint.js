@@ -10073,6 +10073,22 @@ describe("ESLint", () => {
 			assert.strictEqual(typeof formatter.format, "function");
 		});
 
+		it("should treat a non-scoped package name with a subpath export (e.g. 'pkg/subpath') as an npm package, not a file path", async () => {
+			const engine = new ESLint({
+				cwd: getFixturePath("cli-engine"),
+			});
+
+			/*
+			 * `bar/subpath` has no leading `.` or drive/root — it must be
+			 * resolved as `eslint-formatter-bar/subpath` via npm, not as a
+			 * file relative to cwd.
+			 */
+			const formatter = await engine.loadFormatter("bar/subpath");
+
+			assert.strictEqual(typeof formatter, "object");
+			assert.strictEqual(typeof formatter.format, "function");
+		});
+
 		it("should throw if a custom formatter doesn't exist", async () => {
 			const engine = new ESLint();
 			const formatterPath = getFixturePath(
