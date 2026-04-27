@@ -176,7 +176,7 @@ describe("SuppressionsService", () => {
 	});
 
 	describe("save()", () => {
-		it("should write deterministic JSON with 2-space indentation to filePath", async () => {
+		it("should write valid JSON to filePath", async () => {
 			const suppressionsService = new SuppressionsService({
 				filePath: "/project/eslint-suppressions.json",
 				cwd: "/project",
@@ -199,18 +199,40 @@ describe("SuppressionsService", () => {
 				"Expected writeFile to use the correct filePath",
 			);
 
-			// Verify the content is valid JSON
+			// Verify the content is valid JSON and matches the object
 			const writtenContent = writeStub.firstCall.args[1];
 
-			JSON.parse(writtenContent);
+			assert.deepStrictEqual(JSON.parse(writtenContent), suppressions);
+		});
+
+		it("should write deterministic JSON by sorting keys alphabetically and using 2-space indentation", async () => {
+			const suppressionsService = new SuppressionsService({
+				filePath: "/project/eslint-suppressions.json",
+				cwd: "/project",
+			});
+			const writeStub = sinon.stub(fs.promises, "writeFile").resolves();
+			const suppressions = {
+				"b-file.js": { "no-console": { count: 1 } },
+				"a-file.js": { "no-unused-vars": { count: 2 } },
+			};
+
+			await suppressionsService.save(suppressions);
+
+			const writtenContent = writeStub.firstCall.args[1];
 
 			// json-stable-stringify sorts keys, so "a-file.js" should come before "b-file.js"
 			const aIndex = writtenContent.indexOf("a-file.js");
 			const bIndex = writtenContent.indexOf("b-file.js");
 
 			assert.ok(
-				aIndex < bIndex,
+				aIndex !== -1 && bIndex !== -1 && aIndex < bIndex,
 				"Expected keys to be sorted alphabetically (stable stringify)",
+			);
+
+			// Verify 2-space indentation is applied
+			assert.ok(
+				writtenContent.includes('{\n  "a-file.js"'),
+				"Expected JSON to use 2-space indentation",
 			);
 		});
 	});
