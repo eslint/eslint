@@ -38,6 +38,7 @@ const { defaultConfig } = require("../../../lib/config/default-config");
 const coreRules = require("../../../lib/rules");
 const espree = require("espree");
 const { WarningService } = require("../../../lib/services/warning-service");
+const LintResultCache = require("../../../lib/cli-engine/lint-result-cache");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -78,6 +79,15 @@ const eslintConfigFiles = {
 	mjs: "eslint.config.mjs",
 	cjs: "eslint.config.cjs",
 };
+
+/**
+ * Check if a value is a non-null object.
+ * @param {any} value The value to check.
+ * @returns {boolean} `true` if the value is a non-null object.
+ */
+function isNonNullObject(value) {
+	return typeof value === "object" && value !== null;
+}
 
 //------------------------------------------------------------------------------
 // Tests
@@ -14471,16 +14481,53 @@ describe("ESLint", () => {
 					);
 				});
 
+				let lintResultCache = new LintResultCache(
+					cacheFilePath,
+					"metadata",
+				);
+
+				for (const file of [badFile, goodFile]) {
+					assert(
+						isNonNullObject(
+							lintResultCache.getValidCachedLintResults(
+								file,
+								await eslint.calculateConfigForFile(file),
+							),
+						),
+						`lintResultCache should have initially returned cached lint results for ${file}`,
+					);
+				}
+
 				// this should result in a changed entry
 				shell.touch(goodFile);
 				fileCache = fCache.createFromFile(cacheFilePath);
+				lintResultCache = new LintResultCache(
+					cacheFilePath,
+					"metadata",
+				);
 				assert(
 					fileCache.getFileDescriptor(badFile).changed === false,
 					`the entry for ${badFile} should have been unchanged`,
 				);
 				assert(
+					isNonNullObject(
+						lintResultCache.getValidCachedLintResults(
+							badFile,
+							await eslint.calculateConfigForFile(badFile),
+						),
+					),
+					`lintResultCache should have returned cached lint results for ${badFile}`,
+				);
+				assert(
 					fileCache.getFileDescriptor(goodFile).changed === true,
 					`the entry for ${goodFile} should have been changed`,
+				);
+				assert(
+					lintResultCache.getValidCachedLintResults(
+						goodFile,
+						await eslint.calculateConfigForFile(goodFile),
+					) === null,
+					`lintResultCache should have returned null for ${goodFile}`,
 				);
 			});
 
@@ -14529,6 +14576,23 @@ describe("ESLint", () => {
 					);
 				});
 
+				let lintResultCache = new LintResultCache(
+					cacheFilePath,
+					"content",
+				);
+
+				for (const file of [badFile, goodFile]) {
+					assert(
+						isNonNullObject(
+							lintResultCache.getValidCachedLintResults(
+								file,
+								await eslint.calculateConfigForFile(file),
+							),
+						),
+						`lintResultCache should have initially returned cached lint results for ${file}`,
+					);
+				}
+
 				// this should NOT result in a changed entry
 				shell.touch(goodFile);
 				fileCache = fCache.createFromFile(cacheFilePath, {
@@ -14542,6 +14606,18 @@ describe("ESLint", () => {
 						`the entry for ${entry.key} should have remained unchanged`,
 					);
 				});
+				lintResultCache = new LintResultCache(cacheFilePath, "content");
+				for (const file of [badFile, goodFile]) {
+					assert(
+						isNonNullObject(
+							lintResultCache.getValidCachedLintResults(
+								file,
+								await eslint.calculateConfigForFile(file),
+							),
+						),
+						`lintResultCache should have returned cached lint results for ${file}`,
+					);
+				}
 			});
 
 			it("should detect changes using a file's contents when set to 'content'", async () => {
@@ -14598,19 +14674,53 @@ describe("ESLint", () => {
 					);
 				});
 
+				let lintResultCache = new LintResultCache(
+					cacheFilePath,
+					"content",
+				);
+
+				for (const file of [badFile, goodFileCopy]) {
+					assert(
+						isNonNullObject(
+							lintResultCache.getValidCachedLintResults(
+								file,
+								await eslint.calculateConfigForFile(file),
+							),
+						),
+						`lintResultCache should have initially returned cached lint results for ${file}`,
+					);
+				}
+
 				// this should result in a changed entry
 				shell.sed("-i", "abc", "xzy", goodFileCopy);
 				fileCache = fCache.createFromFile(cacheFilePath, {
 					useModifiedTime: false,
 					useCheckSum: true,
 				});
+				lintResultCache = new LintResultCache(cacheFilePath, "content");
 				assert(
 					fileCache.getFileDescriptor(badFile).changed === false,
 					`the entry for ${badFile} should have been unchanged`,
 				);
 				assert(
+					isNonNullObject(
+						lintResultCache.getValidCachedLintResults(
+							badFile,
+							await eslint.calculateConfigForFile(badFile),
+						),
+					),
+					`lintResultCache should have returned cached lint results for ${badFile}`,
+				);
+				assert(
 					fileCache.getFileDescriptor(goodFileCopy).changed === true,
 					`the entry for ${goodFileCopy} should have been changed`,
+				);
+				assert(
+					lintResultCache.getValidCachedLintResults(
+						goodFileCopy,
+						await eslint.calculateConfigForFile(goodFileCopy),
+					) === null,
+					`lintResultCache should have returned null for ${goodFileCopy}`,
 				);
 			});
 		});
