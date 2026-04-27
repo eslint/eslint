@@ -406,6 +406,19 @@ ruleTester.run("no-useless-assignment", rule, {
                 }
             }
         }`,
+		`function main() {
+            let outcome = "unknown";
+
+            try {
+                helper1();
+                outcome = "success";
+            } catch (err) {
+                helper2();
+                outcome = "exception";
+            } finally {
+                console.log(outcome);
+            }
+        }`,
 
 		// An expression within an assignment.
 		`const obj = { a: 5 };
