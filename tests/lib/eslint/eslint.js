@@ -13987,28 +13987,26 @@ describe("ESLint", () => {
 			fs.unlinkSync(toBeDeletedFile);
 
 			/*
-			 * file-entry-cache@2.0.0 will remove from the cache deleted files
+			 * file-entry-cache >= 2.0.0 will remove from the cache deleted files
 			 * even when they were not part of the array of files to be analyzed
 			 */
 			await eslint.lintFiles([badFile, goodFile]);
 
+			// an array
 			cache = JSON.parse(fs.readFileSync(cacheFilePath));
 
-			assert.strictEqual(
-				typeof cache[0][toBeDeletedFile],
-				"undefined",
+			assert(
+				!cache.includes(toBeDeletedFile),
 				"the entry for the file to be deleted should not have been in the cache",
 			);
 
-			// make sure that the previous assertion checks the right place
-			assert.notStrictEqual(
-				typeof cache[0][badFile],
-				"undefined",
+			// make sure that the previous assertion checks properly
+			assert(
+				cache.includes(badFile),
 				"the entry for the bad file should have been in the cache",
 			);
-			assert.notStrictEqual(
-				typeof cache[0][goodFile],
-				"undefined",
+			assert(
+				cache.includes(goodFile),
 				"the entry for the good file should have been in the cache",
 			);
 		});
@@ -14156,7 +14154,7 @@ describe("ESLint", () => {
 				"the cache file already exists and wasn't successfully deleted",
 			);
 
-			fs.writeFileSync(cacheFilePath, "");
+			fs.writeFileSync(cacheFilePath, "[[]]");
 
 			eslint = new ESLint({
 				concurrency,
@@ -14336,7 +14334,10 @@ describe("ESLint", () => {
 					"the cache for eslint should have been created",
 				);
 
-				const fileCache = fCache.create(cacheFilePath);
+				const fileCache = fCache.create(
+					path.basename(cacheFilePath),
+					path.dirname(cacheFilePath),
+				);
 				const descriptor = fileCache.getFileDescriptor(filePath);
 
 				assert(
@@ -14344,11 +14345,11 @@ describe("ESLint", () => {
 					"an entry for the file should have been in the cache file",
 				);
 				assert(
-					typeof descriptor.meta.results === "object",
+					typeof descriptor.meta.data.results === "object",
 					"lint result for the file should have been in its cache entry in the cache file",
 				);
 				assert(
-					typeof descriptor.meta.results.usedDeprecatedRules ===
+					typeof descriptor.meta.data.results.usedDeprecatedRules ===
 						"undefined",
 					"lint result in the cache file contains `usedDeprecatedRules`",
 				);
@@ -14403,7 +14404,10 @@ describe("ESLint", () => {
 					"the cache for eslint should have been created",
 				);
 
-				const fileCache = fCache.create(cacheFilePath);
+				const fileCache = fCache.create(
+					path.basename(cacheFilePath),
+					path.dirname(cacheFilePath),
+				);
 				const descriptor = fileCache.getFileDescriptor(filePath);
 
 				assert(
@@ -14411,13 +14415,13 @@ describe("ESLint", () => {
 					"an entry for the file should have been in the cache file",
 				);
 				assert(
-					typeof descriptor.meta.results === "object",
+					typeof descriptor.meta.data.results === "object",
 					"lint result for the file should have been in its cache entry in the cache file",
 				);
 
 				// if the lint result contains `source`, it should be stored as `null` in the cache file
 				assert.strictEqual(
-					descriptor.meta.results.source,
+					descriptor.meta.data.results.source,
 					null,
 					"lint result in the cache file contains non-null `source`",
 				);
@@ -14512,7 +14516,10 @@ describe("ESLint", () => {
 				);
 
 				await eslint.lintFiles([badFile, goodFile]);
-				let fileCache = fCache.createFromFile(cacheFilePath, true);
+				let fileCache = fCache.createFromFile(cacheFilePath, {
+					useModifiedTime: false,
+					useCheckSum: true,
+				});
 				let entries = fileCache.normalizeEntries([badFile, goodFile]);
 
 				entries.forEach(entry => {
@@ -14524,7 +14531,10 @@ describe("ESLint", () => {
 
 				// this should NOT result in a changed entry
 				shell.touch(goodFile);
-				fileCache = fCache.createFromFile(cacheFilePath, true);
+				fileCache = fCache.createFromFile(cacheFilePath, {
+					useModifiedTime: false,
+					useCheckSum: true,
+				});
 				entries = fileCache.normalizeEntries([badFile, goodFile]);
 				entries.forEach(entry => {
 					assert(
@@ -14572,7 +14582,9 @@ describe("ESLint", () => {
 				shell.cp(goodFile, goodFileCopy);
 
 				await eslint.lintFiles([badFile, goodFileCopy]);
-				let fileCache = fCache.createFromFile(cacheFilePath, true);
+				let fileCache = fCache.createFromFile(cacheFilePath, {
+					useCheckSum: true,
+				});
 				const entries = fileCache.normalizeEntries([
 					badFile,
 					goodFileCopy,
@@ -14587,7 +14599,9 @@ describe("ESLint", () => {
 
 				// this should result in a changed entry
 				shell.sed("-i", "abc", "xzy", goodFileCopy);
-				fileCache = fCache.createFromFile(cacheFilePath, true);
+				fileCache = fCache.createFromFile(cacheFilePath, {
+					useCheckSum: true,
+				});
 				assert(
 					fileCache.getFileDescriptor(badFile).changed === false,
 					`the entry for ${badFile} should have been unchanged`,
