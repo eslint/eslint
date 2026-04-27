@@ -229,12 +229,12 @@ import { fileURLToPath } from "node:url";
 
 const gitignorePath = fileURLToPath(new URL(".gitignore", import.meta.url));
 
-export default defineConfig(
+export default defineConfig([
 	includeIgnoreFile(gitignorePath, { gitignoreResolution: true }),
 	{
 		// your overrides
 	},
-);
+]);
 ```
 
 This automatically loads the specified file and translates gitignore-style patterns into a config object containing `ignores` glob patterns.
@@ -252,14 +252,14 @@ const nestedGitignorePath = fileURLToPath(
 	new URL("some/other/folder/.gitignore", import.meta.url),
 );
 
-export default defineConfig(
+export default defineConfig([
 	includeIgnoreFile([rootGitignorePath, nestedGitignorePath], {
 		gitignoreResolution: true,
 	}),
 	{
 		// your overrides
 	},
-);
+]);
 ```
 
 In this case, an array of config objects will be returned.
@@ -295,7 +295,7 @@ By default, `includeIgnoreFile()` will assign a name to the config that represen
 ```js
 // eslint.config.js
 
-export default defineConfig(
+export default defineConfig([
 	includeIgnoreFile(gitignorePath, {
 		gitignoreResolution: true,
 		name: "Imported .gitignore patterns",
@@ -303,5 +303,5 @@ export default defineConfig(
 	{
 		// your overrides
 	},
-);
+]);
 ```
