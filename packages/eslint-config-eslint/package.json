@@ -40,7 +40,7 @@
   },
   "scripts": {
     "lint:types": "attw --pack",
-    "test": "node ./index.js && node ./cjs.js && node ./formatting.js",
+    "test": "node --test ./tests/exports.test.js && node ./index.js && node ./cjs.js && node ./formatting.js",
     "test:types": "tsc -p tsconfig.json",
     "prepublish": "npm test"
   },
