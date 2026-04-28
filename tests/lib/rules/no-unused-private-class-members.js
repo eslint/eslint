@@ -1108,6 +1108,68 @@ class Second {}`,
 			],
 		},
 		{
+			code: `class Foo {
+    foo = 1
+    #unusedMethod() {}
+    in = 2
+}`,
+			errors: [
+				{
+					messageId: "unusedPrivateClassMember",
+					data: {
+						classMemberName: "#unusedMethod",
+					},
+					line: 3,
+					column: 5,
+					endLine: 3,
+					endColumn: 18,
+					suggestions: [
+						{
+							messageId: "removeUnusedPrivateClassMember",
+							data: {
+								classMemberName: "#unusedMethod",
+							},
+							output: `class Foo {
+    foo = 1;
+    in = 2
+}`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `class Foo {
+    foo = 1
+    #unused
+    instanceof() {}
+}`,
+			errors: [
+				{
+					messageId: "unusedPrivateClassMember",
+					data: {
+						classMemberName: "#unused",
+					},
+					line: 3,
+					column: 5,
+					endLine: 3,
+					endColumn: 12,
+					suggestions: [
+						{
+							messageId: "removeUnusedPrivateClassMember",
+							data: {
+								classMemberName: "#unused",
+							},
+							output: `class Foo {
+    foo = 1;
+    instanceof() {}
+}`,
+						},
+					],
+				},
+			],
+		},
+		{
 			code: `class C {
     foo = () => {}
     #unused
@@ -1131,6 +1193,37 @@ class Second {}`,
 							},
 							output: `class C {
     foo = () => {}
+    [bar]
+}`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `class C {
+    foo
+    #unused
+    [bar]
+}`,
+			errors: [
+				{
+					messageId: "unusedPrivateClassMember",
+					data: {
+						classMemberName: "#unused",
+					},
+					line: 3,
+					column: 5,
+					endLine: 3,
+					endColumn: 12,
+					suggestions: [
+						{
+							messageId: "removeUnusedPrivateClassMember",
+							data: {
+								classMemberName: "#unused",
+							},
+							output: `class C {
+    foo
     [bar]
 }`,
 						},
