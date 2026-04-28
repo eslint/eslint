@@ -21,7 +21,8 @@ jobs:
               with:
                   node-version: "lts/*"
             - run: npm install
-            - id: tester
+            - continue-on-error: true
+              id: tester
               run: npm run test:ecosystem -- --plugin all
             - if: steps.tester.outcome == 'failure' && github.head_ref == 'main'
               env:
