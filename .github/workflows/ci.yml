@@ -157,7 +157,7 @@ jobs:
         steps:
             - uses: actions/checkout@v6
 
-            - uses: pnpm/action-setup@078e9d416474b29c0c387560859308974f7e9c53 # v6.0.1
+            - uses: pnpm/action-setup@903f9c1a6ebcba6cf41d87230be49611ac97822e # v6.0.3
               with:
                   version: latest
 
