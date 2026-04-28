@@ -352,6 +352,27 @@ ruleTester.run("require-await", rule, {
 			],
 		},
 		{
+			code: `const obj = {
+                foo,
+                async in(){ return 0; }
+            }`,
+			errors: [
+				{
+					messageId: "missingAwait",
+					data: { name: "Async method 'in'" },
+					suggestions: [
+						{
+							output: `const obj = {
+                foo,
+                in(){ return 0; }
+            }`,
+							messageId: "removeAsync",
+						},
+					],
+				},
+			],
+		},
+		{
 			code: `foo
                 async () => { return 0; }
             `,
