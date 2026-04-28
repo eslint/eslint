@@ -83,6 +83,7 @@ module.exports = defineConfig([
 			"coverage/**",
 			"docs/!(src|tools)/",
 			"docs/src/!(_data)",
+			"ecosystem/**",
 			"jsdoc/**",
 			"lib/types/**/*.ts",
 			"templates/**",

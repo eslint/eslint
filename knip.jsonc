@@ -25,6 +25,7 @@
         "tools/generate-formatter-examples.js",
       ],
       "ignoreDependencies": [
+        // Underlying code coverage engine used in unit tests
         "c8",
         // Optional peer dependency used for loading TypeScript configuration files
         "jiti",
