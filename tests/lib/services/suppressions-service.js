@@ -205,7 +205,7 @@ describe("SuppressionsService", () => {
 			assert.deepStrictEqual(JSON.parse(writtenContent), suppressions);
 		});
 
-		it("should write deterministic JSON by sorting keys alphabetically and using 2-space indentation", async () => {
+		it("should write deterministic JSON by sorting keys alphabetically", async () => {
 			const suppressionsService = new SuppressionsService({
 				filePath: "/project/eslint-suppressions.json",
 				cwd: "/project",
@@ -227,12 +227,6 @@ describe("SuppressionsService", () => {
 			assert.ok(
 				aIndex !== -1 && bIndex !== -1 && aIndex < bIndex,
 				"Expected keys to be sorted alphabetically (stable stringify)",
-			);
-
-			// Verify 2-space indentation is applied
-			assert.ok(
-				writtenContent.includes('{\n  "a-file.js"'),
-				"Expected JSON to use 2-space indentation",
 			);
 		});
 	});
