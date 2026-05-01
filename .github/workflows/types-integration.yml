@@ -93,6 +93,11 @@ jobs:
               with:
                   node-version: "lts/*"
 
+            - name: Install Corepack latest
+              run: |
+                  npm install -g corepack@latest
+                  corepack enable pnpm
+
             - name: Install Packages (eslint)
               working-directory: eslint
               run: npm install
