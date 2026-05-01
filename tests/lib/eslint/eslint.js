@@ -4389,6 +4389,45 @@ describe("ESLint", () => {
 					},
 				]);
 			});
+
+			it("should handle invalid replacement metadata entries", async () => {
+				const deprecated = {
+					replacedBy: [
+						null,
+						{ plugin: { name: null } },
+						{ plugin: { name: null }, rule: { name: "name" } },
+					],
+				};
+
+				eslint = new ESLint({
+					cwd: originalDir,
+					overrideConfigFile: true,
+					overrideConfig: {
+						plugins: {
+							test: {
+								rules: {
+									deprecated: {
+										meta: { deprecated },
+										create: () => ({}),
+									},
+								},
+							},
+						},
+						rules: {
+							"test/deprecated": "error",
+						},
+					},
+				});
+				const results = await eslint.lintFiles(["lib/cli*.js"]);
+
+				assert.deepStrictEqual(results[0].usedDeprecatedRules, [
+					{
+						ruleId: "test/deprecated",
+						replacedBy: ["", "", "name"],
+						info: deprecated,
+					},
+				]);
+			});
 		});
 
 		// working
