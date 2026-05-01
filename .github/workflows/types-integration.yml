@@ -100,11 +100,11 @@ jobs:
             - name: Install Packages (eslint-flat-config-utils)
               working-directory: antfu
               run: |
-                  npm install ../eslint
+                  pnpm add -w -D ../eslint
 
             - name: Run TSC
               working-directory: antfu
-              run: npm run typecheck
+              run: pnpm run typecheck
 
     eslint-visitor-keys:
         name: Types (eslint-visitor-keys)
