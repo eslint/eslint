@@ -154,6 +154,7 @@ module.exports = defineConfig([
 	{
 		name: "eslint/rules-without-default-options",
 		files: [
+			"lib/rules/no-param-reassign.js",
 			"lib/rules/no-restricted-globals.js",
 			"lib/rules/no-restricted-imports.js",
 			"lib/rules/prefer-destructuring.js",
