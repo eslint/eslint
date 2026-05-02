@@ -1,6 +1,6 @@
 /**
  * @fileoverview Unit tests for the SuppressionsService class.
- * @author Kuldeep Kumar
+ * @author Kuldeep2822k
  */
 
 "use strict";
@@ -464,6 +464,270 @@ describe("SuppressionsService", () => {
 				written[relPath]["no-console"],
 				{ count: 2 },
 				"Expected suppress() to leave stale suppression intact; use prune() to remove it",
+			);
+		});
+	});
+
+	describe("prune()", () => {
+		it("should remove entirely unused suppressions", async () => {
+			const cwd = path.resolve("/project");
+			const suppressionsService = new SuppressionsService({
+				filePath: path.join(cwd, "eslint-suppressions.json"),
+				cwd,
+			});
+			const relPath = path.posix.join("src", "app.js");
+
+			// Existing suppression for a rule with zero current violations
+			const existing = {
+				[relPath]: { "no-console": { count: 3 } },
+			};
+
+			sinon
+				.stub(fs.promises, "readFile")
+				.resolves(JSON.stringify(existing));
+			const writeStub = sinon.stub(fs.promises, "writeFile").resolves();
+			sinon.stub(fs, "existsSync").returns(true);
+
+			// No violations at all for this file
+			const results = [
+				createResult({
+					filePath: path.join(cwd, "src", "app.js"),
+					messages: [],
+				}),
+			];
+
+			await suppressionsService.prune(results);
+
+			const written = JSON.parse(writeStub.firstCall.args[1]);
+
+			assert.strictEqual(
+				written[relPath],
+				void 0,
+				"Expected file entry to be removed when all rules are unused",
+			);
+		});
+
+		it("should reduce suppression counts for partially unused rules", async () => {
+			const cwd = path.resolve("/project");
+			const suppressionsService = new SuppressionsService({
+				filePath: path.join(cwd, "eslint-suppressions.json"),
+				cwd,
+			});
+			const relPath = path.posix.join("src", "app.js");
+
+			// Suppression count is 5, but only 2 violations remain
+			const existing = {
+				[relPath]: { "no-unused-vars": { count: 5 } },
+			};
+
+			sinon
+				.stub(fs.promises, "readFile")
+				.resolves(JSON.stringify(existing));
+			const writeStub = sinon.stub(fs.promises, "writeFile").resolves();
+			sinon.stub(fs, "existsSync").returns(true);
+
+			const results = [
+				createResult({
+					filePath: path.join(cwd, "src", "app.js"),
+					messages: [
+						createMessage("no-unused-vars"),
+						createMessage("no-unused-vars"),
+					],
+				}),
+			];
+
+			await suppressionsService.prune(results);
+
+			const written = JSON.parse(writeStub.firstCall.args[1]);
+
+			assert.deepStrictEqual(
+				written[relPath]["no-unused-vars"],
+				{ count: 2 },
+				"Expected suppression count to be reduced to match actual violations",
+			);
+		});
+
+		it("should remove suppressions for files that no longer exist on disk", async () => {
+			const cwd = path.resolve("/project");
+			const suppressionsService = new SuppressionsService({
+				filePath: path.join(cwd, "eslint-suppressions.json"),
+				cwd,
+			});
+			const relPath = path.posix.join("src", "deleted.js");
+			const existing = {
+				[relPath]: { "no-unused-vars": { count: 1 } },
+			};
+
+			sinon
+				.stub(fs.promises, "readFile")
+				.resolves(JSON.stringify(existing));
+			const writeStub = sinon.stub(fs.promises, "writeFile").resolves();
+			sinon.stub(fs, "existsSync").returns(false);
+
+			await suppressionsService.prune([]);
+
+			const written = JSON.parse(writeStub.firstCall.args[1]);
+
+			assert.deepStrictEqual(
+				written,
+				{},
+				"Expected suppressions for nonexistent files to be removed",
+			);
+		});
+
+		it("should do nothing if the suppressions are up to date", async () => {
+			const cwd = path.resolve("/project");
+			const suppressionsService = new SuppressionsService({
+				filePath: path.join(cwd, "eslint-suppressions.json"),
+				cwd,
+			});
+			const relPath = path.posix.join("src", "app.js");
+
+			// Suppression counts exactly match the current violation counts
+			const existing = {
+				[relPath]: {
+					"no-console": { count: 2 },
+					"no-unused-vars": { count: 1 },
+				},
+			};
+
+			sinon
+				.stub(fs.promises, "readFile")
+				.resolves(JSON.stringify(existing));
+			const writeStub = sinon.stub(fs.promises, "writeFile").resolves();
+			sinon.stub(fs, "existsSync").returns(true);
+
+			const results = [
+				createResult({
+					filePath: path.join(cwd, "src", "app.js"),
+					messages: [
+						createMessage("no-console"),
+						createMessage("no-console"),
+						createMessage("no-unused-vars"),
+					],
+				}),
+			];
+
+			await suppressionsService.prune(results);
+
+			const written = JSON.parse(writeStub.firstCall.args[1]);
+
+			assert.deepStrictEqual(
+				written[relPath]["no-console"],
+				{ count: 2 },
+				"Expected no-console suppression to remain unchanged",
+			);
+			assert.deepStrictEqual(
+				written[relPath]["no-unused-vars"],
+				{ count: 1 },
+				"Expected no-unused-vars suppression to remain unchanged",
+			);
+		});
+
+		it("should remove only the resolved rule's suppression when multiple rules are suppressed for the same file", async () => {
+			const cwd = path.resolve("/project");
+			const suppressionsService = new SuppressionsService({
+				filePath: path.join(cwd, "eslint-suppressions.json"),
+				cwd,
+			});
+			const relPath = path.posix.join("src", "app.js");
+
+			// Two rules suppressed; only no-console violations have been fixed
+			const existing = {
+				[relPath]: {
+					"no-console": { count: 2 },
+					"no-unused-vars": { count: 1 },
+				},
+			};
+
+			sinon
+				.stub(fs.promises, "readFile")
+				.resolves(JSON.stringify(existing));
+			const writeStub = sinon.stub(fs.promises, "writeFile").resolves();
+			sinon.stub(fs, "existsSync").returns(true);
+
+			// no-unused-vars violations remain; no-console violations are gone
+			const results = [
+				createResult({
+					filePath: path.join(cwd, "src", "app.js"),
+					messages: [createMessage("no-unused-vars")],
+				}),
+			];
+
+			await suppressionsService.prune(results);
+
+			const written = JSON.parse(writeStub.firstCall.args[1]);
+
+			// The resolved rule should be pruned …
+			assert.strictEqual(
+				written[relPath]["no-console"],
+				void 0,
+				"Expected the suppression for the resolved rule to be removed",
+			);
+			// … but the still-violated rule's suppression must stay
+			assert.deepStrictEqual(
+				written[relPath]["no-unused-vars"],
+				{ count: 1 },
+				"Expected the suppression for the unresolved rule to remain",
+			);
+			// The file entry itself must not be deleted
+			assert.ok(
+				Object.hasOwn(written, relPath),
+				"Expected the file entry to remain when other suppressions still exist",
+			);
+		});
+
+		it("should remove the suppression for a rule that is no longer activated", async () => {
+			const cwd = path.resolve("/project");
+			const suppressionsService = new SuppressionsService({
+				filePath: path.join(cwd, "eslint-suppressions.json"),
+				cwd,
+			});
+			const relPath = path.posix.join("src", "app.js");
+
+			// no-console was previously suppressed, but has since been removed from the lint config
+			const existing = {
+				[relPath]: {
+					"no-console": { count: 1 },
+					"no-unused-vars": { count: 2 },
+				},
+			};
+
+			sinon
+				.stub(fs.promises, "readFile")
+				.resolves(JSON.stringify(existing));
+			const writeStub = sinon.stub(fs.promises, "writeFile").resolves();
+			sinon.stub(fs, "existsSync").returns(true);
+
+			/*
+			 * Lint results contain only no-unused-vars; no-console is absent
+			 * because the rule is no longer active in the configuration
+			 */
+			const results = [
+				createResult({
+					filePath: path.join(cwd, "src", "app.js"),
+					messages: [
+						createMessage("no-unused-vars"),
+						createMessage("no-unused-vars"),
+					],
+				}),
+			];
+
+			await suppressionsService.prune(results);
+
+			const written = JSON.parse(writeStub.firstCall.args[1]);
+
+			// The deactivated rule's suppression must be pruned
+			assert.strictEqual(
+				written[relPath]["no-console"],
+				void 0,
+				"Expected the suppression for the deactivated rule to be removed",
+			);
+			// The still-active rule's suppression must be retained
+			assert.deepStrictEqual(
+				written[relPath]["no-unused-vars"],
+				{ count: 2 },
+				"Expected the suppression for the active rule to be retained",
 			);
 		});
 	});

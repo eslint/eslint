@@ -10,7 +10,11 @@
 //------------------------------------------------------------------------------
 
 const assert = require("node:assert");
+const fs = require("node:fs");
+const Module = require("node:module");
+const os = require("node:os");
 const path = require("node:path");
+const vm = require("node:vm");
 const sinon = require("sinon");
 const { ConfigLoader } = require("../../../lib/config/config-loader");
 const { WarningService } = require("../../../lib/services/warning-service");
@@ -68,6 +72,63 @@ describe("ConfigLoader", () => {
 		});
 
 		describe("loadConfigArrayForFile()", () => {
+			it("should not error when require.cache is unavailable", async () => {
+				const cwd = path.resolve(fixtureDir, "simple-valid-project-2");
+				const configLoaderPath = path.resolve(
+					__dirname,
+					"../../../lib/config/config-loader.js",
+				);
+				const configLoaderSource = fs.readFileSync(
+					configLoaderPath,
+					"utf8",
+				);
+				const module = { exports: {} };
+				const requireWithoutCache =
+					Module.createRequire(configLoaderPath);
+
+				requireWithoutCache.cache = void 0;
+
+				const compiledWrapper = vm.runInThisContext(
+					Module.wrap(configLoaderSource),
+					{
+						filename: path.join(
+							os.tmpdir(),
+							"eslint-config-loader-without-require-cache.js",
+						),
+						importModuleDynamically:
+							vm.constants.USE_MAIN_CONTEXT_DEFAULT_LOADER,
+					},
+				);
+
+				compiledWrapper.call(
+					module.exports,
+					module.exports,
+					requireWithoutCache,
+					module,
+					configLoaderPath,
+					path.dirname(configLoaderPath),
+				);
+
+				const { ConfigLoader: ConfigLoaderWithoutRequireCache } =
+					module.exports;
+
+				const configArray =
+					await ConfigLoaderWithoutRequireCache.calculateConfigArray(
+						path.resolve(cwd, "eslint.config.js"),
+						cwd,
+						{
+							cwd,
+							ignoreEnabled: true,
+							warningService: new WarningService(),
+						},
+					);
+
+				assert(
+					Array.isArray(configArray),
+					"Expected `calculateConfigArray()` to return a config array",
+				);
+			});
+
 			// https://github.com/eslint/eslint/issues/19025
 			it("should lookup config file only once and create config array only once for multiple files in same directory", async () => {
 				const cwd = path.resolve(fixtureDir, "simple-valid-project-2");

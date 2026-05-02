@@ -1,3 +1,25 @@
+v10.3.0 - May 1, 2026
+
+* [`d32235e`](https://github.com/eslint/eslint/commit/d32235ec19ceea211fa86452afa383ca05f5c2f9) ci: use pnpm in `eslint-flat-config-utils` type integration test (#20826) (Francesco Trotta)
+* [`b6ae5cf`](https://github.com/eslint/eslint/commit/b6ae5cf07b9b51802367539cb24b245b61eaa37c) fix: handle unavailable require cache (#20812) (Simon Podlipsky)
+* [`3ffb14e`](https://github.com/eslint/eslint/commit/3ffb14ea517de750ed1181579ef844af342e4096) chore: clean up typos in comments and JSDoc (#20821) (Pixel998)
+* [`6fb3685`](https://github.com/eslint/eslint/commit/6fb3685bcbe9a6f72fd7dfb9129686b6fb96b0bd) fix: rule suggestions cause continuation in class body (#20787) (Milos Djermanovic)
+* [`22eb58a`](https://github.com/eslint/eslint/commit/22eb58a21cbde2fbd53a1fae99453d408672de50) chore: add missing continue-on-error to ecosystem-tests.yml (#20818) (Josh Goldberg ✨)
+* [`88bf002`](https://github.com/eslint/eslint/commit/88bf0024cb36caebf2880516d9a1f81aa75dafe2) ci: bump pnpm/action-setup from 6.0.1 to 6.0.3 (#20815) (dependabot[bot])
+* [`379571a`](https://github.com/eslint/eslint/commit/379571a975f2b24d88037b9de2e72ec61d004130) feat: add suggestions for no-unused-private-class-members (#20773) (sethamus)
+* [`97c8c33`](https://github.com/eslint/eslint/commit/97c8c330beae9557ad24e19f94eebc8d08d1a722) chore: update ilshidur/action-discord action to v0.4.0 (#20811) (renovate[bot])
+* [`2f58136`](https://github.com/eslint/eslint/commit/2f58136dd47364a4cae7054a64f7bf1e79693813) chore: pin peter-evans/create-pull-request action to 5f6978f (#20810) (renovate[bot])
+* [`77add7f`](https://github.com/eslint/eslint/commit/77add7f1bc91ed17bba3be3289928a9146c5f5a1) chore: add initial ecosystem plugin tests workflow (#19643) (Josh Goldberg ✨)
+* [`32cc7ab`](https://github.com/eslint/eslint/commit/32cc7ab4ec653ce89da92deb5c40a9f4fc707fe5) docs: fix typos in docs and comments (#20809) (Tanuj Kanti)
+* [`4023b55`](https://github.com/eslint/eslint/commit/4023b55490fae55e464fe35530ef038cdf5d79a5) test: Add unit tests for SuppressionsService.prune() (#20797) (kuldeep kumar)
+* [`54080da`](https://github.com/eslint/eslint/commit/54080dad4f77bb39a1a843933d4ff3a2b7c175e2) test: add unit tests for ForkContext (#20778) (kuldeep kumar)
+* [`f0e2bcc`](https://github.com/eslint/eslint/commit/f0e2bcc4bf19253aaebfbd7df87824b0ca4a151f) test: add unit tests for SuppressionsService.suppress() method (#20765) (kuldeep kumar)
+* [`a7f0b94`](https://github.com/eslint/eslint/commit/a7f0b94743a99bcdf8d07cff15ffbfa6a6c5f927) chore: update dependency prettier to v3.8.3 (#20782) (renovate[bot])
+* [`7bf93d9`](https://github.com/eslint/eslint/commit/7bf93d9e79f6dbf77242cbb9a9b8be834730fccd) chore: update TypeScript to v6 (#20677) (sethamus)
+* [`b42dd72`](https://github.com/eslint/eslint/commit/b42dd72e76e7f90e7f0be9458288d93353052adc) ci: bump pnpm/action-setup from 6.0.0 to 6.0.1 (#20781) (dependabot[bot])
+* [`2b252be`](https://github.com/eslint/eslint/commit/2b252be80f362cca7be3326a6dbe958680fdfe9a) test: add unit tests for IdGenerator (#20775) (kuldeep kumar)
+* [`7f47937`](https://github.com/eslint/eslint/commit/7f479376a2fa463d823ab762db6bb37ce8d2ee8f) docs: Update README (GitHub Actions Bot)
+
 v10.2.1 - April 17, 2026
 
 * [`ca92ca0`](https://github.com/eslint/eslint/commit/ca92ca0fb4599e8de1e2fb914e695fe7397cbe63) docs: reuse markdown-it instance for markdown filter (#20768) (Amaresh  S M)
