@@ -5,12 +5,9 @@ related_rules:
 - array-bracket-spacing
 - comma-style
 - object-curly-spacing
-- space-in-brackets
 - space-in-parens
 - space-infix-ops
-- space-after-keywords
 - space-unary-ops
-- space-return-throw-case
 further_reading:
 - https://www.crockford.com/code.html
 - https://dojotoolkit.org/reference-guide/1.9/developer/styleguide.html
