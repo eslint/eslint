@@ -7,6 +7,8 @@ eleventyNavigation:
     order: 5
 ---
 
+{%- from 'components/npm_tabs.macro.html' import npm_tabs with context %}
+
 [Model Context Protocol](https://modelcontextprotocol.io) (MCP) is an open standard that enables AI models to interact with external tools and services through a unified interface. The ESLint CLI contains an MCP server that you can register with your code editor to allow LLMs to use ESLint directly.
 
 ## Set Up ESLint MCP Server in VS Code
@@ -131,6 +133,82 @@ Once configured, you can use ESLint tools with Cascade by asking it to:
 - Explain ESLint rule violations
 
 Note: MCP tool calls in Windsurf will consume credits regardless of success or failure.
+
+## Using TypeScript Configuration Files
+
+If your project uses a TypeScript configuration file (`eslint.config.ts`, `eslint.config.mts`, or `eslint.config.cts`), additional setup is required for the MCP server to load it. There are two approaches depending on your environment. For more details, see [TypeScript Configuration Files](configure/configuration-files#typescript-configuration-files).
+
+### Option A: Install jiti (Node.js)
+
+If you use Node.js and have [`jiti`](https://github.com/unjs/jiti) installed as a project dependency, the MCP server will use it automatically. No changes to the MCP configuration are needed — just make sure `jiti` is installed:
+
+{{ npm_tabs({
+    command: "install",
+    packages: ["jiti"],
+    args: ["--save-dev"]
+}) }}
+
+Then use the standard MCP server configuration as described in the sections above.
+
+### Option B: Native Node.js TypeScript Support
+
+If you're using **Node.js >= 22.13.0**, you can load TypeScript configuration files without `jiti` by enabling Node.js type stripping and the ESLint `unstable_native_nodejs_ts_config` flag. Set these as environment variables in your MCP configuration.
+
+**VS Code** (`.vscode/mcp.json`):
+
+```json
+{
+	"servers": {
+		"ESLint": {
+			"type": "stdio",
+			"command": "npx",
+			"args": ["@eslint/mcp@latest"],
+			"env": {
+				"ESLINT_FLAGS": "unstable_native_nodejs_ts_config",
+				"NODE_OPTIONS": "--experimental-transform-types"
+			}
+		}
+	}
+}
+```
+
+**Cursor** (`.cursor/mcp.json`):
+
+```json
+{
+	"mcpServers": {
+		"eslint": {
+			"command": "npx",
+			"args": ["@eslint/mcp@latest"],
+			"env": {
+				"ESLINT_FLAGS": "unstable_native_nodejs_ts_config",
+				"NODE_OPTIONS": "--experimental-transform-types"
+			}
+		}
+	}
+}
+```
+
+**Windsurf** (`~/.codeium/windsurf/mcp_config.json`):
+
+```json
+{
+	"mcpServers": {
+		"eslint": {
+			"command": "npx",
+			"args": ["@eslint/mcp@latest"],
+			"env": {
+				"ESLINT_FLAGS": "unstable_native_nodejs_ts_config",
+				"NODE_OPTIONS": "--experimental-transform-types"
+			}
+		}
+	}
+}
+```
+
+::: tip
+Deno and Bun support TypeScript natively, so no additional configuration is needed if you use either of these runtimes.
+:::
 
 ## Example Prompts
 
