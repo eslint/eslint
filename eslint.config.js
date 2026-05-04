@@ -140,8 +140,6 @@ module.exports = defineConfig([
 			"internal-rules/no-invalid-meta": "error",
 
 			"eslint-plugin/require-meta-schema-description": "off",
-			"eslint-plugin/no-meta-schema-default": "error",
-			"eslint-plugin/require-meta-default-options": "error",
 		},
 	},
 	{
