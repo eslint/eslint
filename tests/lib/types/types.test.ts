@@ -37,7 +37,7 @@ import {
 	SourceCode,
 	JSSyntaxElement,
 } from "eslint";
-import { defineConfig, globalIgnores } from "eslint/config";
+import { defineConfig, globalIgnores, includeIgnoreFile } from "eslint/config";
 import { ESLintRules } from "eslint/rules";
 import { Linter as ESLinter } from "eslint/universal";
 import { builtinRules, shouldUseFlatConfig } from "eslint/use-at-your-own-risk";
@@ -2377,6 +2377,20 @@ defineConfig([
 
 defineConfig([
 	globalIgnores(["*.js"]),
+	includeIgnoreFile("ignore-file-absolute-path"),
+	includeIgnoreFile([
+		"ignore-file-absolute-path",
+		"another-ignore-file-absolute-path",
+	]),
+	includeIgnoreFile("ignore-file-absolute-path", {
+		gitignoreResolution: Math.random() > 0.5,
+	}),
+	includeIgnoreFile("ignore-file-absolute-path", {
+		gitignoreResolution: Math.random() > 0.5,
+		name: "foo",
+	}),
+	includeIgnoreFile("ignore-file-absolute-path", {}),
+	includeIgnoreFile("ignore-file-absolute-path"),
 	{
 		files: ["*.js"],
 		rules: {
