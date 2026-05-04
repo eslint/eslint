@@ -404,41 +404,113 @@ ruleTester.run("for-direction", rule, {
 		// test SequenceExpression (comma operator) - counter moves in the wrong direction
 		{
 			code: "for(var i = 0; i < 10; (i--, j++)){}",
-			errors: [{ ...incorrectDirection }],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 35,
+				},
+			],
 		},
 		{
 			code: "for(var i = 0; i <= 10; (i--, j++)){}",
-			errors: [{ ...incorrectDirection }],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 36,
+				},
+			],
 		},
 		{
 			code: "for(var i = 10; i > 0; (i++, j--)){}",
-			errors: [{ ...incorrectDirection }],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 35,
+				},
+			],
 		},
 		{
 			code: "for(var i = 10; i >= 0; (i++, j--)){}",
-			errors: [{ ...incorrectDirection }],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 36,
+				},
+			],
 		},
 		{
 			code: "for(var i = 0; i < 10; (j++, i--)){}",
-			errors: [{ ...incorrectDirection }],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 35,
+				},
+			],
 		},
 		{
 			code: "for(var i = 0; i < 10; (i-=1, j++)){}",
-			errors: [{ ...incorrectDirection }],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 36,
+				},
+			],
 		},
 		{
 			code: "for(var i = 10; i > 0; (i+=1, j--)){}",
-			errors: [{ ...incorrectDirection }],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 36,
+				},
+			],
 		},
 		{
 			code: "for(var i = 0; 10 > i; (i--, j++)){}",
-			errors: [{ ...incorrectDirection }],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 35,
+				},
+			],
 		},
 
 		// test SequenceExpression - nested SequenceExpressions with wrong direction
 		{
 			code: "for(var i = 10; i < 20; (j++, (i--, k++))){}",
-			errors: [{ ...incorrectDirection }],
+			errors: [
+				{
+					...incorrectDirection,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 43,
+				},
+			],
 		},
 	],
 });
