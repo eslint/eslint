@@ -43,9 +43,10 @@ describe("shared ast-utils", () => {
 	describe("lineBreakPattern", () => {
 		["\n", "\r", "\r\n", "\u2028", "\u2029"].forEach(linebreak => {
 			it(`should match ${JSON.stringify(linebreak)}`, () => {
-				assert.isNotNull(
-					astUtils.lineBreakPattern.exec(`a${linebreak}b`),
-				);
+				const match = astUtils.lineBreakPattern.exec(`a${linebreak}b`);
+
+				assert.isNotNull(match);
+				assert.strictEqual(match[0], linebreak);
 			});
 		});
 
