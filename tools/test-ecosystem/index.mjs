@@ -87,11 +87,13 @@ async function runTests(pluginKey, pluginSettings) {
 	runCommand(["git", "checkout", pluginSettings.commit]);
 
 	// 3. Install the plugin's dependencies
-	runCommand(["pwd"]);
+	console.log(styleText("gray", `[${pluginKey}] cwd: ${directory}`));
 	runCommand(pluginSettings.commands.install);
 
 	// 4. Link the local ESLint into the plugin
-	runCommand(["npm", "link", "eslint"]);
+	const packageManager = pluginSettings.commands.install[0];
+
+	runCommand([packageManager, "link", process.cwd()]);
 
 	// 5. Build, if the plugin defines a build script
 	if (pluginSettings.commands.build) {

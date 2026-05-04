@@ -17,6 +17,15 @@
     "commit": "237148ff7692e4b5fa813dd3bb3757eaebf866e9",
     "repository": "https://github.com/eslint/json"
   },
+  "@eslint/markdown": {
+    "commands": {
+      "build": ["npm", "run", "build"],
+      "install": ["npm", "install"],
+      "test": ["npm", "run", "test"]
+    },
+    "commit": "900b5180be1c38ff9f0b7f9ef47310b7579e7de8",
+    "repository": "https://github.com/eslint/markdown"
+  },
   "@eslint-community/eslint-plugin-eslint-comments": {
     "commands": {
       "install": ["npm", "install"],
@@ -24,6 +33,15 @@
     },
     "commit": "de049807e525ac3e2d164c8873f9035b08eb23a6",
     "repository": "https://github.com/eslint-community/eslint-plugin-eslint-comments"
+  },
+  "@typescript-eslint/typescript-eslint": {
+    "commands": {
+      "build": ["pnpm", "run", "build"],
+      "install": ["pnpm", "install"],
+      "test": ["pnpm", "run", "test"]
+    },
+    "commit": "50810144e7f3c863e410103e8f8e8b4b8ef5c7eb",
+    "repository": "https://github.com/typescript-eslint/typescript-eslint"
   },
   "eslint-plugin-unicorn": {
     "commands": {
