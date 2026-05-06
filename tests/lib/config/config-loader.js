@@ -88,6 +88,16 @@ describe("ConfigLoader", () => {
 
 				requireWithoutCache.cache = void 0;
 
+				// Do not warn about usage of experimental `vm.constants.USE_MAIN_CONTEXT_DEFAULT_LOADER`.
+				const emitStub = sinon.stub(process, "emit");
+				emitStub
+					.withArgs(
+						"warning",
+						sinon.match({ name: "ExperimentalWarning" }),
+					)
+					.returns();
+				emitStub.callThrough();
+
 				const compiledWrapper = vm.runInThisContext(
 					Module.wrap(configLoaderSource),
 					{
