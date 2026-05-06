@@ -116,7 +116,7 @@ jobs:
 
         strategy:
             matrix:
-                typescript: ["5.x", "5.3.2"]
+                typescript: ["6.x", "5.x", "5.3.2"]
                 package:
                     [
                         { name: eslint, directory: . },
@@ -157,7 +157,7 @@ jobs:
         steps:
             - uses: actions/checkout@v6
 
-            - uses: pnpm/action-setup@08c4be7e2e672a47d11bd04269e27e5f3e8529cb # v6.0.0
+            - uses: pnpm/action-setup@8912a9102ac27614460f54aedde9e1e7f9aec20d # v6.0.5
               with:
                   version: latest
 
