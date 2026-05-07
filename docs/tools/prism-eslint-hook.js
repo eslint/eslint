@@ -203,7 +203,7 @@ function installPrismESLintMarkerHook() {
 		 * @param {[number, number]} params.range Range to be marked
 		 * @param {string} params.message Report message
 		 * @param {number} params.tokenStart Starting position of the token
-		 * @returns {SplitTokenResult} Splitted tokens
+		 * @returns {SplitTokenResult} The split token parts
 		 */
 		function splitToken({ token, range, message, tokenStart }) {
 			const content = getTokenContent(token);
@@ -235,7 +235,7 @@ function installPrismESLintMarkerHook() {
 							childContent => typeof childContent === "string",
 						)
 					) {
-						// It can be flatten.
+						// It can be flattened.
 						buildToken = newContent =>
 							new Prism.Token(
 								token.type,
@@ -290,12 +290,12 @@ function installPrismESLintMarkerHook() {
 		}
 
 		/**
-		 * Splits the given ESLint marked tokens with line feed code.
-		 * The line feed code is not displayed because there is no character width,
-		 * so by making it a single character token, the "wrap hook" applies CLASS_ESLINT_MARKED_ON_LINE_FEED
+		 * Splits the given ESLint-marked tokens at line feed characters.
+		 * A line feed character is not displayed because it has no width,
+		 * so by making it a single-character token, the "wrap hook" applies CLASS_ESLINT_MARKED_ON_LINE_FEED
 		 * to each character and makes it visible.
 		 * @param {Prism.Token} token Token to be split
-		 * @returns {IterableIterator<Prism.Token>} Splitted tokens
+		 * @returns {IterableIterator<Prism.Token>} An iterator over the split tokens
 		 */
 		function* splitMarkedTokenByLineFeed(token) {
 			for (const contentToken of [token.content].flat()) {
@@ -347,9 +347,9 @@ function installPrismESLintMarkerHook() {
 		}
 
 		/**
-		 * Splits the given tokens by line feed code.
-		 * @param {Prism.Token[]} tokens Token to be Separate
-		 * @returns {IterableIterator<Prism.Token>} Splitted tokens
+		 * Splits the given tokens at line feed characters.
+		 * @param {Prism.Token[]} tokens Tokens to split
+		 * @returns {IterableIterator<Prism.Token>} An iterator over the split tokens
 		 */
 		function* splitTokensByLineFeed(tokens) {
 			for (const token of tokens) {

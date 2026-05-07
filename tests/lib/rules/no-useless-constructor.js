@@ -257,6 +257,267 @@ ruleTester.run("no-useless-constructor", rule, {
 				},
 			],
 		},
+		{
+			code: unIndent`
+              class A {
+                foo = 'bar'
+                constructor() { }
+                *baz() {}
+              }`,
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					...error,
+					line: 3,
+					column: 3,
+					endLine: 3,
+					endColumn: 14,
+					suggestions: [
+						{
+							messageId: "removeConstructor",
+							output: unIndent`
+                              class A {
+                                foo = 'bar'
+                                ;
+                                *baz() {}
+                              }`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: unIndent`
+              class A {
+                foo = 'bar'
+                constructor() { }
+                in
+              }`,
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					...error,
+					line: 3,
+					column: 3,
+					endLine: 3,
+					endColumn: 14,
+					suggestions: [
+						{
+							messageId: "removeConstructor",
+							output: unIndent`
+                              class A {
+                                foo = 'bar'
+                                ;
+                                in
+                              }`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: unIndent`
+              class A {
+                foo = 'bar'
+                constructor() { }
+                instanceof
+              }`,
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					...error,
+					line: 3,
+					column: 3,
+					endLine: 3,
+					endColumn: 14,
+					suggestions: [
+						{
+							messageId: "removeConstructor",
+							output: unIndent`
+                              class A {
+                                foo = 'bar'
+                                ;
+                                instanceof
+                              }`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: unIndent`
+              class A {
+                foo = 'bar'
+                constructor() { }
+                #instanceof
+              }`,
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					...error,
+					line: 3,
+					column: 3,
+					endLine: 3,
+					endColumn: 14,
+					suggestions: [
+						{
+							messageId: "removeConstructor",
+							output: unIndent`
+                              class A {
+                                foo = 'bar'
+                                
+                                #instanceof
+                              }`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: unIndent`
+              class A {
+                foo
+                constructor() { }
+                [0]() { }
+              }`,
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					...error,
+					line: 3,
+					column: 3,
+					endLine: 3,
+					endColumn: 14,
+					suggestions: [
+						{
+							messageId: "removeConstructor",
+							output: unIndent`
+                              class A {
+                                foo
+                                
+                                [0]() { }
+                              }`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: unIndent`
+              class A {
+                "foo"
+                constructor() { }
+                [0]() { }
+              }`,
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					...error,
+					line: 3,
+					column: 3,
+					endLine: 3,
+					endColumn: 14,
+					suggestions: [
+						{
+							messageId: "removeConstructor",
+							output: unIndent`
+                              class A {
+                                "foo"
+                                
+                                [0]() { }
+                              }`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: unIndent`
+              class A {
+                42
+                constructor() { }
+                [0]() { }
+              }`,
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					...error,
+					line: 3,
+					column: 3,
+					endLine: 3,
+					endColumn: 14,
+					suggestions: [
+						{
+							messageId: "removeConstructor",
+							output: unIndent`
+                              class A {
+                                42
+                                
+                                [0]() { }
+                              }`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: unIndent`
+              class A {
+                [foo]
+                constructor() { }
+                [0]() { }
+              }`,
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					...error,
+					line: 3,
+					column: 3,
+					endLine: 3,
+					endColumn: 14,
+					suggestions: [
+						{
+							messageId: "removeConstructor",
+							output: unIndent`
+                              class A {
+                                [foo]
+                                
+                                [0]() { }
+                              }`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: unIndent`
+              class A {
+                #foo
+                constructor() { }
+                [0]() { }
+              }`,
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				{
+					...error,
+					line: 3,
+					column: 3,
+					endLine: 3,
+					endColumn: 14,
+					suggestions: [
+						{
+							messageId: "removeConstructor",
+							output: unIndent`
+                              class A {
+                                #foo
+                                
+                                [0]() { }
+                              }`,
+						},
+					],
+				},
+			],
+		},
 	],
 });
 

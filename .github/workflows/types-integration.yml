@@ -93,6 +93,11 @@ jobs:
               with:
                   node-version: "lts/*"
 
+            - name: Install Corepack latest
+              run: |
+                  npm install -g corepack@latest
+                  corepack enable pnpm
+
             - name: Install Packages (eslint)
               working-directory: eslint
               run: npm install
@@ -100,11 +105,11 @@ jobs:
             - name: Install Packages (eslint-flat-config-utils)
               working-directory: antfu
               run: |
-                  npm install ../eslint
+                  pnpm add -w -D ../eslint
 
             - name: Run TSC
               working-directory: antfu
-              run: npm run typecheck
+              run: pnpm run typecheck
 
     eslint-visitor-keys:
         name: Types (eslint-visitor-keys)

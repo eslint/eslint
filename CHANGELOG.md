@@ -1,3 +1,48 @@
+v10.3.0 - May 1, 2026
+
+* [`d32235e`](https://github.com/eslint/eslint/commit/d32235ec19ceea211fa86452afa383ca05f5c2f9) ci: use pnpm in `eslint-flat-config-utils` type integration test (#20826) (Francesco Trotta)
+* [`b6ae5cf`](https://github.com/eslint/eslint/commit/b6ae5cf07b9b51802367539cb24b245b61eaa37c) fix: handle unavailable require cache (#20812) (Simon Podlipsky)
+* [`3ffb14e`](https://github.com/eslint/eslint/commit/3ffb14ea517de750ed1181579ef844af342e4096) chore: clean up typos in comments and JSDoc (#20821) (Pixel998)
+* [`6fb3685`](https://github.com/eslint/eslint/commit/6fb3685bcbe9a6f72fd7dfb9129686b6fb96b0bd) fix: rule suggestions cause continuation in class body (#20787) (Milos Djermanovic)
+* [`22eb58a`](https://github.com/eslint/eslint/commit/22eb58a21cbde2fbd53a1fae99453d408672de50) chore: add missing continue-on-error to ecosystem-tests.yml (#20818) (Josh Goldberg ✨)
+* [`88bf002`](https://github.com/eslint/eslint/commit/88bf0024cb36caebf2880516d9a1f81aa75dafe2) ci: bump pnpm/action-setup from 6.0.1 to 6.0.3 (#20815) (dependabot[bot])
+* [`379571a`](https://github.com/eslint/eslint/commit/379571a975f2b24d88037b9de2e72ec61d004130) feat: add suggestions for no-unused-private-class-members (#20773) (sethamus)
+* [`97c8c33`](https://github.com/eslint/eslint/commit/97c8c330beae9557ad24e19f94eebc8d08d1a722) chore: update ilshidur/action-discord action to v0.4.0 (#20811) (renovate[bot])
+* [`2f58136`](https://github.com/eslint/eslint/commit/2f58136dd47364a4cae7054a64f7bf1e79693813) chore: pin peter-evans/create-pull-request action to 5f6978f (#20810) (renovate[bot])
+* [`77add7f`](https://github.com/eslint/eslint/commit/77add7f1bc91ed17bba3be3289928a9146c5f5a1) chore: add initial ecosystem plugin tests workflow (#19643) (Josh Goldberg ✨)
+* [`32cc7ab`](https://github.com/eslint/eslint/commit/32cc7ab4ec653ce89da92deb5c40a9f4fc707fe5) docs: fix typos in docs and comments (#20809) (Tanuj Kanti)
+* [`4023b55`](https://github.com/eslint/eslint/commit/4023b55490fae55e464fe35530ef038cdf5d79a5) test: Add unit tests for SuppressionsService.prune() (#20797) (kuldeep kumar)
+* [`54080da`](https://github.com/eslint/eslint/commit/54080dad4f77bb39a1a843933d4ff3a2b7c175e2) test: add unit tests for ForkContext (#20778) (kuldeep kumar)
+* [`f0e2bcc`](https://github.com/eslint/eslint/commit/f0e2bcc4bf19253aaebfbd7df87824b0ca4a151f) test: add unit tests for SuppressionsService.suppress() method (#20765) (kuldeep kumar)
+* [`a7f0b94`](https://github.com/eslint/eslint/commit/a7f0b94743a99bcdf8d07cff15ffbfa6a6c5f927) chore: update dependency prettier to v3.8.3 (#20782) (renovate[bot])
+* [`7bf93d9`](https://github.com/eslint/eslint/commit/7bf93d9e79f6dbf77242cbb9a9b8be834730fccd) chore: update TypeScript to v6 (#20677) (sethamus)
+* [`b42dd72`](https://github.com/eslint/eslint/commit/b42dd72e76e7f90e7f0be9458288d93353052adc) ci: bump pnpm/action-setup from 6.0.0 to 6.0.1 (#20781) (dependabot[bot])
+* [`2b252be`](https://github.com/eslint/eslint/commit/2b252be80f362cca7be3326a6dbe958680fdfe9a) test: add unit tests for IdGenerator (#20775) (kuldeep kumar)
+* [`7f47937`](https://github.com/eslint/eslint/commit/7f479376a2fa463d823ab762db6bb37ce8d2ee8f) docs: Update README (GitHub Actions Bot)
+
+v10.2.1 - April 17, 2026
+
+* [`ca92ca0`](https://github.com/eslint/eslint/commit/ca92ca0fb4599e8de1e2fb914e695fe7397cbe63) docs: reuse markdown-it instance for markdown filter (#20768) (Amaresh  S M)
+* [`7ddfea9`](https://github.com/eslint/eslint/commit/7ddfea9c4f62add1588c5c0b0da568c299246383) chore: update dependency prettier to v3.8.2 (#20770) (renovate[bot])
+* [`57d2ee2`](https://github.com/eslint/eslint/commit/57d2ee213305cee0cb55ef08e0480b57396269a9) docs:  Enable Eleventy incremental mode for watch (#20767) (Amaresh  S M)
+* [`c1621b9`](https://github.com/eslint/eslint/commit/c1621b915742276e5f4b25efe790ca62296330dc) docs: fix typos in code-path-analyzer.js (#20700) (Ayush Shukla)
+* [`fac40e1`](https://github.com/eslint/eslint/commit/fac40e1de2ba7646cc7cd2d3f93fbdd1f8819001) ci: bump pnpm/action-setup from 5.0.0 to 6.0.0 (#20763) (dependabot[bot])
+* [`7246f92`](https://github.com/eslint/eslint/commit/7246f923332522d8b3d46b6ee646fce88535f3fb) test: add tests for SuppressionsService.load() error handling (#20734) (kuldeep kumar)
+* [`4f34b1e`](https://github.com/eslint/eslint/commit/4f34b1e592b0f63d766d9903998e8e36eb49d3aa) chore: update pnpm/action-setup action to v5 (#20762) (renovate[bot])
+* [`1418d52`](https://github.com/eslint/eslint/commit/1418d522d10bde1960f4942afb548bc7160ec49e) docs: Update README (GitHub Actions Bot)
+* [`14be92b`](https://github.com/eslint/eslint/commit/14be92b6d1fa0923b8923830f2208e5e2705b002) fix: model generator yield resumption paths in code path analysis (#20665) (sethamus)
+* [`39771e6`](https://github.com/eslint/eslint/commit/39771e6e600f0b0617fdeafff6dd07e4211ffde6) docs: Update README (GitHub Actions Bot)
+* [`51080eb`](https://github.com/eslint/eslint/commit/51080eb5c98d619434e4835dbe9f1c6654aca3b8) test: processor service (#20731) (kuldeep kumar)
+* [`84a19d2`](https://github.com/eslint/eslint/commit/84a19d2c32255db6b9cfc08644a607aae6d5cb62) fix: no-async-promise-executor false positives for shadowed Promise (#20740) (xbinaryx)
+* [`af764af`](https://github.com/eslint/eslint/commit/af764af0ec38225755fbf8a6f207f0c77b595a8d) fix: clarify language and processor validation errors (#20729) (Pixel998)
+* [`e251b89`](https://github.com/eslint/eslint/commit/e251b89a38280973e468a4a9386c138f4f55d10d) fix: update eslint (#20715) (renovate[bot])
+* [`e7e1889`](https://github.com/eslint/eslint/commit/e7e1889fca9b6044e08f41b38df20a1ce45808c8) chore: remove stale babel-eslint10 fixture and test  (#20727) (kuldeep kumar)
+* [`71e0469`](https://github.com/eslint/eslint/commit/71e04693def2df57268f08f3072a2749df6bf438) docs: fix incomplete JSDoc param description in no-shadow rule (#20728) (kuldeep kumar)
+* [`22119ce`](https://github.com/eslint/eslint/commit/22119ceb93e28f62262fc1d98ff1b1442d6e2dbf) docs: clarify scope of for-direction rule with dead code examples (#20723) (Amaresh  S M)
+* [`4e1a87c`](https://github.com/eslint/eslint/commit/4e1a87cb8fb90e309524bc36bc5f31b9f9cfaa76) test: remove redundant async/await in flat config array tests (#20722) (Pixel998)
+* [`8f3fb77`](https://github.com/eslint/eslint/commit/8f3fb77f122a5641d1833cad5d93f3f54fa3be0b) docs: document `meta.docs.dialects` (#20718) (Pixel998)
+* [`066eabb`](https://github.com/eslint/eslint/commit/066eabb3643b12931f991594969bcc0028f71a5f) test: add rule metadata coverage for `languages` and `docs.dialects` (#20717) (Pixel998)
+
 v10.2.0 - April 3, 2026
 
 * [`542cb3e`](https://github.com/eslint/eslint/commit/542cb3e6442a4e6ee3457c799e2a0ee23bef0c6a) fix: update first-party dependencies (#20714) (Francesco Trotta)
