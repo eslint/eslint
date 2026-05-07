@@ -138,17 +138,46 @@ Note: MCP tool calls in Windsurf will consume credits regardless of success or f
 
 If your project uses a TypeScript configuration file (`eslint.config.ts`, `eslint.config.mts`, or `eslint.config.cts`), additional setup is required for the MCP server to load it. There are two approaches depending on your environment. For more details, see [TypeScript Configuration Files](configure/configuration-files#typescript-configuration-files).
 
-### Option A: Install jiti (Node.js)
+### Option A: Local Installation with jiti (Node.js)
 
-If you use Node.js and have [`jiti`](https://github.com/unjs/jiti) installed as a project dependency, the MCP server will use it automatically. No changes to the MCP configuration are needed — just make sure `jiti` is installed:
+When you run the MCP server with `npx @eslint/mcp@latest`, ESLint is installed into a temporary directory and cannot resolve `jiti` from your project's `node_modules`. To use `jiti` for TypeScript config loading, install both `@eslint/mcp` and `jiti` locally:
 
 {{ npm_tabs({
     command: "install",
-    packages: ["jiti"],
+    packages: ["@eslint/mcp", "jiti"],
     args: ["--save-dev"]
 }) }}
 
-Then use the standard MCP server configuration as described in the sections above.
+Then update your MCP configuration to use the locally installed server (without `@latest`, so `npx` resolves the local binary):
+
+**VS Code** (`.vscode/mcp.json`):
+
+```json
+{
+	"servers": {
+		"ESLint": {
+			"type": "stdio",
+			"command": "npx",
+			"args": ["@eslint/mcp"]
+		}
+	}
+}
+```
+
+**Cursor** (`.cursor/mcp.json`):
+
+```json
+{
+	"mcpServers": {
+		"eslint": {
+			"command": "npx",
+			"args": ["@eslint/mcp"]
+		}
+	}
+}
+```
+
+When `@eslint/mcp` is installed locally, its bundled ESLint resolves `jiti` from the shared `node_modules` directory via standard Node.js module resolution.
 
 ### Option B: Native Node.js TypeScript Support
 
