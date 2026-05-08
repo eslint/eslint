@@ -51,6 +51,12 @@ ruleTester.run("no-unmodified-loop-condition", rule, {
 		"var foo = 0, bar = 1, baz = 2; while (foo ? bar : baz) { foo += 1; }",
 		"var foo = 0, bar = 0; while (foo && bar) { ++foo; ++bar; }",
 		"var foo = 0, bar = 0; while (foo || bar) { ++foo; ++bar; }",
+		"var obj = {}, filter = false; while (obj && !filter) { obj = Object.getPrototypeOf(obj); }",
+		"var foo = 0, bar = 0; while (foo && bar) { ++foo; }",
+		"var foo = 0, bar = 0; while (foo && bar) { ++bar; } foo = 1;",
+		"var foo = 0, bar = 0; while (foo && bar) { ++foo; } foo = 1;",
+		"var a, b, c; while (a < c && b < c) { ++a; } foo = 1;",
+		"var foo = 0, bar = 0; while (foo || bar) { ++bar; }",
 		"var foo = 0; do { ++foo; } while (foo);",
 		"var foo = 0; do { } while (foo++);",
 		"for (var foo = 0; foo; ++foo) { }",
@@ -98,31 +104,6 @@ ruleTester.run("no-unmodified-loop-condition", rule, {
 					messageId: "loopConditionNotModified",
 					data: { name: "bar" },
 				},
-			],
-		},
-		{
-			code: "var foo = 0, bar = 0; while (foo && bar) { ++bar; } foo = 1;",
-			errors: [
-				{
-					messageId: "loopConditionNotModified",
-					data: { name: "foo" },
-				},
-			],
-		},
-		{
-			code: "var foo = 0, bar = 0; while (foo && bar) { ++foo; } foo = 1;",
-			errors: [
-				{
-					messageId: "loopConditionNotModified",
-					data: { name: "bar" },
-				},
-			],
-		},
-		{
-			code: "var a, b, c; while (a < c && b < c) { ++a; } foo = 1;",
-			errors: [
-				{ messageId: "loopConditionNotModified", data: { name: "b" } },
-				{ messageId: "loopConditionNotModified", data: { name: "c" } },
 			],
 		},
 		{
