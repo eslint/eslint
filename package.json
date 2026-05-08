@@ -122,7 +122,7 @@
     "@eslint-community/eslint-utils": "^4.8.0",
     "@eslint-community/regexpp": "^4.12.2",
     "@eslint/config-array": "^0.23.5",
-    "@eslint/config-helpers": "^0.5.5",
+    "@eslint/config-helpers": "^0.6.0",
     "@eslint/core": "^1.2.1",
     "@eslint/plugin-kit": "^0.7.1",
     "@humanfs/node": "^0.16.6",
