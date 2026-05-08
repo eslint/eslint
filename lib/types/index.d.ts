@@ -723,6 +723,22 @@ export namespace Rule {
 		| "class-field-initializer"
 		| "class-static-block";
 
+	interface CodePathSegmentTraversalController {
+		skip(): void;
+		break(): void;
+	}
+
+	type CodePathSegmentTraversalCallback = (
+		this: CodePath,
+		segment: CodePathSegment,
+		controller: CodePathSegmentTraversalController,
+	) => void;
+
+	interface CodePathTraversalOptions {
+		first?: CodePathSegment | undefined;
+		last?: CodePathSegment | undefined;
+	}
+
 	interface CodePath {
 		id: string;
 		origin: CodePathOrigin;
@@ -732,12 +748,19 @@ export namespace Rule {
 		thrownSegments: CodePathSegment[];
 		upper: CodePath | null;
 		childCodePaths: CodePath[];
+		traverseSegments(callback: CodePathSegmentTraversalCallback): void;
+		traverseSegments(
+			options: CodePathTraversalOptions,
+			callback: CodePathSegmentTraversalCallback,
+		): void;
 	}
 
 	interface CodePathSegment {
 		id: string;
 		nextSegments: CodePathSegment[];
 		prevSegments: CodePathSegment[];
+		allNextSegments: CodePathSegment[];
+		allPrevSegments: CodePathSegment[];
 		reachable: boolean;
 	}
 

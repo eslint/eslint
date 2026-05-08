@@ -43,6 +43,10 @@ This has references of both the initial segment and the final segments of a code
 - `upper` (`CodePath|null`) - The code path of the upper function/global scope.
 - `childCodePaths` (`CodePath[]`) - Code paths of functions this code path contains.
 
+`CodePath` has the following methods:
+
+- `traverseSegments(optionsOrCallback, callback)` - Traverses all reachable segments in this code path from the initial segment to the final segments. You can optionally pass an options object with `first` (`CodePathSegment`) and `last` (`CodePathSegment`) properties to limit the traversal. The callback receives a `CodePathSegment` and a controller object, and is called with `this` set to the current `CodePath`. The controller has a `skip()` method to skip the following segments in the current branch and a `break()` method to stop traversal.
+
 ### `CodePathSegment`
 
 `CodePathSegment` is a part of a code path.
@@ -54,6 +58,8 @@ Difference from doubly linked list is what there are forking and merging (the ne
 - `id` (`string`) - A unique string. Respective rules can use `id` to save additional information for each segment.
 - `nextSegments` (`CodePathSegment[]`) - The next segments. If forking, there are two or more. If final, there is nothing.
 - `prevSegments` (`CodePathSegment[]`) - The previous segments. If merging, there are two or more. If initial, there is nothing.
+- `allNextSegments` (`CodePathSegment[]`) - The next segments including both reachable and unreachable segments.
+- `allPrevSegments` (`CodePathSegment[]`) - The previous segments including both reachable and unreachable segments.
 - `reachable` (`boolean`) - A flag which shows whether or not it's reachable. This becomes `false` when preceded by `return`, `throw`, `break`, or `continue`.
 
 ## Events
