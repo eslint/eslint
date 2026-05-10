@@ -87,6 +87,26 @@ describe("merge", () => {
 		confirmLegacyMergeResult(first, second, result);
 	});
 
+	it("preserves non-plain objects like RegExp in a property", () => {
+		const first = { pattern: { a: 1 } };
+		const second = { pattern: /foo/u };
+		const result = merge(first, second);
+
+		assert.instanceOf(result.pattern, RegExp);
+		assert.strictEqual(result.pattern.toString(), "/foo/u");
+		// Note: Legacy eslintrc merging also mangled RegExp, but flat config should preserve it.
+	});
+
+	it("preserves non-plain objects like Date in a property", () => {
+		const first = { date: new Date(0) };
+		const second = { date: new Date(1000) };
+		const result = merge(first, second);
+
+		assert.instanceOf(result.date, Date);
+		assert.strictEqual(result.date.getTime(), 1000);
+		// Note: Legacy eslintrc merging also mangled Date, but flat config should preserve it.
+	});
+
 	it("overwrites an object in a property with an array", () => {
 		const first = { someProperty: { 1: "foo", bar: "baz" } };
 		const second = { someProperty: ["qux"] };
