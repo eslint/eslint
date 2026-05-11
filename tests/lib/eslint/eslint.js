@@ -13173,6 +13173,50 @@ describe("ESLint", () => {
 				);
 				assert.strictEqual(actualWorkerCount, 2);
 			});
+
+			it("should not have side effects on cache entries validity", async () => {
+				// Use cache temporary directory to create a new file in it
+				const cwd = cacheLocation;
+				const filePath = path.join(cwd, "foo.js");
+				fs.writeFileSync(filePath, "");
+
+				const eslint = new ESLint({
+					baseConfig: {
+						rules: {
+							"no-unused-vars": "error",
+						},
+					},
+					cache: true,
+					cacheLocation,
+					cacheStrategy: "metadata",
+					concurrency: "auto",
+					cwd,
+					overrideConfigFile: true,
+				});
+
+				// Create cache entry for the file
+				const [oldResult] = await eslint.lintFiles([filePath]);
+				assert.strictEqual(oldResult.messages.length, 0);
+
+				// Overwrite the file
+				fs.writeFileSync(filePath, "let bar;");
+
+				// Call calculateWorkerCount with arguments that should trigger cache check
+				calculateWorkerCount(
+					eslint,
+					Array(AUTO_FILES_PER_WORKER * 2).fill(filePath),
+					{ availableParallelism: () => 4 },
+				);
+
+				const [newresult] = await eslint.lintFiles([filePath]);
+
+				// Assert that lint results are for the new content
+				assert.strictEqual(newresult.messages.length, 1);
+				assert.strictEqual(
+					newresult.messages[0].ruleId,
+					"no-unused-vars",
+				);
+			});
 		});
 	});
 
