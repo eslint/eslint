@@ -13115,6 +13115,33 @@ describe("ESLint", () => {
 				assert.strictEqual(actualWorkerCount, 2);
 			});
 
+			it('should consider cached files that have outdated cache entries with cache strategy "metadata"', async () => {
+				const cwd = getFixturePath("files");
+				const eslint = new ESLint({
+					cache: true,
+					cacheLocation,
+					cacheStrategy: "metadata",
+					concurrency: "auto",
+					cwd,
+					overrideConfigFile: true,
+				});
+
+				// Make sure the config array for `cwd` is loaded and the cache is created.
+				const filePath = path.join(cwd, "foo.js");
+				await eslint.lintFiles([filePath]);
+
+				// modify mtime to make the cache entry outdated
+				shell.touch(filePath);
+
+				// Multitreading expected because files have outdated cache entries.
+				const actualWorkerCount = calculateWorkerCount(
+					eslint,
+					Array(AUTO_FILES_PER_WORKER * 2).fill(filePath),
+					{ availableParallelism: () => 4 },
+				);
+				assert.strictEqual(actualWorkerCount, 2);
+			});
+
 			it('should consider unchanged cached files with violations with cache strategy "metadata" and autofix enabled', async () => {
 				const cwd = getFixturePath();
 				const eslintOptions = {
