@@ -5,7 +5,7 @@
       "install": ["npm", "install"],
       "test": ["npm", "run", "test"]
     },
-    "commit": "16f2c58127880096c2f28f60cac94647e87e6f5b",
+    "commit": "e758a11ac5a164ed5f2d1f3d61255848f5bedae4",
     "repository": "https://github.com/eslint/css"
   },
   "@eslint/json": {
@@ -14,7 +14,7 @@
       "install": ["npm", "install"],
       "test": ["npm", "run", "test"]
     },
-    "commit": "f5b7923625ce3561683983df7f1655036ba628ef",
+    "commit": "0d94edaf69ed396b165779afd4c7bca5df92c213",
     "repository": "https://github.com/eslint/json"
   },
   "@eslint-community/eslint-plugin-eslint-comments": {
@@ -39,7 +39,7 @@
       "install": ["npm", "install"],
       "test": ["npm", "run", "test"]
     },
-    "commit": "73f3ef48969d2fc9303f4a3aec9ea3a29b53838c",
+    "commit": "8a2129e164860523a6785fd6061bbadd0e1b19f3",
     "repository": "https://github.com/vuejs/eslint-plugin-vue"
   }
 }
