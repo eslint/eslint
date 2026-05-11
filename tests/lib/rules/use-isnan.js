@@ -55,9 +55,18 @@ ruleTester.run("use-isnan", rule, {
 		"x === (doStuff(), NaN, 1)",
 		"x === (doStuff(), Number.NaN, 1)",
 
-		//------------------------------------------------------------------------------
-		// enforceForSwitchCase
-		//------------------------------------------------------------------------------
+		"var x = globalThis.NaN;",
+		"isNaN(globalThis.NaN) === true;",
+		"Number.isNaN(globalThis.NaN) === true;",
+		"foo(globalThis.NaN + 1);",
+		"foo(1 + globalThis.NaN);",
+		"foo(globalThis.NaN - 1)",
+		"foo(1 - globalThis.NaN)",
+		"foo(globalThis.NaN * 2)",
+		"foo(2 * globalThis.NaN)",
+		"foo(globalThis.NaN / 2)",
+		"foo(2 / globalThis.NaN)",
+		"var x; if (x = globalThis.NaN) { }",
 
 		{
 			code: "switch(NaN) { case foo: break; }",
@@ -185,6 +194,10 @@ ruleTester.run("use-isnan", rule, {
 		},
 		{
 			code: "switch((Number.NaN, doStuff(), 1)) {}",
+			options: [{ enforceForSwitchCase: true }],
+		},
+		{
+			code: "switch((globalThis.NaN, doStuff(), 1)) {}",
 			options: [{ enforceForSwitchCase: true }],
 		},
 
@@ -372,6 +385,14 @@ ruleTester.run("use-isnan", rule, {
 		},
 		{
 			code: "foo.lastIndexOf((Number.NaN, 1))",
+			options: [{ enforceForIndexOf: true }],
+		},
+		{
+			code: "foo.indexOf((globalThis.NaN, 1))",
+			options: [{ enforceForIndexOf: true }],
+		},
+		{
+			code: "foo.lastIndexOf((globalThis.NaN, 1))",
 			options: [{ enforceForIndexOf: true }],
 		},
 	],
@@ -596,6 +617,20 @@ ruleTester.run("use-isnan", rule, {
 		},
 		{
 			code: "123 === Number.NaN;",
+			errors: [
+				{
+					...comparisonError,
+					suggestions: [
+						{
+							messageId: "replaceWithIsNaN",
+							output: "Number.isNaN(123);",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "123 === globalThis.NaN;",
 			errors: [
 				{
 					...comparisonError,
@@ -886,6 +921,24 @@ ruleTester.run("use-isnan", rule, {
 				},
 			],
 		},
+		{
+			code: "x === (doStuff(), globalThis.NaN);",
+			errors: [
+				{
+					...comparisonError,
+					suggestions: [],
+				},
+			],
+		},
+		{
+			code: "x == (doStuff(), globalThis.NaN);",
+			errors: [
+				{
+					...comparisonError,
+					suggestions: [],
+				},
+			],
+		},
 
 		//------------------------------------------------------------------------------
 		// enforceForSwitchCase
@@ -1057,6 +1110,15 @@ ruleTester.run("use-isnan", rule, {
 			],
 		},
 		{
+			code: "switch(globalThis.NaN) { case foo: break; }",
+			errors: [
+				{
+					messageId: "switchNaN",
+					column: 1,
+				},
+			],
+		},
+		{
 			code: "switch(foo) { case Number.NaN: break; }",
 			errors: [
 				{
@@ -1215,6 +1277,16 @@ ruleTester.run("use-isnan", rule, {
 		},
 		{
 			code: "switch((doStuff(), Number.NaN)) {}",
+			options: [{ enforceForSwitchCase: true }],
+			errors: [
+				{
+					messageId: "switchNaN",
+					column: 1,
+				},
+			],
+		},
+		{
+			code: "switch((doStuff(), globalThis.NaN)) {}",
 			options: [{ enforceForSwitchCase: true }],
 			errors: [
 				{
@@ -1419,6 +1491,23 @@ ruleTester.run("use-isnan", rule, {
 			],
 		},
 		{
+			code: "foo.indexOf(globalThis.NaN)",
+			options: [{ enforceForIndexOf: true }],
+			errors: [
+				{
+					messageId: "indexOfNaN",
+					data: { methodName: "indexOf" },
+					suggestions: [
+						{
+							messageId: "replaceWithFindIndex",
+							data: { methodName: "findIndex" },
+							output: "foo.findIndex(Number.isNaN)",
+						},
+					],
+				},
+			],
+		},
+		{
 			code: "foo.lastIndexOf(Number.NaN)",
 			options: [{ enforceForIndexOf: true }],
 			errors: [
@@ -1577,6 +1666,30 @@ ruleTester.run("use-isnan", rule, {
 				{
 					messageId: "indexOfNaN",
 					data: { methodName: "indexOf" },
+					suggestions: [],
+				},
+			],
+		},
+		{
+			code: "foo.indexOf((1, globalThis.NaN))",
+			options: [{ enforceForIndexOf: true }],
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "indexOfNaN",
+					data: { methodName: "indexOf" },
+					suggestions: [],
+				},
+			],
+		},
+		{
+			code: "foo.lastIndexOf((1, globalThis.NaN))",
+			options: [{ enforceForIndexOf: true }],
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "indexOfNaN",
+					data: { methodName: "lastIndexOf" },
 					suggestions: [],
 				},
 			],
