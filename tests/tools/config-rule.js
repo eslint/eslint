@@ -426,7 +426,26 @@ describe("ConfigRule", () => {
 				assert.isArray(actualConfigs);
 				assert.strictEqual(actualConfigs.length, 2);
 				assert.isArray(actualConfigs[1]);
-				assert.isNumber(actualConfigs[1][1]);
+				assert.isTrue(
+					Number.isInteger(actualConfigs[1][1]),
+					"type: integer should generate an integer",
+				);
+			});
+		});
+
+		describe("for a schema with an object with many enum properties", () => {
+			const actualConfigs = generateConfigsFromSchema(
+				schema.objectWithManyEnums,
+			);
+
+			it("should limit configs to MAX_CONFIGS_PER_RULE", () => {
+				assert.isArray(actualConfigs);
+
+				/*
+				 * Total combinations would be 3*3*3*3 = 81, plus severity-only = 82
+				 * but should be capped at 50 + 1 (severity-only) = 51
+				 */
+				assert.isAtMost(actualConfigs.length, 51);
 			});
 		});
 	});

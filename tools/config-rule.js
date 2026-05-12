@@ -284,7 +284,13 @@ function getPossibleValuesFromSchema(schema, rootSchema) {
 				return [];
 			}
 			return ["example"];
-		case "number":
+		case "number": {
+			const min = typeof schema.minimum === "number" ? schema.minimum : 0;
+			const max =
+				typeof schema.maximum === "number" ? schema.maximum : 10;
+
+			return [Math.random() * (max - min) + min];
+		}
 		case "integer": {
 			const min = typeof schema.minimum === "number" ? schema.minimum : 0;
 			const max =
@@ -313,7 +319,7 @@ function getPossibleValuesFromSchema(schema, rootSchema) {
 					rootSchema,
 				);
 				const minItems =
-					typeof schema.minItems === "number" ? schema.minItems : 1;
+					typeof schema.minItems === "number" ? schema.minItems : 0;
 
 				if (itemValues.length > 0 && itemValues.length >= minItems) {
 					return [itemValues.slice(0, Math.max(minItems, 1))];

@@ -172,5 +172,24 @@ module.exports = {
 
     integer: [{
         "type": "integer"
+    }],
+
+    objectWithManyEnums: [{
+        "type": "object",
+        "properties": {
+            "enumA": {
+                "enum": ["a1", "a2", "a3"]
+            },
+            "enumB": {
+                "enum": ["b1", "b2", "b3"]
+            },
+            "enumC": {
+                "enum": ["c1", "c2", "c3"]
+            },
+            "enumD": {
+                "enum": ["d1", "d2", "d3"]
+            }
+        },
+        "additionalProperties": false
     }]
 };
