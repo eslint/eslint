@@ -11,10 +11,12 @@
 const assert = require("chai").assert,
 	{ ESLint } = require("../../../lib/eslint"),
 	fs = require("node:fs"),
+	os = require("node:os"),
 	path = require("node:path"),
 	proxyquire = require("proxyquire"),
 	sinon = require("sinon"),
-	fileEntryCache = require("file-entry-cache");
+	fileEntryCache = require("file-entry-cache"),
+	OriginalLintResultCache = require("../../../lib/cli-engine/lint-result-cache");
 
 //-----------------------------------------------------------------------------
 // Tests
@@ -292,6 +294,170 @@ describe("LintResultCache", () => {
 					result.source,
 					"source property should be hydrated from filesystem",
 				);
+			});
+		});
+
+		describe("When called multiple times for the same file", () => {
+			let testDir;
+			let testFile;
+			let anotherFile;
+			let cacheFile;
+			let lintResult, anotherLintResult;
+			let config;
+
+			beforeEach(async () => {
+				testDir = await fs.promises.mkdtemp(
+					path.join(os.tmpdir(), "eslint-cache-"),
+				);
+
+				testFile = path.resolve(testDir, "file.js");
+				await fs.promises.writeFile(testFile, "foo;");
+
+				anotherFile = path.resolve(testDir, "anotherfile.js");
+				await fs.promises.writeFile(anotherFile, "bar;");
+
+				const testEslint = new ESLint({
+					cwd: testDir,
+					cache: false,
+					overrideConfigFile: true,
+				});
+
+				[lintResult] = await testEslint.lintFiles([testFile]);
+				assert(lintResult, "Lint result should have been created");
+
+				[anotherLintResult] = await testEslint.lintFiles([anotherFile]);
+				assert(
+					anotherLintResult,
+					"Another lint result should have been created",
+				);
+
+				config = await testEslint.calculateConfigForFile(testFile);
+
+				cacheFile = path.resolve(testDir, ".eslintcache");
+			});
+
+			afterEach(async () => {
+				await fs.promises.rm(testDir, {
+					recursive: true,
+					force: true,
+				});
+				testDir = void 0;
+			});
+
+			["metadata", "content"].forEach(cacheStrategy => {
+				it(`should return null for a file when cache file hasn't been created yet when cacheStrategy is "${cacheStrategy}"`, async () => {
+					const testLintResultCache = new OriginalLintResultCache(
+						cacheFile,
+						cacheStrategy,
+					);
+
+					// Get results from cache multiple times
+					assert.isNull(
+						testLintResultCache.getCachedLintResults(
+							testFile,
+							config,
+						),
+					);
+					assert.isNull(
+						testLintResultCache.getCachedLintResults(
+							testFile,
+							config,
+						),
+					);
+				});
+
+				it(`should return null for a file that hasn't already been cached when cacheStrategy is "${cacheStrategy}"`, async () => {
+					const initLintResultCache = new OriginalLintResultCache(
+						cacheFile,
+						cacheStrategy,
+					);
+
+					initLintResultCache.setCachedLintResults(
+						anotherFile,
+						config,
+						anotherLintResult,
+					);
+					initLintResultCache.reconcile();
+
+					const checkLintResultCache = new OriginalLintResultCache(
+						cacheFile,
+						cacheStrategy,
+					);
+					assert(
+						checkLintResultCache.getCachedLintResults(
+							anotherFile,
+							config,
+						),
+						"Cache entry for another file should have be valid",
+					);
+
+					const testLintResultCache = new OriginalLintResultCache(
+						cacheFile,
+						cacheStrategy,
+					);
+
+					// Get results from cache multiple times
+					assert.isNull(
+						testLintResultCache.getCachedLintResults(
+							testFile,
+							config,
+						),
+					);
+					assert.isNull(
+						testLintResultCache.getCachedLintResults(
+							testFile,
+							config,
+						),
+					);
+				});
+
+				it(`should return null for a file that has already been cached but modified when cacheStrategy is "${cacheStrategy}"`, async () => {
+					const initLintResultCache = new OriginalLintResultCache(
+						cacheFile,
+						cacheStrategy,
+					);
+
+					initLintResultCache.setCachedLintResults(
+						testFile,
+						config,
+						lintResult,
+					);
+					initLintResultCache.reconcile();
+
+					const checkLintResultCache = new OriginalLintResultCache(
+						cacheFile,
+						cacheStrategy,
+					);
+					assert(
+						checkLintResultCache.getCachedLintResults(
+							testFile,
+							config,
+						),
+						"Cache entry should have initially be valid",
+					);
+
+					// Modify file. This should make cache entry invalid for all cache strategies.
+					await fs.promises.writeFile(testFile, "bar;");
+
+					const testLintResultCache = new OriginalLintResultCache(
+						cacheFile,
+						cacheStrategy,
+					);
+
+					// Get results from cache multiple times
+					assert.isNull(
+						testLintResultCache.getCachedLintResults(
+							testFile,
+							config,
+						),
+					);
+					assert.isNull(
+						testLintResultCache.getCachedLintResults(
+							testFile,
+							config,
+						),
+					);
+				});
 			});
 		});
 	});
