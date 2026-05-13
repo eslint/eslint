@@ -109,7 +109,7 @@ ruleTester.run("no-unused-labels", rule, {
 		},
 		{
 			code: "A: B: C: 'foo'",
-			output: "B: C: 'foo'", // Becomes "C: 'foo'" on the second pass.
+			output: "C: 'foo'",
 			errors: [
 				{ messageId: "unused" },
 				{ messageId: "unused" },
@@ -118,7 +118,7 @@ ruleTester.run("no-unused-labels", rule, {
 		},
 		{
 			code: "A: B: C: D: 'foo'",
-			output: "B: D: 'foo'", // Becomes "D: 'foo'" on the second pass.
+			output: "D: 'foo'",
 			errors: [
 				{ messageId: "unused" },
 				{ messageId: "unused" },
@@ -128,7 +128,7 @@ ruleTester.run("no-unused-labels", rule, {
 		},
 		{
 			code: "A: B: C: D: E: 'foo'",
-			output: "B: D: E: 'foo'", // Becomes "E: 'foo'" on the third pass.
+			output: "E: 'foo'",
 			errors: [
 				{ messageId: "unused" },
 				{ messageId: "unused" },
