@@ -14153,6 +14153,137 @@ describe("ESLint", () => {
 			);
 		});
 
+		describe("when some cached files are not visited", () => {
+			let file1, file2, goodFile, badFile;
+
+			beforeEach(() => {
+				goodFile = fs.realpathSync(
+					getFixturePath("cache/src", "test-file.js"),
+				);
+
+				badFile = fs.realpathSync(
+					getFixturePath("cache/src", "fail-file.js"),
+				);
+
+				file1 = path.resolve(
+					`${path.dirname(goodFile)}`,
+					"tmp-file-1.js",
+				);
+				shell.cp(goodFile, file1);
+
+				file2 = path.resolve(
+					`${path.dirname(goodFile)}`,
+					"tmp-file-2.js",
+				);
+				shell.cp(goodFile, file2);
+			});
+
+			afterEach(() => {
+				doDelete(file1);
+				doDelete(file2);
+			});
+
+			["metadata", "content"].forEach(cacheStrategy => {
+				it(`should not make existing cache entries valid for files that were not visited when cacheStrategy is "${cacheStrategy}" (same instance of eslint)`, async () => {
+					cacheFilePath = getFixturePath(".eslintcache");
+					doDelete(cacheFilePath);
+					assert(
+						!shell.test("-f", cacheFilePath),
+						"the cache file already exists and wasn't successfully deleted",
+					);
+
+					const eslintOptions = {
+						concurrency,
+						cwd: path.join(fixtureDir, ".."),
+						overrideConfigFile: true,
+
+						// specifying cache true the cache will be created
+						cache: true,
+						cacheLocation: cacheFilePath,
+						cacheStrategy,
+						overrideConfig: {
+							rules: {
+								"no-console": 0,
+								"no-unused-vars": 2,
+							},
+						},
+					};
+
+					eslint = new ESLint(eslintOptions);
+					const results = await eslint.lintFiles([file1, file2]);
+					assert(
+						results.every(result => result.messages.length === 0),
+						"There should have been no lint messages for valid files",
+					);
+
+					// Make lint errors in file2
+					doDelete(file2);
+					shell.cp(badFile, file2);
+
+					eslint = new ESLint(eslintOptions);
+
+					// Make a run that doesn't visit file2
+					await eslint.lintFiles([file1]);
+
+					// Now check file2 in another run
+					const [result] = await eslint.lintFiles([file2]);
+					assert(
+						result.messages.length > 0,
+						"There should have been lint messages for an invalid file",
+					);
+				});
+
+				it(`should not make existing cache entries valid for files that were not visited when cacheStrategy is "${cacheStrategy}" (another instance of eslint)`, async () => {
+					cacheFilePath = getFixturePath(".eslintcache");
+					doDelete(cacheFilePath);
+					assert(
+						!shell.test("-f", cacheFilePath),
+						"the cache file already exists and wasn't successfully deleted",
+					);
+
+					const eslintOptions = {
+						concurrency,
+						cwd: path.join(fixtureDir, ".."),
+						overrideConfigFile: true,
+
+						// specifying cache true the cache will be created
+						cache: true,
+						cacheLocation: cacheFilePath,
+						cacheStrategy,
+						overrideConfig: {
+							rules: {
+								"no-console": 0,
+								"no-unused-vars": 2,
+							},
+						},
+					};
+
+					eslint = new ESLint(eslintOptions);
+					const results = await eslint.lintFiles([file1, file2]);
+					assert(
+						results.every(result => result.messages.length === 0),
+						"There should have been no lint messages for valid files",
+					);
+
+					// Make lint errors in file2
+					doDelete(file2);
+					shell.cp(badFile, file2);
+
+					// Make a run that doesn't visit file2
+					eslint = new ESLint(eslintOptions);
+					await eslint.lintFiles([file1]);
+
+					// Now check file2 in another run
+					eslint = new ESLint(eslintOptions);
+					const [result] = await eslint.lintFiles([file2]);
+					assert(
+						result.messages.length > 0,
+						"There should have been lint messages for an invalid file",
+					);
+				});
+			});
+		});
+
 		it("should not delete cache when executing on text", async () => {
 			cacheFilePath = getFixturePath(".eslintcache");
 			doDelete(cacheFilePath);
