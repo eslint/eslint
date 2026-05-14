@@ -48,6 +48,7 @@ ruleTester.run("no-unmodified-loop-condition", rule, {
 		"var foo = 0; while (foo.ok) { }",
 		"var foo = 0; while (foo) { update(); } function update() { ++foo; }",
 		"var foo = 0, bar = 9; while (foo < bar) { foo += 1; }",
+		"var foo = 0, bar = 1, baz = 2; while (foo ? bar : baz) { foo += 1; bar += 1; baz += 1; }",
 		"var foo = 0, bar = 0; while (foo && bar) { ++foo; ++bar; }",
 		"var foo = 0, bar = 0; while (foo || bar) { ++foo; ++bar; }",
 		"var foo = 0; do { ++foo; } while (foo);",
