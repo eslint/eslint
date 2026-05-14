@@ -20,6 +20,10 @@ jobs:
             - uses: actions/setup-node@v6
               with:
                   node-version: "lts/*"
+            - name: Install Corepack latest
+              run: |
+                  npm install -g corepack@latest 
+                  corepack enable pnpm
             - run: npm install
             - continue-on-error: true
               id: tester
