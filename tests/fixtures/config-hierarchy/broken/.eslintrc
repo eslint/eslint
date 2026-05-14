@@ -1,0 +1,4 @@
+env: 
+    node: true
+rules:
+    quotes: [2, "double"]

@@ -1,0 +1,1 @@
+function( {}   // intentional syntax error

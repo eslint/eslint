@@ -1,0 +1,11 @@
+default: true
+extends: markdownlint/style/prettier
+
+# Exclusions for deliberate/widespread violations
+MD002: false # First header should be a h1 header
+MD024: false # Multiple headers with the same content
+MD026: false # Trailing punctuation in header
+MD033: false # Allow inline HTML
+MD041: false # First line in file should be a top level header
+MD046: # Code block style
+    style: fenced

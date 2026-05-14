@@ -1,0 +1,4 @@
+{
+  "root": true,
+  "env": { "node": true }
+}

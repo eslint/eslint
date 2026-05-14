@@ -1,0 +1,5 @@
+extends: "eslint:recommended"
+env:
+    node: true
+rules:
+    no-mixed-requires: 0

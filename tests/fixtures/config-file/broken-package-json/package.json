@@ -1,0 +1,6 @@
+{
+    "eslintConfig": {
+        "env": {
+            "es6": true
+        }
+    }

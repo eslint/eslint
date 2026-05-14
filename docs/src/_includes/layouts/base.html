@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="{{ config.lang }}" class="no-js" id="site_top">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if NOINDEX %}
+    <meta name="robots" content="noindex">
+    {% endif %}
+    {% if title %}
+        {% set page_title = title %}
+    {% else %}
+        {% set page_title = site[hook].title %}
+    {% endif %}
+
+    {% set rule_meta = rules_meta[title] %}
+    {% set page_title = site.shared.title_format | replace("PAGE_TITLE", page_title) %}
+    {% set page_desc = site.shared.description %}
+    {% set relative_page_url = page.url | url | prettyURL %}
+    {% set cover_image = [
+        "https://", site.hostname, "/og",
+        "?title=", title | urlencode, "&summary=", page_desc | urlencode,
+        "&is_rule=", rule_meta !== undefined,
+        "&recommended=", rule_meta.docs.recommended,
+        "&fixable=", rule_meta.fixable,
+        "&suggestions=", rule_meta.hasSuggestions
+    ] | join %}
+    {% set cover_image_alt = site.shared.eslint_logo_alt %}
+    {% set page_url = ["https://", site.hostname, relative_page_url ] | join %}
+
+    <!-- SEO -->
+    <title>{{ page_title }}</title>
+    <meta name="description" content="{{ page_desc }}">
+    <link rel="canonical" href="{{ page_url }}">
+
+    <!-- https://github.com/eslint/eslint/issues/15844 -->
+    <base href="{{ relative_page_url }}">
+
+    <!-- favicon -->
+    <link rel="icon" href="/favicon.ico" sizes="any"><!-- 32×32 -->
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png"><!-- 180×180 -->
+    <link rel="manifest" href="/manifest.webmanifest">
+
+    <!-- social sharing previews. Make sure every page template has title, desc, and cover url -->
+    <!-- Open graph -->
+    <meta property="og:title" content="{{ page_title }}">
+    <meta property="og:description" content="{{ page_desc }}">
+    <meta property="og:image" content="{{ cover_image }}" />
+    <meta property="og:image:alt" content="{{ cover_image_alt }}">
+    <meta property="og:locale" content="{{ site.locale | replace("-", "_" ) }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ page_url }}">
+    <!-- Twitter -->
+    <meta name="twitter:title" content="{{ page_title }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@geteslint">
+    <meta name="twitter:description" content="{{ page_desc }}">
+    <meta name="twitter:image" content="{{ cover_image }}">
+    <meta name="twitter:creator" content="@geteslint">
+
+
+    <script type="module">
+        // This is a capable browser, let's improve the UI further!
+        document.documentElement.classList.add("enhanced");
+        document.documentElement.classList.remove('no-js');
+    </script>
+
+    <link rel="preload" href="{{ '/assets/fonts/SpaceGrotesk-Medium-subset.woff2' | url }}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ '/assets/fonts/Inter-Regular-subset.woff2' | url }}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ '/assets/fonts/SpaceMono-Regular-subset.woff2' | url }}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ '/assets/fonts/Consolas.woff' | url }}" as="font" type="font/woff" crossorigin>
+    <link rel="preconnect" href="https://www.googletagmanager.com/">
+
+    <script>
+            (function () {
+                var theme = window.localStorage.getItem("theme");
+                if (theme && theme !== "system") document.documentElement.setAttribute('data-theme', theme)
+                else if (window.matchMedia('(prefers-color-scheme: dark)').matches)
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                else document.documentElement.setAttribute('data-theme', 'light');
+            })();
+    </script>
+
+
+    <style>
+        /* Overrides for funky punctuators */
+        @font-face {
+            font-family: "Mono Punctuators";
+            src: url("{{ '/assets/fonts/Consolas.woff' | url }}") format("woff");
+            font-weight: 400;
+            unicode-range: U+40, U+7B, U+7D, U+28, U+29;
+            font-display: swap;
+        }
+
+        /* Space Grotesk for headings */
+        @font-face {
+            font-family: "Space Grotesk";
+            src:
+                url("{{ '/assets/fonts/SpaceGrotesk-Medium-subset.woff2' | url }}") format("woff2"),
+                url("{{ '/assets/fonts/SpaceGrotesk-Medium-subset.zopfli.woff' | url }}") format("woff");
+            font-weight: 500;
+            font-display: swap;
+        }
+
+        /* Inter for body text */
+
+        @font-face {
+            font-family: Inter;
+            src:
+                url("{{ '/assets/fonts/Inter-Regular-subset.woff2' | url }}") format("woff2"),
+                url("{{ '/assets/fonts/Inter-Regular-subset.zopfli.woff' | url }}") format("woff");
+            font-weight: 400;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: Inter;
+            src:
+                url("{{ '/assets/fonts/Inter-SemiBold-subset.woff2' | url }}") format("woff2"),
+                url("{{ '/assets/fonts/Inter-SemiBold-subset.zopfli.woff' | url }}") format("woff");
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        /* Space Mono for code snippets */
+
+        @font-face {
+            font-family: "Space Mono";
+            src:
+                url("{{ '/assets/fonts/SpaceMono-Regular-subset.woff2' | url }}") format("woff2"),
+                url("{{ '/assets/fonts/SpaceMono-Regular-subset.zopfli.woff' | url }}") format("woff");
+            font-weight: 400;
+            font-display: swap;
+        }
+
+        /* Country Flags for Windows */
+        @font-face {
+            font-family: "Twemoji Country Flags";
+            unicode-range: U+1F1E6-1F1FF, U+1F3F4, U+E0062-E0063, U+E0065, U+E0067, U+E006C, U+E006E, U+E0073-E0074, U+E0077, U+E007F;
+            src: url("https://cdn.jsdelivr.net/npm/country-flag-emoji-polyfill@0.1/dist/TwemojiCountryFlags.woff2") format("woff2");
+        }
+    </style>
+    <script src="{{ '/assets/js/themes.js' | url }}"></script>
+    <script type="module" src="{{ '/assets/js/search.js' | url }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ '/assets/css/styles.css' | url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/print.css' | url }}" media="print">
+    <script src="https://unpkg.com/anchor-js@4.3.1/anchor.min.js"></script>
+</head>
+
+<body class="{{ hook }}">
+    <a href="#main" class="c-btn c-btn--primary" id="skip-link">Skip to main content</a>
+
+    {{ content | safe }}
+
+    <script src="{{ '/assets/js/css-vars-ponyfill@2.js' | url }}"></script>
+    <script src="{{ '/assets/js/focus-visible.js' | url }}"></script>
+    <script src="{{ '/assets/js/main.js' | url }}"></script>
+    <script src="{{ '/assets/js/tabs.js' | url }}"></script>
+    <script src="{{ '/assets/js/scroll-up-btn.js' | url }}"></script>
+    {% include 'partials/analytics.html' %}
+
+    {%- if hook == "component-library" -%}
+    <script src="{{ '/assets/js/components-index.js' | url }}"></script>
+    {%- endif -%}
+
+
+</body>
+
+</html>

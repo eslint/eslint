@@ -1,0 +1,10 @@
+{
+  "test-file.js": {
+    "no-undef": {
+      "count": 3
+    },
+    "no-sparse-arrays": {
+      "count": 2
+    }
+  }
+}
