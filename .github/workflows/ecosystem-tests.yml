@@ -24,7 +24,7 @@ jobs:
             - continue-on-error: true
               id: tester
               run: npm run test:ecosystem -- --plugin all
-            - if: steps.tester.outcome == 'failure' && github.head_ref == 'main'
+            - if: steps.tester.outcome == 'failure' && github.ref_name == 'main'
               env:
                   DISCORD_WEBHOOK: ${{ secrets.DISCORD_CONTRIBUTORS_WEBHOOK }}
               uses: Ilshidur/action-discord@d2594079a10f1d6739ee50a2471f0ca57418b554 # 0.4.0
