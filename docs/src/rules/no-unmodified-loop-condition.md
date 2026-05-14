@@ -25,7 +25,7 @@ while (node) {
 This rule finds references which are inside of loop conditions, then checks the
 variables of those references are modified in the loop.
 
-If a reference is inside of a binary expression, this rule checks the result of
+If a reference is inside of a binary expression or a ternary expression, this rule checks the result of
 the expression instead (it's OK if any of the operands is modified).
 If a reference is inside of a dynamic expression (e.g. `CallExpression`,
 `YieldExpression`, ...), this rule ignores it.
@@ -84,10 +84,11 @@ while (node !== root) {
     node = node.parent;
 }
 
-// OK, "node" is modified.
-while (node ? true : false) {
-    doSomething(node);
-    node = node.parent;
+// OK, all three variables are modified in this loop.
+while (node ? A : B) {
+    node = node.next;
+    A = getA();
+    B = getB();
 }
 
 // A property might be a getter which has side effect...
