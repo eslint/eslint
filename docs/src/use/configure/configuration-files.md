@@ -45,7 +45,7 @@ export default defineConfig([
 
 In this example, the `defineConfig()` helper is used to define a configuration array with just one configuration object. The configuration object enables two rules: `semi` and `prefer-const`. These rules are applied to all of the files ESLint processes using this config file.
 
-If your project does not specify `"type":"module"` in its `package.json` file, then `eslint.config.js` must be in CommonJS format, such as:
+If your project specifies `"type": "commonjs"` in its `package.json` file, then `eslint.config.js` must be in CommonJS format, such as:
 
 ```js
 // eslint.config.js

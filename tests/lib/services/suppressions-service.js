@@ -787,4 +787,254 @@ describe("SuppressionsService", () => {
 			);
 		});
 	});
+
+	describe("applySuppressions()", () => {
+		it("should suppress messages when violations count is less than or equal to suppressions count", () => {
+			const cwd = path.resolve("/project");
+			const suppressionsService = new SuppressionsService({
+				filePath: path.join(cwd, "eslint-suppressions.json"),
+				cwd,
+			});
+			const relPath = path.posix.join("src", "app.js");
+			const suppressions = {
+				[relPath]: { "no-console": { count: 2 } },
+			};
+			const results = [
+				createResult({
+					filePath: path.join(cwd, "src", "app.js"),
+					messages: [
+						createMessage("no-console"),
+						createMessage("no-console"),
+					],
+				}),
+			];
+
+			const { results: newResults, unused } =
+				suppressionsService.applySuppressions(results, suppressions);
+
+			assert.strictEqual(newResults[0].messages.length, 0);
+			assert.strictEqual(newResults[0].suppressedMessages.length, 2);
+			assert.strictEqual(
+				newResults[0].suppressedMessages[0].ruleId,
+				"no-console",
+			);
+			assert.deepStrictEqual(
+				newResults[0].suppressedMessages[0].suppressions,
+				[{ kind: "file", justification: "" }],
+			);
+			assert.strictEqual(newResults[0].errorCount, 0);
+			assert.deepStrictEqual(unused, {});
+		});
+
+		it("should not suppress messages when violations count exceeds suppressions count", () => {
+			const cwd = path.resolve("/project");
+			const suppressionsService = new SuppressionsService({
+				filePath: path.join(cwd, "eslint-suppressions.json"),
+				cwd,
+			});
+			const relPath = path.posix.join("src", "app.js");
+			const suppressions = {
+				[relPath]: { "no-console": { count: 1 } },
+			};
+			const results = [
+				createResult({
+					filePath: path.join(cwd, "src", "app.js"),
+					messages: [
+						createMessage("no-console"),
+						createMessage("no-console"),
+					],
+				}),
+			];
+
+			const { results: newResults, unused } =
+				suppressionsService.applySuppressions(results, suppressions);
+
+			assert.strictEqual(newResults[0].messages.length, 2);
+			assert.strictEqual(newResults[0].suppressedMessages.length, 0);
+			assert.strictEqual(newResults[0].errorCount, 2);
+			assert.deepStrictEqual(unused, {});
+		});
+
+		it("should return unused suppressions when violations count is less than suppressions count", () => {
+			const cwd = path.resolve("/project");
+			const suppressionsService = new SuppressionsService({
+				filePath: path.join(cwd, "eslint-suppressions.json"),
+				cwd,
+			});
+			const relPath = path.posix.join("src", "app.js");
+			const suppressions = {
+				[relPath]: { "no-console": { count: 3 } },
+			};
+			const results = [
+				createResult({
+					filePath: path.join(cwd, "src", "app.js"),
+					messages: [createMessage("no-console")],
+				}),
+			];
+
+			const { results: newResults, unused } =
+				suppressionsService.applySuppressions(results, suppressions);
+
+			assert.strictEqual(newResults[0].messages.length, 0);
+			assert.strictEqual(newResults[0].suppressedMessages.length, 1);
+			assert.deepStrictEqual(unused, {
+				[relPath]: { "no-console": { count: 2 } },
+			});
+		});
+
+		it("should return unused suppressions when there are no violations for a suppressed rule", () => {
+			const cwd = path.resolve("/project");
+			const suppressionsService = new SuppressionsService({
+				filePath: path.join(cwd, "eslint-suppressions.json"),
+				cwd,
+			});
+			const relPath = path.posix.join("src", "app.js");
+			const suppressions = {
+				[relPath]: {
+					"no-console": { count: 1 },
+					"no-unused-vars": { count: 1 },
+				},
+			};
+			const results = [
+				createResult({
+					filePath: path.join(cwd, "src", "app.js"),
+					messages: [createMessage("no-unused-vars")],
+				}),
+			];
+
+			const { results: newResults, unused } =
+				suppressionsService.applySuppressions(results, suppressions);
+
+			assert.strictEqual(newResults[0].messages.length, 0);
+			assert.strictEqual(newResults[0].suppressedMessages.length, 1);
+			assert.deepStrictEqual(unused, {
+				[relPath]: { "no-console": { count: 1 } },
+			});
+		});
+
+		it("should process multiple rules and return correct stats and unused counts", () => {
+			const cwd = path.resolve("/project");
+			const suppressionsService = new SuppressionsService({
+				filePath: path.join(cwd, "eslint-suppressions.json"),
+				cwd,
+			});
+			const relPath = path.posix.join("src", "app.js");
+			const suppressions = {
+				[relPath]: {
+					"no-console": { count: 2 },
+					"no-unused-vars": { count: 1 },
+				},
+			};
+			const results = [
+				createResult({
+					filePath: path.join(cwd, "src", "app.js"),
+					messages: [
+						createMessage("no-console"),
+						createMessage("no-unused-vars"),
+						createMessage("no-unused-vars"),
+					],
+				}),
+			];
+
+			const { results: newResults, unused } =
+				suppressionsService.applySuppressions(results, suppressions);
+
+			// no-unused-vars has 2 violations but only 1 suppression → not suppressed
+			assert.strictEqual(newResults[0].messages.length, 2);
+			// no-console has 1 violation and 2 suppressions → suppressed
+			assert.strictEqual(newResults[0].suppressedMessages.length, 1);
+			assert.strictEqual(newResults[0].errorCount, 2);
+			assert.deepStrictEqual(unused, {
+				[relPath]: { "no-console": { count: 1 } },
+			});
+		});
+
+		it("should return all suppressions as unused when the file has no violations", () => {
+			const cwd = path.resolve("/project");
+			const suppressionsService = new SuppressionsService({
+				filePath: path.join(cwd, "eslint-suppressions.json"),
+				cwd,
+			});
+			const relPath = path.posix.join("src", "app.js");
+			const suppressions = {
+				[relPath]: { "no-console": { count: 1 } },
+			};
+			const results = [
+				createResult({
+					filePath: path.join(cwd, "src", "app.js"),
+					messages: [],
+				}),
+			];
+
+			const { results: newResults, unused } =
+				suppressionsService.applySuppressions(results, suppressions);
+
+			assert.strictEqual(newResults[0].messages.length, 0);
+			assert.deepStrictEqual(unused, {
+				[relPath]: { "no-console": { count: 1 } },
+			});
+		});
+
+		it("should skip files that have no matching suppressions", () => {
+			const cwd = path.resolve("/project");
+			const suppressionsService = new SuppressionsService({
+				filePath: path.join(cwd, "eslint-suppressions.json"),
+				cwd,
+			});
+			const suppressions = {
+				"other/file.js": { "no-console": { count: 1 } },
+			};
+			const results = [
+				createResult({
+					filePath: path.join(cwd, "src", "app.js"),
+					messages: [createMessage("no-console")],
+				}),
+			];
+
+			const { results: newResults, unused } =
+				suppressionsService.applySuppressions(results, suppressions);
+
+			// Messages should remain untouched
+			assert.strictEqual(newResults[0].messages.length, 1);
+			assert.strictEqual(newResults[0].suppressedMessages.length, 0);
+			assert.strictEqual(newResults[0].errorCount, 1);
+			assert.deepStrictEqual(unused, {});
+		});
+
+		it("should not mutate the original results array", () => {
+			const cwd = path.resolve("/project");
+			const suppressionsService = new SuppressionsService({
+				filePath: path.join(cwd, "eslint-suppressions.json"),
+				cwd,
+			});
+			const relPath = path.posix.join("src", "app.js");
+			const suppressions = {
+				[relPath]: { "no-console": { count: 2 } },
+			};
+			const originalMessages = [
+				createMessage("no-console"),
+				createMessage("no-console"),
+			];
+			const results = [
+				createResult({
+					filePath: path.join(cwd, "src", "app.js"),
+					messages: originalMessages,
+				}),
+			];
+
+			suppressionsService.applySuppressions(results, suppressions);
+
+			// The original results array must remain unmodified
+			assert.strictEqual(
+				results[0].messages.length,
+				2,
+				"Expected original messages to remain unmodified",
+			);
+			assert.strictEqual(
+				results[0].suppressedMessages.length,
+				0,
+				"Expected original suppressedMessages to remain unmodified",
+			);
+		});
+	});
 });
