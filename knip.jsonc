@@ -1,4 +1,5 @@
 {
+  "$schema": "https://unpkg.com/knip@6/schema-jsonc.json",
   "workspaces": {
     ".": {
       // These entries are complementary to the ones found in package.json
@@ -27,17 +28,17 @@
       "ignoreDependencies": [
         // Underlying code coverage engine used in unit tests
         "c8",
-        // Optional peer dependency used for loading TypeScript configuration files
-        "jiti",
       ],
     },
     "docs": {
       "entry": ["src/assets/scss/{styles,print}.scss"],
       "ignore": ["src/assets/js/search.js", "_examples/**"],
     },
-    // Workspaces with default configs:
-    "packages/*": {
-      "ignore": ["tests/types/**"],
+    "packages/eslint-config-eslint": {
+      "entry": ["tests/types/**/*.{cts,mts}"],
+    },
+    "packages/js": {
+      "entry": ["tests/types/**/*.ts"],
       "ignoreDependencies": ["eslint"],
     },
   },
