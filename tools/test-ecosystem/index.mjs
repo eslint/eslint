@@ -93,7 +93,17 @@ async function runTests(pluginKey, pluginSettings) {
 	// 4. Link the local ESLint into the plugin
 	const packageManager = pluginSettings.commands.install[0];
 
-	runCommand([packageManager, "link", process.cwd()]);
+	if (packageManager === "npm") {
+		/*
+		 * Use `npm install --no-save` instead of `npm link` to avoid
+		 * creating a global symlink in /usr/local/lib/node_modules/,
+		 * which fails with EACCES on machines where npm is installed
+		 * globally (owned by root).
+		 */
+		runCommand(["npm", "install", "--no-save", process.cwd()]);
+	} else {
+		runCommand([packageManager, "link", process.cwd()]);
+	}
 
 	// 5. Build, if the plugin defines a build script
 	if (pluginSettings.commands.build) {
