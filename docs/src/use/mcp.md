@@ -164,7 +164,7 @@ Then update your MCP configuration to use the locally installed server (without 
 }
 ```
 
-**Cursor** (`.cursor/mcp.json`):
+**Cursor / Windsurf** (`.cursor/mcp.json` or `~/.codeium/windsurf/mcp_config.json`):
 
 ```json
 {
@@ -201,7 +201,7 @@ If you're using **Node.js >= 22.13.0**, you can load TypeScript configuration fi
 }
 ```
 
-**Cursor** (`.cursor/mcp.json`):
+**Cursor / Windsurf** (`.cursor/mcp.json` or `~/.codeium/windsurf/mcp_config.json`):
 
 ```json
 {
@@ -217,27 +217,6 @@ If you're using **Node.js >= 22.13.0**, you can load TypeScript configuration fi
 	}
 }
 ```
-
-**Windsurf** (`~/.codeium/windsurf/mcp_config.json`):
-
-```json
-{
-	"mcpServers": {
-		"eslint": {
-			"command": "npx",
-			"args": ["@eslint/mcp@latest"],
-			"env": {
-				"ESLINT_FLAGS": "unstable_native_nodejs_ts_config",
-				"NODE_OPTIONS": "--experimental-transform-types"
-			}
-		}
-	}
-}
-```
-
-::: tip
-Deno and Bun support TypeScript natively, so no additional configuration is needed if you use either of these runtimes.
-:::
 
 ## Example Prompts
 
