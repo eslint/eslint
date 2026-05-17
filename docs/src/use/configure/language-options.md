@@ -43,6 +43,10 @@ export default defineConfig([
 
 If you are using the built-in ESLint parser, you can additionally change how ESLint interprets your code by specifying the `languageOptions.parserOptions` key. All options are `false` by default:
 
+::: important
+For the default parser, set `ecmaVersion` and `sourceType` directly in `languageOptions`. Values for `ecmaVersion` or `sourceType` in `parserOptions` can affect parser behavior and take precedence over the corresponding `languageOptions` values, but this should only be done when a custom parser requires it.
+:::
+
 - `allowReserved` - allow the use of reserved words as identifiers (if `ecmaVersion` is `3`).
 - `ecmaFeatures` - an object indicating which additional language features you'd like to use:
     - `globalReturn` - allow `return` statements in the global scope. This option only applies when `languageOptions.sourceType` is set to `"script"`. When `languageOptions.sourceType` is set to `"commonjs"`, top-level `return` statements are allowed regardless of this option. When `languageOptions.sourceType` is set to `"module"`, top-level `return` statements are not allowed even if this option is set to `true`.
