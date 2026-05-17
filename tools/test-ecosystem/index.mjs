@@ -62,6 +62,7 @@ async function runTests(pluginKey, pluginSettings) {
 		const result = spawn.sync(command, args, {
 			cwd: directory,
 			stdio: log.enabled ? "inherit" : undefined,
+			maxBuffer: 100 * 1024 * 1024,
 		});
 
 		if (result.status || result.error) {
