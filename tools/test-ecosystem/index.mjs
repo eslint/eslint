@@ -62,6 +62,7 @@ async function runTests(pluginKey, pluginSettings) {
 		const result = spawn.sync(command, args, {
 			cwd: directory,
 			stdio: log.enabled ? "inherit" : undefined,
+			maxBuffer: 100 * 1024 * 1024,
 		});
 
 		if (result.status || result.error) {
@@ -101,6 +102,9 @@ async function runTests(pluginKey, pluginSettings) {
 		 * globally (owned by root).
 		 */
 		runCommand(["npm", "install", "--no-save", process.cwd()]);
+		if (pluginKey === "eslint-plugin-vue") {
+			runCommand(["npm", "install", "--no-save", "espree@latest"]);
+		}
 	} else {
 		runCommand([packageManager, "link", process.cwd()]);
 	}
