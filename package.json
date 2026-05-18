@@ -1,6 +1,6 @@
 {
   "name": "eslint",
-  "version": "10.3.0",
+  "version": "10.4.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "type": "commonjs",
@@ -228,5 +228,10 @@
   "license": "MIT",
   "engines": {
     "node": "^20.19.0 || ^22.13.0 || >=24"
+  },
+  "overrides": {
+    "@arethetypeswrong/core": {
+      "fflate": "0.8.2"
+    }
   }
 }
