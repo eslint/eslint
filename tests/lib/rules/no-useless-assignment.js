@@ -419,6 +419,58 @@ ruleTester.run("no-useless-assignment", rule, {
 				console.log(outcome);
 			}
 		}`,
+		`function foo() {
+			let outcome = 'unknown';
+
+			try {
+				new Foo();
+				outcome = 'success';
+			} catch (err) {
+				new Bar();
+				outcome = 'exception'; 
+			} finally {
+				console.log(outcome);
+			}
+		}`,
+		`async function foo() {
+			let outcome = 'unknown';
+
+			try {
+				await import("./foo.js");
+				outcome = 'success';
+			} catch (err) {
+				await import("./bar.js");
+				outcome = 'exception';
+			} finally {
+				console.log(outcome);
+			}
+		}`,
+		`function foo() {
+			let outcome = 'unknown';
+
+			try {
+				obj.foo;
+				outcome = 'success';
+			} catch (err) {
+				obj.foo;
+				outcome = 'exception';
+			} finally {
+				console.log(outcome);
+			}
+		}`,
+		`function foo() {
+			let outcome = 'unknown';
+
+			try {
+				helper1();
+				outcome = 'success';
+			} catch (err) {
+			 	outcome = 'exception';
+				helper2(); 
+			} finally {
+				console.log(outcome);
+			}
+		}`,
 
 		// An expression within an assignment.
 		`const obj = { a: 5 };
@@ -1298,31 +1350,6 @@ ruleTester.run("no-useless-assignment", rule, {
 					column: 21,
 					endLine: 2,
 					endColumn: 25,
-				},
-			],
-		},
-		{
-			code: `function foo() {
-                let outcome = 'unknown';
-
-				try {
-					helper1();
-					outcome = 'success';
-				} catch (err) {
-					outcome = 'exception';
-					helper2();
-				} finally {
-					console.log(outcome);
-				}
-            }`,
-			errors: [
-				{
-					messageId: "unnecessaryAssignment",
-					data: { name: "outcome" },
-					line: 2,
-					column: 21,
-					endLine: 2,
-					endColumn: 28,
 				},
 			],
 		},
