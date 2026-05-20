@@ -83,6 +83,16 @@ describe("SourceCode", () => {
 			assert.strictEqual(sourceCode.visitorKeys, visitorKeys);
 		});
 
+		it("should default scopeManager to null when omitted from the config object", () => {
+			const ast = { comments: [], tokens: [], loc: {}, range: [] };
+			const sourceCode = new SourceCode({
+				text: "foo;",
+				ast,
+			});
+
+			assert.strictEqual(sourceCode.scopeManager, null);
+		});
+
 		it("should split text into lines when called with valid data", () => {
 			const ast = { comments: [], tokens: [], loc: {}, range: [] };
 			const sourceCode = new SourceCode("foo;\nbar;", ast);

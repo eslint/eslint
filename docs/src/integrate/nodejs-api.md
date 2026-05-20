@@ -607,6 +607,8 @@ const code = new SourceCode("var foo = bar;", ast);
 
 The `SourceCode` constructor throws an error if the AST is missing any of the required information.
 
+You can also pass a config object with `text`, `ast`, and optional `parserServices`, `scopeManager`, and `visitorKeys` properties. If `scopeManager` is omitted or `null`, the `SourceCode` instance stores `null`.
+
 The `SourceCode` constructor strips Unicode BOM.
 Please note the AST also should be parsed from stripped text.
 

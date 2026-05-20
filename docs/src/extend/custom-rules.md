@@ -629,7 +629,7 @@ There are also some properties you can access:
 - `hasBOM`: (`boolean`) The flag to indicate whether the source code has Unicode BOM.
 - `text`: (`string`) The full text of the code being linted. Unicode BOM has been stripped from this text.
 - `ast`: (`object`) `Program` node of the AST for the code being linted.
-- `scopeManager`: [ScopeManager](./scope-manager-interface#scopemanager-interface) object of the code.
+- `scopeManager`: [ScopeManager](./scope-manager-interface#scopemanager-interface) object of the code, or `null` if this `SourceCode` instance does not have one attached.
 - `visitorKeys`: (`object`) Visitor keys to traverse this AST.
 - `parserServices`: (`object`) Contains parser-provided services for rules. The default parser does not provide any services. However, if a rule is intended to be used with a custom parser, it could use `parserServices` to access anything provided by that parser. (For example, a TypeScript parser could provide the ability to get the computed type of a given node.)
 - `lines`: (`array`) Array of lines, split according to the specification's definition of line breaks.

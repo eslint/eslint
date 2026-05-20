@@ -134,6 +134,7 @@ sourceCode = new SourceCode({
 });
 sourceCode = new SourceCode({ text: SOURCE, ast: AST, visitorKeys: null });
 sourceCode = new SourceCode({ text: SOURCE, ast: AST, visitorKeys: undefined });
+sourceCode.scopeManager; // $ExpectType ScopeManager | null
 
 SourceCode.splitLines(SOURCE);
 
@@ -2176,6 +2177,14 @@ interface CustomParserServices {
 	languageOptions: {
 		parser: {
 			parseForESLint: () => ({ ast: AST, services: parserServices }),
+		},
+	},
+});
+
+(): Linter.Config => ({
+	languageOptions: {
+		parser: {
+			parseForESLint: () => ({ ast: AST, scopeManager: null }),
 		},
 	},
 });

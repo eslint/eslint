@@ -248,7 +248,7 @@ export class SourceCode implements TextSourceCode<{
 	lines: string[];
 	hasBOM: boolean;
 	parserServices: SourceCode.ParserServices;
-	scopeManager: Scope.ScopeManager;
+	scopeManager: Scope.ScopeManager | null;
 	visitorKeys: SourceCode.VisitorKeys;
 
 	constructor(text: string, ast: AST.Program);
@@ -1053,7 +1053,7 @@ export namespace Linter {
 		services?: SourceCode.ParserServices | undefined;
 
 		/** The scope manager of the AST. */
-		scopeManager?: Scope.ScopeManager | undefined;
+		scopeManager?: Scope.ScopeManager | null | undefined;
 
 		/** The visitor keys of the AST. */
 		visitorKeys?: SourceCode.VisitorKeys | undefined;
