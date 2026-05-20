@@ -222,5 +222,10 @@
   "license": "MIT",
   "engines": {
     "node": "^18.18.0 || ^20.9.0 || >=21.1.0"
+  },
+  "overrides": {
+    "@arethetypeswrong/core": {
+      "fflate": "0.8.2"
+    }
   }
 }
