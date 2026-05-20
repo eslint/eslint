@@ -1408,6 +1408,35 @@ ruleTester.run("no-useless-assignment", rule, {
 				},
 			],
 		},
+		{
+			code: `function foo() {
+				let outcome = 'unknown';
+
+				try {
+					bar();
+				} catch (err) {
+					new Baz();
+					outcome = 'exception'; 
+				} finally {
+					return;
+					console.log(outcome);
+				}
+			}`,
+			errors: [
+				{
+					messageId: "unnecessaryAssignment",
+					data: { name: "outcome" },
+					line: 2,
+					column: 9,
+				},
+				{
+					messageId: "unnecessaryAssignment",
+					data: { name: "outcome" },
+					line: 8,
+					column: 6,
+				},
+			],
+		},
 
 		// An expression within an assignment.
 		{
