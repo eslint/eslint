@@ -461,6 +461,16 @@ sourceCode.getDeclaredVariables(AST); // $ExpectType Variable[]
 
 sourceCode.getAncestors(AST); // $ExpectType Node[]
 
+const nodeByRange = sourceCode.getNodeByRangeIndex(0);
+
+if (nodeByRange) {
+	if (nodeByRange.type === "Program") {
+		nodeByRange.parent; // $ExpectType null
+	} else {
+		nodeByRange.parent; // $ExpectType Node
+	}
+}
+
 // #endregion
 
 // #region Scope
@@ -481,6 +491,12 @@ scopeManager.addGlobals(["Foo", "Bar"]);
 
 const scope = scopeManager.scopes[0];
 
+if (scope.block.type === "Program") {
+	scope.block.parent; // $ExpectType null
+} else {
+	scope.block.parent; // $ExpectType Node
+}
+
 scope.implicit;
 scope.implicit?.variables;
 scope.implicit?.set;
@@ -490,8 +506,10 @@ const variable = scope.variables[0];
 variable.name = "foo";
 
 variable.identifiers[0].type = "Identifier";
+variable.identifiers[0].parent; // $ExpectType Node
 
 variable.defs[0].name.type = "Identifier";
+variable.defs[0].name.parent; // $ExpectType Node
 variable.defs[0].type;
 variable.defs[0].node;
 variable.defs[0].parent;
@@ -501,8 +519,10 @@ const reference = scope.references[0];
 reference.from = scope;
 reference.identifier.type = "Identifier";
 reference.identifier.type = "JSXIdentifier";
+reference.identifier.parent; // $ExpectType Node
 reference.resolved = variable;
-reference.writeExpr = { type: "Identifier", name: "foo" };
+reference.writeExpr = { type: "Identifier", name: "foo" } as Rule.AST.Identifier;
+reference.writeExpr?.parent; // $ExpectType Node | undefined
 // @ts-expect-error
 reference.writeExpr = AST;
 reference.init = true;
@@ -535,6 +555,7 @@ implicitGlobalVarDef.parent; // $ExpectType null
 let importBindingDef!: Extract<Scope.DefinitionType, { type: "ImportBinding" }>;
 importBindingDef.node; // $ExpectType ImportSpecifier | ImportDefaultSpecifier | ImportNamespaceSpecifier
 importBindingDef.parent; // $ExpectType ImportDeclaration
+importBindingDef.parent.parent; // $ExpectType Node
 
 let parameterDef!: Extract<Scope.DefinitionType, { type: "Parameter" }>;
 parameterDef.node; // $ExpectType FunctionDeclaration | FunctionExpression | ArrowFunctionExpression
@@ -543,6 +564,7 @@ parameterDef.parent; // $ExpectType null
 let variableDef!: Extract<Scope.DefinitionType, { type: "Variable" }>;
 variableDef.node; // $ExpectType VariableDeclarator
 variableDef.parent; // $ExpectType VariableDeclaration
+variableDef.parent.parent; // $ExpectType Node
 
 // #endregion
 
@@ -551,6 +573,22 @@ variableDef.parent; // $ExpectType VariableDeclaration
 const oldStyleRule = (context: Rule.RuleContext) => ({});
 
 let rule: Rule.RuleModule;
+let programNode!: Rule.AST.Program;
+let catchClauseNode!: Rule.AST.CatchClause;
+let functionDeclarationAstNode!: Rule.AST.FunctionDeclaration;
+let importSpecifierNode!: Rule.AST.ImportSpecifier;
+let staticBlockNode!: Rule.AST.StaticBlock;
+let templateElementNode!: Rule.AST.TemplateElement;
+let variableDeclaratorNode!: Rule.AST.VariableDeclarator;
+
+programNode satisfies Rule.AST.Program;
+functionDeclarationAstNode satisfies Rule.AST.FunctionDeclaration;
+programNode.parent; // $ExpectType null
+catchClauseNode.parent; // $ExpectType TryStatement
+importSpecifierNode.parent; // $ExpectType ImportDeclaration
+staticBlockNode.parent; // $ExpectType ClassBody
+templateElementNode.parent; // $ExpectType TemplateLiteral
+variableDeclaratorNode.parent; // $ExpectType VariableDeclaration
 
 // @ts-expect-error
 rule = oldStyleRule;
@@ -840,8 +878,8 @@ rule = {
 			},
 			WhileStatement(node: WhileStatement) {},
 			Program(node) {
-				// @ts-expect-error
-				node.parent;
+				node.parent; // $ExpectType null
+				node.body[0]?.parent; // $ExpectType Node | undefined
 			},
 			"Program:exit"(node) {
 				node.body;
@@ -1013,17 +1051,16 @@ type DeprecatedRuleContextKeys =
 				node; // $ExpectType Node
 			},
 			Program(node) {
-				// @ts-expect-error -- Program node has no parent
-				node.parent;
+				node.parent; // $ExpectType null
 				const { comments, tokens } = node;
 			},
 			"Program:exit"(node) {
-				// @ts-expect-error -- Program node has no parent
-				node.parent;
+				node.parent; // $ExpectType null
 				const { comments, tokens } = node;
 			},
 			CallExpression(node) {
 				node.type; // $ExpectType "CallExpression"
+				node.arguments[0]?.parent; // $ExpectType Node | undefined
 			},
 			"CallExpression:exit"(node) {
 				node.type; // $ExpectType "CallExpression"

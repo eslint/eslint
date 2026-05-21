@@ -117,7 +117,62 @@ export namespace AST {
 	}
 }
 
-interface JSXIdentifier extends ESTree.BaseNode {
+type DirectChildNode<T> =
+	T extends readonly (infer U)[] ? Extract<U, ESTree.Node> :
+	Extract<T, ESTree.Node>;
+
+type HasDirectChild<
+	Parent extends ESTree.Node,
+	Child extends ESTree.Node,
+> = true extends {
+	[K in keyof Parent]-?:
+			[Extract<DirectChildNode<Parent[K]>, Child>] extends [never]
+				? false
+				: true;
+}[keyof Parent]
+	? true
+	: false;
+
+type RawParentNodeOf<
+	Child extends ESTree.Node,
+	Parent extends ESTree.Node = ESTree.Node,
+> = Child extends ESTree.Program ? never :
+	Parent extends ESTree.Node ?
+		HasDirectChild<Parent, Child> extends true ? Parent : never
+	: never;
+
+type Parentized<T> =
+	T extends readonly (infer U)[] ? readonly Parentized<U>[] :
+	T extends (infer U)[] ? Parentized<U>[] :
+	T extends ESTree.Node ? JSNodeOf<T> :
+	T;
+
+type JSParentOf<Node extends ESTree.Node> =
+	Node extends ESTree.Program ? null : JSNodeOf<RawParentNodeOf<Node>>;
+
+interface ESTreeNodeParentExtension<Node extends ESTree.Node = ESTree.Node> {
+	parent: JSParentOf<Node>;
+}
+
+type JSProgram = Omit<AST.Program, "parent"> & {
+	[K in keyof AST.Program]: Parentized<AST.Program[K]>;
+} & { parent: null };
+
+type JSNodeOf<T extends ESTree.Node> =
+	T extends ESTree.Program ? JSProgram :
+	Omit<T, "parent"> & {
+		[K in keyof T]: Parentized<T[K]>;
+	} & ESTreeNodeParentExtension<T>;
+
+type JSImportIdentifier = JSNodeOf<ESTree.Identifier>;
+type JSNode = JSNodeOf<ESTree.Node>;
+type JSToken = AST.Token;
+type JSNodeAliasOf<Type extends ESTree.Node["type"]> = Extract<
+	JSNode,
+	{ type: Type }
+>;
+
+interface JSXIdentifier extends ESTree.BaseNode, ESTreeNodeParentExtension {
 	type: "JSXIdentifier";
 	name: string;
 }
@@ -152,7 +207,7 @@ export namespace Scope {
 		upper: Scope | null;
 		childScopes: Scope[];
 		variableScope: Scope;
-		block: ESTree.Node;
+		block: JSNode;
 		variables: Variable[];
 		set: Map<string, Variable>;
 		references: Reference[];
@@ -167,16 +222,16 @@ export namespace Scope {
 	interface Variable {
 		name: string;
 		scope: Scope;
-		identifiers: ESTree.Identifier[];
+		identifiers: JSImportIdentifier[];
 		references: Reference[];
 		defs: Definition[];
 	}
 
 	interface Reference {
-		identifier: ESTree.Identifier | JSXIdentifier;
+		identifier: JSImportIdentifier | JSXIdentifier;
 		from: Scope;
 		resolved: Variable | null;
-		writeExpr?: ESTree.Expression | null;
+		writeExpr?: JSNodeOf<ESTree.Expression> | null;
 		init?: boolean;
 
 		isWrite(): boolean;
@@ -191,48 +246,53 @@ export namespace Scope {
 	}
 
 	type DefinitionType =
-		| { type: "CatchClause"; node: ESTree.CatchClause; parent: null }
+		| { type: "CatchClause"; node: JSNodeOf<ESTree.CatchClause>; parent: null }
 		| {
 				type: "ClassName";
-				node: ESTree.ClassDeclaration | ESTree.ClassExpression;
+				node: JSNodeOf<ESTree.ClassDeclaration | ESTree.ClassExpression>;
 				parent: null;
 		  }
 		| {
 				type: "FunctionName";
-				node: ESTree.FunctionDeclaration | ESTree.FunctionExpression;
+				node: JSNodeOf<
+					ESTree.FunctionDeclaration | ESTree.FunctionExpression
+				>;
 				parent: null;
 		  }
 		| {
 				type: "ImplicitGlobalVariable";
-				node:
+				node: JSNodeOf<
 					| ESTree.AssignmentExpression
 					| ESTree.ForInStatement
-					| ESTree.ForOfStatement;
+					| ESTree.ForOfStatement
+				>;
 				parent: null;
 		  }
 		| {
 				type: "ImportBinding";
-				node:
+				node: JSNodeOf<
 					| ESTree.ImportSpecifier
 					| ESTree.ImportDefaultSpecifier
-					| ESTree.ImportNamespaceSpecifier;
-				parent: ESTree.ImportDeclaration;
+					| ESTree.ImportNamespaceSpecifier
+				>;
+				parent: JSNodeOf<ESTree.ImportDeclaration>;
 		  }
 		| {
 				type: "Parameter";
-				node:
+				node: JSNodeOf<
 					| ESTree.FunctionDeclaration
 					| ESTree.FunctionExpression
-					| ESTree.ArrowFunctionExpression;
+					| ESTree.ArrowFunctionExpression
+				>;
 				parent: null;
 		  }
 		| {
 				type: "Variable";
-				node: ESTree.VariableDeclarator;
-				parent: ESTree.VariableDeclaration;
+				node: JSNodeOf<ESTree.VariableDeclarator>;
+				parent: JSNodeOf<ESTree.VariableDeclaration>;
 		  };
 
-	type Definition = DefinitionType & { name: ESTree.Identifier };
+	type Definition = DefinitionType & { name: JSImportIdentifier };
 }
 
 // #region SourceCode
@@ -244,7 +304,7 @@ export class SourceCode implements TextSourceCode<{
 	ConfigNode: ESTree.Comment;
 }> {
 	text: string;
-	ast: AST.Program;
+	ast: Omit<JSProgram, "parent">;
 	lines: string[];
 	hasBOM: boolean;
 	parserServices: SourceCode.ParserServices;
@@ -269,11 +329,11 @@ export class SourceCode implements TextSourceCode<{
 
 	getAllComments(): ESTree.Comment[];
 
-	getAncestors(node: ESTree.Node): ESTree.Node[];
+	getAncestors(node: ESTree.Node): JSNode[];
 
 	getDeclaredVariables(node: ESTree.Node): Scope.Variable[];
 
-	getNodeByRangeIndex(index: number): ESTree.Node | null;
+	getNodeByRangeIndex(index: number): JSNode | null;
 
 	getLocFromIndex(index: number): ESTree.Position;
 
@@ -659,25 +719,99 @@ export namespace Rule {
 	}
 
 	type NodeTypes = ESTree.Node["type"];
+	type Node = JSNode;
+
+	namespace AST {
+		type Node = Rule.Node;
+		type Class = JSNodeOf<ESTree.Class>;
+		type Declaration = JSNodeOf<ESTree.Declaration>;
+		type Expression = JSNodeOf<ESTree.Expression>;
+		type Function = JSNodeOf<ESTree.Function>;
+		type ModuleDeclaration = JSNodeOf<ESTree.ModuleDeclaration>;
+		type ModuleSpecifier = JSNodeOf<ESTree.ModuleSpecifier>;
+		type Pattern = JSNodeOf<ESTree.Pattern>;
+		type Program = JSNodeAliasOf<"Program">;
+		type ArrayExpression = JSNodeAliasOf<"ArrayExpression">;
+		type ArrayPattern = JSNodeAliasOf<"ArrayPattern">;
+		type ArrowFunctionExpression = JSNodeAliasOf<"ArrowFunctionExpression">;
+		type AssignmentExpression = JSNodeAliasOf<"AssignmentExpression">;
+		type AssignmentPattern = JSNodeAliasOf<"AssignmentPattern">;
+		type AwaitExpression = JSNodeAliasOf<"AwaitExpression">;
+		type BinaryExpression = JSNodeAliasOf<"BinaryExpression">;
+		type BlockStatement = JSNodeAliasOf<"BlockStatement">;
+		type BreakStatement = JSNodeAliasOf<"BreakStatement">;
+		type CallExpression = JSNodeAliasOf<"CallExpression">;
+		type CatchClause = JSNodeAliasOf<"CatchClause">;
+		type ChainExpression = JSNodeAliasOf<"ChainExpression">;
+		type ClassBody = JSNodeAliasOf<"ClassBody">;
+		type ClassDeclaration = JSNodeAliasOf<"ClassDeclaration">;
+		type ClassExpression = JSNodeAliasOf<"ClassExpression">;
+		type ConditionalExpression = JSNodeAliasOf<"ConditionalExpression">;
+		type ContinueStatement = JSNodeAliasOf<"ContinueStatement">;
+		type DebuggerStatement = JSNodeAliasOf<"DebuggerStatement">;
+		type DoWhileStatement = JSNodeAliasOf<"DoWhileStatement">;
+		type EmptyStatement = JSNodeAliasOf<"EmptyStatement">;
+		type ExportAllDeclaration = JSNodeAliasOf<"ExportAllDeclaration">;
+		type ExportDefaultDeclaration = JSNodeAliasOf<"ExportDefaultDeclaration">;
+		type ExportNamedDeclaration = JSNodeAliasOf<"ExportNamedDeclaration">;
+		type ExportSpecifier = JSNodeAliasOf<"ExportSpecifier">;
+		type ExpressionStatement = JSNodeAliasOf<"ExpressionStatement">;
+		type ForInStatement = JSNodeAliasOf<"ForInStatement">;
+		type ForOfStatement = JSNodeAliasOf<"ForOfStatement">;
+		type ForStatement = JSNodeAliasOf<"ForStatement">;
+		type FunctionDeclaration = JSNodeAliasOf<"FunctionDeclaration">;
+		type FunctionExpression = JSNodeAliasOf<"FunctionExpression">;
+		type Identifier = JSNodeAliasOf<"Identifier">;
+		type IfStatement = JSNodeAliasOf<"IfStatement">;
+		type ImportDeclaration = JSNodeAliasOf<"ImportDeclaration">;
+		type ImportDefaultSpecifier = JSNodeAliasOf<"ImportDefaultSpecifier">;
+		type ImportExpression = JSNodeAliasOf<"ImportExpression">;
+		type ImportNamespaceSpecifier = JSNodeAliasOf<"ImportNamespaceSpecifier">;
+		type ImportSpecifier = JSNodeAliasOf<"ImportSpecifier">;
+		type LabeledStatement = JSNodeAliasOf<"LabeledStatement">;
+		type Literal = JSNodeAliasOf<"Literal">;
+		type LogicalExpression = JSNodeAliasOf<"LogicalExpression">;
+		type MemberExpression = JSNodeAliasOf<"MemberExpression">;
+		type MetaProperty = JSNodeAliasOf<"MetaProperty">;
+		type MethodDefinition = JSNodeAliasOf<"MethodDefinition">;
+		type NewExpression = JSNodeAliasOf<"NewExpression">;
+		type ObjectExpression = JSNodeAliasOf<"ObjectExpression">;
+		type ObjectPattern = JSNodeAliasOf<"ObjectPattern">;
+		type PrivateIdentifier = JSNodeAliasOf<"PrivateIdentifier">;
+		type Property = JSNodeAliasOf<"Property">;
+		type PropertyDefinition = JSNodeAliasOf<"PropertyDefinition">;
+		type RestElement = JSNodeAliasOf<"RestElement">;
+		type ReturnStatement = JSNodeAliasOf<"ReturnStatement">;
+		type SequenceExpression = JSNodeAliasOf<"SequenceExpression">;
+		type SpreadElement = JSNodeAliasOf<"SpreadElement">;
+		type StaticBlock = JSNodeAliasOf<"StaticBlock">;
+		type Super = JSNodeAliasOf<"Super">;
+		type SwitchCase = JSNodeAliasOf<"SwitchCase">;
+		type SwitchStatement = JSNodeAliasOf<"SwitchStatement">;
+		type TaggedTemplateExpression = JSNodeAliasOf<"TaggedTemplateExpression">;
+		type TemplateElement = JSNodeAliasOf<"TemplateElement">;
+		type TemplateLiteral = JSNodeAliasOf<"TemplateLiteral">;
+		type ThisExpression = JSNodeAliasOf<"ThisExpression">;
+		type ThrowStatement = JSNodeAliasOf<"ThrowStatement">;
+		type TryStatement = JSNodeAliasOf<"TryStatement">;
+		type UnaryExpression = JSNodeAliasOf<"UnaryExpression">;
+		type UpdateExpression = JSNodeAliasOf<"UpdateExpression">;
+		type VariableDeclaration = JSNodeAliasOf<"VariableDeclaration">;
+		type VariableDeclarator = JSNodeAliasOf<"VariableDeclarator">;
+		type WhileStatement = JSNodeAliasOf<"WhileStatement">;
+		type WithStatement = JSNodeAliasOf<"WithStatement">;
+		type YieldExpression = JSNodeAliasOf<"YieldExpression">;
+	}
 
 	interface NodeListener extends CustomRuleVisitorWithExit<
 		{
 			[Node in Rule.Node as Node["type"]]?:
 				| ((node: Node) => void)
 				| undefined;
-		} & {
-			// A `Program` visitor's node type has no `parent` property.
-			Program?: ((node: AST.Program) => void) | undefined;
 		}
 	> {}
 
-	interface NodeParentExtension {
-		parent: Node;
-	}
-
-	type Node =
-		| (AST.Program & { parent: null })
-		| (Exclude<ESTree.Node, ESTree.Program> & NodeParentExtension);
+	interface NodeParentExtension extends ESTreeNodeParentExtension {}
 
 	interface RuleListener extends NodeListener {
 		onCodePathStart?(codePath: CodePath, node: Node): void;
@@ -790,7 +924,7 @@ export namespace Rule {
 	type ReportDescriptorMessage = ViolationMessage;
 	type ReportDescriptorLocation = ViolationLocation<JSSyntaxElement>;
 
-	type RuleFixer = RuleTextEditor<ESTree.Node | AST.Token>;
+	type RuleFixer = RuleTextEditor<ESTree.Node | JSToken>;
 	type Fix = RuleTextEdit;
 }
 
