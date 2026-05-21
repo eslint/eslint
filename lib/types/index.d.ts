@@ -844,6 +844,10 @@ export class Linter {
 	getTimes(): Linter.Stats["times"];
 
 	getFixPassCount(): Linter.Stats["fixPasses"];
+
+	getSuppressedMessages(): Linter.SuppressedLintMessage[];
+
+	hasFlag(flag: string): boolean;
 }
 
 export namespace Linter {
