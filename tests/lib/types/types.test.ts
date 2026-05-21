@@ -555,7 +555,7 @@ implicitGlobalVarDef.parent; // $ExpectType null
 let importBindingDef!: Extract<Scope.DefinitionType, { type: "ImportBinding" }>;
 importBindingDef.node; // $ExpectType ImportSpecifier | ImportDefaultSpecifier | ImportNamespaceSpecifier
 importBindingDef.parent; // $ExpectType ImportDeclaration
-importBindingDef.parent.parent; // $ExpectType Node
+importBindingDef.parent.parent; // $ExpectType Program
 
 let parameterDef!: Extract<Scope.DefinitionType, { type: "Parameter" }>;
 parameterDef.node; // $ExpectType FunctionDeclaration | FunctionExpression | ArrowFunctionExpression
