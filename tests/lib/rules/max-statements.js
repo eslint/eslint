@@ -121,6 +121,8 @@ ruleTester.run("max-statements", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Function 'foo'", count: "3", max: 2 },
+					column: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -132,6 +134,8 @@ ruleTester.run("max-statements", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Arrow function", count: "3", max: 2 },
+					column: 14,
+					endColumn: 16,
 				},
 			],
 		},
@@ -142,6 +146,8 @@ ruleTester.run("max-statements", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Function", count: "3", max: 2 },
+					column: 11,
+					endColumn: 19,
 				},
 			],
 		},
@@ -152,6 +158,8 @@ ruleTester.run("max-statements", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Function 'foo'", count: "5", max: 4 },
+					column: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -162,6 +170,8 @@ ruleTester.run("max-statements", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Function 'foo'", count: "5", max: 4 },
+					column: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -172,6 +182,8 @@ ruleTester.run("max-statements", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Function 'foo'", count: "6", max: 5 },
+					column: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -182,6 +194,8 @@ ruleTester.run("max-statements", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Function 'foo'", count: "5", max: 3 },
+					column: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -192,6 +206,8 @@ ruleTester.run("max-statements", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Function 'foo'", count: "5", max: 4 },
+					column: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -202,6 +218,8 @@ ruleTester.run("max-statements", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Function", count: "2", max: 1 },
+					column: 36,
+					endColumn: 45,
 				},
 			],
 		},
@@ -212,10 +230,14 @@ ruleTester.run("max-statements", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Function", count: "2", max: 1 },
+					column: 3,
+					endColumn: 11,
 				},
 				{
 					messageId: "exceed",
 					data: { name: "Function", count: "2", max: 1 },
+					column: 49,
+					endColumn: 57,
 				},
 			],
 		},
@@ -226,6 +248,8 @@ ruleTester.run("max-statements", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Function", count: "2", max: 1 },
+					column: 78,
+					endColumn: 87,
 				},
 			],
 		},
@@ -235,6 +259,8 @@ ruleTester.run("max-statements", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Function 'foo'", count: "11", max: 10 },
+					column: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -247,6 +273,8 @@ ruleTester.run("max-statements", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Method 'thing'", count: "3", max: 2 },
+					column: 13,
+					endColumn: 28,
 				},
 			],
 		},
@@ -258,6 +286,8 @@ ruleTester.run("max-statements", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Method 'thing'", count: "3", max: 2 },
+					column: 13,
+					endColumn: 18,
 				},
 			],
 		},
@@ -280,6 +310,8 @@ ruleTester.run("max-statements", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Method 'thing'", count: "3", max: 2 },
+					column: 13,
+					endColumn: 20,
 				},
 			],
 		},
@@ -290,6 +322,8 @@ ruleTester.run("max-statements", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Method 'thing'", count: "3", max: 2 },
+					column: 13,
+					endColumn: 28,
 				},
 			],
 		},
@@ -300,6 +334,8 @@ ruleTester.run("max-statements", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Function 'foo'", count: 11, max: 10 },
+					column: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -310,6 +346,8 @@ ruleTester.run("max-statements", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Function 'foo'", count: 1, max: 0 },
+					column: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -321,6 +359,8 @@ ruleTester.run("max-statements", rule, {
 				{
 					messageId: "exceed",
 					data: { name: "Function 'foo'", count: 3, max: 2 },
+					column: 1,
+					endColumn: 13,
 				},
 			],
 		},
@@ -336,6 +376,8 @@ ruleTester.run("max-statements", rule, {
 						count: 3,
 						max: 2,
 					},
+					column: 43,
+					endColumn: 65,
 				},
 			],
 		},
@@ -351,6 +393,8 @@ ruleTester.run("max-statements", rule, {
 						count: 3,
 						max: 2,
 					},
+					column: 45,
+					endColumn: 67,
 				},
 			],
 		},
@@ -366,6 +410,8 @@ ruleTester.run("max-statements", rule, {
 						count: 3,
 						max: 2,
 					},
+					column: 47,
+					endColumn: 69,
 				},
 			],
 		},
