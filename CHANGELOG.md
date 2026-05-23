@@ -1,3 +1,32 @@
+v10.4.0 - May 15, 2026
+
+* [`6616856`](https://github.com/eslint/eslint/commit/6616856f28fa514a30f87b5539fc100d739a94bf) chore: upgrade knip to v6 (#20875) (Pixel998)
+* [`d13b084`](https://github.com/eslint/eslint/commit/d13b084a3ad02f926e9addaa35fc383759ea5554) ci: ensure auto-created PRs run CI (#20860) (lumir)
+* [`7e52a71`](https://github.com/eslint/eslint/commit/7e52a7151fb92eec0e0f67fe4e5ddbd1ccce796f) docs: add mention of `@eslint-react/eslint-plugin` (#20869) (Pavel)
+* [`e71c7af`](https://github.com/eslint/eslint/commit/e71c7af86dce9acc1d18cb12d2184309f6841594) ci: bump pnpm/action-setup from 6.0.5 to 6.0.7 (#20862) (dependabot[bot])
+* [`544c0c3`](https://github.com/eslint/eslint/commit/544c0c3da589166ad8e5d634f35d3d06701c57be) fix: escape code path DOT labels in debug output (#20866) (Pixel998)
+* [`db3468b`](https://github.com/eslint/eslint/commit/db3468ba746407d7f286f18f7ea9db6df0e3bc08) docs: tweak wording around ambiguous CJS-vs-ESM config (#20865) (Kirk Waiblinger)
+* [`d84393d`](https://github.com/eslint/eslint/commit/d84393dea170f54191fd20c8268b52c81c0ccd99) test: add unit tests for SuppressionsService.applySuppressions() (#20863) (kuldeep kumar)
+* [`9084664`](https://github.com/eslint/eslint/commit/90846643ec6e97d447ae0d831fabe6d17b0a998a) docs: Update README (GitHub Actions Bot)
+* [`24db8cb`](https://github.com/eslint/eslint/commit/24db8cb8e6f07fba667121777a15b1785486be94) test: add tests for SuppressionsService.save() (#20802) (kuldeep kumar)
+* [`2ef0549`](https://github.com/eslint/eslint/commit/2ef0549cac4a9537e4c3a26b9f3edd4c99476bf6) chore: update ecosystem plugins (#20857) (github-actions[bot])
+* [`1a45ec5`](https://github.com/eslint/eslint/commit/1a45ec596af1dd5f880e6874cb8f24dafb6a7ecf) feat: check sequence expressions in `for-direction` (#20701) (kuldeep kumar)
+* [`9cc7387`](https://github.com/eslint/eslint/commit/9cc73875046e3c4b8313644cbb1e99e26b36bd3f) docs: Update README (GitHub Actions Bot)
+* [`a429791`](https://github.com/eslint/eslint/commit/a4297918d264d229a06cd96051ef9b91c7b86732) ci: remove `eslint-webpack-plugin` types integration test (#20668) (Milos Djermanovic)
+* [`450040b`](https://github.com/eslint/eslint/commit/450040bd89b989b3531824c6be45feb5fe3d936b) feat: add `includeIgnoreFile()` to `eslint/config` (#20735) (Kirk Waiblinger)
+* [`6799431`](https://github.com/eslint/eslint/commit/6799431203f2579632d0870f98ba132067f4040c) fix: update dependency @eslint/config-helpers to ^0.6.0 (#20850) (renovate[bot])
+* [`9e37386`](https://github.com/eslint/eslint/commit/9e37386aa7f2ce220b2ef74a6afbac5f6b3527c5) chore: replace `recast` with range approach in code-sample-minimizer (#20682) (Copilot)
+* [`0dd1f9f`](https://github.com/eslint/eslint/commit/0dd1f9ffc9a07704d46e2a4c8d4ccc0d0908b0c0) test: disable warning for `vm.constants.USE_MAIN_CONTEXT_DEFAULT_LOADER` (#20845) (Francesco Trotta)
+* [`9da3c7b`](https://github.com/eslint/eslint/commit/9da3c7bc92d9579f8db19ecb56e718538d09db2b) refactor: remove deprecated `meta.language` and migrate `meta.dialects` (#20716) (Pixel998)
+* [`2099ed1`](https://github.com/eslint/eslint/commit/2099ed12a0a74c3d7f0808514362af2499b4fe2b) refactor: add `meta.defaultOptions` to more rules, enable linting (#20800) (xbinaryx)
+* [`3d7b548`](https://github.com/eslint/eslint/commit/3d7b5484407403817aa9071a394d336d8ea96eb5) docs: Update README (GitHub Actions Bot)
+* [`f1dfbc9`](https://github.com/eslint/eslint/commit/f1dfbc9ca57196de7092e1888cc99427bd6fe06e) chore: update ecosystem plugins (#20836) (github-actions[bot])
+* [`c759413`](https://github.com/eslint/eslint/commit/c75941390c14728806cd4baef4f6072f6de78318) ci: bump pnpm/action-setup from 6.0.3 to 6.0.5 (#20843) (dependabot[bot])
+* [`f078fef`](https://github.com/eslint/eslint/commit/f078fef5005dceb14fc162aab7c7200e027688dd) fix: handle non-array deprecated rule replacements (#20825) (xbinaryx)
+* [`5b817d6`](https://github.com/eslint/eslint/commit/5b817d6fdc9ae2c35b528dc662b2eca8f40f64aa) test: add unit tests for lib/shared/ast-utils (#20838) (kuldeep kumar)
+* [`1c13ae3`](https://github.com/eslint/eslint/commit/1c13ae3934c198c494e5958fa3a68b33244ff06a) test: add unit tests for lib/shared/severity (#20835) (kuldeep kumar)
+* [`191ec3c`](https://github.com/eslint/eslint/commit/191ec3c0a3f94ce0f110df761f0b2b8949011ccb) docs: Update README (GitHub Actions Bot)
+
 v10.3.0 - May 1, 2026
 
 * [`d32235e`](https://github.com/eslint/eslint/commit/d32235ec19ceea211fa86452afa383ca05f5c2f9) ci: use pnpm in `eslint-flat-config-utils` type integration test (#20826) (Francesco Trotta)

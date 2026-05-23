@@ -102,7 +102,7 @@ jobs:
             - uses: actions/checkout@v6
             - uses: actions/setup-node@v6
               with:
-                  node-version: "20" # Should be the same as the version used on Netlify to build the ESLint Playground
+                  node-version: "24" # Should be the same as the version used on Netlify to build the ESLint Playground
             - name: Install Packages
               run: npm install
             - name: Test
@@ -150,7 +150,7 @@ jobs:
         steps:
             - uses: actions/checkout@v6
 
-            - uses: pnpm/action-setup@739bfe42ca9233c5e6aca07c1a25a9d34aca49b0 # v6.0.7
+            - uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093 # v6.0.8
               with:
                   version: latest
 

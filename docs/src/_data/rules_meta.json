@@ -308,14 +308,12 @@
             "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/capitalized-comments"
         },
-        "fixable": "code"
+        "fixable": "code",
+        "defaultOptions": [
+            "always"
+        ]
     },
     "class-methods-use-this": {
-        "dialects": [
-            "javascript",
-            "typescript"
-        ],
-        "language": "javascript",
         "type": "suggestion",
         "defaultOptions": [
             {
@@ -326,6 +324,10 @@
         ],
         "docs": {
             "description": "Enforce that class methods utilize `this`",
+            "dialects": [
+                "JavaScript",
+                "TypeScript"
+            ],
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/class-methods-use-this"
         }
@@ -523,14 +525,13 @@
         }
     },
     "default-param-last": {
-        "dialects": [
-            "javascript",
-            "typescript"
-        ],
-        "language": "javascript",
         "type": "suggestion",
         "docs": {
             "description": "Enforce default parameters to be last",
+            "dialects": [
+                "JavaScript",
+                "TypeScript"
+            ],
             "recommended": false,
             "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/default-param-last"
@@ -618,6 +619,9 @@
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/eqeqeq"
         },
+        "defaultOptions": [
+            "always"
+        ],
         "fixable": "code"
     },
     "for-direction": {
@@ -665,7 +669,10 @@
             "recommended": false,
             "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/func-name-matching"
-        }
+        },
+        "defaultOptions": [
+            "always"
+        ]
     },
     "func-names": {
         "type": "suggestion",
@@ -680,11 +687,6 @@
         }
     },
     "func-style": {
-        "dialects": [
-            "javascript",
-            "typescript"
-        ],
-        "language": "javascript",
         "type": "suggestion",
         "defaultOptions": [
             "expression",
@@ -696,6 +698,10 @@
         ],
         "docs": {
             "description": "Enforce the consistent use of either `function` declarations or expressions assigned to variables",
+            "dialects": [
+                "JavaScript",
+                "TypeScript"
+            ],
             "recommended": false,
             "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/func-style"
@@ -1034,17 +1040,19 @@
     },
     "init-declarations": {
         "type": "suggestion",
-        "dialects": [
-            "typescript",
-            "javascript"
-        ],
-        "language": "javascript",
         "docs": {
             "description": "Require or disallow initialization in variable declarations",
+            "dialects": [
+                "JavaScript",
+                "TypeScript"
+            ],
             "recommended": false,
             "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/init-declarations"
-        }
+        },
+        "defaultOptions": [
+            "always"
+        ]
     },
     "jsx-quotes": {
         "deprecated": {
@@ -1285,6 +1293,9 @@
             "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/logical-assignment-operators"
         },
+        "defaultOptions": [
+            "always"
+        ],
         "fixable": "code",
         "hasSuggestions": true
     },
@@ -1294,7 +1305,10 @@
             "description": "Enforce a maximum number of classes per file",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/max-classes-per-file"
-        }
+        },
+        "defaultOptions": [
+            1
+        ]
     },
     "max-depth": {
         "type": "suggestion",
@@ -1302,7 +1316,10 @@
             "description": "Enforce a maximum depth that blocks can be nested",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/max-depth"
-        }
+        },
+        "defaultOptions": [
+            4
+        ]
     },
     "max-len": {
         "deprecated": {
@@ -1338,7 +1355,10 @@
             "description": "Enforce a maximum number of lines per file",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/max-lines"
-        }
+        },
+        "defaultOptions": [
+            300
+        ]
     },
     "max-lines-per-function": {
         "type": "suggestion",
@@ -1346,7 +1366,10 @@
             "description": "Enforce a maximum number of lines of code in a function",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/max-lines-per-function"
-        }
+        },
+        "defaultOptions": [
+            50
+        ]
     },
     "max-nested-callbacks": {
         "type": "suggestion",
@@ -1354,20 +1377,25 @@
             "description": "Enforce a maximum depth that callbacks can be nested",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/max-nested-callbacks"
-        }
+        },
+        "defaultOptions": [
+            10
+        ]
     },
     "max-params": {
         "type": "suggestion",
-        "dialects": [
-            "typescript",
-            "javascript"
-        ],
-        "language": "javascript",
         "docs": {
             "description": "Enforce a maximum number of parameters in function definitions",
+            "dialects": [
+                "JavaScript",
+                "TypeScript"
+            ],
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/max-params"
-        }
+        },
+        "defaultOptions": [
+            3
+        ]
     },
     "max-statements": {
         "type": "suggestion",
@@ -1375,7 +1403,10 @@
             "description": "Enforce a maximum number of statements allowed in function blocks",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/max-statements"
-        }
+        },
+        "defaultOptions": [
+            10
+        ]
     },
     "max-statements-per-line": {
         "deprecated": {
@@ -1617,14 +1648,13 @@
         }
     },
     "no-array-constructor": {
-        "dialects": [
-            "javascript",
-            "typescript"
-        ],
-        "language": "javascript",
         "type": "suggestion",
         "docs": {
             "description": "Disallow `Array` constructors",
+            "dialects": [
+                "JavaScript",
+                "TypeScript"
+            ],
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-array-constructor"
         },
@@ -1889,13 +1919,12 @@
     },
     "no-dupe-class-members": {
         "type": "problem",
-        "dialects": [
-            "javascript",
-            "typescript"
-        ],
-        "language": "javascript",
         "docs": {
             "description": "Disallow duplicate class members",
+            "dialects": [
+                "JavaScript",
+                "TypeScript"
+            ],
             "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/no-dupe-class-members"
         }
@@ -1925,11 +1954,6 @@
         }
     },
     "no-duplicate-imports": {
-        "dialects": [
-            "javascript",
-            "typescript"
-        ],
-        "language": "javascript",
         "type": "problem",
         "defaultOptions": [
             {
@@ -1939,6 +1963,10 @@
         ],
         "docs": {
             "description": "Disallow duplicate module imports",
+            "dialects": [
+                "JavaScript",
+                "TypeScript"
+            ],
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-duplicate-imports"
         }
@@ -1981,11 +2009,6 @@
         }
     },
     "no-empty-function": {
-        "dialects": [
-            "javascript",
-            "typescript"
-        ],
-        "language": "javascript",
         "hasSuggestions": true,
         "type": "suggestion",
         "defaultOptions": [
@@ -1995,6 +2018,10 @@
         ],
         "docs": {
             "description": "Disallow empty functions",
+            "dialects": [
+                "JavaScript",
+                "TypeScript"
+            ],
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-empty-function"
         }
@@ -2304,11 +2331,6 @@
         }
     },
     "no-invalid-this": {
-        "dialects": [
-            "javascript",
-            "typescript"
-        ],
-        "language": "javascript",
         "type": "suggestion",
         "defaultOptions": [
             {
@@ -2317,6 +2339,10 @@
         ],
         "docs": {
             "description": "Disallow use of `this` in contexts where the value of `this` is `undefined`",
+            "dialects": [
+                "JavaScript",
+                "TypeScript"
+            ],
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-invalid-this"
         }
@@ -2390,43 +2416,54 @@
     },
     "no-loop-func": {
         "type": "suggestion",
-        "dialects": [
-            "typescript",
-            "javascript"
-        ],
-        "language": "javascript",
         "docs": {
             "description": "Disallow function declarations that contain unsafe references inside loop statements",
+            "dialects": [
+                "JavaScript",
+                "TypeScript"
+            ],
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-loop-func"
         }
     },
     "no-loss-of-precision": {
         "type": "problem",
-        "dialects": [
-            "typescript",
-            "javascript"
-        ],
-        "language": "javascript",
         "docs": {
             "description": "Disallow literal numbers that lose precision",
+            "dialects": [
+                "JavaScript",
+                "TypeScript"
+            ],
             "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/no-loss-of-precision"
         }
     },
     "no-magic-numbers": {
         "type": "suggestion",
-        "dialects": [
-            "typescript",
-            "javascript"
-        ],
-        "language": "javascript",
         "docs": {
             "description": "Disallow magic numbers",
+            "dialects": [
+                "JavaScript",
+                "TypeScript"
+            ],
             "recommended": false,
             "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/no-magic-numbers"
-        }
+        },
+        "defaultOptions": [
+            {
+                "detectObjects": false,
+                "enforceConst": false,
+                "ignore": [],
+                "ignoreArrayIndexes": false,
+                "ignoreDefaultValues": false,
+                "ignoreClassFieldInitialValues": false,
+                "ignoreEnums": false,
+                "ignoreNumericLiteralTypes": false,
+                "ignoreReadonlyClassProperties": false,
+                "ignoreTypeIndexes": false
+            }
+        ]
     },
     "no-misleading-character-class": {
         "type": "problem",
@@ -2974,30 +3011,31 @@
             "description": "Disallow specified names in exports",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-restricted-exports"
-        }
+        },
+        "defaultOptions": [
+            {}
+        ]
     },
     "no-restricted-globals": {
-        "dialects": [
-            "javascript",
-            "typescript"
-        ],
-        "language": "javascript",
         "type": "suggestion",
         "docs": {
             "description": "Disallow specified global variables",
+            "dialects": [
+                "JavaScript",
+                "TypeScript"
+            ],
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-restricted-globals"
         }
     },
     "no-restricted-imports": {
         "type": "suggestion",
-        "dialects": [
-            "typescript",
-            "javascript"
-        ],
-        "language": "javascript",
         "docs": {
             "description": "Disallow specified modules when loaded by `import`",
+            "dialects": [
+                "JavaScript",
+                "TypeScript"
+            ],
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-restricted-imports"
         }
@@ -3035,7 +3073,8 @@
             "description": "Disallow certain properties on certain objects",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-restricted-properties"
-        }
+        },
+        "defaultOptions": []
     },
     "no-restricted-syntax": {
         "type": "suggestion",
@@ -3043,7 +3082,8 @@
             "description": "Disallow specified syntax",
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-restricted-syntax"
-        }
+        },
+        "defaultOptions": []
     },
     "no-return-assign": {
         "type": "suggestion",
@@ -3124,11 +3164,6 @@
     },
     "no-shadow": {
         "type": "suggestion",
-        "dialects": [
-            "typescript",
-            "javascript"
-        ],
-        "language": "javascript",
         "defaultOptions": [
             {
                 "allow": [],
@@ -3141,6 +3176,10 @@
         ],
         "docs": {
             "description": "Disallow variable declarations from shadowing variables declared in the outer scope",
+            "dialects": [
+                "JavaScript",
+                "TypeScript"
+            ],
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-shadow"
         }
@@ -3314,13 +3353,12 @@
     },
     "no-unassigned-vars": {
         "type": "problem",
-        "dialects": [
-            "typescript",
-            "javascript"
-        ],
-        "language": "javascript",
         "docs": {
             "description": "Disallow `let` or `var` variables that are read but never assigned",
+            "dialects": [
+                "JavaScript",
+                "TypeScript"
+            ],
             "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/no-unassigned-vars"
         }
@@ -3469,14 +3507,13 @@
         "fixable": null
     },
     "no-unused-expressions": {
-        "dialects": [
-            "javascript",
-            "typescript"
-        ],
-        "language": "javascript",
         "type": "suggestion",
         "docs": {
             "description": "Disallow unused expressions",
+            "dialects": [
+                "JavaScript",
+                "TypeScript"
+            ],
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-unused-expressions"
         },
@@ -3515,17 +3552,27 @@
             "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/no-unused-vars"
         },
-        "hasSuggestions": true
+        "hasSuggestions": true,
+        "defaultOptions": [
+            {
+                "vars": "all",
+                "args": "after-used",
+                "ignoreRestSiblings": false,
+                "caughtErrors": "all",
+                "ignoreClassWithStaticInitBlock": false,
+                "ignoreUsingDeclarations": false,
+                "reportUsedIgnorePattern": false
+            }
+        ]
     },
     "no-use-before-define": {
-        "dialects": [
-            "javascript",
-            "typescript"
-        ],
-        "language": "javascript",
         "type": "problem",
         "docs": {
             "description": "Disallow the use of variables before they are defined",
+            "dialects": [
+                "JavaScript",
+                "TypeScript"
+            ],
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-use-before-define"
         },
@@ -3598,14 +3645,13 @@
         }
     },
     "no-useless-constructor": {
-        "dialects": [
-            "javascript",
-            "typescript"
-        ],
-        "language": "javascript",
         "type": "suggestion",
         "docs": {
             "description": "Disallow unnecessary constructors",
+            "dialects": [
+                "JavaScript",
+                "TypeScript"
+            ],
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-useless-constructor"
         },
@@ -3652,13 +3698,12 @@
     },
     "no-var": {
         "type": "suggestion",
-        "dialects": [
-            "typescript",
-            "javascript"
-        ],
-        "language": "javascript",
         "docs": {
             "description": "Require `let` or `const` instead of `var`",
+            "dialects": [
+                "JavaScript",
+                "TypeScript"
+            ],
             "recommended": false,
             "url": "https://eslint.org/docs/latest/rules/no-var"
         },
@@ -3858,7 +3903,10 @@
             "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/object-shorthand"
         },
-        "fixable": "code"
+        "fixable": "code",
+        "defaultOptions": [
+            "always"
+        ]
     },
     "one-var": {
         "type": "suggestion",
@@ -3868,7 +3916,10 @@
             "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/one-var"
         },
-        "fixable": "code"
+        "fixable": "code",
+        "defaultOptions": [
+            "always"
+        ]
     },
     "one-var-declaration-per-line": {
         "deprecated": {
@@ -4001,11 +4052,6 @@
     },
     "prefer-arrow-callback": {
         "type": "suggestion",
-        "dialects": [
-            "javascript",
-            "typescript"
-        ],
-        "language": "javascript",
         "defaultOptions": [
             {
                 "allowNamedFunctions": false,
@@ -4014,6 +4060,10 @@
         ],
         "docs": {
             "description": "Require using arrow functions for callbacks",
+            "dialects": [
+                "JavaScript",
+                "TypeScript"
+            ],
             "recommended": false,
             "frozen": true,
             "url": "https://eslint.org/docs/latest/rules/prefer-arrow-callback"

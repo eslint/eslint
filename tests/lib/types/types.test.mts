@@ -806,6 +806,26 @@ rule = {
 		return {
 			onCodePathStart(codePath, node) {
 				const origin: Rule.CodePathOrigin = codePath.origin;
+				const traversalOptions: Rule.CodePathTraversalOptions = {
+					first: codePath.initialSegment,
+					last: codePath.finalSegments[0],
+				};
+
+				codePath.traverseSegments((segment, controller) => {
+					segment.allNextSegments satisfies Rule.CodePathSegment[];
+					segment.allPrevSegments satisfies Rule.CodePathSegment[];
+					controller.skip();
+					controller.break();
+				});
+
+				codePath.traverseSegments(
+					traversalOptions,
+					function (segment, controller) {
+						this satisfies Rule.CodePath;
+						segment.reachable satisfies boolean;
+						controller.skip();
+					},
+				);
 			},
 			onCodePathEnd(codePath, node) {
 				const origin: Rule.CodePathOrigin = codePath.origin;
