@@ -26,29 +26,29 @@
  */
 
 import {
-	AST,
 	ESLint,
 	Linter,
 	loadESLint,
-	Rule,
-	JSRuleDefinition,
 	RuleTester,
-	Scope,
 	SourceCode,
-	JSSyntaxElement,
+	type AST,
+	type JSSyntaxElement,
+	type JSRuleDefinition,
+	type Rule,
+	type Scope,
 } from "eslint";
 import { defineConfig, globalIgnores, includeIgnoreFile } from "eslint/config";
-import { ESLintRules } from "eslint/rules";
+import type { ESLintRules } from "eslint/rules";
 import { Linter as ESLinter } from "eslint/universal";
 import { builtinRules, shouldUseFlatConfig } from "eslint/use-at-your-own-risk";
-import {
+import type {
 	Comment,
 	PrivateIdentifier,
 	PropertyDefinition,
 	StaticBlock,
 	WhileStatement,
 } from "estree";
-import { Language, RuleDefinition, SettingsConfig } from "@eslint/core";
+import type { Language, RuleDefinition, SettingsConfig } from "@eslint/core";
 
 const SOURCE = `var foo = bar;`;
 

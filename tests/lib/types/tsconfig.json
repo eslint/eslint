@@ -1,12 +1,4 @@
 {
-  "compilerOptions": {
-    "module": "node16",
-    "lib": ["dom", "es6"],
-    "strict": true,
-    "types": [],
-    "noEmit": true,
-    "forceConsistentCasingInFileNames": true,
-    "exactOptionalPropertyTypes": true
-  },
-  "files": ["../../../lib/types/index.d.ts", "types.test.ts"]
+  "extends": "../../../tsconfig.types.json",
+  "include": [".", "../../../lib/types"]
 }
