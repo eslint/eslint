@@ -231,7 +231,7 @@
   },
   "overrides": {
     "@arethetypeswrong/core": {
-      "fflate": "0.8.2"
+      "fflate": "0.8.3"
     }
   }
 }
