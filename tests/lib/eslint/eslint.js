@@ -9458,6 +9458,45 @@ describe("ESLint", () => {
 				"no-sparse-arrays errors should NOT be suppressed",
 			);
 		});
+
+		describe("unstable_external_file_matching", () => {
+			it("should lint a file outside the base path when a relative path is used", async () => {
+				const cwd = getFixturePath("external-file-matching/foo");
+				eslint = new ESLint({
+					cwd,
+					overrideConfigFile: "eslint.config.js",
+					flags: ["unstable_external_file_matching"],
+				});
+				const results = await eslint.lintFiles(["../bar/index.js"]);
+
+				assert.strictEqual(results.length, 1);
+				assert.strictEqual(
+					results[0].filePath,
+					path.join(cwd, "../bar/index.js"),
+				);
+				assert.strictEqual(results[0].messages.length, 1);
+				assert.strictEqual(results[0].messages[0].ruleId, "no-var");
+			});
+
+			it("should lint a file outside the base path when a relative pattern is used", async () => {
+				const cwd = getFixturePath("external-file-matching/foo");
+				eslint = new ESLint({
+					cwd,
+					overrideConfigFile: "eslint.config.js",
+					flags: ["unstable_external_file_matching"],
+				});
+				const results = await eslint.lintFiles(["../**/*.js"]);
+
+				assert.strictEqual(results.length, 2);
+				assert.strictEqual(
+					results[0].filePath,
+					path.join(cwd, "../bar/index.js"),
+				);
+				assert.strictEqual(results[0].messages.length, 1);
+				assert.strictEqual(results[0].messages[0].ruleId, "no-var");
+				assert.strictEqual(results[1].messages.length, 0);
+			});
+		});
 	});
 
 	describe("Fix Types", () => {
