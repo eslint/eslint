@@ -176,6 +176,18 @@ ruleTester.run("prefer-arrow-callback", rule, {
 			errors,
 		},
 		{
+			code: `qux(async function /* Lorem ipsum
+dolor sit amet. */ (foo) { return foo; })`,
+			output: null,
+			errors,
+		},
+		{
+			code: `qux(async function // Lorem ipsum
+(foo) { return foo; })`,
+			output: null,
+			errors,
+		},
+		{
 			code: "qux(async function (foo = 1, bar = 2, baz = 3) { return this; }.bind(this))",
 			output: "qux(async (foo = 1, bar = 2, baz = 3) => { return this; })",
 			errors,
