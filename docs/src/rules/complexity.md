@@ -3,7 +3,6 @@ title: complexity
 rule_type: suggestion
 related_rules:
 - max-depth
-- max-len
 - max-lines
 - max-lines-per-function
 - max-nested-callbacks
