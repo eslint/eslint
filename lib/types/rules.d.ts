@@ -4270,6 +4270,10 @@ export interface ESLintRules extends Linter.RulesRecord {
 					/**
 					 * @default true
 					 */
+					allowDeferredReferences: boolean;
+					/**
+					 * @default true
+					 */
 					enums: boolean;
 					/**
 					 * @default true

@@ -453,6 +453,35 @@ ruleTester.run("no-use-before-define", rule, {
 				parserOptions: { ecmaFeatures: { jsx: true } },
 			},
 		},
+		{
+			code: "const a = test(t => a);",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const a = () => a;",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const a = function() { return a; };",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const a = [() => a];",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const a = { getA() { return a; } };",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const a = test(() => () => a);",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+		},
 	],
 	invalid: [
 		{
@@ -1711,6 +1740,94 @@ ruleTester.run("no-use-before-define", rule, {
 					column: 2,
 					endLine: 1,
 					endColumn: 5,
+				},
+			],
+		},
+		{
+			code: "const a = test(t => a);",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
+				},
+			],
+		},
+		{
+			code: "const a = test(t => a);",
+			options: [{ allowDeferredReferences: false, variables: false }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
+				},
+			],
+		},
+		{
+			code: "const a = test(arr, function(t) { return a; });",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
+				},
+			],
+		},
+		{
+			code: "const a = (() => a)();",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
+				},
+			],
+		},
+		{
+			code: "const a = new Test(() => a);",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
+				},
+			],
+		},
+		{
+			code: "const a = test({ getA: () => a });",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
+				},
+			],
+		},
+		{
+			code: "const a = array.map(x => a.length);",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
+				},
+			],
+		},
+		{
+			code: "const a = tag`${() => a}`;",
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
 				},
 			],
 		},
@@ -3242,6 +3359,24 @@ type StringOrNumber = string | number;
 	alert(a?.b);
 	var a = { b: 5 };
 		  `,
+			errors: [
+				{
+					data: { name: "a" },
+					messageId: "usedBeforeDefined",
+				},
+			],
+		},
+		{
+			code: `
+	function testFunction<T, U>(array: T[], fn: (elem: T) => U): U[] {
+	  return array.map(fn);
+	}
+
+	const arr = [1, 2];
+	const a = testFunction(arr, value => a);
+		  `,
+			options: [{ allowDeferredReferences: false }],
+			languageOptions: { parserOptions },
 			errors: [
 				{
 					data: { name: "a" },
