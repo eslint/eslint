@@ -179,6 +179,34 @@ Then update your MCP configuration to use the locally installed server (without 
 
 When `@eslint/mcp` is installed locally, its bundled ESLint resolves `jiti` from the shared `node_modules` directory via standard Node.js module resolution.
 
+#### Yarn Plug'n'Play (PnP)
+
+Yarn 2+ uses Plug'n'Play by default and does not create a `node_modules` directory. Because `npx` does not understand Yarn's PnP resolver, `npx @eslint/mcp` falls back to fetching the package into a temporary directory where `jiti` cannot be resolved, and the server fails to load TypeScript configuration files.
+
+PnP users have two options:
+
+1. **Run the server through Yarn** so PnP can resolve `jiti` from the project's dependency graph. Use Yarn as the MCP command:
+
+    ```json
+    {
+        "servers": {
+            "ESLint": {
+                "type": "stdio",
+                "command": "yarn",
+                "args": ["run", "-B", "mcp"]
+            }
+        }
+    }
+    ```
+
+2. **Switch the project's linker to `node-modules`** by adding the following to `.yarnrc.yml`, then run `yarn install` again:
+
+    ```yaml
+    nodeLinker: node-modules
+    ```
+
+    With a `node_modules` directory present, the `npx` configuration shown above works as expected.
+
 ### Option B: Native Node.js TypeScript Support
 
 If you're using **Node.js >= 22.13.0**, you can load TypeScript configuration files without `jiti` by enabling Node.js type stripping and the ESLint `unstable_native_nodejs_ts_config` flag. Set these as environment variables in your MCP configuration.
