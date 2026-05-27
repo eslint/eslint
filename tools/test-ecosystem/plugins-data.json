@@ -31,7 +31,7 @@
       "install": ["npm", "install"],
       "test": ["npm", "run", "test"]
     },
-    "commit": "42919d06d8a221e061de3ec98e35bf508ea2b5d2",
+    "commit": "62a2c3a4ee304a8383f170369c9999198d9bdac8",
     "repository": "https://github.com/eslint-community/eslint-plugin-eslint-comments"
   },
   "@typescript-eslint/typescript-eslint": {
