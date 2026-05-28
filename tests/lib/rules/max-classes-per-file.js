@@ -63,6 +63,7 @@ ruleTester.run("max-classes-per-file", rule, {
 			errors: [
 				{
 					messageId: "maximumExceeded",
+					data: { classCount: 2, max: 1 },
 				},
 			],
 		},
@@ -71,6 +72,7 @@ ruleTester.run("max-classes-per-file", rule, {
 			errors: [
 				{
 					messageId: "maximumExceeded",
+					data: { classCount: 2, max: 1 },
 				},
 			],
 		},
@@ -79,6 +81,7 @@ ruleTester.run("max-classes-per-file", rule, {
 			errors: [
 				{
 					messageId: "maximumExceeded",
+					data: { classCount: 2, max: 1 },
 				},
 			],
 		},
@@ -87,6 +90,7 @@ ruleTester.run("max-classes-per-file", rule, {
 			errors: [
 				{
 					messageId: "maximumExceeded",
+					data: { classCount: 2, max: 1 },
 				},
 			],
 		},
@@ -96,6 +100,7 @@ ruleTester.run("max-classes-per-file", rule, {
 			errors: [
 				{
 					messageId: "maximumExceeded",
+					data: { classCount: 2, max: 1 },
 				},
 			],
 		},
@@ -105,6 +110,7 @@ ruleTester.run("max-classes-per-file", rule, {
 			errors: [
 				{
 					messageId: "maximumExceeded",
+					data: { classCount: 3, max: 2 },
 				},
 			],
 		},
@@ -118,6 +124,7 @@ ruleTester.run("max-classes-per-file", rule, {
 			errors: [
 				{
 					messageId: "maximumExceeded",
+					data: { classCount: 2, max: 1 },
 				},
 			],
 		},
@@ -132,6 +139,7 @@ ruleTester.run("max-classes-per-file", rule, {
 			errors: [
 				{
 					messageId: "maximumExceeded",
+					data: { classCount: 3, max: 2 },
 				},
 			],
 		},
