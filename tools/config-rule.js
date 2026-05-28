@@ -394,27 +394,6 @@ class RuleConfigSet {
 			combineArrays(this.ruleConfigs, options),
 		);
 	}
-
-	/**
-	 * Add rule configurations from a schema object
-	 * @param {Object} obj Schema item with type === "object"
-	 * @param {Object} [rootSchema] The root schema object for resolving $ref
-	 * @returns {boolean} true if at least one schema for the object could be generated, false otherwise
-	 */
-	addObject(obj, rootSchema) {
-		const configs = generateObjectConfigs(
-			obj,
-			rootSchema,
-			getPossibleValuesFromSchema,
-		);
-
-		if (configs.length > 0) {
-			this.addOptions(configs);
-			return true;
-		}
-
-		return false;
-	}
 }
 
 /**
