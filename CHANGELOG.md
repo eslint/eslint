@@ -1,3 +1,32 @@
+v10.4.1 - May 29, 2026
+
+* [`e557467`](https://github.com/eslint/eslint/commit/e557467db7496220eebcbe2ac5ea6d38c12bb1ec) fix: update `@eslint/plugin-kit` version to 0.7.2 (#20930) (Francesco Trotta)
+* [`b0e466b`](https://github.com/eslint/eslint/commit/b0e466b6ab47bfc7de43d8de0c315d8ee83aa584) test: add `data` property to invalid tests cases for rules (#20924) (Tanuj Kanti)
+* [`d4ce898`](https://github.com/eslint/eslint/commit/d4ce898796ca22c3b96aa70d3014cb85f4bac1cd) fix: propagate failures from delegated commands (#20917) (Minh Vu)
+* [`f4f3507`](https://github.com/eslint/eslint/commit/f4f3507460bc016b5be979c05d2969793f570cbf) fix: prefer-arrow-callback invalid autofix with newline after `async` (#20916) (kuldeep kumar)
+* [`f78838b`](https://github.com/eslint/eslint/commit/f78838bc4c86d487e1bcc7cede260c4467721c46) test: add CodePath type coverage (#20904) (Pixel998)
+* [`61b0add`](https://github.com/eslint/eslint/commit/61b0add61ffc52665562be7bb96f526690a78b30) docs: remove deprecated rule from related rules of `max-params` (#20921) (Tanuj Kanti)
+* [`1daa4bd`](https://github.com/eslint/eslint/commit/1daa4bd734b79a62e317d0394394a6b38cff49f9) chore: update `eslint-plugin-eslint-comments` test data to latest commit (#20922) (Francesco Trotta)
+* [`002942c`](https://github.com/eslint/eslint/commit/002942ce988ea28b78e0a2f3b074081e638b552c) ci: declare contents:read on update-readme workflow (#20919) (Arpit Jain)
+* [`64bca24`](https://github.com/eslint/eslint/commit/64bca24e7bed35bc3c864fc625cb2d89eca87d5b) chore: update ecosystem plugins (#20912) (ESLint Bot)
+* [`305d5b9`](https://github.com/eslint/eslint/commit/305d5b91aeac24d36fde42f75625a8f183d4ce43) docs: remove deprecated rules from related rules section (#20911) (Tanuj Kanti)
+* [`6d7c832`](https://github.com/eslint/eslint/commit/6d7c832950d5e92499d88e504080661f888f8f56) chore: ignore fflate updates in renovate (#20908) (Pixel998)
+* [`49b0202`](https://github.com/eslint/eslint/commit/49b0202d01918b8061720d586dffd7c68047090c) docs: fix `display: none` of ad (#20901) (Tanuj Kanti)
+* [`c5bc78b`](https://github.com/eslint/eslint/commit/c5bc78b37e08b9054a11f0cc2d81808bb24acb85) fix: false positive for reference in `finally` block (#20655) (Tanuj Kanti)
+* [`9067f94`](https://github.com/eslint/eslint/commit/9067f9492ec998afc5b4f057a477ecf6ebd45e44) docs: switch build to Node.js 24 (#20893) (Milos Djermanovic)
+* [`b2c8638`](https://github.com/eslint/eslint/commit/b2c86382164d87c6203b78d52068cd6a2a6ffe30) ci: bump pnpm/action-setup from 6.0.7 to 6.0.8 (#20889) (dependabot[bot])
+* [`c91b041`](https://github.com/eslint/eslint/commit/c91b0417e3420c76807ce1fa2aea76e2de87ab86) docs: Update README (GitHub Actions Bot)
+* [`27538c0`](https://github.com/eslint/eslint/commit/27538c01f5df4e9306f6f4ba867b2dd6307fae59) fix: add missing CodePath and CodePathSegment types (#20853) (Pixel998)
+* [`a9b8d7f`](https://github.com/eslint/eslint/commit/a9b8d7f74c50211701cfc49710fa541fd91b2aa5) chore: increase maxBuffer for ecosystem tests (#20881) (sethamus)
+* [`b702ead`](https://github.com/eslint/eslint/commit/b702ead5e1ed7cb9f28238a454797662efb37396) chore: update ecosystem update PR settings (#20884) (Pixel998)
+* [`507f60e`](https://github.com/eslint/eslint/commit/507f60e9a78c9a902bc8759f066ae17a1ea6cd81) chore: update ecosystem plugins (#20882) (ESLint Bot)
+* [`e349265`](https://github.com/eslint/eslint/commit/e349265cb37f3ebc837e178e48a725bb782bd870) docs: clarify semver strings in rule deprecation objects (#20885) (Milos Djermanovic)
+* [`92f5c5b`](https://github.com/eslint/eslint/commit/92f5c5bb6bf3a5d167c8ee53a430833410295c6d) test: add unit test for message-count (#20878) (kuldeep kumar)
+* [`df32108`](https://github.com/eslint/eslint/commit/df321080af5758b1fa25e4b9a40e26135642dd6e) chore: add @eslint/markdown and typescript-eslint ecosystem tests (#20837) (sethamus)
+* [`327f91d`](https://github.com/eslint/eslint/commit/327f91d36aa49f2a50ded931d841a16374fd875f) chore: use includeIgnoreFile internally (#20876) (Kirk Waiblinger)
+* [`f0dc4bd`](https://github.com/eslint/eslint/commit/f0dc4bd893fb3a9f44e4ddc3ad7063ffb0beacd3) chore: pin fflate@0.8.2 (#20877) (Milos Djermanovic)
+* [`0f4bd25`](https://github.com/eslint/eslint/commit/0f4bd257a67a082b756de746d9e0c4842ab764ca) ci: run Discord alert for ecosystem test failures (#20873) (Copilot)
+
 v10.4.0 - May 15, 2026
 
 * [`6616856`](https://github.com/eslint/eslint/commit/6616856f28fa514a30f87b5539fc100d739a94bf) chore: upgrade knip to v6 (#20875) (Pixel998)
