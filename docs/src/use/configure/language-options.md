@@ -69,7 +69,7 @@ export default defineConfig([
 ```
 
 ::: tip
-Although it's possible to pass `ecmaVersion` and `sourceType` in `languageOptions.parserOptions`, we do not recommend doing so for the default parser. Instead, configure these options directly in `languageOptions`. If both are specified, the options in `languageOptions.parserOptions` take precedence over those in `languageOptions`.
+Although it's possible to pass `ecmaVersion` and `sourceType` in `languageOptions.parserOptions`, we do not recommend doing so for the default parser. Instead, configure these options directly in `languageOptions`. If both are specified, the options in `languageOptions.parserOptions` take precedence over those in `languageOptions` for the parser.
 :::
 
 ::: important
