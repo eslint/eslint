@@ -111,21 +111,8 @@ jobs:
               run: node Makefile fuzz
 
     test_types:
-        name: Test Types (TypeScript ${{ matrix.typescript }}) of ${{ matrix.package.name }}
+        name: Test Types
         runs-on: ubuntu-latest
-
-        strategy:
-            matrix:
-                typescript: ["6.x", "5.x", "5.3.2"]
-                package:
-                    [
-                        { name: eslint, directory: . },
-                        {
-                            name: eslint-config-eslint,
-                            directory: packages/eslint-config-eslint,
-                        },
-                        { name: "@eslint/js", directory: packages/js },
-                    ]
 
         steps:
             - uses: actions/checkout@v6
@@ -135,17 +122,23 @@ jobs:
             - name: Install Packages
               run: npm install
 
-            - name: Install Packages for ${{ matrix.package.name }}
-              working-directory: ${{ matrix.package.directory }}
-              run: npm install
+            - name: Test types (eslint)
+              run: npx tsc -p tests/lib/types/tsconfig.json
 
-            - name: Install TypeScript ${{ matrix.typescript }}
-              working-directory: ${{ matrix.package.directory }}
-              run: npm install --no-save typescript@${{ matrix.typescript }}
+            - name: Test types (eslint-config-eslint)
+              run: npm run test:types -w packages/eslint-config-eslint
 
-            - name: Test types for ${{ matrix.package.name }}
-              working-directory: ${{ matrix.package.directory }}
-              run: npm run test:types
+            - name: Test types (@eslint/js)
+              run: npm run test:types -w packages/js
+
+            - name: Check types compile (TypeScript 5.3)
+              run: npm run test:types:5.3
+
+            - name: Check types compile (TypeScript 5.x)
+              run: npm run test:types:5.x
+
+            - name: Check types compile (TypeScript 7 preview)
+              run: npm run test:types:7.x
 
     test_package_manager:
         name: Test Package Managers

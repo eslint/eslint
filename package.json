@@ -78,8 +78,15 @@
     "test:fuzz": "node Makefile.js fuzz",
     "test:performance": "node Makefile.js perf",
     "test:pnpm": "cd tests/pnpm && node check.js && pnpm install && pnpm exec tsc",
-    "test:types": "tsc -p tests/lib/types/tsconfig.json"
+    "test:types": "tsc -p tests/lib/types/tsconfig.json && npm run test:types --workspaces --if-present",
+    "test:types:5.3": "npx -p typescript@5.3 -y -- tsc -p tsconfig.types-legacy.json",
+    "test:types:5.x": "npx -p typescript@5.x -y -- tsc -p tsconfig.types.json",
+    "test:types:7.x": "npx -p @typescript/native-preview@latest -y -- tsgo -p tsconfig.types.json",
+    "test:types:all": "npm run test:types && npm run test:types:5.3 && npm run test:types:5.x && npm run test:types:7.x"
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "gitHooks": {
     "pre-commit": "lint-staged"
   },

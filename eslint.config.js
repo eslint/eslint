@@ -233,7 +233,7 @@ module.exports = defineConfig([
 	// JSONC files
 	{
 		name: "eslint/jsonc",
-		files: ["knip.jsonc"],
+		files: ["**/tsconfig*.json", "knip.jsonc"],
 		plugins: { json },
 		language: "json/jsonc",
 		languageOptions: { allowTrailingCommas: true },
@@ -362,14 +362,14 @@ module.exports = defineConfig([
 	})),
 	{
 		name: "eslint/ts-rules",
-		files: ["tests/lib/types/*.ts", "packages/**/*.{ts,mts,cts,tsx}"],
+		files: ["tests/lib/types/*.ts", "packages/**/*.{ts,mts,cts}"],
 		languageOptions: {
 			parser: tsParser,
 			parserOptions: {
 				project: [
 					"tests/lib/types/tsconfig.json",
 					"packages/js/tests/types/tsconfig.json",
-					"packages/eslint-config-eslint/tsconfig.json",
+					"packages/eslint-config-eslint/tests/types/tsconfig.json",
 				],
 			},
 		},

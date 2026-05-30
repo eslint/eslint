@@ -41,7 +41,7 @@
   "scripts": {
     "lint:types": "attw --pack",
     "test": "node ./index.js && node ./cjs.js && node ./formatting.js",
-    "test:types": "tsc -p tsconfig.json",
+    "test:types": "tsc -p tests/types/tsconfig.json",
     "prepublish": "npm test"
   },
   "files": [
