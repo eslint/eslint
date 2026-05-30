@@ -4789,5 +4789,112 @@ try {
 				]),
 			],
 		},
+
+		// ASI hazard: FunctionDeclaration removal followed by (
+		{
+			code: "const x = 1\nfunction unused() {}\n(console.log)()",
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+			errors: [
+				assignedError("x", [
+					{
+						output: "\nfunction unused() {}\n(console.log)()",
+						messageId: "removeVar",
+						data: { varName: "x" },
+					},
+				]),
+				definedError("unused"),
+			],
+		},
+
+		// ASI hazard: FunctionDeclaration removal followed by /
+		{
+			code: "const x = 1\nfunction unused() {}\n/regex/.test('a')",
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+			errors: [
+				assignedError("x", [
+					{
+						output: "\nfunction unused() {}\n/regex/.test('a')",
+						messageId: "removeVar",
+						data: { varName: "x" },
+					},
+				]),
+				definedError("unused"),
+			],
+		},
+
+		// ASI hazard: ClassDeclaration removal followed by (
+		{
+			code: "const x = 1\nclass Unused {}\n(console.log)()",
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+			errors: [
+				assignedError("x", [
+					{
+						output: "\nclass Unused {}\n(console.log)()",
+						messageId: "removeVar",
+						data: { varName: "x" },
+					},
+				]),
+				definedError("Unused"),
+			],
+		},
+
+		// ASI hazard: multi-declaration last declarator removal followed by (
+		{
+			code: "const x = 1,\n      y = () => {}\n(console.log)()",
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+			errors: [
+				assignedError("x", [
+					{
+						output: "const \n      y = () => {}\n(console.log)()",
+						messageId: "removeVar",
+						data: { varName: "x" },
+					},
+				]),
+				assignedError("y"),
+			],
+		},
+
+		// Safe removal: FunctionDeclaration after semicolon
+		{
+			code: "var x = 1;\nfunction unused() {}\nvar z = 3",
+			errors: [
+				assignedError("x", [
+					{
+						output: "\nfunction unused() {}\nvar z = 3",
+						messageId: "removeVar",
+						data: { varName: "x" },
+					},
+				]),
+				definedError("unused", [
+					{
+						output: "var x = 1;\n\nvar z = 3",
+						messageId: "removeVar",
+						data: { varName: "unused" },
+					},
+				]),
+				assignedError("z", [
+					{
+						output: "var x = 1;\nfunction unused() {}\n",
+						messageId: "removeVar",
+						data: { varName: "z" },
+					},
+				]),
+			],
+		},
+
+		// Safe removal: ClassDeclaration inside block
+		{
+			code: "{ class Unused {} }",
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				definedError("Unused", [
+					{
+						output: "{  }",
+						messageId: "removeVar",
+						data: { varName: "Unused" },
+					},
+				]),
+			],
+		},
 	],
 });
