@@ -4896,5 +4896,116 @@ try {
 				]),
 			],
 		},
+
+		// Safe removal: FunctionDeclaration is the last statement
+		{
+			code: "function unused() {}",
+			errors: [
+				definedError("unused", [
+					{
+						output: "",
+						messageId: "removeVar",
+						data: { varName: "unused" },
+					},
+				]),
+			],
+		},
+
+		// Safe removal: ClassDeclaration is the last statement
+		{
+			code: "class Unused {}",
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				definedError("Unused", [
+					{
+						output: "",
+						messageId: "removeVar",
+						data: { varName: "Unused" },
+					},
+				]),
+			],
+		},
+
+		// Safe removal: FunctionDeclaration with comment before
+		{
+			code: "/* comment */\nfunction unused() {}\n(a) => {}",
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+			errors: [
+				definedError("unused", [
+					{
+						output: "/* comment */\n\n(a) => {}",
+						messageId: "removeVar",
+						data: { varName: "unused" },
+					},
+				]),
+				definedError("a", [
+					{
+						output: "/* comment */\nfunction unused() {}\n() => {}",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+
+		// Safe removal: FunctionDeclaration with comment after
+		{
+			code: "const x = 1;\nfunction unused() {}\n/* comment */\n(a) => {}",
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+			errors: [
+				assignedError("x", [
+					{
+						output: "\nfunction unused() {}\n/* comment */\n(a) => {}",
+						messageId: "removeVar",
+						data: { varName: "x" },
+					},
+				]),
+				definedError("unused", [
+					{
+						output: "const x = 1;\n\n/* comment */\n(a) => {}",
+						messageId: "removeVar",
+						data: { varName: "unused" },
+					},
+				]),
+				definedError("a", [
+					{
+						output: "const x = 1;\nfunction unused() {}\n/* comment */\n() => {}",
+						messageId: "removeVar",
+						data: { varName: "a" },
+					},
+				]),
+			],
+		},
+
+		// ASI hazard: removing last variable declarator without semicolon
+		{
+			code: "const x = 1,\n      y = () => {}\n() => {};",
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+			errors: [
+				assignedError("x", [
+					{
+						output: "const \n      y = () => {}\n() => {};",
+						messageId: "removeVar",
+						data: { varName: "x" },
+					},
+				]),
+				assignedError("y"),
+			],
+		},
+
+		// Safe removal: last variable declarator with semicolon
+		{
+			code: "var a = 1, b = 2; console.log(a)",
+			options: ["all"],
+			errors: [
+				assignedError("b", [
+					{
+						output: "var a = 1; console.log(a)",
+						messageId: "removeVar",
+						data: { varName: "b" },
+					},
+				]),
+			],
+		},
 	],
 });
