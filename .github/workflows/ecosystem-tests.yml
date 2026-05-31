@@ -9,7 +9,9 @@ on:
         - cron: "0 0 * * *"
     workflow_dispatch: ~
 
-permissions: read-all
+permissions:
+    contents: read
+    issues: write
 
 jobs:
     test_ecosystem:
@@ -28,9 +30,93 @@ jobs:
             - continue-on-error: true
               id: tester
               run: npm run test:ecosystem -- --plugin all
-            - if: steps.tester.outcome == 'failure' && github.ref_name == 'main'
+            - name: Build failure summary
+              if: steps.tester.outcome == 'failure'
+              id: summary
+              uses: actions/github-script@v9
+              with:
+                  script: |
+                      const fs = require("fs");
+                      const path = require("path");
+                      const resultsPath = path.join(
+                          process.env.GITHUB_WORKSPACE,
+                          "ecosystem",
+                          ".ecosystem-results.json"
+                      );
+                      let summary, failedList;
+
+                      if (fs.existsSync(resultsPath)) {
+                          const results = JSON.parse(fs.readFileSync(resultsPath, "utf8"));
+                          const failed = results.failedPlugins.map(p => p.pluginKey);
+                          failedList = failed.join(", ");
+                          const lines = [
+                              `**Failed (${failed.length}):** ${failedList}`,
+                              `**Passed:** ${results.passedPlugins.length}/${results.totalPlugins}`,
+                              "",
+                              "### Error Details",
+                              ...results.failedPlugins.map(
+                                  p => `#### ${p.pluginKey}\n\`\`\`\n${p.errorMessage.slice(0, 1000)}\n\`\`\``
+                              ),
+                          ];
+                          summary = lines.join("\n");
+                      } else {
+                          failedList = "unknown (results file missing)";
+                          summary = "Ecosystem tests failed but no results file was generated.";
+                      }
+
+                      core.setOutput("summary_text", summary);
+                      core.setOutput("failed_list", failedList);
+            - name: Notify Discord
+              if: steps.tester.outcome == 'failure' && github.ref_name == 'main'
               env:
                   DISCORD_WEBHOOK: ${{ secrets.DISCORD_CONTRIBUTORS_WEBHOOK }}
               uses: Ilshidur/action-discord@d2594079a10f1d6739ee50a2471f0ca57418b554 # 0.4.0
               with:
-                  args: "Ecosystem tests failed."
+                  args: |
+                      🚨 **Ecosystem tests failed!**
+                      Failed plugins: ${{ steps.summary.outputs.failed_list }}
+                      🔗 ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            - name: Create or update GitHub issue
+              if: steps.tester.outcome == 'failure' && github.ref_name == 'main'
+              uses: actions/github-script@v9
+              with:
+                  script: |
+                      const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+                      const title = "Ecosystem tests failure";
+                      const label = "build";
+                      const summary = `${{ steps.summary.outputs.summary_text }}`;
+                      const body = [
+                          "## Ecosystem Tests Failure",
+                          "",
+                          `**CI Run:** ${runUrl}`,
+                          `**Date:** ${new Date().toISOString()}`,
+                          "",
+                          summary,
+                      ].join("\n");
+
+                      const { data: issues } = await github.rest.issues.listForRepo({
+                          owner: context.repo.owner,
+                          repo: context.repo.repo,
+                          labels: label,
+                      });
+
+                      const existing = issues.find(i => i.title.startsWith(title));
+
+                      if (existing) {
+                          await github.rest.issues.update({
+                              owner: context.repo.owner,
+                              repo: context.repo.repo,
+                              issue_number: existing.number,
+                              body,
+                          });
+                          core.info(`Updated issue #${existing.number}`);
+                      } else {
+                          const { data: newIssue } = await github.rest.issues.create({
+                              owner: context.repo.owner,
+                              repo: context.repo.repo,
+                              title,
+                              body,
+                              labels: [label],
+                          });
+                          core.info(`Created issue #${newIssue.number}`);
+                      }
