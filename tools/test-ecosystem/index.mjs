@@ -148,6 +148,23 @@ for (const [pluginKey, pluginSettings] of pluginsSelected) {
 	}
 }
 
+// Write a machine-readable summary for CI reporting
+const summary = {
+	failedPlugins: errors.map(({ pluginKey, error }) => ({
+		pluginKey,
+		errorMessage: `${error.stack || error}`,
+	})),
+	passedPlugins: pluginsSelected
+		.map(([key]) => key)
+		.filter(key => !errors.some(e => e.pluginKey === key)),
+	totalPlugins: pluginsSelected.length,
+};
+
+await fs.writeFile(
+	path.join(SANDBOX_DIRECTORY, ".ecosystem-results.json"),
+	JSON.stringify(summary, null, 2),
+);
+
 // If we had any errors, report them and exit as failed
 if (errors.length) {
 	console.error(styleText("red", "Errors occurred while testing plugins:\n"));
