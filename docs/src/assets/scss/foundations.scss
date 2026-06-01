@@ -22,17 +22,7 @@ h6:target {
 	outline-offset: 3px;
 }
 
-*.focus-visible {
-	outline: 2px solid var(--outline-color);
-	outline-offset: 3px;
-}
-
 *:focus:not(:focus-visible) {
-	outline: 1px solid transparent;
-	box-shadow: none;
-}
-
-.js-focus-visible *:focus:not(.focus-visible) {
 	outline: 1px solid transparent;
 	box-shadow: none;
 }
@@ -177,10 +167,6 @@ code {
 	color: var(--icon-color);
 	flex: none;
 	transition: all 0.2s linear;
-
-	@media (-ms-high-contrast: active) {
-		color: windowText;
-	}
 
 	@media (forced-colors: active) {
 		color: canvasText;
@@ -335,8 +321,7 @@ nav {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-	*:focus-visible,
-	*.focus-visible {
+	*:focus-visible {
 		transition: outline-offset 0.15s linear;
 		outline-offset: 3px;
 	}

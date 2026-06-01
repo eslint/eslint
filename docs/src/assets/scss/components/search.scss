@@ -3,13 +3,6 @@
 	appearance: none;
 }
 
-[type="search"]::-ms-clear,
-[type="search"]::-ms-reveal {
-	display: none;
-	width: 0;
-	height: 0;
-}
-
 .search {
 	margin: 1rem 0;
 	position: relative;
