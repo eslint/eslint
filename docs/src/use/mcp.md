@@ -7,6 +7,8 @@ eleventyNavigation:
     order: 5
 ---
 
+{%- from 'components/npm_tabs.macro.html' import npm_tabs with context %}
+
 [Model Context Protocol](https://modelcontextprotocol.io) (MCP) is an open standard that enables AI models to interact with external tools and services through a unified interface. The ESLint CLI contains an MCP server that you can register with your code editor to allow LLMs to use ESLint directly.
 
 ## Set Up ESLint MCP Server in VS Code
@@ -131,6 +133,100 @@ Once configured, you can use ESLint tools with Cascade by asking it to:
 - Explain ESLint rule violations
 
 Note: MCP tool calls in Windsurf will consume credits regardless of success or failure.
+
+## Using TypeScript Configuration Files
+
+If your project uses a TypeScript configuration file (`eslint.config.ts`, `eslint.config.mts`, or `eslint.config.cts`), additional setup is required for the MCP server to load it. There are two approaches depending on your environment. For more details, see [TypeScript Configuration Files](configure/configuration-files#typescript-configuration-files).
+
+### Option A: Local Installation with jiti (Node.js)
+
+When you run the MCP server with `npx @eslint/mcp@latest`, ESLint is installed into a temporary directory and cannot resolve `jiti` from your project's `node_modules`. To use `jiti` for TypeScript config loading, install both `@eslint/mcp` and `jiti` locally:
+
+{{ npm_tabs({
+    command: "install",
+    packages: ["@eslint/mcp", "jiti"],
+    args: ["--save-dev"]
+}) }}
+
+Then update your MCP configuration to use the locally installed server (without `@latest`, so `npx` resolves the local binary):
+
+**VS Code** (`.vscode/mcp.json`):
+
+```json
+{
+	"servers": {
+		"ESLint": {
+			"type": "stdio",
+			"command": "npx",
+			"args": ["@eslint/mcp"]
+		}
+	}
+}
+```
+
+**Cursor / Windsurf** (`.cursor/mcp.json` or `~/.codeium/windsurf/mcp_config.json`):
+
+```json
+{
+	"mcpServers": {
+		"eslint": {
+			"command": "npx",
+			"args": ["@eslint/mcp"]
+		}
+	}
+}
+```
+
+When `@eslint/mcp` is installed locally, its bundled ESLint resolves `jiti` from the shared `node_modules` directory via standard Node.js module resolution.
+
+#### Yarn Plug'n'Play (PnP)
+
+Yarn 2+ uses Plug'n'Play by default and does not create a `node_modules` directory. To run `npx @eslint/mcp` in a Yarn project, set `nodeLinker` to `node-modules` in your `.yarnrc.yml` and run `yarn install` again:
+
+```yaml
+nodeLinker: node-modules
+```
+
+With a `node_modules` directory present, the `npx` configuration shown above works as expected. Other Yarn install modes (such as the default Plug'n'Play linker) may not work as expected with `npx @eslint/mcp`.
+
+### Option B: Native Node.js TypeScript Support
+
+If you're using **Node.js >= 22.13.0**, you can load TypeScript configuration files without `jiti` by enabling Node.js type stripping and the ESLint `unstable_native_nodejs_ts_config` flag. Set these as environment variables in your MCP configuration.
+
+**VS Code** (`.vscode/mcp.json`):
+
+```json
+{
+	"servers": {
+		"ESLint": {
+			"type": "stdio",
+			"command": "npx",
+			"args": ["@eslint/mcp@latest"],
+			"env": {
+				"ESLINT_FLAGS": "unstable_native_nodejs_ts_config",
+				"NODE_OPTIONS": "--experimental-transform-types"
+			}
+		}
+	}
+}
+```
+
+**Cursor / Windsurf** (`.cursor/mcp.json` or `~/.codeium/windsurf/mcp_config.json`):
+
+```json
+{
+	"mcpServers": {
+		"eslint": {
+			"command": "npx",
+			"args": ["@eslint/mcp@latest"],
+			"env": {
+				"ESLINT_FLAGS": "unstable_native_nodejs_ts_config",
+				"NODE_OPTIONS": "--experimental-transform-types"
+			}
+		}
+	}
+}
+```
 
 ## Example Prompts
 
