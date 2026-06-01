@@ -181,31 +181,13 @@ When `@eslint/mcp` is installed locally, its bundled ESLint resolves `jiti` from
 
 #### Yarn Plug'n'Play (PnP)
 
-Yarn 2+ uses Plug'n'Play by default and does not create a `node_modules` directory. Because `npx` does not understand Yarn's PnP resolver, `npx @eslint/mcp` falls back to fetching the package into a temporary directory where `jiti` cannot be resolved, and the server fails to load TypeScript configuration files.
+Yarn 2+ uses Plug'n'Play by default and does not create a `node_modules` directory. To run `npx @eslint/mcp` in a Yarn project, set `nodeLinker` to `node-modules` in your `.yarnrc.yml` and run `yarn install` again:
 
-PnP users have two options:
+```yaml
+nodeLinker: node-modules
+```
 
-1. **Run the server through Yarn** so PnP can resolve `jiti` from the project's dependency graph. Use Yarn as the MCP command:
-
-    ```json
-    {
-        "servers": {
-            "ESLint": {
-                "type": "stdio",
-                "command": "yarn",
-                "args": ["run", "-B", "mcp"]
-            }
-        }
-    }
-    ```
-
-2. **Switch the project's linker to `node-modules`** by adding the following to `.yarnrc.yml`, then run `yarn install` again:
-
-    ```yaml
-    nodeLinker: node-modules
-    ```
-
-    With a `node_modules` directory present, the `npx` configuration shown above works as expected.
+With a `node_modules` directory present, the `npx` configuration shown above works as expected. Other Yarn install modes (such as the default Plug'n'Play linker) may not work as expected with `npx @eslint/mcp`.
 
 ### Option B: Native Node.js TypeScript Support
 
