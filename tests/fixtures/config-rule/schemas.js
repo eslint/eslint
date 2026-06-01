@@ -115,4 +115,81 @@ module.exports = {
         }
     }],
 
+    anyOf: [{
+        "anyOf": [
+            {
+                "enum": ["before", "after", "both", "neither"]
+            },
+            {
+                "type": "object",
+                "properties": {
+                    "before": {"type": "boolean"},
+                    "after": {"type": "boolean"}
+                },
+                "additionalProperties": false
+            }
+        ]
+    }],
+
+    items: [{
+        "type": "array",
+        "items": {
+            "type": "string"
+        }
+    }],
+
+    itemsArray: [{
+        "type": "array",
+        "items": [
+            { "type": "string" },
+            { "type": "number" }
+        ]
+    }],
+
+    ref: [{
+        "$ref": "#/definitions/aString"
+    }],
+
+    definitions: {
+        "aString": {
+            "type": "string"
+        }
+    },
+
+    string: [{
+        "type": "string"
+    }],
+
+    number: [{
+        "type": "number"
+    }],
+
+    numberWithMinMax: [{
+        "type": "number",
+        "minimum": 5,
+        "maximum": 10
+    }],
+
+    integer: [{
+        "type": "integer"
+    }],
+
+    objectWithManyEnums: [{
+        "type": "object",
+        "properties": {
+            "enumA": {
+                "enum": ["a1", "a2", "a3"]
+            },
+            "enumB": {
+                "enum": ["b1", "b2", "b3"]
+            },
+            "enumC": {
+                "enum": ["c1", "c2", "c3"]
+            },
+            "enumD": {
+                "enum": ["d1", "d2", "d3"]
+            }
+        },
+        "additionalProperties": false
+    }]
 };
