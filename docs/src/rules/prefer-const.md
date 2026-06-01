@@ -15,7 +15,7 @@ If a variable is never reassigned, using the `const` declaration is better.
 
 ## Rule Details
 
-This rule is aimed at flagging variables that are declared using `let` keyword, but never reassigned after the initial assignment.
+This rule is aimed at flagging variables that are declared using the `let` keyword, but never reassigned after the initial assignment.
 
 Examples of **incorrect** code for this rule:
 
@@ -142,7 +142,7 @@ The kind of the way to address variables in destructuring.
 There are 2 values:
 
 * `"any"` (default) - If any variables in destructuring should be `const`, this rule warns for those variables.
-* `"all"` - If all variables in destructuring should be `const`, this rule warns the variables. Otherwise, ignores them.
+* `"all"` - If all variables in destructuring should be `const`, this rule warns for those variables. Otherwise, ignores them.
 
 Examples of **incorrect** code for the default `{"destructuring": "any"}` option:
 
