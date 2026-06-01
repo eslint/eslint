@@ -4968,6 +4968,16 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default false
 				 */
 				requireCatchParameter: boolean;
+				/**
+				 * @default []
+				 */
+				errorClassNames: Array<
+					| string
+					| {
+							name: string;
+							argumentPosition: number;
+					  }
+				>;
 			}>,
 		]
 	>;
