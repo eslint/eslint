@@ -26,7 +26,7 @@ This rule finds references which are inside of loop conditions, then checks the
 variables of those references are modified in the loop.
 
 If a reference is inside of a binary expression or a ternary expression, this rule checks the result of
-the expression instead.
+the expression instead (it's OK if any of the operands is modified).
 If a reference is inside of a dynamic expression (e.g. `CallExpression`,
 `YieldExpression`, ...), this rule ignores it.
 
@@ -50,6 +50,13 @@ for (let j = 0; j < 5;) {
 
 while (node !== root) {
     doSomething(node);
+}
+
+let done = false;
+// "done" is not modified.
+while (node ? !done : false) {
+    doSomething(node);
+    node = node.parent;
 }
 ```
 
@@ -77,10 +84,11 @@ while (node !== root) {
     node = node.parent;
 }
 
-// OK, the result of this ternary expression is changed in this loop.
+// OK, all three variables are modified in this loop.
 while (node ? A : B) {
-    doSomething(node);
-    node = node.parent;
+    node = node.next;
+    A = getA();
+    B = getB();
 }
 
 // A property might be a getter which has side effect...
