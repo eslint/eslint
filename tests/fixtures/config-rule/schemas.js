@@ -191,5 +191,61 @@ module.exports = {
             }
         },
         "additionalProperties": false
+    }],
+
+    // Top-level anyOf wrapping alternative array forms (like curly, eqeqeq)
+    topLevelAnyOf: {
+        "anyOf": [
+            {
+                "type": "array",
+                "items": [
+                    { "enum": ["all"] }
+                ],
+                "minItems": 0,
+                "maxItems": 1
+            },
+            {
+                "type": "array",
+                "items": [
+                    { "enum": ["multi", "multi-line", "multi-or-nest"] },
+                    { "enum": ["consistent"] }
+                ],
+                "minItems": 0,
+                "maxItems": 2
+            }
+        ]
+    },
+
+    // type:"array" + oneOf with branches that only have items (like logical-assignment-operators)
+    arrayWithOneOf: {
+        "type": "array",
+        "oneOf": [
+            {
+                "items": [
+                    { "const": "always" },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "enforceForIfStatements": { "type": "boolean" }
+                        },
+                        "additionalProperties": false
+                    }
+                ],
+                "minItems": 0,
+                "maxItems": 2
+            },
+            {
+                "items": [
+                    { "const": "never" }
+                ],
+                "minItems": 1,
+                "maxItems": 1
+            }
+        ]
+    },
+
+    // const keyword instead of enum
+    constValue: [{
+        "const": "strict"
     }]
 };

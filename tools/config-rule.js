@@ -257,6 +257,10 @@ function getPossibleValuesFromSchema(schema, rootSchema) {
 		}
 	}
 
+	if ("const" in schema) {
+		return [schema.const];
+	}
+
 	if (schema.enum) {
 		return schema.enum;
 	}
@@ -402,15 +406,43 @@ class RuleConfigSet {
  * @returns {Array[]} Valid rule configurations
  */
 function generateConfigsFromSchema(schema) {
+	/*
+	 * Rules like eqeqeq, curly, func-name-matching, init-declarations,
+	 * logical-assignment-operators, and object-shorthand describe alternative
+	 * option-array forms via a top-level oneOf/anyOf.  Generate configs for
+	 * each alternative and combine them.
+	 */
+	if (schema && !Array.isArray(schema)) {
+		const alternatives = schema.oneOf || schema.anyOf;
+
+		if (Array.isArray(alternatives)) {
+			const configs = alternatives.flatMap(alternative =>
+				generateConfigsFromSchema(alternative),
+			);
+
+			// De-duplicate: branches commonly overlap on the severity-only config.
+			const seen = new Set();
+
+			return configs.filter(config => {
+				const key = JSON.stringify(config);
+
+				if (seen.has(key)) {
+					return false;
+				}
+				seen.add(key);
+				return true;
+			});
+		}
+	}
+
 	const configSet = new RuleConfigSet();
 	let schemas = schema;
 
-	if (
-		schema &&
-		!Array.isArray(schema) &&
-		schema.type === "array" &&
-		Array.isArray(schema.items)
-	) {
+	/*
+	 * Accept `{ type: "array", items: [...] }` as well as oneOf/anyOf branches
+	 * that only carry `items` without `type` (e.g. logical-assignment-operators).
+	 */
+	if (schema && !Array.isArray(schema) && Array.isArray(schema.items)) {
 		schemas = schema.items;
 	}
 

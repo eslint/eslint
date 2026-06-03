@@ -448,6 +448,102 @@ describe("ConfigRule", () => {
 				assert.isAtMost(actualConfigs.length, 51);
 			});
 		});
+
+		describe("for a schema with a top-level anyOf (like curly, eqeqeq)", () => {
+			const actualConfigs = generateConfigsFromSchema(
+				schema.topLevelAnyOf,
+			);
+
+			it("should create configs from all branches", () => {
+				assert.isArray(actualConfigs);
+
+				// Should have configs from both branches
+				assert.isTrue(actualConfigs.length > 1);
+			});
+
+			it("should include enum values from both branches", () => {
+				const options = actualConfigs
+					.filter(c => Array.isArray(c))
+					.map(c => c[1]);
+
+				// Branch 1: "all"
+				assert.include(options, "all");
+
+				// Branch 2: "multi", "multi-line", "multi-or-nest"
+				assert.include(options, "multi");
+				assert.include(options, "multi-line");
+				assert.include(options, "multi-or-nest");
+			});
+
+			it("should include second-position enum from the second branch", () => {
+				const secondOptions = actualConfigs
+					.filter(c => Array.isArray(c) && c.length >= 3)
+					.map(c => c[2]);
+
+				assert.include(secondOptions, "consistent");
+			});
+
+			it("should deduplicate the severity-only config", () => {
+				const severityOnlyCount = actualConfigs.filter(
+					c => c === 2,
+				).length;
+
+				assert.strictEqual(severityOnlyCount, 1);
+			});
+		});
+
+		describe("for a schema with type:array + oneOf (like logical-assignment-operators)", () => {
+			const actualConfigs = generateConfigsFromSchema(
+				schema.arrayWithOneOf,
+			);
+
+			it("should create configs from all oneOf branches", () => {
+				assert.isArray(actualConfigs);
+				assert.isTrue(actualConfigs.length > 1);
+			});
+
+			it("should include const values from both branches", () => {
+				const options = actualConfigs
+					.filter(c => Array.isArray(c))
+					.map(c => c[1]);
+
+				// Branch 1 uses { const: "always" }, Branch 2 uses { const: "never" }
+				assert.include(options, "always");
+				assert.include(options, "never");
+			});
+
+			it("should include object configs from the first branch", () => {
+				const objectConfigs = actualConfigs.filter(
+					c =>
+						Array.isArray(c) &&
+						c.length >= 3 &&
+						typeof c[2] === "object",
+				);
+
+				assert.isTrue(
+					objectConfigs.length > 0,
+					"should have configs with object options from the 'always' branch",
+				);
+			});
+
+			it("should deduplicate the severity-only config", () => {
+				const severityOnlyCount = actualConfigs.filter(
+					c => c === 2,
+				).length;
+
+				assert.strictEqual(severityOnlyCount, 1);
+			});
+		});
+
+		describe("for a schema with a const value", () => {
+			const actualConfigs = generateConfigsFromSchema(schema.constValue);
+
+			it("should create configs with the const value", () => {
+				assert.isArray(actualConfigs);
+				assert.strictEqual(actualConfigs.length, 2);
+				assert.deepStrictEqual(actualConfigs[1], [2, "strict"]);
+			});
+		});
 	});
 
 	describe("createCoreRuleConfigs()", () => {
