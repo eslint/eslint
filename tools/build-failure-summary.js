@@ -18,7 +18,7 @@ const path = require("node:path");
 
 module.exports = async ({ core }) => {
 	const resultsPath = path.join(
-		process.env.GITHUB_WORKSPACE,
+		process.cwd(),
 		"ecosystem",
 		".ecosystem-results.json",
 	);

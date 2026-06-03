@@ -30,6 +30,7 @@ module.exports = async ({ github, context, core }) => {
 		owner: context.repo.owner,
 		repo: context.repo.repo,
 		labels: label,
+		state: "open",
 	});
 
 	const existing = issues.find(i => i.title.startsWith(title));
