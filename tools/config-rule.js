@@ -409,8 +409,11 @@ function generateConfigsFromSchema(schema) {
 	/*
 	 * Rules like eqeqeq, curly, func-name-matching, init-declarations,
 	 * logical-assignment-operators, and object-shorthand describe alternative
-	 * option-array forms via a top-level oneOf/anyOf.  Generate configs for
-	 * each alternative and combine them.
+	 * option-array forms via a top-level oneOf/anyOf.
+	 * We intentionally treat both oneOf and anyOf as a union, generating
+	 * configs that are valid under at least one branch.
+	 * Note: MAX_CONFIGS_PER_RULE limits combinations per-branch, so the
+	 * total unioned config count across all branches can exceed this limit.
 	 */
 	if (schema && !Array.isArray(schema)) {
 		const alternatives = schema.oneOf || schema.anyOf;
