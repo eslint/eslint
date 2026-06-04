@@ -105,6 +105,26 @@ ruleTester.run("max-depth", rule, {
 			],
 		},
 		{
+			code: "function foo() { if (a) {} else if (b) {} if (c) { if (d) {} } }",
+			options: [1],
+			errors: [
+				{
+					messageId: "tooDeeply",
+					data: { depth: 2, maxDepth: 1 },
+				},
+			],
+		},
+		{
+			code: "if (a) if (b) {}",
+			options: [1],
+			errors: [
+				{
+					messageId: "tooDeeply",
+					data: { depth: 2, maxDepth: 1 },
+				},
+			],
+		},
+		{
 			code: "function foo() { while (true) { if (true) {} } }",
 			options: [1],
 			errors: [
