@@ -187,7 +187,7 @@ Yarn 2+ uses Plug'n'Play by default and does not create a `node_modules` directo
 nodeLinker: node-modules
 ```
 
-With a `node_modules` directory present, the `npx` configuration shown above works as expected. Other Yarn install modes (such as the default Plug'n'Play linker) may not work as expected with `npx @eslint/mcp`.
+With a `node_modules` directory present, the `npx` configuration shown above works as expected. The `nodeLinker: pnpm` setting also works. Only the default Plug'n'Play (`nodeLinker: pnp`) mode is not supported with `npx @eslint/mcp`.
 
 ### Option B: Native Node.js TypeScript Support
 
