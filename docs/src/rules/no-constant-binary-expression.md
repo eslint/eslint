@@ -87,4 +87,38 @@ const arrIsEmpty = someArr.length === 0;
 
 ## Options
 
-This rule has no options.
+This rule has an object option:
+
+* `"checkRelationalComparisons": true` (default `false`) checks for relational comparisons (`<`, `<=`, `>`, `>=`) where both sides are literal values.
+
+### checkRelationalComparisons
+
+Examples of **incorrect** code for this rule with the `{ "checkRelationalComparisons": true }` option:
+
+::: incorrect
+
+```js
+/*eslint no-constant-binary-expression: ["error", { "checkRelationalComparisons": true } ]*/
+
+const value1 = 1 < 2;
+
+const value2 = "a" >= "b";
+
+const value3 = true > false;
+```
+
+:::
+
+Examples of **correct** code for this rule with the `{ "checkRelationalComparisons": true }` option:
+
+::: correct
+
+```js
+/*eslint no-constant-binary-expression: ["error", { "checkRelationalComparisons": true } ]*/
+
+const value1 = 1 < x;
+
+const value2 = a >= b;
+```
+
+:::
