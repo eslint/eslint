@@ -115,4 +115,137 @@ module.exports = {
         }
     }],
 
+    anyOf: [{
+        "anyOf": [
+            {
+                "enum": ["before", "after", "both", "neither"]
+            },
+            {
+                "type": "object",
+                "properties": {
+                    "before": {"type": "boolean"},
+                    "after": {"type": "boolean"}
+                },
+                "additionalProperties": false
+            }
+        ]
+    }],
+
+    items: [{
+        "type": "array",
+        "items": {
+            "type": "string"
+        }
+    }],
+
+    itemsArray: [{
+        "type": "array",
+        "items": [
+            { "type": "string" },
+            { "type": "number" }
+        ]
+    }],
+
+    ref: [{
+        "$ref": "#/definitions/aString"
+    }],
+
+    definitions: {
+        "aString": {
+            "type": "string"
+        }
+    },
+
+    string: [{
+        "type": "string"
+    }],
+
+    number: [{
+        "type": "number"
+    }],
+
+    numberWithMinMax: [{
+        "type": "number",
+        "minimum": 5,
+        "maximum": 10
+    }],
+
+    integer: [{
+        "type": "integer"
+    }],
+
+    objectWithManyEnums: [{
+        "type": "object",
+        "properties": {
+            "enumA": {
+                "enum": ["a1", "a2", "a3"]
+            },
+            "enumB": {
+                "enum": ["b1", "b2", "b3"]
+            },
+            "enumC": {
+                "enum": ["c1", "c2", "c3"]
+            },
+            "enumD": {
+                "enum": ["d1", "d2", "d3"]
+            }
+        },
+        "additionalProperties": false
+    }],
+
+    // Top-level anyOf wrapping alternative array forms (like curly, eqeqeq)
+    topLevelAnyOf: {
+        "anyOf": [
+            {
+                "type": "array",
+                "items": [
+                    { "enum": ["all"] }
+                ],
+                "minItems": 0,
+                "maxItems": 1
+            },
+            {
+                "type": "array",
+                "items": [
+                    { "enum": ["multi", "multi-line", "multi-or-nest"] },
+                    { "enum": ["consistent"] }
+                ],
+                "minItems": 0,
+                "maxItems": 2
+            }
+        ]
+    },
+
+    // type:"array" + oneOf with branches that only have items (like logical-assignment-operators)
+    arrayWithOneOf: {
+        "type": "array",
+        "oneOf": [
+            {
+                "items": [
+                    { "const": "always" },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "enforceForIfStatements": { "type": "boolean" }
+                        },
+                        "additionalProperties": false
+                    }
+                ],
+                "minItems": 0,
+                "maxItems": 2
+            },
+            {
+                "items": [
+                    { "const": "never" }
+                ],
+                "minItems": 1,
+                "maxItems": 1
+            }
+        ]
+    },
+
+    // const keyword instead of enum
+    constValue: [{
+        "const": "strict"
+    }]
 };
