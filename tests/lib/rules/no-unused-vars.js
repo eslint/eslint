@@ -4970,12 +4970,12 @@ try {
 
 		// Safe removal: ClassDeclaration inside block
 		{
-			code: "{ class Unused {} }",
+			code: "{ console.log(); class Unused {} }",
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
 				definedError("Unused", [
 					{
-						output: "{  }",
+						output: "{ console.log();  }",
 						messageId: "removeVar",
 						data: { varName: "Unused" },
 					},
@@ -4985,11 +4985,11 @@ try {
 
 		// Safe removal: FunctionDeclaration is the last statement
 		{
-			code: "function unused() {}",
+			code: "console.log();\nfunction unused() {}",
 			errors: [
 				definedError("unused", [
 					{
-						output: "",
+						output: "console.log();\n",
 						messageId: "removeVar",
 						data: { varName: "unused" },
 					},
@@ -4999,12 +4999,12 @@ try {
 
 		// Safe removal: ClassDeclaration is the last statement
 		{
-			code: "class Unused {}",
+			code: "console.log();\nclass Unused {}",
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
 				definedError("Unused", [
 					{
-						output: "",
+						output: "console.log();\n",
 						messageId: "removeVar",
 						data: { varName: "Unused" },
 					},
