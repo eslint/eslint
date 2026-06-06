@@ -4790,6 +4790,76 @@ try {
 			],
 		},
 
+		// ASI hazard: Safe removal of function after BlockStatement
+		{
+			code: "if (true) {}\nfunction unused() {}\n(console.log)()",
+			errors: [
+				definedError("unused", [
+					{
+						output: "if (true) {}\n\n(console.log)()",
+						messageId: "removeVar",
+						data: { varName: "unused" },
+					},
+				]),
+			],
+		},
+
+		// ASI hazard: Safe removal of function after ClassBody
+		{
+			code: "export class A {}\nfunction unused() {}\n(console.log)()",
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+			errors: [
+				definedError("unused", [
+					{
+						output: "export class A {}\n\n(console.log)()",
+						messageId: "removeVar",
+						data: { varName: "unused" },
+					},
+				]),
+			],
+		},
+
+		// ASI hazard: Safe removal of function after SwitchStatement
+		{
+			code: "switch (1) {}\nfunction unused() {}\n(console.log)()",
+			errors: [
+				definedError("unused", [
+					{
+						output: "switch (1) {}\n\n(console.log)()",
+						messageId: "removeVar",
+						data: { varName: "unused" },
+					},
+				]),
+			],
+		},
+
+		// ASI hazard: Unsafe removal of function after ArrowFunctionExpression
+		{
+			code: "export const f = () => {}\nfunction unused() {}\n(console.log)()",
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+			errors: [
+				definedError("unused"),
+			],
+		},
+
+		// ASI hazard: Unsafe removal of function after FunctionExpression
+		{
+			code: "export const f = function() {}\nfunction unused() {}\n(console.log)()",
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+			errors: [
+				definedError("unused"),
+			],
+		},
+
+		// ASI hazard: Unsafe removal of function after ObjectExpression
+		{
+			code: "export const obj = { a: 1 }\nfunction unused() {}\n(console.log)()",
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+			errors: [
+				definedError("unused"),
+			],
+		},
+
 		// ASI hazard: FunctionDeclaration removal followed by (
 		{
 			code: "const x = 1\nfunction unused() {}\n(console.log)()",
@@ -4841,6 +4911,22 @@ try {
 		// ASI hazard: multi-declaration last declarator removal followed by (
 		{
 			code: "const x = 1,\n      y = () => {}\n(console.log)()",
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+			errors: [
+				assignedError("x", [
+					{
+						output: "const \n      y = () => {}\n(console.log)()",
+						messageId: "removeVar",
+						data: { varName: "x" },
+					},
+				]),
+				assignedError("y"),
+			],
+		},
+
+		// ASI hazard: multi-declaration last declarator removal followed by ( with destructuring
+		{
+			code: "const { x } = obj,\n      y = () => {}\n(console.log)()",
 			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
 			errors: [
 				assignedError("x", [
