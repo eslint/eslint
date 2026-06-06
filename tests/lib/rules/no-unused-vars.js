@@ -4837,27 +4837,21 @@ try {
 		{
 			code: "export const f = () => {}\nfunction unused() {}\n(console.log)()",
 			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
-			errors: [
-				definedError("unused"),
-			],
+			errors: [definedError("unused")],
 		},
 
 		// ASI hazard: Unsafe removal of function after FunctionExpression
 		{
 			code: "export const f = function() {}\nfunction unused() {}\n(console.log)()",
 			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
-			errors: [
-				definedError("unused"),
-			],
+			errors: [definedError("unused")],
 		},
 
 		// ASI hazard: Unsafe removal of function after ObjectExpression
 		{
 			code: "export const obj = { a: 1 }\nfunction unused() {}\n(console.log)()",
 			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
-			errors: [
-				definedError("unused"),
-			],
+			errors: [definedError("unused")],
 		},
 
 		// ASI hazard: FunctionDeclaration removal followed by (
@@ -5016,9 +5010,7 @@ try {
 		{
 			code: "const before = true\nfunction unused() {}\nif (before) {}",
 			languageOptions: { ecmaVersion: 2022 },
-			errors: [
-				definedError("unused"),
-			],
+			errors: [definedError("unused")],
 		},
 
 		// Safe removal: FunctionDeclaration with comment before
