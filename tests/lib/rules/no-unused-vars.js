@@ -5012,6 +5012,15 @@ try {
 			],
 		},
 
+		// ASI hazard abort: missing semicolon before function declaration (not strictly required but aborts to be safe)
+		{
+			code: "const before = true\nfunction unused() {}\nif (before) {}",
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [
+				definedError("unused"),
+			],
+		},
+
 		// Safe removal: FunctionDeclaration with comment before
 		{
 			code: "/* comment */\nfunction unused() {}\n(a) => {}",
