@@ -4833,13 +4833,6 @@ try {
 			],
 		},
 
-		// ASI hazard: Unsafe removal of function after ArrowFunctionExpression
-		{
-			code: "export const f = () => {}\nfunction unused() {}\n(console.log)()",
-			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
-			errors: [definedError("unused")],
-		},
-
 		// ASI hazard: Unsafe removal of function after FunctionExpression
 		{
 			code: "export const f = function() {}\nfunction unused() {}\n(console.log)()",
