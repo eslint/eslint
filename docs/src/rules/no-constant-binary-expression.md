@@ -33,7 +33,7 @@ const isEmpty = x === [];
 
 This rule identifies `==` and `===` comparisons which, based on the semantics of the JavaScript language, will always evaluate to `true` or `false`.
 
-It also identifies `||`, `&&` and `??` logical expressions which will either always or never short-circuit.
+It also identifies `||`, `&&` and `??` logical expressions which will either always or never short-circuit. Additionally, when configured with the `checkRelationalComparisons` option, it can identify constant relational comparisons (such as `<` or `>=`).
 
 Examples of **incorrect** code for this rule:
 
@@ -105,6 +105,8 @@ const value1 = 1 < 2;
 const value2 = "a" >= "b";
 
 const value3 = true > false;
+
+const hasStreak = profile.streak ?? 0 > 1;
 ```
 
 :::
@@ -119,6 +121,8 @@ Examples of **correct** code for this rule with the `{ "checkRelationalCompariso
 const value1 = 1 < x;
 
 const value2 = a >= b;
+
+const hasStreak = (profile.streak ?? 0) > 1;
 ```
 
 :::

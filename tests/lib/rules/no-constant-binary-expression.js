@@ -119,6 +119,14 @@ ruleTester.run("no-constant-binary-expression", rule, {
 			code: "-x >= 5",
 			options: [{ checkRelationalComparisons: true }],
 		},
+		{
+			code: "x < /a/",
+			options: [{ checkRelationalComparisons: true }],
+		},
+		{
+			code: "/a/ >= x",
+			options: [{ checkRelationalComparisons: true }],
+		},
 	],
 	invalid: [
 		// Error messages
@@ -2163,6 +2171,26 @@ ruleTester.run("no-constant-binary-expression", rule, {
 				{
 					messageId: "constantRelationalComparison",
 					data: { operator: ">" },
+				},
+			],
+		},
+		{
+			code: "/a/ < /b/",
+			options: [{ checkRelationalComparisons: true }],
+			errors: [
+				{
+					messageId: "constantRelationalComparison",
+					data: { operator: "<" },
+				},
+			],
+		},
+		{
+			code: "/a/ >= /b/",
+			options: [{ checkRelationalComparisons: true }],
+			errors: [
+				{
+					messageId: "constantRelationalComparison",
+					data: { operator: ">=" },
 				},
 			],
 		},
