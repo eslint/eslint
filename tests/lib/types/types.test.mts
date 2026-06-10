@@ -146,7 +146,10 @@ sourceCode.getLines();
 
 sourceCode.getAllComments();
 
-sourceCode.getNodeByRangeIndex(0);
+const nodeByRangeIndex = sourceCode.getNodeByRangeIndex(0);
+if (nodeByRangeIndex) {
+	nodeByRangeIndex.parent;
+}
 
 sourceCode.getNodeByRangeIndex(0);
 
@@ -460,6 +463,7 @@ sourceCode.markVariableAsUsed("foo", AST);
 sourceCode.getDeclaredVariables(AST); // $ExpectType Variable[]
 
 sourceCode.getAncestors(AST); // $ExpectType Node[]
+sourceCode.getAncestors(AST)[0].parent;
 
 // #endregion
 
@@ -484,16 +488,20 @@ const scope = scopeManager.scopes[0];
 scope.implicit;
 scope.implicit?.variables;
 scope.implicit?.set;
+scope.block.parent;
 
 const variable = scope.variables[0];
 
 variable.name = "foo";
 
 variable.identifiers[0].type = "Identifier";
+variable.identifiers[0].parent;
 
 variable.defs[0].name.type = "Identifier";
+variable.defs[0].name.parent;
 variable.defs[0].type;
 variable.defs[0].node;
+variable.defs[0].node.parent;
 variable.defs[0].parent;
 
 const reference = scope.references[0];
@@ -501,6 +509,7 @@ const reference = scope.references[0];
 reference.from = scope;
 reference.identifier.type = "Identifier";
 reference.identifier.type = "JSXIdentifier";
+reference.identifier.parent;
 reference.resolved = variable;
 reference.writeExpr = { type: "Identifier", name: "foo" };
 // @ts-expect-error

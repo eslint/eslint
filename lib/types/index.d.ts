@@ -122,6 +122,10 @@ interface JSXIdentifier extends ESTree.BaseNode {
 	name: string;
 }
 
+type NodeWithParent<T extends ESTree.Node = ESTree.Node> = T &
+	Rule.NodeParentExtension;
+type JSXIdentifierWithParent = JSXIdentifier & Rule.NodeParentExtension;
+
 export namespace Scope {
 	interface ScopeManager {
 		scopes: Scope[];
@@ -152,7 +156,7 @@ export namespace Scope {
 		upper: Scope | null;
 		childScopes: Scope[];
 		variableScope: Scope;
-		block: ESTree.Node;
+		block: Rule.Node;
 		variables: Variable[];
 		set: Map<string, Variable>;
 		references: Reference[];
@@ -167,13 +171,13 @@ export namespace Scope {
 	interface Variable {
 		name: string;
 		scope: Scope;
-		identifiers: ESTree.Identifier[];
+		identifiers: NodeWithParent<ESTree.Identifier>[];
 		references: Reference[];
 		defs: Definition[];
 	}
 
 	interface Reference {
-		identifier: ESTree.Identifier | JSXIdentifier;
+		identifier: NodeWithParent<ESTree.Identifier> | JSXIdentifierWithParent;
 		from: Scope;
 		resolved: Variable | null;
 		writeExpr?: ESTree.Expression | null;
@@ -191,48 +195,58 @@ export namespace Scope {
 	}
 
 	type DefinitionType =
-		| { type: "CatchClause"; node: ESTree.CatchClause; parent: null }
+		| {
+				type: "CatchClause";
+				node: NodeWithParent<ESTree.CatchClause>;
+				parent: null;
+		  }
 		| {
 				type: "ClassName";
-				node: ESTree.ClassDeclaration | ESTree.ClassExpression;
+				node:
+					| NodeWithParent<ESTree.ClassDeclaration>
+					| NodeWithParent<ESTree.ClassExpression>;
 				parent: null;
 		  }
 		| {
 				type: "FunctionName";
-				node: ESTree.FunctionDeclaration | ESTree.FunctionExpression;
+				node:
+					| NodeWithParent<ESTree.FunctionDeclaration>
+					| NodeWithParent<ESTree.FunctionExpression>;
 				parent: null;
 		  }
 		| {
 				type: "ImplicitGlobalVariable";
 				node:
-					| ESTree.AssignmentExpression
-					| ESTree.ForInStatement
-					| ESTree.ForOfStatement;
+					| NodeWithParent<ESTree.AssignmentExpression>
+					| NodeWithParent<ESTree.ForInStatement>
+					| NodeWithParent<ESTree.ForOfStatement>;
 				parent: null;
 		  }
 		| {
 				type: "ImportBinding";
 				node:
-					| ESTree.ImportSpecifier
-					| ESTree.ImportDefaultSpecifier
-					| ESTree.ImportNamespaceSpecifier;
+					| NodeWithParent<ESTree.ImportSpecifier>
+					| NodeWithParent<ESTree.ImportDefaultSpecifier>
+					| NodeWithParent<ESTree.ImportNamespaceSpecifier>;
 				parent: ESTree.ImportDeclaration;
 		  }
 		| {
 				type: "Parameter";
 				node:
-					| ESTree.FunctionDeclaration
-					| ESTree.FunctionExpression
-					| ESTree.ArrowFunctionExpression;
+					| NodeWithParent<ESTree.FunctionDeclaration>
+					| NodeWithParent<ESTree.FunctionExpression>
+					| NodeWithParent<ESTree.ArrowFunctionExpression>;
 				parent: null;
 		  }
 		| {
 				type: "Variable";
-				node: ESTree.VariableDeclarator;
+				node: NodeWithParent<ESTree.VariableDeclarator>;
 				parent: ESTree.VariableDeclaration;
 		  };
 
-	type Definition = DefinitionType & { name: ESTree.Identifier };
+	type Definition = DefinitionType & {
+		name: NodeWithParent<ESTree.Identifier>;
+	};
 }
 
 // #region SourceCode
@@ -269,11 +283,11 @@ export class SourceCode implements TextSourceCode<{
 
 	getAllComments(): ESTree.Comment[];
 
-	getAncestors(node: ESTree.Node): ESTree.Node[];
+	getAncestors(node: ESTree.Node): Rule.Node[];
 
 	getDeclaredVariables(node: ESTree.Node): Scope.Variable[];
 
-	getNodeByRangeIndex(index: number): ESTree.Node | null;
+	getNodeByRangeIndex(index: number): Rule.Node | null;
 
 	getLocFromIndex(index: number): ESTree.Position;
 
