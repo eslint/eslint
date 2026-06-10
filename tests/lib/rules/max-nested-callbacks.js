@@ -73,6 +73,10 @@ ruleTester.run("max-nested-callbacks", rule, {
 				{
 					messageId: "exceed",
 					data: { num: 3, max: 2 },
+					line: 1,
+					column: 50,
+					endLine: 1,
+					endColumn: 58,
 				},
 			],
 		},
@@ -84,6 +88,10 @@ ruleTester.run("max-nested-callbacks", rule, {
 				{
 					messageId: "exceed",
 					data: { num: 3, max: 2 },
+					line: 1,
+					column: 45,
+					endLine: 1,
+					endColumn: 53,
 				},
 			],
 		},
@@ -95,6 +103,10 @@ ruleTester.run("max-nested-callbacks", rule, {
 				{
 					messageId: "exceed",
 					data: { num: 3, max: 2 },
+					line: 1,
+					column: 44,
+					endLine: 1,
+					endColumn: 46,
 				},
 			],
 		},
@@ -105,6 +117,10 @@ ruleTester.run("max-nested-callbacks", rule, {
 				{
 					messageId: "exceed",
 					data: { num: 3, max: 2 },
+					line: 1,
+					column: 57,
+					endLine: 1,
+					endColumn: 65,
 				},
 			],
 		},
@@ -114,6 +130,10 @@ ruleTester.run("max-nested-callbacks", rule, {
 				{
 					messageId: "exceed",
 					data: { num: 11, max: 10 },
+					line: 1,
+					column: 165,
+					endLine: 1,
+					endColumn: 173,
 				},
 			],
 		},
@@ -124,13 +144,26 @@ ruleTester.run("max-nested-callbacks", rule, {
 				{
 					messageId: "exceed",
 					data: { num: 11, max: 10 },
+					line: 1,
+					column: 165,
+					endLine: 1,
+					endColumn: 173,
 				},
 			],
 		},
 		{
 			code: "foo(function() {})",
 			options: [{ max: 0 }],
-			errors: [{ messageId: "exceed", data: { num: 1, max: 0 } }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { num: 1, max: 0 },
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
 		},
 
 		// object property options
@@ -141,6 +174,10 @@ ruleTester.run("max-nested-callbacks", rule, {
 				{
 					messageId: "exceed",
 					data: { num: 3, max: 2 },
+					line: 1,
+					column: 50,
+					endLine: 1,
+					endColumn: 58,
 				},
 			],
 		},
