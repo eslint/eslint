@@ -863,6 +863,11 @@ ruleTester.run("complexity", rule, {
 			errors: [makeError("Function 'a'", 1, 0)],
 		},
 		{
+			code: "function a(x) {}",
+			options: [{ maximum: 0 }],
+			errors: [makeError("Function 'a'", 1, 0)],
+		},
+		{
 			code: "const obj = { b: (a) => a?.b?.c, c: function (a) { return a?.b?.c; } };",
 			options: [{ max: 2 }],
 			errors: [

@@ -390,6 +390,20 @@ ruleTester.run("max-statements", rule, {
 			],
 		},
 		{
+			code: "function foo() { 1; }",
+			options: [{ maximum: 0 }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'foo'", count: 1, max: 0 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
+		},
+		{
 			code: "function foo() { foo_1; /* foo_ 2 */ class C { static { one; two; three; four; { five; six; seven; eight; } } } foo_3 }",
 			options: [2],
 			languageOptions: { ecmaVersion: 2022 },
