@@ -81,6 +81,34 @@ ruleTester.run("max-nested-callbacks", rule, {
 			],
 		},
 		{
+			code: "foo(function() { const helper = function() {}; bar(function() { baz(function() {}); }); });",
+			options: [2],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { num: 3, max: 2 },
+					line: 1,
+					column: 69,
+					endLine: 1,
+					endColumn: 77,
+				},
+			],
+		},
+		{
+			code: "foo(function() { const helper = () => {}; bar(function() { baz(function() {}); }); });",
+			options: [2],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { num: 3, max: 2 },
+					line: 1,
+					column: 64,
+					endLine: 1,
+					endColumn: 72,
+				},
+			],
+		},
+		{
 			code: "foo(function() { bar(thing, (data) => { baz(function() {}); }); });",
 			options: [2],
 			languageOptions: { ecmaVersion: 6 },
