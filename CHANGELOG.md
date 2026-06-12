@@ -1,3 +1,27 @@
+v10.5.0 - June 12, 2026
+
+* [`5ca8c52`](https://github.com/eslint/eslint/commit/5ca8c5278edea1fd84d3ba83d8ea3f52fb3831ad) feat: correct stack tracking in max-nested-callbacks (#20973) (Pixel998)
+* [`b565783`](https://github.com/eslint/eslint/commit/b5657837604fa5e8cf1278074782025cadd34b6c) feat: report no-with violations at the with keyword (#20971) (Pixel998)
+* [`2ce032f`](https://github.com/eslint/eslint/commit/2ce032fbc72a1a80c024c084a4f382fb6dece684) feat: report max-lines-per-function violations at function head (#20966) (Pixel998)
+* [`732cb3e`](https://github.com/eslint/eslint/commit/732cb3e09d5b8b809b5f461d118a5d9fdcd6427f) feat: report max-nested-callbacks violations at function head (#20967) (Pixel998)
+* [`f9c138a`](https://github.com/eslint/eslint/commit/f9c138a0ba7d8e37aed39aef4a3ff1cae8c669f7) feat: report max-depth violations on keywords (#20943) (Pixel998)
+* [`8ae1b5b`](https://github.com/eslint/eslint/commit/8ae1b5b856dc031cd6c701d89a4df7da4772cd56) docs: Update README (GitHub Actions Bot)
+* [`ca7eb90`](https://github.com/eslint/eslint/commit/ca7eb90127dcad917188bb1342623f02a272e781) docs: update Node.js prerequisites to include ICU support (#20962) (Francesco Trotta)
+* [`b18bf58`](https://github.com/eslint/eslint/commit/b18bf58c5ac748415ffffdff2d96980fbd6a57e8) chore: update ecosystem plugins (#20959) (ESLint Bot)
+* [`c2d1444`](https://github.com/eslint/eslint/commit/c2d1444df77cb42e5a0b89ab70496879d180a54d) refactor: replace areAllSegmentsUnreachable with !isAnySegmentReachable (#20951) (Taejin Kim)
+* [`bdb496c`](https://github.com/eslint/eslint/commit/bdb496cc0d54b6d0a023aef9abd5f040ccff2101) feat: correct max-depth handling for else-if chains (#20944) (Pixel998)
+* [`243b8c5`](https://github.com/eslint/eslint/commit/243b8c56014bbbe63771185b0731d8dd4d1316e9) chore: enhance config-rule to support oneOf, anyOf, and nested schemas (#20788) (kuldeep kumar)
+* [`217b2a9`](https://github.com/eslint/eslint/commit/217b2a91f46137c5ffd693965e71306c4c15ea6b) test: add unit tests for ParserService (#20949) (Taejin Kim)
+* [`72003e7`](https://github.com/eslint/eslint/commit/72003e781d76bd4ee0d98a6601730d0b829070f9) test: add location information to error messages in `max-statements` (#20945) (lumir)
+* [`c296873`](https://github.com/eslint/eslint/commit/c29687354a7f96093f57f7d73eecb866ad5e2953) feat: update error loc in `max-statements` to function header (#20907) (Taejin Kim)
+* [`7797c26`](https://github.com/eslint/eslint/commit/7797c266977b0bc4971aa79721813d480de72cd1) refactor: deduplicate isAnySegmentReachable across rules (#20890) (Taejin Kim)
+* [`f99b47a`](https://github.com/eslint/eslint/commit/f99b47a6799be25321552402a49303bb06a43fe4) docs: Update README (GitHub Actions Bot)
+* [`67c46fa`](https://github.com/eslint/eslint/commit/67c46fa6e4f34e88cc6bc82f8a0dcc917c65d257) chore: update ecosystem plugins (#20938) (ESLint Bot)
+* [`95d8c7a`](https://github.com/eslint/eslint/commit/95d8c7a99f991abd8ab618d0ee2cbd4f58effc29) chore: update dependency @eslint/json to v2 (#20934) (renovate[bot])
+* [`acf03d4`](https://github.com/eslint/eslint/commit/acf03d4eed31d259c7dc62af5b9640629784f7cc) docs: clarify precedence of parserOptions over languageOptions (#20926) (sethamus)
+* [`cf9e496`](https://github.com/eslint/eslint/commit/cf9e496205142cd4971b9f98aed85866d1010b9c) chore: update @arethetypeswrong/cli to 0.18.3 (#20933) (Pixel998)
+* [`fb6d396`](https://github.com/eslint/eslint/commit/fb6d3960cacc51fc12383fa5ded2382adbf90c1c) test: run type tests with TypeScript 7 (#20868) (sethamus)
+
 v10.4.1 - May 29, 2026
 
 * [`e557467`](https://github.com/eslint/eslint/commit/e557467db7496220eebcbe2ac5ea6d38c12bb1ec) fix: update `@eslint/plugin-kit` version to 0.7.2 (#20930) (Francesco Trotta)
