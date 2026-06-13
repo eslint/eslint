@@ -24,7 +24,7 @@ The `@eslint/v9-to-v10` codemod upgrades ESLint projects from v9 to v10. It incl
 npx codemod @eslint/v9-to-v10
 ```
 
-Learn more in the [Codemod Registry](https://codemod.link/eslint).
+Learn more in the [Codemod Registry](https://app.codemod.com/registry?q=scope%3Aeslint).
 
 Codemods are a starting point. Review the changes and consult the breaking changes below for anything the codemods do not cover.
 
