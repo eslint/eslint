@@ -32,7 +32,6 @@ The lists below are ordered roughly by the number of users each change is expect
 
 ## Table of Contents
 
-- [Use migration codemods](#use-migration-codemods)
 
 ### Breaking changes for users
 
@@ -83,7 +82,8 @@ ESLint is officially dropping support for these versions of Node.js starting wit
 - Node.js v22.13.0 and above
 - Node.js v24 and above
 
-**To address:** The migration codemods do not cover this change. Make sure you upgrade to at least Node.js v20.19.0 when using ESLint v10.0.0. One important thing to double check is the Node.js version supported by your editor when using ESLint via editor integrations. If you are unable to upgrade, we recommend continuing to use ESLint v9 until you are able to upgrade Node.js.
+**Codemod:** The migration codemods do not cover this change. 
+**To address:** Make sure you upgrade to at least Node.js v20.19.0 when using ESLint v10.0.0. One important thing to double check is the Node.js version supported by your editor when using ESLint via editor integrations. If you are unable to upgrade, we recommend continuing to use ESLint v9 until you are able to upgrade Node.js.
 
 **Related issue(s):** [#19969](https://github.com/eslint/eslint/issues/19969)
 
