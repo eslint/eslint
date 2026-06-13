@@ -841,6 +841,24 @@ ruleTester.run("no-constant-binary-expression", rule, {
 				},
 			],
 		},
+		{
+			code: "Symbol(x) ?? foo",
+			errors: [
+				{
+					messageId: "constantShortCircuit",
+					data: { property: "nullishness", operator: "??" },
+				},
+			],
+		},
+		{
+			code: "BigInt(x) ?? foo",
+			errors: [
+				{
+					messageId: "constantShortCircuit",
+					data: { property: "nullishness", operator: "??" },
+				},
+			],
+		},
 
 		// Binary expression with comparison to null
 		{
@@ -1668,6 +1686,24 @@ ruleTester.run("no-constant-binary-expression", rule, {
 				},
 			],
 		},
+		{
+			code: "Symbol(x) === null",
+			errors: [
+				{
+					messageId: "constantBinaryOperand",
+					data: { otherSide: "right", operator: "===" },
+				},
+			],
+		},
+		{
+			code: "BigInt(x) === null",
+			errors: [
+				{
+					messageId: "constantBinaryOperand",
+					data: { otherSide: "right", operator: "===" },
+				},
+			],
+		},
 
 		// Binary expression with strict comparison to undefined
 		{
@@ -1897,6 +1933,24 @@ ruleTester.run("no-constant-binary-expression", rule, {
 		},
 		{
 			code: "(a, b, {}) === undefined",
+			errors: [
+				{
+					messageId: "constantBinaryOperand",
+					data: { otherSide: "right", operator: "===" },
+				},
+			],
+		},
+		{
+			code: "Symbol(x) === undefined",
+			errors: [
+				{
+					messageId: "constantBinaryOperand",
+					data: { otherSide: "right", operator: "===" },
+				},
+			],
+		},
+		{
+			code: "BigInt(x) === undefined",
 			errors: [
 				{
 					messageId: "constantBinaryOperand",
