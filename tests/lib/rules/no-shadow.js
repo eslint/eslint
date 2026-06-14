@@ -194,6 +194,14 @@ ruleTester.run("no-shadow", rule, {
 			languageOptions: { ecmaVersion: 6 },
 		},
 		{
+			code: "const a = foo ? wrap(function a() {}) : bar;",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const A = foo ? wrap(class A {}) : bar;",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
 			code: "const { a = wrap(function a() {}) } = obj;",
 			languageOptions: { ecmaVersion: 6 },
 		},
@@ -1664,6 +1672,23 @@ ruleTester.run("no-shadow", rule, {
 					},
 					line: 1,
 					column: 27,
+				},
+			],
+		},
+		{
+			// nested wrapper calls: the function is not a direct call argument
+			code: "const a = f(g(function a() {}));",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "a",
+						shadowedLine: 1,
+						shadowedColumn: 7,
+					},
+					line: 1,
+					column: 24,
 				},
 			],
 		},
