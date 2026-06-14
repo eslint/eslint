@@ -667,4 +667,11 @@ ruleTester.run("no-eval", rule, {
 			errors: [{ messageId: "unexpected" }],
 		},
 	],
+	fatal: [
+		{
+			name: "first option wrong type (number)",
+			options: [123],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });
