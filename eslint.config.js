@@ -122,6 +122,14 @@ module.exports = defineConfig([
 		},
 	},
 	{
+		name: "eslint/oss-fuzz",
+		files: ["tools/oss-fuzz/*.js"],
+		rules: {
+			// Jazzer.js is installed on demand by OSS-Fuzz / contributors.
+			"n/no-extraneous-require": "off",
+		},
+	},
+	{
 		name: "eslint/rules",
 		files: ["lib/rules/*.js", "tools/internal-rules/*.js"],
 		ignores: ["**/index.js"],
