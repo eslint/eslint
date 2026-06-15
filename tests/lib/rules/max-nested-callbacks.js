@@ -64,6 +64,16 @@ ruleTester.run("max-nested-callbacks", rule, {
 			code: "foo(function() { bar(thing, function(data) {}); });",
 			options: [{ max: 3 }],
 		},
+
+		// callback detection
+		{
+			code: "(() => {})();",
+			options: [{ max: 0 }],
+		},
+		{
+			code: "(function() {})();",
+			options: [{ max: 0 }],
+		},
 	],
 	invalid: [
 		{
@@ -206,6 +216,106 @@ ruleTester.run("max-nested-callbacks", rule, {
 					column: 50,
 					endLine: 1,
 					endColumn: 58,
+				},
+			],
+		},
+
+		// callback detection
+		{
+			code: "fn('before', () => 'counted', 'after');",
+			options: [{ max: 0 }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { num: 1, max: 0 },
+					line: 1,
+					column: 17,
+					endLine: 1,
+					endColumn: 19,
+				},
+			],
+		},
+		{
+			code: "object.method(() => 'counted');",
+			options: [{ max: 0 }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { num: 1, max: 0 },
+					line: 1,
+					column: 18,
+					endLine: 1,
+					endColumn: 20,
+				},
+			],
+		},
+		{
+			code: "(() => {})(() => 'counted');",
+			options: [{ max: 0 }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { num: 1, max: 0 },
+					line: 1,
+					column: 15,
+					endLine: 1,
+					endColumn: 17,
+				},
+			],
+		},
+		{
+			code: "new Promise(() => {});",
+			options: [{ max: 0 }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { num: 1, max: 0 },
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 18,
+				},
+			],
+		},
+		{
+			code: "fn(() => { new Promise(() => {}); });",
+			options: [{ max: 1 }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { num: 2, max: 1 },
+					line: 1,
+					column: 27,
+					endLine: 1,
+					endColumn: 29,
+				},
+			],
+		},
+		{
+			code: "new Promise(() => { fn(() => {}); });",
+			options: [{ max: 1 }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { num: 2, max: 1 },
+					line: 1,
+					column: 27,
+					endLine: 1,
+					endColumn: 29,
+				},
+			],
+		},
+		{
+			code: "new Promise(() => { new Promise(() => {}); });",
+			options: [{ max: 1 }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { num: 2, max: 1 },
+					line: 1,
+					column: 36,
+					endLine: 1,
+					endColumn: 38,
 				},
 			],
 		},
