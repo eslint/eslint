@@ -2,8 +2,6 @@
 title: Migrate to v9.x
 ---
 
-{%- from 'components/npx_tabs.macro.html' import npx_tabs %}
-
 ESLint v9.0.0 is a major release of ESLint, and as such, has several breaking changes that you need to be aware of. This guide is intended to walk you through the breaking changes.
 
 To help with this migration, ESLint provides codemods to automate many of the changes described in this guide. All official ESLint codemods are available in the [eslint/codemods](https://github.com/eslint/codemods) repository and through the [Codemod Registry](https://app.codemod.com/registry?q=scope%3Aeslint).
