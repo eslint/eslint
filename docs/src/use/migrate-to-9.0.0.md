@@ -340,6 +340,8 @@ In ESLint v9.0.0, the option `allowConstructorFlags` is now case-sensitive.
 
 **To address:** Update your configuration manually if needed.
 
+**Related issue(s):** [#16574](https://github.com/eslint/eslint/issues/16574)
+
 ## <a name="vars-ignore-pattern"></a> `varsIgnorePattern` option of `no-unused-vars` no longer applies to catch arguments
 
 In previous versions of ESLint, the `varsIgnorePattern` option of `no-unused-vars` incorrectly ignored errors specified in a `catch` clause. In ESLint v9.0.0, `varsIgnorePattern` no longer applies to errors in `catch` clauses. For example:
