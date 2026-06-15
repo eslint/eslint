@@ -193,6 +193,20 @@ ruleTester.run("max-nested-callbacks", rule, {
 				},
 			],
 		},
+		{
+			code: "foo(function() {})",
+			options: [{ maximum: 0 }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { num: 1, max: 0 },
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 13,
+				},
+			],
+		},
 
 		// object property options
 		{

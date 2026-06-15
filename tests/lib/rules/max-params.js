@@ -125,6 +125,16 @@ ruleTester.run("max-params", rule, {
 				},
 			],
 		},
+		{
+			code: "function test(a) {}",
+			options: [{ maximum: 0 }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { name: "Function 'test'", count: 1, max: 0 },
+				},
+			],
+		},
 
 		// Error location should not cover the entire function; just the name.
 		{

@@ -267,6 +267,20 @@ ruleTester.run("max-depth", rule, {
 				},
 			],
 		},
+		{
+			code: "function foo() { if (true) {} }",
+			options: [{ maximum: 0 }],
+			errors: [
+				{
+					messageId: "tooDeeply",
+					data: { depth: 1, maxDepth: 0 },
+					line: 1,
+					column: 18,
+					endLine: 1,
+					endColumn: 20,
+				},
+			],
+		},
 
 		{
 			code: "class C { static { if (1) { if (2) { if (3) {} } } } }",
