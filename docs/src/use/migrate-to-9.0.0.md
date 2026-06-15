@@ -32,6 +32,8 @@ Codemods are a starting point. Review the changes and consult the breaking chang
 
 The lists below are ordered roughly by the number of users each change is expected to affect, where the first items are expected to affect the most users.
 
+## Table of Contents
+
 ### Breaking changes for users
 
 - [Node.js < v18.18, v19 are no longer supported](#drop-old-node)
