@@ -4,6 +4,32 @@ title: Migrate to v9.x
 
 ESLint v9.0.0 is a major release of ESLint, and as such, has several breaking changes that you need to be aware of. This guide is intended to walk you through the breaking changes.
 
+To help with this migration, ESLint provides codemods to automate many of the changes described in this guide. All official ESLint codemods are available in the [eslint/codemods](https://github.com/eslint/codemods) repository and through the [Codemod Registry](https://app.codemod.com/registry?q=scope%3Aeslint).
+
+## Use migration codemods
+
+### Migrate ESLint configuration
+
+The `@eslint/v8-to-v9-config` codemod migrates ESLint v8 configuration files to the ESLint v9 flat config format. It updates config structure, rule schemas, plugins, ignores, and deprecated JSDoc rules while preserving existing behavior as much as possible.
+
+```shell
+npx codemod @eslint/v8-to-v9-config
+```
+
+Learn more in the [Codemod Registry](https://app.codemod.com/registry/@eslint/v8-to-v9-config).
+
+### Migrate custom rules
+
+If you maintain custom ESLint rules, the `@eslint/v8-to-v9-custom-rules` codemod converts function-style rules to the object format and updates deprecated rule APIs to their ESLint v9-compatible equivalents.
+
+```shell
+npx codemod @eslint/v8-to-v9-custom-rules
+```
+
+Learn more in the [Codemod Registry](https://app.codemod.com/registry/@eslint/v8-to-v9-custom-rules).
+
+Codemods are a starting point. Review the changes and consult the breaking changes below for anything the codemods do not cover.
+
 The lists below are ordered roughly by the number of users each change is expected to affect, where the first items are expected to affect the most users.
 
 ## Table of Contents
@@ -60,6 +86,8 @@ ESLint is officially dropping support for these versions of Node.js starting wit
 - Node.js v20.9.0 and above
 - Node.js v21 and above
 
+**Codemod:** The migration codemods do not cover this change.
+
 **To address:** Make sure you upgrade to at least Node.js v18.18.0 when using ESLint v9.0.0. One important thing to double check is the Node.js version supported by your editor when using ESLint via editor integrations. If you are unable to upgrade, we recommend continuing to use ESLint v8.56.0 until you are able to upgrade Node.js.
 
 **Related issue(s):** [#17595](https://github.com/eslint/eslint/issues/17595)
@@ -68,7 +96,9 @@ ESLint is officially dropping support for these versions of Node.js starting wit
 
 As announced in our [blog post](/blog/2023/10/flat-config-rollout-plans/), in ESLint v9.0.0, [`eslint.config.js`](./configure/configuration-files) is the new default configuration format. The previous format, eslintrc, is now deprecated and will not automatically be searched for.
 
-**To address:** Update your configuration to the new format following the [Configuration Migration Guide](./configure/migration-guide). In case you still need to use the deprecated eslintrc config format, set environment variable `ESLINT_USE_FLAT_CONFIG` to `false`.
+**Codemod:** Use the [@eslint/v8-to-v9-config](#use-migration-codemods) codemod to automate much of this migration.
+
+**To address:** Update your configuration manually to the new format following the [Configuration Migration Guide](./configure/migration-guide). In case you still need to use the deprecated eslintrc config format, set environment variable `ESLINT_USE_FLAT_CONFIG` to `false`.
 
 **Related Issues(s):** [#13481](https://github.com/eslint/eslint/issues/13481)
 
@@ -86,6 +116,8 @@ ESLint v9.0.0 has removed the following formatters from the core:
 | `unix`                | `eslint-formatter-unix`         |
 | `visualstudio`        | `eslint-formatter-visualstudio` |
 
+**Codemod:** The migration codemods do not cover this change.
+
 **To address:** If you are using any of these formatters via the `-f` command line flag, you'll need to install the respective package for the formatter.
 
 **Related issue(s):** [#17524](https://github.com/eslint/eslint/issues/17524)
@@ -94,7 +126,9 @@ ESLint v9.0.0 has removed the following formatters from the core:
 
 The `require-jsdoc` and `valid-jsdoc` rules have been removed in ESLint v9.0.0. These rules were initially deprecated in 2018.
 
-**To address:** Use the [replacement rules](https://github.com/gajus/eslint-plugin-jsdoc/wiki/Comparison-with-deprecated-JSdoc-related-ESLint-rules) in `eslint-plugin-jsdoc`.
+**Codemod:** The [@eslint/v8-to-v9-config](#use-migration-codemods) codemod removes deprecated JSDoc rules from your configuration.
+
+**To address:** Use the [replacement rules](https://github.com/gajus/eslint-plugin-jsdoc/wiki/Comparison-with-deprecated-JSdoc-related-ESLint-rules) in `eslint-plugin-jsdoc` for equivalent linting.
 
 **Related issue(s):** [#15820](https://github.com/eslint/eslint/issues/15820)
 
@@ -114,6 +148,8 @@ Additionally, the following rules have been removed from `eslint:recommended`:
 - [`no-mixed-spaces-and-tabs`](../rules/no-mixed-spaces-and-tabs)
 - [`no-new-symbol`](../rules/no-new-symbol)
 
+**Codemod:** The migration codemods do not cover this change.
+
 **To address:** Fix errors or disable these rules.
 
 **Related issue(s):** [#15576](https://github.com/eslint/eslint/issues/15576), [#17446](https://github.com/eslint/eslint/issues/17446), [#17596](https://github.com/eslint/eslint/issues/17596)
@@ -124,6 +160,8 @@ Prior to ESLint v9.0.0, the `--quiet` CLI flag would run all rules set to either
 
 If `--max-warnings` is used then `--quiet` will not suppress the execution of rules set to `"warn"` but the output of those rules will be suppressed.
 
+**Codemod:** The migration codemods do not cover this change.
+
 **To address:** In most cases, this change is transparent. If, however, you are running a rule set to `"warn"` that makes changes to the data available to other rules (for example, if the rule uses `sourceCode.markVariableAsUsed()`), then this can result in a behavior change. In such a case, you'll need to either set the rule to `"error"` or stop using `--quiet`.
 
 **Related issue(s):** [#16450](https://github.com/eslint/eslint/issues/16450)
@@ -131,6 +169,8 @@ If `--max-warnings` is used then `--quiet` will not suppress the execution of ru
 ## <a name="output-file"></a> `--output-file` now writes a file to disk even with an empty output
 
 Prior to ESLint v9.0.0, the `--output-file` flag would skip writing a file to disk if the output was empty. However, in ESLint v9.0.0, `--output-file` now consistently writes a file to disk, even when the output is empty. This update ensures a more consistent and reliable behavior for `--output-file`.
+
+**Codemod:** The migration codemods do not cover this change.
 
 **To address:** Review your usage of the `--output-file` flag, especially if your processes depend on the file's presence or absence based on output content. If necessary, update your scripts or configurations to accommodate this change.
 
@@ -142,6 +182,8 @@ Prior to ESLint v9.0.0, running the ESLint CLI without any file or directory pat
 
 - **Flat config.** If you are using flat config, you can run `npx eslint` or `eslint` (if globally installed) and ESLint will assume you want to lint the current directory. Effectively, passing no patterns is equivalent to passing `.`.
 - **eslintrc.** If you are using the deprecated eslintrc config, you'll now receive an error when running the CLI without any patterns.
+
+**Codemod:** The migration codemods do not cover this change.
 
 **To address:** In most cases, no change is necessary, and you may find some locations where you thought ESLint was running but it wasn't. If you'd like to keep the v8.x behavior, where passing no patterns results in ESLint exiting with code 0, add the `--pass-on-no-patterns` flag to the CLI call.
 
@@ -179,6 +221,8 @@ the resulting configuration for the `curly` rule when linting `my-file.js` will 
 
 Note that this change only affects cases where the same rule is configured in the config file with options and using a configuration comment without options. In all other cases (e.g. the rule is only configured using a configuration comment), the behavior remains the same as prior to ESLint v9.0.0.
 
+**Codemod:** The migration codemods do not cover this change.
+
 **To address:** We expect that in most cases no change is necessary, as rules configured using configuration comments are typically not already configured in the config file. However, if you need a configuration comment to completely override configuration from the config file and enforce the default options, you'll need to specify at least one option:
 
 ```js
@@ -209,6 +253,8 @@ In ESLint v9.0.0, the first one is applied, while the others are reported as lin
 foo(); // error: Missing semicolon
 ```
 
+**Codemod:** The migration codemods do not cover this change.
+
 **To address:** Remove duplicate `/* eslint */` comments.
 
 **Related issue(s):** [#18132](https://github.com/eslint/eslint/issues/18132)
@@ -228,6 +274,8 @@ Prior to ESLint v9.0.0, the `/* exported */` directive incorrectly allowed the f
 The `true` and `false` in this example had no effect on ESLint's behavior, and in fact, was a parsing bug.
 
 In ESLint v9.0.0, any `/* exported */` variables followed by a colon and value will be ignored as invalid.
+
+**Codemod:** The migration codemods do not cover this change.
 
 **To address:** Update any `/* exported */` directives to eliminate the colons and subsequent values, and ensure there are commas between variable names such as:
 
@@ -255,7 +303,9 @@ This has been fixed in ESLint v9.0.0:
 }
 ```
 
-**To address:** If ESLint reports invalid configuration for any of these rules, update your configuration.
+**Codemod:** The [@eslint/v8-to-v9-config](#use-migration-codemods) codemod may update your configuration for this.
+
+**To address:** If ESLint still reports invalid configuration for any of these rules, update your configuration manually.
 
 **Related issue(s):** [#16879](https://github.com/eslint/eslint/issues/16879)
 
@@ -267,6 +317,8 @@ In ESLint v9.0.0, the `no-implicit-coercion` rule additionally reports the follo
 -(-foo);
 foo - 0;
 ```
+
+**Codemod:** The migration codemods do not cover this change.
 
 **To address:** If you want to retain the previous behavior of this rule, set `"allow": ["-", "- -"]`.
 
@@ -284,7 +336,9 @@ foo - 0;
 
 In ESLint v9.0.0, the option `allowConstructorFlags` is now case-sensitive.
 
-**To address:** Update your configuration if needed.
+**Codemod:** The [@eslint/v8-to-v9-config](#use-migration-codemods) codemod may update your configuration for this.
+
+**To address:** Update your configuration manually if needed.
 
 **Related issue(s):** [#16574](https://github.com/eslint/eslint/issues/16574)
 
@@ -302,6 +356,8 @@ try {
 	console.error("errors");
 }
 ```
+
+**Codemod:** The migration codemods do not cover this change.
 
 **To address:** If you want to specify ignore patterns for `catch` clause variable names, use the `caughtErrorsIgnorePattern` option in addition to `varsIgnorePattern`.
 
@@ -338,6 +394,8 @@ and both `import { Text } from "react-native"` and `import { View } from "react-
 
 In previous versions of ESLint, with this configuration only `import { View } from "react-native"` would be reported.
 
+**Codemod:** The migration codemods do not cover this change.
+
 **To address:** If your configuration for this rule has multiple entries with the same `name`, you may need to remove unintentional ones.
 
 **Related issue(s):** [#15261](https://github.com/eslint/eslint/issues/15261)
@@ -353,7 +411,9 @@ export default ["eslint:recommended", "eslint:all"];
 
 In ESLint v9.0.0, this format is no longer supported and will result in an error.
 
-**To address:** Install and use the `@eslint/js` package instead:
+**Codemod:** Use the [@eslint/v8-to-v9-config](#use-migration-codemods) codemod to migrate these strings to the `@eslint/js` package.
+
+**To address:** Install and use `@eslint/js` manually:
 
 ```js
 // eslint.config.js
@@ -377,6 +437,8 @@ if (test) {
 }
 ```
 
+**Codemod:** The migration codemods do not cover this change.
+
 **To address:** If you want to report the block-level `function`s in every condition regardless of strict or non-strict mode, set the `blockScopeFunctions` option to `"disallow"`.
 
 **Related issue(s):** [#15576](https://github.com/eslint/eslint/issues/15576)
@@ -394,6 +456,8 @@ try {
 	// 'error' is defined but never used
 }
 ```
+
+**Codemod:** The migration codemods do not cover this change.
 
 **To address:** If you want to allow unused caught errors, such as when writing code that will be directly run in an environment that does not support ES2019 optional catch bindings, set the `caughtErrors` option to `"none"`.
 Otherwise, delete the unused caught errors.
@@ -421,6 +485,8 @@ class SomeClass {
 }
 ```
 
+**Codemod:** The migration codemods do not cover this change.
+
 **To address:** Fix the problems reported by the rule or revert to the previous behavior by setting the `enforceForClassMembers` option to `false`.
 
 **Related issue(s):** [#18042](https://github.com/eslint/eslint/issues/18042)
@@ -429,7 +495,9 @@ class SomeClass {
 
 Previously the camelcase rule didn't enforce the `allow` option to be an array of strings. In ESLint v9.0.0, the `allow` option now only accepts an array of strings.
 
-**To address:** If ESLint reports invalid configuration for this rule, update your configuration.
+**Codemod:** The [@eslint/v8-to-v9-config](#use-migration-codemods) codemod may update your configuration for this.
+
+**To address:** If ESLint still reports invalid configuration for this rule, update your configuration manually.
 
 **Related issue(s):** [#18232](https://github.com/eslint/eslint/pull/18232)
 
@@ -470,13 +538,17 @@ In addition to the methods in the above table, there are several other methods t
 | `context.getScope()`               | `sourceCode.getScope(node)`                 |
 | `context.markVariableAsUsed(name)` | `sourceCode.markVariableAsUsed(name, node)` |
 
-**To address:** Use the automated upgrade tool as recommended in the [blog post](https://eslint.org/blog/2023/09/preparing-custom-rules-eslint-v9/#automatically-update-your-rules).
+**Codemod:** Use the [@eslint/v8-to-v9-custom-rules](#use-migration-codemods) codemod to automate much of this migration.
+
+**To address:** For more information, see the [blog post](https://eslint.org/blog/2023/09/preparing-custom-rules-eslint-v9/#automatically-update-your-rules).
 
 **Related Issues(s):** [#16999](https://github.com/eslint/eslint/issues/16999), [#13481](https://github.com/eslint/eslint/issues/13481)
 
 ## <a name="removed-sourcecode-getcomments"></a> Removed `sourceCode.getComments()`
 
 ESLint v9.0.0 removes the deprecated `sourceCode.getComments()` method.
+
+**Codemod:** Use the [@eslint/v8-to-v9-custom-rules](#use-migration-codemods) codemod to automate this change.
 
 **To address:** Replace with `sourceCode.getCommentsBefore()`, `sourceCode.getCommentsAfter()`, or `sourceCode.getCommentsInside()`.
 
@@ -485,6 +557,8 @@ ESLint v9.0.0 removes the deprecated `sourceCode.getComments()` method.
 ## <a name="removed-codepath-currentsegments"></a> Removed `CodePath#currentSegments`
 
 ESLint v9.0.0 removes the deprecated `CodePath#currentSegments` property.
+
+**Codemod:** The [@eslint/v8-to-v9-custom-rules](#use-migration-codemods) codemod may automate part of this migration.
 
 **To address:** Update your code following the recommendations in the [blog post](https://eslint.org/blog/2023/09/preparing-custom-rules-eslint-v9/#codepath%23currentsegments).
 
@@ -495,6 +569,8 @@ ESLint v9.0.0 removes the deprecated `CodePath#currentSegments` property.
 Prior to ESLint v9.0.0, code paths were calculated during the same AST traversal used by rules, meaning that the information passed to methods like `onCodePathStart` and `onCodePathSegmentStart` was incomplete. Specifically, array properties like `CodePath#childCodePaths` and `CodePathSegment#nextSegments` began empty and then were filled with the appropriate information as the traversal completed, meaning that those arrays could have different elements depending on when you checked their values.
 
 ESLint v9.0.0 now precalculates code path information before the traversal used by rules. As a result, the code path information is now complete regardless of where it is accessed inside of a rule.
+
+**Codemod:** The migration codemods do not cover this change.
 
 **To address:** If you are accessing any array properties on `CodePath` or `CodePathSegment`, you'll need to update your code. Specifically:
 
@@ -507,6 +583,8 @@ ESLint v9.0.0 now precalculates code path information before the traversal used 
 
 ESLint v9.0.0 drops support for function-style rules. Function-style rules are rules created by exporting a function rather than an object with a `create()` method. This rule format was deprecated in 2016.
 
+**Codemod:** Use the [@eslint/v8-to-v9-custom-rules](#use-migration-codemods) codemod to convert function-style rules to the object format.
+
 **To address:** Update your rules to [the most recent rule format](../extend/custom-rules). For rules written in CommonJS, you can also use [`eslint-transforms`](https://github.com/eslint/eslint-transforms/blob/main/README.md#new-rule-format).
 
 The [eslint-plugin/prefer-object-rule](https://github.com/eslint-community/eslint-plugin-eslint-plugin/blob/main/docs/rules/prefer-object-rule.md) rule can help enforce the usage of object-style rules and autofix any remaining function-style rules.
@@ -516,6 +594,8 @@ The [eslint-plugin/prefer-object-rule](https://github.com/eslint-community/eslin
 ## <a name="meta-schema-required"></a> `meta.schema` is required for rules with options
 
 As of ESLint v9.0.0, an error will be thrown if any options are [passed](../use/configure/rules#use-configuration-files) to a rule that doesn't specify `meta.schema` property.
+
+**Codemod:** The migration codemods do not cover this change.
 
 **To address:**
 
@@ -530,6 +610,8 @@ The [eslint-plugin/require-meta-schema](https://github.com/eslint-community/esli
 ## <a name="flat-rule-tester"></a> `FlatRuleTester` is now `RuleTester`
 
 As announced in our [blog post](/blog/2023/10/flat-config-rollout-plans/), the temporary `FlatRuleTester` class has been renamed to `RuleTester`, while the `RuleTester` class from v8.x has been removed. Additionally, the `FlatRuleTester` export from `eslint/use-at-your-own-risk` has been removed.
+
+**Codemod:** The migration codemods do not cover this change.
 
 **To address:** Update your rule tests to use the new `RuleTester`. To do so, here are some of the common changes you'll need to make:
 
@@ -593,6 +675,8 @@ In order to aid in the development of high-quality custom rules that are free fr
 1. **`filename` and `only` must be of the expected type.** `RuleTester` now checks the type of `filename` and `only` properties of test objects. If specified, `filename` must be a string value. If specified, `only` must be a boolean value.
 1. **Messages cannot have unsubstituted placeholders.** The `RuleTester` now also checks if there are {% raw %}`{{ placeholder }}` {% endraw %} still in the message as their values were not passed via `data` in the respective `context.report()` call.
 
+**Codemod:** The migration codemods do not cover this change.
+
 **To address:** Run your rule tests using `RuleTester` and fix any errors that occur. The changes you'll need to make to satisfy `RuleTester` are compatible with ESLint v8.x.
 
 **Related Issues(s):** [#15104](https://github.com/eslint/eslint/issues/15104), [#15735](https://github.com/eslint/eslint/issues/15735), [#16908](https://github.com/eslint/eslint/issues/16908), [#18016](https://github.com/eslint/eslint/issues/18016)
@@ -600,6 +684,8 @@ In order to aid in the development of high-quality custom rules that are free fr
 ## <a name="flat-eslint"></a> `FlatESLint` is now `ESLint`
 
 As announced in our [blog post](/blog/2023/10/flat-config-rollout-plans/), the temporary `FlatESLint` class has been renamed to `ESLint`, while the `ESLint` class from v8.x has been renamed to `LegacyESLint`.
+
+**Codemod:** The migration codemods do not cover this change.
 
 **To address:** If you are currently using the `ESLint` class, verify that your tests pass using the new `ESLint` class. Not all of the old options are supported, so you may need to update the arguments passed to the constructor. See the [Node.js API Reference](../integrate/nodejs-api) for details.
 
@@ -616,6 +702,8 @@ const { LegacyESLint } = require("eslint/use-at-your-own-risk");
 In ESLint v9.0.0, the `config` argument passed to `Linter#verify()` and `Linter#verifyAndFix()` methods should be in the flat config format.
 
 Additionally, methods `Linter#defineRule()`, `Linter#defineRules()`, `Linter#defineParser()`, and `Linter#getRules()` are no longer available.
+
+**Codemod:** The migration codemods do not cover this change.
 
 **To address:** If you are using the `Linter` class, verify that your tests pass.
 
