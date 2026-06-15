@@ -2228,7 +2228,16 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 8.14.0
 	 * @see https://eslint.org/docs/latest/rules/no-constant-binary-expression
 	 */
-	"no-constant-binary-expression": Linter.RuleEntry<[]>;
+	"no-constant-binary-expression": Linter.RuleEntry<
+		[
+			Partial<{
+				/**
+				 * @default false
+				 */
+				checkRelationalComparisons: boolean;
+			}>,
+		]
+	>;
 
 	/**
 	 * Rule to disallow constant expressions in conditions.
