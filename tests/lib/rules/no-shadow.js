@@ -175,6 +175,73 @@ ruleTester.run("no-shadow", rule, {
 			code: "function foo(A = foo || (bar ? baz : (qux || class A {})) || quux) { doSomething(); }",
 			languageOptions: { ecmaVersion: 6 },
 		},
+
+		/*
+		 * https://github.com/eslint/eslint/issues/20978
+		 * Named function/class expression assigned through a wrapper call,
+		 * with the inner name never referenced.
+		 */
+		{
+			code: "const TabList = React.forwardRef(function TabList(props, ref) {});",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const a = wrap(function a() {});",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const a = foo || wrap(function a() {});",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const a = foo ? wrap(function a() {}) : bar;",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const A = foo ? wrap(class A {}) : bar;",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const { a = wrap(function a() {}) } = obj;",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const { a = foo || wrap(function a() {}) } = obj;",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "function foo(a = wrap(function a() {})) {}",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "function foo(a = foo || wrap(function a() {})) {}",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const A = wrap(class A {});",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const A = foo || wrap(class A {});",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const { A = wrap(class A {}) } = obj;",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const { A = foo || wrap(class A {}) } = obj;",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "function foo(A = wrap(class A {})) {}",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "function foo(A = foo || wrap(class A {})) {}",
+			languageOptions: { ecmaVersion: 6 },
+		},
+
 		{ code: "{ var a; } var a;", languageOptions: { ecmaVersion: 6 } }, // this case reports `no-redeclare`, not shadowing.
 		{
 			code: "{ let a; } let a;",
@@ -1570,8 +1637,14 @@ ruleTester.run("no-shadow", rule, {
 				},
 			],
 		},
+
+		/*
+		 * https://github.com/eslint/eslint/issues/20978
+		 * Wrapped named function/class expression whose inner name is referenced
+		 * resolves to the unwrapped function/class, so it is still reported.
+		 */
 		{
-			code: "const a = wrap(function a() {});",
+			code: "const a = wrap(function a() { a(); });",
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
@@ -1587,7 +1660,24 @@ ruleTester.run("no-shadow", rule, {
 			],
 		},
 		{
-			code: "const a = foo || wrap(function a() {});",
+			code: "const fib = memo(function fib(n) { return n <= 1 ? 1 : fib(n - 1) + fib(n - 2); });",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "fib",
+						shadowedLine: 1,
+						shadowedColumn: 7,
+					},
+					line: 1,
+					column: 27,
+				},
+			],
+		},
+		{
+			// nested wrapper calls: the function is not a direct call argument
+			code: "const a = f(g(function a() {}));",
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
 				{
@@ -1598,39 +1688,7 @@ ruleTester.run("no-shadow", rule, {
 						shadowedColumn: 7,
 					},
 					line: 1,
-					column: 32,
-				},
-			],
-		},
-		{
-			code: "const { a = wrap(function a() {}) } = obj;",
-			languageOptions: { ecmaVersion: 6 },
-			errors: [
-				{
-					messageId: "noShadow",
-					data: {
-						name: "a",
-						shadowedLine: 1,
-						shadowedColumn: 9,
-					},
-					line: 1,
-					column: 27,
-				},
-			],
-		},
-		{
-			code: "const { a = foo || wrap(function a() {}) } = obj;",
-			languageOptions: { ecmaVersion: 6 },
-			errors: [
-				{
-					messageId: "noShadow",
-					data: {
-						name: "a",
-						shadowedLine: 1,
-						shadowedColumn: 9,
-					},
-					line: 1,
-					column: 34,
+					column: 24,
 				},
 			],
 		},
@@ -1663,134 +1721,6 @@ ruleTester.run("no-shadow", rule, {
 					},
 					line: 1,
 					column: 28,
-				},
-			],
-		},
-		{
-			code: "function foo(a = wrap(function a() {})) {}",
-			languageOptions: { ecmaVersion: 6 },
-			errors: [
-				{
-					messageId: "noShadow",
-					data: {
-						name: "a",
-						shadowedLine: 1,
-						shadowedColumn: 14,
-					},
-					line: 1,
-					column: 32,
-				},
-			],
-		},
-		{
-			code: "function foo(a = foo || wrap(function a() {})) {}",
-			languageOptions: { ecmaVersion: 6 },
-			errors: [
-				{
-					messageId: "noShadow",
-					data: {
-						name: "a",
-						shadowedLine: 1,
-						shadowedColumn: 14,
-					},
-					line: 1,
-					column: 39,
-				},
-			],
-		},
-		{
-			code: "const A = wrap(class A {});",
-			languageOptions: { ecmaVersion: 6 },
-			errors: [
-				{
-					messageId: "noShadow",
-					data: {
-						name: "A",
-						shadowedLine: 1,
-						shadowedColumn: 7,
-					},
-					line: 1,
-					column: 22,
-				},
-			],
-		},
-		{
-			code: "const A = foo || wrap(class A {});",
-			languageOptions: { ecmaVersion: 6 },
-			errors: [
-				{
-					messageId: "noShadow",
-					data: {
-						name: "A",
-						shadowedLine: 1,
-						shadowedColumn: 7,
-					},
-					line: 1,
-					column: 29,
-				},
-			],
-		},
-		{
-			code: "const { A = wrap(class A {}) } = obj;",
-			languageOptions: { ecmaVersion: 6 },
-			errors: [
-				{
-					messageId: "noShadow",
-					data: {
-						name: "A",
-						shadowedLine: 1,
-						shadowedColumn: 9,
-					},
-					line: 1,
-					column: 24,
-				},
-			],
-		},
-		{
-			code: "const { A = foo || wrap(class A {}) } = obj;",
-			languageOptions: { ecmaVersion: 6 },
-			errors: [
-				{
-					messageId: "noShadow",
-					data: {
-						name: "A",
-						shadowedLine: 1,
-						shadowedColumn: 9,
-					},
-					line: 1,
-					column: 31,
-				},
-			],
-		},
-		{
-			code: "function foo(A = wrap(class A {})) {}",
-			languageOptions: { ecmaVersion: 6 },
-			errors: [
-				{
-					messageId: "noShadow",
-					data: {
-						name: "A",
-						shadowedLine: 1,
-						shadowedColumn: 14,
-					},
-					line: 1,
-					column: 29,
-				},
-			],
-		},
-		{
-			code: "function foo(A = foo || wrap(class A {})) {}",
-			languageOptions: { ecmaVersion: 6 },
-			errors: [
-				{
-					messageId: "noShadow",
-					data: {
-						name: "A",
-						shadowedLine: 1,
-						shadowedColumn: 14,
-					},
-					line: 1,
-					column: 36,
 				},
 			],
 		},
