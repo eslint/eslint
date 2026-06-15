@@ -499,6 +499,8 @@ Previously the camelcase rule didn't enforce the `allow` option to be an array o
 
 **To address:** If ESLint still reports invalid configuration for this rule, update your configuration manually.
 
+**Related issue(s):** [#18232](https://github.com/eslint/eslint/pull/18232)
+
 ## <a name="removed-context-methods"></a> Removed multiple `context` methods
 
 ESLint v9.0.0 removes multiple deprecated methods from the `context` object and moves them onto the `SourceCode` object:
