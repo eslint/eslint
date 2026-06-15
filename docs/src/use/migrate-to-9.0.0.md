@@ -98,7 +98,7 @@ As announced in our [blog post](/blog/2023/10/flat-config-rollout-plans/), in ES
 
 **Codemod:** Use the [@eslint/v8-to-v9-config](#use-migration-codemods) codemod to automate much of this migration.
 
-**To address:** Update your configuration manually following the [Configuration Migration Guide](./configure/migration-guide). In case you still need to use the deprecated eslintrc config format, set environment variable `ESLINT_USE_FLAT_CONFIG` to `false`.
+**To address:** Update your configuration manually to the new format following the [Configuration Migration Guide](./configure/migration-guide). In case you still need to use the deprecated eslintrc config format, set environment variable `ESLINT_USE_FLAT_CONFIG` to `false`.
 
 **Related Issues(s):** [#13481](https://github.com/eslint/eslint/issues/13481)
 
