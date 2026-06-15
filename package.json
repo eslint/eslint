@@ -151,7 +151,6 @@
     "glob-parent": "^6.0.2",
     "ignore": "^5.2.0",
     "imurmurhash": "^0.1.4",
-    "is-glob": "^4.0.0",
     "json-stable-stringify-without-jsonify": "^1.0.1",
     "minimatch": "^10.2.4",
     "natural-compare": "^1.4.0",
