@@ -423,6 +423,24 @@ ruleTester.run("use-isnan", rule, {
 			code: "function foo(Number) { return arr.lastIndexOf(Number.NaN); }",
 			options: [{ enforceForIndexOf: true }],
 		},
+		"let Number; if (x === Number?.NaN) {}",
+		"function f(Number) { return x === Number?.NaN; }",
+		{
+			code: "let Number; switch (foo) { case Number?.NaN: break; }",
+			options: [{ enforceForSwitchCase: true }],
+		},
+		{
+			code: "let Number; switch (Number?.NaN) { case a: break; }",
+			options: [{ enforceForSwitchCase: true }],
+		},
+		{
+			code: "function foo(Number) { return arr.indexOf(Number?.NaN); }",
+			options: [{ enforceForIndexOf: true }],
+		},
+		{
+			code: "function foo(Number) { return arr.lastIndexOf(Number?.NaN); }",
+			options: [{ enforceForIndexOf: true }],
+		},
 	],
 	invalid: [
 		{
