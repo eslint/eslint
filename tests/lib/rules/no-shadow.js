@@ -202,6 +202,14 @@ ruleTester.run("no-shadow", rule, {
 			languageOptions: { ecmaVersion: 6 },
 		},
 		{
+			code: "const a = foo ? bar : wrap(function a() {});",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const A = foo ? bar : wrap(class A {});",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
 			code: "const { a = wrap(function a() {}) } = obj;",
 			languageOptions: { ecmaVersion: 6 },
 		},
@@ -1689,6 +1697,40 @@ ruleTester.run("no-shadow", rule, {
 					},
 					line: 1,
 					column: 24,
+				},
+			],
+		},
+		{
+			// unwrapped from a ternary first: the function is not a direct call argument
+			code: "const a = f(test ? function a() {} : undefined);",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "a",
+						shadowedLine: 1,
+						shadowedColumn: 7,
+					},
+					line: 1,
+					column: 29,
+				},
+			],
+		},
+		{
+			// same, with the function as the ternary alternate
+			code: "const a = f(test ? undefined : function a() {});",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "noShadow",
+					data: {
+						name: "a",
+						shadowedLine: 1,
+						shadowedColumn: 7,
+					},
+					line: 1,
+					column: 41,
 				},
 			],
 		},
