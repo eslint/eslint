@@ -134,7 +134,7 @@ Once configured, you can use ESLint tools with Cascade by asking it to:
 
 Note: MCP tool calls in Windsurf will consume credits regardless of success or failure.
 
-## Using TypeScript Configuration Files
+## Use TypeScript Configuration Files
 
 If your project uses a TypeScript configuration file (`eslint.config.ts`, `eslint.config.mts`, or `eslint.config.cts`), additional setup is required for the MCP server to load it. There are two approaches depending on your environment. For more details, see [TypeScript Configuration Files](configure/configuration-files#typescript-configuration-files).
 
