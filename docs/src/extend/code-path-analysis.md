@@ -766,7 +766,7 @@ function* generator(flag) {
 }
 ```
 
-In generator functions `yield` creates three code paths:
+In generator functions `yield` can create three code paths:
 
 - To the next segment.
 - To the thrown path.
