@@ -674,10 +674,13 @@ For example, if you previously used `--ignore-path .gitignore`:
 ```js
 // eslint.config.js
 import { defineConfig } from "eslint/config";
-import { includeIgnoreFile } from "@eslint/compat";
+import { includeIgnoreFile } from "eslint/config";
+import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const gitignorePath = fileURLToPath(new URL(".gitignore", import.meta.url));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const gitignorePath = new URL(".gitignore", import.meta.url).pathname;
 
 export default defineConfig([
 	includeIgnoreFile(gitignorePath, "Imported .gitignore patterns"),

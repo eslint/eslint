@@ -225,9 +225,12 @@ If you want to include patterns from a [`.gitignore`](https://git-scm.com/docs/g
 // eslint.config.js
 
 import { defineConfig, includeIgnoreFile } from "eslint/config";
+import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const gitignorePath = fileURLToPath(new URL(".gitignore", import.meta.url));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const gitignorePath = new URL(".gitignore", import.meta.url).pathname;
 
 export default defineConfig([
 	includeIgnoreFile(gitignorePath, { gitignoreResolution: true }),
@@ -245,12 +248,16 @@ An array of ignore file paths can also be provided:
 // eslint.config.js
 
 import { defineConfig, includeIgnoreFile } from "eslint/config";
+import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const rootGitignorePath = fileURLToPath(new URL(".gitignore", import.meta.url));
-const nestedGitignorePath = fileURLToPath(
-	new URL("some/other/folder/.gitignore", import.meta.url),
-);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const rootGitignorePath = new URL(".gitignore", import.meta.url).pathname;
+const nestedGitignorePath = new URL(
+	"some/other/folder/.gitignore",
+	import.meta.url
+).pathname;
 
 export default defineConfig([
 	includeIgnoreFile([rootGitignorePath, nestedGitignorePath], {
@@ -296,9 +303,12 @@ By default, `includeIgnoreFile()` will assign a name to the config that represen
 // eslint.config.js
 
 import { defineConfig, includeIgnoreFile } from "eslint/config";
+import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const gitignorePath = fileURLToPath(new URL(".gitignore", import.meta.url));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const gitignorePath = new URL(".gitignore", import.meta.url).pathname;
 
 export default defineConfig([
 	includeIgnoreFile(gitignorePath, {
