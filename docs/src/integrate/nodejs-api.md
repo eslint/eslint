@@ -1019,57 +1019,6 @@ You can optionally configure the following `assertionOptions` that apply to all 
     - If `"error"`, each error object that specifies `messageId` must also specify `data` if the message referenced by `messageId` has [placeholders](../extend/custom-rules#use-message-placeholders).
     - If `"suggestion"`, each suggestion object that specifies `messageId` must also specify `data` if the message referenced by `messageId` has [placeholders](../extend/custom-rules#use-message-placeholders).
 
-#### Enforcing `assertionOptions` Globally
-
-Because `assertionOptions` is specified per `run()` call, enforcing the same options across every call in a project requires a userland pattern. There are two common approaches:
-
-##### Option 1 — Subclass `RuleTester` and override `run()`
-
-```js
-const { RuleTester } = require("eslint");
-
-class StrictRuleTester extends RuleTester {
-	run(ruleName, rule, tests) {
-		super.run(ruleName, rule, {
-			...tests,
-			assertionOptions: {
-				// Default assertion options applied to every run() call.
-				requireMessage: "messageId",
-				requireLocation: true,
-				// Per-call options are merged in and take precedence.
-				...tests.assertionOptions,
-			},
-		});
-	}
-}
-
-// Use StrictRuleTester instead of RuleTester throughout your test suite.
-const ruleTester = new StrictRuleTester();
-```
-
-##### Option 2 — Helper wrapper function
-
-```js
-const { RuleTester } = require("eslint");
-
-const ruleTester = new RuleTester();
-
-function runWithStrictAssertions(ruleName, rule, tests) {
-	return ruleTester.run(ruleName, rule, {
-		...tests,
-		assertionOptions: {
-			// Default assertion options applied to every call.
-			requireMessage: "messageId",
-			requireLocation: true,
-			// Per-call options are merged in and take precedence.
-			...tests.assertionOptions,
-		},
-	});
-}
-```
-
-Both approaches use object spread so that any `assertionOptions` provided on a specific `run()` call are merged on top of the defaults, allowing per-test-file overrides where needed.
-
 ### Testing Errors with `messageId`
 
 If the rule under test uses `messageId`s, you can use `messageId` property in a test case to assert reported error's `messageId` instead of its `message`.
@@ -1220,6 +1169,56 @@ ruleTester.run("my-rule", myRule, {
 		// invalid test cases
 	],
 });
+```
+
+#### Enforcing `assertionOptions` Globally
+
+Because `assertionOptions` is specified per `run()` call, enforcing the same options across every call in a project requires a userland pattern. There are two common approaches:
+
+##### Option 1 — Subclass `RuleTester` and override `run()`
+
+```js
+const { RuleTester } = require("eslint");
+
+class StrictRuleTester extends RuleTester {
+	run(ruleName, rule, tests) {
+		super.run(ruleName, rule, {
+			...tests,
+			assertionOptions: {
+				// Default assertion options applied to every run() call.
+				requireMessage: "messageId",
+				requireLocation: true,
+				// Per-call options are merged in and take precedence.
+				...tests.assertionOptions,
+			},
+		});
+	}
+}
+
+module.exports = StrictRuleTester;
+```
+
+##### Option 2 — Helper wrapper function
+
+```js
+const { RuleTester } = require("eslint");
+
+const ruleTester = new RuleTester();
+
+function runWithStrictAssertions(ruleName, rule, tests) {
+	return ruleTester.run(ruleName, rule, {
+		...tests,
+		assertionOptions: {
+			// Default assertion options applied to every call.
+			requireMessage: "messageId",
+			requireLocation: true,
+			// Per-call options are merged in and take precedence.
+			...tests.assertionOptions,
+		},
+	});
+}
+
+module.exports = runWithStrictAssertions;
 ```
 
 [configuration object]: ../use/configure/
