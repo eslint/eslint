@@ -77,7 +77,7 @@ ruleTester.run("max-nested-callbacks", rule, {
 		{
 			code: "new Promise(() => {});",
 			options: [{ max: 0 }],
-		}
+		},
 	],
 	invalid: [
 		{
