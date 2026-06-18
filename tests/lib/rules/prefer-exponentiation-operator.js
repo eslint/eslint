@@ -137,6 +137,17 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
 		invalid("Math[`${'pow'}`](a, b)", "a**b"),
 		invalid("Math['p' + 'o' + 'w'](a, b)", "a**b"),
 
+		// expression statements that require parens after autofix
+		invalid("Math.pow({ a: 1 }.a, 2);", "({ a: 1 }.a**2);"),
+		invalid(
+			"Math.pow(function() { return 2; }(), 3);",
+			"(function() { return 2; }()**3);",
+		),
+		invalid(
+			"Math.pow(class { static x = 2; }.x, 4);",
+			"(class { static x = 2; }.x**4);",
+		),
+
 		// non-expression parents that don't require parens
 		invalid("var x = Math.pow(a, b);", "var x = a**b;"),
 		invalid("if(Math.pow(a, b)){}", "if(a**b){}"),
