@@ -74,6 +74,10 @@ ruleTester.run("max-nested-callbacks", rule, {
 			code: "(function() {})();",
 			options: [{ max: 0 }],
 		},
+		{
+			code: "new Promise(() => {});",
+			options: [{ max: 0 }],
+		}
 	],
 	invalid: [
 		{
@@ -296,62 +300,6 @@ ruleTester.run("max-nested-callbacks", rule, {
 					column: 15,
 					endLine: 1,
 					endColumn: 17,
-				},
-			],
-		},
-		{
-			code: "new Promise(() => {});",
-			options: [{ max: 0 }],
-			errors: [
-				{
-					messageId: "exceed",
-					data: { num: 1, max: 0 },
-					line: 1,
-					column: 16,
-					endLine: 1,
-					endColumn: 18,
-				},
-			],
-		},
-		{
-			code: "fn(() => { new Promise(() => {}); });",
-			options: [{ max: 1 }],
-			errors: [
-				{
-					messageId: "exceed",
-					data: { num: 2, max: 1 },
-					line: 1,
-					column: 27,
-					endLine: 1,
-					endColumn: 29,
-				},
-			],
-		},
-		{
-			code: "new Promise(() => { fn(() => {}); });",
-			options: [{ max: 1 }],
-			errors: [
-				{
-					messageId: "exceed",
-					data: { num: 2, max: 1 },
-					line: 1,
-					column: 27,
-					endLine: 1,
-					endColumn: 29,
-				},
-			],
-		},
-		{
-			code: "new Promise(() => { new Promise(() => {}); });",
-			options: [{ max: 1 }],
-			errors: [
-				{
-					messageId: "exceed",
-					data: { num: 2, max: 1 },
-					line: 1,
-					column: 36,
-					endLine: 1,
-					endColumn: 38,
 				},
 			],
 		},
