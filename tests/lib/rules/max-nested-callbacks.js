@@ -64,6 +64,20 @@ ruleTester.run("max-nested-callbacks", rule, {
 			code: "foo(function() { bar(thing, function(data) {}); });",
 			options: [{ max: 3 }],
 		},
+
+		// callback detection
+		{
+			code: "(() => {})();",
+			options: [{ max: 0 }],
+		},
+		{
+			code: "(function() {})();",
+			options: [{ max: 0 }],
+		},
+		{
+			code: "new Promise(() => {});",
+			options: [{ max: 0 }],
+		},
 	],
 	invalid: [
 		{
@@ -242,6 +256,50 @@ ruleTester.run("max-nested-callbacks", rule, {
 					column: 50,
 					endLine: 1,
 					endColumn: 58,
+				},
+			],
+		},
+
+		// callback detection
+		{
+			code: "fn('before', () => 'counted', 'after');",
+			options: [{ max: 0 }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { num: 1, max: 0 },
+					line: 1,
+					column: 17,
+					endLine: 1,
+					endColumn: 19,
+				},
+			],
+		},
+		{
+			code: "object.method(() => 'counted');",
+			options: [{ max: 0 }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { num: 1, max: 0 },
+					line: 1,
+					column: 18,
+					endLine: 1,
+					endColumn: 20,
+				},
+			],
+		},
+		{
+			code: "(() => {})(() => 'counted');",
+			options: [{ max: 0 }],
+			errors: [
+				{
+					messageId: "exceed",
+					data: { num: 1, max: 0 },
+					line: 1,
+					column: 15,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
