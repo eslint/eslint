@@ -1480,6 +1480,24 @@ ruleTester.run("no-constant-binary-expression", rule, {
 			],
 		},
 		{
+			code: "true === Symbol(x)",
+			errors: [
+				{
+					messageId: "constantBinaryOperand",
+					data: { otherSide: "left", operator: "===" },
+				},
+			],
+		},
+		{
+			code: "true === BigInt(x)",
+			errors: [
+				{
+					messageId: "constantBinaryOperand",
+					data: { otherSide: "left", operator: "===" },
+				},
+			],
+		},
+		{
 			code: "Boolean(0) == !({})",
 			errors: [
 				{
