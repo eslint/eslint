@@ -442,12 +442,17 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
 
 		// https://github.com/eslint/eslint/issues/20987
 		invalid("Math.pow({a:1}.a, 2);", "({a:1}.a**2);"),
+		invalid("Math.pow({a:1}.a, 2) + 100;", "({a:1}.a**2) + 100;"),
 		invalid("(Math.pow({a:1}.a, 2));", "({a:1}.a**2);"),
 		invalid("100 + Math.pow({a:1}.a, 2);", "100 + {a:1}.a**2;"),
 		invalid("Math.pow({a:1}.a + 100, 2);", "({a:1}.a + 100)**2;"),
 		invalid(
 			"Math.pow(function(){return 2}(), 3);",
 			"(function(){return 2}()**3);",
+		),
+		invalid(
+			"Math.pow(function(){return 2}(), 3) + 100;",
+			"(function(){return 2}()**3) + 100;",
 		),
 		invalid(
 			"(Math.pow(function(){return 2}(), 3));",
@@ -464,6 +469,10 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
 		invalid(
 			"Math.pow(class{static x=2}.x, 4);",
 			"(class{static x=2}.x**4);",
+		),
+		invalid(
+			"Math.pow(class{static x=2}.x, 4) + 100;",
+			"(class{static x=2}.x**4) + 100;",
 		),
 		invalid(
 			"(Math.pow(class{static x=2}.x, 4));",
