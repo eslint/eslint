@@ -12,7 +12,88 @@ on:
 permissions: read-all
 
 jobs:
-    test_ecosystem:
+    eslint_css:
+        name: Test Ecosystem Plugin (@eslint/css)
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v6
+            - uses: actions/setup-node@v6
+              with:
+                  node-version: "lts/*"
+            - run: npm install
+            - continue-on-error: true
+              id: tester
+              run: npm run test:ecosystem -- --plugin @eslint/css
+            - if: steps.tester.outcome == 'failure' && github.ref_name == 'main'
+              env:
+                  DISCORD_WEBHOOK: ${{ secrets.DISCORD_CONTRIBUTORS_WEBHOOK }}
+              uses: Ilshidur/action-discord@d2594079a10f1d6739ee50a2471f0ca57418b554 # 0.4.0
+              with:
+                  args: "Ecosystem tests failed for @eslint/css."
+
+    eslint_json:
+        name: Test Ecosystem Plugin (@eslint/json)
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v6
+            - uses: actions/setup-node@v6
+              with:
+                  node-version: "lts/*"
+            - run: npm install
+            - continue-on-error: true
+              id: tester
+              run: npm run test:ecosystem -- --plugin @eslint/json
+            - if: steps.tester.outcome == 'failure' && github.ref_name == 'main'
+              env:
+                  DISCORD_WEBHOOK: ${{ secrets.DISCORD_CONTRIBUTORS_WEBHOOK }}
+              uses: Ilshidur/action-discord@d2594079a10f1d6739ee50a2471f0ca57418b554 # 0.4.0
+              with:
+                  args: "Ecosystem tests failed for @eslint/json."
+
+    eslint_markdown:
+        name: Test Ecosystem Plugin (@eslint/markdown)
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v6
+            - uses: actions/setup-node@v6
+              with:
+                  node-version: "lts/*"
+            - run: npm install
+            - continue-on-error: true
+              id: tester
+              run: npm run test:ecosystem -- --plugin @eslint/markdown
+            - if: steps.tester.outcome == 'failure' && github.ref_name == 'main'
+              env:
+                  DISCORD_WEBHOOK: ${{ secrets.DISCORD_CONTRIBUTORS_WEBHOOK }}
+              uses: Ilshidur/action-discord@d2594079a10f1d6739ee50a2471f0ca57418b554 # 0.4.0
+              with:
+                  args: "Ecosystem tests failed for @eslint/markdown."
+
+    eslint_comments:
+        name: Test Ecosystem Plugin (@eslint-community/eslint-plugin-eslint-comments)
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v6
+            - uses: actions/setup-node@v6
+              with:
+                  node-version: "lts/*"
+            - run: npm install
+            - continue-on-error: true
+              id: tester
+              run: npm run test:ecosystem -- --plugin @eslint-community/eslint-plugin-eslint-comments
+            - if: steps.tester.outcome == 'failure' && github.ref_name == 'main'
+              env:
+                  DISCORD_WEBHOOK: ${{ secrets.DISCORD_CONTRIBUTORS_WEBHOOK }}
+              uses: Ilshidur/action-discord@d2594079a10f1d6739ee50a2471f0ca57418b554 # 0.4.0
+              with:
+                  args: "Ecosystem tests failed for @eslint-community/eslint-plugin-eslint-comments."
+
+    typescript_eslint:
+        name: Test Ecosystem Plugin (@typescript-eslint/typescript-eslint)
         runs-on: ubuntu-latest
 
         steps:
@@ -22,15 +103,55 @@ jobs:
                   node-version: "lts/*"
             - name: Install Corepack latest
               run: |
-                  npm install -g corepack@latest 
+                  npm install -g corepack@latest
                   corepack enable pnpm
             - run: npm install
             - continue-on-error: true
               id: tester
-              run: npm run test:ecosystem -- --plugin all
+              run: npm run test:ecosystem -- --plugin @typescript-eslint/typescript-eslint
             - if: steps.tester.outcome == 'failure' && github.ref_name == 'main'
               env:
                   DISCORD_WEBHOOK: ${{ secrets.DISCORD_CONTRIBUTORS_WEBHOOK }}
               uses: Ilshidur/action-discord@d2594079a10f1d6739ee50a2471f0ca57418b554 # 0.4.0
               with:
-                  args: "Ecosystem tests failed."
+                  args: "Ecosystem tests failed for @typescript-eslint/typescript-eslint."
+
+    eslint_plugin_unicorn:
+        name: Test Ecosystem Plugin (eslint-plugin-unicorn)
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v6
+            - uses: actions/setup-node@v6
+              with:
+                  node-version: "lts/*"
+            - run: npm install
+            - continue-on-error: true
+              id: tester
+              run: npm run test:ecosystem -- --plugin eslint-plugin-unicorn
+            - if: steps.tester.outcome == 'failure' && github.ref_name == 'main'
+              env:
+                  DISCORD_WEBHOOK: ${{ secrets.DISCORD_CONTRIBUTORS_WEBHOOK }}
+              uses: Ilshidur/action-discord@d2594079a10f1d6739ee50a2471f0ca57418b554 # 0.4.0
+              with:
+                  args: "Ecosystem tests failed for eslint-plugin-unicorn."
+
+    eslint_plugin_vue:
+        name: Test Ecosystem Plugin (eslint-plugin-vue)
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v6
+            - uses: actions/setup-node@v6
+              with:
+                  node-version: "lts/*"
+            - run: npm install
+            - continue-on-error: true
+              id: tester
+              run: npm run test:ecosystem -- --plugin eslint-plugin-vue
+            - if: steps.tester.outcome == 'failure' && github.ref_name == 'main'
+              env:
+                  DISCORD_WEBHOOK: ${{ secrets.DISCORD_CONTRIBUTORS_WEBHOOK }}
+              uses: Ilshidur/action-discord@d2594079a10f1d6739ee50a2471f0ca57418b554 # 0.4.0
+              with:
+                  args: "Ecosystem tests failed for eslint-plugin-vue."
