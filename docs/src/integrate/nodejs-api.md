@@ -1128,6 +1128,8 @@ ruleTester.run("my-rule-for-no-foo", rule, {
 
 ### Customizing RuleTester
 
+#### Customizing `describe` and `it`
+
 `RuleTester` depends on two functions to run tests: `describe` and `it`. These functions can come from various places:
 
 1. If `RuleTester.describe` and `RuleTester.it` have been set to function values, `RuleTester` will use `RuleTester.describe` and `RuleTester.it` to run tests. You can use this to customize the behavior of `RuleTester` to match a test framework that you're using.
