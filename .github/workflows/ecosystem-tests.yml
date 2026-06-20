@@ -12,7 +12,7 @@ on:
 permissions: read-all
 
 jobs:
-    test_plugins:
+    test_ecosystem:
         name: Test Ecosystem Plugin (${{ matrix.plugin }})
         runs-on: ubuntu-latest
 
