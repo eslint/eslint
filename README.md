@@ -320,8 +320,8 @@ lumir
 </a>
 </td><td align="center" valign="top" width="11%">
 <a href="https://github.com/Pixel998">
-<img src="https://github.com/Pixel998.png?s=75" width="75" height="75" alt="Pixel998's Avatar"><br />
-Pixel998
+<img src="https://github.com/Pixel998.png?s=75" width="75" height="75" alt="Pixel's Avatar"><br />
+Pixel
 </a>
 </td></tr></tbody></table>
 
