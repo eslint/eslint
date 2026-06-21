@@ -489,6 +489,8 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
 
 		// preceding semicolon needed
 		invalid("foo\nMath.pow(a + b, c)", "foo\n;(a + b)**c"),
+		invalid("foo\nMath.pow(+a, b)", "foo\n;(+a)**b"),
+		invalid("foo\nMath.pow(-a, b)", "foo\n;(-a)**b"),
 		invalid("foo\nMath.pow({a:1}.a, 2)", "foo\n;({a:1}.a**2)"),
 		invalid("foo\nMath.pow((a).b, c)", "foo\n;(a).b**c"),
 		invalid(
