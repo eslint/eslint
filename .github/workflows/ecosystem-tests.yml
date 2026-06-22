@@ -9,7 +9,9 @@ on:
         - cron: "0 0 * * *"
     workflow_dispatch: ~
 
-permissions: read-all
+permissions:
+    contents: read
+    issues: write
 
 jobs:
     test_ecosystem:
@@ -28,9 +30,30 @@ jobs:
             - continue-on-error: true
               id: tester
               run: npm run test:ecosystem -- --plugin all
-            - if: steps.tester.outcome == 'failure' && github.ref_name == 'main'
+            - name: Build failure summary
+              if: steps.tester.outcome == 'failure'
+              id: summary
+              uses: actions/github-script@v9
+              with:
+                  script: |
+                      const script = require('./tools/build-failure-summary.js');
+                      await script({ core });
+            - name: Notify Discord
+              if: steps.tester.outcome == 'failure' && github.ref_name == 'main'
               env:
                   DISCORD_WEBHOOK: ${{ secrets.DISCORD_CONTRIBUTORS_WEBHOOK }}
               uses: Ilshidur/action-discord@d2594079a10f1d6739ee50a2471f0ca57418b554 # 0.4.0
               with:
-                  args: "Ecosystem tests failed."
+                  args: |
+                      🚨 **Ecosystem tests failed!**
+                      Failed plugins: ${{ steps.summary.outputs.failed_list }}
+                      🔗 ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            - name: Create or update GitHub issue
+              if: steps.tester.outcome == 'failure' && github.ref_name == 'main'
+              uses: actions/github-script@v9
+              env:
+                  SUMMARY_TEXT: ${{ steps.summary.outputs.summary_text }}
+              with:
+                  script: |
+                      const script = require('./tools/sync-ecosystem-issue.js');
+                      await script({ github, context, core });
