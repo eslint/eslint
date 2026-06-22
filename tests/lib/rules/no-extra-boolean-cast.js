@@ -34,6 +34,21 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 		"for(;; Boolean(foo)) {}",
 		"if (new Boolean(foo)) {}",
 		"if ((Boolean(1), 2)) {}",
+
+		// shadowed `Boolean` is not the global, so the call is not redundant
+		"function foo(Boolean) { if (Boolean(bar)) {} }",
+		"let Boolean = x => x; if (Boolean(bar)) {}",
+		"function foo(Boolean) { return !!Boolean(bar); }",
+		"function foo(Boolean) { if (Boolean(!!bar)) {} }",
+		"function foo(Boolean) { if (new Boolean(!!bar)) {} }",
+		{
+			code: "function foo(Boolean) { if (bar && Boolean(baz)) {} }",
+			options: [{ enforceForLogicalOperands: true }],
+		},
+		{
+			code: "if (Boolean(bar)) {}",
+			languageOptions: { globals: { Boolean: "off" } },
+		},
 		{
 			code: "var foo = bar || !!baz",
 			options: [{ enforceForLogicalOperands: true }],
