@@ -94,7 +94,6 @@ Three new rules have been enabled in `eslint:recommended`:
 - [`no-useless-assignment`](../rules/no-useless-assignment)
 - [`preserve-caught-error`](../rules/preserve-caught-error)
 
-**Codemod:** The migration codemods do not cover this change.
 
 **To address:** Fix errors or disable these rules.
 
@@ -148,7 +147,6 @@ export function createCard(name) {
 
 Prior to v10.0.0, ESLint did not recognize that `<Card>` is a reference to the imported `Card`, which could result in false positives such as reporting `Card` as "defined but never used" ([`no-unused-vars`](../rules/no-unused-vars)) or false negatives such as failing to report `Card` as undefined ([`no-undef`](../rules/no-undef)) if the import is removed. Starting with v10.0.0, `<Card>` is treated as a normal reference to the variable in scope. This brings JSX handling in line with developer expectations and improves the linting experience for modern JavaScript applications using JSX.
 
-**Codemod:** The migration codemods do not cover this change.
 
 **To address:**
 
@@ -169,7 +167,6 @@ error: /* eslint-env */ comments are no longer supported at file.js:1:1:
     | ^
 ```
 
-**Codemod:** The migration codemods do not cover this change.
 
 **To address:** Remove any `eslint-env` comments from your code. If you are still using the old configuration system and need help migrating, check the [migration guide](./configure/migration-guide#eslint-env-configuration-comments).
 
@@ -179,7 +176,6 @@ error: /* eslint-env */ comments are no longer supported at file.js:1:1:
 
 ESLint is officially dropping support for versions of `jiti` that are less than v2.2.0.
 
-**Codemod:** The migration codemods do not cover this change.
 
 **To address:** If you've authored your config file in `TypeScript` and have `jiti` v2.1.2 or earlier installed, be sure to update it to at least `2.2.0` when using ESLint v10.0.0.
 
@@ -197,7 +193,6 @@ npx eslint "**/[[:upper:]]*.js"
 
 Here, `[[:upper:]]` is a POSIX character class that matches uppercase letters in different alphabets.
 
-**Codemod:** The migration codemods do not cover this change.
 
 **To address:** If any of the glob patterns in your configuration, CLI arguments, or Node.js API calls look like containing a POSIX character class, verify that they match files as intended.
 
@@ -215,7 +210,6 @@ Starting in ESLint v10.0.0, the built-in [`stylish`](./formatters#stylish) forma
 
 2. Second, `--color` and `--no-color` CLI flags now have higher precedence than environment variables when determining whether to use colorized output. This change ensures that explicit user preferences via CLI flags are prioritized. However, if neither flag is provided, environment variables will be considered as before.
 
-**Codemod:** The migration codemods do not cover this change.
 
 **To address:**
 
@@ -230,7 +224,6 @@ As of ESLint v10.0.0, string options `"always"` and `"as-needed"` of the [`radix
 
 The default behavior of this rule has not been changed.
 
-**Codemod:** The migration codemods do not cover this change.
 
 **To address:**
 
@@ -244,7 +237,6 @@ The default behavior of this rule has not been changed.
 
 In ESLint v10.0.0, the [`no-shadow-restricted-names`](../rules/no-shadow-restricted-names) rule now treats `globalThis` as a restricted name by default. Consequently, the `reportGlobalThis` option now defaults to `true` (previously `false`). As a result, declarations such as `const globalThis = "foo";` or `function globalThis() {}` will now be reported by default.
 
-**Codemod:** The migration codemods do not cover this change.
 
 **To address:**
 
@@ -271,7 +263,6 @@ For example, this configuration is now invalid due to the extra element `"foo"`:
 /*eslint func-names: ["error", "always", { "generators": "never" }, "foo"]*/
 ```
 
-**Codemod:** The migration codemods do not cover this change.
 
 **To address:**
 
@@ -291,7 +282,6 @@ For example, this configuration is now invalid due to the duplicate `"u"` flag:
 /*eslint no-invalid-regexp: ["error", { "allowConstructorFlags": ["u", "y", "u"] }]*/
 ```
 
-**Codemod:** The migration codemods do not cover this change.
 
 **To address:** Remove any duplicate flags from your `allowConstructorFlags` array configuration of `no-invalid-regexp` rule. Each flag should appear only once in the array.
 
@@ -303,7 +293,6 @@ In ESLint v10.0.0, the `name` property has been restored to the ESLint core conf
 
 This change should not require any action for most users. However, if you are using `@eslint/js` v10.x with the `FlatCompat` utility from `@eslint/eslintrc`, you should upgrade `@eslint/eslintrc` to the latest version to ensure compatibility.
 
-**Codemod:** The migration codemods do not cover this change.
 
 **To address:** Upgrade `@eslint/eslintrc` to the latest version if you are using `FlatCompat`.
 
@@ -335,7 +324,7 @@ In ESLint v9 and earlier, `Program.range` covers only `const x = 1;` (excludes s
 
 Starting with ESLint v10.0.0, `Program.range` covers the entire source text, including the leading and trailing comments/whitespace.
 
-**Codemod:** The migration codemods do not cover this change.
+
 
 **To address:**
 
@@ -357,7 +346,7 @@ Affected methods:
 - `replaceText(nodeOrToken, text)`
 - `replaceTextRange(range, text)`
 
-**Codemod:** The migration codemods do not cover this change.
+
 
 **To address:** Ensure the `text` value you pass to fixer methods is a string.
 
@@ -371,7 +360,7 @@ The default `ScopeManager` implementation [`eslint-scope`](https://www.npmjs.com
 
 This change does not affect custom rules.
 
-**Codemod:** The migration codemods do not cover this change.
+
 
 **To address:** If you maintain a custom parser that provides a custom `ScopeManager` implementation, update your custom `ScopeManager` implementation.
 
