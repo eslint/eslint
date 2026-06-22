@@ -71,6 +71,10 @@ ruleTester.run("prefer-promise-reject-errors", rule, {
 		"function f(Promise) { return Promise.reject('x'); }",
 		"{ class Promise { static reject(x) { return x; } } Promise.reject('x'); }",
 		"function g(Promise) { return new Promise((resolve, reject) => { reject('x'); }); }",
+
+		// Shadowed `undefined` could be an Error object
+		"function f(undefined) { Promise.reject(undefined); }",
+		"function f(undefined) { new Promise((resolve, reject) => reject(undefined)); }",
 	],
 
 	invalid: [
