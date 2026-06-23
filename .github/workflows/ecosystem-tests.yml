@@ -33,8 +33,12 @@ jobs:
               with:
                   node-version: "lts/*"
 
+            - name: Determine package manager
+              id: get_pm
+              run: echo "pm=$(jq -r --arg plugin "${{ matrix.plugin }}" '.[$plugin].commands.install[0]' tools/test-ecosystem/plugins-data.json)" >> "$GITHUB_OUTPUT"
+
             - name: Install Corepack latest
-              if: matrix.plugin == '@typescript-eslint/typescript-eslint'
+              if: steps.get_pm.outputs.pm == 'pnpm'
               run: |
                   npm install -g corepack@latest
                   corepack enable pnpm
