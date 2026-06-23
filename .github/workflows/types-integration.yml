@@ -14,12 +14,12 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout eslint
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                   path: eslint
 
             - name: Checkout neostandard
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                   repository: neostandard/neostandard
                   path: neostandard
@@ -46,12 +46,12 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout eslint
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                   path: eslint
 
             - name: Checkout eslint-flat-config-utils
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                   repository: antfu/eslint-flat-config-utils
                   path: antfu
@@ -83,12 +83,12 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout eslint
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                   path: eslint
 
             - name: Checkout eslint/js
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                   repository: eslint/js
                   path: eslint-js
@@ -121,12 +121,12 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout eslint
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                   path: eslint
 
             - name: Checkout @eslint/json
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                   repository: eslint/json
                   path: json
@@ -155,12 +155,12 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout eslint
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                   path: eslint
 
             - name: Checkout html-eslint
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                   repository: yeonjuan/html-eslint
                   path: html-eslint
@@ -204,7 +204,7 @@ jobs:
 
         steps:
             - name: Checkout ${{ matrix.package.name }}
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
 
             - uses: actions/setup-node@v6
               with:
