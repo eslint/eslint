@@ -54,8 +54,6 @@ ruleTester.run("use-isnan", rule, {
 		"x === (NaN, 1)",
 		"x === (doStuff(), NaN, 1)",
 		"x === (doStuff(), Number.NaN, 1)",
-		"x === Number?.NaN",
-		"x !== Number?.NaN",
 
 		//------------------------------------------------------------------------------
 		// enforceForSwitchCase
@@ -842,6 +840,36 @@ ruleTester.run("use-isnan", rule, {
 				{
 					...comparisonError,
 					suggestions: [],
+				},
+			],
+		},
+		{
+			code: "x === Number?.NaN;",
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					...comparisonError,
+					suggestions: [
+						{
+							messageId: "replaceWithIsNaN",
+							output: "Number.isNaN(x);",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "x !== Number?.NaN;",
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					...comparisonError,
+					suggestions: [
+						{
+							messageId: "replaceWithIsNaN",
+							output: "!Number.isNaN(x);",
+						},
+					],
 				},
 			],
 		},
