@@ -77,6 +77,10 @@ ruleTester.run("no-promise-executor-return", rule, {
 		"function f(Promise) { new Promise((resolve, reject) => 1); }",
 		"if (x) { const Promise = foo(); new Promise(function (resolve, reject) { return 1; }); }",
 		"x = function Promise() { new Promise((resolve, reject) => { return 1; }); }",
+		{
+			code: "const globalThis = { Promise }; new globalThis.Promise((resolve, reject) => 1);",
+			languageOptions: { ecmaVersion: 2020 },
+		},
 
 		// return without a value is allowed
 		"new Promise(function (resolve, reject) { return; });",
@@ -1060,6 +1064,32 @@ ruleTester.run("no-promise-executor-return", rule, {
 		},
 		{
 			code: "new Promise(function Promise(resolve, reject) { return 1; })",
+			errors: [
+				{
+					messageId: "returnsValue",
+					suggestions: null,
+				},
+			],
+		},
+		{
+			code: "new globalThis.Promise((resolve, reject) => 1)",
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "returnsValue",
+					column: 45,
+					suggestions: [
+						{
+							messageId: "wrapBraces",
+							output: "new globalThis.Promise((resolve, reject) => {1})",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "new globalThis['Promise']((resolve, reject) => { return 1; })",
+			languageOptions: { ecmaVersion: 2020 },
 			errors: [
 				{
 					messageId: "returnsValue",
