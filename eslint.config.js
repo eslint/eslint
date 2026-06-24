@@ -79,324 +79,324 @@ function createInternalFilesPatterns(pattern = null) {
 /**
  * @type {import("./lib/types/index.js").Linter.Config[]}
  */
-module.exports = defineConfig([
-	{
-		name: "eslint/cjs",
-		files: [ALL_JS_FILES],
-		extends: [eslintConfigESLintCJS],
+module.exports = defineConfig(
+{
+	name: "eslint/cjs",
+	files: [ALL_JS_FILES],
+	extends: [eslintConfigESLintCJS],
+},
+includeIgnoreFile(path.join(__dirname, ".gitignore"), {
+	gitignoreResolution: true,
+}),
+globalIgnores(
+	[
+		"docs/!(src|tools)/",
+		"docs/src/!(_data)",
+		"lib/types/**/*.ts",
+		"templates/**",
+		"tests/bench/**",
+		"tests/fixtures/**",
+		"tests/performance/**",
+	],
+	"eslint/global-ignores",
+),
+{
+	name: "eslint/internal-rules",
+	files: [ALL_JS_FILES],
+	plugins: {
+		"internal-rules": internalPlugin,
 	},
-	includeIgnoreFile(path.join(__dirname, ".gitignore"), {
-		gitignoreResolution: true,
-	}),
-	globalIgnores(
-		[
-			"docs/!(src|tools)/",
-			"docs/src/!(_data)",
-			"lib/types/**/*.ts",
-			"templates/**",
-			"tests/bench/**",
-			"tests/fixtures/**",
-			"tests/performance/**",
+	languageOptions: {
+		ecmaVersion: "latest",
+	},
+	rules: {
+		"internal-rules/multiline-comment-style": "error",
+	},
+},
+{
+	name: "eslint/tools",
+	files: ["tools/*.js", "docs/tools/*.js"],
+	rules: {
+		"no-console": "off",
+		"n/no-process-exit": "off",
+	},
+},
+{
+	name: "eslint/rules",
+	files: ["lib/rules/*.js", "tools/internal-rules/*.js"],
+	ignores: ["**/index.js"],
+	plugins: {
+		"eslint-plugin": eslintPluginESLint,
+	},
+	extends: ["eslint-plugin/rules-recommended"],
+	rules: {
+		"eslint-plugin/prefer-placeholders": "error",
+		"eslint-plugin/prefer-replace-text": "error",
+		"eslint-plugin/report-message-format": ["error", "^[^a-z].*\\.$"],
+		"eslint-plugin/require-meta-docs-description": [
+			"error",
+			{ pattern: "^(Enforce|Require|Disallow) .+[^. ]$" },
 		],
-		"eslint/global-ignores",
-	),
-	{
-		name: "eslint/internal-rules",
-		files: [ALL_JS_FILES],
-		plugins: {
-			"internal-rules": internalPlugin,
-		},
-		languageOptions: {
-			ecmaVersion: "latest",
-		},
-		rules: {
-			"internal-rules/multiline-comment-style": "error",
-		},
-	},
-	{
-		name: "eslint/tools",
-		files: ["tools/*.js", "docs/tools/*.js"],
-		rules: {
-			"no-console": "off",
-			"n/no-process-exit": "off",
-		},
-	},
-	{
-		name: "eslint/rules",
-		files: ["lib/rules/*.js", "tools/internal-rules/*.js"],
-		ignores: ["**/index.js"],
-		plugins: {
-			"eslint-plugin": eslintPluginESLint,
-		},
-		extends: ["eslint-plugin/rules-recommended"],
-		rules: {
-			"eslint-plugin/prefer-placeholders": "error",
-			"eslint-plugin/prefer-replace-text": "error",
-			"eslint-plugin/report-message-format": ["error", "^[^a-z].*\\.$"],
-			"eslint-plugin/require-meta-docs-description": [
-				"error",
-				{ pattern: "^(Enforce|Require|Disallow) .+[^. ]$" },
-			],
-			"internal-rules/no-invalid-meta": "error",
+		"internal-rules/no-invalid-meta": "error",
 
-			"eslint-plugin/require-meta-schema-description": "off",
-		},
+		"eslint-plugin/require-meta-schema-description": "off",
 	},
-	{
-		name: "eslint/deprecated-rules",
-		files: DEPRECATED_CORE_RULE_FILES,
-		rules: {
-			"eslint-plugin/no-meta-schema-default": "off",
-			"eslint-plugin/require-meta-default-options": "off",
-		},
+},
+{
+	name: "eslint/deprecated-rules",
+	files: DEPRECATED_CORE_RULE_FILES,
+	rules: {
+		"eslint-plugin/no-meta-schema-default": "off",
+		"eslint-plugin/require-meta-default-options": "off",
 	},
-	{
-		name: "eslint/rules-without-default-options",
-		files: [
-			"lib/rules/no-param-reassign.js",
-			"lib/rules/no-restricted-globals.js",
-			"lib/rules/no-restricted-imports.js",
-			"lib/rules/prefer-destructuring.js",
-			"lib/rules/radix.js",
+},
+{
+	name: "eslint/rules-without-default-options",
+	files: [
+		"lib/rules/no-param-reassign.js",
+		"lib/rules/no-restricted-globals.js",
+		"lib/rules/no-restricted-imports.js",
+		"lib/rules/prefer-destructuring.js",
+		"lib/rules/radix.js",
+	],
+	rules: {
+		"eslint-plugin/require-meta-default-options": "off",
+	},
+},
+{
+	name: "eslint/core-rules",
+	files: ["lib/rules/*.js"],
+	ignores: ["**/index.js"],
+	rules: {
+		"eslint-plugin/require-meta-docs-url": [
+			"error",
+			{ pattern: "https://eslint.org/docs/latest/rules/{{name}}" },
 		],
-		rules: {
-			"eslint-plugin/require-meta-default-options": "off",
-		},
 	},
-	{
-		name: "eslint/core-rules",
-		files: ["lib/rules/*.js"],
-		ignores: ["**/index.js"],
-		rules: {
-			"eslint-plugin/require-meta-docs-url": [
-				"error",
-				{ pattern: "https://eslint.org/docs/latest/rules/{{name}}" },
+},
+{
+	name: "eslint/rules-tests",
+	files: ["tests/lib/rules/*.js", "tests/tools/internal-rules/*.js"],
+	plugins: {
+		"eslint-plugin": eslintPluginESLint,
+	},
+	extends: ["eslint-plugin/tests-recommended"],
+	rules: {
+		"eslint-plugin/test-case-property-ordering": [
+			"error",
+			[
+				"name",
+				"filename",
+				"code",
+				"output",
+				"options",
+				"languageOptions",
+				"errors",
 			],
+		],
+		"eslint-plugin/test-case-shorthand-strings": "error",
+		"no-useless-concat": "off",
+	},
+},
+{
+	name: "eslint/tests",
+	files: ["tests/**/*.js"],
+	ignores: ["tests/lib/rules/*.js", "tests/tools/internal-rules/*.js"],
+	languageOptions: {
+		globals: {
+			...globals.mocha,
 		},
 	},
-	{
-		name: "eslint/rules-tests",
-		files: ["tests/lib/rules/*.js", "tests/tools/internal-rules/*.js"],
-		plugins: {
-			"eslint-plugin": eslintPluginESLint,
-		},
-		extends: ["eslint-plugin/tests-recommended"],
-		rules: {
-			"eslint-plugin/test-case-property-ordering": [
-				"error",
-				[
-					"name",
-					"filename",
-					"code",
-					"output",
-					"options",
-					"languageOptions",
-					"errors",
-				],
-			],
-			"eslint-plugin/test-case-shorthand-strings": "error",
-			"no-useless-concat": "off",
-		},
-	},
-	{
-		name: "eslint/tests",
-		files: ["tests/**/*.js"],
-		ignores: ["tests/lib/rules/*.js", "tests/tools/internal-rules/*.js"],
-		languageOptions: {
-			globals: {
-				...globals.mocha,
+	rules: {
+		"no-restricted-syntax": [
+			"error",
+			{
+				selector:
+					"CallExpression[callee.object.name='assert'][callee.property.name='doesNotThrow']",
+				message:
+					"`assert.doesNotThrow()` should be replaced with a comment next to the code.",
 			},
-		},
-		rules: {
-			"no-restricted-syntax": [
-				"error",
-				{
-					selector:
-						"CallExpression[callee.object.name='assert'][callee.property.name='doesNotThrow']",
-					message:
-						"`assert.doesNotThrow()` should be replaced with a comment next to the code.",
-				},
-			],
-		},
+		],
 	},
+},
 
-	// JSON files
-	{
-		name: "eslint/json",
-		files: ["**/*.json", ".c8rc"],
-		ignores: ["**/package-lock.json"],
-		plugins: { json },
-		language: "json/json",
-		extends: ["json/recommended"],
-	},
+// JSON files
+{
+	name: "eslint/json",
+	files: ["**/*.json", ".c8rc"],
+	ignores: ["**/package-lock.json"],
+	plugins: { json },
+	language: "json/json",
+	extends: ["json/recommended"],
+},
 
-	// JSONC files
-	{
-		name: "eslint/jsonc",
-		files: ["**/tsconfig*.json", "knip.jsonc"],
-		plugins: { json },
-		language: "json/jsonc",
-		languageOptions: { allowTrailingCommas: true },
-		extends: ["json/recommended"],
-	},
+// JSONC files
+{
+	name: "eslint/jsonc",
+	files: ["**/tsconfig*.json", "knip.jsonc"],
+	plugins: { json },
+	language: "json/jsonc",
+	languageOptions: { allowTrailingCommas: true },
+	extends: ["json/recommended"],
+},
 
-	// JSON5 files
-	{
-		name: "eslint/json5",
-		files: ["**/*.json5"],
-		plugins: { json },
-		language: "json/json5",
-		extends: ["json/recommended"],
-	},
+// JSON5 files
+{
+	name: "eslint/json5",
+	files: ["**/*.json5"],
+	plugins: { json },
+	language: "json/json5",
+	extends: ["json/recommended"],
+},
 
-	// Restrict relative path imports
-	{
-		name: "eslint/lib",
-		files: ["lib/*.js"],
-		ignores: ["lib/unsupported-api.js", "lib/universal.js"],
-		rules: {
-			"n/no-restricted-require": [
-				"error",
-				[...createInternalFilesPatterns()],
+// Restrict relative path imports
+{
+	name: "eslint/lib",
+	files: ["lib/*.js"],
+	ignores: ["lib/unsupported-api.js", "lib/universal.js"],
+	rules: {
+		"n/no-restricted-require": [
+			"error",
+			[...createInternalFilesPatterns()],
+		],
+	},
+},
+{
+	name: "eslint/cli-engine",
+	files: [INTERNAL_FILES.CLI_ENGINE_PATTERN],
+	rules: {
+		"n/no-restricted-require": [
+			"error",
+			[
+				...createInternalFilesPatterns(
+					INTERNAL_PATHS.CLI_ENGINE_PATTERN,
+				),
+			],
+		],
+	},
+},
+{
+	name: "eslint/linter",
+	files: [INTERNAL_FILES.LINTER_PATTERN],
+	rules: {
+		"n/no-restricted-require": [
+			"error",
+			[
+				...createInternalFilesPatterns(
+					INTERNAL_PATHS.LINTER_PATTERN,
+				),
+				"fs",
+				resolveAbsolutePath("lib/cli-engine/index.js"),
+				resolveAbsolutePath("lib/rule-tester/index.js"),
+			],
+		],
+	},
+},
+{
+	name: "eslint/rules",
+	files: [INTERNAL_FILES.RULES_PATTERN],
+	rules: {
+		"n/no-restricted-require": [
+			"error",
+			[
+				...createInternalFilesPatterns(
+					INTERNAL_PATHS.RULES_PATTERN,
+				),
+				"fs",
+				resolveAbsolutePath("lib/cli-engine/index.js"),
+				resolveAbsolutePath("lib/linter/index.js"),
+				resolveAbsolutePath("lib/rule-tester/index.js"),
+				resolveAbsolutePath("lib/source-code/index.js"),
+			],
+		],
+	},
+},
+{
+	name: "eslint/shared",
+	files: ["lib/shared/**/*.js"],
+	rules: {
+		"n/no-restricted-require": [
+			"error",
+			[
+				...createInternalFilesPatterns(),
+				resolveAbsolutePath("lib/cli-engine/index.js"),
+				resolveAbsolutePath("lib/linter/index.js"),
+				resolveAbsolutePath("lib/rule-tester/index.js"),
+				resolveAbsolutePath("lib/source-code/index.js"),
+			],
+		],
+	},
+},
+{
+	name: "eslint/source-code",
+	files: [INTERNAL_FILES.SOURCE_CODE_PATTERN],
+	rules: {
+		"n/no-restricted-require": [
+			"error",
+			[
+				...createInternalFilesPatterns(
+					INTERNAL_PATHS.SOURCE_CODE_PATTERN,
+				),
+				"fs",
+				resolveAbsolutePath("lib/cli-engine/index.js"),
+				resolveAbsolutePath("lib/linter/index.js"),
+				resolveAbsolutePath("lib/rule-tester/index.js"),
+				resolveAbsolutePath("lib/rules/index.js"),
+			],
+		],
+	},
+},
+{
+	name: "eslint/rule-tester",
+	files: [INTERNAL_FILES.RULE_TESTER_PATTERN],
+	rules: {
+		"n/no-restricted-require": [
+			"error",
+			[resolveAbsolutePath("lib/cli-engine/index.js")],
+		],
+	},
+},
+...eslintPluginYml.configs["flat/recommended"].map(config => ({
+	...config,
+	files: [ALL_YAML_FILES],
+})),
+{
+	name: "eslint/ts-rules",
+	files: ["tests/lib/types/*.ts", "packages/**/*.{ts,mts,cts}"],
+	languageOptions: {
+		parser: tsParser,
+		parserOptions: {
+			project: [
+				"tests/lib/types/tsconfig.json",
+				"packages/js/tests/types/tsconfig.json",
+				"packages/eslint-config-eslint/tests/types/tsconfig.json",
 			],
 		},
 	},
-	{
-		name: "eslint/cli-engine",
-		files: [INTERNAL_FILES.CLI_ENGINE_PATTERN],
-		rules: {
-			"n/no-restricted-require": [
-				"error",
-				[
-					...createInternalFilesPatterns(
-						INTERNAL_PATHS.CLI_ENGINE_PATTERN,
-					),
-				],
-			],
-		},
+	plugins: {
+		"expect-type": expectType,
 	},
-	{
-		name: "eslint/linter",
-		files: [INTERNAL_FILES.LINTER_PATTERN],
-		rules: {
-			"n/no-restricted-require": [
-				"error",
-				[
-					...createInternalFilesPatterns(
-						INTERNAL_PATHS.LINTER_PATTERN,
-					),
-					"fs",
-					resolveAbsolutePath("lib/cli-engine/index.js"),
-					resolveAbsolutePath("lib/rule-tester/index.js"),
-				],
-			],
-		},
+	rules: {
+		"expect-type/expect": "error",
 	},
-	{
-		name: "eslint/rules",
-		files: [INTERNAL_FILES.RULES_PATTERN],
-		rules: {
-			"n/no-restricted-require": [
-				"error",
-				[
-					...createInternalFilesPatterns(
-						INTERNAL_PATHS.RULES_PATTERN,
-					),
-					"fs",
-					resolveAbsolutePath("lib/cli-engine/index.js"),
-					resolveAbsolutePath("lib/linter/index.js"),
-					resolveAbsolutePath("lib/rule-tester/index.js"),
-					resolveAbsolutePath("lib/source-code/index.js"),
-				],
-			],
-		},
+},
+{
+	name: "eslint/bin",
+	files: ["bin/eslint.js"],
+	rules: {
+		/*
+		 * it was introduced in Node.js v22.8.0
+		 * refs: https://nodejs.org/en/blog/release/v22.8.0#new-js-api-for-compile-cache
+		 */
+		"n/no-unsupported-features/node-builtins": [
+			2,
+			{ ignores: ["module.enableCompileCache"] },
+		],
 	},
-	{
-		name: "eslint/shared",
-		files: ["lib/shared/**/*.js"],
-		rules: {
-			"n/no-restricted-require": [
-				"error",
-				[
-					...createInternalFilesPatterns(),
-					resolveAbsolutePath("lib/cli-engine/index.js"),
-					resolveAbsolutePath("lib/linter/index.js"),
-					resolveAbsolutePath("lib/rule-tester/index.js"),
-					resolveAbsolutePath("lib/source-code/index.js"),
-				],
-			],
-		},
-	},
-	{
-		name: "eslint/source-code",
-		files: [INTERNAL_FILES.SOURCE_CODE_PATTERN],
-		rules: {
-			"n/no-restricted-require": [
-				"error",
-				[
-					...createInternalFilesPatterns(
-						INTERNAL_PATHS.SOURCE_CODE_PATTERN,
-					),
-					"fs",
-					resolveAbsolutePath("lib/cli-engine/index.js"),
-					resolveAbsolutePath("lib/linter/index.js"),
-					resolveAbsolutePath("lib/rule-tester/index.js"),
-					resolveAbsolutePath("lib/rules/index.js"),
-				],
-			],
-		},
-	},
-	{
-		name: "eslint/rule-tester",
-		files: [INTERNAL_FILES.RULE_TESTER_PATTERN],
-		rules: {
-			"n/no-restricted-require": [
-				"error",
-				[resolveAbsolutePath("lib/cli-engine/index.js")],
-			],
-		},
-	},
-	...eslintPluginYml.configs["flat/recommended"].map(config => ({
-		...config,
-		files: [ALL_YAML_FILES],
-	})),
-	{
-		name: "eslint/ts-rules",
-		files: ["tests/lib/types/*.ts", "packages/**/*.{ts,mts,cts}"],
-		languageOptions: {
-			parser: tsParser,
-			parserOptions: {
-				project: [
-					"tests/lib/types/tsconfig.json",
-					"packages/js/tests/types/tsconfig.json",
-					"packages/eslint-config-eslint/tests/types/tsconfig.json",
-				],
-			},
-		},
-		plugins: {
-			"expect-type": expectType,
-		},
-		rules: {
-			"expect-type/expect": "error",
-		},
-	},
-	{
-		name: "eslint/bin",
-		files: ["bin/eslint.js"],
-		rules: {
-			/*
-			 * it was introduced in Node.js v22.8.0
-			 * refs: https://nodejs.org/en/blog/release/v22.8.0#new-js-api-for-compile-cache
-			 */
-			"n/no-unsupported-features/node-builtins": [
-				2,
-				{ ignores: ["module.enableCompileCache"] },
-			],
-		},
-	},
-	{
-		name: "eslint/pnpm-test",
-		files: ["tests/pnpm/**/*.js"],
-		languageOptions: { sourceType: "module" },
-	},
-]);
+},
+{
+	name: "eslint/pnpm-test",
+	files: ["tests/pnpm/**/*.js"],
+	languageOptions: { sourceType: "module" },
+},
+);

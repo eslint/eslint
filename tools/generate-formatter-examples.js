@@ -49,7 +49,7 @@ const exampleCode = [
 	"};",
 ].join("\n");
 
-const exampleConfig = defineConfig([
+const exampleConfig = defineConfig(
 	js.configs.recommended,
 	{
 		rules: {
@@ -60,7 +60,7 @@ const exampleConfig = defineConfig([
 			"space-unary-ops": 2,
 		},
 	},
-]);
+);
 
 /**
  * Gets linting results from every formatter, based on a hard-coded snippet and config
