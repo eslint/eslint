@@ -27,11 +27,19 @@ ruleTester.run("symbol-description", rule, {
 	valid: [
 		'Symbol("Foo");',
 		'var foo = "foo"; Symbol(foo);',
+		{
+			code: 'globalThis.Symbol("Foo");',
+			languageOptions: { ecmaVersion: 2020 },
+		},
 
 		// Ignore if it's shadowed.
 		"var Symbol = function () {}; Symbol();",
 		"Symbol(); var Symbol = function () {};",
 		"function bar() { var Symbol = function () {}; Symbol(); }",
+		{
+			code: "const globalThis = { Symbol }; globalThis.Symbol();",
+			languageOptions: { ecmaVersion: 2020 },
+		},
 
 		// Ignore if it's an argument.
 		"function bar(Symbol) { Symbol(); }",
@@ -48,6 +56,24 @@ ruleTester.run("symbol-description", rule, {
 		},
 		{
 			code: "Symbol(); Symbol = function () {};",
+			errors: [
+				{
+					messageId: "expected",
+				},
+			],
+		},
+		{
+			code: "globalThis.Symbol();",
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "expected",
+				},
+			],
+		},
+		{
+			code: "globalThis['Symbol']();",
+			languageOptions: { ecmaVersion: 2020 },
 			errors: [
 				{
 					messageId: "expected",
