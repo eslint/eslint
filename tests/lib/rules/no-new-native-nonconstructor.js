@@ -33,6 +33,10 @@ ruleTester.run("no-new-native-nonconstructor", rule, {
 		"function BigInt() {} new BigInt();",
 		"new foo(BigInt);",
 		"new foo(bar, BigInt);",
+		{
+			code: "const globalThis = { Symbol }; new globalThis.Symbol();",
+			languageOptions: { ecmaVersion: 2020 },
+		},
 	],
 	invalid: [
 		// Symbol
@@ -64,6 +68,24 @@ ruleTester.run("no-new-native-nonconstructor", rule, {
 		},
 		{
 			code: "function bar() { return function BigInt() {}; } var baz = new BigInt(9007199254740991);",
+			errors: [
+				{
+					message: "`BigInt` cannot be called as a constructor.",
+				},
+			],
+		},
+		{
+			code: "var foo = new globalThis.Symbol('foo');",
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					message: "`Symbol` cannot be called as a constructor.",
+				},
+			],
+		},
+		{
+			code: "var foo = new globalThis['BigInt'](9007199254740991);",
+			languageOptions: { ecmaVersion: 2020 },
 			errors: [
 				{
 					message: "`BigInt` cannot be called as a constructor.",
