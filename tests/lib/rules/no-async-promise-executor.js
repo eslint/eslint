@@ -32,6 +32,10 @@ ruleTester.run("no-async-promise-executor", rule, {
 		"let Promise; new Promise(async (resolve, reject) => {})",
 		"function f() { new Promise(async (resolve, reject) => {}); var Promise; }",
 		"function f(Promise) { new Promise(async (resolve, reject) => {}); }",
+		{
+			code: "const globalThis = { Promise }; new globalThis.Promise(async (resolve, reject) => {});",
+			languageOptions: { ecmaVersion: 2020 },
+		},
 	],
 
 	invalid: [
@@ -68,6 +72,32 @@ ruleTester.run("no-async-promise-executor", rule, {
 					column: 17,
 					endLine: 1,
 					endColumn: 22,
+				},
+			],
+		},
+		{
+			code: "new globalThis.Promise(async (resolve, reject) => {})",
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "async",
+					line: 1,
+					column: 24,
+					endLine: 1,
+					endColumn: 29,
+				},
+			],
+		},
+		{
+			code: "new globalThis['Promise'](async () => {})",
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "async",
+					line: 1,
+					column: 27,
+					endLine: 1,
+					endColumn: 32,
 				},
 			],
 		},
