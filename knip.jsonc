@@ -35,10 +35,10 @@
       "ignore": ["src/assets/js/search.js", "_examples/**"],
     },
     "packages/eslint-config-eslint": {
-      "entry": ["tests/types/**/*.{cts,mts}"],
+      "entry": ["tests/types/**/*.mts"],
     },
     "packages/js": {
-      "entry": ["tests/types/**/*.ts"],
+      "entry": ["tests/types/**/*.mts"],
       "ignoreDependencies": ["eslint"],
     },
   },

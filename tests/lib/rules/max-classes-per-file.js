@@ -24,6 +24,7 @@ ruleTester.run("max-classes-per-file", rule, {
 		"class Foo {}",
 		"var x = class {};",
 		"var x = 5;",
+		"/* comment */\n/* eslint-disable rule-to-test/max-classes-per-file */\nclass A {}\nclass B {}",
 		{
 			code: "class Foo {}",
 			options: [1],
@@ -63,6 +64,11 @@ ruleTester.run("max-classes-per-file", rule, {
 			errors: [
 				{
 					messageId: "maximumExceeded",
+					data: { classCount: 2, max: 1 },
+					line: 1,
+					column: 1,
+					endLine: 2,
+					endColumn: 13,
 				},
 			],
 		},
@@ -71,6 +77,11 @@ ruleTester.run("max-classes-per-file", rule, {
 			errors: [
 				{
 					messageId: "maximumExceeded",
+					data: { classCount: 2, max: 1 },
+					line: 1,
+					column: 1,
+					endLine: 2,
+					endColumn: 30,
 				},
 			],
 		},
@@ -79,6 +90,11 @@ ruleTester.run("max-classes-per-file", rule, {
 			errors: [
 				{
 					messageId: "maximumExceeded",
+					data: { classCount: 2, max: 1 },
+					line: 1,
+					column: 1,
+					endLine: 2,
+					endColumn: 18,
 				},
 			],
 		},
@@ -87,6 +103,11 @@ ruleTester.run("max-classes-per-file", rule, {
 			errors: [
 				{
 					messageId: "maximumExceeded",
+					data: { classCount: 2, max: 1 },
+					line: 1,
+					column: 1,
+					endLine: 2,
+					endColumn: 18,
 				},
 			],
 		},
@@ -96,6 +117,11 @@ ruleTester.run("max-classes-per-file", rule, {
 			errors: [
 				{
 					messageId: "maximumExceeded",
+					data: { classCount: 2, max: 1 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 26,
 				},
 			],
 		},
@@ -105,6 +131,11 @@ ruleTester.run("max-classes-per-file", rule, {
 			errors: [
 				{
 					messageId: "maximumExceeded",
+					data: { classCount: 3, max: 2 },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 39,
 				},
 			],
 		},
@@ -118,6 +149,11 @@ ruleTester.run("max-classes-per-file", rule, {
 			errors: [
 				{
 					messageId: "maximumExceeded",
+					data: { classCount: 2, max: 1 },
+					line: 2,
+					column: 17,
+					endLine: 4,
+					endColumn: 46,
 				},
 			],
 		},
@@ -132,6 +168,24 @@ ruleTester.run("max-classes-per-file", rule, {
 			errors: [
 				{
 					messageId: "maximumExceeded",
+					data: { classCount: 3, max: 2 },
+					line: 2,
+					column: 17,
+					endLine: 5,
+					endColumn: 46,
+				},
+			],
+		},
+		{
+			code: "/* comment */\nclass A {}\nclass B {}\n/* comment */",
+			errors: [
+				{
+					messageId: "maximumExceeded",
+					data: { classCount: 2, max: 1 },
+					line: 2,
+					column: 1,
+					endLine: 3,
+					endColumn: 11,
 				},
 			],
 		},

@@ -1,6 +1,6 @@
 {
   "name": "eslint",
-  "version": "10.4.0",
+  "version": "10.5.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "type": "commonjs",
@@ -78,8 +78,15 @@
     "test:fuzz": "node Makefile.js fuzz",
     "test:performance": "node Makefile.js perf",
     "test:pnpm": "cd tests/pnpm && node check.js && pnpm install && pnpm exec tsc",
-    "test:types": "tsc -p tests/lib/types/tsconfig.json"
+    "test:types": "tsc -p tests/lib/types/tsconfig.json && npm run test:types --workspaces --if-present",
+    "test:types:5.3": "npx -p typescript@5.3 -y -- tsc -p tsconfig.types-legacy.json",
+    "test:types:5.x": "npx -p typescript@5.x -y -- tsc -p tsconfig.types.json",
+    "test:types:7.x": "npx -p @typescript/native-preview@latest -y -- tsgo -p tsconfig.types.json",
+    "test:types:all": "npm run test:types && npm run test:types:5.3 && npm run test:types:5.x && npm run test:types:7.x"
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
@@ -124,7 +131,7 @@
     "@eslint/config-array": "^0.23.5",
     "@eslint/config-helpers": "^0.6.0",
     "@eslint/core": "^1.2.1",
-    "@eslint/plugin-kit": "^0.7.1",
+    "@eslint/plugin-kit": "^0.7.2",
     "@humanfs/node": "^0.16.6",
     "@humanwhocodes/module-importer": "^1.0.1",
     "@humanwhocodes/retry": "^0.4.2",
@@ -151,12 +158,12 @@
     "optionator": "^0.9.3"
   },
   "devDependencies": {
-    "@arethetypeswrong/cli": "^0.18.0",
+    "@arethetypeswrong/cli": "^0.18.3",
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
     "@cypress/webpack-preprocessor": "^6.0.2",
     "@eslint/eslintrc": "^3.3.5",
-    "@eslint/json": "^1.2.0",
+    "@eslint/json": "^2.0.0",
     "@types/esquery": "^1.5.4",
     "@types/node": "^22.13.14",
     "@typescript-eslint/parser": "^8.58.2",
@@ -185,8 +192,8 @@
     "jiti": "^2.6.1",
     "knip": "^6.13.1",
     "lint-staged": "^11.0.0",
-    "markdown-it": "^12.2.0",
-    "markdown-it-container": "^3.0.0",
+    "markdown-it": "^14.2.0",
+    "markdown-it-container": "^4.0.0",
     "markdownlint-cli2": "^0.22.0",
     "marked": "^4.0.8",
     "metascraper": "^5.25.7",
@@ -198,7 +205,7 @@
     "mocha": "^11.7.1",
     "node-polyfill-webpack-plugin": "^1.0.3",
     "npm-license": "^0.3.3",
-    "prettier": "3.8.3",
+    "prettier": "3.8.4",
     "progress": "^2.0.3",
     "proxyquire": "^2.0.1",
     "regenerator-runtime": "^0.14.0",
@@ -228,10 +235,5 @@
   "license": "MIT",
   "engines": {
     "node": "^20.19.0 || ^22.13.0 || >=24"
-  },
-  "overrides": {
-    "@arethetypeswrong/core": {
-      "fflate": "0.8.2"
-    }
   }
 }

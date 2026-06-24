@@ -27,6 +27,7 @@ ruleTester.run("radix", rule, {
 		'parseInt("10", 1.6e1);',
 		'parseInt("10", 10.0);',
 		'parseInt("10", foo);',
+		'function foo(undefined) { parseInt("10", undefined); }',
 		'Number.parseInt("10", foo);',
 		"parseInt",
 		"Number.foo();",

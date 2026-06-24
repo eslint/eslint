@@ -25,22 +25,20 @@ const SEVERITY = 2;
 
 describe("ConfigRule", () => {
 	describe("generateConfigsFromSchema()", () => {
-		let actualConfigs;
-
 		it("should create a config with only severity for an empty schema", () => {
-			actualConfigs = generateConfigsFromSchema([]);
+			const actualConfigs = generateConfigsFromSchema([]);
+
 			assert.deepStrictEqual(actualConfigs, [SEVERITY]);
 		});
 
 		it("should create a config with only severity with no arguments", () => {
-			actualConfigs = generateConfigsFromSchema();
+			const actualConfigs = generateConfigsFromSchema();
+
 			assert.deepStrictEqual(actualConfigs, [SEVERITY]);
 		});
 
 		describe("for a single enum schema", () => {
-			before(() => {
-				actualConfigs = generateConfigsFromSchema(schema.enum);
-			});
+			const actualConfigs = generateConfigsFromSchema(schema.enum);
 
 			it("should create an array of configs", () => {
 				assert.isArray(actualConfigs);
@@ -69,11 +67,9 @@ describe("ConfigRule", () => {
 		});
 
 		describe("for a object schema with a single enum property", () => {
-			before(() => {
-				actualConfigs = generateConfigsFromSchema(
-					schema.objectWithEnum,
-				);
-			});
+			const actualConfigs = generateConfigsFromSchema(
+				schema.objectWithEnum,
+			);
 
 			it("should return configs with option objects", () => {
 				// Skip first config (severity only)
@@ -109,11 +105,9 @@ describe("ConfigRule", () => {
 		});
 
 		describe("for a object schema with a multiple enum properties", () => {
-			before(() => {
-				actualConfigs = generateConfigsFromSchema(
-					schema.objectWithMultipleEnums,
-				);
-			});
+			const actualConfigs = generateConfigsFromSchema(
+				schema.objectWithMultipleEnums,
+			);
 
 			it("should create configs for all properties in each config", () => {
 				const expectedProperties = ["firstEnum", "anotherEnum"];
@@ -145,11 +139,9 @@ describe("ConfigRule", () => {
 		});
 
 		describe("for a object schema with a single boolean property", () => {
-			before(() => {
-				actualConfigs = generateConfigsFromSchema(
-					schema.objectWithBool,
-				);
-			});
+			const actualConfigs = generateConfigsFromSchema(
+				schema.objectWithBool,
+			);
 
 			it("should return configs with option objects", () => {
 				assert.strictEqual(actualConfigs.length, 3);
@@ -185,11 +177,9 @@ describe("ConfigRule", () => {
 		});
 
 		describe("for a object schema with a multiple bool properties", () => {
-			before(() => {
-				actualConfigs = generateConfigsFromSchema(
-					schema.objectWithMultipleBools,
-				);
-			});
+			const actualConfigs = generateConfigsFromSchema(
+				schema.objectWithMultipleBools,
+			);
 
 			it("should create configs for all properties in each config", () => {
 				const expectedProperties = ["firstBool", "anotherBool"];
@@ -222,11 +212,9 @@ describe("ConfigRule", () => {
 		});
 
 		describe("for a schema with an enum and an object", () => {
-			before(() => {
-				actualConfigs = generateConfigsFromSchema(
-					schema.mixedEnumObject,
-				);
-			});
+			const actualConfigs = generateConfigsFromSchema(
+				schema.mixedEnumObject,
+			);
 
 			it("should create configs with only the enum values", () => {
 				assert.strictEqual(actualConfigs[1].length, 2);
@@ -249,11 +237,9 @@ describe("ConfigRule", () => {
 		});
 
 		describe("for a schema with an enum followed by an object with no usable properties", () => {
-			before(() => {
-				actualConfigs = generateConfigsFromSchema(
-					schema.mixedEnumObjectWithNothing,
-				);
-			});
+			const actualConfigs = generateConfigsFromSchema(
+				schema.mixedEnumObjectWithNothing,
+			);
 
 			it("should create config only for the enum", () => {
 				const expectedConfigs = [2, [2, "always"], [2, "never"]];
@@ -263,11 +249,9 @@ describe("ConfigRule", () => {
 		});
 
 		describe("for a schema with an enum preceded by an object with no usable properties", () => {
-			before(() => {
-				actualConfigs = generateConfigsFromSchema(
-					schema.mixedObjectWithNothingEnum,
-				);
-			});
+			const actualConfigs = generateConfigsFromSchema(
+				schema.mixedObjectWithNothingEnum,
+			);
 
 			it("should not create a config for the enum", () => {
 				const expectedConfigs = [2];
@@ -277,36 +261,287 @@ describe("ConfigRule", () => {
 		});
 
 		describe("for a schema with an enum preceded by a string", () => {
-			before(() => {
-				actualConfigs = generateConfigsFromSchema(
-					schema.mixedStringEnum,
-				);
-			});
+			const actualConfigs = generateConfigsFromSchema(
+				schema.mixedStringEnum,
+			);
 
-			it("should not create a config for the enum", () => {
-				const expectedConfigs = [2];
+			it("should create configs for both the string and the enum", () => {
+				const expectedConfigs = [
+					2,
+					[2, "example"],
+					[2, "example", "always"],
+					[2, "example", "never"],
+				];
 
 				assert.sameDeepMembers(actualConfigs, expectedConfigs);
 			});
 		});
 
 		describe("for a schema with oneOf", () => {
-			before(() => {
-				actualConfigs = generateConfigsFromSchema(schema.oneOf);
-			});
+			const actualConfigs = generateConfigsFromSchema(schema.oneOf);
 
 			it("should create a set of configs", () => {
 				assert.isArray(actualConfigs);
+				assert.strictEqual(actualConfigs.length, 9);
+			});
+
+			it("should include both enum and object configs", () => {
+				const options = actualConfigs.slice(1).map(c => c[1]);
+
+				assert.include(options, "before");
+				assert.include(options, "after");
+				assert.include(options, "both");
+				assert.include(options, "neither");
+				assert.deepInclude(options, { before: true, after: true });
+				assert.deepInclude(options, { before: true, after: false });
+				assert.deepInclude(options, { before: false, after: true });
+				assert.deepInclude(options, { before: false, after: false });
 			});
 		});
 
 		describe("for a schema with nested objects", () => {
-			before(() => {
-				actualConfigs = generateConfigsFromSchema(schema.nestedObjects);
-			});
+			const actualConfigs = generateConfigsFromSchema(
+				schema.nestedObjects,
+			);
 
 			it("should create a set of configs", () => {
 				assert.isArray(actualConfigs);
+				assert.strictEqual(actualConfigs.length, 3);
+			});
+
+			it("should include nested object configs", () => {
+				const options = actualConfigs.slice(1).map(c => c[1]);
+
+				assert.deepInclude(options, {
+					prefer: { nestedProperty: true },
+				});
+				assert.deepInclude(options, {
+					prefer: { nestedProperty: false },
+				});
+			});
+		});
+
+		describe("for a schema with anyOf", () => {
+			const actualConfigs = generateConfigsFromSchema(schema.anyOf);
+
+			it("should create a set of configs", () => {
+				assert.isArray(actualConfigs);
+				assert.strictEqual(actualConfigs.length, 9);
+			});
+
+			it("should include both enum and object configs", () => {
+				const options = actualConfigs.slice(1).map(c => c[1]);
+
+				assert.include(options, "before");
+				assert.include(options, "after");
+				assert.include(options, "both");
+				assert.include(options, "neither");
+				assert.deepInclude(options, { before: true, after: true });
+				assert.deepInclude(options, { before: true, after: false });
+				assert.deepInclude(options, { before: false, after: true });
+				assert.deepInclude(options, { before: false, after: false });
+			});
+		});
+
+		describe("for a schema with items", () => {
+			const actualConfigs = generateConfigsFromSchema(schema.items);
+
+			it("should create an array containing one string", () => {
+				assert.isArray(actualConfigs);
+				assert.strictEqual(actualConfigs.length, 2);
+				assert.deepStrictEqual(actualConfigs[1], [2, ["example"]]);
+			});
+		});
+
+		describe("for a schema with items array", () => {
+			const actualConfigs = generateConfigsFromSchema(schema.itemsArray);
+
+			it("should create an array containing a string and a number", () => {
+				assert.isArray(actualConfigs);
+				assert.strictEqual(actualConfigs.length, 2);
+				assert.isArray(actualConfigs[1]);
+				assert.isArray(actualConfigs[1][1]);
+				assert.strictEqual(actualConfigs[1][1].length, 2);
+				assert.strictEqual(actualConfigs[1][1][0], "example");
+				assert.isNumber(actualConfigs[1][1][1]);
+			});
+		});
+
+		describe("for a schema with a $ref", () => {
+			const s = [...schema.ref];
+
+			s.definitions = schema.definitions;
+			const actualConfigs = generateConfigsFromSchema(s);
+
+			it("should resolve the $ref and create configs", () => {
+				assert.isArray(actualConfigs);
+				assert.strictEqual(actualConfigs.length, 2);
+				assert.deepStrictEqual(actualConfigs[1], [2, "example"]);
+			});
+		});
+
+		describe("for a schema with a string", () => {
+			const actualConfigs = generateConfigsFromSchema(schema.string);
+
+			it("should create configs with a non-empty example string", () => {
+				assert.isArray(actualConfigs);
+				assert.strictEqual(actualConfigs.length, 2);
+				assert.deepStrictEqual(actualConfigs[1], [2, "example"]);
+			});
+		});
+
+		describe("for a schema with a number", () => {
+			const actualConfigs = generateConfigsFromSchema(schema.number);
+
+			it("should create configs with a number", () => {
+				assert.isArray(actualConfigs);
+				assert.strictEqual(actualConfigs.length, 2);
+				assert.isArray(actualConfigs[1]);
+				assert.isNumber(actualConfigs[1][1]);
+			});
+		});
+
+		describe("for a schema with a number with min and max constraints", () => {
+			const actualConfigs = generateConfigsFromSchema(
+				schema.numberWithMinMax,
+			);
+
+			it("should create configs with a number within the min and max bounds", () => {
+				assert.isArray(actualConfigs);
+				assert.strictEqual(actualConfigs.length, 2);
+				assert.isArray(actualConfigs[1]);
+
+				const value = actualConfigs[1][1];
+
+				assert.isNumber(value);
+				assert.isAtLeast(value, schema.numberWithMinMax[0].minimum);
+				assert.isAtMost(value, schema.numberWithMinMax[0].maximum);
+			});
+		});
+
+		describe("for a schema with an integer", () => {
+			const actualConfigs = generateConfigsFromSchema(schema.integer);
+
+			it("should create configs with a random integer", () => {
+				assert.isArray(actualConfigs);
+				assert.strictEqual(actualConfigs.length, 2);
+				assert.isArray(actualConfigs[1]);
+				assert.isTrue(
+					Number.isInteger(actualConfigs[1][1]),
+					"type: integer should generate an integer",
+				);
+			});
+		});
+
+		describe("for a schema with an object with many enum properties", () => {
+			const actualConfigs = generateConfigsFromSchema(
+				schema.objectWithManyEnums,
+			);
+
+			it("should limit configs to MAX_CONFIGS_PER_RULE", () => {
+				assert.isArray(actualConfigs);
+
+				/*
+				 * Total combinations would be 3*3*3*3 = 81, plus severity-only = 82
+				 * but should be capped at 50 + 1 (severity-only) = 51
+				 */
+				assert.isAtMost(actualConfigs.length, 51);
+			});
+		});
+
+		describe("for a schema with a top-level anyOf (like curly, eqeqeq)", () => {
+			const actualConfigs = generateConfigsFromSchema(
+				schema.topLevelAnyOf,
+			);
+
+			it("should create configs from all branches", () => {
+				assert.isArray(actualConfigs);
+
+				// Should have configs from both branches
+				assert.isTrue(actualConfigs.length > 1);
+			});
+
+			it("should include enum values from both branches", () => {
+				const options = actualConfigs
+					.filter(c => Array.isArray(c))
+					.map(c => c[1]);
+
+				// Branch 1: "all"
+				assert.include(options, "all");
+
+				// Branch 2: "multi", "multi-line", "multi-or-nest"
+				assert.include(options, "multi");
+				assert.include(options, "multi-line");
+				assert.include(options, "multi-or-nest");
+			});
+
+			it("should include second-position enum from the second branch", () => {
+				const secondOptions = actualConfigs
+					.filter(c => Array.isArray(c) && c.length >= 3)
+					.map(c => c[2]);
+
+				assert.include(secondOptions, "consistent");
+			});
+
+			it("should deduplicate the severity-only config", () => {
+				const severityOnlyCount = actualConfigs.filter(
+					c => c === 2,
+				).length;
+
+				assert.strictEqual(severityOnlyCount, 1);
+			});
+		});
+
+		describe("for a schema with type:array + oneOf (like logical-assignment-operators)", () => {
+			const actualConfigs = generateConfigsFromSchema(
+				schema.arrayWithOneOf,
+			);
+
+			it("should create configs from all oneOf branches", () => {
+				assert.isArray(actualConfigs);
+				assert.isTrue(actualConfigs.length > 1);
+			});
+
+			it("should include const values from both branches", () => {
+				const options = actualConfigs
+					.filter(c => Array.isArray(c))
+					.map(c => c[1]);
+
+				// Branch 1 uses { const: "always" }, Branch 2 uses { const: "never" }
+				assert.include(options, "always");
+				assert.include(options, "never");
+			});
+
+			it("should include object configs from the first branch", () => {
+				const objectConfigs = actualConfigs.filter(
+					c =>
+						Array.isArray(c) &&
+						c.length >= 3 &&
+						typeof c[2] === "object",
+				);
+
+				assert.isTrue(
+					objectConfigs.length > 0,
+					"should have configs with object options from the 'always' branch",
+				);
+			});
+
+			it("should deduplicate the severity-only config", () => {
+				const severityOnlyCount = actualConfigs.filter(
+					c => c === 2,
+				).length;
+
+				assert.strictEqual(severityOnlyCount, 1);
+			});
+		});
+
+		describe("for a schema with a const value", () => {
+			const actualConfigs = generateConfigsFromSchema(schema.constValue);
+
+			it("should create configs with the const value", () => {
+				assert.isArray(actualConfigs);
+				assert.strictEqual(actualConfigs.length, 2);
+				assert.deepStrictEqual(actualConfigs[1], [2, "strict"]);
 			});
 		});
 	});
