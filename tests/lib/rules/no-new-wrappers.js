@@ -49,6 +49,10 @@ ruleTester.run("no-new-wrappers", rule, {
 				},
 			},
 		},
+		{
+			code: "const globalThis = { String }; new globalThis.String();",
+			languageOptions: { ecmaVersion: 2020 },
+		},
 		`
         /* global Boolean:off */
         assert(new Boolean);
@@ -104,6 +108,54 @@ ruleTester.run("no-new-wrappers", rule, {
 						fn: "String",
 					},
 					line: 2,
+				},
+			],
+		},
+		{
+			code: "var a = new globalThis.String('hello');",
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "noConstructor",
+					data: {
+						fn: "String",
+					},
+				},
+			],
+		},
+		{
+			code: "var a = new globalThis['Number'](10);",
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "noConstructor",
+					data: {
+						fn: "Number",
+					},
+				},
+			],
+		},
+		{
+			code: "var a = new globalThis.Boolean(false);",
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "noConstructor",
+					data: {
+						fn: "Boolean",
+					},
+				},
+			],
+		},
+		{
+			code: "const String = CustomString; var a = new globalThis.String('hello');",
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "noConstructor",
+					data: {
+						fn: "String",
+					},
 				},
 			],
 		},
