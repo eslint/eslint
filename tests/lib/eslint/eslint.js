@@ -9458,6 +9458,183 @@ describe("ESLint", () => {
 				"no-sparse-arrays errors should NOT be suppressed",
 			);
 		});
+
+		describe("with the `unstable_external_file_matching` flag", () => {
+			it("should lint a file outside the base path when a relative path is used", async () => {
+				const cwd = getFixturePath("external-file-matching/main/foo");
+				eslint = new ESLint({
+					cwd,
+					overrideConfigFile: "eslint.config.js",
+					flags: ["unstable_external_file_matching"],
+				});
+				const results = await eslint.lintFiles(["../bar/index.js"]);
+
+				assert.strictEqual(results.length, 1);
+				assert.strictEqual(
+					results[0].filePath,
+					path.join(cwd, "../bar/index.js"),
+				);
+				assert.strictEqual(results[0].messages.length, 1);
+				assert.strictEqual(results[0].messages[0].ruleId, "no-var");
+			});
+
+			it("should lint a file outside the base path when a relative pattern is used", async () => {
+				const cwd = getFixturePath("external-file-matching/main/foo");
+				eslint = new ESLint({
+					cwd,
+					overrideConfigFile: "eslint.config.js",
+					flags: ["unstable_external_file_matching"],
+				});
+				const results = await eslint.lintFiles(["../**/*.js"]);
+
+				assert.strictEqual(results.length, 2);
+				assert.strictEqual(
+					results[0].filePath,
+					path.join(cwd, "../bar/index.js"),
+				);
+				assert.strictEqual(results[0].messages.length, 1);
+				assert.strictEqual(results[0].messages[0].ruleId, "no-var");
+				assert.strictEqual(results[1].messages.length, 0);
+			});
+
+			it("should not lint a file outside the base path when a pattern starts with '**/'", async () => {
+				const cwd = getFixturePath("external-file-matching/main/foo");
+				eslint = new ESLint({
+					cwd,
+					overrideConfigFile: "eslint.config.js",
+					flags: ["unstable_external_file_matching"],
+				});
+				const results = await eslint.lintFiles(["**/*.js"]);
+
+				assert.strictEqual(results.length, 1);
+			});
+
+			describe("should resolve config `files` patterns relative to cwd", () => {
+				it("with an arbitrary config file location", async () => {
+					const root = getFixturePath(
+						"external-file-matching/config-files",
+					);
+
+					eslint = new ESLint({
+						cwd: path.join(root, "project/app"),
+						overrideConfigFile: path.join(
+							root,
+							"configs/eslint.config.js",
+						),
+						flags: ["unstable_external_file_matching"],
+					});
+
+					const results = await eslint.lintFiles(["../*.js"]);
+
+					assert.strictEqual(results.length, 2);
+
+					assert.strictEqual(
+						results[0].filePath,
+						path.join(root, "project/ignored.js"),
+					);
+					assert.strictEqual(results[0].messages.length, 0);
+
+					assert.strictEqual(
+						results[1].filePath,
+						path.join(root, "project/match-from-cwd.js"),
+					);
+					assert.strictEqual(results[1].messages.length, 1);
+					assert.strictEqual(results[1].messages[0].ruleId, "no-var");
+				});
+
+				it("with a config file targeting a non-external file", async () => {
+					const root = getFixturePath(
+						"external-file-matching/config-files",
+					);
+
+					eslint = new ESLint({
+						cwd: path.join(root, "project/app"),
+						overrideConfigFile: path.join(
+							root,
+							"configs/config-with-internal-file.js",
+						),
+						flags: ["unstable_external_file_matching"],
+					});
+
+					const results = await eslint.lintFiles(["foo/bar.js"]);
+
+					assert.strictEqual(results.length, 1);
+
+					// For a non-external file, the result should be the same with or without the `unstable_external_file_matching flag`.
+					assert.strictEqual(
+						results[0].filePath,
+						path.join(root, "project/app/foo/bar.js"),
+					);
+					assert.strictEqual(results[0].messages.length, 1);
+					assert.strictEqual(results[0].messages[0].ruleId, "no-var");
+				});
+
+				it("with a config file with `basePath` targeting a non-external file", async () => {
+					const root = getFixturePath(
+						"external-file-matching/config-files",
+					);
+
+					eslint = new ESLint({
+						cwd: path.join(root, "project/app"),
+						overrideConfigFile: path.join(
+							root,
+							"configs/config-with-base-path-and-internal-file.js",
+						),
+						flags: ["unstable_external_file_matching"],
+					});
+
+					const results = await eslint.lintFiles(["foo/bar.js"]);
+
+					assert.strictEqual(results.length, 1);
+
+					// For a non-external file, the result should be the same with or without the `unstable_external_file_matching flag`.
+					assert.strictEqual(
+						results[0].filePath,
+						path.join(root, "project/app/foo/bar.js"),
+					);
+					assert.strictEqual(results[0].messages.length, 1);
+					assert.strictEqual(results[0].messages[0].ruleId, "no-var");
+				});
+
+				it("when no config file is provided", async () => {
+					const root = getFixturePath(
+						"external-file-matching/config-files",
+					);
+
+					eslint = new ESLint({
+						cwd: path.join(root, "project/app"),
+						baseConfig: [
+							{
+								files: ["../*.js"],
+								ignores: ["../ignored.js"],
+								rules: {
+									"no-var": "error",
+								},
+							},
+						],
+						overrideConfigFile: true,
+						flags: ["unstable_external_file_matching"],
+					});
+
+					const results = await eslint.lintFiles(["../*.js"]);
+
+					assert.strictEqual(results.length, 2);
+
+					assert.strictEqual(
+						results[0].filePath,
+						path.join(root, "project/ignored.js"),
+					);
+					assert.strictEqual(results[0].messages.length, 0);
+
+					assert.strictEqual(
+						results[1].filePath,
+						path.join(root, "project/match-from-cwd.js"),
+					);
+					assert.strictEqual(results[1].messages.length, 1);
+					assert.strictEqual(results[1].messages[0].ruleId, "no-var");
+				});
+			});
+		});
 	});
 
 	describe("Fix Types", () => {
