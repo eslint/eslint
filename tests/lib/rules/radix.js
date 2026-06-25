@@ -27,6 +27,9 @@ ruleTester.run("radix", rule, {
 		'parseInt("10", 1.6e1);',
 		'parseInt("10", 10.0);',
 		'parseInt("10", foo);',
+		'parseInt("10", +10);',
+		'parseInt("10", +36);',
+		'Number.parseInt("10", +16);',
 		'function foo(undefined) { parseInt("10", undefined); }',
 		'Number.parseInt("10", foo);',
 		"parseInt",
@@ -198,6 +201,46 @@ ruleTester.run("radix", rule, {
 		},
 		{
 			code: 'parseInt("10", 37);',
+			errors: [
+				{
+					messageId: "invalidRadix",
+				},
+			],
+		},
+		{
+			code: 'parseInt("10", -1);',
+			errors: [
+				{
+					messageId: "invalidRadix",
+				},
+			],
+		},
+		{
+			code: 'parseInt("10", +1);',
+			errors: [
+				{
+					messageId: "invalidRadix",
+				},
+			],
+		},
+		{
+			code: 'parseInt("10", -10);',
+			errors: [
+				{
+					messageId: "invalidRadix",
+				},
+			],
+		},
+		{
+			code: 'parseInt("10", +37);',
+			errors: [
+				{
+					messageId: "invalidRadix",
+				},
+			],
+		},
+		{
+			code: 'Number.parseInt("10", -16);',
 			errors: [
 				{
 					messageId: "invalidRadix",
