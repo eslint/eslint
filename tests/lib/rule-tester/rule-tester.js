@@ -2033,7 +2033,7 @@ describe("RuleTester", () => {
 					],
 				},
 			);
-		}, "Schema for rule no-invalid-schema is invalid:,\titems: should be object\n\titems[0].enum: should NOT have fewer than 1 items\n\titems: should match some schema in anyOf");
+		}, "Schema for rule no-invalid-schema is invalid:,\titems: must be object,boolean\n\titems/0/enum: must NOT have fewer than 1 items\n\titems: must match a schema in anyOf");
 	});
 
 	it("should throw an error if rule schema is `{}`", () => {
@@ -2135,7 +2135,7 @@ describe("RuleTester", () => {
 					],
 				},
 			);
-		}, /Value "bar" should be equal to one of the allowed values./u);
+		}, /Value "bar" must be equal to one of the allowed values./u);
 	});
 
 	it("should disallow invalid defaults in rules", () => {
@@ -2172,7 +2172,7 @@ describe("RuleTester", () => {
 				],
 				invalid: [],
 			});
-		}, /Schema for rule invalid-defaults is invalid: default is ignored for: data1\.foo/u);
+		}, /Schema for rule invalid-defaults is invalid: strict mode: default is ignored for: data0\.foo/u);
 	});
 
 	it("throw an error when an unknown config option is included", () => {
