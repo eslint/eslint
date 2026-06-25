@@ -2,8 +2,7 @@ name: Test Ecosystem Plugins
 
 on:
     push:
-        branches:
-            - "ecosystem/*"
+        branches: [main, "ecosystem/*"]
     schedule:
         # “At 00:00.” https://crontab.guru/#0_0_*_*_*
         - cron: "0 0 * * *"
@@ -17,6 +16,7 @@ jobs:
         runs-on: ubuntu-latest
 
         strategy:
+            fail-fast: false
             matrix:
                 plugin:
                     - "@eslint/css"
@@ -43,11 +43,14 @@ jobs:
                   npm install -g corepack@latest
                   corepack enable pnpm
 
-            - run: npm install
-            - continue-on-error: true
-              id: tester
+            - name: Install Packages
+              run: npm install
+
+            - name: Test Ecosystem Plugins
               run: npm run test:ecosystem -- --plugin ${{ matrix.plugin }}
-            - if: steps.tester.outcome == 'failure' && github.ref_name == 'main'
+
+            - name: Notify on Failure
+              if: failure() && github.ref_name == 'main'
               env:
                   DISCORD_WEBHOOK: ${{ secrets.DISCORD_CONTRIBUTORS_WEBHOOK }}
               uses: Ilshidur/action-discord@d2594079a10f1d6739ee50a2471f0ca57418b554 # 0.4.0
