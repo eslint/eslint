@@ -60,7 +60,6 @@
         "node": ">=24"
     },
     "browserslist": [
-        "defaults",
-        "IE 11"
+        "defaults"
     ]
 }
