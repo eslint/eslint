@@ -657,6 +657,13 @@ target.mocha = () => {
 target.cypress = () => {
 	echo("Running unit tests on browsers");
 	target.webpack("production");
+
+	const installReturn = exec(`${getBinFile("cypress")} install`);
+
+	if (installReturn.code !== 0) {
+		exit(1);
+	}
+
 	const lastReturn = exec(`${getBinFile("cypress")} run --no-runner-ui`);
 
 	if (lastReturn.code !== 0) {
