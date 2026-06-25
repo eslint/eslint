@@ -3,6 +3,8 @@ name: Test Ecosystem Plugins
 on:
     push:
         branches: [main, "ecosystem/*"]
+    pull_request:
+        branches: [main]
     schedule:
         # “At 00:00.” https://crontab.guru/#0_0_*_*_*
         - cron: "0 0 * * *"
