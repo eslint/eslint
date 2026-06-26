@@ -55,6 +55,12 @@ ruleTester.run("no-compare-neg-zero", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: "===" },
+					suggestions: [
+						{
+							messageId: "useObjectIs",
+							output: "Object.is(x, -0)",
+						},
+					],
 				},
 			],
 		},
@@ -64,6 +70,57 @@ ruleTester.run("no-compare-neg-zero", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: "===" },
+					suggestions: [
+						{
+							messageId: "useObjectIs",
+							output: "Object.is(-0, x)",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "x !== -0",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: { operator: "!==" },
+					suggestions: [
+						{
+							messageId: "useObjectIs",
+							output: "!Object.is(x, -0)",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "-0 !== x",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: { operator: "!==" },
+					suggestions: [
+						{
+							messageId: "useObjectIs",
+							output: "!Object.is(-0, x)",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "(x, y) === -0",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: { operator: "===" },
+					suggestions: [
+						{
+							messageId: "useObjectIs",
+							output: "Object.is((x, y), -0)",
+						},
+					],
 				},
 			],
 		},
@@ -73,6 +130,7 @@ ruleTester.run("no-compare-neg-zero", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: "==" },
+					suggestions: [],
 				},
 			],
 		},
@@ -82,6 +140,27 @@ ruleTester.run("no-compare-neg-zero", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: "==" },
+					suggestions: [],
+				},
+			],
+		},
+		{
+			code: "x != -0",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: { operator: "!=" },
+					suggestions: [],
+				},
+			],
+		},
+		{
+			code: "-0 != x",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: { operator: "!=" },
+					suggestions: [],
 				},
 			],
 		},
@@ -91,6 +170,7 @@ ruleTester.run("no-compare-neg-zero", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: ">" },
+					suggestions: [],
 				},
 			],
 		},
@@ -100,6 +180,7 @@ ruleTester.run("no-compare-neg-zero", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: ">" },
+					suggestions: [],
 				},
 			],
 		},
@@ -109,6 +190,7 @@ ruleTester.run("no-compare-neg-zero", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: ">=" },
+					suggestions: [],
 				},
 			],
 		},
@@ -118,6 +200,7 @@ ruleTester.run("no-compare-neg-zero", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: ">=" },
+					suggestions: [],
 				},
 			],
 		},
@@ -127,6 +210,7 @@ ruleTester.run("no-compare-neg-zero", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: "<" },
+					suggestions: [],
 				},
 			],
 		},
@@ -136,6 +220,7 @@ ruleTester.run("no-compare-neg-zero", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: "<" },
+					suggestions: [],
 				},
 			],
 		},
@@ -145,6 +230,7 @@ ruleTester.run("no-compare-neg-zero", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: "<=" },
+					suggestions: [],
 				},
 			],
 		},
@@ -154,6 +240,7 @@ ruleTester.run("no-compare-neg-zero", rule, {
 				{
 					messageId: "unexpected",
 					data: { operator: "<=" },
+					suggestions: [],
 				},
 			],
 		},
