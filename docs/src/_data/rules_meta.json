@@ -1841,7 +1841,12 @@
             "description": "Disallow expressions where the operation doesn't affect the value",
             "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/no-constant-binary-expression"
-        }
+        },
+        "defaultOptions": [
+            {
+                "checkRelationalComparisons": false
+            }
+        ]
     },
     "no-constant-condition": {
         "type": "problem",
