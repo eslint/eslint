@@ -26,29 +26,29 @@
  */
 
 import {
-	AST,
 	ESLint,
 	Linter,
 	loadESLint,
-	Rule,
-	JSRuleDefinition,
 	RuleTester,
-	Scope,
 	SourceCode,
-	JSSyntaxElement,
+	type AST,
+	type JSSyntaxElement,
+	type JSRuleDefinition,
+	type Rule,
+	type Scope,
 } from "eslint";
-import { defineConfig, globalIgnores } from "eslint/config";
-import { ESLintRules } from "eslint/rules";
+import { defineConfig, globalIgnores, includeIgnoreFile } from "eslint/config";
+import type { ESLintRules } from "eslint/rules";
 import { Linter as ESLinter } from "eslint/universal";
 import { builtinRules, shouldUseFlatConfig } from "eslint/use-at-your-own-risk";
-import {
+import type {
 	Comment,
 	PrivateIdentifier,
 	PropertyDefinition,
 	StaticBlock,
 	WhileStatement,
 } from "estree";
-import { Language, RuleDefinition, SettingsConfig } from "@eslint/core";
+import type { Language, RuleDefinition, SettingsConfig } from "@eslint/core";
 
 const SOURCE = `var foo = bar;`;
 
@@ -552,6 +552,27 @@ const oldStyleRule = (context: Rule.RuleContext) => ({});
 
 let rule: Rule.RuleModule;
 
+"program" satisfies Rule.CodePathOrigin;
+"function" satisfies Rule.CodePathOrigin;
+"class-field-initializer" satisfies Rule.CodePathOrigin;
+"class-static-block" satisfies Rule.CodePathOrigin;
+// @ts-expect-error Invalid code path origin
+"script" satisfies Rule.CodePathOrigin;
+
+const codePathSegmentTraversalCallback: Rule.CodePathSegmentTraversalCallback =
+	function (segment, controller) {
+		this satisfies Rule.CodePath;
+		segment.id satisfies string;
+		segment.nextSegments satisfies Rule.CodePathSegment[];
+		segment.prevSegments satisfies Rule.CodePathSegment[];
+		segment.allNextSegments satisfies Rule.CodePathSegment[];
+		segment.allPrevSegments satisfies Rule.CodePathSegment[];
+		segment.reachable satisfies boolean;
+		controller satisfies Rule.CodePathSegmentTraversalController;
+		controller.skip();
+		controller.break();
+	};
+
 // @ts-expect-error
 rule = oldStyleRule;
 
@@ -805,16 +826,82 @@ rule = {
 
 		return {
 			onCodePathStart(codePath, node) {
-				const origin: Rule.CodePathOrigin = codePath.origin;
+				codePath.id satisfies string;
+				codePath.origin satisfies Rule.CodePathOrigin;
+				codePath.initialSegment satisfies Rule.CodePathSegment;
+				codePath.finalSegments satisfies Rule.CodePathSegment[];
+				codePath.returnedSegments satisfies Rule.CodePathSegment[];
+				codePath.thrownSegments satisfies Rule.CodePathSegment[];
+				codePath.upper satisfies Rule.CodePath | null;
+				codePath.childCodePaths satisfies Rule.CodePath[];
+				node satisfies Rule.Node;
+
+				const traversalOptions: Rule.CodePathTraversalOptions = {
+					first: codePath.initialSegment,
+					last: codePath.finalSegments[0],
+				};
+				const traversalOptionsWithUndefined: Rule.CodePathTraversalOptions =
+					{
+						first: undefined,
+						last: undefined,
+					};
+
+				codePath.traverseSegments(codePathSegmentTraversalCallback);
+				codePath.traverseSegments(
+					traversalOptions,
+					function (segment, controller) {
+						this satisfies Rule.CodePath;
+						segment.id satisfies string;
+						segment.nextSegments satisfies Rule.CodePathSegment[];
+						segment.prevSegments satisfies Rule.CodePathSegment[];
+						segment.allNextSegments satisfies Rule.CodePathSegment[];
+						segment.allPrevSegments satisfies Rule.CodePathSegment[];
+						segment.reachable satisfies boolean;
+						controller.skip();
+					},
+				);
+				codePath.traverseSegments(
+					traversalOptionsWithUndefined,
+					codePathSegmentTraversalCallback,
+				);
+
+				// @ts-expect-error Options cannot be passed without a callback
+				codePath.traverseSegments({});
+				codePath.traverseSegments(
+					{
+						// @ts-expect-error `first` must be a code path segment
+						first: codePath,
+						// @ts-expect-error `last` must be a code path segment
+						last: codePath,
+					},
+					codePathSegmentTraversalCallback,
+				);
 			},
 			onCodePathEnd(codePath, node) {
-				const origin: Rule.CodePathOrigin = codePath.origin;
+				codePath satisfies Rule.CodePath;
+				node satisfies Rule.Node;
 			},
-			onCodePathSegmentStart(segment, node) {},
-			onCodePathSegmentEnd(segment, node) {},
-			onUnreachableCodePathSegmentStart(segment, node) {},
-			onUnreachableCodePathSegmentEnd(segment, node) {},
-			onCodePathSegmentLoop(fromSegment, toSegment, node) {},
+			onCodePathSegmentStart(segment, node) {
+				segment satisfies Rule.CodePathSegment;
+				node satisfies Rule.Node;
+			},
+			onCodePathSegmentEnd(segment, node) {
+				segment satisfies Rule.CodePathSegment;
+				node satisfies Rule.Node;
+			},
+			onUnreachableCodePathSegmentStart(segment, node) {
+				segment satisfies Rule.CodePathSegment;
+				node satisfies Rule.Node;
+			},
+			onUnreachableCodePathSegmentEnd(segment, node) {
+				segment satisfies Rule.CodePathSegment;
+				node satisfies Rule.Node;
+			},
+			onCodePathSegmentLoop(fromSegment, toSegment, node) {
+				fromSegment satisfies Rule.CodePathSegment;
+				toSegment satisfies Rule.CodePathSegment;
+				node satisfies Rule.Node;
+			},
 			IfStatement(node) {
 				node.parent;
 			},
@@ -983,7 +1070,23 @@ type DeprecatedRuleContextKeys =
 				codePath; // $ExpectType CodePath
 				node; // $ExpectType Node
 			},
+			onCodePathEnd(codePath, node) {
+				codePath; // $ExpectType CodePath
+				node; // $ExpectType Node
+			},
 			onCodePathSegmentStart(segment, node) {
+				segment; // $ExpectType CodePathSegment
+				node; // $ExpectType Node
+			},
+			onCodePathSegmentEnd(segment, node) {
+				segment; // $ExpectType CodePathSegment
+				node; // $ExpectType Node
+			},
+			onUnreachableCodePathSegmentStart(segment, node) {
+				segment; // $ExpectType CodePathSegment
+				node; // $ExpectType Node
+			},
+			onUnreachableCodePathSegmentEnd(segment, node) {
 				segment; // $ExpectType CodePathSegment
 				node; // $ExpectType Node
 			},
@@ -2377,6 +2480,20 @@ defineConfig([
 
 defineConfig([
 	globalIgnores(["*.js"]),
+	includeIgnoreFile("ignore-file-absolute-path"),
+	includeIgnoreFile([
+		"ignore-file-absolute-path",
+		"another-ignore-file-absolute-path",
+	]),
+	includeIgnoreFile("ignore-file-absolute-path", {
+		gitignoreResolution: Math.random() > 0.5,
+	}),
+	includeIgnoreFile("ignore-file-absolute-path", {
+		gitignoreResolution: Math.random() > 0.5,
+		name: "foo",
+	}),
+	includeIgnoreFile("ignore-file-absolute-path", {}),
+	includeIgnoreFile("ignore-file-absolute-path"),
 	{
 		files: ["*.js"],
 		rules: {

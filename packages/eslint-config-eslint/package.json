@@ -41,7 +41,7 @@
   "scripts": {
     "lint:types": "attw --pack",
     "test": "node ./index.js && node ./cjs.js && node ./formatting.js",
-    "test:types": "tsc -p tsconfig.json",
+    "test:types": "tsc -p tests/types/tsconfig.json",
     "prepublish": "npm test"
   },
   "files": [
@@ -70,7 +70,7 @@
     "eslint-plugin-unicorn": "^63.0.0"
   },
   "devDependencies": {
-    "@arethetypeswrong/cli": "^0.18.0",
+    "@arethetypeswrong/cli": "^0.18.3",
     "eslint": "^10.0.0",
     "typescript": "^6.0.3"
   },

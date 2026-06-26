@@ -5,7 +5,7 @@
       "install": ["npm", "install"],
       "test": ["npm", "run", "test"]
     },
-    "commit": "16f2c58127880096c2f28f60cac94647e87e6f5b",
+    "commit": "3cb31a5f94a121706ab5150f95f09f2023826797",
     "repository": "https://github.com/eslint/css"
   },
   "@eslint/json": {
@@ -14,23 +14,41 @@
       "install": ["npm", "install"],
       "test": ["npm", "run", "test"]
     },
-    "commit": "f5b7923625ce3561683983df7f1655036ba628ef",
+    "commit": "e5d4f26f0736334c99f9635d5a0d35603541161e",
     "repository": "https://github.com/eslint/json"
+  },
+  "@eslint/markdown": {
+    "commands": {
+      "build": ["npm", "run", "build"],
+      "install": ["npm", "install"],
+      "test": ["npm", "run", "test"]
+    },
+    "commit": "c627dca7ac5dd81023dc14c3f0974bc151e6469c",
+    "repository": "https://github.com/eslint/markdown"
   },
   "@eslint-community/eslint-plugin-eslint-comments": {
     "commands": {
       "install": ["npm", "install"],
       "test": ["npm", "run", "test"]
     },
-    "commit": "de049807e525ac3e2d164c8873f9035b08eb23a6",
+    "commit": "a9b6af95f4d87c75aa2f9f16a8562107b09f2e07",
     "repository": "https://github.com/eslint-community/eslint-plugin-eslint-comments"
+  },
+  "@typescript-eslint/typescript-eslint": {
+    "commands": {
+      "build": ["pnpm", "run", "build"],
+      "install": ["pnpm", "install"],
+      "test": ["pnpm", "run", "test"]
+    },
+    "commit": "594c01aac353052a23858b4a24e826be7fee358a",
+    "repository": "https://github.com/typescript-eslint/typescript-eslint"
   },
   "eslint-plugin-unicorn": {
     "commands": {
       "install": ["npm", "install", "--legacy-peer-deps"],
       "test": ["npm", "run", "test"]
     },
-    "commit": "93f33eb2ced49c020015e0de793a7aba9c00a404",
+    "commit": "fb89880dc6ec4a0a2302742122686cf39e8f1306",
     "repository": "https://github.com/sindresorhus/eslint-plugin-unicorn"
   },
   "eslint-plugin-vue": {
@@ -39,7 +57,7 @@
       "install": ["npm", "install"],
       "test": ["npm", "run", "test"]
     },
-    "commit": "73f3ef48969d2fc9303f4a3aec9ea3a29b53838c",
+    "commit": "eacb5fe38199f0c64d238a7bcc79ac246c4fd116",
     "repository": "https://github.com/vuejs/eslint-plugin-vue"
   }
 }

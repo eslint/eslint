@@ -4,7 +4,6 @@ rule_type: suggestion
 related_rules:
 - complexity
 - max-depth
-- max-len
 - max-lines
 - max-lines-per-function
 - max-params

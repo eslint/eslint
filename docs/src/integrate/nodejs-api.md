@@ -1128,6 +1128,8 @@ ruleTester.run("my-rule-for-no-foo", rule, {
 
 ### Customizing RuleTester
 
+#### Customizing `describe` and `it`
+
 `RuleTester` depends on two functions to run tests: `describe` and `it`. These functions can come from various places:
 
 1. If `RuleTester.describe` and `RuleTester.it` have been set to function values, `RuleTester` will use `RuleTester.describe` and `RuleTester.it` to run tests. You can use this to customize the behavior of `RuleTester` to match a test framework that you're using.
@@ -1169,6 +1171,56 @@ ruleTester.run("my-rule", myRule, {
 		// invalid test cases
 	],
 });
+```
+
+#### Enforcing `assertionOptions` Globally
+
+Because `assertionOptions` is specified per `run()` call, enforcing the same options across every call in a project requires a userland pattern. There are two common approaches:
+
+##### Option 1 — Subclass `RuleTester` and override `run()`
+
+```js
+const { RuleTester } = require("eslint");
+
+class StrictRuleTester extends RuleTester {
+	run(ruleName, rule, tests) {
+		super.run(ruleName, rule, {
+			...tests,
+			assertionOptions: {
+				// Default assertion options applied to every run() call.
+				requireMessage: "messageId",
+				requireLocation: true,
+				// Per-call options are merged in and take precedence.
+				...tests.assertionOptions,
+			},
+		});
+	}
+}
+
+module.exports = StrictRuleTester;
+```
+
+##### Option 2 — Helper wrapper function
+
+```js
+const { RuleTester } = require("eslint");
+
+const ruleTester = new RuleTester();
+
+function runWithStrictAssertions(ruleName, rule, tests) {
+	return ruleTester.run(ruleName, rule, {
+		...tests,
+		assertionOptions: {
+			// Default assertion options applied to every call.
+			requireMessage: "messageId",
+			requireLocation: true,
+			// Per-call options are merged in and take precedence.
+			...tests.assertionOptions,
+		},
+	});
+}
+
+module.exports = runWithStrictAssertions;
 ```
 
 [configuration object]: ../use/configure/

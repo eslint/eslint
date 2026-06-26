@@ -19,7 +19,11 @@ const eslintPluginYml = require("eslint-plugin-yml");
 const json = require("@eslint/json").default;
 const expectType = require("eslint-plugin-expect-type");
 const tsParser = require("@typescript-eslint/parser");
-const { defineConfig, globalIgnores } = require("./lib/config-api.js");
+const {
+	defineConfig,
+	globalIgnores,
+	includeIgnoreFile,
+} = require("./lib/config-api.js");
 
 //-----------------------------------------------------------------------------
 // Helpers
@@ -81,22 +85,18 @@ module.exports = defineConfig([
 		files: [ALL_JS_FILES],
 		extends: [eslintConfigESLintCJS],
 	},
+	includeIgnoreFile(path.join(__dirname, ".gitignore"), {
+		gitignoreResolution: true,
+	}),
 	globalIgnores(
 		[
-			"build/**",
-			"coverage/**",
 			"docs/!(src|tools)/",
 			"docs/src/!(_data)",
-			"ecosystem/**",
-			"jsdoc/**",
 			"lib/types/**/*.ts",
 			"templates/**",
 			"tests/bench/**",
 			"tests/fixtures/**",
 			"tests/performance/**",
-			"tmp/**",
-			"**/test.js",
-			".vscode",
 		],
 		"eslint/global-ignores",
 	),
@@ -233,7 +233,7 @@ module.exports = defineConfig([
 	// JSONC files
 	{
 		name: "eslint/jsonc",
-		files: ["knip.jsonc"],
+		files: ["**/tsconfig*.json", "knip.jsonc"],
 		plugins: { json },
 		language: "json/jsonc",
 		languageOptions: { allowTrailingCommas: true },
@@ -362,14 +362,14 @@ module.exports = defineConfig([
 	})),
 	{
 		name: "eslint/ts-rules",
-		files: ["tests/lib/types/*.ts", "packages/**/*.{ts,mts,cts,tsx}"],
+		files: ["tests/lib/types/*.ts", "packages/**/*.{ts,mts,cts}"],
 		languageOptions: {
 			parser: tsParser,
 			parserOptions: {
 				project: [
 					"tests/lib/types/tsconfig.json",
 					"packages/js/tests/types/tsconfig.json",
-					"packages/eslint-config-eslint/tsconfig.json",
+					"packages/eslint-config-eslint/tests/types/tsconfig.json",
 				],
 			},
 		},
