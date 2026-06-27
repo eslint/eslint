@@ -327,6 +327,41 @@ ruleTester.run("no-compare-neg-zero", rule, {
 		},
 
 		{
+			code: "(a, b) === -0",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: { operator: "===" },
+					suggestions: [
+						{
+							messageId: "suggestRemoveMinus",
+							output: "(a, b) === 0",
+						},
+						{
+							messageId: "suggestObjectIs",
+							output: "Object.is((a, b), -0)",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "-0 == -0",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: { operator: "==" },
+					suggestions: [
+						{
+							messageId: "suggestRemoveMinus",
+							output: "0 == 0",
+						},
+					],
+				},
+			],
+		},
+
+		{
 			code: "if (x !== -0) {}",
 			errors: [
 				{
