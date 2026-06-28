@@ -127,6 +127,91 @@ ruleTester.run("preserve-caught-error", rule, {
 		} catch (error) {
 			throw new Error("Something failed", { cause: anotherError, "cause": error });
 		}`,
+
+		// MemberExpression - Custom errors accessed via namespace
+		{
+			code: `
+			const errors = { AppError: class AppError extends Error {} };
+			try {
+				doSomething();
+			} catch (error) {
+				throw new errors.AppError("Something failed", { cause: error });
+			}`,
+			options: [{ errorClassNames: ["AppError"] }],
+		},
+		{
+			code: `
+			const lib = { APIError: class APIError extends Error {} };
+			try {
+				doSomething();
+			} catch (error) {
+				throw new lib.APIError("Something failed", { cause: error });
+			}`,
+			options: [{ errorClassNames: ["APIError"] }],
+		},
+
+		// Custom error class names - valid (Identifier with correct cause)
+		{
+			code: `
+			class CustomApplicationError extends Error {}
+			try {
+				doSomething();
+			} catch (err) {
+				throw new CustomApplicationError("Cause not provided", { cause: err });
+			}`,
+			options: [{ errorClassNames: ["CustomApplicationError"] }],
+		},
+		{
+			code: `
+			class APIError extends Error {}
+			try {
+				doSomething();
+			} catch (error) {
+				throw new APIError("API failed", { cause: error });
+			}`,
+			options: [{ errorClassNames: ["APIError"] }],
+		},
+		/* Custom error not in errorClassNames list — rule should not report */
+		{
+			code: `
+			class CustomError extends Error {}
+			try {
+				doSomething();
+			} catch (err) {
+				throw new CustomError("No cause");
+			}`,
+			options: [{ errorClassNames: [] }],
+		},
+
+		// argumentPosition - custom error with options at position 3
+		{
+			code: `
+			try {
+				doSomething();
+			} catch (err) {
+				throw new MyError("failed", someData, { cause: err });
+			}`,
+			options: [
+				{ errorClassNames: [{ name: "MyError", argumentPosition: 3 }] },
+			],
+		},
+
+		// argumentPosition - custom error with options at position 1
+		{
+			code: `
+			try {
+				doSomething();
+			} catch (err) {
+				throw new SimpleError({ cause: err });
+			}`,
+			options: [
+				{
+					errorClassNames: [
+						{ name: "SimpleError", argumentPosition: 1 },
+					],
+				},
+			],
+		},
 	],
 	invalid: [
 		/* 1. Throws a new Error without cause, even though an error was caught */
@@ -845,6 +930,228 @@ ruleTester.run("preserve-caught-error", rule, {
 				});
 			}`,
 			errors: [{ messageId: "incorrectCause" }],
+		},
+
+		// Custom error class names - missing cause (Identifier)
+		{
+			code: `
+			class CustomApplicationError extends Error {}
+			try {
+				doSomething();
+			} catch (err) {
+				throw new CustomApplicationError("Cause not provided");
+			}`,
+			options: [{ errorClassNames: ["CustomApplicationError"] }],
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `
+			class CustomApplicationError extends Error {}
+			try {
+				doSomething();
+			} catch (err) {
+				throw new CustomApplicationError("Cause not provided", { cause: err });
+			}`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `
+			class APIError extends Error {}
+			try {
+				doSomething();
+			} catch (error) {
+				throw new APIError("API failed", { cause: wrong });
+			}`,
+			options: [{ errorClassNames: ["APIError"] }],
+			errors: [
+				{
+					messageId: "incorrectCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `
+			class APIError extends Error {}
+			try {
+				doSomething();
+			} catch (error) {
+				throw new APIError("API failed", { cause: error });
+			}`,
+						},
+					],
+				},
+			],
+		},
+
+		// MemberExpression - Custom errors missing cause
+		{
+			code: `
+			const errors = { AppError: class AppError extends Error {} };
+			try {
+				doSomething();
+			} catch (error) {
+				throw new errors.AppError("Something failed");
+			}`,
+			options: [{ errorClassNames: ["AppError"] }],
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `
+			const errors = { AppError: class AppError extends Error {} };
+			try {
+				doSomething();
+			} catch (error) {
+				throw new errors.AppError("Something failed", { cause: error });
+			}`,
+						},
+					],
+				},
+			],
+		},
+
+		// MemberExpression - Custom errors with incorrect cause
+		{
+			code: `
+			const lib = { APIError: class APIError extends Error {} };
+			try {
+				doSomething();
+			} catch (error) {
+				throw new lib.APIError("Something failed", { cause: wrong });
+			}`,
+			options: [{ errorClassNames: ["APIError"] }],
+			errors: [
+				{
+					messageId: "incorrectCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `
+			const lib = { APIError: class APIError extends Error {} };
+			try {
+				doSomething();
+			} catch (error) {
+				throw new lib.APIError("Something failed", { cause: error });
+			}`,
+						},
+					],
+				},
+			],
+		},
+
+		// argumentPosition - missing cause at position 3
+		{
+			code: `
+			try {
+				doSomething();
+			} catch (err) {
+				throw new MyError("failed", someData);
+			}`,
+			options: [
+				{ errorClassNames: [{ name: "MyError", argumentPosition: 3 }] },
+			],
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `
+			try {
+				doSomething();
+			} catch (err) {
+				throw new MyError("failed", someData, { cause: err });
+			}`,
+						},
+					],
+				},
+			],
+		},
+
+		// argumentPosition - incorrect cause at position 3
+		{
+			code: `
+			try {
+				doSomething();
+			} catch (err) {
+				throw new MyError("failed", someData, { cause: wrong });
+			}`,
+			options: [
+				{ errorClassNames: [{ name: "MyError", argumentPosition: 3 }] },
+			],
+			errors: [
+				{
+					messageId: "incorrectCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `
+			try {
+				doSomething();
+			} catch (err) {
+				throw new MyError("failed", someData, { cause: err });
+			}`,
+						},
+					],
+				},
+			],
+		},
+
+		// argumentPosition - missing cause at position 1
+		{
+			code: `
+			try {
+				doSomething();
+			} catch (err) {
+				throw new SimpleError();
+			}`,
+			options: [
+				{
+					errorClassNames: [
+						{ name: "SimpleError", argumentPosition: 1 },
+					],
+				},
+			],
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `
+			try {
+				doSomething();
+			} catch (err) {
+				throw new SimpleError({ cause: err });
+			}`,
+						},
+					],
+				},
+			],
+		},
+
+		// Custom error with fewer args than the options position - no suggestion
+		{
+			code: `
+			try {
+				doSomething();
+			} catch (err) {
+				throw new MyError();
+			}`,
+			options: [{ errorClassNames: ["MyError"] }],
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [],
+				},
+			],
 		},
 	],
 });
