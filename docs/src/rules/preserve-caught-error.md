@@ -173,6 +173,10 @@ Each entry can be either a string or an object:
 - A **string** specifies the class name. The constructor is assumed to accept the options object as the second argument, matching the built-in `Error` signature.
 - An **object** with `name` and `argumentPosition` is used when the constructor accepts the options object at a different position. `argumentPosition` is 1-indexed.
 
+::: important
+If multiple configurations are provided for the same error class name, the rule applies a "last-in wins" approach. The last configuration in the array will override any previous ones for that specific class.
+:::
+
 ```json
 {
     "rules": {

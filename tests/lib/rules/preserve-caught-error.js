@@ -212,6 +212,24 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
+
+		// Duplicate configurations for the same class name apply "last-in wins"
+		{
+			code: `
+			try {
+				doSomething();
+			} catch (err) {
+				throw new AppError("Message", {}, { cause: err });
+			}`,
+			options: [
+				{
+					errorClassNames: [
+						{ name: "AppError", argumentPosition: 2 },
+						{ name: "AppError", argumentPosition: 3 },
+					],
+				},
+			],
+		},
 	],
 	invalid: [
 		/* 1. Throws a new Error without cause, even though an error was caught */
