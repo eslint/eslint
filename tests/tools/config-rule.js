@@ -390,6 +390,18 @@ describe("ConfigRule", () => {
 			});
 		});
 
+		describe("for a schema with a string and not: { enum }", () => {
+			const actualConfigs = generateConfigsFromSchema(
+				schema.stringWithNotEnum,
+			);
+
+			it("should create configs with a non-empty example string", () => {
+				assert.isArray(actualConfigs);
+				assert.strictEqual(actualConfigs.length, 2);
+				assert.deepStrictEqual(actualConfigs[1], [2, "example"]);
+			});
+		});
+
 		describe("for a schema with a number", () => {
 			const actualConfigs = generateConfigsFromSchema(schema.number);
 
