@@ -60,7 +60,7 @@ jobs:
                       const { data } = await github.rest.actions.listWorkflowRuns({
                           owner: context.repo.owner,
                           repo: context.repo.repo,
-                          workflow_id: context.workflow,
+                          workflow_id: 'ecosystem-tests.yml',
                           branch: 'main',
                           per_page: 2
                       });
