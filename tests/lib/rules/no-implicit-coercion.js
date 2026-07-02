@@ -175,6 +175,33 @@ ruleTester.run("no-implicit-coercion", rule, {
 			],
 		},
 		{
+			code: "!!(a, b)",
+			output: "Boolean((a, b))",
+			errors: [
+				{
+					messageId: "implicitCoercion",
+					data: { recommendation: "Boolean((a, b))" },
+				},
+			],
+		},
+		{
+			code: "(a, b) - 0",
+			output: null,
+			errors: [
+				{
+					messageId: "implicitCoercion",
+					data: { recommendation: "Number((a, b))" },
+					suggestions: [
+						{
+							messageId: "useRecommendation",
+							data: { recommendation: "Number((a, b))" },
+							output: "Number((a, b))",
+						},
+					],
+				},
+			],
+		},
+		{
 			code: "!!(foo + bar)",
 			output: "Boolean(foo + bar)",
 			errors: [
