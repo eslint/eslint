@@ -36,6 +36,8 @@ ruleTester.run("radix", rule, {
 		'parseInt("10", foo);',
 		'function foo(undefined) { parseInt("10", undefined); }',
 		'Number.parseInt("10", foo);',
+		'Number["parseInt"]("10", foo);',
+		'Number[`parseInt`]("10", 10);',
 		'Number.parseInt("10", +10);',
 		'Number.parseInt("10", +"10");',
 		'Number.parseInt("10", ~1);',
@@ -68,6 +70,7 @@ ruleTester.run("radix", rule, {
 		// Ignores if it's shadowed or disabled.
 		"var parseInt; parseInt();",
 		"var Number; Number.parseInt();",
+		"let Number; Number['parseInt']();",
 		"/* globals parseInt:off */ parseInt(foo);",
 		{
 			code: "Number.parseInt(foo);",
@@ -327,6 +330,50 @@ ruleTester.run("radix", rule, {
 			],
 		},
 		{
+			code: 'Number["parseInt"]();',
+			errors: [
+				{
+					messageId: "missingParameters",
+				},
+			],
+		},
+		{
+			code: 'Number["parseInt"]("10");',
+			errors: [
+				{
+					messageId: "missingRadix",
+					suggestions: [
+						{
+							messageId: "addRadixParameter10",
+							output: 'Number["parseInt"]("10", 10);',
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "Number['parseInt']('10', 1);",
+			errors: [
+				{
+					messageId: "invalidRadix",
+				},
+			],
+		},
+		{
+			code: 'Number[`parseInt`]("10");',
+			errors: [
+				{
+					messageId: "missingRadix",
+					suggestions: [
+						{
+							messageId: "addRadixParameter10",
+							output: 'Number[`parseInt`]("10", 10);',
+						},
+					],
+				},
+			],
+		},
+		{
 			code: 'Number.parseInt("10", 1, ...args);',
 			errors: [
 				{
@@ -391,6 +438,34 @@ ruleTester.run("radix", rule, {
 						{
 							messageId: "addRadixParameter10",
 							output: '(Number?.parseInt)("10", 10);',
+						},
+					],
+				},
+			],
+		},
+		{
+			code: 'Number?.["parseInt"]("10");',
+			errors: [
+				{
+					messageId: "missingRadix",
+					suggestions: [
+						{
+							messageId: "addRadixParameter10",
+							output: 'Number?.["parseInt"]("10", 10);',
+						},
+					],
+				},
+			],
+		},
+		{
+			code: 'Number["parseInt"]?.("10");',
+			errors: [
+				{
+					messageId: "missingRadix",
+					suggestions: [
+						{
+							messageId: "addRadixParameter10",
+							output: 'Number["parseInt"]?.("10", 10);',
 						},
 					],
 				},
