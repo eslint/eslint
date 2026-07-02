@@ -43,6 +43,14 @@ ruleTester.run("radix", rule, {
 		'Number.parseInt("10", ~1);',
 		'Number.parseInt("10", +radix);',
 		'Number.parseInt("10", -radix);',
+		"parseInt(...args);",
+		"parseInt(...args, 1);",
+		'parseInt("10", ...args);',
+		'parseInt("10", 10, ...args);',
+		"Number.parseInt(...args);",
+		"Number.parseInt(...args, 1);",
+		'Number.parseInt("10", ...args);',
+		'Number.parseInt("10", 10, ...args);',
 		"parseInt",
 		"Number.foo();",
 		"Number[parseInt]();",
@@ -260,6 +268,14 @@ ruleTester.run("radix", rule, {
 			],
 		},
 		{
+			code: 'parseInt("10", 1, ...args);',
+			errors: [
+				{
+					messageId: "invalidRadix",
+				},
+			],
+		},
+		{
 			code: "Number.parseInt();",
 			errors: [
 				{
@@ -354,6 +370,14 @@ ruleTester.run("radix", rule, {
 							output: 'Number[`parseInt`]("10", 10);',
 						},
 					],
+				},
+			],
+		},
+		{
+			code: 'Number.parseInt("10", 1, ...args);',
+			errors: [
+				{
+					messageId: "invalidRadix",
 				},
 			],
 		},
