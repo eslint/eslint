@@ -15,7 +15,6 @@ const assert = require("chai").assert,
 	path = require("node:path"),
 	proxyquire = require("proxyquire"),
 	sinon = require("sinon"),
-	fileEntryCache = require("file-entry-cache"),
 	OriginalLintResultCache = require("../../../lib/cli-engine/lint-result-cache");
 
 //-----------------------------------------------------------------------------
@@ -29,15 +28,6 @@ describe("LintResultCache", () => {
 	);
 	const cacheFileLocation = path.join(fixturePath, ".eslintcache");
 	const fileEntryCacheStubs = {};
-
-	/*
-	 * fileEntryCache.create is a getter with `configurable: false`, so we need to set
-	 * it in advance with `configurable: true` to be able to modify it.
-	 */
-	Object.defineProperty(fileEntryCacheStubs, "create", {
-		...Object.getOwnPropertyDescriptor(fileEntryCache, "create"),
-		configurable: true,
-	});
 
 	let LintResultCache,
 		hashStub,
@@ -137,14 +127,8 @@ describe("LintResultCache", () => {
 		before(() => {
 			getFileDescriptorStub = sandbox.stub();
 
-			Object.defineProperty(fileEntryCacheStubs, "create", {
-				...Object.getOwnPropertyDescriptor(fileEntryCache, "create"),
-				get() {
-					return () => ({
-						getFileDescriptor: getFileDescriptorStub,
-					});
-				},
-				configurable: true,
+			fileEntryCacheStubs.create = () => ({
+				getFileDescriptor: getFileDescriptorStub,
 			});
 		});
 
@@ -471,14 +455,8 @@ describe("LintResultCache", () => {
 		before(() => {
 			getFileDescriptorStub = sandbox.stub();
 
-			Object.defineProperty(fileEntryCacheStubs, "create", {
-				...Object.getOwnPropertyDescriptor(fileEntryCache, "create"),
-				get() {
-					return () => ({
-						getFileDescriptor: getFileDescriptorStub,
-					});
-				},
-				configurable: true,
+			fileEntryCacheStubs.create = () => ({
+				getFileDescriptor: getFileDescriptorStub,
 			});
 		});
 
@@ -602,14 +580,8 @@ describe("LintResultCache", () => {
 		before(() => {
 			reconcileStub = sandbox.stub();
 
-			Object.defineProperty(fileEntryCacheStubs, "create", {
-				...Object.getOwnPropertyDescriptor(fileEntryCache, "create"),
-				get() {
-					return () => ({
-						reconcile: reconcileStub,
-					});
-				},
-				configurable: true,
+			fileEntryCacheStubs.create = () => ({
+				reconcile: reconcileStub,
 			});
 		});
 
