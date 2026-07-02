@@ -421,7 +421,7 @@ describe("LintResultCache", () => {
 					);
 
 					// Modify file. This should make cache entry invalid for all cache strategies.
-					await fs.promises.writeFile(testFile, "bar;");
+					await fs.promises.writeFile(testFile, "barbaz;");
 
 					const testLintResultCache = new OriginalLintResultCache(
 						cacheFile,
