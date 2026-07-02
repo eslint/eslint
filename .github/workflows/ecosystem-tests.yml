@@ -66,7 +66,8 @@ jobs:
                       });
 
                       const prevRun = data.workflow_runs[1];
-                      core.setOutput('conclusion', prevRun.conclusion);
+                      const conclusion = prevRun?.conclusion || 'success';
+                      core.setOutput('conclusion', conclusion);
 
             - name: Notify on Failure
               if: failure() && steps.check_previous.outputs.conclusion == 'success'
