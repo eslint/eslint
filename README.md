@@ -188,7 +188,7 @@ ESLint follows [semantic versioning](https://semver.org). However, due to the na
     - Non-user-facing changes such as refactoring code, adding, deleting, or modifying tests, and increasing test coverage.
     - Re-releasing after a failed release (i.e., publishing a release that doesn't work for anyone).
 - Minor release (might break your lint build)
-    - A bug fix in a rule that results in ESLint reporting more linting errors.
+    - A bug fix that results in ESLint reporting more linting errors (e.g., fixing false negatives in a core rule, or linting additional files that were previously incorrectly skipped).
     - A new rule is created.
     - A new option to an existing rule that does not result in ESLint reporting more linting errors by default.
     - A new addition to an existing rule to support a newly-added language feature (within the last 12 months) that will result in ESLint reporting more linting errors by default.
