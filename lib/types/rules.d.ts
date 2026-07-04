@@ -213,7 +213,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 2.0.0-alpha-1
 	 * @see https://eslint.org/docs/latest/rules/array-callback-return
 	 */
-
 	"array-callback-return": Linter.RuleEntry<
 		[
 			Partial<{
@@ -590,7 +589,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.4.0
 	 * @see https://eslint.org/docs/latest/rules/consistent-return
 	 */
-
 	"consistent-return": Linter.RuleEntry<
 		[
 			Partial<{
@@ -925,7 +923,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 4.2.0
 	 * @see https://eslint.org/docs/latest/rules/getter-return
 	 */
-
 	"getter-return": Linter.RuleEntry<
 		[
 			Partial<{
@@ -1672,7 +1669,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 5.0.0-alpha.3
 	 * @see https://eslint.org/docs/latest/rules/max-classes-per-file
 	 */
-
 	"max-classes-per-file": Linter.RuleEntry<
 		[
 			| number
@@ -1695,7 +1691,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.0.9
 	 * @see https://eslint.org/docs/latest/rules/max-depth
 	 */
-
 	"max-depth": Linter.RuleEntry<
 		[
 			| number
@@ -1795,7 +1790,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 5.0.0
 	 * @see https://eslint.org/docs/latest/rules/max-lines-per-function
 	 */
-
 	"max-lines-per-function": Linter.RuleEntry<
 		[
 			| number
@@ -1826,7 +1820,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.2.0
 	 * @see https://eslint.org/docs/latest/rules/max-nested-callbacks
 	 */
-
 	"max-nested-callbacks": Linter.RuleEntry<
 		[
 			| number
@@ -1882,7 +1875,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.0.9
 	 * @see https://eslint.org/docs/latest/rules/max-statements
 	 */
-
 	"max-statements": Linter.RuleEntry<
 		[
 			(
@@ -2168,7 +2160,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 3.17.0
 	 * @see https://eslint.org/docs/latest/rules/no-compare-neg-zero
 	 */
-
 	"no-compare-neg-zero": Linter.RuleEntry<[]>;
 
 	/**
@@ -2236,7 +2227,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 8.14.0
 	 * @see https://eslint.org/docs/latest/rules/no-constant-binary-expression
 	 */
-
 	"no-constant-binary-expression": Linter.RuleEntry<
 		[
 			Partial<{
@@ -2293,7 +2283,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.1.0
 	 * @see https://eslint.org/docs/latest/rules/no-control-regex
 	 */
-
 	"no-control-regex": Linter.RuleEntry<[]>;
 
 	/**
@@ -2580,7 +2569,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.4.0
 	 * @see https://eslint.org/docs/latest/rules/no-extra-boolean-cast
 	 */
-
 	"no-extra-boolean-cast": Linter.RuleEntry<
 		[
 			| Partial<{
@@ -2674,7 +2662,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.0.7
 	 * @see https://eslint.org/docs/latest/rules/no-fallthrough
 	 */
-
 	"no-fallthrough": Linter.RuleEntry<
 		[
 			Partial<{
@@ -2739,7 +2726,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 1.0.0-rc-2
 	 * @see https://eslint.org/docs/latest/rules/no-implicit-coercion
 	 */
-
 	"no-implicit-coercion": Linter.RuleEntry<
 		[
 			Partial<{
@@ -2844,7 +2830,6 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.1.4
 	 * @see https://eslint.org/docs/latest/rules/no-invalid-regexp
 	 */
-
 	"no-invalid-regexp": Linter.RuleEntry<
 		[
 			Partial<{
