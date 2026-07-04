@@ -56,8 +56,7 @@ interface NoRestrictedImportPatternCommonOptions {
 
 // Base type for group or regex constraint, ensuring mutual exclusivity
 type EitherGroupOrRegEx =
-	| { group: string[]; regex?: never }
-	| { regex: string; group?: never };
+	{ group: string[]; regex?: never } | { regex: string; group?: never };
 
 // Base type for import name specifiers, ensuring mutual exclusivity
 type EitherNameSpecifiers =
@@ -2633,10 +2632,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 						 * @default 'none'
 						 */
 						ignoreJSX:
-							| "none"
-							| "all"
-							| "multi-line"
-							| "single-line";
+							"none" | "all" | "multi-line" | "single-line";
 						/**
 						 * @default true
 						 */
@@ -5150,9 +5146,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 						 * @default 'any'
 						 */
 						beforeStatementContinuationChars:
-							| "any"
-							| "always"
-							| "never";
+							"any" | "always" | "never";
 					}>,
 				]
 		  >;
