@@ -13,7 +13,7 @@ jobs:
         name: Verify Files
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
             - uses: actions/setup-go@v6
               with:
                   go-version: "stable"
@@ -62,7 +62,7 @@ jobs:
         strategy:
             matrix:
                 os: [ubuntu-latest]
-                node: [25.x, 24.x, 22.x, 20.x, "20.19.0"]
+                node: [26.x, 24.x, 22.x, 20.x, "20.19.0"]
                 NODE_OPTIONS: [""]
                 include:
                     - os: windows-latest
@@ -78,7 +78,7 @@ jobs:
                       NODE_OPTIONS: "--experimental-transform-types"
         runs-on: ${{ matrix.os }}
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
             - uses: actions/setup-node@v6
               with:
                   node-version: ${{ matrix.node }}
@@ -99,7 +99,7 @@ jobs:
         env:
             TERM: xterm-256color
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
             - uses: actions/setup-node@v6
               with:
                   node-version: "24" # Should be the same as the version used on Netlify to build the ESLint Playground
@@ -115,7 +115,7 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
             - uses: actions/setup-node@v6
               with:
                   node-version: "lts/*"
@@ -148,9 +148,9 @@ jobs:
         name: Test pnpm Type Support
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
 
-            - uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093 # v6.0.8
+            - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
               with:
                   version: latest
 

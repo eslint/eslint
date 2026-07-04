@@ -374,6 +374,73 @@ ruleTester.run("use-isnan", rule, {
 			code: "foo.lastIndexOf((Number.NaN, 1))",
 			options: [{ enforceForIndexOf: true }],
 		},
+
+		//------------------------------------------------------------------------------
+		// Shadowed NaN / Number.NaN
+		//------------------------------------------------------------------------------
+
+		"let NaN; if (x === NaN) {}",
+		"let Number; if (x === Number.NaN) {}",
+		"function f(NaN) { return x === NaN; }",
+		"function f(Number) { return x === Number.NaN; }",
+		{
+			code: "if (x === NaN) {}",
+			languageOptions: { globals: { NaN: "off" } },
+		},
+		{
+			code: "if (x === Number.NaN) {}",
+			languageOptions: { globals: { Number: "off" } },
+		},
+		{
+			code: "let NaN; switch (foo) { case NaN: break; }",
+			options: [{ enforceForSwitchCase: true }],
+		},
+		{
+			code: "let Number; switch (foo) { case Number.NaN: break; }",
+			options: [{ enforceForSwitchCase: true }],
+		},
+		{
+			code: "let NaN; switch (NaN) { case a: break; }",
+			options: [{ enforceForSwitchCase: true }],
+		},
+		{
+			code: "let Number; switch (Number.NaN) { case a: break; }",
+			options: [{ enforceForSwitchCase: true }],
+		},
+		{
+			code: "function foo(NaN) { return arr.indexOf(NaN); }",
+			options: [{ enforceForIndexOf: true }],
+		},
+		{
+			code: "function foo(NaN) { return arr.lastIndexOf(NaN); }",
+			options: [{ enforceForIndexOf: true }],
+		},
+		{
+			code: "function foo(Number) { return arr.indexOf(Number.NaN); }",
+			options: [{ enforceForIndexOf: true }],
+		},
+		{
+			code: "function foo(Number) { return arr.lastIndexOf(Number.NaN); }",
+			options: [{ enforceForIndexOf: true }],
+		},
+		"let Number; if (x === Number?.NaN) {}",
+		"function f(Number) { return x === Number?.NaN; }",
+		{
+			code: "let Number; switch (foo) { case Number?.NaN: break; }",
+			options: [{ enforceForSwitchCase: true }],
+		},
+		{
+			code: "let Number; switch (Number?.NaN) { case a: break; }",
+			options: [{ enforceForSwitchCase: true }],
+		},
+		{
+			code: "function foo(Number) { return arr.indexOf(Number?.NaN); }",
+			options: [{ enforceForIndexOf: true }],
+		},
+		{
+			code: "function foo(Number) { return arr.lastIndexOf(Number?.NaN); }",
+			options: [{ enforceForIndexOf: true }],
+		},
 	],
 	invalid: [
 		{
