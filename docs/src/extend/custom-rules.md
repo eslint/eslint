@@ -866,9 +866,7 @@ export default {
 	create(context) {
 		const [{ alias }] = context.options;
 
-		return {
-			/* ... */
-		};
+		return {/* ... */};
 	},
 };
 ```
