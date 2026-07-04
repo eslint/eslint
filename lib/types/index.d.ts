@@ -663,8 +663,7 @@ export namespace Rule {
 	interface NodeListener extends CustomRuleVisitorWithExit<
 		{
 			[Node in Rule.Node as Node["type"]]?:
-				| ((node: Node) => void)
-				| undefined;
+				((node: Node) => void) | undefined;
 		} & {
 			// A `Program` visitor's node type has no `parent` property.
 			Program?: ((node: AST.Program) => void) | undefined;
@@ -987,11 +986,9 @@ export namespace Linter {
 		filename?: string | undefined;
 		preprocess?: ((code: string) => string[]) | undefined;
 		postprocess?:
-			| ((problemLists: LintMessage[][]) => LintMessage[])
-			| undefined;
+			((problemLists: LintMessage[][]) => LintMessage[]) | undefined;
 		filterCodeBlock?:
-			| ((filename: string, text: string) => boolean)
-			| undefined;
+			((filename: string, text: string) => boolean) | undefined;
 		disableFixes?: boolean | undefined;
 		allowInlineConfig?: boolean | undefined;
 		reportUnusedDisableDirectives?: boolean | undefined;
