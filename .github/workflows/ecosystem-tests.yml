@@ -53,8 +53,78 @@ jobs:
             - name: Test Ecosystem Plugins
               run: npm run test:ecosystem -- --plugin ${{ matrix.plugin }}
 
+            - name: Prepare results for upload
+              if: always()
+              run: |
+                  mkdir -p artifact-results
+                  if [ -f "ecosystem/.ecosystem-results.json" ]; then
+                      cp ecosystem/.ecosystem-results.json artifact-results/results-${{ strategy.job-index }}.json
+                  fi
+
+            - name: Upload Test Results
+              if: always()
+              uses: actions/upload-artifact@v7
+              with:
+                  name: ecosystem-results-${{ strategy.job-index }}
+                  path: artifact-results/
+                  retention-days: 1
+
+    report_failures:
+        name: Report Failures
+        needs: [test_ecosystem]
+        if: failure() && github.ref_name == 'main'
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v7
+
+            - name: Download all results
+              uses: actions/download-artifact@v8
+              with:
+                  pattern: ecosystem-results-*
+                  path: raw-results
+                  merge-multiple: true
+
+            - name: Merge Results JSON
+              uses: actions/github-script@v9
+              with:
+                  script: |
+                      const fs = require('node:fs');
+                      const path = require('node:path');
+
+                      const merged = { failedPlugins: [], passedPlugins: [], totalPlugins: 0 };
+
+                      if (fs.existsSync('raw-results')) {
+                          const files = fs.readdirSync('raw-results').filter(f => f.endsWith('.json'));
+                          
+                          for (const file of files) {
+                              const data = JSON.parse(fs.readFileSync(path.join('raw-results', file), 'utf8'));
+                              if (data.failedPlugins) merged.failedPlugins.push(...data.failedPlugins);
+                              if (data.passedPlugins) merged.passedPlugins.push(...data.passedPlugins);
+                          }
+                          merged.totalPlugins = merged.passedPlugins.length + merged.failedPlugins.length;
+                      }
+
+                      fs.mkdirSync('ecosystem', { recursive: true });
+                      fs.writeFileSync('ecosystem/.ecosystem-results.json', JSON.stringify(merged));
+
+            - name: Build failure summary
+              id: summary
+              uses: actions/github-script@v9
+              with:
+                  script: |
+                      const script = require('./tools/build-failure-summary.js');
+                      await script({ core });
+
+            - name: Create or update GitHub issue
+              uses: actions/github-script@v9
+              env:
+                  SUMMARY_TEXT: ${{ steps.summary.outputs.summary_text }}
+              with:
+                  script: |
+                      const script = require('./tools/sync-ecosystem-issue.js');
+                      await script({ github, context, core });
+
             - name: Check previous build status
-              if: failure() && github.ref_name == 'main'
               id: check_previous
               uses: actions/github-script@v9
               with:
@@ -71,10 +141,13 @@ jobs:
                       const conclusion = prevRun?.conclusion || 'success';
                       core.setOutput('conclusion', conclusion);
 
-            - name: Notify on Failure
-              if: failure() && steps.check_previous.outputs.conclusion == 'success'
+            - name: Notify Discord
+              if: steps.check_previous.outputs.conclusion == 'success'
               env:
                   DISCORD_WEBHOOK: ${{ secrets.DISCORD_CONTRIBUTORS_WEBHOOK }}
               uses: Ilshidur/action-discord@d2594079a10f1d6739ee50a2471f0ca57418b554 # 0.4.0
               with:
-                  args: "Ecosystem tests failed for ${{ matrix.plugin }}."
+                  args: |
+                      🚨 **Ecosystem tests failed!**
+                      Failed plugins: ${{ steps.summary.outputs.failed_list }}
+                      🔗 ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
