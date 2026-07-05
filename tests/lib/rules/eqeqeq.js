@@ -48,6 +48,10 @@ ruleTester.run("eqeqeq", rule, {
 		{ code: "a != null", options: ["always", { null: "never" }] },
 		{ code: "null == null", options: ["always", { null: "never" }] },
 		{ code: "null != null", options: ["always", { null: "never" }] },
+		{ code: "a >= null", options: ["always", { null: "never" }] },
+		{ code: "a + null", options: ["always", { null: "never" }] },
+		{ code: "null + null", options: ["always", { null: "never" }] },
+		{ code: "null instanceof Foo", options: ["always", { null: "never" }] },
 
 		// https://github.com/eslint/eslint/issues/8020
 		{
