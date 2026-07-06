@@ -17,31 +17,47 @@ const path = require("node:path");
 //------------------------------------------------------------------------------
 
 module.exports = async ({ core }) => {
-	const resultsPath = path.join(
-		process.cwd(),
-		"ecosystem",
-		".ecosystem-results.json",
-	);
+	const rawResultsPath = path.join(process.cwd(), "raw-results");
 	let summary, failedList;
 
-	if (fs.existsSync(resultsPath)) {
-		const results = JSON.parse(fs.readFileSync(resultsPath, "utf8"));
-		const failed = results.failedPlugins.map(p => p.pluginKey);
-		failedList = failed.join(", ");
+	if (fs.existsSync(rawResultsPath)) {
+		const failedPlugins = [];
+		let passedCount = 0;
+		let totalCount = 0;
+
+		const files = fs
+			.readdirSync(rawResultsPath)
+			.filter(f => f.endsWith(".json"));
+
+		for (const file of files) {
+			const data = JSON.parse(
+				fs.readFileSync(path.join(rawResultsPath, file), "utf8"),
+			);
+			totalCount++;
+
+			if (data.passed) {
+				passedCount++;
+			} else {
+				failedPlugins.push(data);
+			}
+		}
+
+		failedList = failedPlugins.map(p => p.pluginKey).join(", ");
+
 		const lines = [
-			`**Failed (${failed.length}):** ${failedList}`,
-			`**Passed:** ${results.passedPlugins.length}/${results.totalPlugins}`,
+			`**Failed (${failedPlugins.length}):** ${failedList}`,
+			`**Passed:** ${passedCount}/${totalCount}`,
 			"",
 			"### Error Details",
-			...results.failedPlugins.map(
+			...failedPlugins.map(
 				p =>
 					`#### ${p.pluginKey}\n\`\`\`\n${p.errorMessage.slice(0, 1000)}\n\`\`\``,
 			),
 		];
 		summary = lines.join("\n");
 	} else {
-		failedList = "unknown (results file missing)";
-		summary = "Ecosystem tests failed but no results file was generated.";
+		failedList = "unknown (results files missing)";
+		summary = "Ecosystem tests failed but no results files were generated.";
 	}
 
 	core.setOutput("summary_text", summary);

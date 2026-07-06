@@ -53,20 +53,12 @@ jobs:
             - name: Test Ecosystem Plugins
               run: npm run test:ecosystem -- --plugin ${{ matrix.plugin }}
 
-            - name: Prepare results for upload
-              if: always()
-              run: |
-                  mkdir -p artifact-results
-                  if [ -f "ecosystem/.ecosystem-results.json" ]; then
-                      cp ecosystem/.ecosystem-results.json artifact-results/results-${{ strategy.job-index }}.json
-                  fi
-
             - name: Upload Test Results
               if: always()
               uses: actions/upload-artifact@v7
               with:
                   name: ecosystem-results-${{ strategy.job-index }}
-                  path: artifact-results/
+                  path: ecosystem/*-results.json
                   retention-days: 1
 
     report_failures:
@@ -83,29 +75,6 @@ jobs:
                   pattern: ecosystem-results-*
                   path: raw-results
                   merge-multiple: true
-
-            - name: Merge Results JSON
-              uses: actions/github-script@v9
-              with:
-                  script: |
-                      const fs = require('node:fs');
-                      const path = require('node:path');
-
-                      const merged = { failedPlugins: [], passedPlugins: [], totalPlugins: 0 };
-
-                      if (fs.existsSync('raw-results')) {
-                          const files = fs.readdirSync('raw-results').filter(f => f.endsWith('.json'));
-                          
-                          for (const file of files) {
-                              const data = JSON.parse(fs.readFileSync(path.join('raw-results', file), 'utf8'));
-                              if (data.failedPlugins) merged.failedPlugins.push(...data.failedPlugins);
-                              if (data.passedPlugins) merged.passedPlugins.push(...data.passedPlugins);
-                          }
-                          merged.totalPlugins = merged.passedPlugins.length + merged.failedPlugins.length;
-                      }
-
-                      fs.mkdirSync('ecosystem', { recursive: true });
-                      fs.writeFileSync('ecosystem/.ecosystem-results.json', JSON.stringify(merged));
 
             - name: Build failure summary
               id: summary

@@ -26,6 +26,18 @@ const log = debug("test:ecosystem");
 //-----------------------------------------------------------------------------
 
 /**
+ * Generates a filesystem-safe name from a plugin key.
+ * @param {string} pluginKey
+ * @returns {string}
+ */
+function getSafePluginName(pluginKey) {
+	return pluginKey
+		.replaceAll(/[^a-z-]/g, " ")
+		.trim()
+		.replaceAll(" ", "-");
+}
+
+/**
  * Runs ecosystem tests for a single plugin. It will:
  * 1. Clone the plugin repository into a sandbox directory
  * 2. Check out the plugin's commit to test on
@@ -41,10 +53,7 @@ const log = debug("test:ecosystem");
 async function runTests(pluginKey, pluginSettings) {
 	const directory = path.join(
 		SANDBOX_DIRECTORY,
-		pluginKey
-			.replaceAll(/[^a-z-]/g, " ")
-			.trim()
-			.replaceAll(" ", "-"),
+		getSafePluginName(pluginKey),
 	);
 	console.log(styleText("bold", `Testing ${pluginKey} in ${directory}`));
 
@@ -148,22 +157,26 @@ for (const [pluginKey, pluginSettings] of pluginsSelected) {
 	}
 }
 
-// Write a machine-readable summary for CI reporting
-const summary = {
-	failedPlugins: errors.map(({ pluginKey, error }) => ({
-		pluginKey,
-		errorMessage: `${error.stack || error}`,
-	})),
-	passedPlugins: pluginsSelected
-		.map(([key]) => key)
-		.filter(key => !errors.some(e => e.pluginKey === key)),
-	totalPlugins: pluginsSelected.length,
-};
+// Write summaries for CI reporting
+for (const [pluginKey] of pluginsSelected) {
+	const pluginError = errors.find(e => e.pluginKey === pluginKey);
 
-await fs.writeFile(
-	path.join(SANDBOX_DIRECTORY, ".ecosystem-results.json"),
-	JSON.stringify(summary, null, 2),
-);
+	const summary = pluginError
+		? {
+				pluginKey,
+				passed: false,
+				errorMessage: `${pluginError.error.stack || pluginError.error}`,
+			}
+		: { pluginKey, passed: true };
+
+	await fs.writeFile(
+		path.join(
+			SANDBOX_DIRECTORY,
+			`${getSafePluginName(pluginKey)}-results.json`,
+		),
+		JSON.stringify(summary, null, 2),
+	);
+}
 
 // If we had any errors, report them and exit as failed
 if (errors.length) {
