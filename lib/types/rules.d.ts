@@ -1833,6 +1833,10 @@ export interface ESLintRules extends Linter.RulesRecord {
 					 * @default 10
 					 */
 					max: number;
+					/**
+					 * @default false
+					 */
+					checkConstructorCallCallbacks: boolean
 			  }>,
 		]
 	>;
