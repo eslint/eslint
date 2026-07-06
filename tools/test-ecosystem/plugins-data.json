@@ -5,7 +5,7 @@
       "install": ["npm", "install"],
       "test": ["npm", "run", "test"]
     },
-    "commit": "cd52c7305a0f85f9d0811b83e19a9082307e13cd",
+    "commit": "a66d28050a3488f21c52189b702025a249eb83e6",
     "repository": "https://github.com/eslint/css"
   },
   "@eslint/json": {
@@ -14,7 +14,7 @@
       "install": ["npm", "install"],
       "test": ["npm", "run", "test"]
     },
-    "commit": "2ef892a99e62ba61e69eda8a49bac31890d0dbfa",
+    "commit": "b51719013ee4dcab47713ac607f8ffaeee1737c5",
     "repository": "https://github.com/eslint/json"
   },
   "@eslint/markdown": {
@@ -23,7 +23,7 @@
       "install": ["npm", "install"],
       "test": ["npm", "run", "test"]
     },
-    "commit": "f5b65480e9ceef9595fd01ec1b106d3f0a6bba79",
+    "commit": "85e2e42e65e165c2192a9cc2f3c2602378dfd2e9",
     "repository": "https://github.com/eslint/markdown"
   },
   "@eslint-community/eslint-plugin-eslint-comments": {
@@ -40,7 +40,7 @@
       "install": ["pnpm", "install"],
       "test": ["pnpm", "run", "test"]
     },
-    "commit": "4ecca6d3f9ee1ab6468c8e9d6810ccc1c2f6bcf9",
+    "commit": "0cb380fe0d8dd0405f8d25074cf6b283d34d6507",
     "repository": "https://github.com/typescript-eslint/typescript-eslint"
   },
   "eslint-plugin-unicorn": {
@@ -48,7 +48,7 @@
       "install": ["npm", "install", "--legacy-peer-deps"],
       "test": ["npm", "run", "test"]
     },
-    "commit": "7d48a41a8feaaff45b228933ce565b12d1bce24c",
+    "commit": "1af1d1a4dcaa29f03f2f106a0046894792e304c5",
     "repository": "https://github.com/sindresorhus/eslint-plugin-unicorn"
   },
   "eslint-plugin-vue": {
@@ -57,7 +57,7 @@
       "install": ["npm", "install"],
       "test": ["npm", "run", "test"]
     },
-    "commit": "eacb5fe38199f0c64d238a7bcc79ac246c4fd116",
+    "commit": "a7e0b75e34efbcc7bb3c291b0e8488be416be933",
     "repository": "https://github.com/vuejs/eslint-plugin-vue"
   }
 }
