@@ -945,10 +945,7 @@ rule2 = {
 	meta: {},
 };
 type DeprecatedRuleContextKeys =
-	| "getAncestors"
-	| "getDeclaredVariables"
-	| "getScope"
-	| "markVariableAsUsed";
+	"getAncestors" | "getDeclaredVariables" | "getScope" | "markVariableAsUsed";
 (): RuleDefinition => ({
 	create(context) {
 		// Ensure that deprecated RuleContext methods are not defined when using RuleDefinition

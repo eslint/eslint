@@ -56,9 +56,7 @@ export default defineConfig([
 	{
 		files: ["**/*.ts"],
 		ignores: [".config/**"],
-		rules: {
-			/* ... */
-		},
+		rules: {/* ... */},
 	},
 ]);
 ```

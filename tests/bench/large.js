@@ -6948,7 +6948,7 @@ if (typeof window === "undefined") window = {};
 							if (this._events.removeListener)
 								this.emit("removeListener", type, listener);
 						} else if (isObject(list)) {
-							for (i = length; i-- > 0; ) {
+							for (i = length; i-- > 0;) {
 								if (
 									list[i] === listener ||
 									(list[i].listener &&
@@ -12187,14 +12187,12 @@ if (typeof window === "undefined") window = {};
 								delete funct["(nolet)"];
 							}
 							// Don't clear and let it propagate out if it is "break", "return", or "throw" in switch case
-							if (
-								!(
-									iscase &&
-									["break", "return", "throw"].indexOf(
-										funct["(verb)"],
-									) != -1
-								)
-							) {
+							if (!(
+								iscase &&
+								["break", "return", "throw"].indexOf(
+									funct["(verb)"],
+								) != -1
+							)) {
 								funct["(verb)"] = null;
 							}
 

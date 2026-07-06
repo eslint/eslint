@@ -26,9 +26,31 @@ ruleTester.run("radix", rule, {
 		'parseInt("10", 0x10);',
 		'parseInt("10", 1.6e1);',
 		'parseInt("10", 10.0);',
+		'parseInt("10", +10);',
+		'parseInt("10", +0x10);',
+		'parseInt("10", +1.6e1);',
+		'parseInt("10", +"10");',
+		'parseInt("10", ~1);',
+		'parseInt("10", +radix);',
+		'parseInt("10", -radix);',
 		'parseInt("10", foo);',
 		'function foo(undefined) { parseInt("10", undefined); }',
 		'Number.parseInt("10", foo);',
+		'Number["parseInt"]("10", foo);',
+		'Number[`parseInt`]("10", 10);',
+		'Number.parseInt("10", +10);',
+		'Number.parseInt("10", +"10");',
+		'Number.parseInt("10", ~1);',
+		'Number.parseInt("10", +radix);',
+		'Number.parseInt("10", -radix);',
+		"parseInt(...args);",
+		"parseInt(...args, 1);",
+		'parseInt("10", ...args);',
+		'parseInt("10", 10, ...args);',
+		"Number.parseInt(...args);",
+		"Number.parseInt(...args, 1);",
+		'Number.parseInt("10", ...args);',
+		'Number.parseInt("10", 10, ...args);',
 		"parseInt",
 		"Number.foo();",
 		"Number[parseInt]();",
@@ -48,6 +70,7 @@ ruleTester.run("radix", rule, {
 		// Ignores if it's shadowed or disabled.
 		"var parseInt; parseInt();",
 		"var Number; Number.parseInt();",
+		"let Number; Number['parseInt']();",
 		"/* globals parseInt:off */ parseInt(foo);",
 		{
 			code: "Number.parseInt(foo);",
@@ -205,7 +228,47 @@ ruleTester.run("radix", rule, {
 			],
 		},
 		{
+			code: 'parseInt("10", -1);',
+			errors: [
+				{
+					messageId: "invalidRadix",
+				},
+			],
+		},
+		{
+			code: 'parseInt("10", +37);',
+			errors: [
+				{
+					messageId: "invalidRadix",
+				},
+			],
+		},
+		{
+			code: 'parseInt("10", -0);',
+			errors: [
+				{
+					messageId: "invalidRadix",
+				},
+			],
+		},
+		{
+			code: 'parseInt("10", +10.5);',
+			errors: [
+				{
+					messageId: "invalidRadix",
+				},
+			],
+		},
+		{
 			code: 'parseInt("10", 10.5);',
+			errors: [
+				{
+					messageId: "invalidRadix",
+				},
+			],
+		},
+		{
+			code: 'parseInt("10", 1, ...args);',
 			errors: [
 				{
 					messageId: "invalidRadix",
@@ -251,7 +314,67 @@ ruleTester.run("radix", rule, {
 			],
 		},
 		{
+			code: 'Number.parseInt("10", -1);',
+			errors: [
+				{
+					messageId: "invalidRadix",
+				},
+			],
+		},
+		{
 			code: 'Number.parseInt("10", 10.5);',
+			errors: [
+				{
+					messageId: "invalidRadix",
+				},
+			],
+		},
+		{
+			code: 'Number["parseInt"]();',
+			errors: [
+				{
+					messageId: "missingParameters",
+				},
+			],
+		},
+		{
+			code: 'Number["parseInt"]("10");',
+			errors: [
+				{
+					messageId: "missingRadix",
+					suggestions: [
+						{
+							messageId: "addRadixParameter10",
+							output: 'Number["parseInt"]("10", 10);',
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "Number['parseInt']('10', 1);",
+			errors: [
+				{
+					messageId: "invalidRadix",
+				},
+			],
+		},
+		{
+			code: 'Number[`parseInt`]("10");',
+			errors: [
+				{
+					messageId: "missingRadix",
+					suggestions: [
+						{
+							messageId: "addRadixParameter10",
+							output: 'Number[`parseInt`]("10", 10);',
+						},
+					],
+				},
+			],
+		},
+		{
+			code: 'Number.parseInt("10", 1, ...args);',
 			errors: [
 				{
 					messageId: "invalidRadix",
@@ -315,6 +438,34 @@ ruleTester.run("radix", rule, {
 						{
 							messageId: "addRadixParameter10",
 							output: '(Number?.parseInt)("10", 10);',
+						},
+					],
+				},
+			],
+		},
+		{
+			code: 'Number?.["parseInt"]("10");',
+			errors: [
+				{
+					messageId: "missingRadix",
+					suggestions: [
+						{
+							messageId: "addRadixParameter10",
+							output: 'Number?.["parseInt"]("10", 10);',
+						},
+					],
+				},
+			],
+		},
+		{
+			code: 'Number["parseInt"]?.("10");',
+			errors: [
+				{
+					messageId: "missingRadix",
+					suggestions: [
+						{
+							messageId: "addRadixParameter10",
+							output: 'Number["parseInt"]?.("10", 10);',
 						},
 					],
 				},
