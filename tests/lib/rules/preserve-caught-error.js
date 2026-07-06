@@ -230,6 +230,32 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
+		{
+			code: `
+			try {
+			    doSomething();
+			} catch (err) {
+			    throw new context.Error("failed", someData, { cause: err });
+			}`,
+			options: [
+				{
+					errorClassNames: [{ name: "Error", argumentPosition: 3 }],
+				},
+			],
+		},
+		{
+			code: `
+			try {
+			    doSomething();
+			} catch (err) {
+			    throw new Error("failed", { cause: err });
+			}`,
+			options: [
+				{
+					errorClassNames: [{ name: "Error", argumentPosition: 3 }],
+				},
+			],
+		},
 	],
 	invalid: [
 		/* 1. Throws a new Error without cause, even though an error was caught */
@@ -1168,6 +1194,64 @@ ruleTester.run("preserve-caught-error", rule, {
 				{
 					messageId: "missingCause",
 					suggestions: [],
+				},
+			],
+		},
+		{
+			code: `
+			try {
+			    doSomething();
+			} catch (err) {
+			    throw new context.Error("failed", someData);
+			}`,
+			options: [
+				{
+					errorClassNames: [{ name: "Error", argumentPosition: 3 }],
+				},
+			],
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `
+			try {
+			    doSomething();
+			} catch (err) {
+			    throw new context.Error("failed", someData, { cause: err });
+			}`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `
+			try {
+			    doSomething();
+			} catch (err) {
+			    throw new Error("failed");
+			}`,
+			options: [
+				{
+					errorClassNames: [{ name: "Error", argumentPosition: 3 }],
+				},
+			],
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `
+			try {
+			    doSomething();
+			} catch (err) {
+			    throw new Error("failed", { cause: err });
+			}`,
+						},
+					],
 				},
 			],
 		},
