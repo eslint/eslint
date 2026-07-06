@@ -50,10 +50,24 @@ ruleTester.run("use-isnan", rule, {
 		"foo(Number.NaN / 2)",
 		"foo(2 / Number.NaN)",
 		"var x; if (x = Number.NaN) { }",
+		"var x = globalThis.NaN;",
+		"isNaN(globalThis.NaN) === true;",
+		"Number.isNaN(globalThis.NaN) === true;",
+		"foo(globalThis.NaN + 1);",
+		"foo(1 + globalThis.NaN);",
+		"foo(globalThis.NaN - 1)",
+		"foo(1 - globalThis.NaN)",
+		"foo(globalThis.NaN * 2)",
+		"foo(2 * globalThis.NaN)",
+		"foo(globalThis.NaN / 2)",
+		"foo(2 / globalThis.NaN)",
+		"var x; if (x = globalThis.NaN) { }",
 		"x === Number[NaN];",
 		"x === (NaN, 1)",
 		"x === (doStuff(), NaN, 1)",
 		"x === (doStuff(), Number.NaN, 1)",
+		"x === (globalThis.NaN, 1)",
+		"x === (doStuff(), globalThis.NaN, 1)",
 
 		//------------------------------------------------------------------------------
 		// enforceForSwitchCase
@@ -187,6 +201,66 @@ ruleTester.run("use-isnan", rule, {
 			code: "switch((Number.NaN, doStuff(), 1)) {}",
 			options: [{ enforceForSwitchCase: true }],
 		},
+		{
+			code: "switch(globalThis.NaN) { case foo: break; }",
+			options: [{ enforceForSwitchCase: false }],
+		},
+		{
+			code: "switch(foo) { case globalThis.NaN: break; }",
+			options: [{ enforceForSwitchCase: false }],
+		},
+		{
+			code: "switch(globalThis.NaN) { case Number.NaN: break; }",
+			options: [{ enforceForSwitchCase: false }],
+		},
+		{
+			code: "switch(foo) { case bar: break; case globalThis.NaN: break; default: break; }",
+			options: [{ enforceForSwitchCase: false }],
+		},
+		{
+			code: "switch(foo) { case bar: globalThis.NaN; }",
+			options: [{ enforceForSwitchCase: true }],
+		},
+		{
+			code: "switch(foo) { default: globalThis.NaN; }",
+			options: [{ enforceForSwitchCase: true }],
+		},
+		{
+			code: "switch(globalThis.Nan) {}",
+			options: [{ enforceForSwitchCase: true }],
+		},
+		{
+			code: "switch('globalThis.NaN') { default: break; }",
+			options: [{ enforceForSwitchCase: true }],
+		},
+		{
+			code: "switch(foo(globalThis.NaN)) {}",
+			options: [{ enforceForSwitchCase: true }],
+		},
+		{
+			code: "switch(foo.globalThis.NaN) {}",
+			options: [{ enforceForSwitchCase: true }],
+		},
+		{
+			code: "switch(foo) { case globalThis.Nan: break }",
+			options: [{ enforceForSwitchCase: true }],
+		},
+		{
+			code: "switch(foo) { case 'globalThis.NaN': break }",
+			options: [{ enforceForSwitchCase: true }],
+		},
+		{
+			code: "switch(foo) { case foo(globalThis.NaN): break }",
+			options: [{ enforceForSwitchCase: true }],
+		},
+		{
+			code: "switch(foo) { case foo.globalThis.NaN: break }",
+			options: [{ enforceForSwitchCase: true }],
+		},
+		{
+			code: "switch((globalThis.NaN, doStuff(), 1)) {}",
+			options: [{ enforceForSwitchCase: true }],
+		},
 
 		//------------------------------------------------------------------------------
 		// enforceForIndexOf
@@ -196,6 +270,8 @@ ruleTester.run("use-isnan", rule, {
 		"foo.lastIndexOf(NaN)",
 		"foo.indexOf(Number.NaN)",
 		"foo.lastIndexOf(Number.NaN)",
+		"foo.indexOf(globalThis.NaN)",
+		"foo.lastIndexOf(globalThis.NaN)",
 		{
 			code: "foo.indexOf(NaN)",
 			options: [{}],
@@ -374,6 +450,87 @@ ruleTester.run("use-isnan", rule, {
 			code: "foo.lastIndexOf((Number.NaN, 1))",
 			options: [{ enforceForIndexOf: true }],
 		},
+		{
+			code: "foo.indexOf(globalThis.NaN)",
+			options: [{}],
+		},
+		{
+			code: "foo.lastIndexOf(globalThis.NaN)",
+			options: [{}],
+		},
+		{
+			code: "foo.indexOf(globalThis.NaN)",
+			options: [{ enforceForIndexOf: false }],
+		},
+		{
+			code: "foo.lastIndexOf(globalThis.NaN)",
+			options: [{ enforceForIndexOf: false }],
+		},
+		{
+			code: "indexOf(globalThis.NaN)",
+			options: [{ enforceForIndexOf: true }],
+		},
+		{
+			code: "lastIndexOf(globalThis.NaN)",
+			options: [{ enforceForIndexOf: true }],
+		},
+		{
+			code: "new foo.indexOf(globalThis.NaN)",
+			options: [{ enforceForIndexOf: true }],
+		},
+		{
+			code: "foo.bar(globalThis.NaN)",
+			options: [{ enforceForIndexOf: true }],
+		},
+		{
+			code: "foo.IndexOf(globalThis.NaN)",
+			options: [{ enforceForIndexOf: true }],
+		},
+		{
+			code: "foo[indexOf](globalThis.NaN)",
+			options: [{ enforceForIndexOf: true }],
+		},
+		{
+			code: "foo[lastIndexOf](globalThis.NaN)",
+			options: [{ enforceForIndexOf: true }],
+		},
+		{
+			code: "indexOf.foo(globalThis.NaN)",
+			options: [{ enforceForIndexOf: true }],
+		},
+		{
+			code: "foo.lastIndexOf(globalThis.Nan)",
+			options: [{ enforceForIndexOf: true }],
+		},
+		{
+			code: "foo.indexOf(a, globalThis.NaN)",
+			options: [{ enforceForIndexOf: true }],
+		},
+		{
+			code: "foo.lastIndexOf(globalThis.NaN, b, c)",
+			options: [{ enforceForIndexOf: true }],
+		},
+		{
+			code: "foo.lastIndexOf(globalThis.NaN, NaN, b)",
+			options: [{ enforceForIndexOf: true }],
+		},
+		{
+			code: "foo.indexOf(...globalThis.NaN)",
+			options: [{ enforceForIndexOf: true }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "foo.lastIndexOf(globalThis.NaN())",
+			options: [{ enforceForIndexOf: true }],
+		},
+		{
+			code: "foo.indexOf((globalThis.NaN, 1))",
+			options: [{ enforceForIndexOf: true }],
+		},
+		{
+			code: "foo.lastIndexOf((globalThis.NaN, 1))",
+			options: [{ enforceForIndexOf: true }],
+		},
 
 		//------------------------------------------------------------------------------
 		// Shadowed NaN / Number.NaN
@@ -439,6 +596,28 @@ ruleTester.run("use-isnan", rule, {
 		},
 		{
 			code: "function foo(Number) { return arr.lastIndexOf(Number?.NaN); }",
+			options: [{ enforceForIndexOf: true }],
+		},
+		"let globalThis; if (x === globalThis.NaN) {}",
+		"function f(globalThis) { return x === globalThis.NaN; }",
+		{
+			code: "if (x === globalThis.NaN) {}",
+			languageOptions: { globals: { globalThis: "off" } },
+		},
+		{
+			code: "let globalThis; switch (foo) { case globalThis.NaN: break; }",
+			options: [{ enforceForSwitchCase: true }],
+		},
+		{
+			code: "let globalThis; switch (globalThis.NaN) { case a: break; }",
+			options: [{ enforceForSwitchCase: true }],
+		},
+		{
+			code: "function foo(globalThis) { return arr.indexOf(globalThis.NaN); }",
+			options: [{ enforceForIndexOf: true }],
+		},
+		{
+			code: "function foo(globalThis) { return arr.lastIndexOf(globalThis.NaN); }",
 			options: [{ enforceForIndexOf: true }],
 		},
 	],
@@ -953,6 +1132,97 @@ ruleTester.run("use-isnan", rule, {
 				},
 			],
 		},
+		{
+			code: "123 == globalThis.NaN;",
+			errors: [
+				{
+					...comparisonError,
+					suggestions: [
+						{
+							messageId: "replaceWithIsNaN",
+							output: "Number.isNaN(123);",
+						},
+						{
+							messageId: "replaceWithCastingAndIsNaN",
+							output: "Number.isNaN(Number(123));",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "123 === globalThis.NaN;",
+			errors: [
+				{
+					...comparisonError,
+					suggestions: [
+						{
+							messageId: "replaceWithIsNaN",
+							output: "Number.isNaN(123);",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "123 != globalThis.NaN;",
+			errors: [
+				{
+					...comparisonError,
+					suggestions: [
+						{
+							messageId: "replaceWithIsNaN",
+							output: "!Number.isNaN(123);",
+						},
+						{
+							messageId: "replaceWithCastingAndIsNaN",
+							output: "!Number.isNaN(Number(123));",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "123 !== globalThis.NaN;",
+			errors: [
+				{
+					...comparisonError,
+					suggestions: [
+						{
+							messageId: "replaceWithIsNaN",
+							output: "!Number.isNaN(123);",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "globalThis.NaN < 'abc';",
+			errors: [
+				{
+					...comparisonError,
+					suggestions: [],
+				},
+			],
+		},
+		{
+			code: "'abc' > globalThis.NaN;",
+			errors: [
+				{
+					...comparisonError,
+					suggestions: [],
+				},
+			],
+		},
+		{
+			code: "x === (doStuff(), globalThis.NaN);",
+			errors: [
+				{
+					...comparisonError,
+					suggestions: [],
+				},
+			],
+		},
 
 		//------------------------------------------------------------------------------
 		// enforceForSwitchCase
@@ -1282,6 +1552,148 @@ ruleTester.run("use-isnan", rule, {
 		},
 		{
 			code: "switch((doStuff(), Number.NaN)) {}",
+			options: [{ enforceForSwitchCase: true }],
+			errors: [
+				{
+					messageId: "switchNaN",
+					column: 1,
+				},
+			],
+		},
+		{
+			code: "switch(globalThis.NaN) { case foo: break; }",
+			errors: [
+				{
+					messageId: "switchNaN",
+					column: 1,
+				},
+			],
+		},
+		{
+			code: "switch(foo) { case globalThis.NaN: break; }",
+			errors: [
+				{
+					messageId: "caseNaN",
+					column: 15,
+				},
+			],
+		},
+		{
+			code: "switch(globalThis.NaN) { case foo: break; }",
+			options: [{}],
+			errors: [
+				{
+					messageId: "switchNaN",
+					column: 1,
+				},
+			],
+		},
+		{
+			code: "switch(foo) { case globalThis.NaN: break; }",
+			options: [{}],
+			errors: [
+				{
+					messageId: "caseNaN",
+					column: 15,
+				},
+			],
+		},
+		{
+			code: "switch(globalThis.NaN) {}",
+			options: [{ enforceForSwitchCase: true }],
+			errors: [
+				{
+					messageId: "switchNaN",
+					column: 1,
+				},
+			],
+		},
+		{
+			code: "switch(globalThis.NaN) { case foo: break; }",
+			options: [{ enforceForSwitchCase: true }],
+			errors: [
+				{
+					messageId: "switchNaN",
+					column: 1,
+				},
+			],
+		},
+		{
+			code: "switch(globalThis.NaN) { default: break; }",
+			options: [{ enforceForSwitchCase: true }],
+			errors: [
+				{
+					messageId: "switchNaN",
+					column: 1,
+				},
+			],
+		},
+		{
+			code: "switch(globalThis.NaN) { case foo: break; default: break; }",
+			options: [{ enforceForSwitchCase: true }],
+			errors: [
+				{
+					messageId: "switchNaN",
+					column: 1,
+				},
+			],
+		},
+		{
+			code: "switch(foo) { case globalThis.NaN: }",
+			options: [{ enforceForSwitchCase: true }],
+			errors: [
+				{
+					messageId: "caseNaN",
+					column: 15,
+				},
+			],
+		},
+		{
+			code: "switch(foo) { case globalThis.NaN: break; }",
+			options: [{ enforceForSwitchCase: true }],
+			errors: [
+				{
+					messageId: "caseNaN",
+					column: 15,
+				},
+			],
+		},
+		{
+			code: "switch(foo) { case bar: break; case globalThis.NaN: break; default: break; }",
+			options: [{ enforceForSwitchCase: true }],
+			errors: [
+				{
+					messageId: "caseNaN",
+					column: 32,
+				},
+			],
+		},
+		{
+			code: "switch(foo) { case bar: case globalThis.NaN: default: break; }",
+			options: [{ enforceForSwitchCase: true }],
+			errors: [
+				{
+					messageId: "caseNaN",
+					column: 25,
+				},
+			],
+		},
+		{
+			code: "switch(globalThis.NaN) { case globalThis.NaN: break; }",
+			options: [{ enforceForSwitchCase: true }],
+			errors: [
+				{
+					messageId: "switchNaN",
+					column: 1,
+				},
+				{
+					messageId: "caseNaN",
+					column: 22,
+				},
+			],
+		},
+		{
+			code: "switch((doStuff(), globalThis.NaN)) {}",
 			options: [{ enforceForSwitchCase: true }],
 			errors: [
 				{
@@ -1758,6 +2170,52 @@ ruleTester.run("use-isnan", rule, {
 		},
 		{
 			code: "foo.indexOf((1, NaN), 1)",
+			options: [{ enforceForIndexOf: true }],
+			languageOptions: { ecmaVersion: 2020 },
+			errors: [
+				{
+					messageId: "indexOfNaN",
+					data: { methodName: "indexOf" },
+					suggestions: [],
+				},
+			],
+		},
+		{
+			code: "foo.indexOf(globalThis.NaN)",
+			options: [{ enforceForIndexOf: true }],
+			errors: [
+				{
+					messageId: "indexOfNaN",
+					data: { methodName: "indexOf" },
+					suggestions: [
+						{
+							messageId: "replaceWithFindIndex",
+							data: { methodName: "findIndex" },
+							output: "foo.findIndex(Number.isNaN)",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "foo.lastIndexOf(globalThis.NaN)",
+			options: [{ enforceForIndexOf: true }],
+			errors: [
+				{
+					messageId: "indexOfNaN",
+					data: { methodName: "lastIndexOf" },
+					suggestions: [
+						{
+							messageId: "replaceWithFindIndex",
+							data: { methodName: "findLastIndex" },
+							output: "foo.findLastIndex(Number.isNaN)",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "foo.indexOf((1, globalThis.NaN))",
 			options: [{ enforceForIndexOf: true }],
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [
