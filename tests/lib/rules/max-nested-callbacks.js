@@ -78,6 +78,7 @@ ruleTester.run("max-nested-callbacks", rule, {
 		// Constructor calls
 		{
 			code: "new Promise(() => {});",
+			options: [0],
 		},
 		{
 			code: "new Promise(() => {});",
