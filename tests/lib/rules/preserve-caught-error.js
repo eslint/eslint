@@ -129,6 +129,49 @@ ruleTester.run("preserve-caught-error", rule, {
 		}`,
 	],
 	invalid: [
+		/* Parenthesized arguments: insertions must land outside the wrapping parentheses (see gh suggestion corruption) */
+		{
+			code: `try { doSomething(); } catch (err) { throw new Error(("Something failed")); }`,
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try { doSomething(); } catch (err) { throw new Error(("Something failed"), { cause: err }); }`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `try { doSomething(); } catch (err) { throw new AggregateError((errors)); }`,
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try { doSomething(); } catch (err) { throw new AggregateError((errors), "", { cause: err }); }`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `try { doSomething(); } catch (err) { throw new AggregateError(errors, ("message")); }`,
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try { doSomething(); } catch (err) { throw new AggregateError(errors, ("message"), { cause: err }); }`,
+						},
+					],
+				},
+			],
+		},
 		/* 1. Throws a new Error without cause, even though an error was caught */
 		{
 			code: `try {
