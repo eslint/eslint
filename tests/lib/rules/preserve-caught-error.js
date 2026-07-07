@@ -256,6 +256,21 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
+		{
+			code: `import { AggregateError } from "some-module";
+			try {
+				doSomething();
+			} catch (err) {
+				throw new AggregateError({ cause: err });
+			}`,
+			options: [
+				{
+					errorClassNames: [
+						{ name: "AggregateError", argumentPosition: 1 },
+					],
+				},
+			],
+		},
 	],
 	invalid: [
 		/* 1. Throws a new Error without cause, even though an error was caught */
@@ -1249,6 +1264,68 @@ ruleTester.run("preserve-caught-error", rule, {
 			    doSomething();
 			} catch (err) {
 			    throw new Error("failed", { cause: err });
+			}`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `import { AggregateError } from "some-module";
+			try {
+				doSomething();
+			} catch (err) {
+				throw new AggregateError();
+			}`,
+			options: [
+				{
+					errorClassNames: [
+						{ name: "AggregateError", argumentPosition: 1 },
+					],
+				},
+			],
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `import { AggregateError } from "some-module";
+			try {
+				doSomething();
+			} catch (err) {
+				throw new AggregateError({ cause: err });
+			}`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `import { AggregateError } from "some-module";
+			try {
+				doSomething();
+			} catch (err) {
+				throw new AggregateError({ cause: wrong });
+			}`,
+			options: [
+				{
+					errorClassNames: [
+						{ name: "AggregateError", argumentPosition: 1 },
+					],
+				},
+			],
+			errors: [
+				{
+					messageId: "incorrectCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `import { AggregateError } from "some-module";
+			try {
+				doSomething();
+			} catch (err) {
+				throw new AggregateError({ cause: err });
 			}`,
 						},
 					],
