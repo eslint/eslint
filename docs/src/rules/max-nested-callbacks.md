@@ -99,7 +99,7 @@ Examples of **incorrect** code for this rule with the `{ "checkConstructorCallCa
 ::: incorrect
 
 ```js
-/*eslint max-nested-callbacks: ["error", { checkConstructorCallCallbacks: true, max: 1 }]*/
+/*eslint max-nested-callbacks: ["error", { "checkConstructorCallCallbacks": true, "max": 1 }]*/
 
 setTimeout(() => {
     new Promise(function nested() {});
@@ -108,12 +108,12 @@ setTimeout(() => {
 
 :::
 
-Examples of **correct** code for this rule with the `{ checkConstructorCallCallbacks: true }` option:
+Examples of **correct** code for this rule with the `{ "checkConstructorCallCallbacks": true }` option:
 
 ::: correct
 
 ```js
-/*eslint max-nested-callbacks: ["error", { checkConstructorCallCallbacks: true, max: 1 }]*/
+/*eslint max-nested-callbacks: ["error", { "checkConstructorCallCallbacks": true, "max": 1 }]*/
 
 function handler() {
     new Promise(() => {});
