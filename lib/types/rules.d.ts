@@ -1836,7 +1836,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 					/**
 					 * @default false
 					 */
-					checkConstructorCallCallbacks: boolean
+					checkConstructorCallCallbacks: boolean;
 			  }>,
 		]
 	>;
