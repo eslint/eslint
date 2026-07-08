@@ -38,6 +38,7 @@ This rule enforces a maximum depth that callbacks can be nested to increase code
 This rule has a number or object option:
 
 * `"max"` (default `10`) enforces a maximum depth that callbacks can be nested
+* `"checkConstructorCallCallbacks"` (default `false`) also check callbacks passed to a constructor call
 
 **Deprecated:** The object property `maximum` is deprecated; please use the object property `max` instead.
 
@@ -87,6 +88,38 @@ function handleFoo3() {
 function handleFoo4() {
     foo5();
 }
+```
+
+:::
+
+### checkConstructorCallCallbacks
+
+Examples of **incorrect** code for this rule with the `{ "checkConstructorCallCallbacks": true }` option:
+
+::: incorrect
+
+```js
+/*eslint max-nested-callbacks: ["error", { "checkConstructorCallCallbacks": true, "max": 1 }]*/
+
+setTimeout(() => {
+    new Promise(function nested() {});
+});
+```
+
+:::
+
+Examples of **correct** code for this rule with the `{ "checkConstructorCallCallbacks": true }` option:
+
+::: correct
+
+```js
+/*eslint max-nested-callbacks: ["error", { "checkConstructorCallCallbacks": true, "max": 1 }]*/
+
+function handler() {
+    new Promise(() => {});
+}
+
+setTimeout(handler);
 ```
 
 :::
