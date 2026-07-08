@@ -862,6 +862,20 @@ ruleTester.run("preserve-caught-error", rule, {
 			],
 		},
 		{
+			code: `try { doSomething(); } catch (err) { throw new Error(("Something failed"),); }`,
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try { doSomething(); } catch (err) { throw new Error(("Something failed"), { cause: err },); }`,
+						},
+					],
+				},
+			],
+		},
+		{
 			code: `try { doSomething(); } catch (err) { throw new AggregateError((errors)); }`,
 			errors: [
 				{
