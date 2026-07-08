@@ -990,6 +990,63 @@ ruleTester.run("preserve-caught-error", rule, {
 			}`,
 			errors: [{ messageId: "incorrectCause" }],
 		},
+		/* Parenthesized arguments: insertions must land outside the wrapping parentheses */
+		{
+			code: `try { doSomething(); } catch (err) { throw new Error(("Something failed")); }`,
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try { doSomething(); } catch (err) { throw new Error(("Something failed"), { cause: err }); }`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `try { doSomething(); } catch (err) { throw new Error(("Something failed"),); }`,
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try { doSomething(); } catch (err) { throw new Error(("Something failed"), { cause: err },); }`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `try { doSomething(); } catch (err) { throw new AggregateError((errors)); }`,
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try { doSomething(); } catch (err) { throw new AggregateError((errors), "", { cause: err }); }`,
+						},
+					],
+				},
+			],
+		},
+		{
+			code: `try { doSomething(); } catch (err) { throw new AggregateError(errors, ("message")); }`,
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try { doSomething(); } catch (err) { throw new AggregateError(errors, ("message"), { cause: err }); }`,
+						},
+					],
+				},
+			],
+		},
 
 		// Custom error class names - missing cause (Identifier)
 		{
