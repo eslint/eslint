@@ -226,6 +226,9 @@
   "overrides": {
     "@arethetypeswrong/core": {
       "fflate": "0.8.2"
+    },
+    "@metascraper/helpers": {
+      "re2": "~1.24.1"
     }
   }
 }
