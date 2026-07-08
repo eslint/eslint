@@ -1,7 +1,9 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   extends: ["github>eslint/workflows//.github/renovate/base.json5"],
-  ignoreDeps: ["markdownlint-cli2"],
+  ignoreDeps: [
+    "markdownlint-cli2", // markdownlint-cli2 currently requires Node.js 22 or later, so it cannot be updated yet.
+  ],
   packageRules: [
     {
       description: "Group Babel packages into a single PR.",
