@@ -23,6 +23,8 @@
         "tests/pnpm/**",
         // Run from Makefile.js
         "tools/generate-formatter-examples.js",
+        // Fuzz targets run by Jazzer.js on OSS-Fuzz; @jazzer.js/core is installed on demand
+        "tools/oss-fuzz/**",
       ],
       "ignoreDependencies": [
         // Underlying code coverage engine used in unit tests
