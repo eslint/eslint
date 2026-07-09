@@ -127,6 +127,7 @@ module.exports = defineConfig([
 		rules: {
 			// Jazzer.js is installed on demand by OSS-Fuzz / contributors.
 			"n/no-extraneous-require": "off",
+			"n/no-missing-require": "off",
 		},
 	},
 	{
