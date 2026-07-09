@@ -680,4 +680,62 @@ describe("formatter:stylish", () => {
 			);
 		});
 	});
+
+	describe("when rule documentation URLs are available", () => {
+		const code = [
+			{
+				filePath: "foo.js",
+				errorCount: 1,
+				warningCount: 0,
+				fixableErrorCount: 0,
+				fixableWarningCount: 0,
+				messages: [
+					{
+						message: "Unexpected foo.",
+						severity: 2,
+						line: 5,
+						column: 10,
+						ruleId: "foo",
+					},
+				],
+			},
+		];
+
+		const osc8 = "\u001b]8;;";
+		const hyperlinkStart = `${osc8}https://example.com/foo\u0007`;
+		const hyperlinkEnd = `${osc8}\u0007`;
+
+		const rulesMeta = {
+			foo: { docs: { url: "https://example.com/foo" } },
+		};
+
+		it("`color: true` should wrap the rule ID in an OSC 8 hyperlink to the docs URL", () => {
+			const result = formatter(code, { color: true, rulesMeta });
+
+			assert.include(result, hyperlinkStart);
+			assert.include(result, hyperlinkEnd);
+
+			// the hyperlink escape sequences are not part of the visible text
+			assert.strictEqual(
+				util.stripVTControlCharacters(result),
+				"\nfoo.js\n  5:10  error  Unexpected foo  foo\n\n✖ 1 problem (1 error, 0 warnings)\n",
+			);
+		});
+
+		it("`color: false` should not emit hyperlinks", () => {
+			const result = formatter(code, { color: false, rulesMeta });
+
+			assert.notInclude(result, osc8);
+			assert.notMatch(result, ansiEscapePattern);
+		});
+
+		it("should not emit a hyperlink for a rule without a docs URL", () => {
+			const result = formatter(code, {
+				color: true,
+				rulesMeta: { foo: { docs: {} } },
+			});
+
+			assert.notInclude(result, osc8);
+		});
+	});
 });
