@@ -1047,6 +1047,21 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
+		{
+			code: `try { doSomething(); } catch (err) { throw new CustomError((foo)); }`,
+			options: [{ errorClassNames: ["CustomError"] }],
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try { doSomething(); } catch (err) { throw new CustomError((foo), { cause: err }); }`,
+						},
+					],
+				},
+			],
+		},
 
 		// Custom error class names - missing cause (Identifier)
 		{
