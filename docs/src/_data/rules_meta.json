@@ -1773,7 +1773,8 @@
             "recommended": true,
             "url": "https://eslint.org/docs/latest/rules/no-compare-neg-zero"
         },
-        "fixable": null
+        "fixable": null,
+        "hasSuggestions": true
     },
     "no-cond-assign": {
         "type": "problem",
@@ -4222,7 +4223,8 @@
         "type": "suggestion",
         "defaultOptions": [
             {
-                "requireCatchParameter": false
+                "requireCatchParameter": false,
+                "errorClassNames": []
             }
         ],
         "docs": {
