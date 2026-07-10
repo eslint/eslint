@@ -1,3 +1,16 @@
+v9.39.5 - July 10, 2026
+
+* [`458205f`](https://github.com/eslint/eslint/commit/458205f7d7a4769f32bec006eecc45c6a71be16a) chore: update `@eslint/eslintrc` and `@eslint/js` for v9.39.5 (#21077) (Francesco Trotta)
+* [`202117b`](https://github.com/eslint/eslint/commit/202117be549534715d687f988e17f29e1dcd0622) chore: package.json update for @eslint/js release (Jenkins)
+* [`d9eb6ed`](https://github.com/eslint/eslint/commit/d9eb6edcc93c1319ff1d2bb9aeb6d7d47bd73a79) test: disable warning for `vm.constants.USE_MAIN_CONTEXT_DEFAULT_LOADER` (#21074) (Francesco Trotta)
+* [`253be16`](https://github.com/eslint/eslint/commit/253be16a79a4c78eec4e0eb461b574d60dbf6b11) fix: handle unavailable require cache (backport of #20812 to v9.x) (#21065) (Eric)
+* [`7b431a7`](https://github.com/eslint/eslint/commit/7b431a7b19c345b8db56040b1888a3b531c3e64c) chore: override `re2` dependency for `@metascraper/helpers` (#21068) (Milos Djermanovic)
+* [`74930ed`](https://github.com/eslint/eslint/commit/74930edd1ce0d246819edc72705101ec271da50b) docs: switch build to Node.js 24 (#20894) (Milos Djermanovic)
+* [`daf7791`](https://github.com/eslint/eslint/commit/daf77911de33be163503c6568ccb159741f4b018) chore: pin fflate@0.8.2 (#20895) (Milos Djermanovic)
+* [`eaec8bb`](https://github.com/eslint/eslint/commit/eaec8bb6b1ca4b36985ee0222c457d4730d47a20) docs: Add ESLint v9.x EOL notice (#20828) (Milos Djermanovic)
+* [`daee8ba`](https://github.com/eslint/eslint/commit/daee8ba3082afbc94d3b69ddc129d4dc664716f2) ci: use pnpm in `eslint-flat-config-utils` type integration test (#20829) (Milos Djermanovic)
+* [`116d4be`](https://github.com/eslint/eslint/commit/116d4bec7c0ddaeaa75f92fb1271a4ab70d24ce3) ci: unpin Node.js 25.x in CI (#20619) (Copilot)
+
 v9.39.4 - March 6, 2026
 
 * [`b8b4eb1`](https://github.com/eslint/eslint/commit/b8b4eb15901c1bd6ef40d2589da4ae75795c0f6e) chore: update dependencies for ESLint v9.39.4 (#20596) (Francesco Trotta)
