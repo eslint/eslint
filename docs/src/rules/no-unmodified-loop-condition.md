@@ -99,7 +99,50 @@ while (check(obj)) {
 
 ## Options
 
-This rule has no options.
+This rule has an object option:
+
+* `"checkTernaryOperands"` (default `false`) check each variable of a ternary expression in a loop condition individually, instead of skipping the whole ternary expression when any of its variables is modified
+
+### checkTernaryOperands
+
+By default, a ternary expression in a loop condition is not reported if any of its variables is modified in the loop. With `"checkTernaryOperands"` set to `true`, each variable of a ternary expression is checked individually, so unmodified variables are reported even if another variable of the ternary expression is modified.
+
+Examples of **incorrect** code for this rule with the `{ "checkTernaryOperands": true }` option:
+
+::: incorrect
+
+```js
+/*eslint no-unmodified-loop-condition: ["error", { "checkTernaryOperands": true }]*/
+
+let node = getNode();
+let done = false;
+
+// "done" is not modified in this loop.
+while (node ? !done : false) {
+    node = node.next;
+}
+```
+
+:::
+
+Examples of **correct** code for this rule with the `{ "checkTernaryOperands": true }` option:
+
+::: correct
+
+```js
+/*eslint no-unmodified-loop-condition: ["error", { "checkTernaryOperands": true }]*/
+
+let node = getNode();
+let done = false;
+
+// OK, all variables of the ternary expression are modified in this loop.
+while (node ? !done : false) {
+    node = node.next;
+    done = isDone(node);
+}
+```
+
+:::
 
 ## When Not To Use It
 

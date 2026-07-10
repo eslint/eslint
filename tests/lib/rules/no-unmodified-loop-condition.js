@@ -58,6 +58,18 @@ ruleTester.run("no-unmodified-loop-condition", rule, {
 		"var foo = 0, bar = 0; for (bar; foo;) { ++foo }",
 		"var foo; if (foo) { }",
 		"var a = [1, 2, 3]; var len = a.length; for (var i = 0; i < len - 1; i++) {}",
+		{
+			code: "var foo = 0, bar = 1, baz = 2; while (foo ? bar : baz) { foo += 1; }",
+			options: [{ checkTernaryOperands: false }],
+		},
+		{
+			code: "var foo = 0, bar = 1, baz = 2; while (foo ? bar : baz) { foo += 1; bar += 1; baz += 1; }",
+			options: [{ checkTernaryOperands: true }],
+		},
+		{
+			code: "var a = 0, b = 1, c = 2; while (a ? b < c : false) { a += 1; b += 1; }",
+			options: [{ checkTernaryOperands: true }],
+		},
 	],
 	invalid: [
 		{
@@ -131,6 +143,41 @@ ruleTester.run("no-unmodified-loop-condition", rule, {
 				{
 					messageId: "loopConditionNotModified",
 					data: { name: "foo" },
+				},
+			],
+		},
+		{
+			code: "var foo = 0, bar = 1, baz = 2; while (foo ? bar : baz) { foo += 1; }",
+			options: [{ checkTernaryOperands: true }],
+			errors: [
+				{
+					messageId: "loopConditionNotModified",
+					data: { name: "bar" },
+				},
+				{
+					messageId: "loopConditionNotModified",
+					data: { name: "baz" },
+				},
+			],
+		},
+		{
+			code: "let chunk = next(); let done = false; while (chunk ? !done : false) { chunk = next(); }",
+			options: [{ checkTernaryOperands: true }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "loopConditionNotModified",
+					data: { name: "done" },
+				},
+			],
+		},
+		{
+			code: "var a = 0, b = 1, c = 2; while (a ? b < c : false) { b += 1; }",
+			options: [{ checkTernaryOperands: true }],
+			errors: [
+				{
+					messageId: "loopConditionNotModified",
+					data: { name: "a" },
 				},
 			],
 		},
