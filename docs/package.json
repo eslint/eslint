@@ -1,7 +1,7 @@
 {
     "name": "docs-eslint",
     "private": true,
-    "version": "9.39.4",
+    "version": "9.39.5",
     "description": "",
     "main": "index.js",
     "keywords": [],
