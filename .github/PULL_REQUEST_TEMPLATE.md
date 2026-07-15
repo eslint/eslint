@@ -8,6 +8,11 @@
 
 - [ ] I have read the [contributing guidelines](https://github.com/eslint/eslint/blob/HEAD/CONTRIBUTING.md).
 
+#### AI acknowledgment
+
+- [ ] I did _not_ use AI to generate this PR.
+- [ ] (If the above is not checked) I have reviewed the AI-generated content before submitting.
+
 #### What is the purpose of this pull request? (put an "X" next to an item)
 
 <!--

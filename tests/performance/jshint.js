@@ -6938,7 +6938,7 @@ var JSHINT;
 							FutureReservedWord("transient");
 							FutureReservedWord("volatile");
 
-							// this function is used to determine wether a squarebracket or a curlybracket
+							// this function is used to determine whether a squarebracket or a curlybracket
 							// expression is a comprehension array, destructuring assignment or a json value.
 
 							var lookupBlockType = function () {
@@ -8087,8 +8087,8 @@ var JSHINT;
 							W006: "Confusing minuses.",
 							W007: "Confusing pluses.",
 							W008: "A leading decimal point can be confused with a dot: '{a}'.",
-							W009: "The array literal notation [] is preferrable.",
-							W010: "The object literal notation {} is preferrable.",
+							W009: "The array literal notation [] is preferable.",
+							W010: "The object literal notation {} is preferable.",
 							W011: "Unexpected space after '{a}'.",
 							W012: "Unexpected space before '{a}'.",
 							W013: "Missing space after '{a}'.",
@@ -8989,7 +8989,6 @@ var JSHINT;
 									for (
 										var i = 0;
 										i < unicodeLetterTable.length;
-
 									) {
 										if (code < unicodeLetterTable[i++]) {
 											return false;

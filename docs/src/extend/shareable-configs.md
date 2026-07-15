@@ -12,10 +12,10 @@ To share your ESLint configuration, create a **shareable config**. You can publi
 This page explains how to create and publish a shareable config.
 
 ::: tip
-This page explains how to create a shareable config using the flat config format. For the deprecated eslintrc format, [see the deprecated documentation](shareable-configs-deprecated).
+This page explains how to create a shareable config using the flat config format.
 :::
 
-## Creating a Shareable Config
+## Create a Shareable Config
 
 Shareable configs are simply npm packages that export a configuration object or array. To start, [create a Node.js module](https://docs.npmjs.com/getting-started/creating-node-modules) like you normally would.
 
@@ -65,7 +65,7 @@ You should declare your dependency on ESLint in the `package.json` using the [pe
 
 If your shareable config depends on a plugin or a custom parser, you should specify these packages as `dependencies` in your `package.json`.
 
-## Using a Shareable Config
+## Use a Shareable Config
 
 To use a shareable config, import the package inside of an `eslint.config.js` file and add it into the exported array using `extends`, like this:
 

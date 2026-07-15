@@ -31,6 +31,8 @@ ruleTester.run("eqeqeq", rule, {
 		{ code: "typeof a == 'number'", options: ["smart"] },
 		{ code: "'string' != typeof a", options: ["smart"] },
 		{ code: "'hello' != 'world'", options: ["smart"] },
+		{ code: "`hello` != `world`", options: ["smart"] },
+		{ code: "`hello` == 'hello'", options: ["smart"] },
 		{ code: "2 == 3", options: ["smart"] },
 		{ code: "true == true", options: ["smart"] },
 		{ code: "null == a", options: ["smart"] },
@@ -48,6 +50,10 @@ ruleTester.run("eqeqeq", rule, {
 		{ code: "a != null", options: ["always", { null: "never" }] },
 		{ code: "null == null", options: ["always", { null: "never" }] },
 		{ code: "null != null", options: ["always", { null: "never" }] },
+		{ code: "a >= null", options: ["always", { null: "never" }] },
+		{ code: "a + null", options: ["always", { null: "never" }] },
+		{ code: "null + null", options: ["always", { null: "never" }] },
+		{ code: "null instanceof Foo", options: ["always", { null: "never" }] },
 
 		// https://github.com/eslint/eslint/issues/8020
 		{
@@ -180,6 +186,26 @@ ruleTester.run("eqeqeq", rule, {
 			],
 		},
 		{
+			code: "`hello` == `world`",
+			output: "`hello` === `world`",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+				},
+			],
+		},
+		{
+			code: "`hello` != 'world'",
+			output: "`hello` !== 'world'",
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedNotEqEq,
+				},
+			],
+		},
+		{
 			code: "a == null",
 			errors: [
 				{
@@ -274,6 +300,23 @@ ruleTester.run("eqeqeq", rule, {
 							messageId: "replaceOperator",
 							data: wantedEqEqEq,
 							output: "'wee' === /wee/",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "`hello${world}` == `hello`",
+			options: ["smart"],
+			errors: [
+				{
+					messageId: "unexpected",
+					data: wantedEqEqEq,
+					suggestions: [
+						{
+							messageId: "replaceOperator",
+							data: wantedEqEqEq,
+							output: "`hello${world}` === `hello`",
 						},
 					],
 				},

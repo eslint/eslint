@@ -33,7 +33,7 @@ The following selectors are supported:
 - wildcard (matches all nodes): `*`
 - attribute existence: `[attr]`
 - attribute value: `[attr="foo"]` or `[attr=123]`
-- attribute regex: `[attr=/foo.*/]` <sub>(with some [known issues](#known-issues))</sub>
+- attribute regex: `[attr=/foo.*/]`
 - attribute conditions: `[attr!="foo"]`, `[attr>2]`, `[attr<3]`, `[attr>=2]`, or `[attr<=3]`
 - nested attribute: `[attr.level2="foo"]`
 - field: `FunctionDeclaration > Identifier.id`
@@ -45,7 +45,7 @@ The following selectors are supported:
 - following sibling: `VariableDeclaration ~ VariableDeclaration`
 - adjacent sibling: `ArrayExpression > Literal + SpreadElement`
 - negation: `:not(ForStatement)`
-- matches-any: `:matches([attr] > :first-child, :last-child)`
+- matches-any: `:matches([attr] > :first-child, :last-child)` or `:is([attr] > :first-child, :last-child)`
 - class of AST node: `:statement`, `:expression`, `:declaration`, `:function`, or `:pattern`
 
 This syntax is very powerful, and can be used to precisely select many syntactic patterns in your code.
@@ -147,21 +147,25 @@ Or you can enforce that calls to `setTimeout` always have two arguments:
 
 Using selectors in the `no-restricted-syntax` rule can give you a lot of control over problematic patterns in your codebase, without needing to write custom rules to detect each pattern.
 
-### Known issues
+### Using regular expressions
 
-Due to a [bug](https://github.com/estools/esquery/issues/68) in [esquery](https://github.com/estools/esquery), regular expressions that contain a forward-slash character `/` aren't properly parsed, so `[value=/some\/path/]` will be a syntax error. As a [workaround](https://github.com/estools/esquery/issues/68), you can replace the `/` character with its unicode counterpart, like so: `[value=/some\u002Fpath/]`.
+You can use regular expressions in attribute selectors. For example, the following selector matches all `Identifier` nodes with a `name` value that starts with "foo":
 
-For example, the following configuration disallows importing from `some/path`:
+```text
+Identifier[name=/^foo/]
+```
+
+You can also use forward slashes in your regular expressions. For example, the following configuration disallows importing from `some/path`:
 
 ```json
 {
 	"rules": {
 		"no-restricted-syntax": [
 			"error",
-			"ImportDeclaration[source.value=/^some\\u002Fpath$/]"
+			"ImportDeclaration[source.value=/^some\\/path$/]"
 		]
 	}
 }
 ```
 
-Note that the `\` character needs to be escaped (`\\`) in JSON and string literals.
+Note that the `/` character inside the regular expression needs to be escaped (`\/`) so it is not interpreted as the end of the regular expression. Additionally, because the selector is inside a JSON string, the backslash character itself needs to be escaped (`\\`).

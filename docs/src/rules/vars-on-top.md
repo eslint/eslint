@@ -153,7 +153,7 @@ function doSomething() {
     // this is the first var.
     var first;
     // this is the second var.
-    var second
+    var second;
 }
 ```
 

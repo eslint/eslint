@@ -6,6 +6,10 @@ Please be sure to read the contribution guidelines before making or requesting a
 
 This project adheres to the [OpenJS Foundation Code of Conduct](https://eslint.org/conduct). We kindly request that you read over our code of conduct before contributing.
 
+## AI Usage Policy
+
+ESLint welcomes contributions from everyone, including those created with the assistance of Artificial Intelligence (AI) tools. We ask that you adhere to the [AI Usage Policy](https://eslint.org/docs/latest/contribute/ai-policy) when submitting contributions created with the assistance of AI tools.
+
 ## Filing Issues
 
 Before filing an issue, please be sure to read the guidelines for what you're reporting:

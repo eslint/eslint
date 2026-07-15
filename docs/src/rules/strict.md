@@ -47,7 +47,7 @@ In **ECMAScript** modules, which always have strict mode semantics, the directiv
 
 This rule requires or disallows strict mode directives.
 
-This rule disallows strict mode directives, no matter which option is specified, if ESLint configuration specifies either of the following as [parser options](../use/configure/language-options#specifying-javascript-options):
+This rule disallows strict mode directives, no matter which option is specified, if ESLint configuration specifies either of the following as [parser options](../use/configure/language-options#specify-javascript-options):
 
 * `"sourceType": "module"` that is, files are **ECMAScript** modules.
 * `"impliedStrict": true` property in the `ecmaFeatures` object.
@@ -73,8 +73,8 @@ This rule has a string option:
 
 The `"safe"` option corresponds to the `"global"` option if ESLint considers a file to be a **Node.js** or **CommonJS** module because the configuration specifies either of the following:
 
-* `"sourceType": "commonjs"` in [language options](../use/configure/language-options#specifying-javascript-options)
-* `"globalReturn": true` property in the `ecmaFeatures` object of [parser options](../use/configure/language-options#specifying-parser-options)
+* `"sourceType": "commonjs"` in [language options](../use/configure/language-options#specify-javascript-options)
+* `"globalReturn": true` property in the `ecmaFeatures` object of [parser options](../use/configure/language-options#specify-parser-options)
 
 Otherwise the `"safe"` option corresponds to the `"function"` option.
 
@@ -319,4 +319,4 @@ function foo() {
 
 ## When Not To Use It
 
-In a codebase that has both strict and non-strict code, either turn this rule off, or [selectively disable it](../use/configure/rules#disabling-rules) where necessary. For example, functions referencing `arguments.callee` are invalid in strict mode. A [full list of strict mode differences](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode/Transitioning_to_strict_mode#Differences_from_non-strict_to_strict) is available on MDN.
+In a codebase that has both strict and non-strict code, either turn this rule off, or [selectively disable it](../use/configure/rules#disable-rules) where necessary. For example, functions referencing `arguments.callee` are invalid in strict mode. A [full list of strict mode differences](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode/Transitioning_to_strict_mode#Differences_from_non-strict_to_strict) is available on MDN.

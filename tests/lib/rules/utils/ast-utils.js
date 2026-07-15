@@ -85,6 +85,10 @@ describe("ast-utils", () => {
 		it("should contain es2021 globals", () => {
 			assert.ownInclude(astUtils.ECMASCRIPT_GLOBALS, { WeakRef: false });
 		});
+
+		it("should contain es2026 globals", () => {
+			assert.ownInclude(astUtils.ECMASCRIPT_GLOBALS, { Temporal: false });
+		});
 	});
 
 	describe("isTokenOnSameLine", () => {

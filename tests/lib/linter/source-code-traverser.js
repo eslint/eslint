@@ -572,6 +572,27 @@ describe("SourceCodeTraverser", () => {
 		);
 
 		assertEmissions(
+			"foo + bar + baz",
+			[
+				":is(Identifier[name='foo'], Identifier[name='bar'], Identifier[name='baz'])",
+			],
+			ast => [
+				[
+					":is(Identifier[name='foo'], Identifier[name='bar'], Identifier[name='baz'])",
+					ast.body[0].expression.left.left,
+				], // foo
+				[
+					":is(Identifier[name='foo'], Identifier[name='bar'], Identifier[name='baz'])",
+					ast.body[0].expression.left.right,
+				], // bar
+				[
+					":is(Identifier[name='foo'], Identifier[name='bar'], Identifier[name='baz'])",
+					ast.body[0].expression.right,
+				], // baz
+			],
+		);
+
+		assertEmissions(
 			"foo + 5 + 6",
 			["Identifier, Literal[value=5]"],
 			ast => [

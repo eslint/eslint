@@ -1,4 +1,4 @@
-name: CI
+name: Docs CI
 on:
     push:
         branches: [main]
@@ -18,10 +18,10 @@ jobs:
         name: Verify Docs Files
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
             - uses: actions/setup-node@v6
               with:
-                  node-version: "lts/*"
+                  node-version: "24" # Should be the same as the version used on Netlify to build the docs site
 
             - name: Install Docs Packages
               working-directory: docs

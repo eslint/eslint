@@ -169,6 +169,13 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
 - `options.cacheStrategy` (`string`)<br>
   Default is `"metadata"`. Strategy for the cache to use for detecting changed files. Can be either `"metadata"` or `"content"`.
 
+##### Suppressions
+
+- `options.applySuppressions` (`boolean`)<br>
+  Default is `false`. If `true`, suppressions from the suppressions file are automatically applied to results from both [`eslint.lintFiles()`][eslint-lintfiles] and [`eslint.lintText()`][eslint-linttext]. When using `eslint.lintText()`, the `filePath` option must also be provided for suppressions to take effect.
+- `options.suppressionsLocation` (`string`)<br>
+  Default is `"eslint-suppressions.json"`. The path to the suppressions file. The path can be absolute or relative to `cwd`.
+
 ##### Other Options
 
 - `options.concurrency` (`number | "auto" | "off"`)<br>
@@ -986,7 +993,6 @@ A test case is an object with the following properties:
 In addition to the properties above, invalid test cases can also have the following properties:
 
 - `errors` (number or array, required): Asserts some properties of the errors that the rule is expected to produce when run on this code. If this is a number, asserts the number of errors produced. Otherwise, this should be a list of objects, each containing information about a single reported error. The following properties can be used for an error (all are optional unless otherwise noted):
-
     - `message` (string/regexp): The message for the error. Must provide this or `messageId`.
     - `messageId` (string): The ID for the error. Must provide this or `message`. See [testing errors with messageId](#testing-errors-with-messageid) for details.
     - `data` (object): Placeholder data which can be used in combination with `messageId`.
@@ -1019,9 +1025,9 @@ You can optionally configure the following `assertionOptions` that apply to all 
     - If `"messageId"`, each `errors` block must check the expected error messages via `messageId` in error objects.
 - `requireLocation` (boolean, optional): If `true`, each `errors` block must be an array of objects, and each object must contain location properties `line`, `column`, `endLine`, and `endColumn`. Properties `endLine` and `endColumn` may be omitted if the actual error does not contain them.
 - `requireData` (boolean/`"error"`/`"suggestion"`, optional):
-    - If `true`, each error object that specifies `messageId` and each suggestion object that specifies `messageId` must also specify `data` if the message referenced by `messageId` has [placeholders](../extend/custom-rules#using-message-placeholders).
-    - If `"error"`, each error object that specifies `messageId` must also specify `data` if the message referenced by `messageId` has [placeholders](../extend/custom-rules#using-message-placeholders).
-    - If `"suggestion"`, each suggestion object that specifies `messageId` must also specify `data` if the message referenced by `messageId` has [placeholders](../extend/custom-rules#using-message-placeholders).
+    - If `true`, each error object that specifies `messageId` and each suggestion object that specifies `messageId` must also specify `data` if the message referenced by `messageId` has [placeholders](../extend/custom-rules#use-message-placeholders).
+    - If `"error"`, each error object that specifies `messageId` must also specify `data` if the message referenced by `messageId` has [placeholders](../extend/custom-rules#use-message-placeholders).
+    - If `"suggestion"`, each suggestion object that specifies `messageId` must also specify `data` if the message referenced by `messageId` has [placeholders](../extend/custom-rules#use-message-placeholders).
 
 ### Testing Errors with `messageId`
 
@@ -1132,6 +1138,8 @@ ruleTester.run("my-rule-for-no-foo", rule, {
 
 ### Customizing RuleTester
 
+#### Customizing `describe` and `it`
+
 `RuleTester` depends on two functions to run tests: `describe` and `it`. These functions can come from various places:
 
 1. If `RuleTester.describe` and `RuleTester.it` have been set to function values, `RuleTester` will use `RuleTester.describe` and `RuleTester.it` to run tests. You can use this to customize the behavior of `RuleTester` to match a test framework that you're using.
@@ -1173,6 +1181,56 @@ ruleTester.run("my-rule", myRule, {
 		// invalid test cases
 	],
 });
+```
+
+#### Enforcing `assertionOptions` Globally
+
+Because `assertionOptions` is specified per `run()` call, enforcing the same options across every call in a project requires a userland pattern. There are two common approaches:
+
+##### Option 1 — Subclass `RuleTester` and override `run()`
+
+```js
+const { RuleTester } = require("eslint");
+
+class StrictRuleTester extends RuleTester {
+	run(ruleName, rule, tests) {
+		super.run(ruleName, rule, {
+			...tests,
+			assertionOptions: {
+				// Default assertion options applied to every run() call.
+				requireMessage: "messageId",
+				requireLocation: true,
+				// Per-call options are merged in and take precedence.
+				...tests.assertionOptions,
+			},
+		});
+	}
+}
+
+module.exports = StrictRuleTester;
+```
+
+##### Option 2 — Helper wrapper function
+
+```js
+const { RuleTester } = require("eslint");
+
+const ruleTester = new RuleTester();
+
+function runWithStrictAssertions(ruleName, rule, tests) {
+	return ruleTester.run(ruleName, rule, {
+		...tests,
+		assertionOptions: {
+			// Default assertion options applied to every call.
+			requireMessage: "messageId",
+			requireLocation: true,
+			// Per-call options are merged in and take precedence.
+			...tests.assertionOptions,
+		},
+	});
+}
+
+module.exports = runWithStrictAssertions;
 ```
 
 [configuration object]: ../use/configure/

@@ -61,6 +61,7 @@ navigation:
       target: _blank
     - text: 演练场
       link: playground
+      target: _blank
     - text: Code Explorer
       link: codeExplorer
       target: _blank

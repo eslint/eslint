@@ -359,6 +359,118 @@ ruleTester.run("no-useless-assignment", rule, {
             a = 5;
         }
         console.log(a);`,
+		`function* generator() {
+            let done = false;
+            try {
+                yield 1;
+                done = true;
+            } catch {
+                done = true;
+            } finally {
+                if (!done) {
+                    console.log("done is false");
+                }
+            }
+        }`,
+		`function* generator() {
+            let done = false;
+            try {
+                yield 1;
+                done = true;
+                yield 2;
+            } finally {
+                if (done) {
+                    console.log("done is true");
+                }
+            }
+        }`,
+		`function* generator() {
+            let done = false;
+            try {
+                yield 1;
+            } catch {
+                console.log(done);
+            }
+        }`,
+		`function* generator() {
+            let done = false;
+            try {
+                foo();
+            } catch {
+                yield 1;
+                done = true;
+            } finally {
+                yield 2;
+                if (!done) {
+                    console.log(done);
+                }
+            }
+        }`,
+		`function foo() {
+			let outcome = 'unknown';
+
+			try {
+				helper1();
+				outcome = 'success';
+			} catch (err) {
+				helper2();
+				outcome = 'exception'; 
+			} finally {
+				console.log(outcome);
+			}
+		}`,
+		`function foo() {
+			let outcome = 'unknown';
+
+			try {
+				new Foo();
+				outcome = 'success';
+			} catch (err) {
+				new Bar();
+				outcome = 'exception'; 
+			} finally {
+				console.log(outcome);
+			}
+		}`,
+		`async function foo() {
+			let outcome = 'unknown';
+
+			try {
+				await import("./foo.js");
+				outcome = 'success';
+			} catch (err) {
+				await import("./bar.js");
+				outcome = 'exception';
+			} finally {
+				console.log(outcome);
+			}
+		}`,
+		`function foo() {
+			let outcome = 'unknown';
+
+			try {
+				obj.foo;
+				outcome = 'success';
+			} catch (err) {
+				obj.foo;
+				outcome = 'exception';
+			} finally {
+				console.log(outcome);
+			}
+		}`,
+		`function foo() {
+			let outcome = 'unknown';
+
+			try {
+				helper1();
+				outcome = 'success';
+			} catch (err) {
+			 	outcome = 'exception';
+				helper2(); 
+			} finally {
+				console.log(outcome);
+			}
+		}`,
 
 		// An expression within an assignment.
 		`const obj = { a: 5 };
@@ -655,6 +767,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 3,
 					column: 13,
 				},
@@ -669,6 +782,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 4,
 					column: 17,
 				},
@@ -686,6 +800,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 4,
 					column: 21,
 				},
@@ -703,6 +818,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 6,
 					column: 21,
 				},
@@ -717,6 +833,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 4,
 					column: 17,
 				},
@@ -731,6 +848,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 4,
 					column: 17,
 				},
@@ -747,6 +865,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 5,
 					column: 21,
 				},
@@ -764,6 +883,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 2,
 					column: 21,
 				},
@@ -779,11 +899,13 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 4,
 					column: 17,
 				},
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 5,
 					column: 17,
 				},
@@ -802,6 +924,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 4,
 					column: 17,
 				},
@@ -820,6 +943,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 3,
 					column: 13,
 				},
@@ -837,11 +961,13 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 4,
 					column: 17,
 				},
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 5,
 					column: 17,
 				},
@@ -864,6 +990,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 2,
 					column: 21,
 				},
@@ -887,6 +1014,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 4,
 					column: 21,
 				},
@@ -905,11 +1033,13 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 4,
 					column: 21,
 				},
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 5,
 					column: 21,
 				},
@@ -926,6 +1056,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "a" },
 					line: 4,
 					column: 17,
 				},
@@ -940,6 +1071,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "a" },
 					line: 4,
 					column: 17,
 				},
@@ -957,16 +1089,19 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "a" },
 					line: 4,
 					column: 20,
 				},
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "b" },
 					line: 4,
 					column: 29,
 				},
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "d" },
 					line: 4,
 					column: 39,
 				},
@@ -981,16 +1116,19 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "a" },
 					line: 4,
 					column: 20,
 				},
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "b" },
 					line: 4,
 					column: 39,
 				},
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "c" },
 					line: 4,
 					column: 45,
 				},
@@ -1008,6 +1146,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 5,
 					column: 17,
 				},
@@ -1029,11 +1168,13 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 6,
 					column: 21,
 				},
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 9,
 					column: 17,
 				},
@@ -1052,11 +1193,13 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 5,
 					column: 21,
 				},
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 7,
 					column: 21,
 				},
@@ -1073,6 +1216,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 4,
 					column: 17,
 				},
@@ -1089,6 +1233,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 4,
 					column: 17,
 				},
@@ -1116,11 +1261,13 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 5,
 					column: 21,
 				},
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 14,
 					column: 21,
 				},
@@ -1141,6 +1288,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 6,
 					column: 25,
 				},
@@ -1160,8 +1308,48 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "message" },
 					line: 1,
 					column: 5,
+				},
+			],
+		},
+		{
+			code: `function* generator() {
+                let done = false;
+                yield 1;
+                done = true;
+                console.log(done);
+            }`,
+			errors: [
+				{
+					messageId: "unnecessaryAssignment",
+					data: { name: "done" },
+					line: 2,
+					column: 21,
+					endLine: 2,
+					endColumn: 25,
+				},
+			],
+		},
+		{
+			code: `function* generator() {
+                let done = false;
+                try {
+                    yield 1;
+                } finally {
+                    done = true;
+                    console.log(done);
+                }
+            }`,
+			errors: [
+				{
+					messageId: "unnecessaryAssignment",
+					data: { name: "done" },
+					line: 2,
+					column: 21,
+					endLine: 2,
+					endColumn: 25,
 				},
 			],
 		},
@@ -1175,6 +1363,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "message" },
 					line: 1,
 					column: 5,
 				},
@@ -1191,6 +1380,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "message" },
 					line: 1,
 					column: 5,
 				},
@@ -1212,8 +1402,38 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 1,
 					column: 5,
+				},
+			],
+		},
+		{
+			code: `function foo() {
+				let outcome = 'unknown';
+
+				try {
+					bar();
+				} catch (err) {
+					new Baz();
+					outcome = 'exception'; 
+				} finally {
+					return;
+					console.log(outcome);
+				}
+			}`,
+			errors: [
+				{
+					messageId: "unnecessaryAssignment",
+					data: { name: "outcome" },
+					line: 2,
+					column: 9,
+				},
+				{
+					messageId: "unnecessaryAssignment",
+					data: { name: "outcome" },
+					line: 8,
+					column: 6,
 				},
 			],
 		},
@@ -1228,6 +1448,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "x" },
 					line: 3,
 					column: 13,
 				},
@@ -1242,6 +1463,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "x" },
 					line: 4,
 					column: 17,
 				},
@@ -1258,11 +1480,13 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "a" },
 					line: 3,
 					column: 17,
 				},
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "a" },
 					line: 4,
 					column: 22,
 				},
@@ -1282,6 +1506,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "A" },
 					line: 2,
 					column: 17,
 					endLine: 2,
@@ -1303,6 +1528,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "A" },
 					line: 2,
 					column: 17,
 					endLine: 2,
@@ -1324,6 +1550,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "A" },
 					line: 2,
 					column: 17,
 					endLine: 2,
@@ -1348,6 +1575,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "x" },
 					line: 6,
 					column: 15,
 					endLine: 6,
@@ -1374,6 +1602,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "A" },
 					line: 3,
 					column: 13,
 					endLine: 3,
@@ -1400,6 +1629,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "message" },
 					line: 2,
 					column: 17,
 					endLine: 2,
@@ -1422,6 +1652,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "x" },
 					line: 3,
 					column: 13,
 					endLine: 3,
@@ -1443,6 +1674,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "x" },
 					line: 2,
 					column: 17,
 					endLine: 2,
@@ -1465,6 +1697,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "x" },
 					line: 2,
 					column: 17,
 					endLine: 2,
@@ -1472,6 +1705,7 @@ ruleTester.run("no-useless-assignment", rule, {
 				},
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "x" },
 					line: 3,
 					column: 13,
 					endLine: 3,

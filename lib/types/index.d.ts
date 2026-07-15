@@ -27,8 +27,6 @@
 
 import * as ESTree from "estree";
 import type {
-	CustomRuleDefinitionType,
-	CustomRuleTypeDefinitions,
 	DeprecatedInfo,
 	LanguageOptions as GenericLanguageOptions,
 	RuleContext as CoreRuleContext,
@@ -70,18 +68,13 @@ import type {
 	SuggestedEditBase,
 	SuggestedEdit,
 	ViolationReport,
+	MessagePlaceholderData,
 } from "@eslint/core";
-
-//------------------------------------------------------------------------------
-// Helpers
-//------------------------------------------------------------------------------
-
-/** Adds matching `:exit` selectors for all properties of a `RuleVisitor`. */
-type WithExit<RuleVisitorType extends RuleVisitor> = {
-	[Key in keyof RuleVisitorType as
-		| Key
-		| `${Key & string}:exit`]: RuleVisitorType[Key];
-};
+import type {
+	CustomRuleDefinitionType,
+	CustomRuleTypeDefinitions,
+	CustomRuleVisitorWithExit,
+} from "@eslint/plugin-kit";
 
 //------------------------------------------------------------------------------
 // Exports
@@ -244,15 +237,12 @@ export namespace Scope {
 
 // #region SourceCode
 
-export class SourceCode
-	implements
-		TextSourceCode<{
-			LangOptions: Linter.LanguageOptions;
-			RootNode: AST.Program;
-			SyntaxElementWithLoc: AST.Token | ESTree.Node;
-			ConfigNode: ESTree.Comment;
-		}>
-{
+export class SourceCode implements TextSourceCode<{
+	LangOptions: Linter.LanguageOptions;
+	RootNode: AST.Program;
+	SyntaxElementWithLoc: AST.Token | ESTree.Node;
+	ConfigNode: ESTree.Comment;
+}> {
 	text: string;
 	ast: AST.Program;
 	lines: string[];
@@ -656,32 +646,29 @@ export type JSSyntaxElement = {
 };
 
 export namespace Rule {
-	interface RuleModule
-		extends RuleDefinition<{
-			LangOptions: Linter.LanguageOptions;
-			Code: SourceCode;
-			RuleOptions: any[];
-			Visitor: RuleListener;
-			Node: JSSyntaxElement;
-			MessageIds: string;
-			ExtRuleDocs: {};
-		}> {
+	interface RuleModule extends RuleDefinition<{
+		LangOptions: Linter.LanguageOptions;
+		Code: SourceCode;
+		RuleOptions: any[];
+		Visitor: RuleListener;
+		Node: JSSyntaxElement;
+		MessageIds: string;
+		ExtRuleDocs: {};
+	}> {
 		create(context: RuleContext): RuleListener;
 	}
 
 	type NodeTypes = ESTree.Node["type"];
 
-	interface NodeListener
-		extends WithExit<
-			{
-				[Node in Rule.Node as Node["type"]]?:
-					| ((node: Node) => void)
-					| undefined;
-			} & {
-				// A `Program` visitor's node type has no `parent` property.
-				Program?: ((node: AST.Program) => void) | undefined;
-			}
-		> {}
+	interface NodeListener extends CustomRuleVisitorWithExit<
+		{
+			[Node in Rule.Node as Node["type"]]?:
+				((node: Node) => void) | undefined;
+		} & {
+			// A `Program` visitor's node type has no `parent` property.
+			Program?: ((node: AST.Program) => void) | undefined;
+		}
+	> {}
 
 	interface NodeParentExtension {
 		parent: Node;
@@ -735,6 +722,22 @@ export namespace Rule {
 		| "class-field-initializer"
 		| "class-static-block";
 
+	interface CodePathSegmentTraversalController {
+		skip(): void;
+		break(): void;
+	}
+
+	type CodePathSegmentTraversalCallback = (
+		this: CodePath,
+		segment: CodePathSegment,
+		controller: CodePathSegmentTraversalController,
+	) => void;
+
+	interface CodePathTraversalOptions {
+		first?: CodePathSegment | undefined;
+		last?: CodePathSegment | undefined;
+	}
+
 	interface CodePath {
 		id: string;
 		origin: CodePathOrigin;
@@ -744,25 +747,31 @@ export namespace Rule {
 		thrownSegments: CodePathSegment[];
 		upper: CodePath | null;
 		childCodePaths: CodePath[];
+		traverseSegments(callback: CodePathSegmentTraversalCallback): void;
+		traverseSegments(
+			options: CodePathTraversalOptions,
+			callback: CodePathSegmentTraversalCallback,
+		): void;
 	}
 
 	interface CodePathSegment {
 		id: string;
 		nextSegments: CodePathSegment[];
 		prevSegments: CodePathSegment[];
+		allNextSegments: CodePathSegment[];
+		allPrevSegments: CodePathSegment[];
 		reachable: boolean;
 	}
 
 	type RuleMetaData = RulesMeta;
 
-	interface RuleContext
-		extends CoreRuleContext<{
-			LangOptions: Linter.LanguageOptions;
-			Code: SourceCode;
-			RuleOptions: any[];
-			Node: JSSyntaxElement;
-			MessageIds: string;
-		}> {}
+	interface RuleContext extends CoreRuleContext<{
+		LangOptions: Linter.LanguageOptions;
+		Code: SourceCode;
+		RuleOptions: any[];
+		Node: JSSyntaxElement;
+		MessageIds: string;
+	}> {}
 
 	type ReportFixer = CoreRuleFixer;
 
@@ -1072,11 +1081,9 @@ export namespace Linter {
 		filename?: string | undefined;
 		preprocess?: ((code: string) => string[]) | undefined;
 		postprocess?:
-			| ((problemLists: LintMessage[][]) => LintMessage[])
-			| undefined;
+			((problemLists: LintMessage[][]) => LintMessage[]) | undefined;
 		filterCodeBlock?:
-			| ((filename: string, text: string) => boolean)
-			| undefined;
+			((filename: string, text: string) => boolean) | undefined;
 		disableFixes?: boolean | undefined;
 		allowInlineConfig?: boolean | undefined;
 		reportUnusedDisableDirectives?: boolean | undefined;
@@ -1299,41 +1306,98 @@ export namespace ESLint {
 
 	type CacheStrategy = "content" | "metadata";
 
+	/** The options with which to configure the ESLint instance. */
 	interface Options {
 		// File enumeration
+
+		/** The value to use for the current working directory. */
 		cwd?: string | undefined;
+
+		/** If `false` then `ESLint#lintFiles()` doesn't throw even if no target files found. Defaults to `true`. */
 		errorOnUnmatchedPattern?: boolean | undefined;
+
+		/**
+		 * Set to false to skip glob resolution of input file paths to lint (default: true).
+		 * If false, each input file path is assumed to be a non-glob path to an existing file.
+		 */
 		globInputPaths?: boolean | undefined;
+
+		/** False disables all ignore patterns except for the default ones. */
 		ignore?: boolean | undefined;
+
+		/** Ignore file patterns to use in addition to config ignores. These patterns are relative to `cwd`. */
 		ignorePatterns?: string[] | null | undefined;
+
+		/** When set to true, missing patterns cause the linting operation to short circuit and not report any failures. */
 		passOnNoPatterns?: boolean | undefined;
+
+		/** Show warnings when the file list includes ignored files. */
 		warnIgnored?: boolean | undefined;
 
 		// Linting
+
+		/** Enable or disable inline configuration comments. */
 		allowInlineConfig?: boolean | undefined;
+
+		/** Base config, extended by all configs used with this instance. */
 		baseConfig?: Linter.Config | Linter.Config[] | null | undefined;
+
+		/** Override config, overrides all configs used with this instance. */
 		overrideConfig?: Linter.Config | Linter.Config[] | null | undefined;
+
+		/**
+		 * Searches for default config file when falsy; doesn't do any config file lookup when `true`; considered to be a config filename when a string.
+		 */
 		overrideConfigFile?: string | true | null | undefined;
+
+		/** An array of plugin implementations. */
 		plugins?: Record<string, Plugin> | null | undefined;
+
+		/**
+		 * Default is `() => true`. A predicate function that filters rules to be run.
+		 * This function is called with an object containing `ruleId` and `severity`, and returns `true` if the rule should be run.
+		 */
 		ruleFilter?:
 			| ((arg: {
 					ruleId: string;
 					severity: Exclude<Linter.Severity, 0>;
 			  }) => boolean)
 			| undefined;
+
+		/** True enables added statistics on lint results. */
 		stats?: boolean | undefined;
 
 		// Autofix
+
+		/** Execute in autofix mode. If a function, should return a boolean. */
 		fix?: boolean | ((message: Linter.LintMessage) => boolean) | undefined;
+
+		/** Array of rule types to apply fixes for. */
 		fixTypes?: FixType[] | null | undefined;
 
 		// Cache-related
+
+		/** Enable result caching. */
 		cache?: boolean | undefined;
+
+		/** The cache file to use instead of .eslintcache. */
 		cacheLocation?: string | undefined;
+
+		/** The strategy used to detect changed files. */
 		cacheStrategy?: CacheStrategy | undefined;
 
+		/** If true, apply suppressions automatically. Defaults to false. */
+		applySuppressions?: boolean | undefined;
+
+		/** Path to suppressions file. Relative to cwd. Defaults to eslint-suppressions.json in cwd. */
+		suppressionsLocation?: string | undefined;
+
 		// Other Options
+
+		/** Maximum number of linting threads, "auto" to choose automatically, "off" for no multithreading. */
 		concurrency?: number | "auto" | "off" | undefined;
+
+		/** Array of feature flags to enable. */
 		flags?: string[] | undefined;
 	}
 
@@ -1532,17 +1596,16 @@ export class RuleTester {
 }
 
 export namespace RuleTester {
-	interface ValidTestCase
-		extends Omit<
-			Linter.Config,
-			| "name"
-			| "basePath"
-			| "files"
-			| "ignores"
-			| "linterOptions"
-			| "plugins"
-			| "rules"
-		> {
+	interface ValidTestCase extends Omit<
+		Linter.Config,
+		| "name"
+		| "basePath"
+		| "files"
+		| "ignores"
+		| "linterOptions"
+		| "plugins"
+		| "rules"
+	> {
 		name?: string;
 		code: string;
 		options?: any[];
@@ -1555,7 +1618,7 @@ export namespace RuleTester {
 	interface SuggestionOutput {
 		messageId?: string;
 		desc?: string;
-		data?: Record<string, unknown> | undefined;
+		data?: MessagePlaceholderData | undefined;
 		output: string;
 	}
 
@@ -1567,7 +1630,7 @@ export namespace RuleTester {
 	interface TestCaseError {
 		message?: string | RegExp;
 		messageId?: string;
-		data?: any;
+		data?: MessagePlaceholderData | undefined;
 		line?: number | undefined;
 		column?: number | undefined;
 		endLine?: number | undefined;

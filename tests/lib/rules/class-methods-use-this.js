@@ -680,6 +680,18 @@ ruleTesterTypeScript.run("class-methods-use-this", rule, {
 			code: "class Foo implements Bar { property = () => {} }",
 			options: [{ ignoreClassesWithImplements: "all" }],
 		},
+		{
+			code: "const Foo = class implements Bar { method() {} };",
+			options: [{ ignoreClassesWithImplements: "all" }],
+		},
+		{
+			code: "const Foo = class implements Bar { property = () => {} };",
+			options: [{ ignoreClassesWithImplements: "all" }],
+		},
+		{
+			code: "const Foo = class implements Bar { method() {} };",
+			options: [{ ignoreClassesWithImplements: "public-fields" }],
+		},
 	],
 	invalid: [
 		{
@@ -1338,6 +1350,15 @@ ruleTesterTypeScript.run("class-methods-use-this", rule, {
 					messageId: "missingThis",
 				},
 			],
+		},
+		{
+			code: "const Foo = class implements Bar { method() {} };",
+			errors: [{ messageId: "missingThis" }],
+		},
+		{
+			code: "const Foo = class implements Bar { private method() {} };",
+			options: [{ ignoreClassesWithImplements: "public-fields" }],
+			errors: [{ messageId: "missingThis" }],
 		},
 	],
 });

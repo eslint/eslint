@@ -46,6 +46,7 @@ ruleTester.run("no-object-constructor", rule, {
 						{
 							messageId: "useLiteral",
 							output: "({})",
+							data: { replacement: "({})" },
 						},
 					],
 				},
@@ -60,6 +61,7 @@ ruleTester.run("no-object-constructor", rule, {
 						{
 							messageId: "useLiteral",
 							output: "({})",
+							data: { replacement: "({})" },
 						},
 					],
 				},
@@ -74,6 +76,7 @@ ruleTester.run("no-object-constructor", rule, {
 						{
 							messageId: "useLiteral",
 							output: "const fn = () => ({});",
+							data: { replacement: "({})" },
 						},
 					],
 				},
@@ -88,6 +91,7 @@ ruleTester.run("no-object-constructor", rule, {
 						{
 							messageId: "useLiteral",
 							output: "({}) instanceof Object;",
+							data: { replacement: "({})" },
 						},
 					],
 				},
@@ -102,6 +106,7 @@ ruleTester.run("no-object-constructor", rule, {
 						{
 							messageId: "useLiteral",
 							output: "const obj = {};",
+							data: { replacement: "{}" },
 						},
 					],
 				},
@@ -116,6 +121,7 @@ ruleTester.run("no-object-constructor", rule, {
 						{
 							messageId: "useLiteral",
 							output: "({} instanceof Object);",
+							data: { replacement: "{}" },
 						},
 					],
 				},
@@ -214,6 +220,7 @@ ruleTester.run("no-object-constructor", rule, {
 								/(new )?Object\(\)/u,
 								";({})",
 							),
+							data: { replacement: "({})" },
 						},
 					],
 				},
@@ -397,6 +404,7 @@ ruleTester.run("no-object-constructor", rule, {
 								/(new )?Object\(\)/u,
 								"({})",
 							),
+							data: { replacement: "({})" },
 						},
 					],
 				},

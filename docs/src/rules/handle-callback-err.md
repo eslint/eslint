@@ -69,7 +69,7 @@ Examples of **correct** code for this rule with a sample `"error"` parameter nam
 
 function loadData (error, data) {
     if (error) {
-       console.log(error.stack);
+        console.log(error.stack);
     }
     doSomething();
 }

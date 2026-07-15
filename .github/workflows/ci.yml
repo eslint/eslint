@@ -13,10 +13,19 @@ jobs:
         name: Verify Files
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
+            - uses: actions/setup-go@v6
+              with:
+                  go-version: "stable"
             - uses: actions/setup-node@v6
               with:
                   node-version: "lts/*"
+
+            - name: Lint GitHub Actions workflows
+              run: |
+                  go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.10
+                  actionlint -color -shellcheck= -pyflakes=
+
             - name: Install Packages
               run: npm install
 
@@ -24,18 +33,8 @@ jobs:
               working-directory: docs
               run: npm install
 
-            - name: Lint Files (eslint)
-              uses: trunk-io/trunk-action@75699af9e26881e564e9d832ef7dc3af25ec031b # v1
-              with:
-                  # Run on everything except the docs folder.
-                  arguments: --ignore=docs/** --filter=eslint
-                  check-mode: all
-
-            - name: Lint Files (other)
-              uses: trunk-io/trunk-action@75699af9e26881e564e9d832ef7dc3af25ec031b # v1
-              with:
-                  # Run on everything except the docs folder.
-                  arguments: --ignore=docs/** --filter=-eslint
+            - name: Lint Files
+              run: node Makefile lint
 
             - name: Check Rule Files
               run: node Makefile checkRuleFiles
@@ -43,18 +42,8 @@ jobs:
             - name: Check Licenses
               run: node Makefile checkLicenses
 
-            - name: Lint Docs Files (eslint)
-              uses: trunk-io/trunk-action@75699af9e26881e564e9d832ef7dc3af25ec031b # v1
-              with:
-                  # Run only on the docs folder.
-                  arguments: --ignore=** --ignore=!docs/** --filter=eslint
-                  check-mode: all
-
-            - name: Lint Docs Files (other)
-              uses: trunk-io/trunk-action@75699af9e26881e564e9d832ef7dc3af25ec031b # v1
-              with:
-                  # Run only on the docs folder.
-                  arguments: --ignore=** --ignore=!docs/** --filter=-eslint
+            - name: Lint Docs JS Files
+              run: node Makefile lintDocsJS
 
             - name: Check Rule Examples
               run: node Makefile checkRuleExamples
@@ -65,12 +54,15 @@ jobs:
             - name: Lint Files, Dependencies, & Exports
               run: npm run lint:unused
 
+            - name: Check Formatting
+              run: npm run fmt:check
+
     test_on_node:
         name: Test
         strategy:
             matrix:
                 os: [ubuntu-latest]
-                node: [25.x, 24.x, 22.x, 20.x, "20.19.0"]
+                node: [26.x, 24.x, 22.x, 20.x, "20.19.0"]
                 NODE_OPTIONS: [""]
                 include:
                     - os: windows-latest
@@ -86,7 +78,7 @@ jobs:
                       NODE_OPTIONS: "--experimental-transform-types"
         runs-on: ${{ matrix.os }}
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
             - uses: actions/setup-node@v6
               with:
                   node-version: ${{ matrix.node }}
@@ -107,10 +99,10 @@ jobs:
         env:
             TERM: xterm-256color
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
             - uses: actions/setup-node@v6
               with:
-                  node-version: "20" # Should be the same as the version used on Netlify to build the ESLint Playground
+                  node-version: "24" # Should be the same as the version used on Netlify to build the ESLint Playground
             - name: Install Packages
               run: npm install
             - name: Test
@@ -119,36 +111,34 @@ jobs:
               run: node Makefile fuzz
 
     test_types:
-        name: Test Types of ${{ matrix.package.name }}
+        name: Test Types
         runs-on: ubuntu-latest
 
-        strategy:
-            matrix:
-                package:
-                    [
-                        { name: eslint, directory: . },
-                        {
-                            name: eslint-config-eslint,
-                            directory: packages/eslint-config-eslint,
-                        },
-                        { name: "@eslint/js", directory: packages/js },
-                    ]
-
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
             - uses: actions/setup-node@v6
               with:
                   node-version: "lts/*"
             - name: Install Packages
               run: npm install
 
-            - name: Install Packages for ${{ matrix.package.name }}
-              working-directory: ${{ matrix.package.directory }}
-              run: npm install --legacy-peer-deps
+            - name: Test types (eslint)
+              run: npx tsc -p tests/lib/types/tsconfig.json
 
-            - name: Test types for ${{ matrix.package.name }}
-              working-directory: ${{ matrix.package.directory }}
-              run: npm run test:types
+            - name: Test types (eslint-config-eslint)
+              run: npm run test:types -w packages/eslint-config-eslint
+
+            - name: Test types (@eslint/js)
+              run: npm run test:types -w packages/js
+
+            - name: Check types compile (TypeScript 5.3)
+              run: npm run test:types:5.3
+
+            - name: Check types compile (TypeScript 5.x)
+              run: npm run test:types:5.x
+
+            - name: Check types compile (TypeScript 7 preview)
+              run: npm run test:types:7.x
 
     test_package_manager:
         name: Test Package Managers
@@ -158,9 +148,9 @@ jobs:
         name: Test pnpm Type Support
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
 
-            - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4
+            - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
               with:
                   version: latest
 

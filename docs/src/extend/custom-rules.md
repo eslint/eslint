@@ -42,14 +42,16 @@ The source file for a rule exports an object with the following properties. Both
 `meta`: (`object`) Contains metadata for the rule:
 
 - `type`: (`string`) Indicates the type of rule, which is one of `"problem"`, `"suggestion"`, or `"layout"`:
-
     - `"problem"`: The rule is identifying code that either will cause an error or may cause a confusing behavior. Developers should consider this a high priority to resolve.
     - `"suggestion"`: The rule is identifying something that could be done in a better way but no errors will occur if the code isn't changed.
     - `"layout"`: The rule cares primarily about whitespace, semicolons, commas, and parentheses, all the parts of the program that determine how the code looks rather than how it executes. These rules work on parts of the code that aren't specified in the AST.
 
-- `docs`: (`object`) Properties often used for documentation generation and tooling. Required for core rules and optional for custom rules. Custom rules can include additional properties here as needed.
+    The type of rule can be used with the CLI option [`--fix-type`](../use/command-line-interface#--fix-type) to specify the type of fixes to apply.
 
+- `docs`: (`object`) Properties often used for documentation generation and tooling. Required for core rules and optional for custom rules. Custom rules can include additional properties here as needed.
     - `description`: (`string`) Provides a short description of the rule. For core rules, this is used in [rules index](../rules/).
+    - `dialects`: (`string[]`) The dialects of the languages that the rule is intended to lint. For example, `["JavaScript", "TypeScript"]`.
+    - `frozen`: (`boolean`) For core rules, specifies whether the rule is [frozen](../contribute/core-rules#frozen-rules) and no longer accepts feature requests.
     - `recommended`: (`unknown`) For core rules, this is a boolean value specifying whether the rule is enabled by the `recommended` config from `@eslint/js`.
     - `url`: (`string`) Specifies the URL at which the full documentation can be accessed. Code editors often use this to provide a helpful link on highlighted rule violations.
 
@@ -65,6 +67,43 @@ The source file for a rule exports an object with the following properties. Both
 - `schema`: (`object | array | false`) Specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../use/configure/rules). Mandatory when the rule has options.
 
 - `defaultOptions`: (`array`) Specifies [default options](#option-defaults) for the rule. If present, any user-provided options in their config will be merged on top of them recursively.
+
+- `languages`: (`array`) Specifies the languages the rule is designed to work with. Each entry is a string in the format `"pluginName/languageName"` (e.g., `"js/js"`, `"markdown/gfm"`). Special values:
+    - `"*"` — the rule works with any language.
+    - `"pluginName/*"` — the rule works with any language provided by the given plugin.
+
+    If `languages` is not specified, the rule is assumed to work with all languages. When `languages` is specified and none of the entries matches the active language, ESLint throws an error.
+
+    ```js
+    // Rule only runs when the active language is the built-in JavaScript language
+    meta: {
+        languages: ["js/js"],
+    }
+
+    // Rule runs with any language from the "markdown" plugin
+    meta: {
+        languages: ["markdown/*"],
+    }
+
+    // Rule runs with any language
+    meta: {
+        languages: ["*"],
+    }
+    ```
+
+    Language identifiers are matched in the following order:
+    1. **Wildcard `"*"`** — matches any language.
+    2. **Direct string match** — the entry exactly equals the active language string (e.g., `"test/lang"`).
+    3. **`"plugin/*"` wildcard** — matches any language whose plugin name (or `meta.namespace`) equals the plugin part of the entry.
+    4. **Namespace match** — a plugin registered under a different name may be matched when its `meta.namespace` equals the plugin part of the entry.
+
+    ```js
+    // Rule runs with a specific language from a plugin whose meta.namespace is "markdown"
+    // (e.g., the plugin is registered as "md" but declares meta.namespace = "markdown")
+    meta: {
+        languages: ["markdown/gfm"],
+    }
+    ```
 
 - `deprecated`: (`boolean | DeprecatedInfo`) Indicates whether the rule has been deprecated. You may omit the `deprecated` property if the rule has not been deprecated.
   There is a dedicated page for the [DeprecatedInfo](./rule-deprecation)
@@ -138,8 +177,8 @@ The `context` object has the following properties:
 - `cwd`: (`string`) The `cwd` option passed to the [Linter](../integrate/nodejs-api#linter). It is a path to a directory that should be considered the current working directory.
 - `options`: (`array`) An array of the [configured options](../use/configure/rules) for this rule. This array does not include the rule severity (see the [dedicated section](#accessing-options-passed-to-a-rule)).
 - `sourceCode`: (`object`) A `SourceCode` object that you can use to work with the source that was passed to ESLint (see [Accessing the Source Code](#accessing-the-source-code)).
-- `settings`: (`object`) The [shared settings](../use/configure/configuration-files#configuring-shared-settings) from the configuration.
-- `languageOptions`: (`object`) more details for each property [here](../use/configure/language-options)
+- `settings`: (`object`) The [shared settings](../use/configure/configuration-files#configure-shared-settings) from the configuration.
+- `languageOptions`: (`object`) [more details for each property](../use/configure/language-options)
     - `sourceType`: (`'script' | 'module' | 'commonjs'`) The mode for the current file.
     - `ecmaVersion`: (`number`) The ECMA version used to parse the current file.
     - `parser`: (`object`): The parser used to parse the current file.
@@ -148,11 +187,11 @@ The `context` object has the following properties:
 
 Additionally, the `context` object has the following methods:
 
-- `report(descriptor)`. Reports a problem in the code (see the [dedicated section](#reporting-problems)).
+- `report(descriptor)`. Reports a problem in the code (see the [dedicated section](#report-problems)).
 
 **Note:** Earlier versions of ESLint supported additional methods on the `context` object. Those methods were removed in the new format and should not be relied upon.
 
-### Reporting Problems
+### Report Problems
 
 The main method you'll use when writing custom rules is `context.report()`, which publishes a warning or error (depending on the configuration being used). This method accepts a single argument, which is an object containing the following properties:
 
@@ -166,7 +205,7 @@ The main method you'll use when writing custom rules is `context.report()`, whic
     - `end`: An object of the end location.
         - `line`: (`number`) The 1-based line number at which the problem occurred.
         - `column`: (`number`) The 0-based column number at which the problem occurred.
-- `data`: (optional `object`) [Placeholder](#using-message-placeholders) data for `message`.
+- `data`: (optional `object`) [Placeholder](#use-message-placeholders) data for `message`.
 - `fix(fixer)`: (optional `function`) Applies a [fix](#applying-fixes) to resolve the problem.
 
 Note that at least one of `node` or `loc` is required.
@@ -182,7 +221,7 @@ context.report({
 
 The node contains all the information necessary to figure out the line and column number of the offending text as well as the source text representing the node.
 
-#### Using Message Placeholders
+#### Use Message Placeholders
 
 You can also use placeholders in the message and provide `data`:
 
@@ -320,7 +359,6 @@ Best practices for fixes:
 1. Make fixes as small as possible. Fixes that are unnecessarily large could conflict with other fixes, and prevent them from being applied.
 1. Only make one fix per message. This is enforced because you must return the result of the fixer operation from `fix()`.
 1. Since all rules are run again after the initial round of fixes is applied, it's not necessary for a rule to check whether the code style of a fix will cause errors to be reported by another rule.
-
     - For example, suppose a fixer would like to surround an object key with quotes, but it's not sure whether the user would prefer single or double quotes.
 
         ```js
@@ -444,7 +482,7 @@ module.exports = {
 
 #### Placeholders in Suggestion Messages
 
-You can also use placeholders in the suggestion message. This works the same way as placeholders for the overall error (see [using message placeholders](#using-message-placeholders)).
+You can also use placeholders in the suggestion message. This works the same way as placeholders for the overall error (see [use message placeholders](#use-message-placeholders)).
 
 Please note that you have to provide `data` on the suggestion's object. Suggestion messages cannot use properties from the overall error's `data`.
 
@@ -828,9 +866,7 @@ export default {
 	create(context) {
 		const [{ alias }] = context.options;
 
-		return {
-			/* ... */
-		};
+		return {/* ... */};
 	},
 };
 ```

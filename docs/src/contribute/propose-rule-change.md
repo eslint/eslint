@@ -4,18 +4,18 @@ eleventyNavigation:
     key: propose rule change
     parent: contribute to eslint
     title: Propose a Rule Change
-    order: 3
+    order: 4
 ---
 
 Occasionally, a core ESLint rule needs to be changed. This is not necessarily a bug, but rather, an enhancement that makes a rule more configurable. In those situations, we will consider making changes to rules.
 
-## Proposing a Rule Change
+## Propose a Rule Change
 
 To propose a change to an existing rule, [create a pull request](pull-requests) or [new issue](https://github.com/eslint/eslint/issues/new/choose) and fill out the template.
 
 We need all of this information in order to determine whether or not the change is a good candidate for inclusion.
 
-## Accepting a Rule Change
+## Accept a Rule Change
 
 In order for a rule change to be accepted into ESLint, it must:
 

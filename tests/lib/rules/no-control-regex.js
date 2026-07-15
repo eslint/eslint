@@ -26,6 +26,13 @@ ruleTester.run("no-control-regex", rule, {
 		"var regex = RegExp('x1f')",
 		"new RegExp('[')",
 		"RegExp('[')",
+		String.raw`function foo(RegExp) { RegExp("\x1f"); }`,
+		String.raw`function foo(RegExp) { new RegExp("\x1f"); }`,
+		String.raw`let RegExp; RegExp("\x1f");`,
+		{
+			code: String.raw`RegExp("\x1f")`,
+			languageOptions: { globals: { RegExp: "off" } },
+		},
 		"new (function foo(){})('\\x1f')",
 		{ code: String.raw`/\u{20}/u`, languageOptions: { ecmaVersion: 2015 } },
 		String.raw`/\u{1F}/`,

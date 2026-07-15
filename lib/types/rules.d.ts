@@ -56,8 +56,7 @@ interface NoRestrictedImportPatternCommonOptions {
 
 // Base type for group or regex constraint, ensuring mutual exclusivity
 type EitherGroupOrRegEx =
-	| { group: string[]; regex?: never }
-	| { regex: string; group?: never };
+	{ group: string[]; regex?: never } | { regex: string; group?: never };
 
 // Base type for import name specifiers, ensuring mutual exclusivity
 type EitherNameSpecifiers =
@@ -1834,6 +1833,10 @@ export interface ESLintRules extends Linter.RulesRecord {
 					 * @default 10
 					 */
 					max: number;
+					/**
+					 * @default false
+					 */
+					checkConstructorCallCallbacks: boolean;
 			  }>,
 		]
 	>;
@@ -2228,7 +2231,16 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 8.14.0
 	 * @see https://eslint.org/docs/latest/rules/no-constant-binary-expression
 	 */
-	"no-constant-binary-expression": Linter.RuleEntry<[]>;
+	"no-constant-binary-expression": Linter.RuleEntry<
+		[
+			Partial<{
+				/**
+				 * @default false
+				 */
+				checkRelationalComparisons: boolean;
+			}>,
+		]
+	>;
 
 	/**
 	 * Rule to disallow constant expressions in conditions.
@@ -2624,10 +2636,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 						 * @default 'none'
 						 */
 						ignoreJSX:
-							| "none"
-							| "all"
-							| "multi-line"
-							| "single-line";
+							"none" | "all" | "multi-line" | "single-line";
 						/**
 						 * @default true
 						 */
@@ -4968,6 +4977,16 @@ export interface ESLintRules extends Linter.RulesRecord {
 				 * @default false
 				 */
 				requireCatchParameter: boolean;
+				/**
+				 * @default []
+				 */
+				errorClassNames: Array<
+					| string
+					| {
+							name: string;
+							argumentPosition: number;
+					  }
+				>;
 			}>,
 		]
 	>;
@@ -5141,9 +5160,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 						 * @default 'any'
 						 */
 						beforeStatementContinuationChars:
-							| "any"
-							| "always"
-							| "never";
+							"any" | "always" | "never";
 					}>,
 				]
 		  >;

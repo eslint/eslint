@@ -172,7 +172,7 @@ For example, the [`no-undef` rule](../../rules/no-undef) will create a violation
 
 [Config files](#config-file-configuration-file) have globals defined as JavaScript objects.
 
-For information about configuring globals, see [Configure Language Options > Specifying Globals](../configure/language-options#specifying-globals).
+For information about configuring globals, see [Configure Language Options > Specify Globals](../configure/language-options#specify-globals).
 
 ### Global Variable
 
@@ -195,7 +195,7 @@ For example, the following inline config comment simultaneously disables the [`e
 /* eslint eqeqeq: "off", curly: "error" */
 ```
 
-For documentation on inline config comments, see [Rules > Using configuration comments](../configure/rules#using-configuration-comments).
+For documentation on inline config comments, see [Rules > Use configuration comments](../configure/rules#use-configuration-comments).
 
 ## L
 
@@ -266,8 +266,6 @@ The following [inline config](#inline-config-configuration-comment) sets `no-unu
 ```js
 /* eslint no-unused-expressions: "error" */
 ```
-
-For more information on overrides in legacy configs, see [Configuration Files (Deprecated) > How do overrides work?](../configure/configuration-files-deprecated#how-do-overrides-work).
 
 ## P
 
