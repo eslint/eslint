@@ -205,7 +205,7 @@
     "mocha": "^11.7.1",
     "node-polyfill-webpack-plugin": "^1.0.3",
     "npm-license": "^0.3.3",
-    "prettier": "3.9.4",
+    "prettier": "3.9.5",
     "progress": "^2.0.3",
     "proxyquire": "^2.0.1",
     "regenerator-runtime": "^0.14.0",
