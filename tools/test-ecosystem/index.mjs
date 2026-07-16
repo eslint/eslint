@@ -66,7 +66,7 @@ async function runTests(pluginKey, pluginSettings) {
 		});
 
 		if (result.status || result.error) {
-			throw result.error ?? new Error(result.stderr.toString());
+			throw result.error ?? new Error(result.stderr?.toString());
 		}
 
 		return result;
