@@ -1404,5 +1404,76 @@ ruleTester.run("preserve-caught-error", rule, {
 				},
 			],
 		},
+
+		/* Built-in error constructor without argument list */
+		{
+			code: `try {} catch (err) { throw new Error; }`,
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try {} catch (err) { throw new Error("", { cause: err }); }`,
+						},
+					],
+				},
+			],
+		},
+
+		/* AggregateError without argument list */
+		{
+			code: `try {} catch (err) { throw new AggregateError; }`,
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try {} catch (err) { throw new AggregateError([], "", { cause: err }); }`,
+						},
+					],
+				},
+			],
+		},
+
+		/* Custom error type without argument list */
+		{
+			code: `try {} catch (err) { throw new CustomError; }`,
+			options: [
+				{
+					errorClassNames: [
+						{ name: "CustomError", argumentPosition: 1 },
+					],
+				},
+			],
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try {} catch (err) { throw new CustomError({ cause: err }); }`,
+						},
+					],
+				},
+			],
+		},
+
+		/* Parenthesized error constructor without argument list */
+		{
+			code: `try {} catch (err) { throw new (Error); }`,
+			errors: [
+				{
+					messageId: "missingCause",
+					suggestions: [
+						{
+							messageId: "includeCause",
+							output: `try {} catch (err) { throw new (Error)("", { cause: err }); }`,
+						},
+					],
+				},
+			],
+		},
 	],
 });
