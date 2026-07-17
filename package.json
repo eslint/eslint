@@ -84,6 +84,12 @@
     "test:types:7.x": "npx -p @typescript/native-preview@latest -y -- tsgo -p tsconfig.types.json",
     "test:types:all": "npm run test:types && npm run test:types:5.3 && npm run test:types:5.x && npm run test:types:7.x"
   },
+  "allowScripts": {
+    "core-js@3.49.0": true,
+    "cypress@14.5.4": true,
+    "re2@1.25.2": true,
+    "yorkie@2.0.0": true
+  },
   "workspaces": [
     "packages/*"
   ],
