@@ -76,6 +76,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 5,
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -92,6 +96,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 5,
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -109,6 +117,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -120,6 +132,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -130,6 +146,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -140,6 +160,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 8,
 				},
 			],
 		},
@@ -150,6 +174,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 5,
 				},
 			],
 		},
@@ -161,6 +189,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 5,
 				},
 			],
 		},
@@ -171,6 +203,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -182,6 +218,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -192,6 +232,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -202,6 +246,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -211,6 +259,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 5,
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -228,6 +280,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 5,
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -244,6 +300,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 8,
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -261,6 +321,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 8,
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -278,6 +342,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 5,
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -295,6 +363,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
+					line: 1,
+					column: 7,
+					endLine: 1,
+					endColumn: 9,
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -312,6 +384,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
+					line: 1,
+					column: 17,
+					endLine: 1,
+					endColumn: 19,
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -330,6 +406,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -341,6 +421,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 12,
 				},
 			],
 		},
@@ -352,6 +436,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 11,
 				},
 			],
 		},
@@ -363,6 +451,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 5,
 				},
 			],
 		},
@@ -374,6 +466,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 8,
 				},
 			],
 		},
@@ -384,6 +480,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 8,
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -401,6 +501,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 8,
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -419,6 +523,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 8,
 				},
 			],
 		},
@@ -430,6 +538,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 8,
 				},
 			],
 		},
@@ -440,6 +552,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEq,
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 9,
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -457,6 +573,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEq,
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 9,
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -475,6 +595,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEq,
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 9,
 				},
 			],
 		},
@@ -486,6 +610,10 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEq,
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 9,
 				},
 			],
 		},
@@ -496,6 +624,9 @@ ruleTester.run("eqeqeq", rule, {
 					messageId: "unexpected",
 					data: wantedEqEqEq,
 					line: 2,
+					column: 1,
+					endLine: 2,
+					endColumn: 3,
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -513,6 +644,9 @@ ruleTester.run("eqeqeq", rule, {
 					messageId: "unexpected",
 					data: wantedEqEqEq,
 					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 7,
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -530,6 +664,9 @@ ruleTester.run("eqeqeq", rule, {
 					messageId: "unexpected",
 					data: wantedNotEqEq,
 					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 7,
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -547,6 +684,9 @@ ruleTester.run("eqeqeq", rule, {
 					messageId: "unexpected",
 					data: wantedEqEqEq,
 					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 5,
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -564,6 +704,9 @@ ruleTester.run("eqeqeq", rule, {
 					messageId: "unexpected",
 					data: wantedNotEqEq,
 					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 5,
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -581,6 +724,9 @@ ruleTester.run("eqeqeq", rule, {
 					messageId: "unexpected",
 					data: wantedEqEqEq,
 					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 7,
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -598,6 +744,9 @@ ruleTester.run("eqeqeq", rule, {
 					messageId: "unexpected",
 					data: wantedNotEqEq,
 					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 7,
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -615,6 +764,9 @@ ruleTester.run("eqeqeq", rule, {
 					messageId: "unexpected",
 					data: wantedEqEqEq,
 					line: 1,
+					column: 4,
+					endLine: 1,
+					endColumn: 6,
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -627,6 +779,9 @@ ruleTester.run("eqeqeq", rule, {
 					messageId: "unexpected",
 					data: wantedEqEqEq,
 					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 12,
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -644,6 +799,9 @@ ruleTester.run("eqeqeq", rule, {
 					messageId: "unexpected",
 					data: wantedNotEqEq,
 					line: 1,
+					column: 4,
+					endLine: 1,
+					endColumn: 6,
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -656,6 +814,9 @@ ruleTester.run("eqeqeq", rule, {
 					messageId: "unexpected",
 					data: wantedNotEqEq,
 					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 12,
 					suggestions: [
 						{
 							messageId: "replaceOperator",
@@ -674,7 +835,9 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
+					line: 1,
 					column: 3,
+					endLine: 1,
 					endColumn: 5,
 					suggestions: [
 						{
@@ -692,7 +855,9 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
+					line: 1,
 					column: 2,
+					endLine: 1,
 					endColumn: 4,
 					suggestions: [
 						{
@@ -710,7 +875,9 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
+					line: 1,
 					column: 9,
+					endLine: 1,
 					endColumn: 11,
 					suggestions: [
 						{
@@ -728,7 +895,9 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedNotEqEq,
+					line: 1,
 					column: 10,
+					endLine: 1,
 					endColumn: 12,
 					suggestions: [
 						{
@@ -747,7 +916,9 @@ ruleTester.run("eqeqeq", rule, {
 				{
 					messageId: "unexpected",
 					data: wantedEqEqEq,
+					line: 1,
 					column: 9,
+					endLine: 1,
 					endColumn: 11,
 				},
 			],
