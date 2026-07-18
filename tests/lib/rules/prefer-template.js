@@ -408,5 +408,16 @@ ruleTester.run("prefer-template", rule, {
 			output: "`Hello ` + `'world' ${  test}`",
 			errors,
 		},
+
+		/*
+		 * Performance test for handling escape characters.
+		 * A quadratic-time regex would need several minutes,
+		 * thus exceeding the timeout for tests.
+		 */
+		{
+			code: `"${"\\".repeat(1_000_000)}" + test`,
+			output: `\`${"\\".repeat(1_000_000)}\${  test}\``,
+			errors,
+		},
 	],
 });
