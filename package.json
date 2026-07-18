@@ -85,7 +85,7 @@
     "test:types:all": "npm run test:types && npm run test:types:5.3 && npm run test:types:5.x && npm run test:types:7.x"
   },
   "allowScripts": {
-    "core-js": true,
+    "core-js": false,
     "cypress": true,
     "re2": true,
     "yorkie": true
