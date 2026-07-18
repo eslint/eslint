@@ -27,7 +27,7 @@ ESLint [rules](#rule) are given an AST and may produce [violations](#violation) 
 
 A file containing preferences for how ESLint should parse files and run [rules](#rule).
 
-ESLint config files are named like `eslint.config.(c|m)js`.
+ESLint config files are named like `eslint.config.(c|m)?js`.
 Each config file exports a [config array](#config-array) containing [config objects](#config-object).
 
 For example, this `eslint.config.js` file enables the `prefer-const` [rule](#rule) at the _error_ [severity](#severity):
@@ -220,9 +220,9 @@ Note that a _linter_ is separate from [formatters](#formatter-tool) and [type ch
 
 A [rule](#rule) that inspects how code operates to find problems.
 
-Many logical rules look for likely crashes (e.g. [`no-undef`](../../rules/no-undef)), unintended behavior (e.g. [`no-sparse-arrays`](../../rules/no-sparse-arrays)), and unused code (e.g [`no-unused-vars`](../../rules/no-unused-vars)).
+Many logical rules look for likely crashes (e.g. [`no-undef`](../../rules/no-undef)), unintended behavior (e.g. [`no-sparse-arrays`](../../rules/no-sparse-arrays)), and unused code (e.g. [`no-unused-vars`](../../rules/no-unused-vars)).
 
-You can see the full list of logical rules that ship with ESLint under [Rules > Possible Problems](../../rules/#possible-problems)
+You can see the full list of logical rules that ship with ESLint under [Rules > Possible Problems](../../rules/#possible-problems).
 
 ## N
 
@@ -233,7 +233,7 @@ A section of code within an [AST](#abstract-syntax-tree-ast).
 Each node represents a type of syntax found in source code.
 For example, the `1 + 2` in the AST for `1 + 2;` is a _BinaryExpression_.
 
-See [#esquery](#esquery) for the library ESLint uses to parse [selectors](#selector) that allow [rules](#rule) to search for nodes.
+See [ESQuery](#esquery) for the library ESLint uses to parse [selectors](#selector) that allow [rules](#rule) to search for nodes.
 
 ## O
 
@@ -297,7 +297,7 @@ A part of a plugin that extracts JavaScript code from other kinds of files, then
 
 For example, [`@eslint/markdown`](https://github.com/eslint/markdown) includes a processor that converts the text of <code>```</code> code blocks in Markdown files into code that can be linted.
 
-For more information on configuring processor, see [Plugins > Specify a Processor](../configure/plugins#specify-a-processor).
+For more information on configuring processors, see [Plugins > Specify a Processor](../configure/plugins#specify-a-processor).
 
 ## R
 
@@ -339,7 +339,7 @@ For documentation on configuring rules, see [Configure Rules](../configure/rules
 
 ### Shareable Config (Configuration)
 
-A module that provides a predefined [config file](#config-file-configuration-file) configurations.
+A module that provides predefined [config file](#config-file-configuration-file) configurations.
 
 Shareable configs can configure all the same information from config files, including [plugins](#plugin) and [rules](#rule).
 
@@ -380,7 +380,7 @@ For more information, see [Changes to our rules policies](https://eslint.org/blo
 An optional augmentation to a [rule](#rule) [violation](#violation) that describes how one may manually adjust the code to address the violation.
 
 Suggestions are not generally safe to apply automatically because they cause code behavior changes.
-ESLint does not apply suggestions directly but does provide suggestion to integrations that may choose to apply suggestions (such as an editor extension).
+ESLint does not apply suggestions directly but does provide suggestions to integrations that may choose to apply suggestions (such as an editor extension).
 
 Rule violations may also include file changes that are safe and may be automatically applied in the form of [fixes](#fix).
 
@@ -394,7 +394,7 @@ Type checkers are generally slower and more comprehensive than linters.
 Whereas linters traditionally operate only on a single file's or snippet's [AST](#abstract-syntax-tree-ast) at a time, type checkers understand cross-file dependencies and types.
 
 [TypeScript](https://typescriptlang.org) is the most common type checker for JavaScript.
-The [typescript-eslint](https://typescript-eslint.io) project provides integrations that allow using type checker in lint rules.
+The [typescript-eslint](https://typescript-eslint.io) project provides integrations that allow using type checkers in lint rules.
 
 ## V
 
@@ -402,5 +402,5 @@ The [typescript-eslint](https://typescript-eslint.io) project provides integrati
 
 An indication from a [rule](#rule) that an area of code doesn't meet the expectation of the rule.
 
-Rule violations indicate a range in source code and error message explaining the violation.
+Rule violations indicate a range in source code and an error message explaining the violation.
 Violations may also optionally include a [fix](#fix) and/or [suggestions](#suggestion) that indicate how to improve the violating code.
