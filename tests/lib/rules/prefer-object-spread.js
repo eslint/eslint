@@ -431,6 +431,24 @@ ruleTester.run("prefer-object-spread", rule, {
 				},
 			],
 		},
+		{
+			code: "foo\nObject.assign({}, bar).doSomething()",
+			output: "foo\n;({ ...bar}).doSomething()",
+			errors: [
+				{
+					messageId: "useSpreadMessage",
+				},
+			],
+		},
+		{
+			code: "foo\nObject.assign({}, bar), 2",
+			output: "foo\n;({ ...bar}), 2",
+			errors: [
+				{
+					messageId: "useSpreadMessage",
+				},
+			],
+		},
 		/*
 		 * This is a special case where Object.assign is called with a single argument
 		 * and that argument is an object expression. In this case we warn and display
