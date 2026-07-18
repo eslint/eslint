@@ -6,6 +6,9 @@ on:
         paths:
             - "docs/src/_data/versions.json"
 
+permissions:
+    contents: read
+
 jobs:
     rebuild:
         name: "Trigger rebuild on Netlify"
