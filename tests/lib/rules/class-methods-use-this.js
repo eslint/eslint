@@ -505,6 +505,10 @@ ruleTesterTypeScript.run("class-methods-use-this", rule, {
 			options: [{ ignoreOverrideMethods: true }],
 		},
 		{
+			code: 'class Foo { override ["method"]() {} }',
+			options: [{ ignoreOverrideMethods: true }],
+		},
+		{
 			code: "class Foo { private override method() {} }",
 			options: [{ ignoreOverrideMethods: true }],
 		},
@@ -665,6 +669,10 @@ ruleTesterTypeScript.run("class-methods-use-this", rule, {
 			options: [{ ignoreClassesWithImplements: "all" }],
 		},
 		{
+			code: 'class Foo implements Bar { ["method"]() {} }',
+			options: [{ ignoreClassesWithImplements: "all" }],
+		},
+		{
 			code: "class Foo implements Bar { accessor method = () => {} }",
 			options: [{ ignoreClassesWithImplements: "all" }],
 		},
@@ -690,6 +698,10 @@ ruleTesterTypeScript.run("class-methods-use-this", rule, {
 		},
 		{
 			code: "const Foo = class implements Bar { method() {} };",
+			options: [{ ignoreClassesWithImplements: "public-fields" }],
+		},
+		{
+			code: 'class Foo implements Bar { ["property"] = () => {} }',
 			options: [{ ignoreClassesWithImplements: "public-fields" }],
 		},
 	],
