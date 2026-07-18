@@ -86,7 +86,7 @@
   },
   "allowScripts": {
     "core-js": false,
-    "cypress": true,
+    "cypress": false,
     "re2": true,
     "yorkie": true
   },
