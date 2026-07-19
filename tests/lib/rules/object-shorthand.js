@@ -1,6 +1,6 @@
 /**
  * @fileoverview Tests for concise-object rule
- * @author Jamund Ferguson <https://www.jamund.com>
+ * @author Jamund Ferguson <http://www.jamund.com>
  */
 
 "use strict";
