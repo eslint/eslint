@@ -1,6 +1,6 @@
 /**
  * @fileoverview Tests for quotes rule.
- * @author Matt DuVall <http://www.mattduvall.com/>, Michael Paulukonis
+ * @author Matt DuVall <https://www.mattduvall.com/>, Michael Paulukonis
  */
 
 "use strict";

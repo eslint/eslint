@@ -1,6 +1,6 @@
 /**
  * @fileoverview Tests for no-fallthrough rule.
- * @author Matt DuVall<http://mattduvall.com/>
+ * @author Matt DuVall<https://mattduvall.com/>
  */
 
 "use strict";
