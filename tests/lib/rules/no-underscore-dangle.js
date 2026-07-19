@@ -1,6 +1,6 @@
 /**
  * @fileoverview Test for no-underscore-dangle rule
- * @author Matt DuVall <http://www.mattduvall.com>
+ * @author Matt DuVall <https://www.mattduvall.com>
  */
 
 "use strict";

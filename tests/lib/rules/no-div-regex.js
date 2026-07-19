@@ -1,6 +1,6 @@
 /**
  * @fileoverview Tests for no-div-regex rule.
- * @author Matt DuVall <http://www.mattduvall.com>
+ * @author Matt DuVall <https://www.mattduvall.com>
  */
 
 "use strict";

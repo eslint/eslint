@@ -1,6 +1,6 @@
 /**
  * @fileoverview Tests for func-call-spacing rule.
- * @author Matt DuVall <http://www.mattduvall.com>
+ * @author Matt DuVall <https://www.mattduvall.com>
  */
 
 "use strict";

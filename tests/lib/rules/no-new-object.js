@@ -1,6 +1,6 @@
 /**
  * @fileoverview Tests for the no-new-object rule
- * @author Matt DuVall <http://www.mattduvall.com/>
+ * @author Matt DuVall <https://www.mattduvall.com/>
  */
 
 "use strict";

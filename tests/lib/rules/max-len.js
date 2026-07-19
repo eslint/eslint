@@ -1,6 +1,6 @@
 /**
  * @fileoverview Tests for max-len rule.
- * @author Matt DuVall <http://www.mattduvall.com>
+ * @author Matt DuVall <https://www.mattduvall.com>
  */
 
 "use strict";
