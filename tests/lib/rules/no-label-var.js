@@ -29,6 +29,10 @@ ruleTester.run("no-label-var", rule, {
 			errors: [
 				{
 					messageId: "identifierClashWithLabel",
+					line: 1,
+					column: 31,
+					endLine: 1,
+					endColumn: 54,
 				},
 			],
 		},
@@ -37,6 +41,10 @@ ruleTester.run("no-label-var", rule, {
 			errors: [
 				{
 					messageId: "identifierClashWithLabel",
+					line: 1,
+					column: 31,
+					endLine: 1,
+					endColumn: 54,
 				},
 			],
 		},
@@ -45,6 +53,10 @@ ruleTester.run("no-label-var", rule, {
 			errors: [
 				{
 					messageId: "identifierClashWithLabel",
+					line: 1,
+					column: 19,
+					endLine: 1,
+					endColumn: 42,
 				},
 			],
 		},
