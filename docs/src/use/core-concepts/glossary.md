@@ -27,7 +27,7 @@ ESLint [rules](#rule) are given an AST and may produce [violations](#violation) 
 
 A file containing preferences for how ESLint should parse files and run [rules](#rule).
 
-ESLint config files are named like `eslint.config.(c|m)?js`.
+ESLint config files are named like `eslint.config.(c|m)?(j|t)s`.
 Each config file exports a [config array](#config-array) containing [config objects](#config-object).
 
 For example, this `eslint.config.js` file enables the `prefer-const` [rule](#rule) at the _error_ [severity](#severity):
@@ -124,7 +124,7 @@ Rule violations may also include file changes that are unsafe and not automatica
 
 The current configuration file format for ESLint.
 
-Flat config files are named in the format `eslint.config.(c|m)?js`.
+Flat config files are named in the format `eslint.config.(c|m)?(j|t)s`.
 "Flat" config files are named as such because all nesting must be done in one configuration file.
 In contrast, the ["Legacy" config format](#legacy-config) allowed nesting configuration files in sub-directories within a project.
 
