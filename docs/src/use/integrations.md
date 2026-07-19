@@ -42,7 +42,7 @@ If you would like to recommend an integration to be added to this page, [submit 
 ## Command Line Tools
 
 - [ESLint Watch](https://www.npmjs.com/package/eslint-watch)
-- [Code Climate CLI](https://github.com/codeclimate/codeclimate)
+- [Qlty CLI](https://github.com/qltysh/qlty)
 - [ESLint Nibble](https://github.com/IanVS/eslint-nibble)
 
 ## Source Control
