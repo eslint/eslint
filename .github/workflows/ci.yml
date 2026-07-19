@@ -104,7 +104,7 @@ jobs:
               with:
                   node-version: "24" # Should be the same as the version used on Netlify to build the ESLint Playground
 
-            # Node 24 bundles npm 11.16.0, which has a bug where denying a package's
+            # Node 24.18.0 bundles npm 11.16.0, which has a bug where denying a package's
             # install scripts via `allowScripts` also drops its `.bin` links.
             # Fixed in npm 11.18.0. See https://github.com/npm/cli/issues/9681
             - name: Update npm
