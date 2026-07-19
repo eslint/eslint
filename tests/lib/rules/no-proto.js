@@ -38,6 +38,10 @@ ruleTester.run("no-proto", rule, {
 			errors: [
 				{
 					messageId: "unexpectedProto",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 23,
 				},
 			],
 		},
@@ -46,6 +50,10 @@ ruleTester.run("no-proto", rule, {
 			errors: [
 				{
 					messageId: "unexpectedProto",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 26,
 				},
 			],
 		},
@@ -55,6 +63,10 @@ ruleTester.run("no-proto", rule, {
 			errors: [
 				{
 					messageId: "unexpectedProto",
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 26,
 				},
 			],
 		},
@@ -64,6 +76,10 @@ ruleTester.run("no-proto", rule, {
 			errors: [
 				{
 					messageId: "unexpectedProto",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 18,
 				},
 			],
 		},
