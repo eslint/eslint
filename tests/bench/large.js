@@ -7435,7 +7435,7 @@ if (typeof window === "undefined") window = {};
 						}
 
 						// IE doesn't make error fields non-enumerable
-						// https://msdn.microsoft.com/en-us/library/ie/dww52sbt(v=vs.94).aspx
+						// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
 						if (
 							isError(value) &&
 							(keys.indexOf("message") >= 0 ||
@@ -8801,7 +8801,7 @@ if (typeof window === "undefined") window = {};
 
 						// Generate an integer Array containing an arithmetic progression. A port of
 						// the native Python `range()` function. See
-						// [the Python documentation](https://docs.python.org/library/functions.html#range).
+						// [the Python documentation](https://docs.python.org/3/library/functions.html#range).
 						_.range = function (start, stop, step) {
 							if (arguments.length <= 1) {
 								stop = start || 0;
