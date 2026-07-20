@@ -1,6 +1,6 @@
 /**
  * @fileoverview Tests for quote-props rule.
- * @author Mathias Bynens <https://mathiasbynens.be/>
+ * @author Mathias Bynens <http://mathiasbynens.be/>
  */
 
 "use strict";

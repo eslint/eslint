@@ -1,6 +1,6 @@
 /**
  * @fileoverview Tests for no-constant-condition rule.
- * @author Christian Schulz <https://rndm.de>
+ * @author Christian Schulz <http://rndm.de>
  */
 
 "use strict";

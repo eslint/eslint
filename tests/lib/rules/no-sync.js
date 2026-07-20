@@ -1,6 +1,6 @@
 /**
  * @fileoverview Tests for no-sync.
- * @author Matt DuVall <https://www.mattduvall.com>
+ * @author Matt DuVall <http://www.mattduvall.com>
  */
 
 "use strict";
