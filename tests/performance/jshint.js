@@ -1239,7 +1239,7 @@ var JSHINT;
 						 * Relicensing: https://jshint.com/relicensing-2020/
 						 * License-Url: https://github.com/jshint/jshint/blob/main/LICENSE
 						 *
-						 *	 Copyright 2012 Anton Kovalyov (http://jshint.com)
+						 *	 Copyright 2012 Anton Kovalyov (https://jshint.com)
 						 *
 						 *	 Permission is hereby granted, free of charge, to any person obtaining
 						 *	 a copy of this software and associated documentation files (the "Software"),
