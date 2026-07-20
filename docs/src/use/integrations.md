@@ -22,7 +22,7 @@ If you would like to recommend an integration to be added to this page, [submit 
 - Neovim:
     - [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#eslint)
     - [nvim-lint](https://github.com/mfussenegger/nvim-lint)
-- Emacs: [Flycheck](https://www.flycheck.org/) supports ESLint with the [javascript-eslint](https://www.flycheck.org/en/latest/languages.html#javascript) checker.
+- Emacs: [Flycheck](https://www.flycheck.org/en/latest/) supports ESLint with the [javascript-eslint](https://www.flycheck.org/en/latest/languages.html#javascript) checker.
 - Eclipse Orion: ESLint is the [default linter](https://dev.eclipse.org/mhonarc/lists/orion-dev/msg02718.html)
 - Eclipse IDE: [Tern ESLint linter](https://github.com/angelozerr/tern.java/wiki/Tern-Linter-ESLint)
 - TextMate 2:
