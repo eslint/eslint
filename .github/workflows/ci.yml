@@ -17,7 +17,7 @@ jobs:
             - uses: actions/setup-go@v6
               with:
                   go-version: "stable"
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version: "lts/*"
 
@@ -79,7 +79,7 @@ jobs:
         runs-on: ${{ matrix.os }}
         steps:
             - uses: actions/checkout@v7
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version: ${{ matrix.node }}
             - name: Install Packages
@@ -100,7 +100,7 @@ jobs:
             TERM: xterm-256color
         steps:
             - uses: actions/checkout@v7
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version: "24" # Should be the same as the version used on Netlify to build the ESLint Playground
             - name: Install Packages
@@ -116,7 +116,7 @@ jobs:
 
         steps:
             - uses: actions/checkout@v7
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version: "lts/*"
             - name: Install Packages
@@ -154,7 +154,7 @@ jobs:
               with:
                   version: latest
 
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version: "lts/*"
 
