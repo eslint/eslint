@@ -37,7 +37,13 @@ import {
 	type Rule,
 	type Scope,
 } from "eslint";
-import { defineConfig, globalIgnores, includeIgnoreFile } from "eslint/config";
+import {
+	type Config,
+	type ConfigObject,
+	defineConfig,
+	globalIgnores,
+	includeIgnoreFile,
+} from "eslint/config";
 import type { ESLintRules } from "eslint/rules";
 import { Linter as ESLinter } from "eslint/universal";
 import { builtinRules, shouldUseFlatConfig } from "eslint/use-at-your-own-risk";
@@ -2464,7 +2470,32 @@ shouldUseFlatConfig(); // $ExpectType Promise<true>
 
 // #endregion
 
-// #region defineConfig
+// #region eslint/config
+
+const configObject: ConfigObject = {
+	name: "example config",
+	files: ["**/*.js", ["**/*.ts", "**/src/*.*"]],
+	ignores: ["**/vendor/**"],
+	language: "js/js",
+	languageOptions: {
+		ecmaVersion: 2022,
+		sourceType: "module",
+	},
+	linterOptions: {
+		noInlineConfig: false,
+		reportUnusedDisableDirectives: true,
+	},
+	plugins: {
+		custom: { meta: { name: "custom-plugin", version: "1.0.0" } },
+	},
+	rules: {
+		"no-console": "warn",
+		eqeqeq: ["error", "always"],
+	},
+	settings: {
+		foo: "bar",
+	},
+} satisfies Config;
 
 defineConfig([
 	{
