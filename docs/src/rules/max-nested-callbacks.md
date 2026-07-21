@@ -9,7 +9,7 @@ related_rules:
 - max-params
 - max-statements
 further_reading:
-- http://book.mixu.net/node/ch7.html
+- https://book.mixu.net/node/ch7.html
 - https://web.archive.org/web/20220104141150/https://howtonode.org/control-flow
 - https://web.archive.org/web/20220127215850/https://howtonode.org/control-flow-part-ii
 ---

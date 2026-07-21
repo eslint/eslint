@@ -6227,11 +6227,11 @@ if (typeof window === "undefined") window = {};
 			],
 			4: [
 				function (require, module, exports) {
-					// http://wiki.commonjs.org/wiki/Unit_Testing/1.0
+					// https://wiki.commonjs.org/wiki/Unit_Testing/1.0
 					//
 					// THIS IS NOT TESTED NOR LIKELY TO WORK OUTSIDE V8!
 					//
-					// Originally from narwhal.js (http://narwhaljs.org)
+					// Originally from narwhal.js (https://narwhaljs.org)
 					// Copyright (c) 2009 Thomas Robinson <280north.com>
 					//
 					// Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -7336,7 +7336,7 @@ if (typeof window === "undefined") window = {};
 					}
 					exports.inspect = inspect;
 
-					// http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
+					// https://en.wikipedia.org/wiki/ANSI_escape_code#graphics
 					inspect.colors = {
 						bold: [1, 22],
 						italic: [3, 23],
@@ -7435,7 +7435,7 @@ if (typeof window === "undefined") window = {};
 						}
 
 						// IE doesn't make error fields non-enumerable
-						// http://msdn.microsoft.com/en-us/library/ie/dww52sbt(v=vs.94).aspx
+						// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
 						if (
 							isError(value) &&
 							(keys.indexOf("message") >= 0 ||
@@ -8001,7 +8001,7 @@ if (typeof window === "undefined") window = {};
 			11: [
 				function (require, module, exports) {
 					//     Underscore.js 1.4.4
-					//     http://underscorejs.org
+					//     https://underscorejs.org
 					//     (c) 2009-2013 Jeremy Ashkenas, DocumentCloud Inc.
 					//     Underscore may be freely distributed under the MIT license.
 
@@ -8801,7 +8801,7 @@ if (typeof window === "undefined") window = {};
 
 						// Generate an integer Array containing an arithmetic progression. A port of
 						// the native Python `range()` function. See
-						// [the Python documentation](http://docs.python.org/library/functions.html#range).
+						// [the Python documentation](https://docs.python.org/3/library/functions.html#range).
 						_.range = function (start, stop, step) {
 							if (arguments.length <= 1) {
 								stop = start || 0;
@@ -9666,7 +9666,7 @@ if (typeof window === "undefined") window = {};
 					 * Relicensing: https://jshint.com/relicensing-2020/
 					 * License-Url: https://github.com/jshint/jshint/blob/main/LICENSE
 					 *
-					 *   Copyright 2012 Anton Kovalyov (http://jshint.com)
+					 *   Copyright 2012 Anton Kovalyov (https://jshint.com)
 					 *
 					 *   Permission is hereby granted, free of charge, to any person obtaining
 					 *   a copy of this software and associated documentation files (the "Software"),
@@ -9793,7 +9793,7 @@ if (typeof window === "undefined") window = {};
 								undef: true, // if variables should be declared before used
 								scripturl: true, // if script-targeted URLs should be tolerated
 								smarttabs: true, // if smarttabs should be tolerated
-								// (http://www.emacswiki.org/emacs/SmartTabs)
+								// (https://www.emacswiki.org/emacs/SmartTabs)
 								strict: true, // require the "use strict"; pragma
 								sub: true, // if all forms of subscript notation are tolerated
 								supernew: true, // if `new function () { ... };` and `new Object;`
@@ -18583,7 +18583,7 @@ if (typeof window === "undefined") window = {};
 						W122: "Invalid typeof value '{a}'",
 						W123: "'{a}' is already defined in outer scope.",
 						W124: "A generator function shall contain a yield statement.",
-						W125: "This line contains non-breaking spaces: http://jshint.com/doc/options/#nonbsp",
+						W125: "This line contains non-breaking spaces: https://jshint.com/docs/options/#nonbsp",
 					};
 
 					var info = {

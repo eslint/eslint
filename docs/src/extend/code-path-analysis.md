@@ -18,7 +18,7 @@ bar();
 :::
 
 ::: tip
-You can view code path diagrams for any JavaScript code using [Code Explorer](http://explorer.eslint.org).
+You can view code path diagrams for any JavaScript code using [Code Explorer](https://explorer.eslint.org).
 :::
 
 ## Objects
