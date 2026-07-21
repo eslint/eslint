@@ -94,69 +94,6 @@ ruleTester.run("no-restricted-globals", rule, {
 			],
 		},
 		{
-			code: "window.foo()",
-			options: [{ globals: ["foo"] }],
-			languageOptions: { globals: globals.browser },
-		},
-		{
-			code: "self.foo()",
-			options: [{ globals: ["foo"] }],
-			languageOptions: { globals: globals.browser },
-		},
-		{
-			code: "globalThis.foo()",
-			options: [{ globals: ["foo"] }],
-			languageOptions: { ecmaVersion: 2020 },
-		},
-		{
-			code: "myGlobal.foo()",
-			options: [
-				{
-					globals: ["foo"],
-					globalObjects: ["myGlobal"],
-				},
-			],
-			languageOptions: { globals: { myGlobal: "readonly" } },
-		},
-		{
-			code: "window.foo()",
-			options: [
-				{
-					globals: ["foo"],
-					checkGlobalObject: true,
-				},
-			],
-		},
-		{
-			code: "self.foo()",
-			options: [
-				{
-					globals: ["foo"],
-					checkGlobalObject: true,
-				},
-			],
-		},
-		{
-			code: "globalThis.foo()",
-			options: [
-				{
-					globals: ["foo"],
-					checkGlobalObject: true,
-				},
-			],
-			languageOptions: { ecmaVersion: 6 },
-		},
-		{
-			code: "myGlobal.foo()",
-			options: [
-				{
-					globals: ["foo"],
-					checkGlobalObject: true,
-					globalObjects: ["myGlobal"],
-				},
-			],
-		},
-		{
 			code: "otherGlobal.foo()",
 			options: [
 				{
@@ -946,6 +883,89 @@ ruleTester.run("no-restricted-globals", rule, {
 				{
 					messageId: "defaultMessage",
 					data: { name: "foo" },
+				},
+			],
+		},
+		{
+			code: "window.foo()",
+			options: [{ globals: ["foo"], checkGlobalObject: true }],
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+				},
+			],
+		},
+		{
+			code: "self.foo()",
+			options: [{ globals: ["foo"], checkGlobalObject: true }],
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+				},
+			],
+		},
+		{
+			code: "globalThis.foo()",
+			options: [{ globals: ["foo"], checkGlobalObject: true }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+				},
+			],
+		},
+		{
+			code: "myGlobal.foo()",
+			options: [
+				{
+					globals: ["foo"],
+					checkGlobalObject: true,
+					globalObjects: ["myGlobal"],
+				},
+			],
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+				},
+			],
+		},
+		{
+			code: "global.foo()",
+			options: [
+				{
+					globals: ["foo"],
+					checkGlobalObject: true,
+					globalObjects: ["global"],
+				},
+			],
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+				},
+			],
+		},
+		{
+			code: "global.foo(); window.bar()",
+			options: [
+				{
+					globals: ["foo", "bar"],
+					checkGlobalObject: true,
+					globalObjects: ["global"],
+				},
+			],
+			errors: [
+				{
+					messageId: "defaultMessage",
+					data: { name: "foo" },
+				},
+				{
+					messageId: "defaultMessage",
+					data: { name: "bar" },
 				},
 			],
 		},
