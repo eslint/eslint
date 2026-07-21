@@ -6,7 +6,7 @@ related_rules:
 ---
 
 
-Comparing to `null` without a type-checking operator (`===` or `!==`) can have unintended results as the comparison will evaluate to `true` when comparing not just to `null`, but also to `undefined`.
+Comparing to `null` without a type-checking operator (`==` or `!=`) can have unintended results as the comparison will evaluate to `true` when comparing not just to `null`, but also to `undefined`.
 
 ```js
 if (foo == null) {
@@ -16,7 +16,7 @@ if (foo == null) {
 
 ## Rule Details
 
-The `no-eq-null` rule aims to reduce potential bug and unwanted behavior by ensuring that comparisons to `null` only match `null`, and not also `undefined`. As such, it will flag comparisons to `null` when using `==` and `!=`.
+The `no-eq-null` rule aims to reduce potential bugs and unwanted behavior by ensuring that comparisons to `null` only match `null`, and not also `undefined`. As such, it will flag comparisons to `null` when using `==` and `!=`.
 
 Examples of **incorrect** code for this rule:
 
