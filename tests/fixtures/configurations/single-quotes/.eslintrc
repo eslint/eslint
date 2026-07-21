@@ -1,0 +1,10 @@
+{
+    "env": {
+        "browser": true
+    },
+
+    "rules": {
+        "quotes": [1, "single"],
+        "no-new": 1
+    }
+}

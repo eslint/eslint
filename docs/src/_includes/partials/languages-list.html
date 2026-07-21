@@ -1,0 +1,5 @@
+<ul class="languages-list">
+    {%- for language in languages.items -%}
+    <li lang="{{ language.code }}"><a href="{{ language.url }}" {% if config.lang == language.code %} aria-current="true" {% endif %}><span class="flag">{{ language.flag }}</span> {{ language.name }}</a></li>
+    {%- endfor -%}
+</ul>

@@ -1,0 +1,78 @@
+name: Test Ecosystem Plugins
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+    schedule:
+        # “At 00:00.” https://crontab.guru/#0_0_*_*_*
+        - cron: "0 0 * * *"
+    workflow_dispatch: ~
+
+permissions: read-all
+
+jobs:
+    test_ecosystem:
+        name: Test Ecosystem Plugin (${{ matrix.plugin }})
+        runs-on: ubuntu-latest
+
+        strategy:
+            fail-fast: false
+            matrix:
+                plugin:
+                    - "@eslint/css"
+                    - "@eslint/json"
+                    - "@eslint/markdown"
+                    - "@eslint-community/eslint-plugin-eslint-comments"
+                    - "@typescript-eslint/typescript-eslint"
+                    - "eslint-plugin-unicorn"
+                    - "eslint-plugin-vue"
+
+        steps:
+            - uses: actions/checkout@v7
+            - uses: actions/setup-node@v7
+              with:
+                  node-version: "lts/*"
+
+            - name: Determine package manager
+              id: get_pm
+              run: echo "pm=$(jq -r --arg plugin "${{ matrix.plugin }}" '.[$plugin].commands.install[0]' tools/test-ecosystem/plugins-data.json)" >> "$GITHUB_OUTPUT"
+
+            - name: Install Corepack latest
+              if: steps.get_pm.outputs.pm == 'pnpm'
+              run: |
+                  npm install -g corepack@latest
+                  corepack enable pnpm
+
+            - name: Install Packages
+              run: npm install
+
+            - name: Test Ecosystem Plugins
+              run: npm run test:ecosystem -- --plugin ${{ matrix.plugin }}
+
+            - name: Check previous build status
+              if: failure() && github.ref_name == 'main'
+              id: check_previous
+              uses: actions/github-script@v9
+              with:
+                  script: |
+                      const { data } = await github.rest.actions.listWorkflowRuns({
+                          owner: context.repo.owner,
+                          repo: context.repo.repo,
+                          workflow_id: 'ecosystem-tests.yml',
+                          branch: 'main',
+                          per_page: 2
+                      });
+
+                      const prevRun = data.workflow_runs[1];
+                      const conclusion = prevRun?.conclusion || 'success';
+                      core.setOutput('conclusion', conclusion);
+
+            - name: Notify on Failure
+              if: failure() && steps.check_previous.outputs.conclusion == 'success'
+              env:
+                  DISCORD_WEBHOOK: ${{ secrets.DISCORD_CONTRIBUTORS_WEBHOOK }}
+              uses: Ilshidur/action-discord@d2594079a10f1d6739ee50a2471f0ca57418b554 # 0.4.0
+              with:
+                  args: "Ecosystem tests failed for ${{ matrix.plugin }}."

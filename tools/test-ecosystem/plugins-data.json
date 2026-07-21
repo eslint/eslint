@@ -1,0 +1,63 @@
+{
+  "@eslint/css": {
+    "commands": {
+      "build": ["npm", "run", "build"],
+      "install": ["npm", "install"],
+      "test": ["npm", "run", "test"]
+    },
+    "commit": "12529769d1e32725633b6af95de8ddf547baab15",
+    "repository": "https://github.com/eslint/css"
+  },
+  "@eslint/json": {
+    "commands": {
+      "build": ["npm", "run", "build"],
+      "install": ["npm", "install"],
+      "test": ["npm", "run", "test"]
+    },
+    "commit": "2c5a2d64c03da474f6ec4fe6aca678559c07d91d",
+    "repository": "https://github.com/eslint/json"
+  },
+  "@eslint/markdown": {
+    "commands": {
+      "build": ["npm", "run", "build"],
+      "install": ["npm", "install"],
+      "test": ["npm", "run", "test"]
+    },
+    "commit": "36e70f4afa20559604b5977d6c04cda8cdf5912e",
+    "repository": "https://github.com/eslint/markdown"
+  },
+  "@eslint-community/eslint-plugin-eslint-comments": {
+    "commands": {
+      "install": ["npm", "install"],
+      "test": ["npm", "run", "test"]
+    },
+    "commit": "a9b6af95f4d87c75aa2f9f16a8562107b09f2e07",
+    "repository": "https://github.com/eslint-community/eslint-plugin-eslint-comments"
+  },
+  "@typescript-eslint/typescript-eslint": {
+    "commands": {
+      "build": ["pnpm", "run", "build"],
+      "install": ["pnpm", "install"],
+      "test": ["pnpm", "run", "test"]
+    },
+    "commit": "83f417a6c27a9f3934d7db9fc2a21ddf2770b5e8",
+    "repository": "https://github.com/typescript-eslint/typescript-eslint"
+  },
+  "eslint-plugin-unicorn": {
+    "commands": {
+      "install": ["npm", "install"],
+      "test": ["npm", "run", "test"]
+    },
+    "commit": "0096a1819d81f692c8700b54a4bc2a935fed42b4",
+    "repository": "https://github.com/sindresorhus/eslint-plugin-unicorn"
+  },
+  "eslint-plugin-vue": {
+    "commands": {
+      "build": ["npm", "run", "build"],
+      "install": ["npm", "install"],
+      "test": ["npm", "run", "test"]
+    },
+    "commit": "68da3d8957341418d8f39ebc32d9e06791f5e869",
+    "repository": "https://github.com/vuejs/eslint-plugin-vue"
+  }
+}

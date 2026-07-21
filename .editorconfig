@@ -1,0 +1,22 @@
+root = true
+
+[*]
+indent_style = tab
+indent_size = 4
+trim_trailing_whitespace = true
+end_of_line = lf
+insert_final_newline = true
+
+[{*.{json,jsonc,json5},.c8rc}]
+indent_style = space
+indent_size = 2
+
+[docs/rules/linebreak-style.md]
+end_of_line = disabled
+
+[docs/rules/{indent.md,no-mixed-spaces-and-tabs.md}]
+indent_style = disabled
+indent_size = disabled
+
+[docs/rules/no-trailing-spaces.md]
+trim_trailing_whitespace = false

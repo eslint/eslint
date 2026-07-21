@@ -1,0 +1,36 @@
+name: Data Fetch
+
+on:
+    schedule:
+        - cron: "0 8 * * *" # Every day at 1am PDT
+
+permissions:
+    contents: read
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check out repo
+              uses: actions/checkout@v7
+              with:
+                  token: ${{ secrets.WORKFLOW_PUSH_BOT_TOKEN }}
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v7
+
+            - name: Install npm packages
+              run: npm install
+
+            - name: Update README with latest team and sponsor data
+              run: npm run build:readme
+
+            - name: Setup Git
+              run: |
+                  git config user.name "GitHub Actions Bot"
+                  git config user.email "<eslint@googlegroups.com>"
+
+            - name: Save updated files
+              run: |
+                  chmod +x ./tools/commit-readme.sh
+                  ./tools/commit-readme.sh

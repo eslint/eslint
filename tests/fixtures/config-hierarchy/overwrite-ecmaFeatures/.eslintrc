@@ -1,0 +1,7 @@
+{
+    "parserOptions": {
+        "ecmaFeatures": {
+            "globalReturn": false
+        }
+    }
+}
