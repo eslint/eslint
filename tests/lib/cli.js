@@ -631,7 +631,7 @@ describe("cli", () => {
 
 					const formattedOutput = log.info.firstCall.args[0];
 
-					assert.include(formattedOutput, "(1 error, 0 warnings)");
+					assert.include(formattedOutput, "(1 error)");
 				});
 
 				it(`should print nothing if there are no errors`, async () => {
@@ -2166,10 +2166,10 @@ describe("cli", () => {
 			});
 
 			[
-				[1, 0, "0 errors, 1 warning"],
-				["warn", 0, "0 errors, 1 warning"],
-				[2, 1, "1 error, 0 warnings"],
-				["error", 1, "1 error, 0 warnings"],
+				[1, 0, "1 warning"],
+				["warn", 0, "1 warning"],
+				[2, 1, "1 error"],
+				["error", 1, "1 error"],
 			].forEach(([setting, status, descriptor]) => {
 				it(`reports when --report-unused-inline-configs ${setting}`, async () => {
 					const exitCode = await cli.execute(

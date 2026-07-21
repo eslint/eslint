@@ -151,7 +151,7 @@ describe("formatter:html", () => {
 			// Check overview
 			checkOverview($, {
 				bgColor: "bg-2",
-				problems: "1 problem (1 error, 0 warnings)",
+				problems: "1 problem (1 error)",
 			});
 
 			// Check rows
@@ -169,7 +169,7 @@ describe("formatter:html", () => {
 				bgColor: "bg-2",
 				group: "f-0",
 				file: "foo.js",
-				problems: "1 problem (1 error, 0 warnings)",
+				problems: "1 problem (1 error)",
 			});
 			checkContentRow($, $("tr")[1], {
 				group: "f-0",
@@ -188,7 +188,7 @@ describe("formatter:html", () => {
 			// Check overview
 			checkOverview($, {
 				bgColor: "bg-2",
-				problems: "1 problem (1 error, 0 warnings)",
+				problems: "1 problem (1 error)",
 			});
 
 			// Check rows
@@ -206,7 +206,7 @@ describe("formatter:html", () => {
 				bgColor: "bg-2",
 				group: "f-0",
 				file: "foo.js",
-				problems: "1 problem (1 error, 0 warnings)",
+				problems: "1 problem (1 error)",
 			});
 			checkContentRow($, $("tr")[1], {
 				group: "f-0",
@@ -264,7 +264,7 @@ describe("formatter:html", () => {
 			// Check overview
 			checkOverview($, {
 				bgColor: "bg-1",
-				problems: "1 problem (0 errors, 1 warning)",
+				problems: "1 problem (1 warning)",
 			});
 
 			// Check rows
@@ -282,7 +282,7 @@ describe("formatter:html", () => {
 				bgColor: "bg-1",
 				group: "f-0",
 				file: "foo.js",
-				problems: "1 problem (0 errors, 1 warning)",
+				problems: "1 problem (1 warning)",
 			});
 			checkContentRow($, $("tr")[1], {
 				group: "f-0",
@@ -340,7 +340,7 @@ describe("formatter:html", () => {
 			// Check overview
 			checkOverview($, {
 				bgColor: "bg-2",
-				problems: "1 problem (1 error, 0 warnings)",
+				problems: "1 problem (1 error)",
 			});
 
 			// Check rows
@@ -358,7 +358,7 @@ describe("formatter:html", () => {
 				bgColor: "bg-2",
 				group: "f-0",
 				file: "foo.js",
-				problems: "1 problem (1 error, 0 warnings)",
+				problems: "1 problem (1 error)",
 			});
 			checkContentRow($, $("tr")[1], {
 				group: "f-0",
@@ -598,7 +598,7 @@ describe("formatter:html", () => {
 				bgColor: "bg-2",
 				group: "f-0",
 				file: "foo.js",
-				problems: "1 problem (1 error, 0 warnings)",
+				problems: "1 problem (1 error)",
 			});
 			checkContentRow($, $("tr")[1], {
 				group: "f-0",
@@ -611,7 +611,7 @@ describe("formatter:html", () => {
 				bgColor: "bg-1",
 				group: "f-1",
 				file: "bar.js",
-				problems: "1 problem (0 errors, 1 warning)",
+				problems: "1 problem (1 warning)",
 			});
 			checkContentRow($, $("tr")[3], {
 				group: "f-1",
@@ -696,7 +696,7 @@ describe("formatter:html", () => {
 			// Check overview
 			checkOverview($, {
 				bgColor: "bg-1",
-				problems: "2 problems (0 errors, 2 warnings)",
+				problems: "2 problems (2 warnings)",
 			});
 
 			// Check rows
@@ -714,7 +714,7 @@ describe("formatter:html", () => {
 				bgColor: "bg-1",
 				group: "f-0",
 				file: "foo.js",
-				problems: "1 problem (0 errors, 1 warning)",
+				problems: "1 problem (1 warning)",
 			});
 			checkContentRow($, $("tr")[1], {
 				group: "f-0",
@@ -727,7 +727,7 @@ describe("formatter:html", () => {
 				bgColor: "bg-1",
 				group: "f-1",
 				file: "bar.js",
-				problems: "1 problem (0 errors, 1 warning)",
+				problems: "1 problem (1 warning)",
 			});
 			checkContentRow($, $("tr")[3], {
 				group: "f-1",

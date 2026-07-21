@@ -374,7 +374,7 @@ This produces the following output in the terminal:
 /<path-to-directory>/eslint-custom-rule-example/example.js
   8:11  error  Value other than "bar" assigned to `const foo`. Unexpected value: baz  example/enforce-foo-bar
 
-✖ 1 problem (1 error, 0 warnings)
+✖ 1 problem (1 error)
   1 error and 0 warnings potentially fixable with the `--fix` option.
 ```
 
@@ -464,7 +464,7 @@ This produces the following output in the terminal:
 /<path-to-directory>/eslint-custom-rule-example/example.js
   8:11  error  Value other than "bar" assigned to `const foo`. Unexpected value: baz  example/enforce-foo-bar
 
-✖ 1 problem (1 error, 0 warnings)
+✖ 1 problem (1 error)
   1 error and 0 warnings potentially fixable with the `--fix` option.
 ```
 

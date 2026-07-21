@@ -210,7 +210,7 @@ You'll see this warning:
 foo.js
   0:0  warning  File ignored because of a matching ignore pattern. Use "--no-ignore" to disable file ignore settings or use "--no-warn-ignored" to suppress this warning.
 
-✖ 1 problem (0 errors, 1 warning)
+✖ 1 problem (1 warning)
 ```
 
 This message occurs because ESLint is unsure if you wanted to actually lint the file or not. As the message indicates, you can use `--no-ignore` to omit using the ignore rules.
