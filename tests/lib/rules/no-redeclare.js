@@ -739,3 +739,579 @@ ruleTester.run("no-redeclare", rule, {
 		},
 	],
 });
+
+const ruleTesterTypeScript = new RuleTester({
+	languageOptions: {
+		parser: require("@typescript-eslint/parser"),
+		parserOptions: {
+			sourceType: "script",
+		},
+	},
+});
+
+ruleTesterTypeScript.run("no-redeclare", rule, {
+	valid: [
+		`
+  var a = 3;
+  var b = function () {
+	var a = 10;
+  };
+	  `,
+		`
+  var a = 3;
+  a = 10;
+	  `,
+		{
+			code: `
+  if (true) {
+	let b = 2;
+  } else {
+	let b = 3;
+  }
+		`,
+			languageOptions: {
+				parserOptions: {
+					ecmaVersion: 6,
+				},
+			},
+		},
+		{ code: "var Object = 0;", options: [{ builtinGlobals: false }] },
+		{
+			code: "var Object = 0;",
+			options: [{ builtinGlobals: true }],
+			languageOptions: { parserOptions: { sourceType: "module" } },
+		},
+		{
+			code: "var Object = 0;",
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				parserOptions: { ecmaFeatures: { globalReturn: true } },
+			},
+		},
+		{
+			code: "var top = 0;",
+			options: [{ builtinGlobals: false }],
+		},
+		{ code: "var top = 0;", options: [{ builtinGlobals: true }] },
+		{
+			code: "var top = 0;",
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				parserOptions: { ecmaFeatures: { globalReturn: true } },
+			},
+		},
+		{
+			code: "var top = 0;",
+			options: [{ builtinGlobals: true }],
+			languageOptions: { parserOptions: { sourceType: "module" } },
+		},
+		{
+			code: "var self = 1;",
+			options: [{ builtinGlobals: true }],
+		},
+		// https://github.com/eslint/typescript-eslint-parser/issues/535
+		`
+  function foo({ bar }: { bar: string }) {
+	console.log(bar);
+  }
+	  `,
+		`
+  type AST<T extends ParserOptions> = TSESTree.Program &
+	(T['range'] extends true ? { range: [number, number] } : {}) &
+	(T['tokens'] extends true ? { tokens: TSESTree.Token[] } : {}) &
+	(T['comment'] extends true ? { comments: TSESTree.Comment[] } : {});
+  interface ParseAndGenerateServicesResult<T extends ParserOptions> {
+	ast: AST<T>;
+	services: ParserServices;
+  }
+	  `,
+		`
+  function A<T>() {}
+  interface B<T> {}
+  type C<T> = Array<T>;
+  class D<T> {}
+	  `,
+		// Valid TypeScript declaration combinations
+		`
+  interface A {}
+  interface A {}
+	  `,
+		`
+  interface A {}
+  class A {}
+	  `,
+		`
+  class A {}
+  namespace A {}
+	  `,
+		`
+  interface A {}
+  class A {}
+  namespace A {}
+	  `,
+		`
+  function A() {}
+  namespace A {}
+	  `,
+		`
+  function A() {}
+  class A {}
+	  `,
+		`
+  function A() {}
+  class A {}
+  namespace A {}
+	  `,
+		`
+  type something = string;
+  const something = 2;
+	  `,
+		`
+  declare function a(): void;
+  declare function a(): void;
+
+  declare function b(): void;
+  declare class b { }
+
+  enum c { }
+  namespace c { }
+
+  declare enum d { }
+  interface e { }
+	`,
+		`
+  type T = 1;
+  type T = 2;
+		`,
+		{
+			code: `
+  type NodeListOf = 1;
+		`,
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				parserOptions: {
+					lib: ["dom"],
+					sourceType: "script",
+				},
+			},
+		},
+		// var + type-only (non-instantiated) namespace is valid
+		`
+	var Foo;
+	namespace Foo {
+		export type T = string;
+	}
+	`,
+		// var + deeply nested non-instantiated namespace is valid
+		`
+	var Foo;
+	namespace Foo {
+		namespace Bar {
+			namespace Baz {
+			}
+		}
+	}
+	`,
+		// globals + type-only namespace is valid
+		{
+			code: `
+		namespace Foo {
+			export type T = string;
+		}
+		`,
+			languageOptions: {
+				globals: {
+					Foo: "readonly",
+				},
+			},
+		},
+		// comment + type-only namespace is valid
+		`
+		/* global Foo */
+		namespace Foo {
+			export type T = string;
+		}
+		`,
+	],
+	invalid: [
+		{
+			code: `
+	  var a = 3;
+	  var a = 10;
+			`,
+			languageOptions: { parserOptions: { ecmaVersion: 6 } },
+			errors: [
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: `
+	  switch (foo) {
+		case a:
+		  var b = 3;
+		case b:
+		  var b = 4;
+	  }
+			`,
+			errors: [
+				{
+					data: {
+						id: "b",
+					},
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: `
+	  var a = 3;
+	  var a = 10;
+			`,
+			errors: [
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: `
+	  var a = {};
+	  var a = [];
+			`,
+			errors: [
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: `
+	  var a;
+	  function a() {}
+			`,
+			errors: [
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: `
+	  function a() {}
+	  function a() {}
+			`,
+			errors: [
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: `
+	  var a = function () {};
+	  var a = function () {};
+			`,
+			errors: [
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: `
+	  var a = function () {};
+	  var a = new Date();
+			`,
+			errors: [
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: `
+	  var a = 3;
+	  var a = 10;
+	  var a = 15;
+			`,
+			errors: [
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: `
+	  var a;
+	  var a;
+			`,
+			languageOptions: { parserOptions: { sourceType: "module" } },
+			errors: [
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: `
+	  export var a;
+	  var a;
+			`,
+			languageOptions: { parserOptions: { sourceType: "module" } },
+			errors: [
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: "var Object = 0;",
+			options: [{ builtinGlobals: true }],
+			errors: [
+				{
+					data: {
+						id: "Object",
+					},
+					messageId: "redeclaredAsBuiltin",
+				},
+			],
+		},
+		{
+			code: "var top = 0;",
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				globals: { top: "readonly" },
+			},
+			errors: [
+				{
+					data: {
+						id: "top",
+					},
+					messageId: "redeclaredAsBuiltin",
+				},
+			],
+		},
+		{
+			code: `
+	  var a;
+	  var { a = 0, b: Object = 0 } = {};
+			`,
+			options: [{ builtinGlobals: true }],
+			languageOptions: { parserOptions: { ecmaVersion: 6 } },
+			errors: [
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+				{
+					data: {
+						id: "Object",
+					},
+					messageId: "redeclaredAsBuiltin",
+				},
+			],
+		},
+		{
+			code: `
+	  var a;
+	  var { a = 0, b: Object = 0 } = {};
+			`,
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				parserOptions: { ecmaVersion: 6, sourceType: "module" },
+			},
+			errors: [
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: `
+	  var a;
+	  var { a = 0, b: Object = 0 } = {};
+			`,
+			options: [{ builtinGlobals: true }],
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: { globalReturn: true },
+					ecmaVersion: 6,
+				},
+			},
+			errors: [
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+			],
+		},
+		{
+			code: `
+	  var a;
+	  var { a = 0, b: Object = 0 } = {};
+			`,
+			options: [{ builtinGlobals: false }],
+			languageOptions: { parserOptions: { ecmaVersion: 6 } },
+			errors: [
+				{
+					data: {
+						id: "a",
+					},
+					messageId: "redeclared",
+				},
+			],
+		},
+
+		// Notifications of readonly are moved from no-undef: https://github.com/eslint/eslint/issues/4504
+		{
+			code: "/*global b:false*/ var b = 1;",
+			options: [{ builtinGlobals: true }],
+			errors: [
+				{
+					data: {
+						id: "b",
+					},
+					messageId: "redeclaredBySyntax",
+				},
+			],
+		},
+
+		// var + instantiated namespace
+		{
+			code: `
+	var Foo;
+	namespace Foo {
+		export const a = 2;
+	}
+	namespace Foo {
+		export const b = 4;
+	}
+	`,
+			errors: [
+				{ data: { id: "Foo" }, messageId: "redeclared" },
+				{ data: { id: "Foo" }, messageId: "redeclared" },
+			],
+		},
+		// globals + instantiated namespace
+		{
+			code: `
+		namespace Foo {
+			export const a = 1;
+		}
+
+		namespace Bar {
+			export const a = 1;
+		}
+		`,
+			languageOptions: {
+				globals: {
+					Foo: "readonly",
+					Bar: "readonly",
+				},
+			},
+			errors: [
+				{ data: { id: "Foo" }, messageId: "redeclaredAsBuiltin" },
+				{ data: { id: "Bar" }, messageId: "redeclaredAsBuiltin" },
+			],
+		},
+		// comments + instantiated namespace
+		{
+			code: `
+		/* global Foo */
+		namespace Foo {
+			export const a = 1;
+		}
+
+		/* global Bar */
+		namespace Bar {
+			export const a = 1;
+		}
+		`,
+			errors: [
+				{ data: { id: "Foo" }, messageId: "redeclaredBySyntax" },
+				{ data: { id: "Bar" }, messageId: "redeclaredBySyntax" },
+			],
+		},
+		// mixed globals/comments + instantiated namespace
+		{
+			code: `
+		namespace Foo {
+			export const a = 1;
+		}
+
+		/* global Bar */
+		namespace Bar {
+			export const a = 1;
+		}
+		`,
+			languageOptions: {
+				globals: {
+					Foo: "readonly",
+				},
+			},
+			errors: [
+				{ data: { id: "Foo" }, messageId: "redeclaredAsBuiltin" },
+				{ data: { id: "Bar" }, messageId: "redeclaredBySyntax" },
+			],
+		},
+		// var + deeply nested instantiated namespace
+		{
+			code: `
+	var Foo;
+	namespace Foo {
+		namespace Bar {
+			namespace Baz {
+				export const qux = 1;
+			}
+		}
+	}
+	`,
+			errors: [{ data: { id: "Foo" }, messageId: "redeclared" }],
+		},
+	],
+});
