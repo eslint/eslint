@@ -47,6 +47,18 @@ ruleTester.run("no-unmodified-loop-condition", rule, {
 		},
 		"var foo = 0; while (foo.ok) { }",
 		"var foo = 0; while (foo) { update(); } function update() { ++foo; }",
+		{
+			code: "let flag = false; const cb = () => { flag = true; }; while (flag === false) { cb(); }",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "var foo = 0; while (foo) { update(); } var update = function() { ++foo; };",
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "var foo = 0; while (foo) { update(); } var update = function namedUpdate() { ++foo; };",
+			languageOptions: { ecmaVersion: 6 },
+		},
 		"var foo = 0, bar = 9; while (foo < bar) { foo += 1; }",
 		"var foo = 0, bar = 1, baz = 2; while (foo ? bar : baz) { foo += 1; }",
 		"var foo = 0, bar = 0; while (foo && bar) { ++foo; ++bar; }",
