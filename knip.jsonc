@@ -28,6 +28,8 @@
       "ignoreDependencies": [
         // Underlying code coverage engine used in unit tests
         "c8",
+        // Used by Cypress in the browser test
+        "@ljharb/tsconfig",
       ],
     },
     "docs": {
