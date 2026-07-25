@@ -6,3 +6,7 @@ updates:
           interval: "weekly"
       commit-message:
           prefix: "ci"
+      labels:
+          - "dependencies"
+          - "github_actions"
+          - "triage:no"
