@@ -62,7 +62,15 @@ ruleTester.run("no-useless-concat", rule, {
 		},
 		{
 			code: "foo + 'a' + 'b'",
-			errors: [{ messageId: "unexpectedConcat" }],
+			errors: [
+				{
+					messageId: "unexpectedConcat",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 12,
+				},
+			],
 		},
 		{
 			code: "'a' + 'b' + 'c'",
@@ -86,24 +94,60 @@ ruleTester.run("no-useless-concat", rule, {
 		{
 			code: "(foo + 'a') + ('b' + 'c')",
 			errors: [
-				{ column: 13, messageId: "unexpectedConcat" },
-				{ column: 20, messageId: "unexpectedConcat" },
+				{
+					messageId: "unexpectedConcat",
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 14,
+				},
+				{
+					messageId: "unexpectedConcat",
+					line: 1,
+					column: 20,
+					endLine: 1,
+					endColumn: 21,
+				},
 			],
 		},
 		{
 			code: "`a` + 'b'",
 			languageOptions: { ecmaVersion: 6 },
-			errors: [{ messageId: "unexpectedConcat" }],
+			errors: [
+				{
+					messageId: "unexpectedConcat",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 6,
+				},
+			],
 		},
 		{
 			code: "`a` + `b`",
 			languageOptions: { ecmaVersion: 6 },
-			errors: [{ messageId: "unexpectedConcat" }],
+			errors: [
+				{
+					messageId: "unexpectedConcat",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 6,
+				},
+			],
 		},
 		{
 			code: "foo + `a` + `b`",
 			languageOptions: { ecmaVersion: 6 },
-			errors: [{ messageId: "unexpectedConcat" }],
+			errors: [
+				{
+					messageId: "unexpectedConcat",
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 12,
+				},
+			],
 		},
 	],
 });
