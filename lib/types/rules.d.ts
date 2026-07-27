@@ -2380,6 +2380,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 2.5.0
 	 * @see https://eslint.org/docs/latest/rules/no-duplicate-imports
 	 */
+    
 	"no-duplicate-imports": Linter.RuleEntry<
 		[
 			Partial<{

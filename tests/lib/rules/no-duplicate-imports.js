@@ -71,6 +71,29 @@ ruleTester.run("no-duplicate-imports", rule, {
 			code: 'export { something } from "os";\nexport * from "os";',
 			options: [{ includeExports: true }],
 		},
+
+		// Import attributes with different values should not be duplicates
+		{
+			code: 'import data from "./data.json" with { type: "json" };\nimport text from "./data.json" with { type: "text" };',
+			languageOptions: { ecmaVersion: 2025, sourceType: "module" },
+		},
+		{
+			code: 'import "./data.json" with { type: "json" };\nimport "./data.json" with { type: "text" };',
+			languageOptions: { ecmaVersion: 2025, sourceType: "module" },
+		},
+		{
+			code: 'import data from "./data.json" with { type: "json", priority: "high" };\nimport text from "./data.json" with { type: "text" };',
+			languageOptions: { ecmaVersion: 2025, sourceType: "module" },
+		},
+		{
+			code: 'import * as jsonMod from "./data.json" with { type: "json" };\nimport * as textMod from "./data.json" with { type: "text" };',
+			languageOptions: { ecmaVersion: 2025, sourceType: "module" },
+		},
+		{
+			code: 'export { default } from "./data.json" with { type: "json" };\nexport { name } from "./data.json" with { type: "text" };',
+			options: [{ includeExports: true }],
+			languageOptions: { ecmaVersion: 2025, sourceType: "module" },
+		},
 	],
 	invalid: [
 		{
@@ -207,6 +230,51 @@ ruleTester.run("no-duplicate-imports", rule, {
 				{
 					messageId: "exportAs",
 					data: { module: "os" },
+				},
+			],
+		},
+
+		// Import attributes with same values should be duplicates
+		{
+			code: 'import data from "./data.json" with { type: "json" };\nimport text from "./data.json" with { type: "json" };',
+			languageOptions: { ecmaVersion: 2025, sourceType: "module" },
+			errors: [
+				{
+					messageId: "import",
+					data: { module: "./data.json with {type=json}" },
+				},
+			],
+		},
+		{
+			code: 'import "./data.json" with { type: "json" };\nimport "./data.json" with { type: "json" };',
+			languageOptions: { ecmaVersion: 2025, sourceType: "module" },
+			errors: [
+				{
+					messageId: "import",
+					data: { module: "./data.json with {type=json}" },
+				},
+			],
+		},
+		{
+			code: 'import data from "./data.json" with { type: "json", priority: "high" };\nimport text from "./data.json" with { type: "json", priority: "high" };',
+			languageOptions: { ecmaVersion: 2025, sourceType: "module" },
+			errors: [
+				{
+					messageId: "import",
+					data: {
+						module: "./data.json with {priority=high,type=json}",
+					},
+				},
+			],
+		},
+		{
+			code: 'export { default } from "./data.json" with { type: "json" };\nexport { name } from "./data.json" with { type: "json" };',
+			options: [{ includeExports: true }],
+			languageOptions: { ecmaVersion: 2025, sourceType: "module" },
+			errors: [
+				{
+					messageId: "export",
+					data: { module: "./data.json with {type=json}" },
 				},
 			],
 		},
