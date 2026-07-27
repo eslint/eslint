@@ -108,6 +108,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 0.22.0
 	 * @see https://eslint.org/docs/latest/rules/accessor-pairs
 	 */
+
 	"accessor-pairs": Linter.RuleEntry<
 		[
 			Partial<{
@@ -923,6 +924,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 4.2.0
 	 * @see https://eslint.org/docs/latest/rules/getter-return
 	 */
+
 	"getter-return": Linter.RuleEntry<
 		[
 			Partial<{
@@ -3742,6 +3744,7 @@ export interface ESLintRules extends Linter.RulesRecord {
 	 * @since 6.7.0
 	 * @see https://eslint.org/docs/latest/rules/no-setter-return
 	 */
+
 	"no-setter-return": Linter.RuleEntry<[]>;
 
 	/**

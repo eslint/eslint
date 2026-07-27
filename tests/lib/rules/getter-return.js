@@ -112,6 +112,16 @@ ruleTester.run("getter-return", rule, {
 		"foo.defineProperty(null, { get() {} });",
 		"foo.defineProperties(null, { bar: { get() {} } });",
 		"foo.create(null, { bar: { get() {} } });",
+
+		// get in the target object, not in the property descriptor (false positive #21157)
+		'Object.defineProperty({ get(key) {} }, "name", { value: 1 });',
+		"Object.create({ foo: { get(key) {} } }, { bar: { value: 1 } });",
+
+		// Object is shadowed, not the global Object (false positive #21157)
+		"function f(Object) { Object.defineProperty({}, 'k', { get() {} }); }",
+		"function f(Object) { Object.defineProperties({}, { bar: { get() {} } }); }",
+		"function f(Object) { Object.create({}, { bar: { get() {} } }); }",
+		"function f(Reflect) { Reflect.defineProperty({}, 'k', { get() {} }); }",
 	],
 
 	invalid: [
