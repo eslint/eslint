@@ -19,7 +19,7 @@ At a high level, there are a few key parts to ESLint:
 - `lib/eslint/` - this module contains the `ESLint` class that finds source code files and configuration files, then lints code with the `Linter` class. This includes the loading logic of configuration files, languages, plugins, and formatters.
 - `lib/languages/js/` - the implementation for the default JavaScript language, including the `SourceCode` class that is used to represent the parsed source code. The `SourceCode` class takes in source code and the `Program` node of the AST representing that code.
 - `lib/linter/` - this module is the core `Linter` class that does code verifying based on configuration options. This file does no file I/O and does not interact with the `console` at all. Node.js programs that need to verify source text should use this interface directly.
-- `lib/rule-tester/` - this module is `RuleTester` class that is a wrapper around Mocha so that rules can be unit tested. This class lets us write consistently formatted tests for each rule that is implemented and be confident that each of the rules work. The `RuleTester` interface was modeled after Mocha and works with Mocha's global testing methods. `RuleTester` can also be modified to work with other testing frameworks.
+- `lib/rule-tester/` - this module contains the `RuleTester` class that is a wrapper around Mocha-like testing APIs, so that rules can be unit tested. This class lets us write consistently formatted tests for each rule that is implemented and be confident that each of the rules work. The `RuleTester` interface was modeled after Mocha and works with Mocha's globals `describe` and `it`, but `RuleTester` can also be adapted to work with other testing frameworks.
 - `lib/rules/` - this contains built-in rules that verify source code.
 
 ## The `cli` object
@@ -62,7 +62,7 @@ This object may not:
 
 The main method of the `Linter` object is `verify()` and accepts three arguments: the source text to verify, a configuration object, and additional options. The method first parses the given text with `espree` (or whatever parser is used by the configured language) and retrieves the AST. The AST is produced with both line/column and range locations which are useful for reporting location of issues and retrieving the source text related to an AST node, respectively.
 
-The AST is traversed from top to bottom: at each node, the `Linter` object emits an event that has the same name as the node type (i.e., `"Identifier"`, `"WithStatement"`, etc.). On the way back up the subtree, an event is emitted with the AST type name and suffixed with `":exit"`, such as `"Identifier:exit"` - this allows rules to take action both on the way down and on the way up in the traversal. Each event is emitted with the appropriate AST node available.
+The AST is traversed from top to bottom: at each node, the `Linter` object emits an event that has the same name as the node type (i.e., `"Identifier"`, `"WithStatement"`, etc.). On the way back up the subtree, an event is emitted with the AST type name and suffixed with `":exit"`, such as `"Identifier:exit"` - this allows rules to take action both on the way down and on the way up in the traversal. Each event is emitted with the appropriate AST node available. Additionally, certain events with specific parameters are emitted by ESLint's code path analysis while processing JavaScript sources.
 
 This object's responsibilities include:
 
