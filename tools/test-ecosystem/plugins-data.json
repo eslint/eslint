@@ -45,7 +45,12 @@
   },
   "eslint-plugin-unicorn": {
     "commands": {
-      "install": ["npm", "install"],
+      "install": [
+        "npm",
+        "install",
+        "--save-dev",
+        "eslint-plugin-eslint-plugin@7.5.0"
+      ],
       "test": ["npm", "run", "test"]
     },
     "commit": "a33b1c1e207b37f5c6f4ea8f3e66dad9a9d1ad43",
