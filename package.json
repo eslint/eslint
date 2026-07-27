@@ -1,6 +1,6 @@
 {
   "name": "eslint",
-  "version": "10.7.0",
+  "version": "10.8.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "type": "commonjs",
@@ -213,7 +213,7 @@
     "shelljs": "^0.10.0",
     "sinon": "^11.0.0",
     "typescript": "^6.0.3",
-    "webpack": "^5.23.0",
+    "webpack": "5.108.4",
     "webpack-cli": "^4.5.0",
     "yorkie": "^2.0.0"
   },
