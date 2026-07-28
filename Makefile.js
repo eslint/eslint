@@ -98,7 +98,7 @@ const NODE = "node ", // intentional extra space
  * @returns {string} The result of the executed command.
  */
 function execSilent(cmd) {
-	return exec(cmd, { silent: true }).stdout;
+	return childProcess.execSync(cmd, { encoding: "utf8" });
 }
 
 /**
@@ -246,8 +246,8 @@ function commitSiteToGit(tag) {
 
 	cd(SITE_DIR);
 	exec("git add -A .");
-	exec(`git commit -m "Added release blog post for ${tag}"`);
-	exec(`git tag ${tag}`);
+	childProcess.spawnSync("git", ["commit", "-m", `Added release blog post for ${tag}`], { stdio: "inherit" });
+	childProcess.spawnSync("git", ["tag", tag], { stdio: "inherit" });
 	exec("git fetch origin && git rebase origin/main");
 	cd(currentDir);
 }
@@ -400,7 +400,7 @@ function generateRelease({ prereleaseId, packageTag }) {
 
 	echo("Updating commit with docs data and rule types");
 	exec("git add lib/types/rules.d.ts docs/ && git commit --amend --no-edit");
-	exec(`git tag -a -f v${releaseInfo.version} -m ${releaseInfo.version}`);
+	childProcess.spawnSync("git", ["tag", "-a", "-f", `v${releaseInfo.version}`, "-m", releaseInfo.version], { stdio: "inherit" });
 }
 
 /**
@@ -418,7 +418,7 @@ function publishRelease() {
 			: releaseInfo.packageTag; // "latest" or "next"
 
 	echo(`Updating docs site branch: ${docsSiteBranch}`);
-	exec(`git push origin HEAD:${docsSiteBranch} -f`);
+	childProcess.spawnSync("git", ["push", "origin", `HEAD:${docsSiteBranch}`, "-f"], { stdio: "inherit" });
 
 	publishSite();
 
@@ -426,7 +426,7 @@ function publishRelease() {
 	if (getCurrentGitBranch() !== MAIN_GIT_BRANCH) {
 		echo(`Updating changelog and versions on branch: ${MAIN_GIT_BRANCH}`);
 
-		exec(`git checkout ${MAIN_GIT_BRANCH} --force`);
+		childProcess.spawnSync("git", ["checkout", MAIN_GIT_BRANCH, "--force"], { stdio: "inherit" });
 
 		fs.writeFileSync(
 			CHANGELOG_FILE,
@@ -442,10 +442,8 @@ function publishRelease() {
 			`${JSON.stringify(versions, null, 4)}\n`,
 		);
 
-		exec(`git add ${CHANGELOG_FILE} ${VERSIONS_FILE}`);
-		exec(
-			`git commit -m "chore: updates for v${releaseInfo.version} release"`,
-		);
+		childProcess.spawnSync("git", ["add", CHANGELOG_FILE, VERSIONS_FILE], { stdio: "inherit" });
+		childProcess.spawnSync("git", ["commit", "-m", `chore: updates for v${releaseInfo.version} release`], { stdio: "inherit" });
 		exec("git push origin HEAD");
 	}
 }
@@ -465,7 +463,7 @@ function splitCommandResultToLines(result) {
  * @returns {string} The commit sha.
  */
 function getFirstCommitOfFile(filePath) {
-	let commits = execSilent(`git rev-list HEAD -- ${filePath}`);
+	let commits = childProcess.spawnSync("git", ["rev-list", "HEAD", "--", filePath], { encoding: "utf8" }).stdout || "";
 
 	commits = splitCommandResultToLines(commits);
 	return commits.at(-1).trim();
@@ -478,7 +476,7 @@ function getFirstCommitOfFile(filePath) {
  */
 function getFirstVersionOfFile(filePath) {
 	const firstCommit = getFirstCommitOfFile(filePath);
-	let tags = execSilent(`git tag --contains ${firstCommit}`);
+	let tags = childProcess.spawnSync("git", ["tag", "--contains", firstCommit], { encoding: "utf8" }).stdout || "";
 
 	tags = splitCommandResultToLines(tags);
 	return tags
@@ -499,7 +497,7 @@ function getFirstVersionOfFile(filePath) {
  * @returns {string} The commit sha.
  */
 function getCommitDeletingFile(filePath) {
-	const commits = execSilent(`git rev-list HEAD -- ${filePath}`);
+	const commits = childProcess.spawnSync("git", ["rev-list", "HEAD", "--", filePath], { encoding: "utf8" }).stdout || "";
 
 	return splitCommandResultToLines(commits)[0];
 }
@@ -511,7 +509,7 @@ function getCommitDeletingFile(filePath) {
  */
 function getFirstVersionOfDeletion(filePath) {
 	const deletionCommit = getCommitDeletingFile(filePath),
-		tags = execSilent(`git tag --contains ${deletionCommit}`);
+		tags = childProcess.spawnSync("git", ["tag", "--contains", deletionCommit], { encoding: "utf8" }).stdout || "";
 
 	return splitCommandResultToLines(tags)
 		.map(version => semver.valid(version.trim()))
