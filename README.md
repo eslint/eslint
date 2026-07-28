@@ -299,11 +299,6 @@ The people who review and fix bugs and help triage issues.
 fnx
 </a>
 </td><td align="center" valign="top" width="11%">
-<a href="https://github.com/JoshuaKGoldberg">
-<img src="https://github.com/JoshuaKGoldberg.png?s=75" width="75" height="75" alt="Josh Goldberg ✨'s Avatar"><br />
-Josh Goldberg ✨
-</a>
-</td><td align="center" valign="top" width="11%">
 <a href="https://github.com/SwetaTanwar">
 <img src="https://github.com/SwetaTanwar.png?s=75" width="75" height="75" alt="Sweta Tanwar's Avatar"><br />
 Sweta Tanwar
