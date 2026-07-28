@@ -333,6 +333,19 @@ ruleTester.run("accessor-pairs", rule, {
 			languageOptions: { ecmaVersion: 6 },
 		},
 
+		// wrong argument index (not in the property descriptor position)
+		"Object.defineProperty({ set: function(value) {} }, 'foo', { value: 1 });",
+		{
+			code: "Reflect.defineProperty({ get() {} }, 'foo', { value: 1 });",
+			options: [{ getWithoutSet: true }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "Object.defineProperties({ foo: { get() {} } }, { bar: { value: 1 } });",
+			options: [{ getWithoutSet: true }],
+		},
+		"Object.create({ foo: { set(value) {} } }, { bar: { value: 1 } });",
+
 		//------------------------------------------------------------------------------
 		// Classes
 		//------------------------------------------------------------------------------
