@@ -146,6 +146,47 @@ ruleTester.run("no-unused-labels", rule, {
 			errors: [{ messageId: "unused", data: { name: "A" } }],
 		},
 
+		// https://github.com/eslint/eslint/issues/21165
+
+		{
+			code: "foo()\nA: [1, 2, 3].forEach(x => x)",
+			output: null,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [{ messageId: "unused", data: { name: "A" } }],
+		},
+		{
+			code: "foo()\nA: (1)",
+			output: null,
+			errors: [{ messageId: "unused", data: { name: "A" } }],
+		},
+		{
+			code: "foo()\nA: /foo/.test('foo')",
+			output: null,
+			errors: [{ messageId: "unused", data: { name: "A" } }],
+		},
+		{
+			code: "foo()\nA: +1",
+			output: null,
+			errors: [{ messageId: "unused", data: { name: "A" } }],
+		},
+		{
+			code: "foo()\nA: -1",
+			output: null,
+			errors: [{ messageId: "unused", data: { name: "A" } }],
+		},
+		{
+			code: "foo()\nA: `foo`",
+			output: null,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [{ messageId: "unused", data: { name: "A" } }],
+		},
+		{
+			code: "foo();\nA: [1, 2, 3].forEach(x => x)",
+			output: "foo();\n[1, 2, 3].forEach(x => x)",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [{ messageId: "unused", data: { name: "A" } }],
+		},
+
 		/*
 		 * Below is fatal errors.
 		 * "A: break B",
