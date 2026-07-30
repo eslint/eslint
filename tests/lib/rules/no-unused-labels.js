@@ -146,6 +146,56 @@ ruleTester.run("no-unused-labels", rule, {
 			errors: [{ messageId: "unused", data: { name: "A" } }],
 		},
 
+		// Should not autofix if removing the label would create an ASI hazard
+		{
+			code: "foo()\nA: [1, 2, 3].forEach(x => x)",
+			output: null,
+			errors: [{ messageId: "unused", data: { name: "A" } }],
+		},
+		{
+			code: "foo()\nA: (function() {})()",
+			output: null,
+			errors: [{ messageId: "unused", data: { name: "A" } }],
+		},
+		{
+			code: "foo()\nA: /regex/.test(x)",
+			output: null,
+			errors: [{ messageId: "unused", data: { name: "A" } }],
+		},
+		{
+			code: "foo()\nA: +x",
+			output: null,
+			errors: [{ messageId: "unused", data: { name: "A" } }],
+		},
+		{
+			code: "foo()\nA: -x",
+			output: null,
+			errors: [{ messageId: "unused", data: { name: "A" } }],
+		},
+		{
+			code: "foo()\nA: `template`",
+			output: null,
+			languageOptions: { ecmaVersion: 6 },
+			errors: [{ messageId: "unused", data: { name: "A" } }],
+		},
+
+		// Should autofix if previous statement ends safely (;, }, {, :)
+		{
+			code: "foo();\nA: [1, 2, 3].forEach(x => x)",
+			output: "foo();\n[1, 2, 3].forEach(x => x)",
+			errors: [{ messageId: "unused", data: { name: "A" } }],
+		},
+		{
+			code: "if (x) {}\nA: [1, 2, 3].forEach(x => x)",
+			output: "if (x) {}\n[1, 2, 3].forEach(x => x)",
+			errors: [{ messageId: "unused", data: { name: "A" } }],
+		},
+		{
+			code: "OUTER: while (true) { A: [1, 2, 3].forEach(x => x); break OUTER; }",
+			output: "OUTER: while (true) { [1, 2, 3].forEach(x => x); break OUTER; }",
+			errors: [{ messageId: "unused", data: { name: "A" } }],
+		},
+
 		/*
 		 * Below is fatal errors.
 		 * "A: break B",
