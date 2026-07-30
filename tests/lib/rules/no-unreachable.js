@@ -98,6 +98,10 @@ ruleTester.run("no-unreachable", rule, {
 			errors: [
 				{
 					messageId: "unreachableCode",
+					line: 1,
+					column: 28,
+					endLine: 1,
+					endColumn: 38,
 				},
 			],
 		},
@@ -106,6 +110,10 @@ ruleTester.run("no-unreachable", rule, {
 			errors: [
 				{
 					messageId: "unreachableCode",
+					line: 1,
+					column: 28,
+					endLine: 1,
+					endColumn: 41,
 				},
 			],
 		},
@@ -114,6 +122,10 @@ ruleTester.run("no-unreachable", rule, {
 			errors: [
 				{
 					messageId: "unreachableCode",
+					line: 1,
+					column: 26,
+					endLine: 1,
+					endColumn: 36,
 				},
 			],
 		},
@@ -122,6 +134,10 @@ ruleTester.run("no-unreachable", rule, {
 			errors: [
 				{
 					messageId: "unreachableCode",
+					line: 1,
+					column: 26,
+					endLine: 1,
+					endColumn: 32,
 				},
 			],
 		},
@@ -130,6 +146,10 @@ ruleTester.run("no-unreachable", rule, {
 			errors: [
 				{
 					messageId: "unreachableCode",
+					line: 1,
+					column: 31,
+					endLine: 1,
+					endColumn: 37,
 				},
 			],
 		},
@@ -138,6 +158,10 @@ ruleTester.run("no-unreachable", rule, {
 			errors: [
 				{
 					messageId: "unreachableCode",
+					line: 1,
+					column: 23,
+					endLine: 1,
+					endColumn: 29,
 				},
 			],
 		},
@@ -146,6 +170,10 @@ ruleTester.run("no-unreachable", rule, {
 			errors: [
 				{
 					messageId: "unreachableCode",
+					line: 1,
+					column: 26,
+					endLine: 1,
+					endColumn: 32,
 				},
 			],
 		},
@@ -154,6 +182,10 @@ ruleTester.run("no-unreachable", rule, {
 			errors: [
 				{
 					messageId: "unreachableCode",
+					line: 1,
+					column: 49,
+					endLine: 1,
+					endColumn: 55,
 				},
 			],
 		},
@@ -162,6 +194,10 @@ ruleTester.run("no-unreachable", rule, {
 			errors: [
 				{
 					messageId: "unreachableCode",
+					line: 1,
+					column: 50,
+					endLine: 1,
+					endColumn: 56,
 				},
 			],
 		},
@@ -170,6 +206,10 @@ ruleTester.run("no-unreachable", rule, {
 			errors: [
 				{
 					messageId: "unreachableCode",
+					line: 1,
+					column: 46,
+					endLine: 1,
+					endColumn: 52,
 				},
 			],
 		},
@@ -178,6 +218,10 @@ ruleTester.run("no-unreachable", rule, {
 			errors: [
 				{
 					messageId: "unreachableCode",
+					line: 1,
+					column: 49,
+					endLine: 1,
+					endColumn: 55,
 				},
 			],
 		},
@@ -186,6 +230,10 @@ ruleTester.run("no-unreachable", rule, {
 			errors: [
 				{
 					messageId: "unreachableCode",
+					line: 1,
+					column: 27,
+					endLine: 1,
+					endColumn: 37,
 				},
 			],
 		},
@@ -194,6 +242,10 @@ ruleTester.run("no-unreachable", rule, {
 			errors: [
 				{
 					messageId: "unreachableCode",
+					line: 1,
+					column: 66,
+					endLine: 1,
+					endColumn: 72,
 				},
 			],
 		},
@@ -202,6 +254,10 @@ ruleTester.run("no-unreachable", rule, {
 			errors: [
 				{
 					messageId: "unreachableCode",
+					line: 1,
+					column: 59,
+					endLine: 1,
+					endColumn: 65,
 				},
 			],
 		},
@@ -210,6 +266,10 @@ ruleTester.run("no-unreachable", rule, {
 			errors: [
 				{
 					messageId: "unreachableCode",
+					line: 1,
+					column: 56,
+					endLine: 1,
+					endColumn: 62,
 				},
 			],
 		},
@@ -218,6 +278,10 @@ ruleTester.run("no-unreachable", rule, {
 			errors: [
 				{
 					messageId: "unreachableCode",
+					line: 1,
+					column: 57,
+					endLine: 1,
+					endColumn: 63,
 				},
 			],
 		},
@@ -226,6 +290,10 @@ ruleTester.run("no-unreachable", rule, {
 			errors: [
 				{
 					messageId: "unreachableCode",
+					line: 1,
+					column: 55,
+					endLine: 1,
+					endColumn: 61,
 				},
 			],
 		},
@@ -234,6 +302,10 @@ ruleTester.run("no-unreachable", rule, {
 			errors: [
 				{
 					messageId: "unreachableCode",
+					line: 1,
+					column: 70,
+					endLine: 1,
+					endColumn: 76,
 				},
 			],
 		},
@@ -242,6 +314,10 @@ ruleTester.run("no-unreachable", rule, {
 			errors: [
 				{
 					messageId: "unreachableCode",
+					line: 1,
+					column: 59,
+					endLine: 1,
+					endColumn: 65,
 				},
 			],
 		},
@@ -250,6 +326,10 @@ ruleTester.run("no-unreachable", rule, {
 			errors: [
 				{
 					messageId: "unreachableCode",
+					line: 1,
+					column: 46,
+					endLine: 1,
+					endColumn: 52,
 				},
 			],
 		},
@@ -468,59 +548,125 @@ ruleTester.run("no-unreachable", rule, {
 			code: "class C extends B { foo; constructor() {} }",
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
-				{ messageId: "unreachableCode", column: 21, endColumn: 25 },
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 21,
+					endLine: 1,
+					endColumn: 25,
+				},
 			],
 		},
 		{
 			code: "class C extends B { foo = unreachable + code; constructor() {} }",
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
-				{ messageId: "unreachableCode", column: 21, endColumn: 46 },
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 21,
+					endLine: 1,
+					endColumn: 46,
+				},
 			],
 		},
 		{
 			code: "class C extends B { foo; bar; constructor() {} }",
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
-				{ messageId: "unreachableCode", column: 21, endColumn: 30 },
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 21,
+					endLine: 1,
+					endColumn: 30,
+				},
 			],
 		},
 		{
 			code: "class C extends B { foo; constructor() {} bar; }",
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
-				{ messageId: "unreachableCode", column: 21, endColumn: 25 },
-				{ messageId: "unreachableCode", column: 43, endColumn: 47 },
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 21,
+					endLine: 1,
+					endColumn: 25,
+				},
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 43,
+					endLine: 1,
+					endColumn: 47,
+				},
 			],
 		},
 		{
 			code: "(class extends B { foo; constructor() {} bar; })",
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
-				{ messageId: "unreachableCode", column: 20, endColumn: 24 },
-				{ messageId: "unreachableCode", column: 42, endColumn: 46 },
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 20,
+					endLine: 1,
+					endColumn: 24,
+				},
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 42,
+					endLine: 1,
+					endColumn: 46,
+				},
 			],
 		},
 		{
 			code: "class B extends A { x; constructor() { class C extends D { [super().x]; constructor() {} } } }",
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
-				{ messageId: "unreachableCode", column: 60, endColumn: 72 },
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 60,
+					endLine: 1,
+					endColumn: 72,
+				},
 			],
 		},
 		{
 			code: "class B extends A { x; constructor() { class C extends super().x { y; constructor() {} } } }",
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
-				{ messageId: "unreachableCode", column: 68, endColumn: 70 },
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 68,
+					endLine: 1,
+					endColumn: 70,
+				},
 			],
 		},
 		{
 			code: "class B extends A { x; static y; z; static q; constructor() {} }",
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [
-				{ messageId: "unreachableCode", column: 21, endColumn: 23 },
-				{ messageId: "unreachableCode", column: 34, endColumn: 36 },
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 21,
+					endLine: 1,
+					endColumn: 23,
+				},
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 34,
+					endLine: 1,
+					endColumn: 36,
+				},
 			],
 		},
 	],

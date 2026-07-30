@@ -111,6 +111,10 @@ ruleTester.run("require-await", rule, {
 				{
 					messageId: "missingAwait",
 					data: { name: "Async function 'foo'" },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 19,
 					suggestions: [
 						{
 							output: "function foo() { doSomething() }",
@@ -126,6 +130,10 @@ ruleTester.run("require-await", rule, {
 				{
 					messageId: "missingAwait",
 					data: { name: "Async function" },
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 16,
 					suggestions: [
 						{
 							output: "(function() { doSomething() })",
@@ -141,6 +149,10 @@ ruleTester.run("require-await", rule, {
 				{
 					messageId: "missingAwait",
 					data: { name: "Async arrow function" },
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 12,
 					suggestions: [
 						{
 							output: "() => { doSomething() }",
@@ -156,6 +168,10 @@ ruleTester.run("require-await", rule, {
 				{
 					messageId: "missingAwait",
 					data: { name: "Async arrow function" },
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 12,
 					suggestions: [
 						{
 							output: "() => doSomething()",
@@ -171,6 +187,10 @@ ruleTester.run("require-await", rule, {
 				{
 					messageId: "missingAwait",
 					data: { name: "Async method 'foo'" },
+					line: 1,
+					column: 4,
+					endLine: 1,
+					endColumn: 13,
 					suggestions: [
 						{
 							output: "({ foo() { doSomething() } })",
@@ -186,6 +206,10 @@ ruleTester.run("require-await", rule, {
 				{
 					messageId: "missingAwait",
 					data: { name: "Async method 'foo'" },
+					line: 1,
+					column: 11,
+					endLine: 1,
+					endColumn: 20,
 					suggestions: [
 						{
 							output: "class A { foo() { doSomething() } }",
@@ -201,6 +225,10 @@ ruleTester.run("require-await", rule, {
 				{
 					messageId: "missingAwait",
 					data: { name: "Async method 'foo'" },
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 19,
 					suggestions: [
 						{
 							output: "(class { foo() { doSomething() } })",
@@ -216,6 +244,10 @@ ruleTester.run("require-await", rule, {
 				{
 					messageId: "missingAwait",
 					data: { name: "Async method ''" },
+					line: 1,
+					column: 10,
+					endLine: 1,
+					endColumn: 18,
 					suggestions: [
 						{
 							output: "(class { ''() { doSomething() } })",
@@ -231,6 +263,10 @@ ruleTester.run("require-await", rule, {
 				{
 					messageId: "missingAwait",
 					data: { name: "Async function 'foo'" },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 19,
 					suggestions: [
 						{
 							output: "function foo() { async () => { await doSomething() } }",
@@ -246,6 +282,10 @@ ruleTester.run("require-await", rule, {
 				{
 					messageId: "missingAwait",
 					data: { name: "Async arrow function" },
+					line: 1,
+					column: 40,
+					endLine: 1,
+					endColumn: 42,
 					suggestions: [
 						{
 							output: "async function foo() { await (() => { doSomething() }) }",
@@ -261,6 +301,10 @@ ruleTester.run("require-await", rule, {
 				{
 					messageId: "missingAwait",
 					data: { name: "Async method 'async'" },
+					line: 1,
+					column: 15,
+					endLine: 1,
+					endColumn: 40,
 					suggestions: [
 						{
 							output: "const obj = { async: function foo() { bar(); } }",
@@ -276,6 +320,10 @@ ruleTester.run("require-await", rule, {
 				{
 					messageId: "missingAwait",
 					data: { name: "Async function 'foo'" },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 33,
 					suggestions: [
 						{
 							output: "/* test */ function foo() { doSomething() }",
@@ -295,6 +343,10 @@ ruleTester.run("require-await", rule, {
 				{
 					messageId: "missingAwait",
 					data: { name: "Async method" },
+					line: 3,
+					column: 17,
+					endLine: 3,
+					endColumn: 26,
 					suggestions: [
 						{
 							output: `class A {
@@ -317,6 +369,10 @@ ruleTester.run("require-await", rule, {
 				{
 					messageId: "missingAwait",
 					data: { name: "Async method" },
+					line: 3,
+					column: 17,
+					endLine: 3,
+					endColumn: 26,
 					suggestions: [
 						{
 							output: `class A {
@@ -339,6 +395,10 @@ ruleTester.run("require-await", rule, {
 				{
 					messageId: "missingAwait",
 					data: { name: "Async method 'in'" },
+					line: 3,
+					column: 17,
+					endLine: 3,
+					endColumn: 25,
 					suggestions: [
 						{
 							output: `class A {
@@ -360,6 +420,10 @@ ruleTester.run("require-await", rule, {
 				{
 					messageId: "missingAwait",
 					data: { name: "Async method 'in'" },
+					line: 3,
+					column: 17,
+					endLine: 3,
+					endColumn: 25,
 					suggestions: [
 						{
 							output: `const obj = {
@@ -381,6 +445,10 @@ ruleTester.run("require-await", rule, {
 				{
 					messageId: "missingAwait",
 					data: { name: "Async arrow function" },
+					line: 2,
+					column: 26,
+					endLine: 2,
+					endColumn: 28,
 					suggestions: [
 						{
 							output: `foo
@@ -402,6 +470,10 @@ ruleTester.run("require-await", rule, {
 				{
 					messageId: "missingAwait",
 					data: { name: "Async method" },
+					line: 3,
+					column: 17,
+					endLine: 3,
+					endColumn: 29,
 					suggestions: [
 						{
 							output: `class A {
@@ -423,6 +495,10 @@ ruleTester.run("require-await", rule, {
 				{
 					messageId: "missingAwait",
 					data: { name: "Async function 'run'" },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 19,
 					suggestions: [
 						{
 							output: "function run() { using resource = getResource(); }",
