@@ -52,7 +52,7 @@ export default defineConfig([
 			"consistent-return": 2,
 			"indent"           : [1, 4],
 			"no-else-return"   : 1,
-			"semi"             : [1, "always"],
+                        "eqeqeq"           : 2,
 			"space-unary-ops"  : 2
 		}
 	}
