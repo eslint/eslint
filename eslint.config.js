@@ -362,7 +362,7 @@ module.exports = defineConfig([
 	})),
 	{
 		name: "eslint/ts-rules",
-		files: ["tests/lib/types/*.ts", "packages/**/*.{ts,mts,cts}"],
+		files: ["**/*.{ts,mts,cts}"],
 		languageOptions: {
 			parser: tsParser,
 			parserOptions: {

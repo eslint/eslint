@@ -117,9 +117,10 @@ try {
 
 ## Options
 
-This rule takes a single option — an object with the following optional property:
+This rule takes a single option — an object with the following optional properties:
 
 - `requireCatchParameter`: Requires the catch blocks to always have the caught error parameter when set to `true`. By default, this is `false`.
+- `errorClassNames`: Additional error class names to check for cause preservation. By default, this is `[]`.
 
 ### requireCatchParameter
 
@@ -162,6 +163,138 @@ try {
 ```
 
 :::
+
+### errorClassNames
+
+By default, this rule checks only the built-in `Error` types (`Error`, `EvalError`, `RangeError`, `ReferenceError`, `SyntaxError`, `TypeError`, `URIError`, `AggregateError`). Use `errorClassNames` to also check custom error classes.
+
+Each entry can be either a string or an object:
+
+- A **string** specifies the class name. The constructor is assumed to accept the options object as the second argument, matching the built-in `Error` signature.
+- An **object** with `name` and `argumentPosition` is used when the constructor accepts the options object at a different position. `argumentPosition` is 1-indexed.
+
+```json
+{
+    "rules": {
+        "preserve-caught-error": ["error", {
+            "errorClassNames": [
+                "AppError",
+                { "name": "APIError", "argumentPosition": 3 }
+            ]
+        }]
+    }
+}
+```
+
+Example of **incorrect** code for the `{ "errorClassNames": ["AppError"] }` option:
+
+::: incorrect
+
+```js
+/* eslint preserve-caught-error: ["error", { "errorClassNames": ["AppError"] }] */
+
+class AppError extends Error {}
+
+try {
+	doSomething();
+} catch (err) {
+	throw new AppError("Something failed");
+}
+```
+
+:::
+
+Example of **correct** code for the `{ "errorClassNames": ["AppError"] }` option:
+
+::: correct
+
+```js
+/* eslint preserve-caught-error: ["error", { "errorClassNames": ["AppError"] }] */
+
+class AppError extends Error {}
+
+try {
+	doSomething();
+} catch (err) {
+	throw new AppError("Something failed", { cause: err });
+}
+```
+
+:::
+
+Example of **incorrect** code for the `{ "errorClassNames": [{ "name": "APIError", "argumentPosition": 3 }] }` option:
+
+::: incorrect
+
+```js
+/* eslint preserve-caught-error: ["error", { "errorClassNames": [{ "name": "APIError", "argumentPosition": 3 }] }] */
+
+class APIError extends Error {
+	constructor(message, statusCode, options) {
+		super(message, options);
+		this.statusCode = statusCode;
+	}
+}
+
+try {
+	doSomething();
+} catch (err) {
+	throw new APIError("Request failed", 500);
+}
+```
+
+:::
+
+Example of **correct** code for the `{ "errorClassNames": [{ "name": "APIError", "argumentPosition": 3 }] }` option:
+
+::: correct
+
+```js
+/* eslint preserve-caught-error: ["error", { "errorClassNames": [{ "name": "APIError", "argumentPosition": 3 }] }] */
+
+class APIError extends Error {
+	constructor(message, statusCode, options) {
+		super(message, options);
+		this.statusCode = statusCode;
+	}
+}
+
+try {
+	doSomething();
+} catch (err) {
+	throw new APIError("Request failed", 500, { cause: err });
+}
+```
+
+:::
+
+## Known Limitations
+
+This rule identifies custom error classes strictly by their name in the AST. Because it does not trace scope or type information, local shadowing will cause false positives.
+
+If a configured error class is shadowed by a local declaration, the rule will still flag it, even if the local class has a different signature and does not accept a `cause` option.
+
+Example of a false positive:
+
+```js
+/* eslint preserve-caught-error: ["error", { errorClassNames: ["AppError"] }] */
+
+function makeWrapped() {
+    // Local class shadows the intended global/imported "AppError"
+    class AppError {
+        constructor(err) { 
+            this.original = err; 
+        }
+    }
+    
+    try {
+        doSomething();
+    } catch (err) {
+        // Falsely reported as "missingCause" despite the local signature not accepting options
+        throw new AppError(err);
+    }
+}
+```
 
 ## When Not To Use It
 

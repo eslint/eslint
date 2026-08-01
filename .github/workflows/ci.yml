@@ -14,10 +14,10 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v7
-            - uses: actions/setup-go@v6
+            - uses: actions/setup-go@v7
               with:
                   go-version: "stable"
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version: "lts/*"
 
@@ -79,7 +79,7 @@ jobs:
         runs-on: ${{ matrix.os }}
         steps:
             - uses: actions/checkout@v7
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version: ${{ matrix.node }}
             - name: Install Packages
@@ -100,9 +100,15 @@ jobs:
             TERM: xterm-256color
         steps:
             - uses: actions/checkout@v7
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version: "24" # Should be the same as the version used on Netlify to build the ESLint Playground
+
+            # Node 24.18.0 bundles npm 11.16.0, which has a bug where denying a package's
+            # install scripts via `allowScripts` also drops its `.bin` links.
+            # Fixed in npm 11.18.0. See https://github.com/npm/cli/issues/9681
+            - name: Update npm
+              run: npm install -g npm@latest
             - name: Install Packages
               run: npm install
             - name: Test
@@ -116,7 +122,7 @@ jobs:
 
         steps:
             - uses: actions/checkout@v7
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version: "lts/*"
             - name: Install Packages
@@ -154,7 +160,7 @@ jobs:
               with:
                   version: latest
 
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version: "lts/*"
 

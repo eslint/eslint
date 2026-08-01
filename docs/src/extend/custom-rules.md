@@ -148,7 +148,7 @@ module.exports = {
 ```
 
 ::: tip
-You can view the complete AST for any JavaScript code using [Code Explorer](http://explorer.eslint.org).
+You can view the complete AST for any JavaScript code using [Code Explorer](https://explorer.eslint.org).
 :::
 
 ## The Context Object
@@ -696,7 +696,7 @@ There are two formats for a rule's `schema`:
 - A full JSON Schema object that will validate the `context.options` array
     - The schema should assume an array of options to validate even if your rule only accepts one option.
     - The schema can be arbitrarily complex, so you can validate completely different sets of potential options via `oneOf`, `anyOf` etc.
-    - The supported version of JSON Schemas is [Draft-04](http://json-schema.org/draft-04/schema), so some newer features such as `if` or `$data` are unavailable.
+    - The supported version of JSON Schemas is [Draft-04](https://json-schema.org/draft-04/schema), so some newer features such as `if` or `$data` are unavailable.
         - At present, it is explicitly planned to not update schema support beyond this level due to ecosystem compatibility concerns. See [this comment](https://github.com/eslint/eslint/issues/13888#issuecomment-872591875) for further context.
 
 For example, the `yoda` rule accepts a primary mode argument of `"always"` or `"never"`, as well as an extra options object with an optional property `exceptRange`:
@@ -894,7 +894,7 @@ ESLint may disable Ajv's `useDefaults` in a future major version.
 The `SourceCode#getScope(node)` method returns the scope of the given node. It is a useful method for finding information about the variables in a given scope and how they are used in other scopes.
 
 ::: tip
-You can view scope information for any JavaScript code using [Code Explorer](http://explorer.eslint.org).
+You can view scope information for any JavaScript code using [Code Explorer](https://explorer.eslint.org).
 :::
 
 #### Scope types

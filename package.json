@@ -1,6 +1,6 @@
 {
   "name": "eslint",
-  "version": "10.6.0",
+  "version": "10.8.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "type": "commonjs",
@@ -84,6 +84,12 @@
     "test:types:7.x": "npx -p @typescript/native-preview@latest -y -- tsgo -p tsconfig.types.json",
     "test:types:all": "npm run test:types && npm run test:types:5.3 && npm run test:types:5.x && npm run test:types:7.x"
   },
+  "allowScripts": {
+    "core-js": false,
+    "cypress": false,
+    "re2": true,
+    "yorkie": true
+  },
   "workspaces": [
     "packages/*"
   ],
@@ -129,7 +135,7 @@
     "@eslint-community/eslint-utils": "^4.8.0",
     "@eslint-community/regexpp": "^4.12.2",
     "@eslint/config-array": "^0.23.5",
-    "@eslint/config-helpers": "^0.6.0",
+    "@eslint/config-helpers": "^0.7.0",
     "@eslint/core": "^1.2.1",
     "@eslint/plugin-kit": "^0.7.2",
     "@humanfs/node": "^0.16.6",
@@ -153,7 +159,7 @@
     "imurmurhash": "^0.1.4",
     "is-glob": "^4.0.0",
     "json-stable-stringify-without-jsonify": "^1.0.1",
-    "minimatch": "^10.2.4",
+    "minimatch": "^10.2.5",
     "natural-compare": "^1.4.0",
     "optionator": "^0.9.3"
   },
@@ -162,7 +168,7 @@
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
     "@cypress/webpack-preprocessor": "^6.0.2",
-    "@eslint/eslintrc": "^3.3.5",
+    "@eslint/eslintrc": "^3.3.6",
     "@eslint/json": "^2.0.1",
     "@types/esquery": "^1.5.4",
     "@types/node": "^22.13.14",
@@ -205,7 +211,7 @@
     "mocha": "^11.7.1",
     "node-polyfill-webpack-plugin": "^1.0.3",
     "npm-license": "^0.3.3",
-    "prettier": "3.9.0",
+    "prettier": "3.9.6",
     "progress": "^2.0.3",
     "proxyquire": "^2.0.1",
     "regenerator-runtime": "^0.14.0",
@@ -213,7 +219,7 @@
     "shelljs": "^0.10.0",
     "sinon": "^11.0.0",
     "typescript": "^6.0.3",
-    "webpack": "^5.23.0",
+    "webpack": "^5.109.2",
     "webpack-cli": "^4.5.0",
     "yorkie": "^2.0.0"
   },

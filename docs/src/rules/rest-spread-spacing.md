@@ -55,7 +55,7 @@ This rule aims to enforce consistent spacing between rest and spread operators a
 }
 ```
 
-Please read the user guide's section on [configure parser options](../use/configure#specify-parser-options) to learn more.
+Please read the user guide's section on [configure language options](../use/configure/language-options#specify-javascript-options) to learn more.
 
 ## Options
 

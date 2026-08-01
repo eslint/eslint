@@ -188,9 +188,9 @@
     "title": "Software Module size and file size",
     "description": null
   },
-  "http://book.mixu.net/node/ch7.html": {
+  "https://book.mixu.net/node/ch7.html": {
     "domain": "book.mixu.net",
-    "url": "http://book.mixu.net/node/ch7.html",
+    "url": "https://book.mixu.net/node/ch7.html",
     "logo": null,
     "title": "7. Control flow - Mixu’s Node book",
     "description": null
