@@ -81,7 +81,7 @@ jobs:
               uses: actions/github-script@v9
               with:
                   script: |
-                      const script = require('./tools/build-failure-summary.js');
+                      const script = require('./tools/test-ecosystem/build-failure-summary.js');
                       await script({ core });
 
             - name: Create or update GitHub issue
@@ -90,7 +90,7 @@ jobs:
                   SUMMARY_TEXT: ${{ steps.summary.outputs.summary_text }}
               with:
                   script: |
-                      const script = require('./tools/sync-ecosystem-issue.js');
+                      const script = require('./tools/test-ecosystem/sync-ecosystem-issue.js');
                       await script({ github, context, core });
 
             - name: Check previous build status

@@ -25,8 +25,8 @@
         // Run from Makefile.js
         "tools/generate-formatter-examples.js",
         // Run from GitHub Actions (ecosystem-tests.yml)
-        "tools/build-failure-summary.js",
-        "tools/sync-ecosystem-issue.js",
+        "tools/test-ecosystem/build-failure-summary.js",
+        "tools/test-ecosystem/sync-ecosystem-issue.js",
       ],
       "ignoreDependencies": [
         // Underlying code coverage engine used in unit tests
