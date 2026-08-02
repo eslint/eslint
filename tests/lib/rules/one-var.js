@@ -221,6 +221,18 @@ ruleTester.run("one-var", rule, {
 			code: "var foo = require('foo'); var bar = 'bar';",
 			options: [{ separateRequires: true, var: "always" }],
 		},
+		{
+			code: "function foo(require) { const bar = require('bar'), baz = 'baz'; }",
+			options: [{ separateRequires: true, const: "always" }],
+		},
+		{
+			code: "function foo(require) { var bar = require('bar'), baz = 'baz'; }",
+			options: [{ separateRequires: true, var: "always" }],
+		},
+		{
+			code: "function foo(require) { let bar = require('bar'), baz = 'baz'; }",
+			options: [{ separateRequires: true, const: "always" }],
+		},
 
 		// https://github.com/eslint/eslint/issues/4680
 		{
