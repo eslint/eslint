@@ -16,7 +16,7 @@ const path = require("node:path");
 // Main
 //------------------------------------------------------------------------------
 
-module.exports = async ({ core }) => {
+module.exports = ({ core }) => {
 	const rawResultsPath = path.join(process.cwd(), "raw-results");
 	let summary, failedList;
 
