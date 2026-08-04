@@ -530,12 +530,9 @@ Then, import `FlatCompat` and create a new instance to convert an existing eslin
 ```js
 import { defineConfig } from "eslint/config";
 import { FlatCompat } from "@eslint/eslintrc";
-import path from "path";
-import { fileURLToPath } from "url";
 
 // mimic CommonJS variables -- not needed if using CommonJS
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = import.meta.dirname;
 
 const compat = new FlatCompat({
 	baseDirectory: __dirname,
