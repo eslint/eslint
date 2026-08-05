@@ -361,5 +361,47 @@ ruleTester.run("no-restricted-syntax", rule, {
 				},
 			],
 		},
+		{
+			code: "import values from 'some/path';",
+			options: ["ImportDeclaration[source.value=/^some\\/path$/]"],
+			errors: [
+				{
+					messageId: "restrictedSyntax",
+					data: {
+						message:
+							"Using 'ImportDeclaration[source.value=/^some\\/path$/]' is not allowed.",
+					},
+				},
+			],
+		},
+		{
+			code: "foo + bar + baz",
+			options: [
+				":is(Identifier[name='foo'], Identifier[name='bar'], Identifier[name='baz'])",
+			],
+			errors: [
+				{
+					messageId: "restrictedSyntax",
+					data: {
+						message:
+							"Using ':is(Identifier[name='foo'], Identifier[name='bar'], Identifier[name='baz'])' is not allowed.",
+					},
+				},
+				{
+					messageId: "restrictedSyntax",
+					data: {
+						message:
+							"Using ':is(Identifier[name='foo'], Identifier[name='bar'], Identifier[name='baz'])' is not allowed.",
+					},
+				},
+				{
+					messageId: "restrictedSyntax",
+					data: {
+						message:
+							"Using ':is(Identifier[name='foo'], Identifier[name='bar'], Identifier[name='baz'])' is not allowed.",
+					},
+				},
+			],
+		},
 	],
 });

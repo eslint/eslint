@@ -31,6 +31,10 @@ ruleTester.run("no-with", rule, {
 			errors: [
 				{
 					messageId: "unexpectedWith",
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 5,
 				},
 			],
 		},

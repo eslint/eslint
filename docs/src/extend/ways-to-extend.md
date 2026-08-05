@@ -35,7 +35,7 @@ ESLint shareable configs are pre-defined configurations for ESLint that you can 
 
 You can either publish a shareable config independently or as part of a plugin.
 
-For example, a popular shareable config is [`eslint-config-airbnb`](https://www.npmjs.com/package/eslint-config-airbnb), which contains a variety of rules in addition to some [parser options](../use/configure/language-options#specifying-parser-options). This is a set of rules for ESLint that is designed to match the style guide used by the [Airbnb JavaScript style guide](https://github.com/airbnb/javascript). By using the `eslint-config-airbnb` shareable config, you can automatically enforce the Airbnb style guide in your project without having to manually configure each rule.
+For example, a popular shareable config is [`eslint-config-airbnb`](https://www.npmjs.com/package/eslint-config-airbnb), which contains a variety of rules in addition to some [parser options](../use/configure/language-options#specify-parser-options). This is a set of rules for ESLint that is designed to match the style guide used by the [Airbnb JavaScript style guide](https://github.com/airbnb/javascript). By using the `eslint-config-airbnb` shareable config, you can automatically enforce the Airbnb style guide in your project without having to manually configure each rule.
 
 To learn more about creating a shareable config, refer to [Share Configurations](shareable-configs).
 

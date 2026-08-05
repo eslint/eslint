@@ -169,6 +169,13 @@ The `ESLint` constructor takes an `options` object. If you omit the `options` ob
 - `options.cacheStrategy` (`string`)<br>
   Default is `"metadata"`. Strategy for the cache to use for detecting changed files. Can be either `"metadata"` or `"content"`.
 
+##### Suppressions
+
+- `options.applySuppressions` (`boolean`)<br>
+  Default is `false`. If `true`, suppressions from the suppressions file are automatically applied to results from both [`eslint.lintFiles()`][eslint-lintfiles] and [`eslint.lintText()`][eslint-linttext]. When using `eslint.lintText()`, the `filePath` option must also be provided for suppressions to take effect.
+- `options.suppressionsLocation` (`string`)<br>
+  Default is `"eslint-suppressions.json"`. The path to the suppressions file. The path can be absolute or relative to `cwd`.
+
 ##### Other Options
 
 - `options.concurrency` (`number | "auto" | "off"`)<br>
@@ -546,7 +553,7 @@ This edit information means replacing the range of the `range` property by the `
 The `LoadedFormatter` value is the object to convert the [LintResult] objects to text. The [eslint.loadFormatter()][eslint-loadformatter] method returns it. It has the following method:
 
 - `format` (`(results: LintResult[], resultsMeta?: ResultsMeta) => string | Promise<string>`)<br>
-  The method to convert the [LintResult] objects to text. `resultsMeta` is an optional parameter that is primarily intended for use by the ESLint CLI and can contain only a `maxWarningsExceeded` property that would be passed through the [`context`](../extend/custom-formatters#the-context-argument) object when this method calls the underlying formatter function. Note that ESLint automatically generates `cwd` and `rulesMeta` properties of the `context` object, so you typically don't need to pass in the second argument when calling this method.
+  The method to convert the [LintResult] objects to text. `resultsMeta` is an optional parameter that is primarily intended for use by the ESLint CLI and can contain `color` and `maxWarningsExceeded` properties that would be passed through the [`context`](../extend/custom-formatters#the-context-argument) object when this method calls the underlying formatter function. Note that ESLint automatically generates `cwd` and `rulesMeta` properties of the `context` object, so you typically don't need to pass in the second argument when calling this method.
 
 ---
 
@@ -887,6 +894,13 @@ ruleTester.run("my-rule", rule, {
 			errors: [{ message: /^Unexpected.+variable/ }],
 		},
 	],
+
+	// optional
+	assertionOptions: {
+		requireMessage: true,
+		requireLocation: false,
+		requireData: true,
+	},
 });
 ```
 
@@ -900,11 +914,61 @@ const ruleTester = new RuleTester({ languageOptions: { ecmaVersion: 2015 } });
 If you don't specify any options to the `RuleTester` constructor, then it uses the ESLint defaults (`languageOptions: { ecmaVersion: "latest", sourceType: "module" }`).
 :::
 
+### RuleTester.setDefaultConfig(config)
+
+```js
+const RuleTester = require("eslint").RuleTester;
+
+// Apply a default config for subsequently created RuleTester instances
+RuleTester.setDefaultConfig({
+	languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+});
+
+const ruleTester = new RuleTester(); // picks up defaults above
+```
+
+Sets the default configuration used by `RuleTester` instances created after this call.
+
+This is a static method.
+
+#### Parameters
+
+- `config` (`Config`)<br>
+  A [Configuration object] applied by default to all tests. It is applied before per-instance `RuleTester` constructor options and before per-test configuration. Throws a `TypeError` if `config` is not an object.
+
+### RuleTester.getDefaultConfig()
+
+```js
+const currentDefaultConfig = RuleTester.getDefaultConfig();
+```
+
+Returns the current default configuration used by `RuleTester`.
+
+This is a static method.
+
+#### Return Value
+
+- (`Config`)<br>
+  The current default configuration object.
+
+### RuleTester.resetDefaultConfig()
+
+```js
+RuleTester.resetDefaultConfig();
+```
+
+Resets the default configuration back to ESLint's built-in defaults for subsequently created `RuleTester` instances.
+
+This is a static method.
+
+### RuleTester#run()
+
 The `RuleTester#run()` method is used to run the tests. It should be passed the following arguments:
 
 - The name of the rule (string).
 - The rule object itself (see ["working with rules"](../extend/custom-rules)).
 - An object containing `valid` and `invalid` properties, each of which is an array containing test cases.
+    - In this object, you can also pass the `assertionOptions` property to configure requirements for assertions of `invalid` test cases to enforce consistency.
 
 A test case is an object with the following properties:
 
@@ -919,7 +983,6 @@ A test case is an object with the following properties:
 In addition to the properties above, invalid test cases can also have the following properties:
 
 - `errors` (number or array, required): Asserts some properties of the errors that the rule is expected to produce when run on this code. If this is a number, asserts the number of errors produced. Otherwise, this should be a list of objects, each containing information about a single reported error. The following properties can be used for an error (all are optional unless otherwise noted):
-
     - `message` (string/regexp): The message for the error. Must provide this or `messageId`.
     - `messageId` (string): The ID for the error. Must provide this or `message`. See [testing errors with messageId](#testing-errors-with-messageid) for details.
     - `data` (object): Placeholder data which can be used in combination with `messageId`.
@@ -943,6 +1006,18 @@ Any additional properties of a test case will be passed directly to the linter a
 ```
 
 If a valid test case only uses the `code` property, it can optionally be provided as a string containing the code, rather than an object with a `code` key.
+
+You can optionally configure the following `assertionOptions` that apply to all error assertions in that call:
+
+- `requireMessage` (boolean/`"message"`/`"messageId"`, optional):
+    - If `true`, each `errors` block must check the expected error messages, either via string/regexp values in the `errors` array, or via `message`/`messageId` in error objects.
+    - If `"message"`, each `errors` block must check the expected error messages, either via string/regexp values in the `errors` array, or via `message` in error objects.
+    - If `"messageId"`, each `errors` block must check the expected error messages via `messageId` in error objects.
+- `requireLocation` (boolean, optional): If `true`, each `errors` block must be an array of objects, and each object must contain location properties `line`, `column`, `endLine`, and `endColumn`. Properties `endLine` and `endColumn` may be omitted if the actual error does not contain them.
+- `requireData` (boolean/`"error"`/`"suggestion"`, optional):
+    - If `true`, each error object that specifies `messageId` and each suggestion object that specifies `messageId` must also specify `data` if the message referenced by `messageId` has [placeholders](../extend/custom-rules#use-message-placeholders).
+    - If `"error"`, each error object that specifies `messageId` must also specify `data` if the message referenced by `messageId` has [placeholders](../extend/custom-rules#use-message-placeholders).
+    - If `"suggestion"`, each suggestion object that specifies `messageId` must also specify `data` if the message referenced by `messageId` has [placeholders](../extend/custom-rules#use-message-placeholders).
 
 ### Testing Errors with `messageId`
 
@@ -989,7 +1064,7 @@ ruleTester.run("my-rule-for-no-foo", rule, {
 });
 ```
 
-A the end of this invalid test case, `RuleTester` expects a fix to be applied that results in the code changing from `var foo;` to `var bar;`. If the output after applying the fix doesn't match, then the test fails.
+At the end of this invalid test case, `RuleTester` expects a fix to be applied that results in the code changing from `var foo;` to `var bar;`. If the output after applying the fix doesn't match, then the test fails.
 
 ::: important
 ESLint makes its best attempt at applying all fixes, but there is no guarantee that all fixes will be applied. As such, you should aim for testing each type of fix in a separate `RuleTester` test case rather than one test case to test multiple fixes. When there is a conflict between two fixes (because they apply to the same section of code) `RuleTester` applies only the first fix.
@@ -1053,6 +1128,8 @@ ruleTester.run("my-rule-for-no-foo", rule, {
 
 ### Customizing RuleTester
 
+#### Customizing `describe` and `it`
+
 `RuleTester` depends on two functions to run tests: `describe` and `it`. These functions can come from various places:
 
 1. If `RuleTester.describe` and `RuleTester.it` have been set to function values, `RuleTester` will use `RuleTester.describe` and `RuleTester.it` to run tests. You can use this to customize the behavior of `RuleTester` to match a test framework that you're using.
@@ -1094,6 +1171,56 @@ ruleTester.run("my-rule", myRule, {
 		// invalid test cases
 	],
 });
+```
+
+#### Enforcing `assertionOptions` Globally
+
+Because `assertionOptions` is specified per `run()` call, enforcing the same options across every call in a project requires a userland pattern. There are two common approaches:
+
+##### Option 1 — Subclass `RuleTester` and override `run()`
+
+```js
+const { RuleTester } = require("eslint");
+
+class StrictRuleTester extends RuleTester {
+	run(ruleName, rule, tests) {
+		super.run(ruleName, rule, {
+			...tests,
+			assertionOptions: {
+				// Default assertion options applied to every run() call.
+				requireMessage: "messageId",
+				requireLocation: true,
+				// Per-call options are merged in and take precedence.
+				...tests.assertionOptions,
+			},
+		});
+	}
+}
+
+module.exports = StrictRuleTester;
+```
+
+##### Option 2 — Helper wrapper function
+
+```js
+const { RuleTester } = require("eslint");
+
+const ruleTester = new RuleTester();
+
+function runWithStrictAssertions(ruleName, rule, tests) {
+	return ruleTester.run(ruleName, rule, {
+		...tests,
+		assertionOptions: {
+			// Default assertion options applied to every call.
+			requireMessage: "messageId",
+			requireLocation: true,
+			// Per-call options are merged in and take precedence.
+			...tests.assertionOptions,
+		},
+	});
+}
+
+module.exports = runWithStrictAssertions;
 ```
 
 [configuration object]: ../use/configure/

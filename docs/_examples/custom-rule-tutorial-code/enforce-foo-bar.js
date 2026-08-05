@@ -15,6 +15,7 @@ module.exports = {
 		},
 		fixable: "code",
 		schema: [],
+		languages: ["js/js"],
 	},
 	create(context) {
 		return {

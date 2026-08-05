@@ -4,7 +4,7 @@ eleventyNavigation:
     key: run tests
     parent: contribute to eslint
     title: Run the Tests
-    order: 7
+    order: 8
 ---
 
 Most parts of ESLint have unit tests associated with them. Unit tests are written using [Mocha](https://mochajs.org/) and are required when making contributions to ESLint. You'll find all of the unit tests in the `tests` directory.
@@ -17,7 +17,7 @@ npm test
 
 This automatically starts Mocha and runs all tests in the `tests` directory. You need only add yours and it will automatically be picked up when running tests.
 
-## Running Individual Tests
+## Run Individual Tests
 
 If you want to quickly run just one test file, you can do so by running Mocha directly and passing in the filename. For example:
 

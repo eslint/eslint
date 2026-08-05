@@ -112,7 +112,6 @@ describe("formatter:html", () => {
 
 				docs: {
 					description: "This is rule 'foo'",
-					category: "error",
 					recommended: true,
 					url: "https://eslint.org/docs/rules/foo",
 				},
@@ -226,7 +225,6 @@ describe("formatter:html", () => {
 
 				docs: {
 					description: "This is rule 'foo'",
-					category: "error",
 					recommended: true,
 					url: "https://eslint.org/docs/rules/foo",
 				},
@@ -303,7 +301,6 @@ describe("formatter:html", () => {
 
 				docs: {
 					description: "This is rule 'foo'",
-					category: "error",
 					recommended: true,
 					url: "https://eslint.org/docs/rules/foo",
 				},
@@ -414,7 +411,6 @@ describe("formatter:html", () => {
 
 				docs: {
 					description: "This is rule 'foo'",
-					category: "error",
 					recommended: true,
 					url: "https://eslint.org/docs/rules/foo",
 				},
@@ -430,7 +426,6 @@ describe("formatter:html", () => {
 
 				docs: {
 					description: "This is rule 'bar'",
-					category: "error",
 					recommended: false,
 				},
 
@@ -519,7 +514,6 @@ describe("formatter:html", () => {
 
 				docs: {
 					description: "This is rule 'foo'",
-					category: "error",
 					recommended: true,
 					url: "https://eslint.org/docs/rules/foo",
 				},
@@ -535,7 +529,6 @@ describe("formatter:html", () => {
 
 				docs: {
 					description: "This is rule 'bar'",
-					category: "error",
 					recommended: false,
 				},
 
@@ -637,7 +630,6 @@ describe("formatter:html", () => {
 
 				docs: {
 					description: "This is rule 'foo'",
-					category: "error",
 					recommended: true,
 					url: "https://eslint.org/docs/rules/foo",
 				},
@@ -653,7 +645,6 @@ describe("formatter:html", () => {
 
 				docs: {
 					description: "This is rule 'bar'",
-					category: "error",
 					recommended: false,
 				},
 
@@ -755,7 +746,6 @@ describe("formatter:html", () => {
 
 				docs: {
 					description: "This is rule 'foo'",
-					category: "error",
 					recommended: true,
 					url: "https://eslint.org/docs/rules/foo",
 				},
@@ -802,6 +792,58 @@ describe("formatter:html", () => {
 		});
 	});
 
+	describe("when passing a single message with special characters in the rule id", () => {
+		const rulesMeta = {
+			"<&>": {
+				type: "problem",
+
+				docs: {
+					description:
+						"This is a rule with special characters in its id",
+					recommended: true,
+					url: "https://example.com/some-rule",
+				},
+
+				fixable: "code",
+
+				messages: {
+					message1: "This is a message for rule '<&>'.",
+				},
+			},
+		};
+		const code = {
+			results: [
+				{
+					filePath: "foo.js",
+					errorCount: 1,
+					warningCount: 0,
+					messages: [
+						{
+							message: "Unexpected foo.",
+							severity: 2,
+							line: 5,
+							column: 10,
+							ruleId: "<&>",
+							source: "foo",
+						},
+					],
+				},
+			],
+			rulesMeta,
+		};
+
+		it("should escape the rule id", () => {
+			const result = formatter(code.results, { rulesMeta });
+			const $ = cheerio.load(result);
+
+			assert.strictEqual(
+				$("td").eq(3).html().trim(),
+				'<a href="https://example.com/some-rule" target="_blank" rel="noopener noreferrer">&lt;&amp;&gt;</a>',
+				"Check that rule id is escaped correctly",
+			);
+		});
+	});
+
 	describe("when passing a single message with no rule id or message", () => {
 		const code = [
 			{
@@ -839,7 +881,6 @@ describe("formatter:html", () => {
 
 				docs: {
 					description: "This is rule 'foo'",
-					category: "error",
 					recommended: true,
 					url: "https://eslint.org/docs/rules/foo",
 				},

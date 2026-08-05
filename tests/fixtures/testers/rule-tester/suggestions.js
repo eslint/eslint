@@ -256,3 +256,32 @@ module.exports.withMultipleMissingPlaceholderDataProperties = {
         };
     }
 };
+
+module.exports.withMessageIdsWithoutPlaceholders = {
+    meta: {
+        messages: {
+            avoidFoo: "Avoid using identifiers named '{{ name }}'.",
+            rename: "Rename identifier to bar"
+        },
+        hasSuggestions: true
+    },
+    create(context) {
+        return {
+            Identifier(node) {
+                if (node.name === "foo") {
+                    context.report({
+                        node,
+                        messageId: "avoidFoo",
+                        data: {
+                            name: "foo"
+                        },
+                        suggest: [{
+                            messageId: "rename",
+                            fix: fixer => fixer.replaceText(node, "bar")
+                        }]
+                    });
+                }
+            }
+        };
+    }
+};

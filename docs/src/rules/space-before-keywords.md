@@ -69,7 +69,7 @@ Examples of **correct** code for this rule with the default `"always"` option:
 
 ::: correct { "parserOptions": { "ecmaFeatures": { "jsx": true } } }
 
-```js
+```jsx
 /*eslint space-before-keywords: ["error", "always"]*/
 
 if (foo) {

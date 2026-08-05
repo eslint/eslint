@@ -8,7 +8,7 @@ eleventyNavigation:
 ---
 
 ::: tip
-This page explains how to configure rules using the flat config format. For the deprecated eslintrc format, [see the deprecated documentation](rules-deprecated).
+This page explains how to configure rules using the flat config format.
 :::
 
 Rules are the core building block of ESLint. A rule validates if your code meets a certain expectation, and what to do if it does not meet that expectation. Rules can also contain additional configuration options specific to that rule.
@@ -27,7 +27,7 @@ Rules are typically set to `"error"` to enforce compliance with the rule during 
 
 If you don't want to enforce compliance with a rule but would still like ESLint to report the rule's violations, set the severity to `"warn"`. This is typically used when introducing a new rule that will eventually be set to `"error"`, when a rule is flagging something other than a potential buildtime or runtime error (such as an unused variable), or when a rule cannot determine with certainty that a problem has been found (when a rule might have false positives and need manual review).
 
-### Using configuration comments
+### Use configuration comments
 
 To configure rules inside of a file using configuration comments, use a comment in the following format:
 
@@ -93,7 +93,11 @@ This setting defaults to `"off"`.
 
 This setting is similar to the [`--report-unused-inline-configs`](../command-line-interface#--report-unused-inline-configs) CLI option.
 
-### Using Configuration Files
+::: tip
+To enforce best practices around configuration comments, take a look at [`eslint-plugin-eslint-comments`](https://github.com/eslint-community/eslint-plugin-eslint-comments) ([Docs](https://eslint-community.github.io/eslint-plugin-eslint-comments/)).
+:::
+
+### Use Configuration Files
 
 To configure rules inside of a [configuration file](./configuration-files#configuration-file), use the `rules` key along with an error level and any options you want to use. For example:
 
@@ -191,9 +195,9 @@ You can also use this format with configuration comments, such as:
 In order to use plugin rules in configuration comments, your configuration file must load the plugin and specify it in the `plugins` object of your config. Configuration comments can not load plugins on their own.
 :::
 
-## Disabling Rules
+## Disable Rules
 
-### Using configuration comments
+### Use configuration comments
 
 - **Use with Caution.** Disabling ESLint rules inline should be restricted and used only in situations with a clear and
   valid reason for doing so. Disabling rules inline should not be the default solution to resolve linting errors.
@@ -330,7 +334,7 @@ console.log("hello");
 console.log("hello");
 ```
 
-### Using configuration files
+### Use configuration files
 
 To disable rules inside of a [configuration file](./configuration-files#configuration-file) for a group of files, use a subsequent config object with a `files` key. For example:
 
@@ -353,7 +357,7 @@ export default defineConfig([
 ]);
 ```
 
-### Disabling Inline Comments
+### Disable Inline Comments
 
 To disable all inline config comments, use the `noInlineConfig` setting in your configuration file. For example:
 

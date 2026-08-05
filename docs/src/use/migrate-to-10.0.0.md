@@ -9,6 +9,25 @@ eleventyNavigation:
 
 ESLint v10.0.0 is a major release of ESLint, and as such, has several breaking changes that you need to be aware of. This guide is intended to walk you through the breaking changes.
 
+To help with this migration, ESLint provides migration codemods to automate many of the changes described in this guide. All official ESLint codemods are available in the [eslint/codemods](https://github.com/eslint/codemods) repository and through the [Codemod Registry](https://app.codemod.com/registry?q=scope%3Aeslint).
+
+## Use migration codemods
+
+The `@eslint/v9-to-v10` codemod upgrades ESLint projects from v9 to v10. It includes four individual codemods that can also be run independently:
+
+- `@eslint/v9-to-v10-config`: Remove legacy env vars and CLI flags
+- `@eslint/v9-to-v10-custom-rules`: Replace removed `context` and `SourceCode` methods
+- `@eslint/v9-to-v10-ruletester`: Clean up `RuleTester` test cases
+- `@eslint/v9-to-v10-linter-api`: Fix `Linter`/`ESLint` API usage
+
+```shell
+npx codemod @eslint/v9-to-v10
+```
+
+Learn more in the [Codemod Registry](https://app.codemod.com/registry?q=scope%3Aeslint).
+
+Codemods are a starting point. Review the changes and consult the breaking changes below for anything the codemods do not cover.
+
 The lists below are ordered roughly by the number of users each change is expected to affect, where the first items are expected to affect the most users.
 
 ## Table of Contents
@@ -19,9 +38,11 @@ The lists below are ordered roughly by the number of users each change is expect
 - [`eslint:recommended` has been updated](#eslint-recommended)
 - [New configuration file lookup algorithm](#config-lookup-from-file)
 - [Old config format no longer supported](#remove-eslintrc)
+- [JSX references are now tracked](#jsx-reference-tracking)
 - [`eslint-env` comments are reported as errors](#eslint-env-comments)
 - [Jiti < v2.2.0 are no longer supported](#drop-old-jiti)
 - [POSIX character classes in glob patterns](#posix-character-classes)
+- [`stylish` formatter now uses native `styleText` instead of `chalk`](#stylish-formatter)
 - [Deprecated options of the `radix` rule](#radix)
 - [`no-shadow-restricted-names` now reports `globalThis` by default](#no-shadow-restricted-names)
 - [`func-names` schema is stricter](#func-names)
@@ -32,6 +53,7 @@ The lists below are ordered roughly by the number of users each change is expect
 
 - [Node.js < v20.19, v21, v23 are no longer supported](#drop-old-node)
 - [Old config format no longer supported](#remove-eslintrc)
+- [JSX references are now tracked](#jsx-reference-tracking)
 - [Removal of `type` property in errors of invalid `RuleTester` cases](#ruletester-type-removed)
 - [`Program` AST node range spans entire source text](#program-node-range)
 - [Fixer methods now require string `text` arguments](#fixer-text-must-be-string)
@@ -79,9 +101,11 @@ Three new rules have been enabled in `eslint:recommended`:
 
 In ESLint v9, the alternate config lookup behavior could be enabled with the `v10_config_lookup_from_file` feature flag. This behavior made ESLint locate `eslint.config.*` by starting from the directory of each linted file and searching up towards the filesystem root. In ESLint v10.0.0, this behavior is now the default and the `v10_config_lookup_from_file` flag has been removed. Attempting to use this flag will now result in an error.
 
+**Codemod:** Use the [@eslint/v9-to-v10-config](#use-migration-codemods) codemod to remove legacy flags from your setup.
+
 **To address:**
 
-- Remove any usage of the flag in your setup:
+- Remove legacy flags manually:
     - CLI: remove `--flag v10_config_lookup_from_file`.
     - Environment: remove `v10_config_lookup_from_file` from `ESLINT_FLAGS`.
     - API: remove `"v10_config_lookup_from_file"` from the `flags` array passed to `new ESLint()` or `new Linter()`.
@@ -91,17 +115,44 @@ In ESLint v9, the alternate config lookup behavior could be enabled with the `v1
 
 ## <a name="remove-eslintrc"></a> Old config format no longer supported
 
-ESLint v9 introduced a [new default configuration format](./configure/configuration-files) based on the `eslint.config.js` file. The [old format](./configure/configuration-files-deprecated), which used `.eslintrc` or `.eslintrc.json`, could still be enabled in v9 by setting the `ESLINT_USE_FLAT_CONFIG` environment variable to `false`.
+ESLint v9 introduced a [new default configuration format](./configure/configuration-files) based on the `eslint.config.js` file. The old format, which used `.eslintrc` or `.eslintrc.json`, could still be enabled in v9 by setting the `ESLINT_USE_FLAT_CONFIG` environment variable to `false`.
 
 Starting with ESLint v10.0.0, the old configuration format is no longer supported.
 
+**Codemod:** Use the [@eslint/v9-to-v10](#use-migration-codemods) codemod to automate much of this migration. Use the [@eslint/v9-to-v10-linter-api](#use-migration-codemods) codemod to update deprecated `FlatESLint` and `LegacyESLint` usage.
+
 **To address:**
 
-- Follow the instructions in the [configuration migration guide](./configure/migration-guide).
+- Or follow the instructions in the [configuration migration guide](./configure/migration-guide).
 - Be aware that the deprecated APIs `FlatESLint` and `LegacyESLint` have been removed. Always use `ESLint` instead.
 - The `configType` option of the `Linter` class can no longer be set to `"eslintrc"`. Remove the option to use the new configuration format.
 
 **Related issue(s):** [#13481](https://github.com/eslint/eslint/issues/13481)
+
+## <a name="jsx-reference-tracking"></a> JSX references are now tracked
+
+ESLint v10.0.0 now tracks JSX references, enabling correct scope analysis of JSX elements.
+
+Previously, ESLint did not track references created by JSX identifiers, which could lead to incorrect results from rules that rely on scope information. For example:
+
+```jsx
+import { Card } from "./card.jsx";
+
+export function createCard(name) {
+	return <Card name={name} />;
+}
+```
+
+Prior to v10.0.0, ESLint did not recognize that `<Card>` is a reference to the imported `Card`, which could result in false positives such as reporting `Card` as "defined but never used" ([`no-unused-vars`](../rules/no-unused-vars)) or false negatives such as failing to report `Card` as undefined ([`no-undef`](../rules/no-undef)) if the import is removed. Starting with v10.0.0, `<Card>` is treated as a normal reference to the variable in scope. This brings JSX handling in line with developer expectations and improves the linting experience for modern JavaScript applications using JSX.
+
+**To address:**
+
+- For users:
+    - New linting reports may appear in files with JSX. Update your code accordingly or adjust rule configurations if needed.
+    - Rules previously used to work around ESLint’s lack of JSX reference tracking (for example, [`@eslint-react/jsx-uses-vars`](https://www.eslint-react.xyz/docs/rules/jsx-uses-vars)) are no longer needed. Remove or disable them in your configuration.
+- For plugin developers: Custom rules relying on scope analysis may now encounter `JSXIdentifier` references. Update rules to handle these correctly.
+
+**Related issue(s):** [#19495](https://github.com/eslint/eslint/issues/19495)
 
 ## <a name="eslint-env-comments"></a> `eslint-env` comments are reported as errors
 
@@ -140,6 +191,25 @@ Here, `[[:upper:]]` is a POSIX character class that matches uppercase letters in
 **To address:** If any of the glob patterns in your configuration, CLI arguments, or Node.js API calls look like containing a POSIX character class, verify that they match files as intended.
 
 **Related issue(s):** [eslint/rewrite#66](https://github.com/eslint/rewrite/issues/66)
+
+## <a name="stylish-formatter"></a> `stylish` formatter now uses native `styleText` instead of `chalk`
+
+Starting in ESLint v10.0.0, the built-in [`stylish`](./formatters#stylish) formatter no longer depends on the third-party [`chalk`](https://github.com/chalk/chalk) library for colorized output. Instead, it now uses Node.js's native [`styleText`](https://nodejs.org/api/util.html#utilstyletextformat-text-options) API, which introduces two breaking changes regarding how colorized output is determined:
+
+1. First, `styleText` checks more environment variables when determining whether to disable colorized output and follows Node.js's own rules for when to enable or disable colors. This means it respects a wider set of environment variables and terminal capabilities than ESLint's previous `chalk`-based logic. For example:
+    - [`NO_COLOR`](https://nodejs.org/api/cli.html#no_colorany) now disables colors consistently across tools that honor this convention.
+    - [`NODE_DISABLE_COLORS`](https://nodejs.org/api/cli.html#node_disable_colors1) is also respected, aligning ESLint's behavior with Node.js itself.
+
+    Please note that the [`FORCE_COLOR`](https://nodejs.org/api/cli.html#force_color1-2-3) environment variable is still supported to force-enable colors.
+
+2. Second, `--color` and `--no-color` CLI flags now have higher precedence than environment variables when determining whether to use colorized output. This change ensures that explicit user preferences via CLI flags are prioritized. However, if neither flag is provided, environment variables will be considered as before.
+
+**To address:**
+
+- Review any environment configuration related to terminal colors (for example, CI defaults or shell profiles). If ESLint's output appears uncolored after upgrading to v10.0.0, check whether `NO_COLOR` or `NODE_DISABLE_COLORS` (or similar settings) are being set in your environment.
+- If you rely on mixed approaches (for example, using `--color` flag but also setting `NO_COLOR` environment variable), be aware that the CLI flags now take precedence and adjust your setup accordingly.
+
+**Related issue(s):** [#20012](https://github.com/eslint/eslint/issues/20012)
 
 ## <a name="radix"></a> Deprecated options of the `radix` rule
 
@@ -220,7 +290,9 @@ This change should not require any action for most users. However, if you are us
 
 In ESLint v10.0.0, the deprecated `type` property in errors of invalid test cases for rules has been removed. Using the `type` property in test cases now throws an error.
 
-**To address:** Remove the `type` property from error objects in invalid test cases.
+**Codemod:** Use the [@eslint/v9-to-v10-ruletester](#use-migration-codemods) codemod to automate this change.
+
+**To address:** Remove the `type` property from error objects in invalid test cases manually.
 
 **Related issue(s):** [#19029](https://github.com/eslint/eslint/issues/19029)
 
@@ -242,7 +314,7 @@ Starting with ESLint v10.0.0, `Program.range` covers the entire source text, inc
 
 **To address:**
 
-- For rule and plugin authors: If your code depends on the previous `Program.range` behavior, or on `SourceCode` methods that assume it (such as `sourceCode.getCommentsBefore(programNode)` to retrieve all leading comments), update your logic.
+- For rule and plugin authors: If your code depends on the previous `Program.range` behavior, or on `SourceCode` methods that assume it (such as `sourceCode.getCommentsBefore(programNode)` to retrieve all leading comments), update your logic. If your code reports on the `Program` node, update your logic to report on the first statement within the `Program` node, i.e. `node.body[0] ?? node`, to ensure the directive `/* eslint-disable your-rule */` can still work.
 - For custom parsers: Set `Program.range` to cover the full source text (typically `[0, code.length]`).
 
 **Related issue(s):** [eslint/js#648](https://github.com/eslint/js/issues/648)
@@ -289,6 +361,8 @@ In ESLint v9.x, we deprecated the following [methods](https://eslint.org/blog/20
 
 In ESLint v10.0.0, all of these members have been removed.
 
+**Codemod:** Use the [@eslint/v9-to-v10-custom-rules](#use-migration-codemods) codemod to automate this change.
+
 **To address:** In your custom rules, make the following changes:
 
 | **Removed on `context`**        | **Replacement on `context`**                                         |
@@ -328,6 +402,8 @@ The following deprecated `SourceCode` methods have been removed in ESLint v10.0.
 
 These methods have been deprecated for multiple major versions and were primarily used by deprecated formatting rules and internal ESLint utilities. Custom rules using these methods must be updated to use their modern replacements.
 
+**Codemod:** Use the [@eslint/v9-to-v10-custom-rules](#use-migration-codemods) codemod to automate this change.
+
 **To address:** In your custom rules, make the following changes:
 
 | **Removed on `SourceCode`**                  | **Replacement**                                                |
@@ -365,7 +441,9 @@ const validTestCases = [
 ruleTester.run("rule-id", rule, { valid: validTestCases, invalid: [] });
 ```
 
-**To address:** Remove any `errors`/`output` properties from valid test cases.
+**Codemod:** Use the [@eslint/v9-to-v10-ruletester](#use-migration-codemods) codemod to automate this change.
+
+**To address:** Remove any `errors`/`output` properties from valid test cases manually.
 
 **Related issue(s):** [#18960](https://github.com/eslint/eslint/issues/18960)
 
@@ -373,6 +451,8 @@ ruleTester.run("rule-id", rule, { valid: validTestCases, invalid: [] });
 
 In ESLint v10.0.0, the deprecated `nodeType` property on `LintMessage` objects has been removed. This affects consumers of the Node.js API (for example, custom formatters and editor/tool integrations) that previously relied on `message.nodeType`.
 
-**To address:** Remove all usages of `message.nodeType` in your integrations and formatters.
+**Codemod:** Use the [@eslint/v9-to-v10-linter-api](#use-migration-codemods) codemod to automate this change.
+
+**To address:** Remove all usages of `message.nodeType` in your integrations and formatters manually.
 
 **Related issue(s):** [#19029](https://github.com/eslint/eslint/issues/19029)

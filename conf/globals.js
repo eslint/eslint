@@ -144,6 +144,7 @@ const es2026 = {
 	AsyncDisposableStack: false,
 	DisposableStack: false,
 	SuppressedError: false,
+	Temporal: false,
 };
 
 //-----------------------------------------------------------------------------

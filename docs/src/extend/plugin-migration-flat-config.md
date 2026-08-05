@@ -64,7 +64,7 @@ No changes are necessary for the `rules` key in your plugin. Everything works th
 
 Each processor should specify a `meta` object. For more information, see the [full documentation](custom-processors).
 
-No other changes are necessary for the `processors` key in your plugin as long as you aren't using file extension-named processors. If you have any [file extension-named processors](custom-processors-deprecated#file-extension-named-processor), you must update the name to a valid identifier (numbers and letters). File extension-named processors were automatically applied in the old configuration system but are not automatically applied when using flat config. Here is an example of a file extension-named processor:
+No other changes are necessary for the `processors` key in your plugin as long as you aren't using file extension-named processors. If you have any file extension-named processors, you must update the name to a valid identifier (numbers and letters). File extension-named processors were automatically applied in the old configuration system but are not automatically applied when using flat config. Here is an example of a file extension-named processor:
 
 ```js
 const plugin = {

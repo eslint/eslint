@@ -59,6 +59,22 @@ ruleTester.run("prefer-promise-reject-errors", rule, {
 		// Private fields
 		"class C { #reject; foo() { Promise.#reject(5); } }",
 		"class C { #error; foo() { Promise.reject(this.#error); } }",
+
+		// Shadowed `Promise` is not the global, so it shouldn't be reported
+		"/* global Promise:off */ Promise.reject('x')",
+		{
+			code: "Promise.reject('x')",
+			languageOptions: { globals: { Promise: "off" } },
+		},
+		"let Promise; Promise.reject('x');",
+		"function f() { Promise.reject('x'); var Promise; }",
+		"function f(Promise) { return Promise.reject('x'); }",
+		"{ class Promise { static reject(x) { return x; } } Promise.reject('x'); }",
+		"function g(Promise) { return new Promise((resolve, reject) => { reject('x'); }); }",
+
+		// Shadowed `undefined` could be an Error object
+		"function f(undefined) { Promise.reject(undefined); }",
+		"function f(undefined) { new Promise((resolve, reject) => reject(undefined)); }",
 	],
 
 	invalid: [

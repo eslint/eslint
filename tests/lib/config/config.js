@@ -965,5 +965,405 @@ describe("Config", () => {
 
 			config.validateRulesConfig(rules);
 		});
+
+		describe("meta.languages validation", () => {
+			it("should not throw when rule has no meta.languages (backward compatible)", () => {
+				// This should not throw
+				config.validateRulesConfig({
+					"test-rule": ["error"],
+				});
+			});
+
+			it("should not throw when rule has meta.languages: ['*']", () => {
+				const ruleWithWildcard = {
+					meta: { schema: [], languages: ["*"] },
+					create() {
+						return {};
+					},
+				};
+
+				const cfg = new Config(
+					createBasicConfigOptions({
+						plugins: {
+							test: {
+								languages: {
+									lang: createMockLanguage(),
+								},
+								rules: { "wildcard-rule": ruleWithWildcard },
+							},
+						},
+					}),
+				);
+
+				// Should not throw
+				cfg.validateRulesConfig({
+					"test/wildcard-rule": ["error"],
+				});
+			});
+
+			it("should not throw when rule has matching language", () => {
+				const ruleForTestLang = {
+					meta: { schema: [], languages: ["test/lang"] },
+					create() {
+						return {};
+					},
+				};
+
+				const cfg = new Config(
+					createBasicConfigOptions({
+						plugins: {
+							test: {
+								languages: {
+									lang: createMockLanguage(),
+								},
+								rules: { "test-lang-rule": ruleForTestLang },
+							},
+						},
+					}),
+				);
+
+				// Should not throw
+				cfg.validateRulesConfig({
+					"test/test-lang-rule": ["error"],
+				});
+			});
+
+			it("should throw when rule languages do not match the config language", () => {
+				const ruleForOtherLang = {
+					meta: { schema: [], languages: ["other/lang"] },
+					create() {
+						return {};
+					},
+				};
+
+				const cfg = new Config(
+					createBasicConfigOptions({
+						plugins: {
+							test: {
+								languages: {
+									lang: createMockLanguage(),
+								},
+								rules: {
+									"other-lang-rule": ruleForOtherLang,
+								},
+							},
+						},
+					}),
+				);
+
+				assert.throws(() => {
+					cfg.validateRulesConfig({
+						"test/other-lang-rule": ["error"],
+					});
+				}, /do not support the language "test\/lang"/u);
+			});
+
+			it("should throw and list all unsupported rules", () => {
+				const ruleForOtherLang = {
+					meta: { schema: [], languages: ["other/lang"] },
+					create() {
+						return {};
+					},
+				};
+
+				const cfg = new Config(
+					createBasicConfigOptions({
+						plugins: {
+							test: {
+								languages: {
+									lang: createMockLanguage(),
+								},
+								rules: {
+									"rule-a": ruleForOtherLang,
+									"rule-b": ruleForOtherLang,
+								},
+							},
+						},
+					}),
+				);
+
+				assert.throws(() => {
+					cfg.validateRulesConfig({
+						"test/rule-a": ["error"],
+						"test/rule-b": ["error"],
+					});
+				}, /"test\/rule-a"[\s\S]*"test\/rule-b"/u);
+			});
+
+			it("should not throw for disabled rules even if language doesn't match", () => {
+				const ruleForOtherLang = {
+					meta: { schema: [], languages: ["other/lang"] },
+					create() {
+						return {};
+					},
+				};
+
+				const cfg = new Config(
+					createBasicConfigOptions({
+						plugins: {
+							test: {
+								languages: {
+									lang: createMockLanguage(),
+								},
+								rules: {
+									"other-lang-rule": ruleForOtherLang,
+								},
+							},
+						},
+					}),
+				);
+
+				// Should not throw because rule is disabled (severity 0)
+				cfg.validateRulesConfig({
+					"test/other-lang-rule": [0],
+				});
+			});
+
+			it("should match via plugin/*  wildcard", () => {
+				const ruleWithPluginWildcard = {
+					meta: { schema: [], languages: ["test/*"] },
+					create() {
+						return {};
+					},
+				};
+
+				const cfg = new Config(
+					createBasicConfigOptions({
+						plugins: {
+							test: {
+								languages: {
+									lang: createMockLanguage(),
+								},
+								rules: {
+									"wildcard-rule": ruleWithPluginWildcard,
+								},
+							},
+						},
+					}),
+				);
+
+				// Should not throw - "test/*" matches "test/lang"
+				cfg.validateRulesConfig({
+					"test/wildcard-rule": ["error"],
+				});
+			});
+
+			it("should match via meta.namespace on plugins", () => {
+				const ruleWithNamespaceMatch = {
+					meta: { schema: [], languages: ["myns/lang"] },
+					create() {
+						return {};
+					},
+				};
+
+				const ruleWithDirectMatch = {
+					meta: { schema: [], languages: ["alt/lang"] },
+					create() {
+						return {};
+					},
+				};
+
+				const cfg = new Config({
+					language: "alt/lang",
+					plugins: {
+						alt: {
+							meta: { namespace: "myns" },
+							languages: {
+								lang: createMockLanguage(),
+							},
+							rules: {
+								"ns-rule": ruleWithNamespaceMatch,
+								"direct-rule": ruleWithDirectMatch,
+							},
+						},
+					},
+				});
+
+				/*
+				 * Should not throw - "myns/lang" maps to "alt/lang" via namespace
+				 * and "alt/lang" matches directly
+				 */
+				cfg.validateRulesConfig({
+					"alt/ns-rule": ["error"],
+					"alt/direct-rule": ["error"],
+				});
+			});
+
+			it("should use normalized language name in error message for '@/js'", () => {
+				const nonJsRule = {
+					meta: { schema: [], languages: ["other/lang"] },
+					create() {
+						return {};
+					},
+				};
+
+				const cfg = new Config({
+					language: "@/js",
+					plugins: {
+						"@": {
+							languages: {
+								js: createMockLanguage(),
+							},
+							rules: {
+								"non-js-rule": nonJsRule,
+							},
+						},
+					},
+				});
+
+				// Should throw with "js/js" in the message, not "@/js"
+				assert.throws(() => {
+					cfg.validateRulesConfig({
+						"non-js-rule": ["error"],
+					});
+				}, /do not support the language "js\/js"/u);
+			});
+
+			it("should match 'js/js' to '@/js' as a special case", () => {
+				const jsRule = {
+					meta: { schema: [], languages: ["js/js"] },
+					create() {
+						return {};
+					},
+				};
+
+				const cfg = new Config({
+					language: "@/js",
+					plugins: {
+						"@": {
+							languages: {
+								js: createMockLanguage(),
+							},
+							rules: {
+								"js-rule": jsRule,
+							},
+						},
+					},
+				});
+
+				// Should not throw - "js/js" should match "@/js"
+				cfg.validateRulesConfig({
+					"js-rule": ["error"],
+				});
+			});
+
+			it("should match 'js/*' wildcard to '@/js'", () => {
+				const jsRule = {
+					meta: { schema: [], languages: ["js/*"] },
+					create() {
+						return {};
+					},
+				};
+
+				const cfg = new Config({
+					language: "@/js",
+					plugins: {
+						"@": {
+							languages: {
+								js: createMockLanguage(),
+							},
+							rules: {
+								"js-rule": jsRule,
+							},
+						},
+					},
+				});
+
+				// Should not throw - "js/*" matches any "@" language including "@/js"
+				cfg.validateRulesConfig({
+					"js-rule": ["error"],
+				});
+			});
+
+			it("should match via meta.namespace with 'plugin/*' wildcard", () => {
+				const ruleWithNamespaceWildcard = {
+					meta: { schema: [], languages: ["myns/*"] },
+					create() {
+						return {};
+					},
+				};
+
+				const cfg = new Config({
+					language: "alt/lang",
+					plugins: {
+						alt: {
+							meta: { namespace: "myns" },
+							languages: {
+								lang: createMockLanguage(),
+							},
+							rules: {
+								"ns-wildcard-rule": ruleWithNamespaceWildcard,
+							},
+						},
+					},
+				});
+
+				// Should not throw - "myns/*" maps to "alt/*" via namespace, matching "alt/lang"
+				cfg.validateRulesConfig({
+					"alt/ns-wildcard-rule": ["error"],
+				});
+			});
+
+			it("should throw when meta.languages is not an array", () => {
+				const ruleWithInvalidLanguages = {
+					meta: { schema: [], languages: "js/js" },
+					create() {
+						return {};
+					},
+				};
+
+				const cfg = new Config(
+					createBasicConfigOptions({
+						plugins: {
+							test: {
+								languages: {
+									lang: createMockLanguage(),
+								},
+								rules: {
+									"invalid-langs-rule":
+										ruleWithInvalidLanguages,
+								},
+							},
+						},
+					}),
+				);
+
+				assert.throws(() => {
+					cfg.validateRulesConfig({
+						"test/invalid-langs-rule": ["error"],
+					});
+				}, /Key "meta": Key "languages": Expected an array/u);
+			});
+
+			it("should throw when meta.languages contains non-string entries", () => {
+				const ruleWithMixedLanguages = {
+					meta: { schema: [], languages: [42, null, "test/lang"] },
+					create() {
+						return {};
+					},
+				};
+
+				const cfg = new Config(
+					createBasicConfigOptions({
+						plugins: {
+							test: {
+								languages: {
+									lang: createMockLanguage(),
+								},
+								rules: {
+									"mixed-langs-rule": ruleWithMixedLanguages,
+								},
+							},
+						},
+					}),
+				);
+
+				assert.throws(() => {
+					cfg.validateRulesConfig({
+						"test/mixed-langs-rule": ["error"],
+					});
+				}, /Key "meta": Key "languages": Expected each element to be a string/u);
+			});
+		});
 	});
 });

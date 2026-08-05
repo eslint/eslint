@@ -481,13 +481,13 @@ const patterns = [
 	},
 
 	// Array methods.
-	{
-		code: "Array.from([], function() { console.log(this); z(x => console.log(x, this)); });",
+	...["from", "fromAsync"].map(methodName => ({
+		code: `Array.${methodName}([], function() { console.log(this); z(x => console.log(x, this)); });`,
 		languageOptions: { ecmaVersion: 6 },
 		errors,
 		valid: [NORMAL],
 		invalid: [USE_STRICT, IMPLIED_STRICT, MODULES],
-	},
+	})),
 	...[
 		"every",
 		"filter",
@@ -506,12 +506,12 @@ const patterns = [
 		valid: [NORMAL],
 		invalid: [USE_STRICT, IMPLIED_STRICT, MODULES],
 	})),
-	{
-		code: "Array.from([], function() { console.log(this); z(x => console.log(x, this)); }, obj);",
+	...["from", "fromAsync"].map(methodName => ({
+		code: `Array.${methodName}([], function() { console.log(this); z(x => console.log(x, this)); }, obj);`,
 		languageOptions: { ecmaVersion: 6 },
 		valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
 		invalid: [],
-	},
+	})),
 	...[
 		"every",
 		"filter",
@@ -1124,6 +1124,17 @@ ruleTesterTypeScript.run("no-invalid-this", rule, {
         `,
 
 		`
+    Array.fromAsync(
+      [],
+      function () {
+        console.log(this);
+        z(x => console.log(x, this));
+      },
+      obj,
+    );
+        `,
+
+		`
     foo.every(function () {
       console.log(this);
       z(x => console.log(x, this));
@@ -1598,6 +1609,15 @@ ruleTesterTypeScript.run("no-invalid-this", rule, {
 		{
 			code: `
     Array.from([], function () {
+      console.log(this);
+      z(x => console.log(x, this));
+    });
+          `,
+			errors,
+		},
+		{
+			code: `
+    Array.fromAsync([], function () {
       console.log(this);
       z(x => console.log(x, this));
     });

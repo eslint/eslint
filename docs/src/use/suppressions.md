@@ -67,3 +67,26 @@ eslint --pass-on-unpruned-suppressions
 ```
 
 For more information on the available CLI options, refer to [Command Line Interface](./command-line-interface).
+
+## Usage with the Node.js API
+
+Suppressions can also be applied when using ESLint programmatically through the [Node.js API](../integrate/nodejs-api). To enable suppressions, set the `applySuppressions` option to `true` in the `ESLint` constructor:
+
+```js
+const eslint = new ESLint({
+	applySuppressions: true,
+});
+```
+
+By default, ESLint looks for `eslint-suppressions.json` in the current working directory. You can specify a custom suppressions file location using the `suppressionsLocation` option:
+
+```js
+const eslint = new ESLint({
+	applySuppressions: true,
+	suppressionsLocation: "./config/my-suppressions.json",
+});
+```
+
+When using `lintText()`, you must provide the `filePath` option for suppressions to take effect, since suppressions are matched by file path.
+
+**Note:** The Node.js API only supports applying existing suppressions. Creating new suppressions (`--suppress-all`, `--suppress-rule`) and pruning unused suppressions (`--prune-suppressions`) are only available through the CLI.
