@@ -273,7 +273,7 @@ ruleTester.run("no-useless-catch", rule, {
 					messageId: "unnecessaryCatchClause",
 					line: 4,
 					column: 19,
-					endLine: 7,
+					endLine: 8,
 					endColumn: 18,
 				},
 			],
