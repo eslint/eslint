@@ -1,0 +1,7 @@
+{
+  "test-file.js": {
+    "no-undef": {
+      "count": 3
+    }
+  }
+}

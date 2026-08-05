@@ -1,5 +1,6 @@
 {
-  "include": ["bin/**/*.js", "conf/**/*.js", "lib/**/*.js"],
+  "all": true,
+  "include": ["bin", "conf", "lib", "messages"],
   "reporter": ["lcov", "text-summary", "cobertura"],
   "sourceMap": true
 }

@@ -5,21 +5,21 @@ window.addEventListener("load", function () {
 	function h(a, b, c) {
 		if (0 > b) {
 			if (a.previousElementSibling) {
-				for (a = a.previousElementSibling; a.lastElementChild; )
+				for (a = a.previousElementSibling; a.lastElementChild;)
 					a = a.lastElementChild;
 				return a;
 			}
 			return a.parentElement;
 		}
 		if (a != c && a.firstElementChild) return a.firstElementChild;
-		for (; null != a; ) {
+		for (; null != a;) {
 			if (a.nextElementSibling) return a.nextElementSibling;
 			a = a.parentElement;
 		}
 		return null;
 	}
 	function g(a) {
-		for (; a && a !== document.documentElement; ) {
+		for (; a && a !== document.documentElement;) {
 			if (a.hasAttribute("inert")) return a;
 			a = a.parentElement;
 		}
@@ -62,7 +62,7 @@ window.addEventListener("load", function () {
 					Object.defineProperty(e, "keyCode", { value: 9 });
 					document.activeElement.dispatchEvent(e);
 					if (d != document.activeElement) return;
-					for (d = f; ; ) {
+					for (d = f; ;) {
 						d = h(d, c, f);
 						if (!d) break;
 						a: {

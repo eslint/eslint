@@ -25,7 +25,6 @@ While there is no specific structure an AST or CST must follow, it's easier to i
 
 1. **Type** - A property on each node representing the node type is required. For example, in JavaScript, the `type` property contains this information for each node. ESLint rules use node types to define the visitor methods, so it's important that each node can be identified by a string. The name of the property doesn't matter (discussed further below) so long as one exists. This property is typically named `type` or `kind` by most parsers.
 1. **Location** - A property on each node representing the location of the node in the original source code is required. The location must contain:
-
     - The line on which the node starts
     - The column on which the node starts
     - The line on which the node ends

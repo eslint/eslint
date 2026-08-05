@@ -8,6 +8,6 @@ Configuration for rule "${ruleId}" is invalid. Expected severity of "off", 0, "w
 
 You passed '${stringifyValueForError(value, 4)}'.
 
-See https://eslint.org/docs/latest/use/configure/rules#using-configuration-files for configuring rules.
+See https://eslint.org/docs/latest/use/configure/rules#use-configuration-files for configuring rules.
 `.trimStart();
 };

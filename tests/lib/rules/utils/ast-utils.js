@@ -85,6 +85,10 @@ describe("ast-utils", () => {
 		it("should contain es2021 globals", () => {
 			assert.ownInclude(astUtils.ECMASCRIPT_GLOBALS, { WeakRef: false });
 		});
+
+		it("should contain es2026 globals", () => {
+			assert.ownInclude(astUtils.ECMASCRIPT_GLOBALS, { Temporal: false });
+		});
 	});
 
 	describe("isTokenOnSameLine", () => {
@@ -2571,6 +2575,129 @@ describe("ast-utils", () => {
 					rules: { "test/checker": "error" },
 				});
 			});
+		});
+	});
+
+	describe("isPropertyDescriptor", () => {
+		/**
+		 * Asserts that `isPropertyDescriptor` reports whether each `ObjectExpression`
+		 * node in the given code is used as a property descriptor.
+		 * @param {string} code the code to check.
+		 * @param {boolean[]} expected the expected result for each `ObjectExpression` node, in traversal order.
+		 * @param {Object} [languageOptions] the language options to use.
+		 * @returns {void}
+		 */
+		function assertResult(code, expected, languageOptions = {}) {
+			const results = [];
+			linter.verify(code, {
+				languageOptions,
+				plugins: {
+					test: {
+						rules: {
+							checker: {
+								create: mustCall(context => ({
+									ObjectExpression: mustCall(node => {
+										results.push(
+											astUtils.isPropertyDescriptor(
+												node,
+												context.sourceCode,
+											),
+										);
+									}),
+								})),
+							},
+						},
+					},
+				},
+				rules: { "test/checker": "error" },
+			});
+
+			assert.deepStrictEqual(results, expected);
+		}
+
+		it("should return true for a descriptor of Object.defineProperty", () => {
+			assertResult("Object.defineProperty(foo, 'bar', { value: 1 })", [
+				true,
+			]);
+		});
+
+		it("should return true for the third argument of Reflect.defineProperty", () => {
+			assertResult("Reflect.defineProperty(foo, 'bar', { value: 1 })", [
+				true,
+			]);
+		});
+
+		it("should return true for descriptors nested in Object.defineProperties", () => {
+			assertResult(
+				"Object.defineProperties(foo, { bar: { value: 1 } })",
+				[false, true],
+			);
+		});
+
+		it("should return true for descriptors nested in Object.create", () => {
+			assertResult("Object.create(proto, { bar: { value: 1 } })", [
+				false,
+				true,
+			]);
+		});
+
+		it("should return true for a call with optional chaining", () => {
+			assertResult("Object?.defineProperty(foo, 'bar', { value: 1 })", [
+				true,
+			]);
+		});
+
+		it("should return false for a standalone object literal", () => {
+			assertResult("const d = { value: 1 };", [false]);
+		});
+
+		it("should return false for a descriptor-like object at another position", () => {
+			assertResult(
+				"Object.defineProperty({ value: 1 }, 'bar', { value: 1 })",
+				[false, true],
+			);
+		});
+
+		it("should return false when the descriptor map is not the second argument", () => {
+			assertResult("Object.create({ bar: { value: 1 } }, foo)", [
+				false,
+				false,
+			]);
+		});
+
+		it("should return false when the object is not the global `Object`", () => {
+			assertResult("object.defineProperty(foo, 'bar', { value: 1 })", [
+				false,
+			]);
+		});
+
+		it("should return false for Reflect.defineProperties", () => {
+			assertResult(
+				"Reflect.defineProperties(foo, { bar: { value: 1 } })",
+				[false, false],
+			);
+		});
+
+		it("should return false when `Object` is shadowed", () => {
+			assertResult(
+				"let Object; Object.defineProperty(foo, 'bar', { value: 1 })",
+				[false],
+			);
+		});
+
+		it("should return false when the global `Object` is disabled", () => {
+			assertResult(
+				"Object.defineProperty(foo, 'bar', { value: 1 })",
+				[false],
+				{ globals: { Object: "off" } },
+			);
+		});
+
+		it("should return false for a computed key in the second argument of Object.defineProperties", () => {
+			assertResult(
+				"Object.defineProperties(foo, { [{ value: 1 }]: 1 })",
+				[false, false],
+			);
 		});
 	});
 });

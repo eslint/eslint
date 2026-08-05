@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests for options.
+ * @fileoverview Tests for stylish formatter.
  * @author Sindre Sorhus
  */
 
@@ -10,63 +10,201 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert,
-	chalk = require("chalk"),
-	proxyquire = require("proxyquire"),
-	sinon = require("sinon");
+	util = require("node:util"),
+	sinon = require("sinon"),
+	formatter = require("../../../../lib/cli-engine/formatters/stylish");
 
-//-----------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // Helpers
-//-----------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
-/*
- * Chalk protects its methods so we need to inherit from it
- * for Sinon to work.
- */
-const chalkStub = Object.create(chalk, {
-	reset: {
-		value(str) {
-			return chalk.reset(str);
-		},
-		writable: true,
-	},
-	yellow: {
-		value(str) {
-			return chalk.yellow(str);
-		},
-		writable: true,
-	},
-	red: {
-		value(str) {
-			return chalk.red(str);
-		},
-		writable: true,
-	},
-});
-
-chalkStub.yellow.bold = chalk.yellow.bold;
-chalkStub.red.bold = chalk.red.bold;
-
-const formatter = proxyquire("../../../../lib/cli-engine/formatters/stylish", {
-	chalk: chalkStub,
-});
+// eslint-disable-next-line no-control-regex -- Needed to match ANSI escape code.
+const ansiEscapePattern = /\u001b\[/u;
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 describe("formatter:stylish", () => {
-	const originalColorLevel = chalk.level;
-
 	beforeEach(() => {
-		chalk.level = 0;
-		sinon.spy(chalkStub, "reset");
-		sinon.spy(chalkStub.yellow, "bold");
-		sinon.spy(chalkStub.red, "bold");
+		sinon.spy(util, "styleText");
 	});
 
 	afterEach(() => {
 		sinon.verifyAndRestore();
-		chalk.level = originalColorLevel;
+	});
+
+	describe("when passed `FORCE_COLOR` environment variable", () => {
+		/*
+		 * Note for `FORCE_COLOR`:
+		 * - 2 colors: `FORCE_COLOR = 0` (Disables colors)
+		 * - 16 colors: `FORCE_COLOR = 1`
+		 * - 256 colors: `FORCE_COLOR = 2`
+		 * - 16,777,216 colors: `FORCE_COLOR = 3`
+		 */
+
+		const code = [
+			{
+				filePath: "foo.js",
+				errorCount: 1,
+				warningCount: 0,
+				fixableErrorCount: 0,
+				fixableWarningCount: 0,
+				messages: [
+					{
+						message: "Unexpected foo.",
+						severity: 2,
+						line: 5,
+						column: 10,
+						ruleId: "foo",
+					},
+				],
+			},
+		];
+
+		let hasForceColor = false;
+		let previousForceColor = void 0;
+
+		beforeEach(() => {
+			if ("FORCE_COLOR" in process.env) {
+				hasForceColor = true;
+				previousForceColor = process.env.FORCE_COLOR;
+			}
+		});
+
+		afterEach(() => {
+			if (!hasForceColor) {
+				delete process.env.FORCE_COLOR;
+			} else {
+				process.env.FORCE_COLOR = previousForceColor;
+				hasForceColor = false;
+				previousForceColor = void 0;
+			}
+		});
+
+		it("`FORCE_COLOR=0` should disable colors", () => {
+			process.env.FORCE_COLOR = 0;
+
+			const result = formatter(code);
+
+			assert.notMatch(result, ansiEscapePattern);
+			assert.strictEqual(result, util.stripVTControlCharacters(result));
+		});
+
+		it("`FORCE_COLOR=1` should enable colors", () => {
+			process.env.FORCE_COLOR = 1;
+
+			const result = formatter(code);
+
+			assert.match(result, ansiEscapePattern);
+			assert.notStrictEqual(
+				result,
+				util.stripVTControlCharacters(result),
+			);
+		});
+
+		it("`FORCE_COLOR=2` should enable colors", () => {
+			process.env.FORCE_COLOR = 2;
+
+			const result = formatter(code);
+
+			assert.match(result, ansiEscapePattern);
+			assert.notStrictEqual(
+				result,
+				util.stripVTControlCharacters(result),
+			);
+		});
+
+		it("`FORCE_COLOR=3` should enable colors", () => {
+			process.env.FORCE_COLOR = 3;
+
+			const result = formatter(code);
+
+			assert.match(result, ansiEscapePattern);
+			assert.notStrictEqual(
+				result,
+				util.stripVTControlCharacters(result),
+			);
+		});
+	});
+
+	describe("when passed `color` option", () => {
+		const code = [
+			{
+				filePath: "foo.js",
+				errorCount: 1,
+				warningCount: 0,
+				fixableErrorCount: 0,
+				fixableWarningCount: 0,
+				messages: [
+					{
+						message: "Unexpected foo.",
+						severity: 2,
+						line: 5,
+						column: 10,
+						ruleId: "foo",
+					},
+				],
+			},
+		];
+
+		let hasForceColor = false;
+		let previousForceColor = void 0;
+
+		beforeEach(() => {
+			if ("FORCE_COLOR" in process.env) {
+				hasForceColor = true;
+				previousForceColor = process.env.FORCE_COLOR;
+			}
+		});
+
+		afterEach(() => {
+			if (!hasForceColor) {
+				delete process.env.FORCE_COLOR;
+			} else {
+				process.env.FORCE_COLOR = previousForceColor;
+				hasForceColor = false;
+				previousForceColor = void 0;
+			}
+		});
+
+		it("`color: false` should disable colors", () => {
+			const result = formatter(code, { color: false });
+
+			assert.notMatch(result, ansiEscapePattern);
+			assert.strictEqual(result, util.stripVTControlCharacters(result));
+		});
+
+		it("`color: false` should ignore environment variable", () => {
+			process.env.FORCE_COLOR = 1;
+
+			const result = formatter(code, { color: false });
+
+			assert.notMatch(result, ansiEscapePattern);
+			assert.strictEqual(result, util.stripVTControlCharacters(result));
+		});
+
+		it("`color: true` should enable colors", () => {
+			const result = formatter(code, { color: true });
+
+			assert.match(result, ansiEscapePattern);
+			assert.notStrictEqual(
+				result,
+				util.stripVTControlCharacters(result),
+			);
+		});
+
+		it("`color: true` should ignore environment variable", () => {
+			process.env.FORCE_COLOR = 0;
+
+			const result = formatter(code, { color: true });
+
+			assert.match(result, ansiEscapePattern);
+			assert.notStrictEqual(
+				result,
+				util.stripVTControlCharacters(result),
+			);
+		});
 	});
 
 	describe("when passed no messages", () => {
@@ -80,12 +218,10 @@ describe("formatter:stylish", () => {
 		];
 
 		it("should not return message", () => {
-			const result = formatter(code);
+			const result = util.stripVTControlCharacters(formatter(code));
 
 			assert.strictEqual(result, "");
-			assert.strictEqual(chalkStub.reset.callCount, 0);
-			assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-			assert.strictEqual(chalkStub.red.bold.callCount, 0);
+			assert.strictEqual(util.styleText.callCount, 0);
 		});
 	});
 
@@ -110,15 +246,17 @@ describe("formatter:stylish", () => {
 		];
 
 		it("should return a string in the correct format", () => {
-			const result = formatter(code);
+			const result = util.stripVTControlCharacters(formatter(code));
+			const summary = "\u2716 1 problem (1 error, 0 warnings)";
 
 			assert.strictEqual(
 				result,
 				"\nfoo.js\n  5:10  error  Unexpected foo  foo\n\n\u2716 1 problem (1 error, 0 warnings)\n",
 			);
-			assert.strictEqual(chalkStub.reset.callCount, 1);
-			assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-			assert.strictEqual(chalkStub.red.bold.callCount, 1);
+			assert(util.styleText.calledWith("reset"));
+			assert(util.styleText.neverCalledWithMatch("yellow", summary));
+			assert(util.styleText.calledWith("bold", summary));
+			assert(util.styleText.calledWithMatch("red", summary));
 		});
 
 		describe("when the error is fixable", () => {
@@ -127,15 +265,21 @@ describe("formatter:stylish", () => {
 			});
 
 			it("should return a string in the correct format", () => {
-				const result = formatter(code);
+				const result = util.stripVTControlCharacters(formatter(code));
+				const summary = "\u2716 1 problem (1 error, 0 warnings)";
 
 				assert.strictEqual(
 					result,
 					"\nfoo.js\n  5:10  error  Unexpected foo  foo\n\n\u2716 1 problem (1 error, 0 warnings)\n  1 error and 0 warnings potentially fixable with the `--fix` option.\n",
 				);
-				assert.strictEqual(chalkStub.reset.callCount, 1);
-				assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-				assert.strictEqual(chalkStub.red.bold.callCount, 2);
+				assert(util.styleText.calledWith("reset"));
+				assert(util.styleText.neverCalledWithMatch("yellow", summary));
+				assert(util.styleText.calledWith("bold", summary));
+				assert(util.styleText.calledWithMatch("red", summary));
+				assert(util.styleText.getCall(4).calledWith("bold"));
+				assert(util.styleText.getCall(5).calledWith("red"));
+				assert(util.styleText.getCall(6).calledWith("bold"));
+				assert(util.styleText.getCall(7).calledWith("red"));
 			});
 		});
 	});
@@ -161,15 +305,17 @@ describe("formatter:stylish", () => {
 		];
 
 		it("should return a string in the correct format", () => {
-			const result = formatter(code);
+			const result = util.stripVTControlCharacters(formatter(code));
+			const summary = "\u2716 1 problem (0 errors, 1 warning)";
 
 			assert.strictEqual(
 				result,
 				"\nfoo.js\n  5:10  warning  Unexpected foo  foo\n\n\u2716 1 problem (0 errors, 1 warning)\n",
 			);
-			assert.strictEqual(chalkStub.reset.callCount, 1);
-			assert.strictEqual(chalkStub.yellow.bold.callCount, 1);
-			assert.strictEqual(chalkStub.red.bold.callCount, 0);
+			assert(util.styleText.calledWith("reset"));
+			assert(util.styleText.calledWith("bold", summary));
+			assert(util.styleText.calledWithMatch("yellow", summary));
+			assert(util.styleText.neverCalledWithMatch("red", summary));
 		});
 
 		describe("when the error is fixable", () => {
@@ -178,15 +324,21 @@ describe("formatter:stylish", () => {
 			});
 
 			it("should return a string in the correct format", () => {
-				const result = formatter(code);
+				const result = util.stripVTControlCharacters(formatter(code));
+				const summary = "\u2716 1 problem (0 errors, 1 warning)";
 
 				assert.strictEqual(
 					result,
 					"\nfoo.js\n  5:10  warning  Unexpected foo  foo\n\n\u2716 1 problem (0 errors, 1 warning)\n  0 errors and 1 warning potentially fixable with the `--fix` option.\n",
 				);
-				assert.strictEqual(chalkStub.reset.callCount, 1);
-				assert.strictEqual(chalkStub.yellow.bold.callCount, 2);
-				assert.strictEqual(chalkStub.red.bold.callCount, 0);
+				assert(util.styleText.calledWith("reset"));
+				assert(util.styleText.calledWith("bold", summary));
+				assert(util.styleText.calledWithMatch("yellow", summary));
+				assert(util.styleText.neverCalledWithMatch("red", summary));
+				assert(util.styleText.getCall(4).calledWith("bold"));
+				assert(util.styleText.getCall(5).calledWith("yellow"));
+				assert(util.styleText.getCall(6).calledWith("bold"));
+				assert(util.styleText.getCall(7).calledWith("yellow"));
 			});
 		});
 	});
@@ -212,15 +364,17 @@ describe("formatter:stylish", () => {
 		];
 
 		it("should return a string in the correct format (retaining the ' .')", () => {
-			const result = formatter(code);
+			const result = util.stripVTControlCharacters(formatter(code));
+			const summary = "\u2716 1 problem (0 errors, 1 warning)";
 
 			assert.strictEqual(
 				result,
 				"\nfoo.js\n  5:10  warning  Unexpected .  foo\n\n\u2716 1 problem (0 errors, 1 warning)\n",
 			);
-			assert.strictEqual(chalkStub.reset.callCount, 1);
-			assert.strictEqual(chalkStub.yellow.bold.callCount, 1);
-			assert.strictEqual(chalkStub.red.bold.callCount, 0);
+			assert(util.styleText.calledWith("reset"));
+			assert(util.styleText.calledWith("bold", summary));
+			assert(util.styleText.calledWithMatch("yellow", summary));
+			assert(util.styleText.neverCalledWithMatch("red", summary));
 		});
 	});
 
@@ -243,15 +397,17 @@ describe("formatter:stylish", () => {
 		];
 
 		it("should return a string in the correct format", () => {
-			const result = formatter(code);
+			const result = util.stripVTControlCharacters(formatter(code));
+			const summary = "\u2716 1 problem (1 error, 0 warnings)";
 
 			assert.strictEqual(
 				result,
 				"\nfoo.js\n  5:10  error  Unexpected foo  foo\n\n\u2716 1 problem (1 error, 0 warnings)\n",
 			);
-			assert.strictEqual(chalkStub.reset.callCount, 1);
-			assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-			assert.strictEqual(chalkStub.red.bold.callCount, 1);
+			assert(util.styleText.calledWith("reset"));
+			assert(util.styleText.neverCalledWithMatch("yellow", summary));
+			assert(util.styleText.calledWith("bold", summary));
+			assert(util.styleText.calledWithMatch("red", summary));
 		});
 	});
 
@@ -281,15 +437,17 @@ describe("formatter:stylish", () => {
 		];
 
 		it("should return a string with multiple entries", () => {
-			const result = formatter(code);
+			const result = util.stripVTControlCharacters(formatter(code));
+			const summary = "\u2716 2 problems (1 error, 1 warning)";
 
 			assert.strictEqual(
 				result,
 				"\nfoo.js\n  5:10  error    Unexpected foo  foo\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (1 error, 1 warning)\n",
 			);
-			assert.strictEqual(chalkStub.reset.callCount, 1);
-			assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-			assert.strictEqual(chalkStub.red.bold.callCount, 1);
+			assert(util.styleText.calledWith("reset"));
+			assert(util.styleText.neverCalledWithMatch("yellow", summary));
+			assert(util.styleText.calledWith("bold", summary));
+			assert(util.styleText.calledWithMatch("red", summary));
 		});
 	});
 
@@ -326,15 +484,17 @@ describe("formatter:stylish", () => {
 		];
 
 		it("should return a string with multiple entries", () => {
-			const result = formatter(code);
+			const result = util.stripVTControlCharacters(formatter(code));
+			const summary = "\u2716 2 problems (1 error, 1 warning)";
 
 			assert.strictEqual(
 				result,
 				"\nfoo.js\n  5:10  error  Unexpected foo  foo\n\nbar.js\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (1 error, 1 warning)\n",
 			);
-			assert.strictEqual(chalkStub.reset.callCount, 1);
-			assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-			assert.strictEqual(chalkStub.red.bold.callCount, 1);
+			assert(util.styleText.calledWith("reset"));
+			assert(util.styleText.neverCalledWithMatch("yellow", summary));
+			assert(util.styleText.calledWith("bold", summary));
+			assert(util.styleText.calledWithMatch("red", summary));
 		});
 
 		it("should add errorCount", () => {
@@ -343,15 +503,17 @@ describe("formatter:stylish", () => {
 				c.warningCount = 0;
 			});
 
-			const result = formatter(code);
+			const result = util.stripVTControlCharacters(formatter(code));
+			const summary = "\u2716 2 problems (2 errors, 0 warnings)";
 
 			assert.strictEqual(
 				result,
 				"\nfoo.js\n  5:10  error  Unexpected foo  foo\n\nbar.js\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (2 errors, 0 warnings)\n",
 			);
-			assert.strictEqual(chalkStub.reset.callCount, 1);
-			assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-			assert.strictEqual(chalkStub.red.bold.callCount, 1);
+			assert(util.styleText.calledWith("reset"));
+			assert(util.styleText.neverCalledWithMatch("yellow", summary));
+			assert(util.styleText.calledWith("bold", summary));
+			assert(util.styleText.calledWithMatch("red", summary));
 		});
 
 		it("should add warningCount", () => {
@@ -360,15 +522,17 @@ describe("formatter:stylish", () => {
 				c.warningCount = 1;
 			});
 
-			const result = formatter(code);
+			const result = util.stripVTControlCharacters(formatter(code));
+			const summary = "\u2716 2 problems (0 errors, 2 warnings)";
 
 			assert.strictEqual(
 				result,
 				"\nfoo.js\n  5:10  error  Unexpected foo  foo\n\nbar.js\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (0 errors, 2 warnings)\n",
 			);
-			assert.strictEqual(chalkStub.reset.callCount, 1);
-			assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-			assert.strictEqual(chalkStub.red.bold.callCount, 1);
+			assert(util.styleText.calledWith("reset"));
+			assert(util.styleText.neverCalledWithMatch("yellow", summary));
+			assert(util.styleText.calledWith("bold", summary));
+			assert(util.styleText.calledWithMatch("red", summary));
 		});
 	});
 
@@ -388,15 +552,17 @@ describe("formatter:stylish", () => {
 		];
 
 		it("should return a string without line and column", () => {
-			const result = formatter(code);
+			const result = util.stripVTControlCharacters(formatter(code));
+			const summary = "\u2716 1 problem (1 error, 0 warnings)";
 
 			assert.strictEqual(
 				result,
 				"\nfoo.js\n  0:0  error  Couldn't find foo.js\n\n\u2716 1 problem (1 error, 0 warnings)\n",
 			);
-			assert.strictEqual(chalkStub.reset.callCount, 1);
-			assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-			assert.strictEqual(chalkStub.red.bold.callCount, 1);
+			assert(util.styleText.calledWith("reset"));
+			assert(util.styleText.neverCalledWithMatch("yellow", summary));
+			assert(util.styleText.calledWith("bold", summary));
+			assert(util.styleText.calledWithMatch("red", summary));
 		});
 	});
 
@@ -421,7 +587,7 @@ describe("formatter:stylish", () => {
 				},
 			];
 
-			const result = formatter(code);
+			const result = util.stripVTControlCharacters(formatter(code));
 
 			assert.notInclude(result, "potentially fixable");
 		});
@@ -446,7 +612,7 @@ describe("formatter:stylish", () => {
 				},
 			];
 
-			const result = formatter(code);
+			const result = util.stripVTControlCharacters(formatter(code));
 
 			assert.include(
 				result,
@@ -470,7 +636,7 @@ describe("formatter:stylish", () => {
 				},
 			];
 
-			const result = formatter(code);
+			const result = util.stripVTControlCharacters(formatter(code));
 
 			assert.include(
 				result,
@@ -506,7 +672,7 @@ describe("formatter:stylish", () => {
 				},
 			];
 
-			const result = formatter(code);
+			const result = util.stripVTControlCharacters(formatter(code));
 
 			assert.include(
 				result,

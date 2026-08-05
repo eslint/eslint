@@ -40,31 +40,87 @@ ruleTester.run("no-template-curly-in-string", rule, {
 	invalid: [
 		{
 			code: "'Hello, ${name}'",
-			errors: [{ messageId }],
+			errors: [
+				{
+					messageId,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 17,
+				},
+			],
 		},
 		{
 			code: '"Hello, ${name}"',
-			errors: [{ messageId }],
+			errors: [
+				{
+					messageId,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 17,
+				},
+			],
 		},
 		{
 			code: "'${greeting}, ${name}'",
-			errors: [{ messageId }],
+			errors: [
+				{
+					messageId,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 23,
+				},
+			],
 		},
 		{
 			code: "'Hello, ${index + 1}'",
-			errors: [{ messageId }],
+			errors: [
+				{
+					messageId,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 22,
+				},
+			],
 		},
 		{
 			code: "'Hello, ${name + \" foo\"}'",
-			errors: [{ messageId }],
+			errors: [
+				{
+					messageId,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 26,
+				},
+			],
 		},
 		{
 			code: "'Hello, ${name || \"foo\"}'",
-			errors: [{ messageId }],
+			errors: [
+				{
+					messageId,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 26,
+				},
+			],
 		},
 		{
 			code: "'Hello, ${{foo: \"bar\"}.foo}'",
-			errors: [{ messageId }],
+			errors: [
+				{
+					messageId,
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 29,
+				},
+			],
 		},
 	],
 });

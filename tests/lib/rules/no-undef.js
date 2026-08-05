@@ -222,8 +222,44 @@ ruleTester.run("no-undef", rule, {
 			languageOptions: { ecmaVersion: 2025 },
 		},
 		{
-			code: "AsyncDisposableStack; DisposableStack; SuppressedError",
+			code: "AsyncDisposableStack; DisposableStack; SuppressedError; Temporal",
 			languageOptions: { ecmaVersion: 2026 },
+		},
+		{
+			code: "/*global App*/ <App />;",
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+		},
+		{
+			code: "const App = () => <div/>; <App />;",
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+		},
+		{
+			code: "let Foo, Bar; <Foo><Bar /></Foo>;",
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+		},
+		{
+			code: "import App from './App.jsx'; <App />;",
+			languageOptions: {
+				ecmaVersion: 6,
+				sourceType: "module",
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+		},
+		{
+			code: "function App() { return <div/> } <App />;",
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
 		},
 	],
 	invalid: [
@@ -233,6 +269,10 @@ ruleTester.run("no-undef", rule, {
 				{
 					messageId: "undef",
 					data: { name: "a" },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 2,
 				},
 			],
 		},
@@ -243,6 +283,10 @@ ruleTester.run("no-undef", rule, {
 				{
 					messageId: "undef",
 					data: { name: "anUndefinedVar" },
+					line: 1,
+					column: 12,
+					endLine: 1,
+					endColumn: 26,
 				},
 			],
 		},
@@ -252,6 +296,10 @@ ruleTester.run("no-undef", rule, {
 				{
 					messageId: "undef",
 					data: { name: "b" },
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 10,
 				},
 			],
 		},
@@ -261,6 +309,10 @@ ruleTester.run("no-undef", rule, {
 				{
 					messageId: "undef",
 					data: { name: "b" },
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
@@ -270,6 +322,10 @@ ruleTester.run("no-undef", rule, {
 				{
 					messageId: "undef",
 					data: { name: "window" },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 7,
 				},
 			],
 		},
@@ -279,6 +335,10 @@ ruleTester.run("no-undef", rule, {
 				{
 					messageId: "undef",
 					data: { name: "Intl" },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 5,
 				},
 			],
 		},
@@ -288,6 +348,10 @@ ruleTester.run("no-undef", rule, {
 				{
 					messageId: "undef",
 					data: { name: "require" },
+					line: 1,
+					column: 1,
+					endLine: 1,
+					endColumn: 8,
 				},
 			],
 		},
@@ -297,7 +361,16 @@ ruleTester.run("no-undef", rule, {
 				ecmaVersion: 6,
 				parserOptions: { ecmaFeatures: { jsx: true } },
 			},
-			errors: [{ messageId: "undef", data: { name: "a" } }],
+			errors: [
+				{
+					messageId: "undef",
+					data: { name: "a" },
+					line: 1,
+					column: 36,
+					endLine: 1,
+					endColumn: 37,
+				},
+			],
 		},
 		{
 			code: "var React, App; React.render(<App attr={a} />);",
@@ -305,29 +378,79 @@ ruleTester.run("no-undef", rule, {
 				ecmaVersion: 6,
 				parserOptions: { ecmaFeatures: { jsx: true } },
 			},
-			errors: [{ messageId: "undef", data: { name: "a" } }],
+			errors: [
+				{
+					messageId: "undef",
+					data: { name: "a" },
+					line: 1,
+					column: 41,
+					endLine: 1,
+					endColumn: 42,
+				},
+			],
 		},
 		{
 			code: "[a] = [0];",
 			languageOptions: { ecmaVersion: 6 },
-			errors: [{ messageId: "undef", data: { name: "a" } }],
+			errors: [
+				{
+					messageId: "undef",
+					data: { name: "a" },
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 3,
+				},
+			],
 		},
 		{
 			code: "({a} = {});",
 			languageOptions: { ecmaVersion: 6 },
-			errors: [{ messageId: "undef", data: { name: "a" } }],
+			errors: [
+				{
+					messageId: "undef",
+					data: { name: "a" },
+					line: 1,
+					column: 3,
+					endLine: 1,
+					endColumn: 4,
+				},
+			],
 		},
 		{
 			code: "({b: a} = {});",
 			languageOptions: { ecmaVersion: 6 },
-			errors: [{ messageId: "undef", data: { name: "a" } }],
+			errors: [
+				{
+					messageId: "undef",
+					data: { name: "a" },
+					line: 1,
+					column: 6,
+					endLine: 1,
+					endColumn: 7,
+				},
+			],
 		},
 		{
 			code: "[obj.a, obj.b] = [0, 1];",
 			languageOptions: { ecmaVersion: 6 },
 			errors: [
-				{ messageId: "undef", data: { name: "obj" } },
-				{ messageId: "undef", data: { name: "obj" } },
+				{
+					messageId: "undef",
+					data: { name: "obj" },
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 5,
+				},
+				{
+					messageId: "undef",
+					data: { name: "obj" },
+					line: 1,
+					column: 9,
+					endLine: 1,
+					endColumn: 12,
+				},
 			],
 		},
 
@@ -337,7 +460,16 @@ ruleTester.run("no-undef", rule, {
 			languageOptions: {
 				ecmaVersion: 2018,
 			},
-			errors: [{ messageId: "undef", data: { name: "b" } }],
+			errors: [
+				{
+					messageId: "undef",
+					data: { name: "b" },
+					line: 1,
+					column: 28,
+					endLine: 1,
+					endColumn: 29,
+				},
+			],
 		},
 
 		// class static blocks
@@ -346,91 +478,276 @@ ruleTester.run("no-undef", rule, {
 			languageOptions: {
 				ecmaVersion: 2022,
 			},
-			errors: [{ messageId: "undef", data: { name: "a" } }],
+			errors: [
+				{
+					messageId: "undef",
+					data: { name: "a" },
+					line: 1,
+					column: 20,
+					endLine: 1,
+					endColumn: 21,
+				},
+			],
 		},
 		{
 			code: "class C { static { { let a; } a; } }",
 			languageOptions: {
 				ecmaVersion: 2022,
 			},
-			errors: [{ messageId: "undef", data: { name: "a" }, column: 31 }],
+			errors: [
+				{
+					messageId: "undef",
+					data: { name: "a" },
+					line: 1,
+					column: 31,
+					endLine: 1,
+					endColumn: 32,
+				},
+			],
 		},
 		{
 			code: "class C { static { { function a() {} } a; } }",
 			languageOptions: {
 				ecmaVersion: 2022,
 			},
-			errors: [{ messageId: "undef", data: { name: "a" }, column: 40 }],
+			errors: [
+				{
+					messageId: "undef",
+					data: { name: "a" },
+					line: 1,
+					column: 40,
+					endLine: 1,
+					endColumn: 41,
+				},
+			],
 		},
 		{
 			code: "class C { static { function foo() { var a; }  a; } }",
 			languageOptions: {
 				ecmaVersion: 2022,
 			},
-			errors: [{ messageId: "undef", data: { name: "a" }, column: 47 }],
+			errors: [
+				{
+					messageId: "undef",
+					data: { name: "a" },
+					line: 1,
+					column: 47,
+					endLine: 1,
+					endColumn: 48,
+				},
+			],
 		},
 		{
 			code: "class C { static { var a; } static { a; } }",
 			languageOptions: {
 				ecmaVersion: 2022,
 			},
-			errors: [{ messageId: "undef", data: { name: "a" }, column: 38 }],
+			errors: [
+				{
+					messageId: "undef",
+					data: { name: "a" },
+					line: 1,
+					column: 38,
+					endLine: 1,
+					endColumn: 39,
+				},
+			],
 		},
 		{
 			code: "class C { static { let a; } static { a; } }",
 			languageOptions: {
 				ecmaVersion: 2022,
 			},
-			errors: [{ messageId: "undef", data: { name: "a" }, column: 38 }],
+			errors: [
+				{
+					messageId: "undef",
+					data: { name: "a" },
+					line: 1,
+					column: 38,
+					endLine: 1,
+					endColumn: 39,
+				},
+			],
 		},
 		{
 			code: "class C { static { function a(){} } static { a; } }",
 			languageOptions: {
 				ecmaVersion: 2022,
 			},
-			errors: [{ messageId: "undef", data: { name: "a" }, column: 46 }],
+			errors: [
+				{
+					messageId: "undef",
+					data: { name: "a" },
+					line: 1,
+					column: 46,
+					endLine: 1,
+					endColumn: 47,
+				},
+			],
 		},
 		{
 			code: "class C { static { var a; } foo() { a; } }",
 			languageOptions: {
 				ecmaVersion: 2022,
 			},
-			errors: [{ messageId: "undef", data: { name: "a" }, column: 37 }],
+			errors: [
+				{
+					messageId: "undef",
+					data: { name: "a" },
+					line: 1,
+					column: 37,
+					endLine: 1,
+					endColumn: 38,
+				},
+			],
 		},
 		{
 			code: "class C { static { let a; } foo() { a; } }",
 			languageOptions: {
 				ecmaVersion: 2022,
 			},
-			errors: [{ messageId: "undef", data: { name: "a" }, column: 37 }],
+			errors: [
+				{
+					messageId: "undef",
+					data: { name: "a" },
+					line: 1,
+					column: 37,
+					endLine: 1,
+					endColumn: 38,
+				},
+			],
 		},
 		{
 			code: "class C { static { var a; } [a]; }",
 			languageOptions: {
 				ecmaVersion: 2022,
 			},
-			errors: [{ messageId: "undef", data: { name: "a" }, column: 30 }],
+			errors: [
+				{
+					messageId: "undef",
+					data: { name: "a" },
+					line: 1,
+					column: 30,
+					endLine: 1,
+					endColumn: 31,
+				},
+			],
 		},
 		{
 			code: "class C { static { let a; } [a]; }",
 			languageOptions: {
 				ecmaVersion: 2022,
 			},
-			errors: [{ messageId: "undef", data: { name: "a" }, column: 30 }],
+			errors: [
+				{
+					messageId: "undef",
+					data: { name: "a" },
+					line: 1,
+					column: 30,
+					endLine: 1,
+					endColumn: 31,
+				},
+			],
 		},
 		{
 			code: "class C { static { function a() {} } [a]; }",
 			languageOptions: {
 				ecmaVersion: 2022,
 			},
-			errors: [{ messageId: "undef", data: { name: "a" }, column: 39 }],
+			errors: [
+				{
+					messageId: "undef",
+					data: { name: "a" },
+					line: 1,
+					column: 39,
+					endLine: 1,
+					endColumn: 40,
+				},
+			],
 		},
 		{
 			code: "class C { static { var a; } } a;",
 			languageOptions: {
 				ecmaVersion: 2022,
 			},
-			errors: [{ messageId: "undef", data: { name: "a" }, column: 31 }],
+			errors: [
+				{
+					messageId: "undef",
+					data: { name: "a" },
+					line: 1,
+					column: 31,
+					endLine: 1,
+					endColumn: 32,
+				},
+			],
+		},
+		{
+			code: "<App />;",
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+			errors: [
+				{
+					messageId: "undef",
+					data: { name: "App" },
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 5,
+				},
+			],
+		},
+		{
+			code: "let React; React.render(<App />);",
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+			errors: [
+				{
+					messageId: "undef",
+					data: { name: "App" },
+					line: 1,
+					column: 26,
+					endLine: 1,
+					endColumn: 29,
+				},
+			],
+		},
+		{
+			code: "function f() { return <Button/> }",
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+			errors: [
+				{
+					messageId: "undef",
+					data: { name: "Button" },
+					line: 1,
+					column: 24,
+					endLine: 1,
+					endColumn: 30,
+				},
+			],
+		},
+		{
+			code: "<Foo.Bar />",
+			languageOptions: {
+				ecmaVersion: 6,
+				parserOptions: { ecmaFeatures: { jsx: true } },
+			},
+			errors: [
+				{
+					messageId: "undef",
+					data: { name: "Foo" },
+					line: 1,
+					column: 2,
+					endLine: 1,
+					endColumn: 5,
+				},
+			],
 		},
 	],
 });

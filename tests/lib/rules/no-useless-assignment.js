@@ -32,16 +32,14 @@ const ruleTester = new RuleTester({
 						};
 					},
 				},
-				jsx: {
+				"unknown-ref": {
 					create(context) {
 						const sourceCode = context.sourceCode;
 
 						return {
-							JSXIdentifier(node) {
+							VariableDeclarator(node) {
 								const scope = sourceCode.getScope(node);
-								const variable = scope.variables.find(
-									v => v.name === node.name,
-								);
+								const variable = scope.set.get(node.id.name);
 
 								variable.references.push(
 									new Reference(
@@ -361,6 +359,118 @@ ruleTester.run("no-useless-assignment", rule, {
             a = 5;
         }
         console.log(a);`,
+		`function* generator() {
+            let done = false;
+            try {
+                yield 1;
+                done = true;
+            } catch {
+                done = true;
+            } finally {
+                if (!done) {
+                    console.log("done is false");
+                }
+            }
+        }`,
+		`function* generator() {
+            let done = false;
+            try {
+                yield 1;
+                done = true;
+                yield 2;
+            } finally {
+                if (done) {
+                    console.log("done is true");
+                }
+            }
+        }`,
+		`function* generator() {
+            let done = false;
+            try {
+                yield 1;
+            } catch {
+                console.log(done);
+            }
+        }`,
+		`function* generator() {
+            let done = false;
+            try {
+                foo();
+            } catch {
+                yield 1;
+                done = true;
+            } finally {
+                yield 2;
+                if (!done) {
+                    console.log(done);
+                }
+            }
+        }`,
+		`function foo() {
+			let outcome = 'unknown';
+
+			try {
+				helper1();
+				outcome = 'success';
+			} catch (err) {
+				helper2();
+				outcome = 'exception'; 
+			} finally {
+				console.log(outcome);
+			}
+		}`,
+		`function foo() {
+			let outcome = 'unknown';
+
+			try {
+				new Foo();
+				outcome = 'success';
+			} catch (err) {
+				new Bar();
+				outcome = 'exception'; 
+			} finally {
+				console.log(outcome);
+			}
+		}`,
+		`async function foo() {
+			let outcome = 'unknown';
+
+			try {
+				await import("./foo.js");
+				outcome = 'success';
+			} catch (err) {
+				await import("./bar.js");
+				outcome = 'exception';
+			} finally {
+				console.log(outcome);
+			}
+		}`,
+		`function foo() {
+			let outcome = 'unknown';
+
+			try {
+				obj.foo;
+				outcome = 'success';
+			} catch (err) {
+				obj.foo;
+				outcome = 'exception';
+			} finally {
+				console.log(outcome);
+			}
+		}`,
+		`function foo() {
+			let outcome = 'unknown';
+
+			try {
+				helper1();
+				outcome = 'success';
+			} catch (err) {
+			 	outcome = 'exception';
+				helper2(); 
+			} finally {
+				console.log(outcome);
+			}
+		}`,
 
 		// An expression within an assignment.
 		`const obj = { a: 5 };
@@ -420,8 +530,27 @@ ruleTester.run("no-useless-assignment", rule, {
         function unsafeFn() {
             throw new Error();
         }`,
+		`/*eslint test/unknown-ref:1*/
+        let a = "used";
+		console.log(a);
+		a = "unused";`,
+		`/*eslint test/unknown-ref:1*/
+		function foo() {
+			let a = "used";
+			console.log(a);
+			a = "unused";
+		}`,
+		`/*eslint test/unknown-ref:1*/
+		function foo() {
+			let a = "used";
+			if (condition) {
+				a = "unused";
+				return
+			}
+			console.log(a);
+        }`,
 		{
-			code: `/*eslint test/jsx:1*/
+			code: `
                 function App() {
                     const A = "";
                     return <A/>;
@@ -436,7 +565,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			},
 		},
 		{
-			code: `/*eslint test/jsx:1*/
+			code: `
                 function App() {
                     let A = "";
                     foo(A);
@@ -453,11 +582,9 @@ ruleTester.run("no-useless-assignment", rule, {
 			},
 		},
 		{
-			code: `/*eslint test/jsx:1*/
+			code: `
                 function App() {
-                    let A = "a";
-                    A = "b";
-                    A = "c";
+					let A = "a";
                     foo(A);
                     return <A/>;
                 }
@@ -470,6 +597,167 @@ ruleTester.run("no-useless-assignment", rule, {
 				},
 			},
 		},
+		{
+			code: `function App() {
+				let x = 0;
+				foo(x);
+				x = 1;
+				return <A prop={x} />;
+			}`,
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: { jsx: true },
+				},
+			},
+		},
+		{
+			code: `function App() {
+				let x = "init";
+				foo(x);
+				x = "used";
+				return <A>{x}</A>;
+			}`,
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: { jsx: true },
+				},
+			},
+		},
+		{
+			code: `function App() {
+				let props = { a: 1 };
+				foo(props);
+				props = { b: 2 };
+				return <A {...props} />;
+			}`,
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: { jsx: true },
+				},
+			},
+		},
+		{
+			code: `function App() {
+				let NS = Lib;
+				return <NS.Cmp />;
+			}`,
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: { jsx: true },
+				},
+			},
+		},
+		{
+			code: `function App() {
+				let a = 0;
+				a++;
+				return <A prop={a} />;
+			}`,
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: { jsx: true },
+				},
+			},
+		},
+		{
+			code: `function App() {
+				const obj = { a: 1 };
+				const { a, b = a } = obj;
+				return <A prop={b} />;
+			}`,
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: { jsx: true },
+				},
+			},
+		},
+		{
+			code: `function App() {
+				let { a, b: { c = a } = {} } = obj;
+				return <A prop={c} />;
+			}`,
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: { jsx: true },
+				},
+			},
+		},
+		{
+			code: `function App() {
+				let x = "init";
+				if (cond) {
+					x = "used";
+					return <A prop={x} />;
+				}
+				return <A prop={x} />;
+			}`,
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: { jsx: true },
+				},
+			},
+		},
+		{
+			code: `function App() {
+				let A;
+				if (cond) {
+				  A = Foo;
+				} else {
+				  A = Bar;
+				}
+				return <A />;
+			}`,
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: { jsx: true },
+				},
+			},
+		},
+		{
+			code: `function App() {
+				let m;
+				try {
+				  m = 2;
+				  unsafeFn();
+				  m = 4;
+				} catch (e) {
+				  // ignore
+				}
+				return <A prop={m} />;
+			}`,
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: { jsx: true },
+				},
+			},
+		},
+		{
+			code: `function App() {
+				const arr = [6];
+				const [c, d = c] = arr;
+				return <A prop={d} />;
+			}`,
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: { jsx: true },
+				},
+			},
+		},
+		{
+			code: `function App() {
+				const obj = { a: 1 };
+				let {
+				  a,
+				  b = (a = 2)
+				} = obj;
+				return <A prop={a} />;
+			}`,
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: { jsx: true },
+				},
+			},
+		},
 	],
 	invalid: [
 		{
@@ -479,6 +767,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 3,
 					column: 13,
 				},
@@ -493,6 +782,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 4,
 					column: 17,
 				},
@@ -510,6 +800,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 4,
 					column: 21,
 				},
@@ -527,6 +818,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 6,
 					column: 21,
 				},
@@ -541,6 +833,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 4,
 					column: 17,
 				},
@@ -555,6 +848,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 4,
 					column: 17,
 				},
@@ -571,6 +865,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 5,
 					column: 21,
 				},
@@ -588,6 +883,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 2,
 					column: 21,
 				},
@@ -603,11 +899,13 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 4,
 					column: 17,
 				},
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 5,
 					column: 17,
 				},
@@ -626,6 +924,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 4,
 					column: 17,
 				},
@@ -644,6 +943,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 3,
 					column: 13,
 				},
@@ -661,11 +961,13 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 4,
 					column: 17,
 				},
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 5,
 					column: 17,
 				},
@@ -688,6 +990,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 2,
 					column: 21,
 				},
@@ -711,6 +1014,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 4,
 					column: 21,
 				},
@@ -729,11 +1033,13 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 4,
 					column: 21,
 				},
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 5,
 					column: 21,
 				},
@@ -750,6 +1056,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "a" },
 					line: 4,
 					column: 17,
 				},
@@ -764,6 +1071,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "a" },
 					line: 4,
 					column: 17,
 				},
@@ -781,16 +1089,19 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "a" },
 					line: 4,
 					column: 20,
 				},
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "b" },
 					line: 4,
 					column: 29,
 				},
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "d" },
 					line: 4,
 					column: 39,
 				},
@@ -805,16 +1116,19 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "a" },
 					line: 4,
 					column: 20,
 				},
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "b" },
 					line: 4,
 					column: 39,
 				},
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "c" },
 					line: 4,
 					column: 45,
 				},
@@ -832,6 +1146,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 5,
 					column: 17,
 				},
@@ -853,11 +1168,13 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 6,
 					column: 21,
 				},
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 9,
 					column: 17,
 				},
@@ -876,11 +1193,13 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 5,
 					column: 21,
 				},
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 7,
 					column: 21,
 				},
@@ -897,6 +1216,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 4,
 					column: 17,
 				},
@@ -913,6 +1233,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 4,
 					column: 17,
 				},
@@ -940,11 +1261,13 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 5,
 					column: 21,
 				},
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 14,
 					column: 21,
 				},
@@ -965,6 +1288,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 6,
 					column: 25,
 				},
@@ -984,8 +1308,48 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "message" },
 					line: 1,
 					column: 5,
+				},
+			],
+		},
+		{
+			code: `function* generator() {
+                let done = false;
+                yield 1;
+                done = true;
+                console.log(done);
+            }`,
+			errors: [
+				{
+					messageId: "unnecessaryAssignment",
+					data: { name: "done" },
+					line: 2,
+					column: 21,
+					endLine: 2,
+					endColumn: 25,
+				},
+			],
+		},
+		{
+			code: `function* generator() {
+                let done = false;
+                try {
+                    yield 1;
+                } finally {
+                    done = true;
+                    console.log(done);
+                }
+            }`,
+			errors: [
+				{
+					messageId: "unnecessaryAssignment",
+					data: { name: "done" },
+					line: 2,
+					column: 21,
+					endLine: 2,
+					endColumn: 25,
 				},
 			],
 		},
@@ -999,6 +1363,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "message" },
 					line: 1,
 					column: 5,
 				},
@@ -1015,6 +1380,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "message" },
 					line: 1,
 					column: 5,
 				},
@@ -1036,8 +1402,38 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "v" },
 					line: 1,
 					column: 5,
+				},
+			],
+		},
+		{
+			code: `function foo() {
+				let outcome = 'unknown';
+
+				try {
+					bar();
+				} catch (err) {
+					new Baz();
+					outcome = 'exception'; 
+				} finally {
+					return;
+					console.log(outcome);
+				}
+			}`,
+			errors: [
+				{
+					messageId: "unnecessaryAssignment",
+					data: { name: "outcome" },
+					line: 2,
+					column: 9,
+				},
+				{
+					messageId: "unnecessaryAssignment",
+					data: { name: "outcome" },
+					line: 8,
+					column: 6,
 				},
 			],
 		},
@@ -1052,6 +1448,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "x" },
 					line: 3,
 					column: 13,
 				},
@@ -1066,6 +1463,7 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "x" },
 					line: 4,
 					column: 17,
 				},
@@ -1082,13 +1480,236 @@ ruleTester.run("no-useless-assignment", rule, {
 			errors: [
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "a" },
 					line: 3,
 					column: 17,
 				},
 				{
 					messageId: "unnecessaryAssignment",
+					data: { name: "a" },
 					line: 4,
 					column: 22,
+				},
+			],
+		},
+		{
+			code: `function App() {
+            let A = "unused";
+            A = "used";
+            return <A/>;
+            }`,
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: { jsx: true },
+				},
+			},
+			errors: [
+				{
+					messageId: "unnecessaryAssignment",
+					data: { name: "A" },
+					line: 2,
+					column: 17,
+					endLine: 2,
+					endColumn: 18,
+				},
+			],
+		},
+		{
+			code: `function App() {
+            let A = "unused";
+            A = "used";
+            return <A></A>;
+            }`,
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: { jsx: true },
+				},
+			},
+			errors: [
+				{
+					messageId: "unnecessaryAssignment",
+					data: { name: "A" },
+					line: 2,
+					column: 17,
+					endLine: 2,
+					endColumn: 18,
+				},
+			],
+		},
+		{
+			code: `function App() {
+            let A = "unused";
+            A = "used";
+            return <A.B />;
+            }`,
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: { jsx: true },
+				},
+			},
+			errors: [
+				{
+					messageId: "unnecessaryAssignment",
+					data: { name: "A" },
+					line: 2,
+					column: 17,
+					endLine: 2,
+					endColumn: 18,
+				},
+			],
+		},
+		{
+			code: `function App() {
+            let x = "used";
+            if (cond) {
+              return <A prop={x} />;
+            } else {
+              x = "unused";
+            }
+            }`,
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: { jsx: true },
+				},
+			},
+			errors: [
+				{
+					messageId: "unnecessaryAssignment",
+					data: { name: "x" },
+					line: 6,
+					column: 15,
+					endLine: 6,
+					endColumn: 16,
+				},
+			],
+		},
+		{
+			code: `function App() {
+            let A;
+            A = "unused";
+            if (cond) {
+              A = "used1";
+            } else {
+              A = "used2";
+            }
+            return <A/>;
+            }`,
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: { jsx: true },
+				},
+			},
+			errors: [
+				{
+					messageId: "unnecessaryAssignment",
+					data: { name: "A" },
+					line: 3,
+					column: 13,
+					endLine: 3,
+					endColumn: 14,
+				},
+			],
+		},
+		{
+			code: `function App() {
+            let message = 'unused';
+            try {
+              const result = call();
+              message = result.message;
+            } catch (e) {
+              message = 'used';
+            }
+            return <A prop={message} />;
+            }`,
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: { jsx: true },
+				},
+			},
+			errors: [
+				{
+					messageId: "unnecessaryAssignment",
+					data: { name: "message" },
+					line: 2,
+					column: 17,
+					endLine: 2,
+					endColumn: 24,
+				},
+			],
+		},
+		{
+			code: `function App() {
+            let x = 1;
+            x = x + 1;
+            x = 5;
+            return <A prop={x} />;
+            }`,
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: { jsx: true },
+				},
+			},
+			errors: [
+				{
+					messageId: "unnecessaryAssignment",
+					data: { name: "x" },
+					line: 3,
+					column: 13,
+					endLine: 3,
+					endColumn: 14,
+				},
+			],
+		},
+		{
+			code: `function App() {
+            let x = 1;
+            x = 2;
+            return <A>{x}</A>;
+            }`,
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: { jsx: true },
+				},
+			},
+			errors: [
+				{
+					messageId: "unnecessaryAssignment",
+					data: { name: "x" },
+					line: 2,
+					column: 17,
+					endLine: 2,
+					endColumn: 18,
+				},
+			],
+		},
+		{
+			code: `function App() {
+            let x = 0;
+            x = 1;
+            x = 2;
+            return <A prop={x} />;
+            }`,
+			languageOptions: {
+				parserOptions: {
+					ecmaFeatures: { jsx: true },
+				},
+			},
+			errors: [
+				{
+					messageId: "unnecessaryAssignment",
+					data: { name: "x" },
+					line: 2,
+					column: 17,
+					endLine: 2,
+					endColumn: 18,
+				},
+				{
+					messageId: "unnecessaryAssignment",
+					data: { name: "x" },
+					line: 3,
+					column: 13,
+					endLine: 3,
+					endColumn: 14,
 				},
 			],
 		},

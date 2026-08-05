@@ -4,7 +4,7 @@ eleventyNavigation:
     key: architecture
     parent: contribute to eslint
     title: Architecture
-    order: 5
+    order: 6
 ---
 
 :::img-container

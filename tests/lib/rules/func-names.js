@@ -290,6 +290,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 21,
 					endColumn: 29,
@@ -301,6 +302,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 2,
 					endColumn: 10,
@@ -312,6 +314,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 3,
 					endColumn: 11,
@@ -323,6 +326,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 18,
 					endColumn: 26,
@@ -334,6 +338,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 12,
 					endColumn: 20,
@@ -345,6 +350,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 5,
 					endColumn: 13,
@@ -357,6 +363,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 21,
 					endColumn: 29,
@@ -369,6 +376,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 2,
 					endColumn: 10,
@@ -381,6 +389,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 3,
 					endColumn: 11,
@@ -393,6 +402,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 18,
 					endColumn: 26,
@@ -405,6 +415,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 5,
 					endColumn: 13,
@@ -418,6 +429,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 13,
 					endColumn: 21,
@@ -431,6 +443,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 18,
 					endColumn: 26,
@@ -444,6 +457,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 13,
 					endColumn: 21,
@@ -457,6 +471,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 16,
 					endColumn: 24,
@@ -470,6 +485,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					line: 1,
 					column: 22,
 					endColumn: 30,
@@ -524,6 +540,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					column: 16,
 					endColumn: 24,
 				},
@@ -536,6 +553,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					column: 16,
 					endColumn: 24,
 				},
@@ -548,6 +566,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "function" },
 					column: 17,
 					endColumn: 25,
 				},
@@ -562,6 +581,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 15,
 					endColumn: 25,
@@ -575,6 +595,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 11,
 					endColumn: 20,
@@ -588,6 +609,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 2,
 					endColumn: 11,
@@ -601,6 +623,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 15,
 					endColumn: 25,
@@ -614,6 +637,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 11,
 					endColumn: 20,
@@ -627,6 +651,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 2,
 					endColumn: 11,
@@ -640,6 +665,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 15,
 					endColumn: 25,
@@ -653,6 +679,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 2,
 					endColumn: 11,
@@ -666,6 +693,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 15,
 					endColumn: 25,
@@ -679,6 +707,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 2,
 					endColumn: 11,
@@ -692,6 +721,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 15,
 					endColumn: 25,
@@ -705,6 +735,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 11,
 					endColumn: 20,
@@ -718,6 +749,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 2,
 					endColumn: 11,
@@ -731,6 +763,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 15,
 					endColumn: 25,
@@ -744,6 +777,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 2,
 					endColumn: 11,
@@ -757,6 +791,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 15,
 					endColumn: 25,
@@ -770,6 +805,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 11,
 					endColumn: 20,
@@ -783,6 +819,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 2,
 					endColumn: 11,
@@ -796,6 +833,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 15,
 					endColumn: 25,
@@ -809,6 +847,7 @@ ruleTester.run("func-names", rule, {
 			errors: [
 				{
 					messageId: "unnamed",
+					data: { name: "generator function" },
 					line: 1,
 					column: 2,
 					endColumn: 11,

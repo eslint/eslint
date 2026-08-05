@@ -175,6 +175,120 @@ ruleTester.run("no-implicit-coercion", rule, {
 			],
 		},
 		{
+			code: "!!(a, b)",
+			output: "Boolean((a, b))",
+			errors: [
+				{
+					messageId: "implicitCoercion",
+					data: { recommendation: "Boolean((a, b))" },
+				},
+			],
+		},
+		{
+			code: "(a, b) - 0",
+			output: null,
+			errors: [
+				{
+					messageId: "implicitCoercion",
+					data: { recommendation: "Number((a, b))" },
+					suggestions: [
+						{
+							messageId: "useRecommendation",
+							data: { recommendation: "Number((a, b))" },
+							output: "Number((a, b))",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "+(a, b)",
+			output: null,
+			errors: [
+				{
+					messageId: "implicitCoercion",
+					data: { recommendation: "Number((a, b))" },
+					suggestions: [
+						{
+							messageId: "useRecommendation",
+							data: { recommendation: "Number((a, b))" },
+							output: "Number((a, b))",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "-(-(a, b))",
+			output: null,
+			errors: [
+				{
+					messageId: "implicitCoercion",
+					data: { recommendation: "Number((a, b))" },
+					suggestions: [
+						{
+							messageId: "useRecommendation",
+							data: { recommendation: "Number((a, b))" },
+							output: "Number((a, b))",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "(a, b) * 1",
+			output: null,
+			errors: [
+				{
+					messageId: "implicitCoercion",
+					data: { recommendation: "Number((a, b))" },
+					suggestions: [
+						{
+							messageId: "useRecommendation",
+							data: { recommendation: "Number((a, b))" },
+							output: "Number((a, b))",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: '(a, b) + ""',
+			output: null,
+			errors: [
+				{
+					messageId: "implicitCoercion",
+					data: { recommendation: "String((a, b))" },
+					suggestions: [
+						{
+							messageId: "useRecommendation",
+							data: { recommendation: "String((a, b))" },
+							output: "String((a, b))",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "`${(a, b)}`",
+			output: null,
+			options: [{ disallowTemplateShorthand: true }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "implicitCoercion",
+					data: { recommendation: "String((a, b))" },
+					suggestions: [
+						{
+							messageId: "useRecommendation",
+							data: { recommendation: "String((a, b))" },
+							output: "String((a, b))",
+						},
+					],
+				},
+			],
+		},
+		{
 			code: "!!(foo + bar)",
 			output: "Boolean(foo + bar)",
 			errors: [

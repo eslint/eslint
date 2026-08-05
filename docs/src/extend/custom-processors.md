@@ -10,7 +10,7 @@ eleventyNavigation:
 You can also create custom processors that tell ESLint how to process files other than standard JavaScript. For example, you could write a custom processor to extract and process JavaScript from Markdown files ([@eslint/markdown](https://www.npmjs.com/package/@eslint/markdown) includes a custom processor for this).
 
 ::: tip
-This page explains how to create a custom processor for use with the flat config format. For the deprecated eslintrc format, [see the deprecated documentation](custom-processors-deprecated).
+This page explains how to create a custom processor for use with the flat config format.
 :::
 
 ## Custom Processor Specification
@@ -192,7 +192,7 @@ In this example, specifying `example.processors["processor-name"]` directly uses
 
 It is recommended that both the plugin and each processor provide their respective meta objects. This ensures that features relying on meta objects, such as `--print-config` and `--cache`, work correctly regardless of how the processor is specified in the configuration.
 
-## Specifying Processor in Config Files
+## Specify Processor in Config Files
 
 In order to use a processor from a plugin in a configuration file, import the plugin and include it in the `plugins` key, specifying a namespace. Then, use that namespace to reference the processor in the `processor` configuration, like this:
 

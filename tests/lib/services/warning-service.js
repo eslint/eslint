@@ -66,7 +66,7 @@ describe("WarningService", () => {
 
 			assert(
 				process.emitWarning.calledOnceWithExactly(
-					'The ".eslintignore" file is no longer supported. Switch to using the "ignores" property in "eslint.config.js": https://eslint.org/docs/latest/use/configure/migration-guide#ignoring-files',
+					'The ".eslintignore" file is no longer supported. Switch to using the "ignores" property in "eslint.config.js": https://eslint.org/docs/latest/use/configure/migration-guide#ignore-files',
 					"ESLintIgnoreWarning",
 				),
 				"Expected process.emitWarning to be called with the correct arguments",

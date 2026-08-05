@@ -9,10 +9,10 @@ A config object is using the "env" key, which is not supported in flat config sy
 Flat config uses "languageOptions.globals" to define global variables for your files.
 
 Please see the following page for information on how to convert your config object into the correct format:
-https://eslint.org/docs/latest/use/configure/migration-guide#configuring-language-options
+https://eslint.org/docs/latest/use/configure/migration-guide#configure-language-options
 
 If you're not using "env" directly (it may be coming from a plugin), please see the following:
-https://eslint.org/docs/latest/use/configure/migration-guide#using-eslintrc-configs-in-flat-config
+https://eslint.org/docs/latest/use/configure/migration-guide#use-eslintrc-configs-in-flat-config
 `,
 
 	extends: `
@@ -24,7 +24,7 @@ If you're using "extends" in your config file, please see the following:
 https://eslint.org/docs/latest/use/configure/migration-guide#predefined-and-shareable-configs
 
 If you're not using "extends" directly (it may be coming from a plugin), please see the following:
-https://eslint.org/docs/latest/use/configure/migration-guide#using-eslintrc-configs-in-flat-config
+https://eslint.org/docs/latest/use/configure/migration-guide#use-eslintrc-configs-in-flat-config
 `,
 
 	globals: `
@@ -33,10 +33,10 @@ A config object is using the "globals" key, which is not supported in flat confi
 Flat config uses "languageOptions.globals" to define global variables for your files.
 
 Please see the following page for information on how to convert your config object into the correct format:
-https://eslint.org/docs/latest/use/configure/migration-guide#configuring-language-options
+https://eslint.org/docs/latest/use/configure/migration-guide#configure-language-options
 
 If you're not using "globals" directly (it may be coming from a plugin), please see the following:
-https://eslint.org/docs/latest/use/configure/migration-guide#using-eslintrc-configs-in-flat-config
+https://eslint.org/docs/latest/use/configure/migration-guide#use-eslintrc-configs-in-flat-config
 `,
 
 	ignorePatterns: `
@@ -45,10 +45,10 @@ A config object is using the "ignorePatterns" key, which is not supported in fla
 Flat config uses "ignores" to specify files to ignore.
 
 Please see the following page for information on how to convert your config object into the correct format:
-https://eslint.org/docs/latest/use/configure/migration-guide#ignoring-files
+https://eslint.org/docs/latest/use/configure/migration-guide#ignore-files
 
 If you're not using "ignorePatterns" directly (it may be coming from a plugin), please see the following:
-https://eslint.org/docs/latest/use/configure/migration-guide#using-eslintrc-configs-in-flat-config
+https://eslint.org/docs/latest/use/configure/migration-guide#use-eslintrc-configs-in-flat-config
 `,
 
 	noInlineConfig: `
@@ -69,7 +69,7 @@ Please see the following page for information on how to convert your config obje
 https://eslint.org/docs/latest/use/configure/migration-guide#glob-based-configs
 
 If you're not using "overrides" directly (it may be coming from a plugin), please see the following:
-https://eslint.org/docs/latest/use/configure/migration-guide#using-eslintrc-configs-in-flat-config
+https://eslint.org/docs/latest/use/configure/migration-guide#use-eslintrc-configs-in-flat-config
 `,
 
 	parser: `
@@ -81,7 +81,7 @@ Please see the following page for information on how to convert your config obje
 https://eslint.org/docs/latest/use/configure/migration-guide#custom-parsers
 
 If you're not using "parser" directly (it may be coming from a plugin), please see the following:
-https://eslint.org/docs/latest/use/configure/migration-guide#using-eslintrc-configs-in-flat-config
+https://eslint.org/docs/latest/use/configure/migration-guide#use-eslintrc-configs-in-flat-config
 `,
 
 	parserOptions: `
@@ -90,10 +90,10 @@ A config object is using the "parserOptions" key, which is not supported in flat
 Flat config uses "languageOptions.parserOptions" to specify parser options.
 
 Please see the following page for information on how to convert your config object into the correct format:
-https://eslint.org/docs/latest/use/configure/migration-guide#configuring-language-options
+https://eslint.org/docs/latest/use/configure/migration-guide#configure-language-options
 
 If you're not using "parserOptions" directly (it may be coming from a plugin), please see the following:
-https://eslint.org/docs/latest/use/configure/migration-guide#using-eslintrc-configs-in-flat-config
+https://eslint.org/docs/latest/use/configure/migration-guide#use-eslintrc-configs-in-flat-config
 `,
 
 	reportUnusedDisableDirectives: `

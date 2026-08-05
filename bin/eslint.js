@@ -62,6 +62,32 @@ function readStdin() {
 }
 
 /**
+ * Spawns an external command and propagates its exit status.
+ * @param {string} command The command to run.
+ * @param {string[]} args The command arguments.
+ * @throws {Error} If the command cannot be spawned.
+ * @returns {void}
+ */
+function spawnExternalCommand(command, args) {
+	const spawn = require("cross-spawn");
+	const result = spawn.sync(command, args, {
+		encoding: "utf8",
+		stdio: "inherit",
+	});
+
+	if (result.error) {
+		throw result.error;
+	}
+
+	if (result.signal) {
+		process.kill(process.pid, result.signal);
+		return;
+	}
+
+	process.exitCode = result.status ?? 0;
+}
+
+/**
  * Get the error message of a given value.
  * @param {any} error The value to get.
  * @returns {string} The error message.
@@ -146,12 +172,7 @@ ${getErrorMessage(error)}`;
 			"You can also run this command directly using 'npm init @eslint/config@latest'.",
 		);
 
-		const spawn = require("cross-spawn");
-
-		spawn.sync("npm", ["init", "@eslint/config@latest"], {
-			encoding: "utf8",
-			stdio: "inherit",
-		});
+		spawnExternalCommand("npm", ["init", "@eslint/config@latest"]);
 		return;
 	}
 
@@ -161,12 +182,7 @@ ${getErrorMessage(error)}`;
 			"You can also run this command directly using 'npx @eslint/mcp@latest'.",
 		);
 
-		const spawn = require("cross-spawn");
-
-		spawn.sync("npx", ["@eslint/mcp@latest"], {
-			encoding: "utf8",
-			stdio: "inherit",
-		});
+		spawnExternalCommand("npx", ["@eslint/mcp@latest"]);
 		return;
 	}
 
