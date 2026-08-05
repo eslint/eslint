@@ -1075,7 +1075,7 @@ ESLint makes its best attempt at applying all fixes, but there is no guarantee t
 You can test that invalid rule options are rejected (schema validation) and that the rule throws expected exceptions, by passing an optional `fatal` array to `RuleTester#run()`. Each fatal test case is an object with the following properties:
 
 - `name` (string, optional): The name to use for the test case.
-- `code` (string, optional): The source code to run. If omitted, an empty string is used.
+- `code` (string, optional): The source code that the rule should be run on. If omitted, an empty string is used.
 - `options` (array, optional): The options passed to the rule (use invalid options to trigger schema validation errors, or options that cause the rule to throw).
 - `error` (object, required): The expected exception. Must have at least one of:
     - `message` (string or RegExp): The expected error message.
