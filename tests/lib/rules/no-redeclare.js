@@ -1046,6 +1046,20 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 			export type T = string;
 		}
 		`,
+
+		// an enum merges with a namespace, in either order
+		`
+	enum Foo {}
+	namespace Foo {
+		export const a = 1;
+	}
+	`,
+		`
+	namespace Foo {
+		export const a = 1;
+	}
+	enum Foo {}
+	`,
 	],
 	invalid: [
 		{
@@ -1512,6 +1526,147 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 					column: 12,
 					endLine: 4,
 					endColumn: 15,
+				},
+			],
+		},
+
+		// enums merge with namespaces, but not with each other
+		{
+			code: `
+	enum Foo {}
+	enum Foo {}
+	`,
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "Foo" },
+					line: 3,
+					column: 7,
+					endLine: 3,
+					endColumn: 10,
+				},
+			],
+		},
+		{
+			code: `
+	enum Foo {
+		A,
+	}
+	enum Foo {
+		B = 1,
+	}
+	`,
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "Foo" },
+					line: 5,
+					column: 7,
+					endLine: 5,
+					endColumn: 10,
+				},
+			],
+		},
+		{
+			code: `
+	const enum Foo {}
+	const enum Foo {}
+	`,
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "Foo" },
+					line: 3,
+					column: 13,
+					endLine: 3,
+					endColumn: 16,
+				},
+			],
+		},
+
+		// a namespace can't rescue two enums
+		{
+			code: `
+	enum Foo {}
+	enum Foo {}
+	namespace Foo {
+		export const a = 1;
+	}
+	`,
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "Foo" },
+					line: 3,
+					column: 7,
+					endLine: 3,
+					endColumn: 10,
+				},
+				{
+					messageId: "redeclared",
+					data: { id: "Foo" },
+					line: 4,
+					column: 12,
+					endLine: 4,
+					endColumn: 15,
+				},
+			],
+		},
+		{
+			code: `
+	namespace Foo {
+		export const a = 1;
+	}
+	enum Foo {}
+	enum Foo {}
+	`,
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "Foo" },
+					line: 5,
+					column: 7,
+					endLine: 5,
+					endColumn: 10,
+				},
+				{
+					messageId: "redeclared",
+					data: { id: "Foo" },
+					line: 6,
+					column: 7,
+					endLine: 6,
+					endColumn: 10,
+				},
+			],
+		},
+
+		// enum + enum with a global of the same name
+		{
+			code: `
+	enum Foo {}
+	enum Foo {}
+	`,
+			languageOptions: {
+				globals: {
+					Foo: "readonly",
+				},
+			},
+			errors: [
+				{
+					messageId: "redeclaredAsBuiltin",
+					data: { id: "Foo" },
+					line: 2,
+					column: 7,
+					endLine: 2,
+					endColumn: 10,
+				},
+				{
+					messageId: "redeclaredAsBuiltin",
+					data: { id: "Foo" },
+					line: 3,
+					column: 7,
+					endLine: 3,
+					endColumn: 10,
 				},
 			],
 		},
