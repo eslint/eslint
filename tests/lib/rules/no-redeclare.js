@@ -737,6 +737,120 @@ ruleTester.run("no-redeclare", rule, {
 				},
 			],
 		},
+
+		// destructuring patterns
+		{
+			code: "var [a] = foo; var [a] = bar;",
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "a" },
+					line: 1,
+					column: 21,
+					endLine: 1,
+					endColumn: 22,
+				},
+			],
+		},
+		{
+			code: "var {a} = foo; var {a} = bar;",
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "a" },
+					line: 1,
+					column: 21,
+					endLine: 1,
+					endColumn: 22,
+				},
+			],
+		},
+		{
+			code: "var [...a] = foo; var [...a] = bar;",
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "a" },
+					line: 1,
+					column: 27,
+					endLine: 1,
+					endColumn: 28,
+				},
+			],
+		},
+		{
+			code: "var [a = 1] = foo; var [a = 2] = bar;",
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "a" },
+					line: 1,
+					column: 25,
+					endLine: 1,
+					endColumn: 26,
+				},
+			],
+		},
+		{
+			code: "var {a} = foo; var [a] = bar;",
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "a" },
+					line: 1,
+					column: 21,
+					endLine: 1,
+					endColumn: 22,
+				},
+			],
+		},
+		{
+			code: "var [a] = foo; var a = 1;",
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "a" },
+					line: 1,
+					column: 20,
+					endLine: 1,
+					endColumn: 21,
+				},
+			],
+		},
+		{
+			code: "var {a: {b}} = foo; var {a: [b]} = bar;",
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "b" },
+					line: 1,
+					column: 30,
+					endLine: 1,
+					endColumn: 31,
+				},
+			],
+		},
+		{
+			code: "var [a] = foo; var [a] = bar; var [a] = baz;",
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "a" },
+					line: 1,
+					column: 21,
+					endLine: 1,
+					endColumn: 22,
+				},
+				{
+					messageId: "redeclared",
+					data: { id: "a" },
+					line: 1,
+					column: 36,
+					endLine: 1,
+					endColumn: 37,
+				},
+			],
+		},
 	],
 });
 
@@ -1312,6 +1426,94 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 	}
 	`,
 			errors: [{ data: { id: "Foo" }, messageId: "redeclared" }],
+		},
+
+		// destructuring patterns are never mergeable
+		{
+			code: "var [a] = foo; var [a] = bar;",
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "a" },
+					line: 1,
+					column: 21,
+					endLine: 1,
+					endColumn: 22,
+				},
+			],
+		},
+		{
+			code: "var {a} = foo; var {a} = bar;",
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "a" },
+					line: 1,
+					column: 21,
+					endLine: 1,
+					endColumn: 22,
+				},
+			],
+		},
+		{
+			code: "var [...a] = foo; var [...a] = bar;",
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "a" },
+					line: 1,
+					column: 27,
+					endLine: 1,
+					endColumn: 28,
+				},
+			],
+		},
+		{
+			code: "var [a = 1] = foo; var [a = 2] = bar;",
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "a" },
+					line: 1,
+					column: 25,
+					endLine: 1,
+					endColumn: 26,
+				},
+			],
+		},
+		{
+			code: "var {a} = foo; var [a] = bar;",
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "a" },
+					line: 1,
+					column: 21,
+					endLine: 1,
+					endColumn: 22,
+				},
+			],
+		},
+
+		// a destructured binding is a value, so it can't merge with an interface either
+		{
+			code: `
+	var [Foo] = bar;
+	interface Foo {}
+	namespace Foo {
+		export const a = 1;
+	}
+	`,
+			errors: [
+				{
+					messageId: "redeclared",
+					data: { id: "Foo" },
+					line: 4,
+					column: 12,
+					endLine: 4,
+					endColumn: 15,
+				},
+			],
 		},
 	],
 });
