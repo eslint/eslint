@@ -1060,6 +1060,40 @@ ruleTesterTypeScript.run("no-redeclare", rule, {
 	}
 	enum Foo {}
 	`,
+
+		/*
+		 * Ambient declarations emit nothing, so they are never redeclarations.
+		 * The `declare` keyword sits on the `VariableDeclaration` rather than on
+		 * the `VariableDeclarator`, so variables need it read from the parent.
+		 */
+		`
+	declare var A: string;
+	declare var A: string;
+	`,
+		`
+	declare let A: string;
+	declare let A: string;
+	`,
+		`
+	declare const A: string;
+	declare const A: string;
+	`,
+		`
+	declare var A: string;
+	var A: string;
+	`,
+		`
+	var A: string;
+	declare var A: string;
+	`,
+		`
+	declare enum A {}
+	declare enum A {}
+	`,
+		`
+	declare namespace A {}
+	declare namespace A {}
+	`,
 	],
 	invalid: [
 		{
