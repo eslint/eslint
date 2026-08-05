@@ -179,17 +179,17 @@ ruleTester.run("no-unused-labels", rule, {
 			errors: [{ messageId: "unused", data: { name: "A" } }],
 		},
 
-		// Should autofix if previous statement ends safely (;, {, :)
-		{
-			code: "foo();\nA: [1, 2, 3].forEach(x => x)",
-			output: "foo();\n[1, 2, 3].forEach(x => x)",
-			errors: [{ messageId: "unused", data: { name: "A" } }],
-		},
-
 		// Should not autofix if previous token is } (not always safe, e.g. function expression)
 		{
 			code: "const foo = function() {}\nA: [1, 2, 3].forEach(x => x)",
 			output: null,
+			errors: [{ messageId: "unused", data: { name: "A" } }],
+		},
+
+		// Should autofix if previous statement ends safely (;, {, :)
+		{
+			code: "foo();\nA: [1, 2, 3].forEach(x => x)",
+			output: "foo();\n[1, 2, 3].forEach(x => x)",
 			errors: [{ messageId: "unused", data: { name: "A" } }],
 		},
 		{
