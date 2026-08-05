@@ -173,7 +173,7 @@ ruleTester.run("no-unused-labels", rule, {
 			errors: [{ messageId: "unused", data: { name: "A" } }],
 		},
 		{
-			code: "foo()\nA: `template`",
+			code: "foo()\nA: `template` + bar",
 			output: null,
 			languageOptions: { ecmaVersion: 6 },
 			errors: [{ messageId: "unused", data: { name: "A" } }],
