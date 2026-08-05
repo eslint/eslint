@@ -1108,7 +1108,7 @@ ruleTester.run("my-rule", rule, {
 ```
 
 ::: tip
-JSON Schema (and thus schema validation) error messages may change when upgrading ESLint or its dependencies. When you only need to assert that invalid options are rejected, prefer matching `error.name` (e.g. `"SchemaValidationError"`) instead of the full `error.message`.
+JSON Schema (and thus schema validation) error messages may change when upgrading ESLint or its dependencies. When you only need to assert that invalid options are rejected, prefer matching `error.name` (`"SchemaValidationError"`) instead of the full `error.message`.
 :::
 
 ### Testing Suggestions
