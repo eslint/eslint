@@ -1086,6 +1086,7 @@ You can test that invalid rule options are rejected (schema validation) and that
 - `only` (boolean, optional): Run this case exclusively for debugging in supported test frameworks.
 
 Any additional properties of a test case will be passed directly to the linter as config options. For example, a test case can have a `languageOptions` property.
+
 Example: testing that the rule schema rejects invalid options and that the rule throws for a specific option:
 
 ```js
