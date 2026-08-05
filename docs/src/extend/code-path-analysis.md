@@ -2,9 +2,9 @@
 title: Code Path Analysis Details
 ---
 
-ESLint's rules can use code paths.
-The code path is execution routes of programs.
-It forks/joins at such as `if` statements.
+ESLint rules have access to an API to analyze code paths.
+A code path represents a control flow graph that execution can take through a program.
+It is comprised of code path segments that fork and join at branching constructs such as `if`, `while`, `return`, `continue`, and other control flow statements.
 
 ```js
 if (a && b) {
@@ -23,48 +23,51 @@ You can view code path diagrams for any JavaScript code using [Code Explorer](ht
 
 ## Objects
 
-Program is expressed with several code paths.
-A code path is expressed with objects of two kinds: `CodePath` and `CodePathSegment`.
+A program contains multiple code paths: one for the global/top-level execution, plus one for each function, class field initializer, and class static block.
+There are two fundamental objects in the code path analysis API: `CodePath` and `CodePathSegment`.
 
 ### `CodePath`
 
-`CodePath` expresses whole of one code path.
-This object exists for each function and the global.
-This has references of both the initial segment and the final segments of a code path.
-
-`CodePath` has the following properties:
+A `CodePath` object describes one control flow graph in the program. It has the following properties:
 
 - `id` (`string`) - A unique string. Respective rules can use `id` to save additional information for each code path.
-- `origin` (`string`) - The reason that the code path was started. May be `"program"`, `"function"`, `"class-field-initializer"`, or `"class-static-block"`.
-- `initialSegment` (`CodePathSegment`) - The initial segment of this code path.
-- `finalSegments` (`CodePathSegment[]`) - The final segments which includes both returned and thrown.
-- `returnedSegments` (`CodePathSegment[]`) - The final segments which includes only returned.
-- `thrownSegments` (`CodePathSegment[]`) - The final segments which includes only thrown.
-- `upper` (`CodePath|null`) - The code path of the upper function/global scope.
-- `childCodePaths` (`CodePath[]`) - Code paths of functions this code path contains.
+- `origin` (`string`) - The construct that created the code path in the program. May be `"program"`, `"function"`, `"class-field-initializer"`, or `"class-static-block"`.
+- `initialSegment` (`CodePathSegment`) - The initial segment of the code path.
+- `finalSegments` (`CodePathSegment[]`) - The final segments of the code path, including both returned and thrown segments.
+- `returnedSegments` (`CodePathSegment[]`) - The final segments of the code path, including only returned segments.
+- `thrownSegments` (`CodePathSegment[]`) - The final segments of the code path, including only thrown segments.
+- `upper` (`CodePath|null`) - The code path of the containing function/class/global scope.
+- `childCodePaths` (`CodePath[]`) - Code paths of functions/classes this code path contains.
 
 `CodePath` has the following methods:
+
+<!-- traverseSegments traverses once? infinite loop? DFS? BFS? -->
+<!-- are all branches from `first` to `last` traversed? Or is it just one? -->
 
 - `traverseSegments(optionsOrCallback, callback)` - Traverses all reachable segments in this code path from the initial segment to the final segments. You can optionally pass an options object with `first` (`CodePathSegment`) and `last` (`CodePathSegment`) properties to limit the traversal. The callback receives a `CodePathSegment` and a controller object, and is called with `this` set to the current `CodePath`. The controller has a `skip()` method to skip the following segments in the current branch and a `break()` method to stop traversal.
 
 ### `CodePathSegment`
 
-`CodePathSegment` is a part of a code path.
-A code path is expressed with plural `CodePathSegment` objects, it's similar to doubly linked list.
-Difference from doubly linked list is what there are forking and merging (the next/prev are plural).
+`CodePathSegment` is a part of a code path with no branching in it. At each branch point in the program, one `CodePathSegment` ends, and contains links to the next possible `CodePathSegment`s, forming a directed graph (which, in general, can contain cycles, for example when a `while` loop is present). `CodePathSegment`s also contain links to the possible preceding segments, in cases where branches of a program join (such as _after_ an `if` block).
 
-`CodePathSegment` has the following properties:
+A `CodePathSegment` has the following properties:
 
 - `id` (`string`) - A unique string. Respective rules can use `id` to save additional information for each segment.
-- `nextSegments` (`CodePathSegment[]`) - The next segments. If forking, there are two or more. If final, there is nothing.
-- `prevSegments` (`CodePathSegment[]`) - The previous segments. If merging, there are two or more. If initial, there is nothing.
-- `allNextSegments` (`CodePathSegment[]`) - The next segments including both reachable and unreachable segments.
-- `allPrevSegments` (`CodePathSegment[]`) - The previous segments including both reachable and unreachable segments.
-- `reachable` (`boolean`) - A flag which shows whether or not it's reachable. This becomes `false` when preceded by `return`, `throw`, `break`, or `continue`.
+- `nextSegments` (`CodePathSegment[]`) - The next (reachable) segments. If forking, there are two or more. If final, this is empty.
+- `prevSegments` (`CodePathSegment[]`) - The previous (reachable) segments. If joining, there are two or more. If initial, this is empty.
+- `allNextSegments` (`CodePathSegment[]`) - The next segments, including both reachable and unreachable segments.
+- `allPrevSegments` (`CodePathSegment[]`) - The previous segments, including both reachable and unreachable segments.
+- `reachable` (`boolean`) - A flag which indicates whether or not the segment is reachable. This is `false` in segments preceded by `return`, `throw`, `break`, or `continue`.
 
 ## Events
 
-There are seven events related to code paths, and you can define event handlers by adding them alongside node visitors in the object exported from the `create()` method of your rule.
+There are seven events related to code paths, and you can define event handlers for them alongside node visitors in the object exported from the `create()` method of a rule. These handlers are called during the same AST traversal as the node visitors, meaning rules can track which code path (segment) a node appears in by statefully tracking the code path events. Because the AST traversal occurs in source code order, any child function/class's code path will be visited between the start and end of the traversal of the containing function/class/global code path.
+
+::: important
+Since ESLint V9, ESLint performs a full pre-pass over the AST to build complete code path information before rules ever run. This means that by the time any `onCodePath*` event fires, the `CodePath` and `CodePathSegment` objects it receives already contain all of their data (e.g., `childCodePaths`, `nextSegments`, `prevSegments`) even for parts of the code that haven't been visited yet in the traversal that rules see. You don't need to wait for a later event, such as `onCodePathEnd`, to safely read these properties.
+:::
+
+The `CodePath` and `CodePathSegment` objects are mutable and shared across all code path events and all rules, therefore, rules should take care never to modify them.
 
 ```js
 module.exports = {
@@ -74,8 +77,7 @@ module.exports = {
 	create(context) {
 		return {
 			/**
-			 * This is called at the start of analyzing a code path.
-			 * In this time, the code path object has only the initial segment.
+			 * This is called at the start of traversing a code path.
 			 *
 			 * @param {CodePath} codePath - The new code path.
 			 * @param {ASTNode} node - The current node.
@@ -86,8 +88,7 @@ module.exports = {
 			},
 
 			/**
-			 * This is called at the end of analyzing a code path.
-			 * In this time, the code path object is complete.
+			 * This is called at the end of traversing a code path.
 			 *
 			 * @param {CodePath} codePath - The completed code path.
 			 * @param {ASTNode} node - The current node.
@@ -98,10 +99,8 @@ module.exports = {
 			},
 
 			/**
-			 * This is called when a reachable code path segment was created.
-			 * It meant the code path is forked or merged.
-			 * In this time, the segment has the previous segments and has been
-			 * judged reachable or not.
+			 * This is called when a reachable code path segment is entered.
+			 * It means the code path has forked or merged.
 			 *
 			 * @param {CodePathSegment} segment - The new code path segment.
 			 * @param {ASTNode} node - The current node.
@@ -112,8 +111,7 @@ module.exports = {
 			},
 
 			/**
-			 * This is called when a reachable code path segment was left.
-			 * In this time, the segment does not have the next segments yet.
+			 * This is called when a reachable code path segment is exited.
 			 *
 			 * @param {CodePathSegment} segment - The left code path segment.
 			 * @param {ASTNode} node - The current node.
@@ -124,10 +122,8 @@ module.exports = {
 			},
 
 			/**
-			 * This is called when an unreachable code path segment was created.
-			 * It meant the code path is forked or merged.
-			 * In this time, the segment has the previous segments and has been
-			 * judged reachable or not.
+			 * This is called when an unreachable code path segment is entered.
+			 * It means the code path is forked or merged.
 			 *
 			 * @param {CodePathSegment} segment - The new code path segment.
 			 * @param {ASTNode} node - The current node.
@@ -138,8 +134,7 @@ module.exports = {
 			},
 
 			/**
-			 * This is called when an unreachable code path segment was left.
-			 * In this time, the segment does not have the next segments yet.
+			 * This is called when an unreachable code path segment is exited.
 			 *
 			 * @param {CodePathSegment} segment - The left code path segment.
 			 * @param {ASTNode} node - The current node.
@@ -150,10 +145,10 @@ module.exports = {
 			},
 
 			/**
-			 * This is called when a code path segment was looped.
-			 * Usually segments have each previous segments when created,
-			 * but when looped, a segment is added as a new previous segment into a
-			 * existing segment.
+			 * This is called after a code path segment exits, and a subsequent code path segment appears earlier in the source code.
+			 * In other words, this is called when a back edge would occur in the DFS traversal of the code path.
+			 *
+			 * Therefore the `onCodePathSegmentStart` and `onCodePathSegmentEnd` events for the `toSegment` will both have already been called.
 			 *
 			 * @param {CodePathSegment} fromSegment - A code path segment of source.
 			 * @param {CodePathSegment} toSegment - A code path segment of destination.
@@ -170,8 +165,7 @@ module.exports = {
 
 ### About `onCodePathSegmentLoop`
 
-This event is always fired when the next segment has existed already.
-That timing is the end of loops mainly.
+This event is always fired when the next segment has been visited already. It fires mainly when the end of a loop is encountered.
 
 For Example 1:
 
@@ -181,6 +175,8 @@ while (a) {
 }
 bar();
 ```
+
+<!-- This needs to be redone. -->
 
 1. First, the analysis advances to the end of loop.
 
@@ -210,6 +206,8 @@ for (let i = 0; i < 10; ++i) {
 }
 bar();
 ```
+
+<!-- This also needs to be reworded. -->
 
 1. `for` statements are more complex.
    First, the analysis advances to `ForStatement.update`.
@@ -255,6 +253,8 @@ bar();
 
 To track the current code path segment position, you can define a rule like this:
 
+<!-- How can multiple segments be active at once within a given code path. Shouldn't the segment visiting order have parenthesis structure? -->
+
 ```js
 module.exports = {
 	meta: {
@@ -267,7 +267,7 @@ module.exports = {
 		// tracks the segments we've traversed in the current code path
 		let currentSegments;
 
-		// tracks all current segments for all open paths
+		// stack to track current segments for all open paths.
 		const allCurrentSegments = [];
 
 		return {
@@ -332,7 +332,7 @@ module.exports = {
 		// tracks the segments we've traversed in the current code path
 		let currentSegments;
 
-		// tracks all current segments for all open paths
+		// stack to track all current segments for all open paths
 		const allCurrentSegments = [];
 
 		return {
@@ -382,17 +382,14 @@ See Also:
 ### Check if a function is called in every path
 
 This example checks whether or not the parameter `cb` is called in every path.
-Instances of `CodePath` and `CodePathSegment` are shared to every rule.
-So a rule must not modify those instances.
-Please use a map of information instead.
 
 ```js
 function hasCb(node, context) {
 	if (node.type.indexOf("Function") !== -1) {
 		const sourceCode = context.sourceCode;
-		return sourceCode.getDeclaredVariables(node).some(function (v) {
-			return v.type === "Parameter" && v.name === "cb";
-		});
+		return sourceCode
+			.getDeclaredVariables(node)
+			.some(v => v.type === "Parameter" && v.name === "cb");
 	}
 	return false;
 }
@@ -408,7 +405,7 @@ module.exports = {
 	create(context) {
 		let funcInfo;
 		const funcInfoStack = [];
-		const segmentInfoMap = Object.create(null);
+		const segmentInfoMap = new Map();
 
 		return {
 			// Checks `cb`.
@@ -428,7 +425,7 @@ module.exports = {
 				// Checks `cb` was called in every paths.
 				const cbCalled = codePath.finalSegments.every(
 					function (segment) {
-						const info = segmentInfoMap[segment.id];
+						const info = segmentInfoMap.get(segment.id);
 						return info.cbCalled;
 					},
 				);
@@ -451,9 +448,8 @@ module.exports = {
 				}
 
 				// Initialize state of this path.
-				const info = (segmentInfoMap[segment.id] = {
-					cbCalled: false,
-				});
+				const info = { cbCalled: false };
+				segmentInfoMap.set(segment.id, info);
 
 				// If there are the previous paths, merges state.
 				// Checks `cb` was called in every previous path.
@@ -488,7 +484,7 @@ module.exports = {
 				const callee = node.callee;
 				if (callee.type === "Identifier" && callee.name === "cb") {
 					funcInfo.currentSegments.forEach(segment => {
-						const info = segmentInfoMap[segment.id];
+						const info = segmentInfoMap.get(segment.id);
 						info.cbCalled = true;
 					});
 				}
@@ -501,6 +497,12 @@ module.exports = {
 See Also:
 [constructor-super](https://github.com/eslint/eslint/blob/HEAD/lib/rules/constructor-super.js),
 [no-this-before-super](https://github.com/eslint/eslint/blob/HEAD/lib/rules/no-this-before-super.js)
+
+## Limitations
+
+The code path analysis in ESLint is an approximation of the actual runtime possibilities of JS.
+In modern JS, almost anything can technically throw, including function calls, property access, and [even referencing a declared identifier](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#temporal_dead_zone_tdz).
+ESLint's code path analysis usually assumes all of these will succeed. Within a `try` block, however, these may be treated more pessimistically, for example, function calls are treated as potentially throwing.
 
 ## Code Path Examples
 
@@ -740,15 +742,15 @@ function foo(a) {
 foo(false);
 ```
 
-It creates two code paths.
+This program is comprised of 2 code paths.
 
-- The global's
+1. The global code path
 
 :::img-container
 ![When there is a function](../assets/images/code-path-analysis/example-when-there-is-a-function-g.svg)
 :::
 
-- The function's
+1. The function `foo()`'s code path.
 
 :::img-container
 ![When there is a function](../assets/images/code-path-analysis/example-when-there-is-a-function-f.svg)
