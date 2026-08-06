@@ -32,8 +32,8 @@ jobs:
                     - "eslint-plugin-vue"
 
         steps:
-            - uses: actions/checkout@v7
-            - uses: actions/setup-node@v7
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+            - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
               with:
                   node-version: "lts/*"
 
@@ -55,7 +55,7 @@ jobs:
 
             - name: Upload Test Results
               if: always()
-              uses: actions/upload-artifact@v7
+              uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
               with:
                   name: ecosystem-results-${{ strategy.job-index }}
                   path: ecosystem/*-results.json
@@ -67,10 +67,10 @@ jobs:
         if: failure() && github.ref_name == 'main'
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v7
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
             - name: Download all results
-              uses: actions/download-artifact@v8
+              uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
               with:
                   pattern: ecosystem-results-*
                   path: raw-results
@@ -78,14 +78,14 @@ jobs:
 
             - name: Build failure summary
               id: summary
-              uses: actions/github-script@v9
+              uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
               with:
                   script: |
                       const script = require('./tools/test-ecosystem/build-failure-summary.js');
                       script({ core });
 
             - name: Create or update GitHub issue
-              uses: actions/github-script@v9
+              uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
               env:
                   SUMMARY_TEXT: ${{ steps.summary.outputs.summary_text }}
               with:
@@ -95,7 +95,7 @@ jobs:
 
             - name: Check previous build status
               id: check_previous
-              uses: actions/github-script@v9
+              uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
               with:
                   script: |
                       const { data } = await github.rest.actions.listWorkflowRuns({
