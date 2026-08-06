@@ -49,6 +49,7 @@
         "npm",
         "install",
         "--save-dev",
+        "core-js-compat@3.49.0",
         "eslint-plugin-eslint-plugin@7.5.0"
       ],
       "test": ["npm", "run", "test"]
