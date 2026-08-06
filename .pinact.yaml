@@ -1,0 +1,8 @@
+version: 3
+rules:
+    # Reusable workflows from eslint/workflows are maintained by the ESLint team
+    # and referenced by branch, so they can't be pinned to a SHA.
+    - ignore: true
+      conditions:
+          - expr: |
+                ActionRepoOwner == "eslint" && ActionVersion == "main"
