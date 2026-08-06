@@ -1,23 +1,23 @@
 name: Pinact
 
 on:
-  pull_request:
-    paths:
-      - '.github/**'
+    pull_request:
+        paths:
+            - ".github/**"
 
 permissions:
-  contents: read
+    contents: read
 
 jobs:
-  pinact:
-      name: Check GitHub Actions are pinned to SHA
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-          with:
-              persist-credentials: false
-        - uses: suzuki-shunsuke/pinact-action@cf51507d80d4d6522a07348e3d58790290eaf0b6 # v1.1.0
-          with:
-              skip_push: "true"
-          env:
-              GITHUB_TOKEN: ${{ github.token }}
+    pinact:
+        name: Check GitHub Actions are pinned to SHA
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+            - uses: suzuki-shunsuke/pinact-action@cf51507d80d4d6522a07348e3d58790290eaf0b6 # v1.1.0
+              with:
+                  skip_push: "true"
+              env:
+                  GITHUB_TOKEN: ${{ github.token }}
