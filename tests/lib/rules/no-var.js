@@ -505,6 +505,22 @@ ruleTester.run("no-var", rule, {
 				{ messageId: "unexpectedVar" },
 			],
 		},
+		// https://github.com/eslint/eslint/issues/21194
+		{
+			code: "try {} catch (e) { var e = e || 1; }",
+			output: null,
+			errors: [{ messageId: "unexpectedVar" }],
+		},
+		{
+			code: "try {} catch ({ e }) { var e = 1; }",
+			output: null,
+			errors: [{ messageId: "unexpectedVar" }],
+		},
+		{
+			code: "try {} catch (e) { var x = 1; }",
+			output: "try {} catch (e) { let x = 1; }",
+			errors: [{ messageId: "unexpectedVar" }],
+		},
 	],
 });
 
