@@ -102,14 +102,15 @@ while (check(obj)) {
 
 This rule has an object option:
 
-* `checkConditionalExpressions`: When `true`, a ternary expression does not form a group when the rule determines whether its references are modified. This does not change how binary expressions are handled. The default is `false`, which checks the result of the entire ternary expression.
+* `"checkConditionalExpressions": false` (default) checks the result of an entire ternary expression
+* `"checkConditionalExpressions": true` each branch in a ternary expression is checked independently
 
-Examples of **incorrect** code for this rule with the `{ checkConditionalExpressions: true }` option:
+Examples of **incorrect** code for this rule with the `{ "checkConditionalExpressions": true }` option:
 
 ::: incorrect
 
 ```js
-/* eslint no-unmodified-loop-condition: ["error", { checkConditionalExpressions: true }] */
+/* eslint no-unmodified-loop-condition: ["error", { "checkConditionalExpressions": true }] */
 
 let chunk = getInitialChunk();
 let done = false;
