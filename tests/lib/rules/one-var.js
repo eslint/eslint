@@ -221,6 +221,10 @@ ruleTester.run("one-var", rule, {
 			code: "var foo = require('foo'); var bar = 'bar';",
 			options: [{ separateRequires: true, var: "always" }],
 		},
+		{
+			code: "function foo(require) { const bar = require('bar'), baz = 'baz'; }",
+			options: [{ separateRequires: true, const: "always" }],
+		},
 
 		// https://github.com/eslint/eslint/issues/4680
 		{
@@ -1400,6 +1404,21 @@ ruleTester.run("one-var", rule, {
 					data: { type: "const" },
 					line: 1,
 					column: 29,
+				},
+			],
+		},
+		{
+			code: "function foo(require) { const bar = require('bar'); const baz = 'baz'; }",
+			output: "function foo(require) { const bar = require('bar'),  baz = 'baz'; }",
+			options: [{ separateRequires: true, const: "always" }],
+			errors: [
+				{
+					messageId: "combine",
+					data: { type: "const" },
+					line: 1,
+					column: 53,
+					endLine: 1,
+					endColumn: 71,
 				},
 			],
 		},
