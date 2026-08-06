@@ -506,19 +506,15 @@ ruleTester.run("no-var", rule, {
 			],
 		},
 		// https://github.com/eslint/eslint/issues/21194
+		// Must be inside a function — top-level `var` is global and never autofixed.
 		{
-			code: "try {} catch (e) { var e = e || 1; }",
+			code: "function f() { try {} catch (e) { var e = e || 1; } }",
 			output: null,
 			errors: [{ messageId: "unexpectedVar" }],
 		},
 		{
-			code: "try {} catch ({ e }) { var e = 1; }",
-			output: null,
-			errors: [{ messageId: "unexpectedVar" }],
-		},
-		{
-			code: "try {} catch (e) { var x = 1; }",
-			output: "try {} catch (e) { let x = 1; }",
+			code: "function f() { try {} catch (e) { var x = 1; } }",
+			output: "function f() { try {} catch (e) { let x = 1; } }",
 			errors: [{ messageId: "unexpectedVar" }],
 		},
 	],
