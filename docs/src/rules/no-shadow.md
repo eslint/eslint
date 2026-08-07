@@ -48,9 +48,10 @@ if (true) {
     const a = 5;
 }
 
-const f = wrap(function f() {});
-
-const C = wrap(class C {});
+const fib = memo(function fib(n) {
+	// fib resolves to the unwrapped function
+    return n <= 1 ? 1 : fib(n - 1) + fib(n - 2);
+});
 ```
 
 :::
@@ -80,6 +81,13 @@ const g = foo ? (bar || function g() {}) : baz;
 const { h = function h() {} } = obj;
 function qux(i = function i() {}) {}
 const C = class C {};
+
+/*
+ * Assignment through a wrapper call is also allowed, as long as
+ * the inner name is never referenced.
+ */
+const TabList = React.forwardRef(function TabList(props, ref) {});
+const D = wrap(class D {});
 ```
 
 :::
