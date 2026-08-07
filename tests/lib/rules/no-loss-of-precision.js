@@ -376,4 +376,11 @@ ruleTesterTypeScript.run("no-loss-of-precision", rule, {
 			errors: [{ messageId: "noLossOfPrecision" }],
 		},
 	],
+	fatal: [
+		{
+			name: "options provided when schema allows none",
+			options: [1],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });
