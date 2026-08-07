@@ -2948,6 +2948,27 @@ describe("ESLint", () => {
 			assert.strictEqual(results[2].suppressedMessages.length, 0);
 		});
 
+		it("should resolve brace expansion globs when 'globInputPaths' option is true", async () => {
+			eslint = new ESLint({
+				ignore: false,
+				cwd: getFixturePath(".."),
+				overrideConfig: { files: ["**/*.js", "**/*.js2"] },
+				overrideConfigFile: getFixturePath("eslint.config.js"),
+			});
+			const results = await eslint.lintFiles([
+				"fixtures/files/{foo.js,foo.js2}",
+			]);
+
+			assert.deepStrictEqual(
+				results.map(({ filePath }) => path.basename(filePath)),
+				["foo.js", "foo.js2"],
+			);
+			assert.strictEqual(results[0].messages.length, 0);
+			assert.strictEqual(results[1].messages.length, 0);
+			assert.strictEqual(results[0].suppressedMessages.length, 0);
+			assert.strictEqual(results[1].suppressedMessages.length, 0);
+		});
+
 		// only works on a Windows machine
 		if (os.platform() === "win32") {
 			it("should resolve globs with Windows slashes when 'globInputPaths' option is true", async () => {
