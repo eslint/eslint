@@ -197,7 +197,7 @@ jobs:
                   path: eslint
 
             - name: Checkout @eslint/css
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                   repository: eslint/css
                   path: css
