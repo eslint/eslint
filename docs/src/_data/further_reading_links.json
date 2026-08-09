@@ -852,5 +852,19 @@
     "logo": "https://github.com/fluidicon.png",
     "title": "bluebird/docs/docs/warning-explanations.md at master · petkaantonov/bluebird",
     "description": ":bird: :zap: Bluebird is a full featured promise library with unmatched performance. - petkaantonov/bluebird"
+  },
+  "https://compat-table.github.io/compat-table/es5/#test-Object/array_literal_extensions_Reserved_words_as_property_names": {
+    "domain": "compat-table.github.io",
+    "url": "https://compat-table.github.io/compat-table/es5/#test-Object/array_literal_extensions_Reserved_words_as_property_names",
+    "logo": "https://compat-table.github.io/compat-table/favicon.ico",
+    "title": "ECMAScript 5 compatibility table",
+    "description": null
+  },
+  "https://compat-table.github.io/compat-table/es6/": {
+    "domain": "compat-table.github.io",
+    "url": "https://compat-table.github.io/compat-table/es6/",
+    "logo": "https://compat-table.github.io/compat-table/favicon.ico",
+    "title": "ECMAScript 6 compatibility table",
+    "description": null
   }
 }
