@@ -968,7 +968,7 @@ export namespace Linter {
 					 */
 					impliedStrict?: boolean | undefined;
 					/**
-					 * Enable [JSX](https://facebook.github.io/jsx/).
+					 * Enable [JSX](https://react.github.io/jsx/).
 					 *
 					 * @default false
 					 */
