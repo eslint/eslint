@@ -4,7 +4,7 @@ title: Buttons
 
 {% from 'components/button.macro.html' import button %}
 
-There are three types of buttons: primary, secondary, and "ghost". The button styles can be applied to buttons and/or links that look like buttons.
+There are three types of buttons: primary, secondary, and ghost. The button styles can be applied to buttons and/or links that look like buttons.
 
 To render the proper semantic element, provide the kind of behavior that is expected: `action` or `link` value. If the button performs an action, it is rendered as a `button`. If the button links somewhere, it renders as a `<a>`.
 

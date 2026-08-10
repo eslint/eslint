@@ -11,7 +11,7 @@ further_reading:
 ---
 
 
-It's a common mistake in JavaScript to create an object with just a setter for a property but never have a corresponding getter defined for it. Without a getter, you cannot read the property, so it ends up not being used.
+It's a common mistake in JavaScript to create an object with just a setter for a property but never have a corresponding getter defined for it. Without a getter, you cannot read the property, so it ends up being unused.
 
 Here are some examples:
 
@@ -36,7 +36,7 @@ const p = {
 
 ```
 
-This rule warns if setters are defined without getters. Using an option `getWithoutSet`, it will warn if you have a getter without a setter also.
+This rule warns if setters are defined without getters. Using the option `getWithoutSet`, it will warn if you have a getter without a setter too.
 
 ## Rule Details
 
@@ -60,7 +60,7 @@ Examples of **incorrect** code for the default `{ "setWithoutGet": true }` optio
 :::incorrect
 
 ```js
-/*eslint accessor-pairs: "error"*/
+/* eslint accessor-pairs: "error"*/
 
 const q = {
     set a(value) {
@@ -84,7 +84,7 @@ Examples of **correct** code for the default `{ "setWithoutGet": true }` option:
 :::correct
 
 ```js
-/*eslint accessor-pairs: "error"*/
+/* eslint accessor-pairs: "error" */
 
 const s = {
     set a(value) {
@@ -116,7 +116,7 @@ Examples of **incorrect** code for the `{ "getWithoutSet": true }` option:
 :::incorrect
 
 ```js
-/*eslint accessor-pairs: ["error", { "getWithoutSet": true }]*/
+/* eslint accessor-pairs: ["error", { "getWithoutSet": true }] */
 
 const u = {
     set a(value) {
@@ -152,7 +152,7 @@ Examples of **correct** code for the `{ "getWithoutSet": true }` option:
 :::correct
 
 ```js
-/*eslint accessor-pairs: ["error", { "getWithoutSet": true }]*/
+/* eslint accessor-pairs: ["error", { "getWithoutSet": true }] */
 const y = {
     set a(value) {
         this.val = value;
@@ -188,7 +188,7 @@ Examples of **incorrect** code for `{ "getWithoutSet": true, "enforceForClassMem
 :::incorrect
 
 ```js
-/*eslint accessor-pairs: ["error", { "getWithoutSet": true, "enforceForClassMembers": true }]*/
+/* eslint accessor-pairs: ["error", { "getWithoutSet": true, "enforceForClassMembers": true }] */
 
 class Foo {
     get a() {
@@ -219,7 +219,7 @@ Examples of **incorrect** code for `{ "setWithoutGet": true, "enforceForClassMem
 :::incorrect
 
 ```js
-/*eslint accessor-pairs: ["error", { "setWithoutGet": true, "enforceForClassMembers": true }]*/
+/* eslint accessor-pairs: ["error", { "setWithoutGet": true, "enforceForClassMembers": true }] */
 
 class Foo {
     set a(value) {
@@ -243,7 +243,7 @@ Examples of **correct** code for `{ "getWithoutSet": true, "setWithoutGet": true
 :::correct
 
 ```js
-/*eslint accessor-pairs: ["error", {
+/* eslint accessor-pairs: ["error", {
     "getWithoutSet": true, "setWithoutGet": true, "enforceForClassMembers": false
 }]*/
 
@@ -286,7 +286,7 @@ Examples of **incorrect** code for `{ "getWithoutSet": true, "enforceForTSTypes"
 :::incorrect
 
 ```ts
-/*eslint accessor-pairs: ["error", { "getWithoutSet": true, "enforceForTSTypes": true }]*/
+/* eslint accessor-pairs: ["error", { "getWithoutSet": true, "enforceForTSTypes": true }]*/
 
 interface I {
     get a(): string
@@ -304,7 +304,7 @@ Examples of **incorrect** code for `{ "setWithoutGet": true, "enforceForTSTypes"
 :::incorrect
 
 ```ts
-/*eslint accessor-pairs: ["error", { "setWithoutGet": true, "enforceForTSTypes": true }]*/
+/* eslint accessor-pairs: ["error", { "setWithoutGet": true, "enforceForTSTypes": true }]*/
 
 interface I {
     set a(value: unknown): void
@@ -324,7 +324,7 @@ Examples of **correct** code for `{ "getWithoutSet": true, "setWithoutGet": true
 :::correct
 
 ```ts
-/*eslint accessor-pairs: ["error", {
+/* eslint accessor-pairs: ["error", {
     "getWithoutSet": true, "setWithoutGet": true, "enforceForTSTypes": false
 }]*/
 
@@ -345,7 +345,7 @@ Due to the limits of static analysis, this rule does not account for possible si
 might not report a missing pair for a getter/setter that has a computed key, like in the following example:
 
 ```js
-/*eslint accessor-pairs: "error"*/
+/* eslint accessor-pairs: "error"*/
 
 const z = 1;
 
@@ -364,7 +364,7 @@ Also, this rule does not disallow duplicate keys in object literals and class de
 might not report a missing pair for a getter/setter, like in the following example:
 
 ```js
-/*eslint accessor-pairs: "error"*/
+/* eslint accessor-pairs: "error"*/
 
 // no warnings
 const b = {
