@@ -45,7 +45,7 @@
   },
   "eslint-plugin-unicorn": {
     "commands": {
-      "install": ["npm", "install", "core-js-compat@3.49.0"],
+      "install": ["npm", "install"],
       "test": ["npm", "run", "test"]
     },
     "commit": "725e535d150baec018f613c97553d1db2db92334",
