@@ -2048,6 +2048,67 @@ describe("Linter with FlatConfigArray", () => {
 				}, `Intentional error.\nOccurred while linting ${filename}:1\nRule: "test/checker"`);
 			});
 
+			it("should attribute an error to the correct rule when two rules share the same listener function object", () => {
+				/**
+				 * A single listener function object shared by two rules.
+				 * @returns {void}
+				 * @throws {Error} Always.
+				 */
+				function sharedListener() {
+					throw new Error("Intentional error.");
+				}
+
+				const plugin = {
+					rules: {
+						"rule-a": {
+							create: () => ({ Program: sharedListener }),
+						},
+						"rule-b": {
+							create: () => ({ Program: sharedListener }),
+						},
+					},
+				};
+				const config = {
+					plugins: { test: plugin },
+					rules: {
+						"test/rule-a": "error",
+						"test/rule-b": "error",
+					},
+				};
+
+				assert.throws(() => {
+					linter.verify(code, config, filename);
+				}, `Intentional error.\nOccurred while linting ${filename}:1\nRule: "test/rule-a"`);
+			});
+
+			it("should overwrite an existing `ruleId` on a thrown error with the rule that threw it", () => {
+				const config = {
+					plugins: {
+						test: {
+							rules: {
+								checker: {
+									create: () => ({
+										Program() {
+											const error = new Error(
+												"Intentional error.",
+											);
+
+											error.ruleId = "some/other-rule";
+											throw error;
+										},
+									}),
+								},
+							},
+						},
+					},
+					rules: { "test/checker": "error" },
+				};
+
+				assert.throws(() => {
+					linter.verify(code, config, filename);
+				}, `Intentional error.\nOccurred while linting ${filename}:1\nRule: "test/checker"`);
+			});
+
 			it("should not call rule visitor with a `this` value", () => {
 				const spy = sinon.spy();
 				const config = {
