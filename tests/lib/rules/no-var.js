@@ -505,6 +505,27 @@ ruleTester.run("no-var", rule, {
 				{ messageId: "unexpectedVar" },
 			],
 		},
+		{
+			code: "function wrap() { foo(); var a = 1; function foo() { console.log(a); } }",
+			errors: [{ messageId: "unexpectedVar" }],
+		},
+		{
+			code: "function wrap() { var a = 1; foo(); function foo() { console.log(a); } }",
+			output: "function wrap() { let a = 1; foo(); function foo() { console.log(a); } }",
+			errors: [{ messageId: "unexpectedVar" }],
+		},
+		{
+			code: "function wrap() { bar(); var a = 1; function bar() { function inner() { console.log(a); } inner(); } }",
+			errors: [{ messageId: "unexpectedVar" }],
+		},
+		{
+			code: "function wrap() { foo(); var a = 1; var b = 2; function foo() { console.log(a); } }",
+			output: "function wrap() { foo(); var a = 1; let b = 2; function foo() { console.log(a); } }",
+			errors: [
+				{ messageId: "unexpectedVar" },
+				{ messageId: "unexpectedVar" },
+			],
+		},
 	],
 });
 
