@@ -5,5 +5,9 @@
     "module": "nodenext",
     "noEmit": true
   },
-  "files": ["test-eslint.config.js"]
+  "files": [
+    "test-eslint.config.js",
+    "test-scope-manager.ts",
+    "test-declaration-portability.ts"
+  ]
 }
