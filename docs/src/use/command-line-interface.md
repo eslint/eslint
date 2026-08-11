@@ -86,8 +86,8 @@ You can view all the CLI options by running `npx eslint -h`.
 eslint [options] file.js [file.js] [dir]
 
 Basic configuration:
-  --no-config-lookup               Disable look up for eslint.config.js
-  -c, --config path::String        Use this configuration instead of eslint.config.js, eslint.config.mjs, or eslint.config.cjs
+  --no-config-lookup               Disable look up for eslint.config.*
+  -c, --config path::String        Use this configuration instead of eslint.config.*
   --inspect-config                 Open the config inspector with the current configuration
   --ext [String]                   Specify additional file extensions to lint
   --global [String]                Define global variables
