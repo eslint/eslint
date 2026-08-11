@@ -505,6 +505,59 @@ ruleTester.run("no-var", rule, {
 				{ messageId: "unexpectedVar" },
 			],
 		},
+
+		// https://github.com/eslint/eslint/issues/21194
+		{
+			// `let` here would be a syntax error.
+			code: "function f() { try {} catch (e) { var e = 1; } }",
+			output: null,
+			errors: [{ messageId: "unexpectedVar" }],
+		},
+		{
+			code: "function f() { try {} catch (e) { var e; } }",
+			output: null,
+			errors: [{ messageId: "unexpectedVar" }],
+		},
+		{
+			// `let` here is valid, but assigns a new binding instead of `e`.
+			code: "function f() { try {} catch (e) { { var e = 1; } } }",
+			output: null,
+			errors: [{ messageId: "unexpectedVar" }],
+		},
+		{
+			code: "function f() { try {} catch (e) { try {} catch (x) { var e = 1; } } }",
+			output: null,
+			errors: [{ messageId: "unexpectedVar" }],
+		},
+		{
+			code: "function f() { try {} catch (e) { for (var e of []) {} } }",
+			output: null,
+			errors: [{ messageId: "unexpectedVar" }],
+		},
+
+		// Declarations that do not conflict with the catch parameter are still fixed.
+		{
+			code: "function f() { try {} catch (e) { var x = 1; } }",
+			output: "function f() { try {} catch (e) { let x = 1; } }",
+			errors: [{ messageId: "unexpectedVar" }],
+		},
+		{
+			code: "function f() { try {} catch (e) {} var e = 1; }",
+			output: "function f() { try {} catch (e) {} let e = 1; }",
+			errors: [{ messageId: "unexpectedVar" }],
+		},
+		{
+			code: "function f() { try {} catch (e) { function g() { var e = 1; } } }",
+			output: "function f() { try {} catch (e) { function g() { let e = 1; } } }",
+			errors: [{ messageId: "unexpectedVar" }],
+		},
+		{
+			// A class static block is a variable scope of its own.
+			code: "function f() { try {} catch (e) { class C { static { var e = 1; } } } }",
+			output: "function f() { try {} catch (e) { class C { static { let e = 1; } } } }",
+			languageOptions: { ecmaVersion: 2022 },
+			errors: [{ messageId: "unexpectedVar" }],
+		},
 		{
 			code: "function wrap() { foo(); var a = 1; function foo() { console.log(a); } }",
 			errors: [{ messageId: "unexpectedVar" }],
