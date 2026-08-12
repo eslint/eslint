@@ -61,6 +61,7 @@ ruleTester.run("no-loss-of-precision", rule, {
 		"var x = 00195",
 		"var x = 0008",
 		"var x = 0e5",
+		"var x = 5e-324",
 		"var x = .42",
 		"var x = 42.",
 
@@ -338,6 +339,18 @@ ruleTester.run("no-loss-of-precision", rule, {
 		{
 			code: "var x = 0X200000_0000000_1",
 			languageOptions: { ecmaVersion: 2021 },
+			errors: [{ messageId: "noLossOfPrecision" }],
+		},
+		{
+			code: "var x = 1e-350",
+			errors: [{ messageId: "noLossOfPrecision" }],
+		},
+		{
+			code: "var x = 1e-324",
+			errors: [{ messageId: "noLossOfPrecision" }],
+		},
+		{
+			code: "var x = -1e-350",
 			errors: [{ messageId: "noLossOfPrecision" }],
 		},
 	],
