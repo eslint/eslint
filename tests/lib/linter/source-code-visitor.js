@@ -10,7 +10,10 @@
 
 const assert = require("node:assert"),
 	sinon = require("sinon"),
-	{ SourceCodeVisitor } = require("../../../lib/linter/source-code-visitor");
+	{
+		SourceCodeVisitor,
+		RULE_ID,
+	} = require("../../../lib/linter/source-code-visitor");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -181,6 +184,103 @@ describe("SourceCodeVisitor", () => {
 
 			assert(spyFunc1.calledOnce);
 			assert(spyFunc2.notCalled);
+		});
+	});
+
+	describe("callSync() error attribution", () => {
+		/**
+		 * Creates a function that throws the given error.
+		 * @param {Error} error The error to throw.
+		 * @param {string} [ruleId] The rule ID to tag the function with, if any.
+		 * @returns {Function} The throwing function.
+		 */
+		function createThrower(error, ruleId) {
+			/**
+			 * Throws the given error.
+			 * @returns {void}
+			 * @throws {Error} Always.
+			 */
+			function thrower() {
+				throw error;
+			}
+
+			if (ruleId !== void 0) {
+				thrower[RULE_ID] = ruleId;
+			}
+
+			return thrower;
+		}
+
+		it("should rethrow an error without a `ruleId` when the function is not tagged", () => {
+			const error = new Error("Boom");
+
+			visitor.add("test", createThrower(error));
+
+			assert.throws(
+				() => visitor.callSync("test", {}),
+				thrown => {
+					assert.strictEqual(thrown, error);
+					assert.strictEqual(thrown.ruleId, void 0);
+					return true;
+				},
+			);
+		});
+
+		it("should attribute an error to the rule that tagged the function", () => {
+			const error = new Error("Boom");
+
+			visitor.add("test", createThrower(error, "test/some-rule"));
+
+			assert.throws(
+				() => visitor.callSync("test", {}),
+				thrown => {
+					assert.strictEqual(thrown, error);
+					assert.strictEqual(thrown.ruleId, "test/some-rule");
+					return true;
+				},
+			);
+		});
+
+		it("should overwrite an existing `ruleId` with the rule that threw", () => {
+			const error = new Error("Boom");
+
+			error.ruleId = "test/other-rule";
+
+			visitor.add("test", createThrower(error, "test/some-rule"));
+
+			assert.throws(
+				() => visitor.callSync("test", {}),
+				thrown => {
+					assert.strictEqual(thrown.ruleId, "test/some-rule");
+					return true;
+				},
+			);
+		});
+
+		it("should attribute an error when called with multiple arguments", () => {
+			const error = new Error("Boom");
+
+			error.ruleId = "test/other-rule";
+
+			visitor.add("test", createThrower(error, "test/some-rule"));
+
+			assert.throws(
+				() => visitor.callSync("test", {}, "extra"),
+				thrown => {
+					assert.strictEqual(thrown.ruleId, "test/some-rule");
+					return true;
+				},
+			);
+		});
+
+		it("should not call subsequent functions after one throws", () => {
+			const spyFunc = sinon.spy();
+
+			visitor.add("test", createThrower(new Error("Boom")));
+			visitor.add("test", spyFunc);
+
+			assert.throws(() => visitor.callSync("test", {}));
+			assert(spyFunc.notCalled);
 		});
 	});
 });
