@@ -710,6 +710,12 @@ The cache is stored in `.eslintcache` by default.
 
 If you run ESLint with `--cache` and then run ESLint without `--cache`, the `.eslintcache` file will be deleted. This is necessary because the results of the lint might change and make `.eslintcache` invalid. If you want to control when the cache file is deleted, then use `--cache-location` to specify an alternate location for the cache file.
 
+::: warning
+
+Caching operates on a per-file basis. If you use rules or plugins that perform cross-file analysis (where the lint results for one file depend on the contents of other files), `--cache` may return cached results for an unchanged file even if a dependent file has changed.
+
+:::
+
 Autofixed files are not placed in the cache. Subsequent linting that does not trigger an autofix will place it in the cache.
 
 ##### `--cache` example
