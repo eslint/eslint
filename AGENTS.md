@@ -44,6 +44,8 @@ Useful details:
 
 ## Architecture
 
+Beyond `lib/` (the source) and `tests/` (which mirrors it), the top-level directories are `bin/` (CLI entry point), `conf/` (configuration data), `docs/` (the documentation website), `messages/` (verbose text for certain runtime errors), `packages/` (separately published packages), `templates/` (templates for generated files), and `tools/` (build, release, and check scripts).
+
 The layering is strict, and each layer is forbidden from doing what the layer below it does. Respect these boundaries — tests and reviews enforce them.
 
 - `bin/eslint.js` → `lib/cli.js` → `lib/eslint/eslint.js` → `lib/linter/linter.js` → `lib/rules/*.js`
@@ -61,16 +63,31 @@ The layering is strict, and each layer is forbidden from doing what the layer be
 
 - Rule source: `lib/rules/<name>.js`. Test: `tests/lib/rules/<name>.js`. Docs: `docs/src/rules/<name>.md`. All three are required, and `npm test` fails if they aren't consistent.
 - New rules must be registered in `lib/rules/index.js`, in the alphabetically-sorted `LazyLoadingRuleMap`.
-- Each rule exports `{ meta, create }`. `meta` carries `type` (`problem` | `suggestion` | `layout`), `docs` (description, recommended, url), `schema`, `fixable`/`hasSuggestions`, and `messages`. Report with `messageId`, never a raw string.
-- Define helper functions at module scope, not inside `create`, so they aren't rebuilt per file.
+- Each rule exports `{ meta, create }`. `meta` carries `type` (`problem` | `suggestion` | `layout`), `docs` (description, recommended, url), `schema` (JSON Schema for the rule's options), `fixable` (`"code"` or `"whitespace"`) / `hasSuggestions`, and `messages`. Report with `messageId`, never a raw string.
+- `create` receives a `context` object and returns AST visitor methods; rules analyze the AST through the visitor pattern.
+- Define helper functions at module scope, not inside `create`, so they aren't rebuilt per file. Factor common checks into helpers rather than recomputing them across visitors.
+- Fixable rules implement a fixer function that returns the corrections to apply.
 - Shared AST helpers live in `lib/rules/utils/ast-utils.js`.
 - `RuleTester` uses flat config (`languageOptions`, not `parserOptions`).
-- Rule docs use frontmatter with `title` and `rule_type`, and examples in `::: incorrect` / `::: correct` containers where each example includes its own `/*eslint rule-name: "error"*/` comment. `npm run lint:docs:rule-examples` validates that these examples actually produce (or don't produce) the reported problems.
-- `tools/internal-rules/` contains lint rules that check ESLint's own rule files (e.g. `no-invalid-meta`).
+
+### Rule documentation
+
+Rule docs use frontmatter with `title` and `rule_type`, and generally contain a description of what the rule checks, a rule details section explaining when it reports, examples, a "When Not To Use It" section, and optionally version information and further resources.
+
+Examples go in `::: incorrect` / `::: correct` containers, and each example includes its own `/*eslint rule-name: "error"*/` comment. `npm run lint:docs:rule-examples` validates that these examples actually produce (or don't produce) the reported problems.
+
+`tools/internal-rules/` contains lint rules that check ESLint's own rule files (e.g. `no-invalid-meta`).
+
+## Testing
+
+- Mocha with `const assert = require("chai").assert`. Tests mirror the source tree under `tests/`.
+- Test files follow the same layout as source files: `@fileoverview`/`@author` header, requirements, optional helpers, then the tests. Group `describe` blocks by class and method, and set up mock contexts and configs before the assertions that use them.
+- Cover expected behavior, edge cases, error handling, and deprecated APIs kept for backward compatibility.
+- Every new exported function and public class member needs tests, and every bug fix needs a test that fails without the fix.
+- Never delete existing tests, even failing ones.
 
 ## Conventions
 
 - CommonJS (`"type": "commonjs"`), Node `^20.19.0 || ^22.13.0 || >=24`.
 - Source files follow a fixed layout: `@fileoverview`/`@author` header, requirements (imports), optional type definitions, optional helpers, then exports. Tools and scripts add a main section at the end.
-- Tests are Mocha + `const assert = require("chai").assert`, mirroring the source tree under `tests/`. Every bug fix needs a test; never delete existing tests, even failing ones.
 - Commits follow Conventional Commits without scopes: `fix:`, `feat:`, `fix!:`, `feat!:`, `docs:`, `chore:`, `build:`, `refactor:`, `test:`, `ci:`, `perf:`. Summary ≤72 characters. Reference issues in the body with `Fixes #1234` or `Refs #1234`. The PR title is checked in CI because it becomes the changelog entry.
