@@ -12,7 +12,7 @@ const assert = require("node:assert"),
 	sinon = require("sinon"),
 	{
 		SourceCodeVisitor,
-		RULE_ID,
+		setListenerRuleId,
 	} = require("../../../lib/linter/source-code-visitor");
 
 //------------------------------------------------------------------------------
@@ -189,23 +189,23 @@ describe("SourceCodeVisitor", () => {
 
 	describe("callSync() error attribution", () => {
 		/**
-		 * Creates a function that throws the given error.
-		 * @param {Error} error The error to throw.
-		 * @param {string} [ruleId] The rule ID to tag the function with, if any.
+		 * Creates a function that throws the given value.
+		 * @param {any} error The value to throw.
+		 * @param {string} [ruleId] The rule ID to associate the function with, if any.
 		 * @returns {Function} The throwing function.
 		 */
 		function createThrower(error, ruleId) {
 			/**
-			 * Throws the given error.
+			 * Throws the given value.
 			 * @returns {void}
-			 * @throws {Error} Always.
+			 * @throws {any} Always.
 			 */
 			function thrower() {
 				throw error;
 			}
 
 			if (ruleId !== void 0) {
-				thrower[RULE_ID] = ruleId;
+				setListenerRuleId(thrower, ruleId);
 			}
 
 			return thrower;
@@ -281,6 +281,55 @@ describe("SourceCodeVisitor", () => {
 
 			assert.throws(() => visitor.callSync("test", {}));
 			assert(spyFunc.notCalled);
+		});
+
+		it("should rethrow a thrown primitive unchanged rather than failing to attach a `ruleId`", () => {
+			visitor.add("test", createThrower("boom", "test/some-rule"));
+
+			assert.throws(
+				() => visitor.callSync("test", {}),
+				thrown => {
+					assert.strictEqual(thrown, "boom");
+					return true;
+				},
+			);
+		});
+
+		it("should rethrow a thrown `null` unchanged", () => {
+			visitor.add("test", createThrower(null, "test/some-rule"));
+
+			assert.throws(
+				() => visitor.callSync("test", {}),
+				thrown => {
+					assert.strictEqual(thrown, null);
+					return true;
+				},
+			);
+		});
+
+		it("should attribute an error thrown from a frozen function", () => {
+			const error = new Error("Boom");
+
+			/**
+			 * Throws the error.
+			 * @returns {void}
+			 * @throws {Error} Always.
+			 */
+			function thrower() {
+				throw error;
+			}
+
+			Object.freeze(thrower);
+			setListenerRuleId(thrower, "test/some-rule");
+			visitor.add("test", thrower);
+
+			assert.throws(
+				() => visitor.callSync("test", {}),
+				thrown => {
+					assert.strictEqual(thrown.ruleId, "test/some-rule");
+					return true;
+				},
+			);
 		});
 	});
 });

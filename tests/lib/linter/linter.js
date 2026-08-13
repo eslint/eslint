@@ -2081,6 +2081,49 @@ describe("Linter with FlatConfigArray", () => {
 				}, `Intentional error.\nOccurred while linting ${filename}:1\nRule: "test/rule-a"`);
 			});
 
+			it("should attribute an error to the correct rule when the listener is a frozen function", () => {
+				const frozenListener = Object.freeze(() => {
+					throw new Error("Intentional error.");
+				});
+				const config = {
+					plugins: {
+						test: {
+							rules: {
+								checker: {
+									create: () => ({
+										Program: frozenListener,
+									}),
+								},
+							},
+						},
+					},
+					rules: { "test/checker": "error" },
+				};
+
+				assert.throws(() => {
+					linter.verify(code, config, filename);
+				}, `Intentional error.\nOccurred while linting ${filename}:1\nRule: "test/checker"`);
+			});
+
+			it("should attribute an error to the correct rule when the listener is not a function", () => {
+				const config = {
+					plugins: {
+						test: {
+							rules: {
+								checker: {
+									create: () => ({ Program: null }),
+								},
+							},
+						},
+					},
+					rules: { "test/checker": "error" },
+				};
+
+				assert.throws(() => {
+					linter.verify(code, config, filename);
+				}, /Rule: "test\/checker"$/u);
+			});
+
 			it("should overwrite an existing `ruleId` on a thrown error with the rule that threw it", () => {
 				const config = {
 					plugins: {
