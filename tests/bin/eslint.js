@@ -840,6 +840,29 @@ describe("bin/eslint.js", () => {
 
 				return Promise.all([exitCodeAssertion, outputAssertion]);
 			});
+
+			it("creates a merge-friendly suppressions file when requested", () => {
+				const child = runESLint(
+					ARGS_WITH_SUPPRESS_ALL.concat(
+						"--suppressions-format",
+						"merge-friendly",
+					),
+				);
+
+				return assertExitCode(child, 0).then(() => {
+					const contents = fs.readFileSync(SUPPRESSIONS_PATH, "utf8");
+
+					assert.deepStrictEqual(JSON.parse(contents), {
+						"\0eslint-suppressions": {},
+						...SUPPRESSIONS_FILE_ALL_ERRORS,
+					});
+					assert.match(
+						contents,
+						/^\{\n {2}"\\u0000eslint-suppressions": \{\}\n, /u,
+					);
+				});
+			});
+
 			it("creates the suppressions file when the --suppress-rule flag is used, and reports some violations", () => {
 				const child = runESLint(ARGS_WITH_SUPPRESS_RULE_INDENT);
 

@@ -45,6 +45,28 @@ If necessary, you can change the location of the suppressions file by using the 
 eslint --suppressions-location .github/.eslint-suppressions
 ```
 
+### Merge-Friendly Suppressions Files
+
+When multiple branches update the suppressions file, you can use the `merge-friendly` format together with Git's built-in `union` merge driver to reduce content merge conflicts. Convert an existing suppressions file by running:
+
+```bash
+eslint --prune-suppressions --suppressions-format merge-friendly
+```
+
+Then add the suppressions file to `.gitattributes`:
+
+```text
+eslint-suppressions.json text eol=lf merge=union
+```
+
+Adjust the path if you use `--suppressions-location`. The format keeps each source file entry on a separate line, and ESLint preserves it during subsequent suppression updates even when `--suppressions-format` is omitted.
+
+Commit the format conversion and `.gitattributes` change before relying on union merges. Branches that still use the `pretty` representation may require a one-time conflict resolution.
+
+A union merge can retain multiple entries for the same source file. The result remains valid JSON, and the next `--prune-suppressions`, `--suppress-all`, or `--suppress-rule` run rewrites it in canonical form. Run `--prune-suppressions` after a union merge to reconcile suppression counts. Avoid formatting the suppressions file with a general-purpose JSON formatter, because that removes the line-oriented structure.
+
+The union merge driver resolves content changes only. Deleting or renaming the suppressions file while another branch modifies it can still produce a merge conflict.
+
 ## Resolving Suppressions
 
 You can address any of the reported violations by making the necessary changes to the code as usual. If you run ESLint again you will notice that it exits with a non-zero exit code and an error is reported about unused suppressions. This is because the violations have been resolved but the suppressions are still in place.

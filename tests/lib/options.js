@@ -77,6 +77,32 @@ describe("options", () => {
 		});
 	});
 
+	describe("--suppressions-format", () => {
+		it("should return the specified suppressions format", () => {
+			const currentOptions = options.parse(
+				"--suppressions-format merge-friendly",
+			);
+
+			assert.strictEqual(
+				currentOptions.suppressionsFormat,
+				"merge-friendly",
+			);
+		});
+
+		it("should be undefined when not passed", () => {
+			const currentOptions = options.parse("");
+
+			assert.isUndefined(currentOptions.suppressionsFormat);
+		});
+
+		it("should reject an invalid suppressions format", () => {
+			assert.throws(
+				() => options.parse("--suppressions-format invalid"),
+				/Option suppressions-format: 'invalid' not one of/u,
+			);
+		});
+	});
+
 	describe("-f", () => {
 		it("should return a string for .format when passed a string", () => {
 			const currentOptions = options.parse("-f json");

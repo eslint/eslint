@@ -79,6 +79,59 @@ describe("SuppressionsService", () => {
 			assert.deepStrictEqual(result, mockData);
 		});
 
+		it("should load merge-friendly JSON without exposing its sentinel", async () => {
+			const suppressionsService = new SuppressionsService({
+				filePath: "/project/eslint-suppressions.json",
+				cwd: "/project",
+			});
+			const writeStub = sinon.stub(fs.promises, "writeFile").resolves();
+
+			sinon.stub(fs.promises, "readFile").resolves(`{
+  "\\u0000eslint-suppressions": {}
+, "file.js": {"rule-id":{"count":1}}
+}`);
+
+			const result = await suppressionsService.load();
+
+			assert.deepStrictEqual(result, {
+				"file.js": { "rule-id": { count: 1 } },
+			});
+
+			await suppressionsService.save(result);
+
+			assert.match(
+				writeStub.firstCall.args[1],
+				/^\{\n {2}"\\u0000eslint-suppressions": \{\}/u,
+			);
+		});
+
+		it("should normalize duplicate file entries from merged JSON", async () => {
+			const suppressionsService = new SuppressionsService({
+				filePath: "/project/eslint-suppressions.json",
+				cwd: "/project",
+			});
+			const writeStub = sinon.stub(fs.promises, "writeFile").resolves();
+
+			sinon.stub(fs.promises, "readFile").resolves(`{
+  "\\u0000eslint-suppressions": {}
+, "file.js": {"rule-id":{"count":1}}
+, "file.js": {"rule-id":{"count":2}}
+}`);
+
+			const suppressions = await suppressionsService.load();
+
+			assert.deepStrictEqual(suppressions, {
+				"file.js": { "rule-id": { count: 2 } },
+			});
+
+			await suppressionsService.save(suppressions);
+
+			assert.strictEqual(
+				writeStub.firstCall.args[1].match(/"file\.js"/gu).length,
+				1,
+			);
+		});
+
 		it("should return an empty object when file does not exist (ENOENT)", async () => {
 			const suppressionsService = new SuppressionsService({
 				filePath: "/project/eslint-suppressions.json",
@@ -227,6 +280,79 @@ describe("SuppressionsService", () => {
 			assert.ok(
 				aIndex !== -1 && bIndex !== -1 && aIndex < bIndex,
 				"Expected keys to be sorted alphabetically (stable stringify)",
+			);
+		});
+
+		it("should write merge-friendly JSON with one sorted file per line", async () => {
+			const suppressionsService = new SuppressionsService({
+				filePath: "/project/eslint-suppressions.json",
+				cwd: "/project",
+				format: "merge-friendly",
+			});
+			const writeStub = sinon.stub(fs.promises, "writeFile").resolves();
+			const suppressions = {
+				"b-file.js": { "z-rule": { count: 1 } },
+				"a-file.js": {
+					"z-rule": { count: 2 },
+					"a-rule": { count: 1 },
+				},
+			};
+
+			await suppressionsService.save(suppressions);
+
+			assert.strictEqual(
+				writeStub.firstCall.args[1],
+				`{
+  "\\u0000eslint-suppressions": {}
+, "a-file.js": {"a-rule":{"count":1},"z-rule":{"count":2}}
+, "b-file.js": {"z-rule":{"count":1}}
+}`,
+			);
+		});
+
+		it("should write an empty merge-friendly suppressions file", async () => {
+			const suppressionsService = new SuppressionsService({
+				filePath: "/project/eslint-suppressions.json",
+				cwd: "/project",
+				format: "merge-friendly",
+			});
+			const writeStub = sinon.stub(fs.promises, "writeFile").resolves();
+
+			await suppressionsService.save({});
+
+			assert.strictEqual(
+				writeStub.firstCall.args[1],
+				`{
+  "\\u0000eslint-suppressions": {}
+}`,
+			);
+		});
+
+		it("should convert merge-friendly JSON to pretty JSON", async () => {
+			const suppressionsService = new SuppressionsService({
+				filePath: "/project/eslint-suppressions.json",
+				cwd: "/project",
+				format: "pretty",
+			});
+			const writeStub = sinon.stub(fs.promises, "writeFile").resolves();
+
+			sinon.stub(fs.promises, "readFile").resolves(`{
+  "\\u0000eslint-suppressions": {}
+, "file.js": {"rule-id":{"count":1}}
+}`);
+			const suppressions = await suppressionsService.load();
+
+			await suppressionsService.save(suppressions);
+
+			assert.strictEqual(
+				writeStub.firstCall.args[1],
+				`{
+  "file.js": {
+    "rule-id": {
+      "count": 1
+    }
+  }
+}`,
 			);
 		});
 	});

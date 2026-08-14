@@ -136,6 +136,7 @@ Suppressing Violations:
   --suppress-all                   Suppress all violations - default: false
   --suppress-rule [String]         Suppress specific rules
   --suppressions-location path::String  Specify the location of the suppressions file
+  --suppressions-format String     Specify the format used to write the suppressions file - either: pretty or merge-friendly
   --prune-suppressions             Prune unused suppressions - default: false
   --pass-on-unpruned-suppressions  Ignore unused suppressions - default: false
 
@@ -803,6 +804,23 @@ Specify the path to the suppressions location. Can be a file or a directory.
 {{ npx_tabs ({
     package: "eslint",
     args: ["\"src/**/*.js\"", "--suppressions-location", "\".eslint-suppressions-example.json\""]
+}) }}
+
+#### `--suppressions-format`
+
+Specify the format ESLint uses when writing the suppressions file with `--suppress-all`, `--suppress-rule`, or `--prune-suppressions`.
+
+- **Argument Type**: String. One of `pretty` or `merge-friendly`.
+- **Multiple Arguments**: No
+- **Default Value**: `pretty` for new suppressions files. If an existing file uses the `merge-friendly` format, ESLint preserves that format.
+
+The `merge-friendly` format stores each file entry on a separate line. It can be used with Git's built-in `union` merge driver to reduce conflicts when multiple branches update suppressions. See [Merge-Friendly Suppressions Files](./suppressions#merge-friendly-suppressions-files) for setup instructions and limitations.
+
+##### `--suppressions-format` example
+
+{{ npx_tabs ({
+    package: "eslint",
+    args: ["\"src/**/*.js\"", "--prune-suppressions", "--suppressions-format", "merge-friendly"]
 }) }}
 
 #### `--prune-suppressions`
