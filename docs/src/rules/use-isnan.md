@@ -40,6 +40,14 @@ if (foo == Number.NaN) {
 if (foo != Number.NaN) {
     // ...
 }
+
+if (foo == globalThis.NaN) {
+    // ...
+}
+
+if (foo != globalThis.NaN) {
+    // ...
+}
 ```
 
 :::
@@ -120,6 +128,26 @@ switch (Number.NaN) {
         break;
     // ...
 }
+
+switch (foo) {
+    case globalThis.NaN:
+        bar();
+        break;
+    case 1:
+        baz();
+        break;
+    // ...
+}
+
+switch (globalThis.NaN) {
+    case a:
+        bar();
+        break;
+    case b:
+        baz();
+        break;
+    // ...
+}
 ```
 
 :::
@@ -189,6 +217,26 @@ switch (foo) {
 }
 
 switch (Number.NaN) {
+    case a:
+        bar();
+        break;
+    case b:
+        baz();
+        break;
+    // ...
+}
+
+switch (foo) {
+    case globalThis.NaN:
+        bar();
+        break;
+    case 1:
+        baz();
+        break;
+    // ...
+}
+
+switch (globalThis.NaN) {
     case a:
         bar();
         break;
