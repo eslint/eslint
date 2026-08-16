@@ -712,6 +712,10 @@ If you run ESLint with `--cache` and then run ESLint without `--cache`, the `.es
 
 Autofixed files are not placed in the cache. Subsequent linting that does not trigger an autofix will place it in the cache.
 
+::: warning
+`--cache` records each file's hash (or mtime) at the *end* of the run, together with the results from when that file was linted. If another process edits a file after ESLint has linted it but before the run finishes — for example an editor save, a formatter, or a git checkout — the cache can store the new content's fingerprint with the old results. Later `--cache` runs then keep serving those stale results until you delete the cache file. Delete the affected entries (or `.eslintcache`) after concurrent writes, or avoid `--cache` when other tools rewrite sources during a long lint.
+:::
+
 ##### `--cache` example
 
 {{ npx_tabs ({
