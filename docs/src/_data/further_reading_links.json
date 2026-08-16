@@ -838,5 +838,19 @@
     "logo": "https://developer.mozilla.org/favicon.ico",
     "title": "parseInt() - JavaScript | MDN",
     "description": "The parseInt() function parses a string argument and returns an integer of the specified radix (the base in mathematical numeral systems)."
+  },
+  "https://web.archive.org/web/20231210222710/https://craftsmanshipforsoftware.com/2015/05/25/complexity-for-javascript/": {
+    "domain": "web.archive.org",
+    "url": "https://web.archive.org/web/20231210222710/https://craftsmanshipforsoftware.com/2015/05/25/complexity-for-javascript/",
+    "logo": "https://s0.wp.com/i/webclip.png",
+    "title": "Complexity for JavaScript",
+    "description": "The control of complexity control presents the core problem of software development. The huge variety of decisions a developer faces on a day-to-day basis cry for methods of controlling and contain…"
+  },
+  "https://github.com/petkaantonov/bluebird/blob/master/docs/docs/warning-explanations.md#warning-a-promise-was-rejected-with-a-non-error": {
+    "domain": "github.com",
+    "url": "https://github.com/petkaantonov/bluebird/blob/master/docs/docs/warning-explanations.md#warning-a-promise-was-rejected-with-a-non-error",
+    "logo": "https://github.com/fluidicon.png",
+    "title": "bluebird/docs/docs/warning-explanations.md at master · petkaantonov/bluebird",
+    "description": ":bird: :zap: Bluebird is a full featured promise library with unmatched performance. - petkaantonov/bluebird"
   }
 }
