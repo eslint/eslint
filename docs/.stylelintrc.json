@@ -1,5 +1,5 @@
 {
-  "extends": ["stylelint-config-standard-scss", "stylelint-config-prettier"],
+  "extends": ["stylelint-config-standard-scss"],
   "rules": {
     "alpha-value-notation": "number",
     "at-rule-empty-line-before": null,
@@ -15,8 +15,7 @@
     "declaration-block-no-redundant-longhand-properties": null,
     "hue-degree-notation": "number",
     "no-descending-specificity": null,
-    "number-leading-zero": null,
-    "number-no-trailing-zeros": null,
+    "media-feature-range-notation": "prefix",
     "selector-class-pattern": null,
     "value-keyword-case": null
   },
@@ -25,8 +24,7 @@
       "files": ["**/*.html"],
       "extends": [
         "stylelint-config-html/html",
-        "stylelint-config-standard",
-        "stylelint-config-prettier"
+        "stylelint-config-standard"
       ]
     },
     {
