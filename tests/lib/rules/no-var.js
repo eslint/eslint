@@ -583,6 +583,11 @@ ruleTester.run("no-var", rule, {
 				{ messageId: "unexpectedVar" },
 			],
 		},
+		{
+			code: "function wrap() { function foo() {} foo(); if (bar) { var a = 1; function foo() { console.log(a); } foo (); } }",
+			output: "function wrap() { function foo() {} foo(); if (bar) { let a = 1; function foo() { console.log(a); } foo (); } }",
+			errors: [{ messageId: "unexpectedVar" }],
+		},
 	],
 });
 
