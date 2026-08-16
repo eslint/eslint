@@ -215,7 +215,7 @@ jobs:
               run: |
                   npm install
                   npm run build
-                  npm install --legacy-peer-deps ../eslint @eslint/core@latest
+                  npm install ../eslint @eslint/core@latest
 
             - name: Run TSC
               working-directory: css
@@ -226,17 +226,17 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout eslint
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                   path: eslint
 
             - name: Checkout @eslint/markdown
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                   repository: eslint/markdown
                   path: markdown
 
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version: "lts/*"
 
@@ -249,7 +249,7 @@ jobs:
               run: |
                   npm install
                   npm run build
-                  npm install --legacy-peer-deps ../eslint @eslint/core@latest
+                  npm install ../eslint @eslint/core@latest
 
             - name: Run TSC
               working-directory: markdown
