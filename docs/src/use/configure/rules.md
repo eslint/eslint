@@ -46,10 +46,10 @@ This example is the same as the last example, only it uses the numeric codes ins
 If a rule has additional options, you can specify them using array literal syntax, such as:
 
 ```js
-/* eslint quotes: ["error", "double"], curly: 2 */
+/* eslint no-unused-vars: ["error", { "args": "none" }], curly: 2 */
 ```
 
-This comment specifies the `"double"` option for the [`quotes`](../../rules/quotes) rule. The first item in the array is always the rule severity (number or string).
+This comment specifies the `{ "args": "none" }` option for the [`no-unused-vars`](../../rules/no-unused-vars) rule. The first item in the array is always the rule severity (number or string).
 
 #### Configuration Comment Descriptions
 
@@ -124,18 +124,18 @@ import { defineConfig } from "eslint/config";
 export default defineConfig([
 	{
 		rules: {
-			semi: ["error", "never"],
+			eqeqeq: ["error", "smart"],
 		},
 	},
 	{
 		rules: {
-			semi: ["warn", "always"],
+			eqeqeq: ["warn", "always"],
 		},
 	},
 ]);
 ```
 
-Using this configuration, the final rule configuration for `semi` is `["warn", "always"]` because it appears last in the array. The array indicates that the configuration is for the severity and any options. You can change just the severity by defining only a string or number, as in this example:
+Using this configuration, the final rule configuration for `eqeqeq` is `["warn", "always"]` because it appears last in the array. The array indicates that the configuration is for the severity and any options. You can change just the severity by defining only a string or number, as in this example:
 
 ```js
 import { defineConfig } from "eslint/config";
@@ -143,18 +143,18 @@ import { defineConfig } from "eslint/config";
 export default defineConfig([
 	{
 		rules: {
-			semi: ["error", "never"],
+			eqeqeq: ["error", "smart"],
 		},
 	},
 	{
 		rules: {
-			semi: "warn",
+			eqeqeq: "warn",
 		},
 	},
 ]);
 ```
 
-Here, the second configuration object only overrides the severity, so the final configuration for `semi` is `["warn", "never"]`.
+Here, the second configuration object only overrides the severity, so the final configuration for `eqeqeq` is `["warn", "smart"]`.
 
 ::: important
 Rules configured via configuration comments have the highest priority and are applied after all configuration files settings.
@@ -290,20 +290,20 @@ alert("foo");
 To disable multiple rules on a specific line:
 
 ```js
-alert("foo"); // eslint-disable-line no-alert, quotes, semi
+alert("foo"); // eslint-disable-line no-alert, eqeqeq, curly
 
-// eslint-disable-next-line no-alert, quotes, semi
+// eslint-disable-next-line no-alert, eqeqeq, curly
 alert("foo");
 
-alert("foo"); /* eslint-disable-line no-alert, quotes, semi */
+alert("foo"); /* eslint-disable-line no-alert, eqeqeq, curly */
 
-/* eslint-disable-next-line no-alert, quotes, semi */
+/* eslint-disable-next-line no-alert, eqeqeq, curly */
 alert("foo");
 
 /* eslint-disable-next-line
   no-alert,
-  quotes,
-  semi
+  eqeqeq,
+  curly
 */
 alert("foo");
 ```

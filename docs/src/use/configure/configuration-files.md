@@ -36,14 +36,14 @@ import { defineConfig } from "eslint/config";
 export default defineConfig([
 	{
 		rules: {
-			semi: "error",
+			eqeqeq: "error",
 			"prefer-const": "error",
 		},
 	},
 ]);
 ```
 
-In this example, the `defineConfig()` helper is used to define a configuration array with just one configuration object. The configuration object enables two rules: `semi` and `prefer-const`. These rules are applied to all of the files ESLint processes using this config file.
+In this example, the `defineConfig()` helper is used to define a configuration array with just one configuration object. The configuration object enables two rules: `eqeqeq` and `prefer-const`. These rules are applied to all of the files ESLint processes using this config file.
 
 If your project specifies `"type": "commonjs"` in its `package.json` file, then `eslint.config.js` must be in CommonJS format, such as:
 
@@ -54,7 +54,7 @@ const { defineConfig } = require("eslint/config");
 module.exports = defineConfig([
 	{
 		rules: {
-			semi: "error",
+			eqeqeq: "error",
 			"prefer-const": "error",
 		},
 	},
@@ -103,7 +103,7 @@ export default defineConfig([
 	{
 		files: ["**/*.js"],
 		rules: {
-			semi: "error",
+			eqeqeq: "error",
 		},
 	},
 
@@ -128,13 +128,13 @@ export default defineConfig([
 	// matches all files because it doesn't specify the `files` or `ignores` key
 	{
 		rules: {
-			semi: "error",
+			eqeqeq: "error",
 		},
 	},
 ]);
 ```
 
-With this configuration, the `semi` rule is enabled for all files that match the default files in ESLint. So if you pass `example.js` to ESLint, the `semi` rule is applied. If you pass a non-JavaScript file, like `example.txt`, the `semi` rule is not applied because there are no other configuration objects that match that filename. (ESLint outputs an error message letting you know that the file was ignored due to missing configuration.)
+With this configuration, the `eqeqeq` rule is enabled for all files that match the default files in ESLint. So if you pass `example.js` to ESLint, the `eqeqeq` rule is applied. If you pass a non-JavaScript file, like `example.txt`, the `eqeqeq` rule is not applied because there are no other configuration objects that match that filename. (ESLint outputs an error message letting you know that the file was ignored due to missing configuration.)
 
 ::: important
 By default, ESLint lints files that match the patterns `**/*.js`, `**/*.cjs`, and `**/*.mjs`. Those files are always matched unless you explicitly exclude them using [global ignores](#globally-ignore-files-with-ignores).
@@ -211,13 +211,13 @@ export default defineConfig([
 	{
 		files: ["src/**/*.js"],
 		rules: {
-			semi: "error",
+			eqeqeq: "error",
 		},
 	},
 ]);
 ```
 
-Here, only the JavaScript files in the `src` directory have the `semi` rule applied. If you run ESLint on files in another directory, this configuration object is skipped. By adding `ignores`, you can also remove some of the files in `src` from this configuration object:
+Here, only the JavaScript files in the `src` directory have the `eqeqeq` rule applied. If you run ESLint on files in another directory, this configuration object is skipped. By adding `ignores`, you can also remove some of the files in `src` from this configuration object:
 
 ```js
 // eslint.config.js
@@ -228,7 +228,7 @@ export default defineConfig([
 		files: ["src/**/*.js"],
 		ignores: ["**/*.config.js"],
 		rules: {
-			semi: "error",
+			eqeqeq: "error",
 		},
 	},
 ]);
@@ -245,13 +245,13 @@ export default defineConfig([
 		files: ["src/**/*.js"],
 		ignores: ["**/*.config.js", "!**/eslint.config.js"],
 		rules: {
-			semi: "error",
+			eqeqeq: "error",
 		},
 	},
 ]);
 ```
 
-Here, the configuration object excludes files ending with `.config.js` except for `eslint.config.js`. That file still has `semi` applied.
+Here, the configuration object excludes files ending with `.config.js` except for `eslint.config.js`. That file still has `eqeqeq` applied.
 
 Non-global `ignores` patterns can only match file names. A pattern like `"dir-to-exclude/"` will not ignore anything. To ignore everything in a particular directory, a pattern like `"dir-to-exclude/**"` should be used instead.
 
@@ -265,7 +265,7 @@ export default defineConfig([
 	{
 		ignores: ["**/*.config.js"],
 		rules: {
-			semi: "error",
+			eqeqeq: "error",
 		},
 	},
 ]);
@@ -462,7 +462,7 @@ Options specific to the linting process can be configured using the `linterOptio
 
 #### Disable Inline Configuration
 
-Inline configuration is implemented using an `/*eslint*/` comment, such as `/*eslint semi: error*/`. You can disallow inline configuration by setting `noInlineConfig` to `true`. When enabled, all inline configuration is ignored. Here's an example:
+Inline configuration is implemented using an `/*eslint*/` comment, such as `/*eslint eqeqeq: error*/`. You can disallow inline configuration by setting `noInlineConfig` to `true`. When enabled, all inline configuration is ignored. Here's an example:
 
 ```js
 // eslint.config.js
@@ -535,13 +535,13 @@ import { defineConfig } from "eslint/config";
 export default defineConfig([
 	{
 		rules: {
-			semi: "error",
+			eqeqeq: "error",
 		},
 	},
 ]);
 ```
 
-This configuration object specifies that the [`semi`](../../rules/semi) rule should be enabled with a severity of `"error"`. You can also provide options to a rule by specifying an array where the first item is the severity and each item after that is an option for the rule. For example, you can switch the `semi` rule to disallow semicolons by passing `"never"` as an option:
+This configuration object specifies that the [`eqeqeq`](../../rules/eqeqeq) rule should be enabled with a severity of `"error"`. You can also provide options to a rule by specifying an array where the first item is the severity and each item after that is an option for the rule. For example, you can configure the `eqeqeq` rule to use smart comparisons by passing `"smart"` as an option:
 
 ```js
 // eslint.config.js
@@ -550,7 +550,7 @@ import { defineConfig } from "eslint/config";
 export default defineConfig([
 	{
 		rules: {
-			semi: ["error", "never"],
+			eqeqeq: ["error", "smart"],
 		},
 	},
 ]);
