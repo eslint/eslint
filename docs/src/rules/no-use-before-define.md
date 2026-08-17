@@ -229,6 +229,13 @@ class A {
     }
     class D {}
 }
+
+{
+    (() => {
+        new E();
+    })();
+    class E {}
+}
 ```
 
 :::
@@ -245,6 +252,11 @@ function foo() {
 }
 
 class A {
+}
+
+{
+    (() => () => new B())();
+    class B {}
 }
 ```
 
@@ -289,6 +301,11 @@ const g = function() {};
     }
     const foo = 1;
 }
+
+(() => {
+    console.log(bar);
+})();
+const bar = 1;
 ```
 
 :::
@@ -319,6 +336,10 @@ const g = function() {}
     }
     const foo = 1;
 }
+
+// the IIFE runs immediately, but the returned inner function is deferred
+const h = (() => () => bar)();
+const bar = 1;
 ```
 
 :::

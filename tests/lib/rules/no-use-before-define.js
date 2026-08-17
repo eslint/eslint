@@ -453,6 +453,50 @@ ruleTester.run("no-use-before-define", rule, {
 				parserOptions: { ecmaFeatures: { jsx: true } },
 			},
 		},
+
+		/**
+		 * https://github.com/eslint/eslint/issues/21224
+		 * Functions that are not immediately invoked run in a separate execution
+		 * context, so they remain exempt with `variables: false`/`classes: false`.
+		 */
+		{
+			code: "const f = () => { alert(a); }; const a = 5; f();",
+			options: [{ variables: false }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			// the IIFE runs immediately, but the returned inner function is deferred
+			code: "(() => () => a)(); const a = 5;",
+			options: [{ variables: false }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			// `.call()`/`.apply()` are not syntactically immediately invoked
+			code: "(function () { alert(a); }).call(null); const a = 5;",
+			options: [{ variables: false }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "(function () { alert(a); }).apply(null); const a = 5;",
+			options: [{ variables: false }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			// the reference resolves to the parameter, not the outer variable
+			code: "(a => { alert(a); })(1); const a = 5;",
+			options: [{ variables: false }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "(() => { const a = 1; alert(a); })(); const a = 5;",
+			options: [{ variables: false }],
+			languageOptions: { ecmaVersion: 6 },
+		},
+		{
+			code: "const a = 5; (() => { alert(a); })();",
+			options: [{ variables: false }],
+			languageOptions: { ecmaVersion: 6 },
+		},
 	],
 	invalid: [
 		{
@@ -1711,6 +1755,102 @@ ruleTester.run("no-use-before-define", rule, {
 					column: 2,
 					endLine: 1,
 					endColumn: 5,
+				},
+			],
+		},
+
+		/**
+		 * https://github.com/eslint/eslint/issues/21224
+		 * An IIFE body runs in the same execution context as the code around it,
+		 * so references in it are not exempt with `variables: false`/`classes: false`.
+		 */
+		{
+			code: "(() => { alert(a); })(); const a = 5;",
+			options: [{ variables: false }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
+					line: 1,
+					column: 16,
+					endLine: 1,
+					endColumn: 17,
+				},
+			],
+		},
+		{
+			code: "(function () { alert(a); })(); const a = 5;",
+			options: [{ variables: false }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
+					line: 1,
+					column: 22,
+					endLine: 1,
+					endColumn: 23,
+				},
+			],
+		},
+		{
+			code: "await (async () => { alert(a); })(); const a = 5;",
+			options: [{ variables: false }],
+			languageOptions: { ecmaVersion: 2022, sourceType: "module" },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
+					line: 1,
+					column: 28,
+					endLine: 1,
+					endColumn: 29,
+				},
+			],
+		},
+		{
+			code: "(() => { (() => { alert(a); })(); })(); const a = 5;",
+			options: [{ variables: false }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "a" },
+					line: 1,
+					column: 25,
+					endLine: 1,
+					endColumn: 26,
+				},
+			],
+		},
+		{
+			code: "(() => { new C(); })(); class C {}",
+			options: [{ classes: false }],
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "C" },
+					line: 1,
+					column: 14,
+					endLine: 1,
+					endColumn: 15,
+				},
+			],
+		},
+		{
+			// an IIFE in a variable's own initializer is evaluated during initialization
+			code: "const b = (() => b)();",
+			languageOptions: { ecmaVersion: 6 },
+			errors: [
+				{
+					messageId: "usedBeforeDefined",
+					data: { name: "b" },
+					line: 1,
+					column: 18,
+					endLine: 1,
+					endColumn: 19,
 				},
 			],
 		},
