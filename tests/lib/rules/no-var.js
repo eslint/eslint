@@ -558,6 +558,36 @@ ruleTester.run("no-var", rule, {
 			languageOptions: { ecmaVersion: 2022 },
 			errors: [{ messageId: "unexpectedVar" }],
 		},
+		{
+			code: "function wrap() { foo(); var a = 1; function foo() { console.log(a); } }",
+			errors: [{ messageId: "unexpectedVar" }],
+		},
+		{
+			code: "function wrap() { var a = 1; foo(); function foo() { console.log(a); } }",
+			output: "function wrap() { let a = 1; foo(); function foo() { console.log(a); } }",
+			errors: [{ messageId: "unexpectedVar" }],
+		},
+		{
+			code: "function wrap() { bar(); var a = 1; function bar() { function inner() { console.log(a); } inner(); } }",
+			errors: [{ messageId: "unexpectedVar" }],
+		},
+		{
+			code: "function wrap() { var b = foo(), a = 1; function foo() { console.log(a); } }",
+			errors: [{ messageId: "unexpectedVar" }],
+		},
+		{
+			code: "function wrap() { foo(); var a = 1; var b = 2; function foo() { console.log(a); } }",
+			output: "function wrap() { foo(); var a = 1; let b = 2; function foo() { console.log(a); } }",
+			errors: [
+				{ messageId: "unexpectedVar" },
+				{ messageId: "unexpectedVar" },
+			],
+		},
+		{
+			code: "function wrap() { function foo() {} foo(); if (bar) { var a = 1; function foo() { console.log(a); } foo (); } }",
+			output: "function wrap() { function foo() {} foo(); if (bar) { let a = 1; function foo() { console.log(a); } foo (); } }",
+			errors: [{ messageId: "unexpectedVar" }],
+		},
 	],
 });
 
