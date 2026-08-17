@@ -39,6 +39,9 @@ ruleTester.run("use-isnan", rule, {
 		"foo(2 / NaN)",
 		"var x; if (x = NaN) { }",
 		"var x = Number.NaN;",
+		"var x = globalThis.NaN;",
+		"isNaN(globalThis.NaN) === true;",
+		"Number.isNaN(globalThis.NaN) === true;",
 		"isNaN(Number.NaN) === true;",
 		"Number.isNaN(Number.NaN) === true;",
 		"foo(Number.NaN + 1);",
@@ -663,6 +666,20 @@ ruleTester.run("use-isnan", rule, {
 		},
 		{
 			code: "123 === Number.NaN;",
+			errors: [
+				{
+					...comparisonError,
+					suggestions: [
+						{
+							messageId: "replaceWithIsNaN",
+							output: "Number.isNaN(123);",
+						},
+					],
+				},
+			],
+		},
+		{
+			code: "123 === globalThis.NaN;",
 			errors: [
 				{
 					...comparisonError,
