@@ -35,7 +35,7 @@ npm run test:performance
 
 Useful details:
 
-- Coverage gates are enforced in `npm test` (99% statements/functions/lines, 98% branches). A change that adds uncovered code fails the build even if all tests pass.
+- Coverage gates are enforced in `npm test` (99% statements/functions/lines, 98% branches). A change that lowers coverage below those thresholds fails the build even if all tests pass.
 - Mocha's default timeout is 10000ms; override with `ESLINT_MOCHA_TIMEOUT=20000 npm test`.
 - `npm test` runs mocha with `--forbid-only`, so `only: true` / `RuleTester.only(...)` must be removed before pushing.
 - Task definitions live in `Makefile.js` (shelljs-based), not a Makefile. `npm run lint`, `npm test`, etc. are thin wrappers around `node Makefile.js <target>`.
