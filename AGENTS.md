@@ -56,7 +56,8 @@ The layering is strict, and each layer is forbidden from doing what the layer be
 - **`lib/config/`** implements flat config: `config-loader.js` finds and loads `eslint.config.js`, `flat-config-array.js` and `flat-config-schema.js` normalize and validate it, `default-config.js` supplies base values.
 - **`lib/languages/js/`** is the JavaScript language implementation, including `SourceCode`. ESLint's language plugin abstraction means JS is one language among potential others, so language-specific logic belongs here rather than in `Linter`.
 - **`lib/rule-tester/`** is `RuleTester`, a wrapper over Mocha-style globals used by essentially every rule test.
-- **`lib/shared/`** is cross-cutting utilities (`flags.js` for feature flags, `traverser.js`, severity/naming/serialization helpers). `lib/services/` holds parser, processor, suppressions, and warning services used by `ESLint`.
+- **`lib/shared/`** is cross-cutting utilities (`flags.js` for feature flags, `traverser.js`, severity/naming/serialization helpers).
+- **`lib/services/`** holds parser, processor, suppressions, and warning services used by `ESLint`.
 - **`packages/js`** (`@eslint/js`) publishes the `recommended` and `all` configs, generated from rule metadata. **`packages/eslint-config-eslint`** is the config this repo lints itself with.
 
 ## Rules
