@@ -229,6 +229,13 @@ class A {
     }
     class D {}
 }
+
+{
+    (() => {
+        new D();
+    })();
+    class D {}
+}
 ```
 
 :::
@@ -245,6 +252,13 @@ function foo() {
 }
 
 class A {
+}
+
+{
+    (function* () {
+        new D();
+    })();
+    class D {}
 }
 ```
 
@@ -289,6 +303,20 @@ const g = function() {};
     }
     const foo = 1;
 }
+
+{
+    (() => {
+        console.log(foo);
+    })();
+    const foo = 1;
+}
+
+{
+    (async () => {
+        console.log(foo);
+    })();
+    const foo = 1;
+}
 ```
 
 :::
@@ -317,6 +345,26 @@ const g = function() {}
     const C = class {
         x = foo;
     }
+    const foo = 1;
+}
+
+{
+    (() => () => foo)();
+    const foo = 1;
+}
+
+{
+    (function* () {
+        console.log(foo);
+    })();
+    const foo = 1;
+}
+
+{
+    (async () => {
+        await 0;
+        console.log(foo);
+    })();
     const foo = 1;
 }
 ```
