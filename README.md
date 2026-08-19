@@ -2,6 +2,7 @@
 [![Downloads](https://img.shields.io/npm/dm/eslint.svg)](https://www.npmjs.com/package/eslint)
 [![Build Status](https://github.com/eslint/eslint/workflows/CI/badge.svg)](https://github.com/eslint/eslint/actions)
 <br>
+[![inspect.software](https://raw.githubusercontent.com/inspect-software/badges/main/v1/e/eslint/eslint.svg)](https://inspect.software/software/eslint/eslint)
 [![Open Collective Backers](https://img.shields.io/opencollective/backers/eslint)](https://opencollective.com/eslint)
 [![Open Collective Sponsors](https://img.shields.io/opencollective/sponsors/eslint)](https://opencollective.com/eslint)
 
