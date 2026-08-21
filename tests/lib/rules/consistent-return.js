@@ -61,6 +61,12 @@ ruleTester.run("consistent-return", rule, {
 			code: "function foo() { if (true) return void 0; else return undefined; }",
 			options: [{ treatUndefinedAsUnspecified: true }],
 		},
+
+		// Shadowed `undefined` should not be treated as unspecified.
+		{
+			code: "function foo(undefined) { if (true) return 1; else return undefined; }",
+			options: [{ treatUndefinedAsUnspecified: true }],
+		},
 		{
 			code: "var x = () => {  return {}; };",
 			languageOptions: { ecmaVersion: 6 },
@@ -218,6 +224,20 @@ ruleTester.run("consistent-return", rule, {
 					column: 43,
 					endLine: 1,
 					endColumn: 55,
+				},
+			],
+		},
+		{
+			code: "function foo(undefined) { if (true) return; else return undefined; }",
+			options: [{ treatUndefinedAsUnspecified: true }],
+			errors: [
+				{
+					messageId: "unexpectedReturnValue",
+					data: { name: "Function 'foo'" },
+					line: 1,
+					column: 50,
+					endLine: 1,
+					endColumn: 67,
 				},
 			],
 		},
