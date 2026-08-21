@@ -1,3 +1,24 @@
+v10.9.0 - August 21, 2026
+
+* [`899dbf1`](https://github.com/eslint/eslint/commit/899dbf131ce12a194b394bb8d67307df23509d17) chore: update github/codeql-action action to v4.37.7 (#21243) (renovate[bot])
+* [`08de88e`](https://github.com/eslint/eslint/commit/08de88e50294c4e01f6cae97eceeb578da55792b) feat: handle underflow in no-loss-of-precision (#21218) (Rithish S)
+* [`9ef407a`](https://github.com/eslint/eslint/commit/9ef407a3b051e74f50dc7fb8914e2bd89b3e5e53) docs: use eslint.config.* wherever config file names are listed (#21216) (Marry (Subin Yang))
+* [`9aa3873`](https://github.com/eslint/eslint/commit/9aa38732177935bd1d7f1493732c0b67666be28a) chore: update ecosystem plugins (#21235) (ESLint Bot)
+* [`2ba3025`](https://github.com/eslint/eslint/commit/2ba302554e7a24e9909bbdd026fd0c2d1d0d8638) fix: prevent unsafe `no-var` autofix with hoisted functions (#21213) (sethamus)
+* [`dc1e7a8`](https://github.com/eslint/eslint/commit/dc1e7a8416937edefe04cf836ee202a6fc03bedd) chore: update ecosystem plugins (#21208) (ESLint Bot)
+* [`87f66f4`](https://github.com/eslint/eslint/commit/87f66f4435c4df7f4f6815c939d153196ec03e3c) docs: Update README (GitHub Actions Bot)
+* [`8e69622`](https://github.com/eslint/eslint/commit/8e6962219a605c5f5add10953aa31027da839194) fix: Prevent no-var autofix when var is shadowed by catch parameter (#21204) (Yang Hyeonjong)
+* [`684b579`](https://github.com/eslint/eslint/commit/684b57972e1ddf25e076fb36189c60bbcacee635) fix: prefer-template invalid autofix creates a tagged template call (#21207) (김채영)
+* [`55db479`](https://github.com/eslint/eslint/commit/55db4791120ae591d88089c43127b7b0e16866d4) feat: add checkConditionalExpressions to `no-unmodified-loop-condition` (#21175) (sethamus)
+* [`585ef37`](https://github.com/eslint/eslint/commit/585ef37516c0dc29ddb91ce2a2cdcc46fdbbd610) docs: update architecture documentation (#21112) (Francesco Trotta)
+* [`f3993b0`](https://github.com/eslint/eslint/commit/f3993b0547bace7370e9728ee7408af49d367d76) docs: Update README (GitHub Actions Bot)
+* [`ffc87d6`](https://github.com/eslint/eslint/commit/ffc87d6234b2aa4335eec069e5c4d6ac04832b9e) docs: fix broken links in Further Reading sections (#21203) (Minsu)
+* [`1a761e1`](https://github.com/eslint/eslint/commit/1a761e1d11b011fcb6bee181231a51010c500e4d) docs: update moved JSX specification links (#21198) (Imran Mustafa)
+* [`4d00ca4`](https://github.com/eslint/eslint/commit/4d00ca4064ae0d1a75b604a16c68ab9f386ad388) docs: update ESLint peer dependency to `^10.0.0` in shareable configs (#21202) (lumir)
+* [`f878d21`](https://github.com/eslint/eslint/commit/f878d212e9622da9513bcd60d2aedb2e8bb4fc8b) ci: bump pnpm/action-setup from 6.0.9 to 6.0.10 (#21200) (dependabot[bot])
+* [`4891e50`](https://github.com/eslint/eslint/commit/4891e50aceadb0e886ad7d8ab5ae2beab563de85) ci: bump github/codeql-action from 4.37.4 to 4.37.6 (#21199) (dependabot[bot])
+* [`510d1a2`](https://github.com/eslint/eslint/commit/510d1a2e87bc197219f42e195ddb638d2b183a5a) docs: Update README (GitHub Actions Bot)
+
 v10.8.1 - August 7, 2026
 
 * [`18eb0a7`](https://github.com/eslint/eslint/commit/18eb0a7e787b9fac3049ef3dad0e845d2bd940a4) fix: prevent ASI hazard in `no-unused-labels` autofix (#21173) (dongkyu lee)
