@@ -329,4 +329,11 @@ ruleTester.run("no-alert", rule, {
 			errors: [{ messageId: "unexpected", data: { name: "alert" } }],
 		},
 	],
+	fatal: [
+		{
+			name: "options provided when schema allows none",
+			options: [1],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });

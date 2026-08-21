@@ -406,4 +406,11 @@ ruleTester.run("new-cap", rule, {
 			errors: [{ messageId: "upper", column: 7, endColumn: 10 }],
 		},
 	],
+	fatal: [
+		{
+			name: "first option wrong type (number)",
+			options: [123],
+			error: { name: "SchemaValidationError" },
+		},
+	],
 });
