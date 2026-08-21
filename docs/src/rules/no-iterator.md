@@ -3,7 +3,7 @@ title: no-iterator
 rule_type: suggestion
 further_reading:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators
-- https://kangax.github.io/es5-compat-table/es6/#Iterators
+- https://compat-table.github.io/compat-table/es6/
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Deprecated_and_obsolete_features#Object_methods
 ---
 
