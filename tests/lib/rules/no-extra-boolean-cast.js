@@ -314,6 +314,10 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 			errors: [
 				{
 					messageId: "unexpectedCall",
+					line: 1,
+					column: 5,
+					endLine: 1,
+					endColumn: 17,
 				},
 			],
 		},
