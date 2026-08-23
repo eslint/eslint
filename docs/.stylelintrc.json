@@ -3,6 +3,7 @@
   "rules": {
     "alpha-value-notation": "number",
     "at-rule-empty-line-before": null,
+    "color-function-alias-notation": "with-alpha",
     "color-function-notation": "legacy",
     "custom-property-empty-line-before": null,
     "custom-property-pattern": null,
@@ -13,9 +14,11 @@
       }
     ],
     "declaration-block-no-redundant-longhand-properties": null,
+    "declaration-property-value-keyword-no-deprecated": null,
     "hue-degree-notation": "number",
     "no-descending-specificity": null,
     "media-feature-range-notation": "prefix",
+    "property-no-deprecated": null,
     "selector-class-pattern": null,
     "value-keyword-case": null
   },

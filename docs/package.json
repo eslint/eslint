@@ -46,13 +46,13 @@
         "markdown-it-container": "^4.0.0",
         "npm-run-all2": "^8.0.0",
         "postcss-cli": "^10.0.0",
-        "postcss-html": "^1.5.0",
+        "postcss-html": "^2.0.0",
         "prismjs": "^1.29.0",
         "sass": "^1.85.1",
-        "stylelint": "^15.11.0",
-        "stylelint-config-html": "^1.1.0",
-        "stylelint-config-standard": "^34.0.0",
-        "stylelint-config-standard-scss": "^11.0.0",
+        "stylelint": "^16.26.1",
+        "stylelint-config-html": "^2.0.0",
+        "stylelint-config-standard": "^39.0.0",
+        "stylelint-config-standard-scss": "^16.0.0",
         "tap-spot": "^1.1.2"
     },
     "engines": {
