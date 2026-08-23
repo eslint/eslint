@@ -6,6 +6,12 @@
 "use strict";
 
 //------------------------------------------------------------------------------
+// Types
+//------------------------------------------------------------------------------
+
+/** @import { Node as ASTNode, TemplateLiteral } from "estree"; */
+
+//------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
 
@@ -15,7 +21,7 @@
  * @returns {string} The escaped text.
  */
 function escapeFormatString(text) {
-	return text.replace(/%/gu, "%%");
+	return text.replaceAll("%", "%%");
 }
 
 /**
@@ -82,7 +88,7 @@ module.exports = {
 
 		/**
 		 * Creates a fix that replaces a template literal with a format string and arguments.
-		 * @param {ASTNode} templateLiteral The `TemplateLiteral` node to replace.
+		 * @param {TemplateLiteral} templateLiteral The `TemplateLiteral` node to replace.
 		 * @returns {Function} A fix function.
 		 */
 		function createFix(templateLiteral) {
