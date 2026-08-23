@@ -42,7 +42,7 @@ describe("messages", () => {
 
 			assert.include(
 				message,
-				"ESLint couldn't find an eslint.config.(js|mjs|cjs) file.",
+				"ESLint couldn't find an eslint.config.* file.",
 			);
 			assert.include(
 				message,
