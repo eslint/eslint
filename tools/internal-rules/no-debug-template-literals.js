@@ -9,20 +9,12 @@
 // Types
 //------------------------------------------------------------------------------
 
+/** @import { RuleFixer } from "@eslint/core"; */
 /** @import { Node as ASTNode, TemplateLiteral } from "estree"; */
 
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
-
-/**
- * Escapes the `%` characters in a text so that it can be safely used in a format string.
- * @param {string} text The text to escape.
- * @returns {string} The escaped text.
- */
-function escapeFormatString(text) {
-	return text.replaceAll("%", "%%");
-}
 
 /**
  * Determines whether a callee refers to a `debug` logger that formats its first argument.
@@ -89,7 +81,7 @@ module.exports = {
 		/**
 		 * Creates a fix that replaces a template literal with a format string and arguments.
 		 * @param {TemplateLiteral} templateLiteral The `TemplateLiteral` node to replace.
-		 * @returns {Function} A fix function.
+		 * @returns {RuleFixer} A fix function.
 		 */
 		function createFix(templateLiteral) {
 			return fixer => {
@@ -99,8 +91,15 @@ module.exports = {
 				}
 
 				const { expressions, quasis } = templateLiteral;
+
+				// No suggestion is provided if the template literal appears to contain placeholders.
+				if (quasis.some(quasi => /%[a-z]/iu.test(quasi.value.cooked))) {
+					return null;
+				}
+
+				// Escape `%` characters by replacing them with `%%`.
 				const formatString = quasis
-					.map(quasi => escapeFormatString(quasi.value.cooked))
+					.map(quasi => quasi.value.cooked.replaceAll("%", "%%"))
 					.join("%s");
 				const newArguments = [
 					JSON.stringify(formatString),
@@ -133,12 +132,7 @@ module.exports = {
 					return;
 				}
 
-				/*
-				 * A suggestion is only offered when the template literal is the sole argument.
-				 * Otherwise, `%` sequences in the template text are likely placeholders that
-				 * consume the other arguments, and rewriting the call would escape those
-				 * placeholders and shift the position of the arguments they consume.
-				 */
+				// No suggestion is provided when there are multiple arguments.
 				const suggest =
 					node.arguments.length === 1
 						? [
@@ -147,7 +141,7 @@ module.exports = {
 									fix: createFix(formatArgument),
 								},
 							]
-						: [];
+						: null;
 
 				context.report({
 					node: formatArgument,

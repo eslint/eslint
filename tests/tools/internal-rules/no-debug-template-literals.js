@@ -161,11 +161,18 @@ ruleTester.run("internal-rules/no-debug-template-literals", rule, {
 			],
 		},
 
-		/*
-		 * No suggestion is provided when other arguments are present: `%` sequences in the
-		 * template text may be placeholders consuming them, so escaping those sequences and
-		 * inserting new arguments before the existing ones would change the output.
-		 */
+		// no suggestion is provided if the template literal contains a format specifier
+		{
+			code: "debug(`100%done`);",
+			errors: [
+				{
+					messageId: "unexpectedTemplateLiteral",
+					suggestions: [],
+				},
+			],
+		},
+
+		// no suggestion is provided if there are multiple arguments
 		{
 			code: "debug(`Hello ${name}`, extra);",
 			errors: [
@@ -176,7 +183,7 @@ ruleTester.run("internal-rules/no-debug-template-literals", rule, {
 			],
 		},
 		{
-			code: "debug(`%s items in ${dir}`, count);",
+			code: "debug(`No placeholders here`, extra);",
 			errors: [
 				{
 					messageId: "unexpectedTemplateLiteral",
@@ -185,7 +192,7 @@ ruleTester.run("internal-rules/no-debug-template-literals", rule, {
 			],
 		},
 		{
-			code: "debug(`No placeholders here`, extra);",
+			code: "debug(`%d items in ${dir}`, count);",
 			errors: [
 				{
 					messageId: "unexpectedTemplateLiteral",
