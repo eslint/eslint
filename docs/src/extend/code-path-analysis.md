@@ -1,9 +1,9 @@
 ---
-title: Code Path Analysis Details
+title: Code Path Analysis
 ---
 
 ESLint rules have access to an API to analyze code paths.
-A code path represents a control flow graph that execution can take through a program.
+A code path represents a control flow graph that execution can take through sa program.
 It is composed of code path segments that fork and join at branching constructs such as `if`, `while`, `return`, `continue`, and other control flow statements.
 
 ```js
@@ -30,7 +30,7 @@ There are two fundamental objects in the code path analysis API: `CodePath` and 
 
 A `CodePath` object describes one control flow graph in the program. It has the following properties:
 
-- `id` (`string`) - A unique string. Rules can use `id` as a key to save additional information for each code path.
+- `id` (`string`) - A string that uniquely identifies the code path. Rules can use `id` as a key to save additional information for each code path.
 - `origin` (`string`) - The construct that created the code path in the program. May be `"program"`, `"function"`, `"class-field-initializer"`, or `"class-static-block"`.
 - `initialSegment` (`CodePathSegment`) - The initial segment of the code path.
 - `finalSegments` (`CodePathSegment[]`) - The final segments of the code path, including both returned and thrown segments.
@@ -45,11 +45,11 @@ A `CodePath` object describes one control flow graph in the program. It has the 
 
 ### `CodePathSegment`
 
-`CodePathSegment` is a part of a code path with no branching in it. At each branch point in the program, one `CodePathSegment` ends, and contains links to the next possible `CodePathSegment`s, forming a directed graph (which, in general, can contain cycles, for example when a `while` loop is present). `CodePathSegment`s also contain links to the possible preceding segments, in cases where branches of a program join (such as _after_ an `if` block).
+`CodePathSegment` is a part of a code path with no branching in it. At each branch point in the program, one `CodePathSegment` ends, and contains links to the next possible `CodePathSegment`s, forming a directed graph (which, in general, can contain cycles, for example when a `while` loop is present). `CodePathSegment`s also contain links to the possible preceding segments, in cases where branches of a program join (such as after an `if` block).
 
 A `CodePathSegment` has the following properties:
 
-- `id` (`string`) - A unique string. Rules can use `id` as a key to save additional information for each segment.
+- `id` (`string`) - A string that uniquely identifies the code path segment. Rules can use `id` as a key to save additional information for each segment.
 - `nextSegments` (`CodePathSegment[]`) - The next (reachable) segments. If forking, there are two or more. If final, this is empty.
 - `prevSegments` (`CodePathSegment[]`) - The previous (reachable) segments. If joining, there are two or more. If initial, this is empty.
 - `allNextSegments` (`CodePathSegment[]`) - The next segments, including both reachable and unreachable segments.
@@ -170,11 +170,104 @@ The `CodePath` and `CodePathSegment` objects are mutable and shared across all c
 
 :::
 
+### Example: Simple Program
+
+Consider the following simple, but nontrivial program:
+
+```js
+function foo(x) {
+	if (x) {
+		setTimeout(() => {
+			console.log("logging x after 100 ms", x);
+		}, 100);
+	}
+}
+
+function bar(y) {
+	if (typeof y === "string") {
+		console.log(y);
+	} else {
+		console.log("not a string");
+	}
+}
+
+if (Math.random() < 0.5) {
+	foo();
+} else {
+	bar();
+}
+```
+
+This has 4 code paths:
+
+1. The top-level code (this has `origin: "global"`):
+
+    :::img-container
+    ![Simple Program Code Path 1](../assets/images/code-path-analysis/example-simpleprogram-codepath1.svg)
+    :::
+
+1. The function `foo` (this has `origin: "function"`):
+
+    :::img-container
+    ![Simple Program Code Path 1](../assets/images/code-path-analysis/example-simpleprogram-codepath2.svg)
+    :::
+
+1. The arrow function callback defined inside `foo` (this has `origin: "function"`):
+
+    :::img-container
+    ![Simple Program Code Path 1](../assets/images/code-path-analysis/example-simpleprogram-codepath3.svg)
+    :::
+
+1. The function `bar` (this has `origin: "function"`):
+
+    :::img-container
+    ![Simple Program Code Path 1](../assets/images/code-path-analysis/example-simpleprogram-codepath4.svg)
+    :::
+
+Its code path events are called in the following order (indentation shows nesting between a start/end pair):
+
+```text
+onCodePathStart                  s1   (top level)
+  onCodePathSegmentStart         s1_1 (before the `if`, up through its test)
+    onCodePathStart              s2   (foo)
+      onCodePathSegmentStart     s2_1 (before `if (x)`, up through its test)
+      onCodePathSegmentEnd       s2_1
+      onCodePathSegmentStart     s2_2 (`if (x)` true branch: the `setTimeout(...)` call)
+        onCodePathStart          s3   (arrow function callback)
+          onCodePathSegmentStart s3_1 (the whole callback body)
+          onCodePathSegmentEnd   s3_1
+        onCodePathEnd            s3
+      onCodePathSegmentEnd       s2_2
+      onCodePathSegmentStart     s2_3 (after `if (x)`; falls off the end of `foo`)
+      onCodePathSegmentEnd       s2_3
+    onCodePathEnd                s2
+    onCodePathStart              s4   (bar)
+      onCodePathSegmentStart     s4_1 (before the `if`, up through its test)
+      onCodePathSegmentEnd       s4_1
+      onCodePathSegmentStart     s4_2 (`if` true branch: `console.log(y)`)
+      onCodePathSegmentEnd       s4_2
+      onCodePathSegmentStart     s4_3 (`else` branch: `console.log("not a string")`)
+      onCodePathSegmentEnd       s4_3
+      onCodePathSegmentStart     s4_4 (after the `if`/`else`, where the branches join; falls off the end of `bar`)
+      onCodePathSegmentEnd       s4_4
+    onCodePathEnd                s4
+  onCodePathSegmentEnd           s1_1
+  onCodePathSegmentStart         s1_2 (top-level `if` true branch: the `foo();` call)
+  onCodePathSegmentEnd           s1_2
+  onCodePathSegmentStart         s1_3 (top-level `else` branch: the `bar();` call)
+  onCodePathSegmentEnd           s1_3
+  onCodePathSegmentStart         s1_4 (after the top-level `if`/`else`, where the branches join)
+  onCodePathSegmentEnd           s1_4
+onCodePathEnd                    s1
+```
+
 ### About `onCodePathSegmentLoop`
 
 This event fires whenever the traversal reaches a point where control flow loops back to a segment that was already visited earlier. It fires mainly at the end of loops.
 
-For Example 1:
+<!-- Is there a good reason to use this event anymore? -->
+
+Consider the code path of the following `while` loop:
 
 ```js
 while (a) {
@@ -183,64 +276,27 @@ while (a) {
 bar();
 ```
 
-1. First, the traversal visits the segment for the loop's test (`a`), then the segment for the loop body (`a = foo();`), firing `onCodePathSegmentStart`/`onCodePathSegmentEnd` for each in turn.
-
 :::img-container
 ![Loop Event's Example 1](../assets/images/code-path-analysis/loop-event-example-while-1.svg)
 :::
 
-2. Second, at the end of the loop body, the traversal reaches the point where control flow loops back to the test segment. Since that segment was already visited (its `onCodePathSegmentStart`/`onCodePathSegmentEnd` already fired), those events don't fire again. Instead, `onCodePathSegmentLoop` fires, reflecting that the loop body segment is a previous segment of the test segment (shown in red below).
+The sequence of events for this program looks like the following (indentation shows nesting between a start/end pair):
 
-:::img-container
-![Loop Event's Example 2](../assets/images/code-path-analysis/loop-event-example-while-2.svg)
-:::
-
-3. Last, the traversal continues from the test segment to the segment for the code after the loop (`bar();`), firing `onCodePathSegmentStart`/`onCodePathSegmentEnd` for it as usual.
-
-:::img-container
-![Loop Event's Example 3](../assets/images/code-path-analysis/loop-event-example-while-3.svg)
-:::
-
-For example 2:
-
-```js
-for (let i = 0; i < 10; ++i) {
-	foo(i);
-}
-bar();
+```text
+onCodePathStart           (program)
+  onCodePathSegmentStart  (before the loop)
+  onCodePathSegmentEnd    (before the loop)
+  onCodePathSegmentStart  (test: `a`)
+  onCodePathSegmentEnd    (test: `a`)
+  onCodePathSegmentStart  (body: `a = foo();`)
+    onCodePathSegmentLoop (body -> test, highlighted above in red)
+  onCodePathSegmentEnd    (body)
+  onCodePathSegmentStart  (after the loop: `bar();`)
+  onCodePathSegmentEnd    (after the loop)
+onCodePathEnd             (program)
 ```
 
-`for` statements are more complex because their `init`, `test`, `update`, and `body` clauses appear in a different order in the AST than the order in which they execute: `init` and `test` run before `body`, but `update` (which appears before `body` in source order) doesn't actually run until after `body` completes. As a result, the `update` segment has no `nextSegments` link ("hovering") until the traversal reaches the end of `body`.
-
-1. First, the traversal visits the segments for `ForStatement.init` and `ForStatement.test` in source order, then visits the segment for `ForStatement.update`, firing `onCodePathSegmentStart`/`onCodePathSegmentEnd` for each. Since `body` hasn't been visited yet, the `update` segment has no outgoing edge — it's left hovering.
-
-:::img-container
-![Loop Event's Example 1](../assets/images/code-path-analysis/loop-event-example-for-1.svg)
-:::
-
-2. Second, the traversal advances from the `test` segment to the segment for `ForStatement.body`, firing `onCodePathSegmentStart` for it. The `update` segment is still left hovering, unconnected to the rest of the graph.
-
-:::img-container
-![Loop Event's Example 2](../assets/images/code-path-analysis/loop-event-example-for-2.svg)
-:::
-
-3. Third, at the end of `body`, the traversal reaches the `update` segment, which was already visited in step 1. Since `onCodePathSegmentStart`/`onCodePathSegmentEnd` already fired for it, they don't fire again — instead, `onCodePathSegmentLoop` fires, reflecting that the `body` segment is a previous segment of the `update` segment (shown in red below).
-
-:::img-container
-![Loop Event's Example 3](../assets/images/code-path-analysis/loop-event-example-for-3.svg)
-:::
-
-4. Fourth, at the end of `update`, control flow loops back to the `test` segment, which was also already visited in step 1. `onCodePathSegmentLoop` fires again, reflecting that `update` is a previous segment of `test` (shown in red below).
-
-:::img-container
-![Loop Event's Example 4](../assets/images/code-path-analysis/loop-event-example-for-4.svg)
-:::
-
-5. Last, the traversal continues from the `test` segment to the segment for the code after the loop (`bar();`), firing `onCodePathSegmentStart`/`onCodePathSegmentEnd` for it as usual.
-
-:::img-container
-![Loop Event's Example 5](../assets/images/code-path-analysis/loop-event-example-for-5.svg)
-:::
+Notice that `onCodePathSegmentLoop` fires _before_ `onCodePathSegmentEnd` for the `body` segment: it represents control flow looping back to `test` from a point at the end of `body`. Because `test` was already fully visited in an earlier step, its `onCodePathSegmentStart`/`onCodePathSegmentEnd` pair doesn't fire again.
 
 ## Usage Examples
 
