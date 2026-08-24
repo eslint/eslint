@@ -3,8 +3,10 @@ title: Code Path Analysis
 ---
 
 ESLint rules have access to an API to analyze code paths.
-A code path represents a control flow graph that execution can take through sa program.
+A code path represents a control flow graph that execution can take through a program.
 It is composed of code path segments that fork and join at branching constructs such as `if`, `while`, `return`, `continue`, and other control flow statements.
+
+The following is a code path diagram for a very basic program:
 
 ```js
 if (someCondition()) {
@@ -200,25 +202,25 @@ if (Math.random() < 0.5) {
 
 This has 4 code paths:
 
-1. The top-level code (this has `origin: "global"`):
+1. The top-level code (`origin: "global"`):
 
     :::img-container
     ![Simple Program Code Path 1](../assets/images/code-path-analysis/example-simpleprogram-codepath1.svg)
     :::
 
-1. The function `foo` (this has `origin: "function"`):
+1. The function `foo` (`origin: "function"`):
 
     :::img-container
     ![Simple Program Code Path 1](../assets/images/code-path-analysis/example-simpleprogram-codepath2.svg)
     :::
 
-1. The arrow function callback defined inside `foo` (this has `origin: "function"`):
+1. The arrow function callback defined inside `foo` (`origin: "function"`):
 
     :::img-container
     ![Simple Program Code Path 1](../assets/images/code-path-analysis/example-simpleprogram-codepath3.svg)
     :::
 
-1. The function `bar` (this has `origin: "function"`):
+1. The function `bar` (`origin: "function"`):
 
     :::img-container
     ![Simple Program Code Path 1](../assets/images/code-path-analysis/example-simpleprogram-codepath4.svg)
@@ -277,7 +279,7 @@ bar();
 ```
 
 :::img-container
-![Loop Event's Example 1](../assets/images/code-path-analysis/loop-event-example-while-1.svg)
+![Loop Event's Example](../assets/images/code-path-analysis/loop-event-example-while.svg)
 :::
 
 The sequence of events for this program looks like the following (indentation shows nesting between a start/end pair):
@@ -304,10 +306,8 @@ Notice that `onCodePathSegmentLoop` fires _before_ `onCodePathSegmentEnd` for th
 
 To track the current code path segment position, you can define a rule like this:
 
-Segments generally start and end in a well-nested order, similar to matching parentheses, since a rule only leaves a segment (`onCodePathSegmentEnd`) after entering it (`onCodePathSegmentStart`). However, more than one segment can be open at the same time: a `finally` block, for example, is analyzed as two parallel segments — one for the normal completion path and one for paths that are leaving via `return` or `throw` from the `try`/`catch` block — both of which are open simultaneously while traversing the `finally` block. This is why `currentSegments` below is a `Set` rather than a single value.
-
 ```js
-module.exports = {
+export default {
 	meta: {
 		// ...
 	},
@@ -315,10 +315,10 @@ module.exports = {
 		// tracks the code path we are currently in
 		let currentCodePath;
 
-		// tracks the segments we've traversed in the current code path
+		// a Set that tracks the segments we've traversed in the current code path
 		let currentSegments;
 
-		// stack to track current segments for all open paths.
+		// stack to track current the Set of segments for all open paths.
 		const allCurrentSegments = [];
 
 		return {
@@ -372,7 +372,7 @@ function areAnySegmentsReachable(segments) {
 	return false;
 }
 
-module.exports = {
+export default {
 	meta: {
 		// ...
 	},
@@ -380,7 +380,7 @@ module.exports = {
 		// tracks the code path we are currently in
 		let currentCodePath;
 
-		// tracks the segments we've traversed in the current code path
+		// a Set that tracks the segments we've traversed in the current code path
 		let currentSegments;
 
 		// stack to track all current segments for all open paths
@@ -449,7 +449,7 @@ function isCbCalled(info) {
 	return info.cbCalled;
 }
 
-module.exports = {
+export default {
 	meta: {
 		// ...
 	},
@@ -553,7 +553,7 @@ See Also:
 
 ESLint's code path analysis is an approximation of the actual runtime possibilities of a JavaScript program, not an exact model.
 In modern JavaScript, almost anything can technically throw, including function calls, property access, and [even referencing a declared identifier](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#temporal_dead_zone_tdz).
-Code path analysis usually assumes all of these will succeed rather than modeling every possible throw point. Within a `try` block, however, it is more pessimistic — for example, function calls are treated as potentially throwing, since that's needed to determine whether the `catch` block is reachable from them.
+Code path analysis usually assumes all of these will succeed rather than modeling every possible throw point.
 
 ## Code Path Examples
 
@@ -589,12 +589,24 @@ if (a) {
 } else if (b) {
 	bar();
 } else if (c) {
-	hoge();
+	baz();
 }
 ```
 
 :::img-container
 ![`IfStatement` (chain)](../assets/images/code-path-analysis/example-ifstatement-chain.svg)
+:::
+
+### `LogicalExpression`
+
+Note that `&&` and `||` are branching constructs, due to their have short-circuiting behavior.
+
+```js
+const foo = a && b;
+```
+
+:::img-container
+![`Logical Expression`](../assets/images/code-path-analysis/example-logicalexpression.svg)
 :::
 
 ### `SwitchStatement`
@@ -611,7 +623,7 @@ switch (a) {
 	// fallthrough
 
 	case 3:
-		hoge();
+		baz();
 		break;
 }
 ```
@@ -634,11 +646,11 @@ switch (a) {
 	// fallthrough
 
 	case 3:
-		hoge();
+		baz();
 		break;
 
 	default:
-		fuga();
+		quux();
 		break;
 }
 ```
@@ -657,7 +669,7 @@ try {
 	}
 	bar();
 } catch (err) {
-	hoge(err);
+	baz(err);
 }
 last();
 ```
@@ -679,7 +691,7 @@ try {
 	foo();
 	bar();
 } finally {
-	fuga();
+	baz();
 }
 last();
 ```
@@ -698,9 +710,9 @@ try {
 	foo();
 	bar();
 } catch (err) {
-	hoge(err);
+	baz(err);
 } finally {
-	fuga();
+	quux();
 }
 last();
 ```
@@ -754,7 +766,7 @@ for (let i = 0; i < 10; ++i) {
 ![`ForStatement`](../assets/images/code-path-analysis/example-forstatement.svg)
 :::
 
-### `ForStatement` (for ever)
+### `ForStatement` (infinite loop)
 
 ```js
 for (;;) {
@@ -764,7 +776,7 @@ bar();
 ```
 
 :::img-container
-![`ForStatement` (for ever)](../assets/images/code-path-analysis/example-forstatement-for-ever.svg)
+![`ForStatement` (infinite loop)](../assets/images/code-path-analysis/example-forstatement-infinite-loop.svg)
 :::
 
 ### `ForInStatement`
