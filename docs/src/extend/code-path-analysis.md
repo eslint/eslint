@@ -318,7 +318,7 @@ export default {
 		// a Set that tracks the segments we've traversed in the current code path
 		let currentSegments;
 
-		// stack to track current the Set of segments for all open paths.
+		// stack to track the current Set of segments for all open paths.
 		const allCurrentSegments = [];
 
 		return {
@@ -383,7 +383,7 @@ export default {
 		// a Set that tracks the segments we've traversed in the current code path
 		let currentSegments;
 
-		// stack to track all current segments for all open paths
+		// stack to track the current Set of segments for all open paths.
 		const allCurrentSegments = [];
 
 		return {
@@ -436,7 +436,7 @@ This example checks whether or not the parameter `cb` is called in every path.
 
 ```js
 function hasCb(node, context) {
-	if (node.type.indexOf("Function") !== -1) {
+	if (node.type.includes("Function")) {
 		const sourceCode = context.sourceCode;
 		return sourceCode
 			.getDeclaredVariables(node)
@@ -473,7 +473,7 @@ export default {
 			onCodePathEnd(codePath, node) {
 				funcInfo = funcInfoStack.pop();
 
-				// Checks `cb` was called in every paths.
+				// Checks `cb` was called in every path.
 				const cbCalled = codePath.finalSegments.every(
 					function (segment) {
 						const info = segmentInfoMap.get(segment.id);
@@ -502,7 +502,7 @@ export default {
 				const info = { cbCalled: false };
 				segmentInfoMap.set(segment.id, info);
 
-				// If there are the previous paths, merges state.
+				// If there are previous segments, merge their state.
 				// Checks `cb` was called in every previous path.
 				if (segment.prevSegments.length > 0) {
 					info.cbCalled = segment.prevSegments.every(isCbCalled);
@@ -524,14 +524,14 @@ export default {
 				funcInfo.currentSegments.delete(segment);
 			},
 
-			// Checks reachable or not.
+			// Checks whether the call is reachable.
 			CallExpression(node) {
 				// Ignores if `cb` doesn't exist.
 				if (!funcInfo.hasCb) {
 					return;
 				}
 
-				// Sets marks that `cb` was called.
+				// Marks that `cb` was called.
 				const callee = node.callee;
 				if (callee.type === "Identifier" && callee.name === "cb") {
 					funcInfo.currentSegments.forEach(segment => {
@@ -599,7 +599,7 @@ if (a) {
 
 ### `LogicalExpression`
 
-Note that `&&` and `||` are branching constructs, due to their have short-circuiting behavior.
+Note that `&&` and `||` are branching constructs, due to their short-circuiting behavior.
 
 ```js
 const foo = a && b;
