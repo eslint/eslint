@@ -852,5 +852,12 @@
     "logo": "https://github.com/fluidicon.png",
     "title": "bluebird/docs/docs/warning-explanations.md at master · petkaantonov/bluebird",
     "description": ":bird: :zap: Bluebird is a full featured promise library with unmatched performance. - petkaantonov/bluebird"
+  },
+  "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Equality_comparisons_and_sameness": {
+    "domain": "developer.mozilla.org",
+    "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Equality_comparisons_and_sameness",
+    "logo": "https://developer.mozilla.org/favicon.ico",
+    "title": "Equality comparisons and sameness - JavaScript | MDN",
+    "description": "JavaScript provides three different value-comparison operations:"
   }
 }
