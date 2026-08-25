@@ -69,6 +69,22 @@ const b = function () {
       this.bar();
     }
 }.bind(baz);
+
+// `this` in class fields belongs to the class, not the enclosing function
+const c = function () {
+    class Foo {
+        bar = this.baz;
+    }
+}.bind(qux);
+
+// `this` in static blocks also belongs to the class
+const d = function () {
+    class Foo {
+        static {
+            this.init();
+        }
+    }
+}.bind(qux);
 ```
 
 :::
@@ -87,6 +103,15 @@ const x = function () {
 const y = function (a) {
     return a + 1;
 }.bind(foo, bar);
+
+// Function body uses `this` directly — bind is needed even though
+// the class inside also uses `this` in its own scope
+const z = function () {
+    class Foo {
+        bar() { return this; }
+    }
+    return this.baz;
+}.bind(qux);
 ```
 
 :::

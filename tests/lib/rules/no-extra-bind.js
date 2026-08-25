@@ -47,6 +47,12 @@ ruleTester.run("no-extra-bind", rule, {
 			code: "var a = function() { return () => this; }.bind(b)",
 			languageOptions: { ecmaVersion: 6 },
 		},
+
+		// Function uses `this` directly — bind IS needed even if class field exists
+		{
+			code: "var a = function() { class C { field = 1 } return this.x; }.bind(this)",
+			languageOptions: { ecmaVersion: 2022 },
+		},
 	],
 	invalid: [
 		{
@@ -252,6 +258,44 @@ ruleTester.run("no-extra-bind", rule, {
 			output: "var a = (function() { return 1; })",
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [{ messageId: "unexpected" }],
+		},
+
+		// Class fields have their own `this`, so bind on enclosing function is unnecessary
+		{
+			code: "var a = (function() { class C { field = this.x; } }).bind(this)",
+			output: "var a = (function() { class C { field = this.x; } })",
+			languageOptions: { ecmaVersion: 2022 },
+			errors,
+		},
+		{
+			code: "var a = (function() { class C { static field = this.x; } }).bind(this)",
+			output: "var a = (function() { class C { static field = this.x; } })",
+			languageOptions: { ecmaVersion: 2022 },
+			errors,
+		},
+
+		// Static blocks have their own `this`, so bind on enclosing function is unnecessary
+		{
+			code: "var a = (function() { class C { static { this.x; } } }).bind(this)",
+			output: "var a = (function() { class C { static { this.x; } } })",
+			languageOptions: { ecmaVersion: 2022 },
+			errors,
+		},
+
+		// Nested class expression with class field
+		{
+			code: "var a = (function() { var C = class { field = this.x; } }).bind(this)",
+			output: "var a = (function() { var C = class { field = this.x; } })",
+			languageOptions: { ecmaVersion: 2022 },
+			errors,
+		},
+
+		// Class field in class declaration — bind is unnecessary
+		{
+			code: "var a = function() { class C { field = this.x } }.bind(this)",
+			output: "var a = function() { class C { field = this.x } }",
+			languageOptions: { ecmaVersion: 2022 },
+			errors,
 		},
 	],
 });
