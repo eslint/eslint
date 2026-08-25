@@ -38,6 +38,8 @@ if (obj.getStuff() != undefined) { }
 
 The `--fix` option on the command line automatically fixes some problems reported by this rule. A problem is only fixed if one of the operands is a `typeof` expression, or if both operands are literals with the same type.
 
+In other cases a suggestion is offered which can change runtime behavior if the operands have [different types](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Equality_comparisons_and_sameness).
+
 ## Options
 
 ### always
