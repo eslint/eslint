@@ -253,5 +253,31 @@ ruleTester.run("no-extra-bind", rule, {
 			languageOptions: { ecmaVersion: 2020 },
 			errors: [{ messageId: "unexpected" }],
 		},
+
+		// Class fields and static blocks
+		{
+			code: "const f = (function() { class C { field = this.x; } }).bind(this);",
+			output: "const f = (function() { class C { field = this.x; } });",
+			languageOptions: { ecmaVersion: 2022 },
+			errors,
+		},
+		{
+			code: "const f = (function() { class C { static field = this.x; } }).bind(this);",
+			output: "const f = (function() { class C { static field = this.x; } });",
+			languageOptions: { ecmaVersion: 2022 },
+			errors,
+		},
+		{
+			code: "const f = (function() { class C { static { this.x = 1; } } }).bind(this);",
+			output: "const f = (function() { class C { static { this.x = 1; } } });",
+			languageOptions: { ecmaVersion: 2022 },
+			errors,
+		},
+		{
+			code: "const f = (function() { class C { a = this.x; b = this.y; } }).bind(this);",
+			output: "const f = (function() { class C { a = this.x; b = this.y; } });",
+			languageOptions: { ecmaVersion: 2022 },
+			errors,
+		},
 	],
 });
