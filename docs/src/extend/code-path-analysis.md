@@ -63,7 +63,7 @@ A `CodePathSegment` has the following properties:
 To use code path analysis in a rule, you can define event handlers for code path events (detailed below) in the object exported from the `create()` method of a rule (the same object that contains the AST node visitors). These handlers are called during the same AST traversal as the node visitors, meaning rules can track which code path (or segment) a node appears in by statefully tracking the code path events. Because the AST traversal occurs in source code order, any child function/class's code path will be visited between the start and end of the traversal of the containing function/class/global code path.
 
 ```js
-module.exports = {
+export default {
 	meta: {
 		// ...
 	},
@@ -552,8 +552,11 @@ See Also:
 ## Limitations
 
 ESLint's code path analysis is an approximation of the actual runtime possibilities of a JavaScript program, not an exact model.
-In modern JavaScript, almost anything can technically throw, including function calls, property access, and [even referencing a declared identifier](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#temporal_dead_zone_tdz).
-Code path analysis usually assumes all of these will succeed rather than modeling every possible throw point.
+
+For example, in modern JavaScript, almost anything can technically throw, including function calls, property access, and [even referencing a declared identifier](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#temporal_dead_zone_tdz).
+Code path analysis usually assumes all of these will succeed rather than modeling every possible throw point. See the `TryStatement` examples below for details.
+
+Also, the code path analysis treats all function calls as opaque, even when it is clear which function is being called. See the examples with function calls below.
 
 ## Code Path Examples
 
@@ -809,14 +812,16 @@ This program is composed of two code paths:
 1. The global code path
 
 :::img-container
-![When there is a function](../assets/images/code-path-analysis/example-when-there-is-a-function-g.svg)
+![When there is a function](../assets/images/code-path-analysis/example-when-there-is-a-function-1.svg)
 :::
 
 2. The function `foo()`'s code path.
 
 :::img-container
-![When there is a function](../assets/images/code-path-analysis/example-when-there-is-a-function-f.svg)
+![When there is a function](../assets/images/code-path-analysis/example-when-there-is-a-function-2.svg)
 :::
+
+Note that there is no link from the code path segment containing the call to `foo()` to the code path segment containing the implementation of `foo()`. This is because function calls are opaque for the purposes of code path analysis, even when it is unambiguous from the source code which function is being called.
 
 ### `YieldExpression` in generator functions
 
