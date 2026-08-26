@@ -2,6 +2,10 @@
 title: Code Path Analysis
 ---
 
+::: tip
+This page applies to ESLint rules for the JS [language](./languages.md). This includes rules that use alternate parsers for JS syntax extensions such as TypeScript and Vue, but does not include rules for unrelated languages, such as CSS or Markdown.
+:::
+
 ESLint rules have access to an API to analyze code paths.
 A code path represents a control flow graph that execution can take through a program.
 It is composed of code path segments that fork and join at branching constructs such as `if`, `while`, `return`, `continue`, and other control flow statements.
