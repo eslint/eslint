@@ -47,6 +47,20 @@ ruleTester.run("no-extra-bind", rule, {
 			code: "var a = function() { return () => this; }.bind(b)",
 			languageOptions: { ecmaVersion: 6 },
 		},
+
+		// Class fields and static blocks
+		{
+			code: "var a = function() { return class { [this.foo] = 5; }; }.bind(b);",
+			languageOptions: { ecmaVersion: 2022 },
+		},
+		{
+			code: "class C { field = function() { this; }.bind(b); }",
+			languageOptions: { ecmaVersion: 2022 },
+		},
+		{
+			code: "class C { static { var a = function() { this; }.bind(b); } }",
+			languageOptions: { ecmaVersion: 2022 },
+		},
 	],
 	invalid: [
 		{
@@ -256,26 +270,20 @@ ruleTester.run("no-extra-bind", rule, {
 
 		// Class fields and static blocks
 		{
-			code: "const f = (function() { class C { field = this.x; } }).bind(this);",
-			output: "const f = (function() { class C { field = this.x; } });",
+			code: "var a = function() { class C { field = this.x; } }.bind(b)",
+			output: "var a = function() { class C { field = this.x; } }",
 			languageOptions: { ecmaVersion: 2022 },
 			errors,
 		},
 		{
-			code: "const f = (function() { class C { static field = this.x; } }).bind(this);",
-			output: "const f = (function() { class C { static field = this.x; } });",
+			code: "var a = function() { class C { static field = this.x; } }.bind(b)",
+			output: "var a = function() { class C { static field = this.x; } }",
 			languageOptions: { ecmaVersion: 2022 },
 			errors,
 		},
 		{
-			code: "const f = (function() { class C { static { this.x = 1; } } }).bind(this);",
-			output: "const f = (function() { class C { static { this.x = 1; } } });",
-			languageOptions: { ecmaVersion: 2022 },
-			errors,
-		},
-		{
-			code: "const f = (function() { class C { a = this.x; b = this.y; } }).bind(this);",
-			output: "const f = (function() { class C { a = this.x; b = this.y; } });",
+			code: "var a = function() { class C { static { this.x = 1; } } }.bind(b)",
+			output: "var a = function() { class C { static { this.x = 1; } } }",
 			languageOptions: { ecmaVersion: 2022 },
 			errors,
 		},
