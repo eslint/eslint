@@ -506,6 +506,8 @@ ruleTester.run("no-implicit-globals", rule, {
 			languageOptions: { ecmaVersion: 2015 },
 		},
 		"/* exported foo, bar */ var foo = 1, bar = 2;",
+		"/* exported __proto__ */ var __proto__ = 1;",
+		"/* exported foo, __proto__, bar */ var foo = 1, __proto__ = 2, bar = 3;",
 
 		// `const`, `let` and `class`
 		{
