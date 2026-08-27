@@ -389,6 +389,43 @@ ruleTester.run("new-cap", rule, {
 			],
 		},
 
+		// Object.prototype method names should be flagged under new-cap, not silently allowed (https://github.com/eslint/eslint/issues/21255)
+		{
+			code: "var x = new toString();",
+			errors: [
+				{
+					messageId: "lower",
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 21,
+				},
+			],
+		},
+		{
+			code: "var x = new constructor();",
+			errors: [
+				{
+					messageId: "lower",
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 24,
+				},
+			],
+		},
+		{
+			code: "var x = new hasOwnProperty();",
+			errors: [
+				{
+					messageId: "lower",
+					line: 1,
+					column: 13,
+					endLine: 1,
+					endColumn: 27,
+				},
+			],
+		},
 		// Optional chaining
 		{
 			code: "new (foo?.bar)();",
