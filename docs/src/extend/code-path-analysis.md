@@ -441,8 +441,7 @@ This example checks whether or not the parameter `cb` is called in every path.
 ```js
 function hasCb(node, context) {
 	if (node.type.includes("Function")) {
-		const sourceCode = context.sourceCode;
-		return sourceCode
+		return context.sourceCode
 			.getDeclaredVariables(node)
 			.some(v => v.type === "Parameter" && v.name === "cb");
 	}
@@ -458,16 +457,16 @@ export default {
 		// ...
 	},
 	create(context) {
-		let funcInfo;
-		const funcInfoStack = [];
+		let codePathInfo = null;
+		const codePathInfoStack = [];
 		const segmentInfoMap = new Map();
 
 		return {
 			// Checks `cb`.
 			onCodePathStart(codePath, node) {
-				funcInfoStack.push(funcInfo);
+				codePathInfoStack.push(codePathInfo);
 
-				funcInfo = {
+				codePathInfo = {
 					codePath: codePath,
 					hasCb: hasCb(node, context),
 					currentSegments: new Set(),
@@ -475,15 +474,13 @@ export default {
 			},
 
 			onCodePathEnd(codePath, node) {
-				funcInfo = funcInfoStack.pop();
+				codePathInfo = codePathInfoStack.pop();
 
 				// Checks `cb` was called in every path.
-				const cbCalled = codePath.finalSegments.every(
-					function (segment) {
-						const info = segmentInfoMap.get(segment.id);
-						return info.cbCalled;
-					},
-				);
+				const cbCalled = codePath.finalSegments.every(segment => {
+					const info = segmentInfoMap.get(segment.id);
+					return info.cbCalled;
+				});
 
 				if (!cbCalled) {
 					context.report({
@@ -495,10 +492,10 @@ export default {
 
 			// Manages state of code paths and tracks traversed segments
 			onCodePathSegmentStart(segment) {
-				funcInfo.currentSegments.add(segment);
+				codePathInfo.currentSegments.add(segment);
 
 				// Ignores if `cb` doesn't exist.
-				if (!funcInfo.hasCb) {
+				if (!codePathInfo.hasCb) {
 					return;
 				}
 
@@ -515,30 +512,30 @@ export default {
 
 			// Tracks unreachable segment traversal
 			onUnreachableCodePathSegmentStart(segment) {
-				funcInfo.currentSegments.add(segment);
+				codePathInfo.currentSegments.add(segment);
 			},
 
 			// Tracks reachable segment traversal
 			onCodePathSegmentEnd(segment) {
-				funcInfo.currentSegments.delete(segment);
+				codePathInfo.currentSegments.delete(segment);
 			},
 
 			// Tracks unreachable segment traversal
 			onUnreachableCodePathSegmentEnd(segment) {
-				funcInfo.currentSegments.delete(segment);
+				codePathInfo.currentSegments.delete(segment);
 			},
 
 			// Checks whether the call is reachable.
 			CallExpression(node) {
 				// Ignores if `cb` doesn't exist.
-				if (!funcInfo.hasCb) {
+				if (!codePathInfo.hasCb) {
 					return;
 				}
 
 				// Marks that `cb` was called.
 				const callee = node.callee;
 				if (callee.type === "Identifier" && callee.name === "cb") {
-					funcInfo.currentSegments.forEach(segment => {
+					codePathInfo.currentSegments.forEach(segment => {
 						const info = segmentInfoMap.get(segment.id);
 						info.cbCalled = true;
 					});
