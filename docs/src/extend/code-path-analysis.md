@@ -215,19 +215,19 @@ This has 4 code paths:
 1. The function `foo` (`origin: "function"`):
 
     :::img-container
-    ![Simple Program Code Path 1](../assets/images/code-path-analysis/example-simpleprogram-codepath2.svg)
+    ![Simple Program Code Path 2](../assets/images/code-path-analysis/example-simpleprogram-codepath2.svg)
     :::
 
 1. The arrow function callback defined inside `foo` (`origin: "function"`):
 
     :::img-container
-    ![Simple Program Code Path 1](../assets/images/code-path-analysis/example-simpleprogram-codepath3.svg)
+    ![Simple Program Code Path 3](../assets/images/code-path-analysis/example-simpleprogram-codepath3.svg)
     :::
 
 1. The function `bar` (`origin: "function"`):
 
     :::img-container
-    ![Simple Program Code Path 1](../assets/images/code-path-analysis/example-simpleprogram-codepath4.svg)
+    ![Simple Program Code Path 4](../assets/images/code-path-analysis/example-simpleprogram-codepath4.svg)
     :::
 
 Its code path events are called in the following order (indentation shows nesting between a start/end pair):
