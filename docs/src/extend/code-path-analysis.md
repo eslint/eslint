@@ -206,7 +206,7 @@ if (Math.random() < 0.5) {
 
 This has 4 code paths:
 
-1. The top-level code (`origin: "global"`):
+1. The top-level code (`origin: "program"`):
 
     :::img-container
     ![Simple Program Code Path 1](../assets/images/code-path-analysis/example-simpleprogram-codepath1.svg)
