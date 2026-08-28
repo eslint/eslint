@@ -91,16 +91,11 @@ jobs:
             - name: Fuzz Test
               run: node Makefile fuzz
             - name: Test EMFILE Handling
-              shell: bash
-              # Node.js 26.8+ no longer exhausts the runner's high file-descriptor limit.
-              # Lower the limit and increase concurrency to reliably trigger EMFILE.
-              # See https://github.com/nodejs/node/pull/65327
-              run: |
-                  if [ "$RUNNER_OS" != "Windows" ]; then
-                    ulimit -n 64
-                    export UV_THREADPOOL_SIZE=128
-                  fi
-                  npm run test:emfile
+              # Node.js 26.8+ no longer reliably triggers `EMFILE` for small-file reads.
+              # See: https://github.com/nodejs/node/pull/65327
+              # TODO: Re-enable after replacing this with deterministic error injection.
+              if: matrix.node != '26.x'
+              run: npm run test:emfile
 
     test_on_browser:
         name: Browser Test
