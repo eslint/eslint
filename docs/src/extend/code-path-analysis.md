@@ -64,7 +64,7 @@ A `CodePathSegment` has the following properties:
 
 ## Accessing Code Paths
 
-To use code path analysis in a rule, you can define event handlers for code path events (detailed below) in the object exported from the `create()` method of a rule (the same object that contains the AST node visitors). These handlers are called during the same AST traversal as the node visitors, meaning rules can track which code path (or segment) a node appears in by statefully tracking the code path events. Because the AST traversal occurs in source code order, any child function/class's code path will be visited between the start and end of the traversal of the containing function/class/global code path.
+To use code path analysis in a rule, you can define event handlers for code path events (detailed below) in the object exported from the `create()` method of a rule (the same object that contains the AST node visitors). All visitors, including code path visitors, are called in source code order during a single pass over the source code. This means multiple code paths can potentially be open at once and require manual tracking (see example ["track current segment position"](#track-current-segment-position) below).
 
 ```js
 export default {
@@ -156,6 +156,8 @@ export default {
 			onCodePathSegmentLoop(fromSegment, toSegment, node) {
 				// do something with segment
 			},
+
+			// AST node visitors...
 		};
 	},
 };
