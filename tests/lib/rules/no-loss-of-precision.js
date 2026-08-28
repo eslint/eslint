@@ -45,6 +45,7 @@ ruleTester.run("no-loss-of-precision", rule, {
 		"var x = 9007199254740991",
 		"var x = 0",
 		"var x = 0.0",
+		"var x = 0.",
 		"var x = 0.000000000000000000000000000000000000000000000000000000000000000000000000000000",
 		"var x = -0",
 		"var x = 123.0000000000000000000000",
@@ -152,6 +153,10 @@ ruleTester.run("no-loss-of-precision", rule, {
 	invalid: [
 		{
 			code: "var x = 9007199254740993",
+			errors: [{ messageId: "noLossOfPrecision" }],
+		},
+		{
+			code: "var x = 9007199254740993.",
 			errors: [{ messageId: "noLossOfPrecision" }],
 		},
 		{
