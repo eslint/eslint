@@ -145,9 +145,8 @@ export default {
 			 * such as at the end of a loop body looping back to the loop condition.
 			 *
 			 * Because `toSegment` will have already been visited, its
-			 * `onCodePathSegmentStart` and `onCodePathSegmentEnd` events
-			 * (or their unreachable equivalents) will have already both been
-			 * called by the time this event fires.
+			 * `onCodePathSegmentStart` and `onCodePathSegmentEnd` events will
+			 * have already both been called by the time this event fires.
 			 *
 			 * @param {CodePathSegment} fromSegment - The code path segment the loop starts from.
 			 * @param {CodePathSegment} toSegment - The code path segment the loop goes to.
