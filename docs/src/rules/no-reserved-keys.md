@@ -2,7 +2,7 @@
 title: no-reserved-keys
 
 further_reading:
-- https://kangax.github.io/compat-table/es5/#Reserved_words_as_property_names
+- https://compat-table.github.io/compat-table/es5/#test-Object/array_literal_extensions_Reserved_words_as_property_names
 ---
 
 Disallows unquoted reserved words as property names in object literals.
