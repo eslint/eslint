@@ -163,6 +163,16 @@ ruleTester.run("object-shorthand", rule, {
 			options: ["always", { ignoreConstructors: true }],
 		},
 		{
+			// https://github.com/eslint/eslint/issues/21267
+			code: 'var x = {"ConstructorFunction": function(){}, a: b}',
+			options: ["always", { ignoreConstructors: true }],
+		},
+		{
+			// https://github.com/eslint/eslint/issues/21267
+			code: "var x = {'ConstructorFunction': function(){}, a: b}",
+			options: ["always", { ignoreConstructors: true }],
+		},
+		{
 			code: "var x = {notConstructorFunction(){}, b: c}",
 			options: ["always", { ignoreConstructors: true }],
 		},
@@ -187,11 +197,27 @@ ruleTester.run("object-shorthand", rule, {
 			options: ["methods", { ignoreConstructors: true }],
 		},
 		{
+			code: 'var x = {"ConstructorFunction": function(){}, a: b}',
+			options: ["methods", { ignoreConstructors: true }],
+		},
+		{
+			code: "var x = {'ConstructorFunction': function(){}, a: b}",
+			options: ["methods", { ignoreConstructors: true }],
+		},
+		{
 			code: "var x = {notConstructorFunction(){}, b: c}",
 			options: ["methods", { ignoreConstructors: true }],
 		},
 		{
 			code: "var x = {ConstructorFunction: function(){}, a: b}",
+			options: ["never"],
+		},
+		{
+			code: 'var x = {"ConstructorFunction": function(){}, a: b}',
+			options: ["never"],
+		},
+		{
+			code: "var x = {'ConstructorFunction': function(){}, a: b}",
 			options: ["never"],
 		},
 		{
@@ -884,6 +910,20 @@ ruleTester.run("object-shorthand", rule, {
 			code: "var x = {_0y: function() {}}",
 			output: "var x = {_0y() {}}",
 			options: ["methods", { ignoreConstructors: true }],
+			errors: [METHOD_ERROR],
+		},
+		{
+			// https://github.com/eslint/eslint/issues/21267
+			code: 'var x = {"ConstructorFunction": function(){}, a: b}',
+			output: 'var x = {"ConstructorFunction"(){}, a: b}',
+			options: ["methods", { ignoreConstructors: false }],
+			errors: [METHOD_ERROR],
+		},
+		{
+			// https://github.com/eslint/eslint/issues/21267
+			code: "var x = {'ConstructorFunction': function(){}, a: b}",
+			output: "var x = {'ConstructorFunction'(){}, a: b}",
+			options: ["methods", { ignoreConstructors: false }],
 			errors: [METHOD_ERROR],
 		},
 
