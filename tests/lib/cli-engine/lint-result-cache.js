@@ -125,13 +125,13 @@ describe("LintResultCache", () => {
 		before(() => {
 			getFileDescriptorStub = sandbox.stub();
 
-			fileEntryCacheStubs.create = () => ({
+			fileEntryCacheStubs.createFromFile = () => ({
 				getFileDescriptor: getFileDescriptorStub,
 			});
 		});
 
 		after(() => {
-			delete fileEntryCacheStubs.create;
+			delete fileEntryCacheStubs.createFromFile;
 		});
 
 		beforeEach(() => {
@@ -287,13 +287,13 @@ describe("LintResultCache", () => {
 		before(() => {
 			getFileDescriptorStub = sandbox.stub();
 
-			fileEntryCacheStubs.create = () => ({
+			fileEntryCacheStubs.createFromFile = () => ({
 				getFileDescriptor: getFileDescriptorStub,
 			});
 		});
 
 		after(() => {
-			delete fileEntryCacheStubs.create;
+			delete fileEntryCacheStubs.createFromFile;
 		});
 
 		beforeEach(() => {
@@ -408,13 +408,13 @@ describe("LintResultCache", () => {
 		before(() => {
 			reconcileStub = sandbox.stub();
 
-			fileEntryCacheStubs.create = () => ({
+			fileEntryCacheStubs.createFromFile = () => ({
 				reconcile: reconcileStub,
 			});
 		});
 
 		after(() => {
-			delete fileEntryCacheStubs.create;
+			delete fileEntryCacheStubs.createFromFile;
 		});
 
 		beforeEach(() => {
