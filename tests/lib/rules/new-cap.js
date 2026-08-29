@@ -108,6 +108,9 @@ ruleTester.run("new-cap", rule, {
 			code: "var x = foo.Bar(42);",
 			options: [{ capIsNew: false, properties: false }],
 		},
+		{ code: "foo.UTC();", options: [{ properties: false }] },
+		{ code: "foo?.UTC();", options: [{ properties: false }] },
+		{ code: "const b = a.Date.UTC();", options: [{ properties: false }] },
 
 		// Optional chaining
 		{
