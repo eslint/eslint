@@ -111,6 +111,26 @@ ruleTester.run("no-unreachable", rule, {
 			],
 		},
 		{
+			code: "throw new Error(); foo(); import foo from 'foo'; foo();",
+			languageOptions: { ecmaVersion: 6, sourceType: "module" },
+			errors: [
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 20,
+					endLine: 1,
+					endColumn: 26,
+				},
+				{
+					messageId: "unreachableCode",
+					line: 1,
+					column: 50,
+					endLine: 1,
+					endColumn: 56,
+				},
+			],
+		},
+		{
 			code: "function foo() { return x; var x = 1; }",
 			errors: [
 				{
