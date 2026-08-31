@@ -22,6 +22,7 @@ ruleTester.run("no-control-regex", rule, {
 	valid: [
 		"var regex = /x1f/",
 		String.raw`var regex = /\\x1f/`,
+		String.raw`var regex = /\\cA/`,
 		"var regex = new RegExp('x1f')",
 		"var regex = RegExp('x1f')",
 		"new RegExp('[')",
@@ -48,6 +49,24 @@ ruleTester.run("no-control-regex", rule, {
 		},
 	],
 	invalid: [
+		{
+			code: String.raw`var regex = /\cA\cz/`,
+			errors: [
+				{
+					messageId: "unexpected",
+					data: { controlChars: "\\x01, \\x1a" },
+				},
+			],
+		},
+		{
+			code: String.raw`new RegExp("\\cZ")`,
+			errors: [
+				{
+					messageId: "unexpected",
+					data: { controlChars: "\\x1a" },
+				},
+			],
+		},
 		{
 			code: String.raw`var regex = /\x1f/`,
 			errors: [

@@ -19,9 +19,10 @@ The following elements of regular expression patterns are considered possible er
 * Hexadecimal character escapes from `\x00` to `\x1F`.
 * Unicode character escapes from `\u0000` to `\u001F`.
 * Unicode code point escapes from `\u{0}` to `\u{1F}`.
+* Control character escapes from `\cA` to `\cZ` (and `\ca` to `\cz`).
 * Unescaped raw characters from U+0000 to U+001F.
 
-Control escapes such as `\t` and `\n` are allowed by this rule.
+Other control escapes such as `\t` and `\n` are allowed by this rule.
 
 Examples of **incorrect** code for this rule:
 
@@ -35,8 +36,9 @@ const pattern2 = /\x0C/;
 const pattern3 = /\x1F/;
 const pattern4 = /\u000C/;
 const pattern5 = /\u{C}/u;
-const pattern6 = new RegExp("\x0C"); // raw U+000C character in the pattern
-const pattern7 = new RegExp("\\x0C"); // \x0C pattern
+const pattern6 = /\cL/;
+const pattern7 = new RegExp("\x0C"); // raw U+000C character in the pattern
+const pattern8 = new RegExp("\\x0C"); // \x0C pattern
 ```
 
 :::
