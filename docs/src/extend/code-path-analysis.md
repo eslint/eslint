@@ -3,7 +3,7 @@ title: Code Path Analysis
 ---
 
 ::: tip
-This page applies to ESLint rules for the JS [language](./languages.md). This includes rules that use alternate parsers for JS syntax extensions such as TypeScript and Vue, but does not include rules for unrelated languages, such as CSS or Markdown.
+This page applies to ESLint rules for the JS [language](./languages). This includes rules that use alternate parsers for JS syntax extensions such as TypeScript and Vue, but does not include rules for unrelated languages, such as CSS or Markdown.
 :::
 
 ESLint rules have access to an API to analyze code paths.
