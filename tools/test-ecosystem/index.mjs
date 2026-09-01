@@ -71,6 +71,10 @@ async function runTests(pluginKey, pluginSettings) {
 		const result = spawn.sync(command, args, {
 			cwd: directory,
 			stdio: log.enabled ? "inherit" : undefined,
+			env: {
+				...process.env,
+				CI: "true",
+			},
 			maxBuffer: 100 * 1024 * 1024,
 		});
 
@@ -90,6 +94,8 @@ async function runTests(pluginKey, pluginSettings) {
 		directory,
 		"--depth",
 		"1",
+		"--config",
+		"core.symlinks=true",
 	]);
 
 	// 2. Check out the plugin's commit to test on
@@ -103,6 +109,8 @@ async function runTests(pluginKey, pluginSettings) {
 	// 4. Link the local ESLint into the plugin
 	const packageManager = pluginSettings.commands.install[0];
 
+	const relativeESLintPath = path.relative(directory, process.cwd());
+
 	if (packageManager === "npm") {
 		/*
 		 * Use `npm install --no-save` instead of `npm link` to avoid
@@ -110,12 +118,12 @@ async function runTests(pluginKey, pluginSettings) {
 		 * which fails with EACCES on machines where npm is installed
 		 * globally (owned by root).
 		 */
-		runCommand(["npm", "install", "--no-save", process.cwd()]);
+		runCommand(["npm", "install", "--no-save", relativeESLintPath]);
 		if (pluginKey === "eslint-plugin-vue") {
 			runCommand(["npm", "install", "--no-save", "espree@latest"]);
 		}
 	} else {
-		runCommand([packageManager, "link", process.cwd()]);
+		runCommand([packageManager, "link", relativeESLintPath]);
 	}
 
 	// 5. Build, if the plugin defines a build script
