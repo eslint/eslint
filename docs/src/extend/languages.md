@@ -60,7 +60,7 @@ Additionally, the following members are common on `SourceCode` objects and are r
 - `lines` - the individual lines of the source code as an array of strings.
 - `getParent(node)` - returns the parent of the given node or `undefined` if the node is the root.
 - `getAncestors(node)` - returns an array of the ancestry of the node with the first item as the root of the tree and each subsequent item as the descendants of the root that lead to `node`.
-- `getText(node, beforeCount, afterCount)` - returns the string that represents the given node, and optionally, a specified number of characters before and after the node's range.
+- `getText(node, beforeCount, afterCount)` - returns the string that represents the given node, and optionally, a specified number of characters before and after the node's range. TODO
 
 See [`JSONSourceCode`](https://github.com/eslint/json/blob/main/src/languages/json-source-code.js) as an example of a basic `SourceCode` class.
 
