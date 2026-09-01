@@ -177,6 +177,14 @@ ruleTester.run("object-shorthand", rule, {
 			options: ["always", { ignoreConstructors: true }],
 		},
 		{
+			code: "var x = {[notConstructorFunction](){}, b: c}",
+			options: ["always", { ignoreConstructors: true }],
+		},
+		{
+			code: "var x = {[NotConstructorFunction](){}, b: c}",
+			options: ["always", { ignoreConstructors: true }],
+		},
+		{
 			code: "var x = {ConstructorFunction: function(){}, a: b}",
 			options: ["methods", { ignoreConstructors: true }],
 		},
@@ -209,6 +217,14 @@ ruleTester.run("object-shorthand", rule, {
 			options: ["methods", { ignoreConstructors: true }],
 		},
 		{
+			code: "var x = {[notConstructorFunction](){}, b: c}",
+			options: ["methods", { ignoreConstructors: true }],
+		},
+		{
+			code: "var x = {[NotConstructorFunction](){}, b: c}",
+			options: ["methods", { ignoreConstructors: true }],
+		},
+		{
 			code: "var x = {ConstructorFunction: function(){}, a: b}",
 			options: ["never"],
 		},
@@ -222,6 +238,14 @@ ruleTester.run("object-shorthand", rule, {
 		},
 		{
 			code: "var x = {notConstructorFunction: function(){}, b: c}",
+			options: ["never"],
+		},
+		{
+			code: "var x = {[notConstructorFunction]: function(){}, b: c}",
+			options: ["never"],
+		},
+		{
+			code: "var x = {[NotConstructorFunction]: function(){}, b: c}",
 			options: ["never"],
 		},
 
@@ -909,6 +933,20 @@ ruleTester.run("object-shorthand", rule, {
 			// https://github.com/eslint/eslint/issues/11595
 			code: "var x = {_0y: function() {}}",
 			output: "var x = {_0y() {}}",
+			options: ["methods", { ignoreConstructors: true }],
+			errors: [METHOD_ERROR],
+		},
+		// https://github.com/eslint/eslint/pull/21271#discussion_r3889188639
+		{
+			code: "var x = {[y]: function() {}}",
+			output: "var x = {[y]() {}}",
+			options: ["methods", { ignoreConstructors: true }],
+			errors: [METHOD_ERROR],
+		},
+		// https://github.com/eslint/eslint/pull/21271#discussion_r3889188639
+		{
+			code: "var x = {[Y]: function() {}}",
+			output: "var x = {[Y]() {}}",
 			options: ["methods", { ignoreConstructors: true }],
 			errors: [METHOD_ERROR],
 		},
