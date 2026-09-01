@@ -12,6 +12,7 @@ This page serves as a reference for common issues working with ESLint.
 ## Configuration
 
 - [`Circular fixes detected …`](./circular-fixes)
+- [`The fix loop reached the maximum number of fix passes …`](./fix-pass-limit)
 - [`TypeError: context.getScope is not a function`](./v9-rule-api-changes)
 
 Issues oftentimes can be resolved by updating to the latest versions of the `eslint` package and any related packages, such as for ESLint shareable configs and plugins.

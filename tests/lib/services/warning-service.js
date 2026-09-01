@@ -48,6 +48,20 @@ describe("WarningService", () => {
 			);
 		});
 
+		it("emitMaxAutoFixWarning", () => {
+			const filename = "/project/file.js";
+			const maxPasses = 10;
+			warningService.emitMaxAutoFixWarning(filename, maxPasses);
+
+			assert(
+				process.emitWarning.calledOnceWithExactly(
+					`The fix loop reached the maximum number of fix passes (${maxPasses}) while fixing ${filename}. Some fixable problems might not have been fixed.`,
+					"ESLintMaxAutoFixWarning",
+				),
+				"Expected process.emitWarning to be called with the correct arguments",
+			);
+		});
+
 		it("emitEmptyConfigWarning", () => {
 			const configFilePath = "/project/eslint.config.js";
 			warningService.emitEmptyConfigWarning(configFilePath);
@@ -120,6 +134,12 @@ describe("WarningService", () => {
 		it("emitCircularFixesWarning", () => {
 			const filename = "/project/file.js";
 			warningService.emitCircularFixesWarning(filename);
+		});
+
+		it("emitMaxAutoFixWarning", () => {
+			const filename = "/project/file.js";
+			const maxPasses = 10;
+			warningService.emitMaxAutoFixWarning(filename, maxPasses);
 		});
 
 		it("emitInactiveFlagWarning", () => {

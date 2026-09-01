@@ -9806,6 +9806,15 @@ let c; // var a = "test2";
 			assert.strictEqual(fixResult.output, `${" ".repeat(10)}a`);
 			assert.strictEqual(fixResult.messages.length, 1);
 
+			// Verify the warning was emitted
+			assert(
+				warningService.emitMaxAutoFixWarning.calledOnceWithExactly(
+					"text",
+					10,
+				),
+				"calls `warningService.emitMaxAutoFixWarning()` once with the correct arguments",
+			);
+
 			assert.strictEqual(suppressedMessages.length, 0);
 		});
 
