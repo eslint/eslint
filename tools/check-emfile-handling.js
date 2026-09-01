@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const fs = require("node:fs");
-const { readFile } = require("node:fs/promises");
+const { writeFile } = require("node:fs/promises");
 const { execSync } = require("node:child_process");
 const os = require("node:os");
 
@@ -76,7 +76,11 @@ function generateFiles() {
 }
 
 /**
- * Generates an EMFILE error by reading all files in the output directory.
+ * Generates an EMFILE error by writing to all files in the output directory.
+ * Since Node.js 26.8.0, `readFile()` runs open, fstat, read, and close in a
+ * single thread pool task, so concurrent reads no longer accumulate file
+ * descriptors and cannot trigger EMFILE (https://github.com/nodejs/node/pull/65327).
+ * Concurrent writes still can, and writing is also what `--fix` does above.
  * @returns {undefined}
  */
 async function generateEmFileError() {
@@ -84,7 +88,10 @@ async function generateEmFileError() {
 		Array.from({ length: FILE_COUNT }, (_, i) => {
 			const fileName = `file_${i}.js`;
 
-			return readFile(`${OUTPUT_DIRECTORY}/${fileName}`);
+			return writeFile(
+				`${OUTPUT_DIRECTORY}/${fileName}`,
+				"// Overwritten",
+			);
 		}),
 	);
 	const failedResult = results.find(({ status }) => status === "rejected");
